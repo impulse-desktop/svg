@@ -430,6 +430,7 @@ namespace {
         u32 server;
         PaintKind fallback;
         Color fallbackColor;
+        bool context;
     };
 
     enum Verb : u8 {
@@ -698,6 +699,8 @@ namespace {
         bool hasContext;
         PaintValue contextFill;
         PaintValue contextStroke;
+        Matrix contextMatrix;
+        Box contextBox;
     };
 
     struct Raster {
@@ -4038,7 +4041,9 @@ namespace {
             }
 
             for (const Declaration& declaration : geometry) {
-                if (geometryApplies(node->name, declaration.property)) {
+                bool outer = node == doc.root && declaration.property != AtomTransform && declaration.property != AtomTransformOrigin;
+
+                if (geometryApplies(node->name, declaration.property) && !outer) {
                     setAttribute(doc, node, declaration.property, declaration.value);
                 }
             }
@@ -4225,7 +4230,7 @@ namespace {
             case Unit::Em:
                 return length.value * fontSize;
             case Unit::Ex:
-                return length.value * fontSize * 0.5f;
+                return length.value * fontSize * 0.459f;
             case Unit::In:
                 return length.value * 96.f;
             case Unit::Cm:
@@ -4249,7 +4254,7 @@ namespace {
             case Unit::Vmax:
                 return length.value * maxf(vp.screenWidth, vp.screenHeight) / 100.f;
             case Unit::Ch:
-                return length.value * fontSize * 0.556f;
+                return length.value * fontSize * 0.5f;
             case Unit::Lh:
                 return length.value * fontSize * 1.149f;
             case Unit::Ic:
@@ -4525,6 +4530,7 @@ namespace {
 
         out.server = 0;
         out.fallback = PaintKind::None;
+        out.context = false;
 
         if (equalsIgnoreCase(text, StringView(u8"none"))) {
             out.kind = PaintKind::None;
@@ -6640,6 +6646,7 @@ namespace {
 
                         if (l.hasContext) {
                             target = contextFill ? l.contextFill : l.contextStroke;
+                            target.context = true;
                         }
                     } else {
                         PaintValue paint;
@@ -7179,7 +7186,7 @@ namespace {
         Node* node = pattern;
 
         for (u32 hops = 0; node && hops < 16; hops++) {
-            if (u32 value = attribute(node, name)) {
+            if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty()) {
                 if (owner) {
                     *owner = node;
                 }
@@ -7358,7 +7365,7 @@ namespace {
         bool specific = name == AtomX1 || name == AtomY1 || name == AtomX2 || name == AtomY2 || name == AtomCx || name == AtomCy || name == AtomR || name == AtomFx || name == AtomFy || name == AtomFr;
 
         for (u32 hops = 0; node && hops < 16; hops++) {
-            if (u32 value = attribute(node, name); value && (!specific || node->name == gradient->name)) {
+            if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty() && (!specific || node->name == gradient->name)) {
                 return value;
             }
 
@@ -7666,7 +7673,7 @@ namespace {
             Box inner;
 
             if (elementBox(l, child, style, vp, inner, depth + 1)) {
-                Matrix full = multiply(m, transformOf(*l.doc, child, AtomTransform));
+                Matrix full = multiply(m, originTransform(*l.doc, child, AtomTransform, vp));
                 Point corners[4] = {{inner.x0, inner.y0}, {inner.x1, inner.y0}, {inner.x1, inner.y1}, {inner.x0, inner.y1}};
 
                 for (Point corner : corners) {
@@ -8420,6 +8427,8 @@ namespace {
     static PaintValue contextPaint(const PaintValue& paint, const ComputedStyle& style) {
         PaintValue out = paint;
 
+        out.context = false;
+
         if (out.kind == PaintKind::CurrentColor) {
             out.kind = PaintKind::Color;
             out.color = style.color;
@@ -8754,14 +8763,14 @@ namespace {
 
         for (u8 layer : style.paintOrder) {
             if (layer == 0 && style.visible) {
-                if (DevicePaint* fill = devicePaint(l, style.fill, style.fillOpacity, style, box, m, vp)) {
+                if (DevicePaint* fill = devicePaint(l, style.fill, style.fillOpacity, style, style.fill.context ? l.contextBox : box, style.fill.context ? l.contextMatrix : m, vp)) {
                     Flat flat;
 
                     flatten(path, m, tolerance, flat);
                     emitFill(l, flat, style.fillRule, fill);
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
-                if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity, style, box, m, vp)) {
+                if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
                     Flat outline;
                     Flat device;
 
@@ -8780,7 +8789,14 @@ namespace {
                     emitFill(l, device, WindingNonZero, stroke);
                 }
             } else if (layer == 2) {
+                Matrix outerMatrix = l.contextMatrix;
+                Box outerBox = l.contextBox;
+
+                l.contextMatrix = m;
+                l.contextBox = box;
                 lowerMarkers(l, node, path, style, m, vp);
+                l.contextMatrix = outerMatrix;
+                l.contextBox = outerBox;
             }
         }
     }
@@ -8853,9 +8869,20 @@ namespace {
         } else if (!hasWidth && !hasHeight && hasViewBox) {
             width = viewBox.x1 - viewBox.x0;
             height = viewBox.y1 - viewBox.y0;
+        } else if (hasWidth && !hasHeight) {
+            height = 150.f;
+        } else if (hasHeight && !hasWidth) {
+            width = 300.f;
         }
 
         return width > 0.f && height > 0.f;
+    }
+
+    static bool explicitSide(const Document& doc, const Node* root, u32 name) {
+        u32 value = attribute(root, name);
+        Length length;
+
+        return value && parseLength(textOf(doc, value), length) && length.unit != Unit::Percent && length.value > 0.f;
     }
 
     static Matrix rootContent(Lowering& l, Node* node) {
@@ -8868,7 +8895,10 @@ namespace {
         }
 
         if (intrinsicSize(*l.doc, node, w, h)) {
-            return viewBoxTransform(*l.doc, node, Box{0.f, 0.f, w, h}, (float)l.width, (float)l.height);
+            w = explicitSide(*l.doc, node, AtomWidth) ? w : (float)l.width;
+            h = explicitSide(*l.doc, node, AtomHeight) ? h : (float)l.height;
+
+            return scaling((float)l.width / w, (float)l.height / h);
         }
 
         return identity();
@@ -8900,9 +8930,9 @@ namespace {
                 float ih;
 
                 if (intrinsicSize(*l.doc, node, iw, ih)) {
-                    Box synthesized{0.f, 0.f, iw, ih};
-
-                    lowerChildren(l, node, style, multiply(m, viewBoxTransform(*l.doc, node, synthesized, w, h)), Viewport{iw, ih, (float)l.width, (float)l.height, l.rootFontSize});
+                    iw = explicitSide(*l.doc, node, AtomWidth) ? iw : w;
+                    ih = explicitSide(*l.doc, node, AtomHeight) ? ih : h;
+                    lowerChildren(l, node, style, multiply(m, scaling(w / iw, h / ih)), Viewport{iw, ih, (float)l.width, (float)l.height, l.rootFontSize});
 
                     return;
                 }
@@ -8952,9 +8982,22 @@ namespace {
         PaintValue outerFill = l.contextFill;
         PaintValue outerStroke = l.contextStroke;
 
+        Matrix outerMatrix = l.contextMatrix;
+        Box outerBox = l.contextBox;
+        Box targetBox;
+
         l.hasContext = true;
         l.contextFill = contextPaint(style.fill, style);
         l.contextStroke = contextPaint(style.stroke, style);
+        l.contextMatrix = m;
+        l.contextBox = emptyBox();
+
+        if (elementBox(l, target, style, vp, targetBox, 0)) {
+            Matrix offset = multiply(translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f)), transformOf(*l.doc, target, AtomTransform));
+
+            l.contextBox = deviceBox(offset, targetBox);
+        }
+
         l.active.pushBack(target);
 
         if (target->name == AtomSymbol) {
@@ -8978,6 +9021,8 @@ namespace {
         l.hasContext = hadContext;
         l.contextFill = outerFill;
         l.contextStroke = outerStroke;
+        l.contextMatrix = outerMatrix;
+        l.contextBox = outerBox;
     }
 
     static int base64Value(u8 c) {
@@ -12064,6 +12109,8 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.sized = nullptr;
         l.hasContext = false;
         l.rootFontSize = 16.f;
+        l.contextMatrix = identity();
+        l.contextBox = emptyBox();
         l.documentStyles.zero(doc.nodeCount);
         lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height, 16.f});
 
