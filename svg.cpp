@@ -5724,9 +5724,11 @@ namespace {
         return *style;
     }
 
+    static bool passesConditions(const Document& doc, const Node* node);
+
     static bool resourceUsable(Lowering& l, Node* node, Viewport vp) {
         for (Node* up = node; up && up != l.doc->root; up = up->parent) {
-            if (documentStyle(l, up, vp).displayNone) {
+            if (documentStyle(l, up, vp).displayNone || !passesConditions(*l.doc, up)) {
                 return false;
             }
         }
@@ -7336,7 +7338,7 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp) {
-        if (!renderable(node->name) || l.depth > 256 || !passesConditions(*l.doc, node)) {
+        if (!renderable(node->name) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
             return;
         }
 
@@ -8285,11 +8287,11 @@ namespace {
         float sy = 0.f;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
 
-        if (attribute(p.node, AtomStdDeviation) && !numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy)) {
-            return;
-        }
+        bool valid = !attribute(p.node, AtomStdDeviation) || numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy);
 
-        if (sx < 0.f || sy < 0.f) {
+        if (!valid || sx < 0.f || sy < 0.f) {
+            copyBox(run, in, out, p.box);
+
             return;
         }
 
@@ -8813,15 +8815,9 @@ namespace {
         float rx = 0.f;
         float ry = 0.f;
 
-        if (attribute(p.node, AtomRadius) && !numberPair(*f.doc, p.node, AtomRadius, rx, ry)) {
-            return;
-        }
+        bool valid = !attribute(p.node, AtomRadius) || numberPair(*f.doc, p.node, AtomRadius, rx, ry);
 
-        if (rx < 0.f || ry < 0.f) {
-            return;
-        }
-
-        if (rx == 0.f && ry == 0.f) {
+        if (!valid || rx < 0.f || ry < 0.f || (rx == 0.f && ry == 0.f)) {
             copyBox(run, in, out, p.box);
 
             return;
