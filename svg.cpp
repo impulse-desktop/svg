@@ -72,6 +72,7 @@ using namespace stl;
     ATOM(PatternContentUnits, "patternContentUnits")               \
     ATOM(PatternTransform, "patternTransform")                     \
     ATOM(TransformOrigin, "transform-origin")                      \
+    ATOM(TransformBox, "transform-box")                            \
     ATOM(FilterUnits, "filterUnits")                               \
     ATOM(PrimitiveUnits, "primitiveUnits")                         \
     ATOM(In, "in")                                                 \
@@ -3520,6 +3521,7 @@ namespace {
             case AtomD:
             case AtomTransform:
             case AtomTransformOrigin:
+            case AtomTransformBox:
                 return true;
             default:
                 return false;
@@ -9656,6 +9658,30 @@ namespace {
         drawImage(l, node, source, m, vp, x, y, w, h);
     }
 
+    static Matrix boxTransform(Lowering& l, Node* node, const ComputedStyle& parent, Viewport vp) {
+        const Document& doc = *l.doc;
+        u32 kind = attribute(node, AtomTransformBox);
+        StringView box = kind ? trim(textOf(doc, kind)) : StringView();
+        Matrix m;
+        Box bounds;
+
+        if (!(box == StringView(u8"fill-box") || box == StringView(u8"stroke-box")) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m)) {
+            return originTransform(doc, node, AtomTransform, vp);
+        }
+
+        if (!elementBox(l, node, parent, vp, bounds, 0)) {
+            return m;
+        }
+
+        u32 origin = attribute(node, AtomTransformOrigin);
+        Point o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : Point{0.f, 0.f};
+
+        o.x += bounds.x0;
+        o.y += bounds.y0;
+
+        return multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
+    }
+
     static bool imageReachable(const Document& doc, const Node* node) {
         u32 href = attribute(node, AtomHref);
 
@@ -9893,7 +9919,7 @@ namespace {
             return;
         }
 
-        Matrix m = multiply(ctm, originTransform(*l.doc, node, AtomTransform, vp));
+        Matrix m = multiply(ctm, boxTransform(l, node, parent, vp));
         Op op = groupOp(style.opacity);
 
         if (node->name == AtomUse) {
@@ -10803,21 +10829,44 @@ namespace {
         }
 
         int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+        int pad = 3 * (d / 2 + 1);
+        int total = count + 2 * pad;
+        Vector<float> first;
+        Vector<float> second;
+
+        (void)scratch;
+        first.zero((size_t)total * 4);
+        second.zero((size_t)total * 4);
+
+        for (int i = 0; i < count; i++) {
+            for (int c = 0; c < 4; c++) {
+                first.mutData()[(size_t)(i + pad) * 4 + c] = src[(size_t)i * stride + c];
+            }
+        }
 
         if (d % 2 == 1) {
             int r = (d - 1) / 2;
 
-            boxBlurLine(src, dst, count, stride, r, r);
-            boxBlurLine(dst, scratch, count, stride, r, r);
-            boxBlurLine(scratch, dst, count, stride, r, r);
+            boxBlurLine(first.data(), second.mutData(), total, 4, r, r);
+            boxBlurLine(second.data(), first.mutData(), total, 4, r, r);
+            boxBlurLine(first.data(), second.mutData(), total, 4, r, r);
         } else {
-            boxBlurLine(src, dst, count, stride, d / 2, d / 2 - 1);
-            boxBlurLine(dst, scratch, count, stride, d / 2 - 1, d / 2);
-            boxBlurLine(scratch, dst, count, stride, d / 2, d / 2);
+            boxBlurLine(first.data(), second.mutData(), total, 4, d / 2, d / 2 - 1);
+            boxBlurLine(second.data(), first.mutData(), total, 4, d / 2 - 1, d / 2);
+            boxBlurLine(first.data(), second.mutData(), total, 4, d / 2, d / 2);
+        }
+
+        for (int i = 0; i < count; i++) {
+            for (int c = 0; c < 4; c++) {
+                dst[(size_t)i * stride + c] = second.data()[(size_t)(i + pad) * 4 + c];
+            }
         }
     }
 
     static void blurBuffer(FilterRun& run, const float* in, float* out, const IntBox& box, float sigmaX, float sigmaY) {
+        sigmaX = minf(sigmaX, 532.f);
+        sigmaY = minf(sigmaY, 532.f);
+
         int height = (int)run.raster->height;
         int width = run.width;
         float* horizontal = filterBuffer(run);
@@ -11408,8 +11457,8 @@ namespace {
             return;
         }
 
-        int ix = (int)floorf(userX(f, rx) * run.scaleX);
-        int iy = (int)floorf(userY(f, ry) * run.scaleY);
+        int ix = (int)floorf(userX(f, rx) * run.scaleX + 0.5f);
+        int iy = (int)floorf(userY(f, ry) * run.scaleY + 0.5f);
         int height = (int)run.raster->height;
         float* pass = filterBuffer(run);
         const IntBox& box = p.box;
