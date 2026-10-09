@@ -19,6 +19,8 @@ SOURCES = [
     ("tabler", "tabler", 400),
     ("bootstrap", "bootstrap", 300),
     ("fontawesome", "fontawesome", 400),
+    ("logos", "logos/*/logos", 800),
+    ("wikimedia", "wikimedia", None),
 ]
 
 SKIP_DIRS = {"svgweb", "harness", ".git", "node_modules", "text", "fonts", "W3C-I18N"}
