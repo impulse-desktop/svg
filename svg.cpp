@@ -340,12 +340,17 @@ namespace {
         OnlyChild,
         Root,
         Never,
+        Not,
     };
+
+    struct Compound;
 
     struct Condition {
         Test test;
         u32 name;
         StringView value;
+        Compound* inner;
+        u32 innerCount;
     };
 
     struct Compound {
@@ -3215,7 +3220,7 @@ namespace {
 
         while (p < end) {
             u8 c = *p;
-            Condition condition{Test::Never, 0, StringView()};
+            Condition condition{Test::Never, 0, StringView(), nullptr, 0};
 
             if (c == '#') {
                 p++;
@@ -3329,6 +3334,56 @@ namespace {
                     specificity += 1;
                 } else {
                     StringView name = readIdent(p, end);
+
+                    if (!name.empty() && equalsIgnoreCase(name, StringView(u8"not")) && p < end && *p == '(') {
+                        Vector<Compound> inner;
+                        u32 best = 0;
+
+                        p++;
+
+                        while (true) {
+                            Compound item;
+                            u32 weight = 0;
+
+                            while (p < end && isSpace(*p)) {
+                                p++;
+                            }
+
+                            item.combinator = Combinator::None;
+
+                            if (!parseCompound(doc, p, end, item, weight)) {
+                                return false;
+                            }
+
+                            inner.pushBack(item);
+                            best = weight > best ? weight : best;
+
+                            while (p < end && isSpace(*p)) {
+                                p++;
+                            }
+
+                            if (p < end && *p == ',') {
+                                p++;
+                                continue;
+                            }
+
+                            break;
+                        }
+
+                        if (p >= end || *p != ')') {
+                            return false;
+                        }
+
+                        p++;
+                        condition.test = Test::Not;
+                        condition.innerCount = (u32)inner.length();
+                        condition.inner = (Compound*)doc.pool->allocate(sizeof(Compound) * inner.length());
+                        memcpy(condition.inner, inner.data(), sizeof(Compound) * inner.length());
+                        specificity += best;
+                        conditions.pushBack(condition);
+                        any = true;
+                        continue;
+                    }
 
                     if (name.empty() || (p < end && *p == '(')) {
                         return false;
@@ -3798,7 +3853,19 @@ namespace {
         }
 
         for (u32 i = 0; i < compound.count; i++) {
-            if (!matchCondition(doc, node, compound.conditions[i])) {
+            const Condition& condition = compound.conditions[i];
+
+            if (condition.test == Test::Not) {
+                for (u32 k = 0; k < condition.innerCount; k++) {
+                    if (matchCompound(doc, node, condition.inner[k])) {
+                        return false;
+                    }
+                }
+
+                continue;
+            }
+
+            if (!matchCondition(doc, node, condition)) {
                 return false;
             }
         }
@@ -5211,13 +5278,29 @@ namespace {
                 p++;
             }
 
-            if (p >= end || !readNumber(p, end, point.x)) {
+            if (p >= end) {
+                return;
+            }
+
+            if (!readNumber(p, end, point.x)) {
+                out.clear();
+
                 return;
             }
 
             skipSeparator(p, end);
 
+            while (p < end && isSpace(*p)) {
+                p++;
+            }
+
+            if (p >= end) {
+                return;
+            }
+
             if (!readNumber(p, end, point.y)) {
+                out.clear();
+
                 return;
             }
 
@@ -7386,6 +7469,7 @@ namespace {
         }
 
         Matrix space = ctm;
+        Matrix gradientMatrix = identity();
         u32 transform = gradientAttribute(doc, gradient, AtomGradientTransform);
 
         if (transform) {
@@ -7398,7 +7482,7 @@ namespace {
                     m = multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
                 }
 
-                space = multiply(space, m);
+                gradientMatrix = m;
             }
         }
 
@@ -7412,6 +7496,8 @@ namespace {
 
             space = multiply(space, Matrix{bw, 0.f, 0.f, bh, bbox.x0, bbox.y0});
         }
+
+        space = multiply(space, gradientMatrix);
 
         DevicePaint* paint = l.pool->make<DevicePaint>();
 
@@ -7499,7 +7585,11 @@ namespace {
                 bool pattern = server && server->name == AtomPattern;
 
                 if ((gradient || pattern) && resourceUsable(l, server, vp) && !singularTransform(*l.doc, server)) {
-                    return gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp) : patternPaint(l, server, opacity, bbox, ctm, vp);
+                    DevicePaint* paint = gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp) : patternPaint(l, server, opacity, bbox, ctm, vp);
+
+                    if (paint || gradient) {
+                        return paint;
+                    }
                 }
 
                 if (value.fallback == PaintKind::Color) {
@@ -9000,6 +9090,7 @@ namespace {
         float width;
         float height;
         Box viewBox;
+        bool sizeless;
     };
 
     static bool loadImage(Lowering& l, Node* node, ImageSource& out) {
@@ -9010,13 +9101,14 @@ namespace {
 
         out.nested = nullptr;
         out.raster = nullptr;
+        out.sizeless = false;
 
         if (!href) {
             return false;
         }
 
         StringView reference = trim(textOf(doc, href));
-        bool remote = startsWithIgnoreCase(reference, StringView(u8"http:")) || startsWithIgnoreCase(reference, StringView(u8"https:"));
+        bool remote = startsWithIgnoreCase(reference, StringView(u8"http:")) || startsWithIgnoreCase(reference, StringView(u8"https:")) || (!reference.empty() && reference[0] == '#');
         bool broken = remote || (decodeDataUri(reference, mime, bytes) && bytes.length() == 0);
 
         if (!remote && !broken && bytes.length() == 0) {
@@ -9026,7 +9118,7 @@ namespace {
         StringView data = keep(*l.pool, bytes.data(), bytes.length());
 
         if (equalsIgnoreCase(mime, StringView(u8"image/svg+xml")) && !broken) {
-            if (l.imageDepth >= 4) {
+            if (l.imageDepth >= 16) {
                 return false;
             }
 
@@ -9036,13 +9128,16 @@ namespace {
                 cascade(*nested);
                 out.nested = nested;
 
-                if (!intrinsicSize(*nested, nested->root, out.width, out.height)) {
+                bool sized = intrinsicSize(*nested, nested->root, out.width, out.height);
+
+                if (!sized) {
                     out.width = 300.f;
                     out.height = 150.f;
                 }
 
                 if (!parseViewBox(*nested, nested->root, out.viewBox) || out.viewBox.x1 <= out.viewBox.x0 || out.viewBox.y1 <= out.viewBox.y0) {
                     out.viewBox = Box{0.f, 0.f, out.width, out.height};
+                    out.sizeless = !sized && !attribute(nested->root, AtomWidth) && !attribute(nested->root, AtomHeight);
                 }
 
                 return true;
@@ -9108,7 +9203,7 @@ namespace {
         const Document& doc = *l.doc;
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
         bool stretch = ratio && trim(textOf(doc, ratio)) == StringView(u8"none");
-        const Box& viewBox = source.viewBox;
+        Box viewBox = source.sizeless ? Box{0.f, 0.f, w, h} : source.viewBox;
         Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
         Matrix place = multiply(m, fit);
 
@@ -11449,7 +11544,7 @@ namespace {
                 spotExponent = numberOf(doc, light, AtomSpecularExponent, 1.f);
                 spotExponent = spotExponent < 1.f ? 1.f : (spotExponent > 128.f ? 128.f : spotExponent);
 
-                if (attribute(light, AtomLimitingConeAngle)) {
+                if (attribute(light, AtomLimitingConeAngle) && numberOf(doc, light, AtomLimitingConeAngle, 0.f) != 0.f) {
                     float angle = fabsf(numberOf(doc, light, AtomLimitingConeAngle, 90.f));
 
                     limited = true;
