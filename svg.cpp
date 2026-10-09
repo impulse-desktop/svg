@@ -448,6 +448,20 @@ namespace {
         WindingEvenOdd,
     };
 
+    enum class FilterFunction : u8 {
+        Reference,
+        Matrix,
+        Blur,
+        DropShadow,
+    };
+
+    struct FilterItem {
+        FilterFunction kind;
+        u32 reference;
+        float values[20];
+        Color color;
+    };
+
     struct ComputedStyle {
         PaintValue fill;
         PaintValue stroke;
@@ -470,8 +484,8 @@ namespace {
         float floodOpacity;
         Color lightingColor;
         bool linearFilters;
-        bool filtered;
-        u32 filter;
+        FilterItem* filters;
+        u32 filterCount;
         Color background;
         bool overflowVisible;
         u8 fillRule;
@@ -557,6 +571,7 @@ namespace {
     struct FilterPrimitive {
         Node* node;
         u32 kind;
+        float params[20];
         int in1;
         int in2;
         int* inputs;
@@ -578,6 +593,7 @@ namespace {
         IntBox region;
         FilterPrimitive* primitives;
         u32 count;
+        Filter* next;
     };
 
     enum class OpKind : u8 {
@@ -788,6 +804,51 @@ namespace {
         {"whitesmoke", 0xf5f5f5},
         {"yellow", 0xffff00},
         {"yellowgreen", 0x9acd32},
+    };
+
+    const NamedColor systemColors[] = {
+        {"accentcolor", 0x0075ffff},
+        {"accentcolortext", 0xffffffff},
+        {"activeborder", 0x000000ff},
+        {"activecaption", 0xffffffff},
+        {"activetext", 0xff0000ff},
+        {"appworkspace", 0xffffffff},
+        {"background", 0xffffffff},
+        {"buttonborder", 0x000000ff},
+        {"buttonface", 0xefefefff},
+        {"buttonhighlight", 0xefefefff},
+        {"buttonshadow", 0xefefefff},
+        {"buttontext", 0x000000ff},
+        {"canvas", 0xffffffff},
+        {"canvastext", 0x000000ff},
+        {"captiontext", 0x000000ff},
+        {"field", 0xffffffff},
+        {"fieldtext", 0x000000ff},
+        {"graytext", 0x808080ff},
+        {"highlight", 0x0041c6cc},
+        {"highlighttext", 0xffffffff},
+        {"inactiveborder", 0x000000ff},
+        {"inactivecaption", 0xffffffff},
+        {"inactivecaptiontext", 0x808080ff},
+        {"infobackground", 0xffffffff},
+        {"infotext", 0x000000ff},
+        {"linktext", 0x0000eeff},
+        {"mark", 0xffff00ff},
+        {"marktext", 0x000000ff},
+        {"menu", 0xffffffff},
+        {"menutext", 0x000000ff},
+        {"scrollbar", 0xffffffff},
+        {"selecteditem", 0x1967d2ff},
+        {"selecteditemtext", 0xffffffff},
+        {"threeddarkshadow", 0x000000ff},
+        {"threedface", 0xefefefff},
+        {"threedhighlight", 0x000000ff},
+        {"threedlightshadow", 0x000000ff},
+        {"threedshadow", 0x000000ff},
+        {"visitedtext", 0x551a8bff},
+        {"window", 0xffffffff},
+        {"windowframe", 0x000000ff},
+        {"windowtext", 0x000000ff},
     };
 
     const u8 brokenImage[16 * 16 * 4] = {
@@ -4268,6 +4329,14 @@ namespace {
             }
         }
 
+        for (const NamedColor& named : systemColors) {
+            if (equalsIgnoreCase(text, StringView(named.name))) {
+                out = Color{((named.rgb >> 24) & 0xff) / 255.f, ((named.rgb >> 16) & 0xff) / 255.f, ((named.rgb >> 8) & 0xff) / 255.f, (named.rgb & 0xff) / 255.f};
+
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -5626,6 +5695,344 @@ namespace {
         return value ? textOf(doc, value) : StringView();
     }
 
+    static bool readFilterAmount(StringView args, float& out) {
+        const u8* p = args.begin();
+        const u8* end = args.end();
+
+        if (args.empty()) {
+            out = 1.f;
+
+            return true;
+        }
+
+        if (!readNumber(p, end, out)) {
+            return false;
+        }
+
+        if (p < end && *p == '%') {
+            out /= 100.f;
+            p++;
+        }
+
+        return p == end && out >= 0.f;
+    }
+
+    static bool readFilterAngle(StringView args, float& out) {
+        const u8* p = args.begin();
+        const u8* end = args.end();
+
+        out = 0.f;
+
+        if (args.empty()) {
+            return true;
+        }
+
+        if (!readNumber(p, end, out)) {
+            return false;
+        }
+
+        StringView unit(p, end);
+
+        if (equalsIgnoreCase(unit, StringView(u8"deg"))) {
+            return true;
+        }
+
+        if (equalsIgnoreCase(unit, StringView(u8"rad"))) {
+            out *= 180.f / pi;
+
+            return true;
+        }
+
+        if (equalsIgnoreCase(unit, StringView(u8"grad"))) {
+            out *= 0.9f;
+
+            return true;
+        }
+
+        if (equalsIgnoreCase(unit, StringView(u8"turn"))) {
+            out *= 360.f;
+
+            return true;
+        }
+
+        return unit.empty() && out == 0.f;
+    }
+
+    static bool readFilterLength(StringView text, bool unitless, const ComputedStyle& style, Viewport vp, float& out) {
+        Length length;
+
+        if (!parseLength(text, length) || length.unit == Unit::Percent) {
+            return false;
+        }
+
+        if (length.unit == Unit::Number && !unitless && length.value != 0.f) {
+            return false;
+        }
+
+        out = resolveLength(length, Axis::Other, vp, style.fontSize);
+
+        return true;
+    }
+
+    static void amountMatrix(StringView name, float a, float* m) {
+        float b = 1.f - a;
+        float identity[20] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
+
+        memcpy(m, identity, sizeof(identity));
+
+        if (name == StringView(u8"grayscale")) {
+            float t[20] = {0.2126f + 0.7874f * b, 0.7152f - 0.7152f * b, 0.0722f - 0.0722f * b, 0, 0, 0.2126f - 0.2126f * b, 0.7152f + 0.2848f * b, 0.0722f - 0.0722f * b, 0, 0, 0.2126f - 0.2126f * b, 0.7152f - 0.7152f * b, 0.0722f + 0.9278f * b, 0, 0, 0, 0, 0, 1, 0};
+
+            memcpy(m, t, sizeof(t));
+        } else if (name == StringView(u8"sepia")) {
+            float t[20] = {0.393f + 0.607f * b, 0.769f - 0.769f * b, 0.189f - 0.189f * b, 0, 0, 0.349f - 0.349f * b, 0.686f + 0.314f * b, 0.168f - 0.168f * b, 0, 0, 0.272f - 0.272f * b, 0.534f - 0.534f * b, 0.131f + 0.869f * b, 0, 0, 0, 0, 0, 1, 0};
+
+            memcpy(m, t, sizeof(t));
+        } else if (name == StringView(u8"saturate")) {
+            float t[20] = {0.213f + 0.787f * a, 0.715f - 0.715f * a, 0.072f - 0.072f * a, 0, 0, 0.213f - 0.213f * a, 0.715f + 0.285f * a, 0.072f - 0.072f * a, 0, 0, 0.213f - 0.213f * a, 0.715f - 0.715f * a, 0.072f + 0.928f * a, 0, 0, 0, 0, 0, 1, 0};
+
+            memcpy(m, t, sizeof(t));
+        } else if (name == StringView(u8"invert")) {
+            for (int k = 0; k < 3; k++) {
+                m[k * 6] = 1.f - 2.f * a;
+                m[k * 5 + 4] = a;
+            }
+        } else if (name == StringView(u8"opacity")) {
+            m[18] = a;
+        } else if (name == StringView(u8"brightness")) {
+            for (int k = 0; k < 3; k++) {
+                m[k * 6] = a;
+            }
+        } else if (name == StringView(u8"contrast")) {
+            for (int k = 0; k < 3; k++) {
+                m[k * 6] = a;
+                m[k * 5 + 4] = 0.5f - 0.5f * a;
+            }
+        }
+    }
+
+    static void hueMatrix(float degrees, float* m) {
+        float angle = degrees * pi / 180.f;
+        float cs = cosf(angle);
+        float sn = sinf(angle);
+        float t[20] = {
+            0.213f + cs * 0.787f - sn * 0.213f,
+            0.715f - cs * 0.715f - sn * 0.715f,
+            0.072f - cs * 0.072f + sn * 0.928f,
+            0,
+            0,
+            0.213f - cs * 0.213f + sn * 0.143f,
+            0.715f + cs * 0.285f + sn * 0.140f,
+            0.072f - cs * 0.072f - sn * 0.283f,
+            0,
+            0,
+            0.213f - cs * 0.213f - sn * 0.787f,
+            0.715f - cs * 0.715f + sn * 0.715f,
+            0.072f + cs * 0.928f + sn * 0.072f,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+        };
+
+        memcpy(m, t, sizeof(t));
+    }
+
+    static bool parseDropShadow(StringView args, const ComputedStyle& style, Viewport vp, FilterItem& item) {
+        const u8* p = args.begin();
+        const u8* end = args.end();
+        StringView tokens[5];
+        u32 count = 0;
+
+        while (true) {
+            while (p < end && isSpace(*p)) {
+                p++;
+            }
+
+            if (p >= end) {
+                break;
+            }
+
+            const u8* start = p;
+            int depth = 0;
+
+            while (p < end && (depth > 0 || !isSpace(*p))) {
+                if (*p == '(') {
+                    depth++;
+                } else if (*p == ')') {
+                    depth--;
+                } else if (*p == ',' && depth == 0) {
+                    return false;
+                }
+
+                p++;
+            }
+
+            if (count == 5) {
+                return false;
+            }
+
+            tokens[count++] = StringView(start, p);
+        }
+
+        float lengths[4];
+        u32 lengthCount = 0;
+        bool hasColor = false;
+
+        item.color = style.color;
+
+        for (u32 k = 0; k < count; k++) {
+            float value;
+
+            if (readFilterLength(tokens[k], true, style, vp, value)) {
+                if (lengthCount == 3 || (hasColor && k != lengthCount + 1)) {
+                    return false;
+                }
+
+                lengths[lengthCount++] = value;
+
+                continue;
+            }
+
+            if (hasColor || (k != 0 && k != count - 1)) {
+                return false;
+            }
+
+            if (!equalsIgnoreCase(tokens[k], StringView(u8"currentcolor")) && !parseColor(tokens[k], item.color)) {
+                return false;
+            }
+
+            hasColor = true;
+        }
+
+        if (lengthCount < 2 || (lengthCount == 3 && lengths[2] < 0.f)) {
+            return false;
+        }
+
+        item.values[0] = lengths[0];
+        item.values[1] = lengths[1];
+        item.values[2] = lengthCount == 3 ? lengths[2] : 0.f;
+
+        return true;
+    }
+
+    static bool parseFilterList(const Document& doc, StringView text, const ComputedStyle& style, Viewport vp, Vector<FilterItem>& out) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+
+        while (true) {
+            while (p < end && isSpace(*p)) {
+                p++;
+            }
+
+            if (p >= end) {
+                break;
+            }
+
+            const u8* start = p;
+
+            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || *p == '-')) {
+                p++;
+            }
+
+            StringView name(start, p);
+
+            if (p >= end || *p != '(' || name.empty()) {
+                return false;
+            }
+
+            p++;
+
+            const u8* open = p;
+            int depth = 0;
+
+            while (p < end && (depth > 0 || *p != ')')) {
+                if (*p == '(') {
+                    depth++;
+                } else if (*p == ')') {
+                    depth--;
+                }
+
+                p++;
+            }
+
+            if (p >= end) {
+                return false;
+            }
+
+            StringView args = trim(StringView(open, p));
+            FilterItem item;
+
+            p++;
+            memset(&item, 0, sizeof(item));
+
+            if (equalsIgnoreCase(name, StringView(u8"url"))) {
+                if (args.length() >= 2 && (args[0] == '"' || args[0] == '\'') && args.back() == args[0]) {
+                    args = trim(StringView(args.begin() + 1, args.end() - 1));
+                }
+
+                item.kind = FilterFunction::Reference;
+
+                if (!args.empty() && args[0] == '#') {
+                    item.reference = lookup(doc.atoms, StringView(args.begin() + 1, args.end()));
+                }
+            } else if (equalsIgnoreCase(name, StringView(u8"blur"))) {
+                float sigma = 0.f;
+
+                if (!args.empty() && (!readFilterLength(args, false, style, vp, sigma) || sigma < 0.f)) {
+                    return false;
+                }
+
+                item.kind = FilterFunction::Blur;
+                item.values[0] = sigma;
+                item.values[1] = sigma;
+            } else if (equalsIgnoreCase(name, StringView(u8"drop-shadow"))) {
+                item.kind = FilterFunction::DropShadow;
+
+                if (!parseDropShadow(args, style, vp, item)) {
+                    return false;
+                }
+            } else if (equalsIgnoreCase(name, StringView(u8"hue-rotate"))) {
+                float angle;
+
+                if (!readFilterAngle(args, angle)) {
+                    return false;
+                }
+
+                item.kind = FilterFunction::Matrix;
+                hueMatrix(angle, item.values);
+            } else {
+                static const char* const amounts[] = {"grayscale", "sepia", "saturate", "invert", "opacity", "brightness", "contrast"};
+                StringView known;
+                float amount;
+
+                for (const char* candidate : amounts) {
+                    if (equalsIgnoreCase(name, StringView(candidate))) {
+                        known = StringView(candidate);
+                    }
+                }
+
+                if (known.empty() || !readFilterAmount(args, amount)) {
+                    return false;
+                }
+
+                if (known != StringView(u8"saturate") && known != StringView(u8"brightness") && known != StringView(u8"contrast")) {
+                    amount = amount > 1.f ? 1.f : amount;
+                }
+
+                item.kind = FilterFunction::Matrix;
+                amountMatrix(known, amount, item.values);
+            }
+
+            out.pushBack(item);
+        }
+
+        return out.length() > 0;
+    }
+
     static ComputedStyle computeStyle(Lowering& l, const Node* node, const ComputedStyle& parent, Viewport vp) {
         const Document& doc = *l.doc;
         ComputedStyle initial = initialStyle();
@@ -5641,8 +6048,8 @@ namespace {
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
         style.floodOpacity = 1.f;
         style.lightingColor = Color{1.f, 1.f, 1.f, 1.f};
-        style.filtered = false;
-        style.filter = 0;
+        style.filters = nullptr;
+        style.filterCount = 0;
         style.background = Color{0.f, 0.f, 0.f, 0.f};
         style.overflowVisible = false;
 
@@ -5986,19 +6393,23 @@ namespace {
                     break;
                 case AtomFilter: {
                     if (keyword) {
-                        style.filtered = source.filtered;
-                        style.filter = source.filter;
+                        style.filters = source.filters;
+                        style.filterCount = source.filterCount;
                         break;
                     }
 
-                    PaintValue reference;
-
                     if (isKeyword(value, "none")) {
-                        style.filtered = false;
-                        style.filter = 0;
-                    } else if (parsePaint(doc, value, reference) && reference.kind == PaintKind::Server) {
-                        style.filtered = true;
-                        style.filter = reference.server;
+                        style.filters = nullptr;
+                        style.filterCount = 0;
+                        break;
+                    }
+
+                    Vector<FilterItem> items;
+
+                    if (parseFilterList(doc, value, style, vp, items)) {
+                        style.filterCount = (u32)items.length();
+                        style.filters = (FilterItem*)l.pool->allocate(sizeof(FilterItem) * items.length());
+                        memcpy(style.filters, items.data(), sizeof(FilterItem) * items.length());
                     }
 
                     break;
@@ -6839,48 +7250,6 @@ namespace {
         }
     }
 
-    static u32 filterAttribute(const Document& doc, Node* filter, u32 name) {
-        Node* node = filter;
-
-        for (u32 hops = 0; node && hops < 16; hops++) {
-            if (u32 value = attribute(node, name)) {
-                return value;
-            }
-
-            Node* next = hrefTarget(doc, node);
-
-            if (!next || next->name != AtomFilter || next == node) {
-                break;
-            }
-
-            node = next;
-        }
-
-        return 0;
-    }
-
-    static Node* filterContent(const Document& doc, Node* filter) {
-        Node* node = filter;
-
-        for (u32 hops = 0; node && hops < 16; hops++) {
-            for (Node* child = node->first; child; child = child->next) {
-                if (filterPrimitive(child->name)) {
-                    return node;
-                }
-            }
-
-            Node* next = hrefTarget(doc, node);
-
-            if (!next || next->name != AtomFilter || next == node) {
-                break;
-            }
-
-            node = next;
-        }
-
-        return filter;
-    }
-
     static float filterLength(const Document& doc, u32 value, bool boxUnits, Axis axis, Viewport vp, float fallback) {
         Length length;
 
@@ -6938,10 +7307,6 @@ namespace {
             return InputSourceAlpha;
         }
 
-        if (text == StringView(u8"BackgroundImage") || text == StringView(u8"BackgroundAlpha") || text == StringView(u8"FillPaint") || text == StringView(u8"StrokePaint")) {
-            return InputNone;
-        }
-
         for (size_t i = done.length(); i > 0; i--) {
             u32 result = attribute(done[i - 1].node, AtomResult);
 
@@ -6955,9 +7320,9 @@ namespace {
 
     static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h);
 
-    static Filter* lowerFilter(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+    static Filter* lowerFilter(Lowering& l, Node* element, const ComputedStyle& parent, const Matrix& m, Viewport vp, u32 reference) {
         const Document& doc = *l.doc;
-        Node* filterNode = elementById(doc, style.filter);
+        Node* filterNode = elementById(doc, reference);
 
         if (!filterNode || filterNode->name != AtomFilter || !resourceUsable(l, filterNode, vp)) {
             return nullptr;
@@ -6970,8 +7335,8 @@ namespace {
         }
 
         Filter* filter = l.pool->make<Filter>();
-        u32 units = filterAttribute(doc, filterNode, AtomFilterUnits);
-        u32 primitiveUnits = filterAttribute(doc, filterNode, AtomPrimitiveUnits);
+        u32 units = attribute(filterNode, AtomFilterUnits);
+        u32 primitiveUnits = attribute(filterNode, AtomPrimitiveUnits);
         bool boxRegion = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
         IntBox canvas{0, 0, (int)l.width, (int)l.height};
         Box bbox;
@@ -6982,6 +7347,7 @@ namespace {
         filter->region = IntBox{0, 0, 0, 0};
         filter->count = 0;
         filter->primitives = nullptr;
+        filter->next = nullptr;
 
         bool hasBox = elementBox(l, element, parent, vp, bbox, 0) && bbox.x1 > bbox.x0 && bbox.y1 > bbox.y0;
 
@@ -6996,15 +7362,15 @@ namespace {
         float bh = bbox.y1 - bbox.y0;
 
         if (boxRegion) {
-            region.x0 = bbox.x0 + filterLength(doc, filterAttribute(doc, filterNode, AtomX), true, Axis::X, vp, -0.1f) * bw;
-            region.y0 = bbox.y0 + filterLength(doc, filterAttribute(doc, filterNode, AtomY), true, Axis::Y, vp, -0.1f) * bh;
-            region.x1 = region.x0 + filterLength(doc, filterAttribute(doc, filterNode, AtomWidth), true, Axis::X, vp, 1.2f) * bw;
-            region.y1 = region.y0 + filterLength(doc, filterAttribute(doc, filterNode, AtomHeight), true, Axis::Y, vp, 1.2f) * bh;
+            region.x0 = bbox.x0 + filterLength(doc, attribute(filterNode, AtomX), true, Axis::X, vp, -0.1f) * bw;
+            region.y0 = bbox.y0 + filterLength(doc, attribute(filterNode, AtomY), true, Axis::Y, vp, -0.1f) * bh;
+            region.x1 = region.x0 + filterLength(doc, attribute(filterNode, AtomWidth), true, Axis::X, vp, 1.2f) * bw;
+            region.y1 = region.y0 + filterLength(doc, attribute(filterNode, AtomHeight), true, Axis::Y, vp, 1.2f) * bh;
         } else {
-            region.x0 = filterLength(doc, filterAttribute(doc, filterNode, AtomX), false, Axis::X, vp, -0.1f * vp.width);
-            region.y0 = filterLength(doc, filterAttribute(doc, filterNode, AtomY), false, Axis::Y, vp, -0.1f * vp.height);
-            region.x1 = region.x0 + filterLength(doc, filterAttribute(doc, filterNode, AtomWidth), false, Axis::X, vp, 1.2f * vp.width);
-            region.y1 = region.y0 + filterLength(doc, filterAttribute(doc, filterNode, AtomHeight), false, Axis::Y, vp, 1.2f * vp.height);
+            region.x0 = filterLength(doc, attribute(filterNode, AtomX), false, Axis::X, vp, -0.1f * vp.width);
+            region.y0 = filterLength(doc, attribute(filterNode, AtomY), false, Axis::Y, vp, -0.1f * vp.height);
+            region.x1 = region.x0 + filterLength(doc, attribute(filterNode, AtomWidth), false, Axis::X, vp, 1.2f * vp.width);
+            region.y1 = region.y0 + filterLength(doc, attribute(filterNode, AtomHeight), false, Axis::Y, vp, 1.2f * vp.height);
         }
 
         if (region.x1 <= region.x0 || region.y1 <= region.y0) {
@@ -7013,7 +7379,7 @@ namespace {
 
         filter->region = pixelBox(deviceBox(m, region), canvas);
 
-        Node* content = filterContent(doc, filterNode);
+        Node* content = filterNode;
         Vector<FilterPrimitive> primitives;
         Vector<Box> userBoxes;
 
@@ -7062,7 +7428,7 @@ namespace {
             }
 
             Box user = region;
-            bool standard = inputs.length() == 0;
+            bool standard = inputs.length() == 0 || child->name == AtomFeTile;
 
             for (int input : inputs) {
                 if (input < 0) {
@@ -7145,6 +7511,56 @@ namespace {
         }
 
         return filter;
+    }
+
+    static Filter* functionFilter(Lowering& l, const FilterItem& item, const Matrix& m, bool linear) {
+        Filter* filter = l.pool->make<Filter>();
+        FilterPrimitive* primitive = (FilterPrimitive*)l.pool->allocate(sizeof(FilterPrimitive));
+
+        memset(primitive, 0, sizeof(FilterPrimitive));
+        primitive->kind = item.kind == FilterFunction::Blur ? AtomFeGaussianBlur : (item.kind == FilterFunction::DropShadow ? AtomFeDropShadow : AtomFeColorMatrix);
+        primitive->in1 = InputSourceGraphic;
+        primitive->in2 = InputSourceGraphic;
+        primitive->box = IntBox{0, 0, (int)l.width, (int)l.height};
+        primitive->flood = item.color;
+        primitive->linear = linear;
+        memcpy(primitive->params, item.values, sizeof(item.values));
+
+        filter->doc = l.doc;
+        filter->ctm = m;
+        filter->bbox = Box{0.f, 0.f, 0.f, 0.f};
+        filter->boxPrimitives = false;
+        filter->region = primitive->box;
+        filter->primitives = primitive;
+        filter->count = 1;
+        filter->next = nullptr;
+
+        return filter;
+    }
+
+    static Filter* lowerFilters(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+        Filter* first = nullptr;
+        Filter* last = nullptr;
+
+        for (u32 i = 0; i < style.filterCount; i++) {
+            const FilterItem& item = style.filters[i];
+            bool linear = last && last->count && last->primitives[last->count - 1].linear;
+            Filter* filter = item.kind == FilterFunction::Reference ? lowerFilter(l, element, parent, m, vp, item.reference) : functionFilter(l, item, m, linear);
+
+            if (!filter) {
+                continue;
+            }
+
+            if (last) {
+                last->next = filter;
+            } else {
+                first = filter;
+            }
+
+            last = filter;
+        }
+
+        return first;
     }
 
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp) {
@@ -7257,6 +7673,22 @@ namespace {
         }
 
         return width > 0.f && height > 0.f;
+    }
+
+    static Matrix rootContent(Lowering& l, Node* node) {
+        Box viewBox;
+        float w;
+        float h;
+
+        if (parseViewBox(*l.doc, node, viewBox)) {
+            return viewBoxTransform(*l.doc, node, viewBox, (float)l.width, (float)l.height);
+        }
+
+        if (intrinsicSize(*l.doc, node, w, h)) {
+            return viewBoxTransform(*l.doc, node, Box{0.f, 0.f, w, h}, (float)l.width, (float)l.height);
+        }
+
+        return identity();
     }
 
     static void lowerSvg(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -7659,7 +8091,7 @@ namespace {
             const ComputedStyle& inherited = target->parent ? documentStyle(l, target->parent, vp) : style;
 
             l.active.pushBack(target);
-            lowerElement(l, target, inherited, m, vp);
+            lowerElement(l, target, inherited, node->name == AtomFeImage ? multiply(m, translation(x, y)) : m, vp);
             l.active.popBack();
 
             return;
@@ -7729,8 +8161,8 @@ namespace {
             resolveMask(l, node, parent, style, m, vp, op);
         }
 
-        if (style.filtered) {
-            op.filter = lowerFilter(l, node, parent, style, m, vp);
+        if (style.filterCount) {
+            op.filter = lowerFilters(l, node, parent, style, node == l.doc->root ? multiply(m, rootContent(l, node)) : m, vp);
         }
 
         bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f;
@@ -8659,7 +9091,14 @@ namespace {
         float sy = 0.f;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
 
-        bool valid = !attribute(p.node, AtomStdDeviation) || numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy);
+        bool valid = true;
+
+        if (!p.node) {
+            sx = p.params[0];
+            sy = p.params[1];
+        } else if (attribute(p.node, AtomStdDeviation)) {
+            valid = numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy);
+        }
 
         if (!valid || sx < 0.f || sy < 0.f) {
             copyBox(run, in, out, p.box);
@@ -8684,10 +9123,13 @@ namespace {
         float sx = 2.f;
         float sy = 2.f;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
-        float dx = userX(f, numberOf(*f.doc, p.node, AtomDx, 2.f));
-        float dy = userY(f, numberOf(*f.doc, p.node, AtomDy, 2.f));
+        float dx = p.node ? userX(f, numberOf(*f.doc, p.node, AtomDx, 2.f)) : p.params[0];
+        float dy = p.node ? userY(f, numberOf(*f.doc, p.node, AtomDy, 2.f)) : p.params[1];
 
-        if (attribute(p.node, AtomStdDeviation) && !numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy)) {
+        if (!p.node) {
+            sx = p.params[2];
+            sy = p.params[2];
+        } else if (attribute(p.node, AtomStdDeviation) && !numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy)) {
             return;
         }
 
@@ -8756,12 +9198,18 @@ namespace {
         const Document& doc = *run.filter->doc;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         float m[20] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
-        u32 type = attribute(p.node, AtomType);
+        u32 type = p.node ? attribute(p.node, AtomType) : 0;
         StringView kind = type ? trim(textOf(doc, type)) : StringView(u8"matrix");
         Vector<float> values;
-        bool hasValues = numberList(doc, p.node, AtomValues, values);
+        bool hasValues = p.node && numberList(doc, p.node, AtomValues, values);
 
-        if (kind == StringView(u8"saturate")) {
+        if (kind != StringView(u8"saturate") && kind != StringView(u8"hueRotate") && kind != StringView(u8"luminanceToAlpha")) {
+            kind = StringView(u8"matrix");
+        }
+
+        if (!p.node) {
+            memcpy(m, p.params, sizeof(m));
+        } else if (kind == StringView(u8"saturate")) {
             float s = hasValues && values.length() == 1 ? values[0] : 1.f;
             float t[20] = {0.213f + 0.787f * s, 0.715f - 0.715f * s, 0.072f - 0.072f * s, 0, 0, 0.213f - 0.213f * s, 0.715f + 0.285f * s, 0.072f - 0.072f * s, 0, 0, 0.213f - 0.213f * s, 0.715f - 0.715f * s, 0.072f + 0.928f * s, 0, 0, 0, 0, 0, 1, 0};
 
@@ -9241,6 +9689,16 @@ namespace {
     static void filterTile(FilterRun& run, const FilterPrimitive& p, float* out) {
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         IntBox tile = inputBox(run, p.in1);
+
+        if (p.in1 >= 0) {
+            Box exact = deviceBox(run.filter->ctm, run.filter->primitives[p.in1].user);
+            IntBox inner{(int)ceilf(exact.x0 - 1e-3f), (int)ceilf(exact.y0 - 1e-3f), (int)floorf(exact.x1 + 1e-3f), (int)floorf(exact.y1 + 1e-3f)};
+
+            if (inner.x0 >= tile.x0 && inner.y0 >= tile.y0 && inner.x1 <= tile.x1 && inner.y1 <= tile.y1 && inner.x1 > inner.x0 && inner.y1 > inner.y0) {
+                tile = inner;
+            }
+        }
+
         int tw = tile.x1 - tile.x0;
         int th = tile.y1 - tile.y0;
         const IntBox& box = p.box;
@@ -9693,9 +10151,12 @@ namespace {
             }
         }
 
-        if (!light || constant < 0.f || (specular && (shininess < 1.f || shininess > 128.f))) {
+        if (!light) {
             return;
         }
+
+        constant = constant < 0.f ? 0.f : constant;
+        shininess = shininess < 1.f ? 1.f : (shininess > 128.f ? 128.f : shininess);
 
         Color lightColor = toSpace(p.lighting, p.linear);
         float bw = f.bbox.x1 - f.bbox.x0;
@@ -10059,8 +10520,8 @@ namespace {
                     const Op* begin = r.begins.popBack();
                     float* parent = r.layers.back();
 
-                    if (begin->filter) {
-                        layer = applyFilter(r, l, *begin->filter, layer, *pool);
+                    for (const Filter* filter = begin->filter; filter; filter = filter->next) {
+                        layer = applyFilter(r, l, *filter, layer, *pool);
                     }
 
                     const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool) : nullptr;
