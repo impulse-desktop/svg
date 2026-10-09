@@ -4042,6 +4042,80 @@ namespace {
         }
     }
 
+    static bool parsePaint(const Document& doc, StringView source, PaintValue& out);
+    static bool parseColor(StringView source, Color& out);
+    static bool readLength(const u8*& p, const u8* end, Length& out);
+    static bool parseLength(StringView text, Length& out);
+    static bool readNumber(const u8*& p, const u8* end, float& out);
+
+    static bool validDashes(StringView text) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+        u32 count = 0;
+
+        while (true) {
+            Length length;
+
+            while (p < end && isSpace(*p)) {
+                p++;
+            }
+
+            if (p >= end) {
+                return count > 0;
+            }
+
+            if (!readLength(p, end, length) || length.value < 0.f) {
+                return false;
+            }
+
+            count++;
+
+            while (p < end && isSpace(*p)) {
+                p++;
+            }
+
+            if (p < end && *p == ',') {
+                p++;
+
+                while (p < end && isSpace(*p)) {
+                    p++;
+                }
+
+                if (p >= end || *p == ',') {
+                    return false;
+                }
+            }
+        }
+    }
+
+    static bool validDeclaration(const Document& doc, u32 property, StringView value) {
+        StringView text = trim(value);
+        PaintValue paint;
+        Color color;
+        Length length;
+
+        if (equalsIgnoreCase(text, StringView(u8"inherit")) || equalsIgnoreCase(text, StringView(u8"initial")) || equalsIgnoreCase(text, StringView(u8"unset"))) {
+            return true;
+        }
+
+        switch (property) {
+            case AtomFill:
+            case AtomStroke:
+                return parsePaint(doc, text, paint) || equalsIgnoreCase(text, StringView(u8"context-fill")) || equalsIgnoreCase(text, StringView(u8"context-stroke"));
+            case AtomColor:
+            case AtomStopColor:
+            case AtomFloodColor:
+            case AtomLightingColor:
+                return parseColor(text, color) || equalsIgnoreCase(text, StringView(u8"currentcolor"));
+            case AtomStrokeDasharray:
+                return equalsIgnoreCase(text, StringView(u8"none")) || validDashes(text);
+            case AtomStrokeWidth:
+                return parseLength(text, length) && length.value >= 0.f;
+            default:
+                return true;
+        }
+    }
+
     static u32* cascadeNode(Document& doc, Node* node, const Node* boundary) {
         Candidate best[propertyCount];
         Vector<Declaration> geometry;
@@ -4062,7 +4136,7 @@ namespace {
                     value = substituteFallbacks(text, substituted, 0) ? intern(doc.atoms, trim(keep(*doc.pool, substituted.data(), substituted.length()))) : 0;
                 }
 
-                if (value) {
+                if (value && validDeclaration(doc, name, textOf(doc, value))) {
                     consider(best, name, value, 1);
                 }
             }
@@ -4095,7 +4169,7 @@ namespace {
 
                 if (geometryProperty(declaration.property)) {
                     considerGeometry(geometry, geometryPriorities, declaration, priority);
-                } else {
+                } else if (validDeclaration(doc, declaration.property, textOf(doc, declaration.value))) {
                     consider(best, declaration.property, declaration.value, priority);
                 }
             }
@@ -4114,7 +4188,7 @@ namespace {
 
                 if (geometryProperty(declarations[d].property)) {
                     considerGeometry(geometry, geometryPriorities, declarations[d], priority);
-                } else {
+                } else if (validDeclaration(doc, declarations[d].property, textOf(doc, declarations[d].value))) {
                     consider(best, declarations[d].property, declarations[d].value, priority);
                 }
             }
@@ -6723,7 +6797,7 @@ namespace {
         style.filters = nullptr;
         style.filterCount = 0;
         style.background = Color{0.f, 0.f, 0.f, 0.f};
-        style.overflowVisible = false;
+        style.overflowVisible = !((node->name == AtomSvg && node != doc.root) || node->name == AtomSymbol || node->name == AtomImage || node->name == AtomMarker || node->name == AtomPattern);
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
             StringView value = l.instance && l.instance[node->index] ? (l.instance[node->index][property - firstProperty] ? textOf(doc, l.instance[node->index][property - firstProperty]) : StringView()) : cascaded(doc, node, property);
@@ -8933,7 +9007,7 @@ namespace {
             inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height, l.rootFontSize};
         }
 
-        Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, inside, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, inside, fs, 0.f)});
+        Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, vp, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, vp, fs, 0.f)});
         Matrix origin = multiply(placed, translation(-ref.x, -ref.y));
         bool clip = !markerStyle.overflowVisible;
 
@@ -10644,6 +10718,8 @@ namespace {
             }
 
             if (!readNumber(p, text.end(), value)) {
+                out.clear();
+
                 return false;
             }
 
