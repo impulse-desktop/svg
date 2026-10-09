@@ -28,6 +28,12 @@ using namespace stl;
     ATOM(ClipPath, "clipPath")                                     \
     ATOM(Pattern, "pattern")                                       \
     ATOM(Marker, "marker")                                         \
+    ATOM(MarkerWidth, "markerWidth")                               \
+    ATOM(MarkerHeight, "markerHeight")                             \
+    ATOM(MarkerUnits, "markerUnits")                               \
+    ATOM(RefX, "refX")                                             \
+    ATOM(RefY, "refY")                                             \
+    ATOM(Orient, "orient")                                         \
     ATOM(Style, "style")                                           \
     ATOM(A, "a")                                                   \
     ATOM(Switch, "switch")                                         \
@@ -170,7 +176,12 @@ using namespace stl;
     ATOM(ColorInterpolationFilters, "color-interpolation-filters") \
     ATOM(Filter, "filter")                                         \
     ATOM(BackgroundColor, "background-color")                      \
-    ATOM(Overflow, "overflow")
+    ATOM(Overflow, "overflow")                                     \
+    ATOM(MarkerStart, "marker-start")                              \
+    ATOM(MarkerMid, "marker-mid")                                  \
+    ATOM(MarkerEnd, "marker-end")                                  \
+    ATOM(VectorEffect, "vector-effect")                            \
+    ATOM(PaintOrder, "paint-order")
 
 namespace {
     enum Atom : u32 {
@@ -189,7 +200,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomOverflow - AtomFill + 1;
+    constexpr u32 propertyCount = AtomPaintOrder - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.1f;
@@ -234,6 +245,7 @@ namespace {
         float height;
         float screenWidth;
         float screenHeight;
+        float rootFontSize;
     };
 
     struct Interner {
@@ -418,6 +430,7 @@ namespace {
         VerbLine,
         VerbCubic,
         VerbClose,
+        VerbArcCubic,
     };
 
     struct Path {
@@ -503,6 +516,9 @@ namespace {
         u32 clipPath;
         BasicShape* clipShape;
         u32 mask;
+        u32 markers[3];
+        bool nonScaling;
+        u8 paintOrder[3];
         u8 maskType;
         Color floodColor;
         float floodOpacity;
@@ -664,6 +680,7 @@ namespace {
         Node* sized;
         float sizedWidth;
         float sizedHeight;
+        float rootFontSize;
         bool hasContext;
         PaintValue contextFill;
         PaintValue contextStroke;
@@ -3502,11 +3519,23 @@ namespace {
                 property = AtomClipPathProperty;
             }
 
-            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property)) {
+            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker) {
                 continue;
             }
 
             if (value.empty()) {
+                continue;
+            }
+
+            if (property == AtomMarker) {
+                if (!value.empty()) {
+                    u32 atom = intern(doc.atoms, value);
+
+                    out.pushBack(Declaration{AtomMarkerStart, atom, important});
+                    out.pushBack(Declaration{AtomMarkerMid, atom, important});
+                    out.pushBack(Declaration{AtomMarkerEnd, atom, important});
+                }
+
                 continue;
             }
 
@@ -4134,7 +4163,7 @@ namespace {
             case Unit::Q:
                 return length.value * 96.f / 101.6f;
             case Unit::Rem:
-                return length.value * 16.f;
+                return length.value * (vp.rootFontSize > 0.f ? vp.rootFontSize : 16.f);
             case Unit::Vw:
                 return length.value * vp.screenWidth / 100.f;
             case Unit::Vh:
@@ -4265,6 +4294,7 @@ namespace {
         const u8* end = text.end() - 1;
         float values[4] = {0.f, 0.f, 0.f, 1.f};
         u32 count = 0;
+        u32 percents = 0;
 
         while (count < 4) {
             while (p < end && isSpace(*p)) {
@@ -4311,8 +4341,20 @@ namespace {
                 }
 
                 values[0] = hue / 360.f;
-            } else if (!readComponent(p, end, scale, values[count])) {
-                return false;
+            } else {
+                while (p < end && isSpace(*p)) {
+                    p++;
+                }
+
+                const u8* start = p;
+
+                if (!readComponent(p, end, scale, values[count])) {
+                    return false;
+                }
+
+                if (rgb && count < 3 && p > start && p[-1] == '%') {
+                    percents++;
+                }
             }
 
             count++;
@@ -4322,7 +4364,7 @@ namespace {
             p++;
         }
 
-        if (p != end || count < 3) {
+        if (p != end || count < 3 || (percents != 0 && percents != 3)) {
             return false;
         }
 
@@ -4686,7 +4728,7 @@ namespace {
         }
 
         axis = 3;
-        x = length.unit == Unit::Percent ? length.value * extentX / 100.f : resolveLength(length, Axis::X, Viewport{extentX, extentY, extentX, extentY}, 16.f);
+        x = length.unit == Unit::Percent ? length.value * extentX / 100.f : resolveLength(length, Axis::X, Viewport{extentX, extentY, extentX, extentY, 16.f}, 16.f);
         y = length.unit == Unit::Percent ? length.value * extentY / 100.f : x;
 
         return true;
@@ -4955,6 +4997,10 @@ namespace {
             }
 
             cubicTo(path, q1, q2, q3);
+
+            if (i + 1 < segments) {
+                path.verbs.mutData()[path.verbs.length() - 1] = VerbArcCubic;
+            }
         }
     }
 
@@ -5338,7 +5384,8 @@ namespace {
                     last = apply(m, pts[pi++]);
                     out.points.pushBack(last);
                     break;
-                case VerbCubic: {
+                case VerbCubic:
+                case VerbArcCubic: {
                     Point p0 = last;
                     Point p1 = apply(m, pts[pi]);
                     Point p2 = apply(m, pts[pi + 1]);
@@ -5670,6 +5717,18 @@ namespace {
         }
     }
 
+    static Path transformedPath(const Path& path, const Matrix& m) {
+        Path out;
+
+        out.verbs.append(path.verbs.data(), path.verbs.length());
+
+        for (Point p : path.points) {
+            out.points.pushBack(apply(m, p));
+        }
+
+        return out;
+    }
+
     static void strokePath(const Path& path, const ComputedStyle& style, float scale, Flat& out) {
         Flat flat;
         StrokeParams s{style.strokeWidth / 2.f, style.cap, style.join, style.miterLimit, tolerance / maxf(scale, 1e-6f)};
@@ -5735,6 +5794,9 @@ namespace {
         style.strokeOpacity = 1.f;
         style.strokeWidth = 1.f;
         style.miterLimit = 4.f;
+        style.paintOrder[0] = 0;
+        style.paintOrder[1] = 1;
+        style.paintOrder[2] = 2;
         style.opacity = 1.f;
         style.stopOpacity = 1.f;
         style.fontSize = 16.f;
@@ -6402,6 +6464,7 @@ namespace {
         style.stopOpacity = 1.f;
         style.clipPath = 0;
         style.clipShape = nullptr;
+        style.nonScaling = false;
         style.mask = 0;
         style.maskType = 0;
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
@@ -6423,7 +6486,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -6460,7 +6523,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -6726,6 +6789,90 @@ namespace {
                         target = 0;
                     } else if (property != AtomMask && parseBasicShape(*l.pool, value, shape)) {
                         style.clipShape = l.pool->make<BasicShape>(shape);
+                    }
+
+                    break;
+                }
+                case AtomPaintOrder: {
+                    if (keyword) {
+                        memcpy(style.paintOrder, source.paintOrder, sizeof(style.paintOrder));
+                        break;
+                    }
+
+                    u8 order[3];
+                    u32 count = 0;
+                    bool valid = true;
+                    const u8* p = value.begin();
+
+                    if (isKeyword(value, "normal")) {
+                        order[0] = 0;
+                        order[1] = 1;
+                        order[2] = 2;
+                        memcpy(style.paintOrder, order, sizeof(order));
+                        break;
+                    }
+
+                    while (valid) {
+                        StringView word = shapeWord(p, value.end());
+
+                        if (word.empty()) {
+                            break;
+                        }
+
+                        u8 layer = equalsIgnoreCase(word, StringView(u8"fill")) ? 0 : (equalsIgnoreCase(word, StringView(u8"stroke")) ? 1 : (equalsIgnoreCase(word, StringView(u8"markers")) ? 2 : 3));
+
+                        for (u32 k = 0; k < count; k++) {
+                            valid = valid && order[k] != layer;
+                        }
+
+                        valid = valid && layer < 3 && count < 3;
+
+                        if (valid) {
+                            order[count++] = layer;
+                        }
+                    }
+
+                    if (!valid || count == 0) {
+                        break;
+                    }
+
+                    for (u8 layer = 0; layer < 3; layer++) {
+                        bool present = false;
+
+                        for (u32 k = 0; k < count; k++) {
+                            present = present || order[k] == layer;
+                        }
+
+                        if (!present) {
+                            order[count++] = layer;
+                        }
+                    }
+
+                    memcpy(style.paintOrder, order, sizeof(order));
+                    break;
+                }
+                case AtomVectorEffect:
+                    if (keyword) {
+                        style.nonScaling = source.nonScaling;
+                    } else if (isKeyword(value, "non-scaling-stroke")) {
+                        style.nonScaling = true;
+                    } else if (isKeyword(value, "none")) {
+                        style.nonScaling = false;
+                    }
+
+                    break;
+                case AtomMarkerStart:
+                case AtomMarkerMid:
+                case AtomMarkerEnd: {
+                    u32& target = style.markers[property - AtomMarkerStart];
+                    PaintValue reference;
+
+                    if (keyword) {
+                        target = source.markers[property - AtomMarkerStart];
+                    } else if (isKeyword(value, "none")) {
+                        target = 0;
+                    } else if (parsePaint(doc, value, reference) && reference.kind == PaintKind::Server) {
+                        target = reference.server;
                     }
 
                     break;
@@ -7169,6 +7316,11 @@ namespace {
                     if (readNumber(p, text.end(), offset)) {
                         if (p < text.end() && *p == '%') {
                             offset /= 100.f;
+                            p++;
+                        }
+
+                        if (p != text.end()) {
+                            offset = 0.f;
                         }
                     } else {
                         offset = 0.f;
@@ -7265,7 +7417,7 @@ namespace {
             paint->r = gradientLength(l, gradient, AtomR, boxUnits, Axis::Other, vp, boxUnits ? 0.5f : resolveLength(Length{50.f, Unit::Percent}, Axis::Other, vp, 16.f));
             paint->fx = gradientLength(l, gradient, AtomFx, boxUnits, Axis::X, vp, paint->cx);
             paint->fy = gradientLength(l, gradient, AtomFy, boxUnits, Axis::Y, vp, paint->cy);
-            paint->fr = gradientLength(l, gradient, AtomFr, boxUnits, Axis::Other, vp, 0.f);
+            paint->fr = maxf(gradientLength(l, gradient, AtomFr, boxUnits, Axis::Other, vp, 0.f), 0.f);
 
             if (paint->r <= 0.f) {
                 return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
@@ -8138,11 +8290,329 @@ namespace {
         }
     }
 
-    static void lowerShape(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
-        if (!style.visible) {
+    static PaintValue contextPaint(const PaintValue& paint, const ComputedStyle& style) {
+        PaintValue out = paint;
+
+        if (out.kind == PaintKind::CurrentColor) {
+            out.kind = PaintKind::Color;
+            out.color = style.color;
+        }
+
+        if (out.fallback == PaintKind::CurrentColor) {
+            out.fallback = PaintKind::Color;
+            out.fallbackColor = style.color;
+        }
+
+        return out;
+    }
+
+    struct MarkerVertex {
+        Point p;
+        Point in;
+        Point out;
+        bool hasIn;
+        bool hasOut;
+    };
+
+    static bool nonZero(Point d) {
+        return d.x != 0.f || d.y != 0.f;
+    }
+
+    static Point direction(Point from, Point to) {
+        return Point{to.x - from.x, to.y - from.y};
+    }
+
+    static void markerVertices(const Path& path, Vector<MarkerVertex>& out) {
+        const Point* pts = path.points.data();
+        size_t pi = 0;
+        Point current{0.f, 0.f};
+        size_t start = 0;
+        bool arc = false;
+
+        auto segment = [&](Point startDir, Point endDir, Point end) {
+            if (out.length() == 0) {
+                out.pushBack(MarkerVertex{current, Point{0.f, 0.f}, Point{0.f, 0.f}, false, false});
+                start = 0;
+            }
+
+            MarkerVertex& last = out.mutData()[out.length() - 1];
+
+            if (!arc && !last.hasOut) {
+                last.out = startDir;
+                last.hasOut = true;
+            }
+
+            out.pushBack(MarkerVertex{end, endDir, Point{0.f, 0.f}, true, false});
+            current = end;
+        };
+
+        for (u8 verb : path.verbs) {
+            switch (verb) {
+                case VerbMove:
+                    current = pts[pi++];
+                    start = out.length();
+                    out.pushBack(MarkerVertex{current, Point{0.f, 0.f}, Point{0.f, 0.f}, false, false});
+                    arc = false;
+                    break;
+                case VerbLine: {
+                    Point end = pts[pi++];
+                    Point d = direction(current, end);
+
+                    segment(d, d, end);
+                    arc = false;
+                    break;
+                }
+                case VerbCubic:
+                case VerbArcCubic: {
+                    Point c1 = pts[pi];
+                    Point c2 = pts[pi + 1];
+                    Point end = pts[pi + 2];
+                    Point startDir = direction(current, c1);
+                    Point endDir = direction(c2, end);
+
+                    pi += 3;
+
+                    if (!nonZero(startDir)) {
+                        startDir = nonZero(direction(current, c2)) ? direction(current, c2) : direction(current, end);
+                    }
+
+                    if (!nonZero(endDir)) {
+                        endDir = nonZero(direction(c1, end)) ? direction(c1, end) : direction(current, end);
+                    }
+
+                    if (arc) {
+                        MarkerVertex& last = out.mutData()[out.length() - 1];
+
+                        last.p = end;
+                        last.in = endDir;
+                        current = end;
+                    } else {
+                        segment(startDir, endDir, end);
+                    }
+
+                    arc = verb == VerbArcCubic;
+                    break;
+                }
+                case VerbClose: {
+                    if (out.length() == 0) {
+                        break;
+                    }
+
+                    MarkerVertex first = out[start];
+                    Point d = direction(current, first.p);
+
+                    if (!nonZero(d)) {
+                        d = out.back().in;
+                    }
+
+                    segment(d, d, first.p);
+
+                    MarkerVertex& closing = out.mutData()[out.length() - 1];
+                    MarkerVertex& opening = out.mutData()[start];
+
+                    closing.out = first.out;
+                    closing.hasOut = first.hasOut;
+                    opening.in = d;
+                    opening.hasIn = true;
+                    arc = false;
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    }
+
+    static float angleOf(Point d) {
+        return atan2f(d.y, d.x) * 180.f / pi;
+    }
+
+    static float vertexAngle(const MarkerVertex& v) {
+        if (v.hasIn && v.hasOut) {
+            float a = angleOf(v.in);
+            float b = angleOf(v.out);
+
+            if (a - b <= -180.f) {
+                a += 360.f;
+            } else if (a - b > 180.f) {
+                a -= 360.f;
+            }
+
+            return (a + b) / 2.f;
+        }
+
+        if (v.hasOut) {
+            return angleOf(v.out);
+        }
+
+        if (v.hasIn) {
+            return angleOf(v.in);
+        }
+
+        return 0.f;
+    }
+
+    static bool readAngle(StringView text, float& out) {
+        const u8* p = text.begin();
+
+        if (!readNumber(p, text.end(), out)) {
+            return false;
+        }
+
+        StringView unit(p, text.end());
+
+        if (unit.empty() || equalsIgnoreCase(unit, StringView(u8"deg"))) {
+            return true;
+        }
+
+        if (equalsIgnoreCase(unit, StringView(u8"rad"))) {
+            out *= 180.f / pi;
+        } else if (equalsIgnoreCase(unit, StringView(u8"grad"))) {
+            out *= 0.9f;
+        } else if (equalsIgnoreCase(unit, StringView(u8"turn"))) {
+            out *= 360.f;
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
+    static void lowerMarker(Lowering& l, Node* marker, const ComputedStyle& shapeStyle, const Matrix& userMatrix, Viewport vp, const MarkerVertex& userVertex, const MarkerVertex& deviceVertex, bool start) {
+        const Document& doc = *l.doc;
+
+        for (Node* active : l.active) {
+            if (active == marker) {
+                return;
+            }
+        }
+
+        const ComputedStyle& markerStyle = documentStyle(l, marker, vp);
+        float fs = markerStyle.fontSize;
+        float w = lengthOr(doc, marker, AtomMarkerWidth, Axis::X, vp, fs, 3.f);
+        float h = lengthOr(doc, marker, AtomMarkerHeight, Axis::Y, vp, fs, 3.f);
+
+        if (w <= 0.f || h <= 0.f) {
             return;
         }
 
+        float angle = 0.f;
+        float autoAngle = vertexAngle(shapeStyle.nonScaling ? deviceVertex : userVertex);
+        u32 orient = attribute(marker, AtomOrient);
+
+        if (orient) {
+            StringView text = trim(textOf(doc, orient));
+
+            if (text == StringView(u8"auto")) {
+                angle = autoAngle;
+            } else if (text == StringView(u8"auto-start-reverse")) {
+                angle = start ? autoAngle + 180.f : autoAngle;
+            } else if (!readAngle(text, angle)) {
+                angle = 0.f;
+            }
+        }
+
+        u32 units = attribute(marker, AtomMarkerUnits);
+        bool userUnits = units && trim(textOf(doc, units)) == StringView(u8"userSpaceOnUse");
+        float scale = userUnits ? 1.f : shapeStyle.strokeWidth;
+        bool device = shapeStyle.nonScaling && !userUnits;
+        const MarkerVertex& vertex = device ? deviceVertex : userVertex;
+        Matrix m = device ? identity() : userMatrix;
+        Point at = vertex.p;
+        float radians = angle * pi / 180.f;
+        Matrix placed = multiply(m, translation(at.x, at.y));
+
+        placed = multiply(placed, Matrix{cosf(radians), sinf(radians), -sinf(radians), cosf(radians), 0.f, 0.f});
+        placed = multiply(placed, scaling(scale, scale));
+
+        Matrix content = identity();
+        Box viewBox;
+        Viewport inside{w, h, (float)l.width, (float)l.height, l.rootFontSize};
+
+        if (parseViewBox(doc, marker, viewBox)) {
+            if (viewBox.x1 <= viewBox.x0 || viewBox.y1 <= viewBox.y0) {
+                return;
+            }
+
+            content = viewBoxTransform(doc, marker, viewBox, w, h);
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height, l.rootFontSize};
+        }
+
+        Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, inside, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, inside, fs, 0.f)});
+        Matrix origin = multiply(placed, translation(-ref.x, -ref.y));
+        bool clip = !markerStyle.overflowVisible;
+
+        if (clip) {
+            Op op = groupOp(1.f);
+
+            op.clipped = true;
+            op.clipFirst = (u32)l.clips.length();
+            op.clipCount = 1;
+            addRectClip(l, origin, 0.f, 0.f, w, h);
+            l.out->pushBack(op);
+        }
+
+        bool hadContext = l.hasContext;
+        PaintValue outerFill = l.contextFill;
+        PaintValue outerStroke = l.contextStroke;
+
+        l.hasContext = true;
+        l.contextFill = contextPaint(shapeStyle.fill, shapeStyle);
+        l.contextStroke = contextPaint(shapeStyle.stroke, shapeStyle);
+        l.active.pushBack(marker);
+        lowerChildren(l, marker, markerStyle, multiply(origin, content), inside);
+        l.active.popBack();
+        l.hasContext = hadContext;
+        l.contextFill = outerFill;
+        l.contextStroke = outerStroke;
+
+        if (clip) {
+            endGroup(l);
+        }
+    }
+
+    static void lowerMarkers(Lowering& l, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+        if (node->name != AtomPath && node->name != AtomLine && node->name != AtomPolyline && node->name != AtomPolygon) {
+            return;
+        }
+
+        Node* markers[3];
+        bool any = false;
+
+        for (int k = 0; k < 3; k++) {
+            markers[k] = style.markers[k] ? elementById(*l.doc, style.markers[k]) : nullptr;
+
+            if (markers[k] && markers[k]->name != AtomMarker) {
+                markers[k] = nullptr;
+            }
+
+            any = any || markers[k];
+        }
+
+        if (!any) {
+            return;
+        }
+
+        Vector<MarkerVertex> vertices;
+        Vector<MarkerVertex> deviceVertices;
+
+        markerVertices(path, vertices);
+        markerVertices(style.nonScaling ? transformedPath(path, m) : path, deviceVertices);
+
+        for (size_t i = 0; i < vertices.length() && i < deviceVertices.length(); i++) {
+            int kind = i == 0 ? 0 : (i + 1 == vertices.length() ? 2 : 1);
+
+            if (markers[kind]) {
+                lowerMarker(l, markers[kind], style, m, vp, vertices[i], deviceVertices[i], kind == 0);
+            }
+
+            if (i == 0 && vertices.length() == 1 && markers[2]) {
+                lowerMarker(l, markers[2], style, m, vp, vertices[i], deviceVertices[i], false);
+            }
+        }
+    }
+
+    static void lowerShape(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Path path;
 
         if (!buildShape(*l.doc, node, style, vp, path)) {
@@ -8155,27 +8625,35 @@ namespace {
 
         Box box = flatBox(userFlat);
 
-        if (DevicePaint* fill = devicePaint(l, style.fill, style.fillOpacity, style, box, m, vp)) {
-            Flat flat;
+        for (u8 layer : style.paintOrder) {
+            if (layer == 0 && style.visible) {
+                if (DevicePaint* fill = devicePaint(l, style.fill, style.fillOpacity, style, box, m, vp)) {
+                    Flat flat;
 
-            flatten(path, m, tolerance, flat);
-            emitFill(l, flat, style.fillRule, fill);
-        }
-
-        if (style.strokeWidth > 0.f) {
-            if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity, style, box, m, vp)) {
-                Flat outline;
-                Flat device;
-
-                strokePath(path, style, matrixScale(m), outline);
-                device.ends.xchg(outline.ends);
-                device.closed.xchg(outline.closed);
-
-                for (Point p : outline.points) {
-                    device.points.pushBack(apply(m, p));
+                    flatten(path, m, tolerance, flat);
+                    emitFill(l, flat, style.fillRule, fill);
                 }
+            } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
+                if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity, style, box, m, vp)) {
+                    Flat outline;
+                    Flat device;
 
-                emitFill(l, device, WindingNonZero, stroke);
+                    if (style.nonScaling) {
+                        strokePath(transformedPath(path, m), style, 1.f, device);
+                    } else {
+                        strokePath(path, style, matrixScale(m), outline);
+                        device.ends.xchg(outline.ends);
+                        device.closed.xchg(outline.closed);
+
+                        for (Point p : outline.points) {
+                            device.points.pushBack(apply(m, p));
+                        }
+                    }
+
+                    emitFill(l, device, WindingNonZero, stroke);
+                }
+            } else if (layer == 2) {
+                lowerMarkers(l, node, path, style, m, vp);
             }
         }
     }
@@ -8186,7 +8664,7 @@ namespace {
         }
 
         Matrix inner = multiply(m, translation(x, y));
-        Viewport inside{w, h, (float)l.width, (float)l.height};
+        Viewport inside{w, h, (float)l.width, (float)l.height, l.rootFontSize};
         Box viewBox;
 
         if (parseViewBox(*l.doc, node, viewBox)) {
@@ -8195,7 +8673,7 @@ namespace {
             }
 
             inner = multiply(inner, viewBoxTransform(*l.doc, node, viewBox, w, h));
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height, l.rootFontSize};
         }
 
         if (clip) {
@@ -8218,9 +8696,18 @@ namespace {
     }
 
     static bool intrinsicSize(const Document& doc, const Node* root, float& width, float& height) {
-        Viewport none{0.f, 0.f, 0.f, 0.f};
+        Viewport none{0.f, 0.f, 0.f, 0.f, 16.f};
         Length w;
         Length h;
+        Length size;
+        StringView sizeText = cascaded(doc, root, AtomFontSize);
+        float fontSize = 16.f;
+
+        if (!sizeText.empty() && parseLength(sizeText, size) && size.value >= 0.f) {
+            fontSize = size.unit == Unit::Percent ? 16.f * size.value / 100.f : resolveLength(size, Axis::Other, none, 16.f);
+        }
+
+        none.rootFontSize = fontSize;
         u32 widthValue = attribute(root, AtomWidth);
         u32 heightValue = attribute(root, AtomHeight);
         bool hasWidth = widthValue && parseLength(textOf(doc, widthValue), w) && w.unit != Unit::Percent && w.value > 0.f;
@@ -8229,8 +8716,8 @@ namespace {
         bool hasViewBox = parseViewBox(doc, root, viewBox) && viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0;
         float ratio = hasViewBox ? (viewBox.x1 - viewBox.x0) / (viewBox.y1 - viewBox.y0) : 0.f;
 
-        width = hasWidth ? resolveLength(w, Axis::X, none, 16.f) : 0.f;
-        height = hasHeight ? resolveLength(h, Axis::Y, none, 16.f) : 0.f;
+        width = hasWidth ? resolveLength(w, Axis::X, none, fontSize) : 0.f;
+        height = hasHeight ? resolveLength(h, Axis::Y, none, fontSize) : 0.f;
 
         if (hasWidth && !hasHeight && ratio > 0.f) {
             height = width / ratio;
@@ -8265,6 +8752,8 @@ namespace {
             float w = (float)l.width;
             float h = (float)l.height;
 
+            l.rootFontSize = style.fontSize;
+
             if (style.background.a > 0.f) {
                 Path canvas;
                 Flat flat;
@@ -8286,7 +8775,7 @@ namespace {
                 if (intrinsicSize(*l.doc, node, iw, ih)) {
                     Box synthesized{0.f, 0.f, iw, ih};
 
-                    lowerChildren(l, node, style, multiply(m, viewBoxTransform(*l.doc, node, synthesized, w, h)), Viewport{iw, ih, (float)l.width, (float)l.height});
+                    lowerChildren(l, node, style, multiply(m, viewBoxTransform(*l.doc, node, synthesized, w, h)), Viewport{iw, ih, (float)l.width, (float)l.height, l.rootFontSize});
 
                     return;
                 }
@@ -8308,22 +8797,6 @@ namespace {
         }
 
         lowerViewport(l, node, style, m, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, !style.overflowVisible);
-    }
-
-    static PaintValue contextPaint(const PaintValue& paint, const ComputedStyle& style) {
-        PaintValue out = paint;
-
-        if (out.kind == PaintKind::CurrentColor) {
-            out.kind = PaintKind::Color;
-            out.color = style.color;
-        }
-
-        if (out.fallback == PaintKind::CurrentColor) {
-            out.fallback = PaintKind::Color;
-            out.fallbackColor = style.color;
-        }
-
-        return out;
     }
 
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -8358,14 +8831,11 @@ namespace {
         l.active.pushBack(target);
 
         if (target->name == AtomSymbol) {
-            ComputedStyle symbolStyle = computeStyle(l, target, style, vp);
-
-            if (!symbolStyle.displayNone) {
-                float w = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
-                float h = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
-
-                lowerViewport(l, target, symbolStyle, placed, target, 0.f, 0.f, w, h, !symbolStyle.overflowVisible);
-            }
+            l.sized = target;
+            l.sizedWidth = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
+            l.sizedHeight = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
+            lowerElement(l, target, style, placed, vp);
+            l.sized = nullptr;
         } else {
             if (target->name == AtomSvg) {
                 l.sized = target;
@@ -8672,8 +9142,11 @@ namespace {
         l.imageDepth++;
 
         ComputedStyle rootStyle = computeStyle(l, nested->root, initialStyle(), vp);
+        float outerFontSize = l.rootFontSize;
 
-        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height});
+        l.rootFontSize = rootStyle.fontSize;
+        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height, rootStyle.fontSize});
+        l.rootFontSize = outerFontSize;
         l.imageDepth--;
         l.doc = outer;
         l.documentStyles.xchg(outerStyles);
@@ -8751,7 +9224,7 @@ namespace {
     static bool passesConditions(const Document& doc, const Node* node) {
         u32 extensions = attribute(node, AtomRequiredExtensions);
 
-        if (extensions && !trim(textOf(doc, extensions)).empty()) {
+        if (extensions) {
             return false;
         }
 
@@ -8786,7 +9259,9 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp) {
-        if (!renderable(node->name) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
+        bool instance = node->name == AtomSymbol && l.sized == node;
+
+        if ((!renderable(node->name) && !instance) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
             return;
         }
 
@@ -8831,6 +9306,14 @@ namespace {
             case AtomImage:
                 lowerImage(l, node, style, m, vp);
                 break;
+            case AtomSymbol: {
+                float w = l.sizedWidth;
+                float h = l.sizedHeight;
+
+                l.sized = nullptr;
+                lowerViewport(l, node, style, m, node, 0.f, 0.f, w, h, !style.overflowVisible);
+                break;
+            }
             case AtomSwitch:
                 for (Node* child = node->first; child; child = child->next) {
                     if (passesConditions(*l.doc, child)) {
@@ -11299,8 +11782,9 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.imageDepth = 0;
         l.sized = nullptr;
         l.hasContext = false;
+        l.rootFontSize = 16.f;
         l.documentStyles.zero(doc.nodeCount);
-        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height});
+        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height, 16.f});
 
         Raster raster;
 
@@ -11343,6 +11827,8 @@ SvgDocument* LibraryImpl::parse(ObjPool& pool, StringView file) {
     if (!loadDocument(doc, *scratch, file) || !doc.root || doc.root->name != AtomSvg) {
         return nullptr;
     }
+
+    cascade(doc);
 
     float width;
     float height;
