@@ -181,7 +181,9 @@ using namespace stl;
     ATOM(MarkerMid, "marker-mid")                                  \
     ATOM(MarkerEnd, "marker-end")                                  \
     ATOM(VectorEffect, "vector-effect")                            \
-    ATOM(PaintOrder, "paint-order")
+    ATOM(PaintOrder, "paint-order")                                \
+    ATOM(MixBlendMode, "mix-blend-mode")                           \
+    ATOM(Isolation, "isolation")
 
 namespace {
     enum Atom : u32 {
@@ -200,7 +202,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomPaintOrder - AtomFill + 1;
+    constexpr u32 propertyCount = AtomIsolation - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.1f;
@@ -518,6 +520,8 @@ namespace {
         u32 mask;
         u32 markers[3];
         bool nonScaling;
+        u8 blend;
+        bool isolate;
         u8 paintOrder[3];
         u8 maskType;
         Color floodColor;
@@ -640,6 +644,7 @@ namespace {
         Fill,
         Begin,
         End,
+        Layer,
     };
 
     struct Op {
@@ -655,11 +660,15 @@ namespace {
         u32 clipCount;
         bool clipProgram;
         bool masked;
+        u8 blend;
         u8 maskType;
         u32 maskFirst;
         u32 maskCount;
         u32 maskRegion;
         Filter* filter;
+        u32 layerWidth;
+        u32 layerHeight;
+        Matrix layerMatrix;
     };
 
     struct Lowering {
@@ -3904,7 +3913,7 @@ namespace {
             for (u32 i = 0; i < node->count; i++) {
                 u32 name = node->attributes[i].name;
 
-                if (name >= firstProperty && name < firstProperty + propertyCount) {
+                if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation) {
                     consider(best, name, node->attributes[i].value, 1);
                 }
             }
@@ -6465,6 +6474,8 @@ namespace {
         style.clipPath = 0;
         style.clipShape = nullptr;
         style.nonScaling = false;
+        style.blend = 0;
+        style.isolate = false;
         style.mask = 0;
         style.maskType = 0;
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
@@ -6486,7 +6497,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -6523,7 +6534,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -6851,6 +6862,32 @@ namespace {
                     memcpy(style.paintOrder, order, sizeof(order));
                     break;
                 }
+                case AtomMixBlendMode: {
+                    static const char* const modes[] = {"normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"};
+
+                    if (keyword) {
+                        style.blend = source.blend;
+                        break;
+                    }
+
+                    for (u8 k = 0; k < sizeof(modes) / sizeof(modes[0]); k++) {
+                        if (isKeyword(value, modes[k])) {
+                            style.blend = k;
+                        }
+                    }
+
+                    break;
+                }
+                case AtomIsolation:
+                    if (keyword) {
+                        style.isolate = source.isolate;
+                    } else if (isKeyword(value, "isolate")) {
+                        style.isolate = true;
+                    } else if (isKeyword(value, "auto")) {
+                        style.isolate = false;
+                    }
+
+                    break;
                 case AtomVectorEffect:
                     if (keyword) {
                         style.nonScaling = source.nonScaling;
@@ -9258,40 +9295,7 @@ namespace {
         return false;
     }
 
-    static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp) {
-        bool instance = node->name == AtomSymbol && l.sized == node;
-
-        if ((!renderable(node->name) && !instance) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
-            return;
-        }
-
-        ComputedStyle style = computeStyle(l, node, parent, vp);
-
-        if ((style.displayNone && node != l.doc->root) || style.opacity <= 0.f) {
-            return;
-        }
-
-        Matrix m = multiply(ctm, originTransform(*l.doc, node, AtomTransform, vp));
-        Op op = groupOp(style.opacity);
-
-        op.clipped = style.clipPath ? resolveClip(l, node, parent, style, m, vp, op) : (style.clipShape && shapeClip(l, node, parent, style, m, vp, op));
-
-        if (style.mask) {
-            resolveMask(l, node, parent, style, m, vp, op);
-        }
-
-        if (style.filterCount) {
-            op.filter = lowerFilters(l, node, parent, style, node == l.doc->root ? multiply(m, rootContent(l, node)) : m, vp);
-        }
-
-        bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f;
-
-        if (layer) {
-            l.out->pushBack(op);
-        }
-
-        l.depth++;
-
+    static void lowerContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         switch (node->name) {
             case AtomG:
             case AtomA:
@@ -9326,6 +9330,110 @@ namespace {
             default:
                 lowerShape(l, node, style, m, vp);
                 break;
+        }
+    }
+
+    static bool lowerFilteredLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+        float sx = sqrtf(m.a * m.a + m.b * m.b);
+        float sy = sqrtf(m.c * m.c + m.d * m.d);
+        Matrix toLayer;
+
+        if (sx <= 0.f || sy <= 0.f || !invert(multiply(m, scaling(1.f / sx, 1.f / sy)), toLayer)) {
+            return false;
+        }
+
+        Box visible = deviceBox(toLayer, Box{0.f, 0.f, (float)l.width, (float)l.height});
+        float margin = 0.25f * maxf(visible.x1 - visible.x0, visible.y1 - visible.y0);
+        float x0 = floorf(visible.x0 - margin);
+        float y0 = floorf(visible.y0 - margin);
+        float lw = ceilf(visible.x1 + margin) - x0;
+        float lh = ceilf(visible.y1 + margin) - y0;
+
+        if (lw <= 0.f || lh <= 0.f || lw * lh > 16.f * (float)l.width * (float)l.height) {
+            return false;
+        }
+
+        Matrix layer = multiply(translation(-x0, -y0), toLayer);
+        Matrix inner = multiply(layer, m);
+        u32 width = l.width;
+        u32 height = l.height;
+
+        l.width = (u32)lw;
+        l.height = (u32)lh;
+
+        Filter* filter = lowerFilters(l, node, parent, style, inner, vp);
+        Vector<Op> content;
+        Vector<Op>* saved = l.out;
+
+        if (filter) {
+            l.out = &content;
+            lowerContent(l, node, style, inner, vp);
+            l.out = saved;
+        }
+
+        l.width = width;
+        l.height = height;
+
+        if (!filter) {
+            return false;
+        }
+
+        Op op;
+
+        memset(&op, 0, sizeof(op));
+        op.kind = OpKind::Layer;
+        op.first = (u32)l.programs.length();
+        op.count = (u32)content.length();
+        op.filter = filter;
+        op.layerWidth = (u32)lw;
+        op.layerHeight = (u32)lh;
+        op.layerMatrix = layer;
+        l.programs.append(content.data(), content.length());
+        l.out->pushBack(op);
+
+        return true;
+    }
+
+    static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp) {
+        bool instance = node->name == AtomSymbol && l.sized == node;
+
+        if ((!renderable(node->name) && !instance) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
+            return;
+        }
+
+        ComputedStyle style = computeStyle(l, node, parent, vp);
+
+        if ((style.displayNone && node != l.doc->root) || style.opacity <= 0.f) {
+            return;
+        }
+
+        Matrix m = multiply(ctm, originTransform(*l.doc, node, AtomTransform, vp));
+        Op op = groupOp(style.opacity);
+
+        op.clipped = style.clipPath ? resolveClip(l, node, parent, style, m, vp, op) : (style.clipShape && shapeClip(l, node, parent, style, m, vp, op));
+
+        if (style.mask) {
+            resolveMask(l, node, parent, style, m, vp, op);
+        }
+
+        bool complex = style.filterCount && node != l.doc->root && (fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f);
+
+        if (style.filterCount && !complex) {
+            op.filter = lowerFilters(l, node, parent, style, node == l.doc->root ? multiply(m, rootContent(l, node)) : m, vp);
+        }
+
+        op.blend = style.blend;
+
+        bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f || style.blend || style.isolate;
+
+        if (layer) {
+            l.out->pushBack(op);
+        }
+
+        l.depth++;
+
+        if (!complex || !lowerFilteredLayer(l, node, parent, style, m, vp)) {
+            lowerContent(l, node, style, m, vp);
         }
 
         l.depth--;
@@ -11631,6 +11739,71 @@ namespace {
         return result;
     }
 
+    static void compositeLayer(Raster& r, const Lowering& l, const Op& op, float* target) {
+        Raster sub;
+        ObjPool::Ref pool = ObjPool::fromMemory();
+        size_t size = (size_t)op.layerWidth * op.layerHeight;
+        float* content = (float*)pool->allocate(sizeof(float) * size * 4);
+        Matrix toDevice;
+
+        if (!invert(op.layerMatrix, toDevice)) {
+            return;
+        }
+
+        sub.width = op.layerWidth;
+        sub.height = op.layerHeight;
+        memset(content, 0, sizeof(float) * size * 4);
+        runProgram(sub, l, l.programs.data() + op.first, op.count, content);
+
+        for (const Filter* filter = op.filter; filter; filter = filter->next) {
+            content = applyFilter(sub, l, *filter, content, *pool);
+        }
+
+        int lw = (int)op.layerWidth;
+        int lh = (int)op.layerHeight;
+        auto texel = [&](int x, int y, int c) {
+            return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content[((size_t)y * lw + x) * 4 + c];
+        };
+
+        for (u32 y = 0; y < r.height; y++) {
+            for (u32 x = 0; x < r.width; x++) {
+                Point p = apply(op.layerMatrix, Point{(float)x + 0.5f, (float)y + 0.5f});
+                float fx = p.x - 0.5f;
+                float fy = p.y - 0.5f;
+                float bx = floorf(fx);
+                float by = floorf(fy);
+
+                if (bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
+                    continue;
+                }
+
+                int ix = (int)bx;
+                int iy = (int)by;
+                float tx = fx - bx;
+                float ty = fy - by;
+                float sample[4];
+
+                for (int c = 0; c < 4; c++) {
+                    float top = texel(ix, iy, c) * (1.f - tx) + texel(ix + 1, iy, c) * tx;
+                    float bottom = texel(ix, iy + 1, c) * (1.f - tx) + texel(ix + 1, iy + 1, c) * tx;
+
+                    sample[c] = top * (1.f - ty) + bottom * ty;
+                }
+
+                if (sample[3] <= 0.f) {
+                    continue;
+                }
+
+                float* d = target + ((size_t)y * r.width + x) * 4;
+                float keep = 1.f - sample[3];
+
+                for (int c = 0; c < 4; c++) {
+                    d[c] = sample[c] + d[c] * keep;
+                }
+            }
+        }
+    }
+
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base) {
         size_t size = (size_t)r.width * r.height;
         size_t depth = r.layers.length();
@@ -11643,6 +11816,9 @@ namespace {
             switch (op.kind) {
                 case OpKind::Fill:
                     fillOp(r, l, op, r.layers.back());
+                    break;
+                case OpKind::Layer:
+                    compositeLayer(r, l, op, r.layers.back());
                     break;
                 case OpKind::Begin: {
                     ObjPool* pool = ObjPool::fromMemoryRaw();
@@ -11676,6 +11852,16 @@ namespace {
                         }
 
                         float* d = parent + i * 4;
+
+                        if (begin->blend && d[3] > 0.f) {
+                            float source[4] = {s[0] * f, s[1] * f, s[2] * f, s[3] * f};
+                            float blended[4];
+
+                            blendPixel(begin->blend, source, d, blended);
+                            memcpy(d, blended, sizeof(blended));
+                            continue;
+                        }
+
                         float keep = 1.f - s[3] * f;
 
                         d[0] = s[0] * f + d[0] * keep;
