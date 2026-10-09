@@ -3535,6 +3535,62 @@ namespace {
         }
     }
 
+    static const u8* findFunction(StringView text, StringView name) {
+        for (const u8* p = text.begin(); p + name.length() <= text.end(); p++) {
+            if (equalsIgnoreCase(StringView(p, p + name.length()), name)) {
+                return p;
+            }
+        }
+
+        return nullptr;
+    }
+
+    static bool substituteFallbacks(StringView text, Buffer& out, u32 depth) {
+        const u8* p = text.begin();
+
+        while (p < text.end()) {
+            const u8* var = findFunction(StringView(p, text.end()), StringView(u8"var("));
+            const u8* env = findFunction(StringView(p, text.end()), StringView(u8"env("));
+            const u8* at = var && (!env || var < env) ? var : env;
+
+            if (!at) {
+                out.append(p, (size_t)(text.end() - p));
+
+                return true;
+            }
+
+            out.append(p, (size_t)(at - p));
+
+            const u8* q = at + 4;
+            const u8* comma = nullptr;
+            int level = 0;
+
+            while (q < text.end() && (level > 0 || *q != ')')) {
+                if (*q == '(') {
+                    level++;
+                } else if (*q == ')') {
+                    level--;
+                } else if (*q == ',' && level == 0 && !comma) {
+                    comma = q;
+                }
+
+                q++;
+            }
+
+            if (q >= text.end() || !comma || depth > 8) {
+                return false;
+            }
+
+            if (!substituteFallbacks(trim(StringView(comma + 1, q)), out, depth + 1)) {
+                return false;
+            }
+
+            p = q + 1;
+        }
+
+        return true;
+    }
+
     static void parseDeclarations(Document& doc, StringView block, Vector<Declaration>& out) {
         const u8* p = block.begin();
         const u8* end = block.end();
@@ -3592,6 +3648,16 @@ namespace {
 
             if (value.empty()) {
                 continue;
+            }
+
+            Buffer substituted;
+
+            if (findFunction(value, StringView(u8"var(")) || findFunction(value, StringView(u8"env("))) {
+                if (!substituteFallbacks(value, substituted, 0)) {
+                    continue;
+                }
+
+                value = trim(keep(*doc.pool, substituted.data(), substituted.length()));
             }
 
             if (property == AtomMarker) {
@@ -3984,7 +4050,18 @@ namespace {
                 u32 name = node->attributes[i].name;
 
                 if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation) {
-                    consider(best, name, node->attributes[i].value, 1);
+                    u32 value = node->attributes[i].value;
+                    StringView text = textOf(doc, value);
+
+                    if (findFunction(text, StringView(u8"env("))) {
+                        Buffer substituted;
+
+                        value = substituteFallbacks(text, substituted, 0) ? intern(doc.atoms, trim(keep(*doc.pool, substituted.data(), substituted.length()))) : 0;
+                    }
+
+                    if (value) {
+                        consider(best, name, value, 1);
+                    }
                 }
             }
 
@@ -4044,7 +4121,15 @@ namespace {
                 bool outer = node == doc.root && declaration.property != AtomTransform && declaration.property != AtomTransformOrigin;
 
                 if (geometryApplies(node->name, declaration.property) && !outer) {
-                    setAttribute(doc, node, declaration.property, declaration.value);
+                    u32 property = declaration.property;
+
+                    if (property == AtomTransform && (node->name == AtomLinearGradient || node->name == AtomRadialGradient)) {
+                        property = AtomGradientTransform;
+                    } else if (property == AtomTransform && node->name == AtomPattern) {
+                        property = AtomPatternTransform;
+                    }
+
+                    setAttribute(doc, node, property, declaration.value);
                 }
             }
 
@@ -7569,6 +7654,13 @@ namespace {
         return paint;
     }
 
+    static bool degenerateBox(const Document& doc, Node* gradient, const Box& bbox) {
+        u32 units = gradientAttribute(doc, gradient, AtomGradientUnits);
+        bool boxUnits = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+
+        return boxUnits && (!boxValid(bbox) || bbox.x1 - bbox.x0 <= 0.f || bbox.y1 - bbox.y0 <= 0.f);
+    }
+
     static bool singularTransform(const Document& doc, Node* server) {
         u32 value = server->name == AtomPattern ? patternAttribute(doc, server, AtomPatternTransform, nullptr) : gradientAttribute(doc, server, AtomGradientTransform);
         Matrix m;
@@ -7594,7 +7686,7 @@ namespace {
                 if ((gradient || pattern) && resourceUsable(l, server, vp) && !singularTransform(*l.doc, server)) {
                     DevicePaint* paint = gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp) : patternPaint(l, server, opacity, bbox, ctm, vp);
 
-                    if (paint || gradient) {
+                    if (paint || (gradient && !degenerateBox(*l.doc, server, bbox))) {
                         return paint;
                     }
                 }
@@ -7674,6 +7766,10 @@ namespace {
 
             if (elementBox(l, child, style, vp, inner, depth + 1)) {
                 Matrix full = multiply(m, originTransform(*l.doc, child, AtomTransform, vp));
+
+                if (child->name == AtomUse) {
+                    full = multiply(full, translation(lengthOr(*l.doc, child, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, child, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
+                }
                 Point corners[4] = {{inner.x0, inner.y0}, {inner.x1, inner.y0}, {inner.x1, inner.y1}, {inner.x0, inner.y1}};
 
                 for (Point corner : corners) {
@@ -7686,7 +7782,7 @@ namespace {
             Node* target = hrefTarget(*l.doc, node);
 
             if (target && target != node) {
-                add(target, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
+                add(target, identity());
             }
         } else {
             for (Node* child = node->first; child; child = child->next) {
@@ -8976,7 +9072,7 @@ namespace {
         }
 
         float fs = style.fontSize;
-        Matrix placed = multiply(m, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f)));
+        const Matrix& placed = m;
 
         bool hadContext = l.hasContext;
         PaintValue outerFill = l.contextFill;
@@ -8993,9 +9089,7 @@ namespace {
         l.contextBox = emptyBox();
 
         if (elementBox(l, target, style, vp, targetBox, 0)) {
-            Matrix offset = multiply(translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f)), transformOf(*l.doc, target, AtomTransform));
-
-            l.contextBox = deviceBox(offset, targetBox);
+            l.contextBox = deviceBox(originTransform(*l.doc, target, AtomTransform, vp), targetBox);
         }
 
         l.active.pushBack(target);
@@ -9549,6 +9643,10 @@ namespace {
 
         Matrix m = multiply(ctm, originTransform(*l.doc, node, AtomTransform, vp));
         Op op = groupOp(style.opacity);
+
+        if (node->name == AtomUse) {
+            m = multiply(m, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
+        }
 
         op.clipped = style.clipPath ? resolveClip(l, node, parent, style, m, vp, op) : (style.clipShape && shapeClip(l, node, parent, style, m, vp, op));
 
@@ -11527,7 +11625,7 @@ namespace {
         const Document& doc = *f.doc;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         bool specular = p.kind == AtomFeSpecularLighting;
-        float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f);
+        float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f) * sqrtf(fabsf(f.ctm.a * f.ctm.d - f.ctm.b * f.ctm.c));
         float constant = numberOf(doc, p.node, specular ? AtomSpecularConstant : AtomDiffuseConstant, 1.f);
         float shininess = numberOf(doc, p.node, AtomSpecularExponent, 1.f);
         Node* light = nullptr;
