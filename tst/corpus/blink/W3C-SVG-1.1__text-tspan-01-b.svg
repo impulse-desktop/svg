@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Basic//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-basic.dtd">   
+
+<!--======================================================================-->
+<!--=  Copyright 2000 World Wide Web Consortium, (Massachusetts          =-->
+<!--=  Institute of Technology, Institut National de Recherche en        =-->
+<!--=  Informatique et en Automatique, Keio University). All Rights      =-->
+<!--=  Reserved. See http://www.w3.org/Consortium/Legal/.                =-->
+<!--======================================================================-->
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!-- text-tspan-01-b.svg                                                  -->
+<!--                                                                       -->
+<!-- Test viewer capability to handle the basics of 'tspan'.  Derived      -->
+<!-- from three examples in 'tspan' spec section.                          -->
+<!--                                                                       -->
+<!-- Author : Lofton Henderson  7-March-2000 (based on spec examples       -->
+<!--                     by Jon Ferraiolo).                                -->
+<!-- Revised for 1.1 : Tolga Capin 14-Feb-2002                             -->
+<!--                                                                       -->
+<!-- History:                                                              -->
+<!--  7-Mar-2000, LH: Serial#1 created.                                    -->
+<!--  12-Mar-2000, LH, fix test-framing rect; ser#2                        -->
+<!--  19-Mar-2000, LH=" fix missing x-coord in tspan03" Serial#3.           -->
+<!--  21-Mar-2000, LH=" fix wrong 1st coordinate in tspan03" Serial#4       -->
+<!--  24-Apr-2000, LH=" patch bugs for correct png" Serial#5                -->
+<!--  03-Aug-2000, LH=" update DOCTYPE for CR DTD, 20000802" ser# .         -->
+<!--  28-Oct-2000, JF, Change 12pt to 15 user units per working group      -->
+<!--                    decision that CSS units would only be in tests     -->
+<!--                    that were testing CSS units. New serial#: 6        -->
+<!--  08-Dec-2000, JF: Restore white space that got lost somehow.          -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<!--======================================================================-->
+<!--= Note. After October 2000, revision history is kept as CVS 'commit' =-->
+<!--= log messages, and therefore is no longer in the preceding preamble.=-->
+<!--======================================================================-->
+<svg version="1.1" baseProfile="basic" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  id="svg-root" width="100%" height="100%" viewBox="0 0 480 360">
+
+    	<SVGTestCase xmlns="http://www.w3.org/2000/02/svg/testsuite/description/">
+		<OperatorScript version="$Revision: 1.7 $" testname="text-tspan-01-b.svg">
+        		<Paragraph>
+        			Test tspan element
+            		</Paragraph>
+        	</OperatorScript>
+    	</SVGTestCase>
+
+	<title id="test-title">text-tspan-01-b</title>
+	<desc id="test-desc">Test viewer capability to handle the basics of 'tspan'.</desc>
+	<!--======================================================================-->
+	<!--Content of Test Case follows...                  =====================-->
+	<!--======================================================================-->
+	<g id="test-body-content">
+		
+		<!-- From example tspan01 - using tspan to change visual attributes -->
+		<g id="tspan01" font-family="Arial" font-size="16" >
+			
+			<rect x="47.5" y="74.25" width="310.5" height="53.5" fill="none" stroke="#000000" />
+			
+			
+			
+		</g>
+		<!-- From example tspan02 - using tspan's dx and dy attributes 
+                 for incremental positioning adjustments -->
+		<g id="tspan02" font-family="Arial" font-size="16" >
+			
+			<rect x="225" y="179" width="245.5" height="53.5" fill="none" stroke="#000000" />
+			
+			
+			
+		</g>
+		<!-- Example tspan03 - using tspan's x and y attributes 
+                     for multiline text and precise glyph positioning -->
+		<g id="tspan03" fill="#000000" font-family="Arial" font-size="16" >
+			
+			<rect x="17.5" y="244.75" width="335.5" height="53.5" fill="none" stroke="#000000" />
+			
+			
+			
+		</g>
+	</g>
+	
+	<rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000"/>
+</svg>
+

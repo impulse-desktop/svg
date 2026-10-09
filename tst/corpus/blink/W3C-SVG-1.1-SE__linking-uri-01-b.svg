@@ -1,0 +1,160 @@
+<svg version="1.1" baseProfile="basic" id="svg-root"
+  width="100%" height="100%" viewBox="0 0 480 360"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!--======================================================================-->
+  <!--=  SVG 1.1 2nd Edition Test Case                                     =-->
+  <!--======================================================================-->
+  <!--=  Copyright 2009 World Wide Web Consortium, (Massachusetts          =-->
+  <!--=  Institute of Technology, European Research Consortium for         =-->
+  <!--=  Informatics and Mathematics (ERCIM), Keio University).            =-->
+  <!--=  All Rights Reserved.                                              =-->
+  <!--=  See http://www.w3.org/Consortium/Legal/.                          =-->
+
+  <!--======================================================================-->
+  <d:SVGTestCase xmlns:d="http://www.w3.org/2000/02/svg/testsuite/description/"
+    template-version="1.4" reviewer="SVGWG" author="Lee Klosterman" status="accepted"
+    version="$Revision: 1.12 $" testname="$RCSfile: linking-uri-01-b.svg,v $">
+    <d:testDescription xmlns="http://www.w3.org/1999/xhtml" href="http://www.w3.org/TR/SVG11/linking.html#LinksIntoSVG">
+      <p>
+        Verify the capability to handle links to 'view' elements, and the
+        permissible attributes on those elements.  All of the links in this
+        test case are <em>internal</em>, i.e., to 'view' elements in the same SVG file.
+      </p>
+      <p>
+        This test is identical to linking-uri-02-b except that the links there are external.
+      </p>
+
+      <p>
+        In the four quadrants of the initial picture are four graphical objects.
+        Clockwise from upper right, they are
+        a purple rectangle, blue ellipse, green polygon (pentagon), and yellow
+        circle.  Each is labelled and tightly boxes with a rectangular frame.
+        These are identical to their counterparts in linking-uri-01-b.svg, in which
+        file each has an associated 'view' element, with attributes
+        per the labels in the initial picture.
+      </p>
+      <p>
+        In the center is a gray box with four lines of text, each of which says
+        "Go to" followed by Rectangle, Ellipse, Polygon, and Circle, respectively.
+        Each of these is contained within an 'a' element, whose xlink:href names
+        the respective 'view' element of the respective graphical object.
+      </p>
+      <p>
+        There are several reference images associated with this test case.  The first
+        illustrates the correct initial state of the rendered SVG file, which should
+        also be the correct picture after the Rectangle link is executed.
+        The second, third, and fourth illustrate the correct images as described
+        above after respectively the Ellipse, Polygon, and Circle links are activated.
+        (Note.  This harness does not yet provide access to multiple PNGs; the PNG for the
+        initial view is shown.)
+      </p>
+      <p>
+
+        The test uses the 'rect', 'circle', 'ellipse', and 'polygon' elements,
+        as well as basic fill (solid simple colors),
+        stroke (black and colored 1-pixel lines), font-family (Arial) and font-size properties.
+      </p>
+    </d:testDescription>
+    <d:operatorScript xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        In turn, activate each of the "Rectangle", "Ellipse", "Polygon" and "Circle" links
+        in the gray box in the middle of the document, navigating back (for example with
+        the Back button if in a browser) after activating each one.
+      </p>
+    </d:operatorScript>
+    <d:passCriteria xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+
+        The test is passed if all of the sub-tests have the correct behavior:
+      </p>
+      <ul>
+        <li>After activating the "Rectangle" link, the whole of the linking-uri-01-b.svg
+        document must be displayed; that is, there will be no visual change.  (The
+        'view' element has no attributes (other than id), so the correct view in
+        the frame is of the parent 'svg' element, which is the whole picture.)</li>
+        <li>After navigating back and activating the "Ellipse" link, the view must change so that it is
+        zoomed (uniformly scaled) and centered on the ellipse.  The black rectangle
+        surrounding the ellipse must be just within the frame.</li>
+        <li>After navigating back and activating the "Circle" link, the view must change so that it is
+        zoomed and centered on the yellow circle.  The view is scaled non-uniformly, however,
+        so that the circle is stretched horizontally ito an ellipse.  The black rectangle
+        surrounding it must be just within the frame.</li>
+        <li>After navigating back and activating the "Polygon" link, the view must not change.</li>
+
+      </ul>
+    </d:passCriteria>
+  </d:SVGTestCase>
+  <title id="test-title">$RCSfile: linking-uri-01-b.svg,v $</title>
+  <defs>
+    <font-face font-family="SVGFreeSansASCII" unicode-range="U+0-7F">
+      <font-face-src>
+        <font-face-uri xlink:href="../custom/resources/SVGFreeSans.svg#ascii"/>
+
+      </font-face-src>
+    </font-face>
+  </defs>
+  <g id="test-body-content" font-family="SVGFreeSansASCII,sans-serif" font-size="18">
+    
+    <g font-size="14">
+      <g transform="translate(-150,75)">
+        <rect x="300" y="55" width="125" height="85" fill="#aaa"/>
+
+        <a xlink:href="#rect-view">
+          
+        </a>
+        <a xlink:href="#ellipse-view">
+          
+        </a>
+        <a xlink:href="#circle-view">
+          
+
+        </a>
+        <a xlink:href="#polygon-view">
+          
+        </a>
+        
+        
+      </g>
+
+      <!-- View with no attributes.  Picture should not change. -->
+      <view id="rect-view"/>
+      <rect id="rect-object" fill="purple" x="295" y="36" width="135" height="68"/>
+      
+      <rect x="292" y="29" width="141" height="91" fill="none" stroke="black"/>
+      
+      <!-- Test viewBox.  Should blow-up the ellipse in the frame. -->
+
+      <view id="ellipse-view" viewBox="295 216 150 82"/>
+      <ellipse id="ellipse-object" fill="blue" cx="370" cy="251" rx="72" ry="32"/>
+      
+      <rect x="295" y="216" width="150" height="82" fill="none" stroke="black"/>
+      
+      <!-- Test preserveAspectRatio. -->
+      <view id="circle-view" viewBox="36 29 98 91" preserveAspectRatio="none"/>
+      <circle id="circle-object" fill="yellow" cx="85" cy="68" r="36"/>
+
+      
+      <rect x="36" y="29" width="98" height="91" fill="none" stroke="black"/>
+      
+      
+      <!-- Test viewTarget attribute, no change to the viewport. -->
+      <view id="polygon-view" viewTarget="polygon-object"/>
+
+      <polygon id="polygon-object" fill="green" points="87,211 134,238 116,283 57,283 39,238 87,211"/>
+      
+      <rect x="36" y="208" width="100" height="89" fill="none" stroke="black"/>
+      
+      
+    </g>
+  </g>
+
+  <g font-family="SVGFreeSansASCII,sans-serif" font-size="32">
+    
+  </g>
+  <rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000"/>
+  <!-- comment out this watermark once the test is approved -->
+  <!--<g id="draft-watermark">
+    <rect x="1" y="1" width="478" height="20" fill="red" stroke="black" stroke-width="1"/>
+    
+  </g>-->
+</svg>

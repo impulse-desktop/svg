@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">  
+
+<!--======================================================================-->
+<!--=  Copyright 2000 World Wide Web Consortium, (Massachusetts          =-->
+<!--=  Institute of Technology, Institut National de Recherche en        =-->
+<!--=  Informatique et en Automatique, Keio University). All Rights      =-->
+<!--=  Reserved. See http://www.w3.org/Consortium/Legal/.                =-->
+<!--======================================================================-->
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!-- text-i18n-BE-09.svg                                                   -->
+<!-- renamed for 1.1 suite to text-intro-01-f.svg                          -->
+<!--                                                                       -->
+<!-- Test various aspects of internationalized text, including             -->
+<!-- left-to-right, right-to-left, top-to-bottom, and the                  -->
+<!-- following properties: 'writing-mode',                                 -->
+<!-- 'glyph-orientation-vertical', 'glyph-orientation-horizontal',         -->
+<!-- 'direction' and 'unicode-bidi'.                                       -->
+<!--                                                                       -->
+<!-- Author : Jon Ferraiolo 06-Aug-2000                                    -->
+<!-- 1.1 revision by Vincent Hardy                                         -->
+<!--                                                                       -->
+<!-- History:                                                              -->
+<!--  06-Aug-2000, JF: Serial#1 created.                                   -->
+<!--  19-Aug-2000, LH: fix missing </g>.                                   -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<!--======================================================================-->
+<!--= Note. After October 2000, revision history is kept as CVS 'commit' =-->
+<!--= log messages, and therefore is no longer in the preceding preamble.=-->
+<!--======================================================================-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  id="svg-root" width="480" height="360">
+    <SVGTestCase  chapter="text" focus="i18n" testType="BE" BENumber="09" >
+        <OperatorScript>
+            <Paragraph>
+                Test various aspects of internationalized text, including
+                left-to-right, right-to-left, top-to-bottom, and the
+                following properties: 'writing-mode',
+                'glyph-orientation-vertical', 'glyph-orientation-horizontal',
+                'direction' and 'unicode-bidi'.
+            </Paragraph>
+            <Paragraph>
+                Various text strings in various languages appear. The main
+                purpose of the test is to verify that the correct characters
+                appear and that they appear in the correct order and orientation.
+                In particular, ensure that the three lines with Hebrew are ordered
+                correctly (test of bidi algorithms and support of 'unicode-bidi' and
+                'direction' properties). Also, ensure that the two lines of
+                vertical Japanese text have the proper orientation
+                (test of 'glyph-orientation-vertical' property).
+            </Paragraph>
+            <Paragraph>
+                This test requires installation of a system font that supports
+                the various international characters used in this test case.
+                Due to differences across systems regarding system fonts and
+                font handling, for some implementations editing of the test case
+                may be necessary to specify the correct system font. To
+                minimize system dependencies, a future version of this test
+                might include all necessary glyphs as an SVG font.
+            </Paragraph>
+        </OperatorScript>
+    </SVGTestCase>
+
+	<title id="test-title">text-intro-01-f</title>
+	<desc id="test-desc">Test various aspects of internationalized text, including left-to-right, right-to-left, top-to-bottom, and the following properties: 'writing-mode', 'glyph-orientation-vertical', 'glyph-orientation-horizontal', 'direction' and 'unicode-bidi'.</desc>
+	<!--======================================================================-->
+	<!--Content of Test Case follows...                  =====================-->
+	<!--======================================================================-->
+	<g id="test-body-content">
+		
+		<g font-size="12" font-family="'LucidaSansUnicode','MS-Gothic'" >
+			
+			
+			
+			
+			
+		</g>
+		<g font-size="12" font-family="'MS-Gothic','LucidaSansUnicode'" >
+			
+			
+		</g>
+		
+		<g font-size="12" font-family="'LucidaSansUnicode','MS-Gothic'" >
+			
+			
+		</g>
+		<g font-size="12" font-family="'MS-Gothic','LucidaSansUnicode'" writing-mode="tb" ></g>
+	</g>
+
+    <!--======================================================================-->
+    <!--Legend and frame:      Title, suite and SVG document serialization====-->
+    <!--======================================================================-->
+    <g id="test-legend" fill="black" font-family="Helvetica" font-size="10" >
+        <rect x="10" y="300" width="275" height="50" fill="none" stroke="#000000" />
+        <path fill="none" stroke="#000000"  d="M10 315 h275 M205 315 v35 M10 336 h195 M205 332 h80"/>
+        
+        <a xlink:href="copyright-documents-19990405.html">
+            
+        </a>
+        
+        
+        
+        <rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000" />
+    </g>
+</svg>

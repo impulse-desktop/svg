@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  score:
+    name: Score
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build and score
+        run: |
+          set -o pipefail
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+            ubuntu:26.04 sh -c '
+              set -eu
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev
+              CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" test
+              head -1 .build/score.txt > score.txt
+            ' 2>&1 | tee "$RUNNER_TEMP/score.log"
+          echo "score $(cat score.txt)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the score report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: score
+          path: .build/score.txt
+          if-no-files-found: ignore
+
+  style:
+    name: Style
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install clang-format
+        run: |
+          curl -fsSL https://apt.llvm.org/llvm.sh | sudo bash -s -- 21
+          sudo apt-get install -y --no-install-recommends clang-format-21
+
+      - name: Format and diff
+        run: |
+          CLANG_FORMAT=clang-format-21 python3 dev/style.py
+          git diff --exit-code

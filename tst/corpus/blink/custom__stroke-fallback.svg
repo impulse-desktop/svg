@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink='http://www.w3.org/1999/xlink/'>
+    <rect stroke="url(#does_not_exist) green" stroke-width="10" fill="green" width='95px' height='95px' />
+    <linearGradient id="grad">
+       <stop stop-color="green"/>
+    </linearGradient>
+    <rect stroke="url(#grad) red" stroke-width="10" fill="green" x="150" width='95px' height='95px' />
+    
+    
+    
+</svg>

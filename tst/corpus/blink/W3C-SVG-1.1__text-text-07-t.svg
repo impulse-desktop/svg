@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--======================================================================-->
+<!--=  Copyright 2000 World Wide Web Consortium, (Massachusetts          =-->
+<!--=  Institute of Technology, Institut National de Recherche en        =-->
+<!--=  Informatique et en Automatique, Keio University). All Rights      =-->
+<!--=  Reserved. See http://www.w3.org/Consortium/Legal/.                =-->
+<!--======================================================================-->
+<!--======================================================================-->
+<!--=  Author   : Michael Ingrassia 20-Oct-2003                          =--><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="tiny" id="svg-root" width="100%" height="100%" viewBox="0 0 480 360">
+    <SVGTestCase
+        xmlns:testcase="http://www.w3.org/2000/02/svg/testsuite/description/"
+        xmlns="http://www.w3.org/2000/02/svg/testsuite/description/"
+        reviewer="AE" status="accepted" owner="MI" desc="Tests multiple x, y,
+        rotate" version="$Revision: 1.8 $" testname="$RCSfile: text-text-07-t.svg,v $">
+<!--nav data here-->
+        <OperatorScript>
+            <Paragraph>
+                Tests multiple x, y, rotate, with various combinations. Since an 
+		array of values is given, each glyph must use the value from the
+		corresponding character in the list.
+            </Paragraph>
+            <Paragraph>
+                The rendered picture should match the reference image exactly, except for possible
+                variations in the labelling text (per CSS2 rules).  
+            </Paragraph>
+        </OperatorScript>
+    </SVGTestCase>
+    <title id="test-title">text-text-07-t</title>
+    <desc id="test-desc">Tests multiple x, y, rotate, with various combinations</desc>
+    <!--======================================================================-->
+    <!--= Content of Test Case follows...                                    =-->
+    <!--======================================================================-->
+	<g id="test-body-content">
+        
+        
+          
+    </g>
+    
+    <rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000"/>
+</svg>
