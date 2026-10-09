@@ -185,7 +185,8 @@ using namespace stl;
     ATOM(PaintOrder, "paint-order")                                \
     ATOM(MixBlendMode, "mix-blend-mode")                           \
     ATOM(Isolation, "isolation")                                   \
-    ATOM(ColorInterpolation, "color-interpolation")
+    ATOM(ColorInterpolation, "color-interpolation")                \
+    ATOM(Outline, "outline")
 
 namespace {
     enum Atom : u32 {
@@ -204,7 +205,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomColorInterpolation - AtomFill + 1;
+    constexpr u32 propertyCount = AtomOutline - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.1f;
@@ -536,6 +537,8 @@ namespace {
         u8 blend;
         bool isolate;
         bool linearColors;
+        float outlineWidth;
+        Color outlineColor;
         u8 paintOrder[3];
         u8 maskType;
         Color floodColor;
@@ -4047,7 +4050,7 @@ namespace {
         for (u32 i = 0; i < node->count; i++) {
             u32 name = node->attributes[i].name;
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline) {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
@@ -6709,6 +6712,7 @@ namespace {
         style.nonScaling = false;
         style.blend = 0;
         style.isolate = false;
+        style.outlineWidth = 0.f;
         style.mask = 0;
         style.maskType = 0;
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
@@ -6730,7 +6734,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -6767,7 +6771,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -7110,6 +7114,58 @@ namespace {
                         }
                     }
 
+                    break;
+                }
+                case AtomOutline: {
+                    if (keyword) {
+                        style.outlineWidth = source.outlineWidth;
+                        style.outlineColor = source.outlineColor;
+                        break;
+                    }
+
+                    const u8* p = value.begin();
+                    float width = 3.f;
+                    Color color = style.color;
+                    bool solid = false;
+
+                    while (true) {
+                        while (p < value.end() && isSpace(*p)) {
+                            p++;
+                        }
+
+                        const u8* start = p;
+                        int depth = 0;
+
+                        while (p < value.end() && (depth > 0 || !isSpace(*p))) {
+                            depth += *p == '(' ? 1 : (*p == ')' ? -1 : 0);
+                            p++;
+                        }
+
+                        StringView word(start, p);
+                        Length length;
+
+                        if (word.empty()) {
+                            break;
+                        }
+
+                        if (equalsIgnoreCase(word, StringView(u8"solid"))) {
+                            solid = true;
+                        } else if (equalsIgnoreCase(word, StringView(u8"thin"))) {
+                            width = 1.f;
+                        } else if (equalsIgnoreCase(word, StringView(u8"medium"))) {
+                            width = 3.f;
+                        } else if (equalsIgnoreCase(word, StringView(u8"thick"))) {
+                            width = 5.f;
+                        } else if (parseLength(word, length) && length.unit != Unit::Percent) {
+                            width = resolveLength(length, Axis::Other, vp, style.fontSize);
+                        } else if (!parseColor(word, color)) {
+                            solid = false;
+                            break;
+                        }
+                    }
+
+                    style.outlineWidth = solid ? width : 0.f;
+                    style.outlineColor = color;
                     break;
                 }
                 case AtomColorInterpolation:
@@ -9870,6 +9926,27 @@ namespace {
             lowerContent(l, node, style, m, vp);
         }
 
+        Box outline;
+
+        if (style.outlineWidth > 0.f && style.outlineColor.a > 0.f && elementBox(l, node, parent, vp, outline, 0)) {
+            float w = style.outlineWidth;
+            Path ring;
+            Flat flat;
+
+            moveTo(ring, Point{outline.x0 - w, outline.y0 - w});
+            lineTo(ring, Point{outline.x1 + w, outline.y0 - w});
+            lineTo(ring, Point{outline.x1 + w, outline.y1 + w});
+            lineTo(ring, Point{outline.x0 - w, outline.y1 + w});
+            closePath(ring);
+            moveTo(ring, Point{outline.x0, outline.y0});
+            lineTo(ring, Point{outline.x1, outline.y0});
+            lineTo(ring, Point{outline.x1, outline.y1});
+            lineTo(ring, Point{outline.x0, outline.y1});
+            closePath(ring);
+            flatten(ring, m, tolerance, flat);
+            emitFill(l, flat, WindingEvenOdd, solidPaint(l, style.outlineColor, 1.f));
+        }
+
         l.depth--;
 
         if (layer) {
@@ -11504,7 +11581,7 @@ namespace {
                             }
                         } else {
                             for (int ch = 0; ch < 4; ch++) {
-                                acc[ch] += s[ch] * k;
+                                acc[ch] += rintf(s[ch] * 255.f) / 255.f * k;
                             }
                         }
                     }
@@ -11521,7 +11598,7 @@ namespace {
                     float a = clampUnit(acc[3] / divisor + bias);
 
                     for (int ch = 0; ch < 3; ch++) {
-                        o[ch] = minf(clampUnit(acc[ch] / divisor + bias * a), a);
+                        o[ch] = minf(clampUnit(acc[ch] / divisor + bias), a);
                     }
 
                     o[3] = a;
