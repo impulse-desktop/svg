@@ -21,23 +21,11 @@ namespace {
     struct DriverError: Exception {
         Buffer text;
 
-        explicit DriverError(StringView message)
-            : text(message)
-        {
-        }
+        explicit DriverError(StringView message);
 
-        ExceptionKind kind() const noexcept override {
-            return ExceptionKind::Verify;
-        }
-
-        StringView description() override {
-            return StringView(text);
-        }
+        ExceptionKind kind() const noexcept override;
+        StringView description() override;
     };
-
-    [[noreturn]] void fail(StringView what, const char* path) {
-        throw DriverError(StringView(StringBuilder() << what << StringView(path)));
-    }
 
     struct Pixels {
         Buffer rgba;
@@ -45,7 +33,93 @@ namespace {
         u32 height = 0;
     };
 
-    void readPng(const char* path, Pixels& out) {
+    struct DecodedImage final: SvgImage {
+        Buffer rgba;
+        u32 width_;
+        u32 height_;
+
+        DecodedImage(u32 width, u32 height);
+
+        const void* data() const override;
+        size_t length() const override;
+        u32 width() const override;
+        u32 height() const override;
+    };
+
+    struct PngDecoder final: SvgDecoder {
+        SvgImage* decode(ObjPool& pool, StringView bytes) override;
+    };
+}
+
+DriverError::DriverError(StringView message)
+    : text(message)
+{
+}
+
+ExceptionKind DriverError::kind() const noexcept {
+    return ExceptionKind::Verify;
+}
+
+StringView DriverError::description() {
+    return StringView(text);
+}
+
+DecodedImage::DecodedImage(u32 width, u32 height)
+    : width_(width)
+    , height_(height)
+{
+    rgba.zero((size_t)width * height * 4);
+}
+
+const void* DecodedImage::data() const {
+    return rgba.data();
+}
+
+size_t DecodedImage::length() const {
+    return rgba.length();
+}
+
+u32 DecodedImage::width() const {
+    return width_;
+}
+
+u32 DecodedImage::height() const {
+    return height_;
+}
+
+SvgImage* PngDecoder::decode(ObjPool& pool, StringView bytes) {
+    png_image image;
+
+    memset(&image, 0, sizeof(image));
+    image.version = PNG_IMAGE_VERSION;
+
+    if (!png_image_begin_read_from_memory(&image, bytes.data(), bytes.length())) {
+        return nullptr;
+    }
+
+    image.format = PNG_FORMAT_RGBA;
+
+    if ((u64)image.width * image.height > (1u << 26)) {
+        png_image_free(&image);
+
+        return nullptr;
+    }
+
+    DecodedImage* out = pool.make<DecodedImage>(image.width, image.height);
+
+    if (!png_image_finish_read(&image, nullptr, out->rgba.mutData(), 0, nullptr)) {
+        return nullptr;
+    }
+
+    return out;
+}
+
+namespace {
+    [[noreturn]] static void fail(StringView what, const char* path) {
+        throw DriverError(StringView(StringBuilder() << what << StringView(path)));
+    }
+
+    static void readPng(const char* path, Pixels& out) {
         png_image image;
 
         memset(&image, 0, sizeof(image));
@@ -65,7 +139,7 @@ namespace {
         }
     }
 
-    void writePng(const char* path, const Pixels& pixels) {
+    static void writePng(const char* path, const Pixels& pixels) {
         png_image image;
 
         memset(&image, 0, sizeof(image));
@@ -79,7 +153,7 @@ namespace {
         }
     }
 
-    void draw(SvgDocument* document, ObjPool& pool, Pixels& pixels) {
+    static void draw(SvgDocument* document, ObjPool& pool, Pixels& pixels) {
         pixels.rgba.zero((size_t)pixels.width * pixels.height * 4);
 
         if (!document) {
@@ -97,20 +171,20 @@ namespace {
         }
     }
 
-    SvgDocument* load(ObjPool& pool, const char* path) {
+    static SvgDocument* load(ObjPool& pool, const char* path) {
         Buffer name{StringView(path)};
         Buffer file;
 
         readFileContent(name, file);
 
         try {
-            return SvgLibrary::create(pool)->parse(pool, StringView(file));
+            return SvgLibrary::create(pool, pool.make<PngDecoder>())->parse(pool, StringView(file));
         } catch (...) {
             return nullptr;
         }
     }
 
-    double error(const Pixels& ours, const Pixels& reference) {
+    static double error(const Pixels& ours, const Pixels& reference) {
         const u8* a = (const u8*)ours.rgba.data();
         const u8* b = (const u8*)reference.rgba.data();
         size_t count = (size_t)reference.width * reference.height;
@@ -131,7 +205,7 @@ namespace {
         return count ? (double)sum / ((double)count * 4.0 * 255.0 * 255.0) : 0.0;
     }
 
-    int render(int argc, char** argv) {
+    static int render(int argc, char** argv) {
         if (argc != 6) {
             sysE << StringView(u8"usage: svg render IN.svg OUT.png WIDTH HEIGHT") << endL;
 
@@ -149,7 +223,7 @@ namespace {
         return 0;
     }
 
-    int test(int argc, char** argv) {
+    static int test(int argc, char** argv) {
         if (argc < 5) {
             sysE << StringView(u8"usage: svg test IN.svg SCORE REFERENCE.png...") << endL;
 

@@ -14,6 +14,10 @@ struct SvgImage {
     virtual u32 height() const = 0;
 };
 
+struct SvgDecoder {
+    virtual SvgImage* decode(stl::ObjPool& pool, stl::StringView bytes) = 0;
+};
+
 struct SvgDocument {
     virtual float width() const = 0;
     virtual float height() const = 0;
@@ -23,5 +27,5 @@ struct SvgDocument {
 struct SvgLibrary {
     virtual SvgDocument* parse(stl::ObjPool& pool, stl::StringView file) = 0;
 
-    static SvgLibrary* create(stl::ObjPool& pool);
+    static SvgLibrary* create(stl::ObjPool& pool, SvgDecoder* decoder);
 };
