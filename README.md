@@ -21,14 +21,16 @@ memory come after it.
 ## The contract
 
 ```cpp
-SvgLibrary* library = SvgLibrary::create(pool);
+SvgLibrary* library = SvgLibrary::create(pool, decoder);
 SvgDocument* document = library->parse(pool, bytes);
 SvgImage* image = document->render(pool, width, height);
 ```
 
 `render(width, height)` draws the document the way Chromium draws it as an
 image of that size: `<img src="file.svg" style="width: Wpx; height: Hpx">`.
-The pixels are RGBA, 8 bits a channel, not premultiplied.
+The pixels are RGBA, 8 bits a channel, not premultiplied. `decoder`, an
+`SvgDecoder` of the embedding program, turns the bytes of a raster image
+inside the document into such pixels.
 
 ## The score
 
@@ -68,7 +70,12 @@ references are drawn again only when Chromium is changed.
 
 ## Building
 
-You need clang 21 or GCC 16, Python 3 and libpng.
+You need clang 21 or GCC 16, Python 3, libpng, wasm2c from
+[wabt](https://github.com/WebAssembly/wabt) and
+[SIMDe](https://github.com/simd-everywhere/simde). The test driver decodes
+the raster images of a document with `ext/decode/decode.simd128.wasm`,
+ImageMagick as a pure WebAssembly module, which the build turns into C
+with wasm2c; see [its README](ext/decode/README.md).
 
 ```
 ./build          # .build/svg, the test driver

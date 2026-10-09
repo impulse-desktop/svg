@@ -1,5 +1,9 @@
 import fnmatch
+import glob
 import hashlib
+import os
+import shutil
+import subprocess
 
 import build
 import build.flags as flags
@@ -19,15 +23,63 @@ libstd = import_build(
     extra_cflags=["-Wno-error", "-ffile-prefix-map=$(S)=.", "-ffile-prefix-map=$(B)=."],
 )
 png = pkg_config("libpng")
-jpeg = pkg_config("libjpeg")
 system = dependency(ldflags=["-lm"])
+
+wasm2c = shutil.which("wasm2c")
+if wasm2c is None:
+    raise RuntimeError("wasm2c (wabt) is required: the test driver's image decoder is compiled from ext/decode/decode.simd128.wasm")
+wabt_prefix = os.path.dirname(os.path.dirname(os.path.realpath(wasm2c)))
+wasm_rt = os.path.join(wabt_prefix, "share", "wabt", "wasm2c")
+wasm_rt_header = next(
+    (d for d in (os.path.join(wabt_prefix, "include"), wasm_rt) if os.path.exists(os.path.join(d, "wasm-rt.h"))),
+    None,
+)
+if wasm_rt_header is None or not os.path.exists(os.path.join(wasm_rt, "wasm-rt-impl.c")):
+    raise RuntimeError(f"the wasm2c runtime (wasm-rt.h, wasm-rt-impl.c) is missing under {wabt_prefix}")
+wabt_version = subprocess.check_output([wasm2c, "--version"], text=True).strip()
+
+decode_runtime = sorted({
+    *glob.glob(os.path.join(wasm_rt, "wasm-rt*")),
+    *glob.glob(os.path.join(wasm_rt_header, "wasm-rt*.h")),
+})
+decode_defines = [
+    "-DWASM_RT_USE_MMAP=1",
+    "-DWASM_RT_MEMCHECK_BOUNDS_CHECK=1",
+    "-DWASM_RT_MEMCHECK_GUARD_PAGES=0",
+    "-DWASM_RT_MAX_CALL_STACK_DEPTH=250",
+    "-DWASM_RT_TRAP_HANDLER=decodeTrapHandler",
+]
+decode_shards = 16
+decode_dir = "$(B)/decode"
+decode_sources = [f"{decode_dir}/decode_{i}.c" for i in range(decode_shards)]
+decode_runtime_files = [f"{decode_dir}/{os.path.basename(path)}" for path in decode_runtime]
+decode_c = command(
+    name="decode_c",
+    inputs=["$(S)/ext/decode/decode.simd128.wasm"],
+    outputs=[*decode_sources, f"{decode_dir}/decode.h", f"{decode_dir}/decode-impl.h", *decode_runtime_files],
+    cmd=[
+        ["wasm2c", "$(S)/ext/decode/decode.simd128.wasm", "--module-name", "decode", "--num-outputs", str(decode_shards), "-o", f"{decode_dir}/decode.c"],
+        ["cp", *decode_runtime, f"{decode_dir}/"],
+    ],
+    env={"WABT_VERSION": wabt_version},
+    descr="WC",
+)
+decode = library(
+    name="decode",
+    srcs=[*decode_sources, *[path for path in decode_runtime_files if path.endswith(".c")]],
+    cflags=["-O2", "-g0", "-w", "-fexceptions"],
+    cppflags=decode_defines,
+    includes=[decode_dir],
+    public_cppflags=[f"-I{decode_dir}", *decode_defines],
+    deps=[decode_c],
+)
 
 svg = program(
     name="svg",
     output="$(B)/svg",
     srcs=["$(S)/svg.cpp", "$(S)/main.cpp"],
     cflags=warning_flags,
-    deps=[libstd, png, jpeg, system],
+    deps=[libstd, decode, png, system],
 )
 
 install(svg)

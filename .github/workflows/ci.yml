@@ -28,7 +28,12 @@ jobs:
               set -eu
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev libjpeg-dev
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev wabt libsimde-dev curl ca-certificates
+              rt=/usr/share/wabt/wasm2c
+              version=$(wasm2c --version)
+              for inc in $(grep -ho "wasm-rt[a-z-]*\.inc" "$rt"/*.c | sort -u); do
+                [ -f "$rt/$inc" ] || curl -fsSL --retry 5 "https://raw.githubusercontent.com/WebAssembly/wabt/$version/wasm2c/$inc" -o "$rt/$inc"
+              done
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" test
               head -1 .build/score.txt > score.txt
             ' 2>&1 | tee "$RUNNER_TEMP/score.log"
