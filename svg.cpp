@@ -6039,6 +6039,26 @@ namespace {
         }
     }
 
+    static float fastLength(float x, float y) {
+        x = fabsf(x);
+        y = fabsf(y);
+
+        return x > y ? x + y * 0.5f : y + x * 0.5f;
+    }
+
+    static bool hairlineCoverage(float width, const Matrix& m, float& coverage) {
+        float len0 = fastLength(m.a * width, m.b * width);
+        float len1 = fastLength(m.c * width, m.d * width);
+
+        if (len0 > 1.f || len1 > 1.f) {
+            return false;
+        }
+
+        coverage = (len0 + len1) / 2.f;
+
+        return true;
+    }
+
     static Path transformedPath(const Path& path, const Matrix& m) {
         Path out;
 
@@ -9113,11 +9133,27 @@ namespace {
                     emitFill(l, flat, style.fillRule, fill);
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
-                if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
+                float coverage = 1.f;
+                bool hairline = !style.nonScaling && hairlineCoverage(style.strokeWidth, m, coverage);
+
+                if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity * coverage, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
                     Flat outline;
                     Flat device;
 
-                    if (style.nonScaling) {
+                    if (hairline) {
+                        ComputedStyle thin = style;
+                        float scale = sqrtf(fabsf(m.a * m.d - m.b * m.c));
+                        float* dashes = style.dashCount ? (float*)l.pool->allocate(sizeof(float) * style.dashCount) : nullptr;
+
+                        for (u32 k = 0; k < style.dashCount; k++) {
+                            dashes[k] = style.dashes[k] * scale;
+                        }
+
+                        thin.strokeWidth = 1.f;
+                        thin.dashes = dashes;
+                        thin.dashOffset = style.dashOffset * scale;
+                        strokePath(transformedPath(path, m), thin, 1.f, device);
+                    } else if (style.nonScaling) {
                         strokePath(transformedPath(path, m), style, 1.f, device);
                     } else {
                         strokePath(path, style, matrixScale(m), outline);
