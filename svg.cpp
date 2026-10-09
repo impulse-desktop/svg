@@ -462,6 +462,29 @@ namespace {
         Color color;
     };
 
+    enum class ShapeKind : u8 {
+        None,
+        Circle,
+        Ellipse,
+        Inset,
+        Polygon,
+    };
+
+    enum class GeometryBox : u8 {
+        Fill,
+        Stroke,
+        View,
+    };
+
+    struct BasicShape {
+        ShapeKind kind;
+        GeometryBox box;
+        u8 rule;
+        Length values[4];
+        Length* points;
+        u32 pointCount;
+    };
+
     struct ComputedStyle {
         PaintValue fill;
         PaintValue stroke;
@@ -478,6 +501,7 @@ namespace {
         float* dashes;
         u32 dashCount;
         u32 clipPath;
+        BasicShape* clipShape;
         u32 mask;
         u8 maskType;
         Color floodColor;
@@ -613,6 +637,7 @@ namespace {
         bool clipped;
         u32 clipFirst;
         u32 clipCount;
+        bool clipProgram;
         bool masked;
         u8 maskType;
         u32 maskFirst;
@@ -639,6 +664,9 @@ namespace {
         Node* sized;
         float sizedWidth;
         float sizedHeight;
+        bool hasContext;
+        PaintValue contextFill;
+        PaintValue contextStroke;
     };
 
     struct Raster {
@@ -2135,6 +2163,36 @@ namespace {
         return atom && atom < doc.byId.length() ? doc.byId[atom] : nullptr;
     }
 
+    static int hexDigit(u8 c);
+
+    static u32 fragmentAtom(const Document& doc, StringView fragment) {
+        u32 atom = lookup(doc.atoms, fragment);
+
+        if (atom || !memchr(fragment.data(), '%', fragment.length())) {
+            return atom;
+        }
+
+        Buffer decoded;
+        const u8* p = fragment.begin();
+
+        while (p < fragment.end()) {
+            int high = p + 2 < fragment.end() && *p == '%' ? hexDigit(p[1]) : -1;
+            int low = high >= 0 ? hexDigit(p[2]) : -1;
+
+            if (low >= 0) {
+                u8 c = (u8)(high * 16 + low);
+
+                decoded.append(&c, 1);
+                p += 3;
+            } else {
+                decoded.append(p, 1);
+                p++;
+            }
+        }
+
+        return lookup(doc.atoms, StringView(decoded));
+    }
+
     static Node* hrefTarget(const Document& doc, const Node* node) {
         u32 value = attribute(node, AtomHref);
 
@@ -2148,7 +2206,7 @@ namespace {
             return nullptr;
         }
 
-        return elementById(doc, lookup(doc.atoms, StringView(text.begin() + 1, text.end())));
+        return elementById(doc, fragmentAtom(doc, StringView(text.begin() + 1, text.end())));
     }
 
     [[noreturn]] static void fail() {
@@ -3440,6 +3498,10 @@ namespace {
 
             u32 property = lookup(doc.atoms, StringView(lowered, name.length()));
 
+            if (StringView(lowered, name.length()) == StringView(u8"-webkit-clip-path")) {
+                property = AtomClipPathProperty;
+            }
+
             if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property)) {
                 continue;
             }
@@ -4378,7 +4440,7 @@ namespace {
             out.kind = PaintKind::Server;
 
             if (!reference.empty() && reference[0] == '#') {
-                out.server = lookup(doc.atoms, StringView(reference.begin() + 1, reference.end()));
+                out.server = fragmentAtom(doc, StringView(reference.begin() + 1, reference.end()));
             }
 
             StringView fallback = trim(StringView(close + 1, text.end()));
@@ -5977,7 +6039,7 @@ namespace {
                 item.kind = FilterFunction::Reference;
 
                 if (!args.empty() && args[0] == '#') {
-                    item.reference = lookup(doc.atoms, StringView(args.begin() + 1, args.end()));
+                    item.reference = fragmentAtom(doc, StringView(args.begin() + 1, args.end()));
                 }
             } else if (equalsIgnoreCase(name, StringView(u8"blur"))) {
                 float sigma = 0.f;
@@ -6033,6 +6095,302 @@ namespace {
         return out.length() > 0;
     }
 
+    static StringView shapeWord(const u8*& p, const u8* end) {
+        while (p < end && (isSpace(*p) || *p == ',')) {
+            p++;
+        }
+
+        const u8* start = p;
+
+        while (p < end && !isSpace(*p) && *p != ',') {
+            p++;
+        }
+
+        return StringView(start, p);
+    }
+
+    static bool parsePosition(StringView text, Length& x, Length& y) {
+        const u8* p = text.begin();
+        StringView words[2];
+        u32 count = 0;
+
+        x = Length{50.f, Unit::Percent};
+        y = Length{50.f, Unit::Percent};
+
+        while (count < 3) {
+            StringView word = shapeWord(p, text.end());
+
+            if (word.empty()) {
+                break;
+            }
+
+            if (count == 2) {
+                return false;
+            }
+
+            words[count++] = word;
+        }
+
+        bool xSet = false;
+        bool ySet = false;
+
+        for (u32 i = 0; i < count; i++) {
+            StringView word = words[i];
+            Length length;
+
+            if (equalsIgnoreCase(word, StringView(u8"left")) || equalsIgnoreCase(word, StringView(u8"right"))) {
+                if (xSet) {
+                    return false;
+                }
+
+                x = Length{equalsIgnoreCase(word, StringView(u8"left")) ? 0.f : 100.f, Unit::Percent};
+                xSet = true;
+            } else if (equalsIgnoreCase(word, StringView(u8"top")) || equalsIgnoreCase(word, StringView(u8"bottom"))) {
+                if (ySet) {
+                    return false;
+                }
+
+                y = Length{equalsIgnoreCase(word, StringView(u8"top")) ? 0.f : 100.f, Unit::Percent};
+                ySet = true;
+            } else if (equalsIgnoreCase(word, StringView(u8"center"))) {
+                if (i == 0 && !xSet) {
+                    xSet = count == 1;
+                }
+            } else if (parseLength(word, length)) {
+                if (i == 0 && !xSet) {
+                    x = length;
+                    xSet = true;
+                } else if (!ySet) {
+                    y = length;
+                    ySet = true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out);
+
+    static bool parseBasicShape(ObjPool& pool, StringView text, BasicShape& out) {
+        const u8* p = trim(text).begin();
+        const u8* end = trim(text).end();
+        StringView function;
+
+        out.kind = ShapeKind::None;
+        out.box = GeometryBox::Stroke;
+        out.rule = WindingNonZero;
+        out.points = nullptr;
+        out.pointCount = 0;
+
+        while (p < end) {
+            while (p < end && isSpace(*p)) {
+                p++;
+            }
+
+            if (p >= end) {
+                break;
+            }
+
+            const u8* start = p;
+
+            while (p < end && !isSpace(*p) && *p != '(') {
+                p++;
+            }
+
+            StringView name(start, p);
+
+            if (p < end && *p == '(') {
+                if (!function.empty()) {
+                    return false;
+                }
+
+                const u8* open = ++p;
+                int depth = 0;
+
+                while (p < end && (depth > 0 || *p != ')')) {
+                    depth += *p == '(' ? 1 : (*p == ')' ? -1 : 0);
+                    p++;
+                }
+
+                if (p >= end) {
+                    return false;
+                }
+
+                function = name;
+
+                StringView args = trim(StringView(open, p));
+
+                p++;
+
+                if (!parseShapeFunction(pool, name, args, out)) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            if (equalsIgnoreCase(name, StringView(u8"fill-box")) || equalsIgnoreCase(name, StringView(u8"content-box")) || equalsIgnoreCase(name, StringView(u8"padding-box"))) {
+                out.box = GeometryBox::Fill;
+            } else if (equalsIgnoreCase(name, StringView(u8"stroke-box")) || equalsIgnoreCase(name, StringView(u8"border-box")) || equalsIgnoreCase(name, StringView(u8"margin-box"))) {
+                out.box = GeometryBox::Stroke;
+            } else if (equalsIgnoreCase(name, StringView(u8"view-box"))) {
+                out.box = GeometryBox::View;
+            } else {
+                return false;
+            }
+        }
+
+        return out.kind != ShapeKind::None;
+    }
+
+    static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out) {
+        const u8* end = args.end();
+
+        if (equalsIgnoreCase(name, StringView(u8"circle")) || equalsIgnoreCase(name, StringView(u8"ellipse"))) {
+            bool circle = equalsIgnoreCase(name, StringView(u8"circle"));
+            const u8* p = args.begin();
+            u32 radii = 0;
+
+            out.kind = circle ? ShapeKind::Circle : ShapeKind::Ellipse;
+            out.values[0] = Length{-1.f, Unit::Number};
+            out.values[1] = Length{-1.f, Unit::Number};
+
+            while (true) {
+                StringView word = shapeWord(p, end);
+
+                if (word.empty()) {
+                    break;
+                }
+
+                if (equalsIgnoreCase(word, StringView(u8"at"))) {
+                    return parsePosition(StringView(p, end), out.values[2], out.values[3]);
+                }
+
+                if (radii == (circle ? 1u : 2u)) {
+                    return false;
+                }
+
+                Length radius;
+
+                if (equalsIgnoreCase(word, StringView(u8"closest-side"))) {
+                    radius = Length{-1.f, Unit::Number};
+                } else if (equalsIgnoreCase(word, StringView(u8"farthest-side"))) {
+                    radius = Length{-2.f, Unit::Number};
+                } else if (!parseLength(word, radius) || radius.value < 0.f) {
+                    return false;
+                }
+
+                out.values[radii++] = radius;
+            }
+
+            if (!circle && radii == 1) {
+                return false;
+            }
+
+            out.values[2] = Length{50.f, Unit::Percent};
+            out.values[3] = Length{50.f, Unit::Percent};
+
+            return true;
+        }
+
+        if (equalsIgnoreCase(name, StringView(u8"inset"))) {
+            const u8* p = args.begin();
+            u32 count = 0;
+
+            out.kind = ShapeKind::Inset;
+
+            while (true) {
+                StringView word = shapeWord(p, end);
+
+                if (word.empty() || equalsIgnoreCase(word, StringView(u8"round"))) {
+                    break;
+                }
+
+                if (count == 4 || !parseLength(word, out.values[count])) {
+                    return false;
+                }
+
+                count++;
+            }
+
+            if (count == 0) {
+                return false;
+            }
+
+            out.values[1] = count > 1 ? out.values[1] : out.values[0];
+            out.values[2] = count > 2 ? out.values[2] : out.values[0];
+            out.values[3] = count > 3 ? out.values[3] : out.values[1];
+
+            return true;
+        }
+
+        if (equalsIgnoreCase(name, StringView(u8"polygon"))) {
+            const u8* p = args.begin();
+            Vector<Length> points;
+
+            out.kind = ShapeKind::Polygon;
+
+            while (p < end && isSpace(*p)) {
+                p++;
+            }
+
+            const u8* comma = p;
+
+            while (comma < end && *comma != ',') {
+                comma++;
+            }
+
+            StringView first = trim(StringView(p, comma));
+
+            if (equalsIgnoreCase(first, StringView(u8"evenodd")) || equalsIgnoreCase(first, StringView(u8"nonzero"))) {
+                out.rule = equalsIgnoreCase(first, StringView(u8"evenodd")) ? WindingEvenOdd : WindingNonZero;
+                p = comma < end ? comma + 1 : end;
+            }
+
+            while (p < end) {
+                const u8* stop = p;
+
+                while (stop < end && *stop != ',') {
+                    stop++;
+                }
+
+                const u8* q = p;
+                StringView xWord = shapeWord(q, stop);
+                StringView yWord = shapeWord(q, stop);
+                Length x;
+                Length y;
+
+                if (!parseLength(xWord, x) || !parseLength(yWord, y) || !trim(StringView(q, stop)).empty()) {
+                    return false;
+                }
+
+                points.pushBack(x);
+                points.pushBack(y);
+                p = stop < end ? stop + 1 : end;
+            }
+
+            out.pointCount = (u32)points.length() / 2;
+            out.points = (Length*)pool.allocate(sizeof(Length) * (points.length() + 1));
+
+            if (points.length()) {
+                memcpy(out.points, points.data(), sizeof(Length) * points.length());
+            }
+
+            return out.pointCount > 0;
+        }
+
+        return false;
+    }
+
+    static float shapeLength(const Length& length, float reference, Viewport vp, float fontSize) {
+        return length.unit == Unit::Percent ? length.value * reference / 100.f : resolveLength(length, Axis::Other, vp, fontSize);
+    }
+
     static ComputedStyle computeStyle(Lowering& l, const Node* node, const ComputedStyle& parent, Viewport vp) {
         const Document& doc = *l.doc;
         ComputedStyle initial = initialStyle();
@@ -6043,6 +6401,7 @@ namespace {
         style.stopColor = initial.stopColor;
         style.stopOpacity = 1.f;
         style.clipPath = 0;
+        style.clipShape = nullptr;
         style.mask = 0;
         style.maskType = 0;
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
@@ -6115,8 +6474,16 @@ namespace {
                 case AtomStroke: {
                     PaintValue& target = property == AtomFill ? style.fill : style.stroke;
 
+                    bool contextFill = isKeyword(value, "context-fill");
+
                     if (keyword) {
                         target = property == AtomFill ? source.fill : source.stroke;
+                    } else if (contextFill || isKeyword(value, "context-stroke")) {
+                        target.kind = PaintKind::None;
+
+                        if (l.hasContext) {
+                            target = contextFill ? l.contextFill : l.contextStroke;
+                        }
                     } else {
                         PaintValue paint;
 
@@ -6342,15 +6709,23 @@ namespace {
 
                     if (keyword) {
                         target = property == AtomMask ? source.mask : source.clipPath;
+
+                        if (property != AtomMask) {
+                            style.clipShape = source.clipShape;
+                        }
+
                         break;
                     }
 
                     PaintValue reference;
+                    BasicShape shape;
 
                     if (parsePaint(doc, value, reference) && reference.kind == PaintKind::Server) {
                         target = reference.server;
                     } else if (isKeyword(value, "none")) {
                         target = 0;
+                    } else if (property != AtomMask && parseBasicShape(*l.pool, value, shape)) {
+                        style.clipShape = l.pool->make<BasicShape>(shape);
                     }
 
                     break;
@@ -6713,9 +7088,10 @@ namespace {
 
     static u32 gradientAttribute(const Document& doc, Node* gradient, u32 name) {
         Node* node = gradient;
+        bool specific = name == AtomX1 || name == AtomY1 || name == AtomX2 || name == AtomY2 || name == AtomCx || name == AtomCy || name == AtomR || name == AtomFx || name == AtomFy || name == AtomFr;
 
         for (u32 hops = 0; node && hops < 16; hops++) {
-            if (u32 value = attribute(node, name)) {
+            if (u32 value = attribute(node, name); value && (!specific || node->name == gradient->name)) {
                 return value;
             }
 
@@ -6894,9 +7270,29 @@ namespace {
             if (paint->r <= 0.f) {
                 return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
             }
+
+            if (fabsf(paint->fr - paint->r) < 1e-6f * maxf(1.f, paint->r) && paint->fx == paint->cx && paint->fy == paint->cy && paint->spread == SpreadPad) {
+                Color first = stops[0].color;
+                GradientStop* ring = (GradientStop*)l.pool->allocate(sizeof(GradientStop) * 3);
+
+                ring[0] = GradientStop{0.f, first};
+                ring[1] = GradientStop{1.f, first};
+                ring[2] = GradientStop{1.f, last};
+                paint->stops = ring;
+                paint->stopCount = 3;
+                paint->fr = 0.f;
+            }
         }
 
         return paint;
+    }
+
+    static bool singularTransform(const Document& doc, Node* server) {
+        u32 value = server->name == AtomPattern ? patternAttribute(doc, server, AtomPatternTransform, nullptr) : gradientAttribute(doc, server, AtomGradientTransform);
+        Matrix m;
+        Matrix inverse;
+
+        return value && parseTransform(textOf(doc, value), m) && !invert(m, inverse);
     }
 
     static DevicePaint* devicePaint(Lowering& l, const PaintValue& value, float opacity, const ComputedStyle& style, Box bbox, const Matrix& ctm, Viewport vp) {
@@ -6910,12 +7306,11 @@ namespace {
             case PaintKind::Server: {
                 Node* server = elementById(*l.doc, value.server);
 
-                if (server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient) && resourceUsable(l, server, vp)) {
-                    return gradientPaint(l, server, opacity, bbox, ctm, vp);
-                }
+                bool gradient = server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient);
+                bool pattern = server && server->name == AtomPattern;
 
-                if (server && server->name == AtomPattern && resourceUsable(l, server, vp)) {
-                    return patternPaint(l, server, opacity, bbox, ctm, vp);
+                if ((gradient || pattern) && resourceUsable(l, server, vp) && !singularTransform(*l.doc, server)) {
+                    return gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp) : patternPaint(l, server, opacity, bbox, ctm, vp);
                 }
 
                 if (value.fallback == PaintKind::Color) {
@@ -7060,7 +7455,58 @@ namespace {
         addClipShape(l, path, m, WindingNonZero);
     }
 
-    static bool resolveClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, u32& first, u32& count) {
+    struct ClipChild {
+        Node* shape;
+        Matrix space;
+        ComputedStyle style;
+    };
+
+    static bool clipChild(Lowering& l, Node* child, const Matrix& space, Viewport vp, ClipChild& out) {
+        const Document& doc = *l.doc;
+
+        out.shape = child;
+        out.space = multiply(space, transformOf(doc, child, AtomTransform));
+
+        if (child->name == AtomUse) {
+            out.shape = hrefTarget(doc, child);
+
+            if (!out.shape || !isShape(out.shape->name)) {
+                return false;
+            }
+
+            const ComputedStyle& useStyle = documentStyle(l, child, vp);
+
+            if (useStyle.displayNone) {
+                return false;
+            }
+
+            out.space = multiply(out.space, translation(lengthOr(doc, child, AtomX, Axis::X, vp, useStyle.fontSize, 0.f), lengthOr(doc, child, AtomY, Axis::Y, vp, useStyle.fontSize, 0.f)));
+            out.space = multiply(out.space, transformOf(doc, out.shape, AtomTransform));
+            out.style = computeStyle(l, out.shape, useStyle, vp);
+        } else if (isShape(child->name)) {
+            out.style = documentStyle(l, child, vp);
+        } else {
+            return false;
+        }
+
+        return !out.style.displayNone && out.style.visible;
+    }
+
+    static bool clipNeedsProgram(Lowering& l, Node* clip, Viewport vp) {
+        if (documentStyle(l, clip, vp).clipPath) {
+            return true;
+        }
+
+        for (Node* child = clip->first; child; child = child->next) {
+            if ((child->name == AtomUse || isShape(child->name)) && documentStyle(l, child, vp).clipPath) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static bool resolveClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Node* clip = elementById(doc, style.clipPath);
 
@@ -7068,60 +7514,183 @@ namespace {
             return false;
         }
 
+        for (Node* active : l.active) {
+            if (active == clip) {
+                return false;
+            }
+        }
+
         Matrix space = multiply(m, originTransform(doc, clip, AtomTransform, vp));
         u32 units = attribute(clip, AtomClipPathUnits);
 
-        first = (u32)l.clips.length();
+        op.clipProgram = false;
+        op.clipFirst = (u32)l.clips.length();
+        op.clipCount = 0;
 
         if (units && textOf(doc, units) == StringView(u8"objectBoundingBox")) {
             Box box;
 
             if (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0) {
-                count = 0;
-
                 return true;
             }
 
             space = multiply(space, Matrix{box.x1 - box.x0, 0.f, 0.f, box.y1 - box.y0, box.x0, box.y0});
         }
 
+        if (!clipNeedsProgram(l, clip, vp)) {
+            for (Node* child = clip->first; child; child = child->next) {
+                ClipChild item;
+                Path path;
+
+                if (clipChild(l, child, space, vp, item) && buildShape(doc, item.shape, item.style, vp, path)) {
+                    addClipShape(l, path, item.space, item.style.clipRule);
+                }
+            }
+
+            op.clipCount = (u32)l.clips.length() - op.clipFirst;
+
+            return true;
+        }
+
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+        const ComputedStyle& clipStyle = documentStyle(l, clip, vp);
+        Op outer = groupOp(1.f);
+
+        l.active.pushBack(clip);
+        l.out = &program;
+        outer.clipped = clipStyle.clipPath && resolveClip(l, element, parent, clipStyle, m, vp, outer);
+
+        if (outer.clipped) {
+            program.pushBack(outer);
+        }
+
         for (Node* child = clip->first; child; child = child->next) {
-            Node* shape = child;
-            Matrix childSpace = multiply(space, transformOf(doc, child, AtomTransform));
-
-            if (child->name == AtomUse) {
-                shape = hrefTarget(doc, child);
-
-                if (!shape || !isShape(shape->name)) {
-                    continue;
-                }
-
-                const ComputedStyle& useStyle = documentStyle(l, child, vp);
-
-                if (useStyle.displayNone) {
-                    continue;
-                }
-
-                childSpace = multiply(childSpace, translation(lengthOr(doc, child, AtomX, Axis::X, vp, useStyle.fontSize, 0.f), lengthOr(doc, child, AtomY, Axis::Y, vp, useStyle.fontSize, 0.f)));
-                childSpace = multiply(childSpace, transformOf(doc, shape, AtomTransform));
-            } else if (!isShape(child->name)) {
-                continue;
-            }
-
-            const ComputedStyle& shapeStyle = documentStyle(l, shape, vp);
-
-            if (shapeStyle.displayNone || !shapeStyle.visible) {
-                continue;
-            }
-
+            ClipChild item;
             Path path;
 
-            if (buildShape(doc, shape, shapeStyle, vp, path)) {
-                addClipShape(l, path, childSpace, shapeStyle.clipRule);
+            if (!clipChild(l, child, space, vp, item) || !buildShape(doc, item.shape, item.style, vp, path)) {
+                continue;
+            }
+
+            const ComputedStyle& childStyle = documentStyle(l, child, vp);
+            Op inner = groupOp(1.f);
+
+            inner.clipped = childStyle.clipPath && resolveClip(l, child, clipStyle, childStyle, multiply(space, transformOf(doc, child, AtomTransform)), vp, inner);
+
+            if (inner.clipped) {
+                program.pushBack(inner);
+            }
+
+            Flat flat;
+
+            flatten(path, item.space, tolerance, flat);
+            emitFill(l, flat, item.style.clipRule, solidPaint(l, Color{1.f, 1.f, 1.f, 1.f}, 1.f));
+
+            if (inner.clipped) {
+                endGroup(l);
             }
         }
 
-        count = (u32)l.clips.length() - first;
+        if (outer.clipped) {
+            endGroup(l);
+        }
+
+        l.out = saved;
+        l.active.popBack();
+        op.clipProgram = true;
+        op.clipFirst = (u32)l.programs.length();
+        op.clipCount = (u32)program.length();
+        l.programs.append(program.data(), program.length());
+
+        return true;
+    }
+
+    static bool shapeClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
+        const BasicShape& shape = *style.clipShape;
+        Box box{0.f, 0.f, vp.width, vp.height};
+
+        op.clipProgram = false;
+        op.clipFirst = (u32)l.clips.length();
+        op.clipCount = 0;
+
+        if (shape.box != GeometryBox::View) {
+            if (!elementBox(l, element, parent, vp, box, 0)) {
+                return true;
+            }
+
+            if (shape.box == GeometryBox::Stroke && style.stroke.kind != PaintKind::None && isShape(element->name)) {
+                float half = style.strokeWidth / 2.f;
+
+                box = Box{box.x0 - half, box.y0 - half, box.x1 + half, box.y1 + half};
+            }
+        }
+
+        float w = box.x1 - box.x0;
+        float h = box.y1 - box.y0;
+        float fs = style.fontSize;
+        Path path;
+
+        if (shape.kind == ShapeKind::Circle || shape.kind == ShapeKind::Ellipse) {
+            float cx = box.x0 + shapeLength(shape.values[2], w, vp, fs);
+            float cy = box.y0 + shapeLength(shape.values[3], h, vp, fs);
+            float sides[2][2] = {{cx - box.x0, box.x1 - cx}, {cy - box.y0, box.y1 - cy}};
+            float radii[2];
+
+            for (int axis = 0; axis < 2; axis++) {
+                const Length& r = shape.values[shape.kind == ShapeKind::Circle ? 0 : axis];
+                float reference = shape.kind == ShapeKind::Circle ? sqrtf((w * w + h * h) / 2.f) : (axis ? h : w);
+
+                if (r.unit == Unit::Number && r.value < 0.f) {
+                    bool farthest = r.value < -1.5f;
+
+                    if (shape.kind == ShapeKind::Circle) {
+                        float a = minf(fabsf(sides[0][0]), fabsf(sides[0][1]));
+                        float b = minf(fabsf(sides[1][0]), fabsf(sides[1][1]));
+                        float c = maxf(fabsf(sides[0][0]), fabsf(sides[0][1]));
+                        float d = maxf(fabsf(sides[1][0]), fabsf(sides[1][1]));
+
+                        radii[axis] = farthest ? maxf(c, d) : minf(a, b);
+                    } else {
+                        radii[axis] = farthest ? maxf(fabsf(sides[axis][0]), fabsf(sides[axis][1])) : minf(fabsf(sides[axis][0]), fabsf(sides[axis][1]));
+                    }
+                } else {
+                    radii[axis] = shapeLength(r, reference, vp, fs);
+                }
+            }
+
+            ellipsePath(path, cx, cy, radii[0], radii[1]);
+        } else if (shape.kind == ShapeKind::Inset) {
+            float top = shapeLength(shape.values[0], h, vp, fs);
+            float right = shapeLength(shape.values[1], w, vp, fs);
+            float bottom = shapeLength(shape.values[2], h, vp, fs);
+            float left = shapeLength(shape.values[3], w, vp, fs);
+            float x0 = box.x0 + left;
+            float y0 = box.y0 + top;
+            float x1 = maxf(x0, box.x1 - right);
+            float y1 = maxf(y0, box.y1 - bottom);
+
+            moveTo(path, Point{x0, y0});
+            lineTo(path, Point{x1, y0});
+            lineTo(path, Point{x1, y1});
+            lineTo(path, Point{x0, y1});
+            closePath(path);
+        } else {
+            for (u32 i = 0; i < shape.pointCount; i++) {
+                Point point{box.x0 + shapeLength(shape.points[i * 2], w, vp, fs), box.y0 + shapeLength(shape.points[i * 2 + 1], h, vp, fs)};
+
+                if (i == 0) {
+                    moveTo(path, point);
+                } else {
+                    lineTo(path, point);
+                }
+            }
+
+            closePath(path);
+        }
+
+        addClipShape(l, path, m, shape.rule);
+        op.clipCount = (u32)l.clips.length() - op.clipFirst;
 
         return true;
     }
@@ -7741,6 +8310,22 @@ namespace {
         lowerViewport(l, node, style, m, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, !style.overflowVisible);
     }
 
+    static PaintValue contextPaint(const PaintValue& paint, const ComputedStyle& style) {
+        PaintValue out = paint;
+
+        if (out.kind == PaintKind::CurrentColor) {
+            out.kind = PaintKind::Color;
+            out.color = style.color;
+        }
+
+        if (out.fallback == PaintKind::CurrentColor) {
+            out.fallback = PaintKind::Color;
+            out.fallbackColor = style.color;
+        }
+
+        return out;
+    }
+
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Node* target = hrefTarget(*l.doc, node);
 
@@ -7763,6 +8348,13 @@ namespace {
         float fs = style.fontSize;
         Matrix placed = multiply(m, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f)));
 
+        bool hadContext = l.hasContext;
+        PaintValue outerFill = l.contextFill;
+        PaintValue outerStroke = l.contextStroke;
+
+        l.hasContext = true;
+        l.contextFill = contextPaint(style.fill, style);
+        l.contextStroke = contextPaint(style.stroke, style);
         l.active.pushBack(target);
 
         if (target->name == AtomSymbol) {
@@ -7786,6 +8378,9 @@ namespace {
         }
 
         l.active.popBack();
+        l.hasContext = hadContext;
+        l.contextFill = outerFill;
+        l.contextStroke = outerStroke;
     }
 
     static int base64Value(u8 c) {
@@ -8125,7 +8720,7 @@ namespace {
         StringView reference = trim(textOf(doc, href));
 
         if (reference.length() > 1 && reference[0] == '#') {
-            Node* target = elementById(doc, lookup(doc.atoms, StringView(reference.begin() + 1, reference.end())));
+            Node* target = elementById(doc, fragmentAtom(doc, StringView(reference.begin() + 1, reference.end())));
 
             if (!target) {
                 return;
@@ -8204,7 +8799,7 @@ namespace {
         Matrix m = multiply(ctm, originTransform(*l.doc, node, AtomTransform, vp));
         Op op = groupOp(style.opacity);
 
-        op.clipped = style.clipPath && resolveClip(l, node, parent, style, m, vp, op.clipFirst, op.clipCount);
+        op.clipped = style.clipPath ? resolveClip(l, node, parent, style, m, vp, op) : (style.clipShape && shapeClip(l, node, parent, style, m, vp, op));
 
         if (style.mask) {
             resolveMask(l, node, parent, style, m, vp, op);
@@ -8726,6 +9321,19 @@ namespace {
         float* mask = (float*)pool.allocate(sizeof(float) * size);
 
         memset(mask, 0, sizeof(float) * size);
+
+        if (op.clipProgram) {
+            float* content = (float*)pool.allocate(sizeof(float) * size * 4);
+
+            memset(content, 0, sizeof(float) * size * 4);
+            runProgram(r, l, l.programs.data() + op.clipFirst, op.clipCount, content);
+
+            for (size_t i = 0; i < size; i++) {
+                mask[i] = content[i * 4 + 3];
+            }
+
+            return mask;
+        }
 
         for (u32 s = op.clipFirst; s < op.clipFirst + op.clipCount; s++) {
             accumulateShape(r, l, l.clips[s], mask);
@@ -10690,6 +11298,7 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.decoder = decoder;
         l.imageDepth = 0;
         l.sized = nullptr;
+        l.hasContext = false;
         l.documentStyles.zero(doc.nodeCount);
         lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height});
 
