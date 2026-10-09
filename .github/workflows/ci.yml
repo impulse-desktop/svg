@@ -28,7 +28,7 @@ jobs:
               set -eu
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev libjpeg-dev
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" test
               head -1 .build/score.txt > score.txt
             ' 2>&1 | tee "$RUNNER_TEMP/score.log"
