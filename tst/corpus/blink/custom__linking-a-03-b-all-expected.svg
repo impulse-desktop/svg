@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Basic//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-basic.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="64 227 72 72" preserveAspectRatio="none">
+	<g id="test-body-content" transform="rotate(5)">
+		
+		<circle id="circle-1" cx="220" cy="140" r="35" style="fill:red; stroke:black"/>
+		
+		<circle id="circle-2" cx="100" cy="260" r="20" style="stroke:lime; fill:yellow; stroke-width:4"/>
+		
+		<!-- Framing rect for circle-2 -->
+		<rect x="64" y="227" width="72" height="72" style="fill:none; stroke:black"/>
+		<circle id="circle-3" cx="340" cy="260" r="50" style="stroke:blue; fill:none; stroke-width:10"/>
+		
+	</g>
+	<g id="test-legend" transform="rotate(5)">
+		<!-- Test-framing rectangle, drawn just inside viewport boundary. -->
+		<rect id="test-frame" x="1" y="1" width="478" height="358" style="fill:none; stroke:#000000"/>
+	</g>
+</svg>

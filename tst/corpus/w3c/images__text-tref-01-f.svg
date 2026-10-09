@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">  
+
+<!--======================================================================-->
+<!--=  Copyright 2000 World Wide Web Consortium, (Massachusetts          =-->
+<!--=  Institute of Technology, Institut National de Recherche en        =-->
+<!--=  Informatique et en Automatique, Keio University). All Rights      =-->
+<!--=  Reserved. See http://www.w3.org/Consortium/Legal/.                =-->
+<!--======================================================================-->
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!-- text-tref-BE-04.svg                                                   -->
+<!-- renamed for 1.1 suite to text-tref-01-f.svg                           -->
+<!--                                                                       -->
+<!-- Test basic capability to handle 'tref' element and attributes.        -->
+<!--                                                                       -->
+<!--                                                                       -->
+<!-- Author : Lofton Henderson, 20-Mar-2000.                               -->
+<!-- 1.1 revision by Vincent Hardy                                         -->
+<!--                                                                       -->
+<!-- History:                                                              -->
+<!--   20-Mar-2000, LH: Serial#1 created.                                  -->
+<!--   24-Apr-2000, LH=" fix bugs in 3rd and 4th tests" serial#2.           -->
+<!--  03-Aug-2000, LH=" update DOCTYPE for CR DTD, 20000802" ser# .         -->
+<!--   24-Oct-2000, LH=" rmv external reference, per f2f" ser#3             -->
+<!-- ===================================================================== -->
+<!--======================================================================-->
+<!--= Note. After October 2000, revision history is kept as CVS 'commit' =-->
+<!--= log messages, and therefore is no longer in the preceding preamble.=-->
+<!--======================================================================-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  id="svg-root" width="480" height="360">
+    <SVGTestCase xmlns="http://www.w3.org/2000/02/svg/testsuite/description/">
+        <OperatorScript>
+            <Paragraph>
+                Test for viewer capability to handle the basics of the 'tref' element
+                and its attributes.  Basic referencing is tested, as well as 
+                the equivalence of 'tref' to 'tspan' in attributes handling.
+                There are five sub-tests.
+            </Paragraph>
+            <Paragraph>
+                The first box down from the top should contain green "Simple internal referenced text.",
+                which is obtained by a 'tref' element reference to a 'text' element in a 'defs'
+                section of this test file.
+            </Paragraph>
+            <Paragraph>
+                The second box from the top tests changing of visual properties 
+                of 'tref' substrings.  It should contain 
+                the string "Change color within string.", blue except for the single
+                word "color" in red.  Three 'tref' elements within the
+                'text' element each point to a substring in the 'defs' section of
+                this test file -- the second 'tref' sets fill color to red and the
+                others set fill color to blue.
+            </Paragraph>
+            <Paragraph>
+                The third box from the top tests an x-coordinate list in a 'tref', 
+                which individually places each character of the string "Char-by-char."  
+                The string is in a single 'text' element in the 'defs' section. 
+            </Paragraph>
+            <Paragraph>
+                The fourth box from the top tests that the x,y attributes of 'tref' behave
+                like those of 'tspan'.  The string
+                "Bouncing up and down." is formed by four 'tref' elements pointing to 'text'
+                elements in the 'defs' section, and each 'tref' is individually 
+                positioned by the x,y attributes.
+            </Paragraph>
+            <Paragraph>
+                The final sub-test actually involves the single-line test description at the very
+                top.  It is written initially in blue, and then at the end is over-written in
+                black by a 'tref' pointing to the 'desc' element of the test.
+            </Paragraph>
+            <Paragraph>
+                The rendered picture should match the reference image, except that some color
+                "fuzziness" in the top line may result from anti-aliasing.
+                Also, variations are possible in the text fonts and layout (per CSS2 rules).
+            </Paragraph>
+            <Paragraph>
+                The test also uses the 'rect' element, 
+                as well as basic fill (solid primary colors), 
+                stroke (black 1-pixel lines), font-family (Helvetica) 
+                and font-size properties.
+            </Paragraph>
+        </OperatorScript>
+    </SVGTestCase>
+
+	<title id="test-title">text-tref-01-f</title>
+	<desc id="test-desc">Basic test of 'tref' element and its attributes.</desc>
+	<!--======================================================================-->
+	<!--Content of Test Case follows...                  =====================-->
+	<!--======================================================================-->
+	<g id="test-body-content">
+		<defs>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</defs>
+		<!-- Test case label: this should be overwritten in black by final test. -->
+		
+		<!-- First sub-test, internal tref reference, within this file -->
+		
+		<rect x="180" y="55" width="230" height="18" fill="none" stroke="black" />
+		
+		<!-- Second sub-test, tref like tspan, for changing properties -->
+		
+		<rect x="25" y="105" width="215" height="18" fill="none" stroke="black" />
+		
+		<!-- Third sub-test, tref like tspan, x,y position list -->
+		
+		<rect x="180" y="150" width="230" height="18" fill="none" stroke="black" />
+		
+		<!-- Fourth sub-test, tref like tspan, changing x,y position -->
+		
+		<rect x="25" y="199" width="215" height="56" fill="none" stroke="black" />
+		
+		<!-- Final test: overwrite test label in black, by tref to 'desc' element
+	instead of reference to 'text' element(s) within 'defs'. -->
+		
+		<!--  Patch simululation of above...
+	  
+-->
+	</g>
+    <!--======================================================================-->
+    <!--Legend and frame:      Title, suite and SVG document serialization====-->
+    <!--======================================================================-->
+    <g id="test-legend" fill="black" font-family="Helvetica" font-size="10" >
+        <rect x="10" y="300" width="275" height="50" fill="none" stroke="#000000" />
+        <path fill="none" stroke="#000000"  d="M10 315 h275 M205 315 v35 M10 336 h195 M205 332 h80"/>
+        
+        <a xlink:href="copyright-documents-19990405.html">
+            
+        </a>
+        
+        
+        
+        <rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000" />
+    </g>
+</svg>

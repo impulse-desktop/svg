@@ -1,0 +1,576 @@
+<svg version="1.1" baseProfile="tiny" id="svg-root"
+  width="100%" height="100%" viewBox="0 0 480 360"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!--======================================================================-->
+  <!--=  SVG 1.1 2nd Edition Test Case                                     =-->
+  <!--======================================================================-->
+  <!--=  Copyright 2009 World Wide Web Consortium, (Massachusetts          =-->
+  <!--=  Institute of Technology, European Research Consortium for         =-->
+  <!--=  Informatics and Mathematics (ERCIM), Keio University).            =-->
+  <!--=  All Rights Reserved.                                              =-->
+  <!--=  See http://www.w3.org/Consortium/Legal/.                          =-->
+  <!--======================================================================-->
+  <d:SVGTestCase xmlns:d="http://www.w3.org/2000/02/svg/testsuite/description/"
+    template-version="1.4" reviewer="SVGWG" author="Chris Lilley" status="accepted"
+    version="$Revision: 1.6 $" testname="$RCSfile: struct-cond-02-t.svg,v $">
+    <d:testDescription xmlns="http://www.w3.org/1999/xhtml" href="http://www.w3.org/TR/SVG11/struct.html#ConditionalProcessing">
+      <p>
+        This tests ability to use the 'systemLanguage' as a test attribute within a
+        switch element.
+      </p>
+    </d:testDescription>
+    <d:operatorScript xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+      	Run the test. No interaction required.
+      </p>
+    </d:operatorScript>
+    <d:passCriteria xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        To pass, either the name (in English) of the current system language, or
+        the names of the three languages (English, French and Japanese) of W3C
+        must appear. The second case will occur if either the user language is
+        not one of the (60 or so) languages present in the test, or if there is
+        no user language information available.
+      </p>
+      <p>
+        It is an error to display no output; the last child of switch has no test, so
+        it will always be taken unless a more suitable child has already evaluated to true.
+      </p>
+      <p>
+        In addition, the string "Why don't they just speak &lt;language&gt;" should appear
+        in the center of the graphic, translated into that language. It is not an error for
+        some or all of this string to display as 'missing character'  glyphs, if no
+        suitable font is available - however, this is unlikely if the language is indeed
+        the users primary language. (It can easily occur during testing, however).
+      </p>
+    </d:passCriteria>
+  </d:SVGTestCase>
+  <title id="test-title">$RCSfile: struct-cond-02-t.svg,v $</title>
+  <defs>
+    <font-face font-family="SVGFreeSansASCII" unicode-range="U+0-7F">
+      <font-face-src>
+        <font-face-uri xlink:href="../resources/SVGFreeSans.svg#ascii"/>
+      </font-face-src>
+    </font-face>
+  </defs>
+  <g id="test-body-content" font-family="SVGFreeSansASCII,sans-serif" font-size="18">
+    <g fill="black" stroke="none" font-size="24" font-weight="normal" font-family="Arial, Tahoma, Verdana, 'Arial Unicode MS', Code2000">
+      <!-- a blank one
+
+
+-->
+      <!-- put sample here for testing -->
+      <switch>
+        <g systemLanguage="af">
+          
+          
+        </g>
+        <g systemLanguage="am">
+          
+          
+        </g>
+        <g systemLanguage="ar">
+          <!-- this is a tiny test so there is no text-anchor, thus rtl text is explicitly positioned -->
+          
+          
+        </g>
+        <g systemLanguage="bg">
+          
+          
+        </g>
+        <g systemLanguage="bn">
+          
+          
+        </g>
+        <!-- 
+Tibetan needs complex layout: this will not work correctly though the font has the right glyphs: 
+<g systemLanguage="bo">
+					
+					
+				</g>-->
+        <g systemLanguage="ca">
+          
+          
+        </g>
+        <g systemLanguage="cs">
+          
+          
+        </g>
+        <g systemLanguage="cy">
+          
+          
+        </g>
+        <g systemLanguage="da">
+          
+          
+        </g>
+        <!-- need a generic german, too -->
+        <g systemLanguage="de-DE">
+          
+          
+        </g>
+        <g systemLanguage="el">
+          
+          
+        </g>
+        <g systemLanguage="en">
+          
+          
+        </g>
+        <g systemLanguage="es">
+          
+          
+        </g>
+        <g systemLanguage="eu">
+          
+          
+        </g>
+        <g systemLanguage="fa">
+          
+          
+        </g>
+        <g systemLanguage="fi">
+          
+          
+        </g>
+        <!-- put Canadian French before generic French -->
+        <g systemLanguage="fr">
+          
+          
+        </g>
+        <g systemLanguage="gd">
+          
+          
+        </g>
+        <g systemLanguage="gu">
+          
+          
+        </g>
+        <g systemLanguage="he">
+          <!-- he or iw, check -->
+          
+          
+        </g>
+        <g systemLanguage="hi">
+          
+          
+        </g>
+        <g systemLanguage="hr">
+          
+          
+        </g>
+        <g systemLanguage="hu">
+          
+          
+        </g>
+        <g systemLanguage="hy">
+          
+          
+        </g>
+        <g systemLanguage="id">
+          
+          
+        </g>
+        <g systemLanguage="is">
+          
+          
+        </g>
+        <g systemLanguage="it">
+          
+          
+        </g>
+        <g systemLanguage="iu">
+          <!-- unable to distinguish North Baffin Island Inuktitut from 
+			     South/Central Baffin Island Inuktitut
+			     because ISO 3166 codes do not offer any finer 
+			     resolution than 'Canadian' -->
+          
+          
+        </g>
+        <g systemLanguage="ja-JP">
+          
+          
+        </g>
+        <g systemLanguage="jw">
+          
+          
+        </g>
+        <g systemLanguage="ka">
+          
+          
+        </g>
+        <g systemLanguage="kk">
+          
+          
+        </g>
+        <g systemLanguage="kn">
+          
+          
+        </g>
+        <g systemLanguage="ko">
+          
+          
+        </g>
+        <g systemLanguage="ky">
+          
+          
+        </g>
+        <g systemLanguage="lt">
+          
+          
+        </g>
+        <g systemLanguage="mk">
+          
+          
+        </g>
+        <g systemLanguage="mr">
+          
+          
+        </g>
+        <g systemLanguage="nl">
+          
+          
+        </g>
+        <g systemLanguage="no">
+          
+          
+        </g>
+        <g systemLanguage="or">
+          
+          
+        </g>
+        <g systemLanguage="pl">
+          
+          
+        </g>
+        <!-- test two specific types of Portugese, then a generic alternative -->
+        <g systemLanguage="pt-PT">
+          
+          
+        </g>
+        <g systemLanguage="pt-BR">
+          
+          
+        </g>
+        <g systemLanguage="pt">
+          
+          
+        </g>
+        <g systemLanguage="ro">
+          
+          
+        </g>
+        <g systemLanguage="ru">
+          
+          
+        </g>
+        <g systemLanguage="sa">
+          
+          
+        </g>
+        <g systemLanguage="sr">
+          
+          
+        </g>
+        <g systemLanguage="si">
+          
+          
+          <!-- Sinhalese needs somewhat complex layout (many paired special cases, see 
+http://www-texdev.mpce.mq.edu.au/l2h/indic/Sinhala/lreport/node1.html 
+so this 'chart' font is not entirely suitable-->
+        </g>
+        <g systemLanguage="sl">
+          
+          
+        </g>
+        <g systemLanguage="sq">
+          
+          
+        </g>
+        <g systemLanguage="sv">
+          
+          
+        </g>
+        <g systemLanguage="ta">
+          
+          
+        </g>
+        <g systemLanguage="te">
+          
+          
+        </g>
+        <g systemLanguage="tg">
+          
+          
+        </g>
+        <g systemLanguage="th">
+          
+          
+        </g>
+        <g systemLanguage="tl">
+          
+          
+        </g>
+        <g systemLanguage="tr">
+          
+          
+        </g>
+        <g systemLanguage="tt">
+          
+          
+        </g>
+        <g systemLanguage="uk">
+          
+          
+        </g>
+        <g systemLanguage="ur-IN">
+          
+          
+        </g>
+        <g systemLanguage="ur-PK">
+          
+          
+        </g>
+        <!-- should have a generic Urdu here for when user preference is Urdu but neither Pakistan Urdu nor Indian Urdu -->
+        <g systemLanguage="uz">
+          
+          
+        </g>
+        <g systemLanguage="vi">
+          
+          
+        </g>
+        <g systemLanguage="yi">
+          
+          
+        </g>
+        <g systemLanguage="zh-CN">
+          
+          
+        </g>
+        <g systemLanguage="zh-TW">
+          
+          
+        </g>
+        <g>
+          <!-- the default case, try three languages of W3C host institutions -->
+          
+          
+          
+          
+        </g>
+      </switch>
+      <!-- action item was to make a switch "for all ISO 639-1 language codes",
+     a large task not completed. But there is enough here to make a good test case, 
+     including 19 of the top 20 langiuages by number of speakers (except Punjabi).
+     
+     Here is the full list (trailing * indicates language included in this test), 
+     accurate as of October 22, 2002 from the registration authority:
+      http://lcweb.loc.gov/standards/iso639-2/langcodes.html
+
+  aa Afar
+  ab Abkhazian
+  af Afrikaans *
+  am Amharic *
+  ar Arabic *
+  as Assamese
+  ae Avestan
+  ay Aymara
+  az Azerbaijani
+
+  ba Bashkir
+  be Byelorussian
+  bg Bulgarian *
+  bh Bihari
+  bi Bislama
+  bn Bengali [Bangla] *
+  bo Tibetan *
+  br Breton
+  bs Bosnian
+
+  ca Catalan *
+  ce Chechen 
+  ch Chamorro
+  co Corsican
+  cs Czech *
+  cu Church Slavic
+  cv Chuvash
+  cy Welsh *
+
+  da Danish *
+  de German *
+  dz Dzongkha [Bhutani]
+
+  el Greek, Modern (1453-) *
+  en English, Modern *
+  eo Esperanto
+  es Spanish *
+  et Estonian
+  eu Basque *
+
+  fa Persian (Farsi) *
+  fi Finnish *
+  fj Fijian
+  fo Faeroese
+  fr French, Modern *
+  fy Frisian
+
+  ga Irish
+  gd Scots Gaelic *
+  gl Gallegan [Galician]
+  gn Guarani
+  gu Gujarati *
+  gv Manx
+
+  ha Hausa
+  he Hebrew *
+  hi Hindi *
+  ho Hiri Motu
+  hr Croatian *
+  hu Hungarian *
+  hy Armenian *
+  hz Herero
+
+  ia Interlingua
+  id Indonesian *
+  ie Interlingue
+  ik Inupiak
+  is Icelandic *
+  it Italian *
+  iu Inuktitut *
+  iw Hebrew *
+
+  ja Japanese *
+  jw Javanese
+
+  ka Georgian *
+  ki Kikuyu
+  kj Kuanyama
+  kk Kazakh *
+  kl Kalaallisut [Greenlandic]
+  km Khmer [Cambodian]
+  kn Kannada *
+  ko Korean *
+  ks Kashmiri
+  ku Kurdish
+  kv Komi
+  kw Cornish
+  ky Kirghiz *
+
+  la Latin
+  ln Lingala
+  lo Lao [Laothian]
+  lt Lithuanian *
+  lv Latvian [Lettish]
+
+  mg Malagasy
+  mh Marshall
+  mi Maori
+  mk Macedonian *
+  ml Malayalam
+  mn Mongolian
+  mo Moldavian
+  mr Marathi *
+  ms Malay
+  mt Maltese
+  my Burmese
+
+  na Nauru
+  nb Norwegian Bokmal
+  nd Ndebele, North
+  ne Nepali
+  ng Ndonga
+  nl Dutch *
+  nn Norwegian Nynorsk
+  no Norwegian *
+  nr Ndebele, South
+  nv Navajo
+  ny Chichewa~@Nyanja  
+
+  oc Occitan (post 1500); Provencal
+  om Oromo [Afan]
+  or Oriya *
+  os Ossetian; Ossetic
+
+  pa Panjabi
+  pi Pali
+  pl Polish *
+  ps Pushto [Pashto]
+  pt Portuguese *
+
+  qu Quechua
+
+  rm Rhaeto-Romance
+  rn Kirundi
+  ro Romanian *
+  ru Russian *
+  rw Kinyarwanda
+
+  sa Sanskrit *
+  sc Sardinian
+  sd Sindhi
+  se Northern Sami
+  sg Sangro
+  sr Serbian *
+  si Sinhalese *
+  sk Slovak
+  sl Slovenian *
+  sm Samoan
+  sn Shona
+  so Somali
+  sq Albanian *
+  sr Serbian
+  ss Swati [Siswati]
+  st Sotho, Southern  [Sesotho]
+  su Sundanese
+  sv Swedish *
+  sw Swahili
+
+  ta Tamil *
+  te Tegulu *
+  tg Tajik *
+  th Thai *
+  ti Tigrinya
+  tk Turkmen
+  tl Tagalog *
+  tn Tswana [Setswana]  
+  to Tonga
+  tr Turkish *
+  ts Tsonga
+  tt Tatar *
+  tw Twi
+
+  ug Uighur
+  uk Ukrainian *
+  ur Urdu *
+  uz Uzbek *
+
+  vi Vietnamese *
+  vo Volapuk
+
+  wo Wolof
+
+  xh Xhosa
+
+  yi Yiddish *
+  yo Yoruba
+
+  za Zhuang
+  zh Chinese *
+  zu Zulu
+
+note: http://msdn.microsoft.com/workshop/management/ISO639codes.htm is obselete and incorrect
+
+-->
+    </g>
+  </g>
+  <g font-family="SVGFreeSansASCII,sans-serif" font-size="32">
+    
+  </g>
+  <rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000"/>
+  <!-- comment out this watermark once the test is approved -->
+  <!--<g id="draft-watermark">
+    <rect x="1" y="1" width="478" height="20" fill="red" stroke="black" stroke-width="1"/>
+    
+  </g>-->
+</svg>

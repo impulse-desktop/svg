@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">  
+
+<!--======================================================================-->
+<!--=  Copyright 2000 World Wide Web Consortium, (Massachusetts          =-->
+<!--=  Institute of Technology, Institut National de Recherche en        =-->
+<!--=  Informatique et en Automatique, Keio University). All Rights      =-->
+<!--=  Reserved. See http://www.w3.org/Consortium/Legal/.                =-->
+<!--======================================================================-->
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!-- text-textAnchor-BE-05.svg                                             -->
+<!-- renamed for 1.1 suite to text-align-02-f.svg                          -->
+<!--                                                                       -->
+<!-- Test viewer basic capability to handle 'text-anchor' property.        -->
+<!--                                                                       -->
+<!-- Author : Lofton Henderson, 05-aug-2000.                               -->
+<!-- 1.1 revision by Vincent Hardy                                         -->
+<!--                                                                       -->
+<!-- History:                                                              -->
+<!--  05-aug-2000, LH: Serial#1 created.                                   -->
+<!--  23-aug-2000, LH=" add test-body-content 'g'" ser#2                    -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<!--======================================================================-->
+<!--= Note. After October 2000, revision history is kept as CVS 'commit' =-->
+<!--= log messages, and therefore is no longer in the preceding preamble.=-->
+<!--======================================================================-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  id="svg-root" width="480" height="360">
+    <SVGTestCase xmlns="http://www.w3.org/2000/02/svg/testsuite/description/">
+        <OperatorScript>
+            <Paragraph>
+                Test for viewer capibility to handle the basics of the 'textAnchor' 
+                alignment property for 'text' and related elements.
+            </Paragraph>
+            <Paragraph>
+                There are several groups of sub-tests.  The first group at the top has an 
+                initial sub-test with no text-anchor property ("none"), then 
+                tests the three values of the text-anchor property -- start, middle, end -- 
+                for simple 'text' elements.  In each case, the x-coordinate attribute of
+                the 'text' element corresponds to the position of the vertical red line.
+            </Paragraph>
+            <Paragraph>
+                The second group from the top contains sub-tests to verify that the
+                interpreter handles text-anchor when the text is comprised of other 
+                text related elements, 'tspan', 'tref', and 'textPath'.  
+                The text-anchor property is present on the containing 'text' element
+                in these cases, not on the contained child elements.
+            </Paragraph>
+            <Paragraph>
+                The third group from the top contains sub-tests to verify that
+                the interpreter correctly handles and applies the text-anchor 
+                properties when present on "chunks", which are comprised of tspan elements
+                with absolute positioning, within the containing 'text' element.
+            </Paragraph>
+            <Paragraph>
+                The rendered picture should match the reference image, except for
+                possible variations in the text fonts and layout (per CSS2 rules).
+            </Paragraph>
+            <Paragraph>
+                The test also uses the 'rect' element, 
+                as well as basic fill (solid primary colors), 
+                stroke (black 1-pixel lines), font-family (Helvetica) 
+                and font-size properties.
+            </Paragraph>
+        </OperatorScript>
+    </SVGTestCase>
+
+	<title id="test-title">text-align-03-f</title>
+	<desc id="test-desc">Test viewer basic capability to handle 'text-anchor' property.</desc>
+	<!--======================================================================-->
+	<!--Content of Test Case follows...                  =====================-->
+	<!--======================================================================-->
+	<g id="test-body-content">
+		<defs>
+			
+			<path id="myPath" d="M 150 135 375 135"/>
+		</defs>
+		
+		
+		
+		<!-- Test cases -->
+		<g font-size="12" fill="blue" >
+                        <line x1="105" y1="60" x2="105" y2="145" stroke="red" />
+			
+			
+			
+			
+		</g>
+		<!-- Labels -->
+		<g font-size="10" fill="black" >
+			
+			
+			
+			
+		</g>
+		
+		<!-- Test cases -->
+		<line x1="375" y1="60" x2="375" y2="145" stroke="red" />
+		<g font-family="Helvetica" font-size="10" fill="blue" >
+			
+			
+			
+			
+		</g>
+		<!-- Labels -->
+		<g font-family="Helvetica" font-size="10" fill="black" >
+			
+			
+			
+			
+		</g>
+		
+		<!-- Test cases -->
+		<line x1="225" y1="195" x2="225" y2="265" stroke="red" />
+		<g font-family="Helvetica" font-size="10" fill="blue" >
+			
+		</g>
+		<!-- Labels -->
+		<g font-family="Helvetica" font-size="10" fill="black" >
+			
+			
+			
+		</g>
+	</g>
+    <!--======================================================================-->
+    <!--Legend and frame:      Title, suite and SVG document serialization====-->
+    <!--======================================================================-->
+    <g id="test-legend" fill="black" font-family="Helvetica" font-size="10" >
+        <rect x="10" y="300" width="275" height="50" fill="none" stroke="#000000" />
+        <path fill="none" stroke="#000000"  d="M10 315 h275 M205 315 v35 M10 336 h195 M205 332 h80"/>
+        
+        <a xlink:href="copyright-documents-19990405.html">
+            
+        </a>
+        
+        
+        
+        <rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000" />
+    </g>
+
+</svg>

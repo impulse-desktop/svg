@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd" [
+	<!ENTITY % svgExt "| SVGTestCase">
+	<!ELEMENT SVGTestCase (OperatorScript)>
+	<!ATTLIST SVGTestCase
+	xmlns CDATA #REQUIRED
+>
+	<!ELEMENT OperatorScript (Paragraph)*>
+	<!ATTLIST OperatorScript
+	version CDATA #IMPLIED
+		testname CDATA #IMPLIED
+>
+	<!ELEMENT Paragraph (#PCDATA)>
+]>
+<!--======================================================================-->
+<!--=  Copyright 2000 World Wide Web Consortium, (Massachusetts          =-->
+<!--=  Institute of Technology, Institut National de Recherche en        =-->
+<!--=  Informatique et en Automatique, Keio University). All Rights      =-->
+<!--=  Reserved. See http://www.w3.org/Consortium/Legal/.                =-->
+<!--======================================================================-->
+<!-- ===================================================================== -->
+<!-- Author : Jon Ferraiolo 06-Aug-2000                                    -->
+<!-- 1.1 revisions by Vincent Hardy, Chris Lilley                                         -->
+<!--======================================================================-->
+<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg-root" width="100%" height="100%" viewBox="0 0 480 360">
+	<SVGTestCase xmlns="http://www.w3.org/2000/02/svg/testsuite/description/">
+		<OperatorScript version="$Revision: 1.10 $" testname="text-intro-04-t.svg">
+			<Paragraph>
+                Test basic aspect of internationalized text.
+            </Paragraph>
+			<Paragraph>
+                Various text strings in various languages appear. The main
+                purpose of the test is to verify that the correct characters
+                appear and that they appear in the correct order and orientation. 
+            </Paragraph>
+			<Paragraph>
+				Correct rendering requires that each character is rendered. It is not required that a given character 
+				be rendered with any particular font; just that it is rendered.
+				It may be rendered with the 'missing glyph' if no 
+           		glyphs are found in the fonts listed in the content, or in any fallback font that is available.
+			</Paragraph>
+			<Paragraph>
+                A future version of this test
+                might include all necessary glyphs as an SVG font.
+            </Paragraph>
+		</OperatorScript>
+	</SVGTestCase>
+	<title id="test-title">text-intro-04-t</title>
+	<desc id="test-desc">Test basic of internationalized text.</desc>
+	<!--======================================================================-->
+	<!--Content of Test Case follows...                  =====================-->
+	<!--======================================================================-->
+	<defs></defs>
+	<g id="test-body-content">
+		
+		<g font-size="17">
+			
+			
+			
+			<!-- Greek and japanese smaller just to make it fit on the line -->
+			
+			
+			
+			
+		</g>
+	</g>
+	
+	<rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000000"/>
+</svg>

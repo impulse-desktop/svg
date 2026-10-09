@@ -1,0 +1,83 @@
+# svg
+
+[![CI](https://github.com/impulse-desktop/svg/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/impulse-desktop/svg/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+An SVG renderer of its own for the impulse desktop: parser, document model
+and rasterizer, written from scratch and measured against Chromium on a
+corpus of thousands of files.
+
+The renderer is two files, `svg.h` and `svg.cpp`, over
+[libstd](https://github.com/pg83/std). A program that uses it copies both
+into its `ext/`.
+
+## Scope
+
+Static SVG without text: no `<text>`, no SMIL or CSS animation, no script,
+no `foreignObject`. Raster images inside a document are decoded by the
+program that embeds the renderer. Correctness comes first; speed and
+memory come after it.
+
+## The contract
+
+```cpp
+SvgLibrary* library = SvgLibrary::create(pool);
+SvgDocument* document = library->parse(pool, bytes);
+SvgImage* image = document->render(pool, width, height);
+```
+
+`render(width, height)` draws the document the way Chromium draws it as an
+image of that size: `<img src="file.svg" style="width: Wpx; height: Hpx">`.
+The pixels are RGBA, 8 bits a channel, not premultiplied.
+
+## The score
+
+`./build test` draws every case of the corpus and prints one number, the
+score; lower is better, 0 is Chromium itself.
+
+- A case is one file of `tst/corpus/<source>/` and Chromium's two drawings
+  of it next to it: `<name>.1x.png`, its longer side 256 pixels, and
+  `<name>.2x.png`, 512 pixels.
+- The error of one drawing is the mean absolute difference between ours
+  and Chromium's over every pixel and channel, in premultiplied RGBA,
+  scaled to [0, 1]. A crash or a drawing past two minutes counts as 1.
+- The score is the root mean square of the errors of every drawing.
+
+`$(B)/score.txt` holds the score and every case with its two errors, the
+worst first. `-Dfilter=GLOB` scores the cases whose path under
+`tst/corpus` matches, `./build -Dfilter='resvg/*' test`.
+
+## The corpus
+
+| source | what |
+|---|---|
+| `resvg` | the resvg test suite |
+| `w3c` | the W3C SVG 1.1 test suite |
+| `blink` | Chromium's `web_tests/svg` |
+| `wpt` | web-platform-tests: `svg`, `css-masking`, `filter-effects`, `compositing` |
+| `adwaita`, `breeze`, `papirus` | desktop icon themes |
+| `mdi`, `simple`, `tabler`, `bootstrap`, `fontawesome` | icon sets |
+
+`tst/import.py RAW CORPUS` takes the files from the unpacked sources: text
+elements are cut out, files with what is out of scope are left out, equal
+files are kept once, and the large icon sets are sampled with a fixed seed.
+`tst/reference.py CHROMIUM CORPUS JOBS` draws the references with headless
+Chromium through its DevTools pipe and drops the files Chromium cannot
+draw; `tst/corpus/CHROMIUM` names the version. The corpus grows; the
+references are drawn again only when Chromium is changed.
+
+## Building
+
+You need clang 21 or GCC 16, Python 3 and libpng.
+
+```
+./build          # .build/svg, the test driver
+./build test     # the score
+```
+
+`svg render IN.svg OUT.png WIDTH HEIGHT` draws one file;
+`svg test IN.svg SCORE REFERENCE.png...` writes the errors of one case.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
