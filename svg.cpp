@@ -880,6 +880,22 @@ namespace {
         return atom && atom < doc.byId.length() ? doc.byId[atom] : nullptr;
     }
 
+    static Node* hrefTarget(const Document& doc, const Node* node) {
+        u32 value = attribute(node, AtomHref);
+
+        if (!value) {
+            return nullptr;
+        }
+
+        StringView text = trim(textOf(doc, value));
+
+        if (text.length() < 2 || text[0] != '#') {
+            return nullptr;
+        }
+
+        return elementById(doc, lookup(doc.atoms, StringView(text.begin() + 1, text.end())));
+    }
+
     [[noreturn]] static void fail() {
         throw XmlError();
     }
@@ -4465,7 +4481,7 @@ namespace {
                 return value;
             }
 
-            Node* next = elementById(doc, attribute(node, AtomHref));
+            Node* next = hrefTarget(doc, node);
 
             if (!next || (next->name != AtomLinearGradient && next->name != AtomRadialGradient) || next == node) {
                 break;
@@ -4487,7 +4503,7 @@ namespace {
                 }
             }
 
-            Node* next = elementById(doc, attribute(node, AtomHref));
+            Node* next = hrefTarget(doc, node);
 
             if (!next || (next->name != AtomLinearGradient && next->name != AtomRadialGradient) || next == node) {
                 break;
@@ -4737,7 +4753,7 @@ namespace {
         };
 
         if (node->name == AtomUse) {
-            Node* target = elementById(*l.doc, attribute(node, AtomHref));
+            Node* target = hrefTarget(*l.doc, node);
 
             if (target && target != node) {
                 add(target, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
@@ -4827,7 +4843,7 @@ namespace {
             Matrix childSpace = multiply(space, transformOf(doc, child, AtomTransform));
 
             if (child->name == AtomUse) {
-                shape = elementById(doc, attribute(child, AtomHref));
+                shape = hrefTarget(doc, child);
 
                 if (!shape || !isShape(shape->name)) {
                     continue;
@@ -5002,7 +5018,7 @@ namespace {
     }
 
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
-        Node* target = elementById(*l.doc, attribute(node, AtomHref));
+        Node* target = hrefTarget(*l.doc, node);
 
         if (!target || l.active.length() > 32) {
             return;
