@@ -61,6 +61,9 @@ using namespace stl;
     ATOM(GradientTransform, "gradientTransform")     \
     ATOM(SpreadMethod, "spreadMethod")               \
     ATOM(ClipPathUnits, "clipPathUnits")             \
+    ATOM(PatternUnits, "patternUnits")               \
+    ATOM(PatternContentUnits, "patternContentUnits") \
+    ATOM(PatternTransform, "patternTransform")       \
     ATOM(MaskUnits, "maskUnits")                     \
     ATOM(MaskContentUnits, "maskContentUnits")       \
     ATOM(SystemLanguage, "systemLanguage")           \
@@ -403,6 +406,7 @@ namespace {
         Linear,
         Radial,
         Image,
+        Pattern,
     };
 
     enum Spread : u8 {
@@ -437,6 +441,10 @@ namespace {
         u32 imageWidth;
         u32 imageHeight;
         bool smooth;
+        u32 programFirst;
+        u32 programCount;
+        float* tile;
+        float opacity;
     };
 
     struct ClipShape {
@@ -5593,6 +5601,178 @@ namespace {
         return paint;
     }
 
+    static u32 patternAttribute(const Document& doc, Node* pattern, u32 name, Node** owner) {
+        Node* node = pattern;
+
+        for (u32 hops = 0; node && hops < 16; hops++) {
+            if (u32 value = attribute(node, name)) {
+                if (owner) {
+                    *owner = node;
+                }
+
+                return value;
+            }
+
+            Node* next = hrefTarget(doc, node);
+
+            if (!next || next->name != AtomPattern || next == node) {
+                break;
+            }
+
+            node = next;
+        }
+
+        return 0;
+    }
+
+    static bool renderable(u32 name);
+
+    static Node* patternContent(const Document& doc, Node* pattern) {
+        Node* node = pattern;
+
+        for (u32 hops = 0; node && hops < 16; hops++) {
+            for (Node* child = node->first; child; child = child->next) {
+                if (renderable(child->name)) {
+                    return node;
+                }
+            }
+
+            Node* next = hrefTarget(doc, node);
+
+            if (!next || next->name != AtomPattern || next == node) {
+                break;
+            }
+
+            node = next;
+        }
+
+        return nullptr;
+    }
+
+    static float patternLength(Lowering& l, Node* pattern, u32 name, bool boxUnits, Axis axis, Viewport vp, float fallback) {
+        u32 value = patternAttribute(*l.doc, pattern, name, nullptr);
+        Length length;
+
+        if (!value || !parseLength(textOf(*l.doc, value), length)) {
+            return fallback;
+        }
+
+        if (boxUnits) {
+            return length.unit == Unit::Percent ? length.value / 100.f : length.value;
+        }
+
+        return resolveLength(length, axis, vp, 16.f);
+    }
+
+    static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
+
+    static DevicePaint* patternPaint(Lowering& l, Node* pattern, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
+        const Document& doc = *l.doc;
+
+        for (Node* active : l.active) {
+            if (active == pattern) {
+                return nullptr;
+            }
+        }
+
+        u32 units = patternAttribute(doc, pattern, AtomPatternUnits, nullptr);
+        u32 contentUnits = patternAttribute(doc, pattern, AtomPatternContentUnits, nullptr);
+        bool boxUnits = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+        bool boxContent = contentUnits && textOf(doc, contentUnits) == StringView(u8"objectBoundingBox");
+        float bw = bbox.x1 - bbox.x0;
+        float bh = bbox.y1 - bbox.y0;
+
+        if ((boxUnits || boxContent) && (!boxValid(bbox) || bw <= 0.f || bh <= 0.f)) {
+            return nullptr;
+        }
+
+        float x = patternLength(l, pattern, AtomX, boxUnits, Axis::X, vp, 0.f);
+        float y = patternLength(l, pattern, AtomY, boxUnits, Axis::Y, vp, 0.f);
+        float w = patternLength(l, pattern, AtomWidth, boxUnits, Axis::X, vp, 0.f);
+        float h = patternLength(l, pattern, AtomHeight, boxUnits, Axis::Y, vp, 0.f);
+
+        if (boxUnits) {
+            x = bbox.x0 + x * bw;
+            y = bbox.y0 + y * bh;
+            w *= bw;
+            h *= bh;
+        }
+
+        Node* content = patternContent(doc, pattern);
+
+        if (w <= 0.f || h <= 0.f || !content) {
+            return nullptr;
+        }
+
+        Matrix space = ctm;
+        u32 transform = patternAttribute(doc, pattern, AtomPatternTransform, nullptr);
+        Matrix local;
+
+        if (transform && parseTransform(textOf(doc, transform), local)) {
+            space = multiply(space, local);
+        }
+
+        space = multiply(space, translation(x, y));
+
+        Matrix inner = identity();
+        Node* viewBoxOwner = nullptr;
+        u32 viewBoxValue = patternAttribute(doc, pattern, AtomViewBox, &viewBoxOwner);
+        Box viewBox;
+
+        if (viewBoxValue && parseViewBox(doc, viewBoxOwner, viewBox)) {
+            if (viewBox.x1 <= viewBox.x0 || viewBox.y1 <= viewBox.y0) {
+                return nullptr;
+            }
+
+            Node* ratioOwner = pattern;
+
+            patternAttribute(doc, pattern, AtomPreserveAspectRatio, &ratioOwner);
+            inner = viewBoxTransform(doc, ratioOwner, viewBox, w, h);
+        } else if (boxContent) {
+            inner = scaling(bw, bh);
+        }
+
+        float sx = sqrtf(space.a * space.a + space.b * space.b);
+        float sy = sqrtf(space.c * space.c + space.d * space.d);
+        float tw = ceilf(w * sx);
+        float th = ceilf(h * sy);
+
+        if (!(tw >= 1.f) || !(th >= 1.f)) {
+            tw = maxf(tw, 1.f);
+            th = maxf(th, 1.f);
+        }
+
+        tw = minf(tw, 2048.f);
+        th = minf(th, 2048.f);
+
+        DevicePaint* paint = l.pool->make<DevicePaint>();
+
+        memset(paint, 0, sizeof(DevicePaint));
+        paint->type = PaintType::Pattern;
+        paint->imageWidth = (u32)tw;
+        paint->imageHeight = (u32)th;
+        paint->opacity = opacity;
+
+        if (!invert(multiply(space, scaling(w / tw, h / th)), paint->inverse)) {
+            return nullptr;
+        }
+
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+        const ComputedStyle& contentStyle = documentStyle(l, content, vp);
+
+        l.out = &program;
+        l.active.pushBack(pattern);
+        lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
+        l.active.popBack();
+        l.out = saved;
+        paint->programFirst = (u32)l.programs.length();
+        paint->programCount = (u32)program.length();
+        l.programs.append(program.data(), program.length());
+
+        return paint;
+    }
+
     static u32 gradientAttribute(const Document& doc, Node* gradient, u32 name) {
         Node* node = gradient;
 
@@ -5788,6 +5968,10 @@ namespace {
 
                 if (server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient) && resourceUsable(l, server, vp)) {
                     return gradientPaint(l, server, opacity, bbox, ctm, vp);
+                }
+
+                if (server && server->name == AtomPattern && resourceUsable(l, server, vp)) {
+                    return patternPaint(l, server, opacity, bbox, ctm, vp);
                 }
 
                 if (value.fallback == PaintKind::Color) {
@@ -6845,6 +7029,42 @@ namespace {
 
         Point p = apply(paint.inverse, Point{x, y});
 
+        if (paint.type == PaintType::Pattern) {
+            int tw = (int)paint.imageWidth;
+            int th = (int)paint.imageHeight;
+            float fx = p.x - 0.5f;
+            float fy = p.y - 0.5f;
+            float x0 = floorf(fx);
+            float y0 = floorf(fy);
+            float tx = fx - x0;
+            float ty = fy - y0;
+            int ix = (int)fmodf(x0, (float)tw);
+            int iy = (int)fmodf(y0, (float)th);
+
+            ix = ix < 0 ? ix + tw : ix;
+            iy = iy < 0 ? iy + th : iy;
+
+            int jx = ix + 1 == tw ? 0 : ix + 1;
+            int jy = iy + 1 == th ? 0 : iy + 1;
+            const float* c00 = paint.tile + ((size_t)iy * tw + ix) * 4;
+            const float* c10 = paint.tile + ((size_t)iy * tw + jx) * 4;
+            const float* c01 = paint.tile + ((size_t)jy * tw + ix) * 4;
+            const float* c11 = paint.tile + ((size_t)jy * tw + jx) * 4;
+            float w00 = (1.f - tx) * (1.f - ty) * paint.opacity;
+            float w10 = tx * (1.f - ty) * paint.opacity;
+            float w01 = (1.f - tx) * ty * paint.opacity;
+            float w11 = tx * ty * paint.opacity;
+
+            out = Color{
+                c00[0] * w00 + c10[0] * w10 + c01[0] * w01 + c11[0] * w11,
+                c00[1] * w00 + c10[1] * w10 + c01[1] * w01 + c11[1] * w11,
+                c00[2] * w00 + c10[2] * w10 + c01[2] * w01 + c11[2] * w11,
+                c00[3] * w00 + c10[3] * w10 + c01[3] * w01 + c11[3] * w11,
+            };
+
+            return out.a > 0.f;
+        }
+
         if (paint.type == PaintType::Image) {
             if (!paint.smooth) {
                 out = texel(paint, (int)floorf(p.x), (int)floorf(p.y));
@@ -6960,7 +7180,28 @@ namespace {
         return true;
     }
 
+    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
+
+    static void prepareTile(const Lowering& l, DevicePaint& paint) {
+        if (paint.tile) {
+            return;
+        }
+
+        size_t size = (size_t)paint.imageWidth * paint.imageHeight;
+        Raster tile;
+
+        paint.tile = (float*)l.pool->allocate(sizeof(float) * size * 4);
+        memset(paint.tile, 0, sizeof(float) * size * 4);
+        tile.width = paint.imageWidth;
+        tile.height = paint.imageHeight;
+        runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, paint.tile);
+    }
+
     static void fillOp(Raster& r, const Lowering& l, const Op& op, float* target) {
+        if (op.paint->type == PaintType::Pattern) {
+            prepareTile(l, *op.paint);
+        }
+
         u32 ix0;
         u32 iy0;
         u32 w;
