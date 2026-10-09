@@ -656,6 +656,7 @@ namespace {
         FilterPrimitive* primitives;
         u32 count;
         Filter* next;
+        Box device;
     };
 
     enum class OpKind : u8 {
@@ -8484,6 +8485,8 @@ namespace {
 
     static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h);
 
+    static Matrix rootContent(Lowering& l, Node* node);
+
     static Filter* lowerFilter(Lowering& l, Node* element, const ComputedStyle& parent, const Matrix& m, Viewport vp, u32 reference) {
         const Document& doc = *l.doc;
         Node* filterNode = elementById(doc, reference);
@@ -8512,8 +8515,13 @@ namespace {
         filter->count = 0;
         filter->primitives = nullptr;
         filter->next = nullptr;
+        filter->device = Box{0.f, 0.f, 0.f, 0.f};
 
         bool hasBox = elementBox(l, element, parent, vp, bbox, 0) && bbox.x1 > bbox.x0 && bbox.y1 > bbox.y0;
+
+        if (hasBox && element == l.doc->root) {
+            bbox = deviceBox(rootContent(l, element), bbox);
+        }
 
         filter->bbox = hasBox ? bbox : Box{0.f, 0.f, 0.f, 0.f};
 
@@ -8541,7 +8549,8 @@ namespace {
             return filter;
         }
 
-        filter->region = pixelBox(deviceBox(m, region), canvas);
+        filter->device = deviceBox(m, region);
+        filter->region = pixelBox(filter->device, canvas);
 
         Node* content = filterNode;
         Vector<FilterPrimitive> primitives;
@@ -8698,6 +8707,7 @@ namespace {
         filter->primitives = primitive;
         filter->count = 1;
         filter->next = nullptr;
+        filter->device = Box{0.f, 0.f, (float)l.width, (float)l.height};
 
         return filter;
     }
@@ -9915,21 +9925,58 @@ namespace {
         }
     }
 
-    static bool lowerFilteredLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp) {
-        float sx = sqrtf(m.a * m.a + m.b * m.b);
-        float sy = sqrtf(m.c * m.c + m.d * m.d);
-        Matrix toLayer;
+    static bool filterOverflow(const Lowering& l, const Filter* filter, Box& out) {
+        out = emptyBox();
 
-        if (sx <= 0.f || sy <= 0.f || !invert(multiply(m, scaling(1.f / sx, 1.f / sy)), toLayer)) {
+        for (const Filter* f = filter; f; f = f->next) {
+            out.x0 = minf(out.x0, f->device.x0);
+            out.y0 = minf(out.y0, f->device.y0);
+            out.x1 = maxf(out.x1, f->device.x1);
+            out.y1 = maxf(out.y1, f->device.y1);
+        }
+
+        float w = (float)l.width;
+        float h = (float)l.height;
+
+        if (!boxValid(out) || (out.x0 >= -0.5f && out.y0 >= -0.5f && out.x1 <= w + 0.5f && out.y1 <= h + 0.5f)) {
             return false;
         }
 
-        Box visible = deviceBox(toLayer, Box{0.f, 0.f, (float)l.width, (float)l.height});
-        float margin = 0.25f * maxf(visible.x1 - visible.x0, visible.y1 - visible.y0);
-        float x0 = floorf(visible.x0 - margin);
-        float y0 = floorf(visible.y0 - margin);
-        float lw = ceilf(visible.x1 + margin) - x0;
-        float lh = ceilf(visible.y1 + margin) - y0;
+        out.x0 = floorf(maxf(out.x0, -2.f * w));
+        out.y0 = floorf(maxf(out.y0, -2.f * h));
+        out.x1 = ceilf(minf(out.x1, 3.f * w));
+        out.y1 = ceilf(minf(out.y1, 3.f * h));
+
+        return out.x1 > out.x0 && out.y1 > out.y0;
+    }
+
+    static bool lowerFilteredLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, const Box* fixed) {
+        float sx = sqrtf(m.a * m.a + m.b * m.b);
+        float sy = sqrtf(m.c * m.c + m.d * m.d);
+        Matrix toLayer = identity();
+        float x0;
+        float y0;
+        float lw;
+        float lh;
+
+        if (fixed) {
+            x0 = fixed->x0;
+            y0 = fixed->y0;
+            lw = fixed->x1 - fixed->x0;
+            lh = fixed->y1 - fixed->y0;
+        } else {
+            if (sx <= 0.f || sy <= 0.f || !invert(multiply(m, scaling(1.f / sx, 1.f / sy)), toLayer)) {
+                return false;
+            }
+
+            Box visible = deviceBox(toLayer, Box{0.f, 0.f, (float)l.width, (float)l.height});
+            float margin = 0.25f * maxf(visible.x1 - visible.x0, visible.y1 - visible.y0);
+
+            x0 = floorf(visible.x0 - margin);
+            y0 = floorf(visible.y0 - margin);
+            lw = ceilf(visible.x1 + margin) - x0;
+            lh = ceilf(visible.y1 + margin) - y0;
+        }
 
         if (lw <= 0.f || lh <= 0.f || lw * lh > 16.f * (float)l.width * (float)l.height) {
             return false;
@@ -10007,9 +10054,16 @@ namespace {
         }
 
         bool complex = style.filterCount && node != l.doc->root && (fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f);
+        bool offscreen = false;
+        Box extent;
 
         if (style.filterCount && !complex) {
-            op.filter = lowerFilters(l, node, parent, style, node == l.doc->root ? multiply(m, rootContent(l, node)) : m, vp);
+            op.filter = lowerFilters(l, node, parent, style, m, vp);
+            offscreen = op.filter && node != l.doc->root && filterOverflow(l, op.filter, extent);
+
+            if (offscreen) {
+                op.filter = nullptr;
+            }
         }
 
         op.blend = style.blend;
@@ -10022,7 +10076,14 @@ namespace {
 
         l.depth++;
 
-        if (!complex || !lowerFilteredLayer(l, node, parent, style, m, vp)) {
+        if (offscreen && !lowerFilteredLayer(l, node, parent, style, m, vp, &extent)) {
+            Op fallback = groupOp(1.f);
+
+            fallback.filter = lowerFilters(l, node, parent, style, m, vp);
+            l.out->pushBack(fallback);
+            lowerContent(l, node, style, m, vp);
+            endGroup(l);
+        } else if (!offscreen && (!complex || !lowerFilteredLayer(l, node, parent, style, m, vp, nullptr))) {
             lowerContent(l, node, style, m, vp);
         }
 
