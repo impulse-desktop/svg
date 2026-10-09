@@ -183,7 +183,8 @@ using namespace stl;
     ATOM(VectorEffect, "vector-effect")                            \
     ATOM(PaintOrder, "paint-order")                                \
     ATOM(MixBlendMode, "mix-blend-mode")                           \
-    ATOM(Isolation, "isolation")
+    ATOM(Isolation, "isolation")                                   \
+    ATOM(ColorInterpolation, "color-interpolation")
 
 namespace {
     enum Atom : u32 {
@@ -202,7 +203,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomIsolation - AtomFill + 1;
+    constexpr u32 propertyCount = AtomColorInterpolation - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.1f;
@@ -528,6 +529,7 @@ namespace {
         bool nonScaling;
         u8 blend;
         bool isolate;
+        bool linearColors;
         u8 paintOrder[3];
         u8 maskType;
         Color floodColor;
@@ -5084,6 +5086,8 @@ namespace {
 
     static void arcTo(Path& path, Point p0, float rxIn, float ryIn, float angle, bool large, bool sweep, Point p1) {
         if (p0.x == p1.x && p0.y == p1.y) {
+            lineTo(path, p1);
+
             return;
         }
 
@@ -7053,6 +7057,16 @@ namespace {
 
                     break;
                 }
+                case AtomColorInterpolation:
+                    if (keyword) {
+                        style.linearColors = source.linearColors;
+                    } else if (isKeyword(value, "linearrgb")) {
+                        style.linearColors = true;
+                    } else if (isKeyword(value, "srgb") || isKeyword(value, "auto")) {
+                        style.linearColors = false;
+                    }
+
+                    break;
                 case AtomIsolation:
                     if (keyword) {
                         style.isolate = source.isolate;
@@ -8119,7 +8133,7 @@ namespace {
         float h;
 
         op.masked = true;
-        op.maskType = maskStyle.maskType;
+        op.maskType = (u8)(maskStyle.maskType | (maskStyle.linearColors ? 2 : 0));
         op.maskFirst = (u32)l.programs.length();
         op.maskCount = 0;
         op.maskRegion = (u32)l.clips.length();
@@ -9230,6 +9244,7 @@ namespace {
         float height;
         Box viewBox;
         bool sizeless;
+        bool broken;
     };
 
     static bool loadImage(Lowering& l, Node* node, ImageSource& out) {
@@ -9241,6 +9256,7 @@ namespace {
         out.nested = nullptr;
         out.raster = nullptr;
         out.sizeless = false;
+        out.broken = false;
 
         if (!href) {
             return false;
@@ -9289,6 +9305,7 @@ namespace {
 
         if (!raster || raster->width() == 0 || raster->height() == 0 || raster->length() < (size_t)raster->width() * raster->height() * 4) {
             raster = l.pool->make<ImageImpl>((u8*)brokenImage, 16, 16);
+            out.broken = true;
         }
 
         out.raster = raster;
@@ -9453,6 +9470,29 @@ namespace {
         drawImage(l, node, source, m, vp, x, y, w, h);
     }
 
+    static bool relativeLengths(const Document& doc, const Node* node, u32 depth) {
+        static const u32 lengths[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomX1, AtomY1, AtomX2, AtomY2};
+
+        for (u32 name : lengths) {
+            u32 value = attribute(node, name);
+            Length length;
+
+            if (value && parseLength(textOf(doc, value), length) && length.unit == Unit::Percent) {
+                return true;
+            }
+        }
+
+        if (depth < 16) {
+            for (Node* child = node->first; child; child = child->next) {
+                if (relativeLengths(doc, child, depth + 1)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h) {
         const Document& doc = *l.doc;
         u32 href = attribute(node, AtomHref);
@@ -9479,7 +9519,17 @@ namespace {
             const ComputedStyle& inherited = target->parent ? documentStyle(l, target->parent, vp) : style;
 
             l.active.pushBack(target);
-            lowerElement(l, target, inherited, node->name == AtomFeImage ? multiply(m, translation(x, y)) : m, vp);
+            Matrix place = m;
+
+            if (node->name == AtomFeImage) {
+                place = multiply(m, translation(x, y));
+
+                if (relativeLengths(doc, target, 0) && vp.width > 0.f && vp.height > 0.f) {
+                    place = multiply(place, scaling(w / vp.width, h / vp.height));
+                }
+            }
+
+            lowerElement(l, target, inherited, place, vp);
             l.active.popBack();
 
             return;
@@ -9487,7 +9537,7 @@ namespace {
 
         ImageSource source;
 
-        if (w > 0.f && h > 0.f && loadImage(l, node, source)) {
+        if (w > 0.f && h > 0.f && loadImage(l, node, source) && !(source.broken && node->name == AtomFeImage)) {
             drawImage(l, node, source, m, vp, x, y, w, h);
         }
     }
@@ -10173,6 +10223,8 @@ namespace {
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
 
+    static float srgbToLinear(float c);
+
     static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool) {
         size_t size = (size_t)r.width * r.height;
         float* content = (float*)pool.allocate(sizeof(float) * size * 4);
@@ -10185,7 +10237,11 @@ namespace {
 
         for (size_t i = 0; i < size; i++) {
             const float* c = content + i * 4;
-            float value = op.maskType ? c[3] : 0.2126f * c[0] + 0.7152f * c[1] + 0.0722f * c[2];
+            float value = (op.maskType & 1) ? c[3] : 0.2126f * c[0] + 0.7152f * c[1] + 0.0722f * c[2];
+
+            if ((op.maskType & 3) == 2 && c[3] > 0.f) {
+                value = c[3] * (0.2126f * srgbToLinear(clampUnit(c[0] / c[3])) + 0.7152f * srgbToLinear(clampUnit(c[1] / c[3])) + 0.0722f * srgbToLinear(clampUnit(c[2] / c[3])));
+            }
 
             mask[i] *= value;
         }
@@ -11530,7 +11586,7 @@ namespace {
         }
 
         int octaves = (int)numberOf(doc, p.node, AtomNumOctaves, 1.f);
-        long seed = (long)rintf(numberOf(doc, p.node, AtomSeed, 0.f));
+        long seed = (long)numberOf(doc, p.node, AtomSeed, 0.f);
         u32 type = attribute(p.node, AtomType);
         bool fractal = type && trim(textOf(doc, type)) == StringView(u8"fractalNoise");
         u32 stitchValue = attribute(p.node, AtomStitchTiles);
@@ -11553,7 +11609,7 @@ namespace {
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
-                Point point = apply(inverse, Point{(float)x, (float)y});
+                Point point = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
                 float c[4];
 
                 for (int channel = 0; channel < 4; channel++) {
