@@ -615,6 +615,9 @@ namespace {
         u32 height;
         u32 depth;
         u32 imageDepth;
+        Node* sized;
+        float sizedWidth;
+        float sizedHeight;
     };
 
     struct Raster {
@@ -5728,7 +5731,7 @@ namespace {
 
     static bool resourceUsable(Lowering& l, Node* node, Viewport vp) {
         for (Node* up = node; up && up != l.doc->root; up = up->parent) {
-            if (documentStyle(l, up, vp).displayNone || !passesConditions(*l.doc, up)) {
+            if (documentStyle(l, up, vp).displayNone || (up != node && !passesConditions(*l.doc, up))) {
                 return false;
             }
         }
@@ -6940,8 +6943,16 @@ namespace {
         }
 
         float fs = style.fontSize;
+        float w = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
+        float h = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
 
-        lowerViewport(l, node, style, m, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width), lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height), true);
+        if (l.sized == node) {
+            w = l.sizedWidth >= 0.f ? l.sizedWidth : w;
+            h = l.sizedHeight >= 0.f ? l.sizedHeight : h;
+            l.sized = nullptr;
+        }
+
+        lowerViewport(l, node, style, m, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, true);
     }
 
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -6978,7 +6989,14 @@ namespace {
                 lowerViewport(l, target, symbolStyle, placed, target, 0.f, 0.f, w, h, true);
             }
         } else {
+            if (target->name == AtomSvg) {
+                l.sized = target;
+                l.sizedWidth = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, -1.f);
+                l.sizedHeight = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, -1.f);
+            }
+
             lowerElement(l, target, style, placed, vp);
+            l.sized = nullptr;
         }
 
         l.active.popBack();
@@ -9807,6 +9825,7 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.out = &l.ops;
         l.decoder = decoder;
         l.imageDepth = 0;
+        l.sized = nullptr;
         l.documentStyles.zero(doc.nodeCount);
         lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height});
 
