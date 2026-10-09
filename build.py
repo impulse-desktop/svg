@@ -19,6 +19,7 @@ libstd = import_build(
     extra_cflags=["-Wno-error", "-ffile-prefix-map=$(S)=.", "-ffile-prefix-map=$(B)=."],
 )
 png = pkg_config("libpng")
+jpeg = pkg_config("libjpeg")
 system = dependency(ldflags=["-lm"])
 
 svg = program(
@@ -26,7 +27,7 @@ svg = program(
     output="$(B)/svg",
     srcs=["$(S)/svg.cpp", "$(S)/main.cpp"],
     cflags=warning_flags,
-    deps=[libstd, png, system],
+    deps=[libstd, png, jpeg, system],
 )
 
 install(svg)

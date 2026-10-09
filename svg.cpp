@@ -402,6 +402,7 @@ namespace {
         Solid,
         Linear,
         Radial,
+        Image,
     };
 
     enum Spread : u8 {
@@ -432,6 +433,10 @@ namespace {
         u8 spread;
         GradientStop* stops;
         u32 stopCount;
+        const u8* image;
+        u32 imageWidth;
+        u32 imageHeight;
+        bool smooth;
     };
 
     struct ClipShape {
@@ -474,9 +479,11 @@ namespace {
         Vector<ClipShape> clips;
         Vector<Node*> active;
         Vector<ComputedStyle*> documentStyles;
+        SvgDecoder* decoder;
         u32 width;
         u32 height;
         u32 depth;
+        u32 imageDepth;
     };
 
     struct Raster {
@@ -642,6 +649,1033 @@ namespace {
         {"whitesmoke", 0xf5f5f5},
         {"yellow", 0xffff00},
         {"yellowgreen", 0x9acd32},
+    };
+
+    const u8 brokenImage[16 * 16 * 4] = {
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0xa3,
+        0xa3,
+        0xa3,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x0a,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0xa2,
+        0xa2,
+        0xa3,
+        0xff,
+        0xf3,
+        0xf7,
+        0xfe,
+        0xff,
+        0xf1,
+        0xf6,
+        0xfe,
+        0xff,
+        0xf1,
+        0xf6,
+        0xfe,
+        0xff,
+        0xf1,
+        0xf6,
+        0xfe,
+        0xff,
+        0xf1,
+        0xf6,
+        0xfe,
+        0xff,
+        0xf1,
+        0xf6,
+        0xfe,
+        0xff,
+        0xf1,
+        0xf6,
+        0xfe,
+        0xff,
+        0xf2,
+        0xf6,
+        0xfd,
+        0xff,
+        0x96,
+        0x96,
+        0x96,
+        0xff,
+        0xa2,
+        0xa2,
+        0xa3,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x0a,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0xa1,
+        0xa1,
+        0xa2,
+        0xff,
+        0xe4,
+        0xed,
+        0xfd,
+        0xff,
+        0xda,
+        0xe6,
+        0xfb,
+        0xff,
+        0xda,
+        0xe6,
+        0xfb,
+        0xff,
+        0xda,
+        0xe6,
+        0xfb,
+        0xff,
+        0xda,
+        0xe6,
+        0xfb,
+        0xff,
+        0xda,
+        0xe6,
+        0xfb,
+        0xff,
+        0xda,
+        0xe6,
+        0xfb,
+        0xff,
+        0xe0,
+        0xea,
+        0xfa,
+        0xff,
+        0x96,
+        0x96,
+        0x96,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xa1,
+        0xa1,
+        0xa2,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x0a,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0xa0,
+        0xa0,
+        0xa0,
+        0xff,
+        0xdc,
+        0xe9,
+        0xfd,
+        0xff,
+        0xce,
+        0xde,
+        0xf9,
+        0xff,
+        0xce,
+        0xde,
+        0xf9,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xce,
+        0xde,
+        0xf9,
+        0xff,
+        0xce,
+        0xde,
+        0xf9,
+        0xff,
+        0xd8,
+        0xe3,
+        0xf8,
+        0xff,
+        0x96,
+        0x96,
+        0x96,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xa0,
+        0xa0,
+        0xa0,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x0a,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x9e,
+        0x9e,
+        0x9f,
+        0xff,
+        0xdb,
+        0xe8,
+        0xfd,
+        0xff,
+        0xcd,
+        0xdd,
+        0xf8,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xcd,
+        0xdd,
+        0xf8,
+        0xff,
+        0xd7,
+        0xe3,
+        0xf8,
+        0xff,
+        0x91,
+        0x91,
+        0x91,
+        0xff,
+        0x91,
+        0x91,
+        0x91,
+        0xff,
+        0x91,
+        0x91,
+        0x91,
+        0xff,
+        0x91,
+        0x91,
+        0x91,
+        0xff,
+        0x9e,
+        0x9e,
+        0x9f,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x9d,
+        0x9d,
+        0x9e,
+        0xff,
+        0xdb,
+        0xe8,
+        0xfd,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xff,
+        0xcb,
+        0xdb,
+        0xf7,
+        0xff,
+        0xce,
+        0xdb,
+        0xf3,
+        0xff,
+        0xe5,
+        0xed,
+        0xfb,
+        0xff,
+        0xee,
+        0xf3,
+        0xfc,
+        0xff,
+        0xee,
+        0xf3,
+        0xfc,
+        0xff,
+        0xf3,
+        0xf7,
+        0xfe,
+        0xff,
+        0x9d,
+        0x9d,
+        0x9e,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x9b,
+        0x9b,
+        0x9c,
+        0xff,
+        0xdb,
+        0xe7,
+        0xfd,
+        0xff,
+        0xc9,
+        0xda,
+        0xf5,
+        0xff,
+        0xc9,
+        0xda,
+        0xf5,
+        0xff,
+        0xc9,
+        0xda,
+        0xf5,
+        0xff,
+        0xc9,
+        0xda,
+        0xf5,
+        0xff,
+        0xc9,
+        0xda,
+        0xf5,
+        0xff,
+        0xc9,
+        0xda,
+        0xf5,
+        0xff,
+        0xcc,
+        0xdc,
+        0xf6,
+        0xff,
+        0xd2,
+        0xe0,
+        0xf7,
+        0xff,
+        0xd5,
+        0xe2,
+        0xf7,
+        0xff,
+        0xd5,
+        0xe2,
+        0xf7,
+        0xff,
+        0xe3,
+        0xec,
+        0xfd,
+        0xff,
+        0x9b,
+        0x9b,
+        0x9c,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x9a,
+        0x9a,
+        0x9b,
+        0xff,
+        0xd9,
+        0xe6,
+        0xfc,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xc6,
+        0xd8,
+        0xf4,
+        0xff,
+        0xd9,
+        0xe6,
+        0xfc,
+        0xff,
+        0x9a,
+        0x9a,
+        0x9b,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x98,
+        0x98,
+        0x99,
+        0xff,
+        0xd8,
+        0xe6,
+        0xfc,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xc5,
+        0xd6,
+        0xf3,
+        0xff,
+        0xd8,
+        0xe6,
+        0xfc,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x96,
+        0x96,
+        0x97,
+        0xff,
+        0xd8,
+        0xe5,
+        0xfc,
+        0xff,
+        0xc3,
+        0xd4,
+        0xf3,
+        0xff,
+        0xc3,
+        0xd4,
+        0xf3,
+        0xff,
+        0xc3,
+        0xd4,
+        0xf3,
+        0xff,
+        0xc2,
+        0xd4,
+        0xf1,
+        0xff,
+        0xb1,
+        0xce,
+        0xd4,
+        0xff,
+        0xb4,
+        0xcf,
+        0xd9,
+        0xff,
+        0xc3,
+        0xd4,
+        0xf3,
+        0xff,
+        0xc3,
+        0xd4,
+        0xf3,
+        0xff,
+        0xc3,
+        0xd4,
+        0xf3,
+        0xff,
+        0xc3,
+        0xd4,
+        0xf3,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x95,
+        0x95,
+        0x96,
+        0xff,
+        0xd7,
+        0xe5,
+        0xfc,
+        0xff,
+        0xc0,
+        0xd1,
+        0xf0,
+        0xff,
+        0xc0,
+        0xd1,
+        0xf0,
+        0xff,
+        0x9f,
+        0xc6,
+        0xb7,
+        0xff,
+        0x56,
+        0xa9,
+        0x38,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x6d,
+        0xb3,
+        0x5f,
+        0xff,
+        0xb2,
+        0xcc,
+        0xd8,
+        0xff,
+        0xc0,
+        0xd1,
+        0xf0,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x93,
+        0x93,
+        0x94,
+        0xff,
+        0xd6,
+        0xe4,
+        0xfc,
+        0xff,
+        0xbe,
+        0xd0,
+        0xf0,
+        0xff,
+        0x91,
+        0xc1,
+        0xa0,
+        0xff,
+        0x58,
+        0xae,
+        0x3a,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x5d,
+        0xae,
+        0x42,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x93,
+        0x93,
+        0x94,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x92,
+        0x92,
+        0x93,
+        0xff,
+        0xd6,
+        0xe4,
+        0xfc,
+        0xff,
+        0x9d,
+        0xc4,
+        0xb4,
+        0xff,
+        0x58,
+        0xae,
+        0x3a,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0xd6,
+        0xe4,
+        0xfc,
+        0xff,
+        0x92,
+        0x92,
+        0x93,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x90,
+        0x90,
+        0x92,
+        0xff,
+        0xc7,
+        0xdd,
+        0xe6,
+        0xff,
+        0x5f,
+        0xb0,
+        0x46,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x6e,
+        0xb4,
+        0x63,
+        0xff,
+        0xd4,
+        0xe3,
+        0xfa,
+        0xff,
+        0x90,
+        0x90,
+        0x92,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x8f,
+        0x8f,
+        0x90,
+        0xff,
+        0x7d,
+        0xbe,
+        0x72,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x58,
+        0xae,
+        0x39,
+        0xff,
+        0x8d,
+        0xc5,
+        0x8c,
+        0xff,
+        0x8d,
+        0x90,
+        0x8e,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x86,
+        0x86,
+        0x87,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x83,
+        0x83,
+        0x84,
+        0xff,
+        0x8a,
+        0x8b,
+        0x8b,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
     };
 
     struct ImageImpl final: SvgImage {
@@ -4785,6 +5819,7 @@ namespace {
             case AtomLine:
             case AtomPolyline:
             case AtomPolygon:
+            case AtomImage:
                 return true;
             default:
                 return false;
@@ -4964,6 +5999,8 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
+    static bool loadDocument(Document& doc, ObjPool& pool, StringView source);
+    static void cascade(Document& doc);
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
 
     static float unitFraction(const Document& doc, const Node* node, u32 name, float fallback) {
@@ -5241,6 +6278,259 @@ namespace {
         l.active.popBack();
     }
 
+    static int base64Value(u8 c) {
+        if (c >= 'A' && c <= 'Z') {
+            return c - 'A';
+        }
+
+        if (c >= 'a' && c <= 'z') {
+            return c - 'a' + 26;
+        }
+
+        if (c >= '0' && c <= '9') {
+            return c - '0' + 52;
+        }
+
+        if (c == '+' || c == '-') {
+            return 62;
+        }
+
+        if (c == '/' || c == '_') {
+            return 63;
+        }
+
+        return -1;
+    }
+
+    static bool decodeDataUri(StringView href, StringView& mime, Buffer& out) {
+        StringView text = trim(href);
+
+        if (!startsWithIgnoreCase(text, StringView(u8"data:"))) {
+            return false;
+        }
+
+        const u8* comma = text.begin() + 5;
+
+        while (comma < text.end() && *comma != ',') {
+            comma++;
+        }
+
+        if (comma >= text.end()) {
+            return false;
+        }
+
+        StringView header(text.begin() + 5, comma);
+        bool base64 = header.length() >= 7 && equalsIgnoreCase(StringView(header.end() - 7, header.end()), StringView(u8";base64"));
+        const u8* semicolon = header.begin();
+
+        while (semicolon < header.end() && *semicolon != ';') {
+            semicolon++;
+        }
+
+        mime = trim(StringView(header.begin(), semicolon));
+
+        const u8* p = comma + 1;
+
+        if (base64) {
+            u32 bits = 0;
+            int count = 0;
+
+            for (; p < text.end(); p++) {
+                if (isSpace(*p) || *p == '=') {
+                    continue;
+                }
+
+                int value = base64Value(*p);
+
+                if (value < 0) {
+                    return false;
+                }
+
+                bits = (bits << 6) | (u32)value;
+                count += 6;
+
+                if (count >= 8) {
+                    count -= 8;
+
+                    u8 byte = (u8)(bits >> count);
+
+                    out.append(&byte, 1);
+                }
+            }
+
+            return true;
+        }
+
+        while (p < text.end()) {
+            if (*p == '%' && text.end() - p >= 3 && hexDigit(p[1]) >= 0 && hexDigit(p[2]) >= 0) {
+                u8 byte = (u8)(hexDigit(p[1]) * 16 + hexDigit(p[2]));
+
+                out.append(&byte, 1);
+                p += 3;
+            } else {
+                out.append(p, 1);
+                p++;
+            }
+        }
+
+        return true;
+    }
+
+    static bool isAuto(const Document& doc, const Node* node, u32 name) {
+        u32 value = attribute(node, name);
+
+        return !value || equalsIgnoreCase(trim(textOf(doc, value)), StringView(u8"auto"));
+    }
+
+    static void lowerImage(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+        const Document& doc = *l.doc;
+        u32 href = attribute(node, AtomHref);
+        StringView mime;
+        Buffer bytes;
+
+        if (!style.visible || !href) {
+            return;
+        }
+
+        StringView reference = trim(textOf(doc, href));
+        bool remote = startsWithIgnoreCase(reference, StringView(u8"http:")) || startsWithIgnoreCase(reference, StringView(u8"https:"));
+        bool broken = remote || (decodeDataUri(reference, mime, bytes) && bytes.length() == 0);
+
+        if (!remote && !broken && bytes.length() == 0) {
+            return;
+        }
+
+        StringView data = keep(*l.pool, bytes.data(), bytes.length());
+        bool svg = equalsIgnoreCase(mime, StringView(u8"image/svg+xml"));
+        Document* nested = nullptr;
+        SvgImage* raster = nullptr;
+        float iw;
+        float ih;
+        Box viewBox;
+
+        if (svg && !broken) {
+            if (l.imageDepth >= 4) {
+                return;
+            }
+
+            nested = l.pool->make<Document>();
+
+            if (!loadDocument(*nested, *l.pool, data) || !nested->root || nested->root->name != AtomSvg) {
+                nested = nullptr;
+                broken = true;
+            }
+        }
+
+        if (nested) {
+            cascade(*nested);
+
+            if (!intrinsicSize(*nested, nested->root, iw, ih)) {
+                iw = 300.f;
+                ih = 150.f;
+            }
+
+            if (!parseViewBox(*nested, nested->root, viewBox) || viewBox.x1 <= viewBox.x0 || viewBox.y1 <= viewBox.y0) {
+                viewBox = Box{0.f, 0.f, iw, ih};
+            }
+        } else {
+            raster = !broken && l.decoder ? l.decoder->decode(*l.pool, data) : nullptr;
+
+            if (!raster || raster->width() == 0 || raster->height() == 0 || raster->length() < (size_t)raster->width() * raster->height() * 4) {
+                raster = l.pool->make<ImageImpl>((u8*)brokenImage, 16, 16);
+            }
+
+            iw = (float)raster->width();
+            ih = (float)raster->height();
+            viewBox = Box{0.f, 0.f, iw, ih};
+        }
+
+        float fs = style.fontSize;
+        float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
+        float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
+        bool autoWidth = isAuto(doc, node, AtomWidth);
+        bool autoHeight = isAuto(doc, node, AtomHeight);
+        float w = autoWidth ? iw : lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
+        float h = autoHeight ? ih : lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+
+        if (autoWidth && !autoHeight && ih > 0.f) {
+            w = h * iw / ih;
+        } else if (autoHeight && !autoWidth && iw > 0.f) {
+            h = w * ih / iw;
+        }
+
+        if (w <= 0.f || h <= 0.f) {
+            return;
+        }
+
+        u32 ratio = attribute(node, AtomPreserveAspectRatio);
+        bool stretch = ratio && trim(textOf(doc, ratio)) == StringView(u8"none");
+        Matrix fit = multiply(translation(x, y), nested && !stretch ? viewBoxTransform(*nested, nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
+        Matrix place = multiply(m, fit);
+
+        if (raster) {
+            DevicePaint* paint = l.pool->make<DevicePaint>();
+
+            memset(paint, 0, sizeof(DevicePaint));
+            paint->type = PaintType::Image;
+            paint->image = (const u8*)raster->data();
+            paint->imageWidth = raster->width();
+            paint->imageHeight = raster->height();
+            paint->smooth = true;
+
+            if (!invert(place, paint->inverse)) {
+                return;
+            }
+
+            Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
+            Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
+            float rx0 = maxf(minf(a.x, b.x), x);
+            float ry0 = maxf(minf(a.y, b.y), y);
+            float rx1 = minf(maxf(a.x, b.x), x + w);
+            float ry1 = minf(maxf(a.y, b.y), y + h);
+
+            if (rx1 <= rx0 || ry1 <= ry0) {
+                return;
+            }
+
+            Path rect;
+            Flat flat;
+
+            moveTo(rect, Point{rx0, ry0});
+            lineTo(rect, Point{rx1, ry0});
+            lineTo(rect, Point{rx1, ry1});
+            lineTo(rect, Point{rx0, ry1});
+            closePath(rect);
+            flatten(rect, m, tolerance, flat);
+            emitFill(l, flat, WindingNonZero, paint);
+
+            return;
+        }
+
+        Op op = groupOp(1.f);
+
+        op.clipped = true;
+        op.clipFirst = (u32)l.clips.length();
+        op.clipCount = 1;
+        addRectClip(l, m, x, y, w, h);
+        l.out->pushBack(op);
+
+        Document* outer = l.doc;
+        Vector<ComputedStyle*> outerStyles;
+
+        outerStyles.xchg(l.documentStyles);
+        l.documentStyles.zero(nested->nodeCount);
+        l.doc = nested;
+        l.imageDepth++;
+
+        ComputedStyle rootStyle = computeStyle(l, nested->root, initialStyle(), vp);
+
+        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height});
+        l.imageDepth--;
+        l.doc = outer;
+        l.documentStyles.xchg(outerStyles);
+        endGroup(l);
+    }
+
     static bool passesConditions(const Document& doc, const Node* node) {
         u32 extensions = attribute(node, AtomRequiredExtensions);
 
@@ -5316,6 +6606,9 @@ namespace {
                 break;
             case AtomUse:
                 lowerUse(l, node, style, m, vp);
+                break;
+            case AtomImage:
+                lowerImage(l, node, style, m, vp);
                 break;
             case AtomSwitch:
                 for (Node* child = node->first; child; child = child->next) {
@@ -5533,6 +6826,16 @@ namespace {
         return Color{c.r * c.a, c.g * c.a, c.b * c.a, c.a};
     }
 
+    static Color texel(const DevicePaint& paint, int x, int y) {
+        x = x < 0 ? 0 : (x >= (int)paint.imageWidth ? (int)paint.imageWidth - 1 : x);
+        y = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
+
+        const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
+        float a = t[3] / 255.f;
+
+        return Color{t[0] / 255.f * a, t[1] / 255.f * a, t[2] / 255.f * a, a};
+    }
+
     static bool paintAt(const DevicePaint& paint, float x, float y, Color& out) {
         if (paint.type == PaintType::Solid) {
             out = paint.color;
@@ -5541,6 +6844,38 @@ namespace {
         }
 
         Point p = apply(paint.inverse, Point{x, y});
+
+        if (paint.type == PaintType::Image) {
+            if (!paint.smooth) {
+                out = texel(paint, (int)floorf(p.x), (int)floorf(p.y));
+
+                return true;
+            }
+
+            float fx = p.x - 0.5f;
+            float fy = p.y - 0.5f;
+            float x0 = floorf(fx);
+            float y0 = floorf(fy);
+            float tx = fx - x0;
+            float ty = fy - y0;
+            Color c00 = texel(paint, (int)x0, (int)y0);
+            Color c10 = texel(paint, (int)x0 + 1, (int)y0);
+            Color c01 = texel(paint, (int)x0, (int)y0 + 1);
+            Color c11 = texel(paint, (int)x0 + 1, (int)y0 + 1);
+            float w00 = (1.f - tx) * (1.f - ty);
+            float w10 = tx * (1.f - ty);
+            float w01 = (1.f - tx) * ty;
+            float w11 = tx * ty;
+
+            out = Color{
+                c00.r * w00 + c10.r * w10 + c01.r * w01 + c11.r * w11,
+                c00.g * w00 + c10.g * w10 + c01.g * w01 + c11.g * w11,
+                c00.b * w00 + c10.b * w10 + c01.b * w01 + c11.b * w11,
+                c00.a * w00 + c10.a * w10 + c01.a * w01 + c11.a * w11,
+            };
+
+            return true;
+        }
 
         if (paint.type == PaintType::Linear) {
             float dx = paint.x2 - paint.x1;
@@ -5880,6 +7215,8 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.height = height;
         l.depth = 0;
         l.out = &l.ops;
+        l.decoder = decoder;
+        l.imageDepth = 0;
         l.documentStyles.zero(doc.nodeCount);
         lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height});
 

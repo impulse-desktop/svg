@@ -9,9 +9,11 @@
 
 #include <png.h>
 #include <stdio.h>
+#include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <jpeglib.h>
 
 using namespace stl;
 
@@ -46,8 +48,13 @@ namespace {
         u32 height() const override;
     };
 
-    struct PngDecoder final: SvgDecoder {
+    struct RasterDecoder final: SvgDecoder {
         SvgImage* decode(ObjPool& pool, StringView bytes) override;
+    };
+
+    struct JpegFailure {
+        jpeg_error_mgr manager;
+        jmp_buf jump;
     };
 }
 
@@ -87,7 +94,59 @@ u32 DecodedImage::height() const {
     return height_;
 }
 
-SvgImage* PngDecoder::decode(ObjPool& pool, StringView bytes) {
+static void jpegFailed(j_common_ptr info) {
+    longjmp(((JpegFailure*)info->err)->jump, 1);
+}
+
+static void jpegQuiet(j_common_ptr) {
+}
+
+static SvgImage* decodeJpeg(ObjPool& pool, StringView bytes) {
+    jpeg_decompress_struct info;
+    JpegFailure failure;
+    DecodedImage* volatile out = nullptr;
+
+    info.err = jpeg_std_error(&failure.manager);
+    failure.manager.error_exit = jpegFailed;
+    failure.manager.output_message = jpegQuiet;
+
+    if (setjmp(failure.jump)) {
+        jpeg_destroy_decompress(&info);
+
+        return nullptr;
+    }
+
+    jpeg_create_decompress(&info);
+    jpeg_mem_src(&info, (const unsigned char*)bytes.data(), (unsigned long)bytes.length());
+    jpeg_read_header(&info, TRUE);
+    info.out_color_space = JCS_EXT_RGBA;
+    jpeg_start_decompress(&info);
+
+    if ((u64)info.output_width * info.output_height > (1u << 26)) {
+        jpeg_destroy_decompress(&info);
+
+        return nullptr;
+    }
+
+    out = pool.make<DecodedImage>(info.output_width, info.output_height);
+
+    while (info.output_scanline < info.output_height) {
+        JSAMPROW row = (JSAMPROW)out->rgba.mutData() + (size_t)info.output_scanline * info.output_width * 4;
+
+        jpeg_read_scanlines(&info, &row, 1);
+    }
+
+    jpeg_finish_decompress(&info);
+    jpeg_destroy_decompress(&info);
+
+    return out;
+}
+
+SvgImage* RasterDecoder::decode(ObjPool& pool, StringView bytes) {
+    if (bytes.length() >= 3 && bytes[0] == 0xff && bytes[1] == 0xd8 && bytes[2] == 0xff) {
+        return decodeJpeg(pool, bytes);
+    }
+
     png_image image;
 
     memset(&image, 0, sizeof(image));
@@ -178,7 +237,7 @@ namespace {
         readFileContent(name, file);
 
         try {
-            return SvgLibrary::create(pool, pool.make<PngDecoder>())->parse(pool, StringView(file));
+            return SvgLibrary::create(pool, pool.make<RasterDecoder>())->parse(pool, StringView(file));
         } catch (...) {
             return nullptr;
         }
