@@ -9600,6 +9600,18 @@ namespace {
         drawImage(l, node, source, m, vp, x, y, w, h);
     }
 
+    static bool imageReachable(const Document& doc, const Node* node) {
+        u32 href = attribute(node, AtomHref);
+
+        if (!href) {
+            return false;
+        }
+
+        StringView reference = trim(textOf(doc, href));
+
+        return startsWithIgnoreCase(reference, StringView(u8"data:")) || startsWithIgnoreCase(reference, StringView(u8"http:")) || startsWithIgnoreCase(reference, StringView(u8"https:")) || (!reference.empty() && reference[0] == '#');
+    }
+
     static bool relativeLengths(const Document& doc, const Node* node, u32 depth) {
         static const u32 lengths[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomX1, AtomY1, AtomX2, AtomY2};
 
@@ -9812,6 +9824,10 @@ namespace {
         bool instance = node->name == AtomSymbol && l.sized == node;
 
         if ((!renderable(node->name) && !instance) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
+            return;
+        }
+
+        if (node->name == AtomImage && !imageReachable(*l.doc, node)) {
             return;
         }
 
