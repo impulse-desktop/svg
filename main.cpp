@@ -9,16 +9,27 @@
 
 #include <png.h>
 #include <stdio.h>
-#include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <jpeglib.h>
+
+#define WASM_RT_CORE_TYPES_DEFINED
+typedef int8_t s8;
+typedef int16_t s16;
+typedef int32_t s32;
+typedef int64_t s64;
+typedef float f32;
+typedef double f64;
+
+extern "C" {
+#include <decode.h>
+}
 
 using namespace stl;
 
 namespace {
     constexpr unsigned caseSeconds = 120;
+    constexpr u64 maxPixels = 1u << 27;
 
     struct DriverError: Exception {
         Buffer text;
@@ -52,9 +63,14 @@ namespace {
         SvgImage* decode(ObjPool& pool, StringView bytes) override;
     };
 
-    struct JpegFailure {
-        jpeg_error_mgr manager;
-        jmp_buf jump;
+    struct Decoder {
+        w2c_decode wasm;
+
+        Decoder();
+        ~Decoder() noexcept;
+
+        u8* at(u64 offset, u64 length);
+        SvgImage* decode(ObjPool& pool, StringView bytes);
     };
 }
 
@@ -94,83 +110,73 @@ u32 DecodedImage::height() const {
     return height_;
 }
 
-static void jpegFailed(j_common_ptr info) {
-    longjmp(((JpegFailure*)info->err)->jump, 1);
+extern "C" void decodeTrapHandler(wasm_rt_trap_t code) {
+    throw DriverError(StringView(wasm_rt_strerror(code)));
 }
 
-static void jpegQuiet(j_common_ptr) {
+Decoder::Decoder() {
+    wasm2c_decode_instantiate(&wasm);
 }
 
-static SvgImage* decodeJpeg(ObjPool& pool, StringView bytes) {
-    jpeg_decompress_struct info;
-    JpegFailure failure;
-    DecodedImage* volatile out = nullptr;
+Decoder::~Decoder() noexcept {
+    wasm2c_decode_free(&wasm);
+}
 
-    info.err = jpeg_std_error(&failure.manager);
-    failure.manager.error_exit = jpegFailed;
-    failure.manager.output_message = jpegQuiet;
+u8* Decoder::at(u64 offset, u64 length) {
+    wasm_rt_memory_t* memory = w2c_decode_memory(&wasm);
 
-    if (setjmp(failure.jump)) {
-        jpeg_destroy_decompress(&info);
+    if (offset + length > memory->size) {
+        throw DriverError(StringView(u8"the decoder answered out of its memory"));
+    }
 
+    return (u8*)memory->data + offset;
+}
+
+SvgImage* Decoder::decode(ObjPool& pool, StringView bytes) {
+    u32 length = (u32)bytes.length();
+    u32 in = w2c_decode_malloc(&wasm, length);
+
+    if (!in) {
         return nullptr;
     }
 
-    jpeg_create_decompress(&info);
-    jpeg_mem_src(&info, (const unsigned char*)bytes.data(), (unsigned long)bytes.length());
-    jpeg_read_header(&info, TRUE);
-    info.out_color_space = JCS_EXT_RGBA;
-    jpeg_start_decompress(&info);
+    memcpy(at(in, length), bytes.data(), length);
 
-    if ((u64)info.output_width * info.output_height > (1u << 26)) {
-        jpeg_destroy_decompress(&info);
+    u32 res = w2c_decode_decode(&wasm, in, length, 0, 0);
 
+    if (!res) {
         return nullptr;
     }
 
-    out = pool.make<DecodedImage>(info.output_width, info.output_height);
+    u32 header[2];
 
-    while (info.output_scanline < info.output_height) {
-        JSAMPROW row = (JSAMPROW)out->rgba.mutData() + (size_t)info.output_scanline * info.output_width * 4;
+    memcpy(header, at(res, sizeof(header)), sizeof(header));
 
-        jpeg_read_scanlines(&info, &row, 1);
+    u64 pixels = (u64)header[0] * header[1];
+
+    if (!pixels || pixels > maxPixels) {
+        return nullptr;
     }
 
-    jpeg_finish_decompress(&info);
-    jpeg_destroy_decompress(&info);
+    DecodedImage* out = pool.make<DecodedImage>(header[0], header[1]);
+
+    memcpy(out->rgba.mutData(), at((u64)res + sizeof(header), pixels * 4), pixels * 4);
 
     return out;
 }
 
 SvgImage* RasterDecoder::decode(ObjPool& pool, StringView bytes) {
-    if (bytes.length() >= 3 && bytes[0] == 0xff && bytes[1] == 0xd8 && bytes[2] == 0xff) {
-        return decodeJpeg(pool, bytes);
-    }
-
-    png_image image;
-
-    memset(&image, 0, sizeof(image));
-    image.version = PNG_IMAGE_VERSION;
-
-    if (!png_image_begin_read_from_memory(&image, bytes.data(), bytes.length())) {
+    if (bytes.empty() || bytes.length() > 0x7fffffffu) {
         return nullptr;
     }
 
-    image.format = PNG_FORMAT_RGBA;
+    try {
+        Decoder decoder;
 
-    if ((u64)image.width * image.height > (1u << 26)) {
-        png_image_free(&image);
-
+        return decoder.decode(pool, bytes);
+    } catch (const DriverError&) {
         return nullptr;
     }
-
-    DecodedImage* out = pool.make<DecodedImage>(image.width, image.height);
-
-    if (!png_image_finish_read(&image, nullptr, out->rgba.mutData(), 0, nullptr)) {
-        return nullptr;
-    }
-
-    return out;
 }
 
 namespace {
