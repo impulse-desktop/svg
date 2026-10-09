@@ -168,7 +168,9 @@ using namespace stl;
     ATOM(FloodOpacity, "flood-opacity")                            \
     ATOM(LightingColor, "lighting-color")                          \
     ATOM(ColorInterpolationFilters, "color-interpolation-filters") \
-    ATOM(Filter, "filter")
+    ATOM(Filter, "filter")                                         \
+    ATOM(BackgroundColor, "background-color")                      \
+    ATOM(Overflow, "overflow")
 
 namespace {
     enum Atom : u32 {
@@ -187,7 +189,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomFilter - AtomFill + 1;
+    constexpr u32 propertyCount = AtomOverflow - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.1f;
@@ -470,6 +472,8 @@ namespace {
         bool linearFilters;
         bool filtered;
         u32 filter;
+        Color background;
+        bool overflowVisible;
         u8 fillRule;
         u8 clipRule;
         u8 cap;
@@ -4345,14 +4349,37 @@ namespace {
             return true;
         }
 
+        bool first = true;
+
         while (true) {
-            while (p < end && (isSpace(*p) || *p == ',')) {
+            bool separator = false;
+
+            while (p < end && isSpace(*p)) {
                 p++;
             }
 
+            if (p < end && *p == ',') {
+                if (first) {
+                    return false;
+                }
+
+                separator = true;
+                p++;
+
+                while (p < end && isSpace(*p)) {
+                    p++;
+                }
+            }
+
             if (p >= end) {
+                if (separator) {
+                    return false;
+                }
+
                 break;
             }
+
+            first = false;
 
             const u8* start = p;
 
@@ -4389,6 +4416,8 @@ namespace {
                     return false;
                 }
 
+                bool comma = false;
+
                 const u8* unitStart = p;
 
                 while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
@@ -4408,7 +4437,23 @@ namespace {
                 }
 
                 count++;
-                skipSeparator(p, end);
+
+                while (p < end && isSpace(*p)) {
+                    p++;
+                }
+
+                if (p < end && *p == ',') {
+                    comma = true;
+                    p++;
+                }
+
+                while (p < end && isSpace(*p)) {
+                    p++;
+                }
+
+                if (comma && (p >= end || *p == ')' || *p == ',')) {
+                    return false;
+                }
             }
 
             Matrix m;
@@ -5598,6 +5643,8 @@ namespace {
         style.lightingColor = Color{1.f, 1.f, 1.f, 1.f};
         style.filtered = false;
         style.filter = 0;
+        style.background = Color{0.f, 0.f, 0.f, 0.f};
+        style.overflowVisible = false;
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
             StringView value = cascaded(doc, node, property);
@@ -5610,7 +5657,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -5647,7 +5694,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -5956,6 +6003,28 @@ namespace {
 
                     break;
                 }
+                case AtomBackgroundColor:
+                    if (keyword) {
+                        style.background = source.background;
+                    } else if (isKeyword(value, "currentcolor")) {
+                        style.background = style.color;
+                    } else {
+                        Color color;
+
+                        if (parseColor(value, color)) {
+                            style.background = color;
+                        }
+                    }
+
+                    break;
+                case AtomOverflow:
+                    if (keyword) {
+                        style.overflowVisible = source.overflowVisible;
+                    } else {
+                        style.overflowVisible = isKeyword(value, "visible") || isKeyword(value, "auto");
+                    }
+
+                    break;
                 case AtomMaskType:
                     if (keyword) {
                         style.maskType = source.maskType;
@@ -7194,6 +7263,19 @@ namespace {
         if (node == l.doc->root) {
             float w = (float)l.width;
             float h = (float)l.height;
+
+            if (style.background.a > 0.f) {
+                Path canvas;
+                Flat flat;
+
+                moveTo(canvas, Point{0.f, 0.f});
+                lineTo(canvas, Point{w, 0.f});
+                lineTo(canvas, Point{w, h});
+                lineTo(canvas, Point{0.f, h});
+                closePath(canvas);
+                flatten(canvas, identity(), tolerance, flat);
+                emitFill(l, flat, WindingNonZero, solidPaint(l, style.background, 1.f));
+            }
             Box viewBox;
 
             if (!parseViewBox(*l.doc, node, viewBox)) {
@@ -7224,7 +7306,7 @@ namespace {
             l.sized = nullptr;
         }
 
-        lowerViewport(l, node, style, m, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, true);
+        lowerViewport(l, node, style, m, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, !style.overflowVisible);
     }
 
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -7258,7 +7340,7 @@ namespace {
                 float w = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
                 float h = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
 
-                lowerViewport(l, target, symbolStyle, placed, target, 0.f, 0.f, w, h, true);
+                lowerViewport(l, target, symbolStyle, placed, target, 0.f, 0.f, w, h, !symbolStyle.overflowVisible);
             }
         } else {
             if (target->name == AtomSvg) {
