@@ -26,7 +26,6 @@ using namespace stl;
     ATOM(RadialGradient, "radialGradient")           \
     ATOM(Stop, "stop")                               \
     ATOM(ClipPath, "clipPath")                       \
-    ATOM(Mask, "mask")                               \
     ATOM(Pattern, "pattern")                         \
     ATOM(Marker, "marker")                           \
     ATOM(Style, "style")                             \
@@ -62,6 +61,8 @@ using namespace stl;
     ATOM(GradientTransform, "gradientTransform")     \
     ATOM(SpreadMethod, "spreadMethod")               \
     ATOM(ClipPathUnits, "clipPathUnits")             \
+    ATOM(MaskUnits, "maskUnits")                     \
+    ATOM(MaskContentUnits, "maskContentUnits")       \
     ATOM(SystemLanguage, "systemLanguage")           \
     ATOM(RequiredExtensions, "requiredExtensions")   \
     ATOM(Type, "type")                               \
@@ -84,7 +85,9 @@ using namespace stl;
     ATOM(StopOpacity, "stop-opacity")                \
     ATOM(ClipPathProperty, "clip-path")              \
     ATOM(ClipRule, "clip-rule")                      \
-    ATOM(FontSize, "font-size")
+    ATOM(FontSize, "font-size")                      \
+    ATOM(Mask, "mask")                               \
+    ATOM(MaskType, "mask-type")
 
 namespace {
     enum Atom : u32 {
@@ -103,7 +106,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomFontSize - AtomFill + 1;
+    constexpr u32 propertyCount = AtomMaskType - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.1f;
@@ -146,6 +149,8 @@ namespace {
     struct Viewport {
         float width;
         float height;
+        float screenWidth;
+        float screenHeight;
     };
 
     struct Interner {
@@ -287,6 +292,15 @@ namespace {
         Mm,
         Pt,
         Pc,
+        Q,
+        Rem,
+        Vw,
+        Vh,
+        Vmin,
+        Vmax,
+        Ch,
+        Lh,
+        Ic,
         Percent,
     };
 
@@ -367,6 +381,8 @@ namespace {
         float* dashes;
         u32 dashCount;
         u32 clipPath;
+        u32 mask;
+        u8 maskType;
         u8 fillRule;
         u8 clipRule;
         u8 cap;
@@ -441,12 +457,19 @@ namespace {
         bool clipped;
         u32 clipFirst;
         u32 clipCount;
+        bool masked;
+        u8 maskType;
+        u32 maskFirst;
+        u32 maskCount;
+        u32 maskRegion;
     };
 
     struct Lowering {
         Document* doc;
         ObjPool* pool;
         Vector<Op> ops;
+        Vector<Op> programs;
+        Vector<Op>* out;
         Vector<Edge> edges;
         Vector<ClipShape> clips;
         Vector<Node*> active;
@@ -463,8 +486,6 @@ namespace {
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
         Vector<float> accumulation;
-        Vector<float> mask;
-        Vector<float> shape;
     };
 
     struct NamedColor {
@@ -2615,36 +2636,56 @@ namespace {
         if (s < end && *s == '%') {
             out.unit = Unit::Percent;
             s++;
-        } else if (end - s >= 2 && isIdentStart(*s) && *s != '-') {
-            StringView unit(s, s + 2);
-
-            if (equalsIgnoreCase(unit, StringView(u8"px"))) {
-                out.unit = Unit::Px;
-            } else if (equalsIgnoreCase(unit, StringView(u8"em"))) {
-                out.unit = Unit::Em;
-            } else if (equalsIgnoreCase(unit, StringView(u8"ex"))) {
-                out.unit = Unit::Ex;
-            } else if (equalsIgnoreCase(unit, StringView(u8"in"))) {
-                out.unit = Unit::In;
-            } else if (equalsIgnoreCase(unit, StringView(u8"cm"))) {
-                out.unit = Unit::Cm;
-            } else if (equalsIgnoreCase(unit, StringView(u8"mm"))) {
-                out.unit = Unit::Mm;
-            } else if (equalsIgnoreCase(unit, StringView(u8"pt"))) {
-                out.unit = Unit::Pt;
-            } else if (equalsIgnoreCase(unit, StringView(u8"pc"))) {
-                out.unit = Unit::Pc;
-            } else {
-                return false;
-            }
-
-            s += 2;
-
-            if (s < end && isIdentChar(*s)) {
-                return false;
-            }
         } else if (s < end && isIdentStart(*s) && *s != '-') {
-            return false;
+            const u8* unitEnd = s;
+
+            while (unitEnd < end && ((*unitEnd >= 'a' && *unitEnd <= 'z') || (*unitEnd >= 'A' && *unitEnd <= 'Z'))) {
+                unitEnd++;
+            }
+
+            StringView unit(s, unitEnd);
+
+            static const struct {
+                const char* name;
+                Unit unit;
+            } units[] = {
+                {"px", Unit::Px},
+                {"em", Unit::Em},
+                {"ex", Unit::Ex},
+                {"in", Unit::In},
+                {"cm", Unit::Cm},
+                {"mm", Unit::Mm},
+                {"pt", Unit::Pt},
+                {"pc", Unit::Pc},
+                {"q", Unit::Q},
+                {"rem", Unit::Rem},
+                {"vw", Unit::Vw},
+                {"vh", Unit::Vh},
+                {"vi", Unit::Vw},
+                {"vb", Unit::Vh},
+                {"vmin", Unit::Vmin},
+                {"vmax", Unit::Vmax},
+                {"ch", Unit::Ch},
+                {"lh", Unit::Lh},
+                {"rlh", Unit::Lh},
+                {"ic", Unit::Ic},
+            };
+
+            bool known = false;
+
+            for (const auto& candidate : units) {
+                if (equalsIgnoreCase(unit, StringView(candidate.name))) {
+                    out.unit = candidate.unit;
+                    known = true;
+                    break;
+                }
+            }
+
+            if (!known || (unitEnd < end && isIdentChar(*unitEnd))) {
+                return false;
+            }
+
+            s = unitEnd;
         }
 
         p = s;
@@ -2678,6 +2719,24 @@ namespace {
                 return length.value * 4.f / 3.f;
             case Unit::Pc:
                 return length.value * 16.f;
+            case Unit::Q:
+                return length.value * 96.f / 101.6f;
+            case Unit::Rem:
+                return length.value * 16.f;
+            case Unit::Vw:
+                return length.value * vp.screenWidth / 100.f;
+            case Unit::Vh:
+                return length.value * vp.screenHeight / 100.f;
+            case Unit::Vmin:
+                return length.value * minf(vp.screenWidth, vp.screenHeight) / 100.f;
+            case Unit::Vmax:
+                return length.value * maxf(vp.screenWidth, vp.screenHeight) / 100.f;
+            case Unit::Ch:
+                return length.value * fontSize * 0.556f;
+            case Unit::Lh:
+                return length.value * fontSize * 1.149f;
+            case Unit::Ic:
+                return length.value * fontSize;
             case Unit::Percent:
                 if (axis == Axis::X) {
                     return length.value * vp.width / 100.f;
@@ -4100,6 +4159,8 @@ namespace {
         style.stopColor = initial.stopColor;
         style.stopOpacity = 1.f;
         style.clipPath = 0;
+        style.mask = 0;
+        style.maskType = 0;
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
             StringView value = cascaded(doc, node, property);
@@ -4112,7 +4173,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -4149,7 +4210,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -4384,20 +4445,35 @@ namespace {
                     }
 
                     break;
-                case AtomClipPathProperty: {
+                case AtomClipPathProperty:
+                case AtomMask: {
+                    u32& target = property == AtomMask ? style.mask : style.clipPath;
+
                     if (keyword) {
-                        style.clipPath = source.clipPath;
+                        target = property == AtomMask ? source.mask : source.clipPath;
                         break;
                     }
 
                     PaintValue reference;
 
                     if (parsePaint(doc, value, reference) && reference.kind == PaintKind::Server) {
-                        style.clipPath = reference.server;
+                        target = reference.server;
+                    } else if (isKeyword(value, "none")) {
+                        target = 0;
                     }
 
                     break;
                 }
+                case AtomMaskType:
+                    if (keyword) {
+                        style.maskType = source.maskType;
+                    } else if (isKeyword(value, "alpha")) {
+                        style.maskType = 1;
+                    } else if (isKeyword(value, "luminance")) {
+                        style.maskType = 0;
+                    }
+
+                    break;
                 default:
                     break;
             }
@@ -4417,6 +4493,16 @@ namespace {
         l.documentStyles.mut(node->index) = style;
 
         return *style;
+    }
+
+    static bool resourceUsable(Lowering& l, Node* node, Viewport vp) {
+        for (Node* up = node; up && up != l.doc->root; up = up->parent) {
+            if (documentStyle(l, up, vp).displayNone) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     static void emitEdges(Lowering& l, const Flat& flat, Box& bounds) {
@@ -4453,7 +4539,7 @@ namespace {
         op.count = (u32)l.edges.length() - op.first;
 
         if (op.count && boxValid(op.bounds)) {
-            l.ops.pushBack(op);
+            l.out->pushBack(op);
         }
     }
 
@@ -4666,7 +4752,7 @@ namespace {
             case PaintKind::Server: {
                 Node* server = elementById(*l.doc, value.server);
 
-                if (server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient)) {
+                if (server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient) && resourceUsable(l, server, vp)) {
                     return gradientPaint(l, server, opacity, bbox, ctm, vp);
                 }
 
@@ -4769,16 +4855,14 @@ namespace {
         return boxValid(box);
     }
 
-    static void beginGroup(Lowering& l, float opacity, bool clipped, u32 clipFirst, u32 clipCount) {
+    static Op groupOp(float opacity) {
         Op op;
 
         memset(&op, 0, sizeof(op));
         op.kind = OpKind::Begin;
         op.opacity = opacity;
-        op.clipped = clipped;
-        op.clipFirst = clipFirst;
-        op.clipCount = clipCount;
-        l.ops.pushBack(op);
+
+        return op;
     }
 
     static void endGroup(Lowering& l) {
@@ -4786,7 +4870,7 @@ namespace {
 
         memset(&op, 0, sizeof(op));
         op.kind = OpKind::End;
-        l.ops.pushBack(op);
+        l.out->pushBack(op);
     }
 
     static void addClipShape(Lowering& l, const Path& path, const Matrix& m, u8 rule) {
@@ -4817,7 +4901,7 @@ namespace {
         const Document& doc = *l.doc;
         Node* clip = elementById(doc, style.clipPath);
 
-        if (!clip || clip->name != AtomClipPath) {
+        if (!clip || clip->name != AtomClipPath || !resourceUsable(l, clip, vp)) {
             return false;
         }
 
@@ -4880,6 +4964,101 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
+    static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
+
+    static float unitFraction(const Document& doc, const Node* node, u32 name, float fallback) {
+        u32 value = attribute(node, name);
+        Length length;
+
+        if (!value || !parseLength(textOf(doc, value), length)) {
+            return fallback;
+        }
+
+        return length.unit == Unit::Percent ? length.value / 100.f : length.value;
+    }
+
+    static bool resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
+        const Document& doc = *l.doc;
+        Node* mask = elementById(doc, style.mask);
+
+        if (!mask || mask->name != AtomMask || !resourceUsable(l, mask, vp)) {
+            return false;
+        }
+
+        for (Node* active : l.active) {
+            if (active == mask) {
+                return false;
+            }
+        }
+
+        u32 units = attribute(mask, AtomMaskUnits);
+        u32 contentUnits = attribute(mask, AtomMaskContentUnits);
+        bool boxRegion = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+        bool boxContent = contentUnits && textOf(doc, contentUnits) == StringView(u8"objectBoundingBox");
+        const ComputedStyle& maskStyle = documentStyle(l, mask, vp);
+        Box box = emptyBox();
+        float x;
+        float y;
+        float w;
+        float h;
+
+        op.masked = true;
+        op.maskType = maskStyle.maskType;
+        op.maskFirst = (u32)l.programs.length();
+        op.maskCount = 0;
+        op.maskRegion = (u32)l.clips.length();
+
+        if ((boxRegion || boxContent) && (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
+            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+
+            return true;
+        }
+
+        if (boxRegion) {
+            float bw = box.x1 - box.x0;
+            float bh = box.y1 - box.y0;
+
+            x = box.x0 + unitFraction(doc, mask, AtomX, -0.1f) * bw;
+            y = box.y0 + unitFraction(doc, mask, AtomY, -0.1f) * bh;
+            w = unitFraction(doc, mask, AtomWidth, 1.2f) * bw;
+            h = unitFraction(doc, mask, AtomHeight, 1.2f) * bh;
+        } else {
+            float fs = maskStyle.fontSize;
+
+            x = lengthOr(doc, mask, AtomX, Axis::X, vp, fs, -0.1f * vp.width);
+            y = lengthOr(doc, mask, AtomY, Axis::Y, vp, fs, -0.1f * vp.height);
+            w = lengthOr(doc, mask, AtomWidth, Axis::X, vp, fs, 1.2f * vp.width);
+            h = lengthOr(doc, mask, AtomHeight, Axis::Y, vp, fs, 1.2f * vp.height);
+        }
+
+        if (w <= 0.f || h <= 0.f) {
+            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+
+            return true;
+        }
+
+        addRectClip(l, m, x, y, w, h);
+
+        Matrix content = m;
+
+        if (boxContent) {
+            content = multiply(content, Matrix{box.x1 - box.x0, 0.f, 0.f, box.y1 - box.y0, box.x0, box.y0});
+        }
+
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+
+        l.out = &program;
+        l.active.pushBack(mask);
+        lowerChildren(l, mask, maskStyle, content, vp);
+        l.active.popBack();
+        l.out = saved;
+        op.maskFirst = (u32)l.programs.length();
+        op.maskCount = (u32)program.length();
+        l.programs.append(program.data(), program.length());
+
+        return true;
+    }
 
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp) {
         for (Node* child = node->first; child; child = child->next) {
@@ -4935,7 +5114,7 @@ namespace {
         }
 
         Matrix inner = multiply(m, translation(x, y));
-        Viewport inside{w, h};
+        Viewport inside{w, h, (float)l.width, (float)l.height};
         Box viewBox;
 
         if (parseViewBox(*l.doc, node, viewBox)) {
@@ -4944,14 +5123,19 @@ namespace {
             }
 
             inner = multiply(inner, viewBoxTransform(*l.doc, node, viewBox, w, h));
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height};
         }
 
         if (clip) {
             u32 first = (u32)l.clips.length();
 
+            Op op = groupOp(1.f);
+
             addRectClip(l, m, x, y, w, h);
-            beginGroup(l, 1.f, true, first, 1);
+            op.clipped = true;
+            op.clipFirst = first;
+            op.clipCount = 1;
+            l.out->pushBack(op);
         }
 
         lowerChildren(l, content, style, inner, inside);
@@ -4962,7 +5146,7 @@ namespace {
     }
 
     static bool intrinsicSize(const Document& doc, const Node* root, float& width, float& height) {
-        Viewport none{0.f, 0.f};
+        Viewport none{0.f, 0.f, 0.f, 0.f};
         Length w;
         Length h;
         u32 widthValue = attribute(root, AtomWidth);
@@ -5001,7 +5185,7 @@ namespace {
                 if (intrinsicSize(*l.doc, node, iw, ih)) {
                     Box synthesized{0.f, 0.f, iw, ih};
 
-                    lowerChildren(l, node, style, multiply(m, viewBoxTransform(*l.doc, node, synthesized, w, h)), Viewport{iw, ih});
+                    lowerChildren(l, node, style, multiply(m, viewBoxTransform(*l.doc, node, synthesized, w, h)), Viewport{iw, ih, (float)l.width, (float)l.height});
 
                     return;
                 }
@@ -5095,24 +5279,29 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp) {
-        if (!renderable(node->name) || l.depth > 256) {
+        if (!renderable(node->name) || l.depth > 256 || !passesConditions(*l.doc, node)) {
             return;
         }
 
         ComputedStyle style = computeStyle(l, node, parent, vp);
 
-        if (style.displayNone || style.opacity <= 0.f) {
+        if ((style.displayNone && node != l.doc->root) || style.opacity <= 0.f) {
             return;
         }
 
         Matrix m = multiply(ctm, transformOf(*l.doc, node, AtomTransform));
-        u32 clipFirst = 0;
-        u32 clipCount = 0;
-        bool clipped = style.clipPath && resolveClip(l, node, parent, style, m, vp, clipFirst, clipCount);
-        bool layer = clipped || style.opacity < 1.f;
+        Op op = groupOp(style.opacity);
+
+        op.clipped = style.clipPath && resolveClip(l, node, parent, style, m, vp, op.clipFirst, op.clipCount);
+
+        if (style.mask) {
+            resolveMask(l, node, parent, style, m, vp, op);
+        }
+
+        bool layer = op.clipped || op.masked || style.opacity < 1.f;
 
         if (layer) {
-            beginGroup(l, style.opacity, clipped, clipFirst, clipCount);
+            l.out->pushBack(op);
         }
 
         l.depth++;
@@ -5482,53 +5671,82 @@ namespace {
         }
     }
 
-    static void clipMask(Raster& r, const Lowering& l, const Op& op) {
-        size_t size = (size_t)r.width * r.height;
+    static void accumulateShape(Raster& r, const Lowering& l, const ClipShape& shape, float* target) {
+        Box bounds = emptyBox();
 
-        r.mask.zero(size);
+        for (u32 i = shape.first; i < shape.first + shape.count; i++) {
+            extend(bounds, Point{l.edges[i].x0, l.edges[i].y0});
+            extend(bounds, Point{l.edges[i].x1, l.edges[i].y1});
+        }
 
-        float* mask = r.mask.mutData();
+        u32 ix0;
+        u32 iy0;
+        u32 w;
+        u32 h;
 
-        for (u32 s = op.clipFirst; s < op.clipFirst + op.clipCount; s++) {
-            const ClipShape& shape = l.clips[s];
-            Box bounds = emptyBox();
+        if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, ix0, iy0, w, h)) {
+            return;
+        }
 
-            for (u32 i = shape.first; i < shape.first + shape.count; i++) {
-                extend(bounds, Point{l.edges[i].x0, l.edges[i].y0});
-                extend(bounds, Point{l.edges[i].x1, l.edges[i].y1});
-            }
+        const float* acc = r.accumulation.data();
+        u32 stride = w + 2;
 
-            u32 ix0;
-            u32 iy0;
-            u32 w;
-            u32 h;
+        for (u32 y = 0; y < h; y++) {
+            float sum = 0.f;
+            const float* line = acc + (size_t)y * stride;
+            float* row = target + (size_t)(iy0 + y) * r.width + ix0;
 
-            if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, ix0, iy0, w, h)) {
-                continue;
-            }
-
-            const float* acc = r.accumulation.data();
-            u32 stride = w + 2;
-
-            for (u32 y = 0; y < h; y++) {
-                float sum = 0.f;
-                const float* line = acc + (size_t)y * stride;
-                float* row = mask + (size_t)(iy0 + y) * r.width + ix0;
-
-                for (u32 x = 0; x < w; x++) {
-                    sum += line[x];
-                    row[x] = maxf(row[x], coverage(sum, shape.rule));
-                }
+            for (u32 x = 0; x < w; x++) {
+                sum += line[x];
+                row[x] = maxf(row[x], coverage(sum, shape.rule));
             }
         }
     }
 
-    static void execute(Raster& r, const Lowering& l, float* base) {
+    static float* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool) {
         size_t size = (size_t)r.width * r.height;
+        float* mask = (float*)pool.allocate(sizeof(float) * size);
+
+        memset(mask, 0, sizeof(float) * size);
+
+        for (u32 s = op.clipFirst; s < op.clipFirst + op.clipCount; s++) {
+            accumulateShape(r, l, l.clips[s], mask);
+        }
+
+        return mask;
+    }
+
+    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
+
+    static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool) {
+        size_t size = (size_t)r.width * r.height;
+        float* content = (float*)pool.allocate(sizeof(float) * size * 4);
+        float* mask = (float*)pool.allocate(sizeof(float) * size);
+
+        memset(content, 0, sizeof(float) * size * 4);
+        memset(mask, 0, sizeof(float) * size);
+        runProgram(r, l, l.programs.data() + op.maskFirst, op.maskCount, content);
+        accumulateShape(r, l, l.clips[op.maskRegion], mask);
+
+        for (size_t i = 0; i < size; i++) {
+            const float* c = content + i * 4;
+            float value = op.maskType ? c[3] : 0.2126f * c[0] + 0.7152f * c[1] + 0.0722f * c[2];
+
+            mask[i] *= value;
+        }
+
+        return mask;
+    }
+
+    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base) {
+        size_t size = (size_t)r.width * r.height;
+        size_t depth = r.layers.length();
 
         r.layers.pushBack(base);
 
-        for (const Op& op : l.ops) {
+        for (u32 k = 0; k < count; k++) {
+            const Op& op = ops[k];
+
             switch (op.kind) {
                 case OpKind::Fill:
                     fillOp(r, l, op, r.layers.back());
@@ -5548,15 +5766,11 @@ namespace {
                     ObjPool* pool = r.pools.popBack();
                     const Op* begin = r.begins.popBack();
                     float* parent = r.layers.back();
-
-                    if (begin->clipped) {
-                        clipMask(r, l, *begin);
-                    }
-
-                    const float* mask = begin->clipped ? r.mask.data() : nullptr;
+                    const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool) : nullptr;
+                    const float* mask = begin->masked ? maskBuffer(r, l, *begin, *pool) : nullptr;
 
                     for (size_t i = 0; i < size; i++) {
-                        float f = begin->opacity * (mask ? mask[i] : 1.f);
+                        float f = begin->opacity * (clip ? clip[i] : 1.f) * (mask ? mask[i] : 1.f);
                         const float* s = layer + i * 4;
 
                         if (f <= 0.f || s[3] <= 0.f) {
@@ -5578,9 +5792,13 @@ namespace {
             }
         }
 
-        while (r.pools.length()) {
+        while (r.layers.length() > depth + 1) {
+            r.layers.popBack();
+            r.begins.popBack();
             delete r.pools.popBack();
         }
+
+        r.layers.popBack();
     }
 
     static u8 toByte(float value) {
@@ -5661,14 +5879,15 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.width = width;
         l.height = height;
         l.depth = 0;
+        l.out = &l.ops;
         l.documentStyles.zero(doc.nodeCount);
-        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height});
+        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height});
 
         Raster raster;
 
         raster.width = width;
         raster.height = height;
-        execute(raster, l, base);
+        runProgram(raster, l, l.ops.data(), (u32)l.ops.length(), base);
     }
 
     for (size_t i = 0; i < size; i++) {
