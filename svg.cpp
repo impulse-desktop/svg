@@ -60,6 +60,7 @@ using namespace stl;
     ATOM(D, "d")                                                   \
     ATOM(Transform, "transform")                                   \
     ATOM(ViewBox, "viewBox")                                       \
+    ATOM(View, "view")                                             \
     ATOM(PreserveAspectRatio, "preserveAspectRatio")               \
     ATOM(Href, "href")                                             \
     ATOM(Offset, "offset")                                         \
@@ -278,12 +279,17 @@ namespace {
         bool classesReady;
     };
 
+    struct Rule;
+
     struct Document {
         ObjPool* pool;
         Interner atoms;
         Node* root;
         u32 nodeCount;
         Vector<Node*> byId;
+        Rule* rules;
+        u32 ruleCount;
+        bool structural;
     };
 
     struct XmlError {};
@@ -703,6 +709,9 @@ namespace {
         PaintValue contextStroke;
         Matrix contextMatrix;
         Box contextBox;
+        u32** instance;
+        Vector<Node*> instanceTargets;
+        Vector<u32**> instanceMaps;
     };
 
     struct Raster {
@@ -3851,7 +3860,7 @@ namespace {
         return false;
     }
 
-    static bool matchCondition(Document& doc, Node* node, const Condition& condition) {
+    static bool matchCondition(Document& doc, Node* node, const Condition& condition, const Node* boundary) {
         switch (condition.test) {
             case Test::Id:
                 return attribute(node, AtomId) == condition.name;
@@ -3872,7 +3881,7 @@ namespace {
             case Test::OnlyChild:
                 return !node->prev && !node->next;
             case Test::Root:
-                return node == doc.root;
+                return node == doc.root && !boundary;
             case Test::Never:
                 return false;
             default:
@@ -3918,7 +3927,7 @@ namespace {
         }
     }
 
-    static bool matchCompound(Document& doc, Node* node, const Compound& compound) {
+    static bool matchCompound(Document& doc, Node* node, const Compound& compound, const Node* boundary) {
         if (compound.type && node->name != compound.type) {
             return false;
         }
@@ -3928,7 +3937,7 @@ namespace {
 
             if (condition.test == Test::Not) {
                 for (u32 k = 0; k < condition.innerCount; k++) {
-                    if (matchCompound(doc, node, condition.inner[k])) {
+                    if (matchCompound(doc, node, condition.inner[k], boundary)) {
                         return false;
                     }
                 }
@@ -3936,7 +3945,7 @@ namespace {
                 continue;
             }
 
-            if (!matchCondition(doc, node, condition)) {
+            if (!matchCondition(doc, node, condition, boundary)) {
                 return false;
             }
         }
@@ -3944,8 +3953,8 @@ namespace {
         return true;
     }
 
-    static bool matchFrom(Document& doc, Node* node, const Selector& selector, u32 index) {
-        if (!matchCompound(doc, node, selector.compounds[index])) {
+    static bool matchFrom(Document& doc, Node* node, const Selector& selector, u32 index, const Node* boundary) {
+        if (!matchCompound(doc, node, selector.compounds[index], boundary)) {
             return false;
         }
 
@@ -3955,20 +3964,20 @@ namespace {
 
         switch (selector.compounds[index].combinator) {
             case Combinator::Descendant:
-                for (Node* up = node->parent; up; up = up->parent) {
-                    if (matchFrom(doc, up, selector, index + 1)) {
+                for (Node* up = node == boundary ? nullptr : node->parent; up; up = up == boundary ? nullptr : up->parent) {
+                    if (matchFrom(doc, up, selector, index + 1, boundary)) {
                         return true;
                     }
                 }
 
                 return false;
             case Combinator::Child:
-                return node->parent && matchFrom(doc, node->parent, selector, index + 1);
+                return node != boundary && node->parent && matchFrom(doc, node->parent, selector, index + 1, boundary);
             case Combinator::Adjacent:
-                return node->prev && matchFrom(doc, node->prev, selector, index + 1);
+                return node != boundary && node->prev && matchFrom(doc, node->prev, selector, index + 1, boundary);
             case Combinator::Sibling:
-                for (Node* sibling = node->prev; sibling; sibling = sibling->prev) {
-                    if (matchFrom(doc, sibling, selector, index + 1)) {
+                for (Node* sibling = node == boundary ? nullptr : node->prev; sibling; sibling = sibling->prev) {
+                    if (matchFrom(doc, sibling, selector, index + 1, boundary)) {
                         return true;
                     }
                 }
@@ -4028,6 +4037,113 @@ namespace {
         }
     }
 
+    static u32* cascadeNode(Document& doc, Node* node, const Node* boundary) {
+        Candidate best[propertyCount];
+        Vector<Declaration> geometry;
+        Vector<u64> geometryPriorities;
+
+        memset(best, 0, sizeof(best));
+
+        for (u32 i = 0; i < node->count; i++) {
+            u32 name = node->attributes[i].name;
+
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation) {
+                u32 value = node->attributes[i].value;
+                StringView text = textOf(doc, value);
+
+                if (findFunction(text, StringView(u8"env("))) {
+                    Buffer substituted;
+
+                    value = substituteFallbacks(text, substituted, 0) ? intern(doc.atoms, trim(keep(*doc.pool, substituted.data(), substituted.length()))) : 0;
+                }
+
+                if (value) {
+                    consider(best, name, value, 1);
+                }
+            }
+        }
+
+        for (u32 r = 0; r < doc.ruleCount; r++) {
+            const Rule& rule = doc.rules[r];
+            u32 specificity = 0;
+            bool matched = false;
+
+            for (u32 s = 0; s < rule.selectorCount; s++) {
+                if (matchFrom(doc, node, rule.selectors[s], 0, boundary)) {
+                    matched = true;
+
+                    if (rule.selectors[s].specificity > specificity) {
+                        specificity = rule.selectors[s].specificity;
+                    }
+                }
+            }
+
+            if (!matched) {
+                continue;
+            }
+
+            for (u32 d = 0; d < rule.declarationCount; d++) {
+                const Declaration& declaration = rule.declarations[d];
+                u64 level = declaration.important ? 3 : 1;
+
+                u64 priority = (level << 56) | ((u64)specificity << 32) | ((u64)r << 12) | d;
+
+                if (geometryProperty(declaration.property)) {
+                    considerGeometry(geometry, geometryPriorities, declaration, priority);
+                } else {
+                    consider(best, declaration.property, declaration.value, priority);
+                }
+            }
+        }
+
+        if (u32 inlineStyle = attribute(node, AtomStyle)) {
+            Vector<Declaration> declarations;
+            Buffer cleaned;
+
+            stripComments(textOf(doc, inlineStyle), cleaned);
+            parseDeclarations(doc, keep(*doc.pool, cleaned.data(), cleaned.length()), declarations);
+
+            for (u32 d = 0; d < declarations.length(); d++) {
+                u64 level = declarations[d].important ? 4 : 2;
+                u64 priority = (level << 56) | d;
+
+                if (geometryProperty(declarations[d].property)) {
+                    considerGeometry(geometry, geometryPriorities, declarations[d], priority);
+                } else {
+                    consider(best, declarations[d].property, declarations[d].value, priority);
+                }
+            }
+        }
+
+        for (const Declaration& declaration : geometry) {
+            if (boundary) {
+                break;
+            }
+
+            bool outer = node == doc.root && declaration.property != AtomTransform && declaration.property != AtomTransformOrigin;
+
+            if (geometryApplies(node->name, declaration.property) && !outer) {
+                u32 property = declaration.property;
+
+                if (property == AtomTransform && (node->name == AtomLinearGradient || node->name == AtomRadialGradient)) {
+                    property = AtomGradientTransform;
+                } else if (property == AtomTransform && node->name == AtomPattern) {
+                    property = AtomPatternTransform;
+                }
+
+                setAttribute(doc, node, property, declaration.value);
+            }
+        }
+
+        u32* style = (u32*)doc.pool->allocate(sizeof(u32) * propertyCount);
+
+        for (u32 i = 0; i < propertyCount; i++) {
+            style[i] = best[i].value;
+        }
+
+        return style;
+    }
+
     static void cascade(Document& doc) {
         Vector<Rule> rules;
 
@@ -4041,105 +4157,32 @@ namespace {
             }
         }
 
+        doc.ruleCount = (u32)rules.length();
+        doc.rules = (Rule*)doc.pool->allocate(sizeof(Rule) * (rules.length() + 1));
+        doc.structural = false;
+
+        if (rules.length()) {
+            memcpy(doc.rules, rules.data(), sizeof(Rule) * rules.length());
+        }
+
+        for (u32 r = 0; r < doc.ruleCount; r++) {
+            for (u32 k = 0; k < doc.rules[r].selectorCount; k++) {
+                const Selector& selector = doc.rules[r].selectors[k];
+
+                doc.structural = doc.structural || selector.count > 1;
+
+                for (u32 c = 0; c < selector.count; c++) {
+                    for (u32 d = 0; d < selector.compounds[c].count; d++) {
+                        Test test = selector.compounds[c].conditions[d].test;
+
+                        doc.structural = doc.structural || test == Test::Root || test == Test::FirstChild || test == Test::LastChild || test == Test::OnlyChild || test == Test::Not;
+                    }
+                }
+            }
+        }
+
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
-            Candidate best[propertyCount];
-            Vector<Declaration> geometry;
-            Vector<u64> geometryPriorities;
-
-            memset(best, 0, sizeof(best));
-
-            for (u32 i = 0; i < node->count; i++) {
-                u32 name = node->attributes[i].name;
-
-                if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation) {
-                    u32 value = node->attributes[i].value;
-                    StringView text = textOf(doc, value);
-
-                    if (findFunction(text, StringView(u8"env("))) {
-                        Buffer substituted;
-
-                        value = substituteFallbacks(text, substituted, 0) ? intern(doc.atoms, trim(keep(*doc.pool, substituted.data(), substituted.length()))) : 0;
-                    }
-
-                    if (value) {
-                        consider(best, name, value, 1);
-                    }
-                }
-            }
-
-            for (u32 r = 0; r < rules.length(); r++) {
-                const Rule& rule = rules[r];
-                u32 specificity = 0;
-                bool matched = false;
-
-                for (u32 s = 0; s < rule.selectorCount; s++) {
-                    if (matchFrom(doc, node, rule.selectors[s], 0)) {
-                        matched = true;
-
-                        if (rule.selectors[s].specificity > specificity) {
-                            specificity = rule.selectors[s].specificity;
-                        }
-                    }
-                }
-
-                if (!matched) {
-                    continue;
-                }
-
-                for (u32 d = 0; d < rule.declarationCount; d++) {
-                    const Declaration& declaration = rule.declarations[d];
-                    u64 level = declaration.important ? 3 : 1;
-
-                    u64 priority = (level << 56) | ((u64)specificity << 32) | ((u64)r << 12) | d;
-
-                    if (geometryProperty(declaration.property)) {
-                        considerGeometry(geometry, geometryPriorities, declaration, priority);
-                    } else {
-                        consider(best, declaration.property, declaration.value, priority);
-                    }
-                }
-            }
-
-            if (u32 inlineStyle = attribute(node, AtomStyle)) {
-                Vector<Declaration> declarations;
-                Buffer cleaned;
-
-                stripComments(textOf(doc, inlineStyle), cleaned);
-                parseDeclarations(doc, keep(*doc.pool, cleaned.data(), cleaned.length()), declarations);
-
-                for (u32 d = 0; d < declarations.length(); d++) {
-                    u64 level = declarations[d].important ? 4 : 2;
-                    u64 priority = (level << 56) | d;
-
-                    if (geometryProperty(declarations[d].property)) {
-                        considerGeometry(geometry, geometryPriorities, declarations[d], priority);
-                    } else {
-                        consider(best, declarations[d].property, declarations[d].value, priority);
-                    }
-                }
-            }
-
-            for (const Declaration& declaration : geometry) {
-                bool outer = node == doc.root && declaration.property != AtomTransform && declaration.property != AtomTransformOrigin;
-
-                if (geometryApplies(node->name, declaration.property) && !outer) {
-                    u32 property = declaration.property;
-
-                    if (property == AtomTransform && (node->name == AtomLinearGradient || node->name == AtomRadialGradient)) {
-                        property = AtomGradientTransform;
-                    } else if (property == AtomTransform && node->name == AtomPattern) {
-                        property = AtomPatternTransform;
-                    }
-
-                    setAttribute(doc, node, property, declaration.value);
-                }
-            }
-
-            node->style = (u32*)doc.pool->allocate(sizeof(u32) * propertyCount);
-
-            for (u32 i = 0; i < propertyCount; i++) {
-                node->style[i] = best[i].value;
-            }
+            node->style = cascadeNode(doc, node, nullptr);
         }
     }
 
@@ -4633,6 +4676,18 @@ namespace {
 
         if (startsWithIgnoreCase(text, StringView(u8"url("))) {
             const u8* close = text.begin() + 4;
+
+            while (close < text.end() && isSpace(*close)) {
+                close++;
+            }
+
+            if (close < text.end() && (*close == '"' || *close == '\'')) {
+                u8 quote = *close++;
+
+                while (close < text.end() && *close != quote) {
+                    close++;
+                }
+            }
 
             while (close < text.end() && *close != ')') {
                 close++;
@@ -6665,7 +6720,7 @@ namespace {
         style.overflowVisible = false;
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
-            StringView value = cascaded(doc, node, property);
+            StringView value = l.instance && l.instance[node->index] ? (l.instance[node->index][property - firstProperty] ? textOf(doc, l.instance[node->index][property - firstProperty]) : StringView()) : cascaded(doc, node, property);
 
             if (value.empty()) {
                 continue;
@@ -6702,7 +6757,7 @@ namespace {
         }
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
-            StringView value = cascaded(doc, node, property);
+            StringView value = l.instance && l.instance[node->index] ? (l.instance[node->index][property - firstProperty] ? textOf(doc, l.instance[node->index][property - firstProperty]) : StringView()) : cascaded(doc, node, property);
 
             if (value.empty() || property == AtomFontSize) {
                 continue;
@@ -7774,6 +7829,18 @@ namespace {
             return shapeBox(l, node, style, vp, out);
         }
 
+        if (node->name == AtomImage) {
+            float fs = style.fontSize;
+            float x = lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f);
+            float y = lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f);
+            float w = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
+            float h = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+
+            out = Box{x, y, x + w, y + h};
+
+            return w > 0.f && h > 0.f;
+        }
+
         Box box = emptyBox();
         auto add = [&](Node* child, const Matrix& m) {
             Box inner;
@@ -8534,6 +8601,30 @@ namespace {
         }
     }
 
+    static u32** instanceStyles(Lowering& l, Node* target) {
+        for (size_t i = 0; i < l.instanceTargets.length(); i++) {
+            if (l.instanceTargets[i] == target) {
+                return l.instanceMaps[i];
+            }
+        }
+
+        Document& doc = *l.doc;
+        u32** map = (u32**)l.pool->allocate(sizeof(u32*) * (doc.nodeCount + 1));
+
+        memset(map, 0, sizeof(u32*) * (doc.nodeCount + 1));
+
+        for (Node* node = target; node; node = nextNode(node, target)) {
+            if (node->index < doc.nodeCount) {
+                map[node->index] = cascadeNode(doc, node, target);
+            }
+        }
+
+        l.instanceTargets.pushBack(target);
+        l.instanceMaps.pushBack(map);
+
+        return map;
+    }
+
     static PaintValue contextPaint(const PaintValue& paint, const ComputedStyle& style) {
         PaintValue out = paint;
 
@@ -9095,6 +9186,11 @@ namespace {
         Matrix outerMatrix = l.contextMatrix;
         Box outerBox = l.contextBox;
         Box targetBox;
+        u32** outerInstance = l.instance;
+
+        if (l.doc->structural) {
+            l.instance = instanceStyles(l, target);
+        }
 
         l.hasContext = true;
         l.contextFill = contextPaint(style.fill, style);
@@ -9131,6 +9227,7 @@ namespace {
         l.contextStroke = outerStroke;
         l.contextMatrix = outerMatrix;
         l.contextBox = outerBox;
+        l.instance = outerInstance;
     }
 
     static int base64Value(u8 c) {
@@ -9245,6 +9342,7 @@ namespace {
         Box viewBox;
         bool sizeless;
         bool broken;
+        Node* ratio;
     };
 
     static bool loadImage(Lowering& l, Node* node, ImageSource& out) {
@@ -9257,6 +9355,7 @@ namespace {
         out.raster = nullptr;
         out.sizeless = false;
         out.broken = false;
+        out.ratio = nullptr;
 
         if (!href) {
             return false;
@@ -9264,6 +9363,18 @@ namespace {
 
         StringView reference = trim(textOf(doc, href));
         bool remote = startsWithIgnoreCase(reference, StringView(u8"http:")) || startsWithIgnoreCase(reference, StringView(u8"https:")) || (!reference.empty() && reference[0] == '#');
+        StringView fragment;
+
+        if (startsWithIgnoreCase(reference, StringView(u8"data:"))) {
+            for (const u8* p = reference.end(); p > reference.begin(); p--) {
+                if (p[-1] == '#') {
+                    fragment = StringView(p, reference.end());
+                    reference = StringView(reference.begin(), p - 1);
+                    break;
+                }
+            }
+        }
+
         bool broken = remote || (decodeDataUri(reference, mime, bytes) && bytes.length() == 0);
 
         if (!remote && !broken && bytes.length() == 0) {
@@ -9293,6 +9404,15 @@ namespace {
                 if (!parseViewBox(*nested, nested->root, out.viewBox) || out.viewBox.x1 <= out.viewBox.x0 || out.viewBox.y1 <= out.viewBox.y0) {
                     out.viewBox = Box{0.f, 0.f, out.width, out.height};
                     out.sizeless = !sized && !attribute(nested->root, AtomWidth) && !attribute(nested->root, AtomHeight);
+                }
+
+                Node* view = fragment.empty() ? nullptr : elementById(*nested, lookup(nested->atoms, fragment));
+                Box viewBox;
+
+                if (view && view->name == AtomView && parseViewBox(*nested, view, viewBox) && viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0) {
+                    out.viewBox = viewBox;
+                    out.sizeless = false;
+                    out.ratio = view;
                 }
 
                 return true;
@@ -9360,7 +9480,7 @@ namespace {
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
         bool stretch = ratio && trim(textOf(doc, ratio)) == StringView(u8"none");
         Box viewBox = source.sizeless ? Box{0.f, 0.f, w, h} : source.viewBox;
-        Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
+        Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
         Matrix place = multiply(m, fit);
 
         if (source.raster) {
@@ -9424,7 +9544,14 @@ namespace {
         Document* nested = source.nested;
         Vector<ComputedStyle*> outerStyles;
 
+        u32** outerInstance = l.instance;
+        Vector<Node*> outerTargets;
+        Vector<u32**> outerMaps;
+
         outerStyles.xchg(l.documentStyles);
+        outerTargets.xchg(l.instanceTargets);
+        outerMaps.xchg(l.instanceMaps);
+        l.instance = nullptr;
         l.documentStyles.zero(nested->nodeCount);
         l.doc = nested;
         l.imageDepth++;
@@ -9433,11 +9560,14 @@ namespace {
         float outerFontSize = l.rootFontSize;
 
         l.rootFontSize = rootStyle.fontSize;
-        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height, rootStyle.fontSize});
+        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.sizeless ? w : source.width, source.sizeless ? h : source.height, rootStyle.fontSize});
         l.rootFontSize = outerFontSize;
         l.imageDepth--;
         l.doc = outer;
         l.documentStyles.xchg(outerStyles);
+        l.instanceTargets.xchg(outerTargets);
+        l.instanceMaps.xchg(outerMaps);
+        l.instance = outerInstance;
         endGroup(l);
     }
 
@@ -12265,6 +12395,7 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.rootFontSize = 16.f;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
+        l.instance = nullptr;
         l.documentStyles.zero(doc.nodeCount);
         lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height, 16.f});
 
