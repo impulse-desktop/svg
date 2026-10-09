@@ -64,6 +64,7 @@ using namespace stl;
     ATOM(PatternUnits, "patternUnits")                             \
     ATOM(PatternContentUnits, "patternContentUnits")               \
     ATOM(PatternTransform, "patternTransform")                     \
+    ATOM(TransformOrigin, "transform-origin")                      \
     ATOM(FilterUnits, "filterUnits")                               \
     ATOM(PrimitiveUnits, "primitiveUnits")                         \
     ATOM(In, "in")                                                 \
@@ -3284,6 +3285,49 @@ namespace {
         return true;
     }
 
+    static bool geometryProperty(u32 atom) {
+        switch (atom) {
+            case AtomX:
+            case AtomY:
+            case AtomWidth:
+            case AtomHeight:
+            case AtomCx:
+            case AtomCy:
+            case AtomR:
+            case AtomRx:
+            case AtomRy:
+            case AtomD:
+            case AtomTransform:
+            case AtomTransformOrigin:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    static bool geometryApplies(u32 element, u32 property) {
+        switch (property) {
+            case AtomX:
+            case AtomY:
+                return element == AtomRect || element == AtomImage || element == AtomSvg || element == AtomUse;
+            case AtomWidth:
+            case AtomHeight:
+                return element == AtomRect || element == AtomImage || element == AtomSvg || element == AtomUse || element == AtomSymbol;
+            case AtomCx:
+            case AtomCy:
+                return element == AtomCircle || element == AtomEllipse;
+            case AtomR:
+                return element == AtomCircle;
+            case AtomRx:
+            case AtomRy:
+                return element == AtomRect || element == AtomEllipse;
+            case AtomD:
+                return element == AtomPath;
+            default:
+                return true;
+        }
+    }
+
     static void parseDeclarations(Document& doc, StringView block, Vector<Declaration>& out) {
         const u8* p = block.begin();
         const u8* end = block.end();
@@ -3331,8 +3375,20 @@ namespace {
 
             u32 property = lookup(doc.atoms, StringView(lowered, name.length()));
 
-            if (property < firstProperty || property >= firstProperty + propertyCount || value.empty()) {
+            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property)) {
                 continue;
+            }
+
+            if (value.empty()) {
+                continue;
+            }
+
+            if (property == AtomD && startsWithIgnoreCase(value, StringView(u8"path(")) && value.back() == ')') {
+                StringView inner = trim(StringView(value.begin() + 5, value.end() - 1));
+
+                if (inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0]) {
+                    value = StringView(inner.begin() + 1, inner.end() - 1);
+                }
             }
 
             out.pushBack(Declaration{property, intern(doc.atoms, value), important});
@@ -3620,7 +3676,47 @@ namespace {
         }
     }
 
+    static void setAttribute(Document& doc, Node* node, u32 name, u32 value) {
+        for (u32 i = 0; i < node->count; i++) {
+            if (node->attributes[i].name == name) {
+                node->attributes[i].value = value;
+
+                return;
+            }
+        }
+
+        Attribute* attributes = (Attribute*)doc.pool->allocate(sizeof(Attribute) * (node->count + 1));
+
+        if (node->count) {
+            memcpy(attributes, node->attributes, sizeof(Attribute) * node->count);
+        }
+
+        attributes[node->count] = Attribute{name, value};
+        node->attributes = attributes;
+        node->count++;
+    }
+
+    static void considerGeometry(Vector<Declaration>& geometry, Vector<u64>& priorities, const Declaration& declaration, u64 priority) {
+        for (size_t i = 0; i < geometry.length(); i++) {
+            if (geometry[i].property == declaration.property) {
+                if (priority >= priorities[i]) {
+                    geometry.mut(i) = declaration;
+                    priorities.mut(i) = priority;
+                }
+
+                return;
+            }
+        }
+
+        geometry.pushBack(declaration);
+        priorities.pushBack(priority);
+    }
+
     static void consider(Candidate* best, u32 property, u32 value, u64 priority) {
+        if (property < firstProperty || property >= firstProperty + propertyCount) {
+            return;
+        }
+
         Candidate& slot = best[property - firstProperty];
 
         if (priority >= slot.priority) {
@@ -3644,6 +3740,8 @@ namespace {
 
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
             Candidate best[propertyCount];
+            Vector<Declaration> geometry;
+            Vector<u64> geometryPriorities;
 
             memset(best, 0, sizeof(best));
 
@@ -3678,19 +3776,38 @@ namespace {
                     const Declaration& declaration = rule.declarations[d];
                     u64 level = declaration.important ? 3 : 1;
 
-                    consider(best, declaration.property, declaration.value, (level << 56) | ((u64)specificity << 32) | ((u64)r << 12) | d);
+                    u64 priority = (level << 56) | ((u64)specificity << 32) | ((u64)r << 12) | d;
+
+                    if (geometryProperty(declaration.property)) {
+                        considerGeometry(geometry, geometryPriorities, declaration, priority);
+                    } else {
+                        consider(best, declaration.property, declaration.value, priority);
+                    }
                 }
             }
 
             if (u32 inlineStyle = attribute(node, AtomStyle)) {
                 Vector<Declaration> declarations;
+                Buffer cleaned;
 
-                parseDeclarations(doc, textOf(doc, inlineStyle), declarations);
+                stripComments(textOf(doc, inlineStyle), cleaned);
+                parseDeclarations(doc, keep(*doc.pool, cleaned.data(), cleaned.length()), declarations);
 
                 for (u32 d = 0; d < declarations.length(); d++) {
                     u64 level = declarations[d].important ? 4 : 2;
+                    u64 priority = (level << 56) | d;
 
-                    consider(best, declarations[d].property, declarations[d].value, (level << 56) | d);
+                    if (geometryProperty(declarations[d].property)) {
+                        considerGeometry(geometry, geometryPriorities, declarations[d], priority);
+                    } else {
+                        consider(best, declarations[d].property, declarations[d].value, priority);
+                    }
+                }
+            }
+
+            for (const Declaration& declaration : geometry) {
+                if (geometryApplies(node->name, declaration.property)) {
+                    setAttribute(doc, node, declaration.property, declaration.value);
                 }
             }
 
@@ -4222,6 +4339,12 @@ namespace {
         const u8* end = text.end();
         Matrix result = identity();
 
+        if (equalsIgnoreCase(trim(text), StringView(u8"none"))) {
+            out = result;
+
+            return true;
+        }
+
         while (true) {
             while (p < end && (isSpace(*p) || *p == ',')) {
                 p++;
@@ -4266,11 +4389,53 @@ namespace {
                     return false;
                 }
 
+                const u8* unitStart = p;
+
+                while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
+                    p++;
+                }
+
+                StringView unit(unitStart, p);
+
+                if (equalsIgnoreCase(unit, StringView(u8"rad"))) {
+                    args[count] *= 180.f / pi;
+                } else if (equalsIgnoreCase(unit, StringView(u8"grad"))) {
+                    args[count] *= 0.9f;
+                } else if (equalsIgnoreCase(unit, StringView(u8"turn"))) {
+                    args[count] *= 360.f;
+                } else if (!unit.empty() && !equalsIgnoreCase(unit, StringView(u8"deg")) && !equalsIgnoreCase(unit, StringView(u8"px"))) {
+                    return false;
+                }
+
                 count++;
                 skipSeparator(p, end);
             }
 
             Matrix m;
+
+            if (name == StringView(u8"translateX") && count == 1) {
+                name = StringView(u8"translate");
+            } else if (name == StringView(u8"translateY") && count == 1) {
+                name = StringView(u8"translate");
+                args[1] = args[0];
+                args[0] = 0.f;
+                count = 2;
+            } else if (name == StringView(u8"scaleX") && count == 1) {
+                name = StringView(u8"scale");
+                args[1] = 1.f;
+                count = 2;
+            } else if (name == StringView(u8"scaleY") && count == 1) {
+                name = StringView(u8"scale");
+                args[1] = args[0];
+                args[0] = 1.f;
+                count = 2;
+            } else if (name == StringView(u8"skew") && (count == 1 || count == 2)) {
+                float ax = tanf(args[0] * pi / 180.f);
+                float ay = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
+
+                result = multiply(result, Matrix{1.f, ay, ax, 1.f, 0.f, 0.f});
+                continue;
+            }
 
             if (name == StringView(u8"matrix") && count == 6) {
                 m = Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
@@ -4302,6 +4467,101 @@ namespace {
         out = result;
 
         return true;
+    }
+
+    static bool readOrigin(const u8*& p, const u8* end, float extentX, float extentY, float& x, float& y, int& axis) {
+        while (p < end && isSpace(*p)) {
+            p++;
+        }
+
+        if (p >= end) {
+            return false;
+        }
+
+        static const struct {
+            const char* name;
+            int axis;
+            float fraction;
+        } keywords[] = {
+            {"left", 0, 0.f},
+            {"right", 0, 1.f},
+            {"top", 1, 0.f},
+            {"bottom", 1, 1.f},
+            {"center", 2, 0.5f},
+        };
+
+        for (const auto& keyword : keywords) {
+            size_t n = strlen(keyword.name);
+
+            if ((size_t)(end - p) >= n && equalsIgnoreCase(StringView(p, p + n), StringView(keyword.name))) {
+                p += n;
+                axis = keyword.axis;
+                x = keyword.fraction * extentX;
+                y = keyword.fraction * extentY;
+
+                return true;
+            }
+        }
+
+        Length length;
+
+        if (!readLength(p, end, length)) {
+            return false;
+        }
+
+        axis = 3;
+        x = length.unit == Unit::Percent ? length.value * extentX / 100.f : resolveLength(length, Axis::X, Viewport{extentX, extentY, extentX, extentY}, 16.f);
+        y = length.unit == Unit::Percent ? length.value * extentY / 100.f : x;
+
+        return true;
+    }
+
+    static Point transformOrigin(StringView text, float extentX, float extentY) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+        float x1;
+        float y1;
+        float x2;
+        float y2;
+        int a1;
+        int a2;
+
+        if (!readOrigin(p, end, extentX, extentY, x1, y1, a1)) {
+            return Point{0.f, 0.f};
+        }
+
+        if (!readOrigin(p, end, extentX, extentY, x2, y2, a2)) {
+            if (a1 == 1) {
+                return Point{extentX / 2.f, y1};
+            }
+
+            return Point{x1, a1 == 0 ? extentY / 2.f : (a1 == 2 ? extentY / 2.f : extentY / 2.f)};
+        }
+
+        if (a1 == 1 || a2 == 0) {
+            return Point{x2, y1};
+        }
+
+        return Point{x1, y2};
+    }
+
+    static Matrix originTransform(const Document& doc, const Node* node, u32 name, Viewport vp) {
+        u32 value = attribute(node, name);
+        Matrix m;
+
+        if (!value || !parseTransform(textOf(doc, value), m)) {
+            return identity();
+        }
+
+        u32 origin = attribute(node, AtomTransformOrigin);
+
+        if (!origin) {
+            return m;
+        }
+
+        Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
+
+        return multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
     }
 
     static Matrix transformOf(const Document& doc, const Node* node, u32 name) {
@@ -5901,6 +6161,12 @@ namespace {
         Matrix local;
 
         if (transform && parseTransform(textOf(doc, transform), local)) {
+            if (u32 origin = attribute(pattern, AtomTransformOrigin)) {
+                Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
+
+                local = multiply(multiply(translation(o.x, o.y), local), translation(-o.x, -o.y));
+            }
+
             space = multiply(space, local);
         }
 
@@ -6081,6 +6347,12 @@ namespace {
             Matrix m;
 
             if (parseTransform(textOf(doc, transform), m)) {
+                if (u32 origin = attribute(gradient, AtomTransformOrigin)) {
+                    Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
+
+                    m = multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
+                }
+
                 space = multiply(space, m);
             }
         }
@@ -6316,7 +6588,7 @@ namespace {
             return false;
         }
 
-        Matrix space = multiply(m, transformOf(doc, clip, AtomTransform));
+        Matrix space = multiply(m, originTransform(doc, clip, AtomTransform, vp));
         u32 units = attribute(clip, AtomClipPathUnits);
 
         first = (u32)l.clips.length();
@@ -7366,7 +7638,7 @@ namespace {
             return;
         }
 
-        Matrix m = multiply(ctm, transformOf(*l.doc, node, AtomTransform));
+        Matrix m = multiply(ctm, originTransform(*l.doc, node, AtomTransform, vp));
         Op op = groupOp(style.opacity);
 
         op.clipped = style.clipPath && resolveClip(l, node, parent, style, m, vp, op.clipFirst, op.clipCount);
