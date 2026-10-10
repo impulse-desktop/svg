@@ -8601,6 +8601,17 @@ namespace {
         }
     }
 
+    static bool frameRect(const Document& doc, const Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+        float rx = 0.f;
+        float ry = 0.f;
+
+        if (node->name != AtomRect || style.join != JoinMiter || style.miterLimit < sqrtf(2.f) || style.dashCount || fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f) {
+            return false;
+        }
+
+        return !(lengthAttribute(doc, node, AtomRx, Axis::X, vp, style.fontSize, rx) && rx > 0.f) && !(lengthAttribute(doc, node, AtomRy, Axis::Y, vp, style.fontSize, ry) && ry > 0.f);
+    }
+
     static float flatLength(const Flat& flat) {
         float total = 0.f;
         u32 begin = 0;
@@ -8677,7 +8688,7 @@ namespace {
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
                 float coverage = 1.f;
-                bool hairline = !style.nonScaling && !style.aliased && hairlineCoverage(style.strokeWidth, m, coverage);
+                bool hairline = !style.nonScaling && !style.aliased && !frameRect(*l.doc, node, style, m, vp) && hairlineCoverage(style.strokeWidth, m, coverage);
 
                 if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity * coverage, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
                     ComputedStyle dashed = authorDashes(l, node, userFlat, style);
