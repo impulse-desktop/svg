@@ -27,3 +27,58 @@ openclipart/262935: firefox: Chromium leaves lighting under a mirroring matrix e
 openclipart/231480: inkscape: Chromium leaves lighting under a mirroring matrix empty; Inkscape, where the drawing was made, draws the mirrored copies lit, as ours does
 blink/filters__feConvolveFilter-y-bounds: firefox: the identity kernel must return its input, the test's own expected band; Chromium squares off its antialiased edges, Firefox and ours leave them
 openclipart/290266: ours: thin circle strokes in a pattern; Chromium's supersampled coverage of one such ring is 4.7% under its exact area at 1x and 3.4% over at 2x, ours is exact to 0.1%, the shapes agree pixel for pixel otherwise
+inkscape/c25d712367961896: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/9581a6a1eaa0d8a7: inkscape: Chromium lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/785d0d0739953da6: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/f436ab588ae66987: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/cb4e78e469d5a26d: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+wikimedia/9d3aa470ce47e335: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+blink/filters__innershadow: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+wikimedia/5eba2b00f65779e2: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+openclipart/284074: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+resvg/filters__feMerge__complex-transform: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+openclipart/294566: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/25e76d27bd093bef: resvg: Chromium blurs small deviations with box windows or not at all; resvg draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__baseFrequency_0.01: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+openclipart/201689: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/5d8803a77562db90: resvg: Chromium blurs small deviations with box windows or not at all; resvg draws it as the spec defines, as ours does
+wikimedia/bff1a53ab9c6612e: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feMerge__color-interpolation-filters_sRGB: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/df683d10d52341b5: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/4d90963a7645abce: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feMerge__color-interpolation-filters_linearRGB: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+openclipart/174037: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+inkscape/0521438d1c2cabb9: inkscape: Chromium samples turbulence half a user unit off the pixel centre; blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__color-interpolation-filters_sRGB: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__complex-transform: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+inkscape/71f71ea7dbbb44bb: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__baseFrequency_0.05-0: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+openclipart/15973: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__stitchTiles_stitch: ours: Chromium samples turbulence half a user unit off the pixel centre; no other renderer draws it as the spec defines, ours does
+resvg/filters__feDiffuseLighting__complex-transform: firefox: Chromium lights through Skia's mean axis scale instead of the user space; Firefox draws it as the spec defines, as ours does
+openclipart/203148: ours: Chromium samples turbulence half a user unit off the pixel centre; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+resvg/filters__feTurbulence__baseFrequency_0.05-0.01: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+blink/filters__feTurbulence-primitiveUnits-expected: resvg: Chromium samples turbulence half a user unit off the pixel centre; resvg draws it as the spec defines, as ours does
+blink/filters__feTurbulence-primitiveUnits: resvg: Chromium samples turbulence half a user unit off the pixel centre; resvg draws it as the spec defines, as ours does
+inkscape/8a9a8dc5a7a374b5: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+resvg/filters__feTurbulence__seed_-20: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__seed_20: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__baseFrequency_0.05-0.05: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__primitiveUnits_objectBoundingBox: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__seed_1.5: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__type_invalid: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+openclipart/249048: ours: Chromium blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+openclipart/256723: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+resvg/filters__feTurbulence__type_fractalNoise: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__fePointLight__complex-transform: ours: Chromium lights through Skia's mean axis scale instead of the user space; no other renderer draws it as the spec defines, ours does
+resvg/filters__feSpotLight__complex-transform: ours: Chromium lights through Skia's mean axis scale instead of the user space; no other renderer draws it as the spec defines, ours does
+blink/filters__feTurbulence-tiled: ours: Chromium samples turbulence half a user unit off the pixel centre; no other renderer draws it as the spec defines, ours does
+inkscape/90749c5d44b64c1b: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+blink/W3C-SVG-1.1__filters-turb-01-f: ours: Chromium samples turbulence half a user unit off the pixel centre; no other renderer draws it as the spec defines, ours does
+w3c/svg__filters-turb-01-f: ours: Chromium samples turbulence half a user unit off the pixel centre; no other renderer draws it as the spec defines, ours does
+resvg/filters__feTurbulence__numOctaves_5: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+blink/filters__feTurbulence-scale: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+openclipart/275196: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; no other renderer draws it as the spec defines, ours does
+inkscape/00e46e2d649e7674: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+inkscape/1486b30cd7af5c38: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+inkscape/09a7f28370ae634c: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
