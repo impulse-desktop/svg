@@ -10883,10 +10883,32 @@ namespace {
         }
     }
 
-    static void blurLine(const float* src, float* dst, float* scratch, int count, int stride, float sigma) {
-        int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+    static void gaussLine(const float* src, float* dst, int count, int stride, const float* kernel, int radius) {
+        for (int i = 0; i < count; i++) {
+            float sum[4] = {0.f, 0.f, 0.f, 0.f};
 
-        if (sigma <= 0.f || d <= 1) {
+            for (int k = -radius; k <= radius; k++) {
+                int j = i + k;
+
+                if (j < 0 || j >= count) {
+                    continue;
+                }
+
+                float w = kernel[k + radius];
+
+                for (int c = 0; c < 4; c++) {
+                    sum[c] += src[(size_t)j * stride + c] * w;
+                }
+            }
+
+            for (int c = 0; c < 4; c++) {
+                dst[(size_t)i * stride + c] = sum[c];
+            }
+        }
+    }
+
+    static void blurLine(const float* src, float* dst, float* scratch, int count, int stride, float sigma) {
+        if (sigma <= 0.f) {
             for (int i = 0; i < count; i++) {
                 for (int c = 0; c < 4; c++) {
                     dst[(size_t)i * stride + c] = src[(size_t)i * stride + c];
@@ -10896,6 +10918,28 @@ namespace {
             return;
         }
 
+        if (sigma < 2.f) {
+            int radius = (int)ceilf(sigma * 3.f);
+            float kernel[64];
+            float total = 0.f;
+
+            radius = radius > 31 ? 31 : radius;
+
+            for (int k = -radius; k <= radius; k++) {
+                kernel[k + radius] = expf(-(float)(k * k) / (2.f * sigma * sigma));
+                total += kernel[k + radius];
+            }
+
+            for (int k = 0; k <= 2 * radius; k++) {
+                kernel[k] /= total;
+            }
+
+            gaussLine(src, dst, count, stride, kernel, radius);
+
+            return;
+        }
+
+        int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
         int pad = 3 * (d / 2 + 1);
         int total = count + 2 * pad;
         Vector<float> first;
@@ -11949,9 +11993,6 @@ namespace {
                 Point point = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
                 float c[4];
 
-                point.x += 0.5f;
-                point.y += 0.5f;
-
                 for (int channel = 0; channel < 4; channel++) {
                     double v = turbulenceAt(*tb, channel, point.x, point.y, fx, fy, octaves, fractal, stitching, tileW, tileH);
 
@@ -12021,8 +12062,15 @@ namespace {
         const Document& doc = *f.doc;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         bool specular = p.kind == AtomFeSpecularLighting;
-        float zScale = (sqrtf(f.ctm.a * f.ctm.a + f.ctm.b * f.ctm.b) + sqrtf(f.ctm.c * f.ctm.c + f.ctm.d * f.ctm.d)) / 2.f;
-        float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f) * zScale;
+        float scaleX = sqrtf(f.ctm.a * f.ctm.a + f.ctm.b * f.ctm.b);
+        float scaleY = sqrtf(f.ctm.c * f.ctm.c + f.ctm.d * f.ctm.d);
+        float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f);
+        Matrix inverse;
+
+        if (!invert(f.ctm, inverse)) {
+            return;
+        }
+
         float constant = numberOf(doc, p.node, specular ? AtomSpecularConstant : AtomDiffuseConstant, 1.f);
         float shininess = numberOf(doc, p.node, AtomSpecularExponent, 1.f);
         Node* light = nullptr;
@@ -12055,11 +12103,7 @@ namespace {
                 z *= sqrtf((bw * bw + bh * bh) / 2.f);
             }
 
-            Point mapped = apply(f.ctm, Point{x, y});
-            float zx = f.ctm.a * z + f.ctm.c * z;
-            float zy = f.ctm.b * z + f.ctm.d * z;
-
-            return Vector3{mapped.x, mapped.y, (zx + zy) / 2.f};
+            return Vector3{x, y, z};
         };
         Vector3 lightPosition{0.f, 0.f, 0.f};
         Vector3 direction{0.f, 0.f, 0.f};
@@ -12073,9 +12117,7 @@ namespace {
             float azimuth = numberOf(doc, light, AtomAzimuth, 0.f) * pi / 180.f;
             float elevation = numberOf(doc, light, AtomElevation, 0.f) * pi / 180.f;
 
-            Vector3 user{cosf(azimuth) * cosf(elevation), sinf(azimuth) * cosf(elevation), sinf(elevation)};
-
-            direction = normalize3(Vector3{f.ctm.a * user.x + f.ctm.c * user.y, f.ctm.b * user.x + f.ctm.d * user.y, zScale * user.z});
+            direction = Vector3{cosf(azimuth) * cosf(elevation), sinf(azimuth) * cosf(elevation), sinf(elevation)};
         } else {
             lightPosition = position(AtomX, AtomY, AtomZ);
 
@@ -12181,12 +12223,14 @@ namespace {
                     ny = -a00 - 2.f * a01 - a02 + a20 + 2.f * a21 + a22;
                 }
 
-                Vector3 normal = normalize3(Vector3{-surfaceScale * factorX * nx, -surfaceScale * factorY * ny, 1.f});
+                Vector3 normal = normalize3(Vector3{-surfaceScale * scaleX * factorX * nx, -surfaceScale * scaleY * factorY * ny, 1.f});
                 Vector3 toLight = direction;
                 Color color = lightColor;
 
                 if (light->name != AtomFeDistantLight) {
-                    toLight = normalize3(Vector3{lightPosition.x - (float)x, lightPosition.y - (float)y, lightPosition.z - surfaceScale * a11});
+                    Point surface = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
+
+                    toLight = normalize3(Vector3{lightPosition.x - surface.x, lightPosition.y - surface.y, lightPosition.z - surfaceScale * a11});
                 }
 
                 if (light->name == AtomFeSpotLight) {
