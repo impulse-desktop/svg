@@ -25,3 +25,4 @@ w3c/svg__struct-image-12-b: firefox: Chromium paints its broken-image icon, brow
 resvg/filters__filter__some-attributes-via-xlink-href: ours: Chromium blurs what lies beyond the filter region, which the spec clips away; Firefox ignores xlink:href on filter; ours takes the region through href as Chromium does and fades at its edge as Firefox does in the other region cases
 openclipart/262935: firefox: Chromium leaves lighting under a mirroring matrix empty; Firefox draws the mirrored copies lit, as ours does
 openclipart/231480: inkscape: Chromium leaves lighting under a mirroring matrix empty; Inkscape, where the drawing was made, draws the mirrored copies lit, as ours does
+blink/filters__feConvolveFilter-y-bounds: firefox: the identity kernel must return its input, the test's own expected band; Chromium squares off its antialiased edges, Firefox and ours leave them
