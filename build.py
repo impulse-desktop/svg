@@ -99,12 +99,12 @@ for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
         inputs=[path, *references],
         outputs=[score],
         deps=[svg],
-        cmd=["sh", "-c", '"$0" test "$1" "$2" "$3" "$4" || echo 1 1 > "$2"', "$(B)/svg", path, score, *references],
+        cmd=["sh", "-c", '"$0" test "$1" "$2" "$3" "$4" || printf "mae 1 1\\nstruct 1 1\\nreference\\nours\\n" > "$2"', "$(B)/svg", path, score, *references],
         descr="SV",
         color="cyan",
     ))
 
-for metric in ["meanrms", "maxrms"]:
+for metric in ["meanrms", "maxrms", "struct", "all"]:
     group(metric, command(
         name="score_" + metric,
         inputs=["$(S)/tst/score.py"],

@@ -34,20 +34,17 @@ jobs:
               for inc in $(grep -ho "wasm-rt[a-z-]*\.inc" "$rt"/*.c | sort -u); do
                 [ -f "$rt/$inc" ] || curl -fsSL --retry 5 "https://raw.githubusercontent.com/WebAssembly/wabt/$version/wasm2c/$inc" -o "$rt/$inc"
               done
-              CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" meanrms maxrms
-              head -1 .build/meanrms.txt > meanrms.txt
-              head -1 .build/maxrms.txt > maxrms.txt
+              CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" all
+              head -3 .build/all.txt > score.txt
             ' 2>&1 | tee "$RUNNER_TEMP/score.log"
-          echo "meanrms $(cat meanrms.txt), maxrms $(cat maxrms.txt)" >> "$GITHUB_STEP_SUMMARY"
+          sed "s/$/  /" score.txt >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload the score report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: score
-          path: |
-            .build/meanrms.txt
-            .build/maxrms.txt
+          path: .build/all.txt
           if-no-files-found: ignore
 
   style:

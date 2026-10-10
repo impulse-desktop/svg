@@ -31,6 +31,7 @@ using namespace stl;
 namespace {
     constexpr unsigned caseSeconds = 120;
     constexpr u64 maxPixels = 1u << 27;
+    constexpr int structTolerance = 32;
 
     struct DriverError: Exception {
         Buffer text;
@@ -271,6 +272,152 @@ namespace {
         return count ? (double)sum / ((double)count * 4.0 * 255.0 * 255.0) : 0.0;
     }
 
+    static void premultiply(const Pixels& pixels, Buffer& out) {
+        size_t length = (size_t)pixels.width * pixels.height * 4;
+        const u8* p = (const u8*)pixels.rgba.data();
+
+        out.zero(length);
+
+        u8* q = (u8*)out.mutData();
+
+        for (size_t i = 0; i < length; i += 4) {
+            u32 a = p[i + 3];
+
+            for (int c = 0; c < 3; c++) {
+                q[i + c] = (u8)((p[i + c] * a + 127) / 255);
+            }
+
+            q[i + 3] = (u8)a;
+        }
+    }
+
+    static void envelope(const u8* src, u32 width, u32 height, Buffer& lo, Buffer& hi) {
+        size_t length = (size_t)width * height * 4;
+        Buffer rowLo;
+        Buffer rowHi;
+
+        rowLo.zero(length);
+        rowHi.zero(length);
+        lo.zero(length);
+        hi.zero(length);
+
+        u8* rl = (u8*)rowLo.mutData();
+        u8* rh = (u8*)rowHi.mutData();
+        u8* l = (u8*)lo.mutData();
+        u8* h = (u8*)hi.mutData();
+
+        for (u32 y = 0; y < height; y++) {
+            for (u32 x = 0; x < width; x++) {
+                u32 x0 = x ? x - 1 : x;
+                u32 x1 = x + 1 < width ? x + 1 : x;
+
+                for (int c = 0; c < 4; c++) {
+                    u8 mn = 255;
+                    u8 mx = 0;
+
+                    for (u32 xx = x0; xx <= x1; xx++) {
+                        u8 v = src[((size_t)y * width + xx) * 4 + c];
+
+                        mn = v < mn ? v : mn;
+                        mx = v > mx ? v : mx;
+                    }
+
+                    rl[((size_t)y * width + x) * 4 + c] = mn;
+                    rh[((size_t)y * width + x) * 4 + c] = mx;
+                }
+            }
+        }
+
+        for (u32 y = 0; y < height; y++) {
+            u32 y0 = y ? y - 1 : y;
+            u32 y1 = y + 1 < height ? y + 1 : y;
+
+            for (u32 x = 0; x < width; x++) {
+                for (int c = 0; c < 4; c++) {
+                    u8 mn = 255;
+                    u8 mx = 0;
+
+                    for (u32 yy = y0; yy <= y1; yy++) {
+                        u8 vl = rl[((size_t)yy * width + x) * 4 + c];
+                        u8 vh = rh[((size_t)yy * width + x) * 4 + c];
+
+                        mn = vl < mn ? vl : mn;
+                        mx = vh > mx ? vh : mx;
+                    }
+
+                    l[((size_t)y * width + x) * 4 + c] = mn;
+                    h[((size_t)y * width + x) * 4 + c] = mx;
+                }
+            }
+        }
+    }
+
+    static double structural(const u8* a, const u8* b, u32 width, u32 height) {
+        size_t count = (size_t)width * height;
+        Buffer aLo;
+        Buffer aHi;
+        Buffer bLo;
+        Buffer bHi;
+
+        envelope(a, width, height, aLo, aHi);
+        envelope(b, width, height, bLo, bHi);
+
+        const u8* al = (const u8*)aLo.data();
+        const u8* ah = (const u8*)aHi.data();
+        const u8* bl = (const u8*)bLo.data();
+        const u8* bh = (const u8*)bHi.data();
+        size_t bad = 0;
+
+        for (size_t i = 0; i < count * 4; i += 4) {
+            for (int c = 0; c < 4; c++) {
+                int va = a[i + c];
+                int vb = b[i + c];
+
+                if (va - bh[i + c] > structTolerance || bl[i + c] - va > structTolerance || vb - ah[i + c] > structTolerance || al[i + c] - vb > structTolerance) {
+                    bad++;
+
+                    break;
+                }
+            }
+        }
+
+        return count ? (double)bad / (double)count : 0.0;
+    }
+
+    static bool twice(const Pixels& small, const Pixels& large) {
+        i64 dw = (i64)large.width - 2 * (i64)small.width;
+        i64 dh = (i64)large.height - 2 * (i64)small.height;
+
+        return dw >= -1 && dw <= 1 && dh >= -1 && dh <= 1;
+    }
+
+    static void halve(const u8* src, u32 width, u32 height, u32 outWidth, u32 outHeight, Buffer& out) {
+        out.zero((size_t)outWidth * outHeight * 4);
+
+        u8* q = (u8*)out.mutData();
+
+        for (u32 y = 0; y < outHeight; y++) {
+            for (u32 x = 0; x < outWidth; x++) {
+                u32 sum[4] = {0, 0, 0, 0};
+                u32 n = 0;
+
+                for (u32 yy = 2 * y; yy < 2 * y + 2 && yy < height; yy++) {
+                    for (u32 xx = 2 * x; xx < 2 * x + 2 && xx < width; xx++) {
+                        for (int c = 0; c < 4; c++) {
+                            sum[c] += src[((size_t)yy * width + xx) * 4 + c];
+                        }
+
+                        n++;
+                    }
+                }
+
+                for (int c = 0; c < 4; c++) {
+                    q[((size_t)y * outWidth + x) * 4 + c] = n ? (u8)((sum[c] + n / 2) / n) : 0;
+                }
+            }
+        }
+    }
+
     static int render(int argc, char** argv) {
         if (argc != 6) {
             sysE << StringView(u8"usage: svg render IN.svg OUT.png WIDTH HEIGHT") << endL;
@@ -300,24 +447,54 @@ namespace {
 
         ObjPool::Ref pool = ObjPool::fromMemory();
         SvgDocument* document = load(*pool, argv[2]);
-        StringBuilder scores;
+        StringBuilder errors;
+        StringBuilder shares;
+        StringBuilder referenceScaling;
+        StringBuilder oursScaling;
+        Pixels first;
+        Buffer firstReference;
+        Buffer firstOurs;
 
         for (int i = 4; i < argc; i++) {
             Pixels reference;
             Pixels ours;
+            Buffer referencePremultiplied;
+            Buffer oursPremultiplied;
 
             readPng(argv[i], reference);
             ours.width = reference.width;
             ours.height = reference.height;
             draw(document, *pool, ours);
+            premultiply(reference, referencePremultiplied);
+            premultiply(ours, oursPremultiplied);
 
             char text[32];
 
-            snprintf(text, sizeof(text), "%.9f", error(ours, reference));
-            scores << (i > 4 ? StringView(u8" ") : StringView()) << StringView(text);
+            snprintf(text, sizeof(text), " %.9f", error(ours, reference));
+            errors << StringView(text);
+            snprintf(text, sizeof(text), " %.9f", structural((const u8*)oursPremultiplied.data(), (const u8*)referencePremultiplied.data(), reference.width, reference.height));
+            shares << StringView(text);
+
+            if (i == 4) {
+                first.width = reference.width;
+                first.height = reference.height;
+                firstReference = referencePremultiplied;
+                firstOurs = oursPremultiplied;
+            } else if (twice(first, reference)) {
+                Buffer halved;
+
+                halve((const u8*)referencePremultiplied.data(), reference.width, reference.height, first.width, first.height, halved);
+                snprintf(text, sizeof(text), " %.9f", structural((const u8*)halved.data(), (const u8*)firstReference.data(), first.width, first.height));
+                referenceScaling << StringView(text);
+                halve((const u8*)oursPremultiplied.data(), reference.width, reference.height, first.width, first.height, halved);
+                snprintf(text, sizeof(text), " %.9f", structural((const u8*)halved.data(), (const u8*)firstOurs.data(), first.width, first.height));
+                oursScaling << StringView(text);
+            }
         }
 
-        scores << StringView(u8"\n");
+        StringBuilder scores;
+
+        scores << StringView(u8"mae") << StringView(errors) << StringView(u8"\nstruct") << StringView(shares) << StringView(u8"\nreference") << StringView(referenceScaling) << StringView(u8"\nours") << StringView(oursScaling) << StringView(u8"\n");
 
         FILE* out = fopen(argv[3], "wb");
 
