@@ -24,6 +24,9 @@ using namespace stl;
     ATOM(Symbol, "symbol")                                         \
     ATOM(LinearGradient, "linearGradient")                         \
     ATOM(RadialGradient, "radialGradient")                         \
+    ATOM(MeshGradient, "meshgradient")                             \
+    ATOM(MeshRow, "meshrow")                                       \
+    ATOM(MeshPatch, "meshpatch")                                   \
     ATOM(Stop, "stop")                                             \
     ATOM(ClipPath, "clipPath")                                     \
     ATOM(Pattern, "pattern")                                       \
@@ -571,6 +574,7 @@ namespace {
         Radial,
         Image,
         Pattern,
+        Mesh,
     };
 
     enum Spread : u8 {
@@ -7891,6 +7895,412 @@ namespace {
         return value && parseTransform(textOf(doc, value), m) && !invert(m, inverse);
     }
 
+    static u32 meshAttribute(const Document& doc, Node* mesh, u32 name) {
+        Node* node = mesh;
+
+        for (u32 hops = 0; node && hops < 16; hops++) {
+            if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty()) {
+                return value;
+            }
+
+            Node* next = hrefTarget(doc, node);
+
+            if (!next || next->name != AtomMeshGradient || next == node) {
+                break;
+            }
+
+            node = next;
+        }
+
+        return 0;
+    }
+
+    static Node* meshRows(const Document& doc, Node* mesh) {
+        Node* node = mesh;
+
+        for (u32 hops = 0; node && hops < 16; hops++) {
+            for (Node* child = node->first; child; child = child->next) {
+                if (child->name == AtomMeshRow) {
+                    return node;
+                }
+            }
+
+            Node* next = hrefTarget(doc, node);
+
+            if (!next || next->name != AtomMeshGradient || next == node) {
+                break;
+            }
+
+            node = next;
+        }
+
+        return nullptr;
+    }
+
+    static bool meshEdge(StringView text, Point start, Point* out) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+
+        while (p < end && isSpace(*p)) {
+            p++;
+        }
+
+        if (p >= end) {
+            return false;
+        }
+
+        u8 command = *p++;
+        bool relative = command == 'c' || command == 'l';
+        float v[6];
+        int count = command == 'c' || command == 'C' ? 6 : (command == 'l' || command == 'L' ? 2 : 0);
+
+        for (int k = 0; k < count; k++) {
+            skipSeparator(p, end);
+
+            if (!readNumber(p, end, v[k])) {
+                return false;
+            }
+
+            if (relative) {
+                v[k] += k % 2 ? start.y : start.x;
+            }
+        }
+
+        out[0] = start;
+
+        if (count == 6) {
+            out[1] = Point{v[0], v[1]};
+            out[2] = Point{v[2], v[3]};
+            out[3] = Point{v[4], v[5]};
+        } else if (count == 2) {
+            out[3] = Point{v[0], v[1]};
+            out[1] = Point{start.x + (out[3].x - start.x) / 3.f, start.y + (out[3].y - start.y) / 3.f};
+            out[2] = Point{start.x + (out[3].x - start.x) * 2.f / 3.f, start.y + (out[3].y - start.y) * 2.f / 3.f};
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
+    static Point bezierAt(const Point* c, float t) {
+        float s = 1.f - t;
+        float a = s * s * s;
+        float b = 3.f * s * s * t;
+        float d = 3.f * s * t * t;
+        float e = t * t * t;
+
+        return Point{a * c[0].x + b * c[1].x + d * c[2].x + e * c[3].x, a * c[0].y + b * c[1].y + d * c[2].y + e * c[3].y};
+    }
+
+    struct MeshVertex {
+        Point p;
+        float c[4];
+    };
+
+    static void meshTriangle(float* buffer, int width, int height, const MeshVertex& a, const MeshVertex& b, const MeshVertex& c) {
+        float area = (b.p.x - a.p.x) * (c.p.y - a.p.y) - (c.p.x - a.p.x) * (b.p.y - a.p.y);
+
+        if (fabsf(area) < 1e-12f) {
+            return;
+        }
+
+        int x0 = (int)floorf(minf(a.p.x, minf(b.p.x, c.p.x)));
+        int y0 = (int)floorf(minf(a.p.y, minf(b.p.y, c.p.y)));
+        int x1 = (int)ceilf(maxf(a.p.x, maxf(b.p.x, c.p.x)));
+        int y1 = (int)ceilf(maxf(a.p.y, maxf(b.p.y, c.p.y)));
+
+        x0 = x0 < 0 ? 0 : x0;
+        y0 = y0 < 0 ? 0 : y0;
+        x1 = x1 > width ? width : x1;
+        y1 = y1 > height ? height : y1;
+
+        for (int y = y0; y < y1; y++) {
+            for (int x = x0; x < x1; x++) {
+                float px = (float)x + 0.5f;
+                float py = (float)y + 0.5f;
+                float wa = ((b.p.x - px) * (c.p.y - py) - (c.p.x - px) * (b.p.y - py)) / area;
+                float wb = ((c.p.x - px) * (a.p.y - py) - (a.p.x - px) * (c.p.y - py)) / area;
+                float wc = 1.f - wa - wb;
+
+                if (wa < 0.f || wb < 0.f || wc < 0.f || (wa == 0.f && wb == 0.f)) {
+                    continue;
+                }
+
+                float* d = buffer + ((size_t)y * width + x) * 4;
+
+                for (int k = 0; k < 4; k++) {
+                    d[k] = wa * a.c[k] + wb * b.c[k] + wc * c.c[k];
+                }
+            }
+        }
+    }
+
+    static DevicePaint* meshPaint(Lowering& l, Node* mesh, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
+        const Document& doc = *l.doc;
+        Node* content = meshRows(doc, mesh);
+
+        if (!content) {
+            return nullptr;
+        }
+
+        u32 rows = 0;
+        u32 columns = 0;
+
+        for (Node* row = content->first; row; row = row->next) {
+            if (row->name != AtomMeshRow) {
+                continue;
+            }
+
+            u32 count = 0;
+
+            for (Node* patch = row->first; patch; patch = patch->next) {
+                count += patch->name == AtomMeshPatch;
+            }
+
+            if (rows == 0) {
+                columns = count;
+            } else if (count != columns) {
+                return nullptr;
+            }
+
+            rows++;
+        }
+
+        if (!rows || !columns || rows * columns > 4096) {
+            return nullptr;
+        }
+
+        u32 units = meshAttribute(doc, mesh, AtomGradientUnits);
+        bool boxUnits = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+        Matrix space = ctm;
+
+        if (boxUnits) {
+            float bw = bbox.x1 - bbox.x0;
+            float bh = bbox.y1 - bbox.y0;
+
+            if (!boxValid(bbox) || bw <= 0.f || bh <= 0.f) {
+                return nullptr;
+            }
+
+            space = multiply(space, Matrix{bw, 0.f, 0.f, bh, bbox.x0, bbox.y0});
+        }
+
+        if (u32 transform = meshAttribute(doc, mesh, AtomGradientTransform)) {
+            Matrix m;
+
+            if (parseTransform(textOf(doc, transform), m)) {
+                space = multiply(space, m);
+            }
+        }
+
+        u32 stride = columns + 1;
+        Vector<Point> corners;
+        Vector<Color> colors;
+        Vector<Point> horizontal;
+        Vector<Point> vertical;
+
+        corners.zero((size_t)(rows + 1) * stride);
+        colors.zero((size_t)(rows + 1) * stride);
+        horizontal.zero((size_t)(rows + 1) * columns * 4);
+        vertical.zero((size_t)rows * stride * 4);
+
+        Length length;
+        u32 xValue = meshAttribute(doc, mesh, AtomX);
+        u32 yValue = meshAttribute(doc, mesh, AtomY);
+
+        corners.mutData()[0] = Point{xValue && parseLength(textOf(doc, xValue), length) ? resolveLength(length, Axis::X, vp, 16.f) : 0.f, yValue && parseLength(textOf(doc, yValue), length) ? resolveLength(length, Axis::Y, vp, 16.f) : 0.f};
+
+        u32 i = 0;
+
+        for (Node* row = content->first; row; row = row->next) {
+            if (row->name != AtomMeshRow) {
+                continue;
+            }
+
+            u32 j = 0;
+
+            for (Node* patch = row->first; patch; patch = patch->next) {
+                if (patch->name != AtomMeshPatch) {
+                    continue;
+                }
+
+                int edge = i == 0 ? 0 : 1;
+                int last = j == 0 ? 3 : 2;
+
+                for (Node* stop = patch->first; stop && edge <= last; stop = stop->next) {
+                    if (stop->name != AtomStop) {
+                        continue;
+                    }
+
+                    u32 starts[4] = {i * stride + j, i * stride + j + 1, (i + 1) * stride + j + 1, (i + 1) * stride + j};
+                    u32 start = starts[edge];
+                    u32 finish = starts[(edge + 1) % 4];
+                    u32 path = attribute(stop, AtomPath);
+                    Point curve[4];
+
+                    if (!path || !meshEdge(textOf(doc, path), corners[start], curve)) {
+                        return nullptr;
+                    }
+
+                    if (!cascaded(doc, stop, AtomStopColor).empty() || !cascaded(doc, stop, AtomStopOpacity).empty()) {
+                        const ComputedStyle& stopStyle = documentStyle(l, stop, vp);
+                        Color color = stopStyle.stopColor;
+
+                        color.a *= stopStyle.stopOpacity;
+                        colors.mutData()[start] = color;
+                    }
+
+                    corners.mutData()[finish] = curve[3];
+
+                    Point* target;
+
+                    if (edge == 0) {
+                        target = horizontal.mutData() + ((size_t)i * columns + j) * 4;
+                    } else if (edge == 1) {
+                        target = vertical.mutData() + ((size_t)i * stride + j + 1) * 4;
+                    } else if (edge == 2) {
+                        target = horizontal.mutData() + ((size_t)(i + 1) * columns + j) * 4;
+                    } else {
+                        target = vertical.mutData() + ((size_t)i * stride + j) * 4;
+                    }
+
+                    if (edge < 2) {
+                        for (int k = 0; k < 4; k++) {
+                            target[k] = curve[k];
+                        }
+                    } else {
+                        for (int k = 0; k < 4; k++) {
+                            target[k] = curve[3 - k];
+                        }
+                    }
+
+                    edge++;
+                }
+
+                if (edge <= last) {
+                    return nullptr;
+                }
+
+                j++;
+            }
+
+            i++;
+        }
+
+        Box device = emptyBox();
+
+        for (Point point : horizontal) {
+            extend(device, apply(space, point));
+        }
+
+        for (Point point : vertical) {
+            extend(device, apply(space, point));
+        }
+
+        int x0 = (int)floorf(maxf(device.x0, 0.f));
+        int y0 = (int)floorf(maxf(device.y0, 0.f));
+        int x1 = (int)ceilf(minf(device.x1, (float)l.width));
+        int y1 = (int)ceilf(minf(device.y1, (float)l.height));
+
+        if (x1 <= x0 || y1 <= y0) {
+            return nullptr;
+        }
+
+        int width = x1 - x0;
+        int height = y1 - y0;
+        float* buffer = (float*)l.pool->allocate(sizeof(float) * (size_t)width * height * 4);
+        Matrix local = multiply(translation(-(float)x0, -(float)y0), space);
+
+        memset(buffer, 0, sizeof(float) * (size_t)width * height * 4);
+
+        for (u32 r = 0; r < rows; r++) {
+            for (u32 c = 0; c < columns; c++) {
+                const Point* top = horizontal.data() + ((size_t)r * columns + c) * 4;
+                const Point* bottom = horizontal.data() + ((size_t)(r + 1) * columns + c) * 4;
+                const Point* left = vertical.data() + ((size_t)r * stride + c) * 4;
+                const Point* right = vertical.data() + ((size_t)r * stride + c + 1) * 4;
+                Color corner[4] = {colors[r * stride + c], colors[r * stride + c + 1], colors[(r + 1) * stride + c], colors[(r + 1) * stride + c + 1]};
+                float extent = 0.f;
+
+                for (int k = 0; k < 3; k++) {
+                    const Point* edges[4] = {top, bottom, left, right};
+
+                    for (const Point* e : edges) {
+                        Point a = apply(local, e[k]);
+                        Point b = apply(local, e[k + 1]);
+
+                        extent = maxf(extent, fabsf(a.x - b.x) + fabsf(a.y - b.y));
+                    }
+                }
+
+                int n = (int)ceilf(extent * 3.f / 2.f);
+
+                n = n < 1 ? 1 : (n > 128 ? 128 : n);
+
+                Vector<MeshVertex> grid;
+
+                grid.zero((size_t)(n + 1) * (n + 1));
+
+                for (int a = 0; a <= n; a++) {
+                    float v = (float)a / (float)n;
+                    Point l0 = bezierAt(left, v);
+                    Point r0 = bezierAt(right, v);
+
+                    for (int b = 0; b <= n; b++) {
+                        float u = (float)b / (float)n;
+                        Point t0 = bezierAt(top, u);
+                        Point b0 = bezierAt(bottom, u);
+                        Point p{
+                            (1.f - v) * t0.x + v * b0.x + (1.f - u) * l0.x + u * r0.x - ((1.f - u) * (1.f - v) * top[0].x + u * (1.f - v) * top[3].x + (1.f - u) * v * bottom[0].x + u * v * bottom[3].x),
+                            (1.f - v) * t0.y + v * b0.y + (1.f - u) * l0.y + u * r0.y - ((1.f - u) * (1.f - v) * top[0].y + u * (1.f - v) * top[3].y + (1.f - u) * v * bottom[0].y + u * v * bottom[3].y),
+                        };
+                        MeshVertex& vertex = grid.mutData()[(size_t)a * (n + 1) + b];
+                        float w[4] = {(1.f - u) * (1.f - v), u * (1.f - v), (1.f - u) * v, u * v};
+                        float color[4] = {0.f, 0.f, 0.f, 0.f};
+
+                        for (int k = 0; k < 4; k++) {
+                            color[0] += corner[k].r * w[k];
+                            color[1] += corner[k].g * w[k];
+                            color[2] += corner[k].b * w[k];
+                            color[3] += corner[k].a * w[k];
+                        }
+
+                        vertex.p = apply(local, p);
+                        vertex.c[0] = color[0] * color[3] * opacity;
+                        vertex.c[1] = color[1] * color[3] * opacity;
+                        vertex.c[2] = color[2] * color[3] * opacity;
+                        vertex.c[3] = color[3] * opacity;
+                    }
+                }
+
+                for (int a = 0; a < n; a++) {
+                    for (int b = 0; b < n; b++) {
+                        const MeshVertex& p00 = grid[(size_t)a * (n + 1) + b];
+                        const MeshVertex& p01 = grid[(size_t)a * (n + 1) + b + 1];
+                        const MeshVertex& p10 = grid[(size_t)(a + 1) * (n + 1) + b];
+                        const MeshVertex& p11 = grid[(size_t)(a + 1) * (n + 1) + b + 1];
+
+                        meshTriangle(buffer, width, height, p00, p01, p11);
+                        meshTriangle(buffer, width, height, p00, p11, p10);
+                    }
+                }
+            }
+        }
+
+        DevicePaint* paint = l.pool->make<DevicePaint>();
+
+        memset(paint, 0, sizeof(DevicePaint));
+        paint->type = PaintType::Mesh;
+        paint->tile = buffer;
+        paint->imageWidth = (u32)width;
+        paint->imageHeight = (u32)height;
+        paint->inverse = translation(-(float)x0, -(float)y0);
+        paint->opacity = 1.f;
+
+        return paint;
+    }
+
     static DevicePaint* devicePaint(Lowering& l, const PaintValue& value, float opacity, const ComputedStyle& style, Box bbox, const Matrix& ctm, Viewport vp) {
         switch (value.kind) {
             case PaintKind::None:
@@ -7909,6 +8319,12 @@ namespace {
                     DevicePaint* paint = gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp) : patternPaint(l, server, opacity, bbox, ctm, vp);
 
                     if (paint || (gradient && !degenerateBox(*l.doc, server, bbox))) {
+                        return paint;
+                    }
+                }
+
+                if (server && server->name == AtomMeshGradient && resourceUsable(l, server, vp)) {
+                    if (DevicePaint* paint = meshPaint(l, server, opacity, bbox, ctm, vp)) {
                         return paint;
                     }
                 }
@@ -10364,6 +10780,21 @@ namespace {
         }
 
         Point p = apply(paint.inverse, Point{x, y});
+
+        if (paint.type == PaintType::Mesh) {
+            int ix = (int)floorf(p.x);
+            int iy = (int)floorf(p.y);
+
+            if (ix < 0 || iy < 0 || ix >= (int)paint.imageWidth || iy >= (int)paint.imageHeight) {
+                return false;
+            }
+
+            const float* c = paint.tile + ((size_t)iy * paint.imageWidth + ix) * 4;
+
+            out = Color{c[0], c[1], c[2], c[3]};
+
+            return c[3] > 0.f;
+        }
 
         if (paint.type == PaintType::Pattern) {
             int tw = (int)paint.imageWidth;
