@@ -104,12 +104,13 @@ for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
         color="cyan",
     ))
 
-group("test", command(
-    name="score",
-    inputs=["$(S)/tst/score.py"],
-    outputs=["$(B)/score.txt"],
-    deps=cases,
-    cmd=["python3", "$(S)/tst/score.py", "$(S)/tst/corpus", "$(B)/score", flags.filter or "*", "$(B)/score.txt"],
-    descr="OK",
-    color="light-green",
-))
+for metric in ["meanrms", "maxrms"]:
+    group(metric, command(
+        name="score_" + metric,
+        inputs=["$(S)/tst/score.py"],
+        outputs=[f"$(B)/{metric}.txt"],
+        deps=cases,
+        cmd=["python3", "$(S)/tst/score.py", "$(S)/tst/corpus", "$(B)/score", flags.filter or "*", metric, f"$(B)/{metric}.txt"],
+        descr="OK",
+        color="light-green",
+    ))

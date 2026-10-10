@@ -34,8 +34,8 @@ inside the document into such pixels.
 
 ## The score
 
-`./build test` draws every case of the corpus and prints one number, the
-score; lower is better, 0 is Chromium itself.
+`./build meanrms` and `./build maxrms` draw every case of the corpus and
+print one number each; lower is better, 0 is Chromium itself.
 
 - A case is one file of `tst/corpus/<source>/` and Chromium's two drawings
   of it next to it: `<name>.1x.png`, its longer side 256 pixels, and
@@ -43,11 +43,17 @@ score; lower is better, 0 is Chromium itself.
 - The error of one drawing is the mean absolute difference between ours
   and Chromium's over every pixel and channel, in premultiplied RGBA,
   scaled to [0, 1]. A crash or a drawing past two minutes counts as 1.
-- The score is the root mean square of the errors of every drawing.
+- The error of one case is the root mean square of the errors of its
+  drawings.
+- `meanrms` is the root mean square of the errors of every drawing: how
+  close the whole corpus is.
+- `maxrms` is the error of the worst case: what is still missing or wrong
+  altogether.
 
-`$(B)/score.txt` holds the score and every case with its two errors, the
-worst first. `-Dfilter=GLOB` scores the cases whose path under
-`tst/corpus` matches, `./build -Dfilter='resvg/*' test`.
+`$(B)/meanrms.txt` and `$(B)/maxrms.txt` hold the number and every case
+with its error and the errors of its drawings, the worst first.
+`-Dfilter=GLOB` scores the cases whose path under `tst/corpus` matches,
+`./build -Dfilter='resvg/*' meanrms`.
 
 ## The corpus
 
@@ -87,7 +93,8 @@ with wasm2c; see [its README](ext/decode/README.md).
 
 ```
 ./build          # .build/svg, the test driver
-./build test     # the score
+./build meanrms  # the root mean square error over the corpus
+./build maxrms   # the error of the worst case
 ```
 
 `svg render IN.svg OUT.png WIDTH HEIGHT` draws one file;
