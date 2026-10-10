@@ -99,7 +99,9 @@ Inkscape, resvg, Firefox or ours that is right takes its place.
 renderer at the sizes Chromium chose, and `tst/corpus/INKSCAPE`,
 `tst/corpus/RESVG`, `tst/corpus/FIREFOX` and `tst/corpus/OURS` name the
 versions. Firefox is drawn twice, over white and over black, to recover the
-alpha its screenshots lose. The corpus grows; the
+alpha its screenshots lose. A case whose behaviour is undefined and which
+every renderer draws differently is listed with the reason in
+`tst/corpus/EXCLUDED`, and is neither drawn nor scored. The corpus grows; the
 references are drawn again only when Chromium is changed.
 
 ## Building
