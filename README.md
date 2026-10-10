@@ -61,6 +61,8 @@ worst first. `-Dfilter=GLOB` scores the cases whose path under
 | `mdi`, `simple`, `tabler`, `bootstrap`, `fontawesome` | icon sets |
 | `logos` | brand logos from gilbarbara/logos |
 | `wikimedia` | random files of Wikimedia Commons up to 300 KB |
+| `openclipart` | random Openclipart drawings up to 400 KB, mostly made in Inkscape |
+| `inkscape` | artwork from the inkscape.org community gallery up to 1 MB |
 
 `tst/import.py RAW CORPUS` takes the files from the unpacked sources: text
 elements are cut out, files with what is out of scope are left out, equal
