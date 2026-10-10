@@ -11157,7 +11157,7 @@ namespace {
     static void unpremultiply(const float* s, float* c) {
         float a = s[3];
 
-        if (a <= 0.f) {
+        if (a < 0.5f / 255.f) {
             c[0] = 0.f;
             c[1] = 0.f;
             c[2] = 0.f;
