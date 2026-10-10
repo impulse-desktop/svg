@@ -35,13 +35,13 @@ inkscape/cb4e78e469d5a26d: inkscape: Chromium blurs small deviations with box wi
 wikimedia/9d3aa470ce47e335: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
 blink/filters__innershadow: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
 wikimedia/5eba2b00f65779e2: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-openclipart/284074: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+openclipart/284074: ours: Chromium blurs small deviations with box windows or not at all; draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 resvg/filters__feMerge__complex-transform: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
 openclipart/294566: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
 inkscape/25e76d27bd093bef: resvg: Chromium blurs small deviations with box windows or not at all; resvg draws it as the spec defines, as ours does
 resvg/filters__feTurbulence__baseFrequency_0.01: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
 openclipart/201689: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/5d8803a77562db90: resvg: Chromium blurs small deviations with box windows or not at all; resvg draws it as the spec defines, as ours does
+inkscape/5d8803a77562db90: inkscape: Chromium blurs small deviations with box windows or not at all; draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/bff1a53ab9c6612e: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
 resvg/filters__feMerge__color-interpolation-filters_sRGB: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
 inkscape/df683d10d52341b5: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
@@ -80,5 +80,232 @@ resvg/filters__feTurbulence__numOctaves_5: firefox: Chromium samples turbulence 
 blink/filters__feTurbulence-scale: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
 openclipart/275196: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; no other renderer draws it as the spec defines, ours does
 inkscape/00e46e2d649e7674: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
-inkscape/1486b30cd7af5c38: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+inkscape/1486b30cd7af5c38: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 inkscape/09a7f28370ae634c: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
+wikimedia/29a50f00bd97cfe3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/5ecf0f908a9bcf1b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+openclipart/2737: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/f61ed2bb71f30a32: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__text-align-08-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7c6cd45396ed53e2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4eb47a4e88b0149a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/0869a340fb029f9d: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/efce276a83248710: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/53f785a17dd58474: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/5b82864f310fea7a: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/d00cdc5b6d337a09: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/71073c57f4b945cd: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/3719896050c18d3a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/4720: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/964ad0e51849b50b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/b0fee1fad67e53e9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/7f0c23e457b54008: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/352966: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/dfedd287d092d3d9: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/2a49e8a3905ee629: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/94f635edf023add6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/af6258c4c8ea29e6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/887c83acbcc8bd69: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/f8fa0fe1e080b121: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/778d4a3264103964: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/993fdf8ae8227c01: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d60a510ab1b58998: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/24c748b2321f2ae7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/87517f8dcc499d72: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/fc2b1acc8614c5b3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/6ba8b7cb41ecda9a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b5890ee0803a1f90: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/16c0d09b802a7bb8: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7421a6c7417904e1: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/43b910b1f290e771: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__fonts-elem-03-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__fonts-elem-04-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__fonts-elem-07-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-01-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-03-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-04-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-07-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/0f9e1fbd1b673908: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c8b470af2a475f34: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/537d8af7c3dc9055: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/60b6b4c59e80aede: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7446c2b84735ee94: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/46cb9117d0ef7dbd: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d4181b1f5f1c0a2f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/ac16298561a405b9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4c9f75b45e0ed69c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/631d2e3e635cb4d1: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/132c269adc57f5a3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ecf5de1afde5c5be: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4aa75902400128d5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/5d6144bdfb8e8cf2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/47026cc7f1d184dc: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/9717a945ad660a37: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__text-text-05-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ed52b9cf2d99490e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/31b8dc2a75e68f65: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d6e2e0e070de215b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/71070384b731b639: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/fe922a999c3255c9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+inkscape/855846982ee8aeb6: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/f82d8c20910b36e9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ee0f84f319a578b6: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/0fc0854ef4e7092c: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/153f96464dc08aec: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/290ddcb0bb62ad00: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/0cb73edddc345b64: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/9dacf78b89ce14c7: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+inkscape/b68333cebad0a1ad: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/e4b8ecf71ea03fa7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/93494a19af78bdd9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d1834b5e5848b152: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/45b6eed5f51b04f0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/bf846ac844d399b5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/6b61a35c0f9fc639: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/122d662e7104af7e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/8bc56b809d186a8d: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/9d83e3d07996a0c1: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c63ac367d7e76d16: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__painting-stroke-05-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/8d455654f2b7aa37: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/416f8793c23fa6ec: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/bedeb2adc390d181: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/15255: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__text-text-12-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ec93977a8dda5947: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+openclipart/169088: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/a2a1a239690cb9d3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/686d1182c53ee086: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/26c5f0915ed6b282: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/bbf2740a33b48c2c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/47575: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/ec984ec097a3d388: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/13757ea674eceff4: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/13d40a7e0e29d284: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/c4be78d657b4bfce: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/12904af24a0ba2f4: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/f798bdaade0671a4: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/873df590308a330c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/1810d4a45eb22616: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/922f764973a01318: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b8a03800ab7b2175: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/50aced025039a1ec: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/b072b39c076485bb: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/4b49d96555d8a766: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/8208dbab35177080: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/91e57e17f5f2fb59: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/546bcf037ba3b2bb: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/231852: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/a13b69190b16a240: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/dff48be15f141377: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/a8adf43e1788d732: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7a99009c01f5e0cf: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/6f28054db1fe7c1f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/4e006b7000d381d0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/accd8a506f28e996: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b0ba3190692f137c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/90225cfd491e8fee: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d4c07d481d4f021a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/0a2dad95ac2e523c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/a36cfc7910b97a4a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d50a278e722dfe06: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/c4c69834b436a84c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/0d174488f9663166: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/e6177ac1ff3258a5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/714af551455d5cd8: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/aa7ec5658d87d32b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/324035: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/446e1361fd6ce183: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d7ab37a50ec9b788: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/1e448d40c1275484: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/f0b1c4f94fa676a2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/a0a1ff6ee669dc39: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c2b32be68f2e72b9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c251ead6084f9372: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/5d8a100a45ebc1b7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/94c371f9a4a20812: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/bd6b7de9142d0f94: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/9ccd98689e2c8b84: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/242df30675f636d2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/70140b1d2fa54f55: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c68b06bc9947ce1f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/31ea1789b2417f1e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/31ff9d4fe6cc281b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/01721cd43414be67: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4875ac02a38521b9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7937a88e41518e6a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/494e5a8da3babe8f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/86ea094737916ec3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/0be3264953f1f46b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c56633e16ff4a1a7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b25b9ee7240a9d1e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/46dd83ac130cae36: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+inkscape/a0f23f5d4b2282e8: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/9ba326ce18011a16: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/fe878d9e602ecd71: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d52e7af3c80d7c6f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/d84ba75b46054ef9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/43add93b68faa673: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/e8a3696792ea5ab8: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/c9c598a3ca08aaad: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/dd5172a07e9153d7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c5eff33f8ef766f6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/414a2343e97740bb: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/f6b28873e2d161a9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/38e69913efda7341: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/3546af491bf4173d: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/be00a4c844b88cbf: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/c7891c5c2aec0a04: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/43a69aa1031c8c5c: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/10fb3dc29da88370: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/fc0796c47c5f1a12: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/17c7bae12308cdd8: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/1e636b9343efbf1a: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/934a78b6e40e0187: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/99d9bc5e58f9e4b8: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/6e058875fbe4ca46: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/73d7ec34c32634cd: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/0bb91b12dd82749f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/87ba393b9e9dea73: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/14d845574f032b7c: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/e4709b06c3f5f8bc: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/a63e70c83a3c9c13: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b6162d840f279cad: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/9b89baff354a31ee: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/67137135bf739042: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/d4e3aadc64de7d32: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/67b2971c22937854: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/289f42eb9147f942: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/fb1cf7360b9aecd4: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+openclipart/284083: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ba26d72bfb5044bb: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/5e2c166c0a062c8f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b0e87302dfc900f9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/90d040967ac919e9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/5daacb395379afd3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/4430cba5580e0a62: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/6957d56f10b6b965: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/54577351fa11d7a6: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/2b5c5d106a6e497c: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/ea89e8f3b6967a5b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+inkscape/2eebd602b7ee29ef: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/244219045203528b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/14d2aec71a2db792: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/84aadceb8e0c89de: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4bc355b5628bdfff: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/a83ac02059e22794: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/be4163d132365432: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/d377e678fb7896f3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+inkscape/bd1ef0fa1faa3559: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/7d26b74a51e54da5: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/4507bd0784ae49fc: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/c945d73f384b2e2f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/40cccbf4c62aadf0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/318abc44264a7c62: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/e13906ba5df9dc9c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/dcceac64e7e39b1f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
+wikimedia/2db279dc03631a21: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/bc7ae4490e544eab: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/528e99532c19f16a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__coords-trans-01-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__coords-trans-01-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
