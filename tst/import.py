@@ -29,7 +29,7 @@ SKIP_DIRS = {"svgweb", "harness", ".git", "node_modules", "text", "fonts", "W3C-
 MAX_BYTES = 1 << 20
 SEED = 20261009
 
-TEXT_ELEMENT = re.compile(rb"<(?:svg:)?text\b(?:[^>]*/>|.*?</(?:svg:)?text\s*>)", re.S | re.I)
+TEXT_ELEMENT = re.compile(rb"<(?:svg:)?(text|flowRoot)\b(?:[^>]*/>|.*?</(?:svg:)?\1\s*>)", re.S | re.I)
 FORBIDDEN = re.compile(
     rb"<(?:svg:)?(?:script|foreignObject|animate|animateMotion|animateTransform|animateColor|set|discard|tspan|textPath|tref|altGlyph|video|audio|iframe|canvas)\b"
     rb"|@keyframes|<html\b|<body\b",
