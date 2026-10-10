@@ -69,7 +69,11 @@ elements are cut out, files with what is out of scope are left out, equal
 files are kept once, and the large icon sets are sampled with a fixed seed.
 `tst/reference.py CHROMIUM CORPUS JOBS` draws the references with headless
 Chromium through its DevTools pipe and drops the files Chromium cannot
-draw; `tst/corpus/CHROMIUM` names the version. The corpus grows; the
+draw; `tst/corpus/CHROMIUM` names the version. A case Chromium
+demonstrably draws wrong is listed with the reason in `tst/corpus/INKSCAPE`,
+and `tst/inkscape.py INKSCAPE CORPUS` then draws its references with
+Inkscape at the sizes Chromium chose; `tst/corpus/INKSCAPE_VERSION` names
+that version. The corpus grows; the
 references are drawn again only when Chromium is changed.
 
 ## Building
