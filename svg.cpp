@@ -5136,7 +5136,13 @@ namespace {
                 return false;
             }
 
-            skipSeparator(p, end);
+            if (i < 3) {
+                skipSeparator(p, end);
+            }
+        }
+
+        while (p < end && isSpace(*p)) {
+            p++;
         }
 
         if (p != end || numbers[2] < 0.f || numbers[3] < 0.f) {
@@ -9937,6 +9943,14 @@ namespace {
             }
         }
 
+        for (size_t k = 1; k < l.hosts.length(); k += 2) {
+            for (Node* up = l.hosts[k]; up; up = up->parent) {
+                if (up == target) {
+                    return;
+                }
+            }
+        }
+
         for (size_t k = l.active.length(); k > 0; k--) {
             Node* active = l.active[k - 1];
 
@@ -9981,8 +9995,8 @@ namespace {
 
         if (target->name == AtomSymbol) {
             l.sized = target;
-            l.sizedWidth = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
-            l.sizedHeight = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
+            l.sizedWidth = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, -1.f);
+            l.sizedHeight = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, -1.f);
             lowerElement(l, target, style, placed, vp);
             l.sized = nullptr;
         } else {
@@ -10538,8 +10552,9 @@ namespace {
                 lowerImage(l, node, style, m, vp);
                 break;
             case AtomSymbol: {
-                float w = l.sizedWidth;
-                float h = l.sizedHeight;
+                float fs = style.fontSize;
+                float w = l.sizedWidth >= 0.f ? l.sizedWidth : lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
+                float h = l.sizedHeight >= 0.f ? l.sizedHeight : lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
 
                 l.sized = nullptr;
                 lowerViewport(l, node, style, m, node, 0.f, 0.f, w, h, !style.overflowVisible);
