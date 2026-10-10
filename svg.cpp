@@ -190,6 +190,7 @@ using namespace stl;
     ATOM(MixBlendMode, "mix-blend-mode")                           \
     ATOM(Isolation, "isolation")                                   \
     ATOM(ColorInterpolation, "color-interpolation")                \
+    ATOM(ShapeRendering, "shape-rendering")                        \
     ATOM(Outline, "outline")
 
 namespace {
@@ -541,6 +542,7 @@ namespace {
         u8 blend;
         bool isolate;
         bool linearColors;
+        bool aliased;
         float outlineWidth;
         Color outlineColor;
         u8 paintOrder[3];
@@ -673,6 +675,7 @@ namespace {
     struct Op {
         OpKind kind;
         u8 rule;
+        bool aliased;
         u32 first;
         u32 count;
         Box bounds;
@@ -4116,6 +4119,8 @@ namespace {
                 return equalsIgnoreCase(text, StringView(u8"none")) || validDashes(text);
             case AtomStrokeWidth:
                 return parseLength(text, length) && length.value >= 0.f;
+            case AtomShapeRendering:
+                return equalsIgnoreCase(text, StringView(u8"auto")) || equalsIgnoreCase(text, StringView(u8"optimizespeed")) || equalsIgnoreCase(text, StringView(u8"crispedges")) || equalsIgnoreCase(text, StringView(u8"geometricprecision"));
             default:
                 return true;
         }
@@ -7269,6 +7274,16 @@ namespace {
                     style.outlineColor = color;
                     break;
                 }
+                case AtomShapeRendering:
+                    if (keyword) {
+                        style.aliased = source.aliased;
+                    } else if (isKeyword(value, "crispedges") || isKeyword(value, "optimizespeed")) {
+                        style.aliased = true;
+                    } else if (isKeyword(value, "auto") || isKeyword(value, "geometricprecision")) {
+                        style.aliased = false;
+                    }
+
+                    break;
                 case AtomColorInterpolation:
                     if (keyword) {
                         style.linearColors = source.linearColors;
@@ -7460,12 +7475,13 @@ namespace {
         }
     }
 
-    static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint) {
+    static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint, bool aliased) {
         Op op;
 
         memset(&op, 0, sizeof(op));
         op.kind = OpKind::Fill;
         op.rule = rule;
+        op.aliased = aliased;
         op.paint = paint;
         op.first = (u32)l.edges.length();
         op.bounds = emptyBox();
@@ -8617,7 +8633,7 @@ namespace {
             Flat flat;
 
             flatten(path, item.space, tolerance, flat);
-            emitFill(l, flat, item.style.clipRule, solidPaint(l, Color{1.f, 1.f, 1.f, 1.f}, 1.f));
+            emitFill(l, flat, item.style.clipRule, solidPaint(l, Color{1.f, 1.f, 1.f, 1.f}, 1.f), false);
 
             if (inner.clipped) {
                 endGroup(l);
@@ -9546,11 +9562,11 @@ namespace {
                     Flat flat;
 
                     flatten(path, m, tolerance, flat);
-                    emitFill(l, flat, style.fillRule, fill);
+                    emitFill(l, flat, style.fillRule, fill, style.aliased);
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
                 float coverage = 1.f;
-                bool hairline = !style.nonScaling && hairlineCoverage(style.strokeWidth, m, coverage);
+                bool hairline = !style.nonScaling && !style.aliased && hairlineCoverage(style.strokeWidth, m, coverage);
 
                 if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity * coverage, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
                     Flat outline;
@@ -9581,7 +9597,7 @@ namespace {
                         }
                     }
 
-                    emitFill(l, device, WindingNonZero, stroke);
+                    emitFill(l, device, WindingNonZero, stroke, style.aliased);
                 }
             } else if (layer == 2) {
                 Matrix outerMatrix = l.contextMatrix;
@@ -9716,7 +9732,7 @@ namespace {
                 lineTo(canvas, Point{0.f, h});
                 closePath(canvas);
                 flatten(canvas, identity(), tolerance, flat);
-                emitFill(l, flat, WindingNonZero, solidPaint(l, style.background, 1.f));
+                emitFill(l, flat, WindingNonZero, solidPaint(l, style.background, 1.f), false);
             }
             Box viewBox;
 
@@ -10121,7 +10137,7 @@ namespace {
             lineTo(rect, Point{rx0, ry1});
             closePath(rect);
             flatten(rect, m, tolerance, flat);
-            emitFill(l, flat, WindingNonZero, paint);
+            emitFill(l, flat, WindingNonZero, paint, false);
 
             return;
         }
@@ -10557,7 +10573,7 @@ namespace {
             lineTo(ring, Point{outline.x0, outline.y1});
             closePath(ring);
             flatten(ring, m, tolerance, flat);
-            emitFill(l, flat, WindingEvenOdd, solidPaint(l, style.outlineColor, 1.f));
+            emitFill(l, flat, WindingEvenOdd, solidPaint(l, style.outlineColor, 1.f), false);
         }
 
         l.depth--;
@@ -10917,7 +10933,29 @@ namespace {
         return true;
     }
 
-    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, u32& ix0, u32& iy0, u32& w, u32& h) {
+    static void addAliasedEdge(float* acc, u32 stride, u32 width, u32 height, Edge e) {
+        float dir = 1.f;
+
+        if (e.y0 > e.y1) {
+            e = Edge{e.x1, e.y1, e.x0, e.y0};
+            dir = -1.f;
+        }
+
+        float top = floorf(e.y0 + 0.5f);
+        float bottom = floorf(e.y1 + 0.5f);
+        float dxdy = (e.x1 - e.x0) / (e.y1 - e.y0);
+        int y0 = top < 0.f ? 0 : (int)top;
+        int y1 = bottom > (float)height ? (int)height : (int)bottom;
+
+        for (int y = y0; y < y1; y++) {
+            float x = floorf(e.x0 + ((float)y + 0.5f - e.y0) * dxdy + 0.5f);
+            int column = x < 0.f ? 0 : (x > (float)width ? (int)width : (int)x);
+
+            acc[(size_t)y * stride + column] += dir;
+        }
+    }
+
+    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, u32& ix0, u32& iy0, u32& w, u32& h) {
         float bx0 = floorf(maxf(bounds.x0, 0.f));
         float by0 = floorf(maxf(bounds.y0, 0.f));
         float bx1 = ceilf(minf(bounds.x1, (float)r.width));
@@ -10941,7 +10979,13 @@ namespace {
         for (u32 i = first; i < first + count; i++) {
             Edge e = l.edges[i];
 
-            addEdge(acc, stride, w, h, Edge{e.x0 - ix0, e.y0 - iy0, e.x1 - ix0, e.y1 - iy0});
+            Edge local{e.x0 - ix0, e.y0 - iy0, e.x1 - ix0, e.y1 - iy0};
+
+            if (aliased) {
+                addAliasedEdge(acc, stride, w, h, local);
+            } else {
+                addEdge(acc, stride, w, h, local);
+            }
         }
 
         return true;
@@ -10974,7 +11018,7 @@ namespace {
         u32 w;
         u32 h;
 
-        if (!rasterize(r, l, op.first, op.count, op.bounds, ix0, iy0, w, h)) {
+        if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, ix0, iy0, w, h)) {
             return;
         }
 
@@ -11027,7 +11071,7 @@ namespace {
         u32 w;
         u32 h;
 
-        if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, ix0, iy0, w, h)) {
+        if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, false, ix0, iy0, w, h)) {
             return;
         }
 
