@@ -711,6 +711,8 @@ namespace {
         Vector<ClipShape> clips;
         Vector<Node*> active;
         Vector<Node*> hosts;
+        Matrix screen;
+        Matrix host;
         Vector<u64> broken;
         Vector<ComputedStyle*> documentStyles;
         SvgDecoder* decoder;
@@ -7740,9 +7742,14 @@ namespace {
         Vector<Op>* saved = l.out;
         const ComputedStyle& contentStyle = documentStyle(l, content, vp);
 
+        Matrix outerHost = l.host;
+        Matrix screenInverse;
+
         l.out = &program;
         l.active.pushBack(pattern);
+        l.host = invert(l.screen, screenInverse) ? multiply(multiply(scaling(tw / w, th / h), inner), screenInverse) : identity();
         lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
+        l.host = outerHost;
         l.active.popBack();
         l.out = saved;
         paint->programFirst = (u32)l.programs.length();
@@ -9709,7 +9716,20 @@ namespace {
                         thin.dashOffset = dashed.dashOffset * scale;
                         strokePath(transformedPath(path, m), thin, 1.f, device);
                     } else if (style.nonScaling) {
-                        strokePath(transformedPath(path, m), dashed, 1.f, device);
+                        Matrix hostInverse;
+                        Flat hosted;
+
+                        if (!invert(l.host, hostInverse)) {
+                            hostInverse = identity();
+                        }
+
+                        strokePath(transformedPath(path, multiply(hostInverse, m)), dashed, 1.f, hosted);
+                        device.ends.xchg(hosted.ends);
+                        device.closed.xchg(hosted.closed);
+
+                        for (Point p : hosted.points) {
+                            device.points.pushBack(apply(l.host, p));
+                        }
                     } else {
                         strokePath(path, dashed, matrixScale(m), outline);
                         device.ends.xchg(outline.ends);
@@ -9763,6 +9783,10 @@ namespace {
             op.clipFirst = first;
             op.clipCount = 1;
             l.out->pushBack(op);
+        }
+
+        if (node == l.doc->root) {
+            l.screen = inner;
         }
 
         lowerChildren(l, content, style, inner, inside);
@@ -9866,7 +9890,8 @@ namespace {
                 if (intrinsicSize(*l.doc, node, iw, ih)) {
                     iw = explicitSide(*l.doc, node, AtomWidth) ? iw : w;
                     ih = explicitSide(*l.doc, node, AtomHeight) ? ih : h;
-                    lowerChildren(l, node, style, multiply(m, scaling(w / iw, h / ih)), Viewport{iw, ih, (float)l.width, (float)l.height, l.rootFontSize});
+                    l.screen = multiply(m, scaling(w / iw, h / ih));
+                    lowerChildren(l, node, style, l.screen, Viewport{iw, ih, (float)l.width, (float)l.height, l.rootFontSize});
 
                     return;
                 }
@@ -13327,6 +13352,8 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.rootFontSize = 16.f;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
+        l.screen = identity();
+        l.host = identity();
         l.instance = nullptr;
         l.documentStyles.zero(doc.nodeCount);
         lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height, 16.f});
