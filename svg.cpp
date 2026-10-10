@@ -10864,32 +10864,10 @@ namespace {
         }
     }
 
-    static void gaussLine(const float* src, float* dst, int count, int stride, const float* kernel, int radius) {
-        for (int i = 0; i < count; i++) {
-            float sum[4] = {0.f, 0.f, 0.f, 0.f};
-
-            for (int k = -radius; k <= radius; k++) {
-                int j = i + k;
-
-                if (j < 0 || j >= count) {
-                    continue;
-                }
-
-                float w = kernel[k + radius];
-
-                for (int c = 0; c < 4; c++) {
-                    sum[c] += src[(size_t)j * stride + c] * w;
-                }
-            }
-
-            for (int c = 0; c < 4; c++) {
-                dst[(size_t)i * stride + c] = sum[c];
-            }
-        }
-    }
-
     static void blurLine(const float* src, float* dst, float* scratch, int count, int stride, float sigma) {
-        if (sigma <= 0.f) {
+        int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+
+        if (sigma <= 0.f || d <= 1) {
             for (int i = 0; i < count; i++) {
                 for (int c = 0; c < 4; c++) {
                     dst[(size_t)i * stride + c] = src[(size_t)i * stride + c];
@@ -10899,28 +10877,6 @@ namespace {
             return;
         }
 
-        if (sigma < 2.f) {
-            int radius = (int)ceilf(sigma * 3.f);
-            float kernel[64];
-            float total = 0.f;
-
-            radius = radius > 31 ? 31 : radius;
-
-            for (int k = -radius; k <= radius; k++) {
-                kernel[k + radius] = expf(-(float)(k * k) / (2.f * sigma * sigma));
-                total += kernel[k + radius];
-            }
-
-            for (int k = 0; k <= 2 * radius; k++) {
-                kernel[k] /= total;
-            }
-
-            gaussLine(src, dst, count, stride, kernel, radius);
-
-            return;
-        }
-
-        int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
         int pad = 3 * (d / 2 + 1);
         int total = count + 2 * pad;
         Vector<float> first;
