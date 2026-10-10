@@ -5057,26 +5057,6 @@ namespace {
         }
     }
 
-    static float fastLength(float x, float y) {
-        x = fabsf(x);
-        y = fabsf(y);
-
-        return x > y ? x + y * 0.5f : y + x * 0.5f;
-    }
-
-    static bool hairlineCoverage(float width, const Matrix& m, float& coverage) {
-        float len0 = fastLength(m.a * width, m.b * width);
-        float len1 = fastLength(m.c * width, m.d * width);
-
-        if (len0 > 1.f || len1 > 1.f) {
-            return false;
-        }
-
-        coverage = (len0 + len1) / 2.f;
-
-        return true;
-    }
-
     static Path transformedPath(const Path& path, const Matrix& m) {
         Path out;
 
@@ -8601,17 +8581,6 @@ namespace {
         }
     }
 
-    static bool frameRect(const Document& doc, const Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
-        float rx = 0.f;
-        float ry = 0.f;
-
-        if (node->name != AtomRect || style.join != JoinMiter || style.miterLimit < sqrtf(2.f) || style.dashCount || fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f) {
-            return false;
-        }
-
-        return !(lengthAttribute(doc, node, AtomRx, Axis::X, vp, style.fontSize, rx) && rx > 0.f) && !(lengthAttribute(doc, node, AtomRy, Axis::Y, vp, style.fontSize, ry) && ry > 0.f);
-    }
-
     static float flatLength(const Flat& flat) {
         float total = 0.f;
         u32 begin = 0;
@@ -8687,28 +8656,12 @@ namespace {
                     emitFill(l, flat, style.fillRule, fill, style.aliased);
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
-                float coverage = 1.f;
-                bool hairline = !style.nonScaling && !style.aliased && !frameRect(*l.doc, node, style, m, vp) && hairlineCoverage(style.strokeWidth, m, coverage);
-
-                if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity * coverage, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
+                if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
                     ComputedStyle dashed = authorDashes(l, node, userFlat, style);
                     Flat outline;
                     Flat device;
 
-                    if (hairline) {
-                        ComputedStyle thin = dashed;
-                        float scale = sqrtf(fabsf(m.a * m.d - m.b * m.c));
-                        float* dashes = dashed.dashCount ? (float*)l.pool->allocate(sizeof(float) * dashed.dashCount) : nullptr;
-
-                        for (u32 k = 0; k < dashed.dashCount; k++) {
-                            dashes[k] = dashed.dashes[k] * scale;
-                        }
-
-                        thin.strokeWidth = 1.f;
-                        thin.dashes = dashes;
-                        thin.dashOffset = dashed.dashOffset * scale;
-                        strokePath(transformedPath(path, m), thin, 1.f, device);
-                    } else if (style.nonScaling) {
+                    if (style.nonScaling) {
                         Matrix hostInverse;
                         Flat hosted;
 
