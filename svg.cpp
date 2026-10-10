@@ -1,5 +1,6 @@
 #include "svg.h"
 
+#include <std/alg/qsort.h>
 #include <std/lib/buffer.h>
 #include <std/lib/vector.h>
 #include <std/mem/obj_pool.h>
@@ -5805,16 +5806,18 @@ namespace {
     }
 
     static float signedArea(const Point* points, size_t count) {
-        float area = 0.f;
+        double area = 0.0;
+        double ox = points[0].x;
+        double oy = points[0].y;
 
         for (size_t i = 0; i < count; i++) {
             const Point& a = points[i];
             const Point& b = points[(i + 1) % count];
 
-            area += a.x * b.y - b.x * a.y;
+            area += (a.x - ox) * (b.y - oy) - (b.x - ox) * (a.y - oy);
         }
 
-        return area * 0.5f;
+        return (float)(area * 0.5);
     }
 
     static void addPolygon(Flat& out, const Point* points, size_t count) {
@@ -7960,7 +7963,7 @@ namespace {
             paint->fy = gradientLength(l, gradient, AtomFy, boxUnits, Axis::Y, vp, paint->cy);
             paint->fr = maxf(gradientLength(l, gradient, AtomFr, boxUnits, Axis::Other, vp, 0.f), 0.f);
 
-            if (paint->r <= 0.f) {
+            if (paint->r <= 1.f / 32768.f) {
                 return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
             }
 
@@ -11123,7 +11126,297 @@ namespace {
         }
     }
 
-    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, u32& ix0, u32& iy0, u32& w, u32& h) {
+    struct BandEdge {
+        float x0;
+        float y0;
+        float x1;
+        float y1;
+        int dir;
+    };
+
+    static float bandX(const BandEdge& e, float y) {
+        return e.x0 + (e.x1 - e.x0) * ((y - e.y0) / (e.y1 - e.y0));
+    }
+
+    static bool insideWinding(int winding, u8 rule) {
+        return rule == WindingEvenOdd ? (winding & 1) != 0 : winding != 0;
+    }
+
+    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, Vector<u32>& order, Vector<float>& keys, float a, float b, u8 rule, int depth) {
+        float mid = (a + b) * 0.5f;
+
+        order.clear();
+        keys.clear();
+
+        for (u32 index : active) {
+            const BandEdge& e = edges[index];
+
+            if (e.y0 <= a && e.y1 >= b) {
+                float key = bandX(e, mid);
+                size_t k = order.length();
+
+                order.pushBack(index);
+                keys.pushBack(key);
+
+                while (k > 0 && keys[k - 1] > key) {
+                    keys.mutData()[k] = keys[k - 1];
+                    order.mutData()[k] = order[k - 1];
+                    k--;
+                }
+
+                keys.mutData()[k] = key;
+                order.mutData()[k] = index;
+            }
+        }
+
+        if (order.empty()) {
+            return;
+        }
+
+        if (depth < 6) {
+            for (size_t k = 0; k + 1 < order.length(); k++) {
+                const BandEdge& p = edges[order[k]];
+                const BandEdge& q = edges[order[k + 1]];
+
+                if (bandX(p, a) > bandX(q, a) + 1e-4f || bandX(p, b) > bandX(q, b) + 1e-4f) {
+                    unionBand(acc, stride, w, h, edges, active, order, keys, a, mid, rule, depth + 1);
+                    unionBand(acc, stride, w, h, edges, active, order, keys, mid, b, rule, depth + 1);
+
+                    return;
+                }
+            }
+        }
+
+        int winding = 0;
+
+        for (u32 index : order) {
+            const BandEdge& e = edges[index];
+            bool before = insideWinding(winding, rule);
+
+            winding += e.dir;
+
+            bool after = insideWinding(winding, rule);
+
+            if (before != after) {
+                float xa = bandX(e, a);
+                float xb = bandX(e, b);
+
+                addEdge(acc, stride, w, h, after ? Edge{xa, a, xb, b} : Edge{xb, b, xa, a});
+            }
+        }
+    }
+
+    struct Crossing {
+        float x;
+        int dir;
+    };
+
+    static void sortCrossings(Vector<Crossing>& crossings) {
+        if (crossings.length() < 24) {
+            for (size_t i = 1; i < crossings.length(); i++) {
+                Crossing c = crossings[i];
+                size_t k = i;
+
+                while (k > 0 && crossings[k - 1].x > c.x) {
+                    crossings.mutData()[k] = crossings[k - 1];
+                    k--;
+                }
+
+                crossings.mutData()[k] = c;
+            }
+
+            return;
+        }
+
+        quickSort(crossings.mutBegin(), crossings.mutEnd(), [](const Crossing& p, const Crossing& q) {
+            return p.x < q.x;
+        });
+    }
+
+    static void scanCrossings(const BandEdge* edges, const Vector<u32>& active, float y, Vector<Crossing>& crossings) {
+        crossings.clear();
+
+        for (u32 index : active) {
+            const BandEdge& e = edges[index];
+
+            if (e.y0 <= y && e.y1 > y) {
+                crossings.pushBack(Crossing{bandX(e, y), e.dir});
+            }
+        }
+
+        sortCrossings(crossings);
+    }
+
+    static void addSpan(float* acc, u32 w, float x0, float x1, float weight) {
+        float limit = (float)w;
+
+        x0 = x0 < 0.f ? 0.f : (x0 > limit ? limit : x0);
+        x1 = x1 < 0.f ? 0.f : (x1 > limit ? limit : x1);
+
+        if (!(x1 > x0)) {
+            return;
+        }
+
+        float c0 = floorf(x0);
+        float c1 = floorf(x1);
+        u32 i0 = (u32)c0;
+        u32 i1 = (u32)c1;
+
+        acc[i0] += (1.f - (x0 - c0)) * weight;
+        acc[i0 + 1] += (x0 - c0) * weight;
+        acc[i1] -= (1.f - (x1 - c1)) * weight;
+        acc[i1 + 1] -= (x1 - c1) * weight;
+    }
+
+    static void rasterizeUnion(float* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule) {
+        Vector<BandEdge> edges;
+
+        for (u32 i = first; i < first + count; i++) {
+            Edge e = l.edges[i];
+
+            if (!(e.y0 < e.y1) && !(e.y1 < e.y0)) {
+                continue;
+            }
+
+            if (e.y0 < e.y1) {
+                edges.pushBack(BandEdge{e.x0 - ox, e.y0 - oy, e.x1 - ox, e.y1 - oy, 1});
+            } else {
+                edges.pushBack(BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1});
+            }
+        }
+
+        if (edges.empty()) {
+            return;
+        }
+
+        quickSort(edges.mutBegin(), edges.mutEnd(), [](const BandEdge& p, const BandEdge& q) {
+            return p.y0 < q.y0;
+        });
+
+        Vector<u32> active;
+        Vector<u32> order;
+        Vector<float> keys;
+        Vector<float> cuts;
+        Vector<Crossing> crossings;
+        size_t next = 0;
+
+        for (u32 row = 0; row < h; row++) {
+            float top = (float)row;
+            float bottom = (float)(row + 1);
+            size_t kept = 0;
+
+            for (size_t k = 0; k < active.length(); k++) {
+                if (edges[active[k]].y1 > top) {
+                    active.mutData()[kept++] = active[k];
+                }
+            }
+
+            while (active.length() > kept) {
+                active.popBack();
+            }
+
+            while (next < edges.length() && edges[next].y0 < bottom) {
+                if (edges[next].y1 > top) {
+                    active.pushBack((u32)next);
+                }
+
+                next++;
+            }
+
+            if (active.empty()) {
+                continue;
+            }
+
+            bool overlap = false;
+
+            for (int sample = 0; sample < 4 && !overlap; sample++) {
+                int winding = 0;
+
+                scanCrossings(edges.data(), active, top + (sample + 0.5f) / 4.f, crossings);
+
+                for (const Crossing& c : crossings) {
+                    winding += c.dir;
+
+                    if (winding > 1 || winding < -1) {
+                        overlap = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!overlap) {
+                for (u32 index : active) {
+                    const BandEdge& e = edges[index];
+                    float a = maxf(e.y0, top);
+                    float b = minf(e.y1, bottom);
+
+                    if (b > a) {
+                        float xa = bandX(e, a);
+                        float xb = bandX(e, b);
+
+                        addEdge(acc, stride, w, h, e.dir > 0 ? Edge{xa, a, xb, b} : Edge{xb, b, xa, a});
+                    }
+                }
+
+                continue;
+            }
+
+            cuts.clear();
+            cuts.pushBack(top);
+            cuts.pushBack(bottom);
+
+            for (u32 index : active) {
+                const BandEdge& e = edges[index];
+
+                if (e.y0 > top && e.y0 < bottom) {
+                    cuts.pushBack(e.y0);
+                }
+
+                if (e.y1 > top && e.y1 < bottom) {
+                    cuts.pushBack(e.y1);
+                }
+            }
+
+            if (cuts.length() * active.length() <= 4096) {
+                quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
+                    return p < q;
+                });
+
+                for (size_t k = 0; k + 1 < cuts.length(); k++) {
+                    if (cuts[k + 1] > cuts[k]) {
+                        unionBand(acc, stride, w, h, edges.data(), active, order, keys, cuts[k], cuts[k + 1], rule, 0);
+                    }
+                }
+
+                continue;
+            }
+
+            float* line = acc + (size_t)row * stride;
+
+            for (int sub = 0; sub < 16; sub++) {
+                int winding = 0;
+                float start = 0.f;
+
+                scanCrossings(edges.data(), active, top + (sub + 0.5f) / 16.f, crossings);
+
+                for (const Crossing& c : crossings) {
+                    bool before = insideWinding(winding, rule);
+
+                    winding += c.dir;
+
+                    bool after = insideWinding(winding, rule);
+
+                    if (!before && after) {
+                        start = c.x;
+                    } else if (before && !after) {
+                        addSpan(line, w, start, c.x, 1.f / 16.f);
+                    }
+                }
+            }
+        }
+    }
+
+    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, u32& ix0, u32& iy0, u32& w, u32& h, u8 rule) {
         float bx0 = floorf(maxf(bounds.x0, 0.f));
         float by0 = floorf(maxf(bounds.y0, 0.f));
         float bx1 = ceilf(minf(bounds.x1, (float)r.width));
@@ -11144,16 +11437,16 @@ namespace {
 
         float* acc = r.accumulation.mutData();
 
+        if (!aliased) {
+            rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule);
+
+            return true;
+        }
+
         for (u32 i = first; i < first + count; i++) {
             Edge e = l.edges[i];
 
-            Edge local{e.x0 - ix0, e.y0 - iy0, e.x1 - ix0, e.y1 - iy0};
-
-            if (aliased) {
-                addAliasedEdge(acc, stride, w, h, local);
-            } else {
-                addEdge(acc, stride, w, h, local);
-            }
+            addAliasedEdge(acc, stride, w, h, Edge{e.x0 - ix0, e.y0 - iy0, e.x1 - ix0, e.y1 - iy0});
         }
 
         return true;
@@ -11186,7 +11479,7 @@ namespace {
         u32 w;
         u32 h;
 
-        if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, ix0, iy0, w, h)) {
+        if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, ix0, iy0, w, h, op.rule)) {
             return;
         }
 
@@ -11239,7 +11532,7 @@ namespace {
         u32 w;
         u32 h;
 
-        if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, false, ix0, iy0, w, h)) {
+        if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, false, ix0, iy0, w, h, shape.rule)) {
             return;
         }
 
