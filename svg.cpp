@@ -61,6 +61,7 @@ using namespace stl;
     ATOM(Y2, "y2")                                                 \
     ATOM(Points, "points")                                         \
     ATOM(D, "d")                                                   \
+    ATOM(PathLength, "pathLength")                                 \
     ATOM(Transform, "transform")                                   \
     ATOM(ViewBox, "viewBox")                                       \
     ATOM(View, "view")                                             \
@@ -615,6 +616,7 @@ namespace {
         u32 programCount;
         float* tile;
         float opacity;
+        bool linear;
     };
 
     struct ClipShape {
@@ -706,6 +708,7 @@ namespace {
         Vector<Edge> edges;
         Vector<ClipShape> clips;
         Vector<Node*> active;
+        Vector<Node*> hosts;
         Vector<u64> broken;
         Vector<ComputedStyle*> documentStyles;
         SvgDecoder* decoder;
@@ -4212,7 +4215,7 @@ namespace {
 
             bool outer = node == doc.root && declaration.property != AtomTransform && declaration.property != AtomTransformOrigin;
 
-            if (geometryApplies(node->name, declaration.property) && !outer) {
+            if ((geometryApplies(node->name, declaration.property) || declaration.property == AtomD) && !outer) {
                 u32 property = declaration.property;
 
                 if (property == AtomTransform && (node->name == AtomLinearGradient || node->name == AtomRadialGradient)) {
@@ -5560,12 +5563,30 @@ namespace {
         closePath(path);
     }
 
-    static bool buildShape(const Document& doc, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
+    static bool isKeyword(StringView text, const char* keyword);
+
+    static bool buildShape(const Lowering& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
+        const Document& doc = *l.doc;
         float fs = style.fontSize;
 
         switch (node->name) {
             case AtomPath: {
                 u32 d = attribute(node, AtomD);
+                const Node* at = node;
+
+                for (u32 hops = 0; d && hops < 64 && isKeyword(textOf(doc, d), "inherit"); hops++) {
+                    const Node* parent = at->parent;
+
+                    for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
+                        if (l.hosts[k - 2] == at) {
+                            parent = l.hosts[k - 1];
+                            break;
+                        }
+                    }
+
+                    at = parent;
+                    d = at ? attribute(at, AtomD) : 0;
+                }
 
                 if (d) {
                     parsePathData(textOf(doc, d), path);
@@ -7770,6 +7791,9 @@ namespace {
         return resolveLength(length, axis, vp, 16.f);
     }
 
+    static float srgbToLinear(float c);
+    static float linearToSrgb(float c);
+
     static DevicePaint* gradientPaint(Lowering& l, Node* gradient, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
         const Document& doc = *l.doc;
         u32 units = gradientAttribute(doc, gradient, AtomGradientUnits);
@@ -7869,6 +7893,15 @@ namespace {
         paint->stopCount = (u32)stops.length();
         paint->stops = (GradientStop*)l.pool->allocate(sizeof(GradientStop) * stops.length());
         memcpy(paint->stops, stops.data(), sizeof(GradientStop) * stops.length());
+        paint->linear = documentStyle(l, gradient, vp).linearColors;
+
+        if (paint->linear) {
+            for (u32 i = 0; i < paint->stopCount; i++) {
+                Color& c = paint->stops[i].color;
+
+                c = Color{srgbToLinear(c.r), srgbToLinear(c.g), srgbToLinear(c.b), c.a};
+            }
+        }
 
         u32 spread = gradientAttribute(doc, gradient, AtomSpreadMethod);
 
@@ -8414,7 +8447,7 @@ namespace {
         Path path;
         Flat flat;
 
-        if (!buildShape(*l.doc, node, style, vp, path)) {
+        if (!buildShape(l, node, style, vp, path)) {
             return false;
         }
 
@@ -8615,7 +8648,7 @@ namespace {
                 ClipChild item;
                 Path path;
 
-                if (clipChild(l, child, space, vp, item) && buildShape(doc, item.shape, item.style, vp, path)) {
+                if (clipChild(l, child, space, vp, item) && buildShape(l, item.shape, item.style, vp, path)) {
                     addClipShape(l, path, item.space, item.style.clipRule);
                 }
             }
@@ -8642,7 +8675,7 @@ namespace {
             ClipChild item;
             Path path;
 
-            if (!clipChild(l, child, space, vp, item) || !buildShape(doc, item.shape, item.style, vp, path)) {
+            if (!clipChild(l, child, space, vp, item) || !buildShape(l, item.shape, item.style, vp, path)) {
                 continue;
             }
 
@@ -9560,10 +9593,63 @@ namespace {
         }
     }
 
+    static float flatLength(const Flat& flat) {
+        float total = 0.f;
+        u32 begin = 0;
+
+        for (size_t k = 0; k < flat.ends.length(); k++) {
+            u32 end = flat.ends[k];
+
+            for (u32 i = begin; i + 1 < end; i++) {
+                total += hypotf(flat.points[i + 1].x - flat.points[i].x, flat.points[i + 1].y - flat.points[i].y);
+            }
+
+            if (flat.closed[k] && end > begin + 1) {
+                total += hypotf(flat.points[begin].x - flat.points[end - 1].x, flat.points[begin].y - flat.points[end - 1].y);
+            }
+
+            begin = end;
+        }
+
+        return total;
+    }
+
+    static ComputedStyle authorDashes(Lowering& l, const Node* node, const Flat& userFlat, const ComputedStyle& style) {
+        ComputedStyle dashed = style;
+        u32 value = attribute(node, AtomPathLength);
+        float author;
+
+        if (!style.dashCount || !value || !parseNumberText(textOf(*l.doc, value), author) || author < 0.f) {
+            return dashed;
+        }
+
+        float total = flatLength(userFlat);
+
+        if (total > 0.f && author == 0.f) {
+            dashed.dashes = nullptr;
+            dashed.dashCount = 0;
+            dashed.dashOffset = 0.f;
+
+            return dashed;
+        }
+
+        float scale = total > 0.f ? total / author : 0.f;
+
+        dashed.dashes = (float*)l.pool->allocate(sizeof(float) * style.dashCount);
+
+        for (u32 k = 0; k < style.dashCount; k++) {
+            dashed.dashes[k] = style.dashes[k] * scale;
+        }
+
+        dashed.dashOffset = style.dashOffset * scale;
+
+        return dashed;
+    }
+
     static void lowerShape(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Path path;
 
-        if (!buildShape(*l.doc, node, style, vp, path)) {
+        if (!buildShape(l, node, style, vp, path)) {
             return;
         }
 
@@ -9586,26 +9672,27 @@ namespace {
                 bool hairline = !style.nonScaling && !style.aliased && hairlineCoverage(style.strokeWidth, m, coverage);
 
                 if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity * coverage, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
+                    ComputedStyle dashed = authorDashes(l, node, userFlat, style);
                     Flat outline;
                     Flat device;
 
                     if (hairline) {
-                        ComputedStyle thin = style;
+                        ComputedStyle thin = dashed;
                         float scale = sqrtf(fabsf(m.a * m.d - m.b * m.c));
-                        float* dashes = style.dashCount ? (float*)l.pool->allocate(sizeof(float) * style.dashCount) : nullptr;
+                        float* dashes = dashed.dashCount ? (float*)l.pool->allocate(sizeof(float) * dashed.dashCount) : nullptr;
 
-                        for (u32 k = 0; k < style.dashCount; k++) {
-                            dashes[k] = style.dashes[k] * scale;
+                        for (u32 k = 0; k < dashed.dashCount; k++) {
+                            dashes[k] = dashed.dashes[k] * scale;
                         }
 
                         thin.strokeWidth = 1.f;
                         thin.dashes = dashes;
-                        thin.dashOffset = style.dashOffset * scale;
+                        thin.dashOffset = dashed.dashOffset * scale;
                         strokePath(transformedPath(path, m), thin, 1.f, device);
                     } else if (style.nonScaling) {
-                        strokePath(transformedPath(path, m), style, 1.f, device);
+                        strokePath(transformedPath(path, m), dashed, 1.f, device);
                     } else {
-                        strokePath(path, style, matrixScale(m), outline);
+                        strokePath(path, dashed, matrixScale(m), outline);
                         device.ends.xchg(outline.ends);
                         device.closed.xchg(outline.closed);
 
@@ -9836,6 +9923,8 @@ namespace {
         }
 
         l.active.pushBack(target);
+        l.hosts.pushBack(target);
+        l.hosts.pushBack(node);
 
         if (target->name == AtomSymbol) {
             l.sized = target;
@@ -9854,6 +9943,8 @@ namespace {
             l.sized = nullptr;
         }
 
+        l.hosts.popBack();
+        l.hosts.popBack();
         l.active.popBack();
         l.hasContext = hadContext;
         l.contextFill = outerFill;
@@ -10798,6 +10889,10 @@ namespace {
             c = Color{a.color.r + (b.color.r - a.color.r) * f, a.color.g + (b.color.g - a.color.g) * f, a.color.b + (b.color.b - a.color.b) * f, a.color.a + (b.color.a - a.color.a) * f};
         }
 
+        if (paint.linear) {
+            c = Color{linearToSrgb(c.r), linearToSrgb(c.g), linearToSrgb(c.b), c.a};
+        }
+
         return Color{c.r * c.a, c.g * c.a, c.b * c.a, c.a};
     }
 
@@ -11140,8 +11235,6 @@ namespace {
     }
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
-
-    static float srgbToLinear(float c);
 
     static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool) {
         size_t size = (size_t)r.width * r.height;
