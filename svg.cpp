@@ -192,6 +192,7 @@ using namespace stl;
     ATOM(Isolation, "isolation")                                   \
     ATOM(ColorInterpolation, "color-interpolation")                \
     ATOM(ShapeRendering, "shape-rendering")                        \
+    ATOM(Zoom, "zoom")                                             \
     ATOM(Outline, "outline")
 
 namespace {
@@ -544,6 +545,7 @@ namespace {
         bool isolate;
         bool linearColors;
         bool aliased;
+        float zoom;
         float outlineWidth;
         Color outlineColor;
         u8 paintOrder[3];
@@ -4140,7 +4142,7 @@ namespace {
         for (u32 i = 0; i < node->count; i++) {
             u32 name = node->attributes[i].name;
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline && name != AtomZoom) {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
@@ -6182,6 +6184,7 @@ namespace {
         style.floodOpacity = 1.f;
         style.lightingColor = Color{1.f, 1.f, 1.f, 1.f};
         style.linearFilters = true;
+        style.zoom = 1.f;
 
         return style;
     }
@@ -6841,6 +6844,7 @@ namespace {
         style.blend = 0;
         style.isolate = false;
         style.outlineWidth = 0.f;
+        style.zoom = 1.f;
         style.mask = 0;
         style.maskType = 0;
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
@@ -6862,7 +6866,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -6899,7 +6903,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -7296,6 +7300,20 @@ namespace {
                     style.outlineColor = color;
                     break;
                 }
+                case AtomZoom:
+                    if (keyword) {
+                        style.zoom = source.zoom;
+                    } else if (isKeyword(value, "normal") || isKeyword(value, "reset")) {
+                        style.zoom = 1.f;
+                    } else {
+                        Length length;
+
+                        if (parseLength(value, length) && length.value > 0.f && (length.unit == Unit::Number || length.unit == Unit::Percent)) {
+                            style.zoom = length.unit == Unit::Percent ? length.value / 100.f : length.value;
+                        }
+                    }
+
+                    break;
                 case AtomShapeRendering:
                     if (keyword) {
                         style.aliased = source.aliased;
@@ -9851,6 +9869,12 @@ namespace {
 
                     return;
                 }
+            }
+
+            if (!parseViewBox(*l.doc, node, viewBox) && style.zoom != 1.f) {
+                lowerViewport(l, node, style, multiply(m, scaling(style.zoom, style.zoom)), node, 0.f, 0.f, w / style.zoom, h / style.zoom, false);
+
+                return;
             }
 
             lowerViewport(l, node, style, m, node, 0.f, 0.f, w, h, false);
@@ -12647,6 +12671,9 @@ namespace {
             for (int x = box.x0; x < box.x1; x++) {
                 Point point = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
                 float c[4];
+
+                point.x += 0.5f;
+                point.y += 0.5f;
 
                 for (int channel = 0; channel < 4; channel++) {
                     double v = turbulenceAt(*tb, channel, point.x, point.y, fx, fy, octaves, fractal, stitching, tileX, tileY, tileW, tileH);
