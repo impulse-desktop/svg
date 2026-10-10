@@ -352,33 +352,75 @@ namespace {
         }
     }
 
+    static void blur(const u8* src, u32 width, u32 height, Buffer& out) {
+        size_t length = (size_t)width * height * 4;
+        Buffer row;
+
+        row.zero(length);
+        out.zero(length);
+
+        u8* r = (u8*)row.mutData();
+        u8* o = (u8*)out.mutData();
+
+        for (u32 y = 0; y < height; y++) {
+            for (u32 x = 0; x < width; x++) {
+                u32 x0 = x ? x - 1 : x;
+                u32 x1 = x + 1 < width ? x + 1 : x;
+
+                for (int c = 0; c < 4; c++) {
+                    r[((size_t)y * width + x) * 4 + c] = (u8)((src[((size_t)y * width + x0) * 4 + c] + 2 * src[((size_t)y * width + x) * 4 + c] + src[((size_t)y * width + x1) * 4 + c] + 2) / 4);
+                }
+            }
+        }
+
+        for (u32 y = 0; y < height; y++) {
+            u32 y0 = y ? y - 1 : y;
+            u32 y1 = y + 1 < height ? y + 1 : y;
+
+            for (u32 x = 0; x < width; x++) {
+                for (int c = 0; c < 4; c++) {
+                    o[((size_t)y * width + x) * 4 + c] = (u8)((r[((size_t)y0 * width + x) * 4 + c] + 2 * r[((size_t)y * width + x) * 4 + c] + r[((size_t)y1 * width + x) * 4 + c] + 2) / 4);
+                }
+            }
+        }
+    }
+
     static double structural(const u8* a, const u8* b, u32 width, u32 height) {
         size_t count = (size_t)width * height;
         Buffer aLo;
         Buffer aHi;
         Buffer bLo;
         Buffer bHi;
+        Buffer aBlur;
+        Buffer bBlur;
 
         envelope(a, width, height, aLo, aHi);
         envelope(b, width, height, bLo, bHi);
+        blur(a, width, height, aBlur);
+        blur(b, width, height, bBlur);
 
         const u8* al = (const u8*)aLo.data();
         const u8* ah = (const u8*)aHi.data();
         const u8* bl = (const u8*)bLo.data();
         const u8* bh = (const u8*)bHi.data();
+        const u8* fa = (const u8*)aBlur.data();
+        const u8* fb = (const u8*)bBlur.data();
         size_t bad = 0;
 
         for (size_t i = 0; i < count * 4; i += 4) {
+            bool outside = false;
+            bool apart = false;
+
             for (int c = 0; c < 4; c++) {
                 int va = a[i + c];
                 int vb = b[i + c];
+                int blurred = (int)fa[i + c] - (int)fb[i + c];
 
-                if (va - bh[i + c] > structTolerance || bl[i + c] - va > structTolerance || vb - ah[i + c] > structTolerance || al[i + c] - vb > structTolerance) {
-                    bad++;
-
-                    break;
-                }
+                outside = outside || va - bh[i + c] > structTolerance || bl[i + c] - va > structTolerance || vb - ah[i + c] > structTolerance || al[i + c] - vb > structTolerance;
+                apart = apart || blurred > structTolerance || -blurred > structTolerance;
             }
+
+            bad += outside && apart;
         }
 
         return count ? (double)bad / (double)count : 0.0;

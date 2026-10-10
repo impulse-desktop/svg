@@ -53,9 +53,12 @@ the next fixes.
 - `struct` counts what is drawn wrong rather than slightly differently. A
   pixel is wrong when a channel of ours lies more than 32 out of 255 outside
   the range of Chromium's pixels around it, three by three, or Chromium's
-  lies that far outside the range of ours. A case fails when over 0.1% of
-  the pixels of one of its drawings are wrong. `struct` is the number of
-  failing cases and the mean share of wrong pixels over the worst 1%.
+  lies that far outside the range of ours, and both drawings blurred with
+  the kernel 1 2 1 across and down still differ there by more than 32: an
+  edge or a thin line a fraction of a pixel away is not wrong, a missing or
+  miscolored one is. A case fails when over 0.1% of the pixels of one of its
+  drawings are wrong. `struct` is the number of failing cases and the mean
+  share of wrong pixels over the worst 1%.
 
 The same test draws each case once for all of them: `svg test` writes the
 errors and the shares of wrong pixels of its drawings, and the shares of
