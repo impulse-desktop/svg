@@ -11631,7 +11631,7 @@ namespace {
         float divisor = numberOf(doc, p.node, AtomDivisor, sum == 0.f ? 1.f : sum);
 
         if (divisor == 0.f) {
-            divisor = 1.f;
+            divisor = sum == 0.f ? 1.f : sum;
         }
 
         float bias = numberOf(doc, p.node, AtomBias, 0.f);
