@@ -118,6 +118,23 @@ with wasm2c; see [its README](ext/decode/README.md).
 ./build all      # meanrms, maxrms, struct and the candidates
 ```
 
+The Nix flake supplies Clang 21 with libc++, wasm2c, SIMDe, libpng and Python;
+the repository's build runner still does the build in the working tree. Both
+shells use the same persistent `.build`, so unchanged objects are reused when
+switching configurations:
+
+```
+nix develop -c svg-build                         # regular build
+nix develop .#sanitized -c svg-build             # ASan + UBSan build
+nix develop .#sanitized -c svg-sanitizers        # build and smoke test
+nix develop .#sanitized -c svg-fuzz -runs=40000  # libFuzzer over tst/
+```
+
+The sanitizer shell instruments the C++ renderer and libstd. The generated
+wasm2c decoder shards and their C runtime are trusted, left uninstrumented and
+therefore retain the same `.build` cache keys in both configurations. The fuzz
+target uses a null raster decoder, so wasm2c is not linked into `.build/fuzz`.
+
 `svg render IN.svg OUT.png WIDTH HEIGHT` draws one file;
 `svg test IN.svg SCORE REFERENCE.png...` writes the errors and the shares
 of wrong pixels of one case;

@@ -82,6 +82,23 @@ svg = program(
     deps=[libstd, decode, png, system],
 )
 
+libfuzzer = os.environ.get("LIBFUZZER")
+fuzzer_ldflags = (
+    ["-Wl,--export-dynamic", "-Wl,--whole-archive", libfuzzer, "-Wl,--no-whole-archive", "-pthread", "-ldl"]
+    if libfuzzer
+    else ["-fsanitize=fuzzer"]
+)
+
+fuzz = program(
+    name="fuzz",
+    output="$(B)/fuzz",
+    srcs=["$(S)/svg.cpp", "$(S)/fuzz.cpp"],
+    cflags=warning_flags,
+    cxxflags=["-fsanitize=fuzzer-no-link"],
+    ldflags=fuzzer_ldflags,
+    deps=[libstd, system],
+)
+
 install(svg)
 
 
