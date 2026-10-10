@@ -1,0 +1,12 @@
+wikimedia/c4a6800549d28a4c: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/4a911d7a9d8507fe: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/dc819216591e875b: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/7db56b64e3d2dda5: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/753feb0b1a3742f4: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/81e7badd30ce54ed: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+inkscape/74bb6759de595e29: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/067686eec5e011d1: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/236a487dc9a5ac28: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
+resvg/filters__feImage__self-recursive: ours: Chromium draws the recursion differently at 1x and at 2x; ours breaks the cycle as resvg's own expectations show and places the image as Chromium does at 1x, where resvg and Inkscape ignore the subregion origin and Firefox drops the element
+resvg/filters__feImage__recursive-links-1: ours: Chromium draws the recursion differently at 1x and at 2x; ours breaks the cycle as resvg's own expectations show and places the image as Chromium does at 1x, where resvg and Inkscape ignore the subregion origin and Firefox drops the element
+resvg/filters__feImage__recursive-links-2: ours: Chromium draws the recursion differently at 1x and at 2x; ours breaks the cycle as resvg's own expectations show and places the image as Chromium does at 1x, where resvg and Inkscape ignore the subregion origin and Firefox drops the element

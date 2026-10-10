@@ -706,6 +706,7 @@ namespace {
         Vector<Edge> edges;
         Vector<ClipShape> clips;
         Vector<Node*> active;
+        Vector<u64> broken;
         Vector<ComputedStyle*> documentStyles;
         SvgDecoder* decoder;
         u32 width;
@@ -7572,6 +7573,30 @@ namespace {
         return resolveLength(length, axis, vp, 16.f);
     }
 
+    static bool linkBroken(const Lowering& l, const Node* node, u32 property) {
+        u64 key = ((u64)node->index << 32) | property;
+
+        for (u64 link : l.broken) {
+            if (link == key) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static bool closesCycle(Lowering& l, const Node* node, u32 property, const Node* resource) {
+        for (Node* active : l.active) {
+            if (active == resource) {
+                l.broken.pushBack(((u64)node->index << 32) | property);
+
+                return true;
+            }
+        }
+
+        return linkBroken(l, node, property);
+    }
+
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
 
     static DevicePaint* patternPaint(Lowering& l, Node* pattern, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
@@ -8317,7 +8342,7 @@ namespace {
         return paint;
     }
 
-    static DevicePaint* devicePaint(Lowering& l, const PaintValue& value, float opacity, const ComputedStyle& style, Box bbox, const Matrix& ctm, Viewport vp) {
+    static DevicePaint* devicePaint(Lowering& l, Node* node, u32 property, const PaintValue& value, float opacity, const ComputedStyle& style, Box bbox, const Matrix& ctm, Viewport vp) {
         switch (value.kind) {
             case PaintKind::None:
                 return nullptr;
@@ -8329,7 +8354,7 @@ namespace {
                 Node* server = elementById(*l.doc, value.server);
 
                 bool gradient = server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient);
-                bool pattern = server && server->name == AtomPattern;
+                bool pattern = server && server->name == AtomPattern && !closesCycle(l, node, property, server);
 
                 if ((gradient || pattern) && resourceUsable(l, server, vp) && !singularTransform(*l.doc, server)) {
                     DevicePaint* paint = gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp) : patternPaint(l, server, opacity, bbox, ctm, vp);
@@ -8763,14 +8788,8 @@ namespace {
         const Document& doc = *l.doc;
         Node* mask = elementById(doc, style.mask);
 
-        if (!mask || mask->name != AtomMask || !resourceUsable(l, mask, vp)) {
+        if (!mask || mask->name != AtomMask || !resourceUsable(l, mask, vp) || closesCycle(l, element, AtomMask, mask)) {
             return false;
-        }
-
-        for (Node* active : l.active) {
-            if (active == mask) {
-                return false;
-            }
         }
 
         u32 units = attribute(mask, AtomMaskUnits);
@@ -9409,13 +9428,11 @@ namespace {
         return true;
     }
 
-    static void lowerMarker(Lowering& l, Node* marker, const ComputedStyle& shapeStyle, const Matrix& userMatrix, Viewport vp, const MarkerVertex& userVertex, const MarkerVertex& deviceVertex, bool start) {
+    static void lowerMarker(Lowering& l, Node* node, u32 property, Node* marker, const ComputedStyle& shapeStyle, const Matrix& userMatrix, Viewport vp, const MarkerVertex& userVertex, const MarkerVertex& deviceVertex, bool start) {
         const Document& doc = *l.doc;
 
-        for (Node* active : l.active) {
-            if (active == marker) {
-                return;
-            }
+        if (closesCycle(l, node, property, marker)) {
+            return;
         }
 
         const ComputedStyle& markerStyle = documentStyle(l, marker, vp);
@@ -9534,11 +9551,11 @@ namespace {
             int kind = i == 0 ? 0 : (i + 1 == vertices.length() ? 2 : 1);
 
             if (markers[kind]) {
-                lowerMarker(l, markers[kind], style, m, vp, vertices[i], deviceVertices[i], kind == 0);
+                lowerMarker(l, node, AtomMarkerStart + kind, markers[kind], style, m, vp, vertices[i], deviceVertices[i], kind == 0);
             }
 
             if (i == 0 && vertices.length() == 1 && markers[2]) {
-                lowerMarker(l, markers[2], style, m, vp, vertices[i], deviceVertices[i], false);
+                lowerMarker(l, node, AtomMarkerEnd, markers[2], style, m, vp, vertices[i], deviceVertices[i], false);
             }
         }
     }
@@ -9558,7 +9575,7 @@ namespace {
 
         for (u8 layer : style.paintOrder) {
             if (layer == 0 && style.visible) {
-                if (DevicePaint* fill = devicePaint(l, style.fill, style.fillOpacity, style, style.fill.context ? l.contextBox : box, style.fill.context ? l.contextMatrix : m, vp)) {
+                if (DevicePaint* fill = devicePaint(l, node, AtomFill, style.fill, style.fillOpacity, style, style.fill.context ? l.contextBox : box, style.fill.context ? l.contextMatrix : m, vp)) {
                     Flat flat;
 
                     flatten(path, m, tolerance, flat);
@@ -9568,7 +9585,7 @@ namespace {
                 float coverage = 1.f;
                 bool hairline = !style.nonScaling && !style.aliased && hairlineCoverage(style.strokeWidth, m, coverage);
 
-                if (DevicePaint* stroke = devicePaint(l, style.stroke, style.strokeOpacity * coverage, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
+                if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity * coverage, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
                     Flat outline;
                     Flat device;
 
@@ -9780,9 +9797,15 @@ namespace {
             }
         }
 
-        for (Node* active : l.active) {
+        for (size_t k = l.active.length(); k > 0; k--) {
+            Node* active = l.active[k - 1];
+
             if (active == target) {
                 return;
+            }
+
+            if (active->name == AtomMarker || active->name == AtomMask || active->name == AtomPattern || active->name == AtomClipPath || active->name == AtomFilter) {
+                break;
             }
         }
 
