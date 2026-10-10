@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="74" height="32">
+<defs>
+<filter id="shadow" x="0" y="0" width="200%" height="200%">
+<feOffset result="offOut" in="SourceAlpha" dx="1" dy="1"/>
+<feGaussianBlur result="blurOut" in="offOut" stdDeviation="1"/>
+<feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+</filter>
+<linearGradient id="grad" x1="0" x2="1" y1="1" y2="0">
+<stop offset="0%" stop-color="black" stop-opacity="0"/>
+<stop offset="25%" stop-color="black" stop-opacity="0"/>
+<stop offset="50%" stop-color="black" stop-opacity=".2"/>
+<stop offset="75%" stop-color="black" stop-opacity="0"/>
+<stop offset="100%" stop-color="black" stop-opacity="0"/>
+</linearGradient>
+</defs>
+<rect fill="gold" width="72" height="30" filter="url(#shadow)"/>
+<polygon points="36,6 41.29,22.28 27.44,12.22 44.56,12.22 30.71,22.28" style="fill:maroon;fill-rule:nonzero;"/>
+<rect fill="url(#grad)" width="72" height="30"/>
+<path stroke="black" stroke-width="72" stroke-dasharray="1.5" opacity=".25" d="m36,0v30"/>
+</svg>

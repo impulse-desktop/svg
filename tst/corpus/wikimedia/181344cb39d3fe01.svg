@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+ <title>extSTR1+4 deepsky</title>
+ <defs>
+  <mask id="1">
+   <rect x="-100" y="-100" width="1200" height="1200" fill="#FFF"/>
+   <path d="M 0,0 36.61,36.61 a 301.78,301.78 0 0 0 426.78,0 L 500,0" stroke="#000" stroke-width="20" fill="none"/>
+  </mask>
+ </defs>
+ <g mask="url(#1)" stroke="#7FDFFF" stroke-width="100" fill="none">
+  <path d="m 0,500 0,0 M 0,0 36.61,36.61 a 301.78,301.78 0 0 0 426.78,0 L 500,0" stroke-dasharray="50,45.52" stroke-dashoffset="70.52"/>
+ </g>
+</svg>

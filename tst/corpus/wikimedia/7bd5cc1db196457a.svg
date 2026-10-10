@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   id="NATO Map Symbol"
+   height="400"
+   width="600">
+  
+  <path
+     style="fill:none;stroke:#af0000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4"
+     id="Sigs"
+     d="M 595,395 300,160 v 80 L 5,5" />
+    <g
+       id="AFV Wheeled"
+	   style="fill:none;stroke:#af0000;stroke-width:10">
+      <path
+         id="Wheel-L"
+         d="m 250.28578,338.88127 a 31.357262,31.357262 0 1 1 -62.71451,0 31.357262,31.357262 0 1 1 62.71451,0 z" />
+      <path
+         id="Wheel-C"
+         d="m 331.35727,338.88127 a 31.357262,31.357262 0 1 1 -62.71452,0 31.357262,31.357262 0 1 1 62.71452,0 z" />
+      <path
+         id="Wheel-R"
+         d="m 412.42874,338.88127 a 31.357262,31.357262 0 1 1 -62.71452,0 31.357262,31.357262 0 1 1 62.71452,0 z" />
+      <path
+         id="ARMOUR"
+         d="m 215.40054,292.5 c -51.4861,0 -93.22383,-41.01389 -93.22383,-92.5 0,-51.4861 41.73773,-92.5 93.22383,-92.5 h 169.19892 c 51.4861,0 93.22383,41.0139 93.22383,92.5 0,51.48611 -41.73773,92.5 -93.22383,92.5 z" />
+    </g>
+  <path
+     id="Hostile Frame"
+     d="M 5,5 H 595 V 395 H 5 Z"
+     style="fill:none;stroke:#af0000;stroke-width:10;stroke-linejoin:miter;stroke-miterlimit:4" />
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1024" viewBox="-8 -8 16 16">
+  <path id="a" d="m0-2-2 2h-5l1-4.5L-2 0m0 0-2-5.5L0-7h-7v7l1-1.5L-5 0l1 1 2-1m-5 0 1-2.5L-4-1l-1 1-1 1.5L0 2" fill="none" stroke="#000" stroke-width=".03"/>
+  <use xlink:href="#a" transform="rotate(90)"/>
+  <use xlink:href="#a" transform="scale(-1)"/>
+  <use xlink:href="#a" transform="rotate(270)"/>
+  <g fill="#fff" stroke="#000" stroke-width=".03">
+    <circle cx="-7" r=".25"/>
+    <circle cx="-2" r=".25"/>
+    <circle cx="7" r=".25"/>
+    <circle cx="2" r=".25"/>
+    <circle cy="-7" r=".25"/>
+    <circle cy="-2" r=".25"/>
+    <circle cy="7" r=".25"/>
+    <circle cy="2" r=".25"/>
+  </g>
+  <circle cx="-5" r="1" fill="#666"/>
+  <circle cx="5" r="1" fill="#666"/>
+  <circle cy="-5" r="1" fill="#ccc"/>
+  <circle cy="5" r="1" fill="#ccc"/>
+</svg>

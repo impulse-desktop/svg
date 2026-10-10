@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.0//EN'  'http://www.w3.org/TR/SVG/DTD/svg10.dtd'>
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" height="600" width="520" xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="disable">
+    <defs>
+	<linearGradient id="MaleGradient">
+	    <stop stop-color="#F00" offset="0"/>
+            <stop stop-color="#7f0000" offset="1"/>
+	</linearGradient>
+        <linearGradient id="FemaleGradient">
+	    <stop stop-color="#00007f" offset="0"/>
+	    <stop stop-color="#00F" offset="1"/>
+        </linearGradient>
+	<style type="text/css">
+		<![CDATA[
+            	.male {stroke:#000000;stroke-width:1px;fill:url(#MaleGradient)}
+		.female {stroke:#000000;stroke-width:1px;fill:url(#FemaleGradient)}
+		.text {fill:#000000;font-size:30px;font-family:'DejaVu Sans Condensed';text-anchor:middle;}
+		.text2 {fill:#000000;font-size:30px;font-family:'Symbol';text-anchor:middle;}
+		.line {stroke:#000000;stroke-width:1px;}
+		.fnt1 {font-weight:normal;font-size:125px;font-family:'Arial';text-rendering:optimizeLegibility;}
+		.fnt0 {font-weight:normal;font-size:139px;font-family:'Arial';text-decoration:underline;text-rendering:optimizeLegibility;}
+		]]>
+	</style>
+    </defs>
+<!-- male symbol -->
+    <g transform="translate(10,10)"><g transform="scale(0.14285714)"> 
+<path stroke-linejoin="round" stroke-miterlimit="4" d="M 160,8 L 152,22 H 172 L 135,59 A 79,79 0 1,0 151,75 L 188,38 V 58 L 202,50 V 8 H 160 zM 88,65 A 57,57 0 1,1 88,179 A 57,57 0 1,1 88,65 z" fill="#000"/>
+    </g></g>
+<!-- female symbol -->
+    <g transform="translate(480,10)"><g transform="scale(0.14285714)"> 
+<path stroke-linejoin="round" stroke-miterlimit="4" d="M 117,134 A 65,65 0 1,0 94,134 V 156 H 68 V 177 H 94 V 204 H 117 V 177 H 142 V 156 H 117 V 134 zM 154,70 A 48,48 0 1,1 58,70 A 48,48 0 1,1 154,70 z" fill="#000"/>
+    </g></g>
+<!-- men -->	<rect id="M:  >85:118"  width="17.102" y="10" x="192.9" height="30" class="male"/>
+	<rect id="M:80-84:178"  width="25.798" y="40" x="184.2" height="30" class="male"/>
+	<rect id="M:75-79:335"  width="48.552" y="70" x="161.45" height="30" class="male"/>
+	<rect id="M:70-74:496"  width="71.887" y="100" x="138.11" height="30" class="male"/>
+	<rect id="M:65-69:560"  width="81.162" y="130" x="128.84" height="30" class="male"/>
+	<rect id="M:60-64:660"  width="95.656" y="160" x="114.34" height="30" class="male"/>
+	<rect id="M:55-59:811"  width="117.54" y="190" x="92.46" height="30" class="male"/>
+	<rect id="M:50-54:958"  width="138.85" y="220" x="71.154" height="30" class="male"/>
+	<rect id="M:45-49:1048"  width="151.89" y="250" x="58.11" height="30" class="male"/>
+	<rect id="M:40-44:996"  width="144.35" y="280" x="65.647" height="30" class="male"/>
+	<rect id="M:35-39:991"  width="143.63" y="310" x="66.372" height="30" class="male"/>
+	<rect id="M:30-34:1027"  width="148.85" y="340" x="61.154" height="30" class="male"/>
+	<rect id="M:25-29:913"  width="132.32" y="370" x="77.676" height="30" class="male"/>
+	<rect id="M:20-24:705"  width="102.18" y="400" x="107.82" height="30" class="male"/>
+	<rect id="M:15-19:882"  width="127.83" y="430" x="82.169" height="30" class="male"/>
+	<rect id="M:10-14:871"  width="126.24" y="460" x="83.764" height="30" class="male"/>
+	<rect id="M: 5-9 :834"  width="120.87" y="490" x="89.126" height="30" class="male"/>
+	<rect id="M:  5 :794"  width="115.08" y="520" x="94.923" height="30" class="male"/>
+<!-- women -->	<rect id="F:  >85:421"  width="61.017" y="10" x="310" height="30" class="female"/>
+	<rect id="F:80-84:405"  width="58.698" y="40" x="310" height="30" class="female"/>
+	<rect id="F:75-79:517"  width="74.93" y="70" x="310" height="30" class="female"/>
+	<rect id="F:70-74:655"  width="94.931" y="100" x="310" height="30" class="female"/>
+	<rect id="F:65-69:678"  width="98.264" y="130" x="310" height="30" class="female"/>
+	<rect id="F:60-64:736"  width="106.67" y="160" x="310" height="30" class="female"/>
+	<rect id="F:55-59:856"  width="124.06" y="190" x="310" height="30" class="female"/>
+	<rect id="F:50-54:975"  width="141.31" y="220" x="310" height="30" class="female"/>
+	<rect id="F:45-49:1095"  width="158.7" y="250" x="310" height="30" class="female"/>
+	<rect id="F:40-44:1078"  width="156.24" y="280" x="310" height="30" class="female"/>
+	<rect id="F:35-39:1080"  width="156.53" y="310" x="310" height="30" class="female"/>
+	<rect id="F:30-34:989"  width="143.34" y="340" x="310" height="30" class="female"/>
+	<rect id="F:25-29:892"  width="129.28" y="370" x="310" height="30" class="female"/>
+	<rect id="F:20-24:780"  width="113.05" y="400" x="310" height="30" class="female"/>
+	<rect id="F:15-19:847"  width="122.76" y="430" x="310" height="30" class="female"/>
+	<rect id="F:10-14:874"  width="126.67" y="460" x="310" height="30" class="female"/>
+	<rect id="F: 5-9 :831"  width="120.44" y="490" x="310" height="30" class="female"/>
+	<rect id="F:  5 :713"  width="103.34" y="520" x="310" height="30" class="female"/>
+<!-- descriptions -->	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<path id="LM" d="M 10  550 L 210 550" class="line"/>
+	<path id="LF" d="M 310 550 L 510 550" class="line"/>
+	<path id="SM:5" d="M 10  550 L 10 560" class="line"/>
+	
+	<path id="SM:4" d="M 50  550 L 50 560" class="line"/>
+	
+	<path id="SM:3" d="M 90  550 L 90 560" class="line"/>
+	
+	<path id="SM:2" d="M 130  550 L 130 560" class="line"/>
+	
+	<path id="SM:1" d="M 170  550 L 170 560" class="line"/>
+	
+	<path id="SM:0" d="M 210  550 L 210 560" class="line"/>
+	
+	<path id="SF:0" d="M 310  550 L 310 560" class="line"/>
+	
+	<path id="SF:1" d="M 350  550 L 350 560" class="line"/>
+	
+	<path id="SF:2" d="M 390  550 L 390 560" class="line"/>
+	
+	<path id="SF:3" d="M 430  550 L 430 560" class="line"/>
+	
+	<path id="SF:4" d="M 470  550 L 470 560" class="line"/>
+	
+	<path id="SF:5" d="M 510  550 L 510 560" class="line"/>
+	
+    
+</svg>

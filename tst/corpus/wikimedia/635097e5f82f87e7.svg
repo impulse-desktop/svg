@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="435.8376301653854" height="435.8376301653854" viewBox="-8 -8 451.8376301653854 451.8376301653854">
+
+    <defs>
+
+        <!-- define big circle -->
+        <circle id="base-circle" cx="217.9188150826927" cy="217.9188150826927" r="217.9188150826927" />
+
+        <!-- define big white circle -->
+        <use id="white-circle" href="#base-circle" style="fill: white; stroke: black; stroke-width: 1.5;" />
+
+        <!-- define black vertex circles -->
+        <g id="vertex-circles">
+            <circle cx="147.9188" cy="386.9138" r="12" />
+            <circle cx="48.9239" cy="287.9188" r="12" />
+            <circle cx="48.9239" cy="147.9188" r="12" />
+            <circle cx="147.9188" cy="48.9239" r="12" />
+            <circle cx="287.9188" cy="48.9239" r="12" />
+            <circle cx="386.9138" cy="147.9188" r="12" />
+            <circle cx="386.9138" cy="287.9188" r="12" />
+            <circle cx="287.9188" cy="386.9138" r="12" />
+        </g>
+
+        <!-- define base polygons -->
+        <polygon id="poly-base-0" points="48.9239,147.9188 287.9188,48.9239" />
+        <polygon id="poly-base-1" points="147.9188,386.9138 48.9239,287.9188 147.9188,48.9239 386.9138,147.9188 386.9138,287.9188 287.9188,386.9138" />
+
+        <!-- define masks -->
+        <mask id="mask-0" mask-type="luminance">
+          <use href="#poly-base-0" style="fill: white; stroke: white; stroke-width: 54; stroke-linejoin: round;" />
+          <use href="#poly-base-0" style="fill: black; stroke: black; stroke-width: 36; stroke-linejoin: round;" />
+        </mask>
+        <mask id="mask-1" mask-type="luminance">
+          <use href="#poly-base-1" style="fill: white; stroke: white; stroke-width: 54; stroke-linejoin: round;" />
+          <use href="#poly-base-1" style="fill: black; stroke: black; stroke-width: 36; stroke-linejoin: round;" />
+        </mask>
+
+        <!-- define finished polygons -->
+        <g id="poly-0">
+            <use href="#base-circle" mask="url(#mask-0)" style="fill: black;" />
+            <use href="#poly-base-0" style="stroke: black; fill: black; stroke-width: 54; stroke-linejoin: round; opacity: .4;" />
+        </g>
+        <g id="poly-1">
+            <use href="#base-circle" mask="url(#mask-1)" style="fill: black;" />
+            <use href="#poly-base-1" style="stroke: black; fill: black; stroke-width: 54; stroke-linejoin: round; opacity: .4;" />
+        </g>
+
+        <!-- define numbers in mini circles -->
+        
+        
+    </defs>
+
+    <!-- big white circle -->
+    <use href="#white-circle" />
+
+    <!-- polygons -->
+    <use href="#poly-0" />
+    <use href="#poly-1" />
+
+    <!-- horizontal lines between vertices -->
+    <g style="stroke: black; stroke-opacity: .2; stroke-dasharray: 3; stroke-width: 1;">
+        <line x1="147.9188" y1="386.9138" x2="287.9188" y2="386.9138" />
+        <line x1="48.9239" y1="287.9188" x2="386.9138" y2="287.9188" />
+        <line x1="48.9239" y1="147.9188" x2="386.9138" y2="147.9188" />
+        <line x1="147.9188" y1="48.9239" x2="287.9188" y2="48.9239" />
+    </g>
+
+    <!-- black vertex circles -->
+    <use href="#vertex-circles" />
+
+    <!-- white vertex numbers -->
+    <g text-anchor="middle" dominant-baseline="central" style="fill: white; font-weight: bold; font-size: 19; font-family: Arial, Helvetica, sans-serif;">
+        
+        
+        
+        
+        
+        
+        
+        
+    </g>
+
+    <!-- left mini circle -->
+    <g transform="scale(.146)">
+        <use href="#white-circle" />
+        <use href="#poly-0" opacity=".6" />
+        <use href="#vertex-circles" opacity=".7" />
+    </g>
+
+    <!-- right mini circle -->
+    <g transform="translate(372.20533616123913) scale(.146)">
+        <use href="#white-circle" />
+        <use href="#poly-1" opacity=".6" />
+        <use href="#vertex-circles" opacity=".7" />
+    </g>
+
+    <!-- numbers in mini circles -->
+    <g text-anchor="middle" dominant-baseline="central" style="font-weight: bold; font-size: 15; font-family: Arial, Helvetica, sans-serif;">
+        <g style="fill: white; stroke: white; stroke-width: 1;">
+            <use href="#left-number" />
+            <use href="#right-number" />
+        </g>
+        <g style="fill: black; opacity: .9;">
+            <use href="#left-number" />
+            <use href="#right-number" />
+        </g>
+    </g>
+
+</svg>

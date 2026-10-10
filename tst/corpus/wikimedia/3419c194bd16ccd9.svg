@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+<title>tvSTRr-STRl</title>
+ <mask id="mask" maskUnits="userSpaceOnUse">
+ <rect fill="#FFFFFF" x="-300" y="-300" width="1200" height="1200" />
+ <path stroke="#000000" d="M 125,0 A 125 250 0 0 1 0,250 M 375,0 A 125 250 0 0 0 500,250" stroke-width="20" fill="none" />
+ </mask>
+ <path mask="url(#mask)" stroke="#003399" d="M 125,-25 V 0 A 125 250 0 0 1 0,250 M 375,-25 V 0 A 125 250 0 0 0 500,250" stroke-width="100" stroke-dasharray="50,50.92" fill="none" />
+</svg>

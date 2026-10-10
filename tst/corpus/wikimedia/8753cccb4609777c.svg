@@ -1,0 +1,536 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="plot" height="87" width="250">
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <line class="max-line" x1="15" x2="234" y1="15" y2="15"></line>
+  <g class="LineChart">
+    <defs>
+      <clipPath id="boundsClip-4">
+        <rect height="95" width="240" x="5" y="-1"></rect>
+      </clipPath>
+    </defs>
+    <rect fill-opacity="0" height="75" width="220" x="15" y="9"></rect>
+    <g class="HorizontalAxis" id="horizontal-axis">
+      <g id="tick-marks">
+        <line id="1970" stroke="#999" stroke-width="1" x1="15" x2="15" y1="68.5" y2="74"></line>
+        <line id="2023" stroke="#999" stroke-width="1" x1="234" x2="234" y1="68.5" y2="74"></line>
+      </g>
+      <g id="tick-labels">
+        
+        
+      </g>
+    </g>
+    <g class="AxisGridLines horizontalLines" id="horizontal-grid-lines">
+      <line class="zero-line" id="0" stroke="#ddd" stroke-dasharray="4,4" x1="15.00" x2="234.00" y1="69" y2="69"></line>
+    </g>
+    <g clip-path="url(#boundsClip-4)">
+      <g class="Lines">
+        <rect fill="rgba(255,255,255,0)" height="54" opacity="0" width="219" x="15" y="15"></rect>
+        <path d="M15 69L19.1 69L23.3 69L27.4 69L31.5 69L35.7 69L39.8 69L43.9 69L48.1 69L52.2 69L56.3 69L60.5 69L64.6 69L68.7 69L72.8 69L77 69L81.1 69L85.2 69L89.4 69L93.5 69L97.6 69L101.8 69L105.9 69L110 69L114.2 69L118.3 69L122.4 69L126.6 69L130.7 69L134.8 69L139 69L143.1 69L147.2 69L151.4 69L155.5 69L159.6 69L163.8 69L167.9 69L172 69L176.2 69L180.3 69L184.4 69L188.5 69L192.7 69L196.8 69L200.9 69L205.1 69L209.2 69L213.3 69L217.5 69L221.6 69L225.7 69L229.9 69L234 69" fill="none" id="outline__Qatar" stroke="#ffffff" stroke-linecap="butt" stroke-linejoin="round" stroke-width="4.0"></path>
+        <g id="line__Qatar">
+          <polyline fill="none" id="line__Qatar" points="15.00,69.00 19.10,69.00 23.30,69.00 27.40,69.00 31.50,69.00 35.70,69.00 39.80,69.00 43.90,69.00 48.10,69.00 52.20,69.00 56.30,69.00 60.50,69.00 64.60,69.00 68.70,69.00 72.80,69.00 77.00,69.00 81.10,69.00 85.20,69.00 89.40,69.00 93.50,69.00 97.60,69.00 101.80,69.00 105.90,69.00 110.00,69.00 114.20,69.00 118.30,69.00 122.40,69.00 126.60,69.00 130.70,69.00 134.80,69.00 139.00,69.00 143.10,69.00 147.20,69.00 151.40,69.00 155.50,69.00 159.60,69.00 163.80,69.00 167.90,69.00 172.00,69.00 176.20,69.00 180.30,69.00 184.40,69.00 188.50,69.00 192.70,69.00 196.80,69.00 200.90,69.00 205.10,69.00 209.20,69.00 213.30,69.00 217.50,69.00 221.60,69.00 225.70,69.00 229.90,69.00 234.00,69.00" stroke="#f0af5e" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.0"></polyline>
+        </g>
+      </g>
+    </g>
+    <g class="hoverIndicator">
+      <line stroke="rgba(180,180,180,.4)" x1="234" x2="234" y1="69" y2="15"></line>
+      <circle cx="234" cy="69" fill="#f0af5e" fill-opacity="1" r="4.5" stroke="#ffffff" stroke-width="0.5"></circle>
+    </g>
+  </g>
+  <g class="min axis-label">
+    
+    
+  </g>
+</svg>

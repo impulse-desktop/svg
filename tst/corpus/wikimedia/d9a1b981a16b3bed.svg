@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   id="NATO Map Symbol"
+   height="400"
+   width="600">
+  <path
+     style="fill:none;stroke:#ff0000;stroke-width:10;stroke-linecap:butt"
+     id="Recce"
+     d="M 595,5 5,395" />
+  <g
+     id="Sniper"
+	 style="stroke:#ff0000;stroke-width:10;stroke-linecap:butt">
+    <path
+       d="m 222,29 h 55" />
+    <path
+       d="M 322,29 h 55" />
+    <path
+       d="M 300,96 v -55" />
+  </g>
+  <path
+     id="Surv"
+     d="M 423.74368,287.49982 H 176.25631 L 300,112.49982 Z"
+     style="fill:#ff0000;stroke:#ff0000;stroke-width:10;stroke-linejoin:miter;stroke-miterlimit:10" />
+  <g
+     id="ski"
+	 style="fill:none;stroke:#ff0000;stroke-width:10;stroke-linecap:butt">
+    <path
+       d="m 268.5,303.5 c 0,0 63,63 63,63" />
+    <path
+       d="m 254.5,352.5 c 0,0 28,28 28,28" />
+    <path
+       d="m 345.5,352.5 c 0,0 -28,28 -28,28"/>
+    <path
+       d="m 331.5,303.5 c 0,0 -63,63 -63,63" />
+  </g>
+  <path
+     id="Friendly Frame"
+     d="M 5,5 H 595 V 395 H 5 Z"
+     style="fill:none;stroke:#ff0000;stroke-width:10;stroke-linejoin:miter;stroke-miterlimit:4" />
+</svg>

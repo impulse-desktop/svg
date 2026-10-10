@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="300px" height="130px"
+     viewBox="0 0 300 130" preserveAspectRatio="none"
+	 xmlns="http://www.w3.org/2000/svg" version="1.1"
+	 xmlns:xlink="http://www.w3.org/1999/xlink">
+<style type="text/css">
+text {
+	font-family : Verdana, Tahoma, sans-serif;
+	font-size : 10px;
+	fill : black;
+	stroke : none;
+}
+#percentage_numbers text {
+	text-anchor : end;
+}
+#x_axis_numbers text {
+	text-anchor : middle;
+}
+</style>
+<desc>Befolkningsutvikling 1951 - 2010</desc>
+<defs>
+<line id="year_marker_line" x1="0" x2="0" y1="66.768254120" y2="-66.768254120" stroke-width="0.2" />
+<line id="horizontal_line" x1="1951" x2="2010" y1="0" y2="0" stroke-width="019.12000000" />
+<line id="border_reg_line" x1="0" x2="0" y1="0" y2="2198.80" stroke-width="0.2" />
+</defs>
+<g transform="translate(40 0)"><g transform="translate(0 115) scale(4.41	 -0.054916) translate(-1951 0)"><path fill="#555"
+  d="M 1951    0
+L 1951 1001
+L 1952 1000
+L 1953 984
+L 1954 970
+L 1955 971
+L 1956 966
+L 1957 912
+L 1958 904
+L 1959 894
+L 1960 886
+L 1961 872
+L 1962 872
+L 1962 1564
+L 1963 1840
+L 1964 1857
+L 1965 1631
+L 1966 1558
+L 1967 1496
+L 1968 1492
+L 1969 1486
+L 1970 1461
+L 1971 1441
+L 1972 1433
+L 1973 1415
+L 1974 1430
+L 1975 1449
+L 1976 1466
+L 1977 1470
+L 1978 1484
+L 1979 1494
+L 1980 1488
+L 1981 1488
+L 1982 1497
+L 1983 1490
+L 1984 1500
+L 1985 1498
+L 1986 1481
+L 1987 1460
+L 1988 1457
+L 1989 1448
+L 1990 1430
+L 1991 1407
+L 1992 1409
+L 1993 1414
+L 1994 1460
+L 1995 1447
+L 1996 1459
+L 1997 1458
+L 1998 1453
+L 1999 1421
+L 2000 1439
+L 2001 1456
+L 2002 1439
+L 2003 1422
+L 2004 1403
+L 2005 1384
+L 2006 1348
+L 2007 1320
+L 2008 1326
+L 2009 1292
+L 2010 1289
+V 0 z" /><g stroke="#ccc">
+<use xlink:href="#horizontal_line" x="0" y="500" />
+<use xlink:href="#horizontal_line" x="0" y="1000" />
+<use xlink:href="#horizontal_line" x="0" y="1500" />
+<use xlink:href="#horizontal_line" x="0" y="2000" />
+<use xlink:href="#horizontal_line" x="0" y="2500" />
+<use xlink:href="#horizontal_line" x="0" y="3000" /></g>
+<g stroke="black">
+<use xlink:href="#year_marker_line" x="1960" y="0" />
+<use xlink:href="#year_marker_line" x="1970" y="0" />
+<use xlink:href="#year_marker_line" x="1980" y="0" />
+<use xlink:href="#year_marker_line" x="1990" y="0" />
+<use xlink:href="#year_marker_line" x="2000" y="0" />
+</g>
+<g stroke="red">
+<use xlink:href="#border_reg_line" x="1962" y="0" />
+</g>
+</g>
+<g id="y_axis_numbers" transform="translate(-5 2)" text-anchor="end">
+
+
+
+
+
+</g>
+<g id="x_axis_numbers" transform="translate(0 20)" text-anchor="middle">
+
+
+
+
+
+</g>
+</g></svg>
