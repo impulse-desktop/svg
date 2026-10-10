@@ -64,7 +64,7 @@ The same test draws each case once for all of them: `svg test` writes the
 errors and the shares of wrong pixels of its drawings, and the shares of
 wrong pixels between the 1x drawing and the 2x drawing halved, Chromium's
 and ours. A reference Chromium draws differently at the two sizes while
-ours agree is a candidate for `tst/corpus/INKSCAPE`.
+ours agree is a candidate for `tst/corpus/CANON`.
 
 `$(B)/meanrms.txt`, `$(B)/maxrms.txt`, `$(B)/struct.txt` and
 `$(B)/all.txt` hold the numbers and every case, the worst first.
@@ -91,11 +91,15 @@ elements are cut out, files with what is out of scope are left out, equal
 files are kept once, and the large icon sets are sampled with a fixed seed.
 `tst/reference.py CHROMIUM CORPUS JOBS` draws the references with headless
 Chromium through its DevTools pipe and drops the files Chromium cannot
-draw; `tst/corpus/CHROMIUM` names the version. A case Chromium
-demonstrably draws wrong is listed with the reason in `tst/corpus/INKSCAPE`,
-and `tst/inkscape.py INKSCAPE CORPUS` then draws its references with
-Inkscape at the sizes Chromium chose; `tst/corpus/INKSCAPE_VERSION` names
-that version. The corpus grows; the
+draw; `tst/corpus/CHROMIUM` names the version. Chromium is the reference,
+not the goal: where it demonstrably draws a case wrong, the drawing of
+Inkscape, resvg, Firefox or ours that is right takes its place.
+`tst/corpus/CANON` lists such a case with the renderer and the reason,
+`tst/canon.py RENDERER PROGRAM CORPUS` draws the cases listed for that
+renderer at the sizes Chromium chose, and `tst/corpus/INKSCAPE`,
+`tst/corpus/RESVG`, `tst/corpus/FIREFOX` and `tst/corpus/OURS` name the
+versions. Firefox is drawn twice, over white and over black, to recover the
+alpha its screenshots lose. The corpus grows; the
 references are drawn again only when Chromium is changed.
 
 ## Building
