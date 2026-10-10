@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-500 -500 1000 1000">
+	<defs>
+		<filter id="Retlif" color-interpolation-filters="sRGB">
+			<feGaussianBlur in="SourceAlpha" stdDeviation="2.3" result="v666"/>
+			<feMorphology radius="6.6" in="SourceAlpha"/>
+			<feGaussianBlur stdDeviation="8.9"/>
+			<feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.3 0" result="v777"/>
+			<feComposite operator="out" in="v666" in2="v777"/>
+			<feGaussianBlur stdDeviation="1.7" result="v888"/>
+			<feDiffuseLighting surfaceScale="10">
+				<feDistantLight elevation="45" azimuth="225"/>
+			</feDiffuseLighting>
+			<feBlend mode="multiply" in2="SourceGraphic"/>
+			<feComposite operator="in" in2="SourceAlpha" result="v999"/>
+			<feSpecularLighting specularExponent="17.9" surfaceScale="5" in="v888">
+				<feDistantLight elevation="45" azimuth="225"/>
+			</feSpecularLighting>
+			<feComposite operator="atop" in2="v999"/>
+		</filter>
+	</defs>
+
+	<g id="Kruhotvar-28">
+		<title>Kruhotvar XXVIII vo farbe, by Adam Stanislav</title>
+
+		<g id="Mnoho">
+			<g id="Trochu">
+				<g id="Tvary">
+					<g id="Tvar">
+						<g id="L">
+							<path fill="#f60" d="m-26.53-5.38c3.6455 6.6835-5.6391 6.437-9.873 5.487-28.439-4.1861-50.254-26.209-65.63-49.071-20.145-31.021-33.304-67.927-31.614-105.26 0.27905-16.136 6.9121-31.812 18.467-43.105 17.53-17.76 39.81-31.243 64.005-37.546 6.526-1.0779 13.946-2.9398 20.245-0.808 4.6748 3.4718 13.066 8.4049 6.917 14.902-3.1826 5.2692-11.648-4.4862-9.761-1.393 1.9599 2.652 4.1773 2.4557 0.428 5.108-10.273-0.0638-20.956 2.2589-30.524 6.498-20.669 8.6847-44.641 16.762-56.726 37.196-8.3924 17.415-6.381 37.79-2.95 56.217 7.812 35.382 25.06 69.822 52.815 93.699 12.007 10.214 27.173 17.154 43.086 17.321l1.115 0.755z" filter="url(#Retlif)"/>
+							<path fill="#a40" d="m41.13-401.087c26.919 0.39392 53.847 6.6183 78.36 17.679 7.3737 2.8519 10.014 14.001 2.597 18.422-6.3153 4.1534-16.653 1.9339-17.742-6.368-23.558-11.799-50.12-20.635-76.775-17.908-18.508 2.884-35.613 11.365-53.019 17.886-25.651 11.12-51.159 23.176-74.494 38.654-29.168 23.353-54.858 51.205-76.054 81.965-7.8897 12.773-17.11 26.545-16.862 42.144-0.45776 6.0941 7.3992 9.5547 4.309 15.512-6.4133 6.6665-12.492-1.8643-14.48-7.819-4.9629-16.482 3.9438-33.052 11.859-47.04 21.006-33.803 48.806-63.078 79.009-88.802 18.262-14.694 40.032-24.194 60.82-34.69 23.367-10.544 47.034-21.018 71.835-27.693 6.7793-1.3746 13.726-1.9297 20.637-1.942z" filter="url(#Retlif)"/>
+							<path fill="#520" d="m14.44-491.235c0.22274 0.5206 6.4316 3.7597 9.397 4.416 11.379 3.6585 24.744 6.5577 34.784 11.273 8.505-0.03103 19.099-2.7143 28.013 0.483 16.931 7.8478 35.958 9.4371 53.038 16.994 74.049 29.129 134.88 87.936 170.91 158.43 4.9934 10.425 13.342 22.944 4.303 33.803-9.3074 12.816-30.687 7.3752-34.077-7.611-28.06-64.3-78.97-119.07-142.43-149.46-16.38-8.304-34.23-12.675-51.67-17.991-5.5215-1.6094-10.282-5.8122-16.317-4.164-9.8379 1.3258-20.186 0.7675-28.93-4.335-12.474-4.6791-25.823-7.6694-37.845-13.108-13.651 3.9392-24.821-15.024-14.145-24.901 4.4734-9.502 18.08-11.406 24.983-3.836z" filter="url(#Retlif)"/>
+						</g>
+						<use xlink:href="#L" transform="scale(-1,1)"/>
+					</g>
+					<use xlink:href="#Tvar" transform="rotate(180)"/>
+				</g>
+				<use xlink:href="#Tvary" transform="rotate(90)"/>
+			</g>
+			<use xlink:href="#Trochu" transform="rotate(45)"/>
+		</g>
+		<use xlink:href="#Mnoho" transform="rotate(22.5)"/>
+	</g>
+</svg>
