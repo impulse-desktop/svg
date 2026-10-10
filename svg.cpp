@@ -10801,31 +10801,39 @@ namespace {
     }
 
     static void shiftBuffer(FilterRun& run, const float* in, float* out, const IntBox& b, float dx, float dy) {
-        int ox = (int)floorf(dx + 0.5f);
-        int oy = (int)floorf(dy + 0.5f);
+        float floorX = floorf(dx);
+        float floorY = floorf(dy);
+        int ox = (int)floorX;
+        int oy = (int)floorY;
+        float fx = dx - floorX;
+        float fy = dy - floorY;
+        float weights[4] = {(1.f - fx) * (1.f - fy), fx * (1.f - fy), (1.f - fx) * fy, fx * fy};
         int height = (int)run.raster->height;
 
         for (int y = b.y0; y < b.y1; y++) {
-            int sy = y - oy;
-
-            if (sy < 0 || sy >= height) {
-                continue;
-            }
-
             for (int x = b.x0; x < b.x1; x++) {
-                int sx = x - ox;
+                float* d = out + ((size_t)y * run.width + x) * 4;
+                float sum[4] = {0.f, 0.f, 0.f, 0.f};
 
-                if (sx < 0 || sx >= run.width) {
-                    continue;
+                for (int k = 0; k < 4; k++) {
+                    int sx = x - ox - (k & 1);
+                    int sy = y - oy - (k >> 1);
+
+                    if (weights[k] == 0.f || sx < 0 || sy < 0 || sx >= run.width || sy >= height) {
+                        continue;
+                    }
+
+                    const float* src = in + ((size_t)sy * run.width + sx) * 4;
+
+                    for (int c = 0; c < 4; c++) {
+                        sum[c] += src[c] * weights[k];
+                    }
                 }
 
-                const float* s = in + ((size_t)sy * run.width + sx) * 4;
-                float* d = out + ((size_t)y * run.width + x) * 4;
-
-                d[0] = s[0];
-                d[1] = s[1];
-                d[2] = s[2];
-                d[3] = s[3];
+                d[0] = sum[0];
+                d[1] = sum[1];
+                d[2] = sum[2];
+                d[3] = sum[3];
             }
         }
     }
