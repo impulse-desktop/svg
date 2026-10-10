@@ -12520,15 +12520,15 @@ namespace {
 
     static double noise2(const Turbulence& tb, int channel, double vx, double vy, const Stitch* stitch) {
         double t = vx + 0x1000;
-        int bx0 = ((int)t) & 0xff;
-        int bx1 = (bx0 + 1) & 0xff;
+        int bx0 = (int)t;
+        int bx1 = bx0 + 1;
         double rx0 = t - (int)t;
         double rx1 = rx0 - 1.0;
 
         t = vy + 0x1000;
 
-        int by0 = ((int)t) & 0xff;
-        int by1 = (by0 + 1) & 0xff;
+        int by0 = (int)t;
+        int by1 = by0 + 1;
         double ry0 = t - (int)t;
         double ry1 = ry0 - 1.0;
 
@@ -12581,7 +12581,7 @@ namespace {
         return lerp(sy, a, b);
     }
 
-    static double turbulenceAt(const Turbulence& tb, int channel, double px, double py, double fx, double fy, int octaves, bool fractal, bool stitching, double tileX, double tileY, double tileW, double tileH) {
+    static double turbulenceAt(const Turbulence& tb, int channel, double px, double py, double fx, double fy, int octaves, bool fractal, bool stitching, double tileW, double tileH) {
         Stitch stitch;
         Stitch* active = nullptr;
 
@@ -12602,9 +12602,9 @@ namespace {
 
             active = &stitch;
             stitch.width = (int)(tileW * fx + 0.5);
-            stitch.wrapX = (int)(tileX * fx + 0x1000 + stitch.width);
+            stitch.wrapX = 0x1000 + stitch.width;
             stitch.height = (int)(tileH * fy + 0.5);
-            stitch.wrapY = (int)(tileY * fy + 0x1000 + stitch.height);
+            stitch.wrapY = 0x1000 + stitch.height;
         }
 
         double sum = 0.0;
@@ -12662,8 +12662,6 @@ namespace {
         turbulenceInit(*tb, seed);
 
         const IntBox& box = p.box;
-        float tileX = p.user.x0;
-        float tileY = p.user.y0;
         float tileW = p.user.x1 - p.user.x0;
         float tileH = p.user.y1 - p.user.y0;
 
@@ -12676,7 +12674,7 @@ namespace {
                 point.y += 0.5f;
 
                 for (int channel = 0; channel < 4; channel++) {
-                    double v = turbulenceAt(*tb, channel, point.x, point.y, fx, fy, octaves, fractal, stitching, tileX, tileY, tileW, tileH);
+                    double v = turbulenceAt(*tb, channel, point.x, point.y, fx, fy, octaves, fractal, stitching, tileW, tileH);
 
                     c[channel] = (float)(fractal ? (v + 1.0) / 2.0 : v);
                 }
