@@ -16,3 +16,9 @@ resvg/filters__filter__with-region-and-subregion: firefox: Chromium blurs what l
 resvg/filters__filter__transform-on-shape-with-filter-region: firefox: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
 wpt/svg__painting__currentColor-override-pserver-stroke: ours: Skia cuts a hole into a stroke wider than the circle it outlines, Firefox as well; the stroke is every point within half its width of the path, as ours draws it
 wpt/svg__painting__currentColor-override-pserver-stroke-ref: ours: Skia cuts a hole into a stroke wider than the circle it outlines, Firefox as well; the stroke is every point within half its width of the path, as ours draws it
+resvg/structure__image__embedded-svg-without-mime: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+resvg/structure__image__embedded-svgz: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+resvg/structure__image__url-to-svg: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+resvg/structure__image__url-to-png: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+w3c/svg__conform-viewers-02-f: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+w3c/svg__struct-image-12-b: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
