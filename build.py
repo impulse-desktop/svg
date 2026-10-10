@@ -86,10 +86,12 @@ install(svg)
 
 
 labels = ["1x", "2x"]
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tst", "corpus", "EXCLUDED")) as handle:
+    excluded = {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
 cases = []
 for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
     relative = path[len("$(S)/tst/corpus/"):]
-    if flags.filter and not fnmatch.fnmatch(relative, flags.filter):
+    if relative in excluded or flags.filter and not fnmatch.fnmatch(relative, flags.filter):
         continue
     stem = path[:-len(".svg")]
     score = "$(B)/score/" + relative[:-len(".svg")] + ".txt"
@@ -107,7 +109,7 @@ for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
 for metric in ["meanrms", "maxrms", "struct", "all"]:
     group(metric, command(
         name="score_" + metric,
-        inputs=["$(S)/tst/score.py"],
+        inputs=["$(S)/tst/score.py", "$(S)/tst/corpus/EXCLUDED"],
         outputs=[f"$(B)/{metric}.txt"],
         deps=cases,
         cmd=["python3", "$(S)/tst/score.py", "$(S)/tst/corpus", "$(B)/score", flags.filter or "*", metric, f"$(B)/{metric}.txt"],

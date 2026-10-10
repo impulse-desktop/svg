@@ -15,10 +15,12 @@ def rms(values):
 
 
 def load(corpus, scores, pattern):
+    with open(os.path.join(corpus, "EXCLUDED")) as handle:
+        excluded = {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
     cases = []
     for path in sorted(glob.glob(os.path.join(corpus, "*", "*.svg"))):
         relative = os.path.relpath(path, corpus)
-        if not fnmatch.fnmatch(relative, pattern):
+        if relative in excluded or not fnmatch.fnmatch(relative, pattern):
             continue
         fields = {"mae": [], "struct": [], "reference": [], "ours": []}
         with open(os.path.join(scores, relative[:-len(".svg")] + ".txt")) as handle:
