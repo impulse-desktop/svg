@@ -9162,17 +9162,17 @@ namespace {
     }
 
     static const u8* halveImage(ObjPool& pool, const u8* pixels, u32& width, u32& height) {
-        u32 w = width > 1 ? width / 2 : 1;
-        u32 h = height > 1 ? height / 2 : 1;
+        u32 w = width > 1 ? (width + 1) / 2 : 1;
+        u32 h = height > 1 ? (height + 1) / 2 : 1;
         u8* out = (u8*)pool.allocate((size_t)w * h * 4);
 
         for (u32 y = 0; y < h; y++) {
             u32 y0 = height > 1 ? y * 2 : 0;
-            u32 y1 = height > 1 ? y * 2 + 1 : 0;
+            u32 y1 = height > 1 && y * 2 + 1 < height ? y * 2 + 1 : y0;
 
             for (u32 x = 0; x < w; x++) {
                 u32 x0 = width > 1 ? x * 2 : 0;
-                u32 x1 = width > 1 ? x * 2 + 1 : 0;
+                u32 x1 = width > 1 && x * 2 + 1 < width ? x * 2 + 1 : x0;
                 const u8* taps[4] = {pixels + ((size_t)y0 * width + x0) * 4, pixels + ((size_t)y0 * width + x1) * 4, pixels + ((size_t)y1 * width + x0) * 4, pixels + ((size_t)y1 * width + x1) * 4};
                 u32 alpha = 0;
                 u32 sum[3] = {0, 0, 0};
@@ -9226,11 +9226,16 @@ namespace {
             float scale = minf(sqrtf(place.a * place.a + place.b * place.b), sqrtf(place.c * place.c + place.d * place.d));
             int levels = scale > 0.f && scale < 1.f ? (int)floorf(maxf(-log2f(scale) - 0.5f, 0.f) + 0.5f) : 0;
 
+            float fx = 1.f;
+            float fy = 1.f;
+
             for (int k = 0; k < levels && (paint->imageWidth > 1 || paint->imageHeight > 1); k++) {
+                fx *= paint->imageWidth > 1 ? 0.5f : 1.f;
+                fy *= paint->imageHeight > 1 ? 0.5f : 1.f;
                 paint->image = halveImage(*l.pool, paint->image, paint->imageWidth, paint->imageHeight);
             }
 
-            paint->inverse = multiply(scaling((float)paint->imageWidth / (float)source.raster->width(), (float)paint->imageHeight / (float)source.raster->height()), inverse);
+            paint->inverse = multiply(scaling(fx, fy), inverse);
 
             Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
             Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
