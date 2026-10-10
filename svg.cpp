@@ -9673,7 +9673,7 @@ namespace {
             resolveMask(l, node, parent, style, m, vp, op);
         }
 
-        bool complex = style.filterCount && node != l.doc->root && (fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f);
+        bool complex = style.filterCount && node != l.doc->root && (fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f || m.a < 0.f || m.d < 0.f);
         bool offscreen = false;
         Box extent;
 
@@ -12046,7 +12046,8 @@ namespace {
         const Document& doc = *f.doc;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         bool specular = p.kind == AtomFeSpecularLighting;
-        float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f) * sqrtf(fabsf(f.ctm.a * f.ctm.d - f.ctm.b * f.ctm.c));
+        float zScale = (sqrtf(f.ctm.a * f.ctm.a + f.ctm.b * f.ctm.b) + sqrtf(f.ctm.c * f.ctm.c + f.ctm.d * f.ctm.d)) / 2.f;
+        float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f) * zScale;
         float constant = numberOf(doc, p.node, specular ? AtomSpecularConstant : AtomDiffuseConstant, 1.f);
         float shininess = numberOf(doc, p.node, AtomSpecularExponent, 1.f);
         Node* light = nullptr;
@@ -12097,7 +12098,9 @@ namespace {
             float azimuth = numberOf(doc, light, AtomAzimuth, 0.f) * pi / 180.f;
             float elevation = numberOf(doc, light, AtomElevation, 0.f) * pi / 180.f;
 
-            direction = Vector3{cosf(azimuth) * cosf(elevation), sinf(azimuth) * cosf(elevation), sinf(elevation)};
+            Vector3 user{cosf(azimuth) * cosf(elevation), sinf(azimuth) * cosf(elevation), sinf(elevation)};
+
+            direction = normalize3(Vector3{f.ctm.a * user.x + f.ctm.c * user.y, f.ctm.b * user.x + f.ctm.d * user.y, zScale * user.z});
         } else {
             lightPosition = position(AtomX, AtomY, AtomZ);
 
