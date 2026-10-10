@@ -5758,16 +5758,17 @@ namespace {
                         n = 512;
                     }
 
-                    for (int i = 1; i <= n; i++) {
+                    for (int i = 1; i < n; i++) {
                         float t = (float)i / n;
                         float u = 1.f - t;
-                        float a = u * u * u;
                         float b = 3.f * u * u * t;
                         float c = 3.f * u * t * t;
                         float d = t * t * t;
 
-                        out.points.pushBack(Point{a * p0.x + b * p1.x + c * p2.x + d * p3.x, a * p0.y + b * p1.y + c * p2.y + d * p3.y});
+                        out.points.pushBack(Point{p0.x + b * (p1.x - p0.x) + c * (p2.x - p0.x) + d * (p3.x - p0.x), p0.y + b * (p1.y - p0.y) + c * (p2.y - p0.y) + d * (p3.y - p0.y)});
                     }
+
+                    out.points.pushBack(p3);
 
                     last = p3;
                     pi += 3;
@@ -6021,7 +6022,7 @@ namespace {
 
         u32 index = 0;
 
-        while (phase >= dashes[index]) {
+        while (phase > dashes[index] || (phase == dashes[index] && dashes[index] > 0.f)) {
             phase -= dashes[index];
             index = (index + 1) % dashCount;
         }
