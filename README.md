@@ -34,8 +34,10 @@ inside the document into such pixels.
 
 ## The score
 
-`./build meanrms` and `./build maxrms` draw every case of the corpus and
-print one number each; lower is better, 0 is Chromium itself.
+`./build meanrms`, `./build maxrms` and `./build struct` draw every case of
+the corpus and print what they measure; lower is better, 0 is Chromium
+itself. `./build all` prints the three together with the candidates for
+the next fixes.
 
 - A case is one file of `tst/corpus/<source>/` and Chromium's two drawings
   of it next to it: `<name>.1x.png`, its longer side 256 pixels, and
@@ -47,13 +49,24 @@ print one number each; lower is better, 0 is Chromium itself.
   drawings.
 - `meanrms` is the root mean square of the errors of every drawing: how
   close the whole corpus is.
-- `maxrms` is the error of the worst case: what is still missing or wrong
-  altogether.
+- `maxrms` is the error of the worst case.
+- `struct` counts what is drawn wrong rather than slightly differently. A
+  pixel is wrong when a channel of ours lies more than 32 out of 255 outside
+  the range of Chromium's pixels around it, three by three, or Chromium's
+  lies that far outside the range of ours. A case fails when over 0.1% of
+  the pixels of one of its drawings are wrong. `struct` is the number of
+  failing cases and the mean share of wrong pixels over the worst 1%.
 
-`$(B)/meanrms.txt` and `$(B)/maxrms.txt` hold the number and every case
-with its error and the errors of its drawings, the worst first.
+The same test draws each case once for all of them: `svg test` writes the
+errors and the shares of wrong pixels of its drawings, and the shares of
+wrong pixels between the 1x drawing and the 2x drawing halved, Chromium's
+and ours. A reference Chromium draws differently at the two sizes while
+ours agree is a candidate for `tst/corpus/INKSCAPE`.
+
+`$(B)/meanrms.txt`, `$(B)/maxrms.txt`, `$(B)/struct.txt` and
+`$(B)/all.txt` hold the numbers and every case, the worst first.
 `-Dfilter=GLOB` scores the cases whose path under `tst/corpus` matches,
-`./build -Dfilter='resvg/*' meanrms`.
+`./build -Dfilter='resvg/*' all`.
 
 ## The corpus
 
@@ -93,12 +106,12 @@ with wasm2c; see [its README](ext/decode/README.md).
 
 ```
 ./build          # .build/svg, the test driver
-./build meanrms  # the root mean square error over the corpus
-./build maxrms   # the error of the worst case
+./build all      # meanrms, maxrms, struct and the candidates
 ```
 
 `svg render IN.svg OUT.png WIDTH HEIGHT` draws one file;
-`svg test IN.svg SCORE REFERENCE.png...` writes the errors of one case;
+`svg test IN.svg SCORE REFERENCE.png...` writes the errors and the shares
+of wrong pixels of one case;
 `svg bench LIST REPEAT` times parsing and drawing into memory for every
 `PATH WIDTH HEIGHT` line of LIST, the file read beforehand, and prints the
 fastest of REPEAT runs in nanoseconds.
