@@ -184,7 +184,19 @@ def main():
                     jobs.append((os.path.join(corpus, fields[0] + ".svg"), png, *size(png)))
     if not jobs:
         sys.exit(f"no cases for {renderer} in {os.path.join(corpus, 'CANON')}")
-    version = globals()[renderer](program, jobs)
+    for _, png, _, _ in jobs:
+        os.rename(png, png + ".chromium")
+    try:
+        version = globals()[renderer](program, jobs)
+        missing = [png for _, png, width, height in jobs if not os.path.exists(png) or size(png) != (width, height)]
+        if missing:
+            sys.exit(f"{renderer} did not draw " + " ".join(missing))
+    finally:
+        for _, png, _, _ in jobs:
+            if os.path.exists(png):
+                os.remove(png + ".chromium")
+            else:
+                os.rename(png + ".chromium", png)
     with open(os.path.join(corpus, renderer.upper()), "w") as handle:
         handle.write(version + "\n")
     print(f"drew {len(jobs) // len(LABELS)} cases with {version}")
