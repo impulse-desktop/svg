@@ -11,6 +11,21 @@ permissions:
   contents: read
 
 jobs:
+  sanitizers:
+    name: ASan + UBSan + libFuzzer
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build and run sanitizers and fuzzer
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+            --entrypoint sh nixos/nix:2.31.2 -c \
+            'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c sh -c '\''svg-sanitizers -j "$(nproc)" && svg-fuzz -runs=40000 -timeout=10'\'''
+
   score:
     name: Score
     runs-on: ubuntu-24.04
