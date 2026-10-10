@@ -85,7 +85,10 @@ with wasm2c; see [its README](ext/decode/README.md).
 ```
 
 `svg render IN.svg OUT.png WIDTH HEIGHT` draws one file;
-`svg test IN.svg SCORE REFERENCE.png...` writes the errors of one case.
+`svg test IN.svg SCORE REFERENCE.png...` writes the errors of one case;
+`svg bench LIST REPEAT` times parsing and drawing into memory for every
+`PATH WIDTH HEIGHT` line of LIST, the file read beforehand, and prints the
+fastest of REPEAT runs in nanoseconds.
 
 ## License
 

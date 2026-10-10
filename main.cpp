@@ -8,6 +8,7 @@
 #include <std/mem/obj_pool.h>
 
 #include <png.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -326,6 +327,70 @@ namespace {
 
         return 0;
     }
+
+    static u64 nanoseconds() {
+        timespec now;
+
+        clock_gettime(CLOCK_MONOTONIC, &now);
+
+        return (u64)now.tv_sec * 1000000000ull + (u64)now.tv_nsec;
+    }
+
+    static int bench(int argc, char** argv) {
+        if (argc != 4) {
+            sysE << StringView(u8"usage: svg bench LIST REPEAT") << endL;
+
+            return 2;
+        }
+
+        FILE* list = fopen(argv[2], "rb");
+        int repeat = atoi(argv[3]);
+        char line[4096];
+
+        if (!list) {
+            fail(StringView(u8"cannot read "), argv[2]);
+        }
+
+        while (fgets(line, sizeof(line), list)) {
+            char path[4000];
+            unsigned width;
+            unsigned height;
+
+            if (sscanf(line, "%3999s %u %u", path, &width, &height) != 3) {
+                continue;
+            }
+
+            Buffer name{StringView(path)};
+            Buffer file;
+            u64 best = ~0ull;
+            bool ok = true;
+
+            readFileContent(name, file);
+
+            for (int r = 0; r < repeat; r++) {
+                ObjPool::Ref pool = ObjPool::fromMemory();
+                u64 start = nanoseconds();
+
+                try {
+                    SvgDocument* document = SvgLibrary::create(*pool, pool->make<RasterDecoder>())->parse(*pool, StringView(file));
+
+                    ok = document && document->render(*pool, width, height);
+                } catch (...) {
+                    ok = false;
+                }
+
+                u64 spent = nanoseconds() - start;
+
+                best = spent < best ? spent : best;
+            }
+
+            printf("%s %llu %d\n", path, (unsigned long long)best, ok ? 1 : 0);
+        }
+
+        fclose(list);
+
+        return 0;
+    }
 }
 
 int main(int argc, char** argv) {
@@ -336,8 +401,10 @@ int main(int argc, char** argv) {
             result = render(argc, argv);
         } else if (argc >= 2 && StringView(argv[1]) == StringView(u8"test")) {
             result = test(argc, argv);
+        } else if (argc >= 2 && StringView(argv[1]) == StringView(u8"bench")) {
+            result = bench(argc, argv);
         } else {
-            sysE << StringView(u8"usage: svg render|test ...") << endL;
+            sysE << StringView(u8"usage: svg render|test|bench ...") << endL;
         }
     } catch (...) {
         sysE << StringView(u8"svg: ") << Exception::current() << endL;
