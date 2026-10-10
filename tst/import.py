@@ -21,6 +21,8 @@ SOURCES = [
     ("fontawesome", "fontawesome", 400),
     ("logos", "logos/*/logos", 800),
     ("wikimedia", "wikimedia", None),
+    ("openclipart", "openclipart", None),
+    ("inkscape", "inkscape", None),
 ]
 
 SKIP_DIRS = {"svgweb", "harness", ".git", "node_modules", "text", "fonts", "W3C-I18N"}
