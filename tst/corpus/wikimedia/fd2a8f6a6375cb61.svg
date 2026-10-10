@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+ <title>etBHF2+r black</title>
+ <defs>
+  <mask id="1">
+   <circle r="999" fill="#FFF"/>
+   <path d="M 500,500 426.78,426.78 A 603.55,603.55 0 0 0 0,250" stroke-width="20" stroke="#000" fill="none"/>
+  </mask>
+ </defs>
+ <g mask="url(#1)" stroke="#000000" stroke-width="100" fill="none">
+  <path d="m 0,0 0,0 M -25,250 H 0 A 603.55,603.55 0 0 1 426.78,426.78 L 500,500" stroke-dasharray="50,55.52"/>
+ </g>
+ <circle fill="#646464" cx="250" cy="304.21" r="150"/>
+</svg>

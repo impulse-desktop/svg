@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="600">
+	<clipPath id="triangle">
+		<path d="M 0,0 l 750,300 l -750,300 z" />
+    </clipPath>
+    <rect x="0" y="0" width="200" height="600" fill="yellow" clip-path="url(#triangle)" />
+    <rect x="200" y="0" width="550" height="600" fill="blue" clip-path="url(#triangle)" />
+	<path class="optionalborder" d="M 0,0 l 750,300 l -750,300 z" fill="none" stroke="black" stroke-width="0" />
+</svg>

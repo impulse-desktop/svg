@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+ <title>extABZg+4 sky</title>
+ <defs>
+  <mask id="1">
+   <circle r="999" fill="#FFF"/>
+   <path d="M 0,0 73.22,73.22 A 603.55,603.55 0 0 1 250,500 V 0" stroke="#000" stroke-width="20" fill="none"/>
+  </mask>
+ </defs>
+ <g mask="url(#1)" stroke="#67C2E3" stroke-width="100" fill="none">
+  <path d="m 500,0 0,0 M 250,525 V 500 A 603.55,603.55 0 0 0 73.22,73.22 L 0,0" stroke-dasharray="50,50,50,50,50,50,50,58.8,55,58.8,55"/>
+  <path d="M 250,525 V 0" stroke-dasharray="50"/>
+ </g>
+</svg>

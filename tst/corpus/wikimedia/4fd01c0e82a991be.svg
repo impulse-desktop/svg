@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" fill="none" stroke="none" stroke-width="50">
+<defs>
+ <mask id="m" x="0" y="0" width="500" height="500" maskUnits="userSpaceOnUse">
+  <path d="m250,150 h-150" stroke="#fff" stroke-width="300" stroke-dasharray="7.14285714"/><!-- calc(50px/7) -->
+  <path d="m200,0 c0,236 -125,236 -125,500 h100 c0,-236 75,-236 75,-436 V0 v-25h275v550h-550v-550h225z" fill="#fff"/>
+ </mask>
+</defs>
+<path d="m200,0 c0,236 -125,236 -125,500 h100 c0,-236 75,-236 75,-436 V0" fill="#39F"/>
+<path d="m0,225 a225,225 0 0 0 225,-225" stroke="#39F"/>
+<path d="m0,275 a275,275 0 0 0 275,-275" stroke="#9C0" mask="url(#m)"/>
+</svg>

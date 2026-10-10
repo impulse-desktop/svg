@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+  xmlns="http://www.w3.org/2000/svg" version="1.1"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="900" height="600" viewBox="0 0 30 20">
+
+<g id="b">
+<rect id="red_stripe" width="30" height="9" fill="#c1272d"/>
+<rect id="white_stripe" width="30" height="2" y="9" fill="white"/>
+<rect id="green_stripe" width="30" height="9" y="11" fill="#006233"/>
+</g>
+
+<circle id="yellow_crescent" r="5" cx="15" cy="10" fill="#fdb913"/>
+
+<clipPath id="c">
+<circle r="4.45" cx="15" cy="8.5" fill="black"/>
+</clipPath>
+
+<use xlink:href="#b" clip-path="url(#c)"/>
+
+<g id="star" fill="white" transform="translate(15,2.3) scale(1.05)">
+  <g id="cone">
+    <polygon id="triangle" points="0,0 0,1 .5,1" transform="translate(0,-1) rotate(18)"/>
+    <use xlink:href="#triangle" transform="scale(-1,1)"/>
+  </g>
+  <use xlink:href="#cone" transform="rotate(72)"/>
+  <use xlink:href="#cone" transform="rotate(-72)"/>
+  <use xlink:href="#cone" transform="rotate(144)"/>
+  <use xlink:href="#cone" transform="rotate(-144)"/>
+</g>
+
+<use xlink:href="#star" transform="rotate(30 15 10)"/>
+<use xlink:href="#star" transform="rotate(-30 15 10)"/>
+<use xlink:href="#star" transform="rotate(60 15 10)"/>
+<use xlink:href="#star" transform="rotate(-60 15 10)"/>
+
+</svg>

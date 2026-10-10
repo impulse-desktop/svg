@@ -59,6 +59,8 @@ worst first. `-Dfilter=GLOB` scores the cases whose path under
 | `wpt` | web-platform-tests: `svg`, `css-masking`, `filter-effects`, `compositing` |
 | `adwaita`, `breeze`, `papirus` | desktop icon themes |
 | `mdi`, `simple`, `tabler`, `bootstrap`, `fontawesome` | icon sets |
+| `logos` | brand logos from gilbarbara/logos |
+| `wikimedia` | random files of Wikimedia Commons up to 300 KB |
 
 `tst/import.py RAW CORPUS` takes the files from the unpacked sources: text
 elements are cut out, files with what is out of scope are left out, equal
