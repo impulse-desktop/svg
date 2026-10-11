@@ -79,7 +79,7 @@ def summary(cases):
         f"meanrms {meanrms(cases):.9f} over {images} images of {len(cases)} cases",
         f"maxrms {worst['rms']:.9f} at {worst['case']}",
         f"struct {len(failing)} of {len(cases)} cases have over {FAILING:.1%} of their pixels wrong; the worst {TAIL:.0%} have {tail:.2%} wrong on average",
-        f"aa {antialiasing(cases):.9f} drawn at the size of the reference instead of supersampled",
+        f"aa {antialiasing(cases):.9f} drawn straight at 1x instead of supersampled",
     ]
 
 
@@ -94,7 +94,7 @@ def candidates(cases):
     lines = ["", "failing cases by source: " + ", ".join(f"{source} {count}" for source, count in sorted(sources.items(), key=lambda item: -item[1]))]
     lines += ["", f"wrong drawings, the most wrong pixels first (wrong share at each size, error):"]
     lines += [f"  {' '.join(f'{value:.2%}' for value in case['struct'])}  {case['rms']:.4f}  {case['case']}" for case in failing[:CANDIDATES]]
-    lines += ["", f"references Chromium draws differently at 1x and 2x while ours agree, {len(suspect)} cases (wrong share between them, error):"]
+    lines += ["", f"references drawn differently at 1x and 2x while ours agree, {len(suspect)} cases (wrong share between them, error):"]
     lines += [f"  {case['reference']:.2%}  {case['rms']:.4f}  {case['case']}" for case in suspect[:CANDIDATES]]
     return lines
 

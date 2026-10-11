@@ -238,9 +238,8 @@ namespace {
         }
     }
 
-    static SvgDocument* load(ObjPool& pool, const char* path) {
+    static SvgDocument* load(ObjPool& pool, const char* path, Buffer& file) {
         Buffer name{StringView(path)};
-        Buffer file;
 
         readFileContent(name, file);
 
@@ -249,6 +248,221 @@ namespace {
         } catch (...) {
             return nullptr;
         }
+    }
+
+    static SvgDocument* load(ObjPool& pool, const char* path) {
+        Buffer file;
+
+        return load(pool, path, file);
+    }
+
+    static bool startsWith(const u8* p, const u8* end, const char* word) {
+        size_t length = strlen(word);
+
+        return (size_t)(end - p) >= length && memcmp(p, word, length) == 0;
+    }
+
+    static bool space(u8 c) {
+        return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+    }
+
+    static const u8* skipSpace(const u8* p, const u8* end) {
+        while (p < end && space(*p)) {
+            p++;
+        }
+
+        return p;
+    }
+
+    static bool readNumber(const u8*& p, const u8* end, float& out) {
+        char text[64];
+        size_t n = 0;
+
+        while (p + n < end && n < sizeof(text) - 1 && strchr("+-.0123456789eE", p[n])) {
+            text[n] = (char)p[n];
+            n++;
+        }
+
+        text[n] = 0;
+
+        char* stop = nullptr;
+
+        out = strtof(text, &stop);
+
+        if (stop == text) {
+            return false;
+        }
+
+        p += stop - text;
+
+        return true;
+    }
+
+    static bool attributeValue(const u8* tag, const u8* end, const char* name, const u8*& value, const u8*& valueEnd) {
+        for (const u8* p = tag; p < end; p++) {
+            if (!space(*p) || !startsWith(p + 1, end, name)) {
+                continue;
+            }
+
+            const u8* q = skipSpace(p + 1 + strlen(name), end);
+
+            if (q >= end || *q != '=') {
+                continue;
+            }
+
+            q = skipSpace(q + 1, end);
+
+            if (q >= end || (*q != '"' && *q != '\'')) {
+                continue;
+            }
+
+            u8 quote = *q;
+
+            value = q + 1;
+            valueEnd = value;
+
+            while (valueEnd < end && *valueEnd != quote) {
+                valueEnd++;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    static bool viewBox(const u8* p, const u8* end) {
+        float numbers[4];
+
+        for (int k = 0; k < 4; k++) {
+            p = skipSpace(p, end);
+
+            if (k && p < end && *p == ',') {
+                p = skipSpace(p + 1, end);
+            }
+
+            if (!readNumber(p, end, numbers[k])) {
+                return false;
+            }
+        }
+
+        return skipSpace(p, end) == end && numbers[2] > 0.f && numbers[3] > 0.f;
+    }
+
+    static bool absolute(const u8* p, const u8* end) {
+        float value;
+
+        p = skipSpace(p, end);
+
+        if (!readNumber(p, end, value) || !(value > 0.f)) {
+            return false;
+        }
+
+        while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
+            p++;
+        }
+
+        return skipSpace(p, end) == end;
+    }
+
+    static bool rootEffect(const u8* p, const u8* end) {
+        for (; p < end; p++) {
+            if (startsWith(p, end, "clip-path") || startsWith(p, end, "mask") || startsWith(p, end, "filter") || startsWith(p, end, "transform")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static bool scalable(StringView text) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+
+        for (const u8* q = p; q < end; q++) {
+            if (startsWith(q, end, "non-scaling")) {
+                return false;
+            }
+
+            if (((*q >= '0' && *q <= '9') || *q == '.') && (startsWith(q + 1, end, "vw") || startsWith(q + 1, end, "vh") || startsWith(q + 1, end, "vi") || startsWith(q + 1, end, "vb") || startsWith(q + 1, end, "vmin") || startsWith(q + 1, end, "vmax"))) {
+                return false;
+            }
+
+            if (startsWith(q, end, "<style") || startsWith(q, end, ":style")) {
+                const u8* close = q;
+
+                while (close < end && !startsWith(close, end, "</")) {
+                    close++;
+                }
+
+                if (rootEffect(q, close)) {
+                    return false;
+                }
+            }
+        }
+
+        while (true) {
+            while (p < end && *p != '<') {
+                p++;
+            }
+
+            if (p >= end) {
+                return false;
+            }
+
+            if (startsWith(p, end, "<!--")) {
+                while (p < end && !startsWith(p, end, "-->")) {
+                    p++;
+                }
+
+                continue;
+            }
+
+            if (startsWith(p, end, "<?") || startsWith(p, end, "<!")) {
+                p++;
+
+                continue;
+            }
+
+            break;
+        }
+
+        const u8* name = p + 1;
+        const u8* tagEnd = name;
+        u8 quote = 0;
+
+        while (tagEnd < end && (quote || *tagEnd != '>')) {
+            if (quote && *tagEnd == quote) {
+                quote = 0;
+            } else if (!quote && (*tagEnd == '"' || *tagEnd == '\'')) {
+                quote = *tagEnd;
+            }
+
+            tagEnd++;
+        }
+
+        const u8* nameEnd = name;
+
+        while (nameEnd < tagEnd && !space(*nameEnd) && *nameEnd != '/' && *nameEnd != '>') {
+            nameEnd++;
+        }
+
+        bool root = (nameEnd - name == 3 && memcmp(name, "svg", 3) == 0) || (nameEnd - name > 4 && memcmp(nameEnd - 4, ":svg", 4) == 0);
+        const u8* value;
+        const u8* valueEnd;
+
+        if (!root || rootEffect(nameEnd, tagEnd)) {
+            return false;
+        }
+
+        if (attributeValue(nameEnd, tagEnd, "viewBox", value, valueEnd) && viewBox(value, valueEnd)) {
+            return true;
+        }
+
+        bool width = attributeValue(nameEnd, tagEnd, "width", value, valueEnd) && absolute(value, valueEnd);
+        bool height = attributeValue(nameEnd, tagEnd, "height", value, valueEnd) && absolute(value, valueEnd);
+
+        return width && height;
     }
 
     static double error(const Pixels& ours, const Pixels& reference) {
@@ -291,8 +505,38 @@ namespace {
         }
     }
 
+    static u8 least(u8 a, u8 b) {
+        return a < b ? a : b;
+    }
+
+    static u8 most(u8 a, u8 b) {
+        return a > b ? a : b;
+    }
+
+    static void envelopeRow(const u8* s, size_t stride, u8* lo, u8* hi) {
+        if (stride <= 4) {
+            memcpy(lo, s, stride);
+            memcpy(hi, s, stride);
+
+            return;
+        }
+
+        for (size_t i = 0; i < 4; i++) {
+            lo[i] = least(s[i], s[i + 4]);
+            hi[i] = most(s[i], s[i + 4]);
+            lo[stride - 4 + i] = least(s[stride - 8 + i], s[stride - 4 + i]);
+            hi[stride - 4 + i] = most(s[stride - 8 + i], s[stride - 4 + i]);
+        }
+
+        for (size_t i = 4; i + 4 < stride; i++) {
+            lo[i] = least(least(s[i - 4], s[i]), s[i + 4]);
+            hi[i] = most(most(s[i - 4], s[i]), s[i + 4]);
+        }
+    }
+
     static void envelope(const u8* src, u32 width, u32 height, Buffer& lo, Buffer& hi) {
-        size_t length = (size_t)width * height * 4;
+        size_t stride = (size_t)width * 4;
+        size_t length = stride * height;
         Buffer rowLo;
         Buffer rowHi;
 
@@ -307,53 +551,29 @@ namespace {
         u8* h = (u8*)hi.mutData();
 
         for (u32 y = 0; y < height; y++) {
-            for (u32 x = 0; x < width; x++) {
-                u32 x0 = x ? x - 1 : x;
-                u32 x1 = x + 1 < width ? x + 1 : x;
-
-                for (int c = 0; c < 4; c++) {
-                    u8 mn = 255;
-                    u8 mx = 0;
-
-                    for (u32 xx = x0; xx <= x1; xx++) {
-                        u8 v = src[((size_t)y * width + xx) * 4 + c];
-
-                        mn = v < mn ? v : mn;
-                        mx = v > mx ? v : mx;
-                    }
-
-                    rl[((size_t)y * width + x) * 4 + c] = mn;
-                    rh[((size_t)y * width + x) * 4 + c] = mx;
-                }
-            }
+            envelopeRow(src + y * stride, stride, rl + y * stride, rh + y * stride);
         }
 
         for (u32 y = 0; y < height; y++) {
-            u32 y0 = y ? y - 1 : y;
-            u32 y1 = y + 1 < height ? y + 1 : y;
+            const u8* l0 = rl + (y ? y - 1 : y) * stride;
+            const u8* l1 = rl + y * stride;
+            const u8* l2 = rl + (y + 1 < height ? y + 1 : y) * stride;
+            const u8* h0 = rh + (y ? y - 1 : y) * stride;
+            const u8* h1 = rh + y * stride;
+            const u8* h2 = rh + (y + 1 < height ? y + 1 : y) * stride;
+            u8* ol = l + y * stride;
+            u8* oh = h + y * stride;
 
-            for (u32 x = 0; x < width; x++) {
-                for (int c = 0; c < 4; c++) {
-                    u8 mn = 255;
-                    u8 mx = 0;
-
-                    for (u32 yy = y0; yy <= y1; yy++) {
-                        u8 vl = rl[((size_t)yy * width + x) * 4 + c];
-                        u8 vh = rh[((size_t)yy * width + x) * 4 + c];
-
-                        mn = vl < mn ? vl : mn;
-                        mx = vh > mx ? vh : mx;
-                    }
-
-                    l[((size_t)y * width + x) * 4 + c] = mn;
-                    h[((size_t)y * width + x) * 4 + c] = mx;
-                }
+            for (size_t i = 0; i < stride; i++) {
+                ol[i] = least(least(l0[i], l1[i]), l2[i]);
+                oh[i] = most(most(h0[i], h1[i]), h2[i]);
             }
         }
     }
 
     static void blur(const u8* src, u32 width, u32 height, Buffer& out) {
-        size_t length = (size_t)width * height * 4;
+        size_t stride = (size_t)width * 4;
+        size_t length = stride * height;
         Buffer row;
 
         row.zero(length);
@@ -363,24 +583,33 @@ namespace {
         u8* o = (u8*)out.mutData();
 
         for (u32 y = 0; y < height; y++) {
-            for (u32 x = 0; x < width; x++) {
-                u32 x0 = x ? x - 1 : x;
-                u32 x1 = x + 1 < width ? x + 1 : x;
+            const u8* s = src + y * stride;
+            u8* d = r + y * stride;
 
-                for (int c = 0; c < 4; c++) {
-                    r[((size_t)y * width + x) * 4 + c] = (u8)((src[((size_t)y * width + x0) * 4 + c] + 2 * src[((size_t)y * width + x) * 4 + c] + src[((size_t)y * width + x1) * 4 + c] + 2) / 4);
-                }
+            if (stride <= 4) {
+                memcpy(d, s, stride);
+
+                continue;
+            }
+
+            for (size_t i = 0; i < 4; i++) {
+                d[i] = (u8)((3 * s[i] + s[i + 4] + 2) / 4);
+                d[stride - 4 + i] = (u8)((s[stride - 8 + i] + 3 * s[stride - 4 + i] + 2) / 4);
+            }
+
+            for (size_t i = 4; i + 4 < stride; i++) {
+                d[i] = (u8)((s[i - 4] + 2 * s[i] + s[i + 4] + 2) / 4);
             }
         }
 
         for (u32 y = 0; y < height; y++) {
-            u32 y0 = y ? y - 1 : y;
-            u32 y1 = y + 1 < height ? y + 1 : y;
+            const u8* r0 = r + (y ? y - 1 : y) * stride;
+            const u8* r1 = r + y * stride;
+            const u8* r2 = r + (y + 1 < height ? y + 1 : y) * stride;
+            u8* d = o + y * stride;
 
-            for (u32 x = 0; x < width; x++) {
-                for (int c = 0; c < 4; c++) {
-                    o[((size_t)y * width + x) * 4 + c] = (u8)((r[((size_t)y0 * width + x) * 4 + c] + 2 * r[((size_t)y * width + x) * 4 + c] + r[((size_t)y1 * width + x) * 4 + c] + 2) / 4);
-                }
+            for (size_t i = 0; i < stride; i++) {
+                d[i] = (u8)((r0[i] + 2 * r1[i] + r2[i] + 2) / 4);
             }
         }
     }
@@ -405,22 +634,28 @@ namespace {
         const u8* bh = (const u8*)bHi.data();
         const u8* fa = (const u8*)aBlur.data();
         const u8* fb = (const u8*)bBlur.data();
+        Buffer flagBuffer;
+
+        flagBuffer.zero(count * 4);
+
+        u8* flags = (u8*)flagBuffer.mutData();
+
+        for (size_t i = 0; i < count * 4; i++) {
+            int va = a[i];
+            int vb = b[i];
+            int blurred = (int)fa[i] - (int)fb[i];
+            int outside = (va - bh[i] > structTolerance) | (bl[i] - va > structTolerance) | (vb - ah[i] > structTolerance) | (al[i] - vb > structTolerance);
+            int apart = (blurred > structTolerance) | (-blurred > structTolerance);
+
+            flags[i] = (u8)(outside | (apart << 1));
+        }
+
         size_t bad = 0;
 
         for (size_t i = 0; i < count * 4; i += 4) {
-            bool outside = false;
-            bool apart = false;
+            u8 any = flags[i] | flags[i + 1] | flags[i + 2] | flags[i + 3];
 
-            for (int c = 0; c < 4; c++) {
-                int va = a[i + c];
-                int vb = b[i + c];
-                int blurred = (int)fa[i + c] - (int)fb[i + c];
-
-                outside = outside || va - bh[i + c] > structTolerance || bl[i + c] - va > structTolerance || vb - ah[i + c] > structTolerance || al[i + c] - vb > structTolerance;
-                apart = apart || blurred > structTolerance || -blurred > structTolerance;
-            }
-
-            bad += outside && apart;
+            bad += any == 3;
         }
 
         return count ? (double)bad / (double)count : 0.0;
@@ -460,6 +695,55 @@ namespace {
         }
     }
 
+    template <u32 F>
+    static void shrinkBy(const u8* p, size_t stride, u32 width, u32 height, u8* q) {
+        Buffer sumBuffer;
+
+        sumBuffer.zero((size_t)width * 4 * sizeof(u32));
+
+        u32* sum = (u32*)sumBuffer.mutData();
+
+        for (u32 y = 0; y < height; y++) {
+            memset(sum, 0, (size_t)width * 4 * sizeof(u32));
+
+            for (u32 yy = 0; yy < F; yy++) {
+                const u8* s = p + ((size_t)y * F + yy) * stride;
+
+                for (u32 x = 0; x < width; x++) {
+                    u32* t = sum + (size_t)x * 4;
+                    const u8* r = s + (size_t)x * F * 4;
+
+                    for (u32 k = 0; k < F; k++) {
+                        u32 alpha = r[k * 4 + 3];
+
+                        t[0] += r[k * 4] * alpha;
+                        t[1] += r[k * 4 + 1] * alpha;
+                        t[2] += r[k * 4 + 2] * alpha;
+                        t[3] += alpha;
+                    }
+                }
+            }
+
+            u8* d = q + (size_t)y * width * 4;
+
+            for (u32 x = 0; x < width; x++) {
+                const u32* t = sum + (size_t)x * 4;
+
+                if (!t[3]) {
+                    continue;
+                }
+
+                for (int c = 0; c < 3; c++) {
+                    u32 v = (t[c] + t[3] / 2) / t[3];
+
+                    d[x * 4 + c] = (u8)(v > 255 ? 255 : v);
+                }
+
+                d[x * 4 + 3] = (u8)((t[3] + F * F / 2) / (F * F));
+            }
+        }
+    }
+
     static void shrink(const Pixels& large, u32 factor, Pixels& out) {
         out.width = large.width / factor;
         out.height = large.height / factor;
@@ -467,53 +751,81 @@ namespace {
 
         const u8* p = (const u8*)large.rgba.data();
         u8* q = (u8*)out.rgba.mutData();
-        u64 count = (u64)factor * factor;
+        size_t stride = (size_t)large.width * 4;
 
-        for (u32 y = 0; y < out.height; y++) {
-            for (u32 x = 0; x < out.width; x++) {
-                u64 sum[4] = {0, 0, 0, 0};
+        switch (factor) {
+            case 1:
+                memcpy(q, p, (size_t)out.width * out.height * 4);
+                break;
+            case 2:
+                shrinkBy<2>(p, stride, out.width, out.height, q);
+                break;
+            case 4:
+                shrinkBy<4>(p, stride, out.width, out.height, q);
+                break;
+            case 8:
+                shrinkBy<8>(p, stride, out.width, out.height, q);
+                break;
+            default: {
+                Buffer sumBuffer;
 
-                for (u32 yy = y * factor; yy < (y + 1) * factor; yy++) {
-                    const u8* s = p + ((size_t)yy * large.width + (size_t)x * factor) * 4;
+                sumBuffer.zero((size_t)out.width * 4 * sizeof(u64));
 
-                    for (u32 xx = 0; xx < factor; xx++, s += 4) {
-                        for (int c = 0; c < 3; c++) {
-                            sum[c] += (u64)s[c] * s[3];
+                u64* sum = (u64*)sumBuffer.mutData();
+                u64 count = (u64)factor * factor;
+
+                for (u32 y = 0; y < out.height; y++) {
+                    memset(sum, 0, (size_t)out.width * 4 * sizeof(u64));
+
+                    for (u32 yy = y * factor; yy < (y + 1) * factor; yy++) {
+                        const u8* s = p + yy * stride;
+
+                        for (u32 x = 0; x < out.width * factor; x++) {
+                            u64* t = sum + (size_t)(x / factor) * 4;
+                            u64 alpha = s[x * 4 + 3];
+
+                            t[0] += s[x * 4] * alpha;
+                            t[1] += s[x * 4 + 1] * alpha;
+                            t[2] += s[x * 4 + 2] * alpha;
+                            t[3] += alpha;
+                        }
+                    }
+
+                    u8* d = q + (size_t)y * out.width * 4;
+
+                    for (u32 x = 0; x < out.width; x++) {
+                        const u64* t = sum + (size_t)x * 4;
+
+                        if (!t[3]) {
+                            continue;
                         }
 
-                        sum[3] += s[3];
+                        for (int c = 0; c < 3; c++) {
+                            u64 v = (t[c] + t[3] / 2) / t[3];
+
+                            d[x * 4 + c] = (u8)(v > 255 ? 255 : v);
+                        }
+
+                        d[x * 4 + 3] = (u8)((t[3] + count / 2) / count);
                     }
                 }
-
-                u8* d = q + ((size_t)y * out.width + x) * 4;
-
-                if (!sum[3]) {
-                    continue;
-                }
-
-                for (int c = 0; c < 3; c++) {
-                    u64 v = (sum[c] + sum[3] / 2) / sum[3];
-
-                    d[c] = (u8)(v > 255 ? 255 : v);
-                }
-
-                d[3] = (u8)((sum[3] + count / 2) / count);
             }
         }
     }
 
-    static void drawFine(SvgDocument* document, ObjPool& pool, Pixels& pixels, u32 factor) {
+    static void drawFine(SvgDocument* document, ObjPool& pool, Pixels& pixels, u32 factor, Pixels& large) {
         if (factor <= 1) {
             draw(document, pool, pixels, 1.f);
 
             return;
         }
 
-        Pixels large;
+        if (large.width != pixels.width * factor || large.height != pixels.height * factor) {
+            large.width = pixels.width * factor;
+            large.height = pixels.height * factor;
+            draw(document, pool, large, (float)factor);
+        }
 
-        large.width = pixels.width * factor;
-        large.height = pixels.height * factor;
-        draw(document, pool, large, (float)factor);
         shrink(large, factor, pixels);
     }
 
@@ -545,7 +857,9 @@ namespace {
 
         pixels.width = (u32)atoi(argv[4]);
         pixels.height = (u32)atoi(argv[5]);
-        drawFine(load(*pool, argv[2]), *pool, pixels, argc == 7 ? sideFactor((u32)atoi(argv[6]), pixels.width, pixels.height) : 1);
+        Pixels large;
+
+        drawFine(load(*pool, argv[2]), *pool, pixels, argc == 7 ? sideFactor((u32)atoi(argv[6]), pixels.width, pixels.height) : 1, large);
         writePng(argv[3], pixels);
 
         return 0;
@@ -586,7 +900,10 @@ namespace {
         alarm(caseSeconds);
 
         ObjPool::Ref pool = ObjPool::fromMemory();
-        SvgDocument* document = load(*pool, argv[2]);
+        Buffer file;
+        SvgDocument* document = load(*pool, argv[2], file);
+        bool reuse = scalable(StringView(file));
+        Pixels large;
         StringBuilder errors;
         StringBuilder shares;
         StringBuilder small;
@@ -608,16 +925,28 @@ namespace {
 
             u32 factor = sideFactor(side, reference.width, reference.height);
 
+            bool plain = i == 5 || factor <= 1;
+
             ours.width = reference.width;
             ours.height = reference.height;
-            draw(document, *pool, ours, 1.f);
             premultiply(reference, referencePremultiplied);
-            premultiply(ours, oursPremultiplied);
+
+            if (plain) {
+                draw(document, *pool, ours, 1.f);
+                premultiply(ours, oursPremultiplied);
+            }
+
+            bool shared = reuse && factor > 1 && large.width == reference.width * factor && large.height == reference.height * factor;
 
             if (factor > 1) {
                 fine.width = reference.width;
                 fine.height = reference.height;
-                drawFine(document, *pool, fine, factor);
+
+                if (!reuse) {
+                    large.width = 0;
+                }
+
+                drawFine(document, *pool, fine, factor, large);
                 premultiply(fine, finePremultiplied);
             }
 
@@ -629,23 +958,27 @@ namespace {
             errors << StringView(text);
             snprintf(text, sizeof(text), " %.9f", structural((const u8*)scoredPremultiplied.data(), (const u8*)referencePremultiplied.data(), reference.width, reference.height));
             shares << StringView(text);
-            snprintf(text, sizeof(text), " %.9f", error(ours, reference));
-            small << StringView(text);
-
             if (i == 5) {
+                snprintf(text, sizeof(text), " %.9f", error(ours, reference));
+                small << StringView(text);
                 first.width = reference.width;
                 first.height = reference.height;
                 firstReference = referencePremultiplied;
-                firstOurs = oursPremultiplied;
+                firstOurs = scoredPremultiplied;
             } else if (twice(first, reference)) {
                 Buffer halved;
 
                 halve((const u8*)referencePremultiplied.data(), reference.width, reference.height, first.width, first.height, halved);
                 snprintf(text, sizeof(text), " %.9f", structural((const u8*)halved.data(), (const u8*)firstReference.data(), first.width, first.height));
                 referenceScaling << StringView(text);
-                halve((const u8*)oursPremultiplied.data(), reference.width, reference.height, first.width, first.height, halved);
-                snprintf(text, sizeof(text), " %.9f", structural((const u8*)halved.data(), (const u8*)firstOurs.data(), first.width, first.height));
-                oursScaling << StringView(text);
+
+                if (shared) {
+                    oursScaling << StringView(u8" 0");
+                } else {
+                    halve((const u8*)scoredPremultiplied.data(), reference.width, reference.height, first.width, first.height, halved);
+                    snprintf(text, sizeof(text), " %.9f", structural((const u8*)halved.data(), (const u8*)firstOurs.data(), first.width, first.height));
+                    oursScaling << StringView(text);
+                }
             }
         }
 

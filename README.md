@@ -67,16 +67,18 @@ candidates for the next fixes.
   miscolored one is. A case fails when over 0.1% of the pixels of one of its
   drawings are wrong. `struct` is the number of failing cases and the mean
   share of wrong pixels over the worst 1%.
-- `aa` is `meanrms` of ours drawn straight at 256 and 512 pixels against the
-  same references: how close our plain drawing is to the supersampled one,
+- `aa` is `meanrms` of ours drawn straight at 256 pixels against the same 1x
+  references: how close our plain drawing is to the supersampled one,
   antialiasing included.
 
 The same test draws each case once for all of them: `svg test` writes the
 errors and the shares of wrong pixels of its supersampled drawings, the
-errors of its plain drawings, and the shares of wrong pixels between the 1x
-drawing and the 2x drawing halved, the reference's and ours. A reference
-drawn differently at the two sizes while ours agree is a candidate for
-`tst/corpus/CANON`.
+error of its plain 1x drawing, and the shares of wrong pixels between the 1x
+drawing and the 2x drawing halved, the reference's and ours. When the 2x
+reference is exactly twice the 1x one and nothing in the document depends on
+the CSS size, one supersampled drawing serves both, and ours agree by
+construction. A reference drawn differently at the two sizes while ours agree
+is a candidate for `tst/corpus/CANON`.
 
 `$(B)/meanrms.txt`, `$(B)/maxrms.txt`, `$(B)/struct.txt`, `$(B)/aa.txt` and
 `$(B)/all.txt` hold the numbers and every case, the worst first.

@@ -109,7 +109,9 @@ with open(os.path.join(corpus, "EXCLUDED")) as handle:
 with open(os.path.join(corpus, "SIDE")) as handle:
     side = handle.read().strip()
 cases = []
-for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
+paths = sorted(build.glob("$(S)/tst/corpus/*/*.svg"))
+sizes = {path: os.path.getsize(os.path.join(corpus, path[len("$(S)/tst/corpus/"):])) for path in paths}
+for path in sorted(paths, key=lambda path: -sizes[path]):
     relative = path[len("$(S)/tst/corpus/"):]
     if relative in excluded or flags.filter and not fnmatch.fnmatch(relative, flags.filter):
         continue
@@ -121,7 +123,7 @@ for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
         inputs=[path, "$(S)/tst/corpus/SIDE", *references],
         outputs=[score],
         deps=[svg],
-        cmd=["sh", "-c", '"$0" test "$1" "$2" "$3" "$4" "$5" || printf "mae 1 1\\nstruct 1 1\\naa 1 1\\nreference\\nours\\n" > "$2"', "$(B)/svg", path, score, side, *references],
+        cmd=["sh", "-c", '"$0" test "$1" "$2" "$3" "$4" "$5" || printf "mae 1 1\\nstruct 1 1\\naa 1\\nreference\\nours\\n" > "$2"', "$(B)/svg", path, score, side, *references],
         descr="SV",
         color="cyan",
     ))
