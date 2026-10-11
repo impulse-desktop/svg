@@ -11345,6 +11345,39 @@ namespace {
         }
     }
 
+    static bool arithmeticOf(const Document& doc, const FilterPrimitive& p) {
+        u32 op = p.node ? attribute(p.node, AtomOperator) : 0;
+
+        return p.kind == AtomFeComposite && op && trim(textOf(doc, op)) == StringView(u8"arithmetic");
+    }
+
+    static bool keepsInvalidColor(const Filter& f, const FilterPrimitive& p) {
+        int index = (int)(&p - f.primitives);
+        bool read = false;
+
+        for (u32 j = (u32)index + 1; j < f.count; j++) {
+            const FilterPrimitive& q = f.primitives[j];
+            bool second = q.kind == AtomFeComposite || q.kind == AtomFeBlend || q.kind == AtomFeDisplacementMap;
+            bool reads = q.in1 == index || (second && q.in2 == index);
+
+            for (u32 k = 0; k < q.inputCount; k++) {
+                reads = reads || q.inputs[k] == index;
+            }
+
+            if (!reads) {
+                continue;
+            }
+
+            if (!arithmeticOf(*f.doc, q) || q.linear != p.linear) {
+                return false;
+            }
+
+            read = true;
+        }
+
+        return read;
+    }
+
     static void filterComposite(FilterRun& run, const FilterPrimitive& p, float* out) {
         const Document& doc = *run.filter->doc;
         const float* a = filterInputBuffer(run, p.in1, p.linear);
@@ -11356,6 +11389,7 @@ namespace {
         float k3 = numberOf(doc, p.node, AtomK3, 0.f);
         float k4 = numberOf(doc, p.node, AtomK4, 0.f);
         const IntBox& box = p.box;
+        float ceiling = kind == StringView(u8"arithmetic") && keepsInvalidColor(*run.filter, p) ? 1.f : 0.f;
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
@@ -11368,7 +11402,7 @@ namespace {
                     float alpha = clampUnit(k1 * s[3] * d[3] + k2 * s[3] + k3 * d[3] + k4);
 
                     for (int c = 0; c < 3; c++) {
-                        o[c] = minf(clampUnit(k1 * s[c] * d[c] + k2 * s[c] + k3 * d[c] + k4), alpha);
+                        o[c] = minf(clampUnit(k1 * s[c] * d[c] + k2 * s[c] + k3 * d[c] + k4), maxf(alpha, ceiling));
                     }
 
                     o[3] = alpha;
