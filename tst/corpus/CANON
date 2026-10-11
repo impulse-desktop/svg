@@ -84,7 +84,7 @@ inkscape/1486b30cd7af5c38: ours: Chromium samples turbulence half a user unit of
 inkscape/09a7f28370ae634c: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
 wikimedia/29a50f00bd97cfe3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/5ecf0f908a9bcf1b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-openclipart/2737: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/2737: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0001 from ours and 0.0012 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 inkscape/f61ed2bb71f30a32: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 w3c/svg__text-align-08-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/7c6cd45396ed53e2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
@@ -93,18 +93,18 @@ inkscape/0869a340fb029f9d: inkscape: Chromium draws a stroke under a pixel wide 
 wikimedia/efce276a83248710: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/53f785a17dd58474: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/5b82864f310fea7a: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/d00cdc5b6d337a09: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d00cdc5b6d337a09: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0001 from ours and 0.0013 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/71073c57f4b945cd: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/3719896050c18d3a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 openclipart/4720: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/964ad0e51849b50b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/b0fee1fad67e53e9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/7f0c23e457b54008: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-openclipart/352966: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/352966: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0004 from ours and 0.0025 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/dfedd287d092d3d9: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
 wikimedia/2a49e8a3905ee629: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/94f635edf023add6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/af6258c4c8ea29e6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/af6258c4c8ea29e6: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0002 from ours and 0.0016 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/887c83acbcc8bd69: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/f8fa0fe1e080b121: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/778d4a3264103964: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
@@ -133,14 +133,14 @@ wikimedia/7446c2b84735ee94: inkscape: Chromium draws a stroke under a pixel wide
 wikimedia/46cb9117d0ef7dbd: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/d4181b1f5f1c0a2f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/ac16298561a405b9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/4c9f75b45e0ed69c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4c9f75b45e0ed69c: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0003 from ours and 0.0018 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/631d2e3e635cb4d1: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/132c269adc57f5a3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/ecf5de1afde5c5be: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/4aa75902400128d5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/5d6144bdfb8e8cf2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/47026cc7f1d184dc: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/9717a945ad660a37: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/9717a945ad660a37: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0002 from ours and 0.0011 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 blink/W3C-SVG-1.1__text-text-05-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/ed52b9cf2d99490e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/31b8dc2a75e68f65: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
@@ -158,17 +158,17 @@ inkscape/9dacf78b89ce14c7: ours: Chromium draws a stroke under a pixel wide as a
 inkscape/b68333cebad0a1ad: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/e4b8ecf71ea03fa7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/93494a19af78bdd9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/d1834b5e5848b152: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d1834b5e5848b152: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0003 from ours and 0.0012 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/45b6eed5f51b04f0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/bf846ac844d399b5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/6b61a35c0f9fc639: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/122d662e7104af7e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/122d662e7104af7e: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0023 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/8bc56b809d186a8d: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/9d83e3d07996a0c1: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/9d83e3d07996a0c1: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0005 from ours and 0.0017 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/c63ac367d7e76d16: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 w3c/svg__painting-stroke-05-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/8d455654f2b7aa37: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/416f8793c23fa6ec: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/416f8793c23fa6ec: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0004 from ours and 0.0014 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 inkscape/bedeb2adc390d181: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 openclipart/15255: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 w3c/svg__text-text-12-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
@@ -194,23 +194,23 @@ inkscape/b072b39c076485bb: inkscape: Chromium draws a stroke under a pixel wide 
 inkscape/4b49d96555d8a766: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/8208dbab35177080: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/91e57e17f5f2fb59: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/546bcf037ba3b2bb: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/546bcf037ba3b2bb: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0003 from ours and 0.0018 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 openclipart/231852: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/a13b69190b16a240: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/dff48be15f141377: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/a8adf43e1788d732: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/7a99009c01f5e0cf: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7a99009c01f5e0cf: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0019 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/6f28054db1fe7c1f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/4e006b7000d381d0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/accd8a506f28e996: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/b0ba3190692f137c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/90225cfd491e8fee: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/90225cfd491e8fee: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0005 from ours and 0.0013 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/d4c07d481d4f021a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/0a2dad95ac2e523c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/a36cfc7910b97a4a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/0a2dad95ac2e523c: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0009 from ours and 0.0018 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/a36cfc7910b97a4a: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0025 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/d50a278e722dfe06: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/c4c69834b436a84c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/0d174488f9663166: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/0d174488f9663166: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0046 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 inkscape/e6177ac1ff3258a5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/714af551455d5cd8: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/aa7ec5658d87d32b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
@@ -220,9 +220,9 @@ wikimedia/d7ab37a50ec9b788: inkscape: Chromium draws a stroke under a pixel wide
 inkscape/1e448d40c1275484: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/f0b1c4f94fa676a2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/a0a1ff6ee669dc39: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/c2b32be68f2e72b9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c2b32be68f2e72b9: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0021 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/c251ead6084f9372: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/5d8a100a45ebc1b7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/5d8a100a45ebc1b7: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0012 from ours and 0.0035 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/94c371f9a4a20812: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/bd6b7de9142d0f94: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/9ccd98689e2c8b84: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
@@ -252,7 +252,7 @@ wikimedia/dd5172a07e9153d7: inkscape: Chromium draws a stroke under a pixel wide
 wikimedia/c5eff33f8ef766f6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/414a2343e97740bb: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/f6b28873e2d161a9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/38e69913efda7341: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/38e69913efda7341: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0030 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/3546af491bf4173d: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/be00a4c844b88cbf: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/c7891c5c2aec0a04: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
@@ -263,13 +263,13 @@ wikimedia/17c7bae12308cdd8: inkscape: Chromium draws a stroke under a pixel wide
 wikimedia/1e636b9343efbf1a: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/934a78b6e40e0187: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/99d9bc5e58f9e4b8: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/6e058875fbe4ca46: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/6e058875fbe4ca46: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0016 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/73d7ec34c32634cd: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/0bb91b12dd82749f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/87ba393b9e9dea73: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/14d845574f032b7c: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/e4709b06c3f5f8bc: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/a63e70c83a3c9c13: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/a63e70c83a3c9c13: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0016 from ours and 0.0035 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/b6162d840f279cad: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/9b89baff354a31ee: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 wikimedia/67137135bf739042: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
@@ -279,11 +279,11 @@ wikimedia/289f42eb9147f942: ours: Chromium draws a stroke under a pixel wide as 
 wikimedia/fb1cf7360b9aecd4: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 openclipart/284083: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/ba26d72bfb5044bb: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/5e2c166c0a062c8f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/5e2c166c0a062c8f: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0002 from ours and 0.0023 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/b0e87302dfc900f9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/90d040967ac919e9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/5daacb395379afd3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/4430cba5580e0a62: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4430cba5580e0a62: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0009 from ours and 0.0045 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/6957d56f10b6b965: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/54577351fa11d7a6: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 wikimedia/2b5c5d106a6e497c: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
@@ -293,7 +293,7 @@ wikimedia/244219045203528b: ours: Chromium draws a stroke under a pixel wide as 
 wikimedia/14d2aec71a2db792: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/84aadceb8e0c89de: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/4bc355b5628bdfff: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/a83ac02059e22794: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/a83ac02059e22794: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0010 from ours and 0.0049 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/be4163d132365432: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/d377e678fb7896f3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 inkscape/bd1ef0fa1faa3559: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
@@ -304,7 +304,7 @@ wikimedia/40cccbf4c62aadf0: inkscape: Chromium draws a stroke under a pixel wide
 wikimedia/318abc44264a7c62: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 wikimedia/e13906ba5df9dc9c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/dcceac64e7e39b1f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/2db279dc03631a21: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/2db279dc03631a21: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0011 from ours and 0.0026 from resvg's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/bc7ae4490e544eab: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/528e99532c19f16a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 blink/W3C-SVG-1.1__coords-trans-01-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
@@ -347,3 +347,21 @@ resvg/painting__image-rendering__optimizeSpeed: inkscape: image-rendering optimi
 resvg/painting__image-rendering__on-feImage: firefox: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image of an feImage, Firefox and resvg keep its pixels sharp, as ours does
 wikimedia/0aa2d8e00d6b0808: resvg: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image, resvg and Firefox keep its pixels sharp, as ours does
 resvg/filters__feComponentTransfer__mixed-types: ours: worked by hand in linearRGB, #aabbcc through the table, discrete, linear and gamma functions comes out as 230, 255, 196; Chromium rounds to 8 bits on the way and gets 229, 255, 195, ours gets the exact values
+inkscape/93783c2d4705e43b: ours: blurs of a smooth dark gradient in linearRGB; Chromium keeps them in 8 bits and they come out as rings of steps, ours keeps floats and the gradient stays smooth
+inkscape/08cf4fe10dac5518: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0018 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+inkscape/1ff07899aff00cbf: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0023 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+logos/chalk: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0028 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+openclipart/141541: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0005 from ours and 0.0018 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+openclipart/230276: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0011 from ours and 0.0025 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+openclipart/240369: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0026 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+openclipart/256312: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0016 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+openclipart/260611: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0020 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+openclipart/309004: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0020 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+openclipart/315728: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0029 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/399eca5ea3df9ec7: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0002 from ours and 0.0014 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/54563bc5ffd3ace8: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0021 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/5a33d1706f9493ec: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0009 from ours and 0.0020 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/67738a1a8fc0debb: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0021 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/a14d59ec0c68e1cb: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0005 from ours and 0.0016 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/cffdec0d26772eb8: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0017 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
+wikimedia/d038d61459cbd3e0: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0046 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
