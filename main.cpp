@@ -662,10 +662,7 @@ namespace {
     }
 
     static bool twice(const Pixels& small, const Pixels& large) {
-        i64 dw = (i64)large.width - 2 * (i64)small.width;
-        i64 dh = (i64)large.height - 2 * (i64)small.height;
-
-        return dw >= -1 && dw <= 1 && dh >= -1 && dh <= 1;
+        return large.width == 2 * small.width && large.height == 2 * small.height;
     }
 
     static void halve(const u8* src, u32 width, u32 height, u32 outWidth, u32 outHeight, Buffer& out) {
