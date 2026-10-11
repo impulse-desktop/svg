@@ -4878,6 +4878,12 @@ namespace {
                 sweep += 2.f * pi;
             }
 
+            float middle = from + sweep / 2.f;
+
+            if (cosf(middle) * (d0.x - d1.x) + sinf(middle) * (d0.y - d1.y) < 0.f) {
+                sweep += sweep > 0.f ? -2.f * pi : 2.f * pi;
+            }
+
             addFan(out, p, s.half, from, sweep, s.tol);
 
             return;
