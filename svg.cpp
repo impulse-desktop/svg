@@ -10180,7 +10180,7 @@ namespace {
                 Crossing c = crossings[i];
                 size_t k = i;
 
-                while (k > 0 && crossings[k - 1].x > c.x) {
+                while (k > 0 && (crossings[k - 1].x > c.x || (crossings[k - 1].x == c.x && crossings[k - 1].dir > c.dir))) {
                     crossings.mutData()[k] = crossings[k - 1];
                     k--;
                 }
@@ -10192,7 +10192,7 @@ namespace {
         }
 
         quickSort(crossings.mutBegin(), crossings.mutEnd(), [](const Crossing& p, const Crossing& q) {
-            return p.x < q.x;
+            return p.x < q.x || (p.x == q.x && p.dir < q.dir);
         });
     }
 
@@ -10253,7 +10253,19 @@ namespace {
         }
 
         quickSort(edges.mutBegin(), edges.mutEnd(), [](const BandEdge& p, const BandEdge& q) {
-            return p.y0 < q.y0;
+            if (p.y0 != q.y0) {
+                return p.y0 < q.y0;
+            }
+
+            if (p.x0 != q.x0) {
+                return p.x0 < q.x0;
+            }
+
+            if (p.y1 != q.y1) {
+                return p.y1 < q.y1;
+            }
+
+            return p.x1 < q.x1 || (p.x1 == q.x1 && p.dir < q.dir);
         });
 
         Vector<u32> active;
