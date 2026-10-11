@@ -740,6 +740,7 @@ namespace {
         u32 width;
         u32 height;
         Vector<float*> layers;
+        Vector<IntBox> dirty;
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
         Vector<float> accumulation;
@@ -10444,6 +10445,41 @@ namespace {
         runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, paint.tile);
     }
 
+    static void clearSpan(float* layer, u32 width, int y, int x0, int x1) {
+        if (x1 > x0) {
+            memset(layer + ((size_t)y * width + (size_t)x0) * 4, 0, sizeof(float) * 4 * (size_t)(x1 - x0));
+        }
+    }
+
+    static void ensure(float* layer, u32 width, IntBox& valid, IntBox add) {
+        if (add.x0 >= add.x1 || add.y0 >= add.y1) {
+            return;
+        }
+
+        if (valid.x0 >= valid.x1 || valid.y0 >= valid.y1) {
+            for (int y = add.y0; y < add.y1; y++) {
+                clearSpan(layer, width, y, add.x0, add.x1);
+            }
+
+            valid = add;
+
+            return;
+        }
+
+        IntBox grown{add.x0 < valid.x0 ? add.x0 : valid.x0, add.y0 < valid.y0 ? add.y0 : valid.y0, add.x1 > valid.x1 ? add.x1 : valid.x1, add.y1 > valid.y1 ? add.y1 : valid.y1};
+
+        for (int y = grown.y0; y < grown.y1; y++) {
+            if (y < valid.y0 || y >= valid.y1) {
+                clearSpan(layer, width, y, grown.x0, grown.x1);
+            } else {
+                clearSpan(layer, width, y, grown.x0, valid.x0);
+                clearSpan(layer, width, y, valid.x1, grown.x1);
+            }
+        }
+
+        valid = grown;
+    }
+
     static void fillOp(Raster& r, const Lowering& l, const Op& op, float* target) {
         if (op.paint->type == PaintType::Pattern) {
             prepareTile(l, *op.paint);
@@ -10461,6 +10497,8 @@ namespace {
         const float* acc = r.accumulation.data();
         u32 stride = w + 2;
         const DevicePaint& paint = *op.paint;
+
+        ensure(target, r.width, r.dirty.mutBack(), IntBox{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)});
 
         for (u32 y = 0; y < h; y++) {
             float sum = 0.f;
@@ -10886,7 +10924,23 @@ namespace {
         }
     }
 
-    static void blurLine(const float* src, float* dst, float* scratch, int count, int stride, float sigma) {
+    static int blurReach(float sigma) {
+        if (sigma <= 0.f) {
+            return 0;
+        }
+
+        if (sigma < 2.f) {
+            int radius = (int)ceilf(sigma * 3.f);
+
+            return radius > 31 ? 31 : radius;
+        }
+
+        int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+
+        return 3 * (d / 2 + 1);
+    }
+
+    static void blurLine(const float* src, float* dst, Vector<float>& first, Vector<float>& second, int count, int stride, float sigma) {
         if (sigma <= 0.f) {
             for (int i = 0; i < count; i++) {
                 for (int c = 0; c < 4; c++) {
@@ -10921,12 +10975,14 @@ namespace {
         int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
         int pad = 3 * (d / 2 + 1);
         int total = count + 2 * pad;
-        Vector<float> first;
-        Vector<float> second;
 
-        (void)scratch;
-        first.zero((size_t)total * 4);
-        second.zero((size_t)total * 4);
+        if (first.length() < (size_t)total * 4) {
+            first.zero((size_t)total * 4);
+            second.zero((size_t)total * 4);
+        }
+
+        memset(first.mutData(), 0, sizeof(float) * 4 * (size_t)pad);
+        memset(first.mutData() + (size_t)(pad + count) * 4, 0, sizeof(float) * 4 * (size_t)pad);
 
         for (int i = 0; i < count; i++) {
             for (int c = 0; c < 4; c++) {
@@ -10959,32 +11015,41 @@ namespace {
 
         int height = (int)run.raster->height;
         int width = run.width;
+        int reachX = blurReach(sigmaX);
+        int reachY = blurReach(sigmaY);
+        int x0 = box.x0 - reachX > 0 ? box.x0 - reachX : 0;
+        int x1 = box.x1 + reachX < width ? box.x1 + reachX : width;
+        int y0 = box.y0 - reachY > 0 ? box.y0 - reachY : 0;
+        int y1 = box.y1 + reachY < height ? box.y1 + reachY : height;
         float* horizontal = filterBuffer(run);
         Vector<float> line;
         Vector<float> lineOut;
-        Vector<float> scratch;
-        int maxLength = width > height ? width : height;
+        Vector<float> first;
+        Vector<float> second;
 
-        line.zero((size_t)maxLength * 4);
-        lineOut.zero((size_t)maxLength * 4);
-        scratch.zero((size_t)maxLength * 4);
+        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+            return;
+        }
 
-        for (int y = 0; y < height; y++) {
-            const float* row = in + (size_t)y * width * 4;
-            float* target = horizontal + (size_t)y * width * 4;
+        line.zero((size_t)(y1 - y0) * 4);
+        lineOut.zero((size_t)(y1 - y0) * 4);
 
-            blurLine(row, target, scratch.mutData(), width, 4, sigmaX);
+        for (int y = y0; y < y1; y++) {
+            const float* row = in + ((size_t)y * width + x0) * 4;
+            float* target = horizontal + ((size_t)y * width + x0) * 4;
+
+            blurLine(row, target, first, second, x1 - x0, 4, sigmaX);
         }
 
         for (int x = box.x0; x < box.x1; x++) {
-            for (int y = 0; y < height; y++) {
-                memcpy(line.mutData() + (size_t)y * 4, horizontal + ((size_t)y * width + x) * 4, sizeof(float) * 4);
+            for (int y = y0; y < y1; y++) {
+                memcpy(line.mutData() + (size_t)(y - y0) * 4, horizontal + ((size_t)y * width + x) * 4, sizeof(float) * 4);
             }
 
-            blurLine(line.data(), lineOut.mutData(), scratch.mutData(), height, 4, sigmaY);
+            blurLine(line.data(), lineOut.mutData(), first, second, y1 - y0, 4, sigmaY);
 
             for (int y = box.y0; y < box.y1; y++) {
-                memcpy(out + ((size_t)y * width + x) * 4, lineOut.data() + (size_t)y * 4, sizeof(float) * 4);
+                memcpy(out + ((size_t)y * width + x) * 4, lineOut.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
             }
         }
     }
@@ -11607,19 +11672,24 @@ namespace {
             return;
         }
 
-        line.zero((size_t)run.width * 4);
-        column.zero((size_t)height * 4);
+        int x0 = box.x0 - ix > 0 ? box.x0 - ix : 0;
+        int x1 = box.x1 + ix < run.width ? box.x1 + ix : run.width;
+        int y0 = box.y0 - iy > 0 ? box.y0 - iy : 0;
+        int y1 = box.y1 + iy < height ? box.y1 + iy : height;
 
-        for (int y = 0; y < height; y++) {
-            slideExtreme(in + (size_t)y * run.width * 4, 4, run.width, ix, dilate, line.mutData(), 4, g, h);
-            memcpy(pass + ((size_t)y * run.width + box.x0) * 4, line.data() + (size_t)box.x0 * 4, sizeof(float) * 4 * (box.x1 - box.x0));
+        line.zero((size_t)(x1 - x0) * 4);
+        column.zero((size_t)(y1 - y0) * 4);
+
+        for (int y = y0; y < y1; y++) {
+            slideExtreme(in + ((size_t)y * run.width + x0) * 4, 4, x1 - x0, ix, dilate, line.mutData(), 4, g, h);
+            memcpy(pass + ((size_t)y * run.width + box.x0) * 4, line.data() + (size_t)(box.x0 - x0) * 4, sizeof(float) * 4 * (box.x1 - box.x0));
         }
 
         for (int x = box.x0; x < box.x1; x++) {
-            slideExtreme(pass + (size_t)x * 4, (size_t)run.width * 4, height, iy, dilate, column.mutData(), 4, g, h);
+            slideExtreme(pass + ((size_t)y0 * run.width + x) * 4, (size_t)run.width * 4, y1 - y0, iy, dilate, column.mutData(), 4, g, h);
 
             for (int y = box.y0; y < box.y1; y++) {
-                memcpy(out + ((size_t)y * run.width + x) * 4, column.data() + (size_t)y * 4, sizeof(float) * 4);
+                memcpy(out + ((size_t)y * run.width + x) * 4, column.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
             }
         }
     }
@@ -12501,8 +12571,10 @@ namespace {
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base) {
         size_t size = (size_t)r.width * r.height;
         size_t depth = r.layers.length();
+        IntBox canvas{0, 0, (int)r.width, (int)r.height};
 
         r.layers.pushBack(base);
+        r.dirty.pushBack(canvas);
 
         for (u32 k = 0; k < count; k++) {
             const Op& op = ops[k];
@@ -12512,14 +12584,15 @@ namespace {
                     fillOp(r, l, op, r.layers.back());
                     break;
                 case OpKind::Layer:
+                    ensure(r.layers.back(), r.width, r.dirty.mutBack(), canvas);
                     compositeLayer(r, l, op, r.layers.back());
                     break;
                 case OpKind::Begin: {
                     ObjPool* pool = ObjPool::fromMemoryRaw();
                     float* layer = (float*)pool->allocate(sizeof(float) * size * 4);
 
-                    memset(layer, 0, sizeof(float) * size * 4);
                     r.layers.pushBack(layer);
+                    r.dirty.pushBack(IntBox{0, 0, 0, 0});
                     r.pools.pushBack(pool);
                     r.begins.pushBack(&op);
                     break;
@@ -12529,6 +12602,11 @@ namespace {
                     ObjPool* pool = r.pools.popBack();
                     const Op* begin = r.begins.popBack();
                     float* parent = r.layers.back();
+                    IntBox box = r.dirty.popBack();
+
+                    if (begin->filter) {
+                        ensure(layer, r.width, box, canvas);
+                    }
 
                     for (const Filter* filter = begin->filter; filter; filter = filter->next) {
                         layer = applyFilter(r, l, *filter, layer, *pool);
@@ -12537,31 +12615,35 @@ namespace {
                     const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool) : nullptr;
                     const float* mask = begin->masked ? maskBuffer(r, l, *begin, *pool) : nullptr;
 
-                    for (size_t i = 0; i < size; i++) {
-                        float f = begin->opacity * (clip ? clip[i] : 1.f) * (mask ? mask[i] : 1.f);
-                        const float* s = layer + i * 4;
+                    ensure(parent, r.width, r.dirty.mutBack(), box);
 
-                        if (f <= 0.f || s[3] <= 0.f) {
-                            continue;
+                    for (int y = box.y0; y < box.y1; y++) {
+                        for (size_t i = (size_t)y * r.width + (size_t)box.x0; i < (size_t)y * r.width + (size_t)box.x1; i++) {
+                            float f = begin->opacity * (clip ? clip[i] : 1.f) * (mask ? mask[i] : 1.f);
+                            const float* s = layer + i * 4;
+
+                            if (f <= 0.f || s[3] <= 0.f) {
+                                continue;
+                            }
+
+                            float* d = parent + i * 4;
+
+                            if (begin->blend && d[3] > 0.f) {
+                                float source[4] = {s[0] * f, s[1] * f, s[2] * f, s[3] * f};
+                                float blended[4];
+
+                                blendPixel(begin->blend, source, d, blended);
+                                memcpy(d, blended, sizeof(blended));
+                                continue;
+                            }
+
+                            float keep = 1.f - s[3] * f;
+
+                            d[0] = s[0] * f + d[0] * keep;
+                            d[1] = s[1] * f + d[1] * keep;
+                            d[2] = s[2] * f + d[2] * keep;
+                            d[3] = s[3] * f + d[3] * keep;
                         }
-
-                        float* d = parent + i * 4;
-
-                        if (begin->blend && d[3] > 0.f) {
-                            float source[4] = {s[0] * f, s[1] * f, s[2] * f, s[3] * f};
-                            float blended[4];
-
-                            blendPixel(begin->blend, source, d, blended);
-                            memcpy(d, blended, sizeof(blended));
-                            continue;
-                        }
-
-                        float keep = 1.f - s[3] * f;
-
-                        d[0] = s[0] * f + d[0] * keep;
-                        d[1] = s[1] * f + d[1] * keep;
-                        d[2] = s[2] * f + d[2] * keep;
-                        d[3] = s[3] * f + d[3] * keep;
                     }
 
                     delete pool;
@@ -12572,17 +12654,20 @@ namespace {
 
         while (r.layers.length() > depth + 1) {
             r.layers.popBack();
+            r.dirty.popBack();
             r.begins.popBack();
             delete r.pools.popBack();
         }
 
         r.layers.popBack();
+        r.dirty.popBack();
     }
 
-    static u8 toByte(float value) {
-        float v = value * 255.f + 0.5f;
+    static u8 clampByte(float v) {
+        v = v < 0.f ? 0.f : v;
+        v = v > 255.f ? 255.f : v;
 
-        return v <= 0.f ? 0 : (v >= 255.f ? 255 : (u8)v);
+        return (u8)(int)v;
     }
 
     static bool loadDocument(Document& doc, ObjPool& pool, StringView source) {
@@ -12687,19 +12772,14 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height, float scale
         const float* s = base + i * 4;
         u8* d = pixels + i * 4;
         float a = s[3];
+        float divisor = a > 0.f ? a : 1.f;
+        float keep = a > 0.f ? 1.f : 0.f;
 
-        if (a <= 0.f) {
-            d[0] = 0;
-            d[1] = 0;
-            d[2] = 0;
-            d[3] = 0;
-            continue;
+        for (int c = 0; c < 3; c++) {
+            d[c] = clampByte((s[c] / divisor * keep) * 255.f + 0.5f);
         }
 
-        d[0] = toByte(s[0] / a);
-        d[1] = toByte(s[1] / a);
-        d[2] = toByte(s[2] / a);
-        d[3] = toByte(a);
+        d[3] = clampByte(a * keep * 255.f + 0.5f);
     }
 
     return pool.make<ImageImpl>(pixels, width, height);
