@@ -11519,6 +11519,50 @@ namespace {
         }
     }
 
+    static void slideExtreme(const float* src, size_t stride, int n, int r, bool dilate, float* dst, size_t dstStride, Vector<float>& g, Vector<float>& h) {
+        int m = n + 2 * r;
+        int w = 2 * r + 1;
+
+        g.zero((size_t)m * 4);
+        h.zero((size_t)m * 4);
+
+        float* pg = g.mutData();
+        float* ph = h.mutData();
+
+        for (int i = 0; i < m; i++) {
+            int k = i - r;
+            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : nullptr;
+
+            for (int c = 0; c < 4; c++) {
+                float value = v ? v[c] : 0.f;
+
+                pg[(size_t)i * 4 + c] = i % w == 0 ? value : (dilate ? maxf(pg[(size_t)(i - 1) * 4 + c], value) : minf(pg[(size_t)(i - 1) * 4 + c], value));
+            }
+        }
+
+        for (int i = m - 1; i >= 0; i--) {
+            int k = i - r;
+            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : nullptr;
+
+            for (int c = 0; c < 4; c++) {
+                float value = v ? v[c] : 0.f;
+
+                ph[(size_t)i * 4 + c] = i == m - 1 || (i + 1) % w == 0 ? value : (dilate ? maxf(ph[(size_t)(i + 1) * 4 + c], value) : minf(ph[(size_t)(i + 1) * 4 + c], value));
+            }
+        }
+
+        for (int x = 0; x < n; x++) {
+            float* d = dst + (size_t)x * dstStride;
+
+            for (int c = 0; c < 4; c++) {
+                float a = ph[(size_t)x * 4 + c];
+                float b = pg[(size_t)(x + 2 * r) * 4 + c];
+
+                d[c] = dilate ? maxf(a, b) : minf(a, b);
+            }
+        }
+    }
+
     static void filterMorphology(FilterRun& run, const FilterPrimitive& p, float* out) {
         const Filter& f = *run.filter;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
@@ -11535,45 +11579,35 @@ namespace {
             return;
         }
 
-        int ix = (int)floorf(userX(f, rx) * run.scaleX + 0.5f);
-        int iy = (int)floorf(userY(f, ry) * run.scaleY + 0.5f);
         int height = (int)run.raster->height;
+        float ux = userX(f, rx) * run.scaleX + 0.5f;
+        float uy = userY(f, ry) * run.scaleY + 0.5f;
+        int ix = (int)floorf(minf(ux, (float)run.width));
+        int iy = (int)floorf(minf(uy, (float)height));
         float* pass = filterBuffer(run);
         const IntBox& box = p.box;
+        Vector<float> line;
+        Vector<float> column;
+        Vector<float> g;
+        Vector<float> h;
 
-        for (int y = 0; y < height; y++) {
-            for (int x = box.x0; x < box.x1; x++) {
-                float best[4] = {dilate ? 0.f : 1.f, dilate ? 0.f : 1.f, dilate ? 0.f : 1.f, dilate ? 0.f : 1.f};
-
-                for (int k = x - ix; k <= x + ix; k++) {
-                    const float* s = k >= 0 && k < run.width ? in + ((size_t)y * run.width + k) * 4 : nullptr;
-
-                    for (int c = 0; c < 4; c++) {
-                        float v = s ? s[c] : 0.f;
-
-                        best[c] = dilate ? maxf(best[c], v) : minf(best[c], v);
-                    }
-                }
-
-                memcpy(pass + ((size_t)y * run.width + x) * 4, best, sizeof(best));
-            }
+        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+            return;
         }
 
-        for (int y = box.y0; y < box.y1; y++) {
-            for (int x = box.x0; x < box.x1; x++) {
-                float best[4] = {dilate ? 0.f : 1.f, dilate ? 0.f : 1.f, dilate ? 0.f : 1.f, dilate ? 0.f : 1.f};
+        line.zero((size_t)run.width * 4);
+        column.zero((size_t)height * 4);
 
-                for (int k = y - iy; k <= y + iy; k++) {
-                    const float* s = k >= 0 && k < height ? pass + ((size_t)k * run.width + x) * 4 : nullptr;
+        for (int y = 0; y < height; y++) {
+            slideExtreme(in + (size_t)y * run.width * 4, 4, run.width, ix, dilate, line.mutData(), 4, g, h);
+            memcpy(pass + ((size_t)y * run.width + box.x0) * 4, line.data() + (size_t)box.x0 * 4, sizeof(float) * 4 * (box.x1 - box.x0));
+        }
 
-                    for (int c = 0; c < 4; c++) {
-                        float v = s ? s[c] : 0.f;
+        for (int x = box.x0; x < box.x1; x++) {
+            slideExtreme(pass + (size_t)x * 4, (size_t)run.width * 4, height, iy, dilate, column.mutData(), 4, g, h);
 
-                        best[c] = dilate ? maxf(best[c], v) : minf(best[c], v);
-                    }
-                }
-
-                memcpy(out + ((size_t)y * run.width + x) * 4, best, sizeof(best));
+            for (int y = box.y0; y < box.y1; y++) {
+                memcpy(out + ((size_t)y * run.width + x) * 4, column.data() + (size_t)y * 4, sizeof(float) * 4);
             }
         }
     }
