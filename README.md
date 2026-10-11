@@ -101,8 +101,9 @@ is a candidate for `tst/corpus/CANON`.
 | `inkscape` | artwork from the inkscape.org community gallery up to 1 MB |
 
 `tst/import.py RAW CORPUS` takes the files from the unpacked sources: text
-elements are cut out, files with what is out of scope are left out, equal
-files are kept once, and the large icon sets are sampled with a fixed seed.
+elements are cut out, files with what is out of scope are left out, both
+also inside SVG images embedded as data URIs, equal files are kept once, and
+the large icon sets are sampled with a fixed seed.
 `tst/reference.py CHROMIUM SVG CORPUS JOBS` draws the references with headless
 Chromium through its DevTools pipe at the device scale `SIDE` asks for,
 shrinks them with `svg shrink` of the test driver `SVG`, and drops the files
