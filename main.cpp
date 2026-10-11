@@ -220,7 +220,7 @@ namespace {
         }
     }
 
-    static void draw(SvgDocument* document, ObjPool& pool, Pixels& pixels) {
+    static void draw(SvgDocument* document, ObjPool& pool, Pixels& pixels, float scale) {
         pixels.rgba.zero((size_t)pixels.width * pixels.height * 4);
 
         if (!document) {
@@ -228,7 +228,7 @@ namespace {
         }
 
         try {
-            SvgImage* image = document->render(pool, pixels.width, pixels.height);
+            SvgImage* image = document->render(pool, pixels.width, pixels.height, scale);
 
             if (image && image->width() == pixels.width && image->height() == pixels.height && image->length() == pixels.rgba.length()) {
                 memcpy(pixels.rgba.mutData(), image->data(), pixels.rgba.length());
@@ -460,9 +460,82 @@ namespace {
         }
     }
 
+    static void shrink(const Pixels& large, u32 factor, Pixels& out) {
+        out.width = large.width / factor;
+        out.height = large.height / factor;
+        out.rgba.zero((size_t)out.width * out.height * 4);
+
+        const u8* p = (const u8*)large.rgba.data();
+        u8* q = (u8*)out.rgba.mutData();
+        u64 count = (u64)factor * factor;
+
+        for (u32 y = 0; y < out.height; y++) {
+            for (u32 x = 0; x < out.width; x++) {
+                u64 sum[4] = {0, 0, 0, 0};
+
+                for (u32 yy = y * factor; yy < (y + 1) * factor; yy++) {
+                    const u8* s = p + ((size_t)yy * large.width + (size_t)x * factor) * 4;
+
+                    for (u32 xx = 0; xx < factor; xx++, s += 4) {
+                        for (int c = 0; c < 3; c++) {
+                            sum[c] += (u64)s[c] * s[3];
+                        }
+
+                        sum[3] += s[3];
+                    }
+                }
+
+                u8* d = q + ((size_t)y * out.width + x) * 4;
+
+                if (!sum[3]) {
+                    continue;
+                }
+
+                for (int c = 0; c < 3; c++) {
+                    u64 v = (sum[c] + sum[3] / 2) / sum[3];
+
+                    d[c] = (u8)(v > 255 ? 255 : v);
+                }
+
+                d[3] = (u8)((sum[3] + count / 2) / count);
+            }
+        }
+    }
+
+    static void drawFine(SvgDocument* document, ObjPool& pool, Pixels& pixels, u32 factor) {
+        if (factor <= 1) {
+            draw(document, pool, pixels, 1.f);
+
+            return;
+        }
+
+        Pixels large;
+
+        large.width = pixels.width * factor;
+        large.height = pixels.height * factor;
+        draw(document, pool, large, (float)factor);
+        shrink(large, factor, pixels);
+    }
+
+    static u32 factorOf(const char* text) {
+        int factor = atoi(text);
+
+        if (factor < 1 || factor > 64) {
+            fail(StringView(u8"bad factor "), text);
+        }
+
+        return (u32)factor;
+    }
+
+    static u32 sideFactor(u32 side, u32 width, u32 height) {
+        u32 longest = width > height ? width : height;
+
+        return longest && side > longest ? side / longest : 1;
+    }
+
     static int render(int argc, char** argv) {
-        if (argc != 6) {
-            sysE << StringView(u8"usage: svg render IN.svg OUT.png WIDTH HEIGHT") << endL;
+        if (argc != 6 && argc != 7) {
+            sysE << StringView(u8"usage: svg render IN.svg OUT.png WIDTH HEIGHT [SIDE]") << endL;
 
             return 2;
         }
@@ -472,18 +545,43 @@ namespace {
 
         pixels.width = (u32)atoi(argv[4]);
         pixels.height = (u32)atoi(argv[5]);
-        draw(load(*pool, argv[2]), *pool, pixels);
+        drawFine(load(*pool, argv[2]), *pool, pixels, argc == 7 ? sideFactor((u32)atoi(argv[6]), pixels.width, pixels.height) : 1);
         writePng(argv[3], pixels);
 
         return 0;
     }
 
-    static int test(int argc, char** argv) {
-        if (argc < 5) {
-            sysE << StringView(u8"usage: svg test IN.svg SCORE REFERENCE.png...") << endL;
+    static int shrinkCommand(int argc, char** argv) {
+        if (argc != 5) {
+            sysE << StringView(u8"usage: svg shrink IN.png OUT.png FACTOR") << endL;
 
             return 2;
         }
+
+        u32 factor = factorOf(argv[4]);
+        Pixels large;
+        Pixels small;
+
+        readPng(argv[2], large);
+
+        if (large.width % factor || large.height % factor) {
+            fail(StringView(u8"size is not a multiple of the factor in "), argv[2]);
+        }
+
+        shrink(large, factor, small);
+        writePng(argv[3], small);
+
+        return 0;
+    }
+
+    static int test(int argc, char** argv) {
+        if (argc < 6) {
+            sysE << StringView(u8"usage: svg test IN.svg SCORE SIDE REFERENCE.png...") << endL;
+
+            return 2;
+        }
+
+        u32 side = (u32)atoi(argv[4]);
 
         alarm(caseSeconds);
 
@@ -491,33 +589,50 @@ namespace {
         SvgDocument* document = load(*pool, argv[2]);
         StringBuilder errors;
         StringBuilder shares;
+        StringBuilder small;
         StringBuilder referenceScaling;
         StringBuilder oursScaling;
         Pixels first;
         Buffer firstReference;
         Buffer firstOurs;
 
-        for (int i = 4; i < argc; i++) {
+        for (int i = 5; i < argc; i++) {
             Pixels reference;
             Pixels ours;
+            Pixels fine;
             Buffer referencePremultiplied;
             Buffer oursPremultiplied;
+            Buffer finePremultiplied;
 
             readPng(argv[i], reference);
+
+            u32 factor = sideFactor(side, reference.width, reference.height);
+
             ours.width = reference.width;
             ours.height = reference.height;
-            draw(document, *pool, ours);
+            draw(document, *pool, ours, 1.f);
             premultiply(reference, referencePremultiplied);
             premultiply(ours, oursPremultiplied);
 
+            if (factor > 1) {
+                fine.width = reference.width;
+                fine.height = reference.height;
+                drawFine(document, *pool, fine, factor);
+                premultiply(fine, finePremultiplied);
+            }
+
+            const Pixels& scored = factor > 1 ? fine : ours;
+            const Buffer& scoredPremultiplied = factor > 1 ? finePremultiplied : oursPremultiplied;
             char text[32];
 
-            snprintf(text, sizeof(text), " %.9f", error(ours, reference));
+            snprintf(text, sizeof(text), " %.9f", error(scored, reference));
             errors << StringView(text);
-            snprintf(text, sizeof(text), " %.9f", structural((const u8*)oursPremultiplied.data(), (const u8*)referencePremultiplied.data(), reference.width, reference.height));
+            snprintf(text, sizeof(text), " %.9f", structural((const u8*)scoredPremultiplied.data(), (const u8*)referencePremultiplied.data(), reference.width, reference.height));
             shares << StringView(text);
+            snprintf(text, sizeof(text), " %.9f", error(ours, reference));
+            small << StringView(text);
 
-            if (i == 4) {
+            if (i == 5) {
                 first.width = reference.width;
                 first.height = reference.height;
                 firstReference = referencePremultiplied;
@@ -536,7 +651,7 @@ namespace {
 
         StringBuilder scores;
 
-        scores << StringView(u8"mae") << StringView(errors) << StringView(u8"\nstruct") << StringView(shares) << StringView(u8"\nreference") << StringView(referenceScaling) << StringView(u8"\nours") << StringView(oursScaling) << StringView(u8"\n");
+        scores << StringView(u8"mae") << StringView(errors) << StringView(u8"\nstruct") << StringView(shares) << StringView(u8"\naa") << StringView(small) << StringView(u8"\nreference") << StringView(referenceScaling) << StringView(u8"\nours") << StringView(oursScaling) << StringView(u8"\n");
 
         FILE* out = fopen(argv[3], "wb");
 
@@ -620,10 +735,12 @@ int main(int argc, char** argv) {
             result = render(argc, argv);
         } else if (argc >= 2 && StringView(argv[1]) == StringView(u8"test")) {
             result = test(argc, argv);
+        } else if (argc >= 2 && StringView(argv[1]) == StringView(u8"shrink")) {
+            result = shrinkCommand(argc, argv);
         } else if (argc >= 2 && StringView(argv[1]) == StringView(u8"bench")) {
             result = bench(argc, argv);
         } else {
-            sysE << StringView(u8"usage: svg render|test|bench ...") << endL;
+            sysE << StringView(u8"usage: svg render|test|shrink|bench ...") << endL;
         }
     } catch (...) {
         sysE << StringView(u8"svg: ") << Exception::current() << endL;

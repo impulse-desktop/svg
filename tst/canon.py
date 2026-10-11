@@ -18,6 +18,26 @@ def size(path):
         return struct.unpack(">II", handle.read(24)[16:24])
 
 
+def factor(side, width, height):
+    return max(1, side // max(width, height))
+
+
+def scalable(svg):
+    with open(svg, "rb") as handle:
+        match = ROOT.search(handle.read())
+    if not match:
+        return False
+    tag = match.group(0)
+    if attribute(rb"viewBox").search(tag):
+        return True
+    sides = [attribute(name).search(tag) for name in (rb"width", rb"height")]
+    return all(found and length(found.group(2)[1:-1]) for found in sides)
+
+
+def shrink(shrinker, large, png, scale):
+    subprocess.run([shrinker, "shrink", large, png, str(scale)], check=True)
+
+
 def attribute(name):
     return re.compile(rb"(\s)" + name + rb"\s*=\s*(\"[^\"]*\"|'[^']*')", re.S)
 
@@ -117,63 +137,84 @@ def unblend(white, black):
     return out
 
 
-def inkscape(program, jobs):
-    script = "".join(
-        f"file-open:{svg}; export-type:png; export-filename:{png}; export-width:{width}; export-height:{height}; "
-        "export-png-color-mode:RGBA_8; export-background-opacity:0; export-do; file-close\n"
-        for svg, png, width, height in jobs
-    )
-    subprocess.run([program, "--shell"], input=script + "quit\n", text=True, check=True,
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+def enlarged(jobs, name):
+    for svg, png, width, height, scale in jobs:
+        if scale > 1 and not scalable(svg):
+            sys.exit(f"{svg}: {name} can only enlarge it, which differs from a device scale without a viewBox or an absolute size")
+
+
+def inkscape(program, shrinker, jobs, side):
+    enlarged(jobs, "inkscape")
+    with tempfile.TemporaryDirectory() as work:
+        large = [os.path.join(work, f"{index}.png") for index in range(len(jobs))]
+        script = "".join(
+            f"file-open:{svg}; export-type:png; export-filename:{big}; export-width:{width * scale}; export-height:{height * scale}; "
+            "export-png-color-mode:RGBA_8; export-background-opacity:0; export-do; file-close\n"
+            for (svg, png, width, height, scale), big in zip(jobs, large)
+        )
+        subprocess.run([program, "--shell"], input=script + "quit\n", text=True, check=True,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        for (svg, png, width, height, scale), big in zip(jobs, large):
+            if os.path.exists(big) and size(big) == (width * scale, height * scale):
+                shrink(shrinker, big, png, scale)
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip().splitlines()[0]
 
 
-def resvg(program, jobs):
-    for svg, png, width, height in jobs:
-        with open(svg, "rb") as handle:
-            data = sized(handle.read(), width, height)
-        with tempfile.NamedTemporaryFile(suffix=".svg", dir=os.path.dirname(svg)) as copy:
-            copy.write(data)
-            copy.flush()
-            subprocess.run([program, copy.name, png], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        if size(png) != (width, height):
-            sys.exit(f"{png}: resvg drew {size(png)}, not {width}x{height}")
+def resvg(program, shrinker, jobs, side):
+    enlarged(jobs, "resvg")
+    with tempfile.TemporaryDirectory() as work:
+        big = os.path.join(work, "large.png")
+        for svg, png, width, height, scale in jobs:
+            with open(svg, "rb") as handle:
+                data = sized(handle.read(), width * scale, height * scale)
+            with tempfile.NamedTemporaryFile(suffix=".svg", dir=os.path.dirname(svg)) as copy:
+                copy.write(data)
+                copy.flush()
+                subprocess.run([program, copy.name, big], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if size(big) != (width * scale, height * scale):
+                sys.exit(f"{png}: resvg drew {size(big)}, not {width * scale}x{height * scale}")
+            shrink(shrinker, big, png, scale)
     return "resvg " + subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip()
 
 
-def firefox(program, jobs):
+def firefox(program, shrinker, jobs, side):
     with tempfile.TemporaryDirectory() as work:
         profile = os.path.join(work, "profile")
         os.mkdir(profile)
-        for svg, png, width, height in jobs:
+        for svg, png, width, height, scale in jobs:
             shots = []
             for background in ("white", "black"):
                 page = os.path.join(work, background + ".html")
                 shot = os.path.join(work, background + ".png")
+                small = os.path.join(work, background + ".small.png")
                 with open(page, "w") as handle:
-                    handle.write(f"<!doctype html><html><head><style>html,body{{margin:0;padding:0;background:{background};overflow:hidden}}"
-                                 f"img{{display:block}}</style></head><body><img src=\"file://{svg}\" style=\"width:{width}px;height:{height}px\"></body></html>")
-                subprocess.run([program, "--headless", "--no-remote", "--profile", profile, f"--window-size={width},{height}",
+                    handle.write(f"<!doctype html><html><head><style>html,body{{margin:0;padding:0;background:{background};overflow:hidden;width:100%;height:100%}}"
+                                 f"img{{display:block;transform:scale({scale});transform-origin:0 0}}</style></head>"
+                                 f"<body><img src=\"file://{svg}\" style=\"width:{width}px;height:{height}px\"></body></html>")
+                subprocess.run([program, "--headless", "--no-remote", "--profile", profile, f"--window-size={width * scale},{height * scale}",
                                 "--screenshot", shot, "file://" + page], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                shots.append(decode(shot))
-            if any(shot[:2] != (width, height) for shot in shots):
-                sys.exit(f"{png}: firefox drew {shots[0][:2]}, not {width}x{height}")
+                if size(shot) != (width * scale, height * scale):
+                    sys.exit(f"{png}: firefox drew {size(shot)}, not {width * scale}x{height * scale}")
+                shrink(shrinker, shot, small, scale)
+                shots.append(decode(small))
             encode(png, width, height, unblend(shots[0][2], shots[1][2]))
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip()
 
 
-def ours(program, jobs):
-    for svg, png, width, height in jobs:
-        subprocess.run([program, "render", svg, png, str(width), str(height)], check=True)
+def ours(program, shrinker, jobs, side):
+    for svg, png, width, height, scale in jobs:
+        subprocess.run([program, "render", svg, png, str(width), str(height), str(side)], check=True)
     source = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     commit = subprocess.run(["git", "-C", source, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
     return f"svg at {commit}"
 
 
 def main():
-    if len(sys.argv) != 4 or sys.argv[1] not in RENDERERS:
-        sys.exit("usage: tst/canon.py inkscape|resvg|firefox|ours PROGRAM CORPUS_DIR")
-    renderer, program, corpus = sys.argv[1], sys.argv[2], os.path.abspath(sys.argv[3])
+    if len(sys.argv) != 5 or sys.argv[1] not in RENDERERS:
+        sys.exit("usage: tst/canon.py inkscape|resvg|firefox|ours PROGRAM SVG CORPUS_DIR")
+    renderer, program, shrinker, corpus = sys.argv[1], sys.argv[2], os.path.abspath(sys.argv[3]), os.path.abspath(sys.argv[4])
+    with open(os.path.join(corpus, "SIDE")) as handle:
+        side = int(handle.read())
     jobs = []
     with open(os.path.join(corpus, "CANON")) as handle:
         for line in handle:
@@ -181,18 +222,19 @@ def main():
             if len(fields) == 3 and fields[1] == renderer:
                 for label in LABELS:
                     png = os.path.join(corpus, f"{fields[0]}.{label}.png")
-                    jobs.append((os.path.join(corpus, fields[0] + ".svg"), png, *size(png)))
+                    width, height = size(png)
+                    jobs.append((os.path.join(corpus, fields[0] + ".svg"), png, width, height, factor(side, width, height)))
     if not jobs:
         sys.exit(f"no cases for {renderer} in {os.path.join(corpus, 'CANON')}")
-    for _, png, _, _ in jobs:
+    for _, png, _, _, _ in jobs:
         os.rename(png, png + ".chromium")
     try:
-        version = globals()[renderer](program, jobs)
-        missing = [png for _, png, width, height in jobs if not os.path.exists(png) or size(png) != (width, height)]
+        version = globals()[renderer](program, shrinker, jobs, side)
+        missing = [png for _, png, width, height, _ in jobs if not os.path.exists(png) or size(png) != (width, height)]
         if missing:
             sys.exit(f"{renderer} did not draw " + " ".join(missing))
     finally:
-        for _, png, _, _ in jobs:
+        for _, png, _, _, _ in jobs:
             if os.path.exists(png):
                 os.remove(png + ".chromium")
             else:

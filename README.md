@@ -28,22 +28,30 @@ SvgImage* image = document->render(pool, width, height);
 
 `render(width, height)` draws the document the way Chromium draws it as an
 image of that size: `<img src="file.svg" style="width: Wpx; height: Hpx">`.
-The pixels are RGBA, 8 bits a channel, not premultiplied. `decoder`, an
+`render(width, height, scale)` draws it at `scale` device pixels to the CSS
+pixel: the image is laid out at `width / scale` by `height / scale` and drawn
+at `width` by `height`. The pixels are RGBA, 8 bits a channel, not
+premultiplied. `decoder`, an
 `SvgDecoder` of the embedding program, turns the bytes of a raster image
 inside the document into such pixels.
 
 ## The score
 
-`./build meanrms`, `./build maxrms` and `./build struct` draw every case of
-the corpus and print what they measure; lower is better, 0 is Chromium
-itself. `./build all` prints the three together with the candidates for
-the next fixes.
+`./build meanrms`, `./build maxrms`, `./build struct` and `./build aa` draw
+every case of the corpus and print what they measure; lower is better, 0 is
+the reference itself. `./build all` prints the four together with the
+candidates for the next fixes.
 
-- A case is one file of `tst/corpus/<source>/` and Chromium's two drawings
-  of it next to it: `<name>.1x.png`, its longer side 256 pixels, and
-  `<name>.2x.png`, 512 pixels.
+- A case is one file of `tst/corpus/<source>/` and its two references next
+  to it: `<name>.1x.png`, its longer side 256 pixels, and `<name>.2x.png`,
+  512 pixels.
+- A reference is supersampled: drawn with its longer side `tst/corpus/SIDE`
+  device pixels, 1024, so 1x at 4 device pixels to the pixel and 2x at 2,
+  and shrunk by the mean of each block in premultiplied RGBA. Ours is drawn
+  and shrunk the same way, so neither antialiasing nor the shapes laid one
+  over another on an edge tell the two apart, only what is drawn.
 - The error of one drawing is the mean absolute difference between ours
-  and Chromium's over every pixel and channel, in premultiplied RGBA,
+  and the reference over every pixel and channel, in premultiplied RGBA,
   scaled to [0, 1]. A crash or a drawing past two minutes counts as 1.
 - The error of one case is the root mean square of the errors of its
   drawings.
@@ -59,14 +67,18 @@ the next fixes.
   miscolored one is. A case fails when over 0.1% of the pixels of one of its
   drawings are wrong. `struct` is the number of failing cases and the mean
   share of wrong pixels over the worst 1%.
+- `aa` is `meanrms` of ours drawn straight at 256 and 512 pixels against the
+  same references: how close our plain drawing is to the supersampled one,
+  antialiasing included.
 
 The same test draws each case once for all of them: `svg test` writes the
-errors and the shares of wrong pixels of its drawings, and the shares of
-wrong pixels between the 1x drawing and the 2x drawing halved, Chromium's
-and ours. A reference Chromium draws differently at the two sizes while
-ours agree is a candidate for `tst/corpus/CANON`.
+errors and the shares of wrong pixels of its supersampled drawings, the
+errors of its plain drawings, and the shares of wrong pixels between the 1x
+drawing and the 2x drawing halved, the reference's and ours. A reference
+drawn differently at the two sizes while ours agree is a candidate for
+`tst/corpus/CANON`.
 
-`$(B)/meanrms.txt`, `$(B)/maxrms.txt`, `$(B)/struct.txt` and
+`$(B)/meanrms.txt`, `$(B)/maxrms.txt`, `$(B)/struct.txt`, `$(B)/aa.txt` and
 `$(B)/all.txt` hold the numbers and every case, the worst first.
 `-Dfilter=GLOB` scores the cases whose path under `tst/corpus` matches,
 `./build -Dfilter='resvg/*' all`.
@@ -89,17 +101,21 @@ ours agree is a candidate for `tst/corpus/CANON`.
 `tst/import.py RAW CORPUS` takes the files from the unpacked sources: text
 elements are cut out, files with what is out of scope are left out, equal
 files are kept once, and the large icon sets are sampled with a fixed seed.
-`tst/reference.py CHROMIUM CORPUS JOBS` draws the references with headless
-Chromium through its DevTools pipe and drops the files Chromium cannot
-draw; `tst/corpus/CHROMIUM` names the version. Chromium is the reference,
+`tst/reference.py CHROMIUM SVG CORPUS JOBS` draws the references with headless
+Chromium through its DevTools pipe at the device scale `SIDE` asks for,
+shrinks them with `svg shrink` of the test driver `SVG`, and drops the files
+Chromium cannot draw; `tst/corpus/CHROMIUM` names the version. Chromium is the reference,
 not the goal: where it demonstrably draws a case wrong, the drawing of
 Inkscape, resvg, Firefox or ours that is right takes its place.
 `tst/corpus/CANON` lists such a case with the renderer and the reason,
-`tst/canon.py RENDERER PROGRAM CORPUS` draws the cases listed for that
-renderer at the sizes Chromium chose, and `tst/corpus/INKSCAPE`,
-`tst/corpus/RESVG`, `tst/corpus/FIREFOX` and `tst/corpus/OURS` name the
-versions. Firefox is drawn twice, over white and over black, to recover the
-alpha its screenshots lose. A case whose behaviour is undefined and which
+`tst/canon.py RENDERER PROGRAM SVG CORPUS` draws the cases listed for that
+renderer at the sizes Chromium chose, supersampled the same way, and
+`tst/corpus/INKSCAPE`, `tst/corpus/RESVG`, `tst/corpus/FIREFOX` and
+`tst/corpus/OURS` name the versions. Firefox is drawn twice, over white and
+over black, to recover the alpha its screenshots lose, and scaled by a CSS
+transform; Inkscape and resvg can only enlarge a drawing, which is the same
+as a device scale unless the document has neither a viewBox nor an absolute
+size. A case whose behaviour is undefined and which
 every renderer draws differently is listed with the reason in
 `tst/corpus/EXCLUDED`, and is neither drawn nor scored. The corpus grows; the
 references are drawn again only when Chromium is changed.
@@ -115,7 +131,7 @@ with wasm2c; see [its README](ext/decode/README.md).
 
 ```
 ./build          # .build/svg, the test driver
-./build all      # meanrms, maxrms, struct and the candidates
+./build all      # meanrms, maxrms, struct, aa and the candidates
 ```
 
 The Nix flake supplies Clang 21 with libc++, wasm2c, SIMDe, libpng and Python;

@@ -2,6 +2,7 @@
 import base64
 import json
 import os
+import struct
 import subprocess
 import sys
 import threading
@@ -124,27 +125,32 @@ def sizes(natural):
         yield label, max(1, round(width * scale)), max(1, round(height * scale))
 
 
-def render(browser, svg):
+def render(browser, svg, program, side, scratch):
     url = json.dumps("file://" + os.path.abspath(svg))
     natural = browser.evaluate(LOAD % url)
     if not natural or natural[0] <= 0 or natural[1] <= 0:
         return "no natural size"
     for label, width, height in sizes(natural):
-        browser.send("Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": False})
+        factor = max(1, side // max(width, height))
+        browser.send("Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": factor, "mobile": False})
         if not browser.evaluate(SHOW % (width, height, url)):
             return "image failed to load"
-        shot = browser.send("Page.captureScreenshot", {
+        shot = base64.b64decode(browser.send("Page.captureScreenshot", {
             "format": "png",
             "clip": {"x": 0, "y": 0, "width": width, "height": height, "scale": 1},
             "fromSurface": True,
             "captureBeyondViewport": False,
-        })
-        with open(svg[:-4] + f".{label}.png", "wb") as handle:
-            handle.write(base64.b64decode(shot["data"]))
+        })["data"])
+        if struct.unpack(">II", shot[16:24]) != (width * factor, height * factor):
+            return f"screenshot is {struct.unpack('>II', shot[16:24])}, not {width * factor}x{height * factor}"
+        large = os.path.join(scratch, f"{threading.get_ident()}.png")
+        with open(large, "wb") as handle:
+            handle.write(shot)
+        subprocess.run([program, "shrink", large, svg[:-4] + f".{label}.png", str(factor)], check=True)
     return None
 
 
-def worker(index, chromium, cases, results, harness, scratch):
+def worker(index, chromium, program, side, cases, results, harness, scratch):
     browser = None
     done = 0
     for svg in cases:
@@ -155,7 +161,7 @@ def worker(index, chromium, cases, results, harness, scratch):
                 if browser is None:
                     browser = Browser(chromium, os.path.join(scratch, f"profile{index}"))
                     browser.open(harness)
-                error = render(browser, svg)
+                error = render(browser, svg, program, side, scratch)
                 break
             except Exception as failure:
                 error = f"chromium: {failure}"
@@ -171,9 +177,11 @@ def worker(index, chromium, cases, results, harness, scratch):
 
 
 def main():
-    if len(sys.argv) != 4:
-        sys.exit("usage: tst/reference.py CHROMIUM CORPUS_DIR JOBS")
-    chromium, corpus, jobs = sys.argv[1], sys.argv[2], int(sys.argv[3])
+    if len(sys.argv) != 5:
+        sys.exit("usage: tst/reference.py CHROMIUM SVG CORPUS_DIR JOBS")
+    chromium, program, corpus, jobs = sys.argv[1], os.path.abspath(sys.argv[2]), sys.argv[3], int(sys.argv[4])
+    with open(os.path.join(corpus, "SIDE")) as handle:
+        side = int(handle.read())
     scratch = os.path.join("/tmp", f"svg-reference-{os.getpid()}")
     os.makedirs(scratch, exist_ok=True)
     harness = os.path.join(scratch, "harness.html")
@@ -187,7 +195,7 @@ def main():
     )
     results = []
     threads = [
-        threading.Thread(target=worker, args=(k, chromium, cases[k::jobs], results, harness, scratch))
+        threading.Thread(target=worker, args=(k, chromium, program, side, cases[k::jobs], results, harness, scratch))
         for k in range(jobs)
     ]
     for thread in threads:
