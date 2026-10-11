@@ -193,6 +193,7 @@ using namespace stl;
     ATOM(Isolation, "isolation")                                   \
     ATOM(ColorInterpolation, "color-interpolation")                \
     ATOM(ShapeRendering, "shape-rendering")                        \
+    ATOM(ImageRendering, "image-rendering")                        \
     ATOM(Zoom, "zoom")                                             \
     ATOM(Outline, "outline")
 
@@ -546,6 +547,7 @@ namespace {
         bool isolate;
         bool linearColors;
         bool aliased;
+        u8 imageRendering;
         float zoom;
         float outlineWidth;
         Color outlineColor;
@@ -6348,6 +6350,18 @@ namespace {
                     }
 
                     break;
+                case AtomImageRendering:
+                    if (keyword) {
+                        style.imageRendering = source.imageRendering;
+                    } else if (isKeyword(value, "crisp-edges") || isKeyword(value, "optimizespeed")) {
+                        style.imageRendering = 1;
+                    } else if (isKeyword(value, "pixelated")) {
+                        style.imageRendering = 2;
+                    } else if (isKeyword(value, "auto") || isKeyword(value, "smooth") || isKeyword(value, "high-quality") || isKeyword(value, "optimizequality")) {
+                        style.imageRendering = 0;
+                    }
+
+                    break;
                 case AtomShapeRendering:
                     if (keyword) {
                         style.aliased = source.aliased;
@@ -9276,7 +9290,7 @@ namespace {
         return out;
     }
 
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h) {
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
         const Document& doc = *l.doc;
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
         bool stretch = ratio && trim(textOf(doc, ratio)) == StringView(u8"none");
@@ -9301,6 +9315,9 @@ namespace {
 
             float scale = minf(sqrtf(place.a * place.a + place.b * place.b), sqrtf(place.c * place.c + place.d * place.d));
             int levels = scale > 0.f && scale < 1.f ? (int)floorf(maxf(-log2f(scale) - 0.5f, 0.f) + 0.5f) : 0;
+
+            paint->smooth = rendering == 0 || (rendering == 2 && scale < 1.f);
+            levels = paint->smooth ? levels : 0;
 
             float fx = 1.f;
             float fy = 1.f;
@@ -9403,7 +9420,7 @@ namespace {
             return;
         }
 
-        drawImage(l, node, source, m, vp, x, y, w, h);
+        drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering);
     }
 
     static Matrix boxTransform(Lowering& l, Node* node, const ComputedStyle& parent, Viewport vp) {
@@ -9510,7 +9527,7 @@ namespace {
         ImageSource source;
 
         if (w > 0.f && h > 0.f && loadImage(l, node, source)) {
-            drawImage(l, node, source, m, vp, x, y, w, h);
+            drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering);
         }
     }
 
