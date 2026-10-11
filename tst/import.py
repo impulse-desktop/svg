@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+import base64
 import glob
 import hashlib
 import os
 import random
 import re
 import sys
+import urllib.parse
 
 SOURCES = [
     ("resvg", "resvg/*/crates/resvg/tests/tests", None),
@@ -36,6 +38,7 @@ FORBIDDEN = re.compile(
     re.I,
 )
 SVG_ROOT = re.compile(rb"<(?:svg:)?svg\b", re.I)
+DATA_URI = re.compile(rb"data:([^,;\"')\s]*)((?:;[^,\"')\s]*)*),([^\"')\s]*)", re.I)
 UNSAFE = re.compile(r"[^A-Za-z0-9._-]")
 
 
@@ -48,13 +51,38 @@ def candidates(root):
                 yield path
 
 
-def cleaned(data):
-    if len(data) > MAX_BYTES or not SVG_ROOT.search(data):
-        return None
+def embedded(match):
+    mime, params, payload = match.group(1), match.group(2), match.group(3)
+    if b"svg" not in mime.lower():
+        return match.group(0)
+    encoded = b"base64" in params.lower()
+    if encoded:
+        packed = re.sub(rb"\s|&#1[03];", b"", payload)
+        original = base64.b64decode(packed + b"=" * (-len(packed) % 4))
+    else:
+        original = urllib.parse.unquote_to_bytes(payload)
+    inner = inside(original)
+    if inner is None:
+        raise ValueError
+    if inner == original:
+        return match.group(0)
+    return b"data:" + mime + params + b"," + (base64.b64encode(inner) if encoded else urllib.parse.quote_from_bytes(inner, safe="").encode())
+
+
+def inside(data):
     data = TEXT_ELEMENT.sub(b"", data)
     if FORBIDDEN.search(data):
         return None
-    return data
+    try:
+        return DATA_URI.sub(embedded, data)
+    except ValueError:
+        return None
+
+
+def cleaned(data):
+    if len(data) > MAX_BYTES or not SVG_ROOT.search(data):
+        return None
+    return inside(data)
 
 
 def safe_name(relative):
