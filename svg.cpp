@@ -8488,7 +8488,7 @@ namespace {
         float scale = userUnits ? 1.f : shapeStyle.strokeWidth;
         bool device = shapeStyle.nonScaling && !userUnits;
         const MarkerVertex& vertex = device ? deviceVertex : userVertex;
-        Matrix m = device ? identity() : userMatrix;
+        Matrix m = device ? l.host : userMatrix;
         Point at = vertex.p;
         float radians = angle * pi / 180.f;
         Matrix placed = multiply(m, translation(at.x, at.y));
@@ -8566,9 +8566,14 @@ namespace {
 
         Vector<MarkerVertex> vertices;
         Vector<MarkerVertex> deviceVertices;
+        Matrix hostInverse;
+
+        if (!invert(l.host, hostInverse)) {
+            hostInverse = identity();
+        }
 
         markerVertices(path, vertices);
-        markerVertices(style.nonScaling ? transformedPath(path, m) : path, deviceVertices);
+        markerVertices(style.nonScaling ? transformedPath(path, multiply(hostInverse, m)) : path, deviceVertices);
 
         for (size_t i = 0; i < vertices.length() && i < deviceVertices.length(); i++) {
             int kind = i == 0 ? 0 : (i + 1 == vertices.length() ? 2 : 1);
