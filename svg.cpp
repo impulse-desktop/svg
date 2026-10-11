@@ -11103,7 +11103,8 @@ namespace {
         }
 
         if (sx < 0.f || sy < 0.f) {
-            return;
+            sx = 0.f;
+            sy = 0.f;
         }
 
         float* shadow = filterBuffer(run);
