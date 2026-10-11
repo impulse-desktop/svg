@@ -3769,14 +3769,14 @@ namespace {
                 close++;
             }
 
-            if (close >= text.end()) {
-                return false;
-            }
-
             StringView reference = trim(StringView(text.begin() + 4, close));
 
-            if (reference.length() >= 2 && (reference[0] == '"' || reference[0] == '\'') && reference.back() == reference[0]) {
-                reference = StringView(reference.begin() + 1, reference.end() - 1);
+            if (!reference.empty() && (reference[0] == '"' || reference[0] == '\'')) {
+                reference = StringView(reference.begin() + 1, reference.length() >= 2 && reference.back() == reference[0] ? reference.end() - 1 : reference.end());
+            }
+
+            if (close >= text.end()) {
+                close = text.end() - 1;
             }
 
             out.kind = PaintKind::Server;
