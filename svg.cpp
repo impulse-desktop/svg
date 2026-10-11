@@ -9996,6 +9996,20 @@ namespace {
         return Color{c.r * c.a, c.g * c.a, c.b * c.a, c.a};
     }
 
+    static float mitchell(float x) {
+        x = fabsf(x);
+
+        if (x < 1.f) {
+            return (7.f * x * x * x - 12.f * x * x + 16.f / 3.f) / 6.f;
+        }
+
+        if (x < 2.f) {
+            return (-7.f / 3.f * x * x * x + 12.f * x * x - 20.f * x + 32.f / 3.f) / 6.f;
+        }
+
+        return 0.f;
+    }
+
     static Color texel(const DevicePaint& paint, int x, int y) {
         x = x < 0 ? 0 : (x >= (int)paint.imageWidth ? (int)paint.imageWidth - 1 : x);
         y = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
@@ -10079,21 +10093,25 @@ namespace {
             float y0 = floorf(fy);
             float tx = fx - x0;
             float ty = fy - y0;
-            Color c00 = texel(paint, (int)x0, (int)y0);
-            Color c10 = texel(paint, (int)x0 + 1, (int)y0);
-            Color c01 = texel(paint, (int)x0, (int)y0 + 1);
-            Color c11 = texel(paint, (int)x0 + 1, (int)y0 + 1);
-            float w00 = (1.f - tx) * (1.f - ty);
-            float w10 = tx * (1.f - ty);
-            float w01 = (1.f - tx) * ty;
-            float w11 = tx * ty;
+            float wx[4] = {mitchell(tx + 1.f), mitchell(tx), mitchell(1.f - tx), mitchell(2.f - tx)};
+            float wy[4] = {mitchell(ty + 1.f), mitchell(ty), mitchell(1.f - ty), mitchell(2.f - ty)};
+            Color sum{0.f, 0.f, 0.f, 0.f};
 
-            out = Color{
-                c00.r * w00 + c10.r * w10 + c01.r * w01 + c11.r * w11,
-                c00.g * w00 + c10.g * w10 + c01.g * w01 + c11.g * w11,
-                c00.b * w00 + c10.b * w10 + c01.b * w01 + c11.b * w11,
-                c00.a * w00 + c10.a * w10 + c01.a * w01 + c11.a * w11,
-            };
+            for (int j = 0; j < 4; j++) {
+                for (int i = 0; i < 4; i++) {
+                    Color c = texel(paint, (int)x0 - 1 + i, (int)y0 - 1 + j);
+                    float w = wx[i] * wy[j];
+
+                    sum.r += c.r * w;
+                    sum.g += c.g * w;
+                    sum.b += c.b * w;
+                    sum.a += c.a * w;
+                }
+            }
+
+            float a = clampUnit(sum.a);
+
+            out = Color{maxf(0.f, minf(sum.r, a)), maxf(0.f, minf(sum.g, a)), maxf(0.f, minf(sum.b, a)), a};
 
             return true;
         }
