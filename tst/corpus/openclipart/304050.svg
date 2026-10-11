@@ -1,0 +1,109 @@
+<svg width="100%" height="100%" viewBox="0 0 360 350"
+     xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+     
+  <desc>
+    Barn Quilt
+    
+    Barn Quilts are painted quilt blocks and hung on barns. 
+    Many counties in the US have driving trails to take in the beautiful displays.
+    
+    The Barn ( based on: https://openclipart.org/detail/164713/red-barn ) has been modified to
+    display a quilt block symbol. The quilt symbol can easily be replaced with a square design of any size.
+    
+    Have a favorite quilt block design?  Add it to the collection on openclipart.org using tag quiltblock.
+    
+    Jay Nick
+    STEAMcoded.org
+  </desc>
+
+  <defs>
+    <pattern id="rlines" width="600" height="600" viewBox="0 0 600 600" patternUnits="userSpaceOnUse">
+      <path d="M0,300l600,0" transform="rotate(-60,300,300)" style="stroke:red;stroke-width:600px;stroke-dasharray:45,41.6;stroke-dashoffset:25" />
+    </pattern>
+    <pattern id="olines" width="600" height="600" viewBox="0 0 600 600" patternUnits="userSpaceOnUse">
+      <path d="M0,300l600,0" transform="rotate(-60,300,300)" style="stroke:orange;stroke-width:600px;stroke-dasharray:45,41.6;stroke-dashoffset:25" />
+    </pattern>
+    <pattern id="ylines" width="600" height="600" viewBox="0 0 600 600" patternUnits="userSpaceOnUse">
+      <path d="M0,300l600,0" transform="rotate(-60,300,300)" style="stroke:yellow;stroke-width:600px;stroke-dasharray:45,41.6;stroke-dashoffset:25" />
+    </pattern>
+    <pattern id="glines" width="600" height="600" viewBox="0 0 600 600" patternUnits="userSpaceOnUse">
+      <path d="M0,300l600,0" transform="rotate(-60,300,300)" style="stroke:lime;stroke-width:600px;stroke-dasharray:45,41.6;stroke-dashoffset:25" />
+    </pattern>
+    <pattern id="blines" width="600" height="600" viewBox="0 0 600 600" patternUnits="userSpaceOnUse">
+      <path d="M0,300l600,0" transform="rotate(-60,300,300)" style="stroke:cyan;stroke-width:600px;stroke-dasharray:45,41.6;stroke-dashoffset:25" />
+    </pattern>
+    <pattern id="vlines" width="600" height="600" viewBox="0 0 600 600" patternUnits="userSpaceOnUse">
+      <path d="M0,300l600,0" transform="rotate(-60,300,300)" style="stroke:magenta;stroke-width:600px;stroke-dasharray:45,41.6;stroke-dashoffset:25" />
+    </pattern>
+
+    <symbol id="hexagon" viewBox="0 0 600 600" overflow="visible">
+      <path d="M300,0L559.8,150L559.8,450L300,600L40.2,450L40.2,150L300,0z"/>
+    </symbol>
+    <mask id="m1">
+      <rect width="620" height="620" style="fill:white;stroke:white;stroke-width:20px;" />
+      <use width="300" height="300" xlink:href="#hexagon" transform="rotate(60,300,300) translate(150,0)" style="fill:#000;stroke:#000;stroke-width:10px;" />
+      <circle cx="300" cy="300" r="3" style="fill:#fff;" />
+    </mask>
+
+    <clipPath id="cp1">
+	  <path d="M333.19 346.44l-307.23 0 0-167.48 51.8-93.08 101.82-68.54 101.81 68.54 51.8 93.08z"/>
+    </clipPath>
+
+	<linearGradient id="lg1" x1="50.58" x2="308.57" y1="113.06" y2="371.06" gradientUnits="userSpaceOnUse">
+	  <stop style="stop-color:#C22032" offset="0"/>
+	  <stop style="stop-color:#971A23" offset="1"/>
+	</linearGradient>
+
+	<linearGradient id="lg2" x1="187.31" x2="255.33" y1="272.68" y2="340.7" gradientUnits="userSpaceOnUse">
+	  <stop style="stop-color:#C22032" offset="0"/>
+	  <stop style="stop-color:#751114" offset=".5"/>
+	  <stop style="stop-color:#590E26" offset="1"/>
+	</linearGradient>
+	
+	<symbol id="quilt" viewBox="0 0 620 620" overflow="visible">
+      <rect width="620" height="620" style="fill:black;stroke:white;stroke-width:2px;" />
+      <g transform="translate(10,10)" style="fill:url(#rlines);">
+        <g id="hexagons" style="mask:url(#m1);">
+          <use width="300" height="300" xlink:href="#hexagon" transform="translate(150,0)" />
+        </g>
+        <use width="300" height="300" xlink:href="#hexagons" transform="rotate(60,300,300)" style="fill:url(#olines);" />
+        <use width="300" height="300" xlink:href="#hexagons" transform="rotate(120,300,300)" style="fill:url(#ylines);" />
+        <use width="300" height="300" xlink:href="#hexagons" transform="rotate(180,300,300)" style="fill:url(#glines);" />
+        <use width="300" height="300" xlink:href="#hexagons" transform="rotate(240,300,300)" style="fill:url(#blines);" />
+        <use width="300" height="300" xlink:href="#hexagons" transform="rotate(300,300,300)" style="fill:url(#vlines);" />
+      </g>
+	</symbol>
+  </defs>
+
+
+	<path style="fill:url(#lg1);" d="M333.19 346.44l-307.23 0 0-167.48 51.8-93.08 101.82-68.54 101.81 68.54 51.8 93.08z"/>
+    <path d="M0,175l360,0" style="fill:none;stroke:#762823;stroke-width:360;stroke-dasharray:0.763,14.237;stroke-dashoffset:0.763;clip-path:url(#cp1);" />
+
+	<path style="opacity:.7;fill:#8E191F;" d="M195 43.5l13-8-27.6-19.62-102.8 69.18-64.27 113.59 13.38-21.19-0.04 35.48 66.33-120.94 55-36z"/>
+	<path style="stroke:#929296;stroke-width:.0957;fill:#EAE7E7;" d="M179.39 3.54l110.47 74.33 65.03 116.35-10.03 5.6-63.67-113.9-101.82-68.55z"/>
+	<path style="stroke:#929296;stroke-width:.0957;fill:#EAE7E7;" d="M179.35 3.54l-110.47 74.33-65.03 116.35 10.03 5.6 63.67-113.9 101.82-68.55z"/>
+	<path style="stroke:#919195;stroke-width:.125;fill:#CAC9CA;" d="M225.2 34.19l-6.6 9.42-38.98-26.24 0.02-13.83z"/>
+	<path style="stroke:#919195;stroke-width:.125;fill:#DDDBDB;" d="M133.8 34.19l6.6 9.42 38.98-26.24-0.02-13.83z"/>
+
+	<path id="door" style="fill-rule:evenodd;stroke:#929296;clip-rule:evenodd;stroke-width:.3616;fill:url(#lg2);" d="M187.26 272.73l68.12 0 0 67.91-68.12 0z"/>
+    <use xlink:href="#door" transform="translate(0,-80.34)" />
+    <use xlink:href="#door" transform="translate(-84.1,0)" />
+    <use xlink:href="#door" transform="translate(-84.1,-80.34)" />
+
+	<g id="frame" style="fill:#EAE7E7;fill-rule:evenodd;stroke:#929296;stroke-width:.3616;clip-rule:evenodd" >
+	  <path d="M190.36 331.88l55.48-56.89 6.45 0 0 6.86-55.42 56.95-6.51 0z"/>
+	  <path d="M179.35 267.13l83.9 0 0 7.83-83.9 0z"/>
+	  <path d="M179.39 339.41l10.97-0.61 0-63.83-10.97 0z"/>
+	  <path d="M179.35 338.8l83.9 0 0 7.93-83.9 0z"/>
+	  <path d="M252.3 274.97l10.96 0 0 63.83-10.96 0z"/>
+      <path d="M252.29 331.88l-55.49-56.89-6.44 0 0 6.86 55.42 56.95 6.51 0z"/>
+	</g>
+    <use xlink:href="#frame" transform="translate(0,-79.63)" />
+    <use xlink:href="#frame" transform="translate(-84.1,0)" />
+    <use xlink:href="#frame" transform="translate(-84.1,-79.63)" />
+
+    <g style="display:initial;" transform="translate(137.5,65)">
+      <use width="84" height="84" xlink:href="#quilt" />
+    </g>
+  </svg>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 	3648 2052">
+	<defs>
+		<filter id="Ftr" x="0" y="0" width="100%" height="100%">
+			<feTurbulence baseFrequency="0.075,0.0024" type="fractalNoise" numOctaves="7" seed="17" result="noise"/>
+			<feColorMatrix type="matrix" in="noise" result="ok" values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0 0 0 -1.2 1.1"/>
+			<feMerge>
+				<feMergeNode in="SourceGraphic"/>
+				<feMergeNode in="ok"/>
+			</feMerge>
+		</filter>
+	</defs>
+
+	<g>
+		<title>Aspect ratio conversion bars, by Adam Stanislav</title>
+		<desc>Use this to convert a video shot with the HDTV 16:9 aspect ratio compromise to Prime Widescreen. To what, you say? Well, ancient Greeks loved prime numbers (a prime number, as you know, is a number that cannot be divided by any number other than 1 and itself). I happen to share that love with those ancient Greeks. So, I just made up a widescreen ratio of 19:7. And since both 19 and 7 are prime numbers, and since 19/7 = 2.71 (roughly, obviously) which is quite a wide-screen ratio, I have named it the Prime Widescreen.</desc>
+
+		<rect id="Background" width="3648" height="2052" fill="#FFF" opacity="0"/>
+
+		<g id="Mask" fill="rgb(50%,15%,5%)">
+			<title>Masking bar</title>
+
+			<rect id="Top" width="3648" height="354" filter="url(#Ftr)"/>
+			<rect id="Bottom" y="1698" width="3648" height="354" filter="url(#Ftr)"/>
+		</g>
+	</g>
+</svg>

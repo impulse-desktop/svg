@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg viewBox="-750 -750 1500 1500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+	<g id="pc">
+		<line y1="-740" y2="740"/>
+		<line x1="-740" x2="740"/>
+	</g>
+</defs>
+<g id="PolarCoordinates" fill="none" stroke-width="3" stroke="black">
+	<title>Polar Coordinates, by G. Adam Stanislav</title>
+	<g stroke-dasharray="2">
+		<use xlink:href="#pc" transform="rotate(15)"/>
+		<use xlink:href="#pc" transform="rotate(75)"/>
+	</g>
+	<g stroke-dasharray="5">
+		<use xlink:href="#pc" transform="rotate(30)"/>
+		<use xlink:href="#pc" transform="rotate(60)"/>
+	</g>
+	<use xlink:href="#pc" stroke-dasharray="7 3" transform="rotate(45)"/>
+	<use xlink:href="#pc"/>
+	<g stroke="#007" stroke-dasharray="11">
+		<circle r="100"/>
+		<circle r="200"/>
+		<circle r="300"/>
+		<circle r="400"/>
+		<circle r="500"/>
+		<circle r="600"/>
+		<circle r="700"/>
+	</g>
+</g>
+</svg>
