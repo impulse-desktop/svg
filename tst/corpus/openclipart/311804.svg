@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="-100 -100 300 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<defs>
+<linearGradient id="g" x2="0" y2="1" >
+	<stop offset="0" stop-color="#f0f"/>
+	<stop offset="0.1429" stop-color="#f0f"/>
+	<stop offset="0.1429" stop-color="#00F"/>
+	<stop offset="0.2857" stop-color="#00F"/>
+	<stop offset="0.2857" stop-color="cyan"/>
+	<stop offset="0.4286" stop-color="cyan"/>
+	<stop offset="0.4286" stop-color="lime"/>
+	<stop offset="0.5714" stop-color="lime"/>
+	<stop offset="0.5714" stop-color="#ff0"/>
+	<stop offset="0.7143" stop-color="#ff0"/>
+	<stop offset="0.7143" stop-color="#FF8000"/>
+	<stop offset="0.8571" stop-color="#FF8000"/>
+	<stop offset="0.8571" stop-color="red"/>
+	<stop offset="1.00" stop-color="red"/>
+</linearGradient>
+<linearGradient
+ spreadMethod="reflect"
+ gradientUnits="userSpaceOnUse"
+ y1="0"
+ x1="-100"
+ y2="100"
+ x2="-100"
+ id="l2"
+ xlink:href="#g" />
+<linearGradient
+ gradientTransform="rotate(90)"
+ spreadMethod="reflect"
+ y2="100"
+ x2="-100"
+ y1="0"
+ x1="-100"
+ gradientUnits="userSpaceOnUse"
+ id="l1"
+ xlink:href="#g" />
+ <linearGradient
+ gradientTransform="rotate(90)"
+ spreadMethod="reflect"
+ y1="100"
+ x1="-100"
+ y2="0"
+ x2="-100"
+ gradientUnits="userSpaceOnUse"
+ id="l3"
+ xlink:href="#g" />
+</defs>
+<rect x="-100" y="-100" width="300" height="200" fill="url(#l2)" />
+<path d="m200,100v-200l-100,100l100 100" fill="url(#l3)"/>
+<path d="m-100 100v-200l100 100-100 100" fill="url(#l1)"/>
+</svg>

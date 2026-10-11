@@ -1,0 +1,133 @@
+<svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <!-- พื้นหลัง -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6a11cb" />
+      <stop offset="100%" stop-color="#2575fc" />
+    </linearGradient>
+    <linearGradient id="bg-gradient-2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#43cea2" />
+      <stop offset="100%" stop-color="#185a9d" />
+    </linearGradient>
+    <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="10" flood-opacity="0.3" />
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- พื้นหลังส่วนที่ 1 -->
+  <rect width="1080" height="960" fill="url(#bg-gradient)" />
+  
+  <!-- พื้นหลังส่วนที่ 2 -->
+  <rect y="960" width="1080" height="960" fill="url(#bg-gradient-2)" />
+  
+  <!-- รูปแบบกราฟิกเสริม -->
+  <circle cx="100" cy="200" r="150" fill="#ffffff" fill-opacity="0.05" />
+  <circle cx="980" cy="400" r="200" fill="#ffffff" fill-opacity="0.05" />
+  <circle cx="200" cy="1600" r="180" fill="#ffffff" fill-opacity="0.05" />
+  <circle cx="900" cy="1800" r="150" fill="#ffffff" fill-opacity="0.05" />
+  
+  <!-- ไอคอนโซเชียลมีเดียด้านบน -->
+  <g transform="translate(540, 120)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="80" fill="#ffffff" />
+    
+  </g>
+  
+  <!-- หัวข้อหลัก -->
+  <rect x="90" y="230" width="900" height="150" rx="20" fill="#ffffff" filter="url(#drop-shadow)" />
+  <g transform="translate(540, 305)">
+    
+    
+  </g>
+  
+  <!-- ส่วนที่ 1: อิทธิพลที่มองเห็นได้ -->
+  <rect x="90" y="410" width="900" height="100" rx="20" fill="#f3e5f5" fill-opacity="0.95" filter="url(#drop-shadow)" />
+  
+  
+  <!-- หัวข้อย่อย 1.1 -->
+  <g transform="translate(120, 540)">
+    <rect x="0" y="0" width="840" height="150" rx="15" fill="#ffffff" fill-opacity="0.9" filter="url(#drop-shadow)" />
+    
+    <!-- ไอคอนประกอบ -->
+    <circle cx="50" cy="75" r="40" fill="#f3e5f5" stroke="#6a11cb" stroke-width="2" />
+    
+    
+    
+    
+  </g>
+  
+  <!-- หัวข้อย่อย 1.2 -->
+  <g transform="translate(120, 720)">
+    <rect x="0" y="0" width="840" height="150" rx="15" fill="#ffffff" fill-opacity="0.9" filter="url(#drop-shadow)" />
+    
+    <!-- ไอคอนประกอบ -->
+    <circle cx="50" cy="75" r="40" fill="#f3e5f5" stroke="#6a11cb" stroke-width="2" />
+    
+    
+    
+    
+  </g>
+  
+  <!-- หัวข้อย่อย 1.3 -->
+  <g transform="translate(120, 900)">
+    <rect x="0" y="0" width="840" height="150" rx="15" fill="#ffffff" fill-opacity="0.9" filter="url(#drop-shadow)" />
+    
+    <!-- ไอคอนประกอบ -->
+    <circle cx="50" cy="75" r="40" fill="#f3e5f5" stroke="#6a11cb" stroke-width="2" />
+    
+    
+    
+    
+  </g>
+  
+  <!-- ส่วนที่ 2: กลไกที่ทำให้เราเชื่อ -->
+  <rect x="90" y="1080" width="900" height="100" rx="20" fill="#e0f2f1" fill-opacity="0.95" filter="url(#drop-shadow)" />
+  
+  
+  <!-- หัวข้อย่อย 2.1 -->
+  <g transform="translate(120, 1210)">
+    <rect x="0" y="0" width="840" height="150" rx="15" fill="#ffffff" fill-opacity="0.9" filter="url(#drop-shadow)" />
+    
+    <!-- ไอคอนประกอบ -->
+    <circle cx="50" cy="75" r="40" fill="#e0f2f1" stroke="#185a9d" stroke-width="2" />
+    
+    
+    
+    
+  </g>
+  
+  <!-- หัวข้อย่อย 2.2 -->
+  <g transform="translate(120, 1390)">
+    <rect x="0" y="0" width="840" height="150" rx="15" fill="#ffffff" fill-opacity="0.9" filter="url(#drop-shadow)" />
+    
+    <!-- ไอคอนประกอบ -->
+    <circle cx="50" cy="75" r="40" fill="#e0f2f1" stroke="#185a9d" stroke-width="2" />
+    
+    
+    
+    
+  </g>
+  
+  <!-- หัวข้อย่อย 2.3 -->
+  <g transform="translate(120, 1570)">
+    <rect x="0" y="0" width="840" height="150" rx="15" fill="#ffffff" fill-opacity="0.9" filter="url(#drop-shadow)" />
+    
+    <!-- ไอคอนประกอบ -->
+    <circle cx="50" cy="75" r="40" fill="#e0f2f1" stroke="#185a9d" stroke-width="2" />
+    
+    
+    
+    
+  </g>
+  
+  <!-- ส่วนสรุป -->
+  <rect x="90" y="1750" width="900" height="170" rx="20" fill="rgba(255, 255, 255, 0.97)" filter="url(#drop-shadow)" />
+  
+  
+  
+  <!-- ข้อความท้าย -->
+  
+</svg>

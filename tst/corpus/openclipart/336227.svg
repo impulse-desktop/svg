@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='us-ascii'?><!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0" y="0" width='500' height='500' viewBox="-.2 -.2 3.4 3.4">
+<defs>
+  <filter id="x0" x="0" y="0" width="1" height="1"><feColorMatrix type="matrix"  values="0 0 0 0 0  0 0 0 0 0  0 0 .2 0 0  0 0 0 1 0"/></filter>
+  <filter id="x1" x="0" y="0" width="1" height="1"><feColorMatrix type="matrix"  values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter>
+  <filter id="x2" x="0" y="0" width="1" height="1"><feColorMatrix type="matrix"  values="1 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter>
+  <filter id="x3" x="0" y="0" width="1" height="1"><feColorMatrix type="matrix"  values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0"/></filter>
+  <filter id="x4" x="0" y="0" width="1" height="1"><feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/></filter>
+  <filter id="x5" x="0" y="0" width="1" height="1"><feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"/></filter>
+  <filter id="x6" x="0" y="0" width="1" height="1"><feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"/></filter>
+
+  <radialGradient id='q0' >
+    <stop stop-color='#ffffff' stop-opacity='1' offset='0' />
+    <stop stop-color='#ffffff' stop-opacity='.3' offset='1' />
+  </radialGradient>
+  <radialGradient id='q9' >
+    <stop stop-color='#ffffff' stop-opacity='.3' offset='0' />
+    <stop stop-color='#ffffff' stop-opacity='1' offset='1' />
+  </radialGradient>
+  <linearGradient id='q'>
+    <stop stop-color='#ffffff' stop-opacity='1' offset='0' />
+    <stop stop-color='#ffffff' stop-opacity='.3' offset='1' />
+  </linearGradient>
+  <linearGradient xlink:href='#q' id='q1' x1='100%' y1='100%' x2='0' y2='0'/>
+  <linearGradient xlink:href='#q' id='q2' x1='0' y1='100%' x2='0' y2='0'/>
+  <linearGradient xlink:href='#q' id='q3' x1='0' y1='100%' x2='100%' y2='0'/>
+  <linearGradient xlink:href='#q' id='q4' x1='100%' y1='0' x2='0' y2='0'/>
+
+  <linearGradient xlink:href='#q' id='q5' x1='0' y1='0' x2='100%' y2='0'/>
+  <linearGradient xlink:href='#q' id='q6' x1='100%' y1='0' x2='0' y2='100%'/>
+  <linearGradient xlink:href='#q' id='q7' x1='0' y1='0' x2='0' y2='100%'/>
+  <linearGradient xlink:href='#q' id='q8' x1='0' y1='0' x2='100%' y2='100%'/>
+
+<g id='one'>
+
+<circle cx="0.5" cy="0.5" r="0.5" style='fill:url(#q1)'/>
+<circle cx="1.5" cy="0.5" r="0.5" style='fill:url(#q2)'/>
+<circle cx="2.5" cy="0.5" r="0.5" style='fill:url(#q3)'/>
+<circle cx="0.5" cy="1.5" r="0.5" style='fill:url(#q4)'/>
+
+<circle cx="1.5" cy="1.5" r="0.5" style='fill:url(#q0)'/>
+
+<circle cx="2.5" cy="1.5" r="0.5" style='fill:url(#q5)'/>
+<circle cx="0.5" cy="2.5" r="0.5" style='fill:url(#q6)'/>
+<circle cx="1.5" cy="2.5" r="0.5" style='fill:url(#q7)'/>
+<circle cx="2.5" cy="2.5" r="0.5" style='fill:url(#q8)'/>
+</g>
+</defs>
+<rect x="-.2" y="-.2" width='3.4' height='3.4' style='fill:#000000'/>
+<rect x="-.2" y="-.2" width='3.4' height='3.4' style='fill:url(#q9);filter:url(#x0)'/>
+<use xlink:href='#one' transform='translate(0 0)' style='filter:url(#x1);'/>
+<use xlink:href='#one' transform='translate(1.5 1.5) rotate(50) scale(.8 .8) translate(-1.5 -1.5)' style='filter:url(#x2);'/>
+<use xlink:href='#one' transform='translate(1.55 1.55) rotate(100) scale(.6 .6) translate(-1.5 -1.5)' style='filter:url(#x3);'/>
+<use xlink:href='#one' transform='translate(1.60 1.60) rotate(150) scale(.4 .4) translate(-1.5 -1.5)' style='filter:url(#x4);'/>
+<use xlink:href='#one' transform='translate(1.65 1.65) rotate(200) scale(.3 .3) translate(-1.5 -1.5)' style='filter:url(#x5);'/>
+<use xlink:href='#one' transform='translate(1.70 1.70) rotate(250) scale(.15 .15) translate(-1.5 -1.5)' style='filter:url(#x6);'/>
+
+</svg>

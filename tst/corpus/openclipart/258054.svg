@@ -1,0 +1,2537 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1000"
+   height="1000"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="startile77.svg">
+  <defs
+     id="defs4">
+    <filter
+       inkscape:label="w4"
+       id="filter6171"
+       style="color-interpolation-filters:sRGB">
+      <feFlood
+         flood-color="rgb(228,199,145)"
+         result="result3"
+         id="feFlood6173" />
+      <feFlood
+         flood-color="rgb(236,222,201)"
+         result="result4"
+         id="feFlood6175" />
+      <feTurbulence
+         numOctaves="3"
+         baseFrequency="0.26100000000000001 0"
+         result="result1"
+         id="feTurbulence6177" />
+      <feComponentTransfer
+         result="result5"
+         id="feComponentTransfer6179">
+        <feFuncR
+           type="identity"
+           id="feFuncR6181" />
+        <feFuncG
+           type="identity"
+           id="feFuncG6183" />
+        <feFuncB
+           type="identity"
+           id="feFuncB6185" />
+        <feFuncA
+           intercept="-0.10000000000000001"
+           slope="3.3199999999999998"
+           type="linear"
+           id="feFuncA6187" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="8"
+         baseFrequency="0.30599999999999999 0.017000000000000001"
+         scale="3.7999999999999998"
+         result="result7"
+         id="feTurbulence6189" />
+      <feTurbulence
+         numOctaves="4"
+         baseFrequency="0.84899999999999998 0.23799999999999999"
+         id="feTurbulence6191" />
+      <feComponentTransfer
+         baseFrequency="0.092999999999999999 0.0080000000000000002"
+         result="result9"
+         id="feComponentTransfer6193">
+        <feFuncR
+           type="identity"
+           id="feFuncR6195" />
+        <feFuncG
+           type="identity"
+           id="feFuncG6197" />
+        <feFuncB
+           type="identity"
+           id="feFuncB6199" />
+        <feFuncA
+           intercept="-0.40000000000000002"
+           slope="3.02"
+           type="linear"
+           id="feFuncA6201" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="10"
+         baseFrequency="0.012 0.0050000000000000001"
+         scale="9.9000000000000004"
+         result="result13"
+         id="feTurbulence6203" />
+      <feComposite
+         in2="result5"
+         operator="in"
+         in="result3"
+         result="result2"
+         id="feComposite6205" />
+      <feComposite
+         result="result6"
+         in2="result4"
+         id="feComposite6207" />
+      <feDisplacementMap
+         result="result8"
+         scale="3.825136612021858"
+         in2="result7"
+         id="feDisplacementMap6209"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feComposite
+         operator="in"
+         in2="result9"
+         id="feComposite6211" />
+      <feComponentTransfer
+         result="result10"
+         id="feComponentTransfer6213">
+        <feFuncR
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncR6215" />
+        <feFuncG
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncG6217" />
+        <feFuncB
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncB6219" />
+        <feFuncA
+           slope="1.45"
+           type="linear"
+           id="feFuncA6221" />
+      </feComponentTransfer>
+      <feComposite
+         result="result11"
+         k3="0.6"
+         k2="0.4"
+         operator="arithmetic"
+         in2="result8"
+         id="feComposite6223"
+         k1="0"
+         k4="0" />
+      <feComposite
+         result="result12"
+         in2="result8"
+         id="feComposite6225" />
+      <feDisplacementMap
+         result="result14"
+         baseFrequency="0.0089999999999999993 0.025000000000000001"
+         scale="9.899328859060402"
+         in2="result13"
+         id="feDisplacementMap6227"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feConvolveMatrix
+         bias="0.40000000000000002"
+         preserveAlpha="true"
+         edgeMode="duplicate"
+         id="feConvolveMatrix6229"
+         kernelMatrix="0 -1 0 -1 4 -1 0 -1 0 "
+         order="3 3" />
+      <feColorMatrix
+         result="result17"
+         type="luminanceToAlpha"
+         id="feColorMatrix6231" />
+      <feComponentTransfer
+         result="result16"
+         id="feComponentTransfer6233">
+        <feFuncR
+           type="identity"
+           id="feFuncR6235" />
+        <feFuncG
+           type="identity"
+           id="feFuncG6237" />
+        <feFuncB
+           type="identity"
+           id="feFuncB6239" />
+        <feFuncA
+           intercept="-1.1499999999999999"
+           slope="4.2599999999999998"
+           type="linear"
+           id="feFuncA6241" />
+      </feComponentTransfer>
+      <feComponentTransfer
+         result="result15"
+         in="result14"
+         id="feComponentTransfer6243">
+        <feFuncR
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncR6245" />
+        <feFuncG
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncG6247" />
+        <feFuncB
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncB6249" />
+        <feFuncA
+           type="identity"
+           id="feFuncA6251" />
+      </feComponentTransfer>
+      <feDiffuseLighting
+         diffuseConstant="1.1000000238"
+         surfaceScale="5"
+         in="result17"
+         id="feDiffuseLighting6253">
+        <feDistantLight
+           azimuth="45"
+           elevation="45"
+           id="feDistantLight6255" />
+      </feDiffuseLighting>
+      <feColorMatrix
+         type="luminanceToAlpha"
+         id="feColorMatrix6257" />
+      <feComponentTransfer
+         result="result18"
+         id="feComponentTransfer6259">
+        <feFuncR
+           type="identity"
+           id="feFuncR6261" />
+        <feFuncG
+           type="identity"
+           id="feFuncG6263" />
+        <feFuncB
+           type="identity"
+           id="feFuncB6265" />
+        <feFuncA
+           slope="1.53"
+           type="linear"
+           id="feFuncA6267" />
+      </feComponentTransfer>
+      <feComposite
+         result="result19"
+         operator="in"
+         in="result15"
+         in2="result18"
+         id="feComposite6269" />
+      <feComposite
+         result="result20"
+         in2="result14"
+         id="feComposite6271" />
+      <feComposite
+         operator="in"
+         in2="SourceGraphic"
+         id="feComposite6273" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter6063"
+       inkscape:label="w3">
+      <feFlood
+         id="feFlood6065"
+         result="result3"
+         flood-color="rgb(115,32,15)" />
+      <feFlood
+         id="feFlood6067"
+         result="result4"
+         flood-color="rgb(183,56,32)" />
+      <feTurbulence
+         id="feTurbulence6069"
+         result="result1"
+         baseFrequency="0.26100000000000001 0"
+         numOctaves="3" />
+      <feComponentTransfer
+         id="feComponentTransfer6071"
+         result="result5">
+        <feFuncR
+           id="feFuncR6073"
+           type="identity" />
+        <feFuncG
+           id="feFuncG6075"
+           type="identity" />
+        <feFuncB
+           id="feFuncB6077"
+           type="identity" />
+        <feFuncA
+           id="feFuncA6079"
+           type="linear"
+           slope="3.3199999999999998"
+           intercept="-0.10000000000000001" />
+      </feComponentTransfer>
+      <feTurbulence
+         id="feTurbulence6081"
+         result="result7"
+         scale="3.7999999999999998"
+         baseFrequency="0.30599999999999999 0.017000000000000001"
+         numOctaves="8" />
+      <feTurbulence
+         id="feTurbulence6083"
+         baseFrequency="0.84899999999999998 0.23799999999999999"
+         numOctaves="4" />
+      <feComponentTransfer
+         id="feComponentTransfer6085"
+         result="result9"
+         baseFrequency="0.092999999999999999 0.0080000000000000002">
+        <feFuncR
+           id="feFuncR6087"
+           type="identity" />
+        <feFuncG
+           id="feFuncG6089"
+           type="identity" />
+        <feFuncB
+           id="feFuncB6091"
+           type="identity" />
+        <feFuncA
+           id="feFuncA6093"
+           type="linear"
+           slope="3.02"
+           intercept="-0.40000000000000002" />
+      </feComponentTransfer>
+      <feTurbulence
+         id="feTurbulence6095"
+         result="result13"
+         scale="9.9000000000000004"
+         baseFrequency="0.012 0.0050000000000000001"
+         numOctaves="10" />
+      <feComposite
+         id="feComposite6097"
+         result="result2"
+         in="result3"
+         operator="in"
+         in2="result5" />
+      <feComposite
+         id="feComposite6099"
+         in2="result4"
+         result="result6" />
+      <feDisplacementMap
+         yChannelSelector="A"
+         xChannelSelector="A"
+         id="feDisplacementMap6101"
+         in2="result7"
+         scale="3.825136612021858"
+         result="result8" />
+      <feComposite
+         id="feComposite6103"
+         in2="result9"
+         operator="in" />
+      <feComponentTransfer
+         id="feComponentTransfer6105"
+         result="result10">
+        <feFuncR
+           id="feFuncR6107"
+           type="linear"
+           slope="0.97999999999999998" />
+        <feFuncG
+           id="feFuncG6109"
+           type="linear"
+           slope="0.97999999999999998" />
+        <feFuncB
+           id="feFuncB6111"
+           type="linear"
+           slope="0.97999999999999998" />
+        <feFuncA
+           id="feFuncA6113"
+           type="linear"
+           slope="1.45" />
+      </feComponentTransfer>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite6115"
+         in2="result8"
+         operator="arithmetic"
+         k2="0.4"
+         k3="0.6"
+         result="result11" />
+      <feComposite
+         id="feComposite6117"
+         in2="result8"
+         result="result12" />
+      <feDisplacementMap
+         yChannelSelector="A"
+         xChannelSelector="A"
+         id="feDisplacementMap6119"
+         in2="result13"
+         scale="9.899328859060402"
+         baseFrequency="0.0089999999999999993 0.025000000000000001"
+         result="result14" />
+      <feConvolveMatrix
+         order="3 3"
+         kernelMatrix="0 -1 0 -1 4 -1 0 -1 0 "
+         id="feConvolveMatrix6121"
+         edgeMode="duplicate"
+         preserveAlpha="true"
+         bias="0.40000000000000002" />
+      <feColorMatrix
+         id="feColorMatrix6123"
+         type="luminanceToAlpha"
+         result="result17" />
+      <feComponentTransfer
+         id="feComponentTransfer6125"
+         result="result16">
+        <feFuncR
+           id="feFuncR6127"
+           type="identity" />
+        <feFuncG
+           id="feFuncG6129"
+           type="identity" />
+        <feFuncB
+           id="feFuncB6131"
+           type="identity" />
+        <feFuncA
+           id="feFuncA6133"
+           type="linear"
+           slope="4.2599999999999998"
+           intercept="-1.1499999999999999" />
+      </feComponentTransfer>
+      <feComponentTransfer
+         id="feComponentTransfer6135"
+         in="result14"
+         result="result15">
+        <feFuncR
+           id="feFuncR6137"
+           type="linear"
+           slope="0.90000000000000002" />
+        <feFuncG
+           id="feFuncG6139"
+           type="linear"
+           slope="0.90000000000000002" />
+        <feFuncB
+           id="feFuncB6141"
+           type="linear"
+           slope="0.90000000000000002" />
+        <feFuncA
+           id="feFuncA6143"
+           type="identity" />
+      </feComponentTransfer>
+      <feDiffuseLighting
+         id="feDiffuseLighting6145"
+         in="result17"
+         surfaceScale="5"
+         diffuseConstant="1.1000000238">
+        <feDistantLight
+           id="feDistantLight6147"
+           elevation="45"
+           azimuth="45" />
+      </feDiffuseLighting>
+      <feColorMatrix
+         id="feColorMatrix6149"
+         type="luminanceToAlpha" />
+      <feComponentTransfer
+         id="feComponentTransfer6151"
+         result="result18">
+        <feFuncR
+           id="feFuncR6153"
+           type="identity" />
+        <feFuncG
+           id="feFuncG6155"
+           type="identity" />
+        <feFuncB
+           id="feFuncB6157"
+           type="identity" />
+        <feFuncA
+           id="feFuncA6159"
+           type="linear"
+           slope="1.53" />
+      </feComponentTransfer>
+      <feComposite
+         id="feComposite6161"
+         in2="result18"
+         in="result15"
+         operator="in"
+         result="result19" />
+      <feComposite
+         id="feComposite6163"
+         in2="result14"
+         result="result20" />
+      <feComposite
+         id="feComposite6165"
+         in2="SourceGraphic"
+         operator="in" />
+    </filter>
+    <filter
+       inkscape:label="w2"
+       id="filter7455-2-2-6-9-9"
+       style="color-interpolation-filters:sRGB">
+      <feFlood
+         flood-color="rgb(140,41,23)"
+         result="result3"
+         id="feFlood7457-8-0-6-2-1" />
+      <feFlood
+         flood-color="rgb(176,79,61)"
+         result="result4"
+         id="feFlood7459-2-1-2-2-8" />
+      <feTurbulence
+         numOctaves="3"
+         baseFrequency="0.26100000000000001 0"
+         result="result1"
+         id="feTurbulence7461-1-1-6-6-7" />
+      <feComponentTransfer
+         result="result5"
+         id="feComponentTransfer7463-5-9-6-9-3">
+        <feFuncR
+           type="identity"
+           id="feFuncR7465-9-1-8-5-2" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7467-0-7-8-6-6" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7469-8-9-2-5-2" />
+        <feFuncA
+           intercept="-0.10000000000000001"
+           slope="3.3199999999999998"
+           type="linear"
+           id="feFuncA7471-3-6-3-2-2" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="8"
+         baseFrequency="0.30599999999999999 0.017000000000000001"
+         scale="3.7999999999999998"
+         result="result7"
+         id="feTurbulence7473-5-1-0-6-6" />
+      <feTurbulence
+         numOctaves="4"
+         baseFrequency="0.84899999999999998 0.23799999999999999"
+         id="feTurbulence7475-9-1-1-6-7" />
+      <feComponentTransfer
+         baseFrequency="0.092999999999999999 0.0080000000000000002"
+         result="result9"
+         id="feComponentTransfer7477-3-2-4-2-6">
+        <feFuncR
+           type="identity"
+           id="feFuncR7479-4-5-0-9-7" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7481-1-8-5-0-9" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7483-3-3-2-8-3" />
+        <feFuncA
+           intercept="-0.40000000000000002"
+           slope="3.02"
+           type="linear"
+           id="feFuncA7485-7-7-8-4-7" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="10"
+         baseFrequency="0.012 0.0050000000000000001"
+         scale="9.9000000000000004"
+         result="result13"
+         id="feTurbulence7487-3-4-7-9-7" />
+      <feComposite
+         in2="result5"
+         operator="in"
+         in="result3"
+         result="result2"
+         id="feComposite7489-1-1-6-1-0" />
+      <feComposite
+         result="result6"
+         in2="result4"
+         id="feComposite7491-4-8-7-2-0" />
+      <feDisplacementMap
+         result="result8"
+         scale="3.825136612021858"
+         in2="result7"
+         id="feDisplacementMap7493-6-8-7-3-6"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feComposite
+         operator="in"
+         in2="result9"
+         id="feComposite7495-3-1-3-3-8" />
+      <feComponentTransfer
+         result="result10"
+         id="feComponentTransfer7497-6-2-4-6-9">
+        <feFuncR
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncR7499-1-2-2-8-7" />
+        <feFuncG
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncG7501-7-7-7-2-1" />
+        <feFuncB
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncB7503-2-5-9-0-6" />
+        <feFuncA
+           slope="1.45"
+           type="linear"
+           id="feFuncA7505-3-9-2-2-8" />
+      </feComponentTransfer>
+      <feComposite
+         result="result11"
+         k3="0.6"
+         k2="0.4"
+         operator="arithmetic"
+         in2="result8"
+         id="feComposite7507-4-8-0-2-2"
+         k1="0"
+         k4="0" />
+      <feComposite
+         result="result12"
+         in2="result8"
+         id="feComposite7509-4-2-5-1-6" />
+      <feDisplacementMap
+         result="result14"
+         baseFrequency="0.0089999999999999993 0.025000000000000001"
+         scale="9.899328859060402"
+         in2="result13"
+         id="feDisplacementMap7511-3-2-1-2-1"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feConvolveMatrix
+         bias="0.40000000000000002"
+         preserveAlpha="true"
+         edgeMode="duplicate"
+         id="feConvolveMatrix7513-5-0-4-1-6"
+         kernelMatrix="0 -1 0 -1 4 -1 0 -1 0 "
+         order="3 3" />
+      <feColorMatrix
+         result="result17"
+         type="luminanceToAlpha"
+         id="feColorMatrix7515-3-6-2-3-6" />
+      <feComponentTransfer
+         result="result16"
+         id="feComponentTransfer7517-9-0-6-9-8">
+        <feFuncR
+           type="identity"
+           id="feFuncR7519-1-9-9-0-2" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7521-5-7-8-1-8" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7523-2-1-8-3-0" />
+        <feFuncA
+           intercept="-1.1499999999999999"
+           slope="4.2599999999999998"
+           type="linear"
+           id="feFuncA7525-2-8-8-6-7" />
+      </feComponentTransfer>
+      <feComponentTransfer
+         result="result15"
+         in="result14"
+         id="feComponentTransfer7527-4-4-4-5-3">
+        <feFuncR
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncR7529-3-8-3-1-4" />
+        <feFuncG
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncG7531-3-1-1-0-1" />
+        <feFuncB
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncB7533-5-3-9-8-6" />
+        <feFuncA
+           type="identity"
+           id="feFuncA7535-7-8-1-6-6" />
+      </feComponentTransfer>
+      <feDiffuseLighting
+         diffuseConstant="1.1000000238"
+         surfaceScale="5"
+         in="result17"
+         id="feDiffuseLighting7537-1-3-4-9-3">
+        <feDistantLight
+           azimuth="45"
+           elevation="45"
+           id="feDistantLight7539-2-5-4-7-0" />
+      </feDiffuseLighting>
+      <feColorMatrix
+         type="luminanceToAlpha"
+         id="feColorMatrix7541-9-8-4-3-6" />
+      <feComponentTransfer
+         result="result18"
+         id="feComponentTransfer7543-3-2-6-4-8">
+        <feFuncR
+           type="identity"
+           id="feFuncR7545-4-7-2-8-8" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7547-2-4-4-3-7" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7549-1-1-3-2-0" />
+        <feFuncA
+           slope="1.53"
+           type="linear"
+           id="feFuncA7551-2-4-7-5-2" />
+      </feComponentTransfer>
+      <feComposite
+         result="result19"
+         operator="in"
+         in="result15"
+         in2="result18"
+         id="feComposite7553-2-9-0-0-6" />
+      <feComposite
+         result="result20"
+         in2="result14"
+         id="feComposite7555-2-9-8-4-0" />
+      <feComposite
+         operator="in"
+         in2="SourceGraphic"
+         id="feComposite7557-2-4-9-8-0" />
+    </filter>
+    <filter
+       inkscape:label="w1"
+       id="filter7455-2-2-6-9"
+       style="color-interpolation-filters:sRGB">
+      <feFlood
+         flood-color="rgb(27,13,4)"
+         result="result3"
+         id="feFlood7457-8-0-6-2" />
+      <feFlood
+         flood-color="rgb(43,23,11)"
+         result="result4"
+         id="feFlood7459-2-1-2-2" />
+      <feTurbulence
+         numOctaves="3"
+         baseFrequency="0.26100000000000001 0"
+         result="result1"
+         id="feTurbulence7461-1-1-6-6" />
+      <feComponentTransfer
+         result="result5"
+         id="feComponentTransfer7463-5-9-6-9">
+        <feFuncR
+           type="identity"
+           id="feFuncR7465-9-1-8-5" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7467-0-7-8-6" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7469-8-9-2-5" />
+        <feFuncA
+           intercept="-0.10000000000000001"
+           slope="3.3199999999999998"
+           type="linear"
+           id="feFuncA7471-3-6-3-2" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="8"
+         baseFrequency="0.30599999999999999 0.017000000000000001"
+         scale="3.7999999999999998"
+         result="result7"
+         id="feTurbulence7473-5-1-0-6" />
+      <feTurbulence
+         numOctaves="4"
+         baseFrequency="0.84899999999999998 0.23799999999999999"
+         id="feTurbulence7475-9-1-1-6" />
+      <feComponentTransfer
+         baseFrequency="0.092999999999999999 0.0080000000000000002"
+         result="result9"
+         id="feComponentTransfer7477-3-2-4-2">
+        <feFuncR
+           type="identity"
+           id="feFuncR7479-4-5-0-9" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7481-1-8-5-0" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7483-3-3-2-8" />
+        <feFuncA
+           intercept="-0.40000000000000002"
+           slope="3.02"
+           type="linear"
+           id="feFuncA7485-7-7-8-4" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="10"
+         baseFrequency="0.012 0.0050000000000000001"
+         scale="9.9000000000000004"
+         result="result13"
+         id="feTurbulence7487-3-4-7-9" />
+      <feComposite
+         in2="result5"
+         operator="in"
+         in="result3"
+         result="result2"
+         id="feComposite7489-1-1-6-1" />
+      <feComposite
+         result="result6"
+         in2="result4"
+         id="feComposite7491-4-8-7-2" />
+      <feDisplacementMap
+         result="result8"
+         scale="3.825136612021858"
+         in2="result7"
+         id="feDisplacementMap7493-6-8-7-3"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feComposite
+         operator="in"
+         in2="result9"
+         id="feComposite7495-3-1-3-3" />
+      <feComponentTransfer
+         result="result10"
+         id="feComponentTransfer7497-6-2-4-6">
+        <feFuncR
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncR7499-1-2-2-8" />
+        <feFuncG
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncG7501-7-7-7-2" />
+        <feFuncB
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncB7503-2-5-9-0" />
+        <feFuncA
+           slope="1.45"
+           type="linear"
+           id="feFuncA7505-3-9-2-2" />
+      </feComponentTransfer>
+      <feComposite
+         result="result11"
+         k3="0.6"
+         k2="0.4"
+         operator="arithmetic"
+         in2="result8"
+         id="feComposite7507-4-8-0-2"
+         k1="0"
+         k4="0" />
+      <feComposite
+         result="result12"
+         in2="result8"
+         id="feComposite7509-4-2-5-1" />
+      <feDisplacementMap
+         result="result14"
+         baseFrequency="0.0089999999999999993 0.025000000000000001"
+         scale="9.899328859060402"
+         in2="result13"
+         id="feDisplacementMap7511-3-2-1-2"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feConvolveMatrix
+         bias="0.40000000000000002"
+         preserveAlpha="true"
+         edgeMode="duplicate"
+         id="feConvolveMatrix7513-5-0-4-1"
+         kernelMatrix="0 -1 0 -1 4 -1 0 -1 0 "
+         order="3 3" />
+      <feColorMatrix
+         result="result17"
+         type="luminanceToAlpha"
+         id="feColorMatrix7515-3-6-2-3" />
+      <feComponentTransfer
+         result="result16"
+         id="feComponentTransfer7517-9-0-6-9">
+        <feFuncR
+           type="identity"
+           id="feFuncR7519-1-9-9-0" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7521-5-7-8-1" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7523-2-1-8-3" />
+        <feFuncA
+           intercept="-1.1499999999999999"
+           slope="4.2599999999999998"
+           type="linear"
+           id="feFuncA7525-2-8-8-6" />
+      </feComponentTransfer>
+      <feComponentTransfer
+         result="result15"
+         in="result14"
+         id="feComponentTransfer7527-4-4-4-5">
+        <feFuncR
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncR7529-3-8-3-1" />
+        <feFuncG
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncG7531-3-1-1-0" />
+        <feFuncB
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncB7533-5-3-9-8" />
+        <feFuncA
+           type="identity"
+           id="feFuncA7535-7-8-1-6" />
+      </feComponentTransfer>
+      <feDiffuseLighting
+         diffuseConstant="1.1000000238"
+         surfaceScale="5"
+         in="result17"
+         id="feDiffuseLighting7537-1-3-4-9">
+        <feDistantLight
+           azimuth="45"
+           elevation="45"
+           id="feDistantLight7539-2-5-4-7" />
+      </feDiffuseLighting>
+      <feColorMatrix
+         type="luminanceToAlpha"
+         id="feColorMatrix7541-9-8-4-3" />
+      <feComponentTransfer
+         result="result18"
+         id="feComponentTransfer7543-3-2-6-4">
+        <feFuncR
+           type="identity"
+           id="feFuncR7545-4-7-2-8" />
+        <feFuncG
+           type="identity"
+           id="feFuncG7547-2-4-4-3" />
+        <feFuncB
+           type="identity"
+           id="feFuncB7549-1-1-3-2" />
+        <feFuncA
+           slope="1.53"
+           type="linear"
+           id="feFuncA7551-2-4-7-5" />
+      </feComponentTransfer>
+      <feComposite
+         result="result19"
+         operator="in"
+         in="result15"
+         in2="result18"
+         id="feComposite7553-2-9-0-0" />
+      <feComposite
+         result="result20"
+         in2="result14"
+         id="feComposite7555-2-9-8-4" />
+      <feComposite
+         operator="in"
+         in2="SourceGraphic"
+         id="feComposite7557-2-4-9-8" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10804">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10806"
+         d="m 3359.935285361222,-7094.643593645771 0,-500.000000000001 -66.98729810778,250.000000000001 17.327174840136,129.331793710031 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10810">
+      <path
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 3192.467040091769,-7094.643593645774 9e-13,-499.999999999999 -66.987298107781,249.999999999999 17.327174840137,129.331793710034 z"
+         id="path10812"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10816">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10818"
+         d="m 3024.998794822317,-7094.643593645775 0,-500 -66.98729810778,250 17.327174840137,129.331793710035 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10822">
+      <path
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2857.530549552865,-7094.643593645775 -9e-13,-500 -66.98729810778,250 17.327174840138,129.331793710035 z"
+         id="path10824"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10828">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10830"
+         d="m 2690.062304283412,-7094.643593645775 0,-500 -66.987298107779,250 17.327174840136,129.331793710035 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10834">
+      <path
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2522.594059013961,-7094.643593645776 0,-500 -66.987298107781,250 17.327174840138,129.331793710035 z"
+         id="path10836"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10840">
+      <path
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2355.125813744507,-7094.643593645781 9e-13,-500 -66.987298107781,250 17.327174840137,129.331793710037 z"
+         id="path10842"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10846">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10848"
+         d="m 2187.657568475055,-7094.643593645781 0,-500 -66.987298107781,250 17.327174840137,129.331793710037 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10852">
+      <path
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2020.189323205602,-7094.643593645781 0,-500 -66.98729810778,250 17.327174840137,129.331793710036 z"
+         id="path10854"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10858">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10860"
+         d="m 1852.721077936151,-7094.643593645781 0,-500 -66.987298107781,250 17.327174840137,129.331793710032 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10864">
+      <path
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 1685.252832666699,-7094.643593645781 0,-500 -66.987298107781,250 17.327174840136,129.331793710033 z"
+         id="path10866"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10868">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10870"
+         d="m 1517.784587397246,-7094.643593645781 0,-500 -66.98729810778,250 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="cccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10881">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 3551.922583469004,-236.149944591878 66.98729810778,0 58.012701892219,33.4936490538904 33.493649053889,58.0127018922201 0,66.9872981077799 -33.493649053889,58.0127018922185 -58.012701892219,33.49364905389109 -66.987298107781,0 -58.012701892219,-33.49364905389008 -33.49364905389,-58.0127018922201 0,-66.98729810777992 33.49364905389,-58.0127018922201 z"
+         id="path10883"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10887">
+      <path
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         id="path10889"
+         d="m 3393.428934415113,-394.6435936457688 -33.493649053891,249.9999999999998 33.493649053891,250.0000000000007 49.660123267643,-120.6682062899672 17.327174840138,-129.33179371003259 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10893">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 3225.96068914566,-394.6435936457699 -33.49364905389,249.9999999999991 33.493649053891,250.0000000000017 66.987298107781,-250 z"
+         id="path10895"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10899">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path10901"
+         d="m 3058.492443876207,-394.643593645772 -33.49364905389,250.0000000000005 33.49364905389,249.9999999999999 66.987298107782,-249.999999999999 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10905">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2891.024198606756,-394.643593645772 -33.49364905389,250.0000000000004 33.493649053891,249.9999999999994 66.987298107781,-249.9999999999994 z"
+         id="path10907"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10911">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path10913"
+         d="m 2723.555953337303,-394.643593645772 -33.49364905389,249.9999999999989 33.49364905389,250.0000000000009 66.987298107782,-249.9999999999994 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10917">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2556.087708067852,-394.643593645772 -33.493649053891,249.9999999999989 33.493649053891,250 66.987298107781,-249.9999999999993 z"
+         id="path10919"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10923">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2388.619462798398,-394.6435936457738 -33.49364905389,249.9999999999997 33.49364905389,250.0000000000003 66.987298107782,-249.9999999999995 z"
+         id="path10925"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10929">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path10931"
+         d="m 2221.151217528945,-394.6435936457749 -33.49364905389,250 33.49364905389,250 66.987298107782,-249.999999999999 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10935">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2053.682972259492,-394.6435936457758 -33.49364905389,250 33.49364905389,250 66.987298107782,-249.9999999999991 z"
+         id="path10937"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10941">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path10943"
+         d="m 1886.214726990041,-394.6435936457758 -33.49364905389,249.9999999999985 33.49364905389,250.0000000000007 66.987298107781,-249.9999999999998 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10947">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 1718.746481720589,-394.6435936457779 -33.49364905389,250.0000000000005 33.49364905389,250 66.987298107781,-249.9999999999992 z"
+         id="path10949"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10951">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path10953"
+         d="m 1551.278236451137,-394.6435936457779 -33.493649053891,249.9999999999998 33.493649053891,250 66.987298107781,-249.9999999999993 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter10960"
+       inkscape:label="w5">
+      <feFlood
+         id="feFlood10962"
+         result="result3"
+         flood-color="rgb(128,44,7)" />
+      <feFlood
+         id="feFlood10964"
+         result="result4"
+         flood-color="rgb(176,90,48)" />
+      <feTurbulence
+         id="feTurbulence10966"
+         result="result1"
+         baseFrequency="0.26100000000000001 0"
+         numOctaves="3" />
+      <feComponentTransfer
+         id="feComponentTransfer10968"
+         result="result5">
+        <feFuncR
+           id="feFuncR10970"
+           type="identity" />
+        <feFuncG
+           id="feFuncG10972"
+           type="identity" />
+        <feFuncB
+           id="feFuncB10974"
+           type="identity" />
+        <feFuncA
+           id="feFuncA10976"
+           type="linear"
+           slope="3.3199999999999998"
+           intercept="-0.10000000000000001" />
+      </feComponentTransfer>
+      <feTurbulence
+         id="feTurbulence10978"
+         result="result7"
+         scale="3.7999999999999998"
+         baseFrequency="0.30599999999999999 0.017000000000000001"
+         numOctaves="8" />
+      <feTurbulence
+         id="feTurbulence10980"
+         baseFrequency="0.84899999999999998 0.23799999999999999"
+         numOctaves="4" />
+      <feComponentTransfer
+         id="feComponentTransfer10982"
+         result="result9"
+         baseFrequency="0.092999999999999999 0.0080000000000000002">
+        <feFuncR
+           id="feFuncR10984"
+           type="identity" />
+        <feFuncG
+           id="feFuncG10986"
+           type="identity" />
+        <feFuncB
+           id="feFuncB10988"
+           type="identity" />
+        <feFuncA
+           id="feFuncA10990"
+           type="linear"
+           slope="3.02"
+           intercept="-0.40000000000000002" />
+      </feComponentTransfer>
+      <feTurbulence
+         id="feTurbulence10992"
+         result="result13"
+         scale="9.9000000000000004"
+         baseFrequency="0.012 0.0050000000000000001"
+         numOctaves="10" />
+      <feComposite
+         id="feComposite10994"
+         result="result2"
+         in="result3"
+         operator="in"
+         in2="result5" />
+      <feComposite
+         id="feComposite10996"
+         in2="result4"
+         result="result6" />
+      <feDisplacementMap
+         yChannelSelector="A"
+         xChannelSelector="A"
+         id="feDisplacementMap10998"
+         in2="result7"
+         scale="3.825136612021858"
+         result="result8" />
+      <feComposite
+         id="feComposite11000"
+         in2="result9"
+         operator="in" />
+      <feComponentTransfer
+         id="feComponentTransfer11002"
+         result="result10">
+        <feFuncR
+           id="feFuncR11004"
+           type="linear"
+           slope="0.97999999999999998" />
+        <feFuncG
+           id="feFuncG11006"
+           type="linear"
+           slope="0.97999999999999998" />
+        <feFuncB
+           id="feFuncB11008"
+           type="linear"
+           slope="0.97999999999999998" />
+        <feFuncA
+           id="feFuncA11010"
+           type="linear"
+           slope="1.45" />
+      </feComponentTransfer>
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite11012"
+         in2="result8"
+         operator="arithmetic"
+         k2="0.4"
+         k3="0.6"
+         result="result11" />
+      <feComposite
+         id="feComposite11014"
+         in2="result8"
+         result="result12" />
+      <feDisplacementMap
+         yChannelSelector="A"
+         xChannelSelector="A"
+         id="feDisplacementMap11016"
+         in2="result13"
+         scale="9.899328859060402"
+         baseFrequency="0.0089999999999999993 0.025000000000000001"
+         result="result14" />
+      <feConvolveMatrix
+         order="3 3"
+         kernelMatrix="0 -1 0 -1 4 -1 0 -1 0 "
+         id="feConvolveMatrix11018"
+         edgeMode="duplicate"
+         preserveAlpha="true"
+         bias="0.40000000000000002" />
+      <feColorMatrix
+         id="feColorMatrix11020"
+         type="luminanceToAlpha"
+         result="result17" />
+      <feComponentTransfer
+         id="feComponentTransfer11022"
+         result="result16">
+        <feFuncR
+           id="feFuncR11024"
+           type="identity" />
+        <feFuncG
+           id="feFuncG11026"
+           type="identity" />
+        <feFuncB
+           id="feFuncB11028"
+           type="identity" />
+        <feFuncA
+           id="feFuncA11030"
+           type="linear"
+           slope="4.2599999999999998"
+           intercept="-1.1499999999999999" />
+      </feComponentTransfer>
+      <feComponentTransfer
+         id="feComponentTransfer11032"
+         in="result14"
+         result="result15">
+        <feFuncR
+           id="feFuncR11034"
+           type="linear"
+           slope="0.90000000000000002" />
+        <feFuncG
+           id="feFuncG11036"
+           type="linear"
+           slope="0.90000000000000002" />
+        <feFuncB
+           id="feFuncB11038"
+           type="linear"
+           slope="0.90000000000000002" />
+        <feFuncA
+           id="feFuncA11040"
+           type="identity" />
+      </feComponentTransfer>
+      <feDiffuseLighting
+         id="feDiffuseLighting11042"
+         in="result17"
+         surfaceScale="5"
+         diffuseConstant="1.1000000238">
+        <feDistantLight
+           id="feDistantLight11044"
+           elevation="45"
+           azimuth="45" />
+      </feDiffuseLighting>
+      <feColorMatrix
+         id="feColorMatrix11046"
+         type="luminanceToAlpha" />
+      <feComponentTransfer
+         id="feComponentTransfer11048"
+         result="result18">
+        <feFuncR
+           id="feFuncR11050"
+           type="identity" />
+        <feFuncG
+           id="feFuncG11052"
+           type="identity" />
+        <feFuncB
+           id="feFuncB11054"
+           type="identity" />
+        <feFuncA
+           id="feFuncA11056"
+           type="linear"
+           slope="1.53" />
+      </feComponentTransfer>
+      <feComposite
+         id="feComposite11058"
+         in2="result18"
+         in="result15"
+         operator="in"
+         result="result19" />
+      <feComposite
+         id="feComposite11060"
+         in2="result14"
+         result="result20" />
+      <feComposite
+         id="feComposite11062"
+         in2="SourceGraphic"
+         operator="in" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11068">
+      <path
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         id="path11070"
+         d="m 4556.625830519722,-4694.643593645771 -258.819045102523,0 5e-12,258.819045102522 129.409522551252,224.143868042015 129.409522551261,-224.143868042015 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11074">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 4297.806785417199,-4694.643593645771 -258.819045102522,0 0,258.819045102522 129.409522551261,224.143868042015 z"
+         id="path11076"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11080">
+      <path
+         inkscape:connector-curvature="0"
+         id="path11082"
+         d="m 4038.987740314677,-4694.643593645771 -258.819045102521,0 0,258.819045102521 129.409522551259,224.143868042015 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11086">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 3780.168695212157,-4694.643593645771 -258.819045102521,0 0,258.819045102522 129.409522551258,224.143868042014 z"
+         id="path11088"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11092">
+      <path
+         inkscape:connector-curvature="0"
+         id="path11094"
+         d="m 3521.349650109636,-4694.643593645771 -258.819045102522,0 0,258.819045102521 129.409522551259,224.143868042015 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11098">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 3262.530605007114,-4694.643593645771 -258.819045102521,0 0,258.819045102521 129.40952255126,224.143868042015 z"
+         id="path11100"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11104">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 3003.711559904594,-4694.643593645771 -258.819045102522,0 0,258.819045102521 129.40952255126,224.143868042015 z"
+         id="path11106"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11110">
+      <path
+         inkscape:connector-curvature="0"
+         id="path11112"
+         d="m 2744.892514802072,-4694.643593645771 -258.819045102522,0 0,258.819045102521 129.40952255126,224.143868042015 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11116">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2486.07346969955,-4694.643593645771 -258.819045102522,0 0,258.819045102521 129.40952255126,224.143868042015 z"
+         id="path11118"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11122">
+      <path
+         inkscape:connector-curvature="0"
+         id="path11124"
+         d="m 2227.254424597028,-4694.643593645771 -258.819045102521,-9e-13 0,258.819045102522 129.409522551259,224.143868042014 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11128">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 1968.435379494508,-4694.643593645771 -258.819045102521,0 0,258.819045102522 129.409522551259,224.143868042015 z"
+         id="path11130"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11132">
+      <path
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path11134"
+         d="m 1709.616334391987,-4694.643593645771 -258.819045102521,0 129.409522551259,482.962913144537 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11140">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2356.663947148291,-1811.680680501229 129.409522551261,224.143868042012 -129.409522551262,482.962913144533 -129.40952255126,-482.962913144533 z"
+         id="path11142"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11146">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path11148"
+         d="m 2097.844902045769,-1811.68068050123 129.409522551261,224.143868042013 -129.40952255126,482.962913144533 -129.409522551261,-482.962913144532 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11152">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 1839.025856943248,-1811.680680501229 129.409522551261,224.143868042013 -129.409522551261,482.962913144532 -129.409522551261,-482.962913144531 z"
+         id="path11154"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11156">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path11158"
+         d="m 1580.206811840726,-1811.680680501228 129.409522551261,224.143868042013 -129.40952255126,482.962913144532 -129.409522551261,-482.962913144531 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <filter
+       inkscape:label="w6"
+       id="filter11167"
+       style="color-interpolation-filters:sRGB">
+      <feFlood
+         flood-color="rgb(127,63,19)"
+         result="result3"
+         id="feFlood11169" />
+      <feFlood
+         flood-color="rgb(181,115,55)"
+         result="result4"
+         id="feFlood11171" />
+      <feTurbulence
+         numOctaves="3"
+         baseFrequency="0.26100000000000001 0"
+         result="result1"
+         id="feTurbulence11173" />
+      <feComponentTransfer
+         result="result5"
+         id="feComponentTransfer11175">
+        <feFuncR
+           type="identity"
+           id="feFuncR11177" />
+        <feFuncG
+           type="identity"
+           id="feFuncG11179" />
+        <feFuncB
+           type="identity"
+           id="feFuncB11181" />
+        <feFuncA
+           intercept="-0.10000000000000001"
+           slope="3.3199999999999998"
+           type="linear"
+           id="feFuncA11183" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="8"
+         baseFrequency="0.30599999999999999 0.017000000000000001"
+         scale="3.7999999999999998"
+         result="result7"
+         id="feTurbulence11185" />
+      <feTurbulence
+         numOctaves="4"
+         baseFrequency="0.84899999999999998 0.23799999999999999"
+         id="feTurbulence11187" />
+      <feComponentTransfer
+         baseFrequency="0.092999999999999999 0.0080000000000000002"
+         result="result9"
+         id="feComponentTransfer11189">
+        <feFuncR
+           type="identity"
+           id="feFuncR11191" />
+        <feFuncG
+           type="identity"
+           id="feFuncG11193" />
+        <feFuncB
+           type="identity"
+           id="feFuncB11195" />
+        <feFuncA
+           intercept="-0.40000000000000002"
+           slope="3.02"
+           type="linear"
+           id="feFuncA11197" />
+      </feComponentTransfer>
+      <feTurbulence
+         numOctaves="10"
+         baseFrequency="0.012 0.0050000000000000001"
+         scale="9.9000000000000004"
+         result="result13"
+         id="feTurbulence11199" />
+      <feComposite
+         in2="result5"
+         operator="in"
+         in="result3"
+         result="result2"
+         id="feComposite11201" />
+      <feComposite
+         result="result6"
+         in2="result4"
+         id="feComposite11203" />
+      <feDisplacementMap
+         result="result8"
+         scale="3.825136612021858"
+         in2="result7"
+         id="feDisplacementMap11205"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feComposite
+         operator="in"
+         in2="result9"
+         id="feComposite11207" />
+      <feComponentTransfer
+         result="result10"
+         id="feComponentTransfer11209">
+        <feFuncR
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncR11211" />
+        <feFuncG
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncG11213" />
+        <feFuncB
+           slope="0.97999999999999998"
+           type="linear"
+           id="feFuncB11215" />
+        <feFuncA
+           slope="1.45"
+           type="linear"
+           id="feFuncA11217" />
+      </feComponentTransfer>
+      <feComposite
+         result="result11"
+         k3="0.6"
+         k2="0.4"
+         operator="arithmetic"
+         in2="result8"
+         id="feComposite11219"
+         k1="0"
+         k4="0" />
+      <feComposite
+         result="result12"
+         in2="result8"
+         id="feComposite11221" />
+      <feDisplacementMap
+         result="result14"
+         baseFrequency="0.0089999999999999993 0.025000000000000001"
+         scale="9.899328859060402"
+         in2="result13"
+         id="feDisplacementMap11223"
+         xChannelSelector="A"
+         yChannelSelector="A" />
+      <feConvolveMatrix
+         bias="0.40000000000000002"
+         preserveAlpha="true"
+         edgeMode="duplicate"
+         id="feConvolveMatrix11225"
+         kernelMatrix="0 -1 0 -1 4 -1 0 -1 0 "
+         order="3 3" />
+      <feColorMatrix
+         result="result17"
+         type="luminanceToAlpha"
+         id="feColorMatrix11227" />
+      <feComponentTransfer
+         result="result16"
+         id="feComponentTransfer11229">
+        <feFuncR
+           type="identity"
+           id="feFuncR11231" />
+        <feFuncG
+           type="identity"
+           id="feFuncG11233" />
+        <feFuncB
+           type="identity"
+           id="feFuncB11235" />
+        <feFuncA
+           intercept="-1.1499999999999999"
+           slope="4.2599999999999998"
+           type="linear"
+           id="feFuncA11237" />
+      </feComponentTransfer>
+      <feComponentTransfer
+         result="result15"
+         in="result14"
+         id="feComponentTransfer11239">
+        <feFuncR
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncR11241" />
+        <feFuncG
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncG11243" />
+        <feFuncB
+           slope="0.90000000000000002"
+           type="linear"
+           id="feFuncB11245" />
+        <feFuncA
+           type="identity"
+           id="feFuncA11247" />
+      </feComponentTransfer>
+      <feDiffuseLighting
+         diffuseConstant="1.1000000238"
+         surfaceScale="5"
+         in="result17"
+         id="feDiffuseLighting11249">
+        <feDistantLight
+           azimuth="45"
+           elevation="45"
+           id="feDistantLight11251" />
+      </feDiffuseLighting>
+      <feColorMatrix
+         type="luminanceToAlpha"
+         id="feColorMatrix11253" />
+      <feComponentTransfer
+         result="result18"
+         id="feComponentTransfer11255">
+        <feFuncR
+           type="identity"
+           id="feFuncR11257" />
+        <feFuncG
+           type="identity"
+           id="feFuncG11259" />
+        <feFuncB
+           type="identity"
+           id="feFuncB11261" />
+        <feFuncA
+           slope="1.53"
+           type="linear"
+           id="feFuncA11263" />
+      </feComponentTransfer>
+      <feComposite
+         result="result19"
+         operator="in"
+         in="result15"
+         in2="result18"
+         id="feComposite11265" />
+      <feComposite
+         result="result20"
+         in2="result14"
+         id="feComposite11267" />
+      <feComposite
+         operator="in"
+         in2="SourceGraphic"
+         id="feComposite11269" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11275">
+      <path
+         inkscape:connector-curvature="0"
+         id="path11277"
+         d="m 5700.797289289476,-8304.573899314678 -500,133.974596215563 66.987298107781,250 433.012701892219,249.999999999999 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11281">
+      <path
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 4450.797289289474,-8304.573899314675 -500.000000000004,133.974596215562 66.987298107779,249.999999999997 433.012701892225,250 z"
+         id="path11283"
+         inkscape:connector-curvature="0"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11287">
+      <path
+         inkscape:connector-curvature="0"
+         id="path11289"
+         d="m 3200.797289289468,-8304.57389931468 -500.000000000001,133.974596215568 66.987298107782,250 433.012701892218,250 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11305">
+      <path
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 4700.797289289474,-10704.57389931467 500.000000000002,133.97459621556 -500.000000000002,500 -250,-433.01270189222 z"
+         id="path11307"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11311">
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path11313"
+         d="m 3450.797289289468,-10704.57389931468 500,133.97459621557 -500,500 -250,-433.01270189222 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11315">
+      <path
+         mask="none"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 2200.797289289467,-10704.57389931468 500,133.97459621557 -500,500 -250,-433.01270189222 z"
+         id="path11317"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath12574">
+      <path
+         inkscape:connector-curvature="0"
+         id="path12576"
+         d="m 1950.797289289466,-7670.599303099113 9e-13,-633.974596215569 -500.000000000001,133.974596215569 z"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         sodipodi:nodetypes="cccc"
+         mask="none" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath12581">
+      <path
+         mask="none"
+         sodipodi:nodetypes="ccccc"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.0629920959;marker:none;enable-background:accumulate"
+         d="m 5950.79715119314,-10704.57383522394 500,133.97459621557 -66.987298107777,250 -433.012701892223,250 z"
+         id="path12583"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath12761">
+      <path
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m -5557.672575953724,-1960.843763550918 1000,0 0,999.9999999999995 -1000,0 z"
+         id="path12763"
+         inkscape:connector-curvature="0" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#646464"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.555"
+     inkscape:cx="500"
+     inkscape:cy="500"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     borderlayer="true"
+     inkscape:showpageshadow="false"
+     inkscape:object-nodes="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:object-paths="false"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-global="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+        <dc:date>2016</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Lazur URH</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="1. réteg"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(1613.888796331597,-114.8319099344126)">
+    <g
+       id="g10776">
+      <path
+         id="path6169"
+         d="m 1450.797289289465,-470.5994041926533 5000,0 0,2400 -5000,0 z"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#c6af84;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;filter:url(#filter6171);color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g10779">
+      <path
+         inkscape:connector-curvature="0"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#994916;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;filter:url(#filter7455-2-2-6-9-9);color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m 1450.797289289465,-2870.599404192653 5000,0 0,2399.9999999999995 -5000,0 z"
+         id="path10765" />
+    </g>
+    <g
+       id="g10782">
+      <path
+         id="path10767"
+         d="m 1450.797289289465,-5270.599404192656 5000,0 0,2400.000000000002 -5000,0 z"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#8e2a19;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;filter:url(#filter6063);color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g10785">
+      <path
+         inkscape:connector-curvature="0"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#1e0e06;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;filter:url(#filter7455-2-2-6-9);color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m 1450.797289289465,-7670.599404192656 5000,0 0,2400 -5000,0 z"
+         id="path10769" />
+    </g>
+    <g
+       id="g11160">
+      <path
+         id="path10957"
+         d="m 1450.797289289465,-10070.59940419265 5000,0 0,2399.999999999994 -5000,0 z"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#994916;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;filter:url(#filter10960);color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g12684"
+       clip-path="url(#clipPath12761)"
+       transform="translate(3943.783779622127,2075.67567348533)">
+      <g
+         id="g12611">
+        <g
+           id="g12597"
+           transform="translate(679.3181307464583,3051.726645372631)">
+          <g
+             id="g12585">
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(3.608224830031759e-16,-0.9999999999999998,0.9999999999999998,3.608224830031759e-16,4333.60856435355,1438.226843363135)"
+               id="use11297"
+               xlink:href="#g11163"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath12581)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(3.608224830031759e-16,-0.9999999999999998,0.9999999999999998,3.608224830031759e-16,1933.60846326002,1188.226843363135)"
+               id="use11273"
+               xlink:href="#g11160"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11275)" />
+          </g>
+          <g
+             id="g12560">
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-1,0,0,-1,-1036.193385365346,-14583.16991420973)"
+               id="use11303"
+               xlink:href="#g11163"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11305)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-1,0,0,-1,-1286.193385365346,-12183.1698131162)"
+               id="use11279"
+               xlink:href="#g11160"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11281)" />
+          </g>
+          <g
+             id="g12593">
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(6.123031769111888e-17,1,-1,6.123031769111888e-17,-15807.58997775393,-7963.367698213011)"
+               id="use11309"
+               xlink:href="#g11163"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11311)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(6.123031769111888e-17,1,-1,6.123031769111888e-17,-13407.58987666039,-7713.36769821302)"
+               id="use11285"
+               xlink:href="#g11160"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11287)" />
+          </g>
+          <g
+             id="g12589">
+            <use
+               x="0"
+               y="0"
+               xlink:href="#g11163"
+               id="use11295"
+               transform="translate(-7937.787963944278,5558.029096362645)"
+               width="100%"
+               height="100%"
+               clip-path="url(#clipPath11315)" />
+            <use
+               clip-path="url(#clipPath12574)"
+               height="100%"
+               width="100%"
+               transform="translate(-7687.787963944283,3158.028995269106)"
+               id="use12568"
+               xlink:href="#g11160"
+               y="0"
+               x="0" />
+          </g>
+        </g>
+        <g
+           id="g12450">
+          <use
+             clip-path="url(#clipPath11156)"
+             height="100%"
+             width="100%"
+             transform="matrix(0.7071067811865473,0.7071067811865473,-0.7071067811865473,0.7071067811865473,-6956.099365778406,-1797.167021353588)"
+             id="use11136"
+             xlink:href="#g10779"
+             y="0"
+             x="0" />
+          <use
+             clip-path="url(#clipPath11152)"
+             x="0"
+             y="0"
+             xlink:href="#g10779"
+             id="use11150"
+             transform="matrix(-0.7071067811865473,0.7071067811865473,-0.7071067811865473,-0.7071067811865473,-4538.336687742759,-3542.283183783896)"
+             width="100%"
+             height="100%" />
+          <use
+             clip-path="url(#clipPath11146)"
+             x="0"
+             y="0"
+             xlink:href="#g10779"
+             id="use11144"
+             transform="matrix(0.7071067811865473,-0.7071067811865473,0.7071067811865473,0.7071067811865473,-5760.021166056902,803.6083585742683)"
+             width="100%"
+             height="100%" />
+          <use
+             clip-path="url(#clipPath11140)"
+             x="0"
+             y="0"
+             xlink:href="#g10779"
+             id="use11138"
+             transform="matrix(-0.7071067811865473,-0.7071067811865473,0.7071067811865473,-0.7071067811865473,-2610.207823420238,-575.4825430394455)"
+             width="100%"
+             height="100%" />
+        </g>
+        <g
+           id="g12362">
+          <g
+             id="g12348">
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(0.9659258262890681,-0.2588190451025207,0.2588190451025207,0.9659258262890681,-8243.971992912234,3753.175361437758)"
+               id="use11066"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11068)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(0.7071067811865473,-0.7071067811865473,0.7071067811865473,0.7071067811865473,-5027.066622523523,4464.766165746076)"
+               id="use11072"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11074)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(0.2588190451025207,-0.9659258262890681,0.9659258262890681,0.2588190451025207,-2001.37458504493,3405.581967558258)"
+               id="use11078"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11080)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-0.2588190451025205,-0.9659258262890681,0.9659258262890681,-0.2588190451025205,-44.61537865128969,975.4555973851992)"
+               id="use11084"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11086)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-0.7071067811865473,-0.7071067811865473,0.7071067811865473,-0.7071067811865473,318.8993834364945,-2040.487976329042)"
+               id="use11090"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11092)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-0.9659258262890681,-0.2588190451025207,0.2588190451025207,-0.9659258262890681,-941.246656744786,-4718.103607156595)"
+               id="use11096"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11098)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-0.9659258262890681,0.2588190451025212,-0.2588190451025212,-0.9659258262890681,-3371.373248380501,-6272.939122552405)"
+               id="use11102"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11104)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-0.7071067811865471,0.7071067811865473,-0.7071067811865473,-0.7071067811865471,-6186.354901606468,-6288.377575638014)"
+               id="use11108"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11110)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(-0.2588190451025207,0.9659258262890681,-0.9659258262890681,-0.2588190451025207,-8515.894151947912,-4827.269543484534)"
+               id="use11114"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11116)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(0.2588190451025207,0.9659258262890679,-0.9659258262890679,0.2588190451025207,-9668.805976345904,-2397.143173311466)"
+               id="use11120"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11122)" />
+            <use
+               height="100%"
+               width="100%"
+               transform="matrix(0.7071067811865473,0.7071067811865473,-0.7071067811865473,0.7071067811865473,-9336.168315727054,216.8766117560915)"
+               id="use11126"
+               xlink:href="#g10782"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath11128)" />
+            <use
+               x="0"
+               y="0"
+               xlink:href="#g10782"
+               id="use11064"
+               transform="matrix(0.9659258262890681,0.2588190451025207,-0.2588190451025207,0.9659258262890681,-7674.098389250223,2198.339846041941)"
+               width="100%"
+               height="100%"
+               clip-path="url(#clipPath11132)" />
+          </g>
+          <g
+             transform="translate(-5315.660384059349,-1235.96209074203)"
+             id="g12104">
+            <use
+               id="use10879"
+               xlink:href="#g10776"
+               y="0"
+               x="0"
+               clip-path="url(#clipPath10881)"
+               transform="translate(-3327.428426826716,-113.7317282170116)"
+               width="100%"
+               height="100%" />
+            <g
+               id="g12066">
+              <g
+                 id="g12062">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10885"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10887)"
+                   transform="matrix(0.8660254037844387,-0.5,0.5,0.8660254037844387,-2733.486060621589,1380.591382494894)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(0.8660254037844387,-0.5,0.5,0.8660254037844387,895.5203408712964,7599.227552765481)"
+                   id="use10802"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10804)" />
+              </g>
+              <g
+                 id="g12040">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10891"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10893)"
+                   transform="matrix(0.5,-0.8660254037844385,0.8660254037844385,0.5,-1446.233900233655,2516.203981877327)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(0.5,-0.8660254037844385,0.8660254037844385,0.5,4805.895919090824,6087.197681477983)"
+                   id="use10808"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10810)" />
+              </g>
+              <g
+                 id="g12018">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10897"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10899)"
+                   transform="matrix(1.110223024625156e-16,-0.9999999999999998,0.9999999999999998,1.110223024625156e-16,152.63134879518,2833.610771067321)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(1.110223024625156e-16,-0.9999999999999998,0.9999999999999998,1.110223024625156e-16,7352.631449888719,2800.117122013427)"
+                   id="use10814"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10816)" />
+              </g>
+              <g
+                 id="g11996">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10903"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10905)"
+                   transform="matrix(-0.4999999999999999,-0.8660254037844385,0.8660254037844385,-0.4999999999999999,1612.258543642558,2331.496979863998)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(-0.4999999999999999,-0.8660254037844385,0.8660254037844385,-0.4999999999999999,7830.894713913141,-1297.509421628888)"
+                   id="use10820"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10822)" />
+              </g>
+              <g
+                 id="g11974">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10909"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10911)"
+                   transform="matrix(-0.8660254037844385,-0.5000000000000003,0.5000000000000003,-0.8660254037844385,2563.978347831048,1228.137540664385)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(-0.8660254037844385,-0.5000000000000003,0.5000000000000003,-0.8660254037844385,6134.971996884939,-5023.992191110522)"
+                   id="use10826"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10828)" />
+              </g>
+              <g
+                 id="g11940">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10915"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10917)"
+                   transform="matrix(-1,0,0,-1,2814.075564310799,-119.5252664546608)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(-1,0,0,-1,2780.581915256908,-7319.525266454666)"
+                   id="use10832"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10834)" />
+              </g>
+              <g
+                 id="g11918">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10921"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10923)"
+                   transform="matrix(-0.8660254037844385,0.5000000000000003,-0.5000000000000003,-0.8660254037844385,2379.271143630638,-1327.950167403464)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(-0.8660254037844385,0.5000000000000003,-0.5000000000000003,-0.8660254037844385,-1249.735207315477,-7546.586250124481)"
+                   id="use10838"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10840)" />
+              </g>
+              <g
+                 id="g11896">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10927"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10929)"
+                   transform="matrix(-0.4999999999999998,0.8660254037844387,-0.8660254037844387,-0.4999999999999998,1459.804701812039,-2095.776900205344)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(-0.4999999999999998,0.8660254037844387,-0.8660254037844387,-0.4999999999999998,-4792.32502996287,-5666.770549259234)"
+                   id="use10844"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10846)" />
+              </g>
+              <g
+                 id="g11874">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10933"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10935)"
+                   transform="matrix(6.123031769111888e-17,1,-1,6.123031769111888e-17,363.3442625971717,-2278.564645068382)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(6.123031769111888e-17,1,-1,6.123031769111888e-17,-6836.655737402832,-2245.070996014495)"
+                   id="use10850"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10852)" />
+              </g>
+              <g
+                 transform="matrix(0.5,0.8660254037844387,-0.8660254037844387,0.5,-360.6314658389067,-766.4697474275867)"
+                 id="g11770">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10939"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10941)"
+                   transform="translate(-1107.876034942615,-370.302316146129)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="translate(-1074.38238588873,6829.69758276034)"
+                   id="use10856"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10858)" />
+              </g>
+              <g
+                 id="g11766">
+                <use
+                   height="100%"
+                   width="100%"
+                   id="use10945"
+                   xlink:href="#g10776"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10947)"
+                   transform="matrix(0.8660254037844387,0.5,-0.5,0.8660254037844387,-1177.81210696186,-1175.496150473798)" />
+                <use
+                   height="100%"
+                   width="100%"
+                   transform="matrix(0.8660254037844387,0.5,-0.5,0.8660254037844387,-4748.805756015756,5076.633581301105)"
+                   id="use10862"
+                   xlink:href="#g10785"
+                   y="0"
+                   x="0"
+                   clip-path="url(#clipPath10864)" />
+              </g>
+              <g
+                 id="g11738">
+                <use
+                   height="100%"
+                   width="100%"
+                   x="0"
+                   y="0"
+                   xlink:href="#g10776"
+                   id="use10877"
+                   clip-path="url(#clipPath10951)"
+                   transform="translate(-1293.290380208192,-330.2380791631124)" />
+                <use
+                   x="0"
+                   y="0"
+                   xlink:href="#g10785"
+                   id="use10800"
+                   transform="translate(-1259.796731154296,6869.76202193043)"
+                   width="100%"
+                   height="100%"
+                   clip-path="url(#clipPath10868)" />
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g
+       id="g11163"
+       transform="translate(0,-2399.999999999994)">
+      <path
+         inkscape:connector-curvature="0"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#994916;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;filter:url(#filter11167);color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m 1450.797289289465,-10070.59940419265 5000,0 0,2399.999999999994 -5000,0 z"
+         id="path11165" />
+    </g>
+  </g>
+</svg>

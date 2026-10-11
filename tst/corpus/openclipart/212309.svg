@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--part of the rodentia icon theme by sixsixfive released under CC0 (https://creativecommons.org/publicdomain/zero/1.0/) on openclipart-->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+ <defs id="0">
+  <linearGradient id="2">
+   <stop id="F" stop-color="#fff"/>
+   <stop id="G" offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="3">
+   <stop id="H" stop-color="#2e3436"/>
+   <stop id="I" offset="1" stop-color="#2e3436" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="4">
+   <stop id="J" stop-color="#fff" stop-opacity="0.8"/>
+   <stop id="K" offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient y1="10.03" x2="0" y2="37.969" id="5" xlink:href="#4" gradientUnits="userSpaceOnUse"/>
+  <radialGradient cx="25.391" cy="42.806" r="22.753" id="6" xlink:href="#3" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.1123188,0,37.998412)"/>
+  <linearGradient x1="2.531" y1="-16.178" x2="15.851" y2="27.16" id="7" xlink:href="#2" gradientUnits="userSpaceOnUse"/>
+ </defs>
+ <g id="1">
+  <path d="m 48.144085,42.806374 a 22.753027,2.5555935 0 1 1 -45.506054,0 22.753027,2.5555935 0 1 1 45.506054,0 z" transform="matrix(1.0834897,0,0,0.5317875,-3.5109498,16.012073)" id="8" opacity="0.8" fill="url(#6)"/>
+  <rect width="45" height="30" x="1.5" y="9" id="9" fill="#d3d7cf"/>
+  <rect width="45" height="10" x="1.5" y="9" id="A" fill="#c00"/>
+  <rect width="45" height="10" x="1.5" y="29" id="B" fill="#8bb300"/>
+  <path d="m 2.03125,9.53125 0,28.9375 43.9375,0 0,-28.9375 -43.9375,0 z" id="C" opacity="0.6" fill="none" stroke="#000"/>
+  <path d="m 3.03125,10.53125 0,26.9375 41.9375,0 0,-26.9375 -41.9375,0 z" id="D" opacity="0.8" fill="none" stroke="url(#5)"/>
+  <path d="m 2.53125,10.03125 0,14.65625 c 11.943413,-3.638693 26.281715,-6.287584 42.9375,-8.375 l 0,-6.28125 -42.9375,0 z" id="E" opacity="0.6" fill="url(#7)"/>
+ </g>
+</svg>

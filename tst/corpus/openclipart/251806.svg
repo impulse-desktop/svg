@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 810 810">
+	<defs>
+		<filter id="leather" style="color-interpolation-filters:sRGB;">
+			<feTurbulence baseFrequency="0.2" seed="300" numOctaves="7" result="result1" type="turbulence"/>
+			<feDisplacementMap result="result7" in2="result1" xChannelSelector="R"/>
+			<feBlend result="fbSourceGraphic" mode="screen" in2="SourceGraphic" in="result7"/>
+			<feColorMatrix values="1 0 0 -1 0 1 0 1 -1 0 1 0 0 -1 0 -0.8 -1 0 4 -2.5 " result="fbSourceGraphicAlpha"/>
+			<feGaussianBlur stdDeviation="0.5" in="fbSourceGraphicAlpha" result="result0"/>
+			<feSpecularLighting specularExponent="5" specularConstant="1" surfaceScale="5" result="result6">
+				<feDistantLight elevation="35" azimuth="225"/>
+			</feSpecularLighting>
+			<feComposite result="result4" operator="arithmetic" k2="0.5" k3="1" in2="SourceGraphic"/>
+			<feComposite in2="SourceGraphic" in="result4" result="result2" operator="in"/>
+		</filter>
+	</defs>
+
+	<g id="YinYang" stroke="none" stroke-width="0" fill-rule="evenodd" filter="url(#leather)">
+		<title>Leather Yin-Yang, by Adam Stanislav</title>
+		<desc>Since we are using colors for both, the light and the dark, we simply draw a circle in one color, using Bézier curves with kappa=4*(sqrt(2)-1)/3, counterclockwise. Then we draw the complementary design, clockwise, in another color of the same hue but darker. We then turn it into a piece of yin-yang leather. For that, we are using standard SVG filters, supported by most but, unfortunately, not all browsers. All hand-coded SVG, by the way. That’s because math rules the Universe! I used https://color.adobe.com/create/color-wheel/ to pick both, the light and the dark, colors.</desc>
+
+		<g id="yang" fill="#d19f8e">
+			<path d="M400 5c-220.914 0-400 179.086-400 400 0 220.914 179.086 400 400 400 220.914 0 400-179.086 400-400 0-220.914-179.086-400-400-400z"/>
+		</g>
+		<g id="yin" fill="#471200">
+			<path d="M400 5c 220.914 0 400 179.086 400 400 0 220.914-179.086 400-400 400-110.457 0-200-89.543-200-200 0-110.457 89.543-200 200-200 110.457 0 200-89.543 200-200 0-110.457-89.543-200-200-200M400 560c-22.0914 0-40 17.9086-40 40 0 22.0914 17.9086 40 40 40 22.0914 0 40-17.9086 40-40 0-22.0914-17.9086-40-40-40M400 160c22.6437 0 41 18.2563 41 41 0 22.6437-18.2563 41-41 41-22.6437 0-41-18.2563-41-41 0-22.6437 18.2563-41 41-41z"/>
+		</g>
+	</g>
+</svg>
