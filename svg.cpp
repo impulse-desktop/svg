@@ -4696,7 +4696,54 @@ namespace {
         return path.verbs.length() > 0;
     }
 
-    static void flatten(const Path& path, const Matrix& m, float tol, Flat& out) {
+    static Point cubicAt(Point p0, Point p1, Point p2, Point p3, float t) {
+        float u = 1.f - t;
+        float b = 3.f * u * u * t;
+        float c = 3.f * u * t * t;
+        float d = t * t * t;
+
+        return Point{p0.x + b * (p1.x - p0.x) + c * (p2.x - p0.x) + d * (p3.x - p0.x), p0.y + b * (p1.y - p0.y) + c * (p2.y - p0.y) + d * (p3.y - p0.y)};
+    }
+
+    static float deviation(Point a, Point b) {
+        return fabsf(atan2f(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
+    }
+
+    static Point endTangent(Point a, Point b, Point c, Point d) {
+        Point t{b.x - a.x, b.y - a.y};
+
+        if (t.x == 0.f && t.y == 0.f) {
+            t = Point{c.x - a.x, c.y - a.y};
+        }
+
+        if (t.x == 0.f && t.y == 0.f) {
+            t = Point{d.x - a.x, d.y - a.y};
+        }
+
+        return t;
+    }
+
+    static int refinements(Point p0, Point p1, Point p2, Point p3, float step, bool end, float turn, float tol) {
+        Point anchor = end ? p3 : p0;
+        Point tangent = end ? endTangent(p3, p2, p1, p0) : endTangent(p0, p1, p2, p3);
+        int k = 0;
+
+        while (k < 12) {
+            Point q = cubicAt(p0, p1, p2, p3, end ? 1.f - step : step);
+            Point chord{q.x - anchor.x, q.y - anchor.y};
+
+            if (chord.x * chord.x + chord.y * chord.y < tol * tol || deviation(tangent, chord) <= turn) {
+                break;
+            }
+
+            step *= 0.5f;
+            k++;
+        }
+
+        return k;
+    }
+
+    static void flatten(const Path& path, const Matrix& m, float tol, float turn, Flat& out) {
         const Point* pts = path.points.data();
         size_t pi = 0;
         bool open = false;
@@ -4743,14 +4790,23 @@ namespace {
                         n = 512;
                     }
 
-                    for (int i = 1; i < n; i++) {
-                        float t = (float)i / n;
-                        float u = 1.f - t;
-                        float b = 3.f * u * u * t;
-                        float c = 3.f * u * t * t;
-                        float d = t * t * t;
+                    int head = turn > 0.f ? refinements(p0, p1, p2, p3, 1.f / n, false, turn, tol) : 0;
+                    int tail = turn > 0.f ? refinements(p0, p1, p2, p3, 1.f / n, true, turn, tol) : 0;
 
-                        out.points.pushBack(Point{p0.x + b * (p1.x - p0.x) + c * (p2.x - p0.x) + d * (p3.x - p0.x), p0.y + b * (p1.y - p0.y) + c * (p2.y - p0.y) + d * (p3.y - p0.y)});
+                    if (n == 1 && head && tail) {
+                        tail--;
+                    }
+
+                    for (int k = head; k >= 1; k--) {
+                        out.points.pushBack(cubicAt(p0, p1, p2, p3, ldexpf(1.f / n, -k)));
+                    }
+
+                    for (int i = 1; i < n; i++) {
+                        out.points.pushBack(cubicAt(p0, p1, p2, p3, (float)i / n));
+                    }
+
+                    for (int k = 1; k <= tail; k++) {
+                        out.points.pushBack(cubicAt(p0, p1, p2, p3, 1.f - ldexpf(1.f / n, -k)));
                     }
 
                     out.points.pushBack(p3);
@@ -4775,6 +4831,10 @@ namespace {
         }
 
         finish(false);
+    }
+
+    static void flatten(const Path& path, const Matrix& m, float tol, Flat& out) {
+        flatten(path, m, tol, 0.f, out);
     }
 
     static Box flatBox(const Flat& flat) {
@@ -5082,7 +5142,7 @@ namespace {
         Flat flat;
         StrokeParams s{style.strokeWidth / 2.f, style.cap, style.join, style.miterLimit, tolerance / maxf(scale, 1e-6f)};
 
-        flatten(path, identity(), s.tol, flat);
+        flatten(path, identity(), s.tol, s.half > 0.f ? maxf(s.tol / s.half, 1.f / 1024.f) : 0.f, flat);
 
         u32 begin = 0;
 
