@@ -391,3 +391,4 @@ inkscape/98f358804b9b70b5: resvg: an enlarged raster image; ours and resvg sampl
 inkscape/af968cf3330cea03: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__transform-origin__on-image: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__image__no-height-non-square: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+wikimedia/2d5558f94a0017a2: inkscape: shapes at opacity 0.4 over white, two layers deep: Chromium and Firefox blend in 8 bits with a shift by 256 and get 90 where 255 times 0.36 is 92; Inkscape and resvg get 92, as ours does
