@@ -22,6 +22,7 @@ struct SvgDocument {
     virtual float width() const = 0;
     virtual float height() const = 0;
     virtual SvgImage* render(stl::ObjPool& pool, u32 width, u32 height) = 0;
+    virtual SvgImage* render(stl::ObjPool& pool, u32 width, u32 height, float scale) = 0;
 };
 
 struct SvgLibrary {

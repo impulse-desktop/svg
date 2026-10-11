@@ -719,6 +719,7 @@ namespace {
         SvgDecoder* decoder;
         u32 width;
         u32 height;
+        float scale;
         u32 depth;
         u32 imageDepth;
         Node* sized;
@@ -970,6 +971,7 @@ namespace {
         float width() const override;
         float height() const override;
         SvgImage* render(ObjPool& pool, u32 width, u32 height) override;
+        SvgImage* render(ObjPool& pool, u32 width, u32 height, float scale) override;
     };
 
     struct LibraryImpl final: SvgLibrary {
@@ -6709,7 +6711,7 @@ namespace {
 
         l.out = &program;
         l.active.pushBack(pattern);
-        l.host = invert(l.screen, screenInverse) ? multiply(multiply(scaling(tw / w, th / h), inner), screenInverse) : identity();
+        l.host = invert(l.screen, screenInverse) ? multiply(multiply(multiply(scaling(tw / w, th / h), inner), screenInverse), scaling(l.scale, l.scale)) : identity();
         lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
         l.host = outerHost;
         l.active.popBack();
@@ -8496,7 +8498,7 @@ namespace {
 
         Matrix content = identity();
         Box viewBox;
-        Viewport inside{w, h, (float)l.width, (float)l.height, l.rootFontSize};
+        Viewport inside{w, h, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
 
         if (parseViewBox(doc, marker, viewBox)) {
             if (viewBox.x1 <= viewBox.x0 || viewBox.y1 <= viewBox.y0) {
@@ -8504,7 +8506,7 @@ namespace {
             }
 
             content = viewBoxTransform(doc, marker, viewBox, w, h);
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height, l.rootFontSize};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
         }
 
         Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, vp, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, vp, fs, 0.f)});
@@ -8669,7 +8671,7 @@ namespace {
                             hostInverse = identity();
                         }
 
-                        strokePath(transformedPath(path, multiply(hostInverse, m)), dashed, 1.f, hosted);
+                        strokePath(transformedPath(path, multiply(hostInverse, m)), dashed, l.scale, hosted);
                         device.ends.xchg(hosted.ends);
                         device.closed.xchg(hosted.closed);
 
@@ -8707,7 +8709,7 @@ namespace {
         }
 
         Matrix inner = multiply(m, translation(x, y));
-        Viewport inside{w, h, (float)l.width, (float)l.height, l.rootFontSize};
+        Viewport inside{w, h, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
         Box viewBox;
 
         if (parseViewBox(*l.doc, node, viewBox)) {
@@ -8716,7 +8718,7 @@ namespace {
             }
 
             inner = multiply(inner, viewBoxTransform(*l.doc, node, viewBox, w, h));
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width, (float)l.height, l.rootFontSize};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
         }
 
         if (clip) {
@@ -8793,25 +8795,27 @@ namespace {
         Box viewBox;
         float w;
         float h;
+        float cw = (float)l.width / l.scale;
+        float ch = (float)l.height / l.scale;
 
         if (parseViewBox(*l.doc, node, viewBox)) {
-            return viewBoxTransform(*l.doc, node, viewBox, (float)l.width, (float)l.height);
+            return multiply(scaling(l.scale, l.scale), viewBoxTransform(*l.doc, node, viewBox, cw, ch));
         }
 
         if (intrinsicSize(*l.doc, node, w, h)) {
-            w = explicitSide(*l.doc, node, AtomWidth) ? w : (float)l.width;
-            h = explicitSide(*l.doc, node, AtomHeight) ? h : (float)l.height;
+            w = explicitSide(*l.doc, node, AtomWidth) ? w : cw;
+            h = explicitSide(*l.doc, node, AtomHeight) ? h : ch;
 
-            return scaling((float)l.width / w, (float)l.height / h);
+            return scaling(l.scale * cw / w, l.scale * ch / h);
         }
 
-        return identity();
+        return scaling(l.scale, l.scale);
     }
 
     static void lowerSvg(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         if (node == l.doc->root) {
-            float w = (float)l.width;
-            float h = (float)l.height;
+            float w = (float)l.width / l.scale;
+            float h = (float)l.height / l.scale;
 
             l.rootFontSize = style.fontSize;
 
@@ -8820,9 +8824,9 @@ namespace {
                 Flat flat;
 
                 moveTo(canvas, Point{0.f, 0.f});
-                lineTo(canvas, Point{w, 0.f});
-                lineTo(canvas, Point{w, h});
-                lineTo(canvas, Point{0.f, h});
+                lineTo(canvas, Point{(float)l.width, 0.f});
+                lineTo(canvas, Point{(float)l.width, (float)l.height});
+                lineTo(canvas, Point{0.f, (float)l.height});
                 closePath(canvas);
                 flatten(canvas, identity(), tolerance, flat);
                 emitFill(l, flat, WindingNonZero, solidPaint(l, style.background, 1.f), false);
@@ -8837,7 +8841,7 @@ namespace {
                     iw = explicitSide(*l.doc, node, AtomWidth) ? iw : w;
                     ih = explicitSide(*l.doc, node, AtomHeight) ? ih : h;
                     l.screen = multiply(m, scaling(w / iw, h / ih));
-                    lowerChildren(l, node, style, l.screen, Viewport{iw, ih, (float)l.width, (float)l.height, l.rootFontSize});
+                    lowerChildren(l, node, style, l.screen, Viewport{iw, ih, w, h, l.rootFontSize});
 
                     return;
                 }
@@ -12581,7 +12585,11 @@ float DocumentImpl::height() const {
 }
 
 SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
-    if (width == 0 || height == 0 || (u64)width * height > (1u << 26)) {
+    return render(pool, width, height, 1.f);
+}
+
+SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height, float scale) {
+    if (width == 0 || height == 0 || (u64)width * height > (1u << 26) || !(scale > 0.f)) {
         return nullptr;
     }
 
@@ -12601,6 +12609,7 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.pool = scratch.mutPtr();
         l.width = width;
         l.height = height;
+        l.scale = scale;
         l.depth = 0;
         l.out = &l.ops;
         l.decoder = decoder;
@@ -12610,11 +12619,11 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
         l.rootFontSize = 16.f;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
-        l.screen = identity();
-        l.host = identity();
+        l.screen = scaling(scale, scale);
+        l.host = scaling(scale, scale);
         l.instance = nullptr;
         l.documentStyles.zero(doc.nodeCount);
-        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height, 16.f});
+        lowerElement(l, doc.root, initialStyle(), scaling(scale, scale), Viewport{(float)width / scale, (float)height / scale, (float)width / scale, (float)height / scale, 16.f});
 
         Raster raster;
 
