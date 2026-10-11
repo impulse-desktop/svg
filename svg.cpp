@@ -4965,7 +4965,7 @@ namespace {
             Point b = pts[(i + 1) % n];
             float dx = b.x - a.x;
             float dy = b.y - a.y;
-            float length = sqrtf(dx * dx + dy * dy);
+            float length = (float)sqrt((double)dx * dx + (double)dy * dy);
 
             dirs.pushBack(Point{dx / length, dy / length});
 
@@ -5033,7 +5033,7 @@ namespace {
             Point b = loop[i + 1];
             float dx = b.x - a.x;
             float dy = b.y - a.y;
-            float length = sqrtf(dx * dx + dy * dy);
+            float length = (float)sqrt((double)dx * dx + (double)dy * dy);
             float travelled = 0.f;
 
             while (length - travelled > remaining) {
