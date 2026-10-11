@@ -103,8 +103,11 @@ install(svg)
 
 
 labels = ["1x", "2x"]
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "tst", "corpus", "EXCLUDED")) as handle:
+corpus = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tst", "corpus")
+with open(os.path.join(corpus, "EXCLUDED")) as handle:
     excluded = {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
+with open(os.path.join(corpus, "SIDE")) as handle:
+    side = handle.read().strip()
 cases = []
 for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
     relative = path[len("$(S)/tst/corpus/"):]
@@ -115,15 +118,15 @@ for path in sorted(build.glob("$(S)/tst/corpus/*/*.svg")):
     references = [f"{stem}.{label}.png" for label in labels]
     cases.append(command(
         name="case_" + hashlib.sha256(relative.encode()).hexdigest()[:16],
-        inputs=[path, *references],
+        inputs=[path, "$(S)/tst/corpus/SIDE", *references],
         outputs=[score],
         deps=[svg],
-        cmd=["sh", "-c", '"$0" test "$1" "$2" "$3" "$4" || printf "mae 1 1\\nstruct 1 1\\nreference\\nours\\n" > "$2"', "$(B)/svg", path, score, *references],
+        cmd=["sh", "-c", '"$0" test "$1" "$2" "$3" "$4" "$5" || printf "mae 1 1\\nstruct 1 1\\naa 1 1\\nreference\\nours\\n" > "$2"', "$(B)/svg", path, score, side, *references],
         descr="SV",
         color="cyan",
     ))
 
-for metric in ["meanrms", "maxrms", "struct", "all"]:
+for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
     group(metric, command(
         name="score_" + metric,
         inputs=["$(S)/tst/score.py", "$(S)/tst/corpus/EXCLUDED"],

@@ -50,7 +50,7 @@ jobs:
                 [ -f "$rt/$inc" ] || curl -fsSL --retry 5 "https://raw.githubusercontent.com/WebAssembly/wabt/$version/wasm2c/$inc" -o "$rt/$inc"
               done
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" all
-              head -3 .build/all.txt > score.txt
+              head -4 .build/all.txt > score.txt
             ' 2>&1 | tee "$RUNNER_TEMP/score.log"
           sed "s/$/  /" score.txt >> "$GITHUB_STEP_SUMMARY"
 

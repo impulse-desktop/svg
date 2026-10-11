@@ -22,7 +22,7 @@ def load(corpus, scores, pattern):
         relative = os.path.relpath(path, corpus)
         if relative in excluded or not fnmatch.fnmatch(relative, pattern):
             continue
-        fields = {"mae": [], "struct": [], "reference": [], "ours": []}
+        fields = {"mae": [], "struct": [], "aa": [], "reference": [], "ours": []}
         with open(os.path.join(scores, relative[:-len(".svg")] + ".txt")) as handle:
             for line in handle:
                 words = line.split()
@@ -32,6 +32,7 @@ def load(corpus, scores, pattern):
             "case": relative,
             "mae": fields["mae"],
             "struct": fields["struct"],
+            "aa": fields["aa"],
             "reference": max(fields["reference"], default=0.0),
             "ours": max(fields["ours"], default=0.0),
             "rms": rms(fields["mae"]),
@@ -44,6 +45,10 @@ def load(corpus, scores, pattern):
 
 def meanrms(cases):
     return rms([error for case in cases for error in case["mae"]])
+
+
+def antialiasing(cases):
+    return rms([error for case in cases for error in case["aa"]])
 
 
 def maxrms(cases):
@@ -74,6 +79,7 @@ def summary(cases):
         f"meanrms {meanrms(cases):.9f} over {images} images of {len(cases)} cases",
         f"maxrms {worst['rms']:.9f} at {worst['case']}",
         f"struct {len(failing)} of {len(cases)} cases have over {FAILING:.1%} of their pixels wrong; the worst {TAIL:.0%} have {tail:.2%} wrong on average",
+        f"aa {antialiasing(cases):.9f} drawn at the size of the reference instead of supersampled",
     ]
 
 
@@ -94,9 +100,9 @@ def candidates(cases):
 
 
 def main():
-    metrics = ("meanrms", "maxrms", "struct", "all")
+    metrics = ("meanrms", "maxrms", "struct", "aa", "all")
     if len(sys.argv) != 6 or sys.argv[4] not in metrics:
-        sys.exit("usage: tst/score.py CORPUS_DIR SCORE_DIR FILTER meanrms|maxrms|struct|all REPORT")
+        sys.exit("usage: tst/score.py CORPUS_DIR SCORE_DIR FILTER meanrms|maxrms|struct|aa|all REPORT")
     corpus, scores, pattern, metric, report = sys.argv[1:]
     cases = load(corpus, scores, pattern)
     if metric == "struct":
@@ -112,13 +118,17 @@ def main():
         elif metric == "maxrms":
             head = f"{maxrms(cases)['rms']:.9f}"
             lines = summary(cases)[1:2]
+        elif metric == "aa":
+            cases.sort(key=lambda case: -rms(case["aa"]))
+            head = f"{antialiasing(cases):.9f}"
+            lines = summary(cases)[3:4]
         else:
             head = "\n".join(summary(cases))
             lines = summary(cases) + candidates(cases)
     with open(report, "w") as handle:
         handle.write(head + "\n")
         if metric == "all":
-            handle.write("\n".join(lines[3:]) + "\n\n")
+            handle.write("\n".join(lines[4:]) + "\n\n")
         for case in cases:
             handle.write(row(case) + "\n")
     if metric != "all":
