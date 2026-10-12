@@ -10571,45 +10571,50 @@ namespace {
         return rule == WindingEvenOdd ? (winding & 1) != 0 : winding != 0;
     }
 
-    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, Vector<u32>& order, Vector<float>& keys, float a, float b, u8 rule, int depth) {
+    struct BandSample {
+        float x0;
+        float x1;
+        float key;
+        int dir;
+    };
+
+    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, Vector<BandSample>& samples, float a, float b, u8 rule, int depth) {
         float mid = (a + b) * 0.5f;
 
-        order.clear();
-        keys.clear();
+        samples.clear();
 
         for (u32 index : active) {
             const BandEdge& e = edges[index];
 
             if (e.y0 <= a && e.y1 >= b) {
-                float key = bandX(e, mid);
-                size_t k = order.length();
+                BandSample sample{bandX(e, a), bandX(e, b), bandX(e, mid), e.dir};
+                size_t k = samples.length();
 
-                order.pushBack(index);
-                keys.pushBack(key);
+                samples.pushBack(sample);
 
-                while (k > 0 && keys[k - 1] > key) {
-                    keys.mutData()[k] = keys[k - 1];
-                    order.mutData()[k] = order[k - 1];
+                BandSample* sorted = samples.mutData();
+
+                while (k > 0 && sorted[k - 1].key > sample.key) {
+                    sorted[k] = sorted[k - 1];
                     k--;
                 }
 
-                keys.mutData()[k] = key;
-                order.mutData()[k] = index;
+                sorted[k] = sample;
             }
         }
 
-        if (order.empty()) {
+        if (samples.empty()) {
             return;
         }
 
         if (depth < 6) {
-            for (size_t k = 0; k + 1 < order.length(); k++) {
-                const BandEdge& p = edges[order[k]];
-                const BandEdge& q = edges[order[k + 1]];
+            for (size_t k = 0; k + 1 < samples.length(); k++) {
+                const BandSample& p = samples[k];
+                const BandSample& q = samples[k + 1];
 
-                if (bandX(p, a) > bandX(q, a) + 1e-4f || bandX(p, b) > bandX(q, b) + 1e-4f) {
-                    unionBand(acc, stride, w, h, edges, active, order, keys, a, mid, rule, depth + 1);
-                    unionBand(acc, stride, w, h, edges, active, order, keys, mid, b, rule, depth + 1);
+                if (p.x0 > q.x0 + 1e-4f || p.x1 > q.x1 + 1e-4f) {
+                    unionBand(acc, stride, w, h, edges, active, samples, a, mid, rule, depth + 1);
+                    unionBand(acc, stride, w, h, edges, active, samples, mid, b, rule, depth + 1);
 
                     return;
                 }
@@ -10618,19 +10623,15 @@ namespace {
 
         int winding = 0;
 
-        for (u32 index : order) {
-            const BandEdge& e = edges[index];
+        for (const BandSample& sample : samples) {
             bool before = insideWinding(winding, rule);
 
-            winding += e.dir;
+            winding += sample.dir;
 
             bool after = insideWinding(winding, rule);
 
             if (before != after) {
-                float xa = bandX(e, a);
-                float xb = bandX(e, b);
-
-                addEdge(acc, stride, w, h, after ? Edge{xa, a, xb, b} : Edge{xb, b, xa, a});
+                addEdge(acc, stride, w, h, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
             }
         }
     }
@@ -10735,8 +10736,7 @@ namespace {
         });
 
         Vector<u32> active;
-        Vector<u32> order;
-        Vector<float> keys;
+        Vector<BandSample> samples;
         Vector<float> cuts;
         Vector<Crossing> crossings;
         size_t next = 0;
@@ -10801,7 +10801,7 @@ namespace {
             // Repeated boundaries of aligned dashes do not add integration bands.
             if (cutCount * active.length() <= 4096) {
                 for (size_t k = 0; k + 1 < cutCount; k++) {
-                    unionBand(acc, stride, w, h, edges.data(), active, order, keys, cuts[k], cuts[k + 1], rule, 0);
+                    unionBand(acc, stride, w, h, edges.data(), active, samples, cuts[k], cuts[k + 1], rule, 0);
                 }
 
                 continue;
@@ -10969,7 +10969,9 @@ namespace {
 
                 Color src;
 
-                if (!paintAt(paint, (float)(ix0 + x) + 0.5f, (float)(iy0 + y) + 0.5f, src)) {
+                if (paint.type == PaintType::Solid) {
+                    src = paint.color;
+                } else if (!paintAt(paint, (float)(ix0 + x) + 0.5f, (float)(iy0 + y) + 0.5f, src)) {
                     continue;
                 }
 
