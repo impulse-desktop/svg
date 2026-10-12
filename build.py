@@ -17,11 +17,6 @@ build.cxxflags += ["-std=c++26", "-O2", "-g"]
 
 warning_flags = ["-Wall", "-Wextra", "-Werror"]
 
-libstd = import_build(
-    "ext/libstd/build.py",
-    "libstd.a",
-    extra_cflags=["-Wno-error", "-ffile-prefix-map=$(S)=.", "-ffile-prefix-map=$(B)=."],
-)
 png = pkg_config("libpng")
 system = dependency(ldflags=["-lm"])
 
@@ -77,9 +72,9 @@ decode = library(
 svg = program(
     name="svg",
     output="$(B)/svg",
-    srcs=["$(S)/svg.cpp", "$(S)/main.cpp"],
+    srcs=["$(S)/svg.cpp", "$(S)/tst/main.cpp"],
     cflags=warning_flags,
-    deps=[libstd, decode, png, system],
+    deps=[decode, png, system],
 )
 
 libfuzzer = os.environ.get("LIBFUZZER")
@@ -92,11 +87,11 @@ fuzzer_ldflags = (
 fuzz = program(
     name="fuzz",
     output="$(B)/fuzz",
-    srcs=["$(S)/svg.cpp", "$(S)/fuzz.cpp"],
+    srcs=["$(S)/svg.cpp", "$(S)/tst/fuzz.cpp"],
     cflags=warning_flags,
     cxxflags=["-fsanitize=fuzzer-no-link"],
     ldflags=fuzzer_ldflags,
-    deps=[libstd, system],
+    deps=[system],
 )
 
 install(svg)
