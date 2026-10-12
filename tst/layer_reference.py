@@ -350,7 +350,7 @@ def source(data, width, height, measure, rasterize, affine=False, composed=False
             raise ValueError('could not encode the filtered layer')
         attrs = {HREF: 'data:image/png;base64,'+base64.b64encode(bytes(encoded)).decode(),
                  'x': str(ux), 'y': str(uy), 'width': str(w/scale), 'height': str(h/yscale),
-                 'preserveAspectRatio': 'none', 'opacity': p.get('opacity', '1')}
+                 'preserveAspectRatio': 'none', 'opacity': p.get('opacity', '1'), 'id': node.get('id')}
         if node.get('transform'):
             attrs['transform'] = node.get('transform')
         parent = parents[node]

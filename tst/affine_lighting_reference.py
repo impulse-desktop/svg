@@ -5,6 +5,7 @@ averages, independently of the native renderer. Equations and edge kernels:
 https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement
 """
 import math
+import re
 import xml.etree.ElementTree as ET
 
 import numpy as np
@@ -19,8 +20,10 @@ def lighting(node, source, sx, sy, tx, ty):
             or min(source.width(), source.height()) < 2):
         raise ValueError('invalid lighting sample grid')
     if (node.tag not in [NS+'feDiffuseLighting', NS+'feSpecularLighting'] or len(node) != 1
-            or node.get('lighting-color', 'white') not in ['white', '#ffffff']):
-        raise ValueError('float lighting requires one white light')
+            or not re.fullmatch(r'white|#[0-9a-fA-F]{6}', node.get('lighting-color', 'white'))):
+        raise ValueError('float lighting requires one explicit RGB light')
+    color = node.get('lighting-color', 'white')
+    rgb = np.ones(3) if color == 'white' else np.array([int(color[i:i+2], 16)/255 for i in [1,3,5]])
     light = node[0]
     attributes = {'feDistantLight': {'azimuth', 'elevation'}, 'fePointLight': {'x', 'y', 'z'}}
     kind = light.tag.removeprefix(NS)
@@ -71,10 +74,12 @@ def lighting(node, source, sx, sy, tx, ty):
     level = np.maximum(0, nx*lx+ny*ly+nz*lz)
     if specular:
         level = level**exponent
-    level = np.clip(level*constant, 0, 1)
-    result = np.repeat(level[..., None], 4, axis=2).astype(np.float32)
-    if not specular:
-        result[..., 3] = 1
+    # Multiply each light channel before clamping. Clamping the white-light
+    # intensity first would lose unsaturated channels when the material > 1.
+    channels = np.clip(level[..., None]*constant*rgb, 0, 1)
+    result = np.empty((*level.shape, 4), dtype=np.float32)
+    result[..., :3] = channels
+    result[..., 3] = np.max(channels, axis=2) if specular else 1
     return image(result)
 
 
@@ -132,4 +137,15 @@ def check():
                         raise ValueError('float lighting differs from an analytic plane or its edges')
                     if np.max(np.abs(actual[..., 3]-(expected if kind == 'Specular' else 1))) > 1e-5:
                         raise ValueError('float lighting alpha differs from its formula')
+                    for color, rgb in [('#e9e6d7', [233,230,215]), ('#204080', [32,64,128]), ('#000000', [0,0,0])]:
+                        for constant in [.5, 2, 4]:
+                            colored = ET.fromstring(ET.tostring(node))
+                            colored.set('lighting-color', color)
+                            colored.set('specularConstant' if kind == 'Specular' else 'diffuseConstant', str(constant))
+                            channels = np.minimum(expected[..., None]*constant*np.array(rgb)/255, 1)
+                            actual = pixels(lighting(colored, plane, sx, sy, tx, ty))
+                            alpha = np.max(channels, axis=2) if kind == 'Specular' else 1
+                            if (np.max(np.abs(actual[..., :3]-channels)) > 4e-5
+                                    or np.max(np.abs(actual[..., 3]-alpha)) > 4e-5):
+                                raise ValueError('colored lighting differs from the analytic plane or per-channel saturation')
     return 'numpy '+np.__version__

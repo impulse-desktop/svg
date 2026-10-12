@@ -821,6 +821,7 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False, emboss=Fal
     legacy_ink = None
     if legacy:
         import component_reference
+        import paper_reference
         import stencil_reference
         component_reference.check()
         legacy_ink = os.environ['INKSCAPE_LEGACY']
@@ -914,6 +915,13 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False, emboss=Fal
                 return (abs(actual[3]-expected[3]) <= 2 and all(
                     abs(actual[i]*actual[3]-expected[i]*expected[3]) <= 2*255 for i in range(3)))
 
+            def verify_regions(before, after, width, height):
+                _, _, original = decode(draw(before, width, height, 1))
+                _, _, frozen = decode(draw(after, width, height, 1))
+                return all(original[i+3] == frozen[i+3] and all(
+                    original[i+c]*original[i+3] == frozen[i+c]*frozen[i+3] for c in range(3))
+                    for i in range(0, len(original), 4))
+
             for x, y in [(0, 0), (12.3, 7.7)]:
                 def checker(data, width, height):
                     # Paint a deliberately different source on the device grid.
@@ -978,6 +986,20 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False, emboss=Fal
                             actual = pixels[offset:offset+4]
                             if not close_pixel(actual, expected):
                                 sys.exit('legacy layer composition lost its SVG 1.1 background')
+                for label, data, expected, accepted in paper_reference.probes():
+                    for scale in [1, 2]:
+                        try:
+                            probe = paper_reference.source(data, 96*scale, 64*scale, measure, rasterize, verify_regions)
+                        except ValueError as error:
+                            if accepted or str(error) != 'paper ancestor region changed the legacy composition':
+                                raise
+                            continue
+                        if not accepted:
+                            sys.exit('paper snapshot accepted a changed legacy background region')
+                        _, _, actual = decode(draw(probe, 96, 64, scale))
+                        _, _, target = decode(draw(expected, 96, 64, scale))
+                        if any(not close_pixel(actual[i:i+4], target[i:i+4]) for i in range(0, len(actual), 4)):
+                            sys.exit(f'paper context or flat colored light changed: {label}/{scale}')
 
             if emboss:
                 for label, data, (left, top, right, bottom) in emboss_reference.probes():
@@ -1002,7 +1024,7 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False, emboss=Fal
                     data = handle.read()
                 key = (data, width*scale, height*scale)
                 if key not in cache:
-                    cache[key] = (stencil_reference.source(*key, measure, rasterize) if legacy else
+                    cache[key] = (stencil_reference.source(*key, measure, rasterize, verify_regions) if legacy else
                                   emboss_reference.source(*key, measure, rasterize) if emboss else
                                   layer_reference.source(*key, measure, rasterize, affine=True))
                 large = draw(cache[key], width, height, scale, os.path.dirname(svg))

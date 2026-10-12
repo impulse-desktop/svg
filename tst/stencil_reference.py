@@ -1,14 +1,15 @@
 """Float noise stencils inside an SVG 1.1 document composed by Inkscape.
 
-Only selected filters with discrete transfer functions are replaced. Unused
-class styles and one-stop opaque swatches are resolved before isolating their
-source groups; unrelated filters and legacy backgrounds remain in the document.
+Discrete transfer filters and noise-driven paper lighting use float snapshots.
+Unused class styles and one-stop opaque swatches are resolved before isolating
+their source groups; original clips and verified legacy backgrounds are retained.
 """
 import math
 import re
 import xml.etree.ElementTree as ET
 
 import layer_reference
+import paper_reference
 from halfturn_reference import matrix
 from noise_reference import NS, properties
 from source_geometry_reference import HREF
@@ -81,9 +82,10 @@ def prepare(data):
     return ET.tostring(root)
 
 
-def source(data, width, height, measure, rasterize):
-    return layer_reference.source(prepare(data), width, height, measure, rasterize,
-                                  affine=True, composed=True, select=selected)
+def source(data, width, height, measure, rasterize, verify_regions=None):
+    data = layer_reference.source(prepare(data), width, height, measure, rasterize,
+                                   affine=True, composed=True, select=selected)
+    return paper_reference.source(data, width, height, measure, rasterize, verify_regions)
 
 
 def geometry_probes():
