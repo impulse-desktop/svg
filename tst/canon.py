@@ -16,7 +16,7 @@ import svg11_reference
 import noise_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "ours"]
+RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -340,7 +340,7 @@ def firefox_svg11(program, shrinker, jobs, side):
         return firefox(program, shrinker, copies, side)
 
 
-def chromium_noise(program, shrinker, jobs, side):
+def chromium_noise(program, shrinker, jobs, side, background_blend=False):
     import reference
     with tempfile.TemporaryDirectory() as work:
         page = os.path.join(work, "harness.html")
@@ -380,7 +380,10 @@ def chromium_noise(program, shrinker, jobs, side):
 
             for svg, png, width, height, scale in jobs:
                 with open(svg, "rb") as handle:
-                    data = noise_reference.source(handle.read())
+                    data = handle.read()
+                if background_blend:
+                    data = noise_reference.background_blend(data)
+                data = noise_reference.source(data)
                 with tempfile.NamedTemporaryFile(suffix=".svg", dir=os.path.dirname(svg)) as copy:
                     copy.write(data)
                     copy.flush()
@@ -389,6 +392,10 @@ def chromium_noise(program, shrinker, jobs, side):
         finally:
             browser.close()
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip()
+
+
+def chromium_noise_blend(program, shrinker, jobs, side):
+    return chromium_noise(program, shrinker, jobs, side, background_blend=True)
 
 
 def main():

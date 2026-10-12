@@ -164,6 +164,13 @@ and rejects a browser whose sampling convention has changed. Unsupported
 constructions, including stitched noise and SVG 1.1 background inputs, are
 rejected by `tst/noise_reference.py`.
 
+`chromium_noise_blend` additionally replaces a single sRGB background multiply
+with CSS multiply for the reviewed opaque backdrop in `openclipart/245679`.
+The original SVG stays intact. Constant-noise controls agree byte for byte,
+and rendering the conversion with the native renderer differs by less than
+0.000003 MAE. This avoids both unsupported browser `BackgroundImage` inputs
+and resampling the noisy backdrop through an embedded SVG image.
+
 ## Building
 
 You need clang 21 or GCC 16, Python 3, libpng, wasm2c from
