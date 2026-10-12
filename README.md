@@ -171,6 +171,14 @@ and rendering the conversion with the native renderer differs by less than
 0.000003 MAE. This avoids both unsupported browser `BackgroundImage` inputs
 and resampling the noisy backdrop through an embedded SVG image.
 
+`chromium_noise_local` handles the reviewed quarter-turn paths in
+`openclipart/290478`. Skia's [lighting Z transform](https://github.com/google/skia/blob/main/src/effects/imagefilters/SkLightingImageFilter.cpp)
+can reverse or erase the light's elevation under rotation. The external browser
+first renders each filter without that rotation, on a grid aligned with the
+final pixels, then rotates the resulting PNG. The completed backdrop is also
+an explicit browser-rendered PNG. `tst/local_filter_reference.py` restricts this
+conversion to plain paths, quarter-turn rotations and supported ancestors.
+
 ## Building
 
 You need clang 21 or GCC 16, Python 3, libpng, wasm2c from
@@ -193,7 +201,8 @@ and root filters at three device scales.
 `python3 tst/filter_inputs.py .build/svg` checks clipping of filter inputs
 in both colour spaces and turbulence at
 lattice vertices, whose values are known without a reference renderer, and
-its periodicity at large positive and negative coordinates.
+its periodicity at large positive and negative coordinates. It also checks that
+rotated and reflected intermediate layers preserve the noise sampling grid.
 
 `python3 tst/png_gamma.py .build/svg` checks PNG gamma conversion for RGB,
 palette and grayscale images, including alpha and the sRGB chunk's precedence.

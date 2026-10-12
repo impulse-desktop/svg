@@ -14,9 +14,10 @@ import zipfile
 
 import svg11_reference
 import noise_reference
+import local_filter_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "ours"]
+RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -340,7 +341,7 @@ def firefox_svg11(program, shrinker, jobs, side):
         return firefox(program, shrinker, copies, side)
 
 
-def chromium_noise(program, shrinker, jobs, side, background_blend=False):
+def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False):
     import reference
     with tempfile.TemporaryDirectory() as work:
         page = os.path.join(work, "harness.html")
@@ -383,7 +384,17 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False):
                     data = handle.read()
                 if background_blend:
                     data = noise_reference.background_blend(data)
-                data = noise_reference.source(data)
+                if local_filters:
+                    def rasterize(data, rw, rh):
+                        with tempfile.NamedTemporaryFile(suffix=".svg", dir=os.path.dirname(svg)) as source:
+                            source.write(data)
+                            source.flush()
+                            draw(source.name, rw, rh, 1, large)
+                        with open(large, "rb") as handle:
+                            return handle.read()
+                    data = local_filter_reference.source(data, width * scale, height * scale, rasterize)
+                else:
+                    data = noise_reference.source(data)
                 with tempfile.NamedTemporaryFile(suffix=".svg", dir=os.path.dirname(svg)) as copy:
                     copy.write(data)
                     copy.flush()
@@ -396,6 +407,10 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False):
 
 def chromium_noise_blend(program, shrinker, jobs, side):
     return chromium_noise(program, shrinker, jobs, side, background_blend=True)
+
+
+def chromium_noise_local(program, shrinker, jobs, side):
+    return chromium_noise(program, shrinker, jobs, side, local_filters=True)
 
 
 def main():

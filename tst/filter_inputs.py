@@ -39,6 +39,23 @@ def cases():
                 expected = [128] * 4 if kind == "fractalNoise" else [0] * 4
                 yield f"noise/{kind}/{seed}/{octaves}", drawing(primitive, region=region, viewbox="-.5 -.5 32 32"), expected
 
+    # Signed axis permutations preserve the device pixel grid. Half-unit
+    # translations put all inverse-transformed sample centres on noise lattice
+    # vertices; rendering a separate layer must not change that sampling phase.
+    transforms = [(0, 1, -1, 0, 32.5, .5), (-1, 0, 0, -1, 32.5, 32.5),
+                  (-1, 0, 0, 1, 32.5, .5), (0, -1, 1, 0, .5, 32.5),
+                  (0, 1, 1, 0, .5, .5)]
+    for scale in [1, 2]:
+        for transform in transforms:
+            a, b, c, d, x, y = transform
+            matrix = f"matrix({scale*a} {scale*b} {scale*c} {scale*d} {x} {y})"
+            for kind in ["fractalNoise", "turbulence"]:
+                for seed in [0, 7]:
+                    primitive = f'<feTurbulence type="{kind}" seed="{seed}" numOctaves="7" baseFrequency="{scale}"/>'
+                    svg = drawing(primitive).replace('<rect ', f'<rect transform="{matrix}" ')
+                    expected = [128] * 4 if kind == "fractalNoise" else [0] * 4
+                    yield f"transformed-noise/{scale}/{transform}/{kind}/{seed}", svg, expected
+
 
 def periodic_drawing(kind, octaves, offset):
     # The lattice permutation repeats after 256 cells. Translating by 8192

@@ -458,7 +458,7 @@ inkscape/f2d85cc688e5e039: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAl
 inkscape/ff16a6d909f73d38: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
 openclipart/188784: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
 openclipart/245679: chromium_noise_blend: opaque backdrop multiply and corrected turbulence sampling
-openclipart/290478: firefox_svg11: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
+openclipart/290478: chromium_noise_local: aligned local noise and lighting before quarter-turn rotation; explicit background
 resvg/filters__enable-background__accumulate-with-new: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
 resvg/filters__enable-background__filter-on-shape: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
 resvg/filters__enable-background__inherit: firefox_svg11: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
