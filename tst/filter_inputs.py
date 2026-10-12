@@ -26,6 +26,16 @@ def cases():
             primitive = f'<feOffset in="{source}" dx="12"/>'
             yield f"clip/{space}/{source}", drawing(primitive, space, region), [0, 0, 0, 0]
 
+        # Eroding a clipped 8x8 square by four removes it entirely. Source
+        # images and a bounded flood must obey the same transparent border.
+        for source in ["SourceGraphic", "SourceAlpha", "flood"]:
+            primitive = ('<feFlood/>' if source == "flood" else '')
+            primitive += '<feMorphology radius="4"' + (f' in="{source}"' if source != "flood" else '') + '/>'
+            svg = drawing(primitive, space, region)
+            yield f"erode-clip/{space}/{source}", svg, [0, 0, 0, 0]
+            if source != "flood":
+                yield f"erode-normalized/{space}/{source}", canon.morphology_source(svg).decode(), [0, 0, 0, 0]
+
     # At lattice vertices every gradient's dot product is zero. Doubling the
     # frequency for another octave stays on the lattice, regardless of seed.
     # Thus fractalNoise is exactly 1/2 and turbulence exactly 0. The viewBox

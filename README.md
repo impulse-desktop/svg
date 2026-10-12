@@ -153,6 +153,12 @@ background as an explicit SVG snapshot. These restricted conversions are
 for the reviewed cases in `CANON`; they reject unsupported constructions
 and run on temporary copies, leaving the corpus SVGs intact.
 
+`chromium_morphology` makes the [filter-region input clip](https://www.w3.org/Bugs/Public/show_bug.cgi?id=26432) explicit before a
+single source erosion, using a zero offset. Chromium otherwise lets pixels
+outside that region affect `erode`. A square with analytically known erosion
+bounds guards every export; stock Batik agrees with those bounds. The reviewed
+W3C morphology cases keep identical native pixels after the conversion.
+
 `chromium_noise` compensates the extra half-unit offset in Skia's
 [turbulence sampler](https://github.com/google/skia/blob/main/src/opts/SkRasterPipeline_opts.h).
 It translates the filter frame and translates its source geometry back, so

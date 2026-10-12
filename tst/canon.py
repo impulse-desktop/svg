@@ -18,7 +18,7 @@ import local_filter_reference
 import stitch_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -366,6 +366,76 @@ def firefox_svg11(program, shrinker, jobs, side):
             copy.flush()
             copies.append((copy.name, png, width, height, scale))
         return firefox(program, shrinker, copies, side)
+
+
+def morphology_source(data):
+    """Make the input clip explicit for reviewed single-primitive erosions."""
+    root = ET.fromstring(data)
+    ns = noise_reference.NS
+    count = 0
+    for f in root.iter(ns + "filter"):
+        if len(f) != 1 or f[0].tag != ns + "feMorphology":
+            continue
+        p = f[0]
+        if p.get("operator", "erode") != "erode":
+            continue
+        if (p.get("in", "SourceGraphic") not in ["SourceGraphic", "SourceAlpha"]
+                or any(k in p.attrib for k in ["x", "y", "width", "height", "style", "color-interpolation-filters"])):
+            raise ValueError("erosion requires a standard input and the default primitive region")
+        f.insert(0, ET.Element(ns + "feOffset", {"in": p.get("in", "SourceGraphic")}))
+        p.attrib.pop("in", None)
+        count += 1
+    if not count:
+        raise ValueError("no single-primitive source erosion to normalize")
+    return ET.tostring(root)
+
+
+def chromium_morphology(program, shrinker, jobs, side):
+    import reference
+    with tempfile.TemporaryDirectory() as work:
+        page = os.path.join(work, "harness.html")
+        with open(page, "w") as handle:
+            handle.write(reference.HARNESS)
+        large = os.path.join(work, "large.png")
+        browser = reference.Browser(program, os.path.join(work, "profile"))
+        try:
+            browser.open(page)
+
+            def draw(data, directory, width, height, scale):
+                with tempfile.NamedTemporaryFile(suffix=".svg", dir=directory) as source:
+                    source.write(morphology_source(data))
+                    source.flush()
+                    browser.send("Emulation.setDeviceMetricsOverride", {"width": width, "height": height,
+                                 "deviceScaleFactor": scale, "mobile": False})
+                    if not browser.evaluate(reference.SHOW % (width, height, json.dumps("file://" + source.name))):
+                        sys.exit("Chromium could not load the normalized erosion")
+                    shot = browser.send("Page.captureScreenshot", {"format": "png",
+                                        "clip": {"x": 0, "y": 0, "width": width, "height": height, "scale": 1},
+                                        "fromSurface": True, "captureBeyondViewport": False})
+                    with open(large, "wb") as handle:
+                        handle.write(base64.b64decode(shot["data"]))
+                if size(large) != (width * scale, height * scale):
+                    sys.exit("incorrect Chromium erosion screenshot size")
+
+            # A clipped square eroded by four units must lose four units on
+            # each side. Direct SourceGraphic erosion in Chromium skips this
+            # input clip; an identity offset makes it take effect.
+            probe = b'''<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<filter id="f" filterUnits="userSpaceOnUse" x="16" y="16" width="32" height="32">
+<feMorphology operator="erode" radius="4"/></filter>
+<rect width="64" height="64" filter="url(#f)"/></svg>'''
+            draw(probe, work, 64, 64, 1)
+            _, _, pixels = decode(large)
+            if any(pixels[(y*64+x)*4+3] != (255 if 20 <= x < 44 and 20 <= y < 44 else 0)
+                   for y in range(64) for x in range(64)):
+                sys.exit("Chromium erosion no longer matches the reviewed input clipping")
+            for svg, png, width, height, scale in jobs:
+                with open(svg, "rb") as handle:
+                    draw(handle.read(), os.path.dirname(svg), width, height, scale)
+                shrink(shrinker, large, png, scale)
+        finally:
+            browser.close()
+    return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip()
 
 
 def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False):
