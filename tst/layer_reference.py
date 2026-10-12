@@ -87,7 +87,7 @@ def graph(f, source, scale, tx, ty):
         elif tag == 'feTurbulence':
             x, y = pair(node, 'baseFrequency', '0')
             octaves = int(node.get('numOctaves', '1'))
-            if not 0 <= octaves <= 8 or node.get('stitchTiles', 'noStitch') != 'noStitch':
+            if not 0 <= octaves <= 10 or node.get('stitchTiles', 'noStitch') != 'noStitch':
                 raise ValueError('unsupported layer noise')
             constructor = {'fractalNoise': skia.PerlinNoiseShader.MakeFractalNoise,
                            'turbulence': skia.PerlinNoiseShader.MakeTurbulence}[node.get('type', 'turbulence')]
@@ -163,7 +163,8 @@ def graph(f, source, scale, tx, ty):
             effect = skia.ImageFilters.Offset(number(node, 'dx', '0')*scale, number(node, 'dy', '0')*scale, a, crop)
         elif tag == 'feConvolveMatrix':
             x, y = pair(node, 'order', '3')
-            if x != int(x) or y != int(y) or not 1 <= x <= 32 or not 1 <= y <= 32 or number(node, 'bias', '0') != 0:
+            if (x != int(x) or y != int(y) or not 1 <= x <= 32 or not 1 <= y <= 32
+                    or (number(node, 'bias', '0') != 0 and node.get('preserveAlpha') != 'true')):
                 raise ValueError('unsupported layer convolution')
             x, y = int(x), int(y)
             kernel = [float(v) for v in node.get('kernelMatrix', '').replace(',', ' ').split()]
@@ -175,7 +176,8 @@ def graph(f, source, scale, tx, ty):
                 raise ValueError('invalid layer convolution origin or divisor')
             edge = {'duplicate': skia.TileMode.kClamp, 'none': skia.TileMode.kDecal, 'wrap': skia.TileMode.kRepeat}[node.get('edgeMode', 'duplicate')]
             preserve = {'false': False, 'true': True}[node.get('preserveAlpha', 'false')]
-            effect = skia.ImageFilters.MatrixConvolution(skia.ISize(x, y), list(reversed(kernel)), 1/divisor, 0,
+            # Skia takes bias in byte levels; SVG uses normalized channels.
+            effect = skia.ImageFilters.MatrixConvolution(skia.ISize(x, y), list(reversed(kernel)), 1/divisor, 255*number(node, 'bias', '0'),
                        skia.IPoint(x-1-int(px), y-1-int(py)), edge, not preserve, a, crop)
         last = apply(image, effect, crop)
         if node.get('result'):

@@ -26,7 +26,7 @@ import source_geometry_reference
 import edge_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "skia_textures", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -911,6 +911,64 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
             browser.close()
     chrome_version = subprocess.run([program, '--version'], capture_output=True, text=True).stdout.strip()
     return '; '.join([chrome_version, version, ink_version])
+
+
+def skia_textures(program, shrinker, jobs, side):
+    import texture_reference
+    import reference
+    version = texture_reference.check()
+    with tempfile.TemporaryDirectory(prefix='svg-texture-reference-') as work:
+        page = os.path.join(work, 'harness.html')
+        with open(page, 'w') as handle:
+            handle.write(reference.HARNESS)
+        browser = reference.Browser(program, os.path.join(work, 'profile'))
+        try:
+            browser.open(page)
+
+            def measure(data, names):
+                return texture_reference.measure(browser, data, names)
+
+            def draw(data, width, height, scale, directory=work):
+                with tempfile.NamedTemporaryFile(suffix='.svg', dir=directory) as copy:
+                    copy.write(data)
+                    copy.flush()
+                    browser.send('Emulation.setDeviceMetricsOverride', {'width': width, 'height': height,
+                                 'deviceScaleFactor': scale, 'mobile': False})
+                    if not browser.evaluate(reference.SHOW % (width, height, json.dumps('file://'+copy.name))):
+                        sys.exit('Chromium could not load the texture snapshots')
+                    shot = browser.send('Page.captureScreenshot', {'format': 'png',
+                           'clip': {'x': 0, 'y': 0, 'width': width, 'height': height, 'scale': 1},
+                           'fromSurface': True, 'captureBeyondViewport': False})
+                    png = os.path.join(work, 'large.png')
+                    with open(png, 'wb') as handle:
+                        handle.write(base64.b64decode(shot['data']))
+                    if size(png) != (width*scale, height*scale):
+                        sys.exit('incorrect texture screenshot size')
+                    return png
+
+            for scale in [1, 2]:
+                for data, expected in texture_reference.probes(scale):
+                    probe = texture_reference.source(data, 96*scale, 96*scale, measure)
+                    width, height, pixels = decode(draw(probe, 96, 96, scale))
+                    for x, y in [(45*scale,45*scale), (51*scale,51*scale)]:
+                        offset = (y*width+x)*4
+                        if any(abs(a-b) > 1 for a, b in zip(pixels[offset:offset+4], expected)):
+                            sys.exit('rotated texture lighting differs from the calculated flat surface')
+                    if any(pixels[(y*width+x)*4+3] for x,y in [(0,0), (width-1,height-1)]):
+                        sys.exit('texture snapshots lost their ancestor clips')
+            cache = {}
+            for svg, png, width, height, scale in jobs:
+                with open(svg, 'rb') as handle:
+                    data = handle.read()
+                key = (data, width*scale, height*scale)
+                if key not in cache:
+                    cache[key] = texture_reference.source(*key, measure)
+                large = draw(cache[key], width, height, scale, os.path.dirname(svg))
+                shrink(shrinker, large, png, scale)
+        finally:
+            browser.close()
+    chrome = subprocess.run([program, '--version'], capture_output=True, text=True).stdout.strip()
+    return '; '.join([chrome, version])
 
 
 def chromium_noise_blend(program, shrinker, jobs, side):
