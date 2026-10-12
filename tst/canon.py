@@ -18,7 +18,7 @@ import local_filter_reference
 import stitch_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -199,6 +199,32 @@ def inkscape_legacy(program, shrinker, jobs, side):
             shrink(shrinker, large, png, scale)
             os.remove(large)
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip().splitlines()[0]
+
+
+def inkscape_noise(program, shrinker, jobs, side):
+    with tempfile.TemporaryDirectory() as work, contextlib.ExitStack() as stack:
+        probe = os.path.join(work, "probe.svg")
+        png = os.path.join(work, "probe.png")
+        data = b'''<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="-.5 -.5 32 32">
+          <filter id="f" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="1" seed="7" numOctaves="3"/>
+          </filter><rect x="-32" y="-32" width="96" height="96" filter="url(#f)"/></svg>'''
+        with open(probe, "wb") as handle:
+            handle.write(noise_reference.source(data, phase=-.5))
+        inkscape(program, shrinker, [(probe, png, 32, 32, 1)], 32)
+        _, _, pixels = decode(png)
+        for x, y in [(9, 9), (12, 12), (15, 15)]:
+            if any(abs(value - 128) > 1 for value in pixels[(y*32+x)*4:(y*32+x)*4+4]):
+                sys.exit("Inkscape noise sampling differs from the reviewed compensation")
+        copies = []
+        for svg, png, width, height, scale in jobs:
+            with open(svg, "rb") as handle:
+                data = noise_reference.inkscape_source(handle.read(), width*scale, height*scale)
+            source = stack.enter_context(tempfile.NamedTemporaryFile(suffix=".svg", dir=os.path.dirname(svg)))
+            source.write(data)
+            source.flush()
+            copies.append((source.name, png, width, height, scale))
+        return inkscape(program, shrinker, copies, side)
 
 
 def softlight_source(data):

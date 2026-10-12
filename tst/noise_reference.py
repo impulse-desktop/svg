@@ -1,11 +1,14 @@
-"""Compensate Skia's extra half-user-unit turbulence phase in external references.
+"""Compensate turbulence sampling phases in external references.
 
-Translate the filter frame by (+.5,+.5) and its source geometry by (-.5,-.5).
+For Skia, translate the frame by (+.5,+.5) and its geometry by (-.5,-.5).
 The geometry stays in place while noise coordinates cancel Skia's extra offset
 before sampling. Preserve post-filter effects outside that frame, and translate
 explicit primitive/light positions with it. Only reviewed CANON inputs are used;
 reject constructions whose coordinate semantics this conversion does not cover.
+Inkscape uses the opposite correction of half a device pixel, converted to
+user units for the restricted untransformed inputs of inkscape_source().
 """
+import math
 import re
 import xml.etree.ElementTree as ET
 
@@ -68,7 +71,27 @@ def background_blend(data):
     return ET.tostring(root)
 
 
-def source(data):
+def inkscape_source(data, width, height):
+    """Correct corner sampling for reviewed untransformed Inkscape filters."""
+    root = ET.fromstring(data)
+    box = [float(v) for v in root.get('viewBox', '').replace(',', ' ').split()]
+    if len(box) != 4 or box[:2] != [0, 0] or min(box[2:]) <= 0:
+        raise ValueError('Inkscape noise requires a positive zero-origin viewBox')
+    scale = width / box[2]
+    if scale <= 0 or not math.isclose(scale, height / box[3], rel_tol=1e-12):
+        raise ValueError('Inkscape noise requires uniform viewport scaling')
+    for n in root.iter():
+        if n is not root and n.tag == NS + 'svg':
+            raise ValueError('Inkscape noise does not resolve nested viewports')
+        p = properties(n)
+        if p.get('transform', 'none') not in ['', 'none']:
+            raise ValueError('Inkscape noise requires untransformed filter frames')
+    # Inkscape samples device corners. Move the frame backwards half a
+    # device pixel so those corners map to the original pixel centres.
+    return source(data, phase=-.5 / scale)
+
+
+def source(data, phase=.5):
     root = ET.fromstring(data)
     for n in root.iter(NS + 'style'):
         if re.sub(r'@font-face\s*\{[^}]*\}', '', n.text or '').strip():
@@ -93,12 +116,12 @@ def source(data):
             if n is not f:
                 for k in ['x', 'y']:
                     if k in n.attrib:
-                        n.set(k, str(float(n.get(k)) - .5))
+                        n.set(k, str(float(n.get(k)) - phase))
                     elif n.tag in [NS + 'fePointLight', NS + 'feSpotLight']:
-                        n.set(k, '-.5')
+                        n.set(k, str(-phase))
                 if n.tag == NS + 'feSpotLight':
                     for k in ['pointsAtX', 'pointsAtY']:
-                        n.set(k, str(float(n.get(k, '0')) - .5))
+                        n.set(k, str(float(n.get(k, '0')) - phase))
     parents = {c: n for n in root.iter() for c in n}
     found = set()
     for n in list(root.iter()):
@@ -120,10 +143,10 @@ def source(data):
         i = list(parent).index(n)
         outer = ET.Element(NS + 'g', {'transform': n.get('transform', '')})
         outer.set('style', ';'.join(k + ':' + p.get(k, default) for k, default in effects) + ';display:' + p.get('display', 'inline'))
-        group = ET.SubElement(outer, NS + 'g', {'filter': match[0], 'transform': 'translate(.5 .5)'})
+        group = ET.SubElement(outer, NS + 'g', {'filter': match[0], 'transform': f'translate({phase} {phase})'})
         n.attrib.pop('filter', None)
         n.set('style', n.get('style', '') + ';filter:none;' + ';'.join(k + ':' + default for k, default in effects))
-        n.set('transform', 'translate(-.5 -.5)')
+        n.set('transform', f'translate({-phase} {-phase})')
         parent.remove(n)
         group.append(n)
         parent.insert(i, outer)
