@@ -510,3 +510,4 @@ inkscape/c2431a3d475c8d05: chromium_noise: Chromium samples turbulence half a us
 openclipart/265813: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
 inkscape/bb093782976dc120: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
 openclipart/213198: chromium_stitch: stock Batik stitched noise sampled at pixel centres, with original tile origin
+openclipart/340314: inkscape@4096: Chromium loses 7% of the exact stroked area of a 1.08-pixel curved line; Inkscape preserves it, and the drawing converges between 4096 and 8192 pixels
