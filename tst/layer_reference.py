@@ -21,6 +21,7 @@ from source_geometry_reference import HREF
 
 
 ATTRIBUTES = {
+    'feComponentTransfer': set(),
     'feGaussianBlur': {'stdDeviation'},
     'feSpecularLighting': {'surfaceScale', 'specularConstant', 'specularExponent', 'lighting-color'},
     'feDiffuseLighting': {'surfaceScale', 'diffuseConstant', 'lighting-color'},
@@ -72,6 +73,12 @@ def graph(f, source, scale, tx, ty, scale_y=None):
                 and not k.startswith('{') for k in node.attrib)):
             raise ValueError('unsupported layer primitive or attribute: '+tag)
         image = results[node.get('in')] if node.get('in') else last
+        if tag == 'feComponentTransfer':
+            from component_reference import discrete
+            last = discrete(node, image)
+            if node.get('result'):
+                results[node.get('result')] = last
+            continue
         if tag in ['feSpecularLighting', 'feDiffuseLighting'] and (scale != sy
                 or len(node) == 1 and node[0].tag == NS+'fePointLight'):
             from affine_lighting_reference import lighting
@@ -198,9 +205,10 @@ def graph(f, source, scale, tx, ty, scale_y=None):
     return last
 
 
-def validate_source(node, root):
+def validate_source(node, root, composed=False):
     members = list(node.iter())
-    if node.tag not in [NS+'path', NS+'g'] or not any(n.tag == NS+'path' for n in members):
+    shapes = [NS+'path', NS+'circle'] if composed else [NS+'path']
+    if node.tag not in shapes+[NS+'g'] or not any(n.tag in shapes for n in members):
         raise ValueError('layer snapshot requires solid paths or their groups')
     for member in members:
         if member.tag in [NS+'title', NS+'desc'] and not len(member):
@@ -208,24 +216,45 @@ def validate_source(node, root):
         p = properties(member)
         if any('%' in v for v in p.values()):
             raise ValueError('layer snapshots do not resolve percentage paints')
-        if (member.tag not in [NS+'path', NS+'g'] or (member.tag == NS+'path' and len(member))
+        if (member.tag not in shapes+[NS+'g'] or (member.tag in shapes and len(member))
                 or any('url(' in p.get(k, '') or 'currentColor' in p.get(k, '') for k in ['fill', 'stroke'])
                 or any(p.get(k, default) != default for k, default in [('mask', 'none'), ('clip-path', 'none'),
                        ('mix-blend-mode', 'normal'), ('vector-effect', 'none'), ('stroke-dasharray', 'none'),
                        ('marker-start', 'none'), ('marker-mid', 'none'), ('marker-end', 'none'), ('display', 'inline'), ('visibility', 'visible')])):
             raise ValueError('layer snapshot requires plain solid paths')
         style = properties(ET.Element('style', {'style': member.get('style', '')}))
-        if any(k in style for k in ['d', 'transform', 'transform-origin', 'transform-box']) or any('!' in v for v in p.values()):
+        if any(k in style for k in ['d', 'cx', 'cy', 'r', 'transform', 'transform-origin', 'transform-box']) or any('!' in v for v in p.values()):
             raise ValueError('unsupported layer CSS override')
-        if member is not node and any(p.get(k, default) != default for k, default in
-                                      [('filter', 'none'), ('opacity', '1'), ('transform', 'none')]):
+        effects = [('filter', 'none')]
+        if composed:
+            from halfturn_reference import matrix
+            transform = p.get('transform', '')
+            rotation = re.fullmatch(r'rotate\s*\(([^()]*)\)', transform)
+            if rotation:
+                values = [float(v) for v in re.split(r'[,\s]+', rotation[1].strip())]
+                if len(values) not in [1, 3] or not all(math.isfinite(v) for v in values):
+                    raise ValueError('invalid composed source rotation')
+            else:
+                a, b, c, d, x, y = matrix(transform)
+                if not all(math.isfinite(v) for v in [a,b,c,d,x,y]) or a*d-b*c == 0:
+                    raise ValueError('invalid composed source transform')
+            if not 0 <= number(ET.Element('paint', p), 'opacity', '1') <= 1:
+                raise ValueError('invalid composed source opacity')
+            if member.tag == NS+'circle':
+                if number(member, 'r', '0') < 0:
+                    raise ValueError('invalid source circle')
+                number(member, 'cx', '0')
+                number(member, 'cy', '0')
+        else:
+            effects += [('opacity', '1'), ('transform', 'none')]
+        if member is not node and any(p.get(k, default) != default for k, default in effects):
             raise ValueError('unsupported layer descendant effect or transform')
     names = {'#'+n.get('id') for n in members if n.get('id')}
     if any(n.get('href', n.get(HREF)) in names for n in root.iter()):
         raise ValueError('referenced layer target or descendant')
 
 
-def source(data, width, height, measure, rasterize, affine=False):
+def source(data, width, height, measure, rasterize, affine=False, composed=False, select=None):
     root = ET.fromstring(data)
     if any(n.tag == NS+'style' for n in root.iter()) or any(n is not root and n.tag == NS+'svg' for n in root.iter()):
         raise ValueError('layer snapshots do not resolve stylesheets or nested viewports')
@@ -243,7 +272,7 @@ def source(data, width, height, measure, rasterize, affine=False):
     for node in root.iter():
         match = re.fullmatch(r'url\(#([^)]*)\)', properties(node).get('filter', ''))
         f = filters.get(match[1]) if match else None
-        if f is not None and any(n.tag == NS+'feTurbulence' for n in f):
+        if f is not None and any(n.tag == NS+'feTurbulence' for n in f) and (select is None or select(f)):
             if not node.get('id'):
                 raise ValueError('layer target has no identifier')
             targets.append((node, f))
@@ -264,7 +293,7 @@ def source(data, width, height, measure, rasterize, affine=False):
         sx, sy = math.hypot(a, b), math.hypot(c, d)
         if min(sx, sy) <= 0 or abs(a*d-b*c) < 1e-8*sx*sy:
             raise ValueError('singular layer transform')
-        validate_source(node, root)
+        validate_source(node, root, composed)
         p = properties(node)
         if (f.get('filterUnits', 'objectBoundingBox') != 'objectBoundingBox'
                 or f.get('primitiveUnits', 'userSpaceOnUse') != 'userSpaceOnUse'

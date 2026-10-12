@@ -249,6 +249,29 @@ other geometry are rejected. Thirty-six additional browser exports check
 overlapping colors, even-odd holes, group opacity, shifted viewports and integer
 noise lattices; `tst/group_filters.py` checks the restricted input scope.
 
+`skia_legacy_stencil` evaluates the noisy blue emblem in
+`inkscape/5512d1d4e1311b22` on a local float grid. Its discrete alpha transfer has
+a threshold at `2/7`; `tst/component_reference.py` applies the
+[SVG step intervals](https://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement)
+without a byte lookup table, checking adjacent float values against rational
+boundaries. `tst/stencil_reference.py` resolves unused class styles and opaque
+one-stop swatches, and permits composed groups of paths and circles.
+
+Inkscape renders only the source geometry at four times the filter grid's
+resolution, then reduces it back before filtering. Six exact annulus-area
+controls limit coverage error to 1.25 square pixels; the filter grid itself
+stays at the corpus resolution. Inkscape 1.2.2 composes the resulting layer with
+the original legacy effects. Export controls cover the drawing's background
+arithmetic, multiply and darken operations. Visible unverified background
+operations are rejected: in particular, a standalone `feComposite` using
+`BackgroundImage` as `in2` fails the independent control in this version.
+The drawing's empty, zero-bounding-box consumer does not render that operation.
+
+Use Chromium as `PROGRAM`, current Inkscape in `INKSCAPE`, and the legacy
+executable in `INKSCAPE_LEGACY`. `tst/corpus/SKIA_LEGACY_STENCIL` records both
+Inkscape versions and the float dependencies. `tst/stencil_filters.py` checks
+step boundaries, transparency, composed-source scope and background eligibility.
+
 `chromium_wide_stroke` preserves the covered interiors of oversized
 non-scaling strokes in `inkscape/1a6dcfc5187bf462`. Chromium, Firefox and
 Inkscape leave holes inside some of these strokes. SVG describes an

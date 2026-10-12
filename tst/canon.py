@@ -26,7 +26,7 @@ import source_geometry_reference
 import edge_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "skia_textures", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "skia_legacy_stencil", "skia_textures", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -791,12 +791,18 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
     return "; ".join(versions)
 
 
-def skia_layers_inkscape(program, shrinker, jobs, side):
+def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False):
     import affine_lighting_reference
     import layer_reference
     import reference
     version = layer_reference.check()
     numpy_version = affine_lighting_reference.check()
+    legacy_ink = None
+    if legacy:
+        import component_reference
+        import stencil_reference
+        component_reference.check()
+        legacy_ink = os.environ['INKSCAPE_LEGACY']
     ink = os.environ.get('INKSCAPE', 'inkscape')
     ink_version = inkscape_curves(ink, shrinker, [], side)
     with tempfile.TemporaryDirectory(prefix='svg-layer-reference-') as work:
@@ -848,7 +854,7 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                     handle.write(data)
                 if os.path.exists(png):
                     os.remove(png)
-                inkscape(ink, shrinker, [(svg, png, width, height, 1)], side)
+                inkscape(ink, shrinker, [(svg, png, width, height, 4 if legacy else 1)], side)
                 with open(png, 'rb') as handle:
                     return handle.read()
 
@@ -856,6 +862,16 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                 with tempfile.NamedTemporaryFile(suffix='.svg', dir=directory) as copy:
                     copy.write(data)
                     copy.flush()
+                    if legacy:
+                        large = os.path.join(work, 'large.png')
+                        with inkscape_viewport(copy.name, width, height) as viewport:
+                            subprocess.run([legacy_ink, viewport, '--export-type=png', '--export-filename='+large,
+                                            f'--export-width={width*scale}', f'--export-height={height*scale}',
+                                            '--export-background-opacity=0'], check=True,
+                                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        if size(large) != (width*scale, height*scale):
+                            sys.exit('incorrect legacy layer export size')
+                        return large
                     browser.send('Emulation.setDeviceMetricsOverride', {'width': width, 'height': height,
                                  'deviceScaleFactor': scale, 'mobile': False})
                     if not browser.evaluate(reference.SHOW % (width, height, json.dumps('file://'+copy.name))):
@@ -869,6 +885,11 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                     if size(large) != (width*scale, height*scale):
                         sys.exit('incorrect layer screenshot size')
                     return large
+
+            def close_pixel(actual, expected):
+                # RGB is undefined at alpha zero; Inkscape keeps white there.
+                return (abs(actual[3]-expected[3]) <= 2 and all(
+                    abs(actual[i]*actual[3]-expected[i]*expected[3]) <= 2*255 for i in range(3)))
 
             for x, y in [(0, 0), (12.3, 7.7)]:
                 def checker(data, width, height):
@@ -905,7 +926,8 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                     probe = layer_reference.source(data, 128*scale, 128*scale, measure, rasterize, affine=True)
                     width, _, pixels = decode(draw(probe, 128, 128, scale))
                     offset = ((64*scale)*width+64*scale)*4
-                    if any(abs(a-b) > 2 for a, b in zip(pixels[offset:offset+4], expected)):
+                    actual = pixels[offset:offset+4]
+                    if not close_pixel(actual, expected):
                         sys.exit(f'affine layer export {label}: {list(pixels[offset:offset+4])} != {expected}')
 
             for scale in [1, 2]:
@@ -914,8 +936,25 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                     width, _, pixels = decode(draw(probe, 96, 64, scale))
                     for x, y, expected in samples:
                         offset = ((y*scale)*width+x*scale)*4
-                        if any(abs(a-b) > 2 for a, b in zip(pixels[offset:offset+4], expected)):
+                        actual = pixels[offset:offset+4]
+                        if not close_pixel(actual, expected):
                             sys.exit(f'group layer export {label}/{scale}/{x},{y}: {list(pixels[offset:offset+4])} != {expected}')
+
+            if legacy:
+                for data, expected in stencil_reference.geometry_probes():
+                    rasterize(data, 335, 335)
+                    _, _, pixels = decode(os.path.join(work, 'source.png'))
+                    actual = sum(pixels[3::4])/255
+                    if abs(actual-expected) > 1.25:
+                        sys.exit(f'stencil source annulus area {actual} differs from {expected}')
+                for data, samples in stencil_reference.background_probes():
+                    for scale in [1, 2]:
+                        width, _, pixels = decode(draw(data, 32, 32, scale))
+                        for x, expected in samples:
+                            offset = ((16*scale)*width+x*scale)*4
+                            actual = pixels[offset:offset+4]
+                            if not close_pixel(actual, expected):
+                                sys.exit('legacy layer composition lost its SVG 1.1 background')
 
             cache = {}
             for svg, png, width, height, scale in jobs:
@@ -923,13 +962,21 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                     data = handle.read()
                 key = (data, width*scale, height*scale)
                 if key not in cache:
-                    cache[key] = layer_reference.source(*key, measure, rasterize, affine=True)
+                    cache[key] = (stencil_reference.source(*key, measure, rasterize) if legacy else
+                                  layer_reference.source(*key, measure, rasterize, affine=True))
                 large = draw(cache[key], width, height, scale, os.path.dirname(svg))
                 shrink(shrinker, large, png, scale)
         finally:
             browser.close()
     chrome_version = subprocess.run([program, '--version'], capture_output=True, text=True).stdout.strip()
-    return '; '.join([chrome_version, version, numpy_version, ink_version])
+    versions = [chrome_version, version, numpy_version, ink_version]
+    if legacy:
+        versions.append(subprocess.run([legacy_ink, '--version'], capture_output=True, text=True).stdout.strip())
+    return '; '.join(versions)
+
+
+def skia_legacy_stencil(program, shrinker, jobs, side):
+    return skia_layers_inkscape(program, shrinker, jobs, side, legacy=True)
 
 
 def skia_textures(program, shrinker, jobs, side):
