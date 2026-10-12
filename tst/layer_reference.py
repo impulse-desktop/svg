@@ -1,4 +1,4 @@
-"""Float filter snapshots for solid paths in reviewed SVGs.
+"""Float filter snapshots for solid paths and their groups in reviewed SVGs.
 
 Inkscape supplies SourceGraphic. Stock Skia evaluates each primitive using float
 storage. Binary inputs share one float source atlas: embedding an image in a
@@ -198,6 +198,33 @@ def graph(f, source, scale, tx, ty, scale_y=None):
     return last
 
 
+def validate_source(node, root):
+    members = list(node.iter())
+    if node.tag not in [NS+'path', NS+'g'] or not any(n.tag == NS+'path' for n in members):
+        raise ValueError('layer snapshot requires solid paths or their groups')
+    for member in members:
+        if member.tag in [NS+'title', NS+'desc'] and not len(member):
+            continue
+        p = properties(member)
+        if any('%' in v for v in p.values()):
+            raise ValueError('layer snapshots do not resolve percentage paints')
+        if (member.tag not in [NS+'path', NS+'g'] or (member.tag == NS+'path' and len(member))
+                or any('url(' in p.get(k, '') or 'currentColor' in p.get(k, '') for k in ['fill', 'stroke'])
+                or any(p.get(k, default) != default for k, default in [('mask', 'none'), ('clip-path', 'none'),
+                       ('mix-blend-mode', 'normal'), ('vector-effect', 'none'), ('stroke-dasharray', 'none'),
+                       ('marker-start', 'none'), ('marker-mid', 'none'), ('marker-end', 'none'), ('display', 'inline'), ('visibility', 'visible')])):
+            raise ValueError('layer snapshot requires plain solid paths')
+        style = properties(ET.Element('style', {'style': member.get('style', '')}))
+        if any(k in style for k in ['d', 'transform', 'transform-origin', 'transform-box']) or any('!' in v for v in p.values()):
+            raise ValueError('unsupported layer CSS override')
+        if member is not node and any(p.get(k, default) != default for k, default in
+                                      [('filter', 'none'), ('opacity', '1'), ('transform', 'none')]):
+            raise ValueError('unsupported layer descendant effect or transform')
+    names = {'#'+n.get('id') for n in members if n.get('id')}
+    if any(n.get('href', n.get(HREF)) in names for n in root.iter()):
+        raise ValueError('referenced layer target or descendant')
+
+
 def source(data, width, height, measure, rasterize, affine=False):
     root = ET.fromstring(data)
     if any(n.tag == NS+'style' for n in root.iter()) or any(n is not root and n.tag == NS+'svg' for n in root.iter()):
@@ -205,11 +232,11 @@ def source(data, width, height, measure, rasterize, affine=False):
     if properties(root).get('transform', 'none') not in ['', 'none']:
         raise ValueError('layer snapshots do not resolve root transforms')
     box = [float(v) for v in root.get('viewBox', '').split()]
-    if (len(box) != 4 or box[:2] != [0, 0] or min(box[2:]) <= 0
+    if (len(box) != 4 or not all(math.isfinite(v) for v in box) or min(box[2:]) <= 0
             or root.get('preserveAspectRatio', 'xMidYMid meet') not in ['xMidYMid', 'xMidYMid meet']):
-        raise ValueError('layer snapshots require a zero-origin meet viewBox')
+        raise ValueError('layer snapshots require a finite meet viewBox')
     zoom = min(width/box[2], height/box[3])
-    ox, oy = (width-box[2]*zoom)/2, (height-box[3]*zoom)/2
+    ox, oy = (width-box[2]*zoom)/2-box[0]*zoom, (height-box[3]*zoom)/2-box[1]*zoom
     parents = {c: n for n in root.iter() for c in n}
     filters = {f.get('id'): f for f in root.iter(NS+'filter')}
     targets = []
@@ -237,19 +264,8 @@ def source(data, width, height, measure, rasterize, affine=False):
         sx, sy = math.hypot(a, b), math.hypot(c, d)
         if min(sx, sy) <= 0 or abs(a*d-b*c) < 1e-8*sx*sy:
             raise ValueError('singular layer transform')
+        validate_source(node, root)
         p = properties(node)
-        if any('%' in v for v in p.values()):
-            raise ValueError('layer snapshots do not resolve percentage paints')
-        if (node.tag != NS+'path' or len(node) or any('url(' in p.get(k, '') or 'currentColor' in p.get(k, '') for k in ['fill', 'stroke'])
-                or any(p.get(k, default) != default for k, default in [('mask', 'none'), ('clip-path', 'none'),
-                       ('mix-blend-mode', 'normal'), ('vector-effect', 'none'), ('stroke-dasharray', 'none'),
-                       ('marker-start', 'none'), ('marker-mid', 'none'), ('marker-end', 'none'), ('display', 'inline'), ('visibility', 'visible')])):
-            raise ValueError('layer snapshot requires a plain solid path')
-        style = properties(ET.Element('style', {'style': node.get('style', '')}))
-        if any(k in style for k in ['transform', 'transform-origin', 'transform-box']) or any('!' in v for v in p.values()):
-            raise ValueError('unsupported layer CSS override')
-        if any(n.get('href', n.get(HREF)) == '#'+node.get('id') for n in root.iter()):
-            raise ValueError('referenced layer target')
         if (f.get('filterUnits', 'objectBoundingBox') != 'objectBoundingBox'
                 or f.get('primitiveUnits', 'userSpaceOnUse') != 'userSpaceOnUse'
                 or properties(f).get('color-interpolation-filters') != 'sRGB'):
@@ -441,3 +457,26 @@ def affine_probes(scale):
                     f'<g transform="{parent}"><path d="M-64 -64h256v256h-256z" id="p" fill="red" opacity="{opacity}" '
                     f'filter="url(#f)" transform="{child}"/></g></svg>').encode()
             yield f'{index}/{kind}/{scale}', data, expected
+
+
+def group_probes(scale=1):
+    """Inherited paints, holes, overlapping source colors and shifted viewBoxes."""
+    for x, y in [(0, 0), (-5, -5), (13.25, -7.75)]:
+        for opacity in [1, .75]:
+            data = (f'<svg xmlns="http://www.w3.org/2000/svg" width="96" height="64" viewBox="{x} {y} 96 64">'
+                    '<defs><filter id="f" color-interpolation-filters="sRGB"><feTurbulence numOctaves="0"/>'
+                    '<feColorMatrix in="SourceGraphic"/></filter></defs>'
+                    f'<g id="p" filter="url(#f)" fill-rule="evenodd" opacity="{opacity}"><title>Group control</title>'
+                    f'<g fill="red"><path d="M{x+8} {y+8}h40v32h-40z M{x+16} {y+16}h8v8h-8z"/></g>'
+                    f'<g fill="blue"><path fill-opacity=".5" d="M{x+24} {y+16}h40v32h-40z"/></g></g></svg>').encode()
+            samples = [(12, 12, [255, 0, 0, round(255*opacity)]), (28, 20, [127, 0, 128, round(255*opacity)]),
+                       (60, 40, [0, 0, 255, round(127.5*opacity)]), (20, 20, [0]*4), (0, 0, [0]*4), (75, 55, [0]*4)]
+            yield f'{x}/{y}/{opacity}', data, samples
+            for kind, level in [('fractalNoise', 128), ('turbulence', 0)]:
+                root = ET.fromstring(data)
+                f = next(root.iter(NS+'filter'))
+                f[:] = [ET.Element(NS+'feTurbulence', {'type': kind, 'baseFrequency': str(4*scale), 'numOctaves': '5'})]
+                # All viewBox origins are quarter-integers; this frequency puts
+                # every pixel centre on the Perlin lattice in original user space.
+                expected = [level, level, level, round(level*opacity)]
+                yield f'{x}/{y}/{opacity}/{kind}', ET.tostring(root), [(32, 24, expected)]

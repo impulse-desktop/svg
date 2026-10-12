@@ -908,6 +908,15 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                     if any(abs(a-b) > 2 for a, b in zip(pixels[offset:offset+4], expected)):
                         sys.exit(f'affine layer export {label}: {list(pixels[offset:offset+4])} != {expected}')
 
+            for scale in [1, 2]:
+                for label, data, samples in layer_reference.group_probes(scale):
+                    probe = layer_reference.source(data, 96*scale, 64*scale, measure, rasterize, affine=True)
+                    width, _, pixels = decode(draw(probe, 96, 64, scale))
+                    for x, y, expected in samples:
+                        offset = ((y*scale)*width+x*scale)*4
+                        if any(abs(a-b) > 2 for a, b in zip(pixels[offset:offset+4], expected)):
+                            sys.exit(f'group layer export {label}/{scale}/{x},{y}: {list(pixels[offset:offset+4])} != {expected}')
+
             cache = {}
             for svg, png, width, height, scale in jobs:
                 with open(svg, 'rb') as handle:

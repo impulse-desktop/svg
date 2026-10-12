@@ -240,6 +240,15 @@ The source SVG and native renderer stay unchanged.
 Use Chromium as `PROGRAM`, `INKSCAPE` and the Python dependencies described
 above; `tst/corpus/SKIA_LAYERS_INKSCAPE` records their versions.
 
+The same backend captures the two colored paths of `openclipart/251806` as one
+source group before evaluating its leather filter. Its nonzero `viewBox` origin
+is included in the pixel-frame translation, preserving the original turbulence
+coordinates. Source groups accept solid paths and nested paint groups, with
+inherited fill rules and colors. Descendant effects, transforms, references and
+other geometry are rejected. Thirty-six additional browser exports check
+overlapping colors, even-odd holes, group opacity, shifted viewports and integer
+noise lattices; `tst/group_filters.py` checks the restricted input scope.
+
 `chromium_wide_stroke` preserves the covered interiors of oversized
 non-scaling strokes in `inkscape/1a6dcfc5187bf462`. Chromium, Firefox and
 Inkscape leave holes inside some of these strokes. SVG describes an
