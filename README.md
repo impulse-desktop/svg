@@ -257,6 +257,26 @@ other geometry are rejected. Thirty-six additional browser exports check
 overlapping colors, even-odd holes, group opacity, shifted viewports and integer
 noise lattices; `tst/group_filters.py` checks the restricted input scope.
 
+`chromium_rect_blur` handles the six trailing blurred rectangles in
+`inkscape/14abd5d0886ccd77`. Chromium draws the unchanged prefix; rectangle
+coverage, blur and source-over composition retain float precision until the
+final PNG. `tst/blur_reference.py` computes the
+[SVG three-box approximation](https://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement)
+from the exact distribution of three discrete uniform variables. Cumulative
+kernel sums integrate fractional source pixels without rasterizing a large
+off-page rectangle or limiting its blur to the browser's supported radius.
+
+Controls check kernel mass, symmetry and variance up to sigma 1000, compare
+small kernels and fractional coverage with direct convolution, and compare
+composition with rational arithmetic. Thirty-six complete exports check up to
+24 translucent layers over transparent and opaque backgrounds against their
+calculated flat color and alpha. The exporter
+requires one consecutive tail of plain solid rectangles, single sRGB Gaussian
+filters and ancestors without transforms or effects; `tst/blur_filters.py`
+checks that scope. The original SVG and native renderer remain unchanged.
+Use Chromium as `PROGRAM`; `tst/corpus/CHROMIUM_RECT_BLUR` records the browser
+and NumPy versions.
+
 `skia_legacy_stencil` evaluates the noisy blue emblem and four rough-paper groups in
 `inkscape/5512d1d4e1311b22` on a local float grid. Its discrete alpha transfer has
 a threshold at `2/7`; `tst/component_reference.py` applies the

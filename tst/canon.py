@@ -26,7 +26,7 @@ import source_geometry_reference
 import edge_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "skia_legacy_stencil", "skia_emboss_inkscape", "skia_textures", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_rect_blur", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "skia_legacy_stencil", "skia_emboss_inkscape", "skia_textures", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -810,6 +810,61 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
             browser.close()
     versions.insert(0, subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip())
     return "; ".join(versions)
+
+
+def chromium_rect_blur(program, shrinker, jobs, side):
+    import blur_reference
+    import reference
+    numpy_version = blur_reference.check()
+    with tempfile.TemporaryDirectory(prefix='svg-rect-blur-') as work:
+        page = os.path.join(work, 'harness.html')
+        with open(page, 'w') as handle:
+            handle.write(reference.HARNESS)
+        browser = reference.Browser(program, os.path.join(work, 'profile'))
+        try:
+            browser.open(page)
+
+            def render(data, width, height, scale, directory=work):
+                def rasterize(prefix, physical_width, physical_height):
+                    with tempfile.NamedTemporaryFile(suffix='.svg', dir=directory) as svg:
+                        svg.write(prefix)
+                        svg.flush()
+                        browser.send('Emulation.setDeviceMetricsOverride', {'width':width, 'height':height,
+                                     'deviceScaleFactor':scale, 'mobile':False})
+                        if not browser.evaluate(reference.SHOW % (width,height,json.dumps('file://'+svg.name))):
+                            sys.exit('Chromium could not load the rectangle blur prefix')
+                        shot = browser.send('Page.captureScreenshot', {'format':'png',
+                               'clip':{'x':0,'y':0,'width':width,'height':height,'scale':1},
+                               'fromSurface':True, 'captureBeyondViewport':False})
+                        png = os.path.join(work, 'prefix.png')
+                        with open(png, 'wb') as handle:
+                            handle.write(base64.b64decode(shot['data']))
+                        w,h,raw = decode(png)
+                        if (w,h) != (physical_width,physical_height):
+                            sys.exit('incorrect rectangle blur prefix size')
+                        return raw
+                return blur_reference.render(data,width*scale,height*scale,rasterize)
+
+            for label,data,colors,alpha,count,background in blur_reference.probes():
+                expected = blur_reference.expected_color(colors,alpha,count,background)
+                for scale in [1,2]:
+                    actual = render(data,64,48,scale)
+                    if actual != expected*(64*48*scale*scale):
+                        sys.exit(f'rectangle blur changed the flat composition: {label}/{scale}')
+            cache = {}
+            for svg,png,width,height,scale in jobs:
+                with open(svg,'rb') as handle:
+                    data = handle.read()
+                key = (data,width*scale,height*scale)
+                if key not in cache:
+                    cache[key] = render(data,width,height,scale,os.path.dirname(svg))
+                large = os.path.join(work,'large.png')
+                encode(large,width*scale,height*scale,cache[key])
+                shrink(shrinker,large,png,scale)
+        finally:
+            browser.close()
+    version = subprocess.run([program,'--version'],capture_output=True,text=True).stdout.strip()
+    return version+'; '+numpy_version
 
 
 def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False, emboss=False):
