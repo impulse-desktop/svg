@@ -159,6 +159,15 @@ outside that region affect `erode`. A square with analytically known erosion
 bounds guards every export; stock Batik agrees with those bounds. The reviewed
 W3C morphology cases keep identical native pixels after the conversion.
 
+`chromium_lighting` handles the repeated Y reflections in `openclipart/264596`.
+It reflects the solid path's coordinates and the distant light's azimuth,
+leaving translations on the `use` instances. This avoids Skia's
+[lighting Z transform](https://github.com/google/skia/blob/main/src/effects/imagefilters/SkLightingImageFilter.cpp)
+without introducing intermediate rasters. `tst/lighting_reference.py` restricts
+the conversion to the reviewed path commands and filter operations. A flat
+surface's calculated specular intensity guards each export at two scales;
+the original and converted corpus drawing agree within one native channel level.
+
 `chromium_noise` compensates the extra half-unit offset in Skia's
 [turbulence sampler](https://github.com/google/skia/blob/main/src/opts/SkRasterPipeline_opts.h).
 It translates the filter frame and translates its source geometry back, so
