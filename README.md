@@ -178,6 +178,17 @@ the conversion to the reviewed path commands and filter operations. A flat
 surface's calculated specular intensity guards each export at two scales;
 the original and converted corpus drawing agree within one native channel level.
 
+`chromium_noise_halfturn` also compensates distant lighting under a uniform
+negative scale on both axes. Skia reverses the lighting Z there; negating
+`surfaceScale` and the distant light's elevation restores the intended result.
+This is a browser-specific correction on temporary copies. The original SVG
+remains the input to our renderer. `tst/halfturn_reference.py` expands the reviewed
+path/group instances to correct their filters individually, leaving other
+transforms alone. In `openclipart/258054`, expansion alone preserves the browser
+references byte for byte. Calculated diffuse and specular lighting of flat and
+sloped planes guards every export at two scales; noise sampling retains its
+existing lattice guard.
+
 `chromium_noise` compensates the extra half-unit offset in Skia's
 [turbulence sampler](https://github.com/google/skia/blob/main/src/opts/SkRasterPipeline_opts.h).
 It translates the filter frame and translates its source geometry back, so

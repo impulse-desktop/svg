@@ -19,9 +19,10 @@ import local_filter_reference
 import stitch_reference
 import lighting_reference
 import stroke_reference
+import halfturn_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -505,7 +506,7 @@ def chromium_lighting(program, shrinker, jobs, side):
     return chromium_normalized(program, shrinker, jobs, lighting_reference.source, check)
 
 
-def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False):
+def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False, halfturn_lighting=False):
     import reference
     versions = []
     with tempfile.TemporaryDirectory() as work:
@@ -544,6 +545,35 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
                 if any(abs(value - 128) > 1 for value in pixels[(y * 32 + x) * 4:(y * 32 + x) * 4 + 4]):
                     sys.exit("Chromium noise sampling differs from the reviewed compensation")
 
+            if halfturn_lighting:
+                for kind in ['Diffuse', 'Specular']:
+                    for flat in [False, True]:
+                        data = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+<defs><linearGradient id="r" gradientUnits="userSpaceOnUse" x1="64" x2="192">
+<stop stop-color="white" stop-opacity="0"/><stop offset="1" stop-color="white"/></linearGradient>
+<filter id="f" color-interpolation-filters="sRGB"><feTurbulence numOctaves="0"/>
+<fe{kind}Lighting in="SourceGraphic" surfaceScale="32" specularExponent="8">
+<feDistantLight azimuth="30" elevation="50"/></fe{kind}Lighting></filter></defs>
+<path d="M64 64H192V192H64Z" fill="{'white' if flat else 'url(#r)'}"
+      filter="url(#f)" transform="matrix(-1 0 0 -1 256 256)"/></svg>'''.encode()
+                        lighting_probe = os.path.join(work, f'lighting-{kind}-{flat}.svg')
+                        with open(lighting_probe, 'wb') as handle:
+                            handle.write(noise_reference.source(halfturn_reference.source(data)))
+                        nx = 0 if flat else -0.5
+                        lx = math.cos(math.radians(30)) * math.cos(math.radians(50))
+                        lz = math.sin(math.radians(50))
+                        expected = ((nx*lx + lz) / math.sqrt(1 + nx*nx) if kind == 'Diffuse' else
+                                    ((nx*lx + lz + 1) / math.sqrt((1 + nx*nx) * (2 + 2*lz))) ** 8) * 255
+                        for scale in [1, 2]:
+                            draw(lighting_probe, 256, 256, scale, large)
+                            _, _, rgba = decode(large)
+                            channel = 0 if kind == 'Diffuse' else 3
+                            values = [rgba[(y*256*scale+x)*4+channel]
+                                      for y in range(112*scale, 144*scale) for x in range(112*scale, 144*scale)]
+                            actual = sum(values) / len(values)
+                            if abs(actual - expected) > 2:
+                                sys.exit(f'Chromium half-turn {kind}/{flat}/{scale}: {actual}, expected {expected}')
+
             if stitched_noise:
                 jar_path = os.environ.get("BATIK")
                 if not jar_path:
@@ -580,6 +610,8 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
             for svg, png, width, height, scale in jobs:
                 with open(svg, "rb") as handle:
                     data = handle.read()
+                if halfturn_lighting:
+                    data = halfturn_reference.source(data)
                 if background_blend:
                     data = noise_reference.background_blend(data)
                 if stitched_noise:
@@ -626,6 +658,10 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
 
 def chromium_noise_blend(program, shrinker, jobs, side):
     return chromium_noise(program, shrinker, jobs, side, background_blend=True)
+
+
+def chromium_noise_halfturn(program, shrinker, jobs, side):
+    return chromium_noise(program, shrinker, jobs, side, halfturn_lighting=True)
 
 
 def chromium_noise_local(program, shrinker, jobs, side):
