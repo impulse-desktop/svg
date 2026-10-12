@@ -112,7 +112,7 @@ not the goal: where it demonstrably draws a case wrong, the drawing of
 Inkscape, resvg, Firefox or ours that is right takes its place.
 `tst/corpus/CANON` lists such a case with the renderer and the reason,
 `tst/canon.py RENDERER PROGRAM SVG CORPUS` draws the cases listed for that
-renderer at the sizes Chromium chose, supersampled the same way, and
+renderer at the sizes Chromium chose, using `SIDE` unless overridden, and
 `tst/corpus/INKSCAPE`, `tst/corpus/RESVG`, `tst/corpus/FIREFOX` and
 `tst/corpus/OURS` name the versions. Firefox is drawn twice, over white and
 over black, to recover the alpha its screenshots lose, and scaled by a CSS
@@ -120,8 +120,49 @@ transform; Inkscape and resvg can only enlarge a drawing, which is the same
 as a device scale unless the document has neither a viewBox nor an absolute
 size. A case whose behaviour is undefined and which
 every renderer draws differently is listed with the reason in
-`tst/corpus/EXCLUDED`, and is neither drawn nor scored. The corpus grows; the
-references are drawn again only when Chromium is changed.
+`tst/corpus/EXCLUDED`, and is neither drawn nor scored. Ordinary corpus imports
+reuse existing references; renderer upgrades and fixes to reference generation
+require redrawing the affected cases.
+
+`tst/reference-inkscape.py INKSCAPE SVG CORPUS OUTPUT JOBS [GLOB...]` renders
+Inkscape candidates in a separate output directory, for example with the
+patterns `'openclipart/*' 'inkscape/*'`. It uses the existing reference sizes
+and `SIDE`, isolates failed exports, and resumes completed files when their
+input, renderer version and shrinker are unchanged. Each pair of PNGs has a
+JSON record with its input and output hashes or the export failure. These
+candidates can be compared before selecting cases for `CANON`.
+Inkscape is given the reference's CSS viewport before export scaling, so
+rounded aspect ratios preserve the SVG's `viewBox` alignment instead of
+stretching its original page.
+
+A `CANON` renderer may specify a per-case reference resolution as
+`renderer@SIDE`, for example `firefox@4096` for dense filter textures.
+The output PNG dimensions and the renderer-under-test resolution stay the same;
+`tst/canon.py` renders and reduces that external reference at the recorded scale.
+
+Some older drawings use SVG 1.1 `BackgroundImage`, `BackgroundAlpha`,
+`FillPaint` or `StrokePaint`, which Chromium no longer implements. Their
+`CANON` entries record the external renderer and the reason for choosing it:
+`inkscape_legacy` uses Inkscape 1.2.2, and `batik` takes the Batik 1.19
+rasterizer jar as PROGRAM (`JAVA` selects the Java executable).
+`inkscape_softlight` substitutes an equivalent final CSS blend over the
+reviewed opaque backdrop to avoid Inkscape 1.2.2's `feBlend` soft-light parser
+bug. `firefox_svg11` uses `tst/svg11_reference.py` to express a paint-only
+blur as ordinary painting followed by clipping, and an untransformed
+background as an explicit SVG snapshot. These restricted conversions are
+for the reviewed cases in `CANON`; they reject unsupported constructions
+and run on temporary copies, leaving the corpus SVGs intact.
+
+`chromium_noise` compensates the extra half-unit offset in Skia's
+[turbulence sampler](https://github.com/google/skia/blob/main/src/opts/SkRasterPipeline_opts.h).
+It translates the filter frame and translates its source geometry back, so
+the correction happens before noise sampling. Absolute primitive and light
+positions move with the frame; opacity, clipping and blending stay outside it.
+The reviewed cases also have constant-noise controls to check that the rest
+of the drawing is preserved. A lattice-point check runs before each export
+and rejects a browser whose sampling convention has changed. Unsupported
+constructions, including stitched noise and SVG 1.1 background inputs, are
+rejected by `tst/noise_reference.py`.
 
 ## Building
 
@@ -136,6 +177,27 @@ with wasm2c; see [its README](ext/decode/README.md).
 ./build          # .build/svg, the test driver
 ./build all      # meanrms, maxrms, struct, aa and the candidates
 ```
+
+`python3 tst/filter_transforms.py .build/svg` checks diffuse and specular
+lighting against a planar alpha ramp's calculated values at two sizes,
+including transforms that exceed the intermediate filter layer's area limit
+and root filters at three device scales.
+
+`python3 tst/filter_inputs.py .build/svg` checks clipping of filter inputs
+in both colour spaces and turbulence at
+lattice vertices, whose values are known without a reference renderer, and
+its periodicity at large positive and negative coordinates.
+
+`python3 tst/png_gamma.py .build/svg` checks PNG gamma conversion for RGB,
+palette and grayscale images, including alpha and the sRGB chunk's precedence.
+
+`python3 tst/filter_background.py .build/svg` checks SVG 1.1 background
+scopes, alpha, clipping, inheritance, transformed layers, CSS blending and
+embedded documents against calculated colours.
+
+`python3 tst/filter_paint.py .build/svg` checks fill and stroke paint inputs,
+including opacity, gradients, patterns and blur at the filter region edges
+in both colour spaces.
 
 The Nix flake supplies Clang 21 with libc++, wasm2c, SIMDe, libpng and Python;
 the repository's build runner still does the build in the working tree. Both

@@ -381,8 +381,6 @@ resvg/structure__image__preserveAspectRatio_xMaxYMax-meet: resvg: an enlarged ra
 resvg/structure__image__preserveAspectRatio_xMinYMin-meet: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__image__preserveAspectRatio_xMidYMid-meet: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__image__preserveAspectRatio_none: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-inkscape/dd906ba2b9e5b381: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-openclipart/257376: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__image__with-transform: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 inkscape/be1f24a980022ad1: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__image__embedded-jpeg-luma: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
@@ -393,15 +391,121 @@ resvg/structure__transform-origin__on-image: resvg: an enlarged raster image; ou
 resvg/structure__image__no-height-non-square: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 wikimedia/2d5558f94a0017a2: inkscape: shapes at opacity 0.4 over white, two layers deep: Chromium and Firefox blend in 8 bits with a shift by 256 and get 90 where 255 times 0.36 is 92; Inkscape and resvg get 92, as ours does
 inkscape/005de2cfdbf50671: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/0119a689880fea40: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/182ed524206c512b: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/27385167148518b1: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/5c10a2e72a26a126: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/6e88c91437817e0b: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/906b09cd6974a48c: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/9ae088641bbffc7f: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/9b77cb995f19d15c: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/9ef9951ebd3d20d6: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/c1633656f6f4554f: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/f8e0f11d5689b7e4: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 openclipart/342673: inkscape: a 175-primitive filter graph authored in Inkscape; Chromium does not finish the reference within several minutes; Inkscape completes it
+openclipart/264596: firefox: Chromium changes the distant light intensity under a mirroring matrix; a flat surface changes from alpha 221 to 50, instead of keeping the specular intensity; Firefox preserves the mirrored lighting
+resvg/filters__feGaussianBlur__huge-stdDeviation: resvg: Chromium caps the deviation at 532 device pixels instead of the requested 5120 at the supersampled size; resvg keeps the requested wide blur, which leaves the small square almost transparent
+openclipart/247586: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0132779 to 0.0044533; Inkscape resolves that detail at the corpus size (error 0.0042409)
+openclipart/248791: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0059363 to 0.0027353; Inkscape resolves that detail at the corpus size (error 0.0018358)
+openclipart/227825: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0051369 to 0.0006728; Inkscape resolves that detail at the corpus size (error 0.0005038)
+inkscape/dab6772f62c894d2: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0033996 to 0.0014262; Inkscape resolves that detail at the corpus size (error 0.0006432)
+inkscape/8149299da3e30d5a: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0028454 to 0.0012947; Inkscape resolves that detail at the corpus size (error 0.0005888)
+inkscape/d6bf38ac29c8935f: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0025491 to 0.0009024; Inkscape resolves that detail at the corpus size (error 0.0005557)
+inkscape/74b1626154056aa6: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0018675 to 0.0006652; Inkscape resolves that detail at the corpus size (error 0.0001854)
+inkscape/4c9186e006bbfb36: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0018610 to 0.0010427; Inkscape resolves that detail at the corpus size (error 0.0004473)
+inkscape/bdad66a963725406: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0021625 to 0.0010387; Inkscape resolves that detail at the corpus size (error 0.0006542)
+inkscape/8df550d2f0360e1e: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0020915 to 0.0010253; Inkscape resolves that detail at the corpus size (error 0.0004945)
+inkscape/7b6b8adf348218c2: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0021137 to 0.0013820; Inkscape resolves that detail at the corpus size (error 0.0006627)
+openclipart/191600: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0045693 to 0.0018671; Inkscape resolves that detail at the corpus size (error 0.0006983)
+openclipart/251313: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0031228 to 0.0005349; Inkscape resolves that detail at the corpus size (error 0.0007703)
+openclipart/301615: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0052666 to 0.0023625; Inkscape resolves that detail at the corpus size (error 0.0012592)
+openclipart/307853: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0075648 to 0.0034065; Inkscape agrees at 0.0026440
+openclipart/273026: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0064776 to 0.0027784; Inkscape agrees at 0.0009362
+inkscape/adcaac422551c33c: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0048897 to 0.0016535; Inkscape agrees at 0.0010411
+openclipart/322773: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0039776 to 0.0013578; Inkscape agrees at 0.0004077
+inkscape/fa646886aa119d02: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0039779 to 0.0023290; Inkscape agrees at 0.0005900
+openclipart/221101: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0040087 to 0.0019742; Inkscape agrees at 0.0012055
+openclipart/341286: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0038026 to 0.0012535; Inkscape agrees at 0.0012692
+openclipart/227016: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0037632 to 0.0021258; Inkscape agrees at 0.0015346
+openclipart/299882: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0035787 to 0.0020261; Inkscape agrees at 0.0011042
+openclipart/273567: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0031252 to 0.0010245; Inkscape agrees at 0.0008565
+inkscape/f9e3958d85a2f7bb: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0028778 to 0.0013629; Inkscape agrees at 0.0007246
+openclipart/192713: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027941 to 0.0010334; Inkscape agrees at 0.0008321
+openclipart/272117: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027050 to 0.0007963; Inkscape agrees at 0.0007999
+openclipart/309684: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027009 to 0.0013552; Inkscape agrees at 0.0010806
+openclipart/305899: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024814 to 0.0008948; Inkscape agrees at 0.0006609
+openclipart/272702: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024288 to 0.0006007; Inkscape agrees at 0.0006062
+openclipart/274765: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024585 to 0.0012124; Inkscape agrees at 0.0007362
+openclipart/249309: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023146 to 0.0010789; Inkscape agrees at 0.0006383
+openclipart/279387: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023039 to 0.0014846; Inkscape agrees at 0.0006089
+openclipart/58237: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023980 to 0.0016331; Inkscape agrees at 0.0009844
+openclipart/172490: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022992 to 0.0012018; Inkscape agrees at 0.0008075
+openclipart/350017: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022667 to 0.0007091; Inkscape agrees at 0.0007243
+openclipart/266621: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0021609 to 0.0011778; Inkscape agrees at 0.0005765
+inkscape/700a2b9f6adcf540: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022109 to 0.0011984; Inkscape agrees at 0.0007869
+inkscape/aa0bc922e95f1530: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0020930 to 0.0015519; Inkscape agrees at 0.0004940
+inkscape/0119a689880fea40: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/1425275588743266: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/22c44faeb6654c4d: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+inkscape/25f86ad99307aa4f: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/2c267451439032ee: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/5512d1d4e1311b22: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/5c42a2efc6f828c2: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/6e88c91437817e0b: inkscape_softlight: SVG 1.1 background blend; equivalent final CSS soft-light over an opaque backdrop avoids the Inkscape 1.2.2 feBlend parser bug
+inkscape/76177ce7baaf1a72: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/845440c7b8d85f8c: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/906b09cd6974a48c: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/c4ef0ae2b9120826: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/dd906ba2b9e5b381: firefox: without enable-background:new the SVG 1.1 background is transparent; Firefox also preserves this drawing's clipping
+inkscape/f2d85cc688e5e039: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/ff16a6d909f73d38: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+openclipart/188784: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+openclipart/245679: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+openclipart/290478: firefox_svg11: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
+resvg/filters__enable-background__accumulate-with-new: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__filter-on-shape: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__inherit: firefox_svg11: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
+resvg/filters__enable-background__new-with-region: firefox_svg11: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
+resvg/filters__enable-background__new: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__shapes-after-filter: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__stop-on-the-first-new-1: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__stop-on-the-first-new-2: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-clip-path: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-filter-on-the-same-element: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-filter: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-1: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-2: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-3: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-4: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-transform: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+resvg/filters__filter__in_BackgroundAlpha-with-enable-background: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_BackgroundAlpha: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_BackgroundImage-with-enable-background: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_BackgroundImage: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_FillPaint-on-g-without-children: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint-with-gradient: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint-with-pattern: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint-with-target-on-g: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_StrokePaint: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+w3c/images__filters-composite-01-f: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+w3c/svg__filters-background-01-f: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+w3c/svg__filters-composite-03-f: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+w3c/svg__filters-overview-01-b: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+w3c/svg__filters-overview-02-b: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+w3c/svg__filters-overview-03-b: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+openclipart/247344: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/c50dcbab333b368e: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/251806: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/258054: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/44c0088b024dac54: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/329492: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/281657: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/166914: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/263442: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/8bb7ad8fbf50a13e: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/4eff2e17bcf832c6: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/239023: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/146b6523cdffeb96: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/3f306997f816dfb2: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/289215: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/c2431a3d475c8d05: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/265813: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/bb093782976dc120: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified

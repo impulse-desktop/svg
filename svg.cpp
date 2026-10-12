@@ -190,6 +190,7 @@ using namespace stl;
     ATOM(VectorEffect, "vector-effect")                            \
     ATOM(PaintOrder, "paint-order")                                \
     ATOM(MixBlendMode, "mix-blend-mode")                           \
+    ATOM(EnableBackground, "enable-background")                    \
     ATOM(Isolation, "isolation")                                   \
     ATOM(ColorInterpolation, "color-interpolation")                \
     ATOM(ShapeRendering, "shape-rendering")                        \
@@ -545,6 +546,9 @@ namespace {
         bool nonScaling;
         u8 blend;
         bool isolate;
+        bool newBackground;
+        bool backgroundClipped;
+        Box backgroundBox;
         bool linearColors;
         bool aliased;
         u8 imageRendering;
@@ -641,6 +645,10 @@ namespace {
         InputSourceGraphic = -1,
         InputSourceAlpha = -2,
         InputNone = -3,
+        InputBackgroundImage = -4,
+        InputBackgroundAlpha = -5,
+        InputFillPaint = -6,
+        InputStrokePaint = -7,
     };
 
     struct FilterPrimitive {
@@ -670,6 +678,8 @@ namespace {
         u32 count;
         Filter* next;
         Box device;
+        DevicePaint* fillPaint;
+        DevicePaint* strokePaint;
     };
 
     enum class OpKind : u8 {
@@ -702,6 +712,12 @@ namespace {
         u32 layerWidth;
         u32 layerHeight;
         Matrix layerMatrix;
+        bool newBackground;
+        bool backgroundOnly;
+        bool resetBackground;
+        bool backgroundClipped;
+        Box backgroundBox;
+        Matrix backgroundMatrix;
     };
 
     struct Lowering {
@@ -724,6 +740,7 @@ namespace {
         float scale;
         u32 depth;
         u32 imageDepth;
+        bool backgroundInputs;
         Node* sized;
         float sizedWidth;
         float sizedHeight;
@@ -746,6 +763,8 @@ namespace {
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
         Vector<float> accumulation;
+        const float* backdrop = nullptr;
+        size_t backgroundBase = 0;
     };
 
     struct NamedColor {
@@ -4073,11 +4092,11 @@ namespace {
 
         u32 origin = attribute(node, AtomTransformOrigin);
 
-        if (!origin) {
+        if (!origin && node != doc.root) {
             return m;
         }
 
-        Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
+        Point o = origin ? transformOrigin(textOf(doc, origin), vp.width, vp.height) : Point{vp.width / 2.f, vp.height / 2.f};
 
         return multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
     }
@@ -5141,6 +5160,19 @@ namespace {
     }
 
     static void strokePath(const Path& path, const ComputedStyle& style, float scale, Flat& out) {
+        if (style.cap == CapButt && style.dashCount) {
+            bool visible = false;
+
+            for (u32 i = 0; i < style.dashCount; i += 2) {
+                visible |= style.dashes[i] > 0.f;
+            }
+
+            // Zero-length dashes with butt caps have no area, regardless of their spacing.
+            if (!visible) {
+                return;
+            }
+        }
+
         Flat flat;
         StrokeParams s{style.strokeWidth / 2.f, style.cap, style.join, style.miterLimit, tolerance / maxf(scale, 1e-6f)};
 
@@ -5879,6 +5911,8 @@ namespace {
         style.nonScaling = false;
         style.blend = 0;
         style.isolate = false;
+        style.newBackground = false;
+        style.backgroundClipped = false;
         style.outlineWidth = 0.f;
         style.zoom = 1.f;
         style.mask = 0;
@@ -5902,7 +5936,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -5939,7 +5973,7 @@ namespace {
             bool reset = isKeyword(value, "initial");
 
             if (isKeyword(value, "unset")) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -6382,6 +6416,50 @@ namespace {
                     }
 
                     break;
+                case AtomEnableBackground: {
+                    if (keyword) {
+                        style.newBackground = source.newBackground;
+                        style.backgroundClipped = source.backgroundClipped;
+                        style.backgroundBox = source.backgroundBox;
+                        break;
+                    }
+
+                    const u8* p = value.begin();
+                    const u8* end = value.end();
+                    while (p < end && isSpace(*p)) {
+                        p++;
+                    }
+                    StringView word = readIdent(p, end);
+
+                    if (isKeyword(word, "accumulate")) {
+                        style.newBackground = false;
+                    } else if (isKeyword(word, "new")) {
+                        style.newBackground = true;
+                        while (p < end && isSpace(*p)) {
+                            p++;
+                        }
+                        style.backgroundClipped = p < end;
+
+                        if (p < end) {
+                            float values[4];
+                            bool valid = true;
+
+                            for (float& v : values) {
+                                while (p < end && (isSpace(*p) || *p == ',')) {
+                                    p++;
+                                }
+                                valid = valid && readNumber(p, end, v);
+                            }
+
+                            while (p < end && isSpace(*p)) {
+                                p++;
+                            }
+                            style.backgroundBox = valid && p == end && values[2] > 0.f && values[3] > 0.f ? Box{values[0], values[1], values[0] + values[2], values[1] + values[3]} : Box{0.f, 0.f, 0.f, 0.f};
+                        }
+                    }
+
+                    break;
+                }
                 case AtomIsolation:
                     if (keyword) {
                         style.isolate = source.isolate;
@@ -7143,6 +7221,101 @@ namespace {
         float c[4];
     };
 
+    static float meshSlope(float before, float value, float after, float left, float right) {
+        if (left <= 0.f || right <= 0.f) {
+            return 0.f;
+        }
+
+        float a = (value - before) / left;
+        float b = (after - value) / right;
+
+        if (a * b <= 0.f) {
+            return 0.f;
+        }
+
+        float magnitude = minf(fabsf((a + b) * 0.5f), 3.f * minf(fabsf(a), fabsf(b)));
+
+        return a < 0.f ? -magnitude : magnitude;
+    }
+
+    static void meshSlopes(const Vector<Point>& points, const Vector<Color>& colors, u32 lines, u32 count, u32 stride, u32 step, Vector<Color>& slopes) {
+        slopes.zero(colors.length());
+
+        for (u32 line = 0; line < lines; line++) {
+            u32 first = line * stride;
+
+            for (u32 i = 1; i + 1 < count; i++) {
+                u32 k = first + i * step;
+                float left = hypotf(points[k].x - points[k - step].x, points[k].y - points[k - step].y);
+                float right = hypotf(points[k + step].x - points[k].x, points[k + step].y - points[k].y);
+                const Color& a = colors[k - step];
+                const Color& b = colors[k];
+                const Color& c = colors[k + step];
+
+                slopes.mutData()[k] = Color{meshSlope(a.r, b.r, c.r, left, right), meshSlope(a.g, b.g, c.g, left, right), meshSlope(a.b, b.b, c.b, left, right), 0.f};
+            }
+
+            // Fit a parabola at each boundary using the adjacent interior derivative.
+            for (u32 end = 0; end < 2; end++) {
+                u32 k = first + (end ? count - 1 : 0) * step;
+                u32 neighbor = end ? k - step : k + step;
+                float length = hypotf(points[k].x - points[neighbor].x, points[k].y - points[neighbor].y);
+
+                if (length > 0.f) {
+                    float scale = (end ? -2.f : 2.f) / length;
+                    const Color& a = colors[k];
+                    const Color& b = colors[neighbor];
+                    const Color& d = slopes[neighbor];
+
+                    slopes.mutData()[k] = Color{scale * (b.r - a.r) - d.r, scale * (b.g - a.g) - d.g, scale * (b.b - a.b) - d.b, 0.f};
+                }
+            }
+        }
+    }
+
+    static void meshBasis(float t, float* basis) {
+        float square = t * t;
+        float cube = square * t;
+
+        basis[0] = 2.f * cube - 3.f * square + 1.f;
+        basis[1] = 1.f - basis[0];
+        basis[2] = cube - 2.f * square + t;
+        basis[3] = cube - square;
+    }
+
+    static void meshColors(const Color* colors, const Point* points, const Color* horizontal, const Color* vertical, Color* grid) {
+        float widths[2] = {hypotf(points[1].x - points[0].x, points[1].y - points[0].y), hypotf(points[3].x - points[2].x, points[3].y - points[2].y)};
+        float heights[2] = {hypotf(points[2].x - points[0].x, points[2].y - points[0].y), hypotf(points[3].x - points[1].x, points[3].y - points[1].y)};
+
+        // Inkscape's bicubic extension samples Hermite colors on an 8 by 8 subdivision.
+        for (int y = 0; y <= 8; y++) {
+            float v[4];
+
+            meshBasis((float)y / 8.f, v);
+
+            for (int x = 0; x <= 8; x++) {
+                float u[4];
+                Color color{};
+
+                meshBasis((float)x / 8.f, u);
+
+                for (int k = 0; k < 4; k++) {
+                    int column = k % 2;
+                    int row = k / 2;
+                    float weight = u[column] * v[row];
+                    float dx = u[column + 2] * v[row] * widths[row];
+                    float dy = u[column] * v[row + 2] * heights[column];
+
+                    color.r += colors[k].r * weight + horizontal[k].r * dx + vertical[k].r * dy;
+                    color.g += colors[k].g * weight + horizontal[k].g * dx + vertical[k].g * dy;
+                    color.b += colors[k].b * weight + horizontal[k].b * dx + vertical[k].b * dy;
+                }
+
+                grid[y * 9 + x] = Color{clampUnit(color.r), clampUnit(color.g), clampUnit(color.b), 0.f};
+            }
+        }
+    }
+
     static void meshTriangle(float* buffer, int width, int height, const MeshVertex& a, const MeshVertex& b, const MeshVertex& c) {
         float area = (b.p.x - a.p.x) * (c.p.y - a.p.y) - (c.p.x - a.p.x) * (b.p.y - a.p.y);
 
@@ -7333,6 +7506,16 @@ namespace {
             i++;
         }
 
+        u32 type = meshAttribute(doc, mesh, AtomType);
+        bool bicubic = type && textOf(doc, type) == StringView(u8"bicubic");
+        Vector<Color> horizontalSlopes;
+        Vector<Color> verticalSlopes;
+
+        if (bicubic) {
+            meshSlopes(corners, colors, rows + 1, columns + 1, stride, 1, horizontalSlopes);
+            meshSlopes(corners, colors, columns + 1, rows + 1, 1, stride, verticalSlopes);
+        }
+
         Box device = emptyBox();
 
         for (Point point : horizontal) {
@@ -7366,7 +7549,23 @@ namespace {
                 const Point* left = vertical.data() + ((size_t)r * stride + c) * 4;
                 const Point* right = vertical.data() + ((size_t)r * stride + c + 1) * 4;
                 Color corner[4] = {colors[r * stride + c], colors[r * stride + c + 1], colors[(r + 1) * stride + c], colors[(r + 1) * stride + c + 1]};
+                Color smooth[81];
                 float extent = 0.f;
+
+                if (bicubic) {
+                    u32 index[4] = {r * stride + c, r * stride + c + 1, (r + 1) * stride + c, (r + 1) * stride + c + 1};
+                    Point points[4];
+                    Color du[4];
+                    Color dv[4];
+
+                    for (int k = 0; k < 4; k++) {
+                        points[k] = corners[index[k]];
+                        du[k] = horizontalSlopes[index[k]];
+                        dv[k] = verticalSlopes[index[k]];
+                    }
+
+                    meshColors(corner, points, du, dv, smooth);
+                }
 
                 for (int k = 0; k < 3; k++) {
                     const Point* edges[4] = {top, bottom, left, right};
@@ -7382,6 +7581,10 @@ namespace {
                 int n = (int)ceilf(extent * 3.f / 2.f);
 
                 n = n < 1 ? 1 : (n > 128 ? 128 : n);
+
+                if (bicubic) {
+                    n = (n + 7) / 8 * 8;
+                }
 
                 Vector<MeshVertex> grid;
 
@@ -7409,6 +7612,26 @@ namespace {
                             color[1] += corner[k].g * w[k];
                             color[2] += corner[k].b * w[k];
                             color[3] += corner[k].a * w[k];
+                        }
+
+                        if (bicubic) {
+                            int x = b == n ? 7 : b * 8 / n;
+                            int y = a == n ? 7 : a * 8 / n;
+                            float fx = u * 8.f - (float)x;
+                            float fy = v * 8.f - (float)y;
+                            float weights[4] = {(1.f - fx) * (1.f - fy), fx * (1.f - fy), (1.f - fx) * fy, fx * fy};
+
+                            color[0] = 0.f;
+                            color[1] = 0.f;
+                            color[2] = 0.f;
+
+                            for (int k = 0; k < 4; k++) {
+                                const Color& sample = smooth[(y + k / 2) * 9 + x + k % 2];
+
+                                color[0] += sample.r * weights[k];
+                                color[1] += sample.g * weights[k];
+                                color[2] += sample.b * weights[k];
+                            }
                         }
 
                         vertex.p = apply(local, p);
@@ -7556,14 +7779,14 @@ namespace {
         }
 
         Box box = emptyBox();
-        auto add = [&](Node* child, const Matrix& m) {
+        auto add = [&](Node* child, const Matrix& m, const ComputedStyle& inherited, Viewport childViewport) {
             Box inner;
 
-            if (elementBox(l, child, style, vp, inner, depth + 1)) {
-                Matrix full = multiply(m, originTransform(*l.doc, child, AtomTransform, vp));
+            if (elementBox(l, child, inherited, childViewport, inner, depth + 1)) {
+                Matrix full = multiply(m, originTransform(*l.doc, child, AtomTransform, childViewport));
 
                 if (child->name == AtomUse) {
-                    full = multiply(full, translation(lengthOr(*l.doc, child, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, child, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
+                    full = multiply(full, translation(lengthOr(*l.doc, child, AtomX, Axis::X, childViewport, inherited.fontSize, 0.f), lengthOr(*l.doc, child, AtomY, Axis::Y, childViewport, inherited.fontSize, 0.f)));
                 }
                 Point corners[4] = {{inner.x0, inner.y0}, {inner.x1, inner.y0}, {inner.x1, inner.y1}, {inner.x0, inner.y1}};
 
@@ -7577,11 +7800,33 @@ namespace {
             Node* target = hrefTarget(*l.doc, node);
 
             if (target && target != node) {
-                add(target, identity());
+                if (target->name == AtomSymbol) {
+                    const Document& doc = *l.doc;
+                    ComputedStyle symbolStyle = computeStyle(l, target, style, vp);
+                    float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, style.fontSize, lengthOr(doc, target, AtomWidth, Axis::X, vp, symbolStyle.fontSize, vp.width));
+                    float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, style.fontSize, lengthOr(doc, target, AtomHeight, Axis::Y, vp, symbolStyle.fontSize, vp.height));
+                    Viewport inside{w, h, vp.screenWidth, vp.screenHeight, vp.rootFontSize};
+                    Matrix content = originTransform(doc, target, AtomTransform, vp);
+                    Box viewBox;
+
+                    if (parseViewBox(doc, target, viewBox)) {
+                        content = multiply(content, viewBoxTransform(doc, target, viewBox, w, h));
+                        inside.width = viewBox.x1 - viewBox.x0;
+                        inside.height = viewBox.y1 - viewBox.y0;
+                    }
+
+                    if (!symbolStyle.displayNone && w > 0.f && h > 0.f && inside.width > 0.f && inside.height > 0.f) {
+                        for (Node* child = target->first; child; child = child->next) {
+                            add(child, content, symbolStyle, inside);
+                        }
+                    }
+                } else {
+                    add(target, identity(), style, vp);
+                }
             }
         } else {
             for (Node* child = node->first; child; child = child->next) {
-                add(child, identity());
+                add(child, identity(), style, vp);
             }
         }
 
@@ -8047,6 +8292,22 @@ namespace {
             return InputSourceAlpha;
         }
 
+        if (text == StringView(u8"BackgroundImage")) {
+            return InputBackgroundImage;
+        }
+
+        if (text == StringView(u8"BackgroundAlpha")) {
+            return InputBackgroundAlpha;
+        }
+
+        if (text == StringView(u8"FillPaint")) {
+            return InputFillPaint;
+        }
+
+        if (text == StringView(u8"StrokePaint")) {
+            return InputStrokePaint;
+        }
+
         for (size_t i = done.length(); i > 0; i--) {
             u32 result = attribute(done[i - 1].node, AtomResult);
 
@@ -8095,6 +8356,7 @@ namespace {
         bool hasBox = elementBox(l, element, parent, vp, bbox, 0) && bbox.x1 > bbox.x0 && bbox.y1 > bbox.y0;
 
         if (hasBox && element == l.doc->root) {
+            // Root filters use the CSS viewport; m supplies the device scale.
             bbox = deviceBox(rootContent(l, element), bbox);
         }
 
@@ -8299,6 +8561,20 @@ namespace {
             if (!filter) {
                 continue;
             }
+
+            bool fill = false;
+            bool stroke = false;
+            for (u32 k = 0; k < filter->count; k++) {
+                const FilterPrimitive& p = filter->primitives[k];
+                fill = fill || p.in1 == InputFillPaint || p.in2 == InputFillPaint;
+                stroke = stroke || p.in1 == InputStrokePaint || p.in2 == InputStrokePaint;
+                for (u32 j = 0; j < p.inputCount; j++) {
+                    fill = fill || p.inputs[j] == InputFillPaint;
+                    stroke = stroke || p.inputs[j] == InputStrokePaint;
+                }
+            }
+            filter->fillPaint = fill ? devicePaint(l, element, AtomFill, style.fill, style.fillOpacity, style, style.fill.context ? l.contextBox : filter->bbox, style.fill.context ? l.contextMatrix : m, vp) : nullptr;
+            filter->strokePaint = stroke ? devicePaint(l, element, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : filter->bbox, style.stroke.context ? l.contextMatrix : m, vp) : nullptr;
 
             if (last) {
                 last->next = filter;
@@ -8885,17 +9161,17 @@ namespace {
         float ch = (float)l.height / l.scale;
 
         if (parseViewBox(*l.doc, node, viewBox)) {
-            return multiply(scaling(l.scale, l.scale), viewBoxTransform(*l.doc, node, viewBox, cw, ch));
+            return viewBoxTransform(*l.doc, node, viewBox, cw, ch);
         }
 
         if (intrinsicSize(*l.doc, node, w, h)) {
             w = explicitSide(*l.doc, node, AtomWidth) ? w : cw;
             h = explicitSide(*l.doc, node, AtomHeight) ? h : ch;
 
-            return scaling(l.scale * cw / w, l.scale * ch / h);
+            return scaling(cw / w, ch / h);
         }
 
-        return scaling(l.scale, l.scale);
+        return identity();
     }
 
     static void lowerSvg(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -9290,6 +9566,8 @@ namespace {
         return out;
     }
 
+    static bool usesBackground(const Document& doc, const Node* node, u32 depth = 0);
+
     static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
         const Document& doc = *l.doc;
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
@@ -9361,7 +9639,6 @@ namespace {
         op.clipFirst = (u32)l.clips.length();
         op.clipCount = 1;
         addRectClip(l, m, x, y, w, h);
-        l.out->pushBack(op);
 
         Document* outer = l.doc;
         Document* nested = source.nested;
@@ -9382,6 +9659,17 @@ namespace {
         ComputedStyle rootStyle = computeStyle(l, nested->root, initialStyle(), vp);
         float outerFontSize = l.rootFontSize;
 
+        l.backgroundInputs = l.backgroundInputs || usesBackground(*nested, nested->root);
+        op.resetBackground = true;
+        op.newBackground = l.backgroundInputs && rootStyle.newBackground;
+        op.backgroundClipped = rootStyle.backgroundClipped;
+        op.backgroundBox = rootStyle.backgroundBox;
+
+        if (op.backgroundClipped && !invert(place, op.backgroundMatrix)) {
+            op.backgroundBox = Box{0.f, 0.f, 0.f, 0.f};
+        }
+
+        l.out->pushBack(op);
         l.rootFontSize = rootStyle.fontSize;
         lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.sizeless ? w : source.width, source.sizeless ? h : source.height, rootStyle.fontSize});
         l.rootFontSize = outerFontSize;
@@ -9439,7 +9727,7 @@ namespace {
         }
 
         u32 origin = attribute(node, AtomTransformOrigin);
-        Point o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : Point{0.f, 0.f};
+        Point o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
 
         o.x += bounds.x0;
         o.y += bounds.y0;
@@ -9660,7 +9948,7 @@ namespace {
             lh = ceilf(visible.y1 + margin) - y0;
         }
 
-        if (lw <= 0.f || lh <= 0.f || lw * lh > 16.f * (float)l.width * (float)l.height) {
+        if (lw <= 0.f || lh <= 0.f || lw * lh > (fixed ? 25.f : 16.f) * (float)l.width * (float)l.height) {
             return false;
         }
 
@@ -9750,7 +10038,41 @@ namespace {
 
         op.blend = style.blend;
 
+        op.newBackground = l.backgroundInputs && style.newBackground && (node->name == AtomSvg || node->name == AtomG || node->name == AtomA || node->name == AtomSwitch || node->name == AtomSymbol);
+        op.backgroundClipped = style.backgroundClipped;
+        op.backgroundBox = style.backgroundBox;
+
+        if (op.newBackground && op.backgroundClipped) {
+            Matrix content = m;
+
+            if (node == l.doc->root) {
+                content = multiply(content, rootContent(l, node));
+            } else if (node->name == AtomSvg || node->name == AtomSymbol) {
+                float w = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, style.fontSize, vp.width);
+                float h = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, style.fontSize, vp.height);
+                Box viewBox;
+
+                if (l.sized == node) {
+                    w = l.sizedWidth >= 0.f ? l.sizedWidth : w;
+                    h = l.sizedHeight >= 0.f ? l.sizedHeight : h;
+                }
+
+                content = multiply(content, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
+
+                if (parseViewBox(*l.doc, node, viewBox)) {
+                    content = multiply(content, viewBoxTransform(*l.doc, node, viewBox, w, h));
+                }
+            }
+
+            if (!invert(content, op.backgroundMatrix)) {
+                op.backgroundBox = Box{0.f, 0.f, 0.f, 0.f};
+            }
+        }
+
         bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f || style.blend || style.isolate;
+
+        op.backgroundOnly = op.newBackground && !layer;
+        layer = layer || op.newBackground;
 
         if (layer) {
             l.out->pushBack(op);
@@ -9758,14 +10080,14 @@ namespace {
 
         l.depth++;
 
-        if (offscreen && !lowerFilteredLayer(l, node, parent, style, m, vp, &extent)) {
+        if ((offscreen || complex) && !lowerFilteredLayer(l, node, parent, style, m, vp, offscreen ? &extent : nullptr)) {
             Op fallback = groupOp(1.f);
 
             fallback.filter = lowerFilters(l, node, parent, style, m, vp);
             l.out->pushBack(fallback);
             lowerContent(l, node, style, m, vp);
             endGroup(l);
-        } else if (!offscreen && (!complex || !lowerFilteredLayer(l, node, parent, style, m, vp, nullptr))) {
+        } else if (!offscreen && !complex) {
             lowerContent(l, node, style, m, vp);
         }
 
@@ -10581,7 +10903,17 @@ namespace {
         valid = grown;
     }
 
-    static void fillOp(Raster& r, const Lowering& l, const Op& op, float* target) {
+    static size_t firstTarget(const Raster& r) {
+        size_t first = r.layers.length() - 1;
+
+        while (first > r.backgroundBase && r.begins[first] && r.begins[first]->backgroundOnly) {
+            first--;
+        }
+
+        return first;
+    }
+
+    static void fillOp(Raster& r, const Lowering& l, const Op& op) {
         if (op.paint->type == PaintType::Pattern) {
             prepareTile(l, *op.paint);
         }
@@ -10599,12 +10931,15 @@ namespace {
         u32 stride = w + 2;
         const DevicePaint& paint = *op.paint;
 
-        ensure(target, r.width, r.dirty.mutBack(), IntBox{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)});
+        size_t first = firstTarget(r);
+
+        for (size_t level = first; level < r.layers.length(); level++) {
+            ensure(r.layers[level], r.width, r.dirty.mut(level), IntBox{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)});
+        }
 
         for (u32 y = 0; y < h; y++) {
             float sum = 0.f;
             const float* line = acc + (size_t)y * stride;
-            float* row = target + ((size_t)(iy0 + y) * r.width + ix0) * 4;
 
             for (u32 x = 0; x < w; x++) {
                 sum += line[x];
@@ -10621,14 +10956,16 @@ namespace {
                     continue;
                 }
 
-                float* px = row + x * 4;
                 float a = src.a * cov;
                 float keep = 1.f - a;
 
-                px[0] = src.r * cov + px[0] * keep;
-                px[1] = src.g * cov + px[1] * keep;
-                px[2] = src.b * cov + px[2] * keep;
-                px[3] = a + px[3] * keep;
+                for (size_t level = first; level < r.layers.length(); level++) {
+                    float* px = r.layers[level] + ((size_t)(iy0 + y) * r.width + ix0 + x) * 4;
+                    px[0] = src.r * cov + px[0] * keep;
+                    px[1] = src.g * cov + px[1] * keep;
+                    px[2] = src.b * cov + px[2] * keep;
+                    px[3] = a + px[3] * keep;
+                }
             }
         }
     }
@@ -10730,6 +11067,11 @@ namespace {
         float* source;
         float* sourceLinear;
         float* sourceAlpha;
+        float* background;
+        float* backgroundLinear;
+        float* backgroundAlpha;
+        bool resetBackground;
+        float* paint[2][2];
         float* empty;
         Vector<FilterResult> results;
         Vector<float*> linearCache;
@@ -10764,9 +11106,9 @@ namespace {
         return Color{srgbToLinear(c.r), srgbToLinear(c.g), srgbToLinear(c.b), c.a};
     }
 
-    static float* convertBuffer(FilterRun& run, const float* src, bool toLinear) {
+    static float* convertBuffer(FilterRun& run, const float* src, bool toLinear, bool infinite = false) {
         float* out = filterBuffer(run);
-        const IntBox& b = run.filter->region;
+        IntBox b = infinite ? IntBox{0, 0, run.width, (int)run.raster->height} : run.filter->region;
 
         for (int y = b.y0; y < b.y1; y++) {
             for (int x = b.x0; x < b.x1; x++) {
@@ -10790,7 +11132,137 @@ namespace {
         return out;
     }
 
+    static float* backgroundBuffer(Raster& r, ObjPool& pool) {
+        size_t first = r.backgroundBase;
+        const Op* scope = nullptr;
+
+        for (size_t i = r.begins.length(); i > first; i--) {
+            const Op* op = r.begins[i - 1];
+
+            if (op && op->resetBackground && !op->newBackground) {
+                return nullptr;
+            }
+
+            if (op && op->newBackground) {
+                first = i - 1;
+                scope = op;
+                break;
+            }
+        }
+
+        if (!scope && !r.backdrop) {
+            return nullptr;
+        }
+
+        size_t size = (size_t)r.width * r.height * 4;
+        float* out = (float*)pool.allocate(sizeof(float) * size);
+
+        if (!scope && r.backdrop) {
+            memcpy(out, r.backdrop, sizeof(float) * size);
+        } else {
+            memset(out, 0, sizeof(float) * size);
+        }
+
+        // Ancestor opacity, masks and filters apply when that ancestor is
+        // composited, not while its children form the current background.
+        for (size_t level = first; level < r.layers.length(); level++) {
+            const IntBox& box = r.dirty[level];
+            const float* layer = r.layers[level];
+
+            for (int y = box.y0; y < box.y1; y++) {
+                for (int x = box.x0; x < box.x1; x++) {
+                    size_t i = ((size_t)y * r.width + x) * 4;
+                    float keep = 1.f - layer[i + 3];
+
+                    for (int c = 0; c < 4; c++) {
+                        out[i + c] = layer[i + c] + out[i + c] * keep;
+                    }
+                }
+            }
+        }
+
+        if (scope && scope->backgroundClipped) {
+            const Box& box = scope->backgroundBox;
+
+            for (u32 y = 0; y < r.height; y++) {
+                for (u32 x = 0; x < r.width; x++) {
+                    Point point = apply(scope->backgroundMatrix, Point{(float)x + .5f, (float)y + .5f});
+
+                    if (point.x < box.x0 || point.x >= box.x1 || point.y < box.y0 || point.y >= box.y1) {
+                        memset(out + ((size_t)y * r.width + x) * 4, 0, sizeof(float) * 4);
+                    }
+                }
+            }
+        }
+
+        return out;
+    }
+
     static const float* filterInputBuffer(FilterRun& run, int index, bool linear) {
+        if (index == InputFillPaint || index == InputStrokePaint) {
+            int kind = index == InputStrokePaint ? 1 : 0;
+            float*& buffer = run.paint[kind][0];
+            if (!buffer) {
+                buffer = filterBuffer(run);
+                DevicePaint* paint = kind ? run.filter->strokePaint : run.filter->fillPaint;
+                if (paint) {
+                    if (paint->type == PaintType::Pattern) {
+                        prepareTile(*run.lowering, *paint);
+                    }
+                    IntBox box{0, 0, run.width, (int)run.raster->height};
+                    for (int y = box.y0; y < box.y1; y++) {
+                        for (int x = box.x0; x < box.x1; x++) {
+                            Color color;
+                            if (paintAt(*paint, (float)x + .5f, (float)y + .5f, color)) {
+                                size_t i = ((size_t)y * run.width + x) * 4;
+                                buffer[i] = color.r;
+                                buffer[i + 1] = color.g;
+                                buffer[i + 2] = color.b;
+                                buffer[i + 3] = color.a;
+                            }
+                        }
+                    }
+                }
+            }
+            if (linear && !run.paint[kind][1]) {
+                run.paint[kind][1] = convertBuffer(run, buffer, true, true);
+            }
+            return run.paint[kind][linear ? 1 : 0];
+        }
+
+        if (index == InputBackgroundImage || index == InputBackgroundAlpha) {
+            if (!run.background) {
+                float* background = run.resetBackground ? nullptr : backgroundBuffer(*run.raster, *run.pool);
+                run.background = filterBuffer(run);
+                const IntBox& box = run.filter->region;
+
+                if (background) {
+                    for (int y = box.y0; y < box.y1; y++) {
+                        size_t i = ((size_t)y * run.width + box.x0) * 4;
+                        memcpy(run.background + i, background + i, sizeof(float) * 4 * (size_t)(box.x1 - box.x0));
+                    }
+                }
+            }
+
+            if (index == InputBackgroundAlpha) {
+                if (!run.backgroundAlpha) {
+                    run.backgroundAlpha = filterBuffer(run);
+
+                    for (size_t i = 0; i < run.size; i++) {
+                        run.backgroundAlpha[i * 4 + 3] = run.background[i * 4 + 3];
+                    }
+                }
+
+                return run.backgroundAlpha;
+            }
+
+            if (linear && !run.backgroundLinear) {
+                run.backgroundLinear = convertBuffer(run, run.background, true);
+            }
+
+            return linear ? run.backgroundLinear : run.background;
+        }
+
         if (index == InputSourceAlpha) {
             return run.sourceAlpha;
         }
@@ -10839,6 +11311,35 @@ namespace {
         u32 atom = attribute(node, name);
 
         return atom && parseNumberText(textOf(doc, atom), value) ? value : fallback;
+    }
+
+    static int integerOf(const Document& doc, const Node* node, u32 name, int fallback) {
+        u32 atom = attribute(node, name);
+        StringView text = atom ? trim(textOf(doc, atom)) : StringView();
+        const u8* p = text.begin();
+        const u8* end = text.end();
+        bool negative = p < end && *p == '-';
+
+        if (p < end && (*p == '+' || *p == '-')) {
+            p++;
+        }
+
+        if (p == end) {
+            return fallback;
+        }
+
+        u64 value = 0;
+        u64 limit = negative ? 2147483648ull : 2147483647ull;
+
+        for (; p < end; p++) {
+            if (*p < '0' || *p > '9' || value > (limit - (*p - '0')) / 10) {
+                return fallback;
+            }
+
+            value = value * 10 + (*p - '0');
+        }
+
+        return (int)(negative ? -(i64)value : (i64)value);
     }
 
     static bool numberList(const Document& doc, const Node* node, u32 name, Vector<float>& out) {
@@ -11026,7 +11527,7 @@ namespace {
     }
 
     static int blurReach(float sigma) {
-        if (sigma <= 0.f) {
+        if (!(sigma > 0.f)) {
             return 0;
         }
 
@@ -11036,13 +11537,13 @@ namespace {
             return radius > 31 ? 31 : radius;
         }
 
-        int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+        int d = (int)minf(floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f), (float)(1 << 26));
 
         return 3 * (d / 2 + 1);
     }
 
     static void blurLine(const float* src, float* dst, Vector<float>& first, Vector<float>& second, int count, int stride, float sigma) {
-        if (sigma <= 0.f) {
+        if (!(sigma > 0.f)) {
             for (int i = 0; i < count; i++) {
                 for (int c = 0; c < 4; c++) {
                     dst[(size_t)i * stride + c] = src[(size_t)i * stride + c];
@@ -11073,7 +11574,38 @@ namespace {
             return;
         }
 
-        int d = (int)floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+        double window = floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+
+        if (window >= 2.0 * count) {
+            // The central part of three convolved boxes is a quadratic. Integrate
+            // it from the input moments instead of allocating padding proportional to sigma.
+            double moments[3][4] = {};
+            bool even = fmod(window, 2.0) == 0.0;
+            double center = (3.0 * window * window + (even ? 2.0 * window : 1.0)) / 4.0;
+            double divisor = window * window * (even ? window + 1.0 : window);
+
+            for (int i = 0; i < count; i++) {
+                for (int c = 0; c < 4; c++) {
+                    double value = src[(size_t)i * stride + c];
+
+                    moments[0][c] += value;
+                    moments[1][c] += i * value;
+                    moments[2][c] += (double)i * i * value;
+                }
+            }
+
+            for (int i = 0; i < count; i++) {
+                for (int c = 0; c < 4; c++) {
+                    double value = ((center - (double)i * i) * moments[0][c] + 2.0 * i * moments[1][c] - moments[2][c]) / divisor;
+
+                    dst[(size_t)i * stride + c] = isfinite(value) && value > 0.0 ? (float)value : 0.f;
+                }
+            }
+
+            return;
+        }
+
+        int d = (int)window;
         int pad = 3 * (d / 2 + 1);
         int total = count + 2 * pad;
 
@@ -11111,9 +11643,6 @@ namespace {
     }
 
     static void blurBuffer(FilterRun& run, const float* in, float* out, const IntBox& box, float sigmaX, float sigmaY) {
-        sigmaX = minf(sigmaX, 532.f);
-        sigmaY = minf(sigmaY, 532.f);
-
         int height = (int)run.raster->height;
         int width = run.width;
         int reachX = blurReach(sigmaX);
@@ -11183,6 +11712,16 @@ namespace {
             copyBox(run, in, out, p.box);
 
             return;
+        }
+
+        if (p.in1 == InputFillPaint || p.in1 == InputStrokePaint) {
+            const DevicePaint* paint = p.in1 == InputFillPaint ? f.fillPaint : f.strokePaint;
+            // These inputs have infinite extent; blurring a constant paint
+            // cannot introduce transparent edges at the filter region.
+            if (!paint || paint->type == PaintType::Solid) {
+                copyBox(run, in, out, p.box);
+                return;
+            }
         }
 
         blurBuffer(run, in, out, p.box, sx, sy);
@@ -11988,7 +12527,7 @@ namespace {
 
     struct Turbulence {
         int lattice[0x100 + 0x100 + 2];
-        double gradient[4][0x100 + 0x100 + 2][2];
+        double gradient[0x100 + 0x100 + 2][2][4];
     };
 
     struct Stitch {
@@ -12023,13 +12562,13 @@ namespace {
 
                 for (j = 0; j < 2; j++) {
                     seed = turbulenceRandom(seed);
-                    t.gradient[k][i][j] = (double)((seed % (0x100 + 0x100)) - 0x100) / 0x100;
+                    t.gradient[i][j][k] = (double)((seed % (0x100 + 0x100)) - 0x100) / 0x100;
                 }
 
-                double s = sqrt(t.gradient[k][i][0] * t.gradient[k][i][0] + t.gradient[k][i][1] * t.gradient[k][i][1]);
+                double s = sqrt(t.gradient[i][0][k] * t.gradient[i][0][k] + t.gradient[i][1][k] * t.gradient[i][1][k]);
 
-                t.gradient[k][i][0] /= s;
-                t.gradient[k][i][1] /= s;
+                t.gradient[i][0][k] /= s;
+                t.gradient[i][1][k] /= s;
             }
         }
 
@@ -12046,7 +12585,7 @@ namespace {
 
             for (k = 0; k < 4; k++) {
                 for (j = 0; j < 2; j++) {
-                    t.gradient[k][0x100 + i][j] = t.gradient[k][i][j];
+                    t.gradient[0x100 + i][j][k] = t.gradient[i][j][k];
                 }
             }
         }
@@ -12060,18 +12599,41 @@ namespace {
         return a + t * (b - a);
     }
 
-    static double noise2(const Turbulence& tb, int channel, double vx, double vy, const Stitch* stitch) {
+    static void noise2(const Turbulence& tb, double vx, double vy, const Stitch* stitch, double* out) {
         double t = vx + 0x1000;
+
+        if (t < -2147483647.0 || t > 2147483646.0) {
+            t = fmod(t, 256.0);
+        }
+
         int bx0 = (int)t;
+        double rx0 = t - bx0;
+
+        if (rx0 < 0.0) {
+            // Choose the cell below the point, rather than extrapolating from
+            // the next cell when the coordinate is below -4096.
+            bx0--;
+            rx0 += 1.0;
+        }
+
         int bx1 = bx0 + 1;
-        double rx0 = t - (int)t;
         double rx1 = rx0 - 1.0;
 
         t = vy + 0x1000;
 
+        if (t < -2147483647.0 || t > 2147483646.0) {
+            t = fmod(t, 256.0);
+        }
+
         int by0 = (int)t;
+        double ry0 = t - by0;
+
+        if (ry0 < 0.0) {
+            by0--;
+            ry0 += 1.0;
+        }
+
         int by1 = by0 + 1;
-        double ry0 = t - (int)t;
         double ry1 = ry0 - 1.0;
 
         if (stitch) {
@@ -12105,25 +12667,21 @@ namespace {
         int b11 = tb.lattice[j + by1];
         double sx = sCurve(rx0);
         double sy = sCurve(ry0);
-        const double* q = tb.gradient[channel][b00];
-        double u = rx0 * q[0] + ry0 * q[1];
+        for (int channel = 0; channel < 4; channel++) {
+            double u = rx0 * tb.gradient[b00][0][channel] + ry0 * tb.gradient[b00][1][channel];
+            double v = rx1 * tb.gradient[b10][0][channel] + ry0 * tb.gradient[b10][1][channel];
+            double a = lerp(sx, u, v);
 
-        q = tb.gradient[channel][b10];
+            u = rx0 * tb.gradient[b01][0][channel] + ry1 * tb.gradient[b01][1][channel];
+            v = rx1 * tb.gradient[b11][0][channel] + ry1 * tb.gradient[b11][1][channel];
 
-        double v = rx1 * q[0] + ry0 * q[1];
-        double a = lerp(sx, u, v);
+            double b = lerp(sx, u, v);
 
-        q = tb.gradient[channel][b01];
-        u = rx0 * q[0] + ry1 * q[1];
-        q = tb.gradient[channel][b11];
-        v = rx1 * q[0] + ry1 * q[1];
-
-        double b = lerp(sx, u, v);
-
-        return lerp(sy, a, b);
+            out[channel] = lerp(sy, a, b);
+        }
     }
 
-    static double turbulenceAt(const Turbulence& tb, int channel, double px, double py, double fx, double fy, int octaves, bool fractal, bool stitching, double tileW, double tileH) {
+    static void turbulenceAt(const Turbulence& tb, double px, double py, double fx, double fy, int octaves, bool fractal, bool stitching, double tileW, double tileH, float* out) {
         Stitch stitch;
         Stitch* active = nullptr;
 
@@ -12149,15 +12707,20 @@ namespace {
             stitch.wrapY = 0x1000 + stitch.height;
         }
 
-        double sum = 0.0;
+        double sum[4] = {};
         double vx = px * fx;
         double vy = py * fy;
         double ratio = 1.0;
 
         for (int octave = 0; octave < octaves; octave++) {
-            double n = noise2(tb, channel, vx, vy, active);
+            double noise[4];
 
-            sum += fractal ? n / ratio : fabs(n) / ratio;
+            noise2(tb, vx, vy, active, noise);
+
+            for (int channel = 0; channel < 4; channel++) {
+                sum[channel] += fractal ? noise[channel] / ratio : fabs(noise[channel]) / ratio;
+            }
+
             vx *= 2;
             vy *= 2;
             ratio *= 2;
@@ -12170,7 +12733,9 @@ namespace {
             }
         }
 
-        return sum;
+        for (int channel = 0; channel < 4; channel++) {
+            out[channel] = (float)(fractal ? (sum[channel] + 1.0) / 2.0 : sum[channel]);
+        }
     }
 
     static void filterTurbulence(FilterRun& run, const FilterPrimitive& p, float* out) {
@@ -12187,7 +12752,12 @@ namespace {
             return;
         }
 
-        int octaves = (int)numberOf(doc, p.node, AtomNumOctaves, 1.f);
+        int octaves = integerOf(doc, p.node, AtomNumOctaves, 1);
+
+        if (octaves < 0) {
+            return;
+        }
+
         long seed = (long)numberOf(doc, p.node, AtomSeed, 0.f);
         u32 type = attribute(p.node, AtomType);
         bool fractal = type && trim(textOf(doc, type)) == StringView(u8"fractalNoise");
@@ -12212,12 +12782,7 @@ namespace {
                 Point point = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
                 float c[4];
 
-                for (int channel = 0; channel < 4; channel++) {
-                    double v = turbulenceAt(*tb, channel, point.x, point.y, fx, fy, octaves, fractal, stitching, tileW, tileH);
-
-                    c[channel] = (float)(fractal ? (v + 1.0) / 2.0 : v);
-                }
-
+                turbulenceAt(*tb, point.x, point.y, fx, fy, octaves, fractal, stitching, tileW, tileH, c);
                 storePremultiplied(out + ((size_t)y * run.width + x) * 4, c);
             }
         }
@@ -12281,8 +12846,6 @@ namespace {
         const Document& doc = *f.doc;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         bool specular = p.kind == AtomFeSpecularLighting;
-        float scaleX = sqrtf(f.ctm.a * f.ctm.a + f.ctm.b * f.ctm.b);
-        float scaleY = sqrtf(f.ctm.c * f.ctm.c + f.ctm.d * f.ctm.d);
         float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f);
         Matrix inverse;
 
@@ -12442,7 +13005,10 @@ namespace {
                     ny = -a00 - 2.f * a01 - a02 + a20 + 2.f * a21 + a22;
                 }
 
-                Vector3 normal = normalize3(Vector3{-surfaceScale * scaleX * factorX * nx, -surfaceScale * scaleY * factorY * ny, 1.f});
+                float dx = factorX * nx;
+                float dy = factorY * ny;
+                // The height samples are in device space; the light is in user space.
+                Vector3 normal = normalize3(Vector3{-surfaceScale * (f.ctm.a * dx + f.ctm.b * dy), -surfaceScale * (f.ctm.c * dx + f.ctm.d * dy), 1.f});
                 Vector3 toLight = direction;
                 Color color = lightColor;
 
@@ -12532,7 +13098,7 @@ namespace {
         }
     }
 
-    static float* applyFilter(Raster& r, const Lowering& l, const Filter& filter, float* layer, ObjPool& pool) {
+    static float* applyFilter(Raster& r, const Lowering& l, const Filter& filter, float* layer, ObjPool& pool, bool resetBackground = false) {
         FilterRun run;
 
         run.raster = &r;
@@ -12545,6 +13111,11 @@ namespace {
         run.scaleY = sqrtf(filter.ctm.c * filter.ctm.c + filter.ctm.d * filter.ctm.d);
         run.source = layer;
         run.sourceLinear = nullptr;
+        run.background = nullptr;
+        run.backgroundLinear = nullptr;
+        run.backgroundAlpha = nullptr;
+        run.resetBackground = resetBackground;
+        memset(run.paint, 0, sizeof(run.paint));
         run.empty = filterBuffer(run);
         run.sourceAlpha = filterBuffer(run);
 
@@ -12553,6 +13124,12 @@ namespace {
 
         if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
             return result;
+        }
+
+        if (region.x0 > 0 || region.y0 > 0 || region.x1 < run.width || region.y1 < (int)r.height) {
+            // SourceGraphic has the same filter-region clip in both colour spaces.
+            run.source = filterBuffer(run);
+            copyBox(run, layer, run.source, region);
         }
 
         for (int y = region.y0; y < region.y1; y++) {
@@ -12639,7 +13216,7 @@ namespace {
         return result;
     }
 
-    static void compositeLayer(Raster& r, const Lowering& l, const Op& op, float* target) {
+    static void compositeLayer(Raster& r, const Lowering& l, const Op& op) {
         Raster sub;
         ObjPool::Ref pool = ObjPool::fromMemory();
         size_t size = (size_t)op.layerWidth * op.layerHeight;
@@ -12652,6 +13229,43 @@ namespace {
 
         sub.width = op.layerWidth;
         sub.height = op.layerHeight;
+        float* background = l.backgroundInputs ? backgroundBuffer(r, *pool) : nullptr;
+
+        if (background) {
+            float* inherited = (float*)pool->allocate(sizeof(float) * size * 4);
+            memset(inherited, 0, sizeof(float) * size * 4);
+
+            for (u32 y = 0; y < sub.height; y++) {
+                for (u32 x = 0; x < sub.width; x++) {
+                    Point point = apply(toDevice, Point{(float)x + .5f, (float)y + .5f});
+                    float fx = point.x - .5f;
+                    float fy = point.y - .5f;
+                    int ix = (int)floorf(fx);
+                    int iy = (int)floorf(fy);
+                    float tx = fx - ix;
+                    float ty = fy - iy;
+
+                    for (int dy = 0; dy < 2; dy++) {
+                        for (int dx = 0; dx < 2; dx++) {
+                            int sx = ix + dx;
+                            int sy = iy + dy;
+
+                            if (sx < 0 || sy < 0 || sx >= (int)r.width || sy >= (int)r.height) {
+                                continue;
+                            }
+
+                            float weight = (dx ? tx : 1.f - tx) * (dy ? ty : 1.f - ty);
+
+                            for (int c = 0; c < 4; c++) {
+                                inherited[((size_t)y * sub.width + x) * 4 + c] += background[((size_t)sy * r.width + sx) * 4 + c] * weight;
+                            }
+                        }
+                    }
+                }
+            }
+
+            sub.backdrop = inherited;
+        }
         memset(content, 0, sizeof(float) * size * 4);
         runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
@@ -12694,11 +13308,13 @@ namespace {
                     continue;
                 }
 
-                float* d = target + ((size_t)y * r.width + x) * 4;
                 float keep = 1.f - sample[3];
 
-                for (int c = 0; c < 4; c++) {
-                    d[c] = sample[c] + d[c] * keep;
+                for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
+                    float* d = r.layers[level] + ((size_t)y * r.width + x) * 4;
+                    for (int c = 0; c < 4; c++) {
+                        d[c] = sample[c] + d[c] * keep;
+                    }
                 }
             }
         }
@@ -12709,19 +13325,30 @@ namespace {
         size_t depth = r.layers.length();
         IntBox canvas{0, 0, (int)r.width, (int)r.height};
 
+        size_t backgroundBase = r.backgroundBase;
+        const float* backdrop = r.backdrop;
+        r.backgroundBase = depth;
+
+        if (depth) {
+            r.backdrop = nullptr;
+        }
+
         r.layers.pushBack(base);
         r.dirty.pushBack(canvas);
+        r.begins.pushBack(nullptr);
 
         for (u32 k = 0; k < count; k++) {
             const Op& op = ops[k];
 
             switch (op.kind) {
                 case OpKind::Fill:
-                    fillOp(r, l, op, r.layers.back());
+                    fillOp(r, l, op);
                     break;
                 case OpKind::Layer:
-                    ensure(r.layers.back(), r.width, r.dirty.mutBack(), canvas);
-                    compositeLayer(r, l, op, r.layers.back());
+                    for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
+                        ensure(r.layers[level], r.width, r.dirty.mut(level), canvas);
+                    }
+                    compositeLayer(r, l, op);
                     break;
                 case OpKind::Begin: {
                     ObjPool* pool = ObjPool::fromMemoryRaw();
@@ -12737,51 +13364,57 @@ namespace {
                     float* layer = r.layers.popBack();
                     ObjPool* pool = r.pools.popBack();
                     const Op* begin = r.begins.popBack();
-                    float* parent = r.layers.back();
                     IntBox box = r.dirty.popBack();
+
+                    if (begin->backgroundOnly) {
+                        delete pool;
+                        break;
+                    }
 
                     if (begin->filter) {
                         ensure(layer, r.width, box, canvas);
                     }
 
                     for (const Filter* filter = begin->filter; filter; filter = filter->next) {
-                        layer = applyFilter(r, l, *filter, layer, *pool);
+                        layer = applyFilter(r, l, *filter, layer, *pool, begin->newBackground);
                     }
 
                     const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool) : nullptr;
                     const float* mask = begin->masked ? maskBuffer(r, l, *begin, *pool) : nullptr;
 
-                    ensure(parent, r.width, r.dirty.mutBack(), box);
+                    for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
+                        float* parent = r.layers[level];
+                        ensure(parent, r.width, r.dirty.mut(level), box);
 
-                    for (int y = box.y0; y < box.y1; y++) {
-                        for (size_t i = (size_t)y * r.width + (size_t)box.x0; i < (size_t)y * r.width + (size_t)box.x1; i++) {
-                            float f = begin->opacity * (clip ? clip[i] : 1.f) * (mask ? mask[i] : 1.f);
-                            const float* s = layer + i * 4;
+                        for (int y = box.y0; y < box.y1; y++) {
+                            for (size_t i = (size_t)y * r.width + (size_t)box.x0; i < (size_t)y * r.width + (size_t)box.x1; i++) {
+                                float f = begin->opacity * (clip ? clip[i] : 1.f) * (mask ? mask[i] : 1.f);
+                                const float* s = layer + i * 4;
 
-                            if (f <= 0.f || s[3] <= 0.f) {
-                                continue;
+                                if (f <= 0.f || s[3] <= 0.f) {
+                                    continue;
+                                }
+
+                                float* d = parent + i * 4;
+
+                                if (begin->blend && d[3] > 0.f) {
+                                    float source[4] = {s[0] * f, s[1] * f, s[2] * f, s[3] * f};
+                                    float blended[4];
+
+                                    blendPixel(begin->blend, source, d, blended);
+                                    memcpy(d, blended, sizeof(blended));
+                                    continue;
+                                }
+
+                                float keep = 1.f - s[3] * f;
+
+                                d[0] = s[0] * f + d[0] * keep;
+                                d[1] = s[1] * f + d[1] * keep;
+                                d[2] = s[2] * f + d[2] * keep;
+                                d[3] = s[3] * f + d[3] * keep;
                             }
-
-                            float* d = parent + i * 4;
-
-                            if (begin->blend && d[3] > 0.f) {
-                                float source[4] = {s[0] * f, s[1] * f, s[2] * f, s[3] * f};
-                                float blended[4];
-
-                                blendPixel(begin->blend, source, d, blended);
-                                memcpy(d, blended, sizeof(blended));
-                                continue;
-                            }
-
-                            float keep = 1.f - s[3] * f;
-
-                            d[0] = s[0] * f + d[0] * keep;
-                            d[1] = s[1] * f + d[1] * keep;
-                            d[2] = s[2] * f + d[2] * keep;
-                            d[3] = s[3] * f + d[3] * keep;
                         }
                     }
-
                     delete pool;
                     break;
                 }
@@ -12797,6 +13430,9 @@ namespace {
 
         r.layers.popBack();
         r.dirty.popBack();
+        r.begins.popBack();
+        r.backgroundBase = backgroundBase;
+        r.backdrop = backdrop;
     }
 
     static u8 clampByte(float v) {
@@ -12804,6 +13440,29 @@ namespace {
         v = v > 255.f ? 255.f : v;
 
         return (u8)(int)v;
+    }
+
+    static bool usesBackground(const Document& doc, const Node* node, u32 depth) {
+        if (depth > 256) {
+            return false;
+        }
+
+        for (u32 name : {AtomIn, AtomIn2}) {
+            u32 value = attribute(node, name);
+            StringView text = value ? trim(textOf(doc, value)) : StringView();
+
+            if (text == StringView(u8"BackgroundImage") || text == StringView(u8"BackgroundAlpha")) {
+                return true;
+            }
+        }
+
+        for (const Node* child = node->first; child; child = child->next) {
+            if (usesBackground(doc, child, depth + 1)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     static bool loadDocument(Document& doc, ObjPool& pool, StringView source) {
@@ -12886,6 +13545,7 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height, float scale
         l.out = &l.ops;
         l.decoder = decoder;
         l.imageDepth = 0;
+        l.backgroundInputs = usesBackground(doc, doc.root);
         l.sized = nullptr;
         l.hasContext = false;
         l.rootFontSize = 16.f;
