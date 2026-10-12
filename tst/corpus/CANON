@@ -400,7 +400,7 @@ inkscape/9ef9951ebd3d20d6: inkscape: mesh gradients, an Inkscape extension Chrom
 inkscape/c1633656f6f4554f: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 inkscape/f8e0f11d5689b7e4: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
 openclipart/342673: inkscape_noise: Chromium does not finish this 175-primitive graph; compensate Inkscape pixel-corner turbulence sampling at the export resolution; lattice, noise-free prefix and constant-noise controls verified
-openclipart/264596: firefox: Chromium changes the distant light intensity under a mirroring matrix; a flat surface changes from alpha 221 to 50, instead of keeping the specular intensity; Firefox preserves the mirrored lighting
+openclipart/264596: chromium_lighting: Chromium collapses distant-light Z under Y reflection; reflect the path coordinates and light azimuth instead, with calculated flat-surface and curved reflection controls
 resvg/filters__feGaussianBlur__huge-stdDeviation: resvg: Chromium caps the deviation at 532 device pixels instead of the requested 5120 at the supersampled size; resvg keeps the requested wide blur, which leaves the small square almost transparent
 openclipart/247586: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0132779 to 0.0044533; Inkscape resolves that detail at the corpus size (error 0.0042409)
 openclipart/248791: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0059363 to 0.0027353; Inkscape resolves that detail at the corpus size (error 0.0018358)

@@ -2,6 +2,7 @@
 import contextlib
 import base64
 import json
+import math
 import os
 import re
 import struct
@@ -16,9 +17,10 @@ import svg11_reference
 import noise_reference
 import local_filter_reference
 import stitch_reference
+import lighting_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -390,7 +392,7 @@ def morphology_source(data):
     return ET.tostring(root)
 
 
-def chromium_morphology(program, shrinker, jobs, side):
+def chromium_normalized(program, shrinker, jobs, normalize, check):
     import reference
     with tempfile.TemporaryDirectory() as work:
         page = os.path.join(work, "harness.html")
@@ -401,41 +403,65 @@ def chromium_morphology(program, shrinker, jobs, side):
         try:
             browser.open(page)
 
-            def draw(data, directory, width, height, scale):
+            def draw(data, width, height, scale, directory=work):
                 with tempfile.NamedTemporaryFile(suffix=".svg", dir=directory) as source:
-                    source.write(morphology_source(data))
+                    source.write(normalize(data))
                     source.flush()
                     browser.send("Emulation.setDeviceMetricsOverride", {"width": width, "height": height,
                                  "deviceScaleFactor": scale, "mobile": False})
                     if not browser.evaluate(reference.SHOW % (width, height, json.dumps("file://" + source.name))):
-                        sys.exit("Chromium could not load the normalized erosion")
+                        sys.exit("Chromium could not load the normalized SVG")
                     shot = browser.send("Page.captureScreenshot", {"format": "png",
                                         "clip": {"x": 0, "y": 0, "width": width, "height": height, "scale": 1},
                                         "fromSurface": True, "captureBeyondViewport": False})
                     with open(large, "wb") as handle:
                         handle.write(base64.b64decode(shot["data"]))
                 if size(large) != (width * scale, height * scale):
-                    sys.exit("incorrect Chromium erosion screenshot size")
+                    sys.exit("incorrect Chromium screenshot size")
+                return large
 
-            # A clipped square eroded by four units must lose four units on
-            # each side. Direct SourceGraphic erosion in Chromium skips this
-            # input clip; an identity offset makes it take effect.
-            probe = b'''<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<filter id="f" filterUnits="userSpaceOnUse" x="16" y="16" width="32" height="32">
-<feMorphology operator="erode" radius="4"/></filter>
-<rect width="64" height="64" filter="url(#f)"/></svg>'''
-            draw(probe, work, 64, 64, 1)
-            _, _, pixels = decode(large)
-            if any(pixels[(y*64+x)*4+3] != (255 if 20 <= x < 44 and 20 <= y < 44 else 0)
-                   for y in range(64) for x in range(64)):
-                sys.exit("Chromium erosion no longer matches the reviewed input clipping")
+            check(draw)
             for svg, png, width, height, scale in jobs:
                 with open(svg, "rb") as handle:
-                    draw(handle.read(), os.path.dirname(svg), width, height, scale)
+                    draw(handle.read(), width, height, scale, os.path.dirname(svg))
                 shrink(shrinker, large, png, scale)
         finally:
             browser.close()
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip()
+
+
+def chromium_morphology(program, shrinker, jobs, side):
+    def check(draw):
+        # A clipped square eroded by four units loses four units on each side.
+        probe = b'''<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<filter id="f" filterUnits="userSpaceOnUse" x="16" y="16" width="32" height="32">
+<feMorphology operator="erode" radius="4"/></filter>
+<rect width="64" height="64" filter="url(#f)"/></svg>'''
+        _, _, pixels = decode(draw(probe, 64, 64, 1))
+        if any(pixels[(y*64+x)*4+3] != (255 if 20 <= x < 44 and 20 <= y < 44 else 0)
+               for y in range(64) for x in range(64)):
+            sys.exit("Chromium erosion no longer matches the reviewed input clipping")
+    return chromium_normalized(program, shrinker, jobs, morphology_source, check)
+
+
+def chromium_lighting(program, shrinker, jobs, side):
+    def check(draw):
+        probe = b'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        width="64" height="128" viewBox="0 0 64 128">
+<defs><filter id="f" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">
+<feSpecularLighting surfaceScale="18" specularConstant="1.1" specularExponent="5">
+<feDistantLight azimuth="235" elevation="55"/></feSpecularLighting></filter></defs>
+<path id="p" d="M 16 16 L 48 16 L 48 48 L 16 48 Z" fill="black" filter="url(#f)"/>
+<use xlink:href="#p" transform="matrix(1 0 0 -1 0 128)"/></svg>'''
+        # A flat normal dotted with the half-vector gives sqrt((1+sin(e))/2).
+        expected = round(255 * 1.1 * ((1 + math.sin(math.radians(55))) / 2) ** 2.5)
+        for scale in [1, 2]:
+            width, _, pixels = decode(draw(probe, 64, 128, scale))
+            for x, y in [(24, 24), (40, 40), (24, 104), (40, 88)]:
+                offset = (y*scale*width + x*scale) * 4
+                if any(abs(a-b) > 1 for a, b in zip(pixels[offset:offset+4], [255, 255, 255, expected])):
+                    sys.exit("Chromium reflected lighting differs from the calculated flat surface")
+    return chromium_normalized(program, shrinker, jobs, lighting_reference.source, check)
 
 
 def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False):
