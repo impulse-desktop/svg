@@ -606,8 +606,10 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
 
             if float_filters:
                 import affine_lighting_reference
+                import coverage_reference
                 import float_reference
                 import layer_reference
+                coverage_reference.check()
                 versions.extend([layer_reference.check(), affine_lighting_reference.check()])
                 float_cache = {}
 
@@ -640,8 +642,16 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
                             handle.write(data)
                         if os.path.exists(png):
                             os.remove(png)
-                        inkscape(ink, shrinker, [(svg, png, width, height, 1)], side)
-                        if size(png) != (width, height):
+                        source_scale = 8 if float_filters else 1
+                        if float_filters:
+                            with inkscape_viewport(svg, width, height) as viewport:
+                                subprocess.run([ink, viewport, '--export-type=png', '--export-filename='+png,
+                                                f'--export-width={width*source_scale}', f'--export-height={height*source_scale}',
+                                                '--export-png-color-mode=RGBA_8', '--export-background-opacity=0'], check=True,
+                                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        else:
+                            inkscape(ink, shrinker, [(svg, png, width, height, 1)], side)
+                        if size(png) != (width*source_scale, height*source_scale):
                             sys.exit('incorrect Inkscape source snapshot size')
                         with open(png, 'rb') as handle:
                             source_cache[key] = handle.read()
@@ -654,6 +664,15 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
                     encode(png, width, height, pixels)
                     with open(png, 'rb') as handle:
                         return handle.read()
+
+                if float_filters:
+                    import skia
+                    for data, expected in curve_reference.probes():
+                        source = coverage_reference.source(rasterize_source(data.encode(), 192, 128), 192, 128)
+                        alpha = source.toarray(colorType=skia.kRGBA_F32_ColorType, alphaType=skia.kPremul_AlphaType)[..., 3]
+                        actual = float(alpha.astype('float64').sum())
+                        if abs(actual-expected) > .25:
+                            sys.exit(f'float source cubic band area {actual} differs from {expected}')
 
                 # Deliberately give the snapshot a different paint and alpha
                 # from the original path. The alpha checker also detects

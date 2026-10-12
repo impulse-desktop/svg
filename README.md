@@ -184,8 +184,12 @@ Every export checks a two-level error limit before drawing the unchanged SVG;
 `skia_noise_inkscape` also uses Inkscape's filled-curve rasterization for
 the source geometry in `openclipart/329492`. Its blur and lighting amplify
 coverage errors, and its `1000*a-500` alpha matrix needs sub-byte precision.
-The unfiltered path is captured at the reference device grid, then the shared
-staged graph evaluates Skia primitives and SVG lighting with float32 intermediates. Turbulence is a recorded
+Inkscape captures the unfiltered path at eight times the reference device grid.
+`tst/coverage_reference.py` decodes straight PNG channels and averages their
+premultiplied integer products directly into float32, preserving fractional
+coverage before filtering. The filter grid and final reference resolution stay
+unchanged. The shared staged graph evaluates Skia primitives and SVG lighting
+with float32 intermediates. Turbulence is a recorded
 shader: passing a float noise image through `ImageFilters.Image` loses precision.
 The Gaussian kernels use the [SVG 1.1 three-box approximation](https://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement),
 since Skia's built-in float blur selects a different kernel.
@@ -193,8 +197,12 @@ since Skia's built-in float blur selects a different kernel.
 `tst/source_geometry_reference.py` limits the snapshot to one solid path in a
 translated group covering the page, preserving the vector filter region and
 noise coordinates. `tst/float_reference.py` rejects unsupported primitives,
-regions, color spaces and transforms. Every export checks 36 cubic-band areas,
-eight source-grid probes, fractional-alpha precision, blur moments and noise
+regions, color spaces and transforms. Every export checks 36 cubic-band areas
+at the source resolution with a 0.25-square-pixel error limit, in addition to
+the ordinary Inkscape area controls. Thirteen coverage controls check straight
+color decoding, transparent samples, sub-byte alpha amplification and invalid
+sample grids. Exports also check eight source-grid probes, fractional-alpha
+precision, blur moments and noise
 sampling. `tst/float_filters.py` additionally checks calculated flat lighting,
 constant displacement and rejected constructions. The original corpus SVG
 remains the renderer's input.
