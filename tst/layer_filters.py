@@ -51,7 +51,7 @@ def main():
     result = ET.fromstring(layers.source(ET.tostring(template), 32, 32, measure, rasterize))
     assert len(list(result.iter(NS+'image'))) == 1
     bad = [
-        ('svg', 'viewBox', '1 1 32 32'), ('svg', 'transform', 'translate(1)'),
+        ('svg', 'viewBox', '1 1 0 32'), ('svg', 'transform', 'translate(1)'),
         ('svg', 'preserveAspectRatio', 'none'), ('svg', 'opacity', '.5'),
         ('g', 'filter', 'url(#f)'), ('g', 'style', 'transform:translate(1px)'),
         ('g', 'fill', 'url(#paint)'), ('g', 'opacity', '.5'), ('g', 'clip-path', 'url(#clip)'),
