@@ -8732,7 +8732,8 @@ namespace {
                     Point d = direction(current, first.p);
 
                     if (!nonZero(d)) {
-                        d = out.back().in;
+                        // A zero-length close takes the tangent leaving the subpath start.
+                        d = first.out;
                     }
 
                     segment(d, d, first.p);
