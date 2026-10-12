@@ -3,10 +3,12 @@
 import math
 from pathlib import Path
 import tempfile
+import xml.etree.ElementTree as ET
 
 import canon
 import float_reference
 import source_geometry_reference
+from noise_reference import NS
 
 
 def normalized(primitives, scale=1, hole=False):
@@ -60,6 +62,19 @@ def main():
                     expected = 255 if inside and not hole else 0
                     assert abs(rgba[(y*width+x)*4+3]-expected) <= 1, (amount, scale, x, y)
                     checked += 1
+    # A filter smaller than the page must leave a transparent border when
+    # its local float grid is composed back into the viewport.
+    for scale in [1, 2]:
+        root = ET.fromstring(normalized('<feColorMatrix in="SourceGraphic"/>', scale))
+        f = next(root.iter(NS+'filter'))
+        f.attrib.update(x='15.5', y='19.5', width='16', height='16')
+        width = 32*scale
+        rgba = float_reference.render(ET.tostring(root), width, width)
+        for y in range(width):
+            for x in range(width):
+                expected = 255 if 8*scale <= x < 24*scale and 8*scale <= y < 24*scale else 0
+                assert rgba[(y*width+x)*4+3] == expected, (scale, x, y)
+                checked += 1
     valid = normalized('<feGaussianBlur in="SourceGraphic" stdDeviation="1"/>')
     negatives = [
         valid.replace(b'stdDeviation="1"', b'stdDeviation="-1"'),

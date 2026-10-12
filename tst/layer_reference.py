@@ -1,11 +1,11 @@
 """Float filter snapshots for solid paths and their groups in reviewed SVGs.
 
-Inkscape supplies SourceGraphic. Stock Skia evaluates each primitive using float
-storage. Binary inputs share one float source atlas: embedding an image in a
-Python Skia filter serializes it as an 8-bit PNG, and cloning a growing filter
+Inkscape supplies SourceGraphic. Primitives use float storage; lighting follows
+the SVG equations in NumPy. Binary inputs share one float source atlas: embedding
+an image in a Python Skia filter serializes it as an 8-bit PNG, and cloning a growing filter
 DAG duplicates its branches. Neither occurs with primary inputs and offsets.
-Reviewed affine snapshots use SVG lighting equations in user coordinates;
-Skia lighting only has one surface-height scale for both axes.
+Lighting retains separate sample spacing along each axis and avoids Skia's
+power approximation, whose small error can be amplified by later primitives.
 """
 import base64
 import copy
@@ -79,8 +79,7 @@ def graph(f, source, scale, tx, ty, scale_y=None):
             if node.get('result'):
                 results[node.get('result')] = last
             continue
-        if tag in ['feSpecularLighting', 'feDiffuseLighting'] and (scale != sy
-                or len(node) == 1 and node[0].tag == NS+'fePointLight'):
+        if tag in ['feSpecularLighting', 'feDiffuseLighting']:
             from affine_lighting_reference import lighting
             last = lighting(node, image, scale, sy, tx, ty)
             if node.get('result'):
@@ -117,23 +116,6 @@ def graph(f, source, scale, tx, ty, scale_y=None):
             canvas.translate(.5, .5)
             canvas.drawPaint(skia.Paint(Shader=shader))
             effect = skia.ImageFilters.Picture(recorder.finishRecordingAsPicture())
-        elif tag in ['feSpecularLighting', 'feDiffuseLighting']:
-            if (len(node) != 1 or node[0].tag != NS+'feDistantLight'
-                    or node.get('lighting-color', 'white') not in ['white', '#ffffff']):
-                raise ValueError('layer lighting requires one white distant light')
-            light = node[0]
-            if any(k not in ['id', 'azimuth', 'elevation'] and not k.startswith('{') for k in light.attrib):
-                raise ValueError('unsupported layer distant light')
-            az = math.radians(number(light, 'azimuth', '0'))
-            el = math.radians(number(light, 'elevation', '0'))
-            direction = skia.Point3(scale*math.cos(el)*math.cos(az), scale*math.cos(el)*math.sin(az), scale*math.sin(el))
-            ss = number(node, 'surfaceScale', '1')*scale
-            if tag == 'feSpecularLighting':
-                effect = skia.ImageFilters.DistantLitSpecular(direction, skia.ColorWHITE, ss,
-                         number(node, 'specularConstant', '1'), number(node, 'specularExponent', '1'), a, crop)
-            else:
-                effect = skia.ImageFilters.DistantLitDiffuse(direction, skia.ColorWHITE, ss,
-                         number(node, 'diffuseConstant', '1'), a, crop)
         elif tag in ['feComposite', 'feBlend']:
             mode = node.get('operator', 'over') if tag == 'feComposite' else node.get('mode', 'normal')
             if mode == 'arithmetic':
@@ -404,6 +386,21 @@ def check():
             markup += '<feConvolveMatrix order="1" kernelMatrix="1"/>'+alpha_matrix(1000, -500)
             if abs(float(evaluate(markup)[48, 48, 3])-(1000*level-500)) > .002:
                 raise ValueError('layer stage rounded fractional alpha')
+    # Flat normals have a closed-form half-vector dot product. Choose the
+    # material to give alpha .5002, then amplify it to .2. Stock Skia's
+    # approximate lighting power can push it below .5 even in float storage.
+    for exponent in [1, 2.5, 8, 18.1, 64]:
+        for elevation in [24, 50, 60]:
+            power = ((1+math.sin(math.radians(elevation)))/2)**(exponent/2)
+            constant = .5002/power
+            markup = (f'<feSpecularLighting surfaceScale="5" specularConstant="{constant}" specularExponent="{exponent}">'
+                      f'<feDistantLight azimuth="225" elevation="{elevation}"/></feSpecularLighting>'+alpha_matrix(1000, -500))
+            f = ET.fromstring('<filter xmlns="http://www.w3.org/2000/svg">'+markup+'</filter>')
+            for sx, sy in [(1,1), (2,2), (1016/770.37537, 1024/776.31757)]:
+                result = graph(f, source, sx, 0, 0, sy)
+                pixels = result.toarray(colorType=skia.kRGBA_F32_ColorType, alphaType=skia.kPremul_AlphaType)
+                if max(abs(float(v)-.2) for v in pixels[48, 48]) > .001:
+                    raise ValueError('lighting approximation changed amplified alpha')
     for u, v in [(.5002, .5008), (.00123, .99933), (.12345, .65432)]:
         start = alpha_matrix(u, result='a')+alpha_matrix(v, **{'in': 'SourceGraphic', 'result': 'b'})
         for op, expected in [('in', u*v), ('arithmetic', .3*u*v+.2*u+.1*v+.01)]:

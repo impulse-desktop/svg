@@ -184,8 +184,8 @@ Every export checks a two-level error limit before drawing the unchanged SVG;
 `skia_noise_inkscape` also uses Inkscape's filled-curve rasterization for
 the source geometry in `openclipart/329492`. Its blur and lighting amplify
 coverage errors, and its `1000*a-500` alpha matrix needs sub-byte precision.
-The unfiltered path is captured at the reference device grid, then stock Skia
-evaluates the filter graph with float32 intermediates. Turbulence is a recorded
+The unfiltered path is captured at the reference device grid, then the shared
+staged graph evaluates Skia primitives and SVG lighting with float32 intermediates. Turbulence is a recorded
 shader: passing a float noise image through `ImageFilters.Image` loses precision.
 The Gaussian kernels use the [SVG 1.1 three-box approximation](https://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement),
 since Skia's built-in float blur selects a different kernel.
@@ -202,7 +202,7 @@ remains the renderer's input.
 Run this backend with Chromium as `PROGRAM` for measuring vector bounds,
 `INKSCAPE` pointing to its executable, and `skia-python==144.0.post2` and NumPy
 available to the Python interpreter running `tst/canon.py`.
-`tst/corpus/SKIA_NOISE_INKSCAPE` records all three renderer versions.
+`tst/corpus/SKIA_NOISE_INKSCAPE` records the renderers and numeric dependencies.
 
 `skia_layers_inkscape` applies the same source-coverage and float-precision
 checks to eleven paths in `inkscape/d637421a62aec41d`, including eight with
@@ -271,6 +271,17 @@ Use Chromium as `PROGRAM`, current Inkscape in `INKSCAPE`, and the legacy
 executable in `INKSCAPE_LEGACY`. `tst/corpus/SKIA_LEGACY_STENCIL` records both
 Inkscape versions and the float dependencies. `tst/stencil_filters.py` checks
 step boundaries, transparency, composed-source scope and background eligibility.
+
+The float exporters share `tst/layer_reference.py`'s staged graph and use
+`tst/affine_lighting_reference.py` for lighting at every axis scale. Even with
+float storage, stock Skia approximates the lighting power: an analytically
+flat surface with alpha 0.5002 can produce 0.49954, changing a subsequent
+`1000*a-500` from 0.2 to zero. Forty-five calculated controls combine five
+exponents, three light elevations and three sample grids to catch this loss.
+The shared graph uses the SVG lighting equations with separate axis spacing;
+its 72 planar controls also cover boundaries, negative surface heights and
+point lights. Full-page snapshots retain their existing noise frame and compose
+the filtered grid back into a transparent viewport, including smaller regions.
 
 `skia_emboss_inkscape` expands the 103 instances of the lit path in
 `openclipart/264596` and evaluates each on its own float grid. This retains
