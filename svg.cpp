@@ -9939,6 +9939,18 @@ namespace {
                 return false;
             }
 
+            // Axis permutations can keep device pixel centres exactly on the
+            // layer's pixel centres. Retain the element's translation inside
+            // the filter instead of resampling its result at a fractional phase.
+            if ((fabsf(toLayer.b) < 1e-6f && fabsf(toLayer.c) < 1e-6f) || (fabsf(toLayer.a) < 1e-6f && fabsf(toLayer.d) < 1e-6f)) {
+                toLayer.a = roundf(toLayer.a);
+                toLayer.b = roundf(toLayer.b);
+                toLayer.c = roundf(toLayer.c);
+                toLayer.d = roundf(toLayer.d);
+                toLayer.e = 0.f;
+                toLayer.f = 0.f;
+            }
+
             Box visible = deviceBox(toLayer, Box{0.f, 0.f, (float)l.width, (float)l.height});
             float margin = 0.25f * maxf(visible.x1 - visible.x0, visible.y1 - visible.y0);
 
