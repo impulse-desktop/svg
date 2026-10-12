@@ -792,9 +792,11 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
 
 
 def skia_layers_inkscape(program, shrinker, jobs, side):
+    import affine_lighting_reference
     import layer_reference
     import reference
     version = layer_reference.check()
+    numpy_version = affine_lighting_reference.check()
     ink = os.environ.get('INKSCAPE', 'inkscape')
     ink_version = inkscape_curves(ink, shrinker, [], side)
     with tempfile.TemporaryDirectory(prefix='svg-layer-reference-') as work:
@@ -898,19 +900,27 @@ def skia_layers_inkscape(program, shrinker, jobs, side):
                             if any(abs(a-b) > 1 for a, b in zip(pixels[offset:offset+4], expected)):
                                 sys.exit(f'layer snapshot grid or source inputs changed at {px},{py}')
 
+            for scale in [1, 2]:
+                for label, data, expected in layer_reference.affine_probes(scale):
+                    probe = layer_reference.source(data, 128*scale, 128*scale, measure, rasterize, affine=True)
+                    width, _, pixels = decode(draw(probe, 128, 128, scale))
+                    offset = ((64*scale)*width+64*scale)*4
+                    if any(abs(a-b) > 2 for a, b in zip(pixels[offset:offset+4], expected)):
+                        sys.exit(f'affine layer export {label}: {list(pixels[offset:offset+4])} != {expected}')
+
             cache = {}
             for svg, png, width, height, scale in jobs:
                 with open(svg, 'rb') as handle:
                     data = handle.read()
                 key = (data, width*scale, height*scale)
                 if key not in cache:
-                    cache[key] = layer_reference.source(*key, measure, rasterize)
+                    cache[key] = layer_reference.source(*key, measure, rasterize, affine=True)
                 large = draw(cache[key], width, height, scale, os.path.dirname(svg))
                 shrink(shrinker, large, png, scale)
         finally:
             browser.close()
     chrome_version = subprocess.run([program, '--version'], capture_output=True, text=True).stdout.strip()
-    return '; '.join([chrome_version, version, ink_version])
+    return '; '.join([chrome_version, version, numpy_version, ink_version])
 
 
 def skia_textures(program, shrinker, jobs, side):
