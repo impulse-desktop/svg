@@ -1,9 +1,10 @@
-"""Stock Skia float filters for the restricted Inkscape source snapshots.
+"""Float filter frames for restricted Inkscape source snapshots.
 
 Input is the temporary SVG from source_geometry_reference.source(), including
 its explicit vector filter region and noise-frame correction. No native pixels
 are used. Noise is a recorded shader, since ImageFilters.Image rounds F32 inputs
-to bytes before filtering. Intermediate results must retain fractional alpha.
+to bytes before filtering. The shared staged graph retains fractional alpha
+and uses the SVG lighting equations without approximate powers.
 """
 import base64
 import importlib.metadata
@@ -135,107 +136,21 @@ def render(data, width, height):
     canvas.clear(0)
     canvas.drawImage(image, pad, pad)
     source = surface.makeImageSnapshot()
-    alpha = skia.ImageFilters.ColorFilter(skia.ColorFilters.Matrix([0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,1,0]))
-    results, last = {'SourceGraphic': None, 'SourceAlpha': alpha}, None
-    attributes = {
-        'feGaussianBlur': {'stdDeviation'},
-        'feSpecularLighting': {'surfaceScale', 'specularConstant', 'specularExponent', 'lighting-color'},
-        'feDiffuseLighting': {'surfaceScale', 'diffuseConstant', 'lighting-color'},
-        'feComposite': {'operator', 'in2'}, 'feBlend': {'mode', 'in2'},
-        'feMorphology': {'operator', 'radius'}, 'feColorMatrix': {'type', 'values'},
-        'feTurbulence': {'baseFrequency', 'seed', 'numOctaves', 'type', 'stitchTiles'},
-        'feDisplacementMap': {'in2', 'scale', 'xChannelSelector', 'yChannelSelector'},
-        'feFlood': {'flood-color', 'flood-opacity'}, 'feOffset': {'dx', 'dy'},
-    }
-    for n in f:
-        tag = n.tag.removeprefix(NS)
-        if tag not in attributes or any(k not in attributes[tag] | {'id', 'in', 'result'} and not k.startswith('{') for k in n.attrib):
-            raise ValueError('unsupported float primitive or attribute: '+tag)
-        a = results[n.get('in')] if n.get('in') else last
-        if tag == 'feGaussianBlur':
-            bx, by = pair(n, 'stdDeviation', '0')
-            current = blur(bx*sx, by*sy, a, crop)
-        elif tag in ['feSpecularLighting', 'feDiffuseLighting']:
-            if len(n) != 1 or n[0].tag != NS+'feDistantLight' or n.get('lighting-color', 'white') != 'white':
-                raise ValueError('float lighting requires one white distant light')
-            if abs(sx-sy) > .001*max(sx, sy):
-                raise ValueError('float lighting requires uniform scaling, apart from viewport rounding')
-            light = n[0]
-            if any(k not in ['id', 'azimuth', 'elevation'] and not k.startswith('{') for k in light.attrib):
-                raise ValueError('unsupported float distant light attribute')
-            az, el = math.radians(number(light, 'azimuth', '0')), math.radians(number(light, 'elevation', '0'))
-            direction = skia.Point3(sx*math.cos(el)*math.cos(az), sy*math.cos(el)*math.sin(az), (sx+sy)/2*math.sin(el))
-            ss = number(n, 'surfaceScale', '1')*(sx+sy)/2
-            if tag == 'feSpecularLighting':
-                current = skia.ImageFilters.DistantLitSpecular(direction, skia.ColorWHITE, ss,
-                          number(n, 'specularConstant', '1'), number(n, 'specularExponent', '1'), a, crop)
-            else:
-                current = skia.ImageFilters.DistantLitDiffuse(direction, skia.ColorWHITE, ss, number(n, 'diffuseConstant', '1'), a, crop)
-        elif tag in ['feComposite', 'feBlend']:
-            mode = n.get('operator', 'over') if tag == 'feComposite' else n.get('mode', 'normal')
-            modes = {'in': skia.BlendMode.kSrcIn, 'out': skia.BlendMode.kSrcOut, 'over': skia.BlendMode.kSrcOver,
-                     'normal': skia.BlendMode.kSrcOver, 'multiply': skia.BlendMode.kMultiply, 'lighten': skia.BlendMode.kLighten}
-            b = results[n.get('in2')] if n.get('in2') else last
-            current = skia.ImageFilters.Xfermode(modes[mode], b, a, crop)
-        elif tag == 'feMorphology':
-            rx, ry = pair(n, 'radius', '0')
-            op = {'dilate': skia.ImageFilters.Dilate, 'erode': skia.ImageFilters.Erode}[n.get('operator', 'erode')]
-            current = op(rx*sx, ry*sy, a, crop)
-        elif tag == 'feColorMatrix':
-            if n.get('type', 'matrix') != 'matrix':
-                raise ValueError('unsupported float color matrix type')
-            values = [float(v) for v in n.get('values', '1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0').split()]
-            if len(values) != 20 or not all(math.isfinite(v) for v in values):
-                raise ValueError('invalid float color matrix')
-            current = skia.ImageFilters.ColorFilter(skia.ColorFilters.Matrix(values), a, crop)
-        elif tag == 'feTurbulence':
-            if n.get('stitchTiles', 'noStitch') != 'noStitch':
-                raise ValueError('float reference does not support stitched noise')
-            fx, fy = pair(n, 'baseFrequency', '0')
-            constructor = {'fractalNoise': skia.PerlinNoiseShader.MakeFractalNoise,
-                           'turbulence': skia.PerlinNoiseShader.MakeTurbulence}[n.get('type', 'turbulence')]
-            octaves = int(n.get('numOctaves', '1'))
-            if not 0 <= octaves <= 8:
-                raise ValueError('unsupported float noise octave count')
-            shader = constructor(fx, fy, octaves, number(n, 'seed', '0'))
-            if shader is None:
-                raise ValueError('Skia could not create the noise shader')
-            recorder = skia.PictureRecorder()
-            nc = recorder.beginRecording(skia.Rect(crop))
-            nc.translate(pad, pad)
-            nc.scale(sx, sy)
-            nc.translate(tx, ty)
-            nc.drawPaint(skia.Paint(Shader=shader))
-            current = skia.ImageFilters.Picture(recorder.finishRecordingAsPicture())
-        elif tag == 'feDisplacementMap':
-            if n.get('xChannelSelector') != 'R' or n.get('yChannelSelector') != 'G':
-                raise ValueError('float displacement requires R/G channels')
-            maximum = max(sx, sy)
-            rx, ry = sx/maximum, sy/maximum
-            m = [rx,0,0,0,(1-rx)/2, 0,ry,0,0,(1-ry)/2, 0,0,1,0,0, 0,0,0,1,0]
-            b = results[n.get('in2')] if n.get('in2') else last
-            displacement = skia.ImageFilters.ColorFilter(skia.ColorFilters.Matrix(m), b, crop)
-            if a is None:
-                a = skia.ImageFilters.ColorFilter(skia.ColorFilters.Matrix(IDENTITY), None, crop)
-            current = skia.ImageFilters.DisplacementMap(skia.ColorChannel.kR, skia.ColorChannel.kG,
-                      number(n, 'scale', '0')*maximum, displacement, a, crop)
-        elif tag == 'feFlood':
-            color = n.get('flood-color', '')
-            if not re.fullmatch(r'rgb\(\d+,\d+,\d+\)', color):
-                raise ValueError('float flood requires explicit integer RGB')
-            rgb = [int(v)/255 for v in re.findall(r'\d+', color)]
-            m = [0,0,0,0,rgb[0], 0,0,0,0,rgb[1], 0,0,0,0,rgb[2], 0,0,0,0,number(n, 'flood-opacity', '1')]
-            current = skia.ImageFilters.ColorFilter(skia.ColorFilters.Matrix(m), None, crop)
-        elif tag == 'feOffset':
-            current = skia.ImageFilters.Offset(number(n, 'dx', '0')*sx, number(n, 'dy', '0')*sy, a, crop)
-        else:
-            raise ValueError('unsupported float filter primitive: '+tag)
-        last = current
-        if n.get('result'):
-            results[n.get('result')] = current
-    result = filtered(source, last, skia.IRect.MakeWH(fw, fh))
-    result = result.makeSubset(skia.IRect.MakeXYWH(pad, pad, width, height))
-    return result.toarray(colorType=skia.kRGBA_8888_ColorType, alphaType=skia.kUnpremul_AlphaType).tobytes()
+    # The normalized source frame already includes the noise half-unit
+    # correction. Undo that addition here: graph() applies its own phase.
+    # Crop into a zero-origin primary source so every primitive retains F32,
+    # including the independent SVG lighting equations used by other layers.
+    from layer_reference import graph
+    for node in f:
+        if (node.tag in [NS+'feSpecularLighting', NS+'feDiffuseLighting']
+                and (len(node) != 1 or node[0].tag != NS+'feDistantLight')):
+            raise ValueError('full-page float lighting requires a distant light')
+    result = graph(f, source.makeSubset(crop), sx,
+                   pad+sx*tx-crop.left()-.5*sx, pad+sy*ty-crop.top()-.5*sy, sy)
+    viewport = skia.Surface.MakeRaster(info(width, height))
+    viewport.getCanvas().clear(0)
+    viewport.getCanvas().drawImage(result, crop.left()-pad, crop.top()-pad)
+    return viewport.makeImageSnapshot().toarray(colorType=skia.kRGBA_8888_ColorType, alphaType=skia.kUnpremul_AlphaType).tobytes()
 
 
 def check():

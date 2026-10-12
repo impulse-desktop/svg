@@ -605,8 +605,10 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
                     sys.exit("Chromium noise sampling differs from the reviewed compensation")
 
             if float_filters:
+                import affine_lighting_reference
                 import float_reference
-                versions.append(float_reference.check())
+                import layer_reference
+                versions.extend([layer_reference.check(), affine_lighting_reference.check()])
                 float_cache = {}
 
                 def draw(svg, width, height, scale, png):
@@ -1004,9 +1006,11 @@ def skia_emboss_inkscape(program, shrinker, jobs, side):
 
 
 def skia_textures(program, shrinker, jobs, side):
+    import affine_lighting_reference
     import texture_reference
     import reference
     version = texture_reference.check()
+    numpy_version = affine_lighting_reference.check()
     with tempfile.TemporaryDirectory(prefix='svg-texture-reference-') as work:
         page = os.path.join(work, 'harness.html')
         with open(page, 'w') as handle:
@@ -1058,7 +1062,7 @@ def skia_textures(program, shrinker, jobs, side):
         finally:
             browser.close()
     chrome = subprocess.run([program, '--version'], capture_output=True, text=True).stdout.strip()
-    return '; '.join([chrome, version])
+    return '; '.join([chrome, version, numpy_version])
 
 
 def chromium_noise_blend(program, shrinker, jobs, side):
