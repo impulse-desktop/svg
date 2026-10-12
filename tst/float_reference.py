@@ -128,9 +128,8 @@ def render(data, width, height):
     if not uri.startswith('data:image/png;base64,'):
         raise ValueError('float filter source must be an embedded PNG')
     encoded = base64.b64decode(uri.split(',', 1)[1], validate=True)
-    image = skia.Image.MakeFromEncoded(encoded)
-    if image is None or (image.width(), image.height()) != (width, height):
-        raise ValueError('float filter source grid differs from the viewport')
+    from coverage_reference import source as coverage_source
+    image = coverage_source(encoded, width, height)
     surface = skia.Surface.MakeRaster(info(fw, fh))
     canvas = surface.getCanvas()
     canvas.clear(0)
