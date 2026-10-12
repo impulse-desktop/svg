@@ -12128,6 +12128,15 @@ namespace {
         float n = minf(c[0], minf(c[1], c[2]));
         float x = maxf(c[0], maxf(c[1], c[2]));
 
+        // Rounding a shifted gray can put its luminosity just outside [0, 1].
+        // At either endpoint the clipped color is constant; the formulas below
+        // would otherwise divide by zero when all three channels are equal.
+        if (l <= 0.f || l >= 1.f) {
+            c[0] = c[1] = c[2] = clampUnit(l);
+
+            return;
+        }
+
         for (int k = 0; k < 3; k++) {
             if (n < 0.f) {
                 c[k] = l + (c[k] - l) * l / (l - n);
