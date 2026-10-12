@@ -189,6 +189,15 @@ and restricts this conversion to single-octave noise, default bounding-box
 regions and untransformed filter frames. Remaining unstitched noise uses
 the `chromium_noise` correction. Corpus SVGs are unchanged.
 
+`inkscape_noise` compensates Inkscape's
+[pixel-corner turbulence sampling](https://gitlab.com/inkscape/inkscape/-/blob/INKSCAPE_1_4_4/src/display/nr-filter-turbulence.cpp)
+for the reviewed untransformed filter in `openclipart/342673`. It moves the
+filter frame backwards half a device pixel and the source geometry forwards;
+the correction follows the export resolution. A lattice-point check runs
+before export. The drawing before its noise stages and a constant-noise
+control retain identical pixels. `tst/noise_reference.py` restricts this
+conversion to uniform scaling and untransformed frames without nested viewports.
+
 ## Building
 
 You need clang 21 or GCC 16, Python 3, libpng, wasm2c from
