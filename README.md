@@ -227,6 +227,10 @@ rotated and reflected intermediate layers preserve the noise sampling grid.
 `python3 tst/png_gamma.py .build/svg` checks PNG gamma conversion for RGB,
 palette and grayscale images, including alpha and the sRGB chunk's precedence.
 
+`python3 tst/marker_close.py .build/svg` checks automatic marker directions
+against explicit geometric angles for ordinary closes, repeated closes and
+paths that return to their start before closing.
+
 `python3 tst/filter_background.py .build/svg` checks SVG 1.1 background
 scopes, alpha, clipping, inheritance, transformed layers, CSS blending and
 embedded documents against calculated colours.
