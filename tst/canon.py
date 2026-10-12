@@ -23,9 +23,10 @@ import halfturn_reference
 import curve_reference
 import wide_stroke_reference
 import source_geometry_reference
+import edge_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -208,6 +209,28 @@ def inkscape_curves(program, shrinker, jobs, side):
             actual = sum(pixels[3::4]) / 255
             if abs(actual - area) > 1.25:
                 sys.exit(f'Inkscape cubic band area {actual} differs from {area}: {png}')
+    return inkscape(program, shrinker, jobs, side)
+
+
+def inkscape_edges(program, shrinker, jobs, side):
+    with tempfile.TemporaryDirectory(prefix='svg-edge-reference-') as work:
+        controls, expected = [], []
+        for index, (data, scale, alpha) in enumerate(edge_reference.probes()):
+            svg, png = os.path.join(work, f'{index}.svg'), os.path.join(work, f'{index}.png')
+            with open(svg, 'w') as handle:
+                handle.write(data)
+            controls.append((svg, png, 32, 32, scale))
+            expected.append(alpha)
+        inkscape(program, shrinker, controls, side)
+        for (_, png, _, _, _), alpha in zip(controls, expected):
+            width, height, pixels = decode(png)
+            if (width, height) != (32, 32):
+                sys.exit('incorrect Inkscape edge control size')
+            for y in range(height):
+                for x in range(width):
+                    offset = (y * width + x) * 4
+                    if any(abs(a - b) > 2 for a, b in zip(pixels[offset:offset + 4], [255, 0, 0, alpha[y]])):
+                        sys.exit(f'Inkscape fractional edge coverage differs at {x},{y}: {png}')
     return inkscape(program, shrinker, jobs, side)
 
 

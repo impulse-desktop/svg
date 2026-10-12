@@ -172,6 +172,15 @@ Isolated bands from the drawing confirm the error at its pattern tile scale;
 the reference keeps the usual `SIDE`. Every export checks these areas before
 rendering the drawing. `tst/corpus/INKSCAPE_CURVES` records the version.
 
+`inkscape_edges` preserves fractional horizontal edge coverage in
+`openclipart/321288`. Chromium's rounding loses part of the first row,
+amplified by the overlapping fills that share this edge. The 60 controls in
+`tst/edge_reference.py` integrate the boundary over device pixels, composite
+one or four fills, and average to the reference grid at three scales.
+Their maximum alpha errors are 52.3 levels in Chromium and 1.3 in Inkscape.
+Every export checks a two-level error limit before drawing the unchanged SVG;
+`tst/corpus/INKSCAPE_EDGES` records the version.
+
 `chromium_noise_inkscape` also uses Inkscape's filled-curve rasterization for
 the source geometry in `openclipart/329492`, whose blur and lighting amplify
 the source coverage error. It snapshots the unfiltered path at the reference
