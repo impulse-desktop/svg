@@ -26,7 +26,7 @@ import source_geometry_reference
 import edge_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -789,6 +789,128 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
             browser.close()
     versions.insert(0, subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip())
     return "; ".join(versions)
+
+
+def skia_layers_inkscape(program, shrinker, jobs, side):
+    import layer_reference
+    import reference
+    version = layer_reference.check()
+    ink = os.environ.get('INKSCAPE', 'inkscape')
+    ink_version = inkscape_curves(ink, shrinker, [], side)
+    with tempfile.TemporaryDirectory(prefix='svg-layer-reference-') as work:
+        controls = []
+        for thickness in [.25, .5, .75]:
+            for angle in [0, 30, 45, 60, 90]:
+                svg = os.path.join(work, f'stroke-{thickness}-{angle}.svg')
+                with open(svg, 'w') as handle:
+                    handle.write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">'
+                                 f'<path d="M24 64H104" fill="none" stroke="black" stroke-width="{thickness}" '
+                                 f'transform="rotate({angle} 64 64)"/></svg>')
+                for scale in [1, 2]:
+                    png = svg+f'.{scale}.png'
+                    controls.append(((svg, png, 128, 128, scale), 80*thickness))
+        inkscape(ink, shrinker, [job for job, _ in controls], side)
+        for (_, png, _, _, _), expected in controls:
+            _, _, pixels = decode(png)
+            actual = sum(pixels[3::4])/255
+            # Cairo's 0.75-unit diagonal loses about 1.64 square pixels;
+            # allow coverage quantization while guarding the much larger hairline loss.
+            if abs(actual-expected) > 2:
+                sys.exit(f'Inkscape layer stroke area {actual} differs from {expected}: {png}')
+        page = os.path.join(work, 'harness.html')
+        with open(page, 'w') as handle:
+            handle.write(reference.HARNESS)
+        browser = reference.Browser(program, os.path.join(work, 'profile'))
+        try:
+            browser.open(page)
+
+            def measure(data, names):
+                return browser.evaluate('''(() => {
+                    const doc = new DOMParser().parseFromString(%s, 'image/svg+xml');
+                    const svg = document.importNode(doc.documentElement, true);
+                    svg.style.position = 'absolute'; svg.style.left = '-100000px';
+                    document.body.replaceChildren(svg);
+                    const inverse = svg.getCTM().inverse(), out = {};
+                    for (const name of %s) {
+                        const n = document.getElementById(name), b = n.getBBox();
+                        const m = inverse.multiply(n.getCTM());
+                        out[name] = {bbox: [b.x,b.y,b.width,b.height], matrix: [m.a,m.b,m.c,m.d,m.e,m.f]};
+                    }
+                    document.body.replaceChildren();
+                    return out;
+                })()''' % (json.dumps(data.decode()), json.dumps(names)))
+
+            def rasterize(data, width, height):
+                svg, png = os.path.join(work, 'source.svg'), os.path.join(work, 'source.png')
+                with open(svg, 'wb') as handle:
+                    handle.write(data)
+                if os.path.exists(png):
+                    os.remove(png)
+                inkscape(ink, shrinker, [(svg, png, width, height, 1)], side)
+                with open(png, 'rb') as handle:
+                    return handle.read()
+
+            def draw(data, width, height, scale, directory=work):
+                with tempfile.NamedTemporaryFile(suffix='.svg', dir=directory) as copy:
+                    copy.write(data)
+                    copy.flush()
+                    browser.send('Emulation.setDeviceMetricsOverride', {'width': width, 'height': height,
+                                 'deviceScaleFactor': scale, 'mobile': False})
+                    if not browser.evaluate(reference.SHOW % (width, height, json.dumps('file://'+copy.name))):
+                        sys.exit('Chromium could not load the layer snapshots')
+                    shot = browser.send('Page.captureScreenshot', {'format': 'png',
+                           'clip': {'x': 0, 'y': 0, 'width': width, 'height': height, 'scale': 1},
+                           'fromSurface': True, 'captureBeyondViewport': False})
+                    large = os.path.join(work, 'large.png')
+                    with open(large, 'wb') as handle:
+                        handle.write(base64.b64decode(shot['data']))
+                    if size(large) != (width*scale, height*scale):
+                        sys.exit('incorrect layer screenshot size')
+                    return large
+
+            for x, y in [(0, 0), (12.3, 7.7)]:
+                def checker(data, width, height):
+                    # Paint a deliberately different source on the device grid.
+                    box = [float(v) for v in ET.fromstring(data).get('viewBox').split()]
+                    zoom = width/box[2]
+                    left, top = round((box[0]+x)*zoom), round((box[1]+y)*zoom)
+                    pixels = bytes(v for py in range(height) for px in range(width)
+                                   for v in [0, 0, 255, 64 if (px+left+py+top) % 2 else 192])
+                    png = os.path.join(work, 'checker.png')
+                    encode(png, width, height, pixels)
+                    with open(png, 'rb') as handle:
+                        return handle.read()
+
+                for alpha_only in [False, True]:
+                    end = ('<feColorMatrix in="SourceAlpha"/>' if alpha_only else
+                           '<feComposite in="SourceGraphic" in2="SourceAlpha" operator="in"/>')
+                    data = (f'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">'
+                            f'<defs><filter id="f" color-interpolation-filters="sRGB"><feTurbulence numOctaves="0"/>{end}</filter></defs>'
+                            f'<g transform="translate({x} {y})"><path id="p" fill="red" filter="url(#f)" '
+                            f'd="M{-x} {-y}h32v32h-32z"/></g></svg>').encode()
+                    for scale in [1, 2]:
+                        probe = layer_reference.source(data, 32*scale, 32*scale, measure, checker)
+                        width, height, pixels = decode(draw(probe, 32, 32, scale))
+                        for offset in range(0, len(pixels), 4):
+                            px, py = (offset//4) % width, (offset//4) // width
+                            alpha = 64 if (px+py) % 2 else 192
+                            expected = [0, 0, 0, alpha] if alpha_only else [0, 0, 255, round(alpha*alpha/255)]
+                            if any(abs(a-b) > 1 for a, b in zip(pixels[offset:offset+4], expected)):
+                                sys.exit(f'layer snapshot grid or source inputs changed at {px},{py}')
+
+            cache = {}
+            for svg, png, width, height, scale in jobs:
+                with open(svg, 'rb') as handle:
+                    data = handle.read()
+                key = (data, width*scale, height*scale)
+                if key not in cache:
+                    cache[key] = layer_reference.source(*key, measure, rasterize)
+                large = draw(cache[key], width, height, scale, os.path.dirname(svg))
+                shrink(shrinker, large, png, scale)
+        finally:
+            browser.close()
+    chrome_version = subprocess.run([program, '--version'], capture_output=True, text=True).stdout.strip()
+    return '; '.join([chrome_version, version, ink_version])
 
 
 def chromium_noise_blend(program, shrinker, jobs, side):
