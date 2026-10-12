@@ -4,8 +4,8 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An SVG renderer of its own for the impulse desktop: parser, document model
-and rasterizer, written from scratch and measured against Chromium on a
-corpus of thousands of files.
+and rasterizer, written from scratch and checked against analytic controls
+and a corpus of thousands of files with references from several renderers.
 
 The renderer is two files, `svg.h` and `svg.cpp`, over
 [libstd](https://github.com/pg83/std). A program that uses it copies both
@@ -18,6 +18,15 @@ no `foreignObject`. Raster images inside a document are decoded by the
 program that embeds the renderer. Correctness comes first; speed and
 memory come after it.
 
+The goal is accurate SVG rendering. Corpus scores measure disagreement with
+the current references, which can themselves be wrong or less accurate.
+An increase in a score is a reason to investigate, not sufficient evidence
+to reject an improvement. Use the SVG semantics, exact geometry and colour
+calculations, and convergence checks to decide which result is better.
+When that evidence supports a better reference, canonicalize it and record
+the reason in `tst/corpus/CANON`. Any suitable renderer, including ours, can
+supply it; agreement with the renderer under test alone is not evidence.
+
 ## The contract
 
 ```cpp
@@ -26,8 +35,8 @@ SvgDocument* document = library->parse(pool, bytes);
 SvgImage* image = document->render(pool, width, height);
 ```
 
-`render(width, height)` draws the document the way Chromium draws it as an
-image of that size: `<img src="file.svg" style="width: Wpx; height: Hpx">`.
+`render(width, height)` draws the document in an SVG image viewport of that
+size, corresponding to `<img src="file.svg" style="width: Wpx; height: Hpx">`.
 `render(width, height, scale)` draws it at `scale` device pixels to the CSS
 pixel: the image is laid out at `width / scale` by `height / scale` and drawn
 at `width` by `height`. The pixels are RGBA, 8 bits a channel, not
@@ -38,9 +47,9 @@ inside the document into such pixels.
 ## The score
 
 `./build meanrms`, `./build maxrms`, `./build struct` and `./build aa` draw
-every case of the corpus and print what they measure; lower is better, 0 is
-the reference itself. `./build all` prints the four together with the
-candidates for the next fixes.
+every case of the corpus and print what they measure; lower means closer
+to the references, and 0 means identical pixels. `./build all` prints the four
+together with the candidates for the next fixes.
 
 - A case is one file of `tst/corpus/<source>/` and its two references next
   to it: `<name>.1x.png`, its longer side 256 pixels, and `<name>.2x.png`,
@@ -48,8 +57,8 @@ candidates for the next fixes.
 - A reference is supersampled: drawn with its longer side `tst/corpus/SIDE`
   device pixels, 1024, so 1x at 4 device pixels to the pixel and 2x at 2,
   and shrunk by the mean of each block in premultiplied RGBA. Ours is drawn
-  and shrunk the same way, so neither antialiasing nor the shapes laid one
-  over another on an edge tell the two apart, only what is drawn.
+  and shrunk the same way. This reduces differences in antialiasing but
+  does not eliminate curve approximation, coverage or compositing errors.
 - The error of one drawing is the mean absolute difference between ours
   and the reference over every pixel and channel, in premultiplied RGBA,
   scaled to [0, 1]. A crash or a drawing past two minutes counts as 1.
@@ -58,15 +67,16 @@ candidates for the next fixes.
 - `meanrms` is the root mean square of the errors of every drawing: how
   close the whole corpus is.
 - `maxrms` is the error of the worst case.
-- `struct` counts what is drawn wrong rather than slightly differently. A
-  pixel is wrong when a channel of ours lies more than 32 out of 255 outside
-  the range of Chromium's pixels around it, three by three, or Chromium's
-  lies that far outside the range of ours, and both drawings blurred with
-  the kernel 1 2 1 across and down still differ there by more than 32: an
-  edge or a thin line a fraction of a pixel away is not wrong, a missing or
-  miscolored one is. A case fails when over 0.1% of the pixels of one of its
-  drawings are wrong. `struct` is the number of failing cases and the mean
-  share of wrong pixels over the worst 1%.
+- `struct` flags substantial local differences from the reference. A
+  pixel is flagged when a channel of ours lies more than 32 out of 255 outside
+  the range of the reference's pixels around it, three by three, or the
+  reference's lies that far outside the range of ours, and both drawings blurred
+  with the kernel 1 2 1 across and down still differ there by more than 32:
+  small edge shifts are usually tolerated, while missing or miscolored shapes
+  are flagged. A case fails when over 0.1% of the pixels of one of its
+  drawings are flagged. `struct` is the number of failing cases and the mean
+  share of flagged pixels over the worst 1%. A failure does not establish
+  which renderer is correct.
 - `aa` is `meanrms` of ours drawn straight at 256 pixels against the same 1x
   references: how close our plain drawing is to the supersampled one,
   antialiasing included.
@@ -479,6 +489,27 @@ including partial opacity and chromatic backdrops.
 `python3 tst/fill_winding.py .build/svg` checks exact pixel coverage of adjacent,
 disjoint, overlapping and nested rectangles with both fill rules and contour
 directions, including fractions of a pixel along either axis at two scales.
+
+`python3 tst/curve_area.py .build/svg` checks 216 filled cubic-band areas
+against their Bezier integrals, with both fill rules and subpixel positions.
+It covers direct rendering and `SIDE=1024` followed by reduction to 256 and
+512 pixels. Curves use a 0.025-device-pixel flattening tolerance: on these
+controls it cuts the direct-render area error to a third and the supersampled
+area error roughly in half compared with 0.1, independently of corpus references.
+
+`python3 tst/straight_curves.py .build/svg` checks that monotone straight
+cubics have the same stroke as lines, including stationary endpoints, large
+coordinates, transformed joins and `SIDE=1024`. Such curves keep their exact
+chord: subdividing them can round tiny end segments into false join directions.
+Collinear curves that reverse or return to their start retain their excursions.
+
+`python3 tst/circle_coverage.py .build/svg` checks the circle strokes from
+`openclipart/290266` at its pattern tile scale. Exact disk/pixel intersections
+give each pixel's alpha, and their sum must equal the analytic annulus area.
+Three subpixel positions guard the refreshed `ours` reference: the tighter
+curve tolerance reduces the summed pixel coverage error almost fivefold.
+The `ours` canonical exporter runs these three curve checks before drawing
+native snapshots; existing reasons for each case remain in `CANON`.
 
 `python3 tst/filter_background.py .build/svg` checks SVG 1.1 background
 scopes, alpha, clipping, inheritance, transformed layers, CSS blending and
