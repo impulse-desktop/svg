@@ -205,22 +205,38 @@ available to the Python interpreter running `tst/canon.py`.
 `tst/corpus/SKIA_NOISE_INKSCAPE` records all three renderer versions.
 
 `skia_layers_inkscape` applies the same source-coverage and float-precision
-checks to three uniformly scaled paths in `inkscape/d637421a62aec41d`.
-`tst/layer_reference.py` freezes each vector filter region on the device grid,
+checks to eleven paths in `inkscape/d637421a62aec41d`, including eight with
+nonuniform scaling and signed axis permutations.
+`tst/layer_reference.py` freezes each vector filter region on its local pixel grid,
 captures its unfiltered geometry with Inkscape, and evaluates one Skia primitive
 at a time. Binary inputs occupy one float source image and are addressed with
 offsets. This avoids the Python binding's
 [serialization of filter inputs](https://github.com/kyamagu/skia-python/blob/main/src/skia/ImageFilter.cpp),
 which rounds embedded images to bytes and duplicates branches of long graphs.
-The final layer snapshots retain the original transforms and opacity. Rotated,
-nonuniform and degenerate targets keep their existing browser rendering;
-Skia's nonuniform lighting fails the calculated planar-surface control.
+The final layer snapshots retain the original transforms and opacity. Signed
+axis permutations preserve the device sample phase; other affine grids start
+at the local origin. Each axis has its own blur, morphology, noise and displacement
+scale. Displacement channel remapping remains defined at transparent pixels.
+
+Skia's nonuniform lighting fails the calculated planar-surface control because
+it has one surface-height scale for both axes. `tst/affine_lighting_reference.py`
+evaluates the [SVG lighting equations and edge kernels](https://www.w3.org/TR/SVG11/filters.html#feDiffuseLightingElement)
+on float alpha maps in user coordinates. Its separable differences and weighted
+averages are checked against analytic planes, including edges, and stock Skia's
+interior samples at uniform scale. Point lights retain their user-space position.
+Four ellipses keep their browser rendering: Inkscape loses 9.53 square pixels
+on the corresponding unscaled exact-area control. Two degenerate paths also
+keep their browser rendering because their bounding boxes have zero area.
 
 Every export checks 36 cubic areas, 30 straight-stroke areas, eight source-grid
 probes, fractional-alpha precision, binary input routing, noise phase,
-convolution orientation and lighting with negative surface heights.
+convolution orientation and lighting with negative surface heights. It also
+checks 72 float lighting cases and 144 browser exports covering transformed
+flat lights, lattice noise, parent/element transforms and layer opacity.
 `tst/layer_filters.py` also checks all displacement channel pairs and rejected
-snapshot constructions. The source SVG and native renderer stay unchanged.
+snapshot constructions; `tst/affine_filters.py` covers anisotropic displacement,
+including transparent maps, noise sampling and singular transforms.
+The source SVG and native renderer stay unchanged.
 Use Chromium as `PROGRAM`, `INKSCAPE` and the Python dependencies described
 above; `tst/corpus/SKIA_LAYERS_INKSCAPE` records their versions.
 

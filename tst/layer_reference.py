@@ -1,10 +1,11 @@
-"""Float filter snapshots for uniformly scaled solid paths in reviewed SVGs.
+"""Float filter snapshots for solid paths in reviewed SVGs.
 
 Inkscape supplies SourceGraphic. Stock Skia evaluates each primitive using float
 storage. Binary inputs share one float source atlas: embedding an image in a
 Python Skia filter serializes it as an 8-bit PNG, and cloning a growing filter
 DAG duplicates its branches. Neither occurs with primary inputs and offsets.
-Other transforms retain their original browser rendering.
+Reviewed affine snapshots use SVG lighting equations in user coordinates;
+Skia lighting only has one surface-height scale for both axes.
 """
 import base64
 import copy
@@ -57,9 +58,10 @@ def apply(source, effect, bounds):
     return surface.makeImageSnapshot()
 
 
-def graph(f, source, scale, tx, ty):
-    if scale <= 0 or not all(math.isfinite(v) for v in [scale, tx, ty]):
-        raise ValueError('invalid uniform layer frame')
+def graph(f, source, scale, tx, ty, scale_y=None):
+    sy = scale if scale_y is None else scale_y
+    if min(scale, sy) <= 0 or not all(math.isfinite(v) for v in [scale, sy, tx, ty]):
+        raise ValueError('invalid layer frame')
     crop = skia.IRect.MakeWH(source.width(), source.height())
     alpha = color_filter([0]*18 + [1, 0], None, crop)
     results = {'SourceGraphic': source, 'SourceAlpha': apply(source, alpha, crop)}
@@ -70,6 +72,13 @@ def graph(f, source, scale, tx, ty):
                 and not k.startswith('{') for k in node.attrib)):
             raise ValueError('unsupported layer primitive or attribute: '+tag)
         image = results[node.get('in')] if node.get('in') else last
+        if tag in ['feSpecularLighting', 'feDiffuseLighting'] and (scale != sy
+                or len(node) == 1 and node[0].tag == NS+'fePointLight'):
+            from affine_lighting_reference import lighting
+            last = lighting(node, image, scale, sy, tx, ty)
+            if node.get('result'):
+                results[node.get('result')] = last
+            continue
         a = None
         if tag in ['feComposite', 'feBlend', 'feDisplacementMap']:
             second = results[node.get('in2')] if node.get('in2') else last
@@ -83,7 +92,7 @@ def graph(f, source, scale, tx, ty):
             b = skia.ImageFilters.Offset(-crop.width(), 0, None, crop)
         if tag == 'feGaussianBlur':
             x, y = pair(node, 'stdDeviation', '0')
-            effect = blur(x*scale, y*scale, a, crop)
+            effect = blur(x*scale, y*sy, a, crop)
         elif tag == 'feTurbulence':
             x, y = pair(node, 'baseFrequency', '0')
             octaves = int(node.get('numOctaves', '1'))
@@ -97,7 +106,7 @@ def graph(f, source, scale, tx, ty):
             recorder = skia.PictureRecorder()
             canvas = recorder.beginRecording(skia.Rect(crop))
             canvas.translate(tx, ty)
-            canvas.scale(scale, scale)
+            canvas.scale(scale, sy)
             canvas.translate(.5, .5)
             canvas.drawPaint(skia.Paint(Shader=shader))
             effect = skia.ImageFilters.Picture(recorder.finishRecordingAsPicture())
@@ -142,16 +151,20 @@ def graph(f, source, scale, tx, ty):
             effect = color_filter(values, a, crop)
         elif tag == 'feDisplacementMap':
             values = [0]*20
-            for row, key in [(0, 'xChannelSelector'), (1, 'yChannelSelector')]:
-                values[5*row+'RGBA'.index(node.get(key, 'A'))] = 1
-            values[12] = values[18] = 1
+            maximum = max(scale, sy)
+            for row, key, ratio in [(0, 'xChannelSelector', scale/maximum), (1, 'yChannelSelector', sy/maximum)]:
+                values[5*row+'RGBA'.index(node.get(key, 'A'))] = ratio
+                values[5*row+4] = (1-ratio)/2
+            values[12] = 1
+            # Keep the offset channel bias even at transparent map pixels.
+            values[18 if scale == sy else 19] = 1
             displacement = color_filter(values, b, crop)
             effect = skia.ImageFilters.DisplacementMap(skia.ColorChannel.kR, skia.ColorChannel.kG,
-                       number(node, 'scale', '0')*scale, displacement, a, crop)
+                       number(node, 'scale', '0')*maximum, displacement, a, crop)
         elif tag == 'feMorphology':
             x, y = pair(node, 'radius', '0')
             op = {'dilate': skia.ImageFilters.Dilate, 'erode': skia.ImageFilters.Erode}[node.get('operator', 'erode')]
-            effect = op(x*scale, y*scale, a, crop)
+            effect = op(x*scale, y*sy, a, crop)
         elif tag == 'feFlood':
             color = node.get('flood-color', '')
             if not re.fullmatch(r'rgb\(\d+,\d+,\d+\)', color):
@@ -160,7 +173,7 @@ def graph(f, source, scale, tx, ty):
             effect = color_filter([0,0,0,0,rgb[0], 0,0,0,0,rgb[1], 0,0,0,0,rgb[2],
                                    0,0,0,0,number(node, 'flood-opacity', '1')], None, crop)
         elif tag == 'feOffset':
-            effect = skia.ImageFilters.Offset(number(node, 'dx', '0')*scale, number(node, 'dy', '0')*scale, a, crop)
+            effect = skia.ImageFilters.Offset(number(node, 'dx', '0')*scale, number(node, 'dy', '0')*sy, a, crop)
         elif tag == 'feConvolveMatrix':
             x, y = pair(node, 'order', '3')
             if (x != int(x) or y != int(y) or not 1 <= x <= 32 or not 1 <= y <= 32
@@ -185,7 +198,7 @@ def graph(f, source, scale, tx, ty):
     return last
 
 
-def source(data, width, height, measure, rasterize):
+def source(data, width, height, measure, rasterize, affine=False):
     root = ET.fromstring(data)
     if any(n.tag == NS+'style' for n in root.iter()) or any(n is not root and n.tag == NS+'svg' for n in root.iter()):
         raise ValueError('layer snapshots do not resolve stylesheets or nested viewports')
@@ -215,9 +228,15 @@ def source(data, width, height, measure, rasterize):
         a, b, c, d, x, y = item['matrix']
         if not all(math.isfinite(v) for v in [bx, by, bw, bh, a, b, c, d, x, y]):
             raise ValueError('non-finite measured layer frame')
-        # Nonuniform, rotated and degenerate targets remain browser-rendered.
-        if bw <= 0 or bh <= 0 or a <= 0 or abs(b)+abs(c) > 1e-8 or abs(a-d) > 1e-8*max(a, d):
+        # Degenerate object bounding boxes do not define a finite filter region.
+        # Ellipses retain browser coverage: Inkscape fails their exact-area control.
+        if bw <= 0 or bh <= 0 or (affine and node.tag == NS+'ellipse'):
             continue
+        if not affine and (a <= 0 or abs(b)+abs(c) > 1e-8 or abs(a-d) > 1e-8*max(a, d)):
+            continue
+        sx, sy = math.hypot(a, b), math.hypot(c, d)
+        if min(sx, sy) <= 0 or abs(a*d-b*c) < 1e-8*sx*sy:
+            raise ValueError('singular layer transform')
         p = properties(node)
         if any('%' in v for v in p.values()):
             raise ValueError('layer snapshots do not resolve percentage paints')
@@ -238,15 +257,22 @@ def source(data, width, height, measure, rasterize):
         fx = bx+number(f, 'x', '-.1')*bw
         fy = by+number(f, 'y', '-.1')*bh
         fw, fh = number(f, 'width', '1.2')*bw, number(f, 'height', '1.2')*bh
-        scale, qx, qy = zoom*a, zoom*x+ox, zoom*y+oy
-        left, top = math.floor(fx*scale+qx), math.floor(fy*scale+qy)
-        right, bottom = math.ceil((fx+fw)*scale+qx), math.ceil((fy+fh)*scale+qy)
+        scale, yscale = zoom*sx, zoom*sy
+        if (abs(b)+abs(c) < 1e-8*max(sx, sy) or abs(a)+abs(d) < 1e-8*max(sx, sy)):
+            # A signed axis permutation preserves the device sample grid.
+            ex, ey = zoom*x+ox, zoom*y+oy
+            qx = round(a/sx)*ex+round(b/sx)*ey
+            qy = round(c/sy)*ex+round(d/sy)*ey
+        else:
+            qx = qy = 0.
+        left, top = math.floor(fx*scale+qx), math.floor(fy*yscale+qy)
+        right, bottom = math.ceil((fx+fw)*scale+qx), math.ceil((fy+fh)*yscale+qy)
         w, h = right-left, bottom-top
         if w <= 0 or h <= 0 or w*h > 16*width*height:
             raise ValueError('unsupported layer extent')
-        ux, uy = (left-qx)/scale, (top-qy)/scale
+        ux, uy = (left-qx)/scale, (top-qy)/yscale
         local = ET.Element(NS+'svg', {'width': str(w), 'height': str(h),
-                           'viewBox': f'{ux} {uy} {w/scale} {h/scale}', 'preserveAspectRatio': 'none'})
+                           'viewBox': f'{ux} {uy} {w/scale} {h/yscale}', 'preserveAspectRatio': 'none'})
         chain, ancestor = [], parents[node]
         while True:
             props = properties(ancestor)
@@ -287,7 +313,7 @@ def source(data, width, height, measure, rasterize):
         surface = skia.Surface.MakeRaster(info(w, h))
         surface.getCanvas().clear(0)
         surface.getCanvas().drawImage(image, 0, 0)
-        result = graph(f, surface.makeImageSnapshot(), scale, qx-left, qy-top)
+        result = graph(f, surface.makeImageSnapshot(), scale, qx-left, qy-top, yscale)
         # This is the final snapshot boundary; PNG serialization is appropriate.
         pixels = result.toarray(colorType=skia.kRGBA_8888_ColorType, alphaType=skia.kUnpremul_AlphaType)
         snapshot = skia.Image.fromarray(pixels, colorType=skia.kRGBA_8888_ColorType, alphaType=skia.kUnpremul_AlphaType)
@@ -295,7 +321,7 @@ def source(data, width, height, measure, rasterize):
         if encoded is None:
             raise ValueError('could not encode the filtered layer')
         attrs = {HREF: 'data:image/png;base64,'+base64.b64encode(bytes(encoded)).decode(),
-                 'x': str(ux), 'y': str(uy), 'width': str(w/scale), 'height': str(h/scale),
+                 'x': str(ux), 'y': str(uy), 'width': str(w/scale), 'height': str(h/yscale),
                  'preserveAspectRatio': 'none', 'opacity': p.get('opacity', '1')}
         if node.get('transform'):
             attrs['transform'] = node.get('transform')
@@ -305,7 +331,7 @@ def source(data, width, height, measure, rasterize):
         parent.insert(index, ET.Element(NS+'image', attrs))
         count += 1
     if not count:
-        raise ValueError('no eligible uniform layer')
+        raise ValueError('no eligible layer' if affine else 'no eligible uniform layer')
     return ET.tostring(root)
 
 
@@ -371,3 +397,47 @@ def check():
             if abs(float(actual[48*scale, 48*scale, 3 if kind == 'Specular' else 0])-expected) > .001:
                 raise ValueError('layer lighting differs from the calculated negative plane')
     return version
+
+
+def affine_probes(scale):
+    """Flat lights and integer-lattice noise through the complete snapshot path."""
+    angle = math.radians(30)
+    frames = [(1, 0, 0, 1), (1.25, 0, 0, .75), (-1.25, 0, 0, .75),
+              (1.25, 0, 0, -.75), (-1.25, 0, 0, -.75), (0, 1.25, -.75, 0),
+              (0, -1.25, .75, 0), (0, -1.25, -.75, 0),
+              (0, -.955498779, -1.060140118, 0),
+              (1.07929468, -.41954404, .39062604, 1.15919459),
+              (1.25*math.cos(angle), 1.25*math.sin(angle), -.75*math.sin(angle), .75*math.cos(angle)),
+              (1, .25, .125, 1)]
+    for index, (a, b, c, d) in enumerate(frames):
+        sx, sy = math.hypot(a, b)*scale, math.hypot(c, d)*scale
+        # Integer translations also put signed-axis permutations on the lattice.
+        e, f = round(64-64*(a+c)), round(64-64*(b+d))
+        matrix = f'matrix({a} {b} {c} {d} {e} {f})'
+        for kind in ['Diffuse', 'Specular', 'PointDiffuse', 'PointSpecular', 'fractalNoise', 'turbulence']:
+            if kind in ['fractalNoise', 'turbulence']:
+                primitive = f'<feTurbulence type="{kind}" baseFrequency="{2*sx} {2*sy}" numOctaves="5" seed="7"/>'
+                level = 128 if kind == 'fractalNoise' else 0
+                expected = [level]*4
+            else:
+                point = kind.startswith('Point')
+                tag = kind.removeprefix('Point')
+                light = '<fePointLight x="32" y="16" z="80"/>' if point else '<feDistantLight azimuth="30" elevation="50"/>'
+                extra = ' specularExponent="8"' if tag == 'Specular' else ''
+                primitive = f'<feTurbulence numOctaves="0"/><fe{tag}Lighting in="SourceGraphic" surfaceScale="-3"{extra}>{light}</fe{tag}Lighting>'
+                if point:
+                    x, y = 64+.5/scale-e, 64+.5/scale-f
+                    u, v = (d*x-c*y)/(a*d-b*c), (a*y-b*x)/(a*d-b*c)
+                    lz = 83/math.sqrt((32-u)**2+(16-v)**2+83**2)
+                else:
+                    lz = math.sin(math.radians(50))
+                level = round(255*((1+lz)/2)**4) if tag == 'Specular' else round(255*lz)
+                expected = [255, 255, 255, level] if tag == 'Specular' else [level, level, level, 255]
+            parent, child = (matrix, '') if index % 2 else ('', matrix)
+            opacity = .862745 if index % 3 == 0 else 1
+            expected[3] = round(expected[3]*opacity)
+            data = (f'<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">'
+                    f'<defs><filter id="f" color-interpolation-filters="sRGB">{primitive}</filter></defs>'
+                    f'<g transform="{parent}"><path d="M-64 -64h256v256h-256z" id="p" fill="red" opacity="{opacity}" '
+                    f'filter="url(#f)" transform="{child}"/></g></svg>').encode()
+            yield f'{index}/{kind}/{scale}', data, expected
