@@ -181,20 +181,28 @@ Their maximum alpha errors are 52.3 levels in Chromium and 1.3 in Inkscape.
 Every export checks a two-level error limit before drawing the unchanged SVG;
 `tst/corpus/INKSCAPE_EDGES` records the version.
 
-`chromium_noise_inkscape` also uses Inkscape's filled-curve rasterization for
-the source geometry in `openclipart/329492`, whose blur and lighting amplify
-the source coverage error. It snapshots the unfiltered path at the reference
-device grid, then evaluates the original filter graph in Chromium with the
-existing noise-phase correction. The computed vector filter region stays
-fixed when the path is replaced by its snapshot. The original corpus SVG
-remains the renderer's input. `tst/source_geometry_reference.py` restricts
-this conversion to one solid path in a translated group covering the page.
-Every export checks 36 cubic-band areas and eight source-grid probes; alpha
-checkerboards verify both `SourceGraphic` and `SourceAlpha` without resampling
-at rounded viewport sizes and two device scales. `tst/source_geometry.py`
-checks unsupported constructions and preserved filter coordinates.
-Set `INKSCAPE` to its executable when running this Chromium backend;
-`tst/corpus/CHROMIUM_NOISE_INKSCAPE` records both renderer versions.
+`skia_noise_inkscape` also uses Inkscape's filled-curve rasterization for
+the source geometry in `openclipart/329492`. Its blur and lighting amplify
+coverage errors, and its `1000*a-500` alpha matrix needs sub-byte precision.
+The unfiltered path is captured at the reference device grid, then stock Skia
+evaluates the filter graph with float32 intermediates. Turbulence is a recorded
+shader: passing a float noise image through `ImageFilters.Image` loses precision.
+The Gaussian kernels use the [SVG 1.1 three-box approximation](https://www.w3.org/TR/SVG11/filters.html#feGaussianBlurElement),
+since Skia's built-in float blur selects a different kernel.
+
+`tst/source_geometry_reference.py` limits the snapshot to one solid path in a
+translated group covering the page, preserving the vector filter region and
+noise coordinates. `tst/float_reference.py` rejects unsupported primitives,
+regions, color spaces and transforms. Every export checks 36 cubic-band areas,
+eight source-grid probes, fractional-alpha precision, blur moments and noise
+sampling. `tst/float_filters.py` additionally checks calculated flat lighting,
+constant displacement and rejected constructions. The original corpus SVG
+remains the renderer's input.
+
+Run this backend with Chromium as `PROGRAM` for measuring vector bounds,
+`INKSCAPE` pointing to its executable, and `skia-python==144.0.post2` and NumPy
+available to the Python interpreter running `tst/canon.py`.
+`tst/corpus/SKIA_NOISE_INKSCAPE` records all three renderer versions.
 
 `chromium_wide_stroke` preserves the covered interiors of oversized
 non-scaling strokes in `inkscape/1a6dcfc5187bf462`. Chromium, Firefox and

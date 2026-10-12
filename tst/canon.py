@@ -26,7 +26,7 @@ import source_geometry_reference
 import edge_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -565,7 +565,7 @@ def chromium_lighting(program, shrinker, jobs, side):
     return chromium_normalized(program, shrinker, jobs, lighting_reference.source, check)
 
 
-def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False, halfturn_lighting=False, inkscape_geometry=False):
+def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False, halfturn_lighting=False, inkscape_geometry=False, float_filters=False):
     import reference
     versions = []
     with tempfile.TemporaryDirectory() as work:
@@ -603,6 +603,19 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
             for x, y in [(9, 9), (12, 12), (15, 15)]:
                 if any(abs(value - 128) > 1 for value in pixels[(y * 32 + x) * 4:(y * 32 + x) * 4 + 4]):
                     sys.exit("Chromium noise sampling differs from the reviewed compensation")
+
+            if float_filters:
+                import float_reference
+                versions.append(float_reference.check())
+                float_cache = {}
+
+                def draw(svg, width, height, scale, png):
+                    with open(svg, 'rb') as handle:
+                        data = handle.read()
+                    key = (data, width*scale, height*scale)
+                    if key not in float_cache:
+                        float_cache[key] = float_reference.render(*key)
+                    encode(png, width*scale, height*scale, float_cache[key])
 
             if inkscape_geometry:
                 ink = os.environ.get('INKSCAPE', 'inkscape')
@@ -788,6 +801,10 @@ def chromium_noise_halfturn(program, shrinker, jobs, side):
 
 def chromium_noise_inkscape(program, shrinker, jobs, side):
     return chromium_noise(program, shrinker, jobs, side, inkscape_geometry=True)
+
+
+def skia_noise_inkscape(program, shrinker, jobs, side):
+    return chromium_noise(program, shrinker, jobs, side, inkscape_geometry=True, float_filters=True)
 
 
 def chromium_noise_local(program, shrinker, jobs, side):
