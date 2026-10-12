@@ -163,6 +163,15 @@ rejecting filters, masks, markers, dashes and non-scaling strokes. Every export
 checks the area of 0.25- and 0.5-unit strokes at five angles and two scales.
 The source SVG stays unchanged; `tst/corpus/INKSCAPE_OUTLINE` records the version.
 
+`inkscape_curves` uses Inkscape rasterization for the filled cubic
+bands in `openclipart/252059`. Exact Bezier integrals give their area independently
+of any renderer.
+The 36 cubic bands and subpixel positions in `tst/curve_reference.py` give total
+absolute area errors of 261 square pixels in Chromium and 10 in Inkscape.
+Isolated bands from the drawing confirm the error at its pattern tile scale;
+the reference keeps the usual `SIDE`. Every export checks these areas before
+rendering the drawing. `tst/corpus/INKSCAPE_CURVES` records the version.
+
 `chromium_morphology` makes the [filter-region input clip](https://www.w3.org/Bugs/Public/show_bug.cgi?id=26432) explicit before a
 single source erosion, using a zero offset. Chromium otherwise lets pixels
 outside that region affect `erode`. A square with analytically known erosion

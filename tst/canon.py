@@ -20,9 +20,10 @@ import stitch_reference
 import lighting_reference
 import stroke_reference
 import halfturn_reference
+import curve_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -185,6 +186,27 @@ def inkscape(program, shrinker, jobs, side):
             if os.path.exists(big) and size(big) == (width * scale, height * scale):
                 shrink(shrinker, big, png, scale)
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip().splitlines()[0]
+
+
+def inkscape_curves(program, shrinker, jobs, side):
+    with tempfile.TemporaryDirectory(prefix='svg-curve-reference-') as work:
+        controls = []
+        expected = []
+        for index, (data, area) in enumerate(curve_reference.probes()):
+            svg, png = os.path.join(work, f'{index}.svg'), os.path.join(work, f'{index}.png')
+            with open(svg, 'w') as handle:
+                handle.write(data)
+            controls.append((svg, png, 192, 128, 1))
+            expected.append(area)
+        inkscape(program, shrinker, controls, 192)
+        for (_, png, _, _, _), area in zip(controls, expected):
+            width, height, pixels = decode(png)
+            if (width, height) != (192, 128):
+                sys.exit('incorrect Inkscape curve control size')
+            actual = sum(pixels[3::4]) / 255
+            if abs(actual - area) > 1.25:
+                sys.exit(f'Inkscape cubic band area {actual} differs from {area}: {png}')
+    return inkscape(program, shrinker, jobs, side)
 
 
 def inkscape_outline(program, shrinker, jobs, side):
