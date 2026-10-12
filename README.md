@@ -272,6 +272,24 @@ executable in `INKSCAPE_LEGACY`. `tst/corpus/SKIA_LEGACY_STENCIL` records both
 Inkscape versions and the float dependencies. `tst/stencil_filters.py` checks
 step boundaries, transparency, composed-source scope and background eligibility.
 
+`skia_emboss_inkscape` expands the 103 instances of the lit path in
+`openclipart/264596` and evaluates each on its own float grid. This retains
+precision through blur, compositing and lighting before alpha amplification,
+including reflected instances. Inkscape supplies source geometry and composes
+the final layers. Fixed user-space ancestor clips are detached for source
+isolation and restored on their original groups; object-bounding-box clips and
+other clip geometry are rejected by `tst/emboss_reference.py`.
+
+Twenty-four export controls combine four axis reflections, three fractional
+clip positions and two scales. They check calculated flat lighting amplified
+from alpha 0.5002 to 0.2, with exact rectangular coverage at the clip edges.
+Chromium fails this edge control: at a boundary of 16.625, alpha 0.2 yields
+12 rather than the calculated 19 byte levels, whereas an ordinary rectangle
+has the correct coverage. Inkscape passes the same controls. Use Chromium as
+`PROGRAM` for geometry measurement and current Inkscape in `INKSCAPE`;
+`tst/corpus/SKIA_EMBOSS_INKSCAPE` records the tools and float dependencies.
+`tst/emboss_filters.py` checks the allowed instances and clipping constructions.
+
 `chromium_wide_stroke` preserves the covered interiors of oversized
 non-scaling strokes in `inkscape/1a6dcfc5187bf462`. Chromium, Firefox and
 Inkscape leave holes inside some of these strokes. SVG describes an
