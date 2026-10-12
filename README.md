@@ -231,6 +231,10 @@ palette and grayscale images, including alpha and the sRGB chunk's precedence.
 against explicit geometric angles for ordinary closes, repeated closes and
 paths that return to their start before closing.
 
+`python3 tst/blend_endpoints.py .build/svg` checks CSS and filter blending
+against calculated colours for gray backdrops and black/white luminosity,
+including partial opacity and chromatic backdrops.
+
 `python3 tst/filter_background.py .build/svg` checks SVG 1.1 background
 scopes, alpha, clipping, inheritance, transformed layers, CSS blending and
 embedded documents against calculated colours.
