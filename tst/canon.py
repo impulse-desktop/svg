@@ -22,9 +22,10 @@ import stroke_reference
 import halfturn_reference
 import curve_reference
 import wide_stroke_reference
+import source_geometry_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -541,7 +542,7 @@ def chromium_lighting(program, shrinker, jobs, side):
     return chromium_normalized(program, shrinker, jobs, lighting_reference.source, check)
 
 
-def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False, halfturn_lighting=False):
+def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False, halfturn_lighting=False, inkscape_geometry=False):
     import reference
     versions = []
     with tempfile.TemporaryDirectory() as work:
@@ -579,6 +580,67 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
             for x, y in [(9, 9), (12, 12), (15, 15)]:
                 if any(abs(value - 128) > 1 for value in pixels[(y * 32 + x) * 4:(y * 32 + x) * 4 + 4]):
                     sys.exit("Chromium noise sampling differs from the reviewed compensation")
+
+            if inkscape_geometry:
+                ink = os.environ.get('INKSCAPE', 'inkscape')
+                versions.append(inkscape_curves(ink, shrinker, [], side))
+                source_cache = {}
+
+                def measure_source(data, name):
+                    return browser.evaluate('''(() => {
+                        const doc = new DOMParser().parseFromString(%s, 'image/svg+xml');
+                        document.body.replaceChildren(document.importNode(doc.documentElement, true));
+                        const b = document.getElementById(%s).getBBox();
+                        return [b.x, b.y, b.width, b.height];
+                    })()''' % (json.dumps(data.decode()), json.dumps(name)))
+
+                def rasterize_source(data, width, height):
+                    key = (data, width, height)
+                    if key not in source_cache:
+                        svg, png = os.path.join(work, 'source.svg'), os.path.join(work, 'source.png')
+                        with open(svg, 'wb') as handle:
+                            handle.write(data)
+                        if os.path.exists(png):
+                            os.remove(png)
+                        inkscape(ink, shrinker, [(svg, png, width, height, 1)], side)
+                        if size(png) != (width, height):
+                            sys.exit('incorrect Inkscape source snapshot size')
+                        with open(png, 'rb') as handle:
+                            source_cache[key] = handle.read()
+                    return source_cache[key]
+
+                def blue_source(data, width, height):
+                    png = os.path.join(work, 'blue.png')
+                    pixels = bytes(v for y in range(height) for x in range(width)
+                                   for v in [0, 0, 255, 64 if (x+y) % 2 else 192])
+                    encode(png, width, height, pixels)
+                    with open(png, 'rb') as handle:
+                        return handle.read()
+
+                # Deliberately give the snapshot a different paint and alpha
+                # from the original path. The alpha checker also detects
+                # resampling or a shifted grid after source replacement.
+                for alpha_only in [False, True]:
+                    end = ('<feColorMatrix in="SourceAlpha"/>' if alpha_only else
+                           '<feComposite in="SourceGraphic" in2="SourceAlpha" operator="in"/>')
+                    for x, y in [(0, 0), (12.3, 7.7)]:
+                        data = (f'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">'
+                                f'<defs><filter id="f" color-interpolation-filters="sRGB">'
+                                f'<feTurbulence numOctaves="0"/>{end}</filter></defs>'
+                                f'<g id="g" transform="translate({-x} {-y})" filter="url(#f)">'
+                                f'<path fill="red" d="M{x} {y}L{x+32} {y}L{x+32} {y+32}L{x} {y+32}Z"/></g></svg>').encode()
+                        for scale in [1, 2]:
+                            probe = os.path.join(work, f'source-{alpha_only}-{x}-{scale}.svg')
+                            with open(probe, 'wb') as handle:
+                                handle.write(source_geometry_reference.source(data, 31, 32, scale, measure_source, blue_source))
+                            draw(probe, 31, 32, scale, large)
+                            width, height, pixels = decode(large)
+                            for offset in range(0, len(pixels), 4):
+                                px, py = (offset//4) % width, (offset//4) // width
+                                alpha = 64 if (px+py) % 2 else 192
+                                expected = [0, 0, 0, alpha] if alpha_only else [0, 0, 255, round(alpha*alpha/255)]
+                                if any(abs(a-b) > 1 for a, b in zip(pixels[offset:offset+4], expected)):
+                                    sys.exit(f'source snapshot input mapping changed at {px},{py}')
 
             if halfturn_lighting:
                 for kind in ['Diffuse', 'Specular']:
@@ -649,7 +711,9 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
                     data = halfturn_reference.source(data)
                 if background_blend:
                     data = noise_reference.background_blend(data)
-                if stitched_noise:
+                if inkscape_geometry:
+                    data = source_geometry_reference.source(data, width, height, scale, measure_source, rasterize_source)
+                elif stitched_noise:
                     def measure(data):
                         script = '''(async () => {
                             const doc = new DOMParser().parseFromString(%s, 'image/svg+xml');
@@ -697,6 +761,10 @@ def chromium_noise_blend(program, shrinker, jobs, side):
 
 def chromium_noise_halfturn(program, shrinker, jobs, side):
     return chromium_noise(program, shrinker, jobs, side, halfturn_lighting=True)
+
+
+def chromium_noise_inkscape(program, shrinker, jobs, side):
+    return chromium_noise(program, shrinker, jobs, side, inkscape_geometry=True)
 
 
 def chromium_noise_local(program, shrinker, jobs, side):

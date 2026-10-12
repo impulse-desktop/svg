@@ -172,6 +172,21 @@ Isolated bands from the drawing confirm the error at its pattern tile scale;
 the reference keeps the usual `SIDE`. Every export checks these areas before
 rendering the drawing. `tst/corpus/INKSCAPE_CURVES` records the version.
 
+`chromium_noise_inkscape` also uses Inkscape's filled-curve rasterization for
+the source geometry in `openclipart/329492`, whose blur and lighting amplify
+the source coverage error. It snapshots the unfiltered path at the reference
+device grid, then evaluates the original filter graph in Chromium with the
+existing noise-phase correction. The computed vector filter region stays
+fixed when the path is replaced by its snapshot. The original corpus SVG
+remains the renderer's input. `tst/source_geometry_reference.py` restricts
+this conversion to one solid path in a translated group covering the page.
+Every export checks 36 cubic-band areas and eight source-grid probes; alpha
+checkerboards verify both `SourceGraphic` and `SourceAlpha` without resampling
+at rounded viewport sizes and two device scales. `tst/source_geometry.py`
+checks unsupported constructions and preserved filter coordinates.
+Set `INKSCAPE` to its executable when running this Chromium backend;
+`tst/corpus/CHROMIUM_NOISE_INKSCAPE` records both renderer versions.
+
 `chromium_wide_stroke` preserves the covered interiors of oversized
 non-scaling strokes in `inkscape/1a6dcfc5187bf462`. Chromium, Firefox and
 Inkscape leave holes inside some of these strokes. SVG describes an
