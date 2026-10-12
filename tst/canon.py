@@ -26,7 +26,7 @@ import source_geometry_reference
 import edge_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "skia_legacy_stencil", "skia_textures", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_edges", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_inkscape", "skia_noise_inkscape", "skia_layers_inkscape", "skia_legacy_stencil", "skia_emboss_inkscape", "skia_textures", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -791,7 +791,7 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
     return "; ".join(versions)
 
 
-def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False):
+def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False, emboss=False):
     import affine_lighting_reference
     import layer_reference
     import reference
@@ -803,6 +803,8 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False):
         import stencil_reference
         component_reference.check()
         legacy_ink = os.environ['INKSCAPE_LEGACY']
+    if emboss:
+        import emboss_reference
     ink = os.environ.get('INKSCAPE', 'inkscape')
     ink_version = inkscape_curves(ink, shrinker, [], side)
     with tempfile.TemporaryDirectory(prefix='svg-layer-reference-') as work:
@@ -862,15 +864,15 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False):
                 with tempfile.NamedTemporaryFile(suffix='.svg', dir=directory) as copy:
                     copy.write(data)
                     copy.flush()
-                    if legacy:
+                    if legacy or emboss:
                         large = os.path.join(work, 'large.png')
                         with inkscape_viewport(copy.name, width, height) as viewport:
-                            subprocess.run([legacy_ink, viewport, '--export-type=png', '--export-filename='+large,
+                            subprocess.run([legacy_ink if legacy else ink, viewport, '--export-type=png', '--export-filename='+large,
                                             f'--export-width={width*scale}', f'--export-height={height*scale}',
                                             '--export-background-opacity=0'], check=True,
                                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                         if size(large) != (width*scale, height*scale):
-                            sys.exit('incorrect legacy layer export size')
+                            sys.exit('incorrect Inkscape layer export size')
                         return large
                     browser.send('Emulation.setDeviceMetricsOverride', {'width': width, 'height': height,
                                  'deviceScaleFactor': scale, 'mobile': False})
@@ -956,6 +958,23 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False):
                             if not close_pixel(actual, expected):
                                 sys.exit('legacy layer composition lost its SVG 1.1 background')
 
+            if emboss:
+                for label, data, (left, top, right, bottom) in emboss_reference.probes():
+                    for scale in [1, 2]:
+                        probe = emboss_reference.source(data, 96*scale, 64*scale, measure, rasterize)
+                        width, _, pixels = decode(draw(probe, 96, 64, scale))
+                        samples = [(x*scale, y*scale) for x, y in [(24,24), (72,24), (12,24), (86,24), (24,12), (72,44)]]
+                        samples += [(math.floor(left*scale), 24*scale), (math.floor(right*scale), 24*scale),
+                                    (24*scale, math.floor(top*scale)), (72*scale, math.floor(bottom*scale))]
+                        for x, y in samples:
+                            coverage = (max(0, min(x+1, right*scale)-max(x, left*scale)) *
+                                        max(0, min(y+1, bottom*scale)-max(y, top*scale)))
+                            expected = [255, 255, 255, round(51*coverage)]
+                            offset = (y*width+x)*4
+                            if not close_pixel(pixels[offset:offset+4], expected):
+                                sys.exit(f'emboss reflection/clip {label}/{scale}/{x},{y}: '
+                                         f'{list(pixels[offset:offset+4])} != {expected}')
+
             cache = {}
             for svg, png, width, height, scale in jobs:
                 with open(svg, 'rb') as handle:
@@ -963,6 +982,7 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False):
                 key = (data, width*scale, height*scale)
                 if key not in cache:
                     cache[key] = (stencil_reference.source(*key, measure, rasterize) if legacy else
+                                  emboss_reference.source(*key, measure, rasterize) if emboss else
                                   layer_reference.source(*key, measure, rasterize, affine=True))
                 large = draw(cache[key], width, height, scale, os.path.dirname(svg))
                 shrink(shrinker, large, png, scale)
@@ -977,6 +997,10 @@ def skia_layers_inkscape(program, shrinker, jobs, side, legacy=False):
 
 def skia_legacy_stencil(program, shrinker, jobs, side):
     return skia_layers_inkscape(program, shrinker, jobs, side, legacy=True)
+
+
+def skia_emboss_inkscape(program, shrinker, jobs, side):
+    return skia_layers_inkscape(program, shrinker, jobs, side, emboss=True)
 
 
 def skia_textures(program, shrinker, jobs, side):

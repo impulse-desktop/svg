@@ -254,7 +254,7 @@ def validate_source(node, root, composed=False):
         raise ValueError('referenced layer target or descendant')
 
 
-def source(data, width, height, measure, rasterize, affine=False, composed=False, select=None):
+def source(data, width, height, measure, rasterize, affine=False, composed=False, select=None, require_noise=True):
     root = ET.fromstring(data)
     if any(n.tag == NS+'style' for n in root.iter()) or any(n is not root and n.tag == NS+'svg' for n in root.iter()):
         raise ValueError('layer snapshots do not resolve stylesheets or nested viewports')
@@ -272,7 +272,8 @@ def source(data, width, height, measure, rasterize, affine=False, composed=False
     for node in root.iter():
         match = re.fullmatch(r'url\(#([^)]*)\)', properties(node).get('filter', ''))
         f = filters.get(match[1]) if match else None
-        if f is not None and any(n.tag == NS+'feTurbulence' for n in f) and (select is None or select(f)):
+        if (f is not None and (not require_noise or any(n.tag == NS+'feTurbulence' for n in f))
+                and (select is None or select(f))):
             if not node.get('id'):
                 raise ValueError('layer target has no identifier')
             targets.append((node, f))
