@@ -16,6 +16,58 @@ def properties(node):
     return node.attrib | {k.strip(): v.strip() for part in node.get('style', '').split(';') if ':' in part for k, v in [part.split(':', 1)]}
 
 
+def background_blend(data):
+    """Replace a single background multiply with CSS for reviewed opaque backdrops.
+
+    With an opaque backdrop, multiplying SourceGraphic by BackgroundImage and
+    then applying opacity gives the same composite as CSS multiply. CANON cases
+    must establish that opacity independently; reject other filter operations,
+    restricted regions and ancestors that would change the CSS backdrop.
+    """
+    root = ET.fromstring(data)
+    if any(n.tag == NS + 'style' for n in root.iter()):
+        raise ValueError('background blend normalization does not resolve stylesheets')
+    parents = {c: n for n in root.iter() for c in n}
+    filters = {}
+    for f in root.iter(NS + 'filter'):
+        if not any(n.get(k) in ['BackgroundImage', 'BackgroundAlpha'] for n in f.iter() for k in ['in', 'in2']):
+            continue
+        if (len(f) != 1 or f[0].tag != NS + 'feBlend' or f[0].get('mode') != 'multiply'
+                or f[0].get('in', 'SourceGraphic') != 'SourceGraphic' or f[0].get('in2') != 'BackgroundImage'
+                or properties(f).get('color-interpolation-filters') != 'sRGB'
+                or any(k in n.attrib for n in [f, f[0]] for k in ['x', 'y', 'width', 'height', 'href', '{http://www.w3.org/1999/xlink}href'])):
+            raise ValueError('background blend normalization requires an unrestricted sRGB source multiply')
+        filters[f.get('id')] = f
+    found = set()
+    for n in root.iter():
+        p = properties(n)
+        match = re.fullmatch(r'url\(#([^)]*)\)', p.get('filter', ''))
+        if not match or match[1] not in filters:
+            continue
+        if n is root or p.get('mix-blend-mode', 'normal') != 'normal':
+            raise ValueError('background blend target already blends or is the root')
+        parent, scope = parents.get(n), None
+        while parent is not None:
+            p = properties(parent)
+            if any(p.get(k, default) != default for k, default in
+                   [('opacity', '1'), ('filter', 'none'), ('mask', 'none'), ('mix-blend-mode', 'normal'), ('isolation', 'auto')]):
+                raise ValueError('background blend requires non-isolating ancestors')
+            if p.get('enable-background', 'accumulate') != 'accumulate':
+                if parent is not root or p['enable-background'] != 'new':
+                    raise ValueError('background blend requires an unrestricted root background')
+                scope = parent
+            parent = parents.get(parent)
+        if scope is not root:
+            raise ValueError('background blend has no root background')
+        n.set('style', n.get('style', '') + ';filter:none;mix-blend-mode:multiply')
+        found.add(match[1])
+    if not found or found != filters.keys():
+        raise ValueError('background blend did not resolve every changed filter')
+    for f in filters.values():
+        parents[f].remove(f)
+    return ET.tostring(root)
+
+
 def source(data):
     root = ET.fromstring(data)
     for n in root.iter(NS + 'style'):
@@ -79,4 +131,3 @@ def source(data):
     if not found:
         raise ValueError('no rendered filter target')
     return ET.tostring(root)
-
