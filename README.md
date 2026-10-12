@@ -255,16 +255,28 @@ the conversion to the reviewed path commands and filter operations. A flat
 surface's calculated specular intensity guards each export at two scales;
 the original and converted corpus drawing agree within one native channel level.
 
-`chromium_noise_halfturn` also compensates distant lighting under a uniform
-negative scale on both axes. Skia reverses the lighting Z there; negating
-`surfaceScale` and the distant light's elevation restores the intended result.
-This is a browser-specific correction on temporary copies. The original SVG
-remains the input to our renderer. `tst/halfturn_reference.py` expands the reviewed
-path/group instances to correct their filters individually, leaving other
-transforms alone. In `openclipart/258054`, expansion alone preserves the browser
-references byte for byte. Calculated diffuse and specular lighting of flat and
-sloped planes guards every export at two scales; noise sampling retains its
-existing lattice guard.
+`skia_textures` preserves float precision through the repeated noise filters in
+`openclipart/258054`. `tst/texture_reference.py` expands the path/group instances
+and evaluates each texture before rotating its final PNG. The evaluated window
+covers the viewport and the ancestor clips, with a halo derived from every
+displacement, convolution and lighting neighborhood. Only solid rectangles,
+uniform rotations and user-space clips are accepted. Rectangle coverage is its
+exact area in each local pixel; the source SVG remains unchanged.
+
+Linear component transfers become equivalent color matrices. The stock Skia
+float graph supports ten noise octaves and convolution bias with preserved
+alpha. This avoids both byte rounding in the browser's filter intermediates
+and lighting transforms applied to a rotated filter frame. The export with
+analytic rectangle coverage matches the Inkscape-source prototype pixel for
+pixel; doubling its halo changes the final image by less than 0.001 byte level
+on average.
+
+Every export checks rectangle areas, transfer equations, convolution bias,
+noise lattice points, and diffuse/specular lighting and clipping at twelve
+rotations and two scales. `tst/texture_filters.py` checks the accepted geometry,
+neighborhood bounds and rejected constructions. Use Chromium as `PROGRAM` and
+the Skia Python dependencies described above; `tst/corpus/SKIA_TEXTURES` records
+their versions.
 
 `chromium_noise` compensates the extra half-unit offset in Skia's
 [turbulence sampler](https://github.com/google/skia/blob/main/src/opts/SkRasterPipeline_opts.h).

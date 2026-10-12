@@ -60,7 +60,7 @@ def main():
         ('path', 'style', 'transform:scale(2)'), ('path', 'style', 'opacity:1!important'),
         ('filter', 'color-interpolation-filters', 'linearRGB'), ('filter', 'primitiveUnits', 'objectBoundingBox'),
         ('filter', 'filterUnits', 'userSpaceOnUse'), ('filter', 'width', '-1'),
-        ('feTurbulence', 'stitchTiles', 'stitch'), ('feTurbulence', 'numOctaves', '9'),
+        ('feTurbulence', 'stitchTiles', 'stitch'), ('feTurbulence', 'numOctaves', '11'),
         ('feTurbulence', 'baseFrequency', 'nan'), ('feTurbulence', 'x', '0'),
     ]
     for tag, key, value in bad:

@@ -42,7 +42,8 @@ def matrix(value):
     return result
 
 
-def source(data):
+def expand(data):
+    """Expand reviewed path/group instances without changing their lighting."""
     root = ET.fromstring(data)
     for node in root.iter():
         if node.tag in [NS + 'style', NS + 'image', NS + 'text', NS + 'symbol'] or (node is not root and node.tag == NS + 'svg'):
@@ -72,6 +73,12 @@ def source(data):
         parent.remove(node)
         parent.insert(index, replacement)
 
+    return ET.tostring(root)
+
+
+def source(data):
+    root = ET.fromstring(expand(data))
+    ids = {n.get('id'): n for n in root.iter() if n.get('id')}
     filters = {f.get('id'): f for f in root.iter(NS + 'filter')}
     defs = root.find(NS + 'defs')
     if defs is None:
