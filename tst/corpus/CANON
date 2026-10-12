@@ -513,3 +513,4 @@ openclipart/213198: chromium_stitch: stock Batik stitched noise sampled at pixel
 openclipart/340314: inkscape@4096: Chromium loses 7% of the exact stroked area of a 1.08-pixel curved line; Inkscape preserves it, and the drawing converges between 4096 and 8192 pixels
 w3c/svg__filters-morph-01-f: chromium_morphology: Chromium erodes unclipped SourceGraphic; an identity offset restores the filter-region input clip, verified against exact rectangle bounds and stock Batik, with native pixels unchanged
 blink/W3C-SVG-1.1__filters-morph-01-f: chromium_morphology: Chromium erodes unclipped SourceGraphic; an identity offset restores the filter-region input clip, verified against exact rectangle bounds and stock Batik, with native pixels unchanged
+openclipart/174262: inkscape_outline: Chromium loses area on thin diagonal strokes; Inkscape stroke-to-path preserves the hatch area, with straight-stroke area controls at five angles and two scales

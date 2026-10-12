@@ -153,6 +153,16 @@ background as an explicit SVG snapshot. These restricted conversions are
 for the reviewed cases in `CANON`; they reject unsupported constructions
 and run on temporary copies, leaving the corpus SVGs intact.
 
+`inkscape_outline` converts solid path strokes into filled outlines with
+Inkscape before rasterizing them. This avoids the angle-dependent area loss
+of Chromium's [thin-stroke hairline shortcut](https://github.com/google/skia/blob/main/src/core/SkDraw.cpp).
+In `openclipart/174262`, an isolated hatch has area about 288 square pixels:
+Chromium draws 205, while our renderer and the outlined reference draw 286.
+`tst/stroke_reference.py` restricts conversion to solid paths and groups,
+rejecting filters, masks, markers, dashes and non-scaling strokes. Every export
+checks the area of 0.25- and 0.5-unit strokes at five angles and two scales.
+The source SVG stays unchanged; `tst/corpus/INKSCAPE_OUTLINE` records the version.
+
 `chromium_morphology` makes the [filter-region input clip](https://www.w3.org/Bugs/Public/show_bug.cgi?id=26432) explicit before a
 single source erosion, using a zero offset. Chromium otherwise lets pixels
 outside that region affect `erode`. A square with analytically known erosion

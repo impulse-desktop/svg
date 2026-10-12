@@ -18,9 +18,10 @@ import noise_reference
 import local_filter_reference
 import stitch_reference
 import lighting_reference
+import stroke_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -183,6 +184,46 @@ def inkscape(program, shrinker, jobs, side):
             if os.path.exists(big) and size(big) == (width * scale, height * scale):
                 shrink(shrinker, big, png, scale)
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip().splitlines()[0]
+
+
+def inkscape_outline(program, shrinker, jobs, side):
+    with tempfile.TemporaryDirectory(prefix='svg-outline-reference-') as work:
+        sources = {}
+        outlined = []
+        for svg, png, width, height, scale in jobs:
+            if svg not in sources:
+                target = os.path.join(work, f'case{len(sources)}.svg')
+                with open(svg, 'rb') as handle:
+                    data = stroke_reference.source(handle.read(), program)
+                with open(target, 'wb') as handle:
+                    handle.write(data)
+                sources[svg] = target
+            outlined.append((sources[svg], png, width, height, scale))
+
+        # A straight stroke with butt caps has area length * width, at every
+        # angle. Hairline shortcuts in rasterizers need not preserve that area.
+        controls = []
+        for thickness in [0.25, 0.5]:
+            for angle in [0, 30, 45, 60, 90]:
+                data = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+<path d="M24 64H104" fill="none" stroke="black" stroke-width="{thickness}"
+      transform="rotate({angle} 64 64)"/></svg>'''.encode()
+                target = os.path.join(work, f'control{thickness}-{angle}.svg')
+                with open(target, 'wb') as handle:
+                    handle.write(stroke_reference.source(data, program))
+                for scale in [1, 2]:
+                    png = target + f'.{scale}.png'
+                    outlined.append((target, png, 128, 128, scale))
+                    controls.append((png, 80 * thickness))
+        version = inkscape(program, shrinker, outlined, side)
+        for png, expected in controls:
+            _, _, rgba = decode(png)
+            area = sum(rgba[3::4]) / 255
+            # Allow raster coverage/8-bit rounding; the unoutlined Chromium
+            # diagonal loses over five square pixels even at width 0.25.
+            if abs(area - expected) > 1:
+                sys.exit(f'Inkscape stroke outline area {area} differs from {expected}: {png}')
+    return version
 
 
 def inkscape_legacy(program, shrinker, jobs, side):
