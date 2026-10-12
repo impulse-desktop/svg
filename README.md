@@ -260,6 +260,10 @@ paths that return to their start before closing.
 against calculated colours for gray backdrops and black/white luminosity,
 including partial opacity and chromatic backdrops.
 
+`python3 tst/fill_winding.py .build/svg` checks exact pixel coverage of adjacent,
+disjoint, overlapping and nested rectangles with both fill rules and contour
+directions, including fractions of a pixel along either axis at two scales.
+
 `python3 tst/filter_background.py .build/svg` checks SVG 1.1 background
 scopes, alpha, clipping, inheritance, transformed layers, CSS blending and
 embedded documents against calculated colours.

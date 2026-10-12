@@ -10739,40 +10739,8 @@ namespace {
                 continue;
             }
 
-            bool overlap = false;
-
-            for (int sample = 0; sample < 4 && !overlap; sample++) {
-                int winding = 0;
-
-                scanCrossings(edges.data(), active, top + (sample + 0.5f) / 4.f, crossings);
-
-                for (const Crossing& c : crossings) {
-                    winding += c.dir;
-
-                    if (winding > 1 || winding < -1) {
-                        overlap = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!overlap) {
-                for (u32 index : active) {
-                    const BandEdge& e = edges[index];
-                    float a = maxf(e.y0, top);
-                    float b = minf(e.y1, bottom);
-
-                    if (b > a) {
-                        float xa = bandX(e, a);
-                        float xb = bandX(e, b);
-
-                        addEdge(acc, stride, w, h, e.dir > 0 ? Edge{xa, a, xb, b} : Edge{xb, b, xa, a});
-                    }
-                }
-
-                continue;
-            }
-
+            // Resolve winding before integrating coverage: disjoint contours
+            // with opposite directions can share a pixel and cancel signed area.
             cuts.clear();
             cuts.pushBack(top);
             cuts.pushBack(bottom);
@@ -10789,15 +10757,22 @@ namespace {
                 }
             }
 
-            if (cuts.length() * active.length() <= 4096) {
-                quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
-                    return p < q;
-                });
+            quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
+                return p < q;
+            });
 
-                for (size_t k = 0; k + 1 < cuts.length(); k++) {
-                    if (cuts[k + 1] > cuts[k]) {
-                        unionBand(acc, stride, w, h, edges.data(), active, order, keys, cuts[k], cuts[k + 1], rule, 0);
-                    }
+            size_t cutCount = 0;
+
+            for (float cut : cuts) {
+                if (cutCount == 0 || cut > cuts[cutCount - 1]) {
+                    cuts.mutData()[cutCount++] = cut;
+                }
+            }
+
+            // Repeated boundaries of aligned dashes do not add integration bands.
+            if (cutCount * active.length() <= 4096) {
+                for (size_t k = 0; k + 1 < cutCount; k++) {
+                    unionBand(acc, stride, w, h, edges.data(), active, order, keys, cuts[k], cuts[k + 1], rule, 0);
                 }
 
                 continue;
