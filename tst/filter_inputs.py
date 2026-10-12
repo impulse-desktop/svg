@@ -71,6 +71,22 @@ def periodic_drawing(kind, octaves, offset):
 </svg>'''
 
 
+def stitched_drawing(kind, octaves, x, y):
+    # Moving X by 2048 units or Y by 4096 advances 256 or 768 cells.
+    # Both are whole periods of the permutation.
+    # Stitching must move its wrap boundary with that tile, including at
+    # negative origins; the generated pixels must remain identical.
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                   viewBox="{x} {y} 32 32">
+  <filter id="f" filterUnits="userSpaceOnUse" x="{x}" y="{y}"
+          width="32" height="32" color-interpolation-filters="sRGB">
+    <feTurbulence baseFrequency=".125 .1875" numOctaves="{octaves}"
+                  type="{kind}" seed="7" stitchTiles="stitch"/>
+  </filter>
+  <rect x="{x}" y="{y}" width="32" height="32" filter="url(#f)"/>
+</svg>'''
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit("usage: tst/filter_inputs.py SVG")
@@ -105,6 +121,17 @@ def main():
                     else:
                         if pixels != original:
                             failures.append(f"periodicity/{kind}/{octaves}/{offset}: translated noise changed")
+                        checked += 1
+                original = None
+                for x, y in [(0, 0), (2048, 0), (-2048, 0), (0, 4096), (0, -4096), (2048, -4096)]:
+                    source.write_text(stitched_drawing(kind, octaves, x, y))
+                    subprocess.run([program, "render", str(source), str(output), "32", "32", "32"], check=True, timeout=30)
+                    pixels = canon.decode(output)[2]
+                    if original is None:
+                        original = pixels
+                    else:
+                        if pixels != original:
+                            failures.append(f"stitch/{kind}/{octaves}/{x}/{y}: translated tile changed")
                         checked += 1
     if failures:
         sys.exit("\n".join(failures))

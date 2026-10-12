@@ -12693,7 +12693,7 @@ namespace {
         }
     }
 
-    static void turbulenceAt(const Turbulence& tb, double px, double py, double fx, double fy, int octaves, bool fractal, bool stitching, double tileW, double tileH, float* out) {
+    static void turbulenceAt(const Turbulence& tb, double px, double py, double fx, double fy, int octaves, bool fractal, bool stitching, double tileX, double tileY, double tileW, double tileH, float* out) {
         Stitch stitch;
         Stitch* active = nullptr;
 
@@ -12714,9 +12714,9 @@ namespace {
 
             active = &stitch;
             stitch.width = (int)(tileW * fx + 0.5);
-            stitch.wrapX = 0x1000 + stitch.width;
+            stitch.wrapX = (int)(tileX * fx + 0x1000 + stitch.width);
             stitch.height = (int)(tileH * fy + 0.5);
-            stitch.wrapY = 0x1000 + stitch.height;
+            stitch.wrapY = (int)(tileY * fy + 0x1000 + stitch.height);
         }
 
         double sum[4] = {};
@@ -12794,7 +12794,7 @@ namespace {
                 Point point = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
                 float c[4];
 
-                turbulenceAt(*tb, point.x, point.y, fx, fy, octaves, fractal, stitching, tileW, tileH, c);
+                turbulenceAt(*tb, point.x, point.y, fx, fy, octaves, fractal, stitching, p.user.x0, p.user.y0, tileW, tileH, c);
                 storePremultiplied(out + ((size_t)y * run.width + x) * 4, c);
             }
         }
