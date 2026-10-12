@@ -2,10 +2,14 @@
 import base64
 import json
 import os
+import select
+import shutil
 import struct
 import subprocess
 import sys
+import tempfile
 import threading
+import time
 
 SIDES = [("1x", 256), ("2x", 512)]
 TIMEOUT = 20
@@ -68,7 +72,8 @@ class Browser:
         self.next_id = 0
         self.session = None
 
-    def send(self, method, params=None, session=True):
+    def send(self, method, params=None, session=True, timeout=60):
+        self.deadline = time.monotonic() + timeout
         self.next_id += 1
         message = {"id": self.next_id, "method": method, "params": params or {}}
         if session and self.session:
@@ -83,6 +88,9 @@ class Browser:
 
     def receive(self):
         while b"\0" not in self.buffer:
+            remaining = self.deadline - time.monotonic()
+            if remaining <= 0 or not select.select([self.inp], [], [], remaining)[0]:
+                raise RuntimeError("chromium response timed out")
             chunk = self.inp.read(1 << 20)
             if not chunk:
                 raise RuntimeError("chromium closed the pipe")
@@ -110,7 +118,7 @@ class Browser:
 
     def close(self):
         try:
-            self.send("Browser.close", session=False)
+            self.send("Browser.close", session=False, timeout=2)
         except Exception:
             pass
         self.process.kill()
@@ -182,8 +190,9 @@ def main():
     chromium, program, corpus, jobs = sys.argv[1], os.path.abspath(sys.argv[2]), sys.argv[3], int(sys.argv[4])
     with open(os.path.join(corpus, "SIDE")) as handle:
         side = int(handle.read())
-    scratch = os.path.join("/tmp", f"svg-reference-{os.getpid()}")
-    os.makedirs(scratch, exist_ok=True)
+    # A chroot PID namespace can run every job as PID 1, sharing /tmp with
+    # earlier jobs. Give each browser profile its own directory.
+    scratch = tempfile.mkdtemp(prefix="svg-reference-")
     harness = os.path.join(scratch, "harness.html")
     with open(harness, "w") as handle:
         handle.write(HARNESS)
@@ -202,6 +211,7 @@ def main():
         thread.start()
     for thread in threads:
         thread.join()
+    shutil.rmtree(scratch)
     failed = sorted((svg, error) for svg, error in results if error)
     for svg, error in failed:
         print(f"{svg}: {error}")

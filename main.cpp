@@ -8,6 +8,7 @@
 #include <std/mem/obj_pool.h>
 
 #include <png.h>
+#include <math.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -74,6 +75,77 @@ namespace {
         u8* at(u64 offset, u64 length);
         SvgImage* decode(ObjPool& pool, StringView bytes);
     };
+
+    static u32 pngNumber(const u8* p) {
+        return (u32)p[0] << 24 | (u32)p[1] << 16 | (u32)p[2] << 8 | p[3];
+    }
+
+    static bool pngChecksum(const u8* chunk, u32 length) {
+        u32 crc = ~0u;
+
+        for (u32 k = 4; k < length + 8; k++) {
+            crc ^= chunk[k];
+
+            for (int bit = 0; bit < 8; bit++) {
+                crc = (crc >> 1) ^ (0xedb88320u & (0u - (crc & 1)));
+            }
+        }
+
+        return ~crc == pngNumber(chunk + length + 8);
+    }
+
+    static size_t pngGamma(StringView bytes, double& gamma) {
+        static const u8 signature[] = {137, 80, 78, 71, 13, 10, 26, 10};
+        static const u32 srgbChromaticities[] = {31270, 32900, 64000, 33000, 30000, 60000, 15000, 6000};
+
+        if (bytes.length() < 33 || memcmp(bytes.data(), signature, sizeof(signature)) || pngNumber(bytes.data() + 8) != 13 || memcmp(bytes.data() + 12, "IHDR", 4) || bytes[24] > 8) {
+            return 0;
+        }
+
+        size_t found = 0;
+
+        for (size_t offset = 8; bytes.length() - offset >= 12;) {
+            const u8* chunk = bytes.data() + offset;
+            u32 length = pngNumber(chunk);
+
+            if (length > bytes.length() - offset - 12) {
+                return 0;
+            }
+
+            if (!memcmp(chunk + 4, "iCCP", 4) || !memcmp(chunk + 4, "sRGB", 4) || !memcmp(chunk + 4, "cICP", 4)) {
+                return 0;
+            }
+
+            if (!memcmp(chunk + 4, "cHRM", 4)) {
+                if (length != 32 || !pngChecksum(chunk, length)) {
+                    return 0;
+                }
+
+                for (int k = 0; k < 8; k++) {
+                    if (pngNumber(chunk + 8 + k * 4) != srgbChromaticities[k]) {
+                        return 0;
+                    }
+                }
+            }
+
+            if (!memcmp(chunk + 4, "gAMA", 4)) {
+                if (found || length != 4 || !pngNumber(chunk + 8) || !pngChecksum(chunk, length)) {
+                    return 0;
+                }
+
+                gamma = pngNumber(chunk + 8) / 100000.0;
+                found = offset + 8;
+            }
+
+            if (!memcmp(chunk + 4, "IDAT", 4)) {
+                return found;
+            }
+
+            offset += (size_t)length + 12;
+        }
+
+        return 0;
+    }
 }
 
 DriverError::DriverError(StringView message)
@@ -144,6 +216,17 @@ SvgImage* Decoder::decode(ObjPool& pool, StringView bytes) {
 
     memcpy(at(in, length), bytes.data(), length);
 
+    double gamma = 0.0;
+    size_t gammaOffset = pngGamma(bytes, gamma);
+
+    if (gammaOffset) {
+        // The module treats non-linear PNG samples as sRGB and linear ones as
+        // RGB. Decode the stored samples unchanged, then apply the actual curve.
+        static const u8 neutralGamma[] = {0, 0, 177, 143, 11, 252, 97, 5};
+
+        memcpy(at((u64)in + gammaOffset, sizeof(neutralGamma)), neutralGamma, sizeof(neutralGamma));
+    }
+
     u32 res = w2c_decode_decode(&wasm, in, length, 0, 0);
 
     if (!res) {
@@ -163,6 +246,25 @@ SvgImage* Decoder::decode(ObjPool& pool, StringView bytes) {
     DecodedImage* out = pool.make<DecodedImage>(header[0], header[1]);
 
     memcpy(out->rgba.mutData(), at((u64)res + sizeof(header), pixels * 4), pixels * 4);
+
+    if (gammaOffset) {
+        u8 table[256];
+
+        for (int k = 0; k < 256; k++) {
+            double linear = pow(k / 255.0, 1.0 / gamma);
+            double srgb = linear <= 0.0031308 ? 12.92 * linear : 1.055 * pow(linear, 1.0 / 2.4) - 0.055;
+
+            table[k] = (u8)(srgb * 255.0 + 0.5);
+        }
+
+        u8* rgba = (u8*)out->rgba.mutData();
+
+        for (u64 k = 0; k < pixels * 4; k += 4) {
+            for (int c = 0; c < 3; c++) {
+                rgba[k + c] = table[rgba[k + c]];
+            }
+        }
+    }
 
     return out;
 }

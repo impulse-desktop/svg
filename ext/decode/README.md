@@ -26,3 +26,13 @@ The test driver decodes the raster images of a document through it:
 `build.py` turns it into C with wasm2c, and the C of a module with v128
 includes SIMDe's `<simde/wasm/simd128.h>`. The renderer itself does not
 use it: a program that embeds the renderer brings its own `SvgDecoder`.
+
+The test driver corrects one module limitation: PNG `gAMA` without an sRGB
+or ICC profile is a power-law transfer function, not the sRGB curve. For
+images of at most 8 bits per sample with sRGB primaries (explicit or assumed),
+the driver decodes the stored samples unchanged and converts them to sRGB
+using the declared gamma.
+Alpha is unchanged. Higher bit depths, other primaries and explicit profiles
+remain delegated to the module. See the
+[PNG specification](https://www.w3.org/TR/png-3/#11gAMA) and
+[sRGB transfer function](https://www.w3.org/Graphics/Color/srgb).
