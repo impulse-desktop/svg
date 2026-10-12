@@ -89,7 +89,7 @@ def main():
             checked += 1
         else:
             raise AssertionError('accepted unsupported lighting material or source')
-    print(f'checked {checked} affine graph and scope cases, plus 72 lighting controls')
+    print(f'checked {checked} affine graph and scope cases, plus 72 white and 540 colored lighting controls')
 
 
 if __name__ == '__main__':

@@ -257,13 +257,22 @@ other geometry are rejected. Thirty-six additional browser exports check
 overlapping colors, even-odd holes, group opacity, shifted viewports and integer
 noise lattices; `tst/group_filters.py` checks the restricted input scope.
 
-`skia_legacy_stencil` evaluates the noisy blue emblem in
+`skia_legacy_stencil` evaluates the noisy blue emblem and four rough-paper groups in
 `inkscape/5512d1d4e1311b22` on a local float grid. Its discrete alpha transfer has
 a threshold at `2/7`; `tst/component_reference.py` applies the
 [SVG step intervals](https://www.w3.org/TR/SVG11/filters.html#feComponentTransferElement)
 without a byte lookup table, checking adjacent float values against rational
 boundaries. `tst/stencil_reference.py` resolves unused class styles and opaque
 one-stop swatches, and permits composed groups of paths and circles.
+`tst/paper_reference.py` also converts plain source rectangles to paths and
+retains the paper groups' original user-space clips and ancestor opacity.
+Background-blend regions are measured before replacing their vector children;
+each ancestor gets its own explicit region. Before filtering, the exporter
+requires an identical full-document export with those regions fixed. This
+check rejects Inkscape 1.2.2's changed background extent on translucent
+backdrops. Eighty export controls check flat colored lighting against a
+calculated vector replacement, or require rejection of a changed background.
+`tst/paper_filters.py` checks the restricted geometry and context handling.
 
 Inkscape renders only the source geometry at four times the filter grid's
 resolution, then reduces it back before filtering. Six exact annulus-area
@@ -287,8 +296,10 @@ flat surface with alpha 0.5002 can produce 0.49954, changing a subsequent
 `1000*a-500` from 0.2 to zero. Forty-five calculated controls combine five
 exponents, three light elevations and three sample grids to catch this loss.
 The shared graph uses the SVG lighting equations with separate axis spacing;
-its 72 planar controls also cover boundaries, negative surface heights and
-point lights. Full-page snapshots retain their existing noise frame and compose
+its 72 white-light controls also cover boundaries, negative surface heights and
+point lights. Another 540 colored-plane controls check per-channel saturation
+and specular alpha; light color is multiplied before each channel is clamped.
+Full-page snapshots retain their existing noise frame and compose
 the filtered grid back into a transparent viewport, including smaller regions.
 
 `skia_emboss_inkscape` expands the 103 instances of the lit path in
