@@ -21,9 +21,10 @@ import lighting_reference
 import stroke_reference
 import halfturn_reference
 import curve_reference
+import wide_stroke_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_curves", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_noise", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
+RENDERERS = ["inkscape", "inkscape_curves", "inkscape_outline", "inkscape_legacy", "inkscape_softlight", "inkscape_noise", "batik", "resvg", "firefox", "firefox_svg11", "chromium_morphology", "chromium_lighting", "chromium_wide_stroke", "chromium_noise", "chromium_noise_halfturn", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -456,7 +457,7 @@ def morphology_source(data):
     return ET.tostring(root)
 
 
-def chromium_normalized(program, shrinker, jobs, normalize, check):
+def chromium_normalized(program, shrinker, jobs, normalize, check, viewport=False):
     import reference
     with tempfile.TemporaryDirectory() as work:
         page = os.path.join(work, "harness.html")
@@ -469,7 +470,7 @@ def chromium_normalized(program, shrinker, jobs, normalize, check):
 
             def draw(data, width, height, scale, directory=work):
                 with tempfile.NamedTemporaryFile(suffix=".svg", dir=directory) as source:
-                    source.write(normalize(data))
+                    source.write(normalize(data, width, height, scale) if viewport else normalize(data))
                     source.flush()
                     browser.send("Emulation.setDeviceMetricsOverride", {"width": width, "height": height,
                                  "deviceScaleFactor": scale, "mobile": False})
@@ -492,6 +493,18 @@ def chromium_normalized(program, shrinker, jobs, normalize, check):
         finally:
             browser.close()
     return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip()
+
+
+def chromium_wide_stroke(program, shrinker, jobs, side):
+    def check(draw):
+        for index, (data, width, height, scale) in enumerate(wide_stroke_reference.probes()):
+            w, h, pixels = decode(draw(data, width, height, scale))
+            # These centers lie strictly inside the analytically covered fill,
+            # even when the original shape masks its stroke to the interior.
+            if any(tuple(pixels[(y*w+x)*4:(y*w+x)*4+4]) != (255, 0, 0, 255)
+                   for y in range(h//2 - 1, h//2 + 1) for x in range(w//2 - 1, w//2 + 1)):
+                sys.exit(f"Chromium wide-stroke normalization left an uncovered center in probe {index}")
+    return chromium_normalized(program, shrinker, jobs, wide_stroke_reference.source, check, viewport=True)
 
 
 def chromium_morphology(program, shrinker, jobs, side):

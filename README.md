@@ -172,6 +172,22 @@ Isolated bands from the drawing confirm the error at its pattern tile scale;
 the reference keeps the usual `SIDE`. Every export checks these areas before
 rendering the drawing. `tst/corpus/INKSCAPE_CURVES` records the version.
 
+`chromium_wide_stroke` preserves the covered interiors of oversized
+non-scaling strokes in `inkscape/1a6dcfc5187bf462`. Chromium, Firefox and
+Inkscape leave holes inside some of these strokes. SVG describes an
+[ideal stroke](https://www.w3.org/TR/SVG2/painting.html#StrokeShape), while
+allowing approximations around tight curves. For the reviewed convex shapes,
+an opaque solid stroke wider than their bounding box's smaller dimension
+covers the entire fill. Giving that hidden fill the stroke's color preserves
+the ideal result and avoids the holes. The conversion uses each reference's
+CSS viewport and requires a stroke at least four raster pixels wide.
+`tst/wide_stroke_reference.py` restricts the geometry and paints; temporary
+copies preserve the original masks and source SVG. Every export checks 98
+known covered centers, including cubic curves, masks and rotated reflections.
+`tst/wide_strokes.py SVG` checks rejected inputs and unchanged native pixels;
+the full drawing also stays byte-identical at both reference sizes.
+`tst/corpus/CHROMIUM_WIDE_STROKE` records the browser version.
+
 `chromium_morphology` makes the [filter-region input clip](https://www.w3.org/Bugs/Public/show_bug.cgi?id=26432) explicit before a
 single source erosion, using a zero offset. Chromium otherwise lets pixels
 outside that region affect `erode`. A square with analytically known erosion
