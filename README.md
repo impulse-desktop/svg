@@ -204,6 +204,26 @@ Run this backend with Chromium as `PROGRAM` for measuring vector bounds,
 available to the Python interpreter running `tst/canon.py`.
 `tst/corpus/SKIA_NOISE_INKSCAPE` records all three renderer versions.
 
+`skia_layers_inkscape` applies the same source-coverage and float-precision
+checks to three uniformly scaled paths in `inkscape/d637421a62aec41d`.
+`tst/layer_reference.py` freezes each vector filter region on the device grid,
+captures its unfiltered geometry with Inkscape, and evaluates one Skia primitive
+at a time. Binary inputs occupy one float source image and are addressed with
+offsets. This avoids the Python binding's
+[serialization of filter inputs](https://github.com/kyamagu/skia-python/blob/main/src/skia/ImageFilter.cpp),
+which rounds embedded images to bytes and duplicates branches of long graphs.
+The final layer snapshots retain the original transforms and opacity. Rotated,
+nonuniform and degenerate targets keep their existing browser rendering;
+Skia's nonuniform lighting fails the calculated planar-surface control.
+
+Every export checks 36 cubic areas, 30 straight-stroke areas, eight source-grid
+probes, fractional-alpha precision, binary input routing, noise phase,
+convolution orientation and lighting with negative surface heights.
+`tst/layer_filters.py` also checks all displacement channel pairs and rejected
+snapshot constructions. The source SVG and native renderer stay unchanged.
+Use Chromium as `PROGRAM`, `INKSCAPE` and the Python dependencies described
+above; `tst/corpus/SKIA_LAYERS_INKSCAPE` records their versions.
+
 `chromium_wide_stroke` preserves the covered interiors of oversized
 non-scaling strokes in `inkscape/1a6dcfc5187bf462`. Chromium, Firefox and
 Inkscape leave holes inside some of these strokes. SVG describes an
