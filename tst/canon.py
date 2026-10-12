@@ -15,9 +15,10 @@ import zipfile
 import svg11_reference
 import noise_reference
 import local_filter_reference
+import stitch_reference
 
 LABELS = ["1x", "2x"]
-RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "ours"]
+RENDERERS = ["inkscape", "inkscape_legacy", "inkscape_softlight", "batik", "resvg", "firefox", "firefox_svg11", "chromium_noise", "chromium_noise_blend", "chromium_noise_local", "chromium_stitch", "ours"]
 ROOT = re.compile(rb"<(?:[\w.-]+:)?svg\b[^>]*>", re.S)
 UNITS = {b"": 1.0, b"px": 1.0, b"pt": 4 / 3, b"pc": 16.0, b"mm": 96 / 25.4, b"cm": 96 / 2.54, b"in": 96.0, b"em": 16.0, b"ex": 8.0, b"q": 96 / 101.6}
 
@@ -341,8 +342,9 @@ def firefox_svg11(program, shrinker, jobs, side):
         return firefox(program, shrinker, copies, side)
 
 
-def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False):
+def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_filters=False, stitched_noise=False):
     import reference
+    versions = []
     with tempfile.TemporaryDirectory() as work:
         page = os.path.join(work, "harness.html")
         with open(page, "w") as handle:
@@ -379,12 +381,65 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
                 if any(abs(value - 128) > 1 for value in pixels[(y * 32 + x) * 4:(y * 32 + x) * 4 + 4]):
                     sys.exit("Chromium noise sampling differs from the reviewed compensation")
 
+            if stitched_noise:
+                jar_path = os.environ.get("BATIK")
+                if not jar_path:
+                    sys.exit("chromium_stitch requires BATIK to name the stock rasterizer jar")
+                versions.append(batik(jar_path, shrinker, [], side))
+
+                def rasterize_stitch(data, rw, rh):
+                    source = os.path.join(work, "noise.svg")
+                    png = os.path.join(work, "noise.png")
+                    with open(source, "wb") as handle:
+                        handle.write(data)
+                    if os.path.exists(png):
+                        os.remove(png)
+                    subprocess.run([os.environ.get("JAVA", "java"), "-Xmx4g", "-Djava.awt.headless=true",
+                                    "-jar", jar_path, "-w", str(rw), "-h", str(rh), "-d", png, source],
+                                   check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    if size(png) != (rw, rh):
+                        sys.exit("incorrect Batik noise export size")
+                    with open(png, "rb") as handle:
+                        return handle.read()
+
+                primitive = ET.Element(stitch_reference.NS + "feTurbulence", {
+                    "type": "fractalNoise", "baseFrequency": "1", "seed": "7", "stitchTiles": "stitch"})
+                probe_data = stitch_reference.noise_svg(primitive, (-.5, -.5, 32, 32), (-.5, -.5, 32, 32), 1, "sRGB")
+                with open(large, "wb") as handle:
+                    handle.write(rasterize_stitch(probe_data, 32, 32))
+                _, _, pixels = decode(large)
+                for x, y in [(9, 9), (12, 12), (15, 15)]:
+                    # Batik truncates to bytes and premultiplies them, losing
+                    # up to two levels on this exact half-alpha lattice value.
+                    if any(abs(value - 128) > 2 for value in pixels[(y*32+x)*4:(y*32+x)*4+4]):
+                        sys.exit("Batik noise sampling differs from the reviewed compensation")
+
             for svg, png, width, height, scale in jobs:
                 with open(svg, "rb") as handle:
                     data = handle.read()
                 if background_blend:
                     data = noise_reference.background_blend(data)
-                if local_filters:
+                if stitched_noise:
+                    def measure(data):
+                        script = '''(async () => {
+                            const doc = new DOMParser().parseFromString(%s, 'image/svg+xml');
+                            document.body.replaceChildren(document.importNode(doc.documentElement, true));
+                            const svg = document.body.firstElementChild;
+                            svg.setAttribute('width', %d); svg.setAttribute('height', %d);
+                            await document.fonts.ready;
+                            const inverse = svg.getCTM().inverse(), out = {};
+                            for (const n of svg.querySelectorAll('[data-canon-stitch]')) {
+                                const id = n.getAttribute('data-canon-stitch'), b = n.getBBox();
+                                const m = inverse.multiply(n.getCTM());
+                                const f = document.getElementById(id);
+                                out[id] = {bbox: [b.x,b.y,b.width,b.height], matrix: [m.a,m.b,m.c,m.d,m.e,m.f],
+                                           space: getComputedStyle(f.firstElementChild).colorInterpolationFilters};
+                            }
+                            return out;
+                        })()''' % (json.dumps(data.decode()), width*scale, height*scale)
+                        return browser.evaluate(script)
+                    data = stitch_reference.source(data, width*scale, height*scale, measure, rasterize_stitch)
+                elif local_filters:
                     def rasterize(data, rw, rh):
                         with tempfile.NamedTemporaryFile(suffix=".svg", dir=os.path.dirname(svg)) as source:
                             source.write(data)
@@ -402,7 +457,8 @@ def chromium_noise(program, shrinker, jobs, side, background_blend=False, local_
                 shrink(shrinker, large, png, scale)
         finally:
             browser.close()
-    return subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip()
+    versions.insert(0, subprocess.run([program, "--version"], capture_output=True, text=True).stdout.strip())
+    return "; ".join(versions)
 
 
 def chromium_noise_blend(program, shrinker, jobs, side):
@@ -411,6 +467,10 @@ def chromium_noise_blend(program, shrinker, jobs, side):
 
 def chromium_noise_local(program, shrinker, jobs, side):
     return chromium_noise(program, shrinker, jobs, side, local_filters=True)
+
+
+def chromium_stitch(program, shrinker, jobs, side):
+    return chromium_noise(program, shrinker, jobs, side, stitched_noise=True)
 
 
 def main():

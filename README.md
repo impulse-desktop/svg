@@ -179,6 +179,16 @@ final pixels, then rotates the resulting PNG. The completed backdrop is also
 an explicit browser-rendered PNG. `tst/local_filter_reference.py` restricts this
 conversion to plain paths, quarter-turn rotations and supported ancestors.
 
+`chromium_stitch` replaces the reviewed first `feTurbulence` primitive with
+noise drawn by stock Batik (`BATIK` names its rasterizer jar; `JAVA` selects
+Java), then renders the remaining filter in Chromium. Batik preserves the
+tile origin required by `stitchTiles`; a half-device-pixel viewBox adjustment
+makes it sample pixel centres. A lattice-point check guards that adjustment.
+`tst/stitch_reference.py` keeps the original tile region and colour space,
+and restricts this conversion to single-octave noise, default bounding-box
+regions and untransformed filter frames. Remaining unstitched noise uses
+the `chromium_noise` correction. Corpus SVGs are unchanged.
+
 ## Building
 
 You need clang 21 or GCC 16, Python 3, libpng, wasm2c from
@@ -202,6 +212,7 @@ and root filters at three device scales.
 in both colour spaces and turbulence at
 lattice vertices, whose values are known without a reference renderer, and
 its periodicity at large positive and negative coordinates. It also checks that
+stitched tiles retain that periodicity when their origin moves, and that
 rotated and reflected intermediate layers preserve the noise sampling grid.
 
 `python3 tst/png_gamma.py .build/svg` checks PNG gamma conversion for RGB,
