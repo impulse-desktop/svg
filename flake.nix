@@ -95,7 +95,7 @@
           fuzzCommand = pkgs.writeShellScriptBin "svg-fuzz" ''
             set -euo pipefail
 
-            if [[ ! -d ./tst || ! -f ./fuzz.cpp ]]; then
+            if [[ ! -f ./tst/fuzz.cpp ]]; then
               echo "svg-fuzz: run this command from the repository root" >&2
               exit 2
             fi
@@ -132,7 +132,7 @@
             buildInputs = commonBuildInputs;
             NIX_CC_WRAPPER_SUPPRESS_TARGET_WARNING = "1";
 
-            # Only the C++ renderer and libstd are instrumented. The generated
+            # Only the C++ renderer and the test driver are instrumented. The generated
             # wasm2c decoder shards and runtime are C and keep their cache keys.
             CXXFLAGS = cxxSanitizerFlags;
             LDFLAGS = "-fsanitize=address,undefined";

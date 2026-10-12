@@ -4,10 +4,14 @@ Per-project settings that the shared [STYLE.md](STYLE.md) delegates here.
 
 - **Macro prefix.** None reserved.
 - **Namespace.** None: the renderer is two files, `svg.h` and `svg.cpp`,
-  copied into the programs that use it. `libstd` keeps its `stl`.
+  copied into the programs that use it.
 - **Formatter.** `./dev/style.py` formats every tracked C++ source.
 
 ## Deviations
 
-- `main.cpp` is the test driver alone; nothing it needs may leak into
-  `svg.h` or `svg.cpp`.
+- `svg.cpp` carries its own copies of the libstd containers, sort and
+  object pool in its anonymous namespace instead of including `<std/...>`,
+  so that the two files depend on nothing but the C library.
+- `tst/main.cpp` and `tst/fuzz.cpp` are the test driver and the fuzzer, not
+  the product. They use the C++ standard library; nothing they need may leak
+  into `svg.h` or `svg.cpp`.

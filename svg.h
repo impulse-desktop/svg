@@ -1,32 +1,34 @@
 #pragma once
 
-#include <std/str/view.h>
-#include <std/sys/types.h>
-
-namespace stl {
-    class ObjPool;
-}
+#include <stddef.h>
+#include <stdint.h>
 
 struct SvgImage {
+    virtual ~SvgImage();
+
     virtual const void* data() const = 0;
     virtual size_t length() const = 0;
-    virtual u32 width() const = 0;
-    virtual u32 height() const = 0;
+    virtual uint32_t width() const = 0;
+    virtual uint32_t height() const = 0;
 };
 
 struct SvgDecoder {
-    virtual SvgImage* decode(stl::ObjPool& pool, stl::StringView bytes) = 0;
+    virtual SvgImage* decode(const void* bytes, size_t length) = 0;
 };
 
 struct SvgDocument {
+    virtual ~SvgDocument();
+
     virtual float width() const = 0;
     virtual float height() const = 0;
-    virtual SvgImage* render(stl::ObjPool& pool, u32 width, u32 height) = 0;
-    virtual SvgImage* render(stl::ObjPool& pool, u32 width, u32 height, float scale) = 0;
+    virtual SvgImage* render(uint32_t width, uint32_t height) = 0;
+    virtual SvgImage* render(uint32_t width, uint32_t height, float scale) = 0;
 };
 
 struct SvgLibrary {
-    virtual SvgDocument* parse(stl::ObjPool& pool, stl::StringView file) = 0;
+    virtual ~SvgLibrary();
 
-    static SvgLibrary* create(stl::ObjPool& pool, SvgDecoder* decoder);
+    virtual SvgDocument* parse(const void* file, size_t length) = 0;
+
+    static SvgLibrary* create(SvgDecoder* decoder);
 };

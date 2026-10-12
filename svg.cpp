@@ -1,14 +1,909 @@
 #include "svg.h"
 
-#include <std/alg/qsort.h>
-#include <std/lib/buffer.h>
-#include <std/lib/vector.h>
-#include <std/mem/obj_pool.h>
-
+#include <new>
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
 
-using namespace stl;
+namespace {
+    using u8 = char8_t;
+    using u32 = uint32_t;
+    using u64 = uint64_t;
+    using i64 = int64_t;
+
+    // The containers, the sort and the object pool below are the parts of
+    // libstd (https://github.com/pg83/std, MIT) that the renderer needs,
+    // copied in so that svg.h and svg.cpp depend on nothing but the C library.
+
+    template <typename T>
+    struct RemoveReference {
+        using Type = T;
+    };
+
+    template <typename T>
+    struct RemoveReference<T&> {
+        using Type = T;
+    };
+
+    template <typename T>
+    struct RemoveReference<T&&> {
+        using Type = T;
+    };
+
+    template <typename T>
+    using rem_ref = typename RemoveReference<T>::Type;
+
+    template <typename T>
+    constexpr rem_ref<T>&& move(T&& t) noexcept {
+        return static_cast<rem_ref<T>&&>(t);
+    }
+
+    template <typename T>
+    constexpr T&& forward(rem_ref<T>& t) noexcept {
+        return static_cast<T&&>(t);
+    }
+
+    template <typename T>
+    constexpr T&& forward(rem_ref<T>&& t) noexcept {
+        return static_cast<T&&>(t);
+    }
+
+    template <typename T, typename N>
+    T exchange(T& o, N n) {
+        auto r = o;
+
+        o = n;
+
+        return r;
+    }
+
+    template <typename T>
+    void xchg(T& l, T& r) noexcept {
+        if constexpr (requires { l.xchg(r); }) {
+            l.xchg(r);
+        } else if constexpr (requires { l.swap(r); }) {
+            l.swap(r);
+        } else if constexpr (requires { T(move(l)) = move(l); }) {
+            T t = move(l);
+
+            l = move(r);
+            r = move(t);
+        } else {
+            T t = l;
+
+            l = r;
+            r = t;
+        }
+    }
+
+    template <typename T>
+    auto destruct(T* t) {
+        return (t->~T(), t);
+    }
+
+    template <typename T>
+    inline T* advancePtr(T* ptr, size_t len) noexcept {
+        return (T*)(len + (const u8*)ptr);
+    }
+
+    template <class T>
+    inline T clp2(T v) noexcept {
+        if constexpr (sizeof(T) == 4) {
+            return v <= 1 ? T(1) : T(1) << (32 - __builtin_clz(v - 1));
+        } else {
+            return v <= 1 ? T(1) : T(1) << (64 - __builtin_clzll(v - 1));
+        }
+    }
+
+    template <typename T>
+    T max(T l, T r) {
+        return l < r ? r : l;
+    }
+
+    static void* allocateMemory(size_t len) {
+        if (auto ret = malloc(len); ret) {
+            return ret;
+        }
+
+        abort();
+    }
+
+    static void freeMemory(void* ptr) noexcept {
+        free(ptr);
+    }
+
+    static int memCmp(const void* l, const void* r, size_t len) noexcept {
+        if (len == 0) {
+            return 0;
+        }
+
+        return memcmp(l, r, len);
+    }
+
+    static void* memCpy(void* to, const void* from, size_t len) noexcept {
+        if (len) {
+            memcpy(to, from, len);
+        }
+
+        return len + (u8*)to;
+    }
+
+    static size_t strLen(const u8* s) noexcept {
+        return s ? strlen((const char*)s) : 0;
+    }
+
+    static void memZero(void* from, void* to) noexcept {
+        const size_t len = (u8*)to - (u8*)from;
+
+        if (len) {
+            memset(from, 0, len);
+        }
+    }
+
+    static u64 splitMix64(u64 x) noexcept {
+        x ^= x >> 30;
+        x *= 0xbf58476d1ce4e5b9U;
+        x ^= x >> 27;
+        x *= 0x94d049bb133111ebU;
+        x ^= x >> 31;
+
+        return x;
+    }
+
+    static u64 shash64(const void* data, size_t len) noexcept {
+        u64 h = 14695981039346656037ull;
+        const u8* p = (const u8*)data;
+
+        for (size_t i = 0; i < len; ++i) {
+            h ^= p[i];
+            h *= 1099511628211ull;
+        }
+
+        return splitMix64(h);
+    }
+
+    struct Newable {
+        static void* operator new(size_t, void* ptr) noexcept;
+    };
+
+    class StringView;
+
+    class Buffer {
+        void* data_;
+
+    public:
+        struct Header: public Newable {
+            size_t used;
+            size_t size;
+        };
+
+    private:
+        Header* header() const noexcept;
+        void appendUnsafe(const void* data, size_t len);
+
+    public:
+        ~Buffer() noexcept;
+
+        Buffer(size_t len);
+        Buffer(const void* data, size_t len);
+
+        Buffer() noexcept;
+        Buffer(const Buffer& buf);
+        Buffer(Buffer&& buf) noexcept;
+
+        void* data() const noexcept;
+        void* mutData() noexcept;
+        void* current() const noexcept;
+        void* mutCurrent() noexcept;
+        size_t capacity() const noexcept;
+        size_t used() const noexcept;
+        size_t length() const noexcept;
+        bool empty() const noexcept;
+        void xchg(Buffer& buf) noexcept;
+        void reset() noexcept;
+        void seekAbsolute(size_t pos) noexcept;
+        void seekAbsolute(const void* ptr) noexcept;
+        size_t offsetOf(const void* ptr) noexcept;
+        void grow(size_t size);
+        void append(const void* data, size_t len);
+        void growDelta(size_t len);
+        void zero(size_t len);
+    };
+
+    alignas(max_align_t) static const char emptyHeader[sizeof(Buffer::Header)] = {};
+
+    static Buffer::Header* nullHeader() noexcept {
+        return (Buffer::Header*)emptyHeader;
+    }
+
+    static Buffer::Header* allocHeader(size_t len) {
+        if (len) {
+            auto flen = max<size_t>(clp2(len + sizeof(Buffer::Header)), 256);
+            auto blen = flen - sizeof(Buffer::Header);
+
+            return new (allocateMemory(flen)) Buffer::Header({
+                .used = 0,
+                .size = blen,
+            });
+        }
+
+        return nullHeader();
+    }
+
+    static void freeHeader(Buffer::Header* ptr) noexcept {
+        if (ptr != nullHeader()) {
+            freeMemory(ptr);
+        }
+    }
+
+    template <typename T>
+    class Vector {
+        Buffer buf_;
+
+    public:
+        static_assert(__is_trivially_destructible(T));
+
+        Vector() = default;
+        Vector(Vector&&) = default;
+        Vector(const Vector&) = default;
+
+        auto data() const noexcept {
+            return (const T*)buf_.data();
+        }
+
+        auto begin() const noexcept {
+            return data();
+        }
+
+        auto end() const noexcept {
+            return (const T*)buf_.current();
+        }
+
+        auto mutData() noexcept {
+            return const_cast<T*>(data());
+        }
+
+        auto mutBegin() noexcept {
+            return const_cast<T*>(begin());
+        }
+
+        auto mutEnd() noexcept {
+            return const_cast<T*>(end());
+        }
+
+        size_t length() const noexcept {
+            return end() - begin();
+        }
+
+        bool empty() const noexcept {
+            return buf_.empty();
+        }
+
+        auto& mut(size_t i) noexcept {
+            return *(mutBegin() + i);
+        }
+
+        const auto& operator[](size_t i) const noexcept {
+            return *(begin() + i);
+        }
+
+        const auto& back() const noexcept {
+            return *(end() - 1);
+        }
+
+        auto& mutBack() noexcept {
+            return *(mutEnd() - 1);
+        }
+
+        void clear() noexcept {
+            buf_.reset();
+        }
+
+        void pushBack(const T& t) {
+            buf_.append(&t, sizeof(t));
+        }
+
+        auto popBack() noexcept {
+            auto res = back();
+
+            buf_.seekAbsolute(end() - 1);
+
+            return res;
+        }
+
+        void append(const T* b, const T* e) {
+            buf_.append((const u8*)b, (const u8*)e - (const u8*)b);
+        }
+
+        void append(const T* b, size_t len) {
+            append(b, b + len);
+        }
+
+        void xchg(Vector& v) noexcept {
+            buf_.xchg(v.buf_);
+        }
+
+        void zero(size_t cnt) {
+            buf_.zero(cnt * sizeof(T));
+        }
+    };
+
+    class StringView {
+        const u8* ptr_;
+        size_t len_;
+
+    public:
+        StringView() noexcept;
+
+        template <size_t N>
+        StringView(const u8 (&str)[N]) noexcept
+            : StringView(str, N - 1) {
+        }
+
+        StringView(const u8* ptr, size_t len) noexcept;
+        StringView(const u8* b, const u8* e) noexcept;
+        StringView(const char* s) noexcept;
+        StringView(const Buffer& b) noexcept;
+
+        const u8* data() const noexcept;
+        size_t length() const noexcept;
+        const u8* begin() const noexcept;
+        const u8* end() const noexcept;
+        const u8& operator[](size_t i) const noexcept;
+        bool empty() const noexcept;
+        const u8& back() const noexcept;
+        u64 hash64() const noexcept;
+    };
+
+    static int spaceship(const u8* l, size_t ll, const u8* r, size_t rl) noexcept {
+        const auto rr = memCmp(l, r, ll < rl ? ll : rl);
+
+        return rr ? rr : (ll < rl ? -1 : (ll == rl ? 0 : 1));
+    }
+
+    static int spaceship(StringView l, StringView r) noexcept {
+        return spaceship(l.data(), l.length(), r.data(), r.length());
+    }
+
+    static bool operator==(StringView l, StringView r) noexcept {
+        return l.length() == r.length() && spaceship(l, r) == 0;
+    }
+
+    static bool operator!=(StringView l, StringView r) noexcept {
+        return !(l == r);
+    }
+
+    class PCG32 {
+        u64 state_;
+        u64 seq_;
+
+    public:
+        PCG32(u64 seq) noexcept;
+        PCG32(const void* seq) noexcept;
+        PCG32(u64 state, u64 seq) noexcept;
+
+        u32 nextU32() noexcept;
+        u32 uniformBiased(u32 n) noexcept;
+    };
+
+    static u32 xorShift(u64 v) noexcept {
+        const u32 xorshifted = ((v >> 18u) ^ v) >> 27u;
+        const u32 rot = v >> 59u;
+
+        return (xorshifted >> rot) | (xorshifted << ((-rot) & 31));
+    }
+
+    namespace QSP {
+        template <typename I, typename C>
+        struct Context {
+            struct WorkItem {
+                I b;
+                I e;
+            };
+
+            C& f;
+            Vector<WorkItem> w;
+            PCG32 r;
+
+            Context(C& _f, void* seed) noexcept
+                : f(_f)
+                , r(seed) {
+            }
+
+            void insertionSort(I b, I e) {
+                for (auto i = b + 1; i != e; ++i) {
+                    for (auto j = i; j != b && f(*j, *(j - 1)); --j) {
+                        xchg(*j, *(j - 1));
+                    }
+                }
+            }
+
+            auto chooseRandom(I b, I e) noexcept {
+                return b + r.uniformBiased(e - b);
+            }
+
+            // called as partitionHoare(b, l) where l = e-1 (pivot is at *l).
+            // p captures l; the second while pre-decrements e, so e never reaches p.
+            // *p is never swapped — pivot stays in place throughout.
+            auto partitionHoare(I b, I e) {
+                for (auto p = e;; ++b) {
+                    while (b != e && f(*b, *p)) {
+                        ++b;
+                    }
+
+                    while (b != e && f(*p, *--e)) {
+                    }
+
+                    if (b == e) {
+                        return b;
+                    }
+
+                    xchg(*b, *e);
+                }
+            }
+
+            // assume b < e
+            bool alreadySorted(I b, I e) {
+                for (++b; b != e; ++b) {
+                    if (f(*b, *(b - 1))) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            void qSortStep(I b, I e) {
+                if (e - b < 16) {
+                    return;
+                }
+
+                if (alreadySorted(b, e)) {
+                    return;
+                }
+
+                auto l = e - 1;
+
+                // pivot to last
+                xchg(*chooseRandom(b, e), *l);
+
+                // place for pivot
+                auto p = partitionHoare(b, l);
+
+                // move pivot form last to proper place
+                xchg(*p, *l);
+
+                // recurse
+                w.pushBack(WorkItem{p + 1, e});
+                w.pushBack(WorkItem{b, p});
+            }
+
+            void qSortLoop() {
+                while (!w.empty()) {
+                    auto item = w.popBack();
+
+                    qSortStep(item.b, item.e);
+                }
+            }
+
+            void qSort(I b, I e) {
+                if (b != e) {
+                    qSortStep(b, e);
+                    qSortLoop();
+                    insertionSort(b, e);
+                }
+            }
+        };
+    }
+
+    template <typename I, typename C>
+    void quickSort(I b, I e, C&& f) {
+        if (b != e) {
+            QSP::Context<I, C>(f, (void*)&*b).qSort(b, e);
+        }
+    }
+
+    struct Disposable {
+        Disposable* prev = 0;
+
+        virtual ~Disposable() noexcept;
+    };
+
+    class Disposer {
+        Disposable* end = 0;
+
+    public:
+        ~Disposer() noexcept;
+
+        void dispose() noexcept;
+        void submit(Disposable* d) noexcept;
+        unsigned length() const noexcept;
+    };
+
+    class MemoryPool {
+        u8* currentChunk;
+        u8* currentChunkEnd;
+        Disposer* ds;
+
+        void allocateNewChunk(size_t minSize);
+
+    public:
+        MemoryPool(void* buf, size_t len) noexcept;
+        ~MemoryPool() noexcept;
+
+        void* allocate(size_t len);
+    };
+
+    constexpr size_t initialChunk = 128;
+    constexpr size_t chunkAlignment = alignof(max_align_t);
+
+    struct alignas(chunkAlignment) ChunkDestructor: public Disposable, public Disposer, public Newable {};
+
+    struct alignas(chunkAlignment) Chunk: public Disposable, public Newable {
+        ~Chunk() noexcept override;
+    };
+
+    static_assert(sizeof(Chunk) % chunkAlignment == 0);
+    static_assert(sizeof(ChunkDestructor) % chunkAlignment == 0);
+
+    template <typename T>
+    struct Embed {
+        T t;
+
+        template <typename... A>
+        Embed(A&&... a)
+            : t(forward<A>(a)...)
+        {
+        }
+    };
+
+    // Every object made in a pool lives until the pool is deleted; the ones
+    // with a destructor are then destroyed in reverse order of creation.
+    class ObjPool {
+        alignas(max_align_t) u8 buf_[256 - sizeof(MemoryPool) - sizeof(Disposer)];
+        MemoryPool mp_;
+        Disposer ds_;
+
+        template <size_t Size, size_t Align>
+        void* allocFor() {
+            if constexpr (Align > alignof(max_align_t)) {
+                return allocateOverAligned(Size, Align);
+            } else {
+                return allocate(Size);
+            }
+        }
+
+        template <typename T, typename... A>
+        T* makeImpl(A&&... a) {
+            return new (allocFor<sizeof(T), alignof(T)>()) T(forward<A>(a)...);
+        }
+
+    public:
+        ObjPool() noexcept;
+
+        void* allocate(size_t len);
+        void submit(Disposable* d) noexcept;
+        void* allocateOverAligned(size_t len, size_t align);
+
+        template <typename T, typename... A>
+        T* make(A&&... a) {
+            struct Wrapper1: public Embed<T>, public Newable {
+                using Embed<T>::Embed;
+            };
+
+            if constexpr (__is_trivially_destructible(T)) {
+                static_assert(sizeof(Wrapper1) == sizeof(T));
+
+                return &makeImpl<Wrapper1>(forward<A>(a)...)->t;
+            } else {
+                struct Wrapper2: public Disposable, public Wrapper1 {
+                    using Wrapper1::Wrapper1;
+                };
+
+                auto res = makeImpl<Wrapper2>(forward<A>(a)...);
+
+                submit(res);
+
+                return &res->t;
+            }
+        }
+    };
+
+    static_assert(sizeof(ObjPool) == 256);
+}
+
+void* Newable::operator new(size_t, void* ptr) noexcept {
+    return ptr;
+}
+
+Buffer::Header* Buffer::header() const noexcept {
+    return (Header*)data_ - 1;
+}
+
+Buffer::~Buffer() noexcept {
+    freeHeader(header());
+}
+
+Buffer::Buffer() noexcept
+    : Buffer(0) {
+}
+
+Buffer::Buffer(size_t len)
+    : data_(allocHeader(len) + 1)
+{
+}
+
+Buffer::Buffer(const Buffer& buf)
+    : Buffer(buf.data(), buf.used())
+{
+}
+
+Buffer::Buffer(const void* ptr, size_t len)
+    : Buffer(len)
+{
+    appendUnsafe(ptr, len);
+}
+
+Buffer::Buffer(Buffer&& buf) noexcept
+    : Buffer() {
+    buf.xchg(*this);
+}
+
+void* Buffer::data() const noexcept {
+    return data_;
+}
+
+void* Buffer::mutData() noexcept {
+    return data_;
+}
+
+void* Buffer::current() const noexcept {
+    return advancePtr(data(), used());
+}
+
+void* Buffer::mutCurrent() noexcept {
+    return current();
+}
+
+size_t Buffer::capacity() const noexcept {
+    return header()->size;
+}
+
+size_t Buffer::used() const noexcept {
+    return header()->used;
+}
+
+size_t Buffer::length() const noexcept {
+    return used();
+}
+
+bool Buffer::empty() const noexcept {
+    return used() == 0;
+}
+
+void Buffer::xchg(Buffer& buf) noexcept {
+    ::xchg(data_, buf.data_);
+}
+
+void Buffer::reset() noexcept {
+    seekAbsolute((size_t)0);
+}
+
+void Buffer::seekAbsolute(size_t pos) noexcept {
+    if (header()->used != pos) {
+        header()->used = pos;
+    }
+}
+
+void Buffer::seekAbsolute(const void* ptr) noexcept {
+    seekAbsolute(offsetOf(ptr));
+}
+
+size_t Buffer::offsetOf(const void* ptr) noexcept {
+    return (const u8*)ptr - (const u8*)data();
+}
+
+void Buffer::grow(size_t size) {
+    if (size > capacity()) {
+        Buffer buf(size);
+
+        buf.appendUnsafe(data(), used());
+        buf.xchg(*this);
+    }
+}
+
+void Buffer::append(const void* ptr, size_t len) {
+    growDelta(len);
+    appendUnsafe(ptr, len);
+}
+
+void Buffer::appendUnsafe(const void* ptr, size_t len) {
+    auto cur = (u8*)mutCurrent();
+
+    if (len == 1) {
+        *cur = *(const u8*)ptr;
+        header()->used += 1;
+    } else if (len) {
+        memCpy(cur, ptr, len);
+        header()->used += len;
+    }
+}
+
+void Buffer::growDelta(size_t len) {
+    grow(used() + len);
+}
+
+void Buffer::zero(size_t len) {
+    grow(len);
+    seekAbsolute(len);
+    memZero(mutData(), mutCurrent());
+}
+
+StringView::StringView() noexcept
+    : StringView(nullptr, (size_t)0) {
+}
+
+StringView::StringView(const u8* ptr, size_t len) noexcept
+    : ptr_(ptr)
+    , len_(len) {
+}
+
+StringView::StringView(const u8* b, const u8* e) noexcept
+    : StringView(b, e - b) {
+}
+
+StringView::StringView(const char* s) noexcept
+    : StringView((const u8*)s, strLen((const u8*)s)) {
+}
+
+StringView::StringView(const Buffer& b) noexcept
+    : StringView((const u8*)b.data(), b.length()) {
+}
+
+const u8* StringView::data() const noexcept {
+    return ptr_;
+}
+
+size_t StringView::length() const noexcept {
+    return len_;
+}
+
+const u8* StringView::begin() const noexcept {
+    return data();
+}
+
+const u8* StringView::end() const noexcept {
+    return begin() + length();
+}
+
+const u8& StringView::operator[](size_t i) const noexcept {
+    return *(begin() + i);
+}
+
+bool StringView::empty() const noexcept {
+    return length() == 0;
+}
+
+const u8& StringView::back() const noexcept {
+    return *(end() - 1);
+}
+
+u64 StringView::hash64() const noexcept {
+    return shash64(data(), length());
+}
+
+PCG32::PCG32(u64 seq) noexcept
+    : PCG32(splitMix64((size_t)this), seq) {
+}
+
+PCG32::PCG32(const void* seq) noexcept
+    : PCG32(splitMix64((size_t)seq)) {
+}
+
+PCG32::PCG32(u64 state, u64 seq) noexcept
+    : state_(0)
+    , seq_(2ULL * seq + 1ULL) {
+    nextU32();
+    state_ += state;
+    nextU32();
+}
+
+u32 PCG32::nextU32() noexcept {
+    return xorShift(exchange(state_, state_ * 6364136223846793005ULL + seq_));
+}
+
+u32 PCG32::uniformBiased(u32 n) noexcept {
+    // https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
+    return ((u64)nextU32() * (u64)n) >> 32;
+}
+
+Disposable::~Disposable() noexcept {
+}
+
+Disposer::~Disposer() noexcept {
+    dispose();
+}
+
+void Disposer::dispose() noexcept {
+    auto cur = exchange(end, (Disposable*)0);
+
+    while (cur) {
+        destruct(exchange(cur, cur->prev));
+    }
+}
+
+void Disposer::submit(Disposable* d) noexcept {
+    d->prev = end;
+    end = d;
+}
+
+unsigned Disposer::length() const noexcept {
+    unsigned res = 0;
+
+    for (auto cur = end; cur; cur = cur->prev) {
+        ++res;
+    }
+
+    return res;
+}
+
+Chunk::~Chunk() noexcept {
+    freeMemory(this);
+}
+
+MemoryPool::MemoryPool(void* buf, size_t len) noexcept
+    : currentChunk((u8*)buf)
+    , currentChunkEnd(currentChunk + len)
+    , ds(new (allocate(sizeof(ChunkDestructor))) ChunkDestructor()) {
+    ds->submit((ChunkDestructor*)ds);
+}
+
+MemoryPool::~MemoryPool() noexcept {
+    ds->dispose();
+}
+
+void* MemoryPool::allocate(size_t len) {
+    const size_t alignedLen = (len + chunkAlignment - 1) & ~(chunkAlignment - 1);
+
+    if (currentChunk + alignedLen > currentChunkEnd) {
+        allocateNewChunk(alignedLen + sizeof(Chunk));
+    }
+
+    return exchange(currentChunk, currentChunk + alignedLen);
+}
+
+void MemoryPool::allocateNewChunk(size_t minSize) {
+    size_t nextChunkSize = initialChunk * (((size_t)1) << ds->length());
+
+    while (nextChunkSize < minSize) {
+        nextChunkSize *= 2;
+    }
+
+    auto newChunk = new (allocateMemory(nextChunkSize)) Chunk();
+
+    ds->submit(newChunk);
+
+    currentChunkEnd = (u8*)newChunk + nextChunkSize;
+    currentChunk = (u8*)(newChunk + 1);
+}
+
+ObjPool::ObjPool() noexcept
+    : mp_(buf_, sizeof(buf_)) {
+}
+
+void* ObjPool::allocate(size_t len) {
+    return mp_.allocate(len);
+}
+
+void ObjPool::submit(Disposable* d) noexcept {
+    ds_.submit(d);
+}
+
+void* ObjPool::allocateOverAligned(size_t len, size_t align) {
+    auto raw = (uintptr_t)allocate(len + align);
+
+    return (void*)((raw + align - 1) & ~(align - 1));
+}
 
 #define SVG_ATOMS(ATOM)                                            \
     ATOM(Svg, "svg")                                               \
@@ -969,12 +1864,15 @@ namespace {
     };
 
     struct ImageImpl final: SvgImage {
+        ObjPool* pool;
         u8* pixels;
         size_t length_;
         u32 width_;
         u32 height_;
 
-        ImageImpl(u8* pixels, u32 width, u32 height);
+        ImageImpl(ObjPool* pool, u8* pixels, u32 width, u32 height);
+
+        static void operator delete(ImageImpl* image, std::destroying_delete_t) noexcept;
 
         const void* data() const override;
         size_t length() const override;
@@ -983,25 +1881,31 @@ namespace {
     };
 
     struct DocumentImpl final: SvgDocument {
+        ObjPool* pool;
         SvgDecoder* decoder;
         StringView source;
         float width_;
         float height_;
 
-        DocumentImpl(SvgDecoder* decoder, StringView source, float width, float height);
+        DocumentImpl(ObjPool* pool, SvgDecoder* decoder, StringView source, float width, float height);
+
+        static void operator delete(DocumentImpl* document, std::destroying_delete_t) noexcept;
 
         float width() const override;
         float height() const override;
-        SvgImage* render(ObjPool& pool, u32 width, u32 height) override;
-        SvgImage* render(ObjPool& pool, u32 width, u32 height, float scale) override;
+        SvgImage* render(u32 width, u32 height) override;
+        SvgImage* render(u32 width, u32 height, float scale) override;
     };
 
     struct LibraryImpl final: SvgLibrary {
+        ObjPool* pool;
         SvgDecoder* decoder;
 
-        explicit LibraryImpl(SvgDecoder* decoder);
+        LibraryImpl(ObjPool* pool, SvgDecoder* decoder);
 
-        SvgDocument* parse(ObjPool& pool, StringView file) override;
+        static void operator delete(LibraryImpl* library, std::destroying_delete_t) noexcept;
+
+        SvgDocument* parse(const void* file, size_t length) override;
     };
 
     static float clampUnit(float value) {
@@ -9458,6 +10362,14 @@ namespace {
         return !value || equalsIgnoreCase(trim(textOf(doc, value)), StringView(u8"auto"));
     }
 
+    // Holds a decoded raster image for the pool of the render that uses it.
+    struct DecodedImage {
+        SvgImage* image;
+
+        explicit DecodedImage(SvgImage* image);
+        ~DecodedImage();
+    };
+
     struct ImageSource {
         Document* nested;
         SvgImage* raster;
@@ -9543,9 +10455,15 @@ namespace {
             broken = true;
         }
 
-        SvgImage* raster = !broken && l.decoder ? l.decoder->decode(*l.pool, data) : nullptr;
+        SvgImage* raster = !broken && l.decoder ? l.decoder->decode(data.data(), data.length()) : nullptr;
 
-        if (!raster || raster->width() == 0 || raster->height() == 0 || raster->length() < (size_t)raster->width() * raster->height() * 4) {
+        if (!raster) {
+            return false;
+        }
+
+        l.pool->make<DecodedImage>(raster);
+
+        if (raster->width() == 0 || raster->height() == 0 || raster->length() < (size_t)raster->width() * raster->height() * 4) {
             return false;
         }
 
@@ -13246,9 +14164,9 @@ namespace {
 
     static void compositeLayer(Raster& r, const Lowering& l, const Op& op) {
         Raster sub;
-        ObjPool::Ref pool = ObjPool::fromMemory();
+        ObjPool pool;
         size_t size = (size_t)op.layerWidth * op.layerHeight;
-        float* content = (float*)pool->allocate(sizeof(float) * size * 4);
+        float* content = (float*)pool.allocate(sizeof(float) * size * 4);
         Matrix toDevice;
 
         if (!invert(op.layerMatrix, toDevice)) {
@@ -13257,10 +14175,10 @@ namespace {
 
         sub.width = op.layerWidth;
         sub.height = op.layerHeight;
-        float* background = l.backgroundInputs ? backgroundBuffer(r, *pool) : nullptr;
+        float* background = l.backgroundInputs ? backgroundBuffer(r, pool) : nullptr;
 
         if (background) {
-            float* inherited = (float*)pool->allocate(sizeof(float) * size * 4);
+            float* inherited = (float*)pool.allocate(sizeof(float) * size * 4);
             memset(inherited, 0, sizeof(float) * size * 4);
 
             for (u32 y = 0; y < sub.height; y++) {
@@ -13298,7 +14216,7 @@ namespace {
         runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
         for (const Filter* filter = op.filter; filter; filter = filter->next) {
-            content = applyFilter(sub, l, *filter, content, *pool);
+            content = applyFilter(sub, l, *filter, content, pool);
         }
 
         int lw = (int)op.layerWidth;
@@ -13379,7 +14297,7 @@ namespace {
                     compositeLayer(r, l, op);
                     break;
                 case OpKind::Begin: {
-                    ObjPool* pool = ObjPool::fromMemoryRaw();
+                    ObjPool* pool = new ObjPool();
                     float* layer = (float*)pool->allocate(sizeof(float) * size * 4);
 
                     r.layers.pushBack(layer);
@@ -13503,12 +14421,35 @@ namespace {
     }
 }
 
-ImageImpl::ImageImpl(u8* pixels_, u32 width, u32 height)
-    : pixels(pixels_)
+SvgImage::~SvgImage() {
+}
+
+SvgDocument::~SvgDocument() {
+}
+
+SvgLibrary::~SvgLibrary() {
+}
+
+DecodedImage::DecodedImage(SvgImage* image_)
+    : image(image_)
+{
+}
+
+DecodedImage::~DecodedImage() {
+    delete image;
+}
+
+ImageImpl::ImageImpl(ObjPool* pool_, u8* pixels_, u32 width, u32 height)
+    : pool(pool_)
+    , pixels(pixels_)
     , length_((size_t)width * height * 4)
     , width_(width)
     , height_(height)
 {
+}
+
+void ImageImpl::operator delete(ImageImpl* image, std::destroying_delete_t) noexcept {
+    delete image->pool;
 }
 
 const void* ImageImpl::data() const {
@@ -13527,12 +14468,17 @@ u32 ImageImpl::height() const {
     return height_;
 }
 
-DocumentImpl::DocumentImpl(SvgDecoder* decoder_, StringView source_, float width, float height)
-    : decoder(decoder_)
+DocumentImpl::DocumentImpl(ObjPool* pool_, SvgDecoder* decoder_, StringView source_, float width, float height)
+    : pool(pool_)
+    , decoder(decoder_)
     , source(source_)
     , width_(width)
     , height_(height)
 {
+}
+
+void DocumentImpl::operator delete(DocumentImpl* document, std::destroying_delete_t) noexcept {
+    delete document->pool;
 }
 
 float DocumentImpl::width() const {
@@ -13543,29 +14489,28 @@ float DocumentImpl::height() const {
     return height_;
 }
 
-SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height) {
-    return render(pool, width, height, 1.f);
+SvgImage* DocumentImpl::render(u32 width, u32 height) {
+    return render(width, height, 1.f);
 }
 
-SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height, float scale) {
+SvgImage* DocumentImpl::render(u32 width, u32 height, float scale) {
     if (width == 0 || height == 0 || (u64)width * height > (1u << 26) || !(scale > 0.f)) {
         return nullptr;
     }
 
-    ObjPool::Ref scratch = ObjPool::fromMemory();
+    ObjPool scratch;
     Document doc;
     size_t size = (size_t)width * height;
-    float* base = (float*)scratch->allocate(sizeof(float) * size * 4);
-    u8* pixels = (u8*)pool.allocate(size * 4);
+    float* base = (float*)scratch.allocate(sizeof(float) * size * 4);
 
     memset(base, 0, sizeof(float) * size * 4);
 
-    if (loadDocument(doc, *scratch, source) && doc.root && doc.root->name == AtomSvg) {
+    if (loadDocument(doc, scratch, source) && doc.root && doc.root->name == AtomSvg) {
         Lowering l;
 
         cascade(doc);
         l.doc = &doc;
-        l.pool = scratch.mutPtr();
+        l.pool = &scratch;
         l.width = width;
         l.height = height;
         l.scale = scale;
@@ -13592,6 +14537,9 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height, float scale
         runProgram(raster, l, l.ops.data(), (u32)l.ops.length(), base);
     }
 
+    ObjPool* pool = new ObjPool();
+    u8* pixels = (u8*)pool->allocate(size * 4);
+
     for (size_t i = 0; i < size; i++) {
         const float* s = base + i * 4;
         u8* d = pixels + i * 4;
@@ -13606,19 +14554,25 @@ SvgImage* DocumentImpl::render(ObjPool& pool, u32 width, u32 height, float scale
         d[3] = clampByte(a * keep * 255.f + 0.5f);
     }
 
-    return pool.make<ImageImpl>(pixels, width, height);
+    return pool->make<ImageImpl>(pool, pixels, width, height);
 }
 
-LibraryImpl::LibraryImpl(SvgDecoder* decoder_)
-    : decoder(decoder_)
+LibraryImpl::LibraryImpl(ObjPool* pool_, SvgDecoder* decoder_)
+    : pool(pool_)
+    , decoder(decoder_)
 {
 }
 
-SvgDocument* LibraryImpl::parse(ObjPool& pool, StringView file) {
-    ObjPool::Ref scratch = ObjPool::fromMemory();
-    Document doc;
+void LibraryImpl::operator delete(LibraryImpl* library, std::destroying_delete_t) noexcept {
+    delete library->pool;
+}
 
-    if (!loadDocument(doc, *scratch, file) || !doc.root || doc.root->name != AtomSvg) {
+SvgDocument* LibraryImpl::parse(const void* file, size_t length) {
+    ObjPool scratch;
+    Document doc;
+    StringView source((const u8*)file, length);
+
+    if (!loadDocument(doc, scratch, source) || !doc.root || doc.root->name != AtomSvg) {
         return nullptr;
     }
 
@@ -13632,9 +14586,13 @@ SvgDocument* LibraryImpl::parse(ObjPool& pool, StringView file) {
         height = 150.f;
     }
 
-    return pool.make<DocumentImpl>(decoder, keep(pool, file.data(), file.length()), width, height);
+    ObjPool* pool = new ObjPool();
+
+    return pool->make<DocumentImpl>(pool, decoder, keep(*pool, file, length), width, height);
 }
 
-SvgLibrary* SvgLibrary::create(ObjPool& pool, SvgDecoder* decoder) {
-    return pool.make<LibraryImpl>(decoder);
+SvgLibrary* SvgLibrary::create(SvgDecoder* decoder) {
+    ObjPool* pool = new ObjPool();
+
+    return pool->make<LibraryImpl>(pool, decoder);
 }

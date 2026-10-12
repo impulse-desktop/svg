@@ -7,9 +7,10 @@ An SVG renderer of its own for the impulse desktop: parser, document model
 and rasterizer, written from scratch and checked against analytic controls
 and a corpus of thousands of files with references from several renderers.
 
-The renderer is two files, `svg.h` and `svg.cpp`, over
-[libstd](https://github.com/pg83/std). A program that uses it copies both
-into its `ext/`.
+The renderer is two files, `svg.h` and `svg.cpp`, depending on nothing but
+the C library: the containers and the object pool they need are copied in
+from [libstd](https://github.com/pg83/std). A program that uses it copies
+both into its `ext/`.
 
 ## Scope
 
@@ -30,9 +31,9 @@ supply it; agreement with the renderer under test alone is not evidence.
 ## The contract
 
 ```cpp
-SvgLibrary* library = SvgLibrary::create(pool, decoder);
-SvgDocument* document = library->parse(pool, bytes);
-SvgImage* image = document->render(pool, width, height);
+SvgLibrary* library = SvgLibrary::create(decoder);
+SvgDocument* document = library->parse(bytes, length);
+SvgImage* image = document->render(width, height);
 ```
 
 `render(width, height)` draws the document in an SVG image viewport of that
@@ -42,7 +43,10 @@ pixel: the image is laid out at `width / scale` by `height / scale` and drawn
 at `width` by `height`. The pixels are RGBA, 8 bits a channel, not
 premultiplied. `decoder`, an
 `SvgDecoder` of the embedding program, turns the bytes of a raster image
-inside the document into such pixels.
+inside the document into such pixels and hands the image over; the renderer
+deletes it once the drawing is done. The library, the document and the image
+are each deleted with `delete` and do not depend on one another: the
+document outlives its library, the image outlives its document.
 
 ## The score
 
@@ -531,7 +535,7 @@ nix develop .#sanitized -c svg-sanitizers        # build and smoke test
 nix develop .#sanitized -c svg-fuzz -runs=40000  # libFuzzer over tst/
 ```
 
-The sanitizer shell instruments the C++ renderer and libstd. The generated
+The sanitizer shell instruments the C++ renderer and the test driver. The generated
 wasm2c decoder shards and their C runtime are trusted, left uninstrumented and
 therefore retain the same `.build` cache keys in both configurations. The fuzz
 target uses a null raster decoder, so wasm2c is not linked into `.build/fuzz`.
