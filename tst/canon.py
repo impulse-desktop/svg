@@ -434,6 +434,10 @@ def firefox(program, shrinker, jobs, side):
 
 
 def ours(program, shrinker, jobs, side):
+    # Native snapshots need geometric evidence independent of their pixels.
+    tests = os.path.dirname(os.path.abspath(__file__))
+    for test in ['curve_area.py', 'straight_curves.py', 'circle_coverage.py']:
+        subprocess.run([sys.executable, os.path.join(tests, test), program], check=True)
     for svg, png, width, height, scale in jobs:
         subprocess.run([program, "render", svg, png, str(width), str(height), str(side)], check=True)
     source = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

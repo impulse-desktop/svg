@@ -218,7 +218,7 @@ namespace {
     constexpr u32 propertyCount = AtomOutline - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
-    constexpr float tolerance = 0.1f;
+    constexpr float tolerance = 0.025f;
     constexpr u32 maxDepth = 512;
     constexpr u32 maxEntityDepth = 16;
     constexpr size_t maxExpansion = 1 << 22;
@@ -4764,6 +4764,25 @@ namespace {
         return k;
     }
 
+    static bool straightCubic(Point p0, Point p1, Point p2, Point p3) {
+        double dx = (double)p3.x - p0.x;
+        double dy = (double)p3.y - p0.y;
+        double length = dx * dx + dy * dy;
+
+        if (length == 0.0) {
+            return p1.x == p0.x && p1.y == p0.y && p2.x == p0.x && p2.y == p0.y;
+        }
+
+        double x1 = (double)p1.x - p0.x;
+        double y1 = (double)p1.y - p0.y;
+        double x2 = (double)p2.x - p0.x;
+        double y2 = (double)p2.y - p0.y;
+        double along1 = dx * x1 + dy * y1;
+        double along2 = dx * x2 + dy * y2;
+
+        return dx * y1 == dy * x1 && dx * y2 == dy * x2 && along1 >= 0.0 && along2 >= along1 && along2 <= length;
+    }
+
     static void flatten(const Path& path, const Matrix& m, float tol, float turn, Flat& out) {
         const Point* pts = path.points.data();
         size_t pi = 0;
@@ -4798,6 +4817,16 @@ namespace {
                     Point p1 = apply(m, pts[pi]);
                     Point p2 = apply(m, pts[pi + 1]);
                     Point p3 = apply(m, pts[pi + 2]);
+
+                    // Subdividing a straight cubic with a stationary endpoint
+                    // can round its final chord into a false stroke-join tangent.
+                    if (straightCubic(p0, p1, p2, p3)) {
+                        out.points.pushBack(p3);
+                        last = p3;
+                        pi += 3;
+                        break;
+                    }
+
                     float ddx = maxf(fabsf(p0.x - 2.f * p1.x + p2.x), fabsf(p1.x - 2.f * p2.x + p3.x));
                     float ddy = maxf(fabsf(p0.y - 2.f * p1.y + p2.y), fabsf(p1.y - 2.f * p2.y + p3.y));
                     float dd = sqrtf(ddx * ddx + ddy * ddy);
