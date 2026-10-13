@@ -32,9 +32,9 @@ jobs:
         with:
           name: fuzz-crashes
           path: |
-            .build/fuzz/crash-*
-            .build/fuzz/timeout-*
-            .build/fuzz/oom-*
+            .build/fuzzing/crash-*
+            .build/fuzzing/timeout-*
+            .build/fuzzing/oom-*
           if-no-files-found: ignore
 
   score:
