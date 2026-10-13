@@ -96,6 +96,19 @@ fuzz = program(
 
 install(svg)
 
+# A check imports canon, which imports the reference modules, so every
+# script under tst is an input of every check.
+for check in ["viewport_units", "cascade_priority"]:
+    group("checks", command(
+        name="check_" + check,
+        inputs=build.glob("$(S)/tst/*.py"),
+        outputs=[f"$(B)/checks/{check}.txt"],
+        deps=[svg],
+        cmd=["sh", "-c", 'python3 "$0" "$1" > "$2"', f"$(S)/tst/{check}.py", "$(B)/svg", f"$(B)/checks/{check}.txt"],
+        descr="CK",
+        color="light-green",
+    ))
+
 
 labels = ["1x", "2x"]
 corpus = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tst", "corpus")
