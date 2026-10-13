@@ -103,17 +103,16 @@
             svg-build -j "''${SVG_BUILD_JOBS:-4}" fuzz
 
             # The seeds are the inputs on which the fuzzer once found a crash,
-            # kept under tst/fuzz, and the four test suites of the corpus, which
-            # cover the features at a fraction of the cost of the whole corpus:
-            # under ASan a CI core runs about 55 seeds and 200 mutations a second,
-            # so 150000 runs on every core take about a quarter of an hour. Inputs the run
-            # finds interesting go to .build/fuzzing/new, crashes to .build/fuzzing.
+            # kept under tst/fuzz, and every SVG under tst, the whole corpus
+            # among them. Inputs the run finds interesting go to
+            # .build/fuzzing/new, crashes to .build/fuzzing.
             root=$PWD
             work=$root/.build/fuzzing
             rm -rf "$work"
             mkdir -p "$work/seeds" "$work/new"
-            for file in "$root"/tst/corpus/{resvg,w3c,wpt,blink}/*.svg; do
-              ln -s "$file" "$work/seeds/$(basename "$(dirname "$file")")-$(basename "$file")"
+            find "$root/tst" -name '*.svg' | while read -r file; do
+              relative=''${file#"$root/tst/"}
+              ln -s "$file" "$work/seeds/''${relative//\//-}"
             done
             cd "$work"
             exec "$root/.build/fuzz" -timeout=120 -runs=150000 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
