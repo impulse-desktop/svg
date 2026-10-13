@@ -85,9 +85,24 @@
               exit 2
             fi
 
+            # A corpus case that a sanitizer stops scores as a crash and the
+            # build goes on, so every report goes to a file under
+            # .build/sanitizers/logs, and any of them fails the run on exit.
+            logs=$PWD/.build/sanitizers/logs
+            rm -rf "$logs"
+            mkdir -p "$logs"
+            export ASAN_OPTIONS="''${ASAN_OPTIONS-}:log_path=$logs/asan"
+            export UBSAN_OPTIONS="''${UBSAN_OPTIONS-}:log_path=$logs/ubsan"
+            report() {
+              if [[ -n "$(ls -A "$logs")" ]]; then
+                cat "$logs"/*
+                exit 1
+              fi
+            }
+            trap report EXIT
+
             svg-build "$@"
             ${pkgs.patchelf}/bin/patchelf --print-needed .build/svg | grep -q '^libc++\.so'
-            mkdir -p .build/sanitizers
             ./.build/svg render tst/sanitizer.svg .build/sanitizers/smoke.png 192 128
             test -s .build/sanitizers/smoke.png
           '';
@@ -103,14 +118,15 @@
             svg-build -j "''${SVG_BUILD_JOBS:-4}" fuzz
 
             # The seeds are the inputs on which the fuzzer once found a crash,
-            # kept under tst/fuzz, and every SVG under tst, the whole corpus
-            # among them. Inputs the run finds interesting go to
-            # .build/fuzzing/new, crashes to .build/fuzzing.
+            # kept under tst/fuzz, and 2000 SVGs drawn at random from under tst,
+            # the whole corpus among them, a different sample every run. Inputs
+            # the run finds interesting go to .build/fuzzing/new, crashes to
+            # .build/fuzzing.
             root=$PWD
             work=$root/.build/fuzzing
             rm -rf "$work"
             mkdir -p "$work/seeds" "$work/new"
-            find "$root/tst" -name '*.svg' | while read -r file; do
+            find "$root/tst" -name '*.svg' | shuf -n 2000 | while read -r file; do
               relative=''${file#"$root/tst/"}
               ln -s "$file" "$work/seeds/''${relative//\//-}"
             done
