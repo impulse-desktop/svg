@@ -9,6 +9,8 @@ Per-project settings that the shared [STYLE.md](STYLE.md) delegates here.
 
 ## Deviations
 
+- The public API in `svg.h` is C, and its functions are named `svg_`
+  snake_case as C libraries are, not `lowerCamelCase`.
 - `svg.cpp` carries its own copies of the libstd containers, sort and
   object pool in its anonymous namespace instead of including `<std/...>`,
   so that the two files depend on nothing but the C library.

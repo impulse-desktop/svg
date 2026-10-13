@@ -1,6 +1,5 @@
 #include "svg.h"
 
-#include <new>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -919,6 +918,43 @@ void* ObjPool::allocateOverAligned(size_t len, size_t align) {
     return (void*)((raw + align - 1) & ~(align - 1));
 }
 
+// Each public object is made in its own pool; destroying it deletes the pool.
+struct SvgDocument {
+    ObjPool* pool;
+    SvgDecode decode;
+    void* context;
+    StringView source;
+    float width;
+    float height;
+
+    SvgDocument(ObjPool* pool, SvgDecode decode, void* context, StringView source, float width, float height);
+};
+
+struct SvgLibrary {
+    ObjPool* pool;
+    SvgDecode decode;
+    void* context;
+
+    SvgLibrary(ObjPool* pool, SvgDecode decode, void* context);
+};
+
+SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, void* context_, StringView source_, float width_, float height_)
+    : pool(pool_)
+    , decode(decode_)
+    , context(context_)
+    , source(source_)
+    , width(width_)
+    , height(height_)
+{
+}
+
+SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, void* context_)
+    : pool(pool_)
+    , decode(decode_)
+    , context(context_)
+{
+}
+
 #define SVG_ATOMS(ATOM)                                            \
     ATOM(Svg, "svg")                                               \
     ATOM(G, "g")                                                   \
@@ -1644,7 +1680,8 @@ namespace {
         Matrix host;
         Vector<u64> broken;
         Vector<ComputedStyle*> documentStyles;
-        SvgDecoder* decoder;
+        SvgDecode decode;
+        void* context;
         u32 width;
         u32 height;
         float scale;
@@ -1876,51 +1913,6 @@ namespace {
         {"window", 0xffffffff},
         {"windowframe", 0x000000ff},
         {"windowtext", 0x000000ff},
-    };
-
-    struct ImageImpl final: SvgImage {
-        ObjPool* pool;
-        u8* pixels;
-        size_t length_;
-        u32 width_;
-        u32 height_;
-
-        ImageImpl(ObjPool* pool, u8* pixels, u32 width, u32 height);
-
-        static void operator delete(ImageImpl* image, std::destroying_delete_t) noexcept;
-
-        const void* data() const override;
-        size_t length() const override;
-        u32 width() const override;
-        u32 height() const override;
-    };
-
-    struct DocumentImpl final: SvgDocument {
-        ObjPool* pool;
-        SvgDecoder* decoder;
-        StringView source;
-        float width_;
-        float height_;
-
-        DocumentImpl(ObjPool* pool, SvgDecoder* decoder, StringView source, float width, float height);
-
-        static void operator delete(DocumentImpl* document, std::destroying_delete_t) noexcept;
-
-        float width() const override;
-        float height() const override;
-        SvgImage* render(u32 width, u32 height) override;
-        SvgImage* render(u32 width, u32 height, float scale) override;
-    };
-
-    struct LibraryImpl final: SvgLibrary {
-        ObjPool* pool;
-        SvgDecoder* decoder;
-
-        LibraryImpl(ObjPool* pool, SvgDecoder* decoder);
-
-        static void operator delete(LibraryImpl* library, std::destroying_delete_t) noexcept;
-
-        SvgDocument* parse(const void* file, size_t length) override;
     };
 
     static float clampUnit(float value) {
@@ -10399,6 +10391,41 @@ namespace {
         ~DecodedImage();
     };
 
+    // A rendered image, whose destroy deletes the pool it is made in.
+    struct RenderedImage {
+        SvgImage image;
+        ObjPool* pool;
+        const u8* pixels;
+        u32 width;
+        u32 height;
+
+        RenderedImage(ObjPool* pool, const u8* pixels, u32 width, u32 height);
+    };
+
+    static void destroyRendered(SvgImage* image) {
+        delete ((RenderedImage*)image)->pool;
+    }
+
+    static const void* renderedData(const SvgImage* image) {
+        return ((const RenderedImage*)image)->pixels;
+    }
+
+    static size_t renderedLength(const SvgImage* image) {
+        const RenderedImage* rendered = (const RenderedImage*)image;
+
+        return (size_t)rendered->width * rendered->height * 4;
+    }
+
+    static u32 renderedWidth(const SvgImage* image) {
+        return ((const RenderedImage*)image)->width;
+    }
+
+    static u32 renderedHeight(const SvgImage* image) {
+        return ((const RenderedImage*)image)->height;
+    }
+
+    const SvgImageVtable renderedVtable = {destroyRendered, renderedData, renderedLength, renderedWidth, renderedHeight};
+
     struct ImageSource {
         Document* nested;
         SvgImage* raster;
@@ -10484,7 +10511,7 @@ namespace {
             broken = true;
         }
 
-        SvgImage* raster = !broken && l.decoder ? l.decoder->decode(data.data(), data.length()) : nullptr;
+        SvgImage* raster = !broken && l.decode ? l.decode(l.context, data.data(), data.length()) : nullptr;
 
         if (!raster) {
             return false;
@@ -10492,13 +10519,16 @@ namespace {
 
         l.pool->make<DecodedImage>(raster);
 
-        if (raster->width() == 0 || raster->height() == 0 || raster->length() < (size_t)raster->width() * raster->height() * 4) {
+        u32 width = raster->vtable->width(raster);
+        u32 height = raster->vtable->height(raster);
+
+        if (width == 0 || height == 0 || raster->vtable->length(raster) < (size_t)width * height * 4) {
             return false;
         }
 
         out.raster = raster;
-        out.width = (float)raster->width();
-        out.height = (float)raster->height();
+        out.width = (float)width;
+        out.height = (float)height;
         out.viewBox = Box{0.f, 0.f, out.width, out.height};
 
         return true;
@@ -10559,9 +10589,9 @@ namespace {
 
             memset(paint, 0, sizeof(DevicePaint));
             paint->type = PaintType::Image;
-            paint->image = (const u8*)source.raster->data();
-            paint->imageWidth = source.raster->width();
-            paint->imageHeight = source.raster->height();
+            paint->image = (const u8*)source.raster->vtable->data(source.raster);
+            paint->imageWidth = source.raster->vtable->width(source.raster);
+            paint->imageHeight = source.raster->vtable->height(source.raster);
             paint->smooth = true;
 
             if (!invert(place, inverse)) {
@@ -14479,79 +14509,51 @@ namespace {
     }
 }
 
-SvgImage::~SvgImage() {
-}
-
-SvgDocument::~SvgDocument() {
-}
-
-SvgLibrary::~SvgLibrary() {
-}
-
 DecodedImage::DecodedImage(SvgImage* image_)
     : image(image_)
 {
 }
 
 DecodedImage::~DecodedImage() {
-    delete image;
+    image->vtable->destroy(image);
 }
 
-ImageImpl::ImageImpl(ObjPool* pool_, u8* pixels_, u32 width, u32 height)
-    : pool(pool_)
+RenderedImage::RenderedImage(ObjPool* pool_, const u8* pixels_, u32 width_, u32 height_)
+    : image{&renderedVtable}
+    , pool(pool_)
     , pixels(pixels_)
-    , length_((size_t)width * height * 4)
-    , width_(width)
-    , height_(height)
+    , width(width_)
+    , height(height_)
 {
 }
 
-void ImageImpl::operator delete(ImageImpl* image, std::destroying_delete_t) noexcept {
-    delete image->pool;
+SvgLibrary* svg_library_create(SvgDecode decode, void* context) {
+    ObjPool* pool = new ObjPool();
+
+    return pool->make<SvgLibrary>(pool, decode, context);
 }
 
-const void* ImageImpl::data() const {
-    return pixels;
+void svg_library_destroy(SvgLibrary* library) {
+    if (library) {
+        delete library->pool;
+    }
 }
 
-size_t ImageImpl::length() const {
-    return length_;
+void svg_document_destroy(SvgDocument* document) {
+    if (document) {
+        delete document->pool;
+    }
 }
 
-u32 ImageImpl::width() const {
-    return width_;
+float svg_document_width(const SvgDocument* document) {
+    return document->width;
 }
 
-u32 ImageImpl::height() const {
-    return height_;
+float svg_document_height(const SvgDocument* document) {
+    return document->height;
 }
 
-DocumentImpl::DocumentImpl(ObjPool* pool_, SvgDecoder* decoder_, StringView source_, float width, float height)
-    : pool(pool_)
-    , decoder(decoder_)
-    , source(source_)
-    , width_(width)
-    , height_(height)
-{
-}
-
-void DocumentImpl::operator delete(DocumentImpl* document, std::destroying_delete_t) noexcept {
-    delete document->pool;
-}
-
-float DocumentImpl::width() const {
-    return width_;
-}
-
-float DocumentImpl::height() const {
-    return height_;
-}
-
-SvgImage* DocumentImpl::render(u32 width, u32 height) {
-    return render(width, height, 1.f);
-}
-
-SvgImage* DocumentImpl::render(u32 width, u32 height, float scale) {
+SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height, float scale) {
     if (width == 0 || height == 0 || (u64)width * height > (1u << 26) || !(scale > 0.f)) {
         return nullptr;
     }
@@ -14563,7 +14565,7 @@ SvgImage* DocumentImpl::render(u32 width, u32 height, float scale) {
 
     memset(base, 0, sizeof(float) * size * 4);
 
-    if (loadDocument(doc, scratch, source) && doc.root && doc.root->name == AtomSvg) {
+    if (loadDocument(doc, scratch, document->source) && doc.root && doc.root->name == AtomSvg) {
         Lowering l;
 
         cascade(doc);
@@ -14574,7 +14576,8 @@ SvgImage* DocumentImpl::render(u32 width, u32 height, float scale) {
         l.scale = scale;
         l.depth = 0;
         l.out = &l.ops;
-        l.decoder = decoder;
+        l.decode = document->decode;
+        l.context = document->context;
         l.imageDepth = 0;
         l.backgroundInputs = usesBackground(doc, doc.root);
         l.sized = nullptr;
@@ -14612,20 +14615,10 @@ SvgImage* DocumentImpl::render(u32 width, u32 height, float scale) {
         d[3] = clampByte(a * keep * 255.f + 0.5f);
     }
 
-    return pool->make<ImageImpl>(pool, pixels, width, height);
+    return &pool->make<RenderedImage>(pool, pixels, width, height)->image;
 }
 
-LibraryImpl::LibraryImpl(ObjPool* pool_, SvgDecoder* decoder_)
-    : pool(pool_)
-    , decoder(decoder_)
-{
-}
-
-void LibraryImpl::operator delete(LibraryImpl* library, std::destroying_delete_t) noexcept {
-    delete library->pool;
-}
-
-SvgDocument* LibraryImpl::parse(const void* file, size_t length) {
+SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t length) {
     ObjPool scratch;
     Document doc;
     StringView source((const u8*)file, length);
@@ -14646,11 +14639,5 @@ SvgDocument* LibraryImpl::parse(const void* file, size_t length) {
 
     ObjPool* pool = new ObjPool();
 
-    return pool->make<DocumentImpl>(pool, decoder, keep(*pool, file, length), width, height);
-}
-
-SvgLibrary* SvgLibrary::create(SvgDecoder* decoder) {
-    ObjPool* pool = new ObjPool();
-
-    return pool->make<LibraryImpl>(pool, decoder);
+    return pool->make<SvgDocument>(pool, library->decode, library->context, keep(*pool, file, length), width, height);
 }

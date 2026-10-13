@@ -30,22 +30,27 @@ supply it; agreement with the renderer under test alone is not evidence.
 
 ## The contract
 
-```cpp
-SvgLibrary* library = SvgLibrary::create(decoder);
-SvgDocument* document = library->parse(bytes, length);
-SvgImage* image = document->render(width, height);
+`svg.h` is a C header.
+
+```c
+SvgLibrary* library = svg_library_create(decode, context);
+SvgDocument* document = svg_library_parse(library, bytes, length);
+SvgImage* image = svg_document_render(document, width, height, 1.f);
 ```
 
-`render(width, height)` draws the document in an SVG image viewport of that
-size, corresponding to `<img src="file.svg" style="width: Wpx; height: Hpx">`.
-`render(width, height, scale)` draws it at `scale` device pixels to the CSS
-pixel: the image is laid out at `width / scale` by `height / scale` and drawn
-at `width` by `height`. The pixels are RGBA, 8 bits a channel, not
-premultiplied. `decoder`, an
-`SvgDecoder` of the embedding program, turns the bytes of a raster image
-inside the document into such pixels and hands the image over; the renderer
-deletes it once the drawing is done. The library, the document and the image
-are each deleted with `delete` and do not depend on one another: the
+`svg_document_render(document, width, height, 1.f)` draws the document in
+an SVG image viewport of that size, corresponding to
+`<img src="file.svg" style="width: Wpx; height: Hpx">`. A `scale` other
+than 1 draws it at `scale` device pixels to the CSS pixel: the image is laid
+out at `width / scale` by `height / scale` and drawn at `width` by `height`.
+An `SvgImage` answers through its vtable: `data` gives the pixels, RGBA,
+8 bits a channel, not premultiplied, `length` their byte count, `width` and
+`height` the size, and `destroy` frees it. `decode`, a function of the
+embedding program called with `context`, turns the bytes of a raster image
+inside the document into an `SvgImage` of its own, which the renderer destroys
+once the drawing is done. The library, the document and the image are released with
+`svg_library_destroy`, `svg_document_destroy` and
+`image->vtable->destroy(image)` and do not depend on one another: the
 document outlives its library, the image outlives its document.
 
 ## The score

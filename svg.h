@@ -3,32 +3,46 @@
 #include <stddef.h>
 #include <stdint.h>
 
-struct SvgImage {
-    virtual ~SvgImage();
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    virtual const void* data() const = 0;
-    virtual size_t length() const = 0;
-    virtual uint32_t width() const = 0;
-    virtual uint32_t height() const = 0;
-};
+    typedef struct SvgImage SvgImage;
+    typedef struct SvgImageVtable SvgImageVtable;
+    typedef struct SvgDocument SvgDocument;
+    typedef struct SvgLibrary SvgLibrary;
 
-struct SvgDecoder {
-    virtual SvgImage* decode(const void* bytes, size_t length) = 0;
-};
+    // Width by height RGBA pixels, 8 bits a channel, not premultiplied, length
+    // bytes of them. Whoever is done with an image calls its destroy.
+    struct SvgImageVtable {
+        void (*destroy)(SvgImage* image);
+        const void* (*data)(const SvgImage* image);
+        size_t (*length)(const SvgImage* image);
+        uint32_t (*width)(const SvgImage* image);
+        uint32_t (*height)(const SvgImage* image);
+    };
 
-struct SvgDocument {
-    virtual ~SvgDocument();
+    struct SvgImage {
+        const SvgImageVtable* vtable;
+    };
 
-    virtual float width() const = 0;
-    virtual float height() const = 0;
-    virtual SvgImage* render(uint32_t width, uint32_t height) = 0;
-    virtual SvgImage* render(uint32_t width, uint32_t height, float scale) = 0;
-};
+    // Decodes the bytes of a raster image inside a document, or returns NULL. The
+    // renderer destroys the image once it has drawn it. A library without a
+    // decoder draws no raster images.
+    typedef SvgImage* (*SvgDecode)(void* context, const void* bytes, size_t length);
 
-struct SvgLibrary {
-    virtual ~SvgLibrary();
+    SvgLibrary* svg_library_create(SvgDecode decode, void* context);
+    void svg_library_destroy(SvgLibrary* library);
 
-    virtual SvgDocument* parse(const void* file, size_t length) = 0;
+    // The document keeps a copy of the file and outlives its library; an image
+    // outlives its document.
+    SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t length);
 
-    static SvgLibrary* create(SvgDecoder* decoder);
-};
+    void svg_document_destroy(SvgDocument* document);
+    float svg_document_width(const SvgDocument* document);
+    float svg_document_height(const SvgDocument* document);
+    SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height, float scale);
+
+#ifdef __cplusplus
+}
+#endif
