@@ -62,6 +62,7 @@ jobs:
               done
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" all
               head -4 .build/all.txt > score.txt
+              CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" checks
             ' 2>&1 | tee "$RUNNER_TEMP/score.log"
           sed "s/$/  /" score.txt >> "$GITHUB_STEP_SUMMARY"
 

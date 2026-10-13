@@ -470,6 +470,7 @@ with wasm2c; see [its README](ext/decode/README.md).
 ```
 ./build          # .build/svg, the test driver
 ./build all      # meanrms, maxrms, struct, aa and the candidates
+./build checks   # tst/viewport_units.py and tst/cascade_priority.py
 ```
 
 `python3 tst/filter_transforms.py .build/svg` checks diffuse and specular
@@ -501,6 +502,7 @@ canvas; viewport units still refer to the canvas.
 would carry into the next field of a packed priority: an id over 256 classes,
 the style attribute over 512 ids, an important declaration over 1024 ids, and
 a later rule over one with 8192 declarations.
+`./build checks` runs both; CI runs it on every push after the score.
 
 `python3 tst/blend_endpoints.py .build/svg` checks CSS and filter blending
 against calculated colours for gray backdrops and black/white luminosity,
