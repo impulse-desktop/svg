@@ -1115,6 +1115,7 @@ namespace {
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.025f;
     constexpr u32 maxDepth = 512;
+    constexpr double maxDashes = 1 << 20;
     constexpr u32 maxEntityDepth = 16;
     constexpr size_t maxExpansion = 1 << 22;
 
@@ -5734,15 +5735,8 @@ namespace {
                     float ddx = maxf(fabsf(p0.x - 2.f * p1.x + p2.x), fabsf(p1.x - 2.f * p2.x + p3.x));
                     float ddy = maxf(fabsf(p0.y - 2.f * p1.y + p2.y), fabsf(p1.y - 2.f * p2.y + p3.y));
                     float dd = sqrtf(ddx * ddx + ddy * ddy);
-                    int n = (int)ceilf(sqrtf(0.75f * dd / tol));
-
-                    if (n < 1 || !isfinite(dd)) {
-                        n = 1;
-                    }
-
-                    if (n > 512) {
-                        n = 512;
-                    }
+                    float steps = ceilf(sqrtf(0.75f * dd / tol));
+                    int n = steps >= 1.f ? (steps < 512.f ? (int)steps : 512) : 1;
 
                     int head = turn > 0.f ? refinements(p0, p1, p2, p3, 1.f / n, false, turn, tol) : 0;
                     int tail = turn > 0.f ? refinements(p0, p1, p2, p3, 1.f / n, true, turn, tol) : 0;
@@ -6019,6 +6013,23 @@ namespace {
 
         for (u32 i = 0; i < dashCount; i++) {
             total += dashes[i];
+        }
+
+        double extent = 0.0;
+
+        for (size_t i = 0; i + 1 < loop.length(); i++) {
+            double dx = loop[i + 1].x - loop[i].x;
+            double dy = loop[i + 1].y - loop[i].y;
+
+            extent += sqrt(dx * dx + dy * dy);
+        }
+
+        // Skia gives up dashing past a million dashes and draws the stroke
+        // solid; so do we, instead of an outline that fits in no memory.
+        if (!(extent / total <= maxDashes)) {
+            strokePolyline(out, s, points, count, closed);
+
+            return;
         }
 
         float phase = fmodf(offset, total);
@@ -8684,6 +8695,16 @@ namespace {
         return boxValid(out);
     }
 
+    static bool isAncestor(const Node* ancestor, const Node* node) {
+        for (const Node* up = node; up; up = up->parent) {
+            if (up == ancestor) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     static bool elementBox(Lowering& l, Node* node, const ComputedStyle& parent, Viewport vp, Box& out, u32 depth) {
         if (depth > 32 || !renderable(node->name)) {
             return false;
@@ -8732,7 +8753,7 @@ namespace {
         if (node->name == AtomUse) {
             Node* target = hrefTarget(*l.doc, node);
 
-            if (target && target != node) {
+            if (target && !isAncestor(target, node)) {
                 if (target->name == AtomSymbol) {
                     const Document& doc = *l.doc;
                     ComputedStyle symbolStyle = computeStyle(l, target, style, vp);
@@ -10170,14 +10191,8 @@ namespace {
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Node* target = hrefTarget(*l.doc, node);
 
-        if (!target || l.active.length() > 32) {
+        if (!target || l.active.length() > 32 || isAncestor(target, node)) {
             return;
-        }
-
-        for (Node* up = node; up; up = up->parent) {
-            if (up == target) {
-                return;
-            }
         }
 
         for (size_t k = 1; k < l.hosts.length(); k += 2) {
