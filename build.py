@@ -11,7 +11,36 @@ import build.flags as flags
 
 flags.allow({
     "filter": {"descr": "glob over the cases, as paths under tst/corpus (resvg/*, */*gradient*)", "default": ""},
+    "group": {"descr": "zero-based partition of the tests to run", "default": ""},
+    "group_count": {"descr": "total number of test partitions", "default": ""},
 })
+
+
+def parse_test_partition():
+    if bool(flags.group) != bool(flags.group_count):
+        raise RuntimeError("-Dgroup and -Dgroup_count must be specified together")
+    if not flags.group:
+        return None
+    try:
+        group_index = int(flags.group)
+        group_count = int(flags.group_count)
+    except ValueError as error:
+        raise RuntimeError("-Dgroup and -Dgroup_count must be integers") from error
+    if group_count <= 0 or group_index < 0 or group_index >= group_count:
+        raise RuntimeError("test partition requires 0 <= group < group_count and group_count > 0")
+    return group_index, group_count
+
+
+# A test falls in the partition that a hash of its name picks, so it stays
+# there when other tests come and go.
+def partition_tests(targets):
+    if test_partition is None:
+        return targets
+    group_index, group_count = test_partition
+    return [target for target in targets if int.from_bytes(hashlib.sha256(target.name.encode()).digest()[:8], "big") % group_count == group_index]
+
+
+test_partition = parse_test_partition()
 
 build.cxxflags += ["-std=c++26", "-O2", "-g"]
 
@@ -98,8 +127,9 @@ install(svg)
 
 # A check imports canon, which imports the reference modules, so every
 # script under tst is an input of every check.
+checks = []
 for check in ["viewport_units", "cascade_priority"]:
-    group("checks", command(
+    checks.append(command(
         name="check_" + check,
         inputs=build.glob("$(S)/tst/*.py"),
         outputs=[f"$(B)/checks/{check}.txt"],
@@ -108,6 +138,8 @@ for check in ["viewport_units", "cascade_priority"]:
         descr="CK",
         color="light-green",
     ))
+
+group("checks", *checks)
 
 
 labels = ["1x", "2x"]
@@ -146,3 +178,7 @@ for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
         descr="OK",
         color="light-green",
     ))
+
+# Every case and check, or one partition of them with -Dgroup and
+# -Dgroup_count: the sanitizer runs of CI split them this way.
+group("tests", *partition_tests(cases + checks))

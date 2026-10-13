@@ -1,0 +1,41 @@
+name: Run ASan test shard
+description: Build with ASan and UBSan and run one shard of the corpus cases and checks
+
+inputs:
+  shard:
+    description: Zero-based shard index
+    required: true
+  shard_count:
+    description: Total number of shards
+    required: true
+    default: "10"
+
+runs:
+  using: composite
+  steps:
+    - name: Test the shard under ASan and UBSan
+      shell: bash
+      env:
+        TEST_GROUP: ${{ inputs.shard }}
+        TEST_GROUP_COUNT: ${{ inputs.shard_count }}
+      run: |
+        docker run --rm \
+          --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+          --env TEST_GROUP --env TEST_GROUP_COUNT \
+          --entrypoint sh nixos/nix:2.31.2 -c \
+          'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c sh -c '\''svg-sanitizers -j "$(nproc)" -k -Dgroup="$TEST_GROUP" -Dgroup_count="$TEST_GROUP_COUNT" tests'\'''
+
+    # A case that crashes under a sanitizer fails the shard with its report;
+    # one that runs past the driver's two minutes scores as a crash without
+    # one, and was not drawn to the end.
+    - name: List the cases that did not finish
+      if: always()
+      shell: bash
+      run: |
+        unfinished=$(grep -rlx 'mae 1 1' .build/score 2>/dev/null | sort || true)
+        echo "${unfinished:-none}"
+        {
+          echo "Cases of shard ${{ inputs.shard }} that did not finish under the sanitizers:"
+          echo
+          echo "${unfinished:-none}" | sed 's/$/  /'
+        } >> "$GITHUB_STEP_SUMMARY"
