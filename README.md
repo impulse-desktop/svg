@@ -491,6 +491,17 @@ palette and grayscale images, including alpha and the sRGB chunk's precedence.
 against explicit geometric angles for ordinary closes, repeated closes and
 paths that return to their start before closing.
 
+`python3 tst/viewport_units.py .build/svg` checks the exact area of a shape
+sized in `vw` and `vh` inside a nested `svg`, a `symbol` and a `marker`, drawn
+plainly and through a filter under rotations and a reflection, directly and at
+`SIDE=1024`. Such a filter runs on an intermediate layer whose size is not the
+canvas; viewport units still refer to the canvas.
+
+`python3 tst/cascade_priority.py .build/svg` checks the cascade where a count
+would carry into the next field of a packed priority: an id over 256 classes,
+the style attribute over 512 ids, an important declaration over 1024 ids, and
+a later rule over one with 8192 declarations.
+
 `python3 tst/blend_endpoints.py .build/svg` checks CSS and filter blending
 against calculated colours for gray backdrops and black/white luminosity,
 including partial opacity and chromatic backdrops.
