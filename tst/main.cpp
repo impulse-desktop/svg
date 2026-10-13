@@ -31,22 +31,29 @@ namespace {
         uint32_t height = 0;
     };
 
-    struct DecodedImage final: SvgImage {
-        std::vector<uint8_t> rgba;
-        uint32_t width_;
-        uint32_t height_;
-
-        DecodedImage(uint32_t width, uint32_t height);
-
-        const void* data() const override;
-        size_t length() const override;
-        uint32_t width() const override;
-        uint32_t height() const override;
+    // A decoded image of the driver: its pixels, handed to the renderer.
+    struct DecodedImage {
+        SvgImage image;
+        uint8_t* rgba;
+        uint32_t width;
+        uint32_t height;
     };
 
-    struct RasterDecoder final: SvgDecoder {
-        SvgImage* decode(const void* bytes, size_t length) override;
+    struct DestroyImage {
+        void operator()(SvgImage* image) const;
     };
+
+    struct DestroyDocument {
+        void operator()(SvgDocument* document) const;
+    };
+
+    struct DestroyLibrary {
+        void operator()(SvgLibrary* library) const;
+    };
+
+    using Image = std::unique_ptr<SvgImage, DestroyImage>;
+    using Document = std::unique_ptr<SvgDocument, DestroyDocument>;
+    using Library = std::unique_ptr<SvgLibrary, DestroyLibrary>;
 
     struct Decoder {
         w2c_decode wasm;
@@ -130,27 +137,43 @@ namespace {
     }
 }
 
-DecodedImage::DecodedImage(uint32_t width, uint32_t height)
-    : rgba((size_t)width * height * 4)
-    , width_(width)
-    , height_(height)
-{
+void DestroyImage::operator()(SvgImage* image) const {
+    image->vtable->destroy(image);
 }
 
-const void* DecodedImage::data() const {
-    return rgba.data();
+static void destroyDecoded(SvgImage* image) {
+    DecodedImage* decoded = (DecodedImage*)image;
+
+    delete[] decoded->rgba;
+    delete decoded;
 }
 
-size_t DecodedImage::length() const {
-    return rgba.size();
+static const void* decodedData(const SvgImage* image) {
+    return ((const DecodedImage*)image)->rgba;
 }
 
-uint32_t DecodedImage::width() const {
-    return width_;
+static size_t decodedLength(const SvgImage* image) {
+    const DecodedImage* decoded = (const DecodedImage*)image;
+
+    return (size_t)decoded->width * decoded->height * 4;
 }
 
-uint32_t DecodedImage::height() const {
-    return height_;
+static uint32_t decodedWidth(const SvgImage* image) {
+    return ((const DecodedImage*)image)->width;
+}
+
+static uint32_t decodedHeight(const SvgImage* image) {
+    return ((const DecodedImage*)image)->height;
+}
+
+static const SvgImageVtable decodedVtable = {destroyDecoded, decodedData, decodedLength, decodedWidth, decodedHeight};
+
+void DestroyDocument::operator()(SvgDocument* document) const {
+    svg_document_destroy(document);
+}
+
+void DestroyLibrary::operator()(SvgLibrary* library) const {
+    svg_library_destroy(library);
 }
 
 extern "C" void decodeTrapHandler(wasm_rt_trap_t code) {
@@ -212,9 +235,9 @@ SvgImage* Decoder::decode(const uint8_t* bytes, size_t size) {
         return nullptr;
     }
 
-    std::unique_ptr<DecodedImage> out(new DecodedImage(header[0], header[1]));
+    std::unique_ptr<uint8_t[]> rgba(new uint8_t[pixels * 4]);
 
-    memcpy(out->rgba.data(), at((uint64_t)res + sizeof(header), pixels * 4), pixels * 4);
+    memcpy(rgba.get(), at((uint64_t)res + sizeof(header), pixels * 4), pixels * 4);
 
     if (gammaOffset) {
         uint8_t table[256];
@@ -226,8 +249,6 @@ SvgImage* Decoder::decode(const uint8_t* bytes, size_t size) {
             table[k] = (uint8_t)(srgb * 255.0 + 0.5);
         }
 
-        uint8_t* rgba = out->rgba.data();
-
         for (uint64_t k = 0; k < pixels * 4; k += 4) {
             for (int c = 0; c < 3; c++) {
                 rgba[k + c] = table[rgba[k + c]];
@@ -235,10 +256,12 @@ SvgImage* Decoder::decode(const uint8_t* bytes, size_t size) {
         }
     }
 
-    return out.release();
+    DecodedImage* out = new DecodedImage{{&decodedVtable}, rgba.release(), header[0], header[1]};
+
+    return &out->image;
 }
 
-SvgImage* RasterDecoder::decode(const void* bytes, size_t length) {
+static SvgImage* decodeRaster(void*, const void* bytes, size_t length) {
     if (length == 0 || length > 0x7fffffffu) {
         return nullptr;
     }
@@ -324,23 +347,23 @@ namespace {
         }
 
         try {
-            std::unique_ptr<SvgImage> image(document->render(pixels.width, pixels.height, scale));
+            Image image(svg_document_render(document, pixels.width, pixels.height, scale));
 
-            if (image && image->width() == pixels.width && image->height() == pixels.height && image->length() == pixels.rgba.size()) {
-                memcpy(pixels.rgba.data(), image->data(), pixels.rgba.size());
+            if (image && image->vtable->width(image.get()) == pixels.width && image->vtable->height(image.get()) == pixels.height && image->vtable->length(image.get()) == pixels.rgba.size()) {
+                memcpy(pixels.rgba.data(), image->vtable->data(image.get()), pixels.rgba.size());
             }
         } catch (...) {
             pixels.rgba.assign(pixels.rgba.size(), 0);
         }
     }
 
-    static std::unique_ptr<SvgDocument> load(SvgDecoder* decoder, const char* path, std::string& file) {
+    static Document load(const char* path, std::string& file) {
         readFile(path, file);
 
         try {
-            std::unique_ptr<SvgLibrary> library(SvgLibrary::create(decoder));
+            Library library(svg_library_create(decodeRaster, nullptr));
 
-            return std::unique_ptr<SvgDocument>(library->parse(file.data(), file.size()));
+            return Document(svg_library_parse(library.get(), file.data(), file.size()));
         } catch (...) {
             return nullptr;
         }
@@ -927,9 +950,8 @@ namespace {
             return 2;
         }
 
-        RasterDecoder decoder;
         std::string file;
-        std::unique_ptr<SvgDocument> document = load(&decoder, argv[2], file);
+        Document document = load(argv[2], file);
         Pixels pixels;
 
         pixels.width = (uint32_t)atoi(argv[4]);
@@ -976,9 +998,8 @@ namespace {
 
         alarm(caseSeconds);
 
-        RasterDecoder decoder;
         std::string file;
-        std::unique_ptr<SvgDocument> document = load(&decoder, argv[2], file);
+        Document document = load(argv[2], file);
         bool reuse = scalable(file);
         Pixels large;
         std::string errors;
@@ -1093,8 +1114,6 @@ namespace {
             fail("cannot read ", argv[2]);
         }
 
-        RasterDecoder decoder;
-
         while (fgets(line, sizeof(line), list)) {
             char path[4000];
             unsigned width;
@@ -1111,15 +1130,15 @@ namespace {
             readFile(path, file);
 
             for (int r = 0; r < repeat; r++) {
-                std::unique_ptr<SvgLibrary> library;
-                std::unique_ptr<SvgDocument> document;
-                std::unique_ptr<SvgImage> image;
+                Library library;
+                Document document;
+                Image image;
                 uint64_t start = nanoseconds();
 
                 try {
-                    library.reset(SvgLibrary::create(&decoder));
-                    document.reset(library->parse(file.data(), file.size()));
-                    image.reset(document ? document->render(width, height) : nullptr);
+                    library.reset(svg_library_create(decodeRaster, nullptr));
+                    document.reset(svg_library_parse(library.get(), file.data(), file.size()));
+                    image.reset(document ? svg_document_render(document.get(), width, height, 1.f) : nullptr);
                     ok = image != nullptr;
                 } catch (...) {
                     ok = false;
