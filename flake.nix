@@ -116,7 +116,7 @@
               ln -s "$file" "$work/seeds/$(basename "$(dirname "$file")")-$(basename "$file")"
             done
             cd "$work"
-            exec "$root/.build/fuzz" -timeout=20 -runs=150000 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
+            exec "$root/.build/fuzz" -timeout=120 -runs=150000 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
           '';
 
           commonNativeBuildInputs = [

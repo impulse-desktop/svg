@@ -11351,14 +11351,29 @@ namespace {
         return 0.f;
     }
 
+    struct ByteUnits {
+        float values[256];
+    };
+
+    // The quotients byte / 255.f, each computed once.
+    constexpr ByteUnits byteUnits = [] {
+        ByteUnits units{};
+
+        for (int i = 0; i < 256; i++) {
+            units.values[i] = (float)i / 255.f;
+        }
+
+        return units;
+    }();
+
     static Color texel(const DevicePaint& paint, int x, int y) {
         x = x < 0 ? 0 : (x >= (int)paint.imageWidth ? (int)paint.imageWidth - 1 : x);
         y = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
 
         const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
-        float a = t[3] / 255.f;
+        float a = byteUnits.values[t[3]];
 
-        return Color{t[0] / 255.f * a, t[1] / 255.f * a, t[2] / 255.f * a, a};
+        return Color{byteUnits.values[t[0]] * a, byteUnits.values[t[1]] * a, byteUnits.values[t[2]] * a, a};
     }
 
     static bool paintAt(const DevicePaint& paint, float x, float y, Color& out) {
@@ -11436,17 +11451,31 @@ namespace {
             float ty = fy - y0;
             float wx[4] = {mitchell(tx + 1.f), mitchell(tx), mitchell(1.f - tx), mitchell(2.f - tx)};
             float wy[4] = {mitchell(ty + 1.f), mitchell(ty), mitchell(1.f - ty), mitchell(2.f - ty)};
+            int xs[4];
+            int ys[4];
+
+            for (int i = 0; i < 4; i++) {
+                int x = (int)x0 - 1 + i;
+                int y = (int)y0 - 1 + i;
+
+                xs[i] = x < 0 ? 0 : (x >= (int)paint.imageWidth ? (int)paint.imageWidth - 1 : x);
+                ys[i] = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
+            }
+
             Color sum{0.f, 0.f, 0.f, 0.f};
 
             for (int j = 0; j < 4; j++) {
+                const u8* row = paint.image + (size_t)ys[j] * paint.imageWidth * 4;
+
                 for (int i = 0; i < 4; i++) {
-                    Color c = texel(paint, (int)x0 - 1 + i, (int)y0 - 1 + j);
+                    const u8* t = row + (size_t)xs[i] * 4;
+                    float a = byteUnits.values[t[3]];
                     float w = wx[i] * wy[j];
 
-                    sum.r += c.r * w;
-                    sum.g += c.g * w;
-                    sum.b += c.b * w;
-                    sum.a += c.a * w;
+                    sum.r += byteUnits.values[t[0]] * a * w;
+                    sum.g += byteUnits.values[t[1]] * a * w;
+                    sum.b += byteUnits.values[t[2]] * a * w;
+                    sum.a += a * w;
                 }
             }
 
@@ -11553,10 +11582,15 @@ namespace {
         float x1;
         float key;
         int dir;
+        u32 order;
+        u32 edge;
     };
 
-    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, Vector<BandSample>& samples, float a, float b, u8 rule, int depth) {
+    // The samples of a band: the edges spanning it in the order of the active
+    // list, with the x where each enters, leaves and crosses the middle.
+    static bool bandSamples(const BandEdge* edges, const Vector<u32>& active, float a, float b, Vector<BandSample>& samples) {
         float mid = (a + b) * 0.5f;
+        bool comparable = true;
 
         samples.clear();
 
@@ -11564,14 +11598,71 @@ namespace {
             const BandEdge& e = edges[index];
 
             if (e.y0 <= a && e.y1 >= b) {
-                BandSample sample{bandX(e, a), bandX(e, b), bandX(e, mid), e.dir};
-                size_t k = samples.length();
+                float key = bandX(e, mid);
 
-                samples.pushBack(sample);
+                comparable = comparable && key == key;
+                samples.pushBack(BandSample{bandX(e, a), bandX(e, b), key, e.dir, (u32)samples.length(), index});
+            }
+        }
 
-                BandSample* sorted = samples.mutData();
+        return comparable;
+    }
 
-                while (k > 0 && sorted[k - 1].key > sample.key) {
+    // The samples of a half of a band, in the order of the whole: the cuts
+    // leave no edge end inside a band, so the same edges span the half,
+    // entering or leaving it where they cross the middle of the whole band.
+    static bool halfBandSamples(const BandEdge* edges, const Vector<BandSample>& whole, float a, float b, bool top, Vector<BandSample>& samples) {
+        float mid = (a + b) * 0.5f;
+        bool comparable = true;
+
+        samples.clear();
+
+        for (const BandSample& s : whole) {
+            float key = bandX(edges[s.edge], mid);
+
+            comparable = comparable && key == key;
+            samples.pushBack(BandSample{top ? s.x0 : s.key, top ? s.key : s.x1, key, s.dir, s.order, s.edge});
+        }
+
+        return comparable;
+    }
+
+    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable) {
+        Vector<BandSample>& band = samples[depth];
+
+        if (band.empty()) {
+            return;
+        }
+
+        // Samples sort by their keys, equal keys by the order of their edges.
+        // A key that is not a number stops the insertion sort where it stands,
+        // so that sort runs over the order of the active list, as a whole band
+        // comes; a half band comes nearly sorted, so the insertion sort is
+        // linear there.
+        if (comparable && depth == 0 && band.length() >= 24) {
+            quickSort(band.mutBegin(), band.mutEnd(), [](const BandSample& p, const BandSample& q) {
+                return p.key < q.key || (p.key == q.key && p.order < q.order);
+            });
+        } else {
+            if (!comparable && depth > 0) {
+                Vector<BandSample>& ordered = samples[depth + 1];
+
+                ordered.zero(band.length());
+
+                for (const BandSample& s : band) {
+                    ordered.mut(s.order) = s;
+                }
+
+                band.xchg(ordered);
+            }
+
+            BandSample* sorted = band.mutData();
+
+            for (size_t i = 1; i < band.length(); i++) {
+                BandSample sample = sorted[i];
+                size_t k = i;
+
+                while (k > 0 && (sorted[k - 1].key > sample.key || (comparable && sorted[k - 1].key == sample.key && sorted[k - 1].order > sample.order))) {
                     sorted[k] = sorted[k - 1];
                     k--;
                 }
@@ -11580,18 +11671,23 @@ namespace {
             }
         }
 
-        if (samples.empty()) {
-            return;
-        }
-
         if (depth < 6) {
-            for (size_t k = 0; k + 1 < samples.length(); k++) {
-                const BandSample& p = samples[k];
-                const BandSample& q = samples[k + 1];
+            for (size_t k = 0; k + 1 < band.length(); k++) {
+                const BandSample& p = band[k];
+                const BandSample& q = band[k + 1];
 
                 if (p.x0 > q.x0 + 1e-4f || p.x1 > q.x1 + 1e-4f) {
-                    unionBand(acc, stride, w, h, edges, active, samples, a, mid, rule, depth + 1);
-                    unionBand(acc, stride, w, h, edges, active, samples, mid, b, rule, depth + 1);
+                    float mid = (a + b) * 0.5f;
+                    Vector<BandSample>& half = samples[depth + 1];
+                    // A middle that rounds onto an end of the band is spanned by more edges.
+                    bool split = a < mid && mid < b;
+                    bool comparableHalf = split ? halfBandSamples(edges, band, a, mid, true, half) : bandSamples(edges, active, a, mid, half);
+
+                    unionBand(acc, stride, w, h, edges, active, samples, a, mid, rule, depth + 1, comparableHalf);
+
+                    comparableHalf = split ? halfBandSamples(edges, band, mid, b, false, half) : bandSamples(edges, active, mid, b, half);
+
+                    unionBand(acc, stride, w, h, edges, active, samples, mid, b, rule, depth + 1, comparableHalf);
 
                     return;
                 }
@@ -11600,7 +11696,7 @@ namespace {
 
         int winding = 0;
 
-        for (const BandSample& sample : samples) {
+        for (const BandSample& sample : band) {
             bool before = insideWinding(winding, rule);
 
             winding += sample.dir;
@@ -11713,7 +11809,7 @@ namespace {
         });
 
         Vector<u32> active;
-        Vector<BandSample> samples;
+        Vector<BandSample> samples[8];
         Vector<float> cuts;
         Vector<Crossing> crossings;
         size_t next = 0;
@@ -11778,7 +11874,9 @@ namespace {
             // Repeated boundaries of aligned dashes do not add integration bands.
             if (cutCount * active.length() <= 4096) {
                 for (size_t k = 0; k + 1 < cutCount; k++) {
-                    unionBand(acc, stride, w, h, edges.data(), active, samples, cuts[k], cuts[k + 1], rule, 0);
+                    bool comparable = bandSamples(edges.data(), active, cuts[k], cuts[k + 1], samples[0]);
+
+                    unionBand(acc, stride, w, h, edges.data(), active, samples, cuts[k], cuts[k + 1], rule, 0, comparable);
                 }
 
                 continue;
@@ -13019,7 +13117,9 @@ namespace {
         float k3 = numberOf(doc, p.node, AtomK3, 0.f);
         float k4 = numberOf(doc, p.node, AtomK4, 0.f);
         const IntBox& box = p.box;
-        float ceiling = kind == StringView(u8"arithmetic") && keepsInvalidColor(*run.filter, p) ? 1.f : 0.f;
+        bool arithmetic = kind == StringView(u8"arithmetic");
+        float ceiling = arithmetic && keepsInvalidColor(*run.filter, p) ? 1.f : 0.f;
+        int mode = kind == StringView(u8"in") ? 1 : (kind == StringView(u8"out") ? 2 : (kind == StringView(u8"atop") ? 3 : (kind == StringView(u8"xor") ? 4 : (kind == StringView(u8"lighter") ? 5 : 0))));
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
@@ -13028,7 +13128,7 @@ namespace {
                 const float* d = b + i;
                 float* o = out + i;
 
-                if (kind == StringView(u8"arithmetic")) {
+                if (arithmetic) {
                     float alpha = clampUnit(k1 * s[3] * d[3] + k2 * s[3] + k3 * d[3] + k4);
 
                     for (int c = 0; c < 3; c++) {
@@ -13042,19 +13142,19 @@ namespace {
                 float fa = 1.f;
                 float fb = 1.f - s[3];
 
-                if (kind == StringView(u8"in")) {
+                if (mode == 1) {
                     fa = d[3];
                     fb = 0.f;
-                } else if (kind == StringView(u8"out")) {
+                } else if (mode == 2) {
                     fa = 1.f - d[3];
                     fb = 0.f;
-                } else if (kind == StringView(u8"atop")) {
+                } else if (mode == 3) {
                     fa = d[3];
                     fb = 1.f - s[3];
-                } else if (kind == StringView(u8"xor")) {
+                } else if (mode == 4) {
                     fa = 1.f - d[3];
                     fb = 1.f - s[3];
-                } else if (kind == StringView(u8"lighter")) {
+                } else if (mode == 5) {
                     fa = 1.f;
                     fb = 1.f;
                 }
@@ -13451,6 +13551,8 @@ namespace {
 
         u32 edgeValue = attribute(p.node, AtomEdgeMode);
         StringView edge = edgeValue ? trim(textOf(doc, edgeValue)) : StringView(u8"duplicate");
+        bool edgeNone = edge == StringView(u8"none");
+        bool edgeWrap = edge == StringView(u8"wrap");
         u32 preserveValue = attribute(p.node, AtomPreserveAlpha);
         bool preserve = preserveValue && trim(textOf(doc, preserveValue)) == StringView(u8"true");
         IntBox src = inputBox(run, p.in1);
@@ -13467,11 +13569,11 @@ namespace {
                         bool inside = sx >= src.x0 && sx < src.x1 && sy >= src.y0 && sy < src.y1;
 
                         if (!inside) {
-                            if (edge == StringView(u8"none")) {
+                            if (edgeNone) {
                                 continue;
                             }
 
-                            if (edge == StringView(u8"wrap")) {
+                            if (edgeWrap) {
                                 int w = src.x1 - src.x0;
                                 int h = src.y1 - src.y0;
 
@@ -13686,49 +13788,56 @@ namespace {
         }
     }
 
-    static void turbulenceAt(const Turbulence& tb, double px, double py, double fx, double fy, int octaves, bool fractal, bool stitching, double tileX, double tileY, double tileW, double tileH, float* out) {
+    // Snaps the frequencies to the tile and sets up the wrapping of the first
+    // octave, as feTurbulence stitches its tiles.
+    static void stitchTiles(double& fx, double& fy, double tileX, double tileY, double tileW, double tileH, Stitch& stitch) {
+        if (fx != 0.0) {
+            double low = floor(tileW * fx) / tileW;
+            double high = ceil(tileW * fx) / tileW;
+
+            fx = fx / low < high / fx ? low : high;
+        }
+
+        if (fy != 0.0) {
+            double low = floor(tileH * fy) / tileH;
+            double high = ceil(tileH * fy) / tileH;
+
+            fy = fy / low < high / fy ? low : high;
+        }
+
+        stitch.width = (int)(tileW * fx + 0.5);
+        stitch.wrapX = (int)(tileX * fx + 0x1000 + stitch.width);
+        stitch.height = (int)(tileH * fy + 0.5);
+        stitch.wrapY = (int)(tileY * fy + 0x1000 + stitch.height);
+    }
+
+    static void turbulenceAt(const Turbulence& tb, double px, double py, double fx, double fy, int octaves, bool fractal, const Stitch* stitching, float* out) {
         Stitch stitch;
         Stitch* active = nullptr;
 
         if (stitching) {
-            if (fx != 0.0) {
-                double low = floor(tileW * fx) / tileW;
-                double high = ceil(tileW * fx) / tileW;
-
-                fx = fx / low < high / fx ? low : high;
-            }
-
-            if (fy != 0.0) {
-                double low = floor(tileH * fy) / tileH;
-                double high = ceil(tileH * fy) / tileH;
-
-                fy = fy / low < high / fy ? low : high;
-            }
-
+            stitch = *stitching;
             active = &stitch;
-            stitch.width = (int)(tileW * fx + 0.5);
-            stitch.wrapX = (int)(tileX * fx + 0x1000 + stitch.width);
-            stitch.height = (int)(tileH * fy + 0.5);
-            stitch.wrapY = (int)(tileY * fy + 0x1000 + stitch.height);
         }
 
         double sum[4] = {};
         double vx = px * fx;
         double vy = py * fy;
-        double ratio = 1.0;
+        double weight = 1.0;
 
         for (int octave = 0; octave < octaves; octave++) {
             double noise[4];
 
             noise2(tb, vx, vy, active, noise);
 
+            // The weight is a power of two, so this scaling is as exact as a division.
             for (int channel = 0; channel < 4; channel++) {
-                sum[channel] += fractal ? noise[channel] / ratio : fabs(noise[channel]) / ratio;
+                sum[channel] += fractal ? noise[channel] * weight : fabs(noise[channel]) * weight;
             }
 
             vx *= 2;
             vy *= 2;
-            ratio *= 2;
+            weight *= 0.5;
 
             if (active) {
                 stitch.width *= 2;
@@ -13739,7 +13848,7 @@ namespace {
         }
 
         for (int channel = 0; channel < 4; channel++) {
-            out[channel] = (float)(fractal ? (sum[channel] + 1.0) / 2.0 : sum[channel]);
+            out[channel] = (float)(fractal ? (sum[channel] + 1.0) * 0.5 : sum[channel]);
         }
     }
 
@@ -13781,13 +13890,20 @@ namespace {
         const IntBox& box = p.box;
         float tileW = p.user.x1 - p.user.x0;
         float tileH = p.user.y1 - p.user.y0;
+        double frequencyX = fx;
+        double frequencyY = fy;
+        Stitch stitch;
+
+        if (stitching) {
+            stitchTiles(frequencyX, frequencyY, p.user.x0, p.user.y0, tileW, tileH, stitch);
+        }
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
                 Point point = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
                 float c[4];
 
-                turbulenceAt(*tb, point.x, point.y, fx, fy, octaves, fractal, stitching, p.user.x0, p.user.y0, tileW, tileH, c);
+                turbulenceAt(*tb, point.x, point.y, frequencyX, frequencyY, octaves, fractal, stitching ? &stitch : nullptr, c);
                 storePremultiplied(out + ((size_t)y * run.width + x) * 4, c);
             }
         }
@@ -14301,18 +14417,33 @@ namespace {
         memset(content, 0, sizeof(float) * size * 4);
         runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
-        for (const Filter* filter = op.filter; filter; filter = filter->next) {
-            content = applyFilter(sub, l, *filter, content, pool);
-        }
-
         int lw = (int)op.layerWidth;
         int lh = (int)op.layerHeight;
+        IntBox region{0, 0, lw, lh};
+
+        for (const Filter* filter = op.filter; filter; filter = filter->next) {
+            content = applyFilter(sub, l, *filter, content, pool);
+            region = clipBox(filter->region, lw, lh);
+        }
+
+        // A filter's result is zero outside its region, so only the device
+        // pixels whose bilinear taps reach the region of the last one can draw.
+        Box reach = deviceBox(toDevice, Box{(float)region.x0 - 1.f, (float)region.y0 - 1.f, (float)region.x1 + 1.f, (float)region.y1 + 1.f});
+        IntBox drawn{0, 0, (int)r.width, (int)r.height};
+
+        if (boxValid(reach)) {
+            drawn.x0 = reach.x0 - 2.f > 0.f ? (int)(reach.x0 - 2.f) : 0;
+            drawn.y0 = reach.y0 - 2.f > 0.f ? (int)(reach.y0 - 2.f) : 0;
+            drawn.x1 = reach.x1 + 3.f < (float)r.width ? (int)(reach.x1 + 3.f) : (int)r.width;
+            drawn.y1 = reach.y1 + 3.f < (float)r.height ? (int)(reach.y1 + 3.f) : (int)r.height;
+        }
+
         auto texel = [&](int x, int y, int c) {
             return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content[((size_t)y * lw + x) * 4 + c];
         };
 
-        for (u32 y = 0; y < r.height; y++) {
-            for (u32 x = 0; x < r.width; x++) {
+        for (int y = drawn.y0; y < drawn.y1; y++) {
+            for (int x = drawn.x0; x < drawn.x1; x++) {
                 Point p = apply(op.layerMatrix, Point{(float)x + 0.5f, (float)y + 0.5f});
                 float fx = p.x - 0.5f;
                 float fy = p.y - 0.5f;
