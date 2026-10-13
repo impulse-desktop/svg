@@ -101,7 +101,21 @@
             fi
 
             svg-build -j "''${SVG_BUILD_JOBS:-4}" fuzz
-            exec ./.build/fuzz tst/ "$@"
+
+            # The seeds are the inputs on which the fuzzer once found a crash,
+            # kept under tst/fuzz, and the corpus drawings under 32 KB: the
+            # larger ones cost more time than the coverage they add. Every
+            # core fuzzes 80000 runs, about five minutes in CI. Inputs the run
+            # finds interesting go to .build/fuzz/new, crashes to .build/fuzz.
+            root=$PWD
+            work=$root/.build/fuzz
+            rm -rf "$work"
+            mkdir -p "$work/seeds" "$work/new"
+            find "$root/tst/corpus" -name '*.svg' -size -32k | while read -r file; do
+              ln -s "$file" "$work/seeds/$(basename "$(dirname "$file")")-$(basename "$file")"
+            done
+            cd "$work"
+            exec "$root/.build/fuzz" -timeout=20 -runs=80000 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
           '';
 
           commonNativeBuildInputs = [

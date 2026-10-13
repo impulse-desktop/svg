@@ -24,7 +24,18 @@ jobs:
           docker run --rm \
             --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
             --entrypoint sh nixos/nix:2.31.2 -c \
-            'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c sh -c '\''svg-sanitizers -j "$(nproc)" && svg-fuzz -runs=40000 -timeout=10'\'''
+            'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c sh -c '\''svg-sanitizers -j "$(nproc)" && svg-fuzz'\'''
+
+      - name: Upload the inputs that crashed the fuzzer
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: fuzz-crashes
+          path: |
+            .build/fuzz/crash-*
+            .build/fuzz/timeout-*
+            .build/fuzz/oom-*
+          if-no-files-found: ignore
 
   score:
     name: Score

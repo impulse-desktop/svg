@@ -532,13 +532,19 @@ switching configurations:
 nix develop -c svg-build                         # regular build
 nix develop .#sanitized -c svg-build             # ASan + UBSan build
 nix develop .#sanitized -c svg-sanitizers        # build and smoke test
-nix develop .#sanitized -c svg-fuzz -runs=40000  # libFuzzer over tst/
+nix develop .#sanitized -c svg-fuzz                # libFuzzer, about five minutes
 ```
 
 The sanitizer shell instruments the C++ renderer and the test driver. The generated
 wasm2c decoder shards and their C runtime are trusted, left uninstrumented and
 therefore retain the same `.build` cache keys in both configurations. The fuzz
 target uses a null raster decoder, so wasm2c is not linked into `.build/fuzz`.
+
+`svg-fuzz` seeds libFuzzer with the inputs under `tst/fuzz`, on each of which
+the fuzzer once found a crash, and with the corpus drawings under 32 KB, then
+fuzzes 80000 runs on every core. CI does this on every push; an input that
+crashes there is uploaded as the `fuzz-crashes` artifact. Add it to `tst/fuzz`
+next to the fix, so that every later run replays it.
 
 `svg render IN.svg OUT.png WIDTH HEIGHT` draws one file;
 `svg test IN.svg SCORE REFERENCE.png...` writes the errors and the shares
