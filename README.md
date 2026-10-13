@@ -541,8 +541,9 @@ therefore retain the same `.build` cache keys in both configurations. The fuzz
 target uses a null raster decoder, so wasm2c is not linked into `.build/fuzz`.
 
 `svg-fuzz` seeds libFuzzer with the inputs under `tst/fuzz`, on each of which
-the fuzzer once found a crash, and with the corpus drawings under 32 KB, then
-fuzzes 80000 runs on every core. CI does this on every push; an input that
+the fuzzer once found a crash, and with the `resvg`, `w3c`, `wpt` and `blink`
+suites of the corpus, then fuzzes 150000 runs on every core, about a
+quarter of an hour under the sanitizers. CI does this on every push; an input that
 crashes there is uploaded as the `fuzz-crashes` artifact. Add it to `tst/fuzz`
 next to the fix, so that every later run replays it.
 
