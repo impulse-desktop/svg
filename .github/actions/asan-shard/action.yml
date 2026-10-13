@@ -8,7 +8,7 @@ inputs:
   shard_count:
     description: Total number of shards
     required: true
-    default: "10"
+    default: "5"
 
 runs:
   using: composite

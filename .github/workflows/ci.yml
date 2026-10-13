@@ -11,13 +11,12 @@ permissions:
   contents: read
 
 jobs:
-  # Every corpus case and check runs under ASan and UBSan in ten stable
-  # shards side by side (build.py -Dgroup=K -Dgroup_count=N, a hash of the
-  # test's name); each shard builds the sanitized driver and draws the smoke
-  # test too.
+  # Every corpus case, check and the smoke drawing runs under ASan and
+  # UBSan in five stable shards side by side (build.py -Dgroup=K
+  # -Dgroup_count=N, a hash of the test's name).
 
   tests-asan-0:
-    name: Tests ASan 0/10
+    name: Tests ASan 0/5
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -29,7 +28,7 @@ jobs:
           shard: "0"
 
   tests-asan-1:
-    name: Tests ASan 1/10
+    name: Tests ASan 1/5
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -41,7 +40,7 @@ jobs:
           shard: "1"
 
   tests-asan-2:
-    name: Tests ASan 2/10
+    name: Tests ASan 2/5
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -53,7 +52,7 @@ jobs:
           shard: "2"
 
   tests-asan-3:
-    name: Tests ASan 3/10
+    name: Tests ASan 3/5
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -65,7 +64,7 @@ jobs:
           shard: "3"
 
   tests-asan-4:
-    name: Tests ASan 4/10
+    name: Tests ASan 4/5
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -75,66 +74,6 @@ jobs:
       - uses: ./.github/actions/asan-shard
         with:
           shard: "4"
-
-  tests-asan-5:
-    name: Tests ASan 5/10
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - name: Check out source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: ./.github/actions/asan-shard
-        with:
-          shard: "5"
-
-  tests-asan-6:
-    name: Tests ASan 6/10
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - name: Check out source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: ./.github/actions/asan-shard
-        with:
-          shard: "6"
-
-  tests-asan-7:
-    name: Tests ASan 7/10
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - name: Check out source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: ./.github/actions/asan-shard
-        with:
-          shard: "7"
-
-  tests-asan-8:
-    name: Tests ASan 8/10
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - name: Check out source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: ./.github/actions/asan-shard
-        with:
-          shard: "8"
-
-  tests-asan-9:
-    name: Tests ASan 9/10
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - name: Check out source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: ./.github/actions/asan-shard
-        with:
-          shard: "9"
 
   fuzz:
     name: libFuzzer (ASan + UBSan)

@@ -471,7 +471,7 @@ with wasm2c; see [its README](ext/decode/README.md).
 ./build          # .build/svg, the test driver
 ./build all      # meanrms, maxrms, struct, aa and the candidates
 ./build checks   # tst/viewport_units.py and tst/cascade_priority.py
-./build tests    # every corpus case and check
+./build tests    # every corpus case and check, and the smoke drawing
 ```
 
 `python3 tst/filter_transforms.py .build/svg` checks diffuse and specular
@@ -550,7 +550,7 @@ switching configurations:
 ```
 nix develop -c svg-build                         # regular build
 nix develop .#sanitized -c svg-build             # ASan + UBSan build
-nix develop .#sanitized -c svg-sanitizers tests  # every case and check, and the smoke test
+nix develop .#sanitized -c svg-sanitizers tests  # the tests under ASan + UBSan
 nix develop .#sanitized -c svg-fuzz                # libFuzzer
 ```
 
@@ -559,13 +559,13 @@ wasm2c decoder shards and their C runtime are trusted, left uninstrumented and
 therefore retain the same `.build` cache keys in both configurations. The fuzz
 target uses a null raster decoder, so wasm2c is not linked into `.build/fuzz`.
 
-`svg-sanitizers` builds the targets it is given with the sanitizers and draws
-`tst/sanitizer.svg`. A corpus case that a sanitizer stops would only score as a
-crash, so every report goes to a file under `.build/sanitizers/logs` instead, and
-any report fails the run. `./build tests` is every corpus case and check;
-`-Dgroup=K -Dgroup_count=N` keeps the K-th of N partitions of them, split by a
-hash of the test's name. CI runs them under the sanitizers in ten such shards on
-every push.
+`svg-sanitizers` builds the targets it is given with the sanitizers. A corpus
+case that a sanitizer stops would only score as a crash, so every report goes to
+a file under `.build/sanitizers/logs` instead, and any report fails the run.
+`./build tests` is every corpus case and check and the smoke drawing of
+`tst/sanitizer.svg`; `-Dgroup=K -Dgroup_count=N` keeps the K-th of N partitions
+of them, split by a hash of the test's name. CI runs them under the sanitizers
+in five such shards on every push.
 
 `svg-fuzz` seeds libFuzzer with the inputs under `tst/fuzz`, each of which
 once crashed the renderer under the sanitizers, and with 2000 SVGs drawn at

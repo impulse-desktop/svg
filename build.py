@@ -141,6 +141,18 @@ for check in ["viewport_units", "cascade_priority"]:
 
 group("checks", *checks)
 
+# tst/sanitizer.svg takes every kind of paint, clip, mask, marker and filter
+# through one small drawing.
+smoke = command(
+    name="smoke",
+    inputs=["$(S)/tst/sanitizer.svg"],
+    outputs=["$(B)/smoke.png"],
+    deps=[svg],
+    cmd=["sh", "-c", '"$0" render "$1" "$2" 192 128 && test -s "$2"', "$(B)/svg", "$(S)/tst/sanitizer.svg", "$(B)/smoke.png"],
+    descr="SM",
+    color="light-green",
+)
+
 
 labels = ["1x", "2x"]
 corpus = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tst", "corpus")
@@ -179,6 +191,6 @@ for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
         color="light-green",
     ))
 
-# Every case and check, or one partition of them with -Dgroup and
-# -Dgroup_count: the sanitizer runs of CI split them this way.
-group("tests", *partition_tests(cases + checks))
+# Every case and check and the smoke drawing, or one partition of them with
+# -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.
+group("tests", *partition_tests(cases + checks + [smoke]))
