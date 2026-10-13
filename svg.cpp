@@ -3142,6 +3142,20 @@ namespace {
         return end;
     }
 
+    // Specificity holds the counts of ids, classes and types in its three low
+    // bytes; each count saturates at 255 instead of carrying into the next one.
+    static u32 addSpecificity(u32 specificity, u32 weight) {
+        u32 sum = 0;
+
+        for (u32 shift = 0; shift < 24; shift += 8) {
+            u32 count = ((specificity >> shift) & 0xff) + ((weight >> shift) & 0xff);
+
+            sum |= (count < 0xff ? count : 0xff) << shift;
+        }
+
+        return sum;
+    }
+
     static bool parseCompound(Document& doc, const u8*& p, const u8* end, Compound& compound, u32& specificity) {
         Vector<Condition> conditions;
         bool any = false;
@@ -3156,7 +3170,7 @@ namespace {
 
             if (!type.empty()) {
                 compound.type = intern(doc.atoms, type);
-                specificity += 1;
+                specificity = addSpecificity(specificity, 1);
                 any = true;
             }
         }
@@ -3176,7 +3190,7 @@ namespace {
 
                 condition.test = Test::Id;
                 condition.name = intern(doc.atoms, name);
-                specificity += 1 << 16;
+                specificity = addSpecificity(specificity, 1 << 16);
             } else if (c == '.') {
                 p++;
 
@@ -3188,7 +3202,7 @@ namespace {
 
                 condition.test = Test::Class;
                 condition.name = intern(doc.atoms, name);
-                specificity += 1 << 8;
+                specificity = addSpecificity(specificity, 1 << 8);
             } else if (c == '[') {
                 p++;
 
@@ -3266,7 +3280,7 @@ namespace {
                 }
 
                 p++;
-                specificity += 1 << 8;
+                specificity = addSpecificity(specificity, 1 << 8);
             } else if (c == ':') {
                 p++;
 
@@ -3274,7 +3288,7 @@ namespace {
                     p++;
                     readIdent(p, end);
                     condition.test = Test::Never;
-                    specificity += 1;
+                    specificity = addSpecificity(specificity, 1);
                 } else {
                     StringView name = readIdent(p, end);
 
@@ -3322,7 +3336,7 @@ namespace {
                         condition.innerCount = (u32)inner.length();
                         condition.inner = (Compound*)doc.pool->allocate(sizeof(Compound) * inner.length());
                         memcpy(condition.inner, inner.data(), sizeof(Compound) * inner.length());
-                        specificity += best;
+                        specificity = addSpecificity(specificity, best);
                         conditions.pushBack(condition);
                         any = true;
                         continue;
@@ -3332,7 +3346,7 @@ namespace {
                         return false;
                     }
 
-                    specificity += 1 << 8;
+                    specificity = addSpecificity(specificity, 1 << 8);
 
                     if (equalsIgnoreCase(name, StringView(u8"first-child"))) {
                         condition.test = Test::FirstChild;
@@ -4092,7 +4106,9 @@ namespace {
                 const Declaration& declaration = rule.declarations[d];
                 u64 level = declaration.important ? 3 : 1;
 
-                u64 priority = (level << 56) | ((u64)specificity << 32) | ((u64)r << 12) | d;
+                // Declarations come in source order and a later one wins a tie,
+                // so the priority carries no position that could overflow.
+                u64 priority = (level << 56) | ((u64)specificity << 32);
 
                 if (geometryProperty(declaration.property)) {
                     considerGeometry(geometry, geometryPriorities, declaration, priority);
@@ -4111,7 +4127,7 @@ namespace {
 
             for (u32 d = 0; d < declarations.length(); d++) {
                 u64 level = declarations[d].important ? 4 : 2;
-                u64 priority = (level << 56) | d;
+                u64 priority = level << 56;
 
                 if (geometryProperty(declarations[d].property)) {
                     considerGeometry(geometry, geometryPriorities, declarations[d], priority);
@@ -4983,7 +4999,7 @@ namespace {
                 return Point{extentX / 2.f, y1};
             }
 
-            return Point{x1, a1 == 0 ? extentY / 2.f : (a1 == 2 ? extentY / 2.f : extentY / 2.f)};
+            return Point{x1, extentY / 2.f};
         }
 
         if (a1 == 1 || a2 == 0) {
@@ -9816,7 +9832,7 @@ namespace {
 
         Matrix content = identity();
         Box viewBox;
-        Viewport inside{w, h, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
+        Viewport inside{w, h, vp.screenWidth, vp.screenHeight, l.rootFontSize};
 
         if (parseViewBox(doc, marker, viewBox)) {
             if (viewBox.x1 <= viewBox.x0 || viewBox.y1 <= viewBox.y0) {
@@ -9824,7 +9840,7 @@ namespace {
             }
 
             content = viewBoxTransform(doc, marker, viewBox, w, h);
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, l.rootFontSize};
         }
 
         Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, vp, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, vp, fs, 0.f)});
@@ -10026,13 +10042,13 @@ namespace {
         }
     }
 
-    static void lowerViewport(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Node* content, float x, float y, float w, float h, bool clip) {
+    static void lowerViewport(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, Node* content, float x, float y, float w, float h, bool clip) {
         if (w <= 0.f || h <= 0.f) {
             return;
         }
 
         Matrix inner = multiply(m, translation(x, y));
-        Viewport inside{w, h, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
+        Viewport inside{w, h, vp.screenWidth, vp.screenHeight, l.rootFontSize};
         Box viewBox;
 
         if (parseViewBox(*l.doc, node, viewBox)) {
@@ -10041,7 +10057,7 @@ namespace {
             }
 
             inner = multiply(inner, viewBoxTransform(*l.doc, node, viewBox, w, h));
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, (float)l.width / l.scale, (float)l.height / l.scale, l.rootFontSize};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, l.rootFontSize};
         }
 
         if (clip) {
@@ -10171,12 +10187,12 @@ namespace {
             }
 
             if (!parseViewBox(*l.doc, node, viewBox) && style.zoom != 1.f) {
-                lowerViewport(l, node, style, multiply(m, scaling(style.zoom, style.zoom)), node, 0.f, 0.f, w / style.zoom, h / style.zoom, false);
+                lowerViewport(l, node, style, multiply(m, scaling(style.zoom, style.zoom)), vp, node, 0.f, 0.f, w / style.zoom, h / style.zoom, false);
 
                 return;
             }
 
-            lowerViewport(l, node, style, m, node, 0.f, 0.f, w, h, false);
+            lowerViewport(l, node, style, m, vp, node, 0.f, 0.f, w, h, false);
 
             return;
         }
@@ -10191,7 +10207,7 @@ namespace {
             l.sized = nullptr;
         }
 
-        lowerViewport(l, node, style, m, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, !style.overflowVisible);
+        lowerViewport(l, node, style, m, vp, node, lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, !style.overflowVisible);
     }
 
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -10884,7 +10900,7 @@ namespace {
                 float h = l.sizedHeight >= 0.f ? l.sizedHeight : lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
 
                 l.sized = nullptr;
-                lowerViewport(l, node, style, m, node, 0.f, 0.f, w, h, !style.overflowVisible);
+                lowerViewport(l, node, style, m, vp, node, 0.f, 0.f, w, h, !style.overflowVisible);
                 break;
             }
             case AtomSwitch:
@@ -12745,7 +12761,6 @@ namespace {
         int x1 = box.x1 + reachX < width ? box.x1 + reachX : width;
         int y0 = box.y0 - reachY > 0 ? box.y0 - reachY : 0;
         int y1 = box.y1 + reachY < height ? box.y1 + reachY : height;
-        float* horizontal = filterBuffer(run);
         Vector<float> line;
         Vector<float> lineOut;
         Vector<float> first;
@@ -12754,6 +12769,8 @@ namespace {
         if (box.x1 <= box.x0 || box.y1 <= box.y0) {
             return;
         }
+
+        float* horizontal = filterBuffer(run);
 
         line.zero((size_t)(y1 - y0) * 4);
         lineOut.zero((size_t)(y1 - y0) * 4);
@@ -13441,7 +13458,6 @@ namespace {
         float uy = userY(f, ry) * run.scaleY + 0.5f;
         int ix = (int)floorf(minf(ux, (float)run.width));
         int iy = (int)floorf(minf(uy, (float)height));
-        float* pass = filterBuffer(run);
         const IntBox& box = p.box;
         Vector<float> line;
         Vector<float> column;
@@ -13452,6 +13468,7 @@ namespace {
             return;
         }
 
+        float* pass = filterBuffer(run);
         int x0 = box.x0 - ix > 0 ? box.x0 - ix : 0;
         int x1 = box.x1 + ix < run.width ? box.x1 + ix : run.width;
         int y0 = box.y0 - iy > 0 ? box.y0 - iy : 0;
