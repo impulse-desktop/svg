@@ -13655,11 +13655,19 @@ namespace {
     };
 
     struct Stitch {
-        int width;
-        int height;
-        int wrapX;
-        int wrapY;
+        i64 width;
+        i64 height;
+        i64 wrapX;
+        i64 wrapY;
     };
+
+    // Stitching lengths and offsets, in lattice cells, saturate far beyond
+    // any cell a sample reaches, so that every tile and octave converts.
+    static i64 latticeCells(double cells) {
+        constexpr double limit = 0x1p40;
+
+        return cells != cells ? 0 : (i64)(cells < -limit ? -limit : (cells > limit ? limit : cells));
+    }
 
     static long turbulenceRandom(long seed) {
         long result = 16807 * (seed % 127773) - 2836 * (seed / 127773);
@@ -13726,8 +13734,10 @@ namespace {
     static void noise2(const Turbulence& tb, double vx, double vy, const Stitch* stitch, double* out) {
         double t = vx + 0x1000;
 
-        if (t < -2147483647.0 || t > 2147483646.0) {
-            t = fmod(t, 256.0);
+        // The lattice repeats every 256 cells, so a far coordinate keeps its
+        // cell modulo 256; one that is not finite has no cell and takes 0.
+        if (!(t >= -2147483647.0 && t <= 2147483646.0)) {
+            t = isfinite(t) ? fmod(t, 256.0) : 0.0;
         }
 
         int bx0 = (int)t;
@@ -13745,8 +13755,8 @@ namespace {
 
         t = vy + 0x1000;
 
-        if (t < -2147483647.0 || t > 2147483646.0) {
-            t = fmod(t, 256.0);
+        if (!(t >= -2147483647.0 && t <= 2147483646.0)) {
+            t = isfinite(t) ? fmod(t, 256.0) : 0.0;
         }
 
         int by0 = (int)t;
@@ -13760,21 +13770,22 @@ namespace {
         int by1 = by0 + 1;
         double ry1 = ry0 - 1.0;
 
+        // Narrowing a wrapped cell keeps its low byte, all the lattice reads.
         if (stitch) {
             if (bx0 >= stitch->wrapX) {
-                bx0 -= stitch->width;
+                bx0 = (int)(bx0 - stitch->width);
             }
 
             if (bx1 >= stitch->wrapX) {
-                bx1 -= stitch->width;
+                bx1 = (int)(bx1 - stitch->width);
             }
 
             if (by0 >= stitch->wrapY) {
-                by0 -= stitch->height;
+                by0 = (int)(by0 - stitch->height);
             }
 
             if (by1 >= stitch->wrapY) {
-                by1 -= stitch->height;
+                by1 = (int)(by1 - stitch->height);
             }
         }
 
@@ -13822,10 +13833,10 @@ namespace {
             fy = fy / low < high / fy ? low : high;
         }
 
-        stitch.width = (int)(tileW * fx + 0.5);
-        stitch.wrapX = (int)(tileX * fx + 0x1000 + stitch.width);
-        stitch.height = (int)(tileH * fy + 0.5);
-        stitch.wrapY = (int)(tileY * fy + 0x1000 + stitch.height);
+        stitch.width = latticeCells(tileW * fx + 0.5);
+        stitch.wrapX = latticeCells(tileX * fx + 0x1000 + stitch.width);
+        stitch.height = latticeCells(tileH * fy + 0.5);
+        stitch.wrapY = latticeCells(tileY * fy + 0x1000 + stitch.height);
     }
 
     static void turbulenceAt(const Turbulence& tb, double px, double py, double fx, double fy, int octaves, bool fractal, const Stitch* stitching, float* out) {
@@ -13857,10 +13868,10 @@ namespace {
             weight *= 0.5;
 
             if (active) {
-                stitch.width *= 2;
-                stitch.wrapX = 2 * stitch.wrapX - 0x1000;
-                stitch.height *= 2;
-                stitch.wrapY = 2 * stitch.wrapY - 0x1000;
+                stitch.width = latticeCells(2.0 * stitch.width);
+                stitch.wrapX = latticeCells(2.0 * stitch.wrapX - 0x1000);
+                stitch.height = latticeCells(2.0 * stitch.height);
+                stitch.wrapY = latticeCells(2.0 * stitch.wrapY - 0x1000);
             }
         }
 
@@ -13889,7 +13900,14 @@ namespace {
             return;
         }
 
-        long seed = (long)numberOf(doc, p.node, AtomSeed, 0.f);
+        // Octave k weighs 2^-k, which is zero in double from octave 1075 on,
+        // so the octaves past it add nothing and the count stops there.
+        octaves = octaves < 1075 ? octaves : 1075;
+
+        // The seed saturates to 32 bits before it is truncated; turbulenceInit
+        // clamps the large ones further.
+        float seedValue = numberOf(doc, p.node, AtomSeed, 0.f);
+        long seed = seedValue >= 2147483648.f ? 2147483647 : (seedValue < -2147483648.f ? -2147483647 - 1 : (long)seedValue);
         u32 type = attribute(p.node, AtomType);
         bool fractal = type && trim(textOf(doc, type)) == StringView(u8"fractalNoise");
         u32 stitchValue = attribute(p.node, AtomStitchTiles);

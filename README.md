@@ -567,13 +567,13 @@ any report fails the run. `./build tests` is every corpus case and check;
 hash of the test's name. CI runs them under the sanitizers in ten such shards on
 every push.
 
-`svg-fuzz` seeds libFuzzer with the inputs under `tst/fuzz`, on each of which
-the fuzzer once found a crash, and with 2000 SVGs drawn at random from under
-`tst`, the whole corpus among them, a different sample every run, then fuzzes
-150000 runs on every core. CI does this in a job of its
-own on every push; an input that crashes there is uploaded as the
-`fuzz-crashes` artifact. Add it to `tst/fuzz` next to the fix, so that every
-later run replays it.
+`svg-fuzz` seeds libFuzzer with the inputs under `tst/fuzz`, each of which
+once crashed the renderer under the sanitizers, and with 2000 SVGs drawn at
+random from under `tst`, the whole corpus among them, a different sample every
+run, then fuzzes 150000 runs on every core. CI does this in a job of its own on
+every push; an input that crashes there is uploaded as the `fuzz-crashes`
+artifact. Add it to `tst/fuzz` next to the fix, so that every later run
+replays it.
 
 `svg render IN.svg OUT.png WIDTH HEIGHT` draws one file;
 `svg test IN.svg SCORE REFERENCE.png...` writes the errors and the shares
