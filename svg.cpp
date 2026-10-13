@@ -337,7 +337,8 @@ namespace {
 
         template <size_t N>
         StringView(const u8 (&str)[N]) noexcept
-            : StringView(str, N - 1) {
+            : StringView(str, N - 1)
+        {
         }
 
         StringView(const u8* ptr, size_t len) noexcept;
@@ -407,7 +408,8 @@ namespace {
 
             Context(C& _f, void* seed) noexcept
                 : f(_f)
-                , r(seed) {
+                , r(seed)
+            {
             }
 
             void insertionSort(I b, I e) {
@@ -625,7 +627,8 @@ Buffer::~Buffer() noexcept {
 }
 
 Buffer::Buffer() noexcept
-    : Buffer(0) {
+    : Buffer(0)
+{
 }
 
 Buffer::Buffer(size_t len)
@@ -645,7 +648,8 @@ Buffer::Buffer(const void* ptr, size_t len)
 }
 
 Buffer::Buffer(Buffer&& buf) noexcept
-    : Buffer() {
+    : Buffer()
+{
     buf.xchg(*this);
 }
 
@@ -740,24 +744,29 @@ void Buffer::zero(size_t len) {
 }
 
 StringView::StringView() noexcept
-    : StringView(nullptr, (size_t)0) {
+    : StringView(nullptr, (size_t)0)
+{
 }
 
 StringView::StringView(const u8* ptr, size_t len) noexcept
     : ptr_(ptr)
-    , len_(len) {
+    , len_(len)
+{
 }
 
 StringView::StringView(const u8* b, const u8* e) noexcept
-    : StringView(b, e - b) {
+    : StringView(b, e - b)
+{
 }
 
 StringView::StringView(const char* s) noexcept
-    : StringView((const u8*)s, strLen((const u8*)s)) {
+    : StringView((const u8*)s, strLen((const u8*)s))
+{
 }
 
 StringView::StringView(const Buffer& b) noexcept
-    : StringView((const u8*)b.data(), b.length()) {
+    : StringView((const u8*)b.data(), b.length())
+{
 }
 
 const u8* StringView::data() const noexcept {
@@ -793,16 +802,19 @@ u64 StringView::hash64() const noexcept {
 }
 
 PCG32::PCG32(u64 seq) noexcept
-    : PCG32(splitMix64((size_t)this), seq) {
+    : PCG32(splitMix64((size_t)this), seq)
+{
 }
 
 PCG32::PCG32(const void* seq) noexcept
-    : PCG32(splitMix64((size_t)seq)) {
+    : PCG32(splitMix64((size_t)seq))
+{
 }
 
 PCG32::PCG32(u64 state, u64 seq) noexcept
     : state_(0)
-    , seq_(2ULL * seq + 1ULL) {
+    , seq_(2ULL * seq + 1ULL)
+{
     nextU32();
     state_ += state;
     nextU32();
@@ -854,7 +866,8 @@ Chunk::~Chunk() noexcept {
 MemoryPool::MemoryPool(void* buf, size_t len) noexcept
     : currentChunk((u8*)buf)
     , currentChunkEnd(currentChunk + len)
-    , ds(new (allocate(sizeof(ChunkDestructor))) ChunkDestructor()) {
+    , ds(new (allocate(sizeof(ChunkDestructor))) ChunkDestructor())
+{
     ds->submit((ChunkDestructor*)ds);
 }
 
@@ -888,7 +901,8 @@ void MemoryPool::allocateNewChunk(size_t minSize) {
 }
 
 ObjPool::ObjPool() noexcept
-    : mp_(buf_, sizeof(buf_)) {
+    : mp_(buf_, sizeof(buf_))
+{
 }
 
 void* ObjPool::allocate(size_t len) {
@@ -14059,7 +14073,34 @@ namespace {
         }
     }
 
-    static float* applyFilter(Raster& r, const Lowering& l, const Filter& filter, float* layer, ObjPool& pool, bool resetBackground = false) {
+    static IntBox clipBox(IntBox box, int width, int height) {
+        box.x0 = box.x0 < 0 ? 0 : box.x0;
+        box.y0 = box.y0 < 0 ? 0 : box.y0;
+        box.x1 = box.x1 > width ? width : box.x1;
+        box.y1 = box.y1 > height ? height : box.y1;
+
+        return box;
+    }
+
+    static float* applyFilter(Raster& r, const Lowering& l, const Filter& lowered, float* layer, ObjPool& pool, bool resetBackground = false) {
+        // The region and the primitive boxes were clipped to the canvas when
+        // the filter was lowered; a pattern tile or a layer is drawn on a
+        // smaller raster, so clip them to it.
+        Filter filter = lowered;
+
+        filter.region = clipBox(lowered.region, (int)r.width, (int)r.height);
+
+        if (lowered.count) {
+            FilterPrimitive* primitives = (FilterPrimitive*)pool.allocate(sizeof(FilterPrimitive) * lowered.count);
+
+            for (u32 k = 0; k < lowered.count; k++) {
+                primitives[k] = lowered.primitives[k];
+                primitives[k].box = clipBox(primitives[k].box, (int)r.width, (int)r.height);
+            }
+
+            filter.primitives = primitives;
+        }
+
         FilterRun run;
 
         run.raster = &r;

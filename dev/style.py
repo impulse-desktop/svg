@@ -71,7 +71,10 @@ def restore_constructor_braces(path):
                 continue
             previous = lines[previous_number]
             previous_indent = len(previous) - len(previous.lstrip(" "))
-            if previous_indent + 4 != len(indent) or not previous.rstrip().endswith(")"):
+            signature = previous.rstrip()
+            if signature.endswith(" noexcept"):
+                signature = signature[: -len(" noexcept")].rstrip()
+            if previous_indent + 4 != len(indent) or not signature.endswith(")"):
                 continue
             body_indent = indent[:-4] if indent.endswith("    ") else ""
             in_initializers = True
