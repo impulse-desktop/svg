@@ -14382,7 +14382,7 @@ namespace {
     }
 
     static u8 clampByte(float v) {
-        v = v < 0.f ? 0.f : v;
+        v = v > 0.f ? v : 0.f;
         v = v > 255.f ? 255.f : v;
 
         return (u8)(int)v;
@@ -14393,7 +14393,9 @@ namespace {
             return false;
         }
 
-        for (u32 name : {AtomIn, AtomIn2}) {
+        const u32 names[] = {AtomIn, AtomIn2};
+
+        for (u32 name : names) {
             u32 value = attribute(node, name);
             StringView text = value ? trim(textOf(doc, value)) : StringView();
 
