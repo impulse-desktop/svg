@@ -117,11 +117,11 @@
 
             svg-build -j "''${SVG_BUILD_JOBS:-4}" fuzz
 
-            # The seeds are the inputs on which the fuzzer once found a crash,
-            # kept under tst/fuzz, and 2000 SVGs drawn at random from under tst,
-            # the whole corpus among them, a different sample every run. Inputs
-            # the run finds interesting go to .build/fuzzing/new, crashes to
-            # .build/fuzzing.
+            # The seeds are the inputs that once crashed the renderer under the
+            # sanitizers, kept under tst/fuzz, and 2000 SVGs drawn at random from
+            # under tst, the whole corpus among them, a different sample every
+            # run. Inputs the run finds interesting go to .build/fuzzing/new,
+            # crashes to .build/fuzzing.
             root=$PWD
             work=$root/.build/fuzzing
             rm -rf "$work"
