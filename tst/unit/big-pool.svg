@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+<g opacity=".5"><rect width="80" height="80" fill="teal"/></g>
+<g clip-path="url(#c)" mask="url(#m)"><rect width="80" height="80" fill="orange"/></g>
+<clipPath id="c" clip-path="url(#d)"><circle cx="40" cy="40" r="30"/></clipPath>
+<clipPath id="d"><rect width="60" height="60"/></clipPath>
+<mask id="m"><rect width="80" height="40" fill="white"/></mask>
+<rect x="10" y="10" width="20" height="20" fill="purple" transform="rotate(30 20 20)" filter="blur(1px)"/>
+</svg>

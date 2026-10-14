@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="8" color="purple">
+<linearGradient id="a"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="bogus"/></linearGradient>
+<filter id="f"><feFlood flood-color="currentColor"/></filter>
+<filter id="g" style="color-interpolation-filters: linearRGB"><feFlood flood-color="red" flood-opacity=".5"/></filter>
+<rect width="8" height="8" fill="url(#a)"/>
+<rect x="8" width="8" height="8" filter="url(#f)" color="teal" clip-path="none" marker-start="url(#nothing)"/>
+<rect x="16" width="8" height="8" filter="url(#g)" style="clip-path: bogus; image-rendering: auto"/>
+<line x1="0" y1="7" x2="24" y2="7" stroke="black" stroke-dasharray=" 2 , 1 ,1"/>
+</svg>
