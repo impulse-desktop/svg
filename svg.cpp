@@ -10526,10 +10526,10 @@ namespace {
 
         l.pool->make<DecodedImage>(raster);
 
-        u32 width = raster->vtable->width(raster);
-        u32 height = raster->vtable->height(raster);
+        u32 width = svg_image_width(raster);
+        u32 height = svg_image_height(raster);
 
-        if (width == 0 || height == 0 || raster->vtable->length(raster) < (size_t)width * height * 4) {
+        if (width == 0 || height == 0 || svg_image_length(raster) < (size_t)width * height * 4) {
             return false;
         }
 
@@ -10596,9 +10596,9 @@ namespace {
 
             memset(paint, 0, sizeof(DevicePaint));
             paint->type = PaintType::Image;
-            paint->image = (const u8*)source.raster->vtable->data(source.raster);
-            paint->imageWidth = source.raster->vtable->width(source.raster);
-            paint->imageHeight = source.raster->vtable->height(source.raster);
+            paint->image = (const u8*)svg_image_data(source.raster);
+            paint->imageWidth = svg_image_width(source.raster);
+            paint->imageHeight = svg_image_height(source.raster);
             paint->smooth = true;
 
             if (!invert(place, inverse)) {
@@ -14693,7 +14693,7 @@ DecodedImage::DecodedImage(SvgImage* image_)
 }
 
 DecodedImage::~DecodedImage() {
-    image->vtable->destroy(image);
+    svg_image_destroy(image);
 }
 
 RenderedImage::RenderedImage(ObjPool* pool_, const u8* pixels_, u32 width_, u32 height_)
@@ -14703,6 +14703,26 @@ RenderedImage::RenderedImage(ObjPool* pool_, const u8* pixels_, u32 width_, u32 
     , width(width_)
     , height(height_)
 {
+}
+
+void svg_image_destroy(SvgImage* image) {
+    image->vtable->destroy(image);
+}
+
+const void* svg_image_data(const SvgImage* image) {
+    return image->vtable->data(image);
+}
+
+size_t svg_image_length(const SvgImage* image) {
+    return image->vtable->length(image);
+}
+
+uint32_t svg_image_width(const SvgImage* image) {
+    return image->vtable->width(image);
+}
+
+uint32_t svg_image_height(const SvgImage* image) {
+    return image->vtable->height(image);
 }
 
 SvgLibrary* svg_library_create(SvgDecode decode, void* context) {

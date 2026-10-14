@@ -49,7 +49,7 @@ static SvgImage* decode(void* context, const void* bytes, size_t length) {
 }
 
 static int pixel(const SvgImage* image, uint32_t x, uint32_t y, const uint8_t* expected) {
-    const uint8_t* rgba = (const uint8_t*)image->vtable->data(image) + ((size_t)y * image->vtable->width(image) + x) * 4;
+    const uint8_t* rgba = (const uint8_t*)svg_image_data(image) + ((size_t)y * svg_image_width(image) + x) * 4;
 
     return memcmp(rgba, expected, 4) == 0;
 }
@@ -87,11 +87,11 @@ int main(void) {
     svg_document_destroy(document);
     svg_library_destroy(library);
 
-    if (!plain || plain->vtable->length(plain) != 12 * 4 * 4 || !pixel(plain, 3, 3, red) || !pixel(plain, 4, 0, clear) || !pixel(plain, 8, 0, green)) {
+    if (!plain || svg_image_length(plain) != 12 * 4 * 4 || !pixel(plain, 3, 3, red) || !pixel(plain, 4, 0, clear) || !pixel(plain, 8, 0, green)) {
         return fail("the drawing at 1x");
     }
 
-    if (!doubled || doubled->vtable->width(doubled) != 24 || !pixel(doubled, 7, 7, red) || !pixel(doubled, 8, 0, clear) || !pixel(doubled, 16, 0, green)) {
+    if (!doubled || svg_image_width(doubled) != 24 || !pixel(doubled, 7, 7, red) || !pixel(doubled, 8, 0, clear) || !pixel(doubled, 16, 0, green)) {
         return fail("the drawing at 2x");
     }
 
@@ -99,8 +99,8 @@ int main(void) {
         return fail("the decoded images were not destroyed once drawn");
     }
 
-    plain->vtable->destroy(plain);
-    doubled->vtable->destroy(doubled);
+    svg_image_destroy(plain);
+    svg_image_destroy(doubled);
     puts("checked the C API from C99 against svg.cpp as C++17");
 
     return 0;

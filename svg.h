@@ -26,6 +26,13 @@ extern "C" {
         const SvgImageVtable* vtable;
     };
 
+    // Call through the image's vtable.
+    void svg_image_destroy(SvgImage* image);
+    const void* svg_image_data(const SvgImage* image);
+    size_t svg_image_length(const SvgImage* image);
+    uint32_t svg_image_width(const SvgImage* image);
+    uint32_t svg_image_height(const SvgImage* image);
+
     // Decodes the bytes of a raster image inside a document, or returns NULL. The
     // renderer destroys the image once it has drawn it. A library without a
     // decoder draws no raster images.

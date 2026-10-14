@@ -138,7 +138,7 @@ namespace {
 }
 
 void DestroyImage::operator()(SvgImage* image) const {
-    image->vtable->destroy(image);
+    svg_image_destroy(image);
 }
 
 static void destroyDecoded(SvgImage* image) {
@@ -349,8 +349,8 @@ namespace {
         try {
             Image image(svg_document_render(document, pixels.width, pixels.height, scale));
 
-            if (image && image->vtable->width(image.get()) == pixels.width && image->vtable->height(image.get()) == pixels.height && image->vtable->length(image.get()) == pixels.rgba.size()) {
-                memcpy(pixels.rgba.data(), image->vtable->data(image.get()), pixels.rgba.size());
+            if (image && svg_image_width(image.get()) == pixels.width && svg_image_height(image.get()) == pixels.height && svg_image_length(image.get()) == pixels.rgba.size()) {
+                memcpy(pixels.rgba.data(), svg_image_data(image.get()), pixels.rgba.size());
             }
         } catch (...) {
             pixels.rgba.assign(pixels.rgba.size(), 0);
