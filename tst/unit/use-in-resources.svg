@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<defs>
+<rect id="r" width="4" height="4" fill="teal"/>
+<g id="g"><use href="#u2"/></g>
+<marker id="m" markerWidth="4" markerHeight="4"><use href="#r"/></marker>
+<mask id="k"><use href="#r" fill="white"/></mask>
+<pattern id="p" width="4" height="4" patternUnits="userSpaceOnUse"><use href="#r"/></pattern>
+<filter id="f"><feImage href="#ur"/></filter>
+<use id="ur" href="#r"/>
+</defs>
+<use id="u2" href="#g"/>
+<path d="M10 2 L18 2" stroke="black" marker-start="url(#m)"/>
+<rect x="20" width="8" height="8" fill="gold" mask="url(#k)"/>
+<rect x="30" width="8" height="8" fill="url(#p)"/>
+<rect x="40" width="8" height="8" fill="gray" filter="url(#f)"/>
+<symbol><rect width="4" height="4" fill="red"/></symbol>
+<a><rect y="10" width="4" height="4" fill="navy"/></a>
+<rect x="6" y="10" width="4" height="4" fill="red" requiredExtensions="x"/>
+<switch><rect x="12" y="10" width="4" height="4" fill="green" systemLanguage="fr en"/></switch>
+<switch><rect x="18" y="10" width="4" height="4" fill="green" systemLanguage="en"/></switch>
+<g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><rect width="4" height="4" fill="red"/></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g>
+</svg>

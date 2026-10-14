@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<marker id="d" markerWidth="2" markerHeight="2" refX="1" refY="1" orient="auto" markerUnits="strokeWidth"><circle cx="1" cy="1" r="1" fill="red"/></marker>
+<marker id="g" markerWidth="3" markerHeight="1" orient="50grad"><rect width="3" height="1" fill="green"/></marker>
+<marker id="h0" markerWidth="2" markerHeight="0"><rect width="2" height="2"/></marker>
+<marker id="vb" viewBox="0 0 2 0" markerWidth="2" markerHeight="2"><rect width="2" height="2"/></marker>
+<marker id="u" markerWidth="4" markerHeight="4"><use href="#mshape"/></marker>
+<rect id="mshape" width="2" height="2" fill="teal"/>
+</defs>
+<g fill="none" stroke="gray">
+<path d="M2 2 L10 2" marker-start="url(#g)" marker-end="url(#h0)"/>
+<path d="M14 2 L22 2" marker-start="url(#vb)"/>
+<path d="M26 2 L30 6 Z Z" marker-start="url(#d)" marker-mid="url(#d)" marker-end="url(#d)"/>
+<path d="M2 10 C 2 10 2 10 10 14" marker-start="url(#d)" marker-end="url(#d)"/>
+<path d="M14 10 C 22 14 22 14 22 14" marker-start="url(#d)" marker-end="url(#d)"/>
+<path d="M26 10" marker-start="url(#d)"/>
+<path d="M30 10 L36 14" marker-start="url(#u)"/>
+<path d="M40 10 Z" stroke-dasharray="1 1" pathLength="10"/>
+<path d="M2 18 L10 18" stroke-dasharray="1 1" pathLength="bogus"/>
+<path d="M14 18 L22 18" stroke-dasharray="1 1" pathLength="-1"/>
+<path d="M26 18 L34 18" stroke-dasharray="1 1" pathLength="0"/>
+<path d="M38 18 L38 18" stroke-dasharray="1 1" pathLength="10"/>
+<path d="M40 20 L46 20" stroke="black" stroke-width="0"/>
+</g>
+</svg>
