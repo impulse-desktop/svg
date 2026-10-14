@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 96 96">
+  <svg x="0" y="0" width="48" height="24" viewBox="0 0 10 10"><rect width="10" height="10" fill="red"/></svg>
+  <svg x="48" y="0" width="48" height="24" viewBox="0 0 10 10" preserveAspectRatio="xMinYMin meet"><rect width="10" height="10" fill="green"/></svg>
+  <svg x="0" y="24" width="48" height="24" viewBox="0 0 10 10" preserveAspectRatio="xMaxYMax slice"><circle cx="5" cy="5" r="5" fill="blue"/></svg>
+  <svg x="48" y="24" width="48" height="24" viewBox="0 0 10 10" preserveAspectRatio="none"><circle cx="5" cy="5" r="5" fill="orange"/></svg>
+  <svg x="0" y="48" width="48" height="48" viewBox="0 0 20 10" preserveAspectRatio="xMidYMax meet" overflow="visible"><rect x="-5" width="30" height="10" fill="purple"/></svg>
+  <svg x="48" y="48" width="50%" height="50%"><rect width="100%" height="100%" fill="teal"/></svg>
+</svg>

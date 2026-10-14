@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <pattern id="a" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="red"/>
+      <circle cx="6" cy="6" r="2" fill="blue"/>
+    </pattern>
+    <pattern id="b" width=".25" height=".25" patternContentUnits="objectBoundingBox">
+      <rect width=".125" height=".125" fill="green"/>
+    </pattern>
+    <pattern id="c" href="#a" patternTransform="rotate(45)" viewBox="0 0 4 4" preserveAspectRatio="xMidYMid slice"/>
+    <pattern id="d" width="10" height="10" patternUnits="userSpaceOnUse"/>
+  </defs>
+  <rect x="2" y="2" width="20" height="20" fill="url(#a)"/>
+  <rect x="26" y="2" width="20" height="20" fill="url(#b)" stroke="url(#a)" stroke-width="2"/>
+  <rect x="2" y="26" width="20" height="20" fill="url(#c)"/>
+  <rect x="26" y="26" width="20" height="20" fill="url(#d) gray"/>
+</svg>

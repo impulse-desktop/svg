@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <filter id="a"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="b"/><feDiffuseLighting in="b" surfaceScale="3" diffuseConstant="1" lighting-color="white"><feDistantLight azimuth="45" elevation="45"/></feDiffuseLighting></filter>
+    <filter id="b"><feGaussianBlur in="SourceAlpha" stdDeviation="2" result="b"/><feSpecularLighting in="b" surfaceScale="4" specularConstant="1" specularExponent="10" lighting-color="#ff8"><fePointLight x="30" y="0" z="20"/></feSpecularLighting></filter>
+    <filter id="c"><feDiffuseLighting surfaceScale="2" lighting-color="rgb(128,255,128)"><feSpotLight x="0" y="24" z="30" pointsAtX="12" pointsAtY="36" pointsAtZ="0" specularExponent="2" limitingConeAngle="30"/></feDiffuseLighting></filter>
+    <filter id="d"><feSpecularLighting kernelUnitLength="1" specularExponent="1"><feSpotLight x="40" y="40" z="10"/></feSpecularLighting></filter>
+  </defs>
+  <circle cx="12" cy="12" r="9" fill="red" filter="url(#a)"/>
+  <circle cx="36" cy="12" r="9" fill="blue" filter="url(#b)"/>
+  <circle cx="12" cy="36" r="9" fill="green" filter="url(#c)"/>
+  <circle cx="36" cy="36" r="9" fill="green" filter="url(#d)"/>
+</svg>

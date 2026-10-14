@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <rect width="8" height="8" fill="red" transform="translate(4 4)"/>
+  <rect width="8" height="8" fill="green" transform="translate(20,4) rotate(30)"/>
+  <rect width="8" height="8" fill="blue" transform="rotate(45 36 8) translate(32)"/>
+  <rect width="4" height="4" fill="orange" transform="scale(2) translate(2 10)"/>
+  <rect width="8" height="8" fill="purple" transform="translate(20 24) skewX(20)"/>
+  <rect width="8" height="8" fill="teal" transform="translate(34 24) skewY(-20) scale(1 .5)"/>
+  <rect width="8" height="8" fill="gold" transform="matrix(1 .2 -.2 1 6 36)"/>
+  <rect width="8" height="8" fill="navy" style="transform: translate(24px, 36px) rotate(10deg); transform-origin: 4px 4px"/>
+  <rect width="8" height="8" fill="crimson" transform="translate(36 36)" transform-origin="center"/>
+</svg>

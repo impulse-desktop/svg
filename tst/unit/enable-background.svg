@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24" enable-background="new 0 0 48 24">
+  <defs>
+    <filter id="a"><feOffset in="BackgroundImage" dx="24"/></filter>
+    <filter id="b"><feComposite in="BackgroundAlpha" in2="SourceGraphic" operator="xor"/></filter>
+  </defs>
+  <g enable-background="new">
+    <rect x="2" y="2" width="16" height="16" fill="green"/>
+    <g filter="url(#a)"/>
+    <circle cx="10" cy="14" r="6" fill="red" filter="url(#b)"/>
+  </g>
+</svg>

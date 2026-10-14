@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <filter id="a"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="b" x="-20%" y="-20%" width="140%" height="140%"><feOffset dx="3" dy="2" result="o"/><feGaussianBlur in="o" stdDeviation="1 3"/></filter>
+    <filter id="c" filterUnits="userSpaceOnUse" x="0" y="24" width="24" height="24"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="d" primitiveUnits="objectBoundingBox"><feOffset dx=".1" dy=".1"/></filter>
+  </defs>
+  <rect x="4" y="4" width="16" height="16" fill="red" filter="url(#a)"/>
+  <rect x="28" y="4" width="16" height="16" fill="green" filter="url(#b)"/>
+  <rect x="4" y="28" width="16" height="16" fill="blue" filter="url(#c)"/>
+  <rect x="28" y="28" width="12" height="12" fill="orange" filter="url(#d)"/>
+</svg>

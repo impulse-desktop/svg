@@ -21,6 +21,7 @@ namespace {
     constexpr unsigned caseSeconds = 120;
     constexpr uint64_t maxPixels = 1u << 27;
     constexpr int structTolerance = 32;
+    constexpr int unitTolerance = 2;
 
     struct DriverError: std::runtime_error {
         using std::runtime_error::runtime_error;
@@ -1127,6 +1128,82 @@ namespace {
         return 0;
     }
 
+    // Draws IN.svg at its own size rounded up, writes the drawing to OUT.png
+    // and compares it with CANON.png: they match when no premultiplied
+    // channel of a pixel differs by more than unitTolerance of 255. A file
+    // that is no document, or a document that draws no image, draws one
+    // transparent pixel. With CANON.png as OUT.png too it canonizes.
+    static int unit(int argc, char** argv) {
+        if (argc != 5) {
+            fprintf(stderr, "usage: svg unit IN.svg CANON.png OUT.png\n");
+
+            return 2;
+        }
+
+        std::string file;
+        Document document = load(argv[2], file);
+        Pixels pixels;
+
+        pixels.width = 1;
+        pixels.height = 1;
+        pixels.rgba.assign(4, 0);
+
+        if (document) {
+            float width = ceilf(svg_document_width(document.get()));
+            float height = ceilf(svg_document_height(document.get()));
+
+            if (width >= 0.f && width <= 1e6f && height >= 0.f && height <= 1e6f) {
+                Image image(svg_document_render(document.get(), (uint32_t)width, (uint32_t)height, 1.f));
+
+                if (image) {
+                    const uint8_t* data = (const uint8_t*)svg_image_data(image.get());
+
+                    pixels.width = svg_image_width(image.get());
+                    pixels.height = svg_image_height(image.get());
+                    pixels.rgba.assign(data, data + svg_image_length(image.get()));
+                }
+            }
+        }
+
+        writePng(argv[4], pixels);
+
+        Pixels canon;
+
+        readPng(argv[3], canon);
+
+        if (canon.width != pixels.width || canon.height != pixels.height) {
+            fprintf(stderr, "svg: %s is %ux%u, the canon %ux%u\n", argv[2], pixels.width, pixels.height, canon.width, canon.height);
+
+            return 1;
+        }
+
+        size_t differing = 0;
+        int worst = 0;
+
+        for (size_t i = 0; i < pixels.rgba.size(); i += 4) {
+            const uint8_t* a = &pixels.rgba[i];
+            const uint8_t* b = &canon.rgba[i];
+            int difference = abs((int)a[3] - (int)b[3]) * 255;
+
+            for (int c = 0; c < 3; c++) {
+                int d = abs((int)a[c] * a[3] - (int)b[c] * b[3]);
+
+                difference = d > difference ? d : difference;
+            }
+
+            worst = difference > worst ? difference : worst;
+            differing += difference > unitTolerance * 255;
+        }
+
+        if (differing) {
+            fprintf(stderr, "svg: %s differs from the canon in %zu pixels, by up to %d of 255\n", argv[2], differing, (worst + 254) / 255);
+
+            return 1;
+        }
+
+        return 0;
+    }
+
     static int shrinkCommand(int argc, char** argv) {
         if (argc != 5) {
             fprintf(stderr, "usage: svg shrink IN.png OUT.png FACTOR\n");
@@ -1329,12 +1406,14 @@ int main(int argc, char** argv) {
             result = render(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "test") == 0) {
             result = test(argc, argv);
+        } else if (argc >= 2 && strcmp(argv[1], "unit") == 0) {
+            result = unit(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "shrink") == 0) {
             result = shrinkCommand(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "bench") == 0) {
             result = bench(argc, argv);
         } else {
-            fprintf(stderr, "usage: svg render|test|shrink|bench ...\n");
+            fprintf(stderr, "usage: svg render|test|unit|shrink|bench ...\n");
         }
     } catch (const std::exception& error) {
         fprintf(stderr, "svg: %s\n", error.what());

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <filter id="a"><feMorphology operator="erode" radius="1"/></filter>
+    <filter id="b"><feMorphology operator="dilate" radius="2 1"/></filter>
+    <filter id="c" x="0" y="0" width="1" height="1"><feFlood flood-color="gold" x="0" y="0" width="4" height="4" result="f"/><feOffset in="f" dx="1" result="o"/><feTile in="o"/></filter>
+    <filter id="d"><feConvolveMatrix order="3" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"/></filter>
+    <filter id="e"><feConvolveMatrix order="3 2" kernelMatrix="1 1 1 1 1 1" divisor="6" bias=".1" targetX="1" targetY="0" edgeMode="wrap" preserveAlpha="true"/></filter>
+    <filter id="f"><feConvolveMatrix order="2" kernelMatrix="1 0 0 1" edgeMode="none"/></filter>
+  </defs>
+  <g fill="teal" stroke="black">
+    <rect x="2" y="2" width="16" height="16" filter="url(#a)"/>
+    <rect x="28" y="4" width="14" height="14" filter="url(#b)"/>
+    <rect x="2" y="26" width="20" height="20" filter="url(#c)"/>
+    <rect x="26" y="26" width="8" height="8" filter="url(#d)"/>
+    <rect x="36" y="26" width="8" height="8" filter="url(#e)"/>
+    <rect x="26" y="36" width="8" height="8" filter="url(#f)"/>
+  </g>
+</svg>

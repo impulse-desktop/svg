@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+  <switch>
+    <rect x="2" y="2" width="20" height="20" fill="red" systemLanguage="xx"/>
+    <rect x="2" y="2" width="20" height="20" fill="green" requiredExtensions="http://example.org/none"/>
+    <rect x="2" y="2" width="20" height="20" fill="blue" systemLanguage="en-US, fr"/>
+  </switch>
+  <switch>
+    <rect x="26" y="2" width="20" height="20" fill="orange" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Shape"/>
+  </switch>
+  <rect x="26" y="2" width="4" height="4" fill="black" display="none"/>
+  <rect x="30" y="2" width="4" height="4" fill="black" visibility="hidden"/>
+  <g visibility="hidden"><rect x="34" y="2" width="4" height="4" fill="purple" visibility="visible"/></g>
+</svg>

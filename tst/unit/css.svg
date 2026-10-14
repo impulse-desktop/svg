@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <style>
+    /* a comment */
+    rect { fill: red }
+    .a { fill: green }
+    #b { fill: blue !important }
+    g > .c { fill: orange }
+    g .d + rect { fill: purple }
+    rect[data-x="1"] { fill: teal }
+    rect[data-y] { fill: gold }
+    g rect:first-child { stroke: black }
+    * { stroke-width: 1px }
+    @media screen { .e { fill: navy } }
+    .f, .g { fill: crimson; }
+    rect.h.i { fill: lime }
+  </style>
+  <style type="text/css"><![CDATA[ .j ~ rect { fill: pink } ]]></style>
+  <rect x="2" y="2" width="8" height="8" class="a"/>
+  <rect x="12" y="2" width="8" height="8" id="b" style="fill: yellow"/>
+  <g><rect x="22" y="2" width="8" height="8" class="c"/></g>
+  <g><rect x="32" y="2" width="8" height="8" class="d"/><rect x="2" y="12" width="8" height="8"/></g>
+  <rect x="12" y="12" width="8" height="8" data-x="1"/>
+  <rect x="22" y="12" width="8" height="8" data-y="2"/>
+  <rect x="32" y="12" width="8" height="8" class="e"/>
+  <rect x="2" y="22" width="8" height="8" class="g"/>
+  <rect x="12" y="22" width="8" height="8" class="h i"/>
+  <rect x="22" y="22" width="8" height="8" class="j"/>
+  <rect x="32" y="22" width="8" height="8"/>
+  <rect x="2" y="32" width="8" height="8" style="fill: rgb(0 128 255); stroke: none;"/>
+</svg>

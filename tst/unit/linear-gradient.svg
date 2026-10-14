@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48">
+  <defs>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="red"/>
+      <stop offset=".5" stop-color="yellow" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="blue"/>
+    </linearGradient>
+    <linearGradient id="b" xlink:href="#a" x2=".3" spreadMethod="reflect"/>
+    <linearGradient id="c" href="#a" x2=".3" spreadMethod="repeat" gradientTransform="rotate(30)"/>
+    <linearGradient id="d" gradientUnits="userSpaceOnUse" x1="0" y1="36" x2="0" y2="46">
+      <stop offset="0" style="stop-color:green"/>
+      <stop offset="1" style="stop-color:white;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="e"><stop offset="0" stop-color="purple"/></linearGradient>
+    <linearGradient id="f"/>
+  </defs>
+  <rect x="2" y="2" width="44" height="10" fill="url(#a)"/>
+  <rect x="2" y="13" width="44" height="10" fill="url(#b)"/>
+  <rect x="2" y="24" width="44" height="10" fill="url(#c)"/>
+  <rect x="2" y="36" width="20" height="10" fill="url(#d)"/>
+  <rect x="24" y="36" width="10" height="10" fill="url(#e)"/>
+  <rect x="36" y="36" width="10" height="10" fill="url(#f) orange"/>
+</svg>

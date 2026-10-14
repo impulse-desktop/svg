@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <g fill="#f80">
+    <rect x="2" y="2" width="10" height="10" filter="blur(1px)"/>
+    <rect x="14" y="2" width="10" height="10" filter="drop-shadow(2px 2px 1px blue)"/>
+    <rect x="26" y="2" width="10" height="10" filter="grayscale(1)"/>
+    <rect x="38" y="2" width="8" height="10" filter="sepia(100%)"/>
+    <rect x="2" y="14" width="10" height="10" filter="saturate(3)"/>
+    <rect x="14" y="14" width="10" height="10" filter="hue-rotate(90deg)"/>
+    <rect x="26" y="14" width="10" height="10" filter="invert(.8)"/>
+    <rect x="38" y="14" width="8" height="10" filter="opacity(.4)"/>
+    <rect x="2" y="26" width="10" height="10" filter="brightness(1.5)"/>
+    <rect x="14" y="26" width="10" height="10" filter="contrast(2)"/>
+    <rect x="26" y="26" width="10" height="10" filter="blur(1px) hue-rotate(1turn) grayscale(.5)"/>
+    <rect x="38" y="26" width="8" height="10" filter="drop-shadow(red 1px 1px)"/>
+    <rect x="2" y="38" width="10" height="8" filter="bogus(1)"/>
+    <rect x="14" y="38" width="10" height="8" filter="none"/>
+  </g>
+</svg>
