@@ -5535,8 +5535,6 @@ namespace {
 
                 break;
             }
-            default:
-                return false;
         }
 
         return path.verbs.length() > 0;
@@ -5680,7 +5678,8 @@ namespace {
                     pi += 3;
                     break;
                 }
-                case VerbClose:
+                default:
+                    // VerbClose.
                     if (open) {
                         size_t count = out.points.length() - (out.ends.length() ? out.ends.back() : 0);
 
@@ -5802,8 +5801,10 @@ namespace {
 
             float middle = from + sweep / 2.f;
 
+            // Only a reversal is ambiguous, and its normals sweep half a turn
+            // from the cut of atan2 the wrong way.
             if (cosf(middle) * (d0.x - d1.x) + sinf(middle) * (d0.y - d1.y) < 0.f) {
-                sweep += sweep > 0.f ? -2.f * pi : 2.f * pi;
+                sweep -= 2.f * pi;
             }
 
             addFan(out, p, s.half, from, sweep, s.tol);
@@ -6032,7 +6033,8 @@ namespace {
                 }
             }
 
-            if (on && piece.length() > 1 && !strokeOutside(s, piece.data(), piece.length(), cull)) {
+            // A dash on at the end holds its start and the end.
+            if (on && !strokeOutside(s, piece.data(), piece.length(), cull)) {
                 if (pass) {
                     strokePolyline(out, s, piece.data(), piece.length(), false);
                 } else {
@@ -6274,7 +6276,8 @@ namespace {
             for (int k = 0; k < 3; k++) {
                 m[k * 6] = a;
             }
-        } else if (name == SV("contrast")) {
+        } else {
+            // contrast, the last of the amounts.
             for (int k = 0; k < 3; k++) {
                 m[k * 6] = a;
                 m[k * 5 + 4] = 0.5f - 0.5f * a;
@@ -6357,7 +6360,8 @@ namespace {
             float value;
 
             if (readFilterLength(tokens[k], true, style, vp, value)) {
-                if (lengthCount == 3 || (hasColor && k != lengthCount + 1)) {
+                // A colour first leaves the lengths after it.
+                if (lengthCount == 3) {
                     return false;
                 }
 
@@ -6522,7 +6526,7 @@ namespace {
         x = Length{50.f, Unit::Percent};
         y = Length{50.f, Unit::Percent};
 
-        while (count < 3) {
+        while (true) {
             StringView word = shapeWord(p, text.end());
 
             if (word.empty()) {
@@ -6558,11 +6562,12 @@ namespace {
                 y = Length{equalsIgnoreCase(word, SV("top")) ? 0.f : 100.f, Unit::Percent};
                 ySet = true;
             } else if (equalsIgnoreCase(word, SV("center"))) {
-                if (i == 0 && !xSet) {
+                // The first word finds nothing set.
+                if (i == 0) {
                     xSet = count == 1;
                 }
             } else if (parseLength(word, length)) {
-                if (i == 0 && !xSet) {
+                if (i == 0) {
                     x = length;
                     xSet = true;
                 } else if (!ySet) {
@@ -6592,12 +6597,9 @@ namespace {
         out.points = nullptr;
         out.pointCount = 0;
 
+        // The text is trimmed, so a word follows every run of spaces.
         while (p < end) {
             skipSpaces(p, end);
-
-            if (p >= end) {
-                break;
-            }
 
             const u8* start = p;
 
@@ -7148,7 +7150,8 @@ namespace {
                             valid = valid && order[k] != layer;
                         }
 
-                        valid = valid && layer < 3 && count < 3;
+                        // A fourth layer repeats one or is none.
+                        valid = valid && layer < 3;
 
                         if (valid) {
                             order[count++] = layer;
@@ -7447,8 +7450,6 @@ namespace {
                     }
 
                     break;
-                default:
-                    break;
             }
         }
 
@@ -7471,7 +7472,7 @@ namespace {
     static bool passesConditions(const Document& doc, const Node* node);
 
     static bool resourceUsable(Lowering& l, Node* node, Viewport vp) {
-        for (Node* up = node; up && up != l.doc->root; up = up->parent) {
+        for (Node* up = node; up != l.doc->root; up = up->parent) {
             if (documentStyle(l, up, vp).displayNone || (up != node && !passesConditions(*l.doc, up))) {
                 return false;
             }
@@ -7538,7 +7539,7 @@ namespace {
     static u32 patternAttribute(const Document& doc, Node* pattern, u32 name, Node** owner) {
         Node* node = pattern;
 
-        for (u32 hops = 0; node && hops < 16; hops++) {
+        for (u32 hops = 0; hops < 16; hops++) {
             if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty()) {
                 if (owner) {
                     *owner = node;
@@ -7564,7 +7565,7 @@ namespace {
     static Node* patternContent(const Document& doc, Node* pattern) {
         Node* node = pattern;
 
-        for (u32 hops = 0; node && hops < 16; hops++) {
+        for (u32 hops = 0; hops < 16; hops++) {
             for (Node* child = node->first; child; child = child->next) {
                 if (renderable(child->name)) {
                     return node;
@@ -7626,12 +7627,6 @@ namespace {
 
     static DevicePaint* patternPaint(Lowering& l, Node* pattern, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
         const Document& doc = *l.doc;
-
-        for (Node* active : l.active) {
-            if (active == pattern) {
-                return nullptr;
-            }
-        }
 
         u32 units = patternAttribute(doc, pattern, AtomPatternUnits, nullptr);
         u32 contentUnits = patternAttribute(doc, pattern, AtomPatternContentUnits, nullptr);
@@ -7753,7 +7748,7 @@ namespace {
         Node* node = gradient;
         bool specific = name == AtomX1 || name == AtomY1 || name == AtomX2 || name == AtomY2 || name == AtomCx || name == AtomCy || name == AtomR || name == AtomFx || name == AtomFy || name == AtomFr;
 
-        for (u32 hops = 0; node && hops < 16; hops++) {
+        for (u32 hops = 0; hops < 16; hops++) {
             if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty() && (!specific || node->name == gradient->name)) {
                 return value;
             }
@@ -7773,7 +7768,7 @@ namespace {
     static Node* gradientStops(const Document& doc, Node* gradient) {
         Node* node = gradient;
 
-        for (u32 hops = 0; node && hops < 16; hops++) {
+        for (u32 hops = 0; hops < 16; hops++) {
             for (Node* child = node->first; child; child = child->next) {
                 if (child->name == AtomStop) {
                     return node;
@@ -7988,7 +7983,7 @@ namespace {
     static u32 meshAttribute(const Document& doc, Node* mesh, u32 name) {
         Node* node = mesh;
 
-        for (u32 hops = 0; node && hops < 16; hops++) {
+        for (u32 hops = 0; hops < 16; hops++) {
             if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty()) {
                 return value;
             }
@@ -8008,7 +8003,7 @@ namespace {
     static Node* meshRows(const Document& doc, Node* mesh) {
         Node* node = mesh;
 
-        for (u32 hops = 0; node && hops < 16; hops++) {
+        for (u32 hops = 0; hops < 16; hops++) {
             for (Node* child = node->first; child; child = child->next) {
                 if (child->name == AtomMeshRow) {
                     return node;
@@ -8542,7 +8537,8 @@ namespace {
                 return solidPaint(l, value.color, opacity);
             case PaintKind::CurrentColor:
                 return solidPaint(l, style.color, opacity);
-            case PaintKind::Server: {
+            default: {
+                // PaintKind::Server.
                 Node* server = elementById(*l.doc, value.server);
 
                 bool gradient = server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient);
@@ -8573,8 +8569,6 @@ namespace {
                 return nullptr;
             }
         }
-
-        return nullptr;
     }
 
     static bool renderable(u32 name) {
@@ -8720,20 +8714,17 @@ namespace {
         return op;
     }
 
-    // The bounds of the ops from one on to the End of their group, in device
+    // The bounds of the ops from one on, which end the group, in device
     // pixels; a nested group counts by its own bounds.
     static Box groupBounds(const Vector<Op>& ops, u32 from) {
         Box box = emptyBox();
         u32 depth = 0;
 
+        // The group's own End is yet to come.
         for (u32 i = from; i < ops.length(); i++) {
             const Op& op = ops[i];
 
             if (op.kind == OpKind::End) {
-                if (depth == 0) {
-                    break;
-                }
-
                 depth--;
                 continue;
             }
