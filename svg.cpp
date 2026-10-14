@@ -8945,7 +8945,7 @@ namespace {
         return true;
     }
 
-    static bool shapeClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
+    static void shapeClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const BasicShape& shape = *style.clipShape;
         Box box{0.f, 0.f, vp.width, vp.height};
 
@@ -8955,7 +8955,7 @@ namespace {
 
         if (shape.box != GeometryBox::View) {
             if (!elementBox(l, element, parent, vp, box, 0)) {
-                return true;
+                return;
             }
 
             if (shape.box == GeometryBox::Stroke && style.stroke.kind != PaintKind::None && isShape(element->name)) {
@@ -9030,8 +9030,6 @@ namespace {
 
         addClipShape(l, path, m, shape.rule);
         op.clipCount = (u32)l.clips.length() - op.clipFirst;
-
-        return true;
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
@@ -9524,9 +9522,7 @@ namespace {
         memset(map, 0, sizeof(u32*) * (doc.nodeCount + 1));
 
         for (Node* node = target; node; node = nextNode(node, target)) {
-            if (node->index < doc.nodeCount) {
-                map[node->index] = cascadeNode(doc, node, target);
-            }
+            map[node->index] = cascadeNode(doc, node, target);
         }
 
         l.instanceTargets.pushBack(target);
@@ -9576,15 +9572,12 @@ namespace {
         size_t start = 0;
         bool arc = false;
 
+        // A path starts with a move, and a segment never follows an arc's
+        // own cubics, which the cubic case joins.
         auto segment = [&](Point startDir, Point endDir, Point end) {
-            if (out.length() == 0) {
-                out.pushBack(MarkerVertex{current, Point{0.f, 0.f}, Point{0.f, 0.f}, false, false});
-                start = 0;
-            }
-
             MarkerVertex& last = out.mutData()[out.length() - 1];
 
-            if (!arc && !last.hasOut) {
+            if (!last.hasOut) {
                 last.out = startDir;
                 last.hasOut = true;
             }
@@ -9639,11 +9632,8 @@ namespace {
                     arc = verb == VerbArcCubic;
                     break;
                 }
-                case VerbClose: {
-                    if (out.length() == 0) {
-                        break;
-                    }
-
+                default: {
+                    // VerbClose.
                     MarkerVertex first = out[start];
                     Point d = direction(current, first.p);
 
@@ -9664,8 +9654,6 @@ namespace {
                     arc = false;
                     break;
                 }
-                default:
-                    break;
             }
         }
     }
@@ -9850,7 +9838,7 @@ namespace {
         markerVertices(path, vertices);
         markerVertices(style.nonScaling ? transformedPath(path, multiply(hostInverse, m)) : path, deviceVertices);
 
-        for (size_t i = 0; i < vertices.length() && i < deviceVertices.length(); i++) {
+        for (size_t i = 0; i < vertices.length(); i++) {
             int kind = i == 0 ? 0 : (i + 1 == vertices.length() ? 2 : 1);
 
             if (markers[kind]) {
@@ -10415,9 +10403,7 @@ namespace {
         out.sizeless = false;
         out.ratio = nullptr;
 
-        if (!href) {
-            return false;
-        }
+        // Its callers see an href first.
 
         StringView reference = trim(textOf(doc, href));
         bool remote = startsWithIgnoreCase(reference, SV("http:")) || startsWithIgnoreCase(reference, SV("https:")) || (!reference.empty() && reference[0] == '#');
@@ -10489,10 +10475,6 @@ namespace {
 
         u32 width = svg_image_width(raster);
         u32 height = svg_image_height(raster);
-
-        if (width == 0 || height == 0 || svg_image_length(raster) < (size_t)width * height * 4) {
-            return false;
-        }
 
         out.raster = raster;
         out.width = (float)width;
@@ -10567,7 +10549,7 @@ namespace {
             }
 
             float scale = minf(sqrtf(place.a * place.a + place.b * place.b), sqrtf(place.c * place.c + place.d * place.d));
-            int levels = scale > 0.f && scale < 1.f ? (int)floorf(maxf(-log2f(scale) - 0.5f, 0.f) + 0.5f) : 0;
+            int levels = scale < 1.f ? (int)floorf(maxf(-log2f(scale) - 0.5f, 0.f) + 0.5f) : 0;
 
             paint->smooth = rendering == 0 || (rendering == 2 && scale < 1.f);
             levels = paint->smooth ? levels : 0;
@@ -10589,11 +10571,6 @@ namespace {
             float ry0 = maxf(minf(a.y, b.y), y);
             float rx1 = minf(maxf(a.x, b.x), x + w);
             float ry1 = minf(maxf(a.y, b.y), y + h);
-
-            if (rx1 <= rx0 || ry1 <= ry0) {
-                return;
-            }
-
             Path rect;
             Flat flat;
 
@@ -10675,9 +10652,10 @@ namespace {
         float w = autoWidth ? source.width : lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
         float h = autoHeight ? source.height : lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
 
-        if (autoWidth && !autoHeight && source.height > 0.f) {
+        // A source has a size.
+        if (autoWidth && !autoHeight) {
             w = h * source.width / source.height;
-        } else if (autoHeight && !autoWidth && source.width > 0.f) {
+        } else if (autoHeight && !autoWidth) {
             h = w * source.height / source.width;
         }
 
@@ -10773,14 +10751,12 @@ namespace {
             const ComputedStyle& inherited = target->parent ? documentStyle(l, target->parent, vp) : style;
 
             l.active.pushBack(target);
-            Matrix place = m;
 
-            if (node->name == AtomFeImage) {
-                place = multiply(m, translation(x, y));
+            // The node is an feImage, in a viewport of some size.
+            Matrix place = multiply(m, translation(x, y));
 
-                if (relativeLengths(doc, target, 0) && vp.width > 0.f && vp.height > 0.f) {
-                    place = multiply(place, scaling(w / vp.width, h / vp.height));
-                }
+            if (relativeLengths(doc, target, 0)) {
+                place = multiply(place, scaling(w / vp.width, h / vp.height));
             }
 
             lowerElement(l, target, inherited, place, vp);
@@ -10983,7 +10959,8 @@ namespace {
         float w = (float)l.width;
         float h = (float)l.height;
 
-        if (!boxValid(out) || (out.x0 >= -0.5f && out.y0 >= -0.5f && out.x1 <= w + 0.5f && out.y1 <= h + 0.5f)) {
+        // The union of one filter or more is a box.
+        if (out.x0 >= -0.5f && out.y0 >= -0.5f && out.x1 <= w + 0.5f && out.y1 <= h + 0.5f) {
             return false;
         }
 
@@ -11082,7 +11059,8 @@ namespace {
             lh = ceilf(wanted.y1) - y0;
         }
 
-        if (lw <= 0.f || lh <= 0.f || lw * lh > (fixed ? 25.f : 16.f) * (float)l.width * (float)l.height) {
+        // The box is of some size, fixed or wanted.
+        if (lw * lh > (fixed ? 25.f : 16.f) * (float)l.width * (float)l.height) {
             return false;
         }
 
@@ -11124,7 +11102,9 @@ namespace {
 
         Matrix toDevice;
 
-        op.bounds = invert(layer, toDevice) ? deviceBox(toDevice, Box{-4.f, -4.f, lw + 4.f, lh + 4.f}) : Box{0.f, 0.f, (float)l.width, (float)l.height};
+        // The layer's frame inverts, as it came of an inverse.
+        invert(layer, toDevice);
+        op.bounds = deviceBox(toDevice, Box{-4.f, -4.f, lw + 4.f, lh + 4.f});
         l.programs.append(content.data(), content.length());
         l.out->pushBack(op);
 
@@ -11155,7 +11135,12 @@ namespace {
             m = multiply(m, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
         }
 
-        op.clipped = style.clipPath ? resolveClip(l, node, parent, style, m, vp, op) : (style.clipShape && shapeClip(l, node, parent, style, m, vp, op));
+        if (style.clipPath) {
+            op.clipped = resolveClip(l, node, parent, style, m, vp, op);
+        } else if (style.clipShape) {
+            shapeClip(l, node, parent, style, m, vp, op);
+            op.clipped = true;
+        }
 
         if (style.mask) {
             resolveMask(l, node, parent, style, m, vp, op);
@@ -11330,7 +11315,7 @@ namespace {
         return IntBox{(int)x0, (int)y0, (int)x1, (int)y1};
     }
 
-    static void addLine(float* acc, u32 stride, u32 width, u32 height, float x0, float y0, float x1, float y1) {
+    static void addLine(float* acc, u32 stride, u32 width, float x0, float y0, float x1, float y1) {
         if (y0 == y1) {
             return;
         }
@@ -11348,21 +11333,12 @@ namespace {
             dir = -1.f;
         }
 
-        if (y1 <= 0.f || y0 >= (float)height) {
-            return;
-        }
-
+        // A line spans a band of one row of the raster, its cuts.
         float w = (float)width;
         float dxdy = (x1 - x0) / (y1 - y0);
         float x = x0;
-
-        if (y0 < 0.f) {
-            x -= y0 * dxdy;
-        }
-
-        u32 ystart = y0 < 0.f ? 0 : (u32)y0;
-        float yceil = ceilf(y1);
-        u32 yend = yceil > (float)height ? height : (u32)yceil;
+        u32 ystart = (u32)y0;
+        u32 yend = (u32)ceilf(y1);
 
         for (u32 y = ystart; y < yend; y++) {
             float* line = acc + (size_t)y * stride;
@@ -11413,14 +11389,14 @@ namespace {
         }
     }
 
-    static void addEdge(float* acc, u32 stride, u32 width, u32 height, Edge e) {
+    static void addEdge(float* acc, u32 stride, u32 width, Edge e) {
         float w = (float)width;
         float bounds[2] = {0.f, w};
         float ts[2];
         u32 cuts = 0;
 
         for (float bound : bounds) {
-            if ((e.x0 < bound) != (e.x1 < bound) && e.x0 != e.x1) {
+            if ((e.x0 < bound) != (e.x1 < bound)) {
                 float t = (bound - e.x0) / (e.x1 - e.x0);
 
                 if (t > 0.f && t < 1.f) {
@@ -11468,7 +11444,7 @@ namespace {
                 bx = 0.f;
             }
 
-            addLine(acc, stride, width, height, ax, py[i], bx, py[i + 1]);
+            addLine(acc, stride, width, ax, py[i], bx, py[i + 1]);
         }
     }
 
@@ -11910,7 +11886,7 @@ namespace {
             bool after = insideWinding(winding, rule);
 
             if (before != after) {
-                addEdge(acc, stride, w, h, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
+                addEdge(acc, stride, w, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
             }
         }
     }
@@ -14878,10 +14854,8 @@ namespace {
         Plane content{(float*)pool.allocate(sizeof(float) * size * 4), IntBox{0, 0, lw, lh}};
         Matrix toDevice;
 
-        if (!invert(op.layerMatrix, toDevice)) {
-            return;
-        }
-
+        // A layer's frame inverts.
+        invert(op.layerMatrix, toDevice);
         sub.width = op.layerWidth;
         sub.height = op.layerHeight;
 

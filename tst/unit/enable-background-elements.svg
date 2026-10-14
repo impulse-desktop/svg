@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<defs>
+<filter id="bg"><feOffset in="BackgroundImage" dx="2"/></filter>
+<symbol id="s" enable-background="new 0 0 10 10"><rect width="10" height="10" fill="teal"/><rect width="4" height="4" filter="url(#bg)"/></symbol>
+</defs>
+<a enable-background="new"><rect width="4" height="4" fill="gold"/><g filter="url(#bg)"/></a>
+<switch enable-background="new"><g><rect x="8" width="4" height="4" fill="gold"/><g filter="url(#bg)"/></g></switch>
+<use href="#s" x="16"/>
+<svg x="28" width="10" height="10" enable-background="new 0 0 10 10"><rect width="10" height="10" fill="navy"/><rect width="4" height="4" filter="url(#bg)"/></svg>
+<g transform="scale(0 1)"><svg width="10" height="10" viewBox="0 0 10 10" enable-background="new 0 0 10 10"><rect width="4" height="4" filter="url(#bg)"/></svg></g>
+<g enable-background="new" opacity=".5"><rect x="40" width="4" height="4" fill="purple"/><g filter="url(#bg)"/></g>
+<g style="outline: 1px solid red"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<filter id="fi"><feImage href="file.png"/></filter>
+<filter id="fe"><feImage/></filter>
+<filter id="fh"><feImage href="#"/></filter>
+<filter id="f0" x="0" y="0" width="1" height="1"><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAABCAYAAADjAO9DAAAALElEQVR4nAEhAN7/AABkyP8eZMj/PGTI/1pkyP94ZMj/lmTI/7RkyP/SZMj/ODgUoVt5e4IAAAAASUVORK5CYII=" width="4" height="0"/><feImage href="data:,"/></filter>
+<filter id="frel"><feImage href="#bad"/></filter>
+<filter id="fdeep"><feImage href="#deep"/></filter>
+<filter id="froot"><feImage href="#root"/></filter>
+<rect id="bad" width="bogus" height="4" fill="red"/>
+<g id="deep"><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><rect width="4" height="4" fill="teal"/></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g>
+</defs>
+<image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAABCAYAAADjAO9DAAAALElEQVR4nAEhAN7/AABkyP8eZMj/PGTI/1pkyP94ZMj/lmTI/7RkyP/SZMj/ODgUoVt5e4IAAAAASUVORK5CYII=" x="0" y="0" width="2" height="2"/>
+<image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAABCAYAAADjAO9DAAAALElEQVR4nAEhAN7/AABkyP8eZMj/PGTI/1pkyP94ZMj/lmTI/7RkyP/SZMj/ODgUoVt5e4IAAAAASUVORK5CYII=" x="4" y="0" width="8" height="0"/>
+<image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAABCAYAAADjAO9DAAAALElEQVR4nAEhAN7/AABkyP8eZMj/PGTI/1pkyP94ZMj/lmTI/7RkyP/SZMj/ODgUoVt5e4IAAAAASUVORK5CYII=" x="4" y="0" width="0" height="0"/>
+<image href="" x="12" width="4" height="4"/>
+<image href="data:image/svg+xml;base64," x="12" width="4" height="4"/>
+<image href="data:image/svg+xml;utf8,%3Crect xmlns='http://www.w3.org/2000/svg'/%3E" x="12" width="4" height="4"/>
+<image href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 0'/%3E" x="12" width="4" height="4"/>
+<image href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='bogus'%3E%3Crect width='5' height='5' fill='teal'/%3E%3C/svg%3E" x="16" width="4" height="4"/>
+<image href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='bogus'%3E%3Crect width='5' height='5' fill='teal'/%3E%3C/svg%3E" x="20" width="4" height="4"/>
+<image href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cview id='v' viewBox='bogus'/%3E%3Cview id='w' viewBox='0 0 5 0'/%3E%3Crect width='5' height='5' fill='teal'/%3E%3C/svg%3E#v" x="24" width="4" height="4"/>
+<image href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cview id='w' viewBox='0 0 5 0'/%3E%3Crect width='5' height='5' fill='teal'/%3E%3C/svg%3E#w" x="28" width="4" height="4"/>
+<image href="data:,abc" x="32" width="4" height="4"/>
+<image href="data:image/png,%zz%az" x="32" width="4" height="4"/>
+<image href="data:image/png;base64,-_{:" x="32" width="4" height="4"/>
+<image href="data:image/png;base64,AB-_" x="32" width="4" height="4"/>
+<rect x="36" y="0" width="4" height="4" transform-box="fill-box" fill="gold"/>
+<rect x="0" y="8" width="8" height="8" fill="teal" filter="url(#fi)"/><rect x="8" y="8" width="8" height="8" fill="teal" filter="url(#fe)"/>
+<rect x="16" y="8" width="8" height="8" fill="teal" filter="url(#fh)"/><rect x="24" y="8" width="8" height="8" fill="teal" filter="url(#f0)"/>
+<rect x="32" y="8" width="8" height="8" fill="teal" filter="url(#frel)"/><rect x="40" y="8" width="8" height="8" fill="teal" filter="url(#fdeep)"/>
+<rect x="0" y="16" width="8" height="8" fill="teal" filter="url(#froot)"/>
+</svg>
