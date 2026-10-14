@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="8">
+<style>
+[data-a=b c] { fill: red }
+rect:not(#) { fill: red }
+rect:not(.x , .y) { fill: green }
+rect:not(.x .y) { fill: red }
+> rect { fill: red }
+rect!x { fill: red }
+[data-f~=q] { fill: red }
+svg g rect { stroke: blue }
+</style>
+<rect width="6" height="8" data-a="b" data-f="p r"/>
+<rect x="8" width="6" height="8" class="x"/>
+<rect x="16" width="6" height="8"/>
+</svg>

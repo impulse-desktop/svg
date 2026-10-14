@@ -14,9 +14,9 @@ build=.build-coverage
 rm -rf "$out" "$build"
 mkdir -p "$out/profiles"
 
-# The tests are thousands of processes: each merges its counters into one of
-# eight pool files of its binary instead of leaving a file of its own.
-export LLVM_PROFILE_FILE="$out/profiles/%8m.profraw"
+# Every process leaves a file of its own: merging into shared pool files
+# lost the counters of some of them.
+export LLVM_PROFILE_FILE="$out/profiles/%p.profraw"
 export CXXFLAGS="${CXXFLAGS:-} -fprofile-instr-generate -fcoverage-mapping"
 export LDFLAGS="${LDFLAGS:-} -fprofile-instr-generate"
 
