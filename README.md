@@ -19,7 +19,7 @@ that embeds the renderer.
 #include "svg.h"
 
 static void fail(SvgError error) {
-    /* throw, longjmp or abort: fail does not return */
+    /* throw or abort (longjmp will not work): fail does not return */
     abort();
 }
 
