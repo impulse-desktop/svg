@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<clipPath id="self" clip-path="url(#self)"><rect width="10" height="10"/></clipPath>
+<g id="grp"><rect width="10" height="10"/></g>
+<rect id="shp" width="6" height="6"/>
+<clipPath id="uses"><use href="#grp"/><use href="#shp" display="none"/><use href="#shp" x="2" y="2"/><use href="#missing"/><g/></clipPath>
+<clipPath id="inner"><rect width="6" height="6"/></clipPath>
+<clipPath id="prog" clip-path="url(#inner)"><g/><rect x="2" y="2" width="8" height="8" clip-path="url(#inner)"/><rect x="0" y="0" width="3" height="3"/><use href="#grp" clip-path="url(#inner)"/></clipPath>
+<clipPath id="hidden"><rect width="10" height="10" visibility="hidden"/></clipPath>
+<mask id="m"><rect width="48" height="24" fill="white"/></mask>
+<mask id="mz" maskUnits="userSpaceOnUse" width="0"><rect width="48" height="24" fill="white"/></mask>
+<mask id="mc" mask="url(#mc)"><rect width="48" height="24" fill="white"/></mask>
+<rect id="notmask" width="1" height="1"/>
+</defs>
+<rect x="0" width="10" height="10" fill="red" clip-path="url(#self)"/>
+<rect x="12" width="10" height="10" fill="teal" clip-path="url(#uses)" transform="translate(12 0)"/>
+<rect x="24" width="10" height="10" fill="purple" clip-path="url(#prog)"/>
+<rect x="36" width="10" height="10" fill="red" clip-path="url(#hidden)"/>
+<g mask="url(#m)"/>
+<rect x="0" y="12" width="10" height="10" fill="gold" mask="url(#mz)"/>
+<rect x="12" y="12" width="10" height="10" fill="gold" mask="url(#mc)"/>
+<rect x="24" y="12" width="10" height="10" fill="gold" mask="url(#notmask)"/>
+<g clip-path="url(#prog)" mask="url(#m)"><rect x="36" y="12" width="10" height="10" fill="navy"/></g>
+</svg>

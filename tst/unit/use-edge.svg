@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<style>g > rect:first-child { stroke: black }</style>
+<defs>
+<g id="g"><rect width="4" height="4" fill="teal"/><use href="#s"/></g>
+<symbol id="s"><use href="#g"/></symbol>
+<g id="anc"><use href="#anc"/></g>
+<use id="u0" href="#u1"/><use id="u1" href="#u2"/><use id="u2" href="#u3"/><use id="u3" href="#u4"/><use id="u4" href="#u5"/><use id="u5" href="#u6"/><use id="u6" href="#u7"/><use id="u7" href="#u8"/><use id="u8" href="#u9"/><use id="u9" href="#u10"/><use id="u10" href="#u11"/><use id="u11" href="#u12"/><use id="u12" href="#u13"/><use id="u13" href="#u14"/><use id="u14" href="#u15"/><use id="u15" href="#u16"/><use id="u16" href="#u17"/><use id="u17" href="#u18"/><use id="u18" href="#u19"/><use id="u19" href="#u20"/><use id="u20" href="#u21"/><use id="u21" href="#u22"/><use id="u22" href="#u23"/><use id="u23" href="#u24"/><use id="u24" href="#u25"/><use id="u25" href="#u26"/><use id="u26" href="#u27"/><use id="u27" href="#u28"/><use id="u28" href="#u29"/><use id="u29" href="#u30"/><use id="u30" href="#u31"/><use id="u31" href="#u32"/><use id="u32" href="#u33"/><use id="u33" href="#u34"/><use id="u34" href="#u35"/><use id="u35" href="#u36"/><use id="u36" href="#u37"/><use id="u37" href="#u38"/><use id="u38" href="#u39"/><use id="u39" href="#u40"/><rect id="u40" width="4" height="4" fill="red"/>
+<svg id="nest" viewBox="0 0 10 10" width="5" height="5"><circle cx="5" cy="5" r="5" fill="orange"/></svg>
+<pattern id="p" width="8" height="8" patternUnits="userSpaceOnUse"><use href="#pr"/></pattern>
+<rect id="pr" width="4" height="4" fill="url(#p)"/>
+<symbol id="cs" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="context-fill" stroke="context-stroke"/></symbol>
+</defs>
+<use href="#g" x="0" y="0"/>
+<use href="#g" x="6" y="0"/>
+<use href="#anc"/>
+<use href="#u0" x="12"/>
+<use href="#nest" x="18" width="10" height="10"/>
+<use href="#nest" x="30"/>
+<rect x="36" width="8" height="8" fill="url(#p)"/>
+<use href="#cs" x="0" y="12" width="10" height="10" fill="currentColor" stroke="url(#nothing) currentColor" color="crimson"/>
+<use href="#cs" x="12" y="12" width="10" height="10" fill="url(#p)" stroke="none"/>
+</svg>
