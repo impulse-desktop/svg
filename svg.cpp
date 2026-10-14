@@ -80,12 +80,13 @@ namespace {
         return (T*)(len + (const u8*)ptr);
     }
 
+    // The least power of two at or past v, which is at least 2.
     template <class T>
     inline T clp2(T v) noexcept {
         if constexpr (sizeof(T) == 4) {
-            return v <= 1 ? T(1) : T(1) << (32 - __builtin_clz(v - 1));
+            return T(1) << (32 - __builtin_clz(v - 1));
         } else {
-            return v <= 1 ? T(1) : T(1) << (64 - __builtin_clzll(v - 1));
+            return T(1) << (64 - __builtin_clzll(v - 1));
         }
     }
 
@@ -112,23 +113,17 @@ namespace {
     }
 
     static void* memCpy(void* to, const void* from, size_t len) noexcept {
-        if (len) {
-            memcpy(to, from, len);
-        }
+        memcpy(to, from, len);
 
         return len + (u8*)to;
     }
 
     static size_t strLen(const u8* s) noexcept {
-        return s ? strlen((const char*)s) : 0;
+        return strlen((const char*)s);
     }
 
     static void memZero(void* from, void* to) noexcept {
-        const size_t len = (u8*)to - (u8*)from;
-
-        if (len) {
-            memset(from, 0, len);
-        }
+        memset(from, 0, (u8*)to - (u8*)from);
     }
 
     static u64 splitMix64(u64 x) noexcept {
@@ -338,18 +333,8 @@ namespace {
         u64 hash64() const noexcept;
     };
 
-    static int spaceship(const u8* l, size_t ll, const u8* r, size_t rl) noexcept {
-        const auto rr = memCmp(l, r, ll < rl ? ll : rl);
-
-        return rr ? rr : (ll < rl ? -1 : (ll == rl ? 0 : 1));
-    }
-
-    static int spaceship(StringView l, StringView r) noexcept {
-        return spaceship(l.data(), l.length(), r.data(), r.length());
-    }
-
     static bool operator==(StringView l, StringView r) noexcept {
-        return l.length() == r.length() && spaceship(l, r) == 0;
+        return l.length() == r.length() && memCmp(l.data(), r.data(), l.length()) == 0;
     }
 
     static bool operator!=(StringView l, StringView r) noexcept {
@@ -471,20 +456,17 @@ namespace {
             }
 
             void qSort(I b, I e) {
-                if (b != e) {
-                    qSortStep(b, e);
-                    qSortLoop();
-                    insertionSort(b, e);
-                }
+                qSortStep(b, e);
+                qSortLoop();
+                insertionSort(b, e);
             }
         };
     }
 
+    // Sorts a range that is not empty.
     template <typename I, typename C>
     void quickSort(I b, I e, C&& f) {
-        if (b != e) {
-            QSP::Context<I, C>(f, (void*)&*b).qSort(b, e);
-        }
+        QSP::Context<I, C>(f, (void*)&*b).qSort(b, e);
     }
 
     struct Disposable {
@@ -2086,10 +2068,6 @@ namespace {
     }
 
     static u32 lookup(const Interner& interner, StringView text) {
-        if (interner.slots.length() == 0) {
-            return 0;
-        }
-
         size_t mask = interner.slots.length() - 1;
         size_t i = hashOf(text) & mask;
 
@@ -3378,15 +3356,12 @@ namespace {
         return true;
     }
 
+    // Parses a trimmed selector.
     static bool parseSelector(Document& doc, StringView text, Selector& selector) {
         const u8* p = text.begin();
         const u8* end = text.end();
         Vector<Compound> compounds;
         u32 specificity = 0;
-
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
 
         while (true) {
             Compound compound;
@@ -3848,7 +3823,8 @@ namespace {
                 return !expected.empty() && text.length() >= expected.length() && memcmp(text.data(), expected.data(), expected.length()) == 0;
             case Test::Suffix:
                 return !expected.empty() && text.length() >= expected.length() && memcmp(text.end() - expected.length(), expected.data(), expected.length()) == 0;
-            case Test::Substring:
+            default:
+                // Test::Substring, the last test of a value.
                 if (expected.empty() || text.length() < expected.length()) {
                     return false;
                 }
@@ -3859,8 +3835,6 @@ namespace {
                     }
                 }
 
-                return false;
-            default:
                 return false;
         }
     }
@@ -3913,15 +3887,14 @@ namespace {
                 return node != boundary && node->parent && matchFrom(doc, node->parent, selector, index + 1, boundary);
             case Combinator::Adjacent:
                 return node != boundary && node->prev && matchFrom(doc, node->prev, selector, index + 1, boundary);
-            case Combinator::Sibling:
+            default:
+                // Combinator::Sibling: a compound before the last has a combinator.
                 for (Node* sibling = node == boundary ? nullptr : node->prev; sibling; sibling = sibling->prev) {
                     if (matchFrom(doc, sibling, selector, index + 1, boundary)) {
                         return true;
                     }
                 }
 
-                return false;
-            default:
                 return false;
         }
     }
@@ -3962,11 +3935,8 @@ namespace {
         priorities.pushBack(priority);
     }
 
+    // A declaration of a property the cascade computes.
     static void consider(Candidate* best, u32 property, u32 value, u64 priority) {
-        if (property < firstProperty || property >= firstProperty + propertyCount) {
-            return;
-        }
-
         Candidate& slot = best[property - firstProperty];
 
         if (priority >= slot.priority) {
@@ -3986,12 +3956,9 @@ namespace {
         const u8* end = text.end();
         u32 count = 0;
 
+        // The text is trimmed, and spaces after a length are skipped with it.
         while (true) {
             Length length;
-
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
 
             if (p >= end) {
                 return count > 0;
@@ -4405,7 +4372,8 @@ namespace {
                 return length.value * fontSize * 1.149f;
             case Unit::Ic:
                 return length.value * fontSize;
-            case Unit::Percent:
+            default:
+                // Unit::Percent.
                 if (axis == Axis::X) {
                     return length.value * vp.width / 100.f;
                 }
@@ -4416,8 +4384,6 @@ namespace {
 
                 return length.value * sqrtf((vp.width * vp.width + vp.height * vp.height) / 2.f) / 100.f;
         }
-
-        return 0.f;
     }
 
     static bool lengthAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
@@ -4453,12 +4419,9 @@ namespace {
         return -1;
     }
 
+    // A component of a colour function, where it starts.
     static bool readComponent(const u8*& p, const u8* end, float scale, float& out) {
         float value;
-
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
 
         if (!readNumber(p, end, value)) {
             return false;
@@ -4547,10 +4510,6 @@ namespace {
             }
 
             if (hsl && count == 0) {
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
-
                 float hue;
 
                 if (!readNumber(p, end, hue)) {
