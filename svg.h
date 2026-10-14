@@ -80,8 +80,9 @@ extern "C" {
 
     // Called with why a call of the library, or of a document or image it
     // made, cannot return what it is asked for; an SVG image inside a document
-    // that is no XML document calls it too. It does not return: it throws,
-    // jumps or aborts. No call returns NULL.
+    // that is no XML document calls it too. It does not return: it throws or
+    // aborts, as a longjmp would skip what the library releases on the way
+    // out. No call returns NULL.
     typedef void (*SvgFail)(SvgError error);
 
     // The decoder may be NULL, the fail never is.
