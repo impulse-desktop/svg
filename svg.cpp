@@ -12198,18 +12198,27 @@ namespace {
         Vector<FilterResult> results;
         Vector<float*> linearCache;
         Vector<float*> srgbCache;
+        Vector<u32> lastReader;
         float scaleX;
         float scaleY;
         size_t size;
         int width;
     };
 
+    // A zero buffer of the raster. A primitive's result is released once the
+    // last primitive that reads it has run, a temporary at the end of its
+    // primitive, the rest at the end of the filter.
     static float* filterBuffer(FilterRun& run) {
-        float* data = (float*)run.pool->allocate(sizeof(float) * run.size * 4);
+        float* data = new float[run.size * 4];
 
         memset(data, 0, sizeof(float) * run.size * 4);
 
         return data;
+    }
+
+    static void releaseBuffer(float*& buffer) {
+        delete[] buffer;
+        buffer = nullptr;
     }
 
     static float srgbToLinear(float c) {
@@ -12805,6 +12814,8 @@ namespace {
                 memcpy(out + ((size_t)y * width + x) * 4, lineOut.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
             }
         }
+
+        releaseBuffer(horizontal);
     }
 
     static void filterBlur(FilterRun& run, const FilterPrimitive& p, float* out) {
@@ -12898,6 +12909,9 @@ namespace {
                 out[i + 3] = s[3] + a * keep;
             }
         }
+
+        releaseBuffer(shadow);
+        releaseBuffer(moved);
     }
 
     static void unpremultiply(const float* s, float* c) {
@@ -13501,6 +13515,8 @@ namespace {
                 memcpy(out + ((size_t)y * run.width + x) * 4, column.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
             }
         }
+
+        releaseBuffer(pass);
     }
 
     static void filterTile(FilterRun& run, const FilterPrimitive& p, float* out) {
@@ -14264,6 +14280,8 @@ namespace {
                 }
             }
         }
+
+        releaseBuffer(content);
     }
 
     static IntBox clipBox(IntBox box, int width, int height) {
@@ -14275,7 +14293,31 @@ namespace {
         return box;
     }
 
-    static float* applyFilter(Raster& r, const Lowering& l, const Filter& lowered, float* layer, ObjPool& pool, bool resetBackground = false) {
+    // Whether the primitive reads the result of the primitive at index: the
+    // inputs lowerFilter gave it.
+    static bool readsResult(const FilterPrimitive& p, int index) {
+        if (p.kind == AtomFeMerge) {
+            for (u32 k = 0; k < p.inputCount; k++) {
+                if (p.inputs[k] == index) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        if (p.kind == AtomFeFlood || p.kind == AtomFeImage || p.kind == AtomFeTurbulence) {
+            return false;
+        }
+
+        bool second = p.kind == AtomFeBlend || p.kind == AtomFeComposite || p.kind == AtomFeDisplacementMap;
+
+        return p.in1 == index || (second && p.in2 == index);
+    }
+
+    // Runs the filter over the layer and writes its result back over it: the
+    // final primitive's result inside the region, zero outside.
+    static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, float* layer, ObjPool& pool, bool resetBackground = false) {
         // The region and the primitive boxes were clipped to the canvas when
         // the filter was lowered; a pattern tile or a layer is drawn on a
         // smaller raster, so clip them to it.
@@ -14295,6 +14337,7 @@ namespace {
         }
 
         FilterRun run;
+        const IntBox& region = filter.region;
 
         run.raster = &r;
         run.lowering = &l;
@@ -14302,6 +14345,13 @@ namespace {
         run.pool = &pool;
         run.size = (size_t)r.width * r.height;
         run.width = (int)r.width;
+
+        if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
+            memset(layer, 0, sizeof(float) * run.size * 4);
+
+            return;
+        }
+
         run.scaleX = sqrtf(filter.ctm.a * filter.ctm.a + filter.ctm.b * filter.ctm.b);
         run.scaleY = sqrtf(filter.ctm.c * filter.ctm.c + filter.ctm.d * filter.ctm.d);
         run.source = layer;
@@ -14313,13 +14363,6 @@ namespace {
         memset(run.paint, 0, sizeof(run.paint));
         run.empty = filterBuffer(run);
         run.sourceAlpha = filterBuffer(run);
-
-        float* result = filterBuffer(run);
-        const IntBox& region = filter.region;
-
-        if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
-            return result;
-        }
 
         if (region.x0 > 0 || region.y0 > 0 || region.x1 < run.width || region.y1 < (int)r.height) {
             // SourceGraphic has the same filter-region clip in both colour spaces.
@@ -14337,6 +14380,19 @@ namespace {
 
         run.linearCache.zero(filter.count);
         run.srgbCache.zero(filter.count);
+        run.lastReader.zero(filter.count);
+
+        for (u32 k = 0; k < filter.count; k++) {
+            u32 last = k;
+
+            for (u32 j = k + 1; j < filter.count; j++) {
+                if (readsResult(filter.primitives[j], (int)k)) {
+                    last = j;
+                }
+            }
+
+            run.lastReader.mut(k) = last;
+        }
 
         for (u32 k = 0; k < filter.count; k++) {
             const FilterPrimitive& p = filter.primitives[k];
@@ -14397,18 +14453,57 @@ namespace {
             }
 
             run.results.pushBack(FilterResult{out, p.linear});
+
+            // The results this primitive was the last to read go, except the final one.
+            for (u32 i = 0; i <= k && i + 1 < filter.count; i++) {
+                if (run.lastReader[i] == k) {
+                    releaseBuffer(run.results.mut(i).data);
+                    releaseBuffer(run.linearCache.mut(i));
+                    releaseBuffer(run.srgbCache.mut(i));
+                }
+            }
         }
 
         const FilterResult& last = run.results.back();
-        const float* final = last.linear ? convertBuffer(run, last.data, false) : last.data;
+        float* converted = last.linear ? convertBuffer(run, last.data, false) : nullptr;
+        const float* final = converted ? converted : last.data;
+        size_t rowBytes = sizeof(float) * 4 * (size_t)run.width;
+
+        memset(layer, 0, rowBytes * (size_t)region.y0);
 
         for (int y = region.y0; y < region.y1; y++) {
-            size_t i = ((size_t)y * run.width + region.x0) * 4;
+            float* row = layer + (size_t)y * run.width * 4;
 
-            memcpy(result + i, final + i, sizeof(float) * 4 * (size_t)(region.x1 - region.x0));
+            memset(row, 0, sizeof(float) * 4 * (size_t)region.x0);
+            memcpy(row + (size_t)region.x0 * 4, final + ((size_t)y * run.width + region.x0) * 4, sizeof(float) * 4 * (size_t)(region.x1 - region.x0));
+            memset(row + (size_t)region.x1 * 4, 0, sizeof(float) * 4 * (size_t)(run.width - region.x1));
         }
 
-        return result;
+        memset(layer + (size_t)region.y1 * run.width * 4, 0, rowBytes * (size_t)((int)r.height - region.y1));
+        releaseBuffer(converted);
+
+        for (u32 k = 0; k < filter.count; k++) {
+            releaseBuffer(run.results.mut(k).data);
+            releaseBuffer(run.linearCache.mut(k));
+            releaseBuffer(run.srgbCache.mut(k));
+        }
+
+        if (run.source != layer) {
+            releaseBuffer(run.source);
+        }
+
+        releaseBuffer(run.sourceLinear);
+        releaseBuffer(run.sourceAlpha);
+        releaseBuffer(run.empty);
+        releaseBuffer(run.background);
+        releaseBuffer(run.backgroundLinear);
+        releaseBuffer(run.backgroundAlpha);
+
+        for (int kind = 0; kind < 2; kind++) {
+            for (int space = 0; space < 2; space++) {
+                releaseBuffer(run.paint[kind][space]);
+            }
+        }
     }
 
     static void compositeLayer(Raster& r, const Lowering& l, const Op& op) {
@@ -14469,7 +14564,7 @@ namespace {
         IntBox region{0, 0, lw, lh};
 
         for (const Filter* filter = op.filter; filter; filter = filter->next) {
-            content = applyFilter(sub, l, *filter, content, pool);
+            applyFilter(sub, l, *filter, content, pool);
             region = clipBox(filter->region, lw, lh);
         }
 
@@ -14586,7 +14681,7 @@ namespace {
                     }
 
                     for (const Filter* filter = begin->filter; filter; filter = filter->next) {
-                        layer = applyFilter(r, l, *filter, layer, *pool, begin->newBackground);
+                        applyFilter(r, l, *filter, layer, *pool, begin->newBackground);
                     }
 
                     const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool) : nullptr;
