@@ -5134,6 +5134,13 @@ namespace {
             delta += 2.0 * piDouble;
         }
 
+        // Ends that are not finite leave the arc no angle: it is a line.
+        if (delta != delta) {
+            lineTo(path, p1);
+
+            return;
+        }
+
         int segments = (int)ceil(fabs(delta) / (piDouble / 2.0) - 1e-7);
 
         if (segments < 1) {

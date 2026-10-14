@@ -15,13 +15,17 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 
     SvgLibrary* library = svg_library_create(nullptr, nullptr);
     SvgDocument* document = svg_library_parse(library, data, size);
-    SvgImage* image = document ? svg_document_render(document, renderSize, renderSize, 1.f) : nullptr;
 
-    if (image) {
-        svg_image_destroy(image);
+    if (document) {
+        SvgImage* image = svg_document_render(document, renderSize, renderSize, 1.f);
+
+        if (image) {
+            svg_image_destroy(image);
+        }
+
+        svg_document_destroy(document);
     }
 
-    svg_document_destroy(document);
     svg_library_destroy(library);
 
     return 0;
