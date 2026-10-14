@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<style>
+g rect { fill: teal }
+g > g { opacity: .8 }
+rect + g { stroke: black }
+rect ~ g { stroke-width: 2 }
+:root { color: red }
+</style>
+<defs>
+<g id="t"><rect width="4" height="4"/><g id="inner"><rect x="4" width="4" height="4" fill="gold"/></g></g>
+</defs>
+<use href="#t"/>
+<use href="#inner" x="10"/>
+<use href="#t" x="20" y="6"/>
+</svg>
