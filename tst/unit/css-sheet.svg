@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<style><!--
+@charset "utf-8";
+@import url("x.css");
+@media screen { rect { fill: red } .x { fill: red } }
+@font-face { font-family: "a;b{"; }
+rect[data-a="/*"] { fill: green }
+.b { FILL: blue; stroke: ; : red; nostroke; abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopq: 1; unknown-property: 1 }
+.c { fill: orange ! IMPORTANT }
+.c { fill: red }
+.d { fill: purple !bogus }
+.e { fill: var(--x, teal) }
+.f { fill: var(--x) }
+.g { fill: var(--a, var(--b, gold)) }
+.h { fill: var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, red)))))))))) }
+.i { fill: env(safe, navy) }
+.j { fill: var(--x, red }
+.k { -webkit-clip-path: circle(2px) }
+.l { fill: "quoted;value" }
+--></style>
+<style type="">.m { fill: lime }</style>
+<style type="text/foo">.m { fill: red }</style>
+<style type=" TEXT/CSS ">.n { fill: pink }</style>
+<style></style>
+<rect x="0" width="4" height="8" data-a="/*"/>
+<rect x="4" width="4" height="8" class="b"/>
+<rect x="8" width="4" height="8" class="c"/>
+<rect x="12" width="4" height="8" class="d"/>
+<rect x="16" width="4" height="8" class="e"/>
+<rect x="20" width="4" height="8" class="f" fill="black"/>
+<rect x="24" width="4" height="8" class="g"/>
+<rect x="28" width="4" height="8" class="h" fill="black"/>
+<rect x="32" width="4" height="8" class="i"/>
+<rect x="36" width="4" height="8" class="j" fill="black"/>
+<rect x="40" width="8" height="8" class="k" fill="black"/>
+<rect x="0" y="8" width="4" height="8" class="l" fill="black"/>
+<rect x="4" y="8" width="4" height="8" class="m"/>
+<rect x="8" y="8" width="4" height="8" class="n"/>
+</svg>

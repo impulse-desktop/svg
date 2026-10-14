@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<style>
+* { fill: gray }
+rect { fill: red }
+#a { fill: green }
+.b { fill: blue }
+[data-c] { fill: orange }
+[data-d=x] { fill: purple }
+[ data-e = 'y z' ] { fill: teal }
+[data-f~=w] { fill: gold }
+[lang|=en] { fill: navy }
+[data-g^=pre] { fill: crimson }
+[data-h$=suf] { fill: lime }
+[data-i*=sub] { fill: pink }
+[data-j^=""], [data-j$=""], [data-j*=""] { fill: black }
+[data-k!=v] { fill: black }
+[data-k=] { fill: black }
+[data-k { fill: black }
+[] { fill: black }
+# { fill: black }
+. { fill: black }
+rect::before { fill: black }
+rect:not(.m, #n) [data-o] { fill: black }
+g > rect:not(.p):first-child { stroke: black }
+rect:last-child { stroke: white }
+rect:only-child { stroke: yellow }
+svg:root > g { opacity: .9 }
+rect:hover, rect:active, rect:focus, rect:visited, rect:target { fill: black }
+rect:unknown { fill: black }
+rect:nth-child(2) { fill: black }
+rect: { fill: black }
+rect:not( { fill: black }
+rect:not(.a { fill: black }
+rect:not() { fill: black }
+rect, { fill: black }
+rect ! { fill: black }
+g>rect+rect { stroke-width: 2 }
+g rect ~ rect { stroke-dasharray: 1 }
+:NOT(.q) { }
+</style>
+<g>
+<rect x="0" y="0" width="5" height="5" id="a"/>
+<rect x="6" y="0" width="5" height="5" class="b m"/>
+<rect x="12" y="0" width="5" height="5" data-c=""/>
+<rect x="18" y="0" width="5" height="5" data-d="x"/>
+<rect x="24" y="0" width="5" height="5" data-e="y z"/>
+<rect x="30" y="0" width="5" height="5" data-f="v w x"/>
+<rect x="36" y="0" width="5" height="5" lang="en"/>
+<rect x="42" y="0" width="5" height="5" lang="en-US"/>
+</g>
+<g>
+<rect x="0" y="6" width="5" height="5" lang="english"/>
+<rect x="6" y="6" width="5" height="5" data-g="prefix"/>
+<rect x="12" y="6" width="5" height="5" data-h="a-suf"/>
+<rect x="18" y="6" width="5" height="5" data-i="a-sub-b"/>
+<rect x="24" y="6" width="5" height="5" data-i="su"/>
+<rect x="30" y="6" width="5" height="5" data-j="j" data-g="pr" data-h="uf"/>
+<rect x="36" y="6" width="5" height="5" data-i="xyz"/>
+</g>
+<g><rect x="0" y="12" width="5" height="5" class="p"/></g>
+<g><g><rect x="6" y="12" width="5" height="5"/></g></g>
+<circle cx="15" cy="15" r="2"/>
+</svg>

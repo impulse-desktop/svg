@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24" style="width: 10px; transform: translate(1px, 1px)">
+<style>
+.r { x: 2px; y: 2px; width: 8px; height: 8px; rx: 2px; ry: 1px }
+.c { cx: 18px; cy: 6px; r: 4px }
+.e { cx: 30px; cy: 6px; rx: 5px; ry: 3px }
+.p { d: path("M38 2 h8 v8 z") }
+.q { d: path('M2 14 h8 v8 z') }
+.s { d: path(M14 14 h8 v8 z) }
+.g { transform: rotate(90deg) }
+.t { transform: scale(.5) }
+.u { width: 4px; height: 4px; x: 1px }
+.w { x: 30px } .w { x: 26px } #w { x: 34px }
+.i { width: 6px !important } .i { width: 2px }
+</style>
+<defs>
+<linearGradient id="lg" class="g"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="blue"/></linearGradient>
+<pattern id="pt" class="t" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="green"/></pattern>
+<symbol id="sy" class="u"><rect width="10" height="10" fill="purple"/></symbol>
+</defs>
+<rect class="r" fill="url(#lg)"/>
+<circle class="c" fill="url(#pt)"/>
+<ellipse class="e" fill="orange"/>
+<path class="p" fill="teal"/>
+<path class="q" fill="navy"/>
+<path class="s" fill="gold"/>
+<use href="#sy" x="24" y="14" class="u"/>
+<rect class="w" id="w" y="14" width="4" height="4" fill="black"/>
+<rect class="i" x="40" y="14" height="4" fill="black"/>
+<circle class="r" fill="red"/>
+</svg>
