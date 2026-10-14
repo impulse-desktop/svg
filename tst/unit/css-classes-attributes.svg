@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="8">
+<style>.a { fill: green } .b { stroke: black } [lang|=en] { fill: blue } [data-g^=pre] { fill: gold } [data-h$=suf] { fill: purple } [data-f~=w] { fill: teal }</style>
+<rect width="4" height="4" class="a  b " fill="red"/>
+<rect x="4" width="4" height="4" class="" fill="orange"/>
+<rect x="8" width="4" height="4" class="   " fill="orange"/>
+<rect x="12" width="4" height="4" lang="e" fill="orange"/>
+<rect x="16" width="4" height="4" lang="fr-CA" fill="orange"/>
+<rect x="20" width="4" height="4" data-g="xprefix" fill="orange"/>
+<rect x="24" width="4" height="4" data-h="sufx" fill="orange"/>
+<rect x="28" width="4" height="4" data-f="v w " fill="orange"/>
+</svg>

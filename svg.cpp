@@ -3140,6 +3140,9 @@ namespace {
         return sum;
     }
 
+    // A selector closes every bracket and parenthesis it opens, as parseSheet
+    // splits selectors only where they are closed, so the text runs on past
+    // the parts of an attribute test and of a :not.
     static bool parseCompound(Document& doc, const u8*& p, const u8* end, Compound& compound, u32& specificity) {
         Vector<Condition> conditions;
         bool any = false;
@@ -3203,11 +3206,11 @@ namespace {
                 condition.name = intern(doc.atoms, name);
                 condition.test = Test::Exists;
 
-                if (p < end && *p != ']') {
+                if (*p != ']') {
                     if (*p == '=') {
                         condition.test = Test::Equals;
                         p++;
-                    } else if (p + 1 < end && p[1] == '=') {
+                    } else if (p[1] == '=') {
                         switch (*p) {
                             case '~':
                                 condition.test = Test::Includes;
@@ -3235,7 +3238,7 @@ namespace {
 
                     skipSpaces(p, end);
 
-                    if (p < end && (*p == '"' || *p == '\'')) {
+                    if (*p == '"' || *p == '\'') {
                         const u8* next = skipCssString(p, end);
 
                         condition.value = StringView(p + 1, next - 1);
@@ -3251,7 +3254,7 @@ namespace {
                     skipSpaces(p, end);
                 }
 
-                if (p >= end || *p != ']') {
+                if (*p != ']') {
                     return false;
                 }
 
@@ -3299,7 +3302,7 @@ namespace {
                             break;
                         }
 
-                        if (p >= end || *p != ')') {
+                        if (*p != ')') {
                             return false;
                         }
 
@@ -3662,7 +3665,7 @@ namespace {
             bool valid = true;
             const u8* s = selectors.begin();
 
-            while (valid && s <= selectors.end()) {
+            while (valid) {
                 const u8* comma = findOutside(s, selectors.end(), ',');
                 const u8* stop = comma ? comma : selectors.end();
                 Selector selector;
@@ -3680,7 +3683,7 @@ namespace {
                 s = comma + 1;
             }
 
-            if (!valid || parsed.length() == 0) {
+            if (!valid) {
                 continue;
             }
 
@@ -3767,7 +3770,7 @@ namespace {
         return false;
     }
 
-    static bool matchCondition(Document& doc, Node* node, const Condition& condition, const Node* boundary) {
+    static bool matchCondition(Document& doc, Node* node, const Condition& condition) {
         switch (condition.test) {
             case Test::Id:
                 return attribute(node, AtomId) == condition.name;
@@ -3788,7 +3791,8 @@ namespace {
             case Test::OnlyChild:
                 return !node->prev && !node->next;
             case Test::Root:
-                return node == doc.root && !boundary;
+                // An instance's nodes are never the root.
+                return node == doc.root;
             case Test::Never:
                 return false;
             default:
@@ -3851,7 +3855,7 @@ namespace {
                 continue;
             }
 
-            if (!matchCondition(doc, node, condition, boundary)) {
+            if (!matchCondition(doc, node, condition)) {
                 return false;
             }
         }
@@ -4454,7 +4458,8 @@ namespace {
             open++;
         }
 
-        if (open >= text.end() || text.back() != ')') {
+        // parseColor sends the texts that end with ')'.
+        if (open >= text.end()) {
             return false;
         }
 
@@ -4514,13 +4519,11 @@ namespace {
             } else {
                 skipSpaces(p, end);
 
-                const u8* start = p;
-
                 if (!readComponent(p, end, scale, values[count])) {
                     return false;
                 }
 
-                if (rgb && count < 3 && p > start && p[-1] == '%') {
+                if (rgb && count < 3 && p[-1] == '%') {
                     percents++;
                 }
             }
@@ -6891,11 +6894,8 @@ namespace {
                             target.context = true;
                         }
                     } else {
-                        PaintValue paint;
-
-                        if (parsePaint(doc, value, paint)) {
-                            target = paint;
-                        }
+                        // The cascade keeps the paints that parse.
+                        parsePaint(doc, value, target);
                     }
 
                     break;
@@ -6904,11 +6904,7 @@ namespace {
                     if (keyword) {
                         style.color = source.color;
                     } else if (!isKeyword(value, SV("currentcolor"))) {
-                        Color color;
-
-                        if (parseColor(value, color)) {
-                            style.color = color;
-                        }
+                        parseColor(value, style.color);
                     }
 
                     break;
@@ -6962,11 +6958,11 @@ namespace {
                     if (keyword) {
                         style.strokeWidth = source.strokeWidth;
                     } else {
+                        // The cascade keeps the widths that parse, of no less than zero.
                         Length length;
 
-                        if (parseLength(value, length) && length.value >= 0.f) {
-                            style.strokeWidth = resolveLength(length, Axis::Other, vp, style.fontSize);
-                        }
+                        parseLength(value, length);
+                        style.strokeWidth = resolveLength(length, Axis::Other, vp, style.fontSize);
                     }
 
                     break;
@@ -7014,10 +7010,11 @@ namespace {
                         style.dashes = nullptr;
                         style.dashCount = 0;
                     } else {
+                        // The cascade keeps the arrays of one length or more
+                        // that parse, of no less than zero each.
                         Vector<float> dashes;
                         const u8* p = value.begin();
                         const u8* end = value.end();
-                        bool valid = true;
                         float sum = 0.f;
 
                         while (true) {
@@ -7029,28 +7026,16 @@ namespace {
                                 break;
                             }
 
-                            if (!readLength(p, end, length)) {
-                                valid = false;
-                                break;
-                            }
+                            readLength(p, end, length);
 
                             float dash = resolveLength(length, Axis::Other, vp, style.fontSize);
-
-                            if (dash < 0.f) {
-                                valid = false;
-                                break;
-                            }
 
                             sum += dash;
                             dashes.pushBack(dash);
                             skipSeparator(p, end);
                         }
 
-                        if (!valid) {
-                            break;
-                        }
-
-                        if (dashes.length() == 0 || sum <= 0.f) {
+                        if (sum <= 0.f) {
                             style.dashes = nullptr;
                             style.dashCount = 0;
                             break;
@@ -7099,11 +7084,8 @@ namespace {
                     } else if (isKeyword(value, SV("currentcolor"))) {
                         style.stopColor = style.color;
                     } else {
-                        Color color;
-
-                        if (parseColor(value, color)) {
-                            style.stopColor = color;
-                        }
+                        // The cascade keeps the colours that parse.
+                        parseColor(value, style.stopColor);
                     }
 
                     break;
@@ -7287,10 +7269,9 @@ namespace {
                 case AtomShapeRendering:
                     if (keyword) {
                         style.aliased = source.aliased;
-                    } else if (isKeyword(value, SV("crispedges")) || isKeyword(value, SV("optimizespeed"))) {
-                        style.aliased = true;
-                    } else if (isKeyword(value, SV("auto")) || isKeyword(value, SV("geometricprecision"))) {
-                        style.aliased = false;
+                    } else {
+                        // The cascade keeps the four values.
+                        style.aliased = isKeyword(value, SV("crispedges")) || isKeyword(value, SV("optimizespeed"));
                     }
 
                     break;
@@ -7387,11 +7368,8 @@ namespace {
                     } else if (isKeyword(value, SV("currentcolor"))) {
                         target = style.color;
                     } else {
-                        Color color;
-
-                        if (parseColor(value, color)) {
-                            target = color;
-                        }
+                        // The cascade keeps the colours that parse.
+                        parseColor(value, target);
                     }
 
                     break;
