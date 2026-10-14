@@ -12176,8 +12176,15 @@ namespace {
         return mask;
     }
 
-    struct FilterResult {
+    // A buffer of float RGBA pixels over a box of the raster, zero at first:
+    // a pixel outside the box reads as zero and is never written.
+    struct Plane {
         float* data;
+        IntBox box;
+    };
+
+    struct FilterResult {
+        Plane plane;
         bool linear;
     };
 
@@ -12186,39 +12193,61 @@ namespace {
         const Lowering* lowering;
         const Filter* filter;
         ObjPool* pool;
-        float* source;
-        float* sourceLinear;
-        float* sourceAlpha;
-        float* background;
-        float* backgroundLinear;
-        float* backgroundAlpha;
+        IntBox canvas;
+        Plane source;
+        Plane sourceLinear;
+        Plane sourceAlpha;
+        Plane background;
+        Plane backgroundLinear;
+        Plane backgroundAlpha;
         bool resetBackground;
-        float* paint[2][2];
-        float* empty;
+        Plane paint[2][2];
+        Plane empty;
         Vector<FilterResult> results;
-        Vector<float*> linearCache;
-        Vector<float*> srgbCache;
+        Vector<Plane> linearCache;
+        Vector<Plane> srgbCache;
         Vector<u32> lastReader;
         float scaleX;
         float scaleY;
-        size_t size;
-        int width;
     };
 
-    // A zero buffer of the raster. A primitive's result is released once the
-    // last primitive that reads it has run, a temporary at the end of its
-    // primitive, the rest at the end of the filter.
-    static float* filterBuffer(FilterRun& run) {
-        float* data = new float[run.size * 4];
+    const float zeroPixel[4] = {0.f, 0.f, 0.f, 0.f};
 
-        memset(data, 0, sizeof(float) * run.size * 4);
+    // A primitive's result is released once the last primitive that reads it
+    // has run, a temporary at the end of its primitive, the rest at the end
+    // of the filter.
+    static Plane makePlane(IntBox box) {
+        size_t count = box.x1 > box.x0 && box.y1 > box.y0 ? (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0) : 0;
+        Plane plane{count ? new float[count * 4] : nullptr, box};
 
-        return data;
+        if (count) {
+            memset(plane.data, 0, sizeof(float) * count * 4);
+        }
+
+        return plane;
     }
 
-    static void releaseBuffer(float*& buffer) {
-        delete[] buffer;
-        buffer = nullptr;
+    static void releasePlane(Plane& plane) {
+        delete[] plane.data;
+        plane.data = nullptr;
+    }
+
+    static int planeWidth(const Plane& plane) {
+        return plane.box.x1 - plane.box.x0;
+    }
+
+    // The pixel at x, y of a plane whose box holds it.
+    static float* planeAt(const Plane& plane, int x, int y) {
+        return plane.data + ((size_t)(y - plane.box.y0) * (size_t)planeWidth(plane) + (size_t)(x - plane.box.x0)) * 4;
+    }
+
+    // The pixel at x, y, zero outside the plane.
+    static const float* planeRead(const Plane& plane, int x, int y) {
+        if (x < plane.box.x0 || x >= plane.box.x1 || y < plane.box.y0 || y >= plane.box.y1) {
+            return zeroPixel;
+        }
+
+        return planeAt(plane, x, y);
     }
 
     static float srgbToLinear(float c) {
@@ -12237,26 +12266,26 @@ namespace {
         return Color{srgbToLinear(c.r), srgbToLinear(c.g), srgbToLinear(c.b), c.a};
     }
 
-    static float* convertBuffer(FilterRun& run, const float* src, bool toLinear, bool infinite = false) {
-        float* out = filterBuffer(run);
-        IntBox b = infinite ? IntBox{0, 0, run.width, (int)run.raster->height} : run.filter->region;
+    static Plane convertBuffer(const Plane& src, bool toLinear) {
+        Plane out = makePlane(src.box);
 
-        for (int y = b.y0; y < b.y1; y++) {
-            for (int x = b.x0; x < b.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
-                float a = src[i + 3];
+        for (int y = src.box.y0; y < src.box.y1; y++) {
+            for (int x = src.box.x0; x < src.box.x1; x++) {
+                const float* s = planeAt(src, x, y);
+                float* d = planeAt(out, x, y);
+                float a = s[3];
 
                 if (a <= 0.f) {
                     continue;
                 }
 
                 for (int c = 0; c < 3; c++) {
-                    float v = clampUnit(src[i + c] / a);
+                    float v = clampUnit(s[c] / a);
 
-                    out[i + c] = (toLinear ? srgbToLinear(v) : linearToSrgb(v)) * a;
+                    d[c] = (toLinear ? srgbToLinear(v) : linearToSrgb(v)) * a;
                 }
 
-                out[i + 3] = a;
+                d[3] = a;
             }
         }
 
@@ -12329,66 +12358,77 @@ namespace {
         return out;
     }
 
-    static const float* filterInputBuffer(FilterRun& run, int index, bool linear) {
+    static Plane filterInputBuffer(FilterRun& run, int index, bool linear) {
         if (index == InputFillPaint || index == InputStrokePaint) {
             int kind = index == InputStrokePaint ? 1 : 0;
-            float*& buffer = run.paint[kind][0];
-            if (!buffer) {
-                buffer = filterBuffer(run);
+            Plane& buffer = run.paint[kind][0];
+
+            // A paint has no extent: its plane is the raster.
+            if (!buffer.data) {
+                buffer = makePlane(run.canvas);
                 DevicePaint* paint = kind ? run.filter->strokePaint : run.filter->fillPaint;
+
                 if (paint) {
                     if (paint->type == PaintType::Pattern) {
                         prepareTile(*run.lowering, *paint);
                     }
-                    IntBox box{0, 0, run.width, (int)run.raster->height};
-                    for (int y = box.y0; y < box.y1; y++) {
-                        for (int x = box.x0; x < box.x1; x++) {
+
+                    for (int y = run.canvas.y0; y < run.canvas.y1; y++) {
+                        for (int x = run.canvas.x0; x < run.canvas.x1; x++) {
                             Color color;
+
                             if (paintAt(*paint, (float)x + .5f, (float)y + .5f, color)) {
-                                size_t i = ((size_t)y * run.width + x) * 4;
-                                buffer[i] = color.r;
-                                buffer[i + 1] = color.g;
-                                buffer[i + 2] = color.b;
-                                buffer[i + 3] = color.a;
+                                float* d = planeAt(buffer, x, y);
+
+                                d[0] = color.r;
+                                d[1] = color.g;
+                                d[2] = color.b;
+                                d[3] = color.a;
                             }
                         }
                     }
                 }
             }
-            if (linear && !run.paint[kind][1]) {
-                run.paint[kind][1] = convertBuffer(run, buffer, true, true);
+
+            if (linear && !run.paint[kind][1].data) {
+                run.paint[kind][1] = convertBuffer(buffer, true);
             }
+
             return run.paint[kind][linear ? 1 : 0];
         }
 
         if (index == InputBackgroundImage || index == InputBackgroundAlpha) {
-            if (!run.background) {
+            if (!run.background.data) {
                 float* background = run.resetBackground ? nullptr : backgroundBuffer(*run.raster, *run.pool);
-                run.background = filterBuffer(run);
                 const IntBox& box = run.filter->region;
+
+                run.background = makePlane(box);
 
                 if (background) {
                     for (int y = box.y0; y < box.y1; y++) {
-                        size_t i = ((size_t)y * run.width + box.x0) * 4;
-                        memcpy(run.background + i, background + i, sizeof(float) * 4 * (size_t)(box.x1 - box.x0));
+                        memcpy(planeAt(run.background, box.x0, y), background + ((size_t)y * run.raster->width + box.x0) * 4, sizeof(float) * 4 * (size_t)(box.x1 - box.x0));
                     }
                 }
             }
 
             if (index == InputBackgroundAlpha) {
-                if (!run.backgroundAlpha) {
-                    run.backgroundAlpha = filterBuffer(run);
+                if (!run.backgroundAlpha.data) {
+                    const IntBox& box = run.background.box;
 
-                    for (size_t i = 0; i < run.size; i++) {
-                        run.backgroundAlpha[i * 4 + 3] = run.background[i * 4 + 3];
+                    run.backgroundAlpha = makePlane(box);
+
+                    for (int y = box.y0; y < box.y1; y++) {
+                        for (int x = box.x0; x < box.x1; x++) {
+                            planeAt(run.backgroundAlpha, x, y)[3] = planeAt(run.background, x, y)[3];
+                        }
                     }
                 }
 
                 return run.backgroundAlpha;
             }
 
-            if (linear && !run.backgroundLinear) {
-                run.backgroundLinear = convertBuffer(run, run.background, true);
+            if (linear && !run.backgroundLinear.data) {
+                run.backgroundLinear = convertBuffer(run.background, true);
             }
 
             return linear ? run.backgroundLinear : run.background;
@@ -12407,8 +12447,8 @@ namespace {
                 return run.source;
             }
 
-            if (!run.sourceLinear) {
-                run.sourceLinear = convertBuffer(run, run.source, true);
+            if (!run.sourceLinear.data) {
+                run.sourceLinear = convertBuffer(run.source, true);
             }
 
             return run.sourceLinear;
@@ -12417,13 +12457,13 @@ namespace {
         const FilterResult& result = run.results[index];
 
         if (result.linear == linear) {
-            return result.data;
+            return result.plane;
         }
 
-        Vector<float*>& cache = linear ? run.linearCache : run.srgbCache;
+        Vector<Plane>& cache = linear ? run.linearCache : run.srgbCache;
 
-        if (!cache[index]) {
-            cache.mut(index) = convertBuffer(run, result.data, linear);
+        if (!cache[index].data) {
+            cache.mut(index) = convertBuffer(result.plane, linear);
         }
 
         return cache[index];
@@ -12526,13 +12566,13 @@ namespace {
         return f.boxPrimitives ? value * (f.bbox.y1 - f.bbox.y0) : value;
     }
 
-    static void filterFlood(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterFlood(const FilterPrimitive& p, const Plane& out) {
         Color c = toSpace(p.flood, p.linear);
         const IntBox& b = p.box;
 
         for (int y = b.y0; y < b.y1; y++) {
             for (int x = b.x0; x < b.x1; x++) {
-                float* d = out + ((size_t)y * run.width + x) * 4;
+                float* d = planeAt(out, x, y);
 
                 d[0] = c.r * c.a;
                 d[1] = c.g * c.a;
@@ -12542,15 +12582,16 @@ namespace {
         }
     }
 
-    static void copyBox(FilterRun& run, const float* in, float* out, const IntBox& b) {
+    // Copies the box, which the output plane holds, from one plane to another.
+    static void copyBox(const Plane& in, const Plane& out, const IntBox& b) {
         for (int y = b.y0; y < b.y1; y++) {
-            size_t i = ((size_t)y * run.width + b.x0) * 4;
-
-            memcpy(out + i, in + i, sizeof(float) * 4 * (size_t)(b.x1 - b.x0));
+            for (int x = b.x0; x < b.x1; x++) {
+                memcpy(planeAt(out, x, y), planeRead(in, x, y), sizeof(float) * 4);
+            }
         }
     }
 
-    static void shiftBuffer(FilterRun& run, const float* in, float* out, const IntBox& b, float dx, float dy) {
+    static void shiftBuffer(const Plane& in, const Plane& out, const IntBox& b, float dx, float dy) {
         float floorX = floorf(dx);
         float floorY = floorf(dy);
         int ox = (int)floorX;
@@ -12558,22 +12599,18 @@ namespace {
         float fx = dx - floorX;
         float fy = dy - floorY;
         float weights[4] = {(1.f - fx) * (1.f - fy), fx * (1.f - fy), (1.f - fx) * fy, fx * fy};
-        int height = (int)run.raster->height;
 
         for (int y = b.y0; y < b.y1; y++) {
             for (int x = b.x0; x < b.x1; x++) {
-                float* d = out + ((size_t)y * run.width + x) * 4;
+                float* d = planeAt(out, x, y);
                 float sum[4] = {0.f, 0.f, 0.f, 0.f};
 
                 for (int k = 0; k < 4; k++) {
-                    int sx = x - ox - (k & 1);
-                    int sy = y - oy - (k >> 1);
-
-                    if (weights[k] == 0.f || sx < 0 || sy < 0 || sx >= run.width || sy >= height) {
+                    if (weights[k] == 0.f) {
                         continue;
                     }
 
-                    const float* src = in + ((size_t)sy * run.width + sx) * 4;
+                    const float* src = planeRead(in, x - ox - (k & 1), y - oy - (k >> 1));
 
                     for (int c = 0; c < 4; c++) {
                         sum[c] += src[c] * weights[k];
@@ -12588,14 +12625,14 @@ namespace {
         }
     }
 
-    static void filterOffset(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterOffset(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
         float dx = userX(f, numberOf(doc, p.node, AtomDx, 0.f));
         float dy = userY(f, numberOf(doc, p.node, AtomDy, 0.f));
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
 
-        shiftBuffer(run, in, out, p.box, f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
+        shiftBuffer(in, out, p.box, f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
     }
 
     static void boxBlurLine(const float* src, float* dst, int count, int stride, int left, int right) {
@@ -12773,15 +12810,16 @@ namespace {
         }
     }
 
-    static void blurBuffer(FilterRun& run, const float* in, float* out, const IntBox& box, float sigmaX, float sigmaY) {
+    static void blurBuffer(FilterRun& run, const Plane& in, const Plane& out, const IntBox& box, float sigmaX, float sigmaY) {
         int height = (int)run.raster->height;
-        int width = run.width;
+        int width = (int)run.raster->width;
         int reachX = blurReach(sigmaX);
         int reachY = blurReach(sigmaY);
         int x0 = box.x0 - reachX > 0 ? box.x0 - reachX : 0;
         int x1 = box.x1 + reachX < width ? box.x1 + reachX : width;
         int y0 = box.y0 - reachY > 0 ? box.y0 - reachY : 0;
         int y1 = box.y1 + reachY < height ? box.y1 + reachY : height;
+        Vector<float> row;
         Vector<float> line;
         Vector<float> lineOut;
         Vector<float> first;
@@ -12791,38 +12829,40 @@ namespace {
             return;
         }
 
-        float* horizontal = filterBuffer(run);
+        Plane horizontal = makePlane(IntBox{x0, y0, x1, y1});
 
+        row.zero((size_t)(x1 - x0) * 4);
         line.zero((size_t)(y1 - y0) * 4);
         lineOut.zero((size_t)(y1 - y0) * 4);
 
         for (int y = y0; y < y1; y++) {
-            const float* row = in + ((size_t)y * width + x0) * 4;
-            float* target = horizontal + ((size_t)y * width + x0) * 4;
+            for (int x = x0; x < x1; x++) {
+                memcpy(row.mutData() + (size_t)(x - x0) * 4, planeRead(in, x, y), sizeof(float) * 4);
+            }
 
-            blurLine(row, target, first, second, x1 - x0, 4, sigmaX);
+            blurLine(row.data(), planeAt(horizontal, x0, y), first, second, x1 - x0, 4, sigmaX);
         }
 
         for (int x = box.x0; x < box.x1; x++) {
             for (int y = y0; y < y1; y++) {
-                memcpy(line.mutData() + (size_t)(y - y0) * 4, horizontal + ((size_t)y * width + x) * 4, sizeof(float) * 4);
+                memcpy(line.mutData() + (size_t)(y - y0) * 4, planeAt(horizontal, x, y), sizeof(float) * 4);
             }
 
             blurLine(line.data(), lineOut.mutData(), first, second, y1 - y0, 4, sigmaY);
 
             for (int y = box.y0; y < box.y1; y++) {
-                memcpy(out + ((size_t)y * width + x) * 4, lineOut.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
+                memcpy(planeAt(out, x, y), lineOut.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
             }
         }
 
-        releaseBuffer(horizontal);
+        releasePlane(horizontal);
     }
 
-    static void filterBlur(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterBlur(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         float sx = 0.f;
         float sy = 0.f;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
 
         bool valid = true;
 
@@ -12834,7 +12874,7 @@ namespace {
         }
 
         if (!valid || sx < 0.f || sy < 0.f) {
-            copyBox(run, in, out, p.box);
+            copyBox(in, out, p.box);
 
             return;
         }
@@ -12843,7 +12883,7 @@ namespace {
         sy = userY(f, sy) * run.scaleY;
 
         if (sx <= 0.f && sy <= 0.f) {
-            copyBox(run, in, out, p.box);
+            copyBox(in, out, p.box);
 
             return;
         }
@@ -12853,7 +12893,7 @@ namespace {
             // These inputs have infinite extent; blurring a constant paint
             // cannot introduce transparent edges at the filter region.
             if (!paint || paint->type == PaintType::Solid) {
-                copyBox(run, in, out, p.box);
+                copyBox(in, out, p.box);
                 return;
             }
         }
@@ -12861,11 +12901,11 @@ namespace {
         blurBuffer(run, in, out, p.box, sx, sy);
     }
 
-    static void filterDropShadow(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         float sx = 2.f;
         float sy = 2.f;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
         float dx = p.node ? userX(f, numberOf(*f.doc, p.node, AtomDx, 2.f)) : p.params[0];
         float dy = p.node ? userY(f, numberOf(*f.doc, p.node, AtomDy, 2.f)) : p.params[1];
 
@@ -12881,37 +12921,37 @@ namespace {
             sy = 0.f;
         }
 
-        float* shadow = filterBuffer(run);
-        float* moved = filterBuffer(run);
         Color c = toSpace(p.flood, p.linear);
         IntBox all = run.filter->region;
+        Plane shadow = makePlane(all);
+        Plane moved = makePlane(p.box);
 
         if (userX(f, sx) * run.scaleX > 0.f || userY(f, sy) * run.scaleY > 0.f) {
             blurBuffer(run, in, shadow, all, userX(f, sx) * run.scaleX, userY(f, sy) * run.scaleY);
         } else {
-            copyBox(run, in, shadow, all);
+            copyBox(in, shadow, all);
         }
 
-        shiftBuffer(run, shadow, moved, p.box, f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
+        shiftBuffer(shadow, moved, p.box, f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
 
         const IntBox& b = p.box;
 
         for (int y = b.y0; y < b.y1; y++) {
             for (int x = b.x0; x < b.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
-                float a = moved[i + 3] * c.a;
-                const float* s = in + i;
+                float a = planeAt(moved, x, y)[3] * c.a;
+                const float* s = planeRead(in, x, y);
+                float* o = planeAt(out, x, y);
                 float keep = 1.f - s[3];
 
-                out[i] = s[0] + c.r * a * keep;
-                out[i + 1] = s[1] + c.g * a * keep;
-                out[i + 2] = s[2] + c.b * a * keep;
-                out[i + 3] = s[3] + a * keep;
+                o[0] = s[0] + c.r * a * keep;
+                o[1] = s[1] + c.g * a * keep;
+                o[2] = s[2] + c.b * a * keep;
+                o[3] = s[3] + a * keep;
             }
         }
 
-        releaseBuffer(shadow);
-        releaseBuffer(moved);
+        releasePlane(shadow);
+        releasePlane(moved);
     }
 
     static void unpremultiply(const float* s, float* c) {
@@ -12941,9 +12981,9 @@ namespace {
         d[3] = a;
     }
 
-    static void filterColorMatrix(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterColorMatrix(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
         float m[20] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
         u32 type = p.node ? attribute(p.node, AtomType) : 0;
         StringView kind = type ? trim(textOf(doc, type)) : SV("matrix");
@@ -13003,17 +13043,16 @@ namespace {
 
         for (int y = b.y0; y < b.y1; y++) {
             for (int x = b.x0; x < b.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
                 float c[4];
                 float r[4];
 
-                unpremultiply(in + i, c);
+                unpremultiply(planeRead(in, x, y), c);
 
                 for (int k = 0; k < 4; k++) {
                     r[k] = m[k * 5] * c[0] + m[k * 5 + 1] * c[1] + m[k * 5 + 2] * c[2] + m[k * 5 + 3] * c[3] + m[k * 5 + 4];
                 }
 
-                storePremultiplied(out + i, r);
+                storePremultiplied(planeAt(out, x, y), r);
             }
         }
     }
@@ -13067,9 +13106,9 @@ namespace {
         }
     }
 
-    static void filterComponentTransfer(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterComponentTransfer(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
         TransferFunction functions[4];
         u32 names[4] = {AtomFeFuncR, AtomFeFuncG, AtomFeFuncB, AtomFeFuncA};
 
@@ -13102,16 +13141,15 @@ namespace {
 
         for (int y = b.y0; y < b.y1; y++) {
             for (int x = b.x0; x < b.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
                 float c[4];
 
-                unpremultiply(in + i, c);
+                unpremultiply(planeRead(in, x, y), c);
 
                 for (int k = 0; k < 4; k++) {
                     c[k] = transfer(functions[k], c[k]);
                 }
 
-                storePremultiplied(out + i, c);
+                storePremultiplied(planeAt(out, x, y), c);
             }
         }
     }
@@ -13149,10 +13187,10 @@ namespace {
         return read;
     }
 
-    static void filterComposite(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterComposite(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
-        const float* a = filterInputBuffer(run, p.in1, p.linear);
-        const float* b = filterInputBuffer(run, p.in2, p.linear);
+        Plane a = filterInputBuffer(run, p.in1, p.linear);
+        Plane b = filterInputBuffer(run, p.in2, p.linear);
         u32 op = attribute(p.node, AtomOperator);
         StringView kind = op ? trim(textOf(doc, op)) : SV("over");
         float k1 = numberOf(doc, p.node, AtomK1, 0.f);
@@ -13166,10 +13204,9 @@ namespace {
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
-                const float* s = a + i;
-                const float* d = b + i;
-                float* o = out + i;
+                const float* s = planeRead(a, x, y);
+                const float* d = planeRead(b, x, y);
+                float* o = planeAt(out, x, y);
 
                 if (arithmetic) {
                     float alpha = clampUnit(k1 * s[3] * d[3] + k2 * s[3] + k3 * d[3] + k4);
@@ -13380,34 +13417,31 @@ namespace {
         out[3] = as + ab - as * ab;
     }
 
-    static void filterBlend(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterBlend(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
-        const float* a = filterInputBuffer(run, p.in1, p.linear);
-        const float* b = filterInputBuffer(run, p.in2, p.linear);
+        Plane a = filterInputBuffer(run, p.in1, p.linear);
+        Plane b = filterInputBuffer(run, p.in2, p.linear);
         u32 modeValue = attribute(p.node, AtomMode);
         int mode = modeValue ? blendMode(trim(textOf(doc, modeValue))) : 0;
         const IntBox& box = p.box;
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
-
-                blendPixel(mode, a + i, b + i, out + i);
+                blendPixel(mode, planeRead(a, x, y), planeRead(b, x, y), planeAt(out, x, y));
             }
         }
     }
 
-    static void filterMerge(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterMerge(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const IntBox& box = p.box;
 
         for (u32 k = 0; k < p.inputCount; k++) {
-            const float* in = filterInputBuffer(run, p.inputs[k], p.linear);
+            Plane in = filterInputBuffer(run, p.inputs[k], p.linear);
 
             for (int y = box.y0; y < box.y1; y++) {
                 for (int x = box.x0; x < box.x1; x++) {
-                    size_t i = ((size_t)y * run.width + x) * 4;
-                    const float* s = in + i;
-                    float* d = out + i;
+                    const float* s = planeRead(in, x, y);
+                    float* d = planeAt(out, x, y);
                     float keep = 1.f - s[3];
 
                     d[0] = s[0] + d[0] * keep;
@@ -13463,9 +13497,9 @@ namespace {
         }
     }
 
-    static void filterMorphology(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterMorphology(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
         u32 op = attribute(p.node, AtomOperator);
         bool dilate = op && trim(textOf(*f.doc, op)) == SV("dilate");
         float rx = 0.f;
@@ -13474,17 +13508,19 @@ namespace {
         bool valid = !attribute(p.node, AtomRadius) || numberPair(*f.doc, p.node, AtomRadius, rx, ry);
 
         if (!valid || rx < 0.f || ry < 0.f || (rx == 0.f && ry == 0.f)) {
-            copyBox(run, in, out, p.box);
+            copyBox(in, out, p.box);
 
             return;
         }
 
         int height = (int)run.raster->height;
+        int width = (int)run.raster->width;
         float ux = userX(f, rx) * run.scaleX + 0.5f;
         float uy = userY(f, ry) * run.scaleY + 0.5f;
-        int ix = (int)floorf(minf(ux, (float)run.width));
+        int ix = (int)floorf(minf(ux, (float)width));
         int iy = (int)floorf(minf(uy, (float)height));
         const IntBox& box = p.box;
+        Vector<float> row;
         Vector<float> line;
         Vector<float> column;
         Vector<float> g;
@@ -13494,33 +13530,38 @@ namespace {
             return;
         }
 
-        float* pass = filterBuffer(run);
         int x0 = box.x0 - ix > 0 ? box.x0 - ix : 0;
-        int x1 = box.x1 + ix < run.width ? box.x1 + ix : run.width;
+        int x1 = box.x1 + ix < width ? box.x1 + ix : width;
         int y0 = box.y0 - iy > 0 ? box.y0 - iy : 0;
         int y1 = box.y1 + iy < height ? box.y1 + iy : height;
+        Plane pass = makePlane(IntBox{box.x0, y0, box.x1, y1});
 
+        row.zero((size_t)(x1 - x0) * 4);
         line.zero((size_t)(x1 - x0) * 4);
         column.zero((size_t)(y1 - y0) * 4);
 
         for (int y = y0; y < y1; y++) {
-            slideExtreme(in + ((size_t)y * run.width + x0) * 4, 4, x1 - x0, ix, dilate, line.mutData(), 4, g, h);
-            memcpy(pass + ((size_t)y * run.width + box.x0) * 4, line.data() + (size_t)(box.x0 - x0) * 4, sizeof(float) * 4 * (box.x1 - box.x0));
+            for (int x = x0; x < x1; x++) {
+                memcpy(row.mutData() + (size_t)(x - x0) * 4, planeRead(in, x, y), sizeof(float) * 4);
+            }
+
+            slideExtreme(row.data(), 4, x1 - x0, ix, dilate, line.mutData(), 4, g, h);
+            memcpy(planeAt(pass, box.x0, y), line.data() + (size_t)(box.x0 - x0) * 4, sizeof(float) * 4 * (box.x1 - box.x0));
         }
 
         for (int x = box.x0; x < box.x1; x++) {
-            slideExtreme(pass + ((size_t)y0 * run.width + x) * 4, (size_t)run.width * 4, y1 - y0, iy, dilate, column.mutData(), 4, g, h);
+            slideExtreme(planeAt(pass, x, y0), (size_t)planeWidth(pass) * 4, y1 - y0, iy, dilate, column.mutData(), 4, g, h);
 
             for (int y = box.y0; y < box.y1; y++) {
-                memcpy(out + ((size_t)y * run.width + x) * 4, column.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
+                memcpy(planeAt(out, x, y), column.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
             }
         }
 
-        releaseBuffer(pass);
+        releasePlane(pass);
     }
 
-    static void filterTile(FilterRun& run, const FilterPrimitive& p, float* out) {
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+    static void filterTile(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
         IntBox tile = inputBox(run, p.in1);
 
         if (p.in1 >= 0) {
@@ -13546,14 +13587,14 @@ namespace {
             for (int x = box.x0; x < box.x1; x++) {
                 int sx = tile.x0 + (((x - tile.x0) % tw) + tw) % tw;
 
-                memcpy(out + ((size_t)y * run.width + x) * 4, in + ((size_t)sy * run.width + sx) * 4, sizeof(float) * 4);
+                memcpy(planeAt(out, x, y), planeRead(in, sx, sy), sizeof(float) * 4);
             }
         }
     }
 
-    static void filterConvolve(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterConvolve(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
         float ox = 3.f;
         float oy = 3.f;
 
@@ -13634,12 +13675,12 @@ namespace {
                             }
                         }
 
-                        if (sx < 0 || sy < 0 || sx >= run.width || sy >= (int)run.raster->height) {
+                        if (sx < 0 || sy < 0 || sx >= (int)run.raster->width || sy >= (int)run.raster->height) {
                             continue;
                         }
 
                         float k = kernel[(size_t)(orderY - 1 - j) * orderX + (orderX - 1 - i)];
-                        const float* s = in + ((size_t)sy * run.width + sx) * 4;
+                        const float* s = planeRead(in, sx, sy);
 
                         if (preserve) {
                             float c[4];
@@ -13657,10 +13698,10 @@ namespace {
                     }
                 }
 
-                float* o = out + ((size_t)y * run.width + x) * 4;
+                float* o = planeAt(out, x, y);
 
                 if (preserve) {
-                    float a = in[((size_t)y * run.width + x) * 4 + 3];
+                    float a = planeRead(in, x, y)[3];
                     float c[4] = {acc[0] / divisor + bias, acc[1] / divisor + bias, acc[2] / divisor + bias, a};
 
                     storePremultiplied(o, c);
@@ -13908,7 +13949,7 @@ namespace {
         }
     }
 
-    static void filterTurbulence(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterTurbulence(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
         float fx = 0.f;
@@ -13967,16 +14008,16 @@ namespace {
                 float c[4];
 
                 turbulenceAt(*tb, point.x, point.y, frequencyX, frequencyY, octaves, fractal, stitching ? &stitch : nullptr, c);
-                storePremultiplied(out + ((size_t)y * run.width + x) * 4, c);
+                storePremultiplied(planeAt(out, x, y), c);
             }
         }
     }
 
-    static void filterDisplacement(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterDisplacement(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
-        const float* map = filterInputBuffer(run, p.in2, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
+        Plane map = filterInputBuffer(run, p.in2, p.linear);
         float scale = numberOf(doc, p.node, AtomScale, 0.f);
         float sx = userX(f, scale) * run.scaleX;
         float sy = userY(f, scale) * run.scaleY;
@@ -13992,19 +14033,18 @@ namespace {
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
                 float m[4];
 
-                unpremultiply(map + i, m);
+                unpremultiply(planeRead(map, x, y), m);
 
                 int tx = (int)floorf((float)x + sx * (m[cx] - 0.5f) + 0.5f);
                 int ty = (int)floorf((float)y + sy * (m[cy] - 0.5f) + 0.5f);
 
-                if (tx < 0 || ty < 0 || tx >= run.width || ty >= (int)run.raster->height) {
+                if (tx < 0 || ty < 0 || tx >= (int)run.raster->width || ty >= (int)run.raster->height) {
                     continue;
                 }
 
-                memcpy(out + i, in + ((size_t)ty * run.width + tx) * 4, sizeof(float) * 4);
+                memcpy(planeAt(out, x, y), planeRead(in, tx, ty), sizeof(float) * 4);
             }
         }
     }
@@ -14025,10 +14065,10 @@ namespace {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
-    static void filterLighting(FilterRun& run, const FilterPrimitive& p, float* out) {
+    static void filterLighting(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
-        const float* in = filterInputBuffer(run, p.in1, p.linear);
+        Plane in = filterInputBuffer(run, p.in1, p.linear);
         bool specular = p.kind == AtomFeSpecularLighting;
         float surfaceScale = numberOf(doc, p.node, AtomSurfaceScale, 1.f);
         Matrix inverse;
@@ -14110,11 +14150,11 @@ namespace {
             x = x < box.x0 ? box.x0 : (x >= box.x1 ? box.x1 - 1 : x);
             y = y < box.y0 ? box.y0 : (y >= box.y1 ? box.y1 - 1 : y);
 
-            if (x < 0 || y < 0 || x >= run.width || y >= height) {
+            if (x < 0 || y < 0 || x >= (int)run.raster->width || y >= height) {
                 return 0.f;
             }
 
-            return in[((size_t)y * run.width + x) * 4 + 3];
+            return planeRead(in, x, y)[3];
         };
 
         for (int y = box.y0; y < box.y1; y++) {
@@ -14231,7 +14271,7 @@ namespace {
                 float r = clampUnit(color.r * factor);
                 float g = clampUnit(color.g * factor);
                 float b = clampUnit(color.b * factor);
-                float* o = out + ((size_t)y * run.width + x) * 4;
+                float* o = planeAt(out, x, y);
 
                 if (specular) {
                     float a = maxf(r, maxf(g, b));
@@ -14252,18 +14292,19 @@ namespace {
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
 
-    static void filterImage(FilterRun& run, const FilterPrimitive& p, float* out) {
-        float* content = filterBuffer(run);
+    static void filterImage(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+        size_t count = (size_t)run.raster->width * run.raster->height;
+        float* content = new float[count * 4];
 
+        memset(content, 0, sizeof(float) * count * 4);
         runProgram(*run.raster, *run.lowering, run.lowering->programs.data() + p.programFirst, p.programCount, content);
 
         const IntBox& box = p.box;
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
-                float* o = out + i;
-                const float* s = content + i;
+                float* o = planeAt(out, x, y);
+                const float* s = content + ((size_t)y * run.raster->width + x) * 4;
 
                 if (p.linear) {
                     float c[4];
@@ -14281,7 +14322,7 @@ namespace {
             }
         }
 
-        releaseBuffer(content);
+        delete[] content;
     }
 
     static IntBox clipBox(IntBox box, int width, int height) {
@@ -14316,12 +14357,13 @@ namespace {
     }
 
     // Runs the filter over the layer and writes its result back over it: the
-    // final primitive's result inside the region, zero outside.
+    // final primitive's result inside its box, zero elsewhere.
     static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, float* layer, ObjPool& pool, bool resetBackground = false) {
         // The region and the primitive boxes were clipped to the canvas when
         // the filter was lowered; a pattern tile or a layer is drawn on a
         // smaller raster, so clip them to it.
         Filter filter = lowered;
+        size_t size = (size_t)r.width * r.height;
 
         filter.region = clipBox(lowered.region, (int)r.width, (int)r.height);
 
@@ -14336,45 +14378,53 @@ namespace {
             filter.primitives = primitives;
         }
 
-        FilterRun run;
         const IntBox& region = filter.region;
+
+        if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
+            memset(layer, 0, sizeof(float) * size * 4);
+
+            return;
+        }
+
+        FilterRun run;
 
         run.raster = &r;
         run.lowering = &l;
         run.filter = &filter;
         run.pool = &pool;
-        run.size = (size_t)r.width * r.height;
-        run.width = (int)r.width;
-
-        if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
-            memset(layer, 0, sizeof(float) * run.size * 4);
-
-            return;
-        }
-
+        run.canvas = IntBox{0, 0, (int)r.width, (int)r.height};
         run.scaleX = sqrtf(filter.ctm.a * filter.ctm.a + filter.ctm.b * filter.ctm.b);
         run.scaleY = sqrtf(filter.ctm.c * filter.ctm.c + filter.ctm.d * filter.ctm.d);
-        run.source = layer;
-        run.sourceLinear = nullptr;
-        run.background = nullptr;
-        run.backgroundLinear = nullptr;
-        run.backgroundAlpha = nullptr;
+        run.sourceLinear = Plane{nullptr, IntBox{0, 0, 0, 0}};
+        run.background = run.sourceLinear;
+        run.backgroundLinear = run.sourceLinear;
+        run.backgroundAlpha = run.sourceLinear;
+        run.empty = run.sourceLinear;
         run.resetBackground = resetBackground;
-        memset(run.paint, 0, sizeof(run.paint));
-        run.empty = filterBuffer(run);
-        run.sourceAlpha = filterBuffer(run);
 
-        if (region.x0 > 0 || region.y0 > 0 || region.x1 < run.width || region.y1 < (int)r.height) {
-            // SourceGraphic has the same filter-region clip in both colour spaces.
-            run.source = filterBuffer(run);
-            copyBox(run, layer, run.source, region);
+        for (int kind = 0; kind < 2; kind++) {
+            for (int space = 0; space < 2; space++) {
+                run.paint[kind][space] = run.sourceLinear;
+            }
         }
+
+        // SourceGraphic is the layer inside the filter region: the layer
+        // itself when the region is the raster, else a copy of the region.
+        if (region.x0 > 0 || region.y0 > 0 || region.x1 < (int)r.width || region.y1 < (int)r.height) {
+            run.source = makePlane(region);
+
+            for (int y = region.y0; y < region.y1; y++) {
+                memcpy(planeAt(run.source, region.x0, y), layer + ((size_t)y * r.width + region.x0) * 4, sizeof(float) * 4 * (size_t)(region.x1 - region.x0));
+            }
+        } else {
+            run.source = Plane{layer, run.canvas};
+        }
+
+        run.sourceAlpha = makePlane(region);
 
         for (int y = region.y0; y < region.y1; y++) {
             for (int x = region.x0; x < region.x1; x++) {
-                size_t i = ((size_t)y * run.width + x) * 4;
-
-                run.sourceAlpha[i + 3] = layer[i + 3];
+                planeAt(run.sourceAlpha, x, y)[3] = layer[((size_t)y * r.width + x) * 4 + 3];
             }
         }
 
@@ -14396,11 +14446,11 @@ namespace {
 
         for (u32 k = 0; k < filter.count; k++) {
             const FilterPrimitive& p = filter.primitives[k];
-            float* out = filterBuffer(run);
+            Plane out = makePlane(p.box);
 
             switch (p.kind) {
                 case AtomFeFlood:
-                    filterFlood(run, p, out);
+                    filterFlood(p, out);
                     break;
                 case AtomFeOffset:
                     filterOffset(run, p, out);
@@ -14457,51 +14507,44 @@ namespace {
             // The results this primitive was the last to read go, except the final one.
             for (u32 i = 0; i <= k && i + 1 < filter.count; i++) {
                 if (run.lastReader[i] == k) {
-                    releaseBuffer(run.results.mut(i).data);
-                    releaseBuffer(run.linearCache.mut(i));
-                    releaseBuffer(run.srgbCache.mut(i));
+                    releasePlane(run.results.mut(i).plane);
+                    releasePlane(run.linearCache.mut(i));
+                    releasePlane(run.srgbCache.mut(i));
                 }
             }
         }
 
         const FilterResult& last = run.results.back();
-        float* converted = last.linear ? convertBuffer(run, last.data, false) : nullptr;
-        const float* final = converted ? converted : last.data;
-        size_t rowBytes = sizeof(float) * 4 * (size_t)run.width;
+        Plane converted = last.linear ? convertBuffer(last.plane, false) : run.empty;
+        const Plane& final = last.linear ? converted : last.plane;
 
-        memset(layer, 0, rowBytes * (size_t)region.y0);
+        memset(layer, 0, sizeof(float) * size * 4);
 
-        for (int y = region.y0; y < region.y1; y++) {
-            float* row = layer + (size_t)y * run.width * 4;
-
-            memset(row, 0, sizeof(float) * 4 * (size_t)region.x0);
-            memcpy(row + (size_t)region.x0 * 4, final + ((size_t)y * run.width + region.x0) * 4, sizeof(float) * 4 * (size_t)(region.x1 - region.x0));
-            memset(row + (size_t)region.x1 * 4, 0, sizeof(float) * 4 * (size_t)(run.width - region.x1));
+        for (int y = final.box.y0; y < final.box.y1; y++) {
+            memcpy(layer + ((size_t)y * r.width + final.box.x0) * 4, planeAt(final, final.box.x0, y), sizeof(float) * 4 * (size_t)planeWidth(final));
         }
 
-        memset(layer + (size_t)region.y1 * run.width * 4, 0, rowBytes * (size_t)((int)r.height - region.y1));
-        releaseBuffer(converted);
+        releasePlane(converted);
 
         for (u32 k = 0; k < filter.count; k++) {
-            releaseBuffer(run.results.mut(k).data);
-            releaseBuffer(run.linearCache.mut(k));
-            releaseBuffer(run.srgbCache.mut(k));
+            releasePlane(run.results.mut(k).plane);
+            releasePlane(run.linearCache.mut(k));
+            releasePlane(run.srgbCache.mut(k));
         }
 
-        if (run.source != layer) {
-            releaseBuffer(run.source);
+        if (run.source.data != layer) {
+            releasePlane(run.source);
         }
 
-        releaseBuffer(run.sourceLinear);
-        releaseBuffer(run.sourceAlpha);
-        releaseBuffer(run.empty);
-        releaseBuffer(run.background);
-        releaseBuffer(run.backgroundLinear);
-        releaseBuffer(run.backgroundAlpha);
+        releasePlane(run.sourceLinear);
+        releasePlane(run.sourceAlpha);
+        releasePlane(run.background);
+        releasePlane(run.backgroundLinear);
+        releasePlane(run.backgroundAlpha);
 
         for (int kind = 0; kind < 2; kind++) {
             for (int space = 0; space < 2; space++) {
-                releaseBuffer(run.paint[kind][space]);
+                releasePlane(run.paint[kind][space]);
             }
         }
     }
