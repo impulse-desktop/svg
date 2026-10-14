@@ -1,7 +1,6 @@
 #include "svg.h"
 
 #include <math.h>
-#include <stdlib.h>
 #include <string.h>
 
 namespace {
@@ -95,16 +94,13 @@ namespace {
         return l < r ? r : l;
     }
 
+    // Running out of memory throws bad_alloc, as new does.
     static void* allocateMemory(size_t len) {
-        if (auto ret = malloc(len); ret) {
-            return ret;
-        }
-
-        abort();
+        return ::operator new(len);
     }
 
     static void freeMemory(void* ptr) noexcept {
-        free(ptr);
+        ::operator delete(ptr);
     }
 
     static int memCmp(const void* l, const void* r, size_t len) noexcept {
@@ -505,7 +501,6 @@ namespace {
 
         void dispose() noexcept;
         void submit(Disposable* d) noexcept;
-        unsigned length() const noexcept;
     };
 
     constexpr size_t initialChunk = 128;
@@ -558,11 +553,9 @@ namespace {
 
         template <size_t Size, size_t Align>
         void* allocFor() {
-            if constexpr (Align > alignof(max_align_t)) {
-                return allocateOverAligned(Size, Align);
-            } else {
-                return allocate(Size);
-            }
+            static_assert(Align <= alignof(max_align_t));
+
+            return allocate(Size);
         }
 
         template <typename T, typename... A>
@@ -575,7 +568,6 @@ namespace {
 
         void* allocate(size_t len);
         void submit(Disposable* d) noexcept;
-        void* allocateOverAligned(size_t len, size_t align);
 
         template <typename T, typename... A>
         T* make(A&&... a) {
@@ -839,16 +831,6 @@ void Disposer::submit(Disposable* d) noexcept {
     end = d;
 }
 
-unsigned Disposer::length() const noexcept {
-    unsigned res = 0;
-
-    for (auto cur = end; cur; cur = cur->prev) {
-        ++res;
-    }
-
-    return res;
-}
-
 Chunk::~Chunk() noexcept {
     freeMemory(this);
 }
@@ -915,12 +897,6 @@ void* ObjPool::allocate(size_t len) {
 
 void ObjPool::submit(Disposable* d) noexcept {
     ds_.submit(d);
-}
-
-void* ObjPool::allocateOverAligned(size_t len, size_t align) {
-    auto raw = (uintptr_t)allocate(len + align);
-
-    return (void*)((raw + align - 1) & ~(align - 1));
 }
 
 // Each public object is made in its own pool; destroying it deletes the pool.
@@ -1600,7 +1576,6 @@ namespace {
     enum FilterInputs : int {
         InputSourceGraphic = -1,
         InputSourceAlpha = -2,
-        InputNone = -3,
         InputBackgroundImage = -4,
         InputBackgroundAlpha = -5,
         InputFillPaint = -6,
@@ -5277,11 +5252,8 @@ namespace {
         }
     }
 
+    // The flag of an arc, where its argument starts.
     static bool readFlag(const u8*& p, const u8* end, bool& out) {
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
-
         if (p >= end || (*p != '0' && *p != '1')) {
             return false;
         }
@@ -12887,10 +12859,6 @@ namespace {
             }
 
             return run.sourceAlpha;
-        }
-
-        if (index == InputNone || index >= (int)run.results.length()) {
-            return run.empty;
         }
 
         if (index == InputSourceGraphic) {
