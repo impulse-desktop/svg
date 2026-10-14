@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<rect x="0" width="0" height="8" fill="red"/><rect x="0" width="8" height="-1" fill="red"/>
+<rect x="2" y="2" width="8" height="6" ry="2" fill="teal"/><rect x="12" y="2" width="8" height="6" rx="-1" ry="-1" fill="teal"/>
+<circle cx="4" cy="4" r="0" fill="red"/><circle cx="4" cy="4" r="-2" fill="red"/>
+<ellipse cx="24" cy="4" ry="3" fill="gold"/><ellipse cx="32" cy="4" rx="3" fill="gold"/><ellipse cx="40" cy="4" fill="red"/><ellipse cx="40" cy="4" rx="-1" ry="2" fill="red"/>
+<polyline fill="red"/><polygon points="" fill="red"/>
+<g d="M2 10 h6 v4 h-6 z"><path d="inherit" fill="purple"/><g><path d="inherit" fill="purple" transform="translate(8 0)"/></g></g>
+<path d="inherit" fill="red"/>
+<defs><path id="pi" d="inherit" fill="orange"/></defs>
+<use href="#pi" d="M20 10 h6 v4 h-6 z"/>
+<g d="M30 10 h6 v4 h-6 z"><use href="#pi"/></g>
+</svg>

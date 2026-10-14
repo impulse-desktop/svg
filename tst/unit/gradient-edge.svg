@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<linearGradient id="a"><stop offset="0" stop-color="red"/><desc/><stop offset="30%" stop-color="lime"/><stop offset=".2x" stop-color="blue"/><stop offset="abc" stop-color="yellow"/><stop offset=".1" stop-color="purple"/><stop offset="2" stop-color="black"/><stop offset="-1" stop-color="white"/></linearGradient>
+<linearGradient id="b" href="#a" gradientTransform="rotate(45)" transform-origin="center"/>
+<linearGradient id="c" href="#a" x1="1" x2="1"/>
+<linearGradient id="d" href="#a" color-interpolation="linearRGB"/>
+<radialGradient id="e" href="#a" r="0"/>
+<radialGradient id="f" href="#a" fr=".5"/>
+<radialGradient id="g" href="#a" fr=".5" spreadMethod="reflect"/>
+<linearGradient id="h"><stop offset="0" stop-color="teal" stop-opacity=".5"/></linearGradient>
+<linearGradient id="i" href="#j"/><linearGradient id="j" href="#i"/>
+<radialGradient id="k" href="#a" cx=".2" r=".3" fx=".1" fy=".2"/>
+<linearGradient id="l" href="#k" x2=".5"/>
+<linearGradient id="m" href="#n"/><pattern id="n"/>
+<linearGradient id="o" href="#a" gradientTransform="scale(0)"/>
+<linearGradient id="p" href="#a" gradientUnits="userSpaceOnUse" x1="0" x2="10"/>
+</defs>
+<rect x="0" y="0" width="8" height="8" fill="url(#a)"/>
+<rect x="8" y="0" width="8" height="8" fill="url(#b)"/>
+<rect x="16" y="0" width="8" height="8" fill="url(#c)"/>
+<rect x="24" y="0" width="8" height="8" fill="url(#d)"/>
+<rect x="32" y="0" width="8" height="8" fill="url(#e)"/>
+<rect x="40" y="0" width="8" height="8" fill="url(#f)"/>
+<rect x="0" y="8" width="8" height="8" fill="url(#g)"/>
+<rect x="8" y="8" width="8" height="8" fill="url(#h)"/>
+<rect x="16" y="8" width="8" height="8" fill="url(#i) gray"/>
+<rect x="24" y="8" width="8" height="8" fill="url(#k)"/>
+<rect x="32" y="8" width="8" height="8" fill="url(#l)"/>
+<rect x="40" y="8" width="8" height="8" fill="url(#m) orange"/>
+<line x1="0" y1="20" x2="48" y2="20" stroke="url(#a)" stroke-width="2"/>
+<line x1="0" y1="22" x2="48" y2="22" stroke="url(#a) green" stroke-width="2"/>
+<rect x="0" y="16" width="8" height="2" fill="url(#o) navy"/>
+<rect x="8" y="16" width="8" height="2" fill="url(#p)" transform="scale(1 0)"/>
+<rect x="16" y="16" width="8" height="2" fill="url(#a)" transform="matrix(1 1 1 1 0 0)"/>
+</svg>
