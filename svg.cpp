@@ -1967,8 +1967,9 @@ namespace {
         box.y1 = maxf(box.y1, p.y);
     }
 
+    // A box grows by its points, so it is empty in both axes or in neither.
     static bool boxValid(const Box& box) {
-        return box.x0 <= box.x1 && box.y0 <= box.y1;
+        return box.x0 <= box.x1;
     }
 
     static u8 lowerAscii(u8 c) {
@@ -1997,13 +1998,22 @@ namespace {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f';
     }
 
+    // Whether the text that runs from p to end starts with c.
+    static bool at(const u8* p, const u8* end, u8 c) {
+        return p < end && *p == c;
+    }
+
+    static void skipSpaces(const u8*& p, const u8* end) {
+        while (p < end && isSpace(*p)) {
+            p++;
+        }
+    }
+
     static StringView trim(StringView text) {
         const u8* b = text.begin();
         const u8* e = text.end();
 
-        while (b < e && isSpace(*b)) {
-            b++;
-        }
+        skipSpaces(b, e);
 
         while (e > b && isSpace(e[-1])) {
             e--;
@@ -2794,7 +2804,9 @@ namespace {
         bool svg = !foreign && uri == svgNamespace;
         Node* node = nullptr;
 
-        if (svg && (parent || !xml.doc->root)) {
+        // Only the first element of the file has no parent: a foreign
+        // element's children are foreign.
+        if (svg) {
             node = xml.doc->pool->make<Node>();
             node->name = intern(xml.doc->atoms, local);
             node->index = xml.doc->nodeCount++;
@@ -2930,7 +2942,7 @@ namespace {
             return node->first;
         }
 
-        while (node && node != top) {
+        while (node != top) {
             if (node->next) {
                 return node->next;
             }
@@ -3003,7 +3015,7 @@ namespace {
     static StringView readIdent(const u8*& p, const u8* end) {
         const u8* start = p;
 
-        if (p < end && *p == '-') {
+        if (at(p, end, '-')) {
             p++;
         }
 
@@ -3134,7 +3146,7 @@ namespace {
 
         compound.type = 0;
 
-        if (p < end && *p == '*') {
+        if (at(p, end, '*')) {
             p++;
             any = true;
         } else {
@@ -3178,9 +3190,7 @@ namespace {
             } else if (c == '[') {
                 p++;
 
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
                 StringView name = readIdent(p, end);
 
@@ -3188,9 +3198,7 @@ namespace {
                     return false;
                 }
 
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
                 condition.name = intern(doc.atoms, name);
                 condition.test = Test::Exists;
@@ -3225,9 +3233,7 @@ namespace {
                         return false;
                     }
 
-                    while (p < end && isSpace(*p)) {
-                        p++;
-                    }
+                    skipSpaces(p, end);
 
                     if (p < end && (*p == '"' || *p == '\'')) {
                         const u8* next = skipCssString(p, end);
@@ -3242,9 +3248,7 @@ namespace {
                         }
                     }
 
-                    while (p < end && isSpace(*p)) {
-                        p++;
-                    }
+                    skipSpaces(p, end);
                 }
 
                 if (p >= end || *p != ']') {
@@ -3256,7 +3260,7 @@ namespace {
             } else if (c == ':') {
                 p++;
 
-                if (p < end && *p == ':') {
+                if (at(p, end, ':')) {
                     p++;
                     readIdent(p, end);
                     condition.test = Test::Never;
@@ -3264,7 +3268,7 @@ namespace {
                 } else {
                     StringView name = readIdent(p, end);
 
-                    if (!name.empty() && equalsIgnoreCase(name, SV("not")) && p < end && *p == '(') {
+                    if (!name.empty() && equalsIgnoreCase(name, SV("not")) && at(p, end, '(')) {
                         Vector<Compound> inner;
                         u32 best = 0;
 
@@ -3274,9 +3278,7 @@ namespace {
                             Compound item;
                             u32 weight = 0;
 
-                            while (p < end && isSpace(*p)) {
-                                p++;
-                            }
+                            skipSpaces(p, end);
 
                             item.combinator = Combinator::None;
 
@@ -3287,11 +3289,9 @@ namespace {
                             inner.pushBack(item);
                             best = weight > best ? weight : best;
 
-                            while (p < end && isSpace(*p)) {
-                                p++;
-                            }
+                            skipSpaces(p, end);
 
-                            if (p < end && *p == ',') {
+                            if (at(p, end, ',')) {
                                 p++;
                                 continue;
                             }
@@ -3314,7 +3314,7 @@ namespace {
                         continue;
                     }
 
-                    if (name.empty() || (p < end && *p == '(')) {
+                    if (name.empty() || at(p, end, '(')) {
                         return false;
                     }
 
@@ -3391,9 +3391,7 @@ namespace {
                 combinator = *p == '>' ? Combinator::Child : (*p == '+' ? Combinator::Adjacent : Combinator::Sibling);
                 p++;
 
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
             } else if (!spaced) {
                 return false;
             }
@@ -3640,7 +3638,7 @@ namespace {
                     q = *q == '"' || *q == '\'' ? skipCssString(q, end) : q + 1;
                 }
 
-                if (q < end && *q == '{') {
+                if (at(q, end, '{')) {
                     q = matchingBrace(q + 1, end);
                 }
 
@@ -3724,9 +3722,7 @@ namespace {
         const u8* p = text.begin();
 
         while (p < text.end()) {
-            while (p < text.end() && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, text.end());
 
             const u8* start = p;
 
@@ -3755,9 +3751,7 @@ namespace {
         const u8* p = list.begin();
 
         while (p < list.end()) {
-            while (p < list.end() && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, list.end());
 
             const u8* start = p;
 
@@ -3970,16 +3964,12 @@ namespace {
 
             count++;
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
-            if (p < end && *p == ',') {
+            if (at(p, end, ',')) {
                 p++;
 
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
                 if (p >= end || *p == ',') {
                     return false;
@@ -4186,7 +4176,7 @@ namespace {
             s++;
         }
 
-        if (s < end && *s == '.') {
+        if (at(s, end, '.')) {
             double scale = 0.1;
 
             s++;
@@ -4239,16 +4229,12 @@ namespace {
     }
 
     static void skipSeparator(const u8*& p, const u8* end) {
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
+        skipSpaces(p, end);
 
-        if (p < end && *p == ',') {
+        if (at(p, end, ',')) {
             p++;
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
         }
     }
 
@@ -4268,7 +4254,7 @@ namespace {
 
         out.unit = Unit::Number;
 
-        if (s < end && *s == '%') {
+        if (at(s, end, '%')) {
             out.unit = Unit::Percent;
             s++;
         } else if (s < end && isIdentStart(*s) && *s != '-') {
@@ -4427,7 +4413,7 @@ namespace {
             return false;
         }
 
-        if (p < end && *p == '%') {
+        if (at(p, end, '%')) {
             p++;
             out = value / 100.f;
         } else {
@@ -4487,9 +4473,7 @@ namespace {
         u32 percents = 0;
 
         while (count < 4) {
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end) {
                 break;
@@ -4528,9 +4512,7 @@ namespace {
 
                 values[0] = hue / 360.f;
             } else {
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
                 const u8* start = p;
 
@@ -4546,9 +4528,7 @@ namespace {
             count++;
         }
 
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
+        skipSpaces(p, end);
 
         if (p != end || count < 3 || (percents != 0 && percents != 3)) {
             return false;
@@ -4652,9 +4632,7 @@ namespace {
         if (startsWithIgnoreCase(text, SV("url("))) {
             const u8* close = text.begin() + 4;
 
-            while (close < text.end() && isSpace(*close)) {
-                close++;
-            }
+            skipSpaces(close, text.end());
 
             if (close < text.end() && (*close == '"' || *close == '\'')) {
                 u8 quote = *close++;
@@ -4726,11 +4704,9 @@ namespace {
         while (true) {
             bool separator = false;
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
-            if (p < end && *p == ',') {
+            if (at(p, end, ',')) {
                 if (first) {
                     return false;
                 }
@@ -4738,9 +4714,7 @@ namespace {
                 separator = true;
                 p++;
 
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
             }
 
             if (p >= end) {
@@ -4761,9 +4735,7 @@ namespace {
 
             StringView name(start, p);
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end || *p != '(') {
                 return false;
@@ -4775,11 +4747,9 @@ namespace {
             u32 count = 0;
 
             while (true) {
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
-                if (p < end && *p == ')') {
+                if (at(p, end, ')')) {
                     p++;
                     break;
                 }
@@ -4810,18 +4780,14 @@ namespace {
 
                 count++;
 
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
-                if (p < end && *p == ',') {
+                if (at(p, end, ',')) {
                     comma = true;
                     p++;
                 }
 
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
                 if (comma && (p >= end || *p == ')' || *p == ',')) {
                     return false;
@@ -4887,9 +4853,7 @@ namespace {
     }
 
     static bool readOrigin(const u8*& p, const u8* end, float extentX, float extentY, float& x, float& y, int& axis) {
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
+        skipSpaces(p, end);
 
         if (p >= end) {
             return false;
@@ -5005,9 +4969,7 @@ namespace {
         float numbers[4];
 
         for (u32 i = 0; i < 4; i++) {
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (!readNumber(p, end, numbers[i])) {
                 return false;
@@ -5018,9 +4980,7 @@ namespace {
             }
         }
 
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
+        skipSpaces(p, end);
 
         if (p != end || numbers[2] < 0.f || numbers[3] < 0.f) {
             return false;
@@ -5055,9 +5015,7 @@ namespace {
             StringView align(start, p);
 
             if (align == SV("defer")) {
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
                 start = p;
 
@@ -5078,9 +5036,7 @@ namespace {
                 alignY = ay == SV("Min") ? 0 : (ay == SV("Mid") ? 1 : 2);
             }
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             slice = StringView(p, end) == SV("slice");
         }
@@ -5235,9 +5191,7 @@ namespace {
         bool needMove = false;
 
         while (true) {
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end) {
                 break;
@@ -5311,9 +5265,7 @@ namespace {
             bool sweepArc = false;
 
             for (u32 i = 0; i < count && ok; i++) {
-                while (p < end && isSpace(*p)) {
-                    p++;
-                }
+                skipSpaces(p, end);
 
                 if (upper == 'A' && i == 3) {
                     ok = readFlag(p, end, largeArc);
@@ -5401,9 +5353,7 @@ namespace {
         while (true) {
             Point point;
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end) {
                 return;
@@ -5417,9 +5367,7 @@ namespace {
 
             skipSeparator(p, end);
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end) {
                 return;
@@ -5604,15 +5552,12 @@ namespace {
         return fabsf(atan2f(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
     }
 
-    static Point endTangent(Point a, Point b, Point c, Point d) {
+    static Point endTangent(Point a, Point b, Point c) {
         Point t{b.x - a.x, b.y - a.y};
 
+        // A cubic with both controls at an end is straight and not refined.
         if (t.x == 0.f && t.y == 0.f) {
             t = Point{c.x - a.x, c.y - a.y};
-        }
-
-        if (t.x == 0.f && t.y == 0.f) {
-            t = Point{d.x - a.x, d.y - a.y};
         }
 
         return t;
@@ -5620,7 +5565,7 @@ namespace {
 
     static int refinements(Point p0, Point p1, Point p2, Point p3, float step, bool end, float turn, float tol) {
         Point anchor = end ? p3 : p0;
-        Point tangent = end ? endTangent(p3, p2, p1, p0) : endTangent(p0, p1, p2, p3);
+        Point tangent = end ? endTangent(p3, p2, p1) : endTangent(p0, p1, p2);
         int k = 0;
 
         while (k < 12) {
@@ -5779,11 +5724,8 @@ namespace {
         return (float)(area * 0.5);
     }
 
+    // Adds a fan, quad or triangle of the stroke.
     static void addPolygon(Flat& out, const Point* points, size_t count) {
-        if (count < 3) {
-            return;
-        }
-
         bool reverse = signedArea(points, count) < 0.f;
 
         for (size_t i = 0; i < count; i++) {
@@ -5869,19 +5811,17 @@ namespace {
         if (s.join == JoinMiter) {
             float cosHalf = sqrtf(maxf(0.f, (1.f + dot) / 2.f));
 
+            // The normals do not cancel when the turn leaves a half angle.
             if (cosHalf > 1e-6f && 1.f / cosHalf <= s.miterLimit) {
                 Point m{n0.x + n1.x, n0.y + n1.y};
                 float length = sqrtf(m.x * m.x + m.y * m.y);
+                float reach = s.half / cosHalf;
+                Point tip{p.x + m.x / length * reach, p.y + m.y / length * reach};
+                Point quad[4] = {p, a, tip, b};
 
-                if (length > 1e-6f) {
-                    float reach = s.half / cosHalf;
-                    Point tip{p.x + m.x / length * reach, p.y + m.y / length * reach};
-                    Point quad[4] = {p, a, tip, b};
+                addPolygon(out, quad, 4);
 
-                    addPolygon(out, quad, 4);
-
-                    return;
-                }
+                return;
             }
         }
 
@@ -5920,10 +5860,11 @@ namespace {
             pts.popBack();
         }
 
+        // A run of two or more points at one place: its caps make a dot.
         if (pts.length() == 1) {
-            if (count >= 2 && s.cap == CapRound) {
+            if (s.cap == CapRound) {
                 addFan(out, pts[0], s.half, 0.f, 2.f * pi, s.tol);
-            } else if (count >= 2 && s.cap == CapSquare) {
+            } else if (s.cap == CapSquare) {
                 Point p = pts[0];
                 Point quad[4] = {Point{p.x - s.half, p.y - s.half}, Point{p.x + s.half, p.y - s.half}, Point{p.x + s.half, p.y + s.half}, Point{p.x - s.half, p.y + s.half}};
 
@@ -5993,7 +5934,7 @@ namespace {
 
         loop.append(points, count);
 
-        if (closed && count > 1) {
+        if (closed) {
             loop.pushBack(points[0]);
         }
 
@@ -6135,7 +6076,7 @@ namespace {
         Flat flat;
         StrokeParams s{style.strokeWidth / 2.f, style.cap, style.join, style.miterLimit, tolerance / maxf(scale, 1e-6f)};
 
-        flatten(path, identity(), s.tol, s.half > 0.f ? maxf(s.tol / s.half, 1.f / 1024.f) : 0.f, flat);
+        flatten(path, identity(), s.tol, maxf(s.tol / s.half, 1.f / 1024.f), flat);
 
         u32 begin = 0;
 
@@ -6169,7 +6110,7 @@ namespace {
             return false;
         }
 
-        if (p < body.end() && *p == '%') {
+        if (at(p, body.end(), '%')) {
             value /= 100.f;
             p++;
         }
@@ -6217,7 +6158,7 @@ namespace {
     }
 
     static StringView cascaded(const Document& doc, const Node* node, u32 property) {
-        u32 value = node->style ? node->style[property - firstProperty] : 0;
+        u32 value = node->style[property - firstProperty];
 
         return value ? textOf(doc, value) : StringView();
     }
@@ -6236,7 +6177,7 @@ namespace {
             return false;
         }
 
-        if (p < end && *p == '%') {
+        if (at(p, end, '%')) {
             out /= 100.f;
             p++;
         }
@@ -6375,9 +6316,7 @@ namespace {
         u32 count = 0;
 
         while (true) {
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end) {
                 break;
@@ -6451,9 +6390,7 @@ namespace {
         const u8* end = text.end();
 
         while (true) {
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end) {
                 break;
@@ -6653,9 +6590,7 @@ namespace {
         out.pointCount = 0;
 
         while (p < end) {
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             if (p >= end) {
                 break;
@@ -6669,7 +6604,7 @@ namespace {
 
             StringView name(start, p);
 
-            if (p < end && *p == '(') {
+            if (at(p, end, '(')) {
                 if (!function.empty()) {
                     return false;
                 }
@@ -6800,9 +6735,7 @@ namespace {
 
             out.kind = ShapeKind::Polygon;
 
-            while (p < end && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, end);
 
             const u8* comma = p;
 
@@ -7090,9 +7023,7 @@ namespace {
                         while (true) {
                             Length length;
 
-                            while (p < end && isSpace(*p)) {
-                                p++;
-                            }
+                            skipSpaces(p, end);
 
                             if (p >= end) {
                                 break;
@@ -7290,9 +7221,7 @@ namespace {
                     bool solid = false;
 
                     while (true) {
-                        while (p < value.end() && isSpace(*p)) {
-                            p++;
-                        }
+                        skipSpaces(p, value.end());
 
                         const u8* start = p;
                         int depth = 0;
@@ -7385,18 +7314,14 @@ namespace {
 
                     const u8* p = value.begin();
                     const u8* end = value.end();
-                    while (p < end && isSpace(*p)) {
-                        p++;
-                    }
+                    skipSpaces(p, end);
                     StringView word = readIdent(p, end);
 
                     if (isKeyword(word, SV("accumulate"))) {
                         style.newBackground = false;
                     } else if (isKeyword(word, SV("new"))) {
                         style.newBackground = true;
-                        while (p < end && isSpace(*p)) {
-                            p++;
-                        }
+                        skipSpaces(p, end);
                         style.backgroundClipped = p < end;
 
                         if (p < end) {
@@ -7410,9 +7335,7 @@ namespace {
                                 valid = valid && readNumber(p, end, v);
                             }
 
-                            while (p < end && isSpace(*p)) {
-                                p++;
-                            }
+                            skipSpaces(p, end);
                             style.backgroundBox = valid && p == end && values[2] > 0.f && values[3] > 0.f ? Box{values[0], values[1], values[0] + values[2], values[1] + values[3]} : Box{0.f, 0.f, 0.f, 0.f};
                         }
                     }
@@ -7932,7 +7855,7 @@ namespace {
                     const u8* p = text.begin();
 
                     if (readNumber(p, text.end(), offset)) {
-                        if (p < text.end() && *p == '%') {
+                        if (at(p, text.end(), '%')) {
                             offset /= 100.f;
                             p++;
                         }
@@ -8130,9 +8053,7 @@ namespace {
         const u8* p = text.begin();
         const u8* end = text.end();
 
-        while (p < end && isSpace(*p)) {
-            p++;
-        }
+        skipSpaces(p, end);
 
         if (p >= end) {
             return false;
@@ -12863,7 +12784,7 @@ namespace {
         StringView text = atom ? trim(textOf(doc, atom)) : StringView();
         const u8* p = text.begin();
         const u8* end = text.end();
-        bool negative = p < end && *p == '-';
+        bool negative = at(p, end, '-');
 
         if (p < end && (*p == '+' || *p == '-')) {
             p++;
@@ -12900,9 +12821,7 @@ namespace {
         while (true) {
             float value;
 
-            while (p < text.end() && isSpace(*p)) {
-                p++;
-            }
+            skipSpaces(p, text.end());
 
             if (p >= text.end()) {
                 return true;

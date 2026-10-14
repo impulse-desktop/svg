@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="16">
+<path d="M0 0 C 1 1 2 3 4 0" transform="scale(1e38)" fill="red" stroke="black" stroke-linejoin="round"/>
+<path d="M1 1 C 1e38 1 2 3e38 4 1 L 8 8 Z" fill="teal" stroke="black" stroke-width="2" stroke-dasharray="1 1"/>
+<rect x="16" y="0" width="16" height="16" fill="green" transform="matrix(1e38 0 0 1e38 0 0)"/>
+<circle cx="24" cy="8" r="3e38" fill="none" stroke="navy" transform="scale(1e-38)"/>
+<g transform="scale(3e38)"><g transform="scale(3e38)"><rect width="1" height="1" fill="purple" filter="blur(1px)"/></g></g>
+</svg>
