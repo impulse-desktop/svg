@@ -155,12 +155,7 @@ jobs:
               set -eu
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev wabt libsimde-dev curl ca-certificates
-              rt=/usr/share/wabt/wasm2c
-              version=$(wasm2c --version)
-              for inc in $(grep -ho "wasm-rt[a-z-]*\.inc" "$rt"/*.c | sort -u); do
-                [ -f "$rt/$inc" ] || curl -fsSL --retry 5 "https://raw.githubusercontent.com/WebAssembly/wabt/$version/wasm2c/$inc" -o "$rt/$inc"
-              done
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev libjpeg-dev
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" all
               head -4 .build/all.txt > score.txt
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" checks
@@ -194,12 +189,7 @@ jobs:
               set -eu
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install --yes --no-install-recommends python3 pkg-config clang lld llvm libclang-rt-dev libpng-dev wabt libsimde-dev curl ca-certificates
-              rt=/usr/share/wabt/wasm2c
-              version=$(wasm2c --version)
-              for inc in $(grep -ho "wasm-rt[a-z-]*\.inc" "$rt"/*.c | sort -u); do
-                [ -f "$rt/$inc" ] || curl -fsSL --retry 5 "https://raw.githubusercontent.com/WebAssembly/wabt/$version/wasm2c/$inc" -o "$rt/$inc"
-              done
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld llvm libclang-rt-dev libpng-dev libjpeg-dev
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld dev/coverage.sh -j "$(nproc)"
             '
           {

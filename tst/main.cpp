@@ -7,13 +7,14 @@
 #include <time.h>
 #include <vector>
 #include <stdio.h>
+#include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdexcept>
 
 extern "C" {
-#include <decode.h>
+#include <jpeglib.h>
 }
 
 namespace {
@@ -55,14 +56,17 @@ namespace {
     using Document = std::unique_ptr<SvgDocument, DestroyDocument>;
     using Library = std::unique_ptr<SvgLibrary, DestroyLibrary>;
 
-    struct Decoder {
-        w2c_decode wasm;
+    // libpng reads the file from memory through this.
+    struct PngSource {
+        const uint8_t* bytes;
+        size_t length;
+        size_t position;
+    };
 
-        Decoder();
-        ~Decoder() noexcept;
-
-        uint8_t* at(uint64_t offset, uint64_t length);
-        SvgImage* decode(const uint8_t* bytes, size_t size);
+    // libjpeg reports an error by returning here.
+    struct JpegError {
+        jpeg_error_mgr manager;
+        jmp_buf escape;
     };
 
     static uint32_t pngNumber(const uint8_t* p) {
@@ -87,7 +91,7 @@ namespace {
         static const uint8_t signature[] = {137, 80, 78, 71, 13, 10, 26, 10};
         static const uint32_t srgbChromaticities[] = {31270, 32900, 64000, 33000, 30000, 60000, 15000, 6000};
 
-        if (length < 33 || memcmp(bytes, signature, sizeof(signature)) || pngNumber(bytes + 8) != 13 || memcmp(bytes + 12, "IHDR", 4) || bytes[24] > 8) {
+        if (length < 33 || memcmp(bytes, signature, sizeof(signature)) || pngNumber(bytes + 8) != 13 || memcmp(bytes + 12, "IHDR", 4)) {
             return 0;
         }
 
@@ -176,77 +180,116 @@ void DestroyLibrary::operator()(SvgLibrary* library) const {
     svg_library_destroy(library);
 }
 
-extern "C" void decodeTrapHandler(wasm_rt_trap_t code) {
-    throw DriverError(wasm_rt_strerror(code));
+static SvgImage* decodedImage(std::unique_ptr<uint8_t[]>& rgba, uint32_t width, uint32_t height) {
+    DecodedImage* out = new DecodedImage{{&decodedVtable}, rgba.release(), width, height};
+
+    return &out->image;
 }
 
-Decoder::Decoder() {
-    wasm2c_decode_instantiate(&wasm);
+// The sRGB encoding of a linear value, as a byte.
+static uint8_t srgbByte(double linear) {
+    double srgb = linear <= 0.0031308 ? 12.92 * linear : 1.055 * pow(linear, 1.0 / 2.4) - 0.055;
+
+    return (uint8_t)(srgb * 255.0 + 0.5);
 }
 
-Decoder::~Decoder() noexcept {
-    wasm2c_decode_free(&wasm);
-}
+static void pngRead(png_structp png, png_bytep out, png_size_t length) {
+    PngSource* source = (PngSource*)png_get_io_ptr(png);
 
-uint8_t* Decoder::at(uint64_t offset, uint64_t length) {
-    wasm_rt_memory_t* memory = w2c_decode_memory(&wasm);
-
-    if (offset + length > memory->size) {
-        throw DriverError("the decoder answered out of its memory");
+    if (length > source->length - source->position) {
+        png_error(png, "the file ends inside the PNG");
     }
 
-    return (uint8_t*)memory->data + offset;
+    memcpy(out, source->bytes + source->position, length);
+    source->position += length;
 }
 
-SvgImage* Decoder::decode(const uint8_t* bytes, size_t size) {
-    uint32_t length = (uint32_t)size;
-    uint32_t in = w2c_decode_malloc(&wasm, length);
+static void pngWarning(png_structp, png_const_charp) {
+}
 
-    if (!in) {
-        return nullptr;
-    }
-
-    memcpy(at(in, length), bytes, length);
-
+// Decodes a PNG with libpng into RGBA: the samples as stored, then, where
+// pngGamma finds a gAMA that rules, its transfer function applied at the
+// file's depth before the samples become bytes.
+static SvgImage* decodePng(const uint8_t* bytes, size_t length) {
+    PngSource source{bytes, length, 0};
+    png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, pngWarning);
+    png_infop info = png ? png_create_info_struct(png) : nullptr;
+    std::unique_ptr<uint8_t[]> rgba;
+    std::vector<uint8_t> wide;
+    std::vector<png_bytep> rows;
     double gamma = 0.0;
-    size_t gammaOffset = pngGamma(bytes, length, gamma);
+    png_uint_32 width = 0;
+    png_uint_32 height = 0;
+    int depth = 0;
+    int color = 0;
 
-    if (gammaOffset) {
-        // The module treats non-linear PNG samples as sRGB and linear ones as
-        // RGB. Decode the stored samples unchanged, then apply the actual curve.
-        static const uint8_t neutralGamma[] = {0, 0, 177, 143, 11, 252, 97, 5};
+    if (!info) {
+        png_destroy_read_struct(&png, nullptr, nullptr);
 
-        memcpy(at((uint64_t)in + gammaOffset, sizeof(neutralGamma)), neutralGamma, sizeof(neutralGamma));
-    }
-
-    uint32_t res = w2c_decode_decode(&wasm, in, length, 0, 0);
-
-    if (!res) {
         return nullptr;
     }
 
-    uint32_t header[2];
+    if (setjmp(png_jmpbuf(png))) {
+        png_destroy_read_struct(&png, &info, nullptr);
 
-    memcpy(header, at(res, sizeof(header)), sizeof(header));
+        return nullptr;
+    }
 
-    uint64_t pixels = (uint64_t)header[0] * header[1];
+    png_set_read_fn(png, &source, pngRead);
+    png_read_info(png, info);
+    png_get_IHDR(png, info, &width, &height, &depth, &color, nullptr, nullptr, nullptr);
+
+    uint64_t pixels = (uint64_t)width * height;
 
     if (!pixels || pixels > maxPixels) {
+        png_destroy_read_struct(&png, &info, nullptr);
+
         return nullptr;
     }
 
-    std::unique_ptr<uint8_t[]> rgba(new uint8_t[pixels * 4]);
+    // Every image comes out as RGBA at the file's depth, 8 or 16 bits.
+    png_set_expand(png);
+    png_set_gray_to_rgb(png);
+    png_set_filler(png, 0xffff, PNG_FILLER_AFTER);
+    png_set_interlace_handling(png);
+    png_read_update_info(png, info);
+    depth = png_get_bit_depth(png, info);
 
-    memcpy(rgba.get(), at((uint64_t)res + sizeof(header), pixels * 4), pixels * 4);
+    size_t rowBytes = png_get_rowbytes(png, info);
 
-    if (gammaOffset) {
+    if (rowBytes != (size_t)width * 4 * (depth / 8)) {
+        png_destroy_read_struct(&png, &info, nullptr);
+
+        return nullptr;
+    }
+
+    rgba.reset(new uint8_t[pixels * 4]);
+    rows.resize(height);
+
+    if (depth == 16) {
+        wide.resize(rowBytes * height);
+    }
+
+    for (uint32_t y = 0; y < height; y++) {
+        rows[y] = (depth == 16 ? wide.data() : rgba.get()) + (size_t)y * rowBytes;
+    }
+
+    png_read_image(png, rows.data());
+    png_destroy_read_struct(&png, &info, nullptr);
+
+    bool gammaRules = pngGamma(bytes, length, gamma) != 0;
+
+    if (depth == 16) {
+        for (uint64_t k = 0; k < pixels * 4; k++) {
+            uint32_t value = (uint32_t)wide[k * 2] << 8 | wide[k * 2 + 1];
+
+            rgba[k] = gammaRules && k % 4 != 3 ? srgbByte(pow(value / 65535.0, 1.0 / gamma)) : (uint8_t)(value * 255.0 / 65535.0 + 0.5);
+        }
+    } else if (gammaRules) {
         uint8_t table[256];
 
         for (int k = 0; k < 256; k++) {
-            double linear = pow(k / 255.0, 1.0 / gamma);
-            double srgb = linear <= 0.0031308 ? 12.92 * linear : 1.055 * pow(linear, 1.0 / 2.4) - 0.055;
-
-            table[k] = (uint8_t)(srgb * 255.0 + 0.5);
+            table[k] = srgbByte(pow(k / 255.0, 1.0 / gamma));
         }
 
         for (uint64_t k = 0; k < pixels * 4; k += 4) {
@@ -256,23 +299,109 @@ SvgImage* Decoder::decode(const uint8_t* bytes, size_t size) {
         }
     }
 
-    DecodedImage* out = new DecodedImage{{&decodedVtable}, rgba.release(), header[0], header[1]};
-
-    return &out->image;
+    return decodedImage(rgba, width, height);
 }
 
+static void jpegEscape(j_common_ptr info) {
+    longjmp(((JpegError*)info->err)->escape, 1);
+}
+
+static void jpegSilent(j_common_ptr) {
+}
+
+// Decodes a JPEG with libjpeg into RGBA: grayscale and YCbCr through its
+// own conversion, CMYK and YCCK through the inversion Adobe files carry.
+static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
+    jpeg_decompress_struct info;
+    JpegError error;
+    std::unique_ptr<uint8_t[]> rgba;
+    std::vector<uint8_t> row;
+
+    info.err = jpeg_std_error(&error.manager);
+    error.manager.error_exit = jpegEscape;
+    error.manager.output_message = jpegSilent;
+
+    if (setjmp(error.escape)) {
+        jpeg_destroy_decompress(&info);
+
+        return nullptr;
+    }
+
+    jpeg_create_decompress(&info);
+    jpeg_mem_src(&info, bytes, (unsigned long)length);
+    jpeg_read_header(&info, TRUE);
+
+    uint64_t pixels = (uint64_t)info.image_width * info.image_height;
+
+    if (!pixels || pixels > maxPixels) {
+        jpeg_destroy_decompress(&info);
+
+        return nullptr;
+    }
+
+    bool cmyk = info.jpeg_color_space == JCS_CMYK || info.jpeg_color_space == JCS_YCCK;
+
+    info.out_color_space = cmyk ? JCS_CMYK : JCS_RGB;
+    jpeg_start_decompress(&info);
+
+    uint32_t width = info.output_width;
+    uint32_t height = info.output_height;
+    int components = info.output_components;
+
+    if ((uint64_t)width * height != pixels || components != (cmyk ? 4 : 3)) {
+        jpeg_destroy_decompress(&info);
+
+        return nullptr;
+    }
+
+    rgba.reset(new uint8_t[pixels * 4]);
+    row.resize((size_t)width * components);
+
+    while (info.output_scanline < height) {
+        JSAMPROW lines[1] = {row.data()};
+        uint8_t* out = rgba.get() + (size_t)info.output_scanline * width * 4;
+
+        jpeg_read_scanlines(&info, lines, 1);
+
+        for (uint32_t x = 0; x < width; x++) {
+            const uint8_t* s = row.data() + (size_t)x * components;
+
+            if (cmyk) {
+                // Adobe stores CMYK inverted; the others as it is.
+                int k = info.saw_Adobe_marker ? s[3] : 255 - s[3];
+
+                for (int c = 0; c < 3; c++) {
+                    out[x * 4 + c] = (uint8_t)((info.saw_Adobe_marker ? s[c] : 255 - s[c]) * k / 255);
+                }
+            } else {
+                out[x * 4] = s[0];
+                out[x * 4 + 1] = s[1];
+                out[x * 4 + 2] = s[2];
+            }
+
+            out[x * 4 + 3] = 255;
+        }
+    }
+
+    jpeg_finish_decompress(&info);
+    jpeg_destroy_decompress(&info);
+
+    return decodedImage(rgba, width, height);
+}
+
+// The raster images of the corpus are PNG and JPEG; nothing else decodes.
 static SvgImage* decodeRaster(void*, const void* bytes, size_t length) {
-    if (length == 0 || length > 0x7fffffffu) {
-        return nullptr;
+    const uint8_t* p = (const uint8_t*)bytes;
+
+    if (length >= 8 && memcmp(p, "\x89PNG\r\n\x1a\n", 8) == 0) {
+        return decodePng(p, length);
     }
 
-    try {
-        Decoder decoder;
-
-        return decoder.decode((const uint8_t*)bytes, length);
-    } catch (const DriverError&) {
-        return nullptr;
+    if (length >= 3 && p[0] == 0xff && p[1] == 0xd8 && p[2] == 0xff) {
+        return decodeJpeg(p, length);
     }
+
+    return nullptr;
 }
 
 namespace {

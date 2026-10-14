@@ -139,11 +139,10 @@
             llvm.llvm
             pkgs.pkg-config
             pkgs.python3
-            pkgs.wabt
           ];
           commonBuildInputs = [
+            pkgs.libjpeg
             pkgs.libpng
-            pkgs.simde
           ];
         in
         {
@@ -162,8 +161,7 @@
             buildInputs = commonBuildInputs;
             NIX_CC_WRAPPER_SUPPRESS_TARGET_WARNING = "1";
 
-            # Only the C++ renderer and the test driver are instrumented. The generated
-            # wasm2c decoder shards and runtime are C and keep their cache keys.
+            # The renderer and the test driver are instrumented.
             CXXFLAGS = cxxSanitizerFlags;
             LDFLAGS = "-fsanitize=address,undefined";
             LIBFUZZER = "${libFuzzerLibcxx}/lib/libFuzzer.a";
