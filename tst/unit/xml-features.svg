@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- a comment before the root -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+  <!ENTITY red "#ff0000">
+  <!ENTITY shape "<rect x='26' y='2' width='20' height='20' fill='blue'/>">
+  <!ATTLIST svg xmlns:x CDATA #FIXED "http://www.w3.org/2000/svg">
+]>
+<?xml-stylesheet href="none.css"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:s="http://www.w3.org/2000/svg" width="48" height="48">
+  <rect x="2" y="2" width="20" height="20" fill="&red;"/>
+  &shape;
+  <s:rect x="2" y="26" width="20" height="20" fill="&#x67;&#114;een"/>
+  <rect x="26" y="26" width="20" height="20" fill='&quot;bad&quot;' stroke="&lt;&gt;&amp;&apos;"/>
+  <foreign:rect xmlns:foreign="urn:x" x="0" y="0" width="48" height="48"/>
+  <![CDATA[ text ]]>
+  <!-- comment inside -->
+  <?pi inside?>
+</svg>

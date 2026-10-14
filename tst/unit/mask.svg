@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <linearGradient id="g"><stop offset="0" stop-color="white"/><stop offset="1" stop-color="black"/></linearGradient>
+    <mask id="a"><rect width="24" height="24" fill="url(#g)"/></mask>
+    <mask id="b" maskUnits="userSpaceOnUse" x="24" y="0" width="24" height="12"><rect x="24" width="24" height="24" fill="white"/></mask>
+    <mask id="c" maskContentUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5" fill="white" fill-opacity=".5"/></mask>
+    <mask id="d" mask-type="alpha"><rect x="24" y="24" width="12" height="24" fill="black"/></mask>
+    <mask id="e" style="mask-type: luminance" mask="url(#c)"><rect width="48" height="48" fill="white"/></mask>
+  </defs>
+  <rect width="24" height="24" fill="red" mask="url(#a)"/>
+  <rect x="24" width="24" height="24" fill="green" mask="url(#b)"/>
+  <rect y="24" width="24" height="24" fill="blue" mask="url(#c)"/>
+  <rect x="24" y="24" width="24" height="24" fill="orange" mask="url(#d)"/>
+  <rect x="30" y="30" width="12" height="12" fill="purple" mask="url(#e)" color-interpolation="linearRGB"/>
+</svg>

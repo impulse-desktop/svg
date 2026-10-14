@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <clipPath id="a"><circle cx="12" cy="12" r="8"/></clipPath>
+    <clipPath id="b" clipPathUnits="objectBoundingBox"><rect x=".25" y=".25" width=".5" height=".5"/><circle cx="0" cy="0" r=".3"/></clipPath>
+    <clipPath id="c" clip-path="url(#a)"><rect x="8" y="0" width="20" height="20" transform="translate(-4 0)"/></clipPath>
+    <clipPath id="d"><use href="#t"/><text>ignored</text></clipPath>
+    <clipPath id="e"><path d="M26 26 h20 v20 z" clip-rule="evenodd"/><path d="M26 26 h20 v20 z M30 30 h4 v4 z" clip-rule="evenodd"/></clipPath>
+    <rect id="t" x="2" y="28" width="8" height="8"/>
+  </defs>
+  <rect width="24" height="24" fill="red" clip-path="url(#a)"/>
+  <rect x="24" width="24" height="24" fill="green" clip-path="url(#b)"/>
+  <rect width="24" height="24" fill="blue" opacity=".5" clip-path="url(#c)"/>
+  <rect y="24" width="24" height="24" fill="orange" clip-path="url(#d)"/>
+  <rect x="24" y="24" width="24" height="24" fill="purple" clip-path="url(#e)"/>
+  <rect x="12" y="36" width="12" height="12" fill="teal" clip-path="circle(4px at 18px 42px)"/>
+</svg>

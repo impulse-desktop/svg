@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <filter id="a" x="0" y="0" width="1" height="1">
+      <feFlood flood-color="blue" flood-opacity=".5" result="f"/>
+      <feComposite in="SourceGraphic" in2="f" operator="over"/>
+    </filter>
+    <filter id="b"><feFlood flood-color="green" result="f"/><feComposite in="f" in2="SourceAlpha" operator="in"/></filter>
+    <filter id="c"><feFlood flood-color="green" result="f"/><feComposite in="f" in2="SourceAlpha" operator="out"/></filter>
+    <filter id="d"><feFlood flood-color="green" result="f"/><feComposite in="f" in2="SourceAlpha" operator="atop"/></filter>
+    <filter id="e"><feFlood flood-color="green" result="f"/><feComposite in="f" in2="SourceAlpha" operator="xor"/></filter>
+    <filter id="h"><feFlood flood-color="green" result="f"/><feComposite in="f" in2="SourceGraphic" operator="arithmetic" k1=".5" k2=".5" k3=".5" k4="-.2"/></filter>
+    <filter id="i"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="multiply"/></filter>
+    <filter id="j"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="screen"/></filter>
+    <filter id="k"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="darken"/></filter>
+    <filter id="l"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="lighten"/></filter>
+    <filter id="m"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="overlay"/></filter>
+    <filter id="n"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="color-dodge"/></filter>
+    <filter id="o"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="color-burn"/></filter>
+    <filter id="p"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="hard-light"/></filter>
+    <filter id="q"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="soft-light"/></filter>
+    <filter id="r"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="difference"/></filter>
+    <filter id="s"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="exclusion"/></filter>
+    <filter id="t"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="hue"/></filter>
+    <filter id="u"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="saturation"/></filter>
+    <filter id="v"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="color"/></filter>
+    <filter id="w"><feFlood flood-color="#08f" result="f"/><feBlend in="SourceGraphic" in2="f" mode="luminosity"/></filter>
+  </defs>
+  <g fill="#f80" fill-opacity=".8">
+    <circle cx="4" cy="4" r="4" filter="url(#a)"/><circle cx="12" cy="4" r="4" filter="url(#b)"/><circle cx="20" cy="4" r="4" filter="url(#c)"/>
+    <circle cx="28" cy="4" r="4" filter="url(#d)"/><circle cx="36" cy="4" r="4" filter="url(#e)"/><circle cx="44" cy="4" r="4" filter="url(#h)"/>
+    <circle cx="4" cy="14" r="4" filter="url(#i)"/><circle cx="12" cy="14" r="4" filter="url(#j)"/><circle cx="20" cy="14" r="4" filter="url(#k)"/>
+    <circle cx="28" cy="14" r="4" filter="url(#l)"/><circle cx="36" cy="14" r="4" filter="url(#m)"/><circle cx="44" cy="14" r="4" filter="url(#n)"/>
+    <circle cx="4" cy="24" r="4" filter="url(#o)"/><circle cx="12" cy="24" r="4" filter="url(#p)"/><circle cx="20" cy="24" r="4" filter="url(#q)"/>
+    <circle cx="28" cy="24" r="4" filter="url(#r)"/><circle cx="36" cy="24" r="4" filter="url(#s)"/><circle cx="44" cy="24" r="4" filter="url(#t)"/>
+    <circle cx="4" cy="34" r="4" filter="url(#u)"/><circle cx="12" cy="34" r="4" filter="url(#v)"/><circle cx="20" cy="34" r="4" filter="url(#w)"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48">
+  <defs>
+    <rect id="r" width="8" height="8"/>
+    <symbol id="s" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></symbol>
+    <g id="g"><use href="#r" fill="green"/></g>
+  </defs>
+  <use xlink:href="#r" x="2" y="2" fill="red"/>
+  <use href="#s" x="14" y="2" width="12" height="12" fill="blue"/>
+  <use href="#g" x="30" y="2"/>
+  <use href="#s" x="2" y="20" fill="orange"/>
+  <use href="#missing" x="20" y="20"/>
+  <use href="#u" id="u"/>
+  <use href="#r" transform="translate(30 30) scale(2)" style="fill: purple"/>
+</svg>

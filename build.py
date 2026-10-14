@@ -165,6 +165,24 @@ for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
         color="light-green",
     ))
 
-# Every case and check and the smoke drawing, or one partition of them with
-# -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.
-group("tests", *partition_tests(cases + checks + [smoke]))
+# Every tst/unit/X.svg is drawn at its own size and compared with its canon
+# tst/unit/X.png; the drawing is left in $(B)/unit/X.png.
+units = []
+for path in sorted(build.glob("$(S)/tst/unit/*.svg")):
+    stem = path[:-len(".svg")]
+    name = os.path.basename(stem)
+    units.append(command(
+        name="unit_" + name,
+        inputs=[path, stem + ".png"],
+        outputs=[f"$(B)/unit/{name}.png"],
+        deps=[svg],
+        cmd=["$(B)/svg", "unit", path, stem + ".png", f"$(B)/unit/{name}.png"],
+        descr="UT",
+        color="light-green",
+    ))
+
+group("unit", *units)
+
+# Every case, check and unit and the smoke drawing, or one partition of them
+# with -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.
+group("tests", *partition_tests(cases + checks + units + [smoke]))

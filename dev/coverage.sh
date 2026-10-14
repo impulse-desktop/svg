@@ -1,8 +1,7 @@
 #!/bin/sh
 # Builds the test driver with clang's source-based coverage, runs ./build
-# tests, every corpus case and check and the smoke drawing, and exports the
-# coverage of svg.h and svg.cpp to .coverage: coverage.info in lcov for
-# Codecov and summary.txt.
+# unit, every drawing under tst/unit, and exports the coverage of svg.h and
+# svg.cpp to .coverage: coverage.info in lcov for Codecov and summary.txt.
 #
 # usage: dev/coverage.sh [build options...]
 set -eu
@@ -20,8 +19,8 @@ export LLVM_PROFILE_FILE="$out/profiles/%8m.profraw"
 export CXXFLAGS="${CXXFLAGS:-} -fprofile-instr-generate -fcoverage-mapping"
 export LDFLAGS="${LDFLAGS:-} -fprofile-instr-generate"
 
-# The Score and ASan jobs gate the tests; what ran is exported all the same.
-./build -B "$build" -k "$@" tests svg || echo "coverage: failed tests above"
+# The ASan jobs gate the units; what ran is exported all the same.
+./build -B "$build" -k "$@" unit svg || echo "coverage: failed units above"
 
 ignore='(^|/)(tst|ext|\.build[^/]*)/|^/usr/'
 

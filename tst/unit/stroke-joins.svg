@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <g fill="none" stroke-width="4">
+    <polyline points="4,12 12,4 20,12" stroke="red" stroke-linejoin="miter" stroke-linecap="butt"/>
+    <polyline points="26,12 34,4 42,12" stroke="green" stroke-linejoin="round" stroke-linecap="round"/>
+    <polyline points="4,26 12,18 20,26" stroke="blue" stroke-linejoin="bevel" stroke-linecap="square"/>
+    <polyline points="26,26 34,22 42,26" stroke="purple" stroke-linejoin="miter" stroke-miterlimit="1"/>
+    <polyline points="4,40 12,32 20,40" stroke="orange" stroke-linejoin="arcs"/>
+    <polyline points="26,40 34,32 42,40" stroke="teal" stroke-linejoin="miter-clip"/>
+    <path d="M6 46 L6 46" stroke="black" stroke-linecap="round"/>
+    <path d="M14 46 Z" stroke="black" stroke-linecap="square"/>
+  </g>
+</svg>
