@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="4">
+<filter id="f1" x="0" y="0" width="1" height="1">
+<feComposite operator="arithmetic" k2="1" in="SourceGraphic" in2="SourceGraphic" result="a"/>
+<feOffset in="SourceGraphic" result="o"/>
+<feBlend in="SourceGraphic" in2="o"/>
+<feDisplacementMap in="SourceGraphic" in2="o"/>
+<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="o"/></feMerge>
+<feComposite operator="arithmetic" k2="1" in="a" in2="a"/>
+</filter>
+<filter id="f2" x="0" y="0" width="1" height="1">
+<feComposite operator="arithmetic" k2="1" in="SourceGraphic" in2="SourceGraphic" result="a"/>
+<feComposite in="a" in2="SourceGraphic"/>
+</filter>
+<filter id="f3" x="0" y="0" width="1" height="1">
+<feComposite operator="arithmetic" k2="1" in="SourceGraphic" in2="SourceGraphic" result="a"/>
+<feComposite operator="in" in="a" in2="SourceGraphic"/>
+</filter>
+<rect width="4" height="4" fill="teal" filter="url(#f1)"/>
+<rect x="4" width="4" height="4" fill="teal" filter="url(#f2)"/>
+<rect x="8" width="4" height="4" fill="teal" filter="url(#f3)"/>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" d="inherit">
+<style>
+@import 'nothing.css';
+rect!, .never { fill: red }
+g > svg { fill: red }
+svg * { stroke: navy }
+[data-k~=b] { fill: red }
+#p1 { d: M 8 0 h 8 v 8 h -8 z }
+#p2 { d: path() }
+#p4 { d: path('M 8 8 h 8 v 8 h -8 z' }
+</style>
+<defs><g id="t"><rect width="3" height="3" fill="olive"/></g></defs>
+<rect data-k="a " width="8" height="8" fill="green" zz="1" style="zz: 1; cx: 3" stroke-width="abc"/>
+<path id="p1" fill="blue"/>
+<path id="p2" fill="red"/>
+<path style="d: path('M 0 8 h 8 v 8 h -8 z&quot;)" fill="purple"/>
+<path id="p4" fill="orange"/>
+<path d="inherit" fill="red"/>
+<rect x="10" y="10" width="2" height="2" fill="url('"/>
+<use href="#t" x="12" y="12"/>
+</svg>

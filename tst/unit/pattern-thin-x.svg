@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
+<pattern id="a" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="red"/></pattern>
+<pattern id="b" x="3" y="3" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="teal"/></pattern>
+<pattern id="c" width="2" height="2" patternUnits="userSpaceOnUse"><use href="#c"/><path d="M0 0 L2 2" stroke="navy" stroke-width=".5" marker-end="url(#mk)" vector-effect="non-scaling-stroke"/></pattern>
+<marker id="mk" markerWidth="1" markerHeight="1"><rect width="1" height="1" fill="gold"/></marker>
+<rect width="8" height="8" fill="url(#a)" transform="scale(0 1)"/>
+<rect width="8" height="4" fill="url(#b)"/>
+<rect y="4" width="8" height="4" fill="url(#c)"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+<filter id="b" x="0" y="0" width="1" height="1"><feGaussianBlur in="BackgroundImage" stdDeviation="1"/><feOffset in="BackgroundImage" dx="1"/><feGaussianBlur in="BackgroundImage" stdDeviation=".5" color-interpolation-filters="sRGB"/><feGaussianBlur in="BackgroundImage" stdDeviation=".5" result="x"/><feOffset in="BackgroundAlpha"/><feMerge><feMergeNode in="x"/></feMerge></filter>
+<filter id="s" x="0" y="0" width="1" height="1"><feGaussianBlur in="SourceGraphic" stdDeviation="1"/><feOffset in="SourceGraphic" dx="1" result="o"/><feGaussianBlur in="SourceGraphic" stdDeviation=".5" result="y"/><feOffset in="SourceAlpha"/><feMerge><feMergeNode in="y"/><feMergeNode in="o"/></feMerge></filter>
+<g enable-background="new 0 0 16 16">
+<rect width="12" height="12" fill="gold"/>
+<rect x="2" y="2" width="8" height="8" fill="teal" filter="url(#b)"/>
+<rect x="10" y="10" width="4" height="4" fill="navy" filter="url(#s)"/>
+<g transform="translate(100 0) rotate(30)" filter="url(#b)"><rect width="4" height="4"/></g>
+</g>
+</svg>

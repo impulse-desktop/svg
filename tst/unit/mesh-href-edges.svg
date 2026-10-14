@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="8">
+<defs>
+<meshgradient id="m0" href="#m1" x="0" y="0"><meshrow><meshpatch><stop path="l 8,0" stop-color="red"/><stop path="l 0,8" stop-color="lime"/><stop path="l -8,0" stop-color="blue"/><stop path="l 0,-8" stop-color="yellow"/></meshpatch></meshrow></meshgradient>
+<meshgradient id="m1" href="#m2"/><meshgradient id="m2" href="#m3"/><meshgradient id="m3" href="#m4"/><meshgradient id="m4" href="#m5"/>
+<meshgradient id="m5" href="#m6"/><meshgradient id="m6" href="#m7"/><meshgradient id="m7" href="#m8"/><meshgradient id="m8" href="#m9"/>
+<meshgradient id="m9" href="#m10"/><meshgradient id="m10" href="#m11"/><meshgradient id="m11" href="#m12"/><meshgradient id="m12" href="#m13"/>
+<meshgradient id="m13" href="#m14"/><meshgradient id="m14" href="#m15"/><meshgradient id="m15" href="#m16"/><meshgradient id="m16" href="#m17"/>
+<meshgradient id="m17" gradientUnits="userSpaceOnUse"/>
+<meshgradient id="n" href="#r" x="8" y="0" gradientUnits="userSpaceOnUse"><meshrow><meshpatch><stop path="l 8,0" stop-color="red"/><stop path="l 0,8" stop-color="lime"/><stop path="l -8,0" stop-color="blue"/><stop path="l 0,-8" stop-color="yellow"/></meshpatch></meshrow></meshgradient>
+<meshgradient id="e" x="16" y="0" gradientUnits="userSpaceOnUse"/>
+<meshgradient id="z" x="16" y="0" gradientUnits="userSpaceOnUse"><meshrow><meshpatch><stop path="l 0,0" stop-color="red"/><stop path="l 0,0" stop-color="lime"/><stop path="l 0,0" stop-color="blue"/><stop path="l 0,0" stop-color="yellow"/></meshpatch></meshrow></meshgradient>
+</defs>
+<rect id="r" width="8" height="8" fill="url(#m0)"/>
+<rect x="8" width="8" height="8" fill="url(#n)"/>
+<rect x="16" width="8" height="4" fill="url(#e) gray"/>
+<rect x="16" y="4" width="8" height="4" fill="url(#z) olive"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8">
+<filter id="o" x="0" y="0" width="1" height="1"><feOffset dx="abc" dy="1"/></filter>
+<filter id="t1" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency=".5" numOctaves="+2"/></filter>
+<filter id="t2" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency=".5" numOctaves="2.5"/></filter>
+<filter id="t3" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency=".5" numOctaves="2a"/></filter>
+<filter id="t4" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency=".5" numOctaves="99999999999"/></filter>
+<rect width="4" height="4" fill="teal" filter="url(#o)"/>
+<rect x="4" width="4" height="4" filter="url(#t1)"/>
+<rect x="8" width="4" height="4" filter="url(#t2)"/>
+<rect x="12" width="4" height="4" filter="url(#t3)"/>
+<rect y="4" width="4" height="4" filter="url(#t4)"/>
+</svg>
