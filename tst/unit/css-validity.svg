@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16" color="green">
+<style>
+.a { fill: bogus } .b { fill: context-fill } .c { stroke: context-stroke }
+.d { color: bogus } .e { color: CurrentColor } .f { stop-color: inherit }
+.g { stroke-dasharray: 1,,2 } .h { stroke-dasharray: -1 } .i { stroke-dasharray: none } .j { stroke-dasharray: 2 , 1 } .k { stroke-dasharray: 2, }
+.l { stroke-width: -1 } .m { stroke-width: 3 }
+.n { shape-rendering: crispEdges } .o { shape-rendering: optimizeSpeed } .p { shape-rendering: geometricPrecision } .q { shape-rendering: auto } .r { shape-rendering: bogus }
+.s { fill: initial } .t { fill: unset } .u { flood-color: red; lighting-color: blue }
+</style>
+<g stroke="black" fill="blue">
+<rect x="0" width="4" height="8" class="a"/><rect x="4" width="4" height="8" class="b"/><rect x="8" width="4" height="8" class="c"/>
+<rect x="12" width="4" height="8" class="d" fill="currentColor"/><rect x="16" width="4" height="8" class="e" fill="currentColor"/>
+<rect x="20" width="4" height="8" class="g"/><rect x="24" width="4" height="8" class="h"/><rect x="28" width="4" height="8" class="i"/>
+<rect x="32" width="4" height="8" class="j"/><rect x="36" width="4" height="8" class="k"/><rect x="40" width="4" height="8" class="l"/>
+<rect x="44" width="4" height="8" class="m"/>
+<circle cx="2" cy="12" r="2" class="n"/><circle cx="6" cy="12" r="2" class="o"/><circle cx="10" cy="12" r="2" class="p"/>
+<circle cx="14" cy="12" r="2" class="q"/><circle cx="18" cy="12" r="2" class="r"/><rect x="20" y="8" width="4" height="8" class="s"/>
+<rect x="24" y="8" width="4" height="8" class="t"/><rect x="28" y="8" width="4" height="8" class="u f"/>
+</g>
+<rect x="32" y="8" width="4" height="8" fill="env(x, purple)"/>
+<rect x="36" y="8" width="4" height="8" fill="env(x)"/>
+<rect x="40" y="8" width="4" height="8" fill="red" mix-blend-mode="multiply" isolation="isolate" outline="1px" zoom="2"/>
+</svg>
