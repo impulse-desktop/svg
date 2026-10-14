@@ -139,6 +139,30 @@ for check in ["viewport_units", "cascade_priority"]:
         color="light-green",
     ))
 
+# The C API from C99 against svg.cpp as C++17, the standards a program that
+# copies the two files in builds them at.
+c_api_main = library(
+    name="c_api_main",
+    srcs=["$(S)/tst/c_api.c"],
+    cflags=["-std=c99", "-Wpedantic", *warning_flags],
+)
+c_api = program(
+    name="c_api",
+    output="$(B)/c_api",
+    srcs=["$(S)/svg.cpp"],
+    cflags=warning_flags,
+    cxxflags=["-std=c++17", "-Wpedantic"],
+    deps=[c_api_main, system],
+)
+checks.append(command(
+    name="check_c_api",
+    outputs=["$(B)/checks/c_api.txt"],
+    deps=[c_api],
+    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/c_api", "$(B)/checks/c_api.txt"],
+    descr="CK",
+    color="light-green",
+))
+
 group("checks", *checks)
 
 # tst/sanitizer.svg takes every kind of paint, clip, mask, marker and filter

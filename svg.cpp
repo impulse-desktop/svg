@@ -5,14 +5,15 @@
 #include <string.h>
 
 namespace {
-    using u8 = char8_t;
+    using u8 = unsigned char;
     using u32 = uint32_t;
     using u64 = uint64_t;
     using i64 = int64_t;
 
     // The containers, the sort and the object pool below are the parts of
     // libstd (https://github.com/pg83/std, MIT) that the renderer needs,
-    // copied in so that svg.h and svg.cpp depend on nothing but the C library.
+    // copied in so that svg.h and svg.cpp depend on nothing but the C library,
+    // and brought down to C++17.
 
     template <typename T>
     struct RemoveReference {
@@ -56,23 +57,18 @@ namespace {
         return r;
     }
 
-    template <typename T>
-    void xchg(T& l, T& r) noexcept {
-        if constexpr (requires { l.xchg(r); }) {
-            l.xchg(r);
-        } else if constexpr (requires { l.swap(r); }) {
-            l.swap(r);
-        } else if constexpr (requires { T(move(l)) = move(l); }) {
-            T t = move(l);
+    static void xchg(void*& l, void*& r) noexcept {
+        void* t = l;
 
-            l = move(r);
-            r = move(t);
-        } else {
-            T t = l;
+        l = r;
+        r = t;
+    }
 
-            l = r;
-            r = t;
-        }
+    static void xchg(float& l, float& r) noexcept {
+        float t = l;
+
+        l = r;
+        r = t;
     }
 
     template <typename T>
@@ -220,10 +216,7 @@ namespace {
             auto flen = max<size_t>(clp2(len + sizeof(Buffer::Header)), 256);
             auto blen = flen - sizeof(Buffer::Header);
 
-            return new (allocateMemory(flen)) Buffer::Header({
-                .used = 0,
-                .size = blen,
-            });
+            return new (allocateMemory(flen)) Buffer::Header{{}, 0, blen};
         }
 
         return nullHeader();
@@ -333,12 +326,6 @@ namespace {
 
     public:
         StringView() noexcept;
-
-        template <size_t N>
-        StringView(const u8 (&str)[N]) noexcept
-            : StringView(str, N - 1)
-        {
-        }
 
         StringView(const u8* ptr, size_t len) noexcept;
         StringView(const u8* b, const u8* e) noexcept;
@@ -1169,9 +1156,9 @@ namespace {
     constexpr u32 maxEntityDepth = 16;
     constexpr size_t maxExpansion = 1 << 22;
 
-    const StringView svgNamespace(u8"http://www.w3.org/2000/svg");
-    const StringView xlinkNamespace(u8"http://www.w3.org/1999/xlink");
-    const StringView xmlNamespace(u8"http://www.w3.org/XML/1998/namespace");
+    const StringView svgNamespace("http://www.w3.org/2000/svg");
+    const StringView xlinkNamespace("http://www.w3.org/1999/xlink");
+    const StringView xmlNamespace("http://www.w3.org/XML/1998/namespace");
 
     struct Point {
         float x;
@@ -2339,23 +2326,23 @@ namespace {
     }
 
     static int predefinedEntity(StringView name) {
-        if (name == StringView(u8"lt")) {
+        if (name == StringView("lt")) {
             return '<';
         }
 
-        if (name == StringView(u8"gt")) {
+        if (name == StringView("gt")) {
             return '>';
         }
 
-        if (name == StringView(u8"amp")) {
+        if (name == StringView("amp")) {
             return '&';
         }
 
-        if (name == StringView(u8"apos")) {
+        if (name == StringView("apos")) {
             return '\'';
         }
 
-        if (name == StringView(u8"quot")) {
+        if (name == StringView("quot")) {
             return '"';
         }
 
@@ -2530,12 +2517,12 @@ namespace {
         readName(c);
         skipSpaces(c);
 
-        if (startsWith(c, StringView(u8"SYSTEM"))) {
+        if (startsWith(c, StringView("SYSTEM"))) {
             c.p += 6;
             skipSpaces(c);
             readQuoted(c);
             skipSpaces(c);
-        } else if (startsWith(c, StringView(u8"PUBLIC"))) {
+        } else if (startsWith(c, StringView("PUBLIC"))) {
             c.p += 6;
             skipSpaces(c);
             readQuoted(c);
@@ -2559,17 +2546,17 @@ namespace {
                     break;
                 }
 
-                if (startsWith(c, StringView(u8"<!ENTITY"))) {
+                if (startsWith(c, StringView("<!ENTITY"))) {
                     parseEntity(xml, c);
-                } else if (startsWith(c, StringView(u8"<!--"))) {
+                } else if (startsWith(c, StringView("<!--"))) {
                     c.p += 4;
-                    skipPast(c, StringView(u8"-->"));
-                } else if (startsWith(c, StringView(u8"<?"))) {
-                    skipPast(c, StringView(u8"?>"));
-                } else if (startsWith(c, StringView(u8"<!"))) {
+                    skipPast(c, StringView("-->"));
+                } else if (startsWith(c, StringView("<?"))) {
+                    skipPast(c, StringView("?>"));
+                } else if (startsWith(c, StringView("<!"))) {
                     skipDeclaration(c);
                 } else if (*c.p == '%') {
-                    skipPast(c, StringView(u8";"));
+                    skipPast(c, StringView(";"));
                 } else {
                     fail();
                 }
@@ -2600,7 +2587,7 @@ namespace {
     }
 
     static bool resolvePrefix(const Xml& xml, StringView prefix, StringView& uri) {
-        if (prefix == StringView(u8"xml")) {
+        if (prefix == StringView("xml")) {
             uri = xmlNamespace;
 
             return true;
@@ -2647,7 +2634,7 @@ namespace {
             u8 ch = *c.p;
 
             if (ch == '<') {
-                if (startsWith(c, StringView(u8"</"))) {
+                if (startsWith(c, StringView("</"))) {
                     if (inEntity) {
                         fail();
                     }
@@ -2655,18 +2642,18 @@ namespace {
                     return;
                 }
 
-                if (startsWith(c, StringView(u8"<!--"))) {
+                if (startsWith(c, StringView("<!--"))) {
                     c.p += 4;
-                    skipPast(c, StringView(u8"-->"));
+                    skipPast(c, StringView("-->"));
                     continue;
                 }
 
-                if (startsWith(c, StringView(u8"<![CDATA["))) {
+                if (startsWith(c, StringView("<![CDATA["))) {
                     c.p += 9;
 
                     const u8* start = c.p;
 
-                    skipPast(c, StringView(u8"]]>"));
+                    skipPast(c, StringView("]]>"));
 
                     if (text) {
                         text->append(start, c.p - 3 - start);
@@ -2675,12 +2662,12 @@ namespace {
                     continue;
                 }
 
-                if (startsWith(c, StringView(u8"<?"))) {
-                    skipPast(c, StringView(u8"?>"));
+                if (startsWith(c, StringView("<?"))) {
+                    skipPast(c, StringView("?>"));
                     continue;
                 }
 
-                if (startsWith(c, StringView(u8"<!"))) {
+                if (startsWith(c, StringView("<!"))) {
                     fail();
                 }
 
@@ -2802,7 +2789,7 @@ namespace {
         for (size_t i = rawBase; i < xml.raw.length(); i++) {
             StringView attributeName = xml.raw[i].name;
 
-            if (attributeName == StringView(u8"xmlns")) {
+            if (attributeName == StringView("xmlns")) {
                 xml.scopes.pushBack(Scope{StringView(), textOf(*xml.doc, internAttribute(xml, xml.raw[i].value))});
             } else if (attributeName.length() > 6 && memcmp(attributeName.data(), "xmlns:", 6) == 0) {
                 xml.scopes.pushBack(Scope{StringView(attributeName.begin() + 6, attributeName.end()), textOf(*xml.doc, internAttribute(xml, xml.raw[i].value))});
@@ -2844,7 +2831,7 @@ namespace {
 
                 splitName(attributeName, attributePrefix, attributeLocal);
 
-                if (attributeName == StringView(u8"xmlns") || attributePrefix == StringView(u8"xmlns")) {
+                if (attributeName == StringView("xmlns") || attributePrefix == StringView("xmlns")) {
                     continue;
                 }
 
@@ -2857,7 +2844,7 @@ namespace {
                         fail();
                     }
 
-                    if (attributeUri != xlinkNamespace || attributeLocal != StringView(u8"href")) {
+                    if (attributeUri != xlinkNamespace || attributeLocal != StringView("href")) {
                         continue;
                     }
 
@@ -2942,11 +2929,11 @@ namespace {
         while (true) {
             skipSpaces(c);
 
-            if (startsWith(c, StringView(u8"<!--"))) {
+            if (startsWith(c, StringView("<!--"))) {
                 c.p += 4;
-                skipPast(c, StringView(u8"-->"));
-            } else if (startsWith(c, StringView(u8"<?"))) {
-                skipPast(c, StringView(u8"?>"));
+                skipPast(c, StringView("-->"));
+            } else if (startsWith(c, StringView("<?"))) {
+                skipPast(c, StringView("?>"));
             } else {
                 return;
             }
@@ -2979,14 +2966,14 @@ namespace {
         Cursor c{text.begin(), text.end()};
 
         try {
-            if (startsWith(c, StringView(u8"\xef\xbb\xbf"))) {
+            if (startsWith(c, StringView("\xef\xbb\xbf"))) {
                 c.p += 3;
             }
 
             while (true) {
                 skipMisc(c);
 
-                if (startsWith(c, StringView(u8"<!DOCTYPE"))) {
+                if (startsWith(c, StringView("<!DOCTYPE"))) {
                     parseDoctype(xml, c);
                 } else {
                     break;
@@ -3292,7 +3279,7 @@ namespace {
                 } else {
                     StringView name = readIdent(p, end);
 
-                    if (!name.empty() && equalsIgnoreCase(name, StringView(u8"not")) && p < end && *p == '(') {
+                    if (!name.empty() && equalsIgnoreCase(name, StringView("not")) && p < end && *p == '(') {
                         Vector<Compound> inner;
                         u32 best = 0;
 
@@ -3348,15 +3335,15 @@ namespace {
 
                     specificity = addSpecificity(specificity, 1 << 8);
 
-                    if (equalsIgnoreCase(name, StringView(u8"first-child"))) {
+                    if (equalsIgnoreCase(name, StringView("first-child"))) {
                         condition.test = Test::FirstChild;
-                    } else if (equalsIgnoreCase(name, StringView(u8"last-child"))) {
+                    } else if (equalsIgnoreCase(name, StringView("last-child"))) {
                         condition.test = Test::LastChild;
-                    } else if (equalsIgnoreCase(name, StringView(u8"only-child"))) {
+                    } else if (equalsIgnoreCase(name, StringView("only-child"))) {
                         condition.test = Test::OnlyChild;
-                    } else if (equalsIgnoreCase(name, StringView(u8"root"))) {
+                    } else if (equalsIgnoreCase(name, StringView("root"))) {
                         condition.test = Test::Root;
-                    } else if (equalsIgnoreCase(name, StringView(u8"hover")) || equalsIgnoreCase(name, StringView(u8"active")) || equalsIgnoreCase(name, StringView(u8"focus")) || equalsIgnoreCase(name, StringView(u8"visited")) || equalsIgnoreCase(name, StringView(u8"target"))) {
+                    } else if (equalsIgnoreCase(name, StringView("hover")) || equalsIgnoreCase(name, StringView("active")) || equalsIgnoreCase(name, StringView("focus")) || equalsIgnoreCase(name, StringView("visited")) || equalsIgnoreCase(name, StringView("target"))) {
                         condition.test = Test::Never;
                     } else {
                         return false;
@@ -3504,8 +3491,8 @@ namespace {
         const u8* p = text.begin();
 
         while (p < text.end()) {
-            const u8* var = findFunction(StringView(p, text.end()), StringView(u8"var("));
-            const u8* env = findFunction(StringView(p, text.end()), StringView(u8"env("));
+            const u8* var = findFunction(StringView(p, text.end()), StringView("var("));
+            const u8* env = findFunction(StringView(p, text.end()), StringView("env("));
             const u8* at = var && (!env || var < env) ? var : env;
 
             if (!at) {
@@ -3576,7 +3563,7 @@ namespace {
 
             for (const u8* bang = value.end(); bang > value.begin(); bang--) {
                 if (bang[-1] == '!') {
-                    if (equalsIgnoreCase(trim(StringView(bang, value.end())), StringView(u8"important"))) {
+                    if (equalsIgnoreCase(trim(StringView(bang, value.end())), StringView("important"))) {
                         important = true;
                         value = trim(StringView(value.begin(), bang - 1));
                     }
@@ -3593,7 +3580,7 @@ namespace {
 
             u32 property = lookup(doc.atoms, StringView(lowered, name.length()));
 
-            if (StringView(lowered, name.length()) == StringView(u8"-webkit-clip-path")) {
+            if (StringView(lowered, name.length()) == StringView("-webkit-clip-path")) {
                 property = AtomClipPathProperty;
             }
 
@@ -3607,7 +3594,7 @@ namespace {
 
             Buffer substituted;
 
-            if (findFunction(value, StringView(u8"var(")) || findFunction(value, StringView(u8"env("))) {
+            if (findFunction(value, StringView("var(")) || findFunction(value, StringView("env("))) {
                 if (!substituteFallbacks(value, substituted, 0)) {
                     continue;
                 }
@@ -3627,7 +3614,7 @@ namespace {
                 continue;
             }
 
-            if (property == AtomD && startsWithIgnoreCase(value, StringView(u8"path(")) && value.back() == ')') {
+            if (property == AtomD && startsWithIgnoreCase(value, StringView("path(")) && value.back() == ')') {
                 StringView inner = trim(StringView(value.begin() + 5, value.end() - 1));
 
                 if (inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0]) {
@@ -4033,25 +4020,25 @@ namespace {
         Color color;
         Length length;
 
-        if (equalsIgnoreCase(text, StringView(u8"inherit")) || equalsIgnoreCase(text, StringView(u8"initial")) || equalsIgnoreCase(text, StringView(u8"unset"))) {
+        if (equalsIgnoreCase(text, StringView("inherit")) || equalsIgnoreCase(text, StringView("initial")) || equalsIgnoreCase(text, StringView("unset"))) {
             return true;
         }
 
         switch (property) {
             case AtomFill:
             case AtomStroke:
-                return parsePaint(doc, text, paint) || equalsIgnoreCase(text, StringView(u8"context-fill")) || equalsIgnoreCase(text, StringView(u8"context-stroke"));
+                return parsePaint(doc, text, paint) || equalsIgnoreCase(text, StringView("context-fill")) || equalsIgnoreCase(text, StringView("context-stroke"));
             case AtomColor:
             case AtomStopColor:
             case AtomFloodColor:
             case AtomLightingColor:
-                return parseColor(text, color) || equalsIgnoreCase(text, StringView(u8"currentcolor"));
+                return parseColor(text, color) || equalsIgnoreCase(text, StringView("currentcolor"));
             case AtomStrokeDasharray:
-                return equalsIgnoreCase(text, StringView(u8"none")) || validDashes(text);
+                return equalsIgnoreCase(text, StringView("none")) || validDashes(text);
             case AtomStrokeWidth:
                 return parseLength(text, length) && length.value >= 0.f;
             case AtomShapeRendering:
-                return equalsIgnoreCase(text, StringView(u8"auto")) || equalsIgnoreCase(text, StringView(u8"optimizespeed")) || equalsIgnoreCase(text, StringView(u8"crispedges")) || equalsIgnoreCase(text, StringView(u8"geometricprecision"));
+                return equalsIgnoreCase(text, StringView("auto")) || equalsIgnoreCase(text, StringView("optimizespeed")) || equalsIgnoreCase(text, StringView("crispedges")) || equalsIgnoreCase(text, StringView("geometricprecision"));
             default:
                 return true;
         }
@@ -4071,7 +4058,7 @@ namespace {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
-                if (findFunction(text, StringView(u8"env("))) {
+                if (findFunction(text, StringView("env("))) {
                     Buffer substituted;
 
                     value = substituteFallbacks(text, substituted, 0) ? intern(doc.atoms, trim(keep(*doc.pool, substituted.data(), substituted.length()))) : 0;
@@ -4173,7 +4160,7 @@ namespace {
             if (node->name == AtomStyle && !node->text.empty()) {
                 u32 type = attribute(node, AtomType);
 
-                if (!type || textOf(doc, type).empty() || equalsIgnoreCase(trim(textOf(doc, type)), StringView(u8"text/css"))) {
+                if (!type || textOf(doc, type).empty() || equalsIgnoreCase(trim(textOf(doc, type)), StringView("text/css"))) {
                     parseSheet(doc, rules, node->text);
                 }
             }
@@ -4516,8 +4503,8 @@ namespace {
         }
 
         StringView name = trim(StringView(text.begin(), open));
-        bool hsl = equalsIgnoreCase(name, StringView(u8"hsl")) || equalsIgnoreCase(name, StringView(u8"hsla"));
-        bool rgb = equalsIgnoreCase(name, StringView(u8"rgb")) || equalsIgnoreCase(name, StringView(u8"rgba"));
+        bool hsl = equalsIgnoreCase(name, StringView("hsl")) || equalsIgnoreCase(name, StringView("hsla"));
+        bool rgb = equalsIgnoreCase(name, StringView("rgb")) || equalsIgnoreCase(name, StringView("rgba"));
 
         if (!hsl && !rgb) {
             return false;
@@ -4563,12 +4550,12 @@ namespace {
                     return false;
                 }
 
-                if (end - p >= 3 && equalsIgnoreCase(StringView(p, p + 3), StringView(u8"deg"))) {
+                if (end - p >= 3 && equalsIgnoreCase(StringView(p, p + 3), StringView("deg"))) {
                     p += 3;
-                } else if (end - p >= 4 && equalsIgnoreCase(StringView(p, p + 4), StringView(u8"turn"))) {
+                } else if (end - p >= 4 && equalsIgnoreCase(StringView(p, p + 4), StringView("turn"))) {
                     p += 4;
                     hue *= 360.f;
-                } else if (end - p >= 3 && equalsIgnoreCase(StringView(p, p + 3), StringView(u8"rad"))) {
+                } else if (end - p >= 3 && equalsIgnoreCase(StringView(p, p + 3), StringView("rad"))) {
                     p += 3;
                     hue *= 180.f / pi;
                 }
@@ -4648,7 +4635,7 @@ namespace {
             return true;
         }
 
-        if (equalsIgnoreCase(text, StringView(u8"transparent"))) {
+        if (equalsIgnoreCase(text, StringView("transparent"))) {
             out = Color{0.f, 0.f, 0.f, 0.f};
 
             return true;
@@ -4684,19 +4671,19 @@ namespace {
         out.fallback = PaintKind::None;
         out.context = false;
 
-        if (equalsIgnoreCase(text, StringView(u8"none"))) {
+        if (equalsIgnoreCase(text, StringView("none"))) {
             out.kind = PaintKind::None;
 
             return true;
         }
 
-        if (equalsIgnoreCase(text, StringView(u8"currentcolor"))) {
+        if (equalsIgnoreCase(text, StringView("currentcolor"))) {
             out.kind = PaintKind::CurrentColor;
 
             return true;
         }
 
-        if (startsWithIgnoreCase(text, StringView(u8"url("))) {
+        if (startsWithIgnoreCase(text, StringView("url("))) {
             const u8* close = text.begin() + 4;
 
             while (close < text.end() && isSpace(*close)) {
@@ -4734,9 +4721,9 @@ namespace {
             StringView fallback = trim(StringView(close + 1, text.end()));
 
             if (!fallback.empty()) {
-                if (equalsIgnoreCase(fallback, StringView(u8"none"))) {
+                if (equalsIgnoreCase(fallback, StringView("none"))) {
                     out.fallback = PaintKind::None;
-                } else if (equalsIgnoreCase(fallback, StringView(u8"currentcolor"))) {
+                } else if (equalsIgnoreCase(fallback, StringView("currentcolor"))) {
                     out.fallback = PaintKind::CurrentColor;
                 } else if (parseColor(fallback, out.fallbackColor)) {
                     out.fallback = PaintKind::Color;
@@ -4762,7 +4749,7 @@ namespace {
         const u8* end = text.end();
         Matrix result = identity();
 
-        if (equalsIgnoreCase(trim(text), StringView(u8"none"))) {
+        if (equalsIgnoreCase(trim(text), StringView("none"))) {
             out = result;
 
             return true;
@@ -4845,13 +4832,13 @@ namespace {
 
                 StringView unit(unitStart, p);
 
-                if (equalsIgnoreCase(unit, StringView(u8"rad"))) {
+                if (equalsIgnoreCase(unit, StringView("rad"))) {
                     args[count] *= 180.f / pi;
-                } else if (equalsIgnoreCase(unit, StringView(u8"grad"))) {
+                } else if (equalsIgnoreCase(unit, StringView("grad"))) {
                     args[count] *= 0.9f;
-                } else if (equalsIgnoreCase(unit, StringView(u8"turn"))) {
+                } else if (equalsIgnoreCase(unit, StringView("turn"))) {
                     args[count] *= 360.f;
-                } else if (!unit.empty() && !equalsIgnoreCase(unit, StringView(u8"deg")) && !equalsIgnoreCase(unit, StringView(u8"px"))) {
+                } else if (!unit.empty() && !equalsIgnoreCase(unit, StringView("deg")) && !equalsIgnoreCase(unit, StringView("px"))) {
                     return false;
                 }
 
@@ -4877,23 +4864,23 @@ namespace {
 
             Matrix m;
 
-            if (name == StringView(u8"translateX") && count == 1) {
-                name = StringView(u8"translate");
-            } else if (name == StringView(u8"translateY") && count == 1) {
-                name = StringView(u8"translate");
+            if (name == StringView("translateX") && count == 1) {
+                name = StringView("translate");
+            } else if (name == StringView("translateY") && count == 1) {
+                name = StringView("translate");
                 args[1] = args[0];
                 args[0] = 0.f;
                 count = 2;
-            } else if (name == StringView(u8"scaleX") && count == 1) {
-                name = StringView(u8"scale");
+            } else if (name == StringView("scaleX") && count == 1) {
+                name = StringView("scale");
                 args[1] = 1.f;
                 count = 2;
-            } else if (name == StringView(u8"scaleY") && count == 1) {
-                name = StringView(u8"scale");
+            } else if (name == StringView("scaleY") && count == 1) {
+                name = StringView("scale");
                 args[1] = args[0];
                 args[0] = 1.f;
                 count = 2;
-            } else if (name == StringView(u8"skew") && (count == 1 || count == 2)) {
+            } else if (name == StringView("skew") && (count == 1 || count == 2)) {
                 float ax = tanf(args[0] * pi / 180.f);
                 float ay = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
 
@@ -4901,13 +4888,13 @@ namespace {
                 continue;
             }
 
-            if (name == StringView(u8"matrix") && count == 6) {
+            if (name == StringView("matrix") && count == 6) {
                 m = Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
-            } else if (name == StringView(u8"translate") && (count == 1 || count == 2)) {
+            } else if (name == StringView("translate") && (count == 1 || count == 2)) {
                 m = translation(args[0], count == 2 ? args[1] : 0.f);
-            } else if (name == StringView(u8"scale") && (count == 1 || count == 2)) {
+            } else if (name == StringView("scale") && (count == 1 || count == 2)) {
                 m = scaling(args[0], count == 2 ? args[1] : args[0]);
-            } else if (name == StringView(u8"rotate") && (count == 1 || count == 3)) {
+            } else if (name == StringView("rotate") && (count == 1 || count == 3)) {
                 float angle = args[0] * pi / 180.f;
                 float cs = cosf(angle);
                 float sn = sinf(angle);
@@ -4917,9 +4904,9 @@ namespace {
                 if (count == 3) {
                     m = multiply(multiply(translation(args[1], args[2]), m), translation(-args[1], -args[2]));
                 }
-            } else if (name == StringView(u8"skewX") && count == 1) {
+            } else if (name == StringView("skewX") && count == 1) {
                 m = Matrix{1.f, 0.f, tanf(args[0] * pi / 180.f), 1.f, 0.f, 0.f};
-            } else if (name == StringView(u8"skewY") && count == 1) {
+            } else if (name == StringView("skewY") && count == 1) {
                 m = Matrix{1.f, tanf(args[0] * pi / 180.f), 0.f, 1.f, 0.f, 0.f};
             } else {
                 return false;
@@ -5101,7 +5088,7 @@ namespace {
 
             StringView align(start, p);
 
-            if (align == StringView(u8"defer")) {
+            if (align == StringView("defer")) {
                 while (p < end && isSpace(*p)) {
                     p++;
                 }
@@ -5115,21 +5102,21 @@ namespace {
                 align = StringView(start, p);
             }
 
-            if (align == StringView(u8"none")) {
+            if (align == StringView("none")) {
                 none = true;
             } else if (align.length() == 8 && align[0] == 'x' && align[4] == 'Y') {
                 StringView ax(align.begin() + 1, align.begin() + 4);
                 StringView ay(align.begin() + 5, align.end());
 
-                alignX = ax == StringView(u8"Min") ? 0 : (ax == StringView(u8"Mid") ? 1 : 2);
-                alignY = ay == StringView(u8"Min") ? 0 : (ay == StringView(u8"Mid") ? 1 : 2);
+                alignX = ax == StringView("Min") ? 0 : (ax == StringView("Mid") ? 1 : 2);
+                alignY = ay == StringView("Min") ? 0 : (ay == StringView("Mid") ? 1 : 2);
             }
 
             while (p < end && isSpace(*p)) {
                 p++;
             }
 
-            slice = StringView(p, end) == StringView(u8"slice");
+            slice = StringView(p, end) == StringView("slice");
         }
 
         if (none) {
@@ -6267,23 +6254,23 @@ namespace {
 
         StringView unit(p, end);
 
-        if (equalsIgnoreCase(unit, StringView(u8"deg"))) {
+        if (equalsIgnoreCase(unit, StringView("deg"))) {
             return true;
         }
 
-        if (equalsIgnoreCase(unit, StringView(u8"rad"))) {
+        if (equalsIgnoreCase(unit, StringView("rad"))) {
             out *= 180.f / pi;
 
             return true;
         }
 
-        if (equalsIgnoreCase(unit, StringView(u8"grad"))) {
+        if (equalsIgnoreCase(unit, StringView("grad"))) {
             out *= 0.9f;
 
             return true;
         }
 
-        if (equalsIgnoreCase(unit, StringView(u8"turn"))) {
+        if (equalsIgnoreCase(unit, StringView("turn"))) {
             out *= 360.f;
 
             return true;
@@ -6314,30 +6301,30 @@ namespace {
 
         memcpy(m, identity, sizeof(identity));
 
-        if (name == StringView(u8"grayscale")) {
+        if (name == StringView("grayscale")) {
             float t[20] = {0.2126f + 0.7874f * b, 0.7152f - 0.7152f * b, 0.0722f - 0.0722f * b, 0, 0, 0.2126f - 0.2126f * b, 0.7152f + 0.2848f * b, 0.0722f - 0.0722f * b, 0, 0, 0.2126f - 0.2126f * b, 0.7152f - 0.7152f * b, 0.0722f + 0.9278f * b, 0, 0, 0, 0, 0, 1, 0};
 
             memcpy(m, t, sizeof(t));
-        } else if (name == StringView(u8"sepia")) {
+        } else if (name == StringView("sepia")) {
             float t[20] = {0.393f + 0.607f * b, 0.769f - 0.769f * b, 0.189f - 0.189f * b, 0, 0, 0.349f - 0.349f * b, 0.686f + 0.314f * b, 0.168f - 0.168f * b, 0, 0, 0.272f - 0.272f * b, 0.534f - 0.534f * b, 0.131f + 0.869f * b, 0, 0, 0, 0, 0, 1, 0};
 
             memcpy(m, t, sizeof(t));
-        } else if (name == StringView(u8"saturate")) {
+        } else if (name == StringView("saturate")) {
             float t[20] = {0.213f + 0.787f * a, 0.715f - 0.715f * a, 0.072f - 0.072f * a, 0, 0, 0.213f - 0.213f * a, 0.715f + 0.285f * a, 0.072f - 0.072f * a, 0, 0, 0.213f - 0.213f * a, 0.715f - 0.715f * a, 0.072f + 0.928f * a, 0, 0, 0, 0, 0, 1, 0};
 
             memcpy(m, t, sizeof(t));
-        } else if (name == StringView(u8"invert")) {
+        } else if (name == StringView("invert")) {
             for (int k = 0; k < 3; k++) {
                 m[k * 6] = 1.f - 2.f * a;
                 m[k * 5 + 4] = a;
             }
-        } else if (name == StringView(u8"opacity")) {
+        } else if (name == StringView("opacity")) {
             m[18] = a;
-        } else if (name == StringView(u8"brightness")) {
+        } else if (name == StringView("brightness")) {
             for (int k = 0; k < 3; k++) {
                 m[k * 6] = a;
             }
-        } else if (name == StringView(u8"contrast")) {
+        } else if (name == StringView("contrast")) {
             for (int k = 0; k < 3; k++) {
                 m[k * 6] = a;
                 m[k * 5 + 4] = 0.5f - 0.5f * a;
@@ -6435,7 +6422,7 @@ namespace {
                 return false;
             }
 
-            if (!equalsIgnoreCase(tokens[k], StringView(u8"currentcolor")) && !parseColor(tokens[k], item.color)) {
+            if (!equalsIgnoreCase(tokens[k], StringView("currentcolor")) && !parseColor(tokens[k], item.color)) {
                 return false;
             }
 
@@ -6503,7 +6490,7 @@ namespace {
             p++;
             memset(&item, 0, sizeof(item));
 
-            if (equalsIgnoreCase(name, StringView(u8"url"))) {
+            if (equalsIgnoreCase(name, StringView("url"))) {
                 if (args.length() >= 2 && (args[0] == '"' || args[0] == '\'') && args.back() == args[0]) {
                     args = trim(StringView(args.begin() + 1, args.end() - 1));
                 }
@@ -6513,7 +6500,7 @@ namespace {
                 if (!args.empty() && args[0] == '#') {
                     item.reference = fragmentAtom(doc, StringView(args.begin() + 1, args.end()));
                 }
-            } else if (equalsIgnoreCase(name, StringView(u8"blur"))) {
+            } else if (equalsIgnoreCase(name, StringView("blur"))) {
                 float sigma = 0.f;
 
                 if (!args.empty() && (!readFilterLength(args, false, style, vp, sigma) || sigma < 0.f)) {
@@ -6523,13 +6510,13 @@ namespace {
                 item.kind = FilterFunction::Blur;
                 item.values[0] = sigma;
                 item.values[1] = sigma;
-            } else if (equalsIgnoreCase(name, StringView(u8"drop-shadow"))) {
+            } else if (equalsIgnoreCase(name, StringView("drop-shadow"))) {
                 item.kind = FilterFunction::DropShadow;
 
                 if (!parseDropShadow(args, style, vp, item)) {
                     return false;
                 }
-            } else if (equalsIgnoreCase(name, StringView(u8"hue-rotate"))) {
+            } else if (equalsIgnoreCase(name, StringView("hue-rotate"))) {
                 float angle;
 
                 if (!readFilterAngle(args, angle)) {
@@ -6553,7 +6540,7 @@ namespace {
                     return false;
                 }
 
-                if (known != StringView(u8"saturate") && known != StringView(u8"brightness") && known != StringView(u8"contrast")) {
+                if (known != StringView("saturate") && known != StringView("brightness") && known != StringView("contrast")) {
                     amount = amount > 1.f ? 1.f : amount;
                 }
 
@@ -6610,21 +6597,21 @@ namespace {
             StringView word = words[i];
             Length length;
 
-            if (equalsIgnoreCase(word, StringView(u8"left")) || equalsIgnoreCase(word, StringView(u8"right"))) {
+            if (equalsIgnoreCase(word, StringView("left")) || equalsIgnoreCase(word, StringView("right"))) {
                 if (xSet) {
                     return false;
                 }
 
-                x = Length{equalsIgnoreCase(word, StringView(u8"left")) ? 0.f : 100.f, Unit::Percent};
+                x = Length{equalsIgnoreCase(word, StringView("left")) ? 0.f : 100.f, Unit::Percent};
                 xSet = true;
-            } else if (equalsIgnoreCase(word, StringView(u8"top")) || equalsIgnoreCase(word, StringView(u8"bottom"))) {
+            } else if (equalsIgnoreCase(word, StringView("top")) || equalsIgnoreCase(word, StringView("bottom"))) {
                 if (ySet) {
                     return false;
                 }
 
-                y = Length{equalsIgnoreCase(word, StringView(u8"top")) ? 0.f : 100.f, Unit::Percent};
+                y = Length{equalsIgnoreCase(word, StringView("top")) ? 0.f : 100.f, Unit::Percent};
                 ySet = true;
-            } else if (equalsIgnoreCase(word, StringView(u8"center"))) {
+            } else if (equalsIgnoreCase(word, StringView("center"))) {
                 if (i == 0 && !xSet) {
                     xSet = count == 1;
                 }
@@ -6706,11 +6693,11 @@ namespace {
                 continue;
             }
 
-            if (equalsIgnoreCase(name, StringView(u8"fill-box")) || equalsIgnoreCase(name, StringView(u8"content-box")) || equalsIgnoreCase(name, StringView(u8"padding-box"))) {
+            if (equalsIgnoreCase(name, StringView("fill-box")) || equalsIgnoreCase(name, StringView("content-box")) || equalsIgnoreCase(name, StringView("padding-box"))) {
                 out.box = GeometryBox::Fill;
-            } else if (equalsIgnoreCase(name, StringView(u8"stroke-box")) || equalsIgnoreCase(name, StringView(u8"border-box")) || equalsIgnoreCase(name, StringView(u8"margin-box"))) {
+            } else if (equalsIgnoreCase(name, StringView("stroke-box")) || equalsIgnoreCase(name, StringView("border-box")) || equalsIgnoreCase(name, StringView("margin-box"))) {
                 out.box = GeometryBox::Stroke;
-            } else if (equalsIgnoreCase(name, StringView(u8"view-box"))) {
+            } else if (equalsIgnoreCase(name, StringView("view-box"))) {
                 out.box = GeometryBox::View;
             } else {
                 return false;
@@ -6723,8 +6710,8 @@ namespace {
     static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out) {
         const u8* end = args.end();
 
-        if (equalsIgnoreCase(name, StringView(u8"circle")) || equalsIgnoreCase(name, StringView(u8"ellipse"))) {
-            bool circle = equalsIgnoreCase(name, StringView(u8"circle"));
+        if (equalsIgnoreCase(name, StringView("circle")) || equalsIgnoreCase(name, StringView("ellipse"))) {
+            bool circle = equalsIgnoreCase(name, StringView("circle"));
             const u8* p = args.begin();
             u32 radii = 0;
 
@@ -6739,7 +6726,7 @@ namespace {
                     break;
                 }
 
-                if (equalsIgnoreCase(word, StringView(u8"at"))) {
+                if (equalsIgnoreCase(word, StringView("at"))) {
                     return parsePosition(StringView(p, end), out.values[2], out.values[3]);
                 }
 
@@ -6749,9 +6736,9 @@ namespace {
 
                 Length radius;
 
-                if (equalsIgnoreCase(word, StringView(u8"closest-side"))) {
+                if (equalsIgnoreCase(word, StringView("closest-side"))) {
                     radius = Length{-1.f, Unit::Number};
-                } else if (equalsIgnoreCase(word, StringView(u8"farthest-side"))) {
+                } else if (equalsIgnoreCase(word, StringView("farthest-side"))) {
                     radius = Length{-2.f, Unit::Number};
                 } else if (!parseLength(word, radius) || radius.value < 0.f) {
                     return false;
@@ -6770,7 +6757,7 @@ namespace {
             return true;
         }
 
-        if (equalsIgnoreCase(name, StringView(u8"inset"))) {
+        if (equalsIgnoreCase(name, StringView("inset"))) {
             const u8* p = args.begin();
             u32 count = 0;
 
@@ -6779,7 +6766,7 @@ namespace {
             while (true) {
                 StringView word = shapeWord(p, end);
 
-                if (word.empty() || equalsIgnoreCase(word, StringView(u8"round"))) {
+                if (word.empty() || equalsIgnoreCase(word, StringView("round"))) {
                     break;
                 }
 
@@ -6801,7 +6788,7 @@ namespace {
             return true;
         }
 
-        if (equalsIgnoreCase(name, StringView(u8"polygon"))) {
+        if (equalsIgnoreCase(name, StringView("polygon"))) {
             const u8* p = args.begin();
             Vector<Length> points;
 
@@ -6819,8 +6806,8 @@ namespace {
 
             StringView first = trim(StringView(p, comma));
 
-            if (equalsIgnoreCase(first, StringView(u8"evenodd")) || equalsIgnoreCase(first, StringView(u8"nonzero"))) {
-                out.rule = equalsIgnoreCase(first, StringView(u8"evenodd")) ? WindingEvenOdd : WindingNonZero;
+            if (equalsIgnoreCase(first, StringView("evenodd")) || equalsIgnoreCase(first, StringView("nonzero"))) {
+                out.rule = equalsIgnoreCase(first, StringView("evenodd")) ? WindingEvenOdd : WindingNonZero;
                 p = comma < end ? comma + 1 : end;
             }
 
@@ -7236,7 +7223,7 @@ namespace {
                             break;
                         }
 
-                        u8 layer = equalsIgnoreCase(word, StringView(u8"fill")) ? 0 : (equalsIgnoreCase(word, StringView(u8"stroke")) ? 1 : (equalsIgnoreCase(word, StringView(u8"markers")) ? 2 : 3));
+                        u8 layer = equalsIgnoreCase(word, StringView("fill")) ? 0 : (equalsIgnoreCase(word, StringView("stroke")) ? 1 : (equalsIgnoreCase(word, StringView("markers")) ? 2 : 3));
 
                         for (u32 k = 0; k < count; k++) {
                             valid = valid && order[k] != layer;
@@ -7316,13 +7303,13 @@ namespace {
                             break;
                         }
 
-                        if (equalsIgnoreCase(word, StringView(u8"solid"))) {
+                        if (equalsIgnoreCase(word, StringView("solid"))) {
                             solid = true;
-                        } else if (equalsIgnoreCase(word, StringView(u8"thin"))) {
+                        } else if (equalsIgnoreCase(word, StringView("thin"))) {
                             width = 1.f;
-                        } else if (equalsIgnoreCase(word, StringView(u8"medium"))) {
+                        } else if (equalsIgnoreCase(word, StringView("medium"))) {
                             width = 3.f;
-                        } else if (equalsIgnoreCase(word, StringView(u8"thick"))) {
+                        } else if (equalsIgnoreCase(word, StringView("thick"))) {
                             width = 5.f;
                         } else if (parseLength(word, length) && length.unit != Unit::Percent) {
                             width = resolveLength(length, Axis::Other, vp, style.fontSize);
@@ -7741,8 +7728,8 @@ namespace {
 
         u32 units = patternAttribute(doc, pattern, AtomPatternUnits, nullptr);
         u32 contentUnits = patternAttribute(doc, pattern, AtomPatternContentUnits, nullptr);
-        bool boxUnits = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
-        bool boxContent = contentUnits && textOf(doc, contentUnits) == StringView(u8"objectBoundingBox");
+        bool boxUnits = !units || textOf(doc, units) != StringView("userSpaceOnUse");
+        bool boxContent = contentUnits && textOf(doc, contentUnits) == StringView("objectBoundingBox");
         float bw = bbox.x1 - bbox.x0;
         float bh = bbox.y1 - bbox.y0;
 
@@ -7912,7 +7899,7 @@ namespace {
     static DevicePaint* gradientPaint(Lowering& l, Node* gradient, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
         const Document& doc = *l.doc;
         u32 units = gradientAttribute(doc, gradient, AtomGradientUnits);
-        bool boxUnits = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+        bool boxUnits = !units || textOf(doc, units) != StringView("userSpaceOnUse");
         Node* stopsNode = gradientStops(doc, gradient);
         Vector<GradientStop> stops;
 
@@ -8022,9 +8009,9 @@ namespace {
 
         paint->spread = SpreadPad;
 
-        if (spread && textOf(doc, spread) == StringView(u8"reflect")) {
+        if (spread && textOf(doc, spread) == StringView("reflect")) {
             paint->spread = SpreadReflect;
-        } else if (spread && textOf(doc, spread) == StringView(u8"repeat")) {
+        } else if (spread && textOf(doc, spread) == StringView("repeat")) {
             paint->spread = SpreadRepeat;
         }
 
@@ -8071,7 +8058,7 @@ namespace {
 
     static bool degenerateBox(const Document& doc, Node* gradient, const Box& bbox) {
         u32 units = gradientAttribute(doc, gradient, AtomGradientUnits);
-        bool boxUnits = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+        bool boxUnits = !units || textOf(doc, units) != StringView("userSpaceOnUse");
 
         return boxUnits && (!boxValid(bbox) || bbox.x1 - bbox.x0 <= 0.f || bbox.y1 - bbox.y0 <= 0.f);
     }
@@ -8356,7 +8343,7 @@ namespace {
         }
 
         u32 units = meshAttribute(doc, mesh, AtomGradientUnits);
-        bool boxUnits = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+        bool boxUnits = !units || textOf(doc, units) != StringView("userSpaceOnUse");
         Matrix space = ctm;
 
         if (boxUnits) {
@@ -8473,7 +8460,7 @@ namespace {
         }
 
         u32 type = meshAttribute(doc, mesh, AtomType);
-        bool bicubic = type && textOf(doc, type) == StringView(u8"bicubic");
+        bool bicubic = type && textOf(doc, type) == StringView("bicubic");
         Vector<Color> horizontalSlopes;
         Vector<Color> verticalSlopes;
 
@@ -8925,7 +8912,7 @@ namespace {
         op.clipFirst = (u32)l.clips.length();
         op.clipCount = 0;
 
-        if (units && textOf(doc, units) == StringView(u8"objectBoundingBox")) {
+        if (units && textOf(doc, units) == StringView("objectBoundingBox")) {
             Box box;
 
             if (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0) {
@@ -9119,8 +9106,8 @@ namespace {
 
         u32 units = attribute(mask, AtomMaskUnits);
         u32 contentUnits = attribute(mask, AtomMaskContentUnits);
-        bool boxRegion = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
-        bool boxContent = contentUnits && textOf(doc, contentUnits) == StringView(u8"objectBoundingBox");
+        bool boxRegion = !units || textOf(doc, units) != StringView("userSpaceOnUse");
+        bool boxContent = contentUnits && textOf(doc, contentUnits) == StringView("objectBoundingBox");
         const ComputedStyle& maskStyle = documentStyle(l, mask, vp);
         Box box = emptyBox();
         float x;
@@ -9260,27 +9247,27 @@ namespace {
 
         StringView text = trim(textOf(doc, value));
 
-        if (text == StringView(u8"SourceGraphic")) {
+        if (text == StringView("SourceGraphic")) {
             return InputSourceGraphic;
         }
 
-        if (text == StringView(u8"SourceAlpha")) {
+        if (text == StringView("SourceAlpha")) {
             return InputSourceAlpha;
         }
 
-        if (text == StringView(u8"BackgroundImage")) {
+        if (text == StringView("BackgroundImage")) {
             return InputBackgroundImage;
         }
 
-        if (text == StringView(u8"BackgroundAlpha")) {
+        if (text == StringView("BackgroundAlpha")) {
             return InputBackgroundAlpha;
         }
 
-        if (text == StringView(u8"FillPaint")) {
+        if (text == StringView("FillPaint")) {
             return InputFillPaint;
         }
 
-        if (text == StringView(u8"StrokePaint")) {
+        if (text == StringView("StrokePaint")) {
             return InputStrokePaint;
         }
 
@@ -9316,13 +9303,13 @@ namespace {
         Filter* filter = l.pool->make<Filter>();
         u32 units = attribute(filterNode, AtomFilterUnits);
         u32 primitiveUnits = attribute(filterNode, AtomPrimitiveUnits);
-        bool boxRegion = !units || textOf(doc, units) != StringView(u8"userSpaceOnUse");
+        bool boxRegion = !units || textOf(doc, units) != StringView("userSpaceOnUse");
         IntBox canvas{0, 0, (int)l.width, (int)l.height};
         Box bbox;
 
         filter->doc = l.doc;
         filter->ctm = m;
-        filter->boxPrimitives = primitiveUnits && textOf(doc, primitiveUnits) == StringView(u8"objectBoundingBox");
+        filter->boxPrimitives = primitiveUnits && textOf(doc, primitiveUnits) == StringView("objectBoundingBox");
         filter->region = IntBox{0, 0, 0, 0};
         filter->count = 0;
         filter->primitives = nullptr;
@@ -9768,15 +9755,15 @@ namespace {
 
         StringView unit(p, text.end());
 
-        if (unit.empty() || equalsIgnoreCase(unit, StringView(u8"deg"))) {
+        if (unit.empty() || equalsIgnoreCase(unit, StringView("deg"))) {
             return true;
         }
 
-        if (equalsIgnoreCase(unit, StringView(u8"rad"))) {
+        if (equalsIgnoreCase(unit, StringView("rad"))) {
             out *= 180.f / pi;
-        } else if (equalsIgnoreCase(unit, StringView(u8"grad"))) {
+        } else if (equalsIgnoreCase(unit, StringView("grad"))) {
             out *= 0.9f;
-        } else if (equalsIgnoreCase(unit, StringView(u8"turn"))) {
+        } else if (equalsIgnoreCase(unit, StringView("turn"))) {
             out *= 360.f;
         } else {
             return false;
@@ -9808,9 +9795,9 @@ namespace {
         if (orient) {
             StringView text = trim(textOf(doc, orient));
 
-            if (text == StringView(u8"auto")) {
+            if (text == StringView("auto")) {
                 angle = autoAngle;
-            } else if (text == StringView(u8"auto-start-reverse")) {
+            } else if (text == StringView("auto-start-reverse")) {
                 angle = start ? autoAngle + 180.f : autoAngle;
             } else if (!readAngle(text, angle)) {
                 angle = 0.f;
@@ -9818,7 +9805,7 @@ namespace {
         }
 
         u32 units = attribute(marker, AtomMarkerUnits);
-        bool userUnits = units && trim(textOf(doc, units)) == StringView(u8"userSpaceOnUse");
+        bool userUnits = units && trim(textOf(doc, units)) == StringView("userSpaceOnUse");
         float scale = userUnits ? 1.f : shapeStyle.strokeWidth;
         bool device = shapeStyle.nonScaling && !userUnits;
         const MarkerVertex& vertex = device ? deviceVertex : userVertex;
@@ -10322,7 +10309,7 @@ namespace {
     static bool decodeDataUri(StringView href, StringView& mime, Buffer& out) {
         StringView text = trim(href);
 
-        if (!startsWithIgnoreCase(text, StringView(u8"data:"))) {
+        if (!startsWithIgnoreCase(text, StringView("data:"))) {
             return false;
         }
 
@@ -10337,7 +10324,7 @@ namespace {
         }
 
         StringView header(text.begin() + 5, comma);
-        bool base64 = header.length() >= 7 && equalsIgnoreCase(StringView(header.end() - 7, header.end()), StringView(u8";base64"));
+        bool base64 = header.length() >= 7 && equalsIgnoreCase(StringView(header.end() - 7, header.end()), StringView(";base64"));
         const u8* semicolon = header.begin();
 
         while (semicolon < header.end() && *semicolon != ';') {
@@ -10396,7 +10383,7 @@ namespace {
     static bool isAuto(const Document& doc, const Node* node, u32 name) {
         u32 value = attribute(node, name);
 
-        return !value || equalsIgnoreCase(trim(textOf(doc, value)), StringView(u8"auto"));
+        return !value || equalsIgnoreCase(trim(textOf(doc, value)), StringView("auto"));
     }
 
     // Holds a decoded raster image for the pool of the render that uses it.
@@ -10468,10 +10455,10 @@ namespace {
         }
 
         StringView reference = trim(textOf(doc, href));
-        bool remote = startsWithIgnoreCase(reference, StringView(u8"http:")) || startsWithIgnoreCase(reference, StringView(u8"https:")) || (!reference.empty() && reference[0] == '#');
+        bool remote = startsWithIgnoreCase(reference, StringView("http:")) || startsWithIgnoreCase(reference, StringView("https:")) || (!reference.empty() && reference[0] == '#');
         StringView fragment;
 
-        if (startsWithIgnoreCase(reference, StringView(u8"data:"))) {
+        if (startsWithIgnoreCase(reference, StringView("data:"))) {
             for (const u8* p = reference.end(); p > reference.begin(); p--) {
                 if (p[-1] == '#') {
                     fragment = StringView(p, reference.end());
@@ -10489,7 +10476,7 @@ namespace {
 
         StringView data = keep(*l.pool, bytes.data(), bytes.length());
 
-        if (equalsIgnoreCase(mime, StringView(u8"image/svg+xml")) && !broken) {
+        if (equalsIgnoreCase(mime, StringView("image/svg+xml")) && !broken) {
             if (l.imageDepth >= 16) {
                 return false;
             }
@@ -10594,7 +10581,7 @@ namespace {
     static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
         const Document& doc = *l.doc;
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
-        bool stretch = ratio && trim(textOf(doc, ratio)) == StringView(u8"none");
+        bool stretch = ratio && trim(textOf(doc, ratio)) == StringView("none");
         Box viewBox = source.sizeless ? Box{0.f, 0.f, w, h} : source.viewBox;
         Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
         Matrix place = multiply(m, fit);
@@ -10741,7 +10728,7 @@ namespace {
         Matrix m;
         Box bounds;
 
-        if (!(box == StringView(u8"fill-box") || box == StringView(u8"stroke-box")) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m)) {
+        if (!(box == StringView("fill-box") || box == StringView("stroke-box")) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m)) {
             return originTransform(doc, node, AtomTransform, vp);
         }
 
@@ -10767,7 +10754,7 @@ namespace {
 
         StringView reference = trim(textOf(doc, href));
 
-        return startsWithIgnoreCase(reference, StringView(u8"data:")) || startsWithIgnoreCase(reference, StringView(u8"http:")) || startsWithIgnoreCase(reference, StringView(u8"https:")) || (!reference.empty() && reference[0] == '#');
+        return startsWithIgnoreCase(reference, StringView("data:")) || startsWithIgnoreCase(reference, StringView("http:")) || startsWithIgnoreCase(reference, StringView("https:")) || (!reference.empty() && reference[0] == '#');
     }
 
     static bool relativeLengths(const Document& doc, const Node* node, u32 depth) {
@@ -10871,7 +10858,7 @@ namespace {
 
             StringView language(start, p);
 
-            if (equalsIgnoreCase(language, StringView(u8"en")) || startsWithIgnoreCase(language, StringView(u8"en-"))) {
+            if (equalsIgnoreCase(language, StringView("en")) || startsWithIgnoreCase(language, StringView("en-"))) {
                 return true;
             }
         }
@@ -11585,6 +11572,13 @@ namespace {
         int dir;
     };
 
+    static void xchg(BandEdge& l, BandEdge& r) noexcept {
+        BandEdge t = l;
+
+        l = r;
+        r = t;
+    }
+
     static float bandX(const BandEdge& e, float y) {
         return e.x0 + (e.x1 - e.x0) * ((y - e.y0) / (e.y1 - e.y0));
     }
@@ -11601,6 +11595,13 @@ namespace {
         u32 order;
         u32 edge;
     };
+
+    static void xchg(BandSample& l, BandSample& r) noexcept {
+        BandSample t = l;
+
+        l = r;
+        r = t;
+    }
 
     // The samples of a band: the edges spanning it in the order of the active
     // list, with the x where each enters, leaves and crosses the middle.
@@ -11729,6 +11730,13 @@ namespace {
         float x;
         int dir;
     };
+
+    static void xchg(Crossing& l, Crossing& r) noexcept {
+        Crossing t = l;
+
+        l = r;
+        r = t;
+    }
 
     static void sortCrossings(Vector<Crossing>& crossings) {
         if (crossings.length() < 24) {
@@ -12920,22 +12928,22 @@ namespace {
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         float m[20] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
         u32 type = p.node ? attribute(p.node, AtomType) : 0;
-        StringView kind = type ? trim(textOf(doc, type)) : StringView(u8"matrix");
+        StringView kind = type ? trim(textOf(doc, type)) : StringView("matrix");
         Vector<float> values;
         bool hasValues = p.node && numberList(doc, p.node, AtomValues, values);
 
-        if (kind != StringView(u8"saturate") && kind != StringView(u8"hueRotate") && kind != StringView(u8"luminanceToAlpha")) {
-            kind = StringView(u8"matrix");
+        if (kind != StringView("saturate") && kind != StringView("hueRotate") && kind != StringView("luminanceToAlpha")) {
+            kind = StringView("matrix");
         }
 
         if (!p.node) {
             memcpy(m, p.params, sizeof(m));
-        } else if (kind == StringView(u8"saturate")) {
+        } else if (kind == StringView("saturate")) {
             float s = hasValues && values.length() == 1 ? values[0] : 1.f;
             float t[20] = {0.213f + 0.787f * s, 0.715f - 0.715f * s, 0.072f - 0.072f * s, 0, 0, 0.213f - 0.213f * s, 0.715f + 0.285f * s, 0.072f - 0.072f * s, 0, 0, 0.213f - 0.213f * s, 0.715f - 0.715f * s, 0.072f + 0.928f * s, 0, 0, 0, 0, 0, 1, 0};
 
             memcpy(m, t, sizeof(m));
-        } else if (kind == StringView(u8"hueRotate")) {
+        } else if (kind == StringView("hueRotate")) {
             float angle = (hasValues && values.length() == 1 ? values[0] : 0.f) * pi / 180.f;
             float cs = cosf(angle);
             float sn = sinf(angle);
@@ -12963,11 +12971,11 @@ namespace {
             };
 
             memcpy(m, t, sizeof(m));
-        } else if (kind == StringView(u8"luminanceToAlpha")) {
+        } else if (kind == StringView("luminanceToAlpha")) {
             float t[20] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.2125f, 0.7154f, 0.0721f, 0, 0};
 
             memcpy(m, t, sizeof(m));
-        } else if (kind == StringView(u8"matrix") && hasValues && values.length() == 20) {
+        } else if (kind == StringView("matrix") && hasValues && values.length() == 20) {
             for (int i = 0; i < 20; i++) {
                 m[i] = values[i];
             }
@@ -13062,7 +13070,7 @@ namespace {
                 StringView kind = type ? trim(textOf(doc, type)) : StringView();
 
                 f.table.clear();
-                f.type = kind == StringView(u8"table") ? 1 : kind == StringView(u8"discrete") ? 2 : kind == StringView(u8"linear") ? 3 : kind == StringView(u8"gamma") ? 4 : 0;
+                f.type = kind == StringView("table") ? 1 : kind == StringView("discrete") ? 2 : kind == StringView("linear") ? 3 : kind == StringView("gamma") ? 4 : 0;
                 numberList(doc, child, AtomTableValues, f.table);
                 f.slope = numberOf(doc, child, AtomSlope, 1.f);
                 f.intercept = numberOf(doc, child, AtomIntercept, 0.f);
@@ -13093,7 +13101,7 @@ namespace {
     static bool arithmeticOf(const Document& doc, const FilterPrimitive& p) {
         u32 op = p.node ? attribute(p.node, AtomOperator) : 0;
 
-        return p.kind == AtomFeComposite && op && trim(textOf(doc, op)) == StringView(u8"arithmetic");
+        return p.kind == AtomFeComposite && op && trim(textOf(doc, op)) == StringView("arithmetic");
     }
 
     static bool keepsInvalidColor(const Filter& f, const FilterPrimitive& p) {
@@ -13128,15 +13136,15 @@ namespace {
         const float* a = filterInputBuffer(run, p.in1, p.linear);
         const float* b = filterInputBuffer(run, p.in2, p.linear);
         u32 op = attribute(p.node, AtomOperator);
-        StringView kind = op ? trim(textOf(doc, op)) : StringView(u8"over");
+        StringView kind = op ? trim(textOf(doc, op)) : StringView("over");
         float k1 = numberOf(doc, p.node, AtomK1, 0.f);
         float k2 = numberOf(doc, p.node, AtomK2, 0.f);
         float k3 = numberOf(doc, p.node, AtomK3, 0.f);
         float k4 = numberOf(doc, p.node, AtomK4, 0.f);
         const IntBox& box = p.box;
-        bool arithmetic = kind == StringView(u8"arithmetic");
+        bool arithmetic = kind == StringView("arithmetic");
         float ceiling = arithmetic && keepsInvalidColor(*run.filter, p) ? 1.f : 0.f;
-        int mode = kind == StringView(u8"in") ? 1 : (kind == StringView(u8"out") ? 2 : (kind == StringView(u8"atop") ? 3 : (kind == StringView(u8"xor") ? 4 : (kind == StringView(u8"lighter") ? 5 : 0))));
+        int mode = kind == StringView("in") ? 1 : (kind == StringView("out") ? 2 : (kind == StringView("atop") ? 3 : (kind == StringView("xor") ? 4 : (kind == StringView("lighter") ? 5 : 0))));
 
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
@@ -13441,7 +13449,7 @@ namespace {
         const Filter& f = *run.filter;
         const float* in = filterInputBuffer(run, p.in1, p.linear);
         u32 op = attribute(p.node, AtomOperator);
-        bool dilate = op && trim(textOf(*f.doc, op)) == StringView(u8"dilate");
+        bool dilate = op && trim(textOf(*f.doc, op)) == StringView("dilate");
         float rx = 0.f;
         float ry = 0.f;
 
@@ -13567,11 +13575,11 @@ namespace {
         }
 
         u32 edgeValue = attribute(p.node, AtomEdgeMode);
-        StringView edge = edgeValue ? trim(textOf(doc, edgeValue)) : StringView(u8"duplicate");
-        bool edgeNone = edge == StringView(u8"none");
-        bool edgeWrap = edge == StringView(u8"wrap");
+        StringView edge = edgeValue ? trim(textOf(doc, edgeValue)) : StringView("duplicate");
+        bool edgeNone = edge == StringView("none");
+        bool edgeWrap = edge == StringView("wrap");
         u32 preserveValue = attribute(p.node, AtomPreserveAlpha);
-        bool preserve = preserveValue && trim(textOf(doc, preserveValue)) == StringView(u8"true");
+        bool preserve = preserveValue && trim(textOf(doc, preserveValue)) == StringView("true");
         IntBox src = inputBox(run, p.in1);
         const IntBox& box = p.box;
 
@@ -13909,9 +13917,9 @@ namespace {
         float seedValue = numberOf(doc, p.node, AtomSeed, 0.f);
         long seed = seedValue >= 2147483648.f ? 2147483647 : (seedValue < -2147483648.f ? -2147483647 - 1 : (long)seedValue);
         u32 type = attribute(p.node, AtomType);
-        bool fractal = type && trim(textOf(doc, type)) == StringView(u8"fractalNoise");
+        bool fractal = type && trim(textOf(doc, type)) == StringView("fractalNoise");
         u32 stitchValue = attribute(p.node, AtomStitchTiles);
-        bool stitching = stitchValue && trim(textOf(doc, stitchValue)) == StringView(u8"stitch");
+        bool stitching = stitchValue && trim(textOf(doc, stitchValue)) == StringView("stitch");
         Matrix inverse;
 
         if (!invert(f.ctm, inverse)) {
@@ -13954,9 +13962,9 @@ namespace {
         float sy = userY(f, scale) * run.scaleY;
         auto channel = [&](u32 name) {
             u32 value = attribute(p.node, name);
-            StringView text = value ? trim(textOf(doc, value)) : StringView(u8"A");
+            StringView text = value ? trim(textOf(doc, value)) : StringView("A");
 
-            return text == StringView(u8"R") ? 0 : (text == StringView(u8"G") ? 1 : (text == StringView(u8"B") ? 2 : 3));
+            return text == StringView("R") ? 0 : (text == StringView("G") ? 1 : (text == StringView("B") ? 2 : 3));
         };
         int cx = channel(AtomXChannelSelector);
         int cy = channel(AtomYChannelSelector);
@@ -14651,7 +14659,7 @@ namespace {
             u32 value = attribute(node, name);
             StringView text = value ? trim(textOf(doc, value)) : StringView();
 
-            if (text == StringView(u8"BackgroundImage") || text == StringView(u8"BackgroundAlpha")) {
+            if (text == StringView("BackgroundImage") || text == StringView("BackgroundAlpha")) {
                 return true;
             }
         }
