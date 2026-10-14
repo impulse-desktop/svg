@@ -885,25 +885,28 @@ void ObjPool::submit(Disposable* d) noexcept {
 struct SvgDocument {
     ObjPool* pool;
     SvgDecode decode;
+    SvgFail fail;
     void* context;
     StringView source;
     float width;
     float height;
 
-    SvgDocument(ObjPool* pool, SvgDecode decode, void* context, StringView source, float width, float height);
+    SvgDocument(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context, StringView source, float width, float height);
 };
 
 struct SvgLibrary {
     ObjPool* pool;
     SvgDecode decode;
+    SvgFail fail;
     void* context;
 
-    SvgLibrary(ObjPool* pool, SvgDecode decode, void* context);
+    SvgLibrary(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context);
 };
 
-SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, void* context_, StringView source_, float width_, float height_)
+SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_, StringView source_, float width_, float height_)
     : pool(pool_)
     , decode(decode_)
+    , fail(fail_)
     , context(context_)
     , source(source_)
     , width(width_)
@@ -911,9 +914,10 @@ SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, void* context_, Stri
 {
 }
 
-SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, void* context_)
+SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_)
     : pool(pool_)
     , decode(decode_)
+    , fail(fail_)
     , context(context_)
 {
 }
@@ -1217,8 +1221,6 @@ namespace {
         bool structural;
     };
 
-    struct XmlError {};
-
     struct Entity {
         StringView name;
         StringView value;
@@ -1242,6 +1244,7 @@ namespace {
 
     struct Xml {
         Document* doc;
+        SvgFail fail;
         Vector<Entity> entities;
         Vector<Scope> scopes;
         Vector<RawAttribute> raw;
@@ -1648,6 +1651,7 @@ namespace {
         Vector<u64> broken;
         Vector<ComputedStyle*> documentStyles;
         SvgDecode decode;
+        SvgFail fail;
         void* context;
         u32 width;
         u32 height;
@@ -2165,8 +2169,11 @@ namespace {
         return elementById(doc, fragmentAtom(doc, StringView(text.begin() + 1, text.end())));
     }
 
-    [[noreturn]] static void fail() {
-        throw XmlError();
+    // The fail of the library does not return; one that does stops the
+    // program.
+    [[noreturn]] static void fail(SvgFail callback, SvgError error) {
+        callback(error);
+        __builtin_trap();
     }
 
     static bool startsWith(const Cursor& c, StringView text) {
@@ -2191,11 +2198,11 @@ namespace {
         return isNameStart(c) || (c >= '0' && c <= '9') || c == '-' || c == '.';
     }
 
-    static StringView readName(Cursor& c) {
+    static StringView readName(const Xml& xml, Cursor& c) {
         const u8* start = c.p;
 
         if (c.p >= c.end || !isNameStart(*c.p)) {
-            fail();
+            fail(xml.fail, SVG_XML_NAME);
         }
 
         while (c.p < c.end && isNameChar(*c.p)) {
@@ -2205,7 +2212,7 @@ namespace {
         return StringView(start, c.p);
     }
 
-    static void skipPast(Cursor& c, StringView terminator) {
+    static void skipPast(const Xml& xml, Cursor& c, StringView terminator, SvgError unterminated) {
         while ((size_t)(c.end - c.p) >= terminator.length()) {
             if (memcmp(c.p, terminator.data(), terminator.length()) == 0) {
                 c.p += terminator.length();
@@ -2216,12 +2223,12 @@ namespace {
             c.p++;
         }
 
-        fail();
+        fail(xml.fail, unterminated);
     }
 
-    static StringView readQuoted(Cursor& c) {
+    static StringView readQuoted(const Xml& xml, Cursor& c) {
         if (c.p >= c.end || (*c.p != '"' && *c.p != '\'')) {
-            fail();
+            fail(xml.fail, SVG_XML_QUOTE_EXPECTED);
         }
 
         u8 quote = *c.p++;
@@ -2232,23 +2239,23 @@ namespace {
         }
 
         if (c.p >= c.end) {
-            fail();
+            fail(xml.fail, SVG_XML_UNTERMINATED_LITERAL);
         }
 
         return StringView(start, c.p++);
     }
 
-    static void skipDeclaration(Cursor& c) {
+    static void skipDeclaration(const Xml& xml, Cursor& c) {
         while (c.p < c.end && *c.p != '>') {
             if (*c.p == '"' || *c.p == '\'') {
-                readQuoted(c);
+                readQuoted(xml, c);
             } else {
                 c.p++;
             }
         }
 
         if (c.p >= c.end) {
-            fail();
+            fail(xml.fail, SVG_XML_UNTERMINATED_DECLARATION);
         }
 
         c.p++;
@@ -2281,7 +2288,7 @@ namespace {
         out.append(bytes, length);
     }
 
-    static u32 characterReference(StringView body) {
+    static u32 characterReference(const Xml& xml, StringView body) {
         u32 code = 0;
         size_t i = 1;
         bool hex = body.length() > 1 && body[1] == 'x';
@@ -2291,7 +2298,7 @@ namespace {
         }
 
         if (i >= body.length()) {
-            fail();
+            fail(xml.fail, SVG_XML_REFERENCE_EMPTY);
         }
 
         for (; i < body.length(); i++) {
@@ -2303,18 +2310,18 @@ namespace {
             } else if (hex && lowerAscii(c) >= 'a' && lowerAscii(c) <= 'f') {
                 digit = lowerAscii(c) - 'a' + 10;
             } else {
-                fail();
+                fail(xml.fail, SVG_XML_REFERENCE_DIGIT);
             }
 
             code = code * (hex ? 16 : 10) + digit;
 
             if (code > 0x10ffff) {
-                fail();
+                fail(xml.fail, SVG_XML_REFERENCE_CHARACTER);
             }
         }
 
         if (code == 0 || (code >= 0xd800 && code <= 0xdfff)) {
-            fail();
+            fail(xml.fail, SVG_XML_REFERENCE_CHARACTER);
         }
 
         return code;
@@ -2354,7 +2361,7 @@ namespace {
         return nullptr;
     }
 
-    static const u8* referenceEnd(const u8* p, const u8* end) {
+    static const u8* referenceEnd(const Xml& xml, const u8* p, const u8* end) {
         const u8* limit = end - p > 64 ? p + 64 : end;
 
         for (const u8* q = p; q < limit; q++) {
@@ -2363,7 +2370,7 @@ namespace {
             }
         }
 
-        fail();
+        fail(xml.fail, SVG_XML_UNTERMINATED_REFERENCE);
     }
 
     static void enterEntity(Xml& xml, const Entity& entity) {
@@ -2371,7 +2378,7 @@ namespace {
         xml.entityDepth++;
 
         if (xml.expanded > maxExpansion || xml.entityDepth > maxEntityDepth) {
-            fail();
+            fail(xml.fail, SVG_XML_ENTITY_LIMIT);
         }
     }
 
@@ -2383,15 +2390,15 @@ namespace {
             u8 c = *p;
 
             if (c == '<') {
-                fail();
+                fail(xml.fail, SVG_XML_ATTRIBUTE_LT);
             }
 
             if (c == '&') {
-                const u8* semicolon = referenceEnd(p + 1, end);
+                const u8* semicolon = referenceEnd(xml, p + 1, end);
                 StringView name(p + 1, semicolon);
 
                 if (!name.empty() && name[0] == '#') {
-                    appendUtf8(out, characterReference(name));
+                    appendUtf8(out, characterReference(xml, name));
                 } else if (int value = predefinedEntity(name); value >= 0) {
                     u8 byte = (u8)value;
 
@@ -2399,8 +2406,12 @@ namespace {
                 } else {
                     const Entity* entity = findEntity(xml, name);
 
-                    if (!entity || entity->external) {
-                        fail();
+                    if (!entity) {
+                        fail(xml.fail, SVG_XML_UNKNOWN_ENTITY);
+                    }
+
+                    if (entity->external) {
+                        fail(xml.fail, SVG_XML_EXTERNAL_ENTITY);
                     }
 
                     enterEntity(xml, *entity);
@@ -2464,9 +2475,9 @@ namespace {
 
         while (p < literal.end()) {
             if (*p == '&' && p + 1 < literal.end() && p[1] == '#') {
-                const u8* semicolon = referenceEnd(p + 1, literal.end());
+                const u8* semicolon = referenceEnd(xml, p + 1, literal.end());
 
-                appendUtf8(out, characterReference(StringView(p + 1, semicolon)));
+                appendUtf8(out, characterReference(xml, StringView(p + 1, semicolon)));
                 p = semicolon + 1;
             } else {
                 out.append(p, 1);
@@ -2489,17 +2500,17 @@ namespace {
             skipSpaces(c);
         }
 
-        Entity entity{readName(c), StringView(), false};
+        Entity entity{readName(xml, c), StringView(), false};
 
         skipSpaces(c);
 
         if (c.p < c.end && (*c.p == '"' || *c.p == '\'')) {
-            entity.value = expandCharacterReferences(xml, readQuoted(c));
+            entity.value = expandCharacterReferences(xml, readQuoted(xml, c));
         } else {
             entity.external = true;
         }
 
-        skipDeclaration(c);
+        skipDeclaration(xml, c);
 
         if (!parameter && !findEntity(xml, entity.name)) {
             xml.entities.pushBack(entity);
@@ -2509,20 +2520,20 @@ namespace {
     static void parseDoctype(Xml& xml, Cursor& c) {
         c.p += 9;
         skipSpaces(c);
-        readName(c);
+        readName(xml, c);
         skipSpaces(c);
 
         if (startsWith(c, SV("SYSTEM"))) {
             c.p += 6;
             skipSpaces(c);
-            readQuoted(c);
+            readQuoted(xml, c);
             skipSpaces(c);
         } else if (startsWith(c, SV("PUBLIC"))) {
             c.p += 6;
             skipSpaces(c);
-            readQuoted(c);
+            readQuoted(xml, c);
             skipSpaces(c);
-            readQuoted(c);
+            readQuoted(xml, c);
             skipSpaces(c);
         }
 
@@ -2533,7 +2544,7 @@ namespace {
                 skipSpaces(c);
 
                 if (c.p >= c.end) {
-                    fail();
+                    fail(xml.fail, SVG_XML_UNTERMINATED_DOCTYPE);
                 }
 
                 if (*c.p == ']') {
@@ -2545,15 +2556,15 @@ namespace {
                     parseEntity(xml, c);
                 } else if (startsWith(c, SV("<!--"))) {
                     c.p += 4;
-                    skipPast(c, SV("-->"));
+                    skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
                 } else if (startsWith(c, SV("<?"))) {
-                    skipPast(c, SV("?>"));
+                    skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
                 } else if (startsWith(c, SV("<!"))) {
-                    skipDeclaration(c);
+                    skipDeclaration(xml, c);
                 } else if (*c.p == '%') {
-                    skipPast(c, SV(";"));
+                    skipPast(xml, c, SV(";"), SVG_XML_UNTERMINATED_REFERENCE);
                 } else {
-                    fail();
+                    fail(xml.fail, SVG_XML_DOCTYPE_MARKUP);
                 }
             }
 
@@ -2561,7 +2572,7 @@ namespace {
         }
 
         if (c.p >= c.end || *c.p != '>') {
-            fail();
+            fail(xml.fail, SVG_XML_DOCTYPE_CLOSE);
         }
 
         c.p++;
@@ -2623,7 +2634,7 @@ namespace {
                     return;
                 }
 
-                fail();
+                fail(xml.fail, SVG_XML_UNTERMINATED_ELEMENT);
             }
 
             u8 ch = *c.p;
@@ -2631,7 +2642,7 @@ namespace {
             if (ch == '<') {
                 if (startsWith(c, SV("</"))) {
                     if (inEntity) {
-                        fail();
+                        fail(xml.fail, SVG_XML_ENTITY_END_TAG);
                     }
 
                     return;
@@ -2639,7 +2650,7 @@ namespace {
 
                 if (startsWith(c, SV("<!--"))) {
                     c.p += 4;
-                    skipPast(c, SV("-->"));
+                    skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
                     continue;
                 }
 
@@ -2648,7 +2659,7 @@ namespace {
 
                     const u8* start = c.p;
 
-                    skipPast(c, SV("]]>"));
+                    skipPast(xml, c, SV("]]>"), SVG_XML_UNTERMINATED_CDATA);
 
                     if (text) {
                         text->append(start, c.p - 3 - start);
@@ -2658,12 +2669,12 @@ namespace {
                 }
 
                 if (startsWith(c, SV("<?"))) {
-                    skipPast(c, SV("?>"));
+                    skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
                     continue;
                 }
 
                 if (startsWith(c, SV("<!"))) {
-                    fail();
+                    fail(xml.fail, SVG_XML_CONTENT_DECLARATION);
                 }
 
                 parseElement(xml, c, parent, foreign, depth + 1);
@@ -2671,11 +2682,11 @@ namespace {
             }
 
             if (ch == '&') {
-                const u8* semicolon = referenceEnd(c.p + 1, c.end);
+                const u8* semicolon = referenceEnd(xml, c.p + 1, c.end);
                 StringView name(c.p + 1, semicolon);
 
                 if (!name.empty() && name[0] == '#') {
-                    u32 code = characterReference(name);
+                    u32 code = characterReference(xml, name);
 
                     if (text) {
                         appendUtf8(*text, code);
@@ -2690,7 +2701,7 @@ namespace {
                     const Entity* entity = findEntity(xml, name);
 
                     if (!entity) {
-                        fail();
+                        fail(xml.fail, SVG_XML_UNKNOWN_ENTITY);
                     }
 
                     if (!entity->external) {
@@ -2720,12 +2731,12 @@ namespace {
 
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth) {
         if (depth > maxDepth) {
-            fail();
+            fail(xml.fail, SVG_XML_DEPTH);
         }
 
         c.p++;
 
-        StringView name = readName(c);
+        StringView name = readName(xml, c);
         size_t rawBase = xml.raw.length();
         bool empty = false;
 
@@ -2733,14 +2744,14 @@ namespace {
             bool spaced = skipSpaces(c);
 
             if (c.p >= c.end) {
-                fail();
+                fail(xml.fail, SVG_XML_UNTERMINATED_TAG);
             }
 
             if (*c.p == '/') {
                 c.p++;
 
                 if (c.p >= c.end || *c.p != '>') {
-                    fail();
+                    fail(xml.fail, SVG_XML_SLASH);
                 }
 
                 c.p++;
@@ -2754,25 +2765,25 @@ namespace {
             }
 
             if (!spaced) {
-                fail();
+                fail(xml.fail, SVG_XML_ATTRIBUTE_SPACE);
             }
 
-            StringView attributeName = readName(c);
+            StringView attributeName = readName(xml, c);
 
             skipSpaces(c);
 
             if (c.p >= c.end || *c.p != '=') {
-                fail();
+                fail(xml.fail, SVG_XML_ATTRIBUTE_EQUALS);
             }
 
             c.p++;
             skipSpaces(c);
 
-            StringView value = readQuoted(c);
+            StringView value = readQuoted(xml, c);
 
             for (size_t i = rawBase; i < xml.raw.length(); i++) {
                 if (xml.raw[i].name == attributeName) {
-                    fail();
+                    fail(xml.fail, SVG_XML_ATTRIBUTE_DUPLICATE);
                 }
             }
 
@@ -2798,7 +2809,7 @@ namespace {
         splitName(name, prefix, local);
 
         if (!resolvePrefix(xml, prefix, uri)) {
-            fail();
+            fail(xml.fail, SVG_XML_UNDECLARED_PREFIX);
         }
 
         bool svg = !foreign && uri == svgNamespace;
@@ -2838,7 +2849,7 @@ namespace {
                     atom = intern(xml.doc->atoms, attributeLocal);
                 } else {
                     if (!resolvePrefix(xml, attributePrefix, attributeUri)) {
-                        fail();
+                        fail(xml.fail, SVG_XML_UNDECLARED_PREFIX);
                     }
 
                     if (attributeUri != xlinkNamespace || attributeLocal != SV("href")) {
@@ -2898,16 +2909,16 @@ namespace {
             parseContent(xml, c, node, !node, collect ? &text : nullptr, depth, false);
             c.p += 2;
 
-            StringView endName = readName(c);
+            StringView endName = readName(xml, c);
 
             if (endName != name) {
-                fail();
+                fail(xml.fail, SVG_XML_END_TAG_MISMATCH);
             }
 
             skipSpaces(c);
 
             if (c.p >= c.end || *c.p != '>') {
-                fail();
+                fail(xml.fail, SVG_XML_END_TAG_CLOSE);
             }
 
             c.p++;
@@ -2922,15 +2933,15 @@ namespace {
         }
     }
 
-    static void skipMisc(Cursor& c) {
+    static void skipMisc(const Xml& xml, Cursor& c) {
         while (true) {
             skipSpaces(c);
 
             if (startsWith(c, SV("<!--"))) {
                 c.p += 4;
-                skipPast(c, SV("-->"));
+                skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
             } else if (startsWith(c, SV("<?"))) {
-                skipPast(c, SV("?>"));
+                skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
             } else {
                 return;
             }
@@ -2953,42 +2964,39 @@ namespace {
         return nullptr;
     }
 
-    static bool parseXml(Document& doc, StringView text) {
+    static void parseXml(Document& doc, StringView text, SvgFail callback) {
         Xml xml;
 
         xml.doc = &doc;
+        xml.fail = callback;
         xml.expanded = 0;
         xml.entityDepth = 0;
 
         Cursor c{text.begin(), text.end()};
 
-        try {
-            if (startsWith(c, SV("\xef\xbb\xbf"))) {
-                c.p += 3;
+        if (startsWith(c, SV("\xef\xbb\xbf"))) {
+            c.p += 3;
+        }
+
+        while (true) {
+            skipMisc(xml, c);
+
+            if (startsWith(c, SV("<!DOCTYPE"))) {
+                parseDoctype(xml, c);
+            } else {
+                break;
             }
+        }
 
-            while (true) {
-                skipMisc(c);
+        if (c.p >= c.end || *c.p != '<') {
+            fail(xml.fail, SVG_XML_NO_ROOT);
+        }
 
-                if (startsWith(c, SV("<!DOCTYPE"))) {
-                    parseDoctype(xml, c);
-                } else {
-                    break;
-                }
-            }
+        parseElement(xml, c, nullptr, false, 0);
+        skipMisc(xml, c);
 
-            if (c.p >= c.end || *c.p != '<') {
-                fail();
-            }
-
-            parseElement(xml, c, nullptr, false, 0);
-            skipMisc(c);
-
-            if (c.p != c.end) {
-                fail();
-            }
-        } catch (const XmlError&) {
-            return false;
+        if (c.p != c.end) {
+            fail(xml.fail, SVG_XML_TRAILING);
         }
 
         doc.byId.zero(doc.atoms.texts.length());
@@ -3000,8 +3008,6 @@ namespace {
                 doc.byId.mut(id) = node;
             }
         }
-
-        return true;
     }
 
     static bool isIdentStart(u8 c) {
@@ -9042,7 +9048,7 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
-    static bool loadDocument(Document& doc, ObjPool& pool, StringView source);
+    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail);
     static void cascade(Document& doc);
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
 
@@ -10445,7 +10451,9 @@ namespace {
 
             Document* nested = l.pool->make<Document>();
 
-            if (loadDocument(*nested, *l.pool, data) && nested->root && nested->root->name == AtomSvg) {
+            loadDocument(*nested, *l.pool, data, l.fail);
+
+            if (nested->root && nested->root->name == AtomSvg) {
                 cascade(*nested);
                 out.nested = nested;
 
@@ -15105,13 +15113,12 @@ namespace {
         return false;
     }
 
-    static bool loadDocument(Document& doc, ObjPool& pool, StringView source) {
+    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail) {
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
         initAtoms(doc.atoms);
-
-        return parseXml(doc, source);
+        parseXml(doc, source, fail);
     }
 }
 
@@ -15153,10 +15160,10 @@ uint32_t svg_image_height(const SvgImage* image) {
     return image->vtable->height(image);
 }
 
-SvgLibrary* svg_library_create(SvgDecode decode, void* context) {
+SvgLibrary* svg_library_create(SvgDecode decode, SvgFail fail, void* context) {
     ObjPool* pool = new ObjPool();
 
-    return pool->make<SvgLibrary>(pool, decode, context);
+    return pool->make<SvgLibrary>(pool, decode, fail, context);
 }
 
 void svg_library_destroy(SvgLibrary* library) {
@@ -15176,8 +15183,12 @@ float svg_document_height(const SvgDocument* document) {
 }
 
 SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height, float scale) {
-    if (width == 0 || height == 0 || (u64)width * height > (1u << 26) || !(scale > 0.f)) {
-        return nullptr;
+    if (width == 0 || height == 0 || (u64)width * height > (1u << 26)) {
+        fail(document->fail, SVG_RENDER_SIZE);
+    }
+
+    if (!(scale > 0.f)) {
+        fail(document->fail, SVG_RENDER_SCALE);
     }
 
     ObjPool scratch;
@@ -15188,7 +15199,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     memset(base, 0, sizeof(float) * size * 4);
 
     // The file parsed into an SVG document when its document was made.
-    loadDocument(doc, scratch, document->source);
+    loadDocument(doc, scratch, document->source, document->fail);
 
     {
         Lowering l;
@@ -15202,6 +15213,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.depth = 0;
         l.out = &l.ops;
         l.decode = document->decode;
+        l.fail = document->fail;
         l.context = document->context;
         l.imageDepth = 0;
         l.backgroundInputs = usesBackground(doc, doc.root);
@@ -15248,8 +15260,10 @@ SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t len
     Document doc;
     StringView source((const u8*)file, length);
 
-    if (!loadDocument(doc, scratch, source) || !doc.root || doc.root->name != AtomSvg) {
-        return nullptr;
+    loadDocument(doc, scratch, source, library->fail);
+
+    if (!doc.root || doc.root->name != AtomSvg) {
+        fail(library->fail, SVG_NOT_SVG);
     }
 
     cascade(doc);
@@ -15264,5 +15278,5 @@ SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t len
 
     ObjPool* pool = new ObjPool();
 
-    return pool->make<SvgDocument>(pool, library->decode, library->context, keep(*pool, file, length), width, height);
+    return pool->make<SvgDocument>(pool, library->decode, library->fail, library->context, keep(*pool, file, length), width, height);
 }
