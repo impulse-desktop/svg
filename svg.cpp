@@ -11106,7 +11106,10 @@ namespace {
         return out.x1 > out.x0 && out.y1 > out.y0;
     }
 
-    static bool lowerFilteredLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, const Box* fixed) {
+    // Draws the element on a layer of its own: the box fixed, or else the
+    // axis-aligned frame of its transform, holding the region of the filters,
+    // lowered on the raster to be measured, as far as the raster's reach.
+    static bool lowerFilteredLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, const Box* fixed, const Filter* measured) {
         float sx = sqrtf(m.a * m.a + m.b * m.b);
         float sy = sqrtf(m.c * m.c + m.d * m.d);
         Matrix toLayer = identity();
@@ -11139,11 +11142,44 @@ namespace {
 
             Box visible = deviceBox(toLayer, Box{0.f, 0.f, (float)l.width, (float)l.height});
             float margin = 0.25f * maxf(visible.x1 - visible.x0, visible.y1 - visible.y0);
+            float reach = measured ? filterReach(measured) : -1.f;
+            Box wanted = visible;
 
-            x0 = floorf(visible.x0 - margin);
-            y0 = floorf(visible.y0 - margin);
-            lw = ceilf(visible.x1 + margin) - x0;
-            lh = ceilf(visible.y1 + margin) - y0;
+            if (reach >= 0.f) {
+                margin = reach + 1.f;
+            }
+
+            wanted.x0 -= margin;
+            wanted.y0 -= margin;
+            wanted.x1 += margin;
+            wanted.y1 += margin;
+
+            if (measured) {
+                Box region = emptyBox();
+
+                for (const Filter* f = measured; f; f = f->next) {
+                    Box device = deviceBox(toLayer, f->device);
+
+                    region.x0 = minf(region.x0, device.x0);
+                    region.y0 = minf(region.y0, device.y0);
+                    region.x1 = maxf(region.x1, device.x1);
+                    region.y1 = maxf(region.y1, device.y1);
+                }
+
+                wanted.x0 = maxf(wanted.x0, region.x0);
+                wanted.y0 = maxf(wanted.y0, region.y0);
+                wanted.x1 = minf(wanted.x1, region.x1);
+                wanted.y1 = minf(wanted.y1, region.y1);
+            }
+
+            if (!(wanted.x1 > wanted.x0 && wanted.y1 > wanted.y0)) {
+                return false;
+            }
+
+            x0 = floorf(wanted.x0);
+            y0 = floorf(wanted.y0);
+            lw = ceilf(wanted.x1) - x0;
+            lh = ceilf(wanted.y1) - y0;
         }
 
         if (lw <= 0.f || lh <= 0.f || lw * lh > (fixed ? 25.f : 16.f) * (float)l.width * (float)l.height) {
@@ -11224,14 +11260,16 @@ namespace {
         bool complex = style.filterCount && node != l.doc->root && (fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f || m.a < 0.f || m.d < 0.f);
         bool offscreen = false;
         Box extent;
+        const Filter* measured = nullptr;
 
-        if (style.filterCount && !complex) {
-            op.filter = lowerFilters(l, node, parent, style, m, vp);
-            offscreen = op.filter && node != l.doc->root && filterOverflow(l, op.filter, extent);
+        if (style.filterCount) {
+            Filter* filter = lowerFilters(l, node, parent, style, m, vp);
 
-            if (offscreen) {
-                op.filter = nullptr;
-            }
+            // The filters lowered on the raster size the layer of an element
+            // drawn apart, under a transform or with a region past the raster.
+            offscreen = filter && !complex && node != l.doc->root && filterOverflow(l, filter, extent);
+            measured = complex || offscreen ? filter : nullptr;
+            op.filter = measured ? nullptr : filter;
         }
 
         op.blend = style.blend;
@@ -11278,7 +11316,7 @@ namespace {
 
         l.depth++;
 
-        if ((offscreen || complex) && !lowerFilteredLayer(l, node, parent, style, m, vp, offscreen ? &extent : nullptr)) {
+        if ((offscreen || complex) && !lowerFilteredLayer(l, node, parent, style, m, vp, offscreen ? &extent : nullptr, measured)) {
             Op fallback = groupOp(1.f);
 
             fallback.filter = lowerFilters(l, node, parent, style, m, vp);
