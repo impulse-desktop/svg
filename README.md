@@ -52,7 +52,7 @@ image do not depend on one another and are released in any order.
 
 ## Build
 
-Copy `svg.h` and `svg.cpp` into your project. `svg.cpp` is C++20 and uses
+Copy `svg.h` and `svg.cpp` into your project. `svg.cpp` is C++17 and uses
 exceptions internally; it depends on nothing but the C library and libm.
 Link the program with the C++ runtime.
 
