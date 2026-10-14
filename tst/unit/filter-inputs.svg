@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<linearGradient id="g"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="blue"/></linearGradient>
+<pattern id="p" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="green"/></pattern>
+<filter id="paints" x="0" y="0" width="1" height="1"><feMerge><feMergeNode in="FillPaint"/></feMerge><feComposite in="StrokePaint" in2="SourceAlpha" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="FillPaint"/></feMerge></filter>
+<filter id="paints-srgb" color-interpolation-filters="sRGB"><feBlend in="FillPaint" in2="StrokePaint" mode="screen"/></filter>
+<filter id="mixed"><feOffset in="SourceGraphic" dx="1" result="a" color-interpolation-filters="sRGB"/><feBlend in="SourceGraphic" in2="a" mode="multiply"/></filter>
+<filter id="results"><feOffset dx="1" result="a"/><feOffset in="a" dx="1" result="b" color-interpolation-filters="sRGB"/><feBlend in="a" in2="b"/><feOffset in="nothing" dy="1"/></filter>
+<filter id="alpha"><feGaussianBlur in="SourceAlpha" stdDeviation="1" result="a"/><feComposite in="SourceAlpha" in2="a" operator="xor"/></filter>
+</defs>
+<rect x="1" y="1" width="10" height="10" fill="url(#g)" stroke="url(#p)" stroke-width="2" filter="url(#paints)"/>
+<rect x="13" y="1" width="10" height="10" fill="none" stroke="none" filter="url(#paints)"/>
+<rect x="25" y="1" width="10" height="10" fill="orange" stroke="purple" filter="url(#paints-srgb)"/>
+<rect x="37" y="1" width="10" height="10" fill="url(#p)" stroke="currentColor" color="olive" filter="url(#paints-srgb)"/>
+<circle cx="6" cy="18" r="4" fill="teal" filter="url(#mixed)"/>
+<circle cx="18" cy="18" r="4" fill="gold" filter="url(#results)"/>
+<circle cx="30" cy="18" r="4" fill="navy" filter="url(#alpha)"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="12">
+<defs>
+<filter id="f"><feImage href="#e"/></filter>
+<filter id="u" filterUnits="userSpaceOnUse" x="0" y="0" width="0" height="10"><feFlood/></filter>
+<filter id="v" filterUnits="userSpaceOnUse" primitiveUnits="objectBoundingBox"><feFlood flood-color="green" x=".1" y=".1" width=".5" height=".5"/></filter>
+<g id="notfilter"/>
+</defs>
+<rect id="e" x="2" y="2" width="8" height="8" fill="teal" filter="url(#f)"/>
+<rect x="12" y="2" width="8" height="8" fill="red" filter="url(#u)"/>
+<g filter="url(#v)"/>
+<rect x="14" y="2" width="8" height="8" fill="orange" filter="url(#notfilter)"/>
+<rect x="16" y="4" width="6" height="6" fill="purple" filter="url(#v)"/>
+</svg>
