@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="8">
+<style>rect:first-child { width: 6px } .w { x: 8px }</style>
+<defs><g id="g"><rect height="8" fill="teal"/><rect class="w" width="6" height="8" fill="gold"/></g></defs>
+<use href="#g"/>
+<use href="#g" x="12"/>
+<use href="#"/>
+<use href="x.svg#g"/>
+</svg>
