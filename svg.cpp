@@ -2540,7 +2540,7 @@ namespace {
         if (c.p < c.end && *c.p == '[') {
             c.p++;
 
-            while (true) {
+            for (;;) {
                 skipSpaces(c);
 
                 if (c.p >= c.end) {
@@ -2628,7 +2628,7 @@ namespace {
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth);
 
     static void parseContent(Xml& xml, Cursor& c, Node* parent, bool foreign, Buffer* text, u32 depth, bool inEntity) {
-        while (true) {
+        for (;;) {
             if (c.p >= c.end) {
                 if (inEntity) {
                     return;
@@ -2740,7 +2740,7 @@ namespace {
         size_t rawBase = xml.raw.length();
         bool empty = false;
 
-        while (true) {
+        for (;;) {
             bool spaced = skipSpaces(c);
 
             if (c.p >= c.end) {
@@ -2934,7 +2934,7 @@ namespace {
     }
 
     static void skipMisc(const Xml& xml, Cursor& c) {
-        while (true) {
+        for (;;) {
             skipSpaces(c);
 
             if (startsWith(c, SV("<!--"))) {
@@ -2978,7 +2978,7 @@ namespace {
             c.p += 3;
         }
 
-        while (true) {
+        for (;;) {
             skipMisc(xml, c);
 
             if (startsWith(c, SV("<!DOCTYPE"))) {
@@ -3283,7 +3283,7 @@ namespace {
 
                         p++;
 
-                        while (true) {
+                        for (;;) {
                             Compound item;
                             u32 weight = 0;
 
@@ -3372,7 +3372,7 @@ namespace {
         Vector<Compound> compounds;
         u32 specificity = 0;
 
-        while (true) {
+        for (;;) {
             Compound compound;
 
             compound.combinator = Combinator::None;
@@ -3961,7 +3961,7 @@ namespace {
         u32 count = 0;
 
         // The text is trimmed, and spaces after a length are skipped with it.
-        while (true) {
+        for (;;) {
             Length length;
 
             if (p >= end) {
@@ -4710,7 +4710,7 @@ namespace {
 
         bool first = true;
 
-        while (true) {
+        for (;;) {
             bool separator = false;
 
             skipSpaces(p, end);
@@ -4755,7 +4755,7 @@ namespace {
             float args[6];
             u32 count = 0;
 
-            while (true) {
+            for (;;) {
                 skipSpaces(p, end);
 
                 if (at(p, end, ')')) {
@@ -5206,7 +5206,7 @@ namespace {
         u8 previous = 0;
         bool needMove = false;
 
-        while (true) {
+        for (;;) {
             skipSpaces(p, end);
 
             if (p >= end) {
@@ -5366,7 +5366,7 @@ namespace {
         const u8* p = text.begin();
         const u8* end = text.end();
 
-        while (true) {
+        for (;;) {
             Point point;
 
             skipSpaces(p, end);
@@ -6334,7 +6334,7 @@ namespace {
         StringView tokens[5];
         u32 count = 0;
 
-        while (true) {
+        for (;;) {
             skipSpaces(p, end);
 
             if (p >= end) {
@@ -6409,7 +6409,7 @@ namespace {
         const u8* p = text.begin();
         const u8* end = text.end();
 
-        while (true) {
+        for (;;) {
             skipSpaces(p, end);
 
             if (p >= end) {
@@ -6539,7 +6539,7 @@ namespace {
         x = Length{50.f, Unit::Percent};
         y = Length{50.f, Unit::Percent};
 
-        while (true) {
+        for (;;) {
             StringView word = shapeWord(p, text.end());
 
             if (word.empty()) {
@@ -6678,7 +6678,7 @@ namespace {
             out.values[0] = Length{-1.f, Unit::Number};
             out.values[1] = Length{-1.f, Unit::Number};
 
-            while (true) {
+            for (;;) {
                 StringView word = shapeWord(p, end);
 
                 if (word.empty()) {
@@ -6722,7 +6722,7 @@ namespace {
 
             out.kind = ShapeKind::Inset;
 
-            while (true) {
+            for (;;) {
                 StringView word = shapeWord(p, end);
 
                 if (word.empty() || equalsIgnoreCase(word, SV("round"))) {
@@ -7032,7 +7032,7 @@ namespace {
                         const u8* end = value.end();
                         float sum = 0.f;
 
-                        while (true) {
+                        for (;;) {
                             Length length;
 
                             skipSpaces(p, end);
@@ -7218,7 +7218,7 @@ namespace {
                     Color color = style.color;
                     bool solid = false;
 
-                    while (true) {
+                    for (;;) {
                         skipSpaces(p, value.end());
 
                         const u8* start = p;
@@ -12778,7 +12778,7 @@ namespace {
         StringView text = textOf(doc, atom);
         const u8* p = text.begin();
 
-        while (true) {
+        for (;;) {
             float value;
 
             skipSpaces(p, text.end());

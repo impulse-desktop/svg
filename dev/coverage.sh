@@ -1,8 +1,9 @@
 #!/bin/sh
 # Builds the test driver with clang's source-based coverage, runs ./build
 # unit, every drawing under tst/unit, and exports the coverage of svg.h and
-# svg.cpp to .coverage: coverage.info in lcov for Codecov, summary.txt, and
-# show.txt with the count of every line and branch.
+# svg.cpp to .coverage: coverage.info in lcov for Codecov, summary.txt,
+# functions.txt with the summary of every function, and show.txt with the
+# count of every line and branch.
 #
 # usage: dev/coverage.sh [build options...]
 set -eu
@@ -28,6 +29,7 @@ ignore='(^|/)(tst|ext|\.build[^/]*)/|^/usr/'
 llvm-profdata merge -sparse "$out"/profiles/*.profraw -o "$out/coverage.profdata"
 llvm-cov export "$build/svg" -instr-profile="$out/coverage.profdata" -format=lcov -ignore-filename-regex="$ignore" | sed "s|^SF:$PWD/|SF:|" > "$out/coverage.info"
 llvm-cov report "$build/svg" -instr-profile="$out/coverage.profdata" -ignore-filename-regex="$ignore" > "$out/summary.txt"
+llvm-cov report "$build/svg" -instr-profile="$out/coverage.profdata" -show-functions "$PWD/svg.cpp" > "$out/functions.txt"
 llvm-cov show "$build/svg" -instr-profile="$out/coverage.profdata" -ignore-filename-regex="$ignore" -show-branches=count > "$out/show.txt"
 
 if ! grep -qx 'SF:svg.cpp' "$out/coverage.info"; then
