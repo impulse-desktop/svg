@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
+<filter id="f"><feTurbulence baseFrequency="0.03" height="5M-90" stitchTiles="stitch"/></filter>
+<rect width="8" height="8" fill="teal"/>
+<rect width="8" height="8" filter="url(#f)"/>
+</svg>
