@@ -1144,6 +1144,7 @@ namespace {
     const StringView svgNamespace = SV("http://www.w3.org/2000/svg");
     const StringView xlinkNamespace = SV("http://www.w3.org/1999/xlink");
     const StringView xmlNamespace = SV("http://www.w3.org/XML/1998/namespace");
+    const StringView xincludeNamespace = SV("http://www.w3.org/2001/XInclude");
 
     struct Point {
         float x;
@@ -2625,9 +2626,18 @@ namespace {
         parent->last = node;
     }
 
-    static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth);
+    // A failed xi:include, whose xi:fallback stands in for it: the text the
+    // include's parent keeps, if any.
+    struct Fallback {
+        Buffer* text;
+    };
 
-    static void parseContent(Xml& xml, Cursor& c, Node* parent, bool foreign, Buffer* text, u32 depth, bool inEntity) {
+    static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback);
+
+    // The content of an element: its elements are its parent's children, its
+    // characters go to text if the parent keeps any. A fallback says the
+    // content is a failed xi:include's.
+    static void parseContent(Xml& xml, Cursor& c, Node* parent, bool foreign, Buffer* text, u32 depth, bool inEntity, const Fallback* fallback) {
         for (;;) {
             if (c.p >= c.end) {
                 if (inEntity) {
@@ -2677,7 +2687,7 @@ namespace {
                     fail(xml.fail, SVG_XML_CONTENT_DECLARATION);
                 }
 
-                parseElement(xml, c, parent, foreign, depth + 1);
+                parseElement(xml, c, parent, foreign, depth + 1, text, fallback);
                 continue;
             }
 
@@ -2708,7 +2718,7 @@ namespace {
                         Cursor inner{entity->value.begin(), entity->value.end()};
 
                         enterEntity(xml, *entity);
-                        parseContent(xml, inner, parent, foreign, text, depth, true);
+                        parseContent(xml, inner, parent, foreign, text, depth, true, fallback);
                         xml.entityDepth--;
                     }
                 }
@@ -2729,7 +2739,12 @@ namespace {
         }
     }
 
-    static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth) {
+    static bool include(Xml& xml, size_t rawBase, Node* parent, u32 depth, Buffer* text);
+    static bool decodeDataUri(StringView href, StringView& mime, Buffer& out);
+
+    // An element and its content. Text is its parent's text, which an
+    // xi:include of text or an xi:fallback adds to.
+    static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
         if (depth > maxDepth) {
             fail(xml.fail, SVG_XML_DEPTH);
         }
@@ -2812,6 +2827,13 @@ namespace {
             fail(xml.fail, SVG_XML_UNDECLARED_PREFIX);
         }
 
+        // An xi:include stands for what it includes, put in its place; its own
+        // content is ignored but for an xi:fallback, which stands for it when
+        // the include fails.
+        bool xinclude = uri == xincludeNamespace;
+        bool includes = xinclude && !foreign && local == SV("include");
+        bool falls = xinclude && fallback && local == SV("fallback");
+        bool included = includes && include(xml, rawBase, parent, depth, text);
         bool svg = !foreign && uri == svgNamespace;
         Node* node = nullptr;
 
@@ -2903,10 +2925,19 @@ namespace {
         }
 
         if (!empty) {
-            Buffer text;
+            Buffer own;
             bool collect = node && node->name == AtomStyle;
 
-            parseContent(xml, c, node, !node, collect ? &text : nullptr, depth, false);
+            Fallback failed{text};
+
+            if (includes) {
+                parseContent(xml, c, parent, true, nullptr, depth, false, included ? nullptr : &failed);
+            } else if (falls) {
+                parseContent(xml, c, parent, false, fallback->text, depth, false, nullptr);
+            } else {
+                parseContent(xml, c, node, !node, collect ? &own : nullptr, depth, false, nullptr);
+            }
+
             c.p += 2;
 
             StringView endName = readName(xml, c);
@@ -2924,7 +2955,7 @@ namespace {
             c.p++;
 
             if (collect) {
-                node->text = keep(*xml.doc->pool, text.data(), text.length());
+                node->text = keep(*xml.doc->pool, own.data(), own.length());
             }
         }
 
@@ -2964,16 +2995,9 @@ namespace {
         return nullptr;
     }
 
-    static void parseXml(Document& doc, StringView text, SvgFail callback) {
-        Xml xml;
-
-        xml.doc = &doc;
-        xml.fail = callback;
-        xml.expanded = 0;
-        xml.entityDepth = 0;
-
-        Cursor c{text.begin(), text.end()};
-
+    // A whole XML document: its root element is the parent's child, or the
+    // document's root when there is no parent.
+    static void parseDocument(Xml& xml, Cursor& c, Node* parent, u32 depth) {
         if (startsWith(c, SV("\xef\xbb\xbf"))) {
             c.p += 3;
         }
@@ -2992,12 +3016,87 @@ namespace {
             fail(xml.fail, SVG_XML_NO_ROOT);
         }
 
-        parseElement(xml, c, nullptr, false, 0);
+        parseElement(xml, c, parent, false, depth, nullptr, nullptr);
         skipMisc(xml, c);
 
         if (c.p != c.end) {
             fail(xml.fail, SVG_XML_TRAILING);
         }
+    }
+
+    // What an xi:include names, put in its place, as librsvg does: a
+    // document's root element as a child of the include's parent, or text,
+    // with parse="text", into the parent's text if it keeps any. Without an
+    // href nothing is included. The resources are data: URLs alone; another
+    // href, or a data: URL that does not decode, cannot be had, and the
+    // include's xi:fallback stands in: false then. An included document that
+    // is no XML document fails as the file would, and so does a parse that
+    // is neither xml nor text.
+    static bool include(Xml& xml, size_t rawBase, Node* parent, u32 depth, Buffer* text) {
+        StringView href;
+        StringView parse = SV("xml");
+        bool linked = false;
+
+        for (size_t i = rawBase; i < xml.raw.length(); i++) {
+            const RawAttribute& attribute = xml.raw[i];
+
+            if (attribute.name == SV("href")) {
+                href = textOf(*xml.doc, internAttribute(xml, attribute.value));
+                linked = true;
+            } else if (attribute.name == SV("parse")) {
+                parse = textOf(*xml.doc, internAttribute(xml, attribute.value));
+            }
+        }
+
+        if (parse != SV("xml") && parse != SV("text")) {
+            fail(xml.fail, SVG_XML_INCLUDE_PARSE);
+        }
+
+        StringView mime;
+        Buffer bytes;
+
+        if (!linked) {
+            return true;
+        }
+
+        if (!decodeDataUri(href, mime, bytes)) {
+            return false;
+        }
+
+        StringView data = keep(*xml.doc->pool, bytes.data(), bytes.length());
+
+        if (parse == SV("text")) {
+            if (text) {
+                text->append(data.data(), data.length());
+            }
+
+            return true;
+        }
+
+        // The included document has its own entities and namespaces.
+        Xml inner;
+        Cursor c{data.begin(), data.end()};
+
+        inner.doc = xml.doc;
+        inner.fail = xml.fail;
+        inner.expanded = 0;
+        inner.entityDepth = 0;
+        parseDocument(inner, c, parent, depth + 1);
+
+        return true;
+    }
+
+    static void parseXml(Document& doc, StringView text, SvgFail callback) {
+        Xml xml;
+
+        xml.doc = &doc;
+        xml.fail = callback;
+        xml.expanded = 0;
+        xml.entityDepth = 0;
+
+        Cursor c{text.begin(), text.end()};
+
+        parseDocument(xml, c, nullptr, 0);
 
         doc.byId.zero(doc.atoms.texts.length());
 

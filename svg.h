@@ -76,6 +76,7 @@ extern "C" {
         SVG_NOT_SVG,                      // the root element is no SVG element
         SVG_RENDER_SIZE,                  // an image of no pixel or over 2^26
         SVG_RENDER_SCALE,                 // a scale that is not above zero
+        SVG_XML_INCLUDE_PARSE,            // an xi:include to parse neither as xml nor as text
     } SvgError;
 
     // Called with why a call of the library, or of a document or image it

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:f="urn:foreign" width="24" height="8">
+<style><xi:include href="data:text/css,.navy%7Bfill:navy%7D" parse="text"/></style>
+<style>.lime { fill: lime }<xi:include href="missing.css" parse="text"><xi:fallback>.gold { fill: gold }</xi:fallback></xi:include></style>
+<rect class="navy" width="4" height="4"/>
+<rect class="gold" x="4" width="4" height="4"/>
+<g transform="translate(8 0)"><xi:include href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%224%22%20height%3D%224%22%3E%3Crect%20width%3D%224%22%20height%3D%224%22%20fill%3D%22olive%22%2F%3E%3C%2Fsvg%3E" encoding="utf-8"><xi:fallback><rect width="4" height="4" fill="red"/></xi:fallback></xi:include></g>
+<g transform="translate(12 0)"><xi:include href="https://example.com/x.svg"><rect width="4" height="4" fill="red"/><xi:other/><xi:fallback><rect width="4" height="4" fill="teal"/><xi:include href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%224%22%20height%3D%224%22%3E%3Crect%20width%3D%224%22%20height%3D%224%22%20fill%3D%22olive%22%2F%3E%3C%2Fsvg%3E"/></xi:fallback></xi:include></g>
+<g transform="translate(16 0)"><xi:include href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axi%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXInclude%22%20width%3D%224%22%20height%3D%224%22%3E%3Cxi%3Ainclude%20href%3D%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2522http%253A%252F%252Fwww.w3.org%252F2000%252Fsvg%2522%2520width%253D%25224%2522%2520height%253D%25224%2522%253E%253Crect%2520width%253D%25224%2522%2520height%253D%25224%2522%2520fill%253D%2522olive%2522%252F%253E%253C%252Fsvg%253E%22%2F%3E%3C%2Fsvg%3E"/></g>
+<g transform="translate(20 0)"><xi:include/><xi:include href="data:text/plain,words" parse="text"/><xi:include href="data:text/html,%3Chtml/%3E"/><xi:fallback><rect width="4" height="4" fill="red"/></xi:fallback></g>
+<f:any><xi:include href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%224%22%20height%3D%224%22%3E%3Crect%20width%3D%224%22%20height%3D%224%22%20fill%3D%22olive%22%2F%3E%3C%2Fsvg%3E"/></f:any>
+<xi:include href="data:text/xml;base64,!!!!"><xi:fallback><rect y="4" width="4" height="4" fill="purple"/></xi:fallback></xi:include>
+</svg>
