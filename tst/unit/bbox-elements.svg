@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<filter id="f"><feFlood flood-color="teal" flood-opacity=".5"/></filter>
+<clipPath id="c" clipPathUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5"/></clipPath>
+<linearGradient id="g"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="blue"/></linearGradient>
+<symbol id="s" viewBox="0 0 10 10" width="8" height="8"><rect width="10" height="10" fill="url(#g)"/></symbol>
+<symbol id="t" style="font-size: 20px"><rect width="1em" height="4" fill="gold"/></symbol>
+<symbol id="n" display="none"><rect width="10" height="10"/></symbol>
+</defs>
+<image x="0" y="0" width="8" height="8" filter="url(#f)"/>
+<image x="10" y="0" width="0" height="8" filter="url(#f)"/>
+<use href="#s" x="12" y="0" filter="url(#f)"/>
+<use href="#s" x="22" y="0" width="12" height="6" clip-path="url(#c)"/>
+<use href="#t" x="36" y="0" filter="url(#f)"/>
+<use href="#n" x="40" y="10" filter="url(#f)"/>
+<g filter="url(#f)"><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><g><rect x="0" y="12" width="8" height="8" fill="red"/></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g></g>
+<g clip-path="url(#c)"><rect x="12" y="12" width="10" height="10" fill="purple" display="none"/><text>x</text><rect x="24" y="12" width="10" height="10" fill="orange" transform="rotate(10)"/></g>
+</svg>

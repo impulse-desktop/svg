@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="32">
+<defs>
+<marker id="d" markerWidth="2" markerHeight="2" refX="1" refY="1" orient="auto"><circle cx="1" cy="1" r="1" fill="red"/></marker>
+<marker id="z" markerWidth="0" markerHeight="2"><circle cx="1" cy="1" r="1" fill="red"/></marker>
+<marker id="v" viewBox="0 0 0 2" markerWidth="2" markerHeight="2"><circle cx="1" cy="1" r="1" fill="red"/></marker>
+<marker id="r1" markerWidth="3" markerHeight="1" orient="1rad"><rect width="3" height="1" fill="blue"/></marker>
+<marker id="r2" markerWidth="3" markerHeight="1" orient="50grad"><rect width="3" height="1" fill="green"/></marker>
+<marker id="r3" markerWidth="3" markerHeight="1" orient=".1turn"><rect width="3" height="1" fill="purple"/></marker>
+<marker id="r4" markerWidth="3" markerHeight="1" orient="45deg"><rect width="3" height="1" fill="orange"/></marker>
+<marker id="r5" markerWidth="3" markerHeight="1" orient="bogus"><rect width="3" height="1" fill="teal"/></marker>
+<marker id="r6" markerWidth="3" markerHeight="1" orient="10foo"><rect width="3" height="1" fill="navy"/></marker>
+<marker id="self" markerWidth="4" markerHeight="4"><path d="M0 0 L4 4" stroke="black" marker-end="url(#self)"/></marker>
+<marker id="u" markerWidth="4" markerHeight="4" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="gold"/></marker>
+<rect id="notmarker" width="2" height="2"/>
+</defs>
+<g fill="none" stroke="gray">
+<path d="M2 2 L10 2 L10 8" marker-start="url(#notmarker)" marker-mid="url(#z)" marker-end="url(#v)"/>
+<path d="M14 2 L22 4" marker-start="url(#r1)" marker-mid="url(#r2)" marker-end="url(#r3)"/>
+<path d="M26 2 L34 4 L40 2" marker-start="url(#r4)" marker-mid="url(#r5)" marker-end="url(#r6)"/>
+<path d="M2 12 L8 18" marker-end="url(#self)"/>
+<path d="M12 14" marker-start="url(#d)" marker-end="url(#d)"/>
+<path d="M18 14 z" marker-start="url(#d)" marker-end="url(#d)"/>
+<path d="M24 12 C24 12 30 18 30 18 C30 18 36 12 36 12" marker-start="url(#d)" marker-mid="url(#d)" marker-end="url(#d)"/>
+<path d="M2 26 A4 4 0 0 1 10 26 A4 4 0 1 1 18 26 L 22 28" marker-start="url(#d)" marker-mid="url(#d)" marker-end="url(#d)"/>
+<path d="M26 26 L32 22 L26 22 Z M36 22 L40 28" marker-start="url(#d)" marker-mid="url(#d)" marker-end="url(#d)"/>
+<path d="M42 22 L46 22 L42 22" marker-mid="url(#d)" stroke-width="2"/>
+<path d="M38 12 L46 16" vector-effect="non-scaling-stroke" marker-start="url(#d)" marker-end="url(#u)"/>
+<g transform="scale(0 1)"><path d="M2 30 L10 30" vector-effect="non-scaling-stroke" marker-start="url(#d)"/></g>
+</g>
+</svg>
