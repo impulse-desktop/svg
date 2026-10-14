@@ -15,7 +15,6 @@ rect { fill: red }
 [data-j^=""], [data-j$=""], [data-j*=""] { fill: black }
 [data-k!=v] { fill: black }
 [data-k=] { fill: black }
-[data-k { fill: black }
 [] { fill: black }
 # { fill: black }
 . { fill: black }
@@ -29,7 +28,6 @@ rect:hover, rect:active, rect:focus, rect:visited, rect:target { fill: black }
 rect:unknown { fill: black }
 rect:nth-child(2) { fill: black }
 rect: { fill: black }
-rect:not( { fill: black }
 rect:not(.a { fill: black }
 rect:not() { fill: black }
 rect, { fill: black }
@@ -38,6 +36,8 @@ g>rect+rect { stroke-width: 2 }
 g rect ~ rect { stroke-dasharray: 1 }
 :NOT(.q) { }
 </style>
+<style>[data-k { fill: black } rect { fill: black }</style>
+<style>rect:not( { fill: black } rect { fill: black }</style>
 <g>
 <rect x="0" y="0" width="5" height="5" id="a"/>
 <rect x="6" y="0" width="5" height="5" class="b m"/>

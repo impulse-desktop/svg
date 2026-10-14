@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<meshgradient id="b" x=".1" y=".1" type="bicubic" gradientTransform="bogus">
+<meshrow><meshpatch><stop path="l .8,0" stop-color="red"/><stop path="l 0,.8" stop-color="green"/><stop path="l -.8,0" stop-color="blue"/><stop path="l 0,-.8" stop-color="white"/></meshpatch></meshrow>
+</meshgradient>
+<meshgradient id="h" href="#b" type="bilinear"/>
+<meshgradient id="s" href="#s"><meshrow><meshpatch><stop path="l 1,0"/><stop path="l 0,1"/><stop path="l -1,0"/><stop path="l 0,-1"/></meshpatch></meshrow></meshgradient>
+<meshgradient id="t" href="#s" gradientUnits=" "/>
+<linearGradient id="g"/>
+<meshgradient id="u" href="#g"/>
+</defs>
+<rect x="2" y="2" width="20" height="20" fill="url(#b)"/>
+<rect x="26" y="2" width="20" height="20" fill="url(#h)"/>
+<line x1="2" y1="23" x2="46" y2="23" stroke="black" fill="url(#b)"/>
+<rect x="26" y="2" width="4" height="4" fill="url(#t)"/>
+<rect x="30" y="2" width="4" height="4" fill="url(#u) red"/>
+</svg>

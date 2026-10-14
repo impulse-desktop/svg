@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" color="purple">
+<defs>
+<marker id="m" markerWidth="3" markerHeight="3" refX="1.5" refY="1.5"><circle cx="1.5" cy="1.5" r="1.5" fill="context-stroke" stroke="context-fill"/></marker>
+</defs>
+<g stroke="black" stroke-width="2" fill="orange">
+<path d="M2 2 h8 v8 z" style="paint-order: normal"/>
+<path d="M14 2 h8 v8 z" style="paint-order: stroke"/>
+<path d="M26 2 h8 v8 z" style="paint-order: markers stroke" marker-start="url(#m)" marker-end="none"/>
+<path d="M38 2 h8 v8 z" style="paint-order: fill fill"/>
+<path d="M2 14 h8 v8 z" style="paint-order: bogus"/>
+<path d="M14 14 h8 v8 z" style="paint-order: stroke fill markers fill"/>
+<path d="M26 14 h8 v8 z" style="paint-order: fill stroke markers" marker-mid="url(#m)"/>
+<path d="M38 14 h8 v8 z" fill="context-fill" stroke="context-stroke"/>
+</g>
+<g fill="teal">
+<rect x="2" y="26" width="6" height="6" style="outline: solid"/>
+<rect x="12" y="26" width="6" height="6" style="outline: thin solid rgb(255, 0, 0)"/>
+<rect x="22" y="26" width="6" height="6" style="outline: medium solid blue"/>
+<rect x="32" y="26" width="6" height="6" style="outline: thick solid"/>
+<rect x="42" y="26" width="4" height="6" style="outline: 1px solid green"/>
+<rect x="2" y="38" width="6" height="6" style="outline: 50% solid"/>
+<rect x="12" y="38" width="6" height="6" style="outline: 2px"/>
+<rect x="22" y="38" width="6" height="6" style="outline: solid transparent"/>
+</g>
+<g stroke-dasharray="2 1" stroke="navy">
+<line x1="30" y1="40" x2="46" y2="40" stroke-dasharray="1 a"/>
+<line x1="30" y1="42" x2="46" y2="42" style="stroke-dasharray: 1 -1"/>
+<line x1="30" y1="44" x2="46" y2="44" stroke-dasharray="0 0 0"/>
+<line x1="30" y1="46" x2="46" y2="46" stroke-dasharray="1em 2" stroke-dashoffset="bogus" stroke-miterlimit="0.5" stroke-width="-1" stroke-linecap="bogus" stroke-linejoin="bogus"/>
+</g>
+</svg>

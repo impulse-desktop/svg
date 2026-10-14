@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
-<style><!--
+<style><![CDATA[<!--
 @charset "utf-8";
 @import url("x.css");
 @media screen { rect { fill: red } .x { fill: red } }
@@ -17,7 +17,7 @@ rect[data-a="/*"] { fill: green }
 .j { fill: var(--x, red }
 .k { -webkit-clip-path: circle(2px) }
 .l { fill: "quoted;value" }
---></style>
+-->]]></style>
 <style type="">.m { fill: lime }</style>
 <style type="text/foo">.m { fill: red }</style>
 <style type=" TEXT/CSS ">.n { fill: pink }</style>
