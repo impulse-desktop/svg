@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<g fill="green">
+<circle cx="4" cy="4" r="3.3" shape-rendering="crispEdges"/>
+<circle cx="12" cy="4" r="3.3" shape-rendering="optimizeSpeed"/>
+<circle cx="20" cy="4" r="3.3" shape-rendering="geometricPrecision"/>
+<circle cx="28" cy="4" r="3.3" shape-rendering="auto"/>
+<circle cx="36" cy="4" r="3.3" shape-rendering="bogus"/>
+<circle cx="44" cy="4" r="3.3" visibility="collapse"/>
+<rect x="0" y="10" width="6" height="6" fill="red" style="mix-blend-mode: bogus"/>
+<rect x="8" y="10" width="6" height="6" style="isolation: auto; mix-blend-mode: normal"/>
+<rect x="16" y="10" width="6" height="6" style="zoom: 2"/>
+<rect x="24" y="10" width="6" height="6" style="zoom: 150%"/>
+<rect x="32" y="10" width="6" height="6" style="zoom: reset"/>
+<rect x="40" y="10" width="6" height="6" style="zoom: normal"/>
+<rect x="0" y="18" width="6" height="6" style="zoom: -1"/>
+<rect x="8" y="18" width="6" height="6" style="zoom: 2px"/>
+<rect x="16" y="18" width="6" height="6" vector-effect="none" color-interpolation="sRGB"/>
+<rect x="24" y="18" width="6" height="6" color-interpolation="auto" color-interpolation-filters="auto" overflow="auto" mask-type="luminance"/>
+<rect x="32" y="18" width="6" height="6" image-rendering="crisp-edges"/>
+<rect x="40" y="18" width="6" height="6" image-rendering="optimizeSpeed"/>
+</g>
+<image x="42" y="18" width="1" height="1" image-rendering="smooth"/>
+<image x="42" y="18" width="1" height="1" image-rendering="high-quality"/>
+<image x="42" y="18" width="1" height="1" image-rendering="optimizeQuality"/>
+<image x="42" y="18" width="1" height="1" image-rendering="auto"/>
+</svg>
