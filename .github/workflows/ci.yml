@@ -221,6 +221,17 @@ jobs:
             .coverage/show.txt
           if-no-files-found: ignore
 
+      # svg.cpp runs whole: every region, function, line and branch, and the
+      # lcov report Codecov reads has no line or branch that never ran.
+      - name: Require full coverage
+        run: |
+          awk '$1 == "TOTAL" { found = 1; if ($3 || $6 || $9 || $12) { print "coverage: svg.cpp misses " $3 " regions, " $6 " functions, " $9 " lines and " $12 " branches"; missed = 1 } } END { exit missed || !found }' .coverage/summary.txt
+
+          if grep -E '^(DA:[0-9]+,0|BRDA:.*,(0|-))$' .coverage/coverage.info; then
+            echo "coverage: the lines and branches above never ran"
+            exit 1
+          fi
+
   style:
     name: Style
     runs-on: ubuntu-24.04
