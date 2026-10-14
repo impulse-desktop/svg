@@ -1694,15 +1694,24 @@ namespace {
         Vector<u32**> instanceMaps;
     };
 
+    // A buffer of float RGBA pixels over a box of the raster, zero at first:
+    // a pixel outside the box reads as zero and is never written.
+    struct Plane {
+        float* data;
+        IntBox box;
+    };
+
+    // The layers of a drawing in progress: the base, and one for every open
+    // group, over the box its group can draw.
     struct Raster {
         u32 width;
         u32 height;
-        Vector<float*> layers;
+        Vector<Plane> layers;
         Vector<IntBox> dirty;
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
         Vector<float> accumulation;
-        const float* backdrop = nullptr;
+        Plane backdrop{nullptr, IntBox{0, 0, 0, 0}};
         size_t backgroundBase = 0;
     };
 
@@ -8866,7 +8875,54 @@ namespace {
         return op;
     }
 
-    static void endGroup(Lowering& l) {
+    // The bounds of the ops from one on to the End of their group, in device
+    // pixels; a nested group counts by its own bounds.
+    static Box groupBounds(const Vector<Op>& ops, u32 from) {
+        Box box = emptyBox();
+        u32 depth = 0;
+
+        for (u32 i = from; i < ops.length(); i++) {
+            const Op& op = ops[i];
+
+            if (op.kind == OpKind::End) {
+                if (depth == 0) {
+                    break;
+                }
+
+                depth--;
+                continue;
+            }
+
+            if (depth == 0) {
+                extend(box, Point{op.bounds.x0, op.bounds.y0});
+                extend(box, Point{op.bounds.x1, op.bounds.y1});
+            }
+
+            if (op.kind == OpKind::Begin) {
+                depth++;
+            }
+        }
+
+        return box;
+    }
+
+    // Ends the group begun at the index: its bounds are its filters' regions,
+    // or else the bounds of what it drew.
+    static void endGroup(Lowering& l, u32 begin) {
+        Box bounds = emptyBox();
+        const Filter* filter = (*l.out)[begin].filter;
+
+        if (filter) {
+            for (const Filter* f = filter; f; f = f->next) {
+                extend(bounds, Point{f->device.x0, f->device.y0});
+                extend(bounds, Point{f->device.x1, f->device.y1});
+            }
+        } else {
+            bounds = groupBounds(*l.out, begin + 1);
+        }
+
+        l.out->mut(begin).bounds = bounds;
+
         Op op;
 
         memset(&op, 0, sizeof(op));
@@ -9004,6 +9060,8 @@ namespace {
         l.out = &program;
         outer.clipped = clipStyle.clipPath && resolveClip(l, element, parent, clipStyle, m, vp, outer);
 
+        u32 outerIndex = (u32)program.length();
+
         if (outer.clipped) {
             program.pushBack(outer);
         }
@@ -9021,6 +9079,8 @@ namespace {
 
             inner.clipped = childStyle.clipPath && resolveClip(l, child, clipStyle, childStyle, multiply(space, transformOf(doc, child, AtomTransform)), vp, inner);
 
+            u32 innerIndex = (u32)program.length();
+
             if (inner.clipped) {
                 program.pushBack(inner);
             }
@@ -9031,12 +9091,12 @@ namespace {
             emitFill(l, flat, item.style.clipRule, solidPaint(l, Color{1.f, 1.f, 1.f, 1.f}, 1.f), false);
 
             if (inner.clipped) {
-                endGroup(l);
+                endGroup(l, innerIndex);
             }
         }
 
         if (outer.clipped) {
-            endGroup(l);
+            endGroup(l, outerIndex);
         }
 
         l.out = saved;
@@ -9891,6 +9951,7 @@ namespace {
         Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, vp, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, vp, fs, 0.f)});
         Matrix origin = multiply(placed, translation(-ref.x, -ref.y));
         bool clip = !markerStyle.overflowVisible;
+        u32 clipIndex = (u32)l.out->length();
 
         if (clip) {
             Op op = groupOp(1.f);
@@ -9917,7 +9978,7 @@ namespace {
         l.contextStroke = outerStroke;
 
         if (clip) {
-            endGroup(l);
+            endGroup(l, clipIndex);
         }
     }
 
@@ -10114,6 +10175,8 @@ namespace {
             inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, l.rootFontSize};
         }
 
+        u32 clipIndex = (u32)l.out->length();
+
         if (clip) {
             u32 first = (u32)l.clips.length();
 
@@ -10133,7 +10196,7 @@ namespace {
         lowerChildren(l, content, style, inner, inside);
 
         if (clip) {
-            endGroup(l);
+            endGroup(l, clipIndex);
         }
     }
 
@@ -10746,6 +10809,8 @@ namespace {
             op.backgroundBox = Box{0.f, 0.f, 0.f, 0.f};
         }
 
+        u32 imageIndex = (u32)l.out->length();
+
         l.out->pushBack(op);
         l.rootFontSize = rootStyle.fontSize;
         lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.sizeless ? w : source.width, source.sizeless ? h : source.height, rootStyle.fontSize});
@@ -10756,7 +10821,7 @@ namespace {
         l.instanceTargets.xchg(outerTargets);
         l.instanceMaps.xchg(outerMaps);
         l.instance = outerInstance;
-        endGroup(l);
+        endGroup(l, imageIndex);
     }
 
     static void lowerImage(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -11221,6 +11286,10 @@ namespace {
         op.layerWidth = (u32)lw;
         op.layerHeight = (u32)lh;
         op.layerMatrix = layer;
+
+        Matrix toDevice;
+
+        op.bounds = invert(layer, toDevice) ? deviceBox(toDevice, Box{-4.f, -4.f, lw + 4.f, lh + 4.f}) : Box{0.f, 0.f, (float)l.width, (float)l.height};
         l.programs.append(content.data(), content.length());
         l.out->pushBack(op);
 
@@ -11310,6 +11379,8 @@ namespace {
         op.backgroundOnly = op.newBackground && !layer;
         layer = layer || op.newBackground;
 
+        u32 index = (u32)l.out->length();
+
         if (layer) {
             l.out->pushBack(op);
         }
@@ -11318,11 +11389,12 @@ namespace {
 
         if ((offscreen || complex) && !lowerFilteredLayer(l, node, parent, style, m, vp, offscreen ? &extent : nullptr, measured)) {
             Op fallback = groupOp(1.f);
+            u32 fallbackIndex = (u32)l.out->length();
 
             fallback.filter = lowerFilters(l, node, parent, style, m, vp);
             l.out->pushBack(fallback);
             lowerContent(l, node, style, m, vp);
-            endGroup(l);
+            endGroup(l, fallbackIndex);
         } else if (!offscreen && !complex) {
             lowerContent(l, node, style, m, vp);
         }
@@ -11351,8 +11423,76 @@ namespace {
         l.depth--;
 
         if (layer) {
-            endGroup(l);
+            endGroup(l, index);
         }
+    }
+
+    const float zeroPixel[4] = {0.f, 0.f, 0.f, 0.f};
+
+    static Plane makePlane(IntBox box) {
+        size_t count = box.x1 > box.x0 && box.y1 > box.y0 ? (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0) : 0;
+        Plane plane{count ? new float[count * 4] : nullptr, box};
+
+        if (count) {
+            memset(plane.data, 0, sizeof(float) * count * 4);
+        }
+
+        return plane;
+    }
+
+    static void releasePlane(Plane& plane) {
+        delete[] plane.data;
+        plane.data = nullptr;
+    }
+
+    static int planeWidth(const Plane& plane) {
+        return plane.box.x1 - plane.box.x0;
+    }
+
+    // The pixel at x, y of a plane whose box holds it.
+    static float* planeAt(const Plane& plane, int x, int y) {
+        return plane.data + ((size_t)(y - plane.box.y0) * (size_t)planeWidth(plane) + (size_t)(x - plane.box.x0)) * 4;
+    }
+
+    // The pixel at x, y, zero outside the plane.
+    static const float* planeRead(const Plane& plane, int x, int y) {
+        if (x < plane.box.x0 || x >= plane.box.x1 || y < plane.box.y0 || y >= plane.box.y1) {
+            return zeroPixel;
+        }
+
+        return planeAt(plane, x, y);
+    }
+
+    static IntBox boxInside(IntBox box, const IntBox& bound) {
+        box.x0 = box.x0 < bound.x0 ? bound.x0 : box.x0;
+        box.y0 = box.y0 < bound.y0 ? bound.y0 : box.y0;
+        box.x1 = box.x1 > bound.x1 ? bound.x1 : box.x1;
+        box.y1 = box.y1 > bound.y1 ? bound.y1 : box.y1;
+
+        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+            return IntBox{0, 0, 0, 0};
+        }
+
+        return box;
+    }
+
+    // The pixels of the canvas that drawing within the bounds can touch,
+    // rounded as rasterize rounds a fill's.
+    static IntBox layerBox(const Box& bounds, const IntBox& canvas) {
+        if (!boxValid(bounds)) {
+            return IntBox{0, 0, 0, 0};
+        }
+
+        float x0 = floorf(maxf(bounds.x0, (float)canvas.x0));
+        float y0 = floorf(maxf(bounds.y0, (float)canvas.y0));
+        float x1 = ceilf(minf(bounds.x1, (float)canvas.x1));
+        float y1 = ceilf(minf(bounds.y1, (float)canvas.y1));
+
+        if (!(x1 > x0) || !(y1 > y0)) {
+            return IntBox{0, 0, 0, 0};
+        }
+
+        return IntBox{(int)x0, (int)y0, (int)x1, (int)y1};
     }
 
     static void addLine(float* acc, u32 stride, u32 width, u32 height, float x0, float y0, float x1, float y1) {
@@ -12181,7 +12321,7 @@ namespace {
         return true;
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
+    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
     static void prepareTile(const Lowering& l, DevicePaint& paint) {
         if (paint.tile) {
@@ -12195,23 +12335,27 @@ namespace {
         memset(paint.tile, 0, sizeof(float) * size * 4);
         tile.width = paint.imageWidth;
         tile.height = paint.imageHeight;
-        runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, paint.tile);
+        runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, Plane{paint.tile, IntBox{0, 0, (int)paint.imageWidth, (int)paint.imageHeight}});
     }
 
-    static void clearSpan(float* layer, u32 width, int y, int x0, int x1) {
+    static void clearSpan(const Plane& plane, int y, int x0, int x1) {
         if (x1 > x0) {
-            memset(layer + ((size_t)y * width + (size_t)x0) * 4, 0, sizeof(float) * 4 * (size_t)(x1 - x0));
+            memset(planeAt(plane, x0, y), 0, sizeof(float) * 4 * (size_t)(x1 - x0));
         }
     }
 
-    static void ensure(float* layer, u32 width, IntBox& valid, IntBox add) {
+    // Zeroes what the box adds to the valid part of the plane; what lies
+    // outside the plane is left out.
+    static void ensure(const Plane& plane, IntBox& valid, IntBox add) {
+        add = boxInside(add, plane.box);
+
         if (add.x0 >= add.x1 || add.y0 >= add.y1) {
             return;
         }
 
         if (valid.x0 >= valid.x1 || valid.y0 >= valid.y1) {
             for (int y = add.y0; y < add.y1; y++) {
-                clearSpan(layer, width, y, add.x0, add.x1);
+                clearSpan(plane, y, add.x0, add.x1);
             }
 
             valid = add;
@@ -12223,10 +12367,10 @@ namespace {
 
         for (int y = grown.y0; y < grown.y1; y++) {
             if (y < valid.y0 || y >= valid.y1) {
-                clearSpan(layer, width, y, grown.x0, grown.x1);
+                clearSpan(plane, y, grown.x0, grown.x1);
             } else {
-                clearSpan(layer, width, y, grown.x0, valid.x0);
-                clearSpan(layer, width, y, valid.x1, grown.x1);
+                clearSpan(plane, y, grown.x0, valid.x0);
+                clearSpan(plane, y, valid.x1, grown.x1);
             }
         }
 
@@ -12262,9 +12406,17 @@ namespace {
         const DevicePaint& paint = *op.paint;
 
         size_t first = firstTarget(r);
+        IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
+
+        // The layer of the fill's group holds its pixels; a layer of an
+        // enclosing background may not.
+        bool inside = true;
 
         for (size_t level = first; level < r.layers.length(); level++) {
-            ensure(r.layers[level], r.width, r.dirty.mut(level), IntBox{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)});
+            const IntBox& box = r.layers[level].box;
+
+            ensure(r.layers[level], r.dirty.mut(level), fill);
+            inside = inside && fill.x0 >= box.x0 && fill.y0 >= box.y0 && fill.x1 <= box.x1 && fill.y1 <= box.y1;
         }
 
         for (u32 y = 0; y < h; y++) {
@@ -12292,7 +12444,16 @@ namespace {
                 float keep = 1.f - a;
 
                 for (size_t level = first; level < r.layers.length(); level++) {
-                    float* px = r.layers[level] + ((size_t)(iy0 + y) * r.width + ix0 + x) * 4;
+                    const Plane& plane = r.layers[level];
+                    int dx = (int)(ix0 + x);
+                    int dy = (int)(iy0 + y);
+
+                    if (!inside && (dx < plane.box.x0 || dx >= plane.box.x1 || dy < plane.box.y0 || dy >= plane.box.y1)) {
+                        continue;
+                    }
+
+                    float* px = planeAt(plane, dx, dy);
+
                     px[0] = src.r * cov + px[0] * keep;
                     px[1] = src.g * cov + px[1] * keep;
                     px[2] = src.b * cov + px[2] * keep;
@@ -12302,7 +12463,8 @@ namespace {
         }
     }
 
-    static void accumulateShape(Raster& r, const Lowering& l, const ClipShape& shape, float* target) {
+    // Adds the coverage of the shape to a map of one float a pixel over the box.
+    static void accumulateShape(Raster& r, const Lowering& l, const ClipShape& shape, float* target, const IntBox& box) {
         Box bounds = emptyBox();
 
         for (u32 i = shape.first; i < shape.first + shape.count; i++) {
@@ -12321,59 +12483,70 @@ namespace {
 
         const float* acc = r.accumulation.data();
         u32 stride = w + 2;
+        int width = box.x1 - box.x0;
 
         for (u32 y = 0; y < h; y++) {
             float sum = 0.f;
             const float* line = acc + (size_t)y * stride;
-            float* row = target + (size_t)(iy0 + y) * r.width + ix0;
+            int dy = (int)(iy0 + y);
 
             for (u32 x = 0; x < w; x++) {
                 sum += line[x];
-                row[x] = maxf(row[x], coverage(sum, shape.rule));
+
+                int dx = (int)(ix0 + x);
+
+                if (dx < box.x0 || dx >= box.x1 || dy < box.y0 || dy >= box.y1) {
+                    continue;
+                }
+
+                float& value = target[(size_t)(dy - box.y0) * width + (size_t)(dx - box.x0)];
+
+                value = maxf(value, coverage(sum, shape.rule));
             }
         }
     }
 
-    static float* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool) {
-        size_t size = (size_t)r.width * r.height;
+    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
+
+    // The clip of a group, one float a pixel over the box of its layer.
+    static float* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
+        size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
         float* mask = (float*)pool.allocate(sizeof(float) * size);
 
         memset(mask, 0, sizeof(float) * size);
 
         if (op.clipProgram) {
-            float* content = (float*)pool.allocate(sizeof(float) * size * 4);
+            Plane content{(float*)pool.allocate(sizeof(float) * size * 4), box};
 
-            memset(content, 0, sizeof(float) * size * 4);
+            memset(content.data, 0, sizeof(float) * size * 4);
             runProgram(r, l, l.programs.data() + op.clipFirst, op.clipCount, content);
 
             for (size_t i = 0; i < size; i++) {
-                mask[i] = content[i * 4 + 3];
+                mask[i] = content.data[i * 4 + 3];
             }
 
             return mask;
         }
 
         for (u32 s = op.clipFirst; s < op.clipFirst + op.clipCount; s++) {
-            accumulateShape(r, l, l.clips[s], mask);
+            accumulateShape(r, l, l.clips[s], mask, box);
         }
 
         return mask;
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
-
-    static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool) {
-        size_t size = (size_t)r.width * r.height;
-        float* content = (float*)pool.allocate(sizeof(float) * size * 4);
+    static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
+        size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
+        Plane content{(float*)pool.allocate(sizeof(float) * size * 4), box};
         float* mask = (float*)pool.allocate(sizeof(float) * size);
 
-        memset(content, 0, sizeof(float) * size * 4);
+        memset(content.data, 0, sizeof(float) * size * 4);
         memset(mask, 0, sizeof(float) * size);
         runProgram(r, l, l.programs.data() + op.maskFirst, op.maskCount, content);
-        accumulateShape(r, l, l.clips[op.maskRegion], mask);
+        accumulateShape(r, l, l.clips[op.maskRegion], mask, box);
 
         for (size_t i = 0; i < size; i++) {
-            const float* c = content + i * 4;
+            const float* c = content.data + i * 4;
             float value = (op.maskType & 1) ? c[3] : 0.2126f * c[0] + 0.7152f * c[1] + 0.0722f * c[2];
 
             if ((op.maskType & 3) == 2 && c[3] > 0.f) {
@@ -12385,13 +12558,6 @@ namespace {
 
         return mask;
     }
-
-    // A buffer of float RGBA pixels over a box of the raster, zero at first:
-    // a pixel outside the box reads as zero and is never written.
-    struct Plane {
-        float* data;
-        IntBox box;
-    };
 
     struct FilterResult {
         Plane plane;
@@ -12420,45 +12586,6 @@ namespace {
         float scaleX;
         float scaleY;
     };
-
-    const float zeroPixel[4] = {0.f, 0.f, 0.f, 0.f};
-
-    // A primitive's result is released once the last primitive that reads it
-    // has run, a temporary at the end of its primitive, the rest at the end
-    // of the filter.
-    static Plane makePlane(IntBox box) {
-        size_t count = box.x1 > box.x0 && box.y1 > box.y0 ? (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0) : 0;
-        Plane plane{count ? new float[count * 4] : nullptr, box};
-
-        if (count) {
-            memset(plane.data, 0, sizeof(float) * count * 4);
-        }
-
-        return plane;
-    }
-
-    static void releasePlane(Plane& plane) {
-        delete[] plane.data;
-        plane.data = nullptr;
-    }
-
-    static int planeWidth(const Plane& plane) {
-        return plane.box.x1 - plane.box.x0;
-    }
-
-    // The pixel at x, y of a plane whose box holds it.
-    static float* planeAt(const Plane& plane, int x, int y) {
-        return plane.data + ((size_t)(y - plane.box.y0) * (size_t)planeWidth(plane) + (size_t)(x - plane.box.x0)) * 4;
-    }
-
-    // The pixel at x, y, zero outside the plane.
-    static const float* planeRead(const Plane& plane, int x, int y) {
-        if (x < plane.box.x0 || x >= plane.box.x1 || y < plane.box.y0 || y >= plane.box.y1) {
-            return zeroPixel;
-        }
-
-        return planeAt(plane, x, y);
-    }
 
     static float srgbToLinear(float c) {
         return c <= 0.04045f ? c / 12.92f : powf((c + 0.055f) / 1.055f, 2.4f);
@@ -12502,7 +12629,9 @@ namespace {
         return out;
     }
 
-    static float* backgroundBuffer(Raster& r, ObjPool& pool) {
+    // The background under the box: the layers of the current scope over the
+    // backdrop. A plane without data when there is none.
+    static Plane backgroundBuffer(Raster& r, const IntBox& box) {
         size_t first = r.backgroundBase;
         const Op* scope = nullptr;
 
@@ -12510,7 +12639,7 @@ namespace {
             const Op* op = r.begins[i - 1];
 
             if (op && op->resetBackground && !op->newBackground) {
-                return nullptr;
+                return Plane{nullptr, box};
             }
 
             if (op && op->newBackground) {
@@ -12520,46 +12649,52 @@ namespace {
             }
         }
 
-        if (!scope && !r.backdrop) {
-            return nullptr;
+        if (!scope && !r.backdrop.data) {
+            return Plane{nullptr, box};
         }
 
-        size_t size = (size_t)r.width * r.height * 4;
-        float* out = (float*)pool.allocate(sizeof(float) * size);
+        Plane out = makePlane(box);
 
-        if (!scope && r.backdrop) {
-            memcpy(out, r.backdrop, sizeof(float) * size);
-        } else {
-            memset(out, 0, sizeof(float) * size);
+        if (!out.data) {
+            return out;
+        }
+
+        if (!scope) {
+            for (int y = box.y0; y < box.y1; y++) {
+                for (int x = box.x0; x < box.x1; x++) {
+                    memcpy(planeAt(out, x, y), planeRead(r.backdrop, x, y), sizeof(float) * 4);
+                }
+            }
         }
 
         // Ancestor opacity, masks and filters apply when that ancestor is
         // composited, not while its children form the current background.
         for (size_t level = first; level < r.layers.length(); level++) {
-            const IntBox& box = r.dirty[level];
-            const float* layer = r.layers[level];
+            IntBox drawn = boxInside(r.dirty[level], box);
+            const Plane& layer = r.layers[level];
 
-            for (int y = box.y0; y < box.y1; y++) {
-                for (int x = box.x0; x < box.x1; x++) {
-                    size_t i = ((size_t)y * r.width + x) * 4;
-                    float keep = 1.f - layer[i + 3];
+            for (int y = drawn.y0; y < drawn.y1; y++) {
+                for (int x = drawn.x0; x < drawn.x1; x++) {
+                    const float* s = planeAt(layer, x, y);
+                    float* d = planeAt(out, x, y);
+                    float keep = 1.f - s[3];
 
                     for (int c = 0; c < 4; c++) {
-                        out[i + c] = layer[i + c] + out[i + c] * keep;
+                        d[c] = s[c] + d[c] * keep;
                     }
                 }
             }
         }
 
         if (scope && scope->backgroundClipped) {
-            const Box& box = scope->backgroundBox;
+            const Box& clip = scope->backgroundBox;
 
-            for (u32 y = 0; y < r.height; y++) {
-                for (u32 x = 0; x < r.width; x++) {
+            for (int y = box.y0; y < box.y1; y++) {
+                for (int x = box.x0; x < box.x1; x++) {
                     Point point = apply(scope->backgroundMatrix, Point{(float)x + .5f, (float)y + .5f});
 
-                    if (point.x < box.x0 || point.x >= box.x1 || point.y < box.y0 || point.y >= box.y1) {
-                        memset(out + ((size_t)y * r.width + x) * 4, 0, sizeof(float) * 4);
+                    if (point.x < clip.x0 || point.x >= clip.x1 || point.y < clip.y0 || point.y >= clip.y1) {
+                        memset(planeAt(out, x, y), 0, sizeof(float) * 4);
                     }
                 }
             }
@@ -12609,16 +12744,10 @@ namespace {
 
         if (index == InputBackgroundImage || index == InputBackgroundAlpha) {
             if (!run.background.data) {
-                float* background = run.resetBackground ? nullptr : backgroundBuffer(*run.raster, *run.pool);
                 const IntBox& box = run.filter->region;
+                Plane background = run.resetBackground ? Plane{nullptr, box} : backgroundBuffer(*run.raster, box);
 
-                run.background = makePlane(box);
-
-                if (background) {
-                    for (int y = box.y0; y < box.y1; y++) {
-                        memcpy(planeAt(run.background, box.x0, y), background + ((size_t)y * run.raster->width + box.x0) * 4, sizeof(float) * 4 * (size_t)(box.x1 - box.x0));
-                    }
-                }
+                run.background = background.data ? background : makePlane(box);
             }
 
             if (index == InputBackgroundAlpha) {
@@ -14500,13 +14629,11 @@ namespace {
         }
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base);
+    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
     static void filterImage(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
-        size_t count = (size_t)run.raster->width * run.raster->height;
-        float* content = new float[count * 4];
+        Plane content = makePlane(p.box);
 
-        memset(content, 0, sizeof(float) * count * 4);
         runProgram(*run.raster, *run.lowering, run.lowering->programs.data() + p.programFirst, p.programCount, content);
 
         const IntBox& box = p.box;
@@ -14514,7 +14641,7 @@ namespace {
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
                 float* o = planeAt(out, x, y);
-                const float* s = content + ((size_t)y * run.raster->width + x) * 4;
+                const float* s = planeAt(content, x, y);
 
                 if (p.linear) {
                     float c[4];
@@ -14532,7 +14659,7 @@ namespace {
             }
         }
 
-        delete[] content;
+        releasePlane(content);
     }
 
     static IntBox clipBox(IntBox box, int width, int height) {
@@ -14568,14 +14695,14 @@ namespace {
 
     // Runs the filter over the layer and writes its result back over it: the
     // final primitive's result inside its box, zero elsewhere.
-    static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, float* layer, ObjPool& pool, bool resetBackground = false) {
+    static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, const Plane& layer, ObjPool& pool, bool resetBackground = false) {
         // The region and the primitive boxes were clipped to the canvas when
         // the filter was lowered; a pattern tile or a layer is drawn on a
         // smaller raster, so clip them to it.
         Filter filter = lowered;
-        size_t size = (size_t)r.width * r.height;
+        size_t size = (size_t)planeWidth(layer) * (size_t)(layer.box.y1 - layer.box.y0);
 
-        filter.region = clipBox(lowered.region, (int)r.width, (int)r.height);
+        filter.region = boxInside(clipBox(lowered.region, (int)r.width, (int)r.height), layer.box);
 
         if (lowered.count) {
             FilterPrimitive* primitives = (FilterPrimitive*)pool.allocate(sizeof(FilterPrimitive) * lowered.count);
@@ -14591,7 +14718,9 @@ namespace {
         const IntBox& region = filter.region;
 
         if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
-            memset(layer, 0, sizeof(float) * size * 4);
+            if (layer.data) {
+                memset(layer.data, 0, sizeof(float) * size * 4);
+            }
 
             return;
         }
@@ -14619,22 +14748,22 @@ namespace {
         }
 
         // SourceGraphic is the layer inside the filter region: the layer
-        // itself when the region is the raster, else a copy of the region.
-        if (region.x0 > 0 || region.y0 > 0 || region.x1 < (int)r.width || region.y1 < (int)r.height) {
+        // itself when the region is its box, else a copy of the region.
+        if (region.x0 > layer.box.x0 || region.y0 > layer.box.y0 || region.x1 < layer.box.x1 || region.y1 < layer.box.y1) {
             run.source = makePlane(region);
 
             for (int y = region.y0; y < region.y1; y++) {
-                memcpy(planeAt(run.source, region.x0, y), layer + ((size_t)y * r.width + region.x0) * 4, sizeof(float) * 4 * (size_t)(region.x1 - region.x0));
+                memcpy(planeAt(run.source, region.x0, y), planeAt(layer, region.x0, y), sizeof(float) * 4 * (size_t)(region.x1 - region.x0));
             }
         } else {
-            run.source = Plane{layer, run.canvas};
+            run.source = layer;
         }
 
         run.sourceAlpha = makePlane(region);
 
         for (int y = region.y0; y < region.y1; y++) {
             for (int x = region.x0; x < region.x1; x++) {
-                planeAt(run.sourceAlpha, x, y)[3] = layer[((size_t)y * r.width + x) * 4 + 3];
+                planeAt(run.sourceAlpha, x, y)[3] = planeAt(layer, x, y)[3];
             }
         }
 
@@ -14728,10 +14857,12 @@ namespace {
         Plane converted = last.linear ? convertBuffer(last.plane, false) : run.empty;
         const Plane& final = last.linear ? converted : last.plane;
 
-        memset(layer, 0, sizeof(float) * size * 4);
+        IntBox kept = boxInside(final.box, layer.box);
 
-        for (int y = final.box.y0; final.data && y < final.box.y1; y++) {
-            memcpy(layer + ((size_t)y * r.width + final.box.x0) * 4, planeAt(final, final.box.x0, y), sizeof(float) * 4 * (size_t)planeWidth(final));
+        memset(layer.data, 0, sizeof(float) * size * 4);
+
+        for (int y = kept.y0; final.data && y < kept.y1; y++) {
+            memcpy(planeAt(layer, kept.x0, y), planeAt(final, kept.x0, y), sizeof(float) * 4 * (size_t)(kept.x1 - kept.x0));
         }
 
         releasePlane(converted);
@@ -14742,7 +14873,7 @@ namespace {
             releasePlane(run.srgbCache.mut(k));
         }
 
-        if (run.source.data != layer) {
+        if (run.source.data != layer.data) {
             releasePlane(run.source);
         }
 
@@ -14762,8 +14893,10 @@ namespace {
     static void compositeLayer(Raster& r, const Lowering& l, const Op& op) {
         Raster sub;
         ObjPool pool;
+        int lw = (int)op.layerWidth;
+        int lh = (int)op.layerHeight;
         size_t size = (size_t)op.layerWidth * op.layerHeight;
-        float* content = (float*)pool.allocate(sizeof(float) * size * 4);
+        Plane content{(float*)pool.allocate(sizeof(float) * size * 4), IntBox{0, 0, lw, lh}};
         Matrix toDevice;
 
         if (!invert(op.layerMatrix, toDevice)) {
@@ -14772,48 +14905,51 @@ namespace {
 
         sub.width = op.layerWidth;
         sub.height = op.layerHeight;
-        float* background = l.backgroundInputs ? backgroundBuffer(r, pool) : nullptr;
 
-        if (background) {
-            float* inherited = (float*)pool.allocate(sizeof(float) * size * 4);
-            memset(inherited, 0, sizeof(float) * size * 4);
+        if (l.backgroundInputs) {
+            // The layer inherits the background under its footprint, resampled
+            // from the pixels around it.
+            IntBox canvas{0, 0, (int)r.width, (int)r.height};
+            Box footprint = deviceBox(toDevice, Box{0.f, 0.f, (float)lw, (float)lh});
+            Plane background = backgroundBuffer(r, pixelBox(Box{footprint.x0 - 2.f, footprint.y0 - 2.f, footprint.x1 + 2.f, footprint.y1 + 2.f}, canvas));
 
-            for (u32 y = 0; y < sub.height; y++) {
-                for (u32 x = 0; x < sub.width; x++) {
-                    Point point = apply(toDevice, Point{(float)x + .5f, (float)y + .5f});
-                    float fx = point.x - .5f;
-                    float fy = point.y - .5f;
-                    int ix = (int)floorf(fx);
-                    int iy = (int)floorf(fy);
-                    float tx = fx - ix;
-                    float ty = fy - iy;
+            if (background.data) {
+                float* inherited = (float*)pool.allocate(sizeof(float) * size * 4);
 
-                    for (int dy = 0; dy < 2; dy++) {
-                        for (int dx = 0; dx < 2; dx++) {
-                            int sx = ix + dx;
-                            int sy = iy + dy;
+                memset(inherited, 0, sizeof(float) * size * 4);
 
-                            if (sx < 0 || sy < 0 || sx >= (int)r.width || sy >= (int)r.height) {
-                                continue;
-                            }
+                for (u32 y = 0; y < sub.height; y++) {
+                    for (u32 x = 0; x < sub.width; x++) {
+                        Point point = apply(toDevice, Point{(float)x + .5f, (float)y + .5f});
+                        float fx = point.x - .5f;
+                        float fy = point.y - .5f;
+                        int ix = (int)floorf(fx);
+                        int iy = (int)floorf(fy);
+                        float tx = fx - ix;
+                        float ty = fy - iy;
 
-                            float weight = (dx ? tx : 1.f - tx) * (dy ? ty : 1.f - ty);
+                        for (int dy = 0; dy < 2; dy++) {
+                            for (int dx = 0; dx < 2; dx++) {
+                                const float* s = planeRead(background, ix + dx, iy + dy);
+                                float weight = (dx ? tx : 1.f - tx) * (dy ? ty : 1.f - ty);
 
-                            for (int c = 0; c < 4; c++) {
-                                inherited[((size_t)y * sub.width + x) * 4 + c] += background[((size_t)sy * r.width + sx) * 4 + c] * weight;
+                                for (int c = 0; c < 4; c++) {
+                                    inherited[((size_t)y * sub.width + x) * 4 + c] += s[c] * weight;
+                                }
                             }
                         }
                     }
                 }
+
+                sub.backdrop = Plane{inherited, content.box};
             }
 
-            sub.backdrop = inherited;
+            releasePlane(background);
         }
-        memset(content, 0, sizeof(float) * size * 4);
+
+        memset(content.data, 0, sizeof(float) * size * 4);
         runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
-        int lw = (int)op.layerWidth;
-        int lh = (int)op.layerHeight;
         IntBox region{0, 0, lw, lh};
 
         for (const Filter* filter = op.filter; filter; filter = filter->next) {
@@ -14834,7 +14970,7 @@ namespace {
         }
 
         auto texel = [&](int x, int y, int c) {
-            return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content[((size_t)y * lw + x) * 4 + c];
+            return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content.data[((size_t)y * lw + x) * 4 + c];
         };
 
         for (int y = drawn.y0; y < drawn.y1; y++) {
@@ -14869,7 +15005,14 @@ namespace {
                 float keep = 1.f - sample[3];
 
                 for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
-                    float* d = r.layers[level] + ((size_t)y * r.width + x) * 4;
+                    const Plane& plane = r.layers[level];
+
+                    if (x < plane.box.x0 || x >= plane.box.x1 || y < plane.box.y0 || y >= plane.box.y1) {
+                        continue;
+                    }
+
+                    float* d = planeAt(plane, x, y);
+
                     for (int c = 0; c < 4; c++) {
                         d[c] = sample[c] + d[c] * keep;
                     }
@@ -14878,21 +15021,20 @@ namespace {
         }
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, float* base) {
-        size_t size = (size_t)r.width * r.height;
+    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base) {
         size_t depth = r.layers.length();
         IntBox canvas{0, 0, (int)r.width, (int)r.height};
-
         size_t backgroundBase = r.backgroundBase;
-        const float* backdrop = r.backdrop;
+        Plane backdrop = r.backdrop;
+
         r.backgroundBase = depth;
 
         if (depth) {
-            r.backdrop = nullptr;
+            r.backdrop = Plane{nullptr, IntBox{0, 0, 0, 0}};
         }
 
         r.layers.pushBack(base);
-        r.dirty.pushBack(canvas);
+        r.dirty.pushBack(base.box);
         r.begins.pushBack(nullptr);
 
         for (u32 k = 0; k < count; k++) {
@@ -14904,13 +15046,17 @@ namespace {
                     break;
                 case OpKind::Layer:
                     for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
-                        ensure(r.layers[level], r.width, r.dirty.mut(level), canvas);
+                        ensure(r.layers[level], r.dirty.mut(level), layerBox(op.bounds, canvas));
                     }
+
                     compositeLayer(r, l, op);
                     break;
                 case OpKind::Begin: {
+                    // The layer holds the pixels its group was lowered to draw.
                     ObjPool* pool = new ObjPool();
-                    float* layer = (float*)pool->allocate(sizeof(float) * size * 4);
+                    IntBox box = layerBox(op.bounds, canvas);
+                    size_t area = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
+                    Plane layer{area ? (float*)pool->allocate(sizeof(float) * area * 4) : nullptr, box};
 
                     r.layers.pushBack(layer);
                     r.dirty.pushBack(IntBox{0, 0, 0, 0});
@@ -14919,41 +15065,47 @@ namespace {
                     break;
                 }
                 case OpKind::End: {
-                    float* layer = r.layers.popBack();
+                    Plane layer = r.layers.popBack();
                     ObjPool* pool = r.pools.popBack();
                     const Op* begin = r.begins.popBack();
                     IntBox box = r.dirty.popBack();
 
-                    if (begin->backgroundOnly) {
+                    // A background is read in place; a group of no pixels
+                    // draws nothing.
+                    if (begin->backgroundOnly || !layer.data) {
                         delete pool;
                         break;
                     }
 
                     if (begin->filter) {
-                        ensure(layer, r.width, box, canvas);
+                        ensure(layer, box, layer.box);
                     }
 
                     for (const Filter* filter = begin->filter; filter; filter = filter->next) {
                         applyFilter(r, l, *filter, layer, *pool, begin->newBackground);
                     }
 
-                    const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool) : nullptr;
-                    const float* mask = begin->masked ? maskBuffer(r, l, *begin, *pool) : nullptr;
+                    const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box) : nullptr;
+                    const float* mask = begin->masked ? maskBuffer(r, l, *begin, *pool, layer.box) : nullptr;
+                    int width = planeWidth(layer);
 
                     for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
-                        float* parent = r.layers[level];
-                        ensure(parent, r.width, r.dirty.mut(level), box);
+                        const Plane& parent = r.layers[level];
+                        IntBox target = boxInside(box, parent.box);
 
-                        for (int y = box.y0; y < box.y1; y++) {
-                            for (size_t i = (size_t)y * r.width + (size_t)box.x0; i < (size_t)y * r.width + (size_t)box.x1; i++) {
+                        ensure(parent, r.dirty.mut(level), target);
+
+                        for (int y = target.y0; y < target.y1; y++) {
+                            for (int x = target.x0; x < target.x1; x++) {
+                                size_t i = (size_t)(y - layer.box.y0) * width + (size_t)(x - layer.box.x0);
                                 float f = begin->opacity * (clip ? clip[i] : 1.f) * (mask ? mask[i] : 1.f);
-                                const float* s = layer + i * 4;
+                                const float* s = planeAt(layer, x, y);
 
                                 if (f <= 0.f || s[3] <= 0.f) {
                                     continue;
                                 }
 
-                                float* d = parent + i * 4;
+                                float* d = planeAt(parent, x, y);
 
                                 if (begin->blend && d[3] > 0.f) {
                                     float source[4] = {s[0] * f, s[1] * f, s[2] * f, s[3] * f};
@@ -14973,6 +15125,7 @@ namespace {
                             }
                         }
                     }
+
                     delete pool;
                     break;
                 }
@@ -15141,7 +15294,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
 
         raster.width = width;
         raster.height = height;
-        runProgram(raster, l, l.ops.data(), (u32)l.ops.length(), base);
+        runProgram(raster, l, l.ops.data(), (u32)l.ops.length(), Plane{base, IntBox{0, 0, (int)width, (int)height}});
     }
 
     ObjPool* pool = new ObjPool();
