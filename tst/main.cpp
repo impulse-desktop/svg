@@ -207,6 +207,42 @@ static void pngRead(png_structp png, png_bytep out, png_size_t length) {
 static void pngWarning(png_structp, png_const_charp) {
 }
 
+// libpng and libjpeg leave an error by a longjmp into the frame of the
+// function that made their calls, so each phase of a decoder runs in a
+// function of its own whose frame holds nothing that the jump could skip
+// or clobber; the buffers belong to the caller.
+static bool pngInfo(png_structp png, png_infop info, PngSource& source, png_uint_32& width, png_uint_32& height, int& depth) {
+    int color = 0;
+
+    if (setjmp(png_jmpbuf(png))) {
+        return false;
+    }
+
+    png_set_read_fn(png, &source, pngRead);
+    png_read_info(png, info);
+    png_get_IHDR(png, info, &width, &height, &depth, &color, nullptr, nullptr, nullptr);
+
+    // Every image comes out as RGBA at the file's depth, 8 or 16 bits.
+    png_set_expand(png);
+    png_set_gray_to_rgb(png);
+    png_set_filler(png, 0xffff, PNG_FILLER_AFTER);
+    png_set_interlace_handling(png);
+    png_read_update_info(png, info);
+    depth = png_get_bit_depth(png, info);
+
+    return png_get_rowbytes(png, info) == (size_t)width * 4 * (depth / 8);
+}
+
+static bool pngImage(png_structp png, png_bytep* rows) {
+    if (setjmp(png_jmpbuf(png))) {
+        return false;
+    }
+
+    png_read_image(png, rows);
+
+    return true;
+}
+
 // Decodes a PNG with libpng into RGBA: the samples as stored, then, where
 // pngGamma finds a gAMA that rules, its transfer function applied at the
 // file's depth before the samples become bytes.
@@ -221,7 +257,6 @@ static SvgImage* decodePng(const uint8_t* bytes, size_t length) {
     png_uint_32 width = 0;
     png_uint_32 height = 0;
     int depth = 0;
-    int color = 0;
 
     if (!info) {
         png_destroy_read_struct(&png, nullptr, nullptr);
@@ -229,17 +264,7 @@ static SvgImage* decodePng(const uint8_t* bytes, size_t length) {
         return nullptr;
     }
 
-    if (setjmp(png_jmpbuf(png))) {
-        png_destroy_read_struct(&png, &info, nullptr);
-
-        return nullptr;
-    }
-
-    png_set_read_fn(png, &source, pngRead);
-    png_read_info(png, info);
-    png_get_IHDR(png, info, &width, &height, &depth, &color, nullptr, nullptr, nullptr);
-
-    uint64_t pixels = (uint64_t)width * height;
+    uint64_t pixels = pngInfo(png, info, source, width, height, depth) ? (uint64_t)width * height : 0;
 
     if (!pixels || pixels > maxPixels) {
         png_destroy_read_struct(&png, &info, nullptr);
@@ -247,21 +272,7 @@ static SvgImage* decodePng(const uint8_t* bytes, size_t length) {
         return nullptr;
     }
 
-    // Every image comes out as RGBA at the file's depth, 8 or 16 bits.
-    png_set_expand(png);
-    png_set_gray_to_rgb(png);
-    png_set_filler(png, 0xffff, PNG_FILLER_AFTER);
-    png_set_interlace_handling(png);
-    png_read_update_info(png, info);
-    depth = png_get_bit_depth(png, info);
-
-    size_t rowBytes = png_get_rowbytes(png, info);
-
-    if (rowBytes != (size_t)width * 4 * (depth / 8)) {
-        png_destroy_read_struct(&png, &info, nullptr);
-
-        return nullptr;
-    }
+    size_t rowBytes = (size_t)width * 4 * (depth / 8);
 
     rgba.reset(new uint8_t[pixels * 4]);
     rows.resize(height);
@@ -274,8 +285,13 @@ static SvgImage* decodePng(const uint8_t* bytes, size_t length) {
         rows[y] = (depth == 16 ? wide.data() : rgba.get()) + (size_t)y * rowBytes;
     }
 
-    png_read_image(png, rows.data());
+    bool read = pngImage(png, rows.data());
+
     png_destroy_read_struct(&png, &info, nullptr);
+
+    if (!read) {
+        return nullptr;
+    }
 
     bool gammaRules = pngGamma(bytes, length, gamma) != 0;
 
@@ -309,62 +325,39 @@ static void jpegEscape(j_common_ptr info) {
 static void jpegSilent(j_common_ptr) {
 }
 
-// Decodes a JPEG with libjpeg into RGBA: grayscale and YCbCr through its
-// own conversion, CMYK and YCCK through the inversion Adobe files carry.
-static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
-    jpeg_decompress_struct info;
-    JpegError error;
-    std::unique_ptr<uint8_t[]> rgba;
-    std::vector<uint8_t> row;
-
-    info.err = jpeg_std_error(&error.manager);
-    error.manager.error_exit = jpegEscape;
-    error.manager.output_message = jpegSilent;
-
+static bool jpegHeader(jpeg_decompress_struct& info, JpegError& error, const uint8_t* bytes, size_t length, bool& cmyk) {
     if (setjmp(error.escape)) {
-        jpeg_destroy_decompress(&info);
-
-        return nullptr;
+        return false;
     }
 
     jpeg_create_decompress(&info);
     jpeg_mem_src(&info, bytes, (unsigned long)length);
     jpeg_read_header(&info, TRUE);
-
-    uint64_t pixels = (uint64_t)info.image_width * info.image_height;
-
-    if (!pixels || pixels > maxPixels) {
-        jpeg_destroy_decompress(&info);
-
-        return nullptr;
-    }
-
-    bool cmyk = info.jpeg_color_space == JCS_CMYK || info.jpeg_color_space == JCS_YCCK;
-
+    cmyk = info.jpeg_color_space == JCS_CMYK || info.jpeg_color_space == JCS_YCCK;
     info.out_color_space = cmyk ? JCS_CMYK : JCS_RGB;
     jpeg_start_decompress(&info);
 
+    return true;
+}
+
+// Reads the scanlines into RGBA: grayscale and YCbCr through libjpeg's own
+// conversion, CMYK and YCCK through the inversion Adobe files carry.
+static bool jpegImage(jpeg_decompress_struct& info, JpegError& error, bool cmyk, uint8_t* row, uint8_t* rgba) {
     uint32_t width = info.output_width;
-    uint32_t height = info.output_height;
     int components = info.output_components;
 
-    if ((uint64_t)width * height != pixels || components != (cmyk ? 4 : 3)) {
-        jpeg_destroy_decompress(&info);
-
-        return nullptr;
+    if (setjmp(error.escape)) {
+        return false;
     }
 
-    rgba.reset(new uint8_t[pixels * 4]);
-    row.resize((size_t)width * components);
-
-    while (info.output_scanline < height) {
-        JSAMPROW lines[1] = {row.data()};
-        uint8_t* out = rgba.get() + (size_t)info.output_scanline * width * 4;
+    while (info.output_scanline < info.output_height) {
+        JSAMPROW lines[1] = {row};
+        uint8_t* out = rgba + (size_t)info.output_scanline * width * 4;
 
         jpeg_read_scanlines(&info, lines, 1);
 
         for (uint32_t x = 0; x < width; x++) {
-            const uint8_t* s = row.data() + (size_t)x * components;
+            const uint8_t* s = row + (size_t)x * components;
 
             if (cmyk) {
                 // Adobe stores CMYK inverted; the others as it is.
@@ -384,7 +377,48 @@ static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
     }
 
     jpeg_finish_decompress(&info);
+
+    return true;
+}
+
+// Decodes a JPEG with libjpeg into RGBA.
+static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
+    jpeg_decompress_struct info;
+    JpegError error;
+    std::unique_ptr<uint8_t[]> rgba;
+    std::vector<uint8_t> row;
+    bool cmyk = false;
+
+    info.err = jpeg_std_error(&error.manager);
+    error.manager.error_exit = jpegEscape;
+    error.manager.output_message = jpegSilent;
+
+    if (!jpegHeader(info, error, bytes, length, cmyk)) {
+        jpeg_destroy_decompress(&info);
+
+        return nullptr;
+    }
+
+    uint32_t width = info.output_width;
+    uint32_t height = info.output_height;
+    uint64_t pixels = (uint64_t)width * height;
+
+    if (!pixels || pixels > maxPixels || info.output_components != (cmyk ? 4 : 3)) {
+        jpeg_destroy_decompress(&info);
+
+        return nullptr;
+    }
+
+    rgba.reset(new uint8_t[pixels * 4]);
+    row.resize((size_t)width * info.output_components);
+
+    bool read = jpegImage(info, error, cmyk, row.data(), rgba.get());
+
     jpeg_destroy_decompress(&info);
+
+    if (!read) {
+        return nullptr;
+    }
 
     return decodedImage(rgba, width, height);
 }
