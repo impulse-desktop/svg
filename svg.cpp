@@ -13996,7 +13996,7 @@ namespace {
     static i64 latticeCells(double cells) {
         constexpr double limit = 0x1p40;
 
-        return (i64)(cells < -limit ? -limit : (cells > limit ? limit : cells));
+        return cells != cells ? 0 : (i64)(cells < -limit ? -limit : (cells > limit ? limit : cells));
     }
 
     static long turbulenceRandom(long seed) {
