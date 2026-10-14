@@ -175,6 +175,50 @@ jobs:
           path: .build/all.txt
           if-no-files-found: ignore
 
+  coverage:
+    name: Coverage
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Run the tests with coverage
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+            mirror.gcr.io/library/ubuntu:26.04 sh -c '
+              set -eu
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld llvm libclang-rt-dev libpng-dev wabt libsimde-dev curl ca-certificates
+              rt=/usr/share/wabt/wasm2c
+              version=$(wasm2c --version)
+              for inc in $(grep -ho "wasm-rt[a-z-]*\.inc" "$rt"/*.c | sort -u); do
+                [ -f "$rt/$inc" ] || curl -fsSL --retry 5 "https://raw.githubusercontent.com/WebAssembly/wabt/$version/wasm2c/$inc" -o "$rt/$inc"
+              done
+              CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld dev/coverage.sh -j "$(nproc)"
+            '
+          {
+            echo "## Coverage"
+            echo
+            echo '```text'
+            cat .coverage/summary.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          files: .coverage/coverage.info
+          disable_search: true
+          fail_ci_if_error: true
+          verbose: true
+
   style:
     name: Style
     runs-on: ubuntu-24.04

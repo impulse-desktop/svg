@@ -1,6 +1,7 @@
 # svg
 
 [![CI](https://github.com/impulse-desktop/svg/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/impulse-desktop/svg/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/impulse-desktop/svg/branch/main/graph/badge.svg)](https://app.codecov.io/gh/impulse-desktop/svg/tree/main)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An SVG renderer for the impulse desktop: parser, document model and
