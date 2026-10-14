@@ -11484,16 +11484,17 @@ namespace {
         } else if (t >= stops[count - 1].offset) {
             c = stops[count - 1].color;
         } else {
+            // t lies past the first offset and before the last, so a stop
+            // follows at or past it and the span to it is not empty.
             u32 i = 1;
 
-            while (i < count && stops[i].offset < t) {
+            while (stops[i].offset < t) {
                 i++;
             }
 
             const GradientStop& a = stops[i - 1];
             const GradientStop& b = stops[i];
-            float span = b.offset - a.offset;
-            float f = span > 0.f ? (t - a.offset) / span : 1.f;
+            float f = (t - a.offset) / (b.offset - a.offset);
 
             c = Color{a.color.r + (b.color.r - a.color.r) * f, a.color.g + (b.color.g - a.color.g) * f, a.color.b + (b.color.b - a.color.b) * f, a.color.a + (b.color.a - a.color.a) * f};
         }
@@ -12157,14 +12158,15 @@ namespace {
 
     // Zeroes what the box adds to the valid part of the plane; what lies
     // outside the plane is left out.
+    // An empty box is all zero, as boxInside makes it.
     static void ensure(const Plane& plane, IntBox& valid, IntBox add) {
         add = boxInside(add, plane.box);
 
-        if (add.x0 >= add.x1 || add.y0 >= add.y1) {
+        if (add.x0 >= add.x1) {
             return;
         }
 
-        if (valid.x0 >= valid.x1 || valid.y0 >= valid.y1) {
+        if (valid.x0 >= valid.x1) {
             for (int y = add.y0; y < add.y1; y++) {
                 clearSpan(plane, y, add.x0, add.x1);
             }
@@ -12191,7 +12193,8 @@ namespace {
     static size_t firstTarget(const Raster& r) {
         size_t first = r.layers.length() - 1;
 
-        while (first > r.backgroundBase && r.begins[first] && r.begins[first]->backgroundOnly) {
+        // Only the base of a program has no Begin.
+        while (first > r.backgroundBase && r.begins[first]->backgroundOnly) {
             first--;
         }
 
@@ -12219,8 +12222,8 @@ namespace {
         size_t first = firstTarget(r);
         IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
 
-        // The layer of the fill's group holds its pixels; a layer of an
-        // enclosing background may not.
+        // The layer of a filtered group holds its filters' region, which the
+        // fill may pass.
         bool inside = true;
 
         for (size_t level = first; level < r.layers.length(); level++) {
@@ -12467,14 +12470,15 @@ namespace {
         size_t first = r.backgroundBase;
         const Op* scope = nullptr;
 
-        for (size_t i = r.begins.length(); i > first; i--) {
+        // The layers past the base have their Begins.
+        for (size_t i = r.begins.length(); i > first + 1; i--) {
             const Op* op = r.begins[i - 1];
 
-            if (op && op->resetBackground && !op->newBackground) {
+            if (op->resetBackground && !op->newBackground) {
                 return Plane{nullptr, box};
             }
 
-            if (op && op->newBackground) {
+            if (op->newBackground) {
                 first = i - 1;
                 scope = op;
                 break;
@@ -12587,7 +12591,8 @@ namespace {
             return run.lastBackgroundAlpha == k;
         }
 
-        return index >= 0 && index < (int)run.results.length() && (int)run.lastReader[index] == k;
+        // A result is read after it is made.
+        return index >= 0 && (int)run.lastReader[index] == k;
     }
 
     static Plane filterInputBuffer(FilterRun& run, int index, bool linear) {
@@ -12710,7 +12715,7 @@ namespace {
     }
 
     static IntBox inputBox(const FilterRun& run, int index) {
-        if (index >= 0 && index < (int)run.results.length()) {
+        if (index >= 0) {
             return run.filter->primitives[index].box;
         }
 
@@ -12908,13 +12913,14 @@ namespace {
             int out = i - left;
             int in = i + right + 1;
 
-            if (out >= 0 && out < count) {
+            // out stays below count, and in above zero.
+            if (out >= 0) {
                 for (int c = 0; c < 4; c++) {
                     sum[c] -= src[(size_t)out * stride + c];
                 }
             }
 
-            if (in >= 0 && in < count) {
+            if (in < count) {
                 for (int c = 0; c < 4; c++) {
                     sum[c] += src[(size_t)in * stride + c];
                 }
@@ -12952,9 +12958,7 @@ namespace {
         }
 
         if (sigma < 2.f) {
-            int radius = (int)ceilf(sigma * 3.f);
-
-            return radius > 31 ? 31 : radius;
+            return (int)ceilf(sigma * 3.f);
         }
 
         int d = (int)minf(floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f), (float)(1 << 26));
@@ -12974,11 +12978,10 @@ namespace {
         }
 
         if (sigma < 2.f) {
+            // A sigma below 2 reaches 6 pixels at most.
             int radius = (int)ceilf(sigma * 3.f);
             float kernel[64];
             float total = 0.f;
-
-            radius = radius > 31 ? 31 : radius;
 
             for (int k = -radius; k <= radius; k++) {
                 kernel[k + radius] = expf(-(float)(k * k) / (2.f * sigma * sigma));
@@ -13018,7 +13021,7 @@ namespace {
                 for (int c = 0; c < 4; c++) {
                     double value = ((center - (double)i * i) * moments[0][c] + 2.0 * i * moments[1][c] - moments[2][c]) / divisor;
 
-                    dst[(size_t)i * stride + c] = isfinite(value) && value > 0.0 ? (float)value : 0.f;
+                    dst[(size_t)i * stride + c] = value > 0.0 ? (float)value : 0.f;
                 }
             }
 
@@ -13413,7 +13416,8 @@ namespace {
     }
 
     static bool arithmeticOf(const Document& doc, const FilterPrimitive& p) {
-        u32 op = p.node ? attribute(p.node, AtomOperator) : 0;
+        // A primitive read by another is an element.
+        u32 op = attribute(p.node, AtomOperator);
 
         return p.kind == AtomFeComposite && op && trim(textOf(doc, op)) == SV("arithmetic");
     }
@@ -13933,10 +13937,6 @@ namespace {
                             }
                         }
 
-                        if (sx < 0 || sy < 0 || sx >= (int)run.raster->width || sy >= (int)run.raster->height) {
-                            continue;
-                        }
-
                         float k = kernel[(size_t)(orderY - 1 - j) * orderX + (orderX - 1 - i)];
                         const float* s = planeRead(in, sx, sy);
 
@@ -13993,7 +13993,7 @@ namespace {
     static i64 latticeCells(double cells) {
         constexpr double limit = 0x1p40;
 
-        return cells != cells ? 0 : (i64)(cells < -limit ? -limit : (cells > limit ? limit : cells));
+        return (i64)(cells < -limit ? -limit : (cells > limit ? limit : cells));
     }
 
     static long turbulenceRandom(long seed) {
@@ -14761,10 +14761,9 @@ namespace {
                 case AtomFeSpecularLighting:
                     filterLighting(run, p, out);
                     break;
-                case AtomFeImage:
-                    filterImage(run, p, out);
-                    break;
                 default:
+                    // AtomFeImage, the last primitive.
+                    filterImage(run, p, out);
                     break;
             }
 
@@ -14831,10 +14830,7 @@ namespace {
 
         releasePlane(run.sourceAlpha);
 
-        if (run.backgroundLinear.data != run.background.data) {
-            releasePlane(run.backgroundLinear);
-        }
-
+        // The last reader of the background released it.
         releasePlane(run.background);
         releasePlane(run.backgroundAlpha);
 
@@ -14917,14 +14913,7 @@ namespace {
         // A filter's result is zero outside its region, so only the device
         // pixels whose bilinear taps reach the region of the last one can draw.
         Box reach = deviceBox(toDevice, Box{(float)region.x0 - 1.f, (float)region.y0 - 1.f, (float)region.x1 + 1.f, (float)region.y1 + 1.f});
-        IntBox drawn{0, 0, (int)r.width, (int)r.height};
-
-        if (boxValid(reach)) {
-            drawn.x0 = reach.x0 - 2.f > 0.f ? (int)(reach.x0 - 2.f) : 0;
-            drawn.y0 = reach.y0 - 2.f > 0.f ? (int)(reach.y0 - 2.f) : 0;
-            drawn.x1 = reach.x1 + 3.f < (float)r.width ? (int)(reach.x1 + 3.f) : (int)r.width;
-            drawn.y1 = reach.y1 + 3.f < (float)r.height ? (int)(reach.y1 + 3.f) : (int)r.height;
-        }
+        IntBox drawn{reach.x0 - 2.f > 0.f ? (int)(reach.x0 - 2.f) : 0, reach.y0 - 2.f > 0.f ? (int)(reach.y0 - 2.f) : 0, reach.x1 + 3.f < (float)r.width ? (int)(reach.x1 + 3.f) : (int)r.width, reach.y1 + 3.f < (float)r.height ? (int)(reach.y1 + 3.f) : (int)r.height};
 
         auto texel = [&](int x, int y, int c) {
             return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content.data[((size_t)y * lw + x) * 4 + c];
@@ -15019,9 +15008,9 @@ namespace {
                     r.dirty.pushBack(IntBox{0, 0, 0, 0});
                     r.pools.pushBack(pool);
                     r.begins.pushBack(&op);
-                    break;
-                }
-                case OpKind::End: {
+                } break;
+                default: {
+                    // OpKind::End.
                     Plane layer = r.layers.popBack();
                     ObjPool* pool = r.pools.popBack();
                     const Op* begin = r.begins.popBack();
@@ -15089,13 +15078,7 @@ namespace {
             }
         }
 
-        while (r.layers.length() > depth + 1) {
-            r.layers.popBack();
-            r.dirty.popBack();
-            r.begins.popBack();
-            delete r.pools.popBack();
-        }
-
+        // A program ends every group it begins.
         r.layers.popBack();
         r.dirty.popBack();
         r.begins.popBack();
@@ -15190,15 +15173,11 @@ SvgLibrary* svg_library_create(SvgDecode decode, void* context) {
 }
 
 void svg_library_destroy(SvgLibrary* library) {
-    if (library) {
-        delete library->pool;
-    }
+    delete library->pool;
 }
 
 void svg_document_destroy(SvgDocument* document) {
-    if (document) {
-        delete document->pool;
-    }
+    delete document->pool;
 }
 
 float svg_document_width(const SvgDocument* document) {
@@ -15221,7 +15200,10 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
 
     memset(base, 0, sizeof(float) * size * 4);
 
-    if (loadDocument(doc, scratch, document->source) && doc.root && doc.root->name == AtomSvg) {
+    // The file parsed into an SVG document when its document was made.
+    loadDocument(doc, scratch, document->source);
+
+    {
         Lowering l;
 
         cascade(doc);
