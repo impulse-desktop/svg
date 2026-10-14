@@ -1,0 +1,37 @@
+#!/bin/sh
+# Builds the test driver with clang's source-based coverage, runs ./build
+# tests, every corpus case and check and the smoke drawing, and exports the
+# coverage of svg.h and svg.cpp to .coverage: coverage.info in lcov for
+# Codecov and summary.txt.
+#
+# usage: dev/coverage.sh [build options...]
+set -eu
+
+out=$PWD/.coverage
+build=.build-coverage
+
+# A test the build cache answers would leave no profile behind.
+rm -rf "$out" "$build"
+mkdir -p "$out/profiles"
+
+# The tests are thousands of processes: each merges its counters into one of
+# eight pool files of its binary instead of leaving a file of its own.
+export LLVM_PROFILE_FILE="$out/profiles/%8m.profraw"
+export CXXFLAGS="${CXXFLAGS:-} -fprofile-instr-generate -fcoverage-mapping"
+export LDFLAGS="${LDFLAGS:-} -fprofile-instr-generate"
+
+# The Score and ASan jobs gate the tests; what ran is exported all the same.
+./build -B "$build" -k "$@" tests svg || echo "coverage: failed tests above"
+
+ignore='(^|/)(tst|ext|\.build[^/]*)/|^/usr/'
+
+llvm-profdata merge -sparse "$out"/profiles/*.profraw -o "$out/coverage.profdata"
+llvm-cov export "$build/svg" -instr-profile="$out/coverage.profdata" -format=lcov -ignore-filename-regex="$ignore" | sed "s|^SF:$PWD/|SF:|" > "$out/coverage.info"
+llvm-cov report "$build/svg" -instr-profile="$out/coverage.profdata" -ignore-filename-regex="$ignore" > "$out/summary.txt"
+
+if ! grep -qx 'SF:svg.cpp' "$out/coverage.info"; then
+    echo "coverage: no svg.cpp in the report" >&2
+    exit 1
+fi
+
+cat "$out/summary.txt"
