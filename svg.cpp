@@ -14634,7 +14634,8 @@ namespace {
 
         const IntBox& region = filter.region;
 
-        if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
+        // An empty region is all zero, as boxInside makes it.
+        if (filter.count == 0 || region.x1 <= region.x0) {
             // The callers filter only layers that have pixels.
             memset(layer.data, 0, sizeof(float) * size * 4);
 

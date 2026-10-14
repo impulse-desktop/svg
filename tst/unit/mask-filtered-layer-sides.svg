@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="10">
+<filter id="f" x="0" y="0" width="20" height="20" filterUnits="userSpaceOnUse"><feFlood flood-color="#fff"/></filter>
+<mask id="m" x="0" y="0" width="20" height="10" maskUnits="userSpaceOnUse"><g filter="url(#f)"/></mask>
+<rect x="10" width="10" height="10" fill="green" mask="url(#m)"/>
+<rect y="5" width="10" height="5" fill="olive" mask="url(#m)"/>
+<rect width="10" height="5" fill="teal" mask="url(#m)"/>
+</svg>
