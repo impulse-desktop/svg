@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+<defs>
+<filter id="blur"><feGaussianBlur stdDeviation="1"/></filter>
+<filter id="blurbad"><feGaussianBlur stdDeviation="a"/><feOffset dx="1" dy="1"/></filter>
+<filter id="drop"><feDropShadow dx="1" dy="1" stdDeviation="1"/></filter>
+<filter id="dropbad"><feDropShadow stdDeviation="x"/><feDropShadow/></filter>
+<filter id="morph"><feMorphology radius="1"/><feMorphology/><feMorphology radius="a"/></filter>
+<filter id="conv"><feConvolveMatrix order="3" kernelMatrix="1 0 0 0 1 0 0 0 1"/></filter>
+<filter id="disp"><feTurbulence baseFrequency=".2" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="4"/></filter>
+<filter id="light"><feDiffuseLighting><feDistantLight/></feDiffuseLighting></filter>
+<filter id="tile"><feTile/></filter>
+<filter id="flood"><feFlood flood-color="red" flood-opacity=".3"/><feGaussianBlur stdDeviation="-1"/></filter>
+<filter id="wide" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="2"/></filter>
+<filter id="widetile" x="-2" y="-2" width="5" height="5"><feOffset dx="1"/><feTile/></filter>
+<filter id="huge" x="-100" y="-100" width="200" height="200"><feGaussianBlur stdDeviation="400"/></filter>
+<filter id="far" filterUnits="userSpaceOnUse" x="1000" y="1000" width="10" height="10"><feFlood/></filter>
+</defs>
+<g fill="teal">
+<rect x="2" y="2" width="6" height="6" filter="url(#blur)" transform="rotate(20 5 5)"/>
+<rect x="12" y="2" width="6" height="6" filter="url(#blurbad)" transform="rotate(20 15 5)"/>
+<rect x="22" y="2" width="6" height="6" filter="url(#drop)" transform="rotate(20 25 5)"/>
+<rect x="32" y="2" width="6" height="6" filter="url(#dropbad)" transform="rotate(20 35 5)"/>
+<rect x="42" y="2" width="4" height="6" filter="url(#morph)" transform="rotate(20 44 5)"/>
+<rect x="2" y="12" width="6" height="6" filter="url(#conv)" transform="skewX(10)"/>
+<rect x="12" y="12" width="6" height="6" filter="url(#disp)" transform="rotate(20 15 15)"/>
+<rect x="22" y="12" width="6" height="6" filter="url(#light)" transform="rotate(20 25 15)"/>
+<rect x="32" y="12" width="6" height="6" filter="url(#tile)" transform="rotate(20 35 15)"/>
+<rect x="42" y="12" width="4" height="6" filter="url(#flood)" transform="rotate(20 44 15)"/>
+<rect x="2" y="22" width="6" height="6" filter="url(#blur)" transform="rotate(90 5 25)"/>
+<rect x="12" y="22" width="6" height="6" filter="drop-shadow(1px 1px 1px red) blur(.5px)" transform="matrix(-1 0 0 1 30 0)"/>
+<rect x="22" y="22" width="6" height="6" filter="url(#blur)" transform="matrix(1 1 1 1 0 0)"/>
+<rect x="32" y="22" width="6" height="6" filter="url(#blur)" transform="matrix(0 0 0 -1 35 50)"/>
+<rect x="42" y="22" width="4" height="6" filter="url(#huge)" transform="rotate(30 44 25)"/>
+<rect x="2" y="32" width="6" height="6" filter="url(#far)" transform="rotate(30 5 35)"/>
+<rect x="44" y="34" width="4" height="6" filter="url(#wide)"/>
+<rect x="0" y="42" width="6" height="6" filter="url(#widetile)"/>
+<rect x="12" y="32" width="6" height="6" filter="url(#blur)" transform="scale(1 -1) translate(0 -70)"/>
+</g>
+</svg>

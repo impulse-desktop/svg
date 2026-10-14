@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="24" enable-background="new 0 0 40 20">
+<defs>
+<filter id="bg" x="0" y="0" width="1" height="1"><feOffset in="BackgroundImage" dx="2" color-interpolation-filters="sRGB" result="b"/><feBlend in="BackgroundImage" in2="b"/><feComposite in2="BackgroundAlpha" operator="in"/></filter>
+<filter id="alpha"><feFlood flood-color="red" result="f"/><feComposite in="f" in2="BackgroundAlpha" operator="in"/></filter>
+<symbol id="s" viewBox="0 0 10 10" enable-background="new 1 1 8 8"><rect width="10" height="10" fill="green"/><circle cx="5" cy="5" r="4" fill="red" filter="url(#bg)"/></symbol>
+</defs>
+<rect width="48" height="24" fill="#cde"/>
+<g enable-background="new">
+<rect x="2" y="2" width="8" height="8" fill="orange"/>
+<rect x="4" y="4" width="8" height="8" fill="purple" filter="url(#bg)"/>
+<rect x="12" y="2" width="8" height="8" fill="teal" filter="url(#bg)" enable-background="new"/>
+<rect x="22" y="2" width="8" height="8" fill="teal" filter="url(#alpha)" transform="rotate(20 26 6)"/>
+</g>
+<svg x="32" y="0" width="16" height="12" viewBox="0 0 16 12" enable-background="new 2 2 10 6"><rect width="16" height="12" fill="gold"/><rect x="1" y="1" width="12" height="8" fill="red" filter="url(#bg)"/></svg>
+<use href="#s" x="0" y="12" width="12" height="12"/>
+<use href="#s" x="12" y="12"/>
+<image x="24" y="12" width="12" height="12" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' enable-background='new 0 0 10 10'%3E%3Cdefs%3E%3Cfilter id='f'%3E%3CfeOffset in='BackgroundImage' dx='2'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='6' height='6' fill='blue'/%3E%3Crect width='10' height='10' filter='url(%23f)'/%3E%3C/svg%3E"/>
+<image x="36" y="12" width="12" height="12" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cdefs%3E%3Cfilter id='f'%3E%3CfeOffset in='BackgroundImage' dx='2'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='10' height='10' filter='url(%23f)'/%3E%3C/svg%3E"/>
+</svg>

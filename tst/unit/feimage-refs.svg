@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<defs>
+<filter id="a"><feImage href="#missing"/></filter>
+<filter id="b" x="0" y="0" width="1" height="1"><feImage href="#pct" x="2" y="2" width="8" height="8"/></filter>
+<filter id="c"><feImage href="#loop"/></filter>
+<filter id="d" x="0" y="0" width="1" height="1"><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAF0lEQVR4nGNgYGD4/5+BAYz+///P8B8AONkH+d3XkzsAAAAASUVORK5CYII=" width="0" height="4"/><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAF0lEQVR4nGNgYGD4/5+BAYz+///P8B8AONkH+d3XkzsAAAAASUVORK5CYII=" preserveAspectRatio="xMidYMid slice"/></filter>
+<g id="pct"><rect width="50%" height="50%" fill="orange"/><g><circle cx="10%" cy="10%" r="2" fill="blue"/></g></g>
+<clipPath id="loop"><rect width="8" height="8" filter="url(#c)"/></clipPath>
+</defs>
+<rect x="0" width="12" height="12" fill="red" filter="url(#a)"/>
+<rect x="12" width="12" height="12" fill="gray" filter="url(#b)"/>
+<rect x="24" width="12" height="12" fill="green" clip-path="url(#loop)"/>
+<rect x="36" width="12" height="12" fill="gray" filter="url(#d)"/>
+</svg>
