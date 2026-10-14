@@ -24,10 +24,10 @@ if (document) {
     SvgImage* image = svg_document_render(document, 512, 512, 1.f);
 
     if (image) {
-        const uint8_t* rgba = image->vtable->data(image);
+        const uint8_t* rgba = svg_image_data(image);
 
-        /* image->vtable->width(image) by image->vtable->height(image) pixels */
-        image->vtable->destroy(image);
+        /* svg_image_width(image) by svg_image_height(image) pixels */
+        svg_image_destroy(image);
     }
 
     svg_document_destroy(document);

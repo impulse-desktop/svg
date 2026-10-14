@@ -18,7 +18,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
     SvgImage* image = document ? svg_document_render(document, renderSize, renderSize, 1.f) : nullptr;
 
     if (image) {
-        image->vtable->destroy(image);
+        svg_image_destroy(image);
     }
 
     svg_document_destroy(document);
