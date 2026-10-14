@@ -5358,8 +5358,7 @@ namespace {
                     cubicTo(path, c1, c2, to);
                     control = c2;
                     current = to;
-                    break;
-                }
+                } break;
                 case 'S': {
                     Point c1 = previous == 'C' || previous == 'S' ? Point{2.f * current.x - control.x, 2.f * current.y - control.y} : current;
                     Point c2{base.x + v[0], base.y + v[1]};
@@ -5368,8 +5367,7 @@ namespace {
                     cubicTo(path, c1, c2, to);
                     control = c2;
                     current = to;
-                    break;
-                }
+                } break;
                 case 'Q':
                 case 'T': {
                     Point q = upper == 'Q' ? Point{base.x + v[0], base.y + v[1]} : (previous == 'Q' || previous == 'T' ? Point{2.f * current.x - control.x, 2.f * current.y - control.y} : current);
@@ -5382,7 +5380,8 @@ namespace {
                     current = to;
                     break;
                 }
-                case 'A': {
+                default: {
+                    // 'A', the last command of the count switch above.
                     Point to{base.x + v[5], base.y + v[6]};
 
                     arcTo(path, current, v[0], v[1], v[2], largeArc, sweepArc, to);
@@ -5476,9 +5475,7 @@ namespace {
                 if (d) {
                     parsePathData(textOf(doc, d), path);
                 }
-
-                break;
-            }
+            } break;
             case AtomRect: {
                 float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
                 float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
@@ -9720,8 +9717,7 @@ namespace {
 
                     segment(d, d, end);
                     arc = false;
-                    break;
-                }
+                } break;
                 case VerbCubic:
                 case VerbArcCubic: {
                     Point c1 = pts[pi];
