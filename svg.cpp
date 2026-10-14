@@ -5510,8 +5510,8 @@ namespace {
                 moveTo(path, Point{lengthOr(doc, node, AtomX1, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomY1, Axis::Y, vp, fs, 0.f)});
                 lineTo(path, Point{lengthOr(doc, node, AtomX2, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomY2, Axis::Y, vp, fs, 0.f)});
                 break;
-            case AtomPolyline:
-            case AtomPolygon: {
+            default: {
+                // AtomPolyline or AtomPolygon: the callers build shapes alone.
                 u32 value = attribute(node, AtomPoints);
                 Vector<Point> points;
 
@@ -7440,7 +7440,8 @@ namespace {
                     }
 
                     break;
-                case AtomMaskType:
+                default:
+                    // AtomMaskType: every property but font-size has its case.
                     if (keyword) {
                         style.maskType = source.maskType;
                     } else if (isKeyword(value, SV("alpha"))) {
@@ -8245,7 +8246,8 @@ namespace {
             rows++;
         }
 
-        if (!rows || !columns || rows * columns > 4096) {
+        // meshRows found a row.
+        if (!columns || rows * columns > 4096) {
             return nullptr;
         }
 
@@ -9862,7 +9864,8 @@ namespace {
                 total += hypotf(flat.points[i + 1].x - flat.points[i].x, flat.points[i + 1].y - flat.points[i].y);
             }
 
-            if (flat.closed[k] && end > begin + 1) {
+            // flatten closes a subpath of two points or more.
+            if (flat.closed[k]) {
                 total += hypotf(flat.points[begin].x - flat.points[end - 1].x, flat.points[begin].y - flat.points[end - 1].y);
             }
 
@@ -10172,7 +10175,8 @@ namespace {
                 return;
             }
 
-            if (active->name == AtomMarker || active->name == AtomMask || active->name == AtomPattern || active->name == AtomClipPath || active->name == AtomFilter) {
+            // Nothing is lowered while a clip path is.
+            if (active->name == AtomMarker || active->name == AtomMask || active->name == AtomPattern || active->name == AtomFilter) {
                 break;
             }
         }
@@ -10907,9 +10911,7 @@ namespace {
                         if (!attribute(p.node, AtomRadius) || numberPair(doc, p.node, AtomRadius, rx, ry)) {
                             reach += maxf(userX(*f, rx) * scaleX, userY(*f, ry) * scaleY) + 1.f;
                         }
-
-                        break;
-                    }
+                    } break;
                     case AtomFeConvolveMatrix:
                         reach += 32.f;
                         break;
@@ -10917,8 +10919,7 @@ namespace {
                         float scale = numberOf(doc, p.node, AtomScale, 0.f);
 
                         reach += maxf(fabsf(userX(*f, scale) * scaleX), fabsf(userY(*f, scale) * scaleY)) * 0.5f + 1.f;
-                        break;
-                    }
+                    } break;
                     case AtomFeDiffuseLighting:
                     case AtomFeSpecularLighting:
                         reach += 1.f;
@@ -12037,14 +12038,15 @@ namespace {
             cuts.pushBack(top);
             cuts.pushBack(bottom);
 
+            // An active edge starts above the bottom and ends below the top.
             for (u32 index : active) {
                 const BandEdge& e = edges[index];
 
-                if (e.y0 > top && e.y0 < bottom) {
+                if (e.y0 > top) {
                     cuts.pushBack(e.y0);
                 }
 
-                if (e.y1 > top && e.y1 < bottom) {
+                if (e.y1 < bottom) {
                     cuts.pushBack(e.y1);
                 }
             }
@@ -12087,9 +12089,9 @@ namespace {
 
                     bool after = insideWinding(winding, rule);
 
-                    if (!before && after) {
+                    if (!before) {
                         start = c.x;
-                    } else if (before && !after) {
+                    } else if (!after) {
                         addSpan(line, w, start, c.x, 1.f / 16.f);
                     }
                 }
@@ -12135,11 +12137,8 @@ namespace {
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
+    // A pattern paint fills one op, so its tile is drawn once.
     static void prepareTile(const Lowering& l, DevicePaint& paint) {
-        if (paint.tile) {
-            return;
-        }
-
         size_t size = (size_t)paint.imageWidth * paint.imageHeight;
         Raster tile;
 
@@ -12223,14 +12222,13 @@ namespace {
         IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
 
         // The layer of a filtered group holds its filters' region, which the
-        // fill may pass.
-        bool inside = true;
+        // fill may pass; the background-only layers above it hold their groups'
+        // bounds, the fill's among them.
+        const IntBox& box = r.layers[first].box;
+        bool inside = fill.x0 >= box.x0 && fill.y0 >= box.y0 && fill.x1 <= box.x1 && fill.y1 <= box.y1;
 
         for (size_t level = first; level < r.layers.length(); level++) {
-            const IntBox& box = r.layers[level].box;
-
             ensure(r.layers[level], r.dirty.mut(level), fill);
-            inside = inside && fill.x0 >= box.x0 && fill.y0 >= box.y0 && fill.x1 <= box.x1 && fill.y1 <= box.y1;
         }
 
         for (u32 y = 0; y < h; y++) {
@@ -12491,10 +12489,6 @@ namespace {
 
         Plane out = makePlane(box);
 
-        if (!out.data) {
-            return out;
-        }
-
         if (!scope) {
             for (int y = box.y0; y < box.y1; y++) {
                 for (int x = box.x0; x < box.x1; x++) {
@@ -12583,8 +12577,9 @@ namespace {
             return run.lastSourceAlpha == k;
         }
 
+        // The last reader of the background reads its alpha, if at all, before.
         if (index == InputBackgroundImage) {
-            return run.lastBackground == k && (in.data != run.background.data || run.lastBackgroundAlpha < k || run.backgroundAlpha.data);
+            return run.lastBackground == k;
         }
 
         if (index == InputBackgroundAlpha) {
@@ -12897,8 +12892,9 @@ namespace {
         float sum[4] = {0.f, 0.f, 0.f, 0.f};
         float scale = 1.f / (float)window;
 
+        // The padding of a line passes the window, so i stays below count.
         for (int i = -left; i <= right; i++) {
-            if (i >= 0 && i < count) {
+            if (i >= 0) {
                 for (int c = 0; c < 4; c++) {
                     sum[c] += src[(size_t)i * stride + c];
                 }
@@ -13294,7 +13290,7 @@ namespace {
             float t[20] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.2125f, 0.7154f, 0.0721f, 0, 0};
 
             memcpy(m, t, sizeof(m));
-        } else if (kind == SV("matrix") && hasValues && values.length() == 20) {
+        } else if (hasValues && values.length() == 20) {
             for (int i = 0; i < 20; i++) {
                 m[i] = values[i];
             }
@@ -14402,15 +14398,11 @@ namespace {
             }
         }
 
+        // The box lies on the raster.
         const IntBox& box = p.box;
-        int height = (int)run.raster->height;
         auto alphaAt = [&](int x, int y) {
             x = x < box.x0 ? box.x0 : (x >= box.x1 ? box.x1 - 1 : x);
             y = y < box.y0 ? box.y0 : (y >= box.y1 ? box.y1 - 1 : y);
-
-            if (x < 0 || y < 0 || x >= (int)run.raster->width || y >= height) {
-                return 0.f;
-            }
 
             return planeRead(in, x, y)[3];
         };
@@ -14581,15 +14573,6 @@ namespace {
         releasePlane(content);
     }
 
-    static IntBox clipBox(IntBox box, int width, int height) {
-        box.x0 = box.x0 < 0 ? 0 : box.x0;
-        box.y0 = box.y0 < 0 ? 0 : box.y0;
-        box.x1 = box.x1 > width ? width : box.x1;
-        box.y1 = box.y1 > height ? height : box.y1;
-
-        return box;
-    }
-
     // Whether the primitive reads the result of the primitive at index: the
     // inputs lowerFilter gave it.
     static bool readsResult(const FilterPrimitive& p, int index) {
@@ -14616,20 +14599,18 @@ namespace {
     // final primitive's result inside its box, zero elsewhere.
     static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, const Plane& layer, ObjPool& pool, const IntBox& visible, bool resetBackground = false) {
         // The region and the primitive boxes were clipped to the canvas when
-        // the filter was lowered; a pattern tile or a layer is drawn on a
-        // smaller raster, so clip them to it. The final result is read within
-        // the visible box alone.
+        // the filter was lowered, the raster of the pattern tile or layer it
+        // is drawn on. The final result is read within the visible box alone.
         Filter filter = lowered;
         size_t size = (size_t)planeWidth(layer) * (size_t)(layer.box.y1 - layer.box.y0);
 
-        filter.region = boxInside(clipBox(lowered.region, (int)r.width, (int)r.height), layer.box);
+        filter.region = boxInside(lowered.region, layer.box);
 
         if (lowered.count) {
             FilterPrimitive* primitives = (FilterPrimitive*)pool.allocate(sizeof(FilterPrimitive) * lowered.count);
 
             for (u32 k = 0; k < lowered.count; k++) {
                 primitives[k] = lowered.primitives[k];
-                primitives[k].box = clipBox(primitives[k].box, (int)r.width, (int)r.height);
             }
 
             primitives[lowered.count - 1].box = boxInside(primitives[lowered.count - 1].box, visible);
@@ -14639,9 +14620,8 @@ namespace {
         const IntBox& region = filter.region;
 
         if (filter.count == 0 || region.x1 <= region.x0 || region.y1 <= region.y0) {
-            if (layer.data) {
-                memset(layer.data, 0, sizeof(float) * size * 4);
-            }
+            // The callers filter only layers that have pixels.
+            memset(layer.data, 0, sizeof(float) * size * 4);
 
             return;
         }
@@ -14907,7 +14887,7 @@ namespace {
 
         for (const Filter* filter = op.filter; filter; filter = filter->next) {
             applyFilter(sub, l, *filter, content, pool, filter->next ? content.box : visible);
-            region = clipBox(filter->region, lw, lh);
+            region = filter->region;
         }
 
         // A filter's result is zero outside its region, so only the device

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
+<filter id="a" filterUnits="userSpaceOnUse" x="100" y="0" width="10" height="10"><feFlood flood-color="red"/></filter>
+<filter id="b" filterUnits="userSpaceOnUse" x="0" y="0" width="8" height="8"><feFlood flood-color="teal" flood-opacity=".5"/><feComposite in2="SourceGraphic"/></filter>
+<rect width="8" height="8" fill="navy" filter="url(#a) url(#b)"/>
+<rect width="4" height="4" fill="navy" transform="rotate(20 4 4)" filter="url(#a) url(#b)"/>
+</svg>

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+<filter id="b" x="0" y="0" width="1" height="1"><feGaussianBlur in="BackgroundImage" stdDeviation=".5" color-interpolation-filters="sRGB" result="s"/><feGaussianBlur in="BackgroundImage" stdDeviation="1"/><feMerge><feMergeNode in="s"/><feMergeNode/></feMerge></filter>
+<g enable-background="new"><rect width="12" height="12" fill="gold"/><rect x="2" y="2" width="12" height="12" fill="teal" filter="url(#b)"/></g>
+</svg>

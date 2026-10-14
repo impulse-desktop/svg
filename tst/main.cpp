@@ -521,11 +521,11 @@ namespace {
         }
     }
 
-    static Document load(const char* path, std::string& file) {
+    static Document load(const char* path, std::string& file, SvgDecode decode) {
         readFile(path, file);
 
         try {
-            Library library(svg_library_create(decodeRaster, nullptr));
+            Library library(svg_library_create(decode, nullptr));
 
             return Document(svg_library_parse(library.get(), file.data(), file.size()));
         } catch (...) {
@@ -1115,7 +1115,7 @@ namespace {
         }
 
         std::string file;
-        Document document = load(argv[2], file);
+        Document document = load(argv[2], file, decodeRaster);
         Pixels pixels;
 
         pixels.width = (uint32_t)atoi(argv[4]);
@@ -1159,7 +1159,8 @@ namespace {
     // name asks for, writes the drawing to OUT.png and compares it with
     // CANON.png: they match when no premultiplied channel of a pixel differs
     // by more than unitTolerance of 255. A file that is no document, or a
-    // document that draws no image, draws one transparent pixel. With
+    // document that draws no image, draws one transparent pixel. A name
+    // holding .nodecoder. draws with a library that has no decoder. With
     // CANON.png as OUT.png too it canonizes.
     static int unit(int argc, char** argv) {
         if (argc != 5) {
@@ -1169,7 +1170,7 @@ namespace {
         }
 
         std::string file;
-        Document document = load(argv[2], file);
+        Document document = load(argv[2], file, strstr(argv[2], ".nodecoder.") ? nullptr : decodeRaster);
         Pixels pixels;
 
         pixels.width = 1;
@@ -1277,7 +1278,7 @@ namespace {
         alarm(caseSeconds);
 
         std::string file;
-        Document document = load(argv[2], file);
+        Document document = load(argv[2], file, decodeRaster);
         bool reuse = scalable(file);
         Pixels large;
         std::string errors;

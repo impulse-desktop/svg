@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="8">
+<filter id="a" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency="1e6"/></filter>
+<filter id="b" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency=".5"/></filter>
+<filter id="s" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency=".3 0" stitchTiles="stitch"/></filter>
+<filter id="n" x="0" y="0" width="1" height="1"><feTurbulence baseFrequency=".3" stitchTiles="stitch" numOctaves="60"/></filter>
+<g transform="translate(5000 5000)"><rect x="-5000" y="-5000" width="8" height="8" filter="url(#a)"/><rect x="-4992" y="-5000" width="8" height="4" filter="url(#b)"/></g>
+<rect x="8" y="4" width="8" height="4" filter="url(#n)"/>
+<rect x="16" width="8" height="8" filter="url(#s)"/>
+</svg>
