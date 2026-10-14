@@ -217,6 +217,7 @@ jobs:
           path: |
             .coverage/coverage.info
             .coverage/summary.txt
+            .coverage/functions.txt
             .coverage/show.txt
           if-no-files-found: ignore
 
