@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<defs>
+<pattern id="a" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="url(#a)"/><rect x="2" y="2" width="2" height="2" fill="red"/></pattern>
+<pattern id="b" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(30)" transform-origin="10 10"><rect width="2" height="2" fill="green"/></pattern>
+<pattern id="c" width="4" height="4" patternUnits="userSpaceOnUse" viewBox="0 0 0 4"><rect width="2" height="2" fill="blue"/></pattern>
+<pattern id="d" width=".5" height=".5" patternContentUnits="objectBoundingBox"><rect width=".25" height=".25" fill="orange"/></pattern>
+<pattern id="e" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="url(#f)"/></pattern>
+<pattern id="f" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="url(#e)"/></pattern>
+<pattern id="g" href="#b" viewBox="0 0 8 8" preserveAspectRatio="none" width="6" height="3"/>
+<pattern id="h" href="#g" preserveAspectRatio="xMinYMin slice"/>
+<pattern id="i" width="0.001" height="0.001" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="red"/></pattern>
+<pattern id="j" width="4000" height="4000" patternUnits="userSpaceOnUse"><rect width="4" height="4" fill="purple"/></pattern>
+<pattern id="k" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="scale(0)"><rect width="2" height="2" fill="red"/></pattern>
+</defs>
+<rect x="0" width="8" height="8" fill="url(#a)"/>
+<rect x="8" width="8" height="8" fill="url(#b)"/>
+<rect x="16" width="8" height="8" fill="url(#c) gray"/>
+<rect x="24" width="8" height="8" fill="url(#d)"/>
+<rect x="32" width="8" height="8" fill="url(#e)"/>
+<rect x="40" width="8" height="8" fill="url(#g)"/>
+<rect x="0" y="8" width="8" height="8" fill="url(#h)"/>
+<rect x="8" y="8" width="8" height="8" fill="url(#i)"/>
+<rect x="16" y="8" width="8" height="8" fill="url(#j)"/>
+<rect x="24" y="8" width="8" height="8" fill="url(#k) teal"/>
+<line x1="32" y1="12" x2="48" y2="12" stroke="url(#d) olive" stroke-width="2"/>
+<rect x="32" y="8" width="8" height="8" fill="url(#a)" transform="scale(1 0)"/>
+</svg>
