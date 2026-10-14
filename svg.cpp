@@ -1157,6 +1157,7 @@ namespace {
     constexpr float tolerance = 0.025f;
     constexpr u32 maxDepth = 512;
     constexpr double maxDashes = 1 << 20;
+    constexpr double maxOutline = 1 << 23;
     constexpr u32 maxEntityDepth = 16;
     constexpr size_t maxExpansion = 1 << 22;
 
@@ -6013,7 +6014,26 @@ namespace {
         }
     }
 
-    static void dashPolyline(Flat& out, const StrokeParams& s, const Point* points, size_t count, bool closed, const float* dashes, u32 dashCount, float offset) {
+    // Whether a stroke of these points, grown by the reach of its joins and
+    // caps, lies wholly outside the box: its outline then covers nothing of
+    // the raster and can go unbuilt.
+    static bool strokeOutside(const StrokeParams& s, const Point* points, size_t count, const Box* cull) {
+        if (!cull) {
+            return false;
+        }
+
+        Box box = emptyBox();
+
+        for (size_t i = 0; i < count; i++) {
+            extend(box, points[i]);
+        }
+
+        float reach = s.half * maxf(s.miterLimit, 1.f) + s.tol;
+
+        return box.x1 + reach < cull->x0 || box.x0 - reach > cull->x1 || box.y1 + reach < cull->y0 || box.y0 - reach > cull->y1;
+    }
+
+    static void dashPolyline(Flat& out, const StrokeParams& s, const Point* points, size_t count, bool closed, const float* dashes, u32 dashCount, float offset, const Box* cull) {
         Vector<Point> loop;
 
         loop.append(points, count);
@@ -6045,62 +6065,87 @@ namespace {
             return;
         }
 
-        float phase = fmodf(offset, total);
+        // The first pass counts the dashes inside the raster, the second
+        // builds them; past the outline budget the stroke is solid too.
+        float capPoints = s.cap == CapRound ? (float)(arcSegments(pi, s.half, s.tol) + 2) : (s.cap == CapSquare ? 4.f : 0.f);
+        double visible = 0.0;
 
-        if (phase < 0.f) {
-            phase += total;
-        }
+        for (int pass = 0; pass < 2; pass++) {
+            float phase = fmodf(offset, total);
 
-        u32 index = 0;
-
-        while (phase > dashes[index] || (phase == dashes[index] && dashes[index] > 0.f)) {
-            phase -= dashes[index];
-            index = (index + 1) % dashCount;
-        }
-
-        float remaining = dashes[index] - phase;
-        bool on = index % 2 == 0;
-        Vector<Point> piece;
-
-        if (on) {
-            piece.pushBack(loop[0]);
-        }
-
-        for (size_t i = 0; i + 1 < loop.length(); i++) {
-            Point a = loop[i];
-            Point b = loop[i + 1];
-            float dx = b.x - a.x;
-            float dy = b.y - a.y;
-            float length = (float)sqrt((double)dx * dx + (double)dy * dy);
-            float travelled = 0.f;
-
-            while (length - travelled > remaining) {
-                travelled += remaining;
-
-                Point cut{a.x + dx * travelled / length, a.y + dy * travelled / length};
-
-                if (on) {
-                    piece.pushBack(cut);
-                    strokePolyline(out, s, piece.data(), piece.length(), false);
-                    piece.clear();
-                } else {
-                    piece.pushBack(cut);
-                }
-
-                on = !on;
-                index = (index + 1) % dashCount;
-                remaining = dashes[index];
+            if (phase < 0.f) {
+                phase += total;
             }
 
-            remaining -= length - travelled;
+            u32 index = 0;
+
+            while (phase > dashes[index] || (phase == dashes[index] && dashes[index] > 0.f)) {
+                phase -= dashes[index];
+                index = (index + 1) % dashCount;
+            }
+
+            float remaining = dashes[index] - phase;
+            bool on = index % 2 == 0;
+            Vector<Point> piece;
 
             if (on) {
-                piece.pushBack(b);
+                piece.pushBack(loop[0]);
             }
-        }
 
-        if (on && piece.length() > 1) {
-            strokePolyline(out, s, piece.data(), piece.length(), false);
+            for (size_t i = 0; i + 1 < loop.length(); i++) {
+                Point a = loop[i];
+                Point b = loop[i + 1];
+                float dx = b.x - a.x;
+                float dy = b.y - a.y;
+                float length = (float)sqrt((double)dx * dx + (double)dy * dy);
+                float travelled = 0.f;
+
+                while (length - travelled > remaining) {
+                    travelled += remaining;
+
+                    Point cut{a.x + dx * travelled / length, a.y + dy * travelled / length};
+
+                    if (on) {
+                        piece.pushBack(cut);
+
+                        if (!strokeOutside(s, piece.data(), piece.length(), cull)) {
+                            if (pass) {
+                                strokePolyline(out, s, piece.data(), piece.length(), false);
+                            } else {
+                                visible += 1.0;
+                            }
+                        }
+
+                        piece.clear();
+                    } else {
+                        piece.pushBack(cut);
+                    }
+
+                    on = !on;
+                    index = (index + 1) % dashCount;
+                    remaining = dashes[index];
+                }
+
+                remaining -= length - travelled;
+
+                if (on) {
+                    piece.pushBack(b);
+                }
+            }
+
+            if (on && piece.length() > 1 && !strokeOutside(s, piece.data(), piece.length(), cull)) {
+                if (pass) {
+                    strokePolyline(out, s, piece.data(), piece.length(), false);
+                } else {
+                    visible += 1.0;
+                }
+            }
+
+            if (pass == 0 && visible * (4.0 + 2.0 * capPoints) > maxOutline) {
+                strokePolyline(out, s, points, count, closed);
+
+                return;
+            }
         }
     }
 
@@ -6116,7 +6161,9 @@ namespace {
         return out;
     }
 
-    static void strokePath(const Path& path, const ComputedStyle& style, float scale, Flat& out) {
+    // The stroke of the path, in the path's space; a dash outside the box, the
+    // raster in that space, is left out.
+    static void strokePath(const Path& path, const ComputedStyle& style, float scale, const Box* cull, Flat& out) {
         if (style.cap == CapButt && style.dashCount) {
             bool visible = false;
 
@@ -6144,7 +6191,7 @@ namespace {
 
             if (count >= 2) {
                 if (style.dashCount) {
-                    dashPolyline(out, s, points, count, flat.closed[i], style.dashes, style.dashCount, style.dashOffset);
+                    dashPolyline(out, s, points, count, flat.closed[i], style.dashes, style.dashCount, style.dashOffset, cull);
                 } else {
                     strokePolyline(out, s, points, count, flat.closed[i]);
                 }
@@ -7825,10 +7872,17 @@ namespace {
         Matrix outerHost = l.host;
         Matrix screenInverse;
 
+        u32 outerWidth = l.width;
+        u32 outerHeight = l.height;
+
         l.out = &program;
         l.active.pushBack(pattern);
         l.host = invert(l.screen, screenInverse) ? multiply(multiply(multiply(scaling(tw / w, th / h), inner), screenInverse), scaling(l.scale, l.scale)) : identity();
+        l.width = paint->imageWidth;
+        l.height = paint->imageHeight;
         lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
+        l.width = outerWidth;
+        l.height = outerHeight;
         l.host = outerHost;
         l.active.popBack();
         l.out = saved;
@@ -9993,15 +10047,20 @@ namespace {
                     Flat outline;
                     Flat device;
 
+                    Box raster{0.f, 0.f, (float)l.width, (float)l.height};
+                    Box cull;
+
                     if (style.nonScaling) {
                         Matrix hostInverse;
                         Flat hosted;
+                        bool culled = invert(l.host, hostInverse);
 
-                        if (!invert(l.host, hostInverse)) {
+                        if (!culled) {
                             hostInverse = identity();
                         }
 
-                        strokePath(transformedPath(path, multiply(hostInverse, m)), dashed, l.scale, hosted);
+                        cull = deviceBox(hostInverse, raster);
+                        strokePath(transformedPath(path, multiply(hostInverse, m)), dashed, l.scale, culled ? &cull : nullptr, hosted);
                         device.ends.xchg(hosted.ends);
                         device.closed.xchg(hosted.closed);
 
@@ -10009,7 +10068,11 @@ namespace {
                             device.points.pushBack(apply(l.host, p));
                         }
                     } else {
-                        strokePath(path, dashed, matrixScale(m), outline);
+                        Matrix inverse;
+                        bool culled = invert(m, inverse);
+
+                        cull = culled ? deviceBox(inverse, raster) : raster;
+                        strokePath(path, dashed, matrixScale(m), culled ? &cull : nullptr, outline);
                         device.ends.xchg(outline.ends);
                         device.closed.xchg(outline.closed);
 
@@ -14629,7 +14692,7 @@ namespace {
 
         memset(layer, 0, sizeof(float) * size * 4);
 
-        for (int y = final.box.y0; y < final.box.y1; y++) {
+        for (int y = final.box.y0; final.data && y < final.box.y1; y++) {
             memcpy(layer + ((size_t)y * r.width + final.box.x0) * 4, planeAt(final, final.box.x0, y), sizeof(float) * 4 * (size_t)planeWidth(final));
         }
 
