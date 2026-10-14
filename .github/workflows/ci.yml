@@ -75,31 +75,68 @@ jobs:
         with:
           shard: "4"
 
-  fuzz:
-    name: libFuzzer (ASan + UBSan)
+  # The fuzzer runs in five jobs, each from tst/fuzz and its own 1000 SVGs
+  # drawn at random from under tst.
+
+  fuzz-0:
+    name: libFuzzer 0/5
     runs-on: ubuntu-24.04
-    timeout-minutes: 240
+    timeout-minutes: 60
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Build and run the fuzzer
-        run: |
-          docker run --rm \
-            --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
-            --entrypoint sh nixos/nix:2.31.2 -c \
-            'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c svg-fuzz'
-
-      - name: Upload the inputs that crashed the fuzzer
-        if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - uses: ./.github/actions/fuzz-shard
         with:
-          name: fuzz-crashes
-          path: |
-            .build/fuzzing/crash-*
-            .build/fuzzing/timeout-*
-            .build/fuzzing/oom-*
-          if-no-files-found: ignore
+          shard: "0"
+
+  fuzz-1:
+    name: libFuzzer 1/5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/actions/fuzz-shard
+        with:
+          shard: "1"
+
+  fuzz-2:
+    name: libFuzzer 2/5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/actions/fuzz-shard
+        with:
+          shard: "2"
+
+  fuzz-3:
+    name: libFuzzer 3/5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/actions/fuzz-shard
+        with:
+          shard: "3"
+
+  fuzz-4:
+    name: libFuzzer 4/5
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ./.github/actions/fuzz-shard
+        with:
+          shard: "4"
 
   score:
     name: Score
