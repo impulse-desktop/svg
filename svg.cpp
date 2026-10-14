@@ -1712,29 +1712,6 @@ namespace {
         Vector<u32**> instanceMaps;
     };
 
-    // A buffer a pool owns: freed with the pool, allocated to its size.
-    template <typename T>
-    struct PoolBuffer {
-        T* data;
-
-        explicit PoolBuffer(T* data)
-            : data(data)
-        {
-        }
-
-        PoolBuffer(const PoolBuffer&) = delete;
-        PoolBuffer& operator=(const PoolBuffer&) = delete;
-
-        ~PoolBuffer() {
-            delete[] data;
-        }
-    };
-
-    template <typename T>
-    static T* poolBuffer(ObjPool& pool, size_t count) {
-        return pool.make<PoolBuffer<T>>(new T[count])->data;
-    }
-
     // A buffer of float RGBA pixels over a box of the raster, zero at first:
     // a pixel outside the box reads as zero and is never written.
     struct Plane {
@@ -8598,7 +8575,7 @@ namespace {
 
         int width = x1 - x0;
         int height = y1 - y0;
-        float* buffer = poolBuffer<float>(*l.pool, (size_t)width * height * 4);
+        float* buffer = (float*)l.pool->allocate(sizeof(float) * (size_t)width * height * 4);
         Matrix local = multiply(translation(-(float)x0, -(float)y0), space);
 
         memset(buffer, 0, sizeof(float) * (size_t)width * height * 4);
@@ -10711,7 +10688,7 @@ namespace {
     static const u8* halveImage(ObjPool& pool, const u8* pixels, u32& width, u32& height) {
         u32 w = width > 1 ? (width + 1) / 2 : 1;
         u32 h = height > 1 ? (height + 1) / 2 : 1;
-        u8* out = poolBuffer<u8>(pool, (size_t)w * h * 4);
+        u8* out = (u8*)pool.allocate((size_t)w * h * 4);
 
         for (u32 y = 0; y < h; y++) {
             u32 y0 = height > 1 ? y * 2 : 0;
@@ -12372,7 +12349,7 @@ namespace {
         size_t size = (size_t)paint.imageWidth * paint.imageHeight;
         Raster tile;
 
-        paint.tile = poolBuffer<float>(*l.pool, size * 4);
+        paint.tile = (float*)l.pool->allocate(sizeof(float) * size * 4);
         memset(paint.tile, 0, sizeof(float) * size * 4);
         tile.width = paint.imageWidth;
         tile.height = paint.imageHeight;
@@ -12549,24 +12526,22 @@ namespace {
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
-    // The clip of a group, one float a pixel over the box of its layer, for
-    // the caller to delete.
-    static float* clipBuffer(Raster& r, const Lowering& l, const Op& op, const IntBox& box) {
+    // The clip of a group, one float a pixel over the box of its layer.
+    static float* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
-        float* mask = new float[size];
+        float* mask = (float*)pool.allocate(sizeof(float) * size);
 
         memset(mask, 0, sizeof(float) * size);
 
         if (op.clipProgram) {
-            Plane content = makePlane(box);
+            Plane content{(float*)pool.allocate(sizeof(float) * size * 4), box};
 
+            memset(content.data, 0, sizeof(float) * size * 4);
             runProgram(r, l, l.programs.data() + op.clipFirst, op.clipCount, content);
 
             for (size_t i = 0; i < size; i++) {
                 mask[i] = content.data[i * 4 + 3];
             }
-
-            releasePlane(content);
 
             return mask;
         }
@@ -12578,11 +12553,12 @@ namespace {
         return mask;
     }
 
-    static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, const IntBox& box) {
+    static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
-        Plane content = makePlane(box);
-        float* mask = new float[size];
+        Plane content{(float*)pool.allocate(sizeof(float) * size * 4), box};
+        float* mask = (float*)pool.allocate(sizeof(float) * size);
 
+        memset(content.data, 0, sizeof(float) * size * 4);
         memset(mask, 0, sizeof(float) * size);
         runProgram(r, l, l.programs.data() + op.maskFirst, op.maskCount, content);
         accumulateShape(r, l, l.clips[op.maskRegion], mask, box);
@@ -12597,8 +12573,6 @@ namespace {
 
             mask[i] *= value;
         }
-
-        releasePlane(content);
 
         return mask;
     }
@@ -15089,13 +15063,13 @@ namespace {
         ObjPool pool;
         int lw = (int)op.layerWidth;
         int lh = (int)op.layerHeight;
+        size_t size = (size_t)op.layerWidth * op.layerHeight;
+        Plane content{(float*)pool.allocate(sizeof(float) * size * 4), IntBox{0, 0, lw, lh}};
         Matrix toDevice;
 
         if (!invert(op.layerMatrix, toDevice)) {
             return;
         }
-
-        Plane content = makePlane(IntBox{0, 0, lw, lh});
 
         sub.width = op.layerWidth;
         sub.height = op.layerHeight;
@@ -15108,7 +15082,9 @@ namespace {
             Plane background = backgroundBuffer(r, pixelBox(Box{footprint.x0 - 2.f, footprint.y0 - 2.f, footprint.x1 + 2.f, footprint.y1 + 2.f}, canvas));
 
             if (background.data) {
-                Plane inherited = makePlane(content.box);
+                float* inherited = (float*)pool.allocate(sizeof(float) * size * 4);
+
+                memset(inherited, 0, sizeof(float) * size * 4);
 
                 for (u32 y = 0; y < sub.height; y++) {
                     for (u32 x = 0; x < sub.width; x++) {
@@ -15126,19 +15102,20 @@ namespace {
                                 float weight = (dx ? tx : 1.f - tx) * (dy ? ty : 1.f - ty);
 
                                 for (int c = 0; c < 4; c++) {
-                                    inherited.data[((size_t)y * sub.width + x) * 4 + c] += s[c] * weight;
+                                    inherited[((size_t)y * sub.width + x) * 4 + c] += s[c] * weight;
                                 }
                             }
                         }
                     }
                 }
 
-                sub.backdrop = inherited;
+                sub.backdrop = Plane{inherited, content.box};
             }
 
             releasePlane(background);
         }
 
+        memset(content.data, 0, sizeof(float) * size * 4);
         runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
         // The device canvas and the taps around it, in layer pixels: the
@@ -15214,9 +15191,6 @@ namespace {
                 }
             }
         }
-
-        releasePlane(content);
-        releasePlane(sub.backdrop);
     }
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base) {
@@ -15250,12 +15224,11 @@ namespace {
                     compositeLayer(r, l, op);
                     break;
                 case OpKind::Begin: {
-                    // The layer holds the pixels its group was lowered to draw;
-                    // its pool holds what its filters make.
+                    // The layer holds the pixels its group was lowered to draw.
                     ObjPool* pool = new ObjPool();
                     IntBox box = layerBox(op.bounds, canvas);
                     size_t area = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
-                    Plane layer{area ? new float[area * 4] : nullptr, box};
+                    Plane layer{area ? (float*)pool->allocate(sizeof(float) * area * 4) : nullptr, box};
 
                     r.layers.pushBack(layer);
                     r.dirty.pushBack(IntBox{0, 0, 0, 0});
@@ -15272,7 +15245,6 @@ namespace {
                     // A background is read in place; a group of no pixels
                     // draws nothing.
                     if (begin->backgroundOnly || !layer.data) {
-                        releasePlane(layer);
                         delete pool;
                         break;
                     }
@@ -15285,8 +15257,8 @@ namespace {
                         applyFilter(r, l, *filter, layer, *pool, canvas, begin->newBackground);
                     }
 
-                    float* clip = begin->clipped ? clipBuffer(r, l, *begin, layer.box) : nullptr;
-                    float* mask = begin->masked ? maskBuffer(r, l, *begin, layer.box) : nullptr;
+                    const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box) : nullptr;
+                    const float* mask = begin->masked ? maskBuffer(r, l, *begin, *pool, layer.box) : nullptr;
                     int width = planeWidth(layer);
 
                     for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
@@ -15326,9 +15298,6 @@ namespace {
                         }
                     }
 
-                    delete[] clip;
-                    delete[] mask;
-                    releasePlane(layer);
                     delete pool;
                     break;
                 }
@@ -15336,9 +15305,7 @@ namespace {
         }
 
         while (r.layers.length() > depth + 1) {
-            Plane layer = r.layers.popBack();
-
-            releasePlane(layer);
+            r.layers.popBack();
             r.dirty.popBack();
             r.begins.popBack();
             delete r.pools.popBack();
@@ -15465,7 +15432,9 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     ObjPool scratch;
     Document doc;
     size_t size = (size_t)width * height;
-    Plane base = makePlane(IntBox{0, 0, (int)width, (int)height});
+    float* base = (float*)scratch.allocate(sizeof(float) * size * 4);
+
+    memset(base, 0, sizeof(float) * size * 4);
 
     if (loadDocument(doc, scratch, document->source) && doc.root && doc.root->name == AtomSvg) {
         Lowering l;
@@ -15497,14 +15466,14 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
 
         raster.width = width;
         raster.height = height;
-        runProgram(raster, l, l.ops.data(), (u32)l.ops.length(), base);
+        runProgram(raster, l, l.ops.data(), (u32)l.ops.length(), Plane{base, IntBox{0, 0, (int)width, (int)height}});
     }
 
     ObjPool* pool = new ObjPool();
-    u8* pixels = poolBuffer<u8>(*pool, size * 4);
+    u8* pixels = (u8*)pool->allocate(size * 4);
 
     for (size_t i = 0; i < size; i++) {
-        const float* s = base.data + i * 4;
+        const float* s = base + i * 4;
         u8* d = pixels + i * 4;
         float a = s[3];
         float divisor = a > 0.f ? a : 1.f;
@@ -15516,8 +15485,6 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
 
         d[3] = clampByte(a * keep * 255.f + 0.5f);
     }
-
-    releasePlane(base);
 
     return &pool->make<RenderedImage>(pool, pixels, width, height)->image;
 }
