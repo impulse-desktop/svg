@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="4">
+<linearGradient id="g"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="blue"/></linearGradient>
+<pattern id="p" width=".5" height=".5"><rect width=".25" height=".25" fill="teal"/></pattern>
+<meshgradient id="m" x="0" y="0"><meshrow><meshpatch><stop path="l 1,0" stop-color="red"/><stop path="l 0,1" stop-color="lime"/><stop path="l -1,0" stop-color="blue"/><stop path="l 0,-1" stop-color="yellow"/></meshpatch></meshrow></meshgradient>
+<symbol id="s"><rect x=".5" y=".5" width="3" height="3" fill="context-fill" stroke="context-stroke"/></symbol>
+<use href="#s" fill="url(#g) navy" stroke="url(#p) olive"/>
+<use href="#s" x="4" fill="url(#m) teal" stroke="url(#g) gold"/>
+<use href="#s" x="8" fill="url(#p) purple"/>
+</svg>

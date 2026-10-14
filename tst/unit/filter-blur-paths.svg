@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<filter id="w" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="40"/></filter>
+<filter id="p" x="0" y="0" width="1" height="1"><feGaussianBlur in="FillPaint" stdDeviation="2"/></filter>
+<filter id="d" x="-1" y="-1" width="3" height="3"><feDropShadow stdDeviation="-1 2" dx="1" dy="1"/></filter>
+<filter id="b"><feGaussianBlur stdDeviation="1"/></filter>
+<rect x="0" y="0" width="8" height="8" fill="teal" filter="url(#w)"/>
+<rect x="10" y="0" width="8" height="8" fill="none" stroke="navy" filter="url(#p)"/>
+<rect x="20" y="4" width="8" height="8" fill="olive" filter="url(#d)"/>
+<rect x="0" y="0" width="4" height="16" fill="gold" filter="url(#b)"/>
+</svg>

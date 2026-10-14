@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="8">
+<filter id="h" primitiveUnits="userSpaceOnUse"><feDiffuseLighting y="3" height="1" lighting-color="white"><feDistantLight azimuth="45" elevation="45"/></feDiffuseLighting></filter>
+<filter id="s" x="0" y="0" width="1" height="1"><feSpecularLighting lighting-color="white" specularExponent="2"><feSpotLight x="12" y="4" z="10" pointsAtX="12" pointsAtY="4" pointsAtZ="0" limitingConeAngle="20"/></feSpecularLighting></filter>
+<rect width="8" height="8" fill="teal" filter="url(#h)"/>
+<rect x="8" width="16" height="8" fill="teal" filter="url(#s)"/>
+</svg>

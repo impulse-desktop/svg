@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 300 300">
+<filter id="d"><feTurbulence baseFrequency="0.01" numOctaves="5" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="30" xChannelSelector="R" yChannelSelector="G"/></filter>
+<filter id="u" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1"><feFlood flood-color="rgb(255,128,0)" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="400" xChannelSelector="R" yChannelSelector="G"/></filter>
+<filter id="v" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1"><feFlood flood-color="rgb(128,255,0)" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="400" xChannelSelector="R" yChannelSelector="G"/></filter>
+<circle cx="100" cy="100" r="100" filter="url(#d)"/>
+<rect x="200" y="0" width="100" height="100" fill="teal" filter="url(#u)"/>
+<rect x="200" y="100" width="100" height="100" fill="teal" filter="url(#v)"/>
+</svg>
