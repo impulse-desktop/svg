@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
+<filter id="F" x="0" y="0" width="1" height="1"><feImage href="#X"/></filter>
+<defs><g id="X"><use href="#F"/><rect width="4" height="4" fill="teal"/></g></defs>
+<rect width="8" height="8" fill="navy" filter="url(#F)"/>
+</svg>

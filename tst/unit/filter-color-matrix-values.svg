@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="4">
+<filter id="s"><feColorMatrix type="saturate"/></filter>
+<filter id="h"><feColorMatrix type="hueRotate" values="90 10"/></filter>
+<filter id="d"><feComponentTransfer><feFuncR type="discrete" tableValues="0 .5 1"/><feFuncG type="discrete" tableValues="1 0"/></feComponentTransfer></filter>
+<rect width="4" height="4" fill="#c84" filter="url(#s)"/>
+<rect x="4" width="4" height="4" fill="#c84" filter="url(#h)"/>
+<rect x="8" width="4" height="4" fill="#f0f" filter="url(#d)"/>
+</svg>

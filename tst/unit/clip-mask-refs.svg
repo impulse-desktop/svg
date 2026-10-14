@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8">
+<rect id="nc" width="1" height="1"/>
+<clipPath id="c"><rect width="4" height="4" clip-path="url(#nc)"/><rect x="4" width="4" height="4"/></clipPath>
+<clipPath id="u"><use href="#nc"/></clipPath>
+<rect width="8" height="8" fill="teal" clip-path="url(#missing)"/>
+<rect x="8" width="8" height="8" fill="olive" mask="url(#missing)"/>
+<rect width="8" height="8" fill="navy" clip-path="url(#c)"/>
+<rect x="8" width="8" height="8" fill="navy" clip-path="url(#u)" style="opacity:.5"/>
+<rect x="8" y="4" width="8" height="4" fill="gold" style="clip-path: circle(0)"/>
+<rect x="12" y="4" width="4" height="4" fill="gold" style="clip-path: ellipse(0 0)"/>
+</svg>
