@@ -1,0 +1,24 @@
+<!DOCTYPE svg [
+<!ENTITY p '<meshpatch><stop path="l 1,0" stop-color="red"/><stop path="l 0,1" stop-color="green"/><stop path="l -1,0" stop-color="blue"/></meshpatch>'>
+<!ENTITY q "&p;&p;&p;&p;&p;&p;&p;&p;&p;&p;&p;&p;&p;&p;&p;&p;">
+<!ENTITY r "&q;&q;&q;&q;&q;&q;&q;&q;&q;&q;&q;&q;&q;&q;&q;&q;">
+]>
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="24">
+<defs>
+<meshgradient id="huge" gradientUnits="userSpaceOnUse"><meshrow><meshpatch><stop path="l 1,0" stop-color="red"/><stop path="l 0,1" stop-color="green"/><stop path="l -1,0" stop-color="blue"/><stop path="l 0,-1" stop-color="white"/></meshpatch>&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;&r;</meshrow></meshgradient>
+<meshgradient id="slopes" gradientUnits="userSpaceOnUse" type="bicubic"><meshrow>
+<meshpatch><stop path="l 4,0" stop-color="#000"/><stop path="l 0,8" stop-color="#111"/><stop path="l -4,0" stop-color="#222"/><stop path="l 0,-8" stop-color="#333"/></meshpatch>
+<meshpatch><stop path="l 4,0" stop-color="#444"/><stop path="l 0,8" stop-color="#555"/><stop path="l -4,0" stop-color="#666"/></meshpatch>
+<meshpatch><stop path="l 0,0" stop-color="#888"/><stop path="l 0,8" stop-color="#aaa"/><stop path="l 0,0" stop-color="#ccc"/></meshpatch>
+<meshpatch><stop path="l 4,0" stop-color="#eee"/><stop path="l 0,8" stop-color="#fff"/><stop path="l -4,0" stop-color="#ddd"/></meshpatch>
+</meshrow></meshgradient>
+<meshgradient id="tri" gradientUnits="userSpaceOnUse" x="20" y="0"><meshrow><meshpatch><stop path="l 8,0" stop-color="red"/><stop path="l -4,8" stop-color="green"/><stop path="l 0,0" stop-color="blue"/><stop path="l -4,-8" stop-color="white"/></meshpatch></meshrow></meshgradient>
+<meshgradient id="tiny" gradientUnits="userSpaceOnUse" x="30" y="2"><meshrow><meshpatch><stop path="l 0.1,0" stop-color="red"/><stop path="l 0,0.1" stop-color="green"/><stop path="l -0.1,0" stop-color="blue"/><stop path="l 0,-0.1" stop-color="white"/></meshpatch></meshrow></meshgradient>
+<meshgradient id="big" gradientUnits="userSpaceOnUse" x="-100" y="-100"><meshrow><meshpatch><stop path="l 300,0" stop-color="red"/><stop path="l 0,300" stop-color="green"/><stop path="l -300,0" stop-color="blue"/><stop path="l 0,-300" stop-color="white"/></meshpatch></meshrow></meshgradient>
+</defs>
+<rect width="8" height="8" fill="url(#huge) gray"/>
+<rect x="8" width="12" height="8" fill="url(#slopes)"/>
+<rect x="20" width="8" height="8" fill="url(#tri)"/>
+<rect x="30" y="2" width="1" height="1" fill="url(#tiny)"/>
+<rect x="0" y="12" width="48" height="12" fill="url(#big)"/>
+</svg>
