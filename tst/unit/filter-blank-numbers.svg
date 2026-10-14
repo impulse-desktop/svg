@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="8">
+<filter id="a"><feGaussianBlur stdDeviation="  "/></filter>
+<filter id="b"><feMorphology radius="  "/></filter>
+<filter id="c"><feConvolveMatrix order="  " kernelMatrix="1 1 1 1 1 1 1 1 1"/></filter>
+<filter id="d"><feTurbulence baseFrequency="  "/></filter>
+<filter id="e"><feDropShadow stdDeviation="  "/></filter>
+<rect width="6" height="6" fill="teal" filter="url(#a)"/><rect x="6" width="6" height="6" fill="teal" filter="url(#b)"/>
+<rect x="12" width="6" height="6" fill="teal" filter="url(#c)"/><rect x="18" width="6" height="6" fill="teal" filter="url(#d)"/>
+<rect x="24" width="6" height="6" fill="teal" filter="url(#e)"/>
+</svg>

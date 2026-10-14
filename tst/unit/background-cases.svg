@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<defs>
+<filter id="bg"><feOffset in="BackgroundImage" dx="2"/></filter>
+<filter id="ba"><feGaussianBlur in="BackgroundAlpha" stdDeviation="1" result="a"/><feComposite in="BackgroundAlpha" in2="a"/></filter>
+<filter id="bi"><feGaussianBlur in="BackgroundImage" stdDeviation="1"/></filter>
+<filter id="wide"><feGaussianBlur stdDeviation="8"/></filter>
+</defs>
+<g enable-background="new" filter="url(#bg)"><rect width="6" height="6" fill="teal"/></g>
+<g enable-background="new"><rect x="8" width="6" height="6" fill="gold"/><rect x="8" width="6" height="6" filter="url(#ba)"/><rect x="16" width="6" height="6" filter="url(#bi)"/></g>
+<rect x="-30" y="4" width="8" height="8" fill="red" filter="url(#wide)" transform="rotate(10 -26 8)"/>
+</svg>

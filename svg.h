@@ -38,6 +38,7 @@ extern "C" {
     // has drawn it. A library without a decoder draws no raster images.
     typedef SvgImage* (*SvgDecode)(void* context, const void* bytes, size_t length);
 
+    // The destroys take what create and parse returned, never NULL.
     SvgLibrary* svg_library_create(SvgDecode decode, void* context);
     void svg_library_destroy(SvgLibrary* library);
 

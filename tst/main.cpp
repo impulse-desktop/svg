@@ -1128,11 +1128,39 @@ namespace {
         return 0;
     }
 
-    // Draws IN.svg at its own size rounded up, writes the drawing to OUT.png
-    // and compares it with CANON.png: they match when no premultiplied
-    // channel of a pixel differs by more than unitTolerance of 255. A file
-    // that is no document, or a document that draws no image, draws one
-    // transparent pixel. With CANON.png as OUT.png too it canonizes.
+    // The size and scale a unit's name asks for, as in X.32x16.svg or
+    // X.32x16x2.svg; false when it asks for none.
+    static bool unitSize(const char* path, uint32_t& width, uint32_t& height, float& scale) {
+        std::string name(path);
+        size_t dot = name.rfind('.');
+        size_t start = dot == std::string::npos ? std::string::npos : name.rfind('.', dot - 1);
+
+        if (start == std::string::npos) {
+            return false;
+        }
+
+        unsigned w;
+        unsigned h;
+        char tail;
+
+        scale = 1.f;
+
+        if (sscanf(name.c_str() + start, ".%ux%u%c", &w, &h, &tail) != 3 || (tail != '.' && (tail != 'x' || sscanf(name.c_str() + start, ".%ux%ux%f.", &w, &h, &scale) != 3))) {
+            return false;
+        }
+
+        width = w;
+        height = h;
+
+        return true;
+    }
+
+    // Draws IN.svg at its own size rounded up, or at the size and scale its
+    // name asks for, writes the drawing to OUT.png and compares it with
+    // CANON.png: they match when no premultiplied channel of a pixel differs
+    // by more than unitTolerance of 255. A file that is no document, or a
+    // document that draws no image, draws one transparent pixel. With
+    // CANON.png as OUT.png too it canonizes.
     static int unit(int argc, char** argv) {
         if (argc != 5) {
             fprintf(stderr, "usage: svg unit IN.svg CANON.png OUT.png\n");
@@ -1151,9 +1179,19 @@ namespace {
         if (document) {
             float width = ceilf(svg_document_width(document.get()));
             float height = ceilf(svg_document_height(document.get()));
+            uint32_t w = 0;
+            uint32_t h = 0;
+            float scale = 1.f;
+            bool sized = unitSize(argv[2], w, h, scale);
 
-            if (width >= 0.f && width <= 1e6f && height >= 0.f && height <= 1e6f) {
-                Image image(svg_document_render(document.get(), (uint32_t)width, (uint32_t)height, 1.f));
+            if (!sized && width >= 0.f && width <= 1e6f && height >= 0.f && height <= 1e6f) {
+                w = (uint32_t)width;
+                h = (uint32_t)height;
+                sized = true;
+            }
+
+            if (sized) {
+                Image image(svg_document_render(document.get(), w, h, scale));
 
                 if (image) {
                     const uint8_t* data = (const uint8_t*)svg_image_data(image.get());
