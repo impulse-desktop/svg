@@ -18,32 +18,32 @@ that embeds the renderer.
 ```c
 #include "svg.h"
 
-SvgLibrary* library = svg_library_create(NULL, NULL);
-SvgDocument* document = svg_library_parse(library, bytes, length);
-
-if (document) {
-    SvgImage* image = svg_document_render(document, 512, 512, 1.f);
-
-    if (image) {
-        const uint8_t* rgba = svg_image_data(image);
-
-        /* svg_image_width(image) by svg_image_height(image) pixels */
-        svg_image_destroy(image);
-    }
-
-    svg_document_destroy(document);
+static void fail(SvgError error) {
+    /* throw, longjmp or abort: fail does not return */
+    abort();
 }
 
+SvgLibrary* library = svg_library_create(NULL, fail, NULL);
+SvgDocument* document = svg_library_parse(library, bytes, length);
+SvgImage* image = svg_document_render(document, 512, 512, 1.f);
+const uint8_t* rgba = svg_image_data(image);
+
+/* svg_image_width(image) by svg_image_height(image) pixels */
+svg_image_destroy(image);
+svg_document_destroy(document);
 svg_library_destroy(library);
 ```
 
-`svg_library_parse` returns NULL for a file that is not well-formed SVG.
+No call returns NULL. What a call cannot do goes to the `fail` given to
+`svg_library_create`, which is never NULL, with an `SvgError` that says why: a
+file that is not XML, or whose root is not SVG, an SVG image inside a document
+that is not XML, an empty or oversized image, a scale that is not above zero.
+`fail` does not return; a C++ program may throw from it.
 `svg_document_render(document, width, height, scale)` draws the document as
 `<img src="file.svg">` laid out at `width / scale` by `height / scale` CSS
-pixels, into `width` by `height` device pixels; it returns NULL for an empty
-or oversized image. The pixels are RGBA, 8 bits a channel, not premultiplied.
-`svg_document_width` and `svg_document_height` give the document's own size in
-CSS pixels.
+pixels, into `width` by `height` device pixels. The pixels are RGBA, 8 bits a
+channel, not premultiplied. `svg_document_width` and `svg_document_height`
+give the document's own size in CSS pixels.
 
 To draw raster images, pass `svg_library_create` a function that turns their
 bytes into an `SvgImage` of your own, a struct that starts with an `SvgImage`
@@ -53,8 +53,8 @@ image do not depend on one another and are released in any order.
 
 ## Build
 
-Copy `svg.h` and `svg.cpp` into your project. `svg.cpp` is C++17 and uses
-exceptions internally; it depends on nothing but the C library and libm.
+Copy `svg.h` and `svg.cpp` into your project. `svg.cpp` is C++17 and neither
+throws nor catches; it depends on nothing but the C library and libm.
 Link the program with the C++ runtime.
 
 ## License

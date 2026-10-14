@@ -27,6 +27,11 @@ namespace {
         using std::runtime_error::runtime_error;
     };
 
+    // What the renderer could not do, thrown by its fail.
+    struct SvgFailure {
+        SvgError error;
+    };
+
     struct Pixels {
         std::vector<uint8_t> rgba;
         uint32_t width = 0;
@@ -424,6 +429,10 @@ static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
     return decodedImage(rgba, width, height);
 }
 
+[[noreturn]] static void failSvg(SvgError error) {
+    throw SvgFailure{error};
+}
+
 // The raster images of the corpus are PNG and JPEG; nothing else decodes.
 static SvgImage* decodeRaster(void*, const void* bytes, size_t length) {
     const uint8_t* p = (const uint8_t*)bytes;
@@ -525,7 +534,7 @@ namespace {
         readFile(path, file);
 
         try {
-            Library library(svg_library_create(decode, nullptr));
+            Library library(svg_library_create(decode, failSvg, nullptr));
 
             return Document(svg_library_parse(library.get(), file.data(), file.size()));
         } catch (...) {
@@ -1158,8 +1167,8 @@ namespace {
     // Draws IN.svg at its own size rounded up, or at the size and scale its
     // name asks for, writes the drawing to OUT.png and compares it with
     // CANON.png: they match when no premultiplied channel of a pixel differs
-    // by more than unitTolerance of 255. A file that is no document, or a
-    // document that draws no image, draws one transparent pixel. A name
+    // by more than unitTolerance of 255. A file the renderer fails to parse
+    // or to draw draws one transparent pixel. A name
     // holding .nodecoder. draws with a library that has no decoder. With
     // CANON.png as OUT.png too it canonizes.
     static int unit(int argc, char** argv) {
@@ -1191,16 +1200,16 @@ namespace {
                 sized = true;
             }
 
-            if (sized) {
-                Image image(svg_document_render(document.get(), w, h, scale));
-
-                if (image) {
+            try {
+                if (sized) {
+                    Image image(svg_document_render(document.get(), w, h, scale));
                     const uint8_t* data = (const uint8_t*)svg_image_data(image.get());
 
                     pixels.width = svg_image_width(image.get());
                     pixels.height = svg_image_height(image.get());
                     pixels.rgba.assign(data, data + svg_image_length(image.get()));
                 }
+            } catch (const SvgFailure&) {
             }
         }
 
@@ -1415,7 +1424,7 @@ namespace {
                 uint64_t start = nanoseconds();
 
                 try {
-                    library.reset(svg_library_create(decodeRaster, nullptr));
+                    library.reset(svg_library_create(decodeRaster, failSvg, nullptr));
                     document.reset(svg_library_parse(library.get(), file.data(), file.size()));
                     image.reset(document ? svg_document_render(document.get(), width, height, 1.f) : nullptr);
                     ok = image != nullptr;
