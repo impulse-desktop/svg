@@ -11730,6 +11730,22 @@ namespace {
         return planeAt(plane, x, y);
     }
 
+    // The pixels from x0 to x1 of row y of a plane, zero outside it.
+    static void readSpan(const Plane& plane, int x0, int x1, int y, float* dst) {
+        int inside0 = x0 > plane.box.x0 ? x0 : plane.box.x0;
+        int inside1 = x1 < plane.box.x1 ? x1 : plane.box.x1;
+
+        if (y < plane.box.y0 || y >= plane.box.y1 || inside1 <= inside0) {
+            memset(dst, 0, sizeof(float) * 4 * (size_t)(x1 - x0));
+
+            return;
+        }
+
+        memset(dst, 0, sizeof(float) * 4 * (size_t)(inside0 - x0));
+        memcpy(dst + (size_t)(inside0 - x0) * 4, planeAt(plane, inside0, y), sizeof(float) * 4 * (size_t)(inside1 - inside0));
+        memset(dst + (size_t)(inside1 - x0) * 4, 0, sizeof(float) * 4 * (size_t)(x1 - inside1));
+    }
+
     static IntBox boxInside(IntBox box, const IntBox& bound) {
         box.x0 = box.x0 < bound.x0 ? bound.x0 : box.x0;
         box.y0 = box.y0 < bound.y0 ? bound.y0 : box.y0;
@@ -13563,18 +13579,16 @@ namespace {
     static void gaussLine(const float* src, float* dst, int count, int stride, const float* kernel, int radius) {
         for (int i = 0; i < count; i++) {
             float sum[4] = {0.f, 0.f, 0.f, 0.f};
+            // The taps within the line.
+            int k0 = i < radius ? -i : -radius;
+            int k1 = i + radius < count ? radius : count - 1 - i;
 
-            for (int k = -radius; k <= radius; k++) {
-                int j = i + k;
-
-                if (j < 0 || j >= count) {
-                    continue;
-                }
-
+            for (int k = k0; k <= k1; k++) {
+                const float* tap = src + (size_t)(i + k) * stride;
                 float w = kernel[k + radius];
 
                 for (int c = 0; c < 4; c++) {
-                    sum[c] += src[(size_t)j * stride + c] * w;
+                    sum[c] += tap[c] * w;
                 }
             }
 
@@ -13726,10 +13740,7 @@ namespace {
         lineOut.zero((size_t)(y1 - y0) * 4);
 
         for (int y = y0; y < y1; y++) {
-            for (int x = x0; x < x1; x++) {
-                memcpy(row.mutData() + (size_t)(x - x0) * 4, planeRead(in, x, y), sizeof(float) * 4);
-            }
-
+            readSpan(in, x0, x1, y, row.mutData());
             blurLine(row.data(), planeAt(horizontal, x0, y), first, second, x1 - x0, 4, sigmaX);
         }
 
