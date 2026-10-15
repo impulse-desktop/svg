@@ -11300,84 +11300,93 @@ namespace {
     // depends on their source: the sum of what every primitive reaches, as
     // the primitives themselves measure it. Negative when a primitive has no
     // bound, as feTile has not.
+    // Adds how far the primitive reads from a pixel it writes, in device
+    // pixels; false for a feTile, which reads its whole input.
+    static bool primitiveReach(const Filter& f, const FilterPrimitive& p, float scaleX, float scaleY, float& reach) {
+        const Document& doc = *f.doc;
+        float dx = 0.f;
+        float dy = 0.f;
+        float sx = 0.f;
+        float sy = 0.f;
+
+        switch (p.kind) {
+            case AtomFeOffset:
+                dx = userX(f, numberOf(doc, p.node, AtomDx, 0.f));
+                dy = userY(f, numberOf(doc, p.node, AtomDy, 0.f));
+                break;
+            case AtomFeGaussianBlur:
+                if (!p.node) {
+                    sx = p.params[0];
+                    sy = p.params[1];
+                } else if (attribute(p.node, AtomStdDeviation) && !numberPair(doc, p.node, AtomStdDeviation, sx, sy)) {
+                    sx = 0.f;
+                    sy = 0.f;
+                }
+
+                break;
+            case AtomFeDropShadow:
+                dx = p.node ? userX(f, numberOf(doc, p.node, AtomDx, 2.f)) : p.params[0];
+                dy = p.node ? userY(f, numberOf(doc, p.node, AtomDy, 2.f)) : p.params[1];
+                sx = p.node ? 2.f : p.params[2];
+                sy = sx;
+
+                if (p.node && attribute(p.node, AtomStdDeviation) && !numberPair(doc, p.node, AtomStdDeviation, sx, sy)) {
+                    sx = 0.f;
+                    sy = 0.f;
+                }
+
+                break;
+            case AtomFeMorphology: {
+                float rx = 0.f;
+                float ry = 0.f;
+
+                if (!attribute(p.node, AtomRadius) || numberPair(doc, p.node, AtomRadius, rx, ry)) {
+                    reach += maxf(userX(f, rx) * scaleX, userY(f, ry) * scaleY) + 1.f;
+                }
+            } break;
+            case AtomFeConvolveMatrix:
+                reach += 32.f;
+                break;
+            case AtomFeDisplacementMap: {
+                float scale = numberOf(doc, p.node, AtomScale, 0.f);
+
+                reach += maxf(fabsf(userX(f, scale) * scaleX), fabsf(userY(f, scale) * scaleY)) * 0.5f + 1.f;
+            } break;
+            case AtomFeDiffuseLighting:
+            case AtomFeSpecularLighting:
+                reach += 1.f;
+                break;
+            case AtomFeTile:
+                return false;
+            default:
+                break;
+        }
+
+        // A negative deviation blurs nothing along its axis.
+        sx = maxf(sx, 0.f);
+        sy = maxf(sy, 0.f);
+
+        int blurX = blurReach(userX(f, sx) * scaleX);
+        int blurY = blurReach(userY(f, sy) * scaleY);
+        float shift = maxf(fabsf(f.ctm.a * dx + f.ctm.c * dy), fabsf(f.ctm.b * dx + f.ctm.d * dy));
+
+        reach += (float)(blurX > blurY ? blurX : blurY);
+        reach += shift > 0.f ? shift + 1.f : 0.f;
+
+        return true;
+    }
+
     static float filterReach(const Filter* filter) {
         float reach = 0.f;
 
         for (const Filter* f = filter; f; f = f->next) {
-            const Document& doc = *f->doc;
             float scaleX = sqrtf(f->ctm.a * f->ctm.a + f->ctm.b * f->ctm.b);
             float scaleY = sqrtf(f->ctm.c * f->ctm.c + f->ctm.d * f->ctm.d);
 
             for (u32 k = 0; k < f->count; k++) {
-                const FilterPrimitive& p = f->primitives[k];
-                float dx = 0.f;
-                float dy = 0.f;
-                float sx = 0.f;
-                float sy = 0.f;
-
-                switch (p.kind) {
-                    case AtomFeOffset:
-                        dx = userX(*f, numberOf(doc, p.node, AtomDx, 0.f));
-                        dy = userY(*f, numberOf(doc, p.node, AtomDy, 0.f));
-                        break;
-                    case AtomFeGaussianBlur:
-                        if (!p.node) {
-                            sx = p.params[0];
-                            sy = p.params[1];
-                        } else if (attribute(p.node, AtomStdDeviation) && !numberPair(doc, p.node, AtomStdDeviation, sx, sy)) {
-                            sx = 0.f;
-                            sy = 0.f;
-                        }
-
-                        break;
-                    case AtomFeDropShadow:
-                        dx = p.node ? userX(*f, numberOf(doc, p.node, AtomDx, 2.f)) : p.params[0];
-                        dy = p.node ? userY(*f, numberOf(doc, p.node, AtomDy, 2.f)) : p.params[1];
-                        sx = p.node ? 2.f : p.params[2];
-                        sy = sx;
-
-                        if (p.node && attribute(p.node, AtomStdDeviation) && !numberPair(doc, p.node, AtomStdDeviation, sx, sy)) {
-                            sx = 0.f;
-                            sy = 0.f;
-                        }
-
-                        break;
-                    case AtomFeMorphology: {
-                        float rx = 0.f;
-                        float ry = 0.f;
-
-                        if (!attribute(p.node, AtomRadius) || numberPair(doc, p.node, AtomRadius, rx, ry)) {
-                            reach += maxf(userX(*f, rx) * scaleX, userY(*f, ry) * scaleY) + 1.f;
-                        }
-                    } break;
-                    case AtomFeConvolveMatrix:
-                        reach += 32.f;
-                        break;
-                    case AtomFeDisplacementMap: {
-                        float scale = numberOf(doc, p.node, AtomScale, 0.f);
-
-                        reach += maxf(fabsf(userX(*f, scale) * scaleX), fabsf(userY(*f, scale) * scaleY)) * 0.5f + 1.f;
-                    } break;
-                    case AtomFeDiffuseLighting:
-                    case AtomFeSpecularLighting:
-                        reach += 1.f;
-                        break;
-                    case AtomFeTile:
-                        return -1.f;
-                    default:
-                        break;
+                if (!primitiveReach(*f, f->primitives[k], scaleX, scaleY, reach)) {
+                    return -1.f;
                 }
-
-                // A negative deviation blurs nothing along its axis.
-                sx = maxf(sx, 0.f);
-                sy = maxf(sy, 0.f);
-
-                int blurX = blurReach(userX(*f, sx) * scaleX);
-                int blurY = blurReach(userY(*f, sy) * scaleY);
-                float shift = maxf(fabsf(f->ctm.a * dx + f->ctm.c * dy), fabsf(f->ctm.b * dx + f->ctm.d * dy));
-
-                reach += (float)(blurX > blurY ? blurX : blurY);
-                reach += shift > 0.f ? shift + 1.f : 0.f;
             }
         }
 
@@ -11732,6 +11741,19 @@ namespace {
         }
 
         return box;
+    }
+
+    // The bounding box of two pixel boxes, an empty one adding nothing.
+    static IntBox boxJoin(const IntBox& a, const IntBox& b) {
+        if (a.x1 <= a.x0 || a.y1 <= a.y0) {
+            return b;
+        }
+
+        if (b.x1 <= b.x0 || b.y1 <= b.y0) {
+            return a;
+        }
+
+        return IntBox{a.x0 < b.x0 ? a.x0 : b.x0, a.y0 < b.y0 ? a.y0 : b.y0, a.x1 > b.x1 ? a.x1 : b.x1, a.y1 > b.y1 ? a.y1 : b.y1};
     }
 
     // The pixels of the canvas that drawing within the bounds can touch,
@@ -15196,6 +15218,39 @@ namespace {
 
             primitives[lowered.count - 1].box = boxInside(primitives[lowered.count - 1].box, visible);
             filter.primitives = primitives;
+
+            // A primitive is read within the boxes of its readers, each
+            // widened by its own reach, and is computed there alone: the rest
+            // of its box cannot reach the visible result. A feTile reads its
+            // whole input, which keeps its box.
+            float scaleX = sqrtf(filter.ctm.a * filter.ctm.a + filter.ctm.b * filter.ctm.b);
+            float scaleY = sqrtf(filter.ctm.c * filter.ctm.c + filter.ctm.d * filter.ctm.d);
+            Vector<IntBox> need;
+
+            need.zero(lowered.count);
+            need.mut(lowered.count - 1) = primitives[lowered.count - 1].box;
+
+            for (u32 j = lowered.count; j-- > 0;) {
+                FilterPrimitive& p = primitives[j];
+                float reach = 0.f;
+
+                p.box = boxInside(p.box, need[j]);
+
+                bool bounded = primitiveReach(filter, p, scaleX, scaleY, reach) && reach < 16777216.f;
+                IntBox wide = p.box;
+
+                if (bounded && wide.x1 > wide.x0 && wide.y1 > wide.y0) {
+                    int r = (int)ceilf(reach);
+
+                    wide = IntBox{wide.x0 - r, wide.y0 - r, wide.x1 + r, wide.y1 + r};
+                }
+
+                for (u32 i = 0; i < j; i++) {
+                    if (readsResult(p, (int)i)) {
+                        need.mut(i) = boxJoin(need[i], bounded ? wide : primitives[i].box);
+                    }
+                }
+            }
         }
 
         const IntBox& region = filter.region;
