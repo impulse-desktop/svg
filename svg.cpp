@@ -11329,8 +11329,6 @@ namespace {
                             sy = 0.f;
                         }
 
-                        sx = maxf(sx, 0.f);
-                        sy = maxf(sy, 0.f);
                         break;
                     case AtomFeDropShadow:
                         dx = p.node ? userX(*f, numberOf(doc, p.node, AtomDx, 2.f)) : p.params[0];
@@ -11370,10 +11368,9 @@ namespace {
                         break;
                 }
 
-                if (sx < 0.f || sy < 0.f) {
-                    sx = 0.f;
-                    sy = 0.f;
-                }
+                // A negative deviation blurs nothing along its axis.
+                sx = maxf(sx, 0.f);
+                sy = maxf(sy, 0.f);
 
                 int blurX = blurReach(userX(*f, sx) * scaleX);
                 int blurY = blurReach(userY(*f, sy) * scaleY);
