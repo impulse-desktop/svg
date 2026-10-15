@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="m" markerWidth="4" markerHeight="4" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="teal"/></marker>
+<marker id="z" markerWidth="0" markerHeight="4"><rect width="50" height="50" fill="red"/></marker>
+<marker id="r" markerWidth="4" markerHeight="4" markerUnits="userSpaceOnUse"><path d="M0 0 h2" marker-start="url(#r)" stroke="gold"/><rect width="3" height="3" fill="gold"/></marker>
+<marker id="n" markerWidth="2" markerHeight="2" orient="auto"><rect width="2" height="2" fill="olive"/></marker>
+</defs>
+<path d="M2 2 h4" stroke="navy" marker-start="url(#m)" marker-end="url(#z)"/>
+<rect x="10" y="2" width="2" height="2" marker-start="url(#m)" fill="navy"/>
+<path d="M0 6 h1" marker-start="url(#r)" stroke="navy"/>
+<path d="M14 2 v3" stroke="navy" vector-effect="non-scaling-stroke" transform="scale(1 2)" marker-end="url(#n)"/>
+<path d="M12 10" marker-end="url(#m)"/>
+<path d="M0 0 C 0 5 0 10 0 10" stroke="navy"/>
+</svg>

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import base64
 import json
+import math
 import os
 import select
 import shutil
@@ -34,8 +35,8 @@ SHOW = """
 (async () => {
   document.body.textContent = '';
   const img = new Image();
-  img.style.width = '%dpx';
-  img.style.height = '%dpx';
+  img.style.width = '%.4fpx';
+  img.style.height = '%.4fpx';
   const done = new Promise((ok) => { img.onload = () => ok(true); img.onerror = () => ok(false); });
   img.src = %s;
   document.body.appendChild(img);
@@ -125,12 +126,23 @@ class Browser:
         self.process.wait()
 
 
-def sizes(natural):
-    width, height = natural
+def sizes(own):
+    width, height = own
     longest = max(width, height)
     for label, side in SIDES:
         scale = side / longest
         yield label, max(1, round(width * scale)), max(1, round(height * scale))
+
+
+# The document's own size as the renderer has it: what its root gives, or
+# the edges of what it draws. Chromium shows the document in a box of that
+# size, so the two agree on what the box is where Chromium would make one
+# up; the pixels of the box come of the device scale factor.
+def own_size(program, svg):
+    line = subprocess.run([program, "size", svg], capture_output=True, text=True, check=True).stdout.split()
+    if len(line) != 3 or line[1] == "?":
+        return None
+    return float(line[1]), float(line[2])
 
 
 def render(browser, svg, program, side, scratch):
@@ -138,23 +150,37 @@ def render(browser, svg, program, side, scratch):
     natural = browser.evaluate(LOAD % url)
     if not natural or natural[0] <= 0 or natural[1] <= 0:
         return "no natural size"
-    for label, width, height in sizes(natural):
+    own = own_size(program, svg)
+    if not own or own[0] <= 0 or own[1] <= 0:
+        return "no own size"
+    for label, width, height in sizes(own):
         factor = max(1, side // max(width, height))
-        browser.send("Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": factor, "mobile": False})
-        if not browser.evaluate(SHOW % (width, height, url)):
+        # The box is the document's own width in CSS pixels, at the device
+        # scale that makes it the pixels wanted, and as high as keeps the
+        # pixels' ratio. The screenshot is of the viewport, the box rounded
+        # up to whole CSS pixels, so it is never short of the pixels however
+        # Chromium rounds; shrink crops it to them.
+        scale = width * factor / own[0]
+        box_width = own[0]
+        box_height = height * factor / scale
+        viewport_width = math.ceil(box_width)
+        viewport_height = math.ceil(box_height)
+        browser.send("Emulation.setDeviceMetricsOverride", {"width": viewport_width, "height": viewport_height, "deviceScaleFactor": scale, "mobile": False})
+        if not browser.evaluate(SHOW % (box_width, box_height, url)):
             return "image failed to load"
         shot = base64.b64decode(browser.send("Page.captureScreenshot", {
             "format": "png",
-            "clip": {"x": 0, "y": 0, "width": width, "height": height, "scale": 1},
+            "clip": {"x": 0, "y": 0, "width": viewport_width, "height": viewport_height, "scale": 1},
             "fromSurface": True,
             "captureBeyondViewport": False,
         })["data"])
-        if struct.unpack(">II", shot[16:24]) != (width * factor, height * factor):
-            return f"screenshot is {struct.unpack('>II', shot[16:24])}, not {width * factor}x{height * factor}"
+        shot_width, shot_height = struct.unpack(">II", shot[16:24])
+        if not (0 <= shot_width - width * factor <= scale + 2 and 0 <= shot_height - height * factor <= scale + 2):
+            return f"screenshot is {shot_width}x{shot_height}, not {width * factor}x{height * factor}"
         large = os.path.join(scratch, f"{threading.get_ident()}.png")
         with open(large, "wb") as handle:
             handle.write(shot)
-        subprocess.run([program, "shrink", large, svg[:-4] + f".{label}.png", str(factor)], check=True)
+        subprocess.run([program, "shrink", large, svg[:-4] + f".{label}.png", str(factor), str(width), str(height)], check=True)
     return None
 
 

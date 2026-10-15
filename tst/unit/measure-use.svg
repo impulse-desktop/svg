@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<defs>
+<symbol id="s" viewBox="0 0 2 2" transform="translate(1 0)"><rect width="2" height="2" fill="teal"/></symbol>
+<svg id="n" x="1" y="1" width="4" height="4"><rect width="4" height="4" fill="gold"/></svg>
+<g id="g"><rect width="3" height="3" fill="navy"/></g>
+<g id="h" display="none"><rect width="50" height="50" fill="red"/></g>
+<symbol id="d" display="none"><rect width="50" height="50" fill="red"/></symbol>
+<symbol id="c" systemLanguage="fr"><rect width="50" height="50" fill="red"/></symbol>
+</defs>
+<use href="#s" x="2" y="2" width="4" height="4"/>
+<use href="#n" x="6" width="2"/>
+<use href="#g" x="10" y="1"/>
+<use href="#d"/>
+<use href="#c"/>
+</svg>

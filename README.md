@@ -39,11 +39,17 @@ No call returns NULL. What a call cannot do goes to the `fail` given to
 file that is not XML, or whose root is not SVG, an SVG image inside a document
 that is not XML, an empty or oversized image, a scale that is not above zero.
 `fail` does not return; a C++ program may throw from it.
-`svg_document_render(document, width, height, scale)` draws the document as
-`<img src="file.svg">` laid out at `width / scale` by `height / scale` CSS
-pixels, into `width` by `height` device pixels. The pixels are RGBA, 8 bits a
-channel, not premultiplied. `svg_document_width` and `svg_document_height`
-give the document's own size in CSS pixels.
+`svg_document_width` and `svg_document_height` give the document's own size
+in CSS pixels: the width and height its root gives, one of them with the
+viewBox's ratio, or the viewBox's size. A side the root leaves open, giving
+none or a percentage, is the right or bottom edge of what the document draws,
+so a document that draws nothing past the origin has a side of zero and draws
+nothing. `svg_document_render(document, width, height, scale)` draws the
+document as `<img src="file.svg">` laid out at `width / scale` by
+`height / scale` CSS pixels, into `width` by `height` device pixels, the
+document's own size stretched to the layout box; a viewBox fits the box as
+its `preserveAspectRatio` says. The pixels are RGBA, 8 bits a channel, not
+premultiplied.
 
 To draw raster images, pass `svg_library_create` a function that turns their
 bytes into an `SvgImage` of your own, a struct that starts with an `SvgImage`
