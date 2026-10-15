@@ -25,7 +25,7 @@ static void fail(SvgError error) {
 
 SvgLibrary* library = svg_library_create(NULL, fail, NULL);
 SvgDocument* document = svg_library_parse(library, bytes, length);
-SvgImage* image = svg_document_render(document, 512, 512, 1.f);
+SvgImage* image = svg_document_render(document, 512, 512);
 const uint8_t* rgba = svg_image_data(image);
 
 /* svg_image_width(image) by svg_image_height(image) pixels */
@@ -37,19 +37,17 @@ svg_library_destroy(library);
 No call returns NULL. What a call cannot do goes to the `fail` given to
 `svg_library_create`, which is never NULL, with an `SvgError` that says why: a
 file that is not XML, or whose root is not SVG, an SVG image inside a document
-that is not XML, an empty or oversized image, a scale that is not above zero.
+that is not XML, an empty or oversized image.
 `fail` does not return; a C++ program may throw from it.
 `svg_document_width` and `svg_document_height` give the document's own size
 in CSS pixels: the width and height its root gives, one of them with the
 viewBox's ratio, or the viewBox's size. A side the root leaves open, giving
 none or a percentage, is the right or bottom edge of what the document draws,
 so a document that draws nothing past the origin has a side of zero and draws
-nothing. `svg_document_render(document, width, height, scale)` draws the
-document as `<img src="file.svg">` laid out at `width / scale` by
-`height / scale` CSS pixels, into `width` by `height` device pixels, the
-document's own size stretched to the layout box; a viewBox fits the box as
-its `preserveAspectRatio` says. The pixels are RGBA, 8 bits a channel, not
-premultiplied.
+nothing. `svg_document_render(document, width, height)` draws the document
+into `width` by `height` pixels, its own size stretched to them; a viewBox
+fits them as its `preserveAspectRatio` says. The pixels are RGBA, 8 bits a
+channel, not premultiplied.
 
 To draw raster images, pass `svg_library_create` a function that turns their
 bytes into an `SvgImage` of your own, a struct that starts with an `SvgImage`

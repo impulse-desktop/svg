@@ -75,7 +75,6 @@ extern "C" {
         SVG_XML_END_TAG_CLOSE,            // no > closes an end tag
         SVG_NOT_SVG,                      // the root element is no SVG element
         SVG_RENDER_SIZE,                  // an image of no pixel or over 2^26
-        SVG_RENDER_SCALE,                 // a scale that is not above zero
         SVG_XML_INCLUDE_PARSE,            // an xi:include to parse neither as xml nor as text
     } SvgError;
 
@@ -104,7 +103,10 @@ extern "C" {
     // and draws nothing at any size.
     float svg_document_width(const SvgDocument* document);
     float svg_document_height(const SvgDocument* document);
-    SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height, float scale);
+    // The document drawn into width by height pixels, its own size
+    // stretched to them; a viewBox fits them as its preserveAspectRatio
+    // says.
+    SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height);
 
 #ifdef __cplusplus
 }

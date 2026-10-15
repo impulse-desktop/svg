@@ -82,8 +82,8 @@ int main(void) {
         return fail("the document is not 12 by 4");
     }
 
-    SvgImage* plain = svg_document_render(document, 12, 4, 1.f);
-    SvgImage* doubled = svg_document_render(document, 24, 8, 2.f);
+    SvgImage* plain = svg_document_render(document, 12, 4);
+    SvgImage* doubled = svg_document_render(document, 24, 8);
 
     // The images outlive their document and library.
     svg_document_destroy(document);
