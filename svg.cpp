@@ -881,17 +881,23 @@ void ObjPool::submit(Disposable* d) noexcept {
     ds_.submit(d);
 }
 
+namespace {
+    struct Document;
+}
+
 // Each public object is made in its own pool; destroying it deletes the pool.
+// The document holds the file parsed and cascaded, which a render reads and
+// never writes.
 struct SvgDocument {
     ObjPool* pool;
     SvgDecode decode;
     SvgFail fail;
     void* context;
-    StringView source;
+    Document* doc;
     float width;
     float height;
 
-    SvgDocument(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context, StringView source, float width, float height);
+    SvgDocument(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context, Document* doc, float width, float height);
 };
 
 struct SvgLibrary {
@@ -903,12 +909,12 @@ struct SvgLibrary {
     SvgLibrary(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context);
 };
 
-SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_, StringView source_, float width_, float height_)
+SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_, Document* doc_, float width_, float height_)
     : pool(pool_)
     , decode(decode_)
     , fail(fail_)
     , context(context_)
-    , source(source_)
+    , doc(doc_)
     , width(width_)
     , height(height_)
 {
@@ -15220,6 +15226,18 @@ namespace {
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
     }
+
+    // Holds the pool of an object not made yet: a fail that throws on the
+    // way to making it deletes the pool.
+    struct PoolGuard {
+        ObjPool* pool;
+
+        ~PoolGuard();
+    };
+
+    PoolGuard::~PoolGuard() {
+        delete pool;
+    }
 }
 
 DecodedImage::DecodedImage(SvgImage* image_)
@@ -15292,19 +15310,15 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     }
 
     ObjPool scratch;
-    Document doc;
+    Document& doc = *document->doc;
     size_t size = (size_t)width * height;
     float* base = (float*)scratch.allocate(sizeof(float) * size * 4);
 
     memset(base, 0, sizeof(float) * size * 4);
 
-    // The file parsed into an SVG document when its document was made.
-    loadDocument(doc, scratch, document->source, document->fail);
-
     {
         Lowering l;
 
-        cascade(doc);
         l.doc = &doc;
         l.pool = &scratch;
         l.width = width;
@@ -15356,27 +15370,30 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
 }
 
 SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t length) {
-    ObjPool scratch;
-    Document doc;
-    StringView source((const u8*)file, length);
+    PoolGuard guard{new ObjPool()};
+    ObjPool& pool = *guard.pool;
+    Document* doc = pool.make<Document>();
 
-    loadDocument(doc, scratch, source, library->fail);
+    // The file, kept with the document that refers into it.
+    loadDocument(*doc, pool, keep(pool, file, length), library->fail);
 
-    if (!doc.root || doc.root->name != AtomSvg) {
+    if (!doc->root || doc->root->name != AtomSvg) {
         fail(library->fail, SVG_NOT_SVG);
     }
 
-    cascade(doc);
+    cascade(*doc);
 
     float width;
     float height;
 
-    if (!intrinsicSize(doc, doc.root, width, height)) {
+    if (!intrinsicSize(*doc, doc->root, width, height)) {
         width = 300.f;
         height = 150.f;
     }
 
-    ObjPool* pool = new ObjPool();
+    SvgDocument* document = pool.make<SvgDocument>(&pool, library->decode, library->fail, library->context, doc, width, height);
 
-    return pool->make<SvgDocument>(pool, library->decode, library->fail, library->context, keep(*pool, file, length), width, height);
+    guard.pool = nullptr;
+
+    return document;
 }
