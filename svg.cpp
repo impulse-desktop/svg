@@ -15590,11 +15590,24 @@ namespace {
                 float ty = fy - by;
                 float sample[4];
 
-                for (int c = 0; c < 4; c++) {
-                    float top = texel(ix, iy, c) * (1.f - tx) + texel(ix + 1, iy, c) * tx;
-                    float bottom = texel(ix, iy + 1, c) * (1.f - tx) + texel(ix + 1, iy + 1, c) * tx;
+                if (ix >= 0 && iy >= 0 && ix + 1 < lw && iy + 1 < lh) {
+                    // The four taps are inside the layer.
+                    const float* above = content.data + ((size_t)iy * lw + ix) * 4;
+                    const float* below = above + (size_t)lw * 4;
 
-                    sample[c] = top * (1.f - ty) + bottom * ty;
+                    for (int c = 0; c < 4; c++) {
+                        float top = above[c] * (1.f - tx) + above[4 + c] * tx;
+                        float bottom = below[c] * (1.f - tx) + below[4 + c] * tx;
+
+                        sample[c] = top * (1.f - ty) + bottom * ty;
+                    }
+                } else {
+                    for (int c = 0; c < 4; c++) {
+                        float top = texel(ix, iy, c) * (1.f - tx) + texel(ix + 1, iy, c) * tx;
+                        float bottom = texel(ix, iy + 1, c) * (1.f - tx) + texel(ix + 1, iy + 1, c) * tx;
+
+                        sample[c] = top * (1.f - ty) + bottom * ty;
+                    }
                 }
 
                 if (sample[3] <= 0.f) {
