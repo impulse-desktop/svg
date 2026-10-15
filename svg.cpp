@@ -12207,22 +12207,26 @@ namespace {
         r = t;
     }
 
-    // The samples of a band: the edges spanning it in the order of the active
-    // list, with the x where each enters, leaves and crosses the middle.
-    static bool bandSamples(const BandEdge* edges, const Vector<u32>& active, float a, float b, Vector<BandSample>& samples) {
+    // The samples of a band: the edges spanning it in the order given, with
+    // the x where each enters, leaves and crosses the middle, and the place
+    // of each in the active list; the edges not spanning it go to rest.
+    static bool bandSamples(const BandEdge* edges, const Vector<u32>& order, const Vector<u32>& position, float a, float b, Vector<BandSample>& samples, Vector<u32>& rest) {
         float mid = (a + b) * 0.5f;
         bool comparable = true;
 
         samples.clear();
+        rest.clear();
 
-        for (u32 index : active) {
+        for (u32 index : order) {
             const BandEdge& e = edges[index];
 
             if (e.y0 <= a && e.y1 >= b) {
                 float key = bandX(e, mid);
 
                 comparable = comparable && key == key;
-                samples.pushBack(BandSample{bandX(e, a), bandX(e, b), key, e.dir, (u32)samples.length(), index});
+                samples.pushBack(BandSample{bandX(e, a), bandX(e, b), key, e.dir, position[index], index});
+            } else {
+                rest.pushBack(index);
             }
         }
 
@@ -12248,47 +12252,48 @@ namespace {
         return comparable;
     }
 
-    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable) {
+    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, const Vector<u32>& position, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable) {
         Vector<BandSample>& band = samples[depth];
 
         if (band.empty()) {
             return;
         }
 
-        // Samples sort by their keys, equal keys by the order of their edges.
-        // A key that is not a number stops the insertion sort where it stands,
-        // so that sort runs over the order of the active list, as a whole band
-        // comes; a half band comes nearly sorted, so the insertion sort is
-        // linear there.
-        if (comparable && depth == 0 && band.length() >= 24) {
-            quickSort(band.mutBegin(), band.mutEnd(), [](const BandSample& p, const BandSample& q) {
-                return p.key < q.key || (p.key == q.key && p.order < q.order);
+        // Samples sort by their keys, equal keys by the order of their edges
+        // in the active list. A whole band comes in the order of the band
+        // before and a half band in the order of the whole, nearly sorted, so
+        // the insertion sort is about linear; a band that moves them far is
+        // sorted outright. A key that is not a number stops the insertion
+        // sort where it stands, so that sort runs over the order of the
+        // active list, which the samples take first.
+        BandSample* sorted = band.mutData();
+        size_t count = band.length();
+        size_t moves = 0;
+
+        if (!comparable) {
+            quickSort(sorted, sorted + count, [](const BandSample& p, const BandSample& q) {
+                return p.order < q.order;
             });
-        } else {
-            if (!comparable && depth > 0) {
-                Vector<BandSample>& ordered = samples[depth + 1];
+        }
 
-                ordered.zero(band.length());
+        for (size_t i = 1; i < count; i++) {
+            BandSample sample = sorted[i];
+            size_t k = i;
 
-                for (const BandSample& s : band) {
-                    ordered.mut(s.order) = s;
-                }
-
-                band.xchg(ordered);
+            while (k > 0 && (sorted[k - 1].key > sample.key || (comparable && sorted[k - 1].key == sample.key && sorted[k - 1].order > sample.order))) {
+                sorted[k] = sorted[k - 1];
+                k--;
             }
 
-            BandSample* sorted = band.mutData();
+            sorted[k] = sample;
+            moves += i - k;
 
-            for (size_t i = 1; i < band.length(); i++) {
-                BandSample sample = sorted[i];
-                size_t k = i;
+            if (comparable && moves > 8 * count + 64) {
+                quickSort(sorted, sorted + count, [](const BandSample& p, const BandSample& q) {
+                    return p.key < q.key || (p.key == q.key && p.order < q.order);
+                });
 
-                while (k > 0 && (sorted[k - 1].key > sample.key || (comparable && sorted[k - 1].key == sample.key && sorted[k - 1].order > sample.order))) {
-                    sorted[k] = sorted[k - 1];
-                    k--;
-                }
-
-                sorted[k] = sample;
+                break;
             }
         }
 
@@ -12302,13 +12307,14 @@ namespace {
                     Vector<BandSample>& half = samples[depth + 1];
                     // A middle that rounds onto an end of the band is spanned by more edges.
                     bool split = a < mid && mid < b;
-                    bool comparableHalf = split ? halfBandSamples(edges, band, a, mid, true, half) : bandSamples(edges, active, a, mid, half);
+                    Vector<u32> spare;
+                    bool comparableHalf = split ? halfBandSamples(edges, band, a, mid, true, half) : bandSamples(edges, active, position, a, mid, half, spare);
 
-                    unionBand(acc, stride, w, h, edges, active, samples, a, mid, rule, depth + 1, comparableHalf);
+                    unionBand(acc, stride, w, h, edges, active, position, samples, a, mid, rule, depth + 1, comparableHalf);
 
-                    comparableHalf = split ? halfBandSamples(edges, band, mid, b, false, half) : bandSamples(edges, active, mid, b, half);
+                    comparableHalf = split ? halfBandSamples(edges, band, mid, b, false, half) : bandSamples(edges, active, position, mid, b, half, spare);
 
-                    unionBand(acc, stride, w, h, edges, active, samples, mid, b, rule, depth + 1, comparableHalf);
+                    unionBand(acc, stride, w, h, edges, active, position, samples, mid, b, rule, depth + 1, comparableHalf);
 
                     return;
                 }
@@ -12333,6 +12339,7 @@ namespace {
     struct Crossing {
         float x;
         int dir;
+        u32 edge;
     };
 
     static void xchg(Crossing& l, Crossing& r) noexcept {
@@ -12342,40 +12349,70 @@ namespace {
         r = t;
     }
 
-    static void sortCrossings(Vector<Crossing>& crossings) {
-        if (crossings.length() < 24) {
-            for (size_t i = 1; i < crossings.length(); i++) {
-                Crossing c = crossings[i];
-                size_t k = i;
+    // Sorts the crossings by x, equal ones by direction. Those of a scanline
+    // come in the order of the one before, nearly sorted, so the insertion
+    // sort is about linear; a scanline that moves them far is sorted outright.
+    // A crossing that is not a number sorts as it always did.
+    static void sortCrossings(Vector<Crossing>& crossings, bool numeric) {
+        Crossing* data = crossings.mutData();
+        size_t count = crossings.length();
+        size_t moves = 0;
 
-                while (k > 0 && (crossings[k - 1].x > c.x || (crossings[k - 1].x == c.x && crossings[k - 1].dir > c.dir))) {
-                    crossings.mutData()[k] = crossings[k - 1];
-                    k--;
-                }
-
-                crossings.mutData()[k] = c;
-            }
+        if (!numeric && count >= 24) {
+            quickSort(data, data + count, [](const Crossing& p, const Crossing& q) {
+                return p.x < q.x || (p.x == q.x && p.dir < q.dir);
+            });
 
             return;
         }
 
-        quickSort(crossings.mutBegin(), crossings.mutEnd(), [](const Crossing& p, const Crossing& q) {
-            return p.x < q.x || (p.x == q.x && p.dir < q.dir);
-        });
+        for (size_t i = 1; i < count; i++) {
+            Crossing c = data[i];
+            size_t k = i;
+
+            while (k > 0 && (data[k - 1].x > c.x || (data[k - 1].x == c.x && data[k - 1].dir > c.dir))) {
+                data[k] = data[k - 1];
+                k--;
+            }
+
+            data[k] = c;
+            moves += i - k;
+
+            if (numeric && moves > 8 * count + 64) {
+                quickSort(data, data + count, [](const Crossing& p, const Crossing& q) {
+                    return p.x < q.x || (p.x == q.x && p.dir < q.dir);
+                });
+
+                return;
+            }
+        }
     }
 
-    static void scanCrossings(const BandEdge* edges, const Vector<u32>& active, float y, Vector<Crossing>& crossings) {
-        crossings.clear();
+    // The crossings of the edges at y, in the order the edges come, sorted;
+    // the edges that do not span y go to rest. False when a crossing is not
+    // a number.
+    static bool scanCrossings(const BandEdge* edges, const Vector<u32>& order, float y, Vector<Crossing>& crossings, Vector<u32>& rest) {
+        bool numeric = true;
 
-        for (u32 index : active) {
+        crossings.clear();
+        rest.clear();
+
+        for (u32 index : order) {
             const BandEdge& e = edges[index];
 
             if (e.y0 <= y && e.y1 > y) {
-                crossings.pushBack(Crossing{bandX(e, y), e.dir});
+                float x = bandX(e, y);
+
+                numeric = numeric && x == x;
+                crossings.pushBack(Crossing{x, e.dir, index});
+            } else {
+                rest.pushBack(index);
             }
         }
 
-        sortCrossings(crossings);
+        sortCrossings(crossings, numeric);
+
+        return numeric;
     }
 
     static void addSpan(float* acc, u32 w, float x0, float x1, float weight) {
@@ -12399,6 +12436,73 @@ namespace {
         acc[i1 + 1] -= (x1 - c1) * weight;
     }
 
+    static bool edgeBefore(const BandEdge& p, const BandEdge& q) {
+        if (p.y0 != q.y0) {
+            return p.y0 < q.y0;
+        }
+
+        if (p.x0 != q.x0) {
+            return p.x0 < q.x0;
+        }
+
+        if (p.y1 != q.y1) {
+            return p.y1 < q.y1;
+        }
+
+        return p.x1 < q.x1 || (p.x1 == q.x1 && p.dir < q.dir);
+    }
+
+    // Sorts the edges by their top, counting them into the rows they start
+    // in first, so that each row sorts on its own; an x that is not a number
+    // sorts them outright.
+    static void sortEdges(Vector<BandEdge>& edges, u32 h) {
+        bool numeric = true;
+
+        for (const BandEdge& e : edges) {
+            numeric = numeric && e.x0 == e.x0 && e.x1 == e.x1;
+        }
+
+        if (!numeric || edges.length() < 1024) {
+            quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
+
+            return;
+        }
+
+        // The rows above and below the raster are a bucket each.
+        auto bucket = [&](const BandEdge& e) {
+            return e.y0 < 0.f ? 0u : (e.y0 >= (float)h ? h + 1 : (u32)e.y0 + 1);
+        };
+        Vector<u32> starts;
+        Vector<BandEdge> sorted;
+
+        starts.zero((size_t)h + 3);
+
+        for (const BandEdge& e : edges) {
+            starts.mut(bucket(e) + 1)++;
+        }
+
+        for (size_t k = 1; k < starts.length(); k++) {
+            starts.mut(k) += starts[k - 1];
+        }
+
+        sorted.zero(edges.length());
+
+        for (const BandEdge& e : edges) {
+            sorted.mut(starts.mut(bucket(e))++) = e;
+        }
+
+        // The sort takes a range of two at least.
+        for (size_t k = 0; k + 1 < starts.length(); k++) {
+            size_t b0 = k == 0 ? 0 : starts[k - 1];
+
+            if (starts[k] > b0 + 1) {
+                quickSort(sorted.mutBegin() + b0, sorted.mutBegin() + starts[k], edgeBefore);
+            }
+        }
+
+        edges.xchg(sorted);
+    }
+
     static void rasterizeUnion(float* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule) {
         Vector<BandEdge> edges;
 
@@ -12420,27 +12524,20 @@ namespace {
             return;
         }
 
-        quickSort(edges.mutBegin(), edges.mutEnd(), [](const BandEdge& p, const BandEdge& q) {
-            if (p.y0 != q.y0) {
-                return p.y0 < q.y0;
-            }
-
-            if (p.x0 != q.x0) {
-                return p.x0 < q.x0;
-            }
-
-            if (p.y1 != q.y1) {
-                return p.y1 < q.y1;
-            }
-
-            return p.x1 < q.x1 || (p.x1 == q.x1 && p.dir < q.dir);
-        });
+        sortEdges(edges, h);
 
         Vector<u32> active;
+        // The active edges again, in the x order of the last band or
+        // scanline, and the place of each in the active list.
+        Vector<u32> order;
+        Vector<u32> position;
+        Vector<u32> rest;
         Vector<BandSample> samples[8];
         Vector<float> cuts;
         Vector<Crossing> crossings;
         size_t next = 0;
+
+        position.zero(edges.length());
 
         for (u32 row = 0; row < h; row++) {
             float top = (float)row;
@@ -12457,9 +12554,22 @@ namespace {
                 active.popBack();
             }
 
+            kept = 0;
+
+            for (size_t k = 0; k < order.length(); k++) {
+                if (edges[order[k]].y1 > top) {
+                    order.mutData()[kept++] = order[k];
+                }
+            }
+
+            while (order.length() > kept) {
+                order.popBack();
+            }
+
             while (next < edges.length() && edges[next].y0 < bottom) {
                 if (edges[next].y1 > top) {
                     active.pushBack((u32)next);
+                    order.pushBack((u32)next);
                 }
 
                 next++;
@@ -12471,44 +12581,62 @@ namespace {
 
             // Resolve winding before integrating coverage: disjoint contours
             // with opposite directions can share a pixel and cancel signed area.
-            cuts.clear();
-            cuts.pushBack(top);
-            cuts.pushBack(bottom);
+            // More active edges than half the limit take the scanlines below
+            // whatever the cuts: a row has two at least.
+            if (active.length() <= 2048) {
+                cuts.clear();
+                cuts.pushBack(top);
+                cuts.pushBack(bottom);
 
-            // An active edge starts above the bottom and ends below the top.
-            for (u32 index : active) {
-                const BandEdge& e = edges[index];
+                // An active edge starts above the bottom and ends below the top.
+                for (u32 index : active) {
+                    const BandEdge& e = edges[index];
 
-                if (e.y0 > top) {
-                    cuts.pushBack(e.y0);
+                    if (e.y0 > top) {
+                        cuts.pushBack(e.y0);
+                    }
+
+                    if (e.y1 < bottom) {
+                        cuts.pushBack(e.y1);
+                    }
                 }
 
-                if (e.y1 < bottom) {
-                    cuts.pushBack(e.y1);
-                }
-            }
+                quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
+                    return p < q;
+                });
 
-            quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
-                return p < q;
-            });
+                size_t cutCount = 0;
 
-            size_t cutCount = 0;
-
-            for (float cut : cuts) {
-                if (cutCount == 0 || cut > cuts[cutCount - 1]) {
-                    cuts.mutData()[cutCount++] = cut;
-                }
-            }
-
-            // Repeated boundaries of aligned dashes do not add integration bands.
-            if (cutCount * active.length() <= 4096) {
-                for (size_t k = 0; k + 1 < cutCount; k++) {
-                    bool comparable = bandSamples(edges.data(), active, cuts[k], cuts[k + 1], samples[0]);
-
-                    unionBand(acc, stride, w, h, edges.data(), active, samples, cuts[k], cuts[k + 1], rule, 0, comparable);
+                for (float cut : cuts) {
+                    if (cutCount == 0 || cut > cuts[cutCount - 1]) {
+                        cuts.mutData()[cutCount++] = cut;
+                    }
                 }
 
-                continue;
+                // Repeated boundaries of aligned dashes do not add integration bands.
+                if (cutCount * active.length() <= 4096) {
+                    for (size_t k = 0; k < active.length(); k++) {
+                        position.mut(active[k]) = (u32)k;
+                    }
+
+                    for (size_t k = 0; k + 1 < cutCount; k++) {
+                        bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], rest);
+
+                        unionBand(acc, stride, w, h, edges.data(), active, position, samples, cuts[k], cuts[k + 1], rule, 0, comparable);
+
+                        // The samples in x order, then the rest: the band
+                        // below comes nearly sorted.
+                        order.clear();
+
+                        for (const BandSample& s : samples[0]) {
+                            order.pushBack(s.edge);
+                        }
+
+                        order.append(rest.data(), rest.length());
+                    }
+
+                    continue;
+                }
             }
 
             float* line = acc + (size_t)row * stride;
@@ -12516,8 +12644,13 @@ namespace {
             for (int sub = 0; sub < 16; sub++) {
                 int winding = 0;
                 float start = 0.f;
+                float y = top + (sub + 0.5f) / 16.f;
 
-                scanCrossings(edges.data(), active, top + (sub + 0.5f) / 16.f, crossings);
+                // A crossing that is not a number is sorted among the
+                // crossings as the active list orders them.
+                if (!scanCrossings(edges.data(), order, y, crossings, rest)) {
+                    scanCrossings(edges.data(), active, y, crossings, rest);
+                }
 
                 for (const Crossing& c : crossings) {
                     bool before = insideWinding(winding, rule);
@@ -12532,6 +12665,16 @@ namespace {
                         addSpan(line, w, start, c.x, 1.f / 16.f);
                     }
                 }
+
+                // The crossings in x order, then the rest: the scanline
+                // below comes nearly sorted.
+                order.clear();
+
+                for (const Crossing& c : crossings) {
+                    order.pushBack(c.edge);
+                }
+
+                order.append(rest.data(), rest.length());
             }
         }
     }
