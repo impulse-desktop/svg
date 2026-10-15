@@ -90,7 +90,7 @@ extern "C" {
     SvgLibrary* svg_library_create(SvgDecode decode, SvgFail fail, void* context);
     void svg_library_destroy(SvgLibrary* library);
 
-    // The document keeps a copy of the file and outlives its library; an image
+    // The document keeps the file parsed and outlives its library; an image
     // outlives its document.
     SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t length);
 
