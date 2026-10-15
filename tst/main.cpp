@@ -1137,6 +1137,29 @@ namespace {
         return 0;
     }
 
+    // Prints the own size of every file, in CSS pixels, as "FILE WIDTH
+    // HEIGHT", or "FILE ? ?" for a file the renderer cannot parse.
+    static int size(int argc, char** argv) {
+        if (argc < 3) {
+            fprintf(stderr, "usage: svg size IN.svg...\n");
+
+            return 2;
+        }
+
+        for (int i = 2; i < argc; i++) {
+            std::string file;
+            Document document = load(argv[i], file, decodeRaster);
+
+            if (document) {
+                printf("%s %.4f %.4f\n", argv[i], svg_document_width(document.get()), svg_document_height(document.get()));
+            } else {
+                printf("%s ? ?\n", argv[i]);
+            }
+        }
+
+        return 0;
+    }
+
     // The size and scale a unit's name asks for, as in X.32x16.svg or
     // X.32x16x2.svg; false when it asks for none.
     static bool unitSize(const char* path, uint32_t& width, uint32_t& height, float& scale) {
@@ -1252,9 +1275,12 @@ namespace {
         return 0;
     }
 
+    // Shrinks IN.png by the factor into OUT.png; given WIDTH and HEIGHT, of
+    // the small image, it first crops IN.png to WIDTH and HEIGHT times the
+    // factor, as a screenshot may run a pixel past the box.
     static int shrinkCommand(int argc, char** argv) {
-        if (argc != 5) {
-            fprintf(stderr, "usage: svg shrink IN.png OUT.png FACTOR\n");
+        if (argc != 5 && argc != 7) {
+            fprintf(stderr, "usage: svg shrink IN.png OUT.png FACTOR [WIDTH HEIGHT]\n");
 
             return 2;
         }
@@ -1264,6 +1290,29 @@ namespace {
         Pixels small;
 
         readPng(argv[2], large);
+
+        if (argc == 7) {
+            uint32_t width = (uint32_t)atoi(argv[5]) * factor;
+            uint32_t height = (uint32_t)atoi(argv[6]) * factor;
+
+            if (width == 0 || height == 0 || width > large.width || height > large.height) {
+                fail("smaller than the size asked for: ", argv[2]);
+            }
+
+            if (width != large.width || height != large.height) {
+                Pixels cropped;
+
+                cropped.width = width;
+                cropped.height = height;
+                cropped.rgba.resize((size_t)width * height * 4);
+
+                for (uint32_t y = 0; y < height; y++) {
+                    memcpy(&cropped.rgba[(size_t)y * width * 4], &large.rgba[(size_t)y * large.width * 4], (size_t)width * 4);
+                }
+
+                large = cropped;
+            }
+        }
 
         if (large.width % factor || large.height % factor) {
             fail("size is not a multiple of the factor in ", argv[2]);
@@ -1460,8 +1509,10 @@ int main(int argc, char** argv) {
             result = shrinkCommand(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "bench") == 0) {
             result = bench(argc, argv);
+        } else if (argc >= 2 && strcmp(argv[1], "size") == 0) {
+            result = size(argc, argv);
         } else {
-            fprintf(stderr, "usage: svg render|test|unit|shrink|bench ...\n");
+            fprintf(stderr, "usage: svg render|test|unit|shrink|bench|size ...\n");
         }
     } catch (const std::exception& error) {
         fprintf(stderr, "svg: %s\n", error.what());

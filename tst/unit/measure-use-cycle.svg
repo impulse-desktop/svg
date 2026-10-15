@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<g id="a"><rect width="4" height="4" fill="teal"/><use href="#b"/></g>
+<g id="b"><rect x="4" width="2" height="2" fill="gold"/><use href="#a"/></g>
+<use href="#a" x="10"/>
+<g id="s"><rect x="20" width="2" height="2" fill="navy"/><use href="#s"/></g>
+<use href="#nothing"/>
+</svg>

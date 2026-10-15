@@ -1643,41 +1643,52 @@ namespace {
         Matrix backgroundMatrix;
     };
 
-    struct Lowering {
+    // What a pass over the document carries: the document and the pool of
+    // the pass, the styles computed so far, the resources and use targets
+    // entered, the instance of a use, the context paints of a marker, how
+    // deep in nested images it is, and how to decode an image and to fail.
+    struct Pass {
         Document* doc;
         ObjPool* pool;
+        Vector<Node*> active;
+        Vector<Node*> hosts;
+        Vector<ComputedStyle*> documentStyles;
+        SvgDecode decode;
+        SvgFail fail;
+        void* context;
+        u32 imageDepth;
+        float rootFontSize;
+        bool hasContext;
+        PaintValue contextFill;
+        PaintValue contextStroke;
+        u32** instance;
+        Vector<Node*> instanceTargets;
+        Vector<u32**> instanceMaps;
+    };
+
+    // The pass that lowers the document to draw commands over width by
+    // height pixels; the document itself is docWidth by docHeight.
+    struct Lowering: Pass {
         Vector<Op> ops;
         Vector<Op> programs;
         Vector<Op>* out;
         Vector<Edge> edges;
         Vector<ClipShape> clips;
-        Vector<Node*> active;
-        Vector<Node*> hosts;
         Matrix screen;
         Matrix host;
         Vector<u64> broken;
-        Vector<ComputedStyle*> documentStyles;
-        SvgDecode decode;
-        SvgFail fail;
-        void* context;
         u32 width;
         u32 height;
         float scale;
+        float docWidth;
+        float docHeight;
         u32 depth;
-        u32 imageDepth;
         bool backgroundInputs;
         Node* sized;
         float sizedWidth;
         float sizedHeight;
-        float rootFontSize;
-        bool hasContext;
-        PaintValue contextFill;
-        PaintValue contextStroke;
         Matrix contextMatrix;
         Box contextBox;
-        u32** instance;
-        Vector<Node*> instanceTargets;
-        Vector<u32**> instanceMaps;
     };
 
     // A buffer of float RGBA pixels over a box of the raster, zero at first:
@@ -5518,7 +5529,7 @@ namespace {
 
     static bool isKeyword(StringView text, StringView keyword);
 
-    static bool buildShape(const Lowering& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
+    static bool buildShape(const Pass& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
         const Document& doc = *l.doc;
         float fs = style.fontSize;
 
@@ -5819,11 +5830,80 @@ namespace {
         flatten(path, m, tol, 0.f, out);
     }
 
-    static Box flatBox(const Flat& flat) {
-        Box box = emptyBox();
+    // Widens a range by the extremes of a cubic's coordinate between its
+    // ends: where its derivative, a quadratic in t, is zero inside (0, 1).
+    static void cubicExtremes(float p0, float p1, float p2, float p3, float& lo, float& hi) {
+        double a = -(double)p0 + 3.0 * p1 - 3.0 * p2 + p3;
+        double b = 2.0 * ((double)p0 - 2.0 * p1 + p2);
+        double c = (double)p1 - p0;
+        double roots[2];
+        int count = 0;
 
-        for (Point p : flat.points) {
-            extend(box, p);
+        if (fabs(a) < 1e-12) {
+            if (fabs(b) >= 1e-12) {
+                roots[count++] = -c / b;
+            }
+        } else {
+            double discriminant = b * b - 4.0 * a * c;
+
+            if (discriminant >= 0.0) {
+                double root = sqrt(discriminant);
+
+                roots[count++] = (-b - root) / (2.0 * a);
+                roots[count++] = (-b + root) / (2.0 * a);
+            }
+        }
+
+        for (int i = 0; i < count; i++) {
+            double t = roots[i];
+
+            if (t > 0.0 && t < 1.0) {
+                double u = 1.0 - t;
+                float at = (float)(u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3);
+
+                lo = minf(lo, at);
+                hi = maxf(hi, at);
+            }
+        }
+    }
+
+    // The box of a path under a matrix, exactly: the ends of its segments
+    // and the extremes of its cubics, which an affine map keeps cubics.
+    static Box pathBox(const Path& path, const Matrix& m) {
+        Box box = emptyBox();
+        const Point* pts = path.points.data();
+        size_t pi = 0;
+        Point start{0.f, 0.f};
+        Point last{0.f, 0.f};
+
+        for (u8 verb : path.verbs) {
+            switch (verb) {
+                case VerbMove:
+                    start = apply(m, pts[pi++]);
+                    last = start;
+                    extend(box, last);
+                    break;
+                case VerbLine:
+                    last = apply(m, pts[pi++]);
+                    extend(box, last);
+                    break;
+                case VerbClose:
+                    last = start;
+                    break;
+                case VerbCubic:
+                case VerbArcCubic: {
+                    Point p1 = apply(m, pts[pi]);
+                    Point p2 = apply(m, pts[pi + 1]);
+                    Point p3 = apply(m, pts[pi + 2]);
+
+                    extend(box, p3);
+                    cubicExtremes(last.x, p1.x, p2.x, p3.x, box.x0, box.x1);
+                    cubicExtremes(last.y, p1.y, p2.y, p3.y, box.y0, box.y1);
+                    last = p3;
+                    pi += 3;
+                    break;
+                }
+            }
         }
 
         return box;
@@ -6912,7 +6992,7 @@ namespace {
         return length.unit == Unit::Percent ? length.value * reference / 100.f : resolveLength(length, Axis::Other, vp, fontSize);
     }
 
-    static ComputedStyle computeStyle(Lowering& l, const Node* node, const ComputedStyle& parent, Viewport vp) {
+    static ComputedStyle computeStyle(Pass& l, const Node* node, const ComputedStyle& parent, Viewport vp) {
         const Document& doc = *l.doc;
         ComputedStyle initial = initialStyle();
         ComputedStyle style = parent;
@@ -7575,7 +7655,7 @@ namespace {
         return style;
     }
 
-    static const ComputedStyle& documentStyle(Lowering& l, Node* node, Viewport vp) {
+    static const ComputedStyle& documentStyle(Pass& l, Node* node, Viewport vp) {
         if (ComputedStyle* known = l.documentStyles[node->index]) {
             return *known;
         }
@@ -7590,7 +7670,7 @@ namespace {
 
     static bool passesConditions(const Document& doc, const Node* node);
 
-    static bool resourceUsable(Lowering& l, Node* node, Viewport vp) {
+    static bool resourceUsable(Pass& l, Node* node, Viewport vp) {
         for (Node* up = node; up != l.doc->root; up = up->parent) {
             if (documentStyle(l, up, vp).displayNone || (up != node && !passesConditions(*l.doc, up))) {
                 return false;
@@ -8716,20 +8796,6 @@ namespace {
         return name == AtomPath || name == AtomRect || name == AtomCircle || name == AtomEllipse || name == AtomLine || name == AtomPolyline || name == AtomPolygon;
     }
 
-    static bool shapeBox(Lowering& l, Node* node, const ComputedStyle& style, Viewport vp, Box& out) {
-        Path path;
-        Flat flat;
-
-        if (!buildShape(l, node, style, vp, path)) {
-            return false;
-        }
-
-        flatten(path, identity(), 0.01f, flat);
-        out = flatBox(flat);
-
-        return boxValid(out);
-    }
-
     static bool isAncestor(const Node* ancestor, const Node* node) {
         for (const Node* up = node; up; up = up->parent) {
             if (up == ancestor) {
@@ -8740,85 +8806,224 @@ namespace {
         return false;
     }
 
-    static bool elementBox(Lowering& l, Node* node, const ComputedStyle& parent, Viewport vp, Box& out, u32 depth) {
-        if (depth > 32 || !renderable(node->name)) {
-            return false;
+    // How an extent counts. Tight, the geometry of children goes through
+    // their transforms, as a document's size has it; loose, their boxes do,
+    // as browsers have an object bounding box. Markers count only for a
+    // document's size.
+    struct Extent {
+        bool tight;
+        bool markers;
+    };
+
+    struct ImageSource {
+        Document* nested;
+        SvgImage* raster;
+        float width;
+        float height;
+        Box viewBox;
+        Node* ratio;
+    };
+
+    static void elementExtent(Pass& p, Node* node, const ComputedStyle& parent, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box);
+    static void markerExtent(Pass& p, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box);
+    static bool imageReachable(const Document& doc, const Node* node);
+    static bool isAuto(const Document& doc, const Node* node, u32 name);
+    static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, float& x, float& y, float& w, float& h);
+    static Matrix boxTransform(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp);
+    static Box deviceBox(const Matrix& m, const Box& box);
+    static bool givenSide(const Document& doc, const Node* node, u32 name);
+    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgFail fail, void* context);
+    static void measureRoot(Pass& p, float& width, float& height);
+
+    // Adds a box, through a matrix, to another.
+    static void extendBy(Box& box, const Matrix& m, const Box& inner) {
+        Box placed = deviceBox(m, inner);
+
+        extend(box, Point{placed.x0, placed.y0});
+        extend(box, Point{placed.x1, placed.y1});
+    }
+
+    // Adds to a box what a child draws, placed by a matrix and its own
+    // transform and, for a use, its x and y.
+    static void childExtent(Pass& p, Node* child, const Matrix& m, const ComputedStyle& inherited, Viewport vp, Extent how, u32 depth, Box& box) {
+        Matrix full = multiply(m, boxTransform(p, child, inherited, vp));
+
+        if (child->name == AtomUse) {
+            full = multiply(full, translation(lengthOr(*p.doc, child, AtomX, Axis::X, vp, inherited.fontSize, 0.f), lengthOr(*p.doc, child, AtomY, Axis::Y, vp, inherited.fontSize, 0.f)));
         }
 
-        ComputedStyle style = computeStyle(l, node, parent, vp);
+        if (how.tight) {
+            elementExtent(p, child, inherited, full, vp, how, depth + 1, box);
+
+            return;
+        }
+
+        Box own = emptyBox();
+
+        elementExtent(p, child, inherited, identity(), vp, how, depth + 1, own);
+
+        if (boxValid(own)) {
+            extendBy(box, full, own);
+        }
+    }
+
+    // Adds to a box what an svg or symbol element of a size shows: its
+    // children under its x, y and viewBox, placed by a matrix. A viewport
+    // of no size shows nothing. A side left open, a percentage of an open
+    // side while a document is measured, does not clip: the content counts
+    // whole where it has geometry of its own, though a viewBox then has
+    // nothing to fit to.
+    static void viewportExtent(Pass& p, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h, bool openWidth, bool openHeight, Extent how, u32 depth, Box& box) {
+        const Document& doc = *p.doc;
+        Matrix content = multiply(m, translation(x, y));
+        Viewport inside{w, h, vp.screenWidth, vp.screenHeight, p.rootFontSize};
+        Box viewBox;
+
+        if ((w <= 0.f && !openWidth) || (h <= 0.f && !openHeight)) {
+            return;
+        }
+
+        if (parseViewBox(doc, node, viewBox)) {
+            if (viewBox.x1 <= viewBox.x0 || viewBox.y1 <= viewBox.y0 || w <= 0.f || h <= 0.f) {
+                return;
+            }
+
+            content = multiply(content, viewBoxTransform(doc, node, viewBox, w, h));
+            inside.width = viewBox.x1 - viewBox.x0;
+            inside.height = viewBox.y1 - viewBox.y0;
+        }
+
+        for (Node* child = node->first; child; child = child->next) {
+            childExtent(p, child, content, style, inside, how, depth, box);
+        }
+    }
+
+    // Adds to a box, in the space a matrix maps to, what an element draws:
+    // the exact bounds of its shape, the rectangle of its image, or its
+    // children placed in it. It is a box of geometry: hidden content counts,
+    // clipped content counts whole, strokes, filters and masks do not.
+    static void elementExtent(Pass& p, Node* node, const ComputedStyle& parent, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box) {
+        const Document& doc = *p.doc;
+
+        if (depth > 32 || !renderable(node->name) || (node != doc.root && !passesConditions(doc, node))) {
+            return;
+        }
+
+        ComputedStyle style = computeStyle(p, node, parent, vp);
+        float fs = style.fontSize;
 
         if (style.displayNone) {
-            return false;
+            return;
         }
 
         if (isShape(node->name)) {
-            return shapeBox(l, node, style, vp, out);
+            Path path;
+
+            if (!buildShape(p, node, style, vp, path)) {
+                return;
+            }
+
+            Box shape = pathBox(path, m);
+
+            if (boxValid(shape)) {
+                extend(box, Point{shape.x0, shape.y0});
+                extend(box, Point{shape.x1, shape.y1});
+            }
+
+            if (how.markers) {
+                markerExtent(p, node, path, style, m, vp, how, depth, box);
+            }
+
+            return;
         }
 
         if (node->name == AtomImage) {
-            float fs = style.fontSize;
-            float x = lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f);
-            float y = lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f);
-            float w = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
-            float h = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+            float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
+            float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
+            float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
+            float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
 
-            out = Box{x, y, x + w, y + h};
+            // A side left auto is the source's.
+            if (isAuto(doc, node, AtomWidth) || isAuto(doc, node, AtomHeight)) {
+                ImageSource source;
 
-            return w > 0.f && h > 0.f;
-        }
-
-        Box box = emptyBox();
-        auto add = [&](Node* child, const Matrix& m, const ComputedStyle& inherited, Viewport childViewport) {
-            Box inner;
-
-            if (elementBox(l, child, inherited, childViewport, inner, depth + 1)) {
-                Matrix full = multiply(m, originTransform(*l.doc, child, AtomTransform, childViewport));
-
-                if (child->name == AtomUse) {
-                    full = multiply(full, translation(lengthOr(*l.doc, child, AtomX, Axis::X, childViewport, inherited.fontSize, 0.f), lengthOr(*l.doc, child, AtomY, Axis::Y, childViewport, inherited.fontSize, 0.f)));
-                }
-                Point corners[4] = {{inner.x0, inner.y0}, {inner.x1, inner.y0}, {inner.x1, inner.y1}, {inner.x0, inner.y1}};
-
-                for (Point corner : corners) {
-                    extend(box, apply(full, corner));
+                if (!imageReachable(doc, node) || !imageRect(p, node, style, vp, source, x, y, w, h)) {
+                    return;
                 }
             }
-        };
+
+            if (w > 0.f && h > 0.f) {
+                extendBy(box, m, Box{x, y, x + w, y + h});
+            }
+
+            return;
+        }
+
+        if (node->name == AtomSvg && node != doc.root) {
+            viewportExtent(p, node, style, m, vp, lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f), lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, vp.width), lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, vp.height), vp.width <= 0.f && !givenSide(doc, node, AtomWidth), vp.height <= 0.f && !givenSide(doc, node, AtomHeight), how, depth, box);
+
+            return;
+        }
 
         if (node->name == AtomUse) {
-            Node* target = hrefTarget(*l.doc, node);
+            Node* target = hrefTarget(doc, node);
+            bool entered = false;
 
-            if (target && !isAncestor(target, node)) {
-                if (target->name == AtomSymbol) {
-                    const Document& doc = *l.doc;
-                    ComputedStyle symbolStyle = computeStyle(l, target, style, vp);
-                    float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, style.fontSize, lengthOr(doc, target, AtomWidth, Axis::X, vp, symbolStyle.fontSize, vp.width));
-                    float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, style.fontSize, lengthOr(doc, target, AtomHeight, Axis::Y, vp, symbolStyle.fontSize, vp.height));
-                    Viewport inside{w, h, vp.screenWidth, vp.screenHeight, vp.rootFontSize};
-                    Matrix content = originTransform(doc, target, AtomTransform, vp);
-                    Box viewBox;
+            for (Node* active : p.active) {
+                entered = entered || active == target;
+            }
 
-                    if (parseViewBox(doc, target, viewBox)) {
-                        content = multiply(content, viewBoxTransform(doc, target, viewBox, w, h));
-                        inside.width = viewBox.x1 - viewBox.x0;
-                        inside.height = viewBox.y1 - viewBox.y0;
-                    }
+            if (!target || entered || isAncestor(target, node)) {
+                return;
+            }
 
-                    if (!symbolStyle.displayNone && w > 0.f && h > 0.f && inside.width > 0.f && inside.height > 0.f) {
-                        for (Node* child = target->first; child; child = child->next) {
-                            add(child, content, symbolStyle, inside);
-                        }
-                    }
-                } else {
-                    add(target, identity(), style, vp);
+            p.active.pushBack(target);
+
+            if (target->name == AtomSymbol || target->name == AtomSvg) {
+                // The use sizes the viewport it instances.
+                ComputedStyle targetStyle = computeStyle(p, target, style, vp);
+                float tfs = targetStyle.fontSize;
+                bool svg = target->name == AtomSvg;
+                float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, lengthOr(doc, target, AtomWidth, Axis::X, vp, tfs, vp.width));
+                float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, lengthOr(doc, target, AtomHeight, Axis::Y, vp, tfs, vp.height));
+
+                if (!targetStyle.displayNone && passesConditions(doc, target)) {
+                    bool openWidth = vp.width <= 0.f && !givenSide(doc, node, AtomWidth) && !givenSide(doc, target, AtomWidth);
+                    bool openHeight = vp.height <= 0.f && !givenSide(doc, node, AtomHeight) && !givenSide(doc, target, AtomHeight);
+
+                    viewportExtent(p, target, targetStyle, multiply(m, boxTransform(p, target, style, vp)), vp, svg ? lengthOr(doc, target, AtomX, Axis::X, vp, tfs, 0.f) : 0.f, svg ? lengthOr(doc, target, AtomY, Axis::Y, vp, tfs, 0.f) : 0.f, w, h, openWidth, openHeight, how, depth, box);
                 }
+            } else {
+                childExtent(p, target, m, style, vp, how, depth, box);
             }
-        } else {
-            for (Node* child = node->first; child; child = child->next) {
-                add(child, identity(), style, vp);
-            }
+
+            p.active.popBack();
+
+            return;
         }
 
+        if (node->name == AtomSwitch) {
+            for (Node* child = node->first; child; child = child->next) {
+                if (passesConditions(doc, child)) {
+                    childExtent(p, child, m, style, vp, how, depth, box);
+                    break;
+                }
+            }
+
+            return;
+        }
+
+        for (Node* child = node->first; child; child = child->next) {
+            childExtent(p, child, m, style, vp, how, depth, box);
+        }
+    }
+
+    // The object bounding box of an element in its own user space, before
+    // its transform; false for an element of no geometry.
+    static bool elementBox(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp, Box& out, u32 depth) {
+        Box box = emptyBox();
+
+        elementExtent(p, node, parent, identity(), vp, Extent{false, false}, depth, box);
         out = box;
 
         return boxValid(box);
@@ -9629,7 +9834,7 @@ namespace {
         }
     }
 
-    static u32** instanceStyles(Lowering& l, Node* target) {
+    static u32** instanceStyles(Pass& l, Node* target) {
         for (size_t i = 0; i < l.instanceTargets.length(); i++) {
             if (l.instanceTargets[i] == target) {
                 return l.instanceMaps[i];
@@ -9833,20 +10038,20 @@ namespace {
         return true;
     }
 
-    static void lowerMarker(Lowering& l, Node* node, u32 property, Node* marker, const ComputedStyle& shapeStyle, const Matrix& userMatrix, Viewport vp, const MarkerVertex& userVertex, const MarkerVertex& deviceVertex, bool start) {
-        const Document& doc = *l.doc;
-
-        if (closesCycle(l, node, property, marker)) {
-            return;
-        }
-
-        const ComputedStyle& markerStyle = documentStyle(l, marker, vp);
+    // Where a marker of a shape goes: its origin, through the user matrix
+    // or, for a non-scaling stroke in marker units, the host's; the transform
+    // of its content inside, the viewport there, and its size. False for a
+    // marker that draws nothing.
+    static bool markerPlacement(Pass& p, Node* marker, const ComputedStyle& shapeStyle, const Matrix& userMatrix, const Matrix& hostMatrix, Viewport vp, const MarkerVertex& userVertex, const MarkerVertex& deviceVertex, bool start, Matrix& origin, Matrix& content, Viewport& inside, float& w, float& h) {
+        const Document& doc = *p.doc;
+        const ComputedStyle& markerStyle = documentStyle(p, marker, vp);
         float fs = markerStyle.fontSize;
-        float w = lengthOr(doc, marker, AtomMarkerWidth, Axis::X, vp, fs, 3.f);
-        float h = lengthOr(doc, marker, AtomMarkerHeight, Axis::Y, vp, fs, 3.f);
+
+        w = lengthOr(doc, marker, AtomMarkerWidth, Axis::X, vp, fs, 3.f);
+        h = lengthOr(doc, marker, AtomMarkerHeight, Axis::Y, vp, fs, 3.f);
 
         if (w <= 0.f || h <= 0.f) {
-            return;
+            return false;
         }
 
         float angle = 0.f;
@@ -9870,7 +10075,7 @@ namespace {
         float scale = userUnits ? 1.f : shapeStyle.strokeWidth;
         bool device = shapeStyle.nonScaling && !userUnits;
         const MarkerVertex& vertex = device ? deviceVertex : userVertex;
-        Matrix m = device ? l.host : userMatrix;
+        const Matrix& m = device ? hostMatrix : userMatrix;
         Point at = vertex.p;
         float radians = angle * pi / 180.f;
         Matrix placed = multiply(m, translation(at.x, at.y));
@@ -9878,21 +10083,39 @@ namespace {
         placed = multiply(placed, Matrix{cosf(radians), sinf(radians), -sinf(radians), cosf(radians), 0.f, 0.f});
         placed = multiply(placed, scaling(scale, scale));
 
-        Matrix content = identity();
         Box viewBox;
-        Viewport inside{w, h, vp.screenWidth, vp.screenHeight, l.rootFontSize};
+
+        content = identity();
+        inside = Viewport{w, h, vp.screenWidth, vp.screenHeight, p.rootFontSize};
 
         if (parseViewBox(doc, marker, viewBox)) {
             if (viewBox.x1 <= viewBox.x0 || viewBox.y1 <= viewBox.y0) {
-                return;
+                return false;
             }
 
             content = viewBoxTransform(doc, marker, viewBox, w, h);
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, l.rootFontSize};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, p.rootFontSize};
         }
 
         Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, vp, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, vp, fs, 0.f)});
-        Matrix origin = multiply(placed, translation(-ref.x, -ref.y));
+
+        origin = multiply(placed, translation(-ref.x, -ref.y));
+
+        return true;
+    }
+
+    static void lowerMarker(Lowering& l, Node* node, u32 property, Node* marker, const ComputedStyle& shapeStyle, const Matrix& userMatrix, Viewport vp, const MarkerVertex& userVertex, const MarkerVertex& deviceVertex, bool start) {
+        Matrix origin;
+        Matrix content;
+        Viewport inside;
+        float w;
+        float h;
+
+        if (closesCycle(l, node, property, marker) || !markerPlacement(l, marker, shapeStyle, userMatrix, l.host, vp, userVertex, deviceVertex, start, origin, content, inside, w, h)) {
+            return;
+        }
+
+        const ComputedStyle& markerStyle = documentStyle(l, marker, vp);
         bool clip = !markerStyle.overflowVisible;
         u32 clipIndex = (u32)l.out->length();
 
@@ -9925,16 +10148,17 @@ namespace {
         }
     }
 
-    static void lowerMarkers(Lowering& l, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp) {
-        if (node->name != AtomPath && node->name != AtomLine && node->name != AtomPolyline && node->name != AtomPolygon) {
-            return;
-        }
-
-        Node* markers[3];
+    // The markers a shape's style names, those that are markers; false
+    // when it names none or is no path, line, polyline or polygon.
+    static bool shapeMarkers(const Pass& p, const Node* node, const ComputedStyle& style, Node** markers) {
         bool any = false;
 
+        if (node->name != AtomPath && node->name != AtomLine && node->name != AtomPolyline && node->name != AtomPolygon) {
+            return false;
+        }
+
         for (int k = 0; k < 3; k++) {
-            markers[k] = style.markers[k] ? elementById(*l.doc, style.markers[k]) : nullptr;
+            markers[k] = style.markers[k] ? elementById(*p.doc, style.markers[k]) : nullptr;
 
             if (markers[k] && markers[k]->name != AtomMarker) {
                 markers[k] = nullptr;
@@ -9943,7 +10167,13 @@ namespace {
             any = any || markers[k];
         }
 
-        if (!any) {
+        return any;
+    }
+
+    static void lowerMarkers(Lowering& l, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+        Node* markers[3];
+
+        if (!shapeMarkers(l, node, style, markers)) {
             return;
         }
 
@@ -9967,6 +10197,63 @@ namespace {
 
             if (i == 0 && vertices.length() == 1 && markers[2]) {
                 lowerMarker(l, node, AtomMarkerEnd, markers[2], style, m, vp, vertices[i], deviceVertices[i], false);
+            }
+        }
+    }
+
+    // Adds to a box what one marker of a shape draws at a vertex, the shape
+    // placed by a matrix on a host that is the identity: the document at its
+    // own size. A marker inside itself stops where lowering stops it.
+    static void markerContentExtent(Pass& p, Node* marker, const ComputedStyle& shapeStyle, const Matrix& m, Viewport vp, const MarkerVertex& userVertex, const MarkerVertex& deviceVertex, bool start, Extent how, u32 depth, Box& box) {
+        Matrix origin;
+        Matrix content;
+        Viewport inside;
+        float w;
+        float h;
+
+        for (Node* active : p.active) {
+            if (active == marker) {
+                return;
+            }
+        }
+
+        if (!markerPlacement(p, marker, shapeStyle, m, identity(), vp, userVertex, deviceVertex, start, origin, content, inside, w, h)) {
+            return;
+        }
+
+        const ComputedStyle& markerStyle = documentStyle(p, marker, vp);
+
+        p.active.pushBack(marker);
+
+        for (Node* child = marker->first; child; child = child->next) {
+            childExtent(p, child, multiply(origin, content), markerStyle, inside, how, depth, box);
+        }
+
+        p.active.popBack();
+    }
+
+    static void markerExtent(Pass& p, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box) {
+        Node* markers[3];
+
+        if (!shapeMarkers(p, node, style, markers)) {
+            return;
+        }
+
+        Vector<MarkerVertex> vertices;
+        Vector<MarkerVertex> deviceVertices;
+
+        markerVertices(path, vertices);
+        markerVertices(style.nonScaling ? transformedPath(path, m) : path, deviceVertices);
+
+        for (size_t i = 0; i < vertices.length(); i++) {
+            int kind = i == 0 ? 0 : (i + 1 == vertices.length() ? 2 : 1);
+
+            if (markers[kind]) {
+                markerContentExtent(p, markers[kind], style, m, vp, vertices[i], deviceVertices[i], kind == 0, how, depth, box);
+            }
+
+            if (i == 0 && vertices.length() == 1 && markers[2]) {
+                markerContentExtent(p, markers[2], style, m, vp, vertices[i], deviceVertices[i], false, how, depth, box);
             }
         }
     }
@@ -10036,7 +10323,7 @@ namespace {
 
         flatten(path, identity(), 0.01f, userFlat);
 
-        Box box = flatBox(userFlat);
+        Box box = pathBox(path, identity());
 
         for (u8 layer : style.paintOrder) {
             if (layer == 0 && style.visible) {
@@ -10144,7 +10431,10 @@ namespace {
         }
     }
 
-    static bool intrinsicSize(const Document& doc, const Node* root, float& width, float& height) {
+    // The size a root gives itself: its width and height, one of them with
+    // the viewBox's ratio, or the viewBox's size. A side it does not give,
+    // or gives as a percentage, is zero.
+    static void givenSize(const Document& doc, const Node* root, float& width, float& height) {
         Viewport none{0.f, 0.f, 0.f, 0.f, 16.f};
         Length w;
         Length h;
@@ -10175,13 +10465,7 @@ namespace {
         } else if (!hasWidth && !hasHeight && hasViewBox) {
             width = viewBox.x1 - viewBox.x0;
             height = viewBox.y1 - viewBox.y0;
-        } else if (hasWidth && !hasHeight) {
-            height = 150.f;
-        } else if (hasHeight && !hasWidth) {
-            width = 300.f;
         }
-
-        return width > 0.f && height > 0.f;
     }
 
     static bool explicitSide(const Document& doc, const Node* root, u32 name) {
@@ -10191,10 +10475,19 @@ namespace {
         return value && parseLength(textOf(doc, value), length) && length.unit != Unit::Percent && length.value > 0.f;
     }
 
+    // Whether an element gives a side as a length of its own, zero too,
+    // rather than leaving it to its box: absent or a percentage.
+    static bool givenSide(const Document& doc, const Node* node, u32 name) {
+        u32 value = attribute(node, name);
+        Length length;
+
+        return value && parseLength(textOf(doc, value), length) && length.unit != Unit::Percent;
+    }
+
+    // The transform of the root's content into the box: its viewBox fit to
+    // it, or its own size stretched to it.
     static Matrix rootContent(Lowering& l, Node* node) {
         Box viewBox;
-        float w;
-        float h;
         float cw = (float)l.width / l.scale;
         float ch = (float)l.height / l.scale;
 
@@ -10202,14 +10495,7 @@ namespace {
             return viewBoxTransform(*l.doc, node, viewBox, cw, ch);
         }
 
-        if (intrinsicSize(*l.doc, node, w, h)) {
-            w = explicitSide(*l.doc, node, AtomWidth) ? w : cw;
-            h = explicitSide(*l.doc, node, AtomHeight) ? h : ch;
-
-            return scaling(cw / w, ch / h);
-        }
-
-        return identity();
+        return l.docWidth > 0.f && l.docHeight > 0.f ? scaling(cw / l.docWidth, ch / l.docHeight) : identity();
     }
 
     static void lowerSvg(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -10234,21 +10520,25 @@ namespace {
             Box viewBox;
 
             if (!parseViewBox(*l.doc, node, viewBox)) {
-                float iw;
-                float ih;
+                // The document's own size, given or measured, stretched to
+                // the box.
+                float iw = l.docWidth;
+                float ih = l.docHeight;
 
-                if (intrinsicSize(*l.doc, node, iw, ih)) {
-                    iw = explicitSide(*l.doc, node, AtomWidth) ? iw : w;
-                    ih = explicitSide(*l.doc, node, AtomHeight) ? ih : h;
-                    l.screen = multiply(m, scaling(w / iw, h / ih));
-                    lowerChildren(l, node, style, l.screen, Viewport{iw, ih, w, h, l.rootFontSize});
+                if (iw <= 0.f || ih <= 0.f) {
+                    return;
+                }
+
+                l.screen = multiply(m, scaling(w / iw, h / ih));
+
+                // A root with no side of its own zooms its content.
+                if (style.zoom != 1.f && !explicitSide(*l.doc, node, AtomWidth) && !explicitSide(*l.doc, node, AtomHeight)) {
+                    lowerViewport(l, node, style, multiply(l.screen, scaling(style.zoom, style.zoom)), vp, node, 0.f, 0.f, iw / style.zoom, ih / style.zoom, false);
 
                     return;
                 }
-            }
 
-            if (!parseViewBox(*l.doc, node, viewBox) && style.zoom != 1.f) {
-                lowerViewport(l, node, style, multiply(m, scaling(style.zoom, style.zoom)), vp, node, 0.f, 0.f, w / style.zoom, h / style.zoom, false);
+                lowerChildren(l, node, style, l.screen, Viewport{iw, ih, w, h, l.rootFontSize});
 
                 return;
             }
@@ -10504,17 +10794,7 @@ namespace {
 
     const SvgImageVtable renderedVtable = {destroyRendered, renderedData, renderedLength, renderedWidth, renderedHeight};
 
-    struct ImageSource {
-        Document* nested;
-        SvgImage* raster;
-        float width;
-        float height;
-        Box viewBox;
-        bool sizeless;
-        Node* ratio;
-    };
-
-    static bool loadImage(Lowering& l, Node* node, ImageSource& out) {
+    static bool loadImage(Pass& l, Node* node, ImageSource& out) {
         const Document& doc = *l.doc;
         u32 href = attribute(node, AtomHref);
         StringView mime;
@@ -10522,7 +10802,6 @@ namespace {
 
         out.nested = nullptr;
         out.raster = nullptr;
-        out.sizeless = false;
         out.ratio = nullptr;
 
         // Its callers see an href first.
@@ -10562,16 +10841,13 @@ namespace {
                 cascade(*nested);
                 out.nested = nested;
 
-                bool sized = intrinsicSize(*nested, nested->root, out.width, out.height);
-
-                if (!sized) {
-                    out.width = 300.f;
-                    out.height = 150.f;
-                }
+                // The document's size, a side it leaves open zero: the
+                // image's box fills it in, or, for an image of no size of
+                // its own, a measure of what the document draws.
+                givenSize(*nested, nested->root, out.width, out.height);
 
                 if (!parseViewBox(*nested, nested->root, out.viewBox) || out.viewBox.x1 <= out.viewBox.x0 || out.viewBox.y1 <= out.viewBox.y0) {
                     out.viewBox = Box{0.f, 0.f, out.width, out.height};
-                    out.sizeless = !sized && !attribute(nested->root, AtomWidth) && !attribute(nested->root, AtomHeight);
                 }
 
                 Node* view = fragment.empty() ? nullptr : elementById(*nested, lookup(nested->atoms, fragment));
@@ -10579,7 +10855,6 @@ namespace {
 
                 if (view && view->name == AtomView && parseViewBox(*nested, view, viewBox) && viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0) {
                     out.viewBox = viewBox;
-                    out.sizeless = false;
                     out.ratio = view;
                 }
 
@@ -10653,7 +10928,17 @@ namespace {
         const Document& doc = *l.doc;
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
         bool stretch = ratio && trim(textOf(doc, ratio)) == SV("none");
-        Box viewBox = source.sizeless ? Box{0.f, 0.f, w, h} : source.viewBox;
+        Box viewBox = source.viewBox;
+
+        // A side a nested document leaves open is the box's, as it is.
+        if (viewBox.x1 <= viewBox.x0) {
+            viewBox.x1 = viewBox.x0 + w;
+        }
+
+        if (viewBox.y1 <= viewBox.y0) {
+            viewBox.y1 = viewBox.y0 + h;
+        }
+
         Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
         Matrix place = multiply(m, fit);
 
@@ -10734,6 +11019,13 @@ namespace {
 
         ComputedStyle rootStyle = computeStyle(l, nested->root, initialStyle(), vp);
         float outerFontSize = l.rootFontSize;
+        float outerDocWidth = l.docWidth;
+        float outerDocHeight = l.docHeight;
+
+        // The nested root's content, for its filters, stretches a side it
+        // gives; a side it leaves open is the box's.
+        l.docWidth = explicitSide(*nested, nested->root, AtomWidth) ? source.width : (float)l.width / l.scale;
+        l.docHeight = explicitSide(*nested, nested->root, AtomHeight) ? source.height : (float)l.height / l.scale;
 
         l.backgroundInputs = l.backgroundInputs || usesBackground(*nested, nested->root);
         op.resetBackground = true;
@@ -10749,8 +11041,10 @@ namespace {
 
         l.out->pushBack(op);
         l.rootFontSize = rootStyle.fontSize;
-        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.sizeless ? w : source.width, source.sizeless ? h : source.height, rootStyle.fontSize});
+        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
         l.rootFontSize = outerFontSize;
+        l.docWidth = outerDocWidth;
+        l.docHeight = outerDocHeight;
         l.imageDepth--;
         l.doc = outer;
         l.documentStyles.xchg(outerStyles);
@@ -10760,37 +11054,62 @@ namespace {
         endGroup(l, imageIndex);
     }
 
-    static void lowerImage(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
-        const Document& doc = *l.doc;
-        ImageSource source;
+    // Where an image goes in its user space: its x, y, width and height, a
+    // side left auto from its source's size. A nested document's side left
+    // open then measures as what it draws. False for one that draws nothing.
+    static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, float& x, float& y, float& w, float& h) {
+        const Document& doc = *p.doc;
 
-        if (!style.visible || !loadImage(l, node, source)) {
-            return;
+        if (!loadImage(p, node, source)) {
+            return false;
         }
 
         float fs = style.fontSize;
-        float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
-        float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
         bool autoWidth = isAuto(doc, node, AtomWidth);
         bool autoHeight = isAuto(doc, node, AtomHeight);
-        float w = autoWidth ? source.width : lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
-        float h = autoHeight ? source.height : lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
 
-        // A source has a size.
-        if (autoWidth && !autoHeight) {
+        if (source.nested && (autoWidth || autoHeight) && (source.width <= 0.f || source.height <= 0.f)) {
+            Pass inner;
+
+            beginPass(inner, *source.nested, *p.pool, p.decode, p.fail, p.context);
+            inner.imageDepth = p.imageDepth + 1;
+            measureRoot(inner, source.width, source.height);
+
+            if (!source.ratio) {
+                source.viewBox = Box{0.f, 0.f, source.width, source.height};
+            }
+        }
+
+        x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
+        y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
+        w = autoWidth ? source.width : lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
+        h = autoHeight ? source.height : lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+
+        // A source of a size keeps its ratio.
+        if (autoWidth && !autoHeight && source.height > 0.f) {
             w = h * source.width / source.height;
-        } else if (autoHeight && !autoWidth) {
+        } else if (autoHeight && !autoWidth && source.width > 0.f) {
             h = w * source.height / source.width;
         }
 
-        if (w <= 0.f || h <= 0.f) {
+        return w > 0.f && h > 0.f;
+    }
+
+    static void lowerImage(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
+        ImageSource source;
+        float x;
+        float y;
+        float w;
+        float h;
+
+        if (!style.visible || !imageRect(l, node, style, vp, source, x, y, w, h)) {
             return;
         }
 
         drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering);
     }
 
-    static Matrix boxTransform(Lowering& l, Node* node, const ComputedStyle& parent, Viewport vp) {
+    static Matrix boxTransform(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp) {
         const Document& doc = *l.doc;
         u32 kind = attribute(node, AtomTransformBox);
         StringView box = kind ? trim(textOf(doc, kind)) : StringView();
@@ -15227,6 +15546,55 @@ namespace {
         parseXml(doc, source, fail);
     }
 
+    // A pass over a cascaded document, out of a pool of its own.
+    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgFail fail, void* context) {
+        p.doc = &doc;
+        p.pool = &pool;
+        p.decode = decode;
+        p.fail = fail;
+        p.context = context;
+        p.imageDepth = 0;
+        p.rootFontSize = 16.f;
+        p.hasContext = false;
+        p.instance = nullptr;
+        p.documentStyles.zero(doc.nodeCount);
+    }
+
+    // The size of a root without a viewBox, for the sides it leaves open:
+    // the right and bottom edges of what it draws, with its markers, in its
+    // user units, under its transform and, for a root with no side of its
+    // own, its zoom. An open side is zero while it is measured, so a
+    // percentage along it is zero; a root that draws nothing past the origin
+    // stays zero.
+    static void measureRoot(Pass& p, float& width, float& height) {
+        Node* root = p.doc->root;
+        Viewport vp{width, height, width, height, 16.f};
+        ComputedStyle style = computeStyle(p, root, initialStyle(), vp);
+        Box box = emptyBox();
+
+        p.rootFontSize = style.fontSize;
+        vp.rootFontSize = style.fontSize;
+
+        float zoom = width <= 0.f && height <= 0.f ? style.zoom : 1.f;
+        Matrix m = multiply(boxTransform(p, root, initialStyle(), vp), scaling(zoom, zoom));
+
+        for (Node* child = root->first; child; child = child->next) {
+            childExtent(p, child, m, style, vp, Extent{true, true}, 0, box);
+        }
+
+        if (!boxValid(box)) {
+            return;
+        }
+
+        if (width <= 0.f) {
+            width = maxf(box.x1, 0.f);
+        }
+
+        if (height <= 0.f) {
+            height = maxf(box.y1, 0.f);
+        }
+    }
+
     // Holds the pool of an object not made yet: a fail that throws on the
     // way to making it deletes the pool.
     struct PoolGuard {
@@ -15319,27 +15687,20 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     {
         Lowering l;
 
-        l.doc = &doc;
-        l.pool = &scratch;
+        beginPass(l, doc, scratch, document->decode, document->fail, document->context);
         l.width = width;
         l.height = height;
         l.scale = scale;
+        l.docWidth = document->width;
+        l.docHeight = document->height;
         l.depth = 0;
         l.out = &l.ops;
-        l.decode = document->decode;
-        l.fail = document->fail;
-        l.context = document->context;
-        l.imageDepth = 0;
         l.backgroundInputs = usesBackground(doc, doc.root);
         l.sized = nullptr;
-        l.hasContext = false;
-        l.rootFontSize = 16.f;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
         l.screen = scaling(scale, scale);
         l.host = scaling(scale, scale);
-        l.instance = nullptr;
-        l.documentStyles.zero(doc.nodeCount);
         lowerElement(l, doc.root, initialStyle(), scaling(scale, scale), Viewport{(float)width / scale, (float)height / scale, (float)width / scale, (float)height / scale, 16.f});
 
         Raster raster;
@@ -15385,10 +15746,18 @@ SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t len
 
     float width;
     float height;
+    Box viewBox;
 
-    if (!intrinsicSize(*doc, doc->root, width, height)) {
-        width = 300.f;
-        height = 150.f;
+    givenSize(*doc, doc->root, width, height);
+
+    // A root without a viewBox that gives no width or height is as large
+    // as what it draws.
+    if ((width <= 0.f || height <= 0.f) && !parseViewBox(*doc, doc->root, viewBox)) {
+        ObjPool scratch;
+        Pass pass;
+
+        beginPass(pass, *doc, scratch, library->decode, library->fail, library->context);
+        measureRoot(pass, width, height);
     }
 
     SvgDocument* document = pool.make<SvgDocument>(&pool, library->decode, library->fail, library->context, doc, width, height);

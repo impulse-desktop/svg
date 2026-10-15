@@ -95,6 +95,13 @@ extern "C" {
     SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t length);
 
     void svg_document_destroy(SvgDocument* document);
+
+    // The document's own size in CSS pixels: the width and height its root
+    // gives, one of them with the viewBox's ratio, or the viewBox's size. A
+    // side the root leaves open, giving none or a percentage, is the right
+    // or bottom edge of what the document draws, as far as it draws past
+    // the origin; a document that draws nothing there has a side of zero
+    // and draws nothing at any size.
     float svg_document_width(const SvgDocument* document);
     float svg_document_height(const SvgDocument* document);
     SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height, float scale);
