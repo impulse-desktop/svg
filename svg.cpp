@@ -13031,7 +13031,25 @@ namespace {
 
     // Converts a premultiplied pixel between sRGB and linear light; the
     // destination may be the pixel itself.
-    static void convertPixel(const float* s, float* d, bool toLinear) {
+    // The value each channel converted last and what it came to: a flat
+    // area converts its colour once. A value is the same by its bits, so a
+    // zero of either sign converts on its own.
+    struct Conversion {
+        float in[3] = {-1.f, -1.f, -1.f};
+        float out[3] = {};
+    };
+
+    static bool sameBits(float a, float b) {
+        u32 x;
+        u32 y;
+
+        memcpy(&x, &a, sizeof(x));
+        memcpy(&y, &b, sizeof(y));
+
+        return x == y;
+    }
+
+    static void convertPixel(const float* s, float* d, bool toLinear, Conversion& last) {
         float a = s[3];
 
         if (a <= 0.f) {
@@ -13046,26 +13064,34 @@ namespace {
         for (int c = 0; c < 3; c++) {
             float v = clampUnit(s[c] / a);
 
-            d[c] = (toLinear ? srgbToLinear(v) : linearToSrgb(v)) * a;
+            if (!sameBits(v, last.in[c])) {
+                last.in[c] = v;
+                last.out[c] = toLinear ? srgbToLinear(v) : linearToSrgb(v);
+            }
+
+            d[c] = last.out[c] * a;
         }
 
         d[3] = a;
     }
 
     static void convertInPlace(const Plane& plane, bool toLinear) {
+        Conversion last;
+
         for (int y = plane.box.y0; y < plane.box.y1; y++) {
             for (int x = plane.box.x0; x < plane.box.x1; x++) {
-                convertPixel(planeAt(plane, x, y), planeAt(plane, x, y), toLinear);
+                convertPixel(planeAt(plane, x, y), planeAt(plane, x, y), toLinear, last);
             }
         }
     }
 
     static Plane convertBuffer(const Plane& src, bool toLinear) {
         Plane out = makePlane(src.box);
+        Conversion last;
 
         for (int y = src.box.y0; y < src.box.y1; y++) {
             for (int x = src.box.x0; x < src.box.x1; x++) {
-                convertPixel(planeAt(src, x, y), planeAt(out, x, y), toLinear);
+                convertPixel(planeAt(src, x, y), planeAt(out, x, y), toLinear, last);
             }
         }
 
@@ -15430,6 +15456,8 @@ namespace {
         const FilterResult& last = run.results.back();
         IntBox kept = boxInside(last.plane.box, layer.box);
 
+        Conversion converted;
+
         memset(layer.data, 0, sizeof(float) * size * 4);
 
         for (int y = kept.y0; last.plane.data && y < kept.y1; y++) {
@@ -15439,7 +15467,7 @@ namespace {
             }
 
             for (int x = kept.x0; x < kept.x1; x++) {
-                convertPixel(planeAt(last.plane, x, y), planeAt(layer, x, y), false);
+                convertPixel(planeAt(last.plane, x, y), planeAt(layer, x, y), false, converted);
             }
         }
 
