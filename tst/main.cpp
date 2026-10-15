@@ -589,11 +589,13 @@ namespace {
     }
 
     // Whether a length in a viewport unit, vw, vh, vi, vb, vmin or vmax,
-    // begins at the character: a number, on its own, that the unit ends.
+    // begins at the character: a number that the unit ends, between the
+    // characters a value has around a length, not the letters, digits and
+    // slashes of base64.
     static bool viewportLength(const uint8_t* begin, const uint8_t* q, const uint8_t* end) {
         static const char* const units[] = {"vw", "vh", "vi", "vb", "vmin", "vmax"};
 
-        if (!((*q >= '0' && *q <= '9') || *q == '.') || (q > begin && word(q[-1]))) {
+        if (!((*q >= '0' && *q <= '9') || *q == '.') || (q > begin && !strchr(" \t\r\n\"'(,:;", q[-1]))) {
             return false;
         }
 
@@ -606,9 +608,134 @@ namespace {
         for (const char* name : units) {
             size_t length = strlen(name);
 
-            if (startsWith(unit, end, name) && (unit + length == end || !word(unit[length]))) {
+            if (startsWith(unit, end, name) && (unit + length == end || strchr(" \t\r\n\"'),;", unit[length]))) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    // The value of an attribute of a tag, or an empty string.
+    static std::string attributeOf(const std::string& tag, const char* name) {
+        std::string key = std::string(" ") + name;
+        size_t at = 0;
+
+        while ((at = tag.find(key, at)) != std::string::npos) {
+            size_t p = at + key.size();
+
+            while (p < tag.size() && space((uint8_t)tag[p])) {
+                p++;
+            }
+
+            if (p < tag.size() && tag[p] == '=') {
+                p++;
+
+                while (p < tag.size() && space((uint8_t)tag[p])) {
+                    p++;
+                }
+
+                if (p < tag.size() && (tag[p] == '"' || tag[p] == '\'')) {
+                    size_t close = tag.find(tag[p], p + 1);
+
+                    return close == std::string::npos ? std::string() : tag.substr(p + 1, close - p - 1);
+                }
+            }
+
+            at = p;
+        }
+
+        return std::string();
+    }
+
+    // Whether a selector's subject, its last compound, is the root: svg,
+    // :root, *, the root's id or one of its classes.
+    static bool selectsRoot(const std::string& selector, const std::string& rootId, const std::string& rootClasses) {
+        size_t end = selector.find_last_not_of(" \t\r\n");
+
+        if (end == std::string::npos) {
+            return false;
+        }
+
+        size_t begin = selector.find_last_of(" \t\r\n>+~", end);
+        std::string subject = selector.substr(begin == std::string::npos ? 0 : begin + 1, end - (begin == std::string::npos ? 0 : begin + 1) + 1);
+
+        if (subject == "*" || subject == ":root" || subject == "svg" || subject == "svg:root" || (subject.size() > 3 && subject.compare(0, 3, "svg") == 0 && strchr("[.#:", subject[3]))) {
+            return true;
+        }
+
+        if (subject.size() > 1 && subject[0] == '#' && !rootId.empty() && subject.substr(1) == rootId) {
+            return true;
+        }
+
+        if (subject.size() > 1 && subject[0] == '.') {
+            std::string name = subject.substr(1);
+            size_t at = 0;
+
+            while (at < rootClasses.size()) {
+                size_t stop = rootClasses.find_first_of(" \t\r\n", at);
+
+                if (stop == std::string::npos) {
+                    stop = rootClasses.size();
+                }
+
+                if (rootClasses.compare(at, stop - at, name) == 0) {
+                    return true;
+                }
+
+                at = stop + 1;
+            }
+        }
+
+        return false;
+    }
+
+    // Whether a style sheet sets a clip path, mask, filter or transform on
+    // the root: in a rule whose subject is the root. A rule inside an
+    // at-rule is read as any text, as are rules the sheet does not close.
+    static bool sheetRootEffect(const std::string& sheet, const std::string& rootId, const std::string& rootClasses) {
+        size_t at = 0;
+
+        while (at < sheet.size()) {
+            size_t open = sheet.find('{', at);
+
+            if (open == std::string::npos) {
+                break;
+            }
+
+            size_t close = sheet.find('}', open);
+
+            if (close == std::string::npos) {
+                return rootEffect((const uint8_t*)sheet.data() + open, (const uint8_t*)sheet.data() + sheet.size());
+            }
+
+            std::string selectors = sheet.substr(at, open - at);
+            size_t start = selectors.find_first_not_of(" \t\r\n");
+            bool effect = rootEffect((const uint8_t*)sheet.data() + open, (const uint8_t*)sheet.data() + close);
+
+            if (effect && start != std::string::npos && selectors[start] == '@') {
+                return true;
+            }
+
+            if (effect) {
+                size_t from = 0;
+
+                while (from <= selectors.size()) {
+                    size_t comma = selectors.find(',', from);
+
+                    if (selectsRoot(selectors.substr(from, (comma == std::string::npos ? selectors.size() : comma) - from), rootId, rootClasses)) {
+                        return true;
+                    }
+
+                    if (comma == std::string::npos) {
+                        break;
+                    }
+
+                    from = comma + 1;
+                }
+            }
+
+            at = close + 1;
         }
 
         return false;
@@ -624,24 +751,6 @@ namespace {
         const uint8_t* p = (const uint8_t*)text.data();
         const uint8_t* end = p + text.size();
 
-        for (const uint8_t* q = p; q < end; q++) {
-            if (startsWith(q, end, "non-scaling") || viewportLength(p, q, end)) {
-                return false;
-            }
-
-            if (startsWith(q, end, "<style") || startsWith(q, end, ":style")) {
-                const uint8_t* close = q;
-
-                while (close < end && !startsWith(close, end, "</")) {
-                    close++;
-                }
-
-                if (rootEffect(q, close)) {
-                    return false;
-                }
-            }
-        }
-
         while (true) {
             while (p < end && *p != '<') {
                 p++;
@@ -653,6 +762,29 @@ namespace {
 
             if (startsWith(p, end, "<!--")) {
                 while (p < end && !startsWith(p, end, "-->")) {
+                    p++;
+                }
+
+                continue;
+            }
+
+            // A document type's internal subset may declare entities whose
+            // values are markup: the whole declaration goes.
+            if (startsWith(p, end, "<!DOCTYPE")) {
+                int depth = 0;
+                uint8_t inside = 0;
+
+                while (p < end && (depth || inside || *p != '>')) {
+                    if (inside && *p == inside) {
+                        inside = 0;
+                    } else if (!inside && (*p == '"' || *p == '\'')) {
+                        inside = *p;
+                    } else if (!inside && *p == '[') {
+                        depth++;
+                    } else if (!inside && *p == ']') {
+                        depth--;
+                    }
+
                     p++;
                 }
 
@@ -690,7 +822,33 @@ namespace {
 
         bool root = (nameEnd - name == 3 && memcmp(name, "svg", 3) == 0) || (nameEnd - name > 4 && memcmp(nameEnd - 4, ":svg", 4) == 0);
 
-        return root && !rootEffect(nameEnd, tagEnd);
+        if (!root || rootEffect(nameEnd, tagEnd)) {
+            return false;
+        }
+
+        std::string tag((const char*)nameEnd, (size_t)(tagEnd - nameEnd));
+        std::string rootId = attributeOf(tag, "id");
+        std::string rootClasses = attributeOf(tag, "class");
+
+        for (const uint8_t* q = (const uint8_t*)text.data(); q < end; q++) {
+            if (startsWith(q, end, "non-scaling") || viewportLength((const uint8_t*)text.data(), q, end)) {
+                return false;
+            }
+
+            if (startsWith(q, end, "<style") || startsWith(q, end, ":style")) {
+                const uint8_t* close = q;
+
+                while (close < end && !startsWith(close, end, "</")) {
+                    close++;
+                }
+
+                if (sheetRootEffect(std::string((const char*)q, (size_t)(close - q)), rootId, rootClasses)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     static double error(const Pixels& ours, const Pixels& reference) {
@@ -1080,7 +1238,9 @@ namespace {
     }
 
     // Prints the own size of every file, in CSS pixels, as "FILE WIDTH
-    // HEIGHT", or "FILE ? ?" for a file the renderer cannot parse.
+    // HEIGHT", with " straight" after it for a file the test draws straight
+    // at the size of its reference, or "FILE ? ?" for a file the renderer
+    // cannot parse.
     static int size(int argc, char** argv) {
         if (argc < 3) {
             fprintf(stderr, "usage: svg size IN.svg...\n");
@@ -1093,7 +1253,7 @@ namespace {
             Document document = load(argv[i], file, decodeRaster);
 
             if (document) {
-                printf("%s %.4f %.4f\n", argv[i], svg_document_width(document.get()), svg_document_height(document.get()));
+                printf("%s %.4f %.4f%s\n", argv[i], svg_document_width(document.get()), svg_document_height(document.get()), scalable(file) ? "" : " straight");
             } else {
                 printf("%s ? ?\n", argv[i]);
             }
@@ -1214,12 +1374,9 @@ namespace {
         return 0;
     }
 
-    // Shrinks IN.png by the factor into OUT.png; given WIDTH and HEIGHT, of
-    // the small image, it first crops IN.png to WIDTH and HEIGHT times the
-    // factor, as a screenshot may run a pixel past the box.
     static int shrinkCommand(int argc, char** argv) {
-        if (argc != 5 && argc != 7) {
-            fprintf(stderr, "usage: svg shrink IN.png OUT.png FACTOR [WIDTH HEIGHT]\n");
+        if (argc != 5) {
+            fprintf(stderr, "usage: svg shrink IN.png OUT.png FACTOR\n");
 
             return 2;
         }
@@ -1229,29 +1386,6 @@ namespace {
         Pixels small;
 
         readPng(argv[2], large);
-
-        if (argc == 7) {
-            uint32_t width = (uint32_t)atoi(argv[5]) * factor;
-            uint32_t height = (uint32_t)atoi(argv[6]) * factor;
-
-            if (width == 0 || height == 0 || width > large.width || height > large.height) {
-                fail("smaller than the size asked for: ", argv[2]);
-            }
-
-            if (width != large.width || height != large.height) {
-                Pixels cropped;
-
-                cropped.width = width;
-                cropped.height = height;
-                cropped.rgba.resize((size_t)width * height * 4);
-
-                for (uint32_t y = 0; y < height; y++) {
-                    memcpy(&cropped.rgba[(size_t)y * width * 4], &large.rgba[(size_t)y * large.width * 4], (size_t)width * 4);
-                }
-
-                large = cropped;
-            }
-        }
 
         if (large.width % factor || large.height % factor) {
             fail("size is not a multiple of the factor in ", argv[2]);
