@@ -11329,6 +11329,8 @@ namespace {
                             sy = 0.f;
                         }
 
+                        sx = maxf(sx, 0.f);
+                        sy = maxf(sy, 0.f);
                         break;
                     case AtomFeDropShadow:
                         dx = p.node ? userX(*f, numberOf(doc, p.node, AtomDx, 2.f)) : p.params[0];
@@ -13567,14 +13569,15 @@ namespace {
             valid = numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy);
         }
 
-        if (!valid || sx < 0.f || sy < 0.f) {
+        if (!valid) {
             copyBox(in, out, p.box);
 
             return;
         }
 
-        sx = userX(f, sx) * run.scaleX;
-        sy = userY(f, sy) * run.scaleY;
+        // A negative deviation is zero: no blur along that axis.
+        sx = userX(f, maxf(sx, 0.f)) * run.scaleX;
+        sy = userY(f, maxf(sy, 0.f)) * run.scaleY;
 
         if (sx <= 0.f && sy <= 0.f) {
             copyBox(in, out, p.box);

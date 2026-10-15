@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import base64
+import itertools
 import json
-import math
 import os
+import re
 import select
 import shutil
 import struct
@@ -13,6 +14,7 @@ import threading
 import time
 
 SIDES = [("1x", 256), ("2x", 512)]
+WRAPPERS = itertools.count()
 TIMEOUT = 20
 
 HARNESS = """<!doctype html>
@@ -35,8 +37,8 @@ SHOW = """
 (async () => {
   document.body.textContent = '';
   const img = new Image();
-  img.style.width = '%.4fpx';
-  img.style.height = '%.4fpx';
+  img.style.width = '%dpx';
+  img.style.height = '%dpx';
   const done = new Promise((ok) => { img.onload = () => ok(true); img.onerror = () => ok(false); });
   img.src = %s;
   document.body.appendChild(img);
@@ -135,14 +137,145 @@ def sizes(own):
 
 
 # The document's own size as the renderer has it: what its root gives, or
-# the edges of what it draws. Chromium shows the document in a box of that
-# size, so the two agree on what the box is where Chromium would make one
-# up; the pixels of the box come of the device scale factor.
+# the edges of what it draws; and whether the test draws it straight at the
+# size of its reference, as a drawing of more pixels is not the drawing
+# scaled for it: then the reference is a screenshot at one device pixel a
+# CSS pixel too, not supersampled.
 def own_size(program, svg):
     line = subprocess.run([program, "size", svg], capture_output=True, text=True, check=True).stdout.split()
-    if len(line) != 3 or line[1] == "?":
+    if len(line) < 3 or line[1] == "?":
         return None
-    return float(line[1]), float(line[2])
+    return float(line[1]), float(line[2]), len(line) > 3 and line[3] == "straight"
+
+
+TAG = re.compile(rb"<[^>]*>", re.S)
+ATTRIBUTE = rb"(\s%s\s*=\s*)([\"'])(.*?)\2"
+ZOOM = re.compile(rb"(^|[;\s])zoom\s*:\s*([0-9.]+)\s*;?")
+LENGTH = re.compile(rb"\s*([0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)\s*(px|pt|pc|mm|cm|in|em|ex|rem|ch|vw|vh|vmin|vmax)?\s*$")
+
+
+# The root element's start tag and where it begins: past the prolog, its
+# declaration, comments and document type, whose internal subset and whose
+# comments may hold markup of their own.
+def root_tag(text):
+    at = 3 if text.startswith(b"\xef\xbb\xbf") else 0
+    while at < len(text):
+        while at < len(text) and text[at:at + 1].isspace():
+            at += 1
+        if text.startswith(b"<?", at):
+            end = text.find(b"?>", at)
+            if end < 0:
+                return 0, b""
+            at = end + 2
+        elif text.startswith(b"<!--", at):
+            end = text.find(b"-->", at)
+            if end < 0:
+                return 0, b""
+            at = end + 3
+        elif text.startswith(b"<!", at):
+            depth = 0
+            quote = b""
+            at += 2
+            while at < len(text):
+                c = text[at:at + 1]
+                if quote:
+                    quote = b"" if c == quote else quote
+                elif c in (b'"', b"'"):
+                    quote = c
+                elif c == b"[":
+                    depth += 1
+                elif c == b"]":
+                    depth -= 1
+                elif c == b">" and depth == 0:
+                    break
+                at += 1
+            if at >= len(text):
+                return 0, b""
+            at += 1
+        else:
+            break
+    found = TAG.match(text, at)
+    if not found or not re.match(rb"<(?:[A-Za-z_][\w.-]*:)?svg\b", found.group(0)):
+        return 0, b""
+    return at, found.group(0)
+
+
+# Whether the root gives a side: a positive length of its own, not a
+# percentage of a box.
+def given(tag, name):
+    found = re.search(ATTRIBUTE % name, tag)
+    if not found:
+        return False
+    length = LENGTH.match(found.group(3))
+    return bool(length) and float(length.group(1)) > 0
+
+
+def valid_viewbox(tag):
+    found = re.search(ATTRIBUTE % b"viewBox", tag)
+    if not found:
+        return False
+    try:
+        numbers = [float(v) for v in re.split(rb"[\s,]+", found.group(3).strip())]
+    except ValueError:
+        return False
+    return len(numbers) == 4 and numbers[2] > 0 and numbers[3] > 0
+
+
+# A document whose root has no viewBox and leaves a side open is measured
+# by the renderer: its size is the edge of what it draws, and a render
+# stretches that size into the pixels. Chromium shows such a document in
+# its box as it is, so it is shown through a wrapper that does the
+# stretching: an svg of the pixels' size whose viewBox is the document's
+# own size, stretched without regard to its ratio, with the document's
+# root inside as a nested svg of that size. Inside an <image> instead
+# Chromium draws patterns and some filters wrong, so the document is
+# nested as it is, after its own prolog, which may declare entities. The
+# root's width, height, x and y go: a percentage of a box, or a length
+# that is none, is an open side to the renderer, and the nested svg's
+# size is the document's own. A clip path or mask on the root moves to
+# the wrapper: on the outermost svg it lies in the pixels of the box, as
+# the renderer has it, where a nested svg would have it in its parent's
+# units. A zoom on a root with no side of its own scales the content, in
+# the renderer, inside a viewport of the size before the zoom: the nested
+# svg gets that size and the scale as its transform, and no zoom.
+def measured(text):
+    start, tag = root_tag(text)
+    return bool(tag) and not valid_viewbox(tag) and not (given(tag, b"width") and given(tag, b"height"))
+
+
+def wrapper(text, own, width, height):
+    start, tag = root_tag(text)
+    inner = tag
+    moved = b""
+    for name in (b"clip-path", b"mask"):
+        found = re.search(ATTRIBUTE % name, inner)
+        if found:
+            moved += found.group(0)
+            inner = inner[:found.start()] + inner[found.end():]
+    zoom = 1.0
+    if not given(tag, b"width") and not given(tag, b"height"):
+        found = re.search(ATTRIBUTE % b"zoom", inner)
+        if found:
+            zoom = float(found.group(3) or 1)
+            inner = inner[:found.start()] + inner[found.end():]
+        style = re.search(ATTRIBUTE % b"style", inner)
+        if style:
+            inside = ZOOM.search(style.group(3))
+            if inside:
+                zoom = float(inside.group(2))
+                inner = inner[:style.start(3)] + style.group(3)[:inside.start()] + style.group(3)[inside.end():] + inner[style.end(3):]
+    for name in (b"width", b"height", b"x", b"y"):
+        inner = re.sub(ATTRIBUTE % name, b"", inner, count=1)
+    if zoom != 1.0:
+        transform = re.search(ATTRIBUTE % b"transform", inner)
+        if transform:
+            inner = inner[:transform.end(3)] + b" scale(%.6f)" % zoom + inner[transform.end(3):]
+        else:
+            inner = inner[:-1] + b' transform="scale(%.6f)">' % zoom if inner.endswith(b">") and not inner.endswith(b"/>") else inner
+    name_end = re.match(rb"<[^\s/>]+", inner).end()
+    inner = inner[:name_end] + b' width="%.4f" height="%.4f"' % (own[0] / zoom, own[1] / zoom) + inner[name_end:]
+    outer = b'<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %.4f %.4f" preserveAspectRatio="none"%s>' % (width, height, own[0], own[1], moved)
+    return text[:start] + outer + inner + text[start + len(tag):] + b"</svg>"
 
 
 def render(browser, svg, program, side, scratch):
@@ -153,34 +286,35 @@ def render(browser, svg, program, side, scratch):
     own = own_size(program, svg)
     if not own or own[0] <= 0 or own[1] <= 0:
         return "no own size"
-    for label, width, height in sizes(own):
-        factor = max(1, side // max(width, height))
-        # The box is the document's own width in CSS pixels, at the device
-        # scale that makes it the pixels wanted, and as high as keeps the
-        # pixels' ratio. The screenshot is of the viewport, the box rounded
-        # up to whole CSS pixels, so it is never short of the pixels however
-        # Chromium rounds; shrink crops it to them.
-        scale = width * factor / own[0]
-        box_width = own[0]
-        box_height = height * factor / scale
-        viewport_width = math.ceil(box_width)
-        viewport_height = math.ceil(box_height)
-        browser.send("Emulation.setDeviceMetricsOverride", {"width": viewport_width, "height": viewport_height, "deviceScaleFactor": scale, "mobile": False})
-        if not browser.evaluate(SHOW % (box_width, box_height, url)):
+    with open(svg, "rb") as handle:
+        text = handle.read()
+    stretched = measured(text)
+    for label, width, height in sizes(own[:2]):
+        factor = 1 if own[2] else max(1, side // max(width, height))
+        if stretched:
+            # Chromium caches an image by its URL, so every wrapper has a
+            # name of its own.
+            wrapped = os.path.join(scratch, f"{threading.get_ident()}-{next(WRAPPERS)}.svg")
+            with open(wrapped, "wb") as handle:
+                handle.write(wrapper(text, own, width, height))
+            url = json.dumps("file://" + wrapped)
+        browser.send("Emulation.setDeviceMetricsOverride", {"width": width, "height": height, "deviceScaleFactor": factor, "mobile": False})
+        if not browser.evaluate(SHOW % (width, height, url)):
             return "image failed to load"
         shot = base64.b64decode(browser.send("Page.captureScreenshot", {
             "format": "png",
-            "clip": {"x": 0, "y": 0, "width": viewport_width, "height": viewport_height, "scale": 1},
+            "clip": {"x": 0, "y": 0, "width": width, "height": height, "scale": 1},
             "fromSurface": True,
             "captureBeyondViewport": False,
         })["data"])
-        shot_width, shot_height = struct.unpack(">II", shot[16:24])
-        if not (0 <= shot_width - width * factor <= scale + 2 and 0 <= shot_height - height * factor <= scale + 2):
-            return f"screenshot is {shot_width}x{shot_height}, not {width * factor}x{height * factor}"
+        if struct.unpack(">II", shot[16:24]) != (width * factor, height * factor):
+            return f"screenshot is {struct.unpack('>II', shot[16:24])}, not {width * factor}x{height * factor}"
         large = os.path.join(scratch, f"{threading.get_ident()}.png")
         with open(large, "wb") as handle:
             handle.write(shot)
-        subprocess.run([program, "shrink", large, svg[:-4] + f".{label}.png", str(factor), str(width), str(height)], check=True)
+        subprocess.run([program, "shrink", large, svg[:-4] + f".{label}.png", str(factor)], check=True)
+        if stretched:
+            os.remove(wrapped)
     return None
 
 
