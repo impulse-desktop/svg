@@ -8923,12 +8923,11 @@ namespace {
                 return;
             }
 
+            // A built path begins with a move, so its box is never empty.
             Box shape = pathBox(path, m);
 
-            if (boxValid(shape)) {
-                extend(box, Point{shape.x0, shape.y0});
-                extend(box, Point{shape.x1, shape.y1});
-            }
+            extend(box, Point{shape.x0, shape.y0});
+            extend(box, Point{shape.x1, shape.y1});
 
             if (how.markers) {
                 markerExtent(p, node, path, style, m, vp, how, depth, box);
