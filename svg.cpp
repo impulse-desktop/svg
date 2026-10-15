@@ -11945,11 +11945,19 @@ namespace {
             c = stops[count - 1].color;
         } else {
             // t lies past the first offset and before the last, so a stop
-            // follows at or past it and the span to it is not empty.
+            // follows at or past it and the span to it is not empty: the
+            // first one, as the offsets never decrease.
             u32 i = 1;
+            u32 n = count - 1;
 
-            while (stops[i].offset < t) {
-                i++;
+            while (i < n) {
+                u32 m = i + (n - i) / 2;
+
+                if (stops[m].offset < t) {
+                    i = m + 1;
+                } else {
+                    n = m;
+                }
             }
 
             const GradientStop& a = stops[i - 1];
