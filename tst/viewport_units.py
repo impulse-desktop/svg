@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Check viewport units inside nested viewports and markers under filtered layers."""
+"""Check viewport units inside nested viewports and markers under filtered layers.
+
+Viewport units are in the pixels of the box, so the drawings are checked
+at their own size, never supersampled."""
 from pathlib import Path
 import subprocess
 import sys
@@ -46,17 +49,15 @@ def main():
             for transform in TRANSFORMS:
                 for filtered in [False, True]:
                     source.write_text(drawing(definitions, content, transform, filtered))
-                    for side in [[], ["1024"]]:
-                        subprocess.run([program, "render", str(source), str(output), str(WIDTH), str(HEIGHT)] + side,
-                                       check=True, timeout=30)
-                        width, height, rgba = canon.decode(output)
-                        if (width, height) != (WIDTH, HEIGHT):
-                            sys.exit(f"wrong image size {width}x{height}")
-                        area = sum(rgba[3::4]) / 255
-                        if abs(area - AREA) > 1:
-                            label = f"{name}/{transform or 'none'}/{'filtered' if filtered else 'plain'}/{side[0] if side else 'direct'}"
-                            failures.append(f"{label}: area {area:.2f}, expected {AREA:g}")
-                        checked += 1
+                    subprocess.run([program, "render", str(source), str(output), str(WIDTH), str(HEIGHT)], check=True, timeout=30)
+                    width, height, rgba = canon.decode(output)
+                    if (width, height) != (WIDTH, HEIGHT):
+                        sys.exit(f"wrong image size {width}x{height}")
+                    area = sum(rgba[3::4]) / 255
+                    if abs(area - AREA) > 1:
+                        label = f"{name}/{transform or 'none'}/{'filtered' if filtered else 'plain'}"
+                        failures.append(f"{label}: area {area:.2f}, expected {AREA:g}")
+                    checked += 1
     if failures:
         sys.exit(f"{len(failures)} failed cases:\n" + "\n".join(failures))
     print(f"checked {checked} viewport-unit areas")

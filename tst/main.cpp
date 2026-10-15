@@ -512,7 +512,7 @@ namespace {
         }
     }
 
-    static void draw(SvgDocument* document, Pixels& pixels, float scale) {
+    static void draw(SvgDocument* document, Pixels& pixels) {
         pixels.rgba.assign((size_t)pixels.width * pixels.height * 4, 0);
 
         if (!document) {
@@ -520,7 +520,7 @@ namespace {
         }
 
         try {
-            Image image(svg_document_render(document, pixels.width, pixels.height, scale));
+            Image image(svg_document_render(document, pixels.width, pixels.height));
 
             if (image && svg_image_width(image.get()) == pixels.width && svg_image_height(image.get()) == pixels.height && svg_image_length(image.get()) == pixels.rgba.size()) {
                 memcpy(pixels.rgba.data(), svg_image_data(image.get()), pixels.rgba.size());
@@ -552,108 +552,61 @@ namespace {
         return c == ' ' || c == '\t' || c == '\n' || c == '\r';
     }
 
-    static const uint8_t* skipSpace(const uint8_t* p, const uint8_t* end) {
-        while (p < end && space(*p)) {
-            p++;
-        }
-
-        return p;
+    // Whether a character continues a name or a number.
+    static bool word(uint8_t c) {
+        return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
     }
 
-    static bool readNumber(const uint8_t*& p, const uint8_t* end, float& out) {
-        char text[64];
-        size_t n = 0;
+    // Whether a clip path, mask, filter or transform is set in a tag's
+    // attributes or a style sheet's rules: named as an attribute, before =,
+    // or as a property, before :, not as a word in a value.
+    static bool rootEffect(const uint8_t* p, const uint8_t* end) {
+        static const char* const names[] = {"clip-path", "mask", "filter", "transform"};
 
-        while (p + n < end && n < sizeof(text) - 1 && strchr("+-.0123456789eE", p[n])) {
-            text[n] = (char)p[n];
-            n++;
-        }
-
-        text[n] = 0;
-
-        char* stop = nullptr;
-
-        out = strtof(text, &stop);
-
-        if (stop == text) {
-            return false;
-        }
-
-        p += stop - text;
-
-        return true;
-    }
-
-    static bool attributeValue(const uint8_t* tag, const uint8_t* end, const char* name, const uint8_t*& value, const uint8_t*& valueEnd) {
-        for (const uint8_t* p = tag; p < end; p++) {
-            if (!space(*p) || !startsWith(p + 1, end, name)) {
+        for (const uint8_t* begin = p; p < end; p++) {
+            if (p > begin && word(p[-1])) {
                 continue;
             }
 
-            const uint8_t* q = skipSpace(p + 1 + strlen(name), end);
+            for (const char* name : names) {
+                if (!startsWith(p, end, name)) {
+                    continue;
+                }
 
-            if (q >= end || *q != '=') {
-                continue;
+                const uint8_t* q = p + strlen(name);
+
+                while (q < end && space(*q)) {
+                    q++;
+                }
+
+                if (q < end && (*q == '=' || *q == ':')) {
+                    return true;
+                }
             }
-
-            q = skipSpace(q + 1, end);
-
-            if (q >= end || (*q != '"' && *q != '\'')) {
-                continue;
-            }
-
-            uint8_t quote = *q;
-
-            value = q + 1;
-            valueEnd = value;
-
-            while (valueEnd < end && *valueEnd != quote) {
-                valueEnd++;
-            }
-
-            return true;
         }
 
         return false;
     }
 
-    static bool viewBox(const uint8_t* p, const uint8_t* end) {
-        float numbers[4];
+    // Whether a length in a viewport unit, vw, vh, vi, vb, vmin or vmax,
+    // begins at the character: a number, on its own, that the unit ends.
+    static bool viewportLength(const uint8_t* begin, const uint8_t* q, const uint8_t* end) {
+        static const char* const units[] = {"vw", "vh", "vi", "vb", "vmin", "vmax"};
 
-        for (int k = 0; k < 4; k++) {
-            p = skipSpace(p, end);
-
-            if (k && p < end && *p == ',') {
-                p = skipSpace(p + 1, end);
-            }
-
-            if (!readNumber(p, end, numbers[k])) {
-                return false;
-            }
-        }
-
-        return skipSpace(p, end) == end && numbers[2] > 0.f && numbers[3] > 0.f;
-    }
-
-    static bool absolute(const uint8_t* p, const uint8_t* end) {
-        float value;
-
-        p = skipSpace(p, end);
-
-        if (!readNumber(p, end, value) || !(value > 0.f)) {
+        if (!((*q >= '0' && *q <= '9') || *q == '.') || (q > begin && word(q[-1]))) {
             return false;
         }
 
-        while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
-            p++;
+        const uint8_t* unit = q;
+
+        while (unit < end && ((*unit >= '0' && *unit <= '9') || *unit == '.')) {
+            unit++;
         }
 
-        return skipSpace(p, end) == end;
-    }
+        for (const char* name : units) {
+            size_t length = strlen(name);
 
-    static bool rootEffect(const uint8_t* p, const uint8_t* end) {
-        for (; p < end; p++) {
-            if (startsWith(p, end, "clip-path") || startsWith(p, end, "mask") || startsWith(p, end, "filter") || startsWith(p, end, "transform")) {
+            if (startsWith(unit, end, name) && (unit + length == end || !word(unit[length]))) {
                 return true;
             }
         }
@@ -661,16 +614,18 @@ namespace {
         return false;
     }
 
+    // Whether the file draws the same at every size, only scaled: not with
+    // a non-scaling stroke, a viewport unit or a clip, mask, filter or
+    // transform on the root, which are in the pixels of the box, so a
+    // drawing of more pixels is not the drawing scaled. Such a file is drawn
+    // straight at the size of its reference, never supersampled, and its
+    // sizes share no drawing.
     static bool scalable(const std::string& text) {
         const uint8_t* p = (const uint8_t*)text.data();
         const uint8_t* end = p + text.size();
 
         for (const uint8_t* q = p; q < end; q++) {
-            if (startsWith(q, end, "non-scaling")) {
-                return false;
-            }
-
-            if (((*q >= '0' && *q <= '9') || *q == '.') && (startsWith(q + 1, end, "vw") || startsWith(q + 1, end, "vh") || startsWith(q + 1, end, "vi") || startsWith(q + 1, end, "vb") || startsWith(q + 1, end, "vmin") || startsWith(q + 1, end, "vmax"))) {
+            if (startsWith(q, end, "non-scaling") || viewportLength(p, q, end)) {
                 return false;
             }
 
@@ -734,21 +689,8 @@ namespace {
         }
 
         bool root = (nameEnd - name == 3 && memcmp(name, "svg", 3) == 0) || (nameEnd - name > 4 && memcmp(nameEnd - 4, ":svg", 4) == 0);
-        const uint8_t* value;
-        const uint8_t* valueEnd;
 
-        if (!root || rootEffect(nameEnd, tagEnd)) {
-            return false;
-        }
-
-        if (attributeValue(nameEnd, tagEnd, "viewBox", value, valueEnd) && viewBox(value, valueEnd)) {
-            return true;
-        }
-
-        bool width = attributeValue(nameEnd, tagEnd, "width", value, valueEnd) && absolute(value, valueEnd);
-        bool height = attributeValue(nameEnd, tagEnd, "height", value, valueEnd) && absolute(value, valueEnd);
-
-        return width && height;
+        return root && !rootEffect(nameEnd, tagEnd);
     }
 
     static double error(const Pixels& ours, const Pixels& reference) {
@@ -1086,7 +1028,7 @@ namespace {
 
     static void drawFine(SvgDocument* document, Pixels& pixels, uint32_t factor, Pixels& large) {
         if (factor <= 1) {
-            draw(document, pixels, 1.f);
+            draw(document, pixels);
 
             return;
         }
@@ -1094,7 +1036,7 @@ namespace {
         if (large.width != pixels.width * factor || large.height != pixels.height * factor) {
             large.width = pixels.width * factor;
             large.height = pixels.height * factor;
-            draw(document, large, (float)factor);
+            draw(document, large);
         }
 
         shrink(large, factor, pixels);
@@ -1160,9 +1102,9 @@ namespace {
         return 0;
     }
 
-    // The size and scale a unit's name asks for, as in X.32x16.svg or
-    // X.32x16x2.svg; false when it asks for none.
-    static bool unitSize(const char* path, uint32_t& width, uint32_t& height, float& scale) {
+    // The size a unit's name asks for, as in X.32x16.svg; false when it asks
+    // for none.
+    static bool unitSize(const char* path, uint32_t& width, uint32_t& height) {
         std::string name(path);
         size_t dot = name.rfind('.');
         size_t start = dot == std::string::npos ? std::string::npos : name.rfind('.', dot - 1);
@@ -1175,9 +1117,7 @@ namespace {
         unsigned h;
         char tail;
 
-        scale = 1.f;
-
-        if (sscanf(name.c_str() + start, ".%ux%u%c", &w, &h, &tail) != 3 || (tail != '.' && (tail != 'x' || sscanf(name.c_str() + start, ".%ux%ux%f.", &w, &h, &scale) != 3))) {
+        if (sscanf(name.c_str() + start, ".%ux%u%c", &w, &h, &tail) != 3 || tail != '.') {
             return false;
         }
 
@@ -1187,8 +1127,8 @@ namespace {
         return true;
     }
 
-    // Draws IN.svg at its own size rounded up, or at the size and scale its
-    // name asks for, writes the drawing to OUT.png and compares it with
+    // Draws IN.svg at its own size rounded up, or at the size its name asks
+    // for, writes the drawing to OUT.png and compares it with
     // CANON.png: they match when no premultiplied channel of a pixel differs
     // by more than unitTolerance of 255. A file the renderer fails to parse
     // or to draw draws one transparent pixel. A name
@@ -1214,8 +1154,7 @@ namespace {
             float height = ceilf(svg_document_height(document.get()));
             uint32_t w = 0;
             uint32_t h = 0;
-            float scale = 1.f;
-            bool sized = unitSize(argv[2], w, h, scale);
+            bool sized = unitSize(argv[2], w, h);
 
             if (!sized && width >= 0.f && width <= 1e6f && height >= 0.f && height <= 1e6f) {
                 w = (uint32_t)width;
@@ -1225,7 +1164,7 @@ namespace {
 
             try {
                 if (sized) {
-                    Image image(svg_document_render(document.get(), w, h, scale));
+                    Image image(svg_document_render(document.get(), w, h));
                     const uint8_t* data = (const uint8_t*)svg_image_data(image.get());
 
                     pixels.width = svg_image_width(image.get());
@@ -1358,7 +1297,7 @@ namespace {
 
             readPng(argv[i], reference);
 
-            uint32_t factor = sideFactor(side, reference.width, reference.height);
+            uint32_t factor = reuse ? sideFactor(side, reference.width, reference.height) : 1;
 
             bool plain = i == 5 || factor <= 1;
 
@@ -1367,7 +1306,7 @@ namespace {
             premultiply(reference, referencePremultiplied);
 
             if (plain) {
-                draw(document.get(), ours, 1.f);
+                draw(document.get(), ours);
                 premultiply(ours, oursPremultiplied);
             }
 
@@ -1475,7 +1414,7 @@ namespace {
                 try {
                     library.reset(svg_library_create(decodeRaster, failSvg, nullptr));
                     document.reset(svg_library_parse(library.get(), file.data(), file.size()));
-                    image.reset(document ? svg_document_render(document.get(), width, height, 1.f) : nullptr);
+                    image.reset(document ? svg_document_render(document.get(), width, height) : nullptr);
                     ok = image != nullptr;
                 } catch (...) {
                     ok = false;

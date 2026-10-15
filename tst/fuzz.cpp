@@ -25,7 +25,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
         SvgDocument* document = svg_library_parse(library, data, size);
 
         try {
-            svg_image_destroy(svg_document_render(document, renderSize, renderSize, 1.f));
+            svg_image_destroy(svg_document_render(document, renderSize, renderSize));
         } catch (const Failure&) {
         }
 

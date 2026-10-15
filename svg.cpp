@@ -1679,7 +1679,6 @@ namespace {
         Vector<u64> broken;
         u32 width;
         u32 height;
-        float scale;
         float docWidth;
         float docHeight;
         u32 depth;
@@ -5887,9 +5886,6 @@ namespace {
                     last = apply(m, pts[pi++]);
                     extend(box, last);
                     break;
-                case VerbClose:
-                    last = start;
-                    break;
                 case VerbCubic:
                 case VerbArcCubic: {
                     Point p1 = apply(m, pts[pi]);
@@ -5903,6 +5899,10 @@ namespace {
                     pi += 3;
                     break;
                 }
+                default:
+                    // VerbClose
+                    last = start;
+                    break;
             }
         }
 
@@ -7927,7 +7927,7 @@ namespace {
 
         l.out = &program;
         l.active.pushBack(pattern);
-        l.host = invert(l.screen, screenInverse) ? multiply(multiply(multiply(scaling(tw / w, th / h), inner), screenInverse), scaling(l.scale, l.scale)) : identity();
+        l.host = invert(l.screen, screenInverse) ? multiply(multiply(scaling(tw / w, th / h), inner), screenInverse) : identity();
         l.width = paint->imageWidth;
         l.height = paint->imageHeight;
         lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
@@ -10352,7 +10352,7 @@ namespace {
                         }
 
                         cull = deviceBox(hostInverse, raster);
-                        strokePath(transformedPath(path, multiply(hostInverse, m)), dashed, l.scale, culled ? &cull : nullptr, hosted);
+                        strokePath(transformedPath(path, multiply(hostInverse, m)), dashed, 1.f, culled ? &cull : nullptr, hosted);
                         device.ends.xchg(hosted.ends);
                         device.closed.xchg(hosted.closed);
 
@@ -10488,8 +10488,8 @@ namespace {
     // it, or its own size stretched to it.
     static Matrix rootContent(Lowering& l, Node* node) {
         Box viewBox;
-        float cw = (float)l.width / l.scale;
-        float ch = (float)l.height / l.scale;
+        float cw = (float)l.width;
+        float ch = (float)l.height;
 
         if (parseViewBox(*l.doc, node, viewBox)) {
             return viewBoxTransform(*l.doc, node, viewBox, cw, ch);
@@ -10500,8 +10500,8 @@ namespace {
 
     static void lowerSvg(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         if (node == l.doc->root) {
-            float w = (float)l.width / l.scale;
-            float h = (float)l.height / l.scale;
+            float w = (float)l.width;
+            float h = (float)l.height;
 
             l.rootFontSize = style.fontSize;
 
@@ -11024,8 +11024,8 @@ namespace {
 
         // The nested root's content, for its filters, stretches a side it
         // gives; a side it leaves open is the box's.
-        l.docWidth = explicitSide(*nested, nested->root, AtomWidth) ? source.width : (float)l.width / l.scale;
-        l.docHeight = explicitSide(*nested, nested->root, AtomHeight) ? source.height : (float)l.height / l.scale;
+        l.docWidth = explicitSide(*nested, nested->root, AtomWidth) ? source.width : (float)l.width;
+        l.docHeight = explicitSide(*nested, nested->root, AtomHeight) ? source.height : (float)l.height;
 
         l.backgroundInputs = l.backgroundInputs || usesBackground(*nested, nested->root);
         op.resetBackground = true;
@@ -15668,13 +15668,9 @@ float svg_document_height(const SvgDocument* document) {
     return document->height;
 }
 
-SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height, float scale) {
+SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t height) {
     if (width == 0 || height == 0 || (u64)width * height > (1u << 26)) {
         fail(document->fail, SVG_RENDER_SIZE);
-    }
-
-    if (!(scale > 0.f)) {
-        fail(document->fail, SVG_RENDER_SCALE);
     }
 
     ObjPool scratch;
@@ -15690,7 +15686,6 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         beginPass(l, doc, scratch, document->decode, document->fail, document->context);
         l.width = width;
         l.height = height;
-        l.scale = scale;
         l.docWidth = document->width;
         l.docHeight = document->height;
         l.depth = 0;
@@ -15699,9 +15694,9 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.sized = nullptr;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
-        l.screen = scaling(scale, scale);
-        l.host = scaling(scale, scale);
-        lowerElement(l, doc.root, initialStyle(), scaling(scale, scale), Viewport{(float)width / scale, (float)height / scale, (float)width / scale, (float)height / scale, 16.f});
+        l.screen = identity();
+        l.host = identity();
+        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height, 16.f});
 
         Raster raster;
 

@@ -5,4 +5,11 @@
 <svg height="50%"><rect x="9" y="1" width="2" height="2" fill="navy"/></svg>
 <use href="#s"/>
 <use href="#t" x="1"/>
+<svg width="4" viewBox="0 0 4 4"><rect width="4" height="4" fill="red"/></svg>
+<defs><symbol id="w" width="3" height="3"><rect x="12" width="1" height="1" fill="teal"/></symbol></defs>
+<use href="#w"/>
+<svg width="bogus"><rect x="13" width="1" height="1" fill="gold"/></svg>
+<path d="Z" fill="red"/>
+<polyline points="" stroke="red"/>
+<polygon points=" " fill="red"/>
 </svg>

@@ -11,4 +11,8 @@
 <path d="M14 2 v3" stroke="navy" vector-effect="non-scaling-stroke" transform="scale(1 2)" marker-end="url(#n)"/>
 <path d="M12 10" marker-end="url(#m)"/>
 <path d="M0 0 C 0 5 0 10 0 10" stroke="navy"/>
+<defs><g id="u"><path d="M0 14 h2" marker-start="url(#m)" stroke="navy"/></g></defs>
+<use href="#u"/>
+<path d="M4 12 h2 v1" marker-mid="url(#m)" stroke="navy"/>
+<path d="M9 12" marker-start="url(#m)"/>
 </svg>
