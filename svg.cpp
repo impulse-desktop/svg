@@ -9015,9 +9015,13 @@ namespace {
         bool markers;
     };
 
+    struct DecodedImage;
+
     struct ImageSource {
         Document* nested;
         SvgImage* raster;
+        // What destroys the raster with the pool, unless it is released first.
+        DecodedImage* decoded;
         float width;
         float height;
         Box viewBox;
@@ -9029,6 +9033,7 @@ namespace {
     static bool imageReachable(const Document& doc, const Node* node);
     static bool isAuto(const Document& doc, const Node* node, u32 name);
     static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, float& x, float& y, float& w, float& h);
+    static void releaseImage(ImageSource& source);
     static Matrix boxTransform(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp);
     static Box deviceBox(const Matrix& m, const Box& box);
     static bool givenSide(const Document& doc, const Node* node, u32 name);
@@ -9149,6 +9154,9 @@ namespace {
                 if (!imageReachable(doc, node) || !imageRect(p, node, style, vp, source, x, y, w, h)) {
                     return;
                 }
+
+                // Measuring takes the size alone.
+                releaseImage(source);
             }
 
             if (w > 0.f && h > 0.f) {
@@ -11010,6 +11018,7 @@ namespace {
 
         out.nested = nullptr;
         out.raster = nullptr;
+        out.decoded = nullptr;
         out.ratio = nullptr;
 
         // Its callers see an href first.
@@ -11078,7 +11087,7 @@ namespace {
             return false;
         }
 
-        l.pool->make<DecodedImage>(raster);
+        out.decoded = l.pool->make<DecodedImage>(raster);
 
         u32 width = svg_image_width(raster);
         u32 height = svg_image_height(raster);
@@ -11091,36 +11100,66 @@ namespace {
         return true;
     }
 
-    static const u8* halveImage(ObjPool& pool, const u8* pixels, u32& width, u32& height) {
-        u32 w = width > 1 ? (width + 1) / 2 : 1;
-        u32 h = height > 1 ? (height + 1) / 2 : 1;
+    // Lets the decoded raster of a source go once nothing reads it.
+    static void releaseImage(ImageSource& source) {
+        if (source.decoded) {
+            svg_image_destroy(source.decoded->image);
+            source.decoded->image = nullptr;
+            source.decoded = nullptr;
+            source.raster = nullptr;
+        }
+    }
+
+    // The image averaged over blocks of 2^kx by 2^ky pixels, its last
+    // column and row extended to fill them, the colours weighed by their
+    // alpha: what halving it level by level comes to, without the levels
+    // between or their rounding. Each output row sums its source rows into
+    // one row of sums.
+    static const u8* shrinkImage(ObjPool& pool, const u8* pixels, u32& width, u32& height, u32 kx, u32 ky) {
+        u64 bx = (u64)1 << kx;
+        u64 by = (u64)1 << ky;
+        u32 w = (u32)((width + bx - 1) >> kx);
+        u32 h = (u32)((height + by - 1) >> ky);
         u8* out = (u8*)pool.allocate((size_t)w * h * 4);
+        Vector<u64> sums;
+
+        sums.zero((size_t)w * 4);
 
         for (u32 y = 0; y < h; y++) {
-            u32 y0 = height > 1 ? y * 2 : 0;
-            u32 y1 = height > 1 && y * 2 + 1 < height ? y * 2 + 1 : y0;
+            u64* sum = sums.mutData();
+            u64 first = (u64)y << ky;
+            u64 last = first + by < height ? first + by : height;
+
+            memset(sum, 0, sizeof(u64) * 4 * (size_t)w);
+
+            for (u64 sy = first; sy < last; sy++) {
+                const u8* row = pixels + (size_t)sy * width * 4;
+                // The last row stands for the rows past the image.
+                u64 rowWeight = sy + 1 == height ? first + by - sy : 1;
+
+                for (u32 x = 0; x < width; x++) {
+                    const u8* t = row + (size_t)x * 4;
+                    u64* d = sum + (size_t)(x >> kx) * 4;
+                    // So does the last column for the columns past it.
+                    u64 weight = rowWeight * (x + 1 == width ? ((u64)(x >> kx) << kx) + bx - x : 1);
+                    u64 a = (u64)t[3] * weight;
+
+                    d[0] += t[0] * a;
+                    d[1] += t[1] * a;
+                    d[2] += t[2] * a;
+                    d[3] += a;
+                }
+            }
 
             for (u32 x = 0; x < w; x++) {
-                u32 x0 = width > 1 ? x * 2 : 0;
-                u32 x1 = width > 1 && x * 2 + 1 < width ? x * 2 + 1 : x0;
-                const u8* taps[4] = {pixels + ((size_t)y0 * width + x0) * 4, pixels + ((size_t)y0 * width + x1) * 4, pixels + ((size_t)y1 * width + x0) * 4, pixels + ((size_t)y1 * width + x1) * 4};
-                u32 alpha = 0;
-                u32 sum[3] = {0, 0, 0};
-                u8* d = out + ((size_t)y * w + x) * 4;
-
-                for (const u8* t : taps) {
-                    alpha += t[3];
-
-                    for (int c = 0; c < 3; c++) {
-                        sum[c] += (u32)t[c] * t[3];
-                    }
-                }
+                const u64* d = sum + (size_t)x * 4;
+                u8* o = out + ((size_t)y * w + x) * 4;
 
                 for (int c = 0; c < 3; c++) {
-                    d[c] = alpha ? (u8)((sum[c] + alpha / 2) / alpha) : 0;
+                    o[c] = d[3] ? (u8)((d[c] + d[3] / 2) / d[3]) : 0;
                 }
 
-                d[3] = (u8)((alpha + 2) / 4);
+                o[3] = (u8)((d[3] + (bx * by) / 2) / (bx * by));
             }
         }
 
@@ -11132,7 +11171,7 @@ namespace {
 
     static bool usesBackground(const Document& doc, const Node* node, u32 depth = 0);
 
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
+    static void drawImage(Lowering& l, Node* node, ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
         const Document& doc = *l.doc;
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
         bool stretch = ratio && trim(textOf(doc, ratio)) == SV("none");
@@ -11171,16 +11210,27 @@ namespace {
             paint->smooth = rendering == 0 || (rendering == 2 && scale < 1.f);
             levels = paint->smooth ? levels : 0;
 
-            float fx = 1.f;
-            float fy = 1.f;
+            // Each side halves as many of the levels as it has pixels to:
+            // a side of one stays.
+            u32 kx = 0;
+            u32 ky = 0;
 
-            for (int k = 0; k < levels && (paint->imageWidth > 1 || paint->imageHeight > 1); k++) {
-                fx *= paint->imageWidth > 1 ? 0.5f : 1.f;
-                fy *= paint->imageHeight > 1 ? 0.5f : 1.f;
-                paint->image = halveImage(*l.pool, paint->image, paint->imageWidth, paint->imageHeight);
+            while (kx < (u32)levels && ((u64)1 << kx) < paint->imageWidth) {
+                kx++;
             }
 
-            paint->inverse = multiply(scaling(fx, fy), inverse);
+            while (ky < (u32)levels && ((u64)1 << ky) < paint->imageHeight) {
+                ky++;
+            }
+
+            // The shrunk image is what the paint samples: the decoded one
+            // goes before the drawing.
+            if (kx || ky) {
+                paint->image = shrinkImage(*l.pool, paint->image, paint->imageWidth, paint->imageHeight, kx, ky);
+                releaseImage(source);
+            }
+
+            paint->inverse = multiply(scaling(ldexpf(1.f, -(int)kx), ldexpf(1.f, -(int)ky)), inverse);
 
             Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
             Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
@@ -17020,7 +17070,9 @@ DecodedImage::DecodedImage(SvgImage* image_)
 }
 
 DecodedImage::~DecodedImage() {
-    svg_image_destroy(image);
+    if (image) {
+        svg_image_destroy(image);
+    }
 }
 
 RenderedImage::RenderedImage(ObjPool* pool_, const u8* pixels_, u32 width_, u32 height_)
