@@ -91,3 +91,20 @@ attribute image/crossorigin: README, images come from the embedding program
 attribute feImage/crossorigin: README, images come from the embedding program
 attribute image/referrerpolicy: README, images come from the embedding program
 value */crossorigin=*: README, images come from the embedding program
+
+# CSS Transforms 1 gives the transform, gradientTransform and
+# patternTransform attributes SVG's grammar, numbers alone and its six
+# functions; CSS's functions and units only a declaration takes
+# (transform-attribute-grammar, gradient-transform-functions).
+value */gradientTransform=*X(): CSS Transforms 1, not in the attribute grammar
+value */gradientTransform=*Y(): CSS Transforms 1, not in the attribute grammar
+value */gradientTransform=*Z(): CSS Transforms 1, not in the attribute grammar
+value */gradientTransform=*3d(): CSS Transforms 1, not in the attribute grammar
+value */gradientTransform=skew(): CSS Transforms 1, not in the attribute grammar
+value */gradientTransform=perspective(): CSS Transforms 1, not in the attribute grammar
+value */patternTransform=*X(): CSS Transforms 1, not in the attribute grammar
+value */patternTransform=*Y(): CSS Transforms 1, not in the attribute grammar
+value */patternTransform=*Z(): CSS Transforms 1, not in the attribute grammar
+value */patternTransform=*3d(): CSS Transforms 1, not in the attribute grammar
+value */patternTransform=skew(): CSS Transforms 1, not in the attribute grammar
+value */patternTransform=perspective(): CSS Transforms 1, not in the attribute grammar

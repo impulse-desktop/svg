@@ -3011,6 +3011,8 @@ namespace {
 
     // An element and its content. Text is its parent's text, which an
     // xi:include of text or an xi:fallback adds to.
+    static bool parseTransform(StringView text, Matrix& out, bool css);
+
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
         if (depth > maxDepth) {
             fail(xml.fail, SVG_XML_DEPTH);
@@ -3174,6 +3176,15 @@ namespace {
                     if (replaced) {
                         continue;
                     }
+                }
+
+                // A transform attribute takes SVG's grammar: CSS's functions
+                // and units only a declaration takes. One past it is as if
+                // it were not there, as CSS Transforms 1 defines it.
+                Matrix parsed;
+
+                if ((atom == AtomTransform || atom == AtomGradientTransform || atom == AtomPatternTransform) && !parseTransform(textOf(*xml.doc, value), parsed, false)) {
+                    continue;
                 }
 
                 attributes.pushBack(Attribute{atom, value});
@@ -5063,7 +5074,10 @@ namespace {
         return false;
     }
 
-    static bool parseTransform(StringView text, Matrix& out) {
+    // A transform list: in an attribute SVG's, numbers alone and its six
+    // functions; in a declaration CSS's too, with angle and length units and
+    // the functions of one axis.
+    static bool parseTransform(StringView text, Matrix& out, bool css) {
         const u8* p = text.begin();
         const u8* end = text.end();
         Matrix result = identity();
@@ -5143,6 +5157,10 @@ namespace {
 
                 StringView unit(unitStart, p);
 
+                if (!css && !unit.empty()) {
+                    return false;
+                }
+
                 if (equalsIgnoreCase(unit, SV("rad"))) {
                     args[count] *= 180.f / pi;
                 } else if (equalsIgnoreCase(unit, SV("grad"))) {
@@ -5170,6 +5188,10 @@ namespace {
             }
 
             Matrix m;
+
+            if (!css && !(name == SV("matrix") || name == SV("translate") || name == SV("scale") || name == SV("rotate") || name == SV("skewX") || name == SV("skewY"))) {
+                return false;
+            }
 
             if (name == SV("translateX") && count == 1) {
                 name = SV("translate");
@@ -5305,7 +5327,7 @@ namespace {
         u32 value = attribute(node, name);
         Matrix m;
 
-        if (!value || !parseTransform(textOf(doc, value), m)) {
+        if (!value || !parseTransform(textOf(doc, value), m, true)) {
             return identity();
         }
 
@@ -5324,7 +5346,7 @@ namespace {
         u32 value = attribute(node, name);
         Matrix m;
 
-        if (value && parseTransform(textOf(doc, value), m)) {
+        if (value && parseTransform(textOf(doc, value), m, true)) {
             return m;
         }
 
@@ -8200,7 +8222,7 @@ namespace {
         u32 transform = patternAttribute(doc, pattern, AtomPatternTransform, nullptr);
         Matrix local;
 
-        if (transform && parseTransform(textOf(doc, transform), local)) {
+        if (transform && parseTransform(textOf(doc, transform), local, true)) {
             if (u32 origin = attribute(pattern, AtomTransformOrigin)) {
                 Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
 
@@ -8410,7 +8432,7 @@ namespace {
         if (transform) {
             Matrix m;
 
-            if (parseTransform(textOf(doc, transform), m)) {
+            if (parseTransform(textOf(doc, transform), m, true)) {
                 if (u32 origin = attribute(gradient, AtomTransformOrigin)) {
                     Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
 
@@ -8522,7 +8544,7 @@ namespace {
         Matrix m;
         Matrix inverse;
 
-        return value && parseTransform(textOf(doc, value), m) && !invert(m, inverse);
+        return value && parseTransform(textOf(doc, value), m, true) && !invert(m, inverse);
     }
 
     static u32 meshAttribute(const Document& doc, Node* mesh, u32 name) {
@@ -8815,7 +8837,7 @@ namespace {
         if (u32 transform = meshAttribute(doc, mesh, AtomGradientTransform)) {
             Matrix m;
 
-            if (parseTransform(textOf(doc, transform), m)) {
+            if (parseTransform(textOf(doc, transform), m, true)) {
                 space = multiply(space, m);
             }
         }
@@ -11550,7 +11572,7 @@ namespace {
         Matrix m;
         Box bounds;
 
-        if (!(box == SV("fill-box") || box == SV("stroke-box")) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m)) {
+        if (!(box == SV("fill-box") || box == SV("stroke-box")) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m, true)) {
             return originTransform(doc, node, AtomTransform, vp);
         }
 

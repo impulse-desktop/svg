@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<rect x="4" y="4" width="10" height="10" fill="crimson" transform="scaleX(2)"/>
+<rect x="18" y="4" width="10" height="10" fill="teal" style="transform: scaleX(1.5)"/>
+<rect x="44" y="2" width="10" height="10" fill="teal" style="transform: scaleY(1.4)"/>
+<rect x="4" y="20" width="10" height="10" fill="crimson" transform="translate(4px, 2px)"/>
+<rect x="24" y="20" width="10" height="10" fill="teal" style="transform: translate(4px, 2px)"/>
+<rect x="40" y="20" width="10" height="10" fill="teal" style="transform: translateX(6px)"/>
+<rect x="4" y="38" width="10" height="10" fill="crimson" transform="rotate(20deg)"/>
+<rect x="24" y="38" width="10" height="10" fill="teal" transform="rotate(20 29 43)"/>
+<rect x="44" y="38" width="10" height="10" fill="teal" style="transform: skew(10deg, 5deg)"/>
+<rect x="4" y="52" width="10" height="10" fill="navy" transform="skew(10)"/>
+<rect x="24" y="52" width="10" height="10" fill="navy" style="transform: skewX(10deg) translateY(-2px)"/>
+<rect x="44" y="52" width="10" height="10" fill="navy" transform="matrix(1 0 0.2 1 -10 0) skewY(5)"/>
+</svg>
