@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" style="clip: rect(0, 1px, 1px, 0)">
+<defs>
+<symbol id="sy" style="clip: rect(2px 14px 14px 2px)"><rect width="100%" height="100%" fill="olive"/></symbol>
+<pattern id="pt" width="8" height="8" patternUnits="userSpaceOnUse" style="clip: rect(auto, 6px, 6px, 1px)"><rect width="8" height="8" fill="purple"/></pattern>
+<mask id="mk" style="clip: rect(2px, 12px, auto, 2px)"><rect x="-50" y="-50" width="200" height="200" fill="white"/></mask>
+</defs>
+<svg x="2" y="2" width="16" height="16" style="clip: rect(2px, 14px, 14px, 2px)"><rect width="16" height="16" fill="teal"/></svg>
+<svg x="22" y="2" width="16" height="16" viewBox="0 0 8 8" clip="rect(-2px, auto, 8px, auto)" overflow="visible"><rect x="-2" y="-2" width="12" height="12" fill="navy"/></svg>
+<g style="clip: rect(0, 0, 0, 0)"><svg x="42" y="2" width="16" height="16" style="clip: inherit"><rect width="16" height="16" fill="crimson"/></svg></g>
+<use href="#sy" x="2" y="22" width="16" height="16"/>
+<rect x="22" y="22" width="16" height="16" fill="url(#pt)"/>
+<rect x="42" y="22" width="16" height="16" fill="black" mask="url(#mk)"/>
+<g fill="gold">
+<svg x="2" y="42" width="8" height="8" style="clip: rect(1px, 2px, 3px)"><rect width="8" height="8"/></svg>
+<svg x="12" y="42" width="8" height="8" style="clip: rect(1%, 2px, 3px, 4px)"><rect width="8" height="8"/></svg>
+<svg x="22" y="42" width="8" height="8" style="clip: rect(1px, 2px, 3px, 4px) x"><rect width="8" height="8"/></svg>
+<svg x="32" y="42" width="8" height="8" style="clip: inset(1px)"><rect width="8" height="8"/></svg>
+<svg x="42" y="42" width="8" height="8" style="clip: rect"><rect width="8" height="8"/></svg>
+<svg x="52" y="42" width="8" height="8" style="clip: rect(1px, 7px, 7px, 1px"><rect width="8" height="8"/></svg>
+<svg x="2" y="52" width="8" height="8" style="clip: rect(1px, 2px, 3px, bogus)"><rect width="8" height="8"/></svg>
+<svg x="12" y="52" width="8" height="8" style="clip: unset"><rect width="8" height="8"/></svg>
+<svg x="22" y="52" width="8" height="8" style="clip: rect(1px, 7px, 7px, 1px); clip: auto"><rect width="8" height="8"/></svg>
+<svg x="32" y="52" width="8" height="8" style="clip: rect(6px, 2px, 2px, 6px)"><rect width="8" height="8"/></svg>
+</g>
+</svg>
