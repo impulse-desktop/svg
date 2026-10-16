@@ -1032,6 +1032,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(TargetX, "targetX")                                       \
     ATOM(TargetY, "targetY")                                       \
     ATOM(EdgeMode, "edgeMode")                                     \
+    ATOM(KernelUnitLength, "kernelUnitLength")                     \
     ATOM(NoComposite, "no-composite")                              \
     ATOM(PreserveAlpha, "preserveAlpha")                           \
     ATOM(SurfaceScale, "surfaceScale")                             \
@@ -17058,6 +17059,20 @@ namespace {
         }
 
         EdgeMode edge = edgeModeOf(doc, p.node, EdgeMode::Duplicate);
+        // The kernel unit in pixels: a pixel, or kernelUnitLength in
+        // primitive units, which must be above zero.
+        float unitX = 1.f;
+        float unitY = 1.f;
+
+        if (attribute(p.node, AtomKernelUnitLength) && numberPair(doc, p.node, AtomKernelUnitLength, unitX, unitY) && unitX > 0.f && unitY > 0.f) {
+            unitX = userX(*run.filter, unitX) * run.scaleX;
+            unitY = userY(*run.filter, unitY) * run.scaleY;
+        } else {
+            unitX = 1.f;
+            unitY = 1.f;
+        }
+
+        bool spaced = unitX != 1.f || unitY != 1.f;
         u32 preserveValue = attribute(p.node, AtomPreserveAlpha);
         bool preserve = preserveValue && trim(textOf(doc, preserveValue)) == SV("true");
         IntBox src = inputBox(run, p.in1);
@@ -17077,6 +17092,7 @@ namespace {
         Vector<i32> factors;
         Vector<i32> acc;
         Vector<u16> row;
+        Vector<u16> spacedTaps;
 
         columns.zero((size_t)span);
         ring.zero((size_t)span * 4 * (size_t)orderY);
@@ -17085,6 +17101,7 @@ namespace {
         factors.zero(kernel.length());
         acc.zero((size_t)n * 4);
         row.zero((size_t)n * 4);
+        spacedTaps.zero((size_t)n * 4);
 
         for (int j = 0; j < orderY; j++) {
             for (int i = 0; i < orderX; i++) {
@@ -17148,6 +17165,52 @@ namespace {
             return (const u16*)out;
         };
 
+        // Taps a kernel unit apart read between pixels: the four around a
+        // tap, each by the edge mode, mixed by their distance, as Firefox
+        // reads them.
+        auto spacedRow = [&](float tx, float ty) {
+            int y0 = (int)floorf(ty);
+            float wy = ty - (float)y0;
+
+            for (int x = 0; x < n; x++) {
+                float fx = (float)(box.x0 + x) + tx;
+                int x0 = (int)floorf(fx);
+                float wx = fx - (float)x0;
+                float mixed[4] = {0.f, 0.f, 0.f, 0.f};
+
+                for (int k = 0; k < 4; k++) {
+                    int sx = edgeFold(x0 + (k & 1), src.x0, src.x1, edge);
+                    int sy = edgeFold(y0 + (k >> 1), src.y0, src.y1, edge);
+                    float w = (k & 1 ? wx : 1.f - wx) * (k >> 1 ? wy : 1.f - wy);
+                    u32 c[4];
+
+                    if (sx < 0 || sy < 0) {
+                        continue;
+                    }
+
+                    const u16* s = planeRead(in, sx, sy);
+
+                    if (preserve) {
+                        unpremultiplyStored(s, c);
+                    } else {
+                        for (int ch = 0; ch < 4; ch++) {
+                            c[ch] = s[ch];
+                        }
+                    }
+
+                    for (int ch = 0; ch < 4; ch++) {
+                        mixed[ch] += w * (float)c[ch];
+                    }
+                }
+
+                for (int ch = 0; ch < 4; ch++) {
+                    spacedTaps.mut((size_t)x * 4 + (size_t)ch) = (u16)(mixed[ch] + 0.5f);
+                }
+            }
+
+            return spacedTaps.data();
+        };
+
         for (int y = box.y0; y < box.y1; y++) {
             i32* sums = acc.mutData();
             size_t lanes = (size_t)n * 4;
@@ -17166,11 +17229,11 @@ namespace {
                         continue;
                     }
 
-                    if (!t) {
+                    if (!t && !spaced) {
                         t = taps(y - targetY + j);
                     }
 
-                    const u16* tap = t + (size_t)i * 4;
+                    const u16* tap = spaced ? spacedRow((float)(i - targetX) * unitX, (float)y + (float)(j - targetY) * unitY) : t + (size_t)i * 4;
 
                     for (size_t c = 0; c < lanes; c++) {
                         sums[c] += q * (i32)(tap[c] >> fixed.drop);
@@ -17697,30 +17760,72 @@ namespace {
         memcpy(alpha.mutData(), alpha.data() + across, sizeof(u16) * across);
         memcpy(alpha.mutData() + (size_t)(rows + 1) * across, alpha.data() + (size_t)rows * across, sizeof(u16) * across);
 
+        // The kernel unit: a pixel apart the slopes take neighbours; with
+        // kernelUnitLength, in primitive units and above zero, they take
+        // the alpha that far, between pixels, the nearest in the box past
+        // it, and a slope over that length is the normal's, as Firefox
+        // reads it.
+        float kernelX = 1.f;
+        float kernelY = 1.f;
+        float spanX = 1.f;
+        float spanY = 1.f;
+
+        if (attribute(p.node, AtomKernelUnitLength) && numberPair(doc, p.node, AtomKernelUnitLength, kernelX, kernelY) && kernelX > 0.f && kernelY > 0.f) {
+            kernelX = userX(f, kernelX);
+            kernelY = userY(f, kernelY);
+            spanX = kernelX * run.scaleX;
+            spanY = kernelY * run.scaleY;
+        } else {
+            kernelX = 1.f;
+            kernelY = 1.f;
+        }
+
+        bool spaced = spanX != 1.f || spanY != 1.f;
+        auto between = [&](float bx, float by) {
+            bx = minf(maxf(bx, 1.f), (float)columns);
+            by = minf(maxf(by, 1.f), (float)rows);
+
+            int x0 = (int)bx;
+            int y0 = (int)by;
+            int x1 = x0 + (x0 < columns);
+            int y1 = y0 + (y0 < rows);
+            float wx = bx - (float)x0;
+            float wy = by - (float)y0;
+            const u16* a = alpha.data();
+            float top = (float)a[(size_t)y0 * across + (size_t)x0] * (1.f - wx) + (float)a[(size_t)y0 * across + (size_t)x1] * wx;
+            float bottom = (float)a[(size_t)y1 * across + (size_t)x0] * (1.f - wx) + (float)a[(size_t)y1 * across + (size_t)x1] * wx;
+
+            return (i32)(top * (1.f - wy) + bottom * wy + 0.5f);
+        };
+
         for (int y = box.y0; y < box.y1; y++) {
             const u16* above = alpha.data() + (size_t)(y - box.y0) * across;
             const u16* middle = above + across;
             const u16* below = middle + across;
 
             for (int x = box.x0; x < box.x1; x++) {
-                bool left = x == box.x0;
-                bool right = x == box.x1 - 1;
-                bool top = y == box.y0;
-                bool bottom = y == box.y1 - 1;
+                // Spaced, a sample is the box's nearest past its edges,
+                // and every pixel takes the inner kernel.
+                bool left = x == box.x0 && !spaced;
+                bool right = x == box.x1 - 1 && !spaced;
+                bool top = y == box.y0 && !spaced;
+                bool bottom = y == box.y1 - 1 && !spaced;
                 int i = x - box.x0;
+                float cx = (float)(i + 1);
+                float cy = (float)(y - box.y0 + 1);
                 i32 nx;
                 i32 ny;
                 float factorX;
                 float factorY;
-                i32 a00 = above[i];
-                i32 a01 = above[i + 1];
-                i32 a02 = above[i + 2];
-                i32 a10 = middle[i];
+                i32 a00 = spaced ? between(cx - spanX, cy - spanY) : above[i];
+                i32 a01 = spaced ? between(cx, cy - spanY) : above[i + 1];
+                i32 a02 = spaced ? between(cx + spanX, cy - spanY) : above[i + 2];
+                i32 a10 = spaced ? between(cx - spanX, cy) : middle[i];
                 i32 a11 = middle[i + 1];
-                i32 a12 = middle[i + 2];
-                i32 a20 = below[i];
-                i32 a21 = below[i + 1];
-                i32 a22 = below[i + 2];
+                i32 a12 = spaced ? between(cx + spanX, cy) : middle[i + 2];
+                i32 a20 = spaced ? between(cx - spanX, cy + spanY) : below[i];
+                i32 a21 = spaced ? between(cx, cy + spanY) : below[i + 1];
+                i32 a22 = spaced ? between(cx + spanX, cy + spanY) : below[i + 2];
 
                 if (box.x1 - box.x0 == 1 || box.y1 - box.y0 == 1) {
                     nx = 0;
@@ -17776,10 +17881,10 @@ namespace {
 
                 // The slopes in alpha units: a stored alpha is 65535 for 1.
                 constexpr float unit = 1.f / 65535.f;
-                float dx = factorX * (float)nx * unit;
-                float dy = factorY * (float)ny * unit;
+                float dx = factorX * (float)nx * unit / spanX;
+                float dy = factorY * (float)ny * unit / spanY;
                 // The height samples are in device space; the light is in user space.
-                Vector3 normal = normalize3(Vector3{-surfaceScale * (f.ctm.a * dx + f.ctm.b * dy), -surfaceScale * (f.ctm.c * dx + f.ctm.d * dy), 1.f});
+                Vector3 normal = normalize3(Vector3{-surfaceScale * kernelX * (f.ctm.a * dx + f.ctm.b * dy), -surfaceScale * kernelY * (f.ctm.c * dx + f.ctm.d * dy), 1.f});
                 Vector3 toLight = direction;
                 Color color = lightColor;
 

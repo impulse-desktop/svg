@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<filter id="c1" x="0" y="0" width="1" height="1"><feConvolveMatrix order="3" kernelMatrix="0 0 0 0 0 0 0 0 1" targetX="2" targetY="2" edgeMode="wrap" kernelUnitLength="1.5"/></filter>
+<filter id="c2" x="0" y="0" width="1" height="1"><feConvolveMatrix order="3" kernelMatrix="1 2 1 2 4 2 1 2 1" kernelUnitLength="2 0.5" edgeMode="none" preserveAlpha="true"/></filter>
+<filter id="c3" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox"><feConvolveMatrix order="3" kernelMatrix="0 0 0 0 0 0 0 0 1" targetX="2" targetY="2" kernelUnitLength=".1"/></filter>
+<filter id="c4" x="0" y="0" width="1" height="1"><feConvolveMatrix order="3" kernelMatrix="0 0 0 0 0 0 0 0 1" targetX="2" targetY="2" kernelUnitLength="0"/></filter>
+<filter id="c5" x="0" y="0" width="1" height="1"><feConvolveMatrix order="3" kernelMatrix="0 0 0 0 0 0 0 0 1" targetX="2" targetY="2" kernelUnitLength="1 -2"/></filter>
+<filter id="c6" x="0" y="0" width="1" height="1"><feConvolveMatrix order="3" kernelMatrix="0 0 0 0 0 0 0 0 1" targetX="2" targetY="2" kernelUnitLength="1 2 3"/></filter>
+<filter id="l1" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="2" result="b"/><feDiffuseLighting in="b" surfaceScale="4" kernelUnitLength="3 1.5"><feDistantLight azimuth="45" elevation="40"/></feDiffuseLighting></filter>
+<filter id="l2" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="2" result="b"/><feSpecularLighting in="b" surfaceScale="4" specularExponent="8" kernelUnitLength="2"><feDistantLight azimuth="225" elevation="30"/></feSpecularLighting></filter>
+<filter id="l3" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox"><feGaussianBlur stdDeviation=".1" result="b"/><feDiffuseLighting in="b" surfaceScale="4" kernelUnitLength=".2"><feDistantLight azimuth="90" elevation="30"/></feDiffuseLighting></filter>
+<filter id="l4" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="2" result="b"/><feDiffuseLighting in="b" surfaceScale="4" kernelUnitLength="-1"><feDistantLight azimuth="45" elevation="40"/></feDiffuseLighting></filter>
+<g id="s"><rect width="14" height="14" fill="navy"/><rect x="4" y="4" width="6" height="6" fill="gold"/><rect width="14" height="2" fill="crimson" fill-opacity=".5"/></g>
+</defs>
+<use href="#s" x="1" y="1" filter="url(#c1)"/>
+<use href="#s" x="17" y="1" filter="url(#c2)"/>
+<use href="#s" x="33" y="1" filter="url(#c3)"/>
+<use href="#s" x="49" y="1" filter="url(#c4)"/>
+<use href="#s" x="1" y="17" filter="url(#c5)"/>
+<use href="#s" x="17" y="17" filter="url(#c6)"/>
+<use href="#s" x="1" y="33" filter="url(#l1)"/>
+<use href="#s" x="17" y="33" filter="url(#l2)"/>
+<use href="#s" x="33" y="33" filter="url(#l3)"/>
+<use href="#s" x="49" y="33" filter="url(#l4)"/>
+<rect x="1" y="49" width="1" height="14" fill="teal" filter="url(#l1)"/>
+</svg>
