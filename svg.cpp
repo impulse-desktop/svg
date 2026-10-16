@@ -4188,7 +4188,7 @@ namespace {
     const u8 maskOriginBoxes[] = {(u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, (u8)GeometryBox::View, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill};
 
     static bool parseColor(StringView source, Color& out);
-    static bool readAngle(StringView text, float& out);
+    static bool readAngle(StringView text, float& out, bool& unit);
 
     // A stop of a CSS gradient: its colour and its place along the line as
     // written, if any; a hint has its place alone.
@@ -4217,6 +4217,13 @@ namespace {
         Vector<CssStop> stops;
     };
 
+    // An angle of CSS: its unit, but zero; in degrees.
+    static bool cssAngle(StringView word, float& out) {
+        bool unit;
+
+        return readAngle(word, out, unit) && (unit || out == 0.f);
+    }
+
     // The line of a linear gradient: an angle with its unit, zero without,
     // or to a side or a corner.
     static bool gradientLine(StringView text, CssGradient& out) {
@@ -4226,7 +4233,7 @@ namespace {
         if (!equalsIgnoreCase(word, SV("to"))) {
             out.corner = 0;
 
-            return maskWord(p, text.end()).empty() && readAngle(word, out.angle) && (out.angle == 0.f || !(word.back() >= '0' && word.back() <= '9'));
+            return maskWord(p, text.end()).empty() && cssAngle(word, out.angle);
         }
 
         out.corner = 0;
@@ -4244,11 +4251,6 @@ namespace {
         }
 
         return maskWord(p, text.end()).empty();
-    }
-
-    // An angle of CSS: its unit, but zero; in degrees.
-    static bool cssAngle(StringView word, float& out) {
-        return readAngle(word, out) && (out == 0.f || !(word.back() >= '0' && word.back() <= '9'));
     }
 
     // The cone of a conic gradient: from an angle, at a position, either
@@ -4299,7 +4301,7 @@ namespace {
             } else if (!sized && extent >= 0) {
                 out.extent = (u8)extent;
                 sized = true;
-            } else if ((!sized || lengths == 1) && lengths < 2 && parseLength(word, out.radius[lengths]) && out.radius[lengths].value >= 0.f) {
+            } else if ((!sized || lengths == 1) && parseLength(word, out.radius[lengths]) && out.radius[lengths].value >= 0.f) {
                 lengths++;
                 out.extent = 4;
                 sized = true;
@@ -4321,8 +4323,9 @@ namespace {
         return !(lengths == 2 && out.circle) && !(lengths == 1 && out.radius[0].unit == Unit::Percent) && (shaped || sized);
     }
 
-    // A CSS gradient's function: its line or shape first, perhaps, then the
-    // stops and hints apart by commas.
+    // A CSS gradient's function, one of the six by its name: its line,
+    // shape or cone first, perhaps, then the stops and hints apart by
+    // commas.
     static bool parseCssGradient(StringView text, Color current, CssGradient& out) {
         const u8* open = findOutside(text.begin(), text.end(), '(');
         StringView name(text.begin(), open);
@@ -4341,10 +4344,6 @@ namespace {
         out.center[0] = Length{50.f, Unit::Percent};
         out.center[1] = Length{50.f, Unit::Percent};
 
-        if (!out.radial && !out.conic && !equalsIgnoreCase(name, out.repeating ? SV("repeating-linear-gradient") : SV("linear-gradient"))) {
-            return false;
-        }
-
         // A conic's places are angles, kept as the turn's percentages.
         auto place = [&](StringView word, Length& at) {
             float angle;
@@ -4355,7 +4354,7 @@ namespace {
                 return true;
             }
 
-            return parseLength(word, at) && (!out.conic || at.unit == Unit::Percent || (at.unit == Unit::Number && at.value == 0.f));
+            return parseLength(word, at) && (!out.conic || at.unit == Unit::Percent);
         };
 
         for (;;) {
@@ -4443,7 +4442,12 @@ namespace {
         if (equalsIgnoreCase(StringView(text.begin(), text.begin() + 4), SV("url("))) {
             StringView url = trim(StringView(text.begin() + 4, text.end() - 1));
 
-            if (url.length() >= 2 && (url[0] == '"' || url[0] == '\'') && url.back() == url[0]) {
+            // A quoted one is the string alone.
+            if (at(url.begin(), url.end(), '"') || at(url.begin(), url.end(), '\'')) {
+                if (url.length() < 2 || url.back() != url[0]) {
+                    return false;
+                }
+
                 url = StringView(url.begin() + 1, url.end() - 1);
             }
 
@@ -6513,7 +6517,8 @@ namespace {
             for (u32 i = 0; i < count; i++) {
                 u8 kind = function.kinds[i] == 'L' ? 1 : (function.kinds[i] == 'A' ? 2 : 0);
 
-                if (units[i] != kind && !(units[i] == 0 && kind != 0 && args[i] == 0.f)) {
+                // A zero needs no unit.
+                if (units[i] != kind && !(units[i] == 0 && args[i] == 0.f)) {
                     return false;
                 }
             }
@@ -6676,23 +6681,26 @@ namespace {
                 return false;
             }
 
-            if (name == SV("translateX") && count == 1) {
+            // A function of CSS alone comes here with its count: a
+            // declaration checked it above, a value either grammar takes
+            // was one.
+            if (name == SV("translateX")) {
                 name = SV("translate");
-            } else if (name == SV("translateY") && count == 1) {
+            } else if (name == SV("translateY")) {
                 name = SV("translate");
                 args[1] = args[0];
                 args[0] = 0.f;
                 count = 2;
-            } else if (name == SV("scaleX") && count == 1) {
+            } else if (name == SV("scaleX")) {
                 name = SV("scale");
                 args[1] = 1.f;
                 count = 2;
-            } else if (name == SV("scaleY") && count == 1) {
+            } else if (name == SV("scaleY")) {
                 name = SV("scale");
                 args[1] = args[0];
                 args[0] = 1.f;
                 count = 2;
-            } else if (name == SV("skew") && (count == 1 || count == 2)) {
+            } else if (name == SV("skew")) {
                 name = SV("matrix");
                 args[1] = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
                 args[2] = tanf(args[0] * pi / 180.f);
@@ -6708,19 +6716,19 @@ namespace {
             bool rotation = name == SV("rotateX") || name == SV("rotateY") || name == SV("rotateZ");
             bool three = true;
 
-            if (name == SV("translate3d") && count == 3) {
+            if (name == SV("translate3d")) {
                 n[0][3] = args[0];
                 n[1][3] = args[1];
                 n[2][3] = args[2];
-            } else if (name == SV("translateZ") && count == 1) {
+            } else if (name == SV("translateZ")) {
                 n[2][3] = args[0];
-            } else if (name == SV("scale3d") && count == 3) {
+            } else if (name == SV("scale3d")) {
                 n[0][0] = args[0];
                 n[1][1] = args[1];
                 n[2][2] = args[2];
-            } else if (name == SV("scaleZ") && count == 1) {
+            } else if (name == SV("scaleZ")) {
                 n[2][2] = args[0];
-            } else if ((name == SV("rotate3d") && count == 4) || (rotation && count == 1)) {
+            } else if (name == SV("rotate3d") || rotation) {
                 float axis[3] = {name == SV("rotateX") ? 1.f : 0.f, name == SV("rotateY") ? 1.f : 0.f, name == SV("rotateZ") ? 1.f : 0.f};
                 float angle = (rotation ? args[0] : args[3]) * pi / 180.f;
                 float length = rotation ? 1.f : sqrtf(args[0] * args[0] + args[1] * args[1] + args[2] * args[2]);
@@ -6738,10 +6746,10 @@ namespace {
                 float turn[4][4] = {{1.f - 2.f * (y * y + z * z) * sq, 2.f * (x * y * sq - z * sc), 2.f * (x * z * sq + y * sc), 0.f}, {2.f * (x * y * sq + z * sc), 1.f - 2.f * (x * x + z * z) * sq, 2.f * (y * z * sq - x * sc), 0.f}, {2.f * (x * z * sq - y * sc), 2.f * (y * z * sq + x * sc), 1.f - 2.f * (x * x + y * y) * sq, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
                 memcpy(n, turn, sizeof(n));
-            } else if (name == SV("perspective") && count == 1 && args[0] >= 0.f) {
+            } else if (name == SV("perspective") && args[0] >= 0.f) {
                 // A depth below a px is a px.
                 n[3][2] = -1.f / maxf(args[0], 1.f);
-            } else if (name == SV("matrix3d") && count == 16) {
+            } else if (name == SV("matrix3d")) {
                 for (int k = 0; k < 16; k++) {
                     n[k % 4][k / 4] = args[k];
                 }
@@ -6937,9 +6945,12 @@ namespace {
         u32 value = attribute(node, name);
         Matrix m;
 
-        if (!value || !parseTransform(textOf(doc, value), m, TransformGrammar::Either)) {
+        if (!value) {
             return identity();
         }
+
+        // The parse took the attribute whole.
+        parseTransform(textOf(doc, value), m, TransformGrammar::Either);
 
         u32 origin = attribute(node, AtomTransformOrigin);
 
@@ -8931,7 +8942,7 @@ namespace {
         return shapeWord(p, end).empty();
     }
 
-    static bool readAngle(StringView text, float& out);
+    static bool readAngle(StringView text, float& out, bool& unit);
 
     // A word of a shape() command: a run past spaces, or a slash alone.
     static StringView commandWord(const u8*& p, const u8* end) {
@@ -9153,10 +9164,10 @@ namespace {
                         out.radii = 2;
                     }
                 } else if (part == 8) {
-                    StringView angle = commandWord(p, end);
+                    bool unit;
 
                     // An angle takes a unit, zero too, as browsers read it.
-                    if (!readAngle(angle, out.angle) || (angle.back() >= '0' && angle.back() <= '9')) {
+                    if (!readAngle(commandWord(p, end), out.angle, unit) || !unit) {
                         return false;
                     }
                 }
@@ -12145,7 +12156,8 @@ namespace {
     // The stops of a CSS gradient along a line of the given length, placed
     // as CSS Images places them, a hint's curve and the mix of colours of
     // differing alpha, which CSS takes premultiplied, sampled into stops in
-    // between; offsets over the line, perhaps past 0 to 1.
+    // between; offsets over the line, perhaps past 0 to 1. The line is
+    // never empty: a box has width and height.
     static void cssStops(const CssGradient& g, float length, Viewport vp, float fs, Vector<GradientStop>& out) {
         Vector<float> at;
         size_t n = g.stops.length();
@@ -12155,7 +12167,7 @@ namespace {
         for (size_t i = 0; i < n; i++) {
             const CssStop& s = g.stops[i];
 
-            at.mut(i) = s.placed ? (s.at.unit == Unit::Percent ? s.at.value / 100.f : resolveLength(s.at, Axis::Other, vp, fs) / (length > 0.f ? length : 1.f)) : (i == 0 ? 0.f : (i + 1 == n ? 1.f : -1e30f));
+            at.mut(i) = s.placed ? (s.at.unit == Unit::Percent ? s.at.value / 100.f : resolveLength(s.at, Axis::Other, vp, fs) / length) : (i == 0 ? 0.f : (i + 1 == n ? 1.f : -1e30f));
         }
 
         // No place before the largest before it; the unplaced spread evenly.
@@ -12379,7 +12391,8 @@ namespace {
             storeColor(paint->stops[i].stored, paint->stops[i].color);
         }
 
-        return invert(multiply(space, ellipse), paint->inverse) ? paint : nullptr;
+        // An ellipse too thin for a float draws its last colour round it.
+        return invert(multiply(space, ellipse), paint->inverse) ? paint : flatGradient(l, g, vp, fs);
     }
 
     // A box filled with a paint under the matrix.
@@ -12443,8 +12456,8 @@ namespace {
     // as mask-size has it, placed by mask-position, repeated over the
     // painting area by mask-repeat, whole numbers for round and spread
     // apart for space, as CSS Backgrounds lays images out; the painting
-    // area bounds it. The boxes are the fill box, the stroke box, midway
-    // and the viewport.
+    // area bounds it. The boxes are the fill box, the stroke box and the
+    // viewport.
     static void gradientMaskLayer(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const MaskLayer& layer, const Matrix& m, Viewport vp, MaskLayerOp& out) {
         CssGradient gradient;
         Box fill;
@@ -12455,14 +12468,17 @@ namespace {
         out.count = 0;
         out.region = (u32)l.clips.length();
 
-        if (!parseCssGradient(layer.image, style.color, gradient) || !elementBox(l, element, parent, vp, fill, 0)) {
+        // The cascade took the image whole.
+        parseCssGradient(layer.image, style.color, gradient);
+
+        if (!elementBox(l, element, parent, vp, fill, 0)) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
 
             return;
         }
 
         auto boxOf = [&](u8 kind) {
-            return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : strokeBox(fill, style, element, kind == (u8)GeometryBox::Stroke ? 0.5f : 0.25f));
+            return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : strokeBox(fill, style, element, 0.5f));
         };
         Box area = boxOf((u8)layer.origin);
         Box painted = layer.clip == 255 ? Box{-3e7f, -3e7f, 3e7f, 3e7f} : boxOf(layer.clip);
@@ -13196,24 +13212,28 @@ namespace {
         return 0.f;
     }
 
-    static bool readAngle(StringView text, float& out) {
+    // An angle in degrees, a number with or without its unit; unit tells
+    // which.
+    static bool readAngle(StringView text, float& out, bool& unit) {
         const u8* p = text.begin();
 
         if (!readNumber(p, text.end(), out)) {
             return false;
         }
 
-        StringView unit(p, text.end());
+        StringView name(p, text.end());
 
-        if (unit.empty() || equalsIgnoreCase(unit, SV("deg"))) {
+        unit = !name.empty();
+
+        if (!unit || equalsIgnoreCase(name, SV("deg"))) {
             return true;
         }
 
-        if (equalsIgnoreCase(unit, SV("rad"))) {
+        if (equalsIgnoreCase(name, SV("rad"))) {
             out *= 180.f / pi;
-        } else if (equalsIgnoreCase(unit, SV("grad"))) {
+        } else if (equalsIgnoreCase(name, SV("grad"))) {
             out *= 0.9f;
-        } else if (equalsIgnoreCase(unit, SV("turn"))) {
+        } else if (equalsIgnoreCase(name, SV("turn"))) {
             out *= 360.f;
         } else {
             return false;
@@ -13239,6 +13259,7 @@ namespace {
         }
 
         float angle = 0.f;
+        bool unit;
         float autoAngle = vertexAngle(shapeStyle.nonScaling ? deviceVertex : userVertex);
         u32 orient = attribute(marker, AtomOrient);
 
@@ -13249,7 +13270,7 @@ namespace {
                 angle = autoAngle;
             } else if (text == SV("auto-start-reverse")) {
                 angle = start ? autoAngle + 180.f : autoAngle;
-            } else if (!readAngle(text, angle)) {
+            } else if (!readAngle(text, angle, unit)) {
                 angle = 0.f;
             }
         }
