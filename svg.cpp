@@ -1516,6 +1516,9 @@ namespace {
         u8 cap;
         u8 join;
         bool visible;
+        // visibility: force-hidden here or on an ancestor, which hides
+        // whatever the descendants' own visibility.
+        bool forceHidden;
         bool displayNone;
     };
 
@@ -7791,6 +7794,8 @@ namespace {
                         style.visible = true;
                     } else if (isKeyword(value, SV("hidden")) || isKeyword(value, SV("collapse"))) {
                         style.visible = false;
+                    } else if (isKeyword(value, SV("force-hidden"))) {
+                        style.forceHidden = true;
                     }
 
                     break;
@@ -8168,6 +8173,8 @@ namespace {
                     break;
             }
         }
+
+        style.visible = style.visible && !style.forceHidden;
 
         return style;
     }
