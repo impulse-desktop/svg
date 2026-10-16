@@ -1,0 +1,1881 @@
+{
+ "categories": {
+  "aria": {
+   "aria-activedescendant": [],
+   "aria-atomic": [],
+   "aria-autocomplete": [],
+   "aria-busy": [],
+   "aria-checked": [],
+   "aria-colcount": [],
+   "aria-colindex": [],
+   "aria-colspan": [],
+   "aria-controls": [],
+   "aria-current": [],
+   "aria-describedby": [],
+   "aria-details": [],
+   "aria-disabled": [],
+   "aria-dropeffect": [],
+   "aria-errormessage": [],
+   "aria-expanded": [],
+   "aria-flowto": [],
+   "aria-grabbed": [],
+   "aria-haspopup": [],
+   "aria-hidden": [],
+   "aria-invalid": [],
+   "aria-keyshortcuts": [],
+   "aria-label": [],
+   "aria-labelledby": [],
+   "aria-level": [],
+   "aria-live": [],
+   "aria-modal": [],
+   "aria-multiline": [],
+   "aria-multiselectable": [],
+   "aria-orientation": [],
+   "aria-owns": [],
+   "aria-placeholder": [],
+   "aria-posinset": [],
+   "aria-pressed": [],
+   "aria-readonly": [],
+   "aria-relevant": [],
+   "aria-required": [],
+   "aria-roledescription": [],
+   "aria-rowcount": [],
+   "aria-rowindex": [],
+   "aria-rowspan": [],
+   "aria-selected": [],
+   "aria-setsize": [],
+   "aria-sort": [],
+   "aria-valuemax": [],
+   "aria-valuemin": [],
+   "aria-valuenow": [],
+   "aria-valuetext": [],
+   "role": []
+  },
+  "conditional processing": {
+   "requiredExtensions": [],
+   "systemLanguage": []
+  },
+  "core": {
+   "autofocus": [],
+   "class": [],
+   "id": [],
+   "lang": [
+    "Language-Tag"
+   ],
+   "style": [],
+   "tabindex": [],
+   "xml:space": []
+  },
+  "deprecated xlink": {
+   "xlink:href": [],
+   "xlink:title": []
+  },
+  "document event": {
+   "onabort": [],
+   "onerror": [],
+   "onresize": [],
+   "onscroll": [],
+   "onunload": []
+  },
+  "filter primitive": {
+   "height": [],
+   "in": [
+    "BackgroundAlpha",
+    "BackgroundImage",
+    "FillPaint",
+    "SourceAlpha",
+    "SourceGraphic",
+    "StrokePaint"
+   ],
+   "result": [],
+   "width": [],
+   "x": [],
+   "y": []
+  },
+  "global event": {
+   "oncancel": [],
+   "oncanplay": [],
+   "oncanplaythrough": [],
+   "onchange": [],
+   "onclick": [],
+   "onclose": [],
+   "oncopy": [],
+   "oncuechange": [],
+   "oncut": [],
+   "ondblclick": [],
+   "ondrag": [],
+   "ondragend": [],
+   "ondragenter": [],
+   "ondragexit": [],
+   "ondragleave": [],
+   "ondragover": [],
+   "ondragstart": [],
+   "ondrop": [],
+   "ondurationchange": [],
+   "onemptied": [],
+   "onended": [],
+   "onerror": [],
+   "onfocus": [],
+   "oninput": [],
+   "oninvalid": [],
+   "onkeydown": [],
+   "onkeypress": [],
+   "onkeyup": [],
+   "onload": [],
+   "onloadeddata": [],
+   "onloadedmetadata": [],
+   "onloadstart": [],
+   "onmousedown": [],
+   "onmouseenter": [],
+   "onmouseleave": [],
+   "onmousemove": [],
+   "onmouseout": [],
+   "onmouseover": [],
+   "onmouseup": [],
+   "onpaste": [],
+   "onpause": [],
+   "onplay": [],
+   "onplaying": [],
+   "onprogress": [],
+   "onratechange": [],
+   "onreset": [],
+   "onresize": [],
+   "onscroll": [],
+   "onseeked": [],
+   "onseeking": [],
+   "onselect": [],
+   "onshow": [],
+   "onstalled": [],
+   "onsubmit": [],
+   "onsuspend": [],
+   "ontimeupdate": [],
+   "ontoggle": [],
+   "onvolumechange": [],
+   "onwaiting": [],
+   "onwheel": []
+  },
+  "presentation": {},
+  "transfer function": {
+   "amplitude": [],
+   "exponent": [],
+   "intercept": [],
+   "offset": [],
+   "slope": [],
+   "tableValues": [],
+   "type": [
+    "discrete",
+    "gamma",
+    "identity",
+    "linear",
+    "table"
+   ]
+  },
+  "window event": {
+   "onafterprint": [],
+   "onbeforeprint": [],
+   "onhashchange": [],
+   "onmessage": [],
+   "onoffline": [],
+   "ononline": [],
+   "onpagehide": [],
+   "onpageshow": [],
+   "onpopstate": [],
+   "onstorage": [],
+   "onunload": []
+  }
+ },
+ "elements": {
+  "a": {
+   "attributes": {
+    "download": [],
+    "href": [],
+    "hreflang": [],
+    "ping": [],
+    "referrerpolicy": [],
+    "rel": [],
+    "target": [],
+    "type": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event",
+    "deprecated xlink"
+   ],
+   "presentation": true
+  },
+  "circle": {
+   "attributes": {
+    "cx": [],
+    "cy": [],
+    "pathLength": [],
+    "r": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "clipPath": {
+   "attributes": {
+    "clipPathUnits": [
+     "objectBoundingBox",
+     "userSpaceOnUse"
+    ]
+   },
+   "categories": [
+    "core"
+   ],
+   "presentation": true
+  },
+  "defs": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "desc": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": false
+  },
+  "ellipse": {
+   "attributes": {
+    "cx": [],
+    "cy": [],
+    "pathLength": [],
+    "rx": [],
+    "ry": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "feBlend": {
+   "attributes": {
+    "in2": [],
+    "mode": [
+     "color",
+     "color-burn",
+     "color-dodge",
+     "darken",
+     "difference",
+     "exclusion",
+     "hard-light",
+     "hue",
+     "lighten",
+     "luminosity",
+     "multiply",
+     "normal",
+     "overlay",
+     "saturation",
+     "screen",
+     "soft-light"
+    ],
+    "no-composite": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feColorMatrix": {
+   "attributes": {
+    "type": [
+     "hueRotate",
+     "luminanceToAlpha",
+     "matrix",
+     "saturate"
+    ],
+    "values": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feComponentTransfer": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feComposite": {
+   "attributes": {
+    "in2": [],
+    "k1": [],
+    "k2": [],
+    "k3": [],
+    "k4": [],
+    "operator": [
+     "arithmetic",
+     "atop",
+     "in",
+     "lighter",
+     "out",
+     "over",
+     "xor"
+    ]
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feConvolveMatrix": {
+   "attributes": {
+    "bias": [],
+    "divisor": [],
+    "edgeMode": [
+     "duplicate",
+     "mirror",
+     "none",
+     "wrap"
+    ],
+    "kernelMatrix": [],
+    "kernelUnitLength": [],
+    "order": [],
+    "preserveAlpha": [
+     "false",
+     "true"
+    ],
+    "targetX": [],
+    "targetY": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feDiffuseLighting": {
+   "attributes": {
+    "diffuseConstant": [],
+    "kernelUnitLength": [],
+    "surfaceScale": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feDisplacementMap": {
+   "attributes": {
+    "in2": [],
+    "scale": [],
+    "xChannelSelector": [
+     "A",
+     "B",
+     "G",
+     "R"
+    ],
+    "yChannelSelector": [
+     "A",
+     "B",
+     "G",
+     "R"
+    ]
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feDistantLight": {
+   "attributes": {
+    "azimuth": [],
+    "elevation": []
+   },
+   "categories": [
+    "core"
+   ],
+   "presentation": true
+  },
+  "feDropShadow": {
+   "attributes": {
+    "dx": [],
+    "dy": [],
+    "stdDeviation": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feFlood": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feFuncA": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "transfer function"
+   ],
+   "presentation": true
+  },
+  "feFuncB": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "transfer function"
+   ],
+   "presentation": true
+  },
+  "feFuncG": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "transfer function"
+   ],
+   "presentation": true
+  },
+  "feFuncR": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "transfer function"
+   ],
+   "presentation": true
+  },
+  "feGaussianBlur": {
+   "attributes": {
+    "edgeMode": [
+     "duplicate",
+     "mirror",
+     "none",
+     "wrap"
+    ],
+    "stdDeviation": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feImage": {
+   "attributes": {
+    "crossorigin": [
+     "anonymous",
+     "use-credentials"
+    ],
+    "href": [],
+    "preserveAspectRatio": [
+     "defer",
+     "meet",
+     "none",
+     "slice",
+     "xMaxYMax",
+     "xMaxYMid",
+     "xMaxYMin",
+     "xMidYMax",
+     "xMidYMid",
+     "xMidYMin",
+     "xMinYMax",
+     "xMinYMid",
+     "xMinYMin"
+    ],
+    "xlink:href": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feMerge": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feMergeNode": {
+   "attributes": {},
+   "categories": [
+    "core"
+   ],
+   "presentation": true
+  },
+  "feMorphology": {
+   "attributes": {
+    "operator": [
+     "dilate",
+     "erode"
+    ],
+    "radius": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feOffset": {
+   "attributes": {
+    "dx": [],
+    "dy": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "fePointLight": {
+   "attributes": {
+    "x": [],
+    "y": [],
+    "z": []
+   },
+   "categories": [
+    "core"
+   ],
+   "presentation": true
+  },
+  "feSpecularLighting": {
+   "attributes": {
+    "kernelUnitLength": [],
+    "specularConstant": [],
+    "specularExponent": [],
+    "surfaceScale": []
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feSpotLight": {
+   "attributes": {
+    "limitingConeAngle": [],
+    "pointsAtX": [],
+    "pointsAtY": [],
+    "pointsAtZ": [],
+    "specularExponent": [],
+    "x": [],
+    "y": [],
+    "z": []
+   },
+   "categories": [
+    "core"
+   ],
+   "presentation": true
+  },
+  "feTile": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "feTurbulence": {
+   "attributes": {
+    "baseFrequency": [],
+    "numOctaves": [],
+    "seed": [],
+    "stitchTiles": [
+     "noStitch",
+     "stitch"
+    ],
+    "type": [
+     "fractalNoise",
+     "turbulence"
+    ]
+   },
+   "categories": [
+    "core",
+    "filter primitive"
+   ],
+   "presentation": true
+  },
+  "filter": {
+   "attributes": {
+    "filterRes": [],
+    "filterUnits": [
+     "objectBoundingBox",
+     "userSpaceOnUse"
+    ],
+    "height": [],
+    "primitiveUnits": [
+     "objectBoundingBox",
+     "userSpaceOnUse"
+    ],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "core"
+   ],
+   "presentation": true
+  },
+  "foreignObject": {
+   "attributes": {
+    "height": [],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "core",
+    "conditional processing",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "g": {
+   "attributes": {},
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "image": {
+   "attributes": {
+    "crossorigin": [
+     "anonymous",
+     "use-credentials"
+    ],
+    "height": [],
+    "href": [],
+    "preserveAspectRatio": [
+     "meet",
+     "none",
+     "slice",
+     "xMaxYMax",
+     "xMaxYMid",
+     "xMaxYMin",
+     "xMidYMax",
+     "xMidYMid",
+     "xMidYMin",
+     "xMinYMax",
+     "xMinYMid",
+     "xMinYMin"
+    ],
+    "referrerpolicy": [],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "core",
+    "conditional processing",
+    "global event",
+    "document element event",
+    "deprecated xlink"
+   ],
+   "presentation": true
+  },
+  "line": {
+   "attributes": {
+    "pathLength": [],
+    "x1": [],
+    "x2": [],
+    "y1": [],
+    "y2": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "linearGradient": {
+   "attributes": {
+    "gradientTransform": [
+     "matrix()",
+     "matrix3d()",
+     "perspective()",
+     "rotate()",
+     "rotate3d()",
+     "rotateX()",
+     "rotateY()",
+     "rotateZ()",
+     "scale()",
+     "scale3d()",
+     "scaleX()",
+     "scaleY()",
+     "scaleZ()",
+     "skew()",
+     "skewX()",
+     "skewY()",
+     "translate()",
+     "translate3d()",
+     "translateX()",
+     "translateY()",
+     "translateZ()"
+    ],
+    "gradientUnits": [
+     "objectBoundingBox",
+     "userSpaceOnUse"
+    ],
+    "href": [],
+    "spreadMethod": [
+     "pad",
+     "reflect",
+     "repeat"
+    ],
+    "x1": [],
+    "x2": [],
+    "y1": [],
+    "y2": []
+   },
+   "categories": [
+    "core",
+    "global event",
+    "document element event",
+    "deprecated xlink"
+   ],
+   "presentation": true
+  },
+  "marker": {
+   "attributes": {
+    "markerHeight": [],
+    "markerUnits": [
+     "strokeWidth",
+     "userSpaceOnUse"
+    ],
+    "markerWidth": [],
+    "orient": [
+     "auto",
+     "auto-start-reverse"
+    ],
+    "preserveAspectRatio": [
+     "meet",
+     "none",
+     "slice",
+     "xMaxYMax",
+     "xMaxYMid",
+     "xMaxYMin",
+     "xMidYMax",
+     "xMidYMid",
+     "xMidYMin",
+     "xMinYMax",
+     "xMinYMid",
+     "xMinYMin"
+    ],
+    "refX": [
+     "center",
+     "left",
+     "right"
+    ],
+    "refY": [
+     "bottom",
+     "center",
+     "top"
+    ],
+    "viewBox": []
+   },
+   "categories": [
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "mask": {
+   "attributes": {
+    "height": [],
+    "maskContentUnits": [
+     "objectBoundingBox",
+     "userSpaceOnUse"
+    ],
+    "maskUnits": [
+     "objectBoundingBox",
+     "userSpaceOnUse"
+    ],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "core"
+   ],
+   "presentation": true
+  },
+  "metadata": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": false
+  },
+  "path": {
+   "attributes": {
+    "d": [],
+    "pathLength": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "pattern": {
+   "attributes": {
+    "height": [],
+    "href": [],
+    "patternContentUnits": [
+     "objectBoundingBox",
+     "userSpaceOnUse"
+    ],
+    "patternTransform": [
+     "matrix()",
+     "matrix3d()",
+     "perspective()",
+     "rotate()",
+     "rotate3d()",
+     "rotateX()",
+     "rotateY()",
+     "rotateZ()",
+     "scale()",
+     "scale3d()",
+     "scaleX()",
+     "scaleY()",
+     "scaleZ()",
+     "skew()",
+     "skewX()",
+     "skewY()",
+     "translate()",
+     "translate3d()",
+     "translateX()",
+     "translateY()",
+     "translateZ()"
+    ],
+    "patternUnits": [],
+    "preserveAspectRatio": [
+     "meet",
+     "none",
+     "slice",
+     "xMaxYMax",
+     "xMaxYMid",
+     "xMaxYMin",
+     "xMidYMax",
+     "xMidYMid",
+     "xMidYMin",
+     "xMinYMax",
+     "xMinYMid",
+     "xMinYMin"
+    ],
+    "viewBox": [],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "core",
+    "global event",
+    "deprecated xlink"
+   ],
+   "presentation": true
+  },
+  "polygon": {
+   "attributes": {
+    "pathLength": [],
+    "points": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "polyline": {
+   "attributes": {
+    "pathLength": [],
+    "points": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "radialGradient": {
+   "attributes": {
+    "cx": [],
+    "cy": [],
+    "fr": [],
+    "fx": [],
+    "fy": [],
+    "gradientTransform": [],
+    "gradientUnits": [],
+    "href": [],
+    "r": [],
+    "spreadMethod": []
+   },
+   "categories": [
+    "core",
+    "global event",
+    "document element event",
+    "deprecated xlink"
+   ],
+   "presentation": true
+  },
+  "rect": {
+   "attributes": {
+    "height": [],
+    "pathLength": [],
+    "rx": [],
+    "ry": [],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "script": {
+   "attributes": {
+    "crossorigin": [
+     "anonymous",
+     "use-credentials"
+    ],
+    "href": [],
+    "referrerpolicy": [],
+    "type": []
+   },
+   "categories": [
+    "core",
+    "global event",
+    "document element event",
+    "deprecated xlink"
+   ],
+   "presentation": false
+  },
+  "stop": {
+   "attributes": {
+    "offset": []
+   },
+   "categories": [
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "style": {
+   "attributes": {
+    "media": [],
+    "title": [],
+    "type": []
+   },
+   "categories": [
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": false
+  },
+  "svg": {
+   "attributes": {
+    "height": [],
+    "preserveAspectRatio": [
+     "meet",
+     "none",
+     "slice",
+     "xMaxYMax",
+     "xMaxYMid",
+     "xMaxYMin",
+     "xMidYMax",
+     "xMidYMid",
+     "xMidYMin",
+     "xMinYMax",
+     "xMinYMid",
+     "xMinYMin"
+    ],
+    "transform": [],
+    "viewBox": [],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "document event",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "switch": {
+   "attributes": {},
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "symbol": {
+   "attributes": {
+    "height": [],
+    "preserveAspectRatio": [
+     "meet",
+     "none",
+     "slice",
+     "xMaxYMax",
+     "xMaxYMid",
+     "xMaxYMin",
+     "xMidYMax",
+     "xMidYMid",
+     "xMidYMin",
+     "xMinYMax",
+     "xMinYMid",
+     "xMinYMin"
+    ],
+    "refX": [
+     "center",
+     "left",
+     "right"
+    ],
+    "refY": [
+     "bottom",
+     "center",
+     "top"
+    ],
+    "viewBox": [],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "text": {
+   "attributes": {
+    "dx": [],
+    "dy": [],
+    "lengthAdjust": [
+     "spacing",
+     "spacingAndGlyphs"
+    ],
+    "rotate": [],
+    "textLength": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "textPath": {
+   "attributes": {
+    "href": [],
+    "lengthAdjust": [
+     "spacing",
+     "spacingAndGlyphs"
+    ],
+    "method": [
+     "align",
+     "stretch"
+    ],
+    "path": [],
+    "side": [
+     "left",
+     "right"
+    ],
+    "spacing": [
+     "auto",
+     "exact"
+    ],
+    "startOffset": [],
+    "textLength": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event",
+    "deprecated xlink"
+   ],
+   "presentation": true
+  },
+  "title": {
+   "attributes": {},
+   "categories": [
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": false
+  },
+  "tspan": {
+   "attributes": {
+    "dx": [],
+    "dy": [],
+    "lengthAdjust": [
+     "spacing",
+     "spacingAndGlyphs"
+    ],
+    "rotate": [],
+    "textLength": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "conditional processing",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": true
+  },
+  "use": {
+   "attributes": {
+    "height": [],
+    "href": [],
+    "width": [],
+    "x": [],
+    "y": []
+   },
+   "categories": [
+    "aria",
+    "core",
+    "conditional processing",
+    "global event",
+    "document element event",
+    "deprecated xlink"
+   ],
+   "presentation": true
+  },
+  "view": {
+   "attributes": {
+    "preserveAspectRatio": [
+     "meet",
+     "none",
+     "slice",
+     "xMaxYMax",
+     "xMaxYMid",
+     "xMaxYMin",
+     "xMidYMax",
+     "xMidYMid",
+     "xMidYMin",
+     "xMinYMax",
+     "xMinYMid",
+     "xMinYMin"
+    ],
+    "viewBox": []
+   },
+   "categories": [
+    "aria",
+    "core",
+    "global event",
+    "document element event"
+   ],
+   "presentation": false
+  }
+ },
+ "properties": {
+  "alignment-baseline": [
+   "alphabetic",
+   "baseline",
+   "central",
+   "hanging",
+   "ideographic",
+   "mathematical",
+   "middle",
+   "text-bottom",
+   "text-top"
+  ],
+  "background-blend-mode": [
+   "color",
+   "color-burn",
+   "color-dodge",
+   "darken",
+   "difference",
+   "exclusion",
+   "hard-light",
+   "hue",
+   "lighten",
+   "luminosity",
+   "multiply",
+   "normal",
+   "overlay",
+   "plus-lighter",
+   "saturation",
+   "screen",
+   "soft-light"
+  ],
+  "baseline-shift": [
+   "bottom",
+   "center",
+   "sub",
+   "super",
+   "top"
+  ],
+  "clip": [
+   "auto",
+   "rect()"
+  ],
+  "clip-path": [
+   "border-box",
+   "circle()",
+   "content-box",
+   "ellipse()",
+   "fill-box",
+   "half-border-box",
+   "inset()",
+   "margin-box",
+   "none",
+   "padding-box",
+   "path()",
+   "polygon()",
+   "rect()",
+   "shape()",
+   "stroke-box",
+   "view-box",
+   "xywh()"
+  ],
+  "clip-rule": [
+   "evenodd",
+   "nonzero"
+  ],
+  "color": [],
+  "color-interpolation": [
+   "auto",
+   "linearRGB",
+   "sRGB"
+  ],
+  "color-interpolation-filters": [
+   "auto",
+   "linearRGB",
+   "sRGB"
+  ],
+  "cursor": [
+   "alias",
+   "all-scroll",
+   "auto",
+   "cell",
+   "col-resize",
+   "context-menu",
+   "copy",
+   "crosshair",
+   "default",
+   "e-resize",
+   "ew-resize",
+   "grab",
+   "grabbing",
+   "help",
+   "move",
+   "n-resize",
+   "ne-resize",
+   "nesw-resize",
+   "no-drop",
+   "none",
+   "not-allowed",
+   "ns-resize",
+   "nw-resize",
+   "nwse-resize",
+   "pointer",
+   "progress",
+   "row-resize",
+   "s-resize",
+   "se-resize",
+   "sw-resize",
+   "text",
+   "vertical-text",
+   "w-resize",
+   "wait",
+   "zoom-in",
+   "zoom-out"
+  ],
+  "cx": [],
+  "cy": [],
+  "d": [
+   "none"
+  ],
+  "direction": [
+   "ltr",
+   "rtl"
+  ],
+  "display": [
+   "block",
+   "contents",
+   "flex",
+   "flow",
+   "flow-root",
+   "grid",
+   "grid-lanes",
+   "inline",
+   "inline-block",
+   "inline-flex",
+   "inline-grid",
+   "inline-grid-lanes",
+   "inline-table",
+   "list-item",
+   "math",
+   "none",
+   "ruby",
+   "ruby-base",
+   "ruby-base-container",
+   "ruby-text",
+   "ruby-text-container",
+   "run-in",
+   "table",
+   "table-caption",
+   "table-cell",
+   "table-column",
+   "table-column-group",
+   "table-footer-group",
+   "table-header-group",
+   "table-row",
+   "table-row-group"
+  ],
+  "dominant-baseline": [
+   "alphabetic",
+   "auto",
+   "central",
+   "hanging",
+   "ideographic",
+   "mathematical",
+   "middle",
+   "text-bottom",
+   "text-top"
+  ],
+  "fill": [
+   "context-fill",
+   "context-stroke",
+   "none"
+  ],
+  "fill-opacity": [],
+  "fill-rule": [
+   "evenodd",
+   "nonzero"
+  ],
+  "filter": [
+   "blur()",
+   "brightness()",
+   "contrast()",
+   "drop-shadow()",
+   "grayscale()",
+   "hue-rotate()",
+   "invert()",
+   "none",
+   "opacity()",
+   "saturate()",
+   "sepia()"
+  ],
+  "flood-color": [],
+  "flood-opacity": [],
+  "font-family": [
+   "cursive",
+   "fangsong",
+   "fantasy",
+   "generic()",
+   "kai",
+   "khmer-mul",
+   "math",
+   "monospace",
+   "nastaliq",
+   "sans-serif",
+   "serif",
+   "system-ui",
+   "ui-monospace",
+   "ui-rounded",
+   "ui-sans-serif",
+   "ui-serif"
+  ],
+  "font-size": [
+   "large",
+   "larger",
+   "math",
+   "medium",
+   "small",
+   "smaller",
+   "x-large",
+   "x-small",
+   "xx-large",
+   "xx-small",
+   "xxx-large"
+  ],
+  "font-size-adjust": [
+   "cap-height",
+   "ch-width",
+   "ex-height",
+   "from-font",
+   "ic-height",
+   "ic-width",
+   "none"
+  ],
+  "font-stretch": [
+   "condensed",
+   "expanded",
+   "extra-condensed",
+   "extra-expanded",
+   "normal",
+   "semi-condensed",
+   "semi-expanded",
+   "ultra-condensed",
+   "ultra-expanded"
+  ],
+  "font-style": [
+   "italic",
+   "left",
+   "normal",
+   "oblique",
+   "right"
+  ],
+  "font-variant": [
+   "all-petite-caps",
+   "all-small-caps",
+   "annotation()",
+   "character-variant()",
+   "common-ligatures",
+   "contextual",
+   "diagonal-fractions",
+   "discretionary-ligatures",
+   "emoji",
+   "full-width",
+   "historical-forms",
+   "historical-ligatures",
+   "jis04",
+   "jis78",
+   "jis83",
+   "jis90",
+   "lining-nums",
+   "no-common-ligatures",
+   "no-contextual",
+   "no-discretionary-ligatures",
+   "no-historical-ligatures",
+   "none",
+   "normal",
+   "oldstyle-nums",
+   "ordinal",
+   "ornaments()",
+   "petite-caps",
+   "proportional-nums",
+   "proportional-width",
+   "ruby",
+   "simplified",
+   "slashed-zero",
+   "small-caps",
+   "stacked-fractions",
+   "styleset()",
+   "stylistic()",
+   "sub",
+   "super",
+   "swash()",
+   "tabular-nums",
+   "text",
+   "titling-caps",
+   "traditional",
+   "unicase",
+   "unicode"
+  ],
+  "font-weight": [
+   "bold",
+   "bolder",
+   "lighter",
+   "normal"
+  ],
+  "glyph-orientation-horizontal": [],
+  "glyph-orientation-vertical": [
+   "auto"
+  ],
+  "image-rendering": [
+   "auto",
+   "optimizeQuality",
+   "optimizeSpeed"
+  ],
+  "inline-size": [
+   "auto"
+  ],
+  "isolation": [
+   "auto",
+   "isolate"
+  ],
+  "letter-spacing": [
+   "normal"
+  ],
+  "lighting-color": [],
+  "marker": [
+   "none"
+  ],
+  "marker-end": [
+   "none"
+  ],
+  "marker-mid": [
+   "none"
+  ],
+  "marker-start": [
+   "none"
+  ],
+  "mask": [
+   "add",
+   "alpha",
+   "border-box",
+   "content-box",
+   "exclude",
+   "fill-box",
+   "half-border-box",
+   "intersect",
+   "luminance",
+   "margin-box",
+   "match-source",
+   "no-clip",
+   "no-repeat",
+   "none",
+   "padding-box",
+   "repeat",
+   "repeat-block",
+   "repeat-inline",
+   "repeat-x",
+   "repeat-y",
+   "round",
+   "space",
+   "stroke-box",
+   "subtract",
+   "view-box"
+  ],
+  "mask-border": [
+   "alpha",
+   "auto",
+   "fill",
+   "luminance",
+   "none",
+   "repeat",
+   "round",
+   "space",
+   "stretch"
+  ],
+  "mask-border-mode": [
+   "alpha",
+   "luminance"
+  ],
+  "mask-border-outset": [],
+  "mask-border-repeat": [
+   "repeat",
+   "round",
+   "space",
+   "stretch"
+  ],
+  "mask-border-slice": [
+   "fill"
+  ],
+  "mask-border-source": [
+   "none"
+  ],
+  "mask-border-width": [
+   "auto"
+  ],
+  "mask-clip": [
+   "border-box",
+   "content-box",
+   "fill-box",
+   "no-clip",
+   "padding-box",
+   "stroke-box",
+   "view-box"
+  ],
+  "mask-composite": [
+   "add",
+   "exclude",
+   "intersect",
+   "subtract"
+  ],
+  "mask-image": [
+   "none"
+  ],
+  "mask-mode": [
+   "alpha",
+   "luminance",
+   "match-source"
+  ],
+  "mask-origin": [
+   "border-box",
+   "content-box",
+   "fill-box",
+   "padding-box",
+   "stroke-box",
+   "view-box"
+  ],
+  "mask-position": [],
+  "mask-repeat": [
+   "no-repeat",
+   "repeat",
+   "repeat-block",
+   "repeat-inline",
+   "repeat-x",
+   "repeat-y",
+   "round",
+   "space"
+  ],
+  "mask-size": [],
+  "mask-type": [
+   "alpha",
+   "luminance"
+  ],
+  "mix-blend-mode": [
+   "color",
+   "color-burn",
+   "color-dodge",
+   "darken",
+   "difference",
+   "exclusion",
+   "hard-light",
+   "hue",
+   "lighten",
+   "luminosity",
+   "multiply",
+   "normal",
+   "overlay",
+   "plus-lighter",
+   "saturation",
+   "screen",
+   "soft-light"
+  ],
+  "opacity": [],
+  "overflow": [
+   "auto",
+   "clip",
+   "hidden",
+   "scroll",
+   "visible"
+  ],
+  "paint-order": [
+   "fill",
+   "markers",
+   "normal",
+   "stroke"
+  ],
+  "path-length": [
+   "none"
+  ],
+  "pointer-events": [
+   "all",
+   "auto",
+   "bounding-box",
+   "fill",
+   "none",
+   "painted",
+   "stroke",
+   "visible",
+   "visibleFill",
+   "visiblePainted",
+   "visibleStroke"
+  ],
+  "r": [],
+  "rx": [
+   "auto"
+  ],
+  "ry": [
+   "auto"
+  ],
+  "shape-rendering": [
+   "auto",
+   "crispEdges",
+   "geometricPrecision",
+   "optimizeSpeed"
+  ],
+  "stop-color": [],
+  "stop-opacity": [],
+  "stroke": [
+   "context-fill",
+   "context-stroke",
+   "none"
+  ],
+  "stroke-dasharray": [
+   "none"
+  ],
+  "stroke-dashoffset": [],
+  "stroke-linecap": [
+   "butt",
+   "round",
+   "square"
+  ],
+  "stroke-linejoin": [
+   "bevel",
+   "miter",
+   "round"
+  ],
+  "stroke-miterlimit": [],
+  "stroke-opacity": [],
+  "stroke-width": [],
+  "text-anchor": [
+   "end",
+   "middle",
+   "start"
+  ],
+  "text-decoration": [
+   "auto",
+   "blink",
+   "dashed",
+   "dotted",
+   "double",
+   "from-font",
+   "grammar-error",
+   "hairline",
+   "line-through",
+   "medium",
+   "none",
+   "overline",
+   "solid",
+   "spelling-error",
+   "thick",
+   "thin",
+   "underline",
+   "wavy"
+  ],
+  "text-rendering": [
+   "auto",
+   "geometricPrecision",
+   "optimizeLegibility",
+   "optimizeSpeed"
+  ],
+  "transform": [
+   "matrix()",
+   "matrix3d()",
+   "none",
+   "perspective()",
+   "rotate()",
+   "rotate3d()",
+   "rotateX()",
+   "rotateY()",
+   "rotateZ()",
+   "scale()",
+   "scale3d()",
+   "scaleX()",
+   "scaleY()",
+   "scaleZ()",
+   "skew()",
+   "skewX()",
+   "skewY()",
+   "translate()",
+   "translate3d()",
+   "translateX()",
+   "translateY()",
+   "translateZ()"
+  ],
+  "transform-box": [
+   "border-box",
+   "content-box",
+   "fill-box",
+   "stroke-box",
+   "view-box"
+  ],
+  "transform-origin": [
+   "bottom",
+   "center",
+   "left",
+   "right",
+   "top"
+  ],
+  "unicode-bidi": [
+   "bidi-override",
+   "embed",
+   "isolate",
+   "isolate-override",
+   "normal",
+   "plaintext"
+  ],
+  "vector-effect": [
+   "fixed-position",
+   "non-rotation",
+   "non-scaling-size",
+   "non-scaling-stroke",
+   "none"
+  ],
+  "visibility": [
+   "collapse",
+   "force-hidden",
+   "hidden",
+   "visible"
+  ],
+  "word-spacing": [
+   "normal"
+  ],
+  "writing-mode": [
+   "horizontal-tb",
+   "sideways-lr",
+   "sideways-rl",
+   "vertical-lr",
+   "vertical-rl"
+  ],
+  "x": [],
+  "y": []
+ },
+ "sources": {
+  "csswg-drafts filter-effects-1, css-masking-1": "a17071ddd3a207698d6b5625234a71268a008c13",
+  "svgwg definitions.xml": "fc7791bd6d829cda3ed1502485c38329cbd8b00f",
+  "svgwg gh-pages svg2-draft": "4387529e585712696584a8cd45859e3dd3f2f8d6",
+  "webref curated": "8aa15db75b895ec02427ad5af23a052eced301b9"
+ }
+}
