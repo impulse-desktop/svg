@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="32" viewBox="0 0 128 32">
+<g fill="teal">
+<rect x="2" y="2" width="12" height="12" style="mask-image: conic-gradient(black, transparent)"/>
+<rect x="18" y="2" width="12" height="12" style="mask-image: conic-gradient(from 45deg at 30% 60%, black 0 25%, transparent 25% 50%, black 50% 75%, transparent 75%)"/>
+<rect x="34" y="2" width="12" height="12" style="mask-image: repeating-conic-gradient(black 0 15deg, transparent 15deg 30deg)"/>
+<rect x="50" y="2" width="12" height="12" style="mask-image: conic-gradient(from .25turn, black, 50%, transparent)"/>
+<rect x="66" y="2" width="12" height="12" style="mask-image: conic-gradient(at left top, black 0, transparent 90deg)"/>
+<rect x="82" y="2" width="12" height="12" style="mask-image: conic-gradient(from 0, black -90deg, transparent 450deg)"/>
+<rect x="98" y="2" width="12" height="12" style="mask-image: repeating-conic-gradient(from 10deg, black 0 10%, transparent 10% 20%)"/>
+<rect x="114" y="2" width="12" height="12" style="mask-image: conic-gradient(black 10px, transparent)"/>
+<rect x="2" y="18" width="12" height="12" style="mask-image: conic-gradient(from, black, transparent)"/>
+<rect x="18" y="18" width="12" height="12" style="mask-image: conic-gradient(at, black, transparent)"/>
+<rect x="34" y="18" width="12" height="12" style="mask-image: conic-gradient(from 45, black, transparent)"/>
+<rect x="50" y="18" width="12" height="12" style="mask-image: conic-gradient(from 45deg junk, black, transparent)"/>
+<rect x="66" y="18" width="12" height="12" style="mask-image: repeating-conic-gradient(black 20deg, transparent 20deg)"/>
+<rect x="82" y="18" width="12" height="12" style="mask-image: conic-gradient(from 1rad at 50% 50%, black, white)"/>
+<rect x="98" y="18" width="12" height="12" style="mask: conic-gradient(black 25%, transparent 0) 0 0 / 50% 50% luminance"/>
+<rect x="114" y="18" width="12" height="12" style="mask-image: conic-gradient(red, blue); mask-mode: luminance"/>
+</g>
+</svg>

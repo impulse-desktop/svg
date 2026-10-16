@@ -1613,6 +1613,9 @@ namespace {
         Solid,
         Linear,
         Radial,
+        // A conic gradient: its centre, the turn it starts at in x1's
+        // degrees, the turns its stops span from fr to r.
+        Conic,
         Image,
         Pattern,
         Mesh,
@@ -4203,6 +4206,7 @@ namespace {
     // its centre; the stops.
     struct CssGradient {
         bool radial;
+        bool conic;
         bool repeating;
         float angle;
         u8 corner;
@@ -4242,6 +4246,32 @@ namespace {
         return maskWord(p, text.end()).empty();
     }
 
+    // An angle of CSS: its unit, but zero; in degrees.
+    static bool cssAngle(StringView word, float& out) {
+        return readAngle(word, out) && (out == 0.f || !(word.back() >= '0' && word.back() <= '9'));
+    }
+
+    // The cone of a conic gradient: from an angle, at a position, either
+    // or both, in that order.
+    static bool gradientCone(StringView text, CssGradient& out) {
+        const u8* p = text.begin();
+        StringView word = maskWord(p, text.end());
+
+        if (equalsIgnoreCase(word, SV("from"))) {
+            if (!cssAngle(maskWord(p, text.end()), out.angle)) {
+                return false;
+            }
+
+            word = maskWord(p, text.end());
+
+            if (word.empty()) {
+                return true;
+            }
+        }
+
+        return equalsIgnoreCase(word, SV("at")) && !trim(StringView(p, text.end())).empty() && parsePosition(StringView(p, text.end()), out.center[0], out.center[1]);
+    }
+
     // The shape of a radial gradient: circle or ellipse, an extent keyword
     // or one or two lengths, in any order, then at a position.
     static bool gradientShape(StringView text, CssGradient& out) {
@@ -4260,7 +4290,7 @@ namespace {
             int extent = maskKeyword(word, extents, 4);
 
             if (equalsIgnoreCase(word, SV("at"))) {
-                return parsePosition(StringView(p, text.end()), out.center[0], out.center[1]);
+                return !trim(StringView(p, text.end())).empty() && parsePosition(StringView(p, text.end()), out.center[0], out.center[1]);
             }
 
             if (!shaped && (equalsIgnoreCase(word, SV("circle")) || equalsIgnoreCase(word, SV("ellipse")))) {
@@ -4303,16 +4333,30 @@ namespace {
 
         out.repeating = startsWithIgnoreCase(name, SV("repeating-"));
         out.radial = equalsIgnoreCase(name, out.repeating ? SV("repeating-radial-gradient") : SV("radial-gradient"));
-        out.angle = 180.f;
+        out.conic = equalsIgnoreCase(name, out.repeating ? SV("repeating-conic-gradient") : SV("conic-gradient"));
+        out.angle = out.conic ? 0.f : 180.f;
         out.corner = 0;
         out.circle = false;
         out.extent = 3;
         out.center[0] = Length{50.f, Unit::Percent};
         out.center[1] = Length{50.f, Unit::Percent};
 
-        if (!out.radial && !equalsIgnoreCase(name, out.repeating ? SV("repeating-linear-gradient") : SV("linear-gradient"))) {
+        if (!out.radial && !out.conic && !equalsIgnoreCase(name, out.repeating ? SV("repeating-linear-gradient") : SV("linear-gradient"))) {
             return false;
         }
+
+        // A conic's places are angles, kept as the turn's percentages.
+        auto place = [&](StringView word, Length& at) {
+            float angle;
+
+            if (out.conic && cssAngle(word, angle)) {
+                at = Length{angle / 3.6f, Unit::Percent};
+
+                return true;
+            }
+
+            return parseLength(word, at) && (!out.conic || at.unit == Unit::Percent || (at.unit == Unit::Number && at.value == 0.f));
+        };
 
         for (;;) {
             const u8* comma = findOutside(p, end, ',');
@@ -4321,10 +4365,10 @@ namespace {
             StringView word = maskWord(q, item.end());
             CssStop stop{};
 
-            // The first item may be the line or the shape.
-            if (first && (out.radial ? gradientShape(item, out) : gradientLine(item, out))) {
+            // The first item may be the line, the shape or the cone.
+            if (first && (out.conic ? gradientCone(item, out) : (out.radial ? gradientShape(item, out) : gradientLine(item, out)))) {
                 first = false;
-            } else if (parseLength(item, stop.at)) {
+            } else if (place(item, stop.at)) {
                 stop.hint = true;
                 stop.placed = true;
                 out.stops.pushBack(stop);
@@ -4339,13 +4383,13 @@ namespace {
                 first = false;
 
                 for (u32 k = 0; k < 2; k++) {
-                    StringView place = maskWord(q, item.end());
+                    StringView spot = maskWord(q, item.end());
 
-                    if (place.empty()) {
+                    if (spot.empty()) {
                         break;
                     }
 
-                    if (!parseLength(place, stop.at)) {
+                    if (!place(spot, stop.at)) {
                         return false;
                     }
 
@@ -12183,33 +12227,15 @@ namespace {
         }
     }
 
-    // The colour a CSS gradient of no extent draws: its last stop's, or, of
-    // a repeating one, the average over its stops spread evenly, mixed
-    // premultiplied, as CSS Images takes it.
+    // The colour a CSS gradient of no extent draws: its last stop's, a
+    // repeating one's too, as Chromium and Firefox draw it, where CSS
+    // Images has the stops' average.
     static DevicePaint* flatGradient(Lowering& l, const CssGradient& g, Viewport vp, float fs) {
         Vector<GradientStop> stops;
 
         cssStops(g, 1.f, vp, fs, stops);
 
         Color last = stops.back().color;
-        float sum[4] = {0.f, 0.f, 0.f, 0.f};
-
-        for (size_t i = 0; i + 1 < stops.length() && g.repeating; i++) {
-            const Color& a = stops[i].color;
-            const Color& b = stops[i + 1].color;
-
-            sum[0] += (a.r * a.a + b.r * b.a) / 2.f;
-            sum[1] += (a.g * a.a + b.g * b.a) / 2.f;
-            sum[2] += (a.b * a.a + b.b * b.a) / 2.f;
-            sum[3] += (a.a + b.a) / 2.f;
-        }
-
-        if (g.repeating) {
-            float n = (float)(stops.length() - 1);
-            float alpha = sum[3] / n;
-
-            last = alpha > 0.f ? Color{sum[0] / n / alpha, sum[1] / n / alpha, sum[2] / n / alpha, alpha} : Color{0.f, 0.f, 0.f, 0.f};
-        }
 
         return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
     }
@@ -12224,7 +12250,16 @@ namespace {
 
         memset(paint, 0, sizeof(DevicePaint));
 
-        if (!g.radial) {
+        if (g.conic) {
+            // Turns about the centre from the start angle; the table spans
+            // the circle round the box's far corner.
+            length = 1.f;
+            paint->type = PaintType::Conic;
+            paint->cx = shapeLength(g.center[0], w, vp, fs);
+            paint->cy = shapeLength(g.center[1], h, vp, fs);
+            paint->x1 = g.angle;
+            paint->x2 = 2.f * pi * hypotf(w, h);
+        } else if (!g.radial) {
             // The line through the middle, as long as the box is across it.
             float dx = sinf(g.angle * pi / 180.f);
             float dy = -cosf(g.angle * pi / 180.f);
@@ -12294,7 +12329,7 @@ namespace {
 
         // Repeating, the stops' range is a period, of a radial one past its
         // centre by whole periods; else the line covers the stops past it,
-        // a radial one's from its centre.
+        // a radial one's from its centre, a conic's whole turn.
         if (!g.repeating) {
             lo = g.radial ? 0.f : minf(lo, 0.f);
             hi = maxf(hi, 1.f);
@@ -12319,7 +12354,10 @@ namespace {
             stops.mut(i).offset = clampUnit((stops[i].offset - lo) / (hi - lo));
         }
 
-        if (!g.radial) {
+        if (g.conic) {
+            paint->fr = lo;
+            paint->r = hi;
+        } else if (!g.radial) {
             float x1 = paint->x1;
             float y1 = paint->y1;
 
@@ -15437,15 +15475,17 @@ namespace {
             memcpy(c, stops[count - 1].stored, sizeof(c));
         } else {
             // t lies past the first offset and before the last, so a stop
-            // follows at or past it and the span to it is not empty: the
-            // first one, as the offsets never decrease.
+            // follows past it and the span to it is not empty: the first
+            // one, as the offsets never decrease. Where stops inside share
+            // an offset, the later one rules there, as SVG and CSS have it;
+            // at the first offset and before, the first, as browsers draw.
             u32 i = 1;
             u32 n = count - 1;
 
             while (i < n) {
                 u32 m = i + (n - i) / 2;
 
-                if (stops[m].offset < t) {
+                if (stops[m].offset <= t) {
                     i = m + 1;
                 } else {
                     n = m;
@@ -15490,7 +15530,7 @@ namespace {
         }
 
         const Matrix& m = paint.inverse;
-        float extent = paint.type == PaintType::Linear ? hypotf(paint.x2 - paint.x1, paint.y2 - paint.y1) : paint.r + hypotf(paint.cx - paint.fx, paint.cy - paint.fy);
+        float extent = paint.type == PaintType::Linear ? hypotf(paint.x2 - paint.x1, paint.y2 - paint.y1) : (paint.type == PaintType::Conic ? paint.x2 : paint.r + hypotf(paint.cx - paint.fx, paint.cy - paint.fy));
         float frobenius = sqrtf(m.a * m.a + m.b * m.b + m.c * m.c + m.d * m.d);
         float length = extent * frobenius / fabsf(m.a * m.d - m.b * m.c);
         u32 size = 16;
@@ -15583,6 +15623,16 @@ namespace {
     // The t of a gradient at a point of its space, spread; false where a
     // radial gradient paints nothing.
     static bool gradientT(const DevicePaint& paint, Point p, float& t) {
+        // A conic's turn from straight up, clockwise, past its start.
+        if (paint.type == PaintType::Conic) {
+            float turn = atan2f(p.x - paint.cx, paint.cy - p.y) / (2.f * pi) - paint.x1 / 360.f;
+
+            turn -= floorf(turn);
+            t = spreadT((turn - paint.fr) / (paint.r - paint.fr), paint.spread);
+
+            return true;
+        }
+
         if (paint.type == PaintType::Linear) {
             float dx = paint.x2 - paint.x1;
             float dy = paint.y2 - paint.y1;
@@ -16592,7 +16642,7 @@ namespace {
     // pixel the paint leaves out gets no cover. A gradient takes the t of
     // each pixel, the two entries around it, and blends them all at once.
     static void paintSpan(const DevicePaint& paint, int x, int y, u32 count, u16* cover, u16* out, PaintRows& rows) {
-        if (paint.type != PaintType::Linear && paint.type != PaintType::Radial) {
+        if (paint.type != PaintType::Linear && paint.type != PaintType::Radial && paint.type != PaintType::Conic) {
             for (u32 i = 0; i < count; i++) {
                 if (!paintAt(paint, (float)(x + (int)i) + 0.5f, (float)y + 0.5f, out + (size_t)i * 4)) {
                     cover[i] = 0;
@@ -16673,7 +16723,7 @@ namespace {
             prepareImage(l, paint);
         }
 
-        if (paint.type == PaintType::Linear || paint.type == PaintType::Radial) {
+        if (paint.type == PaintType::Linear || paint.type == PaintType::Radial || paint.type == PaintType::Conic) {
             prepareGradient(l, paint);
         }
     }
