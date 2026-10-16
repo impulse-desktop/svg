@@ -14265,6 +14265,57 @@ namespace {
         return run.filter->region;
     }
 
+    // How a convolution or a blur extends its input past the input's box.
+    enum class EdgeMode : u8 {
+        None,
+        Duplicate,
+        Wrap,
+        Mirror,
+    };
+
+    static EdgeMode edgeModeOf(const Document& doc, const Node* node, EdgeMode fallback) {
+        u32 value = attribute(node, AtomEdgeMode);
+        StringView text = value ? trim(textOf(doc, value)) : StringView();
+
+        if (text == SV("none")) {
+            return EdgeMode::None;
+        }
+
+        if (text == SV("duplicate")) {
+            return EdgeMode::Duplicate;
+        }
+
+        if (text == SV("wrap")) {
+            return EdgeMode::Wrap;
+        }
+
+        return text == SV("mirror") ? EdgeMode::Mirror : fallback;
+    }
+
+    // The coordinate from lo to hi an edge mode reads for v; -1 for none,
+    // or past an empty input. A mirror repeats the edge: a period of twice
+    // the size.
+    static int edgeFold(int v, int lo, int hi, EdgeMode mode) {
+        int size = hi - lo;
+
+        if (v >= lo && v < hi) {
+            return v;
+        }
+
+        if (mode == EdgeMode::None || size <= 0) {
+            return -1;
+        }
+
+        int period = mode == EdgeMode::Mirror ? 2 * size : size;
+        int folded = (((v - lo) % period) + period) % period;
+
+        if (mode == EdgeMode::Duplicate) {
+            return v < lo ? lo : hi - 1;
+        }
+
+        return lo + (folded < size ? folded : period - 1 - folded);
+    }
+
     static float numberOf(const Document& doc, const Node* node, u32 name, float fallback) {
         float value;
         u32 atom = attribute(node, name);
@@ -14651,15 +14702,24 @@ namespace {
     // Blurs the input over the box: groups of eight rows into a plane of the
     // horizontal pass, then groups of eight of its columns into the box, 32
     // lanes a position either way.
-    static void blurBuffer(FilterRun& run, const Plane& in, const Plane& out, const IntBox& box, float sigmaX, float sigmaY, bool consume) {
-        int height = (int)run.raster->height;
-        int width = (int)run.raster->width;
+    // With an edge mode other than none the input extends past src, past
+    // the raster too: its rows and columns fold into src. A deviation is
+    // held there to twice src's size, which bounds the lines; past it the
+    // extended input is about as flat.
+    static void blurBuffer(FilterRun& run, const Plane& in, const Plane& out, const IntBox& box, float sigmaX, float sigmaY, bool consume, EdgeMode edge, const IntBox& src) {
+        bool edged = edge != EdgeMode::None;
+        float limit = 2.f * (float)(src.x1 - src.x0 > src.y1 - src.y0 ? src.x1 - src.x0 : src.y1 - src.y0);
+
+        sigmaX = edged ? minf(sigmaX, limit) : sigmaX;
+        sigmaY = edged ? minf(sigmaY, limit) : sigmaY;
+
         int reachX = blurReach(sigmaX);
         int reachY = blurReach(sigmaY);
-        int x0 = box.x0 - reachX > 0 ? box.x0 - reachX : 0;
-        int x1 = box.x1 + reachX < width ? box.x1 + reachX : width;
-        int y0 = box.y0 - reachY > 0 ? box.y0 - reachY : 0;
-        int y1 = box.y1 + reachY < height ? box.y1 + reachY : height;
+        IntBox bound = edged ? IntBox{box.x0 - reachX, box.y0 - reachY, box.x1 + reachX, box.y1 + reachY} : IntBox{0, 0, (int)run.raster->width, (int)run.raster->height};
+        int x0 = box.x0 - reachX > bound.x0 ? box.x0 - reachX : bound.x0;
+        int x1 = box.x1 + reachX < bound.x1 ? box.x1 + reachX : bound.x1;
+        int y0 = box.y0 - reachY > bound.y0 ? box.y0 - reachY : bound.y0;
+        int y1 = box.y1 + reachY < bound.y1 ? box.y1 + reachY : bound.y1;
         BlurScratch scratch;
         Vector<u16> rows;
         Vector<u16> columns;
@@ -14671,7 +14731,7 @@ namespace {
 
         // The horizontal pass goes over the input itself when the input is
         // dead after the blur: a row is read whole before it is written.
-        bool inPlace = consume && x0 >= in.box.x0 && y0 >= in.box.y0 && x1 <= in.box.x1 && y1 <= in.box.y1;
+        bool inPlace = consume && !edged && x0 >= in.box.x0 && y0 >= in.box.y0 && x1 <= in.box.x1 && y1 <= in.box.y1;
         Plane horizontal = inPlace ? in : makePlane(IntBox{x0, y0, x1, y1});
 
         size_t rowLength = (size_t)(x1 - x0) * 4;
@@ -14685,7 +14745,17 @@ namespace {
             int group = y1 - y < 8 ? y1 - y : 8;
 
             for (int g = 0; g < group; g++) {
-                readStored(in, x0, x1, y + g, rows.mutData() + rowLength * (size_t)g);
+                u16* row = rows.mutData() + rowLength * (size_t)g;
+                int sy = edgeFold(y + g, src.y0, src.y1, edge);
+
+                if (!edged) {
+                    readStored(in, x0, x1, y + g, row);
+                    continue;
+                }
+
+                for (int x = x0; x < x1; x++) {
+                    memcpy(row + (size_t)(x - x0) * 4, planeRead(in, edgeFold(x, src.x0, src.x1, edge), sy), sizeof(u16) * 4);
+                }
             }
 
             blurLine(rows.data(), LineLayout{4, (ptrdiff_t)rowLength}, planeAt(horizontal, x0, y), LineLayout{4, across}, x1 - x0, group, sigmaX, scratch);
@@ -14748,7 +14818,12 @@ namespace {
             }
         }
 
-        blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p.in1, in));
+        // The input's box is where its edge mode extends it; an empty input
+        // has nothing to extend.
+        IntBox src = inputBox(run, p.in1);
+        EdgeMode edge = p.node && src.x1 > src.x0 ? edgeModeOf(*f.doc, p.node, EdgeMode::None) : EdgeMode::None;
+
+        blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p.in1, in), edge, src);
     }
 
     static void filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -14776,7 +14851,7 @@ namespace {
         Plane shadow = makePlane(all);
 
         if (userX(f, sx) * run.scaleX > 0.f || userY(f, sy) * run.scaleY > 0.f) {
-            blurBuffer(run, in, shadow, all, userX(f, sx) * run.scaleX, userY(f, sy) * run.scaleY, false);
+            blurBuffer(run, in, shadow, all, userX(f, sx) * run.scaleX, userY(f, sy) * run.scaleY, false, EdgeMode::None, all);
         } else {
             copyBox(in, shadow, all);
         }
@@ -15923,19 +15998,13 @@ namespace {
             return;
         }
 
-        u32 edgeValue = attribute(p.node, AtomEdgeMode);
-        StringView edge = edgeValue ? trim(textOf(doc, edgeValue)) : SV("duplicate");
-        bool edgeNone = edge == SV("none");
-        bool edgeWrap = edge == SV("wrap");
+        EdgeMode edge = edgeModeOf(doc, p.node, EdgeMode::Duplicate);
         u32 preserveValue = attribute(p.node, AtomPreserveAlpha);
         bool preserve = preserveValue && trim(textOf(doc, preserveValue)) == SV("true");
         IntBox src = inputBox(run, p.in1);
         const IntBox& box = p.box;
         int n = box.x1 - box.x0;
         int span = n + orderX - 1;
-        // An empty input is empty by its width, as boxInside leaves a box.
-        int w = src.x1 - src.x0;
-        int h = src.y1 - src.y0;
         // The input column each column of the taps reads, after the edge
         // mode; -1 for none.
         Vector<int> columns;
@@ -15966,21 +16035,10 @@ namespace {
 
         FixedSum fixed = fixSum(weights.data(), weights.length(), bias, factors.mutData());
 
-        // The edge modes map a coordinate past the input back into it, or leave it out.
-        auto mapped = [&](int v, int lo, int hi, int size) {
-            if (v >= lo && v < hi) {
-                return v;
-            }
-
-            if (edgeNone || w <= 0) {
-                return -1;
-            }
-
-            return edgeWrap ? lo + (((v - lo) % size) + size) % size : (v < lo ? lo : hi - 1);
-        };
-
+        // The edge mode maps a coordinate past the input back into it, or
+        // leaves it out.
         for (int i = 0; i < span; i++) {
-            columns.mut((size_t)i) = mapped(box.x0 - targetX + i, src.x0, src.x1, w);
+            columns.mut((size_t)i) = edgeFold(box.x0 - targetX + i, src.x0, src.x1, edge);
         }
 
         // No row of taps is held yet: the row before the first asked for.
@@ -16000,7 +16058,7 @@ namespace {
 
             held.mut(slot) = r;
 
-            int sy = mapped(r, src.y0, src.y1, h);
+            int sy = edgeFold(r, src.y0, src.y1, edge);
 
             for (int i = 0; i < span; i++) {
                 u16* t = out + (size_t)i * 4;

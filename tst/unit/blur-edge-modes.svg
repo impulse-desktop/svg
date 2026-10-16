@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<defs>
+<filter id="du" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="3" edgeMode="duplicate"/></filter>
+<filter id="wr" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="3" edgeMode="wrap"/></filter>
+<filter id="mi" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="3" edgeMode="mirror"/></filter>
+<filter id="no" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="3" edgeMode="none"/></filter>
+<filter id="sw" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="1" edgeMode="wrap"/></filter>
+<filter id="sm" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="1 0" edgeMode="mirror"/></filter>
+<filter id="hw" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="100" edgeMode="wrap"/></filter>
+<filter id="em" x="0" y="0" width="1" height="1"><feFlood flood-color="red" width="0" result="e"/><feGaussianBlur in="e" stdDeviation="2" edgeMode="wrap"/></filter>
+<filter id="bo" x="0" y="0" width="1" height="1"><feGaussianBlur stdDeviation="2" edgeMode="bogus"/></filter>
+<g id="s"><rect width="14" height="14" fill="navy"/><rect width="7" height="14" fill="gold"/><rect width="14" height="3" fill="crimson"/></g>
+</defs>
+<use href="#s" x="1" y="1" filter="url(#du)"/>
+<use href="#s" x="17" y="1" filter="url(#wr)"/>
+<use href="#s" x="33" y="1" filter="url(#mi)"/>
+<use href="#s" x="49" y="1" filter="url(#no)"/>
+<use href="#s" x="1" y="17" filter="url(#sw)"/>
+<use href="#s" x="17" y="17" filter="url(#sm)"/>
+<use href="#s" x="33" y="17" filter="url(#hw)"/>
+<use href="#s" x="49" y="17" filter="url(#em)"/>
+<use href="#s" x="1" y="33" filter="url(#bo)"/>
+<g transform="translate(20 36)" filter="url(#mi)"><rect width="4" height="4" fill="navy"/><rect width="2" height="4" fill="gold"/></g>
+<use href="#s" x="50" y="50" filter="url(#du)"/>
+</svg>
