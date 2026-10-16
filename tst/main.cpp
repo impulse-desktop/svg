@@ -448,6 +448,20 @@ static SvgImage* decodeRaster(void*, const void* bytes, size_t length) {
     return nullptr;
 }
 
+// A decoder that gives an image the first time and fails ever after, as
+// one that ran out of memory would: units holding .decodeonce. draw with it.
+static SvgImage* decodeOnce(void* context, const void* bytes, size_t length) {
+    static bool decoded = false;
+
+    if (decoded) {
+        return nullptr;
+    }
+
+    decoded = true;
+
+    return decodeRaster(context, bytes, length);
+}
+
 namespace {
     [[noreturn]] static void fail(const char* what, const char* path) {
         throw DriverError(std::string(what) + path);
@@ -1292,7 +1306,8 @@ namespace {
     // CANON.png: they match when no premultiplied channel of a pixel differs
     // by more than unitTolerance of 255. A file the renderer fails to parse
     // or to draw draws one transparent pixel. A name
-    // holding .nodecoder. draws with a library that has no decoder. With
+    // holding .nodecoder. draws with a library that has no decoder, one
+    // holding .decodeonce. with a decoder that fails after its first image. With
     // CANON.png as OUT.png too it canonizes.
     static int unit(int argc, char** argv) {
         if (argc != 5) {
@@ -1302,7 +1317,7 @@ namespace {
         }
 
         std::string file;
-        Document document = load(argv[2], file, strstr(argv[2], ".nodecoder.") ? nullptr : decodeRaster);
+        Document document = load(argv[2], file, strstr(argv[2], ".nodecoder.") ? nullptr : (strstr(argv[2], ".decodeonce.") ? decodeOnce : decodeRaster));
         Pixels pixels;
 
         pixels.width = 1;

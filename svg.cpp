@@ -1672,6 +1672,38 @@ namespace {
     // the pass, the styles computed so far, the resources and use targets
     // entered, the instance of a use, the context paints of a marker, how
     // deep in nested images it is, and how to decode an image and to fail.
+    struct DecodedImage;
+
+    struct ImageSource {
+        Document* nested;
+        SvgImage* raster;
+        // What destroys the raster with the pool, unless it is released first.
+        DecodedImage* decoded;
+        float width;
+        float height;
+        Box viewBox;
+        Node* ratio;
+    };
+
+    // A raster a pass decoded for an element, so that the element drawn
+    // again, as a pattern's content is for each fill it paints, decodes
+    // once: the bytes it came of, the source, and the source shrunk for
+    // the last drawing that shrank it, for which the decoded raster went
+    // unless a drawing samples it as it is.
+    struct CachedImage {
+        Node* node;
+        StringView data;
+        ImageSource source;
+        u32 width;
+        u32 height;
+        bool sampled;
+        const u8* shrunk;
+        u32 kx;
+        u32 ky;
+        u32 shrunkWidth;
+        u32 shrunkHeight;
+    };
+
     struct Pass {
         Document* doc;
         ObjPool* pool;
@@ -1689,6 +1721,7 @@ namespace {
         u32** instance;
         Vector<Node*> instanceTargets;
         Vector<u32**> instanceMaps;
+        Vector<CachedImage*> images;
     };
 
     // The pass that lowers the document to draw commands over width by
@@ -9015,19 +9048,6 @@ namespace {
         bool markers;
     };
 
-    struct DecodedImage;
-
-    struct ImageSource {
-        Document* nested;
-        SvgImage* raster;
-        // What destroys the raster with the pool, unless it is released first.
-        DecodedImage* decoded;
-        float width;
-        float height;
-        Box viewBox;
-        Node* ratio;
-    };
-
     static void elementExtent(Pass& p, Node* node, const ComputedStyle& parent, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box);
     static void markerExtent(Pass& p, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box);
     static bool imageReachable(const Document& doc, const Node* node);
@@ -11011,6 +11031,14 @@ namespace {
     const SvgImageVtable renderedVtable = {destroyRendered, renderedData, renderedLength, renderedWidth, renderedHeight};
 
     static bool loadImage(Pass& l, Node* node, ImageSource& out) {
+        for (CachedImage* cached : l.images) {
+            if (cached->node == node) {
+                out = cached->source;
+
+                return true;
+            }
+        }
+
         const Document& doc = *l.doc;
         u32 href = attribute(node, AtomHref);
         StringView mime;
@@ -11097,17 +11125,43 @@ namespace {
         out.height = (float)height;
         out.viewBox = Box{0.f, 0.f, out.width, out.height};
 
+        CachedImage* cached = (CachedImage*)l.pool->allocate(sizeof(CachedImage));
+
+        *cached = CachedImage{node, data, out, width, height, false, nullptr, 0, 0, 0, 0};
+        l.images.pushBack(cached);
+
         return true;
+    }
+
+    static CachedImage* cachedImage(Pass& l, const Node* node) {
+        for (CachedImage* cached : l.images) {
+            if (cached->node == node) {
+                return cached;
+            }
+        }
+
+        return nullptr;
+    }
+
+    // The decoded raster of a cached image, decoded again if a shrinking let it go.
+    static SvgImage* cachedRaster(Pass& l, CachedImage& cached) {
+        if (!cached.source.decoded->image) {
+            cached.source.decoded->image = l.decode(l.context, cached.data.data(), cached.data.length());
+        }
+
+        cached.source.raster = cached.source.decoded->image;
+
+        return cached.source.raster;
     }
 
     // Lets the decoded raster of a source go once nothing reads it.
     static void releaseImage(ImageSource& source) {
-        if (source.decoded) {
+        if (source.decoded && source.decoded->image) {
             svg_image_destroy(source.decoded->image);
             source.decoded->image = nullptr;
-            source.decoded = nullptr;
-            source.raster = nullptr;
         }
+
+        source.raster = nullptr;
     }
 
     // The image averaged over blocks of 2^kx by 2^ky pixels, its last
@@ -11171,7 +11225,7 @@ namespace {
 
     static bool usesBackground(const Document& doc, const Node* node, u32 depth = 0);
 
-    static void drawImage(Lowering& l, Node* node, ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
         const Document& doc = *l.doc;
         u32 ratio = attribute(node, AtomPreserveAspectRatio);
         bool stretch = ratio && trim(textOf(doc, ratio)) == SV("none");
@@ -11189,15 +11243,16 @@ namespace {
         Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
         Matrix place = multiply(m, fit);
 
-        if (source.raster) {
+        CachedImage* cached = source.nested ? nullptr : cachedImage(l, node);
+
+        if (cached) {
             DevicePaint* paint = l.pool->make<DevicePaint>();
             Matrix inverse;
 
             memset(paint, 0, sizeof(DevicePaint));
             paint->type = PaintType::Image;
-            paint->image = (const u8*)svg_image_data(source.raster);
-            paint->imageWidth = svg_image_width(source.raster);
-            paint->imageHeight = svg_image_height(source.raster);
+            paint->imageWidth = cached->width;
+            paint->imageHeight = cached->height;
             paint->smooth = true;
 
             if (!invert(place, inverse)) {
@@ -11223,11 +11278,40 @@ namespace {
                 ky++;
             }
 
-            // The shrunk image is what the paint samples: the decoded one
-            // goes before the drawing.
+            // The shrunk image is what the paint samples, kept for the
+            // element drawn again so: the decoded one goes before the
+            // drawing. A raster a decoder no longer gives is not drawn.
             if (kx || ky) {
-                paint->image = shrinkImage(*l.pool, paint->image, paint->imageWidth, paint->imageHeight, kx, ky);
-                releaseImage(source);
+                if (!cached->shrunk || cached->kx != kx || cached->ky != ky) {
+                    SvgImage* raster = cachedRaster(l, *cached);
+
+                    if (!raster) {
+                        return;
+                    }
+
+                    cached->shrunkWidth = cached->width;
+                    cached->shrunkHeight = cached->height;
+                    cached->shrunk = shrinkImage(*l.pool, (const u8*)svg_image_data(raster), cached->shrunkWidth, cached->shrunkHeight, kx, ky);
+                    cached->kx = kx;
+                    cached->ky = ky;
+
+                    if (!cached->sampled) {
+                        releaseImage(cached->source);
+                    }
+                }
+
+                paint->image = cached->shrunk;
+                paint->imageWidth = cached->shrunkWidth;
+                paint->imageHeight = cached->shrunkHeight;
+            } else {
+                SvgImage* raster = cachedRaster(l, *cached);
+
+                if (!raster) {
+                    return;
+                }
+
+                paint->image = (const u8*)svg_image_data(raster);
+                cached->sampled = true;
             }
 
             paint->inverse = multiply(scaling(ldexpf(1.f, -(int)kx), ldexpf(1.f, -(int)ky)), inverse);
