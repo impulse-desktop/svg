@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<symbol id="a" x="4" y="4" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="teal"/><circle cx="5" cy="3" r="2" fill="gold"/></symbol>
+<symbol id="b" refX="5" refY="3" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="crimson"/></symbol>
+<symbol id="c" refX="left" refY="top" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="navy"/></symbol>
+<symbol id="d" refX="center" refY="center" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="purple"/></symbol>
+<symbol id="e" refX="right" refY="bottom" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="olive"/></symbol>
+</defs>
+<use href="#a"/>
+<use href="#b" x="44" y="10"/>
+<use href="#c" x="4" y="24"/>
+<use href="#d" x="44" y="38"/>
+<use href="#e" x="24" y="58"/>
+<g stroke="silver" stroke-width="0.5"><path d="M44 0V64M0 10H64M0 38H64M24 0V64M0 58H64"/></g>
+</svg>

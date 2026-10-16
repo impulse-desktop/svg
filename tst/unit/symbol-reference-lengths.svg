@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<symbol id="a" refX="50%" refY="50%" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="teal"/></symbol>
+<symbol id="b" refX="5" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="crimson"/></symbol>
+<symbol id="c" refX="right" refY="middle" width="20" height="12"><rect width="20" height="12" fill="navy"/></symbol>
+<symbol id="d" refX="top" refY="left" width="20" height="12" viewBox="0 0 10 6"><rect width="10" height="6" fill="olive"/></symbol>
+</defs>
+<use href="#a" x="20" y="12"/>
+<use href="#b" x="44" y="10"/>
+<use href="#c" x="24" y="34"/>
+<use href="#d" x="44" y="50"/>
+<g stroke="silver" stroke-width="0.5"><path d="M20 0V64M44 0V64M24 0V64M0 12H64M0 10H64M0 34H64M0 50H64"/></g>
+</svg>

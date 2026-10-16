@@ -3824,7 +3824,6 @@ namespace {
         switch (property) {
             case AtomX:
             case AtomY:
-                return element == AtomRect || element == AtomImage || element == AtomSvg || element == AtomUse;
             case AtomWidth:
             case AtomHeight:
                 return element == AtomRect || element == AtomImage || element == AtomSvg || element == AtomUse || element == AtomSymbol;
@@ -4776,6 +4775,23 @@ namespace {
         float value;
 
         return lengthAttribute(doc, node, name, axis, vp, fontSize, value) ? value : fallback;
+    }
+
+    // A refX or refY: a length, or a keyword for 0%, 50% or 100% of the
+    // size the content draws in, as SVG 2 maps them. False when the
+    // attribute gives neither.
+    static bool referenceOf(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float size, float& out) {
+        u32 value = attribute(node, name);
+        StringView text = value ? trim(textOf(doc, value)) : StringView();
+        StringView low = axis == Axis::X ? SV("left") : SV("top");
+        StringView high = axis == Axis::X ? SV("right") : SV("bottom");
+
+        if (text == low || text == SV("center") || text == high) {
+            out = text == low ? 0.f : text == high ? size : size / 2.f;
+            return true;
+        }
+
+        return lengthAttribute(doc, node, name, axis, vp, fontSize, out);
     }
 
     static int hexDigit(u8 c) {
@@ -10473,7 +10489,20 @@ namespace {
             inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, p.rootFontSize};
         }
 
-        Point ref = apply(content, Point{lengthOr(doc, marker, AtomRefX, Axis::X, vp, fs, 0.f), lengthOr(doc, marker, AtomRefY, Axis::Y, vp, fs, 0.f)});
+        // A percentage of refX or refY is of the viewport outside, as
+        // browsers take it; a keyword is of the viewBox, as SVG 2 maps it.
+        float rx;
+        float ry;
+
+        if (!referenceOf(doc, marker, AtomRefX, Axis::X, vp, fs, inside.width, rx)) {
+            rx = 0.f;
+        }
+
+        if (!referenceOf(doc, marker, AtomRefY, Axis::Y, vp, fs, inside.height, ry)) {
+            ry = 0.f;
+        }
+
+        Point ref = apply(content, Point{rx, ry});
 
         origin = multiply(placed, translation(-ref.x, -ref.y));
 
@@ -10769,7 +10798,7 @@ namespace {
             return;
         }
 
-        Matrix inner = multiply(m, translation(x, y));
+        Matrix boxed = identity();
         Viewport inside{w, h, vp.screenWidth, vp.screenHeight, l.rootFontSize};
         Box viewBox;
 
@@ -10778,9 +10807,25 @@ namespace {
                 return;
             }
 
-            inner = multiply(inner, viewBoxTransform(*l.doc, node, viewBox, w, h));
+            boxed = viewBoxTransform(*l.doc, node, viewBox, w, h);
             inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, l.rootFontSize};
         }
+
+        // A symbol's refX and refY put that point of its content at x and
+        // y, the viewport with it; a side they leave out keeps the
+        // viewport's edge there.
+        if (node->name == AtomSymbol) {
+            float rx;
+            float ry;
+            bool hasX = referenceOf(*l.doc, node, AtomRefX, Axis::X, inside, style.fontSize, inside.width, rx);
+            bool hasY = referenceOf(*l.doc, node, AtomRefY, Axis::Y, inside, style.fontSize, inside.height, ry);
+            Point ref = apply(boxed, Point{hasX ? rx : 0.f, hasY ? ry : 0.f});
+
+            x -= hasX ? ref.x : 0.f;
+            y -= hasY ? ref.y : 0.f;
+        }
+
+        Matrix inner = multiply(multiply(m, translation(x, y)), boxed);
 
         u32 clipIndex = (u32)l.out->length();
 
@@ -11729,8 +11774,11 @@ namespace {
                 float w = l.sizedWidth >= 0.f ? l.sizedWidth : lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
                 float h = l.sizedHeight >= 0.f ? l.sizedHeight : lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
 
+                float x = lengthOr(*l.doc, node, AtomX, Axis::X, vp, fs, 0.f);
+                float y = lengthOr(*l.doc, node, AtomY, Axis::Y, vp, fs, 0.f);
+
                 l.sized = nullptr;
-                lowerViewport(l, node, style, m, vp, node, 0.f, 0.f, w, h, !style.overflowVisible);
+                lowerViewport(l, node, style, m, vp, node, x, y, w, h, !style.overflowVisible);
                 break;
             }
             case AtomSwitch:
