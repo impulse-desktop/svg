@@ -3919,7 +3919,8 @@ namespace {
                 q++;
             }
 
-            if (q >= text.end() || !comma || depth > 8) {
+            // A function left open closes at the end, as CSS reads it.
+            if (!comma || depth > 32) {
                 return false;
             }
 
@@ -3927,7 +3928,7 @@ namespace {
                 return false;
             }
 
-            p = q + 1;
+            p = q < text.end() ? q + 1 : q;
         }
 
         return true;
@@ -3996,12 +3997,11 @@ namespace {
 
             Buffer substituted;
 
+            // A var() with no fallback, as the renderer knows no custom
+            // property, or an env() of none, leaves the declaration invalid
+            // at computed-value time: it is unset.
             if (findFunction(value, SV("var(")) || findFunction(value, SV("env("))) {
-                if (!substituteFallbacks(value, substituted, 0)) {
-                    continue;
-                }
-
-                value = trim(keep(*doc.pool, substituted.data(), substituted.length()));
+                value = substituteFallbacks(value, substituted, 0) ? trim(keep(*doc.pool, substituted.data(), substituted.length())) : SV("unset");
             }
 
             if (property == AtomMarker) {
