@@ -13734,11 +13734,14 @@ namespace {
         colors.zero((size_t)w * 4);
         source.zero((size_t)w * 4);
 
-        // A row at a time: the coverage of each pixel stored, then for each
+        // A row at a time: the coverage of each pixel stored, and for each
         // run of covered pixels the paint, its product with the coverage, and
-        // that over the layers.
+        // that over the layers. Eight cells that change nothing keep the
+        // coverage before them; a run ends on the first cell of none, so
+        // none of them is in a run when that coverage is none.
         for (u32 y = 0; y < h; y++) {
             u32 sum = 0;
+            u16 c = 0;
             const u32* line = acc + (size_t)y * stride;
             u16* coverRow = cover.mutData();
             u32 count = 0;
@@ -13759,16 +13762,37 @@ namespace {
                 count = 0;
             };
 
-            for (u32 x = 0; x < w; x++) {
-                sum += line[x];
-                coverRow[x] = (u16)coverStored(sum, op.rule);
-            }
+            for (u32 x = 0; x < w;) {
+                u32 end = x + 8 < w ? x + 8 : w;
+                u32 change = 0;
 
-            for (u32 x = 0; x < w; x++) {
-                if (coverRow[x]) {
-                    count++;
-                } else if (count) {
-                    draw(x);
+                for (u32 i = x; i < end; i++) {
+                    change |= line[i];
+                }
+
+                if (change == 0) {
+                    if (c) {
+                        for (u32 i = x; i < end; i++) {
+                            coverRow[i] = c;
+                        }
+
+                        count += end - x;
+                    }
+
+                    x = end;
+                    continue;
+                }
+
+                for (; x < end; x++) {
+                    sum += line[x];
+                    c = (u16)coverStored(sum, op.rule);
+                    coverRow[x] = c;
+
+                    if (c) {
+                        count++;
+                    } else if (count) {
+                        draw(x);
+                    }
                 }
             }
 
