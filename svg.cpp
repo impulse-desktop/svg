@@ -1524,6 +1524,13 @@ namespace {
         Color color;
     };
 
+    struct IntBox {
+        int x0;
+        int y0;
+        int x1;
+        int y1;
+    };
+
     struct DevicePaint {
         PaintType type;
         Color color;
@@ -1550,19 +1557,18 @@ namespace {
         float* tile;
         float opacity;
         bool linear;
+        // The device bounds of the fill a pattern paints and whether a filter
+        // samples it everywhere; the tile pixels its tile is drawn over,
+        // unwrapped.
+        Box sampled;
+        bool sampledAll;
+        IntBox window;
     };
 
     struct ClipShape {
         u32 first;
         u32 count;
         u8 rule;
-    };
-
-    struct IntBox {
-        int x0;
-        int y0;
-        int x1;
-        int y1;
     };
 
     enum FilterInputs : int {
@@ -7715,6 +7721,10 @@ namespace {
         op.count = (u32)l.edges.length() - op.first;
 
         if (op.count && boxValid(op.bounds)) {
+            if (paint->type == PaintType::Pattern) {
+                paint->sampled = op.bounds;
+            }
+
             l.out->pushBack(op);
         }
     }
@@ -9814,6 +9824,13 @@ namespace {
             }
             filter->fillPaint = fill ? devicePaint(l, element, AtomFill, style.fill, style.fillOpacity, style, style.fill.context ? l.contextBox : filter->bbox, style.fill.context ? l.contextMatrix : m, vp) : nullptr;
             filter->strokePaint = stroke ? devicePaint(l, element, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : filter->bbox, style.stroke.context ? l.contextMatrix : m, vp) : nullptr;
+
+            // A paint a filter reads is sampled over the whole canvas.
+            for (DevicePaint* paint : {filter->fillPaint, filter->strokePaint}) {
+                if (paint && paint->type == PaintType::Pattern) {
+                    paint->sampledAll = true;
+                }
+            }
 
             if (last) {
                 last->next = filter;
@@ -12031,6 +12048,11 @@ namespace {
         return Color{byteUnits.values[t[0]] * a, byteUnits.values[t[1]] * a, byteUnits.values[t[2]] * a, a};
     }
 
+    // a modulo m, in 0 to m - 1 for a negative a too.
+    static int floorMod(int a, int m) {
+        return ((a % m) + m) % m;
+    }
+
     static bool paintAt(const DevicePaint& paint, float x, float y, Color& out) {
         if (paint.type == PaintType::Solid) {
             out = paint.color;
@@ -12072,10 +12094,19 @@ namespace {
 
             int jx = ix + 1 == tw ? 0 : ix + 1;
             int jy = iy + 1 == th ? 0 : iy + 1;
-            const float* c00 = paint.tile + ((size_t)iy * tw + ix) * 4;
-            const float* c10 = paint.tile + ((size_t)iy * tw + jx) * 4;
-            const float* c01 = paint.tile + ((size_t)jy * tw + ix) * 4;
-            const float* c11 = paint.tile + ((size_t)jy * tw + jx) * 4;
+            // A tile pixel is in the window once, at its unwrapped place.
+            const IntBox& window = paint.window;
+            size_t ww = (size_t)(window.x1 - window.x0);
+            auto at = [&](int x, int y) {
+                int ux = floorMod(x - window.x0, tw);
+                int uy = floorMod(y - window.y0, th);
+
+                return paint.tile + ((size_t)uy * ww + (size_t)ux) * 4;
+            };
+            const float* c00 = at(ix, iy);
+            const float* c10 = at(jx, iy);
+            const float* c01 = at(ix, jy);
+            const float* c11 = at(jx, jy);
             float w00 = (1.f - tx) * (1.f - ty) * paint.opacity;
             float w10 = tx * (1.f - ty) * paint.opacity;
             float w01 = (1.f - tx) * ty * paint.opacity;
@@ -12534,6 +12565,12 @@ namespace {
         return p.x1 < q.x1 || (p.x1 == q.x1 && p.dir < q.dir);
     }
 
+    // Whether an edge of the lowering spans rows, not level in y nor of a
+    // y that is not a number.
+    static bool spansRows(const Edge& e) {
+        return e.y0 < e.y1 || e.y1 < e.y0;
+    }
+
     // The band edge of an edge of the lowering, its ends in order of y and
     // its direction kept, in the raster's coordinates.
     static BandEdge bandEdge(Edge e, float ox, float oy) {
@@ -12561,7 +12598,7 @@ namespace {
         for (u32 i = first; i < first + count; i++) {
             Edge e = l.edges[i];
 
-            if (e.y0 < e.y1 || e.y1 < e.y0) {
+            if (spansRows(e)) {
                 starts.mut(bucket(minf(e.y0, e.y1) - oy) + 1)++;
             }
         }
@@ -12579,7 +12616,7 @@ namespace {
         for (u32 i = first; i < first + count; i++) {
             Edge e = l.edges[i];
 
-            if (e.y0 < e.y1 || e.y1 < e.y0) {
+            if (spansRows(e)) {
                 edges.mut(starts.mut(bucket(minf(e.y0, e.y1) - oy))++) = bandEdge(e, ox, oy);
             }
         }
@@ -12745,11 +12782,12 @@ namespace {
         }
     }
 
-    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, u32& ix0, u32& iy0, u32& w, u32& h, u8 rule) {
-        float bx0 = floorf(maxf(bounds.x0, 0.f));
-        float by0 = floorf(maxf(bounds.y0, 0.f));
-        float bx1 = ceilf(minf(bounds.x1, (float)r.width));
-        float by1 = ceilf(minf(bounds.y1, (float)r.height));
+    // Rasterizes the edges within the clip, the pixels the fill can reach.
+    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, const IntBox& clip, u32& ix0, u32& iy0, u32& w, u32& h, u8 rule) {
+        float bx0 = floorf(maxf(bounds.x0, (float)clip.x0));
+        float by0 = floorf(maxf(bounds.y0, (float)clip.y0));
+        float bx1 = ceilf(minf(bounds.x1, (float)clip.x1));
+        float by1 = ceilf(minf(bounds.y1, (float)clip.y1));
 
         if (!(bx1 > bx0) || !(by1 > by0)) {
             return false;
@@ -12783,16 +12821,97 @@ namespace {
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
-    // A pattern paint fills one op, so its tile is drawn once.
+    // The tile of a pattern is drawn once, where its fill samples it: over
+    // the window of tile pixels under the fill's bounds, widened by the
+    // bilinear taps and by what rounding can move a sample, when that is
+    // less than a period each way; else over the whole tile. The window is
+    // unwrapped, so it is drawn in up to four pieces of the tile. A paint a
+    // filter reads is sampled everywhere.
     static void prepareTile(const Lowering& l, DevicePaint& paint) {
-        size_t size = (size_t)paint.imageWidth * paint.imageHeight;
+        if (paint.tile) {
+            return;
+        }
+
+        int tw = (int)paint.imageWidth;
+        int th = (int)paint.imageHeight;
+        IntBox window{0, 0, tw, th};
+        bool windowed = false;
+
+        if (!paint.sampledAll) {
+            // The fill samples pixel centres within its bounds rounded out.
+            const Matrix& m = paint.inverse;
+            Box s{floorf(paint.sampled.x0), floorf(paint.sampled.y0), ceilf(paint.sampled.x1), ceilf(paint.sampled.y1)};
+            Point corners[4] = {{s.x0, s.y0}, {s.x1, s.y0}, {s.x0, s.y1}, {s.x1, s.y1}};
+            Box b = emptyBox();
+
+            for (const Point& c : corners) {
+                extend(b, apply(m, c));
+            }
+
+            // A sample and a corner each round by a few units in the last
+            // place of the terms of the map.
+            float ax = maxf(fabsf(s.x0), fabsf(s.x1));
+            float ay = maxf(fabsf(s.y0), fabsf(s.y1));
+            float mx = ceilf(0x1p-21f * (fabsf(m.a) * ax + fabsf(m.c) * ay + fabsf(m.e))) + 1.f;
+            float my = ceilf(0x1p-21f * (fabsf(m.b) * ax + fabsf(m.d) * ay + fabsf(m.f))) + 1.f;
+            float x0 = floorf(b.x0 - 0.5f) - mx;
+            float y0 = floorf(b.y0 - 0.5f) - my;
+            float x1 = floorf(b.x1 - 0.5f) + 2.f + mx;
+            float y1 = floorf(b.y1 - 0.5f) + 2.f + my;
+
+            // Far from the origin a pixel is no longer exact in a float.
+            windowed = x1 - x0 < (float)tw && y1 - y0 < (float)th && fabsf(x0) + fabsf(y0) < 16777216.f;
+
+            if (windowed) {
+                window = IntBox{(int)x0, (int)y0, (int)x1, (int)y1};
+            }
+        }
+
+        size_t size = (size_t)(window.x1 - window.x0) * (size_t)(window.y1 - window.y0);
         Raster tile;
 
+        paint.window = window;
         paint.tile = (float*)l.pool->allocate(sizeof(float) * size * 4);
         memset(paint.tile, 0, sizeof(float) * size * 4);
         tile.width = paint.imageWidth;
         tile.height = paint.imageHeight;
-        runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, Plane{paint.tile, IntBox{0, 0, (int)paint.imageWidth, (int)paint.imageHeight}});
+
+        Plane whole{paint.tile, window};
+
+        if (!windowed) {
+            runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, whole);
+
+            return;
+        }
+
+        // The window's columns and rows split where they pass a multiple of
+        // the period; a piece lies within one period, so it is drawn as the
+        // part of the tile it shows and copied to its place.
+        int splitX = window.x0 + tw - floorMod(window.x0, tw);
+        int splitY = window.y0 + th - floorMod(window.y0, th);
+        int xs[3] = {window.x0, splitX < window.x1 ? splitX : window.x1, window.x1};
+        int ys[3] = {window.y0, splitY < window.y1 ? splitY : window.y1, window.y1};
+
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < 2; i++) {
+                if (xs[i + 1] <= xs[i] || ys[j + 1] <= ys[j]) {
+                    continue;
+                }
+
+                int px = floorMod(xs[i], tw);
+                int py = floorMod(ys[j], th);
+                IntBox shown{px, py, px + xs[i + 1] - xs[i], py + ys[j + 1] - ys[j]};
+                Plane part = makePlane(shown);
+
+                runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, part);
+
+                for (int y = shown.y0; y < shown.y1; y++) {
+                    memcpy(planeAt(whole, xs[i], ys[j] + y - shown.y0), planeAt(part, shown.x0, y), sizeof(float) * 4 * (size_t)(shown.x1 - shown.x0));
+                }
+
+                releasePlane(part);
+            }
+        }
     }
 
     static void clearSpan(const Plane& plane, int y, int x0, int x1) {
@@ -12855,16 +12974,22 @@ namespace {
         u32 iy0;
         u32 w;
         u32 h;
+        size_t first = firstTarget(r);
+        // The fill reaches the layers it draws on, the base of its program or
+        // the layers of the groups above it, which may pass the base.
+        IntBox clip = r.layers[first].box;
 
-        if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, ix0, iy0, w, h, op.rule)) {
+        for (size_t level = first + 1; level < r.layers.length(); level++) {
+            clip = boxJoin(clip, r.layers[level].box);
+        }
+
+        if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, clip, ix0, iy0, w, h, op.rule)) {
             return;
         }
 
         const float* acc = r.accumulation.data();
         u32 stride = w + 2;
         const DevicePaint& paint = *op.paint;
-
-        size_t first = firstTarget(r);
         IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
 
         // The layer of a filtered group holds its filters' region, which the
@@ -12935,7 +13060,7 @@ namespace {
         u32 w;
         u32 h;
 
-        if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, false, ix0, iy0, w, h, shape.rule)) {
+        if (!boxValid(bounds) || !rasterize(r, l, shape.first, shape.count, bounds, false, box, ix0, iy0, w, h, shape.rule)) {
             return;
         }
 
