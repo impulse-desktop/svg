@@ -6160,29 +6160,10 @@ namespace {
         return box;
     }
 
-    static float signedArea(const Point* points, size_t count) {
-        double area = 0.0;
-        double ox = points[0].x;
-        double oy = points[0].y;
-
-        for (size_t i = 0; i < count; i++) {
-            const Point& a = points[i];
-            const Point& b = points[(i + 1) % count];
-
-            area += (a.x - ox) * (b.y - oy) - (b.x - ox) * (a.y - oy);
-        }
-
-        return (float)(area * 0.5);
-    }
-
-    // Adds a fan, quad or triangle of the stroke.
+    // Adds a dot of the stroke, a fan or a square, which turn the way the
+    // outlines do.
     static void addPolygon(Flat& out, const Point* points, size_t count) {
-        bool reverse = signedArea(points, count) < 0.f;
-
-        for (size_t i = 0; i < count; i++) {
-            out.points.pushBack(points[reverse ? count - 1 - i : i]);
-        }
-
+        out.points.append(points, count);
         out.ends.pushBack((u32)out.points.length());
         out.closed.pushBack(1);
     }
@@ -12891,21 +12872,18 @@ namespace {
     // The samples of a half of a band, in the order of the whole: the cuts
     // leave no edge end inside a band, so the same edges span the half,
     // entering or leaving it where they cross the middle of the whole band.
-    static bool halfBandSamples(const BandEdge* edges, const BandSample* whole, size_t count, float a, float b, bool top, Vector<BandSample>& samples) {
+    // Only samples that cross come here, and one whose x is not a number
+    // crosses none, so the keys are numbers.
+    static void halfBandSamples(const BandEdge* edges, const BandSample* whole, size_t count, float a, float b, bool top, Vector<BandSample>& samples) {
         float mid = (a + b) * 0.5f;
-        bool comparable = true;
 
         samples.clear();
 
         for (size_t i = 0; i < count; i++) {
             const BandSample& s = whole[i];
-            float key = bandX(edges[s.edge], mid);
 
-            comparable = comparable && key == key;
-            samples.pushBack(BandSample{top ? s.x0 : s.key, top ? s.key : s.x1, key, s.dir, s.order, s.edge});
+            samples.pushBack(BandSample{top ? s.x0 : s.key, top ? s.key : s.x1, bandX(edges[s.edge], mid), s.dir, s.order, s.edge});
         }
-
-        return comparable;
     }
 
     // The coverage of a band from a to b of what the rule fills, entered
@@ -12975,11 +12953,11 @@ namespace {
 
             if (end - k > 1 && halve) {
                 Vector<BandSample>& half = samples[depth + 1];
-                bool comparableHalf = halfBandSamples(edges, sorted + k, end - k, a, mid, true, half);
 
-                unionBand(acc, stride, w, edges, samples, a, mid, rule, depth + 1, comparableHalf, winding);
-                comparableHalf = halfBandSamples(edges, sorted + k, end - k, mid, b, false, half);
-                unionBand(acc, stride, w, edges, samples, mid, b, rule, depth + 1, comparableHalf, winding);
+                halfBandSamples(edges, sorted + k, end - k, a, mid, true, half);
+                unionBand(acc, stride, w, edges, samples, a, mid, rule, depth + 1, true, winding);
+                halfBandSamples(edges, sorted + k, end - k, mid, b, false, half);
+                unionBand(acc, stride, w, edges, samples, mid, b, rule, depth + 1, true, winding);
 
                 for (size_t i = k; i < end; i++) {
                     winding += sorted[i].dir;
