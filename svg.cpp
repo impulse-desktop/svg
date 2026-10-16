@@ -11696,8 +11696,9 @@ namespace {
 
     const float zeroPixel[4] = {0.f, 0.f, 0.f, 0.f};
 
+    // A box is empty as boxInside leaves it, by its x.
     static Plane makePlane(IntBox box) {
-        size_t count = box.x1 > box.x0 && box.y1 > box.y0 ? (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0) : 0;
+        size_t count = box.x1 > box.x0 ? (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0) : 0;
         Plane plane{count ? new float[count * 4] : nullptr, box};
 
         if (count) {
@@ -11759,13 +11760,14 @@ namespace {
         return box;
     }
 
-    // The bounding box of two pixel boxes, an empty one adding nothing.
+    // The bounding box of two pixel boxes, an empty one adding nothing: a
+    // box is empty as boxInside leaves it, by its x.
     static IntBox boxJoin(const IntBox& a, const IntBox& b) {
-        if (a.x1 <= a.x0 || a.y1 <= a.y0) {
+        if (a.x1 <= a.x0) {
             return b;
         }
 
-        if (b.x1 <= b.x0 || b.y1 <= b.y0) {
+        if (b.x1 <= b.x0) {
             return a;
         }
 
@@ -12398,19 +12400,10 @@ namespace {
     // Sorts the crossings by x, equal ones by direction. Those of a scanline
     // come in the order of the one before, nearly sorted, so the insertion
     // sort is about linear; a scanline that moves them far is sorted outright.
-    // A crossing that is not a number sorts as it always did.
-    static void sortCrossings(Vector<Crossing>& crossings, bool numeric) {
+    static void sortCrossings(Vector<Crossing>& crossings) {
         Crossing* data = crossings.mutData();
         size_t count = crossings.length();
         size_t moves = 0;
-
-        if (!numeric && count >= 24) {
-            quickSort(data, data + count, [](const Crossing& p, const Crossing& q) {
-                return p.x < q.x || (p.x == q.x && p.dir < q.dir);
-            });
-
-            return;
-        }
 
         for (size_t i = 1; i < count; i++) {
             Crossing c = data[i];
@@ -12424,7 +12417,7 @@ namespace {
             data[k] = c;
             moves += i - k;
 
-            if (numeric && moves > 8 * count + 64) {
+            if (moves > 8 * count + 64) {
                 quickSort(data, data + count, [](const Crossing& p, const Crossing& q) {
                     return p.x < q.x || (p.x == q.x && p.dir < q.dir);
                 });
@@ -12435,11 +12428,8 @@ namespace {
     }
 
     // The crossings of the edges at y, in the order the edges come, sorted;
-    // the edges that do not span y go to rest. False when a crossing is not
-    // a number.
-    static bool scanCrossings(const BandEdge* edges, const Vector<u32>& order, float y, Vector<Crossing>& crossings, Vector<u32>& rest) {
-        bool numeric = true;
-
+    // the edges that do not span y go to rest.
+    static void scanCrossings(const BandEdge* edges, const Vector<u32>& order, float y, Vector<Crossing>& crossings, Vector<u32>& rest) {
         crossings.clear();
         rest.clear();
 
@@ -12447,18 +12437,13 @@ namespace {
             const BandEdge& e = edges[index];
 
             if (e.y0 <= y && e.y1 > y) {
-                float x = bandX(e, y);
-
-                numeric = numeric && x == x;
-                crossings.pushBack(Crossing{x, e.dir, index});
+                crossings.pushBack(Crossing{bandX(e, y), e.dir, index});
             } else {
                 rest.pushBack(index);
             }
         }
 
-        sortCrossings(crossings, numeric);
-
-        return numeric;
+        sortCrossings(crossings);
     }
 
     static void addSpan(float* acc, u32 w, float x0, float x1, float weight) {
@@ -12499,16 +12484,9 @@ namespace {
     }
 
     // Sorts the edges by their top, counting them into the rows they start
-    // in first, so that each row sorts on its own; an x that is not a number
-    // sorts them outright.
+    // in first, so that each row sorts on its own.
     static void sortEdges(Vector<BandEdge>& edges, u32 h) {
-        bool numeric = true;
-
-        for (const BandEdge& e : edges) {
-            numeric = numeric && e.x0 == e.x0 && e.x1 == e.x1;
-        }
-
-        if (!numeric || edges.length() < 1024) {
+        if (edges.length() < 1024) {
             quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
 
             return;
@@ -12692,11 +12670,7 @@ namespace {
                 float start = 0.f;
                 float y = top + (sub + 0.5f) / 16.f;
 
-                // A crossing that is not a number is sorted among the
-                // crossings as the active list orders them.
-                if (!scanCrossings(edges.data(), order, y, crossings, rest)) {
-                    scanCrossings(edges.data(), active, y, crossings, rest);
-                }
+                scanCrossings(edges.data(), order, y, crossings, rest);
 
                 for (const Crossing& c : crossings) {
                     bool before = insideWinding(winding, rule);
@@ -13726,7 +13700,8 @@ namespace {
         Vector<float> first;
         Vector<float> second;
 
-        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+        // An empty box is empty by its x, as boxInside leaves it.
+        if (box.x1 <= box.x0) {
             return;
         }
 
@@ -14432,7 +14407,8 @@ namespace {
         Vector<float> g;
         Vector<float> h;
 
-        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+        // An empty box is empty by its x, as boxInside leaves it.
+        if (box.x1 <= box.x0) {
             return;
         }
 
@@ -14483,7 +14459,8 @@ namespace {
         int th = tile.y1 - tile.y0;
         const IntBox& box = p.box;
 
-        if (tw <= 0 || th <= 0) {
+        // An empty tile is empty by its width, as boxInside leaves a box.
+        if (tw <= 0) {
             return;
         }
 
@@ -14569,7 +14546,8 @@ namespace {
                                 int w = src.x1 - src.x0;
                                 int h = src.y1 - src.y0;
 
-                                if (w <= 0 || h <= 0) {
+                                // An empty input is empty by its width, as boxInside leaves a box.
+                                if (w <= 0) {
                                     continue;
                                 }
 
@@ -15284,7 +15262,7 @@ namespace {
                 bool bounded = primitiveReach(filter, p, scaleX, scaleY, reach) && reach < 16777216.f;
                 IntBox wide = p.box;
 
-                if (bounded && wide.x1 > wide.x0 && wide.y1 > wide.y0) {
+                if (bounded && wide.x1 > wide.x0) {
                     int r = (int)ceilf(reach);
 
                     wide = IntBox{wide.x0 - r, wide.y0 - r, wide.x1 + r, wide.y1 + r};

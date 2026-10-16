@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+<filter id="f" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+<feFlood flood-color="red" x="0" y="0" width="5" height="16" result="a"/>
+<feGaussianBlur in="a" x="10" y="0" width="6" height="16" stdDeviation="1" result="b"/>
+<feMerge><feMergeNode in="a"/><feMergeNode in="b"/></feMerge>
+</filter>
+<rect width="16" height="16" filter="url(#f)"/>
+</svg>
