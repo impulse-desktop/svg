@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<style><![CDATA[
+rect { transform-box: fill-box; transform-origin: center }
+.a { transform: rotateX(60deg) } .b { transform: rotateY(1rad) } .c { transform: translateZ(50px) rotateZ(20deg) }
+.d { transform: scale3d(.5, 1, 9) translate3d(2px, 3px, 40px) } .e { transform: matrix3d(1,0,0,0, .5,1,0,0, 0,0,1,0, 2,4,0,1) }
+.f { transform: rotate3d(1, 1, 0, 50deg) } .g { transform: rotate3d(0, 0, 0, 50deg) } .h { transform: scaleZ(3) rotateX(30deg) skew(10deg) }
+.i { transform: perspective(30px) translateZ(10px) } .j { transform: matrix3d(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,2) }
+.k { transform: translate3d(1px, 2px) } .l { transform: matrix3d(1,0,0,0) } .m { transform: perspective(-1px) } .n { transform: rotateX(30deg) translate(2px, 1px) scale(1.2) }
+.o { transform: perspective(0) translateZ(-5px) } .p { transform: rotate3d(0, 0, 1, 30deg) }
+]]></style>
+<g fill="teal" stroke="black" stroke-width=".5">
+<rect class="a" x="2" y="2" width="10" height="10"/>
+<rect class="b" x="18" y="2" width="10" height="10"/>
+<rect class="c" x="34" y="2" width="10" height="10"/>
+<rect class="d" x="50" y="2" width="10" height="10"/>
+<rect class="e" x="2" y="18" width="10" height="10"/>
+<rect class="f" x="18" y="18" width="10" height="10"/>
+<rect class="g" x="34" y="18" width="10" height="10"/>
+<rect class="h" x="50" y="18" width="10" height="10"/>
+<rect class="i" x="2" y="34" width="10" height="10"/>
+<rect class="j" x="18" y="34" width="10" height="10"/>
+<rect class="k" x="34" y="34" width="10" height="10"/>
+<rect class="l" x="50" y="34" width="10" height="10"/>
+<rect class="m" x="2" y="50" width="10" height="10"/>
+<rect class="n" x="18" y="50" width="10" height="10"/>
+<rect class="o" x="34" y="50" width="10" height="10"/>
+<rect class="p" x="50" y="50" width="10" height="10"/>
+</g>
+</svg>

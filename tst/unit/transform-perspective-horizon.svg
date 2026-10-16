@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<filter id="b" x="0" y="0" width="1" height="1"><feFlood flood-color="gold" flood-opacity=".5"/><feBlend in="SourceGraphic" in2="BackgroundImage" mode="multiply"/></filter>
+<g enable-background="new">
+<rect width="64" height="32" fill="teal"/>
+<rect x="4" y="-200" width="56" height="230" fill="purple" fill-opacity=".6" style="transform: perspective(20px) rotateX(75deg); transform-origin: 32px 30px"/>
+<rect x="30" y="10" width="30" height="12" fill="navy" stroke="black" stroke-width=".5" style="transform: perspective(20px) rotateY(60deg); transform-box: fill-box; transform-origin: right"/>
+<rect x="4" y="4" width="16" height="24" fill="crimson" filter="url(#b)" style="transform: perspective(30px) rotateY(-30deg); transform-box: fill-box; transform-origin: center"/>
+</g>
+</svg>

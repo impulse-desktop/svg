@@ -1181,6 +1181,15 @@ namespace {
         float f;
     };
 
+    // A 3D transform seen on the plane z = 0 in perspective: a point goes to
+    // (m[0] x + m[1] y + m[2], m[3] x + m[4] y + m[5]) over the weight
+    // m[6] x + m[7] y + m[8], and of a weight of no sign it is behind the
+    // eye. on when the transform is such, past an affine one.
+    struct Projective {
+        float m[9];
+        bool on;
+    };
+
     struct Box {
         float x0;
         float y0;
@@ -1706,6 +1715,9 @@ namespace {
         u32 layerWidth;
         u32 layerHeight;
         Matrix layerMatrix;
+        // Of a layer seen in perspective, the maps from the device to the
+        // layer and back, which layerMatrix stands for otherwise.
+        const Projective* perspective;
         bool newBackground;
         bool backgroundOnly;
         bool resetBackground;
@@ -1790,6 +1802,9 @@ namespace {
         Node* sized;
         float sizedWidth;
         float sizedHeight;
+        // An element drawn on its layer of a transform in perspective: its
+        // own transform is the layer's.
+        Node* flattened;
         Matrix contextMatrix;
         Box contextBox;
         // How deep in patterns' content the lowering is: that content is
@@ -2246,6 +2261,75 @@ namespace {
         out.f = (float)((m.b * (double)m.e - m.a * (double)m.f) * inv);
 
         return true;
+    }
+
+    static Projective projectiveOf(const Matrix& m) {
+        return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true};
+    }
+
+    static Projective compose(const Projective& p, const Projective& q) {
+        Projective out{{}, true};
+
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                out.m[r * 3 + c] = p.m[r * 3] * q.m[c] + p.m[r * 3 + 1] * q.m[3 + c] + p.m[r * 3 + 2] * q.m[6 + c];
+            }
+        }
+
+        return out;
+    }
+
+    // The inverse, by the adjugate over the determinant, which keeps the
+    // weight's sign: a point in front of the eye maps back to one.
+    static bool invertProjective(const Projective& p, Projective& out) {
+        const float* m = p.m;
+        float adjugate[9] = {m[4] * m[8] - m[5] * m[7], m[2] * m[7] - m[1] * m[8], m[1] * m[5] - m[2] * m[4], m[5] * m[6] - m[3] * m[8], m[0] * m[8] - m[2] * m[6], m[2] * m[3] - m[0] * m[5], m[3] * m[7] - m[4] * m[6], m[1] * m[6] - m[0] * m[7], m[0] * m[4] - m[1] * m[3]};
+        float determinant = m[0] * adjugate[0] + m[1] * adjugate[3] + m[2] * adjugate[6];
+
+        if (!(fabsf(determinant) > 0.f) || !isfinite(1.f / determinant)) {
+            return false;
+        }
+
+        out.on = true;
+
+        for (int k = 0; k < 9; k++) {
+            out.m[k] = adjugate[k] / determinant;
+        }
+
+        return true;
+    }
+
+    // Where a point goes, false behind the eye.
+    static bool projectPoint(const Projective& p, Point in, Point& out) {
+        const float* m = p.m;
+        float w = m[6] * in.x + m[7] * in.y + m[8];
+
+        if (!(w > 0.f)) {
+            return false;
+        }
+
+        out = Point{(m[0] * in.x + m[1] * in.y + m[2]) / w, (m[3] * in.x + m[4] * in.y + m[5]) / w};
+
+        return true;
+    }
+
+    // The box a box goes to, all of its corners in front of the eye; else
+    // the fallback.
+    static Box projectBox(const Projective& p, const Box& box, const Box& fallback) {
+        Point corners[4] = {{box.x0, box.y0}, {box.x1, box.y0}, {box.x0, box.y1}, {box.x1, box.y1}};
+        Box out{3e38f, 3e38f, -3e38f, -3e38f};
+
+        for (Point corner : corners) {
+            Point q;
+
+            if (!projectPoint(p, corner, q)) {
+                return fallback;
+            }
+
+            out = Box{minf(out.x0, q.x), minf(out.y0, q.y), maxf(out.x1, q.x), maxf(out.y1, q.y)};
+        }
+
+        return out;
     }
 
     static float matrixScale(const Matrix& m) {
@@ -3038,7 +3122,7 @@ namespace {
 
     // An element and its content. Text is its parent's text, which an
     // xi:include of text or an xi:fallback adds to.
-    static bool parseTransform(StringView text, Matrix& out, bool css);
+    static bool parseTransform(StringView text, Matrix& out, bool css, Projective* perspective = nullptr);
     static bool parseNumberText(StringView text, float& out);
 
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
@@ -5626,10 +5710,36 @@ namespace {
     // A transform list: in an attribute SVG's, numbers alone and its six
     // functions; in a declaration CSS's too, with angle and length units and
     // the functions of one axis.
-    static bool parseTransform(StringView text, Matrix& out, bool css) {
+    static bool parseTransform(StringView text, Matrix& out, bool css, Projective* perspective) {
         const u8* p = text.begin();
         const u8* end = text.end();
         Matrix result = identity();
+        // Past the first 3D function the list goes on in 4 by 4, rows by
+        // columns, a point a column.
+        bool deep = false;
+        float m4[4][4];
+        auto compose = [&](const float (&n)[4][4]) {
+            float t[4][4];
+
+            if (!deep) {
+                float flat[4][4] = {{result.a, result.c, 0.f, result.e}, {result.b, result.d, 0.f, result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+
+                memcpy(m4, flat, sizeof(flat));
+                deep = true;
+            }
+
+            for (int r = 0; r < 4; r++) {
+                for (int c = 0; c < 4; c++) {
+                    t[r][c] = m4[r][0] * n[0][c] + m4[r][1] * n[1][c] + m4[r][2] * n[2][c] + m4[r][3] * n[3][c];
+                }
+            }
+
+            memcpy(m4, t, sizeof(t));
+        };
+
+        if (perspective) {
+            perspective->on = false;
+        }
 
         if (equalsIgnoreCase(trim(text), SV("none"))) {
             out = result;
@@ -5667,7 +5777,8 @@ namespace {
 
             const u8* start = p;
 
-            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
+            // A name of letters, and digits after them: translate3d.
+            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (p > start && *p >= '0' && *p <= '9'))) {
                 p++;
             }
 
@@ -5681,7 +5792,7 @@ namespace {
 
             p++;
 
-            float args[6];
+            float args[16];
             u32 count = 0;
 
             for (;;) {
@@ -5692,7 +5803,7 @@ namespace {
                     break;
                 }
 
-                if (count == 6 || !readNumber(p, end, args[count])) {
+                if (count == 16 || !readNumber(p, end, args[count])) {
                     return false;
                 }
 
@@ -5759,10 +5870,64 @@ namespace {
                 args[0] = 1.f;
                 count = 2;
             } else if (name == SV("skew") && (count == 1 || count == 2)) {
-                float ax = tanf(args[0] * pi / 180.f);
-                float ay = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
+                name = SV("matrix");
+                args[1] = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
+                args[2] = tanf(args[0] * pi / 180.f);
+                args[0] = 1.f;
+                args[3] = 1.f;
+                args[4] = 0.f;
+                args[5] = 0.f;
+                count = 6;
+            }
 
-                result = multiply(result, Matrix{1.f, ay, ax, 1.f, 0.f, 0.f});
+            // The 3D functions of CSS Transforms 2.
+            float n[4][4] = {{1.f, 0.f, 0.f, 0.f}, {0.f, 1.f, 0.f, 0.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            bool rotation = name == SV("rotateX") || name == SV("rotateY") || name == SV("rotateZ");
+            bool three = true;
+
+            if (name == SV("translate3d") && count == 3) {
+                n[0][3] = args[0];
+                n[1][3] = args[1];
+                n[2][3] = args[2];
+            } else if (name == SV("translateZ") && count == 1) {
+                n[2][3] = args[0];
+            } else if (name == SV("scale3d") && count == 3) {
+                n[0][0] = args[0];
+                n[1][1] = args[1];
+                n[2][2] = args[2];
+            } else if (name == SV("scaleZ") && count == 1) {
+                n[2][2] = args[0];
+            } else if ((name == SV("rotate3d") && count == 4) || (rotation && count == 1)) {
+                float axis[3] = {name == SV("rotateX") ? 1.f : 0.f, name == SV("rotateY") ? 1.f : 0.f, name == SV("rotateZ") ? 1.f : 0.f};
+                float angle = (rotation ? args[0] : args[3]) * pi / 180.f;
+                float length = rotation ? 1.f : sqrtf(args[0] * args[0] + args[1] * args[1] + args[2] * args[2]);
+
+                // An axis of no length turns nothing.
+                for (int k = 0; k < 3 && !rotation; k++) {
+                    axis[k] = length > 0.f ? args[k] / length : 0.f;
+                }
+
+                float x = axis[0];
+                float y = axis[1];
+                float z = axis[2];
+                float sc = sinf(angle / 2.f) * cosf(angle / 2.f);
+                float sq = sinf(angle / 2.f) * sinf(angle / 2.f);
+                float turn[4][4] = {{1.f - 2.f * (y * y + z * z) * sq, 2.f * (x * y * sq - z * sc), 2.f * (x * z * sq + y * sc), 0.f}, {2.f * (x * y * sq + z * sc), 1.f - 2.f * (x * x + z * z) * sq, 2.f * (y * z * sq - x * sc), 0.f}, {2.f * (x * z * sq - y * sc), 2.f * (y * z * sq + x * sc), 1.f - 2.f * (x * x + y * y) * sq, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+
+                memcpy(n, turn, sizeof(n));
+            } else if (name == SV("perspective") && count == 1 && args[0] >= 0.f) {
+                // A depth below a px is a px.
+                n[3][2] = -1.f / maxf(args[0], 1.f);
+            } else if (name == SV("matrix3d") && count == 16) {
+                for (int k = 0; k < 16; k++) {
+                    n[k % 4][k / 4] = args[k];
+                }
+            } else {
+                three = false;
+            }
+
+            if (three) {
+                compose(n);
                 continue;
             }
 
@@ -5790,7 +5955,25 @@ namespace {
                 return false;
             }
 
-            result = multiply(result, m);
+            if (deep) {
+                float flat[4][4] = {{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+
+                compose(flat);
+            } else {
+                result = multiply(result, m);
+            }
+        }
+
+        // On z = 0 a point goes by the first, second and last columns: in
+        // perspective where the weight varies or has no sign.
+        if (deep) {
+            float w = m4[3][3] != 0.f ? m4[3][3] : 1.f;
+
+            result = Matrix{m4[0][0] / w, m4[1][0] / w, m4[0][1] / w, m4[1][1] / w, m4[0][3] / w, m4[1][3] / w};
+
+            if (perspective && (m4[3][0] != 0.f || m4[3][1] != 0.f || !(m4[3][3] > 0.f))) {
+                *perspective = Projective{{m4[0][0], m4[0][1], m4[0][3], m4[1][0], m4[1][1], m4[1][3], m4[3][0], m4[3][1], m4[3][3]}, true};
+            }
         }
 
         out = result;
@@ -12554,11 +12737,14 @@ namespace {
         drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering);
     }
 
-    static Matrix boxTransform(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp) {
+    // Where an element's transform turns about: its transform-origin in the
+    // box transform-box names, or in the viewport. False where it turns
+    // about the user space's origin as it is.
+    static bool transformAnchor(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Point& o) {
         const Document& doc = *l.doc;
         u32 kind = attribute(node, AtomTransformBox);
         StringView box = kind ? trim(textOf(doc, kind)) : StringView();
-        Matrix m;
+        u32 origin = attribute(node, AtomTransformOrigin);
         Box bounds;
 
         // An SVG element has no CSS box: content-box is its fill box and
@@ -12566,25 +12752,59 @@ namespace {
         bool fill = box == SV("fill-box") || box == SV("content-box");
         bool stroke = box == SV("stroke-box") || box == SV("border-box");
 
-        if (!(fill || stroke) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m, true)) {
-            return originTransform(doc, node, AtomTransform, vp);
+        if (!(fill || stroke)) {
+            o = origin ? transformOrigin(textOf(doc, origin), vp.width, vp.height) : Point{vp.width / 2.f, vp.height / 2.f};
+
+            return origin || node == doc.root;
         }
 
         if (!elementBox(l, node, parent, vp, bounds, 0)) {
-            return m;
+            return false;
         }
 
         if (stroke) {
             bounds = strokeBox(bounds, computeStyle(l, node, parent, vp), node, 0.5f);
         }
 
-        u32 origin = attribute(node, AtomTransformOrigin);
-        Point o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
-
+        o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
         o.x += bounds.x0;
         o.y += bounds.y0;
 
+        return true;
+    }
+
+    static Matrix boxTransform(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp) {
+        u32 value = attribute(node, AtomTransform);
+        Matrix m;
+        Point o;
+
+        if (!value || !parseTransform(textOf(*l.doc, value), m, true)) {
+            return identity();
+        }
+
+        if (!transformAnchor(l, node, parent, vp, o)) {
+            return m;
+        }
+
         return multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
+    }
+
+    // An element's transform in perspective, about its anchor; false for an
+    // affine one.
+    static bool boxProjective(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Projective& out) {
+        u32 value = attribute(node, AtomTransform);
+        Matrix m;
+        Point o;
+
+        if (!value || !parseTransform(textOf(*l.doc, value), m, true, &out) || !out.on) {
+            return false;
+        }
+
+        if (transformAnchor(l, node, parent, vp, o)) {
+            out = compose(compose(projectiveOf(translation(o.x, o.y)), out), projectiveOf(translation(-o.x, -o.y)));
+        }
+
+        return true;
     }
 
     static bool imageReachable(const Document& doc, const Node* node) {
@@ -13016,6 +13236,86 @@ namespace {
         return true;
     }
 
+    static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
+
+    // Draws an element of a transform in perspective as Firefox draws it: on
+    // a layer of its own user space, its extent and as far again around it,
+    // at the scale the transform has at its middle, then through the
+    // transform: each device pixel takes the layer between pixels where the
+    // plane is in front of the eye.
+    static void lowerProjectiveLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& ctm, const Projective& perspective, Viewport vp) {
+        Projective device = compose(projectiveOf(ctm), perspective);
+        Projective fromDevice;
+        Box local;
+
+        if (!elementBox(l, node, parent, vp, local, 0) || !invertProjective(device, fromDevice)) {
+            return;
+        }
+
+        float margin = maxf(local.x1 - local.x0, local.y1 - local.y0) / 2.f + style.strokeWidth;
+        Box area{local.x0 - margin, local.y0 - margin, local.x1 + margin, local.y1 + margin};
+        Point middle{(local.x0 + local.x1) / 2.f, (local.y0 + local.y1) / 2.f};
+        Point at;
+        Point across;
+        Point down;
+
+        // The scale the device has at the middle, a pixel apart.
+        if (!projectPoint(device, middle, at) || !projectPoint(device, Point{middle.x + 1.f, middle.y}, across) || !projectPoint(device, Point{middle.x, middle.y + 1.f}, down)) {
+            return;
+        }
+
+        float scale = minf(maxf(maxf(hypotf(across.x - at.x, across.y - at.y), hypotf(down.x - at.x, down.y - at.y)), 0.0625f), 16.f);
+        float lw = ceilf((area.x1 - area.x0) * scale);
+        float lh = ceilf((area.y1 - area.y0) * scale);
+        float budget = 16.f * (float)l.width * (float)l.height;
+
+        if (!(lw * lh <= budget)) {
+            float fit = sqrtf(budget / (lw * lh));
+
+            scale *= fit;
+            lw = ceilf((area.x1 - area.x0) * scale);
+            lh = ceilf((area.y1 - area.y0) * scale);
+        }
+
+        Matrix toLayer = multiply(scaling(scale, scale), translation(-area.x0, -area.y0));
+        Matrix fromLayer;
+
+        invert(toLayer, fromLayer);
+
+        Projective* maps = (Projective*)l.pool->allocate(sizeof(Projective) * 2);
+
+        maps[0] = compose(projectiveOf(toLayer), fromDevice);
+        maps[1] = compose(device, projectiveOf(fromLayer));
+
+        Vector<Op> content;
+        Vector<Op>* saved = l.out;
+        u32 width = l.width;
+        u32 height = l.height;
+
+        l.width = (u32)lw;
+        l.height = (u32)lh;
+        l.out = &content;
+        l.flattened = node;
+        lowerElement(l, node, parent, toLayer, vp);
+        l.out = saved;
+        l.width = width;
+        l.height = height;
+
+        Op op;
+
+        memset(&op, 0, sizeof(op));
+        op.kind = OpKind::Layer;
+        op.first = (u32)l.programs.length();
+        op.count = (u32)content.length();
+        op.layerWidth = (u32)lw;
+        op.layerHeight = (u32)lh;
+        op.layerMatrix = toLayer;
+        op.perspective = maps;
+        op.bounds = projectBox(maps[1], Box{-2.f, -2.f, lw + 2.f, lh + 2.f}, Box{0.f, 0.f, (float)width, (float)height});
+        l.programs.append(content.data(), content.length());
+        l.out->pushBack(op);
+    }
+
     // vector-effect's constrained transformations, SVG 2's formulas in the
     // host's space, the device's: the user space keeps its origin where the
     // CTM puts it, or for fixed-position at the e and f of the element's
@@ -13072,7 +13372,20 @@ namespace {
             return;
         }
 
-        Matrix own = boxTransform(l, node, parent, vp);
+        // A transform in perspective draws the element on a layer of its
+        // own, where the element is again, its transform the layer's.
+        Projective perspective;
+        bool flattened = l.flattened == node;
+
+        l.flattened = nullptr;
+
+        if (!flattened && boxProjective(l, node, parent, vp, perspective)) {
+            lowerProjectiveLayer(l, node, parent, style, ctm, perspective, vp);
+
+            return;
+        }
+
+        Matrix own = flattened ? identity() : boxTransform(l, node, parent, vp);
         Matrix m = multiply(ctm, own);
         Op op = groupOp(style.opacity);
 
@@ -18303,7 +18616,24 @@ namespace {
         Plane content{(u16*)pool.allocate(sizeof(u16) * size * 4), IntBox{0, 0, lw, lh}};
         Matrix toDevice;
 
-        // A layer's frame inverts.
+        // A layer's frame inverts. Seen in perspective, a layer takes the
+        // maps both ways, and a point behind the eye is nothing.
+        const Projective* maps = op.perspective;
+        Box canvasBox{0.f, 0.f, (float)r.width, (float)r.height};
+        Box layerBox{0.f, 0.f, (float)lw, (float)lh};
+        auto mapped = [&](int way, Point in, Point& out) {
+            if (maps) {
+                return projectPoint(maps[way], in, out);
+            }
+
+            out = apply(way ? toDevice : op.layerMatrix, in);
+
+            return true;
+        };
+        auto mappedBox = [&](int way, const Box& box) {
+            return maps ? projectBox(maps[way], box, way ? canvasBox : layerBox) : deviceBox(way ? toDevice : op.layerMatrix, box);
+        };
+
         invert(op.layerMatrix, toDevice);
         sub.width = op.layerWidth;
         sub.height = op.layerHeight;
@@ -18312,7 +18642,7 @@ namespace {
             // The layer inherits the background under its footprint, resampled
             // from the pixels around it.
             IntBox canvas{0, 0, (int)r.width, (int)r.height};
-            Box footprint = deviceBox(toDevice, Box{0.f, 0.f, (float)lw, (float)lh});
+            Box footprint = mappedBox(1, layerBox);
             Plane background = backgroundBuffer(r, pixelBox(Box{footprint.x0 - 2.f, footprint.y0 - 2.f, footprint.x1 + 2.f, footprint.y1 + 2.f}, canvas));
 
             if (background.data) {
@@ -18320,7 +18650,12 @@ namespace {
 
                 for (u32 y = 0; y < sub.height; y++) {
                     for (u32 x = 0; x < sub.width; x++) {
-                        Point point = apply(toDevice, Point{(float)x + .5f, (float)y + .5f});
+                        Point point;
+
+                        if (!mapped(1, Point{(float)x + .5f, (float)y + .5f}, point)) {
+                            continue;
+                        }
+
                         float fx = point.x - .5f;
                         float fy = point.y - .5f;
                         int ix = (int)floorf(fx);
@@ -18343,7 +18678,7 @@ namespace {
 
         // The device canvas and the taps around it, in layer pixels: the
         // part of the last result that is drawn.
-        Box footprint = deviceBox(op.layerMatrix, Box{0.f, 0.f, (float)r.width, (float)r.height});
+        Box footprint = mappedBox(0, canvasBox);
         IntBox visible = pixelBox(Box{footprint.x0 - 2.f, footprint.y0 - 2.f, footprint.x1 + 2.f, footprint.y1 + 2.f}, content.box);
         IntBox region{0, 0, lw, lh};
 
@@ -18354,14 +18689,15 @@ namespace {
 
         // A filter's result is zero outside its region, so only the device
         // pixels whose bilinear taps reach the region of the last one can draw.
-        Box reach = deviceBox(toDevice, Box{(float)region.x0 - 1.f, (float)region.y0 - 1.f, (float)region.x1 + 1.f, (float)region.y1 + 1.f});
+        Box reach = mappedBox(1, Box{(float)region.x0 - 1.f, (float)region.y0 - 1.f, (float)region.x1 + 1.f, (float)region.y1 + 1.f});
         IntBox drawn{reach.x0 - 2.f > 0.f ? (int)(reach.x0 - 2.f) : 0, reach.y0 - 2.f > 0.f ? (int)(reach.y0 - 2.f) : 0, reach.x1 + 3.f < (float)r.width ? (int)(reach.x1 + 3.f) : (int)r.width, reach.y1 + 3.f < (float)r.height ? (int)(reach.y1 + 3.f) : (int)r.height};
 
-        // A layer shifted by whole pixels is drawn row by row as it is: its
-        // matrix passes all eight tests of a whole shift. Else each device
-        // pixel blends the four layer pixels around its centre.
+        // A layer shifted by whole pixels is drawn row by row as it is: not
+        // in perspective, its matrix passes all eight tests of a whole
+        // shift. Else each device pixel blends the four layer pixels around
+        // its centre.
         const Matrix& lm = op.layerMatrix;
-        int tests = (lm.a == 1.f) + (lm.b == 0.f) + (lm.c == 0.f) + (lm.d == 1.f) + (lm.e == floorf(lm.e)) + (lm.f == floorf(lm.f)) + (fabsf(lm.e) < 16777216.f) + (fabsf(lm.f) < 16777216.f);
+        int tests = !maps + (lm.a == 1.f) + (lm.b == 0.f) + (lm.c == 0.f) + (lm.d == 1.f) + (lm.e == floorf(lm.e)) + (lm.f == floorf(lm.f)) + (fabsf(lm.e) < 16777216.f) + (fabsf(lm.f) < 16777216.f);
         // An empty box is all zero, as boxInside makes it.
         drawn = boxInside(drawn, IntBox{0, 0, (int)r.width, (int)r.height});
 
@@ -18369,7 +18705,7 @@ namespace {
         size_t first = firstTarget(r);
         Vector<u16> sample;
 
-        if (tests == 8) {
+        if (tests == 9) {
             int shiftX = (int)lm.e;
             int shiftY = (int)lm.f;
             int x0 = drawn.x0 > -shiftX ? drawn.x0 : -shiftX;
@@ -18399,13 +18735,14 @@ namespace {
             u16* out = sample.mutData();
 
             for (int x = drawn.x0; x < drawn.x1; x++, out += 4) {
-                Point p = apply(op.layerMatrix, Point{(float)x + 0.5f, (float)y + 0.5f});
+                Point p{0.f, 0.f};
+                bool front = mapped(0, Point{(float)x + 0.5f, (float)y + 0.5f}, p);
                 float fx = p.x - 0.5f;
                 float fy = p.y - 0.5f;
                 float bx = floorf(fx);
                 float by = floorf(fy);
 
-                if (bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
+                if (!front || bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
                     memset(out, 0, sizeof(u16) * 4);
                     continue;
                 }
@@ -18753,6 +19090,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.out = &l.ops;
         l.backgroundInputs = usesBackground(doc, doc.root);
         l.sized = nullptr;
+        l.flattened = nullptr;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
         l.screen = identity();
