@@ -102,6 +102,8 @@
 <style media="(bogus) or (monochrome)">#m100 { fill: green }</style>
 <style media="screen and (grid)">#m101 { fill: green }</style>
 <style media="screen and (bogus) and (color)">#m102 { fill: green }</style>
+<style media="(max-hover: none)">#m103 { fill: green }</style>
+<style media="(width foo &lt; 10px)">#m104 { fill: green }</style>
 <style><![CDATA[
 @charset "utf-8"; @import "x.css"; @font-face { font-family: x }
 @media screen { @media (color) { #a0 { fill: green } } @media print { #a1 { fill: red } } }
@@ -216,6 +218,8 @@
 <rect id="m100" x="2" y="62" width="5" height="5"/>
 <rect id="m101" x="8" y="62" width="5" height="5"/>
 <rect id="m102" x="14" y="62" width="5" height="5"/>
+<rect id="m103" x="20" y="62" width="5" height="5"/>
+<rect id="m104" x="26" y="62" width="5" height="5"/>
 <rect id="a0" x="2" y="74" width="5" height="5"/>
 <rect id="a1" x="8" y="74" width="5" height="5"/>
 <rect id="a2" x="14" y="74" width="5" height="5"/>
