@@ -3917,6 +3917,8 @@ namespace {
         return true;
     }
 
+    static bool validGeometry(u32 property, StringView value);
+
     static void parseDeclarations(Document& doc, StringView block, Vector<Declaration>& out) {
         const u8* p = block.begin();
         const u8* end = block.end();
@@ -3995,6 +3997,12 @@ namespace {
                     out.pushBack(Declaration{AtomMarkerEnd, atom, important});
                 }
 
+                continue;
+            }
+
+            // An invalid declaration of geometry is dropped, as CSS drops
+            // it: the attribute stays.
+            if (geometryProperty(property) && !validGeometry(property, value)) {
                 continue;
             }
 
@@ -5356,6 +5364,59 @@ namespace {
         }
 
         return Point{x1, y2};
+    }
+
+    // Whether a declaration of a geometry property is one CSS keeps: a
+    // length, of no sign for a size, auto for a size of a rect or its
+    // corners, path() of a string or none, a transform list, an origin of
+    // one to three values, or a box.
+    static bool validGeometry(u32 property, StringView value) {
+        Length length;
+        Matrix m;
+
+        if (equalsIgnoreCase(value, SV("inherit")) || equalsIgnoreCase(value, SV("initial")) || equalsIgnoreCase(value, SV("unset"))) {
+            return true;
+        }
+
+        switch (property) {
+            case AtomX:
+            case AtomY:
+            case AtomCx:
+            case AtomCy:
+                return parseLength(value, length);
+            case AtomR:
+                return parseLength(value, length) && length.value >= 0.f;
+            case AtomWidth:
+            case AtomHeight:
+            case AtomRx:
+            case AtomRy:
+                return equalsIgnoreCase(value, SV("auto")) || (parseLength(value, length) && length.value >= 0.f);
+            case AtomD: {
+                StringView inner = value.length() > 6 ? trim(StringView(value.begin() + 5, value.end() - 1)) : StringView();
+
+                return equalsIgnoreCase(value, SV("none")) || (startsWithIgnoreCase(value, SV("path(")) && value.back() == ')' && inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0]);
+            }
+            case AtomTransform:
+                return parseTransform(value, m, true);
+            case AtomTransformOrigin: {
+                const u8* p = value.begin();
+                float x;
+                float y;
+                int axis;
+                int count = 0;
+
+                while (count < 3 && readOrigin(p, value.end(), 0.f, 0.f, x, y, axis)) {
+                    count++;
+                }
+
+                skipSpaces(p, value.end());
+
+                return count > 0 && p == value.end();
+            }
+            default:
+                // AtomTransformBox.
+                return equalsIgnoreCase(value, SV("content-box")) || equalsIgnoreCase(value, SV("border-box")) || equalsIgnoreCase(value, SV("fill-box")) || equalsIgnoreCase(value, SV("stroke-box")) || equalsIgnoreCase(value, SV("view-box"));
+        }
     }
 
     static Matrix originTransform(const Document& doc, const Node* node, u32 name, Viewport vp) {
@@ -9097,12 +9158,13 @@ namespace {
             space = multiply(space, Matrix{bw, 0.f, 0.f, bh, bbox.x0, bbox.y0});
         }
 
+        // A mesh's gradientTransform comes from its attribute alone, which
+        // the parser keeps only when it reads.
         if (u32 transform = meshAttribute(doc, mesh, AtomGradientTransform)) {
-            Matrix m;
+            Matrix m = identity();
 
-            if (parseTransform(textOf(doc, transform), m, true)) {
-                space = multiply(space, m);
-            }
+            parseTransform(textOf(doc, transform), m, true);
+            space = multiply(space, m);
         }
 
         u32 stride = columns + 1;

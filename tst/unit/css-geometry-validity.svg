@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<style><![CDATA[
+.x1 { x: bogus } .x2 { x: 12px }
+.r1 { r: -1px } .r2 { r: bogus } .r3 { r: 2px }
+.w1 { width: -2px } .w2 { width: auto } .w3 { height: bogus } .w4 { rx: auto; ry: 2px }
+.d1 { d: bogus } .d2 { d: path(M0 0 h4) } .d3 { d: path() } .d4 { d: path('M42 2 h6 v6 z') } .d6 { d: none }
+.t1 { transform: bogus } .t2 { transform: rotate(1rad) rotate(-57.29578deg) } .t3 { transform: rotate(200grad) } .t4 { transform: rotate(.5turn) }
+.t5 { transform: translate(1foo) } .t6 { transform: translateX(1px, 2px) } .t7 { transform: skew(10deg, 5deg) } .t8 { transform: skew() }
+.t9 { transform: skew(10deg) } .t10 { transform: translateY(1px, 2px) } .t11 { transform: scaleX(1, 2) } .t12 { transform: scaleY(1, 2) }
+.o1 { transform-origin: bogus } .o2 { transform-origin: left top 0 } .o3 { transform-origin: left top 0 junk } .o4 { transform-origin: center }
+.b1 { transform-box: bogus } .b2 { transform-box: fill-box }
+.i1 { transform: initial } .i2 { x: unset } .i3 { transform: inherit }
+]]></style>
+<defs>
+<pattern id="p" class="i1" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="scale(2)"><rect width="2" height="2" fill="purple"/></pattern>
+<linearGradient id="g" class="i1" gradientTransform="rotate(90)"><stop offset="0" stop-color="gold"/><stop offset="1" stop-color="navy"/></linearGradient>
+<clipPath id="c"><rect class="i1" x="50" y="50" width="12" height="12" transform="translate(-40 0)"/></clipPath>
+</defs>
+<rect class="x1" x="2" y="2" width="6" height="6" fill="teal"/>
+<rect class="x2" x="2" y="2" width="6" height="6" fill="navy"/>
+<circle class="r1" cx="25" cy="5" r="3" fill="crimson"/>
+<circle class="r2" cx="33" cy="5" r="3" fill="olive"/>
+<circle class="r3" cx="40" cy="5" r="3" fill="gold"/>
+<rect class="w1" x="46" y="2" width="6" height="6" fill="purple"/>
+<rect class="w2" x="54" y="2" width="6" height="6" fill="green"/>
+<rect class="w3" x="2" y="12" width="6" height="6" fill="black"/>
+<rect class="w4" x="10" y="12" width="8" height="6" fill="sienna"/>
+<path class="d1" d="M20 12 h6 v6 z" fill="teal"/>
+<path class="d2" d="M28 12 h6 v6 z" fill="navy"/>
+<path class="d3" d="M36 12 h6 v6 z" fill="crimson"/>
+<path class="d4" d="M44 12 h6 v6 z" fill="olive"/>
+<path d="M52 12 h6 v6 z" fill="gold" style="d: path(&quot;M2 2 h6 v6 z')"/>
+<path class="d6" d="M56 12 h6 v6 z" fill="purple"/>
+<rect class="t1" width="6" height="6" fill="green" transform="translate(2 22)"/>
+<rect class="t2" x="10" y="22" width="6" height="6" fill="black"/>
+<rect class="t3" x="-24" y="-28" width="6" height="6" fill="sienna"/>
+<rect class="t4" x="-32" y="-28" width="6" height="6" fill="teal"/>
+<rect class="t5" width="6" height="6" fill="navy" transform="translate(34 22)"/>
+<rect class="t6" width="6" height="6" fill="crimson" transform="translate(42 22)"/>
+<rect class="t7" x="50" y="22" width="6" height="6" fill="olive"/>
+<rect class="t8" width="6" height="6" fill="gold" transform="translate(58 22)"/>
+<rect class="o1" x="2" y="32" width="6" height="6" fill="purple" transform="rotate(10)" transform-origin="5 35"/>
+<rect class="o2" x="10" y="32" width="6" height="6" fill="green" transform="rotate(10)" transform-origin="13 35"/>
+<rect class="o3" x="18" y="32" width="6" height="6" fill="black" transform="rotate(10)" transform-origin="21 35"/>
+<rect class="o4 b2" x="26" y="32" width="6" height="6" fill="sienna" transform="rotate(45)"/>
+<rect class="b1" x="34" y="32" width="6" height="6" fill="teal" transform="rotate(5)" style="transform-box: fill-box; transform-origin: center"/>
+<rect class="i1 b2" x="42" y="32" width="6" height="6" fill="navy" transform="rotate(45)" transform-origin="center"/>
+<rect class="i2" x="50" y="32" width="6" height="6" fill="crimson"/>
+<rect class="i3" x="58" y="32" width="4" height="6" fill="olive" transform="translate(0 4)"/>
+<rect class="t9" x="40" y="44" width="3" height="3" fill="teal"/>
+<rect class="t10" width="3" height="3" fill="navy" transform="translate(44 44)"/>
+<rect class="t11" width="3" height="3" fill="crimson" transform="translate(40 48)"/>
+<rect class="t12" width="3" height="3" fill="olive" transform="translate(44 48)"/>
+<rect x="2" y="44" width="16" height="16" fill="url(#p)"/>
+<rect x="22" y="44" width="16" height="16" fill="url(#g)"/>
+<rect x="0" y="0" width="64" height="64" fill="black" clip-path="url(#c)"/>
+</svg>
