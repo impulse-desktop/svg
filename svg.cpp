@@ -1256,6 +1256,14 @@ namespace {
 
     struct Rule;
 
+    // A geometry property's value a node's declarations give it, the
+    // CSS-wide keywords resolved, none for the initial one.
+    struct GeometryValue {
+        u32 node;
+        u32 property;
+        u32 value;
+    };
+
     struct Document {
         ObjPool* pool;
         Interner atoms;
@@ -1265,6 +1273,8 @@ namespace {
         Rule* rules;
         u32 ruleCount;
         bool structural;
+        // The geometry values of declarations, by node in document order.
+        Vector<GeometryValue> geometry;
     };
 
     struct Entity {
@@ -5991,6 +6001,55 @@ namespace {
         }
     }
 
+    static bool isKeyword(StringView text, StringView keyword);
+
+    // The attribute a geometry property sets on an element.
+    static u32 geometryAttribute(u32 element, u32 property) {
+        if (property == AtomTransform && (element == AtomLinearGradient || element == AtomRadialGradient)) {
+            return AtomGradientTransform;
+        }
+
+        if (property == AtomTransform && element == AtomPattern) {
+            return AtomPatternTransform;
+        }
+
+        return property == AtomPathLengthProperty ? AtomPathLength : property;
+    }
+
+    // A geometry property's initial value.
+    static StringView geometryInitial(u32 property) {
+        static const struct {
+            u32 property;
+            const char* value;
+        } initials[] = {{AtomX, "0"}, {AtomY, "0"}, {AtomCx, "0"}, {AtomCy, "0"}, {AtomR, "0"}, {AtomTransform, "none"}, {AtomD, "none"}, {AtomPathLengthProperty, "none"}, {AtomTransformOrigin, "50% 50%"}, {AtomTransformBox, "view-box"}};
+
+        for (const auto& initial : initials) {
+            if (initial.property == property) {
+                return StringView(initial.value);
+            }
+        }
+
+        // width, height, rx and ry.
+        return SV("auto");
+    }
+
+    // The value of a geometry property a child inherits: what the parent's
+    // declarations gave it, else its presentation attribute, else none for
+    // the initial one. A use's instance inherits its target's parent's.
+    static u32 inheritedGeometry(const Document& doc, const Node* parent, u32 property) {
+        if (!parent) {
+            return 0;
+        }
+
+        for (size_t i = doc.geometry.length(); i-- > 0 && doc.geometry[i].node >= parent->index;) {
+            if (doc.geometry[i].node == parent->index && doc.geometry[i].property == property) {
+                return doc.geometry[i].value;
+            }
+        }
+
+        return geometryApplies(parent->name, property) ? attribute(parent, geometryAttribute(parent->name, property)) : 0;
+    }
+
     static u32* cascadeNode(Document& doc, Node* node, const Node* boundary) {
         Candidate best[propertyCount];
         Vector<Declaration> geometry;
@@ -6086,20 +6145,25 @@ namespace {
                 break;
             }
 
+            // inherit takes the parent's value, but d's, which a path
+            // follows up as it draws, through a use to its instance;
+            // initial and unset, as no geometry property inherits, the
+            // initial one.
+            u32 value = declaration.value;
+            StringView text = textOf(doc, value);
+
+            if (isKeyword(text, SV("inherit")) && declaration.property != AtomD) {
+                value = inheritedGeometry(doc, node->parent, declaration.property);
+            } else if (isKeyword(text, SV("initial")) || isKeyword(text, SV("unset"))) {
+                value = 0;
+            }
+
+            doc.geometry.pushBack(GeometryValue{node->index, declaration.property, value});
+
             bool outer = node == doc.root && declaration.property != AtomTransform && declaration.property != AtomTransformOrigin;
 
             if ((geometryApplies(node->name, declaration.property) || declaration.property == AtomD) && !outer) {
-                u32 property = declaration.property;
-
-                if (property == AtomTransform && (node->name == AtomLinearGradient || node->name == AtomRadialGradient)) {
-                    property = AtomGradientTransform;
-                } else if (property == AtomTransform && node->name == AtomPattern) {
-                    property = AtomPatternTransform;
-                } else if (property == AtomPathLengthProperty) {
-                    property = AtomPathLength;
-                }
-
-                setAttribute(doc, node, property, declaration.value);
+                setAttribute(doc, node, geometryAttribute(node->name, declaration.property), value ? value : intern(doc.atoms, geometryInitial(declaration.property)));
             }
         }
 
@@ -7659,8 +7723,6 @@ namespace {
         cubicTo(path, Point{cx + rx * k, cy - ry}, Point{cx + rx, cy - ry * k}, Point{cx + rx, cy});
         closePath(path);
     }
-
-    static bool isKeyword(StringView text, StringView keyword);
 
     static bool buildShape(const Pass& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
         const Document& doc = *l.doc;
