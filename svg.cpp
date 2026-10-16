@@ -1693,6 +1693,11 @@ namespace {
         // Whether a pattern or raster paint is filled outside patterns'
         // content, so drawn once: its tile or pixels go after the fill.
         bool once;
+        // A raster of a CSS image samples the four texels about a point, as
+        // browsers draw one, round the sides it repeats along: bit 1
+        // across, 2 down.
+        bool tent;
+        u8 wraps;
     };
 
     // The paints whose tiles or shrunk pixels a render holds, let go with it.
@@ -1818,14 +1823,14 @@ namespace {
         Node* ratio;
     };
 
-    // A raster a pass decoded for an element, so that the element drawn
-    // again, as a pattern's content is for each fill it paints, decodes
-    // once: the source and its size, and the paints that sample it yet to be
-    // let go, after the last of which the raster goes. A paint in patterns'
-    // content is drawn again for each piece of a tile and never lets go, so
-    // its raster stays; any other is drawn once.
+    // A raster a pass decoded for an element or a mask image's url, so
+    // that the element drawn again, as a pattern's content is for each fill
+    // it paints, decodes once: the source and its size, and the paints that
+    // sample it yet to be let go, after the last of which the raster goes. A
+    // paint in patterns' content is drawn again for each piece of a tile and
+    // never lets go, so its raster stays; any other is drawn once.
     struct CachedImage {
-        Node* node;
+        const void* key;
         ImageSource source;
         u32 width;
         u32 height;
@@ -12452,24 +12457,49 @@ namespace {
         return paint;
     }
 
-    // A mask layer of a gradient: its image sized in the positioning area
-    // as mask-size has it, placed by mask-position, repeated over the
-    // painting area by mask-repeat, whole numbers for round and spread
-    // apart for space, as CSS Backgrounds lays images out; the painting
-    // area bounds it. The boxes are the fill box, the stroke box and the
-    // viewport.
-    static void gradientMaskLayer(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const MaskLayer& layer, const Matrix& m, Viewport vp, MaskLayerOp& out) {
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering);
+    static bool explicitSide(const Document& doc, const Node* root, u32 name);
+    static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps);
+
+    // A mask layer of an image, a gradient or the one given: its image
+    // sized in the positioning area as mask-size has it, placed by
+    // mask-position, repeated over the painting area by mask-repeat, whole
+    // numbers for round and spread apart for space, as CSS Backgrounds lays
+    // images out; the painting area bounds it. The boxes are the fill box,
+    // the stroke box and the viewport.
+    static void imageMaskLayer(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const MaskLayer& layer, const ImageSource* image, const Matrix& m, Viewport vp, MaskLayerOp& out) {
         CssGradient gradient;
         Box fill;
         float fs = style.fontSize;
+        // The image's own size and ratio, none a gradient's; a document's
+        // side it leaves open but its ratio gives is the ratio's.
+        float natural[2] = {0.f, 0.f};
+        float ratio = 0.f;
 
         out.type = layer.mode != 2;
         out.first = (u32)l.programs.length();
         out.count = 0;
         out.region = (u32)l.clips.length();
 
-        // The cascade took the image whole.
-        parseCssGradient(layer.image, style.color, gradient);
+        if (image) {
+            float vw = image->viewBox.x1 - image->viewBox.x0;
+            float vh = image->viewBox.y1 - image->viewBox.y0;
+
+            // A document's own size is the sides it gives, the rest its
+            // ratio's, as CSS Images sizes an SVG image.
+            natural[0] = !image->nested || explicitSide(*image->nested, image->nested->root, AtomWidth) ? image->width : 0.f;
+            natural[1] = !image->nested || explicitSide(*image->nested, image->nested->root, AtomHeight) ? image->height : 0.f;
+            ratio = natural[0] > 0.f && natural[1] > 0.f ? natural[0] / natural[1] : (vw > 0.f && vh > 0.f ? vw / vh : 0.f);
+
+            if (ratio > 0.f && natural[0] > 0.f) {
+                natural[1] = natural[0] / ratio;
+            } else if (ratio > 0.f && natural[1] > 0.f) {
+                natural[0] = natural[1] * ratio;
+            }
+        } else {
+            // The cascade took the image whole.
+            parseCssGradient(layer.image, style.color, gradient);
+        }
 
         if (!elementBox(l, element, parent, vp, fill, 0)) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
@@ -12489,10 +12519,29 @@ namespace {
         float origin[2];
         bool repeats[2];
 
-        // A gradient has no size of its own: auto, cover and contain are
-        // the area's.
+        // A side given is its length, a side auto the image's own or the
+        // area's; cover and contain, or auto for an image of a ratio alone,
+        // the largest of its ratio inside the area, or the smallest over
+        // it; one side given, the other keeps the ratio.
+        bool given[2] = {!layer.size && !layer.fit[0], !layer.size && !layer.fit[1]};
+        u8 fit = layer.size ? layer.size : (!given[0] && !given[1] && ratio > 0.f && !(natural[0] > 0.f) ? 2 : 0);
+
         for (int axis = 0; axis < 2; axis++) {
-            size[axis] = layer.size || layer.fit[axis] ? span[axis] : shapeLength(layer.extent[axis], span[axis], vp, fs);
+            size[axis] = given[axis] ? shapeLength(layer.extent[axis], span[axis], vp, fs) : (natural[axis] > 0.f ? natural[axis] : span[axis]);
+        }
+
+        if (fit) {
+            float r = ratio > 0.f ? ratio : span[0] / span[1];
+
+            size[0] = span[0];
+            size[1] = span[0] / r;
+
+            if ((fit == 2) == (size[1] > span[1])) {
+                size[1] = span[1];
+                size[0] = span[1] * r;
+            }
+        } else if (given[0] != given[1] && ratio > 0.f) {
+            size[given[0] ? 1 : 0] = given[0] ? size[0] / ratio : size[1] * ratio;
         }
 
         for (int axis = 0; axis < 2; axis++) {
@@ -12534,32 +12583,50 @@ namespace {
 
         l.out = &program;
 
-        if (!repeats[0] && !repeats[1]) {
-            fillBox(l, Box{0.f, 0.f, size[0], size[1]}, space, cssGradientPaint(l, gradient, size[0], size[1], space, vp, fs));
-        } else {
-            DevicePaint* tiles = tilePaint(l, space, size[0] + gap[0], size[1] + gap[1], [&](const Matrix& tile) {
+        auto draw = [&](const Matrix& tile) {
+            if (image) {
+                drawImage(l, nullptr, *image, tile, vp, 0.f, 0.f, size[0], size[1], style.imageRendering);
+            } else {
                 fillBox(l, Box{0.f, 0.f, size[0], size[1]}, tile, cssGradientPaint(l, gradient, size[0], size[1], tile, vp, fs));
-            });
-            Box strip = painted;
-
-            // An axis that does not repeat holds one row of tiles.
-            if (!repeats[0]) {
-                strip.x0 = origin[0];
-                strip.x1 = origin[0] + size[0];
             }
+        };
 
-            if (!repeats[1]) {
-                strip.y0 = origin[1];
-                strip.y1 = origin[1] + size[1];
-            }
+        Box strip = painted;
 
-            fillBox(l, strip, m, tiles);
+        // An axis that does not repeat holds one row of tiles.
+        if (!repeats[0]) {
+            strip.x0 = origin[0];
+            strip.x1 = origin[0] + size[0];
+        }
+
+        if (!repeats[1]) {
+            strip.y0 = origin[1];
+            strip.y1 = origin[1] + size[1];
+        }
+
+        // The axes the painting area passes a tile along: with neither the
+        // tile is drawn alone, as browsers draw it.
+        bool across = origin[0] > strip.x0 || origin[0] + size[0] < strip.x1;
+        bool down = origin[1] > strip.y0 || origin[1] + size[1] < strip.y1;
+
+        if (!across && !down) {
+            draw(space);
+        } else if (image && image->cached && gap[0] == 0.f && gap[1] == 0.f) {
+            // A raster tiled edge to edge is one image sampled round its
+            // sides, which blends each tile's edge with the next one's, as
+            // browsers draw it; along an axis one tile spans, as Chromium
+            // does, not.
+            fillBox(l, strip, m, rasterPaint(l, image->cached, multiply(space, scaling(size[0] / image->width, size[1] / image->height)), style.imageRendering, true, (u8)(across | down << 1)));
+        } else {
+            fillBox(l, strip, m, tilePaint(l, space, size[0] + gap[0], size[1] + gap[1], draw));
         }
 
         l.out = saved;
         out.first = (u32)l.programs.length();
         out.count = (u32)program.length();
         l.programs.append(program.data(), program.length());
+        // A document drawn adds clips of its own first.
+        out.region = (u32)l.clips.length();
         addRectClip(l, m, painted.x0, painted.y0, painted.x1 - painted.x0, painted.y1 - painted.y0);
     }
 
@@ -12595,10 +12662,13 @@ namespace {
         }
     }
 
+    static bool loadImageFrom(Pass& l, const void* key, StringView reference, ImageSource& out);
+
     // The mask layers of an element. none, and a reference to no usable
     // mask element, draw as if not there, as browsers draw them, which CSS
-    // Masking takes for transparent black; with no layer left nothing
-    // masks.
+    // Masking takes for transparent black; an image that does not load is
+    // transparent black, but alone masks nothing either; with no layer
+    // left nothing masks.
     static void resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Vector<MaskLayer> layers;
@@ -12612,6 +12682,7 @@ namespace {
         for (const MaskLayer& layer : layers) {
             MaskLayerOp& out = ops[count];
             Node* mask = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, layer.url)) : nullptr;
+            ImageSource image;
 
             if (layer.source == MaskSource::None || (layer.source == MaskSource::Element && (!mask || mask->name != AtomMask || !resourceUsable(l, mask, vp) || closesCycle(l, element, AtomMask, mask)))) {
                 continue;
@@ -12623,7 +12694,10 @@ namespace {
                 maskElementLayer(l, element, parent, mask, layer.mode, m, vp, out);
                 any = true;
             } else if (layer.source == MaskSource::Gradient) {
-                gradientMaskLayer(l, element, parent, style, layer, m, vp, out);
+                imageMaskLayer(l, element, parent, style, layer, nullptr, m, vp, out);
+                any = true;
+            } else if (loadImageFrom(l, layer.url.data(), layer.url, image)) {
+                imageMaskLayer(l, element, parent, style, layer, &image, m, vp, out);
                 any = true;
             } else {
                 out.type = 1;
@@ -14039,17 +14113,16 @@ namespace {
 
     const SvgImageVtable renderedVtable = {destroyRendered, renderedData, renderedLength, renderedWidth, renderedHeight};
 
-    static bool loadImage(Pass& l, Node* node, ImageSource& out) {
+    // The image a reference names, its raster decoded once for the key.
+    static bool loadImageFrom(Pass& l, const void* key, StringView reference, ImageSource& out) {
         for (CachedImage* cached : l.images) {
-            if (cached->node == node) {
+            if (cached->key == key) {
                 out = cached->source;
 
                 return true;
             }
         }
 
-        const Document& doc = *l.doc;
-        u32 href = attribute(node, AtomHref);
         StringView mime;
         Buffer bytes;
 
@@ -14059,9 +14132,6 @@ namespace {
         out.cached = nullptr;
         out.ratio = nullptr;
 
-        // Its callers see an href first.
-
-        StringView reference = trim(textOf(doc, href));
         bool remote = startsWithIgnoreCase(reference, SV("http:")) || startsWithIgnoreCase(reference, SV("https:")) || (!reference.empty() && reference[0] == '#');
         StringView fragment;
 
@@ -14138,10 +14208,15 @@ namespace {
         CachedImage* cached = (CachedImage*)l.pool->allocate(sizeof(CachedImage));
 
         out.cached = cached;
-        *cached = CachedImage{node, out, width, height, 0};
+        *cached = CachedImage{key, out, width, height, 0};
         l.images.pushBack(cached);
 
         return true;
+    }
+
+    // The image of an element's href, which its callers see first.
+    static bool loadImage(Pass& l, Node* node, ImageSource& out) {
+        return loadImageFrom(l, node, trim(textOf(*l.doc, attribute(node, AtomHref))), out);
     }
 
     // Lets the decoded raster of a source go once nothing reads it.
@@ -14236,9 +14311,63 @@ namespace {
 
     static bool usesBackground(const Document& doc, const Node* node, u32 depth = 0);
 
+    // The paint of a raster under the matrix that takes its pixels to the
+    // device: of a CSS image, sampled so and round the sides wraps names;
+    // null for a matrix of no inverse.
+    static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps) {
+        DevicePaint* paint = l.pool->make<DevicePaint>();
+        Matrix inverse;
+
+        memset(paint, 0, sizeof(DevicePaint));
+        paint->type = PaintType::Image;
+        paint->imageWidth = cached->width;
+        paint->imageHeight = cached->height;
+        paint->tent = tent;
+        paint->wraps = wraps;
+
+        if (!invert(place, inverse)) {
+            return nullptr;
+        }
+
+        float scale = minf(sqrtf(place.a * place.a + place.b * place.b), sqrtf(place.c * place.c + place.d * place.d));
+        int levels = scale < 1.f ? (int)floorf(maxf(-log2f(scale) - 0.5f, 0.f) + 0.5f) : 0;
+
+        paint->smooth = rendering == 0 || (rendering == 2 && scale < 1.f);
+        levels = paint->smooth ? levels : 0;
+
+        // Each side halves as many of the levels as it has pixels to: a side
+        // of one stays.
+        u32 kx = 0;
+        u32 ky = 0;
+
+        while (kx < (u32)levels && ((u64)1 << kx) < paint->imageWidth) {
+            kx++;
+        }
+
+        while (ky < (u32)levels && ((u64)1 << ky) < paint->imageHeight) {
+            ky++;
+        }
+
+        // The paint samples the image shrunk so, its pixels read when a fill
+        // first draws it.
+        paint->source = cached;
+        paint->kx = kx;
+        paint->ky = ky;
+        paint->imageWidth = (u32)((paint->imageWidth + ((u64)1 << kx) - 1) >> kx);
+        paint->imageHeight = (u32)((paint->imageHeight + ((u64)1 << ky) - 1) >> ky);
+        cached->paintsLeft++;
+
+        paint->inverse = multiply(scaling(ldexpf(1.f, -(int)kx), ldexpf(1.f, -(int)ky)), inverse);
+
+        return paint;
+    }
+
+    // An image in its box: of an image element, as its preserveAspectRatio
+    // fits it; of none, a CSS image, a raster stretched over the box and a
+    // document as its own root fits it.
     static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
         const Document& doc = *l.doc;
-        u32 ratio = attribute(node, AtomPreserveAspectRatio);
+        u32 ratio = node ? attribute(node, AtomPreserveAspectRatio) : 0;
         bool stretch = ratio && trim(textOf(doc, ratio)) == SV("none");
         Box viewBox = source.viewBox;
 
@@ -14251,54 +14380,17 @@ namespace {
             viewBox.y1 = viewBox.y0 + h;
         }
 
-        Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
+        Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : (node ? viewBoxTransform(doc, node, viewBox, w, h) : scaling(w / viewBox.x1, h / viewBox.y1)));
         Matrix place = multiply(m, fit);
 
         CachedImage* cached = source.cached;
 
         if (cached) {
-            DevicePaint* paint = l.pool->make<DevicePaint>();
-            Matrix inverse;
+            DevicePaint* paint = rasterPaint(l, cached, place, rendering, !node, 0);
 
-            memset(paint, 0, sizeof(DevicePaint));
-            paint->type = PaintType::Image;
-            paint->imageWidth = cached->width;
-            paint->imageHeight = cached->height;
-            paint->smooth = true;
-
-            if (!invert(place, inverse)) {
+            if (!paint) {
                 return;
             }
-
-            float scale = minf(sqrtf(place.a * place.a + place.b * place.b), sqrtf(place.c * place.c + place.d * place.d));
-            int levels = scale < 1.f ? (int)floorf(maxf(-log2f(scale) - 0.5f, 0.f) + 0.5f) : 0;
-
-            paint->smooth = rendering == 0 || (rendering == 2 && scale < 1.f);
-            levels = paint->smooth ? levels : 0;
-
-            // Each side halves as many of the levels as it has pixels to:
-            // a side of one stays.
-            u32 kx = 0;
-            u32 ky = 0;
-
-            while (kx < (u32)levels && ((u64)1 << kx) < paint->imageWidth) {
-                kx++;
-            }
-
-            while (ky < (u32)levels && ((u64)1 << ky) < paint->imageHeight) {
-                ky++;
-            }
-
-            // The paint samples the image shrunk so, its pixels read when
-            // a fill first draws it.
-            paint->source = cached;
-            paint->kx = kx;
-            paint->ky = ky;
-            paint->imageWidth = (u32)((paint->imageWidth + ((u64)1 << kx) - 1) >> kx);
-            paint->imageHeight = (u32)((paint->imageHeight + ((u64)1 << ky) - 1) >> ky);
-            cached->paintsLeft++;
-
-            paint->inverse = multiply(scaling(ldexpf(1.f, -(int)kx), ldexpf(1.f, -(int)ky)), inverse);
 
             Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
             Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
@@ -15720,6 +15812,11 @@ namespace {
         }
     }
 
+    // A texel's column or row of n: clamped to the image, or round it.
+    static int texel(int v, u32 n, bool wrap) {
+        return wrap ? floorMod(v, (int)n) : (v < 0 ? 0 : (v >= (int)n ? (int)n - 1 : v));
+    }
+
     // The paint at x, y stored premultiplied; false where it has none.
     static bool paintAt(const DevicePaint& paint, float x, float y, u16* out) {
         if (paint.type == PaintType::Solid) {
@@ -15785,12 +15882,8 @@ namespace {
         if (paint.type == PaintType::Image) {
             // The nearest texel: a byte b is b * 257 stored.
             if (!paint.smooth) {
-                int x = (int)floorf(p.x);
-                int y = (int)floorf(p.y);
-
-                x = x < 0 ? 0 : (x >= (int)paint.imageWidth ? (int)paint.imageWidth - 1 : x);
-                y = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
-
+                int x = texel((int)floorf(p.x), paint.imageWidth, paint.wraps & 1);
+                int y = texel((int)floorf(p.y), paint.imageHeight, paint.wraps & 2);
                 const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
                 u32 a = t[3] * 257u;
 
@@ -15798,6 +15891,33 @@ namespace {
                 out[1] = (u16)div65535(t[1] * 257u * a);
                 out[2] = (u16)div65535(t[2] * 257u * a);
                 out[3] = (u16)a;
+
+                return true;
+            }
+
+            // A CSS image's four texels, premultiplied, weighed by their
+            // nearness.
+            if (paint.tent) {
+                float fx = p.x - 0.5f;
+                float fy = p.y - 0.5f;
+                float x0 = floorf(fx);
+                float y0 = floorf(fy);
+                u16 c[4][4];
+
+                for (int k = 0; k < 4; k++) {
+                    int x = texel((int)x0 + (k & 1), paint.imageWidth, paint.wraps & 1);
+                    int y = texel((int)y0 + (k >> 1), paint.imageHeight, paint.wraps & 2);
+                    const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
+                    u32 a = t[3] * 257u;
+
+                    for (int j = 0; j < 3; j++) {
+                        c[k][j] = (u16)div65535(t[j] * 257u * a);
+                    }
+
+                    c[k][3] = (u16)a;
+                }
+
+                bilinear(c[0], c[1], c[2], c[3], fx - x0, fy - y0, out);
 
                 return true;
             }
