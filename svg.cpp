@@ -1736,6 +1736,10 @@ namespace {
         Vector<float> accumulation;
         Plane backdrop{nullptr, IntBox{0, 0, 0, 0}};
         size_t backgroundBase = 0;
+        // The sRGB curve each way over stored values, to sRGB and to linear
+        // light, and which values of it a render has met.
+        Vector<u16> curves[2];
+        Vector<u8> curvesKnown[2];
     };
 
     struct NamedColor {
@@ -1996,6 +2000,22 @@ namespace {
     }
 
     // A colour stored, each channel as a unit value.
+    // A stored pixel not premultiplied: each colour channel, clamped to the
+    // alpha, over it through one reciprocal. Any alpha but none keeps its
+    // colour.
+    static void unpremultiplyStored(const u16* s, u32* c) {
+        u32 a = s[3];
+        float inverse = a ? 65535.f / (float)a : 0.f;
+
+        for (int k = 0; k < 3; k++) {
+            u32 v = s[k] < a ? s[k] : a;
+
+            c[k] = (u32)((float)v * inverse + 0.5f);
+        }
+
+        c[3] = a;
+    }
+
     static void storeColor(u16* out, Color c) {
         float f[4] = {c.r, c.g, c.b, c.a};
 
@@ -11922,22 +11942,6 @@ namespace {
         return planeAt(plane, x, y);
     }
 
-    // The pixels from x0 to x1 of row y of a plane in floats, zero outside it.
-    static void readSpan(const Plane& plane, int x0, int x1, int y, float* dst) {
-        int inside0 = x0 > plane.box.x0 ? x0 : plane.box.x0;
-        int inside1 = x1 < plane.box.x1 ? x1 : plane.box.x1;
-
-        if (y < plane.box.y0 || y >= plane.box.y1 || inside1 <= inside0) {
-            memset(dst, 0, sizeof(float) * 4 * (size_t)(x1 - x0));
-
-            return;
-        }
-
-        memset(dst, 0, sizeof(float) * 4 * (size_t)(inside0 - x0));
-        loadSpan(planeAt(plane, inside0, y), dst + (size_t)(inside0 - x0) * 4, (size_t)(inside1 - inside0));
-        memset(dst + (size_t)(inside1 - x0) * 4, 0, sizeof(float) * 4 * (size_t)(x1 - inside1));
-    }
-
     // Stores the pixels from x0 to x1 of row y of a plane whose box holds them.
     static void writeSpan(const Plane& plane, int x0, int x1, int y, const float* src) {
         storeSpan(planeAt(plane, x0, y), src, (size_t)(x1 - x0));
@@ -13499,6 +13503,36 @@ namespace {
         return mask;
     }
 
+    // The sRGB curve one way over stored values: real valued, so each of the
+    // 65536 is computed once in a render, as it is first met.
+    struct Curve {
+        u16* values;
+        u8* known;
+        bool toLinear;
+    };
+
+    static Curve curveOf(Raster& r, bool toLinear) {
+        int k = toLinear ? 1 : 0;
+
+        if (r.curves[k].empty()) {
+            r.curves[k].zero(65536);
+            r.curvesKnown[k].zero(65536);
+        }
+
+        return Curve{r.curves[k].mutData(), r.curvesKnown[k].mutData(), toLinear};
+    }
+
+    static u32 curveValue(const Curve& curve, u32 v) {
+        if (!curve.known[v]) {
+            float unit = (float)v / 65535.f;
+
+            curve.values[v] = (u16)toUnit16(curve.toLinear ? srgbToLinear(unit) : linearToSrgb(unit));
+            curve.known[v] = 1;
+        }
+
+        return curve.values[v];
+    }
+
     // The mask of a group, one stored unit a pixel over the box of its layer:
     // the alpha or luminance of its content within its region. Luminance
     // weighs the stored channels by 13933, 46871 and 4732 of 65536.
@@ -13517,11 +13551,12 @@ namespace {
             u32 value = (op.maskType & 1) ? c[3] : (13933u * c[0] + 46871u * c[1] + 4732u * c[2] + 32768u) >> 16;
 
             // Luminance in linear light takes the colour along the sRGB curve.
-            if ((op.maskType & 3) == 2 && c[3] > 0) {
-                float f[4];
+            if ((op.maskType & 3) == 2) {
+                Curve curve = curveOf(r, true);
+                u32 u[4];
 
-                loadPixel(c, f);
-                value = toUnit16(f[3] * (0.2126f * srgbToLinear(clampUnit(f[0] / f[3])) + 0.7152f * srgbToLinear(clampUnit(f[1] / f[3])) + 0.0722f * srgbToLinear(clampUnit(f[2] / f[3]))));
+                unpremultiplyStored(c, u);
+                value = div65535(((13933u * curveValue(curve, u[0]) + 46871u * curveValue(curve, u[1]) + 4732u * curveValue(curve, u[2]) + 32768u) >> 16) * u[3]);
             }
 
             mask[i] = (u16)div65535(mask[i] * value);
@@ -13580,83 +13615,54 @@ namespace {
         return Color{srgbToLinear(c.r), srgbToLinear(c.g), srgbToLinear(c.b), c.a};
     }
 
-    // Converts a premultiplied pixel between sRGB and linear light; the
-    // destination may be the pixel itself.
-    // The value each channel converted last and what it came to: a flat
-    // area converts its colour once. A value is the same by its bits, so a
-    // zero of either sign converts on its own.
-    struct Conversion {
-        float in[3] = {-1.f, -1.f, -1.f};
-        float out[3] = {};
-    };
-
-    static bool sameBits(float a, float b) {
-        u32 x;
-        u32 y;
-
-        memcpy(&x, &a, sizeof(x));
-        memcpy(&y, &b, sizeof(y));
-
-        return x == y;
-    }
-
-    static void convertPixel(const float* s, float* d, bool toLinear, Conversion& last) {
-        float a = s[3];
-
-        if (a <= 0.f) {
-            d[0] = 0.f;
-            d[1] = 0.f;
-            d[2] = 0.f;
-            d[3] = 0.f;
-
-            return;
-        }
-
-        for (int c = 0; c < 3; c++) {
-            float v = clampUnit(s[c] / a);
-
-            if (!sameBits(v, last.in[c])) {
-                last.in[c] = v;
-                last.out[c] = toLinear ? srgbToLinear(v) : linearToSrgb(v);
-            }
-
-            d[c] = last.out[c] * a;
-        }
-
-        d[3] = a;
-    }
-
     // Converts the rows of a plane into another, or the same, between sRGB
-    // and linear light: along the curve on colours not premultiplied, which
-    // is real valued, a row of floats at a time.
-    static void convertRows(const Plane& src, const Plane& out, const IntBox& box, bool toLinear) {
+    // and linear light: each pixel not premultiplied, each colour channel
+    // along the curve, premultiplied again. A pixel as stored as the one
+    // before converts as it did, so a flat area converts once; the first
+    // compares with opaque white, which either curve keeps.
+    static void convertRows(Raster& r, const Plane& src, const Plane& out, const IntBox& box, bool toLinear) {
+        Curve curve = curveOf(r, toLinear);
         size_t n = (size_t)(box.x1 - box.x0);
-        Conversion last;
-        Vector<float> row;
-
-        row.zero(n * 4);
+        u64 lastIn = ~(u64)0;
+        u64 lastOut = ~(u64)0;
 
         for (int y = box.y0; y < box.y1; y++) {
-            float* c = row.mutData();
-
-            loadSpan(planeAt(src, box.x0, y), c, n);
+            const u16* s = planeAt(src, box.x0, y);
+            u16* d = planeAt(out, box.x0, y);
 
             for (size_t x = 0; x < n; x++) {
-                convertPixel(c + x * 4, c + x * 4, toLinear, last);
-            }
+                u64 pixel;
 
-            storeSpan(planeAt(out, box.x0, y), c, n);
+                memcpy(&pixel, s + x * 4, sizeof(pixel));
+
+                if (pixel != lastIn) {
+                    u32 c[4];
+                    u16 o[4];
+
+                    unpremultiplyStored(s + x * 4, c);
+
+                    for (int k = 0; k < 3; k++) {
+                        o[k] = (u16)div65535(curveValue(curve, c[k]) * c[3]);
+                    }
+
+                    o[3] = (u16)c[3];
+                    lastIn = pixel;
+                    memcpy(&lastOut, o, sizeof(lastOut));
+                }
+
+                memcpy(d + x * 4, &lastOut, sizeof(lastOut));
+            }
         }
     }
 
-    static void convertInPlace(const Plane& plane, bool toLinear) {
-        convertRows(plane, plane, plane.box, toLinear);
+    static void convertInPlace(Raster& r, const Plane& plane, bool toLinear) {
+        convertRows(r, plane, plane, plane.box, toLinear);
     }
 
-    static Plane convertBuffer(const Plane& src, bool toLinear) {
+    static Plane convertBuffer(Raster& r, const Plane& src, bool toLinear) {
         Plane out = makePlane(src.box);
 
-        convertRows(src, out, src.box, toLinear);
+        convertRows(r, src, out, src.box, toLinear);
 
         return out;
     }
@@ -13799,7 +13805,7 @@ namespace {
             }
 
             if (linear && !run.paint[kind][1].data) {
-                run.paint[kind][1] = convertBuffer(buffer, true);
+                run.paint[kind][1] = convertBuffer(*run.raster, buffer, true);
             }
 
             return run.paint[kind][linear ? 1 : 0];
@@ -13814,7 +13820,7 @@ namespace {
 
                 // A background read in linear light alone is converted in place.
                 if (!readsInSrgb(*run.filter, InputBackgroundImage)) {
-                    convertInPlace(run.background, true);
+                    convertInPlace(*run.raster, run.background, true);
                     run.backgroundLinear = run.background;
                 }
             }
@@ -13836,7 +13842,7 @@ namespace {
             }
 
             if (linear && !run.backgroundLinear.data) {
-                run.backgroundLinear = convertBuffer(run.background, true);
+                run.backgroundLinear = convertBuffer(*run.raster, run.background, true);
             }
 
             return linear ? run.backgroundLinear : run.background;
@@ -13864,7 +13870,7 @@ namespace {
             }
 
             if (!run.sourceLinear.data) {
-                run.sourceLinear = convertBuffer(run.source, true);
+                run.sourceLinear = convertBuffer(*run.raster, run.source, true);
             }
 
             return run.sourceLinear;
@@ -13879,7 +13885,7 @@ namespace {
         Vector<Plane>& cache = linear ? run.linearCache : run.srgbCache;
 
         if (!cache[index].data) {
-            cache.mut(index) = convertBuffer(result.plane, linear);
+            cache.mut(index) = convertBuffer(*run.raster, result.plane, linear);
         }
 
         return cache[index];
@@ -14476,22 +14482,6 @@ namespace {
         }
     }
 
-    // A stored pixel not premultiplied: each colour channel, clamped to the
-    // alpha, over it through one reciprocal. Any alpha but none keeps its
-    // colour.
-    static void unpremultiplyStored(const u16* s, u32* c) {
-        u32 a = s[3];
-        float inverse = a ? 65535.f / (float)a : 0.f;
-
-        for (int k = 0; k < 3; k++) {
-            u32 v = s[k] < a ? s[k] : a;
-
-            c[k] = (u32)((float)v * inverse + 0.5f);
-        }
-
-        c[3] = a;
-    }
-
     static u32 clampStored(i64 v) {
         return v < 0 ? 0u : (v > 65535 ? 65535u : (u32)v);
     }
@@ -14863,7 +14853,8 @@ namespace {
         const IntBox& box = p.box;
         size_t n = (size_t)(box.x1 - box.x0);
         bool arithmetic = kind == SV("arithmetic");
-        float ceiling = arithmetic && keepsInvalidColor(*run.filter, p) ? 1.f : 0.f;
+        // A colour past its alpha is kept where a reader takes it so.
+        u32 ceiling = arithmetic && keepsInvalidColor(*run.filter, p) ? 65535u : 0u;
         int mode = kind == SV("in") ? 1 : (kind == SV("out") ? 2 : (kind == SV("atop") ? 3 : (kind == SV("xor") ? 4 : (kind == SV("lighter") ? 5 : 0))));
         // The factor of a: 65535, plus the alpha of b, or minus it.
         static const u32 baseA[6] = {65535, 0, 65535, 0, 65535, 65535};
@@ -14872,49 +14863,47 @@ namespace {
         // The factor of b: the same of the alpha of a.
         static const u32 baseB[6] = {65535, 0, 0, 65535, 65535, 65535};
         static const u32 minusB[6] = {0xffff, 0, 0, 0xffff, 0xffff, 0};
+        // The arithmetic's sum over the product of the channels, each
+        // channel and one, fixed.
+        float coefficients[3] = {k1, k2, k3};
+        i32 q[3];
+        FixedSum sum = fixSum(coefficients, 3, k4, q);
         Vector<u16> rowA;
         Vector<u16> rowB;
         Vector<u16> fa;
         Vector<u16> fb;
-        Vector<float> floatA;
-        Vector<float> floatB;
-        Vector<float> floatOut;
 
         rowA.zero(n * 4);
         rowB.zero(n * 4);
         fa.zero(n);
         fb.zero(n);
 
-        if (arithmetic) {
-            floatA.zero(n * 4);
-            floatB.zero(n * 4);
-            floatOut.zero(n * 4);
-        }
-
         for (int y = box.y0; y < box.y1; y++) {
-            if (arithmetic) {
-                readSpan(a, box.x0, box.x1, y, floatA.mutData());
-                readSpan(b, box.x0, box.x1, y, floatB.mutData());
-
-                for (size_t x = 0; x < n; x++) {
-                    const float* s = floatA.data() + x * 4;
-                    const float* d = floatB.data() + x * 4;
-                    float* o = floatOut.mutData() + x * 4;
-                    float alpha = clampUnit(k1 * s[3] * d[3] + k2 * s[3] + k3 * d[3] + k4);
-
-                    for (int c = 0; c < 3; c++) {
-                        o[c] = minf(clampUnit(k1 * s[c] * d[c] + k2 * s[c] + k3 * d[c] + k4), maxf(alpha, ceiling));
-                    }
-
-                    o[3] = alpha;
-                }
-
-                writeSpan(out, box.x0, box.x1, y, floatOut.data());
-                continue;
-            }
-
             readStored(a, box.x0, box.x1, y, rowA.mutData());
             readStored(b, box.x0, box.x1, y, rowB.mutData());
+
+            if (arithmetic) {
+                u16* o = planeAt(out, box.x0, y);
+
+                for (size_t c = 0; c < n * 4; c++) {
+                    u32 s = rowA[c] >> sum.drop;
+                    u32 d = rowB[c] >> sum.drop;
+                    u32 product = div65535((u32)rowA[c] * rowB[c]) >> sum.drop;
+
+                    o[c] = (u16)fixedValue(sum, sum.constant + q[0] * (i32)product + q[1] * (i32)s + q[2] * (i32)d);
+                }
+
+                // A colour is no more than its alpha, or the ceiling.
+                for (size_t x = 0; x < n; x++) {
+                    u32 limit = o[x * 4 + 3] > ceiling ? o[x * 4 + 3] : ceiling;
+
+                    for (int c = 0; c < 3; c++) {
+                        o[x * 4 + (size_t)c] = (u16)(o[x * 4 + (size_t)c] < limit ? o[x * 4 + (size_t)c] : limit);
+                    }
+                }
+
+                continue;
+            }
 
             for (size_t x = 0; x < n; x++) {
                 u32 sa = rowA[x * 4 + 3];
@@ -16286,7 +16275,7 @@ namespace {
         // The image drawn over the box is the result: as it is, or with its
         // colours taken along the sRGB curve to linear light.
         if (p.linear) {
-            convertRows(content, out, p.box, true);
+            convertRows(*run.raster, content, out, p.box, true);
         } else {
             copyBox(content, out, p.box);
         }
@@ -16419,7 +16408,7 @@ namespace {
         // A source read in linear light alone is converted in place: the
         // result overwrites the layer anyway.
         if (!readsInSrgb(filter, InputSourceGraphic)) {
-            convertInPlace(run.source, true);
+            convertInPlace(r, run.source, true);
             run.sourceLinear = run.source;
         }
 
@@ -16601,7 +16590,7 @@ namespace {
         memset(layer.data, 0, sizeof(u16) * size * 4);
 
         if (last.plane.data && last.linear) {
-            convertRows(last.plane, layer, kept, false);
+            convertRows(r, last.plane, layer, kept, false);
         }
 
         for (int y = kept.y0; last.plane.data && !last.linear && y < kept.y1; y++) {
@@ -16930,12 +16919,6 @@ namespace {
         r.backdrop = backdrop;
     }
 
-    // A byte of a channel that is not negative; a colour channel may pass its
-    // alpha by rounding.
-    static u8 clampByte(float v) {
-        return (u8)(int)(v > 255.f ? 255.f : v);
-    }
-
     static bool usesBackground(const Document& doc, const Node* node, u32 depth) {
         if (depth > 256) {
             return false;
@@ -17131,19 +17114,28 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     ObjPool* pool = new ObjPool();
     u8* pixels = (u8*)pool->allocate(size * 4);
 
-    // Bytes not premultiplied: a stored channel over its alpha, through one
-    // reciprocal a pixel.
+    // Bytes not premultiplied: an opaque pixel's channels in bytes, any
+    // other's, clamped to its alpha, over it through one division.
     for (size_t i = 0; i < size; i++) {
         const u16* s = base + i * 4;
         u8* d = pixels + i * 4;
-        float a = (float)s[3];
-        float scale = a > 0.f ? 255.f / a : 0.f;
+        u32 a = s[3];
 
-        for (int c = 0; c < 3; c++) {
-            d[c] = clampByte((float)s[c] * scale + 0.5f);
+        if (a == 65535) {
+            for (int c = 0; c < 3; c++) {
+                d[c] = (u8)div65535(s[c] * 255u);
+            }
+        } else {
+            u32 inverse = a ? (255u << 24) / a : 0u;
+
+            for (int c = 0; c < 3; c++) {
+                u32 v = s[c] < a ? s[c] : a;
+
+                d[c] = (u8)((v * inverse + (1u << 23)) >> 24);
+            }
         }
 
-        d[3] = clampByte(a * (255.f / 65535.f) + 0.5f);
+        d[3] = (u8)div65535(a * 255u);
     }
 
     return &pool->make<RenderedImage>(pool, pixels, width, height)->image;
