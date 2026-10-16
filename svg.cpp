@@ -14627,17 +14627,19 @@ namespace {
                 // its own, a measure of what the document draws.
                 givenSize(*nested, nested->root, out.width, out.height);
 
-                if (!parseViewBox(*nested, nested->root, out.viewBox) || out.viewBox.x1 <= out.viewBox.x0 || out.viewBox.y1 <= out.viewBox.y0) {
-                    out.viewBox = Box{0.f, 0.f, out.width, out.height};
-                }
-
                 Node* view = fragment.empty() ? nullptr : elementById(*nested, lookup(nested->atoms, fragment));
-                Box viewBox;
+                Node* boxed = view && view->name == AtomView && parseViewBox(*nested, view, out.viewBox) ? view : nullptr;
 
-                if (view && view->name == AtomView && parseViewBox(*nested, view, viewBox) && viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0) {
-                    out.viewBox = viewBox;
-                    out.ratio = view;
+                // The view's viewBox, else the root's, else the size; one
+                // of no width or height draws nothing, as Chromium and
+                // Firefox draw it.
+                if (!boxed && !parseViewBox(*nested, nested->root, out.viewBox)) {
+                    out.viewBox = Box{0.f, 0.f, out.width, out.height};
+                } else if (!(out.viewBox.x1 > out.viewBox.x0) || !(out.viewBox.y1 > out.viewBox.y0)) {
+                    return false;
                 }
+
+                out.ratio = boxed;
 
                 return true;
             }
