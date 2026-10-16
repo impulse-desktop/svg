@@ -17563,6 +17563,11 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         if (a == 0 || a == 65535) {
             size_t end = p + 1;
 
+            // Four alphas a step while they all hold, then one.
+            while (end + 4 <= size && ((base[end * 4 + 3] ^ a) | (base[end * 4 + 7] ^ a) | (base[end * 4 + 11] ^ a) | (base[end * 4 + 15] ^ a)) == 0) {
+                end += 4;
+            }
+
             while (end < size && base[end * 4 + 3] == a) {
                 end++;
             }
