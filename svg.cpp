@@ -1031,6 +1031,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(TargetX, "targetX")                                       \
     ATOM(TargetY, "targetY")                                       \
     ATOM(EdgeMode, "edgeMode")                                     \
+    ATOM(NoComposite, "no-composite")                              \
     ATOM(PreserveAlpha, "preserveAlpha")                           \
     ATOM(SurfaceScale, "surfaceScale")                             \
     ATOM(DiffuseConstant, "diffuseConstant")                       \
@@ -15816,16 +15817,18 @@ namespace {
     // of the colours not premultiplied times both alphas, written in the
     // premultiplied ones. On the alpha lanes, where s and d are the alphas,
     // the term is sa da, which gives sa + da - sa da; the modes whose term
-    // falls short there add it where told the lane is alpha. Two pixels,
-    // eight lanes, a step.
-    template <typename Term>
+    // falls short there add it where told the lane is alpha. Without
+    // compositing the d (1 - sa) is left out: the colours mix, and the
+    // alpha is sa. Two pixels, eight lanes, a step.
+    template <bool composite, typename Term>
     static void blendLanes(u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count, Term term) {
         auto lane = [&](size_t base, int i) {
             i32 sc = s[base + (size_t)i];
             i32 dc = d[base + (size_t)i];
             i32 sa = s[base + (size_t)((i & 4) | 3)];
             i32 da = d[base + (size_t)((i & 4) | 3)];
-            i32 v = (i32)div65535((u32)sc * (u32)(65535 - da)) + (i32)div65535((u32)dc * (u32)(65535 - sa)) + term(sc, dc, sa, da, (i & 3) == 3);
+            i32 under = composite ? (i32)div65535((u32)dc * (u32)(65535 - sa)) : 0;
+            i32 v = (i32)div65535((u32)sc * (u32)(65535 - da)) + under + term(sc, dc, sa, da, (i & 3) == 3);
 
             // Rounding the terms apart can take a sum just below zero.
             o[base + (size_t)i] = saturate((u32)(v * (v > 0)));
@@ -16085,30 +16088,31 @@ namespace {
     // minimum or maximum, a difference or a choice on a half are exact; the
     // dodge, the burn, soft light and the modes that mix the channels
     // divide or take roots in integers, to about a stored unit.
+    template <bool composite = true>
     static void blendSpan(int mode, u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count) {
         switch (mode) {
             case 0:
-                blendLanes(o, s, d, count, [](i32 sc, i32, i32, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32, i32, i32 da, bool) {
                     return product(sc, da);
                 });
                 return;
             case 1:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32, i32, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32, i32, bool) {
                     return product(sc, dc);
                 });
                 return;
             case 2:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     return product(sc, da) + product(dc, sa) - product(sc, dc);
                 });
                 return;
             case 3:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     return 2 * dc <= da ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
                 });
                 return;
             case 4:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     i32 u = product(dc, sa);
                     i32 v = product(sc, da);
 
@@ -16116,7 +16120,7 @@ namespace {
                 });
                 return;
             case 5:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     i32 u = product(dc, sa);
                     i32 v = product(sc, da);
 
@@ -16127,7 +16131,7 @@ namespace {
                 // cb / (1 - cs), at most all, times both alphas is sa / 65535
                 // times dc sa / (sa - sc), at most da: none on a backdrop of
                 // none, all from a source of all.
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     i32 full = product(sa, da);
 
                     if (dc == 0) {
@@ -16148,7 +16152,7 @@ namespace {
                 // 1 - (1 - cb) / cs, at least none, times both alphas is
                 // sa / 65535 times da less (da - dc) sa / sc, at least none:
                 // all on a backdrop of all, none from a source of none.
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     if (dc >= da) {
                         return product(sa, da);
                     }
@@ -16164,7 +16168,7 @@ namespace {
                 });
                 return;
             case 8:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     return 2 * sc <= sa ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
                 });
                 return;
@@ -16173,19 +16177,19 @@ namespace {
                 return;
             case 16:
                 // plus-lighter: the sum, which the lanes saturate.
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     return product(sc, da) + product(dc, sa);
                 });
                 return;
             case 10:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
                     i32 v = product(dc, sa) - product(sc, da);
 
                     return (v < 0 ? -v : v) + alpha * product(sa, da);
                 });
                 return;
             case 11:
-                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
+                blendLanes<composite>(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
                     return product(sc, da) + product(dc, sa) - 2 * product(sc, dc) + alpha * product(sa, da);
                 });
                 return;
@@ -16203,6 +16207,8 @@ namespace {
         Plane b = filterInputBuffer(run, p.in2, p.linear);
         u32 modeValue = attribute(p.node, AtomMode);
         int mode = modeValue ? blendMode(trim(textOf(doc, modeValue))) : 0;
+        // no-composite, present, blends without compositing over in2.
+        bool composite = !attribute(p.node, AtomNoComposite);
         const IntBox& box = p.box;
         size_t n = (size_t)(box.x1 - box.x0);
         Vector<u16> rowA;
@@ -16214,7 +16220,11 @@ namespace {
         for (int y = box.y0; y < box.y1; y++) {
             readStored(a, box.x0, box.x1, y, rowA.mutData());
             readStored(b, box.x0, box.x1, y, rowB.mutData());
-            blendSpan(mode, planeAt(out, box.x0, y), rowA.data(), rowB.data(), n);
+            if (composite) {
+                blendSpan(mode, planeAt(out, box.x0, y), rowA.data(), rowB.data(), n);
+            } else {
+                blendSpan<false>(mode, planeAt(out, box.x0, y), rowA.data(), rowB.data(), n);
+            }
         }
     }
 

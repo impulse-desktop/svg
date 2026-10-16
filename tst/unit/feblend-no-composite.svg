@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<defs>
+<filter id="n" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox"><feFlood flood-color="gold" flood-opacity=".6" result="f"/><feFlood flood-color="navy" flood-opacity=".5" x="0" y="0" width=".5" height="1" result="b"/><feBlend in="f" in2="b" mode="normal"/></filter>
+<filter id="nn" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox"><feFlood flood-color="gold" flood-opacity=".6" result="f"/><feFlood flood-color="navy" flood-opacity=".5" x="0" y="0" width=".5" height="1" result="b"/><feBlend in="f" in2="b" mode="normal" no-composite=""/></filter>
+<filter id="m" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox"><feFlood flood-color="crimson" flood-opacity=".7" result="f"/><feFlood flood-color="teal" flood-opacity=".8" x="0" y="0" width=".5" height="1" result="b"/><feBlend in="f" in2="b" mode="multiply"/></filter>
+<filter id="mn" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox"><feFlood flood-color="crimson" flood-opacity=".7" result="f"/><feFlood flood-color="teal" flood-opacity=".8" x="0" y="0" width=".5" height="1" result="b"/><feBlend in="f" in2="b" mode="multiply" no-composite="no-composite"/></filter>
+<filter id="h" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox"><feFlood flood-color="olive" result="f"/><feFlood flood-color="purple" flood-opacity=".5" x="0" y="0" width=".5" height="1" result="b"/><feBlend in="f" in2="b" mode="hue" no-composite=""/></filter>
+</defs>
+<rect x="2" y="2" width="12" height="28" filter="url(#n)"/>
+<rect x="14" y="2" width="12" height="28" filter="url(#nn)"/>
+<rect x="26" y="2" width="12" height="28" filter="url(#m)"/>
+<rect x="38" y="2" width="12" height="28" filter="url(#mn)"/>
+<rect x="50" y="2" width="12" height="28" filter="url(#h)"/>
+</svg>
