@@ -1458,6 +1458,8 @@ namespace {
         Xywh,
         Polygon,
         Path,
+        // shape(): its commands.
+        Commands,
     };
 
     enum class GeometryBox : u8 {
@@ -1472,7 +1474,10 @@ namespace {
     // A basic shape: an inset, rect() and xywh() keep their four values in
     // the order they are written, rect() its auto sides as bits, and the
     // radii of their corners, horizontal from the top left round, then
-    // vertical; path() its data.
+    // vertical; path() its data; shape() its start and commands.
+    struct ShapePoint;
+    struct ShapeCommand;
+
     struct BasicShape {
         ShapeKind kind;
         GeometryBox box;
@@ -1483,6 +1488,38 @@ namespace {
         Length* points;
         u32 pointCount;
         StringView data;
+        ShapeCommand* commands;
+        u32 commandCount;
+    };
+
+    // A point of shape(): offsets over the reference box, from its top
+    // left, the command's start or its end.
+    enum class ShapeAnchor : u8 {
+        Box,
+        Start,
+        End,
+    };
+
+    struct ShapePoint {
+        Length x;
+        Length y;
+        ShapeAnchor anchor;
+    };
+
+    // A command of shape(), as the path data command it stands for: M, L,
+    // H, V, C (one control a quadratic, two a cubic), S (none a smooth
+    // quadratic, one a smooth cubic), A or Z; the first's point is the
+    // start. hline and vline keep their one offset in x and y.
+    struct ShapeCommand {
+        u8 kind;
+        u8 controls;
+        u8 radii;
+        bool sweep;
+        bool large;
+        float angle;
+        ShapePoint end;
+        ShapePoint control[2];
+        Length radius[2];
     };
 
     struct ComputedStyle {
@@ -7937,6 +7974,8 @@ namespace {
         out.points = nullptr;
         out.pointCount = 0;
         out.data = StringView();
+        out.commands = nullptr;
+        out.commandCount = 0;
 
         for (Length& radius : out.radii) {
             radius = Length{0.f, Unit::Number};
@@ -8106,8 +8145,307 @@ namespace {
         return shapeWord(p, end).empty();
     }
 
+    static bool readAngle(StringView text, float& out);
+
+    // A word of a shape() command: a run past spaces, or a slash alone.
+    static StringView commandWord(const u8*& p, const u8* end) {
+        skipSpaces(p, end);
+
+        const u8* start = p;
+
+        if (at(p, end, '/')) {
+            p++;
+
+            return StringView(start, p);
+        }
+
+        while (p < end && !isSpace(*p) && *p != '/') {
+            p++;
+        }
+
+        return StringView(start, p);
+    }
+
+    // A word that ends a position in a command.
+    static bool commandKeyword(StringView word) {
+        static const char* const words[] = {"with", "of", "cw", "ccw", "large", "small", "rotate", "from", "/"};
+
+        for (const char* keyword : words) {
+            if (equalsIgnoreCase(word, StringView(keyword))) {
+                return true;
+            }
+        }
+
+        return word.empty();
+    }
+
+    // Two lengths, x then y.
+    static bool commandPair(const u8*& p, const u8* end, ShapePoint& out) {
+        return parseLength(commandWord(p, end), out.x) && parseLength(commandWord(p, end), out.y);
+    }
+
+    // A position's words, up to the keyword after them.
+    static bool commandPosition(const u8*& p, const u8* end, ShapePoint& out) {
+        const u8* first = p;
+        const u8* last = p;
+
+        for (;;) {
+            const u8* q = p;
+
+            if (commandKeyword(commandWord(q, end))) {
+                break;
+            }
+
+            p = q;
+            last = p;
+        }
+
+        out.anchor = ShapeAnchor::Box;
+
+        return last != first && parsePosition(StringView(first, last), out.x, out.y);
+    }
+
+    // to a position, or by a pair from the start.
+    static bool commandEnd(const u8*& p, const u8* end, ShapePoint& out, bool& to) {
+        StringView word = commandWord(p, end);
+
+        to = equalsIgnoreCase(word, SV("to"));
+        out.anchor = ShapeAnchor::Start;
+
+        if (to) {
+            return commandPosition(p, end, out);
+        }
+
+        return equalsIgnoreCase(word, SV("by")) && commandPair(p, end, out);
+    }
+
+    // A control point: after to a position, or a pair from start, end or
+    // the box's origin; after by a pair, from the start but as told.
+    static bool commandControl(const u8*& p, const u8* end, ShapePoint& out, bool to) {
+        const u8* start = p;
+
+        if (to && commandPosition(p, end, out)) {
+            const u8* q = p;
+
+            if (!equalsIgnoreCase(commandWord(q, end), SV("from"))) {
+                return true;
+            }
+
+            p = start;
+        }
+
+        if (!commandPair(p, end, out)) {
+            return false;
+        }
+
+        const u8* q = p;
+
+        out.anchor = ShapeAnchor::Start;
+
+        if (!equalsIgnoreCase(commandWord(q, end), SV("from"))) {
+            return true;
+        }
+
+        StringView anchor = commandWord(q, end);
+
+        p = q;
+        out.anchor = equalsIgnoreCase(anchor, SV("end")) ? ShapeAnchor::End : (equalsIgnoreCase(anchor, SV("origin")) ? ShapeAnchor::Box : ShapeAnchor::Start);
+
+        return equalsIgnoreCase(anchor, SV("start")) || equalsIgnoreCase(anchor, SV("end")) || equalsIgnoreCase(anchor, SV("origin"));
+    }
+
+    // One command of shape(): all of its words, or false.
+    static bool parseShapeCommand(StringView text, ShapeCommand& out) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+        StringView name = commandWord(p, end);
+        bool to = false;
+
+        memset(&out, 0, sizeof(out));
+
+        if (equalsIgnoreCase(name, SV("close"))) {
+            out.kind = 'Z';
+        } else if (equalsIgnoreCase(name, SV("move")) || equalsIgnoreCase(name, SV("line"))) {
+            out.kind = equalsIgnoreCase(name, SV("move")) ? 'M' : 'L';
+
+            if (!commandEnd(p, end, out.end, to)) {
+                return false;
+            }
+        } else if (equalsIgnoreCase(name, SV("hline")) || equalsIgnoreCase(name, SV("vline"))) {
+            bool across = equalsIgnoreCase(name, SV("hline"));
+            StringView how = commandWord(p, end);
+            StringView word = commandWord(p, end);
+            Length& value = across ? out.end.x : out.end.y;
+            float at = -1.f;
+
+            out.kind = across ? 'H' : 'V';
+            to = equalsIgnoreCase(how, SV("to"));
+            out.end.anchor = to ? ShapeAnchor::Box : ShapeAnchor::Start;
+
+            // The keywords of the axis, to the box's edges or middle.
+            if (to) {
+                StringView low[2] = {across ? SV("left") : SV("top"), across ? SV("x-start") : SV("y-start")};
+                StringView high[2] = {across ? SV("right") : SV("bottom"), across ? SV("x-end") : SV("y-end")};
+
+                at = equalsIgnoreCase(word, low[0]) || equalsIgnoreCase(word, low[1]) ? 0.f : at;
+                at = equalsIgnoreCase(word, high[0]) || equalsIgnoreCase(word, high[1]) ? 100.f : at;
+                at = equalsIgnoreCase(word, SV("center")) ? 50.f : at;
+            }
+
+            if (at >= 0.f) {
+                value = Length{at, Unit::Percent};
+            } else if (!(to || equalsIgnoreCase(how, SV("by"))) || !parseLength(word, value)) {
+                return false;
+            }
+        } else if (equalsIgnoreCase(name, SV("curve")) || equalsIgnoreCase(name, SV("smooth"))) {
+            bool curve = equalsIgnoreCase(name, SV("curve"));
+
+            out.kind = curve ? 'C' : 'S';
+
+            if (!commandEnd(p, end, out.end, to)) {
+                return false;
+            }
+
+            const u8* q = p;
+
+            if (equalsIgnoreCase(commandWord(q, end), SV("with"))) {
+                p = q;
+
+                if (!commandControl(p, end, out.control[0], to)) {
+                    return false;
+                }
+
+                out.controls = 1;
+                q = p;
+
+                if (curve && equalsIgnoreCase(commandWord(q, end), SV("/"))) {
+                    p = q;
+
+                    if (!commandControl(p, end, out.control[1], to)) {
+                        return false;
+                    }
+
+                    out.controls = 2;
+                }
+            } else if (curve) {
+                return false;
+            }
+        } else if (equalsIgnoreCase(name, SV("arc"))) {
+            u32 seen = 0;
+
+            out.kind = 'A';
+
+            if (!commandEnd(p, end, out.end, to)) {
+                return false;
+            }
+
+            // of the radii, a sweep, a size and rotate an angle, in any
+            // order, each once; of is not left out.
+            for (StringView word = commandWord(p, end); !word.empty(); word = commandWord(p, end)) {
+                u32 part = equalsIgnoreCase(word, SV("of")) ? 1 : (equalsIgnoreCase(word, SV("cw")) || equalsIgnoreCase(word, SV("ccw")) ? 2 : (equalsIgnoreCase(word, SV("large")) || equalsIgnoreCase(word, SV("small")) ? 4 : (equalsIgnoreCase(word, SV("rotate")) ? 8 : 0)));
+
+                if (!part || (seen & part)) {
+                    return false;
+                }
+
+                seen |= part;
+                out.sweep = out.sweep || equalsIgnoreCase(word, SV("cw"));
+                out.large = out.large || equalsIgnoreCase(word, SV("large"));
+
+                if (part == 1) {
+                    const u8* q = p;
+
+                    if (!parseLength(commandWord(p, end), out.radius[0])) {
+                        return false;
+                    }
+
+                    out.radii = 1;
+                    q = p;
+
+                    if (parseLength(commandWord(q, end), out.radius[1])) {
+                        p = q;
+                        out.radii = 2;
+                    }
+                } else if (part == 8) {
+                    StringView angle = commandWord(p, end);
+
+                    // An angle takes a unit, zero too, as browsers read it.
+                    if (!readAngle(angle, out.angle) || (angle.back() >= '0' && angle.back() <= '9')) {
+                        return false;
+                    }
+                }
+            }
+
+            if (!(seen & 1)) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        skipSpaces(p, end);
+
+        return p == end;
+    }
+
+    // shape([<fill-rule>] from <position>, <command>#): a move to the
+    // start, then the commands apart by commas.
+    static bool parseShapeCommands(ObjPool& pool, StringView args, BasicShape& out) {
+        const u8* p = args.begin();
+        const u8* end = args.end();
+        const u8* q = p;
+        StringView word = commandWord(q, end);
+        Vector<ShapeCommand> commands;
+        ShapeCommand command;
+
+        out.kind = ShapeKind::Commands;
+
+        if (equalsIgnoreCase(word, SV("evenodd")) || equalsIgnoreCase(word, SV("nonzero"))) {
+            out.rule = equalsIgnoreCase(word, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
+            p = q;
+        }
+
+        const u8* comma = findOutside(p, end, ',');
+
+        memset(&command, 0, sizeof(command));
+        command.kind = 'M';
+
+        if (!comma || !equalsIgnoreCase(commandWord(p, comma), SV("from")) || !commandPosition(p, comma, command.end)) {
+            return false;
+        }
+
+        skipSpaces(p, comma);
+
+        if (p != comma) {
+            return false;
+        }
+
+        commands.pushBack(command);
+
+        while (comma) {
+            p = comma + 1;
+            comma = findOutside(p, end, ',');
+
+            if (!parseShapeCommand(StringView(p, comma ? comma : end), command)) {
+                return false;
+            }
+
+            commands.pushBack(command);
+        }
+
+        out.commands = (ShapeCommand*)pool.allocate(sizeof(ShapeCommand) * commands.length());
+        out.commandCount = (u32)commands.length();
+        memcpy(out.commands, commands.data(), sizeof(ShapeCommand) * commands.length());
+
+        return true;
+    }
+
     static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out) {
         const u8* end = args.end();
+
+        if (equalsIgnoreCase(name, SV("shape"))) {
+            return parseShapeCommands(pool, args, out);
+        }
 
         if (equalsIgnoreCase(name, SV("rect")) || equalsIgnoreCase(name, SV("xywh"))) {
             const u8* p = args.begin();
@@ -10733,6 +11071,71 @@ namespace {
         closePath(path);
     }
 
+    // The path of shape()'s commands in the reference box of the size given,
+    // from its top left: a quadratic raised to a cubic, a smooth curve's
+    // first control the last one of the curve before of its kind, mirrored
+    // about the start, or the start.
+    static void shapeCommandsPath(const BasicShape& shape, float w, float h, Viewport vp, float fs, Path& path) {
+        Point current{0.f, 0.f};
+        Point subpath{0.f, 0.f};
+        Point quadratic{0.f, 0.f};
+        Point cubic{0.f, 0.f};
+        u8 previous = 0;
+        auto point = [&](const ShapePoint& p, Point start, Point stop) {
+            Point base = p.anchor == ShapeAnchor::Start ? start : (p.anchor == ShapeAnchor::End ? stop : Point{0.f, 0.f});
+
+            return Point{base.x + shapeLength(p.x, w, vp, fs), base.y + shapeLength(p.y, h, vp, fs)};
+        };
+        auto mirrored = [&](Point p) {
+            return Point{2.f * current.x - p.x, 2.f * current.y - p.y};
+        };
+
+        for (u32 i = 0; i < shape.commandCount; i++) {
+            const ShapeCommand& c = shape.commands[i];
+            Point end = point(c.end, current, current);
+            u8 kind = c.kind;
+
+            if (kind == 'H' || kind == 'V') {
+                Point at = kind == 'H' ? Point{end.x, current.y} : Point{current.x, end.y};
+
+                lineTo(path, at);
+                end = at;
+            } else if (kind == 'M') {
+                moveTo(path, end);
+                subpath = end;
+            } else if (kind == 'L') {
+                lineTo(path, end);
+            } else if (kind == 'Z') {
+                closePath(path);
+                end = subpath;
+            } else if (kind == 'A') {
+                // One radius is of the box's diagonal over the root of two.
+                float rx = shapeLength(c.radius[0], c.radii == 2 ? w : sqrtf((w * w + h * h) / 2.f), vp, fs);
+                float ry = c.radii == 2 ? shapeLength(c.radius[1], h, vp, fs) : rx;
+
+                arcTo(path, current, rx, ry, c.angle, c.large, c.sweep, end);
+            } else {
+                // C or S: a quadratic of one control, a cubic of two.
+                bool smooth = kind == 'S';
+                bool quad = c.controls == (smooth ? 0 : 1);
+                Point first = smooth ? (previous == (quad ? 'Q' : 'C') ? mirrored(quad ? quadratic : cubic) : current) : point(c.control[0], current, end);
+
+                if (quad) {
+                    quadratic = first;
+                    cubicTo(path, Point{current.x + 2.f / 3.f * (first.x - current.x), current.y + 2.f / 3.f * (first.y - current.y)}, Point{end.x + 2.f / 3.f * (first.x - end.x), end.y + 2.f / 3.f * (first.y - end.y)}, end);
+                } else {
+                    cubic = point(c.control[smooth ? 0 : 1], current, end);
+                    cubicTo(path, first, cubic, end);
+                }
+
+                kind = quad ? 'Q' : 'C';
+            }
+
+            previous = kind;
+            current = end;
+        }
+    }
+
     static void shapeClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const BasicShape& shape = *style.clipShape;
         Box box{0.f, 0.f, vp.width, vp.height};
@@ -10820,6 +11223,12 @@ namespace {
             roundedRectPath(path, x0, y0, x1, y1, shape.radii, w, h, vp, fs);
         } else if (shape.kind == ShapeKind::Path) {
             parsePathData(shape.data, path);
+            addClipShape(l, path, multiply(m, translation(box.x0, box.y0)), shape.rule);
+            op.clipCount = (u32)l.clips.length() - op.clipFirst;
+
+            return;
+        } else if (shape.kind == ShapeKind::Commands) {
+            shapeCommandsPath(shape, w, h, vp, fs, path);
             addClipShape(l, path, multiply(m, translation(box.x0, box.y0)), shape.rule);
             op.clipCount = (u32)l.clips.length() - op.clipFirst;
 

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40" viewBox="0 0 64 40">
+<style><![CDATA[
+.c0 { clip-path: shape(from 0 0) }
+.c1 { clip-path: shape(0 0, line to 1px 1px) }
+.c2 { clip-path: shape(from 0 0 junk, line to 10px 0) }
+.c3 { clip-path: shape(from 0 0, bogus to 1px 1px) }
+.c4 { clip-path: shape(from 0 0, line 10px 10px) }
+.c5 { clip-path: shape(from 0 0, line by 10px) }
+.c6 { clip-path: shape(from 0 0, hline 10px) }
+.c7 { clip-path: shape(from 0 0, hline to bogus) }
+.c8 { clip-path: shape(from 0 0, hline by left) }
+.c9 { clip-path: shape(from 0 0, vline to y-end, hline to center, vline to top, hline to x-end, vline to center, hline by -50%, close) }
+.c10 { clip-path: shape(from 0 0, curve to 10px 10px) }
+.c11 { clip-path: shape(from 0 0, curve to 10px 10px with) }
+.c12 { clip-path: shape(from 0 0, curve to 10px 10px with 1px 1px /) }
+.c13 { clip-path: shape(from 0 0, curve by 10px 10px with 1px 1px from nowhere) }
+.c14 { clip-path: shape(from 0 0, curve to 100% 100% with 100% 0 from origin, line to 0 100%, close) }
+.c15 { clip-path: shape(from 0 0, arc to 10px 10px) }
+.c16 { clip-path: shape(from 0 0, arc to 10px 10px of 5px of 5px) }
+.c17 { clip-path: shape(from 0 0, arc to 10px 10px of bogus) }
+.c18 { clip-path: shape(from 0 0, arc to 10px 10px of 5px rotate 30) }
+.c19 { clip-path: shape(from 0 0, arc to 10px 10px of 5px rotate bogus) }
+.c20 { clip-path: shape(from 0 0, arc to 100% 100% of 70% rotate 0, line to 0 100%, close) }
+.c21 { clip-path: shape(from 0 0, arc to 100% 100% of 100% small ccw, line to 0 100%, close) }
+.c22 { clip-path: shape(from 0 0, arc to 10px 10px of 5px wobble) }
+.c23 { clip-path: shape(from 0 0, line to 100% 0, line to 0 100%, close junk) }
+.c24 { clip-path: shape(nonzero from 0 0, line to 100% 100%, line to 0 100%) }
+.c25 { clip-path: shape(from 0 0, smooth to 100% 0 with 50% 50% / 1px 1px) }
+.c26 { clip-path: shape(from 0 0, curve to 100% 100% with 50% 0 from end / 0 50% from start, line to 0 100%, close) }
+.c27 { clip-path: shape(from 0 0, curve to right bottom with left bottom / right top, close) }
+.c28 { clip-path: shape(from 0 0, , line to 1px 1px) }
+.c29 { clip-path: shape(from 0 0,) }
+.c30 { clip-path: shape(from 0 0, curve to 10px 10px with 10px 20px from) }
+.c31 { clip-path: shape(from center, smooth to right bottom, smooth by -100% 0, close) }
+.c32 { clip-path: shape(from 0 0 with, line to 1px 1px) }
+]]></style>
+<g fill="teal">
+<rect class="c0" x="1" y="1" width="6" height="6"/>
+<rect class="c1" x="9" y="1" width="6" height="6"/>
+<rect class="c2" x="17" y="1" width="6" height="6"/>
+<rect class="c3" x="25" y="1" width="6" height="6"/>
+<rect class="c4" x="33" y="1" width="6" height="6"/>
+<rect class="c5" x="41" y="1" width="6" height="6"/>
+<rect class="c6" x="49" y="1" width="6" height="6"/>
+<rect class="c7" x="57" y="1" width="6" height="6"/>
+<rect class="c8" x="1" y="9" width="6" height="6"/>
+<rect class="c9" x="9" y="9" width="6" height="6"/>
+<rect class="c10" x="17" y="9" width="6" height="6"/>
+<rect class="c11" x="25" y="9" width="6" height="6"/>
+<rect class="c12" x="33" y="9" width="6" height="6"/>
+<rect class="c13" x="41" y="9" width="6" height="6"/>
+<rect class="c14" x="49" y="9" width="6" height="6"/>
+<rect class="c15" x="57" y="9" width="6" height="6"/>
+<rect class="c16" x="1" y="17" width="6" height="6"/>
+<rect class="c17" x="9" y="17" width="6" height="6"/>
+<rect class="c18" x="17" y="17" width="6" height="6"/>
+<rect class="c19" x="25" y="17" width="6" height="6"/>
+<rect class="c20" x="33" y="17" width="6" height="6"/>
+<rect class="c21" x="41" y="17" width="6" height="6"/>
+<rect class="c22" x="49" y="17" width="6" height="6"/>
+<rect class="c23" x="57" y="17" width="6" height="6"/>
+<rect class="c24" x="1" y="25" width="6" height="6"/>
+<rect class="c25" x="9" y="25" width="6" height="6"/>
+<rect class="c26" x="17" y="25" width="6" height="6"/>
+<rect class="c27" x="25" y="25" width="6" height="6"/>
+<rect class="c28" x="33" y="25" width="6" height="6"/>
+<rect class="c29" x="41" y="25" width="6" height="6"/>
+<rect class="c30" x="49" y="25" width="6" height="6"/>
+<rect class="c31" x="57" y="25" width="6" height="6"/>
+<rect class="c32" x="1" y="33" width="6" height="6"/>
+</g>
+</svg>
