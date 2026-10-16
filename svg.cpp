@@ -7729,7 +7729,8 @@ namespace {
                     break;
                 }
                 case AtomMixBlendMode: {
-                    static const char* const modes[] = {"normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"};
+                    // The blend modes, then plus-lighter, which adds.
+                    static const char* const modes[] = {"normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity", "plus-lighter"};
 
                     if (keyword) {
                         style.blend = source.blend;
@@ -15707,6 +15708,12 @@ namespace {
                 return;
             case 9:
                 blendPixels(o, s, d, count, softLight);
+                return;
+            case 16:
+                // plus-lighter: the sum, which the lanes saturate.
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    return product(sc, da) + product(dc, sa);
+                });
                 return;
             case 10:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
