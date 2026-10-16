@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<linearGradient id="g">
+<stop offset="0" stop-color="#000" stop-opacity="0.2"/>
+<stop offset="1" stop-color="#fff"/>
+</linearGradient>
+<filter id="steep" color-interpolation-filters="sRGB">
+<feGaussianBlur stdDeviation="3"/>
+<feColorMatrix values="0 0 0 0 0  0 0 0 0 0.4  0 0 0 0 0.8  0 0 0 30000 -15000"/>
+</filter>
+<filter id="huge" color-interpolation-filters="sRGB">
+<feColorMatrix values="3e38 -3e38 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+</filter>
+<filter id="nan" color-interpolation-filters="sRGB">
+<feColorMatrix type="hueRotate" values="3e38"/>
+</filter>
+<filter id="curves" color-interpolation-filters="sRGB">
+<feComponentTransfer>
+<feFuncR type="table" tableValues="1 0 0.5"/>
+<feFuncG type="discrete" tableValues="0 0.5 1 2"/>
+<feFuncB type="linear" slope="-2" intercept="1.2"/>
+<feFuncA type="gamma" amplitude="1" exponent="0.5" offset="0"/>
+</feComponentTransfer>
+</filter>
+<filter id="empty" color-interpolation-filters="sRGB">
+<feComponentTransfer>
+<feFuncR type="table"/>
+<feFuncG type="discrete"/>
+<feFuncB type="table" tableValues="0.25"/>
+<feFuncA type="unknown"/>
+</feComponentTransfer>
+</filter>
+<filter id="edges" color-interpolation-filters="sRGB">
+<feConvolveMatrix order="3" kernelMatrix="0.3333333 0.3333333 0.3333333 0 0 0 0 0 -1"/>
+</filter>
+<filter id="emboss" color-interpolation-filters="sRGB">
+<feConvolveMatrix order="3" kernelMatrix="1 0 0 0 0 0 0 0 -1" bias="0.5" preserveAlpha="true"/>
+</filter>
+<circle cx="12" cy="12" r="8" fill="#08f" filter="url(#steep)"/>
+<rect x="24" y="4" width="16" height="16" fill="#f80" filter="url(#huge)"/>
+<rect x="44" y="4" width="16" height="16" fill="#0a0" filter="url(#nan)"/>
+<rect x="4" y="24" width="16" height="16" fill="url(#g)" filter="url(#curves)"/>
+<rect x="24" y="24" width="16" height="16" fill="url(#g)" filter="url(#empty)"/>
+<g filter="url(#edges)">
+<rect x="44" y="24" width="16" height="16" fill="#80f"/>
+<rect x="48" y="28" width="8" height="8" fill="#ff0"/>
+</g>
+<g filter="url(#emboss)">
+<rect x="4" y="44" width="56" height="16" fill="url(#g)"/>
+<circle cx="32" cy="52" r="6" fill="#f08"/>
+</g>
+</svg>
