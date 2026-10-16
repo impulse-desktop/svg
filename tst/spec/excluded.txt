@@ -1,0 +1,93 @@
+# What of tst/spec/inventory.json the renderer leaves out on purpose, each
+# with the reason. A line is `KEY: reason`, KEY a shell glob over the keys of
+# tst/spec_coverage.py: `element NAME`, `attribute ELEMENT/NAME` (`*/NAME` for
+# an attribute of a category, the same on every element), `value
+# ELEMENT/ATTRIBUTE=KEYWORD`, `property NAME`, `keyword PROPERTY:KEYWORD`.
+# An item a unit draws is covered whatever this file says.
+
+# README: it draws static SVG without text.
+element text: README, no text
+element tspan: README, no text
+element textPath: README, no text
+attribute text/*: README, no text
+attribute tspan/*: README, no text
+attribute textPath/*: README, no text
+value text/*: README, no text
+value tspan/*: README, no text
+value textPath/*: README, no text
+attribute */lang: README, no text: the language of text
+attribute */xml:space: README, no text: white space of text
+property font-*: README, no text
+property text-*: README, no text
+property letter-spacing: README, no text
+property word-spacing: README, no text
+property writing-mode: README, no text
+property direction: README, no text
+property unicode-bidi: README, no text
+property alignment-baseline: README, no text
+property baseline-shift: README, no text
+property dominant-baseline: README, no text
+property glyph-orientation-*: README, no text
+property inline-size: README, no text
+keyword font-*: README, no text
+keyword text-*: README, no text
+keyword letter-spacing:*: README, no text
+keyword word-spacing:*: README, no text
+keyword writing-mode:*: README, no text
+keyword direction:*: README, no text
+keyword unicode-bidi:*: README, no text
+keyword alignment-baseline:*: README, no text
+keyword baseline-shift:*: README, no text
+keyword dominant-baseline:*: README, no text
+keyword glyph-orientation-*: README, no text
+keyword inline-size:*: README, no text
+
+# README: no script, no foreignObject.
+element script: README, no script
+attribute script/*: README, no script
+value script/*: README, no script
+attribute */on*: README, no script: event handlers
+element foreignObject: README, no foreignObject
+attribute foreignObject/*: README, no foreignObject
+
+# Static SVG: nothing of these is drawn.
+attribute */aria-*: static SVG: accessibility, nothing drawn
+attribute */role: static SVG: accessibility, nothing drawn
+attribute */tabindex: static SVG: focus, nothing drawn
+attribute */autofocus: static SVG: focus, nothing drawn
+property cursor: static SVG: the pointer, nothing drawn
+keyword cursor:*: static SVG: the pointer, nothing drawn
+property pointer-events: static SVG: hit testing, nothing drawn
+keyword pointer-events:*: static SVG: hit testing, nothing drawn
+attribute a/download: static SVG: a link draws its content only
+attribute a/href: static SVG: a link draws its content only
+attribute a/hreflang: static SVG: a link draws its content only
+attribute a/ping: static SVG: a link draws its content only
+attribute a/referrerpolicy: static SVG: a link draws its content only
+attribute a/rel: static SVG: a link draws its content only
+attribute a/target: static SVG: a link draws its content only
+value a/target=*: static SVG: a link draws its content only
+attribute a/type: static SVG: a link draws its content only
+element title: static SVG: metadata, nothing drawn
+attribute title/*: static SVG: metadata, nothing drawn
+element metadata: static SVG: metadata, nothing drawn
+attribute metadata/*: static SVG: metadata, nothing drawn
+value */lang=*: README, no text: the language of text
+
+# Properties of CSS boxes, which SVG content has none of.
+property background-blend-mode: CSS backgrounds, not SVG content
+keyword background-blend-mode:*: CSS backgrounds, not SVG content
+keyword display:*: CSS layout: SVG draws every display but none alike
+value */lengthAdjust=*: README, no text: text and textPath only
+value */method=*: README, no text: textPath only
+value */spacing=*: README, no text: textPath only
+value */side=*: README, no text: textPath only
+attribute */xlink:title: static SVG: a tooltip, nothing drawn
+
+# README: images inside a document are decoded by the embedding program,
+# which fetches them; the renderer fetches nothing.
+attribute */crossorigin: README, images come from the embedding program
+attribute image/crossorigin: README, images come from the embedding program
+attribute feImage/crossorigin: README, images come from the embedding program
+attribute image/referrerpolicy: README, images come from the embedding program
+value */crossorigin=*: README, images come from the embedding program
