@@ -2031,6 +2031,10 @@ namespace {
         return (u16)(v | (0u - (v >> 16)));
     }
 
+    static u32 clampStored(i64 v) {
+        return v < 0 ? 0u : (v > 65535 ? 65535u : (u32)v);
+    }
+
     // Pixels read into floats: 65535 is 1 exactly.
     static void loadSpan(const u16* s, float* d, size_t count) {
         constexpr float unit = 1.f / 65535.f;
@@ -12442,34 +12446,32 @@ namespace {
         }
     }
 
-    static float mitchell(float x) {
-        x = fabsf(x);
+    // A cubic of the fraction t, 65536 a whole one, by Horner's rule, its
+    // coefficients 2^30ths: the cubic in 2^30ths, each step shifted down
+    // to that, and so less by under three of them.
+    static i64 cubic(i64 t, i64 c0, i64 c1, i64 c2, i64 c3) {
+        i64 v = (c3 * t >> 16) + c2;
 
-        if (x < 1.f) {
-            return (7.f * x * x * x - 12.f * x * x + 16.f / 3.f) / 6.f;
-        }
+        v = (v * t >> 16) + c1;
 
-        if (x < 2.f) {
-            return (-7.f / 3.f * x * x * x + 12.f * x * x - 20.f * x + 32.f / 3.f) / 6.f;
-        }
-
-        return 0.f;
+        return (v * t >> 16) + c0;
     }
 
-    struct ByteUnits {
-        float values[256];
-    };
+    // Mitchell's filter at the fraction t of a texel, 65536 a whole one,
+    // for the texels one before, at, one after and two after: times 18,
+    // its cubics there are 1 - 9t + 15t^2 - 7t^3, 16 - 36t^2 + 21t^3,
+    // 1 + 9t + 27t^2 - 21t^3 and 7t^3 - 6t^2. The weights are 16384ths;
+    // the one at takes what rounding the others leaves, so the four sum
+    // to one.
+    static void mitchellWeights(i64 t, i32* w) {
+        constexpr i64 unit = ((i64)1 << 30) / 18;
+        constexpr i64 half = (i64)1 << 15;
 
-    // The quotients byte / 255.f, each computed once.
-    constexpr ByteUnits byteUnits = [] {
-        ByteUnits units{};
-
-        for (int i = 0; i < 256; i++) {
-            units.values[i] = (float)i / 255.f;
-        }
-
-        return units;
-    }();
+        w[0] = (i32)((cubic(t, unit, -9 * unit, 15 * unit, -7 * unit) + half) >> 16);
+        w[2] = (i32)((cubic(t, unit, 9 * unit, 27 * unit, -21 * unit) + half) >> 16);
+        w[3] = (i32)((cubic(t, 0, 0, -6 * unit, 7 * unit) + half) >> 16);
+        w[1] = 16384 - w[0] - w[2] - w[3];
+    }
 
     // a modulo m, in 0 to m - 1 for a negative a too.
     static int floorMod(int a, int m) {
@@ -12627,18 +12629,22 @@ namespace {
                 return true;
             }
 
-            // Mitchell's filter has negative lobes: it sums in floats.
-
+            // Mitchell's filter, in integers: each texel's colour times its
+            // alpha and its alpha times 255, 65025 a whole one, by the
+            // weights of its column, rounded once a row, then by the weights
+            // of its row. The negative lobes can take a sum below none or
+            // past the alpha, where it clamps.
             float fx = p.x - 0.5f;
             float fy = p.y - 0.5f;
             float x0 = floorf(fx);
             float y0 = floorf(fy);
-            float tx = fx - x0;
-            float ty = fy - y0;
-            float wx[4] = {mitchell(tx + 1.f), mitchell(tx), mitchell(1.f - tx), mitchell(2.f - tx)};
-            float wy[4] = {mitchell(ty + 1.f), mitchell(ty), mitchell(1.f - ty), mitchell(2.f - ty)};
+            i32 wx[4];
+            i32 wy[4];
             int xs[4];
             int ys[4];
+
+            mitchellWeights((i64)((fx - x0) * 65536.f + 0.5f), wx);
+            mitchellWeights((i64)((fy - y0) * 65536.f + 0.5f), wy);
 
             for (int i = 0; i < 4; i++) {
                 int x = (int)x0 - 1 + i;
@@ -12648,26 +12654,40 @@ namespace {
                 ys[i] = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
             }
 
-            Color sum{0.f, 0.f, 0.f, 0.f};
+            i32 sum[4] = {0, 0, 0, 0};
 
             for (int j = 0; j < 4; j++) {
                 const u8* row = paint.image + (size_t)ys[j] * paint.imageWidth * 4;
+                i32 line[4] = {0, 0, 0, 0};
 
                 for (int i = 0; i < 4; i++) {
                     const u8* t = row + (size_t)xs[i] * 4;
-                    float a = byteUnits.values[t[3]];
-                    float w = wx[i] * wy[j];
+                    i32 weight = t[3] * wx[i];
+                    i32 by[4] = {weight, weight, weight, 255 * wx[i]};
 
-                    sum.r += byteUnits.values[t[0]] * a * w;
-                    sum.g += byteUnits.values[t[1]] * a * w;
-                    sum.b += byteUnits.values[t[2]] * a * w;
-                    sum.a += a * w;
+                    for (int k = 0; k < 4; k++) {
+                        line[k] += t[k] * by[k];
+                    }
+                }
+
+                for (int k = 0; k < 4; k++) {
+                    sum[k] += ((line[k] + 8192) >> 14) * wy[j];
                 }
             }
 
-            float a = clampUnit(sum.a);
+            // 65025 is a whole one, 65535 a stored one: the sums scale by
+            // 257 / 255.
+            u32 c[4];
 
-            storeColor(out, Color{maxf(0.f, minf(sum.r, a)), maxf(0.f, minf(sum.g, a)), maxf(0.f, minf(sum.b, a)), a});
+            for (int k = 0; k < 4; k++) {
+                c[k] = clampStored((((sum[k] + 8192) >> 14) * 257 + 127) / 255);
+            }
+
+            for (int k = 0; k < 3; k++) {
+                out[k] = (u16)(c[k] < c[3] ? c[k] : c[3]);
+            }
+
+            out[3] = (u16)c[3];
 
             return true;
         }
@@ -14655,24 +14675,6 @@ namespace {
         releasePlane(shadow);
     }
 
-    static void unpremultiply(const float* s, float* c) {
-        float a = s[3];
-
-        if (a <= 0.f) {
-            c[0] = 0.f;
-            c[1] = 0.f;
-            c[2] = 0.f;
-            c[3] = 0.f;
-
-            return;
-        }
-
-        c[0] = clampUnit(s[0] / a);
-        c[1] = clampUnit(s[1] / a);
-        c[2] = clampUnit(s[2] / a);
-        c[3] = a;
-    }
-
     static void storePremultiplied(float* d, const float* c) {
         float a = clampUnit(c[3]);
 
@@ -14687,10 +14689,6 @@ namespace {
         for (size_t p = 0; p < count; p++) {
             storePremultiplied(d + p * 4, c + p * 4);
         }
-    }
-
-    static u32 clampStored(i64 v) {
-        return v < 0 ? 0u : (v > 65535 ? 65535u : (u32)v);
     }
 
     // A sum of stored channels, each times a real coefficient, plus a real
@@ -15124,98 +15122,6 @@ namespace {
         }
     }
 
-    // The colour dodge, colour burn and soft light of a channel: the other
-    // separable modes are blended in stored channels.
-    static float blendChannel(int mode, float cb, float cs) {
-        switch (mode) {
-            case 6:
-                return cb <= 0.f ? 0.f : (cs >= 1.f ? 1.f : minf(1.f, cb / (1.f - cs)));
-            case 7:
-                return cb >= 1.f ? 1.f : (cs <= 0.f ? 0.f : 1.f - minf(1.f, (1.f - cb) / cs));
-            default: {
-                if (cs <= 0.5f) {
-                    return cb - (1.f - 2.f * cs) * cb * (1.f - cb);
-                }
-
-                float dcb = cb <= 0.25f ? ((16.f * cb - 12.f) * cb + 4.f) * cb : sqrtf(cb);
-
-                return cb + (2.f * cs - 1.f) * (dcb - cb);
-            }
-        }
-    }
-
-    static float luminosity(const float* c) {
-        return 0.3f * c[0] + 0.59f * c[1] + 0.11f * c[2];
-    }
-
-    static void clipColor(float* c) {
-        float l = luminosity(c);
-        float n = minf(c[0], minf(c[1], c[2]));
-        float x = maxf(c[0], maxf(c[1], c[2]));
-
-        // Rounding a shifted gray can put its luminosity just outside [0, 1].
-        // At either endpoint the clipped color is constant; the formulas below
-        // would otherwise divide by zero when all three channels are equal.
-        if (l <= 0.f || l >= 1.f) {
-            c[0] = c[1] = c[2] = clampUnit(l);
-
-            return;
-        }
-
-        for (int k = 0; k < 3; k++) {
-            if (n < 0.f) {
-                c[k] = l + (c[k] - l) * l / (l - n);
-            }
-
-            if (x > 1.f) {
-                c[k] = l + (c[k] - l) * (1.f - l) / (x - l);
-            }
-        }
-    }
-
-    static void setLuminosity(float* c, float l) {
-        float d = l - luminosity(c);
-
-        c[0] += d;
-        c[1] += d;
-        c[2] += d;
-        clipColor(c);
-    }
-
-    static float saturation(const float* c) {
-        return maxf(c[0], maxf(c[1], c[2])) - minf(c[0], minf(c[1], c[2]));
-    }
-
-    static void setSaturation(float* c, float s) {
-        int imax = 0;
-        int imin = 0;
-
-        for (int k = 1; k < 3; k++) {
-            if (c[k] > c[imax]) {
-                imax = k;
-            }
-
-            if (c[k] < c[imin]) {
-                imin = k;
-            }
-        }
-
-        if (imax == imin) {
-            c[0] = 0.f;
-            c[1] = 0.f;
-            c[2] = 0.f;
-
-            return;
-        }
-
-        int imid = 3 - imax - imin;
-        float range = c[imax] - c[imin];
-
-        c[imid] = (c[imid] - c[imin]) * s / range;
-        c[imax] = s;
-        c[imin] = 0.f;
-    }
-
     static int blendMode(StringView text) {
         static const char* const modes[] = {"normal", "multiply", "screen", "overlay", "darken", "lighten", "color-dodge", "color-burn", "hard-light", "soft-light", "difference", "exclusion", "hue", "saturation", "color", "luminosity"};
 
@@ -15226,57 +15132,6 @@ namespace {
         }
 
         return 0;
-    }
-
-    static void blendPixel(int mode, const float* src, const float* dst, float* out) {
-        float cs[4];
-        float cb[4];
-        float mixed[3];
-
-        unpremultiply(src, cs);
-        unpremultiply(dst, cb);
-
-        float as = src[3];
-        float ab = dst[3];
-
-        if (mode < 12) {
-            for (int k = 0; k < 3; k++) {
-                mixed[k] = blendChannel(mode, cb[k], cs[k]);
-            }
-        } else {
-            float c[3] = {cs[0], cs[1], cs[2]};
-            float b[3] = {cb[0], cb[1], cb[2]};
-
-            if (mode == 12) {
-                float t[3] = {c[0], c[1], c[2]};
-
-                setSaturation(t, saturation(b));
-                setLuminosity(t, luminosity(b));
-                memcpy(mixed, t, sizeof(mixed));
-            } else if (mode == 13) {
-                float t[3] = {b[0], b[1], b[2]};
-
-                setSaturation(t, saturation(c));
-                setLuminosity(t, luminosity(b));
-                memcpy(mixed, t, sizeof(mixed));
-            } else if (mode == 14) {
-                float t[3] = {c[0], c[1], c[2]};
-
-                setLuminosity(t, luminosity(b));
-                memcpy(mixed, t, sizeof(mixed));
-            } else {
-                float t[3] = {b[0], b[1], b[2]};
-
-                setLuminosity(t, luminosity(c));
-                memcpy(mixed, t, sizeof(mixed));
-            }
-        }
-
-        for (int k = 0; k < 3; k++) {
-            out[k] = src[k] * (1.f - ab) + dst[k] * (1.f - as) + as * ab * clampUnit(mixed[k]);
-        }
-
-        out[3] = as + ab - as * ab;
     }
 
     // A separable blend in stored premultiplied channels: each lane is
@@ -15317,33 +15172,264 @@ namespace {
         return (i32)div65535((u32)a * (u32)b);
     }
 
-    // The blend of a source span over a destination span into an output span,
-    // in the modes whose function is a product, a minimum or maximum, a
-    // difference or a choice on a half, which are exact in stored channels;
-    // false for the dodges, burns, soft light and the non-separable modes,
-    // which divide or take roots.
-    static bool blendSpan(int mode, u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count) {
+    // n / d rounded to the nearest, a half up.
+    static u64 quotient(u64 n, u64 d) {
+        return (n + d / 2) / d;
+    }
+
+    // Square roots of a quarter to a whole for soft light, 65536 a whole
+    // one: values[i] is the root of 1/4 + i/1024, rounded, found a bit at a
+    // step; between two of them a root is the straight line, off there by
+    // under a fiftieth of a 65536th. The last is doubled for the line out
+    // of a whole.
+    struct Roots {
+        u32 values[770];
+    };
+
+    constexpr Roots roots = [] {
+        Roots table{};
+
+        for (u32 i = 0; i <= 768; i++) {
+            u64 v = (u64)(16384 + 64 * i) << 16;
+            u64 root = 0;
+
+            for (u64 bit = (u64)1 << 32; bit; bit >>= 2) {
+                u64 take = 0 - (u64)(v >= root + bit);
+
+                v -= (root + bit) & take;
+                root = (root >> 1) + (bit & take);
+            }
+
+            table.values[i] = (u32)(root + (v > root));
+        }
+
+        table.values[769] = table.values[768];
+
+        return table;
+    }();
+
+    // The luminosity of a colour times 100.
+    static i32 luminosity(const i32* c) {
+        return 30 * c[0] + 59 * c[1] + 11 * c[2];
+    }
+
+    static i32 saturation(const i32* c) {
+        i32 x = c[0];
+        i32 n = c[0];
+
+        for (int k = 1; k < 3; k++) {
+            x = c[k] > x ? c[k] : x;
+            n = c[k] < n ? c[k] : n;
+        }
+
+        return x - n;
+    }
+
+    // The colour with its largest channel less its smallest set to s: the
+    // largest becomes s, the smallest none and the middle one keeps its
+    // place between them; a grey becomes black.
+    static void setSaturation(i32* c, i32 s) {
+        int imax = 0;
+        int imin = 0;
+
+        for (int k = 1; k < 3; k++) {
+            if (c[k] > c[imax]) {
+                imax = k;
+            }
+
+            if (c[k] < c[imin]) {
+                imin = k;
+            }
+        }
+
+        if (imax == imin) {
+            c[0] = 0;
+            c[1] = 0;
+            c[2] = 0;
+
+            return;
+        }
+
+        int imid = 3 - imax - imin;
+        u32 range = (u32)(c[imax] - c[imin]);
+
+        c[imid] = (i32)(((u32)(c[imid] - c[imin]) * (u32)s + range / 2) / range);
+        c[imax] = s;
+        c[imin] = 0;
+    }
+
+    // The colour moved by a grey to the luminosity l, then, where a channel
+    // falls outside none to all, pulled toward the grey of l until it fits;
+    // l and the channels out are times 100. Pulled channels are written so
+    // that every factor is positive, the ratio once in 2^32ths: c - n times
+    // l / (l - n) from below none, all less x - c times
+    // (all - l) / (x - l) from past all.
+    static void setLuminosity(const i32* c, i32 l, i64* out) {
+        const i64 whole = 100 * 65535;
+        i64 shift = l - luminosity(c);
+        i64 n = whole;
+        i64 x = 0;
+
+        for (int k = 0; k < 3; k++) {
+            out[k] = 100 * (i64)c[k] + shift;
+            n = out[k] < n ? out[k] : n;
+            x = out[k] > x ? out[k] : x;
+        }
+
+        if (n < 0) {
+            u64 ratio = ((u64)l << 32) / (u64)(l - n);
+
+            for (int k = 0; k < 3; k++) {
+                out[k] = (i64)(((u64)(out[k] - n) * ratio + ((u64)1 << 31)) >> 32);
+            }
+        } else if (x > whole) {
+            u64 ratio = ((u64)(whole - l) << 32) / (u64)(x - l);
+
+            for (int k = 0; k < 3; k++) {
+                out[k] = whole - (i64)(((u64)(x - out[k]) * ratio + ((u64)1 << 31)) >> 32);
+            }
+        }
+    }
+
+    // The hue, saturation, colour and luminosity modes, which mix the three
+    // channels of the colours not premultiplied: each is its channel, at
+    // most its alpha, times the reciprocal of its alpha, 65535 a whole one,
+    // and the mix times both alphas is the term of the mode. Where either
+    // has no alpha the terms are none.
+    static void blendColours(int mode, const u16* s, const u16* d, i32* t) {
+        u32 sa = s[3];
+        u32 da = d[3];
+        i64 mixed[3] = {0, 0, 0};
+
+        if (sa && da) {
+            u64 inverseS = (65535u * 65536u + sa / 2) / sa;
+            u64 inverseD = (65535u * 65536u + da / 2) / da;
+            i32 cs[3];
+            i32 cb[3];
+
+            for (int k = 0; k < 3; k++) {
+                cs[k] = (i32)(((s[k] < sa ? s[k] : sa) * inverseS + 32768) >> 16);
+                cb[k] = (i32)(((d[k] < da ? d[k] : da) * inverseD + 32768) >> 16);
+            }
+
+            // Hue and colour set the source's, saturation and luminosity
+            // the backdrop's; all but luminosity to the backdrop's
+            // luminosity.
+            i32 l = mode == 15 ? luminosity(cs) : luminosity(cb);
+            i32* c = mode == 12 || mode == 14 ? cs : cb;
+
+            if (mode == 12) {
+                setSaturation(cs, saturation(cb));
+            }
+
+            if (mode == 13) {
+                setSaturation(cb, saturation(cs));
+            }
+
+            setLuminosity(c, l, mixed);
+        }
+
+        for (int k = 0; k < 3; k++) {
+            t[k] = (i32)quotient((u64)mixed[k] * sa * da, (u64)100 * 65535 * 65535);
+        }
+    }
+
+    // Soft light: times both alphas, a source up to a half darkens the
+    // backdrop to sa dc - (sa - 2 sc) dc (1 - cb); one past it lightens it
+    // to sa dc + (2 sc - sa) (da D - dc), where D is the root of cb, or
+    // below a quarter the cubic ((16 cb - 12) cb + 4) cb. cb is 65536ths
+    // through one reciprocal of the backdrop's alpha, 2^31ths cut down so
+    // that cb is at most a whole one, a colour past it taken as all of it;
+    // a channel of none stays none, and a backdrop of none, all of whose
+    // channels are none, divides by one.
+    static void softLight(const u16* s, const u16* d, i32* t) {
+        u32 sa = s[3];
+        u32 a = d[3];
+        u64 inverse = (1u << 31) / (a + (a == 0));
+
+        for (int k = 0; k < 3; k++) {
+            u32 sc = s[k];
+            u32 c = d[k] < a ? d[k] : a;
+            u32 x = (u32)((c * inverse + 16384) >> 15);
+
+            if (c == 0) {
+                t[k] = 0;
+                continue;
+            }
+
+            if (2 * sc <= sa) {
+                u32 kept = (c * (65536 - x) + 32768) >> 16;
+
+                t[k] = (i32)div65535(sa * c - (sa - 2 * sc) * kept);
+                continue;
+            }
+
+            i64 lifted;
+
+            if (x <= 16384) {
+                lifted = ((i64)c * (((x * x) >> 12) - 12 * x + 262144) + 32768) >> 16;
+            } else {
+                u32 i = (x - 16384) >> 6;
+                u32 f = (x - 16384) & 63;
+                u32 root = roots.values[i] + (((roots.values[i + 1] - roots.values[i]) * f + 32) >> 6);
+
+                lifted = ((i64)a * root + 32768) >> 16;
+            }
+
+            // Below none only for a source past its alpha, where it
+            // truncates.
+            t[k] = (i32)(((i64)sa * c + (i64)(2 * sc - sa) * (lifted - c) + 32767) / 65535);
+        }
+    }
+
+    // A blend whose terms come a pixel at a time: terms(s, d, t) writes the
+    // three colour terms of a source pixel over a backdrop pixel, and each
+    // lane is s (1 - da) + d (1 - sa) plus its term, the alpha's sa da.
+    template <typename Terms>
+    static void blendPixels(u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count, Terms terms) {
+        for (size_t p = 0; p < count * 4; p += 4) {
+            u32 sa = s[p + 3];
+            u32 da = d[p + 3];
+            i32 t[4];
+
+            terms(s + p, d + p, t);
+            t[3] = (i32)div65535(sa * da);
+
+            for (size_t k = 0; k < 4; k++) {
+                i32 v = (i32)div65535(s[p + k] * (65535 - da)) + (i32)div65535(d[p + k] * (65535 - sa)) + t[k];
+
+                o[p + k] = saturate((u32)(v * (v > 0)));
+            }
+        }
+    }
+
+    // The blend of a source span over a destination span into an output
+    // span, in stored channels. The modes whose function is a product, a
+    // minimum or maximum, a difference or a choice on a half are exact; the
+    // dodge, the burn, soft light and the modes that mix the channels
+    // divide or take roots in integers, to about a stored unit.
+    static void blendSpan(int mode, u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count) {
         switch (mode) {
             case 0:
                 blendLanes(o, s, d, count, [](i32 sc, i32, i32, i32 da, bool) {
                     return product(sc, da);
                 });
-                return true;
+                return;
             case 1:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32, i32, bool) {
                     return product(sc, dc);
                 });
-                return true;
+                return;
             case 2:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     return product(sc, da) + product(dc, sa) - product(sc, dc);
                 });
-                return true;
+                return;
             case 3:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     return 2 * dc <= da ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
                 });
-                return true;
+                return;
             case 4:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     i32 u = product(dc, sa);
@@ -15351,7 +15437,7 @@ namespace {
 
                     return u < v ? u : v;
                 });
-                return true;
+                return;
             case 5:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     i32 u = product(dc, sa);
@@ -15359,33 +15445,75 @@ namespace {
 
                     return u > v ? u : v;
                 });
-                return true;
+                return;
+            case 6:
+                // cb / (1 - cs), at most all, times both alphas is sa / 65535
+                // times dc sa / (sa - sc), at most da: none on a backdrop of
+                // none, all from a source of all.
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    i32 full = product(sa, da);
+
+                    if (dc == 0) {
+                        return 0;
+                    }
+
+                    if (sc >= sa) {
+                        return full;
+                    }
+
+                    u32 n = (u32)dc * (u32)sa;
+                    u32 m = (u32)(sa - sc);
+
+                    return n < (u32)da * m ? product(sa, (i32)((n + m / 2) / m)) : full;
+                });
+                return;
+            case 7:
+                // 1 - (1 - cb) / cs, at least none, times both alphas is
+                // sa / 65535 times da less (da - dc) sa / sc, at least none:
+                // all on a backdrop of all, none from a source of none.
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    if (dc >= da) {
+                        return product(sa, da);
+                    }
+
+                    if (sc == 0) {
+                        return 0;
+                    }
+
+                    u32 n = (u32)(da - dc) * (u32)sa;
+                    u32 m = (u32)sc;
+
+                    return n < (u32)da * m ? product(sa, da - (i32)((n + m / 2) / m)) : 0;
+                });
+                return;
             case 8:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
                     return 2 * sc <= sa ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
                 });
-                return true;
+                return;
+            case 9:
+                blendPixels(o, s, d, count, softLight);
+                return;
             case 10:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
                     i32 v = product(dc, sa) - product(sc, da);
 
                     return (v < 0 ? -v : v) + alpha * product(sa, da);
                 });
-                return true;
+                return;
             case 11:
                 blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
                     return product(sc, da) + product(dc, sa) - 2 * product(sc, dc) + alpha * product(sa, da);
                 });
-                return true;
+                return;
             default:
-                return false;
+                blendPixels(o, s, d, count, [mode](const u16* sp, const u16* dp, i32* t) {
+                    blendColours(mode, sp, dp, t);
+                });
         }
     }
 
-    // The blend of the two inputs. The modes whose function is a product,
-    // a minimum or maximum, a difference or a choice on a half are exact in
-    // stored channels; the dodges, burns, soft light and the non-separable
-    // modes divide or take roots and go through floats.
+    // The blend of the two inputs, by rows of stored channels.
     static void filterBlend(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane a = filterInputBuffer(run, p.in1, p.linear);
@@ -15396,36 +15524,14 @@ namespace {
         size_t n = (size_t)(box.x1 - box.x0);
         Vector<u16> rowA;
         Vector<u16> rowB;
-        Vector<float> floatA;
-        Vector<float> floatB;
-        Vector<float> floatOut;
 
         rowA.zero(n * 4);
         rowB.zero(n * 4);
-        floatA.zero(n * 4);
-        floatB.zero(n * 4);
-        floatOut.zero(n * 4);
 
         for (int y = box.y0; y < box.y1; y++) {
-            u16* o = planeAt(out, box.x0, y);
-            const u16* s = rowA.data();
-            const u16* d = rowB.data();
-
             readStored(a, box.x0, box.x1, y, rowA.mutData());
             readStored(b, box.x0, box.x1, y, rowB.mutData());
-
-            if (blendSpan(mode, o, s, d, n)) {
-                continue;
-            }
-
-            loadSpan(s, floatA.mutData(), n);
-            loadSpan(d, floatB.mutData(), n);
-
-            for (size_t x = 0; x < n; x++) {
-                blendPixel(mode, floatA.data() + x * 4, floatB.data() + x * 4, floatOut.mutData() + x * 4);
-            }
-
-            storeSpan(o, floatOut.data(), n);
+            blendSpan(mode, planeAt(out, box.x0, y), rowA.data(), rowB.data(), n);
         }
     }
 
@@ -16973,37 +17079,6 @@ namespace {
         }
     }
 
-    // The source row blended over the destination in a mode that divides or
-    // takes roots, on colours not premultiplied, so the rows go through
-    // floats. Where the destination has no alpha the source goes over it.
-    static void blendRow(int mode, u16* out, const u16* row, size_t count, Vector<float>& source, Vector<float>& backdrop) {
-        source.zero(count * 4);
-        backdrop.zero(count * 4);
-        loadSpan(row, source.mutData(), count);
-        loadSpan(out, backdrop.mutData(), count);
-
-        for (size_t k = 0; k < count; k++) {
-            const float* s = source.data() + k * 4;
-            float* d = backdrop.mutData() + k * 4;
-
-            if (d[3] > 0.f) {
-                float blended[4];
-
-                blendPixel(mode, s, d, blended);
-                memcpy(d, blended, sizeof(blended));
-                continue;
-            }
-
-            float keep = 1.f - s[3];
-
-            for (int c = 0; c < 4; c++) {
-                d[c] = s[c] + d[c] * keep;
-            }
-        }
-
-        storeSpan(out, backdrop.data(), count);
-    }
-
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base) {
         size_t depth = r.layers.length();
         IntBox canvas{0, 0, (int)r.width, (int)r.height};
@@ -17078,8 +17153,6 @@ namespace {
                     Vector<u16> factor;
                     Vector<u16> scaledRow;
                     Vector<u16> blended;
-                    Vector<float> source;
-                    Vector<float> backdrop;
 
                     factor.zero((size_t)width);
                     scaledRow.zero((size_t)width * 4);
@@ -17105,10 +17178,9 @@ namespace {
 
                             if (!begin->blend) {
                                 overSpan(out, row, (size_t)n);
-                            } else if (blendSpan(begin->blend, blended.mutData(), row, out, (size_t)n)) {
-                                memcpy(out, blended.data(), sizeof(u16) * 4 * (size_t)n);
                             } else {
-                                blendRow(begin->blend, out, row, (size_t)n, source, backdrop);
+                                blendSpan(begin->blend, blended.mutData(), row, out, (size_t)n);
+                                memcpy(out, blended.data(), sizeof(u16) * 4 * (size_t)n);
                             }
                         }
                     }
