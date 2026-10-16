@@ -1789,7 +1789,9 @@ namespace {
         Vector<IntBox> dirty;
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
-        Vector<float> accumulation;
+        // The coverage deltas of a fill's rows, 65536 for a whole pixel,
+        // summed modulo 2^32.
+        Vector<u32> accumulation;
         Plane backdrop{nullptr, IntBox{0, 0, 0, 0}};
         size_t backgroundBase = 0;
         // The sRGB curve each way over stored values, to sRGB and to linear
@@ -11188,6 +11190,8 @@ namespace {
         u32 h = (u32)((height + by - 1) >> ky);
         u8* out = new u8[(size_t)w * h * 4];
         Vector<u64> sums;
+        // The columns past the image that the last column stands for.
+        u64 extra = ((u64)w << kx) - width;
 
         sums.zero((size_t)w * 4);
 
@@ -11201,20 +11205,42 @@ namespace {
             for (u64 sy = first; sy < last; sy++) {
                 const u8* row = pixels + (size_t)sy * width * 4;
                 // The last row stands for the rows past the image.
-                u64 rowWeight = sy + 1 == height ? first + by - sy : 1;
+                u64 weight = sy + 1 == height ? first + by - sy : 1;
+                u32 x = 0;
 
-                for (u32 x = 0; x < width; x++) {
-                    const u8* t = row + (size_t)x * 4;
-                    u64* d = sum + (size_t)(x >> kx) * 4;
-                    // So does the last column for the columns past it.
-                    u64 weight = rowWeight * (x + 1 == width ? ((u64)(x >> kx) << kx) + bx - x : 1);
-                    u64 a = (u64)t[3] * weight;
+                for (u32 block = 0; block < w; block++) {
+                    u32 end = ((u64)(block + 1) << kx) < width ? (u32)((u64)(block + 1) << kx) : width;
+                    u64 r = 0;
+                    u64 g = 0;
+                    u64 b = 0;
+                    u64 a = 0;
 
-                    d[0] += t[0] * a;
-                    d[1] += t[1] * a;
-                    d[2] += t[2] * a;
-                    d[3] += a;
+                    for (; x < end; x++) {
+                        const u8* t = row + (size_t)x * 4;
+                        u32 alpha = t[3];
+
+                        r += t[0] * alpha;
+                        g += t[1] * alpha;
+                        b += t[2] * alpha;
+                        a += alpha;
+                    }
+
+                    u64* d = sum + (size_t)block * 4;
+
+                    d[0] += r * weight;
+                    d[1] += g * weight;
+                    d[2] += b * weight;
+                    d[3] += a * weight;
                 }
+
+                const u8* t = row + (size_t)(width - 1) * 4;
+                u64* d = sum + (size_t)(w - 1) * 4;
+                u64 alpha = (u64)t[3] * extra * weight;
+
+                d[0] += t[0] * alpha;
+                d[1] += t[1] * alpha;
+                d[2] += t[2] * alpha;
+                d[3] += alpha;
             }
 
             for (u32 x = 0; x < w; x++) {
@@ -12120,7 +12146,16 @@ namespace {
         return IntBox{(int)x0, (int)y0, (int)x1, (int)y1};
     }
 
-    static void addLine(float* acc, u32 stride, u32 width, float x0, float y0, float x1, float y1) {
+    // A coverage in units of the accumulator, 65536 for a whole pixel,
+    // rounded alike either side of zero.
+    static i32 fixedCover(float v) {
+        return (i32)rintf(v * 65536.f);
+    }
+
+    // A line's coverage of the rows it crosses, a cell at a time: each cell
+    // takes the difference of the rounded running total of the row, so that
+    // the cells sum to the line's rounded height in the row exactly.
+    static void addLine(u32* acc, u32 stride, u32 width, float x0, float y0, float x1, float y1) {
         if (y0 == y1) {
             return;
         }
@@ -12146,7 +12181,7 @@ namespace {
         u32 yend = (u32)ceilf(y1);
 
         for (u32 y = ystart; y < yend; y++) {
-            float* line = acc + (size_t)y * stride;
+            u32* line = acc + (size_t)y * stride;
             float dy = minf((float)(y + 1), y1) - maxf((float)y, y0);
             float xnext = x + dxdy * dy;
             float d = dy * dir;
@@ -12156,45 +12191,46 @@ namespace {
             int x0i = (int)x0floor;
             float x1ceil = ceilf(xb);
             int x1i = (int)x1ceil;
+            i32 total = fixedCover(d);
 
             if (x1i <= x0i + 1) {
                 float xmf = 0.5f * (xa + xb) - x0floor;
+                i32 first = fixedCover(d - d * xmf);
 
-                line[x0i] += d - d * xmf;
-                line[x0i + 1] += d * xmf;
+                line[x0i] += (u32)first;
+                line[x0i + 1] += (u32)(total - first);
             } else {
                 float s = 1.f / (xb - xa);
                 float x0f = xa - x0floor;
                 float a0 = 0.5f * s * (1.f - x0f) * (1.f - x0f);
                 float x1f = xb - x1ceil + 1.f;
                 float am = 0.5f * s * x1f * x1f;
+                i32 done = fixedCover(d * a0);
+                i32 next;
 
-                line[x0i] += d * a0;
+                line[x0i] += (u32)done;
 
-                if (x1i == x0i + 2) {
-                    line[x0i + 1] += d * (1.f - a0 - am);
-                } else {
+                if (x1i > x0i + 2) {
                     float a1 = s * (1.5f - x0f);
 
-                    line[x0i + 1] += d * (a1 - a0);
-
-                    for (int xi = x0i + 2; xi < x1i - 1; xi++) {
-                        line[xi] += d * s;
+                    // The running total through each cell before the last two.
+                    for (int xi = x0i + 1; xi < x1i - 1; xi++) {
+                        next = fixedCover(d * (a1 + (float)(xi - x0i - 1) * s));
+                        line[xi] += (u32)(next - done);
+                        done = next;
                     }
-
-                    float a2 = a1 + (float)(x1i - x0i - 3) * s;
-
-                    line[x1i - 1] += d * (1.f - a2 - am);
                 }
 
-                line[x1i] += d * am;
+                next = fixedCover(d * (1.f - am));
+                line[x1i - 1] += (u32)(next - done);
+                line[x1i] += (u32)(total - next);
             }
 
             x = xnext;
         }
     }
 
-    static void addEdge(float* acc, u32 stride, u32 width, Edge e) {
+    static void addEdge(u32* acc, u32 stride, u32 width, Edge e) {
         float w = (float)width;
         float bounds[2] = {0.f, w};
         float ts[2];
@@ -12253,16 +12289,19 @@ namespace {
         }
     }
 
-    static float coverage(float value, u8 rule) {
-        float a = fabsf(value);
+    // The stored coverage of a running sum of the accumulator: nonzero
+    // clamps its magnitude to a whole pixel, even-odd folds it every two.
+    static u32 coverStored(u32 sum, u8 rule) {
+        u32 a = sum >> 31 ? 0u - sum : sum;
 
         if (rule == WindingEvenOdd) {
-            a = fmodf(a, 2.f);
-
-            return a > 1.f ? 2.f - a : a;
+            a &= 0x1ffffu;
+            a = a > 0x10000u ? 0x20000u - a : a;
+        } else {
+            a = a < 0x10000u ? a : 0x10000u;
         }
 
-        return a > 1.f ? 1.f : a;
+        return a - (a >> 16);
     }
 
     static float spreadT(float t, u8 spread) {
@@ -12644,12 +12683,12 @@ namespace {
         return true;
     }
 
-    static void addAliasedEdge(float* acc, u32 stride, u32 width, u32 height, Edge e) {
-        float dir = 1.f;
+    static void addAliasedEdge(u32* acc, u32 stride, u32 width, u32 height, Edge e) {
+        u32 dir = 0x10000u;
 
         if (e.y0 > e.y1) {
             e = Edge{e.x1, e.y1, e.x0, e.y0};
-            dir = -1.f;
+            dir = 0u - 0x10000u;
         }
 
         // Rows and columns clamp to the raster; one that is not a number
@@ -12749,7 +12788,7 @@ namespace {
         return comparable;
     }
 
-    static void unionBand(float* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, const Vector<u32>& position, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable) {
+    static void unionBand(u32* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, const Vector<u32>& position, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable) {
         Vector<BandSample>& band = samples[depth];
 
         if (band.empty()) {
@@ -12946,7 +12985,7 @@ namespace {
         sortCrossings(crossings, width, scratch);
     }
 
-    static void addSpan(float* acc, u32 w, float x0, float x1, float weight) {
+    static void addSpan(u32* acc, u32 w, float x0, float x1, i32 weight) {
         float limit = (float)w;
 
         x0 = x0 < 0.f ? 0.f : (x0 > limit ? limit : x0);
@@ -12961,10 +13000,14 @@ namespace {
         u32 i0 = (u32)c0;
         u32 i1 = (u32)c1;
 
-        acc[i0] += (1.f - (x0 - c0)) * weight;
-        acc[i0 + 1] += (x0 - c0) * weight;
-        acc[i1] -= (1.f - (x1 - c1)) * weight;
-        acc[i1 + 1] -= (x1 - c1) * weight;
+        // Each end splits the span's weight between two cells, rounded.
+        i32 a = (i32)rintf((1.f - (x0 - c0)) * (float)weight);
+        i32 b = (i32)rintf((1.f - (x1 - c1)) * (float)weight);
+
+        acc[i0] += (u32)a;
+        acc[i0 + 1] += (u32)(weight - a);
+        acc[i1] -= (u32)b;
+        acc[i1 + 1] -= (u32)(weight - b);
     }
 
     static bool edgeBefore(const BandEdge& p, const BandEdge& q) {
@@ -12999,7 +13042,7 @@ namespace {
         return BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1};
     }
 
-    static void rasterizeUnion(float* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule) {
+    static void rasterizeUnion(u32* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule) {
         Vector<BandEdge> edges;
         // The band edges are built in place, counted into the rows they start
         // in; an edge level in y is no band edge. A few are then sorted whole,
@@ -13157,7 +13200,7 @@ namespace {
                 }
             }
 
-            float* line = acc + (size_t)row * stride;
+            u32* line = acc + (size_t)row * stride;
             // A row of many edges takes fewer scanlines, 4 at least: their
             // crossings are capped near 16384 a row.
             int subs = 16;
@@ -13183,7 +13226,7 @@ namespace {
                     if (!before) {
                         start = c.x;
                     } else if (!after) {
-                        addSpan(line, w, start, c.x, 1.f / (float)subs);
+                        addSpan(line, w, start, c.x, 0x10000 / subs);
                     }
                 }
 
@@ -13220,7 +13263,7 @@ namespace {
 
         r.accumulation.zero((size_t)stride * h);
 
-        float* acc = r.accumulation.mutData();
+        u32* acc = r.accumulation.mutData();
 
         if (!aliased) {
             rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule);
@@ -13432,11 +13475,19 @@ namespace {
         u16* above = rows.above.mutData();
         u16* between = rows.between.mutData();
 
+        // The row's part of the map to the gradient's space, the products
+        // apply forms, taken once.
+        const Matrix& m = paint.inverse;
+        float py = (float)y + 0.5f;
+        float rowX = m.c * py;
+        float rowY = m.d * py;
+
         for (u32 i = 0; i < count; i++) {
             float t;
             u32 f;
+            float px = (float)(x + (int)i) + 0.5f;
 
-            if (!gradientT(paint, apply(paint.inverse, Point{(float)(x + (int)i) + 0.5f, (float)y + 0.5f}), t)) {
+            if (!gradientT(paint, Point{m.a * px + rowX + m.e, m.b * px + rowY + m.f}, t)) {
                 cover[i] = 0;
                 continue;
             }
@@ -13530,7 +13581,7 @@ namespace {
             return;
         }
 
-        const float* acc = r.accumulation.data();
+        const u32* acc = r.accumulation.data();
         u32 stride = w + 2;
         const DevicePaint& paint = *op.paint;
         IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
@@ -13552,8 +13603,8 @@ namespace {
         // run of covered pixels the paint, its product with the coverage, and
         // that over the layers.
         for (u32 y = 0; y < h; y++) {
-            float sum = 0.f;
-            const float* line = acc + (size_t)y * stride;
+            u32 sum = 0;
+            const u32* line = acc + (size_t)y * stride;
             u16* coverRow = cover.mutData();
             u32 count = 0;
             auto draw = [&](u32 end) {
@@ -13575,7 +13626,7 @@ namespace {
 
             for (u32 x = 0; x < w; x++) {
                 sum += line[x];
-                coverRow[x] = (u16)toUnit16(coverage(sum, op.rule));
+                coverRow[x] = (u16)coverStored(sum, op.rule);
             }
 
             for (u32 x = 0; x < w; x++) {
@@ -13610,20 +13661,20 @@ namespace {
             return;
         }
 
-        const float* acc = r.accumulation.data();
+        const u32* acc = r.accumulation.data();
         u32 stride = w + 2;
         int width = box.x1 - box.x0;
 
         // The raster's window lies within the box it was clipped to.
         for (u32 y = 0; y < h; y++) {
-            float sum = 0.f;
-            const float* line = acc + (size_t)y * stride;
+            u32 sum = 0;
+            const u32* line = acc + (size_t)y * stride;
             u16* values = target + (size_t)((int)(iy0 + y) - box.y0) * width + (size_t)((int)ix0 - box.x0);
 
             for (u32 x = 0; x < w; x++) {
                 sum += line[x];
 
-                u16 cover = (u16)toUnit16(coverage(sum, shape.rule));
+                u16 cover = (u16)coverStored(sum, shape.rule);
 
                 values[x] = values[x] > cover ? values[x] : cover;
             }
