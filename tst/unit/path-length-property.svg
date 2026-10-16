@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48" viewBox="0 0 64 48">
+<style>
+.a { path-length: 10px } .b { path-length: 1em; font-size: 20px } .c { path-length: none } .d { path-length: -1px } .e { path-length: 10% } .f { path-length: 0 } .g { path-length: bogus }
+</style>
+<g fill="none" stroke="teal" stroke-width="3" stroke-dasharray="1 1">
+<path class="a" d="M2 4 h60"/>
+<path class="b" d="M2 10 h60"/>
+<path class="c" d="M2 16 h60" pathLength="10"/>
+<path class="d" d="M2 22 h60" pathLength="20"/>
+<path class="e" d="M2 28 h60" pathLength="20"/>
+<path class="f" d="M2 34 h60"/>
+<path class="g" d="M2 40 h60" pathLength="5px"/>
+<rect x="2" y="44" width="60" height="2" pathLength="-3"/>
+</g>
+</svg>
