@@ -1497,6 +1497,9 @@ namespace {
         u32 mask;
         u32 markers[3];
         bool nonScaling;
+        // vector-effect's constrained transformations, as VectorNonScaling
+        // and the bits after it.
+        u8 vectorEffects;
         u8 blend;
         bool isolate;
         bool newBackground;
@@ -8124,6 +8127,7 @@ namespace {
         style.clipShape = nullptr;
         style.clipRect = nullptr;
         style.nonScaling = false;
+        style.vectorEffects = 0;
         style.blend = 0;
         style.isolate = false;
         style.newBackground = false;
@@ -8670,16 +8674,41 @@ namespace {
                     }
 
                     break;
-                case AtomVectorEffect:
-                    if (keyword) {
-                        style.nonScaling = source.nonScaling;
-                    } else if (isKeyword(value, SV("non-scaling-stroke"))) {
-                        style.nonScaling = true;
-                    } else if (isKeyword(value, SV("none"))) {
-                        style.nonScaling = false;
+                case AtomVectorEffect: {
+                    // none, or any effects once each; non-scaling-size keeps
+                    // the stroke as non-scaling-stroke does.
+                    static const char* const effects[] = {"non-scaling-stroke", "non-scaling-size", "non-rotation", "fixed-position"};
+                    const u8* p = value.begin();
+                    u8 buffer[64];
+                    u32 seen = 0;
+                    bool valid = true;
+
+                    if (keyword || isKeyword(value, SV("none"))) {
+                        style.nonScaling = keyword && source.nonScaling;
+                        style.vectorEffects = keyword ? source.vectorEffects : 0;
+                        break;
+                    }
+
+                    for (StringView word = mediaWord(p, value.end(), buffer); !word.empty(); word = mediaWord(p, value.end(), buffer)) {
+                        u32 bit = 0;
+
+                        for (u32 k = 0; k < 4; k++) {
+                            bit = word == StringView(effects[k]) ? 1u << k : bit;
+                        }
+
+                        valid = valid && bit && !(seen & bit);
+                        seen |= bit;
+                    }
+
+                    skipSpaces(p, value.end());
+
+                    if (valid && p == value.end()) {
+                        style.nonScaling = (seen & 3) != 0;
+                        style.vectorEffects = (u8)(seen >> 1);
                     }
 
                     break;
+                }
                 case AtomMarkerStart:
                 case AtomMarkerMid:
                 case AtomMarkerEnd: {
@@ -12987,6 +13016,45 @@ namespace {
         return true;
     }
 
+    // vector-effect's constrained transformations, SVG 2's formulas in the
+    // host's space, the device's: the user space keeps its origin where the
+    // CTM puts it, or for fixed-position at the e and f of the element's
+    // own transform; non-scaling-size takes the scale out of the CTM, by
+    // the root of its determinant, non-rotation the rotation and skew,
+    // both all of it. Of a CTM of no area non-scaling-size is none, and so
+    // is every effect.
+    static Matrix vectorEffectMatrix(const Matrix& host, const Matrix& m, const Matrix& own, u8 effects) {
+        Matrix hostInverse;
+        bool size = effects & 1;
+        bool rotation = effects & 2;
+
+        if (!invert(host, hostInverse)) {
+            return m;
+        }
+
+        Matrix ctm = multiply(hostInverse, m);
+        float area = fabsf(ctm.a * ctm.d - ctm.b * ctm.c);
+        float root = sqrtf(area);
+        Matrix linear{ctm.a, ctm.b, ctm.c, ctm.d, 0.f, 0.f};
+
+        if (size && !(area > 0.f)) {
+            return m;
+        }
+
+        if (size && rotation) {
+            linear = identity();
+        } else if (size) {
+            linear = Matrix{ctm.a / root, ctm.b / root, ctm.c / root, ctm.d / root, 0.f, 0.f};
+        } else if (rotation) {
+            linear = scaling(root, root);
+        }
+
+        linear.e = effects & 4 ? own.e : ctm.e;
+        linear.f = effects & 4 ? own.f : ctm.f;
+
+        return multiply(host, linear);
+    }
+
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp) {
         bool instance = node->name == AtomSymbol && l.sized == node;
 
@@ -13004,8 +13072,13 @@ namespace {
             return;
         }
 
-        Matrix m = multiply(ctm, boxTransform(l, node, parent, vp));
+        Matrix own = boxTransform(l, node, parent, vp);
+        Matrix m = multiply(ctm, own);
         Op op = groupOp(style.opacity);
+
+        if (style.vectorEffects && (isShape(node->name) || node->name == AtomImage || node->name == AtomUse)) {
+            m = vectorEffectMatrix(l.host, m, own, style.vectorEffects);
+        }
 
         if (node->name == AtomUse) {
             m = multiply(m, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
