@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="16">
+<linearGradient id="b"><stop offset="0" stop-color="#000"/><stop offset=".2" stop-color="#f00"/><stop offset=".4" stop-color="#fff"/><stop offset=".6" stop-color="#38c" stop-opacity=".5"/><stop offset=".8" stop-color="#0f0"/><stop offset="1" stop-color="#888" stop-opacity="0"/></linearGradient>
+<linearGradient id="s" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".2" stop-color="#00f"/><stop offset=".4" stop-color="#ff0" stop-opacity=".6"/><stop offset=".55" stop-color="#000"/><stop offset=".7" stop-color="#777"/><stop offset=".85" stop-color="#c31"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<defs><rect id="t" width="8" height="8" fill="url(#s)"/></defs>
+<filter id="f0" x="0" y="0" width="1" height="1"><feImage xlink:href="#t" result="t"/><feBlend in="t" in2="SourceGraphic" mode="color-dodge"/></filter>
+<filter id="f1" x="0" y="0" width="1" height="1"><feImage xlink:href="#t" result="t"/><feBlend in="t" in2="SourceGraphic" mode="color-burn"/></filter>
+<filter id="f2" x="0" y="0" width="1" height="1"><feImage xlink:href="#t" result="t"/><feBlend in="t" in2="SourceGraphic" mode="soft-light"/></filter>
+<filter id="f3" x="0" y="0" width="1" height="1"><feImage xlink:href="#t" result="t"/><feBlend in="t" in2="SourceGraphic" mode="hue"/></filter>
+<filter id="f4" x="0" y="0" width="1" height="1"><feImage xlink:href="#t" result="t"/><feBlend in="t" in2="SourceGraphic" mode="saturation"/></filter>
+<filter id="f5" x="0" y="0" width="1" height="1"><feImage xlink:href="#t" result="t"/><feBlend in="t" in2="SourceGraphic" mode="color"/></filter>
+<filter id="f6" x="0" y="0" width="1" height="1"><feImage xlink:href="#t" result="t"/><feBlend in="t" in2="SourceGraphic" mode="luminosity"/></filter>
+<rect width="8" height="8" fill="url(#b)" filter="url(#f0)" transform="translate(0 0)"/>
+<g style="isolation:isolate"><rect x="0" y="8" width="8" height="8" fill="url(#b)"/><rect x="0" y="8" width="8" height="8" fill="url(#s)" style="mix-blend-mode:color-dodge"/></g>
+<rect width="8" height="8" fill="url(#b)" filter="url(#f1)" transform="translate(8 0)"/>
+<g style="isolation:isolate"><rect x="8" y="8" width="8" height="8" fill="url(#b)"/><rect x="8" y="8" width="8" height="8" fill="url(#s)" style="mix-blend-mode:color-burn"/></g>
+<rect width="8" height="8" fill="url(#b)" filter="url(#f2)" transform="translate(16 0)"/>
+<g style="isolation:isolate"><rect x="16" y="8" width="8" height="8" fill="url(#b)"/><rect x="16" y="8" width="8" height="8" fill="url(#s)" style="mix-blend-mode:soft-light"/></g>
+<rect width="8" height="8" fill="url(#b)" filter="url(#f3)" transform="translate(24 0)"/>
+<g style="isolation:isolate"><rect x="24" y="8" width="8" height="8" fill="url(#b)"/><rect x="24" y="8" width="8" height="8" fill="url(#s)" style="mix-blend-mode:hue"/></g>
+<rect width="8" height="8" fill="url(#b)" filter="url(#f4)" transform="translate(32 0)"/>
+<g style="isolation:isolate"><rect x="32" y="8" width="8" height="8" fill="url(#b)"/><rect x="32" y="8" width="8" height="8" fill="url(#s)" style="mix-blend-mode:saturation"/></g>
+<rect width="8" height="8" fill="url(#b)" filter="url(#f5)" transform="translate(40 0)"/>
+<g style="isolation:isolate"><rect x="40" y="8" width="8" height="8" fill="url(#b)"/><rect x="40" y="8" width="8" height="8" fill="url(#s)" style="mix-blend-mode:color"/></g>
+<rect width="8" height="8" fill="url(#b)" filter="url(#f6)" transform="translate(48 0)"/>
+<g style="isolation:isolate"><rect x="48" y="8" width="8" height="8" fill="url(#b)"/><rect x="48" y="8" width="8" height="8" fill="url(#s)" style="mix-blend-mode:luminosity"/></g>
+</svg>
