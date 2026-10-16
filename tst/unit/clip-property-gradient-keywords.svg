@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<linearGradient id="p" spreadMethod="pad" x1="0.3" x2="0.7" gradientTransform="matrix(1 0 0 1 0.1 0)"><stop offset="0" stop-color="crimson"/><stop offset="1" stop-color="teal"/></linearGradient>
+<pattern id="q" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="translate(2 3) matrix(1 0.2 0 1 0 0)"><rect width="4" height="4" fill="purple"/></pattern>
+<marker id="m" markerWidth="4" markerHeight="4" refX="2" refY="2"><circle cx="2" cy="2" r="2" fill="red"/></marker>
+</defs>
+<svg x="2" y="2" width="28" height="28" viewBox="0 0 10 10" overflow="visible" style="clip: rect(2px, 8px, 8px, 2px)"><circle cx="5" cy="5" r="7" fill="olive"/></svg>
+<svg x="34" y="2" width="28" height="28" viewBox="0 0 10 10" overflow="visible" style="clip: auto"><circle cx="5" cy="5" r="7" fill="navy"/></svg>
+<rect x="2" y="36" width="28" height="12" fill="url(#p)"/>
+<rect x="34" y="36" width="28" height="26" fill="url(#q)"/>
+<path d="M2 56 H16 H30" stroke="gray" marker-start="url(#m)" marker-mid="url(#m)" marker-end="url(#m)" style="marker-mid: none"/>
+</svg>

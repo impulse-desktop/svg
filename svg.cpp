@@ -1105,6 +1105,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(StopOpacity, "stop-opacity")                              \
     ATOM(ClipPathProperty, "clip-path")                            \
     ATOM(ClipRule, "clip-rule")                                    \
+    ATOM(Clip, "clip")                                             \
     ATOM(FontSize, "font-size")                                    \
     ATOM(Mask, "mask")                                             \
     ATOM(MaskType, "mask-type")                                    \
@@ -1487,6 +1488,8 @@ namespace {
         u32 dashCount;
         u32 clipPath;
         BasicShape* clipShape;
+        // The clip property's rect(), as the four sides of a rect().
+        BasicShape* clipRect;
         u32 mask;
         u32 markers[3];
         bool nonScaling;
@@ -7320,6 +7323,37 @@ namespace {
         return word.empty() || (equalsIgnoreCase(word, SV("round")) && parseRadii(p, end, out));
     }
 
+    // The clip property's rect(): offsets from the top left of the box to
+    // its top, right, bottom and left sides, each a length or auto, apart
+    // by commas or by spaces. Unclosed, it closes at the end, as CSS reads
+    // it.
+    static bool parseClipRect(StringView text, BasicShape& out) {
+        text = trim(text);
+
+        if (text.length() < 5 || !equalsIgnoreCase(StringView(text.begin(), text.begin() + 5), SV("rect("))) {
+            return false;
+        }
+
+        const u8* p = text.begin() + 5;
+        const u8* end = text.end()[-1] == ')' ? text.end() - 1 : text.end();
+
+        out.autos = 0;
+
+        for (u32 side = 0; side < 4; side++) {
+            StringView word = shapeWord(p, end);
+
+            out.values[side] = Length{0.f, Unit::Number};
+
+            if (equalsIgnoreCase(word, SV("auto"))) {
+                out.autos |= (u8)(1u << side);
+            } else if (!parseLength(word, out.values[side]) || out.values[side].unit == Unit::Percent) {
+                return false;
+            }
+        }
+
+        return shapeWord(p, end).empty();
+    }
+
     static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out) {
         const u8* end = args.end();
 
@@ -7522,6 +7556,7 @@ namespace {
         style.stopOpacity = 1.f;
         style.clipPath = 0;
         style.clipShape = nullptr;
+        style.clipRect = nullptr;
         style.nonScaling = false;
         style.blend = 0;
         style.isolate = false;
@@ -7550,7 +7585,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -7587,7 +7622,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -7810,6 +7845,19 @@ namespace {
                     }
 
                     break;
+                case AtomClip: {
+                    BasicShape rect;
+
+                    if (keyword) {
+                        style.clipRect = source.clipRect;
+                    } else if (isKeyword(value, SV("auto"))) {
+                        style.clipRect = nullptr;
+                    } else if (parseClipRect(value, rect)) {
+                        style.clipRect = l.pool->make<BasicShape>(rect);
+                    }
+
+                    break;
+                }
                 case AtomClipPathProperty:
                 case AtomMask: {
                     u32& target = property == AtomMask ? style.mask : style.clipPath;
@@ -8357,6 +8405,29 @@ namespace {
 
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
 
+    // What the clip property leaves of a box of the given size, as offsets
+    // from its top left: a side auto is the box's own. False for no clip.
+    static bool clipCut(const ComputedStyle& style, float w, float h, Viewport vp, Box& out) {
+        if (!style.clipRect) {
+            return false;
+        }
+
+        const BasicShape& rect = *style.clipRect;
+        float sides[4];
+
+        for (u32 side = 0; side < 4; side++) {
+            sides[side] = resolveLength(rect.values[side], Axis::Other, vp, style.fontSize);
+        }
+
+        out = Box{rect.autos & 8 ? 0.f : sides[3], rect.autos & 1 ? 0.f : sides[0], rect.autos & 2 ? w : sides[1], rect.autos & 4 ? h : sides[2]};
+
+        return true;
+    }
+
+    static Op groupOp(float opacity);
+    static void addRectClip(Lowering& l, const Matrix& m, float x, float y, float w, float h);
+    static void endGroup(Lowering& l, u32 begin);
+
     static DevicePaint* patternPaint(Lowering& l, Node* pattern, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
         const Document& doc = *l.doc;
 
@@ -8464,7 +8535,28 @@ namespace {
         l.width = paint->imageWidth;
         l.height = paint->imageHeight;
         l.patternDepth++;
+
+        // The clip property cuts the tile at its offsets.
+        Box cut;
+        bool cutting = clipCut(documentStyle(l, pattern, vp), w, h, vp, cut);
+        u32 cutIndex = (u32)l.out->length();
+
+        if (cutting) {
+            Op op = groupOp(1.f);
+
+            op.clipped = true;
+            op.clipFirst = (u32)l.clips.length();
+            op.clipCount = 1;
+            addRectClip(l, scaling(tw / w, th / h), cut.x0, cut.y0, maxf(cut.x1 - cut.x0, 0.f), maxf(cut.y1 - cut.y0, 0.f));
+            l.out->pushBack(op);
+        }
+
         lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
+
+        if (cutting) {
+            endGroup(l, cutIndex);
+        }
+
         l.patternDepth--;
         l.width = outerWidth;
         l.height = outerHeight;
@@ -10035,6 +10127,19 @@ namespace {
             h = lengthOr(doc, mask, AtomHeight, Axis::Y, vp, fs, 1.2f * vp.height);
         }
 
+        // The clip property cuts the region at its offsets.
+        Box cut{0.f, 0.f, w, h};
+
+        clipCut(maskStyle, w, h, vp, cut);
+
+        float x0 = maxf(cut.x0, 0.f);
+        float y0 = maxf(cut.y0, 0.f);
+
+        w = minf(cut.x1, w) - x0;
+        h = minf(cut.y1, h) - y0;
+        x += x0;
+        y += y0;
+
         if (w <= 0.f || h <= 0.f) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
 
@@ -11058,14 +11163,21 @@ namespace {
 
         Matrix inner = multiply(multiply(m, translation(x, y)), boxed);
 
+        // The clip property cuts the viewport, overflow or not; not the
+        // outermost svg's, whose CSS box is not absolutely positioned.
+        Box cut{0.f, 0.f, w, h};
+        bool cutting = node != l.doc->root && clipCut(style, w, h, vp, cut);
+        Box kept = clip ? Box{maxf(cut.x0, 0.f), maxf(cut.y0, 0.f), minf(cut.x1, w), minf(cut.y1, h)} : cut;
         u32 clipIndex = (u32)l.out->length();
+
+        clip = clip || cutting;
 
         if (clip) {
             u32 first = (u32)l.clips.length();
 
             Op op = groupOp(1.f);
 
-            addRectClip(l, m, x, y, w, h);
+            addRectClip(l, m, x + kept.x0, y + kept.y0, maxf(kept.x1 - kept.x0, 0.f), maxf(kept.y1 - kept.y0, 0.f));
             op.clipped = true;
             op.clipFirst = first;
             op.clipCount = 1;
