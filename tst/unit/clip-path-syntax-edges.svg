@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24" viewBox="0 0 64 24">
+<style><![CDATA[
+.c0 { clip-path: path(M0 0 h4 v4 z) }
+.c1 { clip-path: path("M0 0 h4 v4 z") }
+.c2 { clip-path: path(bogus, 'M0 0 h4 v4 z') }
+.c3 { clip-path: path(nonzero, 'M0 0 h4 v4 z') }
+.c4 { clip-path: path(nonzero,) }
+.c5 { clip-path: inset(1px round) }
+.c6 { clip-path: inset(1px round 1px 2px 3px 4px 5px) }
+.c7 { clip-path: inset(1px round bogus) }
+.c8 { clip-path: inset(1px round -1px) }
+.c9 { clip-path: inset(1px round 1px /) }
+.c10 { clip-path: inset(1px round / 1px) }
+.c11 { clip-path: inset(1px round 1px / 2px / 3px) }
+.c12 { clip-path: inset(0 round 1px 2px 3px 4px) }
+.c13 { clip-path: xywh(auto 0 4px 4px) }
+.c14 { clip-path: rect(1px 2px 3px) }
+.c15 { clip-path: rect(1px 2px 3px 4px junk) }
+.c16 { clip-path: rect(1px 2px 3px 4px round) }
+.c17 { clip-path: xywh(0 0 -4px 4px) }
+.c18 { clip-path: xywh(0 0 4px -4px) }
+.c19 { clip-path: rect(1px auto 5px auto) }
+.c20 { clip-path: path('M0 0 h4 v4 z") }
+]]></style>
+<g fill="teal">
+<rect class="c0" x="1" y="1" width="6" height="6"/>
+<rect class="c1" x="9" y="1" width="6" height="6"/>
+<rect class="c2" x="17" y="1" width="6" height="6"/>
+<rect class="c3" x="25" y="1" width="6" height="6"/>
+<rect class="c4" x="33" y="1" width="6" height="6"/>
+<rect class="c5" x="41" y="1" width="6" height="6"/>
+<rect class="c6" x="49" y="1" width="6" height="6"/>
+<rect class="c7" x="57" y="1" width="6" height="6"/>
+<rect class="c8" x="1" y="9" width="6" height="6"/>
+<rect class="c9" x="9" y="9" width="6" height="6"/>
+<rect class="c10" x="17" y="9" width="6" height="6"/>
+<rect class="c11" x="25" y="9" width="6" height="6"/>
+<rect class="c12" x="33" y="9" width="6" height="6"/>
+<rect class="c13" x="41" y="9" width="6" height="6"/>
+<rect class="c14" x="49" y="9" width="6" height="6"/>
+<rect class="c15" x="57" y="9" width="6" height="6"/>
+<rect class="c16" x="1" y="17" width="6" height="6"/>
+<rect class="c17" x="9" y="17" width="6" height="6"/>
+<rect class="c18" x="17" y="17" width="6" height="6"/>
+<rect class="c19" x="25" y="17" width="6" height="6"/>
+<rect class="c20" x="33" y="17" width="6" height="6"/>
+</g>
+</svg>
