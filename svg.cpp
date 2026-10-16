@@ -14411,14 +14411,16 @@ namespace {
             run = run + 1 == w ? 0 : run + 1;
         }
 
-        run = 0;
+        // Backward, a window starts at the last value and wherever i + 1 is
+        // a multiple of w; phase counts i + 1 down modulo w.
+        int phase = m % w;
 
         for (int i = m - 1; i >= 0; i--) {
             int k = i - r;
             const float* v = k >= 0 && k < n ? src + (size_t)k * stride : zeroPixel;
             float* out = ph + (size_t)i * 4;
 
-            if (run == 0 || i == m - 1) {
+            if (i == m - 1 || phase == 0) {
                 memcpy(out, v, sizeof(float) * 4);
             } else {
                 for (int c = 0; c < 4; c++) {
@@ -14426,7 +14428,7 @@ namespace {
                 }
             }
 
-            run = (i % w == 0) ? 0 : run + 1;
+            phase = phase == 0 ? w - 1 : phase - 1;
         }
 
         for (int x = 0; x < n; x++) {
@@ -15647,9 +15649,11 @@ namespace {
         auto texel = [&](int x, int y, int c) {
             return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content.data[((size_t)y * lw + x) * 4 + c];
         };
-        // A layer shifted by whole pixels samples each pixel as it is.
+        // A layer shifted by whole pixels samples each pixel as it is: its
+        // matrix passes all eight tests of a whole shift.
         const Matrix& lm = op.layerMatrix;
-        bool shifted = lm.a == 1.f && lm.b == 0.f && lm.c == 0.f && lm.d == 1.f && lm.e == floorf(lm.e) && lm.f == floorf(lm.f) && fabsf(lm.e) < 16777216.f && fabsf(lm.f) < 16777216.f;
+        int tests = (lm.a == 1.f) + (lm.b == 0.f) + (lm.c == 0.f) + (lm.d == 1.f) + (lm.e == floorf(lm.e)) + (lm.f == floorf(lm.f)) + (fabsf(lm.e) < 16777216.f) + (fabsf(lm.f) < 16777216.f);
+        bool shifted = tests == 8;
         int shiftX = shifted ? (int)lm.e : 0;
         int shiftY = shifted ? (int)lm.f : 0;
 
