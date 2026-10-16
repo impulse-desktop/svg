@@ -14386,47 +14386,68 @@ namespace {
         }
     }
 
-    static void slideExtreme(const float* src, size_t stride, int n, int r, bool dilate, float* dst, size_t dstStride, Vector<float>& g, Vector<float>& h) {
+    // The running extreme of windows of w values over the line padded by
+    // r zeros on each side, forward in g and backward in h, so that the
+    // extreme of the window at x is the extreme of h[x] and g[x + 2r].
+    template <typename Extreme>
+    static void slideExtremeBy(const float* src, size_t stride, int n, int r, float* dst, size_t dstStride, float* pg, float* ph, Extreme extreme) {
         int m = n + 2 * r;
         int w = 2 * r + 1;
-
-        g.zero((size_t)m * 4);
-        h.zero((size_t)m * 4);
-
-        float* pg = g.mutData();
-        float* ph = h.mutData();
+        int run = 0;
 
         for (int i = 0; i < m; i++) {
             int k = i - r;
-            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : nullptr;
+            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : zeroPixel;
+            float* out = pg + (size_t)i * 4;
 
-            for (int c = 0; c < 4; c++) {
-                float value = v ? v[c] : 0.f;
-
-                pg[(size_t)i * 4 + c] = i % w == 0 ? value : (dilate ? maxf(pg[(size_t)(i - 1) * 4 + c], value) : minf(pg[(size_t)(i - 1) * 4 + c], value));
+            if (run == 0) {
+                memcpy(out, v, sizeof(float) * 4);
+            } else {
+                for (int c = 0; c < 4; c++) {
+                    out[c] = extreme(out[c - 4], v[c]);
+                }
             }
+
+            run = run + 1 == w ? 0 : run + 1;
         }
+
+        run = 0;
 
         for (int i = m - 1; i >= 0; i--) {
             int k = i - r;
-            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : nullptr;
+            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : zeroPixel;
+            float* out = ph + (size_t)i * 4;
 
-            for (int c = 0; c < 4; c++) {
-                float value = v ? v[c] : 0.f;
-
-                ph[(size_t)i * 4 + c] = i == m - 1 || (i + 1) % w == 0 ? value : (dilate ? maxf(ph[(size_t)(i + 1) * 4 + c], value) : minf(ph[(size_t)(i + 1) * 4 + c], value));
+            if (run == 0 || i == m - 1) {
+                memcpy(out, v, sizeof(float) * 4);
+            } else {
+                for (int c = 0; c < 4; c++) {
+                    out[c] = extreme(out[c + 4], v[c]);
+                }
             }
+
+            run = (i % w == 0) ? 0 : run + 1;
         }
 
         for (int x = 0; x < n; x++) {
             float* d = dst + (size_t)x * dstStride;
 
             for (int c = 0; c < 4; c++) {
-                float a = ph[(size_t)x * 4 + c];
-                float b = pg[(size_t)(x + 2 * r) * 4 + c];
-
-                d[c] = dilate ? maxf(a, b) : minf(a, b);
+                d[c] = extreme(ph[(size_t)x * 4 + c], pg[(size_t)(x + 2 * r) * 4 + c]);
             }
+        }
+    }
+
+    static void slideExtreme(const float* src, size_t stride, int n, int r, bool dilate, float* dst, size_t dstStride, Vector<float>& g, Vector<float>& h) {
+        int m = n + 2 * r;
+
+        g.zero((size_t)m * 4);
+        h.zero((size_t)m * 4);
+
+        if (dilate) {
+            slideExtremeBy(src, stride, n, r, dst, dstStride, g.mutData(), h.mutData(), maxf);
+        } else {
+            slideExtremeBy(src, stride, n, r, dst, dstStride, g.mutData(), h.mutData(), minf);
         }
     }
 
@@ -14650,9 +14671,10 @@ namespace {
         }
     }
 
+    // The noise is computed in single precision, as Chromium's Skia does.
     struct Turbulence {
         int lattice[0x100 + 0x100 + 2];
-        double gradient[0x100 + 0x100 + 2][2][4];
+        float gradient[0x100 + 0x100 + 2][2][4];
     };
 
     struct Stitch {
@@ -14695,10 +14717,10 @@ namespace {
 
                 for (j = 0; j < 2; j++) {
                     seed = turbulenceRandom(seed);
-                    t.gradient[i][j][k] = (double)((seed % (0x100 + 0x100)) - 0x100) / 0x100;
+                    t.gradient[i][j][k] = (float)((seed % (0x100 + 0x100)) - 0x100) / 0x100;
                 }
 
-                double s = sqrt(t.gradient[i][0][k] * t.gradient[i][0][k] + t.gradient[i][1][k] * t.gradient[i][1][k]);
+                float s = sqrtf(t.gradient[i][0][k] * t.gradient[i][0][k] + t.gradient[i][1][k] * t.gradient[i][1][k]);
 
                 t.gradient[i][0][k] /= s;
                 t.gradient[i][1][k] /= s;
@@ -14724,52 +14746,52 @@ namespace {
         }
     }
 
-    static double sCurve(double t) {
-        return t * t * (3. - 2. * t);
+    static float sCurve(float t) {
+        return t * t * (3.f - 2.f * t);
     }
 
-    static double lerp(double t, double a, double b) {
+    static float lerp(float t, float a, float b) {
         return a + t * (b - a);
     }
 
-    static void noise2(const Turbulence& tb, double vx, double vy, const Stitch* stitch, double* out) {
-        double t = vx + 0x1000;
+    static void noise2(const Turbulence& tb, float vx, float vy, const Stitch* stitch, float* out) {
+        float t = vx + 0x1000;
 
         // The lattice repeats every 256 cells, so a far coordinate keeps its
         // cell modulo 256; one that is not finite has no cell and takes 0.
-        if (!(t >= -2147483647.0 && t <= 2147483646.0)) {
-            t = isfinite(t) ? fmod(t, 256.0) : 0.0;
+        if (!(t >= -2147483647.f && t <= 2147483520.f)) {
+            t = isfinite(t) ? fmodf(t, 256.f) : 0.f;
         }
 
         int bx0 = (int)t;
-        double rx0 = t - bx0;
+        float rx0 = t - bx0;
 
-        if (rx0 < 0.0) {
+        if (rx0 < 0.f) {
             // Choose the cell below the point, rather than extrapolating from
             // the next cell when the coordinate is below -4096.
             bx0--;
-            rx0 += 1.0;
+            rx0 += 1.f;
         }
 
         int bx1 = bx0 + 1;
-        double rx1 = rx0 - 1.0;
+        float rx1 = rx0 - 1.f;
 
         t = vy + 0x1000;
 
-        if (!(t >= -2147483647.0 && t <= 2147483646.0)) {
-            t = isfinite(t) ? fmod(t, 256.0) : 0.0;
+        if (!(t >= -2147483647.f && t <= 2147483520.f)) {
+            t = isfinite(t) ? fmodf(t, 256.f) : 0.f;
         }
 
         int by0 = (int)t;
-        double ry0 = t - by0;
+        float ry0 = t - by0;
 
-        if (ry0 < 0.0) {
+        if (ry0 < 0.f) {
             by0--;
-            ry0 += 1.0;
+            ry0 += 1.f;
         }
 
         int by1 = by0 + 1;
-        double ry1 = ry0 - 1.0;
+        float ry1 = ry0 - 1.f;
 
         // Narrowing a wrapped cell keeps its low byte, all the lattice reads.
         if (stitch) {
@@ -14801,17 +14823,17 @@ namespace {
         int b10 = tb.lattice[j + by0];
         int b01 = tb.lattice[i + by1];
         int b11 = tb.lattice[j + by1];
-        double sx = sCurve(rx0);
-        double sy = sCurve(ry0);
+        float sx = sCurve(rx0);
+        float sy = sCurve(ry0);
         for (int channel = 0; channel < 4; channel++) {
-            double u = rx0 * tb.gradient[b00][0][channel] + ry0 * tb.gradient[b00][1][channel];
-            double v = rx1 * tb.gradient[b10][0][channel] + ry0 * tb.gradient[b10][1][channel];
-            double a = lerp(sx, u, v);
+            float u = rx0 * tb.gradient[b00][0][channel] + ry0 * tb.gradient[b00][1][channel];
+            float v = rx1 * tb.gradient[b10][0][channel] + ry0 * tb.gradient[b10][1][channel];
+            float a = lerp(sx, u, v);
 
             u = rx0 * tb.gradient[b01][0][channel] + ry1 * tb.gradient[b01][1][channel];
             v = rx1 * tb.gradient[b11][0][channel] + ry1 * tb.gradient[b11][1][channel];
 
-            double b = lerp(sx, u, v);
+            float b = lerp(sx, u, v);
 
             out[channel] = lerp(sy, a, b);
         }
@@ -14849,24 +14871,24 @@ namespace {
             active = &stitch;
         }
 
-        double sum[4] = {};
-        double vx = px * fx;
-        double vy = py * fy;
-        double weight = 1.0;
+        float sum[4] = {};
+        float vx = (float)(px * fx);
+        float vy = (float)(py * fy);
+        float weight = 1.f;
 
         for (int octave = 0; octave < octaves; octave++) {
-            double noise[4];
+            float noise[4];
 
             noise2(tb, vx, vy, active, noise);
 
             // The weight is a power of two, so this scaling is as exact as a division.
             for (int channel = 0; channel < 4; channel++) {
-                sum[channel] += fractal ? noise[channel] * weight : fabs(noise[channel]) * weight;
+                sum[channel] += fractal ? noise[channel] * weight : fabsf(noise[channel]) * weight;
             }
 
             vx *= 2;
             vy *= 2;
-            weight *= 0.5;
+            weight *= 0.5f;
 
             if (active) {
                 stitch.width = latticeCells(2.0 * stitch.width);
@@ -14877,7 +14899,7 @@ namespace {
         }
 
         for (int channel = 0; channel < 4; channel++) {
-            out[channel] = (float)(fractal ? (sum[channel] + 1.0) * 0.5 : sum[channel]);
+            out[channel] = fractal ? (sum[channel] + 1.f) * 0.5f : sum[channel];
         }
     }
 
@@ -14901,9 +14923,10 @@ namespace {
             return;
         }
 
-        // Octave k weighs 2^-k, which is zero in double from octave 1075 on,
-        // so the octaves past it add nothing and the count stops there.
-        octaves = octaves < 1075 ? octaves : 1075;
+        // Octave k weighs 2^-k, which is zero in single precision from
+        // octave 150 on, so the octaves past it add nothing and the count
+        // stops there.
+        octaves = octaves < 150 ? octaves : 150;
 
         // The seed saturates to 32 bits before it is truncated; turbulenceInit
         // clamps the large ones further.
@@ -15026,6 +15049,14 @@ namespace {
 
         constant = constant < 0.f ? 0.f : constant;
         shininess = shininess < 1.f ? 1.f : (shininess > 128.f ? 128.f : shininess);
+
+        // The specular power of a cosine, tabulated over 0 to 1.
+        constexpr int powerEntries = 2048;
+        float powers[powerEntries + 2];
+
+        for (int i = 0; i <= powerEntries + 1; i++) {
+            powers[i] = powf(minf((float)i / (float)powerEntries, 1.f), shininess);
+        }
 
         Color lightColor = toSpace(p.lighting, p.linear);
         float bw = f.bbox.x1 - f.bbox.x0;
@@ -15189,9 +15220,13 @@ namespace {
 
                 if (specular) {
                     Vector3 half = normalize3(Vector3{toLight.x, toLight.y, toLight.z + 1.f});
-                    float nh = dot3(normal, half);
+                    // The power of the cosine comes from its table, between
+                    // the two entries around it.
+                    float at = clampUnit(dot3(normal, half)) * (float)powerEntries;
+                    float whole = floorf(at);
+                    int index = (int)whole;
 
-                    factor = constant * powf(maxf(nh, 0.f), shininess);
+                    factor = constant * (powers[index] + (powers[index + 1] - powers[index]) * (at - whole));
                 } else {
                     factor = constant * dot3(normal, toLight);
                 }
