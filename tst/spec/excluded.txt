@@ -111,3 +111,9 @@ value */patternTransform=perspective(): CSS Transforms 1, not in the attribute g
 
 # Filter Effects 1 removed filterRes from the filter element.
 attribute filter/filterRes: removed by Filter Effects 1
+
+# mask's grammar takes a <geometry-box>, but the mask-clip and mask-origin
+# it sets take a <coord-box>, without these; Chromium and Firefox drop the
+# shorthand with them, as the renderer does (mask-layers).
+keyword mask:margin-box: mask-clip and mask-origin take no such box, as browsers read them
+keyword mask:half-border-box: mask-clip and mask-origin take no such box, as browsers read them
