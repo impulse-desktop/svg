@@ -1088,6 +1088,8 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(SystemLanguage, "systemLanguage")                         \
     ATOM(RequiredExtensions, "requiredExtensions")                 \
     ATOM(Type, "type")                                             \
+    ATOM(Media, "media")                                           \
+    ATOM(Title, "title")                                           \
     ATOM(Fill, "fill")                                             \
     ATOM(FillOpacity, "fill-opacity")                              \
     ATOM(FillRule, "fill-rule")                                    \
@@ -4032,12 +4034,472 @@ namespace {
         }
     }
 
-    static void parseSheet(Document& doc, Vector<Rule>& rules, StringView source) {
-        Buffer cleaned;
+    static bool readNumber(const u8*& p, const u8* end, float& out);
+    static bool parseLength(StringView text, Length& out);
+    static float resolveLength(Length length, Axis axis, Viewport vp, float fontSize);
+    static bool parseViewBox(const Document& doc, const Node* node, Box& out);
 
-        stripComments(source, cleaned);
+    // Media queries as a still picture on a screen answers them: the types
+    // all and screen; the viewport the root's own size; a colour display of
+    // 8 bits a channel at a dot a px; a light scheme, nothing to point or
+    // hover with, no script, motion or update. An unknown query is unknown,
+    // which no query list takes.
+    enum class Tristate : u8 {
+        False,
+        True,
+        Unknown,
+    };
 
-        StringView text = keep(*doc.pool, cleaned.data(), cleaned.length());
+    static Tristate tristate(bool value) {
+        return value ? Tristate::True : Tristate::False;
+    }
+
+    static Tristate tristateNot(Tristate t) {
+        return t == Tristate::Unknown ? t : tristate(t == Tristate::False);
+    }
+
+    // A word of a media query, lowered: letters, digits and hyphens.
+    static StringView mediaWord(const u8*& p, const u8* end, u8* buffer) {
+        size_t n = 0;
+
+        skipSpaces(p, end);
+
+        while (p < end && n < 64 && isIdentChar(*p)) {
+            buffer[n++] = lowerAscii(*p++);
+        }
+
+        return StringView(buffer, n);
+    }
+
+    // A keyword feature's value; empty for a name that is not one.
+    static StringView mediaKeyword(Viewport view, StringView name) {
+        static const char* const values[][2] = {
+            {"prefers-color-scheme", "light"},
+            {"hover", "none"},
+            {"any-hover", "none"},
+            {"pointer", "none"},
+            {"any-pointer", "none"},
+            {"scan", "progressive"},
+            {"update", "none"},
+            {"overflow-block", "none"},
+            {"overflow-inline", "none"},
+            {"prefers-reduced-motion", "no-preference"},
+            {"prefers-reduced-transparency", "no-preference"},
+            {"prefers-reduced-data", "no-preference"},
+            {"prefers-contrast", "no-preference"},
+            {"forced-colors", "none"},
+            {"inverted-colors", "none"},
+            {"color-gamut", "srgb"},
+            {"dynamic-range", "standard"},
+            {"video-dynamic-range", "standard"},
+            {"display-mode", "browser"},
+            {"scripting", "none"},
+        };
+
+        if (name == SV("orientation")) {
+            return view.width > view.height ? SV("landscape") : SV("portrait");
+        }
+
+        for (const auto& value : values) {
+            if (name == StringView(value[0])) {
+                return StringView(value[1]);
+            }
+        }
+
+        return StringView();
+    }
+
+    // A numeric feature's value: a length in px, a ratio, dots a px or
+    // bits; false for a name that is not one.
+    static bool mediaNumber(Viewport view, StringView name, float& out) {
+        if (name == SV("width") || name == SV("device-width")) {
+            out = view.width;
+        } else if (name == SV("height") || name == SV("device-height")) {
+            out = view.height;
+        } else if (name == SV("aspect-ratio") || name == SV("device-aspect-ratio")) {
+            out = view.height > 0.f ? view.width / view.height : 0.f;
+        } else if (name == SV("resolution")) {
+            out = 1.f;
+        } else if (name == SV("color")) {
+            out = 8.f;
+        } else if (name == SV("color-index") || name == SV("monochrome") || name == SV("grid")) {
+            out = 0.f;
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
+    // A value a numeric feature compares with, as the name takes it.
+    static bool mediaValue(Viewport view, StringView name, StringView text, float& out) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+        u8 buffer[64];
+        Length length;
+        float below = 1.f;
+
+        if (name == SV("aspect-ratio") || name == SV("device-aspect-ratio")) {
+            if (!readNumber(p, end, out)) {
+                return false;
+            }
+
+            skipSpaces(p, end);
+
+            if (at(p, end, '/')) {
+                p++;
+                skipSpaces(p, end);
+
+                if (!readNumber(p, end, below) || below <= 0.f) {
+                    return false;
+                }
+            }
+
+            out /= below;
+
+            return p == end;
+        }
+
+        if (name == SV("resolution")) {
+            if (!readNumber(p, end, out)) {
+                return false;
+            }
+
+            StringView unit = mediaWord(p, end, buffer);
+
+            if (unit == SV("dpi")) {
+                out /= 96.f;
+            } else if (unit == SV("dpcm")) {
+                out *= 2.54f / 96.f;
+            } else if (unit != SV("dppx") && unit != SV("x")) {
+                return false;
+            }
+
+            return p == end;
+        }
+
+        if (name == SV("width") || name == SV("height") || name == SV("device-width") || name == SV("device-height")) {
+            // A length takes a unit, but zero.
+            if (!parseLength(text, length) || length.unit == Unit::Percent || (length.unit == Unit::Number && length.value != 0.f)) {
+                return false;
+            }
+
+            out = resolveLength(length, Axis::X, view, 16.f);
+
+            return true;
+        }
+
+        return parseNumberText(text, out);
+    }
+
+    // Whether have compares with want as the operator says: < <= > >= =.
+    static bool mediaCompare(float have, StringView op, float want) {
+        if (op == SV("<")) {
+            return have < want;
+        }
+
+        if (op == SV("<=")) {
+            return have <= want;
+        }
+
+        if (op == SV(">")) {
+            return have > want;
+        }
+
+        return op == SV(">=") ? have >= want : have == want;
+    }
+
+    // One media feature, the text in its parentheses: a name alone, a name
+    // and a value, or a range of one or two comparisons.
+    static Tristate mediaFeature(Viewport view, StringView text) {
+        u8 buffer[64];
+        const u8* colon = findOutside(text.begin(), text.end(), ':');
+        float have;
+        float want;
+
+        if (colon) {
+            const u8* p = text.begin();
+            StringView name = mediaWord(p, colon, buffer);
+            StringView value = trim(StringView(colon + 1, text.end()));
+            bool min = startsWithIgnoreCase(name, SV("min-"));
+            bool max = startsWithIgnoreCase(name, SV("max-"));
+            StringView base = min || max ? StringView(name.begin() + 4, name.end()) : name;
+            StringView keyword = mediaKeyword(view, base);
+
+            skipSpaces(p, colon);
+
+            if (p != colon) {
+                return Tristate::Unknown;
+            }
+
+            if (!keyword.empty()) {
+                return min || max ? Tristate::Unknown : tristate(equalsIgnoreCase(value, keyword));
+            }
+
+            if (!mediaNumber(view, base, have) || !mediaValue(view, base, value, want)) {
+                return Tristate::Unknown;
+            }
+
+            return tristate(min ? have >= want : max ? have <= want : have == want);
+        }
+
+        // A range: operands apart by the operators.
+        StringView parts[3];
+        StringView ops[2];
+        u32 count = 0;
+        const u8* start = text.begin();
+
+        for (const u8* p = text.begin(); p < text.end() && count < 3;) {
+            if (*p == '<' || *p == '>' || *p == '=') {
+                const u8* op = p;
+
+                p += 1 + (*p != '=' && p + 1 < text.end() && p[1] == '=');
+                parts[count] = trim(StringView(start, op));
+                ops[count < 2 ? count : 1] = StringView(op, p);
+                count++;
+                start = p;
+            } else {
+                p++;
+            }
+        }
+
+        if (count == 0) {
+            const u8* p = text.begin();
+            StringView name = mediaWord(p, text.end(), buffer);
+            StringView keyword = mediaKeyword(view, name);
+
+            skipSpaces(p, text.end());
+
+            if (p != text.end()) {
+                return Tristate::Unknown;
+            }
+
+            if (!keyword.empty()) {
+                return tristate(keyword != SV("none") && keyword != SV("no-preference"));
+            }
+
+            return mediaNumber(view, name, have) ? tristate(have != 0.f) : Tristate::Unknown;
+        }
+
+        if (count > 2) {
+            return Tristate::Unknown;
+        }
+
+        parts[count] = trim(StringView(start, text.end()));
+
+        // The name is the operand that reads as one: first or last of one
+        // comparison, the middle of two whose operators point one way.
+        for (u32 at = 0; at <= count; at++) {
+            const u8* p = parts[at].begin();
+            StringView name = mediaWord(p, parts[at].end(), buffer);
+
+            if (p != parts[at].end() || (count == 2 && at != 1) || !mediaNumber(view, name, have)) {
+                continue;
+            }
+
+            Tristate result = Tristate::True;
+
+            for (u32 k = 0; k < count; k++) {
+                u32 other = k < at ? k : k + 1;
+                bool before = other < at;
+
+                if (count == 2 && ops[0][0] != ops[1][0]) {
+                    return Tristate::Unknown;
+                }
+
+                if (!mediaValue(view, name, parts[other], want)) {
+                    return Tristate::Unknown;
+                }
+
+                // A value before the name compares the other way round.
+                result = mediaCompare(before ? want : have, ops[k], before ? have : want) ? result : Tristate::False;
+            }
+
+            return result;
+        }
+
+        return Tristate::Unknown;
+    }
+
+    static Tristate mediaCondition(Viewport view, const u8*& p, const u8* end, u32 depth);
+
+    // A condition in parentheses: a nested condition or a feature; unknown
+    // past them, or without them.
+    static Tristate mediaInParens(Viewport view, const u8*& p, const u8* end, u32 depth) {
+        skipSpaces(p, end);
+
+        if (!at(p, end, '(') || depth > 32) {
+            p = end;
+
+            return Tristate::Unknown;
+        }
+
+        const u8* close = p + 1;
+        u32 level = 1;
+
+        while (close < end && level) {
+            level += *close == '(';
+            level -= *close == ')';
+            close += level != 0;
+        }
+
+        StringView inner = trim(StringView(p + 1, close));
+        const u8* q = inner.begin();
+        u8 buffer[64];
+        StringView first = mediaWord(q, inner.end(), buffer);
+        Tristate result;
+
+        p = close < end ? close + 1 : end;
+        q = inner.begin();
+
+        if (at(q, inner.end(), '(') || first == SV("not")) {
+            result = mediaCondition(view, q, inner.end(), depth + 1);
+            skipSpaces(q, inner.end());
+
+            return q == inner.end() ? result : Tristate::Unknown;
+        }
+
+        return mediaFeature(view, inner);
+    }
+
+    // not, or conditions in parentheses joined by and or by or.
+    static Tristate mediaCondition(Viewport view, const u8*& p, const u8* end, u32 depth) {
+        u8 buffer[64];
+        const u8* q = p;
+        StringView word = mediaWord(q, end, buffer);
+
+        if (word == SV("not")) {
+            p = q;
+
+            return tristateNot(mediaInParens(view, p, end, depth));
+        }
+
+        Tristate result = mediaInParens(view, p, end, depth);
+
+        for (;;) {
+            q = p;
+            word = mediaWord(q, end, buffer);
+
+            if (word != SV("and") && word != SV("or")) {
+                return result;
+            }
+
+            bool both = word == SV("and");
+
+            p = q;
+
+            Tristate next = mediaInParens(view, p, end, depth);
+
+            if (both) {
+                result = result == Tristate::False || next == Tristate::False ? Tristate::False : (result == Tristate::True && next == Tristate::True ? Tristate::True : Tristate::Unknown);
+            } else {
+                result = result == Tristate::True || next == Tristate::True ? Tristate::True : (result == Tristate::False && next == Tristate::False ? Tristate::False : Tristate::Unknown);
+            }
+        }
+    }
+
+    // One media query: a condition, or a type, perhaps after not or only,
+    // and conditions after and.
+    static bool mediaQuery(Viewport view, StringView text) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+        u8 buffer[64];
+        u8 typeBuffer[64];
+        const u8* q = p;
+        StringView word = mediaWord(q, end, buffer);
+        bool negate = false;
+        Tristate result;
+
+        skipSpaces(p, end);
+
+        if (at(p, end, '(') || (word == SV("not") && (skipSpaces(q, end), at(q, end, '(')))) {
+            result = mediaCondition(view, p, end, 0);
+        } else {
+            if (word == SV("not") || word == SV("only")) {
+                negate = word == SV("not");
+                p = q;
+            }
+
+            StringView type = mediaWord(p, end, typeBuffer);
+
+            if (type.empty() || type == SV("and") || type == SV("or") || type == SV("not") || type == SV("only")) {
+                return false;
+            }
+
+            result = tristate(type == SV("all") || type == SV("screen"));
+
+            for (;;) {
+                q = p;
+                word = mediaWord(q, end, buffer);
+
+                if (word != SV("and")) {
+                    break;
+                }
+
+                p = q;
+
+                Tristate next = mediaInParens(view, p, end, 0);
+
+                result = result == Tristate::False || next == Tristate::False ? Tristate::False : (result == Tristate::True && next == Tristate::True ? Tristate::True : Tristate::Unknown);
+            }
+
+            result = negate ? tristateNot(result) : result;
+        }
+
+        skipSpaces(p, end);
+
+        return p == end && result == Tristate::True;
+    }
+
+    // A media query list: any of its queries; an empty list is all.
+    static bool mediaMatches(Viewport view, StringView text) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+
+        if (trim(text).empty()) {
+            return true;
+        }
+
+        for (;;) {
+            const u8* comma = findOutside(p, end, ',');
+            const u8* stop = comma ? comma : end;
+
+            if (mediaQuery(view, trim(StringView(p, stop)))) {
+                return true;
+            }
+
+            if (!comma) {
+                return false;
+            }
+
+            p = comma + 1;
+        }
+    }
+
+    // The viewport media queries see: the root's own width and height, or
+    // its viewBox's size.
+    static Viewport mediaViewport(const Document& doc) {
+        Viewport view{0.f, 0.f, 0.f, 0.f, 16.f};
+        Box viewBox;
+        bool boxed = parseViewBox(doc, doc.root, viewBox);
+        float sides[2] = {boxed ? viewBox.x1 - viewBox.x0 : 0.f, boxed ? viewBox.y1 - viewBox.y0 : 0.f};
+        u32 names[2] = {AtomWidth, AtomHeight};
+
+        for (int k = 0; k < 2; k++) {
+            u32 value = attribute(doc.root, names[k]);
+            Length length;
+
+            if (value && parseLength(textOf(doc, value), length) && length.unit != Unit::Percent && length.value > 0.f) {
+                sides[k] = resolveLength(length, Axis::X, view, 16.f);
+            }
+        }
+
+        return Viewport{sides[0], sides[1], sides[0], sides[1], 16.f};
+    }
+
+    // The rules of a sheet's text, the rules of @media blocks the query of
+    // which matches among them; other at-rules are left out.
+    static void parseRules(Document& doc, Vector<Rule>& rules, StringView text, Viewport view, u32 depth) {
         const u8* p = text.begin();
         const u8* end = text.end();
 
@@ -4058,14 +4520,23 @@ namespace {
             }
 
             if (*p == '@') {
-                const u8* q = p;
+                const u8* q = p + 1;
+                u8 buffer[64];
+                StringView name = mediaWord(q, end, buffer);
+                const u8* prelude = q;
 
                 while (q < end && *q != ';' && *q != '{') {
                     q = *q == '"' || *q == '\'' ? skipCssString(q, end) : q + 1;
                 }
 
                 if (at(q, end, '{')) {
-                    q = matchingBrace(q + 1, end);
+                    const u8* close = matchingBrace(q + 1, end);
+
+                    if (name == SV("media") && depth < 32 && mediaMatches(view, StringView(prelude, q))) {
+                        parseRules(doc, rules, StringView(q + 1, close), view, depth + 1);
+                    }
+
+                    q = close;
                 }
 
                 p = q < end ? q + 1 : end;
@@ -4128,6 +4599,13 @@ namespace {
 
             rules.pushBack(rule);
         }
+    }
+
+    static void parseSheet(Document& doc, Vector<Rule>& rules, StringView source, Viewport view) {
+        Buffer cleaned;
+
+        stripComments(source, cleaned);
+        parseRules(doc, rules, keep(*doc.pool, cleaned.data(), cleaned.length()), view, 0);
     }
 
     static void prepareClasses(Document& doc, Node* node) {
@@ -4548,13 +5026,22 @@ namespace {
 
     static void cascade(Document& doc) {
         Vector<Rule> rules;
+        Viewport view = mediaViewport(doc);
+        // The first title names the preferred set of sheets: a sheet of
+        // another title is an alternate one, which is off.
+        StringView preferred;
 
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
             if (node->name == AtomStyle && !node->text.empty()) {
                 u32 type = attribute(node, AtomType);
+                u32 media = attribute(node, AtomMedia);
+                u32 titleValue = attribute(node, AtomTitle);
+                StringView title = titleValue ? textOf(doc, titleValue) : StringView();
 
-                if (!type || textOf(doc, type).empty() || equalsIgnoreCase(trim(textOf(doc, type)), SV("text/css"))) {
-                    parseSheet(doc, rules, node->text);
+                preferred = preferred.empty() ? title : preferred;
+
+                if ((!type || textOf(doc, type).empty() || equalsIgnoreCase(textOf(doc, type), SV("text/css"))) && (!media || mediaMatches(view, textOf(doc, media))) && (title.empty() || title == preferred)) {
+                    parseSheet(doc, rules, node->text, view);
                 }
             }
         }

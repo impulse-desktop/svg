@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<style media="print">#a { fill: red }</style>
+<style media="screen">#b { fill: green }</style>
+<style media="not print">#c { fill: green }</style>
+<style media="all and (min-width: 1px)">#d { fill: green }</style>
+<style media="all and (max-width: 1px)">#e { fill: red }</style>
+<style media="(prefers-color-scheme: dark)">#f { fill: red }</style>
+<style media="(orientation: landscape)">#g { fill: green }</style>
+<style media="bogus query (">#h { fill: red }</style>
+<style>@media screen { #i { fill: green } } @media print { #j { fill: red } } @media (prefers-color-scheme: light) { #k { fill: green } }</style>
+<style title="one">#l { fill: green }</style>
+<style title="two">#m { fill: red }</style>
+<style title="one">#n { fill: green }</style>
+<style media="tv, screen">#o { fill: green }</style>
+<style media="(min-width: 10000px), (hover: none)">#p { fill: green }</style>
+<g fill="gray">
+<rect id="a" x="0" y="0" width="7" height="7"/><rect id="b" x="8" y="0" width="7" height="7"/><rect id="c" x="16" y="0" width="7" height="7"/><rect id="d" x="24" y="0" width="7" height="7"/>
+<rect id="e" x="32" y="0" width="7" height="7"/><rect id="f" x="40" y="0" width="7" height="7"/><rect id="g" x="48" y="0" width="7" height="7"/><rect id="h" x="56" y="0" width="7" height="7"/>
+<rect id="i" x="0" y="8" width="7" height="7"/><rect id="j" x="8" y="8" width="7" height="7"/><rect id="k" x="16" y="8" width="7" height="7"/><rect id="l" x="24" y="8" width="7" height="7"/>
+<rect id="m" x="32" y="8" width="7" height="7"/><rect id="n" x="40" y="8" width="7" height="7"/><rect id="o" x="48" y="8" width="7" height="7"/><rect id="p" x="56" y="8" width="7" height="7"/>
+</g>
+</svg>

@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="82" viewBox="0 0 64 82">
+<style media="">#m0 { fill: green }</style>
+<style media="print">#m1 { fill: green }</style>
+<style media="only screen">#m2 { fill: green }</style>
+<style media="not screen">#m3 { fill: green }</style>
+<style media="not print and (color)">#m4 { fill: green }</style>
+<style media="screen and (min-width: 50px)">#m5 { fill: green }</style>
+<style media="(max-width: 50px)">#m6 { fill: green }</style>
+<style media="(width: 64px)">#m7 { fill: green }</style>
+<style media="(width &gt;= 60px)">#m8 { fill: green }</style>
+<style media="(60px &lt; width)">#m9 { fill: green }</style>
+<style media="(50px &lt;= width &lt;= 70px)">#m10 { fill: green }</style>
+<style media="(70px &lt; width &lt; 80px)">#m11 { fill: green }</style>
+<style media="(50px &lt; width &gt; 2px)">#m12 { fill: green }</style>
+<style media="(1px &lt; width &lt; 90px &lt; 99px)">#m13 { fill: green }</style>
+<style media="(min-aspect-ratio: 4/3)">#m14 { fill: green }</style>
+<style media="(max-aspect-ratio: 1 / 2)">#m15 { fill: green }</style>
+<style media="(resolution: 1dppx)">#m16 { fill: green }</style>
+<style media="(min-resolution: 96dpi)">#m17 { fill: green }</style>
+<style media="(max-resolution: 1x)">#m18 { fill: green }</style>
+<style media="(resolution: 2dpcm)">#m19 { fill: green }</style>
+<style media="(resolution: 1bogus)">#m20 { fill: green }</style>
+<style media="(resolution: bogus)">#m21 { fill: green }</style>
+<style media="(color)">#m22 { fill: green }</style>
+<style media="(monochrome)">#m23 { fill: green }</style>
+<style media="(color-index)">#m24 { fill: green }</style>
+<style media="(grid)">#m25 { fill: green }</style>
+<style media="(min-color: 8)">#m26 { fill: green }</style>
+<style media="(prefers-color-scheme: light)">#m27 { fill: green }</style>
+<style media="(prefers-color-scheme: dark)">#m28 { fill: green }</style>
+<style media="(prefers-color-scheme)">#m29 { fill: green }</style>
+<style media="(hover)">#m30 { fill: green }</style>
+<style media="(min-hover: none)">#m31 { fill: green }</style>
+<style media="(orientation: landscape)">#m32 { fill: green }</style>
+<style media="(bogus-feature)">#m33 { fill: green }</style>
+<style media="not (bogus-feature)">#m34 { fill: green }</style>
+<style media="(width)">#m35 { fill: green }</style>
+<style media="((color) and (min-width: 1px))">#m36 { fill: green }</style>
+<style media="(color) or (bogus)">#m37 { fill: green }</style>
+<style media="(monochrome) or (bogus)">#m38 { fill: green }</style>
+<style media="(monochrome) and (bogus)">#m39 { fill: green }</style>
+<style media="not (monochrome)">#m40 { fill: green }</style>
+<style media="screen and">#m41 { fill: green }</style>
+<style media="screen foo">#m42 { fill: green }</style>
+<style media="and">#m43 { fill: green }</style>
+<style media="(width: 64)">#m44 { fill: green }</style>
+<style media="(min-width: 0)">#m45 { fill: green }</style>
+<style media="(width: 10%)">#m46 { fill: green }</style>
+<style media="(device-width &gt;= 1px)">#m47 { fill: green }</style>
+<style media="(device-height)">#m48 { fill: green }</style>
+<style media="(device-aspect-ratio: 4/3)">#m49 { fill: green }</style>
+<style media="(aspect-ratio: 4/0)">#m50 { fill: green }</style>
+<style media="(aspect-ratio: x)">#m51 { fill: green }</style>
+<style media="(aspect-ratio: 4/x)">#m52 { fill: green }</style>
+<style media="(min-width : 10px)">#m53 { fill: green }</style>
+<style media="(min width: 1px)">#m54 { fill: green }</style>
+<style media="(color 1)">#m55 { fill: green }</style>
+<style media="(1px &lt; bogus)">#m56 { fill: green }</style>
+<style media="(width = 64px)">#m57 { fill: green }</style>
+<style media="(64px = width)">#m58 { fill: green }</style>
+<style media="(height &gt; 40px)">#m59 { fill: green }</style>
+<style media="(height &lt;= 40px)">#m60 { fill: green }</style>
+<style media="(width == 64px)">#m61 { fill: green }</style>
+<style media="tv, screen">#m62 { fill: green }</style>
+<style media="(monochrome), print">#m63 { fill: green }</style>
+<style media="((((((((((((((((((((((((((((((((((((((((color))))))))))))))))))))))))))))))))))))))))">#m64 { fill: green }</style>
+<style media="screen and color">#m65 { fill: green }</style>
+<style media="only">#m66 { fill: green }</style>
+<style media="not">#m67 { fill: green }</style>
+<style media="(min-width: 50px) and (max-width: 100px)">#m68 { fill: green }</style>
+<style media="(min-device-width: 1px) and (min-device-height: 1px) and (min-height: 1px)">#m69 { fill: green }</style>
+<style media="(monochrome) or (color)">#m70 { fill: green }</style>
+<style media="(min-monochrome: 0)">#m71 { fill: green }</style>
+<style media="(scripting: none)">#m72 { fill: green }</style>
+<style media="(update: none) and (scan: progressive)">#m73 { fill: green }</style>
+<style media="(min-resolution: 1x) and (max-color-index: 0)">#m74 { fill: green }</style>
+<style media="(aspect-ratio)">#m75 { fill: green }</style>
+<style media="(resolution)">#m76 { fill: green }</style>
+<style media="(prefers-reduced-motion)">#m77 { fill: green }</style>
+<style media="(width &lt; 99px)">#m78 { fill: green }</style>
+<style media="(height &gt;= 100px)">#m79 { fill: green }</style>
+<style media="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">#m80 { fill: green }</style>
+<style media="(max-aspect-ratio: 2)">#m81 { fill: green }</style>
+<style media="(aspect-ratio: 4/3 x)">#m82 { fill: green }</style>
+<style media="(resolution: 1dppx x)">#m83 { fill: green }</style>
+<style media="(width: bogus)">#m84 { fill: green }</style>
+<style media="(color: x)">#m85 { fill: green }</style>
+<style media="(bogus: 1)">#m86 { fill: green }</style>
+<style media="(width &lt;)">#m87 { fill: green }</style>
+<style media="(width &lt; bogus)">#m88 { fill: green }</style>
+<style media="(color">#m89 { fill: green }</style>
+<style media="(not (color))">#m90 { fill: green }</style>
+<style media="((color) x)">#m91 { fill: green }</style>
+<style media="(color) and (bogus)">#m92 { fill: green }</style>
+<style media="(monochrome) or (grid)">#m93 { fill: green }</style>
+<style media="or">#m94 { fill: green }</style>
+<style media="only not">#m95 { fill: green }</style>
+<style media="not only">#m96 { fill: green }</style>
+<style media="screen and (bogus)">#m97 { fill: green }</style>
+<style media="(color) and (grid)">#m98 { fill: green }</style>
+<style media="(bogus) and (color)">#m99 { fill: green }</style>
+<style media="(bogus) or (monochrome)">#m100 { fill: green }</style>
+<style media="screen and (grid)">#m101 { fill: green }</style>
+<style media="screen and (bogus) and (color)">#m102 { fill: green }</style>
+<style><![CDATA[
+@charset "utf-8"; @import "x.css"; @font-face { font-family: x }
+@media screen { @media (color) { #a0 { fill: green } } @media print { #a1 { fill: red } } }
+@media print { #a2 { fill: red } } @MEDIA (min-width: 1px) { #a3 { fill: green } }
+@media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { @media all { #a4 { fill: red } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } }
+]]></style>
+<style title="one">#a5 { fill: green }</style>
+<style title="two">#a6 { fill: red }</style>
+<style title="one" media="screen" type="text/css">#a7 { fill: green }</style>
+<style>#a8 { fill: green }</style>
+<g fill="gray">
+<rect id="m0" x="2" y="2" width="5" height="5"/>
+<rect id="m1" x="8" y="2" width="5" height="5"/>
+<rect id="m2" x="14" y="2" width="5" height="5"/>
+<rect id="m3" x="20" y="2" width="5" height="5"/>
+<rect id="m4" x="26" y="2" width="5" height="5"/>
+<rect id="m5" x="32" y="2" width="5" height="5"/>
+<rect id="m6" x="38" y="2" width="5" height="5"/>
+<rect id="m7" x="44" y="2" width="5" height="5"/>
+<rect id="m8" x="50" y="2" width="5" height="5"/>
+<rect id="m9" x="56" y="2" width="5" height="5"/>
+<rect id="m10" x="2" y="8" width="5" height="5"/>
+<rect id="m11" x="8" y="8" width="5" height="5"/>
+<rect id="m12" x="14" y="8" width="5" height="5"/>
+<rect id="m13" x="20" y="8" width="5" height="5"/>
+<rect id="m14" x="26" y="8" width="5" height="5"/>
+<rect id="m15" x="32" y="8" width="5" height="5"/>
+<rect id="m16" x="38" y="8" width="5" height="5"/>
+<rect id="m17" x="44" y="8" width="5" height="5"/>
+<rect id="m18" x="50" y="8" width="5" height="5"/>
+<rect id="m19" x="56" y="8" width="5" height="5"/>
+<rect id="m20" x="2" y="14" width="5" height="5"/>
+<rect id="m21" x="8" y="14" width="5" height="5"/>
+<rect id="m22" x="14" y="14" width="5" height="5"/>
+<rect id="m23" x="20" y="14" width="5" height="5"/>
+<rect id="m24" x="26" y="14" width="5" height="5"/>
+<rect id="m25" x="32" y="14" width="5" height="5"/>
+<rect id="m26" x="38" y="14" width="5" height="5"/>
+<rect id="m27" x="44" y="14" width="5" height="5"/>
+<rect id="m28" x="50" y="14" width="5" height="5"/>
+<rect id="m29" x="56" y="14" width="5" height="5"/>
+<rect id="m30" x="2" y="20" width="5" height="5"/>
+<rect id="m31" x="8" y="20" width="5" height="5"/>
+<rect id="m32" x="14" y="20" width="5" height="5"/>
+<rect id="m33" x="20" y="20" width="5" height="5"/>
+<rect id="m34" x="26" y="20" width="5" height="5"/>
+<rect id="m35" x="32" y="20" width="5" height="5"/>
+<rect id="m36" x="38" y="20" width="5" height="5"/>
+<rect id="m37" x="44" y="20" width="5" height="5"/>
+<rect id="m38" x="50" y="20" width="5" height="5"/>
+<rect id="m39" x="56" y="20" width="5" height="5"/>
+<rect id="m40" x="2" y="26" width="5" height="5"/>
+<rect id="m41" x="8" y="26" width="5" height="5"/>
+<rect id="m42" x="14" y="26" width="5" height="5"/>
+<rect id="m43" x="20" y="26" width="5" height="5"/>
+<rect id="m44" x="26" y="26" width="5" height="5"/>
+<rect id="m45" x="32" y="26" width="5" height="5"/>
+<rect id="m46" x="38" y="26" width="5" height="5"/>
+<rect id="m47" x="44" y="26" width="5" height="5"/>
+<rect id="m48" x="50" y="26" width="5" height="5"/>
+<rect id="m49" x="56" y="26" width="5" height="5"/>
+<rect id="m50" x="2" y="32" width="5" height="5"/>
+<rect id="m51" x="8" y="32" width="5" height="5"/>
+<rect id="m52" x="14" y="32" width="5" height="5"/>
+<rect id="m53" x="20" y="32" width="5" height="5"/>
+<rect id="m54" x="26" y="32" width="5" height="5"/>
+<rect id="m55" x="32" y="32" width="5" height="5"/>
+<rect id="m56" x="38" y="32" width="5" height="5"/>
+<rect id="m57" x="44" y="32" width="5" height="5"/>
+<rect id="m58" x="50" y="32" width="5" height="5"/>
+<rect id="m59" x="56" y="32" width="5" height="5"/>
+<rect id="m60" x="2" y="38" width="5" height="5"/>
+<rect id="m61" x="8" y="38" width="5" height="5"/>
+<rect id="m62" x="14" y="38" width="5" height="5"/>
+<rect id="m63" x="20" y="38" width="5" height="5"/>
+<rect id="m64" x="26" y="38" width="5" height="5"/>
+<rect id="m65" x="32" y="38" width="5" height="5"/>
+<rect id="m66" x="38" y="38" width="5" height="5"/>
+<rect id="m67" x="44" y="38" width="5" height="5"/>
+<rect id="m68" x="50" y="38" width="5" height="5"/>
+<rect id="m69" x="56" y="38" width="5" height="5"/>
+<rect id="m70" x="2" y="44" width="5" height="5"/>
+<rect id="m71" x="8" y="44" width="5" height="5"/>
+<rect id="m72" x="14" y="44" width="5" height="5"/>
+<rect id="m73" x="20" y="44" width="5" height="5"/>
+<rect id="m74" x="26" y="44" width="5" height="5"/>
+<rect id="m75" x="32" y="44" width="5" height="5"/>
+<rect id="m76" x="38" y="44" width="5" height="5"/>
+<rect id="m77" x="44" y="44" width="5" height="5"/>
+<rect id="m78" x="50" y="44" width="5" height="5"/>
+<rect id="m79" x="56" y="44" width="5" height="5"/>
+<rect id="m80" x="2" y="50" width="5" height="5"/>
+<rect id="m81" x="8" y="50" width="5" height="5"/>
+<rect id="m82" x="14" y="50" width="5" height="5"/>
+<rect id="m83" x="20" y="50" width="5" height="5"/>
+<rect id="m84" x="26" y="50" width="5" height="5"/>
+<rect id="m85" x="32" y="50" width="5" height="5"/>
+<rect id="m86" x="38" y="50" width="5" height="5"/>
+<rect id="m87" x="44" y="50" width="5" height="5"/>
+<rect id="m88" x="50" y="50" width="5" height="5"/>
+<rect id="m89" x="56" y="50" width="5" height="5"/>
+<rect id="m90" x="2" y="56" width="5" height="5"/>
+<rect id="m91" x="8" y="56" width="5" height="5"/>
+<rect id="m92" x="14" y="56" width="5" height="5"/>
+<rect id="m93" x="20" y="56" width="5" height="5"/>
+<rect id="m94" x="26" y="56" width="5" height="5"/>
+<rect id="m95" x="32" y="56" width="5" height="5"/>
+<rect id="m96" x="38" y="56" width="5" height="5"/>
+<rect id="m97" x="44" y="56" width="5" height="5"/>
+<rect id="m98" x="50" y="56" width="5" height="5"/>
+<rect id="m99" x="56" y="56" width="5" height="5"/>
+<rect id="m100" x="2" y="62" width="5" height="5"/>
+<rect id="m101" x="8" y="62" width="5" height="5"/>
+<rect id="m102" x="14" y="62" width="5" height="5"/>
+<rect id="a0" x="2" y="74" width="5" height="5"/>
+<rect id="a1" x="8" y="74" width="5" height="5"/>
+<rect id="a2" x="14" y="74" width="5" height="5"/>
+<rect id="a3" x="20" y="74" width="5" height="5"/>
+<rect id="a4" x="26" y="74" width="5" height="5"/>
+<rect id="a5" x="32" y="74" width="5" height="5"/>
+<rect id="a6" x="38" y="74" width="5" height="5"/>
+<rect id="a7" x="44" y="74" width="5" height="5"/>
+<rect id="a8" x="50" y="74" width="5" height="5"/>
+</g>
+</svg>
