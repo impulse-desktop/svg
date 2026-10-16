@@ -33,6 +33,11 @@
 .c30 { clip-path: shape(from 0 0, curve to 10px 10px with 10px 20px from) }
 .c31 { clip-path: shape(from center, smooth to right bottom, smooth by -100% 0, close) }
 .c32 { clip-path: shape(from 0 0 with, line to 1px 1px) }
+.c33 { clip-path: shape(from 0 0, curve to 100% 100% with 100% 0/0 100%, close) }
+.c34 { clip-path: shape(from 0 0, line foo 5px) }
+.c35 { clip-path: shape(from 0 0, curve 5px 5px with 1px 1px) }
+.c36 { clip-path: shape(from 0 0, arc to 100% 100% cw of 100%, line to 0 100%, close) }
+.c37 { clip-path: shape(from 0 0, arc 5px 5px of 1px) }
 ]]></style>
 <g fill="teal">
 <rect class="c0" x="1" y="1" width="6" height="6"/>
@@ -68,5 +73,10 @@
 <rect class="c30" x="49" y="25" width="6" height="6"/>
 <rect class="c31" x="57" y="25" width="6" height="6"/>
 <rect class="c32" x="1" y="33" width="6" height="6"/>
+<rect class="c33" x="9" y="33" width="6" height="6"/>
+<rect class="c34" x="17" y="33" width="6" height="6"/>
+<rect class="c35" x="25" y="33" width="6" height="6"/>
+<rect class="c36" x="33" y="33" width="6" height="6"/>
+<rect class="c37" x="41" y="33" width="6" height="6"/>
 </g>
 </svg>
