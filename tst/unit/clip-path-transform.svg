@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<clipPath id="a" transform="rotate(20)"><rect x="4" y="4" width="20" height="20"/></clipPath>
+<clipPath id="b" transform="rotate(20)" transform-origin="44 14"><rect x="34" y="4" width="20" height="20"/></clipPath>
+<rect width="30" height="32" fill="teal" clip-path="url(#a)"/>
+<rect x="32" width="32" height="32" fill="navy" clip-path="url(#b)"/>
+</svg>
