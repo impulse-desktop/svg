@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g fill="teal" stroke="navy" stroke-width="4">
+<rect x="4" y="4" width="16" height="16" style="clip-path: path('M0 0 L16 16 L0 16 Z')"/>
+<rect x="24" y="4" width="16" height="16" style="clip-path: rect(2px 14px 12px 4px round 3px)"/>
+<rect x="44" y="4" width="16" height="16" style="clip-path: xywh(2px 3px 10px 8px round 2px 4px / 3px)"/>
+<rect x="4" y="24" width="16" height="16" style="clip-path: inset(3px round 4px)"/>
+<rect x="24" y="24" width="16" height="16" style="clip-path: rect(auto 14px auto 4px)"/>
+<rect x="44" y="24" width="16" height="16" style="clip-path: path(evenodd, 'M0 0 H20 V20 H0 Z M5 5 H15 V15 H5 Z')"/>
+<rect x="4" y="44" width="16" height="16" style="clip-path: inset(1px 2px 3px 4px round 10px 2px 6px)"/>
+<rect x="24" y="44" width="16" height="16" style="clip-path: inset(10% round 50%) fill-box"/>
+<rect x="44" y="44" width="16" height="16" style="clip-path: xywh(10% 20% 50% 60%) content-box"/>
+</g>
+</svg>

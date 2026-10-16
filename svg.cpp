@@ -1439,22 +1439,35 @@ namespace {
         Circle,
         Ellipse,
         Inset,
+        Rect,
+        Xywh,
         Polygon,
+        Path,
     };
 
     enum class GeometryBox : u8 {
         Fill,
         Stroke,
+        // Midway from the fill box to the stroke box, as half-border-box
+        // is from the padding box to the border box they stand for.
+        HalfBorder,
         View,
     };
 
+    // A basic shape: an inset, rect() and xywh() keep their four values in
+    // the order they are written, rect() its auto sides as bits, and the
+    // radii of their corners, horizontal from the top left round, then
+    // vertical; path() its data.
     struct BasicShape {
         ShapeKind kind;
         GeometryBox box;
         u8 rule;
+        u8 autos;
         Length values[4];
+        Length radii[8];
         Length* points;
         u32 pointCount;
+        StringView data;
     };
 
     struct ComputedStyle {
@@ -7157,12 +7170,19 @@ namespace {
         const u8* p = trim(text).begin();
         const u8* end = trim(text).end();
         StringView function;
+        bool boxed = false;
 
         out.kind = ShapeKind::None;
         out.box = GeometryBox::Stroke;
         out.rule = WindingNonZero;
+        out.autos = 0;
         out.points = nullptr;
         out.pointCount = 0;
+        out.data = StringView();
+
+        for (Length& radius : out.radii) {
+            radius = Length{0.f, Unit::Number};
+        }
 
         // The text is trimmed, so a word follows every run of spaces.
         while (p < end) {
@@ -7189,15 +7209,13 @@ namespace {
                     p++;
                 }
 
-                if (p >= end) {
-                    return false;
-                }
-
+                // The end of the value closes a function left open, as CSS
+                // closes every block at its end.
                 function = name;
 
                 StringView args = trim(StringView(open, p));
 
-                p++;
+                p += p < end;
 
                 if (!parseShapeFunction(pool, name, args, out)) {
                     return false;
@@ -7206,10 +7224,14 @@ namespace {
                 continue;
             }
 
+            boxed = true;
+
             if (equalsIgnoreCase(name, SV("fill-box")) || equalsIgnoreCase(name, SV("content-box")) || equalsIgnoreCase(name, SV("padding-box"))) {
                 out.box = GeometryBox::Fill;
             } else if (equalsIgnoreCase(name, SV("stroke-box")) || equalsIgnoreCase(name, SV("border-box")) || equalsIgnoreCase(name, SV("margin-box"))) {
                 out.box = GeometryBox::Stroke;
+            } else if (equalsIgnoreCase(name, SV("half-border-box"))) {
+                out.box = GeometryBox::HalfBorder;
             } else if (equalsIgnoreCase(name, SV("view-box"))) {
                 out.box = GeometryBox::View;
             } else {
@@ -7217,11 +7239,128 @@ namespace {
             }
         }
 
+        // A box alone clips to that box.
+        if (out.kind == ShapeKind::None && boxed) {
+            out.kind = ShapeKind::Inset;
+
+            for (Length& value : out.values) {
+                value = Length{0.f, Unit::Number};
+            }
+        }
+
         return out.kind != ShapeKind::None;
+    }
+
+    // The radii after round: one to four horizontal ones, then after a
+    // slash as many vertical ones, each set spread over the corners as
+    // border-radius spreads it; the vertical ones are the horizontal ones
+    // when left out.
+    static bool parseRadii(const u8*& p, const u8* end, BasicShape& out) {
+        Length sets[2][4];
+        u32 counts[2] = {0, 0};
+        u32 set = 0;
+
+        for (;;) {
+            StringView word = shapeWord(p, end);
+
+            if (word.empty()) {
+                break;
+            }
+
+            if (word == SV("/") && set == 0 && counts[0]) {
+                set = 1;
+                continue;
+            }
+
+            if (counts[set] == 4 || !parseLength(word, sets[set][counts[set]]) || sets[set][counts[set]].value < 0.f) {
+                return false;
+            }
+
+            counts[set]++;
+        }
+
+        if (counts[0] == 0 || (set == 1 && counts[1] == 0)) {
+            return false;
+        }
+
+        if (set == 0) {
+            memcpy(sets[1], sets[0], sizeof(sets[0]));
+            counts[1] = counts[0];
+        }
+
+        for (u32 k = 0; k < 2; k++) {
+            Length* r = sets[k];
+            u32 n = counts[k];
+            Length corners[4] = {r[0], n > 1 ? r[1] : r[0], n > 2 ? r[2] : r[0], n > 3 ? r[3] : (n > 1 ? r[1] : r[0])};
+
+            memcpy(out.radii + k * 4, corners, sizeof(corners));
+        }
+
+        return true;
+    }
+
+    // Four values, each a length or for rect() auto, then the radii.
+    static bool parseSides(const u8*& p, const u8* end, BasicShape& out, bool autos) {
+        for (u32 count = 0; count < 4; count++) {
+            StringView word = shapeWord(p, end);
+
+            if (autos && equalsIgnoreCase(word, SV("auto"))) {
+                out.autos |= (u8)(1u << count);
+                out.values[count] = Length{0.f, Unit::Number};
+            } else if (!parseLength(word, out.values[count])) {
+                return false;
+            }
+        }
+
+        StringView word = shapeWord(p, end);
+
+        return word.empty() || (equalsIgnoreCase(word, SV("round")) && parseRadii(p, end, out));
     }
 
     static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out) {
         const u8* end = args.end();
+
+        if (equalsIgnoreCase(name, SV("rect")) || equalsIgnoreCase(name, SV("xywh"))) {
+            const u8* p = args.begin();
+            bool rect = equalsIgnoreCase(name, SV("rect"));
+
+            out.kind = rect ? ShapeKind::Rect : ShapeKind::Xywh;
+
+            return parseSides(p, end, out, rect) && (rect || (out.values[2].value >= 0.f && out.values[3].value >= 0.f));
+        }
+
+        // path([<fill-rule>,] <string>): the data in the reference box.
+        if (equalsIgnoreCase(name, SV("path"))) {
+            const u8* p = args.begin();
+            const u8* comma = p;
+
+            out.kind = ShapeKind::Path;
+
+            while (comma < end && *comma != ',' && *comma != '"' && *comma != '\'') {
+                comma++;
+            }
+
+            if (comma < end && *comma == ',') {
+                StringView rule = trim(StringView(p, comma));
+
+                if (!equalsIgnoreCase(rule, SV("evenodd")) && !equalsIgnoreCase(rule, SV("nonzero"))) {
+                    return false;
+                }
+
+                out.rule = equalsIgnoreCase(rule, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
+                p = comma + 1;
+            }
+
+            StringView quoted = trim(StringView(p, end));
+
+            if (quoted.length() < 2 || (quoted[0] != '"' && quoted[0] != '\'') || quoted[quoted.length() - 1] != quoted[0]) {
+                return false;
+            }
+
+            out.data = StringView(quoted.begin() + 1, quoted.end() - 1);
+
+            return true;
+        }
 
         if (equalsIgnoreCase(name, SV("circle")) || equalsIgnoreCase(name, SV("ellipse"))) {
             bool circle = equalsIgnoreCase(name, SV("circle"));
@@ -7279,7 +7418,15 @@ namespace {
             for (;;) {
                 StringView word = shapeWord(p, end);
 
-                if (word.empty() || equalsIgnoreCase(word, SV("round"))) {
+                if (word.empty()) {
+                    break;
+                }
+
+                if (equalsIgnoreCase(word, SV("round"))) {
+                    if (!parseRadii(p, end, out)) {
+                        return false;
+                    }
+
                     break;
                 }
 
@@ -9653,6 +9800,61 @@ namespace {
         return true;
     }
 
+    // The stroke box of a shape: its fill box grown by a part of its
+    // stroke's width, a half; a quarter grows the half border box.
+    static Box strokeBox(Box box, const ComputedStyle& style, const Node* node, float part) {
+        if (style.stroke.kind == PaintKind::None || !isShape(node->name)) {
+            return box;
+        }
+
+        float grow = style.strokeWidth * part;
+
+        return Box{box.x0 - grow, box.y0 - grow, box.x1 + grow, box.y1 + grow};
+    }
+
+    // A rectangle with elliptical corners, the radii resolved against the
+    // reference box and all scaled down alike where two on a side pass it.
+    static void roundedRectPath(Path& path, float x0, float y0, float x1, float y1, const Length* radii, float w, float h, Viewport vp, float fs) {
+        float rx[4];
+        float ry[4];
+        float width = x1 - x0;
+        float height = y1 - y0;
+        float scale = 1.f;
+
+        for (int k = 0; k < 4; k++) {
+            rx[k] = shapeLength(radii[k], w, vp, fs);
+            ry[k] = shapeLength(radii[4 + k], h, vp, fs);
+        }
+
+        // The corners by sides: top 0 1, right 1 2, bottom 2 3, left 3 0.
+        for (int k = 0; k < 4; k++) {
+            float sum = k % 2 ? ry[k] + ry[(k + 1) % 4] : rx[k] + rx[(k + 1) % 4];
+            float side = k % 2 ? height : width;
+
+            if (sum > side) {
+                scale = minf(scale, side / sum);
+            }
+        }
+
+        for (int k = 0; k < 4; k++) {
+            rx[k] *= scale;
+            ry[k] *= scale;
+        }
+
+        const float c = 0.5522847498f;
+
+        moveTo(path, Point{x0 + rx[0], y0});
+        lineTo(path, Point{x1 - rx[1], y0});
+        cubicTo(path, Point{x1 - rx[1] + rx[1] * c, y0}, Point{x1, y0 + ry[1] - ry[1] * c}, Point{x1, y0 + ry[1]});
+        lineTo(path, Point{x1, y1 - ry[2]});
+        cubicTo(path, Point{x1, y1 - ry[2] + ry[2] * c}, Point{x1 - rx[2] + rx[2] * c, y1}, Point{x1 - rx[2], y1});
+        lineTo(path, Point{x0 + rx[3], y1});
+        cubicTo(path, Point{x0 + rx[3] - rx[3] * c, y1}, Point{x0, y1 - ry[3] + ry[3] * c}, Point{x0, y1 - ry[3]});
+        lineTo(path, Point{x0, y0 + ry[0]});
+        cubicTo(path, Point{x0, y0 + ry[0] - ry[0] * c}, Point{x0 + rx[0] - rx[0] * c, y0}, Point{x0 + rx[0], y0});
+        closePath(path);
+    }
+
     static void shapeClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const BasicShape& shape = *style.clipShape;
         Box box{0.f, 0.f, vp.width, vp.height};
@@ -9666,10 +9868,8 @@ namespace {
                 return;
             }
 
-            if (shape.box == GeometryBox::Stroke && style.stroke.kind != PaintKind::None && isShape(element->name)) {
-                float half = style.strokeWidth / 2.f;
-
-                box = Box{box.x0 - half, box.y0 - half, box.x1 + half, box.y1 + half};
+            if (shape.box == GeometryBox::Stroke || shape.box == GeometryBox::HalfBorder) {
+                box = strokeBox(box, style, element, shape.box == GeometryBox::Stroke ? 0.5f : 0.25f);
             }
         }
 
@@ -9707,21 +9907,45 @@ namespace {
             }
 
             ellipsePath(path, cx, cy, radii[0], radii[1]);
-        } else if (shape.kind == ShapeKind::Inset) {
-            float top = shapeLength(shape.values[0], h, vp, fs);
-            float right = shapeLength(shape.values[1], w, vp, fs);
-            float bottom = shapeLength(shape.values[2], h, vp, fs);
-            float left = shapeLength(shape.values[3], w, vp, fs);
-            float x0 = box.x0 + left;
-            float y0 = box.y0 + top;
-            float x1 = maxf(x0, box.x1 - right);
-            float y1 = maxf(y0, box.y1 - bottom);
+        } else if (shape.kind == ShapeKind::Inset || shape.kind == ShapeKind::Rect || shape.kind == ShapeKind::Xywh) {
+            float v[4];
 
-            moveTo(path, Point{x0, y0});
-            lineTo(path, Point{x1, y0});
-            lineTo(path, Point{x1, y1});
-            lineTo(path, Point{x0, y1});
-            closePath(path);
+            for (int k = 0; k < 4; k++) {
+                v[k] = shapeLength(shape.values[k], k % 2 ? w : h, vp, fs);
+            }
+
+            float x0;
+            float y0;
+            float x1;
+            float y1;
+
+            if (shape.kind == ShapeKind::Inset) {
+                x0 = box.x0 + v[3];
+                y0 = box.y0 + v[0];
+                x1 = box.x1 - v[1];
+                y1 = box.y1 - v[2];
+            } else if (shape.kind == ShapeKind::Rect) {
+                // Every side from the top or left edge; auto is the box's side.
+                y0 = box.y0 + (shape.autos & 1 ? 0.f : v[0]);
+                x1 = box.x0 + (shape.autos & 2 ? w : v[1]);
+                y1 = box.y0 + (shape.autos & 4 ? h : v[2]);
+                x0 = box.x0 + (shape.autos & 8 ? 0.f : v[3]);
+            } else {
+                x0 = box.x0 + shapeLength(shape.values[0], w, vp, fs);
+                y0 = box.y0 + shapeLength(shape.values[1], h, vp, fs);
+                x1 = x0 + shapeLength(shape.values[2], w, vp, fs);
+                y1 = y0 + shapeLength(shape.values[3], h, vp, fs);
+            }
+
+            x1 = maxf(x0, x1);
+            y1 = maxf(y0, y1);
+            roundedRectPath(path, x0, y0, x1, y1, shape.radii, w, h, vp, fs);
+        } else if (shape.kind == ShapeKind::Path) {
+            parsePathData(shape.data, path);
+            addClipShape(l, path, multiply(m, translation(box.x0, box.y0)), shape.rule);
+            op.clipCount = (u32)l.clips.length() - op.clipFirst;
+
+            return;
         } else {
             for (u32 i = 0; i < shape.pointCount; i++) {
                 Point point{box.x0 + shapeLength(shape.points[i * 2], w, vp, fs), box.y0 + shapeLength(shape.points[i * 2 + 1], h, vp, fs)};
@@ -11618,12 +11842,21 @@ namespace {
         Matrix m;
         Box bounds;
 
-        if (!(box == SV("fill-box") || box == SV("stroke-box")) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m, true)) {
+        // An SVG element has no CSS box: content-box is its fill box and
+        // border-box its stroke box.
+        bool fill = box == SV("fill-box") || box == SV("content-box");
+        bool stroke = box == SV("stroke-box") || box == SV("border-box");
+
+        if (!(fill || stroke) || !attribute(node, AtomTransform) || !parseTransform(textOf(doc, attribute(node, AtomTransform)), m, true)) {
             return originTransform(doc, node, AtomTransform, vp);
         }
 
         if (!elementBox(l, node, parent, vp, bounds, 0)) {
             return m;
+        }
+
+        if (stroke) {
+            bounds = strokeBox(bounds, computeStyle(l, node, parent, vp), node, 0.5f);
         }
 
         u32 origin = attribute(node, AtomTransformOrigin);
