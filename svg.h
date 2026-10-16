@@ -34,8 +34,10 @@ extern "C" {
     uint32_t svg_image_height(const SvgImage* image);
 
     // Decodes the bytes of a raster image inside a document into an image of a
-    // pixel or more, or returns NULL. The renderer destroys the image once it
-    // has drawn it. A library without a decoder draws no raster images.
+    // pixel or more, or returns NULL. The renderer reads the image's size as it
+    // lays the document out and its pixels only as it draws it, so a decoder
+    // may leave the pixels to the first call of data; it destroys the image
+    // once it has drawn it. A library without a decoder draws no raster images.
     typedef SvgImage* (*SvgDecode)(void* context, const void* bytes, size_t length);
 
     // Why a call cannot do what it is asked: the file it parses is no XML

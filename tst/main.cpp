@@ -46,6 +46,17 @@ namespace {
         uint32_t height;
     };
 
+    // An image the renderer is handed with the size its header gives and
+    // its pixels decoded at the first call of data, as the renderer reads
+    // them only to draw: transparent if the rest does not decode.
+    struct LazyImage {
+        SvgImage image;
+        std::string bytes;
+        uint8_t* rgba;
+        uint32_t width;
+        uint32_t height;
+    };
+
     struct DestroyImage {
         void operator()(SvgImage* image) const;
     };
@@ -434,7 +445,7 @@ static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
 }
 
 // The raster images of the corpus are PNG and JPEG; nothing else decodes.
-static SvgImage* decodeRaster(void*, const void* bytes, size_t length) {
+static SvgImage* decodeEager(const void* bytes, size_t length) {
     const uint8_t* p = (const uint8_t*)bytes;
 
     if (length >= 8 && memcmp(p, "\x89PNG\r\n\x1a\n", 8) == 0) {
@@ -448,18 +459,105 @@ static SvgImage* decodeRaster(void*, const void* bytes, size_t length) {
     return nullptr;
 }
 
-// A decoder that gives an image the first time and fails ever after, as
-// one that ran out of memory would: units holding .decodeonce. draw with it.
-static SvgImage* decodeOnce(void* context, const void* bytes, size_t length) {
-    static bool decoded = false;
+// The size a PNG's or JPEG's header gives, when its pixels would decode
+// into an image of the driver; false for anything else.
+static bool rasterSize(const void* bytes, size_t length, uint32_t& width, uint32_t& height) {
+    const uint8_t* p = (const uint8_t*)bytes;
 
-    if (decoded) {
+    if (length >= 8 && memcmp(p, "\x89PNG\r\n\x1a\n", 8) == 0) {
+        PngSource source{p, length, 0};
+        png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, pngWarning);
+        png_infop info = png ? png_create_info_struct(png) : nullptr;
+        png_uint_32 w = 0;
+        png_uint_32 h = 0;
+        int depth = 0;
+        bool known = info && pngInfo(png, info, source, w, h, depth);
+
+        png_destroy_read_struct(&png, info ? &info : nullptr, nullptr);
+        width = (uint32_t)w;
+        height = (uint32_t)h;
+
+        return known && (uint64_t)w * h && (uint64_t)w * h <= maxPixels;
+    }
+
+    if (length >= 3 && p[0] == 0xff && p[1] == 0xd8 && p[2] == 0xff) {
+        jpeg_decompress_struct info;
+        JpegError error;
+        bool cmyk = false;
+
+        info.err = jpeg_std_error(&error.manager);
+        error.manager.error_exit = jpegEscape;
+        error.manager.output_message = jpegSilent;
+
+        bool known = jpegHeader(info, error, p, length, cmyk) && info.output_components == (cmyk ? 4 : 3);
+
+        width = info.output_width;
+        height = info.output_height;
+        jpeg_destroy_decompress(&info);
+
+        return known && (uint64_t)width * height && (uint64_t)width * height <= maxPixels;
+    }
+
+    return false;
+}
+
+static void destroyLazy(SvgImage* image) {
+    LazyImage* lazy = (LazyImage*)image;
+
+    delete[] lazy->rgba;
+    delete lazy;
+}
+
+static const void* lazyData(const SvgImage* image) {
+    LazyImage* lazy = (LazyImage*)image;
+
+    if (!lazy->rgba) {
+        DecodedImage* decoded = (DecodedImage*)decodeEager(lazy->bytes.data(), lazy->bytes.size());
+
+        // The decoded pixels are taken over, or the image stays transparent.
+        if (decoded && decoded->width == lazy->width && decoded->height == lazy->height) {
+            lazy->rgba = decoded->rgba;
+            decoded->rgba = nullptr;
+        } else {
+            lazy->rgba = new uint8_t[(size_t)lazy->width * lazy->height * 4]();
+        }
+
+        if (decoded) {
+            svg_image_destroy(&decoded->image);
+        }
+    }
+
+    return lazy->rgba;
+}
+
+static size_t lazyLength(const SvgImage* image) {
+    const LazyImage* lazy = (const LazyImage*)image;
+
+    return (size_t)lazy->width * lazy->height * 4;
+}
+
+static uint32_t lazyWidth(const SvgImage* image) {
+    return ((const LazyImage*)image)->width;
+}
+
+static uint32_t lazyHeight(const SvgImage* image) {
+    return ((const LazyImage*)image)->height;
+}
+
+static const SvgImageVtable lazyVtable = {destroyLazy, lazyData, lazyLength, lazyWidth, lazyHeight};
+
+// A raster image the renderer is given at its size and decodes when it draws.
+static SvgImage* decodeRaster(void*, const void* bytes, size_t length) {
+    uint32_t width = 0;
+    uint32_t height = 0;
+
+    if (!rasterSize(bytes, length, width, height)) {
         return nullptr;
     }
 
-    decoded = true;
+    LazyImage* lazy = new LazyImage{{&lazyVtable}, std::string((const char*)bytes, length), nullptr, width, height};
 
-    return decodeRaster(context, bytes, length);
+    return &lazy->image;
 }
 
 namespace {
@@ -1306,8 +1404,7 @@ namespace {
     // CANON.png: they match when no premultiplied channel of a pixel differs
     // by more than unitTolerance of 255. A file the renderer fails to parse
     // or to draw draws one transparent pixel. A name
-    // holding .nodecoder. draws with a library that has no decoder, one
-    // holding .decodeonce. with a decoder that fails after its first image. With
+    // holding .nodecoder. draws with a library that has no decoder. With
     // CANON.png as OUT.png too it canonizes.
     static int unit(int argc, char** argv) {
         if (argc != 5) {
@@ -1317,7 +1414,7 @@ namespace {
         }
 
         std::string file;
-        Document document = load(argv[2], file, strstr(argv[2], ".nodecoder.") ? nullptr : (strstr(argv[2], ".decodeonce.") ? decodeOnce : decodeRaster));
+        Document document = load(argv[2], file, strstr(argv[2], ".nodecoder.") ? nullptr : decodeRaster);
         Pixels pixels;
 
         pixels.width = 1;
