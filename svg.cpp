@@ -1542,6 +1542,8 @@ namespace {
         int y1;
     };
 
+    struct CachedImage;
+
     struct DevicePaint {
         PaintType type;
         Color color;
@@ -1582,6 +1584,25 @@ namespace {
         Box sampled;
         bool sampledAll;
         IntBox window;
+        // The image a raster paint samples and the halvings it takes along
+        // each side, its pixels read when a fill first draws it; the pixels
+        // it shrank them to.
+        CachedImage* source;
+        u32 kx;
+        u32 ky;
+        u8* shrunk;
+        // The fills outside patterns' content that read a pattern or raster
+        // paint, each drawn once, and how many are yet to: after the last its
+        // tile or pixels go.
+        u32 readers;
+        u32 readersLeft;
+    };
+
+    // The paints whose tiles or shrunk pixels a render holds, let go with it.
+    struct HeldPaints {
+        Vector<DevicePaint*> paints;
+
+        ~HeldPaints();
     };
 
     struct ClipShape {
@@ -1687,21 +1708,16 @@ namespace {
 
     // A raster a pass decoded for an element, so that the element drawn
     // again, as a pattern's content is for each fill it paints, decodes
-    // once: the bytes it came of, the source, and the source shrunk for
-    // the last drawing that shrank it, for which the decoded raster went
-    // unless a drawing samples it as it is.
+    // once: the source and its size, and the paints that sample it yet to be
+    // let go, after the last of which the raster goes. A paint in patterns'
+    // content is drawn again for each piece of a tile and never lets go, so
+    // its raster stays; any other is drawn once.
     struct CachedImage {
         Node* node;
-        StringView data;
         ImageSource source;
         u32 width;
         u32 height;
-        bool sampled;
-        const u8* shrunk;
-        u32 kx;
-        u32 ky;
-        u32 shrunkWidth;
-        u32 shrunkHeight;
+        u32 paintsLeft;
     };
 
     struct Pass {
@@ -1746,6 +1762,10 @@ namespace {
         float sizedHeight;
         Matrix contextMatrix;
         Box contextBox;
+        // How deep in patterns' content the lowering is: that content is
+        // drawn again for each piece of a tile.
+        u32 patternDepth;
+        mutable HeldPaints held;
     };
 
     // A buffer of float RGBA pixels over a box of the raster, zero at first:
@@ -7941,6 +7961,10 @@ namespace {
                 paint->sampled = op.bounds;
             }
 
+            if (l.patternDepth == 0 && (paint->type == PaintType::Pattern || paint->type == PaintType::Image)) {
+                paint->readers++;
+            }
+
             l.out->pushBack(op);
         }
     }
@@ -8157,7 +8181,9 @@ namespace {
         l.host = invert(l.screen, screenInverse) ? multiply(multiply(scaling(tw / w, th / h), inner), screenInverse) : identity();
         l.width = paint->imageWidth;
         l.height = paint->imageHeight;
+        l.patternDepth++;
         lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
+        l.patternDepth--;
         l.width = outerWidth;
         l.height = outerHeight;
         l.host = outerHost;
@@ -11127,7 +11153,7 @@ namespace {
 
         CachedImage* cached = (CachedImage*)l.pool->allocate(sizeof(CachedImage));
 
-        *cached = CachedImage{node, data, out, width, height, false, nullptr, 0, 0, 0, 0};
+        *cached = CachedImage{node, out, width, height, 0};
         l.images.pushBack(cached);
 
         return true;
@@ -11141,17 +11167,6 @@ namespace {
         }
 
         return nullptr;
-    }
-
-    // The decoded raster of a cached image, decoded again if a shrinking let it go.
-    static SvgImage* cachedRaster(Pass& l, CachedImage& cached) {
-        if (!cached.source.decoded->image) {
-            cached.source.decoded->image = l.decode(l.context, cached.data.data(), cached.data.length());
-        }
-
-        cached.source.raster = cached.source.decoded->image;
-
-        return cached.source.raster;
     }
 
     // Lets the decoded raster of a source go once nothing reads it.
@@ -11169,12 +11184,12 @@ namespace {
     // alpha: what halving it level by level comes to, without the levels
     // between or their rounding. Each output row sums its source rows into
     // one row of sums.
-    static const u8* shrinkImage(ObjPool& pool, const u8* pixels, u32& width, u32& height, u32 kx, u32 ky) {
+    static u8* shrinkImage(const u8* pixels, u32 width, u32 height, u32 kx, u32 ky) {
         u64 bx = (u64)1 << kx;
         u64 by = (u64)1 << ky;
         u32 w = (u32)((width + bx - 1) >> kx);
         u32 h = (u32)((height + by - 1) >> ky);
-        u8* out = (u8*)pool.allocate((size_t)w * h * 4);
+        u8* out = new u8[(size_t)w * h * 4];
         Vector<u64> sums;
 
         sums.zero((size_t)w * 4);
@@ -11216,9 +11231,6 @@ namespace {
                 o[3] = (u8)((d[3] + (bx * by) / 2) / (bx * by));
             }
         }
-
-        width = w;
-        height = h;
 
         return out;
     }
@@ -11278,41 +11290,14 @@ namespace {
                 ky++;
             }
 
-            // The shrunk image is what the paint samples, kept for the
-            // element drawn again so: the decoded one goes before the
-            // drawing. A raster a decoder no longer gives is not drawn.
-            if (kx || ky) {
-                if (!cached->shrunk || cached->kx != kx || cached->ky != ky) {
-                    SvgImage* raster = cachedRaster(l, *cached);
-
-                    if (!raster) {
-                        return;
-                    }
-
-                    cached->shrunkWidth = cached->width;
-                    cached->shrunkHeight = cached->height;
-                    cached->shrunk = shrinkImage(*l.pool, (const u8*)svg_image_data(raster), cached->shrunkWidth, cached->shrunkHeight, kx, ky);
-                    cached->kx = kx;
-                    cached->ky = ky;
-
-                    if (!cached->sampled) {
-                        releaseImage(cached->source);
-                    }
-                }
-
-                paint->image = cached->shrunk;
-                paint->imageWidth = cached->shrunkWidth;
-                paint->imageHeight = cached->shrunkHeight;
-            } else {
-                SvgImage* raster = cachedRaster(l, *cached);
-
-                if (!raster) {
-                    return;
-                }
-
-                paint->image = (const u8*)svg_image_data(raster);
-                cached->sampled = true;
-            }
+            // The paint samples the image shrunk so, its pixels read when
+            // a fill first draws it.
+            paint->source = cached;
+            paint->kx = kx;
+            paint->ky = ky;
+            paint->imageWidth = (u32)((paint->imageWidth + ((u64)1 << kx) - 1) >> kx);
+            paint->imageHeight = (u32)((paint->imageHeight + ((u64)1 << ky) - 1) >> ky);
+            cached->paintsLeft++;
 
             paint->inverse = multiply(scaling(ldexpf(1.f, -(int)kx), ldexpf(1.f, -(int)ky)), inverse);
 
@@ -13310,8 +13295,9 @@ namespace {
         Raster tile;
 
         paint.window = window;
-        paint.tile = (u16*)l.pool->allocate(sizeof(u16) * size * 4);
-        memset(paint.tile, 0, sizeof(u16) * size * 4);
+        paint.tile = makePixels(size);
+        paint.readersLeft = paint.readers;
+        l.held.paints.pushBack(&paint);
         tile.width = paint.imageWidth;
         tile.height = paint.imageHeight;
 
@@ -13477,14 +13463,56 @@ namespace {
         mixSpan(out, below, above, between, count);
     }
 
-    // Readies what a paint samples: the tile of a pattern, the table of a gradient.
+    // The pixels a raster paint samples, read when a fill first draws it:
+    // the decoded image, or it shrunk.
+    static void prepareImage(const Lowering& l, DevicePaint& paint) {
+        if (paint.image) {
+            return;
+        }
+
+        const u8* pixels = (const u8*)svg_image_data(paint.source->source.raster);
+
+        if (paint.kx || paint.ky) {
+            paint.shrunk = shrinkImage(pixels, paint.source->width, paint.source->height, paint.kx, paint.ky);
+            pixels = paint.shrunk;
+            l.held.paints.pushBack(&paint);
+        }
+
+        paint.image = pixels;
+        paint.readersLeft = paint.readers;
+    }
+
+    // Readies what a paint samples: the tile of a pattern, the pixels of an
+    // image, the table of a gradient.
     static void preparePaint(const Lowering& l, DevicePaint& paint) {
         if (paint.type == PaintType::Pattern) {
             prepareTile(l, paint);
         }
 
+        if (paint.type == PaintType::Image) {
+            prepareImage(l, paint);
+        }
+
         if (paint.type == PaintType::Linear || paint.type == PaintType::Radial) {
             prepareGradient(l, paint);
+        }
+    }
+
+    // After a fill outside patterns' content, a paint its last fill read
+    // lets its tile or pixels go, and an image the last paint of it.
+    static void finishPaint(DevicePaint& paint) {
+        if (!paint.readers || --paint.readersLeft) {
+            return;
+        }
+
+        delete[] paint.tile;
+        paint.tile = nullptr;
+        delete[] paint.shrunk;
+        paint.shrunk = nullptr;
+        paint.image = nullptr;
+
+        if (paint.source && --paint.source->paintsLeft == 0) {
+            releaseImage(paint.source->source);
         }
     }
 
@@ -16953,6 +16981,7 @@ namespace {
             switch (op.kind) {
                 case OpKind::Fill:
                     fillOp(r, l, op);
+                    finishPaint(*op.paint);
                     break;
                 case OpKind::Layer:
                     for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
@@ -17153,6 +17182,15 @@ DecodedImage::DecodedImage(SvgImage* image_)
 {
 }
 
+HeldPaints::~HeldPaints() {
+    for (DevicePaint* paint : paints) {
+        delete[] paint->tile;
+        paint->tile = nullptr;
+        delete[] paint->shrunk;
+        paint->shrunk = nullptr;
+    }
+}
+
 DecodedImage::~DecodedImage() {
     if (image) {
         svg_image_destroy(image);
@@ -17231,6 +17269,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.docWidth = document->width;
         l.docHeight = document->height;
         l.depth = 0;
+        l.patternDepth = 0;
         l.out = &l.ops;
         l.backgroundInputs = usesBackground(doc, doc.root);
         l.sized = nullptr;
