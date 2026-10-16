@@ -12224,13 +12224,6 @@ namespace {
         int dir;
     };
 
-    static void xchg(BandEdge& l, BandEdge& r) noexcept {
-        BandEdge t = l;
-
-        l = r;
-        r = t;
-    }
-
     static float bandX(const BandEdge& e, float y) {
         return e.x0 + (e.x1 - e.x0) * ((y - e.y0) / (e.y1 - e.y0));
     }
@@ -12247,6 +12240,13 @@ namespace {
         u32 order;
         u32 edge;
     };
+
+    static void xchg(BandEdge& l, BandEdge& r) noexcept {
+        BandEdge t = l;
+
+        l = r;
+        r = t;
+    }
 
     static void xchg(BandSample& l, BandSample& r) noexcept {
         BandSample t = l;
@@ -12534,65 +12534,59 @@ namespace {
         return p.x1 < q.x1 || (p.x1 == q.x1 && p.dir < q.dir);
     }
 
-    // Sorts the edges by their top. Many edges are counted into the rows
-    // they start in and left in their order within a row: a row takes its
-    // edges whole, and the order of the active list only breaks ties
-    // between samples of one key.
-    static void sortEdges(Vector<BandEdge>& edges, u32 h) {
-        if (edges.length() < 1024) {
-            quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
-
-            return;
+    // The band edge of an edge of the lowering, its ends in order of y and
+    // its direction kept, in the raster's coordinates.
+    static BandEdge bandEdge(Edge e, float ox, float oy) {
+        if (e.y0 < e.y1) {
+            return BandEdge{e.x0 - ox, e.y0 - oy, e.x1 - ox, e.y1 - oy, 1};
         }
 
-        // The rows above and below the raster are a bucket each.
-        auto bucket = [&](const BandEdge& e) {
-            return e.y0 < 0.f ? 0u : (e.y0 >= (float)h ? h + 1 : (u32)e.y0 + 1);
+        return BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1};
+    }
+
+    static void rasterizeUnion(float* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule) {
+        Vector<BandEdge> edges;
+        // The band edges are built in place, counted into the rows they start
+        // in; an edge level in y is no band edge. A few are then sorted whole,
+        // many are left in their order within a row, which only breaks ties
+        // between samples of one key. The rows above and below the raster are
+        // a bucket each.
+        auto bucket = [&](float y0) {
+            return y0 < 0.f ? 0u : (y0 >= (float)h ? h + 1 : (u32)y0 + 1);
         };
         Vector<u32> starts;
-        Vector<BandEdge> sorted;
 
         starts.zero((size_t)h + 3);
 
-        for (const BandEdge& e : edges) {
-            starts.mut(bucket(e) + 1)++;
+        for (u32 i = first; i < first + count; i++) {
+            Edge e = l.edges[i];
+
+            if (e.y0 < e.y1 || e.y1 < e.y0) {
+                starts.mut(bucket(minf(e.y0, e.y1) - oy) + 1)++;
+            }
         }
 
         for (size_t k = 1; k < starts.length(); k++) {
             starts.mut(k) += starts[k - 1];
         }
 
-        sorted.zero(edges.length());
-
-        for (const BandEdge& e : edges) {
-            sorted.mut(starts.mut(bucket(e))++) = e;
+        if (starts.back() == 0) {
+            return;
         }
 
-        edges.xchg(sorted);
-    }
-
-    static void rasterizeUnion(float* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule) {
-        Vector<BandEdge> edges;
+        edges.zero(starts.back());
 
         for (u32 i = first; i < first + count; i++) {
             Edge e = l.edges[i];
 
-            if (!(e.y0 < e.y1) && !(e.y1 < e.y0)) {
-                continue;
-            }
-
-            if (e.y0 < e.y1) {
-                edges.pushBack(BandEdge{e.x0 - ox, e.y0 - oy, e.x1 - ox, e.y1 - oy, 1});
-            } else {
-                edges.pushBack(BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1});
+            if (e.y0 < e.y1 || e.y1 < e.y0) {
+                edges.mut(starts.mut(bucket(minf(e.y0, e.y1) - oy))++) = bandEdge(e, ox, oy);
             }
         }
 
-        if (edges.empty()) {
-            return;
+        if (edges.length() < 1024) {
+            quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
         }
-
-        sortEdges(edges, h);
 
         Vector<u32> active;
         // The active edges again, in the x order of the last band or
