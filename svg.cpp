@@ -3191,7 +3191,15 @@ namespace {
 
     // An element and its content. Text is its parent's text, which an
     // xi:include of text or an xi:fallback adds to.
-    static bool parseTransform(StringView text, Matrix& out, bool css, Projective* perspective = nullptr);
+    // The grammar a transform list is read in: an attribute's, SVG's; a
+    // declaration's, CSS's; or either, for a value one of them took.
+    enum class TransformGrammar : u8 {
+        Attribute,
+        Declaration,
+        Either,
+    };
+
+    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective = nullptr);
     static bool parseNumberText(StringView text, float& out);
 
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
@@ -3366,7 +3374,7 @@ namespace {
                 Matrix parsed;
                 float number;
 
-                if ((atom == AtomTransform || atom == AtomGradientTransform || atom == AtomPatternTransform) && !parseTransform(textOf(*xml.doc, value), parsed, false)) {
+                if ((atom == AtomTransform || atom == AtomGradientTransform || atom == AtomPatternTransform) && !parseTransform(textOf(*xml.doc, value), parsed, TransformGrammar::Attribute)) {
                     continue;
                 }
 
@@ -6415,7 +6423,65 @@ namespace {
     // A transform list: in an attribute SVG's, numbers alone and its six
     // functions; in a declaration CSS's too, with angle and length units and
     // the functions of one axis.
-    static bool parseTransform(StringView text, Matrix& out, bool css, Projective* perspective) {
+    // The kinds of a CSS transform function's arguments, a length L, an
+    // angle A or a number N, of which it may leave the last ones out: a
+    // length takes its unit, an angle too, but zero.
+    static bool cssTransformArguments(StringView name, const u8* units, const float* args, u32 count) {
+        static const struct {
+            const char* name;
+            const char* kinds;
+            u32 optional;
+        } functions[] = {
+            {"matrix", "NNNNNN", 0},
+            {"translate", "LL", 1},
+            {"translateX", "L", 0},
+            {"translateY", "L", 0},
+            {"translateZ", "L", 0},
+            {"translate3d", "LLL", 0},
+            {"scale", "NN", 1},
+            {"scaleX", "N", 0},
+            {"scaleY", "N", 0},
+            {"scaleZ", "N", 0},
+            {"scale3d", "NNN", 0},
+            {"rotate", "A", 0},
+            {"rotateX", "A", 0},
+            {"rotateY", "A", 0},
+            {"rotateZ", "A", 0},
+            {"rotate3d", "NNNA", 0},
+            {"skew", "AA", 1},
+            {"skewX", "A", 0},
+            {"skewY", "A", 0},
+            {"perspective", "L", 0},
+            {"matrix3d", "NNNNNNNNNNNNNNNN", 0},
+        };
+
+        for (const auto& function : functions) {
+            u32 n = (u32)strlen(function.kinds);
+
+            if (name != StringView(function.name)) {
+                continue;
+            }
+
+            if (count > n || count + function.optional < n) {
+                return false;
+            }
+
+            for (u32 i = 0; i < count; i++) {
+                u8 kind = function.kinds[i] == 'L' ? 1 : (function.kinds[i] == 'A' ? 2 : 0);
+
+                if (units[i] != kind && !(units[i] == 0 && kind != 0 && args[i] == 0.f)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective) {
+        bool css = grammar != TransformGrammar::Attribute;
         const u8* p = text.begin();
         const u8* end = text.end();
         Matrix result = identity();
@@ -6483,7 +6549,7 @@ namespace {
             const u8* start = p;
 
             // A name of letters, and digits after them: translate3d.
-            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (p > start && *p >= '0' && *p <= '9'))) {
+            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (p > start && (u8)(*p - '0') < 10))) {
                 p++;
             }
 
@@ -6498,6 +6564,8 @@ namespace {
             p++;
 
             float args[16];
+            // Each argument's unit: none, a length, an angle.
+            u8 units[16];
             u32 count = 0;
 
             for (;;) {
@@ -6525,6 +6593,8 @@ namespace {
                 if (!css && !unit.empty()) {
                     return false;
                 }
+
+                units[count] = unit.empty() ? 0 : (equalsIgnoreCase(unit, SV("px")) ? 1 : 2);
 
                 if (equalsIgnoreCase(unit, SV("rad"))) {
                     args[count] *= 180.f / pi;
@@ -6555,6 +6625,10 @@ namespace {
             Matrix m;
 
             if (!css && !(name == SV("matrix") || name == SV("translate") || name == SV("scale") || name == SV("rotate") || name == SV("skewX") || name == SV("skewY"))) {
+                return false;
+            }
+
+            if (grammar == TransformGrammar::Declaration && !cssTransformArguments(name, units, args, count)) {
                 return false;
             }
 
@@ -6791,7 +6865,7 @@ namespace {
                 return equalsIgnoreCase(value, SV("none")) || (startsWithIgnoreCase(value, SV("path(")) && value.back() == ')' && inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0]);
             }
             case AtomTransform:
-                return parseTransform(value, m, true);
+                return parseTransform(value, m, TransformGrammar::Declaration);
             case AtomPathLengthProperty:
                 return equalsIgnoreCase(value, SV("none")) || (parseLength(value, length) && length.unit != Unit::Percent && length.value >= 0.f);
             case AtomTransformOrigin: {
@@ -6819,17 +6893,17 @@ namespace {
         u32 value = attribute(node, name);
         Matrix m;
 
-        if (!value || !parseTransform(textOf(doc, value), m, true)) {
+        if (!value || !parseTransform(textOf(doc, value), m, TransformGrammar::Either)) {
             return identity();
         }
 
         u32 origin = attribute(node, AtomTransformOrigin);
 
-        if (!origin && node != doc.root) {
+        if (!origin) {
             return m;
         }
 
-        Point o = origin ? transformOrigin(textOf(doc, origin), vp.width, vp.height) : Point{vp.width / 2.f, vp.height / 2.f};
+        Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
 
         return multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
     }
@@ -6838,7 +6912,7 @@ namespace {
         u32 value = attribute(node, name);
         Matrix m;
 
-        if (value && parseTransform(textOf(doc, value), m, true)) {
+        if (value && parseTransform(textOf(doc, value), m, TransformGrammar::Either)) {
             return m;
         }
 
@@ -10253,7 +10327,7 @@ namespace {
         u32 transform = patternAttribute(doc, pattern, AtomPatternTransform, nullptr);
         Matrix local;
 
-        if (transform && parseTransform(textOf(doc, transform), local, true)) {
+        if (transform && parseTransform(textOf(doc, transform), local, TransformGrammar::Either)) {
             if (u32 origin = attribute(pattern, AtomTransformOrigin)) {
                 Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
 
@@ -10484,7 +10558,7 @@ namespace {
         if (transform) {
             Matrix m;
 
-            if (parseTransform(textOf(doc, transform), m, true)) {
+            if (parseTransform(textOf(doc, transform), m, TransformGrammar::Either)) {
                 if (u32 origin = attribute(gradient, AtomTransformOrigin)) {
                     Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
 
@@ -10596,7 +10670,7 @@ namespace {
         Matrix m;
         Matrix inverse;
 
-        return value && parseTransform(textOf(doc, value), m, true) && !invert(m, inverse);
+        return value && parseTransform(textOf(doc, value), m, TransformGrammar::Either) && !invert(m, inverse);
     }
 
     static u32 meshAttribute(const Document& doc, Node* mesh, u32 name) {
@@ -10891,7 +10965,7 @@ namespace {
         if (u32 transform = meshAttribute(doc, mesh, AtomGradientTransform)) {
             Matrix m = identity();
 
-            parseTransform(textOf(doc, transform), m, true);
+            parseTransform(textOf(doc, transform), m, TransformGrammar::Either);
             space = multiply(space, m);
         }
 
@@ -13724,7 +13798,7 @@ namespace {
         l.contextBox = emptyBox();
 
         if (elementBox(l, target, style, vp, targetBox, 0)) {
-            l.contextBox = deviceBox(originTransform(*l.doc, target, AtomTransform, vp), targetBox);
+            l.contextBox = deviceBox(boxTransform(l, target, style, vp), targetBox);
         }
 
         l.active.pushBack(target);
@@ -14343,7 +14417,7 @@ namespace {
         Matrix m;
         Point o;
 
-        if (!value || !parseTransform(textOf(*l.doc, value), m, true)) {
+        if (!value || !parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either)) {
             return identity();
         }
 
@@ -14361,7 +14435,7 @@ namespace {
         Matrix m;
         Point o;
 
-        if (!value || !parseTransform(textOf(*l.doc, value), m, true, &out) || !out.on) {
+        if (!value || !parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either, &out) || !out.on) {
             return false;
         }
 
@@ -14821,15 +14895,18 @@ namespace {
         Box area{local.x0 - margin, local.y0 - margin, local.x1 + margin, local.y1 + margin};
         Point middle{(local.x0 + local.x1) / 2.f, (local.y0 + local.y1) / 2.f};
         Point at;
-        Point across;
-        Point down;
 
-        // The scale the device has at the middle, a pixel apart.
-        if (!projectPoint(device, middle, at) || !projectPoint(device, Point{middle.x + 1.f, middle.y}, across) || !projectPoint(device, Point{middle.x, middle.y + 1.f}, down)) {
+        if (!projectPoint(device, middle, at)) {
             return;
         }
 
-        float scale = minf(maxf(maxf(hypotf(across.x - at.x, across.y - at.y), hypotf(down.x - at.x, down.y - at.y)), 0.0625f), 16.f);
+        // The scale the device has at the middle: the columns of the map's
+        // derivative there, the linear part less the point by the weight's
+        // gradient, over the weight.
+        const float* d = device.m;
+        float weight = d[6] * middle.x + d[7] * middle.y + d[8];
+        float columns[2][2] = {{(d[0] - at.x * d[6]) / weight, (d[3] - at.y * d[6]) / weight}, {(d[1] - at.x * d[7]) / weight, (d[4] - at.y * d[7]) / weight}};
+        float scale = minf(maxf(maxf(hypotf(columns[0][0], columns[0][1]), hypotf(columns[1][0], columns[1][1])), 0.0625f), 16.f);
         float lw = ceilf((area.x1 - area.x0) * scale);
         float lh = ceilf((area.y1 - area.y0) * scale);
         float budget = 16.f * (float)l.width * (float)l.height;

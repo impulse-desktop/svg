@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<g fill="teal">
+<rect width="5" height="5" transform="translate(1 1)" style="transform: translateZ(1px, 2px)"/>
+<rect width="5" height="5" transform="translate(9 1)" style="transform: scale3d(1, 2)"/>
+<rect width="5" height="5" transform="translate(17 1)" style="transform: scaleZ(1, 2)"/>
+<rect width="5" height="5" transform="translate(25 1)" style="transform: rotate3d(1, 0, 0)"/>
+<rect width="5" height="5" transform="translate(33 1)" style="transform: rotateX(10deg, 2deg)"/>
+<rect width="5" height="5" transform="translate(41 1)" style="transform: perspective(1px, 2px)"/>
+<rect width="5" height="5" transform="translate(49 1)" style="transform: translate3d(1px, 2px, 3px, 4px)"/>
+<rect width="5" height="5" transform="translate(57 1)" style="transform: matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0)"/>
+<rect width="5" height="5" transform="translate(1 17)" style="transform: 2rotate(10deg)"/>
+<rect width="5" height="5" transform="translate(9 17)" style="transform: rotateY()"/>
+<rect width="5" height="5" transform="translate(17 17)" style="transform: matrix3d(1,0,0,0)"/>
+<rect width="5" height="5" transform="translate(25 17)" style="transform: scale3d(1, 2, 3) skewX(10deg) rotate(20deg, 1, 1)"/>
+</g>
+</svg>
