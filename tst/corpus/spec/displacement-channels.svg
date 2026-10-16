@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<linearGradient id="g" x2="1" y2="1"><stop offset="0" stop-color="#f00" stop-opacity="1"/><stop offset="0.5" stop-color="#0f8"/><stop offset="1" stop-color="#00f" stop-opacity="0.4"/></linearGradient>
+<filter id="a" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feDisplacementMap in="SourceGraphic" in2="SourceGraphic" scale="8" xChannelSelector="A" yChannelSelector="B"/></filter>
+<filter id="b" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feDisplacementMap in="SourceGraphic" in2="SourceGraphic" scale="8" xChannelSelector="G" yChannelSelector="R"/></filter>
+</defs>
+<g filter="url(#a)"><rect x="2" y="2" width="28" height="60" fill="url(#g)"/><path d="M6 6H26M6 14H26M6 22H26M6 30H26M6 38H26M6 46H26M6 54H26" stroke="black" stroke-width="2"/></g>
+<g filter="url(#b)"><rect x="34" y="2" width="28" height="60" fill="url(#g)"/><path d="M38 6H58M38 14H58M38 22H58M38 30H58M38 38H58M38 46H58M38 54H58" stroke="black" stroke-width="2"/></g>
+</svg>

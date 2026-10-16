@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g fill="teal" stroke="navy" stroke-width="4">
+<rect x="4" y="4" width="16" height="16" style="clip-path: circle(40%) border-box"/>
+<rect x="24" y="4" width="16" height="16" style="clip-path: circle(40%) content-box"/>
+<rect x="44" y="4" width="16" height="16" style="clip-path: circle(40%) padding-box"/>
+<rect x="4" y="24" width="16" height="16" style="clip-path: circle(40%) margin-box"/>
+<rect x="24" y="24" width="16" height="16" style="clip-path: ellipse(40% 30%) fill-box"/>
+<rect x="44" y="24" width="16" height="16" style="clip-path: polygon(0 0, 100% 50%, 0 100%) stroke-box"/>
+<rect x="4" y="44" width="16" height="16" style="clip-path: inset(10%) view-box"/>
+<rect x="24" y="44" width="16" height="16" style="clip-path: polygon(evenodd, 0 0, 100% 0, 0 100%, 100% 100%)"/>
+<rect x="44" y="44" width="16" height="16" style="clip-path: stroke-box"/>
+</g>
+</svg>

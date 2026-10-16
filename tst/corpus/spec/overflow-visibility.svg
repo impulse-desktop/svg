@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<filter id="pl"><feFlood flood-color="#406080" result="f"/><feBlend in="SourceGraphic" in2="f" mode="plus-lighter"/></filter>
+<filter id="mi" x="0" y="0" width="1" height="1"><feConvolveMatrix order="3" kernelMatrix="0 0 0 0 0 0 0 0 1" edgeMode="mirror"/></filter>
+<filter id="du" x="0" y="0" width="1" height="1"><feConvolveMatrix order="3" kernelMatrix="0 0 0 0 0 0 0 0 1" edgeMode="duplicate"/></filter>
+<marker id="m" markerWidth="6" markerHeight="6" refX="3" refY="3" overflow="clip"><circle cx="3" cy="3" r="5" fill="crimson"/></marker>
+</defs>
+<rect x="2" y="2" width="18" height="18" fill="#a08040" filter="url(#pl)"/>
+<g filter="url(#mi)"><rect x="24" y="2" width="16" height="16" fill="navy"/><rect x="24" y="2" width="4" height="4" fill="gold"/></g>
+<g filter="url(#du)"><rect x="44" y="2" width="16" height="16" fill="navy"/><rect x="44" y="2" width="4" height="4" fill="gold"/></g>
+<svg x="2" y="26" width="18" height="18" viewBox="0 0 10 10" overflow="clip"><circle cx="5" cy="5" r="7" fill="teal"/></svg>
+<svg x="24" y="26" width="18" height="18" viewBox="0 0 10 10" style="overflow: scroll"><circle cx="5" cy="5" r="7" fill="olive"/></svg>
+<path d="M46 34 H58" stroke="gray" marker-end="url(#m)"/>
+<rect x="24" y="48" width="4" height="4" fill="black"/>
+</svg>
