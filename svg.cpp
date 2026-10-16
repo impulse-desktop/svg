@@ -19048,7 +19048,9 @@ namespace {
             i32 dc = d[base + (size_t)i];
             i32 sa = s[base + (size_t)((i & 4) | 3)];
             i32 da = d[base + (size_t)((i & 4) | 3)];
-            i32 under = composite ? (i32)div65535((u32)dc * (u32)(65535 - sa)) : 0;
+            // A product, not a choice: coverage takes each instantiation
+            // apart, and either would leave one side of a choice unrun.
+            i32 under = (i32)div65535((u32)dc * (u32)(65535 - sa)) * (i32)composite;
             i32 v = (i32)div65535((u32)sc * (u32)(65535 - da)) + under + term(sc, dc, sa, da, (i & 3) == 3);
 
             // Rounding the terms apart can take a sum just below zero.
