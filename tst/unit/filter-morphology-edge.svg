@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+<filter id="f"><feMorphology radius="2" operator="dilate"/><feColorMatrix type="saturate" values="0.5"/></filter>
+<rect width="16" height="16" fill="green" filter="url(#f)"/>
+<rect x="6" y="6" width="4" height="4" fill="white"/>
+</svg>
