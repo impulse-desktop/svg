@@ -11,10 +11,12 @@ item, the only check of it against other renderers.
 usage: tst/spec_coverage.py [--corpus] [REPORT]
 """
 
+import base64
 import fnmatch
 import json
 import re
 import sys
+import urllib.parse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,9 +36,29 @@ def words(value):
     return {name + "()" if call else name for name, call in WORD.findall(value)}
 
 
+def embedded(value):
+    """The SVG document a data: URL holds, or None."""
+    match = re.match(r"\s*data:image/svg\+xml([^,]*),(.*)", value, re.S)
+
+    if not match:
+        return None
+
+    data = match.group(2).split("#")[0]
+
+    if match.group(1).endswith(";base64"):
+        return base64.b64decode(data + "=" * (-len(data) % 4)).decode(errors="replace")
+
+    return urllib.parse.unquote(data)
+
+
 def uses(path, properties):
     """The items a drawing uses, as the keys of the report."""
-    source = path.read_text(errors="replace")
+    return uses_text(path.read_text(errors="replace"), properties)
+
+
+def uses_text(source, properties):
+    """The items a drawing's text uses, those of the SVG images it embeds
+    too."""
     source = re.sub(r"<!--.*?-->", " ", source, flags=re.S)
     found = set()
 
@@ -60,6 +82,11 @@ def uses(path, properties):
             for word in words(value):
                 found.add(f"value {element}/{name}={word}")
                 found.add(f"value */{name}={word}")
+
+            inner = embedded(value)
+
+            if inner is not None:
+                found |= uses_text(inner, properties)
 
             if name == "style":
                 for prop, text in DECLARATION.findall(value):
