@@ -1591,11 +1591,9 @@ namespace {
         u32 kx;
         u32 ky;
         u8* shrunk;
-        // The fills outside patterns' content that read a pattern or raster
-        // paint, each drawn once, and how many are yet to: after the last its
-        // tile or pixels go.
-        u32 readers;
-        u32 readersLeft;
+        // Whether a pattern or raster paint is filled outside patterns'
+        // content, so drawn once: its tile or pixels go after the fill.
+        bool once;
     };
 
     // The paints whose tiles or shrunk pixels a render holds, let go with it.
@@ -1694,12 +1692,15 @@ namespace {
     // entered, the instance of a use, the context paints of a marker, how
     // deep in nested images it is, and how to decode an image and to fail.
     struct DecodedImage;
+    struct CachedImage;
 
     struct ImageSource {
         Document* nested;
         SvgImage* raster;
-        // What destroys the raster with the pool, unless it is released first.
+        // What destroys the raster with the pool, unless it is released
+        // first, and the pass's entry of the raster.
         DecodedImage* decoded;
+        CachedImage* cached;
         float width;
         float height;
         Box viewBox;
@@ -1738,6 +1739,8 @@ namespace {
         Vector<Node*> instanceTargets;
         Vector<u32**> instanceMaps;
         Vector<CachedImage*> images;
+        // Whether the pass lowers to draw, so that its paints sample the images it decodes.
+        bool draws;
     };
 
     // The pass that lowers the document to draw commands over width by
@@ -7962,7 +7965,7 @@ namespace {
             }
 
             if (l.patternDepth == 0 && (paint->type == PaintType::Pattern || paint->type == PaintType::Image)) {
-                paint->readers++;
+                paint->once = true;
             }
 
             l.out->pushBack(op);
@@ -9201,8 +9204,10 @@ namespace {
                     return;
                 }
 
-                // Measuring takes the size alone.
-                releaseImage(source);
+                // Measuring takes the size alone, unless the pass draws the image too.
+                if (!p.draws) {
+                    releaseImage(source);
+                }
             }
 
             if (w > 0.f && h > 0.f) {
@@ -11073,6 +11078,7 @@ namespace {
         out.nested = nullptr;
         out.raster = nullptr;
         out.decoded = nullptr;
+        out.cached = nullptr;
         out.ratio = nullptr;
 
         // Its callers see an href first.
@@ -11153,20 +11159,11 @@ namespace {
 
         CachedImage* cached = (CachedImage*)l.pool->allocate(sizeof(CachedImage));
 
+        out.cached = cached;
         *cached = CachedImage{node, out, width, height, 0};
         l.images.pushBack(cached);
 
         return true;
-    }
-
-    static CachedImage* cachedImage(Pass& l, const Node* node) {
-        for (CachedImage* cached : l.images) {
-            if (cached->node == node) {
-                return cached;
-            }
-        }
-
-        return nullptr;
     }
 
     // Lets the decoded raster of a source go once nothing reads it.
@@ -11255,7 +11252,7 @@ namespace {
         Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : viewBoxTransform(doc, node, viewBox, w, h));
         Matrix place = multiply(m, fit);
 
-        CachedImage* cached = source.nested ? nullptr : cachedImage(l, node);
+        CachedImage* cached = source.cached;
 
         if (cached) {
             DevicePaint* paint = l.pool->make<DevicePaint>();
@@ -12655,15 +12652,14 @@ namespace {
             dir = -1.f;
         }
 
-        float top = floorf(e.y0 + 0.5f);
-        float bottom = floorf(e.y1 + 0.5f);
+        // Rows and columns clamp to the raster; one that is not a number
+        // takes its start.
         float dxdy = (e.x1 - e.x0) / (e.y1 - e.y0);
-        int y0 = top < 0.f ? 0 : (int)top;
-        int y1 = bottom > (float)height ? (int)height : (int)bottom;
+        int y0 = (int)minf(maxf(floorf(e.y0 + 0.5f), 0.f), (float)height);
+        int y1 = (int)minf(maxf(floorf(e.y1 + 0.5f), 0.f), (float)height);
 
         for (int y = y0; y < y1; y++) {
-            float x = floorf(e.x0 + ((float)y + 0.5f - e.y0) * dxdy + 0.5f);
-            int column = x < 0.f ? 0 : (x > (float)width ? (int)width : (int)x);
+            int column = (int)minf(maxf(floorf(e.x0 + ((float)y + 0.5f - e.y0) * dxdy + 0.5f), 0.f), (float)width);
 
             acc[(size_t)y * stride + column] += dir;
         }
@@ -13296,7 +13292,6 @@ namespace {
 
         paint.window = window;
         paint.tile = makePixels(size);
-        paint.readersLeft = paint.readers;
         l.held.paints.pushBack(&paint);
         tile.width = paint.imageWidth;
         tile.height = paint.imageHeight;
@@ -13479,7 +13474,6 @@ namespace {
         }
 
         paint.image = pixels;
-        paint.readersLeft = paint.readers;
     }
 
     // Readies what a paint samples: the tile of a pattern, the pixels of an
@@ -13498,10 +13492,10 @@ namespace {
         }
     }
 
-    // After a fill outside patterns' content, a paint its last fill read
-    // lets its tile or pixels go, and an image the last paint of it.
+    // After its fill outside patterns' content, a paint lets its tile or
+    // pixels go, and an image the last paint of it.
     static void finishPaint(DevicePaint& paint) {
-        if (!paint.readers || --paint.readersLeft) {
+        if (!paint.once) {
             return;
         }
 
@@ -17127,6 +17121,7 @@ namespace {
         p.hasContext = false;
         p.instance = nullptr;
         p.documentStyles.zero(doc.nodeCount);
+        p.draws = false;
     }
 
     // The size of a root without a viewBox, for the sides it leaves open:
@@ -17270,6 +17265,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.docHeight = document->height;
         l.depth = 0;
         l.patternDepth = 0;
+        l.draws = true;
         l.out = &l.ops;
         l.backgroundInputs = usesBackground(doc, doc.root);
         l.sized = nullptr;
