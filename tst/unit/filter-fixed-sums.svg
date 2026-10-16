@@ -15,7 +15,7 @@
 </filter>
 <filter id="curves" color-interpolation-filters="sRGB">
 <feComponentTransfer>
-<feFuncR type="table" tableValues="1 0 0.5"/>
+<feFuncR type="table" tableValues="1 -0.5 0.5"/>
 <feFuncG type="discrete" tableValues="0 0.5 1 2"/>
 <feFuncB type="linear" slope="-2" intercept="1.2"/>
 <feFuncA type="gamma" amplitude="1" exponent="0.5" offset="0"/>
