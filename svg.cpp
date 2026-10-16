@@ -4025,12 +4025,11 @@ namespace {
                 continue;
             }
 
-            if (property == AtomD && startsWithIgnoreCase(value, SV("path(")) && value.back() == ')') {
+            // A valid path() holds one quoted string: its data.
+            if (property == AtomD && startsWithIgnoreCase(value, SV("path("))) {
                 StringView inner = trim(StringView(value.begin() + 5, value.end() - 1));
 
-                if (inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0]) {
-                    value = StringView(inner.begin() + 1, inner.end() - 1);
-                }
+                value = StringView(inner.begin() + 1, inner.end() - 1);
             }
 
             out.pushBack(Declaration{property, intern(doc.atoms, value), important});
