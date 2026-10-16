@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<filter id="many" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b"/>
+<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<filter id="keep" color-interpolation-filters="sRGB">
+<feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+<feComposite in2="SourceAlpha" operator="in"/>
+</filter>
+<filter id="background" color-interpolation-filters="sRGB">
+<feGaussianBlur in="BackgroundImage" stdDeviation="2"/>
+<feComposite in2="BackgroundAlpha" operator="in"/>
+</filter>
+<rect x="4" y="4" width="20" height="20" fill="#08f" filter="url(#many)"/>
+<rect x="36" y="4" width="20" height="20" fill="#f80" filter="url(#keep)"/>
+<g enable-background="new">
+<circle cx="20" cy="46" r="12" fill="#0a0"/>
+<rect x="30" y="34" width="24" height="24" fill="#f0f" filter="url(#background)"/>
+</g>
+</svg>

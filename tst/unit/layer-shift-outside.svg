@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<filter id="b" filterUnits="userSpaceOnUse" x="-20" y="0" width="19" height="32">
+<feGaussianBlur stdDeviation="1"/>
+</filter>
+<g transform="scale(1 2)">
+<rect x="-20" y="4" width="19" height="20" fill="#08f" filter="url(#b)"/>
+<rect x="4" y="4" width="20" height="10" fill="#0a0"/>
+</g>
+</svg>

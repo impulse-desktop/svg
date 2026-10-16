@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<filter id="f" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
+<feFlood flood-color="#08f" x="30" y="20" width="30" height="20" result="patch"/>
+<feComposite operator="arithmetic" k2="1" k3="1" in="SourceGraphic" in2="patch" x="8" y="4" width="32" height="56" result="left"/>
+<feComposite operator="arithmetic" k2="1" k3="1" in="SourceGraphic" in2="patch" x="2" y="4" width="18" height="56" result="apart"/>
+<feMerge><feMergeNode in="left"/><feMergeNode in="apart"/></feMerge>
+</filter>
+<rect width="64" height="64" fill="#f80" filter="url(#f)"/>
+</svg>
