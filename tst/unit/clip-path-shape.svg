@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="64" viewBox="0 0 96 64">
+<style><![CDATA[
+.a { clip-path: shape(from 0 0, line to 100% 0, line to 50% 100%, close) }
+.b { clip-path: shape(evenodd from 10% 10%, hline to right, vline by 80%, hline to x-start, close, move to 30% 30%, line by 40% 0, line by 0 40%, line by -40% 0, close) }
+.c { clip-path: shape(from left center, curve to right center with 50% -50%, curve by -100% 0 with 50% 50% from start / 0 100% from end, close) }
+.d { clip-path: shape(from 0 50%, smooth by 50% 0 with 25% -60%, smooth to right center with 75% 160%, vline to bottom, hline to left, close) }
+.e { clip-path: shape(from 50% 0, arc to 50% 100% of 50% cw, arc by 0 -100% of 25% 50% large rotate 0deg, close) }
+.f { clip-path: shape(from 0 0, curve to 100% 100% with 100% 0, smooth by -100% 0, close) }
+]]></style>
+<g fill="teal">
+<rect class="a" x="4" y="4" width="24" height="24"/>
+<rect class="b" x="36" y="4" width="24" height="24"/>
+<rect class="c" x="68" y="4" width="24" height="24"/>
+<rect class="d" x="4" y="36" width="24" height="24"/>
+<rect class="e" x="36" y="36" width="24" height="24"/>
+<rect class="f" x="68" y="36" width="24" height="24"/>
+</g>
+</svg>
