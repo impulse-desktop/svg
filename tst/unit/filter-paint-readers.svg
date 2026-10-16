@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<radialGradient id="cone" gradientUnits="userSpaceOnUse" cx="44" cy="32" r="10" fx="10" fy="32" fr="4">
+<stop offset="0" stop-color="#f00"/>
+<stop offset="1" stop-color="#00f"/>
+</radialGradient>
+<filter id="p" x="0" y="0" width="1" height="1">
+<feOffset in="FillPaint" dx="3" result="a"/>
+<feComposite in="FillPaint" in2="a" operator="over"/>
+</filter>
+<rect width="64" height="64" fill="url(#cone)" filter="url(#p)"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<filter id="small" filterUnits="userSpaceOnUse" x="0" y="0" width="32" height="64">
+<feOffset dx="1"/>
+</filter>
+<filter id="background">
+<feGaussianBlur in="BackgroundImage" stdDeviation="1"/>
+</filter>
+<g filter="url(#small)">
+<g enable-background="new">
+<rect x="40" y="8" width="16" height="16" fill="navy"/>
+<rect x="8" y="8" width="16" height="16" fill="teal"/>
+<rect x="8" y="40" width="16" height="16" fill="orange" filter="url(#background)"/>
+</g>
+</g>
+</svg>

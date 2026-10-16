@@ -13447,24 +13447,18 @@ namespace {
         u32 stride = w + 2;
         int width = box.x1 - box.x0;
 
+        // The raster's window lies within the box it was clipped to.
         for (u32 y = 0; y < h; y++) {
             float sum = 0.f;
             const float* line = acc + (size_t)y * stride;
-            int dy = (int)(iy0 + y);
+            u16* values = target + (size_t)((int)(iy0 + y) - box.y0) * width + (size_t)((int)ix0 - box.x0);
 
             for (u32 x = 0; x < w; x++) {
                 sum += line[x];
 
-                int dx = (int)(ix0 + x);
-
-                if (dx < box.x0 || dx >= box.x1 || dy < box.y0 || dy >= box.y1) {
-                    continue;
-                }
-
-                u16& value = target[(size_t)(dy - box.y0) * width + (size_t)(dx - box.x0)];
                 u16 cover = (u16)toUnit16(coverage(sum, shape.rule));
 
-                value = value > cover ? value : cover;
+                values[x] = values[x] > cover ? values[x] : cover;
             }
         }
     }
@@ -14821,25 +14815,15 @@ namespace {
         }
     }
 
+    // The colour dodge, colour burn and soft light of a channel: the other
+    // separable modes are blended in stored channels.
     static float blendChannel(int mode, float cb, float cs) {
         switch (mode) {
-            case 1:
-                return cb * cs;
-            case 2:
-                return cb + cs - cb * cs;
-            case 3:
-                return cb <= 0.5f ? 2.f * cb * cs : 1.f - 2.f * (1.f - cb) * (1.f - cs);
-            case 4:
-                return minf(cb, cs);
-            case 5:
-                return maxf(cb, cs);
             case 6:
                 return cb <= 0.f ? 0.f : (cs >= 1.f ? 1.f : minf(1.f, cb / (1.f - cs)));
             case 7:
                 return cb >= 1.f ? 1.f : (cs <= 0.f ? 0.f : 1.f - minf(1.f, (1.f - cb) / cs));
-            case 8:
-                return cs <= 0.5f ? 2.f * cb * cs : 1.f - 2.f * (1.f - cb) * (1.f - cs);
-            case 9: {
+            default: {
                 if (cs <= 0.5f) {
                     return cb - (1.f - 2.f * cs) * cb * (1.f - cb);
                 }
@@ -14848,12 +14832,6 @@ namespace {
 
                 return cb + (2.f * cs - 1.f) * (dcb - cb);
             }
-            case 10:
-                return fabsf(cb - cs);
-            case 11:
-                return cb + cs - 2.f * cb * cs;
-            default:
-                return cs;
         }
     }
 
@@ -15030,6 +15008,71 @@ namespace {
         return (i32)div65535((u32)a * (u32)b);
     }
 
+    // The blend of a source span over a destination span into an output span,
+    // in the modes whose function is a product, a minimum or maximum, a
+    // difference or a choice on a half, which are exact in stored channels;
+    // false for the dodges, burns, soft light and the non-separable modes,
+    // which divide or take roots.
+    static bool blendSpan(int mode, u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count) {
+        switch (mode) {
+            case 0:
+                blendLanes(o, s, d, count, [](i32 sc, i32, i32, i32 da, bool) {
+                    return product(sc, da);
+                });
+                return true;
+            case 1:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32, i32, bool) {
+                    return product(sc, dc);
+                });
+                return true;
+            case 2:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    return product(sc, da) + product(dc, sa) - product(sc, dc);
+                });
+                return true;
+            case 3:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    return 2 * dc <= da ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
+                });
+                return true;
+            case 4:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    i32 u = product(dc, sa);
+                    i32 v = product(sc, da);
+
+                    return u < v ? u : v;
+                });
+                return true;
+            case 5:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    i32 u = product(dc, sa);
+                    i32 v = product(sc, da);
+
+                    return u > v ? u : v;
+                });
+                return true;
+            case 8:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                    return 2 * sc <= sa ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
+                });
+                return true;
+            case 10:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
+                    i32 v = product(dc, sa) - product(sc, da);
+
+                    return (v < 0 ? -v : v) + alpha * product(sa, da);
+                });
+                return true;
+            case 11:
+                blendLanes(o, s, d, count, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
+                    return product(sc, da) + product(dc, sa) - 2 * product(sc, dc) + alpha * product(sa, da);
+                });
+                return true;
+            default:
+                return false;
+        }
+    }
+
     // The blend of the two inputs. The modes whose function is a product,
     // a minimum or maximum, a difference or a choice on a half are exact in
     // stored channels; the dodges, burns, soft light and the non-separable
@@ -15062,62 +15105,8 @@ namespace {
             readStored(a, box.x0, box.x1, y, rowA.mutData());
             readStored(b, box.x0, box.x1, y, rowB.mutData());
 
-            switch (mode) {
-                case 0:
-                    blendLanes(o, s, d, n, [](i32 sc, i32, i32, i32 da, bool) {
-                        return product(sc, da);
-                    });
-                    continue;
-                case 1:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32, i32, bool) {
-                        return product(sc, dc);
-                    });
-                    continue;
-                case 2:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
-                        return product(sc, da) + product(dc, sa) - product(sc, dc);
-                    });
-                    continue;
-                case 3:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
-                        return 2 * dc <= da ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
-                    });
-                    continue;
-                case 4:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
-                        i32 u = product(dc, sa);
-                        i32 v = product(sc, da);
-
-                        return u < v ? u : v;
-                    });
-                    continue;
-                case 5:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
-                        i32 u = product(dc, sa);
-                        i32 v = product(sc, da);
-
-                        return u > v ? u : v;
-                    });
-                    continue;
-                case 8:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
-                        return 2 * sc <= sa ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
-                    });
-                    continue;
-                case 10:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
-                        i32 v = product(dc, sa) - product(sc, da);
-
-                        return (v < 0 ? -v : v) + alpha * product(sa, da);
-                    });
-                    continue;
-                case 11:
-                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
-                        return product(sc, da) + product(dc, sa) - 2 * product(sc, dc) + alpha * product(sa, da);
-                    });
-                    continue;
-                default:
-                    break;
+            if (blendSpan(mode, o, s, d, n)) {
+                continue;
             }
 
             loadSpan(s, floatA.mutData(), n);
@@ -15178,8 +15167,10 @@ namespace {
             if (run == 0) {
                 memcpy(out, v, sizeof(u16) * lanes);
             } else {
+                const u16* previous = out - lanes;
+
                 for (size_t c = 0; c < lanes; c++) {
-                    out[c] = extreme(out[c - lanes], v[c]);
+                    out[c] = extreme(previous[c], v[c]);
                 }
             }
 
@@ -16356,14 +16347,11 @@ namespace {
 
         stack.pushBack(filter.count - 1);
 
+        // The stack holds primitives not done, each reading the one above
+        // it, so lower in index: none is on it twice, and the top is popped
+        // as it is done.
         while (!stack.empty()) {
             u32 k = stack.back();
-
-            if (done[k]) {
-                stack.popBack();
-                continue;
-            }
-
             const FilterPrimitive& p = filter.primitives[k];
             u32 pending = k;
 
@@ -16655,9 +16643,9 @@ namespace {
         }
     }
 
-    // The source row blended over the destination in a mode: the modes are
-    // formulas on colours not premultiplied, so the rows go through floats.
-    // Where the destination has no alpha the source goes over it.
+    // The source row blended over the destination in a mode that divides or
+    // takes roots, on colours not premultiplied, so the rows go through
+    // floats. Where the destination has no alpha the source goes over it.
     static void blendRow(int mode, u16* out, const u16* row, size_t count, Vector<float>& source, Vector<float>& backdrop) {
         source.zero(count * 4);
         backdrop.zero(count * 4);
@@ -16758,11 +16746,13 @@ namespace {
                     bool scaled = opacity < 65535 || clip || mask;
                     Vector<u16> factor;
                     Vector<u16> scaledRow;
+                    Vector<u16> blended;
                     Vector<float> source;
                     Vector<float> backdrop;
 
                     factor.zero((size_t)width);
                     scaledRow.zero((size_t)width * 4);
+                    blended.zero((size_t)width * 4);
 
                     for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
                         const Plane& parent = r.layers[level];
@@ -16782,10 +16772,12 @@ namespace {
                                 row = scaledRow.data();
                             }
 
-                            if (begin->blend) {
-                                blendRow(begin->blend, out, row, (size_t)n, source, backdrop);
-                            } else {
+                            if (!begin->blend) {
                                 overSpan(out, row, (size_t)n);
+                            } else if (blendSpan(begin->blend, blended.mutData(), row, out, (size_t)n)) {
+                                memcpy(out, blended.data(), sizeof(u16) * 4 * (size_t)n);
+                            } else {
+                                blendRow(begin->blend, out, row, (size_t)n, source, backdrop);
                             }
                         }
                     }
@@ -16804,11 +16796,10 @@ namespace {
         r.backdrop = backdrop;
     }
 
+    // A byte of a channel that is not negative; a colour channel may pass its
+    // alpha by rounding.
     static u8 clampByte(float v) {
-        v = v > 0.f ? v : 0.f;
-        v = v > 255.f ? 255.f : v;
-
-        return (u8)(int)v;
+        return (u8)(int)(v > 255.f ? 255.f : v);
     }
 
     static bool usesBackground(const Document& doc, const Node* node, u32 depth) {
