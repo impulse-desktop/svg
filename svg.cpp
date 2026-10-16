@@ -12792,13 +12792,14 @@ namespace {
     // The samples of a half of a band, in the order of the whole: the cuts
     // leave no edge end inside a band, so the same edges span the half,
     // entering or leaving it where they cross the middle of the whole band.
-    static bool halfBandSamples(const BandEdge* edges, const Vector<BandSample>& whole, float a, float b, bool top, Vector<BandSample>& samples) {
+    static bool halfBandSamples(const BandEdge* edges, const BandSample* whole, size_t count, float a, float b, bool top, Vector<BandSample>& samples) {
         float mid = (a + b) * 0.5f;
         bool comparable = true;
 
         samples.clear();
 
-        for (const BandSample& s : whole) {
+        for (size_t i = 0; i < count; i++) {
+            const BandSample& s = whole[i];
             float key = bandX(edges[s.edge], mid);
 
             comparable = comparable && key == key;
@@ -12808,7 +12809,13 @@ namespace {
         return comparable;
     }
 
-    static void unionBand(u32* acc, u32 stride, u32 w, u32 h, const BandEdge* edges, const Vector<u32>& active, const Vector<u32>& position, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable) {
+    // The coverage of a band from a to b of what the rule fills, entered
+    // with the winding of the samples left of them. A sample that crosses
+    // none before it by more than a sixty-fourth of a pixel keeps its place
+    // through the band and is drawn whole; each run of samples that do
+    // cross is halved, up to six times or until the middle rounds onto an
+    // end, and its halves entered with the winding left of the run.
+    static void unionBand(u32* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, int winding) {
         Vector<BandSample>& band = samples[depth];
 
         if (band.empty()) {
@@ -12853,43 +12860,52 @@ namespace {
             }
         }
 
-        if (depth < 6) {
-            for (size_t k = 0; k + 1 < band.length(); k++) {
-                const BandSample& p = band[k];
-                const BandSample& q = band[k + 1];
+        float mid = (a + b) * 0.5f;
+        bool halve = depth < 6 && a < mid && mid < b;
+        float reach0 = sorted[0].x0;
+        float reach1 = sorted[0].x1;
 
-                // Edges crossing within a sixty-fourth of a pixel are left as they are.
-                if (p.x0 > q.x0 + 1.f / 64.f || p.x1 > q.x1 + 1.f / 64.f) {
-                    float mid = (a + b) * 0.5f;
-                    Vector<BandSample>& half = samples[depth + 1];
-                    // A middle that rounds onto an end of the band is spanned by more edges.
-                    bool split = a < mid && mid < b;
-                    Vector<u32> spare;
-                    bool comparableHalf = split ? halfBandSamples(edges, band, a, mid, true, half) : bandSamples(edges, active, position, a, mid, half, spare);
+        for (size_t k = 0; k < count;) {
+            size_t end = k + 1;
 
-                    unionBand(acc, stride, w, h, edges, active, position, samples, a, mid, rule, depth + 1, comparableHalf);
+            while (end < count && (reach0 > sorted[end].x0 + 1.f / 64.f || reach1 > sorted[end].x1 + 1.f / 64.f)) {
+                reach0 = maxf(reach0, sorted[end].x0);
+                reach1 = maxf(reach1, sorted[end].x1);
+                end++;
+            }
 
-                    comparableHalf = split ? halfBandSamples(edges, band, mid, b, false, half) : bandSamples(edges, active, position, mid, b, half, spare);
+            if (end - k > 1 && halve) {
+                Vector<BandSample>& half = samples[depth + 1];
+                bool comparableHalf = halfBandSamples(edges, sorted + k, end - k, a, mid, true, half);
 
-                    unionBand(acc, stride, w, h, edges, active, position, samples, mid, b, rule, depth + 1, comparableHalf);
+                unionBand(acc, stride, w, edges, samples, a, mid, rule, depth + 1, comparableHalf, winding);
+                comparableHalf = halfBandSamples(edges, sorted + k, end - k, mid, b, false, half);
+                unionBand(acc, stride, w, edges, samples, mid, b, rule, depth + 1, comparableHalf, winding);
 
-                    return;
+                for (size_t i = k; i < end; i++) {
+                    winding += sorted[i].dir;
+                }
+            } else {
+                for (size_t i = k; i < end; i++) {
+                    const BandSample& sample = sorted[i];
+                    bool before = insideWinding(winding, rule);
+
+                    winding += sample.dir;
+
+                    bool after = insideWinding(winding, rule);
+
+                    if (before != after) {
+                        addEdge(acc, stride, w, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
+                    }
                 }
             }
-        }
 
-        int winding = 0;
-
-        for (const BandSample& sample : band) {
-            bool before = insideWinding(winding, rule);
-
-            winding += sample.dir;
-
-            bool after = insideWinding(winding, rule);
-
-            if (before != after) {
-                addEdge(acc, stride, w, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
+            if (end < count) {
+                reach0 = maxf(reach0, sorted[end].x0);
+                reach1 = maxf(reach1, sorted[end].x1);
             }
+
+            k = end;
         }
     }
 
@@ -13203,7 +13219,7 @@ namespace {
                     for (size_t k = 0; k + 1 < cutCount; k++) {
                         bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], rest);
 
-                        unionBand(acc, stride, w, h, edges.data(), active, position, samples, cuts[k], cuts[k + 1], rule, 0, comparable);
+                        unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0);
 
                         // The samples in x order, then the rest: the band
                         // below comes nearly sorted.
