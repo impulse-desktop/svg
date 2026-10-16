@@ -1090,6 +1090,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(RequiredExtensions, "requiredExtensions")                 \
     ATOM(Type, "type")                                             \
     ATOM(Mask, "mask")                                             \
+    ATOM(MaskBorder, "mask-border")                                \
     ATOM(Media, "media")                                           \
     ATOM(Title, "title")                                           \
     ATOM(Fill, "fill")                                             \
@@ -1122,6 +1123,12 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(MaskOrigin, "mask-origin")                                \
     ATOM(MaskSize, "mask-size")                                    \
     ATOM(MaskComposite, "mask-composite")                          \
+    ATOM(MaskBorderSource, "mask-border-source")                   \
+    ATOM(MaskBorderMode, "mask-border-mode")                       \
+    ATOM(MaskBorderSlice, "mask-border-slice")                     \
+    ATOM(MaskBorderWidth, "mask-border-width")                     \
+    ATOM(MaskBorderOutset, "mask-border-outset")                   \
+    ATOM(MaskBorderRepeat, "mask-border-repeat")                   \
     ATOM(FloodColor, "flood-color")                                \
     ATOM(FloodOpacity, "flood-opacity")                            \
     ATOM(LightingColor, "lighting-color")                          \
@@ -1543,6 +1550,16 @@ namespace {
         MaskParts,
     };
 
+    enum MaskBorderPart : u32 {
+        MaskBorderPartSource,
+        MaskBorderPartMode,
+        MaskBorderPartSlice,
+        MaskBorderPartWidth,
+        MaskBorderPartOutset,
+        MaskBorderPartRepeat,
+        MaskBorderParts,
+    };
+
     struct ComputedStyle {
         PaintValue fill;
         PaintValue stroke;
@@ -1563,8 +1580,9 @@ namespace {
         // The clip property's rect(), as the four sides of a rect().
         BasicShape* clipRect;
         // The values of mask-image and the other longhands of mask, in
-        // their order, none for the initial one.
+        // their order, none for the initial one; of mask-border's the same.
         u32 maskParts[MaskParts];
+        u32 maskBorder[MaskBorderParts];
         u32 markers[3];
         bool nonScaling;
         // vector-effect's constrained transformations, as VectorNonScaling
@@ -1698,6 +1716,9 @@ namespace {
         // across, 2 down.
         bool tent;
         u8 wraps;
+        // The texels a raster paint reads, shrunk: the image's, or a part's
+        // of a border image.
+        IntBox texels;
     };
 
     // The paints whose tiles or shrunk pixels a render holds, let go with it.
@@ -4758,6 +4779,195 @@ namespace {
         return true;
     }
 
+    // A mask border: its image as a mask layer has one; the mode, 1 alpha
+    // or 0 luminance; by side, top, right, bottom and left, the slices,
+    // numbers or percentages, the widths, lengths, percentages, numbers or
+    // auto where its bit is set, and the outsets, lengths or numbers; the
+    // middle filled; the repeats across and down, 0 stretch, 1 repeat, 2
+    // round, 3 space.
+    struct MaskBorder {
+        MaskLayer image;
+        u8 mode;
+        Length slice[4];
+        bool fill;
+        Length width[4];
+        u8 autos;
+        Length outset[4];
+        u8 repeat[2];
+    };
+
+    const char* const maskBorderRepeats[] = {"stretch", "repeat", "round", "space"};
+    const char* const maskBorderInitials[MaskBorderParts] = {"none", "alpha", "0", "auto", "0", "stretch"};
+
+    // One to four values for the sides top, right, bottom and left, as CSS
+    // gives a side left out the one across from it: a slice's numbers and
+    // percentages, kind 0; a width's lengths, percentages, numbers and
+    // auto, 1; an outset's lengths and numbers, 2; none negative.
+    static bool borderSides(StringView text, u32 kind, Length (&out)[4], u8& autos) {
+        const u8* p = text.begin();
+        u32 count = 0;
+
+        autos = 0;
+
+        for (StringView word = maskWord(p, text.end()); !word.empty(); word = maskWord(p, text.end())) {
+            Length& side = out[count & 3];
+
+            if (count == 4) {
+                return false;
+            }
+
+            if (kind == 1 && equalsIgnoreCase(word, SV("auto"))) {
+                autos |= (u8)(1 << count);
+                side = Length{0.f, Unit::Number};
+            } else if (!parseLength(word, side) || side.value < 0.f || (kind == 0 && side.unit != Unit::Number && side.unit != Unit::Percent) || (kind == 2 && side.unit == Unit::Percent)) {
+                return false;
+            }
+
+            count++;
+        }
+
+        // Right is top's, bottom top's, left right's; a value is never
+        // empty.
+        for (u32 k = count; k < 4; k++) {
+            out[k] = out[k == 3 ? 1 : 0];
+            autos |= (u8)(((autos >> (k == 3 ? 1 : 0)) & 1) << k);
+        }
+
+        return true;
+    }
+
+    // One value of a mask-border longhand, into the border.
+    static bool maskBorderPartOf(u32 part, StringView text, MaskBorder& out) {
+        const u8* p = text.begin();
+        StringView first;
+        StringView second;
+        u8 autos;
+        int k;
+
+        switch (part) {
+            case MaskBorderPartSource:
+                return maskImageOf(text, out.image);
+            case MaskBorderPartMode:
+                k = equalsIgnoreCase(text, SV("alpha")) ? 1 : (equalsIgnoreCase(text, SV("luminance")) ? 0 : -1);
+                out.mode = (u8)k;
+
+                return k >= 0;
+            case MaskBorderPartSlice: {
+                StringView numbers = text;
+
+                // fill after the numbers.
+                out.fill = text.length() > 4 && equalsIgnoreCase(StringView(text.end() - 4, text.end()), SV("fill")) && isSpace(text.end()[-5]);
+
+                if (out.fill) {
+                    numbers = trim(StringView(text.begin(), text.end() - 4));
+                }
+
+                return borderSides(numbers, 0, out.slice, autos);
+            }
+            case MaskBorderPartWidth:
+                return borderSides(text, 1, out.width, out.autos);
+            case MaskBorderPartOutset:
+                return borderSides(text, 2, out.outset, autos);
+            default:
+                // MaskBorderPartRepeat.
+                first = maskWord(p, text.end());
+                second = maskWord(p, text.end());
+                out.repeat[0] = (u8)maskKeyword(first, maskBorderRepeats, 4);
+                out.repeat[1] = second.empty() ? out.repeat[0] : (u8)maskKeyword(second, maskBorderRepeats, 4);
+
+                return out.repeat[0] < 4 && out.repeat[1] < 4 && maskWord(p, text.end()).empty();
+        }
+    }
+
+    // The mask-border shorthand into its longhands: the source, the slices
+    // perhaps with the widths after a slash and the outsets after another,
+    // the repeats and the mode, in any order; a part left out takes its
+    // initial value.
+    static bool expandMaskBorder(Document& doc, StringView value, u32 (&out)[MaskBorderParts]) {
+        StringView parts[MaskBorderParts];
+        const u8* p = value.begin();
+        const u8* end = value.end();
+        MaskBorder probe;
+
+        if (equalsIgnoreCase(value, SV("inherit")) || equalsIgnoreCase(value, SV("initial")) || equalsIgnoreCase(value, SV("unset"))) {
+            for (u32 k = 0; k < MaskBorderParts; k++) {
+                out[k] = intern(doc.atoms, value);
+            }
+
+            return true;
+        }
+
+        for (;;) {
+            const u8* start = p;
+            StringView word = maskWord(p, end);
+            Length length;
+
+            if (word.empty()) {
+                break;
+            }
+
+            if (parts[MaskBorderPartSource].empty() && maskImageOf(word, probe.image)) {
+                parts[MaskBorderPartSource] = word;
+            } else if (parts[MaskBorderPartMode].empty() && maskBorderPartOf(MaskBorderPartMode, word, probe)) {
+                parts[MaskBorderPartMode] = word;
+            } else if (parts[MaskBorderPartRepeat].empty() && maskKeyword(word, maskBorderRepeats, 4) >= 0) {
+                const u8* q = p;
+
+                // A second of the four belongs to the first.
+                if (maskKeyword(maskWord(q, end), maskBorderRepeats, 4) >= 0) {
+                    p = q;
+                }
+
+                parts[MaskBorderPartRepeat] = trim(StringView(start, p));
+            } else if (parts[MaskBorderPartSlice].empty() && parseLength(word, length)) {
+                // The slices run to the first word of another part, with
+                // fill; a slash takes the widths, another the outsets.
+                u32 part = MaskBorderPartSlice;
+                const u8* from = start;
+
+                for (const u8* q = p;; q = p) {
+                    StringView next = maskWord(q, end);
+
+                    if (equalsIgnoreCase(next, SV("/")) && part < MaskBorderPartOutset) {
+                        parts[part] = trim(StringView(from, p));
+
+                        // A slash follows a part, not none.
+                        if (parts[part].empty()) {
+                            return false;
+                        }
+
+                        part++;
+                        from = q;
+                    } else if (!(parseLength(next, length) || equalsIgnoreCase(next, SV("auto")) || (part == MaskBorderPartSlice && equalsIgnoreCase(next, SV("fill"))))) {
+                        break;
+                    }
+
+                    p = q;
+                }
+
+                parts[part] = trim(StringView(from, p));
+
+                if (parts[part].empty()) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        for (u32 k = 0; k < MaskBorderParts; k++) {
+            StringView part = parts[k].empty() ? StringView(maskBorderInitials[k]) : parts[k];
+
+            if (!maskBorderPartOf(k, part, probe)) {
+                return false;
+            }
+
+            out[k] = intern(doc.atoms, part);
+        }
+
+        return true;
+    }
+
     static void parseDeclarations(Document& doc, StringView block, Vector<Declaration>& out) {
         const u8* p = block.begin();
         const u8* end = block.end();
@@ -4809,7 +5019,7 @@ namespace {
                 property = AtomClipPathProperty;
             }
 
-            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker && property != AtomMask) {
+            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker && property != AtomMask && property != AtomMaskBorder) {
                 continue;
             }
 
@@ -4827,12 +5037,29 @@ namespace {
             }
 
             u32 parts[MaskParts];
+            u32 borders[MaskBorderParts];
 
-            // mask sets its longhands; an invalid one is dropped whole.
+            // mask sets its longhands, and mask-border's to their initial
+            // values, as CSS Masking has it; mask-border its own. An
+            // invalid one is dropped whole.
             if (property == AtomMask) {
                 if (expandMask(doc, value, parts)) {
                     for (u32 k = 0; k < MaskParts; k++) {
                         out.pushBack(Declaration{AtomMaskImage + k, parts[k], important});
+                    }
+
+                    for (u32 k = 0; k < MaskBorderParts; k++) {
+                        out.pushBack(Declaration{AtomMaskBorderSource + k, intern(doc.atoms, SV("initial")), important});
+                    }
+                }
+
+                continue;
+            }
+
+            if (property == AtomMaskBorder) {
+                if (expandMaskBorder(doc, value, borders)) {
+                    for (u32 k = 0; k < MaskBorderParts; k++) {
+                        out.pushBack(Declaration{AtomMaskBorderSource + k, borders[k], important});
                     }
                 }
 
@@ -5722,6 +5949,7 @@ namespace {
         PaintValue paint;
         Color color;
         Length length;
+        MaskBorder border;
 
         if (equalsIgnoreCase(text, SV("inherit")) || equalsIgnoreCase(text, SV("initial")) || equalsIgnoreCase(text, SV("unset"))) {
             return true;
@@ -5751,6 +5979,13 @@ namespace {
             case AtomMaskSize:
             case AtomMaskComposite:
                 return maskListValid(property - AtomMaskImage, text);
+            case AtomMaskBorderSource:
+            case AtomMaskBorderMode:
+            case AtomMaskBorderSlice:
+            case AtomMaskBorderWidth:
+            case AtomMaskBorderOutset:
+            case AtomMaskBorderRepeat:
+                return maskBorderPartOf(property - AtomMaskBorderSource, text, border);
             default:
                 return true;
         }
@@ -5776,7 +6011,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskComposite)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
@@ -9458,6 +9693,7 @@ namespace {
         style.outlineWidth = 0.f;
         style.zoom = 1.f;
         memset(style.maskParts, 0, sizeof(style.maskParts));
+        memset(style.maskBorder, 0, sizeof(style.maskBorder));
         style.maskType = 0;
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
         style.floodOpacity = 1.f;
@@ -9478,7 +9714,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskComposite) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -9516,7 +9752,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskComposite) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -9782,6 +10018,14 @@ namespace {
                 case AtomMaskSize:
                 case AtomMaskComposite:
                     style.maskParts[property - AtomMaskImage] = keyword ? source.maskParts[property - AtomMaskImage] : atom;
+                    break;
+                case AtomMaskBorderSource:
+                case AtomMaskBorderMode:
+                case AtomMaskBorderSlice:
+                case AtomMaskBorderWidth:
+                case AtomMaskBorderOutset:
+                case AtomMaskBorderRepeat:
+                    style.maskBorder[property - AtomMaskBorderSource] = keyword ? source.maskBorder[property - AtomMaskBorderSource] : atom;
                     break;
                 case AtomPaintOrder: {
                     if (keyword) {
@@ -12459,7 +12703,25 @@ namespace {
 
     static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering);
     static bool explicitSide(const Document& doc, const Node* root, u32 name);
-    static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps);
+    static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps, const Box& part);
+
+    // An image's own size and ratio, none for a side or a ratio it has
+    // not: a document's size is the sides it gives, the rest its ratio's,
+    // as CSS Images sizes an SVG image.
+    static void imageNatural(const ImageSource& image, float (&natural)[2], float& ratio) {
+        float vw = image.viewBox.x1 - image.viewBox.x0;
+        float vh = image.viewBox.y1 - image.viewBox.y0;
+
+        natural[0] = !image.nested || explicitSide(*image.nested, image.nested->root, AtomWidth) ? image.width : 0.f;
+        natural[1] = !image.nested || explicitSide(*image.nested, image.nested->root, AtomHeight) ? image.height : 0.f;
+        ratio = natural[0] > 0.f && natural[1] > 0.f ? natural[0] / natural[1] : (vw > 0.f && vh > 0.f ? vw / vh : 0.f);
+
+        if (ratio > 0.f && natural[0] > 0.f) {
+            natural[1] = natural[0] / ratio;
+        } else if (ratio > 0.f && natural[1] > 0.f) {
+            natural[0] = natural[1] * ratio;
+        }
+    }
 
     // A mask layer of an image, a gradient or the one given: its image
     // sized in the positioning area as mask-size has it, placed by
@@ -12471,8 +12733,7 @@ namespace {
         CssGradient gradient;
         Box fill;
         float fs = style.fontSize;
-        // The image's own size and ratio, none a gradient's; a document's
-        // side it leaves open but its ratio gives is the ratio's.
+        // The image's own size and ratio, none a gradient's.
         float natural[2] = {0.f, 0.f};
         float ratio = 0.f;
 
@@ -12482,20 +12743,7 @@ namespace {
         out.region = (u32)l.clips.length();
 
         if (image) {
-            float vw = image->viewBox.x1 - image->viewBox.x0;
-            float vh = image->viewBox.y1 - image->viewBox.y0;
-
-            // A document's own size is the sides it gives, the rest its
-            // ratio's, as CSS Images sizes an SVG image.
-            natural[0] = !image->nested || explicitSide(*image->nested, image->nested->root, AtomWidth) ? image->width : 0.f;
-            natural[1] = !image->nested || explicitSide(*image->nested, image->nested->root, AtomHeight) ? image->height : 0.f;
-            ratio = natural[0] > 0.f && natural[1] > 0.f ? natural[0] / natural[1] : (vw > 0.f && vh > 0.f ? vw / vh : 0.f);
-
-            if (ratio > 0.f && natural[0] > 0.f) {
-                natural[1] = natural[0] / ratio;
-            } else if (ratio > 0.f && natural[1] > 0.f) {
-                natural[0] = natural[1] * ratio;
-            }
+            imageNatural(*image, natural, ratio);
         } else {
             // The cascade took the image whole.
             parseCssGradient(layer.image, style.color, gradient);
@@ -12616,7 +12864,7 @@ namespace {
             // sides, which blends each tile's edge with the next one's, as
             // browsers draw it; along an axis one tile spans, as Chromium
             // does, not.
-            fillBox(l, strip, m, rasterPaint(l, image->cached, multiply(space, scaling(size[0] / image->width, size[1] / image->height)), style.imageRendering, true, (u8)(across | down << 1)));
+            fillBox(l, strip, m, rasterPaint(l, image->cached, multiply(space, scaling(size[0] / image->width, size[1] / image->height)), style.imageRendering, true, (u8)(across | down << 1), Box{0.f, 0.f, image->width, image->height}));
         } else {
             fillBox(l, strip, m, tilePaint(l, space, size[0] + gap[0], size[1] + gap[1], draw));
         }
@@ -12628,6 +12876,195 @@ namespace {
         // A document drawn adds clips of its own first.
         out.region = (u32)l.clips.length();
         addRectClip(l, m, painted.x0, painted.y0, painted.x1 - painted.x0, painted.y1 - painted.y0);
+    }
+
+    // The layer of a mask border, as CSS Backgrounds draws a border image:
+    // the image at its own size, or the area's, cut by the slices into nine
+    // parts, each scaled into its region of the border image area, the
+    // stroke box past the outsets. A width of auto is its slice's for an
+    // image of a size of its own, else the border's, and a number a
+    // multiple of the border's, which SVG has none of; widths wider than
+    // the area shrink together. A corner fills its region, an edge is as
+    // wide as the border and as long as its scale makes it, the middle as
+    // the top's or bottom's scale across and the left's or right's down
+    // make it, then each tiled along as the repeats say, centred for
+    // repeat, spread apart with spaces around for space. The middle
+    // without fill is opaque white.
+    static void borderMaskLayer(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const MaskBorder& border, const ImageSource* image, const Matrix& m, Viewport vp, MaskLayerOp& out) {
+        CssGradient gradient;
+        Box fill;
+        float fs = style.fontSize;
+        float natural[2] = {0.f, 0.f};
+        float ratio = 0.f;
+
+        out.type = border.mode;
+        out.first = (u32)l.programs.length();
+        out.count = 0;
+        out.region = (u32)l.clips.length();
+
+        if (image) {
+            imageNatural(*image, natural, ratio);
+        } else {
+            parseCssGradient(border.image.image, style.color, gradient);
+        }
+
+        if (!elementBox(l, element, parent, vp, fill, 0)) {
+            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+
+            return;
+        }
+
+        Box box = strokeBox(fill, style, element, 0.5f);
+        float outset[4];
+
+        for (int k = 0; k < 4; k++) {
+            outset[k] = border.outset[k].unit == Unit::Number ? 0.f : resolveLength(border.outset[k], Axis::Other, vp, fs);
+        }
+
+        Box area{box.x0 - outset[3], box.y0 - outset[0], box.x1 + outset[1], box.y1 + outset[2]};
+        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
+        float size[2];
+
+        for (int axis = 0; axis < 2; axis++) {
+            size[axis] = natural[axis] > 0.f ? natural[axis] : span[axis];
+        }
+
+        // An image of a ratio alone fits inside the area.
+        if (ratio > 0.f && !(natural[0] > 0.f)) {
+            size[0] = minf(span[0], span[1] * ratio);
+            size[1] = size[0] / ratio;
+        }
+
+        // By side: the slice, the image's at most, and the width; a top or
+        // bottom one measures down, a left or right one across.
+        float slice[4];
+        float width[4];
+
+        for (int k = 0; k < 4; k++) {
+            int axis = k % 2 ? 0 : 1;
+            const Length& at = border.slice[k];
+            const Length& given = border.width[k];
+
+            slice[k] = minf(at.unit == Unit::Percent ? size[axis] * at.value / 100.f : at.value, size[axis]);
+            width[k] = (border.autos >> k) & 1 ? (natural[axis] > 0.f ? slice[k] : 0.f) : (given.unit == Unit::Number ? 0.f : (given.unit == Unit::Percent ? span[axis] * given.value / 100.f : resolveLength(given, Axis::Other, vp, fs)));
+        }
+
+        float shrink = minf(1.f, minf(span[0] / maxf(width[1] + width[3], 1e-30f), span[1] / maxf(width[0] + width[2], 1e-30f)));
+
+        for (float& w : width) {
+            w *= shrink;
+        }
+
+        // The regions' and the parts' edges, and the edges' scales.
+        float dx[4] = {area.x0, area.x0 + width[3], area.x1 - width[1], area.x1};
+        float dy[4] = {area.y0, area.y0 + width[0], area.y1 - width[2], area.y1};
+        float sx[4] = {0.f, slice[3], size[0] - slice[1], size[0]};
+        float sy[4] = {0.f, slice[0], size[1] - slice[2], size[1]};
+        float scale[4];
+
+        for (int k = 0; k < 4; k++) {
+            scale[k] = width[k] / slice[k];
+        }
+
+        auto usable = [](float k) {
+            return k > 0.f && k < 1e30f;
+        };
+        // A part of the image scaled onto a tile of w by h the matrix
+        // places.
+        auto drawPart = [&](const Matrix& at, const Box& part, float w, float h) {
+            Matrix space = multiply(at, multiply(scaling(w / (part.x1 - part.x0), h / (part.y1 - part.y0)), translation(-part.x0, -part.y0)));
+
+            if (!image) {
+                fillBox(l, part, space, cssGradientPaint(l, gradient, size[0], size[1], space, vp, fs));
+            } else if (image->cached) {
+                float sx = image->width / size[0];
+                float sy = image->height / size[1];
+
+                fillBox(l, part, space, rasterPaint(l, image->cached, multiply(space, scaling(1.f / sx, 1.f / sy)), style.imageRendering, true, 0, Box{part.x0 * sx, part.y0 * sy, part.x1 * sx, part.y1 * sy}));
+            } else {
+                Op op = groupOp(1.f);
+                u32 index = (u32)l.out->length();
+
+                op.clipped = true;
+                op.clipFirst = (u32)l.clips.length();
+                op.clipCount = 1;
+                addRectClip(l, space, part.x0, part.y0, part.x1 - part.x0, part.y1 - part.y0);
+                l.out->pushBack(op);
+                drawImage(l, nullptr, *image, space, vp, 0.f, 0.f, size[0], size[1], style.imageRendering);
+                endGroup(l, index);
+            }
+        };
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+
+        l.out = &program;
+
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                Box region{dx[c], dy[r], dx[c + 1], dy[r + 1]};
+                Box part{sx[c], sy[r], sx[c + 1], sy[r + 1]};
+                float length[2] = {region.x1 - region.x0, region.y1 - region.y0};
+
+                if (!(length[0] > 0.f) || !(length[1] > 0.f)) {
+                    continue;
+                }
+
+                if (r == 1 && c == 1 && !border.fill) {
+                    fillBox(l, region, m, solidPaint(l, Color{1.f, 1.f, 1.f, 1.f}, 1.f));
+                    continue;
+                }
+
+                // A part past the slices across is empty.
+                if (!(part.x1 > part.x0) || !(part.y1 > part.y0)) {
+                    continue;
+                }
+
+                float across = c != 1 ? length[0] : (part.x1 - part.x0) * (r != 1 ? scale[r] : (usable(scale[0]) ? scale[0] : (usable(scale[2]) ? scale[2] : 1.f)));
+                float down = r != 1 ? length[1] : (part.y1 - part.y0) * (c != 1 ? scale[3 - c] : (usable(scale[3]) ? scale[3] : (usable(scale[1]) ? scale[1] : 1.f)));
+                float tile[2] = {across, down};
+                float start[2] = {region.x0, region.y0};
+                float gap[2] = {0.f, 0.f};
+                u8 repeat[2] = {c == 1 ? border.repeat[0] : (u8)0, r == 1 ? border.repeat[1] : (u8)0};
+                bool empty = false;
+
+                for (int axis = 0; axis < 2; axis++) {
+                    float count = floorf(length[axis] / tile[axis]);
+
+                    if (repeat[axis] == 0) {
+                        tile[axis] = length[axis];
+                    } else if (repeat[axis] == 1) {
+                        start[axis] += (length[axis] - tile[axis]) / 2.f;
+                    } else if (repeat[axis] == 2) {
+                        tile[axis] = length[axis] / maxf(1.f, roundf(length[axis] / tile[axis]));
+                    } else if (count >= 1.f) {
+                        gap[axis] = (length[axis] - count * tile[axis]) / (count + 1.f);
+                        start[axis] += gap[axis];
+                    } else {
+                        empty = true;
+                    }
+                }
+
+                if (empty) {
+                    continue;
+                }
+
+                // A tile its region's size is drawn alone.
+                if (tile[0] == length[0] && tile[1] == length[1]) {
+                    drawPart(multiply(m, translation(region.x0, region.y0)), part, tile[0], tile[1]);
+                } else {
+                    fillBox(l, region, m, tilePaint(l, multiply(m, translation(start[0], start[1])), tile[0] + gap[0], tile[1] + gap[1], [&](const Matrix& at) {
+                        drawPart(at, part, tile[0], tile[1]);
+                    }));
+                }
+            }
+        }
+
+        l.out = saved;
+        out.first = (u32)l.programs.length();
+        out.count = (u32)program.length();
+        l.programs.append(program.data(), program.length());
+        out.region = (u32)l.clips.length();
+        addRectClip(l, m, area.x0, area.y0, span[0], span[1]);
     }
 
     const char* const maskInitials[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
@@ -12677,10 +13114,11 @@ namespace {
 
         maskLayersOf(doc, style, layers);
 
-        MaskLayerOp* ops = (MaskLayerOp*)l.pool->allocate(sizeof(MaskLayerOp) * layers.length());
+        // The border's layer goes first, over the others.
+        MaskLayerOp* ops = (MaskLayerOp*)l.pool->allocate(sizeof(MaskLayerOp) * (layers.length() + 1));
 
         for (const MaskLayer& layer : layers) {
-            MaskLayerOp& out = ops[count];
+            MaskLayerOp& out = ops[1 + count];
             Node* mask = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, layer.url)) : nullptr;
             ImageSource image;
 
@@ -12710,9 +13148,27 @@ namespace {
             count++;
         }
 
+        // With no layer that masks, the border masks alone, after the
+        // layers, as CSS Masking has it: intersecting them.
+        MaskBorder border;
+        ImageSource image;
+
+        for (u32 k = 0; k < MaskBorderParts; k++) {
+            maskBorderPartOf(k, style.maskBorder[k] ? textOf(doc, style.maskBorder[k]) : StringView(maskBorderInitials[k]), border);
+        }
+
+        count = any ? count : 0;
         op.masked = any;
-        op.maskLayers = ops;
+        op.maskLayers = ops + 1;
         op.maskLayerCount = count;
+
+        if (border.image.source == MaskSource::Gradient || (border.image.source == MaskSource::Image && loadImageFrom(l, border.image.url.data(), border.image.url, image))) {
+            borderMaskLayer(l, element, parent, style, border, border.image.source == MaskSource::Image ? &image : nullptr, m, vp, ops[0]);
+            ops[0].composite = 2;
+            op.masked = true;
+            op.maskLayers = ops;
+            op.maskLayerCount = count + 1;
+        }
     }
 
     static bool filterPrimitive(u32 name) {
@@ -14313,8 +14769,8 @@ namespace {
 
     // The paint of a raster under the matrix that takes its pixels to the
     // device: of a CSS image, sampled so and round the sides wraps names;
-    // null for a matrix of no inverse.
-    static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps) {
+    // reading the part's pixels alone; null for a matrix of no inverse.
+    static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps, const Box& part) {
         DevicePaint* paint = l.pool->make<DevicePaint>();
         Matrix inverse;
 
@@ -14358,6 +14814,7 @@ namespace {
         cached->paintsLeft++;
 
         paint->inverse = multiply(scaling(ldexpf(1.f, -(int)kx), ldexpf(1.f, -(int)ky)), inverse);
+        paint->texels = IntBox{(int)floorf(ldexpf(part.x0, -(int)kx)), (int)floorf(ldexpf(part.y0, -(int)ky)), (int)ceilf(ldexpf(part.x1, -(int)kx)), (int)ceilf(ldexpf(part.y1, -(int)ky))};
 
         return paint;
     }
@@ -14386,7 +14843,7 @@ namespace {
         CachedImage* cached = source.cached;
 
         if (cached) {
-            DevicePaint* paint = rasterPaint(l, cached, place, rendering, !node, 0);
+            DevicePaint* paint = rasterPaint(l, cached, place, rendering, !node, 0, Box{0.f, 0.f, source.width, source.height});
 
             if (!paint) {
                 return;
@@ -15197,7 +15654,7 @@ namespace {
             op.clipped = true;
         }
 
-        if (style.maskParts[MaskPartImage]) {
+        if (style.maskParts[MaskPartImage] || style.maskBorder[MaskBorderPartSource]) {
             resolveMask(l, node, parent, style, m, vp, op);
         }
 
@@ -15812,9 +16269,10 @@ namespace {
         }
     }
 
-    // A texel's column or row of n: clamped to the image, or round it.
-    static int texel(int v, u32 n, bool wrap) {
-        return wrap ? floorMod(v, (int)n) : (v < 0 ? 0 : (v >= (int)n ? (int)n - 1 : v));
+    // A texel's column or row among those from lo to hi: clamped to them,
+    // or round them.
+    static int texel(int v, int lo, int hi, bool wrap) {
+        return wrap ? lo + floorMod(v - lo, hi - lo) : (v < lo ? lo : (v >= hi ? hi - 1 : v));
     }
 
     // The paint at x, y stored premultiplied; false where it has none.
@@ -15882,8 +16340,8 @@ namespace {
         if (paint.type == PaintType::Image) {
             // The nearest texel: a byte b is b * 257 stored.
             if (!paint.smooth) {
-                int x = texel((int)floorf(p.x), paint.imageWidth, paint.wraps & 1);
-                int y = texel((int)floorf(p.y), paint.imageHeight, paint.wraps & 2);
+                int x = texel((int)floorf(p.x), paint.texels.x0, paint.texels.x1, paint.wraps & 1);
+                int y = texel((int)floorf(p.y), paint.texels.y0, paint.texels.y1, paint.wraps & 2);
                 const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
                 u32 a = t[3] * 257u;
 
@@ -15905,8 +16363,8 @@ namespace {
                 u16 c[4][4];
 
                 for (int k = 0; k < 4; k++) {
-                    int x = texel((int)x0 + (k & 1), paint.imageWidth, paint.wraps & 1);
-                    int y = texel((int)y0 + (k >> 1), paint.imageHeight, paint.wraps & 2);
+                    int x = texel((int)x0 + (k & 1), paint.texels.x0, paint.texels.x1, paint.wraps & 1);
+                    int y = texel((int)y0 + (k >> 1), paint.texels.y0, paint.texels.y1, paint.wraps & 2);
                     const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
                     u32 a = t[3] * 257u;
 
