@@ -6221,19 +6221,26 @@ namespace {
         float tol;
     };
 
-    static void addJoin(Flat& out, const StrokeParams& s, Point p, Point d0, Point d1) {
+    // The inner points of an arc about c from the angle from through sweep.
+    static void addArcPoints(Vector<Point>& out, Point c, float radius, float from, float sweep, float tol) {
+        int n = arcSegments(sweep, radius, tol);
+
+        for (int i = 1; i < n; i++) {
+            float a = from + sweep * i / n;
+
+            out.pushBack(Point{c.x + radius * cosf(a), c.y + radius * sinf(a)});
+        }
+    }
+
+    // The points of the join of a turn at p from d0 to d1 on its outer side,
+    // between the ends of the two offset edges there: an arc, a miter's tip
+    // or, for a bevel, none.
+    static void addJoin(Vector<Point>& out, const StrokeParams& s, Point p, Point d0, Point d1) {
         float cross = d0.x * d1.y - d0.y * d1.x;
         float dot = d0.x * d1.x + d0.y * d1.y;
-
-        if (fabsf(cross) < 1e-6f && dot > 0.f) {
-            return;
-        }
-
         float side = cross > 0.f ? -1.f : 1.f;
         Point n0{-d0.y * side, d0.x * side};
         Point n1{-d1.y * side, d1.x * side};
-        Point a{p.x + n0.x * s.half, p.y + n0.y * s.half};
-        Point b{p.x + n1.x * s.half, p.y + n1.y * s.half};
 
         if (s.join == JoinRound) {
             float from = atan2f(n0.y, n0.x);
@@ -6256,7 +6263,7 @@ namespace {
                 sweep -= 2.f * pi;
             }
 
-            addFan(out, p, s.half, from, sweep, s.tol);
+            addArcPoints(out, p, s.half, from, sweep, s.tol);
 
             return;
         }
@@ -6269,37 +6276,40 @@ namespace {
                 Point m{n0.x + n1.x, n0.y + n1.y};
                 float length = sqrtf(m.x * m.x + m.y * m.y);
                 float reach = s.half / cosHalf;
-                Point tip{p.x + m.x / length * reach, p.y + m.y / length * reach};
-                Point quad[4] = {p, a, tip, b};
 
-                addPolygon(out, quad, 4);
-
-                return;
+                out.pushBack(Point{p.x + m.x / length * reach, p.y + m.y / length * reach});
             }
         }
-
-        Point triangle[3] = {p, a, b};
-
-        addPolygon(out, triangle, 3);
     }
 
-    static void addCap(Flat& out, const StrokeParams& s, Point p, Point d) {
+    // The points of the cap at the end p of a stroke going d, from its left
+    // offset round to its right one.
+    static void addCapPoints(Vector<Point>& out, const StrokeParams& s, Point p, Point d) {
         Point n{-d.y, d.x};
 
         if (s.cap == CapSquare) {
-            Point quad[4] = {
-                Point{p.x + n.x * s.half, p.y + n.y * s.half},
-                Point{p.x + n.x * s.half + d.x * s.half, p.y + n.y * s.half + d.y * s.half},
-                Point{p.x - n.x * s.half + d.x * s.half, p.y - n.y * s.half + d.y * s.half},
-                Point{p.x - n.x * s.half, p.y - n.y * s.half},
-            };
-
-            addPolygon(out, quad, 4);
+            out.pushBack(Point{p.x + n.x * s.half + d.x * s.half, p.y + n.y * s.half + d.y * s.half});
+            out.pushBack(Point{p.x - n.x * s.half + d.x * s.half, p.y - n.y * s.half + d.y * s.half});
         } else if (s.cap == CapRound) {
-            addFan(out, p, s.half, atan2f(n.y, n.x), -pi, s.tol);
+            addArcPoints(out, p, s.half, atan2f(n.y, n.x), -pi, s.tol);
         }
     }
 
+    static void addOutline(Flat& out, const Vector<Point>& points) {
+        out.points.append(points.data(), points.length());
+        out.ends.pushBack((u32)out.points.length());
+        out.closed.pushBack(1);
+    }
+
+    // The outline of a stroke of a polyline: its left side along the points,
+    // the cap at the end, its right side back and the cap at the start; a
+    // closed one has each side a loop. At a turn the outer side takes the
+    // join between its two offset edges; the inner side takes the point
+    // where its two offset edges cross, when that lies on both, else it runs
+    // in to the turn's point and out again. The outline's winding is then
+    // the count of the segments' quads, joins and caps over a point less
+    // the inner corners where two quads overlap, at least one inside their
+    // union and none outside: the nonzero rule fills exactly the union.
     static void strokePolyline(Flat& out, const StrokeParams& s, const Point* points, size_t count, bool closed) {
         Vector<Point> pts;
 
@@ -6330,6 +6340,7 @@ namespace {
         size_t n = pts.length();
         size_t segments = closed ? n : n - 1;
         Vector<Point> dirs;
+        Vector<float> lengths;
 
         for (size_t i = 0; i < segments; i++) {
             Point a = pts[i];
@@ -6339,28 +6350,106 @@ namespace {
             float length = (float)sqrt((double)dx * dx + (double)dy * dy);
 
             dirs.pushBack(Point{dx / length, dy / length});
-
-            Point normal{-dy / length * s.half, dx / length * s.half};
-            Point quad[4] = {
-                Point{a.x + normal.x, a.y + normal.y},
-                Point{b.x + normal.x, b.y + normal.y},
-                Point{b.x - normal.x, b.y - normal.y},
-                Point{a.x - normal.x, a.y - normal.y},
-            };
-
-            addPolygon(out, quad, 4);
+            lengths.pushBack(length);
         }
 
-        for (size_t i = 1; i < segments; i++) {
-            addJoin(out, s, pts[i], dirs[i - 1], dirs[i]);
+        // Each side of the stroke, the left one along the points and the
+        // right one along them too, then reversed.
+        Vector<Point> sides[2];
+
+        auto offset = [&](Point p, Point d, float side) {
+            return Point{p.x - d.y * s.half * side, p.y + d.x * s.half * side};
+        };
+
+        auto turn = [&](size_t k, size_t in, size_t out) {
+            Point p = pts[k];
+            Point d0 = dirs[in];
+            Point d1 = dirs[out];
+            float cross = d0.x * d1.y - d0.y * d1.x;
+            float dot = d0.x * d1.x + d0.y * d1.y;
+            // The right side is outer where the turn is to the left.
+            int outer = cross > 0.f ? 1 : 0;
+            int inner = 1 - outer;
+
+            for (int i = 0; i < 2; i++) {
+                sides[i].pushBack(offset(p, d0, i ? -1.f : 1.f));
+            }
+
+            if (fabsf(cross) < 1e-6f && dot > 0.f) {
+                for (int i = 0; i < 2; i++) {
+                    sides[i].pushBack(offset(p, d1, i ? -1.f : 1.f));
+                }
+
+                return;
+            }
+
+            addJoin(sides[outer], s, p, d0, d1);
+            sides[outer].pushBack(offset(p, d1, outer ? -1.f : 1.f));
+
+            // The inner offset edges cross where each is cut back by half
+            // tan(turn / 2); past either one's length the side runs through
+            // the point instead.
+            float back = 1.f + dot > 1e-6f ? s.half * fabsf(cross) / (1.f + dot) : lengths[in] + 1.f;
+
+            if (back <= lengths[in] && back <= lengths[out]) {
+                Point q = sides[inner].back();
+
+                sides[inner].mut(sides[inner].length() - 1) = Point{q.x - d0.x * back, q.y - d0.y * back};
+
+                return;
+            }
+
+            sides[inner].pushBack(p);
+            sides[inner].pushBack(offset(p, d1, inner ? -1.f : 1.f));
+        };
+
+        // Turns at the inner points, and for a closed polyline at its first.
+        for (size_t k = closed ? 0 : 1; k < (closed ? n : n - 1); k++) {
+            turn(k, k == 0 ? segments - 1 : k - 1, k);
         }
+
+        Vector<Point> outline;
 
         if (closed) {
-            addJoin(out, s, pts[0], dirs[segments - 1], dirs[0]);
-        } else {
-            addCap(out, s, pts[0], Point{-dirs[0].x, -dirs[0].y});
-            addCap(out, s, pts[n - 1], dirs[segments - 1]);
+            for (int i = 0; i < 2; i++) {
+                outline.clear();
+
+                for (size_t k = 0; k < sides[i].length(); k++) {
+                    outline.pushBack(sides[i][i ? k : sides[i].length() - 1 - k]);
+                }
+
+                addOutline(out, outline);
+            }
+
+            return;
         }
+
+        // An open one: the left side, the cap at the end, the right side
+        // back and the cap at the start, the whole reversed.
+        Point d0 = dirs[0];
+        Point d1 = dirs[segments - 1];
+
+        outline.pushBack(offset(pts[0], d0, 1.f));
+        outline.append(sides[0].data(), sides[0].length());
+        outline.pushBack(offset(pts[n - 1], d1, 1.f));
+        addCapPoints(outline, s, pts[n - 1], d1);
+        outline.pushBack(offset(pts[n - 1], d1, -1.f));
+
+        for (size_t k = sides[1].length(); k > 0; k--) {
+            outline.pushBack(sides[1][k - 1]);
+        }
+
+        outline.pushBack(offset(pts[0], d0, -1.f));
+        addCapPoints(outline, s, pts[0], Point{-d0.x, -d0.y});
+
+        for (size_t k = 0; k < outline.length() / 2; k++) {
+            Point t = outline[k];
+
+            outline.mut(k) = outline[outline.length() - 1 - k];
+            outline.mut(outline.length() - 1 - k) = t;
+        }
+
+        addOutline(out, outline);
     }
 
     // Whether a stroke of these points, grown by the reach of its joins and
@@ -6531,6 +6620,16 @@ namespace {
         StrokeParams s{style.strokeWidth / 2.f, style.cap, style.join, style.miterLimit, tolerance / maxf(scale, 1e-6f)};
 
         flatten(path, identity(), s.tol, maxf(s.tol / s.half, 1.f / 1024.f), flat);
+
+        // A path past the finite numbers has no stroke, as browsers draw it:
+        // the sum of a point's coordinates less itself is then no zero.
+        for (const Point& p : flat.points) {
+            float sum = p.x + p.y;
+
+            if (!(sum - sum == 0.f)) {
+                return;
+            }
+        }
 
         u32 begin = 0;
 
