@@ -7267,13 +7267,14 @@ namespace {
 
     static Matrix transformOf(const Document& doc, const Node* node, u32 name) {
         u32 value = attribute(node, name);
-        Matrix m;
+        Matrix m = identity();
 
-        if (value && parseTransform(textOf(doc, value), m, TransformGrammar::Either)) {
-            return m;
+        // The parse and the cascade took a transform whole.
+        if (value) {
+            parseTransform(textOf(doc, value), m, TransformGrammar::Either);
         }
 
-        return identity();
+        return m;
     }
 
     static bool parseViewBox(const Document& doc, const Node* node, Box& out) {
@@ -10691,7 +10692,9 @@ namespace {
         u32 transform = patternAttribute(doc, pattern, AtomPatternTransform, nullptr);
         Matrix local;
 
-        if (transform && parseTransform(textOf(doc, transform), local, TransformGrammar::Either)) {
+        if (transform) {
+            parseTransform(textOf(doc, transform), local, TransformGrammar::Either);
+
             if (u32 origin = attribute(pattern, AtomTransformOrigin)) {
                 Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
 
@@ -10922,15 +10925,15 @@ namespace {
         if (transform) {
             Matrix m;
 
-            if (parseTransform(textOf(doc, transform), m, TransformGrammar::Either)) {
-                if (u32 origin = attribute(gradient, AtomTransformOrigin)) {
-                    Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
+            parseTransform(textOf(doc, transform), m, TransformGrammar::Either);
 
-                    m = multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
-                }
+            if (u32 origin = attribute(gradient, AtomTransformOrigin)) {
+                Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
 
-                gradientMatrix = m;
+                m = multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
             }
+
+            gradientMatrix = m;
         }
 
         if (boxUnits) {
@@ -11031,10 +11034,14 @@ namespace {
 
     static bool singularTransform(const Document& doc, Node* server) {
         u32 value = server->name == AtomPattern ? patternAttribute(doc, server, AtomPatternTransform, nullptr) : gradientAttribute(doc, server, AtomGradientTransform);
-        Matrix m;
+        Matrix m = identity();
         Matrix inverse;
 
-        return value && parseTransform(textOf(doc, value), m, TransformGrammar::Either) && !invert(m, inverse);
+        if (value) {
+            parseTransform(textOf(doc, value), m, TransformGrammar::Either);
+        }
+
+        return !invert(m, inverse);
     }
 
     static u32 meshAttribute(const Document& doc, Node* mesh, u32 name) {
@@ -15087,9 +15094,11 @@ namespace {
         Matrix m;
         Point o;
 
-        if (!value || !parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either)) {
+        if (!value) {
             return identity();
         }
+
+        parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either);
 
         if (!transformAnchor(l, node, parent, vp, o)) {
             return m;
@@ -15105,7 +15114,13 @@ namespace {
         Matrix m;
         Point o;
 
-        if (!value || !parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either, &out) || !out.on) {
+        if (!value) {
+            return false;
+        }
+
+        parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either, &out);
+
+        if (!out.on) {
             return false;
         }
 
