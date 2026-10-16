@@ -17,6 +17,7 @@ rect[data-a="/*"] { fill: green }
 .j { fill: var(--x, red }
 .k { -webkit-clip-path: circle(2px) }
 .l { fill: "quoted;value" }
+.o { fill: var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, var(--a, red)))))))))))))))))))))))))))))))))))))))) }
 -->]]></style>
 <style type="">.m { fill: lime }</style>
 <style type="text/foo">.m { fill: red }</style>
@@ -36,4 +37,5 @@ rect[data-a="/*"] { fill: green }
 <rect x="0" y="8" width="4" height="8" class="l" fill="black"/>
 <rect x="4" y="8" width="4" height="8" class="m"/>
 <rect x="8" y="8" width="4" height="8" class="n"/>
+<rect x="12" y="8" width="4" height="8" class="o" fill="black"/>
 </svg>
