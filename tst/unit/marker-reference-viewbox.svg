@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<marker id="a" viewBox="0 0 20 12" markerWidth="10" markerHeight="6" refX="center" refY="bottom" markerUnits="userSpaceOnUse"><rect width="20" height="12" fill="teal"/></marker>
+<marker id="b" viewBox="0 0 20 12" markerWidth="10" markerHeight="6" refX="right" refY="center" markerUnits="userSpaceOnUse"><rect width="20" height="12" fill="crimson"/></marker>
+<marker id="c" markerWidth="10" markerHeight="6" refX="middle" refY="left" markerUnits="userSpaceOnUse"><rect width="10" height="6" fill="navy"/></marker>
+</defs>
+<path d="M10 12 H54" stroke="silver" marker-start="url(#a)" marker-end="url(#a)"/>
+<path d="M10 32 H54" stroke="silver" marker-start="url(#b)" marker-end="url(#b)"/>
+<path d="M10 52 H54" stroke="silver" marker-start="url(#c)" marker-end="url(#c)"/>
+</svg>
