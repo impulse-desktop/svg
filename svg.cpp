@@ -994,6 +994,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(Points, "points")                                         \
     ATOM(D, "d")                                                   \
     ATOM(PathLength, "pathLength")                                 \
+    ATOM(PathLengthProperty, "path-length")                        \
     ATOM(Transform, "transform")                                   \
     ATOM(ViewBox, "viewBox")                                       \
     ATOM(View, "view")                                             \
@@ -3032,6 +3033,7 @@ namespace {
     // An element and its content. Text is its parent's text, which an
     // xi:include of text or an xi:fallback adds to.
     static bool parseTransform(StringView text, Matrix& out, bool css);
+    static bool parseNumberText(StringView text, float& out);
 
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
         if (depth > maxDepth) {
@@ -3200,10 +3202,16 @@ namespace {
 
                 // A transform attribute takes SVG's grammar: CSS's functions
                 // and units only a declaration takes. One past it is as if
-                // it were not there, as CSS Transforms 1 defines it.
+                // it were not there, as CSS Transforms 1 defines it. So is
+                // a pathLength but a number of px.
                 Matrix parsed;
+                float number;
 
                 if ((atom == AtomTransform || atom == AtomGradientTransform || atom == AtomPatternTransform) && !parseTransform(textOf(*xml.doc, value), parsed, false)) {
+                    continue;
+                }
+
+                if (atom == AtomPathLength && !parseNumberText(textOf(*xml.doc, value), number)) {
                     continue;
                 }
 
@@ -3834,11 +3842,14 @@ namespace {
             case AtomTransform:
             case AtomTransformOrigin:
             case AtomTransformBox:
+            case AtomPathLengthProperty:
                 return true;
             default:
                 return false;
         }
     }
+
+    static bool isShape(u32 name);
 
     static bool geometryApplies(u32 element, u32 property) {
         switch (property) {
@@ -3857,6 +3868,8 @@ namespace {
                 return element == AtomRect || element == AtomEllipse;
             case AtomD:
                 return element == AtomPath;
+            case AtomPathLengthProperty:
+                return isShape(element);
             default:
                 return true;
         }
@@ -4516,6 +4529,8 @@ namespace {
                     property = AtomGradientTransform;
                 } else if (property == AtomTransform && node->name == AtomPattern) {
                     property = AtomPatternTransform;
+                } else if (property == AtomPathLengthProperty) {
+                    property = AtomPathLength;
                 }
 
                 setAttribute(doc, node, property, declaration.value);
@@ -5399,6 +5414,8 @@ namespace {
             }
             case AtomTransform:
                 return parseTransform(value, m, true);
+            case AtomPathLengthProperty:
+                return equalsIgnoreCase(value, SV("none")) || (parseLength(value, length) && length.unit != Unit::Percent && length.value >= 0.f);
             case AtomTransformOrigin: {
                 const u8* p = value.begin();
                 float x;
@@ -11084,14 +11101,18 @@ namespace {
         return total;
     }
 
-    static ComputedStyle authorDashes(Lowering& l, const Node* node, const Flat& userFlat, const ComputedStyle& style) {
+    // The path-length property, whose attribute pathLength is a number of
+    // px, scales the dashes to the path's own length; none scales nothing.
+    static ComputedStyle authorDashes(Lowering& l, const Node* node, const Flat& userFlat, const ComputedStyle& style, Viewport vp) {
         ComputedStyle dashed = style;
         u32 value = attribute(node, AtomPathLength);
-        float author;
+        Length length;
 
-        if (!style.dashCount || !value || !parseNumberText(textOf(*l.doc, value), author) || author < 0.f) {
+        if (!style.dashCount || !value || !parseLength(textOf(*l.doc, value), length) || length.value < 0.f) {
             return dashed;
         }
+
+        float author = resolveLength(length, Axis::Other, vp, style.fontSize);
 
         float total = flatLength(userFlat);
 
@@ -11139,7 +11160,7 @@ namespace {
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
                 if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
-                    ComputedStyle dashed = authorDashes(l, node, userFlat, style);
+                    ComputedStyle dashed = authorDashes(l, node, userFlat, style, vp);
                     Flat outline;
                     Flat device;
 
