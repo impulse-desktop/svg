@@ -12350,7 +12350,8 @@ namespace {
                 const BandSample& p = band[k];
                 const BandSample& q = band[k + 1];
 
-                if (p.x0 > q.x0 + 1e-4f || p.x1 > q.x1 + 1e-4f) {
+                // Edges crossing within a sixty-fourth of a pixel are left as they are.
+                if (p.x0 > q.x0 + 1.f / 64.f || p.x1 > q.x1 + 1.f / 64.f) {
                     float mid = (a + b) * 0.5f;
                     Vector<BandSample>& half = samples[depth + 1];
                     // A middle that rounds onto an end of the band is spanned by more edges.
@@ -12390,17 +12391,69 @@ namespace {
         u32 edge;
     };
 
-    static void xchg(Crossing& l, Crossing& r) noexcept {
-        Crossing t = l;
+    // Counts the crossings into place by direction, then by each byte of
+    // the bits of x, low to high: x clamped to the raster is not negative,
+    // so its bits order as it does, and the spans clamp it anyway.
+    static void countCrossings(Vector<Crossing>& crossings, float width, Vector<Crossing>& scratch) {
+        size_t count = crossings.length();
+        Crossing* data = crossings.mutData();
 
-        l = r;
-        r = t;
+        scratch.zero(count);
+
+        Crossing* other = scratch.mutData();
+        size_t counts[256];
+
+        for (size_t i = 0; i < count; i++) {
+            data[i].x = data[i].x < 0.f ? 0.f : (data[i].x > width ? width : data[i].x);
+        }
+
+        for (int pass = -1; pass < 4; pass++) {
+            auto key = [&](const Crossing& c) {
+                if (pass < 0) {
+                    return (size_t)(c.dir > 0);
+                }
+
+                u32 bits;
+
+                memcpy(&bits, &c.x, sizeof(bits));
+
+                return (size_t)((bits >> (8 * pass)) & 0xff);
+            };
+
+            memset(counts, 0, sizeof(counts));
+
+            for (size_t i = 0; i < count; i++) {
+                counts[key(data[i])]++;
+            }
+
+            size_t start = 0;
+
+            for (size_t k = 0; k < 256; k++) {
+                size_t n = counts[k];
+
+                counts[k] = start;
+                start += n;
+            }
+
+            for (size_t i = 0; i < count; i++) {
+                other[counts[key(data[i])]++] = data[i];
+            }
+
+            Crossing* t = data;
+
+            data = other;
+            other = t;
+        }
+
+        // Five passes leave the sorted crossings in the scratch.
+        crossings.xchg(scratch);
     }
 
     // Sorts the crossings by x, equal ones by direction. Those of a scanline
     // come in the order of the one before, nearly sorted, so the insertion
-    // sort is about linear; a scanline that moves them far is sorted outright.
-    static void sortCrossings(Vector<Crossing>& crossings) {
+    // sort is about linear; a scanline that moves them far counts them into
+    // place instead.
+    static void sortCrossings(Vector<Crossing>& crossings, float width, Vector<Crossing>& scratch) {
         Crossing* data = crossings.mutData();
         size_t count = crossings.length();
         size_t moves = 0;
@@ -12417,10 +12470,8 @@ namespace {
             data[k] = c;
             moves += i - k;
 
-            if (moves > 8 * count + 64) {
-                quickSort(data, data + count, [](const Crossing& p, const Crossing& q) {
-                    return p.x < q.x || (p.x == q.x && p.dir < q.dir);
-                });
+            if (moves > 2 * count + 64) {
+                countCrossings(crossings, width, scratch);
 
                 return;
             }
@@ -12429,7 +12480,7 @@ namespace {
 
     // The crossings of the edges at y, in the order the edges come, sorted;
     // the edges that do not span y go to rest.
-    static void scanCrossings(const BandEdge* edges, const Vector<u32>& order, float y, Vector<Crossing>& crossings, Vector<u32>& rest) {
+    static void scanCrossings(const BandEdge* edges, const Vector<u32>& order, float y, float width, Vector<Crossing>& crossings, Vector<Crossing>& scratch, Vector<u32>& rest) {
         crossings.clear();
         rest.clear();
 
@@ -12443,7 +12494,7 @@ namespace {
             }
         }
 
-        sortCrossings(crossings);
+        sortCrossings(crossings, width, scratch);
     }
 
     static void addSpan(float* acc, u32 w, float x0, float x1, float weight) {
@@ -12483,8 +12534,10 @@ namespace {
         return p.x1 < q.x1 || (p.x1 == q.x1 && p.dir < q.dir);
     }
 
-    // Sorts the edges by their top, counting them into the rows they start
-    // in first, so that each row sorts on its own.
+    // Sorts the edges by their top. Many edges are counted into the rows
+    // they start in and left in their order within a row: a row takes its
+    // edges whole, and the order of the active list only breaks ties
+    // between samples of one key.
     static void sortEdges(Vector<BandEdge>& edges, u32 h) {
         if (edges.length() < 1024) {
             quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
@@ -12513,15 +12566,6 @@ namespace {
 
         for (const BandEdge& e : edges) {
             sorted.mut(starts.mut(bucket(e))++) = e;
-        }
-
-        // The sort takes a range of two at least.
-        for (size_t k = 0; k + 1 < starts.length(); k++) {
-            size_t b0 = k == 0 ? 0 : starts[k - 1];
-
-            if (starts[k] > b0 + 1) {
-                quickSort(sorted.mutBegin() + b0, sorted.mutBegin() + starts[k], edgeBefore);
-            }
         }
 
         edges.xchg(sorted);
@@ -12559,6 +12603,7 @@ namespace {
         Vector<BandSample> samples[8];
         Vector<float> cuts;
         Vector<Crossing> crossings;
+        Vector<Crossing> scratch;
         size_t next = 0;
 
         position.zero(edges.length());
@@ -12664,13 +12709,20 @@ namespace {
             }
 
             float* line = acc + (size_t)row * stride;
+            // A row of many edges takes fewer scanlines, 4 at least: their
+            // crossings are capped near 16384 a row.
+            int subs = 16;
 
-            for (int sub = 0; sub < 16; sub++) {
+            while (subs > 4 && active.length() * (size_t)subs > 16384) {
+                subs /= 2;
+            }
+
+            for (int sub = 0; sub < subs; sub++) {
                 int winding = 0;
                 float start = 0.f;
-                float y = top + (sub + 0.5f) / 16.f;
+                float y = top + (sub + 0.5f) / (float)subs;
 
-                scanCrossings(edges.data(), order, y, crossings, rest);
+                scanCrossings(edges.data(), order, y, (float)w, crossings, scratch, rest);
 
                 for (const Crossing& c : crossings) {
                     bool before = insideWinding(winding, rule);
@@ -12682,7 +12734,7 @@ namespace {
                     if (!before) {
                         start = c.x;
                     } else if (!after) {
-                        addSpan(line, w, start, c.x, 1.f / 16.f);
+                        addSpan(line, w, start, c.x, 1.f / (float)subs);
                     }
                 }
 
@@ -15560,42 +15612,59 @@ namespace {
         auto texel = [&](int x, int y, int c) {
             return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content.data[((size_t)y * lw + x) * 4 + c];
         };
+        // A layer shifted by whole pixels samples each pixel as it is.
+        const Matrix& lm = op.layerMatrix;
+        bool shifted = lm.a == 1.f && lm.b == 0.f && lm.c == 0.f && lm.d == 1.f && lm.e == floorf(lm.e) && lm.f == floorf(lm.f) && fabsf(lm.e) < 16777216.f && fabsf(lm.f) < 16777216.f;
+        int shiftX = shifted ? (int)lm.e : 0;
+        int shiftY = shifted ? (int)lm.f : 0;
 
         for (int y = drawn.y0; y < drawn.y1; y++) {
             for (int x = drawn.x0; x < drawn.x1; x++) {
-                Point p = apply(op.layerMatrix, Point{(float)x + 0.5f, (float)y + 0.5f});
-                float fx = p.x - 0.5f;
-                float fy = p.y - 0.5f;
-                float bx = floorf(fx);
-                float by = floorf(fy);
-
-                if (bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
-                    continue;
-                }
-
-                int ix = (int)bx;
-                int iy = (int)by;
-                float tx = fx - bx;
-                float ty = fy - by;
                 float sample[4];
 
-                if (ix >= 0 && iy >= 0 && ix + 1 < lw && iy + 1 < lh) {
-                    // The four taps are inside the layer.
-                    const float* above = content.data + ((size_t)iy * lw + ix) * 4;
-                    const float* below = above + (size_t)lw * 4;
+                if (shifted) {
+                    int ix = x + shiftX;
+                    int iy = y + shiftY;
 
-                    for (int c = 0; c < 4; c++) {
-                        float top = above[c] * (1.f - tx) + above[4 + c] * tx;
-                        float bottom = below[c] * (1.f - tx) + below[4 + c] * tx;
-
-                        sample[c] = top * (1.f - ty) + bottom * ty;
+                    if (ix < 0 || iy < 0 || ix >= lw || iy >= lh) {
+                        continue;
                     }
-                } else {
-                    for (int c = 0; c < 4; c++) {
-                        float top = texel(ix, iy, c) * (1.f - tx) + texel(ix + 1, iy, c) * tx;
-                        float bottom = texel(ix, iy + 1, c) * (1.f - tx) + texel(ix + 1, iy + 1, c) * tx;
 
-                        sample[c] = top * (1.f - ty) + bottom * ty;
+                    memcpy(sample, content.data + ((size_t)iy * lw + ix) * 4, sizeof(sample));
+                } else {
+                    Point p = apply(op.layerMatrix, Point{(float)x + 0.5f, (float)y + 0.5f});
+                    float fx = p.x - 0.5f;
+                    float fy = p.y - 0.5f;
+                    float bx = floorf(fx);
+                    float by = floorf(fy);
+
+                    if (bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
+                        continue;
+                    }
+
+                    int ix = (int)bx;
+                    int iy = (int)by;
+                    float tx = fx - bx;
+                    float ty = fy - by;
+
+                    if (ix >= 0 && iy >= 0 && ix + 1 < lw && iy + 1 < lh) {
+                        // The four taps are inside the layer.
+                        const float* above = content.data + ((size_t)iy * lw + ix) * 4;
+                        const float* below = above + (size_t)lw * 4;
+
+                        for (int c = 0; c < 4; c++) {
+                            float top = above[c] * (1.f - tx) + above[4 + c] * tx;
+                            float bottom = below[c] * (1.f - tx) + below[4 + c] * tx;
+
+                            sample[c] = top * (1.f - ty) + bottom * ty;
+                        }
+                    } else {
+                        for (int c = 0; c < 4; c++) {
+                            float top = texel(ix, iy, c) * (1.f - tx) + texel(ix + 1, iy, c) * tx;
+                            float bottom = texel(ix, iy + 1, c) * (1.f - tx) + texel(ix + 1, iy + 1, c) * tx;
+
+                            sample[c] = top * (1.f - ty) + bottom * ty;
+                        }
                     }
                 }
 
