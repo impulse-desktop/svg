@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<marker id="m1" viewBox="0 0 10 4" markerWidth="8" markerHeight="8" refX="5" refY="2" preserveAspectRatio="none" markerUnits="userSpaceOnUse"><rect width="10" height="4" fill="crimson"/></marker>
+<marker id="m2" viewBox="0 0 10 4" markerWidth="8" markerHeight="8" refX="5" refY="2" preserveAspectRatio="xMidYMid slice" markerUnits="userSpaceOnUse"><rect width="10" height="4" fill="teal"/><rect width="5" height="2" fill="gold"/></marker>
+<marker id="m3" viewBox="0 0 10 4" markerWidth="8" markerHeight="8" refX="5" refY="2" preserveAspectRatio="xMaxYMax meet" markerUnits="userSpaceOnUse" overflow="visible"><rect width="10" height="4" fill="navy"/></marker>
+<symbol id="s1" viewBox="0 0 10 5" preserveAspectRatio="none"><rect width="10" height="5" fill="orange"/><circle cx="5" cy="2.5" r="2" fill="black"/></symbol>
+<symbol id="s2" viewBox="0 0 10 5" preserveAspectRatio="xMidYMin slice"><rect width="10" height="5" fill="orange"/><circle cx="5" cy="2.5" r="2" fill="black"/></symbol>
+</defs>
+<path d="M6 6 H24" stroke="gray" marker-start="url(#m1)" marker-end="url(#m2)"/>
+<path d="M36 6 H58" stroke="gray" marker-end="url(#m3)"/>
+<use href="#s1" x="2" y="14" width="18" height="14"/>
+<use href="#s2" x="24" y="14" width="18" height="14"/>
+<rect x="46" y="14" width="16" height="14" fill="none" stroke="silver"/>
+<svg x="46" y="14" width="16" height="14" viewBox="0 0 10 5" preserveAspectRatio="xMaxYMid"><rect width="10" height="5" fill="purple"/></svg>
+<rect x="2" y="34" width="28" height="12" fill="none" stroke="silver"/>
+<svg x="2" y="34" width="28" height="12" viewBox="0 0 5 5" preserveAspectRatio="xMidYMin"><rect width="5" height="5" fill="green"/></svg>
+<rect x="34" y="34" width="12" height="28" fill="none" stroke="silver"/>
+<svg x="34" y="34" width="12" height="28" viewBox="0 0 5 5" preserveAspectRatio="xMinYMax meet"><rect width="5" height="5" fill="maroon"/></svg>
+<rect x="50" y="34" width="12" height="28" fill="none" stroke="silver"/>
+<svg x="50" y="34" width="12" height="28" viewBox="0 0 5 5" preserveAspectRatio="xMinYMax slice"><rect width="5" height="5" fill="olive"/><rect width="2" height="2" fill="white"/></svg>
+</svg>

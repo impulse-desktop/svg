@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs><marker id="m" markerWidth="4" markerHeight="4" refX="2" refY="2"><circle cx="2" cy="2" r="2" fill="red"/></marker></defs>
+<rect x="2" y="2" width="20" height="12" rx="4" style="ry: auto" fill="teal"/>
+<ellipse cx="34" cy="8" rx="8" style="ry: auto" fill="olive"/>
+<path d="M44 2 H62 V14 Z" style="d: none" fill="crimson"/>
+<path d="M44 4 H62" stroke="navy" marker-start="url(#m)" marker-end="url(#m)" style="marker: none"/>
+<path d="M44 10 H62" stroke="navy" marker-start="url(#m)" style="marker-start: none" marker-end="url(#m)"/>
+<path d="M2 18 H22 V38 H2 Z M6 22 H18 V34 H6 Z" fill="purple" clip-rule="nonzero" style="clip-rule: nonzero"/>
+<rect x="26" y="20" width="12" height="12" fill="gold" stroke="black" stroke-width="2" style="transform-box: border-box; transform-origin: center; transform: rotate(30deg)"/>
+<rect x="44" y="20" width="12" height="12" fill="gold" stroke="black" stroke-width="2" style="transform-box: content-box; transform-origin: center; transform: rotate(30deg)"/>
+<rect x="4" y="44" width="12" height="12" fill="gold" stroke="black" stroke-width="4" style="transform-box: stroke-box; transform-origin: 0 0; transform: rotate(15deg)"/>
+<rect x="26" y="44" width="12" height="12" fill="gold" stroke="black" stroke-width="2" style="transform-box: view-box; transform-origin: center; transform: rotate(10deg)"/>
+<rect x="44" y="44" width="12" height="12" fill="gold" stroke="black" stroke-width="2" transform="rotate(20 50 50)" style="transform: none"/>
+</svg>
