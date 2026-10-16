@@ -13040,11 +13040,13 @@ namespace {
         Vector<FilterResult> results;
         Vector<Plane> linearCache;
         Vector<Plane> srgbCache;
-        Vector<u32> lastReader;
-        int lastSource;
-        int lastSourceAlpha;
-        int lastBackground;
-        int lastBackgroundAlpha;
+        // The readers each result and input still has among the primitives
+        // the final one reaches.
+        Vector<u32> readers;
+        u32 sourceReaders;
+        u32 sourceAlphaReaders;
+        u32 backgroundReaders;
+        u32 backgroundAlphaReaders;
         float scaleX;
         float scaleY;
     };
@@ -13208,18 +13210,6 @@ namespace {
     static bool readsResult(const FilterPrimitive& p, int index);
 
     // The index of the last primitive reading the input, or -1.
-    static int lastReaderOf(const Filter& filter, int index) {
-        int last = -1;
-
-        for (u32 k = 0; k < filter.count; k++) {
-            if (readsResult(filter.primitives[k], index)) {
-                last = (int)k;
-            }
-        }
-
-        return last;
-    }
-
     static bool readsInSrgb(const Filter& filter, int index) {
         for (u32 k = 0; k < filter.count; k++) {
             const FilterPrimitive& p = filter.primitives[k];
@@ -13232,34 +13222,32 @@ namespace {
         return false;
     }
 
-    // Whether the plane the primitive reads as the input is read by no
-    // primitive after it, so that it may be written over.
-    static bool consumesInput(const FilterRun& run, const FilterPrimitive& p, int index, const Plane& in) {
-        int k = (int)(&p - run.filter->primitives);
-
+    // Whether the plane the primitive being computed reads as the input has
+    // no other reader left, so that it may be written over.
+    static bool consumesInput(const FilterRun& run, int index, const Plane& in) {
         if (!in.data) {
             return false;
         }
 
+        // The source stays while its alpha is still to be taken from it.
         if (index == InputSourceGraphic) {
-            return run.lastSource == k && (in.data != run.source.data || run.lastSourceAlpha < k || run.sourceAlpha.data);
+            return run.sourceReaders == 1 && (in.data != run.source.data || run.sourceAlphaReaders == 0 || run.sourceAlpha.data);
         }
 
         if (index == InputSourceAlpha) {
-            return run.lastSourceAlpha == k;
+            return run.sourceAlphaReaders == 1;
         }
 
-        // The last reader of the background reads its alpha, if at all, before.
+        // The background stays while its alpha is still to be read.
         if (index == InputBackgroundImage) {
-            return run.lastBackground == k;
+            return run.backgroundReaders == 1 && run.backgroundAlphaReaders == 0;
         }
 
         if (index == InputBackgroundAlpha) {
-            return run.lastBackgroundAlpha == k;
+            return run.backgroundAlphaReaders == 1;
         }
 
-        // A result is read after it is made.
-        return index >= 0 && (int)run.lastReader[index] == k;
+        return index >= 0 && run.readers[index] == 1;
     }
 
     static Plane filterInputBuffer(FilterRun& run, int index, bool linear) {
@@ -13823,7 +13811,7 @@ namespace {
             }
         }
 
-        blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p, p.in1, in));
+        blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p.in1, in));
     }
 
     static void filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -15412,29 +15400,85 @@ namespace {
         }
 
         run.sourceAlpha = run.empty;
-        run.lastSource = lastReaderOf(filter, InputSourceGraphic);
-        run.lastSourceAlpha = lastReaderOf(filter, InputSourceAlpha);
-        run.lastBackgroundAlpha = lastReaderOf(filter, InputBackgroundAlpha);
-        run.lastBackground = lastReaderOf(filter, InputBackgroundImage) > run.lastBackgroundAlpha ? lastReaderOf(filter, InputBackgroundImage) : run.lastBackgroundAlpha;
-
         run.linearCache.zero(filter.count);
         run.srgbCache.zero(filter.count);
-        run.lastReader.zero(filter.count);
+        run.results.zero(filter.count);
 
-        for (u32 k = 0; k < filter.count; k++) {
-            u32 last = k;
+        // A primitive is computed when a reader needs it, the final one first
+        // of all, so that a result lives from just before its first reader
+        // to just after its last; a primitive the final one does not reach
+        // is not computed, and the readers are counted among those reached.
+        Vector<u8> reached;
+        Vector<u8> done;
+        Vector<u32> stack;
 
-            for (u32 j = k + 1; j < filter.count; j++) {
-                if (readsResult(filter.primitives[j], (int)k)) {
-                    last = j;
-                }
+        reached.zero(filter.count);
+        done.zero(filter.count);
+        stack.pushBack(filter.count - 1);
+
+        while (!stack.empty()) {
+            u32 k = stack.popBack();
+
+            if (reached[k]) {
+                continue;
             }
 
-            run.lastReader.mut(k) = last;
+            reached.mut(k) = 1;
+
+            for (u32 i = 0; i < k; i++) {
+                if (readsResult(filter.primitives[k], (int)i)) {
+                    stack.pushBack(i);
+                }
+            }
         }
+
+        run.readers.zero(filter.count);
+        run.sourceReaders = 0;
+        run.sourceAlphaReaders = 0;
+        run.backgroundReaders = 0;
+        run.backgroundAlphaReaders = 0;
 
         for (u32 k = 0; k < filter.count; k++) {
             const FilterPrimitive& p = filter.primitives[k];
+
+            if (!reached[k]) {
+                continue;
+            }
+
+            for (u32 i = 0; i < k; i++) {
+                run.readers.mut(i) += readsResult(p, (int)i);
+            }
+
+            run.sourceReaders += readsResult(p, InputSourceGraphic);
+            run.sourceAlphaReaders += readsResult(p, InputSourceAlpha);
+            run.backgroundReaders += readsResult(p, InputBackgroundImage);
+            run.backgroundAlphaReaders += readsResult(p, InputBackgroundAlpha);
+        }
+
+        stack.pushBack(filter.count - 1);
+
+        while (!stack.empty()) {
+            u32 k = stack.back();
+
+            if (done[k]) {
+                stack.popBack();
+                continue;
+            }
+
+            const FilterPrimitive& p = filter.primitives[k];
+            u32 pending = k;
+
+            for (u32 i = 0; i < k && pending == k; i++) {
+                if (!done[i] && readsResult(p, (int)i)) {
+                    pending = i;
+                }
+            }
+
+            if (pending != k) {
+                stack.pushBack(pending);
+                continue;
+            }
+
             Plane out = makePlane(p.box);
 
             switch (p.kind) {
@@ -15490,31 +15534,36 @@ namespace {
                     break;
             }
 
-            run.results.pushBack(FilterResult{out, p.linear});
+            run.results.mut(k) = FilterResult{out, p.linear};
+            done.mut(k) = 1;
+            stack.popBack();
 
-            // The results this primitive was the last to read go, except the final one.
-            for (u32 i = 0; i <= k && i + 1 < filter.count; i++) {
-                if (run.lastReader[i] == k) {
+            // The results and inputs this primitive was the last to read go.
+            for (u32 i = 0; i < k; i++) {
+                if (readsResult(p, (int)i) && --run.readers.mut(i) == 0) {
                     releasePlane(run.results.mut(i).plane);
                     releasePlane(run.linearCache.mut(i));
                     releasePlane(run.srgbCache.mut(i));
                 }
             }
 
-            // So do the inputs it was the last to read.
-            if ((int)k == run.lastSourceAlpha) {
+            if (readsResult(p, InputSourceAlpha) && --run.sourceAlphaReaders == 0) {
                 releasePlane(run.sourceAlpha);
             }
 
-            if ((int)k == run.lastSource && run.sourceLinear.data != run.source.data) {
+            if (readsResult(p, InputSourceGraphic) && --run.sourceReaders == 0 && run.sourceLinear.data != run.source.data) {
                 releasePlane(run.sourceLinear);
             }
 
-            if ((int)k == run.lastBackgroundAlpha) {
+            if (readsResult(p, InputBackgroundAlpha) && --run.backgroundAlphaReaders == 0) {
                 releasePlane(run.backgroundAlpha);
             }
 
-            if ((int)k == run.lastBackground) {
+            if (readsResult(p, InputBackgroundImage)) {
+                run.backgroundReaders--;
+            }
+
+            if ((readsResult(p, InputBackgroundImage) || readsResult(p, InputBackgroundAlpha)) && run.backgroundReaders == 0 && run.backgroundAlphaReaders == 0) {
                 if (run.backgroundLinear.data != run.background.data) {
                     releasePlane(run.backgroundLinear);
                 }
