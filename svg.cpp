@@ -3,6 +3,13 @@
 #include <math.h>
 #include <string.h>
 
+// The pixel kernels take 16-bit lanes eight at a time and multiply 32-bit
+// ones, which x86-64 does from SSE4.1 on; it asks for x86-64-v2, which every
+// Intel processor since 2008 and AMD one since 2011 has.
+#if defined(__x86_64__) && !defined(__SSE4_2__)
+    #error "svg.cpp needs SSE4.2 on x86-64: build it with -march=x86-64-v2 or later"
+#endif
+
 namespace {
     using u8 = unsigned char;
     using u16 = uint16_t;
@@ -14438,7 +14445,7 @@ namespace {
     static void unpremultiply(const float* s, float* c) {
         float a = s[3];
 
-        if (a < 0.5f / 255.f) {
+        if (a <= 0.f) {
             c[0] = 0.f;
             c[1] = 0.f;
             c[2] = 0.f;
@@ -14462,28 +14469,84 @@ namespace {
         d[3] = a;
     }
 
-    // Pixels in floats not premultiplied: an alpha under half a byte has no
-    // colour. One reciprocal a pixel.
-    static void unpremultiplySpan(float* __restrict c, const float* __restrict s, size_t count) {
-        for (size_t p = 0; p < count; p++) {
-            const float* sp = s + p * 4;
-            float* cp = c + p * 4;
-            float a = sp[3];
-            float keep = a >= 0.5f / 255.f ? 1.f : 0.f;
-            float inverse = keep / maxf(a, 0.5f / 255.f);
-
-            cp[0] = clampUnit(sp[0] * inverse);
-            cp[1] = clampUnit(sp[1] * inverse);
-            cp[2] = clampUnit(sp[2] * inverse);
-            cp[3] = a * keep;
-        }
-    }
-
     // Pixels premultiplied from floats not premultiplied, each channel clamped.
     static void premultiplySpan(float* __restrict d, const float* __restrict c, size_t count) {
         for (size_t p = 0; p < count; p++) {
             storePremultiplied(d + p * 4, c + p * 4);
         }
+    }
+
+    // A stored pixel not premultiplied: each colour channel, clamped to the
+    // alpha, over it through one reciprocal. Any alpha but none keeps its
+    // colour.
+    static void unpremultiplyStored(const u16* s, u32* c) {
+        u32 a = s[3];
+        float inverse = a ? 65535.f / (float)a : 0.f;
+
+        for (int k = 0; k < 3; k++) {
+            u32 v = s[k] < a ? s[k] : a;
+
+            c[k] = (u32)((float)v * inverse + 0.5f);
+        }
+
+        c[3] = a;
+    }
+
+    static u32 clampStored(i64 v) {
+        return v < 0 ? 0u : (v > 65535 ? 65535u : (u32)v);
+    }
+
+    // A sum of stored channels, each times a real coefficient, plus a real
+    // constant, in 31 bits: the coefficients carry as many bits of fraction
+    // as the sum at its largest leaves room for, up to 16, so that what
+    // they lose to rounding is less than a stored unit or two of the
+    // channels; a sum too large even for whole coefficients drops low bits
+    // of the channels instead. A coefficient past 2^24 saturates any channel
+    // it takes, and one that is not a number counts for nothing.
+    struct FixedSum {
+        i32 constant;
+        u32 shift;
+        u32 drop;
+        u32 cap;
+        u32 half;
+    };
+
+    static double fixedCoefficient(float v) {
+        return v == v ? (double)minf(maxf(v, -0x1p24f), 0x1p24f) : 0.0;
+    }
+
+    // Fixes the coefficients into factors, and the constant, in stored
+    // units, into the sum.
+    static FixedSum fixSum(const float* coefficients, size_t count, float constant, i32* factors) {
+        for (int level = 16;; level--) {
+            u32 shift = level > 0 ? (u32)level : 0u;
+            u32 drop = level < 0 ? (u32)-level : 0u;
+            double scale = ldexp(1.0, (int)shift);
+            double fixedConstant = floor(fixedCoefficient(constant) * 65535.0 * ldexp(1.0, (int)shift - (int)drop) + 0.5);
+            double bound = fabs(fixedConstant);
+
+            for (size_t k = 0; k < count; k++) {
+                bound += fabs(floor(fixedCoefficient(coefficients[k]) * scale + 0.5)) * (double)(65535u >> drop);
+            }
+
+            if (bound < 0x1p30) {
+                for (size_t k = 0; k < count; k++) {
+                    factors[k] = (i32)floor(fixedCoefficient(coefficients[k]) * scale + 0.5);
+                }
+
+                return FixedSum{(i32)fixedConstant, shift, drop, drop ? 65536u >> drop : 0x40000000u, shift ? 1u << (shift - 1) : 0u};
+            }
+        }
+    }
+
+    // The stored value of a fixed sum: its constant and the factors times
+    // the channels shifted down by its drop, clamped.
+    static u32 fixedValue(const FixedSum& f, i32 sum) {
+        u32 v = sum > 0 ? (u32)sum : 0u;
+
+        v = (((v < f.cap ? v : f.cap) << f.drop) + f.half) >> f.shift;
+
+        return v < 65535u ? v : 65535u;
     }
 
     static void filterColorMatrix(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -14544,78 +14607,107 @@ namespace {
             }
         }
 
-        // A row at a time: the colours not premultiplied, the matrix of
-        // real coefficients over them in floats, premultiplied again.
+        // A row at a time: each pixel not premultiplied, each row of the
+        // matrix a fixed sum over it, the colours premultiplied again by the
+        // alpha they come to.
+        i32 factors[4][4];
+        FixedSum sums[4];
+
+        for (int k = 0; k < 4; k++) {
+            sums[k] = fixSum(m + k * 5, 4, m[k * 5 + 4], factors[k]);
+        }
+
         const IntBox& b = p.box;
         size_t n = (size_t)(b.x1 - b.x0);
-        Vector<float> row;
-        Vector<float> colors;
+        Vector<u16> row;
 
         row.zero(n * 4);
-        colors.zero(n * 4);
 
         for (int y = b.y0; y < b.y1; y++) {
-            readSpan(in, b.x0, b.x1, y, row.mutData());
-            unpremultiplySpan(colors.mutData(), row.data(), n);
+            u16* o = planeAt(out, b.x0, y);
+
+            readStored(in, b.x0, b.x1, y, row.mutData());
 
             for (size_t x = 0; x < n; x++) {
-                const float* c = colors.data() + x * 4;
-                float* r = row.mutData() + x * 4;
+                u32 c[4];
+                u32 v[4];
+
+                unpremultiplyStored(row.data() + x * 4, c);
 
                 for (int k = 0; k < 4; k++) {
-                    r[k] = m[k * 5] * c[0] + m[k * 5 + 1] * c[1] + m[k * 5 + 2] * c[2] + m[k * 5 + 3] * c[3] + m[k * 5 + 4];
-                }
-            }
+                    const i32* q = factors[k];
+                    u32 drop = sums[k].drop;
 
-            premultiplySpan(colors.mutData(), row.data(), n);
-            writeSpan(out, b.x0, b.x1, y, colors.data());
+                    v[k] = fixedValue(sums[k], sums[k].constant + q[0] * (i32)(c[0] >> drop) + q[1] * (i32)(c[1] >> drop) + q[2] * (i32)(c[2] >> drop) + q[3] * (i32)(c[3] >> drop));
+                }
+
+                for (int k = 0; k < 3; k++) {
+                    o[x * 4 + (size_t)k] = (u16)div65535(v[k] * v[3]);
+                }
+
+                o[x * 4 + 3] = (u16)v[3];
+            }
         }
     }
 
+    // A transfer function over a stored channel not premultiplied: a table
+    // in stored units, interpolated or stepped in integers, a line as a
+    // fixed sum; the gamma is real valued, computed once for each value in
+    // a run of it.
     struct TransferFunction {
         int type;
         Vector<float> table;
+        Vector<i64> values;
         float slope;
         float intercept;
         float amplitude;
         float exponent;
         float offset;
+        i32 factor;
+        FixedSum line;
+        u32 lastIn;
+        u32 lastOut;
     };
 
-    static float transfer(const TransferFunction& f, float c) {
-        size_t n = f.table.length();
+    static u32 transfer(TransferFunction& f, u32 c) {
+        size_t n = f.values.length();
 
         switch (f.type) {
-            case 1:
+            case 1: {
                 if (n == 0) {
                     return c;
                 }
 
-                if (n == 1) {
-                    return f.table[0];
+                u64 position = (u64)c * (n - 1);
+                size_t k = (size_t)(position / 65535u);
+
+                // A table of one value, or the top of the channel, is the last value.
+                if (k >= n - 1) {
+                    return clampStored(f.values[n - 1]);
                 }
 
-                {
-                    size_t k = c >= 1.f ? n - 2 : (size_t)(c * (float)(n - 1));
-                    float v0 = f.table[k];
-                    float v1 = f.table[k + 1];
+                i64 step = (f.values[k + 1] - f.values[k]) * (i64)(position - (u64)k * 65535u);
 
-                    return v0 + (c * (float)(n - 1) - (float)k) * (v1 - v0);
-                }
-            case 2:
+                return clampStored(f.values[k] + (step >= 0 ? (step + 32767) / 65535 : -((32767 - step) / 65535)));
+            }
+            case 2: {
                 if (n == 0) {
                     return c;
                 }
 
-                {
-                    size_t k = c >= 1.f ? n - 1 : (size_t)(c * (float)n);
+                size_t k = (size_t)((u64)c * n / 65535u);
 
-                    return f.table[k];
-                }
+                return clampStored(f.values[k < n ? k : n - 1]);
+            }
             case 3:
-                return f.slope * c + f.intercept;
+                return fixedValue(f.line, f.line.constant + f.factor * (i32)(c >> f.line.drop));
             case 4:
-                return f.amplitude * powf(c, f.exponent) + f.offset;
+                if (c != f.lastIn) {
+                    f.lastIn = c;
+                    f.lastOut = toUnit16(f.amplitude * powf((float)c / 65535.f, f.exponent) + f.offset);
+                }
+
+                return f.lastOut;
             default:
                 return c;
         }
@@ -14627,8 +14719,14 @@ namespace {
         TransferFunction functions[4];
         u32 names[4] = {AtomFeFuncR, AtomFeFuncG, AtomFeFuncB, AtomFeFuncA};
 
-        for (int k = 0; k < 4; k++) {
-            functions[k].type = 0;
+        // A channel without a function is passed as it is.
+        for (TransferFunction& f : functions) {
+            f.type = 0;
+            f.slope = 1.f;
+            f.intercept = 0.f;
+            f.amplitude = 1.f;
+            f.exponent = 1.f;
+            f.offset = 0.f;
         }
 
         for (Node* child = p.node->first; child; child = child->next) {
@@ -14652,30 +14750,45 @@ namespace {
             }
         }
 
-        // A row at a time: the colours not premultiplied, each channel
-        // through its function, premultiplied again.
-        const IntBox& b = p.box;
-        size_t n = (size_t)(b.x1 - b.x0);
-        Vector<float> row;
-        Vector<float> colors;
+        for (TransferFunction& f : functions) {
+            f.values.zero(f.table.length());
 
-        row.zero(n * 4);
-        colors.zero(n * 4);
-
-        for (int y = b.y0; y < b.y1; y++) {
-            readSpan(in, b.x0, b.x1, y, row.mutData());
-            unpremultiplySpan(colors.mutData(), row.data(), n);
-
-            for (int k = 0; k < 4; k++) {
-                float* c = colors.mutData() + k;
-
-                for (size_t x = 0; x < n; x++) {
-                    c[x * 4] = transfer(functions[k], c[x * 4]);
-                }
+            for (size_t k = 0; k < f.table.length(); k++) {
+                f.values.mut(k) = (i64)floor(fixedCoefficient(f.table[k]) * 65535.0 + 0.5);
             }
 
-            premultiplySpan(row.mutData(), colors.data(), n);
-            writeSpan(out, b.x0, b.x1, y, row.data());
+            f.line = fixSum(&f.slope, 1, f.intercept, &f.factor);
+            f.lastIn = 0x10000;
+            f.lastOut = 0;
+        }
+
+        // A row at a time: each pixel not premultiplied, each channel
+        // through its function, the colours premultiplied again by the alpha
+        // it comes to.
+        const IntBox& b = p.box;
+        size_t n = (size_t)(b.x1 - b.x0);
+        Vector<u16> row;
+
+        row.zero(n * 4);
+
+        for (int y = b.y0; y < b.y1; y++) {
+            u16* o = planeAt(out, b.x0, y);
+
+            readStored(in, b.x0, b.x1, y, row.mutData());
+
+            for (size_t x = 0; x < n; x++) {
+                u32 c[4];
+
+                unpremultiplyStored(row.data() + x * 4, c);
+
+                u32 alpha = transfer(functions[3], c[3]);
+
+                for (int k = 0; k < 3; k++) {
+                    o[x * 4 + (size_t)k] = (u16)div65535(transfer(functions[k], c[k]) * alpha);
+                }
+
+                o[x * 4 + 3] = (u16)alpha;
+            }
         }
     }
 
@@ -15343,12 +15456,18 @@ namespace {
             return;
         }
 
-        float sum = 0.f;
+        // A kernel sums to zero, and its divisor is then one, when its sum is
+        // lost in the rounding of its values to binary: within a millionth
+        // of their magnitude.
+        double total = 0.0;
+        double magnitude = 0.0;
 
         for (float k : kernel) {
-            sum += k;
+            total += k;
+            magnitude += fabs((double)k);
         }
 
+        float sum = fabs(total) <= magnitude * 0x1p-20 ? 0.f : (float)total;
         float divisor = numberOf(doc, p.node, AtomDivisor, sum == 0.f ? 1.f : sum);
 
         if (divisor == 0.f) {
@@ -15381,16 +15500,30 @@ namespace {
         Vector<int> columns;
         // The rows of taps: each input pixel as a tap reads it, once, in a
         // ring of the kernel's rows; which row each slot holds.
-        Vector<float> ring;
+        Vector<u16> ring;
         Vector<int> held;
-        Vector<float> acc;
-        Vector<float> row;
+        // The kernel turned to the order of the taps and over the divisor,
+        // fixed with the bias as a sum; a tap of no factor is not read.
+        Vector<float> weights;
+        Vector<i32> factors;
+        Vector<i32> acc;
+        Vector<u16> row;
 
         columns.zero((size_t)span);
         ring.zero((size_t)span * 4 * (size_t)orderY);
         held.zero((size_t)orderY);
+        weights.zero(kernel.length());
+        factors.zero(kernel.length());
         acc.zero((size_t)n * 4);
         row.zero((size_t)n * 4);
+
+        for (int j = 0; j < orderY; j++) {
+            for (int i = 0; i < orderX; i++) {
+                weights.mut((size_t)(j * orderX + i)) = kernel[(size_t)((orderY - 1 - j) * orderX + (orderX - 1 - i))] / divisor;
+            }
+        }
+
+        FixedSum fixed = fixSum(weights.data(), weights.length(), bias, factors.mutData());
 
         // The edge modes map a coordinate past the input back into it, or leave it out.
         auto mapped = [&](int v, int lo, int hi, int size) {
@@ -15414,87 +15547,111 @@ namespace {
             held.mut((size_t)k) = box.y0 - targetY - 1;
         }
 
-        // A tap is the input not premultiplied when alpha is preserved, else
-        // the input in bytes, as Chromium reads it.
+        // A tap is the input as stored, or not premultiplied when alpha is
+        // preserved.
         auto taps = [&](int r) {
-            float* out = ring.mutData() + (size_t)(((r % orderY) + orderY) % orderY) * (size_t)span * 4;
+            size_t slot = (size_t)(((r % orderY) + orderY) % orderY);
+            u16* out = ring.mutData() + slot * (size_t)span * 4;
 
-            if (held[(size_t)(((r % orderY) + orderY) % orderY)] == r) {
-                return (const float*)out;
+            if (held[slot] == r) {
+                return (const u16*)out;
             }
 
-            held.mut((size_t)(((r % orderY) + orderY) % orderY)) = r;
+            held.mut(slot) = r;
 
             int sy = mapped(r, src.y0, src.y1, h);
 
             for (int i = 0; i < span; i++) {
-                float* t = out + (size_t)i * 4;
+                u16* t = out + (size_t)i * 4;
                 int sx = columns[(size_t)i];
-                float s[4];
 
                 if (sx < 0 || sy < 0) {
-                    memset(t, 0, sizeof(float) * 4);
+                    memset(t, 0, sizeof(u16) * 4);
                     continue;
                 }
 
-                loadPixel(planeRead(in, sx, sy), s);
+                const u16* s = planeRead(in, sx, sy);
 
                 if (preserve) {
-                    unpremultiply(s, t);
+                    u32 c[4];
+
+                    unpremultiplyStored(s, c);
+
+                    for (int k = 0; k < 4; k++) {
+                        t[k] = (u16)c[k];
+                    }
+
                     continue;
                 }
 
-                for (int c = 0; c < 4; c++) {
-                    t[c] = rintf(s[c] * 255.f) / 255.f;
-                }
+                memcpy(t, s, sizeof(u16) * 4);
             }
 
-            return (const float*)out;
+            return (const u16*)out;
         };
 
         for (int y = box.y0; y < box.y1; y++) {
-            float* sum = acc.mutData();
+            i32* sums = acc.mutData();
+            size_t lanes = (size_t)n * 4;
 
-            memset(sum, 0, sizeof(float) * 4 * (size_t)n);
+            for (size_t c = 0; c < lanes; c++) {
+                sums[c] = fixed.constant;
+            }
 
             for (int j = 0; j < orderY; j++) {
-                const float* t = taps(y - targetY + j);
+                const u16* t = nullptr;
 
                 for (int i = 0; i < orderX; i++) {
-                    float k = kernel[(size_t)(orderY - 1 - j) * orderX + (orderX - 1 - i)];
-                    const float* tap = t + (size_t)i * 4;
+                    i32 q = factors[(size_t)(j * orderX + i)];
 
-                    for (size_t c = 0; c < (size_t)n * 4; c++) {
-                        sum[c] += tap[c] * k;
+                    if (q == 0) {
+                        continue;
+                    }
+
+                    if (!t) {
+                        t = taps(y - targetY + j);
+                    }
+
+                    const u16* tap = t + (size_t)i * 4;
+
+                    for (size_t c = 0; c < lanes; c++) {
+                        sums[c] += q * (i32)(tap[c] >> fixed.drop);
                     }
                 }
             }
 
+            u16* o = planeAt(out, box.x0, y);
+
             if (preserve) {
-                readSpan(in, box.x0, box.x1, y, row.mutData());
+                readStored(in, box.x0, box.x1, y, row.mutData());
             }
 
             for (int x = 0; x < n; x++) {
-                const float* a = sum + (size_t)x * 4;
-                float* o = row.mutData() + (size_t)x * 4;
+                const i32* a = sums + (size_t)x * 4;
+                u16* d = o + (size_t)x * 4;
 
+                // The colours not premultiplied, over the input's alpha.
                 if (preserve) {
-                    float c[4] = {a[0] / divisor + bias, a[1] / divisor + bias, a[2] / divisor + bias, o[3]};
+                    u32 alpha = row[(size_t)x * 4 + 3];
 
-                    storePremultiplied(o, c);
+                    for (int ch = 0; ch < 3; ch++) {
+                        d[ch] = (u16)div65535(fixedValue(fixed, a[ch]) * alpha);
+                    }
+
+                    d[3] = (u16)alpha;
                     continue;
                 }
 
-                float alpha = clampUnit(a[3] / divisor + bias);
+                u32 alpha = fixedValue(fixed, a[3]);
 
                 for (int ch = 0; ch < 3; ch++) {
-                    o[ch] = minf(clampUnit(a[ch] / divisor + bias), alpha);
+                    u32 v = fixedValue(fixed, a[ch]);
+
+                    d[ch] = (u16)(v < alpha ? v : alpha);
                 }
 
-                o[3] = alpha;
+                d[3] = (u16)alpha;
             }
-
-            writeSpan(out, box.x0, box.x1, y, row.data());
         }
     }
 
@@ -15823,22 +15980,22 @@ namespace {
         int cy = channel(AtomYChannelSelector);
         const IntBox& box = p.box;
         size_t n = (size_t)(box.x1 - box.x0);
-        Vector<float> row;
-        Vector<float> colors;
+        Vector<u16> row;
 
         row.zero(n * 4);
-        colors.zero(n * 4);
 
-        // The map's row not premultiplied moves each pixel; the pixel moved
+        // The map's pixel not premultiplied moves each pixel; the pixel moved
         // to is copied as stored.
         for (int y = box.y0; y < box.y1; y++) {
-            readSpan(map, box.x0, box.x1, y, row.mutData());
-            unpremultiplySpan(colors.mutData(), row.data(), n);
+            readStored(map, box.x0, box.x1, y, row.mutData());
 
             for (int x = box.x0; x < box.x1; x++) {
-                const float* m = colors.data() + (size_t)(x - box.x0) * 4;
-                int tx = (int)floorf((float)x + sx * (m[cx] - 0.5f) + 0.5f);
-                int ty = (int)floorf((float)y + sy * (m[cy] - 0.5f) + 0.5f);
+                u32 m[4];
+
+                unpremultiplyStored(row.data() + (size_t)(x - box.x0) * 4, m);
+
+                int tx = (int)floorf((float)x + sx * ((float)m[cx] / 65535.f - 0.5f) + 0.5f);
+                int ty = (int)floorf((float)y + sy * ((float)m[cy] / 65535.f - 0.5f) + 0.5f);
 
                 if (tx < 0 || ty < 0 || tx >= (int)run.raster->width || ty >= (int)run.raster->height) {
                     continue;
@@ -16127,34 +16284,11 @@ namespace {
         runProgram(*run.raster, *run.lowering, run.lowering->programs.data() + p.programFirst, p.programCount, content);
 
         // The image drawn over the box is the result: as it is, or with its
-        // colours taken along the sRGB curve to linear light, a row at a time.
-        const IntBox& box = p.box;
-        size_t n = (size_t)(box.x1 - box.x0);
-        Vector<float> row;
-        Vector<float> colors;
-
-        row.zero(n * 4);
-        colors.zero(n * 4);
-
-        for (int y = box.y0; y < box.y1; y++) {
-            if (!p.linear) {
-                memcpy(planeAt(out, box.x0, y), planeAt(content, box.x0, y), sizeof(u16) * 4 * n);
-                continue;
-            }
-
-            loadSpan(planeAt(content, box.x0, y), row.mutData(), n);
-            unpremultiplySpan(colors.mutData(), row.data(), n);
-
-            for (size_t x = 0; x < n; x++) {
-                float* c = colors.mutData() + x * 4;
-
-                c[0] = srgbToLinear(c[0]);
-                c[1] = srgbToLinear(c[1]);
-                c[2] = srgbToLinear(c[2]);
-            }
-
-            premultiplySpan(row.mutData(), colors.data(), n);
-            storeSpan(planeAt(out, box.x0, y), row.data(), n);
+        // colours taken along the sRGB curve to linear light.
+        if (p.linear) {
+            convertRows(content, out, p.box, true);
+        } else {
+            copyBox(content, out, p.box);
         }
 
         releasePlane(content);
