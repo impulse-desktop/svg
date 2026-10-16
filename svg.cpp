@@ -17547,53 +17547,51 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     ObjPool* pool = new ObjPool();
     u8* pixels = (u8*)pool->allocate(size * 4);
 
-    // Bytes not premultiplied: each channel, clamped to the alpha, over it
-    // through 255 2^24 / alpha, one division a run of one alpha, then two
-    // pixels, eight lanes, a step. An opaque pixel takes 65281, with which
-    // every channel comes out rounded as c 255 / 65535 does, and so does
-    // the alpha.
-    Vector<u32> inverses;
-    u32 last = 65535;
-    u32 inverse = 65281;
+    // Bytes not premultiplied, by runs over the rows end to end: a run of
+    // no alpha is none; an opaque run takes every channel times 65281, with
+    // which it comes out rounded as c 255 / 65535 does, the alpha too; any
+    // other pixel has each channel, clamped to its alpha, over it through
+    // 255 2^24 / alpha, divided once for a run of one alpha.
+    u32 last = 0;
+    u32 inverse = 0;
 
-    inverses.zero(width);
+    for (size_t p = 0; p < size;) {
+        const u16* s = base + p * 4;
+        u8* d = pixels + p * 4;
+        u32 a = s[3];
 
-    for (u32 y = 0; y < height; y++) {
-        const u16* s = base + (size_t)y * width * 4;
-        u8* d = pixels + (size_t)y * width * 4;
-        u32* by = inverses.mutData();
+        if (a == 0 || a == 65535) {
+            size_t end = p + 1;
 
-        for (u32 x = 0; x < width; x++) {
-            u32 a = s[x * 4 + 3];
-
-            if (a != last) {
-                last = a;
-                inverse = a == 65535 ? 65281u : (a ? (255u << 24) / a : 0u);
+            while (end < size && base[end * 4 + 3] == a) {
+                end++;
             }
 
-            by[x] = inverse;
-        }
-
-        auto lane = [&](size_t base, size_t pixel, int i) {
-            u32 a = s[base + (size_t)((i & 4) | 3)];
-            u32 v = s[base + (size_t)i] < a ? s[base + (size_t)i] : a;
-            u32 w = (i & 3) == 3 ? 65281u : by[pixel + (size_t)(i >> 2)];
-
-            d[base + (size_t)i] = (u8)((v * w + (1u << 23)) >> 24);
-        };
-        size_t x = 0;
-
-        for (; x + 2 <= width; x += 2) {
-            for (int i = 0; i < 8; i++) {
-                lane(x * 4, x, i);
+            if (a == 0) {
+                memset(d, 0, (end - p) * 4);
+            } else {
+                for (size_t i = p * 4; i < end * 4; i++) {
+                    pixels[i] = (u8)((base[i] * 65281u + (1u << 23)) >> 24);
+                }
             }
+
+            p = end;
+            continue;
         }
 
-        for (; x < width; x++) {
-            for (int i = 0; i < 4; i++) {
-                lane(x * 4, x, i);
-            }
+        if (a != last) {
+            last = a;
+            inverse = (255u << 24) / a;
         }
+
+        for (int c = 0; c < 3; c++) {
+            u32 v = s[c] < a ? s[c] : a;
+
+            d[c] = (u8)((v * inverse + (1u << 23)) >> 24);
+        }
+
+        d[3] = (u8)((a * 65281u + (1u << 23)) >> 24);
+        p++;
     }
 
     return &pool->make<RenderedImage>(pool, pixels, width, height)->image;
