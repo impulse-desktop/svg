@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="144" viewBox="0 0 128 144">
+<defs><mask id="m"><rect width="200" height="200" fill="white"/><circle cx="8" cy="8" r="5" fill="black"/></mask></defs>
+<g fill="teal">
+<rect x="3" y="3" width="10" height="10" style="mask-image: bogus"/>
+<rect x="19" y="3" width="10" height="10" style="mask-image: url(#m) junk"/>
+<rect x="35" y="3" width="10" height="10" style="mask-image: linear-gradient(black)"/>
+<rect x="51" y="3" width="10" height="10" style="mask-image: linear-gradient(to left left, black, white)"/>
+<rect x="67" y="3" width="10" height="10" style="mask-image: linear-gradient(10, black, white)"/>
+<rect x="83" y="3" width="10" height="10" style="mask-image: radial-gradient(circle 10%, black, white)"/>
+<rect x="99" y="3" width="10" height="10" style="mask-image: radial-gradient(ellipse 4px, black, white)"/>
+<rect x="115" y="3" width="10" height="10" style="mask-image: radial-gradient(circle 4px 4px, black, white)"/>
+<rect x="3" y="19" width="10" height="10" style="mask-image: radial-gradient(closest-side 4px, black, white)"/>
+<rect x="19" y="19" width="10" height="10" style="mask-image: linear-gradient(black, 10%, 20%, white)"/>
+<rect x="35" y="19" width="10" height="10" style="mask-image: linear-gradient(10%, black, white)"/>
+<rect x="51" y="19" width="10" height="10" style="mask-image: linear-gradient(black 1px 2px 3px, white)"/>
+<rect x="67" y="19" width="10" height="10" style="mask-image: linear-gradient(black bogus, white)"/>
+<rect x="83" y="19" width="10" height="10" style="mask-image: linear-gradient(bogus, white)"/>
+<rect x="99" y="19" width="10" height="10" style="mask-image: linear-gradient(to, black, white)"/>
+<rect x="115" y="19" width="10" height="10" style="mask-image: radial-gradient(bogus, black, white)"/>
+<rect x="3" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-mode: bogus"/>
+<rect x="19" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-repeat: repeat-x repeat"/>
+<rect x="35" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-repeat: space round round"/>
+<rect x="51" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-position: left top left top left"/>
+<rect x="67" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-position: left right"/>
+<rect x="83" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-position: left 1px left 2px"/>
+<rect x="99" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-position: center 1px top"/>
+<rect x="115" y="35" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-position: top 2px center"/>
+<rect x="3" y="51" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-clip: margin-box"/>
+<rect x="19" y="51" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-origin: no-clip"/>
+<rect x="35" y="51" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-size: -1px"/>
+<rect x="51" y="51" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-size: cover contain"/>
+<rect x="67" y="51" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-size: 1px 2px 3px"/>
+<rect x="83" y="51" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat; mask-composite: bogus"/>
+<rect x="99" y="51" width="10" height="10" style="mask: url(#m) url(#m)"/>
+<rect x="115" y="51" width="10" height="10" style="mask: alpha luminance"/>
+<rect x="3" y="67" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat add add"/>
+<rect x="19" y="67" width="10" height="10" style="mask: linear-gradient(black, black) repeat repeat repeat"/>
+<rect x="35" y="67" width="10" height="10" style="mask: linear-gradient(black, black) fill-box stroke-box view-box"/>
+<rect x="51" y="67" width="10" height="10" style="mask: linear-gradient(black, black) 1px 1px /"/>
+<rect x="67" y="67" width="10" height="10" style="mask: linear-gradient(black, black) no-clip fill-box"/>
+<rect x="83" y="67" width="10" height="10" style="mask: inherit"/>
+<rect x="99" y="67" width="10" height="10" style="mask: none"/>
+<rect x="115" y="67" width="10" height="10" style="mask: linear-gradient(black, black) 1px 1px / cover"/>
+<rect x="3" y="83" width="10" height="10" style="mask: linear-gradient(black, black) 1px 1px / 5px auto no-repeat"/>
+<rect x="19" y="83" width="10" height="10" style="mask: var(--x, linear-gradient(black, transparent))"/>
+<rect x="35" y="83" width="10" height="10" style="mask-image: unset; mask-mode: unset; mask-repeat: unset; mask-position: unset; mask-clip: unset; mask-origin: unset; mask-size: unset; mask-composite: unset"/>
+<rect x="51" y="83" width="10" height="10" style="mask: linear-gradient(black, black) margin-box"/>
+<rect x="67" y="83" width="10" height="10" style="mask: radial-gradient(black 40%, transparent 41%) center / 6px 6px space round"/>
+<rect x="83" y="83" width="10" height="10" style="mask-image: linear-gradient(black, black); mask-position: 100% 100%; mask-size: 4px 4px; mask-repeat: no-repeat; mask-origin: stroke-box; mask-clip: view-box"/>
+<rect x="99" y="83" width="10" height="10" style="mask: linear-gradient(black, black) top 1px right 2px / 4px no-repeat"/>
+<rect x="115" y="83" width="10" height="10" style="mask: url(#m) luminance, linear-gradient(black, transparent) 0 0 / 50% exclude"/>
+<rect x="3" y="99" width="10" height="10" mask="linear-gradient(black, black) 0 0 / 50% 50% no-repeat"/>
+<g style="mask-image: linear-gradient(to right, black, transparent)"><rect x="19" y="99" width="10" height="10" style="mask-image: inherit; mask-size: 50%"/></g>
+<rect x="35" y="99" width="10" height="10" mask="bogus value"/>
+<rect x="51" y="99" width="10" height="10" style="mask: url('#m') 0 0 / 50% no-repeat"/>
+<rect x="67" y="99" width="10" height="10" style="mask-image: url(data:image/png;base64,AAAA)"/>
+<rect x="83" y="99" width="10" height="10" style="mask-image: url(x)"/>
+<rect x="3" y="115" width="10" height="10" style="mask-image: x"/>
+<rect x="19" y="115" width="10" height="10" style="mask-image: image(black)"/>
+<rect x="35" y="115" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 50% no-repeat; mask-position: 0 0, , 1px 1px"/>
+<rect x="51" y="115" width="10" height="10" style="mask-image: linear-gradient(black, 0%, white)"/>
+<rect x="67" y="115" width="10" height="10" style="mask-image: linear-gradient(black, 100%, transparent)"/>
+<rect x="83" y="115" width="10" height="10" style="mask-image: linear-gradient(black 50%, 50%, transparent 50%)"/>
+<rect x="99" y="115" width="10" height="10" style="mask-image: linear-gradient(transparent, 50%, transparent)"/>
+<rect x="115" y="115" width="10" height="10" style="mask-image: radial-gradient(0px 4px, black, white)"/>
+<rect x="3" y="131" width="10" height="10" style="mask-image: repeating-linear-gradient(black 2px, transparent 2px)"/>
+<rect x="19" y="131" width="10" height="10" style="mask: linear-gradient(black, black) 0 0 / 0px no-repeat"/>
+<rect x="35" y="131" width="10" height="10" style="mask: radial-gradient(black 50%, transparent 52%) 0 0 / 8px space"/>
+<g style="mask-image: linear-gradient(black, black)"/>
+<rect x="59" y="131" width="10" height="10" transform="translate(64 0) scale(0 1)" style="mask: linear-gradient(black, black) 0 0 / 4px space"/>
+</g>
+</svg>

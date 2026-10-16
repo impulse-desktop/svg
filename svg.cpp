@@ -1089,6 +1089,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(SystemLanguage, "systemLanguage")                         \
     ATOM(RequiredExtensions, "requiredExtensions")                 \
     ATOM(Type, "type")                                             \
+    ATOM(Mask, "mask")                                             \
     ATOM(Media, "media")                                           \
     ATOM(Title, "title")                                           \
     ATOM(Fill, "fill")                                             \
@@ -1112,8 +1113,15 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(ClipRule, "clip-rule")                                    \
     ATOM(Clip, "clip")                                             \
     ATOM(FontSize, "font-size")                                    \
-    ATOM(Mask, "mask")                                             \
     ATOM(MaskType, "mask-type")                                    \
+    ATOM(MaskImage, "mask-image")                                  \
+    ATOM(MaskMode, "mask-mode")                                    \
+    ATOM(MaskRepeat, "mask-repeat")                                \
+    ATOM(MaskPosition, "mask-position")                            \
+    ATOM(MaskClip, "mask-clip")                                    \
+    ATOM(MaskOrigin, "mask-origin")                                \
+    ATOM(MaskSize, "mask-size")                                    \
+    ATOM(MaskComposite, "mask-composite")                          \
     ATOM(FloodColor, "flood-color")                                \
     ATOM(FloodOpacity, "flood-opacity")                            \
     ATOM(LightingColor, "lighting-color")                          \
@@ -1522,6 +1530,19 @@ namespace {
         Length radius[2];
     };
 
+    // The longhands of mask in the order of their atoms.
+    enum MaskPart : u32 {
+        MaskPartImage,
+        MaskPartMode,
+        MaskPartRepeat,
+        MaskPartPosition,
+        MaskPartClip,
+        MaskPartOrigin,
+        MaskPartSize,
+        MaskPartComposite,
+        MaskParts,
+    };
+
     struct ComputedStyle {
         PaintValue fill;
         PaintValue stroke;
@@ -1541,7 +1562,9 @@ namespace {
         BasicShape* clipShape;
         // The clip property's rect(), as the four sides of a rect().
         BasicShape* clipRect;
-        u32 mask;
+        // The values of mask-image and the other longhands of mask, in
+        // their order, none for the initial one.
+        u32 maskParts[MaskParts];
         u32 markers[3];
         bool nonScaling;
         // vector-effect's constrained transformations, as VectorNonScaling
@@ -1729,6 +1752,17 @@ namespace {
         Layer,
     };
 
+    // A mask layer as drawn: the program of its image, the clip of its
+    // painting area, its type, bit 0 alpha and bit 1 linear colours, and
+    // its compositing over the layers below, as MaskLayer has it.
+    struct MaskLayerOp {
+        u32 first;
+        u32 count;
+        u32 region;
+        u8 type;
+        u8 composite;
+    };
+
     struct Op {
         OpKind kind;
         u8 rule;
@@ -1744,10 +1778,8 @@ namespace {
         bool clipProgram;
         bool masked;
         u8 blend;
-        u8 maskType;
-        u32 maskFirst;
-        u32 maskCount;
-        u32 maskRegion;
+        const MaskLayerOp* maskLayers;
+        u32 maskLayerCount;
         Filter* filter;
         u32 layerWidth;
         u32 layerHeight;
@@ -4061,6 +4093,610 @@ namespace {
 
     static bool validGeometry(u32 property, StringView value);
 
+    static bool parseLength(StringView text, Length& out);
+    static bool parsePosition(StringView text, Length& x, Length& y);
+
+    // Where a CSS mask layer takes its image from.
+    enum class MaskSource : u8 {
+        None,
+        Element,
+        Image,
+        Gradient,
+    };
+
+    // A CSS mask layer: its image, mask-image's url target or gradient, and
+    // the other longhands' values for it: mode 0 match-source, 1 alpha, 2
+    // luminance; repeat by axis 0 repeat, 1 space, 2 round, 3 no-repeat;
+    // the position by axis, from the far side where told; size 0 as given,
+    // 1 cover, 2 contain, an extent of auto where told; the boxes, clip 255
+    // for no-clip; composite 0 add, 1 subtract, 2 intersect, 3 exclude.
+    struct MaskLayer {
+        MaskSource source;
+        StringView url;
+        StringView image;
+        u8 mode;
+        u8 repeat[2];
+        Length position[2];
+        bool far[2];
+        u8 size;
+        Length extent[2];
+        bool fit[2];
+        GeometryBox origin;
+        u8 clip;
+        u8 composite;
+    };
+
+    // A word of a mask value: a function whole with its arguments, a slash
+    // alone, or a run past spaces.
+    static StringView maskWord(const u8*& p, const u8* end) {
+        skipSpaces(p, end);
+
+        const u8* start = p;
+        int depth = 0;
+
+        if (at(p, end, '/')) {
+            p++;
+
+            return StringView(start, p);
+        }
+
+        while (p < end && (depth > 0 || (!isSpace(*p) && *p != '/'))) {
+            if (*p == '"' || *p == '\'') {
+                p = skipCssString(p, end);
+                continue;
+            }
+
+            depth += *p == '(';
+            depth -= *p == ')' && depth > 0;
+            p++;
+        }
+
+        return StringView(start, p);
+    }
+
+    // The index of a word among keywords, -1 for none.
+    static int maskKeyword(StringView word, const char* const* words, int count) {
+        for (int k = 0; k < count; k++) {
+            if (equalsIgnoreCase(word, StringView(words[k]))) {
+                return k;
+            }
+        }
+
+        return -1;
+    }
+
+    const char* const maskModes[] = {"match-source", "alpha", "luminance"};
+    const char* const maskPlaces[] = {"left", "right", "top", "bottom", "center"};
+    const char* const maskComposites[] = {"add", "subtract", "intersect", "exclude"};
+    const char* const maskRepeats[] = {"repeat", "space", "round", "no-repeat"};
+    // The boxes of mask-clip and mask-origin, the CSS ones as an SVG
+    // element has them, for the clip a border box the stroke box, for the
+    // origin the fill box, as CSS Masking maps them; no-clip.
+    const char* const maskBoxes[] = {"fill-box", "stroke-box", "view-box", "content-box", "padding-box", "border-box", "no-clip"};
+    const u8 maskClipBoxes[] = {(u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, (u8)GeometryBox::View, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, 255};
+    const u8 maskOriginBoxes[] = {(u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, (u8)GeometryBox::View, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill};
+
+    static bool parseColor(StringView source, Color& out);
+    static bool readAngle(StringView text, float& out);
+
+    // A stop of a CSS gradient: its colour and its place along the line as
+    // written, if any; a hint has its place alone.
+    struct CssStop {
+        Color color;
+        Length at;
+        bool placed;
+        bool hint;
+    };
+
+    // A CSS gradient: linear or radial, perhaps repeating; the linear's
+    // angle, or the side or corner it goes to as bits, 1 left, 2 right, 4
+    // top, 8 bottom; the radial's shape, its extent 0 closest-side, 1
+    // farthest-side, 2 closest-corner, 3 farthest-corner or 4 as given, and
+    // its centre; the stops.
+    struct CssGradient {
+        bool radial;
+        bool repeating;
+        float angle;
+        u8 corner;
+        bool circle;
+        u8 extent;
+        Length radius[2];
+        Length center[2];
+        Vector<CssStop> stops;
+    };
+
+    // The line of a linear gradient: an angle with its unit, zero without,
+    // or to a side or a corner.
+    static bool gradientLine(StringView text, CssGradient& out) {
+        const u8* p = text.begin();
+        StringView word = maskWord(p, text.end());
+
+        if (!equalsIgnoreCase(word, SV("to"))) {
+            out.corner = 0;
+
+            return maskWord(p, text.end()).empty() && readAngle(word, out.angle) && (out.angle == 0.f || !(word.back() >= '0' && word.back() <= '9'));
+        }
+
+        out.corner = 0;
+
+        for (u32 count = 0; count < 2; count++) {
+            int side = maskKeyword(maskWord(p, text.end()), maskPlaces, 4);
+            u8 bit = (u8)(side >= 0 ? 1 << side : 0);
+
+            // One of each axis, the first given.
+            if ((side < 0 && count == 0) || (side >= 0 && (out.corner & (side < 2 ? 3 : 12)))) {
+                return false;
+            }
+
+            out.corner |= bit;
+        }
+
+        return maskWord(p, text.end()).empty();
+    }
+
+    // The shape of a radial gradient: circle or ellipse, an extent keyword
+    // or one or two lengths, in any order, then at a position.
+    static bool gradientShape(StringView text, CssGradient& out) {
+        static const char* const extents[] = {"closest-side", "farthest-side", "closest-corner", "farthest-corner"};
+        const u8* p = text.begin();
+        u32 lengths = 0;
+        bool shaped = false;
+        bool sized = false;
+
+        out.circle = false;
+        out.extent = 3;
+        out.center[0] = Length{50.f, Unit::Percent};
+        out.center[1] = Length{50.f, Unit::Percent};
+
+        for (StringView word = maskWord(p, text.end()); !word.empty(); word = maskWord(p, text.end())) {
+            int extent = maskKeyword(word, extents, 4);
+
+            if (equalsIgnoreCase(word, SV("at"))) {
+                return parsePosition(StringView(p, text.end()), out.center[0], out.center[1]);
+            }
+
+            if (!shaped && (equalsIgnoreCase(word, SV("circle")) || equalsIgnoreCase(word, SV("ellipse")))) {
+                out.circle = equalsIgnoreCase(word, SV("circle"));
+                shaped = true;
+            } else if (!sized && extent >= 0) {
+                out.extent = (u8)extent;
+                sized = true;
+            } else if ((!sized || lengths == 1) && lengths < 2 && parseLength(word, out.radius[lengths]) && out.radius[lengths].value >= 0.f) {
+                lengths++;
+                out.extent = 4;
+                sized = true;
+            } else {
+                return false;
+            }
+        }
+
+        // One length is a circle's, two an ellipse's; a circle's percentage
+        // is not.
+        if (lengths == 1) {
+            if (shaped && !out.circle) {
+                return false;
+            }
+
+            out.circle = true;
+        }
+
+        return !(lengths == 2 && out.circle) && !(lengths == 1 && out.radius[0].unit == Unit::Percent) && (shaped || sized);
+    }
+
+    // A CSS gradient's function: its line or shape first, perhaps, then the
+    // stops and hints apart by commas.
+    static bool parseCssGradient(StringView text, Color current, CssGradient& out) {
+        const u8* open = findOutside(text.begin(), text.end(), '(');
+        StringView name(text.begin(), open);
+        const u8* p = open + 1;
+        const u8* end = text.end() - 1;
+        u32 colors = 0;
+        bool first = true;
+
+        out.repeating = startsWithIgnoreCase(name, SV("repeating-"));
+        out.radial = equalsIgnoreCase(name, out.repeating ? SV("repeating-radial-gradient") : SV("radial-gradient"));
+        out.angle = 180.f;
+        out.corner = 0;
+        out.circle = false;
+        out.extent = 3;
+        out.center[0] = Length{50.f, Unit::Percent};
+        out.center[1] = Length{50.f, Unit::Percent};
+
+        if (!out.radial && !equalsIgnoreCase(name, out.repeating ? SV("repeating-linear-gradient") : SV("linear-gradient"))) {
+            return false;
+        }
+
+        for (;;) {
+            const u8* comma = findOutside(p, end, ',');
+            StringView item = trim(StringView(p, comma ? comma : end));
+            const u8* q = item.begin();
+            StringView word = maskWord(q, item.end());
+            CssStop stop{};
+
+            // The first item may be the line or the shape.
+            if (first && (out.radial ? gradientShape(item, out) : gradientLine(item, out))) {
+                first = false;
+            } else if (parseLength(item, stop.at)) {
+                stop.hint = true;
+                stop.placed = true;
+                out.stops.pushBack(stop);
+            } else {
+                if (equalsIgnoreCase(word, SV("currentcolor"))) {
+                    stop.color = current;
+                } else if (!parseColor(word, stop.color)) {
+                    return false;
+                }
+
+                colors++;
+                first = false;
+
+                for (u32 k = 0; k < 2; k++) {
+                    StringView place = maskWord(q, item.end());
+
+                    if (place.empty()) {
+                        break;
+                    }
+
+                    if (!parseLength(place, stop.at)) {
+                        return false;
+                    }
+
+                    stop.placed = true;
+                    out.stops.pushBack(stop);
+                }
+
+                if (!stop.placed) {
+                    out.stops.pushBack(stop);
+                }
+
+                if (!maskWord(q, item.end()).empty()) {
+                    return false;
+                }
+            }
+
+            first = false;
+
+            if (!comma) {
+                break;
+            }
+
+            p = comma + 1;
+        }
+
+        // A hint stands between two colours.
+        for (size_t i = 0; i < out.stops.length(); i++) {
+            if (out.stops[i].hint && (i == 0 || i + 1 == out.stops.length() || out.stops[i + 1].hint)) {
+                return false;
+            }
+        }
+
+        return colors >= 2;
+    }
+
+    // mask-image: none, a url, to a mask element by its fragment or an
+    // image, or a gradient.
+    static bool maskImageOf(StringView text, MaskLayer& out) {
+        static const char* const gradients[] = {"linear-gradient(", "radial-gradient(", "conic-gradient(", "repeating-linear-gradient(", "repeating-radial-gradient(", "repeating-conic-gradient("};
+
+        out.source = MaskSource::None;
+
+        if (equalsIgnoreCase(text, SV("none"))) {
+            return true;
+        }
+
+        if (text.length() < 5 || text.back() != ')') {
+            return false;
+        }
+
+        if (equalsIgnoreCase(StringView(text.begin(), text.begin() + 4), SV("url("))) {
+            StringView url = trim(StringView(text.begin() + 4, text.end() - 1));
+
+            if (url.length() >= 2 && (url[0] == '"' || url[0] == '\'') && url.back() == url[0]) {
+                url = StringView(url.begin() + 1, url.end() - 1);
+            }
+
+            out.source = at(url.begin(), url.end(), '#') ? MaskSource::Element : MaskSource::Image;
+            out.url = out.source == MaskSource::Element ? StringView(url.begin() + 1, url.end()) : url;
+
+            return true;
+        }
+
+        for (const char* gradient : gradients) {
+            StringView name(gradient);
+
+            CssGradient parsed;
+
+            if (text.length() > name.length() && equalsIgnoreCase(StringView(text.begin(), text.begin() + name.length()), name)) {
+                out.source = MaskSource::Gradient;
+                out.image = text;
+
+                return parseCssGradient(text, Color{0.f, 0.f, 0.f, 1.f}, parsed);
+            }
+        }
+
+        return false;
+    }
+
+    // mask-repeat: repeat-x or repeat-y, repeat-inline or repeat-block,
+    // the same in horizontal writing, or one or two of the four.
+    static bool maskRepeatOf(StringView text, MaskLayer& out) {
+        static const char* const axes[] = {"repeat-x", "repeat-inline", "repeat-y", "repeat-block"};
+        const u8* p = text.begin();
+        StringView first = maskWord(p, text.end());
+        StringView second = maskWord(p, text.end());
+        int x = maskKeyword(first, maskRepeats, 4);
+        int y = second.empty() ? x : maskKeyword(second, maskRepeats, 4);
+        int axis = maskKeyword(first, axes, 4);
+
+        if (second.empty() && axis >= 0) {
+            x = axis < 2 ? 0 : 3;
+            y = 3 - x;
+        }
+
+        out.repeat[0] = (u8)x;
+        out.repeat[1] = (u8)y;
+
+        return x >= 0 && y >= 0 && maskWord(p, text.end()).empty();
+    }
+
+    // mask-position: background-position's one to four words.
+    static bool maskPositionOf(StringView text, MaskLayer& out) {
+        const u8* p = text.begin();
+        StringView words[5];
+        u32 count = 0;
+
+        out.far[0] = false;
+        out.far[1] = false;
+
+        while (count < 5 && !(words[count] = maskWord(p, text.end())).empty()) {
+            count++;
+        }
+
+        if (count == 0 || count == 5) {
+            return false;
+        }
+
+        if (count <= 2) {
+            return parsePosition(text, out.position[0], out.position[1]);
+        }
+
+        // Four: two sides, one of each axis, each with its offset; CSS
+        // Values' position has no three.
+        bool set[2] = {false, false};
+
+        for (u32 i = 0; i < count; i += 2) {
+            int keyword = maskKeyword(words[i], maskPlaces, 4);
+            int axis = keyword / 2;
+
+            if (count != 4 || keyword < 0 || set[axis] || !parseLength(words[i + 1], out.position[axis])) {
+                return false;
+            }
+
+            set[axis] = true;
+            out.far[axis] = keyword % 2 == 1;
+        }
+
+        return true;
+    }
+
+    // mask-size: cover, contain, or one or two extents of no sign or auto.
+    static bool maskSizeOf(StringView text, MaskLayer& out) {
+        const u8* p = text.begin();
+        StringView first = maskWord(p, text.end());
+        StringView second = maskWord(p, text.end());
+
+        out.size = equalsIgnoreCase(first, SV("cover")) ? 1 : (equalsIgnoreCase(first, SV("contain")) ? 2 : 0);
+
+        if (out.size) {
+            return second.empty();
+        }
+
+        StringView words[2] = {first, second.empty() ? SV("auto") : second};
+
+        for (int axis = 0; axis < 2; axis++) {
+            out.fit[axis] = equalsIgnoreCase(words[axis], SV("auto"));
+
+            if (!out.fit[axis] && (!parseLength(words[axis], out.extent[axis]) || out.extent[axis].value < 0.f)) {
+                return false;
+            }
+        }
+
+        return maskWord(p, text.end()).empty();
+    }
+
+    // One value of a mask longhand, for the layer.
+    static bool maskPartOf(u32 part, StringView text, MaskLayer& out) {
+        int k;
+
+        switch (part) {
+            case MaskPartImage:
+                return maskImageOf(text, out);
+            case MaskPartMode:
+                k = maskKeyword(text, maskModes, 3);
+                out.mode = (u8)k;
+
+                return k >= 0;
+            case MaskPartRepeat:
+                return maskRepeatOf(text, out);
+            case MaskPartPosition:
+                return maskPositionOf(text, out);
+            case MaskPartClip:
+            case MaskPartOrigin:
+                k = maskKeyword(text, maskBoxes, 7);
+
+                if (k < 0 || (part == MaskPartOrigin && k == 6)) {
+                    return false;
+                }
+
+                if (part == MaskPartClip) {
+                    out.clip = maskClipBoxes[k];
+                } else {
+                    out.origin = (GeometryBox)maskOriginBoxes[k];
+                }
+
+                return true;
+            case MaskPartSize:
+                return maskSizeOf(text, out);
+            default:
+                // MaskPartComposite.
+                k = maskKeyword(text, maskComposites, 4);
+                out.composite = (u8)k;
+
+                return k >= 0;
+        }
+    }
+
+    // A mask longhand's values apart by commas, each valid.
+    static bool maskListValid(u32 part, StringView text) {
+        const u8* p = text.begin();
+        MaskLayer layer;
+
+        for (;;) {
+            const u8* comma = findOutside(p, text.end(), ',');
+
+            if (!maskPartOf(part, trim(StringView(p, comma ? comma : text.end())), layer)) {
+                return false;
+            }
+
+            if (!comma) {
+                return true;
+            }
+
+            p = comma + 1;
+        }
+    }
+
+    // The mask shorthand into its longhands: each layer's parts in any
+    // order, a position perhaps with a size after a slash, one box both the
+    // origin and the clip, two the one then the other; a part left out
+    // takes its initial value.
+    static bool expandMask(Document& doc, StringView value, u32 (&out)[MaskParts]) {
+        static const char* const initial[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
+        Buffer lists[MaskParts];
+        const u8* p = value.begin();
+
+        if (equalsIgnoreCase(value, SV("inherit")) || equalsIgnoreCase(value, SV("initial")) || equalsIgnoreCase(value, SV("unset"))) {
+            for (u32 k = 0; k < MaskParts; k++) {
+                out[k] = intern(doc.atoms, value);
+            }
+
+            return true;
+        }
+
+        for (u32 layer = 0;; layer++) {
+            const u8* comma = findOutside(p, value.end(), ',');
+            const u8* end = comma ? comma : value.end();
+            StringView parts[MaskParts];
+            StringView boxes[2];
+            u32 boxCount = 0;
+            MaskLayer probe;
+
+            memset(&probe, 0, sizeof(probe));
+
+            for (const u8* q = p;;) {
+                const u8* start = q;
+                StringView word = maskWord(q, end);
+                Length length;
+
+                if (word.empty()) {
+                    break;
+                }
+
+                bool positional = maskKeyword(word, maskPlaces, 5) >= 0 || parseLength(word, length);
+
+                if (parts[MaskPartImage].empty() && maskImageOf(word, probe)) {
+                    parts[MaskPartImage] = word;
+                } else if (parts[MaskPartMode].empty() && maskKeyword(word, maskModes, 3) >= 0) {
+                    parts[MaskPartMode] = word;
+                } else if (parts[MaskPartComposite].empty() && maskKeyword(word, maskComposites, 4) >= 0) {
+                    parts[MaskPartComposite] = word;
+                } else if (parts[MaskPartRepeat].empty() && (maskKeyword(word, maskRepeats, 4) >= 0 || maskRepeatOf(word, probe))) {
+                    const u8* r = q;
+
+                    // A second of the four belongs to the first.
+                    if (maskKeyword(word, maskRepeats, 4) >= 0 && maskKeyword(maskWord(r, end), maskRepeats, 4) >= 0) {
+                        q = r;
+                    }
+
+                    parts[MaskPartRepeat] = trim(StringView(start, q));
+                } else if (boxCount < 2 && maskKeyword(word, maskBoxes, 7) >= 0) {
+                    boxes[boxCount++] = word;
+                } else if (parts[MaskPartPosition].empty() && positional) {
+                    const u8* last = q;
+                    const u8* r = q;
+
+                    for (u32 count = 1; count < 4; count++) {
+                        StringView next = maskWord(r, end);
+
+                        if (!(maskKeyword(next, maskPlaces, 5) >= 0 || parseLength(next, length))) {
+                            break;
+                        }
+
+                        last = r;
+                    }
+
+                    q = last;
+                    parts[MaskPartPosition] = trim(StringView(start, q));
+                    r = q;
+
+                    if (equalsIgnoreCase(maskWord(r, end), SV("/"))) {
+                        const u8* sizeStart = r;
+                        const u8* sizeEnd = r;
+                        StringView first = maskWord(r, end);
+
+                        sizeEnd = r;
+
+                        if (!(equalsIgnoreCase(first, SV("cover")) || equalsIgnoreCase(first, SV("contain")))) {
+                            const u8* s = r;
+                            StringView second = maskWord(s, end);
+
+                            if (equalsIgnoreCase(second, SV("auto")) || parseLength(second, length)) {
+                                sizeEnd = s;
+                            }
+                        }
+
+                        parts[MaskPartSize] = trim(StringView(sizeStart, sizeEnd));
+                        q = sizeEnd;
+                    }
+                } else {
+                    return false;
+                }
+            }
+
+            // One box is both, two the origin then the clip.
+            if (boxCount) {
+                parts[MaskPartOrigin] = boxCount == 2 || !equalsIgnoreCase(boxes[0], SV("no-clip")) ? boxes[0] : StringView();
+                parts[MaskPartClip] = boxes[boxCount - 1];
+            }
+
+            for (u32 k = 0; k < MaskParts; k++) {
+                StringView part = parts[k].empty() ? StringView(initial[k]) : parts[k];
+
+                if (!maskPartOf(k, part, probe)) {
+                    return false;
+                }
+
+                if (layer) {
+                    lists[k].append(", ", 2);
+                }
+
+                lists[k].append(part.begin(), part.length());
+            }
+
+            if (!comma) {
+                break;
+            }
+
+            p = comma + 1;
+        }
+
+        for (u32 k = 0; k < MaskParts; k++) {
+            out[k] = intern(doc.atoms, keep(*doc.pool, (const u8*)lists[k].data(), lists[k].length()));
+        }
+
+        return true;
+    }
+
     static void parseDeclarations(Document& doc, StringView block, Vector<Declaration>& out) {
         const u8* p = block.begin();
         const u8* end = block.end();
@@ -4112,7 +4748,7 @@ namespace {
                 property = AtomClipPathProperty;
             }
 
-            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker) {
+            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker && property != AtomMask) {
                 continue;
             }
 
@@ -4127,6 +4763,19 @@ namespace {
             // at computed-value time: it is unset.
             if (findFunction(value, SV("var(")) || findFunction(value, SV("env("))) {
                 value = substituteFallbacks(value, substituted, 0) ? trim(keep(*doc.pool, substituted.data(), substituted.length())) : SV("unset");
+            }
+
+            u32 parts[MaskParts];
+
+            // mask sets its longhands; an invalid one is dropped whole.
+            if (property == AtomMask) {
+                if (expandMask(doc, value, parts)) {
+                    for (u32 k = 0; k < MaskParts; k++) {
+                        out.pushBack(Declaration{AtomMaskImage + k, parts[k], important});
+                    }
+                }
+
+                continue;
             }
 
             if (property == AtomMarker) {
@@ -5032,6 +5681,15 @@ namespace {
                 return parseLength(text, length) && length.value >= 0.f;
             case AtomShapeRendering:
                 return equalsIgnoreCase(text, SV("auto")) || equalsIgnoreCase(text, SV("optimizespeed")) || equalsIgnoreCase(text, SV("crispedges")) || equalsIgnoreCase(text, SV("geometricprecision"));
+            case AtomMaskImage:
+            case AtomMaskMode:
+            case AtomMaskRepeat:
+            case AtomMaskPosition:
+            case AtomMaskClip:
+            case AtomMaskOrigin:
+            case AtomMaskSize:
+            case AtomMaskComposite:
+                return maskListValid(property - AtomMaskImage, text);
             default:
                 return true;
         }
@@ -5047,7 +5705,17 @@ namespace {
         for (u32 i = 0; i < node->count; i++) {
             u32 name = node->attributes[i].name;
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline && name != AtomZoom) {
+            u32 parts[MaskParts];
+
+            // mask is the presentation attribute of the shorthand, not of
+            // its longhands.
+            if (name == AtomMask && expandMask(doc, textOf(doc, node->attributes[i].value), parts)) {
+                for (u32 k = 0; k < MaskParts; k++) {
+                    consider(best, AtomMaskImage + k, parts[k], 1);
+                }
+            }
+
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskComposite)) {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
@@ -8655,7 +9323,7 @@ namespace {
         style.backgroundClipped = false;
         style.outlineWidth = 0.f;
         style.zoom = 1.f;
-        style.mask = 0;
+        memset(style.maskParts, 0, sizeof(style.maskParts));
         style.maskType = 0;
         style.floodColor = Color{0.f, 0.f, 0.f, 1.f};
         style.floodOpacity = 1.f;
@@ -8676,7 +9344,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskComposite) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -8703,7 +9371,8 @@ namespace {
         }
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
-            StringView value = l.instance && l.instance[node->index] ? (l.instance[node->index][property - firstProperty] ? textOf(doc, l.instance[node->index][property - firstProperty]) : StringView()) : cascaded(doc, node, property);
+            u32 atom = l.instance && l.instance[node->index] ? l.instance[node->index][property - firstProperty] : node->style[property - firstProperty];
+            StringView value = atom ? textOf(doc, atom) : StringView();
 
             if (value.empty() || property == AtomFontSize) {
                 continue;
@@ -8713,7 +9382,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && property != AtomMask && property != AtomMaskType && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskComposite) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -8949,16 +9618,10 @@ namespace {
 
                     break;
                 }
-                case AtomClipPathProperty:
-                case AtomMask: {
-                    u32& target = property == AtomMask ? style.mask : style.clipPath;
-
+                case AtomClipPathProperty: {
                     if (keyword) {
-                        target = property == AtomMask ? source.mask : source.clipPath;
-
-                        if (property != AtomMask) {
-                            style.clipShape = source.clipShape;
-                        }
+                        style.clipPath = source.clipPath;
+                        style.clipShape = source.clipShape;
 
                         break;
                     }
@@ -8967,15 +9630,25 @@ namespace {
                     BasicShape shape;
 
                     if (parsePaint(doc, value, reference) && reference.kind == PaintKind::Server) {
-                        target = reference.server;
+                        style.clipPath = reference.server;
                     } else if (isKeyword(value, SV("none"))) {
-                        target = 0;
-                    } else if (property != AtomMask && parseBasicShape(*l.pool, value, shape)) {
+                        style.clipPath = 0;
+                    } else if (parseBasicShape(*l.pool, value, shape)) {
                         style.clipShape = l.pool->make<BasicShape>(shape);
                     }
 
                     break;
                 }
+                case AtomMaskImage:
+                case AtomMaskMode:
+                case AtomMaskRepeat:
+                case AtomMaskPosition:
+                case AtomMaskClip:
+                case AtomMaskOrigin:
+                case AtomMaskSize:
+                case AtomMaskComposite:
+                    style.maskParts[property - AtomMaskImage] = keyword ? source.maskParts[property - AtomMaskImage] : atom;
+                    break;
                 case AtomPaintOrder: {
                     if (keyword) {
                         memcpy(style.paintOrder, source.paintOrder, sizeof(style.paintOrder));
@@ -11267,14 +11940,11 @@ namespace {
         return length.unit == Unit::Percent ? length.value / 100.f : length.value;
     }
 
-    static bool resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
+    // A mask element as a mask layer: its region in the user space of the
+    // element it masks, its content a program, its type the mask-type, or
+    // the mode's other than match-source.
+    static void maskElementLayer(Lowering& l, Node* element, const ComputedStyle& parent, Node* mask, u8 mode, const Matrix& m, Viewport vp, MaskLayerOp& out) {
         const Document& doc = *l.doc;
-        Node* mask = elementById(doc, style.mask);
-
-        if (!mask || mask->name != AtomMask || !resourceUsable(l, mask, vp) || closesCycle(l, element, AtomMask, mask)) {
-            return false;
-        }
-
         u32 units = attribute(mask, AtomMaskUnits);
         u32 contentUnits = attribute(mask, AtomMaskContentUnits);
         bool boxRegion = !units || textOf(doc, units) != SV("userSpaceOnUse");
@@ -11286,16 +11956,15 @@ namespace {
         float w;
         float h;
 
-        op.masked = true;
-        op.maskType = (u8)(maskStyle.maskType | (maskStyle.linearColors ? 2 : 0));
-        op.maskFirst = (u32)l.programs.length();
-        op.maskCount = 0;
-        op.maskRegion = (u32)l.clips.length();
+        out.type = (u8)((mode ? mode == 1 : maskStyle.maskType) | (maskStyle.linearColors ? 2 : 0));
+        out.first = (u32)l.programs.length();
+        out.count = 0;
+        out.region = (u32)l.clips.length();
 
         if ((boxRegion || boxContent) && (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
 
-            return true;
+            return;
         }
 
         if (boxRegion) {
@@ -11331,7 +12000,7 @@ namespace {
         if (w <= 0.f || h <= 0.f) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
 
-            return true;
+            return;
         }
 
         addRectClip(l, m, x, y, w, h);
@@ -11350,11 +12019,498 @@ namespace {
         lowerChildren(l, mask, maskStyle, content, vp);
         l.active.popBack();
         l.out = saved;
-        op.maskFirst = (u32)l.programs.length();
-        op.maskCount = (u32)program.length();
+        out.first = (u32)l.programs.length();
+        out.count = (u32)program.length();
+        l.programs.append(program.data(), program.length());
+    }
+
+    // The stops of a CSS gradient along a line of the given length, placed
+    // as CSS Images places them, a hint's curve and the mix of colours of
+    // differing alpha, which CSS takes premultiplied, sampled into stops in
+    // between; offsets over the line, perhaps past 0 to 1.
+    static void cssStops(const CssGradient& g, float length, Viewport vp, float fs, Vector<GradientStop>& out) {
+        Vector<float> at;
+        size_t n = g.stops.length();
+
+        at.zero(n);
+
+        for (size_t i = 0; i < n; i++) {
+            const CssStop& s = g.stops[i];
+
+            at.mut(i) = s.placed ? (s.at.unit == Unit::Percent ? s.at.value / 100.f : resolveLength(s.at, Axis::Other, vp, fs) / (length > 0.f ? length : 1.f)) : (i == 0 ? 0.f : (i + 1 == n ? 1.f : -1e30f));
+        }
+
+        // No place before the largest before it; the unplaced spread evenly.
+        float largest = -1e30f;
+
+        for (size_t i = 0; i < n; i++) {
+            if (at[i] > -1e29f) {
+                at.mut(i) = maxf(at[i], largest);
+                largest = at[i];
+            }
+        }
+
+        for (size_t i = 0; i < n;) {
+            size_t j = i + 1;
+
+            while (j < n && at[j] < -1e29f) {
+                j++;
+            }
+
+            for (size_t k = i + 1; k < j; k++) {
+                at.mut(k) = at[i] + (at[j] - at[i]) * (float)(k - i) / (float)(j - i);
+            }
+
+            i = j;
+        }
+
+        // Between two colours, a hint's curve and premultiplied mixing.
+        for (size_t i = 0; i < n; i++) {
+            const CssStop& s = g.stops[i];
+
+            if (s.hint) {
+                continue;
+            }
+
+            if (!out.length()) {
+                out.pushBack(GradientStop{at[i], s.color, {}});
+                continue;
+            }
+
+            size_t before = i - 1;
+            float hint = g.stops[before].hint ? at[before] : -1.f;
+
+            before -= g.stops[before].hint;
+
+            Color a = g.stops[before].color;
+            Color b = s.color;
+            float from = at[before];
+            float to = at[i];
+            int steps = hint >= 0.f || a.a != b.a ? 16 : 1;
+
+            for (int k = 1; k <= steps; k++) {
+                float t = (float)k / (float)steps;
+                float w = t;
+
+                if (hint >= 0.f && to > from) {
+                    float h = (hint - from) / (to - from);
+
+                    w = h <= 0.f ? 1.f : (h >= 1.f ? 0.f : powf(t, logf(0.5f) / logf(h)));
+                }
+
+                float alpha = a.a + (b.a - a.a) * w;
+                float wa = (1.f - w) * a.a;
+                float wb = w * b.a;
+                float sum = wa + wb;
+                Color c = sum > 0.f ? Color{(a.r * wa + b.r * wb) / sum, (a.g * wa + b.g * wb) / sum, (a.b * wa + b.b * wb) / sum, alpha} : Color{a.r + (b.r - a.r) * w, a.g + (b.g - a.g) * w, a.b + (b.b - a.b) * w, alpha};
+
+                out.pushBack(GradientStop{from + (to - from) * t, c, {}});
+            }
+        }
+    }
+
+    // The colour a CSS gradient of no extent draws: its last stop's, or, of
+    // a repeating one, the average over its stops spread evenly, mixed
+    // premultiplied, as CSS Images takes it.
+    static DevicePaint* flatGradient(Lowering& l, const CssGradient& g, Viewport vp, float fs) {
+        Vector<GradientStop> stops;
+
+        cssStops(g, 1.f, vp, fs, stops);
+
+        Color last = stops.back().color;
+        float sum[4] = {0.f, 0.f, 0.f, 0.f};
+
+        for (size_t i = 0; i + 1 < stops.length() && g.repeating; i++) {
+            const Color& a = stops[i].color;
+            const Color& b = stops[i + 1].color;
+
+            sum[0] += (a.r * a.a + b.r * b.a) / 2.f;
+            sum[1] += (a.g * a.a + b.g * b.a) / 2.f;
+            sum[2] += (a.b * a.a + b.b * b.a) / 2.f;
+            sum[3] += (a.a + b.a) / 2.f;
+        }
+
+        if (g.repeating) {
+            float n = (float)(stops.length() - 1);
+            float alpha = sum[3] / n;
+
+            last = alpha > 0.f ? Color{sum[0] / n / alpha, sum[1] / n / alpha, sum[2] / n / alpha, alpha} : Color{0.f, 0.f, 0.f, 0.f};
+        }
+
+        return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
+    }
+
+    // A CSS gradient's paint for an image of w by h, its space the user
+    // space the matrix takes to the device, from the image's top left.
+    static DevicePaint* cssGradientPaint(Lowering& l, const CssGradient& g, float w, float h, const Matrix& space, Viewport vp, float fs) {
+        Vector<GradientStop> stops;
+        DevicePaint* paint = l.pool->make<DevicePaint>();
+        Matrix ellipse = identity();
+        float length;
+
+        memset(paint, 0, sizeof(DevicePaint));
+
+        if (!g.radial) {
+            // The line through the middle, as long as the box is across it.
+            float dx = sinf(g.angle * pi / 180.f);
+            float dy = -cosf(g.angle * pi / 180.f);
+
+            if (g.corner) {
+                float sx = g.corner & 1 ? -1.f : (g.corner & 2 ? 1.f : 0.f);
+                float sy = g.corner & 4 ? -1.f : (g.corner & 8 ? 1.f : 0.f);
+                bool both = sx != 0.f && sy != 0.f;
+                float nx = both ? sx * h : sx;
+                float ny = both ? sy * w : sy;
+                float norm = hypotf(nx, ny);
+
+                dx = nx / norm;
+                dy = ny / norm;
+            }
+
+            length = fabsf(w * dx) + fabsf(h * dy);
+            paint->type = PaintType::Linear;
+            paint->x1 = w / 2.f - dx * length / 2.f;
+            paint->y1 = h / 2.f - dy * length / 2.f;
+            paint->x2 = w / 2.f + dx * length / 2.f;
+            paint->y2 = h / 2.f + dy * length / 2.f;
+        } else {
+            float cx = shapeLength(g.center[0], w, vp, fs);
+            float cy = shapeLength(g.center[1], h, vp, fs);
+            float near[2] = {minf(fabsf(cx), fabsf(w - cx)), minf(fabsf(cy), fabsf(h - cy))};
+            float far[2] = {maxf(fabsf(cx), fabsf(w - cx)), maxf(fabsf(cy), fabsf(h - cy))};
+            bool farthest = g.extent == 1 || g.extent == 3;
+            float side[2] = {farthest ? far[0] : near[0], farthest ? far[1] : near[1]};
+            float rx;
+            float ry;
+
+            if (g.extent == 4) {
+                rx = shapeLength(g.radius[0], w, vp, fs);
+                ry = g.circle ? rx : shapeLength(g.radius[1], h, vp, fs);
+            } else if (g.extent < 2) {
+                rx = g.circle ? (farthest ? maxf(side[0], side[1]) : minf(side[0], side[1])) : side[0];
+                ry = g.circle ? rx : side[1];
+            } else {
+                // Through the corner, a circle, or an ellipse of the sides'
+                // ratio.
+                float corner = hypotf(side[0], side[1]);
+
+                rx = g.circle ? corner : side[0] * 1.41421356f;
+                ry = g.circle ? corner : side[1] * 1.41421356f;
+            }
+
+            // A radial of no width or height draws flat.
+            if (!(rx > 0.f) || !(ry > 0.f)) {
+                return flatGradient(l, g, vp, fs);
+            }
+
+            length = rx;
+            ellipse = multiply(multiply(translation(cx, cy), scaling(1.f, ry / rx)), translation(-cx, -cy));
+            paint->type = PaintType::Radial;
+            paint->cx = cx;
+            paint->cy = cy;
+            paint->fx = cx;
+            paint->fy = cy;
+            paint->r = rx;
+        }
+
+        cssStops(g, length, vp, fs, stops);
+
+        float lo = stops[0].offset;
+        float hi = stops.back().offset;
+
+        // Repeating, the stops' range is a period, of a radial one past its
+        // centre by whole periods; else the line covers the stops past it,
+        // a radial one's from its centre.
+        if (!g.repeating) {
+            lo = g.radial ? 0.f : minf(lo, 0.f);
+            hi = maxf(hi, 1.f);
+        }
+
+        if (!(hi > lo)) {
+            return flatGradient(l, g, vp, fs);
+        }
+
+        if (g.radial && lo < 0.f) {
+            float shift = ceilf(-lo / (hi - lo)) * (hi - lo);
+
+            for (size_t i = 0; i < stops.length(); i++) {
+                stops.mut(i).offset += shift;
+            }
+
+            lo += shift;
+            hi += shift;
+        }
+
+        for (size_t i = 0; i < stops.length(); i++) {
+            stops.mut(i).offset = clampUnit((stops[i].offset - lo) / (hi - lo));
+        }
+
+        if (!g.radial) {
+            float x1 = paint->x1;
+            float y1 = paint->y1;
+
+            paint->x1 = x1 + (paint->x2 - x1) * lo;
+            paint->y1 = y1 + (paint->y2 - y1) * lo;
+            paint->x2 = x1 + (paint->x2 - x1) * hi;
+            paint->y2 = y1 + (paint->y2 - y1) * hi;
+        } else {
+            paint->fr = paint->r * lo;
+            paint->r *= hi;
+        }
+
+        paint->spread = g.repeating ? SpreadRepeat : SpreadPad;
+        paint->stopCount = (u32)stops.length();
+        paint->stops = (GradientStop*)l.pool->allocate(sizeof(GradientStop) * stops.length());
+        memcpy(paint->stops, stops.data(), sizeof(GradientStop) * stops.length());
+
+        for (u32 i = 0; i < paint->stopCount; i++) {
+            storeColor(paint->stops[i].stored, paint->stops[i].color);
+        }
+
+        return invert(multiply(space, ellipse), paint->inverse) ? paint : nullptr;
+    }
+
+    // A box filled with a paint under the matrix.
+    static void fillBox(Lowering& l, Box box, const Matrix& m, DevicePaint* paint) {
+        Path path;
+        Flat flat;
+
+        if (!paint) {
+            return;
+        }
+
+        moveTo(path, Point{box.x0, box.y0});
+        lineTo(path, Point{box.x1, box.y0});
+        lineTo(path, Point{box.x1, box.y1});
+        lineTo(path, Point{box.x0, box.y1});
+        closePath(path);
+        flatten(path, m, tolerance, flat);
+        emitFill(l, flat, WindingNonZero, paint, false);
+    }
+
+    // A paint repeating a tile, of the period given in the user space the
+    // matrix takes to the device from the tile's origin, drawn by draw in
+    // the tile's pixels from the matrix it is given.
+    template <typename Draw>
+    static DevicePaint* tilePaint(Lowering& l, const Matrix& space, float pw, float ph, Draw draw) {
+        float tw = minf(maxf(ceilf(pw * hypotf(space.a, space.b)), 1.f), 2048.f);
+        float th = minf(maxf(ceilf(ph * hypotf(space.c, space.d)), 1.f), 2048.f);
+        DevicePaint* paint = l.pool->make<DevicePaint>();
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+        u32 width = l.width;
+        u32 height = l.height;
+
+        memset(paint, 0, sizeof(DevicePaint));
+        paint->type = PaintType::Pattern;
+        paint->imageWidth = (u32)tw;
+        paint->imageHeight = (u32)th;
+        paint->opacity = 1.f;
+
+        if (!invert(multiply(space, scaling(pw / tw, ph / th)), paint->inverse)) {
+            return nullptr;
+        }
+
+        l.out = &program;
+        l.width = (u32)tw;
+        l.height = (u32)th;
+        l.patternDepth++;
+        draw(scaling(tw / pw, th / ph));
+        l.patternDepth--;
+        l.width = width;
+        l.height = height;
+        l.out = saved;
+        paint->programFirst = (u32)l.programs.length();
+        paint->programCount = (u32)program.length();
         l.programs.append(program.data(), program.length());
 
-        return true;
+        return paint;
+    }
+
+    // A mask layer of a gradient: its image sized in the positioning area
+    // as mask-size has it, placed by mask-position, repeated over the
+    // painting area by mask-repeat, whole numbers for round and spread
+    // apart for space, as CSS Backgrounds lays images out; the painting
+    // area bounds it. The boxes are the fill box, the stroke box, midway
+    // and the viewport.
+    static void gradientMaskLayer(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const MaskLayer& layer, const Matrix& m, Viewport vp, MaskLayerOp& out) {
+        CssGradient gradient;
+        Box fill;
+        float fs = style.fontSize;
+
+        out.type = layer.mode != 2;
+        out.first = (u32)l.programs.length();
+        out.count = 0;
+        out.region = (u32)l.clips.length();
+
+        if (!parseCssGradient(layer.image, style.color, gradient) || !elementBox(l, element, parent, vp, fill, 0)) {
+            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+
+            return;
+        }
+
+        auto boxOf = [&](u8 kind) {
+            return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : strokeBox(fill, style, element, kind == (u8)GeometryBox::Stroke ? 0.5f : 0.25f));
+        };
+        Box area = boxOf((u8)layer.origin);
+        Box painted = layer.clip == 255 ? Box{-3e7f, -3e7f, 3e7f, 3e7f} : boxOf(layer.clip);
+        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
+        float start[2] = {area.x0, area.y0};
+        float size[2];
+        float gap[2] = {0.f, 0.f};
+        float origin[2];
+        bool repeats[2];
+
+        // A gradient has no size of its own: auto, cover and contain are
+        // the area's.
+        for (int axis = 0; axis < 2; axis++) {
+            size[axis] = layer.size || layer.fit[axis] ? span[axis] : shapeLength(layer.extent[axis], span[axis], vp, fs);
+        }
+
+        for (int axis = 0; axis < 2; axis++) {
+            float was = size[axis];
+
+            if (layer.repeat[axis] == 2 && size[axis] > 0.f) {
+                size[axis] = span[axis] / maxf(1.f, roundf(span[axis] / size[axis]));
+
+                // The other side of auto keeps the ratio.
+                if (layer.fit[1 - axis] && layer.repeat[1 - axis] != 2) {
+                    size[1 - axis] *= size[axis] / was;
+                }
+            }
+        }
+
+        if (!(size[0] > 0.f) || !(size[1] > 0.f)) {
+            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+
+            return;
+        }
+
+        for (int axis = 0; axis < 2; axis++) {
+            const Length& at = layer.position[axis];
+            float offset = at.unit == Unit::Percent ? (span[axis] - size[axis]) * at.value / 100.f : resolveLength(at, Axis::Other, vp, fs);
+            float count = floorf(span[axis] / size[axis]);
+
+            origin[axis] = start[axis] + (layer.far[axis] ? span[axis] - size[axis] - offset : offset);
+            repeats[axis] = layer.repeat[axis] != 3 && !(layer.repeat[axis] == 1 && count < 2.f);
+
+            if (layer.repeat[axis] == 1 && count >= 2.f) {
+                gap[axis] = (span[axis] - count * size[axis]) / (count - 1.f);
+                origin[axis] = start[axis];
+            }
+        }
+
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+        Matrix space = multiply(m, translation(origin[0], origin[1]));
+
+        l.out = &program;
+
+        if (!repeats[0] && !repeats[1]) {
+            fillBox(l, Box{0.f, 0.f, size[0], size[1]}, space, cssGradientPaint(l, gradient, size[0], size[1], space, vp, fs));
+        } else {
+            DevicePaint* tiles = tilePaint(l, space, size[0] + gap[0], size[1] + gap[1], [&](const Matrix& tile) {
+                fillBox(l, Box{0.f, 0.f, size[0], size[1]}, tile, cssGradientPaint(l, gradient, size[0], size[1], tile, vp, fs));
+            });
+            Box strip = painted;
+
+            // An axis that does not repeat holds one row of tiles.
+            if (!repeats[0]) {
+                strip.x0 = origin[0];
+                strip.x1 = origin[0] + size[0];
+            }
+
+            if (!repeats[1]) {
+                strip.y0 = origin[1];
+                strip.y1 = origin[1] + size[1];
+            }
+
+            fillBox(l, strip, m, tiles);
+        }
+
+        l.out = saved;
+        out.first = (u32)l.programs.length();
+        out.count = (u32)program.length();
+        l.programs.append(program.data(), program.length());
+        addRectClip(l, m, painted.x0, painted.y0, painted.x1 - painted.x0, painted.y1 - painted.y0);
+    }
+
+    const char* const maskInitials[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
+
+    // The mask layers of a style: one a value of mask-image, each of the
+    // other longhands' values in turn, the initial one where not set.
+    static void maskLayersOf(const Document& doc, const ComputedStyle& style, Vector<MaskLayer>& out) {
+        for (u32 k = 0; k < MaskParts; k++) {
+            StringView list = style.maskParts[k] ? textOf(doc, style.maskParts[k]) : StringView(maskInitials[k]);
+            Vector<StringView> items;
+            const u8* p = list.begin();
+
+            for (;;) {
+                const u8* comma = findOutside(p, list.end(), ',');
+
+                items.pushBack(trim(StringView(p, comma ? comma : list.end())));
+
+                if (!comma) {
+                    break;
+                }
+
+                p = comma + 1;
+            }
+
+            if (k == MaskPartImage) {
+                out.zero(items.length());
+            }
+
+            for (size_t i = 0; i < out.length(); i++) {
+                maskPartOf(k, items[i % items.length()], out.mut(i));
+            }
+        }
+    }
+
+    // The mask layers of an element. none, and a reference to no usable
+    // mask element, draw as if not there, as browsers draw them, which CSS
+    // Masking takes for transparent black; with no layer left nothing
+    // masks.
+    static void resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
+        const Document& doc = *l.doc;
+        Vector<MaskLayer> layers;
+        u32 count = 0;
+        bool any = false;
+
+        maskLayersOf(doc, style, layers);
+
+        MaskLayerOp* ops = (MaskLayerOp*)l.pool->allocate(sizeof(MaskLayerOp) * layers.length());
+
+        for (const MaskLayer& layer : layers) {
+            MaskLayerOp& out = ops[count];
+            Node* mask = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, layer.url)) : nullptr;
+
+            if (layer.source == MaskSource::None || (layer.source == MaskSource::Element && (!mask || mask->name != AtomMask || !resourceUsable(l, mask, vp) || closesCycle(l, element, AtomMask, mask)))) {
+                continue;
+            }
+
+            out.composite = layer.composite;
+
+            if (mask) {
+                maskElementLayer(l, element, parent, mask, layer.mode, m, vp, out);
+                any = true;
+            } else if (layer.source == MaskSource::Gradient) {
+                gradientMaskLayer(l, element, parent, style, layer, m, vp, out);
+                any = true;
+            } else {
+                out.type = 1;
+                out.first = (u32)l.programs.length();
+                out.count = 0;
+                out.region = (u32)l.clips.length();
+                addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+            }
+
+            count++;
+        }
+
+        op.masked = any;
+        op.maskLayers = ops;
+        op.maskLayerCount = count;
     }
 
     static bool filterPrimitive(u32 name) {
@@ -13813,7 +14969,7 @@ namespace {
             op.clipped = true;
         }
 
-        if (style.mask) {
+        if (style.maskParts[MaskPartImage]) {
             resolveMask(l, node, parent, style, m, vp, op);
         }
 
@@ -15669,30 +16825,64 @@ namespace {
     // The mask of a group, one stored unit a pixel over the box of its layer:
     // the alpha or luminance of its content within its region. Luminance
     // weighs the stored channels by 13933, 46871 and 4732 of 65536.
+    // The mask of an element: each layer's image in its painting area, as
+    // alpha or luminance, from the bottom layer up, each composited over
+    // the ones below: add, subtract, intersect or exclude.
     static u16* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
         Plane content{(u16*)pool.allocate(sizeof(u16) * size * 4), box};
         u16* mask = (u16*)pool.allocate(sizeof(u16) * size);
+        u16* above = op.maskLayerCount > 1 ? (u16*)pool.allocate(sizeof(u16) * size) : mask;
 
-        memset(content.data, 0, sizeof(u16) * size * 4);
-        memset(mask, 0, sizeof(u16) * size);
-        runProgram(r, l, l.programs.data() + op.maskFirst, op.maskCount, content);
-        accumulateShape(r, l, l.clips[op.maskRegion], mask, box);
+        for (u32 k = op.maskLayerCount; k-- > 0;) {
+            const MaskLayerOp& layer = op.maskLayers[k];
+            u16* out = k + 1 == op.maskLayerCount ? mask : above;
 
-        for (size_t i = 0; i < size; i++) {
-            const u16* c = content.data + i * 4;
-            u32 value = (op.maskType & 1) ? c[3] : (13933u * c[0] + 46871u * c[1] + 4732u * c[2] + 32768u) >> 16;
+            memset(content.data, 0, sizeof(u16) * size * 4);
+            memset(out, 0, sizeof(u16) * size);
+            runProgram(r, l, l.programs.data() + layer.first, layer.count, content);
+            accumulateShape(r, l, l.clips[layer.region], out, box);
 
-            // Luminance in linear light takes the colour along the sRGB curve.
-            if ((op.maskType & 3) == 2) {
-                Curve curve = curveOf(r, true);
-                u32 u[4];
+            for (size_t i = 0; i < size; i++) {
+                const u16* c = content.data + i * 4;
+                u32 value = (layer.type & 1) ? c[3] : (13933u * c[0] + 46871u * c[1] + 4732u * c[2] + 32768u) >> 16;
 
-                unpremultiplyStored(c, u);
-                value = div65535(((13933u * curveValue(curve, u[0]) + 46871u * curveValue(curve, u[1]) + 4732u * curveValue(curve, u[2]) + 32768u) >> 16) * u[3]);
+                // Luminance in linear light takes the colour along the sRGB curve.
+                if ((layer.type & 3) == 2) {
+                    Curve curve = curveOf(r, true);
+                    u32 u[4];
+
+                    unpremultiplyStored(c, u);
+                    value = div65535(((13933u * curveValue(curve, u[0]) + 46871u * curveValue(curve, u[1]) + 4732u * curveValue(curve, u[2]) + 32768u) >> 16) * u[3]);
+                }
+
+                out[i] = (u16)div65535(out[i] * value);
             }
 
-            mask[i] = (u16)div65535(mask[i] * value);
+            if (out == mask) {
+                continue;
+            }
+
+            for (size_t i = 0; i < size; i++) {
+                u32 s = above[i];
+                u32 d = mask[i];
+                u32 both = div65535(s * d);
+
+                switch (layer.composite) {
+                    case 0:
+                        mask[i] = (u16)(s + d - both);
+                        break;
+                    case 1:
+                        mask[i] = (u16)(s - both);
+                        break;
+                    case 2:
+                        mask[i] = (u16)both;
+                        break;
+                    default:
+                        mask[i] = (u16)(s + d - 2 * both);
+                        break;
+                }
+            }
         }
 
         return mask;
