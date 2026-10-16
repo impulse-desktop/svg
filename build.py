@@ -1,6 +1,7 @@
 import fnmatch
 import hashlib
 import os
+import platform
 
 import build
 import build.flags as flags
@@ -40,6 +41,11 @@ def partition_tests(targets):
 test_partition = parse_test_partition()
 
 build.cxxflags += ["-std=c++26", "-O2", "-g"]
+
+# svg.cpp asks x86-64 for SSE4.2: its pixel kernels take 16-bit lanes eight
+# at a time and multiply 32-bit ones.
+if platform.machine() in ("x86_64", "AMD64"):
+    build.cxxflags += ["-march=x86-64-v2"]
 
 warning_flags = ["-Wall", "-Wextra", "-Werror"]
 
