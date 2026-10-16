@@ -4851,6 +4851,7 @@ namespace {
         const u8* p = text.begin();
         StringView first;
         StringView second;
+        StringView numbers = text;
         u8 autos;
         int k;
 
@@ -4862,9 +4863,7 @@ namespace {
                 out.mode = (u8)k;
 
                 return k >= 0;
-            case MaskBorderPartSlice: {
-                StringView numbers = text;
-
+            case MaskBorderPartSlice:
                 // fill after the numbers.
                 out.fill = text.length() > 4 && equalsIgnoreCase(StringView(text.end() - 4, text.end()), SV("fill")) && isSpace(text.end()[-5]);
 
@@ -4873,7 +4872,6 @@ namespace {
                 }
 
                 return borderSides(numbers, 0, out.slice, autos);
-            }
             case MaskBorderPartWidth:
                 return borderSides(text, 1, out.width, out.autos);
             case MaskBorderPartOutset:
