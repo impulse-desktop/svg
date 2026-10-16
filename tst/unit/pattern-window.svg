@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<defs>
+<pattern id="dots" patternUnits="userSpaceOnUse" width="6" height="6">
+<circle cx="3" cy="3" r="2" fill="crimson"/>
+</pattern>
+<pattern id="cross" patternUnits="userSpaceOnUse" width="40" height="40">
+<rect width="40" height="40" fill="url(#dots)"/>
+<rect x="15" width="10" height="40" fill="navy"/>
+<rect y="15" width="40" height="10" fill="teal"/>
+</pattern>
+<pattern id="stripes" patternUnits="userSpaceOnUse" width="40" height="40">
+<rect width="20" height="40" fill="orange"/>
+</pattern>
+<pattern id="far" patternUnits="userSpaceOnUse" x="34000000" width="2048" height="64">
+<rect width="1024" height="32" fill="purple"/>
+</pattern>
+</defs>
+<rect x="20" y="20" width="24" height="24" fill="url(#cross)"/>
+<rect x="2" y="0" width="10" height="64" fill="url(#stripes)"/>
+<rect x="52" y="2" width="10" height="10" fill="url(#far)"/>
+</svg>
