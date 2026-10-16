@@ -5,8 +5,10 @@
 
 namespace {
     using u8 = unsigned char;
+    using u16 = uint16_t;
     using u32 = uint32_t;
     using u64 = uint64_t;
+    using i32 = int32_t;
     using i64 = int64_t;
 
     // The containers, the sort and the object pool below are the parts of
@@ -1522,6 +1524,8 @@ namespace {
     struct GradientStop {
         float offset;
         Color color;
+        // The colour stored, not premultiplied.
+        u16 stored[4];
     };
 
     struct IntBox {
@@ -1554,9 +1558,17 @@ namespace {
         bool smooth;
         u32 programFirst;
         u32 programCount;
-        float* tile;
+        u16* tile;
         float opacity;
         bool linear;
+        // A solid colour stored premultiplied; the opacity of a pattern stored.
+        u16 color16[4];
+        u16 opacity16;
+        // The colours of a gradient at evenly spaced t, stored premultiplied,
+        // and the steps between entries that hold a stop.
+        u16* table;
+        u8* kinks;
+        u32 tableSize;
         // The device bounds of the fill a pattern paints and whether a filter
         // samples it everywhere; the tile pixels its tile is drawn over,
         // unwrapped.
@@ -1698,8 +1710,10 @@ namespace {
 
     // A buffer of float RGBA pixels over a box of the raster, zero at first:
     // a pixel outside the box reads as zero and is never written.
+    // Premultiplied RGBA over a box, 16 bits a channel, 0 to 65535 for 0 to
+    // 1: a pixel is read into floats and stored back rounded.
     struct Plane {
-        float* data;
+        u16* data;
         IntBox box;
     };
 
@@ -1928,6 +1942,148 @@ namespace {
 
     static float maxf(float a, float b) {
         return a > b ? a : b;
+    }
+
+    // A stored channel is 16 bits, 0 to 65535 for 0 to 1. The helpers go
+    // over spans of pixels, four lanes a pixel, so that clang vectorizes
+    // them eight lanes a step.
+    const u16 zeroStored[4] = {0, 0, 0, 0};
+
+    // x / 65535 rounded to nearest, for x up to 65535 * 65535.
+    static u32 div65535(u32 x) {
+        x += 32768;
+
+        return (x + (x >> 16)) >> 16;
+    }
+
+    // A sum of two channels saturated at 65535; it passes only for a colour
+    // over its alpha, which an arithmetic composite may keep.
+    static u16 saturate(u32 v) {
+        return (u16)(v | (0u - (v >> 16)));
+    }
+
+    // Pixels read into floats: 65535 is 1 exactly.
+    static void loadSpan(const u16* s, float* d, size_t count) {
+        constexpr float unit = 1.f / 65535.f;
+
+        for (size_t i = 0; i < count * 4; i++) {
+            d[i] = (float)s[i] * unit;
+        }
+    }
+
+    // Pixels stored rounded, each channel clamped to 0 to 1, a value that is
+    // not a number as 0.
+    static void storeSpan(u16* d, const float* s, size_t count) {
+        for (size_t i = 0; i < count * 4; i++) {
+            d[i] = (u16)(int)(minf(maxf(s[i], 0.f), 1.f) * 65535.f + 0.5f);
+        }
+    }
+
+    static void loadPixel(const u16* p, float* c) {
+        loadSpan(p, c, 1);
+    }
+
+    // A unit value stored: clamped to 0 to 1, a value that is not a number as 0.
+    static u32 toUnit16(float v) {
+        return (u32)(minf(maxf(v, 0.f), 1.f) * 65535.f + 0.5f);
+    }
+
+    // A colour stored, each channel as a unit value.
+    static void storeColor(u16* out, Color c) {
+        float f[4] = {c.r, c.g, c.b, c.a};
+
+        storeSpan(out, f, 1);
+    }
+
+    // The blend of two stored channels at f, 65535 being all of b.
+    static u16 mix16(u32 a, u32 b, u32 f) {
+        return (u16)div65535(a * (65535u - f) + b * f);
+    }
+
+    static void storePixel(u16* p, const float* c) {
+        storeSpan(p, c, 1);
+    }
+
+    // The span helpers write a buffer none of their inputs overlaps.
+
+    // The source pixels over the destination: each lane of the destination
+    // is kept by the complement of its pixel's alpha. Two pixels, eight
+    // lanes, a step, each pixel's alpha spread over its four lanes.
+    static void overSpan(u16* __restrict d, const u16* __restrict s, size_t count) {
+        size_t p = 0;
+
+        for (; p + 2 <= count; p += 2) {
+            const u16* sp = s + p * 4;
+            u16* dp = d + p * 4;
+
+            for (int i = 0; i < 8; i++) {
+                dp[i] = saturate(sp[i] + div65535((u32)dp[i] * (65535u - sp[(i & 4) | 3])));
+            }
+        }
+
+        for (; p < count; p++) {
+            const u16* sp = s + p * 4;
+            u16* dp = d + p * 4;
+
+            for (int i = 0; i < 4; i++) {
+                dp[i] = saturate(sp[i] + div65535((u32)dp[i] * (65535u - sp[3])));
+            }
+        }
+    }
+
+    // A colour scaled by the factor of each pixel, 65535 for 1.
+    static void solidSpan(u16* __restrict d, const u16* __restrict color, const u16* __restrict factor, size_t count) {
+        size_t p = 0;
+
+        for (; p + 2 <= count; p += 2) {
+            for (int i = 0; i < 8; i++) {
+                d[p * 4 + i] = (u16)div65535((u32)color[i & 3] * factor[p + (i >> 2)]);
+            }
+        }
+
+        for (; p < count; p++) {
+            for (int i = 0; i < 4; i++) {
+                d[p * 4 + i] = (u16)div65535((u32)color[i] * factor[p]);
+            }
+        }
+    }
+
+    // The pixels scaled each by its factor, 65535 for 1.
+    static void scaleSpan(u16* __restrict d, const u16* __restrict s, const u16* __restrict factor, size_t count) {
+        size_t p = 0;
+
+        for (; p + 2 <= count; p += 2) {
+            for (int i = 0; i < 8; i++) {
+                d[p * 4 + i] = (u16)div65535((u32)s[p * 4 + i] * factor[p + (i >> 2)]);
+            }
+        }
+
+        for (; p < count; p++) {
+            for (int i = 0; i < 4; i++) {
+                d[p * 4 + i] = (u16)div65535((u32)s[p * 4 + i] * factor[p]);
+            }
+        }
+    }
+
+    // Blends of two pixels at a factor each, 65535 for all of the second.
+    static void mixSpan(u16* __restrict d, const u16* __restrict a, const u16* __restrict b, const u16* __restrict factor, size_t count) {
+        size_t p = 0;
+
+        for (; p + 2 <= count; p += 2) {
+            for (int i = 0; i < 8; i++) {
+                u32 f = factor[p + (i >> 2)];
+
+                d[p * 4 + i] = (u16)div65535((u32)a[p * 4 + i] * (65535u - f) + (u32)b[p * 4 + i] * f);
+            }
+        }
+
+        for (; p < count; p++) {
+            for (int i = 0; i < 4; i++) {
+                u32 f = factor[p];
+
+                d[p * 4 + i] = (u16)div65535((u32)a[p * 4 + i] * (65535u - f) + (u32)b[p * 4 + i] * f);
+            }
+        }
     }
 
     static Matrix identity() {
@@ -7741,6 +7897,7 @@ namespace {
         memset(paint, 0, sizeof(DevicePaint));
         paint->type = PaintType::Solid;
         paint->color = Color{color.r * alpha, color.g * alpha, color.b * alpha, alpha};
+        storeColor(paint->color16, paint->color);
 
         return paint;
     }
@@ -8057,7 +8214,7 @@ namespace {
                 Color color = style.stopColor;
 
                 color.a *= style.stopOpacity * opacity;
-                stops.pushBack(GradientStop{offset, color});
+                stops.pushBack(GradientStop{offset, color, {}});
             }
         }
 
@@ -8162,13 +8319,17 @@ namespace {
                 Color first = stops[0].color;
                 GradientStop* ring = (GradientStop*)l.pool->allocate(sizeof(GradientStop) * 3);
 
-                ring[0] = GradientStop{0.f, first};
-                ring[1] = GradientStop{1.f, first};
-                ring[2] = GradientStop{1.f, last};
+                ring[0] = GradientStop{0.f, first, {}};
+                ring[1] = GradientStop{1.f, first, {}};
+                ring[2] = GradientStop{1.f, last, {}};
                 paint->stops = ring;
                 paint->stopCount = 3;
                 paint->fr = 0.f;
             }
+        }
+
+        for (u32 i = 0; i < paint->stopCount; i++) {
+            storeColor(paint->stops[i].stored, paint->stops[i].color);
         }
 
         return paint;
@@ -8385,7 +8546,7 @@ namespace {
         }
     }
 
-    static void meshTriangle(float* buffer, int width, int height, const MeshVertex& a, const MeshVertex& b, const MeshVertex& c) {
+    static void meshTriangle(u16* buffer, int width, int height, const MeshVertex& a, const MeshVertex& b, const MeshVertex& c) {
         float area = (b.p.x - a.p.x) * (c.p.y - a.p.y) - (c.p.x - a.p.x) * (b.p.y - a.p.y);
 
         if (fabsf(area) < 1e-12f) {
@@ -8414,11 +8575,13 @@ namespace {
                     continue;
                 }
 
-                float* d = buffer + ((size_t)y * width + x) * 4;
+                float d[4];
 
                 for (int k = 0; k < 4; k++) {
                     d[k] = wa * a.c[k] + wb * b.c[k] + wc * c.c[k];
                 }
+
+                storePixel(buffer + ((size_t)y * width + x) * 4, d);
             }
         }
     }
@@ -8607,10 +8770,10 @@ namespace {
 
         int width = x1 - x0;
         int height = y1 - y0;
-        float* buffer = (float*)l.pool->allocate(sizeof(float) * (size_t)width * height * 4);
+        u16* buffer = (u16*)l.pool->allocate(sizeof(u16) * (size_t)width * height * 4);
         Matrix local = multiply(translation(-(float)x0, -(float)y0), space);
 
-        memset(buffer, 0, sizeof(float) * (size_t)width * height * 4);
+        memset(buffer, 0, sizeof(u16) * (size_t)width * height * 4);
 
         for (u32 r = 0; r < rows; r++) {
             for (u32 c = 0; c < columns; c++) {
@@ -11711,18 +11874,20 @@ namespace {
         }
     }
 
-    const float zeroPixel[4] = {0.f, 0.f, 0.f, 0.f};
+    // The pixels of a buffer of the given pixels, zero.
+    static u16* makePixels(size_t count) {
+        u16* data = new u16[count * 4];
+
+        memset(data, 0, sizeof(u16) * count * 4);
+
+        return data;
+    }
 
     // A box is empty as boxInside leaves it, by its x.
     static Plane makePlane(IntBox box) {
         size_t count = box.x1 > box.x0 ? (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0) : 0;
-        Plane plane{count ? new float[count * 4] : nullptr, box};
 
-        if (count) {
-            memset(plane.data, 0, sizeof(float) * count * 4);
-        }
-
-        return plane;
+        return Plane{count ? makePixels(count) : nullptr, box};
     }
 
     static void releasePlane(Plane& plane) {
@@ -11734,21 +11899,21 @@ namespace {
         return plane.box.x1 - plane.box.x0;
     }
 
-    // The pixel at x, y of a plane whose box holds it.
-    static float* planeAt(const Plane& plane, int x, int y) {
+    // The stored pixel at x, y of a plane whose box holds it.
+    static u16* planeAt(const Plane& plane, int x, int y) {
         return plane.data + ((size_t)(y - plane.box.y0) * (size_t)planeWidth(plane) + (size_t)(x - plane.box.x0)) * 4;
     }
 
-    // The pixel at x, y, zero outside the plane.
-    static const float* planeRead(const Plane& plane, int x, int y) {
+    // The stored pixel at x, y, zero outside the plane.
+    static const u16* planeRead(const Plane& plane, int x, int y) {
         if (x < plane.box.x0 || x >= plane.box.x1 || y < plane.box.y0 || y >= plane.box.y1) {
-            return zeroPixel;
+            return zeroStored;
         }
 
         return planeAt(plane, x, y);
     }
 
-    // The pixels from x0 to x1 of row y of a plane, zero outside it.
+    // The pixels from x0 to x1 of row y of a plane in floats, zero outside it.
     static void readSpan(const Plane& plane, int x0, int x1, int y, float* dst) {
         int inside0 = x0 > plane.box.x0 ? x0 : plane.box.x0;
         int inside1 = x1 < plane.box.x1 ? x1 : plane.box.x1;
@@ -11760,8 +11925,13 @@ namespace {
         }
 
         memset(dst, 0, sizeof(float) * 4 * (size_t)(inside0 - x0));
-        memcpy(dst + (size_t)(inside0 - x0) * 4, planeAt(plane, inside0, y), sizeof(float) * 4 * (size_t)(inside1 - inside0));
+        loadSpan(planeAt(plane, inside0, y), dst + (size_t)(inside0 - x0) * 4, (size_t)(inside1 - inside0));
         memset(dst + (size_t)(inside1 - x0) * 4, 0, sizeof(float) * 4 * (size_t)(x1 - inside1));
+    }
+
+    // Stores the pixels from x0 to x1 of row y of a plane whose box holds them.
+    static void writeSpan(const Plane& plane, int x0, int x1, int y, const float* src) {
+        storeSpan(planeAt(plane, x0, y), src, (size_t)(x1 - x0));
     }
 
     static IntBox boxInside(IntBox box, const IntBox& bound) {
@@ -11775,6 +11945,17 @@ namespace {
         }
 
         return box;
+    }
+
+    // The stored pixels from x0 to x1 of row y of a plane, zero outside it.
+    static void readStored(const Plane& plane, int x0, int x1, int y, u16* dst) {
+        IntBox inside = boxInside(IntBox{x0, y, x1, y + 1}, plane.box);
+
+        memset(dst, 0, sizeof(u16) * 4 * (size_t)(x1 - x0));
+
+        if (inside.x1 > inside.x0) {
+            memcpy(dst + (size_t)(inside.x0 - x0) * 4, planeAt(plane, inside.x0, y), sizeof(u16) * 4 * (size_t)(inside.x1 - inside.x0));
+        }
     }
 
     // The bounding box of two pixel boxes, an empty one adding nothing: a
@@ -11969,15 +12150,17 @@ namespace {
         return clampUnit(t);
     }
 
-    static Color gradientColor(const DevicePaint& paint, float t) {
+    // The colour of the gradient at t, premultiplied: the stored stops are
+    // blended straight in fixed point and the result multiplied by its alpha.
+    static void gradientColor(const DevicePaint& paint, float t, u16* out) {
         const GradientStop* stops = paint.stops;
         u32 count = paint.stopCount;
-        Color c;
+        u16 c[4];
 
         if (t <= stops[0].offset) {
-            c = stops[0].color;
+            memcpy(c, stops[0].stored, sizeof(c));
         } else if (t >= stops[count - 1].offset) {
-            c = stops[count - 1].color;
+            memcpy(c, stops[count - 1].stored, sizeof(c));
         } else {
             // t lies past the first offset and before the last, so a stop
             // follows at or past it and the span to it is not empty: the
@@ -11997,16 +12180,98 @@ namespace {
 
             const GradientStop& a = stops[i - 1];
             const GradientStop& b = stops[i];
-            float f = (t - a.offset) / (b.offset - a.offset);
+            u32 f = toUnit16((t - a.offset) / (b.offset - a.offset));
 
-            c = Color{a.color.r + (b.color.r - a.color.r) * f, a.color.g + (b.color.g - a.color.g) * f, a.color.b + (b.color.b - a.color.b) * f, a.color.a + (b.color.a - a.color.a) * f};
+            for (int k = 0; k < 4; k++) {
+                c[k] = mix16(a.stored[k], b.stored[k], f);
+            }
         }
 
+        // Stops blended in linear light go back to sRGB on the curve.
         if (paint.linear) {
-            c = Color{linearToSrgb(c.r), linearToSrgb(c.g), linearToSrgb(c.b), c.a};
+            float v[4];
+
+            loadPixel(c, v);
+            v[0] = linearToSrgb(v[0]);
+            v[1] = linearToSrgb(v[1]);
+            v[2] = linearToSrgb(v[2]);
+            storePixel(c, v);
         }
 
-        return Color{c.r * c.a, c.g * c.a, c.b * c.a, c.a};
+        out[0] = (u16)div65535((u32)c[0] * c[3]);
+        out[1] = (u16)div65535((u32)c[1] * c[3]);
+        out[2] = (u16)div65535((u32)c[2] * c[3]);
+        out[3] = c[3];
+    }
+
+    // The table of a gradient: its colours at as many evenly spaced t from 0
+    // to 1 as the gradient spans device pixels twice over, from 16 to 4096.
+    // A pixel blends the two entries around its t: the colour is linear in t
+    // between stops, so only an entry step holding a stop, half a pixel at
+    // most, departs from it. The device length of the gradient is at most
+    // its length over the least scale of the map to its space.
+    static void prepareGradient(const Lowering& l, DevicePaint& paint) {
+        if (paint.table) {
+            return;
+        }
+
+        const Matrix& m = paint.inverse;
+        float extent = paint.type == PaintType::Linear ? hypotf(paint.x2 - paint.x1, paint.y2 - paint.y1) : paint.r + hypotf(paint.cx - paint.fx, paint.cy - paint.fy);
+        float frobenius = sqrtf(m.a * m.a + m.b * m.b + m.c * m.c + m.d * m.d);
+        float length = extent * frobenius / fabsf(m.a * m.d - m.b * m.c);
+        u32 size = 16;
+
+        while (size < 4096 && (float)size < 2.f * length) {
+            size *= 2;
+        }
+
+        paint.table = (u16*)l.pool->allocate(sizeof(u16) * 4 * size);
+        paint.kinks = (u8*)l.pool->allocate(size);
+        paint.tableSize = size;
+
+        for (u32 i = 0; i < size; i++) {
+            gradientColor(paint, (float)i / (float)(size - 1), paint.table + (size_t)i * 4);
+        }
+
+        // A step holding a stop, at either end too, is not linear in t; nor is
+        // any step of stops blended in linear light, which the sRGB curve bends.
+        memset(paint.kinks, paint.linear ? 1 : 0, size);
+
+        // A stop at an entry ends the step before it and starts the one after.
+        for (u32 k = 0; k < paint.stopCount; k++) {
+            float at = paint.stops[k].offset * (float)(size - 1);
+
+            paint.kinks[(u32)minf(floorf(at), (float)(size - 2))] = 1;
+            paint.kinks[(u32)maxf(ceilf(at) - 1.f, 0.f)] = 1;
+        }
+    }
+
+    // Where t falls in the gradient's table: the step and how far into it.
+    static u32 tableStep(const DevicePaint& paint, float t, u32& f) {
+        float at = minf(maxf(t, 0.f), 1.f) * (float)(paint.tableSize - 1);
+        float whole = minf(floorf(at), (float)(paint.tableSize - 2));
+
+        f = toUnit16(at - whole);
+
+        return (u32)whole;
+    }
+
+    // The colour of the gradient at t: the blend of the two entries around
+    // it, or, in a step holding a stop, the stops themselves.
+    static void gradientAt(const DevicePaint& paint, float t, u16* out) {
+        u32 f;
+        u32 i = tableStep(paint, t, f);
+        const u16* a = paint.table + (size_t)i * 4;
+
+        if (paint.kinks[i]) {
+            gradientColor(paint, minf(maxf(t, 0.f), 1.f), out);
+
+            return;
+        }
+
+        for (int k = 0; k < 4; k++) {
+            out[k] = mix16(a[k], a[4 + k], f);
+        }
     }
 
     static float mitchell(float x) {
@@ -12038,24 +12303,84 @@ namespace {
         return units;
     }();
 
-    static Color texel(const DevicePaint& paint, int x, int y) {
-        x = x < 0 ? 0 : (x >= (int)paint.imageWidth ? (int)paint.imageWidth - 1 : x);
-        y = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
-
-        const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
-        float a = byteUnits.values[t[3]];
-
-        return Color{byteUnits.values[t[0]] * a, byteUnits.values[t[1]] * a, byteUnits.values[t[2]] * a, a};
-    }
-
     // a modulo m, in 0 to m - 1 for a negative a too.
     static int floorMod(int a, int m) {
         return ((a % m) + m) % m;
     }
 
-    static bool paintAt(const DevicePaint& paint, float x, float y, Color& out) {
+    // The t of a gradient at a point of its space, spread; false where a
+    // radial gradient paints nothing.
+    static bool gradientT(const DevicePaint& paint, Point p, float& t) {
+        if (paint.type == PaintType::Linear) {
+            float dx = paint.x2 - paint.x1;
+            float dy = paint.y2 - paint.y1;
+
+            t = spreadT(((p.x - paint.x1) * dx + (p.y - paint.y1) * dy) / (dx * dx + dy * dy), paint.spread);
+
+            return true;
+        }
+
+        float cdx = paint.cx - paint.fx;
+        float cdy = paint.cy - paint.fy;
+        float dr = paint.r - paint.fr;
+        float pdx = p.x - paint.fx;
+        float pdy = p.y - paint.fy;
+        float a = cdx * cdx + cdy * cdy - dr * dr;
+        float b = pdx * cdx + pdy * cdy + paint.fr * dr;
+        float c = pdx * pdx + pdy * pdy - paint.fr * paint.fr;
+
+        if (fabsf(a) < 1e-9f) {
+            if (b == 0.f) {
+                return false;
+            }
+
+            t = c / (2.f * b);
+        } else {
+            float disc = b * b - a * c;
+
+            if (disc < 0.f) {
+                return false;
+            }
+
+            float root = sqrtf(disc);
+            float t1 = (b + root) / a;
+            float t2 = (b - root) / a;
+
+            t = maxf(t1, t2);
+
+            if (paint.fr + t * dr < 0.f) {
+                t = minf(t1, t2);
+            }
+        }
+
+        if (paint.fr + t * dr < 0.f) {
+            return false;
+        }
+
+        t = spreadT(t, paint.spread);
+
+        return true;
+    }
+
+    // The blend of four stored pixels around a point tx, ty past the first:
+    // the weights sum to 65535, so the sum of the products fits.
+    static void bilinear(const u16* c00, const u16* c10, const u16* c01, const u16* c11, float tx, float ty, u16* out) {
+        u32 wx = toUnit16(tx);
+        u32 wy = toUnit16(ty);
+        u32 w11 = div65535(wx * wy);
+        u32 w10 = wx - w11;
+        u32 w01 = wy - w11;
+        u32 w00 = 65535u - wx - wy + w11;
+
+        for (int k = 0; k < 4; k++) {
+            out[k] = (u16)div65535(c00[k] * w00 + c10[k] * w10 + c01[k] * w01 + c11[k] * w11);
+        }
+    }
+
+    // The paint at x, y stored premultiplied; false where it has none.
+    static bool paintAt(const DevicePaint& paint, float x, float y, u16* out) {
         if (paint.type == PaintType::Solid) {
-            out = paint.color;
+            memcpy(out, paint.color16, sizeof(u16) * 4);
 
             return true;
         }
@@ -12070,11 +12395,9 @@ namespace {
                 return false;
             }
 
-            const float* c = paint.tile + ((size_t)iy * paint.imageWidth + ix) * 4;
+            memcpy(out, paint.tile + ((size_t)iy * paint.imageWidth + ix) * 4, sizeof(u16) * 4);
 
-            out = Color{c[0], c[1], c[2], c[3]};
-
-            return c[3] > 0.f;
+            return out[3] > 0;
         }
 
         if (paint.type == PaintType::Pattern) {
@@ -12103,31 +12426,40 @@ namespace {
 
                 return paint.tile + ((size_t)uy * ww + (size_t)ux) * 4;
             };
-            const float* c00 = at(ix, iy);
-            const float* c10 = at(jx, iy);
-            const float* c01 = at(ix, jy);
-            const float* c11 = at(jx, jy);
-            float w00 = (1.f - tx) * (1.f - ty) * paint.opacity;
-            float w10 = tx * (1.f - ty) * paint.opacity;
-            float w01 = (1.f - tx) * ty * paint.opacity;
-            float w11 = tx * ty * paint.opacity;
+            const u16* c00 = at(ix, iy);
+            const u16* c10 = at(jx, iy);
+            const u16* c01 = at(ix, jy);
+            const u16* c11 = at(jx, jy);
+            bilinear(c00, c10, c01, c11, tx, ty, out);
 
-            out = Color{
-                c00[0] * w00 + c10[0] * w10 + c01[0] * w01 + c11[0] * w11,
-                c00[1] * w00 + c10[1] * w10 + c01[1] * w01 + c11[1] * w11,
-                c00[2] * w00 + c10[2] * w10 + c01[2] * w01 + c11[2] * w11,
-                c00[3] * w00 + c10[3] * w10 + c01[3] * w01 + c11[3] * w11,
-            };
+            for (int k = 0; k < 4; k++) {
+                out[k] = (u16)div65535((u32)out[k] * paint.opacity16);
+            }
 
-            return out.a > 0.f;
+            return out[3] > 0;
         }
 
         if (paint.type == PaintType::Image) {
+            // The nearest texel: a byte b is b * 257 stored.
             if (!paint.smooth) {
-                out = texel(paint, (int)floorf(p.x), (int)floorf(p.y));
+                int x = (int)floorf(p.x);
+                int y = (int)floorf(p.y);
+
+                x = x < 0 ? 0 : (x >= (int)paint.imageWidth ? (int)paint.imageWidth - 1 : x);
+                y = y < 0 ? 0 : (y >= (int)paint.imageHeight ? (int)paint.imageHeight - 1 : y);
+
+                const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
+                u32 a = t[3] * 257u;
+
+                out[0] = (u16)div65535(t[0] * 257u * a);
+                out[1] = (u16)div65535(t[1] * 257u * a);
+                out[2] = (u16)div65535(t[2] * 257u * a);
+                out[3] = (u16)a;
 
                 return true;
             }
+
+            // Mitchell's filter has negative lobes: it sums in floats.
 
             float fx = p.x - 0.5f;
             float fy = p.y - 0.5f;
@@ -12167,60 +12499,18 @@ namespace {
 
             float a = clampUnit(sum.a);
 
-            out = Color{maxf(0.f, minf(sum.r, a)), maxf(0.f, minf(sum.g, a)), maxf(0.f, minf(sum.b, a)), a};
+            storeColor(out, Color{maxf(0.f, minf(sum.r, a)), maxf(0.f, minf(sum.g, a)), maxf(0.f, minf(sum.b, a)), a});
 
             return true;
         }
 
-        if (paint.type == PaintType::Linear) {
-            float dx = paint.x2 - paint.x1;
-            float dy = paint.y2 - paint.y1;
-            float t = ((p.x - paint.x1) * dx + (p.y - paint.y1) * dy) / (dx * dx + dy * dy);
-
-            out = gradientColor(paint, spreadT(t, paint.spread));
-
-            return true;
-        }
-
-        float cdx = paint.cx - paint.fx;
-        float cdy = paint.cy - paint.fy;
-        float dr = paint.r - paint.fr;
-        float pdx = p.x - paint.fx;
-        float pdy = p.y - paint.fy;
-        float a = cdx * cdx + cdy * cdy - dr * dr;
-        float b = pdx * cdx + pdy * cdy + paint.fr * dr;
-        float c = pdx * pdx + pdy * pdy - paint.fr * paint.fr;
         float t;
 
-        if (fabsf(a) < 1e-9f) {
-            if (b == 0.f) {
-                return false;
-            }
-
-            t = c / (2.f * b);
-        } else {
-            float disc = b * b - a * c;
-
-            if (disc < 0.f) {
-                return false;
-            }
-
-            float root = sqrtf(disc);
-            float t1 = (b + root) / a;
-            float t2 = (b - root) / a;
-
-            t = maxf(t1, t2);
-
-            if (paint.fr + t * dr < 0.f) {
-                t = minf(t1, t2);
-            }
-        }
-
-        if (paint.fr + t * dr < 0.f) {
+        if (!gradientT(paint, p, t)) {
             return false;
         }
 
-        out = gradientColor(paint, spreadT(t, paint.spread));
+        gradientAt(paint, t, out);
 
         return true;
     }
@@ -12832,6 +13122,8 @@ namespace {
             return;
         }
 
+        paint.opacity16 = (u16)toUnit16(paint.opacity);
+
         int tw = (int)paint.imageWidth;
         int th = (int)paint.imageHeight;
         IntBox window{0, 0, tw, th};
@@ -12871,8 +13163,8 @@ namespace {
         Raster tile;
 
         paint.window = window;
-        paint.tile = (float*)l.pool->allocate(sizeof(float) * size * 4);
-        memset(paint.tile, 0, sizeof(float) * size * 4);
+        paint.tile = (u16*)l.pool->allocate(sizeof(u16) * size * 4);
+        memset(paint.tile, 0, sizeof(u16) * size * 4);
         tile.width = paint.imageWidth;
         tile.height = paint.imageHeight;
 
@@ -12906,7 +13198,7 @@ namespace {
                 runProgram(tile, l, l.programs.data() + paint.programFirst, paint.programCount, part);
 
                 for (int y = shown.y0; y < shown.y1; y++) {
-                    memcpy(planeAt(whole, xs[i], ys[j] + y - shown.y0), planeAt(part, shown.x0, y), sizeof(float) * 4 * (size_t)(shown.x1 - shown.x0));
+                    memcpy(planeAt(whole, xs[i], ys[j] + y - shown.y0), planeAt(part, shown.x0, y), sizeof(u16) * 4 * (size_t)(shown.x1 - shown.x0));
                 }
 
                 releasePlane(part);
@@ -12916,7 +13208,7 @@ namespace {
 
     static void clearSpan(const Plane& plane, int y, int x0, int x1) {
         if (x1 > x0) {
-            memset(planeAt(plane, x0, y), 0, sizeof(float) * 4 * (size_t)(x1 - x0));
+            memset(planeAt(plane, x0, y), 0, sizeof(u16) * 4 * (size_t)(x1 - x0));
         }
     }
 
@@ -12965,10 +13257,92 @@ namespace {
         return first;
     }
 
-    static void fillOp(Raster& r, const Lowering& l, const Op& op) {
-        if (op.paint->type == PaintType::Pattern) {
-            prepareTile(l, *op.paint);
+    // The source pixels from x0 on row y over every layer from first up,
+    // within the box of each: the layer of a filtered group holds its
+    // filters' region, which a drawing may pass.
+    static void overLayers(Raster& r, size_t first, int x0, int y, const u16* source, int count) {
+        for (size_t level = first; level < r.layers.length(); level++) {
+            const Plane& plane = r.layers[level];
+            int a = x0 > plane.box.x0 ? x0 : plane.box.x0;
+            int b = x0 + count < plane.box.x1 ? x0 + count : plane.box.x1;
+
+            if (y < plane.box.y0 || y >= plane.box.y1 || b <= a) {
+                continue;
+            }
+
+            overSpan(planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
         }
+    }
+
+    // The rows a paint is sampled over: the two table entries around each
+    // pixel's t and how far between them.
+    struct PaintRows {
+        Vector<u16> below;
+        Vector<u16> above;
+        Vector<u16> between;
+    };
+
+    // The paint of count pixels from x on row y, stored premultiplied; a
+    // pixel the paint leaves out gets no cover. A gradient takes the t of
+    // each pixel, the two entries around it, and blends them all at once.
+    static void paintSpan(const DevicePaint& paint, int x, int y, u32 count, u16* cover, u16* out, PaintRows& rows) {
+        if (paint.type != PaintType::Linear && paint.type != PaintType::Radial) {
+            for (u32 i = 0; i < count; i++) {
+                if (!paintAt(paint, (float)(x + (int)i) + 0.5f, (float)y + 0.5f, out + (size_t)i * 4)) {
+                    cover[i] = 0;
+                }
+            }
+
+            return;
+        }
+
+        rows.below.zero((size_t)count * 4);
+        rows.above.zero((size_t)count * 4);
+        rows.between.zero(count);
+
+        u16* below = rows.below.mutData();
+        u16* above = rows.above.mutData();
+        u16* between = rows.between.mutData();
+
+        for (u32 i = 0; i < count; i++) {
+            float t;
+            u32 f;
+
+            if (!gradientT(paint, apply(paint.inverse, Point{(float)(x + (int)i) + 0.5f, (float)y + 0.5f}), t)) {
+                cover[i] = 0;
+                continue;
+            }
+
+            u32 step = tableStep(paint, t, f);
+
+            // A step holding a stop takes the stops themselves.
+            if (paint.kinks[step]) {
+                gradientColor(paint, minf(maxf(t, 0.f), 1.f), below + (size_t)i * 4);
+                memcpy(above + (size_t)i * 4, below + (size_t)i * 4, sizeof(u16) * 4);
+                continue;
+            }
+
+            memcpy(below + (size_t)i * 4, paint.table + (size_t)step * 4, sizeof(u16) * 4);
+            memcpy(above + (size_t)i * 4, paint.table + (size_t)step * 4 + 4, sizeof(u16) * 4);
+            between[i] = (u16)f;
+        }
+
+        mixSpan(out, below, above, between, count);
+    }
+
+    // Readies what a paint samples: the tile of a pattern, the table of a gradient.
+    static void preparePaint(const Lowering& l, DevicePaint& paint) {
+        if (paint.type == PaintType::Pattern) {
+            prepareTile(l, paint);
+        }
+
+        if (paint.type == PaintType::Linear || paint.type == PaintType::Radial) {
+            prepareGradient(l, paint);
+        }
+    }
+
+    static void fillOp(Raster& r, const Lowering& l, const Op& op) {
+        preparePaint(l, *op.paint);
 
         u32 ix0;
         u32 iy0;
@@ -12991,63 +13365,66 @@ namespace {
         u32 stride = w + 2;
         const DevicePaint& paint = *op.paint;
         IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
-
-        // The layer of a filtered group holds its filters' region, which the
-        // fill may pass; the background-only layers above it hold their groups'
-        // bounds, the fill's among them.
-        const IntBox& box = r.layers[first].box;
-        bool inside = fill.x0 >= box.x0 && fill.y0 >= box.y0 && fill.x1 <= box.x1 && fill.y1 <= box.y1;
+        bool solid = paint.type == PaintType::Solid;
+        Vector<u16> cover;
+        Vector<u16> colors;
+        Vector<u16> source;
+        PaintRows rows;
 
         for (size_t level = first; level < r.layers.length(); level++) {
             ensure(r.layers[level], r.dirty.mut(level), fill);
         }
 
+        cover.zero(w);
+        colors.zero((size_t)w * 4);
+        source.zero((size_t)w * 4);
+
+        // A row at a time: the coverage of each pixel stored, then for each
+        // run of covered pixels the paint, its product with the coverage, and
+        // that over the layers.
         for (u32 y = 0; y < h; y++) {
             float sum = 0.f;
             const float* line = acc + (size_t)y * stride;
+            u16* coverRow = cover.mutData();
+            u32 count = 0;
+            auto draw = [&](u32 end) {
+                u32 start = end - count;
+                u16* out = source.mutData() + (size_t)start * 4;
+
+                if (solid) {
+                    solidSpan(out, paint.color16, coverRow + start, count);
+                } else {
+                    u16* paints = colors.mutData() + (size_t)start * 4;
+
+                    paintSpan(paint, (int)(ix0 + start), (int)(iy0 + y), count, coverRow + start, paints, rows);
+                    scaleSpan(out, paints, coverRow + start, count);
+                }
+
+                overLayers(r, first, (int)(ix0 + start), (int)(iy0 + y), out, (int)count);
+                count = 0;
+            };
 
             for (u32 x = 0; x < w; x++) {
                 sum += line[x];
+                coverRow[x] = (u16)toUnit16(coverage(sum, op.rule));
+            }
 
-                float cov = coverage(sum, op.rule);
-
-                if (cov <= 0.f) {
-                    continue;
+            for (u32 x = 0; x < w; x++) {
+                if (coverRow[x]) {
+                    count++;
+                } else if (count) {
+                    draw(x);
                 }
+            }
 
-                Color src;
-
-                if (paint.type == PaintType::Solid) {
-                    src = paint.color;
-                } else if (!paintAt(paint, (float)(ix0 + x) + 0.5f, (float)(iy0 + y) + 0.5f, src)) {
-                    continue;
-                }
-
-                float a = src.a * cov;
-                float keep = 1.f - a;
-
-                for (size_t level = first; level < r.layers.length(); level++) {
-                    const Plane& plane = r.layers[level];
-                    int dx = (int)(ix0 + x);
-                    int dy = (int)(iy0 + y);
-
-                    if (!inside && (dx < plane.box.x0 || dx >= plane.box.x1 || dy < plane.box.y0 || dy >= plane.box.y1)) {
-                        continue;
-                    }
-
-                    float* px = planeAt(plane, dx, dy);
-
-                    px[0] = src.r * cov + px[0] * keep;
-                    px[1] = src.g * cov + px[1] * keep;
-                    px[2] = src.b * cov + px[2] * keep;
-                    px[3] = a + px[3] * keep;
-                }
+            if (count) {
+                draw(w);
             }
         }
     }
 
-    // Adds the coverage of the shape to a map of one float a pixel over the box.
-    static void accumulateShape(Raster& r, const Lowering& l, const ClipShape& shape, float* target, const IntBox& box) {
+    // Adds the coverage of the shape to a map of one stored unit a pixel over the box.
+    static void accumulateShape(Raster& r, const Lowering& l, const ClipShape& shape, u16* target, const IntBox& box) {
         Box bounds = emptyBox();
 
         for (u32 i = shape.first; i < shape.first + shape.count; i++) {
@@ -13082,26 +13459,27 @@ namespace {
                     continue;
                 }
 
-                float& value = target[(size_t)(dy - box.y0) * width + (size_t)(dx - box.x0)];
+                u16& value = target[(size_t)(dy - box.y0) * width + (size_t)(dx - box.x0)];
+                u16 cover = (u16)toUnit16(coverage(sum, shape.rule));
 
-                value = maxf(value, coverage(sum, shape.rule));
+                value = value > cover ? value : cover;
             }
         }
     }
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
-    // The clip of a group, one float a pixel over the box of its layer.
-    static float* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
+    // The clip of a group, one stored unit a pixel over the box of its layer.
+    static u16* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
-        float* mask = (float*)pool.allocate(sizeof(float) * size);
+        u16* mask = (u16*)pool.allocate(sizeof(u16) * size);
 
-        memset(mask, 0, sizeof(float) * size);
+        memset(mask, 0, sizeof(u16) * size);
 
         if (op.clipProgram) {
-            Plane content{(float*)pool.allocate(sizeof(float) * size * 4), box};
+            Plane content{(u16*)pool.allocate(sizeof(u16) * size * 4), box};
 
-            memset(content.data, 0, sizeof(float) * size * 4);
+            memset(content.data, 0, sizeof(u16) * size * 4);
             runProgram(r, l, l.programs.data() + op.clipFirst, op.clipCount, content);
 
             for (size_t i = 0; i < size; i++) {
@@ -13118,25 +13496,32 @@ namespace {
         return mask;
     }
 
-    static float* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
+    // The mask of a group, one stored unit a pixel over the box of its layer:
+    // the alpha or luminance of its content within its region. Luminance
+    // weighs the stored channels by 13933, 46871 and 4732 of 65536.
+    static u16* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
-        Plane content{(float*)pool.allocate(sizeof(float) * size * 4), box};
-        float* mask = (float*)pool.allocate(sizeof(float) * size);
+        Plane content{(u16*)pool.allocate(sizeof(u16) * size * 4), box};
+        u16* mask = (u16*)pool.allocate(sizeof(u16) * size);
 
-        memset(content.data, 0, sizeof(float) * size * 4);
-        memset(mask, 0, sizeof(float) * size);
+        memset(content.data, 0, sizeof(u16) * size * 4);
+        memset(mask, 0, sizeof(u16) * size);
         runProgram(r, l, l.programs.data() + op.maskFirst, op.maskCount, content);
         accumulateShape(r, l, l.clips[op.maskRegion], mask, box);
 
         for (size_t i = 0; i < size; i++) {
-            const float* c = content.data + i * 4;
-            float value = (op.maskType & 1) ? c[3] : 0.2126f * c[0] + 0.7152f * c[1] + 0.0722f * c[2];
+            const u16* c = content.data + i * 4;
+            u32 value = (op.maskType & 1) ? c[3] : (13933u * c[0] + 46871u * c[1] + 4732u * c[2] + 32768u) >> 16;
 
-            if ((op.maskType & 3) == 2 && c[3] > 0.f) {
-                value = c[3] * (0.2126f * srgbToLinear(clampUnit(c[0] / c[3])) + 0.7152f * srgbToLinear(clampUnit(c[1] / c[3])) + 0.0722f * srgbToLinear(clampUnit(c[2] / c[3])));
+            // Luminance in linear light takes the colour along the sRGB curve.
+            if ((op.maskType & 3) == 2 && c[3] > 0) {
+                float f[4];
+
+                loadPixel(c, f);
+                value = toUnit16(f[3] * (0.2126f * srgbToLinear(clampUnit(f[0] / f[3])) + 0.7152f * srgbToLinear(clampUnit(f[1] / f[3])) + 0.0722f * srgbToLinear(clampUnit(f[2] / f[3]))));
             }
 
-            mask[i] *= value;
+            mask[i] = (u16)div65535(mask[i] * value);
         }
 
         return mask;
@@ -13238,27 +13623,49 @@ namespace {
         d[3] = a;
     }
 
-    static void convertInPlace(const Plane& plane, bool toLinear) {
+    // Converts the rows of a plane into another, or the same, between sRGB
+    // and linear light: along the curve on colours not premultiplied, which
+    // is real valued, a row of floats at a time.
+    static void convertRows(const Plane& src, const Plane& out, const IntBox& box, bool toLinear) {
+        size_t n = (size_t)(box.x1 - box.x0);
         Conversion last;
+        Vector<float> row;
 
-        for (int y = plane.box.y0; y < plane.box.y1; y++) {
-            for (int x = plane.box.x0; x < plane.box.x1; x++) {
-                convertPixel(planeAt(plane, x, y), planeAt(plane, x, y), toLinear, last);
+        row.zero(n * 4);
+
+        for (int y = box.y0; y < box.y1; y++) {
+            float* c = row.mutData();
+
+            loadSpan(planeAt(src, box.x0, y), c, n);
+
+            for (size_t x = 0; x < n; x++) {
+                convertPixel(c + x * 4, c + x * 4, toLinear, last);
             }
+
+            storeSpan(planeAt(out, box.x0, y), c, n);
         }
+    }
+
+    static void convertInPlace(const Plane& plane, bool toLinear) {
+        convertRows(plane, plane, plane.box, toLinear);
     }
 
     static Plane convertBuffer(const Plane& src, bool toLinear) {
         Plane out = makePlane(src.box);
-        Conversion last;
 
-        for (int y = src.box.y0; y < src.box.y1; y++) {
-            for (int x = src.box.x0; x < src.box.x1; x++) {
-                convertPixel(planeAt(src, x, y), planeAt(out, x, y), toLinear, last);
-            }
-        }
+        convertRows(src, out, src.box, toLinear);
 
         return out;
+    }
+
+    // Copies the box, which the output plane holds, from one plane to a new
+    // one, zero, a row at a time: what lies outside the input stays zero.
+    static void copyBox(const Plane& in, const Plane& out, const IntBox& b) {
+        IntBox inside = boxInside(b, in.box);
+
+        for (int y = inside.y0; y < inside.y1; y++) {
+            memcpy(planeAt(out, inside.x0, y), planeAt(in, inside.x0, y), sizeof(u16) * 4 * (size_t)(inside.x1 - inside.x0));
+        }
     }
 
     // The background under the box: the layers of the current scope over the
@@ -13289,11 +13696,7 @@ namespace {
         Plane out = makePlane(box);
 
         if (!scope) {
-            for (int y = box.y0; y < box.y1; y++) {
-                for (int x = box.x0; x < box.x1; x++) {
-                    memcpy(planeAt(out, x, y), planeRead(r.backdrop, x, y), sizeof(float) * 4);
-                }
-            }
+            copyBox(r.backdrop, out, box);
         }
 
         // Ancestor opacity, masks and filters apply when that ancestor is
@@ -13303,15 +13706,7 @@ namespace {
             const Plane& layer = r.layers[level];
 
             for (int y = drawn.y0; y < drawn.y1; y++) {
-                for (int x = drawn.x0; x < drawn.x1; x++) {
-                    const float* s = planeAt(layer, x, y);
-                    float* d = planeAt(out, x, y);
-                    float keep = 1.f - s[3];
-
-                    for (int c = 0; c < 4; c++) {
-                        d[c] = s[c] + d[c] * keep;
-                    }
-                }
+                overSpan(planeAt(out, drawn.x0, y), planeAt(layer, drawn.x0, y), (size_t)(drawn.x1 - drawn.x0));
             }
         }
 
@@ -13323,7 +13718,7 @@ namespace {
                     Point point = apply(scope->backgroundMatrix, Point{(float)x + .5f, (float)y + .5f});
 
                     if (point.x < clip.x0 || point.x >= clip.x1 || point.y < clip.y0 || point.y >= clip.y1) {
-                        memset(planeAt(out, x, y), 0, sizeof(float) * 4);
+                        memset(planeAt(out, x, y), 0, sizeof(u16) * 4);
                     }
                 }
             }
@@ -13386,21 +13781,14 @@ namespace {
                 DevicePaint* paint = kind ? run.filter->strokePaint : run.filter->fillPaint;
 
                 if (paint) {
-                    if (paint->type == PaintType::Pattern) {
-                        prepareTile(*run.lowering, *paint);
-                    }
+                    preparePaint(*run.lowering, *paint);
 
                     for (int y = run.canvas.y0; y < run.canvas.y1; y++) {
                         for (int x = run.canvas.x0; x < run.canvas.x1; x++) {
-                            Color color;
+                            u16 color[4];
 
                             if (paintAt(*paint, (float)x + .5f, (float)y + .5f, color)) {
-                                float* d = planeAt(buffer, x, y);
-
-                                d[0] = color.r;
-                                d[1] = color.g;
-                                d[2] = color.b;
-                                d[3] = color.a;
+                                memcpy(planeAt(buffer, x, y), color, sizeof(color));
                             }
                         }
                     }
@@ -13593,71 +13981,66 @@ namespace {
         Color c = toSpace(p.flood, p.linear);
         const IntBox& b = p.box;
 
+        float d[4] = {c.r * c.a, c.g * c.a, c.b * c.a, c.a};
+        u16 stored[4];
+
+        storePixel(stored, d);
+
         for (int y = b.y0; y < b.y1; y++) {
             for (int x = b.x0; x < b.x1; x++) {
-                float* d = planeAt(out, x, y);
-
-                d[0] = c.r * c.a;
-                d[1] = c.g * c.a;
-                d[2] = c.b * c.a;
-                d[3] = c.a;
+                memcpy(planeAt(out, x, y), stored, sizeof(stored));
             }
         }
     }
 
-    // Copies the box, which the output plane holds, from one plane to another.
-    static void copyBox(const Plane& in, const Plane& out, const IntBox& b) {
-        for (int y = b.y0; y < b.y1; y++) {
-            for (int x = b.x0; x < b.x1; x++) {
-                memcpy(planeAt(out, x, y), planeRead(in, x, y), sizeof(float) * 4);
-            }
-        }
-    }
-
-    // A shift by a fraction of a pixel: the whole part and the bilinear
-    // weights of the four pixels around.
+    // A shift by a fraction of a pixel: the whole part, and how far past it.
     struct Shift {
         int ox;
         int oy;
-        float weights[4];
+        float fx;
+        float fy;
     };
 
     static Shift shiftBy(float dx, float dy) {
         float floorX = floorf(dx);
         float floorY = floorf(dy);
-        float fx = dx - floorX;
-        float fy = dy - floorY;
 
-        return Shift{(int)floorX, (int)floorY, {(1.f - fx) * (1.f - fy), fx * (1.f - fy), (1.f - fx) * fy, fx * fy}};
+        return Shift{(int)floorX, (int)floorY, dx - floorX, dy - floorY};
     }
 
-    static void shiftPixel(const Plane& in, int x, int y, const Shift& shift, float* d) {
-        float sum[4] = {0.f, 0.f, 0.f, 0.f};
-
-        for (int k = 0; k < 4; k++) {
-            if (shift.weights[k] == 0.f) {
-                continue;
-            }
-
-            const float* src = planeRead(in, x - shift.ox - (k & 1), y - shift.oy - (k >> 1));
-
-            for (int c = 0; c < 4; c++) {
-                sum[c] += src[c] * shift.weights[k];
-            }
-        }
-
-        d[0] = sum[0];
-        d[1] = sum[1];
-        d[2] = sum[2];
-        d[3] = sum[3];
-    }
-
+    // Shifts the input over the box into a new plane, zero: a whole shift
+    // copies rows; past a fraction, each pixel blends the four input pixels
+    // around, from two input rows read at once.
     static void shiftBuffer(const Plane& in, const Plane& out, const IntBox& b, float dx, float dy) {
         Shift shift = shiftBy(dx, dy);
+        int n = b.x1 - b.x0;
 
+        if (shift.fx == 0.f && shift.fy == 0.f) {
+            for (int y = b.y0; y < b.y1; y++) {
+                readStored(in, b.x0 - shift.ox, b.x1 - shift.ox, y - shift.oy, planeAt(out, b.x0, y));
+            }
+
+            return;
+        }
+
+        Vector<u16> upper;
+        Vector<u16> lower;
+
+        upper.zero((size_t)(n + 1) * 4);
+        lower.zero((size_t)(n + 1) * 4);
+
+        // The rows reach one pixel further left: index i is x0 - ox - 1 + i.
         for (int y = b.y0; y < b.y1; y++) {
-            for (int x = b.x0; x < b.x1; x++) {
-                shiftPixel(in, x, y, shift, planeAt(out, x, y));
+            readStored(in, b.x0 - shift.ox - 1, b.x1 - shift.ox, y - shift.oy, upper.mutData());
+            readStored(in, b.x0 - shift.ox - 1, b.x1 - shift.ox, y - shift.oy - 1, lower.mutData());
+
+            u16* o = planeAt(out, b.x0, y);
+
+            for (int x = 0; x < n; x++) {
+                const u16* a = upper.data() + (size_t)x * 4;
+                const u16* c = lower.data() + (size_t)x * 4;
+
+                bilinear(a + 4, a, c + 4, c, shift.fx, shift.fy, o + (size_t)x * 4);
             }
         }
     }
@@ -13670,65 +14053,6 @@ namespace {
         Plane in = filterInputBuffer(run, p.in1, p.linear);
 
         shiftBuffer(in, out, p.box, f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
-    }
-
-    static void boxBlurLine(const float* src, float* dst, int count, int stride, int left, int right) {
-        int window = left + right + 1;
-        float sum[4] = {0.f, 0.f, 0.f, 0.f};
-        float scale = 1.f / (float)window;
-
-        // The padding of a line passes the window, so i stays below count.
-        for (int i = -left; i <= right; i++) {
-            if (i >= 0) {
-                for (int c = 0; c < 4; c++) {
-                    sum[c] += src[(size_t)i * stride + c];
-                }
-            }
-        }
-
-        for (int i = 0; i < count; i++) {
-            for (int c = 0; c < 4; c++) {
-                dst[(size_t)i * stride + c] = sum[c] * scale;
-            }
-
-            int out = i - left;
-            int in = i + right + 1;
-
-            // out stays below count, and in above zero.
-            if (out >= 0) {
-                for (int c = 0; c < 4; c++) {
-                    sum[c] -= src[(size_t)out * stride + c];
-                }
-            }
-
-            if (in < count) {
-                for (int c = 0; c < 4; c++) {
-                    sum[c] += src[(size_t)in * stride + c];
-                }
-            }
-        }
-    }
-
-    static void gaussLine(const float* src, float* dst, int count, int stride, const float* kernel, int radius) {
-        for (int i = 0; i < count; i++) {
-            float sum[4] = {0.f, 0.f, 0.f, 0.f};
-            // The taps within the line.
-            int k0 = i < radius ? -i : -radius;
-            int k1 = i + radius < count ? radius : count - 1 - i;
-
-            for (int k = k0; k <= k1; k++) {
-                const float* tap = src + (size_t)(i + k) * stride;
-                float w = kernel[k + radius];
-
-                for (int c = 0; c < 4; c++) {
-                    sum[c] += tap[c] * w;
-                }
-            }
-
-            for (int c = 0; c < 4; c++) {
-                dst[(size_t)i * stride + c] = sum[c];
-            }
-        }
     }
 
     static int blurReach(float sigma) {
@@ -13745,22 +14069,124 @@ namespace {
         return 3 * (d / 2 + 1);
     }
 
-    static void blurLine(const float* src, float* dst, Vector<float>& first, Vector<float>& second, int count, int stride, float sigma) {
+    // A line of a blur is count positions of a few groups of four lanes:
+    // pixels of some rows, or of some columns of a plane, so that a step
+    // goes over many lanes at once. The lanes are held in 32 bits.
+
+    // One box pass over a line: each output is the mean of the window from
+    // left before to right after, rounded through a multiplier of 2^32 over
+    // the window; the line is zero past its ends.
+    static void boxPass(const u32* __restrict in, u32* __restrict out, int count, size_t lanes, int left, int right, u32* __restrict sum) {
+        u32 window = (u32)(left + right + 1);
+        u64 multiplier = ((1ull << 32) + window / 2) / window;
+
+        for (size_t c = 0; c < lanes; c++) {
+            sum[c] = 0;
+        }
+
+        // The padding of a line passes the window, so i stays below count.
+        for (int i = 0; i <= right; i++) {
+            for (size_t c = 0; c < lanes; c++) {
+                sum[c] += in[(size_t)i * lanes + c];
+            }
+        }
+
+        for (int i = 0; i < count; i++) {
+            for (size_t c = 0; c < lanes; c++) {
+                out[(size_t)i * lanes + c] = (u32)(((u64)sum[c] * multiplier + (1ull << 31)) >> 32);
+            }
+
+            int gone = i - left;
+            int next = i + right + 1;
+
+            // gone stays below count, and next above zero.
+            if (gone >= 0) {
+                for (size_t c = 0; c < lanes; c++) {
+                    sum[c] -= in[(size_t)gone * lanes + c];
+                }
+            }
+
+            if (next < count) {
+                for (size_t c = 0; c < lanes; c++) {
+                    sum[c] += in[(size_t)next * lanes + c];
+                }
+            }
+        }
+    }
+
+    // The scratch of the blur of a line: the line padded, and two passes.
+    struct BlurScratch {
+        Vector<u32> first;
+        Vector<u32> second;
+        Vector<u32> sum;
+    };
+
+    // Where the lanes of a line lie: a position and a group step apart.
+    struct LineLayout {
+        ptrdiff_t position;
+        ptrdiff_t group;
+    };
+
+    // The scratch of a morphology line: the line padded, and its running
+    // extremes forward and backward.
+    struct MorphologyScratch {
+        Vector<u16> line;
+        Vector<u16> g;
+        Vector<u16> h;
+    };
+
+    // Blurs a line of groups of four lanes read from src and written to dst.
+    // Deviations below 2 take a Gaussian of weights summing to 65536; a
+    // window as long as twice the line takes the quadratic the three boxes
+    // leave in its middle; others take the three boxes.
+    static void blurLine(const u16* src, LineLayout from, u16* dst, LineLayout to, int count, int groups, float sigma, BlurScratch& scratch) {
+        size_t lanes = (size_t)groups * 4;
+        auto store = [&](int i, size_t c, u32 value) {
+            dst[i * to.position + (ptrdiff_t)(c >> 2) * to.group + (ptrdiff_t)(c & 3)] = (u16)value;
+        };
+
         if (!(sigma > 0.f)) {
             for (int i = 0; i < count; i++) {
-                for (int c = 0; c < 4; c++) {
-                    dst[(size_t)i * stride + c] = src[(size_t)i * stride + c];
+                for (int g = 0; g < groups; g++) {
+                    memcpy(dst + i * to.position + g * to.group, src + i * from.position + g * from.group, sizeof(u16) * 4);
                 }
             }
 
             return;
         }
 
+        double window = floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
+        int d = (int)window;
+        bool boxes = sigma >= 2.f && window < 2.0 * count;
+        int pad = boxes ? 3 * (d / 2 + 1) : 0;
+        int total = count + 2 * pad;
+
+        scratch.first.zero((size_t)total * lanes);
+        scratch.second.zero((size_t)total * lanes);
+        scratch.sum.zero(lanes);
+
+        u32* first = scratch.first.mutData();
+        u32* second = scratch.second.mutData();
+
+        for (int i = 0; i < count; i++) {
+            for (int g = 0; g < groups; g++) {
+                const u16* in = src + i * from.position + g * from.group;
+                u32* lane = first + (size_t)(i + pad) * lanes + (size_t)g * 4;
+
+                lane[0] = in[0];
+                lane[1] = in[1];
+                lane[2] = in[2];
+                lane[3] = in[3];
+            }
+        }
+
         if (sigma < 2.f) {
             // A sigma below 2 reaches 6 pixels at most.
             int radius = (int)ceilf(sigma * 3.f);
-            float kernel[64];
+            float kernel[13];
+            u32 weights[13];
             float total = 0.f;
+            u32 sum = 0;
 
             for (int k = -radius; k <= radius; k++) {
                 kernel[k + radius] = expf(-(float)(k * k) / (2.f * sigma * sigma));
@@ -13768,82 +14194,88 @@ namespace {
             }
 
             for (int k = 0; k <= 2 * radius; k++) {
-                kernel[k] /= total;
+                weights[k] = (u32)(kernel[k] / total * 65536.f + 0.5f);
+                sum += weights[k];
             }
 
-            gaussLine(src, dst, count, stride, kernel, radius);
+            // The middle weight takes what rounding left, so the weights sum to 65536.
+            weights[radius] += 65536u - sum;
+
+            for (int i = 0; i < count; i++) {
+                // The taps within the line.
+                int k0 = i < radius ? -i : -radius;
+                int k1 = i + radius < count ? radius : count - 1 - i;
+                u32* acc = second + (size_t)i * lanes;
+
+                for (int k = k0; k <= k1; k++) {
+                    const u32* tap = first + (size_t)(i + k) * lanes;
+                    u32 w = weights[k + radius];
+
+                    for (size_t c = 0; c < lanes; c++) {
+                        acc[c] += tap[c] * w;
+                    }
+                }
+
+                for (size_t c = 0; c < lanes; c++) {
+                    store(i, c, (acc[c] + 32768u) >> 16);
+                }
+            }
 
             return;
         }
 
-        double window = floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
-
-        if (window >= 2.0 * count) {
+        if (!boxes) {
             // The central part of three convolved boxes is a quadratic. Integrate
             // it from the input moments instead of allocating padding proportional to sigma.
-            double moments[3][4] = {};
             bool even = fmod(window, 2.0) == 0.0;
             double center = (3.0 * window * window + (even ? 2.0 * window : 1.0)) / 4.0;
             double divisor = window * window * (even ? window + 1.0 : window);
 
-            for (int i = 0; i < count; i++) {
-                for (int c = 0; c < 4; c++) {
-                    double value = src[(size_t)i * stride + c];
+            for (size_t c = 0; c < lanes; c++) {
+                double moments[3] = {};
 
-                    moments[0][c] += value;
-                    moments[1][c] += i * value;
-                    moments[2][c] += (double)i * i * value;
+                for (int i = 0; i < count; i++) {
+                    double value = first[(size_t)i * lanes + c];
+
+                    moments[0] += value;
+                    moments[1] += i * value;
+                    moments[2] += (double)i * i * value;
                 }
-            }
 
-            for (int i = 0; i < count; i++) {
-                for (int c = 0; c < 4; c++) {
-                    double value = ((center - (double)i * i) * moments[0][c] + 2.0 * i * moments[1][c] - moments[2][c]) / divisor;
+                for (int i = 0; i < count; i++) {
+                    double value = ((center - (double)i * i) * moments[0] + 2.0 * i * moments[1] - moments[2]) / divisor;
 
-                    dst[(size_t)i * stride + c] = value > 0.0 ? (float)value : 0.f;
+                    store(i, c, (u32)(minf(maxf((float)value, 0.f), 65535.f) + 0.5f));
                 }
             }
 
             return;
         }
 
-        int d = (int)window;
-        int pad = 3 * (d / 2 + 1);
-        int total = count + 2 * pad;
-
-        if (first.length() < (size_t)total * 4) {
-            first.zero((size_t)total * 4);
-            second.zero((size_t)total * 4);
-        }
-
-        memset(first.mutData(), 0, sizeof(float) * 4 * (size_t)pad);
-        memset(first.mutData() + (size_t)(pad + count) * 4, 0, sizeof(float) * 4 * (size_t)pad);
-
-        for (int i = 0; i < count; i++) {
-            for (int c = 0; c < 4; c++) {
-                first.mutData()[(size_t)(i + pad) * 4 + c] = src[(size_t)i * stride + c];
-            }
-        }
+        u32* sum = scratch.sum.mutData();
 
         if (d % 2 == 1) {
             int r = (d - 1) / 2;
 
-            boxBlurLine(first.data(), second.mutData(), total, 4, r, r);
-            boxBlurLine(second.data(), first.mutData(), total, 4, r, r);
-            boxBlurLine(first.data(), second.mutData(), total, 4, r, r);
+            boxPass(first, second, total, lanes, r, r, sum);
+            boxPass(second, first, total, lanes, r, r, sum);
+            boxPass(first, second, total, lanes, r, r, sum);
         } else {
-            boxBlurLine(first.data(), second.mutData(), total, 4, d / 2, d / 2 - 1);
-            boxBlurLine(second.data(), first.mutData(), total, 4, d / 2 - 1, d / 2);
-            boxBlurLine(first.data(), second.mutData(), total, 4, d / 2, d / 2);
+            boxPass(first, second, total, lanes, d / 2, d / 2 - 1, sum);
+            boxPass(second, first, total, lanes, d / 2 - 1, d / 2, sum);
+            boxPass(first, second, total, lanes, d / 2, d / 2, sum);
         }
 
         for (int i = 0; i < count; i++) {
-            for (int c = 0; c < 4; c++) {
-                dst[(size_t)i * stride + c] = second.data()[(size_t)(i + pad) * 4 + c];
+            for (size_t c = 0; c < lanes; c++) {
+                store(i, c, second[(size_t)(i + pad) * lanes + c]);
             }
         }
     }
 
+    // Blurs the input over the box: groups of eight rows into a plane of the
+    // horizontal pass, then groups of eight of its columns into the box, 32
+    // lanes a position either way.
     static void blurBuffer(FilterRun& run, const Plane& in, const Plane& out, const IntBox& box, float sigmaX, float sigmaY, bool consume) {
         int height = (int)run.raster->height;
         int width = (int)run.raster->width;
@@ -13853,11 +14285,9 @@ namespace {
         int x1 = box.x1 + reachX < width ? box.x1 + reachX : width;
         int y0 = box.y0 - reachY > 0 ? box.y0 - reachY : 0;
         int y1 = box.y1 + reachY < height ? box.y1 + reachY : height;
-        Vector<float> row;
-        Vector<float> line;
-        Vector<float> lineOut;
-        Vector<float> first;
-        Vector<float> second;
+        BlurScratch scratch;
+        Vector<u16> rows;
+        Vector<u16> columns;
 
         // An empty box is empty by its x, as boxInside leaves it.
         if (box.x1 <= box.x0) {
@@ -13869,24 +14299,31 @@ namespace {
         bool inPlace = consume && x0 >= in.box.x0 && y0 >= in.box.y0 && x1 <= in.box.x1 && y1 <= in.box.y1;
         Plane horizontal = inPlace ? in : makePlane(IntBox{x0, y0, x1, y1});
 
-        row.zero((size_t)(x1 - x0) * 4);
-        line.zero((size_t)(y1 - y0) * 4);
-        lineOut.zero((size_t)(y1 - y0) * 4);
+        size_t rowLength = (size_t)(x1 - x0) * 4;
+        ptrdiff_t across = (ptrdiff_t)planeWidth(horizontal) * 4;
 
-        for (int y = y0; y < y1; y++) {
-            readSpan(in, x0, x1, y, row.mutData());
-            blurLine(row.data(), planeAt(horizontal, x0, y), first, second, x1 - x0, 4, sigmaX);
-        }
+        rows.zero(rowLength * 8);
+        columns.zero((size_t)(y1 - y0) * 32);
 
-        for (int x = box.x0; x < box.x1; x++) {
-            for (int y = y0; y < y1; y++) {
-                memcpy(line.mutData() + (size_t)(y - y0) * 4, planeAt(horizontal, x, y), sizeof(float) * 4);
+        // The rows are read first: the horizontal plane may be the input.
+        for (int y = y0; y < y1; y += 8) {
+            int group = y1 - y < 8 ? y1 - y : 8;
+
+            for (int g = 0; g < group; g++) {
+                readStored(in, x0, x1, y + g, rows.mutData() + rowLength * (size_t)g);
             }
 
-            blurLine(line.data(), lineOut.mutData(), first, second, y1 - y0, 4, sigmaY);
+            blurLine(rows.data(), LineLayout{4, (ptrdiff_t)rowLength}, planeAt(horizontal, x0, y), LineLayout{4, across}, x1 - x0, group, sigmaX, scratch);
+        }
+
+        for (int x = box.x0; x < box.x1; x += 8) {
+            int group = box.x1 - x < 8 ? box.x1 - x : 8;
+            size_t lanes = (size_t)group * 4;
+
+            blurLine(planeAt(horizontal, x, y0), LineLayout{across, 4}, columns.mutData(), LineLayout{(ptrdiff_t)lanes, 4}, y1 - y0, group, sigmaY, scratch);
 
             for (int y = box.y0; y < box.y1; y++) {
-                memcpy(planeAt(out, x, y), lineOut.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
+                memcpy(planeAt(out, x, y), columns.data() + (size_t)(y - y0) * lanes, sizeof(u16) * lanes);
             }
         }
 
@@ -13969,27 +14406,36 @@ namespace {
             copyBox(in, shadow, all);
         }
 
-        Shift shift = shiftBy(f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
+        // The shadow moved over the box, coloured by the flood, and the input
+        // over it, a row at a time.
         const IntBox& b = p.box;
+        size_t n = (size_t)(b.x1 - b.x0);
+        Plane moved = makePlane(b);
+        u16 flood[4];
+        Vector<u16> row;
+        Vector<u16> shade;
+
+        shiftBuffer(shadow, moved, b, f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
+        storeColor(flood, Color{c.r * c.a, c.g * c.a, c.b * c.a, c.a});
+        row.zero(n * 4);
+        shade.zero(n * 4);
 
         for (int y = b.y0; y < b.y1; y++) {
-            for (int x = b.x0; x < b.x1; x++) {
-                float moved[4];
+            const u16* m = planeAt(moved, b.x0, y);
+            u16* sh = shade.mutData();
 
-                shiftPixel(shadow, x, y, shift, moved);
-
-                float a = moved[3] * c.a;
-                const float* s = planeRead(in, x, y);
-                float* o = planeAt(out, x, y);
-                float keep = 1.f - s[3];
-
-                o[0] = s[0] + c.r * a * keep;
-                o[1] = s[1] + c.g * a * keep;
-                o[2] = s[2] + c.b * a * keep;
-                o[3] = s[3] + a * keep;
+            for (size_t x = 0; x < n; x++) {
+                for (int k = 0; k < 4; k++) {
+                    sh[x * 4 + (size_t)k] = (u16)div65535((u32)flood[k] * m[x * 4 + 3]);
+                }
             }
+
+            readStored(in, b.x0, b.x1, y, row.mutData());
+            overSpan(sh, row.data(), n);
+            memcpy(planeAt(out, b.x0, y), sh, sizeof(u16) * 4 * n);
         }
 
+        releasePlane(moved);
         releasePlane(shadow);
     }
 
@@ -14018,6 +14464,30 @@ namespace {
         d[1] = clampUnit(c[1]) * a;
         d[2] = clampUnit(c[2]) * a;
         d[3] = a;
+    }
+
+    // Pixels in floats not premultiplied: an alpha under half a byte has no
+    // colour. One reciprocal a pixel.
+    static void unpremultiplySpan(float* __restrict c, const float* __restrict s, size_t count) {
+        for (size_t p = 0; p < count; p++) {
+            const float* sp = s + p * 4;
+            float* cp = c + p * 4;
+            float a = sp[3];
+            float keep = a >= 0.5f / 255.f ? 1.f : 0.f;
+            float inverse = keep / maxf(a, 0.5f / 255.f);
+
+            cp[0] = clampUnit(sp[0] * inverse);
+            cp[1] = clampUnit(sp[1] * inverse);
+            cp[2] = clampUnit(sp[2] * inverse);
+            cp[3] = a * keep;
+        }
+    }
+
+    // Pixels premultiplied from floats not premultiplied, each channel clamped.
+    static void premultiplySpan(float* __restrict d, const float* __restrict c, size_t count) {
+        for (size_t p = 0; p < count; p++) {
+            storePremultiplied(d + p * 4, c + p * 4);
+        }
     }
 
     static void filterColorMatrix(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -14078,21 +14548,31 @@ namespace {
             }
         }
 
+        // A row at a time: the colours not premultiplied, the matrix of
+        // real coefficients over them in floats, premultiplied again.
         const IntBox& b = p.box;
+        size_t n = (size_t)(b.x1 - b.x0);
+        Vector<float> row;
+        Vector<float> colors;
+
+        row.zero(n * 4);
+        colors.zero(n * 4);
 
         for (int y = b.y0; y < b.y1; y++) {
-            for (int x = b.x0; x < b.x1; x++) {
-                float c[4];
-                float r[4];
+            readSpan(in, b.x0, b.x1, y, row.mutData());
+            unpremultiplySpan(colors.mutData(), row.data(), n);
 
-                unpremultiply(planeRead(in, x, y), c);
+            for (size_t x = 0; x < n; x++) {
+                const float* c = colors.data() + x * 4;
+                float* r = row.mutData() + x * 4;
 
                 for (int k = 0; k < 4; k++) {
                     r[k] = m[k * 5] * c[0] + m[k * 5 + 1] * c[1] + m[k * 5 + 2] * c[2] + m[k * 5 + 3] * c[3] + m[k * 5 + 4];
                 }
-
-                storePremultiplied(planeAt(out, x, y), r);
             }
+
+            premultiplySpan(colors.mutData(), row.data(), n);
+            writeSpan(out, b.x0, b.x1, y, colors.data());
         }
     }
 
@@ -14176,20 +14656,30 @@ namespace {
             }
         }
 
+        // A row at a time: the colours not premultiplied, each channel
+        // through its function, premultiplied again.
         const IntBox& b = p.box;
+        size_t n = (size_t)(b.x1 - b.x0);
+        Vector<float> row;
+        Vector<float> colors;
+
+        row.zero(n * 4);
+        colors.zero(n * 4);
 
         for (int y = b.y0; y < b.y1; y++) {
-            for (int x = b.x0; x < b.x1; x++) {
-                float c[4];
+            readSpan(in, b.x0, b.x1, y, row.mutData());
+            unpremultiplySpan(colors.mutData(), row.data(), n);
 
-                unpremultiply(planeRead(in, x, y), c);
+            for (int k = 0; k < 4; k++) {
+                float* c = colors.mutData() + k;
 
-                for (int k = 0; k < 4; k++) {
-                    c[k] = transfer(functions[k], c[k]);
+                for (size_t x = 0; x < n; x++) {
+                    c[x * 4] = transfer(functions[k], c[x * 4]);
                 }
-
-                storePremultiplied(planeAt(out, x, y), c);
             }
+
+            premultiplySpan(row.mutData(), colors.data(), n);
+            writeSpan(out, b.x0, b.x1, y, row.data());
         }
     }
 
@@ -14227,6 +14717,30 @@ namespace {
         return read;
     }
 
+    // Each lane of a times the factor of its pixel plus each lane of b times
+    // its pixel's factor, saturated: over, in, out, atop, xor and lighter.
+    static void twoTermSpan(u16* __restrict o, const u16* __restrict a, const u16* __restrict b, const u16* __restrict fa, const u16* __restrict fb, size_t count) {
+        size_t p = 0;
+
+        for (; p + 2 <= count; p += 2) {
+            for (int i = 0; i < 8; i++) {
+                size_t k = p + (size_t)(i >> 2);
+
+                o[p * 4 + i] = saturate(div65535((u32)a[p * 4 + i] * fa[k]) + div65535((u32)b[p * 4 + i] * fb[k]));
+            }
+        }
+
+        for (; p < count; p++) {
+            for (int i = 0; i < 4; i++) {
+                o[p * 4 + i] = saturate(div65535((u32)a[p * 4 + i] * fa[p]) + div65535((u32)b[p * 4 + i] * fb[p]));
+            }
+        }
+    }
+
+    // The composite of the two inputs. The Porter-Duff operators weigh each
+    // input by the other's alpha, its complement, 0 or 1: a factor is a
+    // constant plus or minus that alpha, taken by masks. The arithmetic one
+    // has real coefficients and goes through floats.
     static void filterComposite(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane a = filterInputBuffer(run, p.in1, p.linear);
@@ -14238,17 +14752,45 @@ namespace {
         float k3 = numberOf(doc, p.node, AtomK3, 0.f);
         float k4 = numberOf(doc, p.node, AtomK4, 0.f);
         const IntBox& box = p.box;
+        size_t n = (size_t)(box.x1 - box.x0);
         bool arithmetic = kind == SV("arithmetic");
         float ceiling = arithmetic && keepsInvalidColor(*run.filter, p) ? 1.f : 0.f;
         int mode = kind == SV("in") ? 1 : (kind == SV("out") ? 2 : (kind == SV("atop") ? 3 : (kind == SV("xor") ? 4 : (kind == SV("lighter") ? 5 : 0))));
+        // The factor of a: 65535, plus the alpha of b, or minus it.
+        static const u32 baseA[6] = {65535, 0, 65535, 0, 65535, 65535};
+        static const u32 plusA[6] = {0, 0xffff, 0, 0xffff, 0, 0};
+        static const u32 minusA[6] = {0, 0, 0xffff, 0, 0xffff, 0};
+        // The factor of b: the same of the alpha of a.
+        static const u32 baseB[6] = {65535, 0, 0, 65535, 65535, 65535};
+        static const u32 minusB[6] = {0xffff, 0, 0, 0xffff, 0xffff, 0};
+        Vector<u16> rowA;
+        Vector<u16> rowB;
+        Vector<u16> fa;
+        Vector<u16> fb;
+        Vector<float> floatA;
+        Vector<float> floatB;
+        Vector<float> floatOut;
+
+        rowA.zero(n * 4);
+        rowB.zero(n * 4);
+        fa.zero(n);
+        fb.zero(n);
+
+        if (arithmetic) {
+            floatA.zero(n * 4);
+            floatB.zero(n * 4);
+            floatOut.zero(n * 4);
+        }
 
         for (int y = box.y0; y < box.y1; y++) {
-            for (int x = box.x0; x < box.x1; x++) {
-                const float* s = planeRead(a, x, y);
-                const float* d = planeRead(b, x, y);
-                float* o = planeAt(out, x, y);
+            if (arithmetic) {
+                readSpan(a, box.x0, box.x1, y, floatA.mutData());
+                readSpan(b, box.x0, box.x1, y, floatB.mutData());
 
-                if (arithmetic) {
+                for (size_t x = 0; x < n; x++) {
+                    const float* s = floatA.data() + x * 4;
+                    const float* d = floatB.data() + x * 4;
+                    float* o = floatOut.mutData() + x * 4;
                     float alpha = clampUnit(k1 * s[3] * d[3] + k2 * s[3] + k3 * d[3] + k4);
 
                     for (int c = 0; c < 3; c++) {
@@ -14256,33 +14798,24 @@ namespace {
                     }
 
                     o[3] = alpha;
-                    continue;
                 }
 
-                float fa = 1.f;
-                float fb = 1.f - s[3];
-
-                if (mode == 1) {
-                    fa = d[3];
-                    fb = 0.f;
-                } else if (mode == 2) {
-                    fa = 1.f - d[3];
-                    fb = 0.f;
-                } else if (mode == 3) {
-                    fa = d[3];
-                    fb = 1.f - s[3];
-                } else if (mode == 4) {
-                    fa = 1.f - d[3];
-                    fb = 1.f - s[3];
-                } else if (mode == 5) {
-                    fa = 1.f;
-                    fb = 1.f;
-                }
-
-                for (int c = 0; c < 4; c++) {
-                    o[c] = minf(s[c] * fa + d[c] * fb, 1.f);
-                }
+                writeSpan(out, box.x0, box.x1, y, floatOut.data());
+                continue;
             }
+
+            readStored(a, box.x0, box.x1, y, rowA.mutData());
+            readStored(b, box.x0, box.x1, y, rowB.mutData());
+
+            for (size_t x = 0; x < n; x++) {
+                u32 sa = rowA[x * 4 + 3];
+                u32 da = rowB[x * 4 + 3];
+
+                fa.mut(x) = (u16)(baseA[mode] + (da & plusA[mode]) - (da & minusA[mode]));
+                fb.mut(x) = (u16)(baseB[mode] - (sa & minusB[mode]));
+            }
+
+            twoTermSpan(planeAt(out, box.x0, y), rowA.data(), rowB.data(), fa.data(), fb.data(), n);
         }
     }
 
@@ -14457,6 +14990,48 @@ namespace {
         out[3] = as + ab - as * ab;
     }
 
+    // A separable blend in stored premultiplied channels: each lane is
+    // s (1 - da) + d (1 - sa) plus the term of the mode, the mode's function
+    // of the colours not premultiplied times both alphas, written in the
+    // premultiplied ones. On the alpha lanes, where s and d are the alphas,
+    // the term is sa da, which gives sa + da - sa da; the modes whose term
+    // falls short there add it where told the lane is alpha. Two pixels,
+    // eight lanes, a step.
+    template <typename Term>
+    static void blendLanes(u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count, Term term) {
+        auto lane = [&](size_t base, int i) {
+            i32 sc = s[base + (size_t)i];
+            i32 dc = d[base + (size_t)i];
+            i32 sa = s[base + (size_t)((i & 4) | 3)];
+            i32 da = d[base + (size_t)((i & 4) | 3)];
+            i32 v = (i32)div65535((u32)sc * (u32)(65535 - da)) + (i32)div65535((u32)dc * (u32)(65535 - sa)) + term(sc, dc, sa, da, (i & 3) == 3);
+
+            // Rounding the terms apart can take a sum just below zero.
+            o[base + (size_t)i] = saturate((u32)(v * (v > 0)));
+        };
+        size_t p = 0;
+
+        for (; p + 2 <= count; p += 2) {
+            for (int i = 0; i < 8; i++) {
+                lane(p * 4, i);
+            }
+        }
+
+        for (; p < count; p++) {
+            for (int i = 0; i < 4; i++) {
+                lane(p * 4, i);
+            }
+        }
+    }
+
+    static i32 product(i32 a, i32 b) {
+        return (i32)div65535((u32)a * (u32)b);
+    }
+
+    // The blend of the two inputs. The modes whose function is a product,
+    // a minimum or maximum, a difference or a choice on a half are exact in
+    // stored channels; the dodges, burns, soft light and the non-separable
+    // modes divide or take roots and go through floats.
     static void filterBlend(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane a = filterInputBuffer(run, p.in1, p.linear);
@@ -14464,54 +15039,145 @@ namespace {
         u32 modeValue = attribute(p.node, AtomMode);
         int mode = modeValue ? blendMode(trim(textOf(doc, modeValue))) : 0;
         const IntBox& box = p.box;
+        size_t n = (size_t)(box.x1 - box.x0);
+        Vector<u16> rowA;
+        Vector<u16> rowB;
+        Vector<float> floatA;
+        Vector<float> floatB;
+        Vector<float> floatOut;
+
+        rowA.zero(n * 4);
+        rowB.zero(n * 4);
+        floatA.zero(n * 4);
+        floatB.zero(n * 4);
+        floatOut.zero(n * 4);
 
         for (int y = box.y0; y < box.y1; y++) {
-            for (int x = box.x0; x < box.x1; x++) {
-                blendPixel(mode, planeRead(a, x, y), planeRead(b, x, y), planeAt(out, x, y));
+            u16* o = planeAt(out, box.x0, y);
+            const u16* s = rowA.data();
+            const u16* d = rowB.data();
+
+            readStored(a, box.x0, box.x1, y, rowA.mutData());
+            readStored(b, box.x0, box.x1, y, rowB.mutData());
+
+            switch (mode) {
+                case 0:
+                    blendLanes(o, s, d, n, [](i32 sc, i32, i32, i32 da, bool) {
+                        return product(sc, da);
+                    });
+                    continue;
+                case 1:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32, i32, bool) {
+                        return product(sc, dc);
+                    });
+                    continue;
+                case 2:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                        return product(sc, da) + product(dc, sa) - product(sc, dc);
+                    });
+                    continue;
+                case 3:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                        return 2 * dc <= da ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
+                    });
+                    continue;
+                case 4:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                        i32 u = product(dc, sa);
+                        i32 v = product(sc, da);
+
+                        return u < v ? u : v;
+                    });
+                    continue;
+                case 5:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                        i32 u = product(dc, sa);
+                        i32 v = product(sc, da);
+
+                        return u > v ? u : v;
+                    });
+                    continue;
+                case 8:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool) {
+                        return 2 * sc <= sa ? 2 * product(sc, dc) : product(sa, da) - 2 * product(da - dc, sa - sc);
+                    });
+                    continue;
+                case 10:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
+                        i32 v = product(dc, sa) - product(sc, da);
+
+                        return (v < 0 ? -v : v) + alpha * product(sa, da);
+                    });
+                    continue;
+                case 11:
+                    blendLanes(o, s, d, n, [](i32 sc, i32 dc, i32 sa, i32 da, bool alpha) {
+                        return product(sc, da) + product(dc, sa) - 2 * product(sc, dc) + alpha * product(sa, da);
+                    });
+                    continue;
+                default:
+                    break;
             }
+
+            loadSpan(s, floatA.mutData(), n);
+            loadSpan(d, floatB.mutData(), n);
+
+            for (size_t x = 0; x < n; x++) {
+                blendPixel(mode, floatA.data() + x * 4, floatB.data() + x * 4, floatOut.mutData() + x * 4);
+            }
+
+            storeSpan(o, floatOut.data(), n);
         }
     }
 
     static void filterMerge(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const IntBox& box = p.box;
 
+        // Each input over the ones before, where it has pixels.
         for (u32 k = 0; k < p.inputCount; k++) {
             Plane in = filterInputBuffer(run, p.inputs[k], p.linear);
+            IntBox inside = boxInside(box, in.box);
 
-            for (int y = box.y0; y < box.y1; y++) {
-                for (int x = box.x0; x < box.x1; x++) {
-                    const float* s = planeRead(in, x, y);
-                    float* d = planeAt(out, x, y);
-                    float keep = 1.f - s[3];
-
-                    d[0] = s[0] + d[0] * keep;
-                    d[1] = s[1] + d[1] * keep;
-                    d[2] = s[2] + d[2] * keep;
-                    d[3] = s[3] + d[3] * keep;
-                }
+            for (int y = inside.y0; y < inside.y1; y++) {
+                overSpan(planeAt(out, inside.x0, y), planeAt(in, inside.x0, y), (size_t)(inside.x1 - inside.x0));
             }
         }
     }
 
-    // The running extreme of windows of w values over the line padded by
-    // r zeros on each side, forward in g and backward in h, so that the
-    // extreme of the window at x is the extreme of h[x] and g[x + 2r].
+    // The running extreme of windows of w = 2r + 1 values over a line of
+    // groups of four stored lanes padded by r zeros on each side, forward in
+    // g and backward in h, so that the extreme of the window at x is the
+    // extreme of h[x] and g[x + 2r]; the outputs from first to last of the
+    // line go to dst.
     template <typename Extreme>
-    static void slideExtremeBy(const float* src, size_t stride, int n, int r, float* dst, size_t dstStride, float* pg, float* ph, Extreme extreme) {
+    static void slideExtremeBy(const u16* src, LineLayout from, u16* dst, LineLayout to, int n, int groups, int r, int first, int last, MorphologyScratch& scratch, Extreme extreme) {
+        size_t lanes = (size_t)groups * 4;
         int m = n + 2 * r;
         int w = 2 * r + 1;
         int run = 0;
 
+        scratch.line.zero((size_t)m * lanes);
+        scratch.g.zero((size_t)m * lanes);
+        scratch.h.zero((size_t)m * lanes);
+
+        u16* line = scratch.line.mutData();
+        u16* pg = scratch.g.mutData();
+        u16* ph = scratch.h.mutData();
+
+        for (int i = 0; i < n; i++) {
+            for (int k = 0; k < groups; k++) {
+                memcpy(line + (size_t)(i + r) * lanes + (size_t)k * 4, src + i * from.position + k * from.group, sizeof(u16) * 4);
+            }
+        }
+
         for (int i = 0; i < m; i++) {
-            int k = i - r;
-            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : zeroPixel;
-            float* out = pg + (size_t)i * 4;
+            const u16* v = line + (size_t)i * lanes;
+            u16* out = pg + (size_t)i * lanes;
 
             if (run == 0) {
-                memcpy(out, v, sizeof(float) * 4);
+                memcpy(out, v, sizeof(u16) * lanes);
             } else {
-                for (int c = 0; c < 4; c++) {
-                    out[c] = extreme(out[c - 4], v[c]);
+                for (size_t c = 0; c < lanes; c++) {
+                    out[c] = extreme(out[c - lanes], v[c]);
                 }
             }
 
@@ -14523,43 +15189,50 @@ namespace {
         int phase = m % w;
 
         for (int i = m - 1; i >= 0; i--) {
-            int k = i - r;
-            const float* v = k >= 0 && k < n ? src + (size_t)k * stride : zeroPixel;
-            float* out = ph + (size_t)i * 4;
+            const u16* v = line + (size_t)i * lanes;
+            u16* out = ph + (size_t)i * lanes;
 
             if (i == m - 1 || phase == 0) {
-                memcpy(out, v, sizeof(float) * 4);
+                memcpy(out, v, sizeof(u16) * lanes);
             } else {
-                for (int c = 0; c < 4; c++) {
-                    out[c] = extreme(out[c + 4], v[c]);
+                for (size_t c = 0; c < lanes; c++) {
+                    out[c] = extreme(out[c + lanes], v[c]);
                 }
             }
 
             phase = phase == 0 ? w - 1 : phase - 1;
         }
 
-        for (int x = 0; x < n; x++) {
-            float* d = dst + (size_t)x * dstStride;
+        for (int x = first; x < last; x++) {
+            const u16* a = ph + (size_t)x * lanes;
+            const u16* b = pg + (size_t)(x + 2 * r) * lanes;
+            u16 v[32];
 
-            for (int c = 0; c < 4; c++) {
-                d[c] = extreme(ph[(size_t)x * 4 + c], pg[(size_t)(x + 2 * r) * 4 + c]);
+            for (size_t c = 0; c < lanes; c++) {
+                v[c] = extreme(a[c], b[c]);
+            }
+
+            for (int k = 0; k < groups; k++) {
+                memcpy(dst + (x - first) * to.position + k * to.group, v + k * 4, sizeof(u16) * 4);
             }
         }
     }
 
-    static void slideExtreme(const float* src, size_t stride, int n, int r, bool dilate, float* dst, size_t dstStride, Vector<float>& g, Vector<float>& h) {
-        int m = n + 2 * r;
-
-        g.zero((size_t)m * 4);
-        h.zero((size_t)m * 4);
-
+    static void slideExtreme(const u16* src, LineLayout from, u16* dst, LineLayout to, int n, int groups, int r, int first, int last, bool dilate, MorphologyScratch& scratch) {
         if (dilate) {
-            slideExtremeBy(src, stride, n, r, dst, dstStride, g.mutData(), h.mutData(), maxf);
+            slideExtremeBy(src, from, dst, to, n, groups, r, first, last, scratch, [](u16 a, u16 b) {
+                return a > b ? a : b;
+            });
         } else {
-            slideExtremeBy(src, stride, n, r, dst, dstStride, g.mutData(), h.mutData(), minf);
+            slideExtremeBy(src, from, dst, to, n, groups, r, first, last, scratch, [](u16 a, u16 b) {
+                return a < b ? a : b;
+            });
         }
     }
 
+    // Erodes or dilates the input over the box: the extremes are those of
+    // the stored channels, groups of eight rows into a pass over the box's
+    // columns, then groups of eight of its columns into the box.
     static void filterMorphology(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
@@ -14583,11 +15256,8 @@ namespace {
         int ix = (int)floorf(minf(ux, (float)width));
         int iy = (int)floorf(minf(uy, (float)height));
         const IntBox& box = p.box;
-        Vector<float> row;
-        Vector<float> line;
-        Vector<float> column;
-        Vector<float> g;
-        Vector<float> h;
+        MorphologyScratch scratch;
+        Vector<u16> rows;
 
         // An empty box is empty by its x, as boxInside leaves it.
         if (box.x1 <= box.x0) {
@@ -14599,26 +15269,26 @@ namespace {
         int y0 = box.y0 - iy > 0 ? box.y0 - iy : 0;
         int y1 = box.y1 + iy < height ? box.y1 + iy : height;
         Plane pass = makePlane(IntBox{box.x0, y0, box.x1, y1});
+        size_t rowLength = (size_t)(x1 - x0) * 4;
+        ptrdiff_t passAcross = (ptrdiff_t)planeWidth(pass) * 4;
+        ptrdiff_t outAcross = (ptrdiff_t)planeWidth(out) * 4;
 
-        row.zero((size_t)(x1 - x0) * 4);
-        line.zero((size_t)(x1 - x0) * 4);
-        column.zero((size_t)(y1 - y0) * 4);
+        rows.zero(rowLength * 8);
 
-        for (int y = y0; y < y1; y++) {
-            for (int x = x0; x < x1; x++) {
-                memcpy(row.mutData() + (size_t)(x - x0) * 4, planeRead(in, x, y), sizeof(float) * 4);
+        for (int y = y0; y < y1; y += 8) {
+            int group = y1 - y < 8 ? y1 - y : 8;
+
+            for (int g = 0; g < group; g++) {
+                readStored(in, x0, x1, y + g, rows.mutData() + rowLength * (size_t)g);
             }
 
-            slideExtreme(row.data(), 4, x1 - x0, ix, dilate, line.mutData(), 4, g, h);
-            memcpy(planeAt(pass, box.x0, y), line.data() + (size_t)(box.x0 - x0) * 4, sizeof(float) * 4 * (box.x1 - box.x0));
+            slideExtreme(rows.data(), LineLayout{4, (ptrdiff_t)rowLength}, planeAt(pass, box.x0, y), LineLayout{4, passAcross}, x1 - x0, group, ix, box.x0 - x0, box.x1 - x0, dilate, scratch);
         }
 
-        for (int x = box.x0; x < box.x1; x++) {
-            slideExtreme(planeAt(pass, x, y0), (size_t)planeWidth(pass) * 4, y1 - y0, iy, dilate, column.mutData(), 4, g, h);
+        for (int x = box.x0; x < box.x1; x += 8) {
+            int group = box.x1 - x < 8 ? box.x1 - x : 8;
 
-            for (int y = box.y0; y < box.y1; y++) {
-                memcpy(planeAt(out, x, y), column.data() + (size_t)(y - y0) * 4, sizeof(float) * 4);
-            }
+            slideExtreme(planeAt(pass, x, y0), LineLayout{passAcross, 4}, planeAt(out, x, box.y0), LineLayout{outAcross, 4}, y1 - y0, group, iy, box.y0 - y0, box.y1 - y0, dilate, scratch);
         }
 
         releasePlane(pass);
@@ -14652,7 +15322,7 @@ namespace {
             for (int x = box.x0; x < box.x1; x++) {
                 int sx = tile.x0 + (((x - tile.x0) % tw) + tw) % tw;
 
-                memcpy(planeAt(out, x, y), planeRead(in, sx, sy), sizeof(float) * 4);
+                memcpy(planeAt(out, x, y), planeRead(in, sx, sy), sizeof(u16) * 4);
             }
         }
     }
@@ -14708,75 +15378,130 @@ namespace {
         bool preserve = preserveValue && trim(textOf(doc, preserveValue)) == SV("true");
         IntBox src = inputBox(run, p.in1);
         const IntBox& box = p.box;
+        int n = box.x1 - box.x0;
+        int span = n + orderX - 1;
+        // An empty input is empty by its width, as boxInside leaves a box.
+        int w = src.x1 - src.x0;
+        int h = src.y1 - src.y0;
+        // The input column each column of the taps reads, after the edge
+        // mode; -1 for none.
+        Vector<int> columns;
+        // The rows of taps: each input pixel as a tap reads it, once, in a
+        // ring of the kernel's rows; which row each slot holds.
+        Vector<float> ring;
+        Vector<int> held;
+        Vector<float> acc;
+        Vector<float> row;
 
-        for (int y = box.y0; y < box.y1; y++) {
-            for (int x = box.x0; x < box.x1; x++) {
-                float acc[4] = {0.f, 0.f, 0.f, 0.f};
+        columns.zero((size_t)span);
+        ring.zero((size_t)span * 4 * (size_t)orderY);
+        held.zero((size_t)orderY);
+        acc.zero((size_t)n * 4);
+        row.zero((size_t)n * 4);
 
-                for (int j = 0; j < orderY; j++) {
-                    for (int i = 0; i < orderX; i++) {
-                        int sx = x - targetX + i;
-                        int sy = y - targetY + j;
-                        bool inside = sx >= src.x0 && sx < src.x1 && sy >= src.y0 && sy < src.y1;
+        // The edge modes map a coordinate past the input back into it, or leave it out.
+        auto mapped = [&](int v, int lo, int hi, int size) {
+            if (v >= lo && v < hi) {
+                return v;
+            }
 
-                        if (!inside) {
-                            if (edgeNone) {
-                                continue;
-                            }
+            if (edgeNone || w <= 0) {
+                return -1;
+            }
 
-                            if (edgeWrap) {
-                                int w = src.x1 - src.x0;
-                                int h = src.y1 - src.y0;
+            return edgeWrap ? lo + (((v - lo) % size) + size) % size : (v < lo ? lo : hi - 1);
+        };
 
-                                // An empty input is empty by its width, as boxInside leaves a box.
-                                if (w <= 0) {
-                                    continue;
-                                }
+        for (int i = 0; i < span; i++) {
+            columns.mut((size_t)i) = mapped(box.x0 - targetX + i, src.x0, src.x1, w);
+        }
 
-                                sx = src.x0 + (((sx - src.x0) % w) + w) % w;
-                                sy = src.y0 + (((sy - src.y0) % h) + h) % h;
-                            } else {
-                                sx = sx < src.x0 ? src.x0 : (sx >= src.x1 ? src.x1 - 1 : sx);
-                                sy = sy < src.y0 ? src.y0 : (sy >= src.y1 ? src.y1 - 1 : sy);
-                            }
-                        }
+        // No row of taps is held yet: the row before the first asked for.
+        for (int k = 0; k < orderY; k++) {
+            held.mut((size_t)k) = box.y0 - targetY - 1;
+        }
 
-                        float k = kernel[(size_t)(orderY - 1 - j) * orderX + (orderX - 1 - i)];
-                        const float* s = planeRead(in, sx, sy);
+        // A tap is the input not premultiplied when alpha is preserved, else
+        // the input in bytes, as Chromium reads it.
+        auto taps = [&](int r) {
+            float* out = ring.mutData() + (size_t)(((r % orderY) + orderY) % orderY) * (size_t)span * 4;
 
-                        if (preserve) {
-                            float c[4];
+            if (held[(size_t)(((r % orderY) + orderY) % orderY)] == r) {
+                return (const float*)out;
+            }
 
-                            unpremultiply(s, c);
+            held.mut((size_t)(((r % orderY) + orderY) % orderY)) = r;
 
-                            for (int ch = 0; ch < 3; ch++) {
-                                acc[ch] += c[ch] * k;
-                            }
-                        } else {
-                            for (int ch = 0; ch < 4; ch++) {
-                                acc[ch] += rintf(s[ch] * 255.f) / 255.f * k;
-                            }
-                        }
-                    }
+            int sy = mapped(r, src.y0, src.y1, h);
+
+            for (int i = 0; i < span; i++) {
+                float* t = out + (size_t)i * 4;
+                int sx = columns[(size_t)i];
+                float s[4];
+
+                if (sx < 0 || sy < 0) {
+                    memset(t, 0, sizeof(float) * 4);
+                    continue;
                 }
 
-                float* o = planeAt(out, x, y);
+                loadPixel(planeRead(in, sx, sy), s);
 
                 if (preserve) {
-                    float a = planeRead(in, x, y)[3];
-                    float c[4] = {acc[0] / divisor + bias, acc[1] / divisor + bias, acc[2] / divisor + bias, a};
+                    unpremultiply(s, t);
+                    continue;
+                }
 
-                    storePremultiplied(o, c);
-                } else {
-                    float a = clampUnit(acc[3] / divisor + bias);
-
-                    for (int ch = 0; ch < 3; ch++) {
-                        o[ch] = minf(clampUnit(acc[ch] / divisor + bias), a);
-                    }
-
-                    o[3] = a;
+                for (int c = 0; c < 4; c++) {
+                    t[c] = rintf(s[c] * 255.f) / 255.f;
                 }
             }
+
+            return (const float*)out;
+        };
+
+        for (int y = box.y0; y < box.y1; y++) {
+            float* sum = acc.mutData();
+
+            memset(sum, 0, sizeof(float) * 4 * (size_t)n);
+
+            for (int j = 0; j < orderY; j++) {
+                const float* t = taps(y - targetY + j);
+
+                for (int i = 0; i < orderX; i++) {
+                    float k = kernel[(size_t)(orderY - 1 - j) * orderX + (orderX - 1 - i)];
+                    const float* tap = t + (size_t)i * 4;
+
+                    for (size_t c = 0; c < (size_t)n * 4; c++) {
+                        sum[c] += tap[c] * k;
+                    }
+                }
+            }
+
+            if (preserve) {
+                readSpan(in, box.x0, box.x1, y, row.mutData());
+            }
+
+            for (int x = 0; x < n; x++) {
+                const float* a = sum + (size_t)x * 4;
+                float* o = row.mutData() + (size_t)x * 4;
+
+                if (preserve) {
+                    float c[4] = {a[0] / divisor + bias, a[1] / divisor + bias, a[2] / divisor + bias, o[3]};
+
+                    storePremultiplied(o, c);
+                    continue;
+                }
+
+                float alpha = clampUnit(a[3] / divisor + bias);
+
+                for (int ch = 0; ch < 3; ch++) {
+                    o[ch] = minf(clampUnit(a[ch] / divisor + bias), alpha);
+                }
+
+                o[3] = alpha;
+            }
+
+            writeSpan(out, box.x0, box.x1, y, row.data());
         }
     }
 
@@ -15066,14 +15791,24 @@ namespace {
             stitchTiles(frequencyX, frequencyY, p.user.x0, p.user.y0, tileW, tileH, stitch);
         }
 
+        // The noise of a row at the pixel centres in its space, premultiplied
+        // and stored at once.
+        size_t n = (size_t)(box.x1 - box.x0);
+        Vector<float> noise;
+        Vector<float> row;
+
+        noise.zero(n * 4);
+        row.zero(n * 4);
+
         for (int y = box.y0; y < box.y1; y++) {
             for (int x = box.x0; x < box.x1; x++) {
                 Point point = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
-                float c[4];
 
-                turbulenceAt(*tb, point.x, point.y, frequencyX, frequencyY, octaves, fractal, stitching ? &stitch : nullptr, c);
-                storePremultiplied(planeAt(out, x, y), c);
+                turbulenceAt(*tb, point.x, point.y, frequencyX, frequencyY, octaves, fractal, stitching ? &stitch : nullptr, noise.mutData() + (size_t)(x - box.x0) * 4);
             }
+
+            premultiplySpan(row.mutData(), noise.data(), n);
+            writeSpan(out, box.x0, box.x1, y, row.data());
         }
     }
 
@@ -15094,13 +15829,21 @@ namespace {
         int cx = channel(AtomXChannelSelector);
         int cy = channel(AtomYChannelSelector);
         const IntBox& box = p.box;
+        size_t n = (size_t)(box.x1 - box.x0);
+        Vector<float> row;
+        Vector<float> colors;
 
+        row.zero(n * 4);
+        colors.zero(n * 4);
+
+        // The map's row not premultiplied moves each pixel; the pixel moved
+        // to is copied as stored.
         for (int y = box.y0; y < box.y1; y++) {
+            readSpan(map, box.x0, box.x1, y, row.mutData());
+            unpremultiplySpan(colors.mutData(), row.data(), n);
+
             for (int x = box.x0; x < box.x1; x++) {
-                float m[4];
-
-                unpremultiply(planeRead(map, x, y), m);
-
+                const float* m = colors.data() + (size_t)(x - box.x0) * 4;
                 int tx = (int)floorf((float)x + sx * (m[cx] - 0.5f) + 0.5f);
                 int ty = (int)floorf((float)y + sy * (m[cy] - 0.5f) + 0.5f);
 
@@ -15108,7 +15851,7 @@ namespace {
                     continue;
                 }
 
-                memcpy(planeAt(out, x, y), planeRead(in, tx, ty), sizeof(float) * 4);
+                memcpy(planeAt(out, x, y), planeRead(in, tx, ty), sizeof(u16) * 4);
             }
         }
     }
@@ -15216,89 +15959,117 @@ namespace {
             }
         }
 
-        // The box lies on the raster.
+        // The box lies on the raster. Its stored alphas, and a pixel around
+        // it taking the nearest in it, feed the slopes in integers.
         const IntBox& box = p.box;
-        auto alphaAt = [&](int x, int y) {
-            x = x < box.x0 ? box.x0 : (x >= box.x1 ? box.x1 - 1 : x);
-            y = y < box.y0 ? box.y0 : (y >= box.y1 ? box.y1 - 1 : y);
+        int columns = box.x1 - box.x0;
+        int rows = box.y1 - box.y0;
+        size_t across = (size_t)columns + 2;
+        Vector<u16> alpha;
+        Vector<u16> row;
+        Vector<float> colors;
 
-            return planeRead(in, x, y)[3];
-        };
+        alpha.zero(across * (size_t)(rows + 2));
+        row.zero((size_t)columns * 4);
+        colors.zero((size_t)columns * 4);
+
+        for (int y = 0; y < rows; y++) {
+            u16* a = alpha.mutData() + (size_t)(y + 1) * across;
+
+            readStored(in, box.x0, box.x1, box.y0 + y, row.mutData());
+
+            for (int x = 0; x < columns; x++) {
+                a[x + 1] = row[(size_t)x * 4 + 3];
+            }
+
+            a[0] = a[1];
+            a[columns + 1] = a[columns];
+        }
+
+        memcpy(alpha.mutData(), alpha.data() + across, sizeof(u16) * across);
+        memcpy(alpha.mutData() + (size_t)(rows + 1) * across, alpha.data() + (size_t)rows * across, sizeof(u16) * across);
 
         for (int y = box.y0; y < box.y1; y++) {
+            const u16* above = alpha.data() + (size_t)(y - box.y0) * across;
+            const u16* middle = above + across;
+            const u16* below = middle + across;
+
             for (int x = box.x0; x < box.x1; x++) {
                 bool left = x == box.x0;
                 bool right = x == box.x1 - 1;
                 bool top = y == box.y0;
                 bool bottom = y == box.y1 - 1;
-                float nx;
-                float ny;
+                int i = x - box.x0;
+                i32 nx;
+                i32 ny;
                 float factorX;
                 float factorY;
-                float a00 = alphaAt(x - 1, y - 1);
-                float a01 = alphaAt(x, y - 1);
-                float a02 = alphaAt(x + 1, y - 1);
-                float a10 = alphaAt(x - 1, y);
-                float a11 = alphaAt(x, y);
-                float a12 = alphaAt(x + 1, y);
-                float a20 = alphaAt(x - 1, y + 1);
-                float a21 = alphaAt(x, y + 1);
-                float a22 = alphaAt(x + 1, y + 1);
+                i32 a00 = above[i];
+                i32 a01 = above[i + 1];
+                i32 a02 = above[i + 2];
+                i32 a10 = middle[i];
+                i32 a11 = middle[i + 1];
+                i32 a12 = middle[i + 2];
+                i32 a20 = below[i];
+                i32 a21 = below[i + 1];
+                i32 a22 = below[i + 2];
 
                 if (box.x1 - box.x0 == 1 || box.y1 - box.y0 == 1) {
-                    nx = 0.f;
-                    ny = 0.f;
+                    nx = 0;
+                    ny = 0;
                     factorX = 0.f;
                     factorY = 0.f;
                 } else if (top && left) {
                     factorX = 2.f / 3.f;
                     factorY = 2.f / 3.f;
-                    nx = -2.f * a11 + 2.f * a12 - a21 + a22;
-                    ny = -2.f * a11 - a12 + 2.f * a21 + a22;
+                    nx = -2 * a11 + 2 * a12 - a21 + a22;
+                    ny = -2 * a11 - a12 + 2 * a21 + a22;
                 } else if (top && right) {
                     factorX = 2.f / 3.f;
                     factorY = 2.f / 3.f;
-                    nx = -2.f * a10 + 2.f * a11 - a20 + a21;
-                    ny = -a10 - 2.f * a11 + a20 + 2.f * a21;
+                    nx = -2 * a10 + 2 * a11 - a20 + a21;
+                    ny = -a10 - 2 * a11 + a20 + 2 * a21;
                 } else if (bottom && left) {
                     factorX = 2.f / 3.f;
                     factorY = 2.f / 3.f;
-                    nx = -a01 + a02 - 2.f * a11 + 2.f * a12;
-                    ny = -2.f * a01 - a02 + 2.f * a11 + a12;
+                    nx = -a01 + a02 - 2 * a11 + 2 * a12;
+                    ny = -2 * a01 - a02 + 2 * a11 + a12;
                 } else if (bottom && right) {
                     factorX = 2.f / 3.f;
                     factorY = 2.f / 3.f;
-                    nx = -a00 + a01 - 2.f * a10 + 2.f * a11;
-                    ny = -a00 - 2.f * a01 + a10 + 2.f * a11;
+                    nx = -a00 + a01 - 2 * a10 + 2 * a11;
+                    ny = -a00 - 2 * a01 + a10 + 2 * a11;
                 } else if (top) {
                     factorX = 1.f / 3.f;
                     factorY = 1.f / 2.f;
-                    nx = -2.f * a10 + 2.f * a12 - a20 + a22;
-                    ny = -a10 - 2.f * a11 - a12 + a20 + 2.f * a21 + a22;
+                    nx = -2 * a10 + 2 * a12 - a20 + a22;
+                    ny = -a10 - 2 * a11 - a12 + a20 + 2 * a21 + a22;
                 } else if (bottom) {
                     factorX = 1.f / 3.f;
                     factorY = 1.f / 2.f;
-                    nx = -a00 + a02 - 2.f * a10 + 2.f * a12;
-                    ny = -a00 - 2.f * a01 - a02 + a10 + 2.f * a11 + a12;
+                    nx = -a00 + a02 - 2 * a10 + 2 * a12;
+                    ny = -a00 - 2 * a01 - a02 + a10 + 2 * a11 + a12;
                 } else if (left) {
                     factorX = 1.f / 2.f;
                     factorY = 1.f / 3.f;
-                    nx = -a01 + a02 - 2.f * a11 + 2.f * a12 - a21 + a22;
-                    ny = -2.f * a01 - a02 + 2.f * a21 + a22;
+                    nx = -a01 + a02 - 2 * a11 + 2 * a12 - a21 + a22;
+                    ny = -2 * a01 - a02 + 2 * a21 + a22;
                 } else if (right) {
                     factorX = 1.f / 2.f;
                     factorY = 1.f / 3.f;
-                    nx = -a00 + a01 - 2.f * a10 + 2.f * a11 - a20 + a21;
-                    ny = -a00 - 2.f * a01 + a20 + 2.f * a21;
+                    nx = -a00 + a01 - 2 * a10 + 2 * a11 - a20 + a21;
+                    ny = -a00 - 2 * a01 + a20 + 2 * a21;
                 } else {
                     factorX = 1.f / 4.f;
                     factorY = 1.f / 4.f;
-                    nx = -a00 + a02 - 2.f * a10 + 2.f * a12 - a20 + a22;
-                    ny = -a00 - 2.f * a01 - a02 + a20 + 2.f * a21 + a22;
+                    nx = -a00 + a02 - 2 * a10 + 2 * a12 - a20 + a22;
+                    ny = -a00 - 2 * a01 - a02 + a20 + 2 * a21 + a22;
                 }
 
-                float dx = factorX * nx;
-                float dy = factorY * ny;
+                // The slopes in alpha units: a stored alpha is 65535 for 1.
+                constexpr float unit = 1.f / 65535.f;
+                float dx = factorX * (float)nx * unit;
+                float dy = factorY * (float)ny * unit;
                 // The height samples are in device space; the light is in user space.
                 Vector3 normal = normalize3(Vector3{-surfaceScale * (f.ctm.a * dx + f.ctm.b * dy), -surfaceScale * (f.ctm.c * dx + f.ctm.d * dy), 1.f});
                 Vector3 toLight = direction;
@@ -15307,7 +16078,7 @@ namespace {
                 if (light->name != AtomFeDistantLight) {
                     Point surface = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
 
-                    toLight = normalize3(Vector3{lightPosition.x - surface.x, lightPosition.y - surface.y, lightPosition.z - surfaceScale * a11});
+                    toLight = normalize3(Vector3{lightPosition.x - surface.x, lightPosition.y - surface.y, lightPosition.z - surfaceScale * (float)a11 * unit});
                 }
 
                 if (light->name == AtomFeSpotLight) {
@@ -15343,22 +16114,15 @@ namespace {
                 float r = clampUnit(color.r * factor);
                 float g = clampUnit(color.g * factor);
                 float b = clampUnit(color.b * factor);
-                float* o = planeAt(out, x, y);
+                float* o = colors.mutData() + (size_t)i * 4;
 
-                if (specular) {
-                    float a = maxf(r, maxf(g, b));
-
-                    o[0] = r;
-                    o[1] = g;
-                    o[2] = b;
-                    o[3] = a;
-                } else {
-                    o[0] = r;
-                    o[1] = g;
-                    o[2] = b;
-                    o[3] = 1.f;
-                }
+                o[0] = r;
+                o[1] = g;
+                o[2] = b;
+                o[3] = specular ? maxf(r, maxf(g, b)) : 1.f;
             }
+
+            writeSpan(out, box.x0, box.x1, y, colors.data());
         }
     }
 
@@ -15369,27 +16133,35 @@ namespace {
 
         runProgram(*run.raster, *run.lowering, run.lowering->programs.data() + p.programFirst, p.programCount, content);
 
+        // The image drawn over the box is the result: as it is, or with its
+        // colours taken along the sRGB curve to linear light, a row at a time.
         const IntBox& box = p.box;
+        size_t n = (size_t)(box.x1 - box.x0);
+        Vector<float> row;
+        Vector<float> colors;
+
+        row.zero(n * 4);
+        colors.zero(n * 4);
 
         for (int y = box.y0; y < box.y1; y++) {
-            for (int x = box.x0; x < box.x1; x++) {
-                float* o = planeAt(out, x, y);
-                const float* s = planeAt(content, x, y);
-
-                if (p.linear) {
-                    float c[4];
-
-                    unpremultiply(s, c);
-
-                    for (int k = 0; k < 3; k++) {
-                        c[k] = srgbToLinear(c[k]);
-                    }
-
-                    storePremultiplied(o, c);
-                } else {
-                    memcpy(o, s, sizeof(float) * 4);
-                }
+            if (!p.linear) {
+                memcpy(planeAt(out, box.x0, y), planeAt(content, box.x0, y), sizeof(u16) * 4 * n);
+                continue;
             }
+
+            loadSpan(planeAt(content, box.x0, y), row.mutData(), n);
+            unpremultiplySpan(colors.mutData(), row.data(), n);
+
+            for (size_t x = 0; x < n; x++) {
+                float* c = colors.mutData() + x * 4;
+
+                c[0] = srgbToLinear(c[0]);
+                c[1] = srgbToLinear(c[1]);
+                c[2] = srgbToLinear(c[2]);
+            }
+
+            premultiplySpan(row.mutData(), colors.data(), n);
+            storeSpan(planeAt(out, box.x0, y), row.data(), n);
         }
 
         releasePlane(content);
@@ -15477,7 +16249,7 @@ namespace {
         // An empty region is all zero, as boxInside makes it.
         if (filter.count == 0 || region.x1 <= region.x0) {
             // The callers filter only layers that have pixels.
-            memset(layer.data, 0, sizeof(float) * size * 4);
+            memset(layer.data, 0, sizeof(u16) * size * 4);
 
             return;
         }
@@ -15702,19 +16474,14 @@ namespace {
         const FilterResult& last = run.results.back();
         IntBox kept = boxInside(last.plane.box, layer.box);
 
-        Conversion converted;
+        memset(layer.data, 0, sizeof(u16) * size * 4);
 
-        memset(layer.data, 0, sizeof(float) * size * 4);
+        if (last.plane.data && last.linear) {
+            convertRows(last.plane, layer, kept, false);
+        }
 
-        for (int y = kept.y0; last.plane.data && y < kept.y1; y++) {
-            if (!last.linear) {
-                memcpy(planeAt(layer, kept.x0, y), planeAt(last.plane, kept.x0, y), sizeof(float) * 4 * (size_t)(kept.x1 - kept.x0));
-                continue;
-            }
-
-            for (int x = kept.x0; x < kept.x1; x++) {
-                convertPixel(planeAt(last.plane, x, y), planeAt(layer, x, y), false, converted);
-            }
+        for (int y = kept.y0; last.plane.data && !last.linear && y < kept.y1; y++) {
+            memcpy(planeAt(layer, kept.x0, y), planeAt(last.plane, kept.x0, y), sizeof(u16) * 4 * (size_t)(kept.x1 - kept.x0));
         }
 
         for (u32 k = 0; k < filter.count; k++) {
@@ -15746,7 +16513,7 @@ namespace {
         int lw = (int)op.layerWidth;
         int lh = (int)op.layerHeight;
         size_t size = (size_t)op.layerWidth * op.layerHeight;
-        Plane content{(float*)pool.allocate(sizeof(float) * size * 4), IntBox{0, 0, lw, lh}};
+        Plane content{(u16*)pool.allocate(sizeof(u16) * size * 4), IntBox{0, 0, lw, lh}};
         Matrix toDevice;
 
         // A layer's frame inverts.
@@ -15762,9 +16529,7 @@ namespace {
             Plane background = backgroundBuffer(r, pixelBox(Box{footprint.x0 - 2.f, footprint.y0 - 2.f, footprint.x1 + 2.f, footprint.y1 + 2.f}, canvas));
 
             if (background.data) {
-                float* inherited = (float*)pool.allocate(sizeof(float) * size * 4);
-
-                memset(inherited, 0, sizeof(float) * size * 4);
+                Plane inherited{(u16*)pool.allocate(sizeof(u16) * size * 4), content.box};
 
                 for (u32 y = 0; y < sub.height; y++) {
                     for (u32 x = 0; x < sub.width; x++) {
@@ -15776,26 +16541,17 @@ namespace {
                         float tx = fx - ix;
                         float ty = fy - iy;
 
-                        for (int dy = 0; dy < 2; dy++) {
-                            for (int dx = 0; dx < 2; dx++) {
-                                const float* s = planeRead(background, ix + dx, iy + dy);
-                                float weight = (dx ? tx : 1.f - tx) * (dy ? ty : 1.f - ty);
-
-                                for (int c = 0; c < 4; c++) {
-                                    inherited[((size_t)y * sub.width + x) * 4 + c] += s[c] * weight;
-                                }
-                            }
-                        }
+                        bilinear(planeRead(background, ix, iy), planeRead(background, ix + 1, iy), planeRead(background, ix, iy + 1), planeRead(background, ix + 1, iy + 1), tx, ty, planeAt(inherited, (int)x, (int)y));
                     }
                 }
 
-                sub.backdrop = Plane{inherited, content.box};
+                sub.backdrop = inherited;
             }
 
             releasePlane(background);
         }
 
-        memset(content.data, 0, sizeof(float) * size * 4);
+        memset(content.data, 0, sizeof(u16) * size * 4);
         runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
         // The device canvas and the taps around it, in layer pixels: the
@@ -15814,88 +16570,118 @@ namespace {
         Box reach = deviceBox(toDevice, Box{(float)region.x0 - 1.f, (float)region.y0 - 1.f, (float)region.x1 + 1.f, (float)region.y1 + 1.f});
         IntBox drawn{reach.x0 - 2.f > 0.f ? (int)(reach.x0 - 2.f) : 0, reach.y0 - 2.f > 0.f ? (int)(reach.y0 - 2.f) : 0, reach.x1 + 3.f < (float)r.width ? (int)(reach.x1 + 3.f) : (int)r.width, reach.y1 + 3.f < (float)r.height ? (int)(reach.y1 + 3.f) : (int)r.height};
 
-        auto texel = [&](int x, int y, int c) {
-            return x < 0 || y < 0 || x >= lw || y >= lh ? 0.f : content.data[((size_t)y * lw + x) * 4 + c];
-        };
-        // A layer shifted by whole pixels samples each pixel as it is: its
-        // matrix passes all eight tests of a whole shift.
+        // A layer shifted by whole pixels is drawn row by row as it is: its
+        // matrix passes all eight tests of a whole shift. Else each device
+        // pixel blends the four layer pixels around its centre.
         const Matrix& lm = op.layerMatrix;
         int tests = (lm.a == 1.f) + (lm.b == 0.f) + (lm.c == 0.f) + (lm.d == 1.f) + (lm.e == floorf(lm.e)) + (lm.f == floorf(lm.f)) + (fabsf(lm.e) < 16777216.f) + (fabsf(lm.f) < 16777216.f);
-        bool shifted = tests == 8;
-        int shiftX = shifted ? (int)lm.e : 0;
-        int shiftY = shifted ? (int)lm.f : 0;
+        // An empty box is all zero, as boxInside makes it.
+        drawn = boxInside(drawn, IntBox{0, 0, (int)r.width, (int)r.height});
 
-        for (int y = drawn.y0; y < drawn.y1; y++) {
-            for (int x = drawn.x0; x < drawn.x1; x++) {
-                float sample[4];
+        int count = drawn.x1 - drawn.x0;
+        size_t first = firstTarget(r);
+        Vector<u16> sample;
 
-                if (shifted) {
-                    int ix = x + shiftX;
-                    int iy = y + shiftY;
+        if (tests == 8) {
+            int shiftX = (int)lm.e;
+            int shiftY = (int)lm.f;
+            int x0 = drawn.x0 > -shiftX ? drawn.x0 : -shiftX;
+            int x1 = drawn.x1 < lw - shiftX ? drawn.x1 : lw - shiftX;
 
-                    if (ix < 0 || iy < 0 || ix >= lw || iy >= lh) {
-                        continue;
-                    }
+            for (int y = drawn.y0; y < drawn.y1; y++) {
+                int iy = y + shiftY;
 
-                    memcpy(sample, content.data + ((size_t)iy * lw + ix) * 4, sizeof(sample));
-                } else {
-                    Point p = apply(op.layerMatrix, Point{(float)x + 0.5f, (float)y + 0.5f});
-                    float fx = p.x - 0.5f;
-                    float fy = p.y - 0.5f;
-                    float bx = floorf(fx);
-                    float by = floorf(fy);
-
-                    if (bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
-                        continue;
-                    }
-
-                    int ix = (int)bx;
-                    int iy = (int)by;
-                    float tx = fx - bx;
-                    float ty = fy - by;
-
-                    if (ix >= 0 && iy >= 0 && ix + 1 < lw && iy + 1 < lh) {
-                        // The four taps are inside the layer.
-                        const float* above = content.data + ((size_t)iy * lw + ix) * 4;
-                        const float* below = above + (size_t)lw * 4;
-
-                        for (int c = 0; c < 4; c++) {
-                            float top = above[c] * (1.f - tx) + above[4 + c] * tx;
-                            float bottom = below[c] * (1.f - tx) + below[4 + c] * tx;
-
-                            sample[c] = top * (1.f - ty) + bottom * ty;
-                        }
-                    } else {
-                        for (int c = 0; c < 4; c++) {
-                            float top = texel(ix, iy, c) * (1.f - tx) + texel(ix + 1, iy, c) * tx;
-                            float bottom = texel(ix, iy + 1, c) * (1.f - tx) + texel(ix + 1, iy + 1, c) * tx;
-
-                            sample[c] = top * (1.f - ty) + bottom * ty;
-                        }
-                    }
-                }
-
-                if (sample[3] <= 0.f) {
+                if (iy < 0 || iy >= lh || x1 <= x0) {
                     continue;
                 }
 
-                float keep = 1.f - sample[3];
+                overLayers(r, first, x0, y, content.data + ((size_t)iy * lw + (size_t)(x0 + shiftX)) * 4, x1 - x0);
+            }
 
-                for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
-                    const Plane& plane = r.layers[level];
+            return;
+        }
 
-                    if (x < plane.box.x0 || x >= plane.box.x1 || y < plane.box.y0 || y >= plane.box.y1) {
-                        continue;
-                    }
+        sample.zero((size_t)count * 4);
 
-                    float* d = planeAt(plane, x, y);
+        // A tap of the layer, zero outside it.
+        auto texel = [&](int x, int y) {
+            return x < 0 || y < 0 || x >= lw || y >= lh ? zeroStored : content.data + ((size_t)y * lw + x) * 4;
+        };
 
-                    for (int c = 0; c < 4; c++) {
-                        d[c] = sample[c] + d[c] * keep;
-                    }
+        for (int y = drawn.y0; y < drawn.y1; y++) {
+            u16* out = sample.mutData();
+
+            for (int x = drawn.x0; x < drawn.x1; x++, out += 4) {
+                Point p = apply(op.layerMatrix, Point{(float)x + 0.5f, (float)y + 0.5f});
+                float fx = p.x - 0.5f;
+                float fy = p.y - 0.5f;
+                float bx = floorf(fx);
+                float by = floorf(fy);
+
+                if (bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
+                    memset(out, 0, sizeof(u16) * 4);
+                    continue;
                 }
+
+                int ix = (int)bx;
+                int iy = (int)by;
+
+                bilinear(texel(ix, iy), texel(ix + 1, iy), texel(ix, iy + 1), texel(ix + 1, iy + 1), fx - bx, fy - by, out);
+            }
+
+            overLayers(r, first, drawn.x0, y, sample.data(), count);
+        }
+    }
+
+    // The factor of each pixel of a group's row: its opacity times its clip
+    // and mask, where it has them.
+    static void factorRow(u16* factor, u32 opacity, const u16* clip, const u16* mask, size_t count) {
+        for (size_t k = 0; k < count; k++) {
+            factor[k] = (u16)opacity;
+        }
+
+        if (clip) {
+            for (size_t k = 0; k < count; k++) {
+                factor[k] = (u16)div65535((u32)factor[k] * clip[k]);
             }
         }
+
+        if (mask) {
+            for (size_t k = 0; k < count; k++) {
+                factor[k] = (u16)div65535((u32)factor[k] * mask[k]);
+            }
+        }
+    }
+
+    // The source row blended over the destination in a mode: the modes are
+    // formulas on colours not premultiplied, so the rows go through floats.
+    // Where the destination has no alpha the source goes over it.
+    static void blendRow(int mode, u16* out, const u16* row, size_t count, Vector<float>& source, Vector<float>& backdrop) {
+        source.zero(count * 4);
+        backdrop.zero(count * 4);
+        loadSpan(row, source.mutData(), count);
+        loadSpan(out, backdrop.mutData(), count);
+
+        for (size_t k = 0; k < count; k++) {
+            const float* s = source.data() + k * 4;
+            float* d = backdrop.mutData() + k * 4;
+
+            if (d[3] > 0.f) {
+                float blended[4];
+
+                blendPixel(mode, s, d, blended);
+                memcpy(d, blended, sizeof(blended));
+                continue;
+            }
+
+            float keep = 1.f - s[3];
+
+            for (int c = 0; c < 4; c++) {
+                d[c] = s[c] + d[c] * keep;
+            }
+        }
+
+        storeSpan(out, backdrop.data(), count);
     }
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base) {
@@ -15933,7 +16719,7 @@ namespace {
                     ObjPool* pool = new ObjPool();
                     IntBox box = layerBox(op.bounds, canvas);
                     size_t area = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
-                    Plane layer{area ? (float*)pool->allocate(sizeof(float) * area * 4) : nullptr, box};
+                    Plane layer{area ? (u16*)pool->allocate(sizeof(u16) * area * 4) : nullptr, box};
 
                     r.layers.pushBack(layer);
                     r.dirty.pushBack(IntBox{0, 0, 0, 0});
@@ -15962,43 +16748,42 @@ namespace {
                         applyFilter(r, l, *filter, layer, *pool, canvas, begin->newBackground);
                     }
 
-                    const float* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box) : nullptr;
-                    const float* mask = begin->masked ? maskBuffer(r, l, *begin, *pool, layer.box) : nullptr;
+                    const u16* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box) : nullptr;
+                    const u16* mask = begin->masked ? maskBuffer(r, l, *begin, *pool, layer.box) : nullptr;
                     int width = planeWidth(layer);
+                    u32 opacity = toUnit16(begin->opacity);
+                    // The layer is scaled by its opacity, clip and mask, a factor a pixel.
+                    bool scaled = opacity < 65535 || clip || mask;
+                    Vector<u16> factor;
+                    Vector<u16> scaledRow;
+                    Vector<float> source;
+                    Vector<float> backdrop;
+
+                    factor.zero((size_t)width);
+                    scaledRow.zero((size_t)width * 4);
 
                     for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
                         const Plane& parent = r.layers[level];
                         IntBox target = boxInside(box, parent.box);
+                        int n = target.x1 - target.x0;
 
                         ensure(parent, r.dirty.mut(level), target);
 
                         for (int y = target.y0; y < target.y1; y++) {
-                            for (int x = target.x0; x < target.x1; x++) {
-                                size_t i = (size_t)(y - layer.box.y0) * width + (size_t)(x - layer.box.x0);
-                                float f = begin->opacity * (clip ? clip[i] : 1.f) * (mask ? mask[i] : 1.f);
-                                const float* s = planeAt(layer, x, y);
+                            size_t i = (size_t)(y - layer.box.y0) * width + (size_t)(target.x0 - layer.box.x0);
+                            const u16* row = planeAt(layer, target.x0, y);
+                            u16* out = planeAt(parent, target.x0, y);
 
-                                if (f <= 0.f || s[3] <= 0.f) {
-                                    continue;
-                                }
+                            if (scaled) {
+                                factorRow(factor.mutData(), opacity, clip ? clip + i : nullptr, mask ? mask + i : nullptr, (size_t)n);
+                                scaleSpan(scaledRow.mutData(), row, factor.data(), (size_t)n);
+                                row = scaledRow.data();
+                            }
 
-                                float* d = planeAt(parent, x, y);
-
-                                if (begin->blend && d[3] > 0.f) {
-                                    float source[4] = {s[0] * f, s[1] * f, s[2] * f, s[3] * f};
-                                    float blended[4];
-
-                                    blendPixel(begin->blend, source, d, blended);
-                                    memcpy(d, blended, sizeof(blended));
-                                    continue;
-                                }
-
-                                float keep = 1.f - s[3] * f;
-
-                                d[0] = s[0] * f + d[0] * keep;
-                                d[1] = s[1] * f + d[1] * keep;
-                                d[2] = s[2] * f + d[2] * keep;
-                                d[3] = s[3] * f + d[3] * keep;
+                            if (begin->blend) {
+                                blendRow(begin->blend, out, row, (size_t)n, source, backdrop);
+                            } else {
+                                overSpan(out, row, (size_t)n);
                             }
                         }
                     }
@@ -16187,9 +16972,9 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     ObjPool scratch;
     Document& doc = *document->doc;
     size_t size = (size_t)width * height;
-    float* base = (float*)scratch.allocate(sizeof(float) * size * 4);
+    u16* base = (u16*)scratch.allocate(sizeof(u16) * size * 4);
 
-    memset(base, 0, sizeof(float) * size * 4);
+    memset(base, 0, sizeof(u16) * size * 4);
 
     {
         Lowering l;
@@ -16219,18 +17004,19 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     ObjPool* pool = new ObjPool();
     u8* pixels = (u8*)pool->allocate(size * 4);
 
+    // Bytes not premultiplied: a stored channel over its alpha, through one
+    // reciprocal a pixel.
     for (size_t i = 0; i < size; i++) {
-        const float* s = base + i * 4;
+        const u16* s = base + i * 4;
         u8* d = pixels + i * 4;
-        float a = s[3];
-        float divisor = a > 0.f ? a : 1.f;
-        float keep = a > 0.f ? 1.f : 0.f;
+        float a = (float)s[3];
+        float scale = a > 0.f ? 255.f / a : 0.f;
 
         for (int c = 0; c < 3; c++) {
-            d[c] = clampByte((s[c] / divisor * keep) * 255.f + 0.5f);
+            d[c] = clampByte((float)s[c] * scale + 0.5f);
         }
 
-        d[3] = clampByte(a * keep * 255.f + 0.5f);
+        d[3] = clampByte(a * (255.f / 65535.f) + 0.5f);
     }
 
     return &pool->make<RenderedImage>(pool, pixels, width, height)->image;
