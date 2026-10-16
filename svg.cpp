@@ -9989,7 +9989,9 @@ namespace {
             filter->strokePaint = stroke ? devicePaint(l, element, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : filter->bbox, style.stroke.context ? l.contextMatrix : m, vp) : nullptr;
 
             // A paint a filter reads is sampled over the whole canvas.
-            for (DevicePaint* paint : {filter->fillPaint, filter->strokePaint}) {
+            DevicePaint* const read[] = {filter->fillPaint, filter->strokePaint};
+
+            for (DevicePaint* paint : read) {
                 if (paint && paint->type == PaintType::Pattern) {
                     paint->sampledAll = true;
                 }
