@@ -136,8 +136,10 @@ smoke = command(
 
 labels = ["1x", "2x"]
 corpus = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tst", "corpus")
-with open(os.path.join(corpus, "EXCLUDED")) as handle:
-    excluded = {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
+excluded = set()
+for listed in ["EXCLUDED", "DESIGN"]:
+    with open(os.path.join(corpus, listed)) as handle:
+        excluded |= {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
 with open(os.path.join(corpus, "SIDE")) as handle:
     side = handle.read().strip()
 cases = []
@@ -163,7 +165,7 @@ for path in sorted(paths, key=lambda path: -sizes[path]):
 for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
     group(metric, command(
         name="score_" + metric,
-        inputs=["$(S)/tst/score.py", "$(S)/tst/corpus/EXCLUDED"],
+        inputs=["$(S)/tst/score.py", "$(S)/tst/corpus/EXCLUDED", "$(S)/tst/corpus/DESIGN"],
         outputs=[f"$(B)/{metric}.txt"],
         deps=cases,
         cmd=["python3", "$(S)/tst/score.py", "$(S)/tst/corpus", "$(B)/score", flags.filter or "*", metric, f"$(B)/{metric}.txt"],

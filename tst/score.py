@@ -15,8 +15,10 @@ def rms(values):
 
 
 def load(corpus, scores, pattern):
-    with open(os.path.join(corpus, "EXCLUDED")) as handle:
-        excluded = {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
+    excluded = set()
+    for listed in ["EXCLUDED", "DESIGN"]:
+        with open(os.path.join(corpus, listed)) as handle:
+            excluded |= {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
     cases = []
     for path in sorted(glob.glob(os.path.join(corpus, "*", "*.svg"))):
         relative = os.path.relpath(path, corpus)

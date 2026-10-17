@@ -439,7 +439,9 @@ def ours(program, shrinker, jobs, side):
     for test in ['curve_area.py', 'straight_curves.py', 'circle_coverage.py']:
         subprocess.run([sys.executable, os.path.join(tests, test), program], check=True)
     for svg, png, width, height, scale in jobs:
-        subprocess.run([program, "render", svg, png, str(width), str(height), str(side)], check=True)
+        # A file the test draws straight at its reference size is drawn so.
+        straight = subprocess.run([program, "size", svg], capture_output=True, text=True, check=True).stdout.rstrip().endswith(" straight")
+        subprocess.run([program, "render", svg, png, str(width), str(height)] + ([] if straight else [str(side)]), check=True)
     source = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     commit = subprocess.run(["git", "-C", source, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
     return f"svg at {commit}"

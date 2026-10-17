@@ -1,0 +1,5 @@
+# Cases the renderer draws apart from every other renderer by a decision of
+# its design, not by a fault: no reference, out of the score, to review.
+# A line is `CASE: reason`, CASE relative to tst/corpus without .svg.
+resvg/structure__image__embedded-svgz: an SVG image that is no XML document, here svgz, fails the whole drawing, as svg.h has it; Firefox and resvg leave the image out, Chromium paints its broken-image icon
+w3c/svg__conform-viewers-02-f: an SVG image that is no XML document, here svgz, fails the whole drawing, as svg.h has it; Firefox and resvg leave the image out, Chromium paints its broken-image icon

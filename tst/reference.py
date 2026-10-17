@@ -356,11 +356,15 @@ def main():
     harness = os.path.join(scratch, "harness.html")
     with open(harness, "w") as handle:
         handle.write(HARNESS)
+    # A case DESIGN lists has no reference: the renderer differs from the
+    # others there by a decision of its design.
+    with open(os.path.join(corpus, "DESIGN")) as handle:
+        designed = {line.split(":")[0].strip() + ".svg" for line in handle if ":" in line}
     cases = sorted(
         os.path.join(directory, name)
         for directory, _, files in os.walk(corpus)
         for name in files
-        if name.endswith(".svg")
+        if name.endswith(".svg") and os.path.relpath(os.path.join(directory, name), corpus) not in designed
     )
     results = []
     threads = [
