@@ -12555,17 +12555,53 @@ namespace {
         }
     }
 
-    // The colour a CSS gradient of no extent draws: its last stop's, a
-    // repeating one's too, as Chromium and Firefox draw it, where CSS
-    // Images has the stops' average.
-    static DevicePaint* flatGradient(Lowering& l, const CssGradient& g, Viewport vp, float fs) {
+    // The colour a CSS gradient of no extent draws, its stops placed along
+    // a line of the length given: its last stop's; a repeating one's the
+    // average of a period, premultiplied, each stretch between two stops
+    // weighing as long as it is, or, the stops all at one place, its colour
+    // stops spread evenly, as CSS Images has it.
+    static DevicePaint* flatGradient(Lowering& l, const CssGradient& g, float length, Viewport vp, float fs) {
         Vector<GradientStop> stops;
+        Vector<float> at;
+        Vector<Color> colors;
+        float sum[4] = {0.f, 0.f, 0.f, 0.f};
 
-        cssStops(g, 1.f, vp, fs, stops);
+        cssStops(g, length, vp, fs, stops);
 
         Color last = stops.back().color;
 
-        return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
+        if (!g.repeating) {
+            return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
+        }
+
+        // Spread evenly, the steps a hint or a change of alpha adds count
+        // for nothing.
+        if (!(stops.back().offset > stops[0].offset)) {
+            for (const CssStop& stop : g.stops) {
+                if (!stop.hint) {
+                    at.pushBack((float)colors.length());
+                    colors.pushBack(stop.color);
+                }
+            }
+        } else {
+            for (const GradientStop& stop : stops) {
+                at.pushBack(stop.offset);
+                colors.pushBack(stop.color);
+            }
+        }
+
+        for (size_t i = 0; i + 1 < colors.length(); i++) {
+            float weight = (at[i + 1] - at[i]) / (at.back() - at[0]) / 2.f;
+            const Color& a = colors[i];
+            const Color& b = colors[i + 1];
+
+            sum[0] += (a.r * a.a + b.r * b.a) * weight;
+            sum[1] += (a.g * a.a + b.g * b.a) * weight;
+            sum[2] += (a.b * a.a + b.b * b.a) * weight;
+            sum[3] += (a.a + b.a) * weight;
+        }
+
+        return sum[3] > 0.f ? solidPaint(l, Color{sum[0] / sum[3], sum[1] / sum[3], sum[2] / sum[3], 1.f}, sum[3]) : nullptr;
     }
 
     // A CSS gradient's paint for an image of w by h, its space the user
@@ -12635,9 +12671,16 @@ namespace {
                 ry = g.circle ? corner : side[1] * 1.41421356f;
             }
 
-            // A radial of no width or height draws flat.
-            if (!(rx > 0.f) || !(ry > 0.f)) {
-                return flatGradient(l, g, vp, fs);
+            // CSS Images draws a circle of no radius as one a hair across,
+            // which percentages put no stop past; an ellipse of no width as
+            // one a hair wide and as tall as can be, a line across mirrored
+            // at the centre; and one of no height, as wide as can be, flat,
+            // which percentages outweigh.
+            if (!(rx > 0.f)) {
+                rx = 1.f / 1024.f;
+                ry = g.circle ? rx : rx * 16777216.f;
+            } else if (!(ry > 0.f)) {
+                return flatGradient(l, g, 1048576.f, vp, fs);
             }
 
             length = rx;
@@ -12664,7 +12707,7 @@ namespace {
         }
 
         if (!(hi > lo)) {
-            return flatGradient(l, g, vp, fs);
+            return flatGradient(l, g, length, vp, fs);
         }
 
         if (g.radial && lo < 0.f) {
@@ -12707,8 +12750,8 @@ namespace {
             storeColor(paint->stops[i].stored, paint->stops[i].color);
         }
 
-        // An ellipse too thin for a float draws its last colour round it.
-        return invert(multiply(space, ellipse), paint->inverse) ? paint : flatGradient(l, g, vp, fs);
+        // An ellipse too thin for a float draws as one of no height.
+        return invert(multiply(space, ellipse), paint->inverse) ? paint : flatGradient(l, g, 1048576.f, vp, fs);
     }
 
     // A box filled with a paint under the matrix.
@@ -13168,16 +13211,14 @@ namespace {
 
     static bool loadImageFrom(Pass& l, const void* key, StringView reference, ImageSource& out);
 
-    // The mask layers of an element. none, and a reference to no usable
-    // mask element, draw as if not there, as browsers draw them, which CSS
-    // Masking takes for transparent black; an image that does not load is
-    // transparent black, but alone masks nothing either; with no layer
-    // left nothing masks.
+    // The mask layers of an element. none is no layer, nor a mask element
+    // in no usable place or that refers back; a reference to no element or
+    // to one not a mask, and an image that does not load, are transparent
+    // black, as CSS Masking has it, alone too.
     static void resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Vector<MaskLayer> layers;
         u32 count = 0;
-        bool any = false;
 
         maskLayersOf(doc, style, layers);
 
@@ -13186,10 +13227,11 @@ namespace {
 
         for (const MaskLayer& layer : layers) {
             MaskLayerOp& out = ops[1 + count];
-            Node* mask = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, layer.url)) : nullptr;
+            Node* found = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, layer.url)) : nullptr;
+            Node* mask = found && found->name == AtomMask ? found : nullptr;
             ImageSource image;
 
-            if (layer.source == MaskSource::None || (layer.source == MaskSource::Element && (!mask || mask->name != AtomMask || !resourceUsable(l, mask, vp) || closesCycle(l, element, AtomMask, mask)))) {
+            if (layer.source == MaskSource::None || (mask && (!resourceUsable(l, mask, vp) || closesCycle(l, element, AtomMask, mask)))) {
                 continue;
             }
 
@@ -13197,13 +13239,10 @@ namespace {
 
             if (mask) {
                 maskElementLayer(l, element, parent, mask, layer.mode, m, vp, out);
-                any = true;
             } else if (layer.source == MaskSource::Gradient) {
                 imageMaskLayer(l, element, parent, style, layer, nullptr, m, vp, out);
-                any = true;
-            } else if (loadImageFrom(l, layer.url.data(), layer.url, image)) {
+            } else if (layer.source == MaskSource::Image && loadImageFrom(l, layer.url.data(), layer.url, image)) {
                 imageMaskLayer(l, element, parent, style, layer, &image, m, vp, out);
-                any = true;
             } else {
                 out.type = 1;
                 out.first = (u32)l.programs.length();
@@ -13215,8 +13254,8 @@ namespace {
             count++;
         }
 
-        // With no layer that masks, the border masks alone, after the
-        // layers, as CSS Masking has it: intersecting them.
+        // The border masks after the layers, as CSS Masking has it:
+        // intersecting them, or alone.
         MaskBorder border;
         ImageSource image;
 
@@ -13224,8 +13263,7 @@ namespace {
             maskBorderPartOf(k, style.maskBorder[k] ? textOf(doc, style.maskBorder[k]) : StringView(maskBorderInitials[k]), border);
         }
 
-        count = any ? count : 0;
-        op.masked = any;
+        op.masked = count > 0;
         op.maskLayers = ops + 1;
         op.maskLayerCount = count;
 
