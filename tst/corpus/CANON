@@ -1,317 +1,317 @@
-wikimedia/c4a6800549d28a4c: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
-wikimedia/4a911d7a9d8507fe: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/c4a6800549d28a4c: ours: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/4a911d7a9d8507fe: ours: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
 wikimedia/dc819216591e875b: ours: a grid of dashes 0.03 units long; against the exact area of the dashes Inkscape is off by up to 114 of 255, Chromium and Firefox by 31, resvg by 50, while ours matches it
 wikimedia/7db56b64e3d2dda5: ours: a grid of dashes 0.03 units long; against the exact area of the dashes Inkscape is off by up to 114 of 255, Chromium and Firefox by 31, resvg by 50, while ours matches it
-wikimedia/753feb0b1a3742f4: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
-wikimedia/81e7badd30ce54ed: inkscape: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
-inkscape/74bb6759de595e29: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/067686eec5e011d1: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/236a487dc9a5ac28: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
+wikimedia/753feb0b1a3742f4: ours: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+wikimedia/81e7badd30ce54ed: ours: Skia drops dashes 0.03 px wide or keeps them depending on their subpixel phase
+inkscape/74bb6759de595e29: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/067686eec5e011d1: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/236a487dc9a5ac28: ours: mesh gradients, an Inkscape extension Chromium does not draw
 resvg/filters__feImage__self-recursive: ours: Chromium draws the recursion differently at 1x and at 2x; ours breaks the cycle as resvg's own expectations show and places the image as Chromium does at 1x, where resvg and Inkscape ignore the subregion origin and Firefox drops the element
 resvg/filters__feImage__recursive-links-1: ours: Chromium draws the recursion differently at 1x and at 2x; ours breaks the cycle as resvg's own expectations show and places the image as Chromium does at 1x, where resvg and Inkscape ignore the subregion origin and Firefox drops the element
 resvg/filters__feImage__recursive-links-2: ours: Chromium draws the recursion differently at 1x and at 2x; ours breaks the cycle as resvg's own expectations show and places the image as Chromium does at 1x, where resvg and Inkscape ignore the subregion origin and Firefox drops the element
-resvg/filters__filter__with-region: firefox: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
-resvg/filters__filter__with-region-and-filterUnits_userSpaceOnUse: firefox: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
-resvg/filters__filter__with-region-and-subregion: firefox: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
-resvg/filters__filter__transform-on-shape-with-filter-region: firefox: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
+resvg/filters__filter__with-region: ours: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
+resvg/filters__filter__with-region-and-filterUnits_userSpaceOnUse: ours: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
+resvg/filters__filter__with-region-and-subregion: ours: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
+resvg/filters__filter__transform-on-shape-with-filter-region: ours: Chromium blurs what lies beyond the filter region, which the spec clips away before the primitives run; Firefox and ours fade at the region edge
 wpt/svg__painting__currentColor-override-pserver-stroke: ours: Skia cuts a hole into a stroke wider than the circle it outlines, Firefox as well; the stroke is every point within half its width of the path, as ours draws it
 wpt/svg__painting__currentColor-override-pserver-stroke-ref: ours: Skia cuts a hole into a stroke wider than the circle it outlines, Firefox as well; the stroke is every point within half its width of the path, as ours draws it
-resvg/structure__image__embedded-svg-without-mime: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
-resvg/structure__image__url-to-svg: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
-resvg/structure__image__url-to-png: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
-w3c/svg__struct-image-12-b: firefox: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+resvg/structure__image__embedded-svg-without-mime: ours: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+resvg/structure__image__url-to-svg: ours: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+resvg/structure__image__url-to-png: ours: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
+w3c/svg__struct-image-12-b: ours: Chromium paints its broken-image icon, browser chrome rather than drawing, where an image does not load; Firefox and resvg leave the image out
 resvg/filters__filter__some-attributes-via-xlink-href: ours: Chromium blurs what lies beyond the filter region, which the spec clips away; Firefox ignores xlink:href on filter; ours takes the region through href as Chromium does and fades at its edge as Firefox does in the other region cases
-openclipart/262935: firefox: Chromium leaves lighting under a mirroring matrix empty; Firefox draws the mirrored copies lit, as ours does
-openclipart/231480: inkscape: Chromium leaves lighting under a mirroring matrix empty; Inkscape, where the drawing was made, draws the mirrored copies lit, as ours does
-blink/filters__feConvolveFilter-y-bounds: firefox: the identity kernel must return its input, the test's own expected band; Chromium squares off its antialiased edges, Firefox and ours leave them
+openclipart/262935: ours: Chromium leaves lighting under a mirroring matrix empty; Firefox draws the mirrored copies lit, as ours does
+openclipart/231480: ours: Chromium leaves lighting under a mirroring matrix empty; Inkscape, where the drawing was made, draws the mirrored copies lit, as ours does
+blink/filters__feConvolveFilter-y-bounds: ours: the identity kernel must return its input, the test's own expected band; Chromium squares off its antialiased edges, Firefox and ours leave them
 openclipart/290266: ours: thin circle strokes in a pattern; Chromium's supersampled coverage of one such ring is 4.7% under its exact area at 1x and 3.4% over at 2x, ours is exact to 0.1%, the shapes agree pixel for pixel otherwise; refreshed at tolerance 0.025: exact disk/pixel intersections for its three circle radii at pattern tile scale and three subpixel phases reduce total pixel-coverage error from 114.095 to 23.482; tst/circle_coverage.py guards every native canonical export
-inkscape/c25d712367961896: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/9581a6a1eaa0d8a7: inkscape: Chromium lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/785d0d0739953da6: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/f436ab588ae66987: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/cb4e78e469d5a26d: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-wikimedia/9d3aa470ce47e335: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
-blink/filters__innershadow: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-wikimedia/5eba2b00f65779e2: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/c25d712367961896: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/9581a6a1eaa0d8a7: ours: Chromium lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/785d0d0739953da6: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/f436ab588ae66987: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/cb4e78e469d5a26d: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+wikimedia/9d3aa470ce47e335: ours: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+blink/filters__innershadow: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+wikimedia/5eba2b00f65779e2: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
 openclipart/284074: ours: Chromium blurs small deviations with box windows or not at all; draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-resvg/filters__feMerge__complex-transform: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-openclipart/294566: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/25e76d27bd093bef: resvg: Chromium blurs small deviations with box windows or not at all; resvg draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__baseFrequency_0.01: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-openclipart/201689: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/5d8803a77562db90: inkscape: Chromium blurs small deviations with box windows or not at all; draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/bff1a53ab9c6612e: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-resvg/filters__feMerge__color-interpolation-filters_sRGB: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/df683d10d52341b5: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-inkscape/4d90963a7645abce: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-resvg/filters__feMerge__color-interpolation-filters_linearRGB: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-openclipart/174037: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
-inkscape/0521438d1c2cabb9: inkscape: Chromium samples turbulence half a user unit off the pixel centre; blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__color-interpolation-filters_sRGB: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__complex-transform: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-inkscape/71f71ea7dbbb44bb: inkscape: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__baseFrequency_0.05-0: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-openclipart/15973: firefox: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__stitchTiles_stitch: chromium_stitch: stock Batik stitched noise sampled at pixel centres, with original tile origin
-resvg/filters__feDiffuseLighting__complex-transform: firefox: Chromium lights through Skia's mean axis scale instead of the user space; Firefox draws it as the spec defines, as ours does
+resvg/filters__feMerge__complex-transform: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+openclipart/294566: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/25e76d27bd093bef: ours: Chromium blurs small deviations with box windows or not at all; resvg draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__baseFrequency_0.01: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+openclipart/201689: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/5d8803a77562db90: ours: Chromium blurs small deviations with box windows or not at all; draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/bff1a53ab9c6612e: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feMerge__color-interpolation-filters_sRGB: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/df683d10d52341b5: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+inkscape/4d90963a7645abce: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feMerge__color-interpolation-filters_linearRGB: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+openclipart/174037: ours: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+inkscape/0521438d1c2cabb9: ours: Chromium samples turbulence half a user unit off the pixel centre; blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__color-interpolation-filters_sRGB: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__complex-transform: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+inkscape/71f71ea7dbbb44bb: ours: Chromium blurs small deviations with box windows or not at all; Inkscape draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__baseFrequency_0.05-0: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+openclipart/15973: ours: Chromium blurs small deviations with box windows or not at all; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__stitchTiles_stitch: ours: stock Batik stitched noise sampled at pixel centres, with original tile origin
+resvg/filters__feDiffuseLighting__complex-transform: ours: Chromium lights through Skia's mean axis scale instead of the user space; Firefox draws it as the spec defines, as ours does
 openclipart/203148: ours: Chromium samples turbulence half a user unit off the pixel centre; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
-resvg/filters__feTurbulence__baseFrequency_0.05-0.01: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-blink/filters__feTurbulence-primitiveUnits-expected: resvg: Chromium samples turbulence half a user unit off the pixel centre; resvg draws it as the spec defines, as ours does
-blink/filters__feTurbulence-primitiveUnits: resvg: Chromium samples turbulence half a user unit off the pixel centre; resvg draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__baseFrequency_0.05-0.01: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+blink/filters__feTurbulence-primitiveUnits-expected: ours: Chromium samples turbulence half a user unit off the pixel centre; resvg draws it as the spec defines, as ours does
+blink/filters__feTurbulence-primitiveUnits: ours: Chromium samples turbulence half a user unit off the pixel centre; resvg draws it as the spec defines, as ours does
 inkscape/8a9a8dc5a7a374b5: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
-resvg/filters__feTurbulence__seed_-20: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__seed_20: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__baseFrequency_0.05-0.05: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__primitiveUnits_objectBoundingBox: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__seed_1.5: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-resvg/filters__feTurbulence__type_invalid: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__seed_-20: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__seed_20: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__baseFrequency_0.05-0.05: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__primitiveUnits_objectBoundingBox: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__seed_1.5: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__type_invalid: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
 openclipart/249048: ours: Chromium blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
 openclipart/256723: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
-resvg/filters__feTurbulence__type_fractalNoise: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__type_fractalNoise: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
 resvg/filters__fePointLight__complex-transform: ours: Chromium lights through Skia's mean axis scale instead of the user space; no other renderer draws it as the spec defines, ours does
 resvg/filters__feSpotLight__complex-transform: ours: Chromium lights through Skia's mean axis scale instead of the user space; no other renderer draws it as the spec defines, ours does
 blink/filters__feTurbulence-tiled: ours: Chromium samples turbulence half a user unit off the pixel centre; no other renderer draws it as the spec defines, ours does
 inkscape/90749c5d44b64c1b: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
 blink/W3C-SVG-1.1__filters-turb-01-f: ours: Chromium samples turbulence half a user unit off the pixel centre; no other renderer draws it as the spec defines, ours does
 w3c/svg__filters-turb-01-f: ours: Chromium samples turbulence half a user unit off the pixel centre; no other renderer draws it as the spec defines, ours does
-resvg/filters__feTurbulence__numOctaves_5: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
-blink/filters__feTurbulence-scale: firefox: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+resvg/filters__feTurbulence__numOctaves_5: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
+blink/filters__feTurbulence-scale: ours: Chromium samples turbulence half a user unit off the pixel centre; Firefox draws it as the spec defines, as ours does
 openclipart/275196: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; no other renderer draws it as the spec defines, ours does
 inkscape/00e46e2d649e7674: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
 inkscape/1486b30cd7af5c38: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 inkscape/09a7f28370ae634c: ours: Chromium samples turbulence half a user unit off the pixel centre; lights through Skia's mean axis scale instead of the user space; blurs small deviations with box windows or not at all; no other renderer draws it as the spec defines, ours does
-wikimedia/29a50f00bd97cfe3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/5ecf0f908a9bcf1b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/29a50f00bd97cfe3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/5ecf0f908a9bcf1b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 openclipart/2737: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0001 from ours and 0.0012 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-inkscape/f61ed2bb71f30a32: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__text-align-08-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/7c6cd45396ed53e2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/4eb47a4e88b0149a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/0869a340fb029f9d: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/efce276a83248710: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/53f785a17dd58474: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/5b82864f310fea7a: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+inkscape/f61ed2bb71f30a32: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__text-align-08-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7c6cd45396ed53e2: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4eb47a4e88b0149a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/0869a340fb029f9d: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/efce276a83248710: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/53f785a17dd58474: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/5b82864f310fea7a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/d00cdc5b6d337a09: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0001 from ours and 0.0013 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/71073c57f4b945cd: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/3719896050c18d3a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-openclipart/4720: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/964ad0e51849b50b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/b0fee1fad67e53e9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/7f0c23e457b54008: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/71073c57f4b945cd: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/3719896050c18d3a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/4720: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/964ad0e51849b50b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/b0fee1fad67e53e9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/7f0c23e457b54008: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 openclipart/352966: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0004 from ours and 0.0025 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/dfedd287d092d3d9: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
-wikimedia/2a49e8a3905ee629: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/94f635edf023add6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/dfedd287d092d3d9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/2a49e8a3905ee629: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/94f635edf023add6: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/af6258c4c8ea29e6: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0002 from ours and 0.0016 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/887c83acbcc8bd69: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/f8fa0fe1e080b121: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/778d4a3264103964: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/993fdf8ae8227c01: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/d60a510ab1b58998: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/24c748b2321f2ae7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/87517f8dcc499d72: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/fc2b1acc8614c5b3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/6ba8b7cb41ecda9a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/b5890ee0803a1f90: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/16c0d09b802a7bb8: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/7421a6c7417904e1: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/43b910b1f290e771: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-blink/W3C-SVG-1.1__fonts-elem-03-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-blink/W3C-SVG-1.1__fonts-elem-04-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-blink/W3C-SVG-1.1__fonts-elem-07-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__fonts-elem-01-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__fonts-elem-03-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__fonts-elem-04-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__fonts-elem-07-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/0f9e1fbd1b673908: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/c8b470af2a475f34: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/537d8af7c3dc9055: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/60b6b4c59e80aede: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/7446c2b84735ee94: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/46cb9117d0ef7dbd: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/d4181b1f5f1c0a2f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/ac16298561a405b9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/887c83acbcc8bd69: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/f8fa0fe1e080b121: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/778d4a3264103964: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/993fdf8ae8227c01: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d60a510ab1b58998: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/24c748b2321f2ae7: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/87517f8dcc499d72: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/fc2b1acc8614c5b3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/6ba8b7cb41ecda9a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b5890ee0803a1f90: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/16c0d09b802a7bb8: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7421a6c7417904e1: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/43b910b1f290e771: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__fonts-elem-03-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__fonts-elem-04-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__fonts-elem-07-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-01-t: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-03-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-04-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__fonts-elem-07-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/0f9e1fbd1b673908: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c8b470af2a475f34: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/537d8af7c3dc9055: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/60b6b4c59e80aede: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7446c2b84735ee94: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/46cb9117d0ef7dbd: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d4181b1f5f1c0a2f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/ac16298561a405b9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/4c9f75b45e0ed69c: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0003 from ours and 0.0018 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/631d2e3e635cb4d1: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/132c269adc57f5a3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/ecf5de1afde5c5be: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/4aa75902400128d5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/5d6144bdfb8e8cf2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/47026cc7f1d184dc: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/631d2e3e635cb4d1: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/132c269adc57f5a3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ecf5de1afde5c5be: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4aa75902400128d5: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/5d6144bdfb8e8cf2: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/47026cc7f1d184dc: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/9717a945ad660a37: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0002 from ours and 0.0011 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-blink/W3C-SVG-1.1__text-text-05-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/ed52b9cf2d99490e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/31b8dc2a75e68f65: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/d6e2e0e070de215b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/71070384b731b639: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/fe922a999c3255c9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-inkscape/855846982ee8aeb6: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/f82d8c20910b36e9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/ee0f84f319a578b6: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/0fc0854ef4e7092c: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/153f96464dc08aec: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/290ddcb0bb62ad00: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/0cb73edddc345b64: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__text-text-05-t: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ed52b9cf2d99490e: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/31b8dc2a75e68f65: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d6e2e0e070de215b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/71070384b731b639: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/fe922a999c3255c9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+inkscape/855846982ee8aeb6: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/f82d8c20910b36e9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ee0f84f319a578b6: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/0fc0854ef4e7092c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/153f96464dc08aec: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/290ddcb0bb62ad00: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/0cb73edddc345b64: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/9dacf78b89ce14c7: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-inkscape/b68333cebad0a1ad: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/e4b8ecf71ea03fa7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/93494a19af78bdd9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/b68333cebad0a1ad: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/e4b8ecf71ea03fa7: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/93494a19af78bdd9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/d1834b5e5848b152: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0003 from ours and 0.0012 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/45b6eed5f51b04f0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/bf846ac844d399b5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/6b61a35c0f9fc639: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/45b6eed5f51b04f0: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/bf846ac844d399b5: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/6b61a35c0f9fc639: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/122d662e7104af7e: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0023 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/8bc56b809d186a8d: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/8bc56b809d186a8d: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/9d83e3d07996a0c1: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0005 from ours and 0.0017 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/c63ac367d7e76d16: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__painting-stroke-05-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/8d455654f2b7aa37: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c63ac367d7e76d16: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__painting-stroke-05-t: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/8d455654f2b7aa37: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/416f8793c23fa6ec: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0004 from ours and 0.0014 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-inkscape/bedeb2adc390d181: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-openclipart/15255: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__text-text-12-t: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/ec93977a8dda5947: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-openclipart/169088: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/a2a1a239690cb9d3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/686d1182c53ee086: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/26c5f0915ed6b282: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/bbf2740a33b48c2c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-openclipart/47575: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/ec984ec097a3d388: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/13757ea674eceff4: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
-wikimedia/13d40a7e0e29d284: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/c4be78d657b4bfce: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/12904af24a0ba2f4: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/f798bdaade0671a4: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/873df590308a330c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/1810d4a45eb22616: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/922f764973a01318: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/b8a03800ab7b2175: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/50aced025039a1ec: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/b072b39c076485bb: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/4b49d96555d8a766: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/8208dbab35177080: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/91e57e17f5f2fb59: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/bedeb2adc390d181: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/15255: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__text-text-12-t: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ec93977a8dda5947: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+openclipart/169088: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/a2a1a239690cb9d3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/686d1182c53ee086: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/26c5f0915ed6b282: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/bbf2740a33b48c2c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/47575: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/ec984ec097a3d388: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/13757ea674eceff4: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/13d40a7e0e29d284: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/c4be78d657b4bfce: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/12904af24a0ba2f4: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/f798bdaade0671a4: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/873df590308a330c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/1810d4a45eb22616: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/922f764973a01318: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b8a03800ab7b2175: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/50aced025039a1ec: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/b072b39c076485bb: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/4b49d96555d8a766: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/8208dbab35177080: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/91e57e17f5f2fb59: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/546bcf037ba3b2bb: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0003 from ours and 0.0018 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-openclipart/231852: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/a13b69190b16a240: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/dff48be15f141377: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/a8adf43e1788d732: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/231852: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/a13b69190b16a240: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/dff48be15f141377: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/a8adf43e1788d732: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/7a99009c01f5e0cf: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0019 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/6f28054db1fe7c1f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/4e006b7000d381d0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/accd8a506f28e996: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/b0ba3190692f137c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/6f28054db1fe7c1f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/4e006b7000d381d0: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/accd8a506f28e996: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b0ba3190692f137c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/90225cfd491e8fee: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0005 from ours and 0.0013 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/d4c07d481d4f021a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d4c07d481d4f021a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/0a2dad95ac2e523c: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0009 from ours and 0.0018 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/a36cfc7910b97a4a: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0025 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/d50a278e722dfe06: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/c4c69834b436a84c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d50a278e722dfe06: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/c4c69834b436a84c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/0d174488f9663166: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0046 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-inkscape/e6177ac1ff3258a5: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/714af551455d5cd8: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/aa7ec5658d87d32b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-openclipart/324035: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/446e1361fd6ce183: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/d7ab37a50ec9b788: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/1e448d40c1275484: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-inkscape/f0b1c4f94fa676a2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/a0a1ff6ee669dc39: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/e6177ac1ff3258a5: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/714af551455d5cd8: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/aa7ec5658d87d32b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+openclipart/324035: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/446e1361fd6ce183: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d7ab37a50ec9b788: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/1e448d40c1275484: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+inkscape/f0b1c4f94fa676a2: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/a0a1ff6ee669dc39: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/c2b32be68f2e72b9: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0006 from ours and 0.0021 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/c251ead6084f9372: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c251ead6084f9372: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 inkscape/5d8a100a45ebc1b7: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0012 from ours and 0.0035 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/94c371f9a4a20812: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/bd6b7de9142d0f94: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/94c371f9a4a20812: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/bd6b7de9142d0f94: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/9ccd98689e2c8b84: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/242df30675f636d2: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/70140b1d2fa54f55: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/c68b06bc9947ce1f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/31ea1789b2417f1e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/31ff9d4fe6cc281b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/01721cd43414be67: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/4875ac02a38521b9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/7937a88e41518e6a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/494e5a8da3babe8f: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/86ea094737916ec3: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/0be3264953f1f46b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/c56633e16ff4a1a7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/b25b9ee7240a9d1e: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/242df30675f636d2: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/70140b1d2fa54f55: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c68b06bc9947ce1f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/31ea1789b2417f1e: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/31ff9d4fe6cc281b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/01721cd43414be67: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/4875ac02a38521b9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7937a88e41518e6a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/494e5a8da3babe8f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/86ea094737916ec3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/0be3264953f1f46b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c56633e16ff4a1a7: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/b25b9ee7240a9d1e: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/46dd83ac130cae36: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 inkscape/a0f23f5d4b2282e8: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/9ba326ce18011a16: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/fe878d9e602ecd71: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/d52e7af3c80d7c6f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/d84ba75b46054ef9: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/43add93b68faa673: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/e8a3696792ea5ab8: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/c9c598a3ca08aaad: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/dd5172a07e9153d7: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/c5eff33f8ef766f6: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/414a2343e97740bb: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/f6b28873e2d161a9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/9ba326ce18011a16: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/fe878d9e602ecd71: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/d52e7af3c80d7c6f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/d84ba75b46054ef9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/43add93b68faa673: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/e8a3696792ea5ab8: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/c9c598a3ca08aaad: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/dd5172a07e9153d7: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/c5eff33f8ef766f6: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/414a2343e97740bb: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/f6b28873e2d161a9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/38e69913efda7341: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0030 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/3546af491bf4173d: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/be00a4c844b88cbf: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/c7891c5c2aec0a04: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/43a69aa1031c8c5c: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/10fb3dc29da88370: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/fc0796c47c5f1a12: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/17c7bae12308cdd8: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/1e636b9343efbf1a: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/934a78b6e40e0187: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/99d9bc5e58f9e4b8: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/3546af491bf4173d: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/be00a4c844b88cbf: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/c7891c5c2aec0a04: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/43a69aa1031c8c5c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/10fb3dc29da88370: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/fc0796c47c5f1a12: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/17c7bae12308cdd8: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/1e636b9343efbf1a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/934a78b6e40e0187: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/99d9bc5e58f9e4b8: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/6e058875fbe4ca46: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0016 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/73d7ec34c32634cd: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/0bb91b12dd82749f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/87ba393b9e9dea73: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/14d845574f032b7c: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/e4709b06c3f5f8bc: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/73d7ec34c32634cd: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/0bb91b12dd82749f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/87ba393b9e9dea73: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/14d845574f032b7c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/e4709b06c3f5f8bc: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/a63e70c83a3c9c13: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0016 from ours and 0.0035 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/b6162d840f279cad: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/b6162d840f279cad: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/9b89baff354a31ee: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/67137135bf739042: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/d4e3aadc64de7d32: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/67b2971c22937854: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/67137135bf739042: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/d4e3aadc64de7d32: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/67b2971c22937854: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/289f42eb9147f942: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 wikimedia/fb1cf7360b9aecd4: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-openclipart/284083: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/ba26d72bfb5044bb: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+openclipart/284083: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/ba26d72bfb5044bb: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/5e2c166c0a062c8f: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0002 from ours and 0.0023 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/b0e87302dfc900f9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/90d040967ac919e9: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/b0e87302dfc900f9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/90d040967ac919e9: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/5daacb395379afd3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 wikimedia/4430cba5580e0a62: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0009 from ours and 0.0045 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/6957d56f10b6b965: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/6957d56f10b6b965: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/54577351fa11d7a6: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/2b5c5d106a6e497c: resvg: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
-wikimedia/ea89e8f3b6967a5b: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-inkscape/2eebd602b7ee29ef: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/2b5c5d106a6e497c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; resvg draws it as the spec defines, as ours does
+wikimedia/ea89e8f3b6967a5b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+inkscape/2eebd602b7ee29ef: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/244219045203528b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/14d2aec71a2db792: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/84aadceb8e0c89de: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/14d2aec71a2db792: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/84aadceb8e0c89de: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/4bc355b5628bdfff: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 wikimedia/a83ac02059e22794: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0010 from ours and 0.0049 from Inkscape's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/be4163d132365432: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/be4163d132365432: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
 wikimedia/d377e678fb7896f3: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 inkscape/bd1ef0fa1faa3559: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/7d26b74a51e54da5: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/4507bd0784ae49fc: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/c945d73f384b2e2f: firefox: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
-wikimedia/40cccbf4c62aadf0: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/7d26b74a51e54da5: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/4507bd0784ae49fc: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/c945d73f384b2e2f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Firefox draws it as the spec defines, as ours does
+wikimedia/40cccbf4c62aadf0: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/318abc44264a7c62: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
-wikimedia/e13906ba5df9dc9c: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/e13906ba5df9dc9c: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
 wikimedia/dcceac64e7e39b1f: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; no other renderer draws it as the spec defines, ours does
 wikimedia/2db279dc03631a21: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0011 from ours and 0.0026 from resvg's drawing at 4, whose strokes under a device pixel come out wrong
-wikimedia/bc7ae4490e544eab: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-wikimedia/528e99532c19f16a: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-blink/W3C-SVG-1.1__coords-trans-01-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-w3c/svg__coords-trans-01-b: inkscape: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
-blink/custom__focus-ring: firefox: outline auto with -webkit-focus-ring-color is Chromium's own focus ring, which it alone draws around SVG graphics; Firefox and resvg draw no outline, as ours does
-blink/custom__focus-ring-vrl: firefox: outline auto with -webkit-focus-ring-color is Chromium's own focus ring, which it alone draws around SVG graphics; Firefox and resvg draw no outline, as ours does
-blink/custom__focus-ring-vrl-expected: firefox: outline auto with -webkit-focus-ring-color is Chromium's own focus ring, which it alone draws around SVG graphics; Firefox and resvg draw no outline, as ours does
+wikimedia/bc7ae4490e544eab: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+wikimedia/528e99532c19f16a: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/W3C-SVG-1.1__coords-trans-01-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+w3c/svg__coords-trans-01-b: ours: Chromium draws a stroke under a pixel wide as a hairline of reduced alpha instead of its area; Inkscape draws it as the spec defines, as ours does
+blink/custom__focus-ring: ours: outline auto with -webkit-focus-ring-color is Chromium's own focus ring, which it alone draws around SVG graphics; Firefox and resvg draw no outline, as ours does
+blink/custom__focus-ring-vrl: ours: outline auto with -webkit-focus-ring-color is Chromium's own focus ring, which it alone draws around SVG graphics; Firefox and resvg draw no outline, as ours does
+blink/custom__focus-ring-vrl-expected: ours: outline auto with -webkit-focus-ring-color is Chromium's own focus ring, which it alone draws around SVG graphics; Firefox and resvg draw no outline, as ours does
 openclipart/19705: ours: its filters work in linearRGB, which Chromium, Firefox and resvg keep in 8 bits, so dark colours move: 8, 51, 5 comes out as 13, 50, 0, exactly what rounding to 8 bits in linear light gives; ours keeps floats
-wikimedia/635097e5f82f87e7: inkscape: shapes at opacity 0.4 over white: Chromium and Firefox blend in 8 bits with a shift by 256 and get 152 and, two layers deep, 90 where 255 times 0.6 is 153 and 255 times 0.36 is 92; Inkscape and resvg get 153 and 92, as ours does
+wikimedia/635097e5f82f87e7: ours: shapes at opacity 0.4 over white: Chromium and Firefox blend in 8 bits with a shift by 256 and get 152 and, two layers deep, 90 where 255 times 0.6 is 153 and 255 times 0.36 is 92; Inkscape and resvg get 153 and 92, as ours does
 resvg/filters__feDiffuseLighting__diffuseConstant_0: ours: the light falls on the alpha of a smooth radial gradient; Chromium keeps that alpha in 8 bits, and its steps come out as a checkerboard and streaks in the light, ours keeps floats and the surface stays smooth
 resvg/filters__feDiffuseLighting__multiple-light-sources: ours: the light falls on the alpha of a smooth radial gradient; Chromium keeps that alpha in 8 bits, and its steps come out as a checkerboard and streaks in the light, ours keeps floats and the surface stays smooth
 resvg/filters__feDiffuseLighting__linearRGB-color-interpolation: ours: the light falls on the alpha of a smooth radial gradient; Chromium keeps that alpha in 8 bits, and its steps come out as a checkerboard and streaks in the light, ours keeps floats and the surface stays smooth
@@ -341,9 +341,9 @@ resvg/filters__feSpecularLighting__with-feSpotLight-and-specular-and-exponent: o
 resvg/filters__feSpecularLighting__with-feSpotLight-and-specularConstant_5: ours: the light falls on the alpha of a smooth radial gradient; Chromium keeps that alpha in 8 bits, and its steps come out as a checkerboard and streaks in the light, ours keeps floats and the surface stays smooth
 resvg/filters__feSpecularLighting__specularExponent_0: ours: the light falls on the alpha of a smooth radial gradient; Chromium keeps that alpha in 8 bits, and its steps come out as a checkerboard and streaks in the light, ours keeps floats and the surface stays smooth
 blink/custom__feComponentTransfer-Gamma: ours: a dark gradient raised to the power 2 in linearRGB; Chromium keeps the result in 8 bits, so it comes out in steps and its darkest part as flat black, ours keeps floats and the gradient stays smooth
-resvg/painting__image-rendering__optimizeSpeed: inkscape: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image, Inkscape, resvg and Firefox keep its pixels sharp, as ours does
-resvg/painting__image-rendering__on-feImage: firefox: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image of an feImage, Firefox and resvg keep its pixels sharp, as ours does
-wikimedia/0aa2d8e00d6b0808: resvg: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image, resvg and Firefox keep its pixels sharp, as ours does
+resvg/painting__image-rendering__optimizeSpeed: ours: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image, Inkscape, resvg and Firefox keep its pixels sharp, as ours does
+resvg/painting__image-rendering__on-feImage: ours: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image of an feImage, Firefox and resvg keep its pixels sharp, as ours does
+wikimedia/0aa2d8e00d6b0808: ours: image-rendering optimizeSpeed must behave as crisp-edges (CSS Images 3); Chromium smooths the image, resvg and Firefox keep its pixels sharp, as ours does
 resvg/filters__feComponentTransfer__mixed-types: ours: worked by hand in linearRGB, #aabbcc through the table, discrete, linear and gamma functions comes out as 230, 255, 196; Chromium rounds to 8 bits on the way and gets 229, 255, 195, ours gets the exact values
 inkscape/93783c2d4705e43b: ours: blurs of a smooth dark gradient in linearRGB; Chromium keeps them in 8 bits and they come out as rings of steps, ours keeps floats and the gradient stays smooth
 inkscape/08cf4fe10dac5518: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0018 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
@@ -363,161 +363,161 @@ wikimedia/67738a1a8fc0debb: ours: thin strokes; Chromium's own drawing at 16 dev
 wikimedia/a14d59ec0c68e1cb: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0005 from ours and 0.0016 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/cffdec0d26772eb8: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0007 from ours and 0.0017 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
 wikimedia/d038d61459cbd3e0: ours: thin strokes; Chromium's own drawing at 16 device pixels to the pixel is 0.0008 from ours and 0.0046 from Chromium's drawing at 4, whose strokes under a device pixel come out wrong
-resvg/structure__image__embedded-jpeg-as-image-jpeg: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__embedded-jpeg-as-image-jpg: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__embedded-jpeg-without-mime: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__preserveAspectRatio_xMinYMin-slice: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__preserveAspectRatio_xMaxYMax-slice: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__embedded-jpeg-as-image-jpeg: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__embedded-jpeg-as-image-jpg: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__embedded-jpeg-without-mime: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__preserveAspectRatio_xMinYMin-slice: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__preserveAspectRatio_xMaxYMax-slice: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__image__embedded-webp: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__nested-embedded-png: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/masking__clip__simple-case: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/painting__image-rendering__high-quality: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__embedded-png: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__nested-embedded-png: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/masking__clip__simple-case: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/painting__image-rendering__high-quality: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__embedded-png: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
 resvg/structure__image__embedded-gif: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__preserveAspectRatio_xMidYMid-slice: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__preserveAspectRatio_xMaxYMax-meet: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__preserveAspectRatio_xMinYMin-meet: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__preserveAspectRatio_xMidYMid-meet: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__preserveAspectRatio_none: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__with-transform: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-inkscape/be1f24a980022ad1: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__embedded-jpeg-luma: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__embedded-png-luma: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-inkscape/98f358804b9b70b5: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-inkscape/af968cf3330cea03: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__transform-origin__on-image: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-resvg/structure__image__no-height-non-square: resvg: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
-wikimedia/2d5558f94a0017a2: inkscape: shapes at opacity 0.4 over white, two layers deep: Chromium and Firefox blend in 8 bits with a shift by 256 and get 90 where 255 times 0.36 is 92; Inkscape and resvg get 92, as ours does
-inkscape/005de2cfdbf50671: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/182ed524206c512b: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/27385167148518b1: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/5c10a2e72a26a126: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/9ae088641bbffc7f: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/9b77cb995f19d15c: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/9ef9951ebd3d20d6: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/c1633656f6f4554f: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-inkscape/f8e0f11d5689b7e4: inkscape: mesh gradients, an Inkscape extension Chromium does not draw
-openclipart/342673: inkscape_noise: Chromium does not finish this 175-primitive graph; compensate Inkscape pixel-corner turbulence sampling at the export resolution; lattice, noise-free prefix and constant-noise controls verified
-openclipart/264596: skia_emboss_inkscape: Inkscape source geometry and fixed ancestor clips, expanded reflected instances, float blur/compositing/lighting before amplified alpha; exact reflection and fractional-clip controls
-resvg/filters__feGaussianBlur__huge-stdDeviation: resvg: Chromium caps the deviation at 532 device pixels instead of the requested 5120 at the supersampled size; resvg keeps the requested wide blur, which leaves the small square almost transparent
-openclipart/247586: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0132779 to 0.0044533; Inkscape resolves that detail at the corpus size (error 0.0042409)
-openclipart/248791: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0059363 to 0.0027353; Inkscape resolves that detail at the corpus size (error 0.0018358)
-openclipart/227825: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0051369 to 0.0006728; Inkscape resolves that detail at the corpus size (error 0.0005038)
-inkscape/dab6772f62c894d2: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0033996 to 0.0014262; Inkscape resolves that detail at the corpus size (error 0.0006432)
-inkscape/8149299da3e30d5a: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0028454 to 0.0012947; Inkscape resolves that detail at the corpus size (error 0.0005888)
-inkscape/d6bf38ac29c8935f: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0025491 to 0.0009024; Inkscape resolves that detail at the corpus size (error 0.0005557)
-inkscape/74b1626154056aa6: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0018675 to 0.0006652; Inkscape resolves that detail at the corpus size (error 0.0001854)
-inkscape/4c9186e006bbfb36: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0018610 to 0.0010427; Inkscape resolves that detail at the corpus size (error 0.0004473)
-inkscape/bdad66a963725406: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0021625 to 0.0010387; Inkscape resolves that detail at the corpus size (error 0.0006542)
-inkscape/8df550d2f0360e1e: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0020915 to 0.0010253; Inkscape resolves that detail at the corpus size (error 0.0004945)
-inkscape/7b6b8adf348218c2: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0021137 to 0.0013820; Inkscape resolves that detail at the corpus size (error 0.0006627)
-openclipart/191600: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0045693 to 0.0018671; Inkscape resolves that detail at the corpus size (error 0.0006983)
-openclipart/251313: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0031228 to 0.0005349; Inkscape resolves that detail at the corpus size (error 0.0007703)
-openclipart/301615: inkscape: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0052666 to 0.0023625; Inkscape resolves that detail at the corpus size (error 0.0012592)
-openclipart/307853: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0075648 to 0.0034065; Inkscape agrees at 0.0026440
-openclipart/273026: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0064776 to 0.0027784; Inkscape agrees at 0.0009362
-inkscape/adcaac422551c33c: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0048897 to 0.0016535; Inkscape agrees at 0.0010411
-openclipart/322773: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0039776 to 0.0013578; Inkscape agrees at 0.0004077
-inkscape/fa646886aa119d02: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0039779 to 0.0023290; Inkscape agrees at 0.0005900
-openclipart/221101: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0040087 to 0.0019742; Inkscape agrees at 0.0012055
-openclipart/341286: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0038026 to 0.0012535; Inkscape agrees at 0.0012692
-openclipart/227016: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0037632 to 0.0021258; Inkscape agrees at 0.0015346
-openclipart/299882: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0035787 to 0.0020261; Inkscape agrees at 0.0011042
-openclipart/273567: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0031252 to 0.0010245; Inkscape agrees at 0.0008565
-inkscape/f9e3958d85a2f7bb: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0028778 to 0.0013629; Inkscape agrees at 0.0007246
-openclipart/192713: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027941 to 0.0010334; Inkscape agrees at 0.0008321
-openclipart/272117: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027050 to 0.0007963; Inkscape agrees at 0.0007999
-openclipart/309684: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027009 to 0.0013552; Inkscape agrees at 0.0010806
-openclipart/305899: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024814 to 0.0008948; Inkscape agrees at 0.0006609
-openclipart/272702: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024288 to 0.0006007; Inkscape agrees at 0.0006062
-openclipart/274765: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024585 to 0.0012124; Inkscape agrees at 0.0007362
-openclipart/249309: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023146 to 0.0010789; Inkscape agrees at 0.0006383
-openclipart/279387: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023039 to 0.0014846; Inkscape agrees at 0.0006089
-openclipart/58237: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023980 to 0.0016331; Inkscape agrees at 0.0009844
-openclipart/172490: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022992 to 0.0012018; Inkscape agrees at 0.0008075
-openclipart/350017: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022667 to 0.0007091; Inkscape agrees at 0.0007243
-openclipart/266621: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0021609 to 0.0011778; Inkscape agrees at 0.0005765
-inkscape/700a2b9f6adcf540: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022109 to 0.0011984; Inkscape agrees at 0.0007869
-inkscape/aa0bc922e95f1530: inkscape: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0020930 to 0.0015519; Inkscape agrees at 0.0004940
-inkscape/0119a689880fea40: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/1425275588743266: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/22c44faeb6654c4d: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
-inkscape/25f86ad99307aa4f: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/2c267451439032ee: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/5512d1d4e1311b22: skia_legacy_stencil: float noise and discrete alpha transfer for the blue emblem, colored float lighting for four rough-paper groups, supersampled Inkscape source geometry; original clips and ancestor opacity retained, background regions fixed only after identical document exports; Inkscape 1.2.2 composition; rational thresholds, annulus areas, colored planes and context controls verified
-inkscape/5c42a2efc6f828c2: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/6e88c91437817e0b: inkscape_softlight: SVG 1.1 background blend; equivalent final CSS soft-light over an opaque backdrop avoids the Inkscape 1.2.2 feBlend parser bug
-inkscape/76177ce7baaf1a72: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/845440c7b8d85f8c: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/906b09cd6974a48c: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/c4ef0ae2b9120826: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/dd906ba2b9e5b381: firefox: without enable-background:new the SVG 1.1 background is transparent; Firefox also preserves this drawing's clipping
-inkscape/f2d85cc688e5e039: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-inkscape/ff16a6d909f73d38: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-openclipart/188784: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-openclipart/245679: chromium_noise_blend: opaque backdrop multiply and corrected turbulence sampling
-openclipart/290478: chromium_noise_local: aligned local noise and lighting before quarter-turn rotation; explicit background
-resvg/filters__enable-background__accumulate-with-new: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__filter-on-shape: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__inherit: firefox_svg11: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
-resvg/filters__enable-background__new-with-region: firefox_svg11: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
-resvg/filters__enable-background__new: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__shapes-after-filter: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__stop-on-the-first-new-1: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__stop-on-the-first-new-2: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-clip-path: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-filter-on-the-same-element: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-filter: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-opacity-1: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-opacity-2: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-opacity-3: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-opacity-4: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__enable-background__with-transform: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
-resvg/filters__filter__in_BackgroundAlpha-with-enable-background: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__filter__in_BackgroundAlpha: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__filter__in_BackgroundImage-with-enable-background: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__filter__in_BackgroundImage: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-resvg/filters__filter__in_FillPaint-on-g-without-children: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-resvg/filters__filter__in_FillPaint-with-gradient: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-resvg/filters__filter__in_FillPaint-with-pattern: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-resvg/filters__filter__in_FillPaint-with-target-on-g: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-resvg/filters__filter__in_FillPaint: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-resvg/filters__filter__in_StrokePaint: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-w3c/images__filters-composite-01-f: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
-w3c/svg__filters-background-01-f: inkscape_legacy: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
-w3c/svg__filters-composite-03-f: batik: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
-w3c/svg__filters-overview-01-b: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-w3c/svg__filters-overview-02-b: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-w3c/svg__filters-overview-03-b: firefox_svg11: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
-openclipart/247344: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-inkscape/c50dcbab333b368e: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/251806: skia_layers_inkscape: Inkscape captures the two solid paths as one source group; float intermediates preserve the leather texture through blur and lighting; shifted-viewBox noise coordinates, inherited paints, overlap and opacity controls verified
-openclipart/258054: skia_textures: float noise graphs on clipped rectangle windows under uniform rotations; exact source coverage, channel equations, convolution bias, noise lattice and rotated lighting/clip controls verified
-inkscape/44c0088b024dac54: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/329492: skia_noise_inkscape: Inkscape source geometry at 8x reduced directly into float coverage, with the original filter grid and precise SVG lighting; area integrals, premultiplied block means, sub-byte alpha, source/noise frames and viewport controls verified
-openclipart/281657: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/166914: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/263442: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-inkscape/8bb7ad8fbf50a13e: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-inkscape/4eff2e17bcf832c6: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/239023: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-inkscape/146b6523cdffeb96: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-inkscape/3f306997f816dfb2: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/289215: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-inkscape/c2431a3d475c8d05: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/265813: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-inkscape/bb093782976dc120: chromium_noise: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
-openclipart/213198: chromium_stitch: stock Batik stitched noise sampled at pixel centres, with original tile origin
-openclipart/340314: inkscape@4096: Chromium loses 7% of the exact stroked area of a 1.08-pixel curved line; Inkscape preserves it, and the drawing converges between 4096 and 8192 pixels
-w3c/svg__filters-morph-01-f: chromium_morphology: Chromium erodes unclipped SourceGraphic; an identity offset restores the filter-region input clip, verified against exact rectangle bounds and stock Batik, with native pixels unchanged
-blink/W3C-SVG-1.1__filters-morph-01-f: chromium_morphology: Chromium erodes unclipped SourceGraphic; an identity offset restores the filter-region input clip, verified against exact rectangle bounds and stock Batik, with native pixels unchanged
-openclipart/174262: inkscape_outline: Chromium loses area on thin diagonal strokes; Inkscape stroke-to-path preserves the hatch area, with straight-stroke area controls at five angles and two scales
-openclipart/252059: inkscape_curves: Chromium changes the area of filled cubic bands with their subpixel phase; exact Bezier integrals over 36 cubic bands give total absolute area errors of 261 square pixels in Chromium and 10 in Inkscape, confirmed on isolated source bands
-openclipart/321288: inkscape_edges: Chromium rounds away fractional horizontal edge coverage, amplified by repeated overlapping fills; 60 calculated straight-edge controls at ten subpixel positions and three scales have maximum alpha errors of 52.3 levels in Chromium and 1.3 in Inkscape
-inkscape/1a6dcfc5187bf462: chromium_wide_stroke: give the interiors of convex shapes covered by opaque oversized non-scaling strokes the stroke's color, preserving the ideal stroke and avoiding external strokers' inward-offset holes; 98 covered-center controls and byte-identical native drawing at both sizes
-inkscape/d637421a62aec41d: skia_layers_inkscape: Inkscape source geometry and float intermediates for eleven noise-filtered paths, with separate axis scales and SVG lighting in user coordinates; analytic coverage, planes, source grids and displacement verified; ellipses retain browser coverage
-inkscape/14abd5d0886ccd77: chromium_rect_blur: six trailing solid rectangles use exact pixel coverage and the SVG three-box blur distribution, followed by float source-over; Chromium supplies the unchanged prefix; kernel mass, variance, fractional coverage and rational composition verified
-resvg/filters__feConvolveMatrix__kernelMatrix-with-zero-sum-and-no-divisor: resvg: the kernel sums to zero, so its divisor is one and flat areas vanish, as the test says and resvg draws; Chromium sums the values in binary to a residue near 1e-7 and divides by it, which returns the input in flat areas
+resvg/structure__image__preserveAspectRatio_xMidYMid-slice: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__preserveAspectRatio_xMaxYMax-meet: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__preserveAspectRatio_xMinYMin-meet: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__preserveAspectRatio_xMidYMid-meet: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__preserveAspectRatio_none: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__with-transform: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+inkscape/be1f24a980022ad1: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__embedded-jpeg-luma: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__embedded-png-luma: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+inkscape/98f358804b9b70b5: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+inkscape/af968cf3330cea03: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__transform-origin__on-image: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+resvg/structure__image__no-height-non-square: ours: an enlarged raster image; ours and resvg sample it with the Mitchell-Netravali cubic, which Chromium uses exactly for feImage, while Chromium draws an image element softer
+wikimedia/2d5558f94a0017a2: ours: shapes at opacity 0.4 over white, two layers deep: Chromium and Firefox blend in 8 bits with a shift by 256 and get 90 where 255 times 0.36 is 92; Inkscape and resvg get 92, as ours does
+inkscape/005de2cfdbf50671: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/182ed524206c512b: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/27385167148518b1: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/5c10a2e72a26a126: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/9ae088641bbffc7f: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/9b77cb995f19d15c: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/9ef9951ebd3d20d6: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/c1633656f6f4554f: ours: mesh gradients, an Inkscape extension Chromium does not draw
+inkscape/f8e0f11d5689b7e4: ours: mesh gradients, an Inkscape extension Chromium does not draw
+openclipart/342673: ours: Chromium does not finish this 175-primitive graph; compensate Inkscape pixel-corner turbulence sampling at the export resolution; lattice, noise-free prefix and constant-noise controls verified
+openclipart/264596: ours: Inkscape source geometry and fixed ancestor clips, expanded reflected instances, float blur/compositing/lighting before amplified alpha; exact reflection and fractional-clip controls
+resvg/filters__feGaussianBlur__huge-stdDeviation: ours: Chromium caps the deviation at 532 device pixels instead of the requested 5120 at the supersampled size; resvg keeps the requested wide blur, which leaves the small square almost transparent
+openclipart/247586: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0132779 to 0.0044533; Inkscape resolves that detail at the corpus size (error 0.0042409)
+openclipart/248791: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0059363 to 0.0027353; Inkscape resolves that detail at the corpus size (error 0.0018358)
+openclipart/227825: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0051369 to 0.0006728; Inkscape resolves that detail at the corpus size (error 0.0005038)
+inkscape/dab6772f62c894d2: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0033996 to 0.0014262; Inkscape resolves that detail at the corpus size (error 0.0006432)
+inkscape/8149299da3e30d5a: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0028454 to 0.0012947; Inkscape resolves that detail at the corpus size (error 0.0005888)
+inkscape/d6bf38ac29c8935f: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0025491 to 0.0009024; Inkscape resolves that detail at the corpus size (error 0.0005557)
+inkscape/74b1626154056aa6: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0018675 to 0.0006652; Inkscape resolves that detail at the corpus size (error 0.0001854)
+inkscape/4c9186e006bbfb36: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0018610 to 0.0010427; Inkscape resolves that detail at the corpus size (error 0.0004473)
+inkscape/bdad66a963725406: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0021625 to 0.0010387; Inkscape resolves that detail at the corpus size (error 0.0006542)
+inkscape/8df550d2f0360e1e: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0020915 to 0.0010253; Inkscape resolves that detail at the corpus size (error 0.0004945)
+inkscape/7b6b8adf348218c2: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0021137 to 0.0013820; Inkscape resolves that detail at the corpus size (error 0.0006627)
+openclipart/191600: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0045693 to 0.0018671; Inkscape resolves that detail at the corpus size (error 0.0006983)
+openclipart/251313: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0031228 to 0.0005349; Inkscape resolves that detail at the corpus size (error 0.0007703)
+openclipart/301615: ours: fine detail is inconsistent at Chromium's reference resolution; its own 4096-pixel rendering reduces the error from 0.0052666 to 0.0023625; Inkscape resolves that detail at the corpus size (error 0.0012592)
+openclipart/307853: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0075648 to 0.0034065; Inkscape agrees at 0.0026440
+openclipart/273026: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0064776 to 0.0027784; Inkscape agrees at 0.0009362
+inkscape/adcaac422551c33c: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0048897 to 0.0016535; Inkscape agrees at 0.0010411
+openclipart/322773: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0039776 to 0.0013578; Inkscape agrees at 0.0004077
+inkscape/fa646886aa119d02: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0039779 to 0.0023290; Inkscape agrees at 0.0005900
+openclipart/221101: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0040087 to 0.0019742; Inkscape agrees at 0.0012055
+openclipart/341286: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0038026 to 0.0012535; Inkscape agrees at 0.0012692
+openclipart/227016: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0037632 to 0.0021258; Inkscape agrees at 0.0015346
+openclipart/299882: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0035787 to 0.0020261; Inkscape agrees at 0.0011042
+openclipart/273567: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0031252 to 0.0010245; Inkscape agrees at 0.0008565
+inkscape/f9e3958d85a2f7bb: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0028778 to 0.0013629; Inkscape agrees at 0.0007246
+openclipart/192713: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027941 to 0.0010334; Inkscape agrees at 0.0008321
+openclipart/272117: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027050 to 0.0007963; Inkscape agrees at 0.0007999
+openclipart/309684: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0027009 to 0.0013552; Inkscape agrees at 0.0010806
+openclipart/305899: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024814 to 0.0008948; Inkscape agrees at 0.0006609
+openclipart/272702: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024288 to 0.0006007; Inkscape agrees at 0.0006062
+openclipart/274765: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0024585 to 0.0012124; Inkscape agrees at 0.0007362
+openclipart/249309: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023146 to 0.0010789; Inkscape agrees at 0.0006383
+openclipart/279387: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023039 to 0.0014846; Inkscape agrees at 0.0006089
+openclipart/58237: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0023980 to 0.0016331; Inkscape agrees at 0.0009844
+openclipart/172490: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022992 to 0.0012018; Inkscape agrees at 0.0008075
+openclipart/350017: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022667 to 0.0007091; Inkscape agrees at 0.0007243
+openclipart/266621: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0021609 to 0.0011778; Inkscape agrees at 0.0005765
+inkscape/700a2b9f6adcf540: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0022109 to 0.0011984; Inkscape agrees at 0.0007869
+inkscape/aa0bc922e95f1530: ours: Chromium coverage changes with supersampling; raising SIDE from 1024 to 4096 lowers its RMS to ours from 0.0020930 to 0.0015519; Inkscape agrees at 0.0004940
+inkscape/0119a689880fea40: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/1425275588743266: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/22c44faeb6654c4d: ours: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+inkscape/25f86ad99307aa4f: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/2c267451439032ee: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/5512d1d4e1311b22: ours: float noise and discrete alpha transfer for the blue emblem, colored float lighting for four rough-paper groups, supersampled Inkscape source geometry; original clips and ancestor opacity retained, background regions fixed only after identical document exports; Inkscape 1.2.2 composition; rational thresholds, annulus areas, colored planes and context controls verified
+inkscape/5c42a2efc6f828c2: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/6e88c91437817e0b: ours: SVG 1.1 background blend; equivalent final CSS soft-light over an opaque backdrop avoids the Inkscape 1.2.2 feBlend parser bug
+inkscape/76177ce7baaf1a72: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/845440c7b8d85f8c: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/906b09cd6974a48c: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/c4ef0ae2b9120826: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/dd906ba2b9e5b381: ours: without enable-background:new the SVG 1.1 background is transparent; Firefox also preserves this drawing's clipping
+inkscape/f2d85cc688e5e039: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+inkscape/ff16a6d909f73d38: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+openclipart/188784: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+openclipart/245679: ours: opaque backdrop multiply and corrected turbulence sampling
+openclipart/290478: ours: aligned local noise and lighting before quarter-turn rotation; explicit background
+resvg/filters__enable-background__accumulate-with-new: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__filter-on-shape: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__inherit: ours: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
+resvg/filters__enable-background__new-with-region: ours: SVG 1.1 background snapshot made explicit for Firefox; preserves background scope and soft-light where older Inkscape misparses it
+resvg/filters__enable-background__new: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__shapes-after-filter: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__stop-on-the-first-new-1: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__stop-on-the-first-new-2: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-clip-path: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-filter-on-the-same-element: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-filter: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-1: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-2: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-3: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-opacity-4: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__enable-background__with-transform: ours: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+resvg/filters__filter__in_BackgroundAlpha-with-enable-background: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_BackgroundAlpha: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_BackgroundImage-with-enable-background: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_BackgroundImage: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+resvg/filters__filter__in_FillPaint-on-g-without-children: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint-with-gradient: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint-with-pattern: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint-with-target-on-g: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_FillPaint: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+resvg/filters__filter__in_StrokePaint: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+w3c/images__filters-composite-01-f: ours: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+w3c/svg__filters-background-01-f: ours: SVG 1.1 BackgroundImage/BackgroundAlpha and enable-background, unsupported by the Chromium reference; Inkscape 1.2.2 retains them
+w3c/svg__filters-composite-03-f: ours: SVG 1.1 filter inputs and group compositing; Batik 1.19 preserves the transformed background and group opacity
+w3c/svg__filters-overview-01-b: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+w3c/svg__filters-overview-02-b: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+w3c/svg__filters-overview-03-b: ours: infinite FillPaint/StrokePaint blurred as ordinary painting then clipped; explicit SVG 1.1 backdrop snapshots where needed, rendered by Firefox
+openclipart/247344: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/c50dcbab333b368e: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/251806: ours: Inkscape captures the two solid paths as one source group; float intermediates preserve the leather texture through blur and lighting; shifted-viewBox noise coordinates, inherited paints, overlap and opacity controls verified
+openclipart/258054: ours: float noise graphs on clipped rectangle windows under uniform rotations; exact source coverage, channel equations, convolution bias, noise lattice and rotated lighting/clip controls verified
+inkscape/44c0088b024dac54: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/329492: ours: Inkscape source geometry at 8x reduced directly into float coverage, with the original filter grid and precise SVG lighting; area integrals, premultiplied block means, sub-byte alpha, source/noise frames and viewport controls verified
+openclipart/281657: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/166914: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/263442: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/8bb7ad8fbf50a13e: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/4eff2e17bcf832c6: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/239023: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/146b6523cdffeb96: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/3f306997f816dfb2: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/289215: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/c2431a3d475c8d05: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/265813: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+inkscape/bb093782976dc120: ours: Chromium samples turbulence half a user unit off the pixel centre; compensate the filter frame before noise sampling, preserving geometry and post-filter effects; lattice and constant-noise controls verified
+openclipart/213198: ours: stock Batik stitched noise sampled at pixel centres, with original tile origin
+openclipart/340314: ours: Chromium loses 7% of the exact stroked area of a 1.08-pixel curved line; Inkscape preserves it, and the drawing converges between 4096 and 8192 pixels
+w3c/svg__filters-morph-01-f: ours: Chromium erodes unclipped SourceGraphic; an identity offset restores the filter-region input clip, verified against exact rectangle bounds and stock Batik, with native pixels unchanged
+blink/W3C-SVG-1.1__filters-morph-01-f: ours: Chromium erodes unclipped SourceGraphic; an identity offset restores the filter-region input clip, verified against exact rectangle bounds and stock Batik, with native pixels unchanged
+openclipart/174262: ours: Chromium loses area on thin diagonal strokes; Inkscape stroke-to-path preserves the hatch area, with straight-stroke area controls at five angles and two scales
+openclipart/252059: ours: Chromium changes the area of filled cubic bands with their subpixel phase; exact Bezier integrals over 36 cubic bands give total absolute area errors of 261 square pixels in Chromium and 10 in Inkscape, confirmed on isolated source bands
+openclipart/321288: ours: Chromium rounds away fractional horizontal edge coverage, amplified by repeated overlapping fills; 60 calculated straight-edge controls at ten subpixel positions and three scales have maximum alpha errors of 52.3 levels in Chromium and 1.3 in Inkscape
+inkscape/1a6dcfc5187bf462: ours: give the interiors of convex shapes covered by opaque oversized non-scaling strokes the stroke's color, preserving the ideal stroke and avoiding external strokers' inward-offset holes; 98 covered-center controls and byte-identical native drawing at both sizes
+inkscape/d637421a62aec41d: ours: Inkscape source geometry and float intermediates for eleven noise-filtered paths, with separate axis scales and SVG lighting in user coordinates; analytic coverage, planes, source grids and displacement verified; ellipses retain browser coverage
+inkscape/14abd5d0886ccd77: ours: six trailing solid rectangles use exact pixel coverage and the SVG three-box blur distribution, followed by float source-over; Chromium supplies the unchanged prefix; kernel mass, variance, fractional coverage and rational composition verified
+resvg/filters__feConvolveMatrix__kernelMatrix-with-zero-sum-and-no-divisor: ours: the kernel sums to zero, so its divisor is one and flat areas vanish, as the test says and resvg draws; Chromium sums the values in binary to a residue near 1e-7 and divides by it, which returns the input in flat areas
 resvg/filters__feConvolveMatrix__bias_-0.5: ours: Chromium and resvg round the convolution's input to bytes before the kernel; ours convolves the stored 16-bit channels, within a stored unit of the exact sums
 resvg/filters__feConvolveMatrix__bias_0.5: ours: Chromium and resvg round the convolution's input to bytes before the kernel; ours convolves the stored 16-bit channels, within a stored unit of the exact sums
 resvg/filters__feConvolveMatrix__order_4-4: ours: Chromium and resvg round the convolution's input to bytes before the kernel; ours convolves the stored 16-bit channels, within a stored unit of the exact sums
