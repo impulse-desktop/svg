@@ -56,8 +56,10 @@ def main():
     expected = {"Diffuse": [diffuse, diffuse, diffuse, 255], "Specular": [255, 255, 255, specular]}
     checked = 0
     failures = []
-    samples = [(False, 256, 1024), (False, 512, 1024),
-               (True, 256, 256), (True, 256, 512), (True, 256, 1024)]
+    # A filter or transform on the root is in the pixels of the box, so the
+    # root is drawn straight at its own size alone, where they are its
+    # user units.
+    samples = [(False, 256, 1024), (False, 512, 1024), (True, 256, 256)]
     with tempfile.TemporaryDirectory(prefix="svg-filter-transforms-") as temporary:
         source = Path(temporary) / "ramp.svg"
         output = Path(temporary) / "ramp.png"

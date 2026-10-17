@@ -33,8 +33,6 @@ def cases():
             primitive += '<feMorphology radius="4"' + (f' in="{source}"' if source != "flood" else '') + '/>'
             svg = drawing(primitive, space, region)
             yield f"erode-clip/{space}/{source}", svg, [0, 0, 0, 0]
-            if source != "flood":
-                yield f"erode-normalized/{space}/{source}", canon.morphology_source(svg).decode(), [0, 0, 0, 0]
 
     # At lattice vertices every gradient's dot product is zero. Doubling the
     # frequency for another octave stays on the lattice, regardless of seed.

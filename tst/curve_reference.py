@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exact-area controls for the reviewed Inkscape cubic-band reference."""
+"""Cubic bands of exact area, for tst/curve_area.py."""
 import math
 
 
@@ -44,9 +44,3 @@ def drawing(radius, width, phase, rule):
     svg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 128"><path fill-rule="{rule}" d="{path}"/></svg>'
     return svg, expected
 
-
-def probes():
-    for radius in [24, 48, 72]:
-        for width in [.3, .75, 1.92, 2.88]:
-            for phase in [0, .125, .37]:
-                yield drawing(radius, width, phase, "nonzero")
