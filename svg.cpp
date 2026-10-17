@@ -13899,16 +13899,18 @@ namespace {
             inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, p.rootFontSize};
         }
 
-        // A percentage of refX or refY is of the viewport outside, as
-        // browsers take it; a keyword is of the viewBox, as SVG 2 maps it.
+        // A percentage of refX or refY is of the viewBox, a keyword its 0%,
+        // 50% or 100%, as SVG 2 has them; with no viewBox, of the marker's
+        // viewport. Chromium, Firefox and resvg take a percentage of the
+        // viewport outside, librsvg as SVG 2.
         float rx;
         float ry;
 
-        if (!referenceOf(doc, marker, AtomRefX, Axis::X, vp, fs, inside.width, rx)) {
+        if (!referenceOf(doc, marker, AtomRefX, Axis::X, inside, fs, inside.width, rx)) {
             rx = 0.f;
         }
 
-        if (!referenceOf(doc, marker, AtomRefY, Axis::Y, vp, fs, inside.height, ry)) {
+        if (!referenceOf(doc, marker, AtomRefY, Axis::Y, inside, fs, inside.height, ry)) {
             ry = 0.f;
         }
 
