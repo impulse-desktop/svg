@@ -645,3 +645,41 @@ openclipart/249055: ours: Chromium covers edges by approximations of their area;
 inkscape/a67196560184d00f: ours: Chromium covers edges by approximations of their area; ours by the exact area, as integrals over a ring, a straight edge and dash arc lengths confirm
 openclipart/308212: ours: Chromium covers edges by approximations of their area; ours by the exact area, as integrals over a ring, a straight edge and dash arc lengths confirm
 inkscape/1b657738491db8d0: ours: Chromium covers edges by approximations of their area; ours by the exact area, as integrals over a ring, a straight edge and dash arc lengths confirm
+spec/path-length-shapes: ours: pathLength scales the dash pattern on every basic shape, as SVG 2 has it
+blink/custom__marker-overflow-clip: ours: a marker whose overflow is hidden clips its content in the document's measured size too
+w3c/svg__filters-conv-04-f: ours: feConvolveMatrix adds the bias times the alpha, as Filter Effects defines it
+resvg/painting__stroke__line-as-curve-1: ours: the stroke sweeps the normal through a hook below the floats' reach; against an exact model of the sweep rms 0.89, Chromium 10.9
+resvg/painting__stroke__line-as-curve-2: ours: the stroke sweeps the normal through the curve's sharp turns; against an exact model of the sweep rms 0.52, Chromium 10.1
+resvg/painting__stroke__control-points-clamping-1: ours: the stroke sweeps the normal through each curve's hook at its end; against an exact model rms 1.35
+resvg/painting__stroke-dasharray__n-0: ours: a dash ending exactly at a corner takes the join there, the segment holding its start being the later one
+blink/filters__feDropShadow-negative-deviation: ours: a negative deviation is zero along its own axis alone, as WPT's test of it has it
+wpt/css__filter-effects__feDropShadow-negative-deviation: ours: a negative deviation is zero along its own axis alone, as this test's reference has it
+blink/W3C-SVG-1.1__filters-composite-02-b: ours: the filter region's edge covers its pixels by the exact area, 0.87 where Chromium rounds to 0.75
+w3c/svg__filters-composite-02-b: ours: the filter region's edge covers its pixels by the exact area, 0.87 where Chromium rounds to 0.75
+wpt/svg__painting__reftests__markers-orient-002: ours: the measured size clips the markers' overflow, the whole square green as this test's reference
+openclipart/194709: ours: a stroke wider than its small loop covers the loop's inside, every point there on a normal; Chromium leaves a hole
+openclipart/75277: ours: a stroke wider than its small circle covers the circle's inside; Chromium leaves a hole
+openclipart/15585: ours: a star that closes exactly as written takes its miter at the start, the stroke covering the fill near the tip
+openclipart/108103: ours: a path that closes exactly as written takes no miter spike at its start; against an exact model rms 0.34
+openclipart/14872: ours: strokes against an exact model of the sweep and joins rms 0.84
+openclipart/3753: ours: a closing corner with a miter ratio of 3.7 keeps its tip; against an exact model rms 0.47
+openclipart/182967: ours: the stroke sweeps the normal through a thick curve's hook at its end; against an exact model rms 0.24
+openclipart/27257: ours: strokes against an exact model of the sweep rms 0.26
+openclipart/189334: ours: strokes against an exact model of the sweep and joins rms 0.05
+openclipart/107413: ours: strokes against an exact model of the sweep and joins rms 0.50
+openclipart/211777: ours: abutting fills leave no seam, their coverage exact
+inkscape/bc1c47549d297472: ours: strokes against an exact model of the sweep and caps rms 0.16
+inkscape/6ea4477b2d08897f: ours: a closing segment of 5e-5 as written takes its joins, as SVG 2 joins every segment
+inkscape/e6a656ce0b8b83eb: ours: dashes placed by the exact arc length of the path
+inkscape/942a8e981c5bda22: ours: a corner of tiny segments as written, no stroke above it where Chromium paints one
+inkscape/aabf5744ab9c57e5: ours: strokes against an exact model of the sweep rms 0.34
+inkscape/96c53eae9f30d9a7: ours: strokes against an exact model of the sweep rms 0.10
+inkscape/8b0f93b8c1d9587b: ours: strokes against an exact model of the sweep rms 0.29
+wikimedia/dcf07644fc8c30c6: ours: strokes against an exact model of the sweep and joins rms 0.09
+wikimedia/d3075bd09a894002: ours: strokes against an exact model of the sweep rms 0.04
+wikimedia/21af426f4a0e6a45: ours: strokes against an exact model of the sweep and joins rms 0.53
+wikimedia/fe59d3e4a9138f58: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
+wikimedia/a72ea6970c563d1c: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
+wikimedia/e2a1ef7e9ad2d204: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
+wikimedia/d29d09e37049218f: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
+wikimedia/db368d6226e33af7: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
