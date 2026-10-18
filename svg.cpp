@@ -18745,7 +18745,7 @@ namespace {
     static Box edgesOf(const FilterRun& run, int index) {
         const Filter& f = *run.filter;
         bool source = index == InputSourceGraphic || index == InputSourceAlpha;
-        bool boxed = f.bbox.x1 > f.bbox.x0 && f.bbox.y1 > f.bbox.y0;
+        bool boxed = fminf(f.bbox.x1 - f.bbox.x0, f.bbox.y1 - f.bbox.y0) > 0.f;
 
         return index >= 0 ? run.results[index].edges : (source && boxed ? deviceBox(f.ctm, f.bbox) : f.device);
     }
@@ -18758,6 +18758,10 @@ namespace {
         KeepsB = 4,
         KeepsAll = 8,
     };
+
+    static Box movedBox(const Box& box, Point d) {
+        return Box{box.x0 + d.x, box.y0 + d.y, box.x1 + d.x, box.y1 + d.y};
+    }
 
     static Box keptBox(u8 keeps, const Box& a, const Box& b) {
         Box kept = joinBoxes(joinBoxes(keeps & KeepsBoth ? meetBoxes(a, b) : emptyBox(), keeps & KeepsA ? a : emptyBox()), keeps & KeepsB ? b : emptyBox());
@@ -21711,20 +21715,18 @@ namespace {
             // what they leave so. An image is cut by nothing past its own.
             Box reach = allBox();
             Box hard = allBox();
+            Point shift{0.f, 0.f};
+            u8 keeps = 0;
 
             switch (p.kind) {
                 case AtomFeFlood:
                     filterFlood(p, out);
                     break;
-                case AtomFeOffset: {
-                    Point d = filterOffset(run, p, out);
-                    Box from = supportOf(run, p.in1);
-                    Box edges = edgesOf(run, p.in1);
-
-                    reach = Box{from.x0 + d.x, from.y0 + d.y, from.x1 + d.x, from.y1 + d.y};
-                    hard = Box{edges.x0 + d.x, edges.y0 + d.y, edges.x1 + d.x, edges.y1 + d.y};
+                case AtomFeOffset:
+                    shift = filterOffset(run, p, out);
+                    reach = movedBox(supportOf(run, p.in1), shift);
+                    hard = movedBox(edgesOf(run, p.in1), shift);
                     break;
-                }
                 case AtomFeGaussianBlur:
                     filterBlur(run, p, out);
                     break;
@@ -21739,13 +21741,11 @@ namespace {
                     }
 
                     break;
-                case AtomFeComposite: {
-                    u8 keeps = filterComposite(run, p, out);
-
+                case AtomFeComposite:
+                    keeps = filterComposite(run, p, out);
                     reach = keptBox(keeps, supportOf(run, p.in1), supportOf(run, p.in2));
                     hard = keptBox(keeps, edgesOf(run, p.in1), edgesOf(run, p.in2));
                     break;
-                }
                 case AtomFeBlend:
                     filterBlend(run, p, out);
                     reach = joinBoxes(supportOf(run, p.in1), supportOf(run, p.in2));
