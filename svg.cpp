@@ -8078,9 +8078,9 @@ namespace {
     }
 
     // Adds a stroke's point of a cubic at t, smooth, with the direction of
-    // the chord to it from where its last point was, at from: a cubic that
-    // is no point, as a straight one at one place is, moves between any two
-    // of its parameters.
+    // the chord to it from where its last point was, at from; none where
+    // the two are one parameter, as the steps from a turn point the doubles
+    // cannot tell from an end.
     static void addCurvePoint(Flat& out, Point p0, Point p3, const Powers& q, double from, double t) {
         DPoint at = powerAt(q, t);
         DPoint d = powerChord(q, from, t - from);
@@ -8088,7 +8088,7 @@ namespace {
 
         out.points.pushBack(t == 1.0 ? p3 : Point{(float)(p0.x + at.x), (float)(p0.y + at.y)});
         out.kinds.pushBack(PointSmooth);
-        out.dirs.pushBack(Point{(float)(d.x / length), (float)(d.y / length)});
+        out.dirs.pushBack(length > 0.0 ? Point{(float)(d.x / length), (float)(d.y / length)} : Point{0.f, 0.f});
     }
 
     // A stroke's piece of a cubic from ta to tb, its points after ta: the
