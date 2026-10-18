@@ -271,3 +271,14 @@ gathered from the nearest group marked new. It now reads the pixels the
 filtered element's isolation group drew before it, transparent at the start
 of an isolated group, and ignores enable-background; the W3C SVG 1.1 and
 resvg tests written for it draw differently.
+
+## D27. Colours are mapped into sRGB as they are read
+
+`css-color-4.md#color-convert-intro`: conversions are not clamped, and CSS
+gamut mapping happens "only for display", so a colour outside sRGB keeps
+its values through computation, a gradient's interpolation included. The
+renderer draws in sRGB and keeps colours as sRGB values, so it maps each
+colour into sRGB by the Binary Search with local MINDE algorithm when it
+reads it, and a gradient between two colours outside sRGB interpolates
+their mapped values. Every colour inside sRGB, all of SVG 1.1's and the
+legacy functions' in range, is unchanged by this.

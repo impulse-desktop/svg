@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="72">
+<!-- Each test runs on into the reference under it without a step; the last
+row is lime, no red. CSS Color 4's functions: hwb(), lab(), lch(), oklab(),
+oklch() and color() in each predefined space, none for a missing
+component, rgb() and hsl() modern and legacy, components clamped where the
+module clamps them, the rest mapped into sRGB by its binary search on
+OkLCh chroma; then values of the wrong shape, each ignored. -->
+<rect width="66" height="72" fill="white"/>
+<rect x="2" y="2" width="6" height="5" style="fill: hwb(120 20% 30%)"/><rect x="2" y="7" width="6" height="5" fill="#33b233"/>
+<rect x="10" y="2" width="6" height="5" style="fill: hwb(200 60% 60%)"/><rect x="10" y="7" width="6" height="5" fill="#808080"/>
+<rect x="18" y="2" width="6" height="5" style="fill: hwb(0.25turn 10 20 / 50%)"/><rect x="18" y="7" width="6" height="5" fill="#73cc1a" fill-opacity="0.5"/>
+<rect x="26" y="2" width="6" height="5" style="fill: lab(50 40 -30)"/><rect x="26" y="7" width="6" height="5" fill="#a55bab"/>
+<rect x="34" y="2" width="6" height="5" style="fill: lab(50% 50% -50%)"/><rect x="34" y="7" width="6" height="5" fill="#b043e4"/>
+<rect x="42" y="2" width="6" height="5" style="fill: lab(120 0 0)"/><rect x="42" y="7" width="6" height="5" fill="#ffffff"/>
+<rect x="50" y="2" width="6" height="5" style="fill: lch(60 50 120)"/><rect x="50" y="7" width="6" height="5" fill="#769c3e"/>
+<rect x="58" y="2" width="6" height="5" style="fill: lch(60 -5 120)"/><rect x="58" y="7" width="6" height="5" fill="#919191"/>
+<rect x="2" y="14" width="6" height="5" style="fill: lch(40% 50% 1rad)"/><rect x="2" y="19" width="6" height="5" fill="#a13d00"/>
+<rect x="10" y="14" width="6" height="5" style="fill: oklab(0.6 0.1 -0.1)"/><rect x="10" y="19" width="6" height="5" fill="#9f63ba"/>
+<rect x="18" y="14" width="6" height="5" style="fill: oklab(60% 25% -25%)"/><rect x="18" y="19" width="6" height="5" fill="#9f63ba"/>
+<rect x="26" y="14" width="6" height="5" style="fill: oklch(0.7 0.15 200)"/><rect x="26" y="19" width="6" height="5" fill="#00b7c0"/>
+<rect x="34" y="14" width="6" height="5" style="fill: oklch(0.9 0.4 30)"/><rect x="34" y="19" width="6" height="5" fill="#ffccc1"/>
+<rect x="42" y="14" width="6" height="5" style="fill: oklch(1.2 0.1 30)"/><rect x="42" y="19" width="6" height="5" fill="#ffffff"/>
+<rect x="50" y="14" width="6" height="5" style="fill: oklch(0.7 none none)"/><rect x="50" y="19" width="6" height="5" fill="#9e9e9e"/>
+<rect x="58" y="14" width="6" height="5" style="fill: color(display-p3 0.5 0.6 0.2)"/><rect x="58" y="19" width="6" height="5" fill="#799a14"/>
+<rect x="2" y="26" width="6" height="5" style="fill: color(display-p3 1 0 0)"/><rect x="2" y="31" width="6" height="5" fill="#ff0b0c"/>
+<rect x="10" y="26" width="6" height="5" style="fill: color(srgb-linear 0.2 0.5 0.8)"/><rect x="10" y="31" width="6" height="5" fill="#7cbce7"/>
+<rect x="18" y="26" width="6" height="5" style="fill: color(srgb 20% 50% 80% / 0.4)"/><rect x="18" y="31" width="6" height="5" fill="#337fcc" fill-opacity="0.4"/>
+<rect x="26" y="26" width="6" height="5" style="fill: color(xyz 0.3 0.4 0.2)"/><rect x="26" y="31" width="6" height="5" fill="#8bb66b"/>
+<rect x="34" y="26" width="6" height="5" style="fill: color(xyz-d50 0.3 0.4 0.2)"/><rect x="34" y="31" width="6" height="5" fill="#7ab87f"/>
+<rect x="42" y="26" width="6" height="5" style="fill: color(a98-rgb 0.4 0.3 0.6)"/><rect x="42" y="31" width="6" height="5" fill="#6f4b9d"/>
+<rect x="50" y="26" width="6" height="5" style="fill: color(prophoto-rgb 0.4 0.3 0.6)"/><rect x="50" y="31" width="6" height="5" fill="#7757b2"/>
+<rect x="58" y="26" width="6" height="5" style="fill: color(prophoto-rgb 0.02 0.01 0.03)"/><rect x="58" y="31" width="6" height="5" fill="#050207"/>
+<rect x="2" y="38" width="6" height="5" style="fill: color(rec2020 0.4 0.3 0.6)"/><rect x="2" y="43" width="6" height="5" fill="#653d99"/>
+<rect x="10" y="38" width="6" height="5" style="fill: rgb(none 128 255)"/><rect x="10" y="43" width="6" height="5" fill="#0080ff"/>
+<rect x="18" y="38" width="6" height="5" style="fill: rgb(10 20% 30 / 50%)"/><rect x="18" y="43" width="6" height="5" fill="#0a331e" fill-opacity="0.5"/>
+<rect x="26" y="38" width="6" height="5" style="fill: rgb(300 -20 128)"/><rect x="26" y="43" width="6" height="5" fill="#ff0080"/>
+<rect x="34" y="38" width="6" height="5" style="fill: hsl(120deg 50% 50%)"/><rect x="34" y="43" width="6" height="5" fill="#40bf40"/>
+<rect x="42" y="38" width="6" height="5" style="fill: hsl(0.5turn 50 50)"/><rect x="42" y="43" width="6" height="5" fill="#40bfbf"/>
+<rect x="50" y="38" width="6" height="5" style="fill: hsl(120, 50%, 50%, 0.3)"/><rect x="50" y="43" width="6" height="5" fill="#40bf40" fill-opacity="0.3"/>
+<rect x="58" y="38" width="6" height="5" style="fill: hsl(30 150% 50%)"/><rect x="58" y="43" width="6" height="5" fill="#ffa872"/>
+<rect x="2" y="50" width="6" height="5" style="fill: hsl(-90 -20% 40%)"/><rect x="2" y="55" width="6" height="5" fill="#666666"/>
+<rect x="10" y="50" width="6" height="5" style="fill: rgba(10 20 30)"/><rect x="10" y="55" width="6" height="5" fill="#0a141e"/>
+<rect x="18" y="50" width="6" height="5" style="fill: hsla(200 40% 60% / 2)"/><rect x="18" y="55" width="6" height="5" fill="#70a7c2"/>
+<rect x="26" y="50" width="6" height="5" style="fill: rgb(10, 20, 30, 50%)"/><rect x="26" y="55" width="6" height="5" fill="#0a141e" fill-opacity="0.5"/>
+<rect x="34" y="50" width="6" height="5" style="fill: color(xyz -0.2 -0.1 -0.2)"/><rect x="34" y="55" width="6" height="5" fill="#000000"/>
+<rect x="42" y="50" width="6" height="5" style="fill: color(xyz-d65 0.2 0.3 0.4)"/><rect x="42" y="55" width="6" height="5" fill="#00a7a4"/>
+<rect x="50" y="50" width="6" height="5" style="fill: lab(-10 20 20)"/><rect x="50" y="55" width="6" height="5" fill="#000000"/>
+<rect x="58" y="50" width="6" height="5" style="fill: color(display-p3-linear 0.5 0.6 0.2)"/><rect x="58" y="55" width="6" height="5" fill="#b8cc70"/>
+<rect x="2" y="62" width="3" height="8" fill="lime" style="fill: rgb(10, 20%, 30)"/>
+<rect x="5" y="62" width="3" height="8" fill="lime" style="fill: hwb(120, 20%, 30%)"/>
+<rect x="8" y="62" width="3" height="8" fill="lime" style="fill: lab(50, 40, -30)"/>
+<rect x="11" y="62" width="3" height="8" fill="lime" style="fill: hsl(120, 50, 50)"/>
+<rect x="14" y="62" width="3" height="8" fill="lime" style="fill: rgb(none, 1, 2)"/>
+<rect x="17" y="62" width="3" height="8" fill="lime" style="fill: rgb(1 2 3 / 4 5)"/>
+<rect x="20" y="62" width="3" height="8" fill="lime" style="fill: rgb(1 2 3 4)"/>
+<rect x="23" y="62" width="3" height="8" fill="lime" style="fill: color(foo 1 2 3)"/>
+<rect x="26" y="62" width="3" height="8" fill="lime" style="fill: hsl(120% 50% 50%)"/>
+<rect x="29" y="62" width="3" height="8" fill="lime" style="fill: lch(50 20deg 30)"/>
+<rect x="32" y="62" width="3" height="8" fill="lime" style="fill: rgb(1 2 3 /)"/>
+<rect x="35" y="62" width="3" height="8" fill="lime" style="fill: oklab(1 2)"/>
+<rect x="38" y="62" width="3" height="8" fill="lime" style="fill: rgb(1, 2, 3 / 4)"/>
+<rect x="41" y="62" width="3" height="8" fill="lime" style="fill: rgb(1 2 3,)"/>
+<rect x="44" y="62" width="3" height="8" fill="lime" style="fill: rgb(1px 2 3)"/>
+<rect x="47" y="62" width="3" height="8" fill="lime" style="fill: rgb(1,2,3,)"/>
+<rect x="50" y="62" width="3" height="8" fill="lime" style="fill: rgb(1,2,3,4,5)"/>
+</svg>

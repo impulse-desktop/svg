@@ -1788,6 +1788,8 @@ namespace {
         u32 first;
         u32 count;
         u8 rule;
+        // Its edges' bounds, in device pixels.
+        Box bounds;
     };
 
     enum FilterInputs : int {
@@ -6592,48 +6594,204 @@ namespace {
         return -1;
     }
 
-    // A component of a colour function, where it starts.
-    static bool readComponent(const u8*& p, const u8* end, float scale, float& out) {
-        float value;
+    // An argument of a colour function: a number, a percentage, an angle
+    // in degrees, none, a comma or a slash.
+    enum class ColorToken : u8 {
+        Number,
+        Percent,
+        Angle,
+        None,
+        Comma,
+        Slash,
+    };
 
-        if (!readNumber(p, end, value)) {
-            return false;
+    struct ColorArgument {
+        ColorToken kind;
+        double value;
+    };
+
+    // A 3 by 3 matrix of a colour conversion, rows by columns, times v.
+    static void colorMatrix(const double (&m)[9], double (&v)[3]) {
+        double out[3];
+
+        for (int r = 0; r < 3; r++) {
+            out[r] = m[r * 3] * v[0] + m[r * 3 + 1] * v[1] + m[r * 3 + 2] * v[2];
         }
 
-        if (at(p, end, '%')) {
-            p++;
-            out = value / 100.f;
-        } else {
-            out = value / scale;
-        }
-
-        return true;
+        memcpy(v, out, sizeof(out));
     }
 
-    static float hueToRgb(float m1, float m2, float h) {
-        if (h < 0.f) {
-            h += 1.f;
-        }
+    // The sRGB curve each way, odd about zero (css-color-4.md, predefined-sRGB).
+    static double srgbToLinear(double c) {
+        double a = fabs(c);
 
-        if (h > 1.f) {
-            h -= 1.f;
-        }
-
-        if (h * 6.f < 1.f) {
-            return m1 + (m2 - m1) * h * 6.f;
-        }
-
-        if (h * 2.f < 1.f) {
-            return m2;
-        }
-
-        if (h * 3.f < 2.f) {
-            return m1 + (m2 - m1) * (2.f / 3.f - h) * 6.f;
-        }
-
-        return m1;
+        return a <= 0.04045 ? c / 12.92 : copysign(pow((a + 0.055) / 1.055, 2.4), c);
     }
 
+    static double linearToSrgb(double c) {
+        double a = fabs(c);
+
+        return a > 0.0031308 ? copysign(1.055 * pow(a, 1.0 / 2.4) - 0.055, c) : 12.92 * c;
+    }
+
+    // XYZ (D65) and linear sRGB, and Oklab, by the matrices CSS Color 4's
+    // sample code gives.
+    static const double xyzToLinearSrgb[9] = {12831.0 / 3959.0, -329.0 / 214.0, -1974.0 / 3959.0, -851781.0 / 878810.0, 1648619.0 / 878810.0, 36519.0 / 878810.0, 705.0 / 12673.0, -2585.0 / 12673.0, 705.0 / 667.0};
+    static const double linearSrgbToXyz[9] = {506752.0 / 1228815.0, 87881.0 / 245763.0, 12673.0 / 70218.0, 87098.0 / 409605.0, 175762.0 / 245763.0, 12673.0 / 175545.0, 7918.0 / 409605.0, 87881.0 / 737289.0, 1001167.0 / 1053270.0};
+    static const double d50ToD65[9] = {0.955473421488075, -0.02309845494876471, 0.06325924320057072, -0.0283697093338637, 1.0099953980813041, 0.021041441191917323, 0.012314014864481998, -0.020507649298898964, 1.330365926242124};
+
+    static void xyzToOklab(double (&v)[3]) {
+        static const double toLms[9] = {0.8190224379967030, 0.3619062600528904, -0.1288737815209879, 0.0329836539323885, 0.9292868615863434, 0.0361446663506424, 0.0481771893596242, 0.2642395317527308, 0.6335478284694309};
+        static const double toLab[9] = {0.2104542683093140, 0.7936177747023054, -0.0040720430116193, 1.9779985324311684, -2.4285922420485799, 0.4505937096174110, 0.0259040424655478, 0.7827717124575296, -0.8086757549230774};
+
+        colorMatrix(toLms, v);
+
+        for (double& c : v) {
+            c = cbrt(c);
+        }
+
+        colorMatrix(toLab, v);
+    }
+
+    static void oklabToXyz(double (&v)[3]) {
+        static const double toLms[9] = {1.0, 0.3963377773761749, 0.2158037573099136, 1.0, -0.1055613458156586, -0.0638541728258133, 1.0, -0.0894841775298119, -1.2914855480194092};
+        static const double toXyz[9] = {1.2268798758459243, -0.5578149944602171, 0.2813910456659647, -0.0405757452148008, 1.1122868032803170, -0.0717110580655164, -0.0763729366746601, -0.4214933324022432, 1.5869240198367816};
+
+        colorMatrix(toLms, v);
+
+        for (double& c : v) {
+            c = c * c * c;
+        }
+
+        colorMatrix(toXyz, v);
+    }
+
+    // CIE Lab to XYZ, both D50.
+    static void labToXyz(double (&v)[3]) {
+        const double kappa = 24389.0 / 27.0;
+        const double epsilon = 216.0 / 24389.0;
+        const double white[3] = {0.3457 / 0.3585, 1.0, (1.0 - 0.3457 - 0.3585) / 0.3585};
+        double f1 = (v[0] + 16.0) / 116.0;
+        double f0 = v[1] / 500.0 + f1;
+        double f2 = f1 - v[2] / 200.0;
+        double xyz[3] = {f0 * f0 * f0 > epsilon ? f0 * f0 * f0 : (116.0 * f0 - 16.0) / kappa, v[0] > kappa * epsilon ? f1 * f1 * f1 : v[0] / kappa, f2 * f2 * f2 > epsilon ? f2 * f2 * f2 : (116.0 * f2 - 16.0) / kappa};
+
+        for (int k = 0; k < 3; k++) {
+            v[k] = xyz[k] * white[k];
+        }
+    }
+
+    // sRGB, unclamped, from XYZ D65.
+    static void xyzToSrgb(double (&v)[3]) {
+        colorMatrix(xyzToLinearSrgb, v);
+
+        for (double& c : v) {
+            c = linearToSrgb(c);
+        }
+    }
+
+    // Oklab of an sRGB colour, unclamped.
+    static void srgbToOklab(double (&v)[3]) {
+        for (double& c : v) {
+            c = srgbToLinear(c);
+        }
+
+        colorMatrix(linearSrgbToXyz, v);
+        xyzToOklab(v);
+    }
+
+    // An sRGB colour, which may lie outside sRGB, mapped into it as CSS
+    // Color 4 maps for display: binary search on OkLCh chroma at constant
+    // lightness and hue with local MINDE, a JND of 0.02 and an epsilon of
+    // 0.0001 (css-color-4.md, GMA-Binary-local-MINDE).
+    static void gamutMap(double (&rgb)[3]) {
+        auto inside = [](const double (&c)[3]) {
+            const double slack = 1e-9;
+
+            return c[0] >= -slack && c[0] <= 1.0 + slack && c[1] >= -slack && c[1] <= 1.0 + slack && c[2] >= -slack && c[2] <= 1.0 + slack;
+        };
+        auto clip = [](double (&c)[3]) {
+            for (double& v : c) {
+                v = v < 0.0 ? 0.0 : (v > 1.0 ? 1.0 : v);
+            }
+        };
+
+        if (inside(rgb)) {
+            clip(rgb);
+
+            return;
+        }
+
+        double lab[3] = {rgb[0], rgb[1], rgb[2]};
+
+        srgbToOklab(lab);
+
+        if (lab[0] >= 1.0 || lab[0] <= 0.0) {
+            double grey = lab[0] >= 1.0 ? 1.0 : 0.0;
+
+            rgb[0] = rgb[1] = rgb[2] = grey;
+
+            return;
+        }
+
+        double chroma = sqrt(lab[1] * lab[1] + lab[2] * lab[2]);
+        double hue = atan2(lab[2], lab[1]);
+        // The colour at a chroma, in sRGB as it is, and clipped; the distance
+        // between them in Oklab.
+        double current[3];
+        double clipped[3];
+        auto distanceAt = [&](double c) {
+            double v[3] = {lab[0], c * cos(hue), c * sin(hue)};
+
+            oklabToXyz(v);
+            xyzToSrgb(v);
+            memcpy(current, v, sizeof(v));
+            memcpy(clipped, v, sizeof(v));
+            clip(clipped);
+
+            double a[3] = {current[0], current[1], current[2]};
+            double b[3] = {clipped[0], clipped[1], clipped[2]};
+
+            srgbToOklab(a);
+            srgbToOklab(b);
+
+            return sqrt((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]) + (a[2] - b[2]) * (a[2] - b[2]));
+        };
+        const double jnd = 0.02;
+        const double epsilon = 0.0001;
+        double low = 0.0;
+        double high = chroma;
+        bool lowInside = true;
+
+        if (distanceAt(chroma) >= jnd) {
+            while (high - low > epsilon) {
+                double middle = (low + high) / 2.0;
+                double e = distanceAt(middle);
+
+                if (lowInside && inside(current)) {
+                    low = middle;
+                    continue;
+                }
+
+                if (e < jnd) {
+                    if (jnd - e < epsilon) {
+                        break;
+                    }
+
+                    lowInside = false;
+                    low = middle;
+                } else {
+                    high = middle;
+                }
+            }
+        }
+
+        memcpy(rgb, clipped, sizeof(clipped));
+    }
+
+    // A colour function of CSS Color 4: rgb() and hsl() in their legacy and
+    // modern forms, hwb(), lab(), lch(), oklab(), oklch() and color() of the
+    // predefined spaces, a missing component zero, then mapped into sRGB.
     static bool parseFunctionColor(StringView text, Color& out) {
         const u8* open = text.begin();
 
@@ -6647,90 +6805,276 @@ namespace {
         }
 
         StringView name = trim(StringView(text.begin(), open));
-        bool hsl = equalsIgnoreCase(name, SV("hsl")) || equalsIgnoreCase(name, SV("hsla"));
-        bool rgb = equalsIgnoreCase(name, SV("rgb")) || equalsIgnoreCase(name, SV("rgba"));
+        static const char* const names[] = {"rgb", "rgba", "hsl", "hsla", "hwb", "lab", "lch", "oklab", "oklch", "color"};
+        int kind = -1;
 
-        if (!hsl && !rgb) {
+        for (int k = 0; k < 10; k++) {
+            if (equalsIgnoreCase(name, StringView(names[k]))) {
+                kind = k;
+            }
+        }
+
+        if (kind < 0) {
             return false;
         }
 
+        bool rgb = kind <= 1;
+        bool hsl = kind == 2 || kind == 3;
         const u8* p = open + 1;
         const u8* end = text.end() - 1;
-        float values[4] = {0.f, 0.f, 0.f, 1.f};
-        u32 count = 0;
-        u32 percents = 0;
+        StringView space;
 
-        while (count < 4) {
+        // color() names its space first.
+        if (kind == 9) {
+            skipSpaces(p, end);
+
+            const u8* start = p;
+
+            while (p < end && isIdentChar(*p)) {
+                p++;
+            }
+
+            space = StringView(start, p);
+        }
+
+        ColorArgument args[8];
+        u32 count = 0;
+
+        for (;;) {
             skipSpaces(p, end);
 
             if (p >= end) {
                 break;
             }
 
-            if (count > 0 && (*p == ',' || *p == '/')) {
+            if (count == 8) {
+                return false;
+            }
+
+            ColorArgument& arg = args[count++];
+            float number;
+
+            if (*p == ',' || *p == '/') {
+                arg.kind = *p == ',' ? ColorToken::Comma : ColorToken::Slash;
+                p++;
+                continue;
+            }
+
+            if (end - p >= 4 && equalsIgnoreCase(StringView(p, p + 4), SV("none"))) {
+                arg.kind = ColorToken::None;
+                arg.value = 0.0;
+                p += 4;
+                continue;
+            }
+
+            if (!readNumber(p, end, number)) {
+                return false;
+            }
+
+            const u8* unit = p;
+
+            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
                 p++;
             }
 
-            float scale = 255.f;
+            StringView word(unit, p);
 
-            if (hsl) {
-                scale = count == 0 ? 360.f : 100.f;
+            arg.value = number;
+            arg.kind = ColorToken::Number;
+
+            if (at(p, end, '%') && word.empty()) {
+                arg.kind = ColorToken::Percent;
+                p++;
+            } else if (equalsIgnoreCase(word, SV("deg"))) {
+                arg.kind = ColorToken::Angle;
+            } else if (equalsIgnoreCase(word, SV("rad")) || equalsIgnoreCase(word, SV("grad")) || equalsIgnoreCase(word, SV("turn"))) {
+                arg.kind = ColorToken::Angle;
+                arg.value *= equalsIgnoreCase(word, SV("rad")) ? 180.0 / pi : (equalsIgnoreCase(word, SV("grad")) ? 0.9 : 360.0);
+            } else if (!word.empty()) {
+                return false;
             }
-
-            if (count == 3) {
-                scale = 1.f;
-            }
-
-            if (hsl && count == 0) {
-                float hue;
-
-                if (!readNumber(p, end, hue)) {
-                    return false;
-                }
-
-                if (end - p >= 3 && equalsIgnoreCase(StringView(p, p + 3), SV("deg"))) {
-                    p += 3;
-                } else if (end - p >= 4 && equalsIgnoreCase(StringView(p, p + 4), SV("turn"))) {
-                    p += 4;
-                    hue *= 360.f;
-                } else if (end - p >= 3 && equalsIgnoreCase(StringView(p, p + 3), SV("rad"))) {
-                    p += 3;
-                    hue *= 180.f / pi;
-                }
-
-                values[0] = hue / 360.f;
-            } else {
-                skipSpaces(p, end);
-
-                if (!readComponent(p, end, scale, values[count])) {
-                    return false;
-                }
-
-                if (rgb && count < 3 && p[-1] == '%') {
-                    percents++;
-                }
-            }
-
-            count++;
         }
 
-        skipSpaces(p, end);
+        // The legacy form, commas between all four, for rgb() and hsl()
+        // alone; the modern one, spaces between three and a slash before
+        // the alpha.
+        ColorArgument values[4];
+        u32 commas = 0;
+        u32 slashes = 0;
+        u32 n = 0;
 
-        if (p != end || count < 3 || (percents != 0 && percents != 3)) {
+        for (u32 k = 0; k < count; k++) {
+            commas += args[k].kind == ColorToken::Comma;
+            slashes += args[k].kind == ColorToken::Slash;
+        }
+
+        bool legacy = commas > 0;
+
+        for (u32 k = 0; k < count; k++) {
+            bool separator = args[k].kind == ColorToken::Comma || args[k].kind == ColorToken::Slash;
+            // A legacy component follows a comma, but the first; a modern
+            // alpha follows the slash.
+            bool expected = legacy ? (k % 2 == 1) : (n == 3 && k == 3);
+
+            if (separator != expected || (!separator && n == 4)) {
+                return false;
+            }
+
+            if (!separator) {
+                values[n++] = args[k];
+            }
+        }
+
+        if (n < 3 || (legacy && (!(rgb || hsl) || slashes || commas != n - 1)) || (!legacy && slashes != (n == 4 ? 1u : 0u))) {
             return false;
         }
 
-        if (hsl) {
-            float h = values[0] - floorf(values[0]);
-            float s = clampUnit(values[1]);
-            float l = clampUnit(values[2]);
-            float m2 = l <= 0.5f ? l * (s + 1.f) : l + s - l * s;
-            float m1 = l * 2.f - m2;
+        // The kinds each component takes: a hue a number or angle, the rest
+        // numbers and percentages; none only in the modern form; legacy
+        // rgb() all numbers or all percentages, legacy hsl() percentages.
+        bool polar[3] = {hsl || kind == 4, false, kind == 6 || kind == 8};
+        u32 percents = 0;
 
-            out = Color{hueToRgb(m1, m2, h + 1.f / 3.f), hueToRgb(m1, m2, h), hueToRgb(m1, m2, h - 1.f / 3.f), clampUnit(values[3])};
-        } else {
-            out = Color{clampUnit(values[0]), clampUnit(values[1]), clampUnit(values[2]), clampUnit(values[3])};
+        for (u32 k = 0; k < n; k++) {
+            ColorToken t = values[k].kind;
+            bool hue = k < 3 && polar[k];
+
+            if ((t == ColorToken::Angle && !hue) || (t == ColorToken::None && legacy) || (legacy && hsl && k > 0 && k < 3 && t != ColorToken::Percent) || (t == ColorToken::Percent && hue)) {
+                return false;
+            }
+
+            percents += k < 3 && t == ColorToken::Percent;
         }
+
+        if (legacy && rgb && percents != 0 && percents != 3) {
+            return false;
+        }
+
+        // A component: a percentage of its reference range, a number as it
+        // is; none is zero.
+        auto component = [&](u32 k, double range) {
+            return values[k].kind == ColorToken::Percent ? values[k].value / 100.0 * range : values[k].value;
+        };
+        double alpha = n == 4 ? component(3, 1.0) : 1.0;
+        double c[3];
+
+        alpha = alpha < 0.0 ? 0.0 : (alpha > 1.0 ? 1.0 : alpha);
+
+        if (rgb) {
+            for (int k = 0; k < 3; k++) {
+                double v = component((u32)k, 255.0) / 255.0;
+
+                c[k] = v < 0.0 ? 0.0 : (v > 1.0 ? 1.0 : v);
+            }
+        } else if (hsl || kind == 4) {
+            double h = fmod(component(0, 1.0), 360.0);
+            double second = component(1, 100.0) / 100.0;
+            double third = component(2, 100.0) / 100.0;
+
+            h += h < 0.0 ? 360.0 : 0.0;
+
+            // hwb's whiteness and blackness over a pure hue; hsl's.
+            double saturation = hsl ? (second < 0.0 ? 0.0 : second) : 1.0;
+            double lightness = hsl ? third : 0.5;
+            double a = saturation * (lightness < 1.0 - lightness ? lightness : 1.0 - lightness);
+
+            for (int k = 0; k < 3; k++) {
+                double t = fmod((double)(k == 0 ? 0 : (k == 1 ? 8 : 4)) + h / 30.0, 12.0);
+                double step = t - 3.0 < 9.0 - t ? t - 3.0 : 9.0 - t;
+
+                c[k] = lightness - a * (step < -1.0 ? -1.0 : (step > 1.0 ? 1.0 : step));
+            }
+
+            if (!hsl) {
+                double sum = second + third;
+
+                for (double& v : c) {
+                    v = sum >= 1.0 ? second / sum : v * (1.0 - second - third) + second;
+                }
+            }
+        } else if (kind <= 8) {
+            // Lab and LCH in D50, Oklab and OkLCh in D65; L clamped, a
+            // chroma no less than zero.
+            bool ok = kind >= 7;
+            double l = component(0, ok ? 1.0 : 100.0);
+            double top = ok ? 1.0 : 100.0;
+
+            c[0] = l < 0.0 ? 0.0 : (l > top ? top : l);
+
+            if (kind == 5 || kind == 7) {
+                c[1] = component(1, ok ? 0.4 : 125.0);
+                c[2] = component(2, ok ? 0.4 : 125.0);
+            } else {
+                double chroma = component(1, ok ? 0.4 : 150.0);
+                double h = component(2, 1.0) * pi / 180.0;
+
+                chroma = chroma < 0.0 ? 0.0 : chroma;
+                c[1] = chroma * cos(h);
+                c[2] = chroma * sin(h);
+            }
+
+            if (ok) {
+                oklabToXyz(c);
+            } else {
+                labToXyz(c);
+                colorMatrix(d50ToD65, c);
+            }
+
+            xyzToSrgb(c);
+        } else {
+            // color(): a predefined space, by its curve and its matrix to
+            // XYZ, adapted to D65 where its white is D50.
+            static const struct {
+                const char* name;
+                int curve;
+                bool d50;
+                double toXyz[9];
+            } spaces[] = {
+                {"srgb", 1, false, {506752.0 / 1228815.0, 87881.0 / 245763.0, 12673.0 / 70218.0, 87098.0 / 409605.0, 175762.0 / 245763.0, 12673.0 / 175545.0, 7918.0 / 409605.0, 87881.0 / 737289.0, 1001167.0 / 1053270.0}},
+                {"srgb-linear", 0, false, {506752.0 / 1228815.0, 87881.0 / 245763.0, 12673.0 / 70218.0, 87098.0 / 409605.0, 175762.0 / 245763.0, 12673.0 / 175545.0, 7918.0 / 409605.0, 87881.0 / 737289.0, 1001167.0 / 1053270.0}},
+                {"display-p3", 1, false, {608311.0 / 1250200.0, 189793.0 / 714400.0, 198249.0 / 1000160.0, 35783.0 / 156275.0, 247089.0 / 357200.0, 198249.0 / 2500400.0, 0.0, 32229.0 / 714400.0, 5220557.0 / 5000800.0}},
+                {"display-p3-linear", 0, false, {608311.0 / 1250200.0, 189793.0 / 714400.0, 198249.0 / 1000160.0, 35783.0 / 156275.0, 247089.0 / 357200.0, 198249.0 / 2500400.0, 0.0, 32229.0 / 714400.0, 5220557.0 / 5000800.0}},
+                {"a98-rgb", 2, false, {573536.0 / 994567.0, 263643.0 / 1420810.0, 187206.0 / 994567.0, 591459.0 / 1989134.0, 6239551.0 / 9945670.0, 374412.0 / 4972835.0, 53769.0 / 1989134.0, 351524.0 / 4972835.0, 4929758.0 / 4972835.0}},
+                {"prophoto-rgb", 3, true, {0.79776664490064230, 0.13518129740053308, 0.03134773412839220, 0.28807482881940130, 0.71183523424187300, 0.00008993693872564, 0.0, 0.0, 0.82510460251046020}},
+                {"rec2020", 4, false, {63426534.0 / 99577255.0, 20160776.0 / 139408157.0, 47086771.0 / 278816314.0, 26158966.0 / 99577255.0, 472592308.0 / 697040785.0, 8267143.0 / 139408157.0, 0.0, 19567812.0 / 697040785.0, 295819943.0 / 278816314.0}},
+                {"xyz", 0, false, {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0}},
+                {"xyz-d65", 0, false, {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0}},
+                {"xyz-d50", 0, true, {1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0}},
+            };
+
+            int found = -1;
+
+            for (int k = 0; k < 10; k++) {
+                if (equalsIgnoreCase(space, StringView(spaces[k].name))) {
+                    found = k;
+                }
+            }
+
+            if (found < 0) {
+                return false;
+            }
+
+            for (int k = 0; k < 3; k++) {
+                double v = component((u32)k, 1.0);
+                double a = fabs(v);
+                int curve = spaces[found].curve;
+
+                // The curves: sRGB's, a98's 563/256, ProPhoto's 1.8 with its
+                // linear foot, rec2020's 2.4.
+                c[k] = curve == 1 ? srgbToLinear(v) : (curve == 2 ? copysign(pow(a, 563.0 / 256.0), v) : (curve == 3 ? (a <= 16.0 / 512.0 ? v / 16.0 : copysign(pow(a, 1.8), v)) : (curve == 4 ? copysign(pow(a, 2.4), v) : v)));
+            }
+
+            colorMatrix(spaces[found].toXyz, c);
+
+            if (spaces[found].d50) {
+                colorMatrix(d50ToD65, c);
+            }
+
+            xyzToSrgb(c);
+        }
+
+        gamutMap(c);
+        out = Color{(float)c[0], (float)c[1], (float)c[2], (float)alpha};
 
         return true;
     }
@@ -12951,7 +13295,23 @@ namespace {
                 extend(bounds, Point{f->device.x1, f->device.y1});
             }
         } else {
+            const Op& group = (*l.out)[begin];
+
             bounds = groupBounds(*l.out, begin + 1);
+
+            // A clip of shapes keeps no pixel past their bounds, so the layer
+            // need not hold one, a viewport's content past it, say, unless a
+            // filter inside may read it as its background.
+            if (group.clipped && !group.clipProgram && !l.backgroundInputs) {
+                Box kept = emptyBox();
+
+                for (u32 k = group.clipFirst; k < group.clipFirst + group.clipCount; k++) {
+                    extend(kept, Point{l.clips[k].bounds.x0, l.clips[k].bounds.y0});
+                    extend(kept, Point{l.clips[k].bounds.x1, l.clips[k].bounds.y1});
+                }
+
+                bounds = meetBoxes(bounds, kept);
+            }
         }
 
         l.out->mut(begin).bounds = bounds;
@@ -12973,6 +13333,7 @@ namespace {
         emitEdges(l, flat, bounds);
         shape.count = (u32)l.edges.length() - shape.first;
         shape.rule = rule;
+        shape.bounds = bounds;
         l.clips.pushBack(shape);
     }
 
