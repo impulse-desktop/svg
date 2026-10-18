@@ -7349,8 +7349,8 @@ namespace {
     static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, float width, float height) {
         float vw = viewBox.x1 - viewBox.x0;
         float vh = viewBox.y1 - viewBox.y0;
-        float sx = width / vw;
-        float sy = height / vh;
+        double sx = (double)width / vw;
+        double sy = (double)height / vh;
         int alignX = 1;
         int alignY = 1;
         bool slice = false;
@@ -7397,14 +7397,16 @@ namespace {
         }
 
         if (none) {
-            return multiply(scaling(sx, sy), translation(-viewBox.x0, -viewBox.y0));
+            return multiply(scaling((float)sx, (float)sy), translation(-viewBox.x0, -viewBox.y0));
         }
 
-        float s = slice ? maxf(sx, sy) : minf(sx, sy);
-        double tx = -(double)viewBox.x0 * s + (width - (double)vw * s) * alignX * 0.5;
-        double ty = -(double)viewBox.y0 * s + (height - (double)vh * s) * alignY * 0.5;
+        // The side that sets the scale is filled exactly; only the other is
+        // aligned, so a scale rounded to a float shifts nothing.
+        double s = slice ? (sx > sy ? sx : sy) : (sx < sy ? sx : sy);
+        double tx = -(double)viewBox.x0 * s + (s == sx ? 0.0 : (width - vw * s) * alignX * 0.5);
+        double ty = -(double)viewBox.y0 * s + (s == sy ? 0.0 : (height - vh * s) * alignY * 0.5);
 
-        return Matrix{s, 0.f, 0.f, s, (float)tx, (float)ty};
+        return Matrix{(float)s, 0.f, 0.f, (float)s, (float)tx, (float)ty};
     }
 
     static void moveTo(Path& path, Point p) {

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8">
+<svg width="1024" height="1024" viewBox="0 0 1000 1000" overflow="visible">
+<filter id="f" x="0" y="-0.01" width="1" height="1.02" color-interpolation-filters="sRGB">
+<feColorMatrix type="luminanceToAlpha"/>
+<feOffset dy="2"/>
+</filter>
+<rect width="1000" height="1000" fill="white" filter="url(#f)"/>
+</svg>
+</svg>
