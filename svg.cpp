@@ -7963,6 +7963,12 @@ namespace {
         return DPoint{((q.c.x * h + 3.0 * wx) * h + 3.0 * v.x) * h, ((q.c.y * h + 3.0 * wy) * h + 3.0 * v.y) * h};
     }
 
+    static Point unitOf(DPoint d) {
+        double length = sqrt(d.x * d.x + d.y * d.y);
+
+        return Point{(float)(d.x / length), (float)(d.y / length)};
+    }
+
     static double deviation(DPoint a, DPoint b) {
         return fabs(atan2(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
     }
@@ -8132,10 +8138,23 @@ namespace {
         }
 
         double from = ta;
+        size_t first = out.dirs.length();
 
         for (double t : all) {
             addCurvePoint(out, p0, p3, q, from, t);
             from = t;
+        }
+
+        // The cubic's own ends are corners, whose joins and caps go by its
+        // tangents there, not by the chords near them.
+        if (ta == 0.0) {
+            out.dirs.mut(first) = unitOf(leaving(q, 0.0, 1.0, false));
+        }
+
+        if (tb == 1.0) {
+            DPoint back = leaving(q, 1.0, -1.0, false);
+
+            out.dirs.mutBack() = unitOf(DPoint{-back.x, -back.y});
         }
     }
 
