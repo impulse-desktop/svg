@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<!-- An image of a fragment alone is the document itself, drawn again into
+its box: the lime half lands in the right half's left; within that copy the
+same reference is not followed, so the copy's own right half is empty. The
+black lines outline the expected lime. -->
+<rect width="64" height="32" fill="white"/>
+<rect width="32" height="32" fill="lime"/>
+<image x="32" width="32" height="16" href="#"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="32" y="0" width="16" height="16"/></g>
+</svg>

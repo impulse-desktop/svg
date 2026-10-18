@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="12">
+<!-- Lime everywhere, no red. An a element draws what it holds as a g does,
+with an href or without, nested in another a too, and passes on what it
+inherits. -->
+<rect width="40" height="12" fill="red"/>
+<a href="https://example.org/"><rect width="10" height="12" fill="lime"/></a>
+<a><rect x="10" width="10" height="12" fill="lime"/></a>
+<a href="#x"><a href="#y"><rect x="20" width="10" height="12" fill="lime"/></a></a>
+<a fill="lime"><rect x="30" width="10" height="12"/></a>
+</svg>

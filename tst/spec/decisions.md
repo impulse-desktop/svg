@@ -176,3 +176,14 @@ renderer reads no min- or max- property.
 for ICC colour management. The renderer draws in sRGB, as the conforming
 viewer of `#ConformingSVGViewers` does: antialiased, resampling as
 image-rendering asks, within a pixel and a component value, CTMs in doubles.
+
+## D19. A percent: media fragment is a percent of the image's own coordinates
+
+`svg2/linking.md#SVGFragmentIdentifiersDefinitions`: with "percent:" the
+"resulting 'viewBox' transformation is calculated against referenced SVG
+resolved size (width and height)", while a pixel fragment's numbers replace
+the viewBox as they are, in user units. Taken literally, percent of a size
+in CSS pixels used as a viewBox in user units would pick a different part of
+a document whose viewBox is not its size. The renderer reads it as media
+fragments mean it, a part of the image: percentages of the root's viewBox,
+else of its size, so percent:0,0,50,50 is always the top left quarter.

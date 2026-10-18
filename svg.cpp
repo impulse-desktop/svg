@@ -1897,6 +1897,8 @@ namespace {
         float height;
         Box viewBox;
         Node* ratio;
+        // The transform an svgView() fragment adds after the viewBox.
+        Matrix transform;
     };
 
     // A raster a pass decoded for an element or a mask image's url, so
@@ -2537,6 +2539,10 @@ namespace {
         }
 
         return true;
+    }
+
+    static bool startsWith(StringView text, StringView prefix) {
+        return text.length() >= prefix.length() && StringView(text.begin(), text.begin() + prefix.length()) == prefix;
     }
 
     static bool startsWithIgnoreCase(StringView text, StringView prefix) {
@@ -15504,6 +15510,93 @@ namespace {
 
     const SvgImageVtable renderedVtable = {destroyRendered, renderedData, renderedLength, renderedWidth, renderedHeight};
 
+    // Reads up to four numbers apart by commas or spaces.
+    static u32 readNumbers(StringView text, float* out, u32 most) {
+        const u8* p = text.begin();
+        u32 count = 0;
+
+        while (count < most) {
+            while (p < text.end() && (isSpace(*p) || *p == ',')) {
+                p++;
+            }
+
+            if (!readNumber(p, text.end(), out[count])) {
+                break;
+            }
+
+            count++;
+        }
+
+        return count;
+    }
+
+    // The view an image's fragment gives the document, viewBox its own
+    // before (linking.md, SVGFragmentIdentifiersDefinitions): svgView()
+    // with its viewBox() and transform(), preserveAspectRatio() being the
+    // image's own; or the media fragment xywh=, in user units or a percent
+    // of that viewBox (tst/spec/decisions.md, D19). A time segment after &
+    // is no view. False where the view given has no width or height, so
+    // nothing draws.
+    static bool fragmentView(StringView fragment, Box& viewBox, Matrix& transform) {
+        for (const u8* p = fragment.begin(); p < fragment.end(); p++) {
+            if (*p == '&') {
+                fragment = StringView(fragment.begin(), p);
+                break;
+            }
+        }
+
+        fragment = trim(fragment);
+
+        float v[4];
+        bool given = false;
+
+        if (startsWith(fragment, SV("svgView(")) && fragment.back() == ')') {
+            StringView rest(fragment.begin() + 8, fragment.end() - 1);
+
+            while (!rest.empty()) {
+                const u8* end = rest.begin();
+
+                while (end < rest.end() && *end != ';') {
+                    end++;
+                }
+
+                StringView part = trim(StringView(rest.begin(), end));
+
+                rest = StringView(end < rest.end() ? end + 1 : end, rest.end());
+
+                if (part.empty() || part.back() != ')') {
+                    continue;
+                }
+
+                if (startsWith(part, SV("viewBox(")) && readNumbers(StringView(part.begin() + 8, part.end() - 1), v, 4) == 4) {
+                    viewBox = Box{v[0], v[1], v[0] + v[2], v[1] + v[3]};
+                    given = true;
+                } else if (startsWith(part, SV("transform("))) {
+                    parseTransform(StringView(part.begin() + 10, part.end() - 1), transform, TransformGrammar::Either);
+                }
+            }
+        } else if (startsWith(fragment, SV("xywh="))) {
+            StringView rest(fragment.begin() + 5, fragment.end());
+            bool percent = startsWith(rest, SV("percent:"));
+
+            if (percent || startsWith(rest, SV("pixel:"))) {
+                rest = StringView(rest.begin() + (percent ? 8 : 6), rest.end());
+            }
+
+            if (readNumbers(rest, v, 4) == 4) {
+                float sx = percent ? (viewBox.x1 - viewBox.x0) / 100.f : 1.f;
+                float sy = percent ? (viewBox.y1 - viewBox.y0) / 100.f : 1.f;
+                float ox = percent ? viewBox.x0 : 0.f;
+                float oy = percent ? viewBox.y0 : 0.f;
+
+                viewBox = Box{ox + v[0] * sx, oy + v[1] * sy, ox + (v[0] + v[2]) * sx, oy + (v[1] + v[3]) * sy};
+                given = true;
+            }
+        }
+
+        return !given || (viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0);
+    }
+
     // The image a reference names, its raster decoded once for the key.
     static bool loadImageFrom(Pass& l, const void* key, StringView reference, ImageSource& out) {
         for (CachedImage* cached : l.images) {
@@ -15522,9 +15615,18 @@ namespace {
         out.decoded = nullptr;
         out.cached = nullptr;
         out.ratio = nullptr;
+        out.transform = identity();
 
-        bool remote = startsWithIgnoreCase(reference, SV("http:")) || startsWithIgnoreCase(reference, SV("https:")) || (!reference.empty() && reference[0] == '#');
-        StringView fragment;
+        bool remote = startsWithIgnoreCase(reference, SV("http:")) || startsWithIgnoreCase(reference, SV("https:"));
+        // A fragment alone names the document itself, drawn again as an
+        // image (embedded.md, ImageElement); an image document references
+        // nothing so, and the copy draws once.
+        bool self = !reference.empty() && reference[0] == '#';
+        StringView fragment = self ? StringView(reference.begin() + 1, reference.end()) : StringView();
+
+        if (self && l.imageDepth > 0) {
+            return false;
+        }
 
         if (startsWithIgnoreCase(reference, SV("data:"))) {
             for (const u8* p = reference.end(); p > reference.begin(); p--) {
@@ -15536,25 +15638,30 @@ namespace {
             }
         }
 
-        bool broken = remote || (decodeDataUri(reference, mime, bytes) && bytes.length() == 0);
+        bool broken = !self && (remote || (decodeDataUri(reference, mime, bytes) && bytes.length() == 0));
 
-        if (!remote && !broken && bytes.length() == 0) {
+        if (!self && !remote && !broken && bytes.length() == 0) {
             return false;
         }
 
         StringView data = keep(*l.pool, bytes.data(), bytes.length());
 
-        if (equalsIgnoreCase(mime, SV("image/svg+xml")) && !broken) {
+        if (self || (equalsIgnoreCase(mime, SV("image/svg+xml")) && !broken)) {
             if (l.imageDepth >= 16) {
                 return false;
             }
 
-            Document* nested = l.pool->make<Document>();
+            Document* nested = self ? l.doc : l.pool->make<Document>();
 
-            loadDocument(*nested, *l.pool, data, l.fail);
+            if (!self) {
+                loadDocument(*nested, *l.pool, data, l.fail);
+            }
 
             if (nested->root && nested->root->name == AtomSvg) {
-                cascade(*nested);
+                if (!self) {
+                    cascade(*nested);
+                }
+
                 out.nested = nested;
 
                 // The document's size, a side it leaves open zero: the
@@ -15575,6 +15682,10 @@ namespace {
                 }
 
                 out.ratio = boxed;
+
+                if (!boxed && !fragmentView(fragment, out.viewBox, out.transform)) {
+                    return false;
+                }
 
                 return true;
             }
@@ -15761,8 +15872,6 @@ namespace {
     // document as its own root fits it.
     static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
         const Document& doc = *l.doc;
-        u32 ratio = node ? attribute(node, AtomPreserveAspectRatio) : 0;
-        bool stretch = ratio && trim(textOf(doc, ratio)) == SV("none");
         Box viewBox = source.viewBox;
 
         // A side a nested document leaves open is the box's, as it is.
@@ -15774,7 +15883,11 @@ namespace {
             viewBox.y1 = viewBox.y0 + h;
         }
 
-        Matrix fit = multiply(translation(x, y), source.nested && !stretch ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : (node ? viewBoxTransform(doc, node, viewBox, w, h) : scaling(w / viewBox.x1, h / viewBox.y1)));
+        // An image element fits what it draws by its own
+        // preserveAspectRatio, a document's root and view taking none
+        // (embedded.md, ImageElement); a CSS image of a document by the
+        // document's.
+        Matrix fit = multiply(translation(x, y), node ? viewBoxTransform(doc, node, viewBox, w, h) : (source.nested ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : scaling(w / viewBox.x1, h / viewBox.y1)));
         Matrix place = multiply(m, fit);
 
         CachedImage* cached = source.cached;
@@ -15853,7 +15966,7 @@ namespace {
 
         l.out->pushBack(op);
         l.rootFontSize = rootStyle.fontSize;
-        lowerChildren(l, nested->root, rootStyle, place, Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
+        lowerChildren(l, nested->root, rootStyle, multiply(place, source.transform), Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
         l.rootFontSize = outerFontSize;
         l.docWidth = outerDocWidth;
         l.docHeight = outerDocHeight;
