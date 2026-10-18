@@ -23,14 +23,17 @@ it covers; where it lies on the content's own edge (a filter whose region is
 the element's box) the edge's antialiasing is left as it is, as the pixel
 cannot tell the two apart.
 
-## D3. A non-scaling stroke is as wide in output pixels at any size
+## D3. Vector effects are computed in output pixels at any size
 
 `svg2/painting.md#non-scaling-stroke`: the outline is computed in "the
 viewport coordinate system of the furthest ancestral SVG viewport", so that
-the width depends on neither the element's transforms "and zoom level".
-`svg_document_render` stretches the document's own size to the pixels asked
-for, a zoom: the outline is computed in output pixels, and a stroke 2 wide is
-2 pixels at any size. A unit drawn at its own size shows the same either way.
+the width depends on neither the element's transforms "and zoom level";
+`svg2/coords.md#VectorEffects` takes the same host coordinate space for every
+vector effect. `svg_document_render` stretches the document's own size to the
+pixels asked for, a zoom: the host is the output's pixels, and a stroke 2 wide
+is 2 pixels at any size, a non-scaling-size shape as many pixels, a
+fixed-position one at its pixels. A unit drawn at its own size shows the same
+either way.
 
 ## D4. stroke-linejoin arcs is drawn as miter-clip
 
@@ -93,3 +96,13 @@ fills as the using pattern says, not as the template does. The browsers keep
 the template's own inheritance; Inkscape's stock patterns set their fill on
 the template and are used through link patterns that set none, so through a
 link they fill black here (three files of the corpus).
+
+## D10. A document's size comes from itself, with no host
+
+`svg2/coords.md#SizingSVGInCSS` leaves a width or height given as auto or a
+percentage to the host's CSS default sizing, with the viewBox's ratio as the
+intrinsic aspect ratio. The renderer has no host and its API gives each
+document a size (README): an absolute width and height as given; one of them
+open, from the other and the viewBox's ratio; both open, the viewBox's size;
+and with no viewBox the right and bottom edges of what the document draws.
+

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="64">
+<!-- Each lime rect fills its black outline, placed by the formulas of
+coords.md, VectorEffectsCalculation, under a parent scale(1.5) rotate(20):
+non-scaling-size keeps the rotation, not the scale; non-rotation keeps the
+scale, not the rotation; both keep neither; fixed-position puts the origin
+at the translation of the element's own transform in the outermost
+viewport's coordinates. -->
+<rect width="96" height="64" fill="white"/>
+<g transform="scale(1.5) rotate(20)" fill="lime">
+<rect width="10" height="6" transform="translate(4 4)" vector-effect="non-scaling-size"/>
+<rect width="10" height="6" transform="translate(26 4)" vector-effect="non-rotation"/>
+<rect width="10" height="6" transform="translate(48 4)" vector-effect="non-scaling-size non-rotation"/>
+<rect width="10" height="6" transform="translate(6 40)" vector-effect="fixed-position"/>
+<rect width="10" height="6" transform="translate(26 40)" vector-effect="fixed-position non-scaling-size"/>
+<rect width="10" height="6" transform="translate(46 40)" vector-effect="fixed-position non-rotation"/>
+<rect width="10" height="6" transform="translate(66 40)" vector-effect="fixed-position non-scaling-size non-rotation"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".25">
+<path d="M 3.586 7.690 L 12.983 11.110 L 10.931 16.749 L 1.534 13.328 Z"/>
+<path d="M 34.596 18.977 L 49.596 18.977 L 49.596 27.977 L 34.596 27.977 Z"/>
+<path d="M 65.606 30.264 L 75.606 30.264 L 75.606 36.264 L 65.606 36.264 Z"/>
+<path d="M 6.000 40.000 L 20.095 45.130 L 17.017 53.588 L 2.922 48.457 Z"/>
+<path d="M 26.000 40.000 L 35.397 43.420 L 33.345 49.058 L 23.948 45.638 Z"/>
+<path d="M 46.000 40.000 L 61.000 40.000 L 61.000 49.000 L 46.000 49.000 Z"/>
+<path d="M 66.000 40.000 L 76.000 40.000 L 76.000 46.000 L 66.000 46.000 Z"/>
+</g>
+</svg>

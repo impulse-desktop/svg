@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- Each lime drawing fills its black outline. A nested svg is a viewport at
+x, y clipping its content unless overflow is visible; inside it x and width
+percentages are of its viewBox's width, y and height ones of its height,
+others of its normalized diagonal; a viewBox with a negative side is no
+viewBox, one with a zero side draws nothing (no red); transform moves the
+viewport before the viewBox maps into it; a symbol a use instances is a
+viewport of the use's size. -->
+<rect width="64" height="64" fill="white"/>
+<svg x="2" y="2" width="12" height="12"><rect x="-4" y="-4" width="40" height="40" fill="lime"/></svg>
+<svg x="18" y="2" width="8" height="8" overflow="visible"><rect width="12" height="12" fill="lime"/></svg>
+<svg x="34" y="2" width="28" height="14" viewBox="0 0 56 28"><rect x="25%" y="50%" width="50%" height="50%" fill="lime"/><circle cx="28" cy="7" r="10%" fill="lime"/></svg>
+<svg x="2" y="20" width="12" height="12" viewBox="0 0 -6 6"><rect width="6" height="6" fill="lime"/></svg>
+<svg x="18" y="20" width="12" height="12" viewBox="0 0 0 6"><rect width="6" height="6" fill="red"/></svg>
+<svg x="34" y="20" width="12" height="12" viewBox="0 0 6 6" transform="translate(4 2)"><rect width="3" height="3" fill="lime"/></svg>
+<defs><symbol id="s"><rect width="50%" height="100%" fill="lime"/><rect x="-5" width="5" height="5" fill="red"/></symbol></defs>
+<use href="#s" x="2" y="40" width="20" height="10"/>
+<use href="#s" x="30" y="40" width="30" height="20"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="12" height="12"/><rect x="18" y="2" width="12" height="12"/>
+<rect x="41" y="9" width="14" height="7"/><circle cx="48" cy="5.5" r="2.214"/>
+<rect x="2" y="20" width="6" height="6"/><rect x="38" y="22" width="6" height="6"/>
+<rect x="2" y="40" width="10" height="10"/><rect x="30" y="40" width="15" height="20"/>
+</g>
+</svg>

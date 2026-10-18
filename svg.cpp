@@ -14205,8 +14205,10 @@ namespace {
 
         filter->bbox = hasBox ? bbox : Box{0.f, 0.f, 0.f, 0.f};
 
+        // Bounding box units on an element with no width or height ignore
+        // the filter (coords.md, ObjectBoundingBoxUnits).
         if ((boxRegion || filter->boxPrimitives) && !hasBox) {
-            return filter;
+            return nullptr;
         }
 
         Box region;
@@ -14782,7 +14784,9 @@ namespace {
         l.contextFill = contextPaint(shapeStyle.fill, shapeStyle);
         l.contextStroke = contextPaint(shapeStyle.stroke, shapeStyle);
         l.active.pushBack(marker);
-        lowerChildren(l, marker, markerStyle, multiply(origin, content), inside);
+        // A marker is no viewport: percentages in its content are of the
+        // shape's (coords.md, ElementsThatEstablishViewports).
+        lowerChildren(l, marker, markerStyle, multiply(origin, content), vp);
         l.active.popBack();
         l.hasContext = hadContext;
         l.contextFill = outerFill;
@@ -14868,7 +14872,7 @@ namespace {
         p.active.pushBack(marker);
 
         for (Node* child = marker->first; child; child = child->next) {
-            childExtent(p, child, multiply(origin, content), markerStyle, inside, how, depth, drawn);
+            childExtent(p, child, multiply(origin, content), markerStyle, vp, how, depth, drawn);
         }
 
         p.active.popBack();

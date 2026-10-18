@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="72">
+<!-- Each test matches its black outline or runs on into its reference. An
+object bounding box holds the curve, not its control points: the hard stop
+at half its height falls at 12.5, as the bar beside it; a group's box is the
+union of its rendered children's, without strokes or children not rendered,
+with a zero-size child's line and a zero length subpath's point; fractions
+past 0 and 1 are fractions; a box of no height ignores its objectBoundingBox
+effects: a gradient's fallback paints, a filter is not applied. -->
+<rect width="64" height="72" fill="white"/>
+<defs>
+<linearGradient id="half" x2="0" y2="1"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<clipPath id="left" clipPathUnits="objectBoundingBox"><rect width=".5" height="1"/></clipPath>
+<linearGradient id="wide" x1="-1" x2="2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="wideref" gradientUnits="userSpaceOnUse" x1="-18" x2="42"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<filter id="flood" x="0" y="0" width="1" height="1"><feFlood flood-color="red"/></filter>
+</defs>
+<path d="M 2 20 C 2 0 22 0 22 20 Z" fill="url(#half)"/>
+<rect x="24" y="5" width="4" height="7.5" fill="navy"/><rect x="24" y="12.5" width="4" height="7.5" fill="gold"/>
+<g clip-path="url(#left)" fill="lime">
+<rect x="34" y="2" width="8" height="8"/><rect x="50" y="10" width="10" height="10"/>
+<rect x="0" y="0" width="64" height="2" display="none"/>
+<path d="M 46 4 H 64" stroke="lime" stroke-width="6"/>
+</g>
+<g clip-path="url(#left)" fill="lime">
+<rect x="10" y="26" width="10" height="10"/>
+<path d="M 2 40 H 30" stroke="lime"/>
+<path d="M 2 30 h 0 M 38 30 L 38 30" stroke="lime" stroke-linecap="round" stroke-width="2"/>
+</g>
+<rect x="2" y="44" width="20" height="4" fill="url(#wide)"/><rect x="2" y="48" width="20" height="4" fill="url(#wideref)"/>
+<path d="M 2 58 H 30" stroke="url(#half) lime" stroke-width="4"/>
+<path d="M 34 58 H 62" stroke="lime" stroke-width="4" filter="url(#flood)"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="34" y="2" width="8" height="8"/><rect x="46" y="1" width="3" height="6"/>
+<rect x="2" y="26" width="18" height="14"/>
+<path d="M 2 56 H 30 V 60 H 2 Z M 34 56 H 62 V 60 H 34 Z"/>
+</g>
+</svg>

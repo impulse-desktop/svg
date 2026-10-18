@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Each lime drawing fills its black outline. pattern, marker, clipPath and
+mask establish no viewport: percentages in their content are of the
+viewport they are used in, 64 by 48 here, not of the tile, the marker's
+size or the effect's region. -->
+<rect width="64" height="48" fill="white"/>
+<defs>
+<pattern id="p" patternUnits="userSpaceOnUse" width="40" height="40"><rect width="25%" height="12.5%" fill="lime"/></pattern>
+<marker id="m" markerWidth="40" markerHeight="40" markerUnits="userSpaceOnUse"><rect width="25%" height="12.5%" fill="lime"/></marker>
+<clipPath id="c"><rect x="0" y="50%" width="50%" height="12.5%"/></clipPath>
+<mask id="k" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="48"><rect x="50%" y="75%" width="25%" height="12.5%" fill="white"/></mask>
+</defs>
+<rect x="2" y="2" width="30" height="10" fill="url(#p)"/>
+<path d="M 40 2 h 1" marker-start="url(#m)"/>
+<rect width="64" height="48" fill="lime" clip-path="url(#c)"/>
+<rect width="64" height="48" fill="lime" mask="url(#k)"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="14" height="4"/><rect x="40" y="2" width="16" height="6"/>
+<rect x="0" y="24" width="32" height="6"/><rect x="32" y="36" width="16" height="6"/>
+</g>
+</svg>

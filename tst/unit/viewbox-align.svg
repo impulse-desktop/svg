@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="72">
+<!-- Each viewport, its bounds in silver, shows the viewBox 10 20 20 10, lime
+with a navy top left quarter, within the black outline the spec's transform
+gives: the nine alignments meet in a viewport taller than wide (top row),
+then slice (middle row), then none, stretched, the numbers given with commas. -->
+<rect width="128" height="72" fill="white"/>
+<svg x="2" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMinYMin meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="2" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="16" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMidYMin meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="16" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="30" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMaxYMin meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="30" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="44" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMinYMid meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="44" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="58" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMidYMid meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="58" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="72" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMaxYMid meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="72" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="86" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMinYMax meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="86" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="100" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMidYMax meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="100" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="114" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMaxYMax meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="114" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="2" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMinYMin slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="2" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="16" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMidYMin slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="16" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="30" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMaxYMin slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="30" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="44" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMinYMid slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="44" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="58" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMidYMid slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="58" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="72" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMaxYMid slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="72" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="86" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMinYMax slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="86" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="100" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMidYMax slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="100" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="114" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMaxYMax slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<rect x="114" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
+<svg x="2" y="62" width="40" height="8" viewBox="10,20 20,10" preserveAspectRatio="none"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 2.000 2.000 h 6.000 v 3.000"/>
+<rect x="16.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 16.000 2.000 h 6.000 v 3.000"/>
+<rect x="30.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 30.000 2.000 h 6.000 v 3.000"/>
+<rect x="44.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 44.000 2.000 h 6.000 v 3.000"/>
+<rect x="58.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 58.000 2.000 h 6.000 v 3.000"/>
+<rect x="72.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 72.000 2.000 h 6.000 v 3.000"/>
+<rect x="86.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 86.000 2.000 h 6.000 v 3.000"/>
+<rect x="100.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 100.000 2.000 h 6.000 v 3.000"/>
+<rect x="114.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 114.000 2.000 h 6.000 v 3.000"/>
+<rect x="2.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 2.000 32.000 h 12.000 v 12.000"/>
+<rect x="16.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 16.000 32.000 h 6.000 v 12.000"/>
+<rect x="30.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 30.000 32.000 h 0.000 v 12.000"/>
+<rect x="44.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 44.000 32.000 h 12.000 v 12.000"/>
+<rect x="58.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 58.000 32.000 h 6.000 v 12.000"/>
+<rect x="72.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 72.000 32.000 h 0.000 v 12.000"/>
+<rect x="86.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 86.000 32.000 h 12.000 v 12.000"/>
+<rect x="100.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 100.000 32.000 h 6.000 v 12.000"/>
+<rect x="114.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 114.000 32.000 h 0.000 v 12.000"/>
+<rect x="2" y="62" width="40" height="8"/><path d="M 2 66 h 20 v -4"/>
+</g>
+</svg>
