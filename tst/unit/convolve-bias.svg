@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16" viewBox="0 0 64 16">
+<defs>
+<filter id="a" color-interpolation-filters="sRGB"><feConvolveMatrix kernelMatrix="0 0 0 0 1 0 0 0 0" bias="0.25"/></filter>
+<filter id="b" color-interpolation-filters="sRGB"><feConvolveMatrix kernelMatrix="0 0 0 0 1 0 0 0 0" bias="-0.25"/></filter>
+<filter id="c" color-interpolation-filters="sRGB"><feConvolveMatrix kernelMatrix="0 0 0 0 1 0 0 0 0" bias="1"/></filter>
+<filter id="d" color-interpolation-filters="sRGB"><feConvolveMatrix kernelMatrix="0 0 0 0 1 0 0 0 0" bias="0.25" preserveAlpha="true"/></filter>
+</defs>
+<g fill="#00ff00" fill-opacity="0.5">
+<rect x="2" y="2" width="12" height="12" filter="url(#a)"/>
+<rect x="18" y="2" width="12" height="12" filter="url(#b)"/>
+<rect x="34" y="2" width="12" height="12" filter="url(#c)"/>
+<rect x="50" y="2" width="12" height="12" filter="url(#d)"/>
+</g>
+</svg>

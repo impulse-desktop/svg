@@ -20035,9 +20035,13 @@ namespace {
                 }
 
                 u32 alpha = fixedValue(fixed, a[3]);
+                // A colour takes the bias times the alpha, the sum and bias
+                // of the alpha channel, as SVG and Filter Effects have it:
+                // the sum carries the bias whole, so the rest of it goes.
+                i64 unbiased = (i64)fixed.constant * (i64)(65535u - alpha) / 65535;
 
                 for (int ch = 0; ch < 3; ch++) {
-                    u32 v = fixedValue(fixed, a[ch]);
+                    u32 v = fixedValue(fixed, (i32)((i64)a[ch] - unbiased));
 
                     d[ch] = (u16)(v < alpha ? v : alpha);
                 }
