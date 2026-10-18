@@ -20362,8 +20362,14 @@ namespace {
 
         row.zero(n * 4);
 
-        // The map's pixel not premultiplied moves each pixel; the pixel moved
-        // to is copied as stored.
+        // A pixel of the image, none past the raster.
+        auto tap = [&](int tx, int ty) {
+            return tx < 0 || ty < 0 || tx >= (int)run.raster->width || ty >= (int)run.raster->height ? zeroStored : planeRead(in, tx, ty);
+        };
+
+        // The map's pixel not premultiplied moves each pixel's centre; the
+        // image there is read between the four pixel centres about it, so a
+        // move of a fraction of a pixel moves the image by as much.
         for (int y = box.y0; y < box.y1; y++) {
             readStored(map, box.x0, box.x1, y, row.mutData());
 
@@ -20372,14 +20378,15 @@ namespace {
 
                 unpremultiplyStored(row.data() + (size_t)(x - box.x0) * 4, m);
 
-                int tx = (int)floorf((float)x + sx * ((float)m[cx] / 65535.f - 0.5f) + 0.5f);
-                int ty = (int)floorf((float)y + sy * ((float)m[cy] / 65535.f - 0.5f) + 0.5f);
+                // Far past the raster is far enough, and an int holds it.
+                float fx = maxf(minf((float)x + sx * ((float)m[cx] / 65535.f - 0.5f), 1e9f), -1e9f);
+                float fy = maxf(minf((float)y + sy * ((float)m[cy] / 65535.f - 0.5f), 1e9f), -1e9f);
+                float x0 = floorf(fx);
+                float y0 = floorf(fy);
+                int tx = (int)x0;
+                int ty = (int)y0;
 
-                if (tx < 0 || ty < 0 || tx >= (int)run.raster->width || ty >= (int)run.raster->height) {
-                    continue;
-                }
-
-                memcpy(planeAt(out, x, y), planeRead(in, tx, ty), sizeof(u16) * 4);
+                bilinear(tap(tx, ty), tap(tx + 1, ty), tap(tx, ty + 1), tap(tx + 1, ty + 1), fx - x0, fy - y0, planeAt(out, x, y));
             }
         }
     }
