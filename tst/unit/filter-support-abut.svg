@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="50">
+<filter id="shift" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+<feOffset x="0" y="0" width="15.5" height="40"/>
+<feOffset x="15.5" y="0" width="20" height="40"/>
+</filter>
+<filter id="in" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+<feFlood flood-color="green" x="0" y="10" width="15.5" height="10" result="a"/>
+<feFlood flood-color="green" x="15.5" y="10" width="20" height="10"/>
+<feComposite in2="a" operator="in"/>
+</filter>
+<filter id="lift" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+<feOffset x="0" y="20" width="15.5" height="10"/>
+<feColorMatrix x="15.5" y="20" width="20" height="10" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0.5  0 0 0 0 1"/>
+</filter>
+<filter id="raise" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+<feOffset x="0" y="30" width="15.5" height="10"/>
+<feComponentTransfer x="15.5" y="30" width="20" height="10"><feFuncA type="linear" intercept="0.5"/></feComponentTransfer>
+</filter>
+<filter id="constant" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="40" height="50">
+<feOffset x="0" y="40" width="15.5" height="10" result="a"/>
+<feComposite in2="a" operator="arithmetic" k2="1" k4="0.25" x="15.5" y="40" width="20" height="10"/>
+</filter>
+<rect width="40" height="10" fill="navy" filter="url(#shift)"/>
+<rect width="40" height="40" fill="navy" filter="url(#in)"/>
+<rect y="20" width="40" height="10" fill="navy" filter="url(#lift)"/>
+<rect y="30" width="40" height="10" fill="navy" filter="url(#raise)"/>
+<rect y="40" width="40" height="10" fill="navy" filter="url(#constant)"/>
+</svg>

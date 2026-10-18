@@ -1794,6 +1794,9 @@ namespace {
         int* inputs;
         u32 inputCount;
         Box user;
+        // The subregion in pixels, within the filter region, and the pixels
+        // it touches: the two cut in fractions first, then rounded.
+        Box clip;
         IntBox box;
         bool linear;
         Color flood;
@@ -2489,6 +2492,14 @@ namespace {
         box.y0 = minf(box.y0, p.y);
         box.x1 = maxf(box.x1, p.x);
         box.y1 = maxf(box.y1, p.y);
+    }
+
+    static Box meetBoxes(const Box& a, const Box& b) {
+        return Box{maxf(a.x0, b.x0), maxf(a.y0, b.y0), minf(a.x1, b.x1), minf(a.y1, b.y1)};
+    }
+
+    static Box joinBoxes(const Box& a, const Box& b) {
+        return Box{minf(a.x0, b.x0), minf(a.y0, b.y0), maxf(a.x1, b.x1), maxf(a.y1, b.y1)};
     }
 
     // A box grows by its points, so it is empty in both axes or in neither.
@@ -14175,7 +14186,8 @@ namespace {
             }
 
             primitive.user = user;
-            primitive.box = user.x1 > user.x0 && user.y1 > user.y0 ? pixelBox(deviceBox(m, user), filter->region) : IntBox{0, 0, 0, 0};
+            primitive.clip = user.x1 > user.x0 && user.y1 > user.y0 ? meetBoxes(deviceBox(m, user), filter->device) : emptyBox();
+            primitive.box = pixelBox(primitive.clip, filter->region);
 
             if (child->name == AtomFeImage) {
                 Vector<Op> program;
@@ -14213,6 +14225,7 @@ namespace {
         primitive->in1 = InputSourceGraphic;
         primitive->in2 = InputSourceGraphic;
         primitive->box = IntBox{0, 0, (int)l.width, (int)l.height};
+        primitive->clip = Box{0.f, 0.f, (float)l.width, (float)l.height};
         primitive->flood = item.color;
         primitive->linear = linear;
         memcpy(primitive->params, item.values, sizeof(item.values));
@@ -18384,9 +18397,13 @@ namespace {
         return mask;
     }
 
+    // A primitive's result, and where in pixels it can be other than
+    // transparent: rectangles meet in fractions, and only that is rounded,
+    // so that two abutting subregions keep nothing between them.
     struct FilterResult {
         Plane plane;
         bool linear;
+        Box support;
     };
 
     struct FilterRun {
@@ -18710,6 +18727,27 @@ namespace {
         return cache[index];
     }
 
+    // Where an input can be other than transparent, in pixels.
+    static Box supportOf(const FilterRun& run, int index) {
+        return index >= 0 ? run.results[index].support : run.filter->device;
+    }
+
+    // Clears a result past the pixels its support touches, all of it where
+    // the support has no area.
+    static void keepSupport(const Plane& plane, const Box& support) {
+        IntBox keep = support.x1 > support.x0 && support.y1 > support.y0 ? pixelBox(support, plane.box) : IntBox{0, 0, 0, 0};
+        const IntBox& b = plane.box;
+
+        for (int y = b.y0; y < b.y1; y++) {
+            bool row = y >= keep.y0 && y < keep.y1;
+            int from = row ? keep.x0 : b.x1;
+            int to = row ? keep.x1 : b.x1;
+
+            memset(planeAt(plane, b.x0, y), 0, sizeof(u16) * 4 * (size_t)(from - b.x0));
+            memset(planeAt(plane, to, y), 0, sizeof(u16) * 4 * (size_t)(b.x1 - to));
+        }
+    }
+
     static IntBox inputBox(const FilterRun& run, int index) {
         if (index >= 0) {
             return run.filter->primitives[index].box;
@@ -18924,14 +18962,20 @@ namespace {
         }
     }
 
-    static void filterOffset(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Returns the support of its result: its input's, moved.
+    static Box filterOffset(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
         float dx = userX(f, numberOf(doc, p.node, AtomDx, 0.f));
         float dy = userY(f, numberOf(doc, p.node, AtomDy, 0.f));
+        float sx = f.ctm.a * dx + f.ctm.c * dy;
+        float sy = f.ctm.b * dx + f.ctm.d * dy;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
+        Box from = supportOf(run, p.in1);
 
-        shiftBuffer(in, out, p.box, f.ctm.a * dx + f.ctm.c * dy, f.ctm.b * dx + f.ctm.d * dy);
+        shiftBuffer(in, out, p.box, sx, sy);
+
+        return meetBoxes(p.clip, Box{from.x0 + sx, from.y0 + sy, from.x1 + sx, from.y1 + sy});
     }
 
     static int blurReach(float sigma) {
@@ -19413,7 +19457,8 @@ namespace {
         return v < 65535u ? v : 65535u;
     }
 
-    static void filterColorMatrix(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Returns whether a transparent pixel comes out other than transparent.
+    static bool filterColorMatrix(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
         float m[20] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0};
@@ -19512,6 +19557,8 @@ namespace {
                 o[x * 4 + 3] = (u16)v[3];
             }
         }
+
+        return m[19] > 0.f;
     }
 
     // A transfer function over a stored channel not premultiplied: a table
@@ -19577,7 +19624,8 @@ namespace {
         }
     }
 
-    static void filterComponentTransfer(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Returns whether a transparent pixel comes out other than transparent.
+    static bool filterComponentTransfer(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
         TransferFunction functions[4];
@@ -19654,6 +19702,8 @@ namespace {
                 o[x * 4 + 3] = (u16)alpha;
             }
         }
+
+        return transfer(functions[3], 0) > 0;
     }
 
     static bool arithmeticOf(const Document& doc, const FilterPrimitive& p) {
@@ -19714,7 +19764,9 @@ namespace {
     // input by the other's alpha, its complement, 0 or 1: a factor is a
     // constant plus or minus that alpha, taken by masks. The arithmetic one
     // has real coefficients and goes through floats.
-    static void filterComposite(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Returns the support of its result: where the operator keeps a or b,
+    // or both, or its constant term lights all of its subregion.
+    static Box filterComposite(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane a = filterInputBuffer(run, p.in1, p.linear);
         Plane b = filterInputBuffer(run, p.in2, p.linear);
@@ -19789,6 +19841,16 @@ namespace {
 
             twoTermSpan(planeAt(out, box.x0, y), rowA.data(), rowB.data(), fa.data(), fb.data(), n);
         }
+
+        Box sa = supportOf(run, p.in1);
+        Box sb = supportOf(run, p.in2);
+        Box both = meetBoxes(sa, sb);
+        Box either = joinBoxes(sa, sb);
+        Box terms = joinBoxes(joinBoxes(k1 != 0.f ? both : emptyBox(), k2 != 0.f ? sa : emptyBox()), k3 != 0.f ? sb : emptyBox());
+        static const int kept[6] = {2, 0, 1, 3, 2, 2};
+        Box modes[4] = {both, sa, either, sb};
+
+        return meetBoxes(p.clip, arithmetic ? (k4 > 0.f ? p.clip : terms) : modes[kept[mode]]);
     }
 
     static int blendMode(StringView text) {
@@ -21587,13 +21649,16 @@ namespace {
             }
 
             Plane out = makePlane(p.box);
+            // Where the result can be other than transparent: its subregion,
+            // or less where it keeps transparent what its inputs leave so.
+            Box support = p.clip;
 
             switch (p.kind) {
                 case AtomFeFlood:
                     filterFlood(p, out);
                     break;
                 case AtomFeOffset:
-                    filterOffset(run, p, out);
+                    support = filterOffset(run, p, out);
                     break;
                 case AtomFeGaussianBlur:
                     filterBlur(run, p, out);
@@ -21602,19 +21667,27 @@ namespace {
                     filterDropShadow(run, p, out);
                     break;
                 case AtomFeColorMatrix:
-                    filterColorMatrix(run, p, out);
+                    support = filterColorMatrix(run, p, out) ? p.clip : meetBoxes(p.clip, supportOf(run, p.in1));
                     break;
                 case AtomFeComponentTransfer:
-                    filterComponentTransfer(run, p, out);
+                    support = filterComponentTransfer(run, p, out) ? p.clip : meetBoxes(p.clip, supportOf(run, p.in1));
                     break;
                 case AtomFeComposite:
-                    filterComposite(run, p, out);
+                    support = filterComposite(run, p, out);
                     break;
                 case AtomFeBlend:
                     filterBlend(run, p, out);
+                    support = meetBoxes(p.clip, joinBoxes(supportOf(run, p.in1), supportOf(run, p.in2)));
                     break;
                 case AtomFeMerge:
                     filterMerge(run, p, out);
+                    support = emptyBox();
+
+                    for (u32 i = 0; i < p.inputCount; i++) {
+                        support = joinBoxes(support, supportOf(run, p.inputs[i]));
+                    }
+
+                    support = meetBoxes(p.clip, support);
                     break;
                 case AtomFeMorphology:
                     filterMorphology(run, p, out);
@@ -21641,7 +21714,8 @@ namespace {
                     break;
             }
 
-            run.results.mut(k) = FilterResult{out, p.linear};
+            keepSupport(out, support);
+            run.results.mut(k) = FilterResult{out, p.linear, support};
             done.mut(k) = 1;
             stack.popBack();
 
