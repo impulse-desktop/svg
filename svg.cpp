@@ -1187,6 +1187,11 @@ namespace {
         float y;
     };
 
+    struct DPoint {
+        double x;
+        double y;
+    };
+
     struct Matrix {
         float a;
         float b;
@@ -7523,12 +7528,15 @@ namespace {
         return true;
     }
 
+    // The current point goes in doubles, each point stored rounded once to
+    // floats: relative steps that come back to a point come back to it, as
+    // written, without the floats' error adding up along the path.
     static void parsePathData(StringView text, Path& path) {
         const u8* p = text.begin();
         const u8* end = text.end();
-        Point current{0.f, 0.f};
-        Point start{0.f, 0.f};
-        Point control{0.f, 0.f};
+        DPoint current{0.0, 0.0};
+        DPoint start{0.0, 0.0};
+        DPoint control{0.0, 0.0};
         u8 command = 0;
         u8 previous = 0;
         bool needMove = false;
@@ -7559,7 +7567,10 @@ namespace {
 
             bool relative = command >= 'a';
             u8 upper = relative ? (u8)(command - 32) : command;
-            Point base = relative ? current : Point{0.f, 0.f};
+            DPoint base = relative ? current : DPoint{0.0, 0.0};
+            auto stored = [](DPoint q) {
+                return Point{(float)q.x, (float)q.y};
+            };
 
             if (upper == 'Z') {
                 closePath(path);
@@ -7571,7 +7582,7 @@ namespace {
             }
 
             if (needMove && upper != 'M') {
-                moveTo(path, current);
+                moveTo(path, stored(current));
             }
 
             needMove = false;
@@ -7629,57 +7640,57 @@ namespace {
 
             switch (upper) {
                 case 'M':
-                    current = Point{base.x + v[0], base.y + v[1]};
+                    current = DPoint{base.x + v[0], base.y + v[1]};
                     start = current;
-                    moveTo(path, current);
+                    moveTo(path, stored(current));
                     break;
                 case 'L':
-                    current = Point{base.x + v[0], base.y + v[1]};
-                    lineTo(path, current);
+                    current = DPoint{base.x + v[0], base.y + v[1]};
+                    lineTo(path, stored(current));
                     break;
                 case 'H':
-                    current = Point{(relative ? current.x : 0.f) + v[0], current.y};
-                    lineTo(path, current);
+                    current = DPoint{base.x + v[0], current.y};
+                    lineTo(path, stored(current));
                     break;
                 case 'V':
-                    current = Point{current.x, (relative ? current.y : 0.f) + v[0]};
-                    lineTo(path, current);
+                    current = DPoint{current.x, base.y + v[0]};
+                    lineTo(path, stored(current));
                     break;
                 case 'C': {
-                    Point c1{base.x + v[0], base.y + v[1]};
-                    Point c2{base.x + v[2], base.y + v[3]};
-                    Point to{base.x + v[4], base.y + v[5]};
+                    DPoint c1{base.x + v[0], base.y + v[1]};
+                    DPoint c2{base.x + v[2], base.y + v[3]};
+                    DPoint to{base.x + v[4], base.y + v[5]};
 
-                    cubicTo(path, c1, c2, to);
+                    cubicTo(path, stored(c1), stored(c2), stored(to));
                     control = c2;
                     current = to;
                 } break;
                 case 'S': {
-                    Point c1 = previous == 'C' || previous == 'S' ? Point{2.f * current.x - control.x, 2.f * current.y - control.y} : current;
-                    Point c2{base.x + v[0], base.y + v[1]};
-                    Point to{base.x + v[2], base.y + v[3]};
+                    DPoint c1 = previous == 'C' || previous == 'S' ? DPoint{2.0 * current.x - control.x, 2.0 * current.y - control.y} : current;
+                    DPoint c2{base.x + v[0], base.y + v[1]};
+                    DPoint to{base.x + v[2], base.y + v[3]};
 
-                    cubicTo(path, c1, c2, to);
+                    cubicTo(path, stored(c1), stored(c2), stored(to));
                     control = c2;
                     current = to;
                 } break;
                 case 'Q':
                 case 'T': {
-                    Point q = upper == 'Q' ? Point{base.x + v[0], base.y + v[1]} : (previous == 'Q' || previous == 'T' ? Point{2.f * current.x - control.x, 2.f * current.y - control.y} : current);
-                    Point to = upper == 'Q' ? Point{base.x + v[2], base.y + v[3]} : Point{base.x + v[0], base.y + v[1]};
-                    Point c1{current.x + 2.f / 3.f * (q.x - current.x), current.y + 2.f / 3.f * (q.y - current.y)};
-                    Point c2{to.x + 2.f / 3.f * (q.x - to.x), to.y + 2.f / 3.f * (q.y - to.y)};
+                    DPoint q = upper == 'Q' ? DPoint{base.x + v[0], base.y + v[1]} : (previous == 'Q' || previous == 'T' ? DPoint{2.0 * current.x - control.x, 2.0 * current.y - control.y} : current);
+                    DPoint to = upper == 'Q' ? DPoint{base.x + v[2], base.y + v[3]} : DPoint{base.x + v[0], base.y + v[1]};
+                    DPoint c1{current.x + 2.0 / 3.0 * (q.x - current.x), current.y + 2.0 / 3.0 * (q.y - current.y)};
+                    DPoint c2{to.x + 2.0 / 3.0 * (q.x - to.x), to.y + 2.0 / 3.0 * (q.y - to.y)};
 
-                    cubicTo(path, c1, c2, to);
+                    cubicTo(path, stored(c1), stored(c2), stored(to));
                     control = q;
                     current = to;
                     break;
                 }
                 default: {
                     // 'A', the last command of the count switch above.
-                    Point to{base.x + v[5], base.y + v[6]};
+                    DPoint to{base.x + v[5], base.y + v[6]};
 
-                    arcTo(path, current, v[0], v[1], v[2], largeArc, sweepArc, to);
+                    arcTo(path, stored(current), v[0], v[1], v[2], largeArc, sweepArc, stored(to));
                     current = to;
                     break;
                 }
@@ -7920,11 +7931,6 @@ namespace {
 
         points.pushBack(p3);
     }
-
-    struct DPoint {
-        double x;
-        double y;
-    };
 
     // A cubic as powers of t from its start, in doubles, which keep its
     // shape where the floats of points along it cannot: from p0 it is at
