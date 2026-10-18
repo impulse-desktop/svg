@@ -11667,12 +11667,36 @@ namespace {
         }
     }
 
+    // The side of (px, py) from the edge u v, taken from the edge's points in
+    // one order whichever triangle holds it: two triangles sharing an edge
+    // see exactly opposite numbers, so no pixel centre falls between them.
+    static float edgeSide(Point u, Point v, float px, float py) {
+        bool swap = v.x < u.x || (v.x == u.x && v.y < u.y);
+        Point s = swap ? v : u;
+        Point t = swap ? u : v;
+        float side = (t.x - s.x) * (py - s.y) - (t.y - s.y) * (px - s.x);
+
+        return swap ? -side : side;
+    }
+
+    // A centre on an edge goes to one of the two triangles: the one that,
+    // turned the positive way, runs the edge downwards, or rightwards when
+    // the edge is level.
+    static bool edgeOwns(Point u, Point v, float turn) {
+        float dx = (v.x - u.x) * turn;
+        float dy = (v.y - u.y) * turn;
+
+        return dy > 0.f || (dy == 0.f && dx > 0.f);
+    }
+
     static void meshTriangle(u16* buffer, int width, int height, const MeshVertex& a, const MeshVertex& b, const MeshVertex& c) {
         float area = (b.p.x - a.p.x) * (c.p.y - a.p.y) - (c.p.x - a.p.x) * (b.p.y - a.p.y);
 
         if (fabsf(area) < 1e-12f) {
             return;
         }
+
+        float turn = area > 0.f ? 1.f : -1.f;
 
         int x0 = (int)floorf(minf(a.p.x, minf(b.p.x, c.p.x)));
         int y0 = (int)floorf(minf(a.p.y, minf(b.p.y, c.p.y)));
@@ -11688,18 +11712,19 @@ namespace {
             for (int x = x0; x < x1; x++) {
                 float px = (float)x + 0.5f;
                 float py = (float)y + 0.5f;
-                float wa = ((b.p.x - px) * (c.p.y - py) - (c.p.x - px) * (b.p.y - py)) / area;
-                float wb = ((c.p.x - px) * (a.p.y - py) - (a.p.x - px) * (c.p.y - py)) / area;
-                float wc = 1.f - wa - wb;
+                float ea = edgeSide(b.p, c.p, px, py) * turn;
+                float eb = edgeSide(c.p, a.p, px, py) * turn;
+                float ec = edgeSide(a.p, b.p, px, py) * turn;
 
-                if (wa < 0.f || wb < 0.f || wc < 0.f || (wa == 0.f && wb == 0.f)) {
+                if (ea < 0.f || eb < 0.f || ec < 0.f || (ea == 0.f && !edgeOwns(b.p, c.p, turn)) || (eb == 0.f && !edgeOwns(c.p, a.p, turn)) || (ec == 0.f && !edgeOwns(a.p, b.p, turn))) {
                     continue;
                 }
 
+                float sum = ea + eb + ec;
                 float d[4];
 
                 for (int k = 0; k < 4; k++) {
-                    d[k] = wa * a.c[k] + wb * b.c[k] + wc * c.c[k];
+                    d[k] = (ea * a.c[k] + eb * b.c[k] + ec * c.c[k]) / sum;
                 }
 
                 storePixel(buffer + ((size_t)y * width + x) * 4, d);
@@ -11897,34 +11922,21 @@ namespace {
 
         memset(buffer, 0, sizeof(u16) * (size_t)width * height * 4);
 
+        // Patches sharing an edge cut it at the same points, or a pixel could
+        // fall between their two chords: a row of patches takes one count down
+        // its sides, a column one along its tops and bottoms.
+        Vector<int> along;
+        Vector<int> down;
+
+        along.zero(columns);
+        down.zero(rows);
+
         for (u32 r = 0; r < rows; r++) {
             for (u32 c = 0; c < columns; c++) {
-                const Point* top = horizontal.data() + ((size_t)r * columns + c) * 4;
-                const Point* bottom = horizontal.data() + ((size_t)(r + 1) * columns + c) * 4;
-                const Point* left = vertical.data() + ((size_t)r * stride + c) * 4;
-                const Point* right = vertical.data() + ((size_t)r * stride + c + 1) * 4;
-                Color corner[4] = {colors[r * stride + c], colors[r * stride + c + 1], colors[(r + 1) * stride + c], colors[(r + 1) * stride + c + 1]};
-                Color smooth[81];
+                const Point* edges[4] = {horizontal.data() + ((size_t)r * columns + c) * 4, horizontal.data() + ((size_t)(r + 1) * columns + c) * 4, vertical.data() + ((size_t)r * stride + c) * 4, vertical.data() + ((size_t)r * stride + c + 1) * 4};
                 float extent = 0.f;
 
-                if (bicubic) {
-                    u32 index[4] = {r * stride + c, r * stride + c + 1, (r + 1) * stride + c, (r + 1) * stride + c + 1};
-                    Point points[4];
-                    Color du[4];
-                    Color dv[4];
-
-                    for (int k = 0; k < 4; k++) {
-                        points[k] = corners[index[k]];
-                        du[k] = horizontalSlopes[index[k]];
-                        dv[k] = verticalSlopes[index[k]];
-                    }
-
-                    meshColors(corner, points, du, dv, smooth);
-                }
-
                 for (int k = 0; k < 3; k++) {
-                    const Point* edges[4] = {top, bottom, left, right};
-
                     for (const Point* e : edges) {
                         Point a = apply(local, e[k]);
                         Point b = apply(local, e[k + 1]);
@@ -11941,24 +11953,68 @@ namespace {
                     n = (n + 7) / 8 * 8;
                 }
 
+                along.mutData()[c] = along[c] > n ? along[c] : n;
+                down.mutData()[r] = down[r] > n ? down[r] : n;
+            }
+        }
+
+        for (u32 r = 0; r < rows; r++) {
+            for (u32 c = 0; c < columns; c++) {
+                const Point* top = horizontal.data() + ((size_t)r * columns + c) * 4;
+                const Point* bottom = horizontal.data() + ((size_t)(r + 1) * columns + c) * 4;
+                const Point* left = vertical.data() + ((size_t)r * stride + c) * 4;
+                const Point* right = vertical.data() + ((size_t)r * stride + c + 1) * 4;
+                Color corner[4] = {colors[r * stride + c], colors[r * stride + c + 1], colors[(r + 1) * stride + c], colors[(r + 1) * stride + c + 1]};
+                Color smooth[81];
+
+                if (bicubic) {
+                    u32 index[4] = {r * stride + c, r * stride + c + 1, (r + 1) * stride + c, (r + 1) * stride + c + 1};
+                    Point points[4];
+                    Color du[4];
+                    Color dv[4];
+
+                    for (int k = 0; k < 4; k++) {
+                        points[k] = corners[index[k]];
+                        du[k] = horizontalSlopes[index[k]];
+                        dv[k] = verticalSlopes[index[k]];
+                    }
+
+                    meshColors(corner, points, du, dv, smooth);
+                }
+
+                int nu = along[c];
+                int nv = down[r];
                 Vector<MeshVertex> grid;
 
-                grid.zero((size_t)(n + 1) * (n + 1));
+                grid.zero((size_t)(nv + 1) * (nu + 1));
 
-                for (int a = 0; a <= n; a++) {
-                    float v = (float)a / (float)n;
+                for (int a = 0; a <= nv; a++) {
+                    float v = (float)a / (float)nv;
                     Point l0 = bezierAt(left, v);
                     Point r0 = bezierAt(right, v);
 
-                    for (int b = 0; b <= n; b++) {
-                        float u = (float)b / (float)n;
+                    for (int b = 0; b <= nu; b++) {
+                        float u = (float)b / (float)nu;
                         Point t0 = bezierAt(top, u);
                         Point b0 = bezierAt(bottom, u);
                         Point p{
                             (1.f - v) * t0.x + v * b0.x + (1.f - u) * l0.x + u * r0.x - ((1.f - u) * (1.f - v) * top[0].x + u * (1.f - v) * top[3].x + (1.f - u) * v * bottom[0].x + u * v * bottom[3].x),
                             (1.f - v) * t0.y + v * b0.y + (1.f - u) * l0.y + u * r0.y - ((1.f - u) * (1.f - v) * top[0].y + u * (1.f - v) * top[3].y + (1.f - u) * v * bottom[0].y + u * v * bottom[3].y),
                         };
-                        MeshVertex& vertex = grid.mutData()[(size_t)a * (n + 1) + b];
+
+                        // On its sides a patch is its edges, and its corners
+                        // the mesh's: the sum above cancels in floats only
+                        // nearly, differently in the patch across.
+                        bool side = b == 0 || b == nu;
+
+                        if (side && (a == 0 || a == nv)) {
+                            p = corners[(r + (a == nv)) * stride + c + (b == nu)];
+                        } else if (side) {
+                            p = b == 0 ? l0 : r0;
+                        } else if (a == 0 || a == nv) {
+                            p = a == 0 ? t0 : b0;
+                        }
+                        MeshVertex& vertex = grid.mutData()[(size_t)a * (nu + 1) + b];
                         float w[4] = {(1.f - u) * (1.f - v), u * (1.f - v), (1.f - u) * v, u * v};
                         float color[4] = {0.f, 0.f, 0.f, 0.f};
 
@@ -11970,8 +12026,8 @@ namespace {
                         }
 
                         if (bicubic) {
-                            int x = b == n ? 7 : b * 8 / n;
-                            int y = a == n ? 7 : a * 8 / n;
+                            int x = b == nu ? 7 : b * 8 / nu;
+                            int y = a == nv ? 7 : a * 8 / nv;
                             float fx = u * 8.f - (float)x;
                             float fy = v * 8.f - (float)y;
                             float weights[4] = {(1.f - fx) * (1.f - fy), fx * (1.f - fy), (1.f - fx) * fy, fx * fy};
@@ -11997,12 +12053,12 @@ namespace {
                     }
                 }
 
-                for (int a = 0; a < n; a++) {
-                    for (int b = 0; b < n; b++) {
-                        const MeshVertex& p00 = grid[(size_t)a * (n + 1) + b];
-                        const MeshVertex& p01 = grid[(size_t)a * (n + 1) + b + 1];
-                        const MeshVertex& p10 = grid[(size_t)(a + 1) * (n + 1) + b];
-                        const MeshVertex& p11 = grid[(size_t)(a + 1) * (n + 1) + b + 1];
+                for (int a = 0; a < nv; a++) {
+                    for (int b = 0; b < nu; b++) {
+                        const MeshVertex& p00 = grid[(size_t)a * (nu + 1) + b];
+                        const MeshVertex& p01 = grid[(size_t)a * (nu + 1) + b + 1];
+                        const MeshVertex& p10 = grid[(size_t)(a + 1) * (nu + 1) + b];
+                        const MeshVertex& p11 = grid[(size_t)(a + 1) * (nu + 1) + b + 1];
 
                         meshTriangle(buffer, width, height, p00, p01, p11);
                         meshTriangle(buffer, width, height, p00, p11, p10);
