@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="102" height="122">
+<!-- Each test runs on into the reference under it without a step: a mask of
+tiles over lime, and under it the tiles as CSS Backgrounds lays them out,
+drawn as lime rectangles: repeat, repeat-x and -y, two keywords, space,
+space with room for one, round; positions of one, two and four components,
+three being no <position> and so no mask, and percentages of the room
+left; natural size, contain, cover, one length with the ratio, a
+percentage, a size of zero, round with an auto side. -->
+<rect width="102" height="122" fill="white"/>
+<rect x="2" y="2" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 4px 3px repeat"/>
+<svg x="2" y="13" width="16" height="10"><rect x="0.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="3.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="6.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="9.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="4.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="4.0000" y="3.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="4.0000" y="6.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="4.0000" y="9.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="8.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="8.0000" y="3.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="8.0000" y="6.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="8.0000" y="9.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="12.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="12.0000" y="3.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="12.0000" y="6.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="12.0000" y="9.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="22" y="2" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 4px 3px repeat-x"/>
+<svg x="22" y="13" width="16" height="10"><rect x="0.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="4.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="8.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="12.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="42" y="2" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 4px 3px repeat-y"/>
+<svg x="42" y="13" width="16" height="10"><rect x="0.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="3.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="6.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="9.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="62" y="2" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 4px 3px no-repeat repeat"/>
+<svg x="62" y="13" width="16" height="10"><rect x="0.0000" y="0.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="3.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="6.0000" width="4.0000" height="3.0000" fill="lime"/><rect x="0.0000" y="9.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="82" y="2" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 6px 4px space"/>
+<svg x="82" y="13" width="16" height="10"><rect x="0.0000" y="0.0000" width="6.0000" height="4.0000" fill="lime"/><rect x="0.0000" y="6.0000" width="6.0000" height="4.0000" fill="lime"/><rect x="10.0000" y="0.0000" width="6.0000" height="4.0000" fill="lime"/><rect x="10.0000" y="6.0000" width="6.0000" height="4.0000" fill="lime"/></svg>
+<rect x="2" y="26" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 50% 0 / 9px 3px space no-repeat"/>
+<svg x="2" y="37" width="16" height="10"><rect x="3.5000" y="0.0000" width="9.0000" height="3.0000" fill="lime"/></svg>
+<rect x="22" y="26" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 7px 6px round"/>
+<svg x="22" y="37" width="16" height="10"><rect x="0.0000" y="0.0000" width="8.0000" height="5.0000" fill="lime"/><rect x="0.0000" y="5.0000" width="8.0000" height="5.0000" fill="lime"/><rect x="8.0000" y="0.0000" width="8.0000" height="5.0000" fill="lime"/><rect x="8.0000" y="5.0000" width="8.0000" height="5.0000" fill="lime"/></svg>
+<rect x="42" y="26" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 100% 100% / 4px 3px no-repeat"/>
+<svg x="42" y="37" width="16" height="10"><rect x="12.0000" y="7.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="62" y="26" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) right / 4px 3px no-repeat"/>
+<svg x="62" y="37" width="16" height="10"><rect x="12.0000" y="3.5000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="82" y="26" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) right 2px bottom 3px / 4px 3px no-repeat"/>
+<svg x="82" y="37" width="16" height="10"><rect x="10.0000" y="4.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="2" y="50" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) left 3px top / 4px 3px no-repeat"/>
+<svg x="2" y="61" width="16" height="10"><rect x="0.0000" y="0.0000" width="16.0000" height="10.0000" fill="lime"/></svg>
+<rect x="22" y="50" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) top 2px left -1px / 4px 3px no-repeat"/>
+<svg x="22" y="61" width="16" height="10"><rect x="-1.0000" y="2.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="42" y="50" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 25% bottom / 4px 3px no-repeat"/>
+<svg x="42" y="61" width="16" height="10"><rect x="3.0000" y="7.0000" width="4.0000" height="3.0000" fill="lime"/></svg>
+<rect x="62" y="50" width="16" height="10" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAEElEQVR42mNgYGD4j4QRHABE1QX7lwvfHgAAAABJRU5ErkJggg==) 0 0 no-repeat"/>
+<svg x="62" y="61" width="16" height="10"><rect x="0.0000" y="0.0000" width="3.0000" height="2.0000" fill="lime"/></svg>
+<rect x="82" y="50" width="16" height="10" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAEElEQVR42mNgYGD4j4QRHABE1QX7lwvfHgAAAABJRU5ErkJggg==) 0 0 / contain no-repeat"/>
+<svg x="82" y="61" width="16" height="10"><rect x="0.0000" y="0.0000" width="15.0000" height="10.0000" fill="lime"/></svg>
+<rect x="2" y="74" width="16" height="10" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAEElEQVR42mNgYGD4j4QRHABE1QX7lwvfHgAAAABJRU5ErkJggg==) 0 0 / cover no-repeat"/>
+<svg x="2" y="85" width="16" height="10"><rect x="0.0000" y="0.0000" width="16.0000" height="10.6667" fill="lime"/></svg>
+<rect x="22" y="74" width="16" height="10" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAEElEQVR42mNgYGD4j4QRHABE1QX7lwvfHgAAAABJRU5ErkJggg==) 0 0 / 6px no-repeat"/>
+<svg x="22" y="85" width="16" height="10"><rect x="0.0000" y="0.0000" width="6.0000" height="4.0000" fill="lime"/></svg>
+<rect x="42" y="74" width="16" height="10" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAEElEQVR42mNgYGD4j4QRHABE1QX7lwvfHgAAAABJRU5ErkJggg==) 0 0 / auto 4px no-repeat"/>
+<svg x="42" y="85" width="16" height="10"><rect x="0.0000" y="0.0000" width="6.0000" height="4.0000" fill="lime"/></svg>
+<rect x="62" y="74" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 50% no-repeat"/>
+<svg x="62" y="85" width="16" height="10"><rect x="0.0000" y="0.0000" width="8.0000" height="10.0000" fill="lime"/></svg>
+<rect x="82" y="74" width="16" height="10" fill="lime" style="mask: linear-gradient(black, black) 0 0 / 0 3px"/>
+<svg x="82" y="85" width="16" height="10"></svg>
+<rect x="2" y="98" width="16" height="10" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAEElEQVR42mNgYGD4j4QRHABE1QX7lwvfHgAAAABJRU5ErkJggg==) 0 0 / 7px auto round no-repeat"/>
+<svg x="2" y="109" width="16" height="10"><rect x="0.0000" y="0.0000" width="8.0000" height="5.3333" fill="lime"/><rect x="8.0000" y="0.0000" width="8.0000" height="5.3333" fill="lime"/></svg>
+</svg>

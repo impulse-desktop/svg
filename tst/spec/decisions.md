@@ -282,3 +282,14 @@ colour into sRGB by the Binary Search with local MINDE algorithm when it
 reads it, and a gradient between two colours outside sRGB interpolates
 their mapped values. Every colour inside sRGB, all of SVG 1.1's and the
 legacy functions' in range, is unchanged by this.
+
+## D28. Tiles of a fractional period are drawn from one rasterized tile
+
+`css-backgrounds-3.md#valdef-background-repeat-space` and `#background-size`
+(round) place tiles at exact, often fractional, offsets: space spreads the
+room left between whole copies, round rescales a tile to a whole count. The
+renderer draws a tiled mask layer, as a pattern, by rasterizing one tile
+and sampling it at the period, so where the period is no whole number of
+pixels a tile's edges blur and move within a pixel of their exact place. A
+tile of a whole period, an image tiled edge to edge and a single tile are
+drawn exactly.
