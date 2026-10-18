@@ -1,25 +1,19 @@
 #!/usr/bin/env python3
-"""Draw the references tst/corpus/CANON overrides with the renderer itself.
+"""Draw a case's references with the canon's svg.
 
-Chromium draws every reference of the corpus (tst/reference.py); a case
-CANON lists, where Chromium differs from the renderer on purpose and the
-renderer was shown right, takes the renderer's own drawing instead, at the
-sizes of its references.
+The canon is a revision of this repository, tst/CANON: build.py builds svg
+there and draws with it every reference a case is scored against, at the
+sizes Chromium's references had, the longest side 256 and 512, at SIDE
+pixels a side unless the case is drawn straight.
 
-usage: tst/canon.py SVG CORPUS_DIR
+usage: tst/canon.py SVG CASE.svg SIDE OUT_1X.png OUT_2X.png
 """
-import os
 import struct
 import subprocess
 import sys
 import zlib
 
-LABELS = ["1x", "2x"]
-
-
-def size(path):
-    with open(path, "rb") as handle:
-        return struct.unpack(">II", handle.read(24)[16:24])
+SIDES = [256, 512]
 
 
 def decode(path):
@@ -67,47 +61,18 @@ def decode(path):
     return width, height, out
 
 
-def ours(program, jobs, side):
-    # Native snapshots need geometric evidence independent of their pixels.
-    tests = os.path.dirname(os.path.abspath(__file__))
-    for test in ["curve_area.py", "straight_curves.py", "circle_coverage.py"]:
-        subprocess.run([sys.executable, os.path.join(tests, test), program], check=True)
-    for svg, png, width, height in jobs:
-        # A file the test draws straight at its reference size is drawn so.
-        straight = subprocess.run([program, "size", svg], capture_output=True, text=True, check=True).stdout.rstrip().endswith(" straight")
-        subprocess.run([program, "render", svg, png, str(width), str(height)] + ([] if straight else [str(side)]), check=True)
-    source = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    commit = subprocess.run(["git", "-C", source, "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
-    return f"svg at {commit}"
-
-
 def main():
-    if len(sys.argv) != 3:
-        sys.exit("usage: tst/canon.py SVG CORPUS_DIR")
-    program, corpus = os.path.abspath(sys.argv[1]), os.path.abspath(sys.argv[2])
-    with open(os.path.join(corpus, "SIDE")) as handle:
-        side = int(handle.read())
-    jobs = []
-    with open(os.path.join(corpus, "CANON")) as handle:
-        for line in handle:
-            fields = [field.strip() for field in line.split(":", 2)]
-            if len(fields) != 3:
-                continue
-            if fields[1] != "ours":
-                sys.exit(f"{fields[0]}: CANON names {fields[1]}; only ours draws references")
-            for label in LABELS:
-                png = os.path.join(corpus, f"{fields[0]}.{label}.png")
-                width, height = size(png)
-                jobs.append((os.path.join(corpus, fields[0] + ".svg"), png, width, height))
-    if not jobs:
-        sys.exit(f"no cases in {os.path.join(corpus, 'CANON')}")
-    version = ours(program, jobs, side)
-    missing = [png for _, png, width, height in jobs if not os.path.exists(png) or size(png) != (width, height)]
-    if missing:
-        sys.exit("ours did not draw " + " ".join(missing))
-    with open(os.path.join(corpus, "OURS"), "w") as handle:
-        handle.write(version + "\n")
-    print(f"drew {len(jobs) // len(LABELS)} cases with {version}")
+    if len(sys.argv) != 6:
+        sys.exit("usage: tst/canon.py SVG CASE.svg SIDE OUT_1X.png OUT_2X.png")
+    program, case, side, outs = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4:]
+    fields = subprocess.run([program, "size", case], capture_output=True, text=True, check=True).stdout.split()
+    width, height = float(fields[1]), float(fields[2])
+    straight = len(fields) > 3 and fields[3] == "straight"
+    longest = max(width, height)
+    for out, target in zip(outs, SIDES):
+        scale = target / longest
+        size = [str(max(1, round(width * scale))), str(max(1, round(height * scale)))]
+        subprocess.run([program, "render", case, out, *size] + ([] if straight else [side]), check=True)
 
 
 if __name__ == "__main__":

@@ -84,7 +84,7 @@ install(svg)
 # A check imports canon, which imports the reference modules, so every
 # script under tst is an input of every check.
 checks = []
-for check in ["viewport_units", "cascade_priority"]:
+for check in ["viewport_units", "cascade_priority", "curve_area", "straight_curves", "circle_coverage"]:
     checks.append(command(
         name="check_" + check,
         inputs=build.glob("$(S)/tst/*.py"),
@@ -134,8 +134,31 @@ smoke = command(
 )
 
 
+# The canon is a revision of this repository, tst/CANON: a workspace of the
+# tree there builds its own svg, plainly, without the sanitizers or the
+# coverage of this build, and that binary draws every reference the cases
+# and units are compared with. Recanonizing moves the revision.
+root = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(root, "tst", "CANON")) as handle:
+    revision = handle.read().strip()
+canon = command(
+    name="canon_svg",
+    inputs=["$(S)/tst/CANON"],
+    outputs=["$(B)/canon/svg"],
+    cmd=["sh", "-c", """set -eu
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
+git -c safe.directory='*' -C "$0" archive "$1" -- . ':(exclude)*.png' | tar -x -C "$work"
+cd "$work"
+CXXFLAGS= LDFLAGS=$(printf '%s\n' ${LDFLAGS:-} | grep -v -e '^-fsanitize' -e '^-fprofile' | tr '\n' ' ') ./build -B "$work/.build" svg
+cp -L "$work/.build/svg" "$2"
+""", "$(S)", revision, "$(B)/canon/svg"],
+    descr="CN",
+    color="light-magenta",
+)
+
 labels = ["1x", "2x"]
-corpus = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tst", "corpus")
+corpus = os.path.join(root, "tst", "corpus")
 excluded = set()
 for listed in ["EXCLUDED", "DESIGN"]:
     with open(os.path.join(corpus, listed)) as handle:
@@ -149,14 +172,23 @@ for path in sorted(paths, key=lambda path: -sizes[path]):
     relative = path[len("$(S)/tst/corpus/"):]
     if relative in excluded or flags.filter and not fnmatch.fnmatch(relative, flags.filter):
         continue
-    stem = path[:-len(".svg")]
     score = "$(B)/score/" + relative[:-len(".svg")] + ".txt"
-    references = [f"{stem}.{label}.png" for label in labels]
+    references = [f"$(B)/canon/corpus/{relative[:-len('.svg')]}.{label}.png" for label in labels]
+    key = hashlib.sha256(relative.encode()).hexdigest()[:16]
+    drawn = command(
+        name="reference_" + key,
+        inputs=[path, "$(S)/tst/corpus/SIDE", "$(S)/tst/canon.py"],
+        outputs=references,
+        deps=[canon],
+        cmd=["python3", "$(S)/tst/canon.py", "$(B)/canon/svg", path, side, *references],
+        descr="RF",
+        color="magenta",
+    )
     cases.append(command(
-        name="case_" + hashlib.sha256(relative.encode()).hexdigest()[:16],
+        name="case_" + key,
         inputs=[path, "$(S)/tst/corpus/SIDE", *references],
         outputs=[score],
-        deps=[svg],
+        deps=[svg, drawn],
         cmd=["sh", "-c", '"$0" test "$1" "$2" "$3" "$4" "$5" || printf "mae 1 1\\nstruct 1 1\\naa 1\\nreference\\nours\\n" > "$2"', "$(B)/svg", path, score, side, *references],
         descr="SV",
         color="cyan",
@@ -173,18 +205,28 @@ for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
         color="light-green",
     ))
 
-# Every tst/unit/X.svg is drawn at its own size and compared with its canon
-# tst/unit/X.png; the drawing is left in $(B)/unit/X.png.
+# Every tst/unit/X.svg is drawn at its own size and compared with the
+# canon's drawing of it, $(B)/canon/unit/X.png, which the canon's svg makes
+# as the same command, against itself; ours is left in $(B)/unit/X.png.
 units = []
 for path in sorted(build.glob("$(S)/tst/unit/*.svg")):
-    stem = path[:-len(".svg")]
-    name = os.path.basename(stem)
+    name = os.path.basename(path[:-len(".svg")])
+    reference = f"$(B)/canon/unit/{name}.png"
+    drawn = command(
+        name="unit_reference_" + name,
+        inputs=[path],
+        outputs=[reference],
+        deps=[canon],
+        cmd=["$(B)/canon/svg", "unit", path, reference, reference],
+        descr="RF",
+        color="magenta",
+    )
     units.append(command(
         name="unit_" + name,
-        inputs=[path, stem + ".png"],
+        inputs=[path, reference],
         outputs=[f"$(B)/unit/{name}.png"],
-        deps=[svg],
-        cmd=["$(B)/svg", "unit", path, stem + ".png", f"$(B)/unit/{name}.png"],
+        deps=[svg, drawn],
+        cmd=["$(B)/svg", "unit", path, reference, f"$(B)/unit/{name}.png"],
         descr="UT",
         color="light-green",
     ))
