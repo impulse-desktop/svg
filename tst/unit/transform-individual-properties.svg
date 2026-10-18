@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="56">
+<!-- Each lime drawing fills its black outline. translate, rotate and
+scale move, turn and size an element before its transform, about its
+origin: a percentage scale is its number, a percentage translation of the
+reference box; rotate about z, by keyword or vector, is the 2D rotate;
+none is no transform; a 3D rotate about x by nothing, or a translation
+along z, changes no pixel, by 60deg, the axis after the angle, it halves
+the height, so too about the vector after the angle; four scales, a
+percentage along z, a scale of no number, an axis of no name, three or five
+rotate values or a vector of no number make the value invalid; a scale
+along z of 1 or 100% is the 2D scale, of 2 changes no pixel; a translation
+of one value moves along x, of zero along z is 2D. -->
+<rect width="96" height="56" fill="white"/>
+<rect x="2" y="2" width="6" height="8" fill="lime" style="translate: 4px 2px"/>
+<rect x="16" y="3" width="6" height="8" fill="lime" style="transform-box: fill-box; transform-origin: center; rotate: 30deg"/>
+<rect x="28" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; scale: 50%"/>
+<rect x="42" y="3" width="6" height="8" fill="lime" style="transform-box: fill-box; transform-origin: center; scale: 1.5 .5"/>
+<rect x="56" y="3" width="4" height="6" fill="lime" style="transform-box: fill-box; transform-origin: center; translate: 2px; rotate: 90deg; scale: 2 1; transform: translate(1px)"/>
+<rect x="68" y="3" width="6" height="6" fill="lime" style="transform-box: fill-box; transform-origin: center; rotate: z 45deg"/>
+<rect x="80" y="3" width="6" height="6" fill="lime" style="transform-box: fill-box; transform-origin: center; rotate: 0 0 1 -30deg"/>
+<rect x="2" y="18" width="6" height="8" fill="lime" style="transform-box: fill-box; transform-origin: center; translate: 50% 0"/>
+<rect x="14" y="18" width="6" height="8" fill="lime" style="translate: none; rotate: none; scale: none"/>
+<rect x="24" y="18" width="6" height="8" fill="lime" style="rotate: x 0deg; translate: 0px 0px 5px"/>
+<rect x="34" y="18" width="6" height="8" fill="lime" style="scale: 1 2 3 4"/>
+<rect x="44" y="18" width="6" height="8" fill="lime" style="translate: 5px 5px 10%"/>
+<rect x="76" y="24" width="6" height="8" fill="lime" style="rotate: 60deg x"/>
+<rect x="64" y="18" width="6" height="8" fill="lime" style="transform-box: fill-box; transform-origin: center; scale: 1 -1 100%"/>
+<rect x="2" y="34" width="6" height="8" fill="lime" style="translate: 3px"/>
+<rect x="14" y="32" width="6" height="8" fill="lime" style="translate: 2px 2px 0px"/>
+<rect x="26" y="34" width="4" height="8" fill="lime" style="transform-box: fill-box; transform-origin: center; scale: 1.5 1 1"/>
+<rect x="36" y="34" width="6" height="8" fill="lime" style="scale: 1 1 2"/>
+<rect x="46" y="34" width="6" height="8" fill="lime" style="scale: 1 1 abc"/>
+<rect x="56" y="34" width="6" height="8" fill="lime" style="rotate: 10deg q"/>
+<rect x="66" y="34" width="6" height="8" fill="lime" style="rotate: 1 2 3"/>
+<rect x="76" y="34" width="6" height="8" fill="lime" style="rotate: 1 2 3 4 5"/>
+<rect x="86" y="34" width="4" height="8" fill="lime" style="transform-box: fill-box; transform-origin: center; rotate: 60deg 1 0 0"/>
+<rect x="2" y="46" width="6" height="6" fill="lime" style="rotate: 1 a 0 30deg"/>
+<rect x="12" y="46" width="6" height="6" fill="lime" style="translate: 1px 1px abc"/>
+<rect x="22" y="46" width="6" height="6" fill="lime" style="translate: 1px 1px 0px%"/>
+<rect x="32" y="46" width="6" height="6" fill="lime" style="translate: 1px 1px 0%"/>
+<rect x="42" y="46" width="6" height="6" fill="lime" style="scale: 1 1 abc"/>
+<rect x="52" y="46" width="6" height="6" fill="lime" style="scale: 1 1 1%x"/>
+<rect x="62" y="46" width="6" height="6" fill="lime" style="scale: 1 1 1px"/>
+<rect x="72" y="46" width="6" height="6" fill="lime" style="scale: 1 1 2%"/>
+<rect x="82" y="46" width="6" height="6" fill="lime" style="translate: 3px 1px; transform: none"/>
+<path fill="none" stroke="black" stroke-width=".25" d="M6.000 4.000 12.000 4.000 12.000 12.000 6.000 12.000Z M18.402 2.036 23.598 5.036 19.598 11.964 14.402 8.964Z M30.000 4.500 34.000 4.500 34.000 9.500 30.000 9.500Z M40.500 5.000 49.500 5.000 49.500 9.000 40.500 9.000Z M63.000 4.000 63.000 12.000 57.000 12.000 57.000 4.000Z M71.000 1.757 75.243 6.000 71.000 10.243 66.757 6.000Z M78.902 4.902 84.098 1.902 87.098 7.098 81.902 10.098Z M5.000 18.000 11.000 18.000 11.000 26.000 5.000 26.000Z M14.000 18.000 20.000 18.000 20.000 26.000 14.000 26.000Z M24.000 18.000 30.000 18.000 30.000 26.000 24.000 26.000Z M34.000 18.000 40.000 18.000 40.000 26.000 34.000 26.000Z M44.000 18.000 50.000 18.000 50.000 26.000 44.000 26.000Z M76.000 12.000 82.000 12.000 82.000 16.000 76.000 16.000Z M64.000 26.000 70.000 26.000 70.000 18.000 64.000 18.000Z M5.000 34.000 11.000 34.000 11.000 42.000 5.000 42.000Z M16.000 34.000 22.000 34.000 22.000 42.000 16.000 42.000Z M25.000 34.000 31.000 34.000 31.000 42.000 25.000 42.000Z M36.000 34.000 42.000 34.000 42.000 42.000 36.000 42.000Z M46.000 34.000 52.000 34.000 52.000 42.000 46.000 42.000Z M56.000 34.000 62.000 34.000 62.000 42.000 56.000 42.000Z M66.000 34.000 72.000 34.000 72.000 42.000 66.000 42.000Z M76.000 34.000 82.000 34.000 82.000 42.000 76.000 42.000Z M86.000 36.000 90.000 36.000 90.000 40.000 86.000 40.000Z M2.000 46.000 8.000 46.000 8.000 52.000 2.000 52.000Z M12.000 46.000 18.000 46.000 18.000 52.000 12.000 52.000Z M22.000 46.000 28.000 46.000 28.000 52.000 22.000 52.000Z M32.000 46.000 38.000 46.000 38.000 52.000 32.000 52.000Z M42.000 46.000 48.000 46.000 48.000 52.000 42.000 52.000Z M52.000 46.000 58.000 46.000 58.000 52.000 52.000 52.000Z M62.000 46.000 68.000 46.000 68.000 52.000 62.000 52.000Z M72.000 46.000 78.000 46.000 78.000 52.000 72.000 52.000Z M85.000 47.000 91.000 47.000 91.000 53.000 85.000 53.000Z"/>
+</svg>

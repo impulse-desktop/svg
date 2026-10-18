@@ -1011,6 +1011,11 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(PatternTransform, "patternTransform")                     \
     ATOM(TransformOrigin, "transform-origin")                      \
     ATOM(TransformBox, "transform-box")                            \
+    ATOM(Translate, "translate")                                   \
+    ATOM(Rotate, "rotate")                                         \
+    ATOM(TranslateProperty, "-translate")                          \
+    ATOM(RotateProperty, "-rotate")                                \
+    ATOM(ScaleProperty, "-scale")                                  \
     ATOM(FilterUnits, "filterUnits")                               \
     ATOM(PrimitiveUnits, "primitiveUnits")                         \
     ATOM(In, "in")                                                 \
@@ -1144,6 +1149,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(PaintOrder, "paint-order")                                \
     ATOM(MixBlendMode, "mix-blend-mode")                           \
     ATOM(Isolation, "isolation")                                   \
+    ATOM(BackfaceVisibility, "backface-visibility")                \
     ATOM(ColorInterpolation, "color-interpolation")                \
     ATOM(ShapeRendering, "shape-rendering")                        \
     ATOM(ImageRendering, "image-rendering")                        \
@@ -1210,6 +1216,8 @@ namespace {
         bool on;
         // Made by a 3D transform function, affine or not.
         bool solid;
+        // Turned to show its back: the 3D matrix's m33 is negative.
+        bool back;
     };
 
     struct Box {
@@ -1635,6 +1643,7 @@ namespace {
         u8 vectorEffects;
         u8 blend;
         bool isolate;
+        bool backfaceHidden;
         bool linearColors;
         bool aliased;
         u8 imageRendering;
@@ -2414,11 +2423,11 @@ namespace {
     }
 
     static Projective projectiveOf(const Matrix& m) {
-        return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true, false};
+        return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true, false, false};
     }
 
     static Projective compose(const Projective& p, const Projective& q) {
-        Projective out{{}, true, false};
+        Projective out{{}, true, false, false};
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
@@ -3296,7 +3305,15 @@ namespace {
         Either,
     };
 
-    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective = nullptr);
+    // What a CSS transform's lengths and percentages resolve against: the
+    // reference box as a viewport, its width and height for percentages,
+    // with the screen and root font of the document, and the element's font.
+    struct TransformBasis {
+        Viewport box;
+        float fontSize;
+    };
+
+    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective = nullptr, const TransformBasis* basis = nullptr);
     static bool parseNumberText(StringView text, float& out);
 
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
@@ -4106,6 +4123,9 @@ namespace {
             case AtomTransform:
             case AtomTransformOrigin:
             case AtomTransformBox:
+            case AtomTranslate:
+            case AtomRotate:
+            case AtomScale:
             case AtomPathLengthProperty:
                 return true;
             default:
@@ -6069,7 +6089,19 @@ namespace {
             return AtomPatternTransform;
         }
 
-        return property == AtomPathLengthProperty ? AtomPathLength : property;
+        // translate, rotate and scale have no attributes of their own: an
+        // attribute of their names, as feDisplacementMap's scale, is not
+        // theirs, so they are kept under names no attribute can have.
+        switch (property) {
+            case AtomTranslate:
+                return AtomTranslateProperty;
+            case AtomRotate:
+                return AtomRotateProperty;
+            case AtomScale:
+                return AtomScaleProperty;
+            default:
+                return property == AtomPathLengthProperty ? AtomPathLength : property;
+        }
     }
 
     // A geometry property's initial value.
@@ -6077,7 +6109,7 @@ namespace {
         static const struct {
             u32 property;
             const char* value;
-        } initials[] = {{AtomX, "0"}, {AtomY, "0"}, {AtomCx, "0"}, {AtomCy, "0"}, {AtomR, "0"}, {AtomTransform, "none"}, {AtomD, "none"}, {AtomPathLengthProperty, "none"}, {AtomTransformOrigin, "50% 50%"}, {AtomTransformBox, "view-box"}};
+        } initials[] = {{AtomX, "0"}, {AtomY, "0"}, {AtomCx, "0"}, {AtomCy, "0"}, {AtomR, "0"}, {AtomTransform, "none"}, {AtomD, "none"}, {AtomPathLengthProperty, "none"}, {AtomTransformOrigin, "50% 50%"}, {AtomTransformBox, "view-box"}, {AtomTranslate, "none"}, {AtomRotate, "none"}, {AtomScale, "none"}};
 
         for (const auto& initial : initials) {
             if (initial.property == property) {
@@ -6126,7 +6158,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
@@ -6216,7 +6248,8 @@ namespace {
 
             doc.geometry.pushBack(GeometryValue{node->index, declaration.property, value});
 
-            bool outer = node == doc.root && declaration.property != AtomTransform && declaration.property != AtomTransformOrigin;
+            bool transforming = declaration.property == AtomTransform || declaration.property == AtomTransformOrigin || declaration.property == AtomTranslate || declaration.property == AtomRotate || declaration.property == AtomScale;
+            bool outer = node == doc.root && !transforming;
 
             if ((geometryApplies(node->name, declaration.property) || declaration.property == AtomD) && !outer) {
                 setAttribute(doc, node, geometryAttribute(node->name, declaration.property), value ? value : intern(doc.atoms, geometryInitial(declaration.property)));
@@ -6844,9 +6877,11 @@ namespace {
     // A transform list: in an attribute SVG's, numbers alone and its six
     // functions; in a declaration CSS's too, with angle and length units and
     // the functions of one axis.
-    // The kinds of a CSS transform function's arguments, a length L, an
-    // angle A or a number N, of which it may leave the last ones out: a
-    // length takes its unit, an angle too, but zero.
+    // The kinds of a CSS transform function's arguments, of which it may
+    // leave the last ones out: a length or percentage L, a length D, an
+    // angle A, a number or percentage S, a number N. A length takes its
+    // unit, an angle too, but zero. The units of the arguments: 0 none, 1
+    // a length, 2 an angle, 3 a percentage.
     static bool cssTransformArguments(StringView name, const u8* units, const float* args, u32 count) {
         static const struct {
             const char* name;
@@ -6857,13 +6892,13 @@ namespace {
             {"translate", "LL", 1},
             {"translateX", "L", 0},
             {"translateY", "L", 0},
-            {"translateZ", "L", 0},
-            {"translate3d", "LLL", 0},
-            {"scale", "NN", 1},
-            {"scaleX", "N", 0},
-            {"scaleY", "N", 0},
-            {"scaleZ", "N", 0},
-            {"scale3d", "NNN", 0},
+            {"translateZ", "D", 0},
+            {"translate3d", "LLD", 0},
+            {"scale", "SS", 1},
+            {"scaleX", "S", 0},
+            {"scaleY", "S", 0},
+            {"scaleZ", "S", 0},
+            {"scale3d", "SSS", 0},
             {"rotate", "A", 0},
             {"rotateX", "A", 0},
             {"rotateY", "A", 0},
@@ -6872,7 +6907,7 @@ namespace {
             {"skew", "AA", 1},
             {"skewX", "A", 0},
             {"skewY", "A", 0},
-            {"perspective", "L", 0},
+            {"perspective", "D", 0},
             {"matrix3d", "NNNNNNNNNNNNNNNN", 0},
         };
 
@@ -6888,10 +6923,12 @@ namespace {
             }
 
             for (u32 i = 0; i < count; i++) {
-                u8 kind = function.kinds[i] == 'L' ? 1 : (function.kinds[i] == 'A' ? 2 : 0);
+                char kind = function.kinds[i];
+                u32 accepted = kind == 'L' ? 0xa : (kind == 'D' ? 0x2 : (kind == 'A' ? 0x4 : (kind == 'S' ? 0x9 : 0x1)));
+                bool measured = kind == 'L' || kind == 'D' || kind == 'A';
 
                 // A zero needs no unit.
-                if (units[i] != kind && !(units[i] == 0 && args[i] == 0.f)) {
+                if (!(accepted & (1u << units[i])) && !(measured && units[i] == 0 && args[i] == 0.f)) {
                     return false;
                 }
             }
@@ -6902,7 +6939,7 @@ namespace {
         return false;
     }
 
-    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective) {
+    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective, const TransformBasis* basis) {
         bool css = grammar != TransformGrammar::Attribute;
         const u8* p = text.begin();
         const u8* end = text.end();
@@ -6933,6 +6970,7 @@ namespace {
         if (perspective) {
             perspective->on = false;
             perspective->solid = false;
+            perspective->back = false;
         }
 
         if (equalsIgnoreCase(trim(text), SV("none"))) {
@@ -6999,25 +7037,30 @@ namespace {
                     break;
                 }
 
+                const u8* numberStart = p;
+
                 if (count == 16 || !readNumber(p, end, args[count])) {
                     return false;
                 }
 
                 bool comma = false;
+                bool percent = at(p, end, '%');
+                const u8* unitStart = p + percent;
 
-                const u8* unitStart = p;
+                p = unitStart;
 
                 while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
                     p++;
                 }
 
                 StringView unit(unitStart, p);
+                bool angle = equalsIgnoreCase(unit, SV("deg")) || equalsIgnoreCase(unit, SV("rad")) || equalsIgnoreCase(unit, SV("grad")) || equalsIgnoreCase(unit, SV("turn"));
 
-                if (!css && !unit.empty()) {
+                if (!css && (percent || !unit.empty())) {
                     return false;
                 }
 
-                units[count] = unit.empty() ? 0 : (equalsIgnoreCase(unit, SV("px")) ? 1 : 2);
+                units[count] = percent ? 3 : (unit.empty() ? 0 : (angle ? 2 : 1));
 
                 if (equalsIgnoreCase(unit, SV("rad"))) {
                     args[count] *= 180.f / pi;
@@ -7025,8 +7068,17 @@ namespace {
                     args[count] *= 0.9f;
                 } else if (equalsIgnoreCase(unit, SV("turn"))) {
                     args[count] *= 360.f;
-                } else if (!unit.empty() && !equalsIgnoreCase(unit, SV("deg")) && !equalsIgnoreCase(unit, SV("px"))) {
-                    return false;
+                } else if (units[count] == 1) {
+                    // A length of any unit, in pixels: font-relative ones of the
+                    // element's font, viewport ones of the screen.
+                    Length length;
+                    const u8* q = numberStart;
+
+                    if (!readLength(q, end, length) || q != p) {
+                        return false;
+                    }
+
+                    args[count] = resolveLength(length, Axis::Other, basis ? basis->box : Viewport{0.f, 0.f, 0.f, 0.f, 16.f}, basis ? basis->fontSize : 16.f);
                 }
 
                 count++;
@@ -7053,6 +7105,17 @@ namespace {
 
             if (grammar == TransformGrammar::Declaration && !cssTransformArguments(name, units, args, count)) {
                 return false;
+            }
+
+            // A percentage is a number in a scale (css-transforms-2), and in a
+            // translation of the reference box's side along its axis.
+            bool scale = name == SV("scale") || name == SV("scaleX") || name == SV("scaleY") || name == SV("scaleZ") || name == SV("scale3d");
+
+            for (u32 i = 0; i < count; i++) {
+                bool vertical = name == SV("translateY") || (i == 1 && name != SV("translateX"));
+                float side = basis ? (vertical ? basis->box.height : basis->box.width) : 0.f;
+
+                args[i] = units[i] == 3 ? args[i] / 100.f * (scale ? 1.f : side) : args[i];
             }
 
             // A function of CSS alone comes here with its count: a
@@ -7177,11 +7240,12 @@ namespace {
             result = Matrix{m4[0][0] / w, m4[1][0] / w, m4[0][1] / w, m4[1][1] / w, m4[0][3] / w, m4[1][3] / w};
 
             if (perspective && (m4[3][0] != 0.f || m4[3][1] != 0.f || !(m4[3][3] > 0.f))) {
-                *perspective = Projective{{m4[0][0], m4[0][1], m4[0][3], m4[1][0], m4[1][1], m4[1][3], m4[3][0], m4[3][1], m4[3][3]}, true, true};
+                *perspective = Projective{{m4[0][0], m4[0][1], m4[0][3], m4[1][0], m4[1][1], m4[1][3], m4[3][0], m4[3][1], m4[3][3]}, true, true, false};
             }
 
             if (perspective) {
                 perspective->solid = true;
+                perspective->back = m4[2][2] < 0.f;
             }
         }
 
@@ -7264,6 +7328,141 @@ namespace {
         return Point{x1, y2};
     }
 
+    // translate, rotate or scale, other than none, as the transform functions
+    // they stand for (css-transforms-2.md, individual-transforms): 2D where
+    // the third axis does nothing, 3D otherwise; false for a value of the
+    // wrong shape, whose functions then fail as a declaration.
+    static bool individualTransform(u32 property, StringView value, Buffer& out) {
+        StringView words[4];
+        u32 count = 0;
+        const u8* p = value.begin();
+        const u8* end = value.end();
+
+        for (;;) {
+            skipSpaces(p, end);
+
+            if (p >= end) {
+                break;
+            }
+
+            if (count == 4) {
+                return false;
+            }
+
+            const u8* start = p;
+
+            while (p < end && !isSpace(*p)) {
+                p++;
+            }
+
+            words[count++] = StringView(start, p);
+        }
+
+        auto put = [&](const char* text) {
+            out.append(text, strlen(text));
+        };
+        auto word = [&](StringView w) {
+            out.append(w.data(), w.length());
+        };
+        auto number = [](StringView w, float& v) {
+            const u8* q = w.begin();
+
+            return readNumber(q, w.end(), v) && q == w.end();
+        };
+        float v[3];
+
+        // A translation or a scale has one to three values.
+        if (property != AtomRotate && count == 4) {
+            return false;
+        }
+
+        if (property == AtomTranslate) {
+            Length z;
+            const u8* q = words[2].begin();
+            // A length of zero along z; a percentage there fails later.
+            bool flat = count < 3 || (readLength(q, words[2].end(), z) && q == words[2].end() && z.unit != Unit::Percent && z.value == 0.f);
+
+            put(flat ? "translate(" : "translate3d(");
+            word(words[0]);
+            put(", ");
+            word(count > 1 ? words[1] : SV("0px"));
+
+            if (!flat) {
+                put(", ");
+                word(words[2]);
+            }
+
+            put(") ");
+
+            return true;
+        }
+
+        if (property == AtomScale) {
+            Length z;
+            const u8* q = words[2].begin();
+            // A scale of one along z, as a number or 100%.
+            bool flat = count < 3 || (readLength(q, words[2].end(), z) && q == words[2].end() && (z.unit == Unit::Number || z.unit == Unit::Percent) && z.value == (z.unit == Unit::Percent ? 100.f : 1.f));
+
+            put(flat ? "scale(" : "scale3d(");
+            word(words[0]);
+            put(", ");
+            word(count > 1 ? words[1] : words[0]);
+
+            if (!flat) {
+                put(", ");
+                word(words[2]);
+            }
+
+            put(") ");
+
+            return true;
+        }
+
+        // rotate: an angle alone, with an axis keyword before or after it, or
+        // after or before three numbers of an axis; about z, toward the eye,
+        // the 2D rotate().
+        if (count == 1) {
+            put("rotate(");
+            word(words[0]);
+            put(") ");
+
+            return true;
+        }
+
+        if (count == 2) {
+            bool first = equalsIgnoreCase(words[0], SV("x")) || equalsIgnoreCase(words[0], SV("y")) || equalsIgnoreCase(words[0], SV("z"));
+            StringView axis = first ? words[0] : words[1];
+            StringView angle = first ? words[1] : words[0];
+
+            put(equalsIgnoreCase(axis, SV("x")) ? "rotate3d(1, 0, 0, " : (equalsIgnoreCase(axis, SV("y")) ? "rotate3d(0, 1, 0, " : (equalsIgnoreCase(axis, SV("z")) ? "rotate(" : "bogus(")));
+            word(angle);
+            put(") ");
+
+            return true;
+        }
+
+        bool last = number(words[0], v[0]);
+        u32 at = last ? 0 : 1;
+
+        if (count != 4 || !number(words[at], v[0]) || !number(words[at + 1], v[1]) || !number(words[at + 2], v[2])) {
+            return false;
+        }
+
+        bool flat = v[0] == 0.f && v[1] == 0.f && v[2] > 0.f;
+
+        put(flat ? "rotate(" : "rotate3d(");
+
+        for (u32 k = 0; k < 3 && !flat; k++) {
+            word(words[at + k]);
+            put(", ");
+        }
+
+        word(words[last ? 3 : 0]);
+        put(") ");
+
+        return true;
+    }
+
     // Whether a declaration of a geometry property is one CSS keeps: a
     // length, of no sign for a size, auto for a size of a rect or its
     // corners, path() of a string or none, a transform list, an origin of
@@ -7296,6 +7495,13 @@ namespace {
             }
             case AtomTransform:
                 return parseTransform(value, m, TransformGrammar::Declaration);
+            case AtomTranslate:
+            case AtomRotate:
+            case AtomScale: {
+                Buffer functions;
+
+                return equalsIgnoreCase(value, SV("none")) || (individualTransform(property, value, functions) && parseTransform(StringView(functions), m, TransformGrammar::Declaration));
+            }
             case AtomPathLengthProperty:
                 return equalsIgnoreCase(value, SV("none")) || (parseLength(value, length) && length.unit != Unit::Percent && length.value >= 0.f);
             case AtomTransformOrigin: {
@@ -7319,16 +7525,25 @@ namespace {
         }
     }
 
+    // The transform of a paint server or a clipPath, which are flat: a list
+    // with a 3D function on one is ignored whole (css-transforms-2.md,
+    // svg-three-dimensional-functions).
+    static Matrix flatTransform(StringView text) {
+        Matrix m;
+        Projective solid;
+
+        return parseTransform(text, m, TransformGrammar::Either, &solid) && !solid.solid ? m : identity();
+    }
+
     static Matrix originTransform(const Document& doc, const Node* node, u32 name, Viewport vp) {
         u32 value = attribute(node, name);
-        Matrix m;
 
         if (!value) {
             return identity();
         }
 
         // The parse took the attribute whole.
-        parseTransform(textOf(doc, value), m, TransformGrammar::Either);
+        Matrix m = flatTransform(textOf(doc, value));
 
         u32 origin = attribute(node, AtomTransformOrigin);
 
@@ -10459,6 +10674,7 @@ namespace {
         style.vectorEffects = 0;
         style.blend = 0;
         style.isolate = false;
+        style.backfaceHidden = false;
         style.outlineWidth = 0.f;
         style.zoom = 1.f;
         memset(style.maskParts, 0, sizeof(style.maskParts));
@@ -10483,7 +10699,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -10521,7 +10737,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -10983,6 +11199,16 @@ namespace {
                     }
 
                     break;
+                case AtomBackfaceVisibility:
+                    if (keyword) {
+                        style.backfaceHidden = source.backfaceHidden;
+                    } else if (isKeyword(value, SV("hidden"))) {
+                        style.backfaceHidden = true;
+                    } else if (isKeyword(value, SV("visible"))) {
+                        style.backfaceHidden = false;
+                    }
+
+                    break;
                 case AtomVectorEffect: {
                     // none, or any effects once each; non-scaling-size keeps
                     // the stroke as non-scaling-stroke does.
@@ -11360,7 +11586,7 @@ namespace {
         Matrix local;
 
         if (transform) {
-            parseTransform(textOf(doc, transform), local, TransformGrammar::Either);
+            local = flatTransform(textOf(doc, transform));
 
             if (u32 origin = attribute(pattern, AtomTransformOrigin)) {
                 Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
@@ -11596,9 +11822,7 @@ namespace {
         u32 transform = gradientAttribute(doc, gradient, AtomGradientTransform);
 
         if (transform) {
-            Matrix m;
-
-            parseTransform(textOf(doc, transform), m, TransformGrammar::Either);
+            Matrix m = flatTransform(textOf(doc, transform));
 
             if (u32 origin = attribute(gradient, AtomTransformOrigin)) {
                 Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
@@ -11717,7 +11941,7 @@ namespace {
         Matrix inverse;
 
         if (value) {
-            parseTransform(textOf(doc, value), m, TransformGrammar::Either);
+            m = flatTransform(textOf(doc, value));
         }
 
         return !invert(m, inverse);
@@ -12038,9 +12262,8 @@ namespace {
         // A mesh's gradientTransform comes from its attribute alone, which
         // the parser keeps only when it reads.
         if (u32 transform = meshAttribute(doc, mesh, AtomGradientTransform)) {
-            Matrix m = identity();
+            Matrix m = flatTransform(textOf(doc, transform));
 
-            parseTransform(textOf(doc, transform), m, TransformGrammar::Either);
             space = multiply(space, m);
         }
 
@@ -16047,10 +16270,11 @@ namespace {
         drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering);
     }
 
-    // Where an element's transform turns about: its transform-origin in the
-    // box transform-box names, or in the viewport. False where it turns
-    // about the user space's origin as it is.
-    static bool transformAnchor(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Point& o) {
+    // Where an element's transform turns about, and the box its
+    // percentages are of: its transform-origin in the box transform-box
+    // names, or in the viewport. False where it turns about the user
+    // space's origin as it is.
+    static bool transformAnchor(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Point& o, TransformBasis& basis) {
         const Document& doc = *l.doc;
         u32 kind = attribute(node, AtomTransformBox);
         StringView box = kind ? trim(textOf(doc, kind)) : StringView();
@@ -16061,6 +16285,8 @@ namespace {
         // border-box its stroke box.
         bool fill = box == SV("fill-box") || box == SV("content-box");
         bool stroke = box == SV("stroke-box") || box == SV("border-box");
+
+        basis = TransformBasis{vp, documentStyle(l, node, vp).fontSize};
 
         if (!(fill || stroke)) {
             o = origin ? transformOrigin(textOf(doc, origin), vp.width, vp.height) : Point{vp.width / 2.f, vp.height / 2.f};
@@ -16076,6 +16302,8 @@ namespace {
             bounds = strokeBox(l, node, parent, vp);
         }
 
+        basis.box.width = bounds.x1 - bounds.x0;
+        basis.box.height = bounds.y1 - bounds.y0;
         o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
         o.x += bounds.x0;
         o.y += bounds.y0;
@@ -16083,18 +16311,46 @@ namespace {
         return true;
     }
 
+    // An element's transform as one list: its translate, rotate and scale,
+    // then its transform (css-transforms-2.md, transformation-matrix-computation);
+    // the attribute itself when it is all. Empty for none.
+    static StringView transformList(const Document& doc, const Node* node, Buffer& joined) {
+        static const u32 kept[] = {AtomTranslateProperty, AtomRotateProperty, AtomScaleProperty};
+        static const u32 properties[] = {AtomTranslate, AtomRotate, AtomScale};
+        u32 transform = attribute(node, AtomTransform);
+        StringView list = transform ? textOf(doc, transform) : StringView();
+
+        for (int k = 0; k < 3; k++) {
+            u32 value = attribute(node, kept[k]);
+
+            if (value && !isKeyword(textOf(doc, value), SV("none"))) {
+                individualTransform(properties[k], trim(textOf(doc, value)), joined);
+            }
+        }
+
+        if (joined.length() && !isKeyword(list, SV("none"))) {
+            joined.append(list.data(), list.length());
+        }
+
+        return joined.length() ? StringView(joined) : list;
+    }
+
     static Matrix boxTransform(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp) {
-        u32 value = attribute(node, AtomTransform);
+        Buffer joined;
+        StringView list = transformList(*l.doc, node, joined);
         Matrix m;
         Point o;
+        TransformBasis basis;
 
-        if (!value) {
+        if (list.empty()) {
             return identity();
         }
 
-        parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either);
+        bool anchored = transformAnchor(l, node, parent, vp, o, basis);
 
-        if (!transformAnchor(l, node, parent, vp, o)) {
+        parseTransform(list, m, TransformGrammar::Either, nullptr, &basis);
+
+        if (!anchored) {
             return m;
         }
 
@@ -16104,23 +16360,28 @@ namespace {
     // An element's transform in perspective, about its anchor; false for an
     // affine one, which may still be solid, of 3D functions.
     static bool boxProjective(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Projective& out) {
-        u32 value = attribute(node, AtomTransform);
+        Buffer joined;
+        StringView list = transformList(*l.doc, node, joined);
         Matrix m;
         Point o;
+        TransformBasis basis;
 
         out.solid = false;
+        out.back = false;
 
-        if (!value) {
+        if (list.empty()) {
             return false;
         }
 
-        parseTransform(textOf(*l.doc, value), m, TransformGrammar::Either, &out);
+        bool anchored = transformAnchor(l, node, parent, vp, o, basis);
+
+        parseTransform(list, m, TransformGrammar::Either, &out, &basis);
 
         if (!out.on) {
             return false;
         }
 
-        if (transformAnchor(l, node, parent, vp, o)) {
+        if (anchored) {
             out = compose(compose(projectiveOf(translation(o.x, o.y)), out), projectiveOf(translation(-o.x, -o.y)));
         }
 
@@ -16699,12 +16960,20 @@ namespace {
 
         // A transform in perspective draws the element on a layer of its
         // own, where the element is again, its transform the layer's.
-        Projective perspective{{}, false, false};
+        Projective perspective{{}, false, false, false};
         bool flattened = l.flattened == node;
 
         l.flattened = nullptr;
 
-        if (!flattened && boxProjective(l, node, parent, vp, perspective)) {
+        bool projective = !flattened && boxProjective(l, node, parent, vp, perspective);
+
+        // backface-visibility hidden hides an element its transform turns
+        // to show its back (css-transforms-2.md, backface-visibility).
+        if (style.backfaceHidden && perspective.back) {
+            return;
+        }
+
+        if (projective) {
             lowerProjectiveLayer(l, node, parent, style, ctm, perspective, vp);
 
             return;

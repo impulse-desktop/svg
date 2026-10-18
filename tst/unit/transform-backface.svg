@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="14">
+<!-- Each lime drawing fills its black outline, no red. backface-visibility
+hidden hides an element its 3D transform turns past a right angle, by y or
+by x, by a transform or the rotate property, its m33 negative; one turned
+less, or mirrored in 2D, still shows, as does any whose backface is
+visible. -->
+<rect width="72" height="14" fill="white"/>
+<rect x="2" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: hidden"/>
+<rect x="12" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg)"/>
+<rect x="22" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(170deg); backface-visibility: hidden"/>
+<rect x="32" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(60deg); backface-visibility: hidden"/>
+<rect x="42" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateX(180deg); backface-visibility: hidden"/>
+<rect x="52" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: scale(-1, 1); backface-visibility: hidden"/>
+<rect x="62" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; rotate: y 180deg; backface-visibility: hidden"/>
+<path fill="none" stroke="black" stroke-width=".25" d="M20.000 2.000 12.000 2.000 12.000 12.000 20.000 12.000Z M34.000 2.000 38.000 2.000 38.000 12.000 34.000 12.000Z M60.000 2.000 52.000 2.000 52.000 12.000 60.000 12.000Z"/>
+</svg>

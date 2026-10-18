@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="16">
+<!-- Each lime drawing fills its black outline. On a pattern, a gradient
+and a clipPath the transform property is their own transform, its
+presentation attributes patternTransform, gradientTransform and transform,
+which it overrides; a list with a 3D function on them is ignored whole, the
+translate before it too. -->
+<defs><pattern id="a" width="8" height="12" patternUnits="userSpaceOnUse" patternTransform="translate(2 0)" style="transform: translate(4px, 2px)"><rect width="4" height="12" fill="lime"/></pattern>
+<pattern id="b" width="8" height="12" patternUnits="userSpaceOnUse" style="transform: translate(4px) rotateZ(0deg)"><rect width="4" height="12" fill="lime"/></pattern>
+<linearGradient id="g" gradientUnits="userSpaceOnUse" x1="36" x2="44" style="transform: translate(2px)"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient>
+<linearGradient id="h" gradientUnits="userSpaceOnUse" x1="50" x2="58" style="transform: translate(2px) translateZ(0)"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient>
+<clipPath id="c" transform="translate(9 0)" style="transform: translate(4px)"><rect x="60" y="2" width="4" height="12"/></clipPath></defs>
+<rect width="72" height="16" fill="white"/>
+<rect x="0" y="2" width="16" height="12" fill="url(#a)"/>
+<rect x="18" y="2" width="16" height="12" fill="url(#b)"/>
+<rect x="36" y="2" width="12" height="12" fill="url(#g)"/>
+<rect x="50" y="2" width="8" height="12" fill="url(#h)"/>
+<rect x="58" y="2" width="12" height="12" fill="lime" clip-path="url(#c)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="2" width="4" height="12"/><rect x="12" y="2" width="4" height="12"/><rect x="18" y="2" width="2" height="12"/>
+<rect x="24" y="2" width="4" height="12"/><rect x="32" y="2" width="2" height="12"/><rect x="36" y="2" width="6" height="12"/><rect x="50" y="2" width="4" height="12"/><rect x="64" y="2" width="4" height="12"/></g>
+</svg>

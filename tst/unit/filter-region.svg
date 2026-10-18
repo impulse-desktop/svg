@@ -5,7 +5,7 @@ grey under it without a step. A filter's region is by default -10% and
 it; primitiveUnits objectBoundingBox scales an offset by the box, and one
 radius to both axes before; the filter inherits from its own ancestors,
 here sRGB; under display none it still applies; filterRes is gone and
-changes nothing. -->
+changes nothing; a group's region cuts away a child drawn apart past it. -->
 <defs><filter id="fl"><feFlood flood-color="lime"/></filter>
 <filter id="us" filterUnits="userSpaceOnUse" x="14" y="3" width="6" height="8"><feFlood flood-color="lime"/></filter>
 <filter id="off"><feOffset dx="6"/></filter>
@@ -13,7 +13,9 @@ changes nothing. -->
 <filter id="pr" x="-1" y="-1" width="3" height="3" primitiveUnits="objectBoundingBox"><feMorphology operator="dilate" radius=".1"/></filter>
 <g color-interpolation-filters="sRGB"><filter id="cif" x="0" y="0" width="1" height="1"><feColorMatrix type="saturate" values="0"/></filter></g>
 <g display="none"><filter id="dn" display="none"><feFlood flood-color="lime"/></filter></g>
-<filter id="res" filterRes="2"><feFlood flood-color="lime"/></filter></defs>
+<filter id="res" filterRes="2"><feFlood flood-color="lime"/></filter>
+<filter id="narrow" filterUnits="userSpaceOnUse" x="0" y="0" width="2" height="34"><feOffset/></filter>
+<filter id="soft" x="-.2" y="-.2" width="1.4" height="1.4"><feGaussianBlur stdDeviation=".5"/></filter></defs>
 <rect width="72" height="34" fill="white"/>
 <rect x="3" y="3" width="10" height="10" fill="red" filter="url(#fl)"/>
 <rect x="16" y="4" width="4" height="4" fill="red" filter="url(#us)"/>
@@ -23,6 +25,7 @@ changes nothing. -->
 <rect x="30" y="18" width="8" height="6" fill="#cc4d1a" filter="url(#cif)"/><rect x="30" y="24" width="8" height="6" fill="#646464"/>
 <rect x="44" y="20" width="10" height="10" fill="red" filter="url(#dn)"/>
 <rect x="59" y="20" width="10" height="10" fill="red" filter="url(#res)"/>
+<g filter="url(#narrow)"><rect x="64" y="4" width="4" height="8" fill="red" transform="rotate(10 66 8)" filter="url(#soft)"/></g>
 <g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="14" y="3" width="6" height="8"/><rect x="28" y="3" width="5" height="10"/><rect x="41" y="3" width="10" height="6"/>
 <rect x="2" y="19" width="24" height="12"/><rect x="43" y="19" width="12" height="12"/><rect x="58" y="19" width="12" height="12"/></g>
 </svg>

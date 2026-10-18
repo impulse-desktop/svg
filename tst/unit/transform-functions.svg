@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="104" height="30">
+<!-- Each lime drawing fills its black outline. transform-origin moves the
+centre of a CSS transform, in user units or keywords of the reference box,
+one keyword's other side the centre; percentages of translate are of the
+reference box, the viewport by default; the transform property overrides
+the attribute; the attribute needs no comma between functions, may be
+empty, takes rotate about a point, and drops translateX and the like;
+translateX, translateY, scaleX and scaleY act on one axis; skew(x, y) is
+not skewX then skewY; an angle of 0 needs no unit, another does; a scale
+takes percentages too, a translation any length unit. -->
+<rect width="104" height="30" fill="white"/>
+<rect x="4" y="2" width="6" height="4" fill="lime" style="transform: rotate(30deg); transform-origin: 6px 4px"/>
+<rect x="20" y="4" width="6" height="6" fill="lime" style="transform: rotate(-20deg); transform-origin: right bottom; transform-box: fill-box"/>
+<rect x="32" y="2" width="10" height="10" fill="lime" style="transform: scale(.5); transform-origin: top; transform-box: fill-box"/>
+<rect x="46" y="2" width="8" height="8" fill="lime" style="transform: translate(50%, 25%); transform-box: fill-box"/>
+<rect x="60" y="2" width="6" height="8" fill="lime" transform="translate(100 0)" style="transform: none"/>
+<rect x="0" y="0" width="6" height="6" fill="lime" transform="translate(72,2)rotate(10)"/>
+<rect x="84" y="2" width="6" height="8" fill="lime" transform="  "/>
+<rect x="94" y="2" width="6" height="8" fill="lime" transform="translateX(5)"/>
+<rect x="4" y="19" width="6" height="6" fill="lime" transform="rotate(45 7 22)"/>
+<rect x="18" y="18" width="8" height="6" fill="lime" style="transform: translateX(3px) translateY(2px) scaleX(.5) scaleY(1.5)"/>
+<rect x="30" y="18" width="6" height="6" fill="lime" style="transform: skew(20deg, 10deg)"/>
+<rect x="42" y="18" width="6" height="6" fill="lime" style="transform: skewX(20deg) skewY(10deg)"/>
+<rect x="58" y="18" width="6" height="6" fill="lime" style="transform: rotate(0) translate(2px)"/>
+<rect x="70" y="18" width="6" height="6" fill="lime" style="transform: rotate(10) translate(30px)"/>
+<rect x="97" y="18" width="6" height="6" fill="lime" style="transform: translate(10%) scale(80%, 1)"/>
+<rect x="90" y="0" width="4" height="3" fill="lime" style="transform: translate(1em, .25in); font-size: 4px"/>
+<path fill="none" stroke="black" stroke-width=".25" d="M5.268 1.268 10.464 4.268 8.464 7.732 3.268 4.732Z M18.310 6.414 23.948 4.362 26.000 10.000 20.362 12.052Z M34.500 2.000 39.500 2.000 39.500 7.000 34.500 7.000Z M50.000 4.000 58.000 4.000 58.000 12.000 50.000 12.000Z M60.000 2.000 66.000 2.000 66.000 10.000 60.000 10.000Z M72.000 2.000 77.909 3.042 76.867 8.951 70.958 7.909Z M84.000 2.000 90.000 2.000 90.000 10.000 84.000 10.000Z M94.000 2.000 100.000 2.000 100.000 10.000 94.000 10.000Z M7.000 17.757 11.243 22.000 7.000 26.243 2.757 22.000Z M12.000 29.000 16.000 29.000 16.000 38.000 12.000 38.000Z M36.551 23.290 42.551 24.348 44.735 30.348 38.735 29.290Z M51.247 25.406 57.632 26.464 59.816 32.464 53.431 31.406Z M60.000 18.000 66.000 18.000 66.000 24.000 60.000 24.000Z M70.000 18.000 76.000 18.000 76.000 24.000 70.000 24.000Z M88.000 18.000 92.800 18.000 92.800 24.000 88.000 24.000Z M94.000 24.000 98.000 24.000 98.000 27.000 94.000 27.000Z"/>
+</svg>
