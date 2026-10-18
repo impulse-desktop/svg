@@ -2502,6 +2502,10 @@ namespace {
         return Box{minf(a.x0, b.x0), minf(a.y0, b.y0), maxf(a.x1, b.x1), maxf(a.y1, b.y1)};
     }
 
+    static Box allBox() {
+        return Box{-INFINITY, -INFINITY, INFINITY, INFINITY};
+    }
+
     // A box grows by its points, so it is empty in both axes or in neither.
     static bool boxValid(const Box& box) {
         return box.x0 <= box.x1;
@@ -18400,10 +18404,14 @@ namespace {
     // A primitive's result, and where in pixels it can be other than
     // transparent: rectangles meet in fractions, and only that is rounded,
     // so that two abutting subregions keep nothing between them.
+    // edges are the hard edges of what it holds: a subregion's side inside
+    // them cuts it, and its pixels take their part; one on them leaves the
+    // edge's own antialiasing alone.
     struct FilterResult {
         Plane plane;
         bool linear;
         Box support;
+        Box edges;
     };
 
     struct FilterRun {
@@ -18732,6 +18740,61 @@ namespace {
         return index >= 0 ? run.results[index].support : run.filter->device;
     }
 
+    // An input's hard edges: the element's box for the source, as its
+    // antialiasing has them.
+    static Box edgesOf(const FilterRun& run, int index) {
+        const Filter& f = *run.filter;
+        bool source = index == InputSourceGraphic || index == InputSourceAlpha;
+        bool boxed = f.bbox.x1 > f.bbox.x0 && f.bbox.y1 > f.bbox.y0;
+
+        return index >= 0 ? run.results[index].edges : (source && boxed ? deviceBox(f.ctm, f.bbox) : f.device);
+    }
+
+    // What a composite keeps of its inputs: where both are, a, b, or with a
+    // constant term everything.
+    enum : u8 {
+        KeepsBoth = 1,
+        KeepsA = 2,
+        KeepsB = 4,
+        KeepsAll = 8,
+    };
+
+    static Box keptBox(u8 keeps, const Box& a, const Box& b) {
+        Box kept = joinBoxes(joinBoxes(keeps & KeepsBoth ? meetBoxes(a, b) : emptyBox(), keeps & KeepsA ? a : emptyBox()), keeps & KeepsB ? b : emptyBox());
+
+        return keeps & KeepsAll ? allBox() : kept;
+    }
+
+    // Scales the pixels of a plane by the part of each the box covers: an
+    // image cut by a box past the pixels' bounds keeps its area within
+    // each. Only rows the box cuts are scaled whole; the rest at its sides.
+    static void coverEdges(const Plane& plane, const Box& box) {
+        const IntBox& b = plane.box;
+        int whole = (int)fminf(fmaxf(ceilf(box.x0), (float)b.x0), (float)b.x1);
+        int edge = (int)fminf(fmaxf(floorf(box.x1), (float)whole), (float)b.x1);
+        auto cover = [&](int x0, int x1, int y, float cy) {
+            for (int x = x0; x < x1; x++) {
+                float c = cy * clampUnit(minf((float)x + 1.f, box.x1) - maxf((float)x, box.x0));
+                u16* v = planeAt(plane, x, y);
+
+                for (int k = 0; k < 4; k++) {
+                    v[k] = (u16)((float)v[k] * c + 0.5f);
+                }
+            }
+        };
+
+        for (int y = b.y0; y < b.y1; y++) {
+            float cy = clampUnit(minf((float)y + 1.f, box.y1) - maxf((float)y, box.y0));
+
+            if (cy < 1.f) {
+                cover(b.x0, b.x1, y, cy);
+            } else {
+                cover(b.x0, whole, y, cy);
+                cover(edge, b.x1, y, cy);
+            }
+        }
+    }
+
     // Clears a result past the pixels its support touches, all of it where
     // the support has no area.
     static void keepSupport(const Plane& plane, const Box& support) {
@@ -18962,8 +19025,8 @@ namespace {
         }
     }
 
-    // Returns the support of its result: its input's, moved.
-    static Box filterOffset(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Returns the shift in pixels.
+    static Point filterOffset(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
         float dx = userX(f, numberOf(doc, p.node, AtomDx, 0.f));
@@ -18971,11 +19034,10 @@ namespace {
         float sx = f.ctm.a * dx + f.ctm.c * dy;
         float sy = f.ctm.b * dx + f.ctm.d * dy;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
-        Box from = supportOf(run, p.in1);
 
         shiftBuffer(in, out, p.box, sx, sy);
 
-        return meetBoxes(p.clip, Box{from.x0 + sx, from.y0 + sy, from.x1 + sx, from.y1 + sy});
+        return Point{sx, sy};
     }
 
     static int blurReach(float sigma) {
@@ -19764,9 +19826,8 @@ namespace {
     // input by the other's alpha, its complement, 0 or 1: a factor is a
     // constant plus or minus that alpha, taken by masks. The arithmetic one
     // has real coefficients and goes through floats.
-    // Returns the support of its result: where the operator keeps a or b,
-    // or both, or its constant term lights all of its subregion.
-    static Box filterComposite(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Returns what its operator keeps of the inputs.
+    static u8 filterComposite(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane a = filterInputBuffer(run, p.in1, p.linear);
         Plane b = filterInputBuffer(run, p.in2, p.linear);
@@ -19842,15 +19903,10 @@ namespace {
             twoTermSpan(planeAt(out, box.x0, y), rowA.data(), rowB.data(), fa.data(), fb.data(), n);
         }
 
-        Box sa = supportOf(run, p.in1);
-        Box sb = supportOf(run, p.in2);
-        Box both = meetBoxes(sa, sb);
-        Box either = joinBoxes(sa, sb);
-        Box terms = joinBoxes(joinBoxes(k1 != 0.f ? both : emptyBox(), k2 != 0.f ? sa : emptyBox()), k3 != 0.f ? sb : emptyBox());
-        static const int kept[6] = {2, 0, 1, 3, 2, 2};
-        Box modes[4] = {both, sa, either, sb};
+        // Over, in, out, atop, xor and lighter.
+        static const u8 kept[6] = {KeepsA | KeepsB, KeepsBoth, KeepsA, KeepsB, KeepsA | KeepsB, KeepsA | KeepsB};
 
-        return meetBoxes(p.clip, arithmetic ? (k4 > 0.f ? p.clip : terms) : modes[kept[mode]]);
+        return arithmetic ? (u8)((k1 != 0.f ? KeepsBoth : 0) | (k2 != 0.f ? KeepsA : 0) | (k3 != 0.f ? KeepsB : 0) | (k4 > 0.f ? KeepsAll : 0)) : kept[mode];
     }
 
     static int blendMode(StringView text) {
@@ -21649,17 +21705,26 @@ namespace {
             }
 
             Plane out = makePlane(p.box);
-            // Where the result can be other than transparent: its subregion,
-            // or less where it keeps transparent what its inputs leave so.
-            Box support = p.clip;
+            // Where the result reaches and the hard edges of what it holds,
+            // before its subregion cuts them: everywhere for a primitive that
+            // makes its pixels anew; its inputs' where it keeps transparent
+            // what they leave so. An image is cut by nothing past its own.
+            Box reach = allBox();
+            Box hard = allBox();
 
             switch (p.kind) {
                 case AtomFeFlood:
                     filterFlood(p, out);
                     break;
-                case AtomFeOffset:
-                    support = filterOffset(run, p, out);
+                case AtomFeOffset: {
+                    Point d = filterOffset(run, p, out);
+                    Box from = supportOf(run, p.in1);
+                    Box edges = edgesOf(run, p.in1);
+
+                    reach = Box{from.x0 + d.x, from.y0 + d.y, from.x1 + d.x, from.y1 + d.y};
+                    hard = Box{edges.x0 + d.x, edges.y0 + d.y, edges.x1 + d.x, edges.y1 + d.y};
                     break;
+                }
                 case AtomFeGaussianBlur:
                     filterBlur(run, p, out);
                     break;
@@ -21667,27 +21732,35 @@ namespace {
                     filterDropShadow(run, p, out);
                     break;
                 case AtomFeColorMatrix:
-                    support = filterColorMatrix(run, p, out) ? p.clip : meetBoxes(p.clip, supportOf(run, p.in1));
-                    break;
                 case AtomFeComponentTransfer:
-                    support = filterComponentTransfer(run, p, out) ? p.clip : meetBoxes(p.clip, supportOf(run, p.in1));
+                    if (!(p.kind == AtomFeColorMatrix ? filterColorMatrix(run, p, out) : filterComponentTransfer(run, p, out))) {
+                        reach = supportOf(run, p.in1);
+                        hard = edgesOf(run, p.in1);
+                    }
+
                     break;
-                case AtomFeComposite:
-                    support = filterComposite(run, p, out);
+                case AtomFeComposite: {
+                    u8 keeps = filterComposite(run, p, out);
+
+                    reach = keptBox(keeps, supportOf(run, p.in1), supportOf(run, p.in2));
+                    hard = keptBox(keeps, edgesOf(run, p.in1), edgesOf(run, p.in2));
                     break;
+                }
                 case AtomFeBlend:
                     filterBlend(run, p, out);
-                    support = meetBoxes(p.clip, joinBoxes(supportOf(run, p.in1), supportOf(run, p.in2)));
+                    reach = joinBoxes(supportOf(run, p.in1), supportOf(run, p.in2));
+                    hard = joinBoxes(edgesOf(run, p.in1), edgesOf(run, p.in2));
                     break;
                 case AtomFeMerge:
                     filterMerge(run, p, out);
-                    support = emptyBox();
+                    reach = emptyBox();
+                    hard = emptyBox();
 
                     for (u32 i = 0; i < p.inputCount; i++) {
-                        support = joinBoxes(support, supportOf(run, p.inputs[i]));
+                        reach = joinBoxes(reach, supportOf(run, p.inputs[i]));
+                        hard = joinBoxes(hard, edgesOf(run, p.inputs[i]));
                     }
 
-                    support = meetBoxes(p.clip, support);
                     break;
                 case AtomFeMorphology:
                     filterMorphology(run, p, out);
@@ -21711,11 +21784,18 @@ namespace {
                 default:
                     // AtomFeImage, the last primitive.
                     filterImage(run, p, out);
+                    hard = p.clip;
                     break;
             }
 
+            Box support = meetBoxes(p.clip, reach);
+            // A side of the subregion inside the hard edges cuts what it
+            // holds there; a hundredth of a pixel is the same edge.
+            Box cut{p.clip.x0 > hard.x0 + 1e-2f ? p.clip.x0 : -INFINITY, p.clip.y0 > hard.y0 + 1e-2f ? p.clip.y0 : -INFINITY, p.clip.x1 < hard.x1 - 1e-2f ? p.clip.x1 : INFINITY, p.clip.y1 < hard.y1 - 1e-2f ? p.clip.y1 : INFINITY};
+
+            coverEdges(out, cut);
             keepSupport(out, support);
-            run.results.mut(k) = FilterResult{out, p.linear, support};
+            run.results.mut(k) = FilterResult{out, p.linear, support, meetBoxes(p.clip, hard)};
             done.mut(k) = 1;
             stack.popBack();
 
