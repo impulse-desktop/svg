@@ -59,3 +59,37 @@ starts at its position, its end cap along the one that ends there; a zero
 length dash exactly at a corner would be half a square each way. The renderer
 draws the whole square along the segment after the corner, as the dash's start
 cap has it. Elsewhere the two caps agree.
+
+## D7. A pattern's overflow is clipped to its tile, visible or not
+
+`svg2/pservers.md#PatternNotes`: with overflow visible "the rendering
+behavior for the pattern outside the bounds of the pattern is currently
+undefined", rendering it only "encouraged". The text leaves it open, so the
+browsers settle it: they clip to the tile, and the files of the corpus that
+set overflow visible on a pattern, Inkscape's among them, were drawn for
+that.
+
+## D8. A paint server that cannot paint, or is in error, takes the fallback
+
+`svg2/painting.md#DataTypePaint` uses the fallback when the reference is to
+"an element that does not exist or which is not a valid paint server"; a
+pattern of zero width or height "disables rendering of the element (i.e., no
+paint is applied)" (`svg2/pservers.md#PatternElementWidthAttribute`), a
+negative radius of a radial gradient is an error
+(`#RadialGradientElementRAttribute`). The renderer takes a pattern that
+cannot draw (no size, no content, an empty viewBox) and a gradient in error
+for no valid paint server: the fallback paints if there is one, else nothing.
+The W3C test pservers-pattern-03-f and the browsers read it so. What the text
+says paints nothing does: a gradient without stops paints as none, a radial
+gradient whose start circle covers its end circle draws nothing.
+
+## D9. A template's content is cloned under the server that uses it
+
+`svg2/pservers.md#PaintServerTemplates`: the content taken from a template
+forms a shadow tree whose host is the paint server using it, "as if they were
+the paint server's own children", and inherits from it: stop-color
+currentColor is the using gradient's color, an unfilled shape in a pattern
+fills as the using pattern says, not as the template does. The browsers keep
+the template's own inheritance; Inkscape's stock patterns set their fill on
+the template and are used through link patterns that set none, so through a
+link they fill black here (three files of the corpus).

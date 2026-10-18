@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- Each square shows its test in the top half and its reference in the
+bottom half, the same box, clipped; they meet without a step. cx, cy and r
+default to 50% of the box; fx and fy default to the gradient's own cx and cy,
+even taken from its template, unless the template gives fx or fy; fr widens
+the start circle; userSpaceOnUse percentages of r are of the viewport's
+normalized diagonal. A negative r or fr is an error, the gradient no paint
+server: its fallback paints, lime, and without one nothing does (D8). -->
+<rect width="64" height="64" fill="white"/>
+<defs>
+<clipPath id="top" clipPathUnits="objectBoundingBox"><rect width="1" height=".5"/></clipPath>
+<clipPath id="bottom" clipPathUnits="objectBoundingBox"><rect y=".5" width="1" height=".5"/></clipPath>
+<radialGradient id="d"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="dr" gradientUnits="userSpaceOnUse" cx="12" cy="12" r="10"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="ta" cx=".3"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="tb" href="#ta"/>
+<radialGradient id="tbr" cx=".3" fx=".3"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="tc" fx=".2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="td" href="#tc" cx=".4"/>
+<radialGradient id="tdr" cx=".4" fx=".2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="f" fr=".2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="fref"><stop offset=".4" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="p" gradientUnits="userSpaceOnUse" cx="44" cy="52" r="15%"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="pr" gradientUnits="userSpaceOnUse" cx="44" cy="52" r="9.6"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+</defs>
+<rect x="2" y="2" width="20" height="20" fill="url(#d)" clip-path="url(#top)"/><rect x="2" y="2" width="20" height="20" fill="url(#dr)" clip-path="url(#bottom)"/>
+<rect x="24" y="2" width="16" height="20" fill="url(#tb)" clip-path="url(#top)"/><rect x="24" y="2" width="16" height="20" fill="url(#tbr)" clip-path="url(#bottom)"/>
+<rect x="44" y="2" width="16" height="20" fill="url(#td)" clip-path="url(#top)"/><rect x="44" y="2" width="16" height="20" fill="url(#tdr)" clip-path="url(#bottom)"/>
+<rect x="2" y="26" width="20" height="20" fill="url(#f)" clip-path="url(#top)"/><rect x="2" y="26" width="20" height="20" fill="url(#fref)" clip-path="url(#bottom)"/>
+<rect x="30" y="42" width="28" height="20" fill="url(#p)" clip-path="url(#top)"/><rect x="30" y="42" width="28" height="20" fill="url(#pr)" clip-path="url(#bottom)"/>
+<radialGradient id="nr" r="-.5"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="red"/></radialGradient>
+<radialGradient id="nf" fr="-.1"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="red"/></radialGradient>
+<rect x="3" y="51" width="8" height="10" fill="red"/><rect x="2" y="50" width="10" height="12" fill="url(#nr) lime"/>
+<rect x="14" y="50" width="10" height="12" fill="lime"/><rect x="14" y="50" width="10" height="12" fill="url(#nf)"/>
+</svg>

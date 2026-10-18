@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16" color="red">
+<!-- Lime everywhere, no red. A paint server under display none is still
+referenced; its properties, and its content's, inherit from its own
+ancestors, not from the element painted with it; a pattern is never drawn
+where it stands, whatever its display. -->
+<g fill="red"><rect x="3" y="3" width="8" height="8"/><rect x="15" y="3" width="8" height="8"/><rect x="39" y="3" width="8" height="8"/><rect x="51" y="3" width="8" height="8"/></g>
+<g display="none"><linearGradient id="h"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="lime"/></linearGradient></g>
+<g color="lime"><linearGradient id="c"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient></g>
+<g display="none"><pattern id="p" width="1" height="1"><rect width="20" height="20" fill="lime"/></pattern></g>
+<g fill="lime"><pattern id="i" width="1" height="1"><rect width="20" height="20"/></pattern></g>
+<rect x="2" y="2" width="10" height="10" fill="url(#h)"/>
+<rect x="14" y="2" width="10" height="10" fill="url(#c)" color="red"/>
+<rect x="26" y="2" width="10" height="10" fill="lime"/>
+<pattern style="display: inline" width="64" height="16" patternUnits="userSpaceOnUse"><rect x="26" y="2" width="10" height="10" fill="red"/></pattern>
+<rect x="38" y="2" width="10" height="10" fill="url(#p)"/>
+<rect x="50" y="2" width="10" height="10" fill="url(#i)"/>
+</svg>

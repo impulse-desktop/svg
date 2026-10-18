@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Each test strip runs on into the reference under it without a step.
+x1, y1, x2, y2 default to 0%, 0%, 100%, 0% of the box; userSpaceOnUse
+percentages are of the viewport; gradientTransform comes after the box's
+mapping; equal ends paint the last stop; the transform property set by CSS
+replaces gradientTransform, the presentation attribute. -->
+<style>#css { transform: translate(.5px) }</style>
+<rect width="64" height="48" fill="white"/>
+<defs>
+<linearGradient id="d"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="dr" gradientUnits="userSpaceOnUse" x1="2" x2="62"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="vp" gradientUnits="userSpaceOnUse" x1="25%" x2="75%"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="vr" gradientUnits="userSpaceOnUse" x1="16" x2="48"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="t" gradientTransform="translate(.5) scale(.5 1)"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="tr" gradientUnits="userSpaceOnUse" x1="32" x2="62"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="e" x1=".3" x2=".3" y1=".5" y2=".5"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="lime"/></linearGradient>
+<linearGradient id="css" gradientTransform="translate(.25)" x2=".5"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+</defs>
+<rect x="2" y="2" width="60" height="4" fill="url(#d)"/><rect x="2" y="6" width="60" height="4" fill="url(#dr)"/>
+<rect x="2" y="12" width="60" height="4" fill="url(#vp)"/><rect x="2" y="16" width="60" height="4" fill="url(#vr)"/>
+<rect x="2" y="22" width="60" height="4" fill="url(#t)"/><rect x="2" y="26" width="60" height="4" fill="url(#tr)"/>
+<rect x="2" y="32" width="60" height="4" fill="url(#e)"/><rect x="2" y="36" width="60" height="1" fill="lime"/>
+<rect x="2" y="39" width="60" height="4" fill="url(#css)"/><rect x="2" y="43" width="60" height="4" fill="url(#tr)"/>
+</svg>

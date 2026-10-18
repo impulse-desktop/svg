@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- Each test strip runs on into the reference under it without a step.
+Stops interpolate per channel, not premultiplied: opaque red to clear blue
+goes through translucent purple. A gradient is part of the shape's geometry:
+the shape's transform turns it, after its own gradientTransform. -->
+<rect width="64" height="40" fill="white"/>
+<defs>
+<linearGradient id="np"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="blue" stop-opacity="0"/></linearGradient>
+<linearGradient id="ref"><stop offset="0" stop-color="#ff0000" stop-opacity="1"/><stop offset="0.03125" stop-color="#f70008" stop-opacity="0.96875"/><stop offset="0.0625" stop-color="#ef0010" stop-opacity="0.9375"/><stop offset="0.09375" stop-color="#e70018" stop-opacity="0.90625"/><stop offset="0.125" stop-color="#df0020" stop-opacity="0.875"/><stop offset="0.15625" stop-color="#d70028" stop-opacity="0.84375"/><stop offset="0.1875" stop-color="#cf0030" stop-opacity="0.8125"/><stop offset="0.21875" stop-color="#c70038" stop-opacity="0.78125"/><stop offset="0.25" stop-color="#bf0040" stop-opacity="0.75"/><stop offset="0.28125" stop-color="#b70048" stop-opacity="0.71875"/><stop offset="0.3125" stop-color="#af0050" stop-opacity="0.6875"/><stop offset="0.34375" stop-color="#a70058" stop-opacity="0.65625"/><stop offset="0.375" stop-color="#9f0060" stop-opacity="0.625"/><stop offset="0.40625" stop-color="#970068" stop-opacity="0.59375"/><stop offset="0.4375" stop-color="#8f0070" stop-opacity="0.5625"/><stop offset="0.46875" stop-color="#870078" stop-opacity="0.53125"/><stop offset="0.5" stop-color="#800080" stop-opacity="0.5"/><stop offset="0.53125" stop-color="#780087" stop-opacity="0.46875"/><stop offset="0.5625" stop-color="#70008f" stop-opacity="0.4375"/><stop offset="0.59375" stop-color="#680097" stop-opacity="0.40625"/><stop offset="0.625" stop-color="#60009f" stop-opacity="0.375"/><stop offset="0.65625" stop-color="#5800a7" stop-opacity="0.34375"/><stop offset="0.6875" stop-color="#5000af" stop-opacity="0.3125"/><stop offset="0.71875" stop-color="#4800b7" stop-opacity="0.28125"/><stop offset="0.75" stop-color="#4000bf" stop-opacity="0.25"/><stop offset="0.78125" stop-color="#3800c7" stop-opacity="0.21875"/><stop offset="0.8125" stop-color="#3000cf" stop-opacity="0.1875"/><stop offset="0.84375" stop-color="#2800d7" stop-opacity="0.15625"/><stop offset="0.875" stop-color="#2000df" stop-opacity="0.125"/><stop offset="0.90625" stop-color="#1800e7" stop-opacity="0.09375"/><stop offset="0.9375" stop-color="#1000ef" stop-opacity="0.0625"/><stop offset="0.96875" stop-color="#0800f7" stop-opacity="0.03125"/><stop offset="1" stop-color="#0000ff" stop-opacity="0"/></linearGradient>
+<linearGradient id="h"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="v" x2="0" y2="1"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="t" gradientTransform="rotate(90 .5 .5)"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="u" gradientUnits="userSpaceOnUse" x1="0" x2="10" gradientTransform="translate(2 0)"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+</defs>
+<rect x="2" y="2" width="60" height="4" fill="url(#np)"/>
+<rect x="2" y="6" width="60" height="4" fill="url(#ref)"/>
+<rect x="2" y="14" width="12" height="12" fill="url(#h)" transform="rotate(90 8 20)"/>
+<rect x="14" y="14" width="12" height="12" fill="url(#v)"/>
+<rect x="30" y="14" width="12" height="12" fill="url(#t)"/>
+<rect x="42" y="14" width="12" height="12" fill="url(#v)"/>
+<linearGradient id="w" gradientUnits="userSpaceOnUse" x1="4" x2="24"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<g transform="scale(2 1)"><rect x="1" y="30" width="10" height="4" fill="url(#u)"/></g>
+<rect x="2" y="34" width="20" height="4" fill="url(#w)"/>
+</svg>

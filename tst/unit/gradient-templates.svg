@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="56">
+<!-- Each test strip runs on into the reference under it without a step; no
+red. href takes from its template, through a chain, the attributes the
+gradient leaves out, and its stops when it has none but descriptive ones;
+a linear gradient takes from a radial one the attributes they share; a
+template that is no gradient is no template. The template's stops are cloned
+under the gradient, so they inherit from it: currentColor is its color. -->
+<rect width="64" height="56" fill="white"/>
+<defs>
+<linearGradient id="base" gradientUnits="userSpaceOnUse" x1="2" x2="32" spreadMethod="reflect"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="d1" href="#base"><desc>no stops</desc></linearGradient>
+<linearGradient id="d2" href="#d1" x2="17"/>
+<linearGradient id="r2" gradientUnits="userSpaceOnUse" x1="2" x2="17" spreadMethod="reflect"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="d3" href="#base"><stop offset="0" stop-color="teal"/><stop offset="1" stop-color="white"/></linearGradient>
+<linearGradient id="r3" gradientUnits="userSpaceOnUse" x1="2" x2="32" spreadMethod="reflect"><stop offset="0" stop-color="teal"/><stop offset="1" stop-color="white"/></linearGradient>
+<radialGradient id="rad" gradientUnits="userSpaceOnUse" cx="0" r="5" spreadMethod="repeat" gradientTransform="translate(2 0)"><stop offset="0" stop-color="purple"/><stop offset="1" stop-color="orange"/></radialGradient>
+<linearGradient id="d4" href="#rad" x2="10"/>
+<linearGradient id="r4" gradientUnits="userSpaceOnUse" x1="2" x2="12" spreadMethod="repeat"><stop offset="0" stop-color="purple"/><stop offset="1" stop-color="orange"/></linearGradient>
+<rect id="notgradient"/>
+<linearGradient id="d5" href="#notgradient"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<g color="red"><linearGradient id="cur"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient></g>
+<g color="lime"><linearGradient id="d6" href="#cur"/></g>
+</defs>
+<rect x="2" y="2" width="60" height="3" fill="url(#base)"/><rect x="2" y="5" width="60" height="3" fill="url(#d1)"/>
+<rect x="2" y="10" width="60" height="3" fill="url(#d2)"/><rect x="2" y="13" width="60" height="3" fill="url(#r2)"/>
+<rect x="2" y="18" width="60" height="3" fill="url(#d3)"/><rect x="2" y="21" width="60" height="3" fill="url(#r3)"/>
+<rect x="2" y="26" width="60" height="3" fill="url(#d4)"/><rect x="2" y="29" width="60" height="3" fill="url(#r4)"/>
+<rect x="2" y="34" width="60" height="3" fill="url(#d5)"/><linearGradient id="r5"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient><rect x="2" y="37" width="60" height="3" fill="url(#r5)"/>
+<rect x="3" y="43" width="58" height="10" fill="red"/>
+<rect x="2" y="42" width="60" height="12" fill="url(#d6)"/>
+</svg>

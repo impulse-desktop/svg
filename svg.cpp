@@ -1738,6 +1738,11 @@ namespace {
         u16* table;
         u8* kinks;
         u32 tableSize;
+        // Of a radial gradient whose focal point lies on its end circle, the
+        // colour past the focal point, stored: its last stop's padded, else
+        // the average of its colours (pservers.md, RadialGradientNotes).
+        bool beyond;
+        u16 beyond16[4];
         // The device bounds of the fill a pattern paints and whether a filter
         // samples it everywhere; the tile pixels its tile is drawn over,
         // unwrapped.
@@ -9100,7 +9105,11 @@ namespace {
                             if (pass) {
                                 strokePolyline(out, s, piece.data(), flags.data(), ways.data(), piece.length(), false);
 
-                                if (corner && piece.length() > 1 && kind[i] == PointCorner && (incoming.x != 0.f || incoming.y != 0.f)) {
+                                // The direction come along is never none
+                                // past a cut: a subpath with a cut has
+                                // length, and its first point the direction
+                                // of its first segment that has.
+                                if (corner && piece.length() > 1 && kind[i] == PointCorner) {
                                     addJoinShape(out, s, a, incoming, came[i + 1]);
                                 }
                             } else {
@@ -11172,16 +11181,6 @@ namespace {
 
     static bool passesConditions(const Document& doc, const Node* node);
 
-    static bool resourceUsable(Pass& l, Node* node, Viewport vp) {
-        for (Node* up = node; up != l.doc->root; up = up->parent) {
-            if (documentStyle(l, up, vp).displayNone || (up != node && !passesConditions(*l.doc, up))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     static void emitEdges(Lowering& l, const Flat& flat, Box& bounds) {
         u32 begin = 0;
 
@@ -11454,7 +11453,9 @@ namespace {
 
         Vector<Op> program;
         Vector<Op>* saved = l.out;
-        const ComputedStyle& contentStyle = documentStyle(l, content, vp);
+        // Content taken from a template is cloned under the pattern, and
+        // inherits from it (pservers.md, PaintServerTemplates).
+        const ComputedStyle& contentStyle = documentStyle(l, pattern, vp);
 
         Matrix outerHost = l.host;
         Matrix screenInverse;
@@ -11564,7 +11565,9 @@ namespace {
     static float srgbToLinear(float c);
     static float linearToSrgb(float c);
 
-    static DevicePaint* gradientPaint(Lowering& l, Node* gradient, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
+    // The paint of a gradient, none where it paints nothing; invalid where
+    // it is in error, no paint server then.
+    static DevicePaint* gradientPaint(Lowering& l, Node* gradient, float opacity, Box bbox, const Matrix& ctm, Viewport vp, bool& invalid) {
         const Document& doc = *l.doc;
         u32 units = gradientAttribute(doc, gradient, AtomGradientUnits);
         bool boxUnits = !units || textOf(doc, units) != SV("userSpaceOnUse");
@@ -11603,7 +11606,9 @@ namespace {
                 offset = maxf(clampUnit(offset), previous);
                 previous = offset;
 
-                const ComputedStyle& style = documentStyle(l, child, vp);
+                // Stops taken from a template are cloned under the gradient,
+                // and inherit from it (pservers.md, PaintServerTemplates).
+                ComputedStyle style = stopsNode == gradient ? documentStyle(l, child, vp) : computeStyle(l, child, documentStyle(l, gradient, vp), vp);
                 Color color = style.stopColor;
 
                 color.a *= style.stopOpacity * opacity;
@@ -11702,23 +11707,29 @@ namespace {
             paint->r = gradientLength(l, gradient, AtomR, boxUnits, Axis::Other, vp, boxUnits ? 0.5f : resolveLength(Length{50.f, Unit::Percent}, Axis::Other, vp, 16.f));
             paint->fx = gradientLength(l, gradient, AtomFx, boxUnits, Axis::X, vp, paint->cx);
             paint->fy = gradientLength(l, gradient, AtomFy, boxUnits, Axis::Y, vp, paint->cy);
-            paint->fr = maxf(gradientLength(l, gradient, AtomFr, boxUnits, Axis::Other, vp, 0.f), 0.f);
+            paint->fr = gradientLength(l, gradient, AtomFr, boxUnits, Axis::Other, vp, 0.f);
+
+            // A negative radius is an error (pservers.md,
+            // RadialGradientElementRAttribute), the gradient no paint server.
+            if (paint->r < 0.f || paint->fr < 0.f) {
+                invalid = true;
+
+                return nullptr;
+            }
 
             if (paint->r <= 1.f / 32768.f) {
                 return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
             }
 
-            if (fabsf(paint->fr - paint->r) < 1e-6f * maxf(1.f, paint->r) && paint->fx == paint->cx && paint->fy == paint->cy && paint->spread == SpreadPad) {
-                Color first = stops[0].color;
-                GradientStop* ring = (GradientStop*)l.pool->allocate(sizeof(GradientStop) * 3);
+            float apart = hypotf(paint->cx - paint->fx, paint->cy - paint->fy);
 
-                ring[0] = GradientStop{0.f, first, {}};
-                ring[1] = GradientStop{1.f, first, {}};
-                ring[2] = GradientStop{1.f, last, {}};
-                paint->stops = ring;
-                paint->stopCount = 3;
-                paint->fr = 0.f;
+            // A start circle over the whole end circle draws nothing; a focal
+            // circle touching the end circle from inside paints past it.
+            if (apart + paint->r <= paint->fr * (1.f + 1e-6f)) {
+                return nullptr;
             }
+
+            paint->beyond = paint->r > paint->fr && fabsf(apart - (paint->r - paint->fr)) <= 1e-6f * paint->r;
         }
 
         for (u32 i = 0; i < paint->stopCount; i++) {
@@ -12371,15 +12382,22 @@ namespace {
                 bool gradient = server && (server->name == AtomLinearGradient || server->name == AtomRadialGradient);
                 bool pattern = server && server->name == AtomPattern && !closesCycle(l, node, property, server);
 
-                if ((gradient || pattern) && resourceUsable(l, server, vp) && !singularTransform(*l.doc, server)) {
-                    DevicePaint* paint = gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp) : patternPaint(l, server, opacity, bbox, ctm, vp);
+                // A paint server is used whatever its display and its
+                // conditions, or its ancestors' (pservers.md, Introduction).
+                if ((gradient || pattern) && !singularTransform(*l.doc, server)) {
+                    bool invalid = false;
+                    DevicePaint* paint = gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp, invalid) : patternPaint(l, server, opacity, bbox, ctm, vp);
 
-                    if (paint || (gradient && !degenerateBox(*l.doc, server, bbox))) {
+                    // A gradient that paints nothing paints nothing; one in
+                    // error, a pattern that cannot draw, or a box needed and
+                    // missing, is no paint server: the fallback goes instead
+                    // (tst/spec/decisions.md, D8).
+                    if (paint || (gradient && !invalid && !degenerateBox(*l.doc, server, bbox))) {
                         return paint;
                     }
                 }
 
-                if (server && server->name == AtomMeshGradient && resourceUsable(l, server, vp)) {
+                if (server && server->name == AtomMeshGradient) {
                     if (DevicePaint* paint = meshPaint(l, server, opacity, bbox, ctm, vp)) {
                         return paint;
                     }
@@ -12793,7 +12811,7 @@ namespace {
         const Document& doc = *l.doc;
         Node* clip = elementById(doc, style.clipPath);
 
-        if (!clip || clip->name != AtomClipPath || !resourceUsable(l, clip, vp)) {
+        if (!clip || clip->name != AtomClipPath) {
             return false;
         }
 
@@ -13990,7 +14008,7 @@ namespace {
             Node* mask = found && found->name == AtomMask ? found : nullptr;
             ImageSource image;
 
-            if (layer.source == MaskSource::None || (mask && (!resourceUsable(l, mask, vp) || closesCycle(l, element, AtomMask, mask)))) {
+            if (layer.source == MaskSource::None || (mask && closesCycle(l, element, AtomMask, mask))) {
                 continue;
             }
 
@@ -14152,7 +14170,7 @@ namespace {
         const Document& doc = *l.doc;
         Node* filterNode = elementById(doc, reference);
 
-        if (!filterNode || filterNode->name != AtomFilter || !resourceUsable(l, filterNode, vp)) {
+        if (!filterNode || filterNode->name != AtomFilter) {
             return nullptr;
         }
 
@@ -17039,8 +17057,18 @@ namespace {
         paint.kinks = (u8*)l.pool->allocate(size);
         paint.tableSize = size;
 
+        u64 sums[4] = {0, 0, 0, 0};
+
         for (u32 i = 0; i < size; i++) {
             gradientColor(paint, (float)i / (float)(size - 1), paint.table + (size_t)i * 4);
+
+            for (int k = 0; k < 4; k++) {
+                sums[k] += paint.table[(size_t)i * 4 + k];
+            }
+        }
+
+        for (int k = 0; k < 4; k++) {
+            paint.beyond16[k] = paint.spread == SpreadPad ? paint.table[(size_t)(size - 1) * 4 + k] : (u16)((sums[k] + size / 2) / size);
         }
 
         // A step holding a stop, at either end too, is not linear in t; nor is
@@ -17372,7 +17400,9 @@ namespace {
         float t;
 
         if (!gradientT(paint, p, t)) {
-            return false;
+            memcpy(out, paint.beyond16, sizeof(paint.beyond16));
+
+            return paint.beyond;
         }
 
         gradientAt(paint, t, out);
@@ -18205,7 +18235,14 @@ namespace {
             float px = (float)(x + (int)i) + 0.5f;
 
             if (!gradientT(paint, Point{m.a * px + rowX + m.e, m.b * px + rowY + m.f}, t)) {
-                cover[i] = 0;
+                if (paint.beyond) {
+                    memcpy(below + (size_t)i * 4, paint.beyond16, sizeof(paint.beyond16));
+                    memcpy(above + (size_t)i * 4, paint.beyond16, sizeof(paint.beyond16));
+                    between[i] = 0;
+                } else {
+                    cover[i] = 0;
+                }
+
                 continue;
             }
 

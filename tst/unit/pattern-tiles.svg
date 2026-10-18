@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="128">
+<!-- Each pattern fill, left, matches the squares drawn out, right. Tiles of
+an objectBoundingBox pattern are fractions of the box from its corner,
+content in user units from the tile's corner; userSpaceOnUse tiles start at
+x, y; objectBoundingBox content scales with the box; a viewBox fits the
+content into the tile and outranks patternContentUnits; patternTransform
+moves the tiles; content past a tile is clipped; a template gives what the
+pattern leaves out; CSS transform replaces patternTransform. A pattern of
+zero width or height is no paint server: its fallback paints, lime, and
+without one nothing does (D8). -->
+<style>#h { transform: translate(3px, 0) }</style>
+<rect width="64" height="128" fill="white"/>
+<defs>
+<pattern id="a" width=".25" height=".5"><rect width="3" height="3" fill="lime"/></pattern>
+<pattern id="b" patternUnits="userSpaceOnUse" x="1" y="1" width="5" height="5"><rect width="2" height="2" fill="lime"/></pattern>
+<pattern id="c" width=".25" height=".5" patternContentUnits="objectBoundingBox"><rect width=".1" height=".2333333" fill="lime"/></pattern>
+<pattern id="d" patternUnits="userSpaceOnUse" width="6" height="6" viewBox="0 0 3 3" patternContentUnits="objectBoundingBox"><rect width="1" height="1" fill="lime"/></pattern>
+<pattern id="e" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="translate(2 1)"><rect width="2" height="2" fill="lime"/></pattern>
+<pattern id="f" patternUnits="userSpaceOnUse" width="6" height="6"><rect x="3" y="3" width="6" height="6" fill="lime"/></pattern>
+<pattern id="gt" patternUnits="userSpaceOnUse" width="7" height="4" x="1"><rect width="2" height="2" fill="lime"/></pattern><pattern id="g" href="#gt" height="6"/>
+<pattern id="h" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="translate(1 1)"><rect width="2" height="2" fill="lime"/></pattern>
+<pattern id="z" width="0" height=".5"><rect width="20" height="20" fill="red"/></pattern>
+<pattern id="z2" patternUnits="objectBoundingBox" width="0" height=".5"><rect width="20" height="20" fill="red"/></pattern>
+<pattern id="z3" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" width="4" height="0"><rect width="20" height="20" fill="red"/></pattern>
+</defs>
+<rect x="2" y="2" width="28" height="12" fill="url(#a)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="2" y="2" width="3" height="3"/><rect x="2" y="8" width="3" height="3"/><rect x="9" y="2" width="3" height="3"/><rect x="9" y="8" width="3" height="3"/><rect x="16" y="2" width="3" height="3"/><rect x="16" y="8" width="3" height="3"/><rect x="23" y="2" width="3" height="3"/><rect x="23" y="8" width="3" height="3"/></g>
+<rect x="2" y="16" width="28" height="12" fill="url(#b)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="2" y="16" width="1" height="2"/><rect x="2" y="21" width="1" height="2"/><rect x="2" y="26" width="1" height="2"/><rect x="6" y="16" width="2" height="2"/><rect x="6" y="21" width="2" height="2"/><rect x="6" y="26" width="2" height="2"/><rect x="11" y="16" width="2" height="2"/><rect x="11" y="21" width="2" height="2"/><rect x="11" y="26" width="2" height="2"/><rect x="16" y="16" width="2" height="2"/><rect x="16" y="21" width="2" height="2"/><rect x="16" y="26" width="2" height="2"/><rect x="21" y="16" width="2" height="2"/><rect x="21" y="21" width="2" height="2"/><rect x="21" y="26" width="2" height="2"/><rect x="26" y="16" width="2" height="2"/><rect x="26" y="21" width="2" height="2"/><rect x="26" y="26" width="2" height="2"/></g>
+<rect x="2" y="30" width="28" height="12" fill="url(#c)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="2" y="30" width="2.8" height="2.8"/><rect x="2" y="36" width="2.8" height="2.8"/><rect x="9" y="30" width="2.8" height="2.8"/><rect x="9" y="36" width="2.8" height="2.8"/><rect x="16" y="30" width="2.8" height="2.8"/><rect x="16" y="36" width="2.8" height="2.8"/><rect x="23" y="30" width="2.8" height="2.8"/><rect x="23" y="36" width="2.8" height="2.8"/></g>
+<rect x="2" y="44" width="28" height="12" fill="url(#d)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="6" y="48" width="2" height="2"/><rect x="6" y="54" width="2" height="2"/><rect x="12" y="48" width="2" height="2"/><rect x="12" y="54" width="2" height="2"/><rect x="18" y="48" width="2" height="2"/><rect x="18" y="54" width="2" height="2"/><rect x="24" y="48" width="2" height="2"/><rect x="24" y="54" width="2" height="2"/></g>
+<rect x="2" y="58" width="28" height="12" fill="url(#e)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="2" y="61" width="2" height="2"/><rect x="2" y="66" width="2" height="2"/><rect x="7" y="61" width="2" height="2"/><rect x="7" y="66" width="2" height="2"/><rect x="12" y="61" width="2" height="2"/><rect x="12" y="66" width="2" height="2"/><rect x="17" y="61" width="2" height="2"/><rect x="17" y="66" width="2" height="2"/><rect x="22" y="61" width="2" height="2"/><rect x="22" y="66" width="2" height="2"/><rect x="27" y="61" width="2" height="2"/><rect x="27" y="66" width="2" height="2"/></g>
+<rect x="2" y="72" width="28" height="12" fill="url(#f)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="3" y="75" width="3" height="3"/><rect x="3" y="81" width="3" height="3"/><rect x="9" y="75" width="3" height="3"/><rect x="9" y="81" width="3" height="3"/><rect x="15" y="75" width="3" height="3"/><rect x="15" y="81" width="3" height="3"/><rect x="21" y="75" width="3" height="3"/><rect x="21" y="81" width="3" height="3"/><rect x="27" y="75" width="3" height="3"/><rect x="27" y="81" width="3" height="3"/></g>
+<rect x="2" y="86" width="28" height="12" fill="url(#g)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="2" y="90" width="1" height="2"/><rect x="2" y="96" width="1" height="2"/><rect x="8" y="90" width="2" height="2"/><rect x="8" y="96" width="2" height="2"/><rect x="15" y="90" width="2" height="2"/><rect x="15" y="96" width="2" height="2"/><rect x="22" y="90" width="2" height="2"/><rect x="22" y="96" width="2" height="2"/><rect x="29" y="90" width="1" height="2"/><rect x="29" y="96" width="1" height="2"/></g>
+<rect x="2" y="100" width="28" height="12" fill="url(#h)"/>
+<g fill="lime" transform="translate(32 0)"><rect x="3" y="100" width="2" height="2"/><rect x="3" y="105" width="2" height="2"/><rect x="3" y="110" width="2" height="2"/><rect x="8" y="100" width="2" height="2"/><rect x="8" y="105" width="2" height="2"/><rect x="8" y="110" width="2" height="2"/><rect x="13" y="100" width="2" height="2"/><rect x="13" y="105" width="2" height="2"/><rect x="13" y="110" width="2" height="2"/><rect x="18" y="100" width="2" height="2"/><rect x="18" y="105" width="2" height="2"/><rect x="18" y="110" width="2" height="2"/><rect x="23" y="100" width="2" height="2"/><rect x="23" y="105" width="2" height="2"/><rect x="23" y="110" width="2" height="2"/><rect x="28" y="100" width="2" height="2"/><rect x="28" y="105" width="2" height="2"/><rect x="28" y="110" width="2" height="2"/></g>
+<rect x="3" y="115" width="26" height="10" fill="red"/><rect x="2" y="114" width="28" height="12" fill="url(#z) lime"/>
+<rect x="35" y="115" width="11" height="10" fill="red"/><rect x="34" y="114" width="13" height="12" fill="url(#z2) lime"/>
+<rect x="49" y="114" width="13" height="12" fill="lime"/><rect x="49" y="114" width="13" height="12" fill="url(#z3)"/>
+</svg>

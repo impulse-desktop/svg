@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Lime everywhere, no red. A clipPath, mask, filter or paint server is
+used whatever the display of it or its ancestors, and when conditional
+processing leaves it out: the clip cuts the red away, the mask shows the
+lime, the filter floods lime, the gradient paints lime. -->
+<g fill="red"><rect x="15" y="3" width="8" height="8"/><rect x="51" y="3" width="8" height="8"/></g>
+<g display="none">
+<clipPath id="c"><rect width="0" height="0"/></clipPath>
+<mask id="m" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="white"/></mask>
+<filter id="f" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>
+</g>
+<g requiredExtensions="http://example.org/none"><linearGradient id="g"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="lime"/></linearGradient></g>
+<rect x="2" y="2" width="10" height="10" fill="lime"/>
+<rect x="2" y="2" width="10" height="10" fill="red" clip-path="url(#c)"/>
+<rect x="14" y="2" width="10" height="10" fill="lime" mask="url(#m)"/>
+<rect x="26" y="2" width="10" height="10" fill="red" filter="url(#f)"/>
+<rect x="38" y="2" width="10" height="10" fill="url(#g) red"/>
+<switch><g systemLanguage="xx-none"><radialGradient id="r"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="lime"/></radialGradient></g></switch>
+<rect x="50" y="2" width="10" height="10" fill="url(#r) red"/>
+</svg>
