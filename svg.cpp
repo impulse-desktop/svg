@@ -14077,14 +14077,28 @@ namespace {
         }
 
         const ComputedStyle& markerStyle = documentStyle(p, marker, vp);
+        Box drawn = emptyBox();
 
         p.active.pushBack(marker);
 
         for (Node* child = marker->first; child; child = child->next) {
-            childExtent(p, child, multiply(origin, content), markerStyle, inside, how, depth, box);
+            childExtent(p, child, multiply(origin, content), markerStyle, inside, how, depth, drawn);
         }
 
         p.active.popBack();
+
+        // A marker that clips its overflow draws inside its viewport alone,
+        // as lowerMarker clips it.
+        if (!markerStyle.overflowVisible) {
+            Box view = deviceBox(origin, Box{0.f, 0.f, w, h});
+
+            drawn = Box{maxf(drawn.x0, view.x0), maxf(drawn.y0, view.y0), minf(drawn.x1, view.x1), minf(drawn.y1, view.y1)};
+        }
+
+        if (drawn.x0 <= drawn.x1 && drawn.y0 <= drawn.y1) {
+            extend(box, Point{drawn.x0, drawn.y0});
+            extend(box, Point{drawn.x1, drawn.y1});
+        }
     }
 
     static void markerExtent(Pass& p, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box) {
