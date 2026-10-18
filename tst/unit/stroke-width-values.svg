@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- Each stroke runs on into a bar of the width it should have, without a
+step; no red. A percentage is of the viewport's normalized diagonal, here 64;
+a number is in user units; zero paints no stroke; a negative width is
+invalid, so the parent's applies. -->
+<rect width="64" height="64" fill="white"/>
+<g fill="black">
+<rect x="32" y="2.8" width="30" height="6.4"/>
+<rect x="32" y="14" width="30" height="4"/>
+<rect x="32" y="24" width="30" height="4"/>
+<rect x="32" y="33.1655" width="30" height="5.669"/>
+<rect x="32" y="44" width="30" height="4"/>
+</g>
+<g fill="none" stroke="black">
+<path d="M 2 6 H 32" stroke-width="10%"/>
+<g stroke-width="4"><path d="M 2 16 H 32" stroke-width="-3"/></g>
+<g transform="scale(2)"><path d="M 1 13 H 16" stroke-width="2"/></g>
+<path d="M 2 36 H 32" stroke-width="1.5mm"/>
+<path d="M 2 46 H 32" stroke-width=".25em"/>
+</g>
+<rect x="2" y="52" width="60" height="10" fill="lime"/>
+<path d="M 2 57 H 62" stroke="red" stroke-width="0"/>
+</svg>

@@ -28,8 +28,10 @@ naming the unit that draws it, and its statements are lines under it:
 - [-] svg2/painting.md#...: ... (D3)
 ```
 
-`[ ]` is not yet checked, `[x]` drawn right by the feature's unit, `[-]` left
-out, with the decision in `decisions.md` named at the end of the line.
+`[ ]` is not yet checked, `[x]` drawn right by the feature's units, `[-]` left
+out, with the decision in `decisions.md` named at the end of the line, `(D4)`.
+`ledger.py` checks that each anchor is in its page, that a checked feature's
+units exist and that what is left out names its decision.
 
 ## How
 

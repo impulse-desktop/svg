@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="53">
+<!-- Each dashed line, 2 wide, runs on into the bars below it without a
+step: the dash positions of the spec. An odd list repeats; percentages are
+of the normalized diagonal; a negative offset counts back from the pattern's
+sum; pathLength scales dashes and offset; a negative value invalidates the
+list, and all zeros draw a solid line. -->
+<rect width="64" height="53" fill="white"/>
+<g fill="none" stroke="black" stroke-width="2">
+<path d="M 2 3 H 62" stroke-dasharray="4 2 1"/>
+<path d="M 2 8 H 62" stroke-dasharray="4,2,1,4,2,1"/>
+<path d="M 2 13 H 62" stroke-dasharray="10% 5%"/>
+<path d="M 2 18 H 62" stroke-dasharray="6 2" stroke-dashoffset="3"/>
+<path d="M 2 23 H 62" stroke-dasharray="6 2" stroke-dashoffset="-2"/>
+<path d="M 2 28 H 62" stroke-dasharray="6 2" stroke-dashoffset="-10"/>
+<path d="M 2 33 H 62" stroke-dasharray="3 1" stroke-dashoffset="5%"/>
+<path d="M 2 38 H 62" stroke-dasharray="5 5" stroke-dashoffset="2" pathLength="30"/>
+<path d="M 2 43 H 62" stroke-dasharray="4 -2"/>
+<path d="M 2 48 H 62" stroke-dasharray="0 0"/>
+</g>
+<g fill="black">
+<rect x="2" y="4" width="4" height="2"/><rect x="8" y="4" width="1" height="2"/><rect x="13" y="4" width="2" height="2"/><rect x="16" y="4" width="4" height="2"/><rect x="22" y="4" width="1" height="2"/><rect x="27" y="4" width="2" height="2"/><rect x="30" y="4" width="4" height="2"/><rect x="36" y="4" width="1" height="2"/><rect x="41" y="4" width="2" height="2"/><rect x="44" y="4" width="4" height="2"/><rect x="50" y="4" width="1" height="2"/><rect x="55" y="4" width="2" height="2"/><rect x="58" y="4" width="4" height="2"/>
+<rect x="2" y="9" width="4" height="2"/><rect x="8" y="9" width="1" height="2"/><rect x="13" y="9" width="2" height="2"/><rect x="16" y="9" width="4" height="2"/><rect x="22" y="9" width="1" height="2"/><rect x="27" y="9" width="2" height="2"/><rect x="30" y="9" width="4" height="2"/><rect x="36" y="9" width="1" height="2"/><rect x="41" y="9" width="2" height="2"/><rect x="44" y="9" width="4" height="2"/><rect x="50" y="9" width="1" height="2"/><rect x="55" y="9" width="2" height="2"/><rect x="58" y="9" width="4" height="2"/>
+<rect x="2" y="14" width="5.8758" height="2"/><rect x="10.8137" y="14" width="5.8758" height="2"/><rect x="19.6274" y="14" width="5.8758" height="2"/><rect x="28.4411" y="14" width="5.8758" height="2"/><rect x="37.2548" y="14" width="5.8758" height="2"/><rect x="46.0685" y="14" width="5.8758" height="2"/><rect x="54.8822" y="14" width="5.8758" height="2"/>
+<rect x="2" y="19" width="3" height="2"/><rect x="7" y="19" width="6" height="2"/><rect x="15" y="19" width="6" height="2"/><rect x="23" y="19" width="6" height="2"/><rect x="31" y="19" width="6" height="2"/><rect x="39" y="19" width="6" height="2"/><rect x="47" y="19" width="6" height="2"/><rect x="55" y="19" width="6" height="2"/>
+<rect x="4" y="24" width="6" height="2"/><rect x="12" y="24" width="6" height="2"/><rect x="20" y="24" width="6" height="2"/><rect x="28" y="24" width="6" height="2"/><rect x="36" y="24" width="6" height="2"/><rect x="44" y="24" width="6" height="2"/><rect x="52" y="24" width="6" height="2"/><rect x="60" y="24" width="2" height="2"/>
+<rect x="2" y="29" width="8" height="2"/><rect x="12" y="29" width="6" height="2"/><rect x="20" y="29" width="6" height="2"/><rect x="28" y="29" width="6" height="2"/><rect x="36" y="29" width="6" height="2"/><rect x="44" y="29" width="6" height="2"/><rect x="52" y="29" width="6" height="2"/><rect x="60" y="29" width="2" height="2"/>
+<rect x="2" y="34" width="0.0621" height="2"/><rect x="3.0621" y="34" width="3" height="2"/><rect x="7.0621" y="34" width="3" height="2"/><rect x="11.0621" y="34" width="3" height="2"/><rect x="15.0621" y="34" width="3" height="2"/><rect x="19.0621" y="34" width="3" height="2"/><rect x="23.0621" y="34" width="3" height="2"/><rect x="27.0621" y="34" width="3" height="2"/><rect x="31.0621" y="34" width="3" height="2"/><rect x="35.0621" y="34" width="3" height="2"/><rect x="39.0621" y="34" width="3" height="2"/><rect x="43.0621" y="34" width="3" height="2"/><rect x="47.0621" y="34" width="3" height="2"/><rect x="51.0621" y="34" width="3" height="2"/><rect x="55.0621" y="34" width="3" height="2"/><rect x="59.0621" y="34" width="2.9379" height="2"/>
+<rect x="2" y="39" width="6" height="2"/><rect x="18" y="39" width="10" height="2"/><rect x="38" y="39" width="10" height="2"/><rect x="58" y="39" width="4" height="2"/>
+<rect x="2" y="44" width="60" height="2"/>
+<rect x="2" y="49" width="60" height="2"/>
+</g>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Each lime arrow fills its black outline, the orientation the spec gives:
+auto along the path at the ends of an open subpath, halfway between the
+segments at a middle vertex and at the start of a closed subpath, reversed at
+the start by auto-start-reverse; angles in degrees, turns, grads and radians,
+a bare number in degrees. -->
+<rect width="64" height="48" fill="white"/>
+<defs>
+<marker id="a" markerWidth="4" markerHeight="4" refY="2" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 4 2 L 0 4 Z" fill="lime"/></marker>
+<marker id="r" markerWidth="4" markerHeight="4" refY="2" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M 0 0 L 4 2 L 0 4 Z" fill="lime"/></marker>
+<marker id="d90" markerWidth="4" markerHeight="4" refY="2" markerUnits="userSpaceOnUse" orient="90"><path d="M 0 0 L 4 2 L 0 4 Z" fill="lime"/></marker>
+<marker id="turn" markerWidth="4" markerHeight="4" refY="2" markerUnits="userSpaceOnUse" orient=".25turn"><path d="M 0 0 L 4 2 L 0 4 Z" fill="lime"/></marker>
+<marker id="grad" markerWidth="4" markerHeight="4" refY="2" markerUnits="userSpaceOnUse" orient="100grad"><path d="M 0 0 L 4 2 L 0 4 Z" fill="lime"/></marker>
+<marker id="rad" markerWidth="4" markerHeight="4" refY="2" markerUnits="userSpaceOnUse" orient="3.14159265rad"><path d="M 0 0 L 4 2 L 0 4 Z" fill="lime"/></marker>
+<marker id="neg" markerWidth="4" markerHeight="4" refY="2" markerUnits="userSpaceOnUse" orient="-90deg"><path d="M 0 0 L 4 2 L 0 4 Z" fill="lime"/></marker>
+</defs>
+<g fill="none" stroke="silver" stroke-width=".5">
+<path d="M 4 6 L 14 16" marker-start="url(#a)" marker-end="url(#a)"/>
+<path d="M 30 6 L 40 6" marker-start="url(#r)" marker-end="url(#r)"/>
+<polyline points="44,4 52,12 60,4" marker-mid="url(#a)"/>
+<path d="M 6 22 h 1" marker-start="url(#d90)"/>
+<path d="M 14 22 h 1" marker-start="url(#turn)"/>
+<path d="M 22 22 h 1" marker-start="url(#grad)"/>
+<path d="M 30 22 h 1" marker-start="url(#rad)"/>
+<path d="M 42 26 h 1" marker-start="url(#neg)"/>
+<path d="M 6 36 L 16 36 L 11 46 Z" marker-start="url(#a)"/>
+<path d="M 24 36 C 24 46 34 46 34 36" marker-start="url(#a)" marker-end="url(#a)"/>
+<path d="M 42 40 L 52 40 L 52 40" marker-end="url(#a)"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".25">
+<path d="M 5.414 4.586 L 6.828 8.828 L 2.586 7.414 Z"/>
+<path d="M 15.414 14.586 L 16.828 18.828 L 12.586 17.414 Z"/>
+<path d="M 30.000 8.000 L 26.000 6.000 L 30.000 4.000 Z"/>
+<path d="M 40.000 4.000 L 44.000 6.000 L 40.000 8.000 Z"/>
+<path d="M 52.000 10.000 L 56.000 12.000 L 52.000 14.000 Z"/>
+<path d="M 8.000 22.000 L 6.000 26.000 L 4.000 22.000 Z"/>
+<path d="M 16.000 22.000 L 14.000 26.000 L 12.000 22.000 Z"/>
+<path d="M 24.000 22.000 L 22.000 26.000 L 20.000 22.000 Z"/>
+<path d="M 30.000 24.000 L 26.000 22.000 L 30.000 20.000 Z"/>
+<path d="M 40.000 26.000 L 42.000 22.000 L 44.000 26.000 Z"/>
+<path d="M 4.299 34.949 L 8.103 32.597 L 7.701 37.051 Z"/>
+<path d="M 26.000 36.000 L 24.000 40.000 L 22.000 36.000 Z"/>
+<path d="M 32.000 36.000 L 34.000 32.000 L 36.000 36.000 Z"/>
+<path d="M 52.000 38.000 L 56.000 40.000 L 52.000 42.000 Z"/>
+</g>
+</svg>

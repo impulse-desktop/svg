@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- A two by two checker stretched to 12 by 12: auto and optimizeQuality
+resample at least bilinearly, smooth; optimizeSpeed may take the nearest
+pixel. image-rendering inherits. Shapes: crispEdges and optimizeSpeed may
+leave edges unsmoothed, auto and geometricPrecision smooth them; it
+inherits. -->
+<rect width="64" height="32" fill="white"/>
+<image x="2" y="2" width="12" height="12" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR4nGNgYGD4DwJgEsQBAFa7CfdqxQ/7AAAAAElFTkSuQmCC"/>
+<image x="18" y="2" width="12" height="12" image-rendering="optimizeQuality" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR4nGNgYGD4DwJgEsQBAFa7CfdqxQ/7AAAAAElFTkSuQmCC"/>
+<image x="34" y="2" width="12" height="12" image-rendering="optimizeSpeed" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR4nGNgYGD4DwJgEsQBAFa7CfdqxQ/7AAAAAElFTkSuQmCC"/>
+<g image-rendering="optimizeSpeed"><image x="50" y="2" width="12" height="12" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAEklEQVR4nGNgYGD4DwJgEsQBAFa7CfdqxQ/7AAAAAElFTkSuQmCC"/></g>
+<g fill="black">
+<circle cx="8" cy="23" r="5.3"/>
+<circle cx="24" cy="23" r="5.3" shape-rendering="geometricPrecision"/>
+<circle cx="40" cy="23" r="5.3" shape-rendering="crispEdges"/>
+<g shape-rendering="optimizeSpeed"><circle cx="56" cy="23" r="5.3"/></g>
+</g>
+</svg>

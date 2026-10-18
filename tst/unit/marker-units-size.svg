@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
+<!-- Each lime marker fills its black outline. markerUnits strokeWidth
+scales the marker by the stroke's width, also when stroke is none, and by
+the width a non-scaling stroke paints at; userSpaceOnUse does not. A
+marker's width and height are 3 unless given. -->
+<rect width="64" height="24" fill="white"/>
+<defs>
+<marker id="sw" markerWidth="2" markerHeight="2" refX="1" refY="1"><rect width="2" height="2" fill="lime"/></marker>
+<marker id="us" markerWidth="2" markerHeight="2" refX="1" refY="1" markerUnits="userSpaceOnUse"><rect width="2" height="2" fill="lime"/></marker>
+<marker id="dflt" refX="1.5" refY="1.5" markerUnits="userSpaceOnUse"><rect width="10" height="10" fill="lime"/></marker>
+</defs>
+<path d="M 6 8 h 1" stroke="silver" stroke-width="3" marker-start="url(#sw)"/>
+<path d="M 16 8 h 1" stroke-width="3" marker-start="url(#sw)"/>
+<path d="M 26 8 h 1" stroke="silver" stroke-width="3" marker-start="url(#us)"/>
+<path d="M 36 8 h 1" marker-start="url(#dflt)"/>
+<g transform="scale(2)">
+<path d="M 24 4 h .5" stroke="silver" stroke-width="2" vector-effect="non-scaling-stroke" marker-start="url(#sw)"/>
+<path d="M 4 9 h .5" stroke="silver" stroke-width="2" marker-start="url(#sw)"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="3" y="5" width="6" height="6"/><rect x="13" y="5" width="6" height="6"/><rect x="25" y="7" width="2" height="2"/>
+<rect x="34.5" y="6.5" width="3" height="3"/><rect x="46" y="6" width="4" height="4"/><rect x="4" y="14" width="8" height="8"/>
+</g>
+</svg>

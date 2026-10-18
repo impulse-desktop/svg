@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- Lime everywhere, no red. Markers and use trees paint with their context
+element's fill and stroke, recursively, in its bounding box; without a context
+element context paint is none. -->
+<defs>
+<marker id="ms" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+<rect width="8" height="8" fill="context-stroke"/></marker>
+<marker id="mf" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+<rect width="8" height="8" fill="context-fill"/></marker>
+<marker id="mg" markerWidth="6" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse">
+<rect width="6" height="6" fill="context-stroke"/></marker>
+<symbol id="s" overflow="visible"><rect width="8" height="8" fill="context-fill"/></symbol>
+<symbol id="t" overflow="visible"><use href="#s" fill="context-fill"/></symbol>
+<g id="two"><rect width="4" height="8" fill="context-fill"/><rect x="20" width="4" height="8" fill="context-fill"/></g>
+<linearGradient id="end" x1="0" x2="1"><stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
+<linearGradient id="ends" x1="0" x2="1"><stop offset=".2" stop-color="lime"/><stop offset=".2" stop-color="red"/>
+<stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
+</defs>
+<g fill="red"><rect x="3" y="3" width="6" height="6"/><rect x="15" y="3" width="6" height="6"/>
+<rect x="27" y="3" width="6" height="6"/><rect x="39" y="3" width="6" height="6"/></g>
+<path d="M 2 6 H 6" stroke="lime" stroke-width=".5" fill="none" marker-end="url(#ms)"/>
+<path d="M 14 6 H 18" stroke="none" fill="lime" marker-end="url(#mf)"/>
+<use href="#s" x="26" y="2" fill="lime"/>
+<use href="#t" x="38" y="2" fill="lime"/>
+<rect x="50" y="2" width="8" height="8" fill="lime"/>
+<rect x="50" y="2" width="8" height="8" fill="context-fill"/>
+<rect x="55" y="21" width="5" height="5" fill="red"/>
+<path d="M 4 16 L 57 23.5" stroke="url(#end)" stroke-opacity="0" fill="none" marker-end="url(#mg)"/>
+<use href="#two" x="2" y="30" fill="url(#ends)"/>
+</svg>

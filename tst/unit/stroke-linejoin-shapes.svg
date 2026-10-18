@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="128">
+<!-- The black lines are each stroke's edge as the spec draws it. Right
+angles: miter, round, bevel. A turn of 30.5 degrees, miter length 3.8 widths:
+miter under the default limit 4, bevel under 3, miter-clip under 3 cut 6 from
+the corner. Then a negative limit, invalid, leaves the parent's 4: miter;
+a limit of 0.5 bevels a right angle; a turn back mitred ends flat, rounded
+ends round. arcs on straight segments is miter-clip; miter-clip turning back
+runs on a limit's half width past the turn, and under a limit below 1 it
+cuts into the bevel. -->
+<rect width="64" height="128" fill="white"/>
+<g fill="none" stroke="lime" stroke-width="4">
+<path d="M 4 26 V 6 H 18"/>
+<path d="M 24 26 V 6 H 38" stroke-linejoin="round"/>
+<path d="M 44 26 V 6 H 58" stroke-linejoin="bevel"/>
+<path d="M 4 62 L 10 40 L 16 62"/>
+<path d="M 24 62 L 30 40 L 36 62" stroke-miterlimit="3"/>
+<path d="M 44 62 L 50 40 L 56 62" stroke-miterlimit="3" stroke-linejoin="miter-clip"/>
+<g stroke-miterlimit="4"><path d="M 4 94 L 10 72 L 16 94" stroke-miterlimit="-1"/></g>
+<path d="M 24 92 V 72 H 38" stroke-miterlimit=".5"/>
+<path d="M 44 74 H 56 H 44"/>
+<path d="M 44 86 H 54 H 44" stroke-linejoin="round"/>
+<path d="M 4 126 L 10 104 L 16 126" stroke-miterlimit="3" stroke-linejoin="arcs"/>
+<path d="M 24 106 H 34 H 24" stroke-miterlimit="3" stroke-linejoin="miter-clip"/>
+<path d="M 24 124 V 112 H 36" stroke-miterlimit=".5" stroke-linejoin="miter-clip"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".3">
+<path d="M 2 26 V 4 H 18 V 8 H 6 V 26 Z"/>
+<path d="M 22 26 V 6 A 2 2 0 0 1 24 4 H 38 V 8 H 26 V 26 Z"/>
+<path d="M 42 26 V 6 L 44 4 H 58 V 8 H 46 V 26 Z"/>
+<path d="M 2.07 61.474 L 10 32.399 L 17.93 61.474 L 14.07 62.526 L 10 47.601 L 5.93 62.526 Z"/>
+<path d="M 22.07 61.474 L 28.07 39.474 L 31.93 39.474 L 37.93 61.474 L 34.07 62.526 L 30 47.601 L 25.93 62.526 Z"/>
+<path d="M 42.07 61.474 L 49.563 34 L 50.437 34 L 57.93 61.474 L 54.07 62.526 L 50 47.601 L 45.93 62.526 Z"/>
+<path d="M 2.07 93.474 L 10 64.399 L 17.93 93.474 L 14.07 94.526 L 10 79.601 L 5.93 94.526 Z"/>
+<path d="M 22 92 V 72 L 24 70 H 38 V 74 H 26 V 92 Z"/>
+<path d="M 44 72 H 56 V 76 H 44 Z"/>
+<path d="M 44 84 H 54 A 2 2 0 0 1 54 88 H 44 Z"/>
+<path d="M 2.07 125.474 L 9.563 98 L 10.437 98 L 17.93 125.474 L 14.07 126.526 L 10 111.601 L 5.93 126.526 Z"/>
+<path d="M 24 104 H 40 V 108 H 24 Z"/>
+<path d="M 22 124 V 112 H 22.586 L 24 110.586 V 110 H 36 V 114 H 26 V 124 Z"/>
+</g>
+</svg>

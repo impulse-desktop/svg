@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Each dashed stroke matches the undashed subpaths drawn under it, or the
+black outline: the dash positions of the spec. The pattern restarts with each
+subpath; an offset at a dash's end leaves a zero length dash, a dot with
+round caps; no dash starts at the subpath's end; a dash's cap at a corner
+follows the segment the dash is on. -->
+<rect width="64" height="48" fill="white"/>
+<g fill="none" stroke="black" stroke-width="2">
+<path d="M 2 4 H 30 M 34 4 H 62" stroke-dasharray="5 3"/>
+<path d="M 2 6 H 7 M 10 6 H 15 M 18 6 H 23 M 26 6 H 30 M 34 6 H 39 M 42 6 H 47 M 50 6 H 55 M 58 6 H 62"/>
+<g stroke-linecap="round">
+<path d="M 3 12 H 19" stroke-dasharray="4 4" stroke-dashoffset="4"/>
+<path d="M 3 16 h 0 M 7 16 H 11 M 15 16 H 19"/>
+<path d="M 31 12 H 47" stroke-dasharray="4 4"/>
+<path d="M 31 16 H 35 M 39 16 H 43"/>
+<path d="M 3 22 H 15" stroke-dasharray="0 3"/>
+<path d="M 3 26 h 0 M 6 26 h 0 M 9 26 h 0 M 12 26 h 0"/>
+</g>
+</g>
+<g fill="none" stroke="lime" stroke-width="2" stroke-linecap="square">
+<path d="M 30 22 H 46 V 30" stroke-dasharray="16 100"/>
+<path d="M 30 34 H 46 V 46" stroke-dasharray="8 100" stroke-dashoffset="-16"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="29" y="21" width="18" height="2"/><rect x="45" y="33" width="2" height="10"/>
+</g>
+</svg>

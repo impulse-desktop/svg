@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- Each test, left, looks like its expectation, right, drawn as separate
+layers. normal: fill, stroke, markers; keywords given go first in their
+order, the rest after in the normal order; an invalid value leaves the
+parent's. -->
+<rect width="64" height="40" fill="white"/>
+<defs><marker id="m" markerWidth="6" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="gold"/></marker></defs>
+<g fill="lime" stroke="blue" stroke-width="4" marker-start="url(#m)">
+<path d="M 3 3 H 11 V 11 H 3 Z"/>
+<path d="M 35 3 H 43 V 11 H 35 Z" paint-order="stroke"/>
+<path d="M 3 17 H 11 V 25 H 3 Z" paint-order="markers"/>
+<path d="M 35 17 H 43 V 25 H 35 Z" paint-order="markers stroke"/>
+<g paint-order="stroke"><path d="M 3 31 H 11 V 39 H 3 Z" paint-order="fill fill"/></g>
+<path d="M 35 31 H 43 V 39 H 35 Z" paint-order="normal stroke"/>
+</g>
+<g stroke-width="4">
+<path d="M 19 3 H 27 V 11 H 19 Z" fill="lime"/><path d="M 19 3 H 27 V 11 H 19 Z" fill="none" stroke="blue"/><rect x="16" y="0" width="6" height="6" fill="gold"/>
+<path d="M 51 3 H 59 V 11 H 51 Z" fill="none" stroke="blue"/><path d="M 51 3 H 59 V 11 H 51 Z" fill="lime"/><rect x="48" y="0" width="6" height="6" fill="gold"/>
+<rect x="16" y="14" width="6" height="6" fill="gold"/><path d="M 19 17 H 27 V 25 H 19 Z" fill="lime"/><path d="M 19 17 H 27 V 25 H 19 Z" fill="none" stroke="blue"/>
+<rect x="48" y="14" width="6" height="6" fill="gold"/><path d="M 51 17 H 59 V 25 H 51 Z" fill="none" stroke="blue"/><path d="M 51 17 H 59 V 25 H 51 Z" fill="lime"/>
+<path d="M 19 31 H 27 V 39 H 19 Z" fill="none" stroke="blue"/><path d="M 19 31 H 27 V 39 H 19 Z" fill="lime"/><rect x="16" y="28" width="6" height="6" fill="gold"/>
+<path d="M 51 31 H 59 V 39 H 51 Z" fill="lime"/><path d="M 51 31 H 59 V 39 H 51 Z" fill="none" stroke="blue"/><rect x="48" y="28" width="6" height="6" fill="gold"/>
+</g>
+</svg>

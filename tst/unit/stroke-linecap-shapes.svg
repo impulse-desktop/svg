@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="76">
+<!-- The black lines are each stroke's edge as the spec draws it; no red.
+Butt ends at the end points, round adds half circles, square half squares.
+A zero length subpath gets no stroke with butt, a circle with round, and with
+square a square along the direction of the path before it, else after it,
+else the x axis, a closing segment counting;
+a lone moveto gets nothing. -->
+<rect width="64" height="76" fill="white"/>
+<g fill="none" stroke="lime" stroke-width="6">
+<path d="M 6 8 H 14"/>
+<path d="M 28 8 H 36" stroke-linecap="round"/>
+<path d="M 50 8 H 58" stroke-linecap="square"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".3">
+<path d="M 6 5 H 14 V 11 H 6 Z"/>
+<path d="M 28 5 H 36 A 3 3 0 0 1 36 11 H 28 A 3 3 0 0 1 28 5 Z"/>
+<path d="M 47 5 H 61 V 11 H 47 Z"/>
+</g>
+<g fill="red"><circle cx="22" cy="24" r="2"/><rect x="34.5" y="21.5" width="3" height="3"/><circle cx="50" cy="24" r="2"/>
+<path d="M 30 40 l 2.5 2.5 l -2.5 2.5 l -2.5 -2.5 Z"/></g>
+<rect x="2" y="18" width="12" height="12" fill="lime"/>
+<rect x="2" y="34" width="12" height="16" fill="lime"/>
+<g fill="none" stroke-width="6">
+<path d="M 8 24 L 8 24" stroke="red"/>
+<path d="M 22 24 L 22 24" stroke="lime" stroke-linecap="round"/>
+<path d="M 36 24 L 36 24" stroke="lime" stroke-linecap="square"/>
+<path d="M 50 24 Z" stroke="lime" stroke-linecap="round"/>
+<path d="M 8 38 M 8 46" stroke="red" stroke-linecap="round"/>
+<path d="M 18 34 L 24 40 M 30 42.5 L 30 42.5" stroke="lime" stroke-linecap="square"/>
+<path d="M 48 42 L 48 42" stroke="lime" stroke-linecap="square"/>
+<path d="M 56 30 V 32 M 58 42 L 58 42" stroke="lime" stroke-width="4" stroke-linecap="square"/>
+<path d="M 6 60 L 6 60 M 13 55 L 18 60" stroke="lime" stroke-width="4" stroke-linecap="square"/>
+<path d="M 26 54 h 4 v 4 Z M 38 60 L 38 60" stroke="lime" stroke-width="4" stroke-linecap="square"/>
+<path d="M 48 60 L 48 60 M 56 60 L 56 60" stroke="lime" stroke-width="4" stroke-linecap="square"/>
+<path d="M 4 66 h 4 v 4 L 4 66 Z M 16 70 L 16 70" stroke="lime" stroke-width="4" stroke-linecap="square"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".3">
+<circle cx="22" cy="24" r="3"/><rect x="33" y="21" width="6" height="6"/><circle cx="50" cy="24" r="3"/>
+<path d="M 30 38.257 L 34.243 42.5 L 30 46.743 L 25.757 42.5 Z"/><rect x="45" y="39" width="6" height="6"/>
+<rect x="56" y="40" width="4" height="4"/><path d="M 6 57.172 L 8.828 60 L 6 62.828 L 3.172 60 Z"/>
+<path d="M 38 57.172 L 40.828 60 L 38 62.828 L 35.172 60 Z"/><rect x="46" y="58" width="4" height="4"/><rect x="54" y="58" width="4" height="4"/>
+<path d="M 16 67.172 L 18.828 70 L 16 72.828 L 13.172 70 Z"/>
+</g>
+</svg>

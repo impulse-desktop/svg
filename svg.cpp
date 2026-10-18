@@ -1485,6 +1485,7 @@ namespace {
         JoinMiter,
         JoinRound,
         JoinBevel,
+        JoinMiterClip,
     };
 
     enum Winding : u8 {
@@ -1852,6 +1853,10 @@ namespace {
         bool clipProgram;
         bool masked;
         u8 blend;
+        // Of a fill, laid over in linear light, as its shape's own
+        // color-interpolation has it (painting.md, ColorInterpolation); of a
+        // group, its layer so composited, a shape's or an image's.
+        bool linear;
         const MaskLayerOp* maskLayers;
         u32 maskLayerCount;
         Filter* filter;
@@ -8522,7 +8527,9 @@ namespace {
 
     // The points of the join of a turn at p from d0 to d1 on its outer side,
     // between the ends of the two offset edges there: an arc, a miter's tip
-    // or, for a bevel, none.
+    // or, for a bevel, none. A miter-clip past the limit is cut across its
+    // bisector at the limit's half width times the limit from p, into the
+    // bevel too where the limit is under 1.
     static void addJoin(Vector<Point>& out, const StrokeParams& s, Point p, Point d0, Point d1) {
         float cross = d0.x * d1.y - d0.y * d1.x;
         float dot = d0.x * d1.x + d0.y * d1.y;
@@ -8539,16 +8546,40 @@ namespace {
             return;
         }
 
-        if (s.join == JoinMiter) {
+        if (s.join == JoinMiter || s.join == JoinMiterClip) {
             float cosHalf = sqrtf(maxf(0.f, (1.f + dot) / 2.f));
+            Point m{n0.x + n1.x, n0.y + n1.y};
+            float length = sqrtf(m.x * m.x + m.y * m.y);
 
             // The normals do not cancel when the turn leaves a half angle.
             if (cosHalf > 1e-6f && 1.f / cosHalf <= s.miterLimit) {
-                Point m{n0.x + n1.x, n0.y + n1.y};
-                float length = sqrtf(m.x * m.x + m.y * m.y);
                 float reach = s.half / cosHalf;
 
                 out.pushBack(Point{p.x + m.x / length * reach, p.y + m.y / length * reach});
+            } else if (s.join == JoinMiterClip) {
+                // A turn back has its miter run on along d0 for ever.
+                Point u = cosHalf > 1e-6f ? Point{m.x / length, m.y / length} : d0;
+                float limit = s.half * maxf(s.miterLimit, 0.f);
+                float near = s.half * cosHalf;
+                Point a{p.x + n0.x * s.half, p.y + n0.y * s.half};
+                Point b{p.x + n1.x * s.half, p.y + n1.y * s.half};
+
+                if (limit >= near) {
+                    // Along each offset edge on from its end to the tip.
+                    Point e0 = cosHalf > 1e-6f ? Point{d0.x, d0.y} : u;
+                    Point e1 = cosHalf > 1e-6f ? Point{-d1.x, -d1.y} : u;
+                    float along0 = (limit - near) / maxf(e0.x * u.x + e0.y * u.y, 1e-6f);
+                    float along1 = (limit - near) / maxf(e1.x * u.x + e1.y * u.y, 1e-6f);
+
+                    out.pushBack(Point{a.x + e0.x * along0, a.y + e0.y * along0});
+                    out.pushBack(Point{b.x + e1.x * along1, b.y + e1.y * along1});
+                } else {
+                    // Back along each end towards p.
+                    float f = 1.f - limit / near;
+
+                    out.pushBack(Point{a.x + (p.x - a.x) * f, a.y + (p.y - a.y) * f});
+                    out.pushBack(Point{b.x + (p.x - b.x) * f, b.y + (p.y - b.y) * f});
+                }
             }
         }
     }
@@ -8612,6 +8643,14 @@ namespace {
         out.closed.pushBack(1);
     }
 
+    static bool nonZero(Point d) {
+        return d.x != 0.f || d.y != 0.f;
+    }
+
+    static Point direction(Point from, Point to) {
+        return Point{to.x - from.x, to.y - from.y};
+    }
+
     // The outline of a stroke of a polyline: its left side along the points,
     // the cap at the end, its right side back and the cap at the start; a
     // closed one has each side a loop. At a turn the outer side takes the
@@ -8653,13 +8692,18 @@ namespace {
             closing = came.popBack();
         }
 
-        // A run of two or more points at one place: its caps make a dot.
+        // A run of two or more points at one place: its caps make a dot, a
+        // square one along the direction its first point is given, else
+        // along x.
         if (pts.length() == 1) {
             if (s.cap == CapRound) {
                 addFan(out, pts[0], s.half, 0.f, 2.f * pi, s.tol);
             } else if (s.cap == CapSquare) {
                 Point p = pts[0];
-                Point quad[4] = {Point{p.x - s.half, p.y - s.half}, Point{p.x + s.half, p.y - s.half}, Point{p.x + s.half, p.y + s.half}, Point{p.x - s.half, p.y + s.half}};
+                Point d = came[0].x != 0.f || came[0].y != 0.f ? came[0] : Point{1.f, 0.f};
+                Point a{(d.x - d.y) * s.half, (d.y + d.x) * s.half};
+                Point b{(d.x + d.y) * s.half, (d.y - d.x) * s.half};
+                Point quad[4] = {Point{p.x - a.x, p.y - a.y}, Point{p.x + b.x, p.y + b.y}, Point{p.x + a.x, p.y + a.y}, Point{p.x - b.x, p.y - b.y}};
 
                 addPolygon(out, quad, 4);
             }
@@ -8690,6 +8734,40 @@ namespace {
         auto offset = [&](Point p, Point d, float side) {
             return Point{p.x - d.y * s.half * side, p.y + d.x * s.half * side};
         };
+
+        // How far a turn cuts its inner offset edges back to where they
+        // cross, or -1 where its inner side is to run through the point.
+        auto cutOf = [&](size_t k, size_t in, size_t next) {
+            Point d0 = dirs[in];
+            Point d1 = dirs[next];
+            float cross = d0.x * d1.y - d0.y * d1.x;
+            float dot = d0.x * d1.x + d0.y * d1.y;
+            // The inner offset edges cross where each is cut back by half
+            // tan(turn / 2); past either one's length the side runs through
+            // the point instead. Where they cross, the two quads hold the
+            // sector a smooth point sweeps.
+            float back = 1.f + dot > 1e-6f ? s.half * fabsf(cross) / (1.f + dot) : lengths[in] + 1.f;
+
+            // Inside a curve tighter than the half width, h times the turn
+            // past a segment's length, the crossing lies beyond the centre of
+            // the curve and the inner side would turn inside out: it runs
+            // through the point, and the sector covers what it leaves.
+            bool inverted = kind[k] == PointSmooth && s.half * fabsf(atan2f(cross, dot)) > fminf(lengths[in], lengths[next]);
+
+            return !inverted && back <= lengths[in] && back <= lengths[next] ? back : -1.f;
+        };
+
+        Vector<float> cuts;
+        Vector<u8> inners;
+
+        for (size_t k = 0; k < n; k++) {
+            Point d0 = dirs[k == 0 ? segments - 1 : k - 1];
+            Point d1 = dirs[k == segments ? k - 1 : k];
+            bool turns = closed || (k > 0 && k + 1 < n);
+
+            cuts.pushBack(turns ? cutOf(k, k == 0 ? segments - 1 : k - 1, k) : -1.f);
+            inners.pushBack(d0.x * d1.y - d0.y * d1.x > 0.f ? 0 : 1);
+        }
 
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
@@ -8735,19 +8813,21 @@ namespace {
 
             sides[outer].pushBack(offset(p, d1, side));
 
-            // The inner offset edges cross where each is cut back by half
-            // tan(turn / 2); past either one's length the side runs through
-            // the point instead. Where they cross, the two quads hold the
-            // sector a smooth point sweeps.
-            float back = 1.f + dot > 1e-6f ? s.half * fabsf(cross) / (1.f + dot) : lengths[in] + 1.f;
+            // A segment cut back at both its ends on one side keeps some
+            // length between the cuts, else that side turns inside out
+            // between them and its loop takes from the stroke.
+            float back = cuts[k];
+            size_t after = next + 1 == n ? 0 : next + 1;
 
-            // Inside a curve tighter than the half width, h times the turn
-            // past a segment's length, the crossing lies beyond the centre of
-            // the curve and the inner side would turn inside out: it runs
-            // through the point, and the sector covers what it leaves.
-            bool inverted = kind[k] == PointSmooth && s.half * fabsf(atan2f(cross, dot)) > fminf(lengths[in], lengths[next]);
+            if (inners[in] == inner && cuts[in] >= 0.f && back + cuts[in] > lengths[in]) {
+                back = -1.f;
+            }
 
-            if (!inverted && back <= lengths[in] && back <= lengths[next]) {
+            if (inners[after] == inner && cuts[after] >= 0.f && back + cuts[after] > lengths[next]) {
+                back = -1.f;
+            }
+
+            if (back >= 0.f) {
                 Point q = sides[inner].back();
 
                 sides[inner].mut(sides[inner].length() - 1) = Point{q.x - d0.x * back, q.y - d0.y * back};
@@ -8921,7 +9001,9 @@ namespace {
 
             u32 index = 0;
 
-            while (phase > dashes[index] || (phase == dashes[index] && dashes[index] > 0.f)) {
+            // The first entry the offset reaches the end of, a dash of no
+            // length where it ends there (painting.md, TermDashPositions).
+            while (phase > dashes[index]) {
                 phase -= dashes[index];
                 index = (index + 1) % dashCount;
             }
@@ -8937,7 +9019,7 @@ namespace {
             if (on) {
                 piece.pushBack(loop[0]);
                 flags.pushBack(PointCorner);
-                ways.pushBack(Point{0.f, 0.f});
+                ways.pushBack(came[0]);
             }
 
             // The direction the polyline comes to a point along, past
@@ -9032,7 +9114,7 @@ namespace {
                     } else {
                         piece.pushBack(cut);
                         flags.pushBack(PointCorner);
-                        ways.pushBack(Point{0.f, 0.f});
+                        ways.pushBack(came[i + 1]);
                         run = curve ? c : ~0u;
                         from = at;
                     }
@@ -9128,7 +9210,47 @@ namespace {
             }
         }
 
+        // The first point of each subpath is given the direction a dot
+        // there goes: the subpath's first, else, as it has no length, the
+        // path's last before it, a closing segment counting, or its first
+        // after it (paths.md, TermPathSegmentStartDirection).
+        Point lastEnd{0.f, 0.f};
+        Point firstAny{0.f, 0.f};
         u32 begin = 0;
+
+        for (size_t i = 0; i < flat.ends.length(); i++) {
+            u32 end = flat.ends[i];
+            Point first{0.f, 0.f};
+            Point last{0.f, 0.f};
+            Point back = direction(flat.points[end - 1], flat.points[begin]);
+            double length = sqrt((double)back.x * back.x + (double)back.y * back.y);
+
+            for (u32 k = begin + 1; k < end; k++) {
+                if (nonZero(flat.dirs[k])) {
+                    first = nonZero(first) ? first : flat.dirs[k];
+                    last = flat.dirs[k];
+                }
+            }
+
+            if (flat.closed[i] && length > 0.0) {
+                last = Point{(float)(back.x / length), (float)(back.y / length)};
+            }
+
+            flat.dirs.mut(begin) = nonZero(first) ? first : lastEnd;
+            firstAny = nonZero(firstAny) ? firstAny : first;
+            lastEnd = nonZero(last) ? last : lastEnd;
+            begin = end;
+        }
+
+        // Only subpaths with no length before them are left without.
+        begin = 0;
+
+        for (u32 end : flat.ends) {
+            flat.dirs.mut(begin) = nonZero(flat.dirs[begin]) ? flat.dirs[begin] : firstAny;
+            begin = end;
+        }
+
+        begin = 0;
 
         for (size_t i = 0; i < flat.ends.length(); i++) {
             u32 end = flat.ends[i];
@@ -10500,8 +10622,12 @@ namespace {
                 case AtomStrokeLinejoin:
                     if (keyword) {
                         style.join = source.join;
-                    } else if (isKeyword(value, SV("miter")) || isKeyword(value, SV("miter-clip")) || isKeyword(value, SV("arcs"))) {
+                    } else if (isKeyword(value, SV("miter"))) {
                         style.join = JoinMiter;
+                    } else if (isKeyword(value, SV("miter-clip")) || isKeyword(value, SV("arcs"))) {
+                        // arcs as miter-clip, which it is on straight
+                        // segments (tst/spec/decisions.md, D4).
+                        style.join = JoinMiterClip;
                     } else if (isKeyword(value, SV("round"))) {
                         style.join = JoinRound;
                     } else if (isKeyword(value, SV("bevel"))) {
@@ -10515,7 +10641,9 @@ namespace {
                     } else {
                         float limit;
 
-                        if (parseNumberText(value, limit) && limit >= 1.f) {
+                        // A limit under 1 is valid in SVG 2, every miter
+                        // past it (painting.md, StrokeMiterlimitProperty).
+                        if (parseNumberText(value, limit) && limit >= 0.f) {
                             style.miterLimit = limit;
                         }
                     }
@@ -11075,13 +11203,14 @@ namespace {
         }
     }
 
-    static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint, bool aliased) {
+    static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint, bool aliased, bool linear = false) {
         Op op;
 
         memset(&op, 0, sizeof(op));
         op.kind = OpKind::Fill;
         op.rule = rule;
         op.aliased = aliased;
+        op.linear = linear;
         op.paint = paint;
         op.first = (u32)l.edges.length();
         op.bounds = emptyBox();
@@ -14349,15 +14478,15 @@ namespace {
         bool hasOut;
     };
 
-    static bool nonZero(Point d) {
-        return d.x != 0.f || d.y != 0.f;
+    // A rect, circle or ellipse ends its outline with a close that only
+    // completes its last segment, no segment of its own (shapes.md,
+    // TermSegment-CompletingClosePath): where it has no length, it adds no
+    // vertex.
+    static bool completes(const Node* node) {
+        return node->name == AtomRect || node->name == AtomCircle || node->name == AtomEllipse;
     }
 
-    static Point direction(Point from, Point to) {
-        return Point{to.x - from.x, to.y - from.y};
-    }
-
-    static void markerVertices(const Path& path, Vector<MarkerVertex>& out) {
+    static void markerVertices(const Path& path, bool completing, Vector<MarkerVertex>& out) {
         const Point* pts = path.points.data();
         size_t pi = 0;
         Point current{0.f, 0.f};
@@ -14428,6 +14557,17 @@ namespace {
                     // VerbClose.
                     MarkerVertex first = out[start];
                     Point d = direction(current, first.p);
+
+                    if (completing && !nonZero(d)) {
+                        MarkerVertex& last = out.mutData()[out.length() - 1];
+
+                        last.out = first.out;
+                        last.hasOut = first.hasOut;
+                        out.mutData()[start].in = last.in;
+                        out.mutData()[start].hasIn = true;
+                        arc = false;
+                        break;
+                    }
 
                     if (!nonZero(d)) {
                         // A zero-length close takes the tangent leaving the subpath start.
@@ -14636,13 +14776,9 @@ namespace {
     }
 
     // The markers a shape's style names, those that are markers; false
-    // when it names none or is no path, line, polyline or polygon.
-    static bool shapeMarkers(const Pass& p, const Node* node, const ComputedStyle& style, Node** markers) {
+    // when it names none.
+    static bool shapeMarkers(const Pass& p, const ComputedStyle& style, Node** markers) {
         bool any = false;
-
-        if (node->name != AtomPath && node->name != AtomLine && node->name != AtomPolyline && node->name != AtomPolygon) {
-            return false;
-        }
 
         for (int k = 0; k < 3; k++) {
             markers[k] = style.markers[k] ? elementById(*p.doc, style.markers[k]) : nullptr;
@@ -14660,7 +14796,7 @@ namespace {
     static void lowerMarkers(Lowering& l, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Node* markers[3];
 
-        if (!shapeMarkers(l, node, style, markers)) {
+        if (!shapeMarkers(l, style, markers)) {
             return;
         }
 
@@ -14672,8 +14808,8 @@ namespace {
             hostInverse = identity();
         }
 
-        markerVertices(path, vertices);
-        markerVertices(style.nonScaling ? transformedPath(path, multiply(hostInverse, m)) : path, deviceVertices);
+        markerVertices(path, completes(node), vertices);
+        markerVertices(style.nonScaling ? transformedPath(path, multiply(hostInverse, m)) : path, completes(node), deviceVertices);
 
         for (size_t i = 0; i < vertices.length(); i++) {
             int kind = i == 0 ? 0 : (i + 1 == vertices.length() ? 2 : 1);
@@ -14736,15 +14872,15 @@ namespace {
     static void markerExtent(Pass& p, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box) {
         Node* markers[3];
 
-        if (!shapeMarkers(p, node, style, markers)) {
+        if (!shapeMarkers(p, style, markers)) {
             return;
         }
 
         Vector<MarkerVertex> vertices;
         Vector<MarkerVertex> deviceVertices;
 
-        markerVertices(path, vertices);
-        markerVertices(style.nonScaling ? transformedPath(path, m) : path, deviceVertices);
+        markerVertices(path, completes(node), vertices);
+        markerVertices(style.nonScaling ? transformedPath(path, m) : path, completes(node), deviceVertices);
 
         for (size_t i = 0; i < vertices.length(); i++) {
             int kind = i == 0 ? 0 : (i + 1 == vertices.length() ? 2 : 1);
@@ -14860,7 +14996,7 @@ namespace {
                     Flat flat;
 
                     flatten(path, m, tolerance, flat);
-                    emitFill(l, flat, style.fillRule, fill, style.aliased);
+                    emitFill(l, flat, style.fillRule, fill, style.aliased, style.linearColors);
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
                 if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
@@ -14902,7 +15038,7 @@ namespace {
                         }
                     }
 
-                    emitFill(l, device, WindingNonZero, stroke, style.aliased);
+                    emitFill(l, device, WindingNonZero, stroke, style.aliased, style.linearColors);
                 }
             } else if (layer == 2) {
                 Matrix outerMatrix = l.contextMatrix;
@@ -16461,6 +16597,7 @@ namespace {
         }
 
         op.blend = style.blend;
+        op.linear = style.linearColors && (isShape(node->name) || node->name == AtomImage);
 
         op.newBackground = l.backgroundInputs && style.newBackground && (node->name == AtomSvg || node->name == AtomG || node->name == AtomA || node->name == AtomSwitch || node->name == AtomSymbol);
         op.backgroundClipped = style.backgroundClipped;
@@ -16493,7 +16630,9 @@ namespace {
             }
         }
 
-        bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f || style.blend || style.isolate;
+        // A shape lays its fills over in linear light itself; an image is
+        // drawn apart to be.
+        bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f || style.blend || style.isolate || (op.linear && node->name == AtomImage);
 
         op.backgroundOnly = op.newBackground && !layer;
         layer = layer || op.newBackground;
@@ -17999,10 +18138,13 @@ namespace {
         return first;
     }
 
+    static void blendLinear(Raster& r, int mode, u16* d, const u16* s, size_t count);
+
     // The source pixels from x0 on row y over every layer from first up,
     // within the box of each: the layer of a filtered group holds its
-    // filters' region, which a drawing may pass.
-    static void overLayers(Raster& r, size_t first, int x0, int y, const u16* source, int count) {
+    // filters' region, which a drawing may pass. linear lays them over in
+    // linear light.
+    static void overLayers(Raster& r, size_t first, int x0, int y, const u16* source, int count, bool linear = false) {
         for (size_t level = first; level < r.layers.length(); level++) {
             const Plane& plane = r.layers[level];
             int a = x0 > plane.box.x0 ? x0 : plane.box.x0;
@@ -18012,7 +18154,11 @@ namespace {
                 continue;
             }
 
-            overSpan(planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
+            if (linear) {
+                blendLinear(r, 0, planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
+            } else {
+                overSpan(planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
+            }
         }
     }
 
@@ -18194,7 +18340,7 @@ namespace {
                     scaleSpan(out, paints, coverRow + start, count);
                 }
 
-                overLayers(r, first, (int)(ix0 + start), (int)(iy0 + y), out, (int)count);
+                overLayers(r, first, (int)(ix0 + start), (int)(iy0 + y), out, (int)count, op.linear);
                 count = 0;
             };
 
@@ -18464,38 +18610,39 @@ namespace {
     // along the curve, premultiplied again. A pixel as stored as the one
     // before converts as it did, so a flat area converts once; the first
     // compares with opaque white, which either curve keeps.
-    static void convertRows(Raster& r, const Plane& src, const Plane& out, const IntBox& box, bool toLinear) {
-        Curve curve = curveOf(r, toLinear);
-        size_t n = (size_t)(box.x1 - box.x0);
+    static void convertSpan(const Curve& curve, const u16* s, u16* d, size_t n) {
         u64 lastIn = ~(u64)0;
         u64 lastOut = ~(u64)0;
 
-        for (int y = box.y0; y < box.y1; y++) {
-            const u16* s = planeAt(src, box.x0, y);
-            u16* d = planeAt(out, box.x0, y);
+        for (size_t x = 0; x < n; x++) {
+            u64 pixel;
 
-            for (size_t x = 0; x < n; x++) {
-                u64 pixel;
+            memcpy(&pixel, s + x * 4, sizeof(pixel));
 
-                memcpy(&pixel, s + x * 4, sizeof(pixel));
+            if (pixel != lastIn) {
+                u32 c[4];
+                u16 o[4];
 
-                if (pixel != lastIn) {
-                    u32 c[4];
-                    u16 o[4];
+                unpremultiplyStored(s + x * 4, c);
 
-                    unpremultiplyStored(s + x * 4, c);
-
-                    for (int k = 0; k < 3; k++) {
-                        o[k] = (u16)div65535(curveValue(curve, c[k]) * c[3]);
-                    }
-
-                    o[3] = (u16)c[3];
-                    lastIn = pixel;
-                    memcpy(&lastOut, o, sizeof(lastOut));
+                for (int k = 0; k < 3; k++) {
+                    o[k] = (u16)div65535(curveValue(curve, c[k]) * c[3]);
                 }
 
-                memcpy(d + x * 4, &lastOut, sizeof(lastOut));
+                o[3] = (u16)c[3];
+                lastIn = pixel;
+                memcpy(&lastOut, o, sizeof(lastOut));
             }
+
+            memcpy(d + x * 4, &lastOut, sizeof(lastOut));
+        }
+    }
+
+    static void convertRows(Raster& r, const Plane& src, const Plane& out, const IntBox& box, bool toLinear) {
+        Curve curve = curveOf(r, toLinear);
+
+        for (int y = box.y0; y < box.y1; y++) {
+            convertSpan(curve, planeAt(src, box.x0, y), planeAt(out, box.x0, y), (size_t)(box.x1 - box.x0));
         }
     }
 
@@ -20312,6 +20459,53 @@ namespace {
                 blendPixels(o, s, d, count, [mode](const u16* sp, const u16* dp, i32* t) {
                     blendColours(mode, sp, dp, t);
                 });
+        }
+    }
+
+    // The source pixels blended into the stored ones in linear light, by
+    // the blend mode, 0 laying them over: a clear source pixel leaves the
+    // stored one, an opaque one laid over is itself, the rest go to linear
+    // light and back, a pair as the one before as it did.
+    static void blendLinear(Raster& r, int mode, u16* d, const u16* s, size_t count) {
+        Curve in = curveOf(r, true);
+        Curve back = curveOf(r, false);
+        u64 lastS = ~(u64)0;
+        u64 lastD = ~(u64)0;
+        u64 lastOut = 0;
+
+        for (size_t x = 0; x < count; x++, s += 4, d += 4) {
+            u64 source;
+            u64 stored;
+            u16 ls[4];
+            u16 ld[4];
+            u16 lo[4];
+
+            if (!s[3] || (s[3] == 65535 && !mode)) {
+                memcpy(d, s[3] ? s : d, sizeof(ls));
+                continue;
+            }
+
+            memcpy(&source, s, sizeof(source));
+            memcpy(&stored, d, sizeof(stored));
+
+            if (source != lastS || stored != lastD) {
+                convertSpan(in, s, ls, 1);
+                convertSpan(in, d, ld, 1);
+
+                if (mode) {
+                    blendSpan(mode, lo, ls, ld, 1);
+                } else {
+                    memcpy(lo, ld, sizeof(lo));
+                    overSpan(lo, ls, 1);
+                }
+
+                convertSpan(back, lo, ld, 1);
+                lastS = source;
+                lastD = stored;
+                memcpy(&lastOut, ld, sizeof(lastOut));
+            }
+
+            memcpy(d, &lastOut, sizeof(lastOut));
         }
     }
 
@@ -22138,7 +22332,9 @@ namespace {
                                 row = scaledRow.data();
                             }
 
-                            if (!begin->blend) {
+                            if (begin->linear) {
+                                blendLinear(r, begin->blend, out, row, (size_t)n);
+                            } else if (!begin->blend) {
                                 overSpan(out, row, (size_t)n);
                             } else {
                                 blendSpan(begin->blend, blended.mutData(), row, out, (size_t)n);

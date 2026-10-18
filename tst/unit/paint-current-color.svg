@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16" color="lime">
+<!-- Lime everywhere, no red: currentColor in fill, stroke, stop-color,
+flood-color and lighting-color is the color property. -->
+<defs>
+<linearGradient id="g"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient>
+<filter id="f" x="0" y="0" width="1" height="1"><feFlood flood-color="currentColor"/></filter>
+<filter id="l" x="0" y="0" width="1" height="1"><feDiffuseLighting lighting-color="currentColor" surfaceScale="0"><feDistantLight elevation="90"/></feDiffuseLighting></filter>
+</defs>
+<g fill="red"><rect x="3" y="3" width="8" height="8"/><rect x="15" y="3" width="8" height="8"/><rect x="27" y="3" width="8" height="8"/>
+<rect x="39" y="3" width="8" height="8"/><rect x="51" y="3" width="8" height="8"/></g>
+<rect x="2" y="2" width="10" height="10" fill="currentColor"/>
+<rect x="17" y="5" width="4" height="4" fill="none" stroke="currentColor" stroke-width="6"/>
+<rect x="26" y="2" width="10" height="10" fill="url(#g)"/>
+<rect x="38" y="2" width="10" height="10" fill="red" filter="url(#f)"/>
+<rect x="50" y="2" width="10" height="10" fill="red" filter="url(#l)"/>
+</svg>

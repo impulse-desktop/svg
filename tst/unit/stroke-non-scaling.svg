@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- Each lime stroke fills its black outline, 2 pixels wide whatever the
+transform: a non-scaling stroke is outlined in the coordinates of the
+outermost viewport, through scales, skews and nested viewBoxes, then filled
+in user space with its paint. The property does not inherit: the last
+rect's stroke scales. -->
+<rect width="64" height="40" fill="white"/>
+<g fill="none" stroke="lime" stroke-width="2">
+<g transform="scale(4 1)"><rect x="1" y="4" width="2" height="8" vector-effect="non-scaling-stroke"/></g>
+<g transform="translate(20 4) skewX(30)"><rect width="8" height="8" vector-effect="non-scaling-stroke"/></g>
+<svg x="40" y="4" width="20" height="8" viewBox="0 0 5 2" preserveAspectRatio="none"><rect width="5" height="2" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+<g transform="scale(.5)"><path d="M 8 40 H 120" stroke-width="2" vector-effect="non-scaling-stroke"/></g>
+<g transform="scale(2 1)" vector-effect="non-scaling-stroke"><rect x="2" y="26" width="10" height="8"/></g>
+</g>
+<g fill="none" stroke="black" stroke-width=".25">
+<path d="M 3 3 H 13 V 13 H 3 Z M 5 5 V 11 H 11 V 5 Z"/>
+<path d="M 18.268 3 H 28.577 L 34.351 13 H 24.042 Z M 21.732 5 L 25.196 11 H 30.887 L 27.423 5 Z"/>
+<path d="M 39 3 H 61 V 13 H 39 Z M 41 5 V 11 H 59 V 5 Z"/>
+<path d="M 4 19 H 60 V 21 H 4 Z"/>
+<path d="M 2 25 H 26 V 35 H 2 Z M 6 27 V 33 H 22 V 27 Z"/>
+</g>
+</svg>
