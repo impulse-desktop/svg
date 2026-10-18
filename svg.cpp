@@ -19024,10 +19024,10 @@ namespace {
             return;
         }
 
-        if (sx < 0.f || sy < 0.f) {
-            sx = 0.f;
-            sy = 0.f;
-        }
+        // The deviation goes to a blur, where a negative one is zero: no
+        // blur along that axis.
+        sx = maxf(sx, 0.f);
+        sy = maxf(sy, 0.f);
 
         Color c = toSpace(p.flood, p.linear);
         IntBox all = run.filter->region;
