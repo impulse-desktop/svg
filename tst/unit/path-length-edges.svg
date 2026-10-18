@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="20">
+<!-- Each dashed line runs on into the bars below it without a step.
+pathLength 0 scales every distance but 0 to infinity: the first dash covers
+the path; a negative pathLength is an error and scales nothing; a moveto
+adds no length, so pathLength over two subpaths scales by their sum. -->
+<rect width="64" height="20" fill="white"/>
+<g fill="none" stroke="black" stroke-width="2">
+<path d="M 2 2 H 62" stroke-dasharray="5 5" pathLength="0"/>
+<path d="M 2 8 H 62" stroke-dasharray="5 5" pathLength="-10"/>
+<path d="M 2 14 H 22 M 42 14 H 62" stroke-dasharray="5 5" pathLength="20"/>
+</g>
+<g fill="black">
+<rect x="2" y="3" width="60" height="2"/>
+<rect x="2" y="9" width="5" height="2"/><rect x="12" y="9" width="5" height="2"/><rect x="22" y="9" width="5" height="2"/><rect x="32" y="9" width="5" height="2"/><rect x="42" y="9" width="5" height="2"/><rect x="52" y="9" width="5" height="2"/>
+<rect x="2" y="15" width="10" height="2"/><rect x="42" y="15" width="10" height="2"/>
+</g>
+</svg>

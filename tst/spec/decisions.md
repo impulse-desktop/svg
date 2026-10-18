@@ -150,3 +150,29 @@ group's bounding box.
 no resource (README: images come from the embedding program); an imported
 style sheet is not loaded and the rule is skipped, the rest of the sheet
 applying.
+
+## D16. An invalid presentation attribute is ignored, as a declaration
+
+`svg2/types.md#syntax`: an attribute that fails to parse "is assumed to have
+been specified as the given initial value", and for a presentation attribute
+that initial value overrides the user agent's rules (overflow="invalid" on an
+svg gives visible). The same chapter, `#TermInvalidValue`, says of an invalid
+value "in a style sheet or a presentation attribute" that "a CSS declaration
+with an invalid value is ignored". The text contradicts itself; the browsers
+ignore the attribute, and real files with careless attributes rely on it: an
+invalid presentation attribute is dropped and the property inherits or
+cascades as if it were absent. An attribute that is no property (a
+gradient's x1, a pattern's width) takes its initial value, as written.
+
+## D17. min-width and max-width do not constrain SVG geometry
+
+`svg2/geometry.md#Sizing`: the used width "may be constrained" by min-width
+and max-width. It is a permission; SVG elements have no CSS box here, and the
+renderer reads no min- or max- property.
+
+## D18. A conforming viewer, without colour management
+
+`svg2/conform.md#ConformingHighQualitySVGViewers` asks a high-quality viewer
+for ICC colour management. The renderer draws in sRGB, as the conforming
+viewer of `#ConformingSVGViewers` does: antialiased, resampling as
+image-rendering asks, within a pixel and a component value, CTMs in doubles.

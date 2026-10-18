@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Each lime shape fills its black outline; no red. rx alone gives ry its
+length before each is cut to half the side: an 8 by 5 corner on a rect 10
+wide; ry alone gives rx; a negative rx is invalid, as if not given; rx and
+ry percentages are of the viewport's width and height; r's of its normalized
+diagonal; an ellipse's lone radius mirrors with no cutting; a width or
+radius of zero, auto or negative draws nothing. -->
+<rect width="64" height="48" fill="white"/>
+<rect x="2" y="2" width="10" height="24" rx="8" fill="lime"/>
+<rect x="16" y="2" width="16" height="10" ry="3" fill="lime"/>
+<rect x="36" y="2" width="12" height="10" rx="-3" fill="lime"/>
+<rect x="16" y="16" width="20" height="16" rx="6.25%" ry="12.5%" fill="lime"/>
+<circle cx="46" cy="22" r="10%" fill="lime"/>
+<ellipse cx="10" cy="38" ry="6" fill="lime"/>
+<ellipse cx="30" cy="40" rx="7" ry="auto" fill="lime"/>
+<g fill="red">
+<rect x="44" y="34" width="0" height="10"/><rect x="44" y="34" width="-4" height="10"/><rect x="44" y="34" height="10"/>
+<circle cx="56" cy="40" r="0"/><circle cx="56" cy="40" r="-3"/><ellipse cx="56" cy="40"/><ellipse cx="56" cy="40" rx="auto" ry="auto"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".25">
+<path d="M 7 2 A 5 8 0 0 1 12 10 V 18 A 5 8 0 0 1 7 26 A 5 8 0 0 1 2 18 V 10 A 5 8 0 0 1 7 2 Z"/>
+<path d="M 19 2 H 29 A 3 3 0 0 1 32 5 V 9 A 3 3 0 0 1 29 12 H 19 A 3 3 0 0 1 16 9 V 5 A 3 3 0 0 1 19 2 Z"/>
+<rect x="36" y="2" width="12" height="10"/>
+<path d="M 20 16 H 32 A 4 6 0 0 1 36 22 V 26 A 4 6 0 0 1 32 32 H 20 A 4 6 0 0 1 16 26 V 22 A 4 6 0 0 1 20 16 Z"/>
+<circle cx="46" cy="22" r="5.657"/>
+<circle cx="10" cy="38" r="6"/>
+<ellipse cx="30" cy="40" rx="7" ry="7"/>
+</g>
+</svg>
