@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="28">
+<!-- Each drawing fills its black outline, black for the first and the
+fifth, lime else, and nothing red shows. The CSS-wide keywords as the
+sole value of any property, in any case: inherit takes the parent's,
+of a property that does not inherit too, initial the initial value,
+unset either as the property inherits or not; with any other component
+the declaration is invalid and ignored. Below, opacity unset is its
+initial 1 in a half opaque group, as light as the half opaque one
+beside it. -->
+<rect width="64" height="28" fill="white"/>
+<linearGradient id="u" style="stop-color: red"><stop style="stop-color: unset"/></linearGradient>
+<linearGradient id="i" style="stop-color: lime"><stop style="stop-color: inherit"/></linearGradient>
+<g fill="red"><rect x="2" y="2" width="10" height="6" style="fill: initial"/></g>
+<g fill="lime"><rect x="14" y="2" width="10" height="6" fill="red" style="fill: inherit"/></g>
+<g fill="lime"><rect x="26" y="2" width="10" height="6" fill="red" style="fill: unset"/></g>
+<g fill="lime"><rect x="38" y="2" width="10" height="6" fill="red" style="fill: INHERIT"/></g>
+<rect x="50" y="2" width="10" height="6" fill="url(#u)"/>
+<rect x="2" y="12" width="10" height="6" fill="url(#i)"/>
+<g stroke-width="5"><path d="M14 15h10" stroke="lime" style="stroke-width: initial"/></g>
+<g fill="lime"><rect x="26" y="12" width="10" height="6" style="fill: initial red"/></g>
+<g fill="lime"><rect x="38" y="12" width="10" height="6" style="fill: inherit inherit"/></g>
+<svg x="50" y="12" width="10" height="6"><rect fill="lime" style="width: inherit; height: inherit"/></svg>
+<g fill="lime" opacity=".5"><rect x="2" y="21" width="10" height="5" style="opacity: unset"/></g>
+<rect x="14" y="21" width="10" height="5" fill="lime" opacity=".5"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="10" height="6"/><rect x="14" y="2" width="10" height="6"/><rect x="26" y="2" width="10" height="6"/><rect x="38" y="2" width="10" height="6"/><rect x="50" y="2" width="10" height="6"/><rect x="2" y="12" width="10" height="6"/><rect x="14" y="14.5" width="10" height="1"/><rect x="26" y="12" width="10" height="6"/><rect x="38" y="12" width="10" height="6"/><rect x="50" y="12" width="10" height="6"/></g>
+</svg>

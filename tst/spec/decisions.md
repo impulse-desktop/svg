@@ -293,3 +293,43 @@ and sampling it at the period, so where the period is no whole number of
 pixels a tile's edges blur and move within a pixel of their exact place. A
 tile of a whole period, an image tiled edge to edge and a single tile are
 drawn exactly.
+
+## D29. A font's metrics are the fallbacks of a font without them
+
+`css-values-4.md#font-relative-lengths`: ex, cap, ch, ic and lh are metrics
+of the first available font. The renderer draws no text and has no fonts,
+so it takes the fallbacks the units give: ex "a value of 0.5em must be
+assumed", ch "0.5em wide", ic "1em". cap falls back to "the font's ascent"
+and lh is line-height normal, metrics of a font too; SVG 1.1 gives a font
+without them an ascent of its units-per-em and a descent of 0
+(`svg11/fonts.md#FontFaceElementAscentAttribute`), so cap and lh are 1em.
+line-height, a text property, is not read. The root forms (rex, rch, ric,
+rcap, rlh) are the same of the root's font size. Before, ex was 0.459em and
+lh 1.149em, a browser's default serif font's; the resvg tests of ex, lh and
+rlh, written for Noto Sans, draw differently.
+
+## D30. Math functions go where CSS's value syntax does
+
+`css-values-4.md#calc-type-checking`: a math function "can be used anywhere
+a value of that type is allowed". The renderer reads them where a property
+or attribute is written in CSS's value definition syntax
+(`svg2/types.md#syntax`): lengths, numbers and integers, percentages,
+angles, colour channels, number lists, points, viewBox, a transform
+property's functions, filter functions, media queries. Path data and the
+transform attribute have grammars of their own (`svg2/paths.md#PathDataBNF`,
+`css-transforms-1.md#svg-syntax`) and take none. A math function that needs
+the viewport or the font (a percentage of a length, em, vw) is evaluated
+each time its length is resolved; where a number is resolved as it is read
+(opacity, an integer, a colour channel), one that needs them is invalid.
+An infinity is clamped to 3e38, the largest number the parser keeps, and a
+negative result where a plain negative value is invalid is clamped to zero
+(`#calc-range`): rx calc(-5px) is 0, rx -5 is auto. round(line-width) snaps
+to whole px, the renderer's device pixel before its output scale.
+
+## D31. The viewport units are of the document's own size
+
+`css-values-4.md#viewport-relative-lengths`: vw, vh and the rest are of the
+initial containing block. The document's own size (D10) is what it lays out
+in, stretched to the pixels it is drawn into (README), so the viewport
+units are of that size. Before, they were of the output pixels, and a
+document drawn at twice its size had twice the vw in its user units.

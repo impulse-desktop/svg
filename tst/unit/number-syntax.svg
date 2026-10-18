@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="8" font-size="0">
 <g fill="teal">
-<rect width="1e100000" height="2"/>
 <rect x="4" width="4" height="4" stroke="black" stroke-miterlimit="bogus" stroke-dasharray="1-2"/>
 <rect x="8" width="4" height="4" stroke="black" stroke-miterlimit="4x"/>
 <rect x="12" width="1PX" height="4"/>
@@ -18,5 +17,6 @@
 <rect x="0" y="4" width="4" height="4" fill="hsl(1ra)"/>
 <rect x="4" y="4" width="4" height="4" fill="url("/>
 <rect x="8" y="4" width="4" height="4" fill='url(")'/>
+<rect x="12" y="4" width="1e100000" height="4"/>
 </g>
 </svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="72" font-size="8">
+<!-- Math functions wherever a number, a length, a percentage or an angle
+goes. In the first and last rows lime fills its black outline: transform
+functions, translate, scale (a percentage a number there), font-size,
+viewBox and points numbers, a percentage and a vw resolved at drawing,
+a basic shape, object-position with spaces inside calc(), a marker's
+orient, a CSS gradient's angle, a media query, but none in a transform
+attribute, whose grammar is SVG's, and a number from one is no unitless
+zero, so a transform, filter or gradient with calc(0) for an angle or a
+length is invalid; nothing red shows. In the
+middle rows each test runs on into the reference under it without a
+step: colour channels and hue, fill-opacity, a stop offset, dashes, a
+stroke width, filter functions, a number list, numOctaves rounded to
+an integer, a transfer slope. -->
+<rect width="120" height="72" fill="white"/>
+<rect width="10" height="6" fill="lime" style="transform: translate(calc(1px + 1em), calc(1px * 2))"/>
+<rect x="24" y="8" width="12" height="4" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotate(calc(180deg / 2))"/>
+<rect x="40" y="2" width="8" height="6" fill="lime" style="transform-box: fill-box; transform: translate(calc(50% - 2px), 0)"/>
+<rect x="54" y="2" width="8" height="6" fill="lime" style="translate: calc(1px + 1px) calc(3px * 1)"/>
+<rect x="68" y="2" width="16" height="12" fill="lime" style="transform-box: fill-box; transform-origin: 0 0; scale: calc(1 / 2)"/>
+<rect x="160" y="4" width="16" height="12" fill="lime" style="transform: scale(calc(50%))"/>
+<rect x="92" y="2" width="12" height="6" fill="lime" style="font-size: calc(4px * 2); width: calc(1em + 4px)"/>
+<rect x="2" y="18" width="12" height="6" fill="rgb(calc(255 / 5) calc(100% / 2) 0)"/><rect x="2" y="24" width="12" height="6" fill="rgb(51 127.5 0)"/>
+<rect x="16" y="18" width="12" height="6" fill="hsl(calc(60deg * 2) calc(50% + 50%) 25%)"/><rect x="16" y="24" width="12" height="6" fill="hsl(120 100% 25%)"/>
+<rect x="30" y="18" width="12" height="6" fill="lab(calc(50 + 10) calc(-20 * 2) 30)"/><rect x="30" y="24" width="12" height="6" fill="lab(60 -40 30)"/>
+<rect x="44" y="18" width="12" height="6" fill-opacity="calc(1 / 4)"/><rect x="44" y="24" width="12" height="6" fill-opacity=".25"/>
+<rect x="58" y="18" width="12" height="6" fill="url(#gt)"/><rect x="58" y="24" width="12" height="6" fill="url(#gr)"/>
+<linearGradient id="gt" gradientUnits="userSpaceOnUse" x1="58" x2="70"><stop offset="0" stop-color="navy"/><stop offset="calc(25%)" stop-color="lime"/><stop offset="1" stop-color="navy"/></linearGradient>
+<linearGradient id="gr" gradientUnits="userSpaceOnUse" x1="58" x2="70"><stop offset="0" stop-color="navy"/><stop offset=".25" stop-color="lime"/><stop offset="1" stop-color="navy"/></linearGradient>
+<path d="M72 21h16" stroke="navy" stroke-width="6" stroke-dasharray="calc(2px * 2) calc(1px + 1px)"/><path d="M72 27h16" stroke="navy" stroke-width="6" stroke-dasharray="4 2"/>
+<path d="M92 19.5h12" stroke="lime" stroke-width="calc(1px + 2px)"/>
+<filter id="fh" x="0" y="0" width="1" height="1"><feColorMatrix type="hueRotate" values="0"/></filter>
+<rect x="2" y="34" width="12" height="6" fill="#c84" style="filter: hue-rotate(calc(90deg * 2))"/><rect x="2" y="40" width="12" height="6" fill="#c84" style="filter: hue-rotate(180deg)"/>
+<rect x="16" y="34" width="12" height="6" fill="navy" style="filter: opacity(calc(50%))"/><rect x="16" y="40" width="12" height="6" fill="navy" style="filter: opacity(.5)"/>
+<filter id="bt" x="0" y="-1" width="1" height="3"><feGaussianBlur stdDeviation="0 calc(1 + 1)"/></filter><filter id="br" x="0" y="-1" width="1" height="3"><feGaussianBlur stdDeviation="0 2"/></filter>
+<rect x="30" y="38" width="6" height="4" fill="navy" filter="url(#bt)"/><rect x="36" y="38" width="6" height="4" fill="navy" filter="url(#br)"/>
+<filter id="tt" filterUnits="userSpaceOnUse" x="44" y="34" width="12" height="6"><feTurbulence baseFrequency=".2" numOctaves="calc(1.6)" seed="3"/></filter><filter id="tr" filterUnits="userSpaceOnUse" x="44" y="40" width="12" height="6"><feTurbulence baseFrequency=".2" numOctaves="2" seed="3"/></filter>
+<rect x="44" y="34" width="12" height="6" filter="url(#tt)"/><rect x="44" y="40" width="12" height="6" filter="url(#tr)"/>
+<filter id="ct"><feComponentTransfer><feFuncG type="linear" slope="calc(1 / 2)"/></feComponentTransfer></filter><filter id="cr"><feComponentTransfer><feFuncG type="linear" slope=".5"/></feComponentTransfer></filter>
+<rect x="58" y="34" width="12" height="6" fill="lime" filter="url(#ct)"/><rect x="58" y="40" width="12" height="6" fill="lime" filter="url(#cr)"/>
+<svg x="2" y="50" width="12" height="12" viewBox="0 0 calc(12 * 2) 24"><rect width="12" height="12" fill="lime"/></svg>
+<polygon points="16,50 calc(6 * 2 + 16),50 16,62" fill="lime"/>
+<svg x="30" y="50" width="24" height="12"><rect x="calc(50% - 6px)" width="6" height="6" fill="lime"/></svg>
+<rect x="44" y="50" width="calc(5vw - 1px)" height="6" fill="lime"/>
+<rect x="52" y="50" width="12" height="12" fill="lime" style="clip-path: circle(calc(3px * 2) at calc(50%) 50%)"/>
+<image x="66" y="50" width="12" height="12" style="object-fit: none; object-position: calc(50% + 2px) 0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAADklEQVR42mNg+I8G0QUABykP8Qyx+pcAAAAASUVORK5CYII="/>
+<marker id="mk" markerWidth="6" markerHeight="2" refX="0" refY="1" orient="calc(45deg * 2)" markerUnits="userSpaceOnUse"><rect width="6" height="2" fill="lime"/></marker><path d="M85 50h6" marker-start="url(#mk)"/>
+<rect x="92" y="50" width="12" height="12" fill="lime" style="mask-image: linear-gradient(calc(45deg * 2), black 50%, transparent 50%)"/>
+<rect x="16" y="66" width="12" height="4" fill="lime" transform="translate(calc(50px))"/>
+<rect x="30" y="66" width="12" height="4" fill="lime" style="transform: translate(50px) rotate(calc(0))"/>
+<rect x="44" y="66" width="12" height="4" fill="lime" style="filter: hue-rotate(calc(0)) invert(1)"/>
+<rect x="58" y="66" width="12" height="4" fill="lime" style="filter: blur(calc(0)) invert(1)"/>
+<rect x="72" y="66" width="12" height="4" fill="lime" style="mask-image: linear-gradient(calc(0), black 50%, transparent 50%)"/>
+<style>@media (min-width: calc(10px * 2)) { .mq { fill: lime } }</style><rect class="mq" x="2" y="66" width="12" height="4" fill="red"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="9" y="2" width="10" height="6"/><rect x="28" y="4" width="4" height="12"/><rect x="42" y="2" width="8" height="6"/><rect x="56" y="5" width="8" height="6"/><rect x="68" y="2" width="8" height="6"/><rect x="80" y="2" width="8" height="6"/><rect x="92" y="2" width="12" height="6"/><rect x="92" y="18" width="12" height="3"/><rect x="2" y="50" width="6" height="6"/><polygon points="16,50 28,50 16,62"/><rect x="36" y="50" width="6" height="6"/><rect x="44" y="50" width="5" height="6"/><circle cx="58" cy="56" r="6"/><rect x="72" y="50" width="4" height="2"/><rect x="84" y="50" width="2" height="6"/><rect x="92" y="50" width="6" height="12"/><rect x="16" y="66" width="12" height="4"/><rect x="30" y="66" width="12" height="4"/><rect x="44" y="66" width="12" height="4"/><rect x="58" y="66" width="12" height="4"/><rect x="72" y="66" width="12" height="4"/><rect x="2" y="66" width="12" height="4"/></g>
+</svg>

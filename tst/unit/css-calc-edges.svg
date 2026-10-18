@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="164" font-size="16">
+<!-- Each lime bar fills its black outline, and nothing red shows; a bar
+of a full cell is an infinity clamped to the largest length. The edges
+of css-values-4's math functions as widths: NaN in min(), max() and
+hypot(); 0- below 0+ and a literal -0 as 0; round() at its argument
+ranges and line-width snapped to whole px, a zero multiple 0+ below and
+0- above; mod() and rem() at theirs, a zero result of mod() taking the
+step's sign; pow() and log() at theirs; tan() at its asymptotes; 32
+levels of parentheses or functions and no more; errors of syntax,
+arity and type; angles, times, frequencies and resolutions in their
+canonical units. Below, lime fills its outline or covers red, or the
+test runs on into the reference under it without a step: opacity from
+a calc() needing the font, an angle or a length is invalid; a number
+attribute takes no percentage; trailing text after an integer's math
+function is invalid; a lazy negative stroke width is clamped to none;
+a gradient in bounding box units takes calc() lengths and percentages;
+a filter angle or marker orient from a percentage or with text after
+it is invalid; url() closes at the end of its text and undoes escapes,
+quoted or not, of hex digits to six, a code point out of range or zero
+the replacement character, a newline escaped in a style sheet nothing;
+a filter url() with more text in its parentheses is invalid. -->
+<rect width="120" height="164" fill="white"/>
+<linearGradient id="g"><stop stop-color="lime"/></linearGradient>
+<rect x="2" y="2" width="min(NaN * 1px, 5px)" height="3" fill="red"/>
+<rect x="32" y="2" width="max(5px, NaN * 1px)" height="3" fill="red"/>
+<svg x="62" y="2" width="26" height="3"><rect width="calc(1px / min(0px, calc(-1px * 0)) * -1)" height="3" fill="lime"/></svg>
+<svg x="92" y="2" width="26" height="3"><rect width="calc(1px / min(0px, 0px))" height="3" fill="lime"/></svg>
+<svg x="2" y="7" width="26" height="3"><rect width="calc(1px / max(calc(-1px * 0), 0px))" height="3" fill="lime"/></svg>
+<svg x="32" y="7" width="26" height="3"><rect width="calc(-1px / max(calc(-1px * 0), calc(-1px * 0)))" height="3" fill="lime"/></svg>
+<svg x="62" y="7" width="26" height="3"><rect width="calc(1px / -0)" height="3" fill="lime"/></svg>
+<rect x="92" y="7" width="round(line-width, 3px)" height="3" fill="lime"/>
+<rect x="2" y="12" width="calc(round(line-width, -0.3px) + 5px)" height="3" fill="lime"/>
+<rect x="32" y="12" width="round(line-width, 0.3px, 1px)" height="3" fill="lime"/>
+<rect x="62" y="12" width="calc(round(line-width, -0.3px, 1px) + 5px)" height="3" fill="lime"/>
+<rect x="92" y="12" width="round(line-width, 2.6px, 1px)" height="3" fill="lime"/>
+<rect x="2" y="17" width="round(5px, 0px)" height="3" fill="red"/>
+<svg x="32" y="17" width="26" height="3"><rect width="round(calc(infinity * 1px), 5px)" height="3" fill="lime"/></svg>
+<rect x="62" y="17" width="round(calc(infinity * 1px), calc(infinity * 1px))" height="3" fill="red"/>
+<svg x="92" y="17" width="26" height="3"><rect width="round(up, 5px, calc(infinity * 1px))" height="3" fill="lime"/></svg>
+<svg x="2" y="22" width="26" height="3"><rect width="round(line-width, 5px, calc(infinity * 1px))" height="3" fill="lime"/></svg>
+<svg x="32" y="22" width="26" height="3"><rect width="calc(round(down, -5px, calc(infinity * 1px)) * -1)" height="3" fill="lime"/></svg>
+<svg x="62" y="22" width="26" height="3"><rect width="calc(round(line-width, -5px, calc(infinity * 1px)) * -1)" height="3" fill="lime"/></svg>
+<svg x="92" y="22" width="26" height="3"><rect width="calc(1px / round(up, 0px, calc(infinity * 1px)))" height="3" fill="lime"/></svg>
+<rect x="2" y="27" width="calc(1px / round(up, calc(-1px * 0), calc(infinity * 1px)))" height="3" fill="red"/>
+<rect x="32" y="27" width="calc(1px / round(down, calc(-1px * 0), calc(infinity * 1px)))" height="3" fill="red"/>
+<svg x="62" y="27" width="26" height="3"><rect width="calc(1px / round(down, 0px, calc(infinity * 1px)))" height="3" fill="lime"/></svg>
+<svg x="92" y="27" width="26" height="3"><rect width="calc(1px / round(5px, calc(infinity * 1px)))" height="3" fill="lime"/></svg>
+<rect x="2" y="32" width="calc(1px / round(-5px, calc(infinity * 1px)))" height="3" fill="red"/>
+<rect x="32" y="32" width="round(15px, 5px)" height="3" fill="lime"/>
+<rect x="62" y="32" width="round(to-zero, 14px, 5px)" height="3" fill="lime"/>
+<rect x="92" y="32" width="mod(5px, 0px)" height="3" fill="red"/>
+<rect x="2" y="37" width="mod(calc(infinity * 1px), 5px)" height="3" fill="red"/>
+<rect x="32" y="37" width="mod(-5px, calc(infinity * 1px))" height="3" fill="red"/>
+<rect x="62" y="37" width="mod(5px, calc(infinity * 1px))" height="3" fill="lime"/>
+<rect x="92" y="37" width="calc(rem(-5px, calc(infinity * 1px)) * -1)" height="3" fill="lime"/>
+<svg x="2" y="42" width="26" height="3"><rect width="calc(1px / mod(-10px, 5px))" height="3" fill="lime"/></svg>
+<rect x="32" y="42" width="calc(1px / mod(10px, -5px))" height="3" fill="red"/>
+<rect x="62" y="42" width="calc(pow(NaN, 0) * 1px + 5px)" height="3" fill="red"/>
+<rect x="92" y="42" width="calc(pow(1, infinity) * 1px + 5px)" height="3" fill="red"/>
+<rect x="2" y="47" width="calc(pow(-1, -infinity) * 1px + 5px)" height="3" fill="red"/>
+<rect x="32" y="47" width="calc(log(-1) * 1px + 5px)" height="3" fill="red"/>
+<rect x="62" y="47" width="calc(log(8, 1) * 1px + 5px)" height="3" fill="red"/>
+<rect x="92" y="47" width="calc(log(8, 0) * 1px + 5px)" height="3" fill="red"/>
+<svg x="2" y="52" width="26" height="3"><rect width="calc(log(0) * -1px)" height="3" fill="lime"/></svg>
+<rect x="32" y="52" width="calc(log(1) * 1px + 5px)" height="3" fill="lime"/>
+<svg x="62" y="52" width="26" height="3"><rect width="calc(log(infinity) * 1px)" height="3" fill="lime"/></svg>
+<rect x="92" y="52" width="calc(log(NaN) * 1px + 5px)" height="3" fill="red"/>
+<rect x="2" y="57" width="calc((((((((((((((((((((((((((((((((5px))))))))))))))))))))))))))))))))" height="3" fill="lime"/>
+<rect x="32" y="57" width="calc(((((((((((((((((((((((((((((((((5px)))))))))))))))))))))))))))))))))" height="3" fill="red"/>
+<rect x="62" y="57" width="calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(5px))))))))))))))))))))))))))))))))" height="3" fill="lime"/>
+<rect x="92" y="57" width="calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(calc(5px)))))))))))))))))))))))))))))))))" height="3" fill="red"/>
+<rect x="2" y="62" width="calc((1px)" height="3" fill="red"/>
+<rect x="32" y="62" width="calc(5" height="3" fill="red"/>
+<rect x="62" y="62" width="calc(5-3px)" height="3" fill="red"/>
+<rect x="92" y="62" width="calc(foo)" height="3" fill="red"/>
+<rect x="2" y="67" width="calc(2 * )" height="3" fill="red"/>
+<rect x="32" y="67" width="calc(1px + )" height="3" fill="red"/>
+<rect x="62" y="67" width="foo(5px)" height="3" fill="red"/>
+<rect x="92" y="67" width="calc(foo(5px))" height="3" fill="red"/>
+<rect x="2" y="72" width="round(up 5px, 1px)" height="3" fill="red"/>
+<rect x="32" y="72" width="clamp(none 1px, 2px, 3px)" height="3" fill="red"/>
+<rect x="62" y="72" width="clamp(1px, none, 3px)" height="3" fill="red"/>
+<rect x="92" y="72" width="clamp(1px, 2px, 3px, 4px)" height="3" fill="red"/>
+<rect x="2" y="77" width="min(1px 2px)" height="3" fill="red"/>
+<rect x="32" y="77" width="calc(1px, 2px)" height="3" fill="red"/>
+<rect x="62" y="77" width="hypot(NaN * 1px, 1px)" height="3" fill="red"/>
+<rect x="92" y="77" width="clamp(1px, 2px)" height="3" fill="red"/>
+<rect x="2" y="82" width="clamp(1deg, 2px, 3px)" height="3" fill="red"/>
+<rect x="32" y="82" width="clamp(1px, 2px, 3deg)" height="3" fill="red"/>
+<rect x="62" y="82" width="round(1px, 2px, 3px)" height="3" fill="red"/>
+<rect x="92" y="82" width="round(1px, 1deg)" height="3" fill="red"/>
+<rect x="2" y="87" width="round(line-width, 5)" height="3" fill="red"/>
+<rect x="32" y="87" width="mod(1px)" height="3" fill="red"/>
+<rect x="62" y="87" width="mod(1px, 1deg)" height="3" fill="red"/>
+<rect x="92" y="87" width="calc(log(1, 2, 3) * 1px)" height="3" fill="red"/>
+<rect x="2" y="92" width="calc(pow(2) * 1px)" height="3" fill="red"/>
+<rect x="32" y="92" width="calc(log(2px, 2px) * 1px)" height="3" fill="red"/>
+<svg x="62" y="92" width="26" height="3"><rect width="calc(tan(-270deg) * 1px)" height="3" fill="lime"/></svg>
+<svg x="92" y="92" width="26" height="3"><rect width="calc(tan(-90deg) * -1px)" height="3" fill="lime"/></svg>
+<svg x="2" y="97" width="26" height="3"><rect width="calc(tan(270deg) * -1px)" height="3" fill="lime"/></svg>
+<rect x="32" y="97" width="calc(sin(1, 2) * 1px)" height="3" fill="red"/>
+<rect x="62" y="97" width="calc(sqrt(4px) * 1px)" height="3" fill="red"/>
+<rect x="92" y="97" width="calc(sqrt(4, 9) * 1px)" height="3" fill="red"/>
+<rect x="2" y="102" width="calc(10grad / 1deg * 1px)" height="3" fill="lime"/>
+<rect x="32" y="102" width="calc(1rad / 1deg * 0.1px)" height="3" fill="lime"/>
+<rect x="62" y="102" width="calc(1khz / 100hz * 1px)" height="3" fill="lime"/>
+<rect x="92" y="102" width="calc(96dpi / 1dppx * 10px)" height="3" fill="lime"/>
+<rect x="2" y="107" width="calc(96dpcm / 2.54dppx * 10px)" height="3" fill="lime"/>
+<rect x="32" y="107" width="calc(1x / 1dppx * 10px)" height="3" fill="lime"/>
+<rect x="62" y="107" width="calc(1deg)" height="3" fill="red"/>
+<rect x="92" y="107" width="12sem" height="3" fill="red"/>
+<rect x="2" y="112" width="min(5px, 3s)" height="3" fill="red"/>
+<rect x="32" y="112" width="calc(1px * -0)" height="3" fill="red"/>
+<rect x="62" y="112" width="calc(sign(3px) * 3px)" height="3" fill="lime"/>
+<rect x="92" y="112" width="round(line-width, 2.3px, 1px)" height="3" fill="lime"/>
+<rect x="2" y="117" width="calc(1px / round(up, -5px, calc(infinity * 1px)))" height="3" fill="red"/>
+<svg x="32" y="117" width="26" height="3"><rect width="calc(1px / round(down, 5px, calc(infinity * 1px)))" height="3" fill="lime"/></svg>
+<rect x="62" y="117" width="round(NaN * 1px, 5px)" height="3" fill="red"/>
+<rect x="92" y="117" width="round(5px, NaN * 1px)" height="3" fill="red"/>
+<rect x="2" y="122" width="mod(NaN * 1px, 5px)" height="3" fill="red"/>
+<rect x="32" y="122" width="mod(5px, NaN * 1px)" height="3" fill="red"/>
+<rect x="62" y="122" width="calc(pow(2, NaN) * 1px + 5px)" height="3" fill="red"/>
+<svg x="92" y="122" width="26" height="3"><rect width="calc(pow(2, infinity) * 1px)" height="3" fill="lime"/></svg>
+<rect x="2" y="127" width="calc(log(2, NaN) * 1px + 5px)" height="3" fill="red"/>
+<rect x="32" y="127" width="calc((foo))" height="3" fill="red"/>
+<rect x="2" y="134" width="7" height="7" fill="red"/><rect x="2" y="134" width="7" height="7" fill="lime" style="opacity: calc(1em / 32px)"/>
+<rect x="11" y="134" width="7" height="7" fill="red"/><rect x="11" y="134" width="7" height="7" fill="lime" style="opacity: calc(1deg)"/>
+<rect x="20" y="134" width="7" height="7" fill="red"/><rect x="20" y="134" width="7" height="7" fill="lime" style="opacity: calc(50% + 1px)"/>
+<rect x="29" y="134" width="7" height="7" fill="red"/><rect x="29" y="134" width="7" height="7" fill="lime" style="opacity: calc(1px)"/>
+<filter id="s"><feComponentTransfer><feFuncG type="linear" slope="calc(50%)"/></feComponentTransfer></filter><rect x="38" y="134" width="7" height="3.5" fill="lime" filter="url(#s)"/><rect x="38" y="137.5" width="7" height="3.5" fill="lime"/>
+<filter id="t1" filterUnits="userSpaceOnUse" x="47" y="134" width="7" height="3.5"><feTurbulence baseFrequency=".3" numOctaves="calc(2)x" seed="5"/></filter><filter id="t2" filterUnits="userSpaceOnUse" x="47" y="137.5" width="7" height="3.5"><feTurbulence baseFrequency=".3" numOctaves="1" seed="5"/></filter><rect x="47" y="134" width="7" height="3.5" filter="url(#t1)"/><rect x="47" y="137.5" width="7" height="3.5" filter="url(#t2)"/>
+<filter id="t3" filterUnits="userSpaceOnUse" x="56" y="134" width="7" height="3.5"><feTurbulence baseFrequency=".3" numOctaves="calc(50%)" seed="5"/></filter><filter id="t4" filterUnits="userSpaceOnUse" x="56" y="137.5" width="7" height="3.5"><feTurbulence baseFrequency=".3" numOctaves="1" seed="5"/></filter><rect x="56" y="134" width="7" height="3.5" filter="url(#t3)"/><rect x="56" y="137.5" width="7" height="3.5" filter="url(#t4)"/>
+<rect x="65" y="134" width="7" height="7" fill="lime" stroke="red" style="stroke-width: calc(-1em)"/>
+<linearGradient id="b1" x2="calc(50%)"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="navy"/></linearGradient><linearGradient id="b2" x2=".5"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="navy"/></linearGradient><rect x="74" y="134" width="7" height="3.5" fill="url(#b1)"/><rect x="74" y="137.5" width="7" height="3.5" fill="url(#b2)"/>
+<linearGradient id="b3" x2="calc(1em / 32)"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="navy"/></linearGradient><rect x="83" y="134" width="7" height="3.5" fill="url(#b3)"/><rect x="83" y="137.5" width="7" height="3.5" fill="url(#b2)"/>
+<rect x="2" y="144" width="7" height="7" fill="lime" style="filter: hue-rotate(foo) invert(1)"/>
+<rect x="11" y="144" width="7" height="7" fill="lime" style="filter: hue-rotate(calc(50%)) invert(1)"/>
+<rect x="20" y="144" width="7" height="7" fill="lime" style="filter: hue-rotate(calc(1deg) 2) invert(1)"/>
+<marker id="m4" markerWidth="6" markerHeight="2" refX="0" refY="1" orient="foo" markerUnits="userSpaceOnUse"><rect width="6" height="2" fill="lime"/></marker><path d="M29 145h1" marker-start="url(#m4)"/>
+<marker id="m5" markerWidth="6" markerHeight="2" refX="0" refY="1" orient="calc(50%)" markerUnits="userSpaceOnUse"><rect width="6" height="2" fill="lime"/></marker><path d="M38 145h1" marker-start="url(#m5)"/>
+<marker id="m6" markerWidth="6" markerHeight="2" refX="0" refY="1" orient="calc(1deg)x" markerUnits="userSpaceOnUse"><rect width="6" height="2" fill="lime"/></marker><path d="M47 145h1" marker-start="url(#m6)"/>
+<marker id="m7" markerWidth="6" markerHeight="2" refX="0" refY="1" orient="calc(1px)" markerUnits="userSpaceOnUse"><rect width="6" height="2" fill="lime"/></marker><path d="M56 145h1" marker-start="url(#m7)"/>
+<g fill="lime"><rect x="65" y="144" width="7" height="7" fill="url(#g"/></g>
+<g fill="lime"><rect x="74" y="144" width="7" height="7" fill="url('#g"/></g>
+<g fill="lime"><rect x="83" y="144" width="7" height="7" fill="url(#g\"/></g>
+<g fill="lime"><rect x="92" y="144" width="7" height="7" fill="url('#g' x) red"/></g>
+<rect x="101" y="144" width="7" height="7" fill="red"/><rect x="101" y="144" width="7" height="7" fill="lime" style="transform: translate(calc(1s))"/>
+<rect x="110" y="144" width="7" height="7" fill="lime" style="transform: translate(calc(1px +))"/>
+<rect x="119" y="144" width="7" height="7" fill="red"/><g fill="lime"><rect x="119" y="144" width="7" height="7" fill="rgb(calc(1px) 0 0)"/></g>
+<rect x="2" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="2" y="154" width="7" height="4" fill="url('#\67')"/></g>
+<rect x="11" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="11" y="154" width="7" height="4" fill="url('#g\"/></g>
+<rect x="20" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="20" y="154" width="7" height="4" fill="url(#\000067)"/></g>
+<rect x="29" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="29" y="154" width="7" height="4" fill="url(#\67"/></g>
+<rect x="38" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="38" y="154" width="7" height="4" fill="url(#\0 ) lime"/></g>
+<rect x="47" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="47" y="154" width="7" height="4" fill="url(#\110000 ) lime"/></g>
+<rect x="56" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="56" y="154" width="7" height="4" fill="url(#\d800 ) lime"/></g>
+<rect x="65" y="154" width="7" height="4" fill="red"/><g fill="lime"><rect x="65" y="154" width="7" height="4" fill="url(#\e000 ) lime"/></g>
+<style>.nl { fill: url("#\
+g") }</style><rect x="74" y="154" width="7" height="4" fill="red"/><rect class="nl" x="74" y="154" width="7" height="4"/>
+<rect x="83" y="154" width="7" height="4" fill="lime" style="filter: url('(')) invert(1)"/>
+<rect x="2" y="153" height="3" fill="red" width="calc(1px +"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="62" y="2" width="26" height="3"/><rect x="92" y="2" width="26" height="3"/><rect x="2" y="7" width="26" height="3"/><rect x="32" y="7" width="26" height="3"/><rect x="62" y="7" width="26" height="3"/><rect x="92" y="7" width="3" height="3"/><rect x="2" y="12" width="4" height="3"/><rect x="32" y="12" width="1" height="3"/><rect x="62" y="12" width="4" height="3"/><rect x="92" y="12" width="3" height="3"/><rect x="32" y="17" width="26" height="3"/><rect x="92" y="17" width="26" height="3"/><rect x="2" y="22" width="26" height="3"/><rect x="32" y="22" width="26" height="3"/><rect x="62" y="22" width="26" height="3"/><rect x="92" y="22" width="26" height="3"/><rect x="62" y="27" width="26" height="3"/><rect x="92" y="27" width="26" height="3"/><rect x="32" y="32" width="15" height="3"/><rect x="62" y="32" width="10" height="3"/><rect x="62" y="37" width="5" height="3"/><rect x="92" y="37" width="5" height="3"/><rect x="2" y="42" width="26" height="3"/><rect x="2" y="52" width="26" height="3"/><rect x="32" y="52" width="5" height="3"/><rect x="62" y="52" width="26" height="3"/><rect x="2" y="57" width="5" height="3"/><rect x="62" y="57" width="5" height="3"/><rect x="62" y="92" width="26" height="3"/><rect x="92" y="92" width="26" height="3"/><rect x="2" y="97" width="26" height="3"/><rect x="2" y="102" width="9" height="3"/><rect x="32" y="102" width="5.7296" height="3"/><rect x="62" y="102" width="10" height="3"/><rect x="92" y="102" width="10" height="3"/><rect x="2" y="107" width="10" height="3"/><rect x="32" y="107" width="10" height="3"/><rect x="62" y="112" width="3" height="3"/><rect x="92" y="112" width="2" height="3"/><rect x="32" y="117" width="26" height="3"/><rect x="92" y="122" width="26" height="3"/><rect x="2" y="134" width="7" height="7"/><rect x="11" y="134" width="7" height="7"/><rect x="20" y="134" width="7" height="7"/><rect x="29" y="134" width="7" height="7"/><rect x="65" y="134" width="7" height="7"/><rect x="2" y="144" width="7" height="7"/><rect x="11" y="144" width="7" height="7"/><rect x="20" y="144" width="7" height="7"/><rect x="29" y="144" width="6" height="2"/><rect x="38" y="144" width="6" height="2"/><rect x="47" y="144" width="6" height="2"/><rect x="56" y="144" width="6" height="2"/><rect x="65" y="144" width="7" height="7"/><rect x="74" y="144" width="7" height="7"/><rect x="83" y="144" width="7" height="7"/><rect x="92" y="144" width="7" height="7"/><rect x="101" y="144" width="7" height="7"/><rect x="110" y="144" width="7" height="7"/><rect x="119" y="144" width="7" height="7"/><rect x="2" y="154" width="7" height="4"/><rect x="11" y="154" width="7" height="4"/><rect x="20" y="154" width="7" height="4"/><rect x="29" y="154" width="7" height="4"/><rect x="38" y="154" width="7" height="4"/><rect x="47" y="154" width="7" height="4"/><rect x="56" y="154" width="7" height="4"/><rect x="65" y="154" width="7" height="4"/><rect x="74" y="154" width="7" height="4"/><rect x="83" y="154" width="7" height="4"/></g>
+</svg>

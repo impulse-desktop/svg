@@ -1392,6 +1392,9 @@ namespace {
         u64 priority;
     };
 
+    // Ex is half an em and Rex half a rem (D29). Calc is a math function
+    // that needs the viewport or the font to resolve, CalcPercent one with
+    // a percentage in it.
     enum class Unit : u8 {
         Number,
         Px,
@@ -1404,19 +1407,25 @@ namespace {
         Pc,
         Q,
         Rem,
+        Rex,
         Vw,
         Vh,
         Vmin,
         Vmax,
-        Ch,
-        Lh,
-        Ic,
         Percent,
+        Calc,
+        CalcPercent,
     };
 
+    // A length from a math function keeps its text, which Calc and
+    // CalcPercent evaluate at every use, and whether its place clamps it
+    // at zero (css-values-4 10.12).
     struct Length {
         float value;
         Unit unit;
+        bool floor = false;
+        u32 size = 0;
+        const u8* calc = nullptr;
     };
 
     enum class Axis : u8 {
@@ -1650,9 +1659,10 @@ namespace {
         bool aliased;
         u8 imageRendering;
         // object-fit, fill, contain, cover, none, scale-down, and the
-        // object-position of an image element's content.
+        // object-position of an image element's content, the value's atom,
+        // 0 for the initial.
         u8 objectFit;
-        Length objectPosition[2];
+        u32 objectPosition;
         float zoom;
         float outlineWidth;
         Color outlineColor;
@@ -3710,6 +3720,12 @@ namespace {
         }
     }
 
+    // An ASCII letter: what a math function, never a literal number, starts
+    // with.
+    static bool isLetter(u8 c) {
+        return (u8)((c | 0x20) - 'a') < 26;
+    }
+
     static bool isIdentStart(u8 c) {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '-' || c >= 0x80;
     }
@@ -3750,6 +3766,115 @@ namespace {
         }
 
         return p < end ? p + 1 : end;
+    }
+
+    // Text with its CSS escapes undone (css-syntax-3 4.3.7): a backslash
+    // and one to six hex digits, and a white space after them, are that
+    // code point, U+FFFD for none; a backslash before a newline is nothing,
+    // before anything else that thing. XML has made every CR LF an LF.
+    static StringView unescapeCss(StringView text, Buffer& out) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+
+        if (!memchr(text.data(), '\\', text.length())) {
+            return text;
+        }
+
+        while (p < end) {
+            if (*p != '\\' || p + 1 == end) {
+                out.append(p, *p != '\\');
+                p++;
+                continue;
+            }
+
+            u32 code = 0;
+            int digits = 0;
+
+            p++;
+
+            while (digits < 6 && p < end && hexDigit(*p) >= 0) {
+                code = code * 16 + (u32)hexDigit(*p++);
+                digits++;
+            }
+
+            if (!digits) {
+                out.append(p, *p != '\n');
+                p++;
+                continue;
+            }
+
+            p += p < end && isSpace(*p);
+            appendUtf8(out, code == 0 || code > 0x10ffff || (code >= 0xd800 && code <= 0xdfff) ? 0xfffd : code);
+        }
+
+        return StringView(out);
+    }
+
+    // A url() or src() at p (css-values-4 4.5): its string, unquoted and
+    // with its escapes undone into scratch. src() takes a quoted string
+    // alone; an unquoted url() no quote, parenthesis or white space but at
+    // its end. The end of the text closes an open string or function.
+    static bool readUrl(const u8*& p, const u8* end, StringView& out, Buffer& scratch) {
+        const u8* s = p;
+        bool src = end - s >= 4 && equalsIgnoreCase(StringView(s, s + 4), SV("src("));
+
+        if (!src && !(end - s >= 4 && equalsIgnoreCase(StringView(s, s + 4), SV("url(")))) {
+            return false;
+        }
+
+        s += 4;
+        skipSpaces(s, end);
+
+        const u8* start = s;
+        const u8* stop;
+
+        if (at(s, end, '"') || at(s, end, '\'')) {
+            u8 quote = *s++;
+
+            start = s;
+
+            while (s < end && *s != quote) {
+                s += *s == '\\' && s + 1 < end ? 2 : 1;
+            }
+
+            stop = s;
+            s += s < end;
+        } else {
+            if (src) {
+                return false;
+            }
+
+            while (s < end && *s != ')' && !isSpace(*s)) {
+                if (*s == '"' || *s == '\'' || *s == '(') {
+                    return false;
+                }
+
+                // An escape: up to six hex digits and a white space after
+                // them, or any one character.
+                if (*s++ == '\\' && s < end) {
+                    const u8* hex = s;
+
+                    while (s < end && s - hex < 6 && hexDigit(*s) >= 0) {
+                        s++;
+                    }
+
+                    s += s == hex ? 1 : (s < end && isSpace(*s));
+                }
+            }
+
+            stop = s;
+        }
+
+        skipSpaces(s, end);
+
+        if (s < end && *s != ')') {
+            return false;
+        }
+
+        out = unescapeCss(StringView(start, stop), scratch);
+        p = s + (s < end);
+
+        return true;
     }
 
     static void stripComments(StringView text, Buffer& out) {
@@ -4233,6 +4358,8 @@ namespace {
     static bool validGeometry(u32 property, StringView value);
 
     static bool parseLength(StringView text, Length& out);
+    static bool nonNegative(Length& length);
+    static bool percentLength(const Length& length);
     static bool parsePosition(StringView text, Length& x, Length& y);
 
     // Where a CSS mask layer takes its image from.
@@ -4349,7 +4476,7 @@ namespace {
     static bool cssAngle(StringView word, float& out) {
         bool unit;
 
-        return readAngle(word, out, unit) && (unit || out == 0.f);
+        return readAngle(word, out, unit) && (unit || (out == 0.f && !isLetter(word[0])));
     }
 
     // The line of a linear gradient: an angle with its unit, zero without,
@@ -4429,7 +4556,7 @@ namespace {
             } else if (!sized && extent >= 0) {
                 out.extent = (u8)extent;
                 sized = true;
-            } else if ((!sized || lengths == 1) && parseLength(word, out.radius[lengths]) && out.radius[lengths].value >= 0.f) {
+            } else if ((!sized || lengths == 1) && parseLength(word, out.radius[lengths]) && nonNegative(out.radius[lengths])) {
                 lengths++;
                 out.extent = 4;
                 sized = true;
@@ -4448,7 +4575,7 @@ namespace {
             out.circle = true;
         }
 
-        return !(lengths == 2 && out.circle) && !(lengths == 1 && out.radius[0].unit == Unit::Percent) && (shaped || sized);
+        return !(lengths == 2 && out.circle) && !(lengths == 1 && percentLength(out.radius[0])) && (shaped || sized);
     }
 
     // A CSS gradient's function, one of the six by its name: its line,
@@ -4482,7 +4609,7 @@ namespace {
                 return true;
             }
 
-            return parseLength(word, at) && (!out.conic || at.unit == Unit::Percent);
+            return parseLength(word, at) && (!out.conic || percentLength(at));
         };
 
         for (;;) {
@@ -4554,6 +4681,17 @@ namespace {
 
     // mask-image: none, a url, to a mask element by its fragment or an
     // image, or a gradient.
+    // The string of the url() a mask layer keeps, its escapes undone into
+    // scratch.
+    static StringView maskUrl(StringView text, Buffer& scratch) {
+        const u8* p = text.begin();
+        StringView url;
+
+        readUrl(p, text.end(), url, scratch);
+
+        return url;
+    }
+
     static bool maskImageOf(StringView text, MaskLayer& out) {
         static const char* const gradients[] = {"linear-gradient(", "radial-gradient(", "conic-gradient(", "repeating-linear-gradient(", "repeating-radial-gradient(", "repeating-conic-gradient("};
 
@@ -4567,22 +4705,16 @@ namespace {
             return false;
         }
 
-        if (equalsIgnoreCase(StringView(text.begin(), text.begin() + 4), SV("url("))) {
-            StringView url = trim(StringView(text.begin() + 4, text.end() - 1));
+        const u8* p = text.begin();
+        StringView url;
+        Buffer scratch;
 
-            // A quoted one is the string alone.
-            if (at(url.begin(), url.end(), '"') || at(url.begin(), url.end(), '\'')) {
-                if (url.length() < 2 || url.back() != url[0]) {
-                    return false;
-                }
-
-                url = StringView(url.begin() + 1, url.end() - 1);
-            }
-
+        // The layer keeps the url() as written, maskUrl reads it again.
+        if (readUrl(p, text.end(), url, scratch)) {
             out.source = at(url.begin(), url.end(), '#') ? MaskSource::Element : MaskSource::Image;
-            out.url = out.source == MaskSource::Element ? StringView(url.begin() + 1, url.end()) : url;
+            out.url = StringView(text.begin(), p);
 
-            return true;
+            return p == text.end();
         }
 
         for (const char* gradient : gradients) {
@@ -4680,7 +4812,7 @@ namespace {
         for (int axis = 0; axis < 2; axis++) {
             out.fit[axis] = equalsIgnoreCase(words[axis], SV("auto"));
 
-            if (!out.fit[axis] && (!parseLength(words[axis], out.extent[axis]) || out.extent[axis].value < 0.f)) {
+            if (!out.fit[axis] && (!parseLength(words[axis], out.extent[axis]) || !nonNegative(out.extent[axis]))) {
                 return false;
             }
         }
@@ -4921,7 +5053,7 @@ namespace {
             if (kind == 1 && equalsIgnoreCase(word, SV("auto"))) {
                 autos |= (u8)(1 << count);
                 side = Length{0.f, Unit::Number};
-            } else if (!parseLength(word, side) || side.value < 0.f || (kind == 0 && side.unit != Unit::Number && side.unit != Unit::Percent) || (kind == 2 && side.unit == Unit::Percent)) {
+            } else if (!parseLength(word, side) || !nonNegative(side) || (kind == 0 && side.unit != Unit::Number && !percentLength(side)) || (kind == 2 && percentLength(side))) {
                 return false;
             }
 
@@ -5341,7 +5473,7 @@ namespace {
 
         if (name == SV("width") || name == SV("height") || name == SV("device-width") || name == SV("device-height")) {
             // A length takes a unit, but zero.
-            if (!parseLength(text, length) || length.unit == Unit::Percent || (length.unit == Unit::Number && length.value != 0.f)) {
+            if (!parseLength(text, length) || percentLength(length) || (length.unit == Unit::Number && (length.value != 0.f || length.calc))) {
                 return false;
             }
 
@@ -5650,7 +5782,7 @@ namespace {
             u32 value = attribute(doc.root, names[k]);
             Length length;
 
-            if (value && parseLength(textOf(doc, value), length) && length.unit != Unit::Percent && length.value > 0.f) {
+            if (value && parseLength(textOf(doc, value), length) && !percentLength(length) && length.value > 0.f) {
                 sides[k] = resolveLength(length, Axis::X, view, 16.f);
             }
         }
@@ -6024,7 +6156,7 @@ namespace {
                 return count > 0;
             }
 
-            if (!readLength(p, end, length) || length.value < 0.f) {
+            if (!readLength(p, end, length) || !nonNegative(length)) {
                 return false;
             }
 
@@ -6067,7 +6199,7 @@ namespace {
             case AtomStrokeDasharray:
                 return equalsIgnoreCase(text, SV("none")) || validDashes(text);
             case AtomStrokeWidth:
-                return parseLength(text, length) && length.value >= 0.f;
+                return parseLength(text, length) && nonNegative(length);
             case AtomShapeRendering:
                 return equalsIgnoreCase(text, SV("auto")) || equalsIgnoreCase(text, SV("optimizespeed")) || equalsIgnoreCase(text, SV("crispedges")) || equalsIgnoreCase(text, SV("geometricprecision"));
             case AtomMaskImage:
@@ -6383,18 +6515,753 @@ namespace {
             }
 
             if (exponentDigits) {
-                value *= pow(10.0, exponentSign * exponent);
+                value = value == 0.0 ? value : value * pow(10.0, exponentSign * exponent);
                 s = e;
             }
         }
 
-        double result = sign * value;
+        // A number beyond the floats' range is the closest one in it
+        // (css-values-4 5).
+        double result = sign * (value > 3.0e38 ? 3.0e38 : value);
 
-        if (!isfinite(result) || fabs(result) > 3.0e38) {
+        out = result;
+        p = s;
+
+        return true;
+    }
+
+    // The length units and the Unit each resolves through. Without fonts a
+    // font's metrics are css-values-4's fallbacks and an em box's ascent and
+    // line height (D29): ex and ch half an em, cap, ic and lh one em, their
+    // root forms the same of the root's font size. The inline and block
+    // axes are the horizontal and the vertical one.
+    static bool lengthUnitOf(StringView name, Unit& out) {
+        static const struct {
+            const char* name;
+            Unit unit;
+        } units[] = {
+            {"px", Unit::Px},
+            {"em", Unit::Em},
+            {"ex", Unit::Ex},
+            {"ch", Unit::Ex},
+            {"cap", Unit::Em},
+            {"ic", Unit::Em},
+            {"lh", Unit::Em},
+            {"in", Unit::In},
+            {"cm", Unit::Cm},
+            {"mm", Unit::Mm},
+            {"pt", Unit::Pt},
+            {"pc", Unit::Pc},
+            {"q", Unit::Q},
+            {"rem", Unit::Rem},
+            {"rex", Unit::Rex},
+            {"rch", Unit::Rex},
+            {"rcap", Unit::Rem},
+            {"ric", Unit::Rem},
+            {"rlh", Unit::Rem},
+            {"vw", Unit::Vw},
+            {"vh", Unit::Vh},
+            {"vi", Unit::Vw},
+            {"vb", Unit::Vh},
+            {"vmin", Unit::Vmin},
+            {"vmax", Unit::Vmax},
+        };
+
+        // The small, large and dynamic viewports are all the one viewport.
+        if (name.length() > 2 && (lowerAscii(name[0]) == 's' || lowerAscii(name[0]) == 'l' || lowerAscii(name[0]) == 'd') && lowerAscii(name[1]) == 'v') {
+            name = StringView(name.begin() + 1, name.end());
+        }
+
+        for (const auto& unit : units) {
+            if (equalsIgnoreCase(name, StringView(unit.name))) {
+                out = unit.unit;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // A math function's type (css-values-4 10.9): the power of each base
+    // type in it, and the base type its percentages stand for, MathBases
+    // for none.
+    enum MathBase : u8 {
+        MathLength,
+        MathAngle,
+        MathTime,
+        MathFrequency,
+        MathResolution,
+        MathPercent,
+        MathBases,
+    };
+
+    struct MathType {
+        i32 power[MathBases];
+        u8 hint;
+    };
+
+    struct MathValue {
+        double value;
+        MathType type;
+    };
+
+    // What the terms of a math function resolve against: lengths the
+    // viewport and the font size; a percentage, where percent says so, the
+    // length that share of basis is, and else it stays a percentage.
+    // relative is set when a term needs any of these.
+    struct MathContext {
+        Viewport vp;
+        float fontSize;
+        float basis;
+        bool percent;
+        bool relative;
+    };
+
+    // Whether a type is base to the power one, a number for MathBases.
+    static bool mathOf(const MathType& type, u8 base) {
+        for (u8 k = 0; k < MathBases; k++) {
+            if (type.power[k] != (k == base ? 1 : 0)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Moves a type's power of percent onto hint's (css-typed-om's "apply
+    // the percent hint").
+    static void applyHint(MathType& type, u8 hint) {
+        if (hint != MathPercent) {
+            type.power[hint] += type.power[MathPercent];
+            type.power[MathPercent] = 0;
+        }
+
+        type.hint = hint;
+    }
+
+    // Gives two types the percent hint either has: the percentages of a
+    // calculation all stand for the one type its place gives them, so two
+    // hints never differ.
+    static void shareHint(MathType& a, MathType& b) {
+        if (a.hint != MathBases) {
+            applyHint(b, a.hint);
+        } else if (b.hint != MathBases) {
+            applyHint(a, b.hint);
+        }
+    }
+
+    // a's type plus b's (css-typed-om's "add two types"), false when they
+    // do not add.
+    static bool addTypes(MathType& a, MathType b) {
+        shareHint(a, b);
+
+        if (!memcmp(a.power, b.power, sizeof(a.power))) {
+            return true;
+        }
+
+        for (u8 hint = 0; hint < MathPercent; hint++) {
+            MathType x = a;
+            MathType y = b;
+
+            applyHint(x, hint);
+            applyHint(y, hint);
+
+            if (!memcmp(x.power, y.power, sizeof(x.power))) {
+                a = x;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // a's type times b's (css-typed-om's "multiply two types").
+    static void multiplyTypes(MathType& a, MathType b) {
+        shareHint(a, b);
+
+        for (u8 k = 0; k < MathBases; k++) {
+            a.power[k] += b.power[k];
+        }
+    }
+
+    // min() and max() of two values: NaN when either is, 0⁻ below 0⁺.
+    static double mathMin(double a, double b) {
+        return a != a || b != b ? a + b : (a < b || (a == b && signbit(a)) ? a : b);
+    }
+
+    static double mathMax(double a, double b) {
+        return a != a || b != b ? a + b : (a > b || (a == b && !signbit(a)) ? a : b);
+    }
+
+    // A length snapped as a line width, a device pixel being a px.
+    static double snapLineWidth(double v) {
+        if (v == floor(v)) {
+            return v;
+        }
+
+        return fabs(v) < 1.0 ? (v > 0.0 ? 1.0 : -1.0) : trunc(v);
+    }
+
+    // round() of a to a multiple of b by a strategy: 0 nearest, 1 up, 2
+    // down, 3 to-zero, 4 line-width, with its argument ranges (10.3.1).
+    static double mathRound(int strategy, double a, double b) {
+        if (a != a || b != b || b == 0.0 || (isinf(a) && isinf(b))) {
+            return NAN;
+        }
+
+        if (isinf(a)) {
+            return a;
+        }
+
+        if (isinf(b)) {
+            if ((strategy == 1 || strategy == 4) && a > 0.0) {
+                return INFINITY;
+            }
+
+            if ((strategy == 2 || strategy == 4) && a < 0.0) {
+                return -INFINITY;
+            }
+
+            return strategy == 1 ? (a == 0.0 && !signbit(a) ? 0.0 : -0.0) : (strategy == 2 ? (a == 0.0 && signbit(a) ? -0.0 : 0.0) : (signbit(a) ? -0.0 : 0.0));
+        }
+
+        // The multiples below and above; a zero below is 0⁺ and one above
+        // 0⁻, as floor and ceil give them.
+        double step = fabs(b);
+        double lower = floor(a / step) * step;
+        double upper = ceil(a / step) * step;
+
+        if (lower == upper) {
+            return a;
+        }
+
+        switch (strategy) {
+            case 1:
+                return upper;
+            case 2:
+                return lower;
+            case 3:
+                return fabs(lower) < fabs(upper) ? lower : upper;
+            case 4:
+                return snapLineWidth(lower == 0.0 ? upper : (upper == 0.0 || a - lower < upper - a ? lower : upper));
+            default:
+                return a - lower < upper - a ? lower : upper;
+        }
+    }
+
+    // mod() (mod) or rem() of a by b, with their argument ranges: mod()'s
+    // result takes b's sign, rem()'s a's.
+    static double mathModulo(bool mod, double a, double b) {
+        if (a != a || b != b || b == 0.0 || isinf(a)) {
+            return NAN;
+        }
+
+        if (isinf(b)) {
+            return mod && signbit(a) != signbit(b) ? NAN : a;
+        }
+
+        double r = fmod(a, b);
+
+        if (mod && signbit(r) != signbit(b)) {
+            r = r == 0.0 ? -r : r + b;
+        }
+
+        return r;
+    }
+
+    // pow() as JS has it, but NaN in every argument and for 1 or -1 to an
+    // infinite power.
+    static double mathPow(double a, double b) {
+        return a != a || b != b || (isinf(b) && fabs(a) == 1.0) ? NAN : pow(a, b);
+    }
+
+    // log() of a in base b, with its argument ranges.
+    static double mathLog(double a, double b) {
+        if (a != a || b != b || a < 0.0 || b <= 0.0 || b == 1.0) {
+            return NAN;
+        }
+
+        if (a == 0.0) {
+            return -INFINITY;
+        }
+
+        return a == 1.0 ? 0.0 : (isinf(a) ? a : log(a) / log(b));
+    }
+
+    static bool mathSum(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out);
+    static bool mathCall(StringView name, const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out);
+
+    // A number, a dimension or a percentage, a constant, a sum in
+    // parentheses or a math function: depth counts the levels it is in.
+    static bool mathTerm(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+        // The units of the dimensions other than lengths: the base type and
+        // the size in its canonical unit, deg, s, Hz or dppx.
+        static const struct {
+            const char* name;
+            u8 base;
+            double scale;
+        } units[] = {
+            {"deg", MathAngle, 1.0},
+            {"grad", MathAngle, 0.9},
+            {"rad", MathAngle, 180.0 / 3.14159265358979323846},
+            {"turn", MathAngle, 360.0},
+            {"s", MathTime, 1.0},
+            {"ms", MathTime, 0.001},
+            {"hz", MathFrequency, 1.0},
+            {"khz", MathFrequency, 1000.0},
+            {"dpi", MathResolution, 1.0 / 96.0},
+            {"dpcm", MathResolution, 2.54 / 96.0},
+            {"dppx", MathResolution, 1.0},
+            {"x", MathResolution, 1.0},
+        };
+
+        static const struct {
+            const char* name;
+            double value;
+        } constants[] = {
+            {"e", 2.71828182845904523536},
+            {"pi", 3.14159265358979323846},
+            {"infinity", INFINITY},
+            {"-infinity", -INFINITY},
+            {"nan", NAN},
+        };
+
+        out.type = MathType{{0, 0, 0, 0, 0, 0}, MathBases};
+
+        if (at(p, end, '(')) {
+            const u8* s = p + 1;
+
+            skipSpaces(s, end);
+
+            if (depth == 32 || !mathSum(s, end, c, depth + 1, out)) {
+                return false;
+            }
+
+            skipSpaces(s, end);
+
+            if (!at(s, end, ')')) {
+                return false;
+            }
+
+            p = s + 1;
+
+            return true;
+        }
+
+        if (readDouble(p, end, out.value)) {
+            // -0 is a zero like 0 (css-values-4 10.9.2).
+            out.value += 0.0;
+
+            if (at(p, end, '%')) {
+                p++;
+
+                if (c.percent) {
+                    out.value = c.basis * out.value / 100.0;
+                    out.type.power[MathLength] = 1;
+                    out.type.hint = MathLength;
+                    c.relative = true;
+                } else {
+                    out.type.power[MathPercent] = 1;
+                    out.type.hint = MathPercent;
+                }
+
+                return true;
+            }
+
+            if (p == end || !isIdentStart(*p) || *p == '-') {
+                return true;
+            }
+
+            const u8* s = p;
+            Unit unit;
+
+            while (s < end && isIdentChar(*s)) {
+                s++;
+            }
+
+            StringView name(p, s);
+
+            p = s;
+
+            if (lengthUnitOf(name, unit)) {
+                out.value = resolveLength(Length{(float)out.value, unit}, Axis::Other, c.vp, c.fontSize);
+                out.type.power[MathLength] = 1;
+                c.relative = c.relative || !(unit == Unit::Px || (unit >= Unit::In && unit <= Unit::Q));
+
+                return true;
+            }
+
+            for (const auto& other : units) {
+                if (equalsIgnoreCase(name, StringView(other.name))) {
+                    out.value *= other.scale;
+                    out.type.power[other.base] = 1;
+
+                    return true;
+                }
+            }
+
             return false;
         }
 
-        out = result;
+        const u8* s = p;
+        StringView name = readIdent(s, end);
+
+        if (at(s, end, '(')) {
+            p = s + 1;
+
+            return mathCall(name, p, end, c, depth + 1, out);
+        }
+
+        for (const auto& constant : constants) {
+            if (equalsIgnoreCase(name, StringView(constant.name))) {
+                out.value = constant.value;
+                p = s;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Terms multiplied and divided.
+    static bool mathProduct(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+        if (!mathTerm(p, end, c, depth, out)) {
+            return false;
+        }
+
+        for (;;) {
+            const u8* s = p;
+            MathValue right;
+
+            skipSpaces(s, end);
+
+            if (!at(s, end, '*') && !at(s, end, '/')) {
+                return true;
+            }
+
+            bool divide = *s == '/';
+
+            s++;
+            skipSpaces(s, end);
+
+            if (!mathTerm(s, end, c, depth, right)) {
+                return false;
+            }
+
+            for (u8 k = 0; divide && k < MathBases; k++) {
+                right.type.power[k] = -right.type.power[k];
+            }
+
+            multiplyTypes(out.type, right.type);
+            out.value = divide ? out.value / right.value : out.value * right.value;
+            p = s;
+        }
+    }
+
+    // Products added and subtracted, + and - with white space on both
+    // sides.
+    static bool mathSum(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+        if (!mathProduct(p, end, c, depth, out)) {
+            return false;
+        }
+
+        for (;;) {
+            const u8* s = p;
+            MathValue right;
+
+            skipSpaces(s, end);
+
+            if (s == p || !(at(s, end, '+') || at(s, end, '-')) || s + 1 == end || !isSpace(s[1])) {
+                return true;
+            }
+
+            bool minus = *s == '-';
+
+            s++;
+            skipSpaces(s, end);
+
+            if (!mathProduct(s, end, c, depth, right) || !addTypes(out.type, right.type)) {
+                return false;
+            }
+
+            out.value = minus ? out.value - right.value : out.value + right.value;
+            p = s;
+        }
+    }
+
+    // The math function name names, its arguments from p, after the
+    // opening parenthesis, to the closing one.
+    static bool mathCall(StringView name, const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+        enum {
+            Calc,
+            Min,
+            Max,
+            Clamp,
+            Round,
+            Mod,
+            Rem,
+            Sin,
+            Cos,
+            Tan,
+            Asin,
+            Acos,
+            Atan,
+            Atan2,
+            Pow,
+            Sqrt,
+            Hypot,
+            Log,
+            Exp,
+            Abs,
+            Sign,
+            Functions
+        };
+
+        static const char* const names[] = {"calc", "min", "max", "clamp", "round", "mod", "rem", "sin", "cos", "tan", "asin", "acos", "atan", "atan2", "pow", "sqrt", "hypot", "log", "exp", "abs", "sign"};
+        static const char* const strategies[] = {"nearest", "up", "down", "to-zero", "line-width"};
+        const double degree = 3.14159265358979323846 / 180.0;
+        int f = 0;
+        int strategy = 0;
+
+        while (f < Functions && !equalsIgnoreCase(name, StringView(names[f]))) {
+            f++;
+        }
+
+        if (f == Functions || depth > 32) {
+            return false;
+        }
+
+        if (f == Round) {
+            const u8* s = p;
+
+            skipSpaces(s, end);
+
+            StringView word = readIdent(s, end);
+
+            while (strategy < 5 && !equalsIgnoreCase(word, StringView(strategies[strategy]))) {
+                strategy++;
+            }
+
+            skipSpaces(s, end);
+
+            if (strategy < 5 && !at(s, end, ',')) {
+                return false;
+            }
+
+            p = strategy < 5 ? s + 1 : p;
+            strategy = strategy < 5 ? strategy : 0;
+        }
+
+        // The arguments; min(), max() and hypot() fold theirs into the
+        // first, clamp() marks a none.
+        MathValue args[3];
+        bool none[3] = {false, false, false};
+        bool fold = f == Min || f == Max || f == Hypot;
+        bool nan = false;
+        u32 count = 0;
+
+        for (;;) {
+            MathValue v{0.0, MathType{{0, 0, 0, 0, 0, 0}, MathBases}};
+            const u8* s = p;
+
+            skipSpaces(s, end);
+
+            StringView word = readIdent(s, end);
+
+            skipSpaces(s, end);
+
+            if (f == Clamp && (count == 0 || count == 2) && equalsIgnoreCase(word, SV("none")) && (at(s, end, ',') || at(s, end, ')'))) {
+                none[count] = true;
+                p = s;
+            } else {
+                skipSpaces(p, end);
+
+                if (!mathSum(p, end, c, depth, v)) {
+                    return false;
+                }
+
+                skipSpaces(p, end);
+            }
+
+            nan = nan || v.value != v.value;
+
+            if (fold && count) {
+                if (!addTypes(args[0].type, v.type)) {
+                    return false;
+                }
+
+                args[0].value = f == Min ? mathMin(args[0].value, v.value) : (f == Max ? mathMax(args[0].value, v.value) : hypot(args[0].value, v.value));
+            } else if (count < 3) {
+                args[count] = v;
+            } else {
+                return false;
+            }
+
+            count++;
+
+            if (at(p, end, ')')) {
+                p++;
+                break;
+            }
+
+            if (!at(p, end, ',')) {
+                return false;
+            }
+
+            p++;
+        }
+
+        MathValue& a = args[0];
+        MathValue& b = args[1];
+        bool single = count == 1;
+
+        switch (f) {
+            case Calc:
+            case Abs:
+                out = MathValue{f == Abs ? fabs(a.value) : a.value, a.type};
+
+                return single;
+            case Min:
+            case Max:
+            case Hypot:
+                out = MathValue{f == Hypot ? (nan ? NAN : (single ? fabs(a.value) : a.value)) : a.value, a.type};
+
+                return true;
+            case Clamp: {
+                if (count != 3) {
+                    return false;
+                }
+
+                MathType type = b.type;
+                double value = none[2] ? b.value : mathMin(b.value, args[2].value);
+
+                if ((!none[0] && !addTypes(type, a.type)) || (!none[2] && !addTypes(type, args[2].type))) {
+                    return false;
+                }
+
+                out = MathValue{none[0] ? value : mathMax(a.value, value), type};
+
+                return true;
+            }
+            case Round: {
+                MathType type = a.type;
+
+                if (count > 2 || (single ? !mathOf(a.type, MathBases) && strategy != 4 : !addTypes(type, b.type)) || (strategy == 4 && !mathOf(a.type, MathLength))) {
+                    return false;
+                }
+
+                out = MathValue{single && strategy == 4 ? snapLineWidth(a.value) : mathRound(strategy, a.value, single ? 1.0 : b.value), type};
+
+                return true;
+            }
+            case Mod:
+            case Rem:
+            case Atan2:
+                if (count != 2 || !addTypes(a.type, b.type)) {
+                    return false;
+                }
+
+                out = f == Atan2 ? MathValue{atan2(a.value, b.value) / degree, MathType{{0, 1, 0, 0, 0, 0}, a.type.hint}} : MathValue{mathModulo(f == Mod, a.value, b.value), a.type};
+
+                return true;
+            case Pow:
+            case Log:
+                if (count > 2 || (f == Pow && single) || (!single && !addTypes(a.type, b.type)) || !mathOf(a.type, MathBases)) {
+                    return false;
+                }
+
+                out = MathValue{f == Pow ? mathPow(a.value, b.value) : mathLog(a.value, single ? 2.71828182845904523536 : b.value), a.type};
+
+                return true;
+            case Sin:
+            case Cos:
+            case Tan: {
+                bool angle = mathOf(a.type, MathAngle);
+                double turn = fmod(a.value, 360.0);
+                double radians = angle ? a.value * degree : a.value;
+                double value = f == Sin ? sin(radians) : (f == Cos ? cos(radians) : tan(radians));
+
+                // tan() at its asymptotes, which degrees hold exactly.
+                if (f == Tan && angle && (turn == 90.0 || turn == -270.0 || turn == -90.0 || turn == 270.0)) {
+                    value = turn == 90.0 || turn == -270.0 ? INFINITY : -INFINITY;
+                }
+
+                out = MathValue{value, MathType{{0, 0, 0, 0, 0, 0}, a.type.hint}};
+
+                return single && (angle || mathOf(a.type, MathBases));
+            }
+            default: {
+                // asin(), acos(), atan(), sqrt() and exp() of a number, sign()
+                // of anything.
+                bool arc = f == Asin || f == Acos || f == Atan;
+                double value = f == Asin ? asin(a.value) : (f == Acos ? acos(a.value) : (f == Atan ? atan(a.value) : (f == Sqrt ? sqrt(a.value) : (f == Exp ? exp(a.value) : (a.value > 0.0 ? 1.0 : (a.value < 0.0 ? -1.0 : a.value))))));
+
+                out = MathValue{arc ? value / degree : value, MathType{{0, arc ? 1 : 0, 0, 0, 0, 0}, a.type.hint}};
+
+                return single && (f == Sign || mathOf(a.type, MathBases));
+            }
+        }
+    }
+
+    // A math function at p (css-values-4 10): its value in the canonical
+    // unit of its type (px, deg, s, Hz, dppx, or a percentage's number),
+    // NaN, a signed zero and an infinity censored as a top-level
+    // calculation has them (10.9.2), an infinity to the floats' range.
+    static bool readMath(const u8*& p, const u8* end, MathContext& c, MathValue& out) {
+        const u8* s = p;
+        StringView name = readIdent(s, end);
+
+        if (!at(s, end, '(')) {
+            return false;
+        }
+
+        s++;
+
+        if (!mathCall(name, s, end, c, 1, out)) {
+            return false;
+        }
+
+        out.value = out.value != out.value ? 0.0 : (out.value < -3.0e38 ? -3.0e38 : (out.value > 3.0e38 ? 3.0e38 : out.value + 0.0));
+        p = s;
+
+        return true;
+    }
+
+    // A math function where a number, a percentage or an angle goes, which
+    // needs no viewport or font: its value, an angle's in degrees, and its
+    // base type, MathBases for a number.
+    static bool readMathQuantity(const u8*& p, const u8* end, float& out, u8& base) {
+        MathContext c{Viewport{0.f, 0.f, 0.f, 0.f, 16.f}, 16.f, 0.f, false, false};
+        MathValue math;
+        const u8* s = p;
+
+        if (!readMath(s, end, c, math) || c.relative) {
+            return false;
+        }
+
+        base = mathOf(math.type, MathBases) ? MathBases : (mathOf(math.type, MathPercent) ? MathPercent : MathAngle);
+
+        if (base == MathAngle && !mathOf(math.type, MathAngle)) {
+            return false;
+        }
+
+        out = (float)math.value;
+        p = s;
+
+        return true;
+    }
+
+    static bool readMathNumber(const u8*& p, const u8* end, float& out) {
+        const u8* s = p;
+        u8 base;
+
+        if (!readMathQuantity(s, end, out, base) || base != MathBases) {
+            return false;
+        }
+
         p = s;
 
         return true;
@@ -6404,7 +7271,7 @@ namespace {
         double value;
 
         if (!readDouble(p, end, value)) {
-            return false;
+            return readMathNumber(p, end, out);
         }
 
         out = (float)value;
@@ -6429,17 +7296,67 @@ namespace {
         return readNumber(p, body.end(), out) && p == body.end();
     }
 
-    static bool readLength(const u8*& p, const u8* end, Length& out) {
-        const u8* s = p;
+    // A number, or a percentage as its hundredth; math says it came from a
+    // math function.
+    static bool readFraction(const u8*& p, const u8* end, float& out, bool& math) {
+        u8 base;
 
-        if (!readNumber(s, end, out.value)) {
+        math = readMathQuantity(p, end, out, base);
+
+        if (math) {
+            out = base == MathPercent ? out / 100.f : out;
+
+            return base != MathAngle;
+        }
+
+        if (!readNumber(p, end, out)) {
             return false;
         }
 
-        out.unit = Unit::Number;
+        if (at(p, end, '%')) {
+            out /= 100.f;
+            p++;
+        }
+
+        return true;
+    }
+
+    // A math function standing for a length or a number: resolved now when
+    // it needs no viewport or font, kept as its text for every use else.
+    static bool readMathLength(const u8*& p, const u8* end, Length& out) {
+        MathContext c{Viewport{0.f, 0.f, 0.f, 0.f, 16.f}, 16.f, 0.f, true, false};
+        MathValue math;
+        const u8* s = p;
+
+        if (!readMath(s, end, c, math)) {
+            return false;
+        }
+
+        bool number = mathOf(math.type, MathBases);
+
+        if (!number && !mathOf(math.type, MathLength)) {
+            return false;
+        }
+
+        Unit relative = math.type.hint == MathLength ? Unit::CalcPercent : Unit::Calc;
+
+        out = Length{c.relative ? 0.f : (float)math.value, c.relative ? relative : (number ? Unit::Number : Unit::Px), false, (u32)(s - p), p};
+        p = s;
+
+        return true;
+    }
+
+    static bool readLength(const u8*& p, const u8* end, Length& out) {
+        const u8* s = p;
+        double value;
+        Unit unit = Unit::Number;
+
+        if (!readDouble(s, end, value)) {
+            return readMathLength(p, end, out);
+        }
 
         if (at(s, end, '%')) {
-            out.unit = Unit::Percent;
+            unit = Unit::Percent;
             s++;
         } else if (s < end && isIdentStart(*s) && *s != '-') {
             const u8* unitEnd = s;
@@ -6448,51 +7365,14 @@ namespace {
                 unitEnd++;
             }
 
-            StringView unit(s, unitEnd);
-
-            static const struct {
-                const char* name;
-                Unit unit;
-            } units[] = {
-                {"px", Unit::Px},
-                {"em", Unit::Em},
-                {"ex", Unit::Ex},
-                {"in", Unit::In},
-                {"cm", Unit::Cm},
-                {"mm", Unit::Mm},
-                {"pt", Unit::Pt},
-                {"pc", Unit::Pc},
-                {"q", Unit::Q},
-                {"rem", Unit::Rem},
-                {"vw", Unit::Vw},
-                {"vh", Unit::Vh},
-                {"vi", Unit::Vw},
-                {"vb", Unit::Vh},
-                {"vmin", Unit::Vmin},
-                {"vmax", Unit::Vmax},
-                {"ch", Unit::Ch},
-                {"lh", Unit::Lh},
-                {"rlh", Unit::Lh},
-                {"ic", Unit::Ic},
-            };
-
-            bool known = false;
-
-            for (const auto& candidate : units) {
-                if (equalsIgnoreCase(unit, StringView(candidate.name))) {
-                    out.unit = candidate.unit;
-                    known = true;
-                    break;
-                }
-            }
-
-            if (!known || (unitEnd < end && isIdentChar(*unitEnd))) {
+            if (!lengthUnitOf(StringView(s, unitEnd), unit) || (unitEnd < end && isIdentChar(*unitEnd))) {
                 return false;
             }
 
             s = unitEnd;
         }
 
+        out = Length{(float)value, unit};
         p = s;
 
         return true;
@@ -6505,6 +7385,31 @@ namespace {
         return readLength(p, body.end(), out) && p == body.end();
     }
 
+    // Whether a length is in a non-negative range: a math function's
+    // result is clamped into it instead (css-values-4 10.12).
+    static bool nonNegative(Length& length) {
+        if (!length.calc) {
+            return length.value >= 0.f;
+        }
+
+        length.value = maxf(length.value, 0.f);
+        length.floor = true;
+
+        return true;
+    }
+
+    // A Calc or CalcPercent length in user units, a percentage in it a
+    // share of basis.
+    static float mathLength(Length length, float basis, Viewport vp, float fontSize) {
+        MathContext c{vp, fontSize, basis, true, false};
+        MathValue math{0.0, MathType{{0, 0, 0, 0, 0, 0}, MathBases}};
+        const u8* p = length.calc;
+
+        readMath(p, length.calc + length.size, c, math);
+
+        return length.floor ? maxf((float)math.value, 0.f) : (float)math.value;
+    }
+
     static float resolveLength(Length length, Axis axis, Viewport vp, float fontSize) {
         switch (length.unit) {
             case Unit::Number:
@@ -6513,7 +7418,7 @@ namespace {
             case Unit::Em:
                 return length.value * fontSize;
             case Unit::Ex:
-                return length.value * fontSize * 0.459f;
+                return length.value * fontSize * 0.5f;
             case Unit::In:
                 return length.value * 96.f;
             case Unit::Cm:
@@ -6528,6 +7433,8 @@ namespace {
                 return length.value * 96.f / 101.6f;
             case Unit::Rem:
                 return length.value * (vp.rootFontSize > 0.f ? vp.rootFontSize : 16.f);
+            case Unit::Rex:
+                return length.value * (vp.rootFontSize > 0.f ? vp.rootFontSize : 16.f) * 0.5f;
             case Unit::Vw:
                 return length.value * vp.screenWidth / 100.f;
             case Unit::Vh:
@@ -6536,24 +7443,38 @@ namespace {
                 return length.value * minf(vp.screenWidth, vp.screenHeight) / 100.f;
             case Unit::Vmax:
                 return length.value * maxf(vp.screenWidth, vp.screenHeight) / 100.f;
-            case Unit::Ch:
-                return length.value * fontSize * 0.5f;
-            case Unit::Lh:
-                return length.value * fontSize * 1.149f;
-            case Unit::Ic:
-                return length.value * fontSize;
-            default:
-                // Unit::Percent.
-                if (axis == Axis::X) {
-                    return length.value * vp.width / 100.f;
-                }
+            default: {
+                // Unit::Percent, Unit::Calc and Unit::CalcPercent.
+                float basis = axis == Axis::X ? vp.width : (axis == Axis::Y ? vp.height : sqrtf((vp.width * vp.width + vp.height * vp.height) / 2.f));
 
-                if (axis == Axis::Y) {
-                    return length.value * vp.height / 100.f;
-                }
-
-                return length.value * sqrtf((vp.width * vp.width + vp.height * vp.height) / 2.f) / 100.f;
+                return length.unit == Unit::Percent ? length.value * basis / 100.f : mathLength(length, basis, vp, fontSize);
+            }
         }
+    }
+
+    // A length in user units, a percentage in it, or in its math function,
+    // a share of reference.
+    static float resolveAgainst(Length length, float reference, Viewport vp, float fontSize) {
+        if (length.unit == Unit::Percent) {
+            return length.value * reference / 100.f;
+        }
+
+        return length.unit == Unit::CalcPercent ? mathLength(length, reference, vp, fontSize) : resolveLength(length, Axis::Other, vp, fontSize);
+    }
+
+    // Whether a length has a percentage, alone or in its math function.
+    static bool percentLength(const Length& length) {
+        return length.unit == Unit::Percent || length.unit == Unit::CalcPercent;
+    }
+
+    // A length in object bounding box units: a number as it is, a
+    // percentage a hundredth of it.
+    static float boxFraction(Length length, Viewport vp) {
+        if (length.unit == Unit::Calc || length.unit == Unit::CalcPercent) {
+            return mathLength(length, 1.f, vp, 16.f);
+        }
+
+        return length.unit == Unit::Percent ? length.value / 100.f : length.value;
     }
 
     static bool lengthAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
@@ -6573,6 +7494,21 @@ namespace {
         float value;
 
         return lengthAttribute(doc, node, name, axis, vp, fontSize, value) ? value : fallback;
+    }
+
+    // A length attribute in a non-negative range, a math function clamped
+    // into it.
+    static bool nonNegativeAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
+        u32 value = attribute(node, name);
+        Length length;
+
+        if (!value || !parseLength(textOf(doc, value), length) || !nonNegative(length)) {
+            return false;
+        }
+
+        out = resolveLength(length, axis, vp, fontSize);
+
+        return true;
     }
 
     // A refX or refY: a length, or a keyword for 0%, 50% or 100% of the
@@ -6879,6 +7815,16 @@ namespace {
                 continue;
             }
 
+            u8 base;
+
+            // A math function standing for a number, a percentage or an
+            // angle.
+            if (readMathQuantity(p, end, number, base)) {
+                arg.value = number;
+                arg.kind = base == MathPercent ? ColorToken::Percent : (base == MathAngle ? ColorToken::Angle : ColorToken::Number);
+                continue;
+            }
+
             if (!readNumber(p, end, number)) {
                 return false;
             }
@@ -7171,40 +8117,18 @@ namespace {
             return true;
         }
 
-        if (startsWithIgnoreCase(text, SV("url("))) {
-            const u8* close = text.begin() + 4;
+        const u8* p = text.begin();
+        StringView reference;
+        Buffer scratch;
 
-            skipSpaces(close, text.end());
-
-            if (close < text.end() && (*close == '"' || *close == '\'')) {
-                u8 quote = *close++;
-
-                while (close < text.end() && *close != quote) {
-                    close++;
-                }
-            }
-
-            while (close < text.end() && *close != ')') {
-                close++;
-            }
-
-            StringView reference = trim(StringView(text.begin() + 4, close));
-
-            if (!reference.empty() && (reference[0] == '"' || reference[0] == '\'')) {
-                reference = StringView(reference.begin() + 1, reference.length() >= 2 && reference.back() == reference[0] ? reference.end() - 1 : reference.end());
-            }
-
-            if (close >= text.end()) {
-                close = text.end() - 1;
-            }
-
+        if (readUrl(p, text.end(), reference, scratch)) {
             out.kind = PaintKind::Server;
 
             if (!reference.empty() && reference[0] == '#') {
                 out.server = fragmentAtom(doc, StringView(reference.begin() + 1, reference.end()));
             }
 
-            StringView fallback = trim(StringView(close + 1, text.end()));
+            StringView fallback = trim(StringView(p, text.end()));
 
             if (!fallback.empty()) {
                 if (equalsIgnoreCase(fallback, SV("none"))) {
@@ -7280,7 +8204,7 @@ namespace {
 
             for (u32 i = 0; i < count; i++) {
                 char kind = function.kinds[i];
-                u32 accepted = kind == 'L' ? 0xa : (kind == 'D' ? 0x2 : (kind == 'A' ? 0x4 : (kind == 'S' ? 0x9 : 0x1)));
+                u32 accepted = kind == 'L' ? 0xa : (kind == 'D' ? 0x2 : (kind == 'A' ? 0x4 : (kind == 'S' ? 0x19 : 0x11)));
                 bool measured = kind == 'L' || kind == 'D' || kind == 'A';
 
                 // A zero needs no unit.
@@ -7381,7 +8305,9 @@ namespace {
             p++;
 
             float args[16];
-            // Each argument's unit: none, a length, an angle.
+            // Each argument's unit: none, a length, an angle, a percentage,
+            // or a number from a math function, which is never a zero
+            // length or angle (css-values-4 5.3).
             u8 units[16];
             u32 count = 0;
 
@@ -7394,47 +8320,75 @@ namespace {
                 }
 
                 const u8* numberStart = p;
-
-                if (count == 16 || !readNumber(p, end, args[count])) {
-                    return false;
-                }
-
+                // A math function's percentage in a translation is the
+                // length that share of the box's side along its axis is,
+                // elsewhere a percentage still.
+                Viewport box = basis ? basis->box : Viewport{0.f, 0.f, 0.f, 0.f, 16.f};
+                float fontSize = basis ? basis->fontSize : 16.f;
+                bool translate = equalsIgnoreCase(name, SV("translate")) || equalsIgnoreCase(name, SV("translate3d"));
+                bool vertical = equalsIgnoreCase(name, SV("translateY")) || (translate && count == 1);
+                bool along = (translate && count < 2) || equalsIgnoreCase(name, SV("translateX")) || vertical;
+                MathContext c{box, fontSize, vertical ? box.height : box.width, along, false};
+                MathValue math;
                 bool comma = false;
-                bool percent = at(p, end, '%');
-                const u8* unitStart = p + percent;
 
-                p = unitStart;
-
-                while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
-                    p++;
-                }
-
-                StringView unit(unitStart, p);
-                bool angle = equalsIgnoreCase(unit, SV("deg")) || equalsIgnoreCase(unit, SV("rad")) || equalsIgnoreCase(unit, SV("grad")) || equalsIgnoreCase(unit, SV("turn"));
-
-                if (!css && (percent || !unit.empty())) {
+                if (count == 16) {
                     return false;
                 }
 
-                units[count] = percent ? 3 : (unit.empty() ? 0 : (angle ? 2 : 1));
+                // SVG's grammar takes no math function (css-transforms-1 6.2).
+                if (css && readMath(p, end, c, math)) {
+                    args[count] = (float)math.value;
+                    units[count] = mathOf(math.type, MathBases) ? 4 : (mathOf(math.type, MathLength) ? 1 : (mathOf(math.type, MathAngle) ? 2 : 3));
 
-                if (equalsIgnoreCase(unit, SV("rad"))) {
-                    args[count] *= 180.f / pi;
-                } else if (equalsIgnoreCase(unit, SV("grad"))) {
-                    args[count] *= 0.9f;
-                } else if (equalsIgnoreCase(unit, SV("turn"))) {
-                    args[count] *= 360.f;
-                } else if (units[count] == 1) {
-                    // A length of any unit, in pixels: font-relative ones of the
-                    // element's font, viewport ones of the screen.
-                    Length length;
-                    const u8* q = numberStart;
+                    if (units[count] == 3 && !mathOf(math.type, MathPercent)) {
+                        return false;
+                    }
+                } else {
+                    double number;
 
-                    if (!readLength(q, end, length)) {
+                    if (!readDouble(p, end, number)) {
                         return false;
                     }
 
-                    args[count] = resolveLength(length, Axis::Other, basis ? basis->box : Viewport{0.f, 0.f, 0.f, 0.f, 16.f}, basis ? basis->fontSize : 16.f);
+                    args[count] = (float)number;
+
+                    bool percent = at(p, end, '%');
+                    const u8* unitStart = p + percent;
+
+                    p = unitStart;
+
+                    while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
+                        p++;
+                    }
+
+                    StringView unit(unitStart, p);
+                    bool angle = equalsIgnoreCase(unit, SV("deg")) || equalsIgnoreCase(unit, SV("rad")) || equalsIgnoreCase(unit, SV("grad")) || equalsIgnoreCase(unit, SV("turn"));
+
+                    if (!css && (percent || !unit.empty())) {
+                        return false;
+                    }
+
+                    units[count] = percent ? 3 : (unit.empty() ? 0 : (angle ? 2 : 1));
+
+                    if (equalsIgnoreCase(unit, SV("rad"))) {
+                        args[count] *= 180.f / pi;
+                    } else if (equalsIgnoreCase(unit, SV("grad"))) {
+                        args[count] *= 0.9f;
+                    } else if (equalsIgnoreCase(unit, SV("turn"))) {
+                        args[count] *= 360.f;
+                    } else if (units[count] == 1) {
+                        // A length of any unit, in pixels: font-relative ones
+                        // of the element's font, viewport ones of the screen.
+                        Length length;
+                        const u8* q = numberStart;
+
+                        if (!readLength(q, end, length)) {
+                            return false;
+                        }
+
+                        args[count] = resolveLength(length, Axis::Other, box, fontSize);
+                    }
                 }
 
                 count++;
@@ -7649,8 +8603,8 @@ namespace {
         }
 
         axis = 3;
-        x = length.unit == Unit::Percent ? length.value * extentX / 100.f : resolveLength(length, Axis::X, Viewport{extentX, extentY, extentX, extentY, 16.f}, 16.f);
-        y = length.unit == Unit::Percent ? length.value * extentY / 100.f : x;
+        x = resolveAgainst(length, extentX, Viewport{extentX, extentY, extentX, extentY, 16.f}, 16.f);
+        y = percentLength(length) ? resolveAgainst(length, extentY, Viewport{extentX, extentY, extentX, extentY, 16.f}, 16.f) : x;
 
         return true;
     }
@@ -7706,8 +8660,11 @@ namespace {
             }
 
             const u8* start = p;
+            int depth = 0;
 
-            while (p < end && !isSpace(*p)) {
+            while (p < end && (depth > 0 || !isSpace(*p))) {
+                depth += *p == '(';
+                depth -= *p == ')' && depth > 0;
                 p++;
             }
 
@@ -7736,7 +8693,7 @@ namespace {
             Length z;
             const u8* q = words[2].begin();
             // A length of zero along z; a percentage there fails later.
-            bool flat = count < 3 || (readLength(q, words[2].end(), z) && q == words[2].end() && z.unit != Unit::Percent && z.value == 0.f);
+            bool flat = count < 3 || (readLength(q, words[2].end(), z) && q == words[2].end() && !percentLength(z) && z.unit != Unit::Calc && z.value == 0.f);
 
             put(flat ? "translate(" : "translate3d(");
             word(words[0]);
@@ -7838,12 +8795,12 @@ namespace {
             case AtomCy:
                 return parseLength(value, length);
             case AtomR:
-                return parseLength(value, length) && length.value >= 0.f;
+                return parseLength(value, length) && nonNegative(length);
             case AtomWidth:
             case AtomHeight:
             case AtomRx:
             case AtomRy:
-                return equalsIgnoreCase(value, SV("auto")) || (parseLength(value, length) && length.value >= 0.f);
+                return equalsIgnoreCase(value, SV("auto")) || (parseLength(value, length) && nonNegative(length));
             case AtomD: {
                 StringView inner = value.length() > 6 ? trim(StringView(value.begin() + 5, value.end() - 1)) : StringView();
 
@@ -7859,7 +8816,7 @@ namespace {
                 return equalsIgnoreCase(value, SV("none")) || (individualTransform(property, value, functions) && parseTransform(StringView(functions), m, TransformGrammar::Declaration));
             }
             case AtomPathLengthProperty:
-                return equalsIgnoreCase(value, SV("none")) || (parseLength(value, length) && length.unit != Unit::Percent && length.value >= 0.f);
+                return equalsIgnoreCase(value, SV("none")) || (parseLength(value, length) && !percentLength(length) && nonNegative(length));
             case AtomTransformOrigin: {
                 const u8* p = value.begin();
                 float x;
@@ -8413,8 +9370,8 @@ namespace {
                 float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
                 float rx;
                 float ry;
-                bool hasRx = lengthAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx) && rx >= 0.f;
-                bool hasRy = lengthAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry) && ry >= 0.f;
+                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
+                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
 
                 if (w <= 0.f || h <= 0.f) {
                     return false;
@@ -8467,8 +9424,8 @@ namespace {
             case AtomEllipse: {
                 float rx;
                 float ry;
-                bool hasRx = lengthAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx) && rx >= 0.f;
-                bool hasRy = lengthAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry) && ry >= 0.f;
+                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
+                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
 
                 if (!hasRx) {
                     rx = hasRy ? ry : 0.f;
@@ -9867,17 +10824,9 @@ namespace {
         StringView body = trim(text);
         const u8* p = body.begin();
         float value;
+        bool math;
 
-        if (!readNumber(p, body.end(), value)) {
-            return false;
-        }
-
-        if (at(p, body.end(), '%')) {
-            value /= 100.f;
-            p++;
-        }
-
-        if (p != body.end()) {
+        if (!readFraction(p, body.end(), value, math) || p != body.end()) {
             return false;
         }
 
@@ -9935,14 +10884,14 @@ namespace {
             return true;
         }
 
-        if (!readNumber(p, end, out)) {
+        bool math;
+
+        if (!readFraction(p, end, out, math)) {
             return false;
         }
 
-        if (at(p, end, '%')) {
-            out /= 100.f;
-            p++;
-        }
+        // A math function is clamped into the range (css-values-4 10.12).
+        out = math ? maxf(out, 0.f) : out;
 
         return p == end && out >= 0.f;
     }
@@ -9958,7 +10907,9 @@ namespace {
         }
 
         if (!readNumber(p, end, out)) {
-            return false;
+            u8 base;
+
+            return readMathQuantity(p, end, out, base) && base == MathAngle && p == end;
         }
 
         StringView unit(p, end);
@@ -9985,17 +10936,19 @@ namespace {
             return true;
         }
 
-        return unit.empty() && out == 0.f;
+        return unit.empty() && out == 0.f && !isLetter(args[0]);
     }
 
     static bool readFilterLength(StringView text, bool unitless, const ComputedStyle& style, Viewport vp, float& out) {
         Length length;
 
-        if (!parseLength(text, length) || length.unit == Unit::Percent) {
+        if (!parseLength(text, length) || percentLength(length)) {
             return false;
         }
 
-        if (length.unit == Unit::Number && !unitless && length.value != 0.f) {
+        // A zero needs no unit, but one a math function gives (css-values-4
+        // 5.3).
+        if (length.unit == Unit::Number && !unitless && (length.value != 0.f || length.calc)) {
             return false;
         }
 
@@ -10197,15 +11150,19 @@ namespace {
             p++;
             memset(&item, 0, sizeof(item));
 
-            if (equalsIgnoreCase(name, SV("url"))) {
-                if (args.length() >= 2 && (args[0] == '"' || args[0] == '\'') && args.back() == args[0]) {
-                    args = trim(StringView(args.begin() + 1, args.end() - 1));
+            if (equalsIgnoreCase(name, SV("url")) || equalsIgnoreCase(name, SV("src"))) {
+                const u8* q = start;
+                StringView reference;
+                Buffer scratch;
+
+                if (!readUrl(q, p, reference, scratch) || q != p) {
+                    return false;
                 }
 
                 item.kind = FilterFunction::Reference;
 
-                if (!args.empty() && args[0] == '#') {
-                    item.reference = fragmentAtom(doc, StringView(args.begin() + 1, args.end()));
+                if (!reference.empty() && reference[0] == '#') {
+                    item.reference = fragmentAtom(doc, StringView(reference.begin() + 1, reference.end()));
                 }
             } else if (equalsIgnoreCase(name, SV("blur"))) {
                 float sigma = 0.f;
@@ -10267,8 +11224,12 @@ namespace {
         }
 
         const u8* start = p;
+        int depth = 0;
 
-        while (p < end && !isSpace(*p) && *p != ',') {
+        // A math function's spaces and commas are its own.
+        while (p < end && (depth > 0 || (!isSpace(*p) && *p != ','))) {
+            depth += *p == '(';
+            depth -= *p == ')' && depth > 0;
             p++;
         }
 
@@ -10451,7 +11412,7 @@ namespace {
                 continue;
             }
 
-            if (counts[set] == 4 || !parseLength(word, sets[set][counts[set]]) || sets[set][counts[set]].value < 0.f) {
+            if (counts[set] == 4 || !parseLength(word, sets[set][counts[set]]) || !nonNegative(sets[set][counts[set]])) {
                 return false;
             }
 
@@ -10519,7 +11480,7 @@ namespace {
 
             if (equalsIgnoreCase(word, SV("auto"))) {
                 out.autos |= (u8)(1u << side);
-            } else if (!parseLength(word, out.values[side]) || out.values[side].unit == Unit::Percent) {
+            } else if (!parseLength(word, out.values[side]) || percentLength(out.values[side])) {
                 return false;
             }
         }
@@ -10541,7 +11502,11 @@ namespace {
             return StringView(start, p);
         }
 
-        while (p < end && !isSpace(*p) && *p != '/') {
+        int depth = 0;
+
+        while (p < end && (depth > 0 || (!isSpace(*p) && *p != '/'))) {
+            depth += *p == '(';
+            depth -= *p == ')' && depth > 0;
             p++;
         }
 
@@ -10835,7 +11800,7 @@ namespace {
 
             out.kind = rect ? ShapeKind::Rect : ShapeKind::Xywh;
 
-            return parseSides(p, end, out, rect) && (rect || (out.values[2].value >= 0.f && out.values[3].value >= 0.f));
+            return parseSides(p, end, out, rect) && (rect || (nonNegative(out.values[2]) && nonNegative(out.values[3])));
         }
 
         // path([<fill-rule>,] <string>): the data in the reference box.
@@ -10901,7 +11866,7 @@ namespace {
                     radius = Length{-1.f, Unit::Number};
                 } else if (equalsIgnoreCase(word, SV("farthest-side"))) {
                     radius = Length{-2.f, Unit::Number};
-                } else if (!parseLength(word, radius) || radius.value < 0.f) {
+                } else if (!parseLength(word, radius) || !nonNegative(radius)) {
                     return false;
                 }
 
@@ -11014,7 +11979,7 @@ namespace {
     }
 
     static float shapeLength(const Length& length, float reference, Viewport vp, float fontSize) {
-        return length.unit == Unit::Percent ? length.value * reference / 100.f : resolveLength(length, Axis::Other, vp, fontSize);
+        return resolveAgainst(length, reference, vp, fontSize);
     }
 
     static ComputedStyle computeStyle(Pass& l, const Node* node, const ComputedStyle& parent, Viewport vp) {
@@ -11035,8 +12000,7 @@ namespace {
         style.isolate = false;
         style.backfaceHidden = false;
         style.objectFit = 0;
-        style.objectPosition[0] = Length{50.f, Unit::Percent};
-        style.objectPosition[1] = Length{50.f, Unit::Percent};
+        style.objectPosition = 0;
         style.outlineWidth = 0.f;
         style.zoom = 1.f;
         memset(style.maskParts, 0, sizeof(style.maskParts));
@@ -11076,8 +12040,8 @@ namespace {
                     } else {
                         Length length;
 
-                        if (parseLength(value, length) && length.value >= 0.f) {
-                            style.fontSize = length.unit == Unit::Percent ? parent.fontSize * length.value / 100.f : resolveLength(length, Axis::Other, vp, parent.fontSize);
+                        if (parseLength(value, length) && nonNegative(length)) {
+                            style.fontSize = resolveAgainst(length, parent.fontSize, vp, parent.fontSize);
                         }
                     }
 
@@ -11193,6 +12157,7 @@ namespace {
                         Length length;
 
                         parseLength(value, length);
+                        nonNegative(length);
                         style.strokeWidth = resolveLength(length, Axis::Other, vp, style.fontSize);
                     }
 
@@ -11494,7 +12459,7 @@ namespace {
                             width = 3.f;
                         } else if (equalsIgnoreCase(word, SV("thick"))) {
                             width = 5.f;
-                        } else if (parseLength(word, length) && length.unit != Unit::Percent) {
+                        } else if (parseLength(word, length) && !percentLength(length)) {
                             width = resolveLength(length, Axis::Other, vp, style.fontSize);
                         } else if (!parseColor(word, color)) {
                             solid = false;
@@ -11577,11 +12542,9 @@ namespace {
                     Length y;
 
                     if (keyword) {
-                        style.objectPosition[0] = source.objectPosition[0];
-                        style.objectPosition[1] = source.objectPosition[1];
+                        style.objectPosition = source.objectPosition;
                     } else if (parsePosition(value, x, y)) {
-                        style.objectPosition[0] = x;
-                        style.objectPosition[1] = y;
+                        style.objectPosition = atom;
                     }
 
                     break;
@@ -11881,7 +12844,7 @@ namespace {
         }
 
         if (boxUnits) {
-            return length.unit == Unit::Percent ? length.value / 100.f : length.value;
+            return boxFraction(length, vp);
         }
 
         return resolveLength(length, axis, vp, 16.f);
@@ -12134,7 +13097,7 @@ namespace {
         }
 
         if (boxUnits) {
-            return length.unit == Unit::Percent ? length.value / 100.f : length.value;
+            return boxFraction(length, vp);
         }
 
         return resolveLength(length, axis, vp, 16.f);
@@ -12167,16 +13130,9 @@ namespace {
                     StringView text = trim(textOf(doc, value));
                     const u8* p = text.begin();
 
-                    if (readNumber(p, text.end(), offset)) {
-                        if (at(p, text.end(), '%')) {
-                            offset /= 100.f;
-                            p++;
-                        }
+                    bool math;
 
-                        if (p != text.end()) {
-                            offset = 0.f;
-                        }
-                    } else {
+                    if (!readFraction(p, text.end(), offset, math) || p != text.end()) {
                         offset = 0.f;
                     }
                 }
@@ -13797,7 +14753,7 @@ namespace {
             return fallback;
         }
 
-        return length.unit == Unit::Percent ? length.value / 100.f : length.value;
+        return boxFraction(length, Viewport{0.f, 0.f, 0.f, 0.f, 16.f});
     }
 
     // A mask element as a mask layer: its region in the user space of the
@@ -13900,7 +14856,7 @@ namespace {
         for (size_t i = 0; i < n; i++) {
             const CssStop& s = g.stops[i];
 
-            at.mut(i) = s.placed ? (s.at.unit == Unit::Percent ? s.at.value / 100.f : resolveLength(s.at, Axis::Other, vp, fs) / length) : (i == 0 ? 0.f : (i + 1 == n ? 1.f : -1e30f));
+            at.mut(i) = s.placed ? (s.at.unit == Unit::Percent ? s.at.value / 100.f : resolveAgainst(s.at, length, vp, fs) / length) : (i == 0 ? 0.f : (i + 1 == n ? 1.f : -1e30f));
         }
 
         // No place before the largest before it; the unplaced spread evenly.
@@ -14343,7 +15299,7 @@ namespace {
 
         for (int axis = 0; axis < 2; axis++) {
             const Length& at = layer.position[axis];
-            float offset = at.unit == Unit::Percent ? (span[axis] - size[axis]) * at.value / 100.f : resolveLength(at, Axis::Other, vp, fs);
+            float offset = resolveAgainst(at, span[axis] - size[axis], vp, fs);
             float count = floorf(span[axis] / size[axis]);
 
             origin[axis] = start[axis] + (layer.far[axis] ? span[axis] - size[axis] - offset : offset);
@@ -14475,8 +15431,8 @@ namespace {
             const Length& at = border.slice[k];
             const Length& given = border.width[k];
 
-            slice[k] = minf(at.unit == Unit::Percent ? size[axis] * at.value / 100.f : at.value, size[axis]);
-            width[k] = (border.autos >> k) & 1 ? (natural[axis] > 0.f ? slice[k] : 0.f) : (given.unit == Unit::Number ? 0.f : (given.unit == Unit::Percent ? span[axis] * given.value / 100.f : resolveLength(given, Axis::Other, vp, fs)));
+            slice[k] = minf(percentLength(at) ? resolveAgainst(at, size[axis], vp, fs) : at.value, size[axis]);
+            width[k] = (border.autos >> k) & 1 ? (natural[axis] > 0.f ? slice[k] : 0.f) : (given.unit == Unit::Number ? 0.f : resolveAgainst(given, span[axis], vp, fs));
         }
 
         float shrink = minf(1.f, minf(span[0] / maxf(width[1] + width[3], 1e-30f), span[1] / maxf(width[0] + width[2], 1e-30f)));
@@ -14647,7 +15603,9 @@ namespace {
 
         for (const MaskLayer& layer : layers) {
             MaskLayerOp& out = ops[1 + count];
-            Node* found = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, layer.url)) : nullptr;
+            Buffer scratch;
+            StringView url = layer.source == MaskSource::Element || layer.source == MaskSource::Image ? maskUrl(layer.url, scratch) : StringView();
+            Node* found = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, StringView(url.begin() + 1, url.end()))) : nullptr;
             Node* mask = found && found->name == AtomMask ? found : nullptr;
             ImageSource image;
 
@@ -14663,7 +15621,7 @@ namespace {
                 }
             } else if (layer.source == MaskSource::Gradient) {
                 imageMaskLayer(l, element, parent, style, layer, nullptr, m, vp, out);
-            } else if (layer.source == MaskSource::Image && loadImageFrom(l, layer.url.data(), layer.url, image)) {
+            } else if (layer.source == MaskSource::Image && loadImageFrom(l, layer.url.data(), url, image)) {
                 imageMaskLayer(l, element, parent, style, layer, &image, m, vp, out);
             } else {
                 out.type = 1;
@@ -14680,6 +15638,7 @@ namespace {
         // intersecting them, or alone.
         MaskBorder border;
         ImageSource image;
+        Buffer scratch;
 
         for (u32 k = 0; k < MaskBorderParts; k++) {
             maskBorderPartOf(k, style.maskBorder[k] ? textOf(doc, style.maskBorder[k]) : StringView(maskBorderInitials[k]), border);
@@ -14689,7 +15648,7 @@ namespace {
         op.maskLayers = ops + 1;
         op.maskLayerCount = count;
 
-        if (border.image.source == MaskSource::Gradient || (border.image.source == MaskSource::Image && loadImageFrom(l, border.image.url.data(), border.image.url, image))) {
+        if (border.image.source == MaskSource::Gradient || (border.image.source == MaskSource::Image && loadImageFrom(l, border.image.url.data(), maskUrl(border.image.url, scratch), image))) {
             borderMaskLayer(l, element, parent, style, border, border.image.source == MaskSource::Image ? &image : nullptr, m, vp, ops[0]);
             ops[0].composite = 2;
             op.masked = true;
@@ -14731,7 +15690,7 @@ namespace {
         }
 
         if (boxUnits) {
-            return length.unit == Unit::Percent ? length.value / 100.f : length.value;
+            return boxFraction(length, vp);
         }
 
         return resolveLength(length, axis, vp, 16.f);
@@ -15301,7 +16260,11 @@ namespace {
         const u8* p = text.begin();
 
         if (!readNumber(p, text.end(), out)) {
-            return false;
+            u8 base;
+
+            unit = true;
+
+            return readMathQuantity(p, text.end(), out, base) && base == MathAngle && p == text.end();
         }
 
         StringView name(p, text.end());
@@ -15630,7 +16593,7 @@ namespace {
         u32 value = attribute(node, AtomPathLength);
         Length length;
 
-        if (!style.dashCount || !value || !parseLength(textOf(*l.doc, value), length) || length.value < 0.f) {
+        if (!style.dashCount || !value || !parseLength(textOf(*l.doc, value), length) || !nonNegative(length)) {
             return dashed;
         }
 
@@ -15808,15 +16771,15 @@ namespace {
         StringView sizeText = cascaded(doc, root, AtomFontSize);
         float fontSize = 16.f;
 
-        if (!sizeText.empty() && parseLength(sizeText, size) && size.value >= 0.f) {
-            fontSize = size.unit == Unit::Percent ? 16.f * size.value / 100.f : resolveLength(size, Axis::Other, none, 16.f);
+        if (!sizeText.empty() && parseLength(sizeText, size) && nonNegative(size)) {
+            fontSize = resolveAgainst(size, 16.f, none, 16.f);
         }
 
         none.rootFontSize = fontSize;
         u32 widthValue = attribute(root, AtomWidth);
         u32 heightValue = attribute(root, AtomHeight);
-        bool hasWidth = widthValue && parseLength(textOf(doc, widthValue), w) && w.unit != Unit::Percent && w.value > 0.f;
-        bool hasHeight = heightValue && parseLength(textOf(doc, heightValue), h) && h.unit != Unit::Percent && h.value > 0.f;
+        bool hasWidth = widthValue && parseLength(textOf(doc, widthValue), w) && !percentLength(w) && w.value > 0.f;
+        bool hasHeight = heightValue && parseLength(textOf(doc, heightValue), h) && !percentLength(h) && h.value > 0.f;
         Box viewBox;
         bool hasViewBox = parseViewBox(doc, root, viewBox) && viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0;
         float ratio = hasViewBox ? (viewBox.x1 - viewBox.x0) / (viewBox.y1 - viewBox.y0) : 0.f;
@@ -15838,7 +16801,7 @@ namespace {
         u32 value = attribute(root, name);
         Length length;
 
-        return value && parseLength(textOf(doc, value), length) && length.unit != Unit::Percent && length.value > 0.f;
+        return value && parseLength(textOf(doc, value), length) && !percentLength(length) && length.value > 0.f;
     }
 
     // Whether an element gives a side as a length of its own, zero too,
@@ -15847,7 +16810,7 @@ namespace {
         u32 value = attribute(node, name);
         Length length;
 
-        return value && parseLength(textOf(doc, value), length) && length.unit != Unit::Percent;
+        return value && parseLength(textOf(doc, value), length) && !percentLength(length);
     }
 
     // The transform of the root's content into the box: its viewBox fit to
@@ -15904,7 +16867,7 @@ namespace {
                     return;
                 }
 
-                lowerChildren(l, node, style, l.screen, Viewport{iw, ih, w, h, l.rootFontSize});
+                lowerChildren(l, node, style, l.screen, Viewport{iw, ih, vp.screenWidth, vp.screenHeight, l.rootFontSize});
 
                 return;
             }
@@ -16712,8 +17675,13 @@ namespace {
                 ch = source.height;
             }
 
-            float ox = style.objectPosition[0].unit == Unit::Percent ? (w - cw) * style.objectPosition[0].value / 100.f : resolveLength(style.objectPosition[0], Axis::X, vp, style.fontSize);
-            float oy = style.objectPosition[1].unit == Unit::Percent ? (h - ch) * style.objectPosition[1].value / 100.f : resolveLength(style.objectPosition[1], Axis::Y, vp, style.fontSize);
+            Length px;
+            Length py;
+
+            parsePosition(style.objectPosition ? textOf(*l.doc, style.objectPosition) : StringView(), px, py);
+
+            float ox = resolveAgainst(px, w - cw, vp, style.fontSize);
+            float oy = resolveAgainst(py, h - ch, vp, style.fontSize);
             Box concrete{x + ox, y + oy, x + ox + cw, y + oy + ch};
 
             drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering, &concrete);
@@ -16861,7 +17829,7 @@ namespace {
             u32 value = attribute(node, name);
             Length length;
 
-            if (value && parseLength(textOf(doc, value), length) && length.unit == Unit::Percent) {
+            if (value && parseLength(textOf(doc, value), length) && percentLength(length)) {
                 return true;
             }
         }
@@ -19859,6 +20827,13 @@ namespace {
         const u8* p = text.begin();
         const u8* end = text.end();
         bool negative = at(p, end, '-');
+        float number;
+
+        // A math function standing for a number, rounded to the nearest
+        // integer, a half up (css-values-4 10.9).
+        if (readMathNumber(p, end, number)) {
+            return p == end ? (int)maxf(minf(floorf(number + 0.5f), 2147483520.f), -2147483648.f) : fallback;
+        }
 
         if (p < end && (*p == '+' || *p == '-')) {
             p++;
@@ -23371,7 +24346,9 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.contextBox = emptyBox();
         l.screen = identity();
         l.host = identity();
-        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, (float)width, (float)height, 16.f});
+        // The viewport units are of the document's size, which a drawing at
+        // another scale stretches (D10).
+        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, l.docWidth, l.docHeight, 16.f});
 
         Raster raster;
 
