@@ -23,6 +23,8 @@
 .c28 > .t { fill: lime } .c28 > .t { fill: red ! }
 .c29 > .t { fill: lime } .c29 > .t { fill: \6c ime "x
 ; }
+.c30 > .t { fill: lime } .c30 > .t { fill: \6c ime "x
+y; }
 ]]></style>
 <style>.c0 > .t { fill: rgb(0 255 0</style>
 <style>.c1 > .t { fill: lime</style>
@@ -62,13 +64,14 @@
 <g class="c27" transform="translate(26 26)"><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c28" transform="translate(34 26)"><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c29" transform="translate(42 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c30" transform="translate(50 26)"><g fill="lime"><rect class="t" width="6" height="6" fill="lime/"/></g></g>
-<g class="c31" transform="translate(58 26)"><g fill="lime"><rect class="t" width="6" height="6" fill="'a&#10;b'"/></g></g>
-<g class="c32" transform="translate(2 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="[a]"/></g></g>
-<g class="c33" transform="translate(10 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="{a}"/></g></g>
-<g class="c34" transform="translate(18 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="xurl(#gl"/></g></g>
-<g class="c35" transform="translate(26 34)"><rect class="t" width="6" height="6" fill="lime" style="filter: url('(') invert(1)"/></g>
-<g class="c36" transform="translate(34 34)"><rect class="t" width="6" height="6" fill="lime" style="clip-path: path('M0 0 h6 v6 h-6 z (')"/></g>
+<g class="c30" transform="translate(50 26)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c31" transform="translate(58 26)"><g fill="lime"><rect class="t" width="6" height="6" fill="lime/"/></g></g>
+<g class="c32" transform="translate(2 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="'a&#10;b'"/></g></g>
+<g class="c33" transform="translate(10 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="[a]"/></g></g>
+<g class="c34" transform="translate(18 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="{a}"/></g></g>
+<g class="c35" transform="translate(26 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="xurl(#gl"/></g></g>
+<g class="c36" transform="translate(34 34)"><rect class="t" width="6" height="6" fill="lime" style="filter: url('(') invert(1)"/></g>
+<g class="c37" transform="translate(42 34)"><rect class="t" width="6" height="6" fill="lime" style="clip-path: path('M0 0 h6 v6 h-6 z (')"/></g>
 <linearGradient id="gl"><stop stop-color="lime"/></linearGradient>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="34" y="26" width="6" height="6"/><rect x="42" y="26" width="6" height="6"/><rect x="50" y="26" width="6" height="6"/><rect x="58" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="34" y="34" width="6" height="6"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="34" y="26" width="6" height="6"/><rect x="42" y="26" width="6" height="6"/><rect x="50" y="26" width="6" height="6"/><rect x="58" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="34" y="34" width="6" height="6"/><rect x="42" y="34" width="6" height="6"/></g>
 </svg>
