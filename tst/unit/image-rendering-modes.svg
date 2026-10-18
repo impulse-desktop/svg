@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="34">
+<!-- Each test runs on into the reference under it without a step.
+image-rendering pixelated scales an image by nearest neighbour to the
+whole multiple of its size nearest the drawn one, each axis apart, and
+smooths the rest of the way, here 2.25 by 2.33 from 2, 1.75 by 2.67 from
+2 by 3, and whole multiples, which are the nearest neighbour; optimizeSpeed draws as
+crisp-edges, optimizeQuality as smooth. -->
+<rect width="64" height="34" fill="white"/>
+<image x="2" y="2" width="9" height="7" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/>
+<image x="2" y="9" width="9" height="7" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAHCAYAAADam2dgAAAAdElEQVR42o2OUQ3AQAhDq+g07A8RKNjXLCDhRCCCZCpmYja6HpuAQV5y0NIcCHBhBXZH9MqsKKHBL5NncjGPZLqIixo5Z9EdDfD5y75HsKuqJOLFLyWJ6TdzkOdOamQqaShlAYbOhYUulbJtfFf6UyyZP00PiG2cqGl025IAAAAASUVORK5CYII="/>
+<image x="13" y="2" width="7" height="8" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/>
+<image x="13" y="10" width="7" height="8" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAAbElEQVR42oWOrRWAMAyEu1UsI0QgGADDADhEpsB0AGTW6FYf1+Jp8iIu9/OuUArNCmMjOqQ1g+/zQ6Y7dXc8dfEgSK1G5vCBtSGEYIyZiZiR+Sj2PvENrhUEORS79VhChUJKuZaFDgkVCibkC7IfizlM83N+AAAAAElFTkSuQmCC"/>
+<image x="22" y="2" width="12" height="6" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/>
+<image x="22" y="8" width="12" height="6" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAGCAYAAAD37n+BAAAAN0lEQVR42pWMyQ0AQAgCp3Q7ZzVxPZ5i5gGKCPRZ07GLgnOBYbVMi3hWXAsy3yaYihHL4iw5Fx7GOLNZ7bDiYAAAAABJRU5ErkJggg=="/>
+<image x="36" y="2" width="6" height="4" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/>
+<image x="36" y="6" width="6" height="4" preserveAspectRatio="none" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAPklEQVR42i2MgQkAMQwCHakjZRQ3caSMdJ/0iwgeBwoJW9yI2YbdlQyE1DS/qFrRK5oc6CfOCqwLmge/qyE+XRc7oFog92oAAAAASUVORK5CYII="/>
+<image x="2" y="20" width="10" height="5" preserveAspectRatio="none" image-rendering="optimizeSpeed" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/><image x="2" y="25" width="10" height="5" preserveAspectRatio="none" image-rendering="crisp-edges" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/>
+<image x="14" y="20" width="10" height="5" preserveAspectRatio="none" image-rendering="optimizeQuality" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/><image x="14" y="25" width="10" height="5" preserveAspectRatio="none" image-rendering="smooth" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAADCAYAAAC09K7GAAAAIklEQVR42kWJsQ0AAAiDOL2fo3YRkjIUwYrLt9AzO/FixAHkfR3le8RXGgAAAABJRU5ErkJggg=="/>
+</svg>

@@ -1150,6 +1150,8 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(MixBlendMode, "mix-blend-mode")                           \
     ATOM(Isolation, "isolation")                                   \
     ATOM(BackfaceVisibility, "backface-visibility")                \
+    ATOM(ObjectFit, "object-fit")                                  \
+    ATOM(ObjectPosition, "object-position")                        \
     ATOM(ColorInterpolation, "color-interpolation")                \
     ATOM(ShapeRendering, "shape-rendering")                        \
     ATOM(ImageRendering, "image-rendering")                        \
@@ -1647,6 +1649,10 @@ namespace {
         bool linearColors;
         bool aliased;
         u8 imageRendering;
+        // object-fit, fill, contain, cover, none, scale-down, and the
+        // object-position of an image element's content.
+        u8 objectFit;
+        Length objectPosition[2];
         float zoom;
         float outlineWidth;
         Color outlineColor;
@@ -1733,6 +1739,12 @@ namespace {
         u32 imageWidth;
         u32 imageHeight;
         bool smooth;
+        // pixelated past a whole multiple: the whole multiples of the
+        // image's size nearest the drawn one, each axis's, which it is
+        // scaled to by nearest neighbour before it is smoothed the rest of
+        // the way; zero when the multiple is the drawn size.
+        float sharpX;
+        float sharpY;
         u32 programFirst;
         u32 programCount;
         u16* tile;
@@ -6160,7 +6172,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
@@ -7418,7 +7430,7 @@ namespace {
                     Length length;
                     const u8* q = numberStart;
 
-                    if (!readLength(q, end, length) || q != p) {
+                    if (!readLength(q, end, length)) {
                         return false;
                     }
 
@@ -7456,7 +7468,7 @@ namespace {
             bool scale = name == SV("scale") || name == SV("scaleX") || name == SV("scaleY") || name == SV("scaleZ") || name == SV("scale3d");
 
             for (u32 i = 0; i < count; i++) {
-                bool vertical = name == SV("translateY") || (i == 1 && name != SV("translateX"));
+                bool vertical = name == SV("translateY") || i == 1;
                 float side = basis ? (vertical ? basis->box.height : basis->box.width) : 0.f;
 
                 args[i] = units[i] == 3 ? args[i] / 100.f * (scale ? 1.f : side) : args[i];
@@ -7873,10 +7885,13 @@ namespace {
     // with a 3D function on one is ignored whole (css-transforms-2.md,
     // svg-three-dimensional-functions).
     static Matrix flatTransform(StringView text) {
-        Matrix m;
+        Matrix m = identity();
         Projective solid;
 
-        return parseTransform(text, m, TransformGrammar::Either, &solid) && !solid.solid ? m : identity();
+        // The parse checked the text, so it reads.
+        parseTransform(text, m, TransformGrammar::Either, &solid);
+
+        return solid.solid ? identity() : m;
     }
 
     static Matrix originTransform(const Document& doc, const Node* node, u32 name, Viewport vp) {
@@ -11019,6 +11034,9 @@ namespace {
         style.blend = 0;
         style.isolate = false;
         style.backfaceHidden = false;
+        style.objectFit = 0;
+        style.objectPosition[0] = Length{50.f, Unit::Percent};
+        style.objectPosition[1] = Length{50.f, Unit::Percent};
         style.outlineWidth = 0.f;
         style.zoom = 1.f;
         memset(style.maskParts, 0, sizeof(style.maskParts));
@@ -11043,7 +11061,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -11081,7 +11099,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -11543,6 +11561,31 @@ namespace {
                     }
 
                     break;
+                case AtomObjectFit: {
+                    static const char* const fits[] = {"fill", "contain", "cover", "none", "scale-down"};
+
+                    for (u8 k = 0; k < 5; k++) {
+                        if (keyword ? k == 0 : isKeyword(value, StringView(fits[k]))) {
+                            style.objectFit = keyword ? source.objectFit : k;
+                        }
+                    }
+
+                    break;
+                }
+                case AtomObjectPosition: {
+                    Length x;
+                    Length y;
+
+                    if (keyword) {
+                        style.objectPosition[0] = source.objectPosition[0];
+                        style.objectPosition[1] = source.objectPosition[1];
+                    } else if (parsePosition(value, x, y)) {
+                        style.objectPosition[0] = x;
+                        style.objectPosition[1] = y;
+                    }
+
+                    break;
+                }
                 case AtomBackfaceVisibility:
                     if (keyword) {
                         style.backfaceHidden = source.backfaceHidden;
@@ -13906,16 +13949,18 @@ namespace {
             Color b = s.color;
             float from = at[before];
             float to = at[i];
-            int steps = hint >= 0.f || a.a != b.a ? 16 : 1;
+            // A hint's curve w = t^e is cut where w steps evenly, so a steep
+            // end of it is followed as closely as a flat one.
+            int steps = hint >= 0.f ? 64 : (a.a != b.a ? 16 : 1);
+            float h = to > from ? (hint - from) / (to - from) : 0.5f;
+            float e = hint >= 0.f && h > 0.f && h < 1.f ? logf(0.5f) / logf(h) : 1.f;
 
             for (int k = 1; k <= steps; k++) {
-                float t = (float)k / (float)steps;
+                float t = powf((float)k / (float)steps, 1.f / e);
                 float w = t;
 
                 if (hint >= 0.f && to > from) {
-                    float h = (hint - from) / (to - from);
-
-                    w = h <= 0.f ? 1.f : (h >= 1.f ? 0.f : powf(t, logf(0.5f) / logf(h)));
+                    w = h <= 0.f ? 1.f : (h >= 1.f ? 0.f : (float)k / (float)steps);
                 }
 
                 float alpha = a.a + (b.a - a.a) * w;
@@ -14185,7 +14230,7 @@ namespace {
         return paint;
     }
 
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering);
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete = nullptr);
     static bool explicitSide(const Document& doc, const Node* root, u32 name);
     static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps, const Box& part);
 
@@ -16444,6 +16489,18 @@ namespace {
         paint->smooth = rendering == 0 || (rendering == 2 && scale < 1.f);
         levels = paint->smooth ? levels : 0;
 
+        // pixelated takes each axis to its nearest whole multiple by nearest
+        // neighbour, then smooths the rest of the way (css-images-3.md,
+        // valdef-image-rendering-pixelated).
+        if (rendering == 2 && !paint->smooth) {
+            float sx = sqrtf(place.a * place.a + place.b * place.b);
+            float sy = sqrtf(place.c * place.c + place.d * place.d);
+            bool whole = roundf(sx) == sx && roundf(sy) == sy;
+
+            paint->sharpX = whole ? 0.f : roundf(sx);
+            paint->sharpY = whole ? 0.f : roundf(sy);
+        }
+
         // Each side halves as many of the levels as it has pixels to: a side
         // of one stays.
         u32 kx = 0;
@@ -16475,7 +16532,7 @@ namespace {
     // An image in its box: of an image element, as its preserveAspectRatio
     // fits it; of none, a CSS image, a raster stretched over the box and a
     // document as its own root fits it.
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering) {
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete) {
         const Document& doc = *l.doc;
         Box viewBox = source.viewBox;
 
@@ -16493,6 +16550,14 @@ namespace {
         // (embedded.md, ImageElement); a CSS image of a document by the
         // document's.
         Matrix fit = multiply(translation(x, y), node ? viewBoxTransform(doc, node, viewBox, w, h) : (source.nested ? viewBoxTransform(*source.nested, source.ratio ? source.ratio : source.nested->root, viewBox, w, h) : scaling(w / viewBox.x1, h / viewBox.y1)));
+
+        // object-fit set the rectangle the image fills, of its own ratio, so
+        // preserveAspectRatio does nothing; the box still cuts it.
+        if (concrete) {
+            fit = Matrix{(concrete->x1 - concrete->x0) / (viewBox.x1 - viewBox.x0), 0.f, 0.f, (concrete->y1 - concrete->y0) / (viewBox.y1 - viewBox.y0), 0.f, 0.f};
+            fit.e = concrete->x0 - fit.a * viewBox.x0;
+            fit.f = concrete->y0 - fit.d * viewBox.y0;
+        }
         Matrix place = multiply(m, fit);
 
         CachedImage* cached = source.cached;
@@ -16625,6 +16690,34 @@ namespace {
         float h;
 
         if (!style.visible || !imageRect(l, node, style, vp, source, x, y, w, h)) {
+            return;
+        }
+
+        // object-fit other than fill sizes the content by its natural ratio,
+        // and object-position places it in the box (css-images-3.md,
+        // the-object-fit; embedded.md, ImageElement).
+        // Every document has a size (tst/spec/decisions.md, D10), so its
+        // ratio is its size's; one of no size has none.
+        float ratio = source.width > 0.f && source.height > 0.f ? source.width / source.height : 0.f;
+
+        if (style.objectFit && ratio > 0.f) {
+            bool wide = w / h > ratio;
+            float cw = (style.objectFit == 2) == wide ? w : h * ratio;
+            float ch = cw / ratio;
+
+            // none takes the natural size, scale-down the smaller of it and
+            // contain's.
+            if (style.objectFit == 3 || (style.objectFit == 4 && source.width < cw)) {
+                cw = source.width;
+                ch = source.height;
+            }
+
+            float ox = style.objectPosition[0].unit == Unit::Percent ? (w - cw) * style.objectPosition[0].value / 100.f : resolveLength(style.objectPosition[0], Axis::X, vp, style.fontSize);
+            float oy = style.objectPosition[1].unit == Unit::Percent ? (h - ch) * style.objectPosition[1].value / 100.f : resolveLength(style.objectPosition[1], Axis::Y, vp, style.fontSize);
+            Box concrete{x + ox, y + oy, x + ox + cw, y + oy + ch};
+
+            drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering, &concrete);
+
             return;
         }
 
@@ -18024,6 +18117,34 @@ namespace {
         }
 
         if (paint.type == PaintType::Image) {
+            // pixelated past a whole multiple: the four texels of the image
+            // scaled up whole by nearest neighbour around the point, mixed by
+            // their nearness.
+            if (paint.sharpX > 0.f) {
+                float qx = p.x * paint.sharpX - 0.5f;
+                float qy = p.y * paint.sharpY - 0.5f;
+                float x0 = floorf(qx);
+                float y0 = floorf(qy);
+                u16 c[4][4];
+
+                for (int k = 0; k < 4; k++) {
+                    int x = texel((int)floorf((x0 + (float)(k & 1)) / paint.sharpX), paint.texels.x0, paint.texels.x1, paint.wraps & 1);
+                    int y = texel((int)floorf((y0 + (float)(k >> 1)) / paint.sharpY), paint.texels.y0, paint.texels.y1, paint.wraps & 2);
+                    const u8* t = paint.image + ((size_t)y * paint.imageWidth + x) * 4;
+                    u32 a = t[3] * 257u;
+
+                    for (int j = 0; j < 3; j++) {
+                        c[k][j] = (u16)div65535(t[j] * 257u * a);
+                    }
+
+                    c[k][3] = (u16)a;
+                }
+
+                bilinear(c[0], c[1], c[2], c[3], qx - x0, qy - y0, out);
+
+                return true;
+            }
+
             // The nearest texel: a byte b is b * 257 stored.
             if (!paint.smooth) {
                 int x = texel((int)floorf(p.x), paint.texels.x0, paint.texels.x1, paint.wraps & 1);
