@@ -333,3 +333,29 @@ initial containing block. The document's own size (D10) is what it lays out
 in, stretched to the pixels it is drawn into (README), so the viewport
 units are of that size. Before, they were of the output pixels, and a
 document drawn at twice its size had twice the vw in its user units.
+
+## D32. A value's escapes are undone before its grammar reads it
+
+`css-syntax-3.md#syntax-description`: any code point may be escaped in an
+identifier, and the tokenizer keeps an escaped delimiter part of its token.
+The renderer reads property values from their text, not from tokens, so it
+undoes a value's escapes outside its strings and urls (which undo their
+own) before the property's grammar reads it: fill: \6c ime is lime. An
+escaped delimiter thus becomes that delimiter, rgb\28 0 255 0\29 a colour,
+where tokens would make one identifier and the declaration invalid; no
+author escapes a parenthesis to write a colour. Presentation attributes are
+read as CSS too (`svg2/types.md#presentation-attribute-css-value`), their
+comments dropped, escapes undone and what they leave open closed; other
+attributes in CSS's value syntax, viewBox or stdDeviation, are read as
+written. Selectors and property names undo their escapes as tokens do.
+
+## D33. Dynamic and link pseudo-classes are valid and never match
+
+`selectors-4.md#invalid` leaves open whether a pseudo-class a renderer never
+activates is unsupported, invalidating its selector list, or always false.
+The renderer has no pointer, focus, target or history, and takes :hover,
+:active, :focus, :target and :visited as valid and never matching, so the
+other selectors of their list still apply. It draws documents as images,
+whose links nothing follows, so no element acts as the source anchor of a
+hyperlink (`selectors-4.md#any-link-pseudo`): :any-link and :link match
+nothing either, as in a browser's SVG image.

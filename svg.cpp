@@ -1269,6 +1269,8 @@ namespace {
         u32* classes;
         u32 classCount;
         bool classesReady;
+        // Whether a child element or text, white space too, is in it.
+        bool filled;
     };
 
     struct Rule;
@@ -1346,19 +1348,34 @@ namespace {
         FirstChild,
         LastChild,
         OnlyChild,
+        NthChild,
+        NthOfType,
         Root,
+        Empty,
+        Scope,
         Never,
         Not,
+        Is,
+        Has,
     };
 
-    struct Compound;
+    struct Selector;
 
+    // A simple selector. An attribute test compares its value ASCII
+    // case-insensitively when caseless. An nth test takes the positions
+    // a * n + b, counted from the last sibling when last, among the
+    // siblings of the element's type, or that a list matches. :not(),
+    // :is(), :where() and :has() test their list.
     struct Condition {
         Test test;
+        bool caseless;
+        bool last;
         u32 name;
         StringView value;
-        Compound* inner;
-        u32 innerCount;
+        i32 a;
+        i32 b;
+        const Selector* list;
+        u32 listCount;
     };
 
     struct Compound {
@@ -1368,10 +1385,14 @@ namespace {
         u32 count;
     };
 
+    // A complex selector, its compounds from the right. A relative one, of
+    // :has(), ends with the compound of its anchor, a Scope test. structural
+    // is set when it reads more than the element itself.
     struct Selector {
         Compound* compounds;
         u32 count;
         u32 specificity;
+        bool structural;
     };
 
     struct Declaration {
@@ -3013,6 +3034,10 @@ namespace {
         }
     }
 
+    static bool geometryProperty(u32 atom);
+    static u32 cssValueAtom(Document& doc, u32 value);
+    static void stripComments(StringView text, Buffer& out);
+
     static u32 internAttribute(Xml& xml, StringView raw) {
         bool plain = true;
 
@@ -3214,6 +3239,14 @@ namespace {
     // The content of an element: its elements are its parent's children, its
     // characters go to text if the parent keeps any. A fallback says the
     // content is a failed xi:include's.
+    // Marks an element as holding content, for :empty: a child element or
+    // text, white space too.
+    static void markFilled(Node* parent, bool content) {
+        if (parent && content) {
+            parent->filled = true;
+        }
+    }
+
     static void parseContent(Xml& xml, Cursor& c, Node* parent, bool foreign, Buffer* text, u32 depth, bool inEntity, const Fallback* fallback) {
         for (;;) {
             if (c.p >= c.end) {
@@ -3247,6 +3280,7 @@ namespace {
                     const u8* start = c.p;
 
                     skipPast(xml, c, SV("]]>"), SVG_XML_UNTERMINATED_CDATA);
+                    markFilled(parent, c.p - 3 > start);
 
                     if (text) {
                         text->append(start, c.p - 3 - start);
@@ -3264,6 +3298,7 @@ namespace {
                     fail(xml.fail, SVG_XML_CONTENT_DECLARATION);
                 }
 
+                markFilled(parent, true);
                 parseElement(xml, c, parent, foreign, depth + 1, text, fallback);
                 continue;
             }
@@ -3275,10 +3310,14 @@ namespace {
                 if (!name.empty() && name[0] == '#') {
                     u32 code = characterReference(xml, name);
 
+                    markFilled(parent, true);
+
                     if (text) {
                         appendUtf8(*text, code);
                     }
                 } else if (int value = predefinedEntity(name); value >= 0) {
+                    markFilled(parent, true);
+
                     if (text) {
                         u8 byte = (u8)value;
 
@@ -3309,6 +3348,8 @@ namespace {
             while (c.p < c.end && *c.p != '<' && *c.p != '&') {
                 c.p++;
             }
+
+            markFilled(parent, c.p > start);
 
             if (text) {
                 text->append(start, c.p - start);
@@ -3482,6 +3523,12 @@ namespace {
                 }
 
                 u32 value = internAttribute(xml, xml.raw[i].value);
+
+                // A presentation attribute is read as CSS; d and transform
+                // have SVG's own grammars.
+                if (((atom >= firstProperty && atom < firstProperty + propertyCount) || geometryProperty(atom)) && atom != AtomD && atom != AtomTransform) {
+                    value = cssValueAtom(*xml.doc, value);
+                }
 
                 if (atom == AtomHref) {
                     bool replaced = false;
@@ -3754,10 +3801,12 @@ namespace {
         return StringView(start, p);
     }
 
+    // Past the string at p: its closing quote, or, for a bad string, the
+    // newline that ends it (css-syntax-3 4.3.5), or the end of the text.
     static const u8* skipCssString(const u8* p, const u8* end) {
         u8 quote = *p++;
 
-        while (p < end && *p != quote) {
+        while (p < end && *p != quote && *p != '\n') {
             if (*p == '\\' && p + 1 < end) {
                 p++;
             }
@@ -3765,14 +3814,16 @@ namespace {
             p++;
         }
 
-        return p < end ? p + 1 : end;
+        return p < end && *p == quote ? p + 1 : p;
     }
 
     // Text with its CSS escapes undone (css-syntax-3 4.3.7): a backslash
     // and one to six hex digits, and a white space after them, are that
     // code point, U+FFFD for none; a backslash before a newline is nothing,
-    // before anything else that thing. XML has made every CR LF an LF.
-    static StringView unescapeCss(StringView text, Buffer& out) {
+    // before anything else that thing, and at the end U+FFFD in an
+    // identifier or a url, nothing in a string. XML has made every CR LF an
+    // LF.
+    static StringView unescapeCss(StringView text, Buffer& out, bool ident) {
         const u8* p = text.begin();
         const u8* end = text.end();
 
@@ -3782,6 +3833,10 @@ namespace {
 
         while (p < end) {
             if (*p != '\\' || p + 1 == end) {
+                if (*p == '\\' && ident) {
+                    appendUtf8(out, 0xfffd);
+                }
+
                 out.append(p, *p != '\\');
                 p++;
                 continue;
@@ -3810,6 +3865,80 @@ namespace {
         return StringView(out);
     }
 
+    // Past the escape whose backslash is at q: up to six hex digits and a
+    // white space after them, or any one character.
+    static const u8* skipEscape(const u8* q, const u8* end) {
+        const u8* hex = ++q;
+
+        while (q < end && q - hex < 6 && hexDigit(*q) >= 0) {
+            q++;
+        }
+
+        return q == hex ? q + (q < end) : q + (q < end && isSpace(*q));
+    }
+
+    // An identifier at p (css-syntax-3 4.3.11): letters, digits, _, -,
+    // what is past ASCII, and escapes, which are undone, the identifier
+    // then copied into pool; it starts with no digit, nor with a - and a
+    // digit. Empty for none.
+    static StringView readCssIdent(ObjPool& pool, const u8*& p, const u8* end) {
+        const u8* s = p + at(p, end, '-');
+        bool escaped = false;
+
+        auto escape = [&](const u8* q) {
+            return q < end && *q == '\\' && !(q + 1 < end && q[1] == '\n');
+        };
+
+        if (!(s < end && ((isIdentStart(*s) && (*s != '-' || s > p)) || escape(s)))) {
+            return StringView();
+        }
+
+        for (s = p; s < end && (isIdentChar(*s) || escape(s));) {
+            escaped = escaped || *s == '\\';
+            s = *s == '\\' ? skipEscape(s, end) : s + 1;
+        }
+
+        StringView text(p, s);
+        Buffer out;
+
+        p = s;
+
+        if (!escaped) {
+            return text;
+        }
+
+        StringView plain = unescapeCss(text, out, true);
+
+        return keep(pool, plain.data(), plain.length());
+    }
+
+    // A string of a selector at p, quotes around it (css-syntax-3 4.3.5),
+    // its escapes undone, then copied into pool. False for a bad string,
+    // which a newline ends.
+    static bool readCssString(ObjPool& pool, const u8*& p, StringView& out) {
+        u8 quote = *p++;
+        const u8* start = p;
+        Buffer plain;
+
+        // A selector's text ends at the '{' its rule opens with, which
+        // findOutside found past every string of it, read as here: each
+        // closes with its quote or goes bad at a newline before the end.
+        while (*p != quote) {
+            if (*p == '\n') {
+                return false;
+            }
+
+            p += *p == '\\' ? 2 : 1;
+        }
+
+        StringView text = unescapeCss(StringView(start, p), plain, false);
+
+        p++;
+        out = text.data() == start ? text : keep(pool, text.data(), text.length());
+
+        return true;
+    }
+
     // A url() or src() at p (css-values-4 4.5): its string, unquoted and
     // with its escapes undone into scratch. src() takes a quoted string
     // alone; an unquoted url() no quote, parenthesis or white space but at
@@ -3827,8 +3956,9 @@ namespace {
 
         const u8* start = s;
         const u8* stop;
+        bool quoted = at(s, end, '"') || at(s, end, '\'');
 
-        if (at(s, end, '"') || at(s, end, '\'')) {
+        if (quoted) {
             u8 quote = *s++;
 
             start = s;
@@ -3849,17 +3979,7 @@ namespace {
                     return false;
                 }
 
-                // An escape: up to six hex digits and a white space after
-                // them, or any one character.
-                if (*s++ == '\\' && s < end) {
-                    const u8* hex = s;
-
-                    while (s < end && s - hex < 6 && hexDigit(*s) >= 0) {
-                        s++;
-                    }
-
-                    s += s == hex ? 1 : (s < end && isSpace(*s));
-                }
+                s = *s == '\\' ? skipEscape(s, end) : s + 1;
             }
 
             stop = s;
@@ -3871,10 +3991,188 @@ namespace {
             return false;
         }
 
-        out = unescapeCss(StringView(start, stop), scratch);
+        out = unescapeCss(StringView(start, stop), scratch, !quoted);
         p = s + (s < end);
 
         return true;
+    }
+
+    // Where the unquoted url( token at p ends, at its ')' or the end of the
+    // text; null when p starts none.
+    static const u8* urlTokenEnd(const u8* p, const u8* begin, const u8* end) {
+        if (end - p < 4 || !equalsIgnoreCase(StringView(p, p + 4), SV("url(")) || (p > begin && isIdentChar(p[-1]))) {
+            return nullptr;
+        }
+
+        const u8* q = p + 4;
+
+        skipSpaces(q, end);
+
+        if (at(q, end, '"') || at(q, end, '\'')) {
+            return nullptr;
+        }
+
+        while (q < end && *q != ')') {
+            q = *q == '\\' ? skipEscape(q, end) : q + 1;
+        }
+
+        return q;
+    }
+
+    // Closes in place what text leaves open at its end (css-syntax-3
+    // 5.4.9): a string, a url, the parentheses, brackets and braces of
+    // functions and blocks, innermost first. A string a newline ends is
+    // bad, not open. A backslash at the very end escapes nothing: in a
+    // string it is dropped, elsewhere it is U+FFFD.
+    static void closeCss(Buffer& text) {
+        Vector<u8> open;
+        Buffer closers;
+        const u8* begin = (const u8*)text.data();
+        const u8* end = begin + text.length();
+        const u8* p = begin;
+        size_t drop = 0;
+
+        while (p < end) {
+            u8 c = *p;
+            const u8* close = urlTokenEnd(p, begin, end);
+
+            if (c == '\\') {
+                drop = p + 1 == end;
+                p = skipEscape(p, end);
+            } else if (c == '"' || c == '\'') {
+                const u8* q = p + 1;
+
+                while (q < end && *q != c && *q != '\n') {
+                    drop = *q == '\\' && q + 1 == end;
+                    q += *q == '\\' && q + 1 < end ? 2 : 1;
+                }
+
+                if (q == end) {
+                    closers.append(&c, 1);
+                    break;
+                }
+
+                p = q + 1;
+            } else if (close) {
+                if (close == end) {
+                    for (const u8* q = p + 4; q < end; q = *q == '\\' ? skipEscape(q, end) : q + 1) {
+                        drop = *q == '\\' && q + 1 == end;
+                    }
+
+                    open.pushBack(')');
+                    break;
+                }
+
+                p = close + 1;
+            } else {
+                if (c == '(' || c == '[' || c == '{') {
+                    open.pushBack(c == '(' ? ')' : (c == '[' ? ']' : '}'));
+                } else if (!open.empty() && c == open.back()) {
+                    open.popBack();
+                }
+
+                p++;
+            }
+        }
+
+        for (size_t k = open.length(); k > 0; k--) {
+            closers.append(&open[k - 1], 1);
+        }
+
+        if (!closers.length()) {
+            return;
+        }
+
+        // The lone backslash: nothing in a string, U+FFFD else.
+        if (drop) {
+            text.seekAbsolute(text.length() - 1);
+
+            if (((const u8*)closers.data())[0] != '"' && ((const u8*)closers.data())[0] != '\'') {
+                appendUtf8(text, 0xfffd);
+            }
+        }
+
+        text.append(closers.data(), closers.length());
+    }
+
+    // A value with the escapes outside its strings and urls undone, which
+    // undo their own, for its property's grammar to read (D32); out takes
+    // the copy, when there are any.
+    static StringView decodeCssValue(StringView text, Buffer& out) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+
+        if (!memchr(text.data(), '\\', text.length())) {
+            return text;
+        }
+
+        while (p < end) {
+            const u8* close = urlTokenEnd(p, text.begin(), end);
+            const u8* next = p + 1;
+
+            if (*p == '\\') {
+                next = skipEscape(p, end);
+                unescapeCss(StringView(p, next), out, true);
+                p = next;
+                continue;
+            }
+
+            if (*p == '"' || *p == '\'') {
+                while (next < end && *next != *p && *next != '\n') {
+                    next += *next == '\\' && next + 1 < end ? 2 : 1;
+                }
+
+                next += next < end && *next == *p;
+            } else if (close) {
+                next = close + (close < end);
+            }
+
+            out.append(p, next - p);
+            p = next;
+        }
+
+        return StringView(out);
+    }
+
+    // A presentation attribute's value as CSS reads it
+    // (svg2/types.md#presentation-attribute-css-value): comments dropped,
+    // escapes undone, what it leaves open closed; the atom of that text,
+    // the value's own when it is already so.
+    static u32 cssValueAtom(Document& doc, u32 value) {
+        StringView text = textOf(doc, value);
+        Buffer stripped;
+        Buffer decoded;
+        Buffer result;
+        int depth = 0;
+        u8 quote = 0;
+
+        // Most values have no escape, comment or string, and close what
+        // they open.
+        for (const u8* p = text.begin(); p < text.end(); p++) {
+            u8 c = *p;
+
+            if (c == '\\' || (c == '/' && p + 1 < text.end() && p[1] == '*')) {
+                depth = -1;
+                break;
+            }
+
+            quote = quote ? (c == quote || c == '\n' ? 0 : quote) : (c == '"' || c == '\'' ? c : 0);
+            depth += !quote && (c == '(' || c == '[' || c == '{');
+            depth -= !quote && (c == ')' || c == ']' || c == '}');
+        }
+
+        if (depth == 0 && !quote) {
+            return value;
+        }
+
+        stripComments(text, stripped);
+
+        StringView plain = decodeCssValue(StringView(stripped), decoded);
+
+        result.append(plain.data(), plain.length());
+        closeCss(result);
+
+        return intern(doc.atoms, keep(*doc.pool, result.data(), result.length()));
     }
 
     static void stripComments(StringView text, Buffer& out) {
@@ -3882,8 +4180,10 @@ namespace {
         const u8* end = text.end();
 
         while (p < end) {
-            if (*p == '"' || *p == '\'') {
-                const u8* next = skipCssString(p, end);
+            const u8* url = urlTokenEnd(p, text.begin(), end);
+
+            if (*p == '"' || *p == '\'' || url) {
+                const u8* next = url ? url + (url < end) : skipCssString(p, end);
 
                 out.append(p, next - p);
                 p = next;
@@ -3903,14 +4203,23 @@ namespace {
         }
     }
 
+    // The first target past p outside strings, url tokens and parentheses
+    // or brackets, or null.
     static const u8* findOutside(const u8* p, const u8* end, u8 target) {
+        const u8* begin = p;
         int depth = 0;
 
         while (p < end) {
             u8 c = *p;
+            const u8* url = urlTokenEnd(p, begin, end);
 
             if (c == '"' || c == '\'') {
                 p = skipCssString(p, end);
+                continue;
+            }
+
+            if (url) {
+                p = url + (url < end);
                 continue;
             }
 
@@ -3931,13 +4240,20 @@ namespace {
     }
 
     static const u8* matchingBrace(const u8* p, const u8* end) {
+        const u8* begin = p;
         int depth = 1;
 
         while (p < end) {
             u8 c = *p;
+            const u8* url = urlTokenEnd(p, begin, end);
 
             if (c == '"' || c == '\'') {
                 p = skipCssString(p, end);
+                continue;
+            }
+
+            if (url) {
+                p = url + (url < end);
                 continue;
             }
 
@@ -3971,10 +4287,272 @@ namespace {
         return sum;
     }
 
-    // A selector closes every bracket and parenthesis it opens, as parseSheet
-    // splits selectors only where they are closed, so the text runs on past
-    // the parts of an attribute test and of a :not.
-    static bool parseCompound(Document& doc, const u8*& p, const u8* end, Compound& compound, u32& specificity) {
+    // How a selector list reads: forgiving drops a selector it cannot read,
+    // as :is() and :where() do; relative ones open from :has()'s anchor;
+    // nested ones, arguments of a pseudo-class, take no pseudo-element; in
+    // :has() another :has() cannot go.
+    enum SelectorFlag : u32 {
+        SelectorForgiving = 1,
+        SelectorRelative = 2,
+        SelectorNested = 4,
+        SelectorInHas = 8,
+    };
+
+    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity, bool& structural);
+
+    // An+B at p (css-syntax-3 6): odd, even, an integer, or A n and a B,
+    // signed by itself or by a + or - apart; white space goes around the
+    // parts, never between a sign and the n or the digits it signs.
+    static bool parseNth(const u8*& p, const u8* end, i32& a, i32& b) {
+        auto digits = [&](const u8*& q, i32& out) {
+            const u8* start = q;
+            i32 value = 0;
+
+            while (q < end && *q >= '0' && *q <= '9') {
+                value = value < 100000000 ? value * 10 + (*q - '0') : value;
+                q++;
+            }
+
+            out = value;
+
+            return q > start;
+        };
+
+        skipSpaces(p, end);
+
+        StringView rest(p, end);
+
+        for (i32 k = 0; k < 2; k++) {
+            StringView name = k ? SV("even") : SV("odd");
+
+            if (startsWithIgnoreCase(rest, name) && !(rest.length() > name.length() && isIdentChar(rest[name.length()]))) {
+                a = 2;
+                b = 1 - k;
+                p += name.length();
+
+                return true;
+            }
+        }
+
+        i32 sign = at(p, end, '-') ? -1 : 1;
+        i32 n;
+
+        p += at(p, end, '-') || at(p, end, '+');
+
+        bool counted = digits(p, n);
+
+        if (!at(p, end, 'n') && !at(p, end, 'N')) {
+            a = 0;
+            b = sign * n;
+
+            return counted;
+        }
+
+        const u8* q = ++p;
+
+        a = sign * (counted ? n : 1);
+        b = 0;
+        skipSpaces(q, end);
+
+        if (at(q, end, '+') || at(q, end, '-')) {
+            sign = *q++ == '-' ? -1 : 1;
+            skipSpaces(q, end);
+
+            if (!digits(q, n)) {
+                return false;
+            }
+
+            b = sign * n;
+            p = q;
+        }
+
+        return true;
+    }
+
+    // An attribute test at p, from its [ to its ]: a name, or a name, an
+    // operator and a value, with an i flag for ASCII case-insensitive
+    // values or an s flag for exact ones.
+    static bool parseAttributeTest(Document& doc, const u8*& p, const u8* end, Condition& condition) {
+        static const char operators[] = "~|^$*";
+        static const Test tests[] = {Test::Includes, Test::Dash, Test::Prefix, Test::Suffix, Test::Substring};
+
+        p++;
+        skipSpaces(p, end);
+
+        StringView name = readCssIdent(*doc.pool, p, end);
+
+        if (name.empty()) {
+            return false;
+        }
+
+        skipSpaces(p, end);
+
+        condition.name = intern(doc.atoms, name);
+        condition.test = Test::Exists;
+
+        if (!at(p, end, ']')) {
+            const char* op = p + 1 < end && p[1] == '=' ? strchr(operators, *p) : nullptr;
+
+            if (at(p, end, '=')) {
+                condition.test = Test::Equals;
+                p++;
+            } else if (op && *op) {
+                condition.test = tests[op - operators];
+                p += 2;
+            } else {
+                return false;
+            }
+
+            skipSpaces(p, end);
+
+            if (at(p, end, '"') || at(p, end, '\'')) {
+                if (!readCssString(*doc.pool, p, condition.value)) {
+                    return false;
+                }
+            } else {
+                condition.value = readCssIdent(*doc.pool, p, end);
+
+                if (condition.value.empty()) {
+                    return false;
+                }
+            }
+
+            skipSpaces(p, end);
+
+            const u8* q = p;
+            StringView flag = readCssIdent(*doc.pool, q, end);
+
+            if (!flag.empty()) {
+                if (!equalsIgnoreCase(flag, SV("i")) && !equalsIgnoreCase(flag, SV("s"))) {
+                    return false;
+                }
+
+                condition.caseless = equalsIgnoreCase(flag, SV("i"));
+                p = q;
+                skipSpaces(p, end);
+            }
+        }
+
+        if (!at(p, end, ']')) {
+            return false;
+        }
+
+        p++;
+
+        return true;
+    }
+
+    // A pseudo-class of arguments, p past its opening parenthesis: :not(),
+    // :is(), :where(), :has() of selector lists, :nth-child() and
+    // :nth-last-child() of An+B and an "of" list, :nth-of-type() and
+    // :nth-last-of-type() of An+B. Each adds its own specificity, :where()
+    // none, the others that of their most specific argument.
+    static bool parseFunctionalPseudo(Document& doc, StringView name, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity, bool& structural) {
+        bool nthChild = equalsIgnoreCase(name, SV("nth-child")) || equalsIgnoreCase(name, SV("nth-last-child"));
+        bool nthType = equalsIgnoreCase(name, SV("nth-of-type")) || equalsIgnoreCase(name, SV("nth-last-of-type"));
+        bool is = equalsIgnoreCase(name, SV("is")) || equalsIgnoreCase(name, SV("where"));
+        bool has = equalsIgnoreCase(name, SV("has"));
+        u32 nested = (flags & SelectorInHas) | SelectorNested;
+        u32 inner = 0;
+
+        structural = true;
+
+        if (nthChild || nthType) {
+            condition.test = nthChild ? Test::NthChild : Test::NthOfType;
+            condition.last = startsWithIgnoreCase(name, SV("nth-last"));
+
+            if (!parseNth(p, end, condition.a, condition.b)) {
+                return false;
+            }
+
+            skipSpaces(p, end);
+
+            const u8* q = p;
+
+            if (nthChild && equalsIgnoreCase(readCssIdent(*doc.pool, q, end), SV("of")) && q < end && isSpace(*q)) {
+                p = q;
+
+                if (!parseSelectorList(doc, p, end, nested, condition, inner, structural)) {
+                    return false;
+                }
+            }
+
+            inner = addSpecificity(inner, 1 << 8);
+        } else if (is || has || equalsIgnoreCase(name, SV("not"))) {
+            condition.test = is ? Test::Is : (has ? Test::Has : Test::Not);
+
+            if ((has && (flags & SelectorInHas)) || !parseSelectorList(doc, p, end, nested | (is ? SelectorForgiving : 0) | (has ? SelectorRelative | SelectorInHas : 0), condition, inner, structural)) {
+                return false;
+            }
+
+            inner = equalsIgnoreCase(name, SV("where")) ? 0 : inner;
+        } else {
+            return false;
+        }
+
+        skipSpaces(p, end);
+
+        if (!at(p, end, ')')) {
+            return false;
+        }
+
+        p++;
+        specificity = addSpecificity(specificity, inner);
+
+        return true;
+    }
+
+    // A pseudo-class of no arguments; only-of-type is two tests. False for
+    // one not known. A dynamic or link pseudo-class never matches: nothing
+    // points, focuses or navigates, and no link of an image is followed
+    // (D33).
+    static bool simplePseudo(StringView name, Vector<Condition>& conditions, Condition& condition, bool& structural) {
+        static const struct {
+            const char* name;
+            Test test;
+            bool last;
+        } pseudos[] = {
+            {"first-child", Test::FirstChild, false},
+            {"last-child", Test::LastChild, false},
+            {"only-child", Test::OnlyChild, false},
+            {"first-of-type", Test::NthOfType, false},
+            {"last-of-type", Test::NthOfType, true},
+            {"only-of-type", Test::NthOfType, true},
+            {"root", Test::Root, false},
+            {"empty", Test::Empty, false},
+            {"any-link", Test::Never, false},
+            {"link", Test::Never, false},
+            {"visited", Test::Never, false},
+            {"hover", Test::Never, false},
+            {"active", Test::Never, false},
+            {"focus", Test::Never, false},
+            {"target", Test::Never, false},
+        };
+
+        for (const auto& pseudo : pseudos) {
+            if (equalsIgnoreCase(name, StringView(pseudo.name))) {
+                condition.test = pseudo.test;
+                condition.last = pseudo.last;
+                condition.b = 1;
+                structural = structural || pseudo.test == Test::FirstChild || pseudo.test == Test::LastChild || pseudo.test == Test::OnlyChild || pseudo.test == Test::NthOfType || pseudo.test == Test::Root;
+
+                // only-of-type is first-of-type too.
+                if (equalsIgnoreCase(name, SV("only-of-type"))) {
+                    conditions.pushBack(Condition{Test::NthOfType, false, false, 0, StringView(), 0, 1, nullptr, 0});
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // A compound selector at p: a type or *, then ids, classes, attribute
+    // tests and pseudo-classes; a pseudo-element matches nothing. It adds
+    // its specificity, and sets structural for a test that reads more than
+    // the element.
+    static bool parseCompound(Document& doc, const u8*& p, const u8* end, u32 flags, Compound& compound, u32& specificity, bool& structural) {
         Vector<Condition> conditions;
         bool any = false;
 
@@ -3984,7 +4562,7 @@ namespace {
             p++;
             any = true;
         } else {
-            StringView type = readIdent(p, end);
+            StringView type = readCssIdent(*doc.pool, p, end);
 
             if (!type.empty()) {
                 compound.type = intern(doc.atoms, type);
@@ -3995,175 +4573,55 @@ namespace {
 
         while (p < end) {
             u8 c = *p;
-            Condition condition{Test::Never, 0, StringView(), nullptr, 0};
+            Condition condition{Test::Never, false, false, 0, StringView(), 0, 0, nullptr, 0};
 
-            if (c == '#') {
+            if (c == '#' || c == '.') {
                 p++;
 
-                StringView name = readIdent(p, end);
+                StringView name = readCssIdent(*doc.pool, p, end);
 
                 if (name.empty()) {
                     return false;
                 }
 
-                condition.test = Test::Id;
+                condition.test = c == '#' ? Test::Id : Test::Class;
                 condition.name = intern(doc.atoms, name);
-                specificity = addSpecificity(specificity, 1 << 16);
-            } else if (c == '.') {
-                p++;
-
-                StringView name = readIdent(p, end);
-
-                if (name.empty()) {
-                    return false;
-                }
-
-                condition.test = Test::Class;
-                condition.name = intern(doc.atoms, name);
-                specificity = addSpecificity(specificity, 1 << 8);
+                specificity = addSpecificity(specificity, c == '#' ? 1 << 16 : 1 << 8);
             } else if (c == '[') {
-                p++;
-
-                skipSpaces(p, end);
-
-                StringView name = readIdent(p, end);
-
-                if (name.empty()) {
+                if (!parseAttributeTest(doc, p, end, condition)) {
                     return false;
                 }
 
-                skipSpaces(p, end);
-
-                condition.name = intern(doc.atoms, name);
-                condition.test = Test::Exists;
-
-                if (*p != ']') {
-                    if (*p == '=') {
-                        condition.test = Test::Equals;
-                        p++;
-                    } else if (p[1] == '=') {
-                        switch (*p) {
-                            case '~':
-                                condition.test = Test::Includes;
-                                break;
-                            case '|':
-                                condition.test = Test::Dash;
-                                break;
-                            case '^':
-                                condition.test = Test::Prefix;
-                                break;
-                            case '$':
-                                condition.test = Test::Suffix;
-                                break;
-                            case '*':
-                                condition.test = Test::Substring;
-                                break;
-                            default:
-                                return false;
-                        }
-
-                        p += 2;
-                    } else {
-                        return false;
-                    }
-
-                    skipSpaces(p, end);
-
-                    if (*p == '"' || *p == '\'') {
-                        const u8* next = skipCssString(p, end);
-
-                        condition.value = StringView(p + 1, next - 1);
-                        p = next;
-                    } else {
-                        condition.value = readIdent(p, end);
-
-                        if (condition.value.empty()) {
-                            return false;
-                        }
-                    }
-
-                    skipSpaces(p, end);
-                }
-
-                if (*p != ']') {
-                    return false;
-                }
-
-                p++;
                 specificity = addSpecificity(specificity, 1 << 8);
             } else if (c == ':') {
                 p++;
 
                 if (at(p, end, ':')) {
+                    // A pseudo-element, none of which is drawn; none goes
+                    // in a pseudo-class's argument.
                     p++;
-                    readIdent(p, end);
-                    condition.test = Test::Never;
-                    specificity = addSpecificity(specificity, 1);
-                } else {
-                    StringView name = readIdent(p, end);
+                    readCssIdent(*doc.pool, p, end);
 
-                    if (!name.empty() && equalsIgnoreCase(name, SV("not")) && at(p, end, '(')) {
-                        Vector<Compound> inner;
-                        u32 best = 0;
-
-                        p++;
-
-                        for (;;) {
-                            Compound item;
-                            u32 weight = 0;
-
-                            skipSpaces(p, end);
-
-                            item.combinator = Combinator::None;
-
-                            if (!parseCompound(doc, p, end, item, weight)) {
-                                return false;
-                            }
-
-                            inner.pushBack(item);
-                            best = weight > best ? weight : best;
-
-                            skipSpaces(p, end);
-
-                            if (at(p, end, ',')) {
-                                p++;
-                                continue;
-                            }
-
-                            break;
-                        }
-
-                        if (*p != ')') {
-                            return false;
-                        }
-
-                        p++;
-                        condition.test = Test::Not;
-                        condition.innerCount = (u32)inner.length();
-                        condition.inner = (Compound*)doc.pool->allocate(sizeof(Compound) * inner.length());
-                        memcpy(condition.inner, inner.data(), sizeof(Compound) * inner.length());
-                        specificity = addSpecificity(specificity, best);
-                        conditions.pushBack(condition);
-                        any = true;
-                        continue;
-                    }
-
-                    if (name.empty() || at(p, end, '(')) {
+                    if (flags & SelectorNested) {
                         return false;
                     }
 
-                    specificity = addSpecificity(specificity, 1 << 8);
+                    specificity = addSpecificity(specificity, 1);
+                } else {
+                    StringView name = readCssIdent(*doc.pool, p, end);
 
-                    if (equalsIgnoreCase(name, SV("first-child"))) {
-                        condition.test = Test::FirstChild;
-                    } else if (equalsIgnoreCase(name, SV("last-child"))) {
-                        condition.test = Test::LastChild;
-                    } else if (equalsIgnoreCase(name, SV("only-child"))) {
-                        condition.test = Test::OnlyChild;
-                    } else if (equalsIgnoreCase(name, SV("root"))) {
-                        condition.test = Test::Root;
-                    } else if (equalsIgnoreCase(name, SV("hover")) || equalsIgnoreCase(name, SV("active")) || equalsIgnoreCase(name, SV("focus")) || equalsIgnoreCase(name, SV("visited")) || equalsIgnoreCase(name, SV("target"))) {
-                        condition.test = Test::Never;
+                    if (name.empty()) {
+                        return false;
+                    }
+
+                    if (at(p, end, '(')) {
+                        p++;
+
+                        if (!parseFunctionalPseudo(doc, name, p, end, flags, condition, specificity, structural)) {
+                            return false;
+                        }
+                    } else if (simplePseudo(name, conditions, condition, structural)) {
+                        specificity = addSpecificity(specificity, 1 << 8);
                     } else {
                         return false;
                     }
@@ -4190,19 +4648,36 @@ namespace {
         return true;
     }
 
-    // Parses a trimmed selector.
-    static bool parseSelector(Document& doc, StringView text, Selector& selector) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    static Combinator combinatorOf(u8 c) {
+        return c == '>' ? Combinator::Child : (c == '+' ? Combinator::Adjacent : Combinator::Sibling);
+    }
+
+    // A complex selector at p, to a ',' or ')' outside it or the end. A
+    // relative one opens with a combinator from :has()'s anchor, or none
+    // for a descendant, and keeps the anchor as a compound of a Scope test.
+    static bool parseComplex(Document& doc, const u8*& p, const u8* end, u32 flags, Selector& selector) {
         Vector<Compound> compounds;
         u32 specificity = 0;
+        bool structural = false;
+
+        skipSpaces(p, end);
+
+        if (flags & SelectorRelative) {
+            Condition* scope = (Condition*)doc.pool->allocate(sizeof(Condition));
+            bool explicitCombinator = at(p, end, '>') || at(p, end, '+') || at(p, end, '~');
+
+            *scope = Condition{Test::Scope, false, false, 0, StringView(), 0, 0, nullptr, 0};
+            compounds.pushBack(Compound{0, explicitCombinator ? combinatorOf(*p) : Combinator::Descendant, scope, 1});
+            p += explicitCombinator;
+            skipSpaces(p, end);
+        }
 
         for (;;) {
             Compound compound;
 
             compound.combinator = Combinator::None;
 
-            if (!parseCompound(doc, p, end, compound, specificity)) {
+            if (!parseCompound(doc, p, end, flags, compound, specificity, structural)) {
                 return false;
             }
 
@@ -4215,14 +4690,14 @@ namespace {
                 spaced = true;
             }
 
-            if (p >= end) {
+            if (p >= end || *p == ',' || *p == ')') {
                 break;
             }
 
             Combinator combinator = Combinator::Descendant;
 
             if (*p == '>' || *p == '+' || *p == '~') {
-                combinator = *p == '>' ? Combinator::Child : (*p == '+' ? Combinator::Adjacent : Combinator::Sibling);
+                combinator = combinatorOf(*p);
                 p++;
 
                 skipSpaces(p, end);
@@ -4235,6 +4710,7 @@ namespace {
 
         selector.count = (u32)compounds.length();
         selector.specificity = specificity;
+        selector.structural = structural || selector.count > 1;
         selector.compounds = (Compound*)doc.pool->allocate(sizeof(Compound) * compounds.length());
 
         for (u32 i = 0; i < selector.count; i++) {
@@ -4245,6 +4721,57 @@ namespace {
         }
 
         return true;
+    }
+
+    // A selector list at p, to the ')' that closes it, into the condition's
+    // list; specificity is that of its most specific selector. A forgiving
+    // list drops a selector it cannot read and may be empty.
+    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity, bool& structural) {
+        Vector<Selector> items;
+
+        for (;;) {
+            const u8* start = p;
+            Selector item;
+
+            if (parseComplex(doc, p, end, flags, item) && (at(p, end, ',') || at(p, end, ')'))) {
+                items.pushBack(item);
+                specificity = item.specificity > specificity ? item.specificity : specificity;
+                structural = structural || item.structural;
+            } else if (flags & SelectorForgiving) {
+                const u8* comma = findOutside(start, end, ',');
+                const u8* close = findOutside(start, end, ')');
+
+                p = comma && (!close || comma < close) ? comma : (close ? close : end);
+            } else {
+                return false;
+            }
+
+            if (!at(p, end, ',')) {
+                break;
+            }
+
+            p++;
+        }
+
+        if (items.empty() && !(flags & SelectorForgiving)) {
+            return false;
+        }
+
+        condition.listCount = (u32)items.length();
+        condition.list = (Selector*)doc.pool->allocate(sizeof(Selector) * (items.length() + 1));
+
+        if (condition.listCount) {
+            memcpy((Selector*)condition.list, items.data(), sizeof(Selector) * items.length());
+        }
+
+        return true;
+    }
+
+    // Parses a trimmed selector.
+    static bool parseSelector(Document& doc, StringView text, Selector& selector) {
+        const u8* p = text.begin();
+
+        return parseComplex(doc, p, text.end(), 0, selector) && p == text.end();
     }
 
     static bool geometryProperty(u32 atom) {
@@ -5220,7 +5747,9 @@ namespace {
                 continue;
             }
 
-            StringView name = trim(StringView(item.begin(), colon));
+            Buffer plainName;
+            Buffer plainValue;
+            StringView name = unescapeCss(trim(StringView(item.begin(), colon)), plainName, true);
             StringView value = trim(StringView(colon + 1, item.end()));
             bool important = false;
 
@@ -5229,8 +5758,10 @@ namespace {
             }
 
             for (const u8* bang = value.end(); bang > value.begin(); bang--) {
+                Buffer word;
+
                 if (bang[-1] == '!') {
-                    if (equalsIgnoreCase(trim(StringView(bang, value.end())), SV("important"))) {
+                    if (equalsIgnoreCase(unescapeCss(trim(StringView(bang, value.end())), word, true), SV("important"))) {
                         important = true;
                         value = trim(StringView(value.begin(), bang - 1));
                     }
@@ -5254,6 +5785,10 @@ namespace {
             if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker && property != AtomMask && property != AtomMaskBorder) {
                 continue;
             }
+
+            StringView decoded = decodeCssValue(value, plainValue);
+
+            value = decoded.data() == value.data() ? value : keep(*doc.pool, decoded.data(), decoded.length());
 
             if (value.empty()) {
                 continue;
@@ -5897,7 +6432,9 @@ namespace {
     static void parseSheet(Document& doc, Vector<Rule>& rules, StringView source, Viewport view) {
         Buffer cleaned;
 
+        // The end of the sheet closes what it leaves open.
         stripComments(source, cleaned);
+        closeCss(cleaned);
         parseRules(doc, rules, keep(*doc.pool, cleaned.data(), cleaned.length()), view, 0);
     }
 
@@ -5940,9 +6477,15 @@ namespace {
         }
     }
 
-    static bool containsWord(StringView list, StringView word, bool dash) {
+    // Whether a list of words holds the word, or for dash starts with it
+    // and a '-', ASCII case-insensitively when caseless.
+    static bool containsWord(StringView list, StringView word, bool dash, bool caseless) {
+        auto same = [&](StringView a, StringView b) {
+            return caseless ? equalsIgnoreCase(a, b) : a == b;
+        };
+
         if (dash) {
-            return list == word || (list.length() > word.length() && memcmp(list.data(), word.data(), word.length()) == 0 && list[word.length()] == '-');
+            return same(list, word) || (list.length() > word.length() && same(StringView(list.begin(), list.begin() + word.length()), word) && list[word.length()] == '-');
         }
 
         const u8* p = list.begin();
@@ -5956,7 +6499,7 @@ namespace {
                 p++;
             }
 
-            if (p > start && StringView(start, p) == word) {
+            if (p > start && same(StringView(start, p), word)) {
                 return true;
             }
         }
@@ -5964,7 +6507,47 @@ namespace {
         return false;
     }
 
-    static bool matchCondition(Document& doc, Node* node, const Condition& condition) {
+    static bool matchFrom(Document& doc, Node* node, const Selector& selector, u32 index, const Node* scope, const Node* boundary);
+
+    // Whether a selector of a list matches the node.
+    static bool matchList(Document& doc, Node* node, const Condition& condition, const Node* scope, const Node* boundary) {
+        for (u32 k = 0; k < condition.listCount; k++) {
+            if (matchFrom(doc, node, condition.list[k], 0, scope, boundary)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Whether a relative selector of :has() matches an element its anchor
+    // reaches: a descendant, or a later sibling or one of its descendants.
+    static bool matchHas(Document& doc, Node* anchor, const Condition& condition, const Node* boundary) {
+        for (Node* node = nextNode(anchor, anchor); node; node = nextNode(node, anchor)) {
+            if (matchList(doc, node, condition, anchor, boundary)) {
+                return true;
+            }
+        }
+
+        for (Node* sibling = anchor->next; sibling; sibling = sibling->next) {
+            for (Node* node = sibling; node; node = nextNode(node, sibling)) {
+                if (matchList(doc, node, condition, anchor, boundary)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Whether An+B takes an index: a * n + b for some n of 0 or more.
+    static bool nthIndex(const Condition& condition, i64 index) {
+        i64 d = index - condition.b;
+
+        return condition.a == 0 ? d == 0 : d % condition.a == 0 && d / condition.a >= 0;
+    }
+
+    static bool matchCondition(Document& doc, Node* node, const Condition& condition, const Node* scope, const Node* boundary) {
         switch (condition.test) {
             case Test::Id:
                 return attribute(node, AtomId) == condition.name;
@@ -5984,11 +6567,38 @@ namespace {
                 return !node->next;
             case Test::OnlyChild:
                 return !node->prev && !node->next;
+            case Test::NthChild:
+            case Test::NthOfType: {
+                // A child's index among its siblings, of its type or that
+                // the list matches, from the first or the last.
+                bool typed = condition.test == Test::NthOfType;
+                i64 index = 1;
+
+                if (!typed && condition.listCount && !matchList(doc, node, condition, scope, boundary)) {
+                    return false;
+                }
+
+                for (Node* sibling = condition.last ? node->next : node->prev; sibling; sibling = condition.last ? sibling->next : sibling->prev) {
+                    index += typed ? sibling->name == node->name : (!condition.listCount || matchList(doc, sibling, condition, scope, boundary));
+                }
+
+                return nthIndex(condition, index);
+            }
             case Test::Root:
                 // An instance's nodes are never the root.
                 return node == doc.root;
+            case Test::Empty:
+                return !node->filled;
+            case Test::Scope:
+                return node == scope;
             case Test::Never:
                 return false;
+            case Test::Not:
+                return !matchList(doc, node, condition, scope, boundary);
+            case Test::Is:
+                return matchList(doc, node, condition, scope, boundary);
+            case Test::Has:
+                return matchHas(doc, node, condition, boundary);
             default:
                 break;
         }
@@ -6001,20 +6611,23 @@ namespace {
 
         StringView text = textOf(doc, value);
         StringView expected = condition.value;
+        auto same = [&](const u8* a, const u8* b, size_t length) {
+            return condition.caseless ? equalsIgnoreCase(StringView(a, a + length), StringView(b, b + length)) : memcmp(a, b, length) == 0;
+        };
 
         switch (condition.test) {
             case Test::Exists:
                 return true;
             case Test::Equals:
-                return text == expected;
+                return text.length() == expected.length() && same(text.data(), expected.data(), text.length());
             case Test::Includes:
-                return containsWord(text, expected, false);
+                return containsWord(text, expected, false, condition.caseless);
             case Test::Dash:
-                return containsWord(text, expected, true);
+                return containsWord(text, expected, true, condition.caseless);
             case Test::Prefix:
-                return !expected.empty() && text.length() >= expected.length() && memcmp(text.data(), expected.data(), expected.length()) == 0;
+                return !expected.empty() && text.length() >= expected.length() && same(text.data(), expected.data(), expected.length());
             case Test::Suffix:
-                return !expected.empty() && text.length() >= expected.length() && memcmp(text.end() - expected.length(), expected.data(), expected.length()) == 0;
+                return !expected.empty() && text.length() >= expected.length() && same(text.end() - expected.length(), expected.data(), expected.length());
             default:
                 // Test::Substring, the last test of a value.
                 if (expected.empty() || text.length() < expected.length()) {
@@ -6022,7 +6635,7 @@ namespace {
                 }
 
                 for (size_t i = 0; i + expected.length() <= text.length(); i++) {
-                    if (memcmp(text.data() + i, expected.data(), expected.length()) == 0) {
+                    if (same(text.data() + i, expected.data(), expected.length())) {
                         return true;
                     }
                 }
@@ -6031,25 +6644,13 @@ namespace {
         }
     }
 
-    static bool matchCompound(Document& doc, Node* node, const Compound& compound, const Node* boundary) {
+    static bool matchCompound(Document& doc, Node* node, const Compound& compound, const Node* scope, const Node* boundary) {
         if (compound.type && node->name != compound.type) {
             return false;
         }
 
         for (u32 i = 0; i < compound.count; i++) {
-            const Condition& condition = compound.conditions[i];
-
-            if (condition.test == Test::Not) {
-                for (u32 k = 0; k < condition.innerCount; k++) {
-                    if (matchCompound(doc, node, condition.inner[k], boundary)) {
-                        return false;
-                    }
-                }
-
-                continue;
-            }
-
-            if (!matchCondition(doc, node, condition)) {
+            if (!matchCondition(doc, node, compound.conditions[i], scope, boundary)) {
                 return false;
             }
         }
@@ -6057,8 +6658,8 @@ namespace {
         return true;
     }
 
-    static bool matchFrom(Document& doc, Node* node, const Selector& selector, u32 index, const Node* boundary) {
-        if (!matchCompound(doc, node, selector.compounds[index], boundary)) {
+    static bool matchFrom(Document& doc, Node* node, const Selector& selector, u32 index, const Node* scope, const Node* boundary) {
+        if (!matchCompound(doc, node, selector.compounds[index], scope, boundary)) {
             return false;
         }
 
@@ -6069,20 +6670,20 @@ namespace {
         switch (selector.compounds[index].combinator) {
             case Combinator::Descendant:
                 for (Node* up = node == boundary ? nullptr : node->parent; up; up = up == boundary ? nullptr : up->parent) {
-                    if (matchFrom(doc, up, selector, index + 1, boundary)) {
+                    if (matchFrom(doc, up, selector, index + 1, scope, boundary)) {
                         return true;
                     }
                 }
 
                 return false;
             case Combinator::Child:
-                return node != boundary && node->parent && matchFrom(doc, node->parent, selector, index + 1, boundary);
+                return node != boundary && node->parent && matchFrom(doc, node->parent, selector, index + 1, scope, boundary);
             case Combinator::Adjacent:
-                return node != boundary && node->prev && matchFrom(doc, node->prev, selector, index + 1, boundary);
+                return node != boundary && node->prev && matchFrom(doc, node->prev, selector, index + 1, scope, boundary);
             default:
                 // Combinator::Sibling: a compound before the last has a combinator.
                 for (Node* sibling = node == boundary ? nullptr : node->prev; sibling; sibling = sibling->prev) {
-                    if (matchFrom(doc, sibling, selector, index + 1, boundary)) {
+                    if (matchFrom(doc, sibling, selector, index + 1, scope, boundary)) {
                         return true;
                     }
                 }
@@ -6326,7 +6927,7 @@ namespace {
             bool matched = false;
 
             for (u32 s = 0; s < rule.selectorCount; s++) {
-                if (matchFrom(doc, node, rule.selectors[s], 0, boundary)) {
+                if (matchFrom(doc, node, rule.selectors[s], 0, nullptr, boundary)) {
                     matched = true;
 
                     if (rule.selectors[s].specificity > specificity) {
@@ -6360,6 +6961,7 @@ namespace {
             Buffer cleaned;
 
             stripComments(textOf(doc, inlineStyle), cleaned);
+            closeCss(cleaned);
             parseDeclarations(doc, keep(*doc.pool, cleaned.data(), cleaned.length()), declarations);
 
             for (u32 d = 0; d < declarations.length(); d++) {
@@ -6443,17 +7045,7 @@ namespace {
 
         for (u32 r = 0; r < doc.ruleCount; r++) {
             for (u32 k = 0; k < doc.rules[r].selectorCount; k++) {
-                const Selector& selector = doc.rules[r].selectors[k];
-
-                doc.structural = doc.structural || selector.count > 1;
-
-                for (u32 c = 0; c < selector.count; c++) {
-                    for (u32 d = 0; d < selector.compounds[c].count; d++) {
-                        Test test = selector.compounds[c].conditions[d].test;
-
-                        doc.structural = doc.structural || test == Test::Root || test == Test::FirstChild || test == Test::LastChild || test == Test::OnlyChild || test == Test::Not;
-                    }
-                }
+                doc.structural = doc.structural || doc.rules[r].selectors[k].structural;
             }
         }
 

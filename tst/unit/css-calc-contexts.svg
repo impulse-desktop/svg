@@ -3,7 +3,7 @@
 goes. In the first and last rows lime fills its black outline: transform
 functions, translate, scale (a percentage a number there), font-size,
 viewBox and points numbers, a percentage and a vw resolved at drawing,
-a basic shape, object-position with spaces inside calc(), a marker's
+a basic shape and a shape(), object-position with spaces inside calc(), a marker's
 orient, a CSS gradient's angle, a media query, but none in a transform
 attribute, whose grammar is SVG's, and a number from one is no unitless
 zero, so a transform, filter or gradient with calc(0) for an angle or a
@@ -51,6 +51,7 @@ an integer, a transfer slope. -->
 <rect x="44" y="66" width="12" height="4" fill="lime" style="filter: hue-rotate(calc(0)) invert(1)"/>
 <rect x="58" y="66" width="12" height="4" fill="lime" style="filter: blur(calc(0)) invert(1)"/>
 <rect x="72" y="66" width="12" height="4" fill="lime" style="mask-image: linear-gradient(calc(0), black 50%, transparent 50%)"/>
+<rect x="86" y="66" width="12" height="4" fill="lime" style="clip-path: shape(from calc(0% + 0px) 0, line to calc(50% + 6px) 0, line to 0 100%, close)"/>
 <style>@media (min-width: calc(10px * 2)) { .mq { fill: lime } }</style><rect class="mq" x="2" y="66" width="12" height="4" fill="red"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="9" y="2" width="10" height="6"/><rect x="28" y="4" width="4" height="12"/><rect x="42" y="2" width="8" height="6"/><rect x="56" y="5" width="8" height="6"/><rect x="68" y="2" width="8" height="6"/><rect x="80" y="2" width="8" height="6"/><rect x="92" y="2" width="12" height="6"/><rect x="92" y="18" width="12" height="3"/><rect x="2" y="50" width="6" height="6"/><polygon points="16,50 28,50 16,62"/><rect x="36" y="50" width="6" height="6"/><rect x="44" y="50" width="5" height="6"/><circle cx="58" cy="56" r="6"/><rect x="72" y="50" width="4" height="2"/><rect x="84" y="50" width="2" height="6"/><rect x="92" y="50" width="6" height="12"/><rect x="16" y="66" width="12" height="4"/><rect x="30" y="66" width="12" height="4"/><rect x="44" y="66" width="12" height="4"/><rect x="58" y="66" width="12" height="4"/><rect x="72" y="66" width="12" height="4"/><rect x="2" y="66" width="12" height="4"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="9" y="2" width="10" height="6"/><rect x="28" y="4" width="4" height="12"/><rect x="42" y="2" width="8" height="6"/><rect x="56" y="5" width="8" height="6"/><rect x="68" y="2" width="8" height="6"/><rect x="80" y="2" width="8" height="6"/><rect x="92" y="2" width="12" height="6"/><rect x="92" y="18" width="12" height="3"/><rect x="2" y="50" width="6" height="6"/><polygon points="16,50 28,50 16,62"/><rect x="36" y="50" width="6" height="6"/><rect x="44" y="50" width="5" height="6"/><circle cx="58" cy="56" r="6"/><rect x="72" y="50" width="4" height="2"/><rect x="84" y="50" width="2" height="6"/><rect x="92" y="50" width="6" height="12"/><rect x="16" y="66" width="12" height="4"/><rect x="30" y="66" width="12" height="4"/><rect x="44" y="66" width="12" height="4"/><rect x="58" y="66" width="12" height="4"/><rect x="72" y="66" width="12" height="4"/><polygon points="86,66 98,66 86,70"/><rect x="2" y="66" width="12" height="4"/></g>
 </svg>

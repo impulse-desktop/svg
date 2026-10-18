@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="34">
+<!-- Each lime square fills its black outline, and nothing red shows. CSS escapes, of css-syntax-3: a backslash before a character not a hex digit nor a newline is that character, before one to six hex digits and a white space after them the code point, U+FFFD for zero, a surrogate or one past the last; a backslash before a newline in a string is nothing, at the end of an identifier U+FFFD. They go in class, id, type, attribute and pseudo-class names, attribute values quoted or not, property names and values, a style attribute, and presentation attributes, which take comments too. Outside strings and urls a value has its escapes undone before its grammar reads it, so an escaped parenthesis is one (D32). -->
+<rect width="66" height="34" fill="white"/>
+<style><![CDATA[
+.c0 > .a\:b { fill: lime }
+.c1 > .\61 b { fill: lime }
+.c2 > #\31 23-esc { fill: lime }
+.c3 > \72 ect { fill: lime }
+.c4 > [d\61 ta-x] { fill: lime }
+.c5 > [data-x="\61 b"] { fill: lime }
+.c6 > [data-x=\61 b] { fill: lime }
+.c7 > .t:fir\st-child { fill: lime }
+.c8 > .t { f\69ll: lime }
+.c9 > .t { fill: \6c ime }
+.c10 > .t { fill: l\ime }
+.c11 > .x\61y { fill: lime }
+.c12 > .\000061 b { fill: lime }
+.c13 > .z\0 { fill: lime }
+.c14 > .s\d800 { fill: lime }
+.c15 > .o\110000 { fill: lime }
+.c16 > .\--x { fill: lime }
+.c17 > .\31 0 { fill: lime }
+.c18 > [data-x="a\
+b"] { fill: lime }
+.c19 > [data-x="a\"b"] { fill: lime }
+]]></style>
+<g class="c0" transform="translate(2 2)"><rect class="a:b" width="6" height="6" fill="red"/></g>
+<g class="c1" transform="translate(10 2)"><rect class="ab" width="6" height="6" fill="red"/></g>
+<g class="c2" transform="translate(18 2)"><rect id="123-esc" width="6" height="6" fill="red"/></g>
+<g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c4" transform="translate(34 2)"><rect data-x="" width="6" height="6" fill="red"/></g>
+<g class="c5" transform="translate(42 2)"><rect data-x="ab" width="6" height="6" fill="red"/></g>
+<g class="c6" transform="translate(50 2)"><rect data-x="ab" width="6" height="6" fill="red"/></g>
+<g class="c7" transform="translate(58 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c8" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c9" transform="translate(10 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c10" transform="translate(18 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c11" transform="translate(26 10)"><rect class="xay" width="6" height="6" fill="red"/></g>
+<g class="c12" transform="translate(34 10)"><rect class="ab" width="6" height="6" fill="red"/></g>
+<g class="c13" transform="translate(42 10)"><rect class="z&#xFFFD;" width="6" height="6" fill="red"/></g>
+<g class="c14" transform="translate(50 10)"><rect class="s&#xFFFD;" width="6" height="6" fill="red"/></g>
+<g class="c15" transform="translate(58 10)"><rect class="o&#xFFFD;" width="6" height="6" fill="red"/></g>
+<g class="c16" transform="translate(2 18)"><rect class="--x" width="6" height="6" fill="red"/></g>
+<g class="c17" transform="translate(10 18)"><rect class="10" width="6" height="6" fill="red"/></g>
+<g class="c18" transform="translate(18 18)"><rect data-x="ab" width="6" height="6" fill="red"/></g>
+<g class="c19" transform="translate(26 18)"><rect data-x='a"b' width="6" height="6" fill="red"/></g>
+<g class="c20" transform="translate(34 18)"><rect class="t" width="6" height="6" fill="red" style="f\69ll: \6c ime"/></g>
+<g class="c21" transform="translate(42 18)"><g fill="lime"><rect class="t" width="6" height="6" style="fill: red\"/></g></g>
+<g class="c22" transform="translate(50 18)"><rect width="6" height="6" fill="red"/><rect width="3" height="6" fill="lime"/><rect x="3" width="3\px/**/" height="6" fill="lime"/></g>
+<g class="c23" transform="translate(58 18)"><rect class="t" width="6" height="6" fill="\6c ime"/></g>
+<g class="c24" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="rgb\28 0 255 0\29"/></g>
+<g class="c25" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="/* c */lime/**/"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/></g>
+</svg>
