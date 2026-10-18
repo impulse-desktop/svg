@@ -1,0 +1,48 @@
+# SVG 2, Chapter 16: Linking
+
+## Invalid and missing URL references: link-invalid-targets
+
+- [ ] svg2/linking.md#TermCircularReference: a URL reference that directly or indirectly references itself is an invalid circular reference.
+- [ ] svg2/linking.md#TermInvalidReference: a reference is invalid if it is circular, errors while processing, cannot be resolved, or targets an element type inappropriate for where it is used.
+- [ ] svg2/linking.md#TermInvalidReference: an invalid reference is an error only if the referencing attribute or property defines no fallback behavior for it.
+- [ ] svg2/linking.md#processingURL-target: a URL with no fragment targets the root element of the referenced document.
+- [ ] svg2/linking.md#processingURL-target: a fragment matching no element in the referenced document (always immutable for a static renderer) is an invalid reference.
+- [ ] svg2/linking.md#processingURL-validity: an href on linearGradient must target another linearGradient or a radialGradient element, else the reference is invalid.
+- [ ] svg2/linking.md#processingURL-validity: an href on pattern must target another pattern element, else the reference is invalid.
+- [ ] svg2/linking.md#processingURL-validity: an href on radialGradient must target a linearGradient or another radialGradient element, else the reference is invalid.
+- [ ] svg2/linking.md#processingURL-validity: an href on use must target an SVG-namespaced element, else the reference is invalid.
+- [ ] svg2/linking.md#processingURL-validity: marker, marker-start, marker-mid and marker-end must reference a marker element, else the reference is invalid.
+- [ ] svg2/linking.md#processingURL-validity: for a property that may target either an element or an image file (e.g. mask), a target of the wrong element type is instead treated as a reference to the whole file as an image, with any fragment used as for other images.
+- [ ] svg2/linking.md#processingURL-validity: in all other cases, a reference whose target element or document type is not allowed for that reference is an invalid reference.
+
+## Structural href attribute: xml-href (exists)
+
+- [ ] svg2/linking.md#linkRefAttrsEmbed: the value of an href attribute must be a URL reference, not a CSS url() function value.
+- [ ] svg2/linking.md#URLforms: URL is not a valid value for presentation attributes; no non-presentation attribute allows the <url> (url() function) syntax.
+- [ ] svg2/linking.md#XLinkHrefAttribute: when both the unprefixed href and the xlink:href attribute are present, the unprefixed href's value is used and xlink:href is ignored.
+- [ ] svg2/linking.md#processingURL: the legacy xlink:href attribute is honored only when the element has no unprefixed href attribute at all.
+
+## The 'a' element as a generic container: struct-a-container
+
+- [ ] svg2/linking.md#AElement: the 'a' element is a container element and a renderable element.
+- [ ] svg2/linking.md#AElement: 'a' may contain any element its parent may contain except another 'a'; if the parent is a switch, use the content model of the nearest ancestor that isn't a switch.
+- [ ] svg2/linking.md#Links: an 'a' element forms a link only if it has an href or xlink:href attribute; without one it is an inactive placeholder, rendered the same as if active.
+- [ ] svg2/linking.md#Links: an 'a' element nested inside another hyperlink element (any namespace) has its href ignored and is inactive, but must still be rendered as a generic container element.
+
+## SVG view selection by fragment identifier: image-view (exists)
+
+- [ ] svg2/linking.md#SVGFragmentIdentifiersDefinitions: with no SVG fragment identifier, the initial view uses the outermost svg element's own view attributes.
+- [ ] svg2/linking.md#SVGFragmentIdentifiersDefinitions: a bare-name fragment addressing a 'view' element displays the root svg element, with that view's viewBox and preserveAspectRatio overriding the root's.
+- [ ] svg2/linking.md#SVGFragmentIdentifiersDefinitions: svgView() parameters override the corresponding root svg attributes/property; a parameter the svgView() spec omits leaves the root's own value, not a reset.
+- [ ] svg2/linking.md#SVGFragmentIdentifiersDefinitions: svgView() applies its viewBox parameter before its transform parameter.
+- [ ] svg2/linking.md#SVGFragmentIdentifiersDefinitions: each of viewBox(), preserveAspectRatio() and transform() occurs at most once in an svgView() spec, in any order; its transform parameter accepts no transform-origin or perspective.
+- [ ] svg2/linking.md#MediaFragments: a spatial (xywh=) media fragment overrides the outermost svg element's viewBox with its x,y,width,height, leaving its other view attributes as the root's.
+- [ ] svg2/linking.md#SVGFragmentIdentifiersDefinitions: a percent: spatial media fragment resolves its values against the referenced SVG's resolved width and height.
+- [ ] svg2/linking.md#SVGFragmentIdentifiersDefinitions: a fragment identifier is at most one of a bare name, an svgView() spec or a spatial segment (optionally combined with a time segment).
+
+## Notes
+
+- svg2/linking.md#issue18: the spec marks invalid nested-link rendering itself as "at risk", likely to be revised together with unknown-element rendering rules.
+- svg2/linking.md#processingURL-absolute: this text says xml:base affects relative URL resolution in XML documents, but svg2/changes.md records that SVG 2 removed the xml:base attribute — contradicts itself.
+- svg2/linking.md#SVGFragmentIdentifiersDefinitions: a bare-name fragment addressing a non-'view' element has no defined effect on the initial view in this draft (SVG 1.1 scrolled/zoomed to the element); ambiguous in a way that changes pixels.
+- svg2/linking.md#MediaFragments: a percent: xywh fragment falls back to CSS replaced-element width/ratio rules when the host can't resolve the SVG's size — a host-layout algorithm outside this renderer's API, which has no DPR/host box.

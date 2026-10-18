@@ -36,8 +36,8 @@ out, with the decision in `decisions.md` named at the end of the line.
 1. A batch is a section or a chapter: its statements are written into
    `statements/`.
 2. Every feature gets a unit of its own under `tst/unit`, a small drawing
-   of what its statements say, named in its heading; a unit drawn before
-   serves if it draws them all.
+   of what its statements say, named in its heading; units drawn before,
+   marked `(exists)`, serve if they draw them all.
 3. The drawings are looked at against the text; a wrong one is fixed in
    `svg.cpp`.
 4. Speed is measured over the corpus before and after a batch: it may cost
