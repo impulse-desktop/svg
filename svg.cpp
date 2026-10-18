@@ -2357,14 +2357,15 @@ namespace {
         return Matrix{x, 0.f, 0.f, y, 0.f, 0.f};
     }
 
+    // SVG 2 makes a CTM in doubles and keeps it in singles.
     static Matrix multiply(const Matrix& m, const Matrix& n) {
         return Matrix{
-            m.a * n.a + m.c * n.b,
-            m.b * n.a + m.d * n.b,
-            m.a * n.c + m.c * n.d,
-            m.b * n.c + m.d * n.d,
-            m.a * n.e + m.c * n.f + m.e,
-            m.b * n.e + m.d * n.f + m.f,
+            (float)((double)m.a * n.a + (double)m.c * n.b),
+            (float)((double)m.b * n.a + (double)m.d * n.b),
+            (float)((double)m.a * n.c + (double)m.c * n.d),
+            (float)((double)m.b * n.c + (double)m.d * n.d),
+            (float)((double)m.a * n.e + (double)m.c * n.f + m.e),
+            (float)((double)m.b * n.e + (double)m.d * n.f + m.f),
         };
     }
 
@@ -2400,7 +2401,7 @@ namespace {
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-                out.m[r * 3 + c] = p.m[r * 3] * q.m[c] + p.m[r * 3 + 1] * q.m[3 + c] + p.m[r * 3 + 2] * q.m[6 + c];
+                out.m[r * 3 + c] = (float)((double)p.m[r * 3] * q.m[c] + (double)p.m[r * 3 + 1] * q.m[3 + c] + (double)p.m[r * 3 + 2] * q.m[6 + c]);
             }
         }
 
@@ -6885,7 +6886,7 @@ namespace {
 
             for (int r = 0; r < 4; r++) {
                 for (int c = 0; c < 4; c++) {
-                    t[r][c] = m4[r][0] * n[0][c] + m4[r][1] * n[1][c] + m4[r][2] * n[2][c] + m4[r][3] * n[3][c];
+                    t[r][c] = (float)((double)m4[r][0] * n[0][c] + (double)m4[r][1] * n[1][c] + (double)m4[r][2] * n[2][c] + (double)m4[r][3] * n[3][c]);
                 }
             }
 
@@ -7400,13 +7401,10 @@ namespace {
         }
 
         float s = slice ? maxf(sx, sy) : minf(sx, sy);
-        float tx = -viewBox.x0 * s;
-        float ty = -viewBox.y0 * s;
+        double tx = -(double)viewBox.x0 * s + (width - (double)vw * s) * alignX * 0.5;
+        double ty = -(double)viewBox.y0 * s + (height - (double)vh * s) * alignY * 0.5;
 
-        tx += (width - vw * s) * alignX * 0.5f;
-        ty += (height - vh * s) * alignY * 0.5f;
-
-        return Matrix{s, 0.f, 0.f, s, tx, ty};
+        return Matrix{s, 0.f, 0.f, s, (float)tx, (float)ty};
     }
 
     static void moveTo(Path& path, Point p) {
