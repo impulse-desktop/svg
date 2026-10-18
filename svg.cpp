@@ -1209,6 +1209,8 @@ namespace {
     struct Projective {
         float m[9];
         bool on;
+        // Made by a 3D transform function, affine or not.
+        bool solid;
     };
 
     struct Box {
@@ -2421,11 +2423,11 @@ namespace {
     }
 
     static Projective projectiveOf(const Matrix& m) {
-        return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true};
+        return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true, false};
     }
 
     static Projective compose(const Projective& p, const Projective& q) {
-        Projective out{{}, true};
+        Projective out{{}, true, false};
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
@@ -6939,6 +6941,7 @@ namespace {
 
         if (perspective) {
             perspective->on = false;
+            perspective->solid = false;
         }
 
         if (equalsIgnoreCase(trim(text), SV("none"))) {
@@ -7183,7 +7186,11 @@ namespace {
             result = Matrix{m4[0][0] / w, m4[1][0] / w, m4[0][1] / w, m4[1][1] / w, m4[0][3] / w, m4[1][3] / w};
 
             if (perspective && (m4[3][0] != 0.f || m4[3][1] != 0.f || !(m4[3][3] > 0.f))) {
-                *perspective = Projective{{m4[0][0], m4[0][1], m4[0][3], m4[1][0], m4[1][1], m4[1][3], m4[3][0], m4[3][1], m4[3][3]}, true};
+                *perspective = Projective{{m4[0][0], m4[0][1], m4[0][3], m4[1][0], m4[1][1], m4[1][3], m4[3][0], m4[3][1], m4[3][3]}, true, true};
+            }
+
+            if (perspective) {
+                perspective->solid = true;
             }
         }
 
@@ -16143,11 +16150,13 @@ namespace {
     }
 
     // An element's transform in perspective, about its anchor; false for an
-    // affine one.
+    // affine one, which may still be solid, of 3D functions.
     static bool boxProjective(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Projective& out) {
         u32 value = attribute(node, AtomTransform);
         Matrix m;
         Point o;
+
+        out.solid = false;
 
         if (!value) {
             return false;
@@ -16738,7 +16747,7 @@ namespace {
 
         // A transform in perspective draws the element on a layer of its
         // own, where the element is again, its transform the layer's.
-        Projective perspective;
+        Projective perspective{{}, false, false};
         bool flattened = l.flattened == node;
 
         l.flattened = nullptr;
@@ -16823,7 +16832,9 @@ namespace {
 
         // A shape lays its fills over in linear light itself; an image is
         // drawn apart to be.
-        bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f || style.blend || style.isolate || (op.linear && node->name == AtomImage);
+        // A 3D transform isolates, as a layer, though it is affine; a 2D
+        // one does not (compositing-1.md, csscompositingrules_SVG).
+        bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f || style.blend || style.isolate || perspective.solid || (op.linear && node->name == AtomImage);
 
         op.backgroundOnly = op.newBackground && !layer;
         layer = layer || op.newBackground;

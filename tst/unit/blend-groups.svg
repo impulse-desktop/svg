@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="78" height="30">
+<!-- Each test runs on into the reference under it without a step. The
+source multiplies over the blue backdrop: inside a plain group, and one
+with a 2D transform, it still meets the backdrop; isolation isolate,
+opacity, a filter, a mask, a blend mode, and a 3D transform though it
+moves nothing, each isolate the group, so the source meets a transparent
+backdrop and the group then composites, at half opacity, or screened;
+grouping translucent elements changes nothing, the reference the same
+three ungrouped. -->
+<defs><filter id="id" x="0" y="0" width="1" height="1"><feOffset/></filter><mask id="w"><rect width="78" height="30" fill="white"/></mask></defs>
+<rect x="2" y="2" width="6" height="6" fill="#3399e6"/><g><rect x="2" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="2" y="8" width="6" height="6" fill="#292e17"/>
+<rect x="10" y="2" width="6" height="6" fill="#3399e6"/><g transform="translate(1 0)"><rect x="9" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="10" y="8" width="6" height="6" fill="#292e17"/>
+<rect x="18" y="2" width="6" height="6" fill="#3399e6"/><g style="isolation: isolate"><rect x="18" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="18" y="8" width="6" height="6" fill="#cc4d1a"/>
+<rect x="26" y="2" width="6" height="6" fill="#3399e6"/><g opacity=".5"><rect x="26" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="26" y="8" width="6" height="6" fill="#807380"/>
+<rect x="34" y="2" width="6" height="6" fill="#3399e6"/><g filter="url(#id)"><rect x="34" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="34" y="8" width="6" height="6" fill="#cc4d1a"/>
+<rect x="42" y="2" width="6" height="6" fill="#3399e6"/><g mask="url(#w)"><rect x="42" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="42" y="8" width="6" height="6" fill="#cc4d1a"/>
+<rect x="50" y="2" width="6" height="6" fill="#3399e6"/><g style="mix-blend-mode: screen"><rect x="50" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="50" y="8" width="6" height="6" fill="#d6b8e9"/>
+<rect x="58" y="2" width="6" height="6" fill="#3399e6"/><g style="transform: translateZ(0)"><rect x="58" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="58" y="8" width="6" height="6" fill="#cc4d1a"/>
+<rect x="66" y="2" width="6" height="6" fill="#3399e6"/><g style="transform: rotateY(0deg)"><rect x="66" y="2" width="6" height="6" fill="#cc4d1a" style="mix-blend-mode: multiply"/></g>
+<rect x="66" y="8" width="6" height="6" fill="#cc4d1a"/>
+<rect x="2" y="16" width="12" height="6" fill="#c31" fill-opacity=".6"/><g><rect x="6" y="16" width="12" height="6" fill="#3a8" fill-opacity=".5"/><g><rect x="10" y="16" width="12" height="6" fill="#25e" fill-opacity=".7"/></g></g>
+<rect x="2" y="22" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="6" y="22" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="10" y="22" width="12" height="6" fill="#25e" fill-opacity=".7"/>
+<g><rect x="30" y="16" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="34" y="16" width="12" height="6" fill="#3a8" fill-opacity=".5"/></g><rect x="38" y="16" width="12" height="6" fill="#25e" fill-opacity=".7"/>
+<rect x="30" y="22" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="34" y="22" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="38" y="22" width="12" height="6" fill="#25e" fill-opacity=".7"/>
+</svg>
