@@ -23,6 +23,11 @@
 .c18 > [data-x="a\
 b"] { fill: lime }
 .c19 > [data-x="a\"b"] { fill: lime }
+.c20 > .t\
+, .c20 > * { fill: red } .c20 > .t { fill: lime }
+.c21 > [data-x="a
+], .c21 > * { fill: red } .c21 > .t { fill: lime }
+.c22 > .-, .c22 > * { fill: red } .c22 > .t { fill: lime }
 ]]></style>
 <g class="c0" transform="translate(2 2)"><rect class="a:b" width="6" height="6" fill="red"/></g>
 <g class="c1" transform="translate(10 2)"><rect class="ab" width="6" height="6" fill="red"/></g>
@@ -44,11 +49,14 @@ b"] { fill: lime }
 <g class="c17" transform="translate(10 18)"><rect class="10" width="6" height="6" fill="red"/></g>
 <g class="c18" transform="translate(18 18)"><rect data-x="ab" width="6" height="6" fill="red"/></g>
 <g class="c19" transform="translate(26 18)"><rect data-x='a"b' width="6" height="6" fill="red"/></g>
-<g class="c20" transform="translate(34 18)"><rect class="t" width="6" height="6" fill="red" style="f\69ll: \6c ime"/></g>
-<g class="c21" transform="translate(42 18)"><g fill="lime"><rect class="t" width="6" height="6" style="fill: red\"/></g></g>
-<g class="c22" transform="translate(50 18)"><rect width="6" height="6" fill="red"/><rect width="3" height="6" fill="lime"/><rect x="3" width="3\px/**/" height="6" fill="lime"/></g>
-<g class="c23" transform="translate(58 18)"><rect class="t" width="6" height="6" fill="\6c ime"/></g>
-<g class="c24" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="rgb\28 0 255 0\29"/></g>
-<g class="c25" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="/* c */lime/**/"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/></g>
+<g class="c20" transform="translate(34 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c21" transform="translate(42 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c22" transform="translate(50 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c23" transform="translate(58 18)"><rect class="t" width="6" height="6" fill="red" style="f\69ll: \6c ime"/></g>
+<g class="c24" transform="translate(2 26)"><g fill="lime"><rect class="t" width="6" height="6" style="fill: red\"/></g></g>
+<g class="c25" transform="translate(10 26)"><rect width="6" height="6" fill="red"/><rect width="3" height="6" fill="lime"/><rect x="3" width="3\px/**/" height="6" fill="lime"/></g>
+<g class="c26" transform="translate(18 26)"><rect class="t" width="6" height="6" fill="\6c ime"/></g>
+<g class="c27" transform="translate(26 26)"><rect class="t" width="6" height="6" fill="rgb\28 0 255 0\29"/></g>
+<g class="c28" transform="translate(34 26)"><rect class="t" width="6" height="6" fill="/* c */lime/**/"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="34" y="26" width="6" height="6"/></g>
 </svg>

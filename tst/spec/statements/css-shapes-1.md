@@ -2,47 +2,47 @@
 
 ## Basic shape rectangles: inset/xywh/rect: clip-path-functions (exists)
 
-- [ ] css-shapes-1.md#funcdef-basic-shape-inset: inset() takes 1-4 length-percentages for the top/right/bottom/left insets from the reference box's edges; a missing 2nd/3rd value defaults from the 1st, a missing 4th from the 2nd, as in the margin shorthand
-- [ ] css-shapes-1.md#funcdef-basic-shape-inset: insets on opposite sides that sum to more than the reference box's dimension are proportionally reduced to sum to 100%
-- [ ] css-shapes-1.md#funcdef-basic-shape-xywh: xywh(x y w h) gives a rectangle offset x,y from the reference box's top-left corner, with the given width and height
-- [ ] css-shapes-1.md#funcdef-basic-shape-rect: rect(top right bottom left) gives each edge as an inset from the reference box's top edge (1st/3rd values) or left edge (2nd/4th values); auto is 0% for the top/left values and 100% for the right/bottom values
-- [ ] css-shapes-1.md#funcdef-basic-shape-rect: in rect(), the right value is floored by the left value and the bottom value is floored by the top value, so the edges never cross
-- [ ] css-shapes-1.md#basic-shape-computed-values: inset(), rect() and xywh() all compute to an equivalent inset() function
-- [ ] css-shapes-1.md#funcdef-basic-shape-inset: inset()/xywh()/rect() each accept an optional "round <border-radius>" to round the rectangle's corners
+- [x] css-shapes-1.md#funcdef-basic-shape-inset: inset() takes 1-4 length-percentages for the top/right/bottom/left insets from the reference box's edges; a missing 2nd/3rd value defaults from the 1st, a missing 4th from the 2nd, as in the margin shorthand
+- [x] css-shapes-1.md#funcdef-basic-shape-inset: insets on opposite sides that sum to more than the reference box's dimension are proportionally reduced to sum to 100%
+- [x] css-shapes-1.md#funcdef-basic-shape-xywh: xywh(x y w h) gives a rectangle offset x,y from the reference box's top-left corner, with the given width and height
+- [x] css-shapes-1.md#funcdef-basic-shape-rect: rect(top right bottom left) gives each edge as an inset from the reference box's top edge (1st/3rd values) or left edge (2nd/4th values); auto is 0% for the top/left values and 100% for the right/bottom values
+- [x] css-shapes-1.md#funcdef-basic-shape-rect: in rect(), the right value is floored by the left value and the bottom value is floored by the top value, so the edges never cross
+- [x] css-shapes-1.md#basic-shape-computed-values: inset(), rect() and xywh() all compute to an equivalent inset() function
+- [x] css-shapes-1.md#funcdef-basic-shape-inset: inset()/xywh()/rect() each accept an optional "round <border-radius>" to round the rectangle's corners
 
-## Basic shapes: circle/ellipse/polygon: clip-path-boxes (exists)
+## Basic shapes: circle/ellipse/polygon: clip-path-polygon-round, clip-path-boxes (exists)
 
-- [ ] css-shapes-1.md#funcdef-basic-shape-circle: circle()'s radial-size argument gives the radius, resolved against the reference box rather than a gradient box; two length-percentage values are invalid; an omitted radius defaults to closest-side
-- [ ] css-shapes-1.md#funcdef-basic-shape-circle: a single percentage radius for circle() resolves against the reference box's direction-agnostic size (css-shapes-1.md#direction-agnostic-size: the box diagonal's length divided by sqrt(2), equal to width/height for a square box)
-- [ ] css-shapes-1.md#funcdef-basic-shape-circle: the position argument gives the shape's center, defaulting to center if omitted; css-shapes-1.md#funcdef-basic-shape-ellipse: likewise for ellipse()
-- [ ] css-shapes-1.md#funcdef-basic-shape-ellipse: ellipse()'s radial-size gives the horizontal and vertical radii, each resolved against the reference box; an omitted radius defaults to closest-side
-- [ ] css-shapes-1.md#funcdef-basic-shape-polygon: polygon()'s optional fill-rule defaults to nonzero; each length-percentage pair gives a vertex as an offset from the reference box's top-left; the UA closes the polygon by joining the last vertex to the first
-- [ ] css-shapes-1.md#funcdef-basic-shape-polygon: an optional "round <length>" after fill-rule rounds every vertex with a circle tangent to both adjacent sides, clamped per vertex to at most half of either adjacent segment
+- [x] css-shapes-1.md#funcdef-basic-shape-circle: circle()'s radial-size argument gives the radius, resolved against the reference box rather than a gradient box; two length-percentage values are invalid; an omitted radius defaults to closest-side
+- [x] css-shapes-1.md#funcdef-basic-shape-circle: a single percentage radius for circle() resolves against the reference box's direction-agnostic size (css-shapes-1.md#direction-agnostic-size: the box diagonal's length divided by sqrt(2), equal to width/height for a square box)
+- [x] css-shapes-1.md#funcdef-basic-shape-circle: the position argument gives the shape's center, defaulting to center if omitted; css-shapes-1.md#funcdef-basic-shape-ellipse: likewise for ellipse()
+- [x] css-shapes-1.md#funcdef-basic-shape-ellipse: ellipse()'s radial-size gives the horizontal and vertical radii, each resolved against the reference box; an omitted radius defaults to closest-side
+- [x] css-shapes-1.md#funcdef-basic-shape-polygon: polygon()'s optional fill-rule defaults to nonzero; each length-percentage pair gives a vertex as an offset from the reference box's top-left; the UA closes the polygon by joining the last vertex to the first
+- [x] css-shapes-1.md#funcdef-basic-shape-polygon: an optional "round <length>" after fill-rule rounds every vertex with a circle tangent to both adjacent sides, clamped per vertex to at most half of either adjacent segment
 
 ## shape(): basic commands: clip-path-shape (exists)
 
-- [ ] css-shapes-1.md#shape-function: shape() takes an optional fill-rule, then "from <position>" for the starting point, then a comma-separated list of shape-commands; it is a superset of path() using CSS syntax (units, calc(), custom properties) instead of an SVG path string
-- [ ] css-shapes-1.md#typedef-shape-command-end-point: each command's end point is given either "to <position>" (absolute, from the reference box's top-left) or "by <coordinate-pair>" (relative to the command's starting point)
-- [ ] css-shapes-1.md#typedef-shape-move-command: move draws nothing and starts a new subpath; css-shapes-1.md#typedef-shape-line-command: line draws a straight line to its end point
-- [ ] css-shapes-1.md#typedef-shape-horizontal-line-command: hline moves only the horizontal coordinate, keeping the vertical one from the start point, with "to" accepting left/center/right/x-start/x-end; css-shapes-1.md#typedef-shape-vertical-line-command: vline does likewise for the vertical coordinate with top/center/bottom/y-start/y-end
-- [ ] css-shapes-1.md#typedef-shape-curve-command: curve draws a quadratic Bezier with one control point, or a cubic Bezier with two
-- [ ] css-shapes-1.md#typedef-shape-smooth-command: smooth draws a smooth Bezier whose first control point is the reflection of the previous curve's last control point about the start point, or the start point itself if the previous command was not a curve
-- [ ] css-shapes-1.md#typedef-shape-relative-control-point: a control point's coordinate-pair is relative to the segment's start by default, or to its end point or the reference box's origin when "from end" or "from origin" is given
-- [ ] css-shapes-1.md#valdef-shape-close: close adds a closepath, equivalent to a line back to the subpath's start, except its join is rendered as a closed join rather than a cap when stroked
-- [ ] css-shapes-1.md#typedef-shape-arc-command: arc draws an elliptical arc to its end point; the required "of" radius (one value resolved against the direction-agnostic size for both axes, or two for horizontal/vertical) and the optional sweep (cw/ccw, default ccw), size (large/small, default small) and rotate (default 0deg, positive clockwise) select among the 4 possible arcs
-- [ ] css-shapes-1.md#typedef-shape-arc-command: arc reuses SVG's elliptical-arc error handling: identical endpoints draw nothing, a zero radius degrades to a line, a negative radius uses its absolute value, and radii too small to connect the endpoints are scaled up uniformly until they do
+- [x] css-shapes-1.md#shape-function: shape() takes an optional fill-rule, then "from <position>" for the starting point, then a comma-separated list of shape-commands; it is a superset of path() using CSS syntax (units, calc(), custom properties) instead of an SVG path string
+- [x] css-shapes-1.md#typedef-shape-command-end-point: each command's end point is given either "to <position>" (absolute, from the reference box's top-left) or "by <coordinate-pair>" (relative to the command's starting point)
+- [x] css-shapes-1.md#typedef-shape-move-command: move draws nothing and starts a new subpath; css-shapes-1.md#typedef-shape-line-command: line draws a straight line to its end point
+- [x] css-shapes-1.md#typedef-shape-horizontal-line-command: hline moves only the horizontal coordinate, keeping the vertical one from the start point, with "to" accepting left/center/right/x-start/x-end; css-shapes-1.md#typedef-shape-vertical-line-command: vline does likewise for the vertical coordinate with top/center/bottom/y-start/y-end
+- [x] css-shapes-1.md#typedef-shape-curve-command: curve draws a quadratic Bezier with one control point, or a cubic Bezier with two
+- [x] css-shapes-1.md#typedef-shape-smooth-command: smooth draws a smooth Bezier whose first control point is the reflection of the previous curve's last control point about the start point, or the start point itself if the previous command was not a curve
+- [x] css-shapes-1.md#typedef-shape-relative-control-point: a control point's coordinate-pair is relative to the segment's start by default, or to its end point or the reference box's origin when "from end" or "from origin" is given
+- [x] css-shapes-1.md#valdef-shape-close: close adds a closepath, equivalent to a line back to the subpath's start, except its join is rendered as a closed join rather than a cap when stroked
+- [x] css-shapes-1.md#typedef-shape-arc-command: arc draws an elliptical arc to its end point; the required "of" radius (one value resolved against the direction-agnostic size for both axes, or two for horizontal/vertical) and the optional sweep (cw/ccw, default ccw), size (large/small, default small) and rotate (default 0deg, positive clockwise) select among the 4 possible arcs
+- [x] css-shapes-1.md#typedef-shape-arc-command: arc reuses SVG's elliptical-arc error handling: identical endpoints draw nothing, a zero radius degrades to a line, a negative radius uses its absolute value, and radii too small to connect the endpoints are scaled up uniformly until they do
 
-## path() and basic-shape-rect edge cases: clip-path-syntax-edges (exists)
+## path() and basic-shape-rect edge cases: clip-path-path-validity, clip-path-syntax-edges (exists)
 
-- [ ] css-shapes-1.md#funcdef-basic-shape-path: path()'s optional fill-rule defaults to nonzero, except in a context (such as SVG shapes) where fill-rule is relevant, in which case an omitted value uses the computed fill-rule property's value
-- [ ] css-shapes-1.md#funcdef-basic-shape-path: path()'s string must be a valid SVG path data string; a non-conforming string, or one that parses to an empty path, makes the whole path() invalid
-- [ ] css-shapes-1.md#funcdef-basic-shape-path: for a property requiring a closed loop (such as clip-path), the UA appends an implicit closepath to a path() string that lacks one
-- [ ] css-shapes-1.md#funcdef-basic-shape-rect: rect()'s auto is 0% for the top/left edges and 100% for the right/bottom edges
+- [x] css-shapes-1.md#funcdef-basic-shape-path: path()'s optional fill-rule defaults to nonzero, except in a context (such as SVG shapes) where fill-rule is relevant, in which case an omitted value uses the computed fill-rule property's value
+- [x] css-shapes-1.md#funcdef-basic-shape-path: path()'s string must be a valid SVG path data string; a non-conforming string, or one that parses to an empty path, makes the whole path() invalid
+- [x] css-shapes-1.md#funcdef-basic-shape-path: for a property requiring a closed loop (such as clip-path), the UA appends an implicit closepath to a path() string that lacks one
+- [x] css-shapes-1.md#funcdef-basic-shape-rect: rect()'s auto is 0% for the top/left edges and 100% for the right/bottom edges
 
 ## half-border-box: clip-path-half-border (exists)
 
-- [ ] css-shapes-1.md#valdef-shape-box-half-border-box: half-border-box is the box exactly midway between the padding-box and the border-box (for SVG, midway between fill-box and stroke-box)
-- [ ] css-shapes-1.md#typedef-shape-box: <shape-box> extends <visual-box> with margin-box and half-border-box, for properties such as clip-path that accept this type
+- [x] css-shapes-1.md#valdef-shape-box-half-border-box: half-border-box is the box exactly midway between the padding-box and the border-box (for SVG, midway between fill-box and stroke-box)
+- [x] css-shapes-1.md#typedef-shape-box: <shape-box> extends <visual-box> with margin-box and half-border-box, for properties such as clip-path that accept this type
 
 ## Notes
 

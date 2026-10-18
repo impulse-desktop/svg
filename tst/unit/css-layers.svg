@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="26">
+<!-- Each lime square fills its black outline, and nothing red shows; each square has a red fill attribute. Cascade layers of css-cascade-5: a later layer beats an earlier one whatever their specificity, and for important declarations the earlier one wins; layers are ordered as first declared, by @layer statements, blocks or @import, which loads nothing (D15) but places its layer, when it goes before every rule but @charset and @layer statements; a sub-layer, named or dotted, goes before its parent own rules; @layer { } makes a new anonymous layer each time; a layer reopened keeps its place; what no layer holds is last, and a presentation attribute below every author rule (D34); a CSS-wide keyword is no layer name, and a statement with a bad name declares none. -->
+<rect width="66" height="26" fill="white"/>
+<style><![CDATA[
+@layer a1, b1; @layer b1 { .c0 > .t { fill: lime } } @layer a1 { .c0 > rect.t.t { fill: red } }
+@layer a2 { .c1 > .t { fill: lime !important } } @layer b2 { .c1 > .t { fill: red !important } } .c1 > .t { fill: red !important }
+@layer { .c2 > .t { fill: red } } @layer { .c2 > .t { fill: lime } }
+@layer a3 { @layer b3 { .c3 > .t.t { fill: red } } .c3 > .t { fill: lime } }
+@layer a4.b4 { .c4 > .t.t { fill: red } } @layer a4 { .c4 > .t { fill: lime } }
+@layer a5 { .c5 > .t { fill: red } } @layer b5 { .c5 > .t { fill: lime } } @layer a5 { .c5 > rect.t.t { fill: red } }
+@layer y6 { .c6 > .t { fill: red } } @layer x6 { @layer y6 { .c6 > .t { fill: lime } } } @layer y6 { .c6 > rect.t.t { fill: red } }
+.c7 > .t { fill: lime } @layer z7 { .c7 > rect.t.t { fill: red } }
+@layer w8 { .c8 > .t { fill: lime } }
+.c9 > .t { fill: red } @layer v9 { .c9 > .t { fill: lime !important } }
+@layer initial { .c10 > .t { fill: red !important } } .c10 > .t { fill: lime }
+@layer x10, y10 z10; @layer y10 { .c11 > .t { fill: red } } @layer x10 { .c11 > .t { fill: lime } }
+@layer m11 { @media all { .c12 > .t { fill: lime } } }
+@layer a20..b20, c20; @layer d20 { .c22 > .t { fill: red } } @layer c20 { .c22 > .t { fill: lime } }
+]]></style>
+<style>@import url(none.css) layer(i12); @layer j12 { .c13 > .t { fill: lime } } @layer i12 { .c13 > .t { fill: red } }</style>
+<style>@layer n13; @import "none.css" layer(m13); @layer m13 { .c14 > .t { fill: lime } } @layer n13 { .c14 > .t { fill: red } }</style>
+<style>@layer q14 { .c15 > .t { fill: red } } @import url(none.css) layer(r14); @layer s14 { .c15 > .t { fill: red } } @layer r14 { .c15 > .t { fill: lime } }</style>
+<style>@import url(none.css) layer; @layer { .c16 > .t { fill: lime } }</style>
+<style>@import url(none.css; @layer t15 { .c17 > .t { fill: lime } }</style>
+<style>@charset "x"; @import url(none.css) layer(u16); @layer v16 { .c18 > .t { fill: lime } } @layer u16 { .c18 > .t { fill: red } }</style>
+<style>@import foo layer(w17); @layer x17 { .c19 > .t { fill: red } } @layer w17 { .c19 > .t { fill: lime } }</style>
+<style>@import url(none.css); @layer y18 { .c20 > .t { fill: lime } }</style>
+<style>@import url(none.css) layer(z19; @layer a19 { .c21 > .t { fill: lime } }</style>
+<g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c2" transform="translate(18 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c4" transform="translate(34 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c5" transform="translate(42 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c6" transform="translate(50 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c7" transform="translate(58 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c8" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c9" transform="translate(10 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c10" transform="translate(18 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c11" transform="translate(26 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c12" transform="translate(34 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c13" transform="translate(42 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c14" transform="translate(50 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c15" transform="translate(58 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c16" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c17" transform="translate(10 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c18" transform="translate(18 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c19" transform="translate(26 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c20" transform="translate(34 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c21" transform="translate(42 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c22" transform="translate(50 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/></g>
+</svg>

@@ -1275,6 +1275,15 @@ namespace {
 
     struct Rule;
 
+    // A cascade layer: its parent's index, its name's atom, 0 for an
+    // anonymous one, and its rank in the layer order, set once every sheet
+    // is read. Layer 0 holds what no layer does.
+    struct Layer {
+        u32 parent;
+        u32 name;
+        u32 rank;
+    };
+
     // A geometry property's value a node's declarations give it, the
     // CSS-wide keywords resolved, none for the initial one.
     struct GeometryValue {
@@ -1291,6 +1300,7 @@ namespace {
         Vector<Node*> byId;
         Rule* rules;
         u32 ruleCount;
+        Vector<Layer> layers;
         bool structural;
         // The geometry values of declarations, by node in document order.
         Vector<GeometryValue> geometry;
@@ -1401,16 +1411,33 @@ namespace {
         bool important;
     };
 
+    // A style rule, of the cascade layer layer.
     struct Rule {
         Selector* selectors;
         u32 selectorCount;
         Declaration* declarations;
         u32 declarationCount;
+        u32 layer;
     };
 
+    // The declaration that wins a property's cascade so far: its value,
+    // priority and index among the node's applied ones.
     struct Candidate {
         u32 value;
         u64 priority;
+        u32 applied;
+    };
+
+    // A declaration that applies to a node: of a presentation attribute,
+    // a rule or the style attribute, its level of origin, importance and
+    // attachment, its layer's rank and its priority in the cascade.
+    struct Applied {
+        u32 property;
+        u32 value;
+        u64 priority;
+        u32 rule;
+        u32 rank;
+        u32 level;
     };
 
     // Ex is half an em and Rex half a rem (D29). Calc is a math function
@@ -3788,7 +3815,7 @@ namespace {
             p++;
         }
 
-        if (p >= end || !isIdentStart(*p) || *p == '-') {
+        if (p >= end || !isIdentStart(*p)) {
             p = start;
 
             return StringView();
@@ -3820,10 +3847,10 @@ namespace {
     // Text with its CSS escapes undone (css-syntax-3 4.3.7): a backslash
     // and one to six hex digits, and a white space after them, are that
     // code point, U+FFFD for none; a backslash before a newline is nothing,
-    // before anything else that thing, and at the end U+FFFD in an
-    // identifier or a url, nothing in a string. XML has made every CR LF an
-    // LF.
-    static StringView unescapeCss(StringView text, Buffer& out, bool ident) {
+    // before anything else that thing, and at the end U+FFFD, as in an
+    // identifier or a url: closeCss has dropped one ending a string. XML
+    // has made every CR LF an LF.
+    static StringView unescapeCss(StringView text, Buffer& out) {
         const u8* p = text.begin();
         const u8* end = text.end();
 
@@ -3833,7 +3860,7 @@ namespace {
 
         while (p < end) {
             if (*p != '\\' || p + 1 == end) {
-                if (*p == '\\' && ident) {
+                if (*p == '\\') {
                     appendUtf8(out, 0xfffd);
                 }
 
@@ -3885,11 +3912,13 @@ namespace {
         const u8* s = p + at(p, end, '-');
         bool escaped = false;
 
+        // A text ends before a ',', a '{', a ';' or a ')' of the sheet, so
+        // a backslash in it has a character after it.
         auto escape = [&](const u8* q) {
-            return q < end && *q == '\\' && !(q + 1 < end && q[1] == '\n');
+            return *q == '\\' && q[1] != '\n';
         };
 
-        if (!(s < end && ((isIdentStart(*s) && (*s != '-' || s > p)) || escape(s)))) {
+        if (!(s < end && (isIdentStart(*s) || escape(s)))) {
             return StringView();
         }
 
@@ -3907,7 +3936,7 @@ namespace {
             return text;
         }
 
-        StringView plain = unescapeCss(text, out, true);
+        StringView plain = unescapeCss(text, out);
 
         return keep(pool, plain.data(), plain.length());
     }
@@ -3931,7 +3960,7 @@ namespace {
             p += *p == '\\' ? 2 : 1;
         }
 
-        StringView text = unescapeCss(StringView(start, p), plain, false);
+        StringView text = unescapeCss(StringView(start, p), plain);
 
         p++;
         out = text.data() == start ? text : keep(pool, text.data(), text.length());
@@ -3964,7 +3993,7 @@ namespace {
             start = s;
 
             while (s < end && *s != quote) {
-                s += *s == '\\' && s + 1 < end ? 2 : 1;
+                s = *s == '\\' ? skipEscape(s, end) : s + 1;
             }
 
             stop = s;
@@ -3991,7 +4020,7 @@ namespace {
             return false;
         }
 
-        out = unescapeCss(StringView(start, stop), scratch, !quoted);
+        out = unescapeCss(StringView(start, stop), scratch);
         p = s + (s < end);
 
         return true;
@@ -4112,7 +4141,7 @@ namespace {
 
             if (*p == '\\') {
                 next = skipEscape(p, end);
-                unescapeCss(StringView(p, next), out, true);
+                unescapeCss(StringView(p, next), out);
                 p = next;
                 continue;
             }
@@ -4203,8 +4232,8 @@ namespace {
         }
     }
 
-    // The first target past p outside strings, url tokens and parentheses
-    // or brackets, or null.
+    // The first target past p outside escapes, strings, url tokens and
+    // parentheses or brackets, or null.
     static const u8* findOutside(const u8* p, const u8* end, u8 target) {
         const u8* begin = p;
         int depth = 0;
@@ -4212,6 +4241,11 @@ namespace {
         while (p < end) {
             u8 c = *p;
             const u8* url = urlTokenEnd(p, begin, end);
+
+            if (c == '\\') {
+                p = skipEscape(p, end);
+                continue;
+            }
 
             if (c == '"' || c == '\'') {
                 p = skipCssString(p, end);
@@ -4239,38 +4273,30 @@ namespace {
         return nullptr;
     }
 
+    // The '}' that closes the block whose '{' is before p, past escapes,
+    // strings and url tokens; closeCss has closed every block of a sheet.
     static const u8* matchingBrace(const u8* p, const u8* end) {
         const u8* begin = p;
         int depth = 1;
 
-        while (p < end) {
+        for (;; p++) {
             u8 c = *p;
             const u8* url = urlTokenEnd(p, begin, end);
 
-            if (c == '"' || c == '\'') {
-                p = skipCssString(p, end);
-                continue;
-            }
-
-            if (url) {
-                p = url + (url < end);
-                continue;
-            }
-
-            if (c == '{') {
-                depth++;
-            } else if (c == '}') {
-                depth--;
+            if (c == '\\') {
+                p = skipEscape(p, end) - 1;
+            } else if (c == '"' || c == '\'') {
+                p = skipCssString(p, end) - 1;
+            } else if (url) {
+                p = url;
+            } else if (c == '{' || c == '}') {
+                depth += c == '{' ? 1 : -1;
 
                 if (depth == 0) {
                     return p;
                 }
             }
-
-            p++;
         }
-
-        return end;
     }
 
     // Specificity holds the counts of ids, classes and types in its three low
@@ -4298,7 +4324,7 @@ namespace {
         SelectorInHas = 8,
     };
 
-    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity, bool& structural);
+    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity);
 
     // An+B at p (css-syntax-3 6): odd, even, an integer, or A n and a B,
     // signed by itself or by a + or - apart; white space goes around the
@@ -4308,7 +4334,8 @@ namespace {
             const u8* start = q;
             i32 value = 0;
 
-            while (q < end && *q >= '0' && *q <= '9') {
+            // An+B ends before a ')' or "of" of the selector.
+            while (*q >= '0' && *q <= '9') {
                 value = value < 100000000 ? value * 10 + (*q - '0') : value;
                 q++;
             }
@@ -4325,7 +4352,7 @@ namespace {
         for (i32 k = 0; k < 2; k++) {
             StringView name = k ? SV("even") : SV("odd");
 
-            if (startsWithIgnoreCase(rest, name) && !(rest.length() > name.length() && isIdentChar(rest[name.length()]))) {
+            if (startsWithIgnoreCase(rest, name) && !isIdentChar(rest[name.length()])) {
                 a = 2;
                 b = 1 - k;
                 p += name.length();
@@ -4391,12 +4418,13 @@ namespace {
         condition.test = Test::Exists;
 
         if (!at(p, end, ']')) {
-            const char* op = p + 1 < end && p[1] == '=' ? strchr(operators, *p) : nullptr;
+            // An operator ends before the attribute test's ']'.
+            const char* op = p[1] == '=' ? (const char*)memchr(operators, *p, 5) : nullptr;
 
             if (at(p, end, '=')) {
                 condition.test = Test::Equals;
                 p++;
-            } else if (op && *op) {
+            } else if (op) {
                 condition.test = tests[op - operators];
                 p += 2;
             } else {
@@ -4469,10 +4497,10 @@ namespace {
 
             const u8* q = p;
 
-            if (nthChild && equalsIgnoreCase(readCssIdent(*doc.pool, q, end), SV("of")) && q < end && isSpace(*q)) {
+            if (nthChild && equalsIgnoreCase(readCssIdent(*doc.pool, q, end), SV("of")) && isSpace(*q)) {
                 p = q;
 
-                if (!parseSelectorList(doc, p, end, nested, condition, inner, structural)) {
+                if (!parseSelectorList(doc, p, end, nested, condition, inner)) {
                     return false;
                 }
             }
@@ -4481,7 +4509,7 @@ namespace {
         } else if (is || has || equalsIgnoreCase(name, SV("not"))) {
             condition.test = is ? Test::Is : (has ? Test::Has : Test::Not);
 
-            if ((has && (flags & SelectorInHas)) || !parseSelectorList(doc, p, end, nested | (is ? SelectorForgiving : 0) | (has ? SelectorRelative | SelectorInHas : 0), condition, inner, structural)) {
+            if ((has && (flags & SelectorInHas)) || !parseSelectorList(doc, p, end, nested | (is ? SelectorForgiving : 0) | (has ? SelectorRelative | SelectorInHas : 0), condition, inner)) {
                 return false;
             }
 
@@ -4725,23 +4753,24 @@ namespace {
 
     // A selector list at p, to the ')' that closes it, into the condition's
     // list; specificity is that of its most specific selector. A forgiving
-    // list drops a selector it cannot read and may be empty.
-    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity, bool& structural) {
+    // list drops a selector it cannot read and may be empty; another fails
+    // on one.
+    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity) {
         Vector<Selector> items;
 
         for (;;) {
             const u8* start = p;
             Selector item;
 
-            if (parseComplex(doc, p, end, flags, item) && (at(p, end, ',') || at(p, end, ')'))) {
+            if (parseComplex(doc, p, end, flags, item)) {
                 items.pushBack(item);
                 specificity = item.specificity > specificity ? item.specificity : specificity;
-                structural = structural || item.structural;
             } else if (flags & SelectorForgiving) {
+                // A selector's text closes each parenthesis it opens.
                 const u8* comma = findOutside(start, end, ',');
                 const u8* close = findOutside(start, end, ')');
 
-                p = comma && (!close || comma < close) ? comma : (close ? close : end);
+                p = comma && comma < close ? comma : close;
             } else {
                 return false;
             }
@@ -4751,10 +4780,6 @@ namespace {
             }
 
             p++;
-        }
-
-        if (items.empty() && !(flags & SelectorForgiving)) {
-            return false;
         }
 
         condition.listCount = (u32)items.length();
@@ -5413,12 +5438,15 @@ namespace {
     // order, a position perhaps with a size after a slash, one box both the
     // origin and the clip, two the one then the other; a part left out
     // takes its initial value.
+    enum CssKeyword : u8;
+    static CssKeyword cssWideKeyword(StringView text);
+
     static bool expandMask(Document& doc, StringView value, u32 (&out)[MaskParts]) {
         static const char* const initial[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
         Buffer lists[MaskParts];
         const u8* p = value.begin();
 
-        if (equalsIgnoreCase(value, SV("inherit")) || equalsIgnoreCase(value, SV("initial")) || equalsIgnoreCase(value, SV("unset"))) {
+        if (cssWideKeyword(value)) {
             for (u32 k = 0; k < MaskParts; k++) {
                 out[k] = intern(doc.atoms, value);
             }
@@ -5648,7 +5676,7 @@ namespace {
         const u8* end = value.end();
         MaskBorder probe;
 
-        if (equalsIgnoreCase(value, SV("inherit")) || equalsIgnoreCase(value, SV("initial")) || equalsIgnoreCase(value, SV("unset"))) {
+        if (cssWideKeyword(value)) {
             for (u32 k = 0; k < MaskBorderParts; k++) {
                 out[k] = intern(doc.atoms, value);
             }
@@ -5749,7 +5777,7 @@ namespace {
 
             Buffer plainName;
             Buffer plainValue;
-            StringView name = unescapeCss(trim(StringView(item.begin(), colon)), plainName, true);
+            StringView name = unescapeCss(trim(StringView(item.begin(), colon)), plainName);
             StringView value = trim(StringView(colon + 1, item.end()));
             bool important = false;
 
@@ -5761,7 +5789,7 @@ namespace {
                 Buffer word;
 
                 if (bang[-1] == '!') {
-                    if (equalsIgnoreCase(unescapeCss(trim(StringView(bang, value.end())), word, true), SV("important"))) {
+                    if (equalsIgnoreCase(unescapeCss(trim(StringView(bang, value.end())), word), SV("important"))) {
                         important = true;
                         value = trim(StringView(value.begin(), bang - 1));
                     }
@@ -5780,6 +5808,24 @@ namespace {
 
             if (StringView(lowered, name.length()) == SV("-webkit-clip-path")) {
                 property = AtomClipPathProperty;
+            }
+
+            // all sets every property to a CSS-wide keyword, the only value
+            // it takes (css-cascade-5 3.2); the renderer has no direction
+            // nor unicode-bidi it would leave out.
+            if (StringView(lowered, name.length()) == SV("all")) {
+                static const u32 geometries[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomD, AtomTransform, AtomTransformOrigin, AtomTransformBox, AtomTranslate, AtomRotate, AtomScale, AtomPathLengthProperty};
+                u32 keyword = intern(doc.atoms, value);
+
+                for (u32 k = firstProperty; cssWideKeyword(value) && k < firstProperty + propertyCount; k++) {
+                    out.pushBack(Declaration{k, keyword, important});
+                }
+
+                for (u32 k = 0; cssWideKeyword(value) && k < sizeof(geometries) / sizeof(geometries[0]); k++) {
+                    out.pushBack(Declaration{geometries[k], keyword, important});
+                }
+
+                continue;
             }
 
             if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker && property != AtomMask && property != AtomMaskBorder) {
@@ -5807,8 +5853,9 @@ namespace {
             u32 borders[MaskBorderParts];
 
             // mask sets its longhands, and mask-border's to their initial
-            // values, as CSS Masking has it; mask-border its own. An
-            // invalid one is dropped whole.
+            // values, as CSS Masking has it, or all to a CSS-wide keyword
+            // (css-cascade-5 3.1); mask-border its own. An invalid one is
+            // dropped whole.
             if (property == AtomMask) {
                 if (expandMask(doc, value, parts)) {
                     for (u32 k = 0; k < MaskParts; k++) {
@@ -5816,7 +5863,7 @@ namespace {
                     }
 
                     for (u32 k = 0; k < MaskBorderParts; k++) {
-                        out.pushBack(Declaration{AtomMaskBorderSource + k, intern(doc.atoms, SV("initial")), important});
+                        out.pushBack(Declaration{AtomMaskBorderSource + k, cssWideKeyword(value) ? parts[0] : intern(doc.atoms, SV("initial")), important});
                     }
                 }
 
@@ -6327,9 +6374,95 @@ namespace {
 
     // The rules of a sheet's text, the rules of @media blocks the query of
     // which matches among them; other at-rules are left out.
-    static void parseRules(Document& doc, Vector<Rule>& rules, StringView text, Viewport view, u32 depth) {
+    // The layer a dotted layer name names under parent, made after the
+    // layers in it when it is new (css-cascade-5 6.4.3), unless make is
+    // off. False for text that is no layer name, which makes none; a
+    // CSS-wide keyword is none.
+    static bool namedLayer(Document& doc, u32 parent, StringView text, u32& out, bool make = true) {
         const u8* p = text.begin();
         const u8* end = text.end();
+        Vector<u32> names;
+
+        for (;;) {
+            StringView segment = readCssIdent(*doc.pool, p, end);
+
+            if (segment.empty() || cssWideKeyword(segment)) {
+                return false;
+            }
+
+            names.pushBack(intern(doc.atoms, segment));
+
+            if (!at(p, end, '.')) {
+                break;
+            }
+
+            p++;
+        }
+
+        if (p != end || !make) {
+            return p == end;
+        }
+
+        out = parent;
+
+        for (u32 name : names) {
+            u32 found = 0;
+
+            for (u32 k = 1; k < doc.layers.length() && !found; k++) {
+                found = doc.layers[k].parent == out && doc.layers[k].name == name ? k : 0;
+            }
+
+            if (!found) {
+                found = (u32)doc.layers.length();
+                doc.layers.pushBack(Layer{out, name, 0});
+            }
+
+            out = found;
+        }
+
+        return true;
+    }
+
+    // An @import loads nothing (D15), but the layer it names takes its place
+    // in the layer order (css-cascade-5 6.4.3): layer, an anonymous one,
+    // or layer(name), after its url.
+    static void importLayer(Document& doc, u32 parent, StringView prelude) {
+        const u8* p = prelude.begin();
+        const u8* end = prelude.end();
+        StringView url;
+        Buffer scratch;
+        u32 layer;
+
+        if (at(p, end, '"') || at(p, end, '\'')) {
+            p = skipCssString(p, end);
+        } else if (!readUrl(p, end, url, scratch)) {
+            return;
+        }
+
+        skipSpaces(p, end);
+
+        if (!equalsIgnoreCase(readCssIdent(*doc.pool, p, end), SV("layer"))) {
+            return;
+        }
+
+        if (!at(p, end, '(')) {
+            doc.layers.pushBack(Layer{parent, 0, 0});
+            return;
+        }
+
+        const u8* close = findOutside(p + 1, end, ')');
+
+        if (close) {
+            namedLayer(doc, parent, trim(StringView(p + 1, close)), layer);
+        }
+    }
+
+    static void parseRules(Document& doc, Vector<Rule>& rules, StringView text, Viewport view, u32 depth, u32 layer) {
+        const u8* p = text.begin();
+        const u8* end = text.end();
+        // An @import goes before every other rule but @charset and @layer
+        // statements.
+        bool imports = depth == 0;
 
         while (p < end) {
             if (isSpace(*p)) {
@@ -6357,11 +6490,49 @@ namespace {
                     q = *q == '"' || *q == '\'' ? skipCssString(q, end) : q + 1;
                 }
 
+                StringView condition = trim(StringView(prelude, q));
+                u32 inner = layer;
+
+                if (name == SV("import") && imports && !at(q, end, '{')) {
+                    importLayer(doc, layer, condition);
+                }
+
+                // @layer name, ...; places layers in the order; @layer name
+                // { } and @layer { } hold rules of a layer, the latter a new
+                // anonymous one each time.
+                for (u32 make = 0; make < 2 && name == SV("layer") && !at(q, end, '{'); make++) {
+                    const u8* s = condition.begin();
+                    bool valid = true;
+
+                    // The names are read first, and made when all are good.
+                    for (;;) {
+                        const u8* comma = findOutside(s, condition.end(), ',');
+
+                        valid = valid && namedLayer(doc, layer, trim(StringView(s, comma ? comma : condition.end())), inner, make);
+
+                        if (!comma) {
+                            break;
+                        }
+
+                        s = comma + 1;
+                    }
+
+                    make += !valid;
+                }
+
+                imports = imports && (name == SV("import") || name == SV("charset") || (name == SV("layer") && !at(q, end, '{')));
+
                 if (at(q, end, '{')) {
                     const u8* close = matchingBrace(q + 1, end);
+                    bool layered = name == SV("layer") && (condition.empty() || namedLayer(doc, layer, condition, inner));
 
-                    if (name == SV("media") && depth < 32 && mediaMatches(view, StringView(prelude, q))) {
-                        parseRules(doc, rules, StringView(q + 1, close), view, depth + 1);
+                    if (layered && condition.empty()) {
+                        inner = (u32)doc.layers.length();
+                        doc.layers.pushBack(Layer{layer, 0, 0});
+                    }
+
+                    if (depth < 32 && (layered || (name == SV("media") && mediaMatches(view, condition)))) {
+                        parseRules(doc, rules, StringView(q + 1, close), view, depth + 1, inner);
                     }
 
                     q = close;
@@ -6370,6 +6541,8 @@ namespace {
                 p = q < end ? q + 1 : end;
                 continue;
             }
+
+            imports = false;
 
             const u8* open = findOutside(p, end, '{');
 
@@ -6381,7 +6554,7 @@ namespace {
             StringView selectors(p, open);
             StringView block(open + 1, close);
 
-            p = close < end ? close + 1 : end;
+            p = close + 1;
 
             Vector<Selector> parsed;
             bool valid = true;
@@ -6419,6 +6592,7 @@ namespace {
             rule.selectors = (Selector*)doc.pool->allocate(sizeof(Selector) * parsed.length());
             memcpy(rule.selectors, parsed.data(), sizeof(Selector) * parsed.length());
             rule.declarationCount = (u32)declarations.length();
+            rule.layer = layer;
             rule.declarations = (Declaration*)doc.pool->allocate(sizeof(Declaration) * (declarations.length() + 1));
 
             if (rule.declarationCount) {
@@ -6435,7 +6609,7 @@ namespace {
         // The end of the sheet closes what it leaves open.
         stripComments(source, cleaned);
         closeCss(cleaned);
-        parseRules(doc, rules, keep(*doc.pool, cleaned.data(), cleaned.length()), view, 0);
+        parseRules(doc, rules, keep(*doc.pool, cleaned.data(), cleaned.length()), view, 0, 0);
     }
 
     static void prepareClasses(Document& doc, Node* node) {
@@ -6712,29 +6886,94 @@ namespace {
         node->count++;
     }
 
-    static void considerGeometry(Vector<Declaration>& geometry, Vector<u64>& priorities, const Declaration& declaration, u64 priority) {
+    // A declaration of a geometry property, the last of the highest
+    // priority winning; geometry keeps the winners' indices among applied.
+    static void considerGeometry(const Vector<Applied>& applied, Vector<u32>& geometry, u32 index) {
         for (size_t i = 0; i < geometry.length(); i++) {
-            if (geometry[i].property == declaration.property) {
-                if (priority >= priorities[i]) {
-                    geometry.mut(i) = declaration;
-                    priorities.mut(i) = priority;
+            if (applied[geometry[i]].property == applied[index].property) {
+                if (applied[index].priority >= applied[geometry[i]].priority) {
+                    geometry.mut(i) = index;
                 }
 
                 return;
             }
         }
 
-        geometry.pushBack(declaration);
-        priorities.pushBack(priority);
+        geometry.pushBack(index);
     }
 
     // A declaration of a property the cascade computes.
-    static void consider(Candidate* best, u32 property, u32 value, u64 priority) {
-        Candidate& slot = best[property - firstProperty];
+    static void consider(Candidate* best, const Applied& declaration, u32 index) {
+        Candidate& slot = best[declaration.property - firstProperty];
 
-        if (priority >= slot.priority) {
-            slot.value = value;
-            slot.priority = priority;
+        if (declaration.priority >= slot.priority) {
+            slot.value = declaration.value;
+            slot.priority = declaration.priority;
+            slot.applied = index;
+        }
+    }
+
+    // The CSS-wide keywords (css-cascade-5 7.3), CssNone for a value that is
+    // none of them.
+    enum CssKeyword : u8 {
+        CssNone,
+        CssInitial,
+        CssInherit,
+        CssUnset,
+        CssRevert,
+        CssRevertLayer,
+        CssRevertRule,
+    };
+
+    static CssKeyword cssWideKeyword(StringView text) {
+        static const char* const names[] = {"initial", "inherit", "unset", "revert", "revert-layer", "revert-rule"};
+        StringView body = trim(text);
+
+        for (u32 k = 0; k < 6; k++) {
+            if (equalsIgnoreCase(body, StringView(names[k]))) {
+                return (CssKeyword)(k + 1);
+            }
+        }
+
+        return CssNone;
+    }
+
+    // The value a declaration that wins its property leaves, when it is a
+    // revert keyword (css-cascade-5 7.3.4-6): none for revert, which rolls
+    // back past every author declaration and presentation attribute; for
+    // revert-layer that of the highest declaration of an earlier layer or a
+    // presentation attribute, or, from the style attribute, of a lower
+    // level, and nothing from a presentation attribute; for revert-rule
+    // that of the highest of another rule; each ranked before the one
+    // reverting, and again while the one it reaches reverts. 0 for none.
+    static u32 revertedValue(const Document& doc, const Vector<Applied>& applied, u32 index) {
+        for (;;) {
+            const Applied& from = applied[index];
+            StringView text = trim(textOf(doc, from.value));
+            // Every revert keyword starts with r.
+            CssKeyword keyword = text.length() >= 6 && lowerAscii(text[0]) == 'r' ? cssWideKeyword(text) : CssNone;
+            u32 next = (u32)applied.length();
+
+            if (keyword != CssRevertLayer && keyword != CssRevertRule) {
+                return keyword == CssRevert ? 0 : from.value;
+            }
+
+            for (u32 i = 0; i < applied.length(); i++) {
+                const Applied& c = applied[i];
+                bool before = c.priority < from.priority || (c.priority == from.priority && i < index);
+                bool layered = from.level == 2 || from.level == 4;
+                bool kept = keyword == CssRevertRule ? c.rule != from.rule : (layered ? c.level == 1 || (c.level == 2 && c.rank < from.rank) : from.level > 1 && c.level < from.level);
+
+                if (c.property == from.property && before && kept && (next == applied.length() || c.priority >= applied[next].priority)) {
+                    next = i;
+                }
+            }
+
+            if (next == applied.length()) {
+                return 0;
+            }
+
+            index = next;
         }
     }
 
@@ -6784,7 +7023,7 @@ namespace {
         Length length;
         MaskBorder border;
 
-        if (equalsIgnoreCase(text, SV("inherit")) || equalsIgnoreCase(text, SV("initial")) || equalsIgnoreCase(text, SV("unset"))) {
+        if (cssWideKeyword(text)) {
             return true;
         }
 
@@ -6885,12 +7124,47 @@ namespace {
         return geometryApplies(parent->name, property) ? attribute(parent, geometryAttribute(parent->name, property)) : 0;
     }
 
+    // The rule numbers of a presentation attribute's and a style
+    // attribute's declarations.
+    constexpr u32 presentationRule = ~0u - 1;
+    constexpr u32 styleRule = ~0u;
+
     static u32* cascadeNode(Document& doc, Node* node, const Node* boundary) {
+        static const u32 geometryProperties[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomD, AtomTransform, AtomPathLengthProperty};
         Candidate best[propertyCount];
-        Vector<Declaration> geometry;
-        Vector<u64> geometryPriorities;
+        Vector<Applied> applied;
+        Vector<u32> geometry;
+        u32 unlayered = doc.layers[0].rank;
 
         memset(best, 0, sizeof(best));
+
+        // A declaration's priority: its level of origin, importance and
+        // attachment, 1 a presentation attribute's, 2 a sheet's, 3 the
+        // style attribute's, 4 and 5 important; its layer's rank, the layer
+        // order reversed for important ones; its specificity. The last of
+        // the highest wins.
+        auto apply = [&](u32 property, u32 value, u32 level, u32 rank, u32 specificity, u32 rule) {
+            u64 placed = level == 4 ? unlayered - rank : rank;
+            u32 index = (u32)applied.length();
+
+            applied.pushBack(Applied{property, value, ((u64)level << 56) | (placed << 32) | specificity, rule, rank, level});
+
+            if (geometryProperty(property)) {
+                considerGeometry(applied, geometry, index);
+            } else {
+                consider(best, applied[index], index);
+            }
+        };
+
+        // Presentation attributes are of the author presentational hint
+        // origin, below every author rule (D34).
+        for (u32 property : geometryProperties) {
+            u32 value = geometryApplies(node->name, property) ? attribute(node, geometryAttribute(node->name, property)) : 0;
+
+            if (value) {
+                apply(property, value, 1, 0, 0, presentationRule);
+            }
+        }
 
         for (u32 i = 0; i < node->count; i++) {
             u32 name = node->attributes[i].name;
@@ -6901,7 +7175,7 @@ namespace {
             // its longhands.
             if (name == AtomMask && expandMask(doc, textOf(doc, node->attributes[i].value), parts)) {
                 for (u32 k = 0; k < MaskParts; k++) {
-                    consider(best, AtomMaskImage + k, parts[k], 1);
+                    apply(AtomMaskImage + k, parts[k], 1, 0, 0, presentationRule);
                 }
             }
 
@@ -6916,7 +7190,7 @@ namespace {
                 }
 
                 if (value && validDeclaration(doc, name, textOf(doc, value))) {
-                    consider(best, name, value, 1);
+                    apply(name, value, 1, 0, 0, presentationRule);
                 }
             }
         }
@@ -6940,18 +7214,13 @@ namespace {
                 continue;
             }
 
+            // Declarations come in source order and a later one wins a tie,
+            // so the priority carries no position that could overflow.
             for (u32 d = 0; d < rule.declarationCount; d++) {
                 const Declaration& declaration = rule.declarations[d];
-                u64 level = declaration.important ? 3 : 1;
 
-                // Declarations come in source order and a later one wins a tie,
-                // so the priority carries no position that could overflow.
-                u64 priority = (level << 56) | ((u64)specificity << 32);
-
-                if (geometryProperty(declaration.property)) {
-                    considerGeometry(geometry, geometryPriorities, declaration, priority);
-                } else if (validDeclaration(doc, declaration.property, textOf(doc, declaration.value))) {
-                    consider(best, declaration.property, declaration.value, priority);
+                if (geometryProperty(declaration.property) || validDeclaration(doc, declaration.property, textOf(doc, declaration.value))) {
+                    apply(declaration.property, declaration.value, declaration.important ? 4 : 2, doc.layers[rule.layer].rank, specificity, r);
                 }
             }
         }
@@ -6965,28 +7234,25 @@ namespace {
             parseDeclarations(doc, keep(*doc.pool, cleaned.data(), cleaned.length()), declarations);
 
             for (u32 d = 0; d < declarations.length(); d++) {
-                u64 level = declarations[d].important ? 4 : 2;
-                u64 priority = level << 56;
-
-                if (geometryProperty(declarations[d].property)) {
-                    considerGeometry(geometry, geometryPriorities, declarations[d], priority);
-                } else if (validDeclaration(doc, declarations[d].property, textOf(doc, declarations[d].value))) {
-                    consider(best, declarations[d].property, declarations[d].value, priority);
+                if (geometryProperty(declarations[d].property) || validDeclaration(doc, declarations[d].property, textOf(doc, declarations[d].value))) {
+                    apply(declarations[d].property, declarations[d].value, declarations[d].important ? 5 : 3, 0, 0, styleRule);
                 }
             }
         }
 
-        for (const Declaration& declaration : geometry) {
-            if (boundary) {
-                break;
+        for (u32 index : geometry) {
+            // A presentation attribute that wins is the attribute already.
+            if (boundary || applied[index].rule == presentationRule) {
+                continue;
             }
 
             // inherit takes the parent's value, but d's, which a path
             // follows up as it draws, through a use to its instance;
             // initial and unset, as no geometry property inherits, the
             // initial one.
-            u32 value = declaration.value;
-            StringView text = textOf(doc, value);
+            const Applied& declaration = applied[index];
+            u32 value = revertedValue(doc, applied, index);
+            StringView text = value ? textOf(doc, value) : StringView();
 
             if (isKeyword(text, SV("inherit")) && declaration.property != AtomD) {
                 value = inheritedGeometry(doc, node->parent, declaration.property);
@@ -7007,18 +7273,34 @@ namespace {
         u32* style = (u32*)doc.pool->allocate(sizeof(u32) * propertyCount);
 
         for (u32 i = 0; i < propertyCount; i++) {
-            style[i] = best[i].value;
+            style[i] = best[i].value ? revertedValue(doc, applied, best[i].applied) : 0;
         }
 
         return style;
     }
 
+    // Ranks the layers in the layer order (css-cascade-5 6.4.3): each after
+    // its sub-layers, which follow one another as first declared, so what
+    // no layer holds is last.
+    static void rankLayers(Document& doc, u32 layer, u32& rank) {
+        for (u32 k = 1; k < doc.layers.length(); k++) {
+            if (doc.layers[k].parent == layer) {
+                rankLayers(doc, k, rank);
+            }
+        }
+
+        doc.layers.mut(layer).rank = rank++;
+    }
+
     static void cascade(Document& doc) {
         Vector<Rule> rules;
         Viewport view = mediaViewport(doc);
+        u32 rank = 0;
         // The first title names the preferred set of sheets: a sheet of
         // another title is an alternate one, which is off.
         StringView preferred;
+
+        doc.layers.pushBack(Layer{0, 0, 0});
 
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
             if (node->name == AtomStyle && !node->text.empty()) {
@@ -7035,6 +7317,7 @@ namespace {
             }
         }
 
+        rankLayers(doc, 0, rank);
         doc.ruleCount = (u32)rules.length();
         doc.rules = (Rule*)doc.pool->allocate(sizeof(Rule) * (rules.length() + 1));
         doc.structural = false;
@@ -9372,11 +9655,13 @@ namespace {
     // length, of no sign for a size, auto for a size of a rect or its
     // corners, path() of a string or none, a transform list, an origin of
     // one to three values, or a box.
+    static bool parsePathData(StringView text, Path& path);
+
     static bool validGeometry(u32 property, StringView value) {
         Length length;
         Matrix m;
 
-        if (equalsIgnoreCase(value, SV("inherit")) || equalsIgnoreCase(value, SV("initial")) || equalsIgnoreCase(value, SV("unset"))) {
+        if (cssWideKeyword(value)) {
             return true;
         }
 
@@ -9395,8 +9680,10 @@ namespace {
                 return equalsIgnoreCase(value, SV("auto")) || (parseLength(value, length) && nonNegative(length));
             case AtomD: {
                 StringView inner = value.length() > 6 ? trim(StringView(value.begin() + 5, value.end() - 1)) : StringView();
+                Path probe;
 
-                return equalsIgnoreCase(value, SV("none")) || (startsWithIgnoreCase(value, SV("path(")) && value.back() == ')' && inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0]);
+                // path() of good path data and some (css-shapes-1 3.1.5).
+                return equalsIgnoreCase(value, SV("none")) || (startsWithIgnoreCase(value, SV("path(")) && value.back() == ')' && inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0] && parsePathData(StringView(inner.begin() + 1, inner.end() - 1), probe) && probe.verbs.length() > 0);
             }
             case AtomTransform:
                 return parseTransform(value, m, TransformGrammar::Declaration);
@@ -9710,7 +9997,9 @@ namespace {
     // rounded once to floats: relative steps that come back to a point come
     // back to it, as written, without the floats' error adding up along the
     // path.
-    static void parsePathData(StringView text, Path& path) {
+    // Path data into path, as far as it is good; false when it is not good
+    // to its end.
+    static bool parsePathData(StringView text, Path& path) {
         const u8* p = text.begin();
         const u8* end = text.end();
         DPoint current{0.0, 0.0};
@@ -9724,7 +10013,7 @@ namespace {
             skipSpaces(p, end);
 
             if (p >= end) {
-                break;
+                return true;
             }
 
             u8 c = *p;
@@ -9733,7 +10022,7 @@ namespace {
                 command = c;
                 p++;
             } else if (command == 0 || command == 'z' || command == 'Z') {
-                break;
+                return false;
             } else if (command == 'M') {
                 command = 'L';
             } else if (command == 'm') {
@@ -9741,7 +10030,7 @@ namespace {
             }
 
             if (path.verbs.length() == 0 && command != 'M' && command != 'm') {
-                break;
+                return false;
             }
 
             bool relative = command >= 'a';
@@ -9790,7 +10079,7 @@ namespace {
                     count = 7;
                     break;
                 default:
-                    return;
+                    return false;
             }
 
             bool ok = true;
@@ -9814,7 +10103,7 @@ namespace {
             }
 
             if (!ok) {
-                return;
+                return false;
             }
 
             switch (upper) {
@@ -12096,9 +12385,10 @@ namespace {
 
         int depth = 0;
 
+        // shape()'s arguments close every parenthesis they open.
         while (p < end && (depth > 0 || (!isSpace(*p) && *p != '/'))) {
             depth += *p == '(';
-            depth -= *p == ')' && depth > 0;
+            depth -= *p == ')';
             p++;
         }
 
@@ -12423,9 +12713,13 @@ namespace {
                 return false;
             }
 
+            Path probe;
+
+            // A path a string of no valid path data, or of none, gives is
+            // invalid (css-shapes-1 3.1.5).
             out.data = StringView(quoted.begin() + 1, quoted.end() - 1);
 
-            return true;
+            return parsePathData(out.data, probe) && probe.verbs.length() > 0;
         }
 
         if (equalsIgnoreCase(name, SV("circle")) || equalsIgnoreCase(name, SV("ellipse"))) {
@@ -12519,28 +12813,41 @@ namespace {
             Vector<Length> points;
 
             out.kind = ShapeKind::Polygon;
+            out.values[0] = Length{0.f, Unit::Number};
 
             skipSpaces(p, end);
 
-            const u8* comma = p;
+            // A fill rule and a rounding, round and a length, may come
+            // before the points, both optional; the rounding is kept in the
+            // first value.
+            const u8* comma = findOutside(p, end, ',');
+            const u8* clause = comma ? comma : end;
+            const u8* q = p;
+            StringView word = shapeWord(q, clause);
+            bool prelude = equalsIgnoreCase(word, SV("evenodd")) || equalsIgnoreCase(word, SV("nonzero"));
 
-            while (comma < end && *comma != ',') {
-                comma++;
+            out.rule = equalsIgnoreCase(word, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
+            word = prelude ? shapeWord(q, clause) : word;
+
+            if (equalsIgnoreCase(word, SV("round"))) {
+                if (!parseLength(shapeWord(q, clause), out.values[0]) || percentLength(out.values[0]) || !nonNegative(out.values[0])) {
+                    return false;
+                }
+
+                prelude = true;
+                word = shapeWord(q, clause);
             }
 
-            StringView first = trim(StringView(p, comma));
-
-            if (equalsIgnoreCase(first, SV("evenodd")) || equalsIgnoreCase(first, SV("nonzero"))) {
-                out.rule = equalsIgnoreCase(first, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
-                p = comma < end ? comma + 1 : end;
+            if (prelude && !(word.empty() && comma)) {
+                return false;
             }
+
+            p = prelude ? comma + 1 : p;
 
             while (p < end) {
-                const u8* stop = p;
+                const u8* stop = findOutside(p, end, ',');
 
-                while (stop < end && *stop != ',') {
-                    stop++;
-                }
+                stop = stop ? stop : end;
 
                 const u8* q = p;
                 StringView xWord = shapeWord(q, stop);
@@ -15315,13 +15622,38 @@ namespace {
 
             return;
         } else {
-            for (u32 i = 0; i < shape.pointCount; i++) {
-                Point point{box.x0 + shapeLength(shape.points[i * 2], w, vp, fs), box.y0 + shapeLength(shape.points[i * 2 + 1], h, vp, fs)};
+            Vector<Point> points;
+            float radius = resolveLength(shape.values[0], Axis::Other, vp, fs);
+            u32 n = shape.pointCount;
+
+            for (u32 i = 0; i < n; i++) {
+                points.pushBack(Point{box.x0 + shapeLength(shape.points[i * 2], w, vp, fs), box.y0 + shapeLength(shape.points[i * 2 + 1], h, vp, fs)});
+            }
+
+            // Each vertex rounded by a circle tangent to both its sides, of
+            // a radius no more than tan(angle / 2) times half of either
+            // side (css-shapes-1 3.1.4).
+            for (u32 i = 0; i < n; i++) {
+                Point v = points[i];
+                Point a{points[(i + n - 1) % n].x - v.x, points[(i + n - 1) % n].y - v.y};
+                Point b{points[(i + 1) % n].x - v.x, points[(i + 1) % n].y - v.y};
+                float la = sqrtf(a.x * a.x + a.y * a.y);
+                float lb = sqrtf(b.x * b.x + b.y * b.y);
+                float cosine = la > 0.f && lb > 0.f ? (a.x * b.x + a.y * b.y) / (la * lb) : -1.f;
+                float half = sqrtf(maxf(1.f - cosine, 0.f) / maxf(1.f + cosine, 1e-12f));
+                float r = minf(radius, minf(half * la, half * lb) / 2.f);
+                float d = r > 0.f ? r / half : 0.f;
+                Point t1{v.x + (la > 0.f ? a.x / la * d : 0.f), v.y + (la > 0.f ? a.y / la * d : 0.f)};
+                Point t2{v.x + (lb > 0.f ? b.x / lb * d : 0.f), v.y + (lb > 0.f ? b.y / lb * d : 0.f)};
 
                 if (i == 0) {
-                    moveTo(path, point);
+                    moveTo(path, t1);
                 } else {
-                    lineTo(path, point);
+                    lineTo(path, t1);
+                }
+
+                if (d > 0.f) {
+                    arcTo(path, t1, r, r, 0.f, false, a.x * b.y - a.y * b.x < 0.f, t2);
                 }
             }
 

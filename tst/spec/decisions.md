@@ -359,3 +359,19 @@ other selectors of their list still apply. It draws documents as images,
 whose links nothing follows, so no element acts as the source anchor of a
 hyperlink (`selectors-4.md#any-link-pseudo`): :any-link and :link match
 nothing either, as in a browser's SVG image.
+
+## D34. Presentation attributes are below every author rule, layered or not
+
+`css-cascade-5.md#preshint` lets a document language put its presentational
+hints in the author origin, "for example, SVG11 maps its presentation
+attributes into the author origin", and SVG 2 says they "contribute to the
+author level of the cascade, followed by all other author-level style
+sheets" (`svg2/styling.md#PresentationAttributes`). With cascade layers that
+reads as an unlayered sheet, which beats every layered rule; the same
+module's changes, though, record that "presentational hints use the author
+presentational hint origin instead of layers" (issue 6659), an origin below
+the author's. The spec says both; the browsers draw a layered rule over a
+presentation attribute, and so does the renderer: presentation attributes
+are of the author presentational hint origin, below every author rule,
+layered or not, and above the user agent's. revert rolls them back with the
+author origin; revert-layer reaches them after the earliest layer.

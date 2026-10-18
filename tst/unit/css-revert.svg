@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="26">
+<!-- Each lime square fills its black outline, and nothing red shows. revert rolls a property back past every author declaration and presentation attribute, to an inherited or initial value; revert-layer to the highest declaration of an earlier layer, then to a presentation attribute, from an important one past everything between its layer normal and important, from the style attribute to the sheets, important or not; revert-rule as if its rule were not there, again while what it reaches reverts; a geometry property, a shorthand and all revert the same, the keywords in any case. -->
+<rect width="66" height="26" fill="white"/>
+<style><![CDATA[
+.c0 .t { fill: red } .c0 .t { fill: revert }
+.c1 .t { fill: revert }
+@layer a7 { .c2 .t { fill: lime } } @layer b7 { .c2 .t { fill: revert-layer } }
+@layer a8 { .c3 .t { fill: revert-layer } }
+@layer a9 { .c4 .t { fill: lime } } .c4 .t { fill: revert-layer }
+@layer a10 { .c5 .t { fill: red } } @layer b10 { .c5 .t { fill: red } } @layer a10 { .c5 .t { fill: revert-layer !important } }
+.c6 .t { fill: lime }
+.c7 .t { fill: red } .c7 .t { fill: lime !important }
+.c8 .t { fill: lime } .c8 .t { fill: revert-rule; stroke: none }
+.c9 .t { fill: lime } .c9 .t { fill: revert-rule } .c9 .t { fill: revert-rule }
+.c10 .t { fill: lime } .c10 .t { fill: red; fill: revert-rule }
+.c11 > .t { width: revert }
+@layer g1 { .c12 .t { width: 6px } } .c12 .t { width: revert-layer }
+.c13 .t { width: 2px; width: revert-rule }
+.c14 .t { mask: url(#none) } .c14 .t { mask: revert }
+.c16 .t { fill: REVERT-RULE } .c16 .t { fill: lime }
+.c18 .t { fill: revert-layer }
+.c19 .t { mask: inherit }
+]]></style>
+<g class="c0" transform="translate(2 2)"><g fill="lime"><rect class="t" width="6" height="6"/></g></g>
+<g class="c1" transform="translate(10 2)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c2" transform="translate(18 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c4" transform="translate(34 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c5" transform="translate(42 2)"><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c6" transform="translate(50 2)"><rect class="t" width="6" height="6" fill="red" style="fill: revert-layer"/></g>
+<g class="c7" transform="translate(58 2)"><rect class="t" width="6" height="6" fill="red" style="fill: revert-layer !important"/></g>
+<g class="c8" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c9" transform="translate(10 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c10" transform="translate(18 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c11" transform="translate(26 10)"><rect width="6" height="6" fill="lime"/><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c12" transform="translate(34 10)"><rect class="t" width="2" height="6" fill="lime"/></g>
+<g class="c13" transform="translate(42 10)"><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c14" transform="translate(50 10)"><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c15" transform="translate(58 10)"><g fill="lime"><rect class="t" fill="red" style="all: revert; width: 6px; height: 6px"/></g></g>
+<g class="c16" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c17" transform="translate(10 18)"><g fill="lime"><rect class="t" width="6" height="6" fill="revert-layer"/></g></g>
+<g class="c18" transform="translate(18 18)"><g fill="lime"><rect class="t" width="6" height="6"/></g></g>
+<g class="c19" transform="translate(26 18)"><rect class="t" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/></g>
+</svg>
