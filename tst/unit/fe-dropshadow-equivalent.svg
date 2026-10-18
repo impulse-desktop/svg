@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52">
+<!-- Each feDropShadow draws as the primitives it stands for, under it: a
+blur of the input's alpha, offset, flooded with flood-color and
+flood-opacity, under the input; by default dx and dy 2, stdDeviation 2 and
+black; a negative deviation leaves the shadow sharp, a zero one blurs along
+the other axis alone. -->
+<defs>
+<filter id="s0" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="3" dy="1" stdDeviation="1" flood-color="navy" flood-opacity=".7"/></filter>
+<filter id="e0" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="1"/><feOffset dx="3" dy="1" result="o"/><feFlood flood-color="navy" flood-opacity="0.7"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="s1" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow /></filter>
+<filter id="e1" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="2"/><feOffset dx="2" dy="2" result="o"/><feFlood flood-color="black" flood-opacity="1"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="s2" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow stdDeviation="-1 2" flood-color="purple"/></filter>
+<filter id="e2" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="-1 2"/><feOffset dx="2" dy="2" result="o"/><feFlood flood-color="purple" flood-opacity="1"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="s3" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow stdDeviation="0 2" flood-color="purple"/></filter>
+<filter id="e3" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="0 2"/><feOffset dx="2" dy="2" result="o"/><feFlood flood-color="purple" flood-opacity="1"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs><rect width="64" height="52" fill="white"/>
+<rect x="4" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#s0)"/><rect x="4" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e0)"/>
+<rect x="19" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#s1)"/><rect x="19" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e1)"/>
+<rect x="34" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#s2)"/><rect x="34" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e2)"/>
+<rect x="49" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#s3)"/><rect x="49" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e3)"/>
+</svg>

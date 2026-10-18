@@ -242,3 +242,20 @@ browser does this: Chromium leaves the use out, clipping all away when it
 is alone, and Firefox does not render the element. The renderer follows the
 text: the element draws unclipped. Inkscape writes such clipPaths, a use
 of a group, and its files now show their content where browsers show none.
+
+## D25. Turbulence and spot lights as Filter Effects writes them, past the browsers
+
+`filter-effects-1.md#elementdef-feturbulence`: "The C code below shows the
+exact algorithm used for this filter effect." Filter Effects' code draws a
+lattice gradient again while it is zero or longer than one ("Make
+feTurbulence algorithms respect uniformity"); SVG 1.1's, which Chromium,
+Firefox and resvg keep, normalizes whatever it draws. The renderer runs
+Filter Effects' code, in single precision, so every turbulence differs from
+the browsers' while it matches the spec's own code to a level.
+
+`#elementdef-fespotlight`: no light where -L.S is below the cosine of
+limitingConeAngle, and the light's focus is pow(-L.S, specularExponent).
+The renderer cuts the cone sharp, as the formula does, rather than soften it
+over a band as the browsers do; a cone of any given angle limits, zero
+included; and the focus takes any exponent, where the browsers clamp it to
+1 through 128, a light past a float as bright as it can be.

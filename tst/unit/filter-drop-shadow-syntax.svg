@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="52">
+<!-- Each drop-shadow() draws as the feDropShadow under it: a missing
+blur is none, the colour the color property when left out, before or after
+the lengths; one length, a fourth, or a second shadow after a comma make
+the value invalid, no filter. -->
+<defs>
+<filter id="d0" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="2" dy="1" stdDeviation="0" flood-color="purple"/></filter>
+<filter id="d1" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="2" dy="1" stdDeviation="1" flood-color="navy"/></filter>
+<filter id="d2" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="2" dy="1" stdDeviation="1" flood-color="navy"/></filter>
+<filter id="d6" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="-1" dy="2" stdDeviation=".5" flood-color="rgba(0,0,128,.5)"/></filter>
+</defs><rect width="80" height="52" fill="white"/>
+<rect x="4" y="4" width="5" height="14" fill="#cc4d1a" color="purple" style="filter: drop-shadow(2px 1px)"/><rect x="4" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d0)"/>
+<rect x="15" y="4" width="5" height="14" fill="#cc4d1a" color="purple" style="filter: drop-shadow(navy 2px 1px 1px)"/><rect x="15" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d1)"/>
+<rect x="26" y="4" width="5" height="14" fill="#cc4d1a" color="purple" style="filter: drop-shadow(2px 1px 1px navy)"/><rect x="26" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d2)"/>
+<rect x="37" y="4" width="5" height="14" fill="#cc4d1a" color="purple" style="filter: drop-shadow(2px)"/><rect x="37" y="30" width="5" height="14" fill="#cc4d1a"/>
+<rect x="48" y="4" width="5" height="14" fill="#cc4d1a" color="purple" style="filter: drop-shadow(2px 1px 1px 1px navy)"/><rect x="48" y="30" width="5" height="14" fill="#cc4d1a"/>
+<rect x="59" y="4" width="5" height="14" fill="#cc4d1a" color="purple" style="filter: drop-shadow(2px 1px, 1px 2px)"/><rect x="59" y="30" width="5" height="14" fill="#cc4d1a"/>
+<rect x="70" y="4" width="5" height="14" fill="#cc4d1a" color="purple" style="filter: drop-shadow(rgba(0,0,128,.5) -1px 2px .5px)"/><rect x="70" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d6)"/>
+</svg>

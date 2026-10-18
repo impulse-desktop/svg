@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20">
+<!-- Each lime drawing fills its black outline. feDisplacementMap moves
+each pixel to read the input at scale times the map's channel less a half:
+red and green pick x and y, alpha both by default; a scale of zero, the
+default, moves nothing; the map is read not premultiplied, red at half
+opacity still a whole; in linearRGB the map's channels are linear, 225 a
+quarter past the half, in sRGB as written, 191 so too, while the input
+keeps its colour. -->
+<defs>
+<filter id="d0" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#ff0000" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter>
+<filter id="d1" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#000" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8"/></filter>
+<filter id="d2" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#ff0000" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R"/></filter>
+<filter id="d3" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#ff0000" flood-opacity=".5" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="R" yChannelSelector="A"/></filter>
+<filter id="d4" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#e1e1e1" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="R" yChannelSelector="B" color-interpolation-filters="linearRGB"/></filter>
+<filter id="d5" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#bfbfbf" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="G" yChannelSelector="B" color-interpolation-filters="sRGB"/></filter>
+</defs><rect width="80" height="20" fill="white"/>
+<rect x="6" y="6" width="5" height="8" fill="lime" filter="url(#d0)"/>
+<rect x="19" y="6" width="5" height="8" fill="lime" filter="url(#d1)"/>
+<rect x="32" y="6" width="5" height="8" fill="lime" filter="url(#d2)"/>
+<rect x="45" y="6" width="5" height="8" fill="lime" filter="url(#d3)"/>
+<rect x="58" y="6" width="5" height="8" fill="lime" filter="url(#d4)"/>
+<rect x="71" y="6" width="5" height="8" fill="lime" filter="url(#d5)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="10" width="5" height="8"/><rect x="15" y="2" width="5" height="8"/><rect x="32" y="6" width="5" height="8"/><rect x="41" y="6" width="5" height="8"/><rect x="56" y="4" width="5" height="8"/><rect x="69" y="4" width="5" height="8"/></g>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="24">
+<!-- Each lime drawing keeps to its black outline where it should be sharp.
+One deviation blurs both axes; two are x then y, a zero one leaving that
+axis sharp; a negative one, or zero, or none given, passes the input
+through sharp; the blur of a solid fill paint, of no edge, is that paint,
+filling the region. -->
+<defs>
+<filter id="b0" x="-.5" y="-.25" width="2" height="1.5"><feGaussianBlur stdDeviation="2"/></filter>
+<filter id="b1" x="-.5" y="-.25" width="2" height="1.5"><feGaussianBlur stdDeviation="3 0"/></filter>
+<filter id="b2" x="-.5" y="-.25" width="2" height="1.5"><feGaussianBlur stdDeviation="0 3"/></filter>
+<filter id="b3" x="-.5" y="-.25" width="2" height="1.5"><feGaussianBlur stdDeviation="-1 3"/></filter>
+<filter id="b4" x="-.5" y="-.25" width="2" height="1.5"><feGaussianBlur stdDeviation="0"/></filter>
+<filter id="b5" x="-.5" y="-.25" width="2" height="1.5"><feGaussianBlur /></filter>
+<filter id="b6" x="-.5" y="-.25" width="2" height="1.5"><feGaussianBlur in="FillPaint" stdDeviation="3"/></filter>
+</defs><rect width="92" height="24" fill="white"/>
+<rect x="5" y="6" width="4" height="12" fill="lime" filter="url(#b0)"/>
+<rect x="18" y="6" width="4" height="12" fill="lime" filter="url(#b1)"/>
+<rect x="31" y="6" width="4" height="12" fill="lime" filter="url(#b2)"/>
+<rect x="44" y="6" width="4" height="12" fill="lime" filter="url(#b3)"/>
+<rect x="57" y="6" width="4" height="12" fill="lime" filter="url(#b4)"/>
+<rect x="70" y="6" width="4" height="12" fill="lime" filter="url(#b5)"/>
+<rect x="83" y="6" width="4" height="12" fill="lime" filter="url(#b6)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="5" y="6" width="4" height="12"/><rect x="18" y="6" width="4" height="12"/><rect x="31" y="6" width="4" height="12"/><rect x="44" y="6" width="4" height="12"/><rect x="57" y="6" width="4" height="12"/><rect x="70" y="6" width="4" height="12"/><rect x="81" y="3" width="8" height="18"/></g></svg>

@@ -19742,11 +19742,12 @@ namespace {
             return;
         }
 
-        // A negative deviation is zero: no blur along that axis.
-        sx = userX(f, maxf(sx, 0.f)) * run.scaleX;
-        sy = userY(f, maxf(sy, 0.f)) * run.scaleY;
+        // A negative deviation, or two of zero, pass the input through; one
+        // of zero blurs along the other axis alone.
+        sx = userX(f, sx) * run.scaleX;
+        sy = userY(f, sy) * run.scaleY;
 
-        if (sx <= 0.f && sy <= 0.f) {
+        if (sx < 0.f || sy < 0.f || (sx == 0.f && sy == 0.f)) {
             copyBox(in, out, p.box);
 
             return;
@@ -19785,16 +19786,12 @@ namespace {
             return;
         }
 
-        // The deviation goes to a blur, where a negative one is zero: no
-        // blur along that axis.
-        sx = maxf(sx, 0.f);
-        sy = maxf(sy, 0.f);
-
+        // The deviation goes to a blur, which a negative one disables.
         Color c = toSpace(p.flood, p.linear);
         IntBox all = run.filter->region;
         Plane shadow = makePlane(all);
 
-        if (userX(f, sx) * run.scaleX > 0.f || userY(f, sy) * run.scaleY > 0.f) {
+        if (sx >= 0.f && sy >= 0.f && (userX(f, sx) * run.scaleX > 0.f || userY(f, sy) * run.scaleY > 0.f)) {
             blurBuffer(run, in, shadow, all, userX(f, sx) * run.scaleX, userY(f, sy) * run.scaleY, false, EdgeMode::None, all);
         } else {
             copyBox(in, shadow, all);
@@ -20980,16 +20977,20 @@ namespace {
             return;
         }
 
+        // An order not whole is truncated toward zero.
         int orderX = (int)ox;
         int orderY = (int)oy;
 
-        if ((float)orderX != ox || (float)orderY != oy || orderX < 1 || orderY < 1 || orderX > 32 || orderY > 32) {
+        if (!(ox < 33.f) || !(oy < 33.f) || orderX < 1 || orderY < 1) {
             return;
         }
 
         Vector<float> kernel;
 
+        // A kernel of another count passes the input through.
         if (!numberList(doc, p.node, AtomKernelMatrix, kernel) || kernel.length() != (size_t)(orderX * orderY)) {
+            copyBox(in, out, p.box);
+
             return;
         }
 
@@ -21212,12 +21213,14 @@ namespace {
                 const i32* a = sums + (size_t)x * 4;
                 u16* d = o + (size_t)x * 4;
 
-                // The colours not premultiplied, over the input's alpha.
+                // The colours not premultiplied, the bias times the input's
+                // alpha, over that alpha.
                 if (preserve) {
                     u32 alpha = row[(size_t)x * 4 + 3];
+                    i64 unbiased = (i64)fixed.constant * (i64)(65535u - alpha) / 65535;
 
                     for (int ch = 0; ch < 3; ch++) {
-                        d[ch] = (u16)div65535(fixedValue(fixed, a[ch]) * alpha);
+                        d[ch] = (u16)div65535(fixedValue(fixed, (i32)((i64)a[ch] - unbiased)) * alpha);
                     }
 
                     d[3] = (u16)alpha;
@@ -21281,16 +21284,25 @@ namespace {
         int j;
         int k;
 
+        // Filter Effects draws a gradient again while it is zero or longer
+        // than one, so that its directions are uniform.
         for (k = 0; k < 4; k++) {
             for (i = 0; i < 0x100; i++) {
                 t.lattice[i] = i;
 
-                for (j = 0; j < 2; j++) {
-                    seed = turbulenceRandom(seed);
-                    t.gradient[i][j][k] = (float)((seed % (0x100 + 0x100)) - 0x100) / 0x100;
-                }
+                do {
+                    for (j = 0; j < 2; j++) {
+                        seed = turbulenceRandom(seed);
+                        t.gradient[i][j][k] = (float)((seed % (0x100 + 0x100)) - 0x100) / 0x100;
+                    }
+                } while (t.gradient[i][0][k] == 0.f && t.gradient[i][1][k] == 0.f);
 
                 float s = sqrtf(t.gradient[i][0][k] * t.gradient[i][0][k] + t.gradient[i][1][k] * t.gradient[i][1][k]);
+
+                if (s > 1.f) {
+                    i--;
+                    continue;
+                }
 
                 t.gradient[i][0][k] /= s;
                 t.gradient[i][1][k] /= s;
@@ -21674,7 +21686,6 @@ namespace {
         Vector3 spotDirection{0.f, 0.f, 0.f};
         float spotExponent = 1.f;
         float cosOuter = -1.f;
-        float cosInner = -1.f;
         bool limited = false;
 
         if (light->name == AtomFeDistantLight) {
@@ -21690,14 +21701,13 @@ namespace {
 
                 spotDirection = normalize3(Vector3{target.x - lightPosition.x, target.y - lightPosition.y, target.z - lightPosition.z});
                 spotExponent = numberOf(doc, light, AtomSpecularExponent, 1.f);
-                spotExponent = spotExponent < 1.f ? 1.f : (spotExponent > 128.f ? 128.f : spotExponent);
 
-                if (attribute(light, AtomLimitingConeAngle) && numberOf(doc, light, AtomLimitingConeAngle, 0.f) != 0.f) {
+                // A cone given, of any angle, leaves no light past it.
+                if (attribute(light, AtomLimitingConeAngle)) {
                     float angle = fabsf(numberOf(doc, light, AtomLimitingConeAngle, 90.f));
 
                     limited = true;
                     cosOuter = cosf(angle * pi / 180.f);
-                    cosInner = cosOuter + 0.016f;
                 }
             }
         }
@@ -21870,12 +21880,10 @@ namespace {
                     float cosAngle = -dot3(toLight, spotDirection);
                     float s = 0.f;
 
+                    // The focus is any exponent; past a float the light is
+                    // as bright as it can be.
                     if (!limited || cosAngle >= cosOuter) {
-                        s = cosAngle > 0.f ? powf(cosAngle, spotExponent) : 0.f;
-
-                        if (limited && cosAngle < cosInner) {
-                            s *= (cosAngle - cosOuter) / 0.016f;
-                        }
+                        s = cosAngle > 0.f ? minf(powf(cosAngle, spotExponent), 3e38f) : 0.f;
                     }
 
                     color = Color{color.r * s, color.g * s, color.b * s, 1.f};
