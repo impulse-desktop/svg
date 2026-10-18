@@ -8500,6 +8500,21 @@ namespace {
         addPolygon(out, shape.data(), shape.length());
     }
 
+    // The sector the inner end of a stroke's normal sweeps at a smooth point
+    // p, as the outer end does from from through sweep, turned the way the
+    // outlines do; within the tolerance of its arc, a triangle.
+    static void addSector(Flat& out, const StrokeParams& s, Point p, float from, float sweep, bool arc) {
+        float start = sweep > 0.f ? from + pi : from + pi + sweep;
+
+        if (arc) {
+            addFan(out, p, s.half, start, fabsf(sweep), s.tol);
+        } else {
+            Point sector[3] = {p, Point{p.x + s.half * cosf(start), p.y + s.half * sinf(start)}, Point{p.x + s.half * cosf(start + fabsf(sweep)), p.y + s.half * sinf(start + fabsf(sweep))}};
+
+            addPolygon(out, sector, 3);
+        }
+    }
+
     // The points of the cap at the end p of a stroke going d, from its left
     // offset round to its right one.
     static void addCapPoints(Vector<Point>& out, const StrokeParams& s, Point p, Point d) {
@@ -8648,7 +8663,13 @@ namespace {
             // sector a smooth point sweeps.
             float back = 1.f + dot > 1e-6f ? s.half * fabsf(cross) / (1.f + dot) : lengths[in] + 1.f;
 
-            if (back <= lengths[in] && back <= lengths[next]) {
+            // Inside a curve tighter than the half width, h times the turn
+            // past a segment's length, the crossing lies beyond the centre of
+            // the curve and the inner side would turn inside out: it runs
+            // through the point, and the sector covers what it leaves.
+            bool inverted = kind[k] == PointSmooth && s.half * fabsf(atan2f(cross, dot)) > fminf(lengths[in], lengths[next]);
+
+            if (!inverted && back <= lengths[in] && back <= lengths[next]) {
                 Point q = sides[inner].back();
 
                 sides[inner].mut(sides[inner].length() - 1) = Point{q.x - d0.x * back, q.y - d0.y * back};
@@ -8659,18 +8680,8 @@ namespace {
             sides[inner].pushBack(p);
             sides[inner].pushBack(offset(p, d1, -side));
 
-            // The sector turns the way the outlines do; within the
-            // tolerance of its arc, as the outer side's, a triangle.
             if (kind[k] == PointSmooth) {
-                float start = sweep > 0.f ? from + pi : from + pi + sweep;
-
-                if (arc) {
-                    addFan(out, p, s.half, start, fabsf(sweep), s.tol);
-                } else {
-                    Point sector[3] = {p, Point{p.x + s.half * cosf(start), p.y + s.half * sinf(start)}, Point{p.x + s.half * cosf(start + fabsf(sweep)), p.y + s.half * sinf(start + fabsf(sweep))}};
-
-                    addPolygon(out, sector, 3);
-                }
+                addSector(out, s, p, from, sweep, arc);
             }
         };
 
