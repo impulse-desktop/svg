@@ -1437,10 +1437,25 @@ namespace {
         Vector<Point> points;
     };
 
+    // What a stroke does at a point between two segments of its polyline:
+    // at a corner it takes the join; at a cusp, where a curve turns back
+    // with no speed, nothing, its normal one line either way; at a smooth
+    // point, inside a curve, it sweeps the normal round.
+    enum PointKind : u8 {
+        PointCorner,
+        PointCusp,
+        PointSmooth,
+    };
+
     struct Flat {
         Vector<Point> points;
         Vector<u32> ends;
         Vector<u8> closed;
+        // For a stroke, per point: its kind, and the direction of the
+        // segment that comes to it, measured on the curve rather than from
+        // the rounded points, none where it has no length.
+        Vector<u8> kinds;
+        Vector<Point> dirs;
     };
 
     enum Cap : u8 {
@@ -7872,41 +7887,6 @@ namespace {
         return Point{p0.x + b * (p1.x - p0.x) + c * (p2.x - p0.x) + d * (p3.x - p0.x), p0.y + b * (p1.y - p0.y) + c * (p2.y - p0.y) + d * (p3.y - p0.y)};
     }
 
-    static float deviation(Point a, Point b) {
-        return fabsf(atan2f(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
-    }
-
-    static Point endTangent(Point a, Point b, Point c) {
-        Point t{b.x - a.x, b.y - a.y};
-
-        // A cubic with both controls at an end is straight and not refined.
-        if (t.x == 0.f && t.y == 0.f) {
-            t = Point{c.x - a.x, c.y - a.y};
-        }
-
-        return t;
-    }
-
-    static int refinements(Point p0, Point p1, Point p2, Point p3, float step, bool end, float turn, float tol) {
-        Point anchor = end ? p3 : p0;
-        Point tangent = end ? endTangent(p3, p2, p1) : endTangent(p0, p1, p2);
-        int k = 0;
-
-        while (k < 12) {
-            Point q = cubicAt(p0, p1, p2, p3, end ? 1.f - step : step);
-            Point chord{q.x - anchor.x, q.y - anchor.y};
-
-            if (chord.x * chord.x + chord.y * chord.y < tol * tol || deviation(tangent, chord) <= turn) {
-                break;
-            }
-
-            step *= 0.5f;
-            k++;
-        }
-
-        return k;
-    }
-
     static bool straightCubic(Point p0, Point p1, Point p2, Point p3) {
         double dx = (double)p3.x - p0.x;
         double dy = (double)p3.y - p0.y;
@@ -7926,6 +7906,264 @@ namespace {
         return dx * y1 == dy * x1 && dx * y2 == dy * x2 && along1 >= 0.0 && along2 >= along1 && along2 <= length;
     }
 
+    // The points of a cubic after its start, to the tolerance.
+    static void flattenCubic(Point p0, Point p1, Point p2, Point p3, float tol, Vector<Point>& points) {
+        float ddx = maxf(fabsf(p0.x - 2.f * p1.x + p2.x), fabsf(p1.x - 2.f * p2.x + p3.x));
+        float ddy = maxf(fabsf(p0.y - 2.f * p1.y + p2.y), fabsf(p1.y - 2.f * p2.y + p3.y));
+        float dd = sqrtf(ddx * ddx + ddy * ddy);
+        float steps = ceilf(sqrtf(0.75f * dd / tol));
+        int n = steps >= 1.f ? (steps < 512.f ? (int)steps : 512) : 1;
+
+        for (int i = 1; i < n; i++) {
+            points.pushBack(cubicAt(p0, p1, p2, p3, (float)i / n));
+        }
+
+        points.pushBack(p3);
+    }
+
+    struct DPoint {
+        double x;
+        double y;
+    };
+
+    // A cubic as powers of t from its start, in doubles, which keep its
+    // shape where the floats of points along it cannot: from p0 it is at
+    // 3 a t + 3 b t^2 + c t^3, and its velocity over 3 is a + 2 b t + c t^2.
+    struct Powers {
+        DPoint a;
+        DPoint b;
+        DPoint c;
+    };
+
+    static Powers powers(Point p0, Point p1, Point p2, Point p3) {
+        return Powers{DPoint{(double)p1.x - p0.x, (double)p1.y - p0.y}, DPoint{(double)p2.x - 2.0 * p1.x + p0.x, (double)p2.y - 2.0 * p1.y + p0.y}, DPoint{(double)p3.x - 3.0 * p2.x + 3.0 * p1.x - p0.x, (double)p3.y - 3.0 * p2.y + 3.0 * p1.y - p0.y}};
+    }
+
+    static DPoint powerAt(const Powers& q, double t) {
+        return DPoint{((q.c.x * t + 3.0 * q.b.x) * t + 3.0 * q.a.x) * t, ((q.c.y * t + 3.0 * q.b.y) * t + 3.0 * q.a.y) * t};
+    }
+
+    static DPoint powerVelocity(const Powers& q, double t) {
+        return DPoint{q.a.x + (2.0 * q.b.x + q.c.x * t) * t, q.a.y + (2.0 * q.b.y + q.c.y * t) * t};
+    }
+
+    // The chord of a cubic from t to t + h, as powers of h, exact however
+    // short.
+    static DPoint powerChord(const Powers& q, double t, double h) {
+        DPoint v = powerVelocity(q, t);
+        double wx = q.b.x + q.c.x * t;
+        double wy = q.b.y + q.c.y * t;
+
+        return DPoint{((q.c.x * h + 3.0 * wx) * h + 3.0 * v.x) * h, ((q.c.y * h + 3.0 * wy) * h + 3.0 * v.y) * h};
+    }
+
+    static double deviation(DPoint a, DPoint b) {
+        return fabs(atan2(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y));
+    }
+
+    // The way a cubic leaves t on toward side, 1 or -1: along its velocity,
+    // or where it rests, at a cusp or at an end on its control, along its
+    // acceleration, which it leaves by either way.
+    static DPoint leaving(const Powers& q, double t, double side, bool cusp) {
+        DPoint v = powerVelocity(q, t);
+
+        if (cusp || (v.x == 0.0 && v.y == 0.0)) {
+            return DPoint{q.b.x + q.c.x * t, q.b.y + q.c.y * t};
+        }
+
+        return DPoint{v.x * side, v.y * side};
+    }
+
+    // How many times the step from t toward side halves until the chord
+    // runs the way the cubic leaves t, to the turn, however short, as a cap
+    // and the joins after it go by its direction; and until its end lies as
+    // near the tangent there as the even steps of the tolerance keep it,
+    // 4 tol, which a cubic too long for its steps does not.
+    static int refinements(const Powers& q, double t, double step, double side, bool cusp, float turn, float tol) {
+        DPoint way = leaving(q, t, side, cusp);
+        double length = sqrt(way.x * way.x + way.y * way.y);
+        int k = 0;
+
+        while (k < 40) {
+            DPoint chord = powerChord(q, t, side * step);
+
+            if (!(deviation(way, chord) > turn || fabs(way.x * chord.y - way.y * chord.x) > 4.0 * tol * length)) {
+                break;
+            }
+
+            step *= 0.5;
+            k++;
+        }
+
+        return k;
+    }
+
+    // The parameters of a cubic strictly between t0 and t1, halving the
+    // span where its direction bends past bend: a stroke's join between two
+    // points then lies within the tolerance of the sweep of its normals.
+    static void bendParameters(const Powers& q, double t0, double t1, double bend, int depth, Vector<double>& out) {
+        // A bend past the numbers is no bend to halve.
+        if (depth == 0 || !(deviation(powerVelocity(q, t0), powerVelocity(q, t1)) > bend)) {
+            return;
+        }
+
+        double t = (t0 + t1) / 2.0;
+
+        bendParameters(q, t0, t, bend, depth - 1, out);
+        out.pushBack(t);
+        bendParameters(q, t, t1, bend, depth - 1, out);
+    }
+
+    // The roots of c + 2 b t + a t^2 where its sign changes, in order, the
+    // rest of the two left at -1.
+    static void signChanges(double a, double b, double c, double* roots) {
+        double d = b * b - a * c;
+
+        if (a == 0.0) {
+            roots[0] = b != 0.0 ? -c / (2.0 * b) : -1.0;
+        } else if (d > 0.0) {
+            double q = -(b + copysign(sqrt(d), b));
+            double r0 = q / a;
+            double r1 = c / q;
+
+            roots[0] = fmin(r0, r1);
+            roots[1] = fmax(r0, r1);
+        }
+    }
+
+    // The parameters inside a cubic where its tangent turns back, in order,
+    // and their kind. Its turning goes as cross(v, v') = cross(a, b)
+    // + cross(a, c) t + cross(b, c) t^2: where that changes sign the cubic
+    // inflects, and where it touches zero its velocity is none, a cusp. A
+    // cubic along a line turns back where its speed along it changes sign,
+    // each a cusp.
+    static int turnPoints(const Powers& q, double* out, u8& kind, bool& line) {
+        double qa = q.b.x * q.c.y - q.b.y * q.c.x;
+        double qb = q.a.x * q.c.y - q.a.y * q.c.x;
+        double qc = q.a.x * q.b.y - q.a.y * q.b.x;
+        double roots[2] = {-1.0, -1.0};
+
+        line = qa == 0.0 && qb == 0.0 && qc == 0.0;
+        kind = PointCusp;
+
+        if (line) {
+            // Along a, or b where the first control is at the start: a cubic
+            // with both there is straight and never comes here.
+            bool rest = q.a.x == 0.0 && q.a.y == 0.0;
+            DPoint u = rest ? q.b : q.a;
+
+            signChanges(q.c.x * u.x + q.c.y * u.y, q.b.x * u.x + q.b.y * u.y, q.a.x * u.x + q.a.y * u.y, roots);
+        } else if (qa != 0.0 && qb * qb == 4.0 * qa * qc) {
+            roots[0] = -qb / (2.0 * qa);
+        } else {
+            signChanges(qa, qb / 2.0, qc, roots);
+            kind = PointSmooth;
+        }
+
+        int count = 0;
+
+        for (double t : roots) {
+            if (t > 0.0 && t < 1.0) {
+                out[count++] = t;
+            }
+        }
+
+        return count;
+    }
+
+    // Adds a stroke's point of a cubic at t, smooth, with the direction of
+    // the chord to it from where its last point was, at from: a cubic that
+    // is no point, as a straight one at one place is, moves between any two
+    // of its parameters.
+    static void addCurvePoint(Flat& out, Point p0, Point p3, const Powers& q, double from, double t) {
+        DPoint at = powerAt(q, t);
+        DPoint d = powerChord(q, from, t - from);
+        double length = sqrt(d.x * d.x + d.y * d.y);
+
+        out.points.pushBack(t == 1.0 ? p3 : Point{(float)(p0.x + at.x), (float)(p0.y + at.y)});
+        out.kinds.pushBack(PointSmooth);
+        out.dirs.pushBack(Point{(float)(d.x / length), (float)(d.y / length)});
+    }
+
+    // A stroke's piece of a cubic from ta to tb, its points after ta: the
+    // even steps of the tolerance, each end refined until its chord runs as
+    // the cubic leaves it, and the points between where it bends sharply.
+    // rate is the steps of the whole cubic.
+    static void strokePiece(Flat& out, Point p0, Point p3, const Powers& q, double ta, double tb, bool cuspA, bool cuspB, double rate, float turn, float tol) {
+        double span = tb - ta;
+        double steps = ceil(rate * span);
+        // At least a point between the ends, each then refining a chord of
+        // its own.
+        int n = steps >= 2.0 ? (steps < 512.0 ? (int)steps : 512) : 2;
+        double step = span / n;
+        int head = refinements(q, ta, step, 1.0, cuspA, turn, tol);
+        int tail = refinements(q, tb, step, -1.0, cuspB, turn, tol);
+        Vector<double> ts;
+
+        ts.pushBack(ta);
+
+        for (int k = head; k >= 1; k--) {
+            ts.pushBack(ta + ldexp(step, -k));
+        }
+
+        for (int i = 1; i < n; i++) {
+            ts.pushBack(ta + span * i / n);
+        }
+
+        for (int k = 1; k <= tail; k++) {
+            ts.pushBack(tb - ldexp(step, -k));
+        }
+
+        ts.pushBack(tb);
+
+        // The joins between the points keep within the tolerance of the
+        // turn the offset allows, sqrt(8 turn).
+        Vector<double> all;
+
+        for (size_t i = 1; i < ts.length(); i++) {
+            bendParameters(q, ts[i - 1], ts[i], sqrt(8.0 * turn), 24, all);
+            all.pushBack(ts[i]);
+        }
+
+        double from = ta;
+
+        for (double t : all) {
+            addCurvePoint(out, p0, p3, q, from, t);
+            from = t;
+        }
+    }
+
+    // A stroke's cubic: its points after its start, their kinds and the
+    // directions of the chords to them, the last a corner. It goes in
+    // pieces between the points where its tangent turns back: the normals
+    // there bound its sweep as the ends' do, and each piece refines its
+    // chords at its ends. A cubic along a line is straight between its
+    // cusps.
+    static void strokeCurve(Flat& out, Point p0, Point p1, Point p2, Point p3, float tol, float turn) {
+        Powers q = powers(p0, p1, p2, p3);
+        double at[2];
+        u8 kind;
+        bool line;
+        int count = turnPoints(q, at, kind, line);
+        double ddx = fmax(fabs((double)p0.x - 2.0 * p1.x + p2.x), fabs((double)p1.x - 2.0 * p2.x + p3.x));
+        double ddy = fmax(fabs((double)p0.y - 2.0 * p1.y + p2.y), fabs((double)p1.y - 2.0 * p2.y + p3.y));
+        double rate = sqrt(0.75 * sqrt(ddx * ddx + ddy * ddy) / tol);
+        double from = 0.0;
+
+        for (int i = 0; i <= count; i++) {
+            double to = i < count ? at[i] : 1.0;
+
+            if (line) {
+                addCurvePoint(out, p0, p3, q, from, to);
+            } else {
+                strokePiece(out, p0, p3, q, from, to, i > 0 && kind == PointCusp, i < count && kind == PointCusp, rate, turn, tol);
+            }
+
+            out.kinds.mutBack() = i < count ? kind : PointCorner;
+            from = to;
+        }
+    }
+
     static void flatten(const Path& path, const Matrix& m, float tol, float turn, Flat& out) {
         const Point* pts = path.points.data();
         size_t pi = 0;
@@ -7938,6 +8176,21 @@ namespace {
                 out.ends.pushBack((u32)out.points.length());
                 out.closed.pushBack(closed ? 1 : 0);
                 open = false;
+            }
+        };
+
+        // The point a verb adds for a stroke, unless a curve gave its own: a
+        // corner, come to along the chord from the point before.
+        auto mark = [&]() {
+            if (turn > 0.f && out.kinds.length() < out.points.length()) {
+                size_t k = out.points.length() - 1;
+                Point before = k ? out.points[k - 1] : out.points[k];
+                double dx = (double)out.points[k].x - before.x;
+                double dy = (double)out.points[k].y - before.y;
+                double length = sqrt(dx * dx + dy * dy);
+
+                out.kinds.pushBack(PointCorner);
+                out.dirs.pushBack(length > 0.0 ? Point{(float)(dx / length), (float)(dy / length)} : Point{0.f, 0.f});
             }
         };
 
@@ -7970,32 +8223,11 @@ namespace {
                         break;
                     }
 
-                    float ddx = maxf(fabsf(p0.x - 2.f * p1.x + p2.x), fabsf(p1.x - 2.f * p2.x + p3.x));
-                    float ddy = maxf(fabsf(p0.y - 2.f * p1.y + p2.y), fabsf(p1.y - 2.f * p2.y + p3.y));
-                    float dd = sqrtf(ddx * ddx + ddy * ddy);
-                    float steps = ceilf(sqrtf(0.75f * dd / tol));
-                    int n = steps >= 1.f ? (steps < 512.f ? (int)steps : 512) : 1;
-
-                    int head = turn > 0.f ? refinements(p0, p1, p2, p3, 1.f / n, false, turn, tol) : 0;
-                    int tail = turn > 0.f ? refinements(p0, p1, p2, p3, 1.f / n, true, turn, tol) : 0;
-
-                    if (n == 1 && head && tail) {
-                        tail--;
+                    if (turn > 0.f) {
+                        strokeCurve(out, p0, p1, p2, p3, tol, turn);
+                    } else {
+                        flattenCubic(p0, p1, p2, p3, tol, out.points);
                     }
-
-                    for (int k = head; k >= 1; k--) {
-                        out.points.pushBack(cubicAt(p0, p1, p2, p3, ldexpf(1.f / n, -k)));
-                    }
-
-                    for (int i = 1; i < n; i++) {
-                        out.points.pushBack(cubicAt(p0, p1, p2, p3, (float)i / n));
-                    }
-
-                    for (int k = 1; k <= tail; k++) {
-                        out.points.pushBack(cubicAt(p0, p1, p2, p3, 1.f - ldexpf(1.f / n, -k)));
-                    }
-
-                    out.points.pushBack(p3);
 
                     last = p3;
                     pi += 3;
@@ -8015,6 +8247,8 @@ namespace {
                     last = start;
                     break;
             }
+
+            mark();
         }
 
         finish(false);
@@ -8157,6 +8391,32 @@ namespace {
         }
     }
 
+    // The angle through which the outer normal n0 of a turn from d0 to d1
+    // sweeps round to n1, the way the turn goes, and from where.
+    static float normalSweep(Point n0, Point n1, Point d0, Point d1, float& from) {
+        from = atan2f(n0.y, n0.x);
+
+        float sweep = atan2f(n1.y, n1.x) - from;
+
+        while (sweep > pi) {
+            sweep -= 2.f * pi;
+        }
+
+        while (sweep < -pi) {
+            sweep += 2.f * pi;
+        }
+
+        float middle = from + sweep / 2.f;
+
+        // Only a reversal is ambiguous, and its normals sweep half a turn
+        // from the cut of atan2 the wrong way.
+        if (cosf(middle) * (d0.x - d1.x) + sinf(middle) * (d0.y - d1.y) < 0.f) {
+            sweep -= 2.f * pi;
+        }
+
+        return sweep;
+    }
+
     // The points of the join of a turn at p from d0 to d1 on its outer side,
     // between the ends of the two offset edges there: an arc, a miter's tip
     // or, for a bevel, none.
@@ -8168,25 +8428,8 @@ namespace {
         Point n1{-d1.y * side, d1.x * side};
 
         if (s.join == JoinRound) {
-            float from = atan2f(n0.y, n0.x);
-            float to = atan2f(n1.y, n1.x);
-            float sweep = to - from;
-
-            while (sweep > pi) {
-                sweep -= 2.f * pi;
-            }
-
-            while (sweep < -pi) {
-                sweep += 2.f * pi;
-            }
-
-            float middle = from + sweep / 2.f;
-
-            // Only a reversal is ambiguous, and its normals sweep half a turn
-            // from the cut of atan2 the wrong way.
-            if (cosf(middle) * (d0.x - d1.x) + sinf(middle) * (d0.y - d1.y) < 0.f) {
-                sweep -= 2.f * pi;
-            }
+            float from;
+            float sweep = normalSweep(n0, n1, d0, d1, from);
 
             addArcPoints(out, p, s.half, from, sweep, s.tol);
 
@@ -8205,6 +8448,31 @@ namespace {
                 out.pushBack(Point{p.x + m.x / length * reach, p.y + m.y / length * reach});
             }
         }
+    }
+
+    // The join of a turn at p from d0 to d1 as a shape of its own: p, the
+    // ends of the two offset edges on the outer side and the join between,
+    // turning the way the outlines do.
+    static void addJoinShape(Flat& out, const StrokeParams& s, Point p, Point d0, Point d1) {
+        float side = d0.x * d1.y - d0.y * d1.x > 0.f ? -1.f : 1.f;
+        Vector<Point> shape;
+
+        shape.pushBack(p);
+        shape.pushBack(Point{p.x - d0.y * s.half * side, p.y + d0.x * s.half * side});
+        addJoin(shape, s, p, d0, d1);
+        shape.pushBack(Point{p.x - d1.y * s.half * side, p.y + d1.x * s.half * side});
+
+        // Where the turn goes the other way, so does the shape.
+        if (side > 0.f) {
+            for (size_t k = 0; k < shape.length() / 2; k++) {
+                Point t = shape[k];
+
+                shape.mut(k) = shape[shape.length() - 1 - k];
+                shape.mut(shape.length() - 1 - k) = t;
+            }
+        }
+
+        addPolygon(out, shape.data(), shape.length());
     }
 
     // The points of the cap at the end p of a stroke going d, from its left
@@ -8235,17 +8503,36 @@ namespace {
     // the count of the segments' quads, joins and caps over a point less
     // the inner corners where two quads overlap, at least one inside their
     // union and none outside: the nonzero rule fills exactly the union.
-    static void strokePolyline(Flat& out, const StrokeParams& s, const Point* points, size_t count, bool closed) {
+    // A cusp takes no join. At a smooth point, inside a curve, the stroke
+    // sweeps its normal round the turn instead: its outer end arcs whatever
+    // the join, and its inner end sweeps a sector of the same angle, a
+    // polygon of its own where the inner offset edges do not cross.
+    static void strokePolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, size_t count, bool closed) {
         Vector<Point> pts;
+        Vector<u8> kind;
+        Vector<Point> came;
 
+        // Each point after the first comes along the direction of its
+        // segment, which may be shorter than the floats can tell; one come
+        // along none, a line's after no length, goes, the corner before it
+        // standing for it.
         for (size_t i = 0; i < count; i++) {
-            if (pts.length() == 0 || pts.back().x != points[i].x || pts.back().y != points[i].y) {
+            if (pts.length() == 0 || into[i].x != 0.f || into[i].y != 0.f) {
                 pts.pushBack(points[i]);
+                kind.pushBack(kinds[i]);
+                came.pushBack(into[i]);
             }
         }
 
-        if (closed && pts.length() > 1 && pts.back().x == pts[0].x && pts.back().y == pts[0].y) {
+        // A closed polyline comes back to its start along its last segment,
+        // or where its last point is at the start, along that point's own.
+        bool returned = closed && pts.length() > 1 && pts.back().x == pts[0].x && pts.back().y == pts[0].y;
+        Point closing{0.f, 0.f};
+
+        if (returned) {
             pts.popBack();
+            kind.popBack();
+            closing = came.popBack();
         }
 
         // A run of two or more points at one place: its caps make a dot.
@@ -8274,7 +8561,7 @@ namespace {
             float dy = b.y - a.y;
             float length = (float)sqrt((double)dx * dx + (double)dy * dy);
 
-            dirs.pushBack(Point{dx / length, dy / length});
+            dirs.pushBack(i + 1 < n ? came[i + 1] : (returned ? closing : Point{dx / length, dy / length}));
             lengths.pushBack(length);
         }
 
@@ -8286,10 +8573,10 @@ namespace {
             return Point{p.x - d.y * s.half * side, p.y + d.x * s.half * side};
         };
 
-        auto turn = [&](size_t k, size_t in, size_t out) {
+        auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
             Point d0 = dirs[in];
-            Point d1 = dirs[out];
+            Point d1 = dirs[next];
             float cross = d0.x * d1.y - d0.y * d1.x;
             float dot = d0.x * d1.x + d0.y * d1.y;
             // The right side is outer where the turn is to the left.
@@ -8308,15 +8595,35 @@ namespace {
                 return;
             }
 
-            addJoin(sides[outer], s, p, d0, d1);
-            sides[outer].pushBack(offset(p, d1, outer ? -1.f : 1.f));
+            float side = outer ? -1.f : 1.f;
+            float from = 0.f;
+            float sweep = 0.f;
+            bool arc = false;
+
+            if (kind[k] == PointSmooth) {
+                sweep = normalSweep(Point{-d0.y * side, d0.x * side}, Point{-d1.y * side, d1.x * side}, d0, d1, from);
+
+                // The chord between the offset edges' ends does where it
+                // keeps to the tolerance of the arc, as the bends of a
+                // curve's points mostly keep it.
+                arc = s.half * (1.f - cosf(sweep / 2.f)) > s.tol;
+
+                if (arc) {
+                    addArcPoints(sides[outer], p, s.half, from, sweep, s.tol);
+                }
+            } else if (kind[k] == PointCorner) {
+                addJoin(sides[outer], s, p, d0, d1);
+            }
+
+            sides[outer].pushBack(offset(p, d1, side));
 
             // The inner offset edges cross where each is cut back by half
             // tan(turn / 2); past either one's length the side runs through
-            // the point instead.
+            // the point instead. Where they cross, the two quads hold the
+            // sector a smooth point sweeps.
             float back = 1.f + dot > 1e-6f ? s.half * fabsf(cross) / (1.f + dot) : lengths[in] + 1.f;
 
-            if (back <= lengths[in] && back <= lengths[out]) {
+            if (back <= lengths[in] && back <= lengths[next]) {
                 Point q = sides[inner].back();
 
                 sides[inner].mut(sides[inner].length() - 1) = Point{q.x - d0.x * back, q.y - d0.y * back};
@@ -8325,7 +8632,21 @@ namespace {
             }
 
             sides[inner].pushBack(p);
-            sides[inner].pushBack(offset(p, d1, inner ? -1.f : 1.f));
+            sides[inner].pushBack(offset(p, d1, -side));
+
+            // The sector turns the way the outlines do; within the
+            // tolerance of its arc, as the outer side's, a triangle.
+            if (kind[k] == PointSmooth) {
+                float start = sweep > 0.f ? from + pi : from + pi + sweep;
+
+                if (arc) {
+                    addFan(out, p, s.half, start, fabsf(sweep), s.tol);
+                } else {
+                    Point sector[3] = {p, Point{p.x + s.half * cosf(start), p.y + s.half * sinf(start)}, Point{p.x + s.half * cosf(start + fabsf(sweep)), p.y + s.half * sinf(start + fabsf(sweep))}};
+
+                    addPolygon(out, sector, 3);
+                }
+            }
         };
 
         // Turns at the inner points, and for a closed polyline at its first.
@@ -8396,13 +8717,25 @@ namespace {
         return box.x1 + reach < cull->x0 || box.x0 - reach > cull->x1 || box.y1 + reach < cull->y0 || box.y0 - reach > cull->y1;
     }
 
-    static void dashPolyline(Flat& out, const StrokeParams& s, const Point* points, size_t count, bool closed, const float* dashes, u32 dashCount, float offset, const Box* cull) {
+    static void dashPolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, size_t count, bool closed, const float* dashes, u32 dashCount, float offset, const Box* cull) {
         Vector<Point> loop;
+        Vector<u8> kind;
+        Vector<Point> came;
 
         loop.append(points, count);
+        kind.append(kinds, count);
+        came.append(into, count);
 
+        // A closed one comes back along the chord to its start, none where
+        // it ends there.
         if (closed) {
+            double dx = (double)points[0].x - points[count - 1].x;
+            double dy = (double)points[0].y - points[count - 1].y;
+            double length = sqrt(dx * dx + dy * dy);
+
             loop.pushBack(points[0]);
+            kind.pushBack(PointCorner);
+            came.pushBack(length > 0.0 ? Point{(float)(dx / length), (float)(dy / length)} : Point{0.f, 0.f});
         }
 
         float total = 0.f;
@@ -8423,7 +8756,7 @@ namespace {
         // Skia gives up dashing past a million dashes and draws the stroke
         // solid; so do we, instead of an outline that fits in no memory.
         if (!(extent / total <= maxDashes)) {
-            strokePolyline(out, s, points, count, closed);
+            strokePolyline(out, s, points, kinds, into, count, closed);
 
             return;
         }
@@ -8449,11 +8782,21 @@ namespace {
 
             float remaining = dashes[index] - phase;
             bool on = index % 2 == 0;
+            // A dash's points, their kinds and the directions they come
+            // along; its ends are cuts.
             Vector<Point> piece;
+            Vector<u8> flags;
+            Vector<Point> ways;
 
             if (on) {
                 piece.pushBack(loop[0]);
+                flags.pushBack(PointCorner);
+                ways.pushBack(Point{0.f, 0.f});
             }
+
+            // The direction the polyline comes to a point along, past
+            // segments of no length.
+            Point incoming{0.f, 0.f};
 
             for (size_t i = 0; i + 1 < loop.length(); i++) {
                 Point a = loop[i];
@@ -8463,25 +8806,47 @@ namespace {
                 float length = (float)sqrt((double)dx * dx + (double)dy * dy);
                 float travelled = 0.f;
 
+                if (came[i].x != 0.f || came[i].y != 0.f) {
+                    incoming = came[i];
+                }
+
                 while (length - travelled > remaining) {
                     travelled += remaining;
 
                     Point cut{a.x + dx * travelled / length, a.y + dy * travelled / length};
 
                     if (on) {
-                        piece.pushBack(cut);
+                        // A dash that ends at the start of a segment ends
+                        // along the one before, its cap that way, and takes
+                        // the join there as the segment it ends in is the
+                        // later one: a segment holds its start, not its end.
+                        bool corner = travelled == 0.f;
+
+                        if (!corner) {
+                            piece.pushBack(cut);
+                            flags.pushBack(PointCorner);
+                            ways.pushBack(came[i + 1]);
+                        }
 
                         if (!strokeOutside(s, piece.data(), piece.length(), cull)) {
                             if (pass) {
-                                strokePolyline(out, s, piece.data(), piece.length(), false);
+                                strokePolyline(out, s, piece.data(), flags.data(), ways.data(), piece.length(), false);
+
+                                if (corner && piece.length() > 1 && kind[i] == PointCorner && (incoming.x != 0.f || incoming.y != 0.f)) {
+                                    addJoinShape(out, s, a, incoming, came[i + 1]);
+                                }
                             } else {
                                 visible += 1.0;
                             }
                         }
 
                         piece.clear();
+                        flags.clear();
+                        ways.clear();
                     } else {
                         piece.pushBack(cut);
+                        flags.pushBack(PointCorner);
+                        ways.pushBack(Point{0.f, 0.f});
                     }
 
                     on = !on;
@@ -8493,20 +8858,22 @@ namespace {
 
                 if (on) {
                     piece.pushBack(b);
+                    flags.pushBack(kind[i + 1]);
+                    ways.pushBack(came[i + 1]);
                 }
             }
 
             // A dash on at the end holds its start and the end.
             if (on && !strokeOutside(s, piece.data(), piece.length(), cull)) {
                 if (pass) {
-                    strokePolyline(out, s, piece.data(), piece.length(), false);
+                    strokePolyline(out, s, piece.data(), flags.data(), ways.data(), piece.length(), false);
                 } else {
                     visible += 1.0;
                 }
             }
 
             if (pass == 0 && visible * (4.0 + 2.0 * capPoints) > maxOutline) {
-                strokePolyline(out, s, points, count, closed);
+                strokePolyline(out, s, points, kinds, into, count, closed);
 
                 return;
             }
@@ -8561,13 +8928,15 @@ namespace {
         for (size_t i = 0; i < flat.ends.length(); i++) {
             u32 end = flat.ends[i];
             const Point* points = flat.points.data() + begin;
+            const u8* kinds = flat.kinds.data() + begin;
+            const Point* into = flat.dirs.data() + begin;
             size_t count = end - begin;
 
             if (count >= 2) {
                 if (style.dashCount) {
-                    dashPolyline(out, s, points, count, flat.closed[i], style.dashes, style.dashCount, style.dashOffset, cull);
+                    dashPolyline(out, s, points, kinds, into, count, flat.closed[i], style.dashes, style.dashCount, style.dashOffset, cull);
                 } else {
-                    strokePolyline(out, s, points, count, flat.closed[i]);
+                    strokePolyline(out, s, points, kinds, into, count, flat.closed[i]);
                 }
             }
 
