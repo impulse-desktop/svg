@@ -14231,13 +14231,8 @@ namespace {
 
     static Matrix rootContent(Lowering& l, Node* node);
 
-    static Filter* lowerFilter(Lowering& l, Node* element, const ComputedStyle& parent, const Matrix& m, Viewport vp, u32 reference) {
+    static Filter* lowerFilter(Lowering& l, Node* element, const ComputedStyle& parent, const Matrix& m, Viewport vp, Node* filterNode) {
         const Document& doc = *l.doc;
-        Node* filterNode = elementById(doc, reference);
-
-        if (!filterNode || filterNode->name != AtomFilter) {
-            return nullptr;
-        }
 
         for (Node* active : l.active) {
             if (active == filterNode) {
@@ -14466,11 +14461,25 @@ namespace {
     static Filter* lowerFilters(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Filter* first = nullptr;
         Filter* last = nullptr;
+        Vector<Node*> targets;
+
+        // A reference to anything but a filter element drops the whole list
+        // (filter-effects-1.md, typedef-filter-url).
+        for (u32 i = 0; i < style.filterCount; i++) {
+            bool reference = style.filters[i].kind == FilterFunction::Reference;
+            Node* target = reference ? elementById(*l.doc, style.filters[i].reference) : nullptr;
+
+            if (reference && (!target || target->name != AtomFilter)) {
+                return nullptr;
+            }
+
+            targets.pushBack(target);
+        }
 
         for (u32 i = 0; i < style.filterCount; i++) {
             const FilterItem& item = style.filters[i];
             bool linear = last && last->count && last->primitives[last->count - 1].linear;
-            Filter* filter = item.kind == FilterFunction::Reference ? lowerFilter(l, element, parent, m, vp, item.reference) : functionFilter(l, item, m, linear);
+            Filter* filter = item.kind == FilterFunction::Reference ? lowerFilter(l, element, parent, m, vp, targets[i]) : functionFilter(l, item, m, linear);
 
             if (!filter) {
                 continue;
@@ -20549,8 +20558,9 @@ namespace {
 
     // A blend whose terms come a pixel at a time: terms(s, d, t) writes the
     // three colour terms of a source pixel over a backdrop pixel, and each
-    // lane is s (1 - da) + d (1 - sa) plus its term, the alpha's sa da.
-    template <typename Terms>
+    // lane is s (1 - da) + d (1 - sa) plus its term, the alpha's sa da;
+    // without compositing the d (1 - sa) is left out, as in blendLanes.
+    template <bool composite, typename Terms>
     static void blendPixels(u16* __restrict o, const u16* __restrict s, const u16* __restrict d, size_t count, Terms terms) {
         for (size_t p = 0; p < count * 4; p += 4) {
             u32 sa = s[p + 3];
@@ -20561,7 +20571,7 @@ namespace {
             t[3] = (i32)div65535(sa * da);
 
             for (size_t k = 0; k < 4; k++) {
-                i32 v = (i32)div65535(s[p + k] * (65535 - da)) + (i32)div65535(d[p + k] * (65535 - sa)) + t[k];
+                i32 v = (i32)div65535(s[p + k] * (65535 - da)) + (i32)div65535(d[p + k] * (65535 - sa)) * (i32)composite + t[k];
 
                 o[p + k] = saturate((u32)(v * (v > 0)));
             }
@@ -20658,7 +20668,7 @@ namespace {
                 });
                 return;
             case 9:
-                blendPixels(o, s, d, count, softLight);
+                blendPixels<composite>(o, s, d, count, softLight);
                 return;
             case 16:
                 // plus-lighter: the sum, which the lanes saturate.
@@ -20679,7 +20689,7 @@ namespace {
                 });
                 return;
             default:
-                blendPixels(o, s, d, count, [mode](const u16* sp, const u16* dp, i32* t) {
+                blendPixels<composite>(o, s, d, count, [mode](const u16* sp, const u16* dp, i32* t) {
                     blendColours(mode, sp, dp, t);
                 });
         }

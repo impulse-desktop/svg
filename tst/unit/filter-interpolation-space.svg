@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Each test runs on into the reference under it without a step.
+color-interpolation-filters is linearRGB by default, here a saturate of
+zero; inherited by the primitives from the filter, sRGB; auto is sRGB;
+feOffset, feTile, feImage and feFlood keep their colours exactly in
+linearRGB, as they do no colour math. -->
+<defs><rect id="src" width="200" height="200" fill="#25c985" fill-opacity=".6"/><filter id="i0" x="0" y="0" width="1" height="1"><feColorMatrix type="saturate" values="0"/></filter><filter id="i1" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/></filter><filter id="i2" x="0" y="0" width="1" height="1" color-interpolation-filters="auto"><feColorMatrix type="saturate" values="0"/></filter><filter id="i3" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feOffset/></filter><filter id="i4" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feTile/></filter><filter id="i5" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feImage href="#src"/></filter><filter id="i6" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feFlood flood-color="#25c985" flood-opacity=".6"/></filter></defs>
+<rect width="64" height="16" fill="white"/>
+<rect x="2" y="2" width="7" height="6" fill="#cc4d1a" filter="url(#i0)"/><rect x="2" y="8" width="7" height="6" fill="#767676"/>
+<rect x="11" y="2" width="7" height="6" fill="#cc4d1a" filter="url(#i1)"/><rect x="11" y="8" width="7" height="6" fill="#646464"/>
+<rect x="20" y="2" width="7" height="6" fill="#cc4d1a" filter="url(#i2)"/><rect x="20" y="8" width="7" height="6" fill="#646464"/>
+<rect x="29" y="2" width="7" height="6" fill="#25c985" fill-opacity=".6" filter="url(#i3)"/><rect x="29" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/>
+<rect x="38" y="2" width="7" height="6" fill="#25c985" fill-opacity=".6" filter="url(#i4)"/><rect x="38" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/>
+<rect x="47" y="2" width="7" height="6" fill="#25c985" fill-opacity=".6" filter="url(#i5)"/><rect x="47" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/>
+<rect x="56" y="2" width="7" height="6" fill="#25c985" fill-opacity=".6" filter="url(#i6)"/><rect x="56" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/>
+</svg>

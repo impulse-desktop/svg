@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="34">
+<!-- Each lime drawing fills its black outline; the bands run on into the
+bands under them without a step. Dilate grows by its radius and erode
+shrinks, erode by default; two radii are x and y; a radius of zero or below
+gives the input; dilating red against lime takes each channel's maximum,
+yellow where they meet. -->
+<defs><filter id="d" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="2"/></filter>
+<filter id="e" x="-1" y="-1" width="3" height="3"><feMorphology operator="erode" radius="1"/></filter>
+<filter id="xy" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="2 1"/></filter>
+<filter id="def" x="-1" y="-1" width="3" height="3"><feMorphology radius="1"/></filter>
+<filter id="z" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="0"/></filter>
+<filter id="n" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="-1"/></filter>
+<filter id="mx" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="1"/></filter></defs>
+<rect width="72" height="34" fill="white"/>
+<rect x="4" y="4" width="6" height="8" fill="lime" filter="url(#d)"/>
+<rect x="15" y="2" width="8" height="12" fill="lime" filter="url(#e)"/>
+<rect x="28" y="4" width="6" height="8" fill="lime" filter="url(#xy)"/>
+<rect x="39" y="2" width="8" height="12" fill="lime" filter="url(#def)"/>
+<rect x="51" y="2" width="8" height="12" fill="lime" filter="url(#z)"/>
+<rect x="61" y="2" width="8" height="12" fill="lime" filter="url(#n)"/>
+<g filter="url(#mx)"><rect x="5" y="20" width="5" height="5" fill="red"/><rect x="10" y="20" width="5" height="5" fill="lime"/></g>
+<rect x="4" y="26" width="5" height="5" fill="red"/><rect x="9" y="26" width="2" height="5" fill="yellow"/><rect x="11" y="26" width="5" height="5" fill="lime"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="10" height="12"/><rect x="16" y="3" width="6" height="10"/><rect x="26" y="3" width="10" height="10"/><rect x="40" y="3" width="6" height="10"/>
+<rect x="51" y="2" width="8" height="12"/><rect x="61" y="2" width="8" height="12"/></g>
+</svg>

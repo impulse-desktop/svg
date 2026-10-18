@@ -1,17 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
 <!-- Each lime drawing fills its black outline. A clipPath clips to the
-union of its children's geometry, their fill, stroke and opacity aside;
-children hidden by display or visibility add nothing (D14); clipPathUnits
+union of its children's geometry, their fill, stroke and opacity aside; children
+hidden by display or visibility add nothing (D14); clipPathUnits
 objectBoundingBox scales the children to the box; clip-path on the clipPath
 cuts all of it, on a child that child; a clipPath with nothing in it clips
 all away; clip-rule on a child decides its inside, on the clipped element
-nothing; a use in it adds what it draws; a reference to nothing, or to no
-clipPath, clips nothing; nested clips meet. A use in it naming anything but
-a shape or text is an error that drops the clipPath, clipping nothing; one
-naming text, which is not drawn, clips all away. A
-clipPath's content inherits from the clipPath's own ancestors, here
-evenodd and hidden, and a hidden ancestor or its own display does not stop
-it from clipping; an ancestor's clip-path does not cut it. -->
+nothing; a use in it adds what it draws, one of nothing or not displayed
+nothing; a reference to nothing, or to no clipPath, clips nothing; nested
+clips meet. A use in it naming anything but a shape or text is an error
+that drops the clipPath, clipping nothing; one naming text, which is not
+drawn, clips all away. A clipPath's content inherits from the clipPath's
+own ancestors, here evenodd and hidden, and a hidden ancestor or its own
+display does not stop it from clipping; an ancestor's clip-path does not
+cut it. -->
 <rect width="64" height="48" fill="white"/>
 <defs>
 <clipPath id="a"><rect x="2" y="2" width="4" height="10" fill="none" stroke="red" stroke-width="6" fill-opacity="0"/><rect x="8" y="2" width="4" height="4"/>
@@ -25,7 +26,7 @@ it from clipping; an ancestor's clip-path does not cut it. -->
 <clipPath id="f"><path d="M 2 18 H 14 V 30 H 2 Z M 5 21 H 11 V 27 H 5 Z" clip-rule="evenodd"/></clipPath>
 <clipPath id="g"><path d="M 18 18 H 30 V 30 H 18 Z M 21 21 H 27 V 27 H 21 Z"/></clipPath>
 <rect id="r" x="34" y="18" width="6" height="6"/>
-<clipPath id="u"><use href="#r"/></clipPath>
+<clipPath id="u"><use href="#r"/><use href="#nothing"/><use href="#r" x="4" display="none"/></clipPath>
 <clipPath id="outer"><rect x="2" y="34" width="20" height="6"/></clipPath>
 <clipPath id="inner"><rect x="2" y="34" width="6" height="12"/></clipPath>
 <g id="gg"><rect x="26" y="34" width="1" height="1"/></g>

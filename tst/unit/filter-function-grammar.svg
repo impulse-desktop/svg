@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="30">
+<!-- Each test runs on into the reference under it without a step. A filter
+function's amount left out is its default, full for grayscale, sepia and
+invert, which with opacity clamp past one, none for the rest; a negative
+amount, a hue-rotate number other than zero, a blur percentage or an
+unknown word make the whole value invalid, no filter; a hue-rotate past a
+turn is not reduced, though it draws as one less. -->
+<defs></defs>
+<rect width="64" height="30" fill="white"/>
+<rect x="2" y="2" width="5" height="6" fill="#cc4d1a" style="filter: grayscale()"/><rect x="2" y="8" width="5" height="6" fill="#646464"/>
+<rect x="9" y="2" width="5" height="6" fill="#cc4d1a" style="filter: grayscale(150%)"/><rect x="9" y="8" width="5" height="6" fill="#646464"/>
+<rect x="16" y="2" width="5" height="6" fill="#cc4d1a" style="filter: sepia()"/><rect x="16" y="8" width="5" height="6" fill="#908064"/>
+<rect x="23" y="2" width="5" height="6" fill="#cc4d1a" style="filter: invert()"/><rect x="23" y="8" width="5" height="6" fill="#33b2e5"/>
+<rect x="30" y="2" width="5" height="6" fill="#cc4d1a" style="filter: invert(2)"/><rect x="30" y="8" width="5" height="6" fill="#33b2e5"/>
+<rect x="37" y="2" width="5" height="6" fill="#cc4d1a" style="filter: opacity()"/><rect x="37" y="8" width="5" height="6" fill="#cc4d1a"/>
+<rect x="44" y="2" width="5" height="6" fill="#cc4d1a" style="filter: opacity(5)"/><rect x="44" y="8" width="5" height="6" fill="#cc4d1a"/>
+<rect x="51" y="2" width="5" height="6" fill="#cc4d1a" style="filter: brightness()"/><rect x="51" y="8" width="5" height="6" fill="#cc4d1a"/>
+<rect x="58" y="2" width="5" height="6" fill="#cc4d1a" style="filter: contrast()"/><rect x="58" y="8" width="5" height="6" fill="#cc4d1a"/>
+<rect x="2" y="16" width="5" height="6" fill="#cc4d1a" style="filter: saturate()"/><rect x="2" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="9" y="16" width="5" height="6" fill="#cc4d1a" style="filter: hue-rotate()"/><rect x="9" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="16" y="16" width="5" height="6" fill="#cc4d1a" style="filter: hue-rotate(0)"/><rect x="16" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="23" y="16" width="5" height="6" fill="#cc4d1a" style="filter: blur()"/><rect x="23" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="30" y="16" width="5" height="6" fill="#cc4d1a" style="filter: grayscale(-1)"/><rect x="30" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="37" y="16" width="5" height="6" fill="#cc4d1a" style="filter: hue-rotate(90)"/><rect x="37" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="44" y="16" width="5" height="6" fill="#cc4d1a" style="filter: blur(10%)"/><rect x="44" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="51" y="16" width="5" height="6" fill="#cc4d1a" style="filter: opacity(.5) bogus"/><rect x="51" y="22" width="5" height="6" fill="#cc4d1a"/>
+<rect x="58" y="16" width="5" height="6" fill="#cc4d1a" style="filter: hue-rotate(450deg)"/><rect x="58" y="22" width="5" height="6" fill="#1a8500"/>
+</svg>

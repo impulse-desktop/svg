@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="16">
+<!-- Each test runs on into the reference under it without a step.
+feColorMatrix works on colours not premultiplied, here swapping red and
+blue at half opacity; results are clamped, red past one and blue below
+zero; a primitive's color-interpolation-filters, not the element's
+color-interpolation, picks its space: sRGB, then linearRGB. -->
+<defs><filter id="sw" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix values="0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0"/></filter>
+<filter id="cl" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix values="2 0 0 0 -.5 0 2 0 0 -.5 0 0 2 0 -.5 0 0 0 1 0"/></filter>
+<filter id="s" x="0" y="0" width="1" height="1"><feColorMatrix type="saturate" values="0" color-interpolation-filters="sRGB"/></filter>
+<filter id="l" x="0" y="0" width="1" height="1"><feColorMatrix type="saturate" values="0" color-interpolation-filters="linearRGB"/></filter></defs>
+<rect width="44" height="16" fill="white"/>
+<rect x="2" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity=".5" filter="url(#sw)"/><rect x="2" y="8" width="8" height="6" fill="#1a4dcc" fill-opacity=".5"/>
+<rect x="12" y="2" width="8" height="6" fill="#cc4d1a" filter="url(#cl)"/><rect x="12" y="8" width="8" height="6" fill="#ff1a00"/>
+<rect x="22" y="2" width="8" height="6" fill="#cc4d1a" filter="url(#s)" color-interpolation="linearRGB"/><rect x="22" y="8" width="8" height="6" fill="#646464"/>
+<rect x="32" y="2" width="8" height="6" fill="#cc4d1a" filter="url(#l)" color-interpolation="sRGB"/><rect x="32" y="8" width="8" height="6" fill="#767676"/>
+</svg>

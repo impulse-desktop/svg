@@ -1,44 +1,44 @@
 # Filter Effects Module Level 1
 
-## Filter property grammar and reference: filter-chain-offscreen (exists)
+## Filter property grammar and reference: filter-property-chain, blend-render-order, filter-chain-offscreen (exists)
 
-- [ ] filter-effects-1.md#propdef-filter: filter value is none or a filter-value-list ([filter-function] | url)+; initial none; computed value as specified; not inherited.
-- [ ] filter-effects-1.md#propdef-filter: filter applies to SVG container elements other than defs, all graphics elements, and the use element.
-- [ ] filter-effects-1.md#typedef-filter-url: a url() referencing a non-existent object or an object that is not a filter element makes the whole filter chain ignored; no filter is applied.
-- [ ] filter-effects-1.md#FilterProperty: the list of filter functions and filter references is applied in the order given.
-- [ ] filter-effects-1.md#FilterProperty: the first function or filter reference takes SourceGraphic as input; each later one takes the previous one's output as its SourceGraphic, even a filter reference naming an alternate in.
-- [ ] filter-effects-1.md#FilterProperty: color-interpolation-filters has no effect on filter functions; filter functions operate in sRGB.
-- [ ] filter-effects-1.md#FilterProperty: the compositing order is filter, then clipping, masking and opacity.
-- [ ] filter-effects-1.md#FilterProperty: filter is a presentation attribute for SVG elements.
+- [x] filter-effects-1.md#propdef-filter: filter value is none or a filter-value-list ([filter-function] | url)+; initial none; computed value as specified; not inherited.
+- [x] filter-effects-1.md#propdef-filter: filter applies to SVG container elements other than defs, all graphics elements, and the use element.
+- [x] filter-effects-1.md#typedef-filter-url: a url() referencing a non-existent object or an object that is not a filter element makes the whole filter chain ignored; no filter is applied.
+- [x] filter-effects-1.md#FilterProperty: the list of filter functions and filter references is applied in the order given.
+- [x] filter-effects-1.md#FilterProperty: the first function or filter reference takes SourceGraphic as input; each later one takes the previous one's output as its SourceGraphic, even a filter reference naming an alternate in.
+- [x] filter-effects-1.md#FilterProperty: color-interpolation-filters has no effect on filter functions; filter functions operate in sRGB.
+- [x] filter-effects-1.md#FilterProperty: the compositing order is filter, then clipping, masking and opacity.
+- [x] filter-effects-1.md#FilterProperty: filter is a presentation attribute for SVG elements.
 
-## Filter element and filter region: filter-root (exists)
+## Filter element and filter region: filter-region, filter-root (exists)
 
-- [ ] filter-effects-1.md#element-attrdef-filter-filterunits: filterUnits is userSpaceOnUse or objectBoundingBox; initial objectBoundingBox.
-- [ ] filter-effects-1.md#element-attrdef-filter-primitiveunits: primitiveUnits is userSpaceOnUse or objectBoundingBox; initial userSpaceOnUse; sets the coordinate system of primitive lengths and of the primitive subregion attributes.
-- [ ] filter-effects-1.md#element-attrdef-filter-primitiveunits: for a number-optional-number value under objectBoundingBox, a single number is expanded to two before the objectBoundingBox scaling is applied.
-- [ ] filter-effects-1.md#filter-region: x, y, width, height set a rectangular filter region in the filterUnits coordinate system; initial x/y -10%, width/height 120%.
-- [ ] filter-effects-1.md#filter-region: the filter region is a hard clip on every filter primitive of the filter; effects that would extend past it (e.g. a large feGaussianBlur stdDeviation) are clipped.
-- [ ] filter-effects-1.md#element-attrdef-filter-filterres: filterRes was removed from this specification.
-- [ ] filter-effects-1.md#element-attrdef-filter-filterres: properties inherit into the filter element from its ancestors, not from the element that references the filter.
-- [ ] filter-effects-1.md#element-attrdef-filter-filterres: a filter element is never rendered directly; display on it or its ancestors does not stop it being referenced.
+- [x] filter-effects-1.md#element-attrdef-filter-filterunits: filterUnits is userSpaceOnUse or objectBoundingBox; initial objectBoundingBox.
+- [x] filter-effects-1.md#element-attrdef-filter-primitiveunits: primitiveUnits is userSpaceOnUse or objectBoundingBox; initial userSpaceOnUse; sets the coordinate system of primitive lengths and of the primitive subregion attributes.
+- [x] filter-effects-1.md#element-attrdef-filter-primitiveunits: for a number-optional-number value under objectBoundingBox, a single number is expanded to two before the objectBoundingBox scaling is applied.
+- [x] filter-effects-1.md#filter-region: x, y, width, height set a rectangular filter region in the filterUnits coordinate system; initial x/y -10%, width/height 120%.
+- [x] filter-effects-1.md#filter-region: the filter region is a hard clip on every filter primitive of the filter; effects that would extend past it (e.g. a large feGaussianBlur stdDeviation) are clipped.
+- [x] filter-effects-1.md#element-attrdef-filter-filterres: filterRes was removed from this specification.
+- [x] filter-effects-1.md#element-attrdef-filter-filterres: properties inherit into the filter element from its ancestors, not from the element that references the filter.
+- [x] filter-effects-1.md#element-attrdef-filter-filterres: a filter element is never rendered directly; display on it or its ancestors does not stop it being referenced.
 
-## Filter primitive color handling: filter-color (exists)
+## Filter primitive color handling: filter-primitive-values, fe-offset-tile-merge, filter-color (exists)
 
-- [ ] filter-effects-1.md#FilterPrimitivesOverviewIntro: filter primitives operate on premultiplied RGBA samples unless stated otherwise; feColorMatrix and feComponentTransfer operate on non-premultiplied values instead.
-- [ ] filter-effects-1.md#FilterPrimitivesOverviewIntro: every filter primitive's RGBA result is clamped to the allowed color/opacity range, e.g. negative values are raised to zero.
-- [ ] filter-effects-1.md#filtersColorSpace: the color space of a filter primitive's operations is set by color-interpolation-filters on that primitive, not by color-interpolation.
-- [ ] filter-effects-1.md#filtersColorSpace: pixels left undefined by a filter primitive (e.g. shifted off by feOffset) are set to transparent black.
+- [x] filter-effects-1.md#FilterPrimitivesOverviewIntro: filter primitives operate on premultiplied RGBA samples unless stated otherwise; feColorMatrix and feComponentTransfer operate on non-premultiplied values instead.
+- [x] filter-effects-1.md#FilterPrimitivesOverviewIntro: every filter primitive's RGBA result is clamped to the allowed color/opacity range, e.g. negative values are raised to zero.
+- [x] filter-effects-1.md#filtersColorSpace: the color space of a filter primitive's operations is set by color-interpolation-filters on that primitive, not by color-interpolation.
+- [x] filter-effects-1.md#filtersColorSpace: pixels left undefined by a filter primitive (e.g. shifted off by feOffset) are set to transparent black.
 
-## Filter primitive common attributes and references: filter-inputs (exists)
+## Filter primitive common attributes and references: filter-primitive-inputs, filter-inputs (exists)
 
-- [ ] filter-effects-1.md#element-attrdef-filter-primitive-x: x, y initial 0%; width, height initial 100%, in the primitiveUnits coordinate system.
-- [ ] filter-effects-1.md#element-attrdef-filter-primitive-width: a negative or zero width or height disables the primitive: its result is transparent black.
-- [ ] filter-effects-1.md#element-attrdef-filter-primitive-result: result is a custom-ident naming this primitive's output for a later in/in2 reference.
-- [ ] filter-effects-1.md#element-attrdef-filter-primitive-in: in defaults to SourceGraphic for the first primitive in the filter, and to the previous primitive's result for any later one.
-- [ ] filter-effects-1.md#element-attrdef-filter-primitive-in: a reference to a result name that occurs more than once resolves to the closest preceding primitive with that result.
-- [ ] filter-effects-1.md#element-attrdef-filter-primitive-in: a forward reference to a result, and a reference to a non-existent result, are both treated as if no in value had been given.
-- [ ] filter-effects-1.md#attr-valuedef-in-sourcegraphic: SourceGraphic is the filtered element's content rasterized in linear RGBA; its alpha is the exact per-pixel coverage.
-- [ ] filter-effects-1.md#attr-valuedef-in-sourcealpha: SourceAlpha is SourceGraphic with RGB forced to black, keeping SourceGraphic's alpha channel.
+- [x] filter-effects-1.md#element-attrdef-filter-primitive-x: x, y initial 0%; width, height initial 100%, in the primitiveUnits coordinate system.
+- [x] filter-effects-1.md#element-attrdef-filter-primitive-width: a negative or zero width or height disables the primitive: its result is transparent black.
+- [x] filter-effects-1.md#element-attrdef-filter-primitive-result: result is a custom-ident naming this primitive's output for a later in/in2 reference.
+- [x] filter-effects-1.md#element-attrdef-filter-primitive-in: in defaults to SourceGraphic for the first primitive in the filter, and to the previous primitive's result for any later one.
+- [x] filter-effects-1.md#element-attrdef-filter-primitive-in: a reference to a result name that occurs more than once resolves to the closest preceding primitive with that result.
+- [x] filter-effects-1.md#element-attrdef-filter-primitive-in: a forward reference to a result, and a reference to a non-existent result, are both treated as if no in value had been given.
+- [x] filter-effects-1.md#attr-valuedef-in-sourcegraphic: SourceGraphic is the filtered element's content rasterized in linear RGBA; its alpha is the exact per-pixel coverage.
+- [x] filter-effects-1.md#attr-valuedef-in-sourcealpha: SourceAlpha is SourceGraphic with RGB forced to black, keeping SourceGraphic's alpha channel.
 
 ## Filter paint-server inputs: filter-paint-readers (exists)
 
@@ -54,68 +54,68 @@
 
 - [ ] filter-effects-1.md#AccessBackgroundImage: this specification does not support the SVG 1.1 enable-background property; user agents must use the isolation property to define the BackgroundImage/BackgroundAlpha backdrop instead.
 
-## Filter primitive tree: filter-need-join (exists)
+## Filter primitive tree: filter-primitive-inputs, filter-need-join (exists)
 
-- [ ] filter-effects-1.md#FilterPrimitiveTree: every filter structure of primitives chained by in/result forms a filter primitive tree, rooted at its most subsequent primitive.
-- [ ] filter-effects-1.md#primary-filter-primitive-tree: the primary filter primitive tree is the one rooted at the filter element's last primitive child; only it contributes to the filter's output.
-- [ ] filter-effects-1.md#FilterPrimitiveTree: any other filter primitive tree in the same filter element may be ignored by the implementation.
-- [ ] filter-effects-1.md#FilterPrimitiveTree: a filter element with no filter primitive tree (no primitive children) makes the element it is applied to not render.
+- [x] filter-effects-1.md#FilterPrimitiveTree: every filter structure of primitives chained by in/result forms a filter primitive tree, rooted at its most subsequent primitive.
+- [x] filter-effects-1.md#primary-filter-primitive-tree: the primary filter primitive tree is the one rooted at the filter element's last primitive child; only it contributes to the filter's output.
+- [x] filter-effects-1.md#FilterPrimitiveTree: any other filter primitive tree in the same filter element may be ignored by the implementation.
+- [x] filter-effects-1.md#FilterPrimitiveTree: a filter element with no filter primitive tree (no primitive children) makes the element it is applied to not render.
 
-## Filter primitive subregion defaults and clipping: filter-subregions-outside (exists)
+## Filter primitive subregion defaults and clipping: filter-primitive-inputs, filter-region, fe-flood, filter-subregions-outside (exists)
 
-- [ ] filter-effects-1.md#filter-primitive-subregion: x, y, width, height of a primitive default to the tightest union of the subregions of its referenced primitives.
-- [ ] filter-effects-1.md#filter-primitive-subregion: with no referenced node, with a referenced node that is a standard keyword input, or for feTile, the default subregion is 0%, 0%, 100%, 100% of the filter region, i.e. the filter region itself.
-- [ ] filter-effects-1.md#filter-primitive-subregion: a negative or zero subregion width or height disables that primitive.
-- [ ] filter-effects-1.md#filter-primitive-subregion: the filter region hard-clips a primitive's input images; the primitive subregion hard-clips its result.
-- [ ] filter-effects-1.md#filter-primitive-subregion: intermediate offscreens need not exceed the intersection of the primitive subregion and the filter region, but must be big enough for any pixel partly inside either.
+- [x] filter-effects-1.md#filter-primitive-subregion: x, y, width, height of a primitive default to the tightest union of the subregions of its referenced primitives.
+- [x] filter-effects-1.md#filter-primitive-subregion: with no referenced node, with a referenced node that is a standard keyword input, or for feTile, the default subregion is 0%, 0%, 100%, 100% of the filter region, i.e. the filter region itself.
+- [x] filter-effects-1.md#filter-primitive-subregion: a negative or zero subregion width or height disables that primitive.
+- [x] filter-effects-1.md#filter-primitive-subregion: the filter region hard-clips a primitive's input images; the primitive subregion hard-clips its result.
+- [x] filter-effects-1.md#filter-primitive-subregion: intermediate offscreens need not exceed the intersection of the primitive subregion and the filter region, but must be big enough for any pixel partly inside either.
 
 ## Filter primitive subregion as an exact tile boundary: filter-support-abut (exists)
 
-- [ ] filter-effects-1.md#filter-primitive-subregion: because the subregion hard-clips a primitive's result, two primitives given abutting subregions must tile without a gap or an overlap.
+- [x] filter-effects-1.md#filter-primitive-subregion: because the subregion hard-clips a primitive's result, two primitives given abutting subregions must tile without a gap or an overlap.
 
-## feBlend: feblend-no-composite (exists)
+## feBlend: fe-blend-formulas, feblend-no-composite (exists)
 
-- [ ] filter-effects-1.md#element-attrdef-feblend-mode: mode is a blend-mode keyword, blending in (source Cs) over in2 (backdrop Cb); initial normal.
-- [ ] filter-effects-1.md#element-attrdef-feblend-no-composite: no-composite applies the blend mode's mixing formula without alpha compositing; otherwise the blend mode is combined with the Source Over operator.
-- [ ] filter-effects-1.md#element-attrdef-feblend-in2: in2 is the second (backdrop) input image.
-- [ ] filter-effects-1.md#element-attrdef-feblend-mode: normal with compositing equals feComposite operator="over", feMerge's own blending, and SVG's simple alpha compositing.
+- [x] filter-effects-1.md#element-attrdef-feblend-mode: mode is a blend-mode keyword, blending in (source Cs) over in2 (backdrop Cb); initial normal.
+- [x] filter-effects-1.md#element-attrdef-feblend-no-composite: no-composite applies the blend mode's mixing formula without alpha compositing; otherwise the blend mode is combined with the Source Over operator.
+- [x] filter-effects-1.md#element-attrdef-feblend-in2: in2 is the second (backdrop) input image.
+- [x] filter-effects-1.md#element-attrdef-feblend-mode: normal with compositing equals feComposite operator="over", feMerge's own blending, and SVG's simple alpha compositing.
 
-## feColorMatrix: filter-color (exists)
+## feColorMatrix: fe-color-matrix-formulas, filter-color (exists)
 
-- [ ] filter-effects-1.md#elementdef-fecolormatrix: feColorMatrix applies a 5x4 matrix to non-premultiplied RGBA of every pixel.
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-type: type is matrix, saturate, hueRotate or luminanceToAlpha; initial matrix.
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-values: for type="matrix", values is 20 numbers, the identity matrix by default; for "hueRotate" and "saturate" it is a single number.
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-values: saturate's matrix is built from s; hueRotate's from cos/sin of the hueRotate angle, both using fixed 0.213/0.715/0.072-family luminance coefficients.
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-values: for type="luminanceToAlpha" values does not apply; a fixed matrix (0.2126, 0.7152, 0.0722) maps RGB into the alpha channel.
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-values: the initial values default differs by type: identity matrix for "matrix", 1 for "saturate", 0 (identity) for "hueRotate".
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-values: if the number of entries in values does not match what type requires, feColorMatrix acts as a pass-through filter (its output equals its input).
+- [x] filter-effects-1.md#elementdef-fecolormatrix: feColorMatrix applies a 5x4 matrix to non-premultiplied RGBA of every pixel.
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-type: type is matrix, saturate, hueRotate or luminanceToAlpha; initial matrix.
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: for type="matrix", values is 20 numbers, the identity matrix by default; for "hueRotate" and "saturate" it is a single number.
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: saturate's matrix is built from s; hueRotate's from cos/sin of the hueRotate angle, both using fixed 0.213/0.715/0.072-family luminance coefficients.
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: for type="luminanceToAlpha" values does not apply; a fixed matrix (0.2126, 0.7152, 0.0722) maps RGB into the alpha channel.
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: the initial values default differs by type: identity matrix for "matrix", 1 for "saturate", 0 (identity) for "hueRotate".
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: if the number of entries in values does not match what type requires, feColorMatrix acts as a pass-through filter (its output equals its input).
 
-## feColorMatrix value-count edge cases: filter-color-matrix-values (exists)
+## feColorMatrix value-count edge cases: fe-color-matrix-formulas, filter-color-matrix-values (exists)
 
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-values: saturate with no values attribute uses its initial value of 1 (no change).
-- [ ] filter-effects-1.md#element-attrdef-fecolormatrix-values: hueRotate takes exactly one number of degrees; a values list of a different length is a pass-through filter per the type mismatch rule.
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: saturate with no values attribute uses its initial value of 1 (no change).
+- [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: hueRotate takes exactly one number of degrees; a values list of a different length is a pass-through filter per the type mismatch rule.
 
-## feComponentTransfer and feFuncR/G/B/A: filter-color (exists)
+## feComponentTransfer and feFuncR/G/B/A: fe-component-transfer-formulas, filter-color (exists)
 
-- [ ] filter-effects-1.md#elementdef-fecomponenttransfer: feComponentTransfer remaps each of R, G, B, A independently through its own feFuncR/feFuncG/feFuncB/feFuncA function, on non-premultiplied values.
-- [ ] filter-effects-1.md#elementdef-fecomponenttransfer: if a kind of transfer function element occurs more than once the last occurrence is used; if one is absent it is treated as type="identity".
-- [ ] filter-effects-1.md#element-attrdef-fecomponenttransfer-type: type is identity, table, discrete, linear or gamma; initial identity (C'=C).
-- [ ] filter-effects-1.md#attr-valuedef-type-table: table interpolates tableValues v0..vn over n equal regions: for k/n <= C < (k+1)/n, C' = vk + (C - k/n)*n*(vk+1 - vk); C=1 gives C'=vn.
-- [ ] filter-effects-1.md#attr-valuedef-type-discrete: discrete steps through tableValues v0..vn-1: for k/n <= C < (k+1)/n, C'=vk; C=1 gives C'=vn-1.
-- [ ] filter-effects-1.md#attr-valuedef-type-linear: linear is C' = slope*C + intercept; slope initial 1, intercept initial 0.
-- [ ] filter-effects-1.md#attr-valuedef-type-gamma: gamma is C' = amplitude*pow(C, exponent) + offset; amplitude initial 1, exponent initial 1, offset initial 0.
-- [ ] filter-effects-1.md#element-attrdef-fecomponenttransfer-tablevalues: tableValues missing, or an empty list, makes the transfer function an identity.
+- [x] filter-effects-1.md#elementdef-fecomponenttransfer: feComponentTransfer remaps each of R, G, B, A independently through its own feFuncR/feFuncG/feFuncB/feFuncA function, on non-premultiplied values.
+- [x] filter-effects-1.md#elementdef-fecomponenttransfer: if a kind of transfer function element occurs more than once the last occurrence is used; if one is absent it is treated as type="identity".
+- [x] filter-effects-1.md#element-attrdef-fecomponenttransfer-type: type is identity, table, discrete, linear or gamma; initial identity (C'=C).
+- [x] filter-effects-1.md#attr-valuedef-type-table: table interpolates tableValues v0..vn over n equal regions: for k/n <= C < (k+1)/n, C' = vk + (C - k/n)*n*(vk+1 - vk); C=1 gives C'=vn.
+- [x] filter-effects-1.md#attr-valuedef-type-discrete: discrete steps through tableValues v0..vn-1: for k/n <= C < (k+1)/n, C'=vk; C=1 gives C'=vn-1.
+- [x] filter-effects-1.md#attr-valuedef-type-linear: linear is C' = slope*C + intercept; slope initial 1, intercept initial 0.
+- [x] filter-effects-1.md#attr-valuedef-type-gamma: gamma is C' = amplitude*pow(C, exponent) + offset; amplitude initial 1, exponent initial 1, offset initial 0.
+- [x] filter-effects-1.md#element-attrdef-fecomponenttransfer-tablevalues: tableValues missing, or an empty list, makes the transfer function an identity.
 
-## feComposite: filter-composite (exists)
+## feComposite: blend-porter-duff, fe-composite-arithmetic, filter-composite (exists)
 
-- [ ] filter-effects-1.md#elementdef-fecomposite: feComposite combines in (source) and in2 (destination) pixel-wise via a Porter-Duff operator: over, in, out, atop, xor, lighter, or arithmetic; initial operator over.
-- [ ] filter-effects-1.md#elementdef-fecomposite: arithmetic computes result = k1*i1*i2 + k2*i1 + k3*i2 + k4 per channel, clamped to [0,1]; k1-k4 each initial 0.
-- [ ] filter-effects-1.md#element-attrdef-fecomposite-in2: in2 is the second (destination) input image.
-- [ ] filter-effects-1.md#elementdef-fecomposite: feComposite's result may extend beyond its input images' extent, subject to the filter primitive subregion rules.
+- [x] filter-effects-1.md#elementdef-fecomposite: feComposite combines in (source) and in2 (destination) pixel-wise via a Porter-Duff operator: over, in, out, atop, xor, lighter, or arithmetic; initial operator over.
+- [x] filter-effects-1.md#elementdef-fecomposite: arithmetic computes result = k1*i1*i2 + k2*i1 + k3*i2 + k4 per channel, clamped to [0,1]; k1-k4 each initial 0.
+- [x] filter-effects-1.md#element-attrdef-fecomposite-in2: in2 is the second (destination) input image.
+- [x] filter-effects-1.md#elementdef-fecomposite: feComposite's result may extend beyond its input images' extent, subject to the filter primitive subregion rules.
 
-## feComposite arithmetic chains: filter-arithmetic-readers (exists)
+## feComposite arithmetic chains: fe-composite-arithmetic, filter-arithmetic-readers (exists)
 
-- [ ] filter-effects-1.md#elementdef-fecomposite: an arithmetic feComposite's result, once named by result, is read like any other named result by later in/in2/feMergeNode references.
+- [x] filter-effects-1.md#elementdef-fecomposite: an arithmetic feComposite's result, once named by result, is read like any other named result by later in/in2/feMergeNode references.
 
 ## feConvolveMatrix: filter-morphology-tile-convolve (exists)
 
@@ -182,11 +182,11 @@
 
 - [ ] filter-effects-1.md#element-attrdef-fedropshadow-stddeviation: a negative component of stdDeviation disables the blur in that axis the same way it would for feGaussianBlur.
 
-## feFlood and flood-color/flood-opacity: filter-flood
+## feFlood and flood-color/flood-opacity: fe-flood
 
-- [ ] filter-effects-1.md#elementdef-feflood: feFlood fills a rectangle the size of its own filter primitive subregion with flood-color and flood-opacity.
-- [ ] filter-effects-1.md#propdef-flood-color: flood-color is a color; initial black; applies to feFlood and feDropShadow; not inherited.
-- [ ] filter-effects-1.md#propdef-flood-opacity: flood-opacity is an opacity value; initial 1; computed value is clamped to [0,1]; its alpha multiplies with any alpha already in flood-color.
+- [x] filter-effects-1.md#elementdef-feflood: feFlood fills a rectangle the size of its own filter primitive subregion with flood-color and flood-opacity.
+- [x] filter-effects-1.md#propdef-flood-color: flood-color is a color; initial black; applies to feFlood and feDropShadow; not inherited.
+- [x] filter-effects-1.md#propdef-flood-opacity: flood-opacity is an opacity value; initial 1; computed value is clamped to [0,1]; its alpha multiplies with any alpha already in flood-color.
 
 ## feGaussianBlur stdDeviation: filter-primitives-edge (exists)
 
@@ -210,26 +210,26 @@
 - [ ] filter-effects-1.md#element-attrdef-feimage-preserveaspectratio: preserveAspectRatio has initial value xMidYMid meet and is processed as for the image element.
 - [ ] filter-effects-1.md#element-attrdef-feimage-xlinkhref: when both xlink:href and href are given, href overrides xlink:href.
 
-## feMerge/feMergeNode: filter-arithmetic-merge-reader (exists)
+## feMerge/feMergeNode: fe-offset-tile-merge, filter-arithmetic-merge-reader (exists)
 
-- [ ] filter-effects-1.md#elementdef-femerge: feMerge composites its feMergeNode children with the over operator, the first child on the bottom and the last child on top.
-- [ ] filter-effects-1.md#elementdef-femerge: an implementation may evaluate feMerge one layer at a time bottom to top instead of building one combined RGBA buffer, since merging is associative.
+- [x] filter-effects-1.md#elementdef-femerge: feMerge composites its feMergeNode children with the over operator, the first child on the bottom and the last child on top.
+- [x] filter-effects-1.md#elementdef-femerge: an implementation may evaluate feMerge one layer at a time bottom to top instead of building one combined RGBA buffer, since merging is associative.
 
-## feMorphology: filter-morphology-edge (exists)
+## feMorphology: fe-morphology-values, filter-morphology-edge (exists)
 
-- [ ] filter-effects-1.md#elementdef-femorphology: the dilate/erode kernel is a rectangle 2*x-radius by 2*y-radius; dilate takes the per-channel componentwise maximum over it, erode the minimum.
-- [ ] filter-effects-1.md#element-attrdef-femorphology-operator: operator is erode or dilate; initial erode.
-- [ ] filter-effects-1.md#element-attrdef-femorphology-radius: radius is one or two numbers (x-radius, y-radius); initial 0; a negative or zero radius disables the primitive (result equals input).
-- [ ] filter-effects-1.md#elementdef-femorphology: because feMorphology works on premultiplied values, its result color channels are always <= its result alpha.
+- [x] filter-effects-1.md#elementdef-femorphology: the dilate/erode kernel is a rectangle 2*x-radius by 2*y-radius; dilate takes the per-channel componentwise maximum over it, erode the minimum.
+- [x] filter-effects-1.md#element-attrdef-femorphology-operator: operator is erode or dilate; initial erode.
+- [x] filter-effects-1.md#element-attrdef-femorphology-radius: radius is one or two numbers (x-radius, y-radius); initial 0; a negative or zero radius disables the primitive (result equals input).
+- [x] filter-effects-1.md#elementdef-femorphology: because feMorphology works on premultiplied values, its result color channels are always <= its result alpha.
 
-## feOffset: filter-offset-vertical (exists)
+## feOffset: fe-offset-tile-merge, filter-offset-vertical (exists)
 
-- [ ] filter-effects-1.md#elementdef-feoffset: feOffset shifts its input by dx, dy in the primitiveUnits coordinate system.
-- [ ] filter-effects-1.md#element-attrdef-feoffset-dx: dx, dy each have initial value 0.
+- [x] filter-effects-1.md#elementdef-feoffset: feOffset shifts its input by dx, dy in the primitiveUnits coordinate system.
+- [x] filter-effects-1.md#element-attrdef-feoffset-dx: dx, dy each have initial value 0.
 
-## feTile: filter-tile-clipped (exists)
+## feTile: fe-offset-tile-merge, filter-tile-clipped (exists)
 
-- [ ] filter-effects-1.md#elementdef-fetile: feTile fills its own filter primitive subregion by replicating its input's filter primitive subregion as tiles at (x + i*width, y + j*height) for integer i, j.
+- [x] filter-effects-1.md#elementdef-fetile: feTile fills its own filter primitive subregion by replicating its input's filter primitive subregion as tiles at (x + i*width, y + j*height) for integer i, j.
 
 ## feTurbulence: filter-turbulence-displacement (exists)
 
@@ -251,35 +251,35 @@
 - [ ] filter-effects-1.md#element-attrdef-feturbulence-numoctaves: numOctaves must be an integer value for the noise function; a fractional or malformed value is handled as an invalid attribute, not a special-cased truncation like seed.
 - [ ] filter-effects-1.md#element-attrdef-feturbulence-seed: only seed is explicitly truncated toward zero by the spec; baseFrequency and numOctaves have no such truncation rule of their own.
 
-## color-interpolation-filters: filter-edge-blend-turbulence (exists)
+## color-interpolation-filters: filter-interpolation-space, filter-edge-blend-turbulence (exists)
 
-- [ ] filter-effects-1.md#propdef-color-interpolation-filters: color-interpolation-filters is auto, sRGB or linearRGB; initial linearRGB; inherited; applies to all filter primitives.
-- [ ] filter-effects-1.md#valdef-color-interpolation-filters-auto: auto lets the user agent pick either sRGB or linearRGB.
-- [ ] filter-effects-1.md#propdef-color-interpolation-filters: color-interpolation-filters has no effect on feOffset, feImage, feTile or feFlood, which do no color-space-dependent math.
+- [x] filter-effects-1.md#propdef-color-interpolation-filters: color-interpolation-filters is auto, sRGB or linearRGB; initial linearRGB; inherited; applies to all filter primitives.
+- [x] filter-effects-1.md#valdef-color-interpolation-filters-auto: auto lets the user agent pick either sRGB or linearRGB.
+- [x] filter-effects-1.md#propdef-color-interpolation-filters: color-interpolation-filters has no effect on feOffset, feImage, feTile or feFlood, which do no color-space-dependent math.
 
-## Filter functions' equivalent primitives: css-filter-functions (exists)
+## Filter functions' equivalent primitives: filter-function-equivalents, css-filter-functions (exists)
 
-- [ ] filter-effects-1.md#grayscaleEquivalent: grayscale(amount) is equivalent to an feColorMatrix type="matrix" with coefficients built from (1 - amount).
-- [ ] filter-effects-1.md#sepiaEquivalent: sepia(amount) is equivalent to an feColorMatrix type="matrix" with the sepia coefficients built from (1 - amount).
-- [ ] filter-effects-1.md#saturateEquivalent: saturate(amount) is equivalent to feColorMatrix type="saturate" values="amount".
-- [ ] filter-effects-1.md#huerotateEquivalent: hue-rotate(angle) is equivalent to feColorMatrix type="hueRotate" values="angle".
-- [ ] filter-effects-1.md#invertEquivalent: invert(amount) is equivalent to feComponentTransfer feFuncR/G/B type="table" tableValues="amount (1-amount)".
-- [ ] filter-effects-1.md#opacityEquivalent: opacity(amount) is equivalent to feComponentTransfer feFuncA type="table" tableValues="0 amount".
-- [ ] filter-effects-1.md#brightnessEquivalent: brightness(amount) is equivalent to feComponentTransfer feFuncR/G/B type="linear" slope="amount".
-- [ ] filter-effects-1.md#contrastEquivalent: contrast(amount) is equivalent to feComponentTransfer feFuncR/G/B type="linear" slope="amount" intercept="-(0.5*amount)+0.5".
-- [ ] filter-effects-1.md#blurEquivalent: blur(radius) is equivalent to feGaussianBlur stdDeviation="radius radius", with edgeMode none for the filter property and duplicate for the filter() image function.
-- [ ] filter-effects-1.md#dropshadowEquivalent: drop-shadow() is equivalent to the same feGaussianBlur/feOffset/feFlood/feComposite/feMerge chain as feDropShadow.
+- [x] filter-effects-1.md#grayscaleEquivalent: grayscale(amount) is equivalent to an feColorMatrix type="matrix" with coefficients built from (1 - amount).
+- [x] filter-effects-1.md#sepiaEquivalent: sepia(amount) is equivalent to an feColorMatrix type="matrix" with the sepia coefficients built from (1 - amount).
+- [x] filter-effects-1.md#saturateEquivalent: saturate(amount) is equivalent to feColorMatrix type="saturate" values="amount".
+- [x] filter-effects-1.md#huerotateEquivalent: hue-rotate(angle) is equivalent to feColorMatrix type="hueRotate" values="angle".
+- [x] filter-effects-1.md#invertEquivalent: invert(amount) is equivalent to feComponentTransfer feFuncR/G/B type="table" tableValues="amount (1-amount)".
+- [x] filter-effects-1.md#opacityEquivalent: opacity(amount) is equivalent to feComponentTransfer feFuncA type="table" tableValues="0 amount".
+- [x] filter-effects-1.md#brightnessEquivalent: brightness(amount) is equivalent to feComponentTransfer feFuncR/G/B type="linear" slope="amount".
+- [x] filter-effects-1.md#contrastEquivalent: contrast(amount) is equivalent to feComponentTransfer feFuncR/G/B type="linear" slope="amount" intercept="-(0.5*amount)+0.5".
+- [x] filter-effects-1.md#blurEquivalent: blur(radius) is equivalent to feGaussianBlur stdDeviation="radius radius", with edgeMode none for the filter property and duplicate for the filter() image function.
+- [x] filter-effects-1.md#dropshadowEquivalent: drop-shadow() is equivalent to the same feGaussianBlur/feOffset/feFlood/feComposite/feMerge chain as feDropShadow.
 
-## Filter functions grammar and defaults: css-filter-functions (exists)
+## Filter functions grammar and defaults: filter-function-grammar, css-filter-functions (exists)
 
-- [ ] filter-effects-1.md#funcdef-filter-blur: blur() takes an optional length, no percentage; negative is not allowed; default when omitted is 0px.
-- [ ] filter-effects-1.md#funcdef-filter-blur: the ink overflow of a Gaussian blur is the axis-aligned bound of the area the implementation actually draws the blur into.
-- [ ] filter-effects-1.md#funcdef-filter-brightness: brightness() takes an optional number or percentage; 0% is black, 100% unchanged, over 100% allowed brighter; negative not allowed; default 1.
-- [ ] filter-effects-1.md#funcdef-filter-contrast: contrast() takes an optional number or percentage; 0% is flat gray, 100% unchanged, over 100% allowed; negative not allowed; default 1.
-- [ ] filter-effects-1.md#funcdef-filter-saturate: saturate() takes an optional number or percentage; 0% fully desaturated, 100% unchanged, over 100% allowed; negative not allowed; default 1.
-- [ ] filter-effects-1.md#funcdef-filter-grayscale: grayscale()/invert()/sepia() take an optional number or percentage; 100% is full effect, over 100% is clamped to 1, negative not allowed; default when omitted is 1 for each.
-- [ ] filter-effects-1.md#funcdef-filter-opacity: opacity() takes an optional number or percentage, multiplying the image's samples; 0% transparent, 100% unchanged, over 100% clamped to 1; negative not allowed; default 1.
-- [ ] filter-effects-1.md#funcdef-filter-hue-rotate: hue-rotate() takes an optional angle (its unit may be omitted only if the value is zero); default 0deg; implementations must not normalize values past 360deg.
+- [x] filter-effects-1.md#funcdef-filter-blur: blur() takes an optional length, no percentage; negative is not allowed; default when omitted is 0px.
+- [x] filter-effects-1.md#funcdef-filter-blur: the ink overflow of a Gaussian blur is the axis-aligned bound of the area the implementation actually draws the blur into.
+- [x] filter-effects-1.md#funcdef-filter-brightness: brightness() takes an optional number or percentage; 0% is black, 100% unchanged, over 100% allowed brighter; negative not allowed; default 1.
+- [x] filter-effects-1.md#funcdef-filter-contrast: contrast() takes an optional number or percentage; 0% is flat gray, 100% unchanged, over 100% allowed; negative not allowed; default 1.
+- [x] filter-effects-1.md#funcdef-filter-saturate: saturate() takes an optional number or percentage; 0% fully desaturated, 100% unchanged, over 100% allowed; negative not allowed; default 1.
+- [x] filter-effects-1.md#funcdef-filter-grayscale: grayscale()/invert()/sepia() take an optional number or percentage; 100% is full effect, over 100% is clamped to 1, negative not allowed; default when omitted is 1 for each.
+- [x] filter-effects-1.md#funcdef-filter-opacity: opacity() takes an optional number or percentage, multiplying the image's samples; 0% transparent, 100% unchanged, over 100% clamped to 1; negative not allowed; default 1.
+- [x] filter-effects-1.md#funcdef-filter-hue-rotate: hue-rotate() takes an optional angle (its unit may be omitted only if the value is zero); default 0deg; implementations must not normalize values past 360deg.
 
 ## drop-shadow() syntax: css-filter-syntax (exists)
 

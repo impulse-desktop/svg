@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Each lime drawing fills its black outline; the grey runs on into the
+grey under it without a step. A filter list naming something missing, or no
+filter, is dropped whole, the blur with it; a list applies in order, the
+shift before the crop; a later filter reads the earlier one's output as its
+SourceGraphic, and as its SourceAlpha; a filter function works in sRGB
+whatever color-interpolation-filters says. -->
+<defs><rect id="nf" width="1" height="1"/>
+<filter id="shift" x="-1" y="-1" width="3" height="3"><feOffset dx="4"/></filter>
+<filter id="crop" x="0" y="0" width=".75" height="1"><feOffset/></filter>
+<filter id="alpha" x="-1" y="-1" width="3" height="3"><feFlood flood-color="lime"/><feComposite in2="SourceAlpha" operator="in"/></filter></defs>
+<rect width="64" height="16" fill="white"/>
+<rect x="2" y="2" width="8" height="12" fill="lime" style="filter: url(#missing) blur(2px)"/>
+<rect x="14" y="2" width="6" height="12" fill="lime" filter="url(#nf)"/>
+<rect x="22" y="2" width="8" height="12" fill="lime" style="filter: url(#shift) url(#crop)"/>
+<rect x="34" y="2" width="8" height="12" fill="black" style="filter: url(#shift) url(#alpha)"/>
+<rect x="52" y="2" width="8" height="6" fill="#cc4d1a" style="filter: saturate(0); color-interpolation-filters: linearRGB"/><rect x="52" y="8" width="8" height="6" fill="#646464"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="8" height="12"/><rect x="14" y="2" width="6" height="12"/><rect x="26" y="2" width="2" height="12"/><rect x="38" y="2" width="8" height="12"/></g>
+</svg>

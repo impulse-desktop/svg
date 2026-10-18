@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Each test runs on into the reference under it without a step, the last
+lime fills its black outline. feFlood paints flood-color at flood-opacity,
+the two alphas multiplied; black at full opacity by default; an opacity
+past one or below zero clamped; in linearRGB the colour exactly; flood
+properties on the filter element are not inherited; a flood fills its own
+subregion alone. -->
+<defs><filter id="f0" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="rgba(204,77,26,.5)" flood-opacity=".5"/></filter><filter id="f1" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood /></filter><filter id="f2" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-opacity="1.5" flood-color="#cc4d1a"/></filter><filter id="f3" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-opacity="-1" flood-color="#cc4d1a"/></filter><filter id="f4" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#cc4d1a" color-interpolation-filters="linearRGB"/></filter><filter id="fi" x="0" y="0" width="1" height="1" flood-color="red" flood-opacity=".5"><feFlood/></filter><filter id="fs" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="16"><feFlood flood-color="lime" x="58" y="2" width="4" height="12"/></filter></defs>
+<rect width="64" height="16" fill="white"/>
+<rect x="2" y="2" width="7" height="6" fill="lime" filter="url(#f0)"/><rect x="2" y="8" width="7" height="6" fill="#cc4d1a" fill-opacity="0.25"/>
+<rect x="11" y="2" width="7" height="6" fill="lime" filter="url(#f1)"/><rect x="11" y="8" width="7" height="6" fill="#000000"/>
+<rect x="20" y="2" width="7" height="6" fill="lime" filter="url(#f2)"/><rect x="20" y="8" width="7" height="6" fill="#cc4d1a"/>
+<rect x="29" y="2" width="7" height="6" fill="lime" filter="url(#f3)"/>
+<rect x="38" y="2" width="7" height="6" fill="lime" filter="url(#f4)"/><rect x="38" y="8" width="7" height="6" fill="#cc4d1a"/>
+<rect x="47" y="2" width="7" height="6" fill="lime" filter="url(#fi)"/><rect x="47" y="8" width="7" height="6" fill="#000000"/>
+<rect x="58" y="2" width="2" height="2" fill="red" filter="url(#fs)"/><rect x="58" y="2" width="4" height="12" fill="none" stroke="black" stroke-width=".25"/>
+</svg>

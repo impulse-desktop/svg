@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="30">
+<!-- Each lime drawing fills its black outline, no red; the black runs on
+into the black under it without a step. A primitive of no width gives
+transparent black; a result named twice is read from the closer one; a
+later primitive reads the one before it, the first the source; a reference
+to a result yet to come or to none reads as no in; SourceAlpha is the
+source in black; only the last primitive's tree draws; a filter of no
+primitives draws nothing; a primitive's subregion defaults to the union of
+its inputs'. -->
+<defs><filter id="z"><feFlood flood-color="red" width="0"/></filter>
+<filter id="dup" x="0" y="0" width="1" height="1"><feFlood flood-color="red" result="a"/><feFlood flood-color="lime" result="a"/><feFlood flood-color="red" result="b"/><feOffset in="a"/></filter>
+<filter id="prev" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/><feOffset/></filter>
+<filter id="none" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/><feOffset in="nothing"/></filter>
+<filter id="fwd" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/><feOffset in="later"/><feOffset result="later"/></filter>
+<filter id="sa" x="0" y="0" width="1" height="1"><feOffset in="SourceAlpha"/></filter>
+<filter id="last" x="0" y="0" width="1" height="1"><feFlood flood-color="red" result="r"/><feFlood flood-color="lime"/></filter>
+<filter id="empty"/>
+<filter id="sub" filterUnits="userSpaceOnUse" x="0" y="16" width="64" height="14"><feFlood flood-color="lime" x="4" y="18" width="6" height="10" result="a"/><feMorphology operator="dilate" radius="3" in="a"/></filter></defs>
+<rect width="64" height="30" fill="white"/>
+<rect x="2" y="2" width="8" height="12" fill="red" filter="url(#z)"/>
+<rect x="12" y="2" width="8" height="12" fill="red" filter="url(#dup)"/>
+<rect x="22" y="2" width="8" height="12" fill="red" filter="url(#prev)"/>
+<rect x="32" y="2" width="8" height="12" fill="red" filter="url(#none)"/>
+<rect x="42" y="2" width="8" height="12" fill="red" filter="url(#fwd)"/>
+<rect x="52" y="2" width="8" height="6" fill="lime" fill-opacity=".5" filter="url(#sa)"/><rect x="52" y="8" width="8" height="6" fill="black" fill-opacity=".5"/>
+<rect x="14" y="18" width="8" height="10" fill="red" filter="url(#last)"/>
+<rect x="26" y="18" width="8" height="10" fill="red" filter="url(#empty)"/>
+<rect x="44" y="18" width="2" height="2" fill="red" filter="url(#sub)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="12" y="2" width="8" height="12"/><rect x="22" y="2" width="8" height="12"/><rect x="32" y="2" width="8" height="12"/><rect x="42" y="2" width="8" height="12"/>
+<rect x="4" y="18" width="6" height="10"/><rect x="14" y="18" width="8" height="10"/></g>
+</svg>

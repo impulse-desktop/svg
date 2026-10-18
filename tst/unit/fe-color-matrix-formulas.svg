@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="30">
+<!-- Each test runs on into the reference under it without a step.
+feColorMatrix on a colour at 0.6 opacity, not premultiplied: a matrix of
+twenty values; saturate 0.4; hueRotate 75; luminanceToAlpha; then
+pass-throughs: nineteen values, saturate and hueRotate without values, no
+type nor values, two values for saturate or hueRotate. -->
+<defs><filter id="m0" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0.5 0.2 0.1 0 0.1 0.3 0.6 0 0 0 0 0.4 0.8 0 0.05 0 0 0 0.9 0.05"/></filter><filter id="m1" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values=".4"/></filter><filter id="m2" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="hueRotate" values="75"/></filter><filter id="m3" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="luminanceToAlpha"/></filter><filter id="m4" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0.5 0.2 0.1 0 0.1 0.3 0.6 0 0 0 0 0.4 0.8 0 0.05 0 0 0 0.9"/></filter><filter id="m5" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="saturate"/></filter><filter id="m6" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="hueRotate"/></filter><filter id="m7" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix /></filter><filter id="m8" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values=".5 .5"/></filter><filter id="m9" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="hueRotate" values="30 30"/></filter></defs>
+<rect width="52" height="30" fill="white"/>
+<rect x="2" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m0)"/><rect x="2" y="8" width="8" height="6" fill="#926b40" fill-opacity="0.59"/>
+<rect x="12" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m1)"/><rect x="12" y="8" width="8" height="6" fill="#8e5b47" fill-opacity="0.6"/>
+<rect x="22" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m2)"/><rect x="22" y="8" width="8" height="6" fill="#377e00" fill-opacity="0.6"/>
+<rect x="32" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m3)"/><rect x="32" y="8" width="8" height="6" fill="#000000" fill-opacity="0.3934"/>
+<rect x="42" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m4)"/><rect x="42" y="8" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6"/>
+<rect x="2" y="16" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m5)"/><rect x="2" y="22" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6"/>
+<rect x="12" y="16" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m6)"/><rect x="12" y="22" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6"/>
+<rect x="22" y="16" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m7)"/><rect x="22" y="22" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6"/>
+<rect x="32" y="16" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m8)"/><rect x="32" y="22" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6"/>
+<rect x="42" y="16" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#m9)"/><rect x="42" y="22" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6"/>
+</svg>
