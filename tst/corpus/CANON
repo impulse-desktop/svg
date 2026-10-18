@@ -683,3 +683,7 @@ wikimedia/a72ea6970c563d1c: ours: a sized document stretched into the pixels, it
 wikimedia/e2a1ef7e9ad2d204: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
 wikimedia/d29d09e37049218f: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
 wikimedia/db368d6226e33af7: ours: a sized document stretched into the pixels, its strokes exact; Chromium's reference scales it uniformly
+wpt/svg__path__distance__pathlength-path: ours: the last dash of a closed subpath ends at its start, where the first segment follows, and takes the join there as a dash ending at any corner does; Chromium joins every corner but that one
+wpt/svg__path__distance__pathlength-path-negative: ours: the last dash of a closed subpath ends at its start, where the first segment follows, and takes the join there as a dash ending at any corner does; Chromium joins every corner but that one
+wpt/svg__path__distance__reference__pathlength-path-ref: ours: the last dash of a closed subpath ends at its start, where the first segment follows, and takes the join there as a dash ending at any corner does; Chromium joins every corner but that one
+wpt/svg__path__distance__reference__pathlength-path-negative-ref: ours: the last dash of a closed subpath ends at its start, where the first segment follows, and takes the join there as a dash ending at any corner does; Chromium joins every corner but that one
