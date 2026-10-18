@@ -106,3 +106,23 @@ document a size (README): an absolute width and height as given; one of them
 open, from the other and the viewBox's ratio; both open, the viewBox's size;
 and with no viewBox the right and bottom edges of what the document draws.
 
+
+## D11. The user's language is en
+
+`svg2/struct.md#ConditionalProcessingSystemLanguageAttribute` tests
+systemLanguage against "the language tags indicated by user preferences".
+The renderer has no user and takes no locale; its preference is en, so en,
+EN, en-US and "fr, en" hold and eng, de and "" do not. A program that needs
+another language has the document to change.
+
+## D12. A symbol a use instances draws, whatever its own display
+
+`svg2/struct.md#SymbolNotes`: the instance of a symbol that is a use's
+referenced element "must always have a computed value of inline for the
+display property", which the user agent style sheet
+(`svg2/styling.md#UAStyleSheet`) makes important over any author style,
+`:host(use) > symbol { display: inline !important }`. The renderer draws it.
+The web platform test use-symbol-display-none expects a symbol with
+display="none" to draw nothing, as the browsers do; the text is explicit, and
+the corpus has no other such file. Conditional processing on the symbol still
+leaves it out: it sets the used display, not the computed one.

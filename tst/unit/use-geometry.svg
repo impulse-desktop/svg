@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48" xmlns:x="http://example.org/x">
+<!-- Each lime drawing fills its black outline; no red. A use's x and y
+translate after its transform, and its userSpaceOnUse clip is in the
+translated system; its width and height size a referenced svg, a negative
+one ignored, a zero one drawing nothing, and do nothing to a g; percentages
+in reused content are of the viewport the use is in. A use of something not
+SVG, of its own ancestor, or in a circle of uses draws nothing; a use of a
+use draws. -->
+<rect width="64" height="48" fill="white"/>
+<defs>
+<rect id="sq" width="4" height="4" fill="lime"/>
+<clipPath id="c" clipPathUnits="userSpaceOnUse"><rect width="6" height="6"/></clipPath>
+<svg id="s" width="4" height="4" viewBox="0 0 4 4"><rect width="4" height="4" fill="lime"/></svg>
+<g id="g"><rect width="6" height="6" fill="lime"/></g>
+<rect id="pct" width="12.5%" height="12.5%" fill="lime"/>
+<x:thing id="foreign"/>
+<use id="u1" href="#u2"/><use id="u2" href="#u1"/>
+<use id="via" href="#sq"/>
+</defs>
+<use href="#sq" transform="scale(2)" x="1" y="1"/>
+<use href="#g" x="16" y="2" clip-path="url(#c)"/>
+<use href="#s" x="26" y="2" width="8" height="8"/>
+<use href="#s" x="38" y="2" width="-8" height="8"/>
+<use href="#s" x="50" y="2" width="0" height="8"/>
+<use href="#g" x="2" y="16" width="20" height="20"/>
+<use href="#pct" x="14" y="16"/>
+<use href="#foreign" x="26" y="16"/>
+<g id="anc"><use href="#anc" x="2"/><rect x="34" y="16" width="4" height="4" fill="lime"/></g>
+<use href="#u1" x="40" y="16"/>
+<use href="#via" x="50" y="16"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="8" height="8"/><rect x="16" y="2" width="6" height="6"/><rect x="26" y="2" width="8" height="8"/>
+<rect x="38" y="4" width="4" height="4"/><rect x="2" y="16" width="6" height="6"/><rect x="14" y="16" width="8" height="6"/>
+<rect x="34" y="16" width="4" height="4"/><rect x="50" y="16" width="4" height="4"/>
+</g>
+</svg>

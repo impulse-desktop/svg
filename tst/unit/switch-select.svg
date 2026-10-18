@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
+<!-- Lime everywhere, no red. A switch draws its first child whose
+requiredExtensions and systemLanguage hold, even one with display none,
+then nothing more; requiredExtensions holds for no URL and not when empty;
+requiredFeatures is no SVG 2 attribute and changes nothing; the language
+is en (D11): en-US, EN and "fr, en" match, eng and "" do not; outside a
+switch a failing condition leaves the element out. -->
+<rect width="64" height="24" fill="white"/>
+<g fill="red"><rect x="3" y="3" width="8" height="8"/><rect x="15" y="3" width="8" height="8"/><rect x="27" y="3" width="8" height="8"/><rect x="39" y="3" width="8" height="8"/><rect x="51" y="3" width="8" height="8"/></g>
+<switch>
+<rect x="2" y="2" width="10" height="10" fill="red" systemLanguage="xx"/>
+<rect x="2" y="2" width="10" height="10" fill="red" requiredExtensions=""/>
+<rect x="2" y="2" width="10" height="10" fill="red" requiredExtensions="http://example.org/ext"/>
+<rect x="2" y="2" width="10" height="10" fill="lime" requiredFeatures="bogus"/>
+<rect x="2" y="2" width="10" height="10" fill="red"/>
+</switch>
+<switch>
+<rect x="14" y="2" width="10" height="10" fill="red" systemLanguage="eng"/>
+<rect x="14" y="2" width="10" height="10" fill="red" systemLanguage=""/>
+<rect x="14" y="2" width="10" height="10" fill="lime" systemLanguage="en-US"/>
+</switch>
+<switch><rect x="26" y="2" width="10" height="10" fill="lime" systemLanguage="EN"/><rect x="26" y="2" width="10" height="10" fill="red"/></switch>
+<switch><rect x="38" y="2" width="10" height="10" fill="lime" systemLanguage="fr, en"/><rect x="38" y="2" width="10" height="10" fill="red"/></switch>
+<rect x="50" y="2" width="10" height="10" fill="lime"/>
+<switch><rect x="50" y="2" width="10" height="10" fill="red" display="none"/><rect x="50" y="2" width="10" height="10" fill="red"/></switch>
+<rect x="2" y="14" width="60" height="8" fill="lime"/>
+<rect x="2" y="14" width="60" height="8" fill="red" systemLanguage="de"/>
+</svg>

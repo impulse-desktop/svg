@@ -12628,7 +12628,7 @@ namespace {
                 float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, lengthOr(doc, target, AtomWidth, Axis::X, vp, tfs, vp.width));
                 float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, lengthOr(doc, target, AtomHeight, Axis::Y, vp, tfs, vp.height));
 
-                if (!targetStyle.displayNone && passesConditions(doc, target)) {
+                if ((!targetStyle.displayNone || !svg) && passesConditions(doc, target)) {
                     bool openWidth = vp.width <= 0.f && !givenSide(doc, node, AtomWidth) && !givenSide(doc, target, AtomWidth);
                     bool openHeight = vp.height <= 0.f && !givenSide(doc, node, AtomHeight) && !givenSide(doc, target, AtomHeight);
 
@@ -16563,7 +16563,9 @@ namespace {
 
         ComputedStyle style = computeStyle(l, node, parent, vp);
 
-        if ((style.displayNone && node != l.doc->root) || style.opacity <= 0.f) {
+        // A symbol a use instances displays inline, whatever its display
+        // (struct.md, SymbolNotes).
+        if ((style.displayNone && node != l.doc->root && !instance) || style.opacity <= 0.f) {
             return;
         }
 

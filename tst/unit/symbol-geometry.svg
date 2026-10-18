@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- Each lime drawing fills its black outline; no red. A symbol a use
+instances is a viewport: its own x, y, width and height place it, width and
+height 100% when auto, the use's width and height overriding; refX and refY
+put a point of its content, after its viewBox, at its x, y, keywords as
+percentages; without them its viewport's corner goes there; it clips its
+content; display none on the symbol does not keep the use from drawing it,
+while a symbol nested in the content draws nothing. -->
+<rect width="64" height="64" fill="white"/>
+<defs>
+<symbol id="a" x="2" y="2" width="10" height="6"><rect width="100%" height="100%" fill="lime"/></symbol>
+<symbol id="b"><rect width="50%" height="25%" fill="lime"/></symbol>
+<symbol id="c" viewBox="0 0 10 10" refX="5" refY="5" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="d" viewBox="0 0 10 10" refX="right" refY="bottom" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="e" viewBox="10 10 10 10" width="8" height="8"><rect x="10" y="10" width="10" height="10" fill="lime"/></symbol>
+<symbol id="f" viewBox="10 10 10 10" refX="10" refY="10" width="8" height="8"><rect x="10" y="10" width="10" height="10" fill="lime"/></symbol>
+<symbol id="g" width="6" height="6"><rect x="-4" y="-4" width="20" height="20" fill="lime"/></symbol>
+<symbol id="h" display="none" width="6" height="6"><rect width="6" height="6" fill="lime"/><symbol><rect width="6" height="6" fill="red"/></symbol></symbol>
+</defs>
+<use href="#a"/>
+<use href="#a" x="16" width="12" height="4"/>
+<use href="#b" x="34" y="2" width="24" height="16"/>
+<use href="#c" x="10" y="30"/>
+<use href="#d" x="30" y="30"/>
+<use href="#e" x="34" y="22"/>
+<use href="#f" x="50" y="22"/>
+<use href="#g" x="2" y="44"/>
+<use href="#h" x="14" y="44"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="10" height="6"/><rect x="18" y="2" width="12" height="4"/><rect x="34" y="2" width="12" height="4"/>
+<rect x="6" y="26" width="8" height="8"/><rect x="22" y="22" width="8" height="8"/><rect x="34" y="22" width="8" height="8"/><rect x="50" y="22" width="8" height="8"/>
+<rect x="2" y="44" width="6" height="6"/><rect x="14" y="44" width="6" height="6"/>
+</g>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:f="http://example.org/f" x="20" y="20" width="32" height="16">
+<!-- Lime everywhere, no red. x and y on the outermost svg do nothing; what
+defs holds is not drawn; an element of another namespace is left out with
+all it holds, SVG inside it too; its unknown attributes change nothing. -->
+<rect width="32" height="16" fill="lime" f:fill="red"/>
+<defs><rect width="32" height="16" fill="red"/><g><rect width="32" height="16" fill="red"/></g></defs>
+<f:thing><rect width="32" height="16" fill="red"/><svg width="32" height="16"><rect width="32" height="16" fill="red"/></svg></f:thing>
+</svg>

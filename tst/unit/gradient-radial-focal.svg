@@ -3,13 +3,15 @@
 touch, the black lines its sides, and leaves the rest clear; a start circle
 covering the end circle draws nothing: lime stays; a focal point on the end
 circle paints past it with the gradient's weighted average with repeat, and
-its last stop with pad. -->
+its last stop with pad, also on its tangent through
+the focal point, here through pixel centres. -->
 <rect width="64" height="56" fill="white"/>
 <defs>
 <radialGradient id="cone" gradientUnits="userSpaceOnUse" cx="20" cy="14" r="8" fx="40" fy="14"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
 <radialGradient id="over" gradientUnits="userSpaceOnUse" cx="12" cy="40" r="4" fx="12" fy="40" fr="6"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="red"/></radialGradient>
 <radialGradient id="edge" gradientUnits="userSpaceOnUse" cx="40" cy="40" r="8" fx="48" fy="40" spreadMethod="repeat"><stop offset="0" stop-color="black"/><stop offset="1" stop-color="white"/></radialGradient>
 <radialGradient id="edgepad" gradientUnits="userSpaceOnUse" cx="40" cy="40" r="8" fx="48" fy="40"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="edgec" gradientUnits="userSpaceOnUse" cx="10.5" cy="53.5" r="8" fx="18.5" fy="53.5"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
 </defs>
 <rect x="2" y="2" width="60" height="24" fill="url(#cone)"/>
 <path d="M -14.991 -10.000 L 40.000 14.000 L -14.991 38.000" fill="none" stroke="black" stroke-width=".3"/>
@@ -18,4 +20,5 @@ its last stop with pad. -->
 <rect x="26" y="30" width="36" height="10" fill="url(#edge)"/>
 <rect x="49" y="40" width="13" height="5" fill="#808080"/>
 <rect x="26" y="45" width="36" height="10" fill="url(#edgepad)"/>
+<rect x="2" y="51" width="20" height="4" fill="url(#edgec)"/>
 </svg>
