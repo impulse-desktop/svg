@@ -45,14 +45,14 @@
 - [x] filter-effects-1.md#attr-valuedef-in-fillpaint: FillPaint is the target element's fill property value as an infinite-extent image; a paint server in it uses the filtered element's own reference box (objectBoundingBox or the nearest viewport).
 - [x] filter-effects-1.md#attr-valuedef-in-strokepaint: StrokePaint is the same, taken from the stroke property.
 
-## Background input and isolation backdrop: filter-background (exists)
+## Background input and isolation backdrop: filter-background-image, filter-background (exists), background-unscoped (exists)
 
-- [ ] filter-effects-1.md#attr-valuedef-in-backgroundimage: BackgroundImage is the backdrop defined by the current isolation group behind the filter region, at the time the filter was invoked.
-- [ ] filter-effects-1.md#attr-valuedef-in-backgroundalpha: BackgroundAlpha is BackgroundImage with only its alpha channel kept.
+- [x] filter-effects-1.md#attr-valuedef-in-backgroundimage: BackgroundImage is the backdrop defined by the current isolation group behind the filter region, at the time the filter was invoked.
+- [x] filter-effects-1.md#attr-valuedef-in-backgroundalpha: BackgroundAlpha is BackgroundImage with only its alpha channel kept.
 
-## Deprecated enable-background: enable-background (exists)
+## Deprecated enable-background: filter-background-image, enable-background (exists)
 
-- [ ] filter-effects-1.md#AccessBackgroundImage: this specification does not support the SVG 1.1 enable-background property; user agents must use the isolation property to define the BackgroundImage/BackgroundAlpha backdrop instead.
+- [x] filter-effects-1.md#AccessBackgroundImage: this specification does not support the SVG 1.1 enable-background property; user agents must use the isolation property to define the BackgroundImage/BackgroundAlpha backdrop instead. (D26)
 
 ## Filter primitive tree: filter-primitive-inputs, filter-need-join (exists)
 

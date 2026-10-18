@@ -1143,7 +1143,6 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(VectorEffect, "vector-effect")                            \
     ATOM(PaintOrder, "paint-order")                                \
     ATOM(MixBlendMode, "mix-blend-mode")                           \
-    ATOM(EnableBackground, "enable-background")                    \
     ATOM(Isolation, "isolation")                                   \
     ATOM(ColorInterpolation, "color-interpolation")                \
     ATOM(ShapeRendering, "shape-rendering")                        \
@@ -1636,9 +1635,6 @@ namespace {
         u8 vectorEffects;
         u8 blend;
         bool isolate;
-        bool newBackground;
-        bool backgroundClipped;
-        Box backgroundBox;
         bool linearColors;
         bool aliased;
         u8 imageRendering;
@@ -1874,12 +1870,6 @@ namespace {
         // Of a layer seen in perspective, the maps from the device to the
         // layer and back, which layerMatrix stands for otherwise.
         const Projective* perspective;
-        bool newBackground;
-        bool backgroundOnly;
-        bool resetBackground;
-        bool backgroundClipped;
-        Box backgroundBox;
-        Matrix backgroundMatrix;
     };
 
     // What a pass over the document carries: the document and the pool of
@@ -1992,8 +1982,9 @@ namespace {
         // The coverage deltas of a fill's rows, 65536 for a whole pixel,
         // summed modulo 2^32.
         Vector<u32> accumulation;
+        // The backdrop a layer drawn apart inherits, which its own filters
+        // read as their background.
         Plane backdrop{nullptr, IntBox{0, 0, 0, 0}};
-        size_t backgroundBase = 0;
         // The sRGB curve each way over stored values, to sRGB and to linear
         // light, and which values of it a render has met.
         Vector<u16> curves[2];
@@ -10468,8 +10459,6 @@ namespace {
         style.vectorEffects = 0;
         style.blend = 0;
         style.isolate = false;
-        style.newBackground = false;
-        style.backgroundClipped = false;
         style.outlineWidth = 0.f;
         style.zoom = 1.f;
         memset(style.maskParts, 0, sizeof(style.maskParts));
@@ -10494,7 +10483,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -10532,7 +10521,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomEnableBackground && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -10984,44 +10973,6 @@ namespace {
                     }
 
                     break;
-                case AtomEnableBackground: {
-                    if (keyword) {
-                        style.newBackground = source.newBackground;
-                        style.backgroundClipped = source.backgroundClipped;
-                        style.backgroundBox = source.backgroundBox;
-                        break;
-                    }
-
-                    const u8* p = value.begin();
-                    const u8* end = value.end();
-                    skipSpaces(p, end);
-                    StringView word = readIdent(p, end);
-
-                    if (isKeyword(word, SV("accumulate"))) {
-                        style.newBackground = false;
-                    } else if (isKeyword(word, SV("new"))) {
-                        style.newBackground = true;
-                        skipSpaces(p, end);
-                        style.backgroundClipped = p < end;
-
-                        if (p < end) {
-                            float values[4];
-                            bool valid = true;
-
-                            for (float& v : values) {
-                                while (p < end && (isSpace(*p) || *p == ',')) {
-                                    p++;
-                                }
-                                valid = valid && readNumber(p, end, v);
-                            }
-
-                            skipSpaces(p, end);
-                            style.backgroundBox = valid && p == end && values[2] > 0.f && values[3] > 0.f ? Box{values[0], values[1], values[0] + values[2], values[1] + values[3]} : Box{0.f, 0.f, 0.f, 0.f};
-                        }
-                    }
-
-                    break;
-                }
                 case AtomIsolation:
                     if (keyword) {
                         style.isolate = source.isolate;
@@ -16023,14 +15974,6 @@ namespace {
         l.docHeight = explicitSide(*nested, nested->root, AtomHeight) ? source.height : (float)l.height;
 
         l.backgroundInputs = l.backgroundInputs || usesBackground(*nested, nested->root);
-        op.resetBackground = true;
-        op.newBackground = l.backgroundInputs && rootStyle.newBackground;
-        op.backgroundClipped = rootStyle.backgroundClipped;
-        op.backgroundBox = rootStyle.backgroundBox;
-
-        if (op.backgroundClipped && !invert(place, op.backgroundMatrix)) {
-            op.backgroundBox = Box{0.f, 0.f, 0.f, 0.f};
-        }
 
         u32 imageIndex = (u32)l.out->length();
 
@@ -16808,45 +16751,11 @@ namespace {
         op.blend = style.blend;
         op.linear = style.linearColors && (isShape(node->name) || node->name == AtomImage);
 
-        op.newBackground = l.backgroundInputs && style.newBackground && (node->name == AtomSvg || node->name == AtomG || node->name == AtomA || node->name == AtomSwitch || node->name == AtomSymbol);
-        op.backgroundClipped = style.backgroundClipped;
-        op.backgroundBox = style.backgroundBox;
-
-        if (op.newBackground && op.backgroundClipped) {
-            Matrix content = m;
-
-            if (node == l.doc->root) {
-                content = multiply(content, rootContent(l, node));
-            } else if (node->name == AtomSvg || node->name == AtomSymbol) {
-                float w = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, style.fontSize, vp.width);
-                float h = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, style.fontSize, vp.height);
-                Box viewBox;
-
-                if (l.sized == node) {
-                    w = l.sizedWidth >= 0.f ? l.sizedWidth : w;
-                    h = l.sizedHeight >= 0.f ? l.sizedHeight : h;
-                }
-
-                content = multiply(content, translation(lengthOr(*l.doc, node, AtomX, Axis::X, vp, style.fontSize, 0.f), lengthOr(*l.doc, node, AtomY, Axis::Y, vp, style.fontSize, 0.f)));
-
-                if (parseViewBox(*l.doc, node, viewBox)) {
-                    content = multiply(content, viewBoxTransform(*l.doc, node, viewBox, w, h));
-                }
-            }
-
-            if (!invert(content, op.backgroundMatrix)) {
-                op.backgroundBox = Box{0.f, 0.f, 0.f, 0.f};
-            }
-        }
-
         // A shape lays its fills over in linear light itself; an image is
         // drawn apart to be.
         // A 3D transform isolates, as a layer, though it is affine; a 2D
         // one does not (compositing-1.md, csscompositingrules_SVG).
         bool layer = op.clipped || op.masked || op.filter || style.opacity < 1.f || style.blend || style.isolate || perspective.solid || (op.linear && node->name == AtomImage);
-
-        op.backgroundOnly = op.newBackground && !layer;
-        layer = layer || op.newBackground;
 
         u32 index = (u32)l.out->length();
 
@@ -18350,38 +18259,24 @@ namespace {
         valid = grown;
     }
 
-    static size_t firstTarget(const Raster& r) {
-        size_t first = r.layers.length() - 1;
-
-        // Only the base of a program has no Begin.
-        while (first > r.backgroundBase && r.begins[first]->backgroundOnly) {
-            first--;
-        }
-
-        return first;
-    }
-
     static void blendLinear(Raster& r, int mode, u16* d, const u16* s, size_t count);
 
-    // The source pixels from x0 on row y over every layer from first up,
-    // within the box of each: the layer of a filtered group holds its
-    // filters' region, which a drawing may pass. linear lays them over in
-    // linear light.
-    static void overLayers(Raster& r, size_t first, int x0, int y, const u16* source, int count, bool linear = false) {
-        for (size_t level = first; level < r.layers.length(); level++) {
-            const Plane& plane = r.layers[level];
-            int a = x0 > plane.box.x0 ? x0 : plane.box.x0;
-            int b = x0 + count < plane.box.x1 ? x0 + count : plane.box.x1;
+    // The source pixels from x0 on row y over the current layer, within its
+    // box: the layer of a filtered group holds its filters' region, which a
+    // drawing may pass. linear lays them over in linear light.
+    static void overLayer(Raster& r, int x0, int y, const u16* source, int count, bool linear = false) {
+        const Plane& plane = r.layers.back();
+        int a = x0 > plane.box.x0 ? x0 : plane.box.x0;
+        int b = x0 + count < plane.box.x1 ? x0 + count : plane.box.x1;
 
-            if (y < plane.box.y0 || y >= plane.box.y1 || b <= a) {
-                continue;
-            }
+        if (y < plane.box.y0 || y >= plane.box.y1 || b <= a) {
+            return;
+        }
 
-            if (linear) {
-                blendLinear(r, 0, planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
-            } else {
-                overSpan(planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
-            }
+        if (linear) {
+            blendLinear(r, 0, planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
+        } else {
+            overSpan(planeAt(plane, a, y), source + (size_t)(a - x0) * 4, (size_t)(b - a));
         }
     }
 
@@ -18515,14 +18410,9 @@ namespace {
         u32 iy0;
         u32 w;
         u32 h;
-        size_t first = firstTarget(r);
-        // The fill reaches the layers it draws on, the base of its program or
-        // the layers of the groups above it, which may pass the base.
-        IntBox clip = r.layers[first].box;
-
-        for (size_t level = first + 1; level < r.layers.length(); level++) {
-            clip = boxJoin(clip, r.layers[level].box);
-        }
+        // The fill reaches the layer it draws on, the base of its program or
+        // the layer of the group around it, which may pass the base.
+        IntBox clip = r.layers.back().box;
 
         if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, clip, ix0, iy0, w, h, op.rule)) {
             return;
@@ -18538,9 +18428,7 @@ namespace {
         Vector<u16> source;
         PaintRows rows;
 
-        for (size_t level = first; level < r.layers.length(); level++) {
-            ensure(r.layers[level], r.dirty.mut(level), fill);
-        }
+        ensure(r.layers.back(), r.dirty.mut(r.dirty.length() - 1), fill);
 
         cover.zero(w);
         colors.zero((size_t)w * 4);
@@ -18570,7 +18458,7 @@ namespace {
                     scaleSpan(out, paints, coverRow + start, count);
                 }
 
-                overLayers(r, first, (int)(ix0 + start), (int)(iy0 + y), out, (int)count, op.linear);
+                overLayer(r, (int)(ix0 + start), (int)(iy0 + y), out, (int)count, op.linear);
                 count = 0;
             };
 
@@ -18804,7 +18692,6 @@ namespace {
         Plane background;
         Plane backgroundLinear;
         Plane backgroundAlpha;
-        bool resetBackground;
         Plane paint[2][2];
         Plane empty;
         Vector<FilterResult> results;
@@ -18900,61 +18787,18 @@ namespace {
         }
     }
 
-    // The background under the box: the layers of the current scope over the
-    // backdrop. A plane without data when there is none.
+    // The background under the box, Filter Effects' BackgroundImage: what
+    // the current isolation group drew before the filtered element, the
+    // pixels of the layer it is composited into (filter-effects-1.md,
+    // attr-valuedef-in-backgroundimage), or, for an element drawn apart on a
+    // layer of its own, the backdrop that layer inherited. Ancestor opacity,
+    // masks and filters apply when that ancestor is composited, not while
+    // its children form the background.
     static Plane backgroundBuffer(Raster& r, const IntBox& box) {
-        size_t first = r.backgroundBase;
-        const Op* scope = nullptr;
-
-        // The layers past the base have their Begins.
-        for (size_t i = r.begins.length(); i > first + 1; i--) {
-            const Op* op = r.begins[i - 1];
-
-            if (op->resetBackground && !op->newBackground) {
-                return Plane{nullptr, box};
-            }
-
-            if (op->newBackground) {
-                first = i - 1;
-                scope = op;
-                break;
-            }
-        }
-
-        if (!scope && !r.backdrop.data) {
-            return Plane{nullptr, box};
-        }
-
         Plane out = makePlane(box);
+        bool apart = r.layers.empty();
 
-        if (!scope) {
-            copyBox(r.backdrop, out, box);
-        }
-
-        // Ancestor opacity, masks and filters apply when that ancestor is
-        // composited, not while its children form the current background.
-        for (size_t level = first; level < r.layers.length(); level++) {
-            IntBox drawn = boxInside(r.dirty[level], box);
-            const Plane& layer = r.layers[level];
-
-            for (int y = drawn.y0; y < drawn.y1; y++) {
-                overSpan(planeAt(out, drawn.x0, y), planeAt(layer, drawn.x0, y), (size_t)(drawn.x1 - drawn.x0));
-            }
-        }
-
-        if (scope && scope->backgroundClipped) {
-            const Box& clip = scope->backgroundBox;
-
-            for (int y = box.y0; y < box.y1; y++) {
-                for (int x = box.x0; x < box.x1; x++) {
-                    Point point = apply(scope->backgroundMatrix, Point{(float)x + .5f, (float)y + .5f});
-
-                    if (point.x < clip.x0 || point.x >= clip.x1 || point.y < clip.y0 || point.y >= clip.y1) {
-                        memset(planeAt(out, x, y), 0, sizeof(u16) * 4);
-                    }
-                }
-            }
-        }
+        copyBox(apart ? r.backdrop : r.layers.back(), out, apart ? box : boxInside(r.dirty.back(), box));
 
         return out;
     }
@@ -19037,9 +18881,7 @@ namespace {
         if (index == InputBackgroundImage || index == InputBackgroundAlpha) {
             if (!run.background.data) {
                 const IntBox& box = run.filter->region;
-                Plane background = run.resetBackground ? Plane{nullptr, box} : backgroundBuffer(*run.raster, box);
-
-                run.background = background.data ? background : makePlane(box);
+                run.background = backgroundBuffer(*run.raster, box);
 
                 // A background read in linear light alone is converted in place.
                 if (!readsInSrgb(*run.filter, InputBackgroundImage)) {
@@ -21961,7 +21803,7 @@ namespace {
 
     // Runs the filter over the layer and writes its result back over it: the
     // final primitive's result inside its box, zero elsewhere.
-    static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, const Plane& layer, ObjPool& pool, const IntBox& visible, bool resetBackground = false) {
+    static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, const Plane& layer, ObjPool& pool, const IntBox& visible) {
         // The region and the primitive boxes were clipped to the canvas when
         // the filter was lowered, the raster of the pattern tile or layer it
         // is drawn on. The final result is read within the visible box alone.
@@ -22038,7 +21880,6 @@ namespace {
         run.backgroundLinear = run.sourceLinear;
         run.backgroundAlpha = run.sourceLinear;
         run.empty = run.sourceLinear;
-        run.resetBackground = resetBackground;
 
         for (int kind = 0; kind < 2; kind++) {
             for (int space = 0; space < 2; space++) {
@@ -22401,7 +22242,6 @@ namespace {
         drawn = boxInside(drawn, IntBox{0, 0, (int)r.width, (int)r.height});
 
         int count = drawn.x1 - drawn.x0;
-        size_t first = firstTarget(r);
         Vector<u16> sample;
 
         if (tests == 9) {
@@ -22417,7 +22257,7 @@ namespace {
                     continue;
                 }
 
-                overLayers(r, first, x0, y, content.data + ((size_t)iy * lw + (size_t)(x0 + shiftX)) * 4, x1 - x0);
+                overLayer(r, x0, y, content.data + ((size_t)iy * lw + (size_t)(x0 + shiftX)) * 4, x1 - x0);
             }
 
             return;
@@ -22452,7 +22292,7 @@ namespace {
                 bilinear(texel(ix, iy), texel(ix + 1, iy), texel(ix, iy + 1), texel(ix + 1, iy + 1), fx - bx, fy - by, out);
             }
 
-            overLayers(r, first, drawn.x0, y, sample.data(), count);
+            overLayer(r, drawn.x0, y, sample.data(), count);
         }
     }
 
@@ -22477,16 +22317,7 @@ namespace {
     }
 
     static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base) {
-        size_t depth = r.layers.length();
         IntBox canvas{0, 0, (int)r.width, (int)r.height};
-        size_t backgroundBase = r.backgroundBase;
-        Plane backdrop = r.backdrop;
-
-        r.backgroundBase = depth;
-
-        if (depth) {
-            r.backdrop = Plane{nullptr, IntBox{0, 0, 0, 0}};
-        }
 
         r.layers.pushBack(base);
         r.dirty.pushBack(base.box);
@@ -22501,9 +22332,7 @@ namespace {
                     finishPaint(*op.paint);
                     break;
                 case OpKind::Layer:
-                    for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
-                        ensure(r.layers[level], r.dirty.mut(level), layerBox(op.bounds, canvas));
-                    }
+                    ensure(r.layers.back(), r.dirty.mut(r.dirty.length() - 1), layerBox(op.bounds, canvas));
 
                     compositeLayer(r, l, op);
                     break;
@@ -22526,9 +22355,8 @@ namespace {
                     const Op* begin = r.begins.popBack();
                     IntBox box = r.dirty.popBack();
 
-                    // A background is read in place; a group of no pixels
-                    // draws nothing.
-                    if (begin->backgroundOnly || !layer.data) {
+                    // A group of no pixels draws nothing.
+                    if (!layer.data) {
                         delete pool;
                         break;
                     }
@@ -22538,7 +22366,7 @@ namespace {
                     }
 
                     for (const Filter* filter = begin->filter; filter; filter = filter->next) {
-                        applyFilter(r, l, *filter, layer, *pool, canvas, begin->newBackground);
+                        applyFilter(r, l, *filter, layer, *pool, canvas);
                     }
 
                     const u16* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box) : nullptr;
@@ -22555,32 +22383,30 @@ namespace {
                     scaledRow.zero((size_t)width * 4);
                     blended.zero((size_t)width * 4);
 
-                    for (size_t level = firstTarget(r); level < r.layers.length(); level++) {
-                        const Plane& parent = r.layers[level];
-                        IntBox target = boxInside(box, parent.box);
-                        int n = target.x1 - target.x0;
+                    const Plane& parent = r.layers.back();
+                    IntBox target = boxInside(box, parent.box);
+                    int n = target.x1 - target.x0;
 
-                        ensure(parent, r.dirty.mut(level), target);
+                    ensure(parent, r.dirty.mut(r.dirty.length() - 1), target);
 
-                        for (int y = target.y0; y < target.y1; y++) {
-                            size_t i = (size_t)(y - layer.box.y0) * width + (size_t)(target.x0 - layer.box.x0);
-                            const u16* row = planeAt(layer, target.x0, y);
-                            u16* out = planeAt(parent, target.x0, y);
+                    for (int y = target.y0; y < target.y1; y++) {
+                        size_t i = (size_t)(y - layer.box.y0) * width + (size_t)(target.x0 - layer.box.x0);
+                        const u16* row = planeAt(layer, target.x0, y);
+                        u16* out = planeAt(parent, target.x0, y);
 
-                            if (scaled) {
-                                factorRow(factor.mutData(), opacity, clip ? clip + i : nullptr, mask ? mask + i : nullptr, (size_t)n);
-                                scaleSpan(scaledRow.mutData(), row, factor.data(), (size_t)n);
-                                row = scaledRow.data();
-                            }
+                        if (scaled) {
+                            factorRow(factor.mutData(), opacity, clip ? clip + i : nullptr, mask ? mask + i : nullptr, (size_t)n);
+                            scaleSpan(scaledRow.mutData(), row, factor.data(), (size_t)n);
+                            row = scaledRow.data();
+                        }
 
-                            if (begin->linear) {
-                                blendLinear(r, begin->blend, out, row, (size_t)n);
-                            } else if (!begin->blend) {
-                                overSpan(out, row, (size_t)n);
-                            } else {
-                                blendSpan(begin->blend, blended.mutData(), row, out, (size_t)n);
-                                memcpy(out, blended.data(), sizeof(u16) * 4 * (size_t)n);
-                            }
+                        if (begin->linear) {
+                            blendLinear(r, begin->blend, out, row, (size_t)n);
+                        } else if (!begin->blend) {
+                            overSpan(out, row, (size_t)n);
+                        } else {
+                            blendSpan(begin->blend, blended.mutData(), row, out, (size_t)n);
+                            memcpy(out, blended.data(), sizeof(u16) * 4 * (size_t)n);
                         }
                     }
 
@@ -22594,8 +22420,6 @@ namespace {
         r.layers.popBack();
         r.dirty.popBack();
         r.begins.popBack();
-        r.backgroundBase = backgroundBase;
-        r.backdrop = backdrop;
     }
 
     static bool usesBackground(const Document& doc, const Node* node, u32 depth) {

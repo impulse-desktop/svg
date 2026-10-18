@@ -259,3 +259,15 @@ The renderer cuts the cone sharp, as the formula does, rather than soften it
 over a band as the browsers do; a cone of any given angle limits, zero
 included; and the focus takes any exponent, where the browsers clamp it to
 1 through 128, a light past a float as bright as it can be.
+
+## D26. BackgroundImage is the isolation group's backdrop; enable-background is gone
+
+`filter-effects-1.md#attr-valuedef-in-backgroundimage`: BackgroundImage is
+"the back drop defined by the current isolation group behind the filter
+region"; `#AccessBackgroundImage`: "This specification does not support the
+enable-background property. UAs must support the isolation property
+instead." The renderer had kept SVG 1.1's enable-background, a background
+gathered from the nearest group marked new. It now reads the pixels the
+filtered element's isolation group drew before it, transparent at the start
+of an isolated group, and ignores enable-background; the W3C SVG 1.1 and
+resvg tests written for it draw differently.
