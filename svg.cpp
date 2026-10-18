@@ -8913,10 +8913,18 @@ namespace {
                 }
             }
 
-            // A dash on at the end holds its start and the end.
+            // A dash on at the end holds its start and the end; a closed
+            // polyline's ends at its start, where its first segment is the
+            // later one, and takes the join there.
             if (on && !strokeOutside(s, piece.data(), piece.length(), cull)) {
                 if (pass) {
+                    Point last = came[loop.length() - 1];
+
                     strokePolyline(out, s, piece.data(), flags.data(), ways.data(), piece.length(), false);
+
+                    if (closed) {
+                        addJoinShape(out, s, loop[0], last.x != 0.f || last.y != 0.f ? last : incoming, came[1]);
+                    }
                 } else {
                     visible += 1.0;
                 }
