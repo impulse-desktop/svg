@@ -18815,8 +18815,10 @@ namespace {
         }
 
         double window = floorf(sigma * 3.f * sqrtf(2.f * pi) / 4.f + 0.5f);
-        int d = (int)window;
         bool boxes = sigma >= 2.f && window < 2.0 * count;
+        // The boxes' length, which a window past the line's needs not, nor
+        // could an int hold.
+        int d = boxes ? (int)window : 0;
         int pad = boxes ? 3 * (d / 2 + 1) : 0;
         int total = count + 2 * pad;
 
