@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
+<!-- Lime everywhere, no red. visibility hidden on a group hides what
+inherits it, a child visible of its own draws; a hidden element is not
+painted yet its geometry still counts in its group's bounding box: the
+right half of the box, from a clipPath in objectBoundingBox units, starts
+at 32, past the red. -->
+<rect width="64" height="24" fill="white"/>
+<defs><clipPath id="right" clipPathUnits="objectBoundingBox"><rect x=".5" width=".5" height="1"/></clipPath></defs>
+<rect x="3" y="3" width="8" height="8" fill="red"/>
+<g visibility="hidden"><rect x="2" y="2" width="10" height="10" fill="lime" visibility="visible"/><rect x="14" y="2" width="10" height="10" fill="red"/></g>
+<rect x="33" y="15" width="8" height="6" fill="red"/>
+<g clip-path="url(#right)">
+<rect x="2" y="14" width="20" height="8" fill="red" visibility="hidden"/>
+<rect x="22" y="14" width="40" height="8" fill="lime"/>
+</g>
+</svg>

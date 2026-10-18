@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" transform="rotate(90)">
+<!-- The outermost svg turns about its centre, its transform-origin 50% 50%:
+the lime bar drawn along the top left lands along the top right, turned
+upright; every other element turns about its user origin, as the teal bar
+in the g does, 90 degrees about 0 0 of its own space. -->
+<rect width="16" height="8" fill="lime"/>
+<g transform="translate(24 24) rotate(90)"><rect width="6" height="2" fill="teal"/></g>
+</svg>

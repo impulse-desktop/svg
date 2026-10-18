@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Lime everywhere, no red. clipPath, defs, desc, linearGradient, marker,
+mask, metadata, pattern, radialGradient, style, title and symbol are never
+drawn where they stand, whatever their display; display none hides an
+element and all it holds, a child's own display cannot bring it back;
+display does not inherit. -->
+<rect width="64" height="16" fill="lime"/>
+<clipPath style="display: inline"><rect width="64" height="16" fill="red"/></clipPath>
+<defs style="display: inline"><rect width="64" height="16" fill="red"/></defs>
+<desc style="display: inline"><rect width="64" height="16" fill="red"/></desc>
+<linearGradient style="display: inline"><rect width="64" height="16" fill="red"/></linearGradient>
+<marker style="display: inline"><rect width="64" height="16" fill="red"/></marker>
+<mask style="display: inline"><rect width="64" height="16" fill="red"/></mask>
+<metadata style="display: inline"><rect width="64" height="16" fill="red"/></metadata>
+<pattern style="display: inline"><rect width="64" height="16" fill="red"/></pattern>
+<radialGradient style="display: inline"><rect width="64" height="16" fill="red"/></radialGradient>
+<title style="display: inline"><rect width="64" height="16" fill="red"/></title>
+<symbol style="display: inline"><rect width="64" height="16" fill="red"/></symbol>
+<g display="none"><rect width="64" height="16" fill="red" display="inline" style="display: block"/></g>
+<g display="none" fill="lime"><g><rect width="32" height="16" fill="red"/></g></g>
+</svg>

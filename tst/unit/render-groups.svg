@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- Each test runs on into the reference under it without a step. A group
+with opacity is drawn apart, its overlaps not darker. A use, or a g with no
+effect, is not an isolated group: a child multiplied in it blends with what
+lies under the group, gray on lime giving dark green; a group with opacity
+or isolation, and a marker's content, is isolated: the child blends with
+nothing and stays gray. -->
+<rect width="64" height="40" fill="white"/>
+<defs>
+<rect id="m" width="10" height="5" fill="#808080" style="mix-blend-mode: multiply"/>
+<marker id="k" markerWidth="10" markerHeight="5" markerUnits="userSpaceOnUse"><rect width="10" height="5" fill="#808080" style="mix-blend-mode: multiply"/></marker>
+</defs>
+<g opacity=".5"><rect x="2" y="2" width="8" height="5" fill="black"/><rect x="6" y="2" width="8" height="5" fill="black"/></g>
+<rect x="2" y="7" width="12" height="5" fill="#808080"/>
+<rect x="18" y="2" width="44" height="5" fill="lime"/>
+<use href="#m" x="18" y="2"/>
+<g><rect x="30" y="2" width="10" height="5" fill="#808080" style="mix-blend-mode: multiply"/></g>
+<g opacity=".999"><rect x="42" y="2" width="10" height="5" fill="#808080" style="mix-blend-mode: multiply"/></g>
+<g style="isolation: isolate"><rect x="52" y="2" width="10" height="5" fill="#808080" style="mix-blend-mode: multiply"/></g>
+<rect x="18" y="7" width="22" height="5" fill="#008000"/><rect x="40" y="7" width="22" height="5" fill="#808080"/>
+<rect x="2" y="16" width="20" height="5" fill="lime"/>
+<path d="M 2 16 h 1" marker-start="url(#k)"/>
+<rect x="2" y="21" width="10" height="5" fill="#808080"/>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- Lime everywhere, no red. A style sheet with no type or type text/css
+applies, another type does not; one whose media does not match does not;
+a style attribute beats a rule, a rule a presentation attribute; !important
+makes a presentation attribute invalid, so its parent's value holds; the
+geometry properties take CSS values: width, height, r, d. -->
+<style>#a { fill: lime }</style>
+<style type="text/css">#b { fill: lime }</style>
+<style type="text/foo">#c { fill: red }</style>
+<style media="print">#d { fill: red }</style>
+<style media="screen, print">#e { fill: lime }</style>
+<style>#f { fill: red } #g { fill: lime } #w { width: 10px; height: 10px } #r { r: 5px } #p { d: path("M 50 26 h 10 v 10 h -10 Z") }</style>
+<rect width="64" height="40" fill="white"/>
+<rect id="a" x="2" y="2" width="10" height="10" fill="red"/>
+<rect id="b" x="14" y="2" width="10" height="10" fill="red"/>
+<rect id="c" x="26" y="2" width="10" height="10" fill="lime"/>
+<rect id="d" x="38" y="2" width="10" height="10" fill="lime"/>
+<rect id="e" x="50" y="2" width="10" height="10" fill="red"/>
+<rect id="f" x="2" y="14" width="10" height="10" style="fill: lime" fill="red"/>
+<rect id="g" x="14" y="14" width="10" height="10" fill="red"/>
+<g fill="lime"><rect x="26" y="14" width="10" height="10" fill="red !important"/></g>
+<rect x="39" y="15" width="8" height="8" fill="red"/><rect id="w" x="38" y="14" fill="lime"/>
+<circle cx="56" cy="19" r="4" fill="red"/><circle id="r" cx="56" cy="19" r="1" fill="lime"/>
+<rect x="51" y="27" width="8" height="8" fill="red"/><path id="p" d="M 0 0" fill="lime"/>
+</svg>

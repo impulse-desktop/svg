@@ -126,3 +126,27 @@ The web platform test use-symbol-display-none expects a symbol with
 display="none" to draw nothing, as the browsers do; the text is explicit, and
 the corpus has no other such file. Conditional processing on the symbol still
 leaves it out: it sets the used display, not the computed one.
+
+## D13. The output keeps its transparency
+
+`svg2/render.md#ParentCompositing`: a top-level document is the page group,
+composited over an opaque white backdrop. The renderer is a library that
+returns RGBA pixels, not premultiplied (README); the page, and a white
+backdrop if any, is the embedding program's.
+
+## D14. A clipPath child hidden by visibility adds nothing to the clip
+
+`svg2/render.md#VisibilityControl` says a hidden graphics element still
+"contributes to bounding box calculations and clipping paths";
+`css-masking-1.md#ClipPathElement` says of the clipPath's own children that
+one "made invisible by display or visibility ... does not contribute to the
+clipping path". The masking text speaks of the clipping path itself and is
+the newer, so the renderer follows it; a hidden element still counts in its
+group's bounding box.
+
+## D15. @import loads nothing
+
+`svg2/styling.md#RequiredCSSFeatures` requires @import. The renderer fetches
+no resource (README: images come from the embedding program); an imported
+style sheet is not loaded and the rule is skipped, the rest of the sheet
+applying.
