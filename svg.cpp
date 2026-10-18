@@ -6245,7 +6245,8 @@ namespace {
         }
     }
 
-    static bool readNumber(const u8*& p, const u8* end, float& out) {
+    // A number in doubles, within the floats' range.
+    static bool readDouble(const u8*& p, const u8* end, double& out) {
         const u8* s = p;
         double sign = 1.0;
         double value = 0.0;
@@ -6308,8 +6309,20 @@ namespace {
             return false;
         }
 
-        out = (float)result;
+        out = result;
         p = s;
+
+        return true;
+    }
+
+    static bool readNumber(const u8*& p, const u8* end, float& out) {
+        double value;
+
+        if (!readDouble(p, end, value)) {
+            return false;
+        }
+
+        out = (float)value;
 
         return true;
     }
@@ -7528,9 +7541,10 @@ namespace {
         return true;
     }
 
-    // The current point goes in doubles, each point stored rounded once to
-    // floats: relative steps that come back to a point come back to it, as
-    // written, without the floats' error adding up along the path.
+    // The numbers and the current point go in doubles, each point stored
+    // rounded once to floats: relative steps that come back to a point come
+    // back to it, as written, without the floats' error adding up along the
+    // path.
     static void parsePathData(StringView text, Path& path) {
         const u8* p = text.begin();
         const u8* end = text.end();
@@ -7587,7 +7601,7 @@ namespace {
 
             needMove = false;
 
-            float v[7];
+            double v[7];
             u32 count;
 
             switch (upper) {
@@ -7626,7 +7640,7 @@ namespace {
                 } else if (upper == 'A' && i == 4) {
                     ok = readFlag(p, end, sweepArc);
                 } else {
-                    ok = readNumber(p, end, v[i]);
+                    ok = readDouble(p, end, v[i]);
 
                     if (ok) {
                         skipSeparator(p, end);
@@ -7690,7 +7704,7 @@ namespace {
                     // 'A', the last command of the count switch above.
                     DPoint to{base.x + v[5], base.y + v[6]};
 
-                    arcTo(path, stored(current), v[0], v[1], v[2], largeArc, sweepArc, stored(to));
+                    arcTo(path, stored(current), (float)v[0], (float)v[1], (float)v[2], largeArc, sweepArc, stored(to));
                     current = to;
                     break;
                 }
