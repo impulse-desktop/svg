@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52">
+<!-- Each test runs on into the reference under it without a step; no red.
+A mask's luminance weighs R, G and B by 0.2125, 0.7154 and 0.0721, in
+linear light under color-interpolation linearRGB; mask-type alpha, or the
+mask's mode in the shorthand, takes alpha instead; the region defaults to
+-10% and 120% of the box and clips the content; a region of zero width draws
+nothing; maskContentUnits scales the content to the box; a reference to
+nothing or to no mask is a transparent layer, hiding all (D20); a mask on an
+element of no height in box units is ignored. A grey image of one channel
+is its grey in every colour and opaque, one of three colours opaque too. A
+mask's content inherits from the mask's own ancestors; opacity, filter and
+display on it or above it do nothing; a negative width draws nothing. A
+mask makes a stacking context, so a blend in it meets nothing behind; the
+mask border reads alpha whatever mask-mode says, filling its black outline. -->
+<rect width="64" height="52" fill="white"/>
+<defs>
+<mask id="g"><rect width="64" height="40" fill="lime"/></mask>
+<mask id="s"><rect width="64" height="40" fill="#808080"/></mask>
+<mask id="l" color-interpolation="linearRGB"><rect width="64" height="40" fill="#808080"/></mask>
+<mask id="a" mask-type="alpha"><rect width="64" height="40" fill="black"/></mask>
+<mask id="r"><rect x="-100" y="-100" width="300" height="300" fill="white"/></mask>
+<mask id="z" width="0"><rect width="64" height="40" fill="white"/></mask>
+<mask id="c" maskContentUnits="objectBoundingBox"><rect width=".5" height="1" fill="white"/></mask>
+<rect id="nm" width="1" height="1"/>
+<g fill="white"><mask id="mi"><rect width="64" height="52"/></mask></g>
+<g display="none"><mask id="mo" opacity=".2" display="none" style="filter: blur(2px)"><rect width="64" height="52" fill="white"/></mask></g>
+<mask id="mn" width="-1"><rect width="64" height="52" fill="white"/></mask>
+</defs>
+<rect x="2" y="2" width="8" height="4" fill="lime" mask="url(#g)"/><rect x="2" y="6" width="8" height="4" fill="#49ff49"/>
+<rect x="12" y="2" width="8" height="4" fill="lime" mask="url(#s)"/><rect x="12" y="6" width="8" height="4" fill="#7fff7f"/>
+<rect x="22" y="2" width="8" height="4" fill="lime" mask="url(#l)"/><rect x="22" y="6" width="8" height="4" fill="#c8ffc8"/>
+<rect x="32" y="2" width="8" height="8" fill="lime" mask="url(#a)"/>
+<rect x="42" y="2" width="8" height="8" fill="lime" style="mask: url(#a) luminance"/>
+<rect x="52" y="2" width="8" height="8" fill="lime" style="mask: url(#g) alpha"/>
+<rect x="2" y="14" width="20" height="10" fill="lime" mask="url(#r)" stroke="lime" stroke-width="10"/>
+<rect x="0" y="13" width="24" height="12" fill="none" stroke="black" stroke-width=".25"/>
+<rect x="26" y="14" width="10" height="10" fill="red" mask="url(#z)"/>
+<rect x="38" y="14" width="12" height="10" fill="lime" mask="url(#c)"/>
+<rect x="2" y="28" width="10" height="10" fill="red" mask="url(#missing)"/>
+<rect x="14" y="28" width="10" height="10" fill="red" mask="url(#nm)"/>
+<path d="M 26 33 H 40" stroke="lime" stroke-width="6" mask="url(#g)"/>
+<rect x="42" y="28" width="10" height="10" fill="blue"/>
+<g mask="url(#r)"><rect x="44" y="30" width="6" height="4" fill="yellow" style="mix-blend-mode: multiply"/></g>
+<rect x="44" y="34" width="6" height="2" fill="yellow"/>
+<rect x="54" y="28" width="8" height="8" fill="lime" style="mask-image: linear-gradient(white, white); mask-mode: luminance; mask-border: linear-gradient(black, black) 30% / 3px"/>
+<rect x="54" y="28" width="8" height="8" fill="none" stroke="black" stroke-width=".25"/>
+<rect x="2" y="42" width="7" height="4" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNoAAAAggCBd81ytgAAAABJRU5ErkJggg==) luminance"/><rect x="2" y="46" width="7" height="4" fill="#7fff7f"/>
+<rect x="11" y="42" width="7" height="4" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNoAAAAggCBd81ytgAAAABJRU5ErkJggg==) alpha"/><rect x="11" y="46" width="7" height="4" fill="lime"/>
+<rect x="20" y="42" width="7" height="8" fill="red" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYGAAAAAEAAH2FzhVAAAAAElFTkSuQmCC) luminance"/>
+<rect x="29" y="42" width="7" height="4" fill="lime" style="mask: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYGAAAAAEAAH2FzhVAAAAAElFTkSuQmCC) alpha"/><rect x="29" y="46" width="7" height="4" fill="lime"/>
+<rect x="38" y="42" width="7" height="4" fill="lime" mask="url(#mi)"/><rect x="38" y="46" width="7" height="4" fill="lime"/>
+<rect x="47" y="42" width="7" height="4" fill="lime" mask="url(#mo)"/><rect x="47" y="46" width="7" height="4" fill="lime"/>
+<rect x="56" y="42" width="7" height="8" fill="red" mask="url(#mn)"/>
+</svg>

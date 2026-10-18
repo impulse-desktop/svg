@@ -973,6 +973,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(A, "a")                                                   \
     ATOM(Switch, "switch")                                         \
     ATOM(Image, "image")                                           \
+    ATOM(Text, "text")                                             \
     ATOM(Id, "id")                                                 \
     ATOM(Class, "class")                                           \
     ATOM(X, "x")                                                   \
@@ -12464,6 +12465,9 @@ namespace {
     struct Extent {
         bool tight;
         bool markers;
+        // Shapes count their strokes as the stroke bounding box has them,
+        // in boxes that are not tight.
+        bool stroke;
     };
 
     static void elementExtent(Pass& p, Node* node, const ComputedStyle& parent, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box);
@@ -12541,10 +12545,36 @@ namespace {
         }
     }
 
+    // How far a stroke grows a shape's box, as CSS Masking computes the
+    // stroke bounding box: by half its width, for a shape other than a
+    // rectangle, circle or ellipse times a miter join's limit, though the
+    // root of two at least for a square cap, or that root for a square cap
+    // alone. A miter-clip join, and arcs drawn as one, reach as far as a
+    // miter; a limit under one counts as one, past which no miter shows.
+    static float strokeGrowth(const Node* node, const ComputedStyle& style) {
+        float half = style.strokeWidth / 2.f;
+        float root2 = 1.41421356f;
+
+        if (style.stroke.kind == PaintKind::None || !(half > 0.f)) {
+            return 0.f;
+        }
+
+        if (node->name == AtomRect || node->name == AtomCircle || node->name == AtomEllipse) {
+            return half;
+        }
+
+        if (style.join == JoinMiter || style.join == JoinMiterClip) {
+            return half * (style.miterLimit < root2 && style.cap == CapSquare ? root2 : maxf(style.miterLimit, 1.f));
+        }
+
+        return style.cap == CapSquare ? half * root2 : half;
+    }
+
     // Adds to a box, in the space a matrix maps to, what an element draws:
     // the exact bounds of its shape, the rectangle of its image, or its
     // children placed in it. It is a box of geometry: hidden content counts,
-    // clipped content counts whole, strokes, filters and masks do not.
+    // clipped content counts whole, filters and masks do not, strokes only
+    // when asked.
     static void elementExtent(Pass& p, Node* node, const ComputedStyle& parent, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box) {
         const Document& doc = *p.doc;
 
@@ -12566,8 +12596,12 @@ namespace {
                 return;
             }
 
-            // A built path begins with a move, so its box is never empty.
+            // A built path begins with a move, so its box is never empty;
+            // a stroke grows it in the shape's own space, as it is.
             Box shape = pathBox(path, m);
+            float grow = how.stroke ? strokeGrowth(node, style) : 0.f;
+
+            shape = Box{shape.x0 - grow, shape.y0 - grow, shape.x1 + grow, shape.y1 + grow};
 
             extend(box, Point{shape.x0, shape.y0});
             extend(box, Point{shape.x1, shape.y1});
@@ -12670,10 +12704,20 @@ namespace {
     static bool elementBox(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp, Box& out, u32 depth) {
         Box box = emptyBox();
 
-        elementExtent(p, node, parent, identity(), vp, Extent{false, false}, depth, box);
+        elementExtent(p, node, parent, identity(), vp, Extent{false, false, false}, depth, box);
         out = box;
 
         return boxValid(box);
+    }
+
+    // The stroke bounding box of an element of geometry, in its own user
+    // space: its shapes' boxes grown by their strokes, mapped up as boxes.
+    static Box strokeBox(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp) {
+        Box box = emptyBox();
+
+        elementExtent(p, node, parent, identity(), vp, Extent{false, false, true}, 0, box);
+
+        return box;
     }
 
     static Op groupOp(float opacity) {
@@ -12827,6 +12871,16 @@ namespace {
             }
         }
 
+        // A use in it names a shape or text itself; one naming anything
+        // else is an error that drops the clipPath whole.
+        for (Node* child = clip->first; child; child = child->next) {
+            Node* target = child->name == AtomUse ? hrefTarget(doc, child) : nullptr;
+
+            if (target && !isShape(target->name) && target->name != AtomText) {
+                return false;
+            }
+        }
+
         Matrix space = multiply(m, originTransform(doc, clip, AtomTransform, vp));
         u32 units = attribute(clip, AtomClipPathUnits);
 
@@ -12837,8 +12891,10 @@ namespace {
         if (units && textOf(doc, units) == SV("objectBoundingBox")) {
             Box box;
 
+            // Bounding box units on an element with no width or height
+            // ignore the clip (coords.md, ObjectBoundingBoxUnits).
             if (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0) {
-                return true;
+                return false;
             }
 
             space = multiply(space, Matrix{box.x1 - box.x0, 0.f, 0.f, box.y1 - box.y0, box.x0, box.y0});
@@ -12915,18 +12971,6 @@ namespace {
         l.programs.append(program.data(), program.length());
 
         return true;
-    }
-
-    // The stroke box of a shape: its fill box grown by a part of its
-    // stroke's width, a half; a quarter grows the half border box.
-    static Box strokeBox(Box box, const ComputedStyle& style, const Node* node, float part) {
-        if (style.stroke.kind == PaintKind::None || !isShape(node->name)) {
-            return box;
-        }
-
-        float grow = style.strokeWidth * part;
-
-        return Box{box.x0 - grow, box.y0 - grow, box.x1 + grow, box.y1 + grow};
     }
 
     // A rectangle with elliptical corners, the radii resolved against the
@@ -13051,7 +13095,10 @@ namespace {
             }
 
             if (shape.box == GeometryBox::Stroke || shape.box == GeometryBox::HalfBorder) {
-                box = strokeBox(box, style, element, shape.box == GeometryBox::Stroke ? 0.5f : 0.25f);
+                Box stroke = strokeBox(l, element, parent, vp);
+                float part = shape.box == GeometryBox::Stroke ? 1.f : 0.5f;
+
+                box = Box{box.x0 + (stroke.x0 - box.x0) * part, box.y0 + (stroke.y0 - box.y0) * part, box.x1 + (stroke.x1 - box.x1) * part, box.y1 + (stroke.y1 - box.y1) * part};
             }
         }
 
@@ -13170,8 +13217,10 @@ namespace {
 
     // A mask element as a mask layer: its region in the user space of the
     // element it masks, its content a program, its type the mask-type, or
-    // the mode's other than match-source.
-    static void maskElementLayer(Lowering& l, Node* element, const ComputedStyle& parent, Node* mask, u8 mode, const Matrix& m, Viewport vp, MaskLayerOp& out) {
+    // the mode's other than match-source. False where bounding box units
+    // meet an element with no width or height: the mask is ignored
+    // (coords.md, ObjectBoundingBoxUnits).
+    static bool maskElementLayer(Lowering& l, Node* element, const ComputedStyle& parent, Node* mask, u8 mode, const Matrix& m, Viewport vp, MaskLayerOp& out) {
         const Document& doc = *l.doc;
         u32 units = attribute(mask, AtomMaskUnits);
         u32 contentUnits = attribute(mask, AtomMaskContentUnits);
@@ -13190,9 +13239,7 @@ namespace {
         out.region = (u32)l.clips.length();
 
         if ((boxRegion || boxContent) && (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
-            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
-
-            return;
+            return false;
         }
 
         if (boxRegion) {
@@ -13228,7 +13275,7 @@ namespace {
         if (w <= 0.f || h <= 0.f) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
 
-            return;
+            return true;
         }
 
         addRectClip(l, m, x, y, w, h);
@@ -13250,6 +13297,8 @@ namespace {
         out.first = (u32)l.programs.length();
         out.count = (u32)program.length();
         l.programs.append(program.data(), program.length());
+
+        return true;
     }
 
     // The stops of a CSS gradient along a line of the given length, placed
@@ -13648,8 +13697,9 @@ namespace {
             return;
         }
 
+        Box stroke = layer.origin == GeometryBox::Stroke || layer.clip == (u8)GeometryBox::Stroke ? strokeBox(l, element, parent, vp) : fill;
         auto boxOf = [&](u8 kind) {
-            return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : strokeBox(fill, style, element, 0.5f));
+            return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : stroke);
         };
         Box area = boxOf((u8)layer.origin);
         Box painted = layer.clip == 255 ? Box{-3e7f, -3e7f, 3e7f, 3e7f} : boxOf(layer.clip);
@@ -13807,7 +13857,7 @@ namespace {
             return;
         }
 
-        Box box = strokeBox(fill, style, element, 0.5f);
+        Box box = strokeBox(l, element, parent, vp);
         float outset[4];
 
         for (int k = 0; k < 4; k++) {
@@ -14021,7 +14071,9 @@ namespace {
             out.composite = layer.composite;
 
             if (mask) {
-                maskElementLayer(l, element, parent, mask, layer.mode, m, vp, out);
+                if (!maskElementLayer(l, element, parent, mask, layer.mode, m, vp, out)) {
+                    continue;
+                }
             } else if (layer.source == MaskSource::Gradient) {
                 imageMaskLayer(l, element, parent, style, layer, nullptr, m, vp, out);
             } else if (layer.source == MaskSource::Image && loadImageFrom(l, layer.url.data(), layer.url, image)) {
@@ -14233,7 +14285,9 @@ namespace {
             region.y1 = region.y0 + filterLength(doc, attribute(filterNode, AtomHeight), false, Axis::Y, vp, 1.2f * vp.height);
         }
 
-        if (region.x1 <= region.x0 || region.y1 <= region.y0) {
+        // An empty region, or one of no number where a box past the floats
+        // met its own infinity, draws nothing.
+        if (!(region.x0 < region.x1) || !(region.y0 < region.y1)) {
             return filter;
         }
 
@@ -16060,7 +16114,7 @@ namespace {
         }
 
         if (stroke) {
-            bounds = strokeBox(bounds, computeStyle(l, node, parent, vp), node, 0.5f);
+            bounds = strokeBox(l, node, parent, vp);
         }
 
         o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
@@ -18639,7 +18693,9 @@ namespace {
 
     // The mask of a group, one stored unit a pixel over the box of its layer:
     // the alpha or luminance of its content within its region. Luminance
-    // weighs the stored channels by 13933, 46871 and 4732 of 65536.
+    // weighs the stored channels by 13926, 46884 and 4725 of 65536: 0.2125,
+    // 0.7154 and 0.0721, feColorMatrix's luminanceToAlpha (css-masking-1.md,
+    // MaskValues).
     // The mask of an element: each layer's image in its painting area, as
     // alpha or luminance, from the bottom layer up, each composited over
     // the ones below: add, subtract, intersect or exclude.
@@ -18660,7 +18716,7 @@ namespace {
 
             for (size_t i = 0; i < size; i++) {
                 const u16* c = content.data + i * 4;
-                u32 value = (layer.type & 1) ? c[3] : (13933u * c[0] + 46871u * c[1] + 4732u * c[2] + 32768u) >> 16;
+                u32 value = (layer.type & 1) ? c[3] : (13926u * c[0] + 46884u * c[1] + 4725u * c[2] + 32768u) >> 16;
 
                 // Luminance in linear light takes the colour along the sRGB curve.
                 if ((layer.type & 3) == 2) {
@@ -18668,7 +18724,7 @@ namespace {
                     u32 u[4];
 
                     unpremultiplyStored(c, u);
-                    value = div65535(((13933u * curveValue(curve, u[0]) + 46871u * curveValue(curve, u[1]) + 4732u * curveValue(curve, u[2]) + 32768u) >> 16) * u[3]);
+                    value = div65535(((13926u * curveValue(curve, u[0]) + 46884u * curveValue(curve, u[1]) + 4725u * curveValue(curve, u[2]) + 32768u) >> 16) * u[3]);
                 }
 
                 out[i] = (u16)div65535(out[i] * value);
@@ -22580,7 +22636,7 @@ namespace {
         Matrix m = multiply(boxTransform(p, root, initialStyle(), vp), scaling(zoom, zoom));
 
         for (Node* child = root->first; child; child = child->next) {
-            childExtent(p, child, m, style, vp, Extent{true, true}, 0, box);
+            childExtent(p, child, m, style, vp, Extent{true, true, false}, 0, box);
         }
 
         if (!boxValid(box)) {

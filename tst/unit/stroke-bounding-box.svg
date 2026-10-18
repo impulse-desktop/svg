@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96">
+<!-- Each lime drawing fills its black outline; the last follows its black
+line. A marker fills everything about each shape, so the clip shows its
+stroke bounding box, as CSS Masking computes it: the fill box grown by half
+the stroke's width, for other shapes than a rectangle, circle or ellipse
+times the miter limit of a miter join, though the root of two at least with
+a square cap, or that root for a square cap alone. A miter-clip join grows
+it as a miter does and a limit under one counts as one. No stroke or a zero
+width grows nothing. A group's box is its children's boxes, each mapped up
+whole. Half-border-box is midway from the fill box; mask-origin and
+transform-box measure the same box. -->
+<defs><marker id="m" markerUnits="userSpaceOnUse" markerWidth="1" markerHeight="1" overflow="visible"><rect x="-20" y="-20" width="40" height="40" fill="lime"/></marker></defs>
+<rect width="96" height="96" fill="white"/>
+<g fill="none" stroke="lime" stroke-width="2" marker-start="url(#m)">
+<path transform="translate(12 12)" d="M-6 4 0-4 6 4" stroke-linejoin="miter" style="clip-path: stroke-box"/>
+<path transform="translate(36 12)" d="M-6 4 0-4 6 4" stroke-linejoin="round" style="clip-path: stroke-box"/>
+<path transform="translate(60 12)" d="M-6 4 0-4 6 4" stroke-linejoin="round" stroke-linecap="square" style="clip-path: stroke-box"/>
+<path transform="translate(84 12)" d="M-6 4 0-4 6 4" stroke-miterlimit="1.2" stroke-linecap="square" style="clip-path: stroke-box"/>
+<path transform="translate(12 36)" d="M-6 4 0-4 6 4" stroke-miterlimit="1.2" style="clip-path: stroke-box"/>
+<path transform="translate(36 36)" d="M-6 4 0-4 6 4" stroke-linejoin="bevel" style="clip-path: stroke-box"/>
+<path transform="translate(60 36)" d="M-6 4 0-4 6 4" stroke-linejoin="miter-clip" style="clip-path: stroke-box"/>
+<path transform="translate(84 36)" d="M-6 4 0-4 6 4" stroke="none" style="clip-path: stroke-box"/>
+<path transform="translate(12 60)" d="M-6 4 0-4 6 4" stroke-width="0" style="clip-path: stroke-box"/>
+<path transform="translate(36 60)" d="M-6 4 0-4 6 4" stroke-miterlimit=".5" style="clip-path: stroke-box"/>
+<rect transform="translate(60 60)" x="-5" y="-3" width="10" height="6" stroke-linecap="square" style="clip-path: stroke-box"/>
+<g transform="translate(84 60)" style="clip-path: stroke-box">
+<rect x="-7" y="-3" width="6" height="6" transform="rotate(45 -4 0)"/>
+<path d="M3-6v12" stroke-linecap="square"/>
+</g>
+<path transform="translate(12 84)" d="M-6 4 0-4 6 4" style="clip-path: half-border-box"/>
+<path transform="translate(36 84)" d="M-6 4 0-4 6 4" style="mask: linear-gradient(black, black) 0 0 / 50% 50% no-repeat stroke-box"/>
+<g transform="translate(60 84)"><path d="M-6 4 0-4 6 4" marker-start="none" style="transform-box: stroke-box; transform-origin: 0 0; transform: scale(.5)"/></g>
+<circle cx="78" cy="84" r="4" stroke-linecap="square" style="clip-path: stroke-box"/>
+<ellipse cx="90" cy="84" rx="3" ry="5" stroke-linecap="square" style="clip-path: stroke-box"/>
+</g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="4" width="20" height="16"/><rect x="29" y="7" width="14" height="10"/><rect x="52.5858" y="6.5858" width="14.8284" height="10.8284"/><rect x="76.5858" y="6.5858" width="14.8284" height="10.8284"/>
+<rect x="4.8" y="30.8" width="14.4" height="10.4"/><rect x="29" y="31" width="14" height="10"/><rect x="50" y="28" width="20" height="16"/><rect x="78" y="32" width="12" height="8"/>
+<rect x="6" y="56" width="12" height="8"/><rect x="29" y="55" width="14" height="10"/><rect x="54" y="56" width="12" height="8"/><rect x="74.3431" y="50" width="16.6569" height="20"/>
+<rect x="4" y="78" width="16" height="12"/><rect x="26" y="76" width="10" height="8"/><path d="M52 82 55 78 58 82"/>
+<rect x="73" y="79" width="10" height="10"/><rect x="86" y="78" width="8" height="12"/>
+</g>
+</svg>

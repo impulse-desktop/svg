@@ -61,13 +61,13 @@
 - [x] svg2/coords.md#BoundingBoxes: for 'foreignObject' and 'image', the bounding box is the positioning rectangle given by x, y, width, height, regardless of the fill/stroke/markers inputs.
 - [x] svg2/coords.md#BoundingBoxes: unioning a box with an empty shape at (0,0,0,0) leaves the box unchanged.
 
-## Object bounding box units: bbox-geometry, bbox-children (exists)
+## Object bounding box units: bbox-geometry, mask-values, bbox-children (exists)
 
 - [x] svg2/coords.md#ObjectBoundingBox: setting gradientUnits, patternUnits/patternContentUnits, clipPathUnits, maskUnits/maskContentUnits or filterUnits/primitiveUnits to objectBoundingBox makes their coordinates fractions of the applicable element's object bounding box.
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox acts as an extra transform mapping (0,0) to the box's (minx,miny) corner and (1,1) to its (maxx,maxy) corner: matrix [(maxx-minx) 0 0 (maxy-miny) minx miny].
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: a percentage used with these attributes equals the same decimal (50% = 0.5); percentages inside the referencing element's own content instead follow the ordinary Units percentage rules.
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: fractions or percentages below 0 or above 1 (100%) are permitted and not clamped.
-- [ ] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox must not be used, and its effect is ignored, when the applicable element's geometry has no width or no height (stroke width is ignored for this check).
+- [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox must not be used, and its effect is ignored, when the applicable element's geometry has no width or no height (stroke width is ignored for this check).
 
 ## Intrinsic size of SVG as a replaced image: intrinsic-size (exists)
 

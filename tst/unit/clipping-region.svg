@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="48">
+<!-- Each lime drawing fills its black outline; the yellow runs on into the
+yellow under it without a step. A clip on a group cuts all it holds; clips
+of a group, a group in it and an element in that meet; a clip changes no
+geometry, so a group's bounding box units and an element's gradient take
+the unclipped boxes; clip-path makes a stacking context, so a blend in it
+meets nothing behind the group; clip-path is not inherited, so a group's
+circle is one; clip-rule does not reach a basic shape, nonzero here. -->
+<rect width="58" height="48" fill="white"/>
+<defs>
+<clipPath id="ca"><rect x="4" y="4" width="8" height="8"/></clipPath>
+<clipPath id="cb1"><rect x="18" y="2" width="10" height="12"/></clipPath>
+<clipPath id="cb2"><rect x="20" y="2" width="10" height="10"/></clipPath>
+<clipPath id="cb3"><rect x="18" y="4" width="12" height="10"/></clipPath>
+<clipPath id="hb" clipPathUnits="objectBoundingBox"><rect width=".5" height="1"/></clipPath>
+<linearGradient id="hg"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="red"/></linearGradient>
+</defs>
+<g clip-path="url(#ca)"><rect x="2" y="2" width="6" height="12" fill="lime"/><rect x="8" y="2" width="6" height="12" fill="lime"/></g>
+<g clip-path="url(#cb1)"><g clip-path="url(#cb2)"><rect x="18" y="2" width="12" height="12" fill="lime" clip-path="url(#cb3)"/></g></g>
+<g clip-path="url(#hb)"><rect x="34" y="2" width="20" height="12" fill="lime" style="clip-path: inset(0 50% 0 0)"/></g>
+<rect x="2" y="18" width="20" height="12" fill="url(#hg)" style="clip-path: inset(0 50% 0 0)"/>
+<rect x="26" y="18" width="12" height="12" fill="blue"/>
+<g style="clip-path: inset(0)"><rect x="28" y="20" width="8" height="4" fill="yellow" style="mix-blend-mode: multiply"/></g>
+<rect x="28" y="24" width="8" height="4" fill="yellow"/>
+<g style="clip-path: circle(50%) fill-box"><rect x="42" y="18" width="6" height="12" fill="lime"/><rect x="48" y="18" width="6" height="12" fill="lime"/></g>
+<path d="M2 34h12v12h-12z" fill="lime" clip-rule="evenodd" style="clip-path: polygon(50% 0, 80% 100%, 0 35%, 100% 35%, 20% 100%)"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="4" y="4" width="8" height="8"/><rect x="20" y="4" width="8" height="8"/><rect x="34" y="2" width="10" height="12"/>
+<rect x="2" y="18" width="10" height="12"/><circle cx="48" cy="24" r="6"/><path d="M8 34 11.6 46 2 38.2H14L4.4 46Z"/>
+</g>
+</svg>

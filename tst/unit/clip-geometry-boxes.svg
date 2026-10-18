@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Each lime drawing fills its black outline. A shape's reference box is
+border-box by default, the stroke box for SVG, as are border-box and
+margin-box; content-box and padding-box are the fill box; a box alone clips
+to itself; view-box is the nearest viewport, at the origin of its viewBox's
+coordinates, not the viewBox's corner, and of its size if it has one. -->
+<rect width="64" height="48" fill="white"/>
+<g fill="lime" stroke="lime" stroke-width="4">
+<rect x="4" y="4" width="8" height="8" style="clip-path: inset(0)"/>
+<rect x="20" y="4" width="8" height="8" style="clip-path: inset(0) fill-box"/>
+<rect x="36" y="4" width="8" height="8" style="clip-path: content-box"/>
+<rect x="52" y="4" width="8" height="8" style="clip-path: margin-box"/>
+<rect x="4" y="20" width="8" height="8" style="clip-path: inset(25%) padding-box"/>
+<rect x="20" y="20" width="8" height="8" style="clip-path: inset(25%) stroke-box"/>
+<rect x="36" y="20" width="8" height="8" style="clip-path: circle(50%) fill-box"/>
+</g>
+<svg x="2" y="34" width="24" height="12" viewBox="-10 0 20 10"><rect x="-10" width="20" height="10" fill="lime" style="clip-path: view-box"/></svg>
+<rect x="34" y="34" width="20" height="10" fill="lime" style="clip-path: view-box"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="12" height="12"/><rect x="20" y="4" width="8" height="8"/><rect x="36" y="4" width="8" height="8"/><rect x="50" y="2" width="12" height="12"/>
+<rect x="6" y="22" width="4" height="4"/><rect x="21" y="21" width="6" height="6"/><circle cx="40" cy="24" r="4"/>
+<rect x="14" y="34" width="12" height="12"/><rect x="34" y="34" width="20" height="10"/>
+</g>
+</svg>

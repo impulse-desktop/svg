@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Each lime drawing fills its black outline. A clipPath clips to the
+union of its children's geometry, their fill, stroke and opacity aside;
+children hidden by display or visibility add nothing (D14); clipPathUnits
+objectBoundingBox scales the children to the box; clip-path on the clipPath
+cuts all of it, on a child that child; a clipPath with nothing in it clips
+all away; clip-rule on a child decides its inside, on the clipped element
+nothing; a use in it adds what it draws; a reference to nothing, or to no
+clipPath, clips nothing; nested clips meet. A use in it naming anything but
+a shape or text is an error that drops the clipPath, clipping nothing; one
+naming text, which is not drawn, clips all away. A
+clipPath's content inherits from the clipPath's own ancestors, here
+evenodd and hidden, and a hidden ancestor or its own display does not stop
+it from clipping; an ancestor's clip-path does not cut it. -->
+<rect width="64" height="48" fill="white"/>
+<defs>
+<clipPath id="a"><rect x="2" y="2" width="4" height="10" fill="none" stroke="red" stroke-width="6" fill-opacity="0"/><rect x="8" y="2" width="4" height="4"/>
+<rect x="8" y="8" width="4" height="4" display="none"/><rect x="8" y="8" width="4" height="4" visibility="hidden"/></clipPath>
+<clipPath id="b" clipPathUnits="objectBoundingBox"><rect width=".5" height=".5"/></clipPath>
+<clipPath id="cut"><rect x="34" y="2" width="4" height="12"/></clipPath>
+<clipPath id="c" clip-path="url(#cut)"><rect x="34" y="2" width="12" height="6"/></clipPath>
+<clipPath id="d"><rect x="50" y="2" width="12" height="4" clip-path="url(#cut2)"/><rect x="50" y="8" width="12" height="4"/></clipPath>
+<clipPath id="cut2"><rect x="50" y="2" width="4" height="12"/></clipPath>
+<clipPath id="e"/>
+<clipPath id="f"><path d="M 2 18 H 14 V 30 H 2 Z M 5 21 H 11 V 27 H 5 Z" clip-rule="evenodd"/></clipPath>
+<clipPath id="g"><path d="M 18 18 H 30 V 30 H 18 Z M 21 21 H 27 V 27 H 21 Z"/></clipPath>
+<rect id="r" x="34" y="18" width="6" height="6"/>
+<clipPath id="u"><use href="#r"/></clipPath>
+<clipPath id="outer"><rect x="2" y="34" width="20" height="6"/></clipPath>
+<clipPath id="inner"><rect x="2" y="34" width="6" height="12"/></clipPath>
+<g id="gg"><rect x="26" y="34" width="1" height="1"/></g>
+<use id="uu" href="#r" x="-8" y="16"/>
+<clipPath id="ig"><use href="#gg"/></clipPath>
+<clipPath id="iu"><use href="#uu"/></clipPath>
+<text id="tx" x="56" y="46">x</text>
+<clipPath id="it"><use href="#tx"/></clipPath>
+<g clip-rule="evenodd" visibility="hidden"><clipPath id="inh"><path d="M42 34h12v12h-12z M45 37h6v6h-6z" visibility="visible"/><rect x="45" y="37" width="6" height="6"/></clipPath></g>
+<g display="none"><clipPath id="dn" display="none"><rect x="56" y="34" width="4" height="6"/></clipPath></g>
+<clipPath id="left"><rect x="0" y="32" width="30" height="16"/></clipPath>
+<g clip-path="url(#left)"><clipPath id="anc"><rect x="26" y="42" width="12" height="4"/></clipPath></g>
+</defs>
+<rect width="14" height="14" fill="lime" clip-path="url(#a)"/>
+<rect x="18" y="2" width="12" height="12" fill="lime" clip-path="url(#b)"/>
+<rect width="64" height="16" fill="lime" clip-path="url(#c)"/>
+<rect width="64" height="16" fill="lime" clip-path="url(#d)"/>
+<rect y="16" width="16" height="16" fill="lime" clip-path="url(#e)"/>
+<rect y="16" width="16" height="16" fill="lime" clip-path="url(#f)" clip-rule="nonzero"/>
+<rect x="16" y="16" width="16" height="16" fill="lime" clip-path="url(#g)" clip-rule="evenodd"/>
+<rect x="32" y="16" width="16" height="16" fill="lime" clip-path="url(#u)"/>
+<rect x="50" y="18" width="6" height="6" fill="lime" clip-path="url(#nothing)"/>
+<rect x="58" y="18" width="4" height="6" fill="lime" clip-path="url(#r)"/>
+<g clip-path="url(#outer)"><rect y="32" width="24" height="16" fill="lime" clip-path="url(#inner)"/></g>
+<rect x="26" y="34" width="6" height="6" fill="lime" clip-path="url(#ig)"/>
+<rect x="34" y="34" width="6" height="6" fill="lime" clip-path="url(#iu)"/>
+<rect x="40" y="32" width="16" height="16" fill="lime" clip-path="url(#inh)"/>
+<rect x="56" y="32" width="8" height="16" fill="lime" clip-path="url(#dn)"/>
+<rect x="56" y="41" width="8" height="7" fill="red" clip-path="url(#it)"/>
+<rect x="24" y="41" width="16" height="7" fill="lime" clip-path="url(#anc)"/>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="4" height="10"/><rect x="8" y="2" width="4" height="4"/><rect x="18" y="2" width="6" height="6"/>
+<rect x="34" y="2" width="4" height="6"/><rect x="50" y="2" width="4" height="4"/><rect x="50" y="8" width="12" height="4"/>
+<path d="M 2 18 H 14 V 30 H 2 Z M 5 21 H 11 V 27 H 5 Z"/><rect x="18" y="18" width="12" height="12"/><rect x="34" y="18" width="6" height="6"/>
+<rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="4" height="6"/><rect x="2" y="34" width="6" height="6"/>
+<rect x="26" y="34" width="6" height="6"/><rect x="34" y="34" width="6" height="6"/><path d="M42 34h12v12h-12z M45 37h6v6h-6z"/>
+<rect x="56" y="34" width="4" height="6"/><rect x="26" y="42" width="12" height="4"/>
+</g>
+</svg>

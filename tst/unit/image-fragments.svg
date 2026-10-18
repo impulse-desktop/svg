@@ -1,11 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="34">
 <!-- Lime everywhere, no red. An SVG image's fragment picks its view: an
 svgView() viewBox, its parameters in any order and apart by commas or
 spaces, the transform after the viewBox; a media fragment xywh= in pixels or
 percent: of the document's size; a view element by its id; a time segment
 after & changes nothing; a view of no width draws nothing; a malformed
-view is no view, the whole image drawing. -->
-<rect width="64" height="24" fill="white"/>
+view is no view, the whole image drawing, as is an svgView( never closed;
+a media fragment of no height draws nothing too; a CSS image names a view
+by its id. -->
+<rect width="64" height="34" fill="white"/>
 <image x="2" y="2" width="8" height="8" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2740%27%20height%3D%2740%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cview%20id%3D%27v%27%20viewBox%3D%270%200%2010%2010%27/%3E%3Crect%20width%3D%2720%27%20height%3D%2720%27%20fill%3D%27red%27/%3E%3Crect%20width%3D%2710%27%20height%3D%2710%27%20fill%3D%27lime%27/%3E%3C/svg%3E#svgView(viewBox(0,0,10,10))"/>
 <image x="12" y="2" width="8" height="8" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2740%27%20height%3D%2740%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cview%20id%3D%27v%27%20viewBox%3D%270%200%2010%2010%27/%3E%3Crect%20width%3D%2720%27%20height%3D%2720%27%20fill%3D%27red%27/%3E%3Crect%20width%3D%2710%27%20height%3D%2710%27%20fill%3D%27lime%27/%3E%3C/svg%3E#svgView(preserveAspectRatio(none); viewBox(0 0 10 10))"/>
 <image x="22" y="2" width="8" height="8" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2740%27%20height%3D%2740%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cview%20id%3D%27v%27%20viewBox%3D%270%200%2010%2010%27/%3E%3Crect%20width%3D%2720%27%20height%3D%2720%27%20fill%3D%27red%27/%3E%3Crect%20width%3D%2710%27%20height%3D%2710%27%20fill%3D%27lime%27/%3E%3C/svg%3E#xywh=0,0,10,10"/>
@@ -18,4 +20,8 @@ view is no view, the whole image drawing. -->
 <image x="26" y="14" width="8" height="8" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Crect%20width%3D%2720%27%20height%3D%2720%27%20fill%3D%27lime%27/%3E%3C/svg%3E#svgView(viewBox(0,0,10,10);;x)"/>
 <image x="36" y="14" width="8" height="8" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Crect%20width%3D%2720%27%20height%3D%2720%27%20fill%3D%27lime%27/%3E%3C/svg%3E#svgView(viewBox(0,0,10))"/>
 <image x="46" y="14" width="8" height="8" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2020%2020%27%3E%3Crect%20width%3D%2720%27%20height%3D%2720%27%20fill%3D%27lime%27/%3E%3C/svg%3E#xywh=0,0,10"/>
+<image x="2" y="26" width="6" height="6" href="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2020%2020%27%3E%3Crect%20width=%2720%27%20height=%2720%27%20fill=%27lime%27/%3E%3C/svg%3E#svgView(viewBox(0,0,10,10"/>
+<image x="12" y="26" width="6" height="6" href="data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2740%27%20height=%2740%27%20viewBox=%270%200%2020%2020%27%3E%3Crect%20width=%2720%27%20height=%2720%27%20fill=%27red%27/%3E%3C/svg%3E#xywh=0,0,10,0"/>
+<rect x="22" y="26" width="6" height="6" fill="red"/>
+<rect x="22" y="26" width="6" height="6" fill="lime" style="mask: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2740%27%20height=%2740%27%20viewBox=%270%200%2020%2020%27%3E%3Cview%20id=%27v%27%20viewBox=%270%200%2010%2010%27%20preserveAspectRatio=%27none%27/%3E%3Crect%20width=%2710%27%20height=%2710%27/%3E%3C/svg%3E#v') 0 0 / 100% 100% no-repeat"/>
 </svg>

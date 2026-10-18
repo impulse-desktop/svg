@@ -12,7 +12,7 @@
 - [x] svg2/linking.md#processingURL-validity: an href on radialGradient must target a linearGradient or another radialGradient element, else the reference is invalid.
 - [x] svg2/linking.md#processingURL-validity: an href on use must target an SVG-namespaced element, else the reference is invalid.
 - [x] svg2/linking.md#processingURL-validity: marker, marker-start, marker-mid and marker-end must reference a marker element, else the reference is invalid.
-- [ ] svg2/linking.md#processingURL-validity: for a property that may target either an element or an image file (e.g. mask), a target of the wrong element type is instead treated as a reference to the whole file as an image, with any fragment used as for other images.
+- [-] svg2/linking.md#processingURL-validity: for a property that may target either an element or an image file (e.g. mask), a target of the wrong element type is instead treated as a reference to the whole file as an image, with any fragment used as for other images. (D20)
 - [x] svg2/linking.md#processingURL-validity: in all other cases, a reference whose target element or document type is not allowed for that reference is an invalid reference.
 
 ## Structural href attribute: xml-href (exists)

@@ -187,3 +187,58 @@ in CSS pixels used as a viewBox in user units would pick a different part of
 a document whose viewBox is not its size. The renderer reads it as media
 fragments mean it, a part of the image: percentages of the root's viewBox,
 else of its size, so percent:0,0,50,50 is always the top left quarter.
+
+## D20. A mask reference to an element that is no mask is a transparent layer
+
+`css-masking-1.md#the-mask-image`: a mask reference that "is not a reference
+to a mask element, is non-existent, or ... cannot be displayed still counts
+as an image layer of transparent black". `svg2/linking.md#processingURL-validity`
+says, for properties that take an element or an image file such as mask,
+that a target of a wrong element type makes "the entire document file" the
+image, its fragment a view. The renderer follows the masking text, the
+property's own: such a layer is transparent and hides what it masks, as a
+reference to nothing does.
+
+## D21. One stroke bounding box, as CSS Masking computes it
+
+`svg2/coords.md#TermStrokeBoundingBox` names the box that tightly contains
+the stroke shape; `css-masking-1.md#compute-stroke-bounding-box` computes
+it, for clip-path, mask-clip, mask-origin and mask-border, as the fill box
+grown by half the stroke width, times the miter limit for a miter join and
+the root of two for a square cap on shapes other than rect, circle and
+ellipse, a container's box the union of its children's mapped up. The
+renderer takes the algorithm for every stroke-box, transform-box's too, so
+one element has one stroke box and none needs a stroke outline built to
+measure it. The algorithm predates two cases, read as their geometry asks:
+a miter-clip join, and arcs drawn as one (D4), grow as a miter does, and a
+miter limit under one counts as one, as no miter shorter than the stroke's
+half width can show.
+
+## D22. The clip property does not cut the outermost svg
+
+`css-masking-1.md#clip-property`: clip "applies only to absolutely
+positioned elements. In SVG, it applies to elements which establish a new
+viewport". The outermost svg establishes one, but it is the element with a
+CSS box, not absolutely positioned, so the CSS rule governs it and the
+renderer ignores clip there; a nested svg, a symbol's instance, a pattern
+and a mask are cut.
+
+## D23. mask-image none alone masks nothing
+
+`css-masking-1.md#the-mask-image`: "A value of none counts as a transparent
+black image layer." Read alone it would hide every element, none being the
+initial value. The renderer counts none as such a layer only within a list
+of layers, where mask-composite decides what it does; a value of none alone
+is no mask, as CSS keeps it for every other property whose initial value is
+none.
+
+## D24. A clipPath whose use names no shape is ignored, as the spec says
+
+`css-masking-1.md#ClipPathElement`: a use in a clipPath "must directly
+reference path, text or basic shapes elements. Indirect references are an
+error and the clipPath element must be ignored", and an ignored clipPath
+applies no clipping (`#the-clip-path`). The issue note under it says no
+browser does this: Chromium leaves the use out, clipping all away when it
+is alone, and Firefox does not render the element. The renderer follows the
+text: the element draws unclipped. Inkscape writes such clipPaths, a use
+of a group, and its files now show their content where browsers show none.
