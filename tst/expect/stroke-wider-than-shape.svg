@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="24">
+<!-- What tst/unit/stroke-wider-than-shape.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="70" height="24" fill="white"/>
+<g id="circle" data-box="1 1 22 22"><path fill-rule="evenodd" fill="lime" d="M 4 12 a 8 8 0 1 0 16 0 a 8 8 0 1 0 -16 0 z M 10 12 a 2 2 0 1 0 4 0 a 2 2 0 1 0 -4 0 z"/></g>
+<g id="path" data-box="24 1 22 22"><path fill-rule="evenodd" fill="lime" d="M 27 12 a 8 8 0 1 0 16 0 a 8 8 0 1 0 -16 0 z M 33 12 a 2 2 0 1 0 4 0 a 2 2 0 1 0 -4 0 z"/></g>
+<g id="vanished" data-box="47 1 22 22"></g>
+<g fill="none" stroke="black" stroke-width=".25"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><circle cx="35" cy="12" r="8"/><circle cx="35" cy="12" r="2"/><rect x="48" y="2" width="20" height="20"/></g>
+</svg>

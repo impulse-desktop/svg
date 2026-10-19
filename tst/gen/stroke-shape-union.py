@@ -52,8 +52,9 @@ expect("stroke-shape-union", [
     ("miter-rect", (3, 3, 14, 14), '<rect x="4" y="4" width="12" height="12" fill="lime"/>'),
     ("round-rect", (20, 0, 12, 20), '<rect x="21" y="0" width="10" height="20" rx="4" fill="lime"/>'),
     # A curve's stroke edge and a circle are both drawn as flattened
-    # curves, which differ by the stroke's leeway (D1).
-    ("circle", (39, 3, 14, 14), '<circle cx="46" cy="10" r="6" fill="lime"/>', 4),
+    # curves, which differ by the stroke's leeway (D1); the circle, tighter
+    # than the half width all round, keeps its inner offset's hole (D49).
+    ("circle", (39, 3, 14, 14), '<path fill-rule="evenodd" fill="lime" d="M 40 10 A 6 6 0 1 0 52 10 A 6 6 0 1 0 40 10 Z M 44 10 A 2 2 0 1 0 48 10 A 2 2 0 1 0 44 10 Z"/>', 4),
     ("bevel-triangle", (1, 20, 18, 17), f'<path d="{bevelled([(7, 31), (10, 26), (13, 31)], 4)}" fill="lime"/>'),
     ("curves", (20, 24, 12, 12), f'<path d="{offset_loop(LOOP, 3)}" fill="lime"/>', 4),
     ("subpaths", (37, 24, 16, 14), '<rect x="38.5" y="23.5" width="13" height="13" fill="lime"/>'),

@@ -12410,6 +12410,18 @@ namespace {
                 return;
             }
 
+            // A closed subpath's inner side keeps to its offset where the
+            // curve is tighter than the half width, and turns inside out
+            // there: its two sides, nonzero, leave a hole where the inner
+            // side has turned all the way round, as every renderer and
+            // Inkscape draw a stroke wider than its shape (decisions.md,
+            // D49).
+            if (closed && kind[k] == PointSmooth) {
+                sides[inner].pushBack(offset(p, d1, -side));
+
+                return;
+            }
+
             sides[inner].pushBack(p);
             sides[inner].pushBack(offset(p, d1, -side));
 

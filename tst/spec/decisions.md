@@ -576,3 +576,23 @@ outside the edge holding the same colour, as the mode says. Chromium,
 librsvg and resvg draw the convolution so where they draw the edge on
 whole pixels; a blur's edge mode they leave out. Wrap and mirror bring
 other pixels across the edge and keep the pixels as stored.
+
+## D49. A closed subpath stroked wider than its curve keeps every renderer's hole
+
+`svg2/painting.md#StrokeShape` defines the ideal stroke as the sweep of the
+subpath's normals, so a circle stroked wider than its diameter would be a
+disk, and leaves implementations leeway, warning that strokes "at
+extremely tight curves" differ across platforms. Chromium, Firefox,
+librsvg, resvg and Inkscape all stroke a closed subpath as its outer and
+inner offsets filled nonzero: where the inner offset turns inside out all
+the way round it leaves a hole of radius h - r, and a stroke wider than
+the image around a small circle vanishes. Real files count on it: of the
+76 354 harvested files the renderer drew apart from resvg, six stroke a
+closed curve so, an Inkscape recording icon among them, its ring a circle
+of radius 1.5 stroked 18.6 wide, and Figma icons whose circles carry
+stroke-width 44 that every renderer hides; the renderer drew solid disks
+over them. Its closed subpaths now keep their inner side on its offset
+where the curve is tighter than the half width, no sector filling it. An
+open subpath keeps the swept shape: the holes other renderers leave in a
+tight open curve are no author's drawing.
+
