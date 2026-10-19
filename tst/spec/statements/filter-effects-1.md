@@ -131,6 +131,7 @@
 
 - [x] filter-effects-1.md#element-attrdef-feconvolvematrix-edgemode: edgeMode is duplicate, wrap, mirror or none; initial duplicate. [fe-convolve-formula#kernel fe-convolve-formula#edge-none fe-convolve-formula#order-wrap fe-convolve-formula#edge-mirror]
 - [x] filter-effects-1.md#attr-valuedef-fegaussianblur-edgemode-duplicate: duplicate extends the image by repeating its edge pixels. [fe-convolve-formula#kernel]
+- [x] filter-effects-1.md#attr-valuedef-fegaussianblur-edgemode-duplicate: where the edge cuts a pixel, the colour duplicated is the inside's, the pixel as stored over its inside share, for a convolution and a blur (D48) [fe-duplicate-edges#convolve-1 fe-duplicate-edges#convolve-2 fe-duplicate-edges#blur-1 fe-duplicate-edges#blur-2]
 - [x] filter-effects-1.md#attr-valuedef-fegaussianblur-edgemode-wrap: wrap extends the image by taking pixels from the opposite edge. [fe-convolve-formula#order-wrap]
 - [x] filter-effects-1.md#attr-valuedef-feguassianblur-edgemode-mirror: mirror extends the image by reflecting pixels across the edge. [fe-convolve-formula#edge-mirror]
 - [x] filter-effects-1.md#element-attrdef-feconvolvematrix-edgemode: none extends the image with transparent black (R,G,B,A all 0). [fe-convolve-formula#edge-none]

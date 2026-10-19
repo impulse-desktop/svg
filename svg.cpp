@@ -23853,6 +23853,19 @@ namespace {
         }
     }
 
+    // The input pixel at x, y as stored, but where an edge of the input's
+    // support cuts it, under the duplicate edge mode: the input holds its
+    // colour across that edge, so the pixel is what is stored over the
+    // part of it inside (D48).
+    static void readHeld(const Plane& in, int x, int y, const Box& support, u16* out) {
+        const u16* s = planeRead(in, x, y);
+        float inside = maxf(minf(minf((float)x + 1.f, support.x1) - maxf((float)x, support.x0), 1.f), 0.f) * maxf(minf(minf((float)y + 1.f, support.y1) - maxf((float)y, support.y0), 1.f), 0.f);
+
+        for (int k = 0; k < 4; k++) {
+            out[k] = inside > 0.f && inside < 1.f ? (u16)minf((float)s[k] / inside + 0.5f, 65535.f) : s[k];
+        }
+    }
+
     // Blurs the input over the box: groups of eight rows into a plane of the
     // horizontal pass, then groups of eight of its columns into the box, 32
     // lanes a position either way.
@@ -23860,7 +23873,7 @@ namespace {
     // the raster too: its rows and columns fold into src. A deviation is
     // held there to twice src's size, which bounds the lines; past it the
     // extended input is about as flat.
-    static void blurBuffer(FilterRun& run, const Plane& in, const Plane& out, const IntBox& box, float sigmaX, float sigmaY, bool consume, EdgeMode edge, const IntBox& src) {
+    static void blurBuffer(FilterRun& run, const Plane& in, const Plane& out, const IntBox& box, float sigmaX, float sigmaY, bool consume, EdgeMode edge, const IntBox& src, const Box& support) {
         bool edged = edge != EdgeMode::None;
         float limit = 2.f * (float)(src.x1 - src.x0 > src.y1 - src.y0 ? src.x1 - src.x0 : src.y1 - src.y0);
 
@@ -23908,7 +23921,14 @@ namespace {
                 }
 
                 for (int x = x0; x < x1; x++) {
-                    memcpy(row + (size_t)(x - x0) * 4, planeRead(in, edgeFold(x, src.x0, src.x1, edge), sy), sizeof(u16) * 4);
+                    u16* t = row + (size_t)(x - x0) * 4;
+                    int fx = edgeFold(x, src.x0, src.x1, edge);
+
+                    if (edge == EdgeMode::Duplicate) {
+                        readHeld(in, fx, sy, support, t);
+                    } else {
+                        memcpy(t, planeRead(in, fx, sy), sizeof(u16) * 4);
+                    }
                 }
             }
 
@@ -23978,7 +23998,7 @@ namespace {
         IntBox src = inputBox(run, p.in1);
         EdgeMode edge = p.node && src.x1 > src.x0 ? edgeModeOf(*f.doc, p.node, EdgeMode::None) : EdgeMode::None;
 
-        blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p.in1, in), edge, src);
+        blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p.in1, in), edge, src, supportOf(run, p.in1));
     }
 
     static void filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -24002,7 +24022,7 @@ namespace {
         Plane shadow = makePlane(all);
 
         if (sx >= 0.f && sy >= 0.f && (userX(f, sx) * run.scaleX > 0.f || userY(f, sy) * run.scaleY > 0.f)) {
-            blurBuffer(run, in, shadow, all, userX(f, sx) * run.scaleX, userY(f, sy) * run.scaleY, false, EdgeMode::None, all);
+            blurBuffer(run, in, shadow, all, userX(f, sx) * run.scaleX, userY(f, sy) * run.scaleY, false, EdgeMode::None, all, Box{0.f, 0.f, 0.f, 0.f});
         } else {
             copyBox(in, shadow, all);
         }
@@ -25294,8 +25314,26 @@ namespace {
             held.mut((size_t)k) = box.y0 - targetY - 1;
         }
 
-        // A tap is the input as stored, or not premultiplied when alpha is
-        // preserved.
+        // A tap is the input as stored, held across a duplicated edge, or
+        // not premultiplied when alpha is preserved.
+        Box support = supportOf(run, p.in1);
+        auto read = [&](int sx, int sy, u32* c) {
+            u16 s[4];
+
+            if (edge == EdgeMode::Duplicate) {
+                readHeld(in, sx, sy, support, s);
+            } else {
+                memcpy(s, planeRead(in, sx, sy), sizeof(s));
+            }
+
+            if (preserve) {
+                unpremultiplyStored(s, c);
+            } else {
+                for (int k = 0; k < 4; k++) {
+                    c[k] = s[k];
+                }
+            }
+        };
         auto taps = [&](int r) {
             size_t slot = (size_t)(((r % orderY) + orderY) % orderY);
             u16* out = ring.mutData() + slot * (size_t)span * 4;
@@ -25317,21 +25355,13 @@ namespace {
                     continue;
                 }
 
-                const u16* s = planeRead(in, sx, sy);
+                u32 c[4];
 
-                if (preserve) {
-                    u32 c[4];
+                read(sx, sy, c);
 
-                    unpremultiplyStored(s, c);
-
-                    for (int k = 0; k < 4; k++) {
-                        t[k] = (u16)c[k];
-                    }
-
-                    continue;
+                for (int k = 0; k < 4; k++) {
+                    t[k] = (u16)c[k];
                 }
-
-                memcpy(t, s, sizeof(u16) * 4);
             }
 
             return (const u16*)out;
@@ -25360,15 +25390,7 @@ namespace {
                         continue;
                     }
 
-                    const u16* s = planeRead(in, sx, sy);
-
-                    if (preserve) {
-                        unpremultiplyStored(s, c);
-                    } else {
-                        for (int ch = 0; ch < 4; ch++) {
-                            c[ch] = s[ch];
-                        }
-                    }
+                    read(sx, sy, c);
 
                     for (int ch = 0; ch < 4; ch++) {
                         mixed[ch] += w * (float)c[ch];

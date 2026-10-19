@@ -557,3 +557,19 @@ unstyled. The renderer reads an element of the XHTML namespace named style
 as a style element of its nearest SVG ancestor, its media and type
 attributes as SVG's; any other element of that namespace stays foreign
 and drawn by nothing.
+
+## D48. A duplicated edge that cuts a pixel holds the inside's colour
+
+`filter-effects-1.md#attr-valuedef-fegaussianblur-edgemode-duplicate`:
+duplicate extends the input image "by duplicating the color values at the
+given edge". Where the edge of the input lies inside a pixel, as a filter
+region on a bounding box drawn at most sizes does, that pixel stores the
+part of it inside the region, its colour scaled by its share; duplicating
+it as stored put a pale or transparent band one pixel in from the edge of
+a feConvolveMatrix whose kernel sums to 1 and a blur with edgeMode
+duplicate (W3C filters-conv-05-f). The colour at the edge is the inside's:
+such a pixel is read as what it stores over its inside share, the part
+outside the edge holding the same colour, as the mode says. Chromium,
+librsvg and resvg draw the convolution so where they draw the edge on
+whole pixels; a blur's edge mode they leave out. Wrap and mirror bring
+other pixels across the edge and keep the pixels as stored.
