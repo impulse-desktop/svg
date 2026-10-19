@@ -8,7 +8,7 @@ crossings are put on whole pixels."""
 from matrices import P, R3, T, chain, corners, project, visible
 from unitgen import Unit
 
-W, H = 130, 246
+W, H = 130, 266
 unit = Unit("transform-3d-contexts", W, H, """Each drawing matches its plain
 twin in the expected drawing. In a 3D rendering context, a g with
 transform-style preserve-3d, 3D transformed elements are planes that cross
@@ -23,7 +23,8 @@ flattens what it holds; vector-effect does nothing in a context, of a
 shape too. Only what of a plane is in front of the eye draws. The perspective property puts its children, not deeper ones, in
 perspective about perspective-origin, the reference box's centre unless
 given, of the box transform-box names; none puts none, below a px is a px;
-a value that is none of these is dropped. transform-origin's third value
+a value that is none of these is dropped, and attributes of their names do
+nothing. transform-origin's third value
 moves the origin along z.""")
 
 CTX = "transform-style: preserve-3d"
@@ -161,6 +162,10 @@ cells = [
     # viewport cuts.
     ("partly-behind", '<svg width="20" height="12"><g style="perspective: 20px; perspective-origin: 10px 0"><g style="transform-style: preserve-3d"><g style="transform-origin: 10px 0; transform: rotateX(80deg)">'
      '<rect width="20" height="40" fill="lime"/></g></g></g></svg>', f'<svg width="20" height="12"><path fill="lime" d="{visible(chain(about(P(20), oy=0), about(R3(1, 0, 0, 80), oy=0)), 0, 0, 20, 40)}"/></svg>'),
+    # transform-style, perspective and perspective-origin are properties
+    # alone: attributes of their names do nothing.
+    ("attribute-transform-style", f'<g transform-style="preserve-3d">{rect(LIME, "transform: translateZ(10px)")}{rect(NAVY, "transform: translateZ(-10px)")}</g>', rect(LIME, "") + rect(NAVY, "")),
+    ("attribute-perspective", f'<g perspective="40px" perspective-origin="10px 6px">{rect(LIME, turned(40))}</g>', path(about(R3(0, 1, 0, 40)), LIME)),
     ("perspective-in-context", f'<g style="perspective: 40px; perspective-origin: 10px 6px"><g style="{CTX}">{rect(LIME, turned(45))}{narrow(NAVY, turned(-45))}</g></g>',
      path(chain(about(P(40)), A45), LIME) + side(chain(about(P(40)), B45), 1, NAVY, x=3, w=14)),
 ]

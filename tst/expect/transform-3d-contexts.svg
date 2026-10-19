@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="130" height="246">
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="266">
 <!-- What tst/unit/transform-3d-contexts.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="130" height="246" fill="white"/>
+<rect width="130" height="266" fill="white"/>
 <g id="intersect" data-box="1 1 30 18"><g transform="translate(4 4)"><path fill="lime" d="M2.9289 0.0000 17.0711 0.0000 17.0711 12.0000 2.9289 12.0000Z"/><path fill="navy" d="M10.0000 0.0000 14.9497 0.0000 14.9497 12.0000 10.0000 12.0000Z"/></g></g>
 <g id="order-by-z" data-box="33 1 30 18"><g transform="translate(36 4)"><rect x="0" y="0" width="20" height="12" fill="lime" style=""/></g></g>
 <g id="coplanar-order" data-box="65 1 30 18"><g transform="translate(68 4)"><path fill="navy" d="M2.9289 0.0000 17.0711 0.0000 17.0711 12.0000 2.9289 12.0000Z"/><path fill="lime" d="M2.9289 0.0000 17.0711 0.0000 17.0711 12.0000 2.9289 12.0000Z"/></g></g>
@@ -44,5 +44,7 @@ cell's id is what the statement ledgers link to. -->
 <g id="clip-path-flattens" data-box="97 181 30 18"><g transform="translate(100 184)"><rect x="2" y="2" width="16" height="8" fill="lime" style=""/></g></g>
 <g id="plane-no-area" data-box="1 201 30 18"><g transform="translate(4 204)"><rect x="0" y="0" width="20" height="12" fill="lime" style=""/></g></g>
 <g id="partly-behind" data-box="33 201 30 18" data-tolerance="64"><g transform="translate(36 204)"><svg width="20" height="12"><path fill="lime" d="M0.0000 0.0000 20.0000 0.0000 100010.0000 35261.8696 -99990.0000 35261.8696Z"/></svg></g></g>
-<g id="perspective-in-context" data-box="65 201 30 18" data-tolerance="24"><g transform="translate(68 204)"><path fill="lime" d="M1.4105 -1.2884 16.0088 0.9013 16.0088 11.0987 1.4105 13.2884Z"/><path fill="navy" d="M10.0000 0.0000 15.6487 -0.8473 15.6487 12.8473 10.0000 12.0000Z"/></g></g>
+<g id="attribute-transform-style" data-box="65 201 30 18"><g transform="translate(68 204)"><rect x="0" y="0" width="20" height="12" fill="lime" style=""/><rect x="0" y="0" width="20" height="12" fill="navy" style=""/></g></g>
+<g id="attribute-perspective" data-box="97 201 30 18"><g transform="translate(100 204)"><path fill="lime" d="M2.3396 0.0000 17.6604 0.0000 17.6604 12.0000 2.3396 12.0000Z"/></g></g>
+<g id="perspective-in-context" data-box="1 221 30 18" data-tolerance="24"><g transform="translate(4 224)"><path fill="lime" d="M1.4105 -1.2884 16.0088 0.9013 16.0088 11.0987 1.4105 13.2884Z"/><path fill="navy" d="M10.0000 0.0000 15.6487 -0.8473 15.6487 12.8473 10.0000 12.0000Z"/></g></g>
 </svg>
