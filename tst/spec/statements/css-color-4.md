@@ -9,7 +9,7 @@
 - [x] css-color-4.md#color-syntax-modern: modern syntax separates components by whitespace, the optional alpha by "/", allows none for any component, and lets <number> and <percentage> be freely mixed. [color-functions#modern]
 - [x] css-color-4.md#color-syntax-legacy: legacy syntax separates components by commas, uses a distinct non-opaque function name (rgba/hsla) with alpha after a comma, disallows none, and requires components to be all <number> or all <percentage>, not mixed. [color-functions#legacy color-functions#legacy-invalid]
 - [x] css-color-4.md#missing: an omitted alpha defaults to 100%; a missing component (none, or produced automatically) behaves as zero (0, 0%, or 0deg) for direct rendering, conversion and computation. [color-functions#missing]
-- [x] css-color-4.md#hue-syntax: <hue> = <number> | <angle>; a bare number is degrees; the value normalizes to [0,360) (-540 and 540 both give 180; a non-finite value gives 0). [color-functions#hue]
+- [x] css-color-4.md#hue-syntax: <hue> = <number> | <angle>; a bare number is degrees; the value normalizes to [0,360) (-540 and 540 both give 180; a non-finite value gives 0). [color-functions#hue color-functions#hue-invalid]
 - [x] css-color-4.md#alpha-syntax: <alpha-value> = <number> | <percentage>; a value outside [0,1] is clamped to that range at parsed-value time, not treated as invalid. [color-functions#alpha]
 
 ## Hex color notation: color-functions, color-syntax (exists)
