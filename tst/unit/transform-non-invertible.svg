@@ -1,13 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
-<!-- Each lime drawing fills its black outline, no red. A transform list is
-the product of its functions, scale(2) scale(.5) none at all; one that
-cannot be inverted, a scale of zero, a singular matrix, in the attribute or
-the property, hides the element and its content. -->
+<!-- Each lime drawing fills its black outline, no red. A transform list
+is the product of its functions, scale(2) scale(.5) none at all; one
+that cannot be inverted, a scale of zero, a singular matrix, in the
+attribute or the property, hides the element and its content. -->
 <rect width="64" height="16" fill="white"/>
 <rect x="2" y="2" width="8" height="12" fill="lime" transform="scale(2) scale(.5)"/>
-<rect x="14" y="2" width="8" height="12" fill="red" transform="scale(0)"/>
-<rect x="26" y="2" width="8" height="12" fill="red" transform="matrix(1 2 2 4 0 0)"/>
-<g transform="scale(1 0)"><rect x="38" y="2" width="8" height="12" fill="red"/></g>
-<rect x="50" y="2" width="8" height="12" fill="red" style="transform: scale(0) scale(1)"/>
-<rect x="2" y="2" width="8" height="12" fill="none" stroke="black" stroke-width=".25"/>
+<rect x="14" y="2" width="8" height="12" fill="red" transform="scale(0)"/><rect x="26" y="2" width="8" height="12" fill="red" transform="matrix(1 2 2 4 0 0)"/><g transform="scale(1 0)"><rect x="38" y="2" width="8" height="12" fill="red"/></g><rect x="50" y="2" width="8" height="12" fill="red" style="transform: scale(0) scale(1)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="8" height="12"/></g>
 </svg>

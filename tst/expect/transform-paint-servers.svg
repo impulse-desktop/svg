@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="32">
+<!-- What tst/unit/transform-paint-servers.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="120" height="32" fill="white"/>
+<rect width="0" height="0"/>
+<g id="pattern" data-box="0 1 17 14"><rect x="4" y="2" width="4" height="12" fill="lime"/><rect x="12" y="2" width="4" height="12" fill="lime"/></g>
+<g id="pattern-3d" data-box="17 1 18 14"><rect x="18" y="2" width="2" height="12" fill="lime"/><rect x="24" y="2" width="4" height="12" fill="lime"/><rect x="32" y="2" width="2" height="12" fill="lime"/></g>
+<g id="gradient" data-box="35 1 14 14"><rect x="36" y="2" width="6" height="12" fill="lime"/></g>
+<g id="gradient-3d" data-box="49 1 9 14"><rect x="50" y="2" width="4" height="12" fill="lime"/></g>
+<g id="clip-path" data-box="58 1 13 14"><rect x="64" y="2" width="4" height="12" fill="lime"/></g>
+<g id="clip-path-flattened" data-box="71 1 14 14"><rect x="72" y="2" width="4" height="12" fill="lime"/></g>
+<g id="clip-path-children" data-box="85 1 14 14"><rect x="86" y="2" width="4" height="4" fill="lime"/><rect x="88" y="6" width="4" height="8" fill="lime"/></g>
+<g id="box-pattern" data-box="1 17 36 14"><rect x="6" y="18" width="4" height="12" fill="lime"/><rect x="14" y="18" width="4" height="12" fill="lime"/><rect x="28" y="18" width="8" height="12" fill="lime"/></g>
+<g id="box-clip-path" data-box="39 17 38 14"><rect x="48" y="18" width="4" height="12" fill="lime"/><rect x="72" y="18" width="4" height="12" fill="lime"/></g>
+<g id="box-gradient" data-box="79 17 14 14"><rect x="80" y="18" width="12" height="12" fill="white"/><rect x="80" y="18" width="3" height="12" fill="lime"/></g>
+<g id="box-origin" data-box="95 17 18 14"><rect x="100" y="21" width="8" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="2" width="4" height="12"/><rect x="12" y="2" width="4" height="12"/><rect x="18" y="2" width="2" height="12"/><rect x="24" y="2" width="4" height="12"/><rect x="32" y="2" width="2" height="12"/><rect x="36" y="2" width="6" height="12"/><rect x="50" y="2" width="4" height="12"/><rect x="64" y="2" width="4" height="12"/><rect x="72" y="2" width="4" height="12"/><rect x="86" y="2" width="4" height="4"/><rect x="88" y="6" width="4" height="8"/><rect x="6" y="18" width="4" height="12"/><rect x="14" y="18" width="4" height="12"/><rect x="28" y="18" width="8" height="12"/><rect x="48" y="18" width="4" height="12"/><rect x="72" y="18" width="4" height="12"/><rect x="80" y="18" width="3" height="12"/><rect x="100" y="21" width="8" height="6"/></g>
+</svg>

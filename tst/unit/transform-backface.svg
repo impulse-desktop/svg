@@ -1,22 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="122" height="14">
-<!-- Each lime drawing fills its black outline, no red. backface-visibility
-hidden hides an element its 3D transform turns past a right angle, by y or
-by x, by a transform or the rotate property, its m33 negative; one turned
-less, or mirrored in 2D, still shows, as does any whose backface is
-visible, set so, unset or of an unknown word; the attribute of its name is
-no presentation attribute; a child inheriting hidden is hidden. -->
+<!-- Each lime drawing fills its black outline, no red. backface-
+visibility hidden hides an element its 3D transform turns past a right
+angle, by y or by x, by a transform or the rotate property, its m33
+negative; one turned less, or mirrored in 2D, still shows, as does any
+whose backface is visible, set so, unset or of an unknown word; the
+attribute of its name is no presentation attribute; a child inheriting
+hidden is hidden. -->
 <rect width="122" height="14" fill="white"/>
-<rect x="2" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: hidden"/>
-<rect x="12" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg)"/>
-<rect x="22" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(170deg); backface-visibility: hidden"/>
-<rect x="32" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(60deg); backface-visibility: hidden"/>
-<rect x="42" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateX(180deg); backface-visibility: hidden"/>
-<rect x="52" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: scale(-1, 1); backface-visibility: hidden"/>
-<rect x="62" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; rotate: y 180deg; backface-visibility: hidden"/>
-<rect x="72" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: visible"/>
-<rect x="82" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: unset"/>
-<rect x="112" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: bogus"/>
-<rect x="92" y="2" width="8" height="10" fill="lime" backface-visibility="hidden" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg)"/>
-<g style="backface-visibility: hidden"><rect x="102" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: inherit"/></g>
-<path fill="none" stroke="black" stroke-width=".25" d="M20.000 2.000 12.000 2.000 12.000 12.000 20.000 12.000Z M34.000 2.000 38.000 2.000 38.000 12.000 34.000 12.000Z M60.000 2.000 52.000 2.000 52.000 12.000 60.000 12.000Z M80.000 2.000 72.000 2.000 72.000 12.000 80.000 12.000Z M90.000 2.000 82.000 2.000 82.000 12.000 90.000 12.000Z M120.000 2.000 112.000 2.000 112.000 12.000 120.000 12.000Z M100.000 2.000 92.000 2.000 92.000 12.000 100.000 12.000Z"/>
+<rect x="2" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: hidden"/><rect x="22" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(170deg); backface-visibility: hidden"/><rect x="42" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateX(180deg); backface-visibility: hidden"/><rect x="62" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; rotate: y 180deg; backface-visibility: hidden"/><g style="backface-visibility: hidden"><rect x="102" y="2" width="8" height="10" fill="red" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: inherit"/></g>
+<rect x="12" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg)"/><rect x="32" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(60deg); backface-visibility: hidden"/><rect x="52" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: scale(-1, 1); backface-visibility: hidden"/><rect x="72" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: visible"/><rect x="82" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: unset"/><rect x="112" y="2" width="8" height="10" fill="lime" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg); backface-visibility: bogus"/><rect x="92" y="2" width="8" height="10" fill="lime" backface-visibility="hidden" style="transform-box: fill-box; transform-origin: center; transform: rotateY(180deg)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="12" y="2" width="8" height="10"/><rect x="34" y="2" width="4" height="10"/><rect x="52" y="2" width="8" height="10"/><rect x="72" y="2" width="8" height="10"/><rect x="82" y="2" width="8" height="10"/><rect x="112" y="2" width="8" height="10"/><rect x="92" y="2" width="8" height="10"/></g>
 </svg>

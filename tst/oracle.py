@@ -11,7 +11,8 @@ premultiplied, within 2 of 255, or within the tolerance the expected
 drawing's root gives in data-tolerance. Every element of the expected
 drawing with an id and a data-box, "x y width height", is a cell, the test
 of a statement the ledgers link to; a pixel that differs is reported in the
-cells whose box holds it. Writes each cell's verdict to OUT.txt and exits 1
+cells whose box holds it. A cell may give a tolerance of its own, for what
+it draws by a permitted approximation, in data-tolerance too. Writes each cell's verdict to OUT.txt and exits 1
 on any difference.
 """
 import os
@@ -39,7 +40,7 @@ def cells(path):
 
         if name and box:
             x, y, w, h = (float(v) for v in box.split())
-            found.append((name, x, y, w, h))
+            found.append((name, x, y, w, h, float(element.get("data-tolerance", "0"))))
 
     return found
 
@@ -72,13 +73,16 @@ def main():
             if difference <= tolerance * 255:
                 continue
 
-            held = False
+            holding = [box for box in boxes if box[1] <= x + .5 < box[1] + box[3] and box[2] <= y + .5 < box[2] + box[4]]
 
-            for name, bx, by, bw, bh in boxes:
-                if bx <= x + .5 < bx + bw and by <= y + .5 < by + bh:
-                    wrong[name][0] += 1
-                    wrong[name][1] = max(wrong[name][1], (difference + 254) // 255)
-                    held = True
+            if difference <= max([tolerance] + [box[5] for box in holding]) * 255:
+                continue
+
+            for name, *_ in holding:
+                wrong[name][0] += 1
+                wrong[name][1] = max(wrong[name][1], (difference + 254) // 255)
+
+            held = bool(holding)
 
             outside += not held
 

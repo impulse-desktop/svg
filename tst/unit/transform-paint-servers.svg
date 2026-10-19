@@ -1,20 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="72" height="16">
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="32">
 <!-- Each lime drawing fills its black outline. On a pattern, a gradient
 and a clipPath the transform property is their own transform, its
-presentation attributes patternTransform, gradientTransform and transform,
-which it overrides; a list with a 3D function on them is ignored whole, the
-translate before it too. -->
+presentation attributes patternTransform, gradientTransform and
+transform, which it overrides; a list with a 3D function on them is
+ignored whole, the translate before it too. A clip path's content is
+flattened, a 3D rotation of a child in it narrowing it, and its
+children's transforms are whole: about their origin in their box, with
+translate, rotate and scale. Below, the reference box of their
+transform's percentages and origin is the one their units name: the
+bounding box for objectBoundingBox, the viewport for userSpaceOnUse. -->
+<rect width="120" height="32" fill="white"/>
 <defs><pattern id="a" width="8" height="12" patternUnits="userSpaceOnUse" patternTransform="translate(2 0)" style="transform: translate(4px, 2px)"><rect width="4" height="12" fill="lime"/></pattern>
 <pattern id="b" width="8" height="12" patternUnits="userSpaceOnUse" style="transform: translate(4px) rotateZ(0deg)"><rect width="4" height="12" fill="lime"/></pattern>
 <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="36" x2="44" style="transform: translate(2px)"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient>
 <linearGradient id="h" gradientUnits="userSpaceOnUse" x1="50" x2="58" style="transform: translate(2px) translateZ(0)"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient>
-<clipPath id="c" transform="translate(9 0)" style="transform: translate(4px)"><rect x="60" y="2" width="4" height="12"/></clipPath></defs>
-<rect width="72" height="16" fill="white"/>
+<clipPath id="c" transform="translate(9 0)" style="transform: translate(4px)"><rect x="60" y="2" width="4" height="12"/></clipPath>
+<clipPath id="f"><rect x="72" y="2" width="8" height="12" style="transform-box: fill-box; transform-origin: left; transform: rotateY(60deg)"/></clipPath>
+<pattern id="pb" width=".5" height="1" style="transform: translate(25%)"><rect width="4" height="12" fill="lime"/></pattern>
+<pattern id="pu" patternUnits="userSpaceOnUse" width="16" height="12" style="transform: translate(10%)"><rect width="8" height="12" fill="lime"/></pattern>
+<clipPath id="co" clipPathUnits="objectBoundingBox" style="transform: translate(50%)"><rect width=".25" height="1"/></clipPath>
+<clipPath id="cu" style="transform: translate(10%)"><rect x="60" y="18" width="4" height="12"/></clipPath>
+<linearGradient id="gu" gradientUnits="userSpaceOnUse" x1="80" x2="92" style="transform: translate(-2.5%)"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient>
+<clipPath id="cs" clipPathUnits="objectBoundingBox" style="transform-origin: 50% 50%; transform: scale(.5)"><rect width="1" height="1"/></clipPath>
+<clipPath id="k"><rect x="84" y="2" width="4" height="4" style="translate: 2px 0"/><rect x="86" y="8" width="8" height="4" style="transform-box: fill-box; transform-origin: center; rotate: 90deg"/></clipPath></defs>
 <rect x="0" y="2" width="16" height="12" fill="url(#a)"/>
 <rect x="18" y="2" width="16" height="12" fill="url(#b)"/>
 <rect x="36" y="2" width="12" height="12" fill="url(#g)"/>
 <rect x="50" y="2" width="8" height="12" fill="url(#h)"/>
 <rect x="58" y="2" width="12" height="12" fill="lime" clip-path="url(#c)"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="2" width="4" height="12"/><rect x="12" y="2" width="4" height="12"/><rect x="18" y="2" width="2" height="12"/>
-<rect x="24" y="2" width="4" height="12"/><rect x="32" y="2" width="2" height="12"/><rect x="36" y="2" width="6" height="12"/><rect x="50" y="2" width="4" height="12"/><rect x="64" y="2" width="4" height="12"/></g>
+<rect x="72" y="2" width="12" height="12" fill="lime" clip-path="url(#f)"/>
+<rect x="86" y="2" width="12" height="12" fill="lime" clip-path="url(#k)"/>
+<rect x="2" y="18" width="16" height="12" fill="url(#pb)"/><rect x="20" y="18" width="16" height="12" fill="url(#pu)"/>
+<rect x="40" y="18" width="16" height="12" fill="lime" clip-path="url(#co)"/><rect x="60" y="18" width="16" height="12" fill="lime" clip-path="url(#cu)"/>
+<rect x="80" y="18" width="12" height="12" fill="url(#gu)"/>
+<rect x="96" y="18" width="16" height="12" fill="lime" clip-path="url(#cs)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="2" width="4" height="12"/><rect x="12" y="2" width="4" height="12"/><rect x="18" y="2" width="2" height="12"/><rect x="24" y="2" width="4" height="12"/><rect x="32" y="2" width="2" height="12"/><rect x="36" y="2" width="6" height="12"/><rect x="50" y="2" width="4" height="12"/><rect x="64" y="2" width="4" height="12"/><rect x="72" y="2" width="4" height="12"/><rect x="86" y="2" width="4" height="4"/><rect x="88" y="6" width="4" height="8"/><rect x="6" y="18" width="4" height="12"/><rect x="14" y="18" width="4" height="12"/><rect x="28" y="18" width="8" height="12"/><rect x="48" y="18" width="4" height="12"/><rect x="72" y="18" width="4" height="12"/><rect x="80" y="18" width="3" height="12"/><rect x="100" y="21" width="8" height="6"/></g>
 </svg>

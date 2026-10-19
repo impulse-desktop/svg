@@ -8,6 +8,7 @@ link to the cells by id. A generator under tst/gen builds a Unit, adds its
 cells and writes it; running it again writes the same files.
 """
 import os
+import re
 import textwrap
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -28,21 +29,27 @@ class Unit:
         self.shared = []
         self.cells = []
         self.outlines = []
+        self.tolerances = {}
 
     def common(self, test, expected=None):
         """Markup both drawings have before the cells: definitions, styles,
         or, with expected, the plain form the expected drawing has."""
         self.shared.append((test, test if expected is None else expected))
 
-    def cell(self, name, box, test, expected, outline=""):
+    def cell(self, name, box, test, expected, outline="", tolerance=None):
         """A cell: its id, its box (x, y, width, height), what the unit draws
         and what the expected drawing draws there, and an outline both draw
-        over it for the eye."""
+        over it for the eye; a tolerance of its own for what it draws by a
+        permitted approximation."""
         assert all(name != other for other, *_ in self.cells), name
         self.cells.append((name, box, test, expected))
+        self.tolerances[name] = tolerance
 
         if outline:
-            self.outlines.append(outline)
+            # An outline draws over both drawings alike, so it must draw
+            # thin black lines alone: paint of its own would hide what the
+            # cell draws from the comparison.
+            self.outlines.append(re.sub(r'\s(?:fill|fill-opacity|fill-rule|opacity|style|filter|mask|clip-path|stroke[a-z-]*|marker[a-z-]*)="[^"]*"', "", outline))
 
     def write(self):
         size = f'width="{self.width}" height="{self.height}"'
@@ -56,7 +63,7 @@ class Unit:
         unit += [outlines]
         expected = [f'<svg xmlns="http://www.w3.org/2000/svg" {size}{root}{tolerance}>', comment(f"What tst/unit/{self.name}.svg draws, drawn plainly; each cell's id is what the statement ledgers link to."), ground]
         expected += [plain for _, plain in self.shared]
-        expected += [f'<g id="{name}" data-box="{x} {y} {w} {h}">{plain}</g>' for name, (x, y, w, h), _, plain in self.cells]
+        expected += [f'<g id="{name}" data-box="{x} {y} {w} {h}"' + (f' data-tolerance="{self.tolerances[name]}"' if self.tolerances[name] is not None else "") + f">{plain}</g>" for name, (x, y, w, h), _, plain in self.cells]
         expected += [outlines]
 
         for directory, lines in (("unit", unit), ("expect", expected)):
@@ -64,11 +71,12 @@ class Unit:
                 handle.write("\n".join(line for line in lines if line) + "\n</svg>\n")
 
 
-def rows(unit, y, groups, columns, pitch, height, item, x=2):
+def rows(unit, y, groups, columns, pitch, height, item, x=2, tolerances={}):
     """Lays out groups of items, each group a cell on rows of its own,
     columns items to a row, pitch apart, rows height apart; item(x, y, value)
-    gives one item's test, its expected markup and its outline. Returns the
-    y below the last row."""
+    gives one item's test, its expected markup and its outline; tolerances
+    names the cells of a tolerance of their own. Returns the y below the
+    last row."""
     for name, values in groups:
         tests, plains, outlines = [], [], []
 
@@ -79,7 +87,7 @@ def rows(unit, y, groups, columns, pitch, height, item, x=2):
             outlines.append(outline)
 
         count = (len(values) + columns - 1) // columns
-        unit.cell(name, (x - 1, y - 1, columns * pitch, count * height), "".join(tests), "".join(plains), "".join(outlines))
+        unit.cell(name, (x - 1, y - 1, columns * pitch, count * height), "".join(tests), "".join(plains), "".join(outlines), tolerances.get(name))
         y += count * height
 
     return y

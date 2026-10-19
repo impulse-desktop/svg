@@ -9729,47 +9729,14 @@ namespace {
     // The transform of a paint server or a clipPath, which are flat: a list
     // with a 3D function on one is ignored whole (css-transforms-2.md,
     // svg-three-dimensional-functions).
-    static Matrix flatTransform(StringView text) {
+    static Matrix flatTransform(StringView text, const TransformBasis* basis = nullptr) {
         Matrix m = identity();
         Projective solid;
 
         // The parse checked the text, so it reads.
-        parseTransform(text, m, TransformGrammar::Either, &solid);
+        parseTransform(text, m, TransformGrammar::Either, &solid, basis);
 
         return solid.solid ? identity() : m;
-    }
-
-    static Matrix originTransform(const Document& doc, const Node* node, u32 name, Viewport vp) {
-        u32 value = attribute(node, name);
-
-        if (!value) {
-            return identity();
-        }
-
-        // The parse took the attribute whole.
-        Matrix m = flatTransform(textOf(doc, value));
-
-        u32 origin = attribute(node, AtomTransformOrigin);
-
-        if (!origin) {
-            return m;
-        }
-
-        Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
-
-        return multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
-    }
-
-    static Matrix transformOf(const Document& doc, const Node* node, u32 name) {
-        u32 value = attribute(node, name);
-        Matrix m = identity();
-
-        // The parse and the cascade took a transform whole.
-        if (value) {
-            parseTransform(textOf(doc, value), m, TransformGrammar::Either);
-        }
-
-        return m;
     }
 
     static bool parseViewBox(const Document& doc, const Node* node, Box& out) {
@@ -13828,6 +13795,24 @@ namespace {
     static void addRectClip(Lowering& l, const Matrix& m, float x, float y, float w, float h);
     static void endGroup(Lowering& l, u32 begin);
 
+    // The transform of a paint server or a clip path, its percentages and
+    // its origin of the reference box its units name: the bounding box in
+    // the space the transform works in, or the viewport
+    // (css-transforms-1.md, transform-box).
+    static Matrix referencedTransform(Pass& l, Node* node, StringView text, Box box, Viewport vp) {
+        TransformBasis basis{Viewport{box.x1 - box.x0, box.y1 - box.y0, vp.screenWidth, vp.screenHeight, vp.rootFontSize}, documentStyle(l, node, vp).fontSize};
+        Matrix m = flatTransform(text, &basis);
+        u32 origin = attribute(node, AtomTransformOrigin);
+
+        if (!origin) {
+            return m;
+        }
+
+        Point o = transformOrigin(textOf(*l.doc, origin), box.x1 - box.x0, box.y1 - box.y0);
+
+        return multiply(multiply(translation(box.x0 + o.x, box.y0 + o.y), m), translation(-box.x0 - o.x, -box.y0 - o.y));
+    }
+
     static DevicePaint* patternPaint(Lowering& l, Node* pattern, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
         const Document& doc = *l.doc;
 
@@ -13865,14 +13850,7 @@ namespace {
         Matrix local;
 
         if (transform) {
-            local = flatTransform(textOf(doc, transform));
-
-            if (u32 origin = attribute(pattern, AtomTransformOrigin)) {
-                Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
-
-                local = multiply(multiply(translation(o.x, o.y), local), translation(-o.x, -o.y));
-            }
-
+            local = referencedTransform(l, pattern, textOf(doc, transform), boxUnits ? bbox : Box{0.f, 0.f, vp.width, vp.height}, vp);
             space = multiply(space, local);
         }
 
@@ -14093,16 +14071,10 @@ namespace {
         Matrix gradientMatrix = identity();
         u32 transform = gradientAttribute(doc, gradient, AtomGradientTransform);
 
+        // In bounding box units the transform works in the box's own
+        // space, where it is the unit square.
         if (transform) {
-            Matrix m = flatTransform(textOf(doc, transform));
-
-            if (u32 origin = attribute(gradient, AtomTransformOrigin)) {
-                Point o = transformOrigin(textOf(doc, origin), vp.width, vp.height);
-
-                m = multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
-            }
-
-            gradientMatrix = m;
+            gradientMatrix = referencedTransform(l, gradient, textOf(doc, transform), boxUnits ? Box{0.f, 0.f, 1.f, 1.f} : Box{0.f, 0.f, vp.width, vp.height}, vp);
         }
 
         if (boxUnits) {
@@ -15279,14 +15251,21 @@ namespace {
     struct ClipChild {
         Node* shape;
         Matrix space;
+        // The child's own space, without a use's x and y and its shape's
+        // transform.
+        Matrix own;
         ComputedStyle style;
     };
 
+    // A child's transform is a whole one as any element's: about its
+    // origin in its box, after its translate, rotate and scale
+    // (css-transforms-1.md, transform-rendering).
     static bool clipChild(Lowering& l, Node* child, const Matrix& space, Viewport vp, ClipChild& out) {
         const Document& doc = *l.doc;
 
         out.shape = child;
-        out.space = multiply(space, transformOf(doc, child, AtomTransform));
+        out.own = multiply(space, boxTransform(l, child, documentStyle(l, child->parent, vp), vp));
+        out.space = out.own;
 
         if (child->name == AtomUse) {
             out.shape = hrefTarget(doc, child);
@@ -15302,7 +15281,7 @@ namespace {
             }
 
             out.space = multiply(out.space, translation(lengthOr(doc, child, AtomX, Axis::X, vp, useStyle.fontSize, 0.f), lengthOr(doc, child, AtomY, Axis::Y, vp, useStyle.fontSize, 0.f)));
-            out.space = multiply(out.space, transformOf(doc, out.shape, AtomTransform));
+            out.space = multiply(out.space, boxTransform(l, out.shape, useStyle, vp));
             out.style = computeStyle(l, out.shape, useStyle, vp);
         } else if (isShape(child->name)) {
             out.style = documentStyle(l, child, vp);
@@ -15351,22 +15330,25 @@ namespace {
             }
         }
 
-        Matrix space = multiply(m, originTransform(doc, clip, AtomTransform, vp));
         u32 units = attribute(clip, AtomClipPathUnits);
+        bool boxUnits = units && textOf(doc, units) == SV("objectBoundingBox");
+        u32 transform = attribute(clip, AtomTransform);
+        Box box{0.f, 0.f, vp.width, vp.height};
 
         op.clipProgram = false;
         op.clipFirst = (u32)l.clips.length();
         op.clipCount = 0;
 
-        if (units && textOf(doc, units) == SV("objectBoundingBox")) {
-            Box box;
+        // Bounding box units on an element with no width or height ignore
+        // the clip (coords.md, ObjectBoundingBoxUnits).
+        if (boxUnits && (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
+            return false;
+        }
 
-            // Bounding box units on an element with no width or height
-            // ignore the clip (coords.md, ObjectBoundingBoxUnits).
-            if (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0) {
-                return false;
-            }
+        // The parse took the attribute whole.
+        Matrix space = transform ? multiply(m, referencedTransform(l, clip, textOf(doc, transform), box, vp)) : m;
 
+        if (boxUnits) {
             space = multiply(space, Matrix{box.x1 - box.x0, 0.f, 0.f, box.y1 - box.y0, box.x0, box.y0});
         }
 
@@ -15411,7 +15393,7 @@ namespace {
             const ComputedStyle& childStyle = documentStyle(l, child, vp);
             Op inner = groupOp(1.f);
 
-            inner.clipped = childStyle.clipPath && resolveClip(l, child, clipStyle, childStyle, multiply(space, transformOf(doc, child, AtomTransform)), vp, inner);
+            inner.clipped = childStyle.clipPath && resolveClip(l, child, clipStyle, childStyle, item.own, vp, inner);
 
             u32 innerIndex = (u32)program.length();
 
