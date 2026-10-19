@@ -94,7 +94,7 @@
 
 ## stroke shape: stroke-shape-union
 
-- [x] svg2/painting.md#TermStrokeShape: the stroke shape is the union, for each subpath, of each dash's parallel-offset band, its start/end cap shapes, and the line-join shapes of the segments it spans [stroke-shape-union#miter-rect stroke-shape-union#round-rect stroke-shape-union#circle stroke-shape-union#bevel-triangle stroke-shape-union#curves stroke-shape-union#subpaths stroke-tight-ends#dash-end stroke-tight-ends#end-tight]
+- [x] svg2/painting.md#TermStrokeShape: the stroke shape is the union, for each subpath, of each dash's parallel-offset band, its start/end cap shapes, and the line-join shapes of the segments it spans [stroke-shape-union#miter-rect stroke-shape-union#round-rect stroke-shape-union#circle stroke-shape-union#bevel-triangle stroke-shape-union#curves stroke-shape-union#subpaths stroke-tight-ends#dash-end stroke-tight-ends#end-tight stroke-tight-ends#pie-sector]
 - [x] svg2/painting.md#StrokeShape: the algorithm defines only an ideal/best-case stroke shape; implementations are explicitly given leeway to deviate from it for performance, and the result may differ across platforms at extreme curvature (D1) [stroke-shape-union#circle stroke-shape-union#curves stroke-tight-ends#start-tightening]
 
 ## dash positions algorithm: stroke-dash-positions

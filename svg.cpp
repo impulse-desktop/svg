@@ -11549,6 +11549,7 @@ namespace {
         double openB;
         double half;
         double tol;
+        double turn;
     };
 
     // The parameters of a cubic strictly between t0 and t1, halving the
@@ -11562,7 +11563,8 @@ namespace {
     // the curve turns tighter than h, its normals' inner ends run back
     // themselves, and a point beside such a stretch turns its neighbour's
     // chord too, so where it turns tighter than 2 h within 2 h of an end
-    // the room is none.
+    // the room is none. No step need turn under the bound turn, where a
+    // stroke too wide for its tolerance stops.
     static void bendParameters(const Powers& q, double t0, double t1, double bend, const PieceEnds& ends, int depth, Vector<double>& out) {
         double angle = deviation(powerVelocity(q, t0), powerVelocity(q, t1));
         DPoint from = powerAt(q, t0);
@@ -11573,7 +11575,7 @@ namespace {
         double room = tight ? (fmin(toA, toB) < 2.0 * ends.half ? 0.0 : INFINITY) : fmin(ends.openA * toA, ends.openB * toB);
 
         // A bend past the numbers is no bend to halve.
-        if (depth == 0 || !(angle > bend || ends.half * angle > room + ends.tol)) {
+        if (depth == 0 || !(angle > bend || (angle > ends.turn && ends.half * angle > room + ends.tol))) {
             return;
         }
 
@@ -11708,10 +11710,8 @@ namespace {
 
         // The joins between the points keep within the tolerance of the
         // turn the offset allows, sqrt(8 turn), and near the ends within
-        // what their normals leave, for a half width as wide as the bound
-        // turn allows: no step need turn under it.
-        double reach = fmin((double)half, (double)tol / turn);
-        PieceEnds ends{powerAt(q, ta), powerAt(q, tb), capA, capB, openness(q, ta, reach), openness(q, tb, reach), reach, tol};
+        // what their normals leave.
+        PieceEnds ends{powerAt(q, ta), powerAt(q, tb), capA, capB, openness(q, ta, half), openness(q, tb, half), half, tol, turn};
         Vector<double> all;
 
         for (size_t i = 1; i < ts.length(); i++) {
