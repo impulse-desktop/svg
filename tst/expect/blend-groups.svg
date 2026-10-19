@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="86" height="30">
+<!-- What tst/unit/blend-groups.svg draws, drawn plainly; each cell's id
+is what the statement ledgers link to. -->
+<defs><filter id="id" x="0" y="0" width="1" height="1"><feOffset/></filter><mask id="w"><rect width="86" height="30" fill="white"/></mask></defs>
+<g id="non-isolated" data-box="1 1 24 14"><rect x="2" y="2" width="6" height="12" fill="#292e17"/><rect x="10" y="2" width="6" height="12" fill="#292e17"/><rect x="18" y="2" width="6" height="12" fill="#292e17"/></g>
+<g id="transform-2d" data-box="25 1 8 14"><rect x="26" y="2" width="6" height="12" fill="#292e17"/></g>
+<g id="isolate" data-box="33 1 8 14"><rect x="34" y="2" width="6" height="12" fill="#cc4d1a"/></g>
+<g id="opacity" data-box="41 1 8 14"><rect x="42" y="2" width="6" height="12" fill="#807380"/></g>
+<g id="filter" data-box="49 1 8 14"><rect x="50" y="2" width="6" height="12" fill="#cc4d1a"/></g>
+<g id="mask" data-box="57 1 8 14"><rect x="58" y="2" width="6" height="12" fill="#cc4d1a"/></g>
+<g id="blend" data-box="65 1 8 14"><rect x="66" y="2" width="6" height="12" fill="#d6b8e9"/></g>
+<g id="transform-3d" data-box="73 1 16 14"><rect x="74" y="2" width="6" height="12" fill="#cc4d1a"/><rect x="82" y="2" width="6" height="12" fill="#cc4d1a"/></g>
+<g id="invariance" data-box="1 15 50 14"><rect x="2" y="16" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="6" y="16" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="10" y="16" width="12" height="6" fill="#25e" fill-opacity=".7"/><rect x="2" y="22" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="6" y="22" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="10" y="22" width="12" height="6" fill="#25e" fill-opacity=".7"/><rect x="30" y="16" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="34" y="16" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="38" y="16" width="12" height="6" fill="#25e" fill-opacity=".7"/><rect x="30" y="22" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="34" y="22" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="38" y="22" width="12" height="6" fill="#25e" fill-opacity=".7"/></g>
+</svg>

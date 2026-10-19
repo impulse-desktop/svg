@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="16">
+<!-- What tst/unit/blend-render-order.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<defs><filter id="o" filterUnits="userSpaceOnUse" x="0" y="0" width="48" height="16"><feOffset dx="4"/></filter>
+<clipPath id="c"><rect x="4" y="2" width="6" height="12"/></clipPath>
+<filter id="f" x="0" y="0" width="1" height="1"><feFlood flood-color="#cc4d1a"/></filter>
+<mask id="h"><rect width="48" height="16" fill="white" fill-opacity=".5"/></mask></defs>
+<g id="filter-clip" data-box="1 1 12 14"><rect x="4" y="2" width="6" height="12" fill="lime"/></g>
+<g id="filter-blend" data-box="15 1 10 14"><rect x="16" y="2" width="8" height="12" fill="#292e17"/></g>
+<g id="mask-blend" data-box="25 1 10 14"><rect x="26" y="2" width="8" height="12" fill="#2e647f"/></g>
+<g id="opacity-blend" data-box="35 1 10 14"><rect x="36" y="2" width="8" height="12" fill="#2e647f"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="2" width="6" height="12"/></g>
+</svg>

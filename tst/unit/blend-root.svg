@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="16" opacity=".5">
+<!-- The drawing is lime at half opacity, with no outline, which the
+root's opacity would fade. The root element's group takes its opacity as
+one, after its content: the overlapping squares are no darker where they
+overlap. -->
+<rect x="2" y="2" width="12" height="12" fill="lime"/><rect x="8" y="2" width="12" height="12" fill="lime"/><rect x="24" y="2" width="12" height="12" fill="lime"/>
+</svg>

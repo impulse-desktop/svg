@@ -1,26 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="62" height="16">
 <!-- Each test runs on into the reference under it without a step. The
-Porter-Duff operators of feComposite, the source at 0.6 over a backdrop at
-0.7: over, in, out, atop, xor and lighter, each the sum of the source
+Porter-Duff operators of feComposite, the source at 0.6 over a backdrop
+at 0.7: over, in, out, atop, xor and lighter, each the sum of the source
 and the backdrop by their fractions Fa and Fb, lighter clamped. -->
-<defs>
-<filter id="over" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
-<filter id="in" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter>
-<filter id="out" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="out"/></filter>
-<filter id="atop" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="atop"/></filter>
-<filter id="xor" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="xor"/></filter>
-<filter id="lighter" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="lighter"/></filter>
-</defs>
-<rect x="2" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#over)"/>
-<rect x="2" y="8" width="8" height="6" fill="#9b655b" fill-opacity="0.88"/>
-<rect x="12" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#in)"/>
-<rect x="12" y="8" width="8" height="6" fill="#cc4d1a" fill-opacity="0.42"/>
-<rect x="22" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#out)"/>
-<rect x="22" y="8" width="8" height="6" fill="#cc4d1a" fill-opacity="0.18"/>
-<rect x="32" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#atop)"/>
-<rect x="32" y="8" width="8" height="6" fill="#8f6b6c" fill-opacity="0.7"/>
-<rect x="42" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#xor)"/>
-<rect x="42" y="8" width="8" height="6" fill="#6f7b96" fill-opacity="0.46"/>
-<rect x="52" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#lighter)"/>
-<rect x="52" y="8" width="8" height="6" fill="#9e99b1" fill-opacity="1"/>
+<filter id="over" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter><rect x="2" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#over)"/><rect x="2" y="8" width="8" height="6" fill="#9b655b" fill-opacity="0.88"/>
+<filter id="in" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="in"/></filter><rect x="12" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#in)"/><rect x="12" y="8" width="8" height="6" fill="#cc4d1a" fill-opacity="0.42"/>
+<filter id="out" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="out"/></filter><rect x="22" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#out)"/><rect x="22" y="8" width="8" height="6" fill="#cc4d1a" fill-opacity="0.18"/>
+<filter id="atop" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="atop"/></filter><rect x="32" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#atop)"/><rect x="32" y="8" width="8" height="6" fill="#8f6b6c" fill-opacity="0.7"/>
+<filter id="xor" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="xor"/></filter><rect x="42" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#xor)"/><rect x="42" y="8" width="8" height="6" fill="#6f7b96" fill-opacity="0.46"/>
+<filter id="lighter" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#3399e6" flood-opacity="0.7" result="b"/><feComposite in="SourceGraphic" in2="b" operator="lighter"/></filter><rect x="52" y="2" width="8" height="6" fill="#cc4d1a" fill-opacity="0.6" filter="url(#lighter)"/><rect x="52" y="8" width="8" height="6" fill="#9e99b1" fill-opacity="1"/>
 </svg>

@@ -19,13 +19,19 @@ def comment(text):
 
 
 class Unit:
-    def __init__(self, name, width, height, description, tolerance=None, root=""):
+    def __init__(self, name, width, height, description, tolerance=None, root="", ground=True, plain_root=None):
         self.name = name
         self.width = width
         self.height = height
         self.description = description
         self.tolerance = tolerance
         self.root = root
+        # The root's attributes in the expected drawing, which draws what
+        # they do by plain means.
+        self.plain_root = root if plain_root is None else plain_root
+        # A white ground under the cells, unless what they blend with must be
+        # transparent.
+        self.ground = ground
         self.shared = []
         self.cells = []
         self.outlines = []
@@ -53,7 +59,7 @@ class Unit:
 
     def write(self):
         size = f'width="{self.width}" height="{self.height}"'
-        ground = f'<rect {size} fill="white"/>'
+        ground = f'<rect {size} fill="white"/>' if self.ground else ""
         outlines = '<g fill="none" stroke="black" stroke-width=".25">' + "".join(self.outlines) + "</g>" if self.outlines else ""
         tolerance = f' data-tolerance="{self.tolerance}"' if self.tolerance is not None else ""
         root = f" {self.root}" if self.root else ""
@@ -61,7 +67,8 @@ class Unit:
         unit += [test for test, _ in self.shared]
         unit += [test for _, _, test, _ in self.cells]
         unit += [outlines]
-        expected = [f'<svg xmlns="http://www.w3.org/2000/svg" {size}{root}{tolerance}>', comment(f"What tst/unit/{self.name}.svg draws, drawn plainly; each cell's id is what the statement ledgers link to."), ground]
+        plain_root = f" {self.plain_root}" if self.plain_root else ""
+        expected = [f'<svg xmlns="http://www.w3.org/2000/svg" {size}{plain_root}{tolerance}>', comment(f"What tst/unit/{self.name}.svg draws, drawn plainly; each cell's id is what the statement ledgers link to."), ground]
         expected += [plain for _, plain in self.shared]
         expected += [f'<g id="{name}" data-box="{x} {y} {w} {h}"' + (f' data-tolerance="{self.tolerances[name]}"' if self.tolerances[name] is not None else "") + f">{plain}</g>" for name, (x, y, w, h), _, plain in self.cells]
         expected += [outlines]
