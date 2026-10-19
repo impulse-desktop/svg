@@ -1192,6 +1192,7 @@ namespace {
 
     const StringView svgNamespace = SV("http://www.w3.org/2000/svg");
     const StringView xlinkNamespace = SV("http://www.w3.org/1999/xlink");
+    const StringView xhtmlNamespace = SV("http://www.w3.org/1999/xhtml");
     const StringView xmlNamespace = SV("http://www.w3.org/XML/1998/namespace");
     const StringView xincludeNamespace = SV("http://www.w3.org/2001/XInclude");
 
@@ -3732,7 +3733,11 @@ namespace {
         bool includes = xinclude && !foreign && local == SV("include");
         bool falls = xinclude && fallback && local == SV("fallback");
         bool included = includes && include(xml, rawBase, parent, depth, text);
-        bool svg = !foreign && uri == svgNamespace;
+        // An HTML style element is a style sheet wherever it is, in foreign
+        // content too, as HTML processes it (D47): a style node of the
+        // nearest SVG element.
+        bool sheet = parent && uri == xhtmlNamespace && local == SV("style");
+        bool svg = (!foreign && uri == svgNamespace) || sheet;
         Node* node = nullptr;
 
         // Only the first element of the file has no parent: a foreign
@@ -3854,7 +3859,7 @@ namespace {
             } else if (falls) {
                 parseContent(xml, c, parent, false, fallback->text, depth, false, nullptr);
             } else {
-                parseContent(xml, c, node, !node, collect ? &own : nullptr, depth, false, nullptr);
+                parseContent(xml, c, node ? node : parent, !node, collect ? &own : nullptr, depth, false, nullptr);
             }
 
             c.p += 2;

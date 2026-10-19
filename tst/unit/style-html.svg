@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="10">
+<!-- Each lime square fills its black outline, and nothing red shows. A
+style element in the XHTML namespace is a style sheet as SVG's is, as
+HTML processes it, wherever it is in the document: a child of an SVG
+element, inside another element of that namespace, in a foreignObject's
+content (D47); its media and type attributes are read as an SVG style
+element's. Another element of that namespace is no style sheet. -->
+<rect width="58" height="10" fill="white"/>
+<style xmlns="http://www.w3.org/1999/xhtml">.h0 { fill: lime }</style><rect class="h0" x="2" y="2" width="6" height="6" fill="red"/>
+<defs xmlns="http://www.w3.org/1999/xhtml"><div><style>.h1 { fill: lime }</style></div></defs><rect class="h1" x="10" y="2" width="6" height="6" fill="red"/>
+<foreignObject width="0" height="0"><body xmlns="http://www.w3.org/1999/xhtml"><style>.h2 { fill: lime }</style></body></foreignObject><rect class="h2" x="18" y="2" width="6" height="6" fill="red"/>
+<style xmlns="http://www.w3.org/1999/xhtml" media="print">.h3 { fill: red }</style><rect class="h3" x="26" y="2" width="6" height="6" fill="lime"/>
+<style xmlns="http://www.w3.org/1999/xhtml" type="text/plain">.h4 { fill: red }</style><rect class="h4" x="34" y="2" width="6" height="6" fill="lime"/>
+<div xmlns="http://www.w3.org/1999/xhtml">.h5 { fill: red }</div><rect class="h5" x="42" y="2" width="6" height="6" fill="lime"/>
+<h:style xmlns:h="http://www.w3.org/1999/xhtml">.h6 { fill: lime }</h:style><rect class="h6" x="50" y="2" width="6" height="6" fill="red"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/></g>
+</svg>

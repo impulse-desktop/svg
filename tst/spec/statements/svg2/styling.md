@@ -5,6 +5,7 @@
 - [x] svg2/styling.md#StyleElement: style's content is never directly rendered; the UA style sheet always sets display:none on it with importance over any other rule or presentation attribute. [render-not-rendered#not-rendered style-sheets#type]
 - [x] svg2/styling.md#StyleElementTypeAttribute: the type attribute names the style sheet language as a media type, initial value text/css; if type is absent, the language is assumed to be CSS. [style-sheets#type]
 - [x] svg2/styling.md#StyleElementMediaAttribute: the media attribute gives a media query that must match for the style sheet to apply; if absent, the style sheet applies unconditionally. [style-sheets#media]
+- [x] svg2/styling.md#StyleElement: a style element of the XHTML namespace, anywhere in the document, a foreign subtree or a foreignObject's content too, is a style sheet as SVG's style element is, its media and type attributes the same; another element of that namespace is none (D47) [style-html#child style-html#nested style-html#foreign-object style-html#media style-html#type style-html#other-element style-html#prefixed]
 - [-] svg2/styling.md#RequiredCSSFeatures: @media, @import, @charset and @font-face rules within a style sheet must be supported. (D15) [css-layers#import-nothing css-sheet-recovery#charset css-calc-contexts#media]
 
 ## Class and style attributes: style-sheets, css-classes-attributes (exists)

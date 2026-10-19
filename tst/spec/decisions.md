@@ -543,3 +543,17 @@ it did for filters already. Chromium takes the border box instead; Firefox
 clips away all of a root with an objectBoundingBox clip or mask and draws
 no filter on the root. No file of the corpus has one, and the spec names
 the bounding box.
+
+## D47. An HTML style element is a style sheet
+
+SVG 2 has HTML's link element bring style sheets into an SVG document
+(`svg2/styling.md#LinkElement`) but says nothing of HTML's style element;
+HTML processes a style element in its namespace wherever it is connected,
+and so do Chromium, Firefox and resvg in an SVG document, in a foreign
+subtree and in a foreignObject too; librsvg alone reads none. Real
+files write one: 6 harvested files of the corpus (spaCy's displaCy among
+them, whose arrows its sheet colours), which drew their elements
+unstyled. The renderer reads an element of the XHTML namespace named style
+as a style element of its nearest SVG ancestor, its media and type
+attributes as SVG's; any other element of that namespace stays foreign
+and drawn by nothing.
