@@ -4618,7 +4618,7 @@ namespace {
             condition.test = Test::Lang;
             doc.languages = true;
 
-            do {
+            for (;;) {
                 StringView range;
 
                 skipSpaces(p, end);
@@ -4639,7 +4639,13 @@ namespace {
                 ranges.append(range.data(), range.length());
                 ranges.append(",", 1);
                 skipSpaces(p, end);
-            } while (at(p, end, ',') && ++p);
+
+                if (!at(p, end, ',')) {
+                    break;
+                }
+
+                p++;
+            }
 
             condition.value = keep(*doc.pool, ranges.data(), ranges.length());
             inner = addSpecificity(inner, 1 << 8);
@@ -7326,6 +7332,7 @@ namespace {
     }
 
     static bool isKeyword(StringView text, StringView keyword);
+
     // The attribute a geometry property sets on an element.
     static u32 geometryAttribute(u32 element, u32 property) {
         if (property == AtomTransform && (element == AtomLinearGradient || element == AtomRadialGradient)) {

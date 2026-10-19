@@ -36,7 +36,7 @@ squares(unit, [
                     ("{c} .t:lang(de-1996) { fill: lime }", tagged("de-1996"))]),
     ("syntax", [("{c} .t { fill: lime } {c} .t:lang() { fill: red }", tagged("de")), ("{c} .t { fill: lime } {c} .t:lang(,de) { fill: red }", tagged("de")),
                 ("{c} .t { fill: lime } {c} .t:lang(de fr) { fill: red }", tagged("de")), ("{c} .t { fill: lime } {c} .t:lang(5) { fill: red }", tagged("de")),
-                ('!{c} .t { fill: lime } {c} .t:lang("de\nfr") { fill: red }', tagged("de"))]),
+                ('!{c} .t { fill: lime } {c} .t:lang("de\n) { fill: red }', tagged("de"))]),
     ("specificity", [("{c} .t:lang(de) { fill: lime } {c} .t { fill: red }", tagged("de"))]),
     ("instance", [(".lu { fill: red } .lu:lang(de) { fill: lime }", '<defs xml:lang="fr"><rect id="lu" class="lu" width="6" height="6"/></defs>' + tagged("de", '<use href="#lu"/>')),
                   (".lv { fill: red } .lv:lang(fr) { visibility: hidden } .lv:lang(de) { fill: lime }",
