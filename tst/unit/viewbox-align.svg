@@ -2,7 +2,9 @@
 <!-- Each viewport, its bounds in silver, shows the viewBox 10 20 20 10, lime
 with a navy top left quarter, within the black outline the spec's transform
 gives: the nine alignments meet in a viewport taller than wide (top row),
-then slice (middle row), then none, stretched, the numbers given with commas. -->
+then slice (middle row), then none, stretched, the numbers given with
+commas; with no viewBox, preserveAspectRatio does nothing; with none
+given it is xMidYMid meet. -->
 <rect width="128" height="72" fill="white"/>
 <svg x="2" y="2" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMinYMin meet"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
 <rect x="2" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
@@ -41,6 +43,8 @@ then slice (middle row), then none, stretched, the numbers given with commas. --
 <svg x="114" y="32" width="12" height="24" viewBox="10 20 20 10" preserveAspectRatio="xMaxYMax slice"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
 <rect x="114" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/>
 <svg x="2" y="62" width="40" height="8" viewBox="10,20 20,10" preserveAspectRatio="none"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
+<svg x="46" y="62" width="20" height="8" preserveAspectRatio="none"><rect width="10" height="4" fill="lime"/><rect x="10" y="4" width="10" height="4" fill="navy"/></svg>
+<svg x="70" y="62" width="20" height="8" viewBox="10 20 20 10"><rect x="10" y="20" width="20" height="10" fill="lime"/><rect x="10" y="20" width="10" height="5" fill="navy"/></svg>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2.000" y="2.000" width="12.000" height="6.000"/>
 <path d="M 2.000 2.000 h 6.000 v 3.000"/>
@@ -48,18 +52,18 @@ then slice (middle row), then none, stretched, the numbers given with commas. --
 <path d="M 16.000 2.000 h 6.000 v 3.000"/>
 <rect x="30.000" y="2.000" width="12.000" height="6.000"/>
 <path d="M 30.000 2.000 h 6.000 v 3.000"/>
-<rect x="44.000" y="2.000" width="12.000" height="6.000"/>
-<path d="M 44.000 2.000 h 6.000 v 3.000"/>
-<rect x="58.000" y="2.000" width="12.000" height="6.000"/>
-<path d="M 58.000 2.000 h 6.000 v 3.000"/>
-<rect x="72.000" y="2.000" width="12.000" height="6.000"/>
-<path d="M 72.000 2.000 h 6.000 v 3.000"/>
-<rect x="86.000" y="2.000" width="12.000" height="6.000"/>
-<path d="M 86.000 2.000 h 6.000 v 3.000"/>
-<rect x="100.000" y="2.000" width="12.000" height="6.000"/>
-<path d="M 100.000 2.000 h 6.000 v 3.000"/>
-<rect x="114.000" y="2.000" width="12.000" height="6.000"/>
-<path d="M 114.000 2.000 h 6.000 v 3.000"/>
+<rect x="44.000" y="11.000" width="12.000" height="6.000"/>
+<path d="M 44.000 11.000 h 6.000 v 3.000"/>
+<rect x="58.000" y="11.000" width="12.000" height="6.000"/>
+<path d="M 58.000 11.000 h 6.000 v 3.000"/>
+<rect x="72.000" y="11.000" width="12.000" height="6.000"/>
+<path d="M 72.000 11.000 h 6.000 v 3.000"/>
+<rect x="86.000" y="20.000" width="12.000" height="6.000"/>
+<path d="M 86.000 20.000 h 6.000 v 3.000"/>
+<rect x="100.000" y="20.000" width="12.000" height="6.000"/>
+<path d="M 100.000 20.000 h 6.000 v 3.000"/>
+<rect x="114.000" y="20.000" width="12.000" height="6.000"/>
+<path d="M 114.000 20.000 h 6.000 v 3.000"/>
 <rect x="2.000" y="32.000" width="12.000" height="24.000"/>
 <path d="M 2.000 32.000 h 12.000 v 12.000"/>
 <rect x="16.000" y="32.000" width="12.000" height="24.000"/>

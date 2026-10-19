@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- What tst/unit/bbox-inputs.svg draws, drawn plainly; each cell's id
+is what the statement ledgers link to. -->
+<rect width="64" height="40" fill="white"/>
+<defs><linearGradient id="fraction" x1=".25" x2=".75"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient><pattern id="tile-fraction" width=".5" height=".5"><rect width="3" height="3" fill="lime"/></pattern></defs>
+<g id="visibility-hidden" data-box="1 1 14 12"><rect x="2" y="2" width="12" height="10" fill="lime"/></g>
+<g id="opacity-zero" data-box="17 1 14 12"><rect x="18" y="2" width="12" height="10" fill="lime"/></g>
+<g id="fill-none" data-box="33 1 14 12"><rect x="34" y="2" width="12" height="10" fill="lime"/></g>
+<g id="dashed" data-box="49 1 14 12"><rect x="50" y="2" width="12" height="10" fill="lime"/></g>
+<g id="unresolved-use" data-box="1 15 14 12"><rect x="2" y="16" width="4" height="4" fill="lime"/></g>
+<g id="unresolved-paint" data-box="17 15 14 12"><rect x="18" y="16" width="12" height="10" fill="lime"/></g>
+<g id="child-clip" data-box="33 15 14 12"><rect x="34" y="16" width="12" height="10" fill="lime"/></g>
+<g id="image-box" data-box="49 15 14 12"><rect x="50" y="16" width="12" height="10" fill="lime"/></g>
+<g id="gradient-percent" data-box="1 29 14 12"><rect x="2" y="30" width="12" height="10" fill="url(#fraction)"/></g>
+<g id="pattern-percent" data-box="17 29 14 12"><rect x="18" y="30" width="12" height="10" fill="url(#tile-fraction)"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="30" width="12" height="10"/><rect x="18" y="30" width="12" height="10"/></g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="72">
+<!-- What tst/unit/bbox-geometry.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="64" height="72" fill="white"/>
+<defs>
+<linearGradient id="half" x2="0" y2="1"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<clipPath id="left" clipPathUnits="objectBoundingBox"><rect width=".5" height="1"/></clipPath>
+<linearGradient id="wide" x1="-1" x2="2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="wideref" gradientUnits="userSpaceOnUse" x1="-18" x2="42"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<filter id="flood" x="0" y="0" width="1" height="1"><feFlood flood-color="red"/></filter>
+</defs>
+<g id="curve-box" data-box="1 1 28 20"><linearGradient id="half-user" gradientUnits="userSpaceOnUse" x2="0" y1="5" y2="20"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient><path d="M 2 20 C 2 0 22 0 22 20 Z" fill="url(#half-user)"/><rect x="24" y="5" width="4" height="7.5" fill="navy"/><rect x="24" y="12.5" width="4" height="7.5" fill="gold"/></g>
+<g id="group-children" data-box="33 1 30 20"><rect x="34" y="2" width="8" height="8" fill="lime"/><rect x="46" y="2" width="3" height="5" fill="lime"/></g>
+<g id="zero-size-child" data-box="1 25 38 17"><clipPath id="left-user"><rect x="2" y="26" width="18" height="14"/></clipPath><g clip-path="url(#left-user)" fill="lime"><rect x="10" y="26" width="10" height="10"/><path d="M 2 40 H 30" stroke="lime"/><path d="M 2 30 h 0 M 38 30 L 38 30" stroke="lime" stroke-linecap="round" stroke-width="2"/></g></g>
+<g id="fractions" data-box="1 43 22 10"><rect x="2" y="44" width="20" height="4" fill="url(#wideref)"/><rect x="2" y="48" width="20" height="4" fill="url(#wideref)"/></g>
+<g id="zero-height-gradient" data-box="1 55 30 6"><rect x="2" y="56" width="28" height="4" fill="lime"/></g>
+<g id="zero-height-filter" data-box="33 55 30 6"><rect x="34" y="56" width="28" height="4" fill="lime"/></g>
+<g id="zero-height-clip" data-box="33 63 30 6"><rect x="34" y="64" width="28" height="4" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="34" y="2" width="8" height="8"/><rect x="46" y="2" width="3" height="5"/>
+<rect x="2" y="26" width="18" height="14"/>
+<path d="M 2 56 H 30 V 60 H 2 Z M 34 56 H 62 V 60 H 34 Z M 34 64 H 62 V 68 H 34 Z"/>
+</g>
+</svg>

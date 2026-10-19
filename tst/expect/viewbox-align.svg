@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="72">
+<!-- What tst/unit/viewbox-align.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="128" height="72" fill="white"/>
+<g id="meet-xMinYMin" data-box="1 1 14 26"><rect x="2" y="2" width="12" height="6" fill="lime"/><rect x="2" y="2" width="6" height="3" fill="navy"/><rect x="2" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMidYMin" data-box="15 1 14 26"><rect x="16" y="2" width="12" height="6" fill="lime"/><rect x="16" y="2" width="6" height="3" fill="navy"/><rect x="16" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMaxYMin" data-box="29 1 14 26"><rect x="30" y="2" width="12" height="6" fill="lime"/><rect x="30" y="2" width="6" height="3" fill="navy"/><rect x="30" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMinYMid" data-box="43 1 14 26"><rect x="44" y="11" width="12" height="6" fill="lime"/><rect x="44" y="11" width="6" height="3" fill="navy"/><rect x="44" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMidYMid" data-box="57 1 14 26"><rect x="58" y="11" width="12" height="6" fill="lime"/><rect x="58" y="11" width="6" height="3" fill="navy"/><rect x="58" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMaxYMid" data-box="71 1 14 26"><rect x="72" y="11" width="12" height="6" fill="lime"/><rect x="72" y="11" width="6" height="3" fill="navy"/><rect x="72" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMinYMax" data-box="85 1 14 26"><rect x="86" y="20" width="12" height="6" fill="lime"/><rect x="86" y="20" width="6" height="3" fill="navy"/><rect x="86" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMidYMax" data-box="99 1 14 26"><rect x="100" y="20" width="12" height="6" fill="lime"/><rect x="100" y="20" width="6" height="3" fill="navy"/><rect x="100" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="meet-xMaxYMax" data-box="113 1 14 26"><rect x="114" y="20" width="12" height="6" fill="lime"/><rect x="114" y="20" width="6" height="3" fill="navy"/><rect x="114" y="2" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMinYMin" data-box="1 31 14 26"><rect x="2" y="32" width="12" height="24" fill="lime"/><rect x="2" y="32" width="12" height="12" fill="navy"/><rect x="2" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMidYMin" data-box="15 31 14 26"><rect x="16" y="32" width="12" height="24" fill="lime"/><rect x="16" y="32" width="6" height="12" fill="navy"/><rect x="16" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMaxYMin" data-box="29 31 14 26"><rect x="30" y="32" width="12" height="24" fill="lime"/><rect x="30" y="32" width="0" height="12" fill="navy"/><rect x="30" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMinYMid" data-box="43 31 14 26"><rect x="44" y="32" width="12" height="24" fill="lime"/><rect x="44" y="32" width="12" height="12" fill="navy"/><rect x="44" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMidYMid" data-box="57 31 14 26"><rect x="58" y="32" width="12" height="24" fill="lime"/><rect x="58" y="32" width="6" height="12" fill="navy"/><rect x="58" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMaxYMid" data-box="71 31 14 26"><rect x="72" y="32" width="12" height="24" fill="lime"/><rect x="72" y="32" width="0" height="12" fill="navy"/><rect x="72" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMinYMax" data-box="85 31 14 26"><rect x="86" y="32" width="12" height="24" fill="lime"/><rect x="86" y="32" width="12" height="12" fill="navy"/><rect x="86" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMidYMax" data-box="99 31 14 26"><rect x="100" y="32" width="12" height="24" fill="lime"/><rect x="100" y="32" width="6" height="12" fill="navy"/><rect x="100" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="slice-xMaxYMax" data-box="113 31 14 26"><rect x="114" y="32" width="12" height="24" fill="lime"/><rect x="114" y="32" width="0" height="12" fill="navy"/><rect x="114" y="32" width="12" height="24" fill="none" stroke="silver" stroke-width=".3"/></g>
+<g id="none-commas" data-box="1 61 42 10"><rect x="2" y="62" width="40" height="8" fill="lime"/><rect x="2" y="62" width="20" height="4" fill="navy"/></g>
+<g id="aspect-without-viewbox" data-box="45 61 22 10"><rect x="46" y="62" width="10" height="4" fill="lime"/><rect x="56" y="66" width="10" height="4" fill="navy"/></g>
+<g id="default" data-box="69 61 22 10"><rect x="72" y="62" width="16" height="8" fill="lime"/><rect x="72" y="62" width="8" height="4" fill="navy"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 2.000 2.000 h 6.000 v 3.000"/>
+<rect x="16.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 16.000 2.000 h 6.000 v 3.000"/>
+<rect x="30.000" y="2.000" width="12.000" height="6.000"/>
+<path d="M 30.000 2.000 h 6.000 v 3.000"/>
+<rect x="44.000" y="11.000" width="12.000" height="6.000"/>
+<path d="M 44.000 11.000 h 6.000 v 3.000"/>
+<rect x="58.000" y="11.000" width="12.000" height="6.000"/>
+<path d="M 58.000 11.000 h 6.000 v 3.000"/>
+<rect x="72.000" y="11.000" width="12.000" height="6.000"/>
+<path d="M 72.000 11.000 h 6.000 v 3.000"/>
+<rect x="86.000" y="20.000" width="12.000" height="6.000"/>
+<path d="M 86.000 20.000 h 6.000 v 3.000"/>
+<rect x="100.000" y="20.000" width="12.000" height="6.000"/>
+<path d="M 100.000 20.000 h 6.000 v 3.000"/>
+<rect x="114.000" y="20.000" width="12.000" height="6.000"/>
+<path d="M 114.000 20.000 h 6.000 v 3.000"/>
+<rect x="2.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 2.000 32.000 h 12.000 v 12.000"/>
+<rect x="16.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 16.000 32.000 h 6.000 v 12.000"/>
+<rect x="30.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 30.000 32.000 h 0.000 v 12.000"/>
+<rect x="44.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 44.000 32.000 h 12.000 v 12.000"/>
+<rect x="58.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 58.000 32.000 h 6.000 v 12.000"/>
+<rect x="72.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 72.000 32.000 h 0.000 v 12.000"/>
+<rect x="86.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 86.000 32.000 h 12.000 v 12.000"/>
+<rect x="100.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 100.000 32.000 h 6.000 v 12.000"/>
+<rect x="114.000" y="32.000" width="12.000" height="24.000"/>
+<path d="M 114.000 32.000 h 0.000 v 12.000"/>
+<rect x="2" y="62" width="40" height="8"/><path d="M 2 66 h 20 v -4"/>
+</g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Each lime square matches its plain twin in the expected drawing.
+Pattern, marker, clipPath and mask establish no viewport: a rect 25%
+wide and 75% high in their content is 16 by 12 of this 64 by 16 drawing,
+not a part of the tile, the marker's box or the region, and covers the
+whole square. -->
+<rect width="64" height="16" fill="white"/>
+<defs><pattern id="tile" patternUnits="userSpaceOnUse" x="2" y="2" width="12" height="12"><rect width="25%" height="75%" fill="lime"/></pattern><marker id="mark" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse"><rect width="25%" height="75%" fill="lime"/></marker><clipPath id="clip"><rect x="34" y="2" width="25%" height="75%"/></clipPath><mask id="mask" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="16"><rect x="50" y="2" width="25%" height="75%" fill="white"/></mask></defs>
+<rect x="2" y="2" width="12" height="12" fill="url(#tile)"/>
+<path d="M 18 2 h 1" marker-start="url(#mark)"/>
+<rect x="34" y="2" width="12" height="12" fill="lime" clip-path="url(#clip)"/>
+<rect x="50" y="2" width="12" height="12" fill="lime" mask="url(#mask)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="18" y="2" width="12" height="12"/><rect x="34" y="2" width="12" height="12"/><rect x="50" y="2" width="12" height="12"/></g>
+</svg>

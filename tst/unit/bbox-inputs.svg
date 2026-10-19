@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- Each lime square matches its plain twin in the expected drawing; no
+red. A group's filter floods its object bounding box: a child hidden by
+visibility, of opacity 0, of fill none or dashed still adds its box; a
+use whose reference resolves to nothing adds none (D37), a shape whose
+paint does still adds its own; a child's clip does not cut the box; an
+image's box is its positioning rectangle, whatever part of it the
+picture fills. objectBoundingBox percentages are the fractions they
+write. -->
+<rect width="64" height="40" fill="white"/>
+<defs><filter id="box" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter><clipPath id="corner" clipPathUnits="objectBoundingBox"><rect width=".3" height=".3"/></clipPath><linearGradient id="percent" x1="25%" x2="75%"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient><pattern id="tile" width="50%" height="50%"><rect width="3" height="3" fill="lime"/></pattern></defs>
+<g filter="url(#box)"><rect x="2" y="2" width="4" height="4" fill="red"/><rect x="10" y="8" width="4" height="4" visibility="hidden"/></g>
+<g filter="url(#box)"><rect x="18" y="2" width="4" height="4" fill="red"/><rect x="26" y="8" width="4" height="4" opacity="0"/></g>
+<g filter="url(#box)"><rect x="34" y="2" width="4" height="4" fill="red"/><rect x="42" y="8" width="4" height="4" fill="none"/></g>
+<g filter="url(#box)"><rect x="50" y="2" width="4" height="4" fill="red"/><path d="M 50 2 H 58 V 8 h 4 v 4" fill="none" stroke="red" stroke-dasharray="1 100" stroke-opacity="0"/></g>
+<g filter="url(#box)"><rect x="2" y="16" width="4" height="4" fill="red"/><use href="#nothing" x="10" y="22"/></g>
+<g filter="url(#box)"><rect x="18" y="16" width="4" height="4" fill="red"/><rect x="26" y="22" width="4" height="4" fill="url(#nothing)"/></g>
+<g filter="url(#box)"><rect x="34" y="16" width="4" height="4" fill="red"/><rect x="34" y="16" width="12" height="10" fill="red" clip-path="url(#corner)"/></g>
+<g filter="url(#box)"><rect x="50" y="16" width="4" height="4" fill="red"/><image x="50" y="16" width="12" height="10" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAD0lEQVR42mNgYGj4zwAiAAuDAv9nceqwAAAAAElFTkSuQmCC"/></g>
+<rect x="2" y="30" width="12" height="10" fill="url(#percent)"/>
+<rect x="18" y="30" width="12" height="10" fill="url(#tile)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="30" width="12" height="10"/><rect x="18" y="30" width="12" height="10"/></g>
+</svg>

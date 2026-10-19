@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="12">
+<!-- The outermost svg's width and height in user units are px: the
+drawing is 20 by 12 pixels, its expected one 20px by 12px. The user
+space is the viewport's, its origin at the top left, x right, y down, a
+unit a pixel: the navy square sits at the top left, the lime one right
+of it and lower. -->
+<rect width="20" height="12" fill="white"/>
+<rect x="2" y="2" width="4" height="4" fill="navy"/><rect x="8" y="5" width="10" height="5" fill="lime"/>
+</svg>

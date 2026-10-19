@@ -400,3 +400,26 @@ and gap length is interpreted relative to the author's path length" with
 no exception, its stroke shape scaling every dash position alike. The
 renderer scales it as any other dash; the statement is left out as text's
 and animation's.
+
+## D37. A use whose reference resolves to nothing has an empty box
+
+`svg2/coords.md#TermBoundingBox` says an element in the rendering tree
+referencing an unresolved resource still has a bounding box from its
+attributes, "`<use href="#bad" x="10" y="10"/>` would have a bounding box
+with an x and y of 10 and a width and height of 0". Its algorithm, though,
+gives a use the union of its shadow tree's children, starting from
+(0, 0, 0, 0), and a use that references nothing has none: an empty box,
+which adds nothing to an ancestor's. The spec says both; Chromium and
+Firefox give such a use (0, 0, 0, 0) and leave its group's box as it was,
+and so does the renderer. A shape whose paint resolves to nothing keeps the
+box of its geometry, which both readings give it.
+
+## D38. No element is in a 3D rendering context
+
+`svg2/coords.md#VectorEffectsCalculation` says vector-effect has no effect
+on transformations performed in a 3D rendering context. Such a context
+comes only from transform-style: preserve-3d, which the renderer does not
+draw: every 3D transform flattens into its parent's plane, as the CSS
+Transforms 2 ledger reads the drawing (backface-visibility on a flat
+drawing). The statement has nothing to act on and is left out with that
+property.

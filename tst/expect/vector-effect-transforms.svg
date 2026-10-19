@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="64">
+<!-- What tst/unit/vector-effect-transforms.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="96" height="64" fill="white"/>
+<g id="non-scaling-size" data-box="0 6 15 12"><path d="M 3.586 7.690 L 12.983 11.110 L 10.931 16.749 L 1.534 13.328 Z" fill="lime"/></g>
+<g id="non-rotation" data-box="33 18 18 11"><path d="M 34.596 18.977 L 49.596 18.977 L 49.596 27.977 L 34.596 27.977 Z" fill="lime"/></g>
+<g id="both" data-box="64 29 13 9"><path d="M 65.606 30.264 L 75.606 30.264 L 75.606 36.264 L 65.606 36.264 Z" fill="lime"/></g>
+<g id="fixed-position" data-box="1 39 21 16"><path d="M 6.000 40.000 L 20.095 45.130 L 17.017 53.588 L 2.922 48.457 Z" fill="lime"/></g>
+<g id="fixed-non-scaling-size" data-box="22 39 15 11"><path d="M 26.000 40.000 L 35.397 43.420 L 33.345 49.058 L 23.948 45.638 Z" fill="lime"/></g>
+<g id="fixed-non-rotation" data-box="45 39 17 11"><path d="M 46.000 40.000 L 61.000 40.000 L 61.000 49.000 L 46.000 49.000 Z" fill="lime"/></g>
+<g id="fixed-both" data-box="65 39 12 8"><path d="M 66.000 40.000 L 76.000 40.000 L 76.000 46.000 L 66.000 46.000 Z" fill="lime"/></g>
+<g id="no-area" data-box="0 55 12 8"></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<path d="M 3.586 7.690 L 12.983 11.110 L 10.931 16.749 L 1.534 13.328 Z"/>
+<path d="M 34.596 18.977 L 49.596 18.977 L 49.596 27.977 L 34.596 27.977 Z"/>
+<path d="M 65.606 30.264 L 75.606 30.264 L 75.606 36.264 L 65.606 36.264 Z"/>
+<path d="M 6.000 40.000 L 20.095 45.130 L 17.017 53.588 L 2.922 48.457 Z"/>
+<path d="M 26.000 40.000 L 35.397 43.420 L 33.345 49.058 L 23.948 45.638 Z"/>
+<path d="M 46.000 40.000 L 61.000 40.000 L 61.000 49.000 L 46.000 49.000 Z"/>
+<path d="M 66.000 40.000 L 76.000 40.000 L 76.000 46.000 L 66.000 46.000 Z"/>
+</g>
+</svg>

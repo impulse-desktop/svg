@@ -4,7 +4,8 @@ coords.md, VectorEffectsCalculation, under a parent scale(1.5) rotate(20):
 non-scaling-size keeps the rotation, not the scale; non-rotation keeps the
 scale, not the rotation; both keep neither; fixed-position puts the origin
 at the translation of the element's own transform in the outermost
-viewport's coordinates. -->
+viewport's coordinates. Under a CTM of no area non-scaling-size is none,
+and the red rect stays flat, unseen. -->
 <rect width="96" height="64" fill="white"/>
 <g transform="scale(1.5) rotate(20)" fill="lime">
 <rect width="10" height="6" transform="translate(4 4)" vector-effect="non-scaling-size"/>
@@ -15,6 +16,7 @@ viewport's coordinates. -->
 <rect width="10" height="6" transform="translate(46 40)" vector-effect="fixed-position non-rotation"/>
 <rect width="10" height="6" transform="translate(66 40)" vector-effect="fixed-position non-scaling-size non-rotation"/>
 </g>
+<g transform="scale(0 1)"><rect y="56" width="10" height="6" fill="red" vector-effect="non-scaling-size"/></g>
 <g fill="none" stroke="black" stroke-width=".25">
 <path d="M 3.586 7.690 L 12.983 11.110 L 10.931 16.749 L 1.534 13.328 Z"/>
 <path d="M 34.596 18.977 L 49.596 18.977 L 49.596 27.977 L 34.596 27.977 Z"/>
