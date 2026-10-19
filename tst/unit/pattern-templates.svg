@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="68" height="68">
+<!-- Each square matches its plain twin in the expected drawing; no red.
+A pattern's href to an element that is no pattern, a gradient or itself
+is ignored: its own tiles, lime squares every 4, paint. A pattern with
+nothing but an href and the attributes other than one takes that one
+from its template, x, y, width, height, viewBox, preserveAspectRatio,
+patternTransform, patternUnits or patternContentUnits, and its children
+too. A negative width or height is an error: the fallback paints, lime,
+and without one nothing does. -->
+<rect width="68" height="68" fill="white"/>
+<defs><rect id="no" width="4" height="4" fill="red"/><linearGradient id="lg"><stop stop-color="red"/></linearGradient><pattern id="not-pattern" href="#no" patternUnits="userSpaceOnUse" width="4" height="4"><rect width="2" height="2" fill="lime"/></pattern><pattern id="to-gradient" href="#lg" patternUnits="userSpaceOnUse" width="4" height="4"><rect width="2" height="2" fill="lime"/></pattern><pattern id="self" href="#self" patternUnits="userSpaceOnUse" width="4" height="4"><rect width="2" height="2" fill="lime"/></pattern><pattern id="t-x" patternUnits="userSpaceOnUse" width="4" height="4" x="1"><rect width="2" height="2" fill="lime"/></pattern><pattern id="c-x" href="#t-x" patternUnits="userSpaceOnUse" width="4" height="4"/><pattern id="t-y" patternUnits="userSpaceOnUse" width="4" height="4" y="1"><rect width="2" height="2" fill="lime"/></pattern><pattern id="c-y" href="#t-y" patternUnits="userSpaceOnUse" width="4" height="4"/><pattern id="t-width" patternUnits="userSpaceOnUse" width="6" height="4"><rect width="2" height="2" fill="lime"/></pattern><pattern id="c-width" href="#t-width" patternUnits="userSpaceOnUse" height="4"/><pattern id="t-height" patternUnits="userSpaceOnUse" width="4" height="6"><rect width="2" height="2" fill="lime"/></pattern><pattern id="c-height" href="#t-height" patternUnits="userSpaceOnUse" width="4"/><pattern id="t-viewBox" patternUnits="userSpaceOnUse" width="4" height="4" viewBox="0 0 8 8"><rect width="4" height="4" fill="lime"/></pattern><pattern id="c-viewBox" href="#t-viewBox" patternUnits="userSpaceOnUse" width="4" height="4"/><pattern id="t-preserveAspectRatio" patternUnits="userSpaceOnUse" width="8" height="4" viewBox="0 0 4 4" preserveAspectRatio="xMinYMid meet"><rect width="4" height="4" fill="lime"/></pattern><pattern id="c-preserveAspectRatio" href="#t-preserveAspectRatio" patternUnits="userSpaceOnUse" width="8" height="4" viewBox="0 0 4 4"/><pattern id="t-patternTransform" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="translate(1 1)"><rect width="2" height="2" fill="lime"/></pattern><pattern id="c-patternTransform" href="#t-patternTransform" patternUnits="userSpaceOnUse" width="4" height="4"/><pattern id="t-patternUnits" patternUnits="userSpaceOnUse" width="4" height="4"><rect width="2" height="2" fill="lime"/></pattern><pattern id="c-patternUnits" href="#t-patternUnits" width="4" height="4"/><pattern id="t-patternContentUnits" patternUnits="userSpaceOnUse" width="4" height="4" patternContentUnits="objectBoundingBox"><rect width=".1666667" height=".1666667" fill="lime"/></pattern><pattern id="c-patternContentUnits" href="#t-patternContentUnits" patternUnits="userSpaceOnUse" width="4" height="4"/><pattern id="nw" patternUnits="userSpaceOnUse" width="-4" height="4"><rect width="20" height="20" fill="red"/></pattern><pattern id="nh" patternUnits="userSpaceOnUse" width="4" height="-4"><rect width="20" height="20" fill="red"/></pattern></defs>
+<rect x="4" y="4" width="12" height="12" fill="url(#not-pattern)"/>
+<rect x="20" y="4" width="12" height="12" fill="url(#to-gradient)"/>
+<rect x="36" y="4" width="12" height="12" fill="url(#self)"/>
+<rect x="52" y="4" width="12" height="12" fill="url(#c-x)"/>
+<rect x="4" y="20" width="12" height="12" fill="url(#c-y)"/>
+<rect x="20" y="20" width="12" height="12" fill="url(#c-width)"/>
+<rect x="36" y="20" width="12" height="12" fill="url(#c-height)"/>
+<rect x="52" y="20" width="12" height="12" fill="url(#c-viewBox)"/>
+<rect x="4" y="36" width="12" height="12" fill="url(#c-preserveAspectRatio)"/>
+<rect x="20" y="36" width="12" height="12" fill="url(#c-patternTransform)"/>
+<rect x="36" y="36" width="12" height="12" fill="url(#c-patternUnits)"/>
+<rect x="52" y="36" width="12" height="12" fill="url(#c-patternContentUnits)"/>
+<rect x="4" y="52" width="12" height="12" fill="red"/><rect x="4" y="52" width="12" height="12" fill="url(#nw) lime"/>
+<rect x="20" y="52" width="12" height="12" fill="red"/><rect x="20" y="52" width="12" height="12" fill="url(#nh) lime"/>
+<rect x="36" y="52" width="12" height="12" fill="lime"/><rect x="36" y="52" width="12" height="12" fill="url(#nw)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="4" width="12" height="12"/><rect x="20" y="4" width="12" height="12"/><rect x="36" y="4" width="12" height="12"/><rect x="52" y="4" width="12" height="12"/><rect x="4" y="20" width="12" height="12"/><rect x="20" y="20" width="12" height="12"/><rect x="36" y="20" width="12" height="12"/><rect x="52" y="20" width="12" height="12"/><rect x="4" y="36" width="12" height="12"/><rect x="20" y="36" width="12" height="12"/><rect x="36" y="36" width="12" height="12"/><rect x="52" y="36" width="12" height="12"/><rect x="4" y="52" width="12" height="12"/><rect x="20" y="52" width="12" height="12"/><rect x="36" y="52" width="12" height="12"/></g>
+</svg>

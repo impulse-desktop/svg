@@ -9749,14 +9749,9 @@ namespace {
         return solid.solid ? identity() : m;
     }
 
-    static bool parseViewBox(const Document& doc, const Node* node, Box& out) {
-        u32 value = attribute(node, AtomViewBox);
-
-        if (!value) {
-            return false;
-        }
-
-        StringView text = textOf(doc, value);
+    // Four numbers apart by commas or spaces, the last two not negative: a
+    // viewBox, or a view's box in a fragment.
+    static bool parseViewBoxText(StringView text, Box& out) {
         const u8* p = text.begin();
         const u8* end = text.end();
         float numbers[4];
@@ -9782,6 +9777,12 @@ namespace {
         out = Box{numbers[0], numbers[1], numbers[0] + numbers[2], numbers[1] + numbers[3]};
 
         return true;
+    }
+
+    static bool parseViewBox(const Document& doc, const Node* node, Box& out) {
+        u32 value = attribute(node, AtomViewBox);
+
+        return value && parseViewBoxText(textOf(doc, value), out);
     }
 
     static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, float width, float height) {
@@ -18092,91 +18093,141 @@ namespace {
 
     const SvgImageVtable renderedVtable = {destroyRendered, renderedData, renderedLength, renderedWidth, renderedHeight};
 
-    // Reads up to four numbers apart by commas or spaces.
-    static u32 readNumbers(StringView text, float* out, u32 most) {
-        const u8* p = text.begin();
-        u32 count = 0;
+    // The part of rest before its first separator, trimmed, rest left after
+    // it; more says a separator came, so another part, empty or not, follows.
+    static StringView nextPart(StringView& rest, u8 separator, bool& more) {
+        const u8* p = rest.begin();
 
-        while (count < most) {
-            while (p < text.end() && (isSpace(*p) || *p == ',')) {
-                p++;
-            }
-
-            if (!readNumber(p, text.end(), out[count])) {
-                break;
-            }
-
-            count++;
+        while (p < rest.end() && *p != separator) {
+            p++;
         }
 
-        return count;
+        StringView part = trim(StringView(rest.begin(), p));
+
+        more = p < rest.end();
+        rest = StringView(more ? p + 1 : p, rest.end());
+
+        return part;
     }
 
-    // The view an image's fragment gives the document, viewBox its own
-    // before (linking.md, SVGFragmentIdentifiersDefinitions): svgView()
-    // with its viewBox() and transform(), preserveAspectRatio() being the
-    // image's own; or the media fragment xywh=, in user units or a percent
-    // of that viewBox (tst/spec/decisions.md, D19). A time segment after &
-    // is no view. False where the view given has no width or height, so
-    // nothing draws.
-    static bool fragmentView(StringView fragment, Box& viewBox, Matrix& transform) {
-        for (const u8* p = fragment.begin(); p < fragment.end(); p++) {
-            if (*p == '&') {
-                fragment = StringView(fragment.begin(), p);
-                break;
+    // The view of an image's fragment, its time segments, t=, left out
+    // (linking.md, SVGFragmentIdentifiersDefinitions): a bare name, an
+    // svgView() or a space segment, time segments before or after it. A
+    // fragment naming two views, or an empty part, is none of SVG's, and
+    // no view.
+    static StringView viewPart(StringView fragment) {
+        StringView view;
+        bool more = true;
+
+        while (more) {
+            StringView part = nextPart(fragment, '&', more);
+
+            if (startsWith(part, SV("t="))) {
+                continue;
             }
+
+            if (part.empty() || !view.empty()) {
+                return StringView();
+            }
+
+            view = part;
         }
 
-        fragment = trim(fragment);
+        return view;
+    }
 
-        float v[4];
-        bool given = false;
+    // A preserveAspectRatio value: an alignment, then meet or slice if any.
+    static bool validAspect(StringView text) {
+        const StringView aligns[10] = {SV("none"), SV("xMinYMin"), SV("xMidYMin"), SV("xMaxYMin"), SV("xMinYMid"), SV("xMidYMid"), SV("xMaxYMid"), SV("xMinYMax"), SV("xMidYMax"), SV("xMaxYMax")};
+        const u8* p = text.begin();
+        const u8* end = text.end();
 
-        if (startsWith(fragment, SV("svgView(")) && fragment.back() == ')') {
-            StringView rest(fragment.begin() + 8, fragment.end() - 1);
+        skipSpaces(p, end);
 
-            while (!rest.empty()) {
-                const u8* end = rest.begin();
+        const u8* start = p;
 
-                while (end < rest.end() && *end != ';') {
-                    end++;
+        while (p < end && !isSpace(*p)) {
+            p++;
+        }
+
+        StringView align(start, p);
+        StringView rest = trim(StringView(p, end));
+        u32 k = 0;
+
+        while (k < 10 && !(align == aligns[k])) {
+            k++;
+        }
+
+        return k < 10 && (rest.empty() || rest == SV("meet") || rest == SV("slice"));
+    }
+
+    // The view a fragment's view part gives the document, viewBox its own
+    // before: svgView() with its viewBox() and transform(), each at most
+    // once with preserveAspectRatio(), which is the image's own; or the
+    // media fragment xywh=, in user units or a percent of that viewBox
+    // (tst/spec/decisions.md, D19). A malformed one is no view. False where
+    // the view given has no width or height, so nothing draws.
+    static bool fragmentView(StringView view, Box& viewBox, Matrix& transform) {
+        if (startsWith(view, SV("svgView(")) && view.back() == ')') {
+            StringView rest(view.begin() + 8, view.end() - 1);
+            Box given = viewBox;
+            Matrix m = transform;
+            bool seen[3] = {false, false, false};
+            bool more = true;
+
+            while (more) {
+                StringView part = nextPart(rest, ';', more);
+                const StringView names[3] = {SV("viewBox("), SV("preserveAspectRatio("), SV("transform(")};
+                u32 kind = 0;
+
+                while (kind < 3 && !startsWith(part, names[kind])) {
+                    kind++;
                 }
 
-                StringView part = trim(StringView(rest.begin(), end));
-
-                rest = StringView(end < rest.end() ? end + 1 : end, rest.end());
-
-                if (part.empty() || part.back() != ')') {
-                    continue;
+                if (kind == 3 || seen[kind] || part.back() != ')') {
+                    return true;
                 }
 
-                if (startsWith(part, SV("viewBox(")) && readNumbers(StringView(part.begin() + 8, part.end() - 1), v, 4) == 4) {
-                    viewBox = Box{v[0], v[1], v[0] + v[2], v[1] + v[3]};
-                    given = true;
-                } else if (startsWith(part, SV("transform("))) {
-                    parseTransform(StringView(part.begin() + 10, part.end() - 1), transform, TransformGrammar::Either);
+                StringView inner(part.begin() + names[kind].length(), part.end() - 1);
+
+                seen[kind] = true;
+
+                if (kind == 0 ? !parseViewBoxText(inner, given) : kind == 1 ? !validAspect(inner) : !parseTransform(inner, m, TransformGrammar::Either)) {
+                    return true;
                 }
             }
-        } else if (startsWith(fragment, SV("xywh="))) {
-            StringView rest(fragment.begin() + 5, fragment.end());
+
+            viewBox = given;
+            transform = m;
+
+            return !seen[0] || (viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0);
+        }
+
+        if (startsWith(view, SV("xywh="))) {
+            StringView rest(view.begin() + 5, view.end());
             bool percent = startsWith(rest, SV("percent:"));
 
             if (percent || startsWith(rest, SV("pixel:"))) {
                 rest = StringView(rest.begin() + (percent ? 8 : 6), rest.end());
             }
 
-            if (readNumbers(rest, v, 4) == 4) {
-                float sx = percent ? (viewBox.x1 - viewBox.x0) / 100.f : 1.f;
-                float sy = percent ? (viewBox.y1 - viewBox.y0) / 100.f : 1.f;
-                float ox = percent ? viewBox.x0 : 0.f;
-                float oy = percent ? viewBox.y0 : 0.f;
+            Box box;
 
-                viewBox = Box{ox + v[0] * sx, oy + v[1] * sy, ox + (v[0] + v[2]) * sx, oy + (v[1] + v[3]) * sy};
-                given = true;
+            if (!parseViewBoxText(rest, box)) {
+                return true;
             }
+
+            float sx = percent ? (viewBox.x1 - viewBox.x0) / 100.f : 1.f;
+            float sy = percent ? (viewBox.y1 - viewBox.y0) / 100.f : 1.f;
+            float ox = percent ? viewBox.x0 : 0.f;
+            float oy = percent ? viewBox.y0 : 0.f;
+
+            viewBox = Box{ox + box.x0 * sx, oy + box.y0 * sy, ox + box.x1 * sx, oy + box.y1 * sy};
+
+            return viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0;
         }
 
-        return !given || (viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0);
+        return true;
     }
 
     // The image a reference names, its raster decoded once for the key.
@@ -18251,7 +18302,8 @@ namespace {
                 // its own, a measure of what the document draws.
                 givenSize(*nested, nested->root, out.width, out.height);
 
-                Node* view = fragment.empty() ? nullptr : elementById(*nested, lookup(nested->atoms, fragment));
+                StringView named = viewPart(fragment);
+                Node* view = named.empty() ? nullptr : elementById(*nested, lookup(nested->atoms, named));
                 Node* boxed = view && view->name == AtomView && parseViewBox(*nested, view, out.viewBox) ? view : nullptr;
 
                 // The view's viewBox, else the root's, else the size; one
@@ -18265,7 +18317,7 @@ namespace {
 
                 out.ratio = boxed;
 
-                if (!boxed && !fragmentView(fragment, out.viewBox, out.transform)) {
+                if (!boxed && !fragmentView(named, out.viewBox, out.transform)) {
                     return false;
                 }
 

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="12" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:l="http://www.w3.org/1999/xlink">
+<!-- Lime everywhere, no red. An href holding url() refers to nothing; a
+presentation attribute holding a bare URL is invalid, and the property
+inherits; href is used over xlink:href, in either order, an empty href
+too; xlink:href serves alone, under any prefix of its namespace. -->
+<rect width="52" height="12" fill="white"/>
+<defs><rect id="red" width="6" height="6" fill="red"/><rect id="lime" width="6" height="6" fill="lime"/><linearGradient id="g"><stop stop-color="red"/></linearGradient></defs>
+<rect x="2" y="2" width="6" height="6" fill="lime"/><use href="url(#red)" x="2" y="2"/>
+<g fill="lime"><rect x="10" y="2" width="6" height="6" fill="#g"/></g>
+<use href="#lime" xlink:href="#red" x="18" y="2"/>
+<use xlink:href="#red" href="#lime" x="26" y="2"/>
+<rect x="34" y="2" width="6" height="6" fill="lime"/><use href="" xlink:href="#red" x="34" y="2"/>
+<use l:href="#lime" x="42" y="2"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/></g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="12" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:l="http://www.w3.org/1999/xlink">
+<!-- What tst/unit/href-forms.svg draws, drawn plainly; each cell's id
+is what the statement ledgers link to. -->
+<rect width="52" height="12" fill="white"/>
+<defs><rect id="red" width="6" height="6" fill="red"/><rect id="lime" width="6" height="6" fill="lime"/><linearGradient id="g"><stop stop-color="red"/></linearGradient></defs>
+<g id="url-in-href" data-box="1 1 8 8"><rect x="2" y="2" width="6" height="6" fill="lime"/></g>
+<g id="bare-url-attribute" data-box="9 1 8 8"><rect x="10" y="2" width="6" height="6" fill="lime"/></g>
+<g id="href-first" data-box="17 1 8 8"><rect x="18" y="2" width="6" height="6" fill="lime"/></g>
+<g id="xlink-first" data-box="25 1 8 8"><rect x="26" y="2" width="6" height="6" fill="lime"/></g>
+<g id="empty-href" data-box="33 1 8 8"><rect x="34" y="2" width="6" height="6" fill="lime"/></g>
+<g id="xlink-alone" data-box="41 1 8 8"><rect x="42" y="2" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/></g>
+</svg>
