@@ -514,3 +514,26 @@ stricter than they are would drop rules real files write and the browsers
 apply (README, the goal, rule 5), so the tokenizer takes every byte past
 ASCII as part of an ident code point, as it did before it had a
 tokenizer.
+
+## D46. The outermost svg's boxes are its viewport's
+
+`css-masking-1.md#the-clip-path` and `#the-mask-origin` map the geometry
+boxes of an element with a CSS layout box onto its CSS boxes: fill-box is
+the content box, stroke-box and view-box the border box. The outermost svg
+has one, its viewport, and its clip-path, mask layers and mask border apply
+in that box's space, as a userSpaceOnUse clipPath does: Chromium and
+Firefox draw a root's userSpaceOnUse clip in the box's px, the viewBox
+aside. So a basic shape, a mask layer's origin and clip and a mask border
+on the root are sized against the viewport, as both browsers draw them.
+Before, the renderer took the root's content bounding box in its viewBox's
+units, which clipped github/25__2544b1fee055fdd8, a 24 px icon with a
+circle on its root, wrongly at any size but 24.
+
+objectBoundingBox units, a clipPath's, a mask's or a filter's, name the
+element's bounding box (`svg2/coords.md#bounding-box`), the box of its
+content in its user space. On the root the renderer maps that box into the
+viewport by the root's viewBox, where its clip, mask and filter apply, as
+it did for filters already. Chromium takes the border box instead; Firefox
+clips away all of a root with an objectBoundingBox clip or mask and draws
+no filter on the root. No file of the corpus has one, and the spec names
+the bounding box.

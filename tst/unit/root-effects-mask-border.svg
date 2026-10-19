@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16" style="mask-border: linear-gradient(transparent, transparent) 30% / 8px">
+<!-- A lime rect shows, and nothing red. A mask border on the outermost
+svg lies on its CSS box, the viewport: a transparent border 8 px wide
+hides all but the middle 16 px of it, though its viewBox halves its
+units. -->
+<rect width="16" height="16" fill="red"/><rect x="4" y="4" width="8" height="8" fill="lime"/>
+</svg>

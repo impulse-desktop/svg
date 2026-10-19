@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16" style="mask-image: linear-gradient(black, black); mask-size: 100% 50%; mask-repeat: no-repeat">
+<!-- A lime rect shows, and nothing red. A mask image's positioning area
+on the outermost svg is its CSS box, the viewport: a mask the size of
+its top half shows that half, though the root's content is smaller and
+its viewBox halves its units. -->
+<rect x="2" y="2" width="12" height="6" fill="lime"/><rect x="2" y="9" width="12" height="5" fill="red"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16" mask="url(#m)">
+<!-- A lime rect shows, and nothing red. A mask in bounding box units
+masks the outermost svg against its content's bounding box mapped into
+its viewport by its viewBox, where the mask applies (D46): the top half
+of the content. -->
+<mask id="m" maskContentUnits="objectBoundingBox"><rect width="1" height=".5" fill="white"/></mask>
+<rect x="2" y="2" width="12" height="6" fill="lime"/><rect x="2" y="9" width="12" height="5" fill="red"/>
+</svg>

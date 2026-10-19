@@ -5965,11 +5965,6 @@ namespace {
             parts[k] = Tokens{nullptr, nullptr};
         }
 
-        // At least one part.
-        if (empty(value)) {
-            return false;
-        }
-
         for (;;) {
             skipWhitespace(p, end);
 
@@ -16330,6 +16325,23 @@ namespace {
         return false;
     }
 
+    static Matrix rootContent(Lowering& l, Node* node);
+
+    // The object bounding box of an element as its clip, mask or filter
+    // reads it, in the space they apply in: the outermost svg's content
+    // mapped into its CSS box as its viewBox maps it.
+    static bool effectBox(Lowering& l, Node* element, const ComputedStyle& parent, Viewport vp, Box& out) {
+        if (!elementBox(l, element, parent, vp, out, 0)) {
+            return false;
+        }
+
+        if (element == l.doc->root) {
+            out = deviceBox(rootContent(l, element), out);
+        }
+
+        return true;
+    }
+
     static bool resolveClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Node* clip = elementById(doc, style.clipPath);
@@ -16365,7 +16377,7 @@ namespace {
 
         // Bounding box units on an element with no width or height ignore
         // the clip (coords.md, ObjectBoundingBoxUnits).
-        if (boxUnits && (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
+        if (boxUnits && (!effectBox(l, element, parent, vp, box) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
             return false;
         }
 
@@ -16565,7 +16577,9 @@ namespace {
         op.clipFirst = (u32)l.clips.length();
         op.clipCount = 0;
 
-        if (shape.box != GeometryBox::View) {
+        // The outermost svg has a CSS box, the viewport, which each box
+        // names (css-masking-1.md, the-clip-path).
+        if (shape.box != GeometryBox::View && element != l.doc->root) {
             if (!elementBox(l, element, parent, vp, box, 0)) {
                 return;
             }
@@ -16739,7 +16753,7 @@ namespace {
         out.count = 0;
         out.region = (u32)l.clips.length();
 
-        if ((boxRegion || boxContent) && (!elementBox(l, element, parent, vp, box, 0) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
+        if ((boxRegion || boxContent) && (!effectBox(l, element, parent, vp, box) || box.x1 <= box.x0 || box.y1 <= box.y0)) {
             return false;
         }
 
@@ -17194,13 +17208,18 @@ namespace {
             parseCssGradient(layer.image, style.color, gradient);
         }
 
-        if (!elementBox(l, element, parent, vp, fill, 0)) {
+        // The outermost svg's boxes are its CSS box, the viewport.
+        bool root = element == l.doc->root;
+
+        if (root) {
+            fill = Box{0.f, 0.f, vp.width, vp.height};
+        } else if (!elementBox(l, element, parent, vp, fill, 0)) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
 
             return;
         }
 
-        Box stroke = layer.origin == GeometryBox::Stroke || layer.clip == (u8)GeometryBox::Stroke ? strokeBox(l, element, parent, vp) : fill;
+        Box stroke = !root && (layer.origin == GeometryBox::Stroke || layer.clip == (u8)GeometryBox::Stroke) ? strokeBox(l, element, parent, vp) : fill;
         auto boxOf = [&](u8 kind) {
             return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : stroke);
         };
@@ -17354,13 +17373,16 @@ namespace {
             parseCssGradient(border.image.image, style.color, gradient);
         }
 
-        if (!elementBox(l, element, parent, vp, fill, 0)) {
+        // The outermost svg's border box is its CSS box, the viewport.
+        bool root = element == l.doc->root;
+
+        if (!root && !elementBox(l, element, parent, vp, fill, 0)) {
             addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
 
             return;
         }
 
-        Box box = strokeBox(l, element, parent, vp);
+        Box box = root ? Box{0.f, 0.f, vp.width, vp.height} : strokeBox(l, element, parent, vp);
         float outset[4];
 
         for (int k = 0; k < 4; k++) {
@@ -17733,8 +17755,6 @@ namespace {
 
     static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h, float unitX, float unitY);
 
-    static Matrix rootContent(Lowering& l, Node* node);
-
     static Filter* lowerFilter(Lowering& l, Node* element, const ComputedStyle& parent, const Matrix& m, Viewport vp, Node* filterNode) {
         const Document& doc = *l.doc;
 
@@ -17760,12 +17780,7 @@ namespace {
         filter->next = nullptr;
         filter->device = Box{0.f, 0.f, 0.f, 0.f};
 
-        bool hasBox = elementBox(l, element, parent, vp, bbox, 0) && bbox.x1 > bbox.x0 && bbox.y1 > bbox.y0;
-
-        if (hasBox && element == l.doc->root) {
-            // Root filters use the CSS viewport; m supplies the device scale.
-            bbox = deviceBox(rootContent(l, element), bbox);
-        }
+        bool hasBox = effectBox(l, element, parent, vp, bbox) && bbox.x1 > bbox.x0 && bbox.y1 > bbox.y0;
 
         filter->bbox = hasBox ? bbox : Box{0.f, 0.f, 0.f, 0.f};
 

@@ -15,6 +15,7 @@
 - [x] css-masking-1.md#the-clip-path: fill-box is the object bounding box; stroke-box is the stroke bounding box [clip-geometry-boxes#fill-box clip-geometry-boxes#stroke-box]
 - [x] css-masking-1.md#the-clip-path: view-box is the nearest SVG viewport, or, if that viewport has a viewBox, the rect at the viewBox's origin sized to its width and height [clip-geometry-boxes#view-box clip-geometry-boxes#view-box-root]
 - [x] css-masking-1.md#the-clip-path: for SVG elements without a CSS layout box, content-box and padding-box compute to fill-box, and border-box and margin-box compute to stroke-box [clip-geometry-boxes#padding-box clip-geometry-boxes#box-alone]
+- [x] css-masking-1.md#the-clip-path: for elements with a CSS layout box, as the outermost svg has, fill-box computes to content-box and stroke-box and view-box to border-box, each the outermost svg's viewport [root-effects-clip-shape#root]
 - [x] css-masking-1.md#the-clip-path: a computed value other than none creates a stacking context, as CSS opacity does for values other than 1 [clipping-region#stacking-context]
 - [x] css-masking-1.md#the-clip-path: clip-path is a presentation attribute on SVG elements [clip-path-element#union]
 
@@ -29,6 +30,7 @@
 - [x] css-masking-1.md#ClipPathElement: clipPathUnits = userSpaceOnUse | objectBoundingBox, default userSpaceOnUse [clip-path-element#object-bounding-box clip-path-element#union]
 - [x] css-masking-1.md#ClipPathElement: userSpaceOnUse means the user coordinate system of the element referencing the clipPath, at reference time [mask-properties#user-space-clip]
 - [x] css-masking-1.md#ClipPathElement: objectBoundingBox origins at the referencing element's bounding box top-left, sized to its width/height, with user units equal to CSS px [clip-path-element#object-bounding-box]
+- [x] css-masking-1.md#ClipPathElement: on the outermost svg the bounding box is its content's mapped into its viewport by its viewBox, where the clip applies (D46) [root-effects-clip-units#root]
 - [x] css-masking-1.md#ClipPathElement: CSS properties inherit into clipPath from its own ancestors, never from the element that references it [clip-path-element#inherit]
 - [x] css-masking-1.md#ClipPathElement: clipPath is never rendered directly regardless of display, and stays referenceable even when display:none on it or an ancestor [clip-path-element#display]
 - [x] css-masking-1.md#ClipPathElement: a use child of clipPath must directly reference a path, text, or basic-shape element; an indirect reference is an error that makes the whole clipPath ignored (D24) [clip-path-element#use-indirect clip-path-element#use-text clip-path-element#use]
@@ -66,6 +68,7 @@
 - [x] css-masking-1.md#the-mask-clip: for SVG elements without a CSS layout box, content-box and padding-box compute to fill-box, and border-box computes to stroke-box [mask-tiling#clip]
 - [x] css-masking-1.md#the-mask-origin: mask-origin = <coord-box>#, initial border-box, giving the mask positioning area's reference box [mask-tiling#origin]
 - [x] css-masking-1.md#the-mask-origin: for SVG elements without a CSS layout box, content-box, padding-box and border-box all compute to fill-box [mask-tiling#origin]
+- [x] css-masking-1.md#the-mask-origin: for elements with a CSS layout box, as the outermost svg has, fill-box, stroke-box and view-box compute to border-box, the outermost svg's viewport [root-effects-mask-image#root]
 
 ## mask shorthand: mask-properties, mask-composite, mask-layers (exists), mask-border (exists)
 
@@ -98,6 +101,7 @@
 
 - [x] css-masking-1.md#MaskElement: maskUnits = userSpaceOnUse | objectBoundingBox for x/y/width/height, default objectBoundingBox [mask-properties#mask-units mask-values#region]
 - [x] css-masking-1.md#MaskElement: maskContentUnits = userSpaceOnUse | objectBoundingBox for the mask's content, default userSpaceOnUse [mask-values#content-units]
+- [x] css-masking-1.md#MaskElement: on the outermost svg the bounding box is its content's mapped into its viewport by its viewBox, where the mask applies (D46) [root-effects-mask-units#root]
 - [x] css-masking-1.md#MaskElement: if x is unspecified but one of y/width/height is, x defaults to -10%; same rule in turn for y [mask-properties#mask-defaults]
 - [x] css-masking-1.md#MaskElement: if width is unspecified but one of x/y/height is, width defaults to 120%; same rule in turn for height [mask-properties#mask-defaults]
 - [x] css-masking-1.md#MaskElement: a negative or zero width or height on the mask element disables rendering of the element that references it [mask-values#zero-width mask-values#negative-width]
@@ -119,6 +123,7 @@
 - [x] css-masking-1.md#the-mask-border-mode: mask-border-mode = luminance | alpha, initial alpha; mask-mode and mask-type have no effect on the mask border image's interpretation [mask-border-cells#mode mask-values#border-alpha]
 - [x] css-masking-1.md#the-mask-border-slice: mask-border-slice initial 0, percentages relative to the mask border image's size; the discarded middle region is treated as fully opaque white (unmasked) unless the fill keyword is given, before or after the numbers per border-image-slice's grammar [mask-border-cells#slice-fill mask-border-cells#slice-fill-longhand mask-border-cells#slice-fill-invalid mask-border-cells#empty-substitution]
 - [x] css-masking-1.md#the-mask-border-width: mask-border-width initial auto, percentages relative to the mask border image area; for SVG elements without a layout box the border-width used in it is 0 [mask-border-cells#width mask-border-cells#width-percent mask-border-cells#width-number mask-border-cells#width-auto]
+- [x] css-masking-1.md#the-mask-border-width: the mask border image area of an element with a CSS layout box is its border box, the outermost svg's viewport [root-effects-mask-border#root]
 - [x] css-masking-1.md#the-mask-border-outset: mask-border-outset initial 0; of four values, missing left copies right, missing bottom copies top, missing right copies top; negative values are not allowed; a bare number multiplies the (zero, for SVG) border-width [mask-border-cells#outset mask-border-cells#outset-invalid]
 - [x] css-masking-1.md#the-mask-border-repeat: mask-border-repeat initial stretch; first keyword is horizontal sides, second is vertical, defaulting to the first if omitted [mask-border-cells#repeat]
 - [x] css-masking-1.md#the-mask-border: mask-border shorthand sets source, slice, width, outset, repeat and mode together, omitted parts reset to their initial values [mask-border-cells#shorthand-reset mask-border-cells#slice-fill-invalid mask-border-cells#empty-substitution]
