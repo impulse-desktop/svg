@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16" color="lime">
+<!-- What tst/unit/paint-current-color.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<defs>
+<linearGradient id="g"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient>
+<filter id="f" x="0" y="0" width="1" height="1"><feFlood flood-color="currentColor"/></filter>
+<filter id="l" x="0" y="0" width="1" height="1"><feDiffuseLighting lighting-color="currentColor" surfaceScale="0"><feDistantLight elevation="90"/></feDiffuseLighting></filter>
+</defs>
+<g id="fill" data-box="1 1 12 12"><rect x="2" y="2" width="10" height="10" fill="lime"/></g>
+<g id="stroke" data-box="13 1 12 12"><rect x="14" y="2" width="10" height="10" fill="lime"/></g>
+<g id="stop-color" data-box="25 1 12 12"><rect x="26" y="2" width="10" height="10" fill="lime"/></g>
+<g id="flood-color" data-box="37 1 12 12"><rect x="38" y="2" width="10" height="10" fill="lime"/></g>
+<g id="lighting-color" data-box="49 1 12 12"><rect x="50" y="2" width="10" height="10" fill="lime"/></g>
+</svg>

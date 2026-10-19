@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="128">
+<!-- What tst/unit/stroke-linejoin-shapes.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="128" fill="white"/>
+<g id="miter" data-box="1 5 27 23"><path d="M 2 26 V 4 H 18 V 8 H 6 V 26 Z" fill="lime"/></g>
+<g id="round" data-box="-1 -1 41 29"><path d="M 22 26 V 6 A 2 2 0 0 1 24 4 H 38 V 8 H 26 V 26 Z" fill="lime"/></g>
+<g id="bevel" data-box="3 25 41 35"><path d="M 42 26 V 6 L 44 4 H 58 V 8 H 46 V 26 Z" fill="lime"/></g>
+<g id="miter-under-limit" data-box="1 31 18 33"><path d="M 2.07 61.474 L 10 32.399 L 17.93 61.474 L 14.07 62.526 L 10 47.601 L 5.93 62.526 Z" fill="lime"/></g>
+<g id="bevel-over-limit" data-box="21 38 18 26"><path d="M 22.07 61.474 L 28.07 39.474 L 31.93 39.474 L 37.93 61.474 L 34.07 62.526 L 30 47.601 L 25.93 62.526 Z" fill="lime"/></g>
+<g id="miter-clip" data-box="41 33 18 31"><path d="M 42.07 61.474 L 49.563 34 L 50.437 34 L 57.93 61.474 L 54.07 62.526 L 50 47.601 L 45.93 62.526 Z" fill="lime"/></g>
+<g id="negative-limit" data-box="1 63 18 33"><path d="M 2.07 93.474 L 10 64.399 L 17.93 93.474 L 14.07 94.526 L 10 79.601 L 5.93 94.526 Z" fill="lime"/></g>
+<g id="limit-under-one" data-box="21 23 73 71"><path d="M 22 92 V 72 L 24 70 H 38 V 74 H 26 V 92 Z" fill="lime"/></g>
+<g id="reverse-miter" data-box="43 71 15 7"><path d="M 44 72 H 56 V 76 H 44 Z" fill="lime"/></g>
+<g id="reverse-round" data-box="-1 -1 57 91"><path d="M 44 84 H 54 A 2 2 0 0 1 54 88 H 44 Z" fill="lime"/></g>
+<g id="arcs-as-miter-clip" data-box="1 97 18 31"><path d="M 2.07 125.474 L 9.563 98 L 10.437 98 L 17.93 125.474 L 14.07 126.526 L 10 111.601 L 5.93 126.526 Z" fill="lime"/></g>
+<g id="reverse-miter-clip" data-box="23 103 19 7"><path d="M 24 104 H 40 V 108 H 24 Z" fill="lime"/></g>
+<g id="miter-clip-under-one" data-box="21 21 105 105"><path d="M 22 124 V 112 H 22.586 L 24 110.586 V 110 H 36 V 114 H 26 V 124 Z" fill="lime"/></g>
+<g id="edges" data-box="0 0 0 0"><g fill="none" stroke="black" stroke-width=".3">
+<path d="M 2 26 V 4 H 18 V 8 H 6 V 26 Z"/>
+<path d="M 22 26 V 6 A 2 2 0 0 1 24 4 H 38 V 8 H 26 V 26 Z"/>
+<path d="M 42 26 V 6 L 44 4 H 58 V 8 H 46 V 26 Z"/>
+<path d="M 2.07 61.474 L 10 32.399 L 17.93 61.474 L 14.07 62.526 L 10 47.601 L 5.93 62.526 Z"/>
+<path d="M 22.07 61.474 L 28.07 39.474 L 31.93 39.474 L 37.93 61.474 L 34.07 62.526 L 30 47.601 L 25.93 62.526 Z"/>
+<path d="M 42.07 61.474 L 49.563 34 L 50.437 34 L 57.93 61.474 L 54.07 62.526 L 50 47.601 L 45.93 62.526 Z"/>
+<path d="M 2.07 93.474 L 10 64.399 L 17.93 93.474 L 14.07 94.526 L 10 79.601 L 5.93 94.526 Z"/>
+<path d="M 22 92 V 72 L 24 70 H 38 V 74 H 26 V 92 Z"/>
+<path d="M 44 72 H 56 V 76 H 44 Z"/>
+<path d="M 44 84 H 54 A 2 2 0 0 1 54 88 H 44 Z"/>
+<path d="M 2.07 125.474 L 9.563 98 L 10.437 98 L 17.93 125.474 L 14.07 126.526 L 10 111.601 L 5.93 126.526 Z"/>
+<path d="M 24 104 H 40 V 108 H 24 Z"/>
+<path d="M 22 124 V 112 H 22.586 L 24 110.586 V 110 H 36 V 114 H 26 V 124 Z"/>
+</g></g>
+</svg>

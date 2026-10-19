@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="50">
+<!-- What tst/unit/paint-properties.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="50" fill="white"/>
+<defs><marker id="m" markerWidth="4" markerHeight="4" refX="2" refY="2" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="navy"/></marker><marker id="negative" markerWidth="-4" markerHeight="4" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="red"/></marker></defs>
+<g id="fill-initial" data-box="1 1 10 12"><rect x="2" y="2" width="8" height="8" fill="black"/></g>
+<g id="fill-inherited" data-box="11 1 10 12"><rect x="12" y="2" width="8" height="8" fill="lime"/></g>
+<g id="stroke-inherited" data-box="21 1 10 12"><rect x="22" y="2" width="6" height="6" fill="lime" transform="translate(1 1)" stroke="navy"/></g>
+<g id="fill-opacity-inherited" data-box="31 1 10 12"><rect x="32" y="2" width="8" height="8" fill="navy" fill-opacity=".5"/></g>
+<g id="stroke-opacity-inherited" data-box="41 1 10 12"><rect x="42" y="2" width="6" height="6" stroke="lime" stroke-width="2" stroke-opacity=".5" transform="translate(1 1)"/></g>
+<g id="stroke-width-initial" data-box="51 1 10 12"><rect x="52" y="2" width="6" height="6" fill="none" stroke="navy" transform="translate(1 1)" stroke-width="1"/></g>
+<g id="stroke-width-inherited" data-box="1 13 10 12"><rect x="2" y="14" width="5" height="5" fill="none" stroke="navy" transform="translate(1.5 1.5)" stroke-width="3"/></g>
+<g id="linecap-initial" data-box="11 13 10 12"><path d="M 12 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" stroke-linecap="butt"/></g>
+<g id="linecap-inherited" data-box="21 13 10 12"><path d="M 22 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" stroke-linecap="square"/></g>
+<g id="linejoin-inherited" data-box="31 13 10 12"><path d="M 32 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" stroke-linejoin="round"/></g>
+<g id="miterlimit-inherited" data-box="41 13 10 12"><path d="M 42 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" stroke-miterlimit="1"/></g>
+<g id="dasharray-initial" data-box="51 13 10 12"><path d="M 52 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="none"/></g>
+<g id="dasharray-inherited" data-box="1 25 10 12"><path d="M 2 26 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="2 1"/></g>
+<g id="dashoffset-inherited" data-box="11 25 10 12"><path d="M 12 26 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="2 1" stroke-dashoffset="1"/></g>
+<g id="marker-inherited" data-box="21 25 10 12"><path d="M 22 26 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2" marker-start="url(#m)"/></g>
+<g id="paint-order-inherited" data-box="31 25 10 12"><rect x="32" y="26" width="6" height="6" fill="lime" stroke="navy" stroke-width="2" transform="translate(1 1)" paint-order="stroke"/></g>
+<g id="shape-rendering-inherited" data-box="41 25 10 12"><circle cx="42" cy="26" r="3.7" fill="navy" transform="translate(4 4)" shape-rendering="crispEdges"/></g>
+<g id="image-rendering-inherited" data-box="51 25 10 12"><image x="52" y="26" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFUlEQVR42mNg+A+EDA1ADCL+M/wHADlhBvvDcr7TAAAAAElFTkSuQmCC" image-rendering="optimizeSpeed"/></g>
+<g id="collinear" data-box="1 37 30 6"><rect x="2" y="38" width="12" height="4" fill="lime"/></g>
+<g id="marker-negative-size" data-box="33 37 10 6"><rect x="36" y="38" width="4" height="4" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="38" width="12" height="4"/></g>
+</svg>

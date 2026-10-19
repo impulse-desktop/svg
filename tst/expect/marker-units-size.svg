@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
+<!-- What tst/unit/marker-units-size.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="24" fill="white"/>
+<defs>
+<marker id="sw" markerWidth="2" markerHeight="2" refX="1" refY="1"><rect width="2" height="2" fill="lime"/></marker>
+<marker id="us" markerWidth="2" markerHeight="2" refX="1" refY="1" markerUnits="userSpaceOnUse"><rect width="2" height="2" fill="lime"/></marker>
+<marker id="dflt" refX="1.5" refY="1.5" markerUnits="userSpaceOnUse"><rect width="10" height="10" fill="lime"/></marker>
+</defs>
+<g id="stroke-width" data-box="2 4 8 8"><rect x="3" y="5" width="6" height="6" fill="lime"/></g>
+<g id="stroke-none" data-box="12 4 8 8"><rect x="13" y="5" width="6" height="6" fill="lime"/></g>
+<g id="user-space" data-box="24 5 4 6"><path d="M 26 8 h 1" stroke="silver" stroke-width="3"/><rect x="25" y="7" width="2" height="2" fill="lime"/></g>
+<g id="default-size" data-box="33 5 6 6" data-tolerance="64"><rect x="34.5" y="6.5" width="3" height="3" fill="lime"/></g>
+<g id="non-scaling" data-box="45 5 6 6"><rect x="46" y="6" width="4" height="4" fill="lime"/></g>
+<g id="scaled" data-box="3 13 10 10"><rect x="4" y="14" width="8" height="8" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="3" y="5" width="6" height="6"/><rect x="13" y="5" width="6" height="6"/><rect x="25" y="7" width="2" height="2"/>
+<rect x="34.5" y="6.5" width="3" height="3"/><rect x="46" y="6" width="4" height="4"/><rect x="4" y="14" width="8" height="8"/>
+</g>
+</svg>

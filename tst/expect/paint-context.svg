@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- What tst/unit/paint-context.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<defs>
+<marker id="ms" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+<rect width="8" height="8" fill="context-stroke"/></marker>
+<marker id="mf" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
+<rect width="8" height="8" fill="context-fill"/></marker>
+<marker id="mg" markerWidth="6" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse">
+<rect width="6" height="6" fill="context-stroke"/></marker>
+<symbol id="s" overflow="visible"><rect width="8" height="8" fill="context-fill"/></symbol>
+<symbol id="t" overflow="visible"><use href="#s" fill="context-fill"/></symbol>
+<g id="two"><rect width="4" height="8" fill="context-fill"/><rect x="20" width="4" height="8" fill="context-fill"/></g>
+<linearGradient id="end" x1="0" x2="1"><stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
+<linearGradient id="ends" x1="0" x2="1"><stop offset=".2" stop-color="lime"/><stop offset=".2" stop-color="red"/>
+<stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
+</defs>
+<g id="marker-stroke" data-box="1 1 10 10"><rect x="2" y="2" width="8" height="8" fill="lime"/></g>
+<g id="marker-fill" data-box="13 1 10 10"><rect x="14" y="2" width="8" height="8" fill="lime"/></g>
+<g id="use-fill" data-box="25 1 10 10"><rect x="26" y="2" width="8" height="8" fill="lime"/></g>
+<g id="use-recursive" data-box="37 1 10 10"><rect x="38" y="2" width="8" height="8" fill="lime"/></g>
+<g id="no-context" data-box="49 1 10 10"><rect x="50" y="2" width="8" height="8" fill="lime"/></g>
+<g id="marker-server-box" data-box="53 19 8 9" data-tolerance="64"><rect x="54" y="20.5" width="6" height="6" fill="lime"/></g>
+<g id="use-server-box" data-box="1 29 26 10"><rect x="2" y="30" width="4" height="8" fill="lime"/><rect x="22" y="30" width="4" height="8" fill="lime"/></g>
+</svg>

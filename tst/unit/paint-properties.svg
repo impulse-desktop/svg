@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="50">
+<!-- Each drawing matches its plain twin in the expected drawing, which
+gives the value itself: fill is black unless set and inherited; stroke,
+fill-opacity, stroke-opacity, stroke-width, stroke-linecap, stroke-
+linejoin, stroke-miterlimit, stroke-dasharray, stroke-dashoffset, the
+marker properties, paint-order, shape-rendering and image-rendering are
+inherited; stroke-width is 1 and stroke-linecap butt unless set, stroke-
+dasharray none. Two segments going on the same way meet with no join; a
+marker of negative width is an error, drawn nowhere. -->
+<rect width="64" height="50" fill="white"/>
+<defs><marker id="m" markerWidth="4" markerHeight="4" refX="2" refY="2" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="navy"/></marker><marker id="negative" markerWidth="-4" markerHeight="4" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="red"/></marker></defs>
+<rect x="2" y="2" width="8" height="8"/>
+<g fill="lime"><rect x="12" y="2" width="8" height="8"/></g>
+<g stroke="navy"><rect x="22" y="2" width="6" height="6" fill="lime" transform="translate(1 1)"/></g>
+<g fill-opacity=".5"><rect x="32" y="2" width="8" height="8" fill="navy"/></g>
+<g stroke-opacity=".5"><rect x="42" y="2" width="6" height="6" stroke="lime" stroke-width="2" transform="translate(1 1)"/></g>
+<rect x="52" y="2" width="6" height="6" fill="none" stroke="navy" transform="translate(1 1)"/>
+<g stroke-width="3"><rect x="2" y="14" width="5" height="5" fill="none" stroke="navy" transform="translate(1.5 1.5)"/></g>
+<path d="M 12 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/>
+<g stroke-linecap="square"><path d="M 22 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/></g>
+<g stroke-linejoin="round"><path d="M 32 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/></g>
+<g stroke-miterlimit="1"><path d="M 42 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/></g>
+<path d="M 52 14 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/>
+<g stroke-dasharray="2 1"><path d="M 2 26 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/></g>
+<g stroke-dasharray="2 1" stroke-dashoffset="1"><path d="M 12 26 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/></g>
+<g marker-start="url(#m)"><path d="M 22 26 m 1 2 v 6 h 6" fill="none" stroke="lime" stroke-width="2"/></g>
+<g paint-order="stroke"><rect x="32" y="26" width="6" height="6" fill="lime" stroke="navy" stroke-width="2" transform="translate(1 1)"/></g>
+<g shape-rendering="crispEdges"><circle cx="42" cy="26" r="3.7" fill="navy" transform="translate(4 4)"/></g>
+<g image-rendering="optimizeSpeed"><image x="52" y="26" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFUlEQVR42mNg+A+EDA1ADCL+M/wHADlhBvvDcr7TAAAAAElFTkSuQmCC"/></g>
+<path d="M 2 40 H 14 H 30" stroke="lime" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 100"/>
+<path d="M 36 40 h 4" stroke="lime" stroke-width="4" marker-start="url(#negative)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="38" width="12" height="4"/></g>
+</svg>

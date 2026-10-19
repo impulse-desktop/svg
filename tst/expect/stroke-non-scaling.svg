@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- What tst/unit/stroke-non-scaling.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="40" fill="white"/>
+<g id="scale" data-box="2 2 12 12"><path d="M 3 3 H 13 V 13 H 3 Z M 5 5 V 11 H 11 V 5 Z" fill="lime" fill-rule="evenodd"/></g>
+<g id="skew" data-box="17 2 18 12"><path d="M 18.268 3 H 28.577 L 34.351 13 H 24.042 Z M 21.732 5 L 25.196 11 H 30.887 L 27.423 5 Z" fill="lime" fill-rule="evenodd"/></g>
+<g id="nested-viewbox" data-box="38 2 24 12"><path d="M 39 3 H 61 V 13 H 39 Z M 41 5 V 11 H 59 V 5 Z" fill="lime" fill-rule="evenodd"/></g>
+<g id="path-half" data-box="3 18 58 4"><path d="M 4 19 H 60 V 21 H 4 Z" fill="lime" fill-rule="evenodd"/></g>
+<g id="not-inherited" data-box="1 24 26 12"><path d="M 2 25 H 26 V 35 H 2 Z M 6 27 V 33 H 22 V 27 Z" fill="lime" fill-rule="evenodd"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<path d="M 3 3 H 13 V 13 H 3 Z M 5 5 V 11 H 11 V 5 Z"/>
+<path d="M 18.268 3 H 28.577 L 34.351 13 H 24.042 Z M 21.732 5 L 25.196 11 H 30.887 L 27.423 5 Z"/>
+<path d="M 39 3 H 61 V 13 H 39 Z M 41 5 V 11 H 59 V 5 Z"/>
+<path d="M 4 19 H 60 V 21 H 4 Z"/>
+<path d="M 2 25 H 26 V 35 H 2 Z M 6 27 V 33 H 22 V 27 Z"/>
+</g>
+</svg>
