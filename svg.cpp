@@ -11130,12 +11130,14 @@ namespace {
                 return Point{(float)q.x, (float)q.y};
             };
 
+            // A closepath takes no comma after it (paths.md, PathDataBNF):
+            // the comma is an error, as Chromium, Firefox, librsvg and resvg
+            // read it.
             if (upper == 'Z') {
                 closePath(path);
                 current = start;
                 needMove = true;
                 previous = upper;
-                skipSeparator(p, end);
                 continue;
             }
 

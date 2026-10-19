@@ -14,10 +14,10 @@ spelled out in black, and each lime square covers its red one alone; no red.
 A d of none, as a property too, and data with no valid command draw nothing
 and add nothing to the group's bounding box, which the square fills; a unit
 on a number, a comma in it and a point that ends it are errors, the path
-drawn up to the segment before. A first relative moveto is absolute, the
-pairs after a moveto are linetos, H and V take lists, a closepath joins
-where a lineto back leaves butt ends, and the arc flags pick one of four
-arcs.""")
+drawn up to the segment before, as is a comma after a closepath. A first
+relative moveto is absolute, the pairs after a moveto are linetos, H and V
+take lists, a closepath joins where a lineto back leaves butt ends, and
+the arc flags pick one of four arcs.""")
 unit.common(f"<defs>{BOX.format('none-box')}{BOX.format('empty-box')}</defs>")
 
 
@@ -41,6 +41,7 @@ stroke("unit-error", (1, 1, 10, 4), "M 2 3 h 4 L 10px 3 h 2", "M 2 3 H 6")
 stroke("comma-separates", (12, 1, 10, 4), "M 13 3 h 1,2", "M 13 3 H 16")
 stroke("trailing-point", (24, 1, 12, 4), "M 25 3 h 4. 3", "M 25 3 H 29")
 stroke("comma-in-number", (1, 6, 10, 4), "M 2 8 h 1,000 2", "M 2 8 H 3 H 3 H 5")
+stroke("comma-after-close", (12, 6, 24, 5), "M 14 7 h 6 v 2 h -6 z, M 24 7 h 6", "M 14 7 h 6 v 2 h -6 z")
 stroke("moveto-pairs", (1, 12, 14, 8), "M 2 14 6 14 6 18 m 2 -4 4 0 0 4", "M 2 14 L 6 14 L 6 18 M 8 14 L 12 14 L 12 18")
 stroke("relative-first", (16, 12, 8, 8), "m 17 14 4 0 0 4", "M 17 14 L 21 14 L 21 18")
 stroke("hv-lists", (25, 12, 14, 12), "M 26 14 H 30 34 V 18 22 h -2 -2 v -2 -2", "M 26 14 L 30 14 L 34 14 L 34 18 L 34 22 L 32 22 L 30 22 L 30 20 L 30 18")
