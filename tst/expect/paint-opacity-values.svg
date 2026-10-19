@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- What tst/unit/paint-opacity-values.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="32" fill="white"/>
+<g id="fill-clamp" data-box="1 1 24 12"><rect x="2" y="2" width="10" height="10" fill="lime"/><rect x="14" y="2" width="10" height="10" fill="lime"/></g>
+<g id="fill-values" data-box="25 1 38 12"><rect x="26" y="2" width="10" height="10" fill="#808080"/><rect x="38" y="2" width="10" height="10" fill="#bfbfbf"/><rect x="50" y="2" width="10" height="10" fill="#808080"/></g>
+<g id="stroke-clamp" data-box="1 17 24 12"><rect x="2" y="18" width="10" height="10" fill="lime"/><rect x="14" y="18" width="10" height="10" fill="lime"/></g>
+<g id="stroke-values" data-box="25 17 26 12"><rect x="26" y="18" width="10" height="10" fill="#808080"/><rect x="38" y="18" width="10" height="10" fill="#bfbfbf"/></g>
+</svg>

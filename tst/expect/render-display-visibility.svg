@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
+<!-- What tst/unit/render-display-visibility.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="64" height="24" fill="white"/>
+<defs><clipPath id="right" clipPathUnits="objectBoundingBox"><rect x=".5" width=".5" height="1"/></clipPath></defs>
+<g id="visibility" data-box="1 1 24 12"><rect x="2" y="2" width="10" height="10" fill="lime"/></g>
+<g id="hidden-bbox" data-box="1 13 62 10"><rect x="32" y="14" width="30" height="8" fill="lime"/></g>
+</svg>

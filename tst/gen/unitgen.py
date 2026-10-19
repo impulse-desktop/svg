@@ -163,7 +163,8 @@ def expect(name, cells, tolerance=None, root=None):
     attributes are what the cells draw."""
     text = open(os.path.join(ROOT, "tst", "unit", name + ".svg")).read()
     root = root or re.match(r"<svg\b[^>]*>", text).group(0)
-    ground = re.search(r'<rect width="[^"]*" height="[^"]*" fill="white"/>', text)
+    size = re.search(r'width="([^"]*)" height="([^"]*)"', root)
+    ground = re.search(r'<rect width="%s" height="%s" fill="white"/>' % size.groups(), text) if size else None
     outlines = re.findall(r'<g fill="none" stroke="black" stroke-width="\.25">.*?</g>|<(?:rect|path|circle|ellipse)\b[^>]*fill="none" stroke="black" stroke-width="\.25"[^>]*/>', text, re.S)
     lines = [root[:-1] + (f' data-tolerance="{tolerance}"' if tolerance is not None else "") + ">", comment(f"What tst/unit/{name}.svg draws, drawn plainly; each cell's id is what the statement ledgers link to.")]
     lines += [ground.group(0)] if ground else []

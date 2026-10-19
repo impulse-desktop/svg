@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- What tst/unit/marker-viewport.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="64" height="40" fill="white"/>
+<defs>
+<marker id="m" viewBox="0 0 10 10" markerWidth="4" markerHeight="3" refX="5" refY="5" markerUnits="userSpaceOnUse" overflow="visible"><rect width="10" height="10" fill="lime"/></marker>
+<marker id="n" viewBox="0 0 10 10" preserveAspectRatio="none" markerWidth="4" markerHeight="3" refX="5" refY="5" markerUnits="userSpaceOnUse"><rect width="10" height="10" fill="lime"/></marker>
+<marker id="p" viewBox="0 0 10 10" refX="100%" refY="50%" markerUnits="userSpaceOnUse"><rect width="10" height="10" fill="lime"/></marker>
+<marker id="k" viewBox="0 0 10 10" refX="right" refY="bottom" markerUnits="userSpaceOnUse"><rect width="10" height="10" fill="lime"/></marker>
+<marker id="u" viewBox="0 0 10 10" refX="2" refY="8" markerUnits="userSpaceOnUse"><rect width="10" height="10" fill="lime"/></marker>
+<marker id="h" markerWidth="4" markerHeight="4" markerUnits="userSpaceOnUse"><rect x="-4" y="-4" width="12" height="12" fill="lime"/></marker>
+<marker id="v" markerWidth="4" markerHeight="4" markerUnits="userSpaceOnUse" overflow="visible"><rect x="-1" y="-1" width="6" height="6" fill="lime"/></marker>
+<marker id="a" markerWidth="4" markerHeight="4" markerUnits="userSpaceOnUse" overflow="auto"><rect x="-1" y="-1" width="6" height="6" fill="lime"/></marker>
+<marker id="s" markerWidth="4" markerHeight="4" markerUnits="userSpaceOnUse" overflow="scroll"><rect x="-4" y="-4" width="12" height="12" fill="lime"/></marker>
+</defs>
+<g id="viewbox-fit" data-box="2 3 8 8"><rect x="4.5" y="6.5" width="3" height="3" fill="lime"/></g>
+<g id="aspect-none" data-box="12 3 8 8" data-tolerance="64"><rect x="14" y="6.5" width="4" height="3" fill="lime"/></g>
+<g id="ref-percent" data-box="23 3 8 8" data-tolerance="64"><rect x="25" y="6.5" width="3" height="3" fill="lime"/></g>
+<g id="ref-keywords" data-box="33 3 8 8"><rect x="35" y="5" width="3" height="3" fill="lime"/></g>
+<g id="ref-viewbox-units" data-box="45 3 8 8" data-tolerance="64"><rect x="47.4" y="5.6" width="3" height="3" fill="lime"/></g>
+<g id="overflow-hidden" data-box="2 22 8 8"><rect x="4" y="24" width="4" height="4" fill="lime"/></g>
+<g id="overflow-visible" data-box="14 22 8 8"><rect x="15" y="23" width="6" height="6" fill="lime"/></g>
+<g id="overflow-auto" data-box="26 22 8 8"><rect x="27" y="23" width="6" height="6" fill="lime"/></g>
+<g id="overflow-scroll" data-box="38 22 8 8"><rect x="40" y="24" width="4" height="4" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="4.5" y="6.5" width="3" height="3"/><rect x="14" y="6.5" width="4" height="3"/><rect x="25" y="6.5" width="3" height="3"/>
+<rect x="35" y="5" width="3" height="3"/><rect x="47.4" y="5.6" width="3" height="3"/>
+<rect x="4" y="24" width="4" height="4"/><rect x="15" y="23" width="6" height="6"/><rect x="27" y="23" width="6" height="6"/><rect x="40" y="24" width="4" height="4"/>
+</g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="28">
+<!-- What tst/unit/paint-fallback.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<defs>
+<linearGradient id="g"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="lime"/></linearGradient>
+<rect id="r" width="1" height="1"/>
+<clipPath id="c"><rect width="1" height="1"/></clipPath>
+</defs>
+<g id="resolves" data-box="1 1 12 12"><rect x="2" y="2" width="10" height="10" fill="lime"/></g>
+<g id="missing-fallback" data-box="13 1 12 12"><rect x="14" y="2" width="10" height="10" fill="lime"/></g>
+<g id="not-server" data-box="25 1 24 12"><rect x="26" y="2" width="10" height="10" fill="lime"/><rect x="38" y="2" width="10" height="10" fill="lime"/></g>
+<g id="current-color" data-box="49 1 12 12"><rect x="50" y="2" width="10" height="10" fill="lime"/></g>
+<g id="no-fallback" data-box="1 15 62 12"><rect x="2" y="16" width="10" height="10" fill="lime"/><rect x="14" y="16" width="10" height="10" fill="lime"/><rect x="26" y="16" width="10" height="10" fill="lime"/><rect x="38" y="16" width="10" height="10" fill="lime"/><rect x="50" y="16" width="10" height="10" fill="lime"/></g>
+</svg>

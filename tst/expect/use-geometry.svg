@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48" xmlns:x="http://example.org/x">
+<!-- What tst/unit/use-geometry.svg draws, drawn plainly; each cell's id
+is what the statement ledgers link to. -->
+<rect width="64" height="48" fill="white"/>
+<defs>
+<rect id="sq" width="4" height="4" fill="lime"/>
+<clipPath id="c" clipPathUnits="userSpaceOnUse"><rect width="6" height="6"/></clipPath>
+<svg id="s" width="4" height="4" viewBox="0 0 4 4"><rect width="4" height="4" fill="lime"/></svg>
+<g id="g"><rect width="6" height="6" fill="lime"/></g>
+<rect id="pct" width="12.5%" height="12.5%" fill="lime"/>
+<x:thing id="foreign"/>
+<use id="u1" href="#u2"/><use id="u2" href="#u1"/>
+<use id="via" href="#sq"/>
+</defs>
+<g id="translate-after" data-box="1 1 12 12"><rect x="2" y="2" width="8" height="8" fill="lime"/></g>
+<g id="clip-translated" data-box="15 1 10 10"><rect x="16" y="2" width="6" height="6" fill="lime"/></g>
+<g id="size-svg" data-box="25 1 10 10"><rect x="26" y="2" width="8" height="8" fill="lime"/></g>
+<g id="negative-size" data-box="37 1 10 10"><rect x="38" y="4" width="4" height="4" fill="lime"/></g>
+<g id="zero-size" data-box="49 1 12 12"></g>
+<g id="size-other" data-box="1 15 12 12"><rect x="2" y="16" width="6" height="6" fill="lime"/></g>
+<g id="percent" data-box="13 15 10 10"><rect x="14" y="16" width="8" height="6" fill="lime"/></g>
+<g id="foreign" data-box="25 15 8 10"></g>
+<g id="ancestor" data-box="33 15 6 6"><rect x="34" y="16" width="4" height="4" fill="lime"/></g>
+<g id="circular" data-box="39 15 10 10"></g>
+<g id="indirect" data-box="49 15 6 6"><rect x="50" y="16" width="4" height="4" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="8" height="8"/><rect x="16" y="2" width="6" height="6"/><rect x="26" y="2" width="8" height="8"/>
+<rect x="38" y="4" width="4" height="4"/><rect x="2" y="16" width="6" height="6"/><rect x="14" y="16" width="8" height="6"/>
+<rect x="34" y="16" width="4" height="4"/><rect x="50" y="16" width="4" height="4"/>
+</g>
+</svg>

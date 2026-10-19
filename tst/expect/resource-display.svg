@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- What tst/unit/resource-display.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<clipPath id="c"><rect width="0" height="0"/></clipPath>
+<mask id="m" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="white"/></mask>
+<filter id="f" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>
+<linearGradient id="g"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="lime"/></linearGradient>
+<radialGradient id="r"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="lime"/></radialGradient>
+<g id="clip" data-box="1 1 12 12"><rect x="2" y="2" width="10" height="10" fill="lime"/></g>
+<g id="mask" data-box="13 1 12 12"><rect x="14" y="2" width="10" height="10" fill="lime"/></g>
+<g id="filter" data-box="25 1 12 12"><rect x="26" y="2" width="10" height="10" fill="lime"/></g>
+<g id="conditional" data-box="37 1 24 12"><rect x="38" y="2" width="10" height="10" fill="lime"/><rect x="50" y="2" width="10" height="10" fill="lime"/></g>
+</svg>
