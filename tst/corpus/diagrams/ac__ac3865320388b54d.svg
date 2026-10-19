@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-100 -100 700 350" id="menu">
+  <style>
+    #menu {
+      display: block;
+      margin: 0 auto;
+      /*overflow: visible;*/ /* uncomment this if you are using bouncing animations*/
+    }
+
+    a {
+      cursor: pointer; /* SVG &lt;a&gt; elements don't get this by default, so you need to explicitly set it */
+      outline: none;
+    }
+
+    /* You can change these default styles any way you want */
+
+    .item .sector {
+      transition: all .1s linear;
+      fill: url(#gradBlue);
+      stroke: url(#gradGreen);
+    }
+
+
+    .item:hover .sector, .item:focus .sector {
+      fill: url(#gradBlueShadow);
+    }
+
+    .menu-trigger {
+      fill: url(#gradGreen);
+      pointer-events: auto; /* KEEP THIS to make sure it stays clickable even when SVG's pointer events is disabled */
+    }
+
+    .menu-trigger:hover, .menu-trigger:focus {
+      cursor: pointer;
+    }
+    symbol {
+      overflow: visible; /* KEEP THIS so that text will not get cut off it it is wider than the icon width */
+    }
+  </style>
+
+  <defs>
+    <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(32, 178, 170);stop-opacity:1" />
+
+      <stop offset="100%" style="stop-color:rgb(0, 103, 170);stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="gradBlueShadow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:rgb(32, 178, 170);stop-opacity:.95" />
+
+      <stop offset="100%" style="stop-color:rgb(0, 103, 170);stop-opacity:.95" />
+    </linearGradient>
+
+    <linearGradient id="gradGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:rgb(32, 178, 170);stop-opacity:1" />
+
+      <stop offset="100%" style="stop-color:rgb(0, 120, 105);stop-opacity:1" />
+
+      <stop offset="50%" style="stop-color:rgb(211, 211, 211);stop-opacity:.8" />
+    </linearGradient>
+  </defs>
+
+  <g id="symbolsContainer">
+    <symbol class="icon icon-" id="icon-1" viewBox="0 0 40 40">
+      
+      
+    </symbol>
+
+    <symbol class="icon icon-" id="icon-2" viewBox="0 0 40 40">
+      
+      
+    </symbol>
+
+    <symbol class="icon icon-" id="icon-3" viewBox="0 0 40 40">
+      
+      
+    </symbol>
+
+    <symbol class="icon icon-" id="icon-4" viewBox="0 0 40 40">
+      
+      
+    </symbol>
+
+    <symbol class="icon icon-" id="icon-5" viewBox="0 0 40 40">
+      
+      
+    </symbol>
+  </g>
+
+  <g id="itemsContainer">
+    <a class="item" id="item-1" xlink:href="" href="" xlink:title="" role="link" tabindex="0" xlink:target="_parent" target="_parent" transform="matrix(1,0,0,1,0,0)" data-svg-origin="250 250">
+      <title></title>
+      <path fill="none" stroke="#111" stroke-width="1" class="sector" d="M250,250 l250,0 A250,250 0 0,0 452.25424859373686,103.05368692688171 z"></path>
+      <use xlink:href="#icon-1" href="#icon-1" width="40" height="40" x="391.6795959472656" y="177.4671173095703" transform="rotate(72 411.6795959472656 197.4671173095703)"></use>
+    </a>
+
+    <a class="item" id="item-2" xlink:href="" href="" xlink:title="" role="link" tabindex="0" xlink:target="_parent" target="_parent" transform="matrix(0.80901,-0.58778,0.58778,0.80901,-99.20056166685515,194.69206447938143)" data-svg-origin="250 250">
+      <title></title>
+      <path fill="none" stroke="#111" stroke-width="1" class="sector" d="M250,250 l250,0 A250,250 0 0,0 452.25424859373686,103.05368692688171 z"></path>
+      <use xlink:href="#icon-2" href="#icon-2" width="40" height="40" x="391.6795959472656" y="177.4671173095703" transform="rotate(72 411.6795959472656 197.4671173095703)"></use>
+    </a>
+
+    <a class="item" id="item-3" xlink:href="" href="" xlink:title="" role="link" tabindex="0" xlink:target="_parent" target="_parent" transform="matrix(0.30901,-0.95105,0.95105,0.30901,-65.01837766752521,410.5098804800515)" data-svg-origin="250 250">
+      <title></title>
+      <path fill="none" stroke="#111" stroke-width="1" class="sector" d="M250,250 l250,0 A250,250 0 0,0 452.25424859373686,103.05368692688171 z"></path>
+      <use xlink:href="#icon-3" href="#icon-3" width="40" height="40" x="391.6795959472656" y="177.4671173095703" transform="rotate(72 411.6795959472656 197.4671173095703)"></use>
+    </a>
+
+    <a class="item" id="item-4" xlink:href="" href="" xlink:title="" role="link" tabindex="0" xlink:target="_parent" target="_parent" transform="matrix(-0.30901,-0.95105,0.95105,-0.30901,89.49011951994842,565.0183776675252)" data-svg-origin="250 250">
+      <title></title>
+      <path fill="none" stroke="#111" stroke-width="1" class="sector" d="M250,250 l250,0 A250,250 0 0,0 452.25424859373686,103.05368692688171 z"></path>
+      <use xlink:href="#icon-4" href="#icon-4" width="40" height="40" x="391.6795959472656" y="177.4671173095703" transform="rotate(72 411.6795959472656 197.4671173095703)"></use>
+    </a>
+
+    <a class="item" id="item-5" xlink:href="" href="" xlink:title="" role="link" tabindex="0" xlink:target="_parent" target="_parent" transform="matrix(-0.80901,-0.58778,0.58778,-0.80901,305.3079355206185,599.2005616668552)" data-svg-origin="250 250">
+      <title></title>
+      <path fill="none" stroke="#111" stroke-width="1" class="sector" d="M250,250 l250,0 A250,250 0 0,0 452.25424859373686,103.05368692688171 z"></path>
+      <use xlink:href="#icon-5" href="#icon-5" width="40" height="40" x="391.6795959472656" y="177.4671173095703" transform="rotate(72 411.6795959472656 197.4671173095703)"></use>
+    </a>
+  </g>
+
+  <g id="trigger" class="trigger menu-trigger" role="button">
+    <circle cx="250" cy="250" r="40"></circle>
+    
+    
+  </g>
+</svg>

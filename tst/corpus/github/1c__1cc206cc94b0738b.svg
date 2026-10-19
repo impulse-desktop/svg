@@ -1,0 +1,24 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    circle:nth-of-type(1) {
+      fill: hsl(350 70% 70%);
+    }
+    circle:nth-of-type(2) {
+      fill: hsl(50 50% 70%);
+    }
+    circle:nth-of-type(3) {
+      fill: hsl(110 50% 70%);
+    }
+    rect:nth-of-type(1) {
+      fill: hsl(0 0% 50%);
+    }
+    rect:nth-of-type(2) {
+      fill: hsl(0 0% 40%);
+    }
+  </style>
+  <rect height="100" width="50" x="25" y="0" rx="2.5"/>
+  <rect height="90" width="40" x="30" y="5" rx="2.5"/>
+  <circle cx="50" cy="22" r="13"/>
+  <circle cx="50" cy="50" r="13"/>
+  <circle cx="50" cy="78" r="13"/>
+</svg>

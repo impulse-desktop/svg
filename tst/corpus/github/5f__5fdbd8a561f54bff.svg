@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="256" height="256">
+<defs>
+<pattern id="linear_gradient_pattern2" x="0" y="0" width="0.25" height="0.25" >
+<linearGradient id="linear_gradient2" x1="0" x2="1" y1="1" y2="0">
+<stop offset="0%" stop-color="#f8f886"/>
+<stop offset="50%" stop-color="#ffffb5"/>
+<stop offset="100" stop-color="#ffffff"/>
+</linearGradient>
+<rect x="0" y="0" width="25" height="25" fill="url(#linear_gradient2)" fill-opacity="1.0" /></pattern>
+ </defs>
+<rect x="0" y="0" width="256" height="256" fill="url(#linear_gradient_pattern2)" fill-opacity="1.0" /></svg>

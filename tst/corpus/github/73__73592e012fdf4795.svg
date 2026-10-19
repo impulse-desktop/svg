@@ -1,0 +1,75 @@
+<svg viewBox="0 0 888 570" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <path id="arrow-right" d="M 0 0 C -2.779 1 -5.376 2.445 -7.69 4.28 L -6.14 0 L -7.69 -4.28 C -5.376 -2.445 -2.779 -1 0 0 Z"/>
+    <path id="arrow-down" d="M 0 0 C 1 2.779 2.445 5.376 4.28 7.69 L 0 6.14 L -4.28 7.69 C -2.444 5.376 -1 2.770 0 0 Z" transform="rotate(180, 0, 0)"/>
+  </defs>
+  <g transform="translate(60, 160)">
+    
+    
+    
+    <image x="0" y="0" width="96" height="96" style="clip-path: inset(0 0 0 0 round 6px);" xlink:href="images/cassis_cap_lombard_opus_196.jpg"/>
+    <image x="0" y="250" width="96" height="96" style="clip-path: inset(0 0 0 0 round 6px);" xlink:href="images/tuebingen_neckarfront.jpg"/>
+    <g class="figure-faded">
+      <path d="M 96 298 L 195 298" class="figure-line"/>
+      <use xlink:href="#arrow-right" transform="translate(195, 298)" class="figure-path"/>
+    </g>
+    <g transform="translate(200, -50)">
+      <g class="figure-faded">
+        <path d="M -104 98 L -5 98" class="figure-line"/>
+        <use xlink:href="#arrow-right" transform="translate(-5, 98)" class="figure-path"/>
+      </g>
+      <g transform="translate(0, 38)">
+        <rect width="90" height="120" class="figure-film-generator figure-element figure-box figure-faded"/>
+        
+      </g>
+      <line stroke-dasharray="5,5" x1="45" y1="160" x2="45" y2="288" class="figure-line"/>
+      <g transform="translate(0, 288)">
+        <rect width="90" height="120" class="figure-filmed-network figure-element figure-box figure-faded"/>
+        
+      </g>
+      <g class="figure-faded">
+        <path d="M 90 98 L 175 98" class="figure-line"/>
+        <use xlink:href="#arrow-right" transform="translate(175, 98)" class="figure-path"/>
+      </g>
+      <g transform="translate(180, 38)">
+        <rect width="90" height="120" class="figure-film-generator figure-element figure-box"/>
+        
+      </g>
+      <path d="M 255 158 L 255 283" class="figure-line"/>
+      <use xlink:href="#arrow-down" transform="translate(255, 283)" class="figure-path"/>
+      
+      
+      <g class="figure-faded">
+        <path d="M 90 348 L 175 348" class="figure-line"/>
+        <use xlink:href="#arrow-right" transform="translate(175, 348)" class="figure-path"/>
+      </g>
+      <g transform="translate(180, 288)">
+        <rect width="35" height="120" class="figure-filmed-network figure-element figure-box figure-faded"/>
+        
+      </g>
+      <g class="figure-faded">
+        <path d="M 215 348 L 230 348" class="figure-line"/>
+        <use xlink:href="#arrow-right" transform="translate(230, 348)" class="figure-path"/>
+      </g>
+      <g transform="translate(235, 288)">
+        <rect width="35" height="120" class="figure-filmed-network figure-element figure-box"/>
+        
+      </g>
+      <g class="figure-faded">
+        <path d="M 270 348 L 345 348" class="figure-line"/>
+        <use xlink:href="#arrow-right" transform="translate(345, 348)" class="figure-path"/>
+      </g>
+      <path d="M 175 410 L 175 420 L 275 420 L 275 410" style="stroke-width: 1px;" class="figure-line"/>
+      
+      <g transform="translate(350, 288)">
+        <rect width="90" height="120" class="figure-filmed-network figure-element figure-box figure-faded"/>
+        
+      </g>
+      <g class="figure-faded">
+        <path d="M 440 348 L 525 348" class="figure-line"/>
+        <use xlink:href="#arrow-right" transform="translate(525, 348)" class="figure-path"/>
+      </g>
+      <image x="530" y="300" width="96" height="96" style="clip-path: inset(0 0 0 0 round 6px);" xlink:href="images/tuebingen_neckarfront_cassis_cap_lombard_opus_196.jpg"/>
+    </g>
+  </g>
+</svg>

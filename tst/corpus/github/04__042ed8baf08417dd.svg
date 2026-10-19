@@ -1,0 +1,90 @@
+<svg baseProfile="full" height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <style type="text/css">
+      <![CDATA[
+               .background { fill: white; }
+               .line { stroke: firebrick; stroke-width: .1mm; }
+               .lava { fill: #ff8b8b; }
+               .dry { fill: #92cc41; }
+               .water { fill: #afafff; }
+               .recharge {fill: #ffff00; }
+               .normal {fill: white; }
+               rect {
+                   stroke: black;
+                   stroke-width: 3;
+               }
+               .agent {
+                   fill: black;
+                   stroke-width: 2;
+                   stroke: grey;
+               }
+      ]]>
+    </style>
+  </defs>
+  <rect class="background" height="100%" width="100%" x="0" y="0"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="0.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="0.1em" y="1.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="0.1em" y="2.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="0.1em" y="3.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="0.1em" y="4.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="0.1em" y="5.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="0.1em" y="6.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="0.1em" y="7.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="1.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="1.1em" y="1.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="1.1em" y="2.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="1.1em" y="3.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="1.1em" y="4.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="1.1em" y="5.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="1.1em" y="6.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="1.1em" y="7.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="2.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="2.1em" y="1.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="2.1em" y="2.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="2.1em" y="3.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="2.1em" y="4.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="2.1em" y="5.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="2.1em" y="6.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="2.1em" y="7.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="3.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="3.1em" y="1.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="3.1em" y="2.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="3.1em" y="3.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="3.1em" y="4.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="3.1em" y="5.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="3.1em" y="6.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="3.1em" y="7.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="4.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="4.1em" y="1.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="4.1em" y="2.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="4.1em" y="3.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="4.1em" y="4.1em"/>
+  <rect class="water" height="0.9em" width="0.9em" x="4.1em" y="5.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="4.1em" y="6.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="4.1em" y="7.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="5.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="5.1em" y="1.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="5.1em" y="2.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="5.1em" y="3.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="5.1em" y="4.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="5.1em" y="5.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="5.1em" y="6.1em"/>
+  <rect class="dry" height="0.9em" width="0.9em" x="5.1em" y="7.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="6.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="6.1em" y="1.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="6.1em" y="2.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="6.1em" y="3.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="6.1em" y="4.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="6.1em" y="5.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="6.1em" y="6.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="6.1em" y="7.1em"/>
+  <rect class="recharge" height="0.9em" width="0.9em" x="7.1em" y="0.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="7.1em" y="1.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="7.1em" y="2.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="7.1em" y="3.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="7.1em" y="4.1em"/>
+  <rect class="normal" height="0.9em" width="0.9em" x="7.1em" y="5.1em"/>
+  <rect class="lava" height="0.9em" width="0.9em" x="7.1em" y="6.1em"/>
+  <rect class="recharge" height="0.9em" width="0.9em" x="7.1em" y="7.1em"/>
+  <circle id="agent1" class="agent" cx="2.55em" cy="4.55em" r="0.3em"/>
+</svg>

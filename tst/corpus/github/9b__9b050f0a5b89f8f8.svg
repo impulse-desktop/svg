@@ -1,0 +1,56 @@
+<svg version='1.1' xmlns="http://www.w3.org/2000/svg"
+        id='svg_network_diagram' preserveAspectRatio='xMinYMin'
+        width='100%' height='100%' style='opacity:1.0;'>
+
+    <title>SATNet Network Diagram</title>
+    <desc>Main network diagram of the SATNet system.</desc>
+
+    <defs>
+        <marker id='__arrow_head'
+                viewBox="0 0 10 10" refX="0" refY="5" 
+                markerUnits="strokeWidth"
+                markerWidth="4" markerHeight="3"
+                orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+    </defs>
+
+    <style type="text/css"><![CDATA[
+        .FatLine { fill:none; stroke:black; stroke-width:4; }
+        .ThinLine { fill:none; stroke:black; stroke-width:2; }
+        .ThinLabel { fill:black; font-size:22; }
+    ]]></style>
+  
+    <g><rect width='100%' height='100%'
+                fill='white' stroke='#0F3E62' stroke-width='4' />
+    <g>          
+        
+        <g id='sub_network_A'>
+        
+            <circle cx='5%' cy='15%' r='2.5%' class='FatLine'/>
+            
+            
+            <rect x='17%' y='27%' width='10%' height='10%'
+                    fill='white' stroke='black' stroke-width='4' />
+            
+            
+            <circle cx='7%' cy='50%' r='2.5%'
+                    fill='white' stroke='black' stroke-width='4' />
+            
+            
+            <line x1='7.25%' y1='17.25%' x2='15%' y2='24%'
+                    stroke='black' stroke-width='3'
+                    marker-end='url(#__arrow_head)' />
+            <line x1='9.75%' y1='47.25%' x2='15%' y2='40%'
+                    stroke='black' stroke-width='3'
+                    marker-end='url(#__arrow_head)' />
+            
+            <line x1='60%' y1='5px' x2='60%' y2='120px'
+                    stroke='black' stroke-width='3' />
+
+        </g>
+        
+    
+    </g></g>
+    
+</svg>

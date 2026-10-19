@@ -34,7 +34,7 @@ SEED = 20261009
 TEXT_ELEMENT = re.compile(rb"<(?:svg:)?(text|flowRoot)\b(?:[^>]*/>|.*?</(?:svg:)?\1\s*>)", re.S | re.I)
 FORBIDDEN = re.compile(
     rb"<(?:svg:)?(?:script|foreignObject|animate|animateMotion|animateTransform|animateColor|set|discard|tspan|textPath|tref|altGlyph|video|audio|iframe|canvas)\b"
-    rb"|@keyframes|<html\b|<body\b",
+    rb"|@(?:-[a-z]+-)?keyframes|<html\b|<body\b",
     re.I,
 )
 SVG_ROOT = re.compile(rb"<(?:svg:)?svg\b", re.I)

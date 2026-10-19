@@ -1,0 +1,110 @@
+<svg viewBox="7 17 256 256" width="256" height="256" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <filter id="contrast-filter-1" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="contrast 1 1.02">
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="1.02" intercept="-0.010000000000000009"/>
+        <feFuncG type="linear" slope="1.02" intercept="-0.010000000000000009"/>
+        <feFuncB type="linear" slope="1.02" intercept="-0.010000000000000009"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="sharpen-filter-1" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="sharpen 1 0.01">
+      <feConvolveMatrix order="3" kernelMatrix="-0.1,-0.1,-0.1,-0.1,1.8,-0.1,-0.1,-0.1,-0.1"/>
+    </filter>
+    <linearGradient id="gradient-2" x1="128" x2="128" y1="17" y2="239" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.707707, 0.706506, -1.000223, 1, 173.3007965, -77.1384201)">
+      <stop style="stop-color: rgb(199, 225, 238);" offset="0"/>
+      <stop style="stop-color: rgb(118, 159, 182);" offset="1"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="128" y1="17" x2="128" y2="239" id="gradient-0" gradientTransform="matrix(0.7072937, -0.7069197, 1.000223, 0.9999891, -83.9844513, 103.7802505)">
+      <stop offset="0" style="stop-color: rgb(14, 33, 43);"/>
+      <stop offset="1" style="stop-color: rgb(96, 99, 102);"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="128" y1="33.56" x2="128" y2="222.44" id="gradient-3" gradientTransform="matrix(0.5191981, 0.5046839, -0.7861487, 0.8087609, 168.7609711, -22.9134388)">
+      <stop offset="0" style="stop-color: rgba(187, 218, 85, 0);"/>
+      <stop offset="0.12" style="stop-color: rgb(104, 122, 132);"/>
+      <stop offset="0.24" style="stop-color: rgb(142, 154, 160);"/>
+      <stop offset="0.3" style="stop-color: rgb(139, 147, 150);"/>
+      <stop offset="0.38" style="stop-color: rgb(148, 161, 166);"/>
+      <stop offset="0.51" style="stop-color: rgb(112, 132, 141);"/>
+      <stop offset="0.6" style="stop-color: rgb(129, 149, 157);"/>
+      <stop offset="0.75" style="stop-color: rgb(94, 112, 122);"/>
+      <stop offset="0.85" style="stop-color: rgb(92, 95, 99);"/>
+      <stop offset="1" style="stop-color: rgba(118, 141, 41, 0);"/>
+    </linearGradient>
+    <filter id="point-light-filter-0" primitiveUnits="objectBoundingBox" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="point-light 1 0.5 0.5 0.5 40 1.45 0.36 0.17 rgba(231,247,255,1)">
+      <feSpecularLighting result="specular-lighting" lighting-color="rgba(231,247,255,1)" specularConstant="1.45" specularExponent="40">
+        <fePointLight x="0.5" y="0.5" z="0.5"/>
+      </feSpecularLighting>
+      <feDiffuseLighting result="diffuse-lighting" lighting-color="rgba(231,247,255,1)" diffuseConstant="0.36">
+        <fePointLight x="0.5" y="0.5" z="0.5"/>
+      </feDiffuseLighting>
+      <feMerge result="lighting">
+        <feMergeNode in="diffuse-lighting"/>
+        <feMergeNode in="specular-lighting"/>
+      </feMerge>
+      <feComposite in="SourceGraphic" in2="lighting" operator="arithmetic" k1="1" k2="0.17" k3="0" k4="0"/>
+    </filter>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="128" y1="33.56" x2="128" y2="222.44" id="gradient-4" gradientTransform="matrix(0.7170598, 0.6970178, -1.085743, 1.1169723, 181.632782, -86.9038315)">
+      <stop offset="0" style="stop-color: rgba(187, 218, 85, 0);"/>
+      <stop offset="0.12" style="stop-color: rgb(104, 122, 132);"/>
+      <stop offset="0.24" style="stop-color: rgb(142, 154, 160);"/>
+      <stop offset="0.3" style="stop-color: rgb(139, 147, 150);"/>
+      <stop offset="0.38" style="stop-color: rgb(148, 161, 166);"/>
+      <stop offset="0.51" style="stop-color: rgb(112, 132, 141);"/>
+      <stop offset="0.6" style="stop-color: rgb(129, 149, 157);"/>
+      <stop offset="0.75" style="stop-color: rgb(94, 112, 122);"/>
+      <stop offset="0.85" style="stop-color: rgb(92, 95, 99);"/>
+      <stop offset="1" style="stop-color: rgba(118, 141, 41, 0);"/>
+    </linearGradient>
+    <filter id="contrast-filter-0" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="contrast 1 1.57">
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="1.57" intercept="-0.28500000000000003"/>
+        <feFuncG type="linear" slope="1.57" intercept="-0.28500000000000003"/>
+        <feFuncB type="linear" slope="1.57" intercept="-0.28500000000000003"/>
+      </feComponentTransfer>
+    </filter>
+    <mask id="mask-0">
+      <g transform="matrix(1, 0, 0, 1, 7, 17)">
+        <path style="stroke: rgb(0, 0, 0); paint-order: fill; stroke-width: 5.99998px; fill: rgb(255, 205, 64);" d="M 125.05 21.41 A 86.1 86.1 0 0 1 125.05 190.99 A 141.98 141.98 0 0 0 125.05 21.41 Z" transform="matrix(0.8660265, 0.499998, -0.499998, 0.8660265, 89.7900835, -17.0846298)" bx:origin="-0.273008 0.502032" bx:shape="crescent 110.1 106.2 86.1 160 0.75 1@30f98f15"/>
+        <path style="stroke: rgb(0, 0, 0); paint-order: fill; stroke-width: 6.00003px; fill: rgb(15, 157, 88);" d="M 125.05 21.41 A 86.1 86.1 0 0 1 125.05 190.99 A 141.98 141.98 0 0 0 125.05 21.41 Z" transform="matrix(-0.8660241, 0.5000023, -0.5000023, -0.8660241, 272.4004954, 166.8514209)" bx:shape="crescent 110.1 106.2 86.1 160 0.75 1@30f98f15" bx:origin="-0.272955 0.497931"/>
+        <path style="stroke: rgb(0, 0, 0); paint-order: fill; stroke-width: 6px; fill: rgb(219, 68, 55);" d="M 183.34 56.98 C 198.84 69.99 209.27 88.04 212.78 107.97 C 170.38 76.41 114.76 71.44 68.2 93.07 C 67.35 83.52 67.46 73.78 68.61 63.97 C 61.61 69.85 55.64 76.75 50.88 84.4 C 74.56 36.52 139.2 19.93 183.34 56.98 Z" bx:origin="0.476315 1.281239"/>
+      </g>
+    </mask>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="128" y1="33.56" x2="128" y2="222.44" id="gradient-1" gradientTransform="matrix(0.7170598, 0.6970178, -1.085743, 1.1169723, 181.6268616, -86.9051208)">
+      <stop offset="0" style="stop-color: rgba(187, 218, 85, 0);"/>
+      <stop offset="0.12" style="stop-color: rgb(104, 122, 132);"/>
+      <stop offset="0.24" style="stop-color: rgb(142, 154, 160);"/>
+      <stop offset="0.3" style="stop-color: rgb(139, 147, 150);"/>
+      <stop offset="0.38" style="stop-color: rgb(148, 161, 166);"/>
+      <stop offset="0.51" style="stop-color: rgb(112, 132, 141);"/>
+      <stop offset="0.6" style="stop-color: rgb(129, 149, 157);"/>
+      <stop offset="0.75" style="stop-color: rgb(94, 112, 122);"/>
+      <stop offset="0.85" style="stop-color: rgb(92, 95, 99);"/>
+      <stop offset="1" style="stop-color: rgba(118, 141, 41, 0);"/>
+    </linearGradient>
+    <filter id="drop-shadow-filter-0" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="drop-shadow 1 0 0 7 0.6 rgba(0,149,255,1)">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="7"/>
+      <feOffset dx="0" dy="0"/>
+      <feComponentTransfer result="offsetblur">
+        <feFuncA id="spread-ctrl" type="linear" slope="1.2"/>
+      </feComponentTransfer>
+      <feFlood flood-color="rgba(0,149,255,1)"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g style="filter: url(#contrast-filter-1);">
+    <g style="filter: url(#sharpen-filter-1);">
+      <rect style="stroke-width: 6px; stroke: url(#gradient-0); fill: url(#gradient-2);" x="24" y="30.29" width="222" height="222" rx="24" ry="24" bx:origin="0.5 0.516712"/>
+      <circle style="fill: url(#gradient-3); stroke-width: 0px; filter: url(#point-light-filter-0);" cx="135" cy="145" r="68.38" bx:origin="0.5 0.5"/>
+      <path d="M 125.4 113 H 144.6 V 135.4 H 167 V 154.6 H 144.6 V 177 H 125.4 V 154.6 H 103 V 135.4 H 125.4 Z" style="fill: rgb(7, 68, 118); stroke: rgb(0, 0, 0); stroke-width: 6px;" bx:shape="cross 103 113 64 64 19.2 19.2 0.5 1@0c70ffc2" bx:origin="0.5 0.5"/>
+      <path style="stroke: rgb(0, 0, 0); paint-order: fill; stroke-width: 5.99998px; fill: rgb(255, 205, 64); filter: none;" d="M 125.05 21.41 A 86.1 86.1 0 0 1 125.05 190.99 A 141.98 141.98 0 0 0 125.05 21.41 Z" transform="matrix(0.8660265, 0.499998, -0.499998, 0.8660265, 96.7947985, -0.7903277)" bx:origin="-0.268048 0.505636" bx:shape="crescent 110.1 106.2 86.1 160 0.75 1@30f98f15"/>
+      <path style="stroke: rgb(0, 0, 0); paint-order: fill; stroke-width: 6.00003px; fill: rgb(15, 157, 88); filter: none;" d="M 125.05 21.41 A 86.1 86.1 0 0 1 125.05 190.99 A 141.98 141.98 0 0 0 125.05 21.41 Z" transform="matrix(-0.8660241, 0.5000023, -0.5000023, -0.8660241, 279.404951, 184.1457629)" bx:shape="crescent 110.1 106.2 86.1 160 0.75 1@30f98f15" bx:origin="-0.275024 0.499434"/>
+      <path style="stroke: rgb(0, 0, 0); paint-order: fill; stroke-width: 6px; fill: rgb(219, 68, 55); filter: none;" d="M 190.34 74.27 C 205.84 87.28 216.27 105.33 219.78 125.26 C 177.38 93.7 121.76 88.73 75.2 110.36 C 74.35 100.81 74.46 91.07 75.61 81.26 C 68.61 87.14 62.64 94.04 57.88 101.69 C 81.56 53.81 146.2 37.22 190.34 74.27 Z" bx:origin="0.476315 1.277167"/>
+      <circle style="mask: url(#mask-0); filter: url(#contrast-filter-0); stroke-width: 0px; fill: url(#gradient-4); fill-opacity: 0.47; mix-blend-mode: darken;" cx="135" cy="145" r="94.44" bx:origin="0.5 0.5"/>
+      <circle style="stroke-width: 0px; fill: url(#gradient-1); filter: url(#drop-shadow-filter-0); fill-opacity: 0.53; mix-blend-mode: overlay;" cx="135" cy="145" r="94.44" bx:origin="0.5 0.5"/>
+    </g>
+  </g>
+</svg>

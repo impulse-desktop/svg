@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <style>
+    rect {
+      fill: #900;
+    }
+
+    .halfCircle {
+      fill: none;
+      stroke: #900;
+      stroke-width: 2px;
+      stroke-linecap: round;
+
+      transform: rotate(40deg);
+      transform-origin: 11px 8px;
+    }
+
+    circle {
+      fill: #FFF;
+    }
+
+    #secure:target rect {
+      fill: #090;
+    }
+
+    #secure:target .halfCircle {
+      stroke: #090;
+      transform: none;
+    }
+  </style>
+
+  <g id="secure">
+    <rect x="3" y="8" width="10" height="8" />
+    <path class="halfCircle" d="M4,8 A4,4,1,0,1,12,8" />
+    <circle cx="8" cy="12" r="2" />
+  </g>
+</svg>

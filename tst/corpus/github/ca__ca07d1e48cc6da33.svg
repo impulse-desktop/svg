@@ -1,0 +1,17 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker fill="none" refX="0" refY="6.25" markerWidth="10" markerHeight="12.5" markerUnits="userSpaceOnUse" orient="auto" id="zvtont3pmuf">
+      <line stroke-width="2" stroke="black" fill="none" x1="10" y1="6.25" x2="0" y2="6.25" />
+      <line stroke-width="2" stroke="black" fill="none" x1="0" y1="1.25" x2="10" y2="6.25" />
+      <line stroke-width="2" stroke="black" fill="none" x1="10" y1="6.25" x2="0" y2="11.25" />
+      <line stroke-width="2" stroke="black" fill="none" x1="10" y1="12.5" x2="10" y2="0" />
+    </marker>
+    <marker fill="none" refX="17.5" refY="5" markerWidth="17.5" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto" id="s5url0g5kya">
+      <line stroke-width="2" stroke="black" fill="none" x1="17.5" y1="0" x2="7.5" y2="5" />
+      <line stroke-width="2" stroke="black" fill="none" x1="7.5" y1="5" x2="17.5" y2="10" />
+      <line stroke-width="2" stroke="black" fill="none" x1="17.5" y1="5" x2="7.5" y2="5" />
+      <ellipse stroke-width="2" stroke="black" fill="white" cx="3.75" cy="5" rx="3.75" ry="3.75" />
+    </marker>
+  </defs>
+  <polyline class="routedLine connector" stroke-width="2" stroke="black" fill="none" marker-start="url(#zvtont3pmuf)" marker-end="url(#s5url0g5kya)" points="0.5,100.5 100.5,0.5" />
+</svg>

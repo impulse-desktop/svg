@@ -1,0 +1,21 @@
+<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <clipPath id="myClip" clipPathUnits="objectBoundingBox">
+    <circle cx=".5" cy=".5" r=".5" />
+  </clipPath>
+
+  
+  <rect x="1" y="1" width="8" height="8" stroke="green"
+        clip-path="url(#myClip)" />
+
+  
+  <rect x="11" y="1" width="8" height="8" stroke="green"
+        clip-path="circle() fill-box" />
+
+  
+  <rect x="1" y="11" width="8" height="8" stroke="green"
+        clip-path="circle() stroke-box" />
+
+  
+  <rect x="11" y="11" width="8" height="8" stroke="green"
+        clip-path="circle() view-box" />
+</svg>

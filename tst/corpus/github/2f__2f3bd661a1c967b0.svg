@@ -1,0 +1,11 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker fill="none" refX="0" refY="5" markerWidth="17.5" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto" id="lxgqghcmn1m">
+      <polygon stroke-width="0" stroke="none" fill="black" points="8.75,10 0,5 8.75,0 17.5,5" />
+    </marker>
+    <marker fill="none" refX="15" refY="5" markerWidth="15" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto" id="3yuf4iey4ma">
+      <polyline stroke-width="2" stroke="black" fill="none" points="0,0 15,5 0,10" />
+    </marker>
+  </defs>
+  <polyline class="routedLine connector" stroke-width="2" stroke="black" fill="none" marker-start="url(#lxgqghcmn1m)" marker-end="url(#3yuf4iey4ma)" points="0.5,100.5 100.5,0.5" />
+</svg>

@@ -1,0 +1,22 @@
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>view-site</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M7.5,3 C3.35786438,3 1.77635684e-15,6.35786438 1.77635684e-15,10.5 C3.55271368e-15,14.6421356 3.35786438,18 7.5,18 C11.6421356,18 15,14.6421356 15,10.5" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="15" height="15" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <polyline id="path-3" points="8 0 18 0 18 10"></polyline>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="10" height="10" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="view-site" transform="translate(0.000000, 1.000000)" stroke="#DAB0B6">
+            <use id="Oval" mask="url(#mask-2)" stroke-width="4" xlink:href="#path-1"></use>
+            <path d="M8,10 L16.6803398,1.31966013" id="Line" stroke-width="2" stroke-linecap="square"></path>
+            <use id="Rectangle-4" mask="url(#mask-4)" stroke-width="4" xlink:href="#path-3"></use>
+        </g>
+    </g>
+</svg>

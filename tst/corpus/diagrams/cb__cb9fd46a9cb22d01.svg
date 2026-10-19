@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="640" height="400" 
+viewbox="0 0 640 400" version="1.1">
+<title>Properties of AutoMicRecorder(autoRecording=true)</title>
+<defs>
+    <marker id="m_e" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="strokeWidth" 
+    preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+      <polygon points="0,0 0,10 10,5" fill="red" id="ms"/>
+    </marker>
+    <marker id="m_s" viewBox="0 0 10 10" refX="0" refY="5" markerUnits="strokeWidth" 
+    preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+      <use xlink:href="#ms" transform="rotate(180,5,5)"/>
+    </marker>
+    <marker id="m_eb" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="strokeWidth" 
+    preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+      <polygon points="0,0 0,10 10,5" fill="blue" id="msb"/>
+    </marker>
+    <marker id="m_sb" viewBox="0 0 10 10" refX="0" refY="5" markerUnits="strokeWidth" 
+    preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+      <use xlink:href="#msb" transform="rotate(180,5,5)"/>
+    </marker>
+ </defs>
+
+  <path d="M 20 120 l 600 0" stroke-width="4" stroke="black" fill="none"/>
+  <path d="M 20 80 l 600 0" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 20 100 L 90 100 L 100 50 L 110 100 L 160 100 L 180 80 L 200 40 L 210 35 L 380 40 L 400 90 L 410 90 L 420 40 L 440 40 L 450 80 L 460 100 L 520 90 L 620 100" stroke-width="4" stroke="blue" fill="none"/>
+  <path d="M 94 30 l 0 150" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 106 30 l 0 150" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 150 30 l 0 330" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 180 30 l 0 330" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 210 30 l 0 330" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 396 30 l 0 150" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 412 30 l 0 150" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 450 30 l 0 330" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 480 30 l 0 330" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 500 30 l 0 330" stroke-width="1" stroke="black" fill="none"/>
+
+  <path d="M 240 120 l 0 -40" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 150 220 l 30 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 94 160 l 30 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 105 155 l 8 10" stroke-width="2" stroke="red" fill="none"/>
+  <path d="M 105 165 l 8 -10" stroke-width="2" stroke="red" fill="none"/>
+  <path d="M 180 160 l 30 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 210 220 l 40 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 450 220 l 30 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 396 160 l 50 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 416 155 l 10 10" stroke-width="2" stroke="red" fill="none"/>
+  <path d="M 416 165 l 10 -10" stroke-width="2" stroke="red" fill="none"/>
+  <path d="M 450 160 l 50 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+  <path d="M 500 220 l 40 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+
+  <path d="M 210 280 L 500 280" stroke-width="1" stroke="blue" marker-start="url(#m_sb)" marker-end="url(#m_eb)"/>
+  <path d="M 150 340 L 480 340" stroke-width="1" stroke="blue" marker-start="url(#m_sb)" marker-end="url(#m_eb)"/>
+
+
+  <g font-family="sans-serif" font-size="16" fill="red">
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+  </g>
+  <g font-family="sans-serif" font-size="16" fill="blue">
+    
+    
+    
+    
+  </g>
+  <g font-family="sans-serif" font-size="20">
+    
+  </g>
+</svg>

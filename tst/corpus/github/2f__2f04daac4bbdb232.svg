@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="550" viewBox="0 0 1200 1400">
+   <defs>
+     <polyline id="poly-line"  points="83.77 416.89 185.57 458.13 260.96 433.65 260.96 346.02 384.68 298.33 460.71 52.19 34.15 52.84 85.7 119.8 61 299 109 346 83.77 416.89" />
+   </defs>
+   
+   <use xlink:href="#poly-line" style="fill:none;stroke:purple;stroke-width:4;" />
+   <use xlink:href="#poly-line" transform="translate(0,500) scale(1,-1) translate(600,0)" style="fill:yellow;stroke:purple;stroke-width:4" />
+</svg>

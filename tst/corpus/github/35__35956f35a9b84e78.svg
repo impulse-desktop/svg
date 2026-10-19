@@ -1,0 +1,50 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 794 1128"
+	xml:space="preserve">
+
+	<style>
+		:root {
+			--clr-black: #000;
+			--clr-white: #fff;
+			--clr-1: hsla(52, 98%, 51%, 1);
+			--clr-2: hsla(1, 97%, 59%, 1);
+			--clr-3: hsla(241, 100%, 64%, 1);
+		}
+	</style>
+
+	<defs>
+		<pattern id="horizontal-stripes" width="12" height="12" patternUnits="userSpaceOnUse"
+			patternTransform="rotate(90)">
+			<line stroke='var(--clr-white)' stroke-width="12px" y2="12" />
+		</pattern>
+		<pattern id="vertical-stripes" width="12" height="12" patternUnits="userSpaceOnUse">
+			<line stroke='var(--clr-white)' stroke-width="12px" y2="12" />
+		</pattern>
+	</defs>
+
+	<g stroke='var(--clr-black)' stroke-width="1" fill="none" opacity=".6">
+		<path d="M161,200 L161,880" />
+		<circle r="2" cx="161" cy='201' fill='var(--clr-black)' />
+		<circle r="2" cx="161" cy='880'  fill='var(--clr-black)'/>
+	</g>
+
+	<g fill='var(--clr-2)' opacity=".9">
+		<circle r="10" cx="161" cy='201' />
+		<circle r="10" cx="161" cy='376' />
+		<circle r="10" cx="161" cy='457' />
+		<circle r="10" cx="161" cy='597' />
+		<circle r="10" cx="161" cy='679' />
+		<circle r="10" cx="161" cy='880' />
+	</g>
+
+	<g fill='var(--clr-2)'>
+		<path d='M794,949 a86,86 0 0 0 0,178Z' opacity=".8" />
+	</g>
+
+	<g fill='var(--clr-3)'>
+		<rect x='0' y='1040' width='180' height='90' />
+	</g>
+
+	<g fill='var(--clr-1)'>
+		<path d='M0,155 a87,87 0 1 1 178,0Z' />
+	</g>
+</svg>

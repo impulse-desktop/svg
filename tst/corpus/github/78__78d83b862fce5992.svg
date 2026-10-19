@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     id="body" width="450" height="500" viewBox="0 0 450 500">
+
+        
+
+<g>
+
+        <defs>
+            <g id="smilley">
+                <g  transform="scale(.8, .8) translate(-15,-15)">
+                    <circle cx="15" cy="15" r="10"/>
+                    <circle cx="12" cy="12" r="1.5" fill="black"/>
+                    <circle cx="17" cy="12" r="1.5" fill="black"/>
+                    <path d="M 10 19 A 8 8 0 0 0 20 19" stroke="black" stroke-width="1"/>
+                </g>
+            </g>
+            <g id="successBlack" fill="#aaa">
+                <use xlink:href="#smilley" />
+            </g>
+            <g id="successCrimson" fill="crimson">
+                <use xlink:href="#smilley" />
+            </g>
+            <g id="successOrange" fill="orange">
+                <use xlink:href="#smilley" />
+            </g>
+            <g id="successBlue" fill="blue">
+                <use xlink:href="#smilley" />
+            </g>
+
+            <path id="Path1" style="fill:none; stroke:blue;" 
+                  d="M140 300 C140 150 280 150 280 300"/>
+
+        </defs>
+
+        <g transform="translate(5, 5) scale(.2)">
+            <use xlink:href="#successBlack"/>
+            <a xlink:href="#svgView(viewBox(0,0,450,500))">
+                
+            </a>
+        </g>
+        <g transform="translate(15, 5) scale(.2)">
+            <use xlink:href="#successCrimson"/>
+            <a xlink:href="#svgView(viewBox(0,0,450,500))">
+                
+            </a>
+        </g>
+        <g transform="translate(25, 5) scale(.2)">
+            <use xlink:href="#successOrange"/>
+            <a xlink:href="#svgView(viewBox(0,0,450,500))">
+                
+            </a>
+        </g>
+        <g transform="translate(35, 5) scale(.2)">
+            <use xlink:href="#successBlue"/>
+            <a xlink:href="#svgView(viewBox(0,0,450,500))">
+                
+            </a>
+        </g>
+
+        <view id="black" viewBox="3,2.5,4,4" />
+        <view id="crimson" viewBox="13,2.5,4,4" />
+        <view id="orange" viewBox="23,2.5,4,4" />
+        <view id="blue" viewBox="33,2.5,4,4" />
+
+
+
+<a xlink:href="#black">
+
+</a>
+
+
+
+
+<g transform="translate(0 300)" >
+<a xlink:href="#black">
+
+</a>
+</g>
+
+
+
+<use xlink:href="#Path1" />
+
+<a xlink:href="#black">
+
+</a>
+
+
+
+
+</g>
+
+</svg>

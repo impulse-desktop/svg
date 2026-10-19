@@ -1,0 +1,25 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+   <filter id="colorMeTheSame">
+    <feColorMatrix in="SourceGraphic"
+        type="matrix"
+        values="-1 0 0 0 1
+                0 -1 0 0 1
+                0 0 -1 0 1
+                0 0 0 1 0" />
+   </filter>
+	<style>
+      .base{
+        height:75%;
+        width: 75%;
+        transform-origin: 21% 65%;
+      	transform: rotateX(45deg) rotateZ(45deg);
+      }
+	</style>
+  <rect class="base" x="10" fill="#cc474b" y="25" rx="40" />
+  <rect class="base" x="-60" fill="#fadcf0"  y="-45" rx="40" />
+  <rect class="base" x="-130" fill="#2af"  y="-115" rx="40" />
+  <image
+    height="50%" width="50%" filter="url(#colorMeTheSame)" transform="matrix(0.80,-0.60,0.87,0.60,52,180)"
+    href="./comCode.svg"
+  />
+</svg>

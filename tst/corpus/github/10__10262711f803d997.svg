@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 270 194">
+  <defs>
+    <filter id="j" color-interpolation-filters="sRGB">
+      <feSpecularLighting specularExponent="9.5"
+         specularConstant="0.86"
+         surfaceScale="0.64"
+         kernelUnitLength="2.8"
+         stdDeviation="2.3399999999999999" lighting-color="#A2A2A2" in="SourceGraphic" result="specOut">
+        <fePointLight x="29" y="80" z="43"/>
+      </feSpecularLighting>
+      <feGaussianBlur stdDeviation="2" result="result1"/>
+      <feComposite in2="result1" in="SourceGraphic" operator="arithmetic" k2="1" k3="1"/>
+    </filter>
+    <filter id="l" color-interpolation-filters="sRGB">
+      <feSpecularLighting specularExponent="9.5"
+         specularConstant="0.75"
+         surfaceScale="0.64"
+         kernelUnitLength="2.8"
+         stdDeviation="2.3399999999999999" lighting-color="#B6B6B6" in="StrokePaint" result="specOut2">
+        <fePointLight x="178" y="128" z="42"/>
+      </feSpecularLighting>
+      <feGaussianBlur stdDeviation="2" result="result1"/>
+      <feComposite in2="result1" in="SourceGraphic" operator="arithmetic" k2="1" k3="1"/>
+    </filter>
+    <filter id="n" color-interpolation-filters="sRGB">
+      <feSpecularLighting id="a" specularExponent="18.5"
+         specularConstant="0.75"
+         surfaceScale="0.64"
+         kernelUnitLength="2.8"
+         stdDeviation="2.3399999999999999" lighting-color="#858585" in="StrokePaint" result="specOut3">
+        <fePointLight x="178" y="28" z="42"/>
+      </feSpecularLighting>
+      <feGaussianBlur stdDeviation="2" result="result1"/>
+      <feComposite in2="result1" in="SourceGraphic" operator="arithmetic" k2="1" k3="1"/>
+    </filter>
+    <filter id="g">
+      <feSpecularLighting specularExponent="10" kernelUnitLength="3" lighting-color="#5C5C5C" in="SourceGraphic" result="blueOut`">
+        <fePointLight x="29" y="80" z="43"/>
+      </feSpecularLighting>
+      <feMerge result="mergeOut">
+        <feMergeNode in="blackOut"/>
+        <feMergeNode in="blueOut"/>
+      </feMerge>
+      <feGaussianBlur stdDeviation="2" result="blurOut"/>
+      <feComposite in2="blurOut" in="SourceGraphic" operator="arithmetic" k2="1" k3="1"/>
+    </filter>
+    <mask id="k">
+      <use href="#b" fill="#fff" stroke="#fff"/>
+    </mask>
+    <mask id="m">
+      <use href="#c" fill="#fff" stroke="#fff"/>
+    </mask>
+    <mask id="o">
+      <use href="#d" fill="#fff" stroke="#fff"/>
+    </mask>
+    <mask id="h">
+      <use href="#e" fill="#fff" stroke="#fff"/>
+    </mask>
+    <mask id="i">
+      <use href="#f" fill="#fff" stroke="#fff"/>
+    </mask>
+  </defs>
+  <g filter="url(#g)" mask="url(#h)" stroke="#231f20">
+    <path d="M111 100l48-49" id="e" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" paint-order="markers fill stroke"/>
+  </g>
+  <g filter="url(#g)" mask="url(#i)" stroke="#231f20">
+    <path id="f" d="M111 100l49 48" fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g filter="url(#j)" mask="url(#k)" fill="#2354a1" stroke="#0e2140">
+    <path d="M27 63h68c9 0 16 7 16 16v42c0 9-7 16-16 16H27c-8 0-15-7-15-16V79c0-9 7-16 15-16z" id="b" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+  <g filter="url(#l)" mask="url(#m)" fill="#5d51a5" stroke="#332f62">
+    <path d="M175 108h68c8 0 15 7 15 16v42c0 9-7 16-15 16h-68c-9 0-16-7-16-16v-42c0-9 7-16 16-16z" id="c" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+  <g filter="url(#n)" mask="url(#o)" fill="#231f20" stroke="#574f3a">
+    <path d="M175 12h67c9 0 16 7 16 15v43c0 9-7 16-16 16h-67c-9 0-16-7-16-16V27c0-8 7-15 16-15z" id="d" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+</svg>

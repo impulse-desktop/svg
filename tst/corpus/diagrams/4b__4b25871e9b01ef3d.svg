@@ -1,0 +1,117 @@
+<svg width="270pt" height="349pt"
+ viewBox="0.00 0.00 270.10 349.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 345)">
+<title>ElevatorSystemA</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-345 266.096,-345 266.096,4 -4,4"/>
+
+<g id="node1" class="node"><title>Building</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;Building&quot;);" xlink:title="class Building
+">
+<polygon fill="none" stroke="black" points="114.5,-0.5 114.5,-46.5 206.5,-46.5 206.5,-0.5 114.5,-0.5"/>
+
+<polyline fill="none" stroke="black" points="114.5,-23.5 206.5,-23.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>Bank</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Bank&quot;);" xlink:title="class Bank
+">
+<polygon fill="none" stroke="black" points="69,-83.5 69,-129.5 142,-129.5 142,-83.5 69,-83.5"/>
+
+<polyline fill="none" stroke="black" points="69,-106.5 142,-106.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Building&#45;&gt;Bank</title>
+<g id="a_edge2"><a xlink:title="Building 1 &#160;&#45;&#45; 1..* &#160;Bank">
+<path fill="none" stroke="black" d="M120.511,-83.3932 128.269,-71.9678 137.71,-58.0628 145.471,-46.6336"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node3" class="node"><title>Floor</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;Floor&quot;);" xlink:title="class Floor
+">
+<polygon fill="none" stroke="black" points="16,-279.5 16,-340.5 149,-340.5 149,-279.5 16,-279.5"/>
+
+<polyline fill="none" stroke="black" points="16,-317.5 149,-317.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Building&#45;&gt;Floor</title>
+<g id="a_edge1"><a xlink:title="Building 1 &#160;&#45;&#45; 2..* &#160;Floor">
+<path fill="none" stroke="black" d="M140.449,-279.432 153.693,-269.73 166.051,-257.604 173.5,-243 206.565,-178.173 182.887,-88.0665 168.857,-46.7763"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node4" class="node"><title>Elevator</title>
+<g id="a_node4"><a xlink:href="javascript:Action.selectClass(&quot;Elevator&quot;);" xlink:title="class Elevator
+Temporarely taken out because of lack of Association Class implementations in Umple 2.0
+ordered
+association BankOnFloor{ 
+ Boolean upCall;
+ Boolean downCall;
+ 0..* Bank; 
+ 2..* Floor;
+}
+Positioning
+">
+<polygon fill="none" stroke="black" points="0,-166.5 0,-242.5 165,-242.5 165,-166.5 0,-166.5"/>
+
+<polyline fill="none" stroke="black" points="0,-219.5 165,-219.5 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Bank&#45;&gt;Elevator</title>
+<g id="a_edge3"><a xlink:title="Bank 1 &#160;&#45;&#45; 1..* &#160;Elevator">
+<path fill="none" stroke="black" d="M91.4089,-166.315 94.3661,-153.972 97.5645,-140.622 100.166,-129.766"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge4" class="edge"><title>Floor&#45;&gt;Floor</title>
+<g id="a_edge4"><a xlink:title="Floor 0..1 &#160;&#45;&#45; 0..1 onSamelevelAs Floor">
+<path fill="none" stroke="black" d="M149.096,-292.042C159.725,-294.67 167,-300.656 167,-310 167,-319.344 159.725,-325.33 149.096,-327.958"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge5" class="edge"><title>Floor&#45;&gt;Elevator</title>
+<g id="a_edge5"><a xlink:title="Floor 1 &#160;&#45;&#45; * onFloor Elevator">
+<path fill="none" stroke="black" d="M88.6721,-279.315C89.3094,-267.864 89.4196,-254.638 89.0027,-242.574"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge6" class="edge"><title>Elevator&#45;&gt;Floor</title>
+<g id="a_edge6"><a xlink:title="Elevator * &#160;&#45;&#45; * hasAccess Floor">
+<path fill="none" stroke="black" d="M75.9973,-242.574C75.5804,-254.638 75.6906,-267.864 76.3279,-279.315"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

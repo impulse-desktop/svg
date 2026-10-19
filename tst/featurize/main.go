@@ -6,7 +6,7 @@
 // Reads a path a line and writes a JSON line a file, [path, digest, size,
 // features]: with -clean the file as tst/import.py cleans it, a file it
 // refuses left out, else the file as it is; the digest is the sha256 of its
-// words joined by single spaces, as tst/pick.py's. The features are
+// words joined by single spaces, comments left out, as tst/pick.py's. The features are
 // tst/features.py's, which this follows rule for rule.
 package main
 
@@ -35,7 +35,8 @@ import (
 const maxBytes = 1 << 20
 
 var (
-	forbidden = regexp.MustCompile(`(?i)<(?:svg:)?(?:script|foreignObject|animate|animateMotion|animateTransform|animateColor|set|discard|tspan|textPath|tref|altGlyph|video|audio|iframe|canvas)\b|@keyframes|<html\b|<body\b`)
+	forbidden = regexp.MustCompile(`(?i)<(?:svg:)?(?:script|foreignObject|animate|animateMotion|animateTransform|animateColor|set|discard|tspan|textPath|tref|altGlyph|video|audio|iframe|canvas)\b|@(?:-[a-z]+-)?keyframes|<html\b|<body\b`)
+	comment   = regexp.MustCompile(`(?s)<!--.*?-->`)
 	svgRoot   = regexp.MustCompile(`(?i)<(?:svg:)?svg\b`)
 	dataURI   = regexp.MustCompile(`(?i)data:([^,;"')\t\n\v\f\r ]*)((?:;[^,"')\t\n\v\f\r ]*)*),([^"')\t\n\v\f\r ]*)`)
 	packing   = regexp.MustCompile(`[\t\n\v\f\r ]|&#1[03];`)
@@ -250,7 +251,7 @@ func cleaned(data []byte) ([]byte, bool) {
 }
 
 func digest(data []byte) string {
-	h := sha256.Sum256(bytes.Join(bytes.FieldsFunc(data, func(r rune) bool { return r < 128 && isSpace(byte(r)) }), []byte(" ")))
+	h := sha256.Sum256(bytes.Join(bytes.FieldsFunc(comment.ReplaceAll(data, nil), func(r rune) bool { return r < 128 && isSpace(byte(r)) }), []byte(" ")))
 
 	return hex.EncodeToString(h[:])
 }

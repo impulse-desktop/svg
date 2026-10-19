@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 120 120">
+  <defs>
+    
+    <filter id="light-glow" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="-4" dy="-2" flood-color="var(--st-light-color)" flood-opacity="0.4" stdDeviation="4" />
+      <feDropShadow dx="+4" dy="-2" flood-color="var(--st-light-color)" flood-opacity="0.4" stdDeviation="4" />
+    </filter>
+    
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-opacity="0.33" />
+    </filter>
+
+    
+    <g id="light" stroke="var(--st-stroke-color)" stroke-linejoin="round" stroke-width="2">
+      <path fill="var(--st-light-color)" d="M25 20 a100 125 0 0 1 70 0 z" />
+    </g>
+    
+    <g id="torch-body" stroke="var(--st-stroke-color)" stroke-linejoin="round" stroke-width="2">
+      <path fill="var(--st-body-color-1)" d="M25 20 h70 v10 h-70 z" />
+      <path fill="var(--st-body-color-2)" d="M25 30 h70 a50 50 0 0 1 -15 25 h-40 a50 50 0 0 1 -15 -25 z" />
+      <path fill="var(--st-body-color-1)" d="M40 55 h40 v55 a100 125 0 0 1 -40 0 z" />
+    </g>
+    
+    <g id="torch-switch" stroke="var(--st-stroke-color)" stroke-linejoin="round" stroke-width="2">
+      <path fill="var(--st-switch-color-1)" d="M55 70 a5 5 0 1 1 10 0 v15 a5 5 0 1 1 -10 0 z" />
+      <circle id="torch-switch-thingy" fill="var(--st-switch-color-2)" cx="60" cy="70" r="7.5" />
+    </g>
+
+    
+    <g id="foreground">
+      <use href="#light" />
+      <use href="#light2" />
+      <use href="#torch-body" />
+      <use href="#torch-switch" />
+    </g>
+    
+    <g id="background" fill="var(--st-bg-color)" stroke="var(--st-outline-color)">
+      <circle cx="60" cy="60" r="59" />
+    </g>
+  </defs>
+
+  <style>
+    svg {
+      --st-bg-color: var(--simple-torch-bg-color, rgb(33, 33, 33));
+      --st-body-color-1: darkorange;
+      --st-body-color-2: orange;
+      --st-light-color: yellow;
+      --st-outline-color: var(--simple-torch-outline-color, dimgray);
+      --st-rotation: var(--simple-torch-rotation, 45deg);
+      --st-stroke-color: var(--simple-torch-stroke-color, var(--st-bg-color));
+      --st-switch-color-1: darkorchid;
+      --st-switch-color-2: orchid;
+    }
+
+    svg.dark {
+      --st-body-color-1: dimgray;
+      --st-body-color-2: gray;
+      --st-light-color: goldenrod;
+      --st-switch-color-1: darkslategray;
+      --st-switch-color-2: slategray;
+    }
+
+    svg.no-bg #background { display: none; }
+
+    #foreground {
+      transform: rotateZ(var(--st-rotation));
+      transform-origin: center;
+    }
+
+    #light { transition: opacity 0.3s; }
+    svg.off #light { opacity: 0; }
+    svg.with-effects #light {
+      filter: url(#light-glow);
+      stroke: none;
+    }
+
+    svg.with-effects #torch-body { filter: url(#shadow); }
+
+    #torch-switch-thingy { transition: transform 0.1s; }
+    svg.off #torch-switch-thingy { transform: translate(0, 15px); }
+  </style>
+
+  <use href="#background" />
+  <use href="#foreground" />
+</svg>

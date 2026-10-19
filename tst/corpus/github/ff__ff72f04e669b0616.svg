@@ -1,0 +1,19 @@
+<svg width="1060px" height="1060px" viewBox="0 0 1060 1060" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="filter">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <mask id="circle">
+      <circle cx="50%" cy="50%" r="45%" fill="white" filter="url(#filter)"></circle>
+    </mask>
+    <mask id="oval">
+      <ellipse cx="50%" cy="50%" rx="25%" ry="15%" fill="white" filter="url(#filter)"></ellipse>
+    </mask>
+  </defs>
+  <circle id="image_mask" fill="#CFCFCF" cx="50%" cy="50%" r="50%" mask="url(#circle)"></circle>
+
+  <g fill="none" fill-rule="evenodd">
+    <path d="M200,300 C200,100 550,0 620,300" id="top_text_path"></path>
+    <path d="M160,300 C150,550 550,750 670,300" id="bottom_text_path"></path>
+  </g>
+</svg>

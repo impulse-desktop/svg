@@ -1,0 +1,120 @@
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0,0 128,128"
+     xmlns:xlink="http://www.w3.org/1999/xlink" width="256" height="256">
+    <title>Snake game spritesheet</title>
+    <defs>
+        <clipPath id="cell-clip">
+            <rect x="-16" y="-16" width="32" height="32"/>
+        </clipPath>
+        <clipPath id="snake-eye-clip">
+            <path d="M 0,6 H -8 A 4,4 0 0,1 0,6 M 0,6 H 8 A 4,4 0 0,0 0,6"/>
+        </clipPath>
+        <clipPath id="potion-clip">
+            <rect x="-7" y="-2" width="14" height="11"/>
+        </clipPath>
+        <g id="potion-template">
+            <path d="M -3,-9 V -4.5 Q -7,-2 -7,2 A 7,7 0 0,0 7,2
+                  Q 7,-2 3,-4.5 V -9" fill="#80ffff"/>
+            <path d="M -4,-12 L -2,-8 L 2,-8 L 4,-12 Z" fill="#808040"/>
+            <circle cx="0" cy="2" r="7" clip-path="url(#potion-clip)"/>
+            <path d="M -6,-9 H -3 V -4.5 Q -7,-2 -7,2 A 7,7 0 0,0 7,2
+                  Q 7,-2 3,-4.5 V -9 H 6" fill="none" stroke="#40c0c0"
+                  stroke-width="2"/>
+        </g>
+        <clipPath id="leck-clip">
+            <rect x="-16" y="-16" width="32" height="32"/>
+        </clipPath>
+        <filter id="leck-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2"
+                            result="blurred"/>
+            <feComposite in="blurred" in2="blurred" operator="arithmetic"
+                         k1="-1" k2="2" result="amplified"/>
+            <feComponentTransfer in="SourceGraphic" result="white">
+                <feFuncR type="discrete" tableValues="1"/>
+                <feFuncG type="discrete" tableValues="1"/>
+                <feFuncB type="discrete" tableValues="1"/>
+            </feComponentTransfer>
+            <feBlend in="white" in2="amplified"/>
+            
+        </filter>
+    </defs>
+    <g id="snake" fill="#80ff80" stroke="#008000" stroke-width="2">
+        <g id="snake-head" transform="translate(16,16)">
+            <path d="M -5,16 V 11 C -5,7 -11,11 -11,5 C -11,0 -2,-9 0,-9
+                  C 2,-9 11,0 11,5 C 11,11 5,7 5,11 V 16"/>
+            <g clip-path="url(#snake-eye-clip)" stroke="none">
+                <rect x="-8" y="2" width="16" height="4" fill="white"/>
+                <circle cx="-4" cy="2" r="2" fill="black"/>
+                <circle cx="4" cy="2" r="2" fill="black"/>
+            </g>
+        </g>
+        <g id="snake-body" transform="translate(16,48)">
+            <rect x="-5" y="-16" width="10" height="32" stroke="none"/>
+            <path d="M -5,-16 V 16 M 5,-16 V 16" fill="none"/>
+        </g>
+        <g id="snake-curve" transform="translate(16,80)">
+            <path d="M -5,-16 A 21,21 0 0,0 16,5 L 16,-5
+                  A 11,11 0 0,1 5,-16 Z" stroke="none"/>
+            <path d="M -5,-16 A 21,21 0 0,0 16,5 M 5,-16 A 11,11 0 0,0 16,-5"
+                  fill="none"/>
+        </g>
+        <g id="snake-tail" transform="translate(16,112)">
+            <path d="M -5,-16 V -12 C -5,-4 -2,8 0,8 C 2,8 5,-4 5,-12
+                  V -16"/>
+        </g>
+    </g>
+    <g id="egg" transform="translate(48,16)">
+        <path d="M -9,3 A 9,14 0 0,1 9,3 A 9,8 0 0,1 -9,3 Z" fill="#f0f0e0"
+              stroke="#c0c0c0" stroke-width="2"/>
+    </g>
+    <g id="arrow" transform="translate(48,48)">
+        <path d="M 0,-8 L 4,0 L -4,0 Z"/>
+    </g>
+    <g id="obstacle" transform="translate(48,80)">
+        <rect x="-11" y="-11" width="22" height="22" fill="#808080"
+              stroke="#404040" stroke-width="2"/>
+    </g>
+    <g id="weak-obstacle" transform="translate(48,112)">
+        <rect x="-12" y="-12" width="24" height="24" fill="#c0c0c0"/>
+    </g>
+    <g id="mouse" transform="translate(80,16)">
+        <path d="M -6,1 Q -8.5,-5 -5,-5 Q -1.5,-5 -4,1" fill="#ffc0e0"
+              stroke="#c0c0c0" stroke-width="2"/>
+        <path d="M 11,5 A 2,2 0 0,1 11,11 L 7,11" fill="none"
+              stroke="#ffc0e0" stroke-width="2" stroke-linecap="round"/>
+        <path d="M -11,5 Q -7,-3 -2,-1 Q 0,-5 4,-5 Q 11,-5 11,5 Z"
+              fill="#f0f0f0" stroke="#c0c0c0" stroke-width="2"
+              stroke-linejoin="round"/>
+        <circle cx="-5" cy="1" r="1" fill="black"/>
+    </g>
+    <g id="gem" transform="translate(80,48)">
+        <path d="M 0,7 L 9,-2 L 4,-7 L -4,-7 L -9,-2 Z" fill="#80c0ff"
+              stroke="#0080ff" stroke-width="2"/>
+    </g>
+    <g id="potion-green" transform="translate(80,80)">
+        <use xlink:href="#potion-template" fill="#008000"/>
+    </g>
+    <g id="potion-yellow" transform="translate(80,112)">
+        <use xlink:href="#potion-template" fill="#c0c000"/>
+    </g>
+    <g id="potion-red" transform="translate(112,16)">
+        <use xlink:href="#potion-template" fill="#800000"/>
+    </g>
+    <g id="leck" transform="translate(112,80)">
+        <path d="M -5,-2 H 5 V -4 A 5,5 0 0,0 -5,-4 Z" fill="white"/>
+        <g clip-path="url(#leck-clip)" filter="url(#leck-filter)">
+            <rect x="-16" y="-16" width="32" height="32" opacity="0"/>
+            <path d="M -8,10 V -2 H -6 V -4 A 6,6 0 0,1 6,-4 V -2 H 8 V 10 Z
+                  M -4,-2 H 4 V -4 A 4,4 0 0,0 -4,-4 Z"/>
+        </g>
+    </g>
+    <g id="favicon" transform="translate(112,112)">
+        <g clip-path="url(#cell-clip)">
+            <g fill="#80ff80" stroke="#008000" stroke-width="2"
+               transform="rotate(45) scale(1.25)">
+                <rect x="-5" y="10" width="10" height="12" stroke="none"/>
+                <use xlink:href="#snake-head" x="-16" y="-20"/>
+                <path d="M -5,10 V 22 M 5,10 V 22" fill="none"/>
+            </g>
+        </g>
+    </g>
+</svg>

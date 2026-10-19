@@ -1,0 +1,51 @@
+<svg id="50d" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+	<defs>
+		<style>
+			svg, symbol {
+				--wh: #dff0fe;
+			 	--bl: #000;
+			 	--rd: #ff0000;
+			 	--lB: #98ccfd;
+			 	--dB: #4788c7;
+				--lG: #a5a5a5;
+			 	--dG: #808083;
+			 	--lY: #fce6b1;
+			 	--dY: #ffc843;
+			 	--bY: #3f3a02;
+			 	--s1: #fff76b;
+			 	--s2: #fff845;
+			 	--s3: #ffda4e;
+			 	--s4: #fb8933;
+			 	--s5: #fdc830;
+			 	--s6: #f37335;
+			}
+		</style>
+		<radialGradient id="sunCore" gradientUnits="userSpaceOnUse" r="95" spreadMethod="pad">
+			<stop stop-color="var(--s1)" offset="0"/>
+			<stop stop-color="var(--s2)" offset="10%"/>
+			<stop stop-color="var(--s3)" offset="30%"/>
+			<stop stop-color="var(--s4)" offset="100%"/>
+		</radialGradient>
+		<radialGradient id="sunRays" gradientUnits="userSpaceOnUse" r="100%" spreadMethod="pad">
+			<stop stop-color="var(--s4)" offset="5%"/>
+			<stop stop-color="var(--s3)" offset="72%"/>
+			<stop stop-color="var(--s2)" offset="94%"/>
+			<stop stop-color="var(--s1)" offset="100%"/>
+		</radialGradient>
+		<linearGradient id="lightCloud" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+			<stop stop-color="var(--wh)" offset="63%"/>
+			<stop stop-color="var(--dG)" offset="83%"/>
+			<stop stop-color="var(--bl)" offset="100%"/>
+		</linearGradient>
+		<linearGradient id="darkCloud" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+			<stop stop-color="var(--lG)" offset="33%"/>
+			<stop stop-color="var(--dG)" offset="56%"/>
+			<stop stop-color="var(--bl)" offset="100%"/>
+		</linearGradient>
+	</defs>
+	<g fill="url(#lightCloud)" stroke="url(#lightCloud)">
+		<path d="M369.22 204.65a10.63 10.63 0 0 1-8.68-12.26c.48-2.82.71-5.34.71-7.7a44.2 44.2 0 0 0-44.15-44.14 44.2 44.2 0 0 0-15.14 2.73 10.63 10.63 0 0 1-12.57-4.24 89.16 89.16 0 0 0-75.23-41.12c-49.36 0-89.52 40.15-89.52 89.5 0 2.21.17 4.5.35 6.9.37 5.16-3 9.88-8.01 11.14a50.9 50.9 0 0 0-38.58 49.4 51.07 51.07 0 0 0 51 51.02h231.15a51.09 51.09 0 0 0 51.04-51.03c0-24.89-17.82-46-42.37-50.2z"/>
+		<path d="M382.5 186.04l.01-1.35a65.48 65.48 0 0 0-65.41-65.4c-4.83 0-9.65.55-14.42 1.65a110.24 110.24 0 0 0-88.52-44.28c-61.08 0-110.78 49.69-110.78 110.77v.07a72.1 72.1 0 0 0-46.24 67.35c0 39.86 32.42 72.3 72.26 72.3h231.16c39.86 0 72.29-32.44 72.29-72.3a72 72 0 0 0-50.36-68.81zm-21.94 119.84H129.4c-28.12 0-51-22.9-51-51.03a50.9 50.9 0 0 1 38.58-49.39c5-1.26 8.38-5.98 8-11.13-.17-2.42-.34-4.7-.34-6.9 0-49.36 40.16-89.52 89.52-89.52a89.16 89.16 0 0 1 75.23 41.13 10.63 10.63 0 0 0 12.57 4.24 44.2 44.2 0 0 1 15.14-2.74 44.2 44.2 0 0 1 44.15 44.15c0 2.36-.23 4.88-.71 7.7a10.63 10.63 0 0 0 8.68 12.26 50.82 50.82 0 0 1 42.37 50.2 51.09 51.09 0 0 1-51.03 51.03z"/>
+	</g>
+	<path fill="var(--lG)" d="M367.8 423.35h-78.37a10.63 10.63 0 1 1 0-21.26h78.37a10.63 10.63 0 1 1 0 21.26zM172.35 162.91H62.3a10.63 10.63 0 0 1 0-21.26h110.03a10.63 10.63 0 0 1 0 21.26zM441.94 271.94H285.2a10.63 10.63 0 1 1 0-21.26h156.75a10.63 10.63 0 1 1 0 21.26zM214.81 423.35H58.06a10.63 10.63 0 0 1 0-21.26H214.8a10.63 10.63 0 1 1 0 21.26zM378.01 369H98.36a10.63 10.63 0 0 1 0-21.26H378a10.63 10.63 0 0 1 0 21.26zM423.42 179.76h-102.4a10.63 10.63 0 1 1 0-21.26h102.4a10.63 10.63 0 1 1 0 21.26z"/>
+</svg>

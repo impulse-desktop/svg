@@ -1,0 +1,15 @@
+<svg width="61" height="55" viewBox="0 0 61 55" fill="none" xmlns="http://www.w3.org/2000/svg"  filter="url(#filter)">
+<path d="M60.5561 14.4562C63.0793 27.3909 55.0489 44.6633 31.2641 54.25C31.0215 54.3506 30.7614 54.4023 30.4986 54.4023C30.2359 54.4023 29.9757 54.3506 29.7332 54.25C6.02488 44.8918 -2.08201 27.5432 0.441213 14.4562C2.12383 5.63103 8.31846 0 16.3502 0C20.8622 0 25.6804 1.82624 30.4986 5.40257C35.2403 1.97854 40.135 0.152302 44.5719 0.152302C52.6023 0.152302 58.7969 5.78333 60.5561 14.4562Z" fill="#F8E9A0"/>
+    <filter id="filter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB">
+        <feFlood flood-color="#000000" flood-opacity="1" result="flood"/>
+        <feComposite in="flood" in2="SourceAlpha" operator="out" result="composite1"/>
+        <feOffset dx="4" dy="4" in="composite1" result="offset"/>
+        <feGaussianBlur stdDeviation="4 4" in="offset" edgeMode="none" result="blur"/>
+        <feComposite in="blur" in2="SourceAlpha" operator="in" result="composite2"/>
+        <feMerge result="merge">
+            <feMergeNode in="SourceGraphic"/>
+            <feMergeNode in="composite2"/>
+        </feMerge>
+        <feBlend mode="hard-light" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" in2="composite2" result="blend"/>
+    </filter>
+</svg>

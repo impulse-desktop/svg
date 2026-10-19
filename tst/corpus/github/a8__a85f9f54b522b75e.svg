@@ -1,0 +1,100 @@
+<svg width="245pt" height="349pt"
+ viewBox="0.00 0.00 245.00 349.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 345)">
+<title>NullExample</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-345 241,-345 241,4 -4,4"/>
+
+<g id="node1" class="node"><title>A</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;A&quot;);" xlink:title="class A
+The named example you requested is not available or else
+ &#160;you did not specify a name in the URL you used to invoke UmpleOnline.
+ &#160;&#160;
+ &#160;Below is a very simple Umple file demonstrating basic features
+ &#160;You can use this to start experimenting with Umple
+ &#160;
+ &#160;Click on the Generate Code button to see the almost 700 lines of Java
+ &#160;generated from this class diagram model
+Definition of a class
+">
+<polygon fill="none" stroke="black" points="34,-279.5 34,-340.5 126,-340.5 126,-279.5 34,-279.5"/>
+
+<polyline fill="none" stroke="black" points="34,-317.5 126,-317.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>B</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;B&quot;);" xlink:title="class B
+Definition of a second class
+Modeling entities can also be added to a class as follows
+We are adding to B, rather than replacing it
+">
+<polygon fill="none" stroke="black" points="0,-83.5 0,-129.5 160,-129.5 160,-83.5 0,-83.5"/>
+
+<polyline fill="none" stroke="black" points="0,-106.5 160,-106.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>B&#45;&gt;A</title>
+<path fill="none" stroke="black" d="M50.4909,-270.538 45.3448,-261.907 40.7619,-252.485 38,-243 28.4319,-210.143 27.5167,-198.577 38,-166 42.2896,-152.67 50.8648,-139.807 59.1547,-129.553"/>
+<polygon fill="none" stroke="black" points="47.6873,-272.652 56.005,-279.214 53.5952,-268.897 47.6873,-272.652"/>
+</g>
+
+<g id="node4" class="node"><title>D</title>
+<g id="a_node4"><a xlink:href="javascript:Action.selectClass(&quot;D&quot;);" xlink:title="class D
+A fourth class that will be a singleton (only one instance allowed)
+">
+<polygon fill="none" stroke="black" points="47,-166.5 47,-242.5 237,-242.5 237,-166.5 47,-166.5"/>
+
+<polyline fill="none" stroke="black" points="47,-219.5 237,-219.5 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>B&#45;&gt;D</title>
+<g id="a_edge2"><a xlink:title="B 0..1 &#160;&#45;&#45; 0..1 &#160;D">
+<path fill="none" stroke="black" d="M94.3799,-129.766C101.391,-140.622 110.013,-153.972 117.985,-166.315"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node3" class="node"><title>C</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;C&quot;);" xlink:title="class C
+A third class
+">
+<polygon fill="none" stroke="black" points="43.5,-0.5 43.5,-46.5 116.5,-46.5 116.5,-0.5 43.5,-0.5"/>
+
+<polyline fill="none" stroke="black" points="43.5,-23.5 116.5,-23.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>C&#45;&gt;B</title>
+<g id="a_edge3"><a xlink:title="C 1 &#160;&#45;&#45; * &#160;B">
+<path fill="none" stroke="black" d="M80,-46.6336C80,-58.0628 80,-71.9678 80,-83.3932"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge4" class="edge"><title>D&#45;&gt;A</title>
+<g id="a_edge4"><a xlink:title="D 0..1 theD &#45;&#45; 1..* theA A">
+<path fill="none" stroke="black" d="M97.7823,-279.315 104.642,-267.864 112.564,-254.638 119.792,-242.574"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

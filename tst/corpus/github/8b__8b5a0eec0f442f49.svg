@@ -1,0 +1,34 @@
+<svg width="400px" height="200px" viewBox="0 0 4000 2000"
+     xmlns="http://www.w3.org/2000/svg">
+  <title>Example Units</title>
+  <desc>Illustrates various units options</desc>
+
+  
+  <rect x="5" y="5" width="3990" height="1990"
+        fill="none" stroke="blue" stroke-width="10"/>
+
+  <g fill="blue" stroke="red" font-family="Verdana" font-size="150">
+    
+    <g transform="translate(400,0)">
+      
+      <rect x="0" y="400" width="4in" height="2in" stroke-width=".4in"/>
+      <rect x="0" y="750" width="384" height="192" stroke-width="38.4"/>
+      <g transform="scale(2)">
+        <rect x="0" y="600" width="4in" height="2in" stroke-width=".4in"/>
+      </g>
+    </g>
+
+    
+    
+
+    
+    <g transform="translate(2800,0)">
+      
+      <rect x="0" y="400" width="10%" height="10%" stroke-width="1%"/>
+      <rect x="0" y="750" width="400" height="200" stroke-width="31.62"/>
+      <g transform="scale(2)">
+        <rect x="0" y="600" width="10%" height="10%" stroke-width="1%"/>
+      </g>
+    </g>
+  </g>
+</svg>

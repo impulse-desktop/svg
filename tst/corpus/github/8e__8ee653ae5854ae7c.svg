@@ -1,0 +1,103 @@
+<svg version="1.1" baseProfile="full" id="svg-root" width="100%" height="100%" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <SVGTestCase xmlns="http://www.w3.org/2000/02/svg/testsuite/description/" reviewer="[reviewer]" owner="[owner]" desc="[desc]" status="empty" version="$Revision$" testname="$RCSfile$">
+    <OperatorScript>
+      <Paragraph>
+                Test of feImage, feGaussianBlur, feFlood, feComposite and feBlend filter support.
+      </Paragraph>
+    </OperatorScript>
+  </SVGTestCase>
+  <title id="test-title">$RCSfile$</title>
+  
+  
+  
+  <g id="test-body-content">
+		<defs>
+			
+			<filter id="image" x="0" y="0%" width="1" height="100%">
+				<feImage xlink:href="images/image1.jpg"/>
+				<feGaussianBlur stdDeviation="1" result="blurred"/>
+				<feFlood in="SourceGraphic" flood-opacity="0.5"/>
+				<feComposite operator="in" in="blurred"/>
+			</filter>
+			<filter id="normal" xlink:href="#image">
+				<feImage xlink:href="images/image1.jpg"/>
+				<feGaussianBlur stdDeviation="1" result="blurred"/>
+				<feFlood in="SourceGraphic" flood-opacity="0.5"/>
+				<feComposite operator="in" in="blurred"/>
+				<feBlend mode="normal" in2="SourceGraphic"/>
+			</filter>
+			<filter id="multiply" xlink:href="#image">
+				<feImage xlink:href="images/image1.jpg"/>
+				<feGaussianBlur stdDeviation="1" result="blurred"/>
+				<feFlood in="SourceGraphic" flood-opacity="0.5"/>
+				<feComposite operator="in" in="blurred"/>
+				<feBlend mode="multiply" in2="SourceGraphic"/>
+			</filter>
+			<filter id="screen" xlink:href="#image">
+				<feImage xlink:href="images/image1.jpg"/>
+				<feGaussianBlur stdDeviation="1" result="blurred"/>
+				<feFlood in="SourceGraphic" flood-opacity="0.5"/>
+				<feComposite operator="in" in="blurred"/>
+				<feBlend mode="screen" in2="SourceGraphic"/>
+			</filter>
+
+			
+			<filter id="darken" xlink:href="#image">
+				<feImage xlink:href="images/image1.jpg"/>
+				<feGaussianBlur stdDeviation="1" result="blurred"/>
+				<feFlood in="SourceGraphic" flood-opacity="0.5"/>
+				<feComposite operator="in" in="blurred"/>
+				<feBlend mode="darken" in2="SourceGraphic"/>
+			</filter>
+			<filter id="lighten" xlink:href="#image">
+				<feImage xlink:href="images/image1.jpg"/>
+				<feGaussianBlur stdDeviation="1" result="blurred"/>
+				<feFlood in="SourceGraphic" flood-opacity="0.5"/>
+				<feComposite operator="in" in="blurred"/>
+				<feBlend mode="lighten" in2="SourceGraphic"/>
+			</filter>
+		</defs>
+		
+		<rect x="25" y="50" width="95" height="95" filter="url(#image)"/>
+		
+		<g filter="url(#normal)">
+			<rect x="130" y="50" width="95" height="95" fill="none"/>
+			<rect x="155" y="75" width="45" height="45" fill="#a0a0a0" fill-opacity="0.5"/>
+		</g>
+		
+		<g filter="url(#multiply)">
+			<rect x="235" y="50" width="95" height="95" fill="none"/>
+			<rect x="260" y="75" width="45" height="45" fill="#a0a0a0" fill-opacity="0.5"/>
+		</g>
+		
+		<g filter="url(#screen)">
+			<rect x="340" y="50" width="95" height="95" fill="none"/>
+			<rect x="365" y="75" width="45" height="45" fill="#a0a0a0" fill-opacity="0.5"/>
+		</g>
+		
+		<g filter="url(#darken)">
+			<rect x="25" y="165" width="95" height="95" fill="none"/>
+			<rect x="50" y="190" width="45" height="45" fill="#a0a0a0" fill-opacity="0.5"/>
+		</g>
+		
+		<g filter="url(#lighten)">
+			<rect x="130" y="165" width="95" height="95" fill="none"/>
+			<rect x="155" y="190" width="45" height="45" fill="#a0a0a0" fill-opacity="0.5"/>
+		</g>
+		
+	</g>
+  
+  <rect id="test-frame" x="1" y="1" width="478" height="358" fill="none" stroke="#000"/>
+</svg>

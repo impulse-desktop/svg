@@ -4,13 +4,13 @@ does.
 
 Each candidate is cleaned as tst/import.py cleans what it imports (text
 cut, script, animation and foreign content refused, past 1 MB refused) and
-any whose content the corpus or another candidate has is dropped. Its
-features are tst/features.py's. A feature is weak while fewer than WEAK
-files of the corpus, and of what is picked, have it; a candidate is worth
-the sum, over its features, of how many files each still lacks. The pick
-is greedy: the worthiest candidate, the smaller of two of one worth, which
-the renderer must size and draw in time; the counts then grow, until no
-candidate is worth anything.
+any whose content the corpus or another candidate has, comments aside, is
+dropped. Its features are tst/features.py's. A feature is weak while fewer
+than WEAK files of the corpus, and of what is picked, have it; a candidate
+is worth the sum, over its features, of how many files each still lacks.
+The pick is greedy: the worthiest candidate, the smaller of two of one
+worth, which the renderer must size and draw in time; the counts then
+grow, until no candidate is worth anything.
 
 With --count N the pick goes on past that, WEAK doubling whenever nothing
 is worth anything, until N files are picked.
@@ -29,6 +29,7 @@ import hashlib
 import heapq
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -44,8 +45,13 @@ importer = importlib.import_module("import")
 WEAK = 5
 
 
+COMMENT = re.compile(rb"<!--.*?-->", re.S)
+
+
 def digest(data):
-    return hashlib.sha256(b" ".join(data.split())).hexdigest()
+    """The sha256 of a file's words joined by single spaces, its comments
+    left out: copies of a test that differ in their notes are one file."""
+    return hashlib.sha256(b" ".join(COMMENT.sub(b"", data).split())).hexdigest()
 
 
 def examine(path):
@@ -62,15 +68,32 @@ def examine(path):
     return path, digest(data), len(data), sorted(features.features(data.decode("utf-8", "replace")))
 
 
+def interned(found):
+    """A found row with its features interned: millions of candidates
+    share a few hundred thousand keys."""
+    if found is None:
+        return None
+
+    path, key, size, keys = found
+    return path, key, size, [sys.intern(k) for k in keys]
+
+
 def featurize(program, paths, clean):
     """What tst/featurize finds of the paths: (path, digest, size,
-    features), cleaned first with clean."""
+    features), cleaned first with clean, read as it comes."""
     if not paths:
         return []
 
-    run = subprocess.run([program, "-root", str(Path(__file__).resolve().parent.parent)] + (["-clean"] if clean else []), input="\n".join(paths), capture_output=True, text=True, check=True)
+    with tempfile.TemporaryFile("w+") as listed:
+        listed.write("\n".join(paths))
+        listed.seek(0)
+        run = subprocess.Popen([program, "-root", str(Path(__file__).resolve().parent.parent)] + (["-clean"] if clean else []), stdin=listed, stdout=subprocess.PIPE, text=True)
+        found = [interned(json.loads(line)) for line in run.stdout]
 
-    return [tuple(json.loads(line)) for line in run.stdout.splitlines()]
+        if run.wait():
+            raise subprocess.CalledProcessError(run.returncode, program)
+
+    return found
 
 
 def examine_all(paths, jobs=24):
@@ -191,7 +214,7 @@ def main():
     if cache and os.path.exists(cache):
         for line in open(cache):
             key, result = line.rstrip("\n").rsplit("\t", 1)
-            known_results[key] = json.loads(result)
+            known_results[key] = interned(json.loads(result))
 
     stamps = {path: stamp(path) for _, path in paths}
     unknown = [path for _, path in paths if stamps[path] not in known_results]

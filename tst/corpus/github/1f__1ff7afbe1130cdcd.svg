@@ -1,0 +1,30 @@
+<svg id="owl" width="512px" height="512px" xmlns="http://www.w3.org/2000/svg">
+    <rect id="background" x="0px" y="0px" width="512px" height="512px" fill="rgb(200,200,200)"></rect>
+    <ellipse id="owlBody" cx="256px" cy="256px" rx="230.4px" ry="230.4px" fill="rgb(100,60,20)"></ellipse>
+    <ellipse id="owlBelly" cx="256px" cy="353.28px" rx="128px" ry="128px" fill="rgb(150,80,30)"></ellipse>
+    <g id="owlFeet">
+        <ellipse cx="163.83999999999997px" cy="486.4px" rx="12.8px" ry="25.6px" fill="rgb(128,128,0)"></ellipse>
+        <ellipse cx="186.88px" cy="486.4px" rx="12.8px" ry="25.6px" fill="rgb(128,128,0)"></ellipse>
+        <ellipse cx="209.92px" cy="486.4px" rx="12.8px" ry="25.6px" fill="rgb(128,128,0)"></ellipse>
+        <ellipse cx="348.16px" cy="486.4px" rx="12.8px" ry="25.6px" fill="rgb(128,128,0)"></ellipse>
+        <ellipse cx="325.12px" cy="486.4px" rx="12.8px" ry="25.6px" fill="rgb(128,128,0)"></ellipse>
+        <ellipse cx="302.08px" cy="486.4px" rx="12.8px" ry="25.6px" fill="rgb(128,128,0)"></ellipse>
+    </g>
+    <g>
+        <ellipse cx="51.20000000000001px" cy="332.8px" rx="40.96px" ry="128px" transform="rotate(0,0,0)" fill="rgb(80,50,15)"></ellipse>
+        <ellipse cx="5.120000000000026px" cy="358.4px" rx="32.768px" ry="102.4px" transform="rotate(-10,0,0)" fill="rgb(80,50,15)"></ellipse>
+        <ellipse cx="-40.960000000000015px" cy="353.28px" rx="28.671999999999997px" ry="89.6px" transform="rotate(-20,0,0)" fill="rgb(80,50,15)"></ellipse>
+        <ellipse cx="460.8px" cy="332.8px" rx="40.96px" ry="128px" fill="rgb(80,50,15)"></ellipse>
+        <ellipse cx="506.87999999999994px" cy="358.4px" rx="32.768px" ry="102.4px" transform="rotate(10,0,0)" fill="rgb(80,50,15)"></ellipse>
+        <ellipse cx="552.96px" cy="353.28px" rx="28.671999999999997px" ry="89.6px" transform="rotate(20,0,0)" fill="rgb(80,50,15)"></ellipse>
+    </g>
+    <path id="owlBeak" d="M215.04,230.4L296.96,230.4L256,332.8Z" fill="rgb(128,128,0)"></path>
+    <g id="owlEyes">
+        <circle cx="171.51999999999998px" cy="179.2px" r="107.52px" fill="rgb(150,80,30)"></circle>
+        <circle cx="340.48px" cy="179.2px" r="107.52px" fill="rgb(150,80,30)"></circle>
+        <circle cx="171.51999999999998px" cy="179.2px" r="76.8px" fill="rgb(200,200,0)"></circle>
+        <circle cx="340.48px" cy="179.2px" r="76.8px" fill="rgb(200,200,0)"></circle>
+        <circle cx="171.51999999999998px" cy="179.2px" r="23.04px" fill="rgb(0,0,0)"></circle>
+        <circle cx="340.48px" cy="179.2px" r="23.04px" fill="rgb(0,0,0)"></circle>
+    </g>
+</svg>

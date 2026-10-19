@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="128">
+	<linearGradient id="tab" x1="0%" x2="0%" y1="0%" y2="100%">
+		<stop offset="0%" stop-color="#FFF"/>
+		<stop offset="1000%" stop-color="#F3F3F3"/>
+	</linearGradient>
+	<linearGradient id="tab2" x1="0%" x2="0%" y1="0%" y2="100%">
+		<stop offset="0%" stop-color="#EEE"/>
+		<stop offset="1000%" stop-color="#DDD"/>
+	</linearGradient>
+
+	<path id="t" fill="url(#tab)" d="
+		M 0,24
+		c 12,0 12,-24 24,-24
+		c 12,0 12,24 24,24"/>
+	<path id="t" fill="url(#tab2)" d="
+		M 0,48
+		c 12,0 12,-24 24,-24
+		c 12,0 12,24 24,24"/>
+	<rect y="48" width="48" height="24" fill="url(#tab)"/>
+	<rect y="72" width="48" height="24" fill="url(#tab2)"/>
+
+	<defs>
+		<clipPath id="gloss">
+			<rect id="glass" y="96" width="48" height="32"/>
+		</clipPath>
+	</defs>
+
+	<g clip-path="url(#gloss)">
+		<linearGradient id="glossy" x1="0%" x2="0%" y1="0%" y2="100%">
+			<stop offset="0%" stop-color="rgba(255, 255, 255, .2)"/>
+			<stop offset="100%" stop-color="transparent"/>
+		</linearGradient>
+
+		<rect y="96" width="48" height="24" fill="url(#glossy)"/>
+
+		<path d="M0,80l48,64" stroke="rgba(255,255,255,.02)" stroke-width="10"/>
+		<path d="M0,50l48,64" stroke="rgba(255,255,255,.04)" stroke-width="2"/>
+		<path d="M0,100l48,64" stroke="rgba(255,255,255,.01)" stroke-width="2"/>
+	</g>
+</svg>

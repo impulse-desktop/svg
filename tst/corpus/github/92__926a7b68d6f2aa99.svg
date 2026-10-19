@@ -1,0 +1,26 @@
+<svg id="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100">
+  <style>
+  .remaining {
+    fill: hsl(0,100%,50%);
+    fill: hsl(var(--remaining, 0),100%,50%);
+    transform: translateY(calc(var(--remaining) * 1px));
+  }
+  </style>
+  <defs>
+    <path id="part1" d="M20,79.446V64.398c0,0,0.093,11.171,30,11.171c29.908,0,30-11.171,30-11.171v15.232c0,0-0.186,11.906-30.092,11.906  C20,91.537,20,79.446,20,79.446z" />
+    <path id="part2" d="M20,59.784V44.739c0,0,0.093,11.168,30,11.168c29.908,0,30-11.168,30-11.168v15.23c0,0-0.186,11.908-30.092,11.908  C20,71.877,20,59.784,20,59.784z" />
+    <path id="part3" d="M20,39.57V24.524c0,0,0.093,11.169,30,11.169c29.908,0,30-11.169,30-11.169v15.231c0,0-0.186,11.906-30.092,11.906  C20,51.661,20,39.57,20,39.57z" />
+    <ellipse id="part4" cx="50" cy="19.724" rx="30" ry="11.262" />
+    <clipPath id="clip">
+      <use xlink:href="#part4" />
+      <use xlink:href="#part3" />
+      <use xlink:href="#part2" />
+      <use xlink:href="#part1" />
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="100" height="100" fill="#777" />
+    <path class="remaining" d="M100,100H0V-19.5h18.333C18.333-2.333,32.843,0.167,50,0.167S82.167-2.167,82.167-19.5H100V100z" />
+  </g>
+  
+</svg>

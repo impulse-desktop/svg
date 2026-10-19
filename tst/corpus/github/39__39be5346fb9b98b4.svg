@@ -1,0 +1,30 @@
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    
+    <title>SwiftLogo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FBAE3E" offset="0%"></stop>
+            <stop stop-color="#FF4033" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="0" y="0" width="200" height="200" rx="56"></rect>
+        <radialGradient cx="19.6623465%" cy="31.8419078%" fx="19.6623465%" fy="31.8419078%" r="80.0290108%" id="radialGradient-4">
+            <stop stop-color="#FBAA3F" offset="0%"></stop>
+            <stop stop-color="#DD5026" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Desktop-New" sketch:type="MSArtboardGroup" transform="translate(-537.000000, -975.000000)">
+            <g id="SwiftLogo" sketch:type="MSLayerGroup" transform="translate(537.000000, 975.000000)">
+                <mask id="mask-3" sketch:name="LogoBackground" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="LogoBackground" fill="url(#linearGradient-1)" sketch:type="MSShapeGroup" xlink:href="#path-2"></use>
+                <rect id="Shadow" fill="url(#radialGradient-4)" sketch:type="MSShapeGroup" mask="url(#mask-3)" x="-56.4750463" y="-14.6498326" width="200" height="126.505823" rx="100">
+                    <g transform="translate(43.524954, 48.603079) rotate(-315.000000) translate(-43.524954, -48.603079) "></g>
+                </rect>
+                <path d="M112.648773,28.327179 C112.648773,28.327179 146.720886,49.4438171 156.285858,80.2444458 C165.85083,111.045074 158.167267,123.116302 158.167267,123.116302 C158.167267,123.116302 169.111633,135.800934 170.457458,147.473145 C171.803284,159.145355 169.491577,163.293457 169.491577,163.293457 C169.491577,163.293457 162.770844,149.886322 148.776245,149.886322 C134.781647,149.886322 130.104828,162.512207 104.106903,162.512207 C78.1089783,162.512207 66.558075,155.125427 50.7217407,145.901489 C34.8854065,136.677551 20.6008911,115.020752 20.6008911,115.020752 C20.6008911,115.020752 48.2025146,134.104156 72.4304199,134.104156 C96.6583252,134.104156 106.137085,125.748444 106.137085,125.748444 C106.137085,125.748444 93.9277649,116.690063 76.1039734,98.4672546 C58.2801819,80.2444458 34.8854065,48.6625671 34.8854065,48.6625671 C34.8854065,48.6625671 58.4098816,67.8321838 67.2569275,74.7650146 C76.1039734,81.6978455 96.1326599,95.0614929 96.1326599,95.0614929 C96.1326599,95.0614929 77.4024963,73.8075256 72.3297119,67.2996521 C67.2569275,60.7917786 53.0052185,41.3375854 53.0052185,41.3375854 C53.0052185,41.3375854 79.0222168,65.1573181 92.9664612,76.5335083 C106.910706,87.9096985 126.990509,100.821686 126.990509,100.821686 C126.990509,100.821686 132.637024,86.1427307 130.124664,67.2996521 C127.612305,48.4565735 112.648773,28.327179 112.648773,28.327179 Z" id="Swift" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

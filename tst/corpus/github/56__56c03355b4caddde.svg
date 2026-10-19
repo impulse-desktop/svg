@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="150" height="150" viewBox="0 0 15 15">
+  <defs>
+    <radialGradient id="rg"
+		    cx=".7" cy=".3" r=".5"
+		    fx=".5" fy=".5">
+      <stop offset="20%" stop-color="yellow"/>
+      <stop offset="100%" stop-color="#Fa0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="7.5" cy="7.5" r="7" stroke-width="1"
+	  fill="url(#rg)" stroke="black" />
+  <image xlink:href="file:///home/user/face.png" width="11" height="11"
+	 x="2" y="2.5"/>
+</svg>

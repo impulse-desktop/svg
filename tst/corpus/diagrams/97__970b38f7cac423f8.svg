@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67" height="81" viewBox="0 0 67 81">
+  <defs>
+    <style>
+      .cls-1, .cls-10, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+        fill-rule: evenodd;
+      }
+
+      .cls-1 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient-3);
+      }
+
+      .cls-4 {
+        fill: url(#linear-gradient-4);
+      }
+
+      .cls-5 {
+        fill: url(#linear-gradient-5);
+      }
+
+      .cls-6 {
+        fill: url(#linear-gradient-6);
+      }
+
+      .cls-7 {
+        fill: url(#linear-gradient-7);
+      }
+
+      .cls-8 {
+        fill: url(#linear-gradient-8);
+      }
+
+      .cls-9 {
+        fill: url(#linear-gradient-9);
+      }
+
+      .cls-10 {
+        fill: url(#linear-gradient-10);
+      }
+
+      .cls-11 {
+        stroke: #bcd5e3;
+        stroke-linejoin: round;
+        stroke-width: 1px;
+        font-size: 41.667px;
+        filter: url(#filter);
+      }
+
+      .cls-11, .cls-12 {
+        fill: #fff;
+        text-anchor: middle;
+        font-family: Montserrat-SemiBold, Montserrat;
+        font-weight: 700;
+      }
+
+      .cls-12 {
+        font-size: 150px;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="12.906" y1="31.247" x2="33.656" y2="48.659" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c82090"/>
+      <stop offset="1" stop-color="#6a14d1"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="33.656" y1="31.234" x2="54.438" y2="48.672" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="33.656" y1="34.04" x2="47.75" y2="45.866" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-4" x1="19.594" y1="34.053" x2="33.656" y2="45.853" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-5" x1="54.031" y1="36.808" x2="61.156" y2="42.786" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-6" x1="6.188" y1="36.808" x2="13.313" y2="42.786" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-7" x1="6.594" y1="1.146" x2="33.656" y2="23.854" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-8" x1="33.656" y1="1.133" x2="60.75" y2="23.867" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-9" x1="33.594" y1="55.652" x2="61.313" y2="78.911" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-10" x1="6.094" y1="55.717" x2="33.656" y2="78.845" xlink:href="#linear-gradient"/>
+    <filter id="filter" x="10" y="16" width="47" height="50" filterUnits="userSpaceOnUse">
+      <feOffset result="offset" dy="5" in="SourceAlpha"/>
+      <feGaussianBlur result="blur" stdDeviation="2.449"/>
+      <feFlood result="flood" flood-color="#709edd" flood-opacity="0.05"/>
+      <feComposite result="composite" operator="in" in2="blur"/>
+      <feGaussianBlur result="blur-2" stdDeviation="3.333" in="SourceAlpha"/>
+      <feComposite result="composite-2"/>
+      <feComposite result="composite-3"/>
+      <feComposite result="composite-4"/>
+      <feFlood result="flood-2" flood-color="#6dc5d2" flood-opacity="0.2"/>
+      <feComposite result="composite-5" operator="in" in2="composite-4"/>
+      <feBlend result="blend" mode="multiply" in2="composite"/>
+      <feBlend result="blend-2" in="SourceGraphic"/>
+      <feFlood result="flood-3" flood-color="#8ad7de"/>
+      <feComposite result="composite-6" operator="in" in2="SourceAlpha"/>
+      <feOffset result="offset-2" dx="237.419" dy="-78.307"/>
+      <feOffset result="offset-3" dx="-237.419" dy="78.307" in="composite-6"/>
+      <feComposite result="composite-7" operator="xor" in="offset-2"/>
+      <feComposite result="composite-10" operator="xor" in2="composite-6"/>
+      <feComposite result="composite-8" operator="in" in2="SourceAlpha"/>
+      <feGaussianBlur result="blur-3" stdDeviation="7.141"/>
+      <feComponentTransfer result="comp">
+        <feFuncA type="linear" slope="0.47"/>
+      </feComponentTransfer>
+      <feComposite result="composite-9" operator="in" in2="SourceAlpha"/>
+      <feBlend result="blend-3" mode="overlay" in2="blend-2"/>
+    </filter>
+  </defs>
+  <path class="cls-1" d="M33.666,69.9V10.009L13.233,24.877,12.9,54.946Z"/>
+  <path id="Shape_18_copy" data-name="Shape 18 copy" class="cls-2" d="M33.666,69.9V10.009L54.1,24.877l0.332,30.069Z"/>
+  <path id="Shape_18_copy_2" data-name="Shape 18 copy 2" class="cls-3" d="M33.666,60.258V19.647L47.522,29.73l0.225,20.39Z"/>
+  <path id="Shape_18_copy_2-2" data-name="Shape 18 copy 2" class="cls-4" d="M33.666,60.258V19.647L19.81,29.73,19.585,50.12Z"/>
+  <path class="cls-5" d="M61.16,59.68l-6.894-4.9L54.016,24.711l6.645-4.818Z"/>
+  <path id="Shape_15_copy_2" data-name="Shape 15 copy 2" class="cls-6" d="M6.172,59.68l6.894-4.9,0.249-30.068L6.671,19.893Z"/>
+  <path class="cls-7" d="M33.666,10.092V0.125L6.588,19.893,13.4,24.877Z"/>
+  <path class="cls-8" d="M33.666,0.125v9.967l20.35,14.785,6.728-4.984Z"/>
+  <path class="cls-9" d="M61.326,59.634L54.306,54.7,33.583,69.829V79.856Z"/>
+  <path class="cls-10" d="M12.984,54.779l-6.894,4.9,27.577,20.1V69.814Z"/>
+  <g style="fill: #fff; filter: url(#filter)">
+    
+  </g>
+  <use xlink:href="#C" style="stroke: #bcd5e3; filter: none; fill: none"/>
+  
+</svg>
