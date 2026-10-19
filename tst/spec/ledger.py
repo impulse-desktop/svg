@@ -8,9 +8,8 @@ statement must name units that exist; a statement left out must end with the
 decision it follows, (Dn). A statement checked or left out ends with the
 cells that test it, [unit#cell ...]: each unit must exist in tst/unit, and
 each cell, an element of that id with a data-box, in the unit's expected
-drawing, tst/expect/unit.svg, which tst/oracle.py compares it with. A ledger
-that links one statement must link every one. Prints each file's counts and
-problems; exits 1 on any problem.
+drawing, tst/expect/unit.svg, which tst/oracle.py compares it with. Prints
+each file's counts and problems; exits 1 on any problem.
 """
 import glob, os, re, sys
 
@@ -47,7 +46,6 @@ for path in files:
     features = statements = checked = left = linked = 0
     problems = []
     named = []
-    linking = any(re.search(links, line) for line in open(path) if line.startswith("- ["))
 
     for number, line in enumerate(open(path), 1):
         heading = re.match(r"## (.+?): ((?:[a-z0-9.-]+(?: \(exists\))?)(?:, [a-z0-9.-]+(?: \(exists\))?)*)\s*$", line)
@@ -88,7 +86,7 @@ for path in files:
             if not re.search(r"\(D\d+\)$", text):
                 problems.append(f"{number}: left out with no decision")
 
-        if statement.group(1) != " " and linking and not tests:
+        if statement.group(1) != " " and not tests:
             problems.append(f"{number}: no test cell")
 
         for link in tests.group(1).split() if tests else []:

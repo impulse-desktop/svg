@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="20" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- What tst/unit/struct-elements.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="64" height="20" fill="white"/>
+<g id="rect" data-box="1 1 8 8"><rect x="2" y="2" width="6" height="6" fill="lime"/></g>
+<g id="circle" data-box="9 1 8 8"><path d="M 10 5 A 3 3 0 0 1 16 5 A 3 3 0 0 1 10 5 Z" fill="lime"/></g>
+<g id="ellipse" data-box="17 1 8 8"><path d="M 18 5 A 3 2 0 0 1 24 5 A 3 2 0 0 1 18 5 Z" fill="lime"/></g>
+<g id="line" data-box="25 1 8 8"><rect x="26" y="2" width="6" height="6" fill="lime"/></g>
+<g id="polyline" data-box="33 1 8 8"><rect x="34" y="2" width="6" height="6" fill="lime"/></g>
+<g id="polygon" data-box="41 1 8 8"><rect x="42" y="2" width="6" height="6" fill="lime"/></g>
+<g id="path" data-box="49 1 8 8"><rect x="50" y="2" width="6" height="6" fill="lime"/></g>
+<g id="image" data-box="57 1 8 8"><rect x="58" y="2" width="6" height="6" fill="lime"/></g>
+<g id="switch-container" data-box="1 11 8 8"><rect x="2" y="12" width="6" height="6" fill="lime"/></g>
+<g id="switch-style" data-box="9 11 8 8"><rect x="10" y="12" width="6" height="6" fill="lime"/></g>
+<g id="no-namespace" data-box="17 11 8 8"><rect x="18" y="12" width="6" height="6" fill="lime"/></g>
+<g id="use-data-url" data-box="25 11 8 8"><rect x="26" y="12" width="6" height="6" fill="lime"/></g>
+<g id="use-empty-href" data-box="33 11 8 8"><rect x="34" y="12" width="6" height="6" fill="lime"/></g>
+<g id="duplicate-id" data-box="41 11 8 8"><rect x="42" y="12" width="6" height="6" fill="lime"/></g>
+<g id="pattern-conditional" data-box="49 11 8 8"><rect x="50" y="12" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="12" width="6" height="6"/><rect x="10" y="12" width="6" height="6"/><rect x="18" y="12" width="6" height="6"/><rect x="26" y="12" width="6" height="6"/><rect x="34" y="12" width="6" height="6"/><rect x="42" y="12" width="6" height="6"/><rect x="50" y="12" width="6" height="6"/></g>
+</svg>

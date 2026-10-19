@@ -43,9 +43,9 @@ only that it draws as the canon does. A unit with cells is written by its
 generator, `tst/gen/unit.py`, which writes both drawings.
 
 `ledger.py` checks that each anchor is in its page, that a checked feature's
-units exist, that what is left out names its decision and that every link
-names a unit and a cell of its expected drawing; a ledger that links one
-statement must link all.
+units exist, that what is left out names its decision, that every statement
+checked or left out links its cells and that every link names a unit and a
+cell of its expected drawing.
 
 ## How
 

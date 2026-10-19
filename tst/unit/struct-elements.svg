@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="20" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- Each drawing matches its plain twin in the expected drawing; no
+red. rect, circle, ellipse, line, polyline, polygon, path and image
+draw, a square each, circles and ellipses as their arcs. A switch
+choosing a g draws all it holds; a style element in a switch still
+styles. A rect of no namespace is no SVG and draws nothing; a use of a
+data: URL or of an empty href draws nothing; of two elements with one id
+the first is the one named; a pattern child that conditional processing
+leaves out adds nothing to the tile. -->
+<rect width="64" height="20" fill="white"/>
+<defs><rect id="twice" width="6" height="6" fill="lime"/><rect id="twice" width="6" height="6" fill="red"/><pattern id="tile" width="1" height="1"><rect width="6" height="6" fill="lime"/><rect width="6" height="6" fill="red" systemLanguage="xx"/></pattern></defs>
+<rect x="2" y="2" width="6" height="6" fill="lime"/>
+<circle cx="13" cy="5" r="3" fill="lime"/>
+<ellipse cx="21" cy="5" rx="3" ry="2" fill="lime"/>
+<line x1="26" y1="5" x2="32" y2="5" stroke="lime" stroke-width="6"/>
+<polyline points="34,2 40,2 40,8 34,8" fill="lime"/>
+<polygon points="42,2 48,2 48,8 42,8" fill="lime"/>
+<path d="M 50 2 h 6 v 6 h -6 Z" fill="lime"/>
+<image x="58" y="2" width="6" height="6" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADklEQVR42mNg+A+FMAYAQ84H+erKrJkAAAAASUVORK5CYII="/>
+<switch><g systemLanguage="xx"><rect x="2" y="12" width="6" height="6" fill="red"/></g><g><rect x="2" y="12" width="3" height="6" fill="lime"/><rect x="5" y="12" width="3" height="6" fill="lime"/></g></switch>
+<switch><rect class="styled" x="10" y="12" width="6" height="6" fill="red"/><style>.styled { fill: lime }</style></switch>
+<rect x="18" y="12" width="6" height="6" fill="lime"/><rect xmlns="" x="18" y="12" width="6" height="6" fill="red"/>
+<rect x="26" y="12" width="6" height="6" fill="lime"/><use href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27%3E%3Crect id=%27r%27 width=%276%27 height=%276%27 fill=%27red%27/%3E%3C/svg%3E#r" x="26" y="12"/>
+<rect x="34" y="12" width="6" height="6" fill="lime"/><use href="" x="34" y="12"/><use xlink:href="" x="34" y="12"/>
+<use href="#twice" x="42" y="12"/>
+<rect x="50" y="12" width="6" height="6" fill="url(#tile)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="12" width="6" height="6"/><rect x="10" y="12" width="6" height="6"/><rect x="18" y="12" width="6" height="6"/><rect x="26" y="12" width="6" height="6"/><rect x="34" y="12" width="6" height="6"/><rect x="42" y="12" width="6" height="6"/><rect x="50" y="12" width="6" height="6"/></g>
+</svg>
