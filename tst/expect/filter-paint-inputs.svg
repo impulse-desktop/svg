@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="20">
+<!-- What tst/unit/filter-paint-inputs.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="20" fill="white"/>
+<defs><linearGradient id="g"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient>
+<filter id="f" x="-.5" y="-.25" width="2" height="1.5"><feOffset in="FillPaint"/></filter>
+<filter id="s" x="-.5" y="-.25" width="2" height="1.5"><feOffset in="StrokePaint"/></filter></defs>
+<g id="fill-paint" data-box="2 0 14 20"><rect x="3" y="1" width="12" height="18" fill="lime"/></g>
+<g id="stroke-paint" data-box="22 0 14 20"><rect x="23" y="1" width="12" height="18" fill="lime"/></g>
+<g id="gradient-box" data-box="41 0 16 20"><rect x="42" y="1" width="8" height="18" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="3" y="1" width="12" height="18"/><rect x="23" y="1" width="12" height="18"/><rect x="42" y="1" width="8" height="18"/></g>
+</svg>

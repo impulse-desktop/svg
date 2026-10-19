@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="16">
+<!-- What tst/unit/filter-background-image.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="80" height="16" fill="white"/>
+<defs><filter id="sh" x="0" y="0" width="1" height="1"><feOffset in="BackgroundImage" dx="3"/></filter><filter id="ba" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/><feComposite in2="BackgroundAlpha" operator="in"/></filter></defs>
+<g id="root" data-box="1 1 14 14"><rect x="2" y="2" width="9" height="12" fill="lime"/><rect x="11" y="2" width="3" height="12" fill="navy"/></g>
+<g id="group" data-box="17 1 14 14"><rect x="18" y="2" width="9" height="12" fill="lime"/><rect x="27" y="2" width="3" height="12" fill="navy"/></g>
+<g id="enable-background" data-box="33 1 14 14"><rect x="34" y="2" width="9" height="12" fill="lime"/><rect x="43" y="2" width="3" height="12" fill="navy"/></g>
+<g id="isolated" data-box="49 1 14 14"><rect x="50" y="2" width="6" height="12" fill="lime"/><rect x="56" y="2" width="6" height="12" fill="navy"/></g>
+<g id="background-alpha" data-box="65 1 14 14"><rect x="66" y="2" width="6" height="12" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="9" height="12"/><rect x="18" y="2" width="9" height="12"/><rect x="34" y="2" width="9" height="12"/><rect x="50" y="2" width="6" height="12"/><rect x="66" y="2" width="6" height="12"/></g>
+</svg>

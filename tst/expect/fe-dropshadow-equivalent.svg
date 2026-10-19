@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52">
+<!-- What tst/unit/fe-dropshadow-equivalent.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="64" height="52" fill="white"/>
+<defs>
+<filter id="s0" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="3" dy="1" stdDeviation="1" flood-color="navy" flood-opacity=".7"/></filter>
+<filter id="e0" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="1"/><feOffset dx="3" dy="1" result="o"/><feFlood flood-color="navy" flood-opacity="0.7"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="s1" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow /></filter>
+<filter id="e1" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="2"/><feOffset dx="2" dy="2" result="o"/><feFlood flood-color="black" flood-opacity="1"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="s2" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow stdDeviation="-1 2" flood-color="purple"/></filter>
+<filter id="e2" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="-1 2"/><feOffset dx="2" dy="2" result="o"/><feFlood flood-color="purple" flood-opacity="1"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="s3" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow stdDeviation="0 2" flood-color="purple"/></filter>
+<filter id="e3" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="0 2"/><feOffset dx="2" dy="2" result="o"/><feFlood flood-color="purple" flood-opacity="1"/><feComposite in2="o" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<g id="primitives" data-box="0 0 15 26"><rect x="4" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#e0)"/><rect x="4" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e0)"/></g>
+<g id="defaults" data-box="15 0 15 26"><rect x="19" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#e1)"/><rect x="19" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e1)"/></g>
+<g id="negative-deviation" data-box="30 0 15 26"><rect x="34" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#e2)"/><rect x="34" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e2)"/></g>
+<g id="zero-deviation" data-box="45 0 15 26"><rect x="49" y="4" width="6" height="10" fill="#cc4d1a" filter="url(#e3)"/><rect x="49" y="28" width="6" height="10" fill="#cc4d1a" filter="url(#e3)"/></g>
+</svg>

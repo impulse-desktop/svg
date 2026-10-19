@@ -166,6 +166,8 @@ def expect(name, cells, tolerance=None):
     outlines = re.findall(r'<g fill="none" stroke="black" stroke-width="\.25">.*?</g>|<(?:rect|path|circle|ellipse)\b[^>]*fill="none" stroke="black" stroke-width="\.25"[^>]*/>', text, re.S)
     lines = [root[:-1] + (f' data-tolerance="{tolerance}"' if tolerance is not None else "") + ">", comment(f"What tst/unit/{name}.svg draws, drawn plainly; each cell's id is what the statement ledgers link to.")]
     lines += [ground.group(0)] if ground else []
+    # Definitions draw nothing; the plain markup may refer to them.
+    lines += [match.group(0) for match in re.finditer(r"<defs\b.*?</defs>|<(filter|linearGradient|radialGradient|mask|clipPath|pattern|marker|symbol)\b[^>]*?(?:/>|>.*?</\1>)", text, re.S)]
 
     for cell in cells:
         cid, (x, y, w, h), plain = cell[:3]
@@ -176,3 +178,14 @@ def expect(name, cells, tolerance=None):
 
     with open(os.path.join(ROOT, "tst", "expect", name + ".svg"), "w") as handle:
         handle.write("\n".join(lines) + "\n</svg>\n")
+
+
+def pair(name, x, top, bottom):
+    """The plain markup of a test at top over its reference at bottom in the
+    handwritten unit NAME: the reference, the element at x and bottom,
+    drawn in both places."""
+    text = open(os.path.join(ROOT, "tst", "unit", name + ".svg")).read()
+    found = re.findall(r'<(?:rect|image|path|circle|ellipse)\b[^>]*\bx="%s" y="%s"[^>]*/>' % (re.escape(str(x)), re.escape(str(bottom))), text)
+    assert len(found) == 1, (name, x, bottom, found)
+
+    return found[0].replace(f'y="{bottom}"', f'y="{top}"', 1) + found[0]

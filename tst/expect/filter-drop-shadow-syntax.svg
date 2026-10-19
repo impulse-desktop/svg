@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="52">
+<!-- What tst/unit/filter-drop-shadow-syntax.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="80" height="52" fill="white"/>
+<defs>
+<filter id="d0" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="2" dy="1" stdDeviation="0" flood-color="purple"/></filter>
+<filter id="d1" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="2" dy="1" stdDeviation="1" flood-color="navy"/></filter>
+<filter id="d2" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="2" dy="1" stdDeviation="1" flood-color="navy"/></filter>
+<filter id="d6" x="-1" y="-1" width="3" height="3" color-interpolation-filters="sRGB"><feDropShadow dx="-1" dy="2" stdDeviation=".5" flood-color="rgba(0,0,128,.5)"/></filter>
+</defs>
+<g id="no-blur" data-box="0 0 11 26"><rect x="4" y="4" width="5" height="14" fill="#cc4d1a" filter="url(#d0)"/><rect x="4" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d0)"/></g>
+<g id="colour-first" data-box="11 0 11 26"><rect x="15" y="4" width="5" height="14" fill="#cc4d1a" filter="url(#d1)"/><rect x="15" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d1)"/></g>
+<g id="colour-last" data-box="22 0 11 26"><rect x="26" y="4" width="5" height="14" fill="#cc4d1a" filter="url(#d2)"/><rect x="26" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d2)"/></g>
+<g id="one-length" data-box="33 0 11 26"><rect x="37" y="4" width="5" height="14" fill="#cc4d1a"/><rect x="37" y="30" width="5" height="14" fill="#cc4d1a"/></g>
+<g id="four-lengths" data-box="44 0 11 26"><rect x="48" y="4" width="5" height="14" fill="#cc4d1a"/><rect x="48" y="30" width="5" height="14" fill="#cc4d1a"/></g>
+<g id="two-shadows" data-box="55 0 11 26"><rect x="59" y="4" width="5" height="14" fill="#cc4d1a"/><rect x="59" y="30" width="5" height="14" fill="#cc4d1a"/></g>
+<g id="negative-offset" data-box="66 0 11 26"><rect x="70" y="4" width="5" height="14" fill="#cc4d1a" filter="url(#d6)"/><rect x="70" y="30" width="5" height="14" fill="#cc4d1a" filter="url(#d6)"/></g>
+</svg>

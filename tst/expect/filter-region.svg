@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="34">
+<!-- What tst/unit/filter-region.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="72" height="34" fill="white"/>
+<defs><filter id="fl"><feFlood flood-color="lime"/></filter>
+<filter id="us" filterUnits="userSpaceOnUse" x="14" y="3" width="6" height="8"><feFlood flood-color="lime"/></filter>
+<filter id="off"><feOffset dx="6"/></filter>
+<filter id="pu" x="-1" y="-1" width="3" height="3" primitiveUnits="objectBoundingBox"><feOffset dx=".5"/></filter>
+<filter id="pr" x="-1" y="-1" width="3" height="3" primitiveUnits="objectBoundingBox"><feMorphology operator="dilate" radius=".1"/></filter>
+<g color-interpolation-filters="sRGB"><filter id="cif" x="0" y="0" width="1" height="1"><feColorMatrix type="saturate" values="0"/></filter></g>
+<g display="none"><filter id="dn" display="none"><feFlood flood-color="lime"/></filter></g>
+<filter id="res" filterRes="2"><feFlood flood-color="lime"/></filter>
+<filter id="narrow" filterUnits="userSpaceOnUse" x="0" y="0" width="2" height="34"><feOffset/></filter>
+<filter id="soft" x="-.2" y="-.2" width="1.4" height="1.4"><feGaussianBlur stdDeviation=".5"/></filter></defs>
+<g id="default-region" data-box="1 1 14 14"><rect x="2" y="2" width="12" height="12" fill="lime"/></g>
+<g id="user-space" data-box="13 2 8 10"><rect x="14" y="3" width="6" height="8" fill="lime"/></g>
+<g id="cut" data-box="21 1 14 14"><rect x="28" y="3" width="5" height="10" fill="lime"/></g>
+<g id="primitive-units" data-box="35 1 18 10"><rect x="41" y="3" width="10" height="6" fill="lime"/></g>
+<g id="primitive-units-radius" data-box="1 17 26 16"><rect x="2" y="19" width="24" height="12" fill="lime"/></g>
+<g id="inherit" data-box="29 17 10 14"><rect x="30" y="18" width="8" height="6" fill="#646464"/><rect x="30" y="24" width="8" height="6" fill="#646464"/></g>
+<g id="display" data-box="42 18 14 14"><rect x="43" y="19" width="12" height="12" fill="lime"/></g>
+<g id="filter-res" data-box="57 18 14 14"><rect x="58" y="19" width="12" height="12" fill="lime"/></g>
+<g id="group-region" data-box="62 2 9 14"></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="14" y="3" width="6" height="8"/><rect x="28" y="3" width="5" height="10"/><rect x="41" y="3" width="10" height="6"/>
+<rect x="2" y="19" width="24" height="12"/><rect x="43" y="19" width="12" height="12"/><rect x="58" y="19" width="12" height="12"/></g>
+</svg>

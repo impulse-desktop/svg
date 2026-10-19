@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="20">
+<!-- What tst/unit/fe-displacement-formula.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="80" height="20" fill="white"/>
+<defs>
+<filter id="d0" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#ff0000" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter>
+<filter id="d1" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#000" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8"/></filter>
+<filter id="d2" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#ff0000" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" xChannelSelector="R"/></filter>
+<filter id="d3" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#ff0000" flood-opacity=".5" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="R" yChannelSelector="A"/></filter>
+<filter id="d4" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#e1e1e1" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="R" yChannelSelector="B" color-interpolation-filters="linearRGB"/></filter>
+<filter id="d5" x="-1" y="-1" width="3" height="3"><feFlood flood-color="#bfbfbf" result="m"/><feDisplacementMap in="SourceGraphic" in2="m" scale="8" xChannelSelector="G" yChannelSelector="B" color-interpolation-filters="sRGB"/></filter>
+</defs>
+<g id="channels" data-box="1 1 12 18"><rect x="2.0000" y="10.0000" width="5" height="8" fill="lime"/></g>
+<g id="alpha-default" data-box="14 1 12 18"><rect x="15.0000" y="2.0000" width="5" height="8" fill="lime"/></g>
+<g id="zero-scale" data-box="27 1 12 18"><rect x="32.0000" y="6.0000" width="5" height="8" fill="lime"/></g>
+<g id="unpremultiplied" data-box="40 1 12 18"><rect x="41.0000" y="6.0000" width="5" height="8" fill="lime"/></g>
+<g id="linear-map" data-box="53 1 12 18"><rect x="55.9765" y="3.9765" width="5" height="8" fill="lime"/></g>
+<g id="srgb-map" data-box="66 1 13 18"><rect x="69.0078" y="4.0078" width="5" height="8" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="10" width="5" height="8"/><rect x="15" y="2" width="5" height="8"/><rect x="32" y="6" width="5" height="8"/><rect x="41" y="6" width="5" height="8"/><rect x="56" y="4" width="5" height="8"/><rect x="69" y="4" width="5" height="8"/></g>
+</svg>

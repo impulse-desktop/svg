@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="30">
+<!-- What tst/unit/filter-primitive-inputs.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="64" height="30" fill="white"/>
+<defs><filter id="z"><feFlood flood-color="red" width="0"/></filter>
+<filter id="dup" x="0" y="0" width="1" height="1"><feFlood flood-color="red" result="a"/><feFlood flood-color="lime" result="a"/><feFlood flood-color="red" result="b"/><feOffset in="a"/></filter>
+<filter id="prev" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/><feOffset/></filter>
+<filter id="none" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/><feOffset in="nothing"/></filter>
+<filter id="fwd" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/><feOffset in="later"/><feOffset result="later"/></filter>
+<filter id="sa" x="0" y="0" width="1" height="1"><feOffset in="SourceAlpha"/></filter>
+<filter id="last" x="0" y="0" width="1" height="1"><feFlood flood-color="red" result="r"/><feFlood flood-color="lime"/></filter>
+<filter id="empty"/>
+<filter id="sub" filterUnits="userSpaceOnUse" x="0" y="16" width="64" height="14"><feFlood flood-color="lime" x="4" y="18" width="6" height="10" result="a"/><feMorphology operator="dilate" radius="3" in="a"/></filter></defs>
+<g id="zero-subregion" data-box="1 1 10 14"></g>
+<g id="duplicate-result" data-box="11 1 10 14"><rect x="12" y="2" width="8" height="12" fill="lime"/></g>
+<g id="previous" data-box="21 1 10 14"><rect x="22" y="2" width="8" height="12" fill="lime"/></g>
+<g id="missing-result" data-box="31 1 10 14"><rect x="32" y="2" width="8" height="12" fill="lime"/></g>
+<g id="forward-result" data-box="41 1 10 14"><rect x="42" y="2" width="8" height="12" fill="lime"/></g>
+<g id="source-alpha" data-box="51 1 10 14"><rect x="52" y="2" width="8" height="6" fill="black" fill-opacity=".5"/><rect x="52" y="8" width="8" height="6" fill="black" fill-opacity=".5"/></g>
+<g id="last-primitive" data-box="13 17 10 12"><rect x="14" y="18" width="8" height="10" fill="lime"/></g>
+<g id="empty-filter" data-box="25 17 10 12"></g>
+<g id="subregion" data-box="1 17 10 12"><rect x="4" y="18" width="6" height="10" fill="lime"/></g>
+<g id="subregion-sample" data-box="40 16 10 14"></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="12" y="2" width="8" height="12"/><rect x="22" y="2" width="8" height="12"/><rect x="32" y="2" width="8" height="12"/><rect x="42" y="2" width="8" height="12"/>
+<rect x="4" y="18" width="6" height="10"/><rect x="14" y="18" width="8" height="10"/></g>
+</svg>

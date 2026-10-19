@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="34">
+<!-- What tst/unit/fe-offset-tile-merge.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="34" fill="white"/>
+<defs><filter id="o" x="-1" y="-1" width="3" height="3"><feOffset dx="3" dy="-2"/></filter>
+<filter id="ob" x="-1" y="-1" width="3" height="3" primitiveUnits="objectBoundingBox"><feOffset dx=".25" dy=".5"/></filter>
+<filter id="od" x="-1" y="-1" width="3" height="3"><feOffset/></filter>
+<filter id="t" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="34"><feFlood flood-color="lime" x="34" y="4" width="2" height="3" result="a"/><feOffset in="a" x="34" y="4" width="4" height="4" result="b"/><feTile in="b" x="30" y="2" width="20" height="12"/></filter>
+<filter id="m" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feFlood flood-color="#c31" flood-opacity=".6" result="a"/><feFlood flood-color="#3a8" flood-opacity=".5" result="b"/><feFlood flood-color="#25e" flood-opacity=".7" result="c"/><feMerge><feMergeNode in="a"/><feMergeNode in="b"/><feMergeNode in="c"/></feMerge></filter></defs>
+<g id="offset" data-box="1 1 12 14"><rect x="5" y="4" width="6" height="6" fill="lime"/></g>
+<g id="offset-units" data-box="13 1 12 14"><rect x="16" y="4" width="8" height="4" fill="lime"/></g>
+<g id="offset-zero" data-box="25 1 4 14"><rect x="26" y="4" width="2" height="8" fill="lime"/></g>
+<g id="tile" data-box="29 1 21 14"><path fill="lime" d="M30 2h2v1h-2zM30 4h2v3h-2zM30 8h2v3h-2zM30 12h2v2h-2zM34 2h2v1h-2zM34 4h2v3h-2zM34 8h2v3h-2zM34 12h2v2h-2zM38 2h2v1h-2zM38 4h2v3h-2zM38 8h2v3h-2zM38 12h2v2h-2zM42 2h2v1h-2zM42 4h2v3h-2zM42 8h2v3h-2zM42 12h2v2h-2zM46 2h2v1h-2zM46 4h2v3h-2zM46 8h2v3h-2zM46 12h2v2h-2z"/></g>
+<g id="merge" data-box="1 17 14 14"><rect x="2" y="18" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="2" y="18" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="2" y="18" width="12" height="6" fill="#25e" fill-opacity=".7"/><rect x="2" y="24" width="12" height="6" fill="#c31" fill-opacity=".6"/><rect x="2" y="24" width="12" height="6" fill="#3a8" fill-opacity=".5"/><rect x="2" y="24" width="12" height="6" fill="#25e" fill-opacity=".7"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="5" y="4" width="6" height="6"/><rect x="16" y="4" width="8" height="4"/><rect x="26" y="4" width="2" height="8"/>
+<path d="M30 2h2v1h-2zM30 4h2v3h-2zM30 8h2v3h-2zM30 12h2v2h-2zM34 2h2v1h-2zM34 4h2v3h-2zM34 8h2v3h-2zM34 12h2v2h-2zM38 2h2v1h-2zM38 4h2v3h-2zM38 8h2v3h-2zM38 12h2v2h-2zM42 2h2v1h-2zM42 4h2v3h-2zM42 8h2v3h-2zM42 12h2v2h-2zM46 2h2v1h-2zM46 4h2v3h-2zM46 8h2v3h-2zM46 12h2v2h-2z"/></g>
+</svg>

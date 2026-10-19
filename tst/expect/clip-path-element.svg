@@ -2,6 +2,32 @@
 <!-- What tst/unit/clip-path-element.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
 <rect width="64" height="48" fill="white"/>
+<defs>
+<clipPath id="a"><rect x="2" y="2" width="4" height="10" fill="none" stroke="red" stroke-width="6" fill-opacity="0"/><rect x="8" y="2" width="4" height="4"/>
+<rect x="8" y="8" width="4" height="4" display="none"/><rect x="8" y="8" width="4" height="4" visibility="hidden"/></clipPath>
+<clipPath id="b" clipPathUnits="objectBoundingBox"><rect width=".5" height=".5"/></clipPath>
+<clipPath id="cut"><rect x="34" y="2" width="4" height="12"/></clipPath>
+<clipPath id="c" clip-path="url(#cut)"><rect x="34" y="2" width="12" height="6"/></clipPath>
+<clipPath id="d"><rect x="50" y="2" width="12" height="4" clip-path="url(#cut2)"/><rect x="50" y="8" width="12" height="4"/></clipPath>
+<clipPath id="cut2"><rect x="50" y="2" width="4" height="12"/></clipPath>
+<clipPath id="e"/>
+<clipPath id="f"><path d="M 2 18 H 14 V 30 H 2 Z M 5 21 H 11 V 27 H 5 Z" clip-rule="evenodd"/></clipPath>
+<clipPath id="g"><path d="M 18 18 H 30 V 30 H 18 Z M 21 21 H 27 V 27 H 21 Z"/></clipPath>
+<rect id="r" x="34" y="18" width="6" height="6"/>
+<clipPath id="u"><use href="#r"/><use href="#nothing"/><use href="#r" x="4" display="none"/></clipPath>
+<clipPath id="outer"><rect x="2" y="34" width="20" height="6"/></clipPath>
+<clipPath id="inner"><rect x="2" y="34" width="6" height="12"/></clipPath>
+<g id="gg"><rect x="26" y="34" width="1" height="1"/></g>
+<use id="uu" href="#r" x="-8" y="16"/>
+<clipPath id="ig"><use href="#gg"/></clipPath>
+<clipPath id="iu"><use href="#uu"/></clipPath>
+<text id="tx" x="56" y="46">x</text>
+<clipPath id="it"><use href="#tx"/></clipPath>
+<g clip-rule="evenodd" visibility="hidden"><clipPath id="inh"><path d="M42 34h12v12h-12z M45 37h6v6h-6z" visibility="visible"/><rect x="45" y="37" width="6" height="6"/></clipPath></g>
+<g display="none"><clipPath id="dn" display="none"><rect x="56" y="34" width="4" height="6"/></clipPath></g>
+<clipPath id="left"><rect x="0" y="32" width="30" height="16"/></clipPath>
+<g clip-path="url(#left)"><clipPath id="anc"><rect x="26" y="42" width="12" height="4"/></clipPath></g>
+</defs>
 <g id="union" data-box="1 1 12 12"><rect x="2" y="2" width="4" height="10" fill="lime"/><rect x="8" y="2" width="4" height="4" fill="lime"/></g>
 <g id="object-bounding-box" data-box="17 1 14 14"><rect x="18" y="2" width="6" height="6" fill="lime"/></g>
 <g id="clip-on-clippath" data-box="33 1 14 14"><rect x="34" y="2" width="4" height="6" fill="lime"/></g>

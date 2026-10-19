@@ -2,6 +2,19 @@
 <!-- What tst/unit/mask-values.svg draws, drawn plainly; each cell's id
 is what the statement ledgers link to. -->
 <rect width="64" height="52" fill="white"/>
+<defs>
+<mask id="g"><rect width="64" height="40" fill="lime"/></mask>
+<mask id="s"><rect width="64" height="40" fill="#808080"/></mask>
+<mask id="l" color-interpolation="linearRGB"><rect width="64" height="40" fill="#808080"/></mask>
+<mask id="a" mask-type="alpha"><rect width="64" height="40" fill="black"/></mask>
+<mask id="r"><rect x="-100" y="-100" width="300" height="300" fill="white"/></mask>
+<mask id="z" width="0"><rect width="64" height="40" fill="white"/></mask>
+<mask id="c" maskContentUnits="objectBoundingBox"><rect width=".5" height="1" fill="white"/></mask>
+<rect id="nm" width="1" height="1"/>
+<g fill="white"><mask id="mi"><rect width="64" height="52"/></mask></g>
+<g display="none"><mask id="mo" opacity=".2" display="none" style="filter: blur(2px)"><rect width="64" height="52" fill="white"/></mask></g>
+<mask id="mn" width="-1"><rect width="64" height="52" fill="white"/></mask>
+</defs>
 <g id="luminance" data-box="1 1 30 10"><rect x="2" y="2" width="8" height="8" fill="#49ff49"/><rect x="12" y="2" width="8" height="8" fill="#7fff7f"/><rect x="22" y="2" width="8" height="8" fill="#c8ffc8"/></g>
 <g id="mask-type" data-box="31 1 10 10"><rect x="32" y="2" width="8" height="8" fill="lime"/></g>
 <g id="mode-override" data-box="41 1 22 10"><rect x="52" y="2" width="8" height="8" fill="lime"/></g>

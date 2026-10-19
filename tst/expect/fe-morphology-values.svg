@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="34">
+<!-- What tst/unit/fe-morphology-values.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="72" height="34" fill="white"/>
+<defs><filter id="d" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="2"/></filter>
+<filter id="e" x="-1" y="-1" width="3" height="3"><feMorphology operator="erode" radius="1"/></filter>
+<filter id="xy" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="2 1"/></filter>
+<filter id="def" x="-1" y="-1" width="3" height="3"><feMorphology radius="1"/></filter>
+<filter id="z" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="0"/></filter>
+<filter id="n" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="-1"/></filter>
+<filter id="mx" x="-1" y="-1" width="3" height="3"><feMorphology operator="dilate" radius="1"/></filter></defs>
+<g id="dilate" data-box="1 1 12 14"><rect x="2" y="2" width="10" height="12" fill="lime"/></g>
+<g id="erode" data-box="13 1 12 14"><rect x="16" y="3" width="6" height="10" fill="lime"/></g>
+<g id="two-radii" data-box="25 1 12 14"><rect x="26" y="3" width="10" height="10" fill="lime"/></g>
+<g id="default-erode" data-box="37 1 12 14"><rect x="40" y="3" width="6" height="10" fill="lime"/></g>
+<g id="zero-negative" data-box="49 1 22 14"><rect x="51" y="2" width="8" height="12" fill="lime"/><rect x="61" y="2" width="8" height="12" fill="lime"/></g>
+<g id="channel-max" data-box="3 18 14 14"><rect x="4" y="19" width="5" height="12" fill="red"/><rect x="9" y="19" width="2" height="12" fill="yellow"/><rect x="11" y="19" width="5" height="12" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="10" height="12"/><rect x="16" y="3" width="6" height="10"/><rect x="26" y="3" width="10" height="10"/><rect x="40" y="3" width="6" height="10"/>
+<rect x="51" y="2" width="8" height="12"/><rect x="61" y="2" width="8" height="12"/></g>
+</svg>

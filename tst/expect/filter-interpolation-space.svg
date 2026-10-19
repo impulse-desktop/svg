@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- What tst/unit/filter-interpolation-space.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="64" height="16" fill="white"/>
+<defs><rect id="src" width="200" height="200" fill="#25c985" fill-opacity=".6"/><filter id="i0" x="0" y="0" width="1" height="1"><feColorMatrix type="saturate" values="0"/></filter><filter id="i1" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/></filter><filter id="i2" x="0" y="0" width="1" height="1" color-interpolation-filters="auto"><feColorMatrix type="saturate" values="0"/></filter><filter id="i3" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feOffset/></filter><filter id="i4" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feTile/></filter><filter id="i5" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feImage href="#src"/></filter><filter id="i6" x="0" y="0" width="1" height="1" color-interpolation-filters="linearRGB"><feFlood flood-color="#25c985" flood-opacity=".6"/></filter></defs>
+<g id="linear-default" data-box="1 1 9 14"><rect x="2" y="2" width="7" height="6" fill="#767676"/><rect x="2" y="8" width="7" height="6" fill="#767676"/></g>
+<g id="inherited" data-box="10 1 9 14"><rect x="11" y="2" width="7" height="6" fill="#646464"/><rect x="11" y="8" width="7" height="6" fill="#646464"/></g>
+<g id="auto" data-box="19 1 9 14"><rect x="20" y="2" width="7" height="6" fill="#646464"/><rect x="20" y="8" width="7" height="6" fill="#646464"/></g>
+<g id="offset-exact" data-box="28 1 9 14"><rect x="29" y="2" width="7" height="6" fill="#25c985" fill-opacity="0.6"/><rect x="29" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/></g>
+<g id="tile-exact" data-box="37 1 9 14"><rect x="38" y="2" width="7" height="6" fill="#25c985" fill-opacity="0.6"/><rect x="38" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/></g>
+<g id="image-exact" data-box="46 1 9 14"><rect x="47" y="2" width="7" height="6" fill="#25c985" fill-opacity="0.6"/><rect x="47" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/></g>
+<g id="flood-exact" data-box="55 1 9 14"><rect x="56" y="2" width="7" height="6" fill="#25c985" fill-opacity="0.6"/><rect x="56" y="8" width="7" height="6" fill="#25c985" fill-opacity="0.6"/></g>
+</svg>
