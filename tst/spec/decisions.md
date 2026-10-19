@@ -414,12 +414,12 @@ Firefox give such a use (0, 0, 0, 0) and leave its group's box as it was,
 and so does the renderer. A shape whose paint resolves to nothing keeps the
 box of its geometry, which both readings give it.
 
-## D38. No element is in a 3D rendering context
+## D38. A viewport whose overflow clips flattens a preserve-3d
 
-`svg2/coords.md#VectorEffectsCalculation` says vector-effect has no effect
-on transformations performed in a 3D rendering context. Such a context
-comes only from transform-style: preserve-3d, which the renderer does not
-draw: every 3D transform flattens into its parent's plane, as the CSS
-Transforms 2 ledger reads the drawing (backface-visibility on a flat
-drawing). The statement has nothing to act on and is left out with that
-property.
+`css-transforms-2.md#grouping-property-values` makes overflow of any value
+but visible or clip flatten an element with transform-style preserve-3d;
+clip does not. An SVG viewport that clips, though, cuts what it holds at
+its edge in its own plane, while the planes of a 3D rendering context it
+established would be laid over its parent's space past that cut, the
+renderer drawing each plane apart. It flattens on overflow clip as on
+hidden: its content is drawn in its plane, cut there, as its overflow says.

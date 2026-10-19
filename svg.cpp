@@ -1150,6 +1150,9 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(MixBlendMode, "mix-blend-mode")                           \
     ATOM(Isolation, "isolation")                                   \
     ATOM(BackfaceVisibility, "backface-visibility")                \
+    ATOM(TransformStyle, "transform-style")                        \
+    ATOM(Perspective, "perspective")                               \
+    ATOM(PerspectiveOrigin, "perspective-origin")                  \
     ATOM(ObjectFit, "object-fit")                                  \
     ATOM(ObjectPosition, "object-position")                        \
     ATOM(ColorInterpolation, "color-interpolation")                \
@@ -1220,6 +1223,11 @@ namespace {
         bool solid;
         // Turned to show its back: the 3D matrix's m33 is negative.
         bool back;
+    };
+
+    // A 3D transform, rows by columns, a point a column.
+    struct Matrix4 {
+        float m[4][4];
     };
 
     struct Box {
@@ -1706,6 +1714,14 @@ namespace {
         u8 blend;
         bool isolate;
         bool backfaceHidden;
+        // transform-style preserve-3d, as computed; perspective's distance,
+        // 1 px at least, or 0 for none, and perspective-origin's point in
+        // the user space, of the box transform-box names
+        // (css-transforms-2.md, perspective-matrix-computation).
+        bool preserve3d;
+        float perspective;
+        u32 perspectiveOriginValue;
+        Point perspectiveOrigin;
         bool linearColors;
         bool aliased;
         u8 imageRendering;
@@ -1954,6 +1970,11 @@ namespace {
         // Of a layer seen in perspective, the maps from the device to the
         // layer and back, which layerMatrix stands for otherwise.
         const Projective* perspective;
+        // Of a piece of a plane of a 3D rendering context, the lines across
+        // the device it keeps to, a, b, c and strict each: a pixel's centre
+        // is kept where a x + b y + c is above zero, or at zero unless strict.
+        const float* cuts;
+        u32 cutCount;
     };
 
     // What a pass over the document carries: the document and the pool of
@@ -2016,6 +2037,8 @@ namespace {
 
     // The pass that lowers the document to draw commands over width by
     // height pixels; the document itself is docWidth by docHeight.
+    struct Context3D;
+
     struct Lowering: Pass {
         Vector<Op> ops;
         Vector<Op> programs;
@@ -2037,6 +2060,15 @@ namespace {
         // An element drawn on its layer of a transform in perspective: its
         // own transform is the layer's.
         Node* flattened;
+        // The 3D rendering context being drawn, if any; of the plane being
+        // drawn, its accumulated matrix and the map from its layer to its own
+        // space; whether the element lowered next takes part in the context,
+        // its parent establishing or extending it (css-transforms-2.md,
+        // 3d-rendering-contexts).
+        Context3D* context3d;
+        Matrix4 planeMatrix;
+        Matrix planeFromLayer;
+        bool extends;
         Matrix contextMatrix;
         Box contextBox;
         // How deep in patterns' content the lowering is: that content is
@@ -2499,6 +2531,52 @@ namespace {
 
     static Projective projectiveOf(const Matrix& m) {
         return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true, false, false};
+    }
+
+    static Matrix4 identity4() {
+        return Matrix4{{{1.f, 0.f, 0.f, 0.f}, {0.f, 1.f, 0.f, 0.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}};
+    }
+
+    static Matrix4 matrix4Of(const Matrix& m) {
+        return Matrix4{{{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}};
+    }
+
+    static Matrix4 translation4(float x, float y, float z) {
+        return Matrix4{{{1.f, 0.f, 0.f, x}, {0.f, 1.f, 0.f, y}, {0.f, 0.f, 1.f, z}, {0.f, 0.f, 0.f, 1.f}}};
+    }
+
+    static Matrix4 multiply4(const Matrix4& a, const Matrix4& b) {
+        Matrix4 out;
+
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) {
+                out.m[r][c] = (float)((double)a.m[r][0] * b.m[0][c] + (double)a.m[r][1] * b.m[1][c] + (double)a.m[r][2] * b.m[2][c] + (double)a.m[r][3] * b.m[3][c]);
+            }
+        }
+
+        return out;
+    }
+
+    // The plane z = 0 seen through a 3D transform: the first, second and
+    // last columns of its first, second and last rows; turned to show its
+    // back where m33 is negative (css-transforms-2.md, backface-visibility).
+    static Projective projectiveOf4(const Matrix4& t) {
+        const float (*m)[4] = t.m;
+
+        return Projective{{m[0][0], m[0][1], m[0][3], m[1][0], m[1][1], m[1][3], m[3][0], m[3][1], m[3][3]}, true, true, m[2][2] < 0.f};
+    }
+
+    // Whether a 3D transform keeps z = 0 affine: a weight the same
+    // everywhere, of a sign.
+    static bool affine4(const Matrix4& t) {
+        return t.m[3][0] == 0.f && t.m[3][1] == 0.f && t.m[3][3] > 0.f;
+    }
+
+    // The affine map z = 0 goes by under a transform affine4 holds.
+    static Matrix affineOf4(const Matrix4& t) {
+        float w = t.m[3][3];
+
+        return Matrix{t.m[0][0] / w, t.m[1][0] / w, t.m[0][1] / w, t.m[1][1] / w, t.m[0][3] / w, t.m[1][3] / w};
     }
 
     static Projective compose(const Projective& p, const Projective& q) {
@@ -3408,7 +3486,7 @@ namespace {
         float fontSize;
     };
 
-    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective = nullptr, const TransformBasis* basis = nullptr);
+    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective = nullptr, const TransformBasis* basis = nullptr, Matrix4* full = nullptr);
     static bool parseNumberText(StringView text, float& out);
 
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
@@ -7043,6 +7121,16 @@ namespace {
                 return equalsIgnoreCase(text, SV("none")) || validDashes(text);
             case AtomStrokeWidth:
                 return parseLength(text, length) && nonNegative(length);
+            case AtomTransformStyle:
+                return equalsIgnoreCase(text, SV("flat")) || equalsIgnoreCase(text, SV("preserve-3d"));
+            case AtomPerspective:
+                // A length of no less than zero, a number only as 0.
+                return equalsIgnoreCase(text, SV("none")) || (parseLength(text, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc)) && nonNegative(length));
+            case AtomPerspectiveOrigin: {
+                Length y;
+
+                return parsePosition(text, length, y);
+            }
             case AtomShapeRendering:
                 return equalsIgnoreCase(text, SV("auto")) || equalsIgnoreCase(text, SV("optimizespeed")) || equalsIgnoreCase(text, SV("crispedges")) || equalsIgnoreCase(text, SV("geometricprecision"));
             case AtomMaskImage:
@@ -7182,7 +7270,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
                 u32 value = node->attributes[i].value;
                 StringView text = textOf(doc, value);
 
@@ -9113,7 +9201,7 @@ namespace {
         return false;
     }
 
-    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective, const TransformBasis* basis) {
+    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective, const TransformBasis* basis, Matrix4* full) {
         bool css = grammar != TransformGrammar::Attribute;
         const u8* p = text.begin();
         const u8* end = text.end();
@@ -9145,6 +9233,10 @@ namespace {
             perspective->on = false;
             perspective->solid = false;
             perspective->back = false;
+        }
+
+        if (full) {
+            *full = identity4();
         }
 
         if (equalsIgnoreCase(trim(text), SV("none"))) {
@@ -9453,6 +9545,14 @@ namespace {
             }
         }
 
+        if (full) {
+            *full = deep ? Matrix4{} : matrix4Of(result);
+
+            if (deep) {
+                memcpy(full->m, m4, sizeof(m4));
+            }
+        }
+
         out = result;
 
         return true;
@@ -9503,7 +9603,9 @@ namespace {
         return true;
     }
 
-    static Point transformOrigin(StringView text, float extentX, float extentY) {
+    // transform-origin's point, and with z its third value, a length, 0 if
+    // none.
+    static Point transformOrigin(StringView text, float extentX, float extentY, float* z = nullptr) {
         const u8* p = text.begin();
         const u8* end = text.end();
         float x1;
@@ -9523,6 +9625,13 @@ namespace {
             }
 
             return Point{x1, extentY / 2.f};
+        }
+
+        if (z) {
+            Length depth;
+
+            skipSpaces(p, end);
+            *z = readLength(p, end, depth) ? resolveAgainst(depth, 0.f, Viewport{extentX, extentY, extentX, extentY, 16.f}, 16.f) : 0.f;
         }
 
         if (a1 == 1 || a2 == 0) {
@@ -9722,8 +9831,15 @@ namespace {
                 int axis;
                 int count = 0;
 
-                while (count < 3 && readOrigin(p, value.end(), 0.f, 0.f, x, y, axis)) {
+                while (count < 2 && readOrigin(p, value.end(), 0.f, 0.f, x, y, axis)) {
                     count++;
+                }
+
+                skipSpaces(p, value.end());
+
+                // A third value, after two, is the origin's z: a length.
+                if (count == 2 && p < value.end() && (!readLength(p, value.end(), length) || percentLength(length))) {
+                    return false;
                 }
 
                 skipSpaces(p, value.end());
@@ -12920,6 +13036,9 @@ namespace {
         style.blend = 0;
         style.isolate = false;
         style.backfaceHidden = false;
+        style.preserve3d = false;
+        style.perspective = 0.f;
+        style.perspectiveOriginValue = 0;
         style.objectFit = 0;
         style.objectPosition = 0;
         style.outlineWidth = 0.f;
@@ -12946,7 +13065,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -12984,7 +13103,7 @@ namespace {
             bool reset = isKeyword(value, SV("initial"));
 
             if (isKeyword(value, SV("unset"))) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -13479,6 +13598,28 @@ namespace {
                         style.backfaceHidden = false;
                     }
 
+                    break;
+                case AtomTransformStyle:
+                    // The cascade keeps flat and preserve-3d.
+                    style.preserve3d = keyword ? source.preserve3d : isKeyword(value, SV("preserve-3d"));
+                    break;
+                case AtomPerspective:
+                    if (keyword) {
+                        style.perspective = source.perspective;
+                    } else if (isKeyword(value, SV("none"))) {
+                        style.perspective = 0.f;
+                    } else {
+                        // The cascade keeps lengths of no less than zero; one
+                        // below a px draws as a px.
+                        Length length;
+
+                        parseLength(value, length);
+                        style.perspective = maxf(resolveLength(length, Axis::Other, vp, style.fontSize), 1.f);
+                    }
+
+                    break;
+                case AtomPerspectiveOrigin:
+                    style.perspectiveOriginValue = keyword ? source.perspectiveOriginValue : atom;
                     break;
                 case AtomVectorEffect: {
                     // none, or any effects once each; non-scaling-size keeps
@@ -18717,7 +18858,7 @@ namespace {
     // percentages are of: its transform-origin in the box transform-box
     // names, or in the viewport. False where it turns about the user
     // space's origin as it is.
-    static bool transformAnchor(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Point& o, TransformBasis& basis) {
+    static bool transformAnchor(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Point& o, TransformBasis& basis, float* z = nullptr) {
         const Document& doc = *l.doc;
         u32 kind = attribute(node, AtomTransformBox);
         StringView box = kind ? trim(textOf(doc, kind)) : StringView();
@@ -18731,8 +18872,12 @@ namespace {
 
         basis = TransformBasis{vp, documentStyle(l, node, vp).fontSize};
 
+        if (z) {
+            *z = 0.f;
+        }
+
         if (!(fill || stroke)) {
-            o = origin ? transformOrigin(textOf(doc, origin), vp.width, vp.height) : Point{vp.width / 2.f, vp.height / 2.f};
+            o = origin ? transformOrigin(textOf(doc, origin), vp.width, vp.height, z) : Point{vp.width / 2.f, vp.height / 2.f};
 
             return origin || node == doc.root;
         }
@@ -18747,11 +18892,34 @@ namespace {
 
         basis.box.width = bounds.x1 - bounds.x0;
         basis.box.height = bounds.y1 - bounds.y0;
-        o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
+        o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0, z) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
         o.x += bounds.x0;
         o.y += bounds.y0;
 
         return true;
+    }
+
+    // perspective-origin's point in an element's user space: a position in
+    // the box transform-box names, as transform-origin is
+    // (css-transforms-2.md, perspective-origin-property).
+    static Point perspectiveOriginOf(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, const ComputedStyle& style) {
+        u32 kind = attribute(node, AtomTransformBox);
+        StringView named = kind ? trim(textOf(*l.doc, kind)) : StringView();
+        bool fill = named == SV("fill-box") || named == SV("content-box");
+        bool stroke = named == SV("stroke-box") || named == SV("border-box");
+        Box box{0.f, 0.f, vp.width, vp.height};
+        Box bounds;
+        Length x;
+        Length y;
+
+        if ((fill || stroke) && elementBox(l, node, parent, vp, bounds, 0)) {
+            box = stroke ? strokeBox(l, node, parent, vp) : bounds;
+        }
+
+        // The cascade keeps the positions that parse.
+        parsePosition(style.perspectiveOriginValue ? textOf(*l.doc, style.perspectiveOriginValue) : SV("50% 50%"), x, y);
+
+        return Point{box.x0 + resolveAgainst(x, box.x1 - box.x0, vp, style.fontSize), box.y0 + resolveAgainst(y, box.y1 - box.y0, vp, style.fontSize)};
     }
 
     // An element's transform as one list: its translate, rotate and scale,
@@ -18798,37 +18966,6 @@ namespace {
         }
 
         return multiply(multiply(translation(o.x, o.y), m), translation(-o.x, -o.y));
-    }
-
-    // An element's transform in perspective, about its anchor; false for an
-    // affine one, which may still be solid, of 3D functions.
-    static bool boxProjective(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Projective& out) {
-        Buffer joined;
-        StringView list = transformList(*l.doc, node, joined);
-        Matrix m;
-        Point o;
-        TransformBasis basis;
-
-        out.solid = false;
-        out.back = false;
-
-        if (list.empty()) {
-            return false;
-        }
-
-        bool anchored = transformAnchor(l, node, parent, vp, o, basis);
-
-        parseTransform(list, m, TransformGrammar::Either, &out, &basis);
-
-        if (!out.on) {
-            return false;
-        }
-
-        if (anchored) {
-            out = compose(compose(projectiveOf(translation(o.x, o.y)), out), projectiveOf(translation(-o.x, -o.y)));
-        }
-
-        return true;
     }
 
     static bool imageReachable(const Document& doc, const Node* node) {
@@ -19262,49 +19399,79 @@ namespace {
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
 
-    // Draws an element of a transform in perspective as Firefox draws it: on
-    // a layer of its own user space, its extent and as far again around it,
-    // at the scale the transform has at its middle, then through the
-    // transform: each device pixel takes the layer between pixels where the
-    // plane is in front of the eye.
-    static void lowerProjectiveLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& ctm, const Projective& perspective, Viewport vp) {
-        Projective device = compose(projectiveOf(ctm), perspective);
+    // The layer an element is drawn on to be seen through a map: the ops it
+    // was lowered to, its size, the map from the element's user space to it
+    // and the maps from the device to it and back.
+    struct LayerPlan {
+        u32 first;
+        u32 count;
+        u32 width;
+        u32 height;
+        Matrix toLayer;
+        Projective* maps;
+    };
+
+    // Draws an element on a layer of its own user space, to be seen through
+    // device, where that space goes. In perspective as Firefox draws it: its
+    // extent and as far again around it, at the scale the map has at its
+    // middle, then through the map: each device pixel takes the layer
+    // between pixels where the plane is in front of the eye. Under an affine
+    // map, the layer is the device's own pixels, which it gives back as
+    // they are. Of a plane of a 3D rendering context, plane is its
+    // accumulated matrix, what takes part in the context drawn on it.
+    static bool lowerOnLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Projective& device, Viewport vp, const Matrix4* plane, LayerPlan& out) {
         Projective fromDevice;
         Box local;
-
-        if (!elementBox(l, node, parent, vp, local, 0) || !invertProjective(device, fromDevice)) {
-            return;
-        }
-
-        float margin = maxf(local.x1 - local.x0, local.y1 - local.y0) / 2.f + style.strokeWidth;
-        Box area{local.x0 - margin, local.y0 - margin, local.x1 + margin, local.y1 + margin};
-        Point middle{(local.x0 + local.x1) / 2.f, (local.y0 + local.y1) / 2.f};
-        Point at;
-
-        if (!projectPoint(device, middle, at)) {
-            return;
-        }
-
-        // The scale the device has at the middle: the columns of the map's
-        // derivative there, the linear part less the point by the weight's
-        // gradient, over the weight.
+        Matrix toLayer;
+        float lw;
+        float lh;
         const float* d = device.m;
-        float weight = d[6] * middle.x + d[7] * middle.y + d[8];
-        float columns[2][2] = {{(d[0] - at.x * d[6]) / weight, (d[3] - at.y * d[6]) / weight}, {(d[1] - at.x * d[7]) / weight, (d[4] - at.y * d[7]) / weight}};
-        float scale = minf(maxf(maxf(hypotf(columns[0][0], columns[0][1]), hypotf(columns[1][0], columns[1][1])), 0.0625f), 16.f);
-        float lw = ceilf((area.x1 - area.x0) * scale);
-        float lh = ceilf((area.y1 - area.y0) * scale);
-        float budget = 16.f * (float)l.width * (float)l.height;
 
-        if (!(lw * lh <= budget)) {
-            float fit = sqrtf(budget / (lw * lh));
+        if (!invertProjective(device, fromDevice)) {
+            return false;
+        }
 
-            scale *= fit;
+        if (d[6] == 0.f && d[7] == 0.f && d[8] > 0.f) {
+            toLayer = Matrix{d[0] / d[8], d[3] / d[8], d[1] / d[8], d[4] / d[8], d[2] / d[8], d[5] / d[8]};
+            lw = (float)l.width;
+            lh = (float)l.height;
+        } else {
+            if (!elementBox(l, node, parent, vp, local, 0)) {
+                return false;
+            }
+
+            float margin = maxf(local.x1 - local.x0, local.y1 - local.y0) / 2.f + style.strokeWidth;
+            Box area{local.x0 - margin, local.y0 - margin, local.x1 + margin, local.y1 + margin};
+            Point middle{(local.x0 + local.x1) / 2.f, (local.y0 + local.y1) / 2.f};
+            Point at;
+
+            if (!projectPoint(device, middle, at)) {
+                return false;
+            }
+
+            // The scale the device has at the middle: the columns of the map's
+            // derivative there, the linear part less the point by the weight's
+            // gradient, over the weight.
+            float weight = d[6] * middle.x + d[7] * middle.y + d[8];
+            float columns[2][2] = {{(d[0] - at.x * d[6]) / weight, (d[3] - at.y * d[6]) / weight}, {(d[1] - at.x * d[7]) / weight, (d[4] - at.y * d[7]) / weight}};
+            float scale = minf(maxf(maxf(hypotf(columns[0][0], columns[0][1]), hypotf(columns[1][0], columns[1][1])), 0.0625f), 16.f);
+            float budget = 16.f * (float)l.width * (float)l.height;
+
             lw = ceilf((area.x1 - area.x0) * scale);
             lh = ceilf((area.y1 - area.y0) * scale);
+
+            if (!(lw * lh <= budget)) {
+                float fit = sqrtf(budget / (lw * lh));
+
+                scale *= fit;
+                lw = ceilf((area.x1 - area.x0) * scale);
+                lh = ceilf((area.y1 - area.y0) * scale);
+            }
+
+            toLayer = multiply(scaling(scale, scale), translation(-area.x0, -area.y0));
         }
 
-        Matrix toLayer = multiply(scaling(scale, scale), translation(-area.x0, -area.y0));
+        // A device map that inverts makes a toLayer that does.
         Matrix fromLayer;
 
         invert(toLayer, fromLayer);
@@ -19318,29 +19485,451 @@ namespace {
         Vector<Op>* saved = l.out;
         u32 width = l.width;
         u32 height = l.height;
+        Matrix4 outerMatrix = l.planeMatrix;
+        Matrix outerFromLayer = l.planeFromLayer;
 
         l.width = (u32)lw;
         l.height = (u32)lh;
         l.out = &content;
         l.flattened = node;
+
+        if (plane) {
+            l.planeMatrix = *plane;
+            l.planeFromLayer = fromLayer;
+            l.extends = true;
+        }
+
         lowerElement(l, node, parent, toLayer, vp);
         l.out = saved;
         l.width = width;
         l.height = height;
+        l.planeMatrix = outerMatrix;
+        l.planeFromLayer = outerFromLayer;
 
+        out = LayerPlan{(u32)l.programs.length(), (u32)content.length(), (u32)lw, (u32)lh, toLayer, maps};
+        l.programs.append(content.data(), content.length());
+
+        return true;
+    }
+
+    // A layer as an op, the maps it is seen through, its bounds on the device.
+    static Op layerOp(const Lowering& l, const LayerPlan& layer) {
         Op op;
 
         memset(&op, 0, sizeof(op));
         op.kind = OpKind::Layer;
-        op.first = (u32)l.programs.length();
-        op.count = (u32)content.length();
-        op.layerWidth = (u32)lw;
-        op.layerHeight = (u32)lh;
-        op.layerMatrix = toLayer;
-        op.perspective = maps;
-        op.bounds = projectBox(maps[1], Box{-2.f, -2.f, lw + 2.f, lh + 2.f}, Box{0.f, 0.f, (float)width, (float)height});
-        l.programs.append(content.data(), content.length());
-        l.out->pushBack(op);
+        op.first = layer.first;
+        op.count = layer.count;
+        op.layerWidth = layer.width;
+        op.layerHeight = layer.height;
+        op.layerMatrix = layer.toLayer;
+        op.perspective = layer.maps;
+        op.bounds = projectBox(layer.maps[1], Box{-2.f, -2.f, (float)layer.width + 2.f, (float)layer.height + 2.f}, Box{0.f, 0.f, (float)l.width, (float)l.height});
+
+        return op;
+    }
+
+    // An element of a transform in perspective, drawn on its layer.
+    static void lowerProjectiveLayer(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& ctm, const Projective& perspective, Viewport vp) {
+        LayerPlan layer;
+
+        if (lowerOnLayer(l, node, parent, style, compose(projectiveOf(ctm), perspective), vp, nullptr, layer)) {
+            l.out->pushBack(layerOp(l, layer));
+        }
+    }
+
+    static Matrix4 perspectiveMatrix(const ComputedStyle& style);
+
+    // An element's transform as a 3D one about its anchor, transform-origin's
+    // z with it (css-transforms-2.md, ctm), after the perspective its parent
+    // gives its children (perspective-matrix-computation); solid where the
+    // list has a 3D function. False for none.
+    static bool elementMatrix4(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Matrix4& out, bool& solid) {
+        Buffer joined;
+        StringView list = transformList(*l.doc, node, joined);
+        Matrix m;
+        Point o;
+        float z;
+        TransformBasis basis;
+        Projective kind{{}, false, false, false};
+
+        solid = false;
+        out = identity4();
+
+        if (!list.empty()) {
+            bool anchored = transformAnchor(l, node, parent, vp, o, basis, &z);
+
+            parseTransform(list, m, TransformGrammar::Either, &kind, &basis, &out);
+            solid = kind.solid;
+
+            if (anchored) {
+                out = multiply4(multiply4(translation4(o.x, o.y, z), out), translation4(-o.x, -o.y, -z));
+            }
+        }
+
+        if (parent.perspective > 0.f) {
+            out = multiply4(perspectiveMatrix(parent), out);
+        }
+
+        return !list.empty();
+    }
+
+    // The perspective matrix an element's perspective gives its children
+    // (css-transforms-2.md, perspective-matrix-computation).
+    static Matrix4 perspectiveMatrix(const ComputedStyle& style) {
+        Matrix4 p = identity4();
+        Point at = style.perspectiveOrigin;
+
+        p.m[3][2] = -1.f / style.perspective;
+
+        return multiply4(multiply4(translation4(at.x, at.y, 0.f), p), translation4(-at.x, -at.y, 0.f));
+    }
+
+    // Whether transform-style preserve-3d holds as used: with no grouping
+    // property to flatten it (css-transforms-2.md, grouping-property-values),
+    // a viewport's overflow among them (D38), and not in a mask or pattern,
+    // which flatten what they hold (svg-three-dimensional-functions), as a
+    // clipPath does, whose shapes are never lowered as elements.
+    static bool preservesThreeD(const Lowering& l, const ComputedStyle& style) {
+        const Document& doc = *l.doc;
+        u32 image = style.maskParts[MaskPartImage];
+        u32 source = style.maskBorder[MaskBorderPartSource];
+
+        if (!style.preserve3d || style.opacity < 1.f || style.filterCount || style.clipPath || style.clipShape || style.clipRect || style.isolate || style.blend || !style.overflowVisible) {
+            return false;
+        }
+
+        if ((image && !isKeyword(textOf(doc, image), SV("none"))) || (source && !isKeyword(textOf(doc, source), SV("none")))) {
+            return false;
+        }
+
+        for (Node* active : l.active) {
+            if (active->name == AtomMask || active->name == AtomPattern) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // A plane of a 3D rendering context: its accumulated matrix, whether
+    // its back is turned to a backface-visibility of hidden, its layer and
+    // the box in it of what it draws, in layer pixels.
+    struct Plane3D {
+        Matrix4 matrix;
+        bool hidden;
+        bool drawn;
+        LayerPlan layer;
+        Box content;
+    };
+
+    // A 3D rendering context: the map from its space, its establishing
+    // element's parent's, to the device, and its planes in paint order.
+    struct Context3D {
+        Matrix target;
+        Vector<Plane3D> planes;
+    };
+
+    // Draws an element of a 3D rendering context on a plane of its own,
+    // acc its accumulated matrix; what takes part in the context inside it
+    // draws on that plane, or on planes of their own if 3D transformed.
+    static void lowerPlane(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix4& acc, Viewport vp) {
+        Context3D& context = *l.context3d;
+        u32 index = (u32)context.planes.length();
+        Plane3D plane;
+        LayerPlan layer;
+
+        memset(&plane, 0, sizeof(plane));
+        plane.matrix = acc;
+        plane.hidden = style.backfaceHidden && acc.m[2][2] < 0.f;
+        context.planes.pushBack(plane);
+
+        if (!lowerOnLayer(l, node, parent, style, compose(projectiveOf(context.target), projectiveOf4(acc)), vp, &acc, layer)) {
+            return;
+        }
+
+        // The plane's ops are the last the programs hold.
+        Box content = groupBounds(l.programs, layer.first);
+        Plane3D& out = context.planes.mut(index);
+
+        out.layer = layer;
+        out.content = Box{maxf(content.x0, 0.f), maxf(content.y0, 0.f), minf(content.x1, (float)layer.width), minf(content.y1, (float)layer.height)};
+        out.drawn = boxValid(out.content);
+    }
+
+    // A piece of a plane: its polygon in the context's space and the cuts it
+    // was split by, each the plane n x + d of the side it keeps, at zero too
+    // unless strict.
+    struct Cut3D {
+        double n[4];
+        bool strict;
+        const Cut3D* next;
+    };
+
+    struct Piece3D {
+        u32 plane;
+        u32 count;
+        double (*points)[3];
+        const Cut3D* cuts;
+        // The plane it lies in, n x + d, n of unit length.
+        double n[4];
+    };
+
+    // The plane of a polygon, by Newell's sums: n, unit, and d of n p + d;
+    // none of a polygon of no area.
+    static void polygonPlane(const Piece3D& piece, double* n) {
+        double c[3] = {0.0, 0.0, 0.0};
+
+        n[0] = n[1] = n[2] = 0.0;
+
+        for (u32 i = 0; i < piece.count; i++) {
+            const double* p = piece.points[i];
+            const double* q = piece.points[(i + 1) % piece.count];
+
+            n[0] += (p[1] - q[1]) * (p[2] + q[2]);
+            n[1] += (p[2] - q[2]) * (p[0] + q[0]);
+            n[2] += (p[0] - q[0]) * (p[1] + q[1]);
+
+            for (int k = 0; k < 3; k++) {
+                c[k] += p[k] / piece.count;
+            }
+        }
+
+        double length = fmax(sqrt(n[0] * n[0] + n[1] * n[1] + n[2] * n[2]), 1e-300);
+
+        for (int k = 0; k < 3; k++) {
+            n[k] /= length;
+        }
+
+        n[3] = -(n[0] * c[0] + n[1] * c[1] + n[2] * c[2]);
+    }
+
+    // Orders the pieces from the back to the front, the eye far up the z
+    // axis, by a BSP tree of their planes, splitting a piece a plane crosses
+    // (css-transforms-2.md, 3d-rendering-contexts: intersection by Newell's
+    // algorithm); pieces in one plane keep their paint order.
+    static void sortPieces(Lowering& l, const Piece3D* pieces, u32 count, double eps, Vector<Piece3D>& out) {
+        if (!count) {
+            return;
+        }
+
+        const double* n = pieces[0].n;
+        Piece3D* front = (Piece3D*)l.pool->allocate(sizeof(Piece3D) * count);
+        Piece3D* back = (Piece3D*)l.pool->allocate(sizeof(Piece3D) * count);
+        Piece3D* on = (Piece3D*)l.pool->allocate(sizeof(Piece3D) * count);
+        u32 fronts = 0;
+        u32 backs = 0;
+        u32 ons = 0;
+
+        on[ons++] = pieces[0];
+
+        for (u32 k = 1; k < count; k++) {
+            const Piece3D& piece = pieces[k];
+            int sides[2] = {0, 0};
+            double* s = (double*)l.pool->allocate(sizeof(double) * piece.count);
+
+            for (u32 i = 0; i < piece.count; i++) {
+                const double* p = piece.points[i];
+
+                s[i] = n[0] * p[0] + n[1] * p[1] + n[2] * p[2] + n[3];
+                sides[0] += s[i] > eps;
+                sides[1] += s[i] < -eps;
+            }
+
+            if (!sides[0] && !sides[1]) {
+                on[ons++] = piece;
+                continue;
+            }
+
+            if (!sides[1]) {
+                front[fronts++] = piece;
+                continue;
+            }
+
+            if (!sides[0]) {
+                back[backs++] = piece;
+                continue;
+            }
+
+            // Split across the plane: each side keeps its points and the
+            // crossings of the edges between them.
+            Piece3D halves[2];
+
+            for (int h = 0; h < 2; h++) {
+                Cut3D* cut = (Cut3D*)l.pool->allocate(sizeof(Cut3D));
+                double sign = h ? -1.0 : 1.0;
+
+                *cut = Cut3D{{n[0] * sign, n[1] * sign, n[2] * sign, n[3] * sign}, h == 1, piece.cuts};
+                halves[h] = Piece3D{piece.plane, 0, (double (*)[3])l.pool->allocate(sizeof(double) * 3 * (piece.count + 2)), cut, {piece.n[0], piece.n[1], piece.n[2], piece.n[3]}};
+            }
+
+            for (u32 i = 0; i < piece.count; i++) {
+                u32 j = (i + 1) % piece.count;
+                const double* p = piece.points[i];
+                const double* q = piece.points[j];
+
+                for (int h = 0; h < 2; h++) {
+                    if (h ? s[i] <= eps : s[i] >= -eps) {
+                        memcpy(halves[h].points[halves[h].count++], p, sizeof(double) * 3);
+                    }
+                }
+
+                if ((s[i] > eps && s[j] < -eps) || (s[i] < -eps && s[j] > eps)) {
+                    double t = s[i] / (s[i] - s[j]);
+                    double cross[3] = {p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t, p[2] + (q[2] - p[2]) * t};
+
+                    for (int h = 0; h < 2; h++) {
+                        memcpy(halves[h].points[halves[h].count++], cross, sizeof(double) * 3);
+                    }
+                }
+            }
+
+            front[fronts++] = halves[0];
+            back[backs++] = halves[1];
+        }
+
+        // The pieces in the plane stay in paint order, after those behind it
+        // and before those in front, as the eye sees the plane's sides.
+        bool eyeInFront = n[2] > 0.0;
+
+        sortPieces(l, eyeInFront ? back : front, eyeInFront ? backs : fronts, eps, out);
+        out.append(on, ons);
+        sortPieces(l, eyeInFront ? front : back, eyeInFront ? fronts : backs, eps, out);
+    }
+
+    // Lays the planes of a context over, from the back: each piece of a
+    // plane its layer, kept to the lines its cuts make across the device.
+    static void emitContext(Lowering& l, const Context3D& context) {
+        Vector<Piece3D> pieces;
+        double scale = 1.0;
+
+        for (u32 i = 0; i < context.planes.length(); i++) {
+            const Plane3D& plane = context.planes[i];
+
+            if (!plane.drawn || plane.hidden) {
+                continue;
+            }
+
+            // The content's box on the plane, in the context's space: the
+            // part in front of the eye, w above zero, divided by w.
+            Matrix fromLayer;
+            Box b = plane.content;
+            Point corners[4] = {{b.x0, b.y0}, {b.x1, b.y0}, {b.x1, b.y1}, {b.x0, b.y1}};
+            double homogeneous[4][4];
+            const float (*m)[4] = plane.matrix.m;
+
+            invert(plane.layer.toLayer, fromLayer);
+
+            for (int k = 0; k < 4; k++) {
+                Point p = apply(fromLayer, corners[k]);
+
+                for (int r = 0; r < 4; r++) {
+                    homogeneous[k][r] = (double)m[r][0] * p.x + (double)m[r][1] * p.y + (double)m[r][3];
+                }
+            }
+
+            Piece3D piece{i, 0, (double (*)[3])l.pool->allocate(sizeof(double) * 3 * 8), nullptr, {0.0, 0.0, 0.0, 0.0}};
+            double front = 1e-300;
+
+            for (int k = 0; k < 4; k++) {
+                front = fmax(front, homogeneous[k][3] * 1e-6);
+            }
+
+            for (int k = 0; k < 4; k++) {
+                const double* p = homogeneous[k];
+                const double* q = homogeneous[(k + 1) % 4];
+
+                if (p[3] >= front) {
+                    double* at = piece.points[piece.count++];
+
+                    for (int c = 0; c < 3; c++) {
+                        at[c] = p[c] / p[3];
+                    }
+                }
+
+                if ((p[3] >= front) != (q[3] >= front)) {
+                    double t = (front - p[3]) / (q[3] - p[3]);
+                    double* at = piece.points[piece.count++];
+
+                    for (int c = 0; c < 3; c++) {
+                        at[c] = (p[c] + (q[c] - p[c]) * t) / front;
+                    }
+                }
+            }
+
+            // A plane all behind the eye draws nothing.
+            if (piece.count < 3) {
+                continue;
+            }
+
+            polygonPlane(piece, piece.n);
+
+            for (u32 k = 0; k < piece.count; k++) {
+                for (int c = 0; c < 3; c++) {
+                    scale = fmax(scale, fabs(piece.points[k][c]));
+                }
+            }
+
+            pieces.pushBack(piece);
+        }
+
+        Vector<Piece3D> sorted;
+        Matrix fromTarget;
+
+        sortPieces(l, pieces.data(), (u32)pieces.length(), scale * 1e-6, sorted);
+        invert(context.target, fromTarget);
+
+        for (const Piece3D& piece : sorted) {
+            const Plane3D& plane = context.planes[piece.plane];
+            Op op = layerOp(l, plane.layer);
+            const double* n = piece.n;
+            u32 cuts = 0;
+
+            for (const Cut3D* cut = piece.cuts; cut; cut = cut->next) {
+                cuts++;
+            }
+
+            float* lines = (float*)l.pool->allocate(sizeof(float) * 4 * (cuts ? cuts : 1));
+            u32 k = 0;
+
+            // A cut's plane where it meets the piece's, a line in x and y of
+            // the context's space, z following x and y on a plane the device
+            // map of which inverts; then of the device.
+            for (const Cut3D* cut = piece.cuts; cut; cut = cut->next, k++) {
+                const double* c = cut->n;
+                double a = c[0] - c[2] * n[0] / n[2];
+                double b = c[1] - c[2] * n[1] / n[2];
+                double d = c[3] - c[2] * n[3] / n[2];
+                const Matrix& f = fromTarget;
+
+                lines[k * 4 + 0] = (float)(a * f.a + b * f.b);
+                lines[k * 4 + 1] = (float)(a * f.c + b * f.d);
+                lines[k * 4 + 2] = (float)(a * f.e + b * f.f + d);
+                lines[k * 4 + 3] = cut->strict ? 1.f : 0.f;
+            }
+
+            op.cuts = lines;
+            op.cutCount = cuts;
+            l.out->pushBack(op);
+        }
+    }
+
+    // A 3D rendering context the element establishes (css-transforms-2.md,
+    // 3d-rendering-contexts): it and each 3D transformed element taking part
+    // drawn on a plane of its own, what else takes part on the plane of the
+    // element it is in; the planes placed by their accumulated matrices in
+    // the space of the element's parent, cut where they cross, laid over
+    // from the back. own is the element's transform, after its parent's
+    // perspective.
+    static void lowerContext(Lowering& l, Node* node, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& ctm, const Matrix4& own, Viewport vp) {
+        Context3D context;
+        Context3D* outer = l.context3d;
+
+        context.target = ctm;
+        l.context3d = &context;
+        lowerPlane(l, node, parent, style, own, vp);
+        l.context3d = outer;
+        emitContext(l, context);
     }
 
     // vector-effect's constrained transformations, SVG 2's formulas in the
@@ -19382,8 +19971,26 @@ namespace {
         return multiply(host, linear);
     }
 
+    static void lowerElementIn(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp, bool participates);
+
+    // Lowers an element, which takes part in the 3D rendering context being
+    // drawn where its parent establishes or extends it.
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp) {
+        bool extends = l.extends;
+        Matrix4 matrix = l.planeMatrix;
+        Matrix fromLayer = l.planeFromLayer;
+
+        lowerElementIn(l, node, parent, ctm, vp, l.context3d && extends);
+        l.extends = extends;
+        l.planeMatrix = matrix;
+        l.planeFromLayer = fromLayer;
+    }
+
+    static void lowerElementIn(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp, bool participates) {
         bool instance = node->name == AtomSymbol && l.sized == node;
+
+        // What the element's resources and markers draw takes no part.
+        l.extends = false;
 
         if ((!renderable(node->name) && !instance) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
             return;
@@ -19401,28 +20008,86 @@ namespace {
             return;
         }
 
-        // A transform in perspective draws the element on a layer of its
-        // own, where the element is again, its transform the layer's.
+        // perspective-origin is a point of the element's box, which takes
+        // its style to measure.
+        if (style.perspective > 0.f) {
+            style.perspectiveOrigin = perspectiveOriginOf(l, node, parent, vp, style);
+        }
+
+        // In a 3D rendering context vector-effect does nothing
+        // (svg2/coords.md, VectorEffectsCalculation).
+        if (l.context3d) {
+            style.vectorEffects = 0;
+            style.nonScaling = false;
+        }
+
+        // A transform with a 3D function goes by its 4 by 4 matrix, after
+        // the perspective of the parent.
         Projective perspective{{}, false, false, false};
         bool flattened = l.flattened == node;
+        Matrix4 full;
+        bool solid = false;
 
         l.flattened = nullptr;
 
-        bool projective = !flattened && boxProjective(l, node, parent, vp, perspective);
+        if (!flattened) {
+            elementMatrix4(l, node, parent, vp, full, solid);
+        }
+
+        // Taking part in a 3D rendering context, a 3D transformed element is
+        // drawn on a plane of its own; any other is on the plane it is in,
+        // the accumulated matrix through it taking its parent's perspective.
+        if (participates && !flattened) {
+            Matrix4 through = multiply4(l.planeMatrix, matrix4Of(multiply(l.planeFromLayer, ctm)));
+
+            if (solid) {
+                lowerPlane(l, node, parent, style, multiply4(through, full), vp);
+
+                return;
+            }
+
+            if (style.backfaceHidden && multiply4(through, full).m[2][2] < 0.f) {
+                return;
+            }
+
+            // A ctm of no area draws nothing whatever its inverse.
+            if (parent.perspective > 0.f) {
+                Matrix fromParent = identity();
+
+                invert(ctm, fromParent);
+                l.planeMatrix = multiply4(through, perspectiveMatrix(parent));
+                l.planeFromLayer = fromParent;
+            }
+        }
+
+        if (solid) {
+            perspective = projectiveOf4(full);
+            perspective.on = !affine4(full);
+        }
 
         // backface-visibility hidden hides an element its transform turns
         // to show its back (css-transforms-2.md, backface-visibility).
-        if (style.backfaceHidden && perspective.back) {
+        if (!participates && style.backfaceHidden && perspective.back) {
             return;
         }
 
-        if (projective) {
+        bool preserves = preservesThreeD(l, style);
+
+        if (preserves && !participates) {
+            lowerContext(l, node, parent, style, ctm, full, vp);
+
+            return;
+        }
+
+        // A transform in perspective draws the element on a layer of its
+        // own, where the element is again, its transform the layer's.
+        if (perspective.on) {
             lowerProjectiveLayer(l, node, parent, style, ctm, perspective, vp);
 
             return;
         }
 
-        Matrix own = flattened ? identity() : boxTransform(l, node, parent, vp);
+        Matrix own = flattened ? identity() : solid ? affineOf4(full) : boxTransform(l, node, parent, vp);
         Matrix m = multiply(ctm, own);
         Op op = groupOp(style.opacity);
 
@@ -19476,6 +20141,9 @@ namespace {
         }
 
         l.depth++;
+
+        // The children of an element taking part with preserve-3d take part.
+        l.extends = participates && preserves;
 
         if ((offscreen || complex) && !lowerFilteredLayer(l, node, parent, style, m, vp, offscreen ? &extent : nullptr, measured)) {
             Op fallback = groupOp(1.f);
@@ -25030,6 +25698,15 @@ namespace {
                 float bx = floorf(fx);
                 float by = floorf(fy);
 
+                // A piece of a plane keeps to its side of each cut, the
+                // pixel's centre telling: pieces meet with no seam.
+                for (u32 c = 0; c < op.cutCount; c++) {
+                    const float* cut = op.cuts + c * 4;
+                    float side = cut[0] * ((float)x + 0.5f) + cut[1] * ((float)y + 0.5f) + cut[2];
+
+                    front &= cut[3] != 0.f ? side > 0.f : side >= 0.f;
+                }
+
                 if (!front || bx < -1.f || by < -1.f || bx >= (float)lw || by >= (float)lh) {
                     memset(out, 0, sizeof(u16) * 4);
                     continue;
@@ -25365,6 +26042,8 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.backgroundInputs = usesBackground(doc, doc.root);
         l.sized = nullptr;
         l.flattened = nullptr;
+        l.context3d = nullptr;
+        l.extends = false;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
         l.screen = identity();

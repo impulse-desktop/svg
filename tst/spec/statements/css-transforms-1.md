@@ -9,11 +9,11 @@
 - [x] css-transforms-1.md#propdef-transform: transform's value is none or a transform-list (one or more transform functions); initial none; applies to transformable elements; not inherited [transform-functions#none transform-functions#not-inherited]
 - [x] css-transforms-1.md#propdef-transform: percentages refer to the size of the reference box; the computed value keeps the specified functions but with lengths made absolute [transform-functions#percent]
 
-## transform-origin: transform-functions, transform-origin (exists)
+## transform-origin: transform-functions, transform-origin (exists), transform-3d-contexts
 
 - [x] css-transforms-1.md#propdef-transform-origin: initial 50% 50%; applies to transformable elements; not inherited; percentages refer to the reference box (horizontal to width, vertical to height) [transform-functions#origin-percent transform-functions#origin-initial]
 - [x] css-transforms-1.md#transform-origin-property: if only one value is given, the second is assumed center; if one or two values are given, the third (Z) is assumed 0px [transform-functions#origin-one transform-functions#origin-two]
-- [x] css-transforms-1.md#transform-origin-property: if two or more values are given and no keyword (or only center) is used, the first value is horizontal and the second vertical; a third value is a Z length offset [transform-functions#origin-two]
+- [x] css-transforms-1.md#transform-origin-property: if two or more values are given and no keyword (or only center) is used, the first value is horizontal and the second vertical; a third value is a Z length offset [transform-functions#origin-two transform-3d-contexts#origin-z transform-3d-contexts#origin-z-invalid]
 - [x] css-transforms-1.md#valdef-transform-origin-top: top computes to 0% vertical, right to 100% horizontal, bottom to 100% vertical, left to 0% horizontal; center computes to 50% of whichever axis is otherwise unspecified [transform-functions#origin-keywords]
 - [x] css-transforms-1.md#transform-origin-property: for SVG elements without an associated CSS layout box, the initial used value of transform-origin is 0 0, not 50% 50% [transform-functions#origin-initial]
 

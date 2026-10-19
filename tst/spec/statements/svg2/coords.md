@@ -77,14 +77,14 @@
 - [-] svg2/coords.md#SizingSVGInCSS: the intrinsic aspect ratio is width/height if both are absolute lengths; else the active SVG view's viewBox ratio if any; else the svg element's own correctly-specified viewBox ratio; else there is none. (D10) [root-viewport#user-units-px image-fragment-views#no-fragment]
 - [-] svg2/coords.md#SizingSVGInCSS: wherever an intrinsic aspect ratio exists it must be respected when sizing the SVG viewport, in every host context. (D10) [root-viewport#user-units-px image-fragment-views#no-fragment]
 
-## Vector effects: vector-effect-transforms, stroke-non-scaling
+## Vector effects: vector-effect-transforms, stroke-non-scaling, transform-3d-contexts
 
 - [x] svg2/coords.md#VectorEffectProperty: vector-effect is none | non-scaling-stroke | non-scaling-size | non-rotation | fixed-position (combinable), initial none, applies to graphics elements and 'use', not inherited. [vector-effect-transforms#non-scaling-size stroke-non-scaling#not-inherited]
 - [x] svg2/coords.md#VectorEffectProperty: non-scaling-size keeps the user coordinate system's scale fixed against CTM changes from the host coordinate space, without suppressing rotation or skew; it implies non-scaling-stroke too. (D3) [vector-effect-transforms#non-scaling-size vector-effect-transforms#fixed-non-scaling-size]
 - [x] svg2/coords.md#VectorEffectProperty: non-rotation suppresses rotation and skew of the user coordinate system against CTM changes, without suppressing scaling. [vector-effect-transforms#non-rotation vector-effect-transforms#fixed-non-rotation]
 - [x] svg2/coords.md#VectorEffectProperty: fixed-position fixes the placement of the user coordinate system against CTM changes; it consumes the element's own transform property, using its e/f translation components as the fixed origin. [vector-effect-transforms#fixed-position vector-effect-transforms#fixed-both]
 - [x] svg2/coords.md#VectorEffects: the host coordinate space for vector-effect is the viewport coordinate system of the furthest ancestral SVG viewport. (D3) [stroke-non-scaling#nested-viewbox vector-effect-transforms#fixed-position]
-- [-] svg2/coords.md#VectorEffectsCalculation: vector-effect has no effect on transforms performed within a 3D rendering context. (D38) [vector-effect-transforms#non-scaling-size vector-effect-transforms#both]
+- [x] svg2/coords.md#VectorEffectsCalculation: vector-effect has no effect on transforms performed within a 3D rendering context. [transform-3d-contexts#vector-effect transform-3d-contexts#shape-context]
 - [x] svg2/coords.md#VectorEffectsCalculation: when |det(CTM)| is 0 and non-scaling-size is specified, the vector-effect becomes invalid, i.e. none. [vector-effect-transforms#no-area]
 
 ## Notes
