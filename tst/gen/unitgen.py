@@ -83,3 +83,43 @@ def rows(unit, y, groups, columns, pitch, height, item, x=2):
         y += count * height
 
     return y
+
+
+TARGET = '<rect class="t" width="6" height="6" fill="red"/>'
+
+
+def squares(unit, groups, columns=8):
+    """Lays out the units of style sheets: each item a rule and the children
+    of a group of class cN at its place, {c} in the rule standing for .cN,
+    and the rule should fill its 6 by 6 square lime, a target of class t
+    drawn red else (TARGET); a rule after ! is a style element of its own,
+    which may leave things open. Each group of items is a cell on rows of
+    its own. Sets the unit's size."""
+    sheet, own = [], []
+    y = 2
+    i = 0
+
+    for name, items in groups:
+        tests, plains, outlines = [], [], []
+
+        for k, (rule, children) in enumerate(items):
+            x, top = 2 + k % columns * 8, y + k // columns * 8
+            rule = rule.replace("{c}", f".c{i}")
+
+            if rule.startswith("!"):
+                own.append(f"<style>{rule[1:]}</style>")
+            elif rule:
+                sheet.append(rule)
+
+            tests.append(f'<g class="c{i}" transform="translate({x} {top})">{children}</g>')
+            plains.append(f'<rect x="{x}" y="{top}" width="6" height="6" fill="lime"/>')
+            outlines.append(f'<rect x="{x}" y="{top}" width="6" height="6"/>')
+            i += 1
+
+        count = (len(items) + columns - 1) // columns
+        unit.cell(name, (1, y - 1, columns * 8, count * 8), "".join(tests), "".join(plains), "".join(outlines))
+        y += count * 8
+
+    unit.common("<style><![CDATA[\n" + "\n".join(sheet) + "\n]]></style>" + "".join(own), "")
+    unit.width = 2 + columns * 8
+    unit.height = y

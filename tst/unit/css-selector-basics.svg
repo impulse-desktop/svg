@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="138">
+<!-- Each lime square fills its black outline, and nothing red shows. A
+type selector matches its element, * any, and *.t is .t; a type or *
+goes first in a compound, once. Names and values are matched as XML has
+them, case-sensitively. A class selector matches a word of the class
+attribute split on white space, as [class~=] does, and none of an empty
+one; an id selector every element of that id; . or # alone invalidates
+the selector. A B matches a B at any depth under an A, A > B a child, A
++ B the next element sibling, text and comments between them aside, A ~
+B any later one; a leading combinator invalidates the selector.
+Specificity counts ids, then classes, attributes and pseudo-classes,
+then types, * nothing; a list takes that of the selector that matched; a
+tie goes to the later rule. -->
+<rect width="66" height="138" fill="white"/>
+<style><![CDATA[
+.c0 > rect { fill: lime }
+.c1 > circle { fill: red } .c1 > .t { fill: lime }
+.c2 > * { fill: lime }
+.c3 > *.t { fill: red } .c3 > .t { fill: lime }
+.c4 > .t { fill: red } .c4 > *.t { fill: lime }
+.c5 > .t*, .c5 > * { fill: red } .c5 > .t { fill: lime }
+.c6 > rect*, .c6 > * { fill: red } .c6 > .t { fill: lime }
+.c7 > *rect, .c7 > * { fill: red } .c7 > .t { fill: lime }
+.c8 > RECT { fill: red } .c8 > rect { fill: lime }
+.c9 > .T { fill: red } .c9 > .t { fill: lime }
+.c10 > #X { fill: red } .c10 > .t { fill: lime }
+.c11 > [DATA-X] { fill: red } .c11 > .t { fill: lime }
+.c12 > .a { fill: lime }
+.c13 > [class~=a] { fill: lime }
+.c14 > .a.c { fill: lime }
+.c15 > .a { fill: red } .c15 > rect { fill: lime }
+.c16 > .\20 { fill: red } .c16 > rect { fill: lime }
+.c17 > :not(.t) { fill: lime }
+.c18 > #s { fill: lime }
+.c19 > #twin { fill: lime }
+.c20 > ., .c20 > * { fill: red } .c20 > .t { fill: lime }
+.c21 > #, .c21 > * { fill: red } .c21 > .t { fill: lime }
+.c22 .t { fill: lime }
+.c23 circle .t { fill: red } .c23 .t { fill: lime }
+.c24 > g > .t { fill: lime }
+.c25 > .t { fill: red } .c25 .t { fill: lime }
+.c26 > g + .t { fill: lime }
+.c27 > circle + .t { fill: red } .c27 > .t { fill: lime }
+.c28 > circle ~ .t { fill: lime }
+.c29 > .t ~ g { fill: red } .c29 > g ~ .t { fill: lime }
+> .t, .c30 > * { fill: red } .c30 > .t { fill: lime }
++ .t, .c31 > * { fill: red } .c31 > .t { fill: lime }
+~ .t, .c32 > * { fill: red } .c32 > .t { fill: lime }
+.c33 > #s { fill: lime } .c33 > .t.t.t.t.t { fill: red }
+.c34 > .t { fill: lime } .c34 > rect { fill: red }
+.c35 > [data-x] { fill: lime } .c35 > g rect, .c35 > rect { fill: red }
+.c36 > :first-child { fill: lime } .c36 > rect { fill: red }
+.c37 > rect.t { fill: lime } .c37 > *.t { fill: red }
+.c38 > g .t { fill: lime } .c38 > * > .t { fill: red }
+.c39 > rect.t { fill: lime } .c39 > #x, .c39 > .t { fill: red }
+.c40 > .t { fill: red } .c40 > .t { fill: lime }
+]]></style>
+<g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c2" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c3" transform="translate(10 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c4" transform="translate(18 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c5" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c6" transform="translate(10 18)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c7" transform="translate(18 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c8" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c9" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c10" transform="translate(18 26)"><rect class="t" id="x" width="6" height="6"/></g><g class="c11" transform="translate(26 26)"><rect class="t" data-x="" width="6" height="6"/></g>
+<g class="c12" transform="translate(2 34)"><rect class="b&#9;a&#10;c" width="6" height="6" fill="red"/></g><g class="c13" transform="translate(10 34)"><rect class=" a " width="6" height="6" fill="red"/></g><g class="c14" transform="translate(18 34)"><rect class="c b a" width="6" height="6" fill="red"/></g><g class="c15" transform="translate(26 34)"><rect class="ab" width="6" height="6"/></g>
+<g class="c16" transform="translate(2 42)"><rect class="  " width="6" height="6"/></g><g class="c17" transform="translate(10 42)"><rect class="" width="6" height="6" fill="red"/></g>
+<g class="c18" transform="translate(2 50)"><rect id="s" width="6" height="6" fill="red"/></g><g class="c19" transform="translate(10 50)"><rect id="twin" width="3" height="6" fill="red"/><rect id="twin" x="3" width="3" height="6" fill="red"/></g>
+<g class="c20" transform="translate(2 58)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c21" transform="translate(10 58)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c22" transform="translate(2 66)"><g><g><rect class="t" width="6" height="6" fill="red"/></g></g></g><g class="c23" transform="translate(10 66)"><g><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c24" transform="translate(2 74)"><g><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c25" transform="translate(10 74)"><g><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c26" transform="translate(2 82)"><g/><!-- c -->text<rect class="t" width="6" height="6" fill="red"/></g><g class="c27" transform="translate(10 82)"><circle r="0"/><g/><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c28" transform="translate(2 90)"><circle r="0"/><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c29" transform="translate(10 90)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c30" transform="translate(2 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c31" transform="translate(10 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c32" transform="translate(18 98)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c33" transform="translate(2 106)"><rect class="t" id="s" width="6" height="6"/></g><g class="c34" transform="translate(10 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c35" transform="translate(18 106)"><rect data-x="" width="6" height="6"/></g><g class="c36" transform="translate(26 106)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c37" transform="translate(2 114)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c38" transform="translate(10 114)"><g><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c39" transform="translate(2 122)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c40" transform="translate(2 130)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="10" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="10" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="10" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="18" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="10" y="106" width="6" height="6"/><rect x="18" y="106" width="6" height="6"/><rect x="26" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/><rect x="2" y="122" width="6" height="6"/><rect x="2" y="130" width="6" height="6"/></g>
+</svg>

@@ -1,77 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="66" height="42">
-<!-- Each lime square fills its black outline, and nothing red shows. css-syntax-3's error recovery: the end of a style sheet, a style attribute or a presentation attribute closes what is open, a function, a block, an at-rule, a string, a url, a comment, but a qualified rule whose block never opened is dropped; a newline ends a bad string and drops its declaration, a quote or parenthesis in an unquoted url drops its; an invalid selector drops its rule; CDO and CDC tokens are nothing; @charset is an unknown rule; a declaration without a name and a colon, an unknown property or a value its grammar refuses is dropped alone; property names and keywords are ASCII case-insensitive; !important, spaced, of any case or escaped, marks a declaration, ! and another word invalidate it. -->
-<rect width="66" height="42" fill="white"/>
-<style><![CDATA[
-.c11 > .t { fill: lime } .c11 > .t { fill: "x
-; }
-.c12 > .t { fill: "x
-; fill: lime }
-.c13 > .t { fill: lime } .c13 > .t { fill: url(a"b) red }
-.c14 > .t { fill: lime } .c14 > .t { fill: url(a(b) red }
-.c15 > .t:unknown { fill: red } .c15 > .t { fill: lime }
-@charset "x"; .c17 > .t { fill: lime }
-.c18 > .t { : red; fill lime; fill: lime }
-.c19 > .t { fill: lime; foo; stroke: none }
-.c20 > .t { fill: lime; fill: ; fill: bogus; foo: red }
-.c21 > .t { FILL: lime }
-.c22 > .t { Fill: LIME }
-.c23 > .t { fill: lime !important } .c23 > .t { fill: red }
-.c24 > .t { fill: lime ! important } .c24 > .t { fill: red }
-.c25 > .t { fill: lime !IMPORTANT } .c25 > .t { fill: red }
-.c26 > .t { fill: lime !\69mportant } .c26 > .t { fill: red }
-.c27 > .t { fill: lime } .c27 > .t { fill: red !foo }
-.c28 > .t { fill: lime } .c28 > .t { fill: red ! }
-.c29 > .t { fill: lime } .c29 > .t { fill: \6c ime "x
-; }
-.c30 > .t { fill: lime } .c30 > .t { fill: \6c ime "x
-y; }
-]]></style>
-<style>.c0 > .t { fill: rgb(0 255 0</style>
-<style>.c1 > .t { fill: lime</style>
-<style>@media all { .c2 > .t { fill: lime }</style>
-<style>.c3 > .t { fill: lime } .c3 > .t</style>
-<style>.c4 > .t { fill: lime; stroke: "abc</style>
-<style>.c5 > .t { fill: url(#gl</style>
-<style>.c6 > .t { fill: lime } /* open</style>
-<style>&lt;!-- .c16 > .t { fill: lime } --&gt;</style>
-<g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c2" transform="translate(18 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c4" transform="translate(34 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c5" transform="translate(42 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c6" transform="translate(50 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c7" transform="translate(58 2)"><rect class="t" width="6" height="6" fill="red" style="fill: rgb(0 255 0"/></g>
-<g class="c8" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="rgb(0 255 0"/></g>
-<g class="c9" transform="translate(10 10)"><rect class="t" width="6" height="6" fill="url(#gl"/></g>
-<g class="c10" transform="translate(18 10)"><rect class="t" width="6" height="6" fill="url('#gl"/></g>
-<g class="c11" transform="translate(26 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c12" transform="translate(34 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c13" transform="translate(42 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c14" transform="translate(50 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c15" transform="translate(58 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c16" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c17" transform="translate(10 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c18" transform="translate(18 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c19" transform="translate(26 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c20" transform="translate(34 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c21" transform="translate(42 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c22" transform="translate(50 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c23" transform="translate(58 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c24" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c25" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c26" transform="translate(18 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c27" transform="translate(26 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c28" transform="translate(34 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c29" transform="translate(42 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c30" transform="translate(50 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c31" transform="translate(58 26)"><g fill="lime"><rect class="t" width="6" height="6" fill="lime/"/></g></g>
-<g class="c32" transform="translate(2 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="'a&#10;b'"/></g></g>
-<g class="c33" transform="translate(10 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="[a]"/></g></g>
-<g class="c34" transform="translate(18 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="{a}"/></g></g>
-<g class="c35" transform="translate(26 34)"><g fill="lime"><rect class="t" width="6" height="6" fill="xurl(#gl"/></g></g>
-<g class="c36" transform="translate(34 34)"><rect class="t" width="6" height="6" fill="lime" style="filter: url('(') invert(1)"/></g>
-<g class="c37" transform="translate(42 34)"><rect class="t" width="6" height="6" fill="lime" style="clip-path: path('M0 0 h6 v6 h-6 z (')"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="122">
+<!-- Each lime square fills its black outline, and nothing red shows.
+css-syntax-3's error recovery: the end of a style sheet, a style
+attribute or a presentation attribute closes what is open, a function, a
+block, an at-rule, a string, a url, a comment, but a qualified rule
+whose block never opened is dropped; a newline ends a bad string and
+drops its declaration, a quote or parenthesis in an unquoted url drops
+its; an invalid selector drops its rule; CDO and CDC tokens are nothing;
+@charset is an unknown rule; a declaration without a name and a colon,
+an unknown property or a value its grammar refuses is dropped alone;
+property names and keywords are ASCII case-insensitive; !important,
+spaced, of any case or escaped, marks a declaration, ! and another word
+invalidate it. -->
+<rect width="66" height="122" fill="white"/>
 <linearGradient id="gl"><stop stop-color="lime"/></linearGradient>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="34" y="26" width="6" height="6"/><rect x="42" y="26" width="6" height="6"/><rect x="50" y="26" width="6" height="6"/><rect x="58" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="34" y="34" width="6" height="6"/><rect x="42" y="34" width="6" height="6"/></g>
+<style><![CDATA[
+.c12 > .t { fill: /* x */ lime }
+.c13/**/>/**/.t/**/{/**/fill/**/:/**/lime/**/}
+.c14 > .t { fill: lime } .c14 > .t { fill: "x
+; }
+.c15 > .t { fill: "x
+; fill: lime }
+.c16 > .t { fill: lime } .c16 > .t { fill: \6c ime "x
+; }
+.c17 > .t { fill: lime } .c17 > .t { fill: \6c ime "x
+y; }
+.c18 > .t { fill: lime } .c18 > .t { fill: url(a"b) red }
+.c19 > .t { fill: lime } .c19 > .t { fill: url(a(b) red }
+.c21 > .t:unknown { fill: red } .c21 > .t { fill: lime }
+@charset "x"; .c23 > .t { fill: lime }
+.c24 > .t { : red; fill lime; fill: lime }
+.c25 > .t { fill: lime; foo; stroke: none }
+.c26 > .t { fill: lime; fill: ; fill: bogus; foo: red }
+.c33 > .t { FILL: lime }
+.c34 > .t { Fill: LIME }
+.c35 > .t { fill: lime !important } .c35 > .t { fill: red }
+.c36 > .t { fill: lime ! important } .c36 > .t { fill: red }
+.c37 > .t { fill: lime !IMPORTANT } .c37 > .t { fill: red }
+.c38 > .t { fill: lime !\69mportant } .c38 > .t { fill: red }
+.c39 > .t { fill: lime } .c39 > .t { fill: red !foo }
+.c40 > .t { fill: lime } .c40 > .t { fill: red ! }
+]]></style><style>.c0 > .t { fill: rgb(0 255 0</style><style>.c1 > .t { fill: lime</style><style>.c2 > .t { fill: lime; stroke: "abc</style><style>.c3 > .t { fill: url(#gl</style><style>@media all { .c8 > .t { fill: lime }</style><style>.c9 > .t { fill: lime } .c9 > .t</style><style>.c10 > .t { fill: lime } /* open</style><style>.c11 > .t { fill: lime /* open</style><style>&lt;!-- .c22 > .t { fill: lime } --&gt;</style>
+<g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c2" transform="translate(18 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c4" transform="translate(34 2)"><rect class="t" width="6" height="6" fill="red" style="fill: rgb(0 255 0"/></g><g class="c5" transform="translate(42 2)"><rect class="t" width="6" height="6" fill="rgb(0 255 0"/></g><g class="c6" transform="translate(50 2)"><rect class="t" width="6" height="6" fill="url(#gl"/></g><g class="c7" transform="translate(58 2)"><rect class="t" width="6" height="6" fill="url('#gl"/></g>
+<g class="c8" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c9" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c10" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c11" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c12" transform="translate(2 34)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c13" transform="translate(10 34)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c14" transform="translate(2 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c15" transform="translate(10 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c16" transform="translate(18 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c17" transform="translate(26 42)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c18" transform="translate(2 50)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c19" transform="translate(10 50)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c20" transform="translate(18 50)"><rect class="t" width="6" height="6" fill="lime" style="filter: url('(') invert(1)"/></g>
+<g class="c21" transform="translate(2 58)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c22" transform="translate(2 66)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c23" transform="translate(2 74)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c24" transform="translate(2 82)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c25" transform="translate(10 82)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c26" transform="translate(2 90)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c27" transform="translate(10 90)"><g fill="lime"><rect class="t" width="6" height="6" fill="lime/"/></g></g><g class="c28" transform="translate(18 90)"><g fill="lime"><rect class="t" width="6" height="6" fill="'a&#10;b'"/></g></g><g class="c29" transform="translate(26 90)"><g fill="lime"><rect class="t" width="6" height="6" fill="[a]"/></g></g><g class="c30" transform="translate(34 90)"><g fill="lime"><rect class="t" width="6" height="6" fill="{a}"/></g></g><g class="c31" transform="translate(42 90)"><g fill="lime"><rect class="t" width="6" height="6" fill="xurl(#gl"/></g></g><g class="c32" transform="translate(50 90)"><rect class="t" width="6" height="6" fill="lime" style="clip-path: path('M0 0 h6 v6 h-6 z (')"/></g>
+<g class="c33" transform="translate(2 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c34" transform="translate(10 98)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c35" transform="translate(2 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c36" transform="translate(10 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c37" transform="translate(18 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c38" transform="translate(26 106)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c39" transform="translate(2 114)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c40" transform="translate(10 114)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="26" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="18" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="18" y="90" width="6" height="6"/><rect x="26" y="90" width="6" height="6"/><rect x="34" y="90" width="6" height="6"/><rect x="42" y="90" width="6" height="6"/><rect x="50" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="10" y="106" width="6" height="6"/><rect x="18" y="106" width="6" height="6"/><rect x="26" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/></g>
 </svg>

@@ -1,17 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="66" height="10">
-<!-- Each lime square fills its black outline, and nothing red shows. The document draws as an image, whose links nothing follows: :any-link and :link match no a element, with an href in either namespace or none, and :visited, :hover, :focus, :active and :target nothing either, yet each is valid, the other selectors of its list applying (D33). -->
-<rect width="66" height="10" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="18">
+<!-- Each lime square fills its black outline, and nothing red shows.
+The document draws as an image, whose links nothing follows: :any-link
+and :link match no a element, with an href in either namespace or none,
+and :visited, :hover, :focus, :active and :target nothing either, yet
+each is valid, the other selectors of its list applying (D33). -->
+<rect width="66" height="18" fill="white"/>
 <style><![CDATA[
 .c0 :any-link > .t, .c0 :link > .t, .c0 :visited > .t { fill: red } .c0 .t { fill: lime }
 .c1 a:any-link > .t, .c1 a:link > .t { fill: red } .c1 .t { fill: lime }
-.c2 :link > .t, .c2 a > .t { fill: lime }
-.c3 :visited > .t, .c3 :hover > .t, .c3 :focus > .t, .c3 :active > .t, .c3 :target > .t, .c3 a > .t { fill: lime }
-.c4 :any-link > .t { fill: red } .c4 .t { fill: lime }
+.c2 :any-link > .t { fill: red } .c2 .t { fill: lime }
+.c3 > :link { fill: red } .c3 > .t { fill: lime }
+.c4 :link > .t, .c4 a > .t { fill: lime }
+.c5 :visited > .t, .c5 :hover > .t, .c5 :focus > .t, .c5 :active > .t, .c5 :target > .t, .c5 a > .t { fill: lime }
 ]]></style>
-<g class="c0" transform="translate(2 2)"><a href="#x"><rect class="t" width="6" height="6" fill="red"/></a></g>
-<g class="c1" transform="translate(10 2)"><a xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"><rect class="t" width="6" height="6" fill="red"/></a></g>
-<g class="c2" transform="translate(18 2)"><a href="#x"><rect class="t" width="6" height="6" fill="red"/></a></g>
-<g class="c3" transform="translate(26 2)"><a href="#x" id="x"><rect class="t" width="6" height="6" fill="red"/></a></g>
-<g class="c4" transform="translate(34 2)"><a><rect class="t" width="6" height="6" fill="red"/></a></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/></g>
+<g class="c0" transform="translate(2 2)"><a href="#x"><rect class="t" width="6" height="6" fill="red"/></a></g><g class="c1" transform="translate(10 2)"><a xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"><rect class="t" width="6" height="6" fill="red"/></a></g><g class="c2" transform="translate(18 2)"><a><rect class="t" width="6" height="6" fill="red"/></a></g><g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c4" transform="translate(2 10)"><a href="#x"><rect class="t" width="6" height="6" fill="red"/></a></g><g class="c5" transform="translate(10 10)"><a href="#x" id="x"><rect class="t" width="6" height="6" fill="red"/></a></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/></g>
 </svg>

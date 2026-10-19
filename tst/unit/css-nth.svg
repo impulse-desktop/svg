@@ -1,113 +1,92 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="66" height="58">
-<!-- Each lime square fills its black outline, and nothing red shows. An+B of css-syntax-3: odd, even, An+B with B signed by itself or by a + or - apart, white space around the parts but not between a sign and its n or digits, A and B of either sign or none, N and ODD in any case; 0n+0 matches no position, and a form not in the grammar invalidates its selector. The child-index pseudo-classes of selectors-4 count element siblings from 1: :nth-child() and :nth-last-child(), "of S" counting only the siblings S matches, :nth-of-type() and :nth-last-of-type() of the same element type, the first, last and only forms, :empty with no child element nor text (white space, an entity or a character reference count; a comment, a processing instruction or an empty CDATA section do not), :root. -->
-<rect width="66" height="58" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="138">
+<!-- Each lime square fills its black outline, and nothing red shows.
+An+B of css-syntax-3: odd, even, An+B with B signed by itself or by a +
+or - apart, white space around the parts but not between a sign and its
+n or digits, A and B of either sign or none, N and ODD in any case; 0n+0
+matches no position, and a form not in the grammar invalidates its
+selector. The child-index pseudo-classes of selectors-4 count element
+siblings from 1, text and comments not: :nth-child() and :nth-last-
+child(), "of S" counting only the siblings S matches, :nth-of-type() and
+:nth-last-of-type() of the same element type, the first, last and only
+forms, :empty with no child element nor text (white space, an entity or
+a character reference count; a comment, a processing instruction or an
+empty CDATA section do not), :root. -->
+<rect width="66" height="138" fill="white"/>
 <style><![CDATA[
 .c0 > :nth-child(odd) { fill: lime }
 .c1 > :nth-child(even) { fill: lime }
-.c2 > :nth-child(2n+1) { fill: lime }
-.c3 > :nth-child(2n-1) { fill: lime }
-.c4 > :nth-child( 3n + 1 ) { fill: lime }
-.c5 > :nth-child(n) { fill: lime }
-.c6 > :nth-child(-n+3) { fill: lime }
-.c7 > :nth-child(+n) { fill: lime }
-.c8 > :nth-child(3) { fill: lime }
-.c9 > :nth-child(+2) { fill: lime }
+.c2 > :nth-child(ODD) { fill: lime }
+.c3 > :nth-child(3) { fill: lime }
+.c4 > :nth-child(+2) { fill: lime }
+.c5 > :nth-child(2n+1) { fill: lime }
+.c6 > :nth-child(2n-1) { fill: lime }
+.c7 > :nth-child( 3n + 1 ) { fill: lime }
+.c8 > :nth-child(n) { fill: lime }
+.c9 > :nth-child(+n) { fill: lime }
 .c10 > :nth-child(2N+1) { fill: lime }
-.c11 > :nth-child(ODD) { fill: lime }
-.c12 > :nth-child(-2n+3) { fill: lime }
-.c13 > :nth-child(n- 1) { fill: lime }
-.c14 > :nth-child(2n -1) { fill: lime }
-.c15 > :nth-child(2n+ 1) { fill: lime }
-.c16 > :nth-child(0n+0), .c16 > :nth-child(-n+0) { fill: red } .c16 > * { fill: lime }
-.c17 > :nth-child(+ n), .c17 > * { fill: red } .c17 > .t { fill: lime }
-.c18 > :nth-child(- 1), .c18 > * { fill: red } .c18 > .t { fill: lime }
-.c19 > :nth-child(2n- -1), .c19 > * { fill: red } .c19 > .t { fill: lime }
-.c20 > :nth-child(2n 1), .c20 > * { fill: red } .c20 > .t { fill: lime }
-.c21 > :nth-child(n+), .c21 > * { fill: red } .c21 > .t { fill: lime }
-.c22 > :nth-child(oddx), .c22 > * { fill: red } .c22 > .t { fill: lime }
-.c23 > :nth-child(3), .c23 > :nth-child(1) { fill: red } .c23 > * { fill: lime }
-.c24 > :nth-last-child(1) { fill: lime }
-.c25 > :nth-last-child(2n) { fill: lime }
-.c26 > :nth-child(1 of .t) { fill: lime }
-.c27 > :nth-child(2 of g, .t) { fill: lime }
-.c28 > :nth-last-child(1 of .t) { fill: lime }
-.c29 > :nth-child(1 of circle) { fill: red } .c29 > .t { fill: lime }
-.c30 > :nth-of-type(1) { fill: lime }
-.c31 > :nth-last-of-type(2) { fill: lime }
-.c32 > :first-of-type { fill: lime }
-.c33 > :last-of-type { fill: lime }
-.c34 > :only-of-type { fill: lime }
-.c35 > :only-of-type { fill: red } .c35 > .t { fill: lime }
-.c36 > :first-child { fill: lime }
-.c37 > :last-child { fill: lime }
-.c38 > :only-child { fill: lime }
-.c39 > :empty { fill: lime }
-.c40 > :empty { fill: red } .c40 > .t { fill: lime }
-.c41 > :empty { fill: red } .c41 > .t { fill: lime }
-.c42 > :empty { fill: red } .c42 > .t { fill: lime }
+.c11 > :nth-child(n- 1) { fill: lime }
+.c12 > :nth-child(2n -1) { fill: lime }
+.c13 > :nth-child(2n+ 1) { fill: lime }
+.c14 > :nth-child(-n+3) { fill: lime }
+.c15 > :nth-child(-2n+3) { fill: lime }
+.c16 > :nth-child(-n+1) { fill: lime } .c16 > :nth-child(-n+0) { fill: red }
+.c17 > :nth-child(3), .c17 > :nth-child(1) { fill: red } .c17 > * { fill: lime }
+.c18 > :nth-child(0n+0), .c18 > :nth-child(-n+0) { fill: red } .c18 > * { fill: lime }
+.c19 > :nth-child(+ n), .c19 > * { fill: red } .c19 > .t { fill: lime }
+.c20 > :nth-child(- 1), .c20 > * { fill: red } .c20 > .t { fill: lime }
+.c21 > :nth-child(2n- -1), .c21 > * { fill: red } .c21 > .t { fill: lime }
+.c22 > :nth-child(2n 1), .c22 > * { fill: red } .c22 > .t { fill: lime }
+.c23 > :nth-child(n+), .c23 > * { fill: red } .c23 > .t { fill: lime }
+.c24 > :nth-child(oddx), .c24 > * { fill: red } .c24 > .t { fill: lime }
+.c25 > :nth-child(2) { fill: lime }
+.c26 > :nth-child(1) { fill: lime }
+.c27 > :nth-last-child(1) { fill: lime }
+.c28 > :nth-last-child(2n) { fill: lime }
+.c29 > :nth-child(1 of .t) { fill: lime }
+.c30 > :nth-child(2 of g, .t) { fill: lime }
+.c31 > :nth-last-child(1 of .t) { fill: lime }
+.c32 > :nth-child(1 of circle) { fill: red } .c32 > .t { fill: lime }
+.c33 > :nth-of-type(1) { fill: lime }
+.c34 > :nth-last-of-type(2) { fill: lime }
+.c35 > :first-of-type { fill: lime }
+.c36 > :last-of-type { fill: lime }
+.c37 > :only-of-type { fill: lime }
+.c38 > :only-of-type { fill: red } .c38 > .t { fill: lime }
+.c39 > :first-child { fill: lime }
+.c40 > :last-child { fill: lime }
+.c41 > :only-child { fill: lime }
+.c42 > :only-child { fill: red } .c42 > .t { fill: lime }
 .c43 > :empty { fill: lime }
-.c44 > :empty { fill: red } .c44 > .t { fill: lime }
+.c44 > :empty { fill: lime }
 .c45 > :empty { fill: red } .c45 > .t { fill: lime }
 .c46 > :empty { fill: red } .c46 > .t { fill: lime }
-:root > .c47 > .t { fill: lime }
-.c48 > :nth-child(99999999999) { fill: red } .c48 > .t { fill: lime }
-.c49 > :nth-child(1 of.t), .c49 > * { fill: red } .c49 > .t { fill: lime }
-.c50 > :nth-child(1 of :unknown), .c50 > * { fill: red } .c50 > .t { fill: lime }
-.c51 > :foo(x), .c51 > * { fill: red } .c51 > .t { fill: lime }
-.c52 > .t), .c52 > * { fill: red } .c52 > .t { fill: lime }
+.c47 > :empty { fill: red } .c47 > .t { fill: lime }
+.c48 > :empty { fill: red } .c48 > .t { fill: lime }
+.c49 > :empty { fill: red } .c49 > .t { fill: lime }
+.c50 > :empty { fill: red } .c50 > .t { fill: lime }
+:root > .c51 > .t { fill: lime }
+.c52 > :root { fill: red } .c52 > .t { fill: lime }
+.c53 > :nth-child(99999999999) { fill: red } .c53 > .t { fill: lime }
+.c54 > :nth-child(1 of.t), .c54 > * { fill: red } .c54 > .t { fill: lime }
+.c55 > :nth-child(1 of :unknown), .c55 > * { fill: red } .c55 > .t { fill: lime }
+.c56 > :foo(x), .c56 > * { fill: red } .c56 > .t { fill: lime }
+.c57 > .t), .c57 > * { fill: red } .c57 > .t { fill: lime }
 ]]></style>
-<g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c1" transform="translate(10 2)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c2" transform="translate(18 2)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c4" transform="translate(34 2)"><g/><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c5" transform="translate(42 2)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c6" transform="translate(50 2)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c7" transform="translate(58 2)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c8" transform="translate(2 10)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c9" transform="translate(10 10)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c10" transform="translate(18 10)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c11" transform="translate(26 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c12" transform="translate(34 10)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c13" transform="translate(42 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c14" transform="translate(50 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c15" transform="translate(58 10)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c16" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c17" transform="translate(10 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c18" transform="translate(18 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c19" transform="translate(26 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c20" transform="translate(34 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c21" transform="translate(42 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c22" transform="translate(50 18)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c23" transform="translate(58 18)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c24" transform="translate(2 26)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c25" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="red"/><g/></g>
-<g class="c26" transform="translate(18 26)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c27" transform="translate(26 26)"><g/><rect class="t" width="6" height="6" fill="red"/><g/></g>
-<g class="c28" transform="translate(34 26)"><rect class="t" width="6" height="6" fill="red"/><g/></g>
-<g class="c29" transform="translate(42 26)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c30" transform="translate(50 26)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c31" transform="translate(58 26)"><rect class="t" width="6" height="6" fill="red"/><rect width="0" height="0"/></g>
-<g class="c32" transform="translate(2 34)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c33" transform="translate(10 34)"><rect class="t" width="6" height="6" fill="red"/><g/></g>
-<g class="c34" transform="translate(18 34)"><g/><rect class="t" width="6" height="6" fill="red"/><g/></g>
-<g class="c35" transform="translate(26 34)"><rect width="0" height="0"/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c36" transform="translate(34 34)"><rect class="t" width="6" height="6" fill="red"/><g/></g>
-<g class="c37" transform="translate(42 34)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c38" transform="translate(50 34)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c39" transform="translate(58 34)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c40" transform="translate(2 42)"><rect class="t" width="6" height="6"> </rect></g>
-<g class="c41" transform="translate(10 42)"><rect class="t" width="6" height="6">x</rect></g>
-<g class="c42" transform="translate(18 42)"><rect class="t" width="6" height="6"><desc/></rect></g>
-<g class="c43" transform="translate(26 42)"><rect class="t" width="6" height="6" fill="red"><!-- c --><?p?><![CDATA[]]></rect></g>
-<g class="c44" transform="translate(34 42)"><rect class="t" width="6" height="6">&amp;</rect></g>
-<g class="c45" transform="translate(42 42)"><rect class="t" width="6" height="6">&#x20;</rect></g>
-<g class="c46" transform="translate(50 42)"><rect class="t" width="6" height="6"><![CDATA[x]]></rect></g>
-<g class="c47" transform="translate(58 42)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c48" transform="translate(2 50)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c49" transform="translate(10 50)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c50" transform="translate(18 50)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c51" transform="translate(26 50)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c52" transform="translate(34 50)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/><rect x="58" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="34" y="26" width="6" height="6"/><rect x="42" y="26" width="6" height="6"/><rect x="50" y="26" width="6" height="6"/><rect x="58" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="34" y="34" width="6" height="6"/><rect x="42" y="34" width="6" height="6"/><rect x="50" y="34" width="6" height="6"/><rect x="58" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="26" y="42" width="6" height="6"/><rect x="34" y="42" width="6" height="6"/><rect x="42" y="42" width="6" height="6"/><rect x="50" y="42" width="6" height="6"/><rect x="58" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="18" y="50" width="6" height="6"/><rect x="26" y="50" width="6" height="6"/><rect x="34" y="50" width="6" height="6"/></g>
+<g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c1" transform="translate(10 2)"><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c2" transform="translate(18 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c3" transform="translate(26 2)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c4" transform="translate(34 2)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c5" transform="translate(2 10)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c6" transform="translate(10 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c7" transform="translate(18 10)"><g/><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c8" transform="translate(26 10)"><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c9" transform="translate(34 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c10" transform="translate(42 10)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c11" transform="translate(50 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c12" transform="translate(58 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c13" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c14" transform="translate(2 26)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c15" transform="translate(10 26)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c16" transform="translate(18 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c17" transform="translate(26 26)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c18" transform="translate(2 34)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c19" transform="translate(2 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c20" transform="translate(10 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c21" transform="translate(18 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c22" transform="translate(26 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c23" transform="translate(34 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c24" transform="translate(42 42)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c25" transform="translate(2 50)"><g/><!-- c -->x<?p?><rect class="t" width="6" height="6" fill="red"/></g><g class="c26" transform="translate(10 50)">text<rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c27" transform="translate(2 58)"><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c28" transform="translate(10 58)"><rect class="t" width="6" height="6" fill="red"/><g/></g>
+<g class="c29" transform="translate(2 66)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c30" transform="translate(10 66)"><g/><rect class="t" width="6" height="6" fill="red"/><g/></g><g class="c31" transform="translate(18 66)"><rect class="t" width="6" height="6" fill="red"/><g/></g><g class="c32" transform="translate(26 66)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c33" transform="translate(2 74)"><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c34" transform="translate(10 74)"><rect class="t" width="6" height="6" fill="red"/><rect width="0" height="0"/></g>
+<g class="c35" transform="translate(2 82)"><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c36" transform="translate(10 82)"><rect class="t" width="6" height="6" fill="red"/><g/></g><g class="c37" transform="translate(18 82)"><g/><rect class="t" width="6" height="6" fill="red"/><g/></g><g class="c38" transform="translate(26 82)"><rect width="0" height="0"/><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c39" transform="translate(2 90)"><rect class="t" width="6" height="6" fill="red"/><g/></g><g class="c40" transform="translate(10 90)"><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c41" transform="translate(18 90)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c42" transform="translate(26 90)"><rect class="t" width="6" height="6" fill="red"/><g/></g>
+<g class="c43" transform="translate(2 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c44" transform="translate(10 98)"><rect class="t" width="6" height="6" fill="red"><!-- c --><?p?><![CDATA[]]></rect></g>
+<g class="c45" transform="translate(2 106)"><rect class="t" width="6" height="6"> </rect></g><g class="c46" transform="translate(10 106)"><rect class="t" width="6" height="6">x</rect></g><g class="c47" transform="translate(18 106)"><rect class="t" width="6" height="6"><desc/></rect></g><g class="c48" transform="translate(26 106)"><rect class="t" width="6" height="6">&amp;</rect></g><g class="c49" transform="translate(34 106)"><rect class="t" width="6" height="6">&#x20;</rect></g><g class="c50" transform="translate(42 106)"><rect class="t" width="6" height="6"><![CDATA[x]]></rect></g>
+<g class="c51" transform="translate(2 114)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c52" transform="translate(10 114)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c53" transform="translate(2 122)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c54" transform="translate(2 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c55" transform="translate(10 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c56" transform="translate(18 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c57" transform="translate(26 130)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="26" y="42" width="6" height="6"/><rect x="34" y="42" width="6" height="6"/><rect x="42" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="10" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="10" y="66" width="6" height="6"/><rect x="18" y="66" width="6" height="6"/><rect x="26" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="10" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="18" y="82" width="6" height="6"/><rect x="26" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="18" y="90" width="6" height="6"/><rect x="26" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="10" y="106" width="6" height="6"/><rect x="18" y="106" width="6" height="6"/><rect x="26" y="106" width="6" height="6"/><rect x="34" y="106" width="6" height="6"/><rect x="42" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/><rect x="2" y="122" width="6" height="6"/><rect x="2" y="130" width="6" height="6"/><rect x="10" y="130" width="6" height="6"/><rect x="18" y="130" width="6" height="6"/><rect x="26" y="130" width="6" height="6"/></g>
 </svg>
