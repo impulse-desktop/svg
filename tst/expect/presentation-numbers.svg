@@ -1,10 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="50" height="34">
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="34">
 <!-- What tst/unit/presentation-numbers.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="50" height="34" fill="white"/>
+<rect width="76" height="34" fill="white"/>
 <g id="declaration" data-box="1 1 48 8"><rect x="2" y="2" width="6" height="6" fill="lime"/><rect x="10" y="2" width="6" height="6" fill="lime"/><circle cx="21" cy="5" r="3" fill="lime"/><rect x="26" y="2" width="6" height="6" fill="lime"/></g>
 <g id="accepted" data-box="1 13 48 8"><rect x="2" y="14" width="6" height="6" fill="lime"/><rect x="10" y="14" width="6" height="6" fill="lime"/><rect x="19" y="15" width="4" height="4" fill="none" stroke="lime" stroke-width="2"/><rect x="28" y="14" width="6" height="6" fill="lime"/></g>
 <g id="sheet" data-box="1 25 22 8"><rect x="2" y="26" width="6" height="2" fill="lime"/></g>
 <g id="sheet-radius" data-box="27 25 22 8"><circle cx="31" cy="29" r="3" fill="lime"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><circle cx="21" cy="5" r="3"/><rect x="26" y="2" width="6" height="6"/><rect x="2" y="14" width="6" height="6"/><rect x="10" y="14" width="6" height="6"/><rect x="18" y="14" width="6" height="6"/><rect x="28" y="14" width="6" height="6"/><rect x="2" y="26" width="6" height="2"/><circle cx="31" cy="29" r="3"/></g>
+<g id="sheet-zero" data-box="53 25 22 8"></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><circle cx="21" cy="5" r="3"/><rect x="26" y="2" width="6" height="6"/><rect x="2" y="14" width="6" height="6"/><rect x="10" y="14" width="6" height="6"/><rect x="18" y="14" width="6" height="6"/><rect x="28" y="14" width="6" height="6"/><rect x="2" y="26" width="6" height="2"/><circle cx="31" cy="29" r="3"/><rect x="54" y="26" width="6" height="6"/></g>
 </svg>

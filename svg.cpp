@@ -6368,9 +6368,10 @@ namespace {
     // takes no such length, as Chromium and Firefox drop it there, though
     // Chromium takes it in a style attribute.
     static bool unitlessSize(u32 property, Tokens value) {
+        // A size that validGeometry takes is one component value.
         const Token* t = single(value);
 
-        return (property == AtomWidth || property == AtomHeight) && t && t->type == TokenType::Number && t->number != 0.0;
+        return (property == AtomWidth || property == AtomHeight) && t->type == TokenType::Number && t->number != 0.0;
     }
 
     static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out, bool sheet) {
