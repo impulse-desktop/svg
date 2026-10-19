@@ -6364,7 +6364,16 @@ namespace {
     // var() or env() in it is valid until a node's custom properties
     // substitute them (css-variables-1 3); a shorthand's longhands keep the
     // shorthand's, to read it again then.
-    static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out) {
+    // A width or height of a number other than 0: a style sheet's CSS
+    // takes no such length, as Chromium and Firefox drop it there, though
+    // Chromium takes it in a style attribute.
+    static bool unitlessSize(u32 property, Tokens value) {
+        const Token* t = single(value);
+
+        return (property == AtomWidth || property == AtomHeight) && t && t->type == TokenType::Number && t->number != 0.0;
+    }
+
+    static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out, bool sheet) {
         static const u32 geometries[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomD, AtomTransform, AtomTransformOrigin, AtomTransformBox, AtomTranslate, AtomRotate, AtomScale, AtomPathLengthProperty};
         StringView name = declaration.name;
         Tokens tokens = trimmed(declaration.value);
@@ -6476,7 +6485,7 @@ namespace {
             out.pushBack(Declaration{AtomMarkerStart, value, 0, important, false});
             out.pushBack(Declaration{AtomMarkerMid, value, 0, important, false});
             out.pushBack(Declaration{AtomMarkerEnd, value, 0, important, false});
-        } else if (geometryProperty(property) ? validGeometry(property, tokens) : validDeclaration(doc, property, tokens)) {
+        } else if (geometryProperty(property) ? validGeometry(property, tokens) && !(sheet && unitlessSize(property, tokens)) : validDeclaration(doc, property, tokens)) {
             // An invalid declaration of geometry is dropped, as CSS drops
             // it: the attribute stays.
             out.pushBack(Declaration{property, value, 0, important, false});
@@ -7030,7 +7039,7 @@ namespace {
         p += p < end ? p->span + 1 : 0;
     }
 
-    static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out);
+    static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out, bool sheet);
 
     // The declarations of a block's contents into out (5.5.5): an at-rule in
     // it, or a rule nested in it, which the renderer applies neither of, is
@@ -7059,7 +7068,7 @@ namespace {
             CssDeclaration declaration;
 
             if (consumeDeclaration(p, end, declaration)) {
-                declare(doc, declaration, out);
+                declare(doc, declaration, out, !list);
                 continue;
             }
 
@@ -8048,7 +8057,7 @@ namespace {
                 return (geometryProperty(from.property) ? validGeometry(from.property, tokens) : validDeclaration(doc, from.property, tokens)) ? value : keywordValue(doc, SV("unset"));
             }
 
-            declare(doc, CssDeclaration{textOf(doc, from.shorthand), tokens, false}, parts);
+            declare(doc, CssDeclaration{textOf(doc, from.shorthand), tokens, false}, parts, false);
 
             for (const Declaration& part : parts) {
                 if (part.property == from.property) {

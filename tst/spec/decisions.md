@@ -490,7 +490,10 @@ WebKit and resvg read it as 10px, and real files count on it: 56 of a
 10 178-file sample of Wikimedia Commons, Batik's samples, WebKit's tests.
 Rejecting it would draw those files unlike anything their authors saw, for
 no gain (README, the goal), so a declaration takes a plain number where the
-attribute does.
+attribute does. Width and height in a style sheet are the exception:
+Chromium and Firefox drop a plain number there, as CSS does, though
+Chromium takes one in a style attribute, and a real file's sheet that gives
+every rect width: 128 draws each rect at its own width in both.
 
 ## D44. A template's content inherits from the template
 
