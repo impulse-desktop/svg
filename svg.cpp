@@ -11700,8 +11700,10 @@ namespace {
 
         // The joins between the points keep within the tolerance of the
         // turn the offset allows, sqrt(8 turn), and near the ends within
-        // what their normals leave.
-        PieceEnds ends{powerAt(q, ta), powerAt(q, tb), capA, capB, openness(q, ta, half), openness(q, tb, half), half, tol};
+        // what their normals leave, for a half width as wide as the bound
+        // turn allows: no step need turn under it.
+        double reach = fmin((double)half, (double)tol / turn);
+        PieceEnds ends{powerAt(q, ta), powerAt(q, tb), capA, capB, openness(q, ta, reach), openness(q, tb, reach), reach, tol};
         Vector<double> all;
 
         for (size_t i = 1; i < ts.length(); i++) {
@@ -12605,6 +12607,12 @@ namespace {
                     incoming = came[i];
                 }
 
+                // A dash on as it comes onto a cubic starts at a cap only
+                // where the polyline does, open.
+                if (on && run != c) {
+                    capped = i == 0 && !closed;
+                }
+
                 while (length - travelled > remaining) {
                     travelled += remaining;
 
@@ -12627,7 +12635,7 @@ namespace {
                         bool corner = travelled == 0.f;
 
                         if (curve && (run == c || !corner)) {
-                            leave(c, run == c ? from : t0, at, PointCorner, run == c ? capped : i == 0 && !closed, true);
+                            leave(c, run == c ? from : t0, at, PointCorner, capped, true);
                         } else if (!corner) {
                             piece.pushBack(cut);
                             flags.pushBack(PointCorner);
@@ -12670,12 +12678,11 @@ namespace {
                 remaining -= length - travelled;
 
                 if (on && curve) {
-                    capped = run == c ? capped : i == 0 && !closed;
                     from = run == c ? from : t0;
                     run = c;
 
                     if (paramOf[i + 1] == 1.0) {
-                        leave(c, from, 1.0, kind[i + 1], capped, i + 2 == loop.length() && !closed);
+                        leave(c, from, 1.0, kind[i + 1], capped, i + 2 == loop.length());
                     }
                 } else if (on) {
                     piece.pushBack(b);
@@ -23861,8 +23868,11 @@ namespace {
         const u16* s = planeRead(in, x, y);
         float inside = maxf(minf(minf((float)x + 1.f, support.x1) - maxf((float)x, support.x0), 1.f), 0.f) * maxf(minf(minf((float)y + 1.f, support.y1) - maxf((float)y, support.y0), 1.f), 0.f);
 
+        // A pixel past the support holds nothing, as it is cleared there.
+        float scale = 1.f / maxf(inside, 1e-6f);
+
         for (int k = 0; k < 4; k++) {
-            out[k] = inside > 0.f && inside < 1.f ? (u16)minf((float)s[k] / inside + 0.5f, 65535.f) : s[k];
+            out[k] = inside < 1.f ? (u16)minf((float)s[k] * scale + 0.5f, 65535.f) : s[k];
         }
     }
 
