@@ -341,20 +341,19 @@ in, stretched to the pixels it is drawn into (README), so the viewport
 units are of that size. Before, they were of the output pixels, and a
 document drawn at twice its size had twice the vw in its user units.
 
-## D32. A value's escapes are undone before its grammar reads it
+## D32. A value is read from its tokens, its escapes in them
 
 `css-syntax-3.md#syntax-description`: any code point may be escaped in an
 identifier, and the tokenizer keeps an escaped delimiter part of its token.
-The renderer reads property values from their text, not from tokens, so it
-undoes a value's escapes outside its strings and urls (which undo their
-own) before the property's grammar reads it: fill: \6c ime is lime. An
-escaped delimiter thus becomes that delimiter, rgb\28 0 255 0\29 a colour,
-where tokens would make one identifier and the declaration invalid; no
-author escapes a parenthesis to write a colour. Presentation attributes are
-read as CSS too (`svg2/types.md#presentation-attribute-css-value`), their
-comments dropped, escapes undone and what they leave open closed; other
-attributes in CSS's value syntax, viewBox or stdDeviation, are read as
-written. Selectors and property names undo their escapes as tokens do.
+The renderer reads every CSS value from its tokens (css-syntax-3 4 and 5):
+fill: \6c ime is lime, an identifier of four letters, and rgb\28 0 255
+0\29 no colour but an identifier, numbers and a dimension, invalid.
+Chromium, Firefox, librsvg and resvg all draw it so. Before the renderer had
+a tokenizer it read values from their text and undid a value's escapes
+first, which made rgb\28 0 255 0\29 green; no renderer does. Presentation
+attributes are read as CSS too (`svg2/types.md#presentation-attribute-css-value`),
+their comments and escapes as the tokenizer reads them; so are other
+attributes written in CSS's value syntax, viewBox, points and number lists.
 
 ## D33. Dynamic and link pseudo-classes are valid and never match
 
@@ -500,3 +499,18 @@ template's content, a pattern's or a gradient's stops, inheriting from the
 template where it is in the document, a style on the referencing paint
 server ignored (README, the goal, rule 1: a proven cost), and so does the
 renderer. Before, it followed SVG 2 and drew those patterns black.
+
+## D45. Every code point past ASCII is an ident code point
+
+`css-syntax-3.md#non-ascii-ident-code-point` narrowed the code points past
+ASCII that an identifier takes to the ranges of HTML's custom element
+names: U+00D7, U+00F7, U+00A0, U+2000 to U+206F and others are no longer
+in it, and a class selector of one is a delim in the middle of the
+selector, which drops the rule. Chromium and Firefox take every code point
+past ASCII in an identifier, as CSS 2 did: of eight class selectors with é,
+×, ÷, a no-break space, U+2000, U+2028, the unassigned U+0378 and the
+noncharacter U+FDD0 between two letters, they match all eight. Being
+stricter than they are would drop rules real files write and the browsers
+apply (README, the goal, rule 5), so the tokenizer takes every byte past
+ASCII as part of an ident code point, as it did before it had a
+tokenizer.

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="66" height="122">
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="162">
 <!-- Each lime square fills its black outline, and nothing red shows.
 css-syntax-3's error recovery: the end of a style sheet, a style
 attribute or a presentation attribute closes what is open, a function, a
@@ -10,8 +10,18 @@ its; an invalid selector drops its rule; CDO and CDC tokens are nothing;
 an unknown property or a value its grammar refuses is dropped alone;
 property names and keywords are ASCII case-insensitive; !important,
 spaced, of any case or escaped, marks a declaration, ! and another word
-invalidate it. -->
-<rect width="66" height="122" fill="white"/>
+invalidate it. Blocks and functions match their closing tokens as
+components: a } inside an unclosed function or parenthesis is the
+function's, so an unclosed var( or url( with a space takes in the rest
+of the sheet; a url( bad by a space takes in all to its ). In a style
+rule's block what is no declaration is a nested rule, which ends at its
+own {} block or a ;, so a declaration after a {} block of template text
+still applies. Tokens are CSS's: a number with an exponent or a
+dimension whose unit starts with e, a hash of an identifier alone an id,
+CDO and CDC nothing only at the top of a sheet, elsewhere a rule's
+prelude that fails, every code point past ASCII an identifier's (D45).
+-->
+<rect width="66" height="162" fill="white"/>
 <linearGradient id="gl"><stop stop-color="lime"/></linearGradient>
 <style><![CDATA[
 .c12 > .t { fill: /* x */ lime }
@@ -39,7 +49,24 @@ y; }
 .c38 > .t { fill: lime !\69mportant } .c38 > .t { fill: red }
 .c39 > .t { fill: lime } .c39 > .t { fill: red !foo }
 .c40 > .t { fill: lime } .c40 > .t { fill: red ! }
-]]></style><style>.c0 > .t { fill: rgb(0 255 0</style><style>.c1 > .t { fill: lime</style><style>.c2 > .t { fill: lime; stroke: "abc</style><style>.c3 > .t { fill: url(#gl</style><style>@media all { .c8 > .t { fill: lime }</style><style>.c9 > .t { fill: lime } .c9 > .t</style><style>.c10 > .t { fill: lime } /* open</style><style>.c11 > .t { fill: lime /* open</style><style>&lt;!-- .c22 > .t { fill: lime } --&gt;</style>
+.c44 > .t { fill: red } .c44 > .t { stroke: url(a b) } .c44 > .t { fill: lime }
+.c46 > .t { fill: red; {% x %} fill: lime }
+.c47 > .t { fill: red; {% if y %}fill: lime;{% endif %} }
+.c48 > .t { fill: red; a:b { c: d } fill: lime }
+.c49 > .t { fill: red; a b; fill: lime }
+.c50 > .t { fill: red; @media all { fill: red } fill: lime }
+--x: y { .c51 > .t { fill: red } } --z a { fill: red } .c51 > .t { fill: lime }
+.c52 > .t { fill: lime; stroke: red; stroke-width: 1e3e } .c52 > .t { stroke-width: 0 }
+.c53 > .t { width: 0.6e1px; fill: lime }
+.c54 > .t { opacity: 0e3 }
+.c55 > .t { fill: lime } .c55 > #1a { fill: red }
+.c56 > .t { fill: lime; stroke: red; stroke-width: 0 } .c56 > .t { stroke-width: .0e0 }
+.c57 > .t { fill: lime } @media all { &lt;!-- .c57 > .t { fill: red } }
+.c58 > .t { fill: lime; &lt;!-- fill: red }
+.c59 > .a×b { fill: lime }
+.c60 > .a b { fill: lime }
+.c61 > .a b { fill: lime }
+]]></style><style>.c0 > .t { fill: rgb(0 255 0</style><style>.c1 > .t { fill: lime</style><style>.c2 > .t { fill: lime; stroke: "abc</style><style>.c3 > .t { fill: url(#gl</style><style>@media all { .c8 > .t { fill: lime }</style><style>.c9 > .t { fill: lime } .c9 > .t</style><style>.c10 > .t { fill: lime } /* open</style><style>.c11 > .t { fill: lime /* open</style><style>&lt;!-- .c22 > .t { fill: lime } --&gt;</style><style>.c41 > .t { fill: lime; stroke: var(--x, red } .c41 > .t { fill: red }</style><style>.c42 > .t { fill: lime; stroke: rgb(1 2 } .c42 > .t { fill: red }</style><style>.c43 > .t { fill: lime } .c43 > .t { stroke: url(a b } .c43 > .t { fill: red }</style><style>.c45 > .t { fill: lime } .c45 > .t { stroke: [a } .c45 > .t { fill: red }</style>
 <g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c2" transform="translate(18 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c4" transform="translate(34 2)"><rect class="t" width="6" height="6" fill="red" style="fill: rgb(0 255 0"/></g><g class="c5" transform="translate(42 2)"><rect class="t" width="6" height="6" fill="rgb(0 255 0"/></g><g class="c6" transform="translate(50 2)"><rect class="t" width="6" height="6" fill="url(#gl"/></g><g class="c7" transform="translate(58 2)"><rect class="t" width="6" height="6" fill="url('#gl"/></g>
 <g class="c8" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c9" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g>
@@ -55,5 +82,10 @@ y; }
 <g class="c33" transform="translate(2 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c34" transform="translate(10 98)"><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c35" transform="translate(2 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c36" transform="translate(10 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c37" transform="translate(18 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c38" transform="translate(26 106)"><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c39" transform="translate(2 114)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c40" transform="translate(10 114)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="26" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="18" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="18" y="90" width="6" height="6"/><rect x="26" y="90" width="6" height="6"/><rect x="34" y="90" width="6" height="6"/><rect x="42" y="90" width="6" height="6"/><rect x="50" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="10" y="106" width="6" height="6"/><rect x="18" y="106" width="6" height="6"/><rect x="26" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/></g>
+<g class="c41" transform="translate(2 122)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c42" transform="translate(10 122)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c43" transform="translate(18 122)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c44" transform="translate(26 122)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c45" transform="translate(34 122)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c46" transform="translate(2 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c47" transform="translate(10 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c48" transform="translate(18 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c49" transform="translate(26 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c50" transform="translate(34 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c51" transform="translate(42 130)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c52" transform="translate(2 138)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c53" transform="translate(10 138)"><rect class="t" height="6" fill="red"/></g><g class="c54" transform="translate(18 138)"><rect width="6" height="6" fill="lime"/><rect class="t" width="6" height="6" fill="red"/></g><g class="c55" transform="translate(26 138)"><rect class="t" width="6" height="6" fill="red" id="1a"/></g><g class="c56" transform="translate(34 138)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c57" transform="translate(2 146)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c58" transform="translate(10 146)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c59" transform="translate(2 154)"><rect class="t a×b" width="6" height="6" fill="red"/></g><g class="c60" transform="translate(10 154)"><rect class="t a b" width="6" height="6" fill="red"/></g><g class="c61" transform="translate(18 154)"><rect class="t a b" width="6" height="6" fill="red"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="26" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="18" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="18" y="90" width="6" height="6"/><rect x="26" y="90" width="6" height="6"/><rect x="34" y="90" width="6" height="6"/><rect x="42" y="90" width="6" height="6"/><rect x="50" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="10" y="106" width="6" height="6"/><rect x="18" y="106" width="6" height="6"/><rect x="26" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/><rect x="2" y="122" width="6" height="6"/><rect x="10" y="122" width="6" height="6"/><rect x="18" y="122" width="6" height="6"/><rect x="26" y="122" width="6" height="6"/><rect x="34" y="122" width="6" height="6"/><rect x="2" y="130" width="6" height="6"/><rect x="10" y="130" width="6" height="6"/><rect x="18" y="130" width="6" height="6"/><rect x="26" y="130" width="6" height="6"/><rect x="34" y="130" width="6" height="6"/><rect x="42" y="130" width="6" height="6"/><rect x="2" y="138" width="6" height="6"/><rect x="10" y="138" width="6" height="6"/><rect x="18" y="138" width="6" height="6"/><rect x="26" y="138" width="6" height="6"/><rect x="34" y="138" width="6" height="6"/><rect x="2" y="146" width="6" height="6"/><rect x="10" y="146" width="6" height="6"/><rect x="2" y="154" width="6" height="6"/><rect x="10" y="154" width="6" height="6"/><rect x="18" y="154" width="6" height="6"/></g>
 </svg>

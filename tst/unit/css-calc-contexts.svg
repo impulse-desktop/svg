@@ -35,7 +35,7 @@ integer, a transfer slope. -->
 <filter id="bt" x="0" y="-1" width="1" height="3"><feGaussianBlur stdDeviation="0 calc(1 + 1)"/></filter><rect x="30" y="38" width="6" height="4" fill="navy" filter="url(#bt)"/><rect x="36" y="38" width="6" height="4" fill="navy" filter="url(#br)"/>
 <filter id="tt" filterUnits="userSpaceOnUse" x="44" y="34" width="12" height="6"><feTurbulence baseFrequency=".2" numOctaves="calc(1.6)" seed="3"/></filter><rect x="44" y="34" width="12" height="6" filter="url(#tt)"/><filter id="tr" filterUnits="userSpaceOnUse" x="44" y="40" width="12" height="6"><feTurbulence baseFrequency=".2" numOctaves="2" seed="3"/></filter><rect x="44" y="40" width="12" height="6" filter="url(#tr)"/>
 <filter id="ct"><feComponentTransfer><feFuncG type="linear" slope="calc(1 / 2)"/></feComponentTransfer></filter><rect x="58" y="34" width="12" height="6" fill="lime" filter="url(#ct)"/><rect x="58" y="40" width="12" height="6" fill="lime" filter="url(#cr)"/>
-<svg x="2" y="50" width="12" height="12" viewBox="0 0 calc(12 * 2) 24"><rect width="12" height="12" fill="lime"/></svg>
+<svg x="2" y="50" width="12" height="12" viewBox="0 0 calc(min(12, 20) * 2) 24"><rect width="12" height="12" fill="lime"/></svg>
 <polygon points="16,50 calc(6 * 2 + 16),50 16,62" fill="lime"/>
 <svg x="30" y="50" width="24" height="12"><rect x="calc(50% - 6px)" width="6" height="6" fill="lime"/></svg>
 <rect x="44" y="50" width="calc(5vw - 1px)" height="6" fill="lime"/>

@@ -15,9 +15,9 @@ string is nothing, at the end of the input U+FFFD; a newline escaped in an
 identifier, one in a string or a lone - invalidate the selector. They go in
 class, id, type, attribute and pseudo-class names, attribute values quoted
 or not, property names and values, a style attribute, and presentation
-attributes, which take comments too. Outside strings and urls a value has
-its escapes undone before its grammar reads it, so an escaped parenthesis
-is one (D32).""")
+attributes, which take comments too. A value is read from its tokens, so
+an escaped parenthesis is part of an identifier, no parenthesis: rgb\28 0
+255 0\29 is no colour (D32).""")
 unless = "{c} > * { fill: red } {c} > .t { fill: lime }"
 squares(unit, [
     ("literal", [("{c} > .a\\:b { fill: lime }", red('class="a:b"')), ("{c} > .t:fir\\st-child { fill: lime }", T), ("{c} > .t { fill: l\\ime }", T), ("{c} > .\\--x { fill: lime }", red('class="--x"')),
@@ -31,7 +31,7 @@ squares(unit, [
     ("eof", [("", '<g fill="lime"><rect class="t" width="6" height="6" style="fill: red\\"/></g>'), ("!{c} > .t { fill: lime } {c} > .t { fill: red\\", T)]),
     ("invalid", [("{c} > .t\\\n, " + unless, T), ('{c} > [data-x="a\n], ' + unless, T), ("{c} > .-, " + unless, T)]),
     ("attributes", [("", '<rect class="t" width="6" height="6" fill="red" style="f\\69ll: \\6c ime"/>'), ("", '<rect class="t" width="6" height="6" fill="\\6c ime"/>'),
-                    ("", '<rect class="t" width="6" height="6" fill="rgb\\28 0 255 0\\29"/>')]),
+                    ("", '<rect class="t" width="6" height="6" fill="lime" style="fill: rgb\\28 0 255 0\\29"/>')]),
     ("comments", [("", '<rect width="6" height="6" fill="red"/><rect width="3" height="6" fill="lime"/><rect x="3" width="3\\px/**/" height="6" fill="lime"/>'),
                   ("", '<rect class="t" width="6" height="6" fill="/* c */lime/**/"/>')]),
 ])

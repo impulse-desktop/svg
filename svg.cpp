@@ -1254,9 +1254,131 @@ namespace {
         float rootFontSize;
     };
 
+    // The CSS tokens (css-syntax-3 4).
+    enum class TokenType : u8 {
+        Ident,
+        Function,
+        AtKeyword,
+        Hash,
+        String,
+        BadString,
+        Url,
+        BadUrl,
+        Delim,
+        Number,
+        Percentage,
+        Dimension,
+        Whitespace,
+        Cdo,
+        Cdc,
+        Colon,
+        Semicolon,
+        Comma,
+        OpenSquare,
+        CloseSquare,
+        OpenParen,
+        CloseParen,
+        OpenCurly,
+        CloseCurly,
+    };
+
+    // A hash token of the id type; a number or dimension token of the
+    // integer type; a numeric token written with a sign; a closing token
+    // that closes nothing; a function or block the end of the text closes.
+    enum TokenFlag : u8 {
+        TokenId = 1,
+        TokenInteger = 2,
+        TokenSigned = 4,
+        TokenUnmatched = 8,
+        TokenOpen = 16,
+    };
+
+    // A CSS token: in text the value of an ident, function, at-keyword,
+    // hash, string or url token, its escapes undone, the code point of a
+    // delim token and the unit of a dimension token; in number the value
+    // of a numeric one. A function token or an opening bracket is span
+    // tokens before the token that closes it, the end of its function or
+    // block; any other token is 0 before itself. So a component value
+    // (css-syntax-3 5.2) at a token ends span tokens on.
+    struct Token {
+        StringView text;
+        double number;
+        u32 span;
+        TokenType type;
+        u8 flags;
+    };
+
+    // A run of tokens, each function and block in it whole: a list of
+    // component values.
+    struct Tokens {
+        const Token* begin;
+        const Token* end;
+    };
+
+    // A declaration of a property, its value a value's index, or of a
+    // custom property, its name's atom; the shorthand it is a longhand of
+    // when its value waits on var() or env().
+    struct Declaration {
+        u32 property;
+        u32 value;
+        u32 shorthand;
+        bool important;
+        bool custom;
+    };
+
+    // The declarations of a style attribute.
+    struct DeclarationBlock {
+        Declaration* declarations;
+        u32 count;
+    };
+
+    // The CSS-wide keywords (css-cascade-5 7.3), CssNone for a value that
+    // is none of them.
+    enum CssKeyword : u8 {
+        CssNone,
+        CssInitial,
+        CssInherit,
+        CssUnset,
+        CssRevert,
+        CssRevertLayer,
+        CssRevertRule,
+    };
+
+    // A value of a declaration, or of an attribute read as CSS: its tokens,
+    // without white space at either end; the CSS-wide keyword it is, if
+    // any; whether var() or env() is in it, which is substituted once a
+    // node's custom properties are known (css-variables-1 3).
+    struct Value {
+        Tokens tokens;
+        CssKeyword keyword;
+        bool substitutes;
+        // The custom property set its substitution last took, 1 past it, 0
+        // for none, and the value that gave; the atom an attribute holds
+        // when a declaration sets it to this value, 0 till one does.
+        u32 substitutedSet;
+        u32 substituted;
+        u32 atom;
+    };
+
     struct Interner {
         Vector<StringView> texts;
         Vector<u32> slots;
+    };
+
+    // A custom property's value (css-variables-1 2), 0 for the
+    // guaranteed-invalid one; before its var() functions are substituted,
+    // what it was declared.
+    struct CustomValue {
+        u32 name;
+        u32 value;
+    };
+
+    // The custom properties a node declares, its values from first on,
+    // over those of the set it inherits, parent; set 0 has none.
+    struct CustomSet {
+        u32 parent;
+        u32 first;
+        u32 count;
     };
 
     struct Attribute {
@@ -1318,6 +1440,24 @@ namespace {
         const Node* instanceHost;
         // The geometry values of declarations, by node in document order.
         Vector<GeometryValue> geometry;
+        // The values of declarations and of attributes read as CSS, 0 none;
+        // the value of each atom so read and the declarations of each style
+        // attribute's, 0 where not read yet, which reading fills in.
+        mutable Vector<Value> values;
+        mutable Vector<u32> atomValues;
+        mutable Vector<u32> atomStyles;
+        mutable Vector<DeclarationBlock> styles;
+        // The texts the renderer writes as values, and their values.
+        mutable Vector<StringView> constantTexts;
+        mutable Vector<u32> constantValues;
+        // The custom property sets of nodes and their values; whether a
+        // value that wins has var() or env() in it, whose instances take
+        // their custom properties from their host; how many tokens
+        // substitution may still write.
+        Vector<CustomSet> customSets;
+        Vector<CustomValue> customValues;
+        bool variables;
+        size_t substitutionBudget;
     };
 
     struct Entity {
@@ -1421,12 +1561,6 @@ namespace {
         bool structural;
     };
 
-    struct Declaration {
-        u32 property;
-        u32 value;
-        bool important;
-    };
-
     // A style rule, of the cascade layer layer.
     struct Rule {
         Selector* selectors;
@@ -1446,7 +1580,8 @@ namespace {
 
     // A declaration that applies to a node: of a presentation attribute,
     // a rule or the style attribute, its level of origin, importance and
-    // attachment, its layer's rank and its priority in the cascade.
+    // attachment, its layer's rank and its priority in the cascade, and
+    // the shorthand it is a longhand of when its value waits on var().
     struct Applied {
         u32 property;
         u32 value;
@@ -1454,6 +1589,7 @@ namespace {
         u32 rule;
         u32 rank;
         u32 level;
+        u32 shorthand;
     };
 
     // Ex is half an em and Rex half a rem (D29). Calc is a math function
@@ -1481,15 +1617,14 @@ namespace {
         CalcPercent,
     };
 
-    // A length from a math function keeps its text, which Calc and
-    // CalcPercent evaluate at every use, and whether its place clamps it
-    // at zero (css-values-4 10.12).
+    // A length from a math function keeps its function token, which Calc
+    // and CalcPercent evaluate at every use, and whether its place clamps
+    // it at zero (css-values-4 10.12).
     struct Length {
         float value;
         Unit unit;
         bool floor = false;
-        u32 size = 0;
-        const u8* calc = nullptr;
+        const Token* calc = nullptr;
         // A position's offset from the far side of its reference, right or
         // bottom (css-values-4 <position>).
         bool far = false;
@@ -1734,8 +1869,8 @@ namespace {
         bool aliased;
         u8 imageRendering;
         // object-fit, fill, contain, cover, none, scale-down, and the
-        // object-position of an image element's content, the value's atom,
-        // 0 for the initial.
+        // object-position of an image element's content, its value as the
+        // cascade keeps it, 0 for the initial.
         u8 objectFit;
         u32 objectPosition;
         float zoom;
@@ -2038,6 +2173,7 @@ namespace {
         u32** instance;
         Vector<Node*> instanceTargets;
         Vector<Node*> instanceHosts;
+        Vector<u32> instanceSets;
         Vector<u32**> instanceMaps;
         Vector<CachedImage*> images;
         // Whether the pass lowers to draw, so that its paints sample the images it decodes.
@@ -2767,6 +2903,11 @@ namespace {
         for (u32 atom = 1; atom < interner.texts.length(); atom++) {
             size_t i = hashOf(interner.texts[atom]) & (size - 1);
 
+            // An atom of a declaration's value has no text, and no slot.
+            if (!interner.texts[atom].data()) {
+                continue;
+            }
+
             while (slots[i]) {
                 i = (i + 1) & (size - 1);
             }
@@ -3156,8 +3297,6 @@ namespace {
     }
 
     static bool geometryProperty(u32 atom);
-    static u32 cssValueAtom(Document& doc, u32 value);
-    static void stripComments(StringView text, Buffer& out);
 
     static u32 internAttribute(Xml& xml, StringView raw) {
         bool plain = true;
@@ -3499,8 +3638,9 @@ namespace {
         float fontSize;
     };
 
-    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective = nullptr, const TransformBasis* basis = nullptr, Matrix4* full = nullptr);
-    static bool parseNumberText(StringView text, float& out);
+    static bool parseTransform(Tokens value, Matrix& out, TransformGrammar grammar, Projective* perspective = nullptr, const TransformBasis* basis = nullptr, Matrix4* full = nullptr);
+    static bool parseNumber(Tokens value, float& out);
+    static Tokens readTokens(const Document& doc, u32 atom, Vector<Token>& scratch);
 
     static void parseElement(Xml& xml, Cursor& c, Node* parent, bool foreign, u32 depth, Buffer* text, const Fallback* fallback) {
         if (depth > maxDepth) {
@@ -3649,12 +3789,6 @@ namespace {
 
                 u32 value = internAttribute(xml, xml.raw[i].value);
 
-                // A presentation attribute is read as CSS; d and transform
-                // have SVG's own grammars.
-                if (((atom >= firstProperty && atom < firstProperty + propertyCount) || geometryProperty(atom)) && atom != AtomD && atom != AtomTransform) {
-                    value = cssValueAtom(*xml.doc, value);
-                }
-
                 if (atom == AtomHref) {
                     bool replaced = false;
 
@@ -3684,11 +3818,13 @@ namespace {
                 Matrix parsed;
                 float number;
 
-                if ((atom == AtomTransform || atom == AtomGradientTransform || atom == AtomPatternTransform) && !parseTransform(textOf(*xml.doc, value), parsed, TransformGrammar::Attribute)) {
+                Vector<Token> scratch;
+
+                if ((atom == AtomTransform || atom == AtomGradientTransform || atom == AtomPatternTransform) && !parseTransform(readTokens(*xml.doc, value, scratch), parsed, TransformGrammar::Attribute)) {
                     continue;
                 }
 
-                if (atom == AtomPathLength && !parseNumberText(textOf(*xml.doc, value), number)) {
+                if (atom == AtomPathLength && !parseNumber(readTokens(*xml.doc, value, scratch), number)) {
                     continue;
                 }
 
@@ -3898,98 +4034,6 @@ namespace {
         return (u8)((c | 0x20) - 'a') < 26;
     }
 
-    static bool isIdentStart(u8 c) {
-        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '-' || c >= 0x80;
-    }
-
-    static bool isIdentChar(u8 c) {
-        return isIdentStart(c) || (c >= '0' && c <= '9');
-    }
-
-    static StringView readIdent(const u8*& p, const u8* end) {
-        const u8* start = p;
-
-        if (at(p, end, '-')) {
-            p++;
-        }
-
-        if (p >= end || !isIdentStart(*p)) {
-            p = start;
-
-            return StringView();
-        }
-
-        while (p < end && isIdentChar(*p)) {
-            p++;
-        }
-
-        return StringView(start, p);
-    }
-
-    // Past the string at p: its closing quote, or, for a bad string, the
-    // newline that ends it (css-syntax-3 4.3.5), or the end of the text.
-    static const u8* skipCssString(const u8* p, const u8* end) {
-        u8 quote = *p++;
-
-        while (p < end && *p != quote && *p != '\n') {
-            if (*p == '\\' && p + 1 < end) {
-                p++;
-            }
-
-            p++;
-        }
-
-        return p < end && *p == quote ? p + 1 : p;
-    }
-
-    // Text with its CSS escapes undone (css-syntax-3 4.3.7): a backslash
-    // and one to six hex digits, and a white space after them, are that
-    // code point, U+FFFD for none; a backslash before a newline is nothing,
-    // before anything else that thing, and at the end U+FFFD, as in an
-    // identifier or a url: closeCss has dropped one ending a string. XML
-    // has made every CR LF an LF.
-    static StringView unescapeCss(StringView text, Buffer& out) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
-
-        if (!memchr(text.data(), '\\', text.length())) {
-            return text;
-        }
-
-        while (p < end) {
-            if (*p != '\\' || p + 1 == end) {
-                if (*p == '\\') {
-                    appendUtf8(out, 0xfffd);
-                }
-
-                out.append(p, *p != '\\');
-                p++;
-                continue;
-            }
-
-            u32 code = 0;
-            int digits = 0;
-
-            p++;
-
-            while (digits < 6 && p < end && hexDigit(*p) >= 0) {
-                code = code * 16 + (u32)hexDigit(*p++);
-                digits++;
-            }
-
-            if (!digits) {
-                out.append(p, *p != '\n');
-                p++;
-                continue;
-            }
-
-            p += p < end && isSpace(*p);
-            appendUtf8(out, code == 0 || code > 0x10ffff || (code >= 0xd800 && code <= 0xdfff) ? 0xfffd : code);
-        }
-
-        return StringView(out);
-    }
-
     // Past the escape whose backslash is at q: up to six hex digits and a
     // white space after them, or any one character.
     static const u8* skipEscape(const u8* q, const u8* end) {
@@ -4002,399 +4046,516 @@ namespace {
         return q == hex ? q + (q < end) : q + (q < end && isSpace(*q));
     }
 
-    // An identifier at p (css-syntax-3 4.3.11): letters, digits, _, -,
-    // what is past ASCII, and escapes, which are undone, the identifier
-    // then copied into pool; it starts with no digit, nor with a - and a
-    // digit. Empty for none.
-    static StringView readCssIdent(ObjPool& pool, const u8*& p, const u8* end) {
-        const u8* s = p + at(p, end, '-');
-        bool escaped = false;
-
-        // A text ends before a ',', a '{', a ';' or a ')' of the sheet, so
-        // a backslash in it has a character after it.
-        auto escape = [&](const u8* q) {
-            return *q == '\\' && q[1] != '\n';
-        };
-
-        if (!(s < end && (isIdentStart(*s) || escape(s)))) {
-            return StringView();
-        }
-
-        for (s = p; s < end && (isIdentChar(*s) || escape(s));) {
-            escaped = escaped || *s == '\\';
-            s = *s == '\\' ? skipEscape(s, end) : s + 1;
-        }
-
-        StringView text(p, s);
-        Buffer out;
-
-        p = s;
-
-        if (!escaped) {
-            return text;
-        }
-
-        StringView plain = unescapeCss(text, out);
-
-        return keep(pool, plain.data(), plain.length());
+    // Whether c starts an ident code point (css-syntax-3 4.2): a letter, _,
+    // or a byte of a non-ASCII code point, every one of which is an ident
+    // code point here (D45).
+    static bool identStart(u8 c) {
+        return (u8)((c | 0x20) - 'a') < 26 || c == '_' || c >= 0x80;
     }
 
-    // A string of a selector at p, quotes around it (css-syntax-3 4.3.5),
-    // its escapes undone, then copied into pool. False for a bad string,
-    // which a newline ends.
-    static bool readCssString(ObjPool& pool, const u8*& p, StringView& out) {
-        u8 quote = *p++;
-        const u8* start = p;
-        Buffer plain;
-
-        // A selector's text ends at the '{' its rule opens with, which
-        // findOutside found past every string of it, read as here: each
-        // closes with its quote or goes bad at a newline before the end.
-        while (*p != quote) {
-            if (*p == '\n') {
-                return false;
-            }
-
-            p += *p == '\\' ? 2 : 1;
-        }
-
-        StringView text = unescapeCss(StringView(start, p), plain);
-
-        p++;
-        out = text.data() == start ? text : keep(pool, text.data(), text.length());
-
-        return true;
+    static bool identCode(u8 c) {
+        return identStart(c) || (u8)(c - '0') < 10 || c == '-';
     }
 
-    // A url() or src() at p (css-values-4 4.5): its string, unquoted and
-    // with its escapes undone into scratch. src() takes a quoted string
-    // alone; an unquoted url() no quote, parenthesis or white space but at
-    // its end. The end of the text closes an open string or function.
-    static bool readUrl(const u8*& p, const u8* end, StringView& out, Buffer& scratch) {
-        const u8* s = p;
-        bool src = end - s >= 4 && equalsIgnoreCase(StringView(s, s + 4), SV("src("));
-
-        if (!src && !(end - s >= 4 && equalsIgnoreCase(StringView(s, s + 4), SV("url(")))) {
-            return false;
-        }
-
-        s += 4;
-        skipSpaces(s, end);
-
-        const u8* start = s;
-        const u8* stop;
-        bool quoted = at(s, end, '"') || at(s, end, '\'');
-
-        if (quoted) {
-            u8 quote = *s++;
-
-            start = s;
-
-            while (s < end && *s != quote) {
-                s = *s == '\\' ? skipEscape(s, end) : s + 1;
-            }
-
-            stop = s;
-            s += s < end;
-        } else {
-            if (src) {
-                return false;
-            }
-
-            while (s < end && *s != ')' && !isSpace(*s)) {
-                if (*s == '"' || *s == '\'' || *s == '(') {
-                    return false;
-                }
-
-                s = *s == '\\' ? skipEscape(s, end) : s + 1;
-            }
-
-            stop = s;
-        }
-
-        skipSpaces(s, end);
-
-        if (s < end && *s != ')') {
-            return false;
-        }
-
-        out = unescapeCss(StringView(start, stop), scratch);
-        p = s + (s < end);
-
-        return true;
+    static bool isDigit(u8 c) {
+        return (u8)(c - '0') < 10;
     }
 
-    // Where the unquoted url( token at p ends, at its ')' or the end of the
-    // text; null when p starts none.
-    static const u8* urlTokenEnd(const u8* p, const u8* begin, const u8* end) {
-        if (end - p < 4 || !equalsIgnoreCase(StringView(p, p + 4), SV("url(")) || (p > begin && isIdentChar(p[-1]))) {
-            return nullptr;
-        }
-
-        const u8* q = p + 4;
-
-        skipSpaces(q, end);
-
-        if (at(q, end, '"') || at(q, end, '\'')) {
-            return nullptr;
-        }
-
-        while (q < end && *q != ')') {
-            q = *q == '\\' ? skipEscape(q, end) : q + 1;
-        }
-
-        return q;
+    // Whether p starts a valid escape (css-syntax-3 4.3.8): a backslash
+    // before anything but a newline.
+    static bool validEscape(const u8* p, const u8* end) {
+        return p < end && *p == '\\' && !(p + 1 < end && p[1] == '\n');
     }
 
-    // Closes in place what text leaves open at its end (css-syntax-3
-    // 5.4.9): a string, a url, the parentheses, brackets and braces of
-    // functions and blocks, innermost first. A string a newline ends is
-    // bad, not open. A backslash at the very end escapes nothing: in a
-    // string it is dropped, elsewhere it is U+FFFD.
-    static void closeCss(Buffer& text) {
-        Vector<u8> open;
-        Buffer closers;
-        const u8* begin = (const u8*)text.data();
-        const u8* end = begin + text.length();
-        const u8* p = begin;
-        size_t drop = 0;
-
-        while (p < end) {
-            u8 c = *p;
-            const u8* close = urlTokenEnd(p, begin, end);
-
-            if (c == '\\') {
-                drop = p + 1 == end;
-                p = skipEscape(p, end);
-            } else if (c == '"' || c == '\'') {
-                const u8* q = p + 1;
-
-                while (q < end && *q != c && *q != '\n') {
-                    drop = *q == '\\' && q + 1 == end;
-                    q += *q == '\\' && q + 1 < end ? 2 : 1;
-                }
-
-                if (q == end) {
-                    closers.append(&c, 1);
-                    break;
-                }
-
-                p = q + 1;
-            } else if (close) {
-                if (close == end) {
-                    for (const u8* q = p + 4; q < end; q = *q == '\\' ? skipEscape(q, end) : q + 1) {
-                        drop = *q == '\\' && q + 1 == end;
-                    }
-
-                    open.pushBack(')');
-                    break;
-                }
-
-                p = close + 1;
-            } else {
-                if (c == '(' || c == '[' || c == '{') {
-                    open.pushBack(c == '(' ? ')' : (c == '[' ? ']' : '}'));
-                } else if (!open.empty() && c == open.back()) {
-                    open.popBack();
-                }
-
-                p++;
-            }
+    // Whether p would start an ident sequence (4.3.9).
+    static bool startsIdent(const u8* p, const u8* end) {
+        if (p < end && *p == '-') {
+            return p + 1 < end && (identStart(p[1]) || p[1] == '-' || validEscape(p + 1, end));
         }
 
-        for (size_t k = open.length(); k > 0; k--) {
-            closers.append(&open[k - 1], 1);
-        }
-
-        if (!closers.length()) {
-            return;
-        }
-
-        // The lone backslash: nothing in a string, U+FFFD else.
-        if (drop) {
-            text.seekAbsolute(text.length() - 1);
-
-            if (((const u8*)closers.data())[0] != '"' && ((const u8*)closers.data())[0] != '\'') {
-                appendUtf8(text, 0xfffd);
-            }
-        }
-
-        text.append(closers.data(), closers.length());
+        return (p < end && identStart(*p)) || validEscape(p, end);
     }
 
-    // A value with the escapes outside its strings and urls undone, which
-    // undo their own, for its property's grammar to read (D32); out takes
-    // the copy, when there are any.
-    static StringView decodeCssValue(StringView text, Buffer& out) {
+    // Whether p would start a number (4.3.10).
+    static bool startsNumber(const u8* p, const u8* end) {
+        const u8* q = p + (p < end && (*p == '+' || *p == '-'));
+
+        return q < end && (isDigit(*q) || (*q == '.' && q + 1 < end && isDigit(q[1])));
+    }
+
+    // Past the escape whose backslash is at q: up to six hex digits and a
+    // white space after them, or any one code point.
+    static const u8* skipEscape(const u8* q, const u8* end);
+
+    // The value of an ident sequence, a string or a url from its text, its
+    // escapes undone (4.3.7): one to six hex digits are their code point,
+    // U+FFFD for zero, a surrogate or one past U+10FFFF, and a white space
+    // after them is theirs; another code point is itself. In a string an
+    // escaped newline is nothing, and so is a backslash at its end, which
+    // elsewhere is U+FFFD. The text itself when it has no escape, else a
+    // copy in the pool.
+    static StringView unescaped(ObjPool& pool, StringView text, bool string) {
         const u8* p = text.begin();
         const u8* end = text.end();
+        Buffer out;
 
         if (!memchr(text.data(), '\\', text.length())) {
             return text;
         }
 
         while (p < end) {
-            const u8* close = urlTokenEnd(p, text.begin(), end);
             const u8* next = p + 1;
 
-            if (*p == '\\') {
+            if (*p != '\\') {
+                out.append(p, 1);
+            } else if (next == end) {
+                if (!string) {
+                    appendUtf8(out, 0xfffd);
+                }
+            } else if (*next == '\n') {
+                next++;
+            } else if (hexDigit(*next) < 0) {
                 next = skipEscape(p, end);
-                unescapeCss(StringView(p, next), out);
-                p = next;
-                continue;
-            }
+                out.append(p + 1, (size_t)(next - p - 1));
+            } else {
+                u32 code = 0;
 
-            if (*p == '"' || *p == '\'') {
-                while (next < end && *next != *p && *next != '\n') {
-                    next += *next == '\\' && next + 1 < end ? 2 : 1;
+                next = skipEscape(p, end);
+
+                for (const u8* q = p + 1; q < next && hexDigit(*q) >= 0; q++) {
+                    code = code * 16 + (u32)hexDigit(*q);
                 }
 
-                next += next < end && *next == *p;
-            } else if (close) {
-                next = close + (close < end);
+                appendUtf8(out, code == 0 || code > 0x10ffff || (code >= 0xd800 && code <= 0xdfff) ? 0xfffd : code);
             }
 
-            out.append(p, next - p);
             p = next;
         }
 
-        return StringView(out);
+        return keep(pool, out.data(), out.length());
     }
 
-    // A presentation attribute's value as CSS reads it
-    // (svg2/types.md#presentation-attribute-css-value): comments dropped,
-    // escapes undone, what it leaves open closed; the atom of that text,
-    // the value's own when it is already so.
-    static u32 cssValueAtom(Document& doc, u32 value) {
-        StringView text = textOf(doc, value);
-        Buffer stripped;
-        Buffer decoded;
-        Buffer result;
-        int depth = 0;
-        u8 quote = 0;
+    // What tokenizes text: the pool that keeps the values with escapes
+    // undone, and how far it has read.
+    struct Lexer {
+        ObjPool* pool;
+        const u8* p;
+        const u8* end;
+    };
 
-        // Most values have no escape, comment or string, and close what
-        // they open.
-        for (const u8* p = text.begin(); p < text.end(); p++) {
-            u8 c = *p;
+    // An ident sequence (4.3.12).
+    static StringView consumeName(Lexer& x) {
+        const u8* start = x.p;
+        bool escaped = false;
 
-            if (c == '\\' || (c == '/' && p + 1 < text.end() && p[1] == '*')) {
-                depth = -1;
+        while (x.p < x.end) {
+            if (identCode(*x.p)) {
+                x.p++;
+            } else if (validEscape(x.p, x.end)) {
+                escaped = true;
+                x.p = skipEscape(x.p, x.end);
+            } else {
                 break;
             }
-
-            quote = quote ? (c == quote || c == '\n' ? 0 : quote) : (c == '"' || c == '\'' ? c : 0);
-            depth += !quote && (c == '(' || c == '[' || c == '{');
-            depth -= !quote && (c == ')' || c == ']' || c == '}');
         }
 
-        if (depth == 0 && !quote) {
-            return value;
-        }
-
-        stripComments(text, stripped);
-
-        StringView plain = decodeCssValue(StringView(stripped), decoded);
-
-        result.append(plain.data(), plain.length());
-        closeCss(result);
-
-        return intern(doc.atoms, keep(*doc.pool, result.data(), result.length()));
+        return escaped ? unescaped(*x.pool, StringView(start, x.p), false) : StringView(start, x.p);
     }
 
-    static void stripComments(StringView text, Buffer& out) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    static bool readDouble(const u8*& p, const u8* end, double& out);
 
-        while (p < end) {
-            const u8* url = urlTokenEnd(p, text.begin(), end);
+    // A numeric token (4.3.3, 4.3.13): a number, then a unit, a dimension,
+    // or %, a percentage; of the integer type without a point and an
+    // exponent.
+    static void consumeNumeric(Lexer& x, Token& t) {
+        const u8* start = x.p;
 
-            if (*p == '"' || *p == '\'' || url) {
-                const u8* next = url ? url + (url < end) : skipCssString(p, end);
+        t.text = StringView();
+        t.flags = (u8)((*x.p == '+' || *x.p == '-') ? TokenSigned : 0);
+        readDouble(x.p, x.end, t.number);
 
-                out.append(p, next - p);
-                p = next;
-            } else if (*p == '/' && p + 1 < end && p[1] == '*') {
-                p += 2;
+        bool integer = true;
 
-                while (p + 1 < end && !(p[0] == '*' && p[1] == '/')) {
-                    p++;
+        for (const u8* q = start; q < x.p; q++) {
+            integer = integer && *q != '.' && *q != 'e' && *q != 'E';
+        }
+
+        t.flags |= integer ? TokenInteger : 0;
+        t.type = TokenType::Number;
+
+        if (startsIdent(x.p, x.end)) {
+            t.type = TokenType::Dimension;
+            t.text = consumeName(x);
+        } else if (at(x.p, x.end, '%')) {
+            t.type = TokenType::Percentage;
+            x.p++;
+        }
+    }
+
+    // The remnants of a bad url (4.3.15), to its ')'.
+    static void consumeBadUrl(Lexer& x) {
+        while (x.p < x.end && *x.p != ')') {
+            x.p = validEscape(x.p, x.end) ? skipEscape(x.p, x.end) : x.p + 1;
+        }
+
+        x.p += x.p < x.end;
+    }
+
+    // A url token (4.3.6), past "url(" and the white space after it.
+    static void consumeUrl(Lexer& x, Token& t) {
+        const u8* start = x.p;
+
+        t.type = TokenType::Url;
+
+        while (x.p < x.end) {
+            u8 c = *x.p;
+
+            if (c == ')') {
+                t.text = unescaped(*x.pool, StringView(start, x.p), false);
+                x.p++;
+
+                return;
+            }
+
+            if (isSpace(c)) {
+                const u8* stop = x.p;
+
+                skipSpaces(x.p, x.end);
+
+                if (x.p == x.end || *x.p == ')') {
+                    t.text = unescaped(*x.pool, StringView(start, stop), false);
+                    x.p += x.p < x.end;
+                } else {
+                    t.type = TokenType::BadUrl;
+                    consumeBadUrl(x);
                 }
 
-                p = p + 1 < end ? p + 2 : end;
-                out.append(" ", 1);
-            } else {
-                out.append(p, 1);
-                p++;
+                return;
             }
+
+            // A quote, a parenthesis, a non-printable code point or a
+            // backslash that escapes nothing makes it bad.
+            if (c == '"' || c == '\'' || c == '(' || c <= 0x08 || c == 0x0b || (c >= 0x0e && c <= 0x1f) || c == 0x7f || (c == '\\' && !validEscape(x.p, x.end))) {
+                t.type = TokenType::BadUrl;
+                consumeBadUrl(x);
+
+                return;
+            }
+
+            x.p = c == '\\' ? skipEscape(x.p, x.end) : x.p + 1;
+        }
+
+        t.text = unescaped(*x.pool, StringView(start, x.p), false);
+    }
+
+    // An ident-like token (4.3.4): an ident, a function, or a url.
+    static void consumeIdentLike(Lexer& x, Token& t) {
+        t.text = consumeName(x);
+        t.type = TokenType::Ident;
+
+        if (!at(x.p, x.end, '(')) {
+            return;
+        }
+
+        x.p++;
+        t.type = TokenType::Function;
+
+        if (!equalsIgnoreCase(t.text, SV("url"))) {
+            return;
+        }
+
+        const u8* q = x.p;
+
+        skipSpaces(q, x.end);
+
+        // A quoted url is a function of a string.
+        if (at(q, x.end, '"') || at(q, x.end, '\'')) {
+            x.p = q - (q > x.p);
+
+            return;
+        }
+
+        x.p = q;
+        consumeUrl(x, t);
+    }
+
+    // A string token (4.3.5) whose opening quote is at x.p: bad when a
+    // newline comes before its closing quote, which the end of the text
+    // stands for.
+    static void consumeString(Lexer& x, Token& t) {
+        u8 quote = *x.p++;
+        const u8* start = x.p;
+
+        t.type = TokenType::String;
+
+        while (x.p < x.end && *x.p != quote) {
+            if (*x.p == '\n') {
+                t.type = TokenType::BadString;
+
+                return;
+            }
+
+            // An escaped newline continues the string; an escape of hex
+            // digits takes the white space after them, a newline too.
+            x.p = *x.p == '\\' && x.p + 1 < x.end ? (x.p[1] == '\n' ? x.p + 2 : skipEscape(x.p, x.end)) : x.p + 1;
+        }
+
+        t.text = unescaped(*x.pool, StringView(start, x.p), true);
+        x.p += x.p < x.end;
+    }
+
+    // Past the comments at x.p (4.3.2), the last perhaps to the end.
+    static void consumeComments(Lexer& x) {
+        while (x.end - x.p >= 2 && x.p[0] == '/' && x.p[1] == '*') {
+            const u8* q = x.p + 2;
+
+            while (q < x.end && !(q[0] == '*' && q + 1 < x.end && q[1] == '/')) {
+                q++;
+            }
+
+            x.p = q < x.end ? q + 2 : x.end;
         }
     }
 
-    // The first target past p outside escapes, strings, url tokens and
-    // parentheses or brackets, or null.
-    static const u8* findOutside(const u8* p, const u8* end, u8 target) {
-        const u8* begin = p;
-        int depth = 0;
+    // Past the comments and white space at x.p.
+    static void skipBlank(Lexer& x) {
+        for (;;) {
+            consumeComments(x);
 
-        while (p < end) {
-            u8 c = *p;
-            const u8* url = urlTokenEnd(p, begin, end);
-
-            if (c == '\\') {
-                p = skipEscape(p, end);
-                continue;
+            if (!(x.p < x.end && isSpace(*x.p))) {
+                return;
             }
 
-            if (c == '"' || c == '\'') {
-                p = skipCssString(p, end);
-                continue;
+            skipSpaces(x.p, x.end);
+        }
+    }
+
+    // The token at x.p (4.3.1), comments consumed before it; there is one.
+    static Token consumeToken(Lexer& x) {
+        Token t{StringView(x.p, 1), 0.0, 0, TokenType::Delim, 0};
+        const u8* p = x.p;
+        const u8* end = x.end;
+        u8 c = *p;
+
+        if (isSpace(c)) {
+            skipSpaces(x.p, end);
+            t.type = TokenType::Whitespace;
+            t.text = StringView(p, x.p);
+
+            return t;
+        }
+
+        if (c == '"' || c == '\'') {
+            consumeString(x, t);
+
+            return t;
+        }
+
+        if (isDigit(c) || ((c == '+' || c == '-' || c == '.') && startsNumber(p, end))) {
+            consumeNumeric(x, t);
+
+            return t;
+        }
+
+        if (c == '-' && end - p >= 3 && p[1] == '-' && p[2] == '>') {
+            x.p += 3;
+            t.type = TokenType::Cdc;
+
+            return t;
+        }
+
+        if (identStart(c) || ((c == '-' || c == '\\') && startsIdent(p, end))) {
+            consumeIdentLike(x, t);
+
+            return t;
+        }
+
+        x.p++;
+
+        switch (c) {
+            case '#':
+                if (x.p < end && (identCode(*x.p) || validEscape(x.p, end))) {
+                    t.type = TokenType::Hash;
+                    t.flags = startsIdent(x.p, end) ? TokenId : 0;
+                    t.text = consumeName(x);
+                }
+
+                break;
+            case '@':
+                if (startsIdent(x.p, end)) {
+                    t.type = TokenType::AtKeyword;
+                    t.text = consumeName(x);
+                }
+
+                break;
+            case '<':
+                if (end - x.p >= 3 && x.p[0] == '!' && x.p[1] == '-' && x.p[2] == '-') {
+                    x.p += 3;
+                    t.type = TokenType::Cdo;
+                }
+
+                break;
+            case '(':
+                t.type = TokenType::OpenParen;
+                break;
+            case ')':
+                t.type = TokenType::CloseParen;
+                break;
+            case '[':
+                t.type = TokenType::OpenSquare;
+                break;
+            case ']':
+                t.type = TokenType::CloseSquare;
+                break;
+            case '{':
+                t.type = TokenType::OpenCurly;
+                break;
+            case '}':
+                t.type = TokenType::CloseCurly;
+                break;
+            case ',':
+                t.type = TokenType::Comma;
+                break;
+            case ':':
+                t.type = TokenType::Colon;
+                break;
+            case ';':
+                t.type = TokenType::Semicolon;
+                break;
+            default:
+                break;
+        }
+
+        return t;
+    }
+
+    // The token that closes a function or a block of the token type
+    // opening, or the opening type itself for any other.
+    static TokenType closerOf(TokenType opening) {
+        switch (opening) {
+            case TokenType::Function:
+            case TokenType::OpenParen:
+                return TokenType::CloseParen;
+            case TokenType::OpenSquare:
+                return TokenType::CloseSquare;
+            case TokenType::OpenCurly:
+                return TokenType::CloseCurly;
+            default:
+                return opening;
+        }
+    }
+
+    // The tokens of text (css-syntax-3 4), in the pool, each function and
+    // block matched with the token that closes it (5.5.9, 5.5.10): a
+    // closing token closes the innermost open one it is the mirror of,
+    // and else is a token of its own; the end of the text closes what is
+    // left open, with closing tokens added.
+    static void tokenizeInto(ObjPool& pool, StringView text, Vector<Token>& tokens) {
+        Lexer x{&pool, text.begin(), text.end()};
+        Vector<u32> open;
+
+        for (consumeComments(x); x.p < x.end; consumeComments(x)) {
+            Token t = consumeToken(x);
+            u32 index = (u32)tokens.length();
+
+            if (closerOf(t.type) != t.type) {
+                open.pushBack(index);
+            } else if (!open.empty() && closerOf(tokens[open.back()].type) == t.type) {
+                tokens.mut(open.back()).span = index - open.back();
+                open.popBack();
+            } else if (t.type == TokenType::CloseParen || t.type == TokenType::CloseSquare || t.type == TokenType::CloseCurly) {
+                t.flags = TokenUnmatched;
             }
 
-            if (url) {
-                p = url + (url < end);
-                continue;
-            }
+            tokens.pushBack(t);
+        }
 
-            if (depth == 0 && c == target) {
-                return p;
-            }
+        while (!open.empty()) {
+            u32 opening = open.popBack();
+            u32 index = (u32)tokens.length();
 
-            if (c == '(' || c == '[') {
-                depth++;
-            } else if ((c == ')' || c == ']') && depth > 0) {
-                depth--;
-            }
+            tokens.mut(opening).span = index - opening;
+            tokens.mut(opening).flags |= TokenOpen;
+            tokens.pushBack(Token{StringView(), 0.0, 0, closerOf(tokens[opening].type), 0});
+        }
+    }
 
+    static Tokens tokenize(ObjPool& pool, StringView text) {
+        Vector<Token> tokens;
+
+        tokenizeInto(pool, text, tokens);
+
+        Token* kept = (Token*)pool.allocate(sizeof(Token) * (tokens.length() + 1));
+
+        if (tokens.length()) {
+            memcpy(kept, tokens.data(), sizeof(Token) * tokens.length());
+        }
+
+        return Tokens{kept, kept + tokens.length()};
+    }
+
+    // A declaration as a block holds it (css-syntax-3 5.5.6): its name, an
+    // ident's value; its value without white space at either end nor its
+    // !important, which important says.
+    struct CssDeclaration {
+        StringView name;
+        Tokens value;
+        bool important;
+    };
+
+    // Past the white space at p.
+    static void skipWhitespace(const Token*& p, const Token* end) {
+        while (p < end && p->type == TokenType::Whitespace) {
             p++;
         }
-
-        return nullptr;
     }
 
-    // The '}' that closes the block whose '{' is before p, past escapes,
-    // strings and url tokens; closeCss has closed every block of a sheet.
-    static const u8* matchingBrace(const u8* p, const u8* end) {
-        const u8* begin = p;
-        int depth = 1;
+    // The arguments of the function, or the contents of the block, at p.
+    static Tokens contents(const Token* p) {
+        return Tokens{p + 1, p + p->span};
+    }
 
-        for (;; p++) {
-            u8 c = *p;
-            const u8* url = urlTokenEnd(p, begin, end);
+    // The tokens without the white space at either end.
+    static Tokens trimmed(Tokens v) {
+        skipWhitespace(v.begin, v.end);
 
-            if (c == '\\') {
-                p = skipEscape(p, end) - 1;
-            } else if (c == '"' || c == '\'') {
-                p = skipCssString(p, end) - 1;
-            } else if (url) {
-                p = url;
-            } else if (c == '{' || c == '}') {
-                depth += c == '{' ? 1 : -1;
+        while (v.end > v.begin && v.end[-1].type == TokenType::Whitespace) {
+            v.end--;
+        }
 
-                if (depth == 0) {
-                    return p;
-                }
+        return v;
+    }
+
+    static bool isIdent(const Token* t, StringView name) {
+        return t->type == TokenType::Ident && equalsIgnoreCase(t->text, name);
+    }
+
+    static bool isDelim(const Token* t, u8 c) {
+        return t->type == TokenType::Delim && t->text.length() == 1 && t->text[0] == c;
+    }
+
+    static bool isFunction(const Token* t, StringView name) {
+        return t->type == TokenType::Function && equalsIgnoreCase(t->text, name);
+    }
+
+    static CssKeyword cssWideKeyword(StringView text) {
+        static const char* const names[] = {"initial", "inherit", "unset", "revert", "revert-layer", "revert-rule"};
+        StringView body = trim(text);
+
+        for (u32 k = 0; k < 6; k++) {
+            if (equalsIgnoreCase(body, StringView(names[k]))) {
+                return (CssKeyword)(k + 1);
             }
         }
+
+        return CssNone;
+    }
+
+    // Whether v is the one keyword name, white space around it.
+    static bool isKeyword(Tokens v, StringView name) {
+        v = trimmed(v);
+
+        return v.end - v.begin == 1 && isIdent(v.begin, name);
     }
 
     // Specificity holds the counts of ids, classes and types in its three low
@@ -4422,165 +4583,208 @@ namespace {
         SelectorInHas = 8,
     };
 
-    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity);
+    static bool parseSelectorList(Document& doc, Tokens list, u32 flags, Condition& condition, u32& specificity);
 
-    // An+B at p (css-syntax-3 6): odd, even, an integer, or A n and a B,
-    // signed by itself or by a + or - apart; white space goes around the
-    // parts, never between a sign and the n or the digits it signs.
-    static bool parseNth(const u8*& p, const u8* end, i32& a, i32& b) {
-        auto digits = [&](const u8*& q, i32& out) {
-            const u8* start = q;
-            i32 value = 0;
+    // A number token's value as an integer, saturated.
+    static i32 nthInteger(double value) {
+        return value > 1e8 ? 100000000 : (value < -1e8 ? -100000000 : (i32)value);
+    }
 
-            // An+B ends before a ')' or "of" of the selector.
-            while (*q >= '0' && *q <= '9') {
-                value = value < 100000000 ? value * 10 + (*q - '0') : value;
-                q++;
-            }
+    // The digits text is, as an integer, saturated; false for anything
+    // else.
+    static bool digitsOf(StringView text, i32& out) {
+        out = 0;
 
-            out = value;
-
-            return q > start;
-        };
-
-        skipSpaces(p, end);
-
-        StringView rest(p, end);
-
-        for (i32 k = 0; k < 2; k++) {
-            StringView name = k ? SV("even") : SV("odd");
-
-            if (startsWithIgnoreCase(rest, name) && !isIdentChar(rest[name.length()])) {
-                a = 2;
-                b = 1 - k;
-                p += name.length();
-
-                return true;
-            }
-        }
-
-        i32 sign = at(p, end, '-') ? -1 : 1;
-        i32 n;
-
-        p += at(p, end, '-') || at(p, end, '+');
-
-        bool counted = digits(p, n);
-
-        if (!at(p, end, 'n') && !at(p, end, 'N')) {
-            a = 0;
-            b = sign * n;
-
-            return counted;
-        }
-
-        const u8* q = ++p;
-
-        a = sign * (counted ? n : 1);
-        b = 0;
-        skipSpaces(q, end);
-
-        if (at(q, end, '+') || at(q, end, '-')) {
-            sign = *q++ == '-' ? -1 : 1;
-            skipSpaces(q, end);
-
-            if (!digits(q, n)) {
+        for (u8 c : text) {
+            if (!isDigit(c)) {
                 return false;
             }
 
-            b = sign * n;
-            p = q;
+            out = out < 100000000 ? out * 10 + (c - '0') : out;
         }
 
-        return true;
+        return !text.empty();
     }
 
-    // An attribute test at p, from its [ to its ]: a name, or a name, an
-    // operator and a value, with an i flag for ASCII case-insensitive
-    // values or an s flag for exact ones.
-    static bool parseAttributeTest(Document& doc, const u8*& p, const u8* end, Condition& condition) {
+    static bool isInteger(const Token* t) {
+        return t->type == TokenType::Number && (t->flags & TokenInteger);
+    }
+
+    // An+B at p (css-syntax-3 6.2): odd, even, an integer, or A n read off
+    // a dimension, an ident or a + and an ident with nothing between, then
+    // perhaps B: a signed integer, a + or - and a signless one, or digits
+    // after n- in the same token.
+    static bool parseNth(const Token*& p, const Token* end, i32& a, i32& b) {
+        skipWhitespace(p, end);
+
+        if (p >= end) {
+            return false;
+        }
+
+        const Token* t = p;
+        StringView n;
+
+        b = 0;
+
+        if (isIdent(t, SV("odd")) || isIdent(t, SV("even"))) {
+            a = 2;
+            b = isIdent(t, SV("odd"));
+            p++;
+
+            return true;
+        }
+
+        if (isInteger(t)) {
+            a = 0;
+            b = nthInteger(t->number);
+            p++;
+
+            return true;
+        }
+
+        if (t->type == TokenType::Dimension && (t->flags & TokenInteger)) {
+            a = nthInteger(t->number);
+            n = t->text;
+            p++;
+        } else if (t->type == TokenType::Ident) {
+            bool minus = t->text.length() > 0 && t->text[0] == '-';
+
+            a = minus ? -1 : 1;
+            n = minus ? StringView(t->text.begin() + 1, t->text.end()) : t->text;
+            p++;
+        } else if (isDelim(t, '+') && t + 1 < end && t[1].type == TokenType::Ident && !(t[1].text.length() > 0 && t[1].text[0] == '-')) {
+            a = 1;
+            n = t[1].text;
+            p += 2;
+        } else {
+            return false;
+        }
+
+        if (n.empty() || lowerAscii(n[0]) != 'n') {
+            return false;
+        }
+
+        StringView rest(n.begin() + 1, n.end());
+        const Token* q = p;
+        i32 digits;
+
+        skipWhitespace(q, end);
+
+        if (rest.empty()) {
+            // n, then a signed integer, or a sign apart and a signless one.
+            if (q < end && isInteger(q) && (q->flags & TokenSigned)) {
+                b = nthInteger(q->number);
+                p = q + 1;
+            } else if (q < end && (isDelim(q, '+') || isDelim(q, '-'))) {
+                const Token* r = q + 1;
+
+                skipWhitespace(r, end);
+
+                if (!(r < end && isInteger(r) && !(r->flags & TokenSigned))) {
+                    return false;
+                }
+
+                b = isDelim(q, '-') ? -nthInteger(r->number) : nthInteger(r->number);
+                p = r + 1;
+            }
+
+            return true;
+        }
+
+        if (rest == SV("-")) {
+            if (!(q < end && isInteger(q) && !(q->flags & TokenSigned))) {
+                return false;
+            }
+
+            b = -nthInteger(q->number);
+            p = q + 1;
+
+            return true;
+        }
+
+        if (rest[0] == '-' && digitsOf(StringView(rest.begin() + 1, rest.end()), digits)) {
+            b = -digits;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // An attribute test, the contents of its []-block: a name, perhaps an
+    // operator, = or one of ~ | ^ $ * then =, a value, an ident or a
+    // string, and a flag, i or s.
+    static bool parseAttributeTest(Document& doc, Tokens test, Condition& condition) {
         static const char operators[] = "~|^$*";
         static const Test tests[] = {Test::Includes, Test::Dash, Test::Prefix, Test::Suffix, Test::Substring};
+        const Token* p = test.begin;
+        const Token* end = test.end;
 
-        p++;
-        skipSpaces(p, end);
+        skipWhitespace(p, end);
 
-        StringView name = readCssIdent(*doc.pool, p, end);
-
-        if (name.empty()) {
+        if (p >= end || p->type != TokenType::Ident) {
             return false;
         }
 
-        skipSpaces(p, end);
-
-        condition.name = intern(doc.atoms, name);
+        condition.name = intern(doc.atoms, p->text);
         condition.test = Test::Exists;
+        p++;
+        skipWhitespace(p, end);
 
-        if (!at(p, end, ']')) {
-            // An operator ends before the attribute test's ']'.
-            const char* op = p[1] == '=' ? (const char*)memchr(operators, *p, 5) : nullptr;
+        if (p >= end) {
+            return true;
+        }
 
-            if (at(p, end, '=')) {
-                condition.test = Test::Equals;
-                p++;
-            } else if (op) {
-                condition.test = tests[op - operators];
-                p += 2;
-            } else {
+        const char* op = p->type == TokenType::Delim && p->text.length() == 1 ? (const char*)memchr(operators, p->text[0], 5) : nullptr;
+
+        if (isDelim(p, '=')) {
+            condition.test = Test::Equals;
+            p++;
+        } else if (op && p + 1 < end && isDelim(p + 1, '=')) {
+            condition.test = tests[op - operators];
+            p += 2;
+        } else {
+            return false;
+        }
+
+        skipWhitespace(p, end);
+
+        if (p >= end || (p->type != TokenType::Ident && p->type != TokenType::String)) {
+            return false;
+        }
+
+        condition.value = p->text;
+        p++;
+        skipWhitespace(p, end);
+
+        if (p < end) {
+            if (!isIdent(p, SV("i")) && !isIdent(p, SV("s"))) {
                 return false;
             }
 
-            skipSpaces(p, end);
-
-            if (at(p, end, '"') || at(p, end, '\'')) {
-                if (!readCssString(*doc.pool, p, condition.value)) {
-                    return false;
-                }
-            } else {
-                condition.value = readCssIdent(*doc.pool, p, end);
-
-                if (condition.value.empty()) {
-                    return false;
-                }
-            }
-
-            skipSpaces(p, end);
-
-            const u8* q = p;
-            StringView flag = readCssIdent(*doc.pool, q, end);
-
-            if (!flag.empty()) {
-                if (!equalsIgnoreCase(flag, SV("i")) && !equalsIgnoreCase(flag, SV("s"))) {
-                    return false;
-                }
-
-                condition.caseless = equalsIgnoreCase(flag, SV("i"));
-                p = q;
-                skipSpaces(p, end);
-            }
+            condition.caseless = isIdent(p, SV("i"));
+            p++;
+            skipWhitespace(p, end);
         }
 
-        if (!at(p, end, ']')) {
-            return false;
-        }
-
-        p++;
-
-        return true;
+        return p == end;
     }
 
-    // A pseudo-class of arguments, p past its opening parenthesis: :not(),
-    // :is(), :where(), :has() of selector lists, :nth-child() and
+    // A pseudo-class of arguments, args its function's: :not(), :is(),
+    // :where(), :has() of selector lists, :nth-child() and
     // :nth-last-child() of An+B and an "of" list, :nth-of-type() and
     // :nth-last-of-type() of An+B, :lang() of language ranges. Each adds
     // its own specificity, :where() none, the others that of their most
     // specific argument.
-    static bool parseFunctionalPseudo(Document& doc, StringView name, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity, bool& structural) {
+    static bool parseFunctionalPseudo(Document& doc, StringView name, Tokens args, u32 flags, Condition& condition, u32& specificity, bool& structural) {
         bool nthChild = equalsIgnoreCase(name, SV("nth-child")) || equalsIgnoreCase(name, SV("nth-last-child"));
         bool nthType = equalsIgnoreCase(name, SV("nth-of-type")) || equalsIgnoreCase(name, SV("nth-last-of-type"));
         bool is = equalsIgnoreCase(name, SV("is")) || equalsIgnoreCase(name, SV("where"));
         bool has = equalsIgnoreCase(name, SV("has"));
         u32 nested = (flags & SelectorInHas) | SelectorNested;
         u32 inner = 0;
+        const Token* p = args.begin;
+        const Token* end = args.end;
 
         structural = true;
 
@@ -4592,26 +4796,25 @@ namespace {
                 return false;
             }
 
-            skipSpaces(p, end);
+            skipWhitespace(p, end);
 
-            const u8* q = p;
-
-            if (nthChild && equalsIgnoreCase(readCssIdent(*doc.pool, q, end), SV("of")) && isSpace(*q)) {
-                p = q;
-
-                if (!parseSelectorList(doc, p, end, nested, condition, inner)) {
+            if (nthChild && p < end && isIdent(p, SV("of"))) {
+                if (!parseSelectorList(doc, Tokens{p + 1, end}, nested, condition, inner)) {
                     return false;
                 }
+
+                p = end;
             }
 
             inner = addSpecificity(inner, 1 << 8);
         } else if (is || has || equalsIgnoreCase(name, SV("not"))) {
             condition.test = is ? Test::Is : (has ? Test::Has : Test::Not);
 
-            if ((has && (flags & SelectorInHas)) || !parseSelectorList(doc, p, end, nested | (is ? SelectorForgiving : 0) | (has ? SelectorRelative | SelectorInHas : 0), condition, inner)) {
+            if ((has && (flags & SelectorInHas)) || !parseSelectorList(doc, args, nested | (is ? SelectorForgiving : 0) | (has ? SelectorRelative | SelectorInHas : 0), condition, inner)) {
                 return false;
             }
 
+            p = end;
             inner = equalsIgnoreCase(name, SV("where")) ? 0 : inner;
         } else if (equalsIgnoreCase(name, SV("lang"))) {
             // Ranges, each an ident or a string (selectors-4.md,
@@ -4623,28 +4826,20 @@ namespace {
             doc.languages = true;
 
             for (;;) {
-                StringView range;
+                skipWhitespace(p, end);
 
-                skipSpaces(p, end);
-
-                if (at(p, end, '"') || at(p, end, '\'')) {
-                    if (!readCssString(*doc.pool, p, range)) {
-                        return false;
-                    }
-                } else {
-                    range = readCssIdent(*doc.pool, p, end);
-
-                    if (range.empty()) {
-                        return false;
-                    }
+                if (p >= end || (p->type != TokenType::Ident && p->type != TokenType::String)) {
+                    return false;
                 }
 
-                range = memchr(range.data(), ',', range.length()) ? SV("!") : range;
+                StringView range = memchr(p->text.data(), ',', p->text.length()) ? SV("!") : p->text;
+
                 ranges.append(range.data(), range.length());
                 ranges.append(",", 1);
-                skipSpaces(p, end);
+                p++;
+                skipWhitespace(p, end);
 
-                if (!at(p, end, ',')) {
+                if (p >= end || p->type != TokenType::Comma) {
                     break;
                 }
 
@@ -4657,13 +4852,12 @@ namespace {
             return false;
         }
 
-        skipSpaces(p, end);
+        skipWhitespace(p, end);
 
-        if (!at(p, end, ')')) {
+        if (p != end) {
             return false;
         }
 
-        p++;
         specificity = addSpecificity(specificity, inner);
 
         return true;
@@ -4716,82 +4910,73 @@ namespace {
     }
 
     // A compound selector at p: a type or *, then ids, classes, attribute
-    // tests and pseudo-classes; a pseudo-element matches nothing. It adds
-    // its specificity, and sets structural for a test that reads more than
-    // the element.
-    static bool parseCompound(Document& doc, const u8*& p, const u8* end, u32 flags, Compound& compound, u32& specificity, bool& structural) {
+    // tests and pseudo-classes, with nothing between; a pseudo-element
+    // matches nothing. It adds its specificity, and sets structural for a
+    // test that reads more than the element.
+    static bool parseCompound(Document& doc, const Token*& p, const Token* end, u32 flags, Compound& compound, u32& specificity, bool& structural) {
         Vector<Condition> conditions;
         bool any = false;
 
         compound.type = 0;
 
-        if (at(p, end, '*')) {
+        if (p < end && isDelim(p, '*')) {
             p++;
             any = true;
-        } else {
-            StringView type = readCssIdent(*doc.pool, p, end);
-
-            if (!type.empty()) {
-                compound.type = intern(doc.atoms, type);
-                specificity = addSpecificity(specificity, 1);
-                any = true;
-            }
+        } else if (p < end && p->type == TokenType::Ident) {
+            compound.type = intern(doc.atoms, p->text);
+            specificity = addSpecificity(specificity, 1);
+            p++;
+            any = true;
         }
 
         while (p < end) {
-            u8 c = *p;
             Condition condition{Test::Never, false, false, 0, StringView(), 0, 0, nullptr, 0};
 
-            if (c == '#' || c == '.') {
-                p++;
+            if (p->type == TokenType::Hash || isDelim(p, '.')) {
+                bool id = p->type == TokenType::Hash;
 
-                StringView name = readCssIdent(*doc.pool, p, end);
-
-                if (name.empty()) {
+                // An id is a hash of the id type, a class a '.' and an ident.
+                if (id ? !(p->flags & TokenId) : !(p + 1 < end && p[1].type == TokenType::Ident)) {
                     return false;
                 }
 
-                condition.test = c == '#' ? Test::Id : Test::Class;
-                condition.name = intern(doc.atoms, name);
-                specificity = addSpecificity(specificity, c == '#' ? 1 << 16 : 1 << 8);
-            } else if (c == '[') {
-                if (!parseAttributeTest(doc, p, end, condition)) {
+                p += id ? 0 : 1;
+                condition.test = id ? Test::Id : Test::Class;
+                condition.name = intern(doc.atoms, p->text);
+                specificity = addSpecificity(specificity, id ? 1 << 16 : 1 << 8);
+                p++;
+            } else if (p->type == TokenType::OpenSquare) {
+                if (!parseAttributeTest(doc, contents(p), condition)) {
                     return false;
                 }
 
                 specificity = addSpecificity(specificity, 1 << 8);
-            } else if (c == ':') {
+                p += p->span + 1;
+            } else if (p->type == TokenType::Colon) {
                 p++;
 
-                if (at(p, end, ':')) {
-                    // A pseudo-element, none of which is drawn; none goes
-                    // in a pseudo-class's argument.
+                if (p < end && p->type == TokenType::Colon) {
+                    // A pseudo-element, none of which is drawn: a test that
+                    // never holds. None goes in a pseudo-class's argument.
                     p++;
-                    readCssIdent(*doc.pool, p, end);
 
-                    if (flags & SelectorNested) {
+                    if ((flags & SelectorNested) || p >= end || (p->type != TokenType::Ident && p->type != TokenType::Function)) {
                         return false;
                     }
 
+                    p += p->span + 1;
                     specificity = addSpecificity(specificity, 1);
+                } else if (p < end && p->type == TokenType::Function) {
+                    if (!parseFunctionalPseudo(doc, p->text, contents(p), flags, condition, specificity, structural)) {
+                        return false;
+                    }
+
+                    p += p->span + 1;
+                } else if (p < end && p->type == TokenType::Ident && simplePseudo(p->text, conditions, condition, structural)) {
+                    specificity = addSpecificity(specificity, 1 << 8);
+                    p++;
                 } else {
-                    StringView name = readCssIdent(*doc.pool, p, end);
-
-                    if (name.empty()) {
-                        return false;
-                    }
-
-                    if (at(p, end, '(')) {
-                        p++;
-
-                        if (!parseFunctionalPseudo(doc, name, p, end, flags, condition, specificity, structural)) {
-                            return false;
-                        }
-                    } else if (simplePseudo(name, conditions, condition, structural)) {
-                        specificity = addSpecificity(specificity, 1 << 8);
-                    } else {
-                        return false;
-                    }
+                    return false;
                 }
             } else {
                 break;
@@ -4815,28 +5000,31 @@ namespace {
         return true;
     }
 
-    static Combinator combinatorOf(u8 c) {
-        return c == '>' ? Combinator::Child : (c == '+' ? Combinator::Adjacent : Combinator::Sibling);
+    // The combinator a delim token is, Descendant for none.
+    static Combinator combinatorOf(const Token* t) {
+        return isDelim(t, '>') ? Combinator::Child : (isDelim(t, '+') ? Combinator::Adjacent : (isDelim(t, '~') ? Combinator::Sibling : Combinator::Descendant));
     }
 
-    // A complex selector at p, to a ',' or ')' outside it or the end. A
-    // relative one opens with a combinator from :has()'s anchor, or none
-    // for a descendant, and keeps the anchor as a compound of a Scope test.
-    static bool parseComplex(Document& doc, const u8*& p, const u8* end, u32 flags, Selector& selector) {
+    // A complex selector, the whole of its tokens. A relative one opens
+    // with a combinator from :has()'s anchor, or none for a descendant, and
+    // keeps the anchor as a compound of a Scope test.
+    static bool parseComplex(Document& doc, Tokens tokens, u32 flags, Selector& selector) {
         Vector<Compound> compounds;
         u32 specificity = 0;
         bool structural = false;
+        const Token* p = tokens.begin;
+        const Token* end = tokens.end;
 
-        skipSpaces(p, end);
+        skipWhitespace(p, end);
 
         if (flags & SelectorRelative) {
             Condition* scope = (Condition*)doc.pool->allocate(sizeof(Condition));
-            bool explicitCombinator = at(p, end, '>') || at(p, end, '+') || at(p, end, '~');
+            Combinator combinator = p < end ? combinatorOf(p) : Combinator::Descendant;
 
             *scope = Condition{Test::Scope, false, false, 0, StringView(), 0, 0, nullptr, 0};
-            compounds.pushBack(Compound{0, explicitCombinator ? combinatorOf(*p) : Combinator::Descendant, scope, 1});
-            p += explicitCombinator;
-            skipSpaces(p, end);
+            compounds.pushBack(Compound{0, combinator, scope, 1});
+            p += combinator != Combinator::Descendant;
+            skipWhitespace(p, end);
         }
 
         for (;;) {
@@ -4850,25 +5038,20 @@ namespace {
 
             compounds.pushBack(compound);
 
-            bool spaced = false;
+            const Token* before = p;
 
-            while (p < end && isSpace(*p)) {
-                p++;
-                spaced = true;
-            }
+            skipWhitespace(p, end);
 
-            if (p >= end || *p == ',' || *p == ')') {
+            if (p >= end) {
                 break;
             }
 
-            Combinator combinator = Combinator::Descendant;
+            Combinator combinator = combinatorOf(p);
 
-            if (*p == '>' || *p == '+' || *p == '~') {
-                combinator = combinatorOf(*p);
+            if (combinator != Combinator::Descendant) {
                 p++;
-
-                skipSpaces(p, end);
-            } else if (!spaced) {
+                skipWhitespace(p, end);
+            } else if (p == before) {
                 return false;
             }
 
@@ -4890,52 +5073,51 @@ namespace {
         return true;
     }
 
-    // A selector list at p, to the ')' that closes it, into the condition's
-    // list; specificity is that of its most specific selector. A forgiving
-    // list drops a selector it cannot read and may be empty; another fails
-    // on one.
-    static bool parseSelectorList(Document& doc, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity) {
-        Vector<Selector> items;
+    // The items of a list apart by its top-level commas, each its tokens.
+    static void commaItems(Tokens list, Vector<Tokens>& out) {
+        const Token* start = list.begin;
 
-        for (;;) {
-            const u8* start = p;
-            Selector item;
+        for (const Token* p = list.begin;; p += p->span + 1) {
+            if (p == list.end || p->type == TokenType::Comma) {
+                out.pushBack(Tokens{start, p});
 
-            if (parseComplex(doc, p, end, flags, item)) {
-                items.pushBack(item);
-                specificity = item.specificity > specificity ? item.specificity : specificity;
-            } else if (flags & SelectorForgiving) {
-                // A selector's text closes each parenthesis it opens.
-                const u8* comma = findOutside(start, end, ',');
-                const u8* close = findOutside(start, end, ')');
+                if (p == list.end) {
+                    return;
+                }
 
-                p = comma && comma < close ? comma : close;
-            } else {
+                start = p + 1;
+            }
+        }
+    }
+
+    // A selector list into the condition's list; specificity is that of
+    // its most specific selector. A forgiving list drops a selector it
+    // cannot read and may be empty; another fails on one.
+    static bool parseSelectorList(Document& doc, Tokens list, u32 flags, Condition& condition, u32& specificity) {
+        Vector<Tokens> items;
+        Vector<Selector> selectors;
+
+        commaItems(list, items);
+
+        for (Tokens item : items) {
+            Selector selector;
+
+            if (parseComplex(doc, item, flags, selector)) {
+                selectors.pushBack(selector);
+                specificity = selector.specificity > specificity ? selector.specificity : specificity;
+            } else if (!(flags & SelectorForgiving)) {
                 return false;
             }
-
-            if (!at(p, end, ',')) {
-                break;
-            }
-
-            p++;
         }
 
-        condition.listCount = (u32)items.length();
-        condition.list = (Selector*)doc.pool->allocate(sizeof(Selector) * (items.length() + 1));
+        condition.listCount = (u32)selectors.length();
+        condition.list = (Selector*)doc.pool->allocate(sizeof(Selector) * (selectors.length() + 1));
 
         if (condition.listCount) {
-            memcpy((Selector*)condition.list, items.data(), sizeof(Selector) * items.length());
+            memcpy((Selector*)condition.list, selectors.data(), sizeof(Selector) * selectors.length());
         }
 
         return true;
-    }
-
-    // Parses a trimmed selector.
-    static bool parseSelector(Document& doc, StringView text, Selector& selector) {
-        const u8* p = text.begin();
-
-        return parseComplex(doc, p, text.end(), 0, selector) && p == text.end();
     }
 
     static bool geometryProperty(u32 atom) {
@@ -4989,69 +5171,50 @@ namespace {
         }
     }
 
-    static const u8* findFunction(StringView text, StringView name) {
-        for (const u8* p = text.begin(); p + name.length() <= text.end(); p++) {
-            if (equalsIgnoreCase(StringView(p, p + name.length()), name)) {
-                return p;
-            }
-        }
+    static bool validGeometry(u32 property, Tokens value);
 
-        return nullptr;
-    }
-
-    static bool substituteFallbacks(StringView text, Buffer& out, u32 depth) {
-        const u8* p = text.begin();
-
-        while (p < text.end()) {
-            const u8* var = findFunction(StringView(p, text.end()), SV("var("));
-            const u8* env = findFunction(StringView(p, text.end()), SV("env("));
-            const u8* at = var && (!env || var < env) ? var : env;
-
-            if (!at) {
-                out.append(p, (size_t)(text.end() - p));
-
-                return true;
-            }
-
-            out.append(p, (size_t)(at - p));
-
-            const u8* q = at + 4;
-            const u8* comma = nullptr;
-            int level = 0;
-
-            while (q < text.end() && (level > 0 || *q != ')')) {
-                if (*q == '(') {
-                    level++;
-                } else if (*q == ')') {
-                    level--;
-                } else if (*q == ',' && level == 0 && !comma) {
-                    comma = q;
-                }
-
-                q++;
-            }
-
-            // A function left open closes at the end, as CSS reads it.
-            if (!comma || depth > 32) {
-                return false;
-            }
-
-            if (!substituteFallbacks(trim(StringView(comma + 1, q)), out, depth + 1)) {
-                return false;
-            }
-
-            p = q < text.end() ? q + 1 : q;
-        }
-
-        return true;
-    }
-
-    static bool validGeometry(u32 property, StringView value);
-
-    static bool parseLength(StringView text, Length& out);
+    static bool parseLength(Tokens value, Length& out);
+    static bool readLength(const Token*& p, const Token* end, Length& out);
     static bool nonNegative(Length& length);
     static bool percentLength(const Length& length);
-    static bool parsePosition(StringView text, Length& x, Length& y);
+    static bool parsePosition(Tokens value, Length& x, Length& y);
+
+    // The next component value at p, past the white space before it: a
+    // word of a value; none at the end.
+    static Tokens nextWord(const Token*& p, const Token* end) {
+        skipWhitespace(p, end);
+
+        const Token* start = p;
+
+        p += p < end ? p->span + 1 : 0;
+
+        return Tokens{start, p};
+    }
+
+    // The one component value a value is, white space around it; null for
+    // none or for more.
+    static const Token* single(Tokens value) {
+        Tokens v = trimmed(value);
+
+        return v.begin < v.end && v.begin + v.begin->span + 1 == v.end ? v.begin : nullptr;
+    }
+
+    static bool empty(Tokens value) {
+        return trimmed(value).begin == trimmed(value).end;
+    }
+
+    // The index of the keyword a word is among words, -1 for none.
+    static int keywordIndex(Tokens word, const char* const* words, int count) {
+        const Token* t = single(word);
+
+        for (int k = 0; t && k < count; k++) {
+            if (isIdent(t, StringView(words[k]))) {
+                return k;
+            }
+        }
+
+        return -1;
+    }
 
     // Where a CSS mask layer takes its image from.
     enum class MaskSource : u8 {
@@ -5061,8 +5224,9 @@ namespace {
         Gradient,
     };
 
-    // A CSS mask layer: its image, mask-image's url target or gradient, and
-    // the other longhands' values for it: mode 0 match-source, 1 alpha, 2
+    // A CSS mask layer: its image, mask-image's url, of an element by its
+    // fragment or of an image, or gradient function, and the other
+    // longhands' values for it: mode 0 match-source, 1 alpha, 2
     // luminance; repeat by axis 0 repeat, 1 space, 2 round, 3 no-repeat;
     // the position by axis, from the far side where told; size 0 as given,
     // 1 cover, 2 contain, an extent of auto where told; the boxes, clip 255
@@ -5070,7 +5234,7 @@ namespace {
     struct MaskLayer {
         MaskSource source;
         StringView url;
-        StringView image;
+        const Token* image;
         u8 mode;
         u8 repeat[2];
         Length position[2];
@@ -5083,45 +5247,6 @@ namespace {
         u8 composite;
     };
 
-    // A word of a mask value: a function whole with its arguments, a slash
-    // alone, or a run past spaces.
-    static StringView maskWord(const u8*& p, const u8* end) {
-        skipSpaces(p, end);
-
-        const u8* start = p;
-        int depth = 0;
-
-        if (at(p, end, '/')) {
-            p++;
-
-            return StringView(start, p);
-        }
-
-        while (p < end && (depth > 0 || (!isSpace(*p) && *p != '/'))) {
-            if (*p == '"' || *p == '\'') {
-                p = skipCssString(p, end);
-                continue;
-            }
-
-            depth += *p == '(';
-            depth -= *p == ')' && depth > 0;
-            p++;
-        }
-
-        return StringView(start, p);
-    }
-
-    // The index of a word among keywords, -1 for none.
-    static int maskKeyword(StringView word, const char* const* words, int count) {
-        for (int k = 0; k < count; k++) {
-            if (equalsIgnoreCase(word, StringView(words[k]))) {
-                return k;
-            }
-        }
-
-        return -1;
-    }
-
     const char* const maskModes[] = {"match-source", "alpha", "luminance"};
     const char* const maskPlaces[] = {"left", "right", "top", "bottom", "center"};
     const char* const maskComposites[] = {"add", "subtract", "intersect", "exclude"};
@@ -5133,8 +5258,8 @@ namespace {
     const u8 maskClipBoxes[] = {(u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, (u8)GeometryBox::View, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, 255};
     const u8 maskOriginBoxes[] = {(u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, (u8)GeometryBox::View, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill};
 
-    static bool parseColor(StringView source, Color& out);
-    static bool readAngle(StringView text, float& out, bool& unit);
+    static bool parseColor(Tokens value, Color& out);
+    static bool readAngle(const Token*& p, const Token* end, float& out, bool& unit);
 
     // A stop of a CSS gradient: its colour and its place along the line as
     // written, if any; a hint has its place alone.
@@ -5163,29 +5288,29 @@ namespace {
         Vector<CssStop> stops;
     };
 
-    // An angle of CSS: its unit, but zero; in degrees.
-    static bool cssAngle(StringView word, float& out) {
+    // An angle of CSS, a word: its unit, but zero; in degrees.
+    static bool cssAngle(Tokens word, float& out) {
+        Tokens v = trimmed(word);
+        const Token* p = v.begin;
         bool unit;
 
-        return readAngle(word, out, unit) && (unit || (out == 0.f && !isLetter(word[0])));
+        return readAngle(p, v.end, out, unit) && p == v.end && (unit || (out == 0.f && v.begin->type == TokenType::Number));
     }
 
     // The line of a linear gradient: an angle with its unit, zero without,
     // or to a side or a corner.
-    static bool gradientLine(StringView text, CssGradient& out) {
-        const u8* p = text.begin();
-        StringView word = maskWord(p, text.end());
-
-        if (!equalsIgnoreCase(word, SV("to"))) {
-            out.corner = 0;
-
-            return maskWord(p, text.end()).empty() && cssAngle(word, out.angle);
-        }
+    static bool gradientLine(Tokens item, CssGradient& out) {
+        const Token* p = item.begin;
+        Tokens word = nextWord(p, item.end);
 
         out.corner = 0;
 
+        if (!isKeyword(word, SV("to"))) {
+            return empty(Tokens{p, item.end}) && cssAngle(word, out.angle);
+        }
+
         for (u32 count = 0; count < 2; count++) {
-            int side = maskKeyword(maskWord(p, text.end()), maskPlaces, 4);
+            int side = keywordIndex(nextWord(p, item.end), maskPlaces, 4);
             u8 bit = (u8)(side >= 0 ? 1 << side : 0);
 
             // One of each axis, the first given.
@@ -5196,35 +5321,35 @@ namespace {
             out.corner |= bit;
         }
 
-        return maskWord(p, text.end()).empty();
+        return empty(Tokens{p, item.end});
     }
 
     // The cone of a conic gradient: from an angle, at a position, either
     // or both, in that order.
-    static bool gradientCone(StringView text, CssGradient& out) {
-        const u8* p = text.begin();
-        StringView word = maskWord(p, text.end());
+    static bool gradientCone(Tokens item, CssGradient& out) {
+        const Token* p = item.begin;
+        Tokens word = nextWord(p, item.end);
 
-        if (equalsIgnoreCase(word, SV("from"))) {
-            if (!cssAngle(maskWord(p, text.end()), out.angle)) {
+        if (isKeyword(word, SV("from"))) {
+            if (!cssAngle(nextWord(p, item.end), out.angle)) {
                 return false;
             }
 
-            word = maskWord(p, text.end());
+            word = nextWord(p, item.end);
 
-            if (word.empty()) {
+            if (empty(word)) {
                 return true;
             }
         }
 
-        return equalsIgnoreCase(word, SV("at")) && !trim(StringView(p, text.end())).empty() && parsePosition(StringView(p, text.end()), out.center[0], out.center[1]);
+        return isKeyword(word, SV("at")) && !empty(Tokens{p, item.end}) && parsePosition(Tokens{p, item.end}, out.center[0], out.center[1]);
     }
 
     // The shape of a radial gradient: circle or ellipse, an extent keyword
     // or one or two lengths, in any order, then at a position.
-    static bool gradientShape(StringView text, CssGradient& out) {
+    static bool gradientShape(Tokens item, CssGradient& out) {
         static const char* const extents[] = {"closest-side", "farthest-side", "closest-corner", "farthest-corner"};
-        const u8* p = text.begin();
+        const Token* p = item.begin;
         u32 lengths = 0;
         bool shaped = false;
         bool sized = false;
@@ -5234,15 +5359,15 @@ namespace {
         out.center[0] = Length{50.f, Unit::Percent};
         out.center[1] = Length{50.f, Unit::Percent};
 
-        for (StringView word = maskWord(p, text.end()); !word.empty(); word = maskWord(p, text.end())) {
-            int extent = maskKeyword(word, extents, 4);
+        for (Tokens word = nextWord(p, item.end); !empty(word); word = nextWord(p, item.end)) {
+            int extent = keywordIndex(word, extents, 4);
 
-            if (equalsIgnoreCase(word, SV("at"))) {
-                return !trim(StringView(p, text.end())).empty() && parsePosition(StringView(p, text.end()), out.center[0], out.center[1]);
+            if (isKeyword(word, SV("at"))) {
+                return !empty(Tokens{p, item.end}) && parsePosition(Tokens{p, item.end}, out.center[0], out.center[1]);
             }
 
-            if (!shaped && (equalsIgnoreCase(word, SV("circle")) || equalsIgnoreCase(word, SV("ellipse")))) {
-                out.circle = equalsIgnoreCase(word, SV("circle"));
+            if (!shaped && (isKeyword(word, SV("circle")) || isKeyword(word, SV("ellipse")))) {
+                out.circle = isKeyword(word, SV("circle"));
                 shaped = true;
             } else if (!sized && extent >= 0) {
                 out.extent = (u8)extent;
@@ -5272,11 +5397,9 @@ namespace {
     // A CSS gradient's function, one of the six by its name: its line,
     // shape or cone first, perhaps, then the stops and hints apart by
     // commas.
-    static bool parseCssGradient(StringView text, Color current, CssGradient& out) {
-        const u8* open = findOutside(text.begin(), text.end(), '(');
-        StringView name(text.begin(), open);
-        const u8* p = open + 1;
-        const u8* end = text.end() - 1;
+    static bool parseCssGradient(const Token* function, Color current, CssGradient& out) {
+        StringView name = function->text;
+        Vector<Tokens> items;
         u32 colors = 0;
         bool first = true;
 
@@ -5291,7 +5414,7 @@ namespace {
         out.center[1] = Length{50.f, Unit::Percent};
 
         // A conic's places are angles, kept as the turn's percentages.
-        auto place = [&](StringView word, Length& at) {
+        auto place = [&](Tokens word, Length& at) {
             float angle;
 
             if (out.conic && cssAngle(word, angle)) {
@@ -5303,12 +5426,14 @@ namespace {
             return parseLength(word, at) && (!out.conic || percentLength(at));
         };
 
-        for (;;) {
-            const u8* comma = findOutside(p, end, ',');
-            StringView item = trim(StringView(p, comma ? comma : end));
-            const u8* q = item.begin();
-            StringView word = maskWord(q, item.end());
+        commaItems(contents(function), items);
+
+        for (Tokens item : items) {
+            const Token* q = item.begin;
+            Tokens word = nextWord(q, item.end);
             CssStop stop{};
+
+            item = trimmed(item);
 
             // The first item may be the line, the shape or the cone.
             if (first && (out.conic ? gradientCone(item, out) : (out.radial ? gradientShape(item, out) : gradientLine(item, out)))) {
@@ -5318,7 +5443,7 @@ namespace {
                 stop.placed = true;
                 out.stops.pushBack(stop);
             } else {
-                if (equalsIgnoreCase(word, SV("currentcolor"))) {
+                if (isKeyword(word, SV("currentcolor"))) {
                     stop.color = current;
                 } else if (!parseColor(word, stop.color)) {
                     return false;
@@ -5328,9 +5453,9 @@ namespace {
                 first = false;
 
                 for (u32 k = 0; k < 2; k++) {
-                    StringView spot = maskWord(q, item.end());
+                    Tokens spot = nextWord(q, item.end);
 
-                    if (spot.empty()) {
+                    if (empty(spot)) {
                         break;
                     }
 
@@ -5346,18 +5471,12 @@ namespace {
                     out.stops.pushBack(stop);
                 }
 
-                if (!maskWord(q, item.end()).empty()) {
+                if (!empty(Tokens{q, item.end})) {
                     return false;
                 }
             }
 
             first = false;
-
-            if (!comma) {
-                break;
-            }
-
-            p = comma + 1;
         }
 
         // A hint stands between two colours.
@@ -5370,72 +5489,82 @@ namespace {
         return colors >= 2;
     }
 
-    // mask-image: none, a url, to a mask element by its fragment or an
-    // image, or a gradient.
-    // The string of the url() a mask layer keeps, its escapes undone into
-    // scratch.
-    static StringView maskUrl(StringView text, Buffer& scratch) {
-        const u8* p = text.begin();
-        StringView url;
+    // The reference a url is (css-values-4 4.5): a url token's, or the
+    // string of a url() or src() function's; false for anything else.
+    static bool urlOf(const Token* t, StringView& out) {
+        if (t->type == TokenType::Url) {
+            out = t->text;
 
-        readUrl(p, text.end(), url, scratch);
-
-        return url;
-    }
-
-    static bool maskImageOf(StringView text, MaskLayer& out) {
-        static const char* const gradients[] = {"linear-gradient(", "radial-gradient(", "conic-gradient(", "repeating-linear-gradient(", "repeating-radial-gradient(", "repeating-conic-gradient("};
-
-        out.source = MaskSource::None;
-
-        if (equalsIgnoreCase(text, SV("none"))) {
             return true;
         }
 
-        if (text.length() < 5 || text.back() != ')') {
+        Tokens args = trimmed(contents(t));
+
+        if (!(isFunction(t, SV("url")) || isFunction(t, SV("src"))) || args.end - args.begin != 1 || args.begin->type != TokenType::String) {
             return false;
         }
 
-        const u8* p = text.begin();
-        StringView url;
-        Buffer scratch;
+        out = args.begin->text;
 
-        // The layer keeps the url() as written, maskUrl reads it again.
-        if (readUrl(p, text.end(), url, scratch)) {
-            out.source = at(url.begin(), url.end(), '#') ? MaskSource::Element : MaskSource::Image;
-            out.url = StringView(text.begin(), p);
+        return true;
+    }
 
-            return p == text.end();
-        }
+    static bool isGradient(const Token* t) {
+        static const char* const gradients[] = {"linear-gradient", "radial-gradient", "conic-gradient", "repeating-linear-gradient", "repeating-radial-gradient", "repeating-conic-gradient"};
 
         for (const char* gradient : gradients) {
-            StringView name(gradient);
-
-            CssGradient parsed;
-
-            if (text.length() > name.length() && equalsIgnoreCase(StringView(text.begin(), text.begin() + name.length()), name)) {
-                out.source = MaskSource::Gradient;
-                out.image = text;
-
-                return parseCssGradient(text, Color{0.f, 0.f, 0.f, 1.f}, parsed);
+            if (isFunction(t, StringView(gradient))) {
+                return true;
             }
         }
 
         return false;
     }
 
+    // mask-image: none, a url, to a mask element by its fragment or an
+    // image, or a gradient.
+    static bool maskImageOf(Tokens value, MaskLayer& out) {
+        const Token* t = single(value);
+        CssGradient parsed;
+
+        out.source = MaskSource::None;
+
+        if (!t) {
+            return false;
+        }
+
+        if (isIdent(t, SV("none"))) {
+            return true;
+        }
+
+        if (urlOf(t, out.url)) {
+            out.source = at(out.url.begin(), out.url.end(), '#') ? MaskSource::Element : MaskSource::Image;
+
+            return true;
+        }
+
+        if (!isGradient(t)) {
+            return false;
+        }
+
+        out.source = MaskSource::Gradient;
+        out.image = t;
+
+        return parseCssGradient(t, Color{0.f, 0.f, 0.f, 1.f}, parsed);
+    }
+
     // mask-repeat: repeat-x or repeat-y, repeat-inline or repeat-block,
     // the same in horizontal writing, or one or two of the four.
-    static bool maskRepeatOf(StringView text, MaskLayer& out) {
+    static bool maskRepeatOf(Tokens value, MaskLayer& out) {
         static const char* const axes[] = {"repeat-x", "repeat-inline", "repeat-y", "repeat-block"};
-        const u8* p = text.begin();
-        StringView first = maskWord(p, text.end());
-        StringView second = maskWord(p, text.end());
-        int x = maskKeyword(first, maskRepeats, 4);
-        int y = second.empty() ? x : maskKeyword(second, maskRepeats, 4);
-        int axis = maskKeyword(first, axes, 4);
+        const Token* p = value.begin;
+        Tokens first = nextWord(p, value.end);
+        Tokens second = nextWord(p, value.end);
+        int x = keywordIndex(first, maskRepeats, 4);
+        int y = empty(second) ? x : keywordIndex(second, maskRepeats, 4);
+        int axis = keywordIndex(first, axes, 4);
 
-        if (second.empty() && axis >= 0) {
+        if (empty(second) && axis >= 0) {
             x = axis < 2 ? 0 : 3;
             y = 3 - x;
         }
@@ -5443,19 +5572,19 @@ namespace {
         out.repeat[0] = (u8)x;
         out.repeat[1] = (u8)y;
 
-        return x >= 0 && y >= 0 && maskWord(p, text.end()).empty();
+        return x >= 0 && y >= 0 && empty(Tokens{p, value.end});
     }
 
     // mask-position: background-position's one to four words.
-    static bool maskPositionOf(StringView text, MaskLayer& out) {
-        const u8* p = text.begin();
-        StringView words[5];
+    static bool maskPositionOf(Tokens value, MaskLayer& out) {
+        const Token* p = value.begin;
+        Tokens words[5];
         u32 count = 0;
 
         out.far[0] = false;
         out.far[1] = false;
 
-        while (count < 5 && !(words[count] = maskWord(p, text.end())).empty()) {
+        while (count < 5 && !empty(words[count] = nextWord(p, value.end))) {
             count++;
         }
 
@@ -5464,7 +5593,7 @@ namespace {
         }
 
         if (count <= 2) {
-            return parsePosition(text, out.position[0], out.position[1]);
+            return parsePosition(value, out.position[0], out.position[1]);
         }
 
         // Four: two sides, one of each axis, each with its offset; CSS
@@ -5472,7 +5601,7 @@ namespace {
         bool set[2] = {false, false};
 
         for (u32 i = 0; i < count; i += 2) {
-            int keyword = maskKeyword(words[i], maskPlaces, 4);
+            int keyword = keywordIndex(words[i], maskPlaces, 4);
             int axis = keyword / 2;
 
             if (count != 4 || keyword < 0 || set[axis] || !parseLength(words[i + 1], out.position[axis])) {
@@ -5487,49 +5616,49 @@ namespace {
     }
 
     // mask-size: cover, contain, or one or two extents of no sign or auto.
-    static bool maskSizeOf(StringView text, MaskLayer& out) {
-        const u8* p = text.begin();
-        StringView first = maskWord(p, text.end());
-        StringView second = maskWord(p, text.end());
+    static bool maskSizeOf(Tokens value, MaskLayer& out) {
+        const Token* p = value.begin;
+        Tokens first = nextWord(p, value.end);
+        Tokens second = nextWord(p, value.end);
 
-        out.size = equalsIgnoreCase(first, SV("cover")) ? 1 : (equalsIgnoreCase(first, SV("contain")) ? 2 : 0);
+        out.size = isKeyword(first, SV("cover")) ? 1 : (isKeyword(first, SV("contain")) ? 2 : 0);
 
         if (out.size) {
-            return second.empty();
+            return empty(second);
         }
 
-        StringView words[2] = {first, second.empty() ? SV("auto") : second};
-
         for (int axis = 0; axis < 2; axis++) {
-            out.fit[axis] = equalsIgnoreCase(words[axis], SV("auto"));
+            Tokens word = axis == 0 || !empty(second) ? (axis ? second : first) : Tokens{nullptr, nullptr};
 
-            if (!out.fit[axis] && (!parseLength(words[axis], out.extent[axis]) || !nonNegative(out.extent[axis]))) {
+            out.fit[axis] = word.begin == nullptr || isKeyword(word, SV("auto"));
+
+            if (!out.fit[axis] && (!parseLength(word, out.extent[axis]) || !nonNegative(out.extent[axis]))) {
                 return false;
             }
         }
 
-        return maskWord(p, text.end()).empty();
+        return empty(Tokens{p, value.end});
     }
 
     // One value of a mask longhand, for the layer.
-    static bool maskPartOf(u32 part, StringView text, MaskLayer& out) {
+    static bool maskPartOf(u32 part, Tokens value, MaskLayer& out) {
         int k;
 
         switch (part) {
             case MaskPartImage:
-                return maskImageOf(text, out);
+                return maskImageOf(value, out);
             case MaskPartMode:
-                k = maskKeyword(text, maskModes, 3);
+                k = keywordIndex(value, maskModes, 3);
                 out.mode = (u8)k;
 
                 return k >= 0;
             case MaskPartRepeat:
-                return maskRepeatOf(text, out);
+                return maskRepeatOf(value, out);
             case MaskPartPosition:
-                return maskPositionOf(text, out);
+                return maskPositionOf(value, out);
             case MaskPartClip:
             case MaskPartOrigin:
-                k = maskKeyword(text, maskBoxes, 7);
+                k = keywordIndex(value, maskBoxes, 7);
 
                 if (k < 0 || (part == MaskPartOrigin && k == 6)) {
                     return false;
@@ -5543,10 +5672,10 @@ namespace {
 
                 return true;
             case MaskPartSize:
-                return maskSizeOf(text, out);
+                return maskSizeOf(value, out);
             default:
                 // MaskPartComposite.
-                k = maskKeyword(text, maskComposites, 4);
+                k = keywordIndex(value, maskComposites, 4);
                 out.composite = (u8)k;
 
                 return k >= 0;
@@ -5554,91 +5683,109 @@ namespace {
     }
 
     // A mask longhand's values apart by commas, each valid.
-    static bool maskListValid(u32 part, StringView text) {
-        const u8* p = text.begin();
+    static bool maskListValid(u32 part, Tokens value) {
+        Vector<Tokens> items;
         MaskLayer layer;
 
-        for (;;) {
-            const u8* comma = findOutside(p, text.end(), ',');
+        commaItems(value, items);
 
-            if (!maskPartOf(part, trim(StringView(p, comma ? comma : text.end())), layer)) {
+        for (Tokens item : items) {
+            if (!maskPartOf(part, item, layer)) {
                 return false;
             }
-
-            if (!comma) {
-                return true;
-            }
-
-            p = comma + 1;
         }
+
+        return true;
     }
 
-    // The mask shorthand into its longhands: each layer's parts in any
-    // order, a position perhaps with a size after a slash, one box both the
-    // origin and the clip, two the one then the other; a part left out
-    // takes its initial value.
-    enum CssKeyword : u8;
-    static CssKeyword cssWideKeyword(StringView text);
+    static u32 addValue(const Document& doc, Tokens tokens);
+    static u32 keywordValue(const Document& doc, StringView text);
 
-    static bool expandMask(Document& doc, StringView value, u32 (&out)[MaskParts]) {
-        static const char* const initial[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
-        Buffer lists[MaskParts];
-        const u8* p = value.begin();
+    // A value of the tokens of parts, a comma between each two, copied
+    // into the pool.
+    static u32 joinedValue(const Document& doc, const Tokens* parts, u32 count) {
+        Vector<Token> tokens;
 
-        if (cssWideKeyword(value)) {
-            for (u32 k = 0; k < MaskParts; k++) {
-                out[k] = intern(doc.atoms, value);
+        for (u32 k = 0; k < count; k++) {
+            if (k) {
+                tokens.pushBack(Token{SV(","), 0.0, 0, TokenType::Comma, 0});
+                tokens.pushBack(Token{SV(" "), 0.0, 0, TokenType::Whitespace, 0});
             }
 
-            return true;
+            tokens.append(parts[k].begin, parts[k].end);
         }
 
-        for (u32 layer = 0;; layer++) {
-            const u8* comma = findOutside(p, value.end(), ',');
-            const u8* end = comma ? comma : value.end();
-            StringView parts[MaskParts];
-            StringView boxes[2];
+        Token* kept = (Token*)doc.pool->allocate(sizeof(Token) * (tokens.length() + 1));
+
+        if (tokens.length()) {
+            memcpy(kept, tokens.data(), sizeof(Token) * tokens.length());
+        }
+
+        return addValue(doc, Tokens{kept, kept + tokens.length()});
+    }
+
+    // The mask shorthand into its longhands' values: each layer's parts in
+    // any order, a position perhaps with a size after a slash, one box both
+    // the origin and the clip, two the one then the other; a part left out
+    // takes its initial value.
+    static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts]) {
+        static const char* const initial[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
+        Vector<Tokens> layers;
+        Vector<Tokens> lists[MaskParts];
+
+        commaItems(value, layers);
+
+        for (Tokens layer : layers) {
+            Tokens parts[MaskParts];
+            Tokens boxes[2];
             u32 boxCount = 0;
             MaskLayer probe;
+            const Token* end = layer.end;
 
             memset(&probe, 0, sizeof(probe));
 
-            for (const u8* q = p;;) {
-                const u8* start = q;
-                StringView word = maskWord(q, end);
+            for (u32 k = 0; k < MaskParts; k++) {
+                parts[k] = Tokens{nullptr, nullptr};
+            }
+
+            for (const Token* q = layer.begin;;) {
+                skipWhitespace(q, end);
+
+                const Token* start = q;
+                Tokens word = nextWord(q, end);
                 Length length;
 
-                if (word.empty()) {
+                if (empty(word)) {
                     break;
                 }
 
-                bool positional = maskKeyword(word, maskPlaces, 5) >= 0 || parseLength(word, length);
+                bool positional = keywordIndex(word, maskPlaces, 5) >= 0 || parseLength(word, length);
 
-                if (parts[MaskPartImage].empty() && maskImageOf(word, probe)) {
+                if (!parts[MaskPartImage].begin && maskImageOf(word, probe)) {
                     parts[MaskPartImage] = word;
-                } else if (parts[MaskPartMode].empty() && maskKeyword(word, maskModes, 3) >= 0) {
+                } else if (!parts[MaskPartMode].begin && keywordIndex(word, maskModes, 3) >= 0) {
                     parts[MaskPartMode] = word;
-                } else if (parts[MaskPartComposite].empty() && maskKeyword(word, maskComposites, 4) >= 0) {
+                } else if (!parts[MaskPartComposite].begin && keywordIndex(word, maskComposites, 4) >= 0) {
                     parts[MaskPartComposite] = word;
-                } else if (parts[MaskPartRepeat].empty() && (maskKeyword(word, maskRepeats, 4) >= 0 || maskRepeatOf(word, probe))) {
-                    const u8* r = q;
+                } else if (!parts[MaskPartRepeat].begin && (keywordIndex(word, maskRepeats, 4) >= 0 || maskRepeatOf(word, probe))) {
+                    const Token* r = q;
 
                     // A second of the four belongs to the first.
-                    if (maskKeyword(word, maskRepeats, 4) >= 0 && maskKeyword(maskWord(r, end), maskRepeats, 4) >= 0) {
+                    if (keywordIndex(word, maskRepeats, 4) >= 0 && keywordIndex(nextWord(r, end), maskRepeats, 4) >= 0) {
                         q = r;
                     }
 
-                    parts[MaskPartRepeat] = trim(StringView(start, q));
-                } else if (boxCount < 2 && maskKeyword(word, maskBoxes, 7) >= 0) {
+                    parts[MaskPartRepeat] = Tokens{start, q};
+                } else if (boxCount < 2 && keywordIndex(word, maskBoxes, 7) >= 0) {
                     boxes[boxCount++] = word;
-                } else if (parts[MaskPartPosition].empty() && positional) {
-                    const u8* last = q;
-                    const u8* r = q;
+                } else if (!parts[MaskPartPosition].begin && positional) {
+                    const Token* last = q;
+                    const Token* r = q;
 
                     for (u32 count = 1; count < 4; count++) {
-                        StringView next = maskWord(r, end);
+                        Tokens next = nextWord(r, end);
 
-                        if (!(maskKeyword(next, maskPlaces, 5) >= 0 || parseLength(next, length))) {
+                        if (!(keywordIndex(next, maskPlaces, 5) >= 0 || parseLength(next, length))) {
                             break;
                         }
 
@@ -5646,26 +5793,28 @@ namespace {
                     }
 
                     q = last;
-                    parts[MaskPartPosition] = trim(StringView(start, q));
+                    parts[MaskPartPosition] = Tokens{start, q};
                     r = q;
 
-                    if (equalsIgnoreCase(maskWord(r, end), SV("/"))) {
-                        const u8* sizeStart = r;
-                        const u8* sizeEnd = r;
-                        StringView first = maskWord(r, end);
+                    Tokens slash = nextWord(r, end);
+
+                    if (!empty(slash) && isDelim(slash.begin, '/')) {
+                        const Token* sizeStart = r;
+                        const Token* sizeEnd = r;
+                        Tokens first = nextWord(r, end);
 
                         sizeEnd = r;
 
-                        if (!(equalsIgnoreCase(first, SV("cover")) || equalsIgnoreCase(first, SV("contain")))) {
-                            const u8* s = r;
-                            StringView second = maskWord(s, end);
+                        if (!(isKeyword(first, SV("cover")) || isKeyword(first, SV("contain")))) {
+                            const Token* s = r;
+                            Tokens second = nextWord(s, end);
 
-                            if (equalsIgnoreCase(second, SV("auto")) || parseLength(second, length)) {
+                            if (isKeyword(second, SV("auto")) || parseLength(second, length)) {
                                 sizeEnd = s;
                             }
                         }
 
-                        parts[MaskPartSize] = trim(StringView(sizeStart, sizeEnd));
+                        parts[MaskPartSize] = trimmed(Tokens{sizeStart, sizeEnd});
                         q = sizeEnd;
                     }
                 } else {
@@ -5675,33 +5824,23 @@ namespace {
 
             // One box is both, two the origin then the clip.
             if (boxCount) {
-                parts[MaskPartOrigin] = boxCount == 2 || !equalsIgnoreCase(boxes[0], SV("no-clip")) ? boxes[0] : StringView();
+                parts[MaskPartOrigin] = boxCount == 2 || !isKeyword(boxes[0], SV("no-clip")) ? boxes[0] : Tokens{nullptr, nullptr};
                 parts[MaskPartClip] = boxes[boxCount - 1];
             }
 
             for (u32 k = 0; k < MaskParts; k++) {
-                StringView part = parts[k].empty() ? StringView(initial[k]) : parts[k];
+                Tokens part = parts[k].begin ? parts[k] : doc.values[keywordValue(doc, StringView(initial[k]))].tokens;
 
                 if (!maskPartOf(k, part, probe)) {
                     return false;
                 }
 
-                if (layer) {
-                    lists[k].append(", ", 2);
-                }
-
-                lists[k].append(part.begin(), part.length());
+                lists[k].pushBack(trimmed(part));
             }
-
-            if (!comma) {
-                break;
-            }
-
-            p = comma + 1;
         }
 
         for (u32 k = 0; k < MaskParts; k++) {
-            out[k] = intern(doc.atoms, keep(*doc.pool, (const u8*)lists[k].data(), lists[k].length()));
+            out[k] = joinedValue(doc, lists[k].data(), (u32)lists[k].length());
         }
 
         return true;
@@ -5731,20 +5870,20 @@ namespace {
     // gives a side left out the one across from it: a slice's numbers and
     // percentages, kind 0; a width's lengths, percentages, numbers and
     // auto, 1; an outset's lengths and numbers, 2; none negative.
-    static bool borderSides(StringView text, u32 kind, Length (&out)[4], u8& autos) {
-        const u8* p = text.begin();
+    static bool borderSides(Tokens value, u32 kind, Length (&out)[4], u8& autos) {
+        const Token* p = value.begin;
         u32 count = 0;
 
         autos = 0;
 
-        for (StringView word = maskWord(p, text.end()); !word.empty(); word = maskWord(p, text.end())) {
+        for (Tokens word = nextWord(p, value.end); !empty(word); word = nextWord(p, value.end)) {
             Length& side = out[count & 3];
 
             if (count == 4) {
                 return false;
             }
 
-            if (kind == 1 && equalsIgnoreCase(word, SV("auto"))) {
+            if (kind == 1 && isKeyword(word, SV("auto"))) {
                 autos |= (u8)(1 << count);
                 side = Length{0.f, Unit::Number};
             } else if (!parseLength(word, side) || !nonNegative(side) || (kind == 0 && side.unit != Unit::Number && !percentLength(side)) || (kind == 2 && percentLength(side))) {
@@ -5765,115 +5904,113 @@ namespace {
     }
 
     // One value of a mask-border longhand, into the border.
-    static bool maskBorderPartOf(u32 part, StringView text, MaskBorder& out) {
-        const u8* p = text.begin();
-        StringView first;
-        StringView second;
-        StringView numbers = text;
+    static bool maskBorderPartOf(u32 part, Tokens value, MaskBorder& out) {
+        const Token* p = value.begin;
+        Tokens first;
+        Tokens second;
+        Tokens numbers = trimmed(value);
         u8 autos;
         int k;
 
         switch (part) {
             case MaskBorderPartSource:
-                return maskImageOf(text, out.image);
+                return maskImageOf(value, out.image);
             case MaskBorderPartMode:
-                k = equalsIgnoreCase(text, SV("alpha")) ? 1 : (equalsIgnoreCase(text, SV("luminance")) ? 0 : -1);
+                k = isKeyword(value, SV("alpha")) ? 1 : (isKeyword(value, SV("luminance")) ? 0 : -1);
                 out.mode = (u8)k;
 
                 return k >= 0;
             case MaskBorderPartSlice:
                 // fill after the numbers.
-                out.fill = text.length() > 4 && equalsIgnoreCase(StringView(text.end() - 4, text.end()), SV("fill")) && isSpace(text.end()[-5]);
+                out.fill = numbers.end - numbers.begin > 2 && isIdent(numbers.end - 1, SV("fill")) && numbers.end[-2].type == TokenType::Whitespace;
 
                 if (out.fill) {
-                    numbers = trim(StringView(text.begin(), text.end() - 4));
+                    numbers = trimmed(Tokens{numbers.begin, numbers.end - 1});
                 }
 
                 return borderSides(numbers, 0, out.slice, autos);
             case MaskBorderPartWidth:
-                return borderSides(text, 1, out.width, out.autos);
+                return borderSides(value, 1, out.width, out.autos);
             case MaskBorderPartOutset:
-                return borderSides(text, 2, out.outset, autos);
+                return borderSides(value, 2, out.outset, autos);
             default:
                 // MaskBorderPartRepeat.
-                first = maskWord(p, text.end());
-                second = maskWord(p, text.end());
-                out.repeat[0] = (u8)maskKeyword(first, maskBorderRepeats, 4);
-                out.repeat[1] = second.empty() ? out.repeat[0] : (u8)maskKeyword(second, maskBorderRepeats, 4);
+                first = nextWord(p, value.end);
+                second = nextWord(p, value.end);
+                out.repeat[0] = (u8)keywordIndex(first, maskBorderRepeats, 4);
+                out.repeat[1] = empty(second) ? out.repeat[0] : (u8)keywordIndex(second, maskBorderRepeats, 4);
 
-                return out.repeat[0] < 4 && out.repeat[1] < 4 && maskWord(p, text.end()).empty();
+                return out.repeat[0] < 4 && out.repeat[1] < 4 && empty(Tokens{p, value.end});
         }
     }
 
-    // The mask-border shorthand into its longhands: the source, the slices
-    // perhaps with the widths after a slash and the outsets after another,
-    // the repeats and the mode, in any order; a part left out takes its
-    // initial value.
-    static bool expandMaskBorder(Document& doc, StringView value, u32 (&out)[MaskBorderParts]) {
-        StringView parts[MaskBorderParts];
-        const u8* p = value.begin();
-        const u8* end = value.end();
+    // The mask-border shorthand into its longhands' values: the source, the
+    // slices perhaps with the widths after a slash and the outsets after
+    // another, the repeats and the mode, in any order; a part left out
+    // takes its initial value.
+    static bool expandMaskBorder(const Document& doc, Tokens value, u32 (&out)[MaskBorderParts]) {
+        Tokens parts[MaskBorderParts];
+        const Token* p = value.begin;
+        const Token* end = value.end;
         MaskBorder probe;
 
-        if (cssWideKeyword(value)) {
-            for (u32 k = 0; k < MaskBorderParts; k++) {
-                out[k] = intern(doc.atoms, value);
-            }
-
-            return true;
+        for (u32 k = 0; k < MaskBorderParts; k++) {
+            parts[k] = Tokens{nullptr, nullptr};
         }
 
         for (;;) {
-            const u8* start = p;
-            StringView word = maskWord(p, end);
+            skipWhitespace(p, end);
+
+            const Token* start = p;
+            Tokens word = nextWord(p, end);
             Length length;
 
-            if (word.empty()) {
+            if (empty(word)) {
                 break;
             }
 
-            if (parts[MaskBorderPartSource].empty() && maskImageOf(word, probe.image)) {
+            if (!parts[MaskBorderPartSource].begin && maskImageOf(word, probe.image)) {
                 parts[MaskBorderPartSource] = word;
-            } else if (parts[MaskBorderPartMode].empty() && maskBorderPartOf(MaskBorderPartMode, word, probe)) {
+            } else if (!parts[MaskBorderPartMode].begin && maskBorderPartOf(MaskBorderPartMode, word, probe)) {
                 parts[MaskBorderPartMode] = word;
-            } else if (parts[MaskBorderPartRepeat].empty() && maskKeyword(word, maskBorderRepeats, 4) >= 0) {
-                const u8* q = p;
+            } else if (!parts[MaskBorderPartRepeat].begin && keywordIndex(word, maskBorderRepeats, 4) >= 0) {
+                const Token* q = p;
 
                 // A second of the four belongs to the first.
-                if (maskKeyword(maskWord(q, end), maskBorderRepeats, 4) >= 0) {
+                if (keywordIndex(nextWord(q, end), maskBorderRepeats, 4) >= 0) {
                     p = q;
                 }
 
-                parts[MaskBorderPartRepeat] = trim(StringView(start, p));
-            } else if (parts[MaskBorderPartSlice].empty() && parseLength(word, length)) {
+                parts[MaskBorderPartRepeat] = Tokens{start, p};
+            } else if (!parts[MaskBorderPartSlice].begin && parseLength(word, length)) {
                 // The slices run to the first word of another part, with
                 // fill; a slash takes the widths, another the outsets.
                 u32 part = MaskBorderPartSlice;
-                const u8* from = start;
+                const Token* from = start;
 
-                for (const u8* q = p;; q = p) {
-                    StringView next = maskWord(q, end);
+                for (const Token* q = p;; q = p) {
+                    Tokens next = nextWord(q, end);
 
-                    if (equalsIgnoreCase(next, SV("/")) && part < MaskBorderPartOutset) {
-                        parts[part] = trim(StringView(from, p));
+                    if (!empty(next) && isDelim(next.begin, '/') && part < MaskBorderPartOutset) {
+                        parts[part] = trimmed(Tokens{from, p});
 
                         // A slash follows a part, not none.
-                        if (parts[part].empty()) {
+                        if (empty(parts[part])) {
                             return false;
                         }
 
                         part++;
                         from = q;
-                    } else if (!(parseLength(next, length) || equalsIgnoreCase(next, SV("auto")) || (part == MaskBorderPartSlice && equalsIgnoreCase(next, SV("fill"))))) {
+                    } else if (empty(next) || !(parseLength(next, length) || isKeyword(next, SV("auto")) || (part == MaskBorderPartSlice && isKeyword(next, SV("fill"))))) {
                         break;
                     }
 
                     p = q;
                 }
 
-                parts[part] = trim(StringView(from, p));
+                parts[part] = trimmed(Tokens{from, p});
 
-                if (parts[part].empty()) {
+                if (empty(parts[part])) {
                     return false;
                 }
             } else {
@@ -5882,215 +6019,439 @@ namespace {
         }
 
         for (u32 k = 0; k < MaskBorderParts; k++) {
-            StringView part = parts[k].empty() ? StringView(maskBorderInitials[k]) : parts[k];
+            u32 initial = keywordValue(doc, StringView(maskBorderInitials[k]));
+            Tokens part = parts[k].begin ? trimmed(parts[k]) : doc.values[initial].tokens;
 
             if (!maskBorderPartOf(k, part, probe)) {
                 return false;
             }
 
-            out[k] = intern(doc.atoms, part);
+            out[k] = parts[k].begin ? addValue(doc, part) : initial;
         }
 
         return true;
     }
 
-    static bool parseColor(StringView source, Color& out);
-    static StringView shapeWord(const u8*& p, const u8* end);
-
     // The colour a background shorthand gives: a colour among its final
     // layer's words, else transparent, which the shorthand resets it to
-    // (css-backgrounds-3.md, background), a CSS-wide keyword as it is.
-    static StringView backgroundColorOf(StringView value) {
-        const u8* layer = value.begin();
+    // (css-backgrounds-3.md, background).
+    static u32 backgroundColorOf(const Document& doc, Tokens value) {
+        Vector<Tokens> layers;
 
-        if (cssWideKeyword(value)) {
-            return value;
-        }
+        commaItems(value, layers);
 
-        for (const u8* comma = findOutside(layer, value.end(), ','); comma; comma = findOutside(layer, value.end(), ',')) {
-            layer = comma + 1;
-        }
+        Tokens layer = layers.back();
+        const Token* p = layer.begin;
 
-        for (StringView word = shapeWord(layer, value.end()); !word.empty(); word = shapeWord(layer, value.end())) {
+        for (Tokens word = nextWord(p, layer.end); !empty(word); word = nextWord(p, layer.end)) {
             Color color;
 
-            if (parseColor(word, color) || equalsIgnoreCase(word, SV("currentcolor"))) {
-                return word;
+            if (parseColor(word, color) || isKeyword(word, SV("currentcolor"))) {
+                return addValue(doc, word);
             }
         }
 
-        return SV("transparent");
+        return keywordValue(doc, SV("transparent"));
     }
 
-    static void parseDeclarations(Document& doc, StringView block, Vector<Declaration>& out) {
-        const u8* p = block.begin();
-        const u8* end = block.end();
+    // Makes a cache by atom long enough for every atom, the new entries
+    // none.
+    static void coverAtoms(const Document& doc, Vector<u32>& cache) {
+        while (cache.length() < doc.atoms.texts.length()) {
+            cache.pushBack(0);
+        }
+    }
 
-        while (p < end) {
-            const u8* stop = findOutside(p, end, ';');
+    // A value of tokens, without the white space at either end: its
+    // CSS-wide keyword and whether var() or env() is in it, read once.
+    static u32 addValue(const Document& doc, Tokens tokens) {
+        Value value{trimmed(tokens), CssNone, false, 0, 0, 0};
+        const Token* t = value.tokens.begin;
 
-            if (!stop) {
-                stop = end;
+        if (doc.values.empty()) {
+            doc.values.pushBack(Value{Tokens{nullptr, nullptr}, CssNone, false, 0, 0, 0});
+        }
+
+        if (value.tokens.end - t == 1 && t->type == TokenType::Ident) {
+            value.keyword = cssWideKeyword(t->text);
+        }
+
+        for (; t < value.tokens.end && !value.substitutes; t++) {
+            value.substitutes = isFunction(t, SV("var")) || isFunction(t, SV("env"));
+        }
+
+        doc.values.pushBack(value);
+
+        return (u32)doc.values.length() - 1;
+    }
+
+    // A value of tokens built elsewhere, copied into the pool.
+    static u32 keptValue(const Document& doc, const Vector<Token>& tokens) {
+        Token* kept = (Token*)doc.pool->allocate(sizeof(Token) * (tokens.length() + 1));
+
+        if (tokens.length()) {
+            memcpy(kept, tokens.data(), sizeof(Token) * tokens.length());
+        }
+
+        return addValue(doc, Tokens{kept, kept + tokens.length()});
+    }
+
+    // The value of an atom's text read as CSS, tokenized once.
+    static u32 valueOfAtom(const Document& doc, u32 atom) {
+        coverAtoms(doc, doc.atomValues);
+
+        if (!doc.atomValues[atom]) {
+            doc.atomValues.mut(atom) = addValue(doc, tokenize(*doc.pool, textOf(doc, atom)));
+        }
+
+        return doc.atomValues[atom];
+    }
+
+    // The value of a text the renderer writes, as an initial value is,
+    // tokenized once.
+    static u32 keywordValue(const Document& doc, StringView text) {
+        for (size_t k = 0; k < doc.constantTexts.length(); k++) {
+            if (doc.constantTexts[k].data() == text.data() && doc.constantTexts[k].length() == text.length()) {
+                return doc.constantValues[k];
+            }
+        }
+
+        u32 value = addValue(doc, tokenize(*doc.pool, text));
+
+        doc.constantTexts.pushBack(text);
+        doc.constantValues.pushBack(value);
+
+        return value;
+    }
+
+    // The atom of a value that an attribute holds when a declaration sets
+    // it: its tokens are the atom's value, its text none. One for each
+    // value, which every node a declaration sets takes.
+    static u32 valueAtom(Document& doc, u32 value) {
+        u32 atom = doc.values[value].atom;
+
+        if (!atom) {
+            atom = (u32)doc.atoms.texts.length();
+            doc.atoms.texts.pushBack(StringView());
+            coverAtoms(doc, doc.atomValues);
+            doc.atomValues.mut(atom) = value;
+            doc.values.mut(value).atom = atom;
+        }
+
+        return atom;
+    }
+
+    // The tokens of an attribute's value read as CSS: one token alone is
+    // read off its text into one; more, or a function, are the kept
+    // tokens of its atom, which a length's math function points into.
+    static Tokens attributeTokens(const Document& doc, u32 atom, Token& one) {
+        if (atom < doc.atomValues.length() && doc.atomValues[atom]) {
+            return doc.values[doc.atomValues[atom]].tokens;
+        }
+
+        StringView text = textOf(doc, atom);
+        Lexer x{doc.pool, text.begin(), text.end()};
+
+        skipBlank(x);
+
+        if (x.p == x.end) {
+            return Tokens{&one, &one};
+        }
+
+        one = consumeToken(x);
+        skipBlank(x);
+
+        if (x.p == x.end && closerOf(one.type) == one.type) {
+            return Tokens{&one, &one + 1};
+        }
+
+        return doc.values[valueOfAtom(doc, atom)].tokens;
+    }
+
+    // The tokens of an attribute's value read as CSS, for a use that keeps
+    // none: of a declaration's value it holds, or its text tokenized into
+    // scratch.
+    static Tokens readTokens(const Document& doc, u32 atom, Vector<Token>& scratch) {
+        if (atom < doc.atomValues.length() && doc.atomValues[atom]) {
+            return doc.values[doc.atomValues[atom]].tokens;
+        }
+
+        tokenizeInto(*doc.pool, textOf(doc, atom), scratch);
+
+        return Tokens{scratch.data(), scratch.data() + scratch.length()};
+    }
+
+    static bool readMathNumber(const Token*& p, const Token* end, float& out);
+
+    // Past what parts two numbers of a list: white space, a comma perhaps.
+    static void skipListComma(Lexer& x) {
+        skipBlank(x);
+
+        if (at(x.p, x.end, ',')) {
+            x.p++;
+            skipBlank(x);
+        }
+    }
+
+    // The next number of a list in an attribute, read as CSS one token at
+    // a time (svg2/types.md#syntax, D30): a number token, or a math
+    // function of a number, whose tokens alone are kept while it is read.
+    // False at the end, or at what is no number.
+    static bool listNumber(Lexer& x, float& out) {
+        skipBlank(x);
+
+        if (x.p >= x.end) {
+            return false;
+        }
+
+        const u8* start = x.p;
+        Token t = consumeToken(x);
+
+        if (t.type == TokenType::Number) {
+            out = (float)t.number;
+
+            return true;
+        }
+
+        if (t.type != TokenType::Function) {
+            return false;
+        }
+
+        Vector<TokenType> open;
+        Vector<Token> tokens;
+
+        open.pushBack(TokenType::CloseParen);
+
+        for (consumeComments(x); x.p < x.end && !open.empty(); consumeComments(x)) {
+            Token u = consumeToken(x);
+
+            if (closerOf(u.type) != u.type) {
+                open.pushBack(closerOf(u.type));
+            } else if (u.type == open.back()) {
+                open.popBack();
+            }
+        }
+
+        tokenizeInto(*x.pool, StringView(start, x.p), tokens);
+
+        const Token* p = tokens.data();
+
+        return readMathNumber(p, p + tokens.length(), out) && p == tokens.data() + tokens.length();
+    }
+
+    // Whether an attribute's value is blank: white space alone, but for the
+    // atom of a declaration's value, which has no text.
+    static bool blank(const Document& doc, u32 atom) {
+        return doc.atoms.texts[atom].data() && trim(textOf(doc, atom)).empty();
+    }
+
+    // A value as the cascade keeps it: its index among the document's
+    // values, or, with atomValue, an attribute's atom read as CSS.
+    constexpr u32 atomValue = 0x80000000u;
+
+    static Tokens valueTokens(const Document& doc, u32 value, Token& one) {
+        return value & atomValue ? attributeTokens(doc, value & ~atomValue, one) : doc.values[value].tokens;
+    }
+
+    static CssKeyword valueKeyword(const Document& doc, u32 value) {
+        Token one;
+        Tokens tokens = valueTokens(doc, value, one);
+
+        return tokens.end - tokens.begin == 1 && tokens.begin->type == TokenType::Ident ? cssWideKeyword(tokens.begin->text) : CssNone;
+    }
+
+    // Whether var() or env() is in a value; an attribute's is looked for
+    // in its text first, which tokenizes only one that may hold them.
+    static bool valueSubstitutes(const Document& doc, u32 value) {
+        if (!(value & atomValue)) {
+            return doc.values[value].substitutes;
+        }
+
+        u32 atom = value & ~atomValue;
+        StringView text = textOf(doc, atom);
+        bool named = !doc.atoms.texts[atom].data();
+
+        for (const u8* p = text.length() > 3 ? text.begin() + 3 : text.end(); p < text.end() && !named; p++) {
+            named = *p == '(' && (equalsIgnoreCase(StringView(p - 3, p), SV("var")) || equalsIgnoreCase(StringView(p - 3, p), SV("env")));
+        }
+
+        return named && doc.values[valueOfAtom(doc, atom)].substitutes;
+    }
+
+    // Whether the tokens are a <declaration-value>, or none (css-syntax-3
+    // 7.2): no bad string or url, no closing token it does not open, no
+    // '!' delim outside a function or block.
+    static bool declarationValue(Tokens value) {
+        for (const Token* t = value.begin; t < value.end; t++) {
+            if (t->type == TokenType::BadString || t->type == TokenType::BadUrl || (t->flags & TokenUnmatched)) {
+                return false;
+            }
+        }
+
+        for (const Token* t = value.begin; t < value.end; t += t->span + 1) {
+            if (isDelim(t, '!')) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Whether each var() and env() among tokens has a first argument, as
+    // their grammars have it (css-variables-1 2.1, 3): a declaration with
+    // one that has none is invalid as it is read.
+    static bool validSubstitutions(Tokens tokens) {
+        for (const Token* t = tokens.begin; t < tokens.end; t++) {
+            if (isFunction(t, SV("var")) || isFunction(t, SV("env"))) {
+                const Token* p = t + 1;
+
+                skipWhitespace(p, t + t->span);
+
+                if (p == t + t->span || p->type == TokenType::Comma) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    static bool validGeometry(u32 property, Tokens value);
+    static bool validDeclaration(const Document& doc, u32 property, Tokens value);
+    static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts]);
+    static bool expandMaskBorder(const Document& doc, Tokens value, u32 (&out)[MaskBorderParts]);
+    static u32 backgroundColorOf(const Document& doc, Tokens value);
+
+    // A declaration into out (css-cascade-5): of a custom property, its
+    // name kept as written; of a property; or of a shorthand, as its
+    // longhands, the background shorthand read for its colour alone, the
+    // canvas's; an invalid one is left out. A CSS-wide keyword sets every
+    // longhand of a shorthand to it, all every property. A value with
+    // var() or env() in it is valid until a node's custom properties
+    // substitute them (css-variables-1 3); a shorthand's longhands keep the
+    // shorthand's, to read it again then.
+    static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out) {
+        static const u32 geometries[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomD, AtomTransform, AtomTransformOrigin, AtomTransformBox, AtomTranslate, AtomRotate, AtomScale, AtomPathLengthProperty};
+        StringView name = declaration.name;
+        Tokens tokens = trimmed(declaration.value);
+        bool important = declaration.important;
+        u8 lowered[64];
+
+        if (!validSubstitutions(tokens)) {
+            return;
+        }
+
+        if (name.length() >= 2 && name[0] == '-' && name[1] == '-') {
+            if (name.length() > 2 && declarationValue(tokens)) {
+                out.pushBack(Declaration{intern(doc.atoms, name), addValue(doc, tokens), 0, important, true});
             }
 
-            StringView item(p, stop);
-            const u8* colon = findOutside(item.begin(), item.end(), ':');
+            return;
+        }
 
-            p = stop < end ? stop + 1 : end;
+        if (name.length() > 64 || tokens.begin == tokens.end) {
+            return;
+        }
 
-            if (!colon) {
-                continue;
-            }
+        for (size_t i = 0; i < name.length(); i++) {
+            lowered[i] = lowerAscii(name[i]);
+        }
 
-            Buffer plainName;
-            Buffer plainValue;
-            StringView name = unescapeCss(trim(StringView(item.begin(), colon)), plainName);
-            StringView value = trim(StringView(colon + 1, item.end()));
-            bool important = false;
+        StringView low(lowered, name.length());
+        u32 property = low == SV("-webkit-clip-path") ? AtomClipPathProperty : lookup(doc.atoms, low);
+        u32 shorthand = 0;
 
-            if (name.length() == 0 || name.length() > 64) {
-                continue;
-            }
+        if (low == SV("background") || low == SV("all")) {
+            shorthand = intern(doc.atoms, low == SV("all") ? SV("all") : SV("background"));
+        } else if (property == AtomMarker || property == AtomMask || property == AtomMaskBorder) {
+            shorthand = property;
+        } else if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property)) {
+            return;
+        }
 
-            for (const u8* bang = value.end(); bang > value.begin(); bang--) {
-                Buffer word;
+        u32 value = addValue(doc, tokens);
+        CssKeyword keyword = doc.values[value].keyword;
+        bool pending = doc.values[value].substitutes;
+        u32 longhands[propertyCount + 17];
+        u32 count = 0;
 
-                if (bang[-1] == '!') {
-                    if (equalsIgnoreCase(unescapeCss(trim(StringView(bang, value.end())), word), SV("important"))) {
-                        important = true;
-                        value = trim(StringView(value.begin(), bang - 1));
-                    }
+        if (shorthand && (keyword || pending)) {
+            if (low == SV("all")) {
+                for (u32 k = firstProperty; k < firstProperty + propertyCount; k++) {
+                    longhands[count++] = k;
+                }
 
-                    break;
+                for (u32 k : geometries) {
+                    longhands[count++] = k;
+                }
+            } else if (low == SV("background")) {
+                longhands[count++] = AtomBackgroundColor;
+            } else if (property == AtomMarker) {
+                longhands[count++] = AtomMarkerStart;
+                longhands[count++] = AtomMarkerMid;
+                longhands[count++] = AtomMarkerEnd;
+            } else {
+                for (u32 k = 0; property == AtomMask && k < MaskParts; k++) {
+                    longhands[count++] = AtomMaskImage + k;
+                }
+
+                for (u32 k = 0; k < MaskBorderParts; k++) {
+                    longhands[count++] = AtomMaskBorderSource + k;
                 }
             }
 
-            u8 lowered[64];
-
-            for (size_t i = 0; i < name.length(); i++) {
-                lowered[i] = lowerAscii(name[i]);
+            for (u32 k = 0; k < count; k++) {
+                out.pushBack(Declaration{longhands[k], value, pending ? shorthand : 0, important, false});
             }
 
-            u32 property = lookup(doc.atoms, StringView(lowered, name.length()));
+            return;
+        }
 
-            if (StringView(lowered, name.length()) == SV("-webkit-clip-path")) {
-                property = AtomClipPathProperty;
-            }
+        if (keyword || pending) {
+            out.pushBack(Declaration{property, value, 0, important, false});
 
-            // background is read for its colour alone, the canvas's.
-            bool background = StringView(lowered, name.length()) == SV("background");
+            return;
+        }
 
-            if (background) {
-                property = AtomBackgroundColor;
-            }
+        u32 parts[MaskParts];
+        u32 borders[MaskBorderParts];
 
-            // all sets every property to a CSS-wide keyword, the only value
-            // it takes (css-cascade-5 3.2); the renderer has no direction
-            // nor unicode-bidi it would leave out.
-            if (StringView(lowered, name.length()) == SV("all")) {
-                static const u32 geometries[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomD, AtomTransform, AtomTransformOrigin, AtomTransformBox, AtomTranslate, AtomRotate, AtomScale, AtomPathLengthProperty};
-                u32 keyword = intern(doc.atoms, value);
-
-                for (u32 k = firstProperty; cssWideKeyword(value) && k < firstProperty + propertyCount; k++) {
-                    out.pushBack(Declaration{k, keyword, important});
+        // all takes nothing but a CSS-wide keyword; mask sets mask-border's
+        // longhands to their initial values, as CSS Masking has it.
+        if (low == SV("all")) {
+            return;
+        } else if (low == SV("background")) {
+            out.pushBack(Declaration{AtomBackgroundColor, backgroundColorOf(doc, tokens), 0, important, false});
+        } else if (property == AtomMask) {
+            if (expandMask(doc, tokens, parts)) {
+                for (u32 k = 0; k < MaskParts; k++) {
+                    out.pushBack(Declaration{AtomMaskImage + k, parts[k], 0, important, false});
                 }
 
-                for (u32 k = 0; cssWideKeyword(value) && k < sizeof(geometries) / sizeof(geometries[0]); k++) {
-                    out.pushBack(Declaration{geometries[k], keyword, important});
+                for (u32 k = 0; k < MaskBorderParts; k++) {
+                    out.pushBack(Declaration{AtomMaskBorderSource + k, keywordValue(doc, SV("initial")), 0, important, false});
                 }
-
-                continue;
             }
-
-            if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property) && property != AtomMarker && property != AtomMask && property != AtomMaskBorder) {
-                continue;
-            }
-
-            StringView decoded = decodeCssValue(value, plainValue);
-
-            value = decoded.data() == value.data() ? value : keep(*doc.pool, decoded.data(), decoded.length());
-
-            if (value.empty()) {
-                continue;
-            }
-
-            Buffer substituted;
-
-            // A var() with no fallback, as the renderer knows no custom
-            // property, or an env() of none, leaves the declaration invalid
-            // at computed-value time: it is unset.
-            if (findFunction(value, SV("var(")) || findFunction(value, SV("env("))) {
-                value = substituteFallbacks(value, substituted, 0) ? trim(keep(*doc.pool, substituted.data(), substituted.length())) : SV("unset");
-            }
-
-            if (background) {
-                value = backgroundColorOf(value);
-            }
-
-            u32 parts[MaskParts];
-            u32 borders[MaskBorderParts];
-
-            // mask sets its longhands, and mask-border's to their initial
-            // values, as CSS Masking has it, or all to a CSS-wide keyword
-            // (css-cascade-5 3.1); mask-border its own. An invalid one is
-            // dropped whole.
-            if (property == AtomMask) {
-                if (expandMask(doc, value, parts)) {
-                    for (u32 k = 0; k < MaskParts; k++) {
-                        out.pushBack(Declaration{AtomMaskImage + k, parts[k], important});
-                    }
-
-                    for (u32 k = 0; k < MaskBorderParts; k++) {
-                        out.pushBack(Declaration{AtomMaskBorderSource + k, cssWideKeyword(value) ? parts[0] : intern(doc.atoms, SV("initial")), important});
-                    }
+        } else if (property == AtomMaskBorder) {
+            if (expandMaskBorder(doc, tokens, borders)) {
+                for (u32 k = 0; k < MaskBorderParts; k++) {
+                    out.pushBack(Declaration{AtomMaskBorderSource + k, borders[k], 0, important, false});
                 }
-
-                continue;
             }
-
-            if (property == AtomMaskBorder) {
-                if (expandMaskBorder(doc, value, borders)) {
-                    for (u32 k = 0; k < MaskBorderParts; k++) {
-                        out.pushBack(Declaration{AtomMaskBorderSource + k, borders[k], important});
-                    }
-                }
-
-                continue;
-            }
-
-            if (property == AtomMarker) {
-                if (!value.empty()) {
-                    u32 atom = intern(doc.atoms, value);
-
-                    out.pushBack(Declaration{AtomMarkerStart, atom, important});
-                    out.pushBack(Declaration{AtomMarkerMid, atom, important});
-                    out.pushBack(Declaration{AtomMarkerEnd, atom, important});
-                }
-
-                continue;
-            }
-
+        } else if (property == AtomMarker) {
+            out.pushBack(Declaration{AtomMarkerStart, value, 0, important, false});
+            out.pushBack(Declaration{AtomMarkerMid, value, 0, important, false});
+            out.pushBack(Declaration{AtomMarkerEnd, value, 0, important, false});
+        } else if (geometryProperty(property) ? validGeometry(property, tokens) : validDeclaration(doc, property, tokens)) {
             // An invalid declaration of geometry is dropped, as CSS drops
             // it: the attribute stays.
-            if (geometryProperty(property) && !validGeometry(property, value)) {
-                continue;
-            }
-
-            // A valid path() holds one quoted string: its data.
-            if (property == AtomD && startsWithIgnoreCase(value, SV("path("))) {
-                StringView inner = trim(StringView(value.begin() + 5, value.end() - 1));
-
-                value = StringView(inner.begin() + 1, inner.end() - 1);
-            }
-
-            out.pushBack(Declaration{property, intern(doc.atoms, value), important});
+            out.pushBack(Declaration{property, value, 0, important, false});
         }
     }
 
-    static bool readNumber(const u8*& p, const u8* end, float& out);
-    static bool parseLength(StringView text, Length& out);
     static float resolveLength(Length length, Axis axis, Viewport vp, float fontSize);
     static bool parseViewBox(const Document& doc, const Node* node, Box& out);
+    static bool attributeLength(const Document& doc, u32 atom, Length& out);
 
     // Media queries as a still picture on a screen answers them: the types
     // all and screen; the viewport the root's own size; a colour display of
@@ -6111,17 +6472,18 @@ namespace {
         return t == Tristate::Unknown ? t : tristate(t == Tristate::False);
     }
 
-    // A word of a media query, lowered: letters, digits and hyphens.
-    static StringView mediaWord(const u8*& p, const u8* end, u8* buffer) {
-        size_t n = 0;
-
-        skipSpaces(p, end);
-
-        while (p < end && n < 64 && isIdentChar(*p)) {
-            buffer[n++] = lowerAscii(*p++);
+    // An ident's value, lowered into buffer; empty for any other token, or
+    // one too long to name anything.
+    static StringView loweredIdent(const Token* t, u8 (&buffer)[64]) {
+        if (t->type != TokenType::Ident || t->text.length() > 64) {
+            return StringView();
         }
 
-        return StringView(buffer, n);
+        for (size_t i = 0; i < t->text.length(); i++) {
+            buffer[i] = lowerAscii(t->text[i]);
+        }
+
+        return StringView(buffer, t->text.length());
     }
 
     // A keyword feature's value; empty for a name that is not one.
@@ -6184,67 +6546,6 @@ namespace {
         return true;
     }
 
-    // A value a numeric feature compares with, as the name takes it.
-    static bool mediaValue(Viewport view, StringView name, StringView text, float& out) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
-        u8 buffer[64];
-        Length length;
-        float below = 1.f;
-
-        if (name == SV("aspect-ratio") || name == SV("device-aspect-ratio")) {
-            if (!readNumber(p, end, out)) {
-                return false;
-            }
-
-            skipSpaces(p, end);
-
-            if (at(p, end, '/')) {
-                p++;
-                skipSpaces(p, end);
-
-                if (!readNumber(p, end, below) || below <= 0.f) {
-                    return false;
-                }
-            }
-
-            out /= below;
-
-            return p == end;
-        }
-
-        if (name == SV("resolution")) {
-            if (!readNumber(p, end, out)) {
-                return false;
-            }
-
-            StringView unit = mediaWord(p, end, buffer);
-
-            if (unit == SV("dpi")) {
-                out /= 96.f;
-            } else if (unit == SV("dpcm")) {
-                out *= 2.54f / 96.f;
-            } else if (unit != SV("dppx") && unit != SV("x")) {
-                return false;
-            }
-
-            return p == end;
-        }
-
-        if (name == SV("width") || name == SV("height") || name == SV("device-width") || name == SV("device-height")) {
-            // A length takes a unit, but zero.
-            if (!parseLength(text, length) || percentLength(length) || (length.unit == Unit::Number && (length.value != 0.f || length.calc))) {
-                return false;
-            }
-
-            out = resolveLength(length, Axis::X, view, 16.f);
-
-            return true;
-        }
-
-        return parseNumberText(text, out);
-    }
-
     // Whether have compares with want as the operator says: < <= > >= =.
     static bool mediaCompare(float have, StringView op, float want) {
         if (op == SV("<")) {
@@ -6262,31 +6563,117 @@ namespace {
         return op == SV(">=") ? have >= want : have == want;
     }
 
-    // One media feature, the text in its parentheses: a name alone, a name
-    // and a value, or a range of one or two comparisons.
-    static Tristate mediaFeature(Viewport view, StringView text) {
+    static bool parseLength(Tokens value, Length& out);
+    static bool parseNumber(Tokens value, float& out);
+    static bool percentLength(const Length& length);
+    static float resolveLength(Length length, Axis axis, Viewport vp, float fontSize);
+
+    // A value a numeric feature compares with, as the name takes it: a
+    // ratio, a resolution, a length, which takes a unit but for zero, or a
+    // number.
+    static bool mediaValue(Viewport view, StringView name, Tokens value, float& out) {
+        const Token* p = value.begin;
+        const Token* end = value.end;
+        Length length;
+
+        skipWhitespace(p, end);
+
+        if (name == SV("aspect-ratio") || name == SV("device-aspect-ratio")) {
+            float below = 1.f;
+
+            if (p >= end || p->type != TokenType::Number) {
+                return false;
+            }
+
+            out = (float)p->number;
+            p++;
+            skipWhitespace(p, end);
+
+            if (p < end && isDelim(p, '/')) {
+                p++;
+                skipWhitespace(p, end);
+
+                if (p >= end || p->type != TokenType::Number || p->number <= 0.0) {
+                    return false;
+                }
+
+                below = (float)p->number;
+                p++;
+                skipWhitespace(p, end);
+            }
+
+            out /= below;
+
+            return p == end;
+        }
+
+        value = trimmed(value);
+        p = single(value);
+
+        if (!p) {
+            return false;
+        }
+
+        if (name == SV("resolution")) {
+            if (p->type != TokenType::Dimension) {
+                return false;
+            }
+
+            out = (float)p->number;
+
+            if (equalsIgnoreCase(p->text, SV("dpi"))) {
+                out /= 96.f;
+            } else if (equalsIgnoreCase(p->text, SV("dpcm"))) {
+                out *= 2.54f / 96.f;
+            } else if (!equalsIgnoreCase(p->text, SV("dppx")) && !equalsIgnoreCase(p->text, SV("x"))) {
+                return false;
+            }
+
+            return true;
+        }
+
+        if (name == SV("width") || name == SV("height") || name == SV("device-width") || name == SV("device-height")) {
+            if (!parseLength(value, length) || percentLength(length) || (length.unit == Unit::Number && (length.value != 0.f || length.calc))) {
+                return false;
+            }
+
+            out = resolveLength(length, Axis::X, view, 16.f);
+
+            return true;
+        }
+
+        return parseNumber(value, out);
+    }
+
+    // One media feature, the contents of its ()-block: a name alone, a
+    // name, a colon and a value, or a range of one or two comparisons.
+    static Tristate mediaFeature(Viewport view, Tokens feature) {
         u8 buffer[64];
-        const u8* colon = findOutside(text.begin(), text.end(), ':');
+        const Token* colon = nullptr;
         float have;
         float want;
 
+        feature = trimmed(feature);
+
+        for (const Token* p = feature.begin; p < feature.end && !colon; p += p->span + 1) {
+            colon = p->type == TokenType::Colon ? p : nullptr;
+        }
+
         if (colon) {
-            const u8* p = text.begin();
-            StringView name = mediaWord(p, colon, buffer);
-            StringView value = trim(StringView(colon + 1, text.end()));
+            Tokens before = trimmed(Tokens{feature.begin, colon});
+            StringView name = before.end - before.begin == 1 ? loweredIdent(before.begin, buffer) : StringView();
+            Tokens value = trimmed(Tokens{colon + 1, feature.end});
             bool min = startsWithIgnoreCase(name, SV("min-"));
             bool max = startsWithIgnoreCase(name, SV("max-"));
             StringView base = min || max ? StringView(name.begin() + 4, name.end()) : name;
-            StringView keyword = mediaKeyword(view, base);
+            StringView keyword = name.empty() ? StringView() : mediaKeyword(view, base);
 
-            skipSpaces(p, colon);
-
-            if (p != colon) {
+            if (name.empty()) {
                 return Tristate::Unknown;
             }
 
             if (!keyword.empty()) {
-                return min || max ? Tristate::Unknown : tristate(equalsIgnoreCase(value, keyword));
+                return min || max ? Tristate::Unknown : tristate(isKeyword(value, keyword));
             }
 
             if (!mediaNumber(view, base, have) || !mediaValue(view, base, value, want)) {
@@ -6296,34 +6683,32 @@ namespace {
             return tristate(min ? have >= want : max ? have <= want : have == want);
         }
 
-        // A range: operands apart by the operators.
-        StringView parts[3];
+        // A range: operands apart by operators, each <, >, = or <=, >=,
+        // their delims with nothing between.
+        Tokens parts[3];
         StringView ops[2];
         u32 count = 0;
-        const u8* start = text.begin();
+        const Token* start = feature.begin;
 
-        for (const u8* p = text.begin(); p < text.end() && count < 3;) {
-            if (*p == '<' || *p == '>' || *p == '=') {
-                const u8* op = p;
+        for (const Token* p = feature.begin; p < feature.end && count < 3;) {
+            if (isDelim(p, '<') || isDelim(p, '>') || isDelim(p, '=')) {
+                bool equal = !isDelim(p, '=') && p + 1 < feature.end && isDelim(p + 1, '=');
 
-                p += 1 + (*p != '=' && p + 1 < text.end() && p[1] == '=');
-                parts[count] = trim(StringView(start, op));
-                ops[count < 2 ? count : 1] = StringView(op, p);
+                parts[count] = trimmed(Tokens{start, p});
+                ops[count < 2 ? count : 1] = isDelim(p, '=') ? SV("=") : (isDelim(p, '<') ? (equal ? SV("<=") : SV("<")) : (equal ? SV(">=") : SV(">")));
                 count++;
+                p += equal ? 2 : 1;
                 start = p;
             } else {
-                p++;
+                p += p->span + 1;
             }
         }
 
         if (count == 0) {
-            const u8* p = text.begin();
-            StringView name = mediaWord(p, text.end(), buffer);
-            StringView keyword = mediaKeyword(view, name);
+            StringView name = feature.end - feature.begin == 1 ? loweredIdent(feature.begin, buffer) : StringView();
+            StringView keyword = name.empty() ? StringView() : mediaKeyword(view, name);
 
-            skipSpaces(p, text.end());
-
-            if (p != text.end()) {
+            if (name.empty()) {
                 return Tristate::Unknown;
             }
 
@@ -6338,15 +6723,14 @@ namespace {
             return Tristate::Unknown;
         }
 
-        parts[count] = trim(StringView(start, text.end()));
+        parts[count] = trimmed(Tokens{start, feature.end});
 
         // The name is the operand that reads as one: first or last of one
         // comparison, the middle of two whose operators point one way.
         for (u32 at = 0; at <= count; at++) {
-            const u8* p = parts[at].begin();
-            StringView name = mediaWord(p, parts[at].end(), buffer);
+            StringView name = parts[at].end - parts[at].begin == 1 ? loweredIdent(parts[at].begin, buffer) : StringView();
 
-            if (p != parts[at].end() || (count == 2 && at != 1) || !mediaNumber(view, name, have)) {
+            if (name.empty() || (count == 2 && at != 1) || !mediaNumber(view, name, have)) {
                 continue;
             }
 
@@ -6374,55 +6758,45 @@ namespace {
         return Tristate::Unknown;
     }
 
-    static Tristate mediaCondition(Viewport view, const u8*& p, const u8* end, u32 depth);
+    static Tristate mediaCondition(Viewport view, const Token*& p, const Token* end, u32 depth);
 
-    // A condition in parentheses: a nested condition or a feature; unknown
-    // past them, or without them.
-    static Tristate mediaInParens(Viewport view, const u8*& p, const u8* end, u32 depth) {
-        skipSpaces(p, end);
+    // A condition in parentheses at p: a nested condition or a feature;
+    // unknown for anything else, a function of general-enclosed among it.
+    static Tristate mediaInParens(Viewport view, const Token*& p, const Token* end, u32 depth) {
+        skipWhitespace(p, end);
 
-        if (!at(p, end, '(') || depth > 32) {
-            p = end;
-
+        if (p >= end) {
             return Tristate::Unknown;
         }
 
-        const u8* close = p + 1;
-        u32 level = 1;
+        const Token* block = p;
 
-        while (close < end && level) {
-            level += *close == '(';
-            level -= *close == ')';
-            close += level != 0;
+        p += p->span + 1;
+
+        if (block->type != TokenType::OpenParen || depth > 32) {
+            return Tristate::Unknown;
         }
 
-        StringView inner = trim(StringView(p + 1, close));
-        const u8* q = inner.begin();
-        u8 buffer[64];
-        StringView first = mediaWord(q, inner.end(), buffer);
-        Tristate result;
+        Tokens inner = trimmed(contents(block));
 
-        p = close < end ? close + 1 : end;
-        q = inner.begin();
+        if (inner.begin < inner.end && (inner.begin->type == TokenType::OpenParen || isIdent(inner.begin, SV("not")))) {
+            const Token* q = inner.begin;
+            Tristate result = mediaCondition(view, q, inner.end, depth + 1);
 
-        if (at(q, inner.end(), '(') || first == SV("not")) {
-            result = mediaCondition(view, q, inner.end(), depth + 1);
-            skipSpaces(q, inner.end());
+            skipWhitespace(q, inner.end);
 
-            return q == inner.end() ? result : Tristate::Unknown;
+            return q == inner.end ? result : Tristate::Unknown;
         }
 
         return mediaFeature(view, inner);
     }
 
     // not, or conditions in parentheses joined by and or by or.
-    static Tristate mediaCondition(Viewport view, const u8*& p, const u8* end, u32 depth) {
-        u8 buffer[64];
-        const u8* q = p;
-        StringView word = mediaWord(q, end, buffer);
+    static Tristate mediaCondition(Viewport view, const Token*& p, const Token* end, u32 depth) {
+        skipWhitespace(p, end);
 
-        if (word == SV("not")) {
-            p = q;
+        if (p < end && isIdent(p, SV("not"))) {
+            p++;
 
             return tristateNot(mediaInParens(view, p, end, depth));
         }
@@ -6430,16 +6804,17 @@ namespace {
         Tristate result = mediaInParens(view, p, end, depth);
 
         for (;;) {
-            q = p;
-            word = mediaWord(q, end, buffer);
+            const Token* q = p;
 
-            if (word != SV("and") && word != SV("or")) {
+            skipWhitespace(q, end);
+
+            if (!(q < end && (isIdent(q, SV("and")) || isIdent(q, SV("or"))))) {
                 return result;
             }
 
-            bool both = word == SV("and");
+            bool both = isIdent(q, SV("and"));
 
-            p = q;
+            p = q + 1;
 
             Tristate next = mediaInParens(view, p, end, depth);
 
@@ -6453,43 +6828,44 @@ namespace {
 
     // One media query: a condition, or a type, perhaps after not or only,
     // and conditions after and.
-    static bool mediaQuery(Viewport view, StringView text) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
-        u8 buffer[64];
-        u8 typeBuffer[64];
-        const u8* q = p;
-        StringView word = mediaWord(q, end, buffer);
-        bool negate = false;
+    static bool mediaQuery(Viewport view, Tokens query) {
+        const Token* p = query.begin;
+        const Token* end = query.end;
         Tristate result;
 
-        skipSpaces(p, end);
+        skipWhitespace(p, end);
 
-        if (at(p, end, '(') || (word == SV("not") && (skipSpaces(q, end), at(q, end, '(')))) {
+        const Token* after = p + (p < end && isIdent(p, SV("not")));
+
+        skipWhitespace(after, end);
+
+        if (p < end && (p->type == TokenType::OpenParen || (isIdent(p, SV("not")) && after < end && after->type == TokenType::OpenParen))) {
             result = mediaCondition(view, p, end, 0);
         } else {
-            if (word == SV("not") || word == SV("only")) {
-                negate = word == SV("not");
-                p = q;
+            bool negate = p < end && isIdent(p, SV("not"));
+
+            if (negate || (p < end && isIdent(p, SV("only")))) {
+                p++;
+                skipWhitespace(p, end);
             }
 
-            StringView type = mediaWord(p, end, typeBuffer);
-
-            if (type.empty() || type == SV("and") || type == SV("or") || type == SV("not") || type == SV("only")) {
+            if (p >= end || p->type != TokenType::Ident || isIdent(p, SV("and")) || isIdent(p, SV("or")) || isIdent(p, SV("not")) || isIdent(p, SV("only"))) {
                 return false;
             }
 
-            result = tristate(type == SV("all") || type == SV("screen"));
+            result = tristate(isIdent(p, SV("all")) || isIdent(p, SV("screen")));
+            p++;
 
             for (;;) {
-                q = p;
-                word = mediaWord(q, end, buffer);
+                const Token* q = p;
 
-                if (word != SV("and")) {
+                skipWhitespace(q, end);
+
+                if (!(q < end && isIdent(q, SV("and")))) {
                     break;
                 }
 
-                p = q;
+                p = q + 1;
 
                 Tristate next = mediaInParens(view, p, end, 0);
 
@@ -6499,34 +6875,28 @@ namespace {
             result = negate ? tristateNot(result) : result;
         }
 
-        skipSpaces(p, end);
+        skipWhitespace(p, end);
 
         return p == end && result == Tristate::True;
     }
 
     // A media query list: any of its queries; an empty list is all.
-    static bool mediaMatches(Viewport view, StringView text) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    static bool mediaMatches(Viewport view, Tokens list) {
+        Vector<Tokens> queries;
 
-        if (trim(text).empty()) {
+        if (trimmed(list).begin == trimmed(list).end) {
             return true;
         }
 
-        for (;;) {
-            const u8* comma = findOutside(p, end, ',');
-            const u8* stop = comma ? comma : end;
+        commaItems(list, queries);
 
-            if (mediaQuery(view, trim(StringView(p, stop)))) {
+        for (Tokens query : queries) {
+            if (mediaQuery(view, query)) {
                 return true;
             }
-
-            if (!comma) {
-                return false;
-            }
-
-            p = comma + 1;
         }
+
+        return false;
     }
 
     // The viewport media queries see: the root's own width and height, or
@@ -6542,7 +6912,7 @@ namespace {
             u32 value = attribute(doc.root, names[k]);
             Length length;
 
-            if (value && parseLength(textOf(doc, value), length) && !percentLength(length) && length.value > 0.f) {
+            if (value && attributeLength(doc, value, length) && !percentLength(length) && length.value > 0.f) {
                 sides[k] = resolveLength(length, Axis::X, view, 16.f);
             }
         }
@@ -6550,27 +6920,146 @@ namespace {
         return Viewport{sides[0], sides[1], sides[0], sides[1], 16.f};
     }
 
-    // The rules of a sheet's text, the rules of @media blocks the query of
-    // which matches among them; other at-rules are left out.
-    // The layer a dotted layer name names under parent, made after the
-    // layers in it when it is new (css-cascade-5 6.4.3), unless make is
-    // off. False for text that is no layer name, which makes none; a
-    // CSS-wide keyword is none.
-    static bool namedLayer(Document& doc, u32 parent, StringView text, u32& out, bool make = true) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    // The declaration at p: an ident, a colon, and its value to a ';' or
+    // the end of the block, p past it. False when p starts no ident and
+    // colon, or when the value holds a {}-block and anything else, which
+    // only a custom property's may.
+    static bool consumeDeclaration(const Token*& p, const Token* end, CssDeclaration& out) {
+        if (p->type != TokenType::Ident) {
+            return false;
+        }
+
+        out.name = p->text;
+        out.important = false;
+        p++;
+        skipWhitespace(p, end);
+
+        if (p >= end || p->type != TokenType::Colon) {
+            return false;
+        }
+
+        const Token* begin = ++p;
+
+        while (p < end && p->type != TokenType::Semicolon) {
+            p += p->span + 1;
+        }
+
+        Tokens value = trimmed(Tokens{begin, p});
+
+        // !important: a '!' delim and the ident, white space between them.
+        if (value.end > value.begin && isIdent(value.end - 1, SV("important"))) {
+            const Token* bang = value.end - 1;
+
+            while (bang > value.begin && bang[-1].type == TokenType::Whitespace) {
+                bang--;
+            }
+
+            if (bang > value.begin && isDelim(bang - 1, '!')) {
+                out.important = true;
+                value = trimmed(Tokens{value.begin, bang - 1});
+            }
+        }
+
+        out.value = value;
+
+        bool custom = out.name.length() >= 2 && out.name[0] == '-' && out.name[1] == '-';
+        u32 parts = 0;
+        bool block = false;
+
+        for (const Token* q = value.begin; q < value.end; q += q->span + 1) {
+            parts += q->type != TokenType::Whitespace;
+            block = block || q->type == TokenType::OpenCurly;
+        }
+
+        return custom || !block || parts == 1;
+    }
+
+    // Past the at-rule at p (5.5.2): its name, its prelude, then a ';', its
+    // {}-block, or the end; out its prelude, and block its block's
+    // contents, which a statement has none of.
+    static void consumeAtRule(const Token*& p, const Token* end, Tokens& prelude, Tokens& block) {
+        const Token* begin = ++p;
+
+        block = Tokens{nullptr, nullptr};
+
+        while (p < end && p->type != TokenType::Semicolon && p->type != TokenType::OpenCurly) {
+            p += p->span + 1;
+        }
+
+        prelude = trimmed(Tokens{begin, p});
+
+        if (p < end && p->type == TokenType::OpenCurly) {
+            block = contents(p);
+        }
+
+        p += p < end ? p->span + 1 : 0;
+    }
+
+    static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out);
+
+    // The declarations of a block's contents into out (5.5.5): an at-rule in
+    // it, or a rule nested in it, which the renderer applies neither of, is
+    // passed over; what is neither, nor a declaration, is a nested rule's
+    // prelude up to a ';'. A list of declarations, a style attribute's
+    // (5.4.5), passes over what is no declaration to its ';' instead.
+    static void consumeDeclarations(Document& doc, Tokens block, bool list, Vector<Declaration>& out) {
+        const Token* p = block.begin;
+        const Token* end = block.end;
+
+        while (p < end) {
+            if (p->type == TokenType::Whitespace || p->type == TokenType::Semicolon) {
+                p++;
+                continue;
+            }
+
+            if (p->type == TokenType::AtKeyword) {
+                Tokens prelude;
+                Tokens contents;
+
+                consumeAtRule(p, end, prelude, contents);
+                continue;
+            }
+
+            const Token* start = p;
+            CssDeclaration declaration;
+
+            if (consumeDeclaration(p, end, declaration)) {
+                declare(doc, declaration, out);
+                continue;
+            }
+
+            // A nested rule ends at its {}-block, a bad declaration at its ';'.
+            for (p = start; p < end && p->type != TokenType::Semicolon;) {
+                bool rule = !list && p->type == TokenType::OpenCurly;
+
+                p += p->span + 1;
+
+                if (rule) {
+                    break;
+                }
+            }
+        }
+    }
+
+    // The layer a dotted layer name names under parent: idents and '.'
+    // delims between them, nothing else; made after the layers in it when
+    // it is new (css-cascade-5 6.4.3), unless make is off. False for
+    // tokens that are no layer name, which makes none; a CSS-wide keyword
+    // is none.
+    static bool namedLayer(Document& doc, u32 parent, Tokens name, u32& out, bool make = true) {
+        const Token* p = name.begin;
+        const Token* end = name.end;
         Vector<u32> names;
 
         for (;;) {
-            StringView segment = readCssIdent(*doc.pool, p, end);
-
-            if (segment.empty() || cssWideKeyword(segment)) {
+            if (p >= end || p->type != TokenType::Ident || cssWideKeyword(p->text)) {
                 return false;
             }
 
-            names.pushBack(intern(doc.atoms, segment));
+            names.pushBack(intern(doc.atoms, p->text));
+            p++;
 
-            if (!at(p, end, '.')) {
+            if (!(p < end && isDelim(p, '.'))) {
                 break;
             }
 
@@ -6583,16 +7072,16 @@ namespace {
 
         out = parent;
 
-        for (u32 name : names) {
+        for (u32 segment : names) {
             u32 found = 0;
 
             for (u32 k = 1; k < doc.layers.length() && !found; k++) {
-                found = doc.layers[k].parent == out && doc.layers[k].name == name ? k : 0;
+                found = doc.layers[k].parent == out && doc.layers[k].name == segment ? k : 0;
             }
 
             if (!found) {
                 found = (u32)doc.layers.length();
-                doc.layers.pushBack(Layer{out, name, 0});
+                doc.layers.pushBack(Layer{out, segment, 0});
             }
 
             out = found;
@@ -6603,191 +7092,195 @@ namespace {
 
     // An @import loads nothing (D15), but the layer it names takes its place
     // in the layer order (css-cascade-5 6.4.3): layer, an anonymous one,
-    // or layer(name), after its url.
-    static void importLayer(Document& doc, u32 parent, StringView prelude) {
-        const u8* p = prelude.begin();
-        const u8* end = prelude.end();
-        StringView url;
-        Buffer scratch;
+    // or layer(name), after its url or string.
+    static void importLayer(Document& doc, u32 parent, Tokens prelude) {
+        const Token* p = prelude.begin;
+        const Token* end = prelude.end;
         u32 layer;
 
-        if (at(p, end, '"') || at(p, end, '\'')) {
-            p = skipCssString(p, end);
-        } else if (!readUrl(p, end, url, scratch)) {
+        if (p >= end || !(p->type == TokenType::Url || p->type == TokenType::String || isFunction(p, SV("url")))) {
             return;
         }
 
-        skipSpaces(p, end);
+        p += p->span + 1;
+        skipWhitespace(p, end);
 
-        if (!equalsIgnoreCase(readCssIdent(*doc.pool, p, end), SV("layer"))) {
-            return;
-        }
-
-        if (!at(p, end, '(')) {
+        if (p < end && isIdent(p, SV("layer"))) {
             doc.layers.pushBack(Layer{parent, 0, 0});
-            return;
-        }
-
-        const u8* close = findOutside(p + 1, end, ')');
-
-        if (close) {
-            namedLayer(doc, parent, trim(StringView(p + 1, close)), layer);
+        } else if (p < end && isFunction(p, SV("layer"))) {
+            namedLayer(doc, parent, trimmed(contents(p)), layer);
         }
     }
 
-    static void parseRules(Document& doc, Vector<Rule>& rules, StringView text, Viewport view, u32 depth, u32 layer) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    // A style rule: its selectors, its prelude's items apart by commas,
+    // each read whole, all valid, and its block's declarations.
+    static void addStyleRule(Document& doc, Vector<Rule>& rules, Tokens prelude, Tokens block, u32 layer) {
+        Vector<Tokens> items;
+        Vector<Selector> parsed;
+        Vector<Declaration> declarations;
+
+        commaItems(prelude, items);
+
+        for (Tokens item : items) {
+            Selector selector;
+
+            if (!parseComplex(doc, item, 0, selector)) {
+                return;
+            }
+
+            parsed.pushBack(selector);
+        }
+
+        consumeDeclarations(doc, block, false, declarations);
+
+        Rule rule;
+
+        rule.selectorCount = (u32)parsed.length();
+        rule.selectors = (Selector*)doc.pool->allocate(sizeof(Selector) * parsed.length());
+        memcpy(rule.selectors, parsed.data(), sizeof(Selector) * parsed.length());
+        rule.declarationCount = (u32)declarations.length();
+        rule.layer = layer;
+        rule.declarations = (Declaration*)doc.pool->allocate(sizeof(Declaration) * (declarations.length() + 1));
+
+        if (rule.declarationCount) {
+            memcpy(rule.declarations, declarations.data(), sizeof(Declaration) * declarations.length());
+        }
+
+        rules.pushBack(rule);
+    }
+
+    // The rules of a stylesheet's contents (css-syntax-3 5.5.1), or, nested,
+    // of an @media or @layer block's (5.5.5), in which a ';' ends what is
+    // no rule: style rules, and the rules of @media blocks the query of
+    // which matches and of @layer blocks; @import and @layer statements
+    // place layers; other at-rules are left out.
+    static void parseRules(Document& doc, Vector<Rule>& rules, Tokens sheet, Viewport view, u32 depth, u32 layer) {
+        const Token* p = sheet.begin;
+        const Token* end = sheet.end;
+        bool nested = depth > 0;
         // An @import goes before every other rule but @charset and @layer
         // statements.
-        bool imports = depth == 0;
+        bool imports = !nested;
 
         while (p < end) {
-            if (isSpace(*p)) {
+            if (p->type == TokenType::Whitespace || (!nested && (p->type == TokenType::Cdo || p->type == TokenType::Cdc)) || (nested && p->type == TokenType::Semicolon)) {
                 p++;
                 continue;
             }
 
-            if (end - p >= 4 && memcmp(p, "<!--", 4) == 0) {
-                p += 4;
-                continue;
-            }
-
-            if (end - p >= 3 && memcmp(p, "-->", 3) == 0) {
-                p += 3;
-                continue;
-            }
-
-            if (*p == '@') {
-                const u8* q = p + 1;
-                u8 buffer[64];
-                StringView name = mediaWord(q, end, buffer);
-                const u8* prelude = q;
-
-                while (q < end && *q != ';' && *q != '{') {
-                    q = *q == '"' || *q == '\'' ? skipCssString(q, end) : q + 1;
-                }
-
-                StringView condition = trim(StringView(prelude, q));
+            if (p->type == TokenType::AtKeyword) {
+                StringView name = p->text;
+                Tokens prelude;
+                Tokens block;
                 u32 inner = layer;
 
-                if (name == SV("import") && imports && !at(q, end, '{')) {
-                    importLayer(doc, layer, condition);
+                consumeAtRule(p, end, prelude, block);
+
+                bool statement = block.begin == nullptr;
+
+                if (equalsIgnoreCase(name, SV("import")) && imports && statement) {
+                    importLayer(doc, layer, prelude);
                 }
 
                 // @layer name, ...; places layers in the order; @layer name
                 // { } and @layer { } hold rules of a layer, the latter a new
-                // anonymous one each time.
-                for (u32 make = 0; make < 2 && name == SV("layer") && !at(q, end, '{'); make++) {
-                    const u8* s = condition.begin();
+                // anonymous one each time. The names are read first, and
+                // made when all are good.
+                if (equalsIgnoreCase(name, SV("layer")) && statement) {
+                    Vector<Tokens> names;
                     bool valid = true;
 
-                    // The names are read first, and made when all are good.
-                    for (;;) {
-                        const u8* comma = findOutside(s, condition.end(), ',');
+                    commaItems(prelude, names);
 
-                        valid = valid && namedLayer(doc, layer, trim(StringView(s, comma ? comma : condition.end())), inner, make);
-
-                        if (!comma) {
-                            break;
-                        }
-
-                        s = comma + 1;
+                    for (Tokens item : names) {
+                        valid = valid && namedLayer(doc, layer, trimmed(item), inner, false);
                     }
 
-                    make += !valid;
+                    for (Tokens item : names) {
+                        if (valid) {
+                            namedLayer(doc, layer, trimmed(item), inner);
+                        }
+                    }
                 }
 
-                imports = imports && (name == SV("import") || name == SV("charset") || (name == SV("layer") && !at(q, end, '{')));
+                imports = imports && (equalsIgnoreCase(name, SV("import")) || equalsIgnoreCase(name, SV("charset")) || (equalsIgnoreCase(name, SV("layer")) && statement));
 
-                if (at(q, end, '{')) {
-                    const u8* close = matchingBrace(q + 1, end);
-                    bool layered = name == SV("layer") && (condition.empty() || namedLayer(doc, layer, condition, inner));
+                if (!statement) {
+                    bool empty = prelude.begin == prelude.end;
+                    bool layered = equalsIgnoreCase(name, SV("layer")) && (empty || namedLayer(doc, layer, prelude, inner));
 
-                    if (layered && condition.empty()) {
+                    if (layered && empty) {
                         inner = (u32)doc.layers.length();
                         doc.layers.pushBack(Layer{layer, 0, 0});
                     }
 
-                    if (depth < 32 && (layered || (name == SV("media") && mediaMatches(view, condition)))) {
-                        parseRules(doc, rules, StringView(q + 1, close), view, depth + 1, inner);
+                    if (depth < 32 && (layered || (equalsIgnoreCase(name, SV("media")) && mediaMatches(view, prelude)))) {
+                        parseRules(doc, rules, block, view, depth + 1, inner);
                     }
-
-                    q = close;
                 }
 
-                p = q < end ? q + 1 : end;
                 continue;
             }
 
             imports = false;
 
-            const u8* open = findOutside(p, end, '{');
+            // A qualified rule (5.5.3): its prelude to its {}-block; nested,
+            // a ';' first makes it none.
+            const Token* begin = p;
 
-            if (!open) {
-                break;
+            while (p < end && p->type != TokenType::OpenCurly && !(nested && p->type == TokenType::Semicolon)) {
+                p += p->span + 1;
             }
 
-            const u8* close = matchingBrace(open + 1, end);
-            StringView selectors(p, open);
-            StringView block(open + 1, close);
-
-            p = close + 1;
-
-            Vector<Selector> parsed;
-            bool valid = true;
-            const u8* s = selectors.begin();
-
-            while (valid) {
-                const u8* comma = findOutside(s, selectors.end(), ',');
-                const u8* stop = comma ? comma : selectors.end();
-                Selector selector;
-
-                valid = parseSelector(doc, trim(StringView(s, stop)), selector);
-
-                if (valid) {
-                    parsed.pushBack(selector);
-                }
-
-                if (!comma) {
-                    break;
-                }
-
-                s = comma + 1;
-            }
-
-            if (!valid) {
+            if (p >= end || p->type != TokenType::OpenCurly) {
                 continue;
             }
 
-            Vector<Declaration> declarations;
+            Tokens prelude = trimmed(Tokens{begin, p});
+            Tokens block = contents(p);
+            const Token* q = prelude.begin;
 
-            parseDeclarations(doc, block, declarations);
+            p += p->span + 1;
 
-            Rule rule;
+            // What starts as a custom property's declaration is no rule.
+            if (q < prelude.end && q->type == TokenType::Ident && q->text.length() >= 2 && q->text[0] == '-' && q->text[1] == '-') {
+                q++;
+                skipWhitespace(q, prelude.end);
 
-            rule.selectorCount = (u32)parsed.length();
-            rule.selectors = (Selector*)doc.pool->allocate(sizeof(Selector) * parsed.length());
-            memcpy(rule.selectors, parsed.data(), sizeof(Selector) * parsed.length());
-            rule.declarationCount = (u32)declarations.length();
-            rule.layer = layer;
-            rule.declarations = (Declaration*)doc.pool->allocate(sizeof(Declaration) * (declarations.length() + 1));
-
-            if (rule.declarationCount) {
-                memcpy(rule.declarations, declarations.data(), sizeof(Declaration) * declarations.length());
+                if (q < prelude.end && q->type == TokenType::Colon) {
+                    continue;
+                }
             }
 
-            rules.pushBack(rule);
+            addStyleRule(doc, rules, prelude, block, layer);
         }
     }
 
     static void parseSheet(Document& doc, Vector<Rule>& rules, StringView source, Viewport view) {
-        Buffer cleaned;
+        parseRules(doc, rules, tokenize(*doc.pool, source), view, 0, 0);
+    }
 
-        // The end of the sheet closes what it leaves open.
-        stripComments(source, cleaned);
-        closeCss(cleaned);
-        parseRules(doc, rules, keep(*doc.pool, cleaned.data(), cleaned.length()), view, 0, 0);
+    // The declarations of a style attribute's value, read once.
+    static DeclarationBlock styleDeclarations(Document& doc, u32 atom) {
+        coverAtoms(doc, doc.atomStyles);
+
+        if (!doc.atomStyles[atom]) {
+            Vector<Declaration> declarations;
+            DeclarationBlock block{nullptr, 0};
+
+            consumeDeclarations(doc, tokenize(*doc.pool, textOf(doc, atom)), true, declarations);
+            block.count = (u32)declarations.length();
+            block.declarations = (Declaration*)doc.pool->allocate(sizeof(Declaration) * (declarations.length() + 1));
+
+            if (block.count) {
+                memcpy(block.declarations, declarations.data(), sizeof(Declaration) * declarations.length());
+            }
+
+            doc.styles.pushBack(block);
+            doc.atomStyles.mut(atom) = (u32)doc.styles.length();
+        }
+
+        return doc.styles[doc.atomStyles[atom] - 1];
     }
 
     static void prepareClasses(Document& doc, Node* node) {
@@ -7214,49 +7707,23 @@ namespace {
         }
     }
 
-    // The CSS-wide keywords (css-cascade-5 7.3), CssNone for a value that is
-    // none of them.
-    enum CssKeyword : u8 {
-        CssNone,
-        CssInitial,
-        CssInherit,
-        CssUnset,
-        CssRevert,
-        CssRevertLayer,
-        CssRevertRule,
-    };
-
-    static CssKeyword cssWideKeyword(StringView text) {
-        static const char* const names[] = {"initial", "inherit", "unset", "revert", "revert-layer", "revert-rule"};
-        StringView body = trim(text);
-
-        for (u32 k = 0; k < 6; k++) {
-            if (equalsIgnoreCase(body, StringView(names[k]))) {
-                return (CssKeyword)(k + 1);
-            }
-        }
-
-        return CssNone;
-    }
-
-    // The value a declaration that wins its property leaves, when it is a
-    // revert keyword (css-cascade-5 7.3.4-6): none for revert, which rolls
-    // back past every author declaration and presentation attribute; for
-    // revert-layer that of the highest declaration of an earlier layer or a
-    // presentation attribute, or, from the style attribute, of a lower
-    // level, and nothing from a presentation attribute; for revert-rule
-    // that of the highest of another rule; each ranked before the one
-    // reverting, and again while the one it reaches reverts. 0 for none.
-    static u32 revertedValue(const Document& doc, const Vector<Applied>& applied, u32 index) {
+    // The declaration whose value one that wins its property leaves, when
+    // it is a revert keyword (css-cascade-5 7.3.4-6): none for revert,
+    // which rolls back past every author declaration and presentation
+    // attribute; for revert-layer the highest declaration of an earlier
+    // layer or a presentation attribute, or, from the style attribute, of a
+    // lower level, and nothing from a presentation attribute; for
+    // revert-rule the highest of another rule; each ranked before the one
+    // reverting, and again while the one it reaches reverts. The number of
+    // applied declarations for none.
+    static u32 revertedIndex(const Document& doc, const Vector<Applied>& applied, u32 index) {
         for (;;) {
             const Applied& from = applied[index];
-            StringView text = trim(textOf(doc, from.value));
-            // Every revert keyword starts with r.
-            CssKeyword keyword = text.length() >= 6 && lowerAscii(text[0]) == 'r' ? cssWideKeyword(text) : CssNone;
+            CssKeyword keyword = valueKeyword(doc, from.value);
             u32 next = (u32)applied.length();
 
             if (keyword != CssRevertLayer && keyword != CssRevertRule) {
-                return keyword == CssRevert ? 0 : from.value;
+                return keyword == CssRevert ? next : index;
             }
 
             for (u32 i = 0; i < applied.length(); i++) {
@@ -7271,25 +7738,305 @@ namespace {
             }
 
             if (next == applied.length()) {
-                return 0;
+                return next;
             }
 
             index = next;
         }
     }
 
-    static bool parsePaint(const Document& doc, StringView source, PaintValue& out);
-    static bool parseColor(StringView source, Color& out);
-    static bool readLength(const u8*& p, const u8* end, Length& out);
-    static bool parseLength(StringView text, Length& out);
-    static bool readNumber(const u8*& p, const u8* end, float& out);
+    // The value of a custom property in a set, 0 for the guaranteed-invalid
+    // one, which it has where no set declares it.
+    static u32 customValue(const Document& doc, u32 set, u32 name) {
+        for (; set; set = doc.customSets[set].parent) {
+            const CustomSet& s = doc.customSets[set];
 
-    static bool validDashes(StringView text) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+            for (u32 k = 0; k < s.count; k++) {
+                if (doc.customValues[s.first + k].name == name) {
+                    return doc.customValues[s.first + k].value;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    // The most tokens a substitution may give (css-values-5.md,
+    // long-substitution): more are the guaranteed-invalid value.
+    constexpr size_t substitutionLimit = 1 << 14;
+
+    enum class CustomState : u8 {
+        Pending,
+        Substituting,
+        Cyclic,
+        Done,
+    };
+
+    // What substitutes var() for a node (css-variables-1 3): its document,
+    // the custom property set it inherits, and the custom properties it
+    // declares, each with the state of its own substitution, the ones under
+    // way on a stack.
+    struct Variables {
+        Document* doc;
+        u32 set;
+        CustomValue* own;
+        CustomState* state;
+        u32 count;
+        Vector<u32> stack;
+    };
+
+    static bool substituteTokens(Variables& v, Tokens tokens, Vector<Token>& out, u32 depth);
+
+    // Substitutes the var() functions of the custom property the node
+    // declares at k, from the others it declares and those it inherits; a
+    // cycle among them leaves each in it guaranteed-invalid, as a chain of
+    // them too long to follow does.
+    static void substituteCustom(Variables& v, u32 k) {
+        u32 value = v.own[k].value;
+
+        v.state[k] = CustomState::Substituting;
+        v.stack.pushBack(k);
+
+        if (v.doc->values[value].substitutes) {
+            Vector<Token> out;
+
+            value = v.stack.length() <= 32 && substituteTokens(v, v.doc->values[value].tokens, out, 0) && out.length() <= substitutionLimit ? keptValue(*v.doc, out) : 0;
+        }
+
+        v.stack.popBack();
+        v.own[k].value = v.state[k] == CustomState::Cyclic ? 0 : value;
+        v.state[k] = CustomState::Done;
+    }
+
+    // The value of the custom property name for a var(), 0 for the
+    // guaranteed-invalid one; one the node declares is substituted first,
+    // and one under way is in a cycle with every one above it.
+    static u32 variableValue(Variables& v, u32 name) {
+        for (u32 k = 0; k < v.count; k++) {
+            if (v.own[k].name != name) {
+                continue;
+            }
+
+            if (v.state[k] == CustomState::Pending) {
+                substituteCustom(v, k);
+            } else if (v.state[k] != CustomState::Done) {
+                for (u32 i = (u32)v.stack.length(); i > 0 && (i == v.stack.length() || v.stack[i] != k); i--) {
+                    v.state[v.stack[i - 1]] = CustomState::Cyclic;
+                }
+
+                return 0;
+            }
+
+            return v.own[k].value;
+        }
+
+        return customValue(*v.doc, v.set, name);
+    }
+
+    // Whether a var() or an env() is among tokens.
+    static bool substitutes(Tokens tokens) {
+        for (const Token* t = tokens.begin; t < tokens.end; t++) {
+            if (isFunction(t, SV("var")) || isFunction(t, SV("env"))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // The tokens into out with their var() and env() functions replaced
+    // (css-variables-1 3): a var() by the value of the custom property its
+    // first argument, substituted, names, else by its fallback, substituted
+    // in turn; an env(), as the renderer knows no environment variable, by
+    // its fallback. A function or block of one keeps its tokens around
+    // what replaces it. False when one has neither, or names no custom
+    // property, which makes the value invalid at computed-value time, and
+    // when the document's budget of tokens to write runs out.
+    static bool substituteTokens(Variables& v, Tokens tokens, Vector<Token>& out, u32 depth) {
+        if (depth > 32) {
+            return false;
+        }
+
+        for (const Token* t = tokens.begin; t < tokens.end; t += t->span + 1) {
+            bool var = isFunction(t, SV("var"));
+            Tokens component{t, t + t->span + 1};
+
+            if (!var && !isFunction(t, SV("env"))) {
+                if (t->span == 0 || !substitutes(component)) {
+                    out.append(component.begin, component.end);
+                    continue;
+                }
+
+                u32 opening = (u32)out.length();
+
+                out.pushBack(*t);
+
+                if (!substituteTokens(v, contents(t), out, depth + 1)) {
+                    return false;
+                }
+
+                out.pushBack(t[t->span]);
+                out.mut(opening).span = (u32)out.length() - 1 - opening;
+                continue;
+            }
+
+            Tokens args = contents(t);
+            const Token* comma = args.begin;
+
+            while (comma < args.end && comma->type != TokenType::Comma) {
+                comma += comma->span + 1;
+            }
+
+            Vector<Token> name;
+            u32 value = 0;
+
+            if (var && substituteTokens(v, Tokens{args.begin, comma}, name, depth + 1)) {
+                Tokens named = trimmed(Tokens{name.data(), name.data() + name.length()});
+                const Token* n = named.begin;
+                bool custom = named.end - n == 1 && n->type == TokenType::Ident && n->text.length() > 2 && n->text[0] == '-' && n->text[1] == '-';
+                u32 atom = custom ? lookup(v.doc->atoms, n->text) : 0;
+
+                value = atom ? variableValue(v, atom) : 0;
+            }
+
+            if (value) {
+                Tokens replacement = v.doc->values[value].tokens;
+                size_t count = (size_t)(replacement.end - replacement.begin);
+
+                if (count > v.doc->substitutionBudget) {
+                    return false;
+                }
+
+                v.doc->substitutionBudget -= count;
+                out.append(replacement.begin, replacement.end);
+            } else if (comma == args.end || !substituteTokens(v, trimmed(Tokens{comma + 1, args.end}), out, depth + 1)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // The custom property set of a node whose custom properties' winning
+    // declarations are at customs, over the set it inherits: each one's
+    // value, initial the guaranteed-invalid one, inherit, unset and revert
+    // none of its own (css-variables-1 2.2, css-cascade-5 7.3), its var()
+    // functions substituted, those in a cycle guaranteed-invalid.
+    static u32 declareCustom(Document& doc, const Vector<Applied>& applied, const Vector<u32>& customs, u32 inherited) {
+        Vector<CustomValue> own;
+        Vector<CustomState> states;
+
+        for (u32 index : customs) {
+            u32 at = revertedIndex(doc, applied, index);
+            u32 value = at == applied.length() ? 0 : applied[at].value;
+            CssKeyword keyword = value ? doc.values[value].keyword : CssRevert;
+
+            if (keyword == CssInitial || keyword == CssNone) {
+                own.pushBack(CustomValue{applied[index].property, keyword == CssNone ? value : 0});
+                states.pushBack(keyword == CssNone ? CustomState::Pending : CustomState::Done);
+            }
+        }
+
+        if (own.empty()) {
+            return inherited;
+        }
+
+        Variables v{&doc, inherited, own.mutData(), states.mutData(), (u32)own.length(), Vector<u32>()};
+
+        for (u32 k = 0; k < own.length(); k++) {
+            if (states[k] == CustomState::Pending) {
+                substituteCustom(v, k);
+            }
+        }
+
+        doc.customSets.pushBack(CustomSet{inherited, (u32)doc.customValues.length(), (u32)own.length()});
+        doc.customValues.append(own.data(), own.length());
+
+        return (u32)doc.customSets.length() - 1;
+    }
+
+    // The value that the declaration at index, the winner of its property,
+    // leaves: the one it reverts to, its var() and env() functions
+    // substituted from the custom properties of set, and a shorthand's read
+    // again for the longhand; unset when that makes it invalid, or what a
+    // revert keyword it gives reaches. 0 for none.
+    static u32 resolvedValue(Document& doc, Vector<Applied>& applied, u32 index, u32 set) {
+        for (;;) {
+            u32 at = revertedIndex(doc, applied, index);
+
+            if (at == applied.length()) {
+                return 0;
+            }
+
+            Applied from = applied[at];
+
+            if (!valueSubstitutes(doc, from.value)) {
+                return from.value;
+            }
+
+            // The value a declaration's tokens give with one set, which the
+            // many nodes that inherit it alike take again.
+            u32 declared = from.value & atomValue ? valueOfAtom(doc, from.value & ~atomValue) : from.value;
+            u32 value = doc.values[declared].substitutedSet == set + 1 ? doc.values[declared].substituted : 0;
+
+            doc.variables = true;
+
+            if (!value) {
+                Vector<Token> out;
+                Variables v{&doc, set, nullptr, nullptr, 0, Vector<u32>()};
+                bool substituted = substituteTokens(v, doc.values[declared].tokens, out, 0) && out.length() <= substitutionLimit;
+
+                value = substituted ? keptValue(doc, out) : keywordValue(doc, SV("unset"));
+                doc.values.mut(declared).substitutedSet = set + 1;
+                doc.values.mut(declared).substituted = value;
+            }
+
+            CssKeyword keyword = doc.values[value].keyword;
+
+            if (keyword == CssRevert || keyword == CssRevertLayer || keyword == CssRevertRule) {
+                applied.mut(at).value = value;
+                applied.mut(at).shorthand = 0;
+                index = at;
+                continue;
+            }
+
+            if (keyword) {
+                return value;
+            }
+
+            // A shorthand's value is read as its declaration again for the
+            // longhand's part; a longhand's is checked.
+            Tokens tokens = doc.values[value].tokens;
+            Vector<Declaration> parts;
+
+            if (!from.shorthand) {
+                return (geometryProperty(from.property) ? validGeometry(from.property, tokens) : validDeclaration(doc, from.property, tokens)) ? value : keywordValue(doc, SV("unset"));
+            }
+
+            declare(doc, CssDeclaration{textOf(doc, from.shorthand), tokens, false}, parts);
+
+            for (const Declaration& part : parts) {
+                if (part.property == from.property) {
+                    return part.value;
+                }
+            }
+
+            return keywordValue(doc, SV("unset"));
+        }
+    }
+
+    static bool parsePaint(const Document& doc, Tokens value, PaintValue& out);
+    static bool parsePosition(Tokens value, Length& x, Length& y);
+
+    // A dash array: lengths of no less than zero, one or more, apart by
+    // white space, a comma perhaps.
+    static bool validDashes(Tokens value) {
+        const Token* p = value.begin;
+        const Token* end = value.end;
         u32 count = 0;
 
-        // The text is trimmed, and spaces after a length are skipped with it.
+        skipWhitespace(p, end);
+
         for (;;) {
             Length length;
 
@@ -7302,57 +8049,55 @@ namespace {
             }
 
             count++;
+            skipWhitespace(p, end);
 
-            skipSpaces(p, end);
-
-            if (at(p, end, ',')) {
+            if (p < end && p->type == TokenType::Comma) {
                 p++;
+                skipWhitespace(p, end);
 
-                skipSpaces(p, end);
-
-                if (p >= end || *p == ',') {
+                if (p >= end || p->type == TokenType::Comma) {
                     return false;
                 }
             }
         }
     }
 
-    static bool validDeclaration(const Document& doc, u32 property, StringView value) {
-        StringView text = trim(value);
+    static bool validDeclaration(const Document& doc, u32 property, Tokens value) {
         PaintValue paint;
         Color color;
         Length length;
         MaskBorder border;
+        const Token* t = single(value);
 
-        if (cssWideKeyword(text)) {
+        if (t && t->type == TokenType::Ident && cssWideKeyword(t->text)) {
             return true;
         }
 
         switch (property) {
             case AtomFill:
             case AtomStroke:
-                return parsePaint(doc, text, paint) || equalsIgnoreCase(text, SV("context-fill")) || equalsIgnoreCase(text, SV("context-stroke"));
+                return parsePaint(doc, value, paint) || isKeyword(value, SV("context-fill")) || isKeyword(value, SV("context-stroke"));
             case AtomColor:
             case AtomStopColor:
             case AtomFloodColor:
             case AtomLightingColor:
-                return parseColor(text, color) || equalsIgnoreCase(text, SV("currentcolor"));
+                return parseColor(value, color) || isKeyword(value, SV("currentcolor"));
             case AtomStrokeDasharray:
-                return equalsIgnoreCase(text, SV("none")) || validDashes(text);
+                return isKeyword(value, SV("none")) || validDashes(value);
             case AtomStrokeWidth:
-                return parseLength(text, length) && nonNegative(length);
+                return parseLength(value, length) && nonNegative(length);
             case AtomTransformStyle:
-                return equalsIgnoreCase(text, SV("flat")) || equalsIgnoreCase(text, SV("preserve-3d"));
+                return isKeyword(value, SV("flat")) || isKeyword(value, SV("preserve-3d"));
             case AtomPerspective:
                 // A length of no less than zero, a number only as 0.
-                return equalsIgnoreCase(text, SV("none")) || (parseLength(text, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc)) && nonNegative(length));
+                return isKeyword(value, SV("none")) || (parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc)) && nonNegative(length));
             case AtomPerspectiveOrigin: {
                 Length y;
 
-                return parsePosition(text, length, y);
+                return parsePosition(value, length, y);
             }
             case AtomShapeRendering:
-                return equalsIgnoreCase(text, SV("auto")) || equalsIgnoreCase(text, SV("optimizespeed")) || equalsIgnoreCase(text, SV("crispedges")) || equalsIgnoreCase(text, SV("geometricprecision"));
+                return isKeyword(value, SV("auto")) || isKeyword(value, SV("optimizespeed")) || isKeyword(value, SV("crispedges")) || isKeyword(value, SV("geometricprecision"));
             case AtomMaskImage:
             case AtomMaskMode:
             case AtomMaskRepeat:
@@ -7361,20 +8106,18 @@ namespace {
             case AtomMaskOrigin:
             case AtomMaskSize:
             case AtomMaskComposite:
-                return maskListValid(property - AtomMaskImage, text);
+                return maskListValid(property - AtomMaskImage, value);
             case AtomMaskBorderSource:
             case AtomMaskBorderMode:
             case AtomMaskBorderSlice:
             case AtomMaskBorderWidth:
             case AtomMaskBorderOutset:
             case AtomMaskBorderRepeat:
-                return maskBorderPartOf(property - AtomMaskBorderSource, text, border);
+                return maskBorderPartOf(property - AtomMaskBorderSource, value, border);
             default:
                 return true;
         }
     }
-
-    static bool isKeyword(StringView text, StringView keyword);
 
     // The attribute a geometry property sets on an element.
     static u32 geometryAttribute(u32 element, u32 property) {
@@ -7432,7 +8175,9 @@ namespace {
             }
         }
 
-        return geometryApplies(parent->name, property) ? attribute(parent, geometryAttribute(parent->name, property)) : 0;
+        u32 value = geometryApplies(parent->name, property) ? attribute(parent, geometryAttribute(parent->name, property)) : 0;
+
+        return value ? atomValue | value : 0;
     }
 
     // The rule numbers of a presentation attribute's and a style
@@ -7440,11 +8185,34 @@ namespace {
     constexpr u32 presentationRule = ~0u - 1;
     constexpr u32 styleRule = ~0u;
 
-    static u32* cascadeNode(Document& doc, Node* node, const Node* boundary) {
+    // The atom of a geometry value that an attribute holds: an attribute's
+    // own; d's path data, the string of path(), or none; else an atom of
+    // the value.
+    static u32 geometryAtom(Document& doc, u32 property, u32 value) {
+        if (value & atomValue) {
+            return value & ~atomValue;
+        }
+
+        const Token* t = single(doc.values[value].tokens);
+
+        if (property == AtomD && t && isFunction(t, SV("path"))) {
+            return intern(doc.atoms, single(contents(t))->text);
+        }
+
+        // A d of inherit stays one, which a path follows up as it draws.
+        if (property == AtomD) {
+            return intern(doc.atoms, doc.values[value].keyword == CssInherit ? SV("inherit") : SV("none"));
+        }
+
+        return valueAtom(doc, value);
+    }
+
+    static u32* cascadeNode(Document& doc, Node* node, const Node* boundary, u32 inherited) {
         static const u32 geometryProperties[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomD, AtomTransform, AtomPathLengthProperty};
         Candidate best[propertyCount];
         Vector<Applied> applied;
         Vector<u32> geometry;
+        Vector<u32> customs;
         u32 unlayered = doc.layers[0].rank;
 
         memset(best, 0, sizeof(best));
@@ -7454,13 +8222,15 @@ namespace {
         // style attribute's, 4 and 5 important; its layer's rank, the layer
         // order reversed for important ones; its specificity. The last of
         // the highest wins.
-        auto apply = [&](u32 property, u32 value, u32 level, u32 rank, u32 specificity, u32 rule) {
+        auto apply = [&](u32 property, u32 value, u32 level, u32 rank, u32 specificity, u32 rule, u32 shorthand, bool custom) {
             u64 placed = level == 4 ? unlayered - rank : rank;
             u32 index = (u32)applied.length();
 
-            applied.pushBack(Applied{property, value, ((u64)level << 56) | (placed << 32) | specificity, rule, rank, level});
+            applied.pushBack(Applied{property, value, ((u64)level << 56) | (placed << 32) | specificity, rule, rank, level, shorthand});
 
-            if (geometryProperty(property)) {
+            if (custom) {
+                considerGeometry(applied, customs, index);
+            } else if (geometryProperty(property)) {
                 considerGeometry(applied, geometry, index);
             } else {
                 consider(best, applied[index], index);
@@ -7473,35 +8243,34 @@ namespace {
             u32 value = geometryApplies(node->name, property) ? attribute(node, geometryAttribute(node->name, property)) : 0;
 
             if (value) {
-                apply(property, value, 1, 0, 0, presentationRule);
+                apply(property, atomValue | value, 1, 0, 0, presentationRule, 0, false);
             }
         }
 
         for (u32 i = 0; i < node->count; i++) {
             u32 name = node->attributes[i].name;
-
+            u32 value = atomValue | node->attributes[i].value;
+            Token one;
             u32 parts[MaskParts];
 
             // mask is the presentation attribute of the shorthand, not of
-            // its longhands.
-            if (name == AtomMask && expandMask(doc, textOf(doc, node->attributes[i].value), parts)) {
-                for (u32 k = 0; k < MaskParts; k++) {
-                    apply(AtomMaskImage + k, parts[k], 1, 0, 0, presentationRule);
+            // its longhands, a CSS-wide keyword or a value waiting on var()
+            // each one's.
+            if (name == AtomMask) {
+                CssKeyword keyword = valueKeyword(doc, value);
+                bool pending = !keyword && valueSubstitutes(doc, value);
+                bool expanded = keyword || pending || expandMask(doc, valueTokens(doc, value, one), parts);
+
+                for (u32 k = 0; expanded && k < MaskParts; k++) {
+                    apply(AtomMaskImage + k, keyword || pending ? value : parts[k], 1, 0, 0, presentationRule, pending ? AtomMask : 0, false);
                 }
             }
 
             if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
-                u32 value = node->attributes[i].value;
-                StringView text = textOf(doc, value);
+                bool pending = valueSubstitutes(doc, value);
 
-                if (findFunction(text, SV("env("))) {
-                    Buffer substituted;
-
-                    value = substituteFallbacks(text, substituted, 0) ? intern(doc.atoms, trim(keep(*doc.pool, substituted.data(), substituted.length()))) : 0;
-                }
-
-                if (value && validDeclaration(doc, name, textOf(doc, value))) {
-                    apply(name, value, 1, 0, 0, presentationRule);
+                if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
+                    apply(name, value, 1, 0, 0, presentationRule, 0, false);
                 }
             }
         }
@@ -7530,30 +8299,31 @@ namespace {
             for (u32 d = 0; d < rule.declarationCount; d++) {
                 const Declaration& declaration = rule.declarations[d];
 
-                if (geometryProperty(declaration.property) || validDeclaration(doc, declaration.property, textOf(doc, declaration.value))) {
-                    apply(declaration.property, declaration.value, declaration.important ? 4 : 2, doc.layers[rule.layer].rank, specificity, r);
-                }
+                apply(declaration.property, declaration.value, declaration.important ? 4 : 2, doc.layers[rule.layer].rank, specificity, r, declaration.shorthand, declaration.custom);
             }
         }
 
         if (u32 inlineStyle = attribute(node, AtomStyle)) {
-            Vector<Declaration> declarations;
-            Buffer cleaned;
+            DeclarationBlock block = styleDeclarations(doc, inlineStyle);
 
-            stripComments(textOf(doc, inlineStyle), cleaned);
-            closeCss(cleaned);
-            parseDeclarations(doc, keep(*doc.pool, cleaned.data(), cleaned.length()), declarations);
+            for (u32 d = 0; d < block.count; d++) {
+                const Declaration& declaration = block.declarations[d];
 
-            for (u32 d = 0; d < declarations.length(); d++) {
-                if (geometryProperty(declarations[d].property) || validDeclaration(doc, declarations[d].property, textOf(doc, declarations[d].value))) {
-                    apply(declarations[d].property, declarations[d].value, declarations[d].important ? 5 : 3, 0, 0, styleRule);
-                }
+                apply(declaration.property, declaration.value, declaration.important ? 5 : 3, 0, 0, styleRule, declaration.shorthand, declaration.custom);
             }
         }
 
+        u32 set = customs.empty() ? inherited : declareCustom(doc, applied, customs, inherited);
+
         for (u32 index : geometry) {
+            const Applied declaration = applied[index];
+            // The d and transform attributes are read by SVG's grammars,
+            // which take no var() (D30).
+            bool own = declaration.rule == presentationRule && (declaration.property == AtomD || declaration.property == AtomTransform);
+            u32 value = boundary ? 0 : (own ? declaration.value : resolvedValue(doc, applied, index, set));
+
             // A presentation attribute that wins is the attribute already.
-            if (boundary || applied[index].rule == presentationRule) {
+            if (boundary || (declaration.rule == presentationRule && value == declaration.value)) {
                 continue;
             }
 
@@ -7561,13 +8331,11 @@ namespace {
             // follows up as it draws, through a use to its instance;
             // initial and unset, as no geometry property inherits, the
             // initial one.
-            const Applied& declaration = applied[index];
-            u32 value = revertedValue(doc, applied, index);
-            StringView text = value ? textOf(doc, value) : StringView();
+            CssKeyword keyword = value ? valueKeyword(doc, value) : CssNone;
 
-            if (isKeyword(text, SV("inherit")) && declaration.property != AtomD) {
+            if (keyword == CssInherit && declaration.property != AtomD) {
                 value = inheritedGeometry(doc, node->parent, declaration.property);
-            } else if (isKeyword(text, SV("initial")) || isKeyword(text, SV("unset"))) {
+            } else if (keyword == CssInitial || keyword == CssUnset) {
                 value = 0;
             }
 
@@ -7577,15 +8345,17 @@ namespace {
             bool outer = node == doc.root && !transforming;
 
             if ((geometryApplies(node->name, declaration.property) || declaration.property == AtomD) && !outer) {
-                setAttribute(doc, node, geometryAttribute(node->name, declaration.property), value ? value : intern(doc.atoms, geometryInitial(declaration.property)));
+                setAttribute(doc, node, geometryAttribute(node->name, declaration.property), value ? geometryAtom(doc, declaration.property, value) : intern(doc.atoms, geometryInitial(declaration.property)));
             }
         }
 
-        u32* style = (u32*)doc.pool->allocate(sizeof(u32) * propertyCount);
+        u32* style = (u32*)doc.pool->allocate(sizeof(u32) * (propertyCount + 1));
 
         for (u32 i = 0; i < propertyCount; i++) {
-            style[i] = best[i].value ? revertedValue(doc, applied, best[i].applied) : 0;
+            style[i] = best[i].value ? resolvedValue(doc, applied, best[i].applied, set) : 0;
         }
+
+        style[propertyCount] = set;
 
         return style;
     }
@@ -7614,6 +8384,9 @@ namespace {
         doc.layers.pushBack(Layer{0, 0, 0});
         doc.languages = false;
         doc.instanceHost = nullptr;
+        doc.variables = false;
+        doc.substitutionBudget = 1 << 19;
+        doc.customSets.pushBack(CustomSet{0, 0, 0});
 
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
             if (node->name == AtomStyle && !node->text.empty()) {
@@ -7624,7 +8397,7 @@ namespace {
 
                 preferred = preferred.empty() ? title : preferred;
 
-                if ((!type || textOf(doc, type).empty() || equalsIgnoreCase(textOf(doc, type), SV("text/css"))) && (!media || mediaMatches(view, textOf(doc, media))) && (title.empty() || title == preferred)) {
+                if ((!type || textOf(doc, type).empty() || equalsIgnoreCase(textOf(doc, type), SV("text/css"))) && (!media || mediaMatches(view, doc.values[valueOfAtom(doc, media)].tokens)) && (title.empty() || title == preferred)) {
                     parseSheet(doc, rules, node->text, view);
                 }
             }
@@ -7646,7 +8419,7 @@ namespace {
         }
 
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
-            node->style = cascadeNode(doc, node, nullptr);
+            node->style = cascadeNode(doc, node, nullptr, node->parent ? node->parent->style[propertyCount] : 0);
         }
     }
 
@@ -7718,6 +8491,18 @@ namespace {
         p = s;
 
         return true;
+    }
+
+    // Past white space, a comma perhaps, and white space after it, in
+    // path data (svg2/paths.md#PathDataBNF).
+    static void skipSeparator(const u8*& p, const u8* end) {
+        skipSpaces(p, end);
+
+        if (at(p, end, ',')) {
+            p++;
+
+            skipSpaces(p, end);
+        }
     }
 
     // The length units and the Unit each resolves through. Without fonts a
@@ -7980,12 +8765,12 @@ namespace {
         return a == 1.0 ? 0.0 : (isinf(a) ? a : log(a) / log(b));
     }
 
-    static bool mathSum(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out);
-    static bool mathCall(StringView name, const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out);
+    static bool mathSum(const Token*& p, const Token* end, MathContext& c, u32 depth, MathValue& out);
+    static bool mathCall(StringView name, Tokens args, MathContext& c, u32 depth, MathValue& out);
 
     // A number, a dimension or a percentage, a constant, a sum in
     // parentheses or a math function: depth counts the levels it is in.
-    static bool mathTerm(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+    static bool mathTerm(const Token*& p, const Token* end, MathContext& c, u32 depth, MathValue& out) {
         // The units of the dimensions other than lengths: the base type and
         // the size in its canonical unit, deg, s, Hz or dppx.
         static const struct {
@@ -8020,33 +8805,34 @@ namespace {
 
         out.type = MathType{{0, 0, 0, 0, 0, 0}, MathBases};
 
-        if (at(p, end, '(')) {
-            const u8* s = p + 1;
-
-            skipSpaces(s, end);
-
-            if (depth == 32 || !mathSum(s, end, c, depth + 1, out)) {
-                return false;
-            }
-
-            skipSpaces(s, end);
-
-            if (!at(s, end, ')')) {
-                return false;
-            }
-
-            p = s + 1;
-
-            return true;
+        if (p >= end) {
+            return false;
         }
 
-        if (readDouble(p, end, out.value)) {
+        const Token* t = p;
+
+        p += t->span + 1;
+
+        if (t->type == TokenType::OpenParen) {
+            const Token* s = t + 1;
+            const Token* close = t + t->span;
+
+            skipWhitespace(s, close);
+
+            if (depth == 32 || !mathSum(s, close, c, depth + 1, out)) {
+                return false;
+            }
+
+            skipWhitespace(s, close);
+
+            return s == close;
+        }
+
+        if (t->type == TokenType::Number || t->type == TokenType::Percentage || t->type == TokenType::Dimension) {
             // -0 is a zero like 0 (css-values-4 10.9.2).
-            out.value += 0.0;
+            out.value = t->number + 0.0;
 
-            if (at(p, end, '%')) {
-                p++;
-
+            if (t->type == TokenType::Percentage) {
                 if (c.percent) {
                     out.value = c.basis * out.value / 100.0;
                     out.type.power[MathLength] = 1;
@@ -8060,22 +8846,13 @@ namespace {
                 return true;
             }
 
-            if (p == end || !isIdentStart(*p) || *p == '-') {
+            if (t->type == TokenType::Number) {
                 return true;
             }
 
-            const u8* s = p;
             Unit unit;
 
-            while (s < end && isIdentChar(*s)) {
-                s++;
-            }
-
-            StringView name(p, s);
-
-            p = s;
-
-            if (lengthUnitOf(name, unit)) {
+            if (lengthUnitOf(t->text, unit)) {
                 out.value = resolveLength(Length{(float)out.value, unit}, Axis::Other, c.vp, c.fontSize);
                 out.type.power[MathLength] = 1;
                 c.relative = c.relative || !(unit == Unit::Px || (unit >= Unit::In && unit <= Unit::Q));
@@ -8084,7 +8861,7 @@ namespace {
             }
 
             for (const auto& other : units) {
-                if (equalsIgnoreCase(name, StringView(other.name))) {
+                if (equalsIgnoreCase(t->text, StringView(other.name))) {
                     out.value *= other.scale;
                     out.type.power[other.base] = 1;
 
@@ -8095,19 +8872,13 @@ namespace {
             return false;
         }
 
-        const u8* s = p;
-        StringView name = readIdent(s, end);
-
-        if (at(s, end, '(')) {
-            p = s + 1;
-
-            return mathCall(name, p, end, c, depth + 1, out);
+        if (t->type == TokenType::Function) {
+            return mathCall(t->text, contents(t), c, depth + 1, out);
         }
 
         for (const auto& constant : constants) {
-            if (equalsIgnoreCase(name, StringView(constant.name))) {
+            if (isIdent(t, StringView(constant.name))) {
                 out.value = constant.value;
-                p = s;
 
                 return true;
             }
@@ -8117,25 +8888,25 @@ namespace {
     }
 
     // Terms multiplied and divided.
-    static bool mathProduct(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+    static bool mathProduct(const Token*& p, const Token* end, MathContext& c, u32 depth, MathValue& out) {
         if (!mathTerm(p, end, c, depth, out)) {
             return false;
         }
 
         for (;;) {
-            const u8* s = p;
+            const Token* s = p;
             MathValue right;
 
-            skipSpaces(s, end);
+            skipWhitespace(s, end);
 
-            if (!at(s, end, '*') && !at(s, end, '/')) {
+            if (!(s < end && (isDelim(s, '*') || isDelim(s, '/')))) {
                 return true;
             }
 
-            bool divide = *s == '/';
+            bool divide = isDelim(s, '/');
 
             s++;
-            skipSpaces(s, end);
+            skipWhitespace(s, end);
 
             if (!mathTerm(s, end, c, depth, right)) {
                 return false;
@@ -8153,25 +8924,23 @@ namespace {
 
     // Products added and subtracted, + and - with white space on both
     // sides.
-    static bool mathSum(const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+    static bool mathSum(const Token*& p, const Token* end, MathContext& c, u32 depth, MathValue& out) {
         if (!mathProduct(p, end, c, depth, out)) {
             return false;
         }
 
         for (;;) {
-            const u8* s = p;
+            const Token* s = p;
             MathValue right;
 
-            skipSpaces(s, end);
-
-            if (s == p || !(at(s, end, '+') || at(s, end, '-')) || s + 1 == end || !isSpace(s[1])) {
+            if (!(s + 2 < end && s->type == TokenType::Whitespace && (isDelim(s + 1, '+') || isDelim(s + 1, '-')) && s[2].type == TokenType::Whitespace)) {
                 return true;
             }
 
-            bool minus = *s == '-';
+            bool minus = isDelim(s + 1, '-');
 
-            s++;
-            skipSpaces(s, end);
+            s += 2;
+            skipWhitespace(s, end);
 
             if (!mathProduct(s, end, c, depth, right) || !addTypes(out.type, right.type)) {
                 return false;
@@ -8182,9 +8951,8 @@ namespace {
         }
     }
 
-    // The math function name names, its arguments from p, after the
-    // opening parenthesis, to the closing one.
-    static bool mathCall(StringView name, const u8*& p, const u8* end, MathContext& c, u32 depth, MathValue& out) {
+    // The math function name names, of the arguments args.
+    static bool mathCall(StringView name, Tokens args, MathContext& c, u32 depth, MathValue& out) {
         enum {
             Calc,
             Min,
@@ -8224,88 +8992,61 @@ namespace {
             return false;
         }
 
+        Vector<Tokens> items;
+        u32 first = 0;
+
+        commaItems(args, items);
+
+        // round() takes a strategy first, a comma after it.
         if (f == Round) {
-            const u8* s = p;
+            Tokens item = trimmed(items[0]);
 
-            skipSpaces(s, end);
-
-            StringView word = readIdent(s, end);
-
-            while (strategy < 5 && !equalsIgnoreCase(word, StringView(strategies[strategy]))) {
+            while (strategy < 5 && !(item.end - item.begin == 1 && isIdent(item.begin, StringView(strategies[strategy])))) {
                 strategy++;
             }
 
-            skipSpaces(s, end);
-
-            if (strategy < 5 && !at(s, end, ',')) {
-                return false;
-            }
-
-            p = strategy < 5 ? s + 1 : p;
-            strategy = strategy < 5 ? strategy : 0;
+            first = strategy < 5 && items.length() > 1 ? 1 : 0;
+            strategy = first ? strategy : 0;
         }
 
         // The arguments; min(), max() and hypot() fold theirs into the
         // first, clamp() marks a none.
-        MathValue args[3];
+        MathValue values[3];
         bool none[3] = {false, false, false};
         bool fold = f == Min || f == Max || f == Hypot;
         bool nan = false;
         u32 count = 0;
 
-        for (;;) {
+        for (u32 k = first; k < items.length(); k++) {
             MathValue v{0.0, MathType{{0, 0, 0, 0, 0, 0}, MathBases}};
-            const u8* s = p;
+            Tokens item = trimmed(items[k]);
+            const Token* q = item.begin;
 
-            skipSpaces(s, end);
-
-            StringView word = readIdent(s, end);
-
-            skipSpaces(s, end);
-
-            if (f == Clamp && (count == 0 || count == 2) && equalsIgnoreCase(word, SV("none")) && (at(s, end, ',') || at(s, end, ')'))) {
+            if (f == Clamp && (count == 0 || count == 2) && item.end - item.begin == 1 && isIdent(q, SV("none"))) {
                 none[count] = true;
-                p = s;
-            } else {
-                skipSpaces(p, end);
-
-                if (!mathSum(p, end, c, depth, v)) {
-                    return false;
-                }
-
-                skipSpaces(p, end);
+            } else if (!mathSum(q, item.end, c, depth, v) || q != item.end) {
+                return false;
             }
 
             nan = nan || v.value != v.value;
 
             if (fold && count) {
-                if (!addTypes(args[0].type, v.type)) {
+                if (!addTypes(values[0].type, v.type)) {
                     return false;
                 }
 
-                args[0].value = f == Min ? mathMin(args[0].value, v.value) : (f == Max ? mathMax(args[0].value, v.value) : hypot(args[0].value, v.value));
+                values[0].value = f == Min ? mathMin(values[0].value, v.value) : (f == Max ? mathMax(values[0].value, v.value) : hypot(values[0].value, v.value));
             } else if (count < 3) {
-                args[count] = v;
+                values[count] = v;
             } else {
                 return false;
             }
 
             count++;
-
-            if (at(p, end, ')')) {
-                p++;
-                break;
-            }
-
-            if (!at(p, end, ',')) {
-                return false;
-            }
-
-            p++;
         }
 
-        MathValue& a = args[0];
-        MathValue& b = args[1];
+        MathValue& a = values[0];
+        MathValue& b = values[1];
         bool single = count == 1;
 
         switch (f) {
@@ -8326,9 +9067,9 @@ namespace {
                 }
 
                 MathType type = b.type;
-                double value = none[2] ? b.value : mathMin(b.value, args[2].value);
+                double value = none[2] ? b.value : mathMin(b.value, values[2].value);
 
-                if ((!none[0] && !addTypes(type, a.type)) || (!none[2] && !addTypes(type, args[2].type))) {
+                if ((!none[0] && !addTypes(type, a.type)) || (!none[2] && !addTypes(type, values[2].type))) {
                     return false;
                 }
 
@@ -8396,26 +9137,18 @@ namespace {
         }
     }
 
-    // A math function at p (css-values-4 10): its value in the canonical
-    // unit of its type (px, deg, s, Hz, dppx, or a percentage's number),
-    // NaN, a signed zero and an infinity censored as a top-level
-    // calculation has them (10.9.2), an infinity to the floats' range.
-    static bool readMath(const u8*& p, const u8* end, MathContext& c, MathValue& out) {
-        const u8* s = p;
-        StringView name = readIdent(s, end);
-
-        if (!at(s, end, '(')) {
-            return false;
-        }
-
-        s++;
-
-        if (!mathCall(name, s, end, c, 1, out)) {
+    // The math function at p (css-values-4 10), a function token: its
+    // value in the canonical unit of its type (px, deg, s, Hz, dppx, or a
+    // percentage's number), NaN, a signed zero and an infinity censored as
+    // a top-level calculation has them (10.9.2), an infinity to the
+    // floats' range.
+    static bool readMath(const Token*& p, const Token* end, MathContext& c, MathValue& out) {
+        if (p >= end || p->type != TokenType::Function || !mathCall(p->text, contents(p), c, 1, out)) {
             return false;
         }
 
         out.value = out.value != out.value ? 0.0 : (out.value < -3.0e38 ? -3.0e38 : (out.value > 3.0e38 ? 3.0e38 : out.value + 0.0));
-        p = s;
+        p += p->span + 1;
 
         return true;
     }
@@ -8423,10 +9156,10 @@ namespace {
     // A math function where a number, a percentage or an angle goes, which
     // needs no viewport or font: its value, an angle's in degrees, and its
     // base type, MathBases for a number.
-    static bool readMathQuantity(const u8*& p, const u8* end, float& out, u8& base) {
+    static bool readMathQuantity(const Token*& p, const Token* end, float& out, u8& base) {
         MathContext c{Viewport{0.f, 0.f, 0.f, 0.f, 16.f}, 16.f, 0.f, false, false};
         MathValue math;
-        const u8* s = p;
+        const Token* s = p;
 
         if (!readMath(s, end, c, math) || c.relative) {
             return false;
@@ -8444,8 +9177,8 @@ namespace {
         return true;
     }
 
-    static bool readMathNumber(const u8*& p, const u8* end, float& out) {
-        const u8* s = p;
+    static bool readMathNumber(const Token*& p, const Token* end, float& out) {
+        const Token* s = p;
         u8 base;
 
         if (!readMathQuantity(s, end, out, base) || base != MathBases) {
@@ -8457,38 +9190,40 @@ namespace {
         return true;
     }
 
-    static bool readNumber(const u8*& p, const u8* end, float& out) {
-        double value;
-
-        if (!readDouble(p, end, value)) {
-            return readMathNumber(p, end, out);
-        }
-
-        out = (float)value;
-
-        return true;
-    }
-
-    static void skipSeparator(const u8*& p, const u8* end) {
-        skipSpaces(p, end);
-
-        if (at(p, end, ',')) {
+    // A number at p: a number token, or a math function of one.
+    static bool readNumber(const Token*& p, const Token* end, float& out) {
+        if (p < end && p->type == TokenType::Number) {
+            out = (float)p->number;
             p++;
 
-            skipSpaces(p, end);
+            return true;
+        }
+
+        return readMathNumber(p, end, out);
+    }
+
+    // Past white space, a comma perhaps, and white space after it.
+    static void skipComma(const Token*& p, const Token* end) {
+        skipWhitespace(p, end);
+
+        if (p < end && p->type == TokenType::Comma) {
+            p++;
+
+            skipWhitespace(p, end);
         }
     }
 
-    static bool parseNumberText(StringView text, float& out) {
-        StringView body = trim(text);
-        const u8* p = body.begin();
+    // A value that is one number, white space around it.
+    static bool parseNumber(Tokens value, float& out) {
+        Tokens v = trimmed(value);
+        const Token* p = v.begin;
 
-        return readNumber(p, body.end(), out) && p == body.end();
+        return readNumber(p, v.end, out) && p == v.end;
     }
 
     // A number, or a percentage as its hundredth; math says it came from a
     // math function.
-    static bool readFraction(const u8*& p, const u8* end, float& out, bool& math) {
+    static bool readFraction(const Token*& p, const Token* end, float& out, bool& math) {
         u8 base;
 
         math = readMathQuantity(p, end, out, base);
@@ -8499,24 +9234,23 @@ namespace {
             return base != MathAngle;
         }
 
-        if (!readNumber(p, end, out)) {
-            return false;
-        }
-
-        if (at(p, end, '%')) {
-            out /= 100.f;
+        if (p < end && p->type == TokenType::Percentage) {
+            out = (float)p->number / 100.f;
             p++;
+
+            return true;
         }
 
-        return true;
+        return readNumber(p, end, out);
     }
 
     // A math function standing for a length or a number: resolved now when
-    // it needs no viewport or font, kept as its text for every use else.
-    static bool readMathLength(const u8*& p, const u8* end, Length& out) {
+    // it needs no viewport or font, kept as its function token for every
+    // use else.
+    static bool readMathLength(const Token*& p, const Token* end, Length& out) {
         MathContext c{Viewport{0.f, 0.f, 0.f, 0.f, 16.f}, 16.f, 0.f, true, false};
         MathValue math;
-        const u8* s = p;
+        const Token* s = p;
 
         if (!readMath(s, end, c, math)) {
             return false;
@@ -8530,49 +9264,48 @@ namespace {
 
         Unit relative = math.type.hint == MathLength ? Unit::CalcPercent : Unit::Calc;
 
-        out = Length{c.relative ? 0.f : (float)math.value, c.relative ? relative : (number ? Unit::Number : Unit::Px), false, (u32)(s - p), p};
+        out = Length{c.relative ? 0.f : (float)math.value, c.relative ? relative : (number ? Unit::Number : Unit::Px), false, p};
         p = s;
 
         return true;
     }
 
-    static bool readLength(const u8*& p, const u8* end, Length& out) {
-        const u8* s = p;
-        double value;
-        Unit unit = Unit::Number;
+    // A length at p: a number, which in SVG is a length of user units
+    // (D43), a percentage, a dimension of a length's unit, or a math
+    // function of one.
+    static bool readLength(const Token*& p, const Token* end, Length& out) {
+        if (p >= end) {
+            return false;
+        }
 
-        if (!readDouble(s, end, value)) {
+        if (p->type == TokenType::Function) {
             return readMathLength(p, end, out);
         }
 
-        if (at(s, end, '%')) {
+        Unit unit = Unit::Number;
+
+        if (p->type == TokenType::Percentage) {
             unit = Unit::Percent;
-            s++;
-        } else if (s < end && isIdentStart(*s) && *s != '-') {
-            const u8* unitEnd = s;
-
-            while (unitEnd < end && ((*unitEnd >= 'a' && *unitEnd <= 'z') || (*unitEnd >= 'A' && *unitEnd <= 'Z'))) {
-                unitEnd++;
-            }
-
-            if (!lengthUnitOf(StringView(s, unitEnd), unit) || (unitEnd < end && isIdentChar(*unitEnd))) {
+        } else if (p->type == TokenType::Dimension) {
+            if (!lengthUnitOf(p->text, unit)) {
                 return false;
             }
-
-            s = unitEnd;
+        } else if (p->type != TokenType::Number) {
+            return false;
         }
 
-        out = Length{(float)value, unit};
-        p = s;
+        out = Length{(float)p->number, unit};
+        p++;
 
         return true;
     }
 
-    static bool parseLength(StringView text, Length& out) {
-        StringView body = trim(text);
-        const u8* p = body.begin();
+    // A value that is one length, white space around it.
+    static bool parseLength(Tokens value, Length& out) {
+        Tokens v = trimmed(value);
+        const Token* p = v.begin;
 
-        return readLength(p, body.end(), out) && p == body.end();
+        return readLength(p, v.end, out) && p == v.end;
     }
 
     // Whether a length is in a non-negative range: a math function's
@@ -8593,9 +9326,9 @@ namespace {
     static float mathLength(Length length, float basis, Viewport vp, float fontSize) {
         MathContext c{vp, fontSize, basis, true, false};
         MathValue math{0.0, MathType{{0, 0, 0, 0, 0, 0}, MathBases}};
-        const u8* p = length.calc;
+        const Token* p = length.calc;
 
-        readMath(p, length.calc + length.size, c, math);
+        readMath(p, p + p->span + 1, c, math);
 
         return length.floor ? maxf((float)math.value, 0.f) : (float)math.value;
     }
@@ -8675,11 +9408,19 @@ namespace {
         return length.unit == Unit::Percent ? length.value / 100.f : resolveLength(length, Axis::Other, vp, fontSize);
     }
 
+    // An attribute's value read as one length (svg2/types.md): of its text,
+    // or of a declaration's value it holds.
+    static bool attributeLength(const Document& doc, u32 atom, Length& out) {
+        Token one;
+
+        return parseLength(attributeTokens(doc, atom, one), out);
+    }
+
     static bool lengthAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
         u32 value = attribute(node, name);
         Length length;
 
-        if (!value || !parseLength(textOf(doc, value), length)) {
+        if (!value || !attributeLength(doc, value, length)) {
             return false;
         }
 
@@ -8700,7 +9441,7 @@ namespace {
         u32 value = attribute(node, name);
         Length length;
 
-        if (!value || !parseLength(textOf(doc, value), length) || !nonNegative(length)) {
+        if (!value || !attributeLength(doc, value, length) || !nonNegative(length)) {
             return false;
         }
 
@@ -8714,12 +9455,13 @@ namespace {
     // attribute gives neither.
     static bool referenceOf(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float size, float& out) {
         u32 value = attribute(node, name);
-        StringView text = value ? trim(textOf(doc, value)) : StringView();
+        Token one;
+        Tokens tokens = value ? attributeTokens(doc, value, one) : Tokens{&one, &one};
         StringView low = axis == Axis::X ? SV("left") : SV("top");
         StringView high = axis == Axis::X ? SV("right") : SV("bottom");
 
-        if (text == low || text == SV("center") || text == high) {
-            out = text == low ? 0.f : text == high ? size : size / 2.f;
+        if (isKeyword(tokens, low) || isKeyword(tokens, SV("center")) || isKeyword(tokens, high)) {
+            out = isKeyword(tokens, low) ? 0.f : isKeyword(tokens, high) ? size : size / 2.f;
             return true;
         }
 
@@ -8950,19 +9692,8 @@ namespace {
     // A colour function of CSS Color 4: rgb() and hsl() in their legacy and
     // modern forms, hwb(), lab(), lch(), oklab(), oklch() and color() of the
     // predefined spaces, a missing component zero, then mapped into sRGB.
-    static bool parseFunctionColor(StringView text, Color& out) {
-        const u8* open = text.begin();
-
-        while (open < text.end() && *open != '(') {
-            open++;
-        }
-
-        // parseColor sends the texts that end with ')'.
-        if (open >= text.end()) {
-            return false;
-        }
-
-        StringView name = trim(StringView(text.begin(), open));
+    static bool parseFunctionColor(const Token* function, Color& out) {
+        StringView name = function->text;
         static const char* const names[] = {"rgb", "rgba", "hsl", "hsla", "hwb", "lab", "lch", "oklab", "oklch", "color"};
         int kind = -1;
 
@@ -8978,28 +9709,26 @@ namespace {
 
         bool rgb = kind <= 1;
         bool hsl = kind == 2 || kind == 3;
-        const u8* p = open + 1;
-        const u8* end = text.end() - 1;
+        Tokens arguments = contents(function);
+        const Token* p = arguments.begin;
+        const Token* end = arguments.end;
         StringView space;
 
         // color() names its space first.
         if (kind == 9) {
-            skipSpaces(p, end);
+            skipWhitespace(p, end);
 
-            const u8* start = p;
-
-            while (p < end && isIdentChar(*p)) {
+            if (p < end && p->type == TokenType::Ident) {
+                space = p->text;
                 p++;
             }
-
-            space = StringView(start, p);
         }
 
         ColorArgument args[8];
         u32 count = 0;
 
         for (;;) {
-            skipSpaces(p, end);
+            skipWhitespace(p, end);
 
             if (p >= end) {
                 break;
@@ -9011,21 +9740,20 @@ namespace {
 
             ColorArgument& arg = args[count++];
             float number;
+            u8 base;
 
-            if (*p == ',' || *p == '/') {
-                arg.kind = *p == ',' ? ColorToken::Comma : ColorToken::Slash;
+            if (p->type == TokenType::Comma || isDelim(p, '/')) {
+                arg.kind = p->type == TokenType::Comma ? ColorToken::Comma : ColorToken::Slash;
                 p++;
                 continue;
             }
 
-            if (end - p >= 4 && equalsIgnoreCase(StringView(p, p + 4), SV("none"))) {
+            if (isIdent(p, SV("none"))) {
                 arg.kind = ColorToken::None;
                 arg.value = 0.0;
-                p += 4;
+                p++;
                 continue;
             }
-
-            u8 base;
 
             // A math function standing for a number, a percentage or an
             // angle.
@@ -9035,32 +9763,22 @@ namespace {
                 continue;
             }
 
-            if (!readNumber(p, end, number)) {
-                return false;
-            }
+            arg.value = p->number;
 
-            const u8* unit = p;
-
-            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
-                p++;
-            }
-
-            StringView word(unit, p);
-
-            arg.value = number;
-            arg.kind = ColorToken::Number;
-
-            if (at(p, end, '%') && word.empty()) {
+            if (p->type == TokenType::Number) {
+                arg.kind = ColorToken::Number;
+            } else if (p->type == TokenType::Percentage) {
                 arg.kind = ColorToken::Percent;
-                p++;
-            } else if (equalsIgnoreCase(word, SV("deg"))) {
+            } else if (p->type == TokenType::Dimension && equalsIgnoreCase(p->text, SV("deg"))) {
                 arg.kind = ColorToken::Angle;
-            } else if (equalsIgnoreCase(word, SV("rad")) || equalsIgnoreCase(word, SV("grad")) || equalsIgnoreCase(word, SV("turn"))) {
+            } else if (p->type == TokenType::Dimension && (equalsIgnoreCase(p->text, SV("rad")) || equalsIgnoreCase(p->text, SV("grad")) || equalsIgnoreCase(p->text, SV("turn")))) {
                 arg.kind = ColorToken::Angle;
-                arg.value *= equalsIgnoreCase(word, SV("rad")) ? 180.0 / pi : (equalsIgnoreCase(word, SV("grad")) ? 0.9 : 360.0);
-            } else if (!word.empty()) {
+                arg.value *= equalsIgnoreCase(p->text, SV("rad")) ? 180.0 / pi : (equalsIgnoreCase(p->text, SV("grad")) ? 0.9 : 360.0);
+            } else {
                 return false;
             }
+
+            p++;
         }
 
         // The legacy form, commas between all four, for rgb() and hsl()
@@ -9245,15 +9963,19 @@ namespace {
         return true;
     }
 
-    static bool parseColor(StringView source, Color& out) {
-        StringView text = trim(source);
+    // A colour (css-color-4): a hex colour, a hash of three, four, six or
+    // eight hex digits; transparent; a colour function; a named or system
+    // colour.
+    static bool parseColor(Tokens value, Color& out) {
+        const Token* t = single(value);
 
-        if (text.empty()) {
+        if (!t) {
             return false;
         }
 
-        if (text[0] == '#') {
-            size_t length = text.length() - 1;
+        if (t->type == TokenType::Hash) {
+            StringView text = t->text;
+            size_t length = text.length();
             int digits[8];
 
             if (length != 3 && length != 4 && length != 6 && length != 8) {
@@ -9261,7 +9983,7 @@ namespace {
             }
 
             for (size_t i = 0; i < length; i++) {
-                digits[i] = hexDigit(text[i + 1]);
+                digits[i] = hexDigit(text[i]);
 
                 if (digits[i] < 0) {
                     return false;
@@ -9277,18 +9999,22 @@ namespace {
             return true;
         }
 
-        if (equalsIgnoreCase(text, SV("transparent"))) {
+        if (t->type == TokenType::Function) {
+            return parseFunctionColor(t, out);
+        }
+
+        if (t->type != TokenType::Ident) {
+            return false;
+        }
+
+        if (equalsIgnoreCase(t->text, SV("transparent"))) {
             out = Color{0.f, 0.f, 0.f, 0.f};
 
             return true;
         }
 
-        if (text.back() == ')') {
-            return parseFunctionColor(text, out);
-        }
-
         for (const NamedColor& named : namedColors) {
-            if (equalsIgnoreCase(text, StringView(named.name))) {
+            if (equalsIgnoreCase(t->text, StringView(named.name))) {
                 out = Color{((named.rgb >> 16) & 0xff) / 255.f, ((named.rgb >> 8) & 0xff) / 255.f, (named.rgb & 0xff) / 255.f, 1.f};
 
                 return true;
@@ -9296,7 +10022,7 @@ namespace {
         }
 
         for (const NamedColor& named : systemColors) {
-            if (equalsIgnoreCase(text, StringView(named.name))) {
+            if (equalsIgnoreCase(t->text, StringView(named.name))) {
                 out = Color{((named.rgb >> 24) & 0xff) / 255.f, ((named.rgb >> 16) & 0xff) / 255.f, ((named.rgb >> 8) & 0xff) / 255.f, (named.rgb & 0xff) / 255.f};
 
                 return true;
@@ -9306,42 +10032,42 @@ namespace {
         return false;
     }
 
-    static bool parsePaint(const Document& doc, StringView source, PaintValue& out) {
-        StringView text = trim(source);
+    // A paint (svg2/painting.md#SpecifyingPaint): none, currentcolor, a
+    // colour, or a url, perhaps with a fallback of one of the others.
+    static bool parsePaint(const Document& doc, Tokens value, PaintValue& out) {
+        const Token* p = trimmed(value).begin;
+        const Token* end = trimmed(value).end;
+        StringView reference;
 
         out.server = 0;
         out.fallback = PaintKind::None;
         out.context = false;
 
-        if (equalsIgnoreCase(text, SV("none"))) {
+        if (isKeyword(value, SV("none"))) {
             out.kind = PaintKind::None;
 
             return true;
         }
 
-        if (equalsIgnoreCase(text, SV("currentcolor"))) {
+        if (isKeyword(value, SV("currentcolor"))) {
             out.kind = PaintKind::CurrentColor;
 
             return true;
         }
 
-        const u8* p = text.begin();
-        StringView reference;
-        Buffer scratch;
+        if (p < end && urlOf(p, reference)) {
+            Tokens fallback = trimmed(Tokens{p + p->span + 1, end});
 
-        if (readUrl(p, text.end(), reference, scratch)) {
             out.kind = PaintKind::Server;
 
             if (!reference.empty() && reference[0] == '#') {
                 out.server = fragmentAtom(doc, StringView(reference.begin() + 1, reference.end()));
             }
 
-            StringView fallback = trim(StringView(p, text.end()));
-
-            if (!fallback.empty()) {
-                if (equalsIgnoreCase(fallback, SV("none"))) {
+            if (fallback.begin < fallback.end) {
+                if (isKeyword(fallback, SV("none"))) {
                     out.fallback = PaintKind::None;
-                } else if (equalsIgnoreCase(fallback, SV("currentcolor"))) {
+                } else if (isKeyword(fallback, SV("currentcolor"))) {
                     out.fallback = PaintKind::CurrentColor;
                 } else if (parseColor(fallback, out.fallbackColor)) {
                     out.fallback = PaintKind::Color;
@@ -9353,7 +10079,7 @@ namespace {
             return true;
         }
 
-        if (parseColor(text, out.color)) {
+        if (parseColor(value, out.color)) {
             out.kind = PaintKind::Color;
 
             return true;
@@ -9363,8 +10089,9 @@ namespace {
     }
 
     // A transform list: in an attribute SVG's, numbers alone and its six
-    // functions; in a declaration CSS's too, with angle and length units and
-    // the functions of one axis.
+    // functions, a name perhaps apart from its parenthesis; in a
+    // declaration CSS's, with angle and length units, math functions and
+    // the functions of one axis and of three.
     // The kinds of a CSS transform function's arguments, of which it may
     // leave the last ones out: a length or percentage L, a length D, an
     // angle A, a number or percentage S, a number N. A length takes its
@@ -9427,33 +10154,326 @@ namespace {
         return false;
     }
 
-    static bool parseTransform(StringView text, Matrix& out, TransformGrammar grammar, Projective* perspective, const TransformBasis* basis, Matrix4* full) {
-        bool css = grammar != TransformGrammar::Attribute;
-        const u8* p = text.begin();
-        const u8* end = text.end();
-        Matrix result = identity();
-        // Past the first 3D function the list goes on in 4 by 4, rows by
-        // columns, a point a column.
-        bool deep = false;
+    // A transform list as it is built, function by function: in 2D, or
+    // past the first 3D function in 4 by 4, rows by columns, a point a
+    // column.
+    struct TransformBuilder {
+        Matrix result;
+        bool deep;
         float m4[4][4];
-        auto compose = [&](const float (&n)[4][4]) {
-            float t[4][4];
+    };
 
-            if (!deep) {
-                float flat[4][4] = {{result.a, result.c, 0.f, result.e}, {result.b, result.d, 0.f, result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+    static void composeTransform(TransformBuilder& b, const float (&n)[4][4]) {
+        float t[4][4];
 
-                memcpy(m4, flat, sizeof(flat));
-                deep = true;
+        if (!b.deep) {
+            float flat[4][4] = {{b.result.a, b.result.c, 0.f, b.result.e}, {b.result.b, b.result.d, 0.f, b.result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+
+            memcpy(b.m4, flat, sizeof(flat));
+            b.deep = true;
+        }
+
+        for (int r = 0; r < 4; r++) {
+            for (int c = 0; c < 4; c++) {
+                t[r][c] = (float)((double)b.m4[r][0] * n[0][c] + (double)b.m4[r][1] * n[1][c] + (double)b.m4[r][2] * n[2][c] + (double)b.m4[r][3] * n[3][c]);
+            }
+        }
+
+        memcpy(b.m4, t, sizeof(t));
+    }
+
+    // A transform function into the builder: its name, its arguments, each
+    // a component value. SVG's grammar takes numbers alone, CSS's lengths,
+    // angles, percentages and math functions too.
+    static bool transformFunction(TransformBuilder& b, StringView name, const Tokens* arguments, u32 count, TransformGrammar grammar, const TransformBasis* basis) {
+        bool css = grammar != TransformGrammar::Attribute;
+        float args[16];
+        // Each argument's unit: none, a length, an angle, a percentage, or a
+        // number from a math function, which is never a zero length or
+        // angle (css-values-4 5.3).
+        u8 units[16];
+
+        for (u32 i = 0; i < count; i++) {
+            const Token* t = arguments[i].begin;
+            // A math function's percentage in a translation is the length
+            // that share of the box's side along its axis is, elsewhere a
+            // percentage still.
+            Viewport box = basis ? basis->box : Viewport{0.f, 0.f, 0.f, 0.f, 16.f};
+            float fontSize = basis ? basis->fontSize : 16.f;
+            bool translate = equalsIgnoreCase(name, SV("translate")) || equalsIgnoreCase(name, SV("translate3d"));
+            bool vertical = equalsIgnoreCase(name, SV("translateY")) || (translate && i == 1);
+            bool along = (translate && i < 2) || equalsIgnoreCase(name, SV("translateX")) || vertical;
+            MathContext c{box, fontSize, vertical ? box.height : box.width, along, false};
+            MathValue math;
+            Unit unit;
+
+            if (t->type == TokenType::Function) {
+                const Token* q = t;
+
+                // SVG's grammar takes no math function (css-transforms-1 6.2).
+                if (!css || !readMath(q, arguments[i].end, c, math)) {
+                    return false;
+                }
+
+                args[i] = (float)math.value;
+                units[i] = mathOf(math.type, MathBases) ? 4 : (mathOf(math.type, MathLength) ? 1 : (mathOf(math.type, MathAngle) ? 2 : 3));
+
+                if (units[i] == 3 && !mathOf(math.type, MathPercent)) {
+                    return false;
+                }
+
+                continue;
             }
 
-            for (int r = 0; r < 4; r++) {
-                for (int c = 0; c < 4; c++) {
-                    t[r][c] = (float)((double)m4[r][0] * n[0][c] + (double)m4[r][1] * n[1][c] + (double)m4[r][2] * n[2][c] + (double)m4[r][3] * n[3][c]);
+            if (t->type != TokenType::Number && t->type != TokenType::Percentage && t->type != TokenType::Dimension) {
+                return false;
+            }
+
+            args[i] = (float)t->number;
+            units[i] = t->type == TokenType::Number ? 0 : (t->type == TokenType::Percentage ? 3 : 1);
+
+            if (!css && units[i]) {
+                return false;
+            }
+
+            if (t->type != TokenType::Dimension) {
+                continue;
+            }
+
+            if (equalsIgnoreCase(t->text, SV("deg")) || equalsIgnoreCase(t->text, SV("rad")) || equalsIgnoreCase(t->text, SV("grad")) || equalsIgnoreCase(t->text, SV("turn"))) {
+                units[i] = 2;
+                args[i] *= equalsIgnoreCase(t->text, SV("rad")) ? 180.f / pi : (equalsIgnoreCase(t->text, SV("grad")) ? 0.9f : (equalsIgnoreCase(t->text, SV("turn")) ? 360.f : 1.f));
+            } else if (lengthUnitOf(t->text, unit)) {
+                // A length of any unit, in pixels: font-relative ones of the
+                // element's font, viewport ones of the screen.
+                args[i] = resolveLength(Length{(float)t->number, unit}, Axis::Other, box, fontSize);
+            } else {
+                return false;
+            }
+        }
+
+        Matrix m;
+
+        if (!css && !(name == SV("matrix") || name == SV("translate") || name == SV("scale") || name == SV("rotate") || name == SV("skewX") || name == SV("skewY"))) {
+            return false;
+        }
+
+        if (grammar == TransformGrammar::Declaration && !cssTransformArguments(name, units, args, count)) {
+            return false;
+        }
+
+        // A percentage is a number in a scale (css-transforms-2), and in a
+        // translation of the reference box's side along its axis.
+        bool scale = name == SV("scale") || name == SV("scaleX") || name == SV("scaleY") || name == SV("scaleZ") || name == SV("scale3d");
+
+        for (u32 i = 0; i < count; i++) {
+            bool vertical = name == SV("translateY") || i == 1;
+            float side = basis ? (vertical ? basis->box.height : basis->box.width) : 0.f;
+
+            args[i] = units[i] == 3 ? args[i] / 100.f * (scale ? 1.f : side) : args[i];
+        }
+
+        // A function of CSS alone comes here with its count: a declaration
+        // checked it above, a value either grammar takes was one.
+        if (name == SV("translateX")) {
+            name = SV("translate");
+        } else if (name == SV("translateY")) {
+            name = SV("translate");
+            args[1] = args[0];
+            args[0] = 0.f;
+            count = 2;
+        } else if (name == SV("scaleX")) {
+            name = SV("scale");
+            args[1] = 1.f;
+            count = 2;
+        } else if (name == SV("scaleY")) {
+            name = SV("scale");
+            args[1] = args[0];
+            args[0] = 1.f;
+            count = 2;
+        } else if (name == SV("skew")) {
+            name = SV("matrix");
+            args[1] = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
+            args[2] = tanf(args[0] * pi / 180.f);
+            args[0] = 1.f;
+            args[3] = 1.f;
+            args[4] = 0.f;
+            args[5] = 0.f;
+            count = 6;
+        }
+
+        // The 3D functions of CSS Transforms 2.
+        float n[4][4] = {{1.f, 0.f, 0.f, 0.f}, {0.f, 1.f, 0.f, 0.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+        bool rotation = name == SV("rotateX") || name == SV("rotateY") || name == SV("rotateZ");
+        bool three = true;
+
+        if (name == SV("translate3d")) {
+            n[0][3] = args[0];
+            n[1][3] = args[1];
+            n[2][3] = args[2];
+        } else if (name == SV("translateZ")) {
+            n[2][3] = args[0];
+        } else if (name == SV("scale3d")) {
+            n[0][0] = args[0];
+            n[1][1] = args[1];
+            n[2][2] = args[2];
+        } else if (name == SV("scaleZ")) {
+            n[2][2] = args[0];
+        } else if (name == SV("rotate3d") || rotation) {
+            float axis[3] = {name == SV("rotateX") ? 1.f : 0.f, name == SV("rotateY") ? 1.f : 0.f, name == SV("rotateZ") ? 1.f : 0.f};
+            float angle = (rotation ? args[0] : args[3]) * pi / 180.f;
+            float length = rotation ? 1.f : sqrtf(args[0] * args[0] + args[1] * args[1] + args[2] * args[2]);
+
+            // An axis of no length turns nothing.
+            for (int k = 0; k < 3 && !rotation; k++) {
+                axis[k] = length > 0.f ? args[k] / length : 0.f;
+            }
+
+            float x = axis[0];
+            float y = axis[1];
+            float z = axis[2];
+            float sc = sinf(angle / 2.f) * cosf(angle / 2.f);
+            float sq = sinf(angle / 2.f) * sinf(angle / 2.f);
+            float turn[4][4] = {{1.f - 2.f * (y * y + z * z) * sq, 2.f * (x * y * sq - z * sc), 2.f * (x * z * sq + y * sc), 0.f}, {2.f * (x * y * sq + z * sc), 1.f - 2.f * (x * x + z * z) * sq, 2.f * (y * z * sq - x * sc), 0.f}, {2.f * (x * z * sq - y * sc), 2.f * (y * z * sq + x * sc), 1.f - 2.f * (x * x + y * y) * sq, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+
+            memcpy(n, turn, sizeof(n));
+        } else if (name == SV("perspective") && args[0] >= 0.f) {
+            // A depth below a px is a px.
+            n[3][2] = -1.f / maxf(args[0], 1.f);
+        } else if (name == SV("matrix3d")) {
+            for (int k = 0; k < 16; k++) {
+                n[k % 4][k / 4] = args[k];
+            }
+        } else {
+            three = false;
+        }
+
+        if (three) {
+            composeTransform(b, n);
+
+            return true;
+        }
+
+        if (name == SV("matrix") && count == 6) {
+            m = Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
+        } else if (name == SV("translate") && (count == 1 || count == 2)) {
+            m = translation(args[0], count == 2 ? args[1] : 0.f);
+        } else if (name == SV("scale") && (count == 1 || count == 2)) {
+            m = scaling(args[0], count == 2 ? args[1] : args[0]);
+        } else if (name == SV("rotate") && (count == 1 || count == 3)) {
+            float angle = args[0] * pi / 180.f;
+            float cs = cosf(angle);
+            float sn = sinf(angle);
+
+            m = Matrix{cs, sn, -sn, cs, 0.f, 0.f};
+
+            if (count == 3) {
+                m = multiply(multiply(translation(args[1], args[2]), m), translation(-args[1], -args[2]));
+            }
+        } else if (name == SV("skewX") && count == 1) {
+            m = Matrix{1.f, 0.f, tanf(args[0] * pi / 180.f), 1.f, 0.f, 0.f};
+        } else if (name == SV("skewY") && count == 1) {
+            m = Matrix{1.f, tanf(args[0] * pi / 180.f), 0.f, 1.f, 0.f, 0.f};
+        } else {
+            return false;
+        }
+
+        if (b.deep) {
+            float flat[4][4] = {{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+
+            composeTransform(b, flat);
+        } else {
+            b.result = multiply(b.result, m);
+        }
+
+        return true;
+    }
+
+    // The transform functions of a list into the builder: each a function
+    // token, or in SVG's grammar a name and a ()-block, white space between
+    // them; its arguments apart by white space, a comma perhaps, and the
+    // functions too; a comma neither leads, ends nor doubles.
+    static bool transformFunctions(TransformBuilder& b, Tokens list, TransformGrammar grammar, const TransformBasis* basis) {
+        const Token* p = list.begin;
+        const Token* end = list.end;
+        bool first = true;
+
+        for (;;) {
+            bool separator = false;
+
+            skipWhitespace(p, end);
+
+            if (p < end && p->type == TokenType::Comma) {
+                if (first) {
+                    return false;
+                }
+
+                separator = true;
+                p++;
+                skipWhitespace(p, end);
+            }
+
+            if (p >= end) {
+                return !separator;
+            }
+
+            first = false;
+
+            StringView name = p->text;
+            const Token* block = p;
+
+            if (p->type == TokenType::Ident && grammar != TransformGrammar::Declaration) {
+                block = p + 1;
+                skipWhitespace(block, end);
+            }
+
+            // SVG's grammar closes each function itself.
+            if (!(block < end && ((block == p && p->type == TokenType::Function) || (block != p && block->type == TokenType::OpenParen))) || (grammar == TransformGrammar::Attribute && (block->flags & TokenOpen))) {
+                return false;
+            }
+
+            Tokens arguments[16];
+            u32 count = 0;
+            Tokens inside = contents(block);
+            const Token* q = inside.begin;
+
+            p = block + block->span + 1;
+
+            for (;;) {
+                skipWhitespace(q, inside.end);
+
+                if (q >= inside.end) {
+                    break;
+                }
+
+                if (count == 16) {
+                    return false;
+                }
+
+                arguments[count++] = Tokens{q, q + q->span + 1};
+                q += q->span + 1;
+                skipWhitespace(q, inside.end);
+
+                if (q < inside.end && q->type == TokenType::Comma) {
+                    q++;
+                    skipWhitespace(q, inside.end);
+
+                    if (q >= inside.end || q->type == TokenType::Comma) {
+                        return false;
+                    }
                 }
             }
 
-            memcpy(m4, t, sizeof(t));
-        };
+            if (!transformFunction(b, name, arguments, count, grammar, basis)) {
+                return false;
+            }
+        }
+    }
+
+    // The builder's matrix: on z = 0 a point goes by the first, second and
+    // last columns, in perspective where the weight varies or has no sign.
+    static Matrix finishTransform(const TransformBuilder& b, Projective* perspective, Matrix4* full) {
+        Matrix result = b.result;
 
         if (perspective) {
             perspective->on = false;
@@ -9461,302 +10481,8 @@ namespace {
             perspective->back = false;
         }
 
-        if (full) {
-            *full = identity4();
-        }
-
-        if (equalsIgnoreCase(trim(text), SV("none"))) {
-            out = result;
-
-            return true;
-        }
-
-        bool first = true;
-
-        for (;;) {
-            bool separator = false;
-
-            skipSpaces(p, end);
-
-            if (at(p, end, ',')) {
-                if (first) {
-                    return false;
-                }
-
-                separator = true;
-                p++;
-
-                skipSpaces(p, end);
-            }
-
-            if (p >= end) {
-                if (separator) {
-                    return false;
-                }
-
-                break;
-            }
-
-            first = false;
-
-            const u8* start = p;
-
-            // A name of letters, and digits after them: translate3d.
-            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (p > start && (u8)(*p - '0') < 10))) {
-                p++;
-            }
-
-            StringView name(start, p);
-
-            skipSpaces(p, end);
-
-            if (p >= end || *p != '(') {
-                return false;
-            }
-
-            p++;
-
-            float args[16];
-            // Each argument's unit: none, a length, an angle, a percentage,
-            // or a number from a math function, which is never a zero
-            // length or angle (css-values-4 5.3).
-            u8 units[16];
-            u32 count = 0;
-
-            for (;;) {
-                skipSpaces(p, end);
-
-                if (at(p, end, ')')) {
-                    p++;
-                    break;
-                }
-
-                const u8* numberStart = p;
-                // A math function's percentage in a translation is the
-                // length that share of the box's side along its axis is,
-                // elsewhere a percentage still.
-                Viewport box = basis ? basis->box : Viewport{0.f, 0.f, 0.f, 0.f, 16.f};
-                float fontSize = basis ? basis->fontSize : 16.f;
-                bool translate = equalsIgnoreCase(name, SV("translate")) || equalsIgnoreCase(name, SV("translate3d"));
-                bool vertical = equalsIgnoreCase(name, SV("translateY")) || (translate && count == 1);
-                bool along = (translate && count < 2) || equalsIgnoreCase(name, SV("translateX")) || vertical;
-                MathContext c{box, fontSize, vertical ? box.height : box.width, along, false};
-                MathValue math;
-                bool comma = false;
-
-                if (count == 16) {
-                    return false;
-                }
-
-                // SVG's grammar takes no math function (css-transforms-1 6.2).
-                if (css && readMath(p, end, c, math)) {
-                    args[count] = (float)math.value;
-                    units[count] = mathOf(math.type, MathBases) ? 4 : (mathOf(math.type, MathLength) ? 1 : (mathOf(math.type, MathAngle) ? 2 : 3));
-
-                    if (units[count] == 3 && !mathOf(math.type, MathPercent)) {
-                        return false;
-                    }
-                } else {
-                    double number;
-
-                    if (!readDouble(p, end, number)) {
-                        return false;
-                    }
-
-                    args[count] = (float)number;
-
-                    bool percent = at(p, end, '%');
-                    const u8* unitStart = p + percent;
-
-                    p = unitStart;
-
-                    while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z'))) {
-                        p++;
-                    }
-
-                    StringView unit(unitStart, p);
-                    bool angle = equalsIgnoreCase(unit, SV("deg")) || equalsIgnoreCase(unit, SV("rad")) || equalsIgnoreCase(unit, SV("grad")) || equalsIgnoreCase(unit, SV("turn"));
-
-                    if (!css && (percent || !unit.empty())) {
-                        return false;
-                    }
-
-                    units[count] = percent ? 3 : (unit.empty() ? 0 : (angle ? 2 : 1));
-
-                    if (equalsIgnoreCase(unit, SV("rad"))) {
-                        args[count] *= 180.f / pi;
-                    } else if (equalsIgnoreCase(unit, SV("grad"))) {
-                        args[count] *= 0.9f;
-                    } else if (equalsIgnoreCase(unit, SV("turn"))) {
-                        args[count] *= 360.f;
-                    } else if (units[count] == 1) {
-                        // A length of any unit, in pixels: font-relative ones
-                        // of the element's font, viewport ones of the screen.
-                        Length length;
-                        const u8* q = numberStart;
-
-                        if (!readLength(q, end, length)) {
-                            return false;
-                        }
-
-                        args[count] = resolveLength(length, Axis::Other, box, fontSize);
-                    }
-                }
-
-                count++;
-
-                skipSpaces(p, end);
-
-                if (at(p, end, ',')) {
-                    comma = true;
-                    p++;
-                }
-
-                skipSpaces(p, end);
-
-                if (comma && (p >= end || *p == ')' || *p == ',')) {
-                    return false;
-                }
-            }
-
-            Matrix m;
-
-            if (!css && !(name == SV("matrix") || name == SV("translate") || name == SV("scale") || name == SV("rotate") || name == SV("skewX") || name == SV("skewY"))) {
-                return false;
-            }
-
-            if (grammar == TransformGrammar::Declaration && !cssTransformArguments(name, units, args, count)) {
-                return false;
-            }
-
-            // A percentage is a number in a scale (css-transforms-2), and in a
-            // translation of the reference box's side along its axis.
-            bool scale = name == SV("scale") || name == SV("scaleX") || name == SV("scaleY") || name == SV("scaleZ") || name == SV("scale3d");
-
-            for (u32 i = 0; i < count; i++) {
-                bool vertical = name == SV("translateY") || i == 1;
-                float side = basis ? (vertical ? basis->box.height : basis->box.width) : 0.f;
-
-                args[i] = units[i] == 3 ? args[i] / 100.f * (scale ? 1.f : side) : args[i];
-            }
-
-            // A function of CSS alone comes here with its count: a
-            // declaration checked it above, a value either grammar takes
-            // was one.
-            if (name == SV("translateX")) {
-                name = SV("translate");
-            } else if (name == SV("translateY")) {
-                name = SV("translate");
-                args[1] = args[0];
-                args[0] = 0.f;
-                count = 2;
-            } else if (name == SV("scaleX")) {
-                name = SV("scale");
-                args[1] = 1.f;
-                count = 2;
-            } else if (name == SV("scaleY")) {
-                name = SV("scale");
-                args[1] = args[0];
-                args[0] = 1.f;
-                count = 2;
-            } else if (name == SV("skew")) {
-                name = SV("matrix");
-                args[1] = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
-                args[2] = tanf(args[0] * pi / 180.f);
-                args[0] = 1.f;
-                args[3] = 1.f;
-                args[4] = 0.f;
-                args[5] = 0.f;
-                count = 6;
-            }
-
-            // The 3D functions of CSS Transforms 2.
-            float n[4][4] = {{1.f, 0.f, 0.f, 0.f}, {0.f, 1.f, 0.f, 0.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
-            bool rotation = name == SV("rotateX") || name == SV("rotateY") || name == SV("rotateZ");
-            bool three = true;
-
-            if (name == SV("translate3d")) {
-                n[0][3] = args[0];
-                n[1][3] = args[1];
-                n[2][3] = args[2];
-            } else if (name == SV("translateZ")) {
-                n[2][3] = args[0];
-            } else if (name == SV("scale3d")) {
-                n[0][0] = args[0];
-                n[1][1] = args[1];
-                n[2][2] = args[2];
-            } else if (name == SV("scaleZ")) {
-                n[2][2] = args[0];
-            } else if (name == SV("rotate3d") || rotation) {
-                float axis[3] = {name == SV("rotateX") ? 1.f : 0.f, name == SV("rotateY") ? 1.f : 0.f, name == SV("rotateZ") ? 1.f : 0.f};
-                float angle = (rotation ? args[0] : args[3]) * pi / 180.f;
-                float length = rotation ? 1.f : sqrtf(args[0] * args[0] + args[1] * args[1] + args[2] * args[2]);
-
-                // An axis of no length turns nothing.
-                for (int k = 0; k < 3 && !rotation; k++) {
-                    axis[k] = length > 0.f ? args[k] / length : 0.f;
-                }
-
-                float x = axis[0];
-                float y = axis[1];
-                float z = axis[2];
-                float sc = sinf(angle / 2.f) * cosf(angle / 2.f);
-                float sq = sinf(angle / 2.f) * sinf(angle / 2.f);
-                float turn[4][4] = {{1.f - 2.f * (y * y + z * z) * sq, 2.f * (x * y * sq - z * sc), 2.f * (x * z * sq + y * sc), 0.f}, {2.f * (x * y * sq + z * sc), 1.f - 2.f * (x * x + z * z) * sq, 2.f * (y * z * sq - x * sc), 0.f}, {2.f * (x * z * sq - y * sc), 2.f * (y * z * sq + x * sc), 1.f - 2.f * (x * x + y * y) * sq, 0.f}, {0.f, 0.f, 0.f, 1.f}};
-
-                memcpy(n, turn, sizeof(n));
-            } else if (name == SV("perspective") && args[0] >= 0.f) {
-                // A depth below a px is a px.
-                n[3][2] = -1.f / maxf(args[0], 1.f);
-            } else if (name == SV("matrix3d")) {
-                for (int k = 0; k < 16; k++) {
-                    n[k % 4][k / 4] = args[k];
-                }
-            } else {
-                three = false;
-            }
-
-            if (three) {
-                compose(n);
-                continue;
-            }
-
-            if (name == SV("matrix") && count == 6) {
-                m = Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
-            } else if (name == SV("translate") && (count == 1 || count == 2)) {
-                m = translation(args[0], count == 2 ? args[1] : 0.f);
-            } else if (name == SV("scale") && (count == 1 || count == 2)) {
-                m = scaling(args[0], count == 2 ? args[1] : args[0]);
-            } else if (name == SV("rotate") && (count == 1 || count == 3)) {
-                float angle = args[0] * pi / 180.f;
-                float cs = cosf(angle);
-                float sn = sinf(angle);
-
-                m = Matrix{cs, sn, -sn, cs, 0.f, 0.f};
-
-                if (count == 3) {
-                    m = multiply(multiply(translation(args[1], args[2]), m), translation(-args[1], -args[2]));
-                }
-            } else if (name == SV("skewX") && count == 1) {
-                m = Matrix{1.f, 0.f, tanf(args[0] * pi / 180.f), 1.f, 0.f, 0.f};
-            } else if (name == SV("skewY") && count == 1) {
-                m = Matrix{1.f, tanf(args[0] * pi / 180.f), 0.f, 1.f, 0.f, 0.f};
-            } else {
-                return false;
-            }
-
-            if (deep) {
-                float flat[4][4] = {{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
-
-                compose(flat);
-            } else {
-                result = multiply(result, m);
-            }
-        }
-
-        // On z = 0 a point goes by the first, second and last columns: in
-        // perspective where the weight varies or has no sign.
-        if (deep) {
+        if (b.deep) {
+            const float (&m4)[4][4] = b.m4;
             float w = m4[3][3] != 0.f ? m4[3][3] : 1.f;
 
             result = Matrix{m4[0][0] / w, m4[1][0] / w, m4[0][1] / w, m4[1][1] / w, m4[0][3] / w, m4[1][3] / w};
@@ -9772,25 +10498,29 @@ namespace {
         }
 
         if (full) {
-            *full = deep ? Matrix4{} : matrix4Of(result);
+            *full = b.deep ? Matrix4{} : matrix4Of(result);
 
-            if (deep) {
-                memcpy(full->m, m4, sizeof(m4));
+            if (b.deep) {
+                memcpy(full->m, b.m4, sizeof(b.m4));
             }
         }
 
-        out = result;
+        return result;
+    }
+
+    static bool parseTransform(Tokens value, Matrix& out, TransformGrammar grammar, Projective* perspective, const TransformBasis* basis, Matrix4* full) {
+        TransformBuilder b{identity(), false, {}};
+
+        if (!isKeyword(value, SV("none")) && !transformFunctions(b, value, grammar, basis)) {
+            return false;
+        }
+
+        out = finishTransform(b, perspective, full);
 
         return true;
     }
 
-    static bool readOrigin(const u8*& p, const u8* end, float extentX, float extentY, float& x, float& y, int& axis) {
-        skipSpaces(p, end);
-
-        if (p >= end) {
-            return false;
-        }
-
+    static bool readOrigin(const Token*& p, const Token* end, float extentX, float extentY, float& x, float& y, int& axis) {
         static const struct {
             const char* name;
             int axis;
@@ -9803,11 +10533,15 @@ namespace {
             {"center", 2, 0.5f},
         };
 
-        for (const auto& keyword : keywords) {
-            size_t n = strlen(keyword.name);
+        skipWhitespace(p, end);
 
-            if ((size_t)(end - p) >= n && equalsIgnoreCase(StringView(p, p + n), StringView(keyword.name))) {
-                p += n;
+        if (p >= end) {
+            return false;
+        }
+
+        for (const auto& keyword : keywords) {
+            if (isIdent(p, StringView(keyword.name))) {
+                p++;
                 axis = keyword.axis;
                 x = keyword.fraction * extentX;
                 y = keyword.fraction * extentY;
@@ -9831,9 +10565,9 @@ namespace {
 
     // transform-origin's point, and with z its third value, a length, 0 if
     // none.
-    static Point transformOrigin(StringView text, float extentX, float extentY, float* z = nullptr) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    static Point transformOrigin(Tokens value, float extentX, float extentY, float* z = nullptr) {
+        const Token* p = value.begin;
+        const Token* end = value.end;
         float x1;
         float y1;
         float x2;
@@ -9856,7 +10590,7 @@ namespace {
         if (z) {
             Length depth;
 
-            skipSpaces(p, end);
+            skipWhitespace(p, end);
             *z = readLength(p, end, depth) ? resolveAgainst(depth, 0.f, Viewport{extentX, extentY, extentX, extentY, 16.f}, 16.f) : 0.f;
         }
 
@@ -9867,20 +10601,33 @@ namespace {
         return Point{x1, y2};
     }
 
-    // translate, rotate or scale, other than none, as the transform functions
-    // they stand for (css-transforms-2.md, individual-transforms): 2D where
-    // the third axis does nothing, 3D otherwise; false for a value of the
-    // wrong shape, whose functions then fail as a declaration.
-    static bool individualTransform(u32 property, StringView value, Buffer& out) {
-        StringView words[4];
+    // translate, rotate or scale, other than none, into the builder as the
+    // transform functions they stand for (css-transforms-2.md,
+    // individual-transforms): 2D where the third axis does nothing, 3D
+    // otherwise; false for a value of the wrong shape, whose functions
+    // then fail as a declaration.
+    static bool individualTransform(TransformBuilder& b, u32 property, Tokens value, TransformGrammar grammar, const TransformBasis* basis) {
+        Tokens words[4];
         u32 count = 0;
-        const u8* p = value.begin();
-        const u8* end = value.end();
+        const Token* p = value.begin;
+        auto number = [](Tokens w, float& v) {
+            return parseNumber(w, v);
+        };
+        auto constant = [](const char* text) {
+            static Token zero{StringView(), 0.0, 0, TokenType::Number, TokenInteger};
+            static Token one{StringView(), 1.0, 0, TokenType::Number, TokenInteger};
+            static Token zeroPx{SV("px"), 0.0, 0, TokenType::Dimension, TokenInteger};
+            Token* t = text[0] == '1' ? &one : (text[1] == 'p' ? &zeroPx : &zero);
+
+            return Tokens{t, t + 1};
+        };
+        Tokens args[4];
+        float v[3];
 
         for (;;) {
-            skipSpaces(p, end);
+            Tokens word = nextWord(p, value.end);
 
-            if (p >= end) {
+            if (empty(word)) {
                 break;
             }
 
@@ -9888,99 +10635,64 @@ namespace {
                 return false;
             }
 
-            const u8* start = p;
-            int depth = 0;
-
-            while (p < end && (depth > 0 || !isSpace(*p))) {
-                depth += *p == '(';
-                depth -= *p == ')' && depth > 0;
-                p++;
-            }
-
-            words[count++] = StringView(start, p);
+            words[count++] = word;
         }
 
-        auto put = [&](const char* text) {
-            out.append(text, strlen(text));
-        };
-        auto word = [&](StringView w) {
-            out.append(w.data(), w.length());
-        };
-        auto number = [](StringView w, float& v) {
-            const u8* q = w.begin();
-
-            return readNumber(q, w.end(), v) && q == w.end();
-        };
-        float v[3];
-
         // A translation or a scale has one to three values.
-        if (property != AtomRotate && count == 4) {
+        if (count == 0 || (property != AtomRotate && count == 4)) {
             return false;
         }
 
         if (property == AtomTranslate) {
             Length z;
-            const u8* q = words[2].begin();
             // A length of zero along z; a percentage there fails later.
-            bool flat = count < 3 || (readLength(q, words[2].end(), z) && q == words[2].end() && !percentLength(z) && z.unit != Unit::Calc && z.value == 0.f);
+            bool flat = count < 3 || (parseLength(words[2], z) && !percentLength(z) && z.unit != Unit::Calc && z.value == 0.f);
 
-            put(flat ? "translate(" : "translate3d(");
-            word(words[0]);
-            put(", ");
-            word(count > 1 ? words[1] : SV("0px"));
+            args[0] = words[0];
+            args[1] = count > 1 ? words[1] : constant("0px");
+            args[2] = flat ? Tokens{nullptr, nullptr} : words[2];
 
-            if (!flat) {
-                put(", ");
-                word(words[2]);
-            }
-
-            put(") ");
-
-            return true;
+            return transformFunction(b, flat ? SV("translate") : SV("translate3d"), args, flat ? 2 : 3, grammar, basis);
         }
 
         if (property == AtomScale) {
             Length z;
-            const u8* q = words[2].begin();
             // A scale of one along z, as a number or 100%.
-            bool flat = count < 3 || (readLength(q, words[2].end(), z) && q == words[2].end() && (z.unit == Unit::Number || z.unit == Unit::Percent) && z.value == (z.unit == Unit::Percent ? 100.f : 1.f));
+            bool flat = count < 3 || (parseLength(words[2], z) && (z.unit == Unit::Number || z.unit == Unit::Percent) && z.value == (z.unit == Unit::Percent ? 100.f : 1.f));
 
-            put(flat ? "scale(" : "scale3d(");
-            word(words[0]);
-            put(", ");
-            word(count > 1 ? words[1] : words[0]);
+            args[0] = words[0];
+            args[1] = count > 1 ? words[1] : words[0];
+            args[2] = flat ? Tokens{nullptr, nullptr} : words[2];
 
-            if (!flat) {
-                put(", ");
-                word(words[2]);
-            }
-
-            put(") ");
-
-            return true;
+            return transformFunction(b, flat ? SV("scale") : SV("scale3d"), args, flat ? 2 : 3, grammar, basis);
         }
 
         // rotate: an angle alone, with an axis keyword before or after it, or
         // after or before three numbers of an axis; about z, toward the eye,
         // the 2D rotate().
         if (count == 1) {
-            put("rotate(");
-            word(words[0]);
-            put(") ");
-
-            return true;
+            return transformFunction(b, SV("rotate"), words, 1, grammar, basis);
         }
 
         if (count == 2) {
-            bool first = equalsIgnoreCase(words[0], SV("x")) || equalsIgnoreCase(words[0], SV("y")) || equalsIgnoreCase(words[0], SV("z"));
-            StringView axis = first ? words[0] : words[1];
-            StringView angle = first ? words[1] : words[0];
+            bool first = isKeyword(words[0], SV("x")) || isKeyword(words[0], SV("y")) || isKeyword(words[0], SV("z"));
+            Tokens axis = first ? words[0] : words[1];
+            Tokens angle = first ? words[1] : words[0];
 
-            put(equalsIgnoreCase(axis, SV("x")) ? "rotate3d(1, 0, 0, " : (equalsIgnoreCase(axis, SV("y")) ? "rotate3d(0, 1, 0, " : (equalsIgnoreCase(axis, SV("z")) ? "rotate(" : "bogus(")));
-            word(angle);
-            put(") ");
+            if (isKeyword(axis, SV("z"))) {
+                return transformFunction(b, SV("rotate"), &angle, 1, grammar, basis);
+            }
 
-            return true;
+            if (!isKeyword(axis, SV("x")) && !isKeyword(axis, SV("y"))) {
+                return false;
+            }
+
+            args[0] = constant(isKeyword(axis, SV("x")) ? "1" : "0");
+            args[1] = constant(isKeyword(axis, SV("y")) ? "1" : "0");
+            args[2] = constant("0");
+            args[3] = angle;
+
+            return transformFunction(b, SV("rotate3d"), args, 4, grammar, basis);
         }
 
         bool last = number(words[0], v[0]);
@@ -9990,34 +10702,30 @@ namespace {
             return false;
         }
 
-        bool flat = v[0] == 0.f && v[1] == 0.f && v[2] > 0.f;
+        Tokens angle = words[last ? 3 : 0];
 
-        put(flat ? "rotate(" : "rotate3d(");
-
-        for (u32 k = 0; k < 3 && !flat; k++) {
-            word(words[at + k]);
-            put(", ");
+        if (v[0] == 0.f && v[1] == 0.f && v[2] > 0.f) {
+            return transformFunction(b, SV("rotate"), &angle, 1, grammar, basis);
         }
 
-        word(words[last ? 3 : 0]);
-        put(") ");
+        args[0] = words[at];
+        args[1] = words[at + 1];
+        args[2] = words[at + 2];
+        args[3] = angle;
 
-        return true;
+        return transformFunction(b, SV("rotate3d"), args, 4, grammar, basis);
     }
+
+    static bool parsePathData(StringView text, Path& path);
 
     // Whether a declaration of a geometry property is one CSS keeps: a
     // length, of no sign for a size, auto for a size of a rect or its
     // corners, path() of a string or none, a transform list, an origin of
-    // one to three values, or a box.
-    static bool parsePathData(StringView text, Path& path);
-
-    static bool validGeometry(u32 property, StringView value) {
+    // one to three values, or a box; a CSS-wide keyword declare took before.
+    static bool validGeometry(u32 property, Tokens value) {
         Length length;
         Matrix m;
-
-        if (cssWideKeyword(value)) {
-            return true;
-        }
+        const Token* t = single(value);
 
         switch (property) {
             case AtomX:
@@ -10031,88 +10739,86 @@ namespace {
             case AtomHeight:
             case AtomRx:
             case AtomRy:
-                return equalsIgnoreCase(value, SV("auto")) || (parseLength(value, length) && nonNegative(length));
+                return isKeyword(value, SV("auto")) || (parseLength(value, length) && nonNegative(length));
             case AtomD: {
-                StringView inner = value.length() > 6 ? trim(StringView(value.begin() + 5, value.end() - 1)) : StringView();
+                const Token* data = t && isFunction(t, SV("path")) ? single(contents(t)) : nullptr;
                 Path probe;
 
                 // path() of good path data and some (css-shapes-1 3.1.5).
-                return equalsIgnoreCase(value, SV("none")) || (startsWithIgnoreCase(value, SV("path(")) && value.back() == ')' && inner.length() >= 2 && (inner[0] == '"' || inner[0] == '\'') && inner.back() == inner[0] && parsePathData(StringView(inner.begin() + 1, inner.end() - 1), probe) && probe.verbs.length() > 0);
+                return isKeyword(value, SV("none")) || (data && data->type == TokenType::String && parsePathData(data->text, probe) && probe.verbs.length() > 0);
             }
             case AtomTransform:
                 return parseTransform(value, m, TransformGrammar::Declaration);
             case AtomTranslate:
             case AtomRotate:
             case AtomScale: {
-                Buffer functions;
+                TransformBuilder b{identity(), false, {}};
 
-                return equalsIgnoreCase(value, SV("none")) || (individualTransform(property, value, functions) && parseTransform(StringView(functions), m, TransformGrammar::Declaration));
+                return isKeyword(value, SV("none")) || individualTransform(b, property, value, TransformGrammar::Declaration, nullptr);
             }
             case AtomPathLengthProperty:
-                return equalsIgnoreCase(value, SV("none")) || (parseLength(value, length) && !percentLength(length) && nonNegative(length));
+                return isKeyword(value, SV("none")) || (parseLength(value, length) && !percentLength(length) && nonNegative(length));
             case AtomTransformOrigin: {
-                const u8* p = value.begin();
+                const Token* p = value.begin;
+                const Token* end = value.end;
                 float x;
                 float y;
                 int axis;
                 int count = 0;
 
-                while (count < 2 && readOrigin(p, value.end(), 0.f, 0.f, x, y, axis)) {
+                while (count < 2 && readOrigin(p, end, 0.f, 0.f, x, y, axis)) {
                     count++;
                 }
 
-                skipSpaces(p, value.end());
+                skipWhitespace(p, end);
 
                 // A third value, after two, is the origin's z: a length.
-                if (count == 2 && p < value.end() && (!readLength(p, value.end(), length) || percentLength(length))) {
+                if (count == 2 && p < end && (!readLength(p, end, length) || percentLength(length))) {
                     return false;
                 }
 
-                skipSpaces(p, value.end());
+                skipWhitespace(p, end);
 
-                return count > 0 && p == value.end();
+                return count > 0 && p == end;
             }
             default:
                 // AtomTransformBox.
-                return equalsIgnoreCase(value, SV("content-box")) || equalsIgnoreCase(value, SV("border-box")) || equalsIgnoreCase(value, SV("fill-box")) || equalsIgnoreCase(value, SV("stroke-box")) || equalsIgnoreCase(value, SV("view-box"));
+                return isKeyword(value, SV("content-box")) || isKeyword(value, SV("border-box")) || isKeyword(value, SV("fill-box")) || isKeyword(value, SV("stroke-box")) || isKeyword(value, SV("view-box"));
         }
     }
 
     // The transform of a paint server or a clipPath, which are flat: a list
     // with a 3D function on one is ignored whole (css-transforms-2.md,
     // svg-three-dimensional-functions).
-    static Matrix flatTransform(StringView text, const TransformBasis* basis = nullptr) {
+    static Matrix flatTransform(Tokens value, const TransformBasis* basis = nullptr) {
         Matrix m = identity();
         Projective solid;
 
-        // The parse checked the text, so it reads.
-        parseTransform(text, m, TransformGrammar::Either, &solid, basis);
+        // The parse checked the value, so it reads.
+        parseTransform(value, m, TransformGrammar::Either, &solid, basis);
 
         return solid.solid ? identity() : m;
     }
 
     // Four numbers apart by commas or spaces, the last two not negative: a
     // viewBox, or a view's box in a fragment.
-    static bool parseViewBoxText(StringView text, Box& out) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    static bool parseViewBoxText(ObjPool& pool, StringView text, Box& out) {
+        Lexer x{&pool, text.begin(), text.end()};
         float numbers[4];
 
         for (u32 i = 0; i < 4; i++) {
-            skipSpaces(p, end);
-
-            if (!readNumber(p, end, numbers[i])) {
+            if (!listNumber(x, numbers[i])) {
                 return false;
             }
 
             if (i < 3) {
-                skipSeparator(p, end);
+                skipListComma(x);
             }
         }
 
-        skipSpaces(p, end);
+        skipBlank(x);
 
-        if (p != end || numbers[2] < 0.f || numbers[3] < 0.f) {
+        if (x.p != x.end || numbers[2] < 0.f || numbers[3] < 0.f) {
             return false;
         }
 
@@ -10124,7 +10830,7 @@ namespace {
     static bool parseViewBox(const Document& doc, const Node* node, Box& out) {
         u32 value = attribute(node, AtomViewBox);
 
-        return value && parseViewBoxText(textOf(doc, value), out);
+        return value && parseViewBoxText(*doc.pool, textOf(doc, value), out);
     }
 
     static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, float width, float height) {
@@ -10497,40 +11203,37 @@ namespace {
         }
     }
 
-    static void parsePoints(StringView text, Vector<Point>& out) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    static void parsePoints(ObjPool& pool, StringView text, Vector<Point>& out) {
+        Lexer x{&pool, text.begin(), text.end()};
 
         for (;;) {
             Point point;
 
-            skipSpaces(p, end);
+            skipBlank(x);
 
-            if (p >= end) {
+            if (x.p >= x.end) {
                 return;
             }
 
-            if (!readNumber(p, end, point.x)) {
+            if (!listNumber(x, point.x)) {
                 out.clear();
 
                 return;
             }
 
-            skipSeparator(p, end);
+            skipListComma(x);
 
-            skipSpaces(p, end);
-
-            if (p >= end) {
+            if (x.p >= x.end) {
                 return;
             }
 
-            if (!readNumber(p, end, point.y)) {
+            if (!listNumber(x, point.y)) {
                 out.clear();
 
                 return;
             }
 
-            skipSeparator(p, end);
+            skipListComma(x);
             out.pushBack(point);
         }
     }
@@ -10555,7 +11258,7 @@ namespace {
                 u32 d = attribute(node, AtomD);
                 const Node* at = node;
 
-                for (u32 hops = 0; d && hops < 64 && isKeyword(textOf(doc, d), SV("inherit")); hops++) {
+                for (u32 hops = 0; d && hops < 64 && equalsIgnoreCase(trim(textOf(doc, d)), SV("inherit")); hops++) {
                     const Node* parent = at->parent;
 
                     for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
@@ -10662,7 +11365,7 @@ namespace {
                 Vector<Point> points;
 
                 if (value) {
-                    parsePoints(textOf(doc, value), points);
+                    parsePoints(*doc.pool, textOf(doc, value), points);
                 }
 
                 if (points.length() == 0) {
@@ -12026,21 +12729,17 @@ namespace {
         }
     }
 
-    static bool isKeyword(StringView text, StringView keyword) {
-        return equalsIgnoreCase(trim(text), keyword);
-    }
-
-    static bool parseOpacity(StringView text, float& out) {
-        StringView body = trim(text);
-        const u8* p = body.begin();
-        float value;
+    static bool parseOpacity(Tokens value, float& out) {
+        Tokens v = trimmed(value);
+        const Token* p = v.begin;
+        float number;
         bool math;
 
-        if (!readFraction(p, body.end(), value, math) || p != body.end()) {
+        if (!readFraction(p, v.end, number, math) || p != v.end) {
             return false;
         }
 
-        out = clampUnit(value);
+        out = clampUnit(number);
 
         return true;
     }
@@ -12078,17 +12777,11 @@ namespace {
         return style;
     }
 
-    static StringView cascaded(const Document& doc, const Node* node, u32 property) {
-        u32 value = node->style[property - firstProperty];
+    static bool readFilterAmount(Tokens args, float& out) {
+        const Token* p = args.begin;
+        const Token* end = args.end;
 
-        return value ? textOf(doc, value) : StringView();
-    }
-
-    static bool readFilterAmount(StringView args, float& out) {
-        const u8* p = args.begin();
-        const u8* end = args.end();
-
-        if (args.empty()) {
+        if (p == end) {
             out = 1.f;
 
             return true;
@@ -12106,53 +12799,80 @@ namespace {
         return p == end && out >= 0.f;
     }
 
-    static bool readFilterAngle(StringView args, float& out) {
-        const u8* p = args.begin();
-        const u8* end = args.end();
+    // An angle at p (css-values-4 6.1): a dimension of an angle's unit, a
+    // math function of an angle, or a number, which unit says is one
+    // without a unit; in degrees.
+    static bool readAngle(const Token*& p, const Token* end, float& out, bool& unit) {
+        u8 base;
+
+        if (p >= end) {
+            return false;
+        }
+
+        if (p->type == TokenType::Function) {
+            const Token* q = p;
+            float value;
+
+            if (!readMathQuantity(q, end, value, base) || (base != MathBases && base != MathAngle)) {
+                return false;
+            }
+
+            out = value;
+            unit = base == MathAngle;
+            p = q;
+
+            return true;
+        }
+
+        float value = (float)p->number;
+
+        if (p->type == TokenType::Number) {
+            out = value;
+            unit = false;
+            p++;
+
+            return true;
+        }
+
+        if (p->type != TokenType::Dimension) {
+            return false;
+        }
+
+        if (equalsIgnoreCase(p->text, SV("rad"))) {
+            value *= 180.f / pi;
+        } else if (equalsIgnoreCase(p->text, SV("grad"))) {
+            value *= 0.9f;
+        } else if (equalsIgnoreCase(p->text, SV("turn"))) {
+            value *= 360.f;
+        } else if (!equalsIgnoreCase(p->text, SV("deg"))) {
+            return false;
+        }
+
+        out = value;
+        unit = true;
+        p++;
+
+        return true;
+    }
+
+    // An angle of a filter: one with its unit, or zero written without.
+    static bool readFilterAngle(Tokens args, float& out) {
+        const Token* p = args.begin;
+        bool unit;
 
         out = 0.f;
 
-        if (args.empty()) {
+        if (p == args.end) {
             return true;
         }
 
-        if (!readNumber(p, end, out)) {
-            u8 base;
-
-            return readMathQuantity(p, end, out, base) && base == MathAngle && p == end;
-        }
-
-        StringView unit(p, end);
-
-        if (equalsIgnoreCase(unit, SV("deg"))) {
-            return true;
-        }
-
-        if (equalsIgnoreCase(unit, SV("rad"))) {
-            out *= 180.f / pi;
-
-            return true;
-        }
-
-        if (equalsIgnoreCase(unit, SV("grad"))) {
-            out *= 0.9f;
-
-            return true;
-        }
-
-        if (equalsIgnoreCase(unit, SV("turn"))) {
-            out *= 360.f;
-
-            return true;
-        }
-
-        return unit.empty() && out == 0.f && !isLetter(args[0]);
+        return readAngle(p, args.end, out, unit) && p == args.end && (unit || (out == 0.f && args.begin->type == TokenType::Number));
     }
 
-    static bool readFilterLength(StringView text, bool unitless, const ComputedStyle& style, Viewport vp, float& out) {
+    static bool readFilterLength(Tokens value, bool unitless, const ComputedStyle& style, Viewport vp, float& out) {
         Length length;
 
-        if (!parseLength(text, length) || percentLength(length)) {
+        if (!parseLength(value, length) || percentLength(length)) {
             return false;
         }
 
@@ -12235,39 +12955,17 @@ namespace {
         memcpy(m, t, sizeof(t));
     }
 
-    static bool parseDropShadow(StringView args, const ComputedStyle& style, Viewport vp, FilterItem& item) {
-        const u8* p = args.begin();
-        const u8* end = args.end();
-        StringView tokens[5];
+    static bool parseDropShadow(Tokens args, const ComputedStyle& style, Viewport vp, FilterItem& item) {
+        const Token* p = args.begin;
+        Tokens words[5];
         u32 count = 0;
 
-        for (;;) {
-            skipSpaces(p, end);
-
-            if (p >= end) {
-                break;
-            }
-
-            const u8* start = p;
-            int depth = 0;
-
-            while (p < end && (depth > 0 || !isSpace(*p))) {
-                if (*p == '(') {
-                    depth++;
-                } else if (*p == ')') {
-                    depth--;
-                } else if (*p == ',' && depth == 0) {
-                    return false;
-                }
-
-                p++;
-            }
-
-            if (count == 5) {
+        for (Tokens word = nextWord(p, args.end); !empty(word); word = nextWord(p, args.end)) {
+            if (word.begin->type == TokenType::Comma || count == 5) {
                 return false;
             }
 
-            tokens[count++] = StringView(start, p);
+            words[count++] = word;
         }
 
         float lengths[4];
@@ -12279,7 +12977,7 @@ namespace {
         for (u32 k = 0; k < count; k++) {
             float value;
 
-            if (readFilterLength(tokens[k], true, style, vp, value)) {
+            if (readFilterLength(words[k], true, style, vp, value)) {
                 // A colour first leaves the lengths after it.
                 if (lengthCount == 3) {
                     return false;
@@ -12294,7 +12992,7 @@ namespace {
                 return false;
             }
 
-            if (!equalsIgnoreCase(tokens[k], SV("currentcolor")) && !parseColor(tokens[k], item.color)) {
+            if (!isKeyword(words[k], SV("currentcolor")) && !parseColor(words[k], item.color)) {
                 return false;
             }
 
@@ -12312,60 +13010,27 @@ namespace {
         return true;
     }
 
-    static bool parseFilterList(const Document& doc, StringView text, const ComputedStyle& style, Viewport vp, Vector<FilterItem>& out) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
+    // A filter list (filter-effects-1.md, FilterProperty): functions apart
+    // by white space, a url to a filter element among them.
+    static bool parseFilterList(const Document& doc, Tokens value, const ComputedStyle& style, Viewport vp, Vector<FilterItem>& out) {
+        const Token* p = value.begin;
 
-        for (;;) {
-            skipSpaces(p, end);
-
-            if (p >= end) {
-                break;
-            }
-
-            const u8* start = p;
-
-            while (p < end && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || *p == '-')) {
-                p++;
-            }
-
-            StringView name(start, p);
-
-            if (p >= end || *p != '(' || name.empty()) {
-                return false;
-            }
-
-            p++;
-
-            const u8* open = p;
-            int depth = 0;
-
-            while (p < end && (depth > 0 || *p != ')')) {
-                if (*p == '(') {
-                    depth++;
-                } else if (*p == ')') {
-                    depth--;
-                }
-
-                p++;
-            }
-
-            if (p >= end) {
-                return false;
-            }
-
-            StringView args = trim(StringView(open, p));
+        for (Tokens word = nextWord(p, value.end); !empty(word); word = nextWord(p, value.end)) {
+            const Token* t = word.begin;
+            StringView reference;
             FilterItem item;
 
-            p++;
             memset(&item, 0, sizeof(item));
 
-            if (equalsIgnoreCase(name, SV("url")) || equalsIgnoreCase(name, SV("src"))) {
-                const u8* q = start;
-                StringView reference;
-                Buffer scratch;
+            if (t->type != TokenType::Url && t->type != TokenType::Function) {
+                return false;
+            }
 
-                if (!readUrl(q, p, reference, scratch) || q != p) {
+            StringView name = t->type == TokenType::Url ? SV("url") : t->text;
+            Tokens args = t->type == TokenType::Url ? Tokens{t, t} : trimmed(contents(t));
+
+            if (equalsIgnoreCase(name, SV("url")) || equalsIgnoreCase(name, SV("src"))) {
+                if (!urlOf(t, reference)) {
                     return false;
                 }
 
@@ -12377,7 +13042,7 @@ namespace {
             } else if (equalsIgnoreCase(name, SV("blur"))) {
                 float sigma = 0.f;
 
-                if (!args.empty() && (!readFilterLength(args, false, style, vp, sigma) || sigma < 0.f)) {
+                if (args.begin < args.end && (!readFilterLength(args, false, style, vp, sigma) || sigma < 0.f)) {
                     return false;
                 }
 
@@ -12428,36 +13093,28 @@ namespace {
         return out.length() > 0;
     }
 
-    static StringView shapeWord(const u8*& p, const u8* end) {
-        while (p < end && (isSpace(*p) || *p == ',')) {
+    // The next word of a shape's value at p: a component value, past white
+    // space and the commas before it.
+    static Tokens shapeWord(const Token*& p, const Token* end) {
+        while (p < end && (p->type == TokenType::Whitespace || p->type == TokenType::Comma)) {
             p++;
         }
 
-        const u8* start = p;
-        int depth = 0;
-
-        // A math function's spaces and commas are its own.
-        while (p < end && (depth > 0 || (!isSpace(*p) && *p != ','))) {
-            depth += *p == '(';
-            depth -= *p == ')' && depth > 0;
-            p++;
-        }
-
-        return StringView(start, p);
+        return nextWord(p, end);
     }
 
-    static bool parsePosition(StringView text, Length& x, Length& y) {
-        const u8* p = text.begin();
-        StringView words[4];
+    static bool parsePosition(Tokens value, Length& x, Length& y) {
+        const Token* p = value.begin;
+        Tokens words[4];
         u32 count = 0;
 
         x = Length{50.f, Unit::Percent};
         y = Length{50.f, Unit::Percent};
 
         for (;;) {
-            StringView word = shapeWord(p, text.end());
+            Tokens word = shapeWord(p, value.end);
 
-            if (word.empty()) {
+            if (empty(word)) {
                 break;
             }
 
@@ -12474,15 +13131,15 @@ namespace {
             bool set[2] = {false, false};
 
             for (u32 i = 0; count == 4 && i < 4; i += 2) {
-                bool horizontal = equalsIgnoreCase(words[i], SV("left")) || equalsIgnoreCase(words[i], SV("right"));
-                bool vertical = equalsIgnoreCase(words[i], SV("top")) || equalsIgnoreCase(words[i], SV("bottom"));
+                bool horizontal = isKeyword(words[i], SV("left")) || isKeyword(words[i], SV("right"));
+                bool vertical = isKeyword(words[i], SV("top")) || isKeyword(words[i], SV("bottom"));
                 Length& out = horizontal ? x : y;
 
                 if ((!horizontal && !vertical) || set[vertical] || !parseLength(words[i + 1], out)) {
                     return false;
                 }
 
-                out.far = equalsIgnoreCase(words[i], SV("right")) || equalsIgnoreCase(words[i], SV("bottom"));
+                out.far = isKeyword(words[i], SV("right")) || isKeyword(words[i], SV("bottom"));
                 set[vertical] = true;
             }
 
@@ -12493,24 +13150,24 @@ namespace {
         bool ySet = false;
 
         for (u32 i = 0; i < count; i++) {
-            StringView word = words[i];
+            Tokens word = words[i];
             Length length;
 
-            if (equalsIgnoreCase(word, SV("left")) || equalsIgnoreCase(word, SV("right"))) {
+            if (isKeyword(word, SV("left")) || isKeyword(word, SV("right"))) {
                 if (xSet) {
                     return false;
                 }
 
-                x = Length{equalsIgnoreCase(word, SV("left")) ? 0.f : 100.f, Unit::Percent};
+                x = Length{isKeyword(word, SV("left")) ? 0.f : 100.f, Unit::Percent};
                 xSet = true;
-            } else if (equalsIgnoreCase(word, SV("top")) || equalsIgnoreCase(word, SV("bottom"))) {
+            } else if (isKeyword(word, SV("top")) || isKeyword(word, SV("bottom"))) {
                 if (ySet) {
                     return false;
                 }
 
-                y = Length{equalsIgnoreCase(word, SV("top")) ? 0.f : 100.f, Unit::Percent};
+                y = Length{isKeyword(word, SV("top")) ? 0.f : 100.f, Unit::Percent};
                 ySet = true;
-            } else if (equalsIgnoreCase(word, SV("center"))) {
+            } else if (isKeyword(word, SV("center"))) {
                 // The first word finds nothing set.
                 if (i == 0) {
                     xSet = count == 1;
@@ -12533,12 +13190,13 @@ namespace {
         return true;
     }
 
-    static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out);
+    static bool parseShapeFunction(ObjPool& pool, StringView name, Tokens args, BasicShape& out);
 
-    static bool parseBasicShape(ObjPool& pool, StringView text, BasicShape& out) {
-        const u8* p = trim(text).begin();
-        const u8* end = trim(text).end();
-        StringView function;
+    // A basic shape (css-shapes-1): a shape function and a box, either or
+    // both, in any order; a box alone clips to that box.
+    static bool parseBasicShape(ObjPool& pool, Tokens value, BasicShape& out) {
+        const Token* p = value.begin;
+        bool function = false;
         bool boxed = false;
 
         out.kind = ShapeKind::None;
@@ -12555,67 +13213,38 @@ namespace {
             radius = Length{0.f, Unit::Number};
         }
 
-        // The text is trimmed, so a word follows every run of spaces.
-        while (p < end) {
-            skipSpaces(p, end);
+        for (Tokens word = nextWord(p, value.end); !empty(word); word = nextWord(p, value.end)) {
+            const Token* t = word.begin;
 
-            const u8* start = p;
-
-            while (p < end && !isSpace(*p) && *p != '(') {
-                p++;
-            }
-
-            StringView name(start, p);
-
-            if (at(p, end, '(')) {
-                if (!function.empty()) {
+            if (t->type == TokenType::Function) {
+                if (function || !parseShapeFunction(pool, t->text, trimmed(contents(t)), out)) {
                     return false;
                 }
 
-                const u8* open = ++p;
-                int depth = 0;
-
-                while (p < end && (depth > 0 || *p != ')')) {
-                    depth += *p == '(' ? 1 : (*p == ')' ? -1 : 0);
-                    p++;
-                }
-
-                // The end of the value closes a function left open, as CSS
-                // closes every block at its end.
-                function = name;
-
-                StringView args = trim(StringView(open, p));
-
-                p += p < end;
-
-                if (!parseShapeFunction(pool, name, args, out)) {
-                    return false;
-                }
-
+                function = true;
                 continue;
             }
 
             boxed = true;
 
-            if (equalsIgnoreCase(name, SV("fill-box")) || equalsIgnoreCase(name, SV("content-box")) || equalsIgnoreCase(name, SV("padding-box"))) {
+            if (isKeyword(word, SV("fill-box")) || isKeyword(word, SV("content-box")) || isKeyword(word, SV("padding-box"))) {
                 out.box = GeometryBox::Fill;
-            } else if (equalsIgnoreCase(name, SV("stroke-box")) || equalsIgnoreCase(name, SV("border-box")) || equalsIgnoreCase(name, SV("margin-box"))) {
+            } else if (isKeyword(word, SV("stroke-box")) || isKeyword(word, SV("border-box")) || isKeyword(word, SV("margin-box"))) {
                 out.box = GeometryBox::Stroke;
-            } else if (equalsIgnoreCase(name, SV("half-border-box"))) {
+            } else if (isKeyword(word, SV("half-border-box"))) {
                 out.box = GeometryBox::HalfBorder;
-            } else if (equalsIgnoreCase(name, SV("view-box"))) {
+            } else if (isKeyword(word, SV("view-box"))) {
                 out.box = GeometryBox::View;
             } else {
                 return false;
             }
         }
 
-        // A box alone clips to that box.
         if (out.kind == ShapeKind::None && boxed) {
             out.kind = ShapeKind::Inset;
 
-            for (Length& value : out.values) {
-                value = Length{0.f, Unit::Number};
+            for (Length& v : out.values) {
+                v = Length{0.f, Unit::Number};
             }
         }
 
@@ -12626,19 +13255,19 @@ namespace {
     // slash as many vertical ones, each set spread over the corners as
     // border-radius spreads it; the vertical ones are the horizontal ones
     // when left out.
-    static bool parseRadii(const u8*& p, const u8* end, BasicShape& out) {
+    static bool parseRadii(const Token*& p, const Token* end, BasicShape& out) {
         Length sets[2][4];
         u32 counts[2] = {0, 0};
         u32 set = 0;
 
         for (;;) {
-            StringView word = shapeWord(p, end);
+            Tokens word = shapeWord(p, end);
 
-            if (word.empty()) {
+            if (empty(word)) {
                 break;
             }
 
-            if (word == SV("/") && set == 0 && counts[0]) {
+            if (isDelim(word.begin, '/') && set == 0 && counts[0]) {
                 set = 1;
                 continue;
             }
@@ -12671,11 +13300,11 @@ namespace {
     }
 
     // Four values, each a length or for rect() auto, then the radii.
-    static bool parseSides(const u8*& p, const u8* end, BasicShape& out, bool autos) {
+    static bool parseSides(const Token*& p, const Token* end, BasicShape& out, bool autos) {
         for (u32 count = 0; count < 4; count++) {
-            StringView word = shapeWord(p, end);
+            Tokens word = shapeWord(p, end);
 
-            if (autos && equalsIgnoreCase(word, SV("auto"))) {
+            if (autos && isKeyword(word, SV("auto"))) {
                 out.autos |= (u8)(1u << count);
                 out.values[count] = Length{0.f, Unit::Number};
             } else if (!parseLength(word, out.values[count])) {
@@ -12683,36 +13312,36 @@ namespace {
             }
         }
 
-        StringView word = shapeWord(p, end);
+        Tokens word = shapeWord(p, end);
 
-        return word.empty() || (equalsIgnoreCase(word, SV("round")) && parseRadii(p, end, out));
+        return empty(word) || (isKeyword(word, SV("round")) && parseRadii(p, end, out));
     }
 
     // The clip property's rect(): offsets from the top left of the box to
     // its top, right, bottom and left sides, each a length or auto, apart
     // by commas or by spaces, not a mix (css-masking-1.md, clip-property).
-    // Unclosed, it closes at the end, as CSS reads it.
-    static bool parseClipRect(StringView text, BasicShape& out) {
-        text = trim(text);
+    static bool parseClipRect(Tokens value, BasicShape& out) {
+        const Token* function = single(value);
 
-        if (text.length() < 5 || !equalsIgnoreCase(StringView(text.begin(), text.begin() + 5), SV("rect("))) {
+        if (!function || !isFunction(function, SV("rect"))) {
             return false;
         }
 
-        const u8* p = text.begin() + 5;
-        const u8* end = text.end()[-1] == ')' ? text.end() - 1 : text.end();
+        Tokens args = contents(function);
+        const Token* p = args.begin;
         int separator = 0;
 
         out.autos = 0;
 
         for (u32 side = 0; side < 4; side++) {
-            const u8* before = p;
-            StringView word = shapeWord(p, end);
             int commas = 0;
 
-            for (const u8* q = before; q < word.begin(); q++) {
-                commas += *q == ',';
+            while (p < args.end && (p->type == TokenType::Whitespace || p->type == TokenType::Comma)) {
+                commas += p->type == TokenType::Comma;
+                p++;
             }
+
+            Tokens word = nextWord(p, args.end);
 
             if (commas > 1 || (side == 0 && commas) || (side > 1 && commas != separator)) {
                 return false;
@@ -12721,71 +13350,45 @@ namespace {
             separator = side == 1 ? commas : separator;
             out.values[side] = Length{0.f, Unit::Number};
 
-            if (equalsIgnoreCase(word, SV("auto"))) {
+            if (isKeyword(word, SV("auto"))) {
                 out.autos |= (u8)(1u << side);
             } else if (!parseLength(word, out.values[side]) || percentLength(out.values[side])) {
                 return false;
             }
         }
 
-        skipSpaces(p, end);
+        skipWhitespace(p, args.end);
 
-        return p == end;
-    }
-
-    static bool readAngle(StringView text, float& out, bool& unit);
-
-    // A word of a shape() command: a run past spaces, or a slash alone.
-    static StringView commandWord(const u8*& p, const u8* end) {
-        skipSpaces(p, end);
-
-        const u8* start = p;
-
-        if (at(p, end, '/')) {
-            p++;
-
-            return StringView(start, p);
-        }
-
-        int depth = 0;
-
-        // shape()'s arguments close every parenthesis they open.
-        while (p < end && (depth > 0 || (!isSpace(*p) && *p != '/'))) {
-            depth += *p == '(';
-            depth -= *p == ')';
-            p++;
-        }
-
-        return StringView(start, p);
+        return p == args.end;
     }
 
     // A word that ends a position in a command.
-    static bool commandKeyword(StringView word) {
-        static const char* const words[] = {"with", "of", "cw", "ccw", "large", "small", "rotate", "from", "/"};
+    static bool commandKeyword(Tokens word) {
+        static const char* const words[] = {"with", "of", "cw", "ccw", "large", "small", "rotate", "from"};
 
         for (const char* keyword : words) {
-            if (equalsIgnoreCase(word, StringView(keyword))) {
+            if (isKeyword(word, StringView(keyword))) {
                 return true;
             }
         }
 
-        return word.empty();
+        return empty(word) || isDelim(word.begin, '/');
     }
 
     // Two lengths, x then y.
-    static bool commandPair(const u8*& p, const u8* end, ShapePoint& out) {
-        return parseLength(commandWord(p, end), out.x) && parseLength(commandWord(p, end), out.y);
+    static bool commandPair(const Token*& p, const Token* end, ShapePoint& out) {
+        return parseLength(nextWord(p, end), out.x) && parseLength(nextWord(p, end), out.y);
     }
 
     // A position's words, up to the keyword after them.
-    static bool commandPosition(const u8*& p, const u8* end, ShapePoint& out) {
-        const u8* first = p;
-        const u8* last = p;
+    static bool commandPosition(const Token*& p, const Token* end, ShapePoint& out) {
+        const Token* first = p;
+        const Token* last = p;
 
         for (;;) {
-            const u8* q = p;
+            const Token* q = p;
 
-            if (commandKeyword(commandWord(q, end))) {
+            if (commandKeyword(nextWord(q, end))) {
                 break;
             }
 
@@ -12795,32 +13398,32 @@ namespace {
 
         out.anchor = ShapeAnchor::Box;
 
-        return last != first && parsePosition(StringView(first, last), out.x, out.y);
+        return last != first && parsePosition(Tokens{first, last}, out.x, out.y);
     }
 
     // to a position, or by a pair from the start.
-    static bool commandEnd(const u8*& p, const u8* end, ShapePoint& out, bool& to) {
-        StringView word = commandWord(p, end);
+    static bool commandEnd(const Token*& p, const Token* end, ShapePoint& out, bool& to) {
+        Tokens word = nextWord(p, end);
 
-        to = equalsIgnoreCase(word, SV("to"));
+        to = isKeyword(word, SV("to"));
         out.anchor = ShapeAnchor::Start;
 
         if (to) {
             return commandPosition(p, end, out);
         }
 
-        return equalsIgnoreCase(word, SV("by")) && commandPair(p, end, out);
+        return isKeyword(word, SV("by")) && commandPair(p, end, out);
     }
 
     // A control point: after to a position, or a pair from start, end or
     // the box's origin; after by a pair, from the start but as told.
-    static bool commandControl(const u8*& p, const u8* end, ShapePoint& out, bool to) {
-        const u8* start = p;
+    static bool commandControl(const Token*& p, const Token* end, ShapePoint& out, bool to) {
+        const Token* start = p;
 
         if (to && commandPosition(p, end, out)) {
-            const u8* q = p;
+            const Token* q = p;
 
-            if (!equalsIgnoreCase(commandWord(q, end), SV("from"))) {
+            if (!isKeyword(nextWord(q, end), SV("from"))) {
                 return true;
             }
 
@@ -12831,48 +13434,48 @@ namespace {
             return false;
         }
 
-        const u8* q = p;
+        const Token* q = p;
 
         out.anchor = ShapeAnchor::Start;
 
-        if (!equalsIgnoreCase(commandWord(q, end), SV("from"))) {
+        if (!isKeyword(nextWord(q, end), SV("from"))) {
             return true;
         }
 
-        StringView anchor = commandWord(q, end);
+        Tokens anchor = nextWord(q, end);
 
         p = q;
-        out.anchor = equalsIgnoreCase(anchor, SV("end")) ? ShapeAnchor::End : (equalsIgnoreCase(anchor, SV("origin")) ? ShapeAnchor::Box : ShapeAnchor::Start);
+        out.anchor = isKeyword(anchor, SV("end")) ? ShapeAnchor::End : (isKeyword(anchor, SV("origin")) ? ShapeAnchor::Box : ShapeAnchor::Start);
 
-        return equalsIgnoreCase(anchor, SV("start")) || equalsIgnoreCase(anchor, SV("end")) || equalsIgnoreCase(anchor, SV("origin"));
+        return isKeyword(anchor, SV("start")) || isKeyword(anchor, SV("end")) || isKeyword(anchor, SV("origin"));
     }
 
     // One command of shape(): all of its words, or false.
-    static bool parseShapeCommand(StringView text, ShapeCommand& out) {
-        const u8* p = text.begin();
-        const u8* end = text.end();
-        StringView name = commandWord(p, end);
+    static bool parseShapeCommand(Tokens command, ShapeCommand& out) {
+        const Token* p = command.begin;
+        const Token* end = command.end;
+        Tokens name = nextWord(p, end);
         bool to = false;
 
         memset(&out, 0, sizeof(out));
 
-        if (equalsIgnoreCase(name, SV("close"))) {
+        if (isKeyword(name, SV("close"))) {
             out.kind = 'Z';
-        } else if (equalsIgnoreCase(name, SV("move")) || equalsIgnoreCase(name, SV("line"))) {
-            out.kind = equalsIgnoreCase(name, SV("move")) ? 'M' : 'L';
+        } else if (isKeyword(name, SV("move")) || isKeyword(name, SV("line"))) {
+            out.kind = isKeyword(name, SV("move")) ? 'M' : 'L';
 
             if (!commandEnd(p, end, out.end, to)) {
                 return false;
             }
-        } else if (equalsIgnoreCase(name, SV("hline")) || equalsIgnoreCase(name, SV("vline"))) {
-            bool across = equalsIgnoreCase(name, SV("hline"));
-            StringView how = commandWord(p, end);
-            StringView word = commandWord(p, end);
+        } else if (isKeyword(name, SV("hline")) || isKeyword(name, SV("vline"))) {
+            bool across = isKeyword(name, SV("hline"));
+            Tokens how = nextWord(p, end);
+            Tokens word = nextWord(p, end);
             Length& value = across ? out.end.x : out.end.y;
             float at = -1.f;
 
             out.kind = across ? 'H' : 'V';
-            to = equalsIgnoreCase(how, SV("to"));
+            to = isKeyword(how, SV("to"));
             out.end.anchor = to ? ShapeAnchor::Box : ShapeAnchor::Start;
 
             // The keywords of the axis, to the box's edges or middle.
@@ -12880,18 +13483,18 @@ namespace {
                 StringView low[2] = {across ? SV("left") : SV("top"), across ? SV("x-start") : SV("y-start")};
                 StringView high[2] = {across ? SV("right") : SV("bottom"), across ? SV("x-end") : SV("y-end")};
 
-                at = equalsIgnoreCase(word, low[0]) || equalsIgnoreCase(word, low[1]) ? 0.f : at;
-                at = equalsIgnoreCase(word, high[0]) || equalsIgnoreCase(word, high[1]) ? 100.f : at;
-                at = equalsIgnoreCase(word, SV("center")) ? 50.f : at;
+                at = isKeyword(word, low[0]) || isKeyword(word, low[1]) ? 0.f : at;
+                at = isKeyword(word, high[0]) || isKeyword(word, high[1]) ? 100.f : at;
+                at = isKeyword(word, SV("center")) ? 50.f : at;
             }
 
             if (at >= 0.f) {
                 value = Length{at, Unit::Percent};
-            } else if (!(to || equalsIgnoreCase(how, SV("by"))) || !parseLength(word, value)) {
+            } else if (!(to || isKeyword(how, SV("by"))) || !parseLength(word, value)) {
                 return false;
             }
-        } else if (equalsIgnoreCase(name, SV("curve")) || equalsIgnoreCase(name, SV("smooth"))) {
-            bool curve = equalsIgnoreCase(name, SV("curve"));
+        } else if (isKeyword(name, SV("curve")) || isKeyword(name, SV("smooth"))) {
+            bool curve = isKeyword(name, SV("curve"));
 
             out.kind = curve ? 'C' : 'S';
 
@@ -12899,9 +13502,9 @@ namespace {
                 return false;
             }
 
-            const u8* q = p;
+            const Token* q = p;
 
-            if (equalsIgnoreCase(commandWord(q, end), SV("with"))) {
+            if (isKeyword(nextWord(q, end), SV("with"))) {
                 p = q;
 
                 if (!commandControl(p, end, out.control[0], to)) {
@@ -12911,7 +13514,9 @@ namespace {
                 out.controls = 1;
                 q = p;
 
-                if (curve && equalsIgnoreCase(commandWord(q, end), SV("/"))) {
+                Tokens slash = nextWord(q, end);
+
+                if (curve && !empty(slash) && isDelim(slash.begin, '/')) {
                     p = q;
 
                     if (!commandControl(p, end, out.control[1], to)) {
@@ -12923,7 +13528,7 @@ namespace {
             } else if (curve) {
                 return false;
             }
-        } else if (equalsIgnoreCase(name, SV("arc"))) {
+        } else if (isKeyword(name, SV("arc"))) {
             u32 seen = 0;
 
             out.kind = 'A';
@@ -12934,36 +13539,37 @@ namespace {
 
             // of the radii, a sweep, a size and rotate an angle, in any
             // order, each once; of is not left out.
-            for (StringView word = commandWord(p, end); !word.empty(); word = commandWord(p, end)) {
-                u32 part = equalsIgnoreCase(word, SV("of")) ? 1 : (equalsIgnoreCase(word, SV("cw")) || equalsIgnoreCase(word, SV("ccw")) ? 2 : (equalsIgnoreCase(word, SV("large")) || equalsIgnoreCase(word, SV("small")) ? 4 : (equalsIgnoreCase(word, SV("rotate")) ? 8 : 0)));
+            for (Tokens word = nextWord(p, end); !empty(word); word = nextWord(p, end)) {
+                u32 part = isKeyword(word, SV("of")) ? 1 : (isKeyword(word, SV("cw")) || isKeyword(word, SV("ccw")) ? 2 : (isKeyword(word, SV("large")) || isKeyword(word, SV("small")) ? 4 : (isKeyword(word, SV("rotate")) ? 8 : 0)));
 
                 if (!part || (seen & part)) {
                     return false;
                 }
 
                 seen |= part;
-                out.sweep = out.sweep || equalsIgnoreCase(word, SV("cw"));
-                out.large = out.large || equalsIgnoreCase(word, SV("large"));
+                out.sweep = out.sweep || isKeyword(word, SV("cw"));
+                out.large = out.large || isKeyword(word, SV("large"));
 
                 if (part == 1) {
-                    const u8* q = p;
-
-                    if (!parseLength(commandWord(p, end), out.radius[0])) {
+                    if (!parseLength(nextWord(p, end), out.radius[0])) {
                         return false;
                     }
 
-                    out.radii = 1;
-                    q = p;
+                    const Token* q = p;
 
-                    if (parseLength(commandWord(q, end), out.radius[1])) {
+                    out.radii = 1;
+
+                    if (parseLength(nextWord(q, end), out.radius[1])) {
                         p = q;
                         out.radii = 2;
                     }
                 } else if (part == 8) {
+                    Tokens angle = nextWord(p, end);
+                    const Token* a = angle.begin;
                     bool unit;
 
                     // An angle takes a unit, zero too, as browsers read it.
-                    if (!readAngle(commandWord(p, end), out.angle, unit) || !unit) {
+                    if (!readAngle(a, angle.end, out.angle, unit) || a != angle.end || !unit) {
                         return false;
                     }
                 }
@@ -12976,50 +13582,49 @@ namespace {
             return false;
         }
 
-        skipSpaces(p, end);
+        skipWhitespace(p, end);
 
         return p == end;
     }
 
     // shape([<fill-rule>] from <position>, <command>#): a move to the
     // start, then the commands apart by commas.
-    static bool parseShapeCommands(ObjPool& pool, StringView args, BasicShape& out) {
-        const u8* p = args.begin();
-        const u8* end = args.end();
-        const u8* q = p;
-        StringView word = commandWord(q, end);
+    static bool parseShapeCommands(ObjPool& pool, Tokens args, BasicShape& out) {
+        Vector<Tokens> items;
         Vector<ShapeCommand> commands;
         ShapeCommand command;
 
+        commaItems(args, items);
+
+        const Token* p = items[0].begin;
+        const Token* end = items[0].end;
+        const Token* q = p;
+        Tokens word = nextWord(q, end);
+
         out.kind = ShapeKind::Commands;
 
-        if (equalsIgnoreCase(word, SV("evenodd")) || equalsIgnoreCase(word, SV("nonzero"))) {
-            out.rule = equalsIgnoreCase(word, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
+        if (isKeyword(word, SV("evenodd")) || isKeyword(word, SV("nonzero"))) {
+            out.rule = isKeyword(word, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
             p = q;
         }
-
-        const u8* comma = findOutside(p, end, ',');
 
         memset(&command, 0, sizeof(command));
         command.kind = 'M';
 
-        if (!comma || !equalsIgnoreCase(commandWord(p, comma), SV("from")) || !commandPosition(p, comma, command.end)) {
+        if (items.length() < 2 || !isKeyword(nextWord(p, end), SV("from")) || !commandPosition(p, end, command.end)) {
             return false;
         }
 
-        skipSpaces(p, comma);
+        skipWhitespace(p, end);
 
-        if (p != comma) {
+        if (p != end) {
             return false;
         }
 
         commands.pushBack(command);
 
-        while (comma) {
-            p = comma + 1;
-            comma = findOutside(p, end, ',');
-
-            if (!parseShapeCommand(StringView(p, comma ? comma : end), command)) {
+        for (size_t i = 1; i < items.length(); i++) {
+            if (!parseShapeCommand(items[i], command)) {
                 return false;
             }
 
@@ -13033,15 +13638,17 @@ namespace {
         return true;
     }
 
-    static bool parseShapeFunction(ObjPool& pool, StringView name, StringView args, BasicShape& out) {
-        const u8* end = args.end();
+    static bool parsePathData(StringView text, Path& path);
+
+    static bool parseShapeFunction(ObjPool& pool, StringView name, Tokens args, BasicShape& out) {
+        const Token* end = args.end;
 
         if (equalsIgnoreCase(name, SV("shape"))) {
             return parseShapeCommands(pool, args, out);
         }
 
         if (equalsIgnoreCase(name, SV("rect")) || equalsIgnoreCase(name, SV("xywh"))) {
-            const u8* p = args.begin();
+            const Token* p = args.begin;
             bool rect = equalsIgnoreCase(name, SV("rect"));
 
             out.kind = rect ? ShapeKind::Rect : ShapeKind::Xywh;
@@ -13051,44 +13658,36 @@ namespace {
 
         // path([<fill-rule>,] <string>): the data in the reference box.
         if (equalsIgnoreCase(name, SV("path"))) {
-            const u8* p = args.begin();
-            const u8* comma = p;
+            Vector<Tokens> items;
+            Path probe;
 
             out.kind = ShapeKind::Path;
+            commaItems(args, items);
 
-            while (comma < end && *comma != ',' && *comma != '"' && *comma != '\'') {
-                comma++;
-            }
-
-            if (comma < end && *comma == ',') {
-                StringView rule = trim(StringView(p, comma));
-
-                if (!equalsIgnoreCase(rule, SV("evenodd")) && !equalsIgnoreCase(rule, SV("nonzero"))) {
+            if (items.length() == 2) {
+                if (!isKeyword(items[0], SV("evenodd")) && !isKeyword(items[0], SV("nonzero"))) {
                     return false;
                 }
 
-                out.rule = equalsIgnoreCase(rule, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
-                p = comma + 1;
+                out.rule = isKeyword(items[0], SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
             }
 
-            StringView quoted = trim(StringView(p, end));
+            const Token* data = items.length() <= 2 ? single(items.back()) : nullptr;
 
-            if (quoted.length() < 2 || (quoted[0] != '"' && quoted[0] != '\'') || quoted[quoted.length() - 1] != quoted[0]) {
+            if (!data || data->type != TokenType::String) {
                 return false;
             }
 
-            Path probe;
-
             // A path a string of no valid path data, or of none, gives is
             // invalid (css-shapes-1 3.1.5).
-            out.data = StringView(quoted.begin() + 1, quoted.end() - 1);
+            out.data = data->text;
 
             return parsePathData(out.data, probe) && probe.verbs.length() > 0;
         }
 
         if (equalsIgnoreCase(name, SV("circle")) || equalsIgnoreCase(name, SV("ellipse"))) {
             bool circle = equalsIgnoreCase(name, SV("circle"));
-            const u8* p = args.begin();
+            const Token* p = args.begin;
             u32 radii = 0;
 
             out.kind = circle ? ShapeKind::Circle : ShapeKind::Ellipse;
@@ -13096,14 +13695,14 @@ namespace {
             out.values[1] = Length{-1.f, Unit::Number};
 
             for (;;) {
-                StringView word = shapeWord(p, end);
+                Tokens word = shapeWord(p, end);
 
-                if (word.empty()) {
+                if (empty(word)) {
                     break;
                 }
 
-                if (equalsIgnoreCase(word, SV("at"))) {
-                    return parsePosition(StringView(p, end), out.values[2], out.values[3]);
+                if (isKeyword(word, SV("at"))) {
+                    return parsePosition(Tokens{p, end}, out.values[2], out.values[3]);
                 }
 
                 if (radii == (circle ? 1u : 2u)) {
@@ -13112,9 +13711,9 @@ namespace {
 
                 Length radius;
 
-                if (equalsIgnoreCase(word, SV("closest-side"))) {
+                if (isKeyword(word, SV("closest-side"))) {
                     radius = Length{-1.f, Unit::Number};
-                } else if (equalsIgnoreCase(word, SV("farthest-side"))) {
+                } else if (isKeyword(word, SV("farthest-side"))) {
                     radius = Length{-2.f, Unit::Number};
                 } else if (!parseLength(word, radius) || !nonNegative(radius)) {
                     return false;
@@ -13134,19 +13733,19 @@ namespace {
         }
 
         if (equalsIgnoreCase(name, SV("inset"))) {
-            const u8* p = args.begin();
+            const Token* p = args.begin;
             u32 count = 0;
 
             out.kind = ShapeKind::Inset;
 
             for (;;) {
-                StringView word = shapeWord(p, end);
+                Tokens word = shapeWord(p, end);
 
-                if (word.empty()) {
+                if (empty(word)) {
                     break;
                 }
 
-                if (equalsIgnoreCase(word, SV("round"))) {
+                if (isKeyword(word, SV("round"))) {
                     if (!parseRadii(p, end, out)) {
                         return false;
                     }
@@ -13173,27 +13772,25 @@ namespace {
         }
 
         if (equalsIgnoreCase(name, SV("polygon"))) {
-            const u8* p = args.begin();
+            Vector<Tokens> items;
             Vector<Length> points;
 
             out.kind = ShapeKind::Polygon;
             out.values[0] = Length{0.f, Unit::Number};
-
-            skipSpaces(p, end);
+            commaItems(args, items);
 
             // A fill rule and a rounding, round and a length, may come
             // before the points, both optional; the rounding is kept in the
             // first value.
-            const u8* comma = findOutside(p, end, ',');
-            const u8* clause = comma ? comma : end;
-            const u8* q = p;
-            StringView word = shapeWord(q, clause);
-            bool prelude = equalsIgnoreCase(word, SV("evenodd")) || equalsIgnoreCase(word, SV("nonzero"));
+            const Token* q = items[0].begin;
+            const Token* clause = items[0].end;
+            Tokens word = shapeWord(q, clause);
+            bool prelude = isKeyword(word, SV("evenodd")) || isKeyword(word, SV("nonzero"));
 
-            out.rule = equalsIgnoreCase(word, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
+            out.rule = isKeyword(word, SV("evenodd")) ? WindingEvenOdd : WindingNonZero;
             word = prelude ? shapeWord(q, clause) : word;
 
-            if (equalsIgnoreCase(word, SV("round"))) {
+            if (isKeyword(word, SV("round"))) {
                 if (!parseLength(shapeWord(q, clause), out.values[0]) || percentLength(out.values[0]) || !nonNegative(out.values[0])) {
                     return false;
                 }
@@ -13202,30 +13799,23 @@ namespace {
                 word = shapeWord(q, clause);
             }
 
-            if (prelude && !(word.empty() && comma)) {
+            if (prelude && !(empty(word) && items.length() > 1)) {
                 return false;
             }
 
-            p = prelude ? comma + 1 : p;
-
-            while (p < end) {
-                const u8* stop = findOutside(p, end, ',');
-
-                stop = stop ? stop : end;
-
-                const u8* q = p;
-                StringView xWord = shapeWord(q, stop);
-                StringView yWord = shapeWord(q, stop);
+            for (size_t i = prelude ? 1 : 0; i < items.length(); i++) {
+                const Token* r = items[i].begin;
+                Tokens xWord = shapeWord(r, items[i].end);
+                Tokens yWord = shapeWord(r, items[i].end);
                 Length x;
                 Length y;
 
-                if (!parseLength(xWord, x) || !parseLength(yWord, y) || !trim(StringView(q, stop)).empty()) {
+                if (!parseLength(xWord, x) || !parseLength(yWord, y) || !empty(Tokens{r, items[i].end})) {
                     return false;
                 }
 
                 points.pushBack(x);
                 points.pushBack(y);
-                p = stop < end ? stop + 1 : end;
             }
 
             out.pointCount = (u32)points.length() / 2;
@@ -13281,16 +13871,19 @@ namespace {
         style.overflowVisible = !((node->name == AtomSvg && node != doc.root) || node->name == AtomSymbol || node->name == AtomImage || node->name == AtomMarker || node->name == AtomPattern);
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
-            StringView value = l.instance && l.instance[node->index] ? (l.instance[node->index][property - firstProperty] ? textOf(doc, l.instance[node->index][property - firstProperty]) : StringView()) : cascaded(doc, node, property);
+            u32 cascaded = (l.instance && l.instance[node->index] ? l.instance[node->index] : node->style)[property - firstProperty];
+            Token one;
+            Tokens value = cascaded ? valueTokens(doc, cascaded, one) : Tokens{&one, &one};
 
-            if (value.empty()) {
+            if (value.begin == value.end) {
                 continue;
             }
 
-            bool inherit = isKeyword(value, SV("inherit"));
-            bool reset = isKeyword(value, SV("initial"));
+            CssKeyword wide = valueKeyword(doc, cascaded);
+            bool inherit = wide == CssInherit;
+            bool reset = wide == CssInitial;
 
-            if (isKeyword(value, SV("unset"))) {
+            if (wide == CssUnset) {
                 bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
@@ -13318,17 +13911,19 @@ namespace {
         }
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
-            u32 atom = l.instance && l.instance[node->index] ? l.instance[node->index][property - firstProperty] : node->style[property - firstProperty];
-            StringView value = atom ? textOf(doc, atom) : StringView();
+            u32 cascaded = (l.instance && l.instance[node->index] ? l.instance[node->index] : node->style)[property - firstProperty];
+            Token one;
+            Tokens value = cascaded ? valueTokens(doc, cascaded, one) : Tokens{&one, &one};
 
-            if (value.empty() || property == AtomFontSize) {
+            if (value.begin == value.end || property == AtomFontSize) {
                 continue;
             }
 
-            bool inherit = isKeyword(value, SV("inherit"));
-            bool reset = isKeyword(value, SV("initial"));
+            CssKeyword wide = valueKeyword(doc, cascaded);
+            bool inherit = wide == CssInherit;
+            bool reset = wide == CssInitial;
 
-            if (isKeyword(value, SV("unset"))) {
+            if (wide == CssUnset) {
                 bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
@@ -13464,7 +14059,7 @@ namespace {
 
                         // A limit under 1 is valid in SVG 2, every miter
                         // past it (painting.md, StrokeMiterlimitProperty).
-                        if (parseNumberText(value, limit) && limit >= 0.f) {
+                        if (parseNumber(value, limit) && limit >= 0.f) {
                             style.miterLimit = limit;
                         }
                     }
@@ -13481,26 +14076,24 @@ namespace {
                         // The cascade keeps the arrays of one length or more
                         // that parse, of no less than zero each.
                         Vector<float> dashes;
-                        const u8* p = value.begin();
-                        const u8* end = value.end();
+                        const Token* p = value.begin;
+                        const Token* end = value.end;
                         float sum = 0.f;
 
                         for (;;) {
                             Length length;
 
-                            skipSpaces(p, end);
+                            skipWhitespace(p, end);
 
-                            if (p >= end) {
+                            if (p >= end || !readLength(p, end, length)) {
                                 break;
                             }
-
-                            readLength(p, end, length);
 
                             float dash = resolveLength(length, Axis::Other, vp, style.fontSize);
 
                             sum += dash;
                             dashes.pushBack(dash);
-                            skipSeparator(p, end);
+                            skipComma(p, end);
                         }
 
                         if (sum <= 0.f) {
@@ -13601,7 +14194,7 @@ namespace {
                 case AtomMaskOrigin:
                 case AtomMaskSize:
                 case AtomMaskComposite:
-                    style.maskParts[property - AtomMaskImage] = keyword ? source.maskParts[property - AtomMaskImage] : atom;
+                    style.maskParts[property - AtomMaskImage] = keyword ? source.maskParts[property - AtomMaskImage] : cascaded;
                     break;
                 case AtomMaskBorderSource:
                 case AtomMaskBorderMode:
@@ -13609,7 +14202,7 @@ namespace {
                 case AtomMaskBorderWidth:
                 case AtomMaskBorderOutset:
                 case AtomMaskBorderRepeat:
-                    style.maskBorder[property - AtomMaskBorderSource] = keyword ? source.maskBorder[property - AtomMaskBorderSource] : atom;
+                    style.maskBorder[property - AtomMaskBorderSource] = keyword ? source.maskBorder[property - AtomMaskBorderSource] : cascaded;
                     break;
                 case AtomPaintOrder: {
                     if (keyword) {
@@ -13620,7 +14213,7 @@ namespace {
                     u8 order[3];
                     u32 count = 0;
                     bool valid = true;
-                    const u8* p = value.begin();
+                    const Token* p = value.begin;
 
                     if (isKeyword(value, SV("normal"))) {
                         order[0] = 0;
@@ -13631,13 +14224,13 @@ namespace {
                     }
 
                     while (valid) {
-                        StringView word = shapeWord(p, value.end());
+                        Tokens word = shapeWord(p, value.end);
 
-                        if (word.empty()) {
+                        if (empty(word)) {
                             break;
                         }
 
-                        u8 layer = equalsIgnoreCase(word, SV("fill")) ? 0 : (equalsIgnoreCase(word, SV("stroke")) ? 1 : (equalsIgnoreCase(word, SV("markers")) ? 2 : 3));
+                        u8 layer = isKeyword(word, SV("fill")) ? 0 : (isKeyword(word, SV("stroke")) ? 1 : (isKeyword(word, SV("markers")) ? 2 : 3));
 
                         for (u32 k = 0; k < count; k++) {
                             valid = valid && order[k] != layer;
@@ -13694,36 +14287,26 @@ namespace {
                         break;
                     }
 
-                    const u8* p = value.begin();
+                    const Token* p = value.begin;
                     float width = 3.f;
                     Color color = style.color;
                     bool solid = false;
 
                     for (;;) {
-                        skipSpaces(p, value.end());
-
-                        const u8* start = p;
-                        int depth = 0;
-
-                        while (p < value.end() && (depth > 0 || !isSpace(*p))) {
-                            depth += *p == '(' ? 1 : (*p == ')' ? -1 : 0);
-                            p++;
-                        }
-
-                        StringView word(start, p);
+                        Tokens word = nextWord(p, value.end);
                         Length length;
 
-                        if (word.empty()) {
+                        if (empty(word)) {
                             break;
                         }
 
-                        if (equalsIgnoreCase(word, SV("solid"))) {
+                        if (isKeyword(word, SV("solid"))) {
                             solid = true;
-                        } else if (equalsIgnoreCase(word, SV("thin"))) {
+                        } else if (isKeyword(word, SV("thin"))) {
                             width = 1.f;
-                        } else if (equalsIgnoreCase(word, SV("medium"))) {
+                        } else if (isKeyword(word, SV("medium"))) {
                             width = 3.f;
-                        } else if (equalsIgnoreCase(word, SV("thick"))) {
+                        } else if (isKeyword(word, SV("thick"))) {
                             width = 5.f;
                         } else if (parseLength(word, length) && !percentLength(length)) {
                             width = resolveLength(length, Axis::Other, vp, style.fontSize);
@@ -13810,7 +14393,7 @@ namespace {
                     if (keyword) {
                         style.objectPosition = source.objectPosition;
                     } else if (parsePosition(value, x, y)) {
-                        style.objectPosition = atom;
+                        style.objectPosition = cascaded;
                     }
 
                     break;
@@ -13845,14 +14428,13 @@ namespace {
 
                     break;
                 case AtomPerspectiveOrigin:
-                    style.perspectiveOriginValue = keyword ? source.perspectiveOriginValue : atom;
+                    style.perspectiveOriginValue = keyword ? source.perspectiveOriginValue : cascaded;
                     break;
                 case AtomVectorEffect: {
                     // none, or any effects once each; non-scaling-size keeps
                     // the stroke as non-scaling-stroke does.
                     static const char* const effects[] = {"non-scaling-stroke", "non-scaling-size", "non-rotation", "fixed-position"};
-                    const u8* p = value.begin();
-                    u8 buffer[64];
+                    const Token* p = value.begin;
                     u32 seen = 0;
                     bool valid = true;
 
@@ -13862,20 +14444,14 @@ namespace {
                         break;
                     }
 
-                    for (StringView word = mediaWord(p, value.end(), buffer); !word.empty(); word = mediaWord(p, value.end(), buffer)) {
-                        u32 bit = 0;
+                    for (Tokens word = nextWord(p, value.end); !empty(word); word = nextWord(p, value.end)) {
+                        int bit = keywordIndex(word, effects, 4);
 
-                        for (u32 k = 0; k < 4; k++) {
-                            bit = word == StringView(effects[k]) ? 1u << k : bit;
-                        }
-
-                        valid = valid && bit && !(seen & bit);
-                        seen |= bit;
+                        valid = valid && bit >= 0 && !(seen & (1u << bit));
+                        seen |= bit >= 0 ? 1u << bit : 0;
                     }
 
-                    skipSpaces(p, value.end());
-
-                    if (valid && p == value.end()) {
+                    if (valid) {
                         style.nonScaling = (seen & 3) != 0;
                         style.vectorEffects = (u8)(seen >> 1);
                     }
@@ -14079,7 +14655,7 @@ namespace {
         Node* node = pattern;
 
         for (u32 hops = 0; hops < 16; hops++) {
-            if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty()) {
+            if (u32 value = attribute(node, name); value && !blank(doc, value)) {
                 if (owner) {
                     *owner = node;
                 }
@@ -14128,7 +14704,7 @@ namespace {
         u32 value = patternAttribute(*l.doc, pattern, name, &owner);
         Length length;
 
-        if (!value || !parseLength(textOf(*l.doc, value), length)) {
+        if (!value || !attributeLength(*l.doc, value, length)) {
             return fallback;
         }
 
@@ -14190,16 +14766,18 @@ namespace {
     // its origin of the reference box its units name: the bounding box in
     // the space the transform works in, or the viewport
     // (css-transforms-1.md, transform-box).
-    static Matrix referencedTransform(Pass& l, Node* node, StringView text, Box box, Viewport vp) {
+    static Matrix referencedTransform(Pass& l, Node* node, u32 transform, Box box, Viewport vp) {
         TransformBasis basis{Viewport{box.x1 - box.x0, box.y1 - box.y0, vp.screenWidth, vp.screenHeight, vp.rootFontSize}, documentStyle(l, node, vp).fontSize};
-        Matrix m = flatTransform(text, &basis);
+        Vector<Token> scratch;
+        Matrix m = flatTransform(readTokens(*l.doc, transform, scratch), &basis);
         u32 origin = attribute(node, AtomTransformOrigin);
+        Token one;
 
         if (!origin) {
             return m;
         }
 
-        Point o = transformOrigin(textOf(*l.doc, origin), box.x1 - box.x0, box.y1 - box.y0);
+        Point o = transformOrigin(attributeTokens(*l.doc, origin, one), box.x1 - box.x0, box.y1 - box.y0);
 
         return multiply(multiply(translation(box.x0 + o.x, box.y0 + o.y), m), translation(-box.x0 - o.x, -box.y0 - o.y));
     }
@@ -14241,7 +14819,7 @@ namespace {
         Matrix local;
 
         if (transform) {
-            local = referencedTransform(l, pattern, textOf(doc, transform), boxUnits ? bbox : Box{0.f, 0.f, vp.width, vp.height}, vp);
+            local = referencedTransform(l, pattern, transform, boxUnits ? bbox : Box{0.f, 0.f, vp.width, vp.height}, vp);
             space = multiply(space, local);
         }
 
@@ -14349,7 +14927,7 @@ namespace {
         bool specific = name == AtomX1 || name == AtomY1 || name == AtomX2 || name == AtomY2 || name == AtomCx || name == AtomCy || name == AtomR || name == AtomFx || name == AtomFy || name == AtomFr;
 
         for (u32 hops = 0; hops < 16; hops++) {
-            if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty() && (!specific || node->name == gradient->name)) {
+            if (u32 value = attribute(node, name); value && !blank(doc, value) && (!specific || node->name == gradient->name)) {
                 if (owner) {
                     *owner = node;
                 }
@@ -14396,7 +14974,7 @@ namespace {
         u32 value = gradientAttribute(*l.doc, gradient, name, &owner);
         Length length;
 
-        if (!value || !parseLength(textOf(*l.doc, value), length)) {
+        if (!value || !attributeLength(*l.doc, value, length)) {
             return fallback;
         }
 
@@ -14429,12 +15007,12 @@ namespace {
                 u32 value = attribute(child, AtomOffset);
 
                 if (value) {
-                    StringView text = trim(textOf(doc, value));
-                    const u8* p = text.begin();
-
+                    Token one;
+                    Tokens text = trimmed(attributeTokens(doc, value, one));
+                    const Token* p = text.begin;
                     bool math;
 
-                    if (!readFraction(p, text.end(), offset, math) || p != text.end()) {
+                    if (!readFraction(p, text.end, offset, math) || p != text.end) {
                         offset = 0.f;
                     }
                 }
@@ -14469,7 +15047,7 @@ namespace {
         // In bounding box units the transform works in the box's own
         // space, where it is the unit square.
         if (transform) {
-            gradientMatrix = referencedTransform(l, gradient, textOf(doc, transform), boxUnits ? Box{0.f, 0.f, 1.f, 1.f} : Box{0.f, 0.f, vp.width, vp.height}, vp);
+            gradientMatrix = referencedTransform(l, gradient, transform, boxUnits ? Box{0.f, 0.f, 1.f, 1.f} : Box{0.f, 0.f, vp.width, vp.height}, vp);
         }
 
         if (boxUnits) {
@@ -14580,7 +15158,9 @@ namespace {
         Matrix inverse;
 
         if (value) {
-            m = flatTransform(textOf(doc, value));
+            Vector<Token> scratch;
+
+            m = flatTransform(readTokens(doc, value, scratch));
         }
 
         return !invert(m, inverse);
@@ -14590,7 +15170,7 @@ namespace {
         Node* node = mesh;
 
         for (u32 hops = 0; hops < 16; hops++) {
-            if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty()) {
+            if (u32 value = attribute(node, name); value && !blank(doc, value)) {
                 return value;
             }
 
@@ -14644,11 +15224,15 @@ namespace {
         int count = command == 'c' || command == 'C' ? 6 : (command == 'l' || command == 'L' ? 2 : 0);
 
         for (int k = 0; k < count; k++) {
+            double number;
+
             skipSeparator(p, end);
 
-            if (!readNumber(p, end, v[k])) {
+            if (!readDouble(p, end, number)) {
                 return false;
             }
+
+            v[k] = (float)number;
 
             if (relative) {
                 v[k] += k % 2 ? start.y : start.x;
@@ -14901,7 +15485,8 @@ namespace {
         // A mesh's gradientTransform comes from its attribute alone, which
         // the parser keeps only when it reads.
         if (u32 transform = meshAttribute(doc, mesh, AtomGradientTransform)) {
-            Matrix m = flatTransform(textOf(doc, transform));
+            Vector<Token> scratch;
+            Matrix m = flatTransform(readTokens(doc, transform, scratch));
 
             space = multiply(space, m);
         }
@@ -14921,7 +15506,7 @@ namespace {
         u32 xValue = meshAttribute(doc, mesh, AtomX);
         u32 yValue = meshAttribute(doc, mesh, AtomY);
 
-        corners.mutData()[0] = Point{xValue && parseLength(textOf(doc, xValue), length) ? resolveLength(length, Axis::X, vp, 16.f) : 0.f, yValue && parseLength(textOf(doc, yValue), length) ? resolveLength(length, Axis::Y, vp, 16.f) : 0.f};
+        corners.mutData()[0] = Point{xValue && attributeLength(doc, xValue, length) ? resolveLength(length, Axis::X, vp, 16.f) : 0.f, yValue && attributeLength(doc, yValue, length) ? resolveLength(length, Axis::Y, vp, 16.f) : 0.f};
 
         u32 i = 0;
 
@@ -14955,7 +15540,7 @@ namespace {
                         return nullptr;
                     }
 
-                    if (!cascaded(doc, stop, AtomStopColor).empty() || !cascaded(doc, stop, AtomStopOpacity).empty()) {
+                    if (stop->style[AtomStopColor - firstProperty] || stop->style[AtomStopOpacity - firstProperty]) {
                         const ComputedStyle& stopStyle = documentStyle(l, stop, vp);
                         Color color = stopStyle.stopColor;
 
@@ -15769,7 +16354,7 @@ namespace {
         }
 
         // The parse took the attribute whole.
-        Matrix space = transform ? multiply(m, referencedTransform(l, clip, textOf(doc, transform), box, vp)) : m;
+        Matrix space = transform ? multiply(m, referencedTransform(l, clip, transform, box, vp)) : m;
 
         if (boxUnits) {
             space = multiply(space, Matrix{box.x1 - box.x0, 0.f, 0.f, box.y1 - box.y0, box.x0, box.y0});
@@ -16108,7 +16693,7 @@ namespace {
         u32 value = attribute(node, name);
         Length length;
 
-        if (!value || !parseLength(textOf(doc, value), length)) {
+        if (!value || !attributeLength(doc, value, length)) {
             return fallback;
         }
 
@@ -16918,21 +17503,11 @@ namespace {
     // other longhands' values in turn, the initial one where not set.
     static void maskLayersOf(const Document& doc, const ComputedStyle& style, Vector<MaskLayer>& out) {
         for (u32 k = 0; k < MaskParts; k++) {
-            StringView list = style.maskParts[k] ? textOf(doc, style.maskParts[k]) : StringView(maskInitials[k]);
-            Vector<StringView> items;
-            const u8* p = list.begin();
+            Token one;
+            Tokens list = style.maskParts[k] ? valueTokens(doc, style.maskParts[k], one) : doc.values[keywordValue(doc, StringView(maskInitials[k]))].tokens;
+            Vector<Tokens> items;
 
-            for (;;) {
-                const u8* comma = findOutside(p, list.end(), ',');
-
-                items.pushBack(trim(StringView(p, comma ? comma : list.end())));
-
-                if (!comma) {
-                    break;
-                }
-
-                p = comma + 1;
-            }
+            commaItems(list, items);
 
             if (k == MaskPartImage) {
                 out.zero(items.length());
@@ -16963,8 +17538,7 @@ namespace {
         maskLayersOf(doc, style, layers);
 
         for (const MaskLayer& layer : layers) {
-            Buffer scratch;
-            StringView url = layer.source == MaskSource::Element ? maskUrl(layer.url, scratch) : StringView();
+            StringView url = layer.source == MaskSource::Element ? layer.url : StringView();
             Node* found = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, StringView(url.begin() + 1, url.end()))) : nullptr;
 
             targets.pushBack(found);
@@ -16977,8 +17551,7 @@ namespace {
         for (size_t k = 0; k < layers.length(); k++) {
             const MaskLayer& layer = layers[k];
             MaskLayerOp& out = ops[1 + count];
-            Buffer scratch;
-            StringView url = layer.source == MaskSource::Image ? maskUrl(layer.url, scratch) : StringView();
+            StringView url = layer.source == MaskSource::Image ? layer.url : StringView();
             Node* found = targets[k];
             Node* mask = found && found->name == AtomMask ? found : nullptr;
             bool none = layer.source == MaskSource::None || (layer.source == MaskSource::Element && !found);
@@ -17013,17 +17586,18 @@ namespace {
         // intersecting them, or alone.
         MaskBorder border;
         ImageSource image;
-        Buffer scratch;
 
         for (u32 k = 0; k < MaskBorderParts; k++) {
-            maskBorderPartOf(k, style.maskBorder[k] ? textOf(doc, style.maskBorder[k]) : StringView(maskBorderInitials[k]), border);
+            Token one;
+
+            maskBorderPartOf(k, style.maskBorder[k] ? valueTokens(doc, style.maskBorder[k], one) : doc.values[keywordValue(doc, StringView(maskBorderInitials[k]))].tokens, border);
         }
 
         op.masked = count > 0;
         op.maskLayers = ops + 1;
         op.maskLayerCount = count;
 
-        if (border.image.source == MaskSource::Gradient || (border.image.source == MaskSource::Image && loadImageFrom(l, border.image.url.data(), maskUrl(border.image.url, scratch), image))) {
+        if (border.image.source == MaskSource::Gradient || (border.image.source == MaskSource::Image && loadImageFrom(l, border.image.url.data(), border.image.url, image))) {
             borderMaskLayer(l, element, parent, style, border, border.image.source == MaskSource::Image ? &image : nullptr, m, vp, ops[0]);
             ops[0].composite = 2;
             op.masked = true;
@@ -17062,7 +17636,7 @@ namespace {
     static float filterLength(const Document& doc, u32 value, bool boxUnits, Axis axis, Viewport vp, float fontSize, float fallback) {
         Length length;
 
-        if (!value || !parseLength(textOf(doc, value), length)) {
+        if (!value || !attributeLength(doc, value, length)) {
             return fallback;
         }
 
@@ -17443,11 +18017,14 @@ namespace {
 
     static u32** instanceStyles(Pass& l, Node* target, Node* host) {
         // Past the instance's root a language is its host's, so a document
-        // with :lang() keeps each host's styles apart.
+        // with :lang() keeps each host's styles apart; so are its custom
+        // properties, which the instance inherits.
         Node* keyHost = l.doc->languages ? host : nullptr;
+        const u32* hostStyle = l.instance && l.instance[host->index] ? l.instance[host->index] : host->style;
+        u32 set = hostStyle[propertyCount];
 
         for (size_t i = 0; i < l.instanceTargets.length(); i++) {
-            if (l.instanceTargets[i] == target && l.instanceHosts[i] == keyHost) {
+            if (l.instanceTargets[i] == target && l.instanceHosts[i] == keyHost && l.instanceSets[i] == set) {
                 return l.instanceMaps[i];
             }
         }
@@ -17459,12 +18036,13 @@ namespace {
         doc.instanceHost = host;
 
         for (Node* node = target; node; node = nextNode(node, target)) {
-            map[node->index] = cascadeNode(doc, node, target);
+            map[node->index] = cascadeNode(doc, node, target, node == target ? set : map[node->parent->index][propertyCount]);
         }
 
         doc.instanceHost = nullptr;
         l.instanceTargets.pushBack(target);
         l.instanceHosts.pushBack(keyHost);
+        l.instanceSets.pushBack(set);
         l.instanceMaps.pushBack(map);
 
         return map;
@@ -17637,40 +18215,6 @@ namespace {
         return 0.f;
     }
 
-    // An angle in degrees, a number with or without its unit; unit tells
-    // which.
-    static bool readAngle(StringView text, float& out, bool& unit) {
-        const u8* p = text.begin();
-
-        if (!readNumber(p, text.end(), out)) {
-            u8 base;
-
-            unit = true;
-
-            return readMathQuantity(p, text.end(), out, base) && base == MathAngle && p == text.end();
-        }
-
-        StringView name(p, text.end());
-
-        unit = !name.empty();
-
-        if (!unit || equalsIgnoreCase(name, SV("deg"))) {
-            return true;
-        }
-
-        if (equalsIgnoreCase(name, SV("rad"))) {
-            out *= 180.f / pi;
-        } else if (equalsIgnoreCase(name, SV("grad"))) {
-            out *= 0.9f;
-        } else if (equalsIgnoreCase(name, SV("turn"))) {
-            out *= 360.f;
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
     // Where a marker of a shape goes: its origin, through the user matrix
     // or, for a non-scaling stroke in marker units, the host's; the transform
     // of its content inside, the viewport there, and its size. False for a
@@ -17693,13 +18237,17 @@ namespace {
         u32 orient = attribute(marker, AtomOrient);
 
         if (orient) {
-            StringView text = trim(textOf(doc, orient));
+            Token one;
+            Tokens value = trimmed(attributeTokens(doc, orient, one));
+            const Token* p = value.begin;
+            StringView keyword = value.end - p == 1 && p->type == TokenType::Ident ? p->text : StringView();
 
-            if (text == SV("auto")) {
+            // The attribute's keywords are SVG's, of their case.
+            if (keyword == SV("auto")) {
                 angle = autoAngle;
-            } else if (text == SV("auto-start-reverse")) {
+            } else if (keyword == SV("auto-start-reverse")) {
                 angle = start ? autoAngle + 180.f : autoAngle;
-            } else if (!readAngle(text, angle, unit)) {
+            } else if (!readAngle(p, value.end, angle, unit) || p != value.end) {
                 angle = 0.f;
             }
         }
@@ -17982,7 +18530,7 @@ namespace {
         u32 value = attribute(node, AtomPathLength);
         Length length;
 
-        if (!style.dashCount || !value || !parseLength(textOf(*l.doc, value), length) || !nonNegative(length)) {
+        if (!style.dashCount || !value || !attributeLength(*l.doc, value, length) || !nonNegative(length)) {
             return dashed;
         }
 
@@ -18157,18 +18705,19 @@ namespace {
         Length w;
         Length h;
         Length size;
-        StringView sizeText = cascaded(doc, root, AtomFontSize);
+        u32 sizeValue = root->style[AtomFontSize - firstProperty];
+        Token one;
         float fontSize = 16.f;
 
-        if (!sizeText.empty() && parseLength(sizeText, size) && nonNegative(size)) {
+        if (sizeValue && parseLength(valueTokens(doc, sizeValue, one), size) && nonNegative(size)) {
             fontSize = resolveAgainst(size, 16.f, none, 16.f);
         }
 
         none.rootFontSize = fontSize;
         u32 widthValue = attribute(root, AtomWidth);
         u32 heightValue = attribute(root, AtomHeight);
-        bool hasWidth = widthValue && parseLength(textOf(doc, widthValue), w) && !percentLength(w) && w.value > 0.f;
-        bool hasHeight = heightValue && parseLength(textOf(doc, heightValue), h) && !percentLength(h) && h.value > 0.f;
+        bool hasWidth = widthValue && attributeLength(doc, widthValue, w) && !percentLength(w) && w.value > 0.f;
+        bool hasHeight = heightValue && attributeLength(doc, heightValue, h) && !percentLength(h) && h.value > 0.f;
         Box viewBox;
         bool hasViewBox = parseViewBox(doc, root, viewBox) && viewBox.x1 > viewBox.x0 && viewBox.y1 > viewBox.y0;
         float ratio = hasViewBox ? (viewBox.x1 - viewBox.x0) / (viewBox.y1 - viewBox.y0) : 0.f;
@@ -18190,7 +18739,7 @@ namespace {
         u32 value = attribute(root, name);
         Length length;
 
-        return value && parseLength(textOf(doc, value), length) && !percentLength(length) && length.value > 0.f;
+        return value && attributeLength(doc, value, length) && !percentLength(length) && length.value > 0.f;
     }
 
     // Whether an element gives a side as a length of its own, zero too,
@@ -18199,7 +18748,7 @@ namespace {
         u32 value = attribute(node, name);
         Length length;
 
-        return value && parseLength(textOf(doc, value), length) && !percentLength(length);
+        return value && attributeLength(doc, value, length) && !percentLength(length);
     }
 
     // The transform of the root's content into the box: its viewBox fit to
@@ -18307,7 +18856,7 @@ namespace {
         Box targetBox;
         u32** outerInstance = l.instance;
 
-        if (l.doc->structural) {
+        if (l.doc->structural || l.doc->variables) {
             l.instance = instanceStyles(l, target, node);
         }
 
@@ -18453,8 +19002,9 @@ namespace {
 
     static bool isAuto(const Document& doc, const Node* node, u32 name) {
         u32 value = attribute(node, name);
+        Token one;
 
-        return !value || equalsIgnoreCase(trim(textOf(doc, value)), SV("auto"));
+        return !value || isKeyword(attributeTokens(doc, value, one), SV("auto"));
     }
 
     // Holds a decoded raster image for the pool of the render that uses it.
@@ -18574,7 +19124,7 @@ namespace {
     // media fragment xywh=, in user units or a percent of that viewBox
     // (tst/spec/decisions.md, D19). A malformed one is no view. False where
     // the view given has no width or height, so nothing draws.
-    static bool fragmentView(StringView view, Box& viewBox, Matrix& transform) {
+    static bool fragmentView(ObjPool& pool, StringView view, Box& viewBox, Matrix& transform) {
         if (startsWith(view, SV("svgView(")) && view.back() == ')') {
             StringView rest(view.begin() + 8, view.end() - 1);
             Box given = viewBox;
@@ -18599,7 +19149,13 @@ namespace {
 
                 seen[kind] = true;
 
-                if (kind == 0 ? !parseViewBoxText(inner, given) : kind == 1 ? !validAspect(inner) : !parseTransform(inner, m, TransformGrammar::Either)) {
+                Vector<Token> tokens;
+
+                if (kind == 2) {
+                    tokenizeInto(pool, inner, tokens);
+                }
+
+                if (kind == 0 ? !parseViewBoxText(pool, inner, given) : kind == 1 ? !validAspect(inner) : !parseTransform(Tokens{tokens.data(), tokens.data() + tokens.length()}, m, TransformGrammar::Either)) {
                     return true;
                 }
             }
@@ -18620,7 +19176,7 @@ namespace {
 
             Box box;
 
-            if (!parseViewBoxText(rest, box)) {
+            if (!parseViewBoxText(pool, rest, box)) {
                 return true;
             }
 
@@ -18724,7 +19280,7 @@ namespace {
 
                 out.ratio = boxed;
 
-                if (!boxed && !fragmentView(named, out.viewBox, out.transform)) {
+                if (!boxed && !fragmentView(*l.pool, named, out.viewBox, out.transform)) {
                     return false;
                 }
 
@@ -18997,11 +19553,13 @@ namespace {
         u32** outerInstance = l.instance;
         Vector<Node*> outerTargets;
         Vector<Node*> outerHosts;
+        Vector<u32> outerSets;
         Vector<u32**> outerMaps;
 
         outerStyles.xchg(l.documentStyles);
         outerTargets.xchg(l.instanceTargets);
         outerHosts.xchg(l.instanceHosts);
+        outerSets.xchg(l.instanceSets);
         outerMaps.xchg(l.instanceMaps);
         l.instance = nullptr;
         l.documentStyles.zero(nested->nodeCount);
@@ -19033,6 +19591,7 @@ namespace {
         l.documentStyles.xchg(outerStyles);
         l.instanceTargets.xchg(outerTargets);
         l.instanceHosts.xchg(outerHosts);
+        l.instanceSets.xchg(outerSets);
         l.instanceMaps.xchg(outerMaps);
         l.instance = outerInstance;
         endGroup(l, imageIndex);
@@ -19112,7 +19671,9 @@ namespace {
             Length px;
             Length py;
 
-            parsePosition(style.objectPosition ? textOf(*l.doc, style.objectPosition) : StringView(), px, py);
+            Token one;
+
+            parsePosition(style.objectPosition ? valueTokens(*l.doc, style.objectPosition, one) : Tokens{&one, &one}, px, py);
 
             float ox = resolveAgainst(px, w - cw, vp, style.fontSize);
             float oy = resolveAgainst(py, h - ch, vp, style.fontSize);
@@ -19133,14 +19694,15 @@ namespace {
     static bool transformAnchor(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Point& o, TransformBasis& basis, float* z = nullptr) {
         const Document& doc = *l.doc;
         u32 kind = attribute(node, AtomTransformBox);
-        StringView box = kind ? trim(textOf(doc, kind)) : StringView();
+        Token one;
+        Tokens box = kind ? attributeTokens(doc, kind, one) : Tokens{&one, &one};
         u32 origin = attribute(node, AtomTransformOrigin);
         Box bounds;
 
         // An SVG element has no CSS box: content-box is its fill box and
         // border-box its stroke box.
-        bool fill = box == SV("fill-box") || box == SV("content-box");
-        bool stroke = box == SV("stroke-box") || box == SV("border-box");
+        bool fill = isKeyword(box, SV("fill-box")) || isKeyword(box, SV("content-box"));
+        bool stroke = isKeyword(box, SV("stroke-box")) || isKeyword(box, SV("border-box"));
 
         basis = TransformBasis{vp, documentStyle(l, node, vp).fontSize};
 
@@ -19149,7 +19711,7 @@ namespace {
         }
 
         if (!(fill || stroke)) {
-            o = origin ? transformOrigin(textOf(doc, origin), vp.width, vp.height, z) : Point{vp.width / 2.f, vp.height / 2.f};
+            o = origin ? transformOrigin(attributeTokens(doc, origin, one), vp.width, vp.height, z) : Point{vp.width / 2.f, vp.height / 2.f};
 
             return origin || node == doc.root;
         }
@@ -19164,7 +19726,7 @@ namespace {
 
         basis.box.width = bounds.x1 - bounds.x0;
         basis.box.height = bounds.y1 - bounds.y0;
-        o = origin ? transformOrigin(textOf(doc, origin), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0, z) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
+        o = origin ? transformOrigin(attributeTokens(doc, origin, one), bounds.x1 - bounds.x0, bounds.y1 - bounds.y0, z) : (node == doc.root ? Point{(bounds.x1 - bounds.x0) / 2.f, (bounds.y1 - bounds.y0) / 2.f} : Point{0.f, 0.f});
         o.x += bounds.x0;
         o.y += bounds.y0;
 
@@ -19176,9 +19738,10 @@ namespace {
     // (css-transforms-2.md, perspective-origin-property).
     static Point perspectiveOriginOf(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, const ComputedStyle& style) {
         u32 kind = attribute(node, AtomTransformBox);
-        StringView named = kind ? trim(textOf(*l.doc, kind)) : StringView();
-        bool fill = named == SV("fill-box") || named == SV("content-box");
-        bool stroke = named == SV("stroke-box") || named == SV("border-box");
+        Token named;
+        Tokens boxName = kind ? attributeTokens(*l.doc, kind, named) : Tokens{&named, &named};
+        bool fill = isKeyword(boxName, SV("fill-box")) || isKeyword(boxName, SV("content-box"));
+        bool stroke = isKeyword(boxName, SV("stroke-box")) || isKeyword(boxName, SV("border-box"));
         Box box{0.f, 0.f, vp.width, vp.height};
         Box bounds;
         Length x;
@@ -19189,49 +19752,61 @@ namespace {
         }
 
         // The cascade keeps the positions that parse.
-        parsePosition(style.perspectiveOriginValue ? textOf(*l.doc, style.perspectiveOriginValue) : SV("50% 50%"), x, y);
+        Token one;
+
+        parsePosition(style.perspectiveOriginValue ? valueTokens(*l.doc, style.perspectiveOriginValue, one) : Tokens{&one, &one}, x, y);
 
         return Point{box.x0 + resolveAgainst(x, box.x1 - box.x0, vp, style.fontSize), box.y0 + resolveAgainst(y, box.y1 - box.y0, vp, style.fontSize)};
     }
 
-    // An element's transform as one list: its translate, rotate and scale,
-    // then its transform (css-transforms-2.md, transformation-matrix-computation);
-    // the attribute itself when it is all. Empty for none.
-    static StringView transformList(const Document& doc, const Node* node, Buffer& joined) {
+    // Whether an element has a transform: a translate, rotate, scale or
+    // transform.
+    static bool transformed(const Node* node) {
+        return attribute(node, AtomTransform) || attribute(node, AtomTranslateProperty) || attribute(node, AtomRotateProperty) || attribute(node, AtomScaleProperty);
+    }
+
+    // An element's transform into the builder: its translate, rotate and
+    // scale, then its transform (css-transforms-2.md,
+    // transformation-matrix-computation).
+    static void elementTransform(const Document& doc, const Node* node, const TransformBasis* basis, TransformBuilder& b) {
         static const u32 kept[] = {AtomTranslateProperty, AtomRotateProperty, AtomScaleProperty};
         static const u32 properties[] = {AtomTranslate, AtomRotate, AtomScale};
         u32 transform = attribute(node, AtomTransform);
-        StringView list = transform ? textOf(doc, transform) : StringView();
 
         for (int k = 0; k < 3; k++) {
             u32 value = attribute(node, kept[k]);
+            Vector<Token> scratch;
+            Tokens tokens = value ? readTokens(doc, value, scratch) : Tokens{nullptr, nullptr};
 
-            if (value && !isKeyword(textOf(doc, value), SV("none"))) {
-                individualTransform(properties[k], trim(textOf(doc, value)), joined);
+            if (value && !isKeyword(tokens, SV("none"))) {
+                individualTransform(b, properties[k], tokens, TransformGrammar::Either, basis);
             }
         }
 
-        if (joined.length() && !isKeyword(list, SV("none"))) {
-            joined.append(list.data(), list.length());
-        }
+        if (transform) {
+            Vector<Token> scratch;
+            Tokens list = readTokens(doc, transform, scratch);
 
-        return joined.length() ? StringView(joined) : list;
+            if (!isKeyword(list, SV("none"))) {
+                transformFunctions(b, list, TransformGrammar::Either, basis);
+            }
+        }
     }
 
     static Matrix boxTransform(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp) {
-        Buffer joined;
-        StringView list = transformList(*l.doc, node, joined);
-        Matrix m;
+        TransformBuilder b{identity(), false, {}};
         Point o;
         TransformBasis basis;
 
-        if (list.empty()) {
+        if (!transformed(node)) {
             return identity();
         }
 
         bool anchored = transformAnchor(l, node, parent, vp, o, basis);
 
-        parseTransform(list, m, TransformGrammar::Either, nullptr, &basis);
+        elementTransform(*l.doc, node, &basis, b);
+
+        Matrix m = finishTransform(b, nullptr, nullptr);
 
         if (!anchored) {
             return m;
@@ -19801,9 +20376,6 @@ namespace {
     // gives its children (perspective-matrix-computation); solid where the
     // list has a 3D function. False for none.
     static bool elementMatrix4(Pass& l, Node* node, const ComputedStyle& parent, Viewport vp, Matrix4& out, bool& solid) {
-        Buffer joined;
-        StringView list = transformList(*l.doc, node, joined);
-        Matrix m;
         Point o;
         float z;
         TransformBasis basis;
@@ -19812,10 +20384,12 @@ namespace {
         solid = false;
         out = identity4();
 
-        if (!list.empty()) {
+        if (transformed(node)) {
+            TransformBuilder b{identity(), false, {}};
             bool anchored = transformAnchor(l, node, parent, vp, o, basis, &z);
 
-            parseTransform(list, m, TransformGrammar::Either, &kind, &basis, &out);
+            elementTransform(*l.doc, node, &basis, b);
+            finishTransform(b, &kind, &out);
             solid = kind.solid;
 
             if (anchored) {
@@ -19827,7 +20401,7 @@ namespace {
             out = multiply4(perspectiveMatrix(parent), out);
         }
 
-        return !list.empty();
+        return transformed(node);
     }
 
     // The perspective matrix an element's perspective gives its children
@@ -19855,7 +20429,10 @@ namespace {
             return false;
         }
 
-        if ((image && !isKeyword(textOf(doc, image), SV("none"))) || (source && !isKeyword(textOf(doc, source), SV("none")))) {
+        Token one;
+        Token other;
+
+        if ((image && !isKeyword(valueTokens(doc, image, one), SV("none"))) || (source && !isKeyword(valueTokens(doc, source, other), SV("none")))) {
             return false;
         }
 
@@ -22782,46 +23359,30 @@ namespace {
     static float numberOf(const Document& doc, const Node* node, u32 name, float fallback) {
         float value;
         u32 atom = attribute(node, name);
+        Token one;
 
-        return atom && parseNumberText(textOf(doc, atom), value) ? value : fallback;
+        return atom && parseNumber(attributeTokens(doc, atom, one), value) ? value : fallback;
     }
 
+    // An integer attribute: an integer, the closest of the ints' range past
+    // it (css-values-4 5), or a math function of a number, rounded to the
+    // nearest integer, a half up (10.9).
     static int integerOf(const Document& doc, const Node* node, u32 name, int fallback) {
         u32 atom = attribute(node, name);
-        StringView text = atom ? trim(textOf(doc, atom)) : StringView();
-        const u8* p = text.begin();
-        const u8* end = text.end();
-        bool negative = at(p, end, '-');
+        Token one;
+        Tokens value = atom ? trimmed(attributeTokens(doc, atom, one)) : Tokens{&one, &one};
+        const Token* p = value.begin;
         float number;
 
-        // A math function standing for a number, rounded to the nearest
-        // integer, a half up (css-values-4 10.9).
-        if (readMathNumber(p, end, number)) {
-            return p == end ? (int)maxf(minf(floorf(number + 0.5f), 2147483520.f), -2147483648.f) : fallback;
+        if (readMathNumber(p, value.end, number)) {
+            return p == value.end ? (int)maxf(minf(floorf(number + 0.5f), 2147483520.f), -2147483648.f) : fallback;
         }
 
-        if (p < end && (*p == '+' || *p == '-')) {
-            p++;
-        }
-
-        if (p == end) {
+        if (value.end - p != 1 || !isInteger(p)) {
             return fallback;
         }
 
-        u64 value = 0;
-        u64 limit = negative ? 2147483648ull : 2147483647ull;
-
-        // An integer past the ints' range is the closest one in it
-        // (css-values-4 5).
-        for (; p < end; p++) {
-            if (*p < '0' || *p > '9') {
-                return fallback;
-            }
-
-            value = value * 10 + (*p - '0') > limit ? limit : value * 10 + (*p - '0');
-        }
-
-        return (int)(negative ? -(i64)value : (i64)value);
+        return p->number > 2147483647.0 ? 2147483647 : (p->number < -2147483648.0 ? (int)-2147483648ll : (int)p->number);
     }
 
     static bool numberList(const Document& doc, const Node* node, u32 name, Vector<float>& out) {
@@ -22832,25 +23393,25 @@ namespace {
         }
 
         StringView text = textOf(doc, atom);
-        const u8* p = text.begin();
+        Lexer x{doc.pool, text.begin(), text.end()};
 
         for (;;) {
             float value;
 
-            skipSpaces(p, text.end());
+            skipBlank(x);
 
-            if (p >= text.end()) {
+            if (x.p >= x.end) {
                 return true;
             }
 
-            if (!readNumber(p, text.end(), value)) {
+            if (!listNumber(x, value)) {
                 out.clear();
 
                 return false;
             }
 
             out.pushBack(value);
-            skipSeparator(p, text.end());
+            skipListComma(x);
         }
     }
 
@@ -26168,6 +26729,7 @@ namespace {
         p.rootFontSize = 16.f;
         p.hasContext = false;
         p.instance = nullptr;
+        doc.substitutionBudget = 1 << 19;
         p.documentStyles.zero(doc.nodeCount);
         p.draws = false;
         p.sized = nullptr;

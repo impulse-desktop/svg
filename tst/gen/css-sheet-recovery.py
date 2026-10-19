@@ -12,7 +12,16 @@ nothing; @charset is an unknown rule; a declaration without a name and a
 colon, an unknown property or a value its grammar refuses is dropped
 alone; property names and keywords are ASCII case-insensitive;
 !important, spaced, of any case or escaped, marks a declaration, ! and
-another word invalidate it.""")
+another word invalidate it. Blocks and functions match their closing
+tokens as components: a } inside an unclosed function or parenthesis is
+the function's, so an unclosed var( or url( with a space takes in the rest
+of the sheet; a url( bad by a space takes in all to its ). In a style rule's block what is no declaration is a nested
+rule, which ends at its own {} block or a ;, so a declaration after a {}
+block of template text still applies. Tokens are CSS's: a number with an
+exponent or a dimension whose unit starts with e, a hash of an identifier
+alone an id, CDO and CDC nothing only at the top of a sheet, elsewhere a
+rule's prelude that fails, every code
+point past ASCII an identifier's (D45).""")
 unit.common('<linearGradient id="gl"><stop stop-color="lime"/></linearGradient>')
 
 
@@ -44,5 +53,15 @@ squares(unit, [
     ("important", [("{c} > .t { fill: lime !important } {c} > .t { fill: red }", T), ("{c} > .t { fill: lime ! important } {c} > .t { fill: red }", T),
                    ("{c} > .t { fill: lime !IMPORTANT } {c} > .t { fill: red }", T), ("{c} > .t { fill: lime !\\69mportant } {c} > .t { fill: red }", T)]),
     ("not-important", [("{c} > .t { fill: lime } {c} > .t { fill: red !foo }", T), ("{c} > .t { fill: lime } {c} > .t { fill: red ! }", T)]),
+    ("open-function", [("!{c} > .t { fill: lime; stroke: var(--x, red } {c} > .t { fill: red }", T), ("!{c} > .t { fill: lime; stroke: rgb(1 2 } {c} > .t { fill: red }", T),
+                       ("!{c} > .t { fill: lime } {c} > .t { stroke: url(a b } {c} > .t { fill: red }", T), ("{c} > .t { fill: red } {c} > .t { stroke: url(a b) } {c} > .t { fill: lime }", T), ("!{c} > .t { fill: lime } {c} > .t { stroke: [a } {c} > .t { fill: red }", T)]),
+    ("nested-blocks", [("{c} > .t { fill: red; {% x %} fill: lime }", T), ("{c} > .t { fill: red; {% if y %}fill: lime;{% endif %} }", T), ("{c} > .t { fill: red; a:b { c: d } fill: lime }", T),
+                       ("{c} > .t { fill: red; a b; fill: lime }", T), ("{c} > .t { fill: red; @media all { fill: red } fill: lime }", T),
+                       ("--x: y { {c} > .t { fill: red } } --z a { fill: red } {c} > .t { fill: lime }", T)]),
+    ("numbers", [("{c} > .t { fill: lime; stroke: red; stroke-width: 1e3e } {c} > .t { stroke-width: 0 }", T), ("{c} > .t { width: 0.6e1px; fill: lime }", '<rect class="t" height="6" fill="red"/>'), ("{c} > .t { opacity: 0e3 }", '<rect width="6" height="6" fill="lime"/>' + T),
+                 ("{c} > .t { fill: lime } {c} > #1a { fill: red }", T.replace('/>', ' id="1a"/>')), ("{c} > .t { fill: lime; stroke: red; stroke-width: 0 } {c} > .t { stroke-width: .0e0 }", T)]),
+    ("cdo-cdc-nested", [("{c} > .t { fill: lime } @media all { &lt;!-- {c} > .t { fill: red } }", T), ("{c} > .t { fill: lime; &lt;!-- fill: red }", T)]),
+    ("non-ascii", [("{c} > .a×b { fill: lime }", T.replace('class="t"', 'class="t a×b"')), ("{c} > .a b { fill: lime }", T.replace('class="t"', 'class="t a b"')),
+                   ("{c} > .a b { fill: lime }", T.replace('class="t"', 'class="t a b"'))]),
 ])
 unit.write()

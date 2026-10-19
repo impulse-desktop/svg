@@ -8,9 +8,9 @@ at the end of the input U+FFFD; a newline escaped in an identifier, one
 in a string or a lone - invalidate the selector. They go in class, id,
 type, attribute and pseudo-class names, attribute values quoted or not,
 property names and values, a style attribute, and presentation
-attributes, which take comments too. Outside strings and urls a value
-has its escapes undone before its grammar reads it, so an escaped
-parenthesis is one (D32). -->
+attributes, which take comments too. A value is read from its tokens, so
+an escaped parenthesis is part of an identifier, no parenthesis: rgb8 0
+255 09 is no colour (D32). -->
 <rect width="66" height="74" fill="white"/>
 <style><![CDATA[
 .c0 > .a\:b { fill: lime }
@@ -46,7 +46,7 @@ b"] { fill: lime }
 <g class="c19" transform="translate(2 34)"><rect data-x="ab" width="6" height="6" fill="red"/></g>
 <g class="c20" transform="translate(2 42)"><g fill="lime"><rect class="t" width="6" height="6" style="fill: red\"/></g></g><g class="c21" transform="translate(10 42)"><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c22" transform="translate(2 50)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c23" transform="translate(10 50)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c24" transform="translate(18 50)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c25" transform="translate(2 58)"><rect class="t" width="6" height="6" fill="red" style="f\69ll: \6c ime"/></g><g class="c26" transform="translate(10 58)"><rect class="t" width="6" height="6" fill="\6c ime"/></g><g class="c27" transform="translate(18 58)"><rect class="t" width="6" height="6" fill="rgb\28 0 255 0\29"/></g>
+<g class="c25" transform="translate(2 58)"><rect class="t" width="6" height="6" fill="red" style="f\69ll: \6c ime"/></g><g class="c26" transform="translate(10 58)"><rect class="t" width="6" height="6" fill="\6c ime"/></g><g class="c27" transform="translate(18 58)"><rect class="t" width="6" height="6" fill="lime" style="fill: rgb\28 0 255 0\29"/></g>
 <g class="c28" transform="translate(2 66)"><rect width="6" height="6" fill="red"/><rect width="3" height="6" fill="lime"/><rect x="3" width="3\px/**/" height="6" fill="lime"/></g><g class="c29" transform="translate(10 66)"><rect class="t" width="6" height="6" fill="/* c */lime/**/"/></g>
 <g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="18" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="10" y="58" width="6" height="6"/><rect x="18" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="10" y="66" width="6" height="6"/></g>
 </svg>

@@ -11,7 +11,9 @@ rule but @charset and @layer statements; a sub-layer, named or dotted, goes
 before its parent own rules; @layer { } makes a new anonymous layer each
 time; a layer reopened keeps its place; what no layer holds is last, and a
 presentation attribute below every author rule (D34); a CSS-wide keyword is
-no layer name, and a statement with a bad name declares none.""")
+no layer name, and a statement with a bad name declares none; an @import
+whose url( is bad or whose layer( is left open takes in the rest of its
+sheet.""")
 squares(unit, [
     ("order", [("@layer a1, b1; @layer b1 { {c} > .t { fill: lime } } @layer a1 { {c} > rect.t.t { fill: red } }", R)]),
     ("reopen", [("@layer a5 { {c} > .t { fill: red } } @layer b5 { {c} > .t { fill: lime } } @layer a5 { {c} > rect.t.t { fill: red } }", R)]),
@@ -30,8 +32,8 @@ squares(unit, [
     ("import-string", [('!@layer n13; @import "none.css" layer(m13); @layer m13 { {c} > .t { fill: lime } } @layer n13 { {c} > .t { fill: red } }', R)]),
     ("import-position", [("!@layer q14 { {c} > .t { fill: red } } @import url(none.css) layer(r14); @layer s14 { {c} > .t { fill: red } } @layer r14 { {c} > .t { fill: lime } }", R),
                          ('!@charset "x"; @import url(none.css) layer(u16); @layer v16 { {c} > .t { fill: lime } } @layer u16 { {c} > .t { fill: red } }', R)]),
-    ("import-invalid", [("!@import url(none.css; @layer t15 { {c} > .t { fill: lime } }", R), ("!@import foo layer(w17); @layer x17 { {c} > .t { fill: red } } @layer w17 { {c} > .t { fill: lime } }", R),
-                        ("!@import url(none.css) layer(z19; @layer a19 { {c} > .t { fill: lime } }", R),
+    ("import-invalid", [("!@import url(none.css; @layer t15 { {c} > .t { fill: red } }", '<rect class="t" width="6" height="6" fill="lime"/>'), ("!@import foo layer(w17); @layer x17 { {c} > .t { fill: red } } @layer w17 { {c} > .t { fill: lime } }", R),
+                        ("!@import url(none.css) layer(z19; @layer a19 { {c} > .t { fill: red } }", '<rect class="t" width="6" height="6" fill="lime"/>'),
                         ("!@import url(none.css) layer(e23) { } @layer f23 { {c} > .t { fill: red } } @layer e23 { {c} > .t { fill: lime } }", R)]),
     ("import-nothing", [("!@import url(none.css); @layer y18 { {c} > .t { fill: lime } }", R), ("!@import url(none.css) print; {c} > .t { fill: lime }", R),
                         ("!@import url(none.css) supports(display: grid) screen; {c} > .t { fill: lime }", R)]),

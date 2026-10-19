@@ -72,7 +72,7 @@ cell("slope", (57, y - 1, 14, 14), '<filter id="ct"><feComponentTransfer><feFunc
 # Row 4, geometry: lime fills its outline.
 y = 50
 for name, box, test, outline in [
-    ("viewbox", (1, y - 1, 14, 14), f'<svg x="2" y="{y}" width="12" height="12" viewBox="0 0 calc(12 * 2) 24"><rect width="12" height="12" fill="lime"/></svg>', f'<rect x="2" y="{y}" width="6" height="6"/>'),
+    ("viewbox", (1, y - 1, 14, 14), f'<svg x="2" y="{y}" width="12" height="12" viewBox="0 0 calc(min(12, 20) * 2) 24"><rect width="12" height="12" fill="lime"/></svg>', f'<rect x="2" y="{y}" width="6" height="6"/>'),
     ("points", (15, y - 1, 14, 14), f'<polygon points="16,{y} calc(6 * 2 + 16),{y} 16,{y + 12}" fill="lime"/>', f'<polygon points="16,{y} 28,{y} 16,{y + 12}"/>'),
     ("length-percent", (29, y - 1, 14, 14), f'<svg x="30" y="{y}" width="24" height="12"><rect x="calc(50% - 6px)" width="6" height="6" fill="lime"/></svg>', f'<rect x="36" y="{y}" width="6" height="6"/>'),
     ("viewport-unit", (43, y - 1, 8, 14), f'<rect x="44" y="{y}" width="calc(5vw - 1px)" height="6" fill="lime"/>', f'<rect x="44" y="{y}" width="5" height="6"/>'),

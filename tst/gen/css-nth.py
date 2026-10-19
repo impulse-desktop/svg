@@ -27,10 +27,11 @@ squares(unit, [
                        ("{c} > :nth-child(-n+1) { fill: lime } {c} > :nth-child(-n+0) { fill: red }", T), ("{c} > :nth-child(3), {c} > :nth-child(1) { fill: red } {c} > * { fill: lime }", F + T)]),
     ("anb-zero", [("{c} > :nth-child(0n+0), {c} > :nth-child(-n+0) { fill: red } {c} > * { fill: lime }", T)]),
     ("anb-invalid", [("{c} > :nth-child(+ n), " + red, T), ("{c} > :nth-child(- 1), " + red, T), ("{c} > :nth-child(2n- -1), " + red, T),
-                     ("{c} > :nth-child(2n 1), " + red, T), ("{c} > :nth-child(n+), " + red, T), ("{c} > :nth-child(oddx), " + red, T)]),
+                     ("{c} > :nth-child(2n 1), " + red, T), ("{c} > :nth-child(n+), " + red, T), ("{c} > :nth-child(oddx), " + red, T),
+                     ("{c} > :nth-child(n-1a), " + red, T), ("{c} > :nth-child( ), " + red, T)]),
     ("child-index", [("{c} > :nth-child(2) { fill: lime }", F + "<!-- c -->x<?p?>" + T), ("{c} > :nth-child(1) { fill: lime }", "text" + T)]),
     ("nth-last-child", [("{c} > :nth-last-child(1) { fill: lime }", F + T), ("{c} > :nth-last-child(2n) { fill: lime }", T + F)]),
-    ("nth-of", [("{c} > :nth-child(1 of .t) { fill: lime }", F + F + T), ("{c} > :nth-child(2 of g, .t) { fill: lime }", F + T + F), ("{c} > :nth-last-child(1 of .t) { fill: lime }", T + F),
+    ("nth-of", [("{c} > :nth-child(1 of .t) { fill: lime }", F + F + T), ("{c} > :nth-child(1 of.t) { fill: lime }", F + F + T), ("{c} > :nth-child(2 of g, .t) { fill: lime }", F + T + F), ("{c} > :nth-last-child(1 of .t) { fill: lime }", T + F),
                 ("{c} > :nth-child(1 of circle) { fill: red } {c} > .t { fill: lime }", T)]),
     ("nth-of-type", [("{c} > :nth-of-type(1) { fill: lime }", F + T), ("{c} > :nth-last-of-type(2) { fill: lime }", T + '<rect width="0" height="0"/>')]),
     ("typed-shorthands", [("{c} > :first-of-type { fill: lime }", F + F + T), ("{c} > :last-of-type { fill: lime }", T + F), ("{c} > :only-of-type { fill: lime }", F + T + F),
@@ -42,6 +43,6 @@ squares(unit, [
                    (plain, '<rect class="t" width="6" height="6">&amp;</rect>'), (plain, '<rect class="t" width="6" height="6">&#x20;</rect>'), (plain, '<rect class="t" width="6" height="6"><![CDATA[x]]></rect>')]),
     ("root", [(":root > {c} > .t { fill: lime }", T), ("{c} > :root { fill: red } {c} > .t { fill: lime }", T)]),
     ("nth-overflow", [("{c} > :nth-child(99999999999) { fill: red } {c} > .t { fill: lime }", T)]),
-    ("nth-invalid", [("{c} > :nth-child(1 of.t), " + red, T), ("{c} > :nth-child(1 of :unknown), " + red, T), ("{c} > :foo(x), " + red, T), ("{c} > .t), " + red, T)]),
+    ("nth-invalid", [("{c} > :nth-child(1 of :unknown), " + red, T), ("{c} > :foo(x), " + red, T), ("{c} > .t), " + red, T)]),
 ])
 unit.write()

@@ -7,7 +7,8 @@
 - [x] css-syntax-3.md#consume-an-escaped-code-point: a hex escape of 0, a surrogate, or a value past the maximum allowed code point is replaced by U+FFFD instead of that value [css-escapes#replacement]
 - [x] css-syntax-3.md#consume-an-escaped-code-point: a backslash immediately followed by EOF is a parse error and is replaced by U+FFFD [css-escapes#eof css-calc-edges#url-close-3]
 - [x] css-syntax-3.md#consume-a-string-token: inside a quoted string, a backslash followed directly by a newline is a line continuation: both characters are consumed and nothing is appended [css-escapes#continuation css-calc-edges#url-newline]
-- [x] css-syntax-3.md#syntax-description: an identifier (a property name, at-rule name, class, id, or other keyword) may contain any code point, including ones CSS otherwise uses as syntax, by escaping it (D32) [css-escapes#literal css-escapes#hex css-escapes#attributes]
+- [x] css-syntax-3.md#syntax-description: an identifier (a property name, at-rule name, class, id, or other keyword) may contain any code point, including ones CSS otherwise uses as syntax, by escaping it; an escaped delimiter is part of its token, so rgb\28 0 255 0\29 is an identifier and numbers, no colour (D32) [css-escapes#literal css-escapes#hex css-escapes#attributes]
+- [-] css-syntax-3.md#non-ascii-ident-code-point: of the code points past ASCII only those in the listed ranges are ident code points, so ×, a no-break space or U+2000 in a class name is a delim (D45) [css-sheet-recovery#non-ascii]
 
 ## Stylesheet tokenizing and declaration recovery: css-sheet-recovery, css-sheet (exists)
 
@@ -35,6 +36,16 @@
 - [x] css-syntax-3.md#consume-a-string-token: hitting a newline inside an unclosed string makes it a bad string, throwing out the declaration containing it; hitting EOF instead still returns it as a string, up to that point [css-sheet-recovery#bad-string css-sheet-recovery#eof-close]
 - [x] css-syntax-3.md#consume-a-url-token: an unquoted url() that contains a stray quote or "(", or white space before more than its ")", is a parse error and becomes a bad-url token, which fails to match the url() grammar; one the end of the input reaches first is still a url [css-sheet-recovery#bad-url css-sheet-recovery#eof-close css-url-syntax#unquoted-invalid]
 - [x] css-syntax-3.md#consume-a-block: a block's contents are consumed up to its own "}"; if the input ends first, the block (and everything nested in it) is simply closed where the input ends, per the general auto-closing rule [css-sheet-recovery#eof-close css-sheet-recovery#eof-at-rule]
+
+## Component values and nested rules: css-sheet-recovery, css-layers
+
+- [x] css-syntax-3.md#consume-a-simple-block: a block consumes component values up to its mirror token or the end of the input; a } inside a ( or [ block is one of its values, not the end of the rule's block, so one left open takes in the rest of the sheet [css-sheet-recovery#open-function]
+- [x] css-syntax-3.md#consume-a-function: a function consumes component values up to its ) or the end of the input, a } among them, so an unclosed var( or rgb( takes in every rule after it [css-sheet-recovery#open-function]
+- [x] css-syntax-3.md#consume-the-remnants-of-a-bad-url: a bad url takes in everything to its ) or the end of the input, escaped ones too, so one with no ) takes in the rest of the sheet [css-sheet-recovery#open-function css-layers#import-invalid]
+- [x] css-syntax-3.md#consume-a-blocks-contents: in a block, what does not parse as a declaration is parsed again as a nested qualified rule, which ends at its {}-block, or is none at the ; that stops it; a declaration after a {}-block of template text still applies [css-sheet-recovery#nested-blocks]
+- [x] css-syntax-3.md#consume-a-stylesheets-contents: CDO and CDC tokens are dropped at the top level of a sheet alone; in a block they start a rule's prelude, which then fails [css-sheet-recovery#cdo-cdc-nested]
+- [x] css-syntax-3.md#consume-a-number: a number takes a point only before a digit and an exponent only of an e and digits, perhaps signed, its value then the number times ten to the exponent: 1e3e is 1000 with a unit e, 0.6e1px a length of 6px [css-sheet-recovery#numbers]
+- [x] css-syntax-3.md#tokenizer-consume-a-token: a # before what would start an identifier is a hash token of the id type, which alone is an id selector; #1a is of the unrestricted type [css-sheet-recovery#numbers]
 
 ## The An+B microsyntax: css-nth, css-selectors (exists)
 

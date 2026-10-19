@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="138">
+<!-- Each lime square fills its black outline, and nothing red shows. A
+property whose name starts with two dashes is a custom property: its
+name keeps its case, its value is the tokens written, empty ones too,
+and it inherits; initial makes it the guaranteed-invalid value, inherit,
+unset and revert its parent's. var() puts a custom property's tokens in
+a value, in a sheet, a style attribute or a presentation attribute, at
+computed-value time: its value, else its fallback, substituted in turn,
+the name itself perhaps from a var(); tokens stay tokens, so a number
+before an ident is no dimension. A value it leaves invalid, a var() of
+nothing without a fallback, or a cycle among custom properties, makes
+the declaration invalid at computed-value time: unset, no lower
+declaration; a substitution of more than 16384 tokens, or past the half
+million a document may write, gives the guaranteed-invalid value; a
+var() or env() of no first argument makes it invalid as it is read, so a
+lower one does win. A shorthand's longhands take its value once it is
+substituted; all takes keywords alone, and resets no custom property. An
+instance takes its custom properties from its use. env() has no variable
+here and takes its fallback. -->
+<rect width="66" height="138" fill="white"/>
+<style><![CDATA[
+.c0 { --c: lime } .c0 > .t { fill: var(--c) }
+.c1 > .t { --c: lime; fill: var(--c) }
+.c3 > .t { --c: lime } .c3 > .t { fill: var( --c ) }
+:root { --root-c: lime } .c4 > .t { fill: var(--root-c) }
+.c6 > g { --c: red } .c6 > g > .t { --c: lime } .c6 .t { fill: var(--c) }
+.c7 { --C: red; --c: lime } .c7 > .t { fill: var(--c) }
+.c8 { --c: red; --C: lime } .c8 > .t { fill: var(--C) }
+.c9 > .t { fill: var(--none, lime) }
+.c10 > .t { fill: var(--none, var(--none2, lime)) }
+.c11 > .t { fill: var(--none,) lime }
+.c12 > .t { fill: var(--none, rgb(0, 255, 0)) }
+.c13 { --c: lime } .c13 > .t { fill: var(--c, red) }
+.c14 { --c: lime }
+.c15 { --o: 0 }
+.c16 { --w: 6px }
+.c17 { --n: 6 } .c17 .t { fill: lime; stroke: red; stroke-width: var(--n)px }
+.c18 { --a: 0 255 } .c18 > .t { fill: rgb(var(--a) 0) }
+.c19 { --e:; } .c19 > .t { fill: var(--e) lime }
+.c20 { --l: li } .c20 .t { fill: red; fill: var(--l)me }
+.c21 { --n: --c; --c: lime } .c21 > .t { fill: var(var(--n)) }
+.c22 { --c: red } .c22 > .t { fill: var(c, lime) }
+.c23 .t { fill: red } .c23 .t.t { fill: var(--none) }
+.c24 .t { fill: red; fill: var(--none) }
+.c25 { --c: 5px } .c25 .t { fill: var(--c) }
+.c26 > .t { opacity: var(--none) }
+.c27 .t { fill: var(--none, red, blue) }
+.c28 > .t { fill: lime } .c28 > .t.t { fill: var() }
+.c29 > .t { fill: lime } .c29 > .t.t { fill: var(, red) }
+.c30 > .t { --c: lime } .c30 > .t { --c: var(); fill: var(--c) }
+.c32 > .t { --c: lime } .c32 > .t { --c: red "x
+; fill: var(--c) }
+.c33 > .t { --c: lime } .c33 > .t { --c: red ! x; fill: var(--c) }
+.c34 > .t { --c: lime } .c34 > .t { --c: red ); fill: var(--c) }
+.c35 > g { --c: lime } .c35 > g > .t { --c: red } .c35 > g > .t.t { --c: inherit; fill: var(--c) }
+.c36 { --c: red } .c36 > .t { --c: initial; fill: var(--c, lime) }
+.c37 { --c: lime } .c37 > g { --c: red } .c37 > g { --c: unset } .c37 .t { fill: var(--c) }
+.c38 { --c: lime } .c38 > .t { --c: red } .c38 > .t { --c: revert; fill: var(--c) }
+.c39 .t { --k: inherit } .c39 .t { fill: var(--k) }
+.c40 .t { fill: red } .c40 .t.t { fill: var(--none, revert) }
+.c41 > .t { --a: var(--b); --b: var(--a); fill: var(--a, lime) }
+.c42 > .t { --a: var(--a, red); fill: var(--a, lime) }
+.c43 > .t { --a: var(--b, red); --b: var(--a, red); --x: var(--a, lime); fill: var(--x) }
+.c44 { --a: lime } .c44 > .t { --a: var(--a); fill: var(--a, lime) }
+.c45 > .t { --c: lime !important } .c45 > .t { --c: red }
+@layer x { .c46 > .t { --c: red } } .c46 > .t { --c: lime } .c46 > .t { fill: var(--c) }
+.c47 { --m: none } .c47 > .t { marker: var(--m) }
+.c48 .t { all: var(--none, inherit) }
+.c49 .t { --c: lime } .c49 .t { all: inherit; fill: var(--c) }
+.c54 .t { --a0: x x x x x x x x x x x x x x x x; --a1: var(--a0) var(--a0); --a2: var(--a1) var(--a1); --a3: var(--a2) var(--a2); --a4: var(--a3) var(--a3); --a5: var(--a4) var(--a4); --a6: var(--a5) var(--a5); --a7: var(--a6) var(--a6); --a8: var(--a7) var(--a7); --a9: var(--a8) var(--a8); --a10: var(--a9) var(--a9); --a11: var(--a10) var(--a10); fill: var(--a11, lime) }
+.c55 .u { --a0: x x x x x x x x x x x x x x x x; --a1: var(--a0) var(--a0); --a2: var(--a1) var(--a1); --a3: var(--a2) var(--a2); --a4: var(--a3) var(--a3); --a5: var(--a4) var(--a4); --a6: var(--a5) var(--a5); --a7: var(--a6) var(--a6); --a8: var(--a7) var(--a7); --a9: var(--a8) var(--a8); --a10: var(--a9) var(--a9); --a11: var(--a10) var(--a10); fill: var(--a11, lime) }
+.c56 > .t { fill: env(no-such-variable, lime) }
+.c57 .t { fill: env(no-such-variable) }
+]]></style>
+<g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c2" transform="translate(18 2)"><rect class="t" width="6" height="6" fill="red" style="--c: lime; fill: var(--c)"/></g><g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c4" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c5" transform="translate(10 10)"><g style="--c: lime"><rect class="t" width="6" height="6" fill="red" style="fill: var(--c)"/></g></g><g class="c6" transform="translate(18 10)"><g><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c7" transform="translate(2 18)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c8" transform="translate(10 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c9" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c10" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c11" transform="translate(18 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c12" transform="translate(26 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c13" transform="translate(34 26)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c14" transform="translate(2 34)"><rect class="t" width="6" height="6" fill="var(--c)"/></g><g class="c15" transform="translate(10 34)"><rect class="t" width="6" height="6" fill="lime"/><rect width="6" height="6" fill="red" opacity="var(--o)"/></g><g class="c16" transform="translate(18 34)"><rect width="0" height="6" fill="red"/><rect width="var(--w)" height="6" fill="lime"/></g>
+<g class="c17" transform="translate(2 42)"><g stroke-width="0"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c18" transform="translate(10 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c19" transform="translate(18 42)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c20" transform="translate(26 42)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c21" transform="translate(2 50)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c22" transform="translate(10 50)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c23" transform="translate(2 58)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c24" transform="translate(10 58)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c25" transform="translate(18 58)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c26" transform="translate(26 58)"><rect class="t" width="6" height="6" fill="lime"/></g><g class="c27" transform="translate(34 58)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c28" transform="translate(2 66)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c29" transform="translate(10 66)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c30" transform="translate(18 66)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c31" transform="translate(26 66)"><rect class="t" width="6" height="6" fill="lime" style="fill: env()"/></g><g class="c32" transform="translate(34 66)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c33" transform="translate(42 66)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c34" transform="translate(50 66)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c35" transform="translate(2 74)"><g><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c36" transform="translate(10 74)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c37" transform="translate(18 74)"><g><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c38" transform="translate(26 74)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c39" transform="translate(34 74)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c40" transform="translate(42 74)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c41" transform="translate(2 82)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c42" transform="translate(10 82)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c43" transform="translate(18 82)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c44" transform="translate(26 82)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c45" transform="translate(2 90)"><rect class="t" width="6" height="6" fill="red" style="fill: var(--c)"/></g><g class="c46" transform="translate(10 90)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c47" transform="translate(2 98)"><marker id="vm" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="red"/></marker><path class="t" d="M0 0h6v6h-6z" fill="lime" marker-start="url(#vm)"/></g><g class="c48" transform="translate(10 98)"><svg width="6" height="6" fill="lime"><rect class="t" fill="red"/></svg></g>
+<g class="c49" transform="translate(2 106)"><svg width="6" height="6"><rect class="t" fill="red"/></svg></g>
+<g class="c50" transform="translate(2 114)"><symbol id="vs"><rect width="6" height="6" style="fill: var(--c, red)"/></symbol><use href="#vs" style="--c: lime"/></g><g class="c51" transform="translate(10 114)"><g style="--c: lime"><use href="#vs"/></g></g><g class="c52" transform="translate(18 114)"><use href="#vs" style="--c: red"/><use href="#vs" style="--c: lime"/></g><g class="c53" transform="translate(26 114)"><defs style="--c: red"><rect id="vr" width="6" height="6" style="fill: var(--c)"/></defs><use href="#vr" style="--c: lime"/></g>
+<g class="c54" transform="translate(2 122)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c55" transform="translate(10 122)"><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/><rect class="u" width="6" height="6" fill="red"/></g>
+<g class="c56" transform="translate(2 130)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c57" transform="translate(10 130)"><g fill="lime"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="34" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="26" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="10" y="58" width="6" height="6"/><rect x="18" y="58" width="6" height="6"/><rect x="26" y="58" width="6" height="6"/><rect x="34" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="10" y="66" width="6" height="6"/><rect x="18" y="66" width="6" height="6"/><rect x="26" y="66" width="6" height="6"/><rect x="34" y="66" width="6" height="6"/><rect x="42" y="66" width="6" height="6"/><rect x="50" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="10" y="74" width="6" height="6"/><rect x="18" y="74" width="6" height="6"/><rect x="26" y="74" width="6" height="6"/><rect x="34" y="74" width="6" height="6"/><rect x="42" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="18" y="82" width="6" height="6"/><rect x="26" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/><rect x="18" y="114" width="6" height="6"/><rect x="26" y="114" width="6" height="6"/><rect x="2" y="122" width="6" height="6"/><rect x="10" y="122" width="6" height="6"/><rect x="2" y="130" width="6" height="6"/><rect x="10" y="130" width="6" height="6"/></g>
+</svg>
