@@ -40,7 +40,7 @@
 
 ## Notes
 
-## The root's background on the canvas: render-root-background-opacity, render-root-background-blend, render-root-background-shorthand, render-root-background-reset
+## The root's background on the canvas: render-root-background-opacity, render-root-background-blend, render-root-background-shorthand, render-root-background-reset, render-root-background-layers, render-root-background-keyword, render-root-background-current
 
 - [x] css-backgrounds-3.md#special-backgrounds: the root element's background is the canvas's, painted under the root element: the root's opacity does not fade it, and the root's content blends with it as its backdrop. [render-root-background-opacity#canvas render-root-background-blend#canvas]
-- [x] css-backgrounds-3.md#propdef-background: the background shorthand sets background-color from the colour of its final layer, else to its initial value, transparent; the renderer reads it for that colour alone, the canvas's. [render-root-background-shorthand#final-layer render-root-background-reset#no-colour]
+- [x] css-backgrounds-3.md#propdef-background: the background shorthand sets background-color from the colour of its final layer, else to its initial value, transparent; the renderer reads it for that colour alone, the canvas's. [render-root-background-shorthand#final-layer render-root-background-layers#final-layer render-root-background-reset#no-colour render-root-background-keyword#initial render-root-background-current#currentcolor]
