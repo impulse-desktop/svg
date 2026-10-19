@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="62">
+<!-- What tst/unit/gradient-spread.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="64" height="62" fill="white"/>
+<defs>
+<linearGradient id="lpad" gradientUnits="userSpaceOnUse" x1="26" x2="38" spreadMethod="pad"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="lrpad" gradientUnits="userSpaceOnUse" x1="2" x2="62"><stop offset="0.4" stop-color="navy"/><stop offset="0.6" stop-color="gold"/></linearGradient>
+<radialGradient id="rpad" gradientUnits="userSpaceOnUse" cx="12" cy="44" r="6" spreadMethod="pad"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="rrpad" gradientUnits="userSpaceOnUse" cx="12" cy="44" r="30"><stop offset="0" stop-color="navy"/><stop offset=".2" stop-color="gold"/></radialGradient>
+<linearGradient id="lreflect" gradientUnits="userSpaceOnUse" x1="26" x2="38" spreadMethod="reflect"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="lrreflect" gradientUnits="userSpaceOnUse" x1="2" x2="62"><stop offset="0" stop-color="navy"/><stop offset="0.2" stop-color="gold"/><stop offset="0.4" stop-color="navy"/><stop offset="0.6" stop-color="gold"/><stop offset="0.8" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<radialGradient id="rreflect" gradientUnits="userSpaceOnUse" cx="32" cy="44" r="6" spreadMethod="reflect"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="rrreflect" gradientUnits="userSpaceOnUse" cx="32" cy="44" r="30"><stop offset="0" stop-color="navy"/><stop offset="0.2" stop-color="gold"/><stop offset="0.4" stop-color="navy"/><stop offset="0.6" stop-color="gold"/><stop offset="0.8" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<linearGradient id="lrepeat" gradientUnits="userSpaceOnUse" x1="26" x2="38" spreadMethod="repeat"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="lrrepeat" gradientUnits="userSpaceOnUse" x1="2" x2="62"><stop offset="0" stop-color="navy"/><stop offset="0.2" stop-color="gold"/><stop offset="0.2" stop-color="navy"/><stop offset="0.4" stop-color="gold"/><stop offset="0.4" stop-color="navy"/><stop offset="0.6" stop-color="gold"/><stop offset="0.6" stop-color="navy"/><stop offset="0.8" stop-color="gold"/><stop offset="0.8" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<radialGradient id="rrepeat" gradientUnits="userSpaceOnUse" cx="52" cy="44" r="6" spreadMethod="repeat"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="rrrepeat" gradientUnits="userSpaceOnUse" cx="52" cy="44" r="30"><stop offset="0" stop-color="navy"/><stop offset="0.2" stop-color="gold"/><stop offset="0.2" stop-color="navy"/><stop offset="0.4" stop-color="gold"/><stop offset="0.4" stop-color="navy"/><stop offset="0.6" stop-color="gold"/><stop offset="0.6" stop-color="navy"/><stop offset="0.8" stop-color="gold"/><stop offset="0.8" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+</defs>
+<g id="linear-pad" data-box="1 1 62 8"><rect x="2" y="2" width="60" height="3" fill="url(#lrpad)"/><rect x="2" y="5" width="60" height="3" fill="url(#lrpad)"/></g>
+<g id="linear-reflect" data-box="1 9 62 8"><rect x="2" y="10" width="60" height="3" fill="url(#lrreflect)"/><rect x="2" y="13" width="60" height="3" fill="url(#lrreflect)"/></g>
+<g id="linear-repeat" data-box="1 17 62 8"><rect x="2" y="18" width="60" height="3" fill="url(#lrrepeat)"/><rect x="2" y="21" width="60" height="3" fill="url(#lrrepeat)"/></g>
+<g id="radial-pad" data-box="2 27 20 34"><rect x="3" y="28" width="18" height="16" fill="url(#rrpad)"/><rect x="3" y="44" width="18" height="16" fill="url(#rrpad)"/></g>
+<g id="radial-reflect" data-box="22 27 20 34"><rect x="23" y="28" width="18" height="16" fill="url(#rrreflect)"/><rect x="23" y="44" width="18" height="16" fill="url(#rrreflect)"/></g>
+<g id="radial-repeat" data-box="42 27 20 34"><rect x="43" y="28" width="18" height="16" fill="url(#rrrepeat)"/><rect x="43" y="44" width="18" height="16" fill="url(#rrrepeat)"/></g>
+</svg>

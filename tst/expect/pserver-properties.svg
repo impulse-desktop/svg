@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="16">
+<!-- What tst/unit/pserver-properties.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="58" height="16" fill="white"/>
+<defs><linearGradient id="plain-black"><stop offset="0" stop-color="black"/><stop offset="1" stop-color="black" stop-opacity=".5"/></linearGradient><linearGradient id="plain-inherit"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="navy"/></linearGradient><linearGradient id="plain-vector"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient><pattern id="plain-tile" patternUnits="userSpaceOnUse" width="4" height="4"><rect width="2" height="2" fill="lime"/></pattern></defs>
+<g id="stop-initial-black" data-box="1 1 14 14"><rect x="2" y="2" width="12" height="12" fill="url(#plain-black)"/></g>
+<g id="stop-inherit" data-box="15 1 14 14"><rect x="16" y="2" width="12" height="12" fill="url(#plain-inherit)"/></g>
+<g id="css-vector" data-box="29 1 14 14"><rect x="30" y="2" width="12" height="12" fill="url(#plain-vector)"/></g>
+<g id="css-pattern-tile" data-box="43 1 14 14"><rect x="44" y="2" width="12" height="12" fill="url(#plain-tile)"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="16" y="2" width="12" height="12"/><rect x="30" y="2" width="12" height="12"/><rect x="44" y="2" width="12" height="12"/></g>
+</svg>

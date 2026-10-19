@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16" color="red">
+<!-- What tst/unit/pserver-ancestry.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<linearGradient id="h"><stop offset="0" stop-color="lime"/><stop offset="1" stop-color="lime"/></linearGradient>
+<linearGradient id="c"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient>
+<pattern id="p" width="1" height="1"><rect width="20" height="20" fill="lime"/></pattern>
+<pattern id="i" width="1" height="1"><rect width="20" height="20"/></pattern>
+<pattern style="display: inline" width="64" height="16" patternUnits="userSpaceOnUse"><rect x="26" y="2" width="10" height="10" fill="red"/></pattern>
+<g id="display-none" data-box="1 1 12 12"><rect x="2" y="2" width="10" height="10" fill="lime"/></g>
+<g id="own-ancestors" data-box="13 1 12 12"><rect x="14" y="2" width="10" height="10" fill="lime"/></g>
+<g id="not-rendered" data-box="25 1 12 12"><rect x="26" y="2" width="10" height="10" fill="lime"/></g>
+<g id="pattern-display-none" data-box="37 1 12 12"><rect x="38" y="2" width="10" height="10" fill="lime"/></g>
+<g id="pattern-content" data-box="49 1 12 12"><rect x="50" y="2" width="10" height="10" fill="lime"/></g>
+</svg>

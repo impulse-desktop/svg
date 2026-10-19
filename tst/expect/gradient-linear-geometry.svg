@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- What tst/unit/gradient-linear-geometry.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="64" height="48" fill="white"/>
+<defs>
+<linearGradient id="d"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="dr" gradientUnits="userSpaceOnUse" x1="2" x2="62"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="vp" gradientUnits="userSpaceOnUse" x1="25%" x2="75%"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="vr" gradientUnits="userSpaceOnUse" x1="16" x2="48"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="t" gradientTransform="translate(.5) scale(.5 1)"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="tr" gradientUnits="userSpaceOnUse" x1="32" x2="62"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="e" x1=".3" x2=".3" y1=".5" y2=".5"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="lime"/></linearGradient>
+<linearGradient id="css" gradientTransform="translate(.25)" x2=".5"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+</defs>
+<g id="defaults" data-box="1 1 62 10"><rect x="2" y="2" width="60" height="4" fill="url(#dr)"/><rect x="2" y="6" width="60" height="4" fill="url(#dr)"/></g>
+<g id="viewport-percent" data-box="1 11 62 10"><rect x="2" y="12" width="60" height="4" fill="url(#vr)"/><rect x="2" y="16" width="60" height="4" fill="url(#vr)"/></g>
+<g id="transform-after-box" data-box="1 21 62 10"><rect x="2" y="22" width="60" height="4" fill="url(#tr)"/><rect x="2" y="26" width="60" height="4" fill="url(#tr)"/></g>
+<g id="equal-ends" data-box="1 31 62 7"><rect x="2" y="32" width="60" height="5" fill="lime"/></g>
+<g id="css-transform" data-box="1 38 62 10"><rect x="2" y="39" width="60" height="4" fill="url(#tr)"/><rect x="2" y="43" width="60" height="4" fill="url(#tr)"/></g>
+</svg>
