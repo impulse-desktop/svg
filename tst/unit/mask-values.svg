@@ -5,7 +5,8 @@ linear light under color-interpolation linearRGB; mask-type alpha, or the
 mask's mode in the shorthand, takes alpha instead; the region defaults to
 -10% and 120% of the box and clips the content; a region of zero width draws
 nothing; maskContentUnits scales the content to the box; a reference to
-nothing or to no mask is a transparent layer, hiding all (D20); a mask on an
+nothing is no mask, drawing the element as it is, and one to no mask a
+transparent layer, hiding all (D20); a mask on an
 element of no height in box units is ignored. A grey image of one channel
 is its grey in every colour and opaque, one of three colours opaque too. A
 mask's content inherits from the mask's own ancestors; opacity, filter and
@@ -36,7 +37,7 @@ mask border reads alpha whatever mask-mode says, filling its black outline. -->
 <rect x="0" y="13" width="24" height="12" fill="none" stroke="black" stroke-width=".25"/>
 <rect x="26" y="14" width="10" height="10" fill="red" mask="url(#z)"/>
 <rect x="38" y="14" width="12" height="10" fill="lime" mask="url(#c)"/>
-<rect x="2" y="28" width="10" height="10" fill="red" mask="url(#missing)"/>
+<rect x="2" y="28" width="10" height="10" fill="lime" mask="url(#missing)"/>
 <rect x="14" y="28" width="10" height="10" fill="red" mask="url(#nm)"/>
 <path d="M 26 33 H 40" stroke="lime" stroke-width="6" mask="url(#g)"/>
 <rect x="42" y="28" width="10" height="10" fill="blue"/>

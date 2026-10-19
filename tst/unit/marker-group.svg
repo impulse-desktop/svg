@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42" height="12">
+<!-- Each lime drawing fills its black outline, and nothing red shows. A
+marker's content draws as a group that carries the marker's own
+properties: its opacity, a filter, which a box of bounding box units
+takes from the content, a clip-path and a mask. -->
+<rect width="42" height="12" fill="white"/>
+<defs><filter id="mf" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter><clipPath id="mc"><rect width="4" height="8"/></clipPath><mask id="mm" maskUnits="userSpaceOnUse" x="0" y="0" width="4" height="8"><rect width="8" height="8" fill="white"/></mask><marker id="mo" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" opacity="0.5"><rect width="8" height="8" fill="lime"/></marker><marker id="mfl" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" filter="url(#mf)"><rect x="2" y="2" width="4" height="4" fill="red"/></marker><marker id="mcl" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" clip-path="url(#mc)"><rect width="8" height="8" fill="lime"/></marker><marker id="mma" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" mask="url(#mm)"><rect width="8" height="8" fill="lime"/></marker></defs>
+<path d="M 2 2 h 1" marker-start="url(#mo)"/>
+<path d="M 12 2 h 1" marker-start="url(#mfl)"/>
+<path d="M 22 2 h 1" marker-start="url(#mcl)"/>
+<path d="M 32 2 h 1" marker-start="url(#mma)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="8" height="8"/><rect x="14" y="4" width="4" height="4"/><rect x="22" y="2" width="4" height="8"/><rect x="32" y="2" width="4" height="8"/></g>
+</svg>

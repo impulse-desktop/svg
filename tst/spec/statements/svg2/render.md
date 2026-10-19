@@ -18,7 +18,7 @@
 - [x] svg2/render.md#ReusedGraphics: a use element's shadow-DOM content renders as if the use element were a container and the shadow content its descendants; style and geometry on shadow elements resolve independently of the corresponding source element. [use-shadow-styles#inherit-from-use use-geometry#translate-after]
 - [x] svg2/render.md#ReusedGraphics: for blending purposes a use element forms a non-isolated group. [render-groups#non-isolated]
 - [x] svg2/render.md#ReusedGraphics: display has its normal effect on shadow-DOM elements, except for the special rules that apply to a symbol element. [symbol-geometry#display-none-symbol]
-- [x] svg2/render.md#TermRenderableElement: a symbol that is the instance root of a use-element shadow tree is a renderable element, so a transformable one (css-transforms-1.md#transformable-element): its transform applies inside the use's x and y, about its origin. [symbol-geometry#transform]
+- [x] svg2/render.md#TermRenderableElement: a symbol that is the instance root of a use-element shadow tree is a renderable element, so a transformable one (css-transforms-1.md#transformable-element): its transform applies inside the use's x and y, about its origin, and its bounding box, its content's, serves effects of box units. [symbol-geometry#transform symbol-geometry#filter-box symbol-geometry#filter-box-ref]
 
 ## Graphical-effect content as a self-contained fragment: render-groups, resource-display
 

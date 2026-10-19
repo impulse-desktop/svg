@@ -133,11 +133,12 @@
 - [x] svg2/painting.md#RenderingMarkers: the marker's temporary coordinate system is built by: rotating per orient, then scaling per markerUnits, then applying the marker's own viewBox/preserveAspectRatio transform [marker-viewport#viewbox-fit marker-units-size#scaled marker-orient#auto-ends]
 - [x] svg2/painting.md#RenderingMarkers: when overflow on the marker element computes to a clipping value, an implicit clip path is set at the bounds of the marker's SVG viewport; the UA style sheet sets overflow:hidden on marker by default, so this clip applies unless an author rule overrides it [marker-viewport#overflow-hidden marker-viewport#overflow-visible marker-viewport#overflow-auto marker-viewport#overflow-scroll]
 
-## marker display and cascade: marker-vertices
+## marker display and cascade: marker-vertices, marker-group
 
 - [x] svg2/painting.md#Markers: markers on one element paint bottom to top: any marker-start marker, then the marker-mid markers in order of position along the path, then any marker-end marker [marker-vertices#zero-length marker-vertices#rect]
 - [x] svg2/painting.md#VertexMarkerProperties: for shapes other than path/polyline whose last vertex equals the first, both marker-start and marker-end render there if both are not none; for path, marker-start/marker-end apply only to the first/last vertex of the whole path data (not per subpath), and marker-mid to every other vertex, including the shared vertex at each closed subpath's join [marker-vertices#rect marker-vertices#circle marker-vertices#polygon marker-vertices#subpaths marker-vertices#ellipse]
 - [x] svg2/painting.md#RenderingMarkers: properties do not inherit from the referencing element into the marker's contents; the marker's own cascade and inheritance apply instead, conceptually via a deep clone into a non-exposed tree [marker-vertices#inherit]
+- [x] svg2/painting.md#RenderingMarkers: the marker's content is drawn as a group carrying all property values of the marker element itself, so its opacity, filter (its box the content's), clip-path and mask apply to the content as a whole. [marker-group#opacity marker-group#filter marker-group#clip-path marker-group#mask]
 - [x] svg2/painting.md#RenderingMarkers: the UA style sheet forces display:none on marker with importance over any other rule or presentation attribute, yet a marker element remains available for reference regardless of display:none on itself or any ancestor [marker-vertices#display-none marker-vertices#not-rendered]
 
 ## paint-order: paint-order-values

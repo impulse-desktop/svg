@@ -8,7 +8,7 @@ BLACK = "data:image/svg+xml," + quote("<svg xmlns='http://www.w3.org/2000/svg' w
 unit = Unit("css-image-values", 92, 14, """Each lime drawing fills its black
 outline, and nothing red shows. A url() image that cannot be decoded is an
 invalid image, transparent, so a mask of it hides all; a fragment url is an
-element of the document, a mask, or nothing, a transparent layer (D20);
+element of the document, a mask, or names none, no layer at all (D20);
 one of another document is an element of it, which nothing loads (D15),
 and so hides all too, unless it is an image, a data URI, whose fragment
 names no element of ours. An <image> is a url or a gradient; a gradient
@@ -25,7 +25,7 @@ def lime(x, w=8):
 
 
 unit.cell("invalid-image", (1, 1, 20, 12), rect(2, "red", "mask-image: url(data:image/png;base64,AAAA)") + rect(12, "red", "mask-image: url(data:image/png;base64,iVBORw0KGgo=)"), "")
-unit.cell("fragment", (21, 1, 20, 12), rect(22, "lime", "mask-image: url(#m)") + rect(32, "red", "mask-image: url(#nothing)"), lime(22), lime(22).replace(' fill="lime"', ""))
+unit.cell("fragment", (21, 1, 20, 12), rect(22, "lime", "mask-image: url(#m)") + rect(32, "lime", "mask-image: url(#nothing)"), lime(22) + lime(32), (lime(22) + lime(32)).replace(' fill="lime"', ""))
 unit.cell("other-document", (41, 1, 20, 12), rect(42, "red", "mask-image: url(other.svg#m)") + rect(52, "lime", f"mask-image: url('{BLACK}#m')"), lime(52), lime(52).replace(' fill="lime"', ""))
 unit.cell("image-types", (61, 1, 10, 12), rect(62, "lime", f"mask-image: url('{BLACK}'), linear-gradient(transparent, transparent)"), lime(62), lime(62).replace(' fill="lime"', ""))
 gradient = '<linearGradient id="{0}" gradientUnits="userSpaceOnUse" x1="72" x2="80"><stop stop-color="lime"/><stop offset="1" stop-color="lime" stop-opacity="0"/></linearGradient>'

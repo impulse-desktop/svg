@@ -188,7 +188,7 @@ a document whose viewBox is not its size. The renderer reads it as media
 fragments mean it, a part of the image: percentages of the root's viewBox,
 else of its size, so percent:0,0,50,50 is always the top left quarter.
 
-## D20. A mask reference to an element that is no mask is a transparent layer
+## D20. A mask reference to no mask is a transparent layer; to nothing, none
 
 `css-masking-1.md#the-mask-image`: a mask reference that "is not a reference
 to a mask element, is non-existent, or ... cannot be displayed still counts
@@ -196,8 +196,15 @@ as an image layer of transparent black". `svg2/linking.md#processingURL-validity
 says, for properties that take an element or an image file such as mask,
 that a target of a wrong element type makes "the entire document file" the
 image, its fragment a view. The renderer follows the masking text, the
-property's own: such a layer is transparent and hides what it masks, as a
-reference to nothing does.
+property's own: a layer of an element that is no mask is transparent and
+hides what it masks.
+
+A reference to no element at all is another matter (README, the goal, rule
+2): Chromium and resvg draw the element unmasked, as Gecko's test
+mask-basic-05 and SVG 1.1's masking-path-10-b expect, and real files have
+such references, left
+by editors: 3 of 343 masked files of a Wikimedia Commons sample, 5 in the
+corpus. The renderer takes such a layer as none: alone, no mask.
 
 ## D21. One stroke bounding box, as CSS Masking computes it
 

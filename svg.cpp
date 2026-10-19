@@ -2042,6 +2042,13 @@ namespace {
         Vector<CachedImage*> images;
         // Whether the pass lowers to draw, so that its paints sample the images it decodes.
         bool draws;
+        // The svg or symbol a use instances, with the use's width and height,
+        // or -1 for none.
+        Node* sized;
+        float sizedWidth;
+        float sizedHeight;
+        // The marker being drawn, a group of its content.
+        Node* marker;
     };
 
     // The pass that lowers the document to draw commands over width by
@@ -2063,9 +2070,6 @@ namespace {
         float docHeight;
         u32 depth;
         bool backgroundInputs;
-        Node* sized;
-        float sizedWidth;
-        float sizedHeight;
         // An element drawn on its layer of a transform in perspective: its
         // own transform is the layer's.
         Node* flattened;
@@ -15298,7 +15302,7 @@ namespace {
     // nothing to fit to.
     static void viewportExtent(Pass& p, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h, bool openWidth, bool openHeight, Extent how, u32 depth, Box& box) {
         const Document& doc = *p.doc;
-        Matrix content = multiply(m, translation(x, y));
+        Matrix boxed = identity();
         Viewport inside{w, h, vp.screenWidth, vp.screenHeight, p.rootFontSize};
         Box viewBox;
 
@@ -15311,10 +15315,24 @@ namespace {
                 return;
             }
 
-            content = multiply(content, viewBoxTransform(doc, node, viewBox, w, h));
+            boxed = viewBoxTransform(doc, node, viewBox, w, h);
             inside.width = viewBox.x1 - viewBox.x0;
             inside.height = viewBox.y1 - viewBox.y0;
         }
+
+        // A symbol's refX and refY move it as it is drawn (lowerViewport).
+        if (node->name == AtomSymbol) {
+            float rx;
+            float ry;
+            bool hasX = referenceOf(doc, node, AtomRefX, Axis::X, inside, style.fontSize, inside.width, rx);
+            bool hasY = referenceOf(doc, node, AtomRefY, Axis::Y, inside, style.fontSize, inside.height, ry);
+            Point ref = apply(boxed, Point{hasX ? rx : 0.f, hasY ? ry : 0.f});
+
+            x -= hasX ? ref.x : 0.f;
+            y -= hasY ? ref.y : 0.f;
+        }
+
+        Matrix content = multiply(multiply(m, translation(x, y)), boxed);
 
         for (Node* child = node->first; child; child = child->next) {
             childExtent(p, child, content, style, inside, how, depth, box);
@@ -15353,15 +15371,29 @@ namespace {
     // when asked.
     static void elementExtent(Pass& p, Node* node, const ComputedStyle& parent, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box) {
         const Document& doc = *p.doc;
+        // A symbol a use instances measures as the viewport it draws, its
+        // display whatever it is (D12); a marker being drawn as the group
+        // of its content.
+        bool symbol = node->name == AtomSymbol && p.sized == node;
+        bool instance = symbol || (node->name == AtomMarker && p.marker == node);
 
-        if (depth > 32 || !renderable(node->name) || (node != doc.root && !passesConditions(doc, node))) {
+        if (depth > 32 || (!renderable(node->name) && !instance) || (node != doc.root && !passesConditions(doc, node))) {
             return;
         }
 
         ComputedStyle style = computeStyle(p, node, parent, vp);
         float fs = style.fontSize;
 
-        if (style.displayNone) {
+        if (style.displayNone && !instance) {
+            return;
+        }
+
+        if (symbol) {
+            float w = p.sizedWidth >= 0.f ? p.sizedWidth : lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
+            float h = p.sizedHeight >= 0.f ? p.sizedHeight : lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
+
+            viewportExtent(p, node, style, m, vp, lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, false, false, how, depth, box);
+
             return;
         }
 
@@ -15448,7 +15480,7 @@ namespace {
                     bool openWidth = vp.width <= 0.f && !givenSide(doc, node, AtomWidth) && !givenSide(doc, target, AtomWidth);
                     bool openHeight = vp.height <= 0.f && !givenSide(doc, node, AtomHeight) && !givenSide(doc, target, AtomHeight);
 
-                    viewportExtent(p, target, targetStyle, multiply(m, boxTransform(p, target, style, vp)), vp, svg ? lengthOr(doc, target, AtomX, Axis::X, vp, tfs, 0.f) : 0.f, svg ? lengthOr(doc, target, AtomY, Axis::Y, vp, tfs, 0.f) : 0.f, w, h, openWidth, openHeight, how, depth, box);
+                    viewportExtent(p, target, targetStyle, multiply(m, boxTransform(p, target, style, vp)), vp, lengthOr(doc, target, AtomX, Axis::X, vp, tfs, 0.f), lengthOr(doc, target, AtomY, Axis::Y, vp, tfs, 0.f), w, h, openWidth, openHeight, how, depth, box);
                 }
             } else {
                 childExtent(p, target, m, style, vp, how, depth, box);
@@ -16876,34 +16908,43 @@ namespace {
 
     // The mask layers of an element. none in a list with an image is a
     // transparent black layer, which mask-composite composites, and none
-    // alone no layer (D23); a mask element in no usable place or that
-    // refers back is no layer; a reference to no element or to one not a
-    // mask, and an image that does not load, are transparent black, as CSS
-    // Masking has it, alone too.
+    // alone no layer (D23); so is a reference to no element, which Chromium
+    // and resvg draw unmasked and real files count on (D20); a mask element
+    // in no usable place or that refers back is no layer; a reference to an
+    // element not a mask, and an image that does not load, are transparent
+    // black, as CSS Masking has it, alone too.
     static void resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Vector<MaskLayer> layers;
+        Vector<Node*> targets;
         u32 count = 0;
         bool images = false;
 
         maskLayersOf(doc, style, layers);
 
         for (const MaskLayer& layer : layers) {
-            images |= layer.source != MaskSource::None;
+            Buffer scratch;
+            StringView url = layer.source == MaskSource::Element ? maskUrl(layer.url, scratch) : StringView();
+            Node* found = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, StringView(url.begin() + 1, url.end()))) : nullptr;
+
+            targets.pushBack(found);
+            images |= layer.source == MaskSource::Element ? found != nullptr : layer.source != MaskSource::None;
         }
 
         // The border's layer goes first, over the others.
         MaskLayerOp* ops = (MaskLayerOp*)l.pool->allocate(sizeof(MaskLayerOp) * (layers.length() + 1));
 
-        for (const MaskLayer& layer : layers) {
+        for (size_t k = 0; k < layers.length(); k++) {
+            const MaskLayer& layer = layers[k];
             MaskLayerOp& out = ops[1 + count];
             Buffer scratch;
-            StringView url = layer.source == MaskSource::Element || layer.source == MaskSource::Image ? maskUrl(layer.url, scratch) : StringView();
-            Node* found = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, StringView(url.begin() + 1, url.end()))) : nullptr;
+            StringView url = layer.source == MaskSource::Image ? maskUrl(layer.url, scratch) : StringView();
+            Node* found = targets[k];
             Node* mask = found && found->name == AtomMask ? found : nullptr;
+            bool none = layer.source == MaskSource::None || (layer.source == MaskSource::Element && !found);
             ImageSource image;
 
-            if ((layer.source == MaskSource::None && !images) || (mask && closesCycle(l, element, AtomMask, mask))) {
+            if ((none && !images) || (mask && closesCycle(l, element, AtomMask, mask))) {
                 continue;
             }
 
@@ -17704,10 +17745,16 @@ namespace {
         l.hasContext = true;
         l.contextFill = contextPaint(shapeStyle.fill, shapeStyle);
         l.contextStroke = contextPaint(shapeStyle.stroke, shapeStyle);
+        Node* outerMarker = l.marker;
+
         l.active.pushBack(marker);
+        l.marker = marker;
         // A marker is no viewport: percentages in its content are of the
-        // shape's (coords.md, ElementsThatEstablishViewports).
-        lowerChildren(l, marker, markerStyle, multiply(origin, content), vp);
+        // shape's (coords.md, ElementsThatEstablishViewports). Its content
+        // is a group carrying the marker's own properties, its opacity,
+        // filter, mask and clip-path (painting.md, RenderingMarkers).
+        lowerElement(l, marker, documentStyle(l, marker->parent, vp), multiply(origin, content), vp);
+        l.marker = outerMarker;
         l.active.popBack();
         l.hasContext = hadContext;
         l.contextFill = outerFill;
@@ -19271,6 +19318,7 @@ namespace {
         switch (node->name) {
             case AtomG:
             case AtomA:
+            case AtomMarker:
                 lowerChildren(l, node, style, m, vp);
                 break;
             case AtomSvg:
@@ -20167,7 +20215,10 @@ namespace {
     }
 
     static void lowerElementIn(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp, bool participates) {
-        bool instance = node->name == AtomSymbol && l.sized == node;
+        // A marker being drawn is a group of its content with its own
+        // properties (painting.md, RenderingMarkers), and no transform.
+        bool marker = node->name == AtomMarker && l.marker == node;
+        bool instance = (node->name == AtomSymbol && l.sized == node) || marker;
 
         // What the element's resources and markers draw takes no part.
         l.extends = false;
@@ -20183,7 +20234,7 @@ namespace {
         ComputedStyle style = computeStyle(l, node, parent, vp);
 
         // A symbol a use instances displays inline, whatever its display
-        // (struct.md, SymbolNotes).
+        // (struct.md, SymbolNotes), as does a marker being drawn.
         if ((style.displayNone && node != l.doc->root && !instance) || style.opacity <= 0.f) {
             return;
         }
@@ -20204,7 +20255,7 @@ namespace {
         // A transform with a 3D function goes by its 4 by 4 matrix, after
         // the perspective of the parent.
         Projective perspective{{}, false, false, false};
-        bool flattened = l.flattened == node;
+        bool flattened = l.flattened == node || marker;
         Matrix4 full;
         bool solid = false;
 
@@ -26074,6 +26125,10 @@ namespace {
         p.instance = nullptr;
         p.documentStyles.zero(doc.nodeCount);
         p.draws = false;
+        p.sized = nullptr;
+        p.sizedWidth = -1.f;
+        p.sizedHeight = -1.f;
+        p.marker = nullptr;
     }
 
     // The size of a root without a viewBox, for the sides it leaves open:

@@ -21,7 +21,8 @@
 ## clip-path invalid and missing references: clip-path-element, mask-values, clip-mask-missing (exists)
 
 - [x] css-masking-1.md#the-clip-path: a <clip-source> url that is invalid (target missing, or not a clipPath element) applies no clipping at all [clip-path-element#missing]
-- [x] css-masking-1.md#the-mask-image: a mask-image url reference that is empty, fails, is not a mask element, is non-existent, or can't be displayed still counts as a transparent black image layer (D20) [mask-values#missing]
+- [x] css-masking-1.md#the-mask-image: a mask-image url reference that is empty, fails, is not a mask element, or can't be displayed still counts as a transparent black image layer [mask-values#not-a-mask]
+- [-] css-masking-1.md#the-mask-image: a reference to a non-existent object counts as a transparent black layer too; the renderer takes it as none, drawing the element unmasked as Chromium and resvg do (D20) [mask-values#missing]
 
 ## clipPath element: clip-path-element, clip-path (exists)
 

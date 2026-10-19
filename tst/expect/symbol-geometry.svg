@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="76">
 <!-- What tst/unit/symbol-geometry.svg draws, drawn plainly; each cell's
 id is what the statement ledgers link to. -->
-<rect width="64" height="64" fill="white"/>
+<rect width="64" height="76" fill="white"/>
 <defs>
 <symbol id="a" x="2" y="2" width="10" height="6"><rect width="100%" height="100%" fill="lime"/></symbol>
 <symbol id="b"><rect width="50%" height="25%" fill="lime"/></symbol>
@@ -16,6 +16,9 @@ id is what the statement ledgers link to. -->
 <symbol id="k" viewBox="0 0 10 10" refX="left" refY="center" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
 <symbol id="l" viewBox="0 0 10 10" refX="bottom" refY="right" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
 <symbol id="m" viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice" refX="left" refY="top" width="8" height="4"><rect width="10" height="10" fill="lime"/></symbol>
+<filter id="fb" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>
+<symbol id="n" width="10" height="10" filter="url(#fb)"><rect x="2" y="2" width="4" height="6" fill="red"/></symbol>
+<symbol id="o" width="10" height="10" refX="2" refY="2" filter="url(#fb)"><rect x="2" y="2" width="4" height="6" fill="red"/></symbol>
 </defs>
 <g id="position" data-box="1 1 12 8"><rect x="2" y="2" width="10" height="6" fill="lime"/></g>
 <g id="use-size" data-box="17 1 14 6"><rect x="18" y="2" width="12" height="4" fill="lime"/></g>
@@ -28,10 +31,13 @@ id is what the statement ledgers link to. -->
 <g id="transform" data-box="1 55 8 8"><rect x="2" y="56" width="4" height="4" fill="lime"/></g>
 <g id="ref-keywords" data-box="13 53 34 10"><rect x="14" y="54" width="8" height="8" fill="lime"/><rect x="26" y="54" width="8" height="8" fill="lime"/><rect x="38" y="54" width="8" height="8" fill="lime"/></g>
 <g id="ref-slice" data-box="49 51 10 9"><rect x="50" y="54" width="8" height="4" fill="lime"/></g>
+<g id="filter-box" data-box="1 65 10 10"><rect x="4" y="68" width="4" height="6" fill="lime"/></g>
+<g id="filter-box-ref" data-box="13 65 10 10"><rect x="14" y="66" width="4" height="6" fill="lime"/></g>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2" y="2" width="10" height="6"/><rect x="18" y="2" width="12" height="4"/><rect x="34" y="2" width="12" height="4"/>
 <rect x="6" y="26" width="8" height="8"/><rect x="22" y="22" width="8" height="8"/><rect x="34" y="22" width="8" height="8"/><rect x="50" y="22" width="8" height="8"/>
 <rect x="2" y="44" width="6" height="6"/><rect x="14" y="44" width="6" height="6"/>
 <rect x="2" y="56" width="4" height="4"/><rect x="14" y="54" width="8" height="8"/><rect x="26" y="54" width="8" height="8"/><rect x="38" y="54" width="8" height="8"/><rect x="50" y="54" width="8" height="4"/>
+<rect x="4" y="68" width="4" height="6"/><rect x="14" y="66" width="4" height="6"/>
 </g>
 </svg>

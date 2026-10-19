@@ -21,12 +21,12 @@
 - [x] svg2/styling.md#PresentationAttributes: the transform property's presentation attribute is named transform on most elements, but patternTransform on pattern and gradientTransform on linearGradient/radialGradient; all map onto the CSS transform property. [transform-paint-servers#pattern transform-paint-servers#gradient]
 - [x] svg2/styling.md#PresentationAttributes: the fill presentation attribute is supported on any element in the SVG namespace (other than animation elements, which have an unrelated fill attribute). [css-cascade-sort#no-cascade]
 
-## User agent style sheet: render-root-transform, render-not-rendered, symbol-geometry, viewport-nested
+## User agent style sheet: render-root-transform, render-root-rotate, render-not-rendered, symbol-geometry, viewport-nested
 
 - [x] svg2/styling.md#UAStyleSheet: the UA style sheet sets overflow:hidden by default on every svg element other than the root, and on image, marker, pattern and symbol, even though overflow's own initial value is auto. [viewport-nested#clip symbol-geometry#overflow image-placement#default-size]
 - [x] svg2/styling.md#UAStyleSheet: the UA style sheet sets display:none !important on every never-rendered element and on symbol; since a UA-stylesheet !important rule overrides all user and author styles, authors cannot make these elements render by changing display. [render-not-rendered#not-rendered]
 - [x] svg2/styling.md#UAStyleSheet: a symbol renders only when it is the direct child of a shadow root whose host is a use element, and must then always render whenever that host use element renders. [symbol-geometry#display-none-symbol render-not-rendered#not-rendered]
-- [x] svg2/styling.md#UAStyleSheet: SVG elements default transform-origin to 0 0 rather than CSS's normal 50% 50%, except a root svg element, or an svg that is a child of a foreignObject or of an element outside the SVG namespace, which keep the center as their default origin. [render-root-transform#root-origin render-root-transform#other-origin]
+- [x] svg2/styling.md#UAStyleSheet: SVG elements default transform-origin to 0 0 rather than CSS's normal 50% 50%, except a root svg element, or an svg that is a child of a foreignObject or of an element outside the SVG namespace, which keep the center as their default origin. [render-root-transform#root-origin render-root-transform#other-origin render-root-rotate#center]
 
 ## Notes
 

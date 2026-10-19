@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42" height="12">
+<!-- What tst/unit/marker-group.svg draws, drawn plainly; each cell's id
+is what the statement ledgers link to. -->
+<rect width="42" height="12" fill="white"/>
+<g id="opacity" data-box="1 1 10 10"><rect x="2" y="2" width="8" height="8" fill="lime" opacity="0.5"/></g>
+<g id="filter" data-box="11 1 10 10"><rect x="14" y="4" width="4" height="4" fill="lime"/></g>
+<g id="clip-path" data-box="21 1 10 10"><rect x="22" y="2" width="4" height="8" fill="lime"/></g>
+<g id="mask" data-box="31 1 10 10"><rect x="32" y="2" width="4" height="8" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="8" height="8"/><rect x="14" y="4" width="4" height="4"/><rect x="22" y="2" width="4" height="8"/><rect x="32" y="2" width="4" height="8"/></g>
+</svg>
