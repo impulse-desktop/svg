@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="170" height="24">
+<!-- Each black line fills its outline. A percentage in stroke-width,
+stroke-dasharray or stroke-dashoffset stays one in the computed value
+and inherits so: each viewport, 20 px square, holds the viewBox 0 0 10
+10, whose normalized diagonal is 10, and a line from 1 to 9 across its
+middle draws its stroke as the percentage of that, though the svg
+element or group giving it lies in the unit's own viewport. In a calc()
+the em is the giving element's; inherit takes the percentage too. -->
+<rect width="170" height="24" fill="white"/>
+<g fill="none" stroke="black"><svg x="2" y="2" width="20" height="20" viewBox="0 0 10 10" stroke-width="10%"><path d="M 1 5 H 9" /></svg></g>
+<g fill="none" stroke="black" stroke-width="20%"><svg x="26" y="2" width="20" height="20" viewBox="0 0 10 10" ><path d="M 1 5 H 9" /></svg></g>
+<g fill="none" stroke="black"><svg x="50" y="2" width="20" height="20" viewBox="0 0 10 10" stroke-width="calc(10% + 0.5px)"><path d="M 1 5 H 9" /></svg></g>
+<g fill="none" stroke="black"><svg x="74" y="2" width="20" height="20" viewBox="0 0 10 10" font-size="2px" stroke-width="calc(10% + 0.5em)"><path d="M 1 5 H 9" font-size="8px"/></svg></g>
+<g fill="none" stroke="black"><svg x="98" y="2" width="20" height="20" viewBox="0 0 10 10" stroke-width="10%"><path d="M 1 5 H 9" stroke-width="inherit"/></svg></g>
+<g fill="none" stroke="black"><svg x="122" y="2" width="20" height="20" viewBox="0 0 10 10" stroke-dasharray="20%"><path d="M 1 5 H 9" stroke-width="2"/></svg></g>
+<g fill="none" stroke="black"><svg x="146" y="2" width="20" height="20" viewBox="0 0 10 10" stroke-dasharray="2" stroke-dashoffset="10%"><path d="M 1 5 H 9" stroke-width="2"/></svg></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="11" width="16" height="2"/><rect x="28" y="10" width="16" height="4"/><rect x="52" y="10.5" width="16" height="3"/><rect x="76" y="10" width="16" height="4"/><rect x="100" y="11" width="16" height="2"/><rect x="124" y="10" width="4" height="4"/><rect x="132" y="10" width="4" height="4"/><rect x="148" y="10" width="2" height="4"/><rect x="154" y="10" width="4" height="4"/><rect x="162" y="10" width="2" height="4"/></g>
+</svg>

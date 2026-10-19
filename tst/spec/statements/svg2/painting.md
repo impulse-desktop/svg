@@ -49,7 +49,7 @@
 
 ## stroke-width: stroke-width-values
 
-- [x] svg2/painting.md#StrokeWidthProperty: stroke-width is <length-percentage> | <number>; initial 1px; applies to shapes and text content elements; is inherited; percentages refer to the normalized diagonal of the current viewport [stroke-width-values#percent stroke-width-values#units stroke-width-values#em paint-properties#stroke-width-initial paint-properties#stroke-width-inherited]
+- [x] svg2/painting.md#StrokeWidthProperty: stroke-width is <length-percentage> | <number>; initial 1px; applies to shapes and text content elements; is inherited; percentages refer to the normalized diagonal of the current viewport [stroke-width-values#percent stroke-width-values#units stroke-width-values#em paint-properties#stroke-width-initial paint-properties#stroke-width-inherited stroke-percent-inherit#nested-width stroke-percent-inherit#group-width stroke-percent-inherit#calc-width stroke-percent-inherit#calc-em stroke-percent-inherit#inherit-keyword]
 - [x] svg2/painting.md#StrokeWidthProperty: a zero stroke-width causes no stroke to be painted [stroke-width-values#zero]
 - [x] svg2/painting.md#StrokeWidthProperty: a negative stroke-width is invalid [stroke-width-values#negative]
 - [x] svg2/painting.md#StrokeWidthProperty: a <number> value is in user units [stroke-width-values#user-units]
@@ -83,13 +83,13 @@
 
 ## stroke-dasharray and stroke-dashoffset: stroke-dasharray-values
 
-- [x] svg2/painting.md#StrokeDasharrayProperty: stroke-dasharray is none | <dasharray>; initial none; applies to shapes and text content elements; is inherited; percentages refer to the normalized diagonal of the viewport [stroke-dasharray-values#percent paint-properties#dasharray-initial paint-properties#dasharray-inherited]
+- [x] svg2/painting.md#StrokeDasharrayProperty: stroke-dasharray is none | <dasharray>; initial none; applies to shapes and text content elements; is inherited; percentages refer to the normalized diagonal of the viewport [stroke-dasharray-values#percent paint-properties#dasharray-initial paint-properties#dasharray-inherited stroke-percent-inherit#dasharray]
 - [x] svg2/painting.md#DataTypeDasharray: <dasharray> is a comma/white-space separated list of <number> | <length-percentage>; an odd-length list is repeated once to make it even [stroke-dasharray-values#odd-list stroke-dasharray-values#commas]
 - [x] svg2/painting.md#DataTypeDasharray: the first and every second value after it is a dash length; every other value is a gap length; a <number> is in user units [stroke-dasharray-values#odd-list]
 - [x] svg2/painting.md#DataTypeDasharray: a negative value anywhere in the list makes the whole stroke-dasharray value invalid [stroke-dasharray-values#negative-value]
 - [x] svg2/painting.md#DataTypeDasharray: if every value in the list is zero, the stroke is rendered as a solid line with no dashing [stroke-dasharray-values#zero-sum]
 - [x] svg2/painting.md#DataTypeDasharray: the pathLength attribute on a path element scales each dash/gap length relative to the author's declared path length [stroke-dasharray-values#path-length path-length-edges#moveto]
-- [x] svg2/painting.md#StrokeDashoffsetProperty: stroke-dashoffset is <length-percentage> | <number>; initial 0; inherited; same percentage base as stroke-dasharray; also scaled by pathLength like stroke-dasharray [stroke-dasharray-values#offset stroke-dasharray-values#percent-offset stroke-dasharray-values#path-length paint-properties#dashoffset-inherited]
+- [x] svg2/painting.md#StrokeDashoffsetProperty: stroke-dashoffset is <length-percentage> | <number>; initial 0; inherited; same percentage base as stroke-dasharray; also scaled by pathLength like stroke-dasharray [stroke-dasharray-values#offset stroke-dasharray-values#percent-offset stroke-dasharray-values#path-length paint-properties#dashoffset-inherited stroke-percent-inherit#dashoffset]
 - [x] svg2/painting.md#math-dashoffset: a negative stroke-dashoffset is equivalent to offset d = sum − (abs(offset) mod sum), sum being the total of the dasharray values [stroke-dasharray-values#negative-offset stroke-dash-positions#negative-offset]
 
 ## stroke shape: stroke-shape-union

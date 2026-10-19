@@ -1631,6 +1631,21 @@ namespace {
         bool far = false;
     };
 
+    // A stroke's length that holds a percentage, which its computed value
+    // keeps: each element resolves it against its own viewport, with the
+    // font size of the element that gave it (painting.md,
+    // StrokeWidthProperty).
+    struct HeldLength {
+        Length length;
+        float fontSize;
+    };
+
+    // stroke-dasharray's lengths where one holds a percentage, made even.
+    struct HeldDashes {
+        const HeldLength* lengths;
+        u32 count;
+    };
+
     enum class Axis : u8 {
         X,
         Y,
@@ -1842,6 +1857,11 @@ namespace {
         float fontSize;
         float* dashes;
         u32 dashCount;
+        // stroke-width's, stroke-dashoffset's and the dashes' lengths where
+        // they hold a percentage.
+        const HeldLength* widthHeld;
+        const HeldLength* offsetHeld;
+        const HeldDashes* dashesHeld;
         u32 clipPath;
         BasicShape* clipShape;
         // The clip property's rect(), as the four sides of a rect().
@@ -13931,6 +13951,35 @@ namespace {
         return resolveAgainst(length, reference, vp, fontSize);
     }
 
+    // A stroke's length that holds a percentage, kept, or none.
+    static const HeldLength* holdLength(Pass& l, const Length& length, float fontSize) {
+        if (!percentLength(length)) {
+            return nullptr;
+        }
+
+        HeldLength* held = (HeldLength*)l.pool->allocate(sizeof(HeldLength));
+
+        *held = HeldLength{length, fontSize};
+
+        return held;
+    }
+
+    static float resolveHeld(const HeldLength& held, Viewport vp) {
+        return resolveLength(held.length, Axis::Other, vp, held.fontSize);
+    }
+
+    // Held dashes resolved against an element's viewport.
+    static void resolveDashes(Pass& l, ComputedStyle& style, Viewport vp) {
+        const HeldDashes& held = *style.dashesHeld;
+
+        style.dashes = (float*)l.pool->allocate(sizeof(float) * held.count);
+        style.dashCount = held.count;
+
+        for (u32 i = 0; i < held.count; i++) {
+            style.dashes[i] = resolveHeld(held.lengths[i], vp);
+        }
+    }
+
     static ComputedStyle computeStyle(Pass& l, const Node* node, const ComputedStyle& parent, Viewport vp) {
         const Document& doc = *l.doc;
         ComputedStyle initial = initialStyle();
@@ -13965,6 +14014,20 @@ namespace {
         style.filterCount = 0;
         style.background = Color{0.f, 0.f, 0.f, 0.f};
         style.overflowVisible = !((node->name == AtomSvg && node != doc.root) || node->name == AtomSymbol || node->name == AtomImage || node->name == AtomMarker || node->name == AtomPattern);
+
+        // A stroke's percentages, inherited as they were given, resolve
+        // against this element's viewport.
+        if (style.widthHeld) {
+            style.strokeWidth = resolveHeld(*style.widthHeld, vp);
+        }
+
+        if (style.offsetHeld) {
+            style.dashOffset = resolveHeld(*style.offsetHeld, vp);
+        }
+
+        if (style.dashesHeld) {
+            resolveDashes(l, style, vp);
+        }
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
             u32 cascaded = (l.instance && l.instance[node->index] ? l.instance[node->index] : node->style)[property - firstProperty];
@@ -14107,15 +14170,18 @@ namespace {
                     break;
                 }
                 case AtomStrokeWidth:
-                    if (keyword) {
-                        style.strokeWidth = source.strokeWidth;
-                    } else {
+                    // An inherited width is the parent's, resolved above.
+                    if (reset) {
+                        style.strokeWidth = initial.strokeWidth;
+                        style.widthHeld = nullptr;
+                    } else if (!inherit) {
                         // The cascade keeps the widths that parse, of no less than zero.
                         Length length;
 
                         parseLength(value, length);
                         nonNegative(length);
                         style.strokeWidth = resolveLength(length, Axis::Other, vp, style.fontSize);
+                        style.widthHeld = holdLength(l, length, style.fontSize);
                     }
 
                     break;
@@ -14162,19 +14228,19 @@ namespace {
 
                     break;
                 case AtomStrokeDasharray:
-                    if (keyword) {
-                        style.dashes = source.dashes;
-                        style.dashCount = source.dashCount;
-                    } else if (isKeyword(value, SV("none"))) {
+                    // Inherited dashes are the parent's, resolved above.
+                    if (reset || (!inherit && isKeyword(value, SV("none")))) {
                         style.dashes = nullptr;
                         style.dashCount = 0;
-                    } else {
+                        style.dashesHeld = nullptr;
+                    } else if (!inherit) {
                         // The cascade keeps the arrays of one length or more
                         // that parse, of no less than zero each.
-                        Vector<float> dashes;
+                        Vector<Length> lengths;
                         const Token* p = value.begin;
                         const Token* end = value.end;
                         float sum = 0.f;
+                        bool held = false;
 
                         for (;;) {
                             Length length;
@@ -14186,13 +14252,13 @@ namespace {
                             }
 
                             readLength(p, end, length);
-
-                            float dash = resolveLength(length, Axis::Other, vp, style.fontSize);
-
-                            sum += dash;
-                            dashes.pushBack(dash);
+                            sum += resolveLength(length, Axis::Other, vp, style.fontSize);
+                            held = held || percentLength(length);
+                            lengths.pushBack(length);
                             skipComma(p, end);
                         }
+
+                        style.dashesHeld = nullptr;
 
                         if (sum <= 0.f) {
                             style.dashes = nullptr;
@@ -14200,26 +14266,40 @@ namespace {
                             break;
                         }
 
-                        size_t count = dashes.length() % 2 ? dashes.length() * 2 : dashes.length();
+                        u32 count = (u32)(lengths.length() % 2 ? lengths.length() * 2 : lengths.length());
 
                         style.dashes = (float*)l.pool->allocate(sizeof(float) * count);
+                        style.dashCount = count;
 
-                        for (size_t i = 0; i < count; i++) {
-                            style.dashes[i] = dashes[i % dashes.length()];
+                        for (u32 i = 0; i < count; i++) {
+                            style.dashes[i] = resolveLength(lengths[i % lengths.length()], Axis::Other, vp, style.fontSize);
                         }
 
-                        style.dashCount = (u32)count;
+                        if (held) {
+                            HeldLength* all = (HeldLength*)l.pool->allocate(sizeof(HeldLength) * count);
+                            HeldDashes* kept = (HeldDashes*)l.pool->allocate(sizeof(HeldDashes));
+
+                            for (u32 i = 0; i < count; i++) {
+                                all[i] = HeldLength{lengths[i % lengths.length()], style.fontSize};
+                            }
+
+                            *kept = HeldDashes{all, count};
+                            style.dashesHeld = kept;
+                        }
                     }
 
                     break;
                 case AtomStrokeDashoffset:
-                    if (keyword) {
-                        style.dashOffset = source.dashOffset;
-                    } else {
+                    // An inherited offset is the parent's, resolved above.
+                    if (reset) {
+                        style.dashOffset = initial.dashOffset;
+                        style.offsetHeld = nullptr;
+                    } else if (!inherit) {
                         Length length;
 
                         if (parseLength(value, length)) {
                             style.dashOffset = resolveLength(length, Axis::Other, vp, style.fontSize);
+                            style.offsetHeld = holdLength(l, length, style.fontSize);
                         }
                     }
 
