@@ -8,7 +8,9 @@ unit = Unit("mask-properties", 122, 0, """Each lime drawing fills its black
 outline, and nothing red shows. none in a list of mask images is a
 transparent layer, so intersected with another it leaves nothing and
 added to one leaves that, and none alone, or only none, masks nothing
-(D23); a mask image makes a stacking context, so a
+(D23); an image that does not load is a transparent layer, alone too, but
+a reference to an element that is no mask is none (D20); a mask image
+makes a stacking context, so a
 blend in it meets nothing behind; mask-mode takes alpha, luminance or the
 source's, an image's alpha; one box in the shorthand is the origin and the
 clip, two the origin then the clip, no-clip clips nothing, the position
@@ -54,6 +56,8 @@ y = rows(unit, 2, [
               (square % ("lime", "mask: linear-gradient(black, black) alpha"), lime("{x2}", "{y2}", 12, 12)), (square % ("lime", "mask: url(#w) alpha"), lime("{x2}", "{y2}", 12, 12))]),
     ("shorthand-boxes", [(stroked % f"mask: {G} 0 0 / 4px 4px no-repeat stroke-box", lime("{x2}", "{y2}", 4, 4)), (stroked % f"mask: {G} 0 0 / 4px 4px no-repeat stroke-box fill-box", lime("{x4}", "{y4}", 2, 2)),
                          (stroked % f"mask: {G} -2px -2px / 100% 100% no-repeat fill-box no-clip", lime("{x2}", "{y2}", 8, 8)), (square % ("lime", f"mask: {G} no-repeat 2px 2px"), lime("{x4}", "{y4}", 10, 10))]),
+    ("unloadable", [(square % ("red", "mask-image: url(data:image/png;base64,AAAA)"), ""), (square % ("red", f"mask-image: url(data:image/png;base64,AAAA), {G}; mask-composite: intersect"), "")]),
+    ("not-a-mask", [(square % ("lime", "mask-image: url(#r)"), lime("{x2}", "{y2}", 12, 12)), (square % ("lime", "mask: url(#cu)"), lime("{x2}", "{y2}", 12, 12))]),
     ("mask-element-layer", [(square % ("lime", "mask: url(#w) 4px 4px / 2px 2px no-repeat content-box"), lime("{x2}", "{y2}", 12, 12))]),
     ("mask-units", [('<rect x="0" y="{y2}" width="16" height="12" fill="lime" mask="url(#u)"/>', lime(4, "{y2}", 8, 12))]),
     ("mask-defaults", [('<rect x="{x2}" y="{y2}" width="12" height="12" fill="lime" stroke="lime" stroke-width="4" mask="url(#ox)"/>', '<rect x="{xm}" y="{y2}" width="14.4" height="14" fill="lime"/>'),

@@ -15,7 +15,7 @@ expect("mask-values", [
     ("zero-width", (25, 13, 12, 12), ""),
     ("content-units", (37, 13, 14, 12), rect(38, 14, 6, 10)),
     ("missing", (1, 27, 12, 12), rect(2, 28, 10, 10)),
-    ("not-a-mask", (13, 27, 12, 12), ""),
+    ("not-a-mask", (13, 27, 12, 12), rect(14, 28, 10, 10)),
     ("zero-height-box", (25, 27, 16, 12), rect(26, 30, 14, 6)),
     ("stacking-context", (41, 27, 12, 12), rect(42, 28, 10, 10, "blue") + rect(44, 30, 6, 6, "yellow")),
     ("border-alpha", (53, 27, 10, 10), rect(54, 28, 8, 8)),

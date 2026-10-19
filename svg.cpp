@@ -17561,11 +17561,11 @@ namespace {
 
     // The mask layers of an element. none in a list with an image is a
     // transparent black layer, which mask-composite composites, and none
-    // alone no layer (D23); so is a reference to no element, which Chromium
-    // and resvg draw unmasked and real files count on (D20); a mask element
-    // in no usable place or that refers back is no layer; a reference to an
-    // element not a mask, and an image that does not load, are transparent
-    // black, as CSS Masking has it, alone too.
+    // alone no layer (D23); so is a reference to no element, or to an
+    // element not a mask, which Chromium draws unmasked and real files count
+    // on (D20); a mask element in no usable place or that refers back is no
+    // layer; an image that does not load is transparent black, as CSS
+    // Masking has it, alone too.
     static void resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Vector<MaskLayer> layers;
@@ -17579,6 +17579,7 @@ namespace {
             StringView url = layer.source == MaskSource::Element ? layer.url : StringView();
             Node* found = layer.source == MaskSource::Element ? elementById(doc, fragmentAtom(doc, StringView(url.begin() + 1, url.end()))) : nullptr;
 
+            found = found && found->name == AtomMask ? found : nullptr;
             targets.pushBack(found);
             images |= layer.source == MaskSource::Element ? found != nullptr : layer.source != MaskSource::None;
         }
@@ -17590,9 +17591,8 @@ namespace {
             const MaskLayer& layer = layers[k];
             MaskLayerOp& out = ops[1 + count];
             StringView url = layer.source == MaskSource::Image ? layer.url : StringView();
-            Node* found = targets[k];
-            Node* mask = found && found->name == AtomMask ? found : nullptr;
-            bool none = layer.source == MaskSource::None || (layer.source == MaskSource::Element && !found);
+            Node* mask = targets[k];
+            bool none = layer.source == MaskSource::None || (layer.source == MaskSource::Element && !mask);
             ImageSource image;
 
             if ((none && !images) || (mask && closesCycle(l, element, AtomMask, mask))) {

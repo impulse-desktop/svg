@@ -188,16 +188,15 @@ a document whose viewBox is not its size. The renderer reads it as media
 fragments mean it, a part of the image: percentages of the root's viewBox,
 else of its size, so percent:0,0,50,50 is always the top left quarter.
 
-## D20. A mask reference to no mask is a transparent layer; to nothing, none
+## D20. A mask reference to nothing, or to no mask, is none
 
 `css-masking-1.md#the-mask-image`: a mask reference that "is not a reference
 to a mask element, is non-existent, or ... cannot be displayed still counts
 as an image layer of transparent black". `svg2/linking.md#processingURL-validity`
 says, for properties that take an element or an image file such as mask,
 that a target of a wrong element type makes "the entire document file" the
-image, its fragment a view. The renderer follows the masking text, the
-property's own: a layer of an element that is no mask is transparent and
-hides what it masks.
+image, its fragment a view. An image that does not load is a transparent
+layer, as the masking text has it.
 
 A reference to no element at all is another matter (README, the goal, rule
 2): Chromium and resvg draw the element unmasked, as Gecko's test
@@ -205,6 +204,13 @@ mask-basic-05 and SVG 1.1's masking-path-10-b expect, and real files have
 such references, left
 by editors: 3 of 343 masked files of a Wikimedia Commons sample, 5 in the
 corpus. The renderer takes such a layer as none: alone, no mask.
+
+So is a reference to an element that is no mask. Chromium, Firefox and
+librsvg draw the element unmasked; resvg alone hides it. Real files count
+on it: 5 harvested files of the corpus mask by a gradient, a group or a
+clipPath, a badge among them, and Chromium draws each unmasked where the
+masking text would hide it whole. Before, the renderer followed that
+text.
 
 ## D21. One stroke bounding box, as CSS Masking computes it
 
