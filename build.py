@@ -119,6 +119,25 @@ checks.append(command(
     color="light-green",
 ))
 
+# The statement ledgers: anchors in dev/spec, units, and the test cells
+# every statement links to in the expected drawings.
+checks.append(command(
+    name="check_ledger",
+    inputs=[
+        *build.glob("$(S)/tst/spec/statements/*.md"),
+        *build.glob("$(S)/tst/spec/statements/*/*.md"),
+        *build.glob("$(S)/dev/spec/*.md"),
+        *build.glob("$(S)/dev/spec/*/*.md"),
+        *build.glob("$(S)/tst/unit/*.svg"),
+        *build.glob("$(S)/tst/expect/*.svg"),
+        "$(S)/tst/spec/ledger.py",
+    ],
+    outputs=["$(B)/checks/ledger.txt"],
+    cmd=["sh", "-c", 'python3 "$0" > "$1"', "$(S)/tst/spec/ledger.py", "$(B)/checks/ledger.txt"],
+    descr="CK",
+    color="light-green",
+))
+
 group("checks", *checks)
 
 # tst/sanitizer.svg takes every kind of paint, clip, mask, marker and filter
@@ -231,8 +250,24 @@ for path in sorted(build.glob("$(S)/tst/unit/*.svg")):
         color="light-green",
     ))
 
-group("unit", *units)
+# Every tst/expect/X.svg is what tst/unit/X.svg should look like drawn with
+# plain means; tst/oracle.py compares the two, so a unit checks the
+# statements its cells test, not only that it draws as the canon does.
+oracles = []
+for path in sorted(build.glob("$(S)/tst/expect/*.svg")):
+    name = os.path.basename(path[:-len(".svg")])
+    oracles.append(command(
+        name="oracle_" + name,
+        inputs=[path, f"$(S)/tst/unit/{name}.svg", "$(S)/tst/oracle.py", "$(S)/tst/canon.py"],
+        outputs=[f"$(B)/oracle/{name}.txt"],
+        deps=[svg],
+        cmd=["python3", "$(S)/tst/oracle.py", "$(B)/svg", f"$(S)/tst/unit/{name}.svg", path, f"$(B)/oracle/{name}.txt"],
+        descr="OR",
+        color="light-green",
+    ))
+
+group("unit", *units, *oracles)
 
 # Every case, check and unit and the smoke drawing, or one partition of them
 # with -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.
-group("tests", *partition_tests(cases + checks + units + [smoke]))
+group("tests", *partition_tests(cases + checks + units + oracles + [smoke]))

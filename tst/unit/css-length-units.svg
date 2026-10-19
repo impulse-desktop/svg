@@ -1,58 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40" font-size="8">
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="50" font-size="8">
 <!-- Each lime bar fills its black outline, and nothing red shows; every
 bar is 12px. The length units of css-values-4, ASCII case-insensitive:
 the absolute ones by their fixed ratios to px, em and rem of the font
 size, ex and ch half an em and cap, ic and lh one em as a font without
 metrics has them (D29), their root forms of the root's, the viewport
-units of the 100 by 40 viewport, the small, large and dynamic ones all
+units of the 100 by 50 viewport, the small, large and dynamic ones all
 the same, a percentage of the width, a number as px. An em or an ex in
-font-size is of the parent's font size. A unit not known, digits after
-a unit or white space before it is no length. -->
-<rect width="100" height="40" fill="white"/>
-<rect x="2" y="2" width="12px" height="2" fill="lime"/>
-<rect x="18" y="2" width="12PX" height="2" fill="lime"/>
-<rect x="34" y="2" width="12" height="2" fill="lime"/>
-<rect x="50" y="2" width="12%" height="2" fill="lime"/>
-<rect x="66" y="2" width="1.5em" height="2" fill="lime"/>
-<rect x="82" y="2" width="3ex" height="2" fill="lime"/>
-<rect x="2" y="6" width="3ch" height="2" fill="lime"/>
-<rect x="18" y="6" width="1.5cap" height="2" fill="lime"/>
-<rect x="34" y="6" width="1.5ic" height="2" fill="lime"/>
-<rect x="50" y="6" width="1.5lh" height="2" fill="lime"/>
-<rect x="66" y="6" width="1.5rem" height="2" fill="lime"/>
-<rect x="82" y="6" width="3rex" height="2" fill="lime"/>
-<rect x="2" y="10" width="3rch" height="2" fill="lime"/>
-<rect x="18" y="10" width="1.5rcap" height="2" fill="lime"/>
-<rect x="34" y="10" width="1.5ric" height="2" fill="lime"/>
-<rect x="50" y="10" width="1.5rlh" height="2" fill="lime"/>
-<rect x="66" y="10" width=".125in" height="2" fill="lime"/>
-<rect x="82" y="10" width=".3175cm" height="2" fill="lime"/>
-<rect x="2" y="14" width="3.175mm" height="2" fill="lime"/>
-<rect x="18" y="14" width="12.7q" height="2" fill="lime"/>
-<rect x="34" y="14" width="12.7Q" height="2" fill="lime"/>
-<rect x="50" y="14" width="9pt" height="2" fill="lime"/>
-<rect x="66" y="14" width=".75pc" height="2" fill="lime"/>
-<rect x="82" y="14" width="12vw" height="2" fill="lime"/>
-<rect x="2" y="18" width="30vh" height="2" fill="lime"/>
-<rect x="18" y="18" width="12vi" height="2" fill="lime"/>
-<rect x="34" y="18" width="30vb" height="2" fill="lime"/>
-<rect x="50" y="18" width="30vmin" height="2" fill="lime"/>
-<rect x="66" y="18" width="12vmax" height="2" fill="lime"/>
-<rect x="82" y="18" width="12svw" height="2" fill="lime"/>
-<rect x="2" y="22" width="30lvh" height="2" fill="lime"/>
-<rect x="18" y="22" width="12dvi" height="2" fill="lime"/>
-<rect x="34" y="22" width="30svb" height="2" fill="lime"/>
-<rect x="50" y="22" width="30lvmin" height="2" fill="lime"/>
-<rect x="66" y="22" width="12dvmax" height="2" fill="lime"/>
-<rect x="82" y="22" width="1.5EM" height="2" fill="lime"/>
-<rect x="2" y="26" width="3Ex" height="2" fill="lime"/>
-<g font-size="16"><rect x="18" y="26" width="1em" height="2" font-size=".75em" fill="lime"/></g>
-<g font-size="16"><rect x="34" y="26" width="1em" height="2" font-size="1.5ex" fill="lime"/></g>
-<rect x="50" y="26" width="12foo" height="2" fill="red"/>
-<rect x="66" y="26" width="12px5" height="2" fill="red"/>
-<rect x="82" y="26" width="12p x" height="2" fill="red"/>
-<rect x="2" y="30" width="12 px" height="2" fill="red"/>
-<rect x="18" y="30" width="1.5e" height="2" fill="red"/>
-<rect x="34" y="30" width="12svx" height="2" fill="red"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="2"/><rect x="18" y="2" width="12" height="2"/><rect x="34" y="2" width="12" height="2"/><rect x="50" y="2" width="12" height="2"/><rect x="66" y="2" width="12" height="2"/><rect x="82" y="2" width="12" height="2"/><rect x="2" y="6" width="12" height="2"/><rect x="18" y="6" width="12" height="2"/><rect x="34" y="6" width="12" height="2"/><rect x="50" y="6" width="12" height="2"/><rect x="66" y="6" width="12" height="2"/><rect x="82" y="6" width="12" height="2"/><rect x="2" y="10" width="12" height="2"/><rect x="18" y="10" width="12" height="2"/><rect x="34" y="10" width="12" height="2"/><rect x="50" y="10" width="12" height="2"/><rect x="66" y="10" width="12" height="2"/><rect x="82" y="10" width="12" height="2"/><rect x="2" y="14" width="12" height="2"/><rect x="18" y="14" width="12" height="2"/><rect x="34" y="14" width="12" height="2"/><rect x="50" y="14" width="12" height="2"/><rect x="66" y="14" width="12" height="2"/><rect x="82" y="14" width="12" height="2"/><rect x="2" y="18" width="12" height="2"/><rect x="18" y="18" width="12" height="2"/><rect x="34" y="18" width="12" height="2"/><rect x="50" y="18" width="12" height="2"/><rect x="66" y="18" width="12" height="2"/><rect x="82" y="18" width="12" height="2"/><rect x="2" y="22" width="12" height="2"/><rect x="18" y="22" width="12" height="2"/><rect x="34" y="22" width="12" height="2"/><rect x="50" y="22" width="12" height="2"/><rect x="66" y="22" width="12" height="2"/><rect x="82" y="22" width="12" height="2"/><rect x="2" y="26" width="12" height="2"/><rect x="18" y="26" width="12" height="2"/><rect x="34" y="26" width="12" height="2"/></g>
+font-size is of the parent's font size; an em inherits as the length it
+computes to. A unit not known, digits after a unit or white space before
+it is no length; zero needs no unit; a negative width is out of its
+range and invalid. -->
+<rect width="100" height="50" fill="white"/>
+<rect x="2" y="2" width="12px" height="2" fill="lime"/><rect x="18" y="2" width=".125in" height="2" fill="lime"/><rect x="34" y="2" width=".3175cm" height="2" fill="lime"/><rect x="50" y="2" width="3.175mm" height="2" fill="lime"/><rect x="66" y="2" width="12.7q" height="2" fill="lime"/><rect x="82" y="2" width="9pt" height="2" fill="lime"/><rect x="2" y="5" width=".75pc" height="2" fill="lime"/>
+<rect x="2" y="8" width="12PX" height="2" fill="lime"/><rect x="18" y="8" width="12.7Q" height="2" fill="lime"/><rect x="34" y="8" width="1.5EM" height="2" fill="lime"/><rect x="50" y="8" width="3Ex" height="2" fill="lime"/><rect x="66" y="8" width="1.5REM" height="2" fill="lime"/><rect x="82" y="8" width="12VW" height="2" fill="lime"/>
+<rect x="2" y="11" width="12" height="2" fill="lime"/>
+<rect x="2" y="14" width="12" height="2" fill="red" style="width: 0"/><rect x="2" y="14" width="12" height="2" fill="lime" stroke="red" style="stroke-width: 0"/>
+<rect x="2" y="17" width="12" height="2" fill="lime" style="width: -5px"/><rect x="18" y="17" width="12" height="2" fill="lime" stroke="red" stroke-width="0" style="stroke-width: -1px"/>
+<rect x="2" y="20" width="1.5em" height="2" fill="lime"/><g font-size="16"><rect x="18" y="20" width="1em" height="2" font-size=".75em" fill="lime"/></g>
+<g font-size="2" style="stroke-width: 1em"><path d="M2 23m0 1h12" stroke="lime" font-size="8"/></g>
+<rect x="2" y="26" width="3ex" height="2" fill="lime"/><rect x="18" y="26" width="3ch" height="2" fill="lime"/><rect x="34" y="26" width="1.5cap" height="2" fill="lime"/><rect x="50" y="26" width="1.5ic" height="2" fill="lime"/><rect x="66" y="26" width="1.5lh" height="2" fill="lime"/><g font-size="16"><rect x="82" y="26" width="1em" height="2" font-size="1.5ex" fill="lime"/></g>
+<g font-size="16"><rect x="2" y="29" width="1.5rem" height="2" fill="lime"/></g><g font-size="16"><rect x="18" y="29" width="3rex" height="2" fill="lime"/></g><g font-size="16"><rect x="34" y="29" width="3rch" height="2" fill="lime"/></g><g font-size="16"><rect x="50" y="29" width="1.5rcap" height="2" fill="lime"/></g><g font-size="16"><rect x="66" y="29" width="1.5ric" height="2" fill="lime"/></g><g font-size="16"><rect x="82" y="29" width="1.5rlh" height="2" fill="lime"/></g>
+<rect x="2" y="32" width="12vw" height="2" fill="lime"/><rect x="18" y="32" width="24vh" height="2" fill="lime"/><rect x="34" y="32" width="12vi" height="2" fill="lime"/><rect x="50" y="32" width="24vb" height="2" fill="lime"/><rect x="66" y="32" width="24vmin" height="2" fill="lime"/><rect x="82" y="32" width="12vmax" height="2" fill="lime"/><rect x="2" y="35" width="12svw" height="2" fill="lime"/><rect x="18" y="35" width="24lvh" height="2" fill="lime"/><rect x="34" y="35" width="12dvi" height="2" fill="lime"/><rect x="50" y="35" width="24svb" height="2" fill="lime"/><rect x="66" y="35" width="24lvmin" height="2" fill="lime"/><rect x="82" y="35" width="12dvmax" height="2" fill="lime"/>
+<rect x="2" y="38" width="12%" height="2" fill="lime"/><rect x="18" y="38" width="12" height="4%" fill="lime"/>
+<rect x="2" y="41" width="12foo" height="2" fill="red"/><rect x="18" y="41" width="12px5" height="2" fill="red"/><rect x="34" y="41" width="12p x" height="2" fill="red"/><rect x="50" y="41" width="12 px" height="2" fill="red"/><rect x="66" y="41" width="1.5e" height="2" fill="red"/><rect x="82" y="41" width="12svx" height="2" fill="red"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="2"/><rect x="18" y="2" width="12" height="2"/><rect x="34" y="2" width="12" height="2"/><rect x="50" y="2" width="12" height="2"/><rect x="66" y="2" width="12" height="2"/><rect x="82" y="2" width="12" height="2"/><rect x="2" y="5" width="12" height="2"/><rect x="2" y="8" width="12" height="2"/><rect x="18" y="8" width="12" height="2"/><rect x="34" y="8" width="12" height="2"/><rect x="50" y="8" width="12" height="2"/><rect x="66" y="8" width="12" height="2"/><rect x="82" y="8" width="12" height="2"/><rect x="2" y="11" width="12" height="2"/><rect x="2" y="14" width="12" height="2"/><rect x="2" y="17" width="12" height="2"/><rect x="18" y="17" width="12" height="2"/><rect x="2" y="20" width="12" height="2"/><rect x="18" y="20" width="12" height="2"/><rect x="2" y="23" width="12" height="2"/><rect x="2" y="26" width="12" height="2"/><rect x="18" y="26" width="12" height="2"/><rect x="34" y="26" width="12" height="2"/><rect x="50" y="26" width="12" height="2"/><rect x="66" y="26" width="12" height="2"/><rect x="82" y="26" width="12" height="2"/><rect x="2" y="29" width="12" height="2"/><rect x="18" y="29" width="12" height="2"/><rect x="34" y="29" width="12" height="2"/><rect x="50" y="29" width="12" height="2"/><rect x="66" y="29" width="12" height="2"/><rect x="82" y="29" width="12" height="2"/><rect x="2" y="32" width="12" height="2"/><rect x="18" y="32" width="12" height="2"/><rect x="34" y="32" width="12" height="2"/><rect x="50" y="32" width="12" height="2"/><rect x="66" y="32" width="12" height="2"/><rect x="82" y="32" width="12" height="2"/><rect x="2" y="35" width="12" height="2"/><rect x="18" y="35" width="12" height="2"/><rect x="34" y="35" width="12" height="2"/><rect x="50" y="35" width="12" height="2"/><rect x="66" y="35" width="12" height="2"/><rect x="82" y="35" width="12" height="2"/><rect x="2" y="38" width="12" height="2"/><rect x="18" y="38" width="12" height="2"/></g>
 </svg>

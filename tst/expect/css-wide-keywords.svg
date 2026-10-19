@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="28">
+<!-- What tst/unit/css-wide-keywords.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="28" fill="white"/>
+<linearGradient id="u" style="stop-color: red"><stop style="stop-color: unset"/></linearGradient><linearGradient id="i" style="stop-color: lime"><stop style="stop-color: inherit"/></linearGradient>
+<g id="initial" data-box="1 1 12 8"><rect x="2" y="2" width="10" height="6" fill="black"/></g>
+<g id="inherit" data-box="13 1 12 8"><rect x="14" y="2" width="10" height="6" fill="lime"/></g>
+<g id="unset-inherited" data-box="25 1 12 8"><rect x="26" y="2" width="10" height="6" fill="lime"/></g>
+<g id="case" data-box="37 1 12 8"><rect x="38" y="2" width="10" height="6" fill="lime"/></g>
+<g id="unset-not-inherited" data-box="49 1 12 8"><rect x="50" y="2" width="10" height="6" fill="black"/></g>
+<g id="inherit-not-inherited" data-box="1 11 12 8"><rect x="2" y="12" width="10" height="6" fill="lime"/></g>
+<g id="initial-stroke" data-box="13 13.5 12 3"><rect x="14" y="14.5" width="10" height="1" fill="lime"/></g>
+<g id="combined" data-box="25 11 12 8"><rect x="26" y="12" width="10" height="6" fill="lime"/></g>
+<g id="combined-twice" data-box="37 11 12 8"><rect x="38" y="12" width="10" height="6" fill="lime"/></g>
+<g id="inherit-geometry" data-box="49 11 12 8"><rect x="50" y="12" width="10" height="6" fill="lime"/></g>
+<g id="unset-opacity" data-box="1 20 24 7"><rect x="2" y="21" width="10" height="5" fill="lime" opacity=".5"/><rect x="14" y="21" width="10" height="5" fill="lime" opacity=".5"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="10" height="6"/><rect x="14" y="2" width="10" height="6"/><rect x="26" y="2" width="10" height="6"/><rect x="38" y="2" width="10" height="6"/><rect x="50" y="2" width="10" height="6"/><rect x="2" y="12" width="10" height="6"/><rect x="14" y="14.5" width="10" height="1"/><rect x="26" y="12" width="10" height="6"/><rect x="38" y="12" width="10" height="6"/><rect x="50" y="12" width="10" height="6"/></g>
+</svg>

@@ -7355,7 +7355,9 @@ namespace {
             s++;
         }
 
-        if (at(s, end, '.')) {
+        // A point takes a digit after it (css-values-4 5.3, the path
+        // grammar's fractional-constant).
+        if (at(s, end, '.') && s + 1 < end && s[1] >= '0' && s[1] <= '9') {
             double scale = 0.1;
 
             s++;
@@ -21770,12 +21772,14 @@ namespace {
         u64 value = 0;
         u64 limit = negative ? 2147483648ull : 2147483647ull;
 
+        // An integer past the ints' range is the closest one in it
+        // (css-values-4 5).
         for (; p < end; p++) {
-            if (*p < '0' || *p > '9' || value > (limit - (*p - '0')) / 10) {
+            if (*p < '0' || *p > '9') {
                 return fallback;
             }
 
-            value = value * 10 + (*p - '0');
+            value = value * 10 + (*p - '0') > limit ? limit : value * 10 + (*p - '0');
         }
 
         return (int)(negative ? -(i64)value : (i64)value);

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="72" font-size="8">
+<!-- What tst/unit/css-calc-contexts.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="120" height="72" fill="white"/>
+<linearGradient id="gt" gradientUnits="userSpaceOnUse" x1="58" x2="70"><stop offset="0" stop-color="navy"/><stop offset="calc(25%)" stop-color="lime"/><stop offset="1" stop-color="navy"/></linearGradient><linearGradient id="gr" gradientUnits="userSpaceOnUse" x1="58" x2="70"><stop offset="0" stop-color="navy"/><stop offset=".25" stop-color="lime"/><stop offset="1" stop-color="navy"/></linearGradient>
+<filter id="br" x="0" y="-1" width="1" height="3"><feGaussianBlur stdDeviation="0 2"/></filter>
+<filter id="cr"><feComponentTransfer><feFuncG type="linear" slope=".5"/></feComponentTransfer></filter>
+<g id="translate" data-box="1 1 20 9"><rect x="9" y="2" width="10" height="6" fill="lime"/></g>
+<g id="rotate" data-box="22 1 16 16"><rect x="28" y="4" width="4" height="12" fill="lime"/></g>
+<g id="translate-percent" data-box="39 1 13 8"><rect x="42" y="2" width="8" height="6" fill="lime"/></g>
+<g id="translate-property" data-box="53 1 13 11"><rect x="56" y="5" width="8" height="6" fill="lime"/></g>
+<g id="scale-property" data-box="67 1 12 8"><rect x="68" y="2" width="8" height="6" fill="lime"/></g>
+<g id="scale-percent" data-box="79 1 11 8"><rect x="80" y="2" width="8" height="6" fill="lime"/></g>
+<g id="font-size" data-box="91 1 15 8"><rect x="92" y="2" width="12" height="6" fill="lime"/></g>
+<g id="rgb" data-box="1 17 14 14"><rect x="2" y="18" width="12" height="6" fill="rgb(51 127.5 0)"/><rect x="2" y="24" width="12" height="6" fill="rgb(51 127.5 0)"/></g>
+<g id="hsl" data-box="15 17 14 14"><rect x="16" y="18" width="12" height="6" fill="hsl(120 100% 25%)"/><rect x="16" y="24" width="12" height="6" fill="hsl(120 100% 25%)"/></g>
+<g id="lab" data-box="29 17 14 14"><rect x="30" y="18" width="12" height="6" fill="lab(60 -40 30)"/><rect x="30" y="24" width="12" height="6" fill="lab(60 -40 30)"/></g>
+<g id="fill-opacity" data-box="43 17 14 14"><rect x="44" y="18" width="12" height="6" fill-opacity=".25"/><rect x="44" y="24" width="12" height="6" fill-opacity=".25"/></g>
+<g id="stop-offset" data-box="57 17 14 14"><rect x="58" y="18" width="12" height="6" fill="url(#gr)"/><rect x="58" y="24" width="12" height="6" fill="url(#gr)"/></g>
+<g id="dasharray" data-box="71 17 18 14"><path d="M72 21h16" stroke="navy" stroke-width="6" stroke-dasharray="4 2"/><path d="M72 27h16" stroke="navy" stroke-width="6" stroke-dasharray="4 2"/></g>
+<g id="stroke-width" data-box="91 17 14 5"><rect x="92" y="18" width="12" height="3" fill="lime"/></g>
+<g id="hue-rotate" data-box="1 33 14 14"><rect x="2" y="34" width="12" height="6" fill="#c84" style="filter: hue-rotate(180deg)"/><rect x="2" y="40" width="12" height="6" fill="#c84" style="filter: hue-rotate(180deg)"/></g>
+<g id="opacity-function" data-box="15 33 14 14"><rect x="16" y="34" width="12" height="6" fill="navy" style="filter: opacity(.5)"/><rect x="16" y="40" width="12" height="6" fill="navy" style="filter: opacity(.5)"/></g>
+<g id="number-list" data-box="29 33 14 14"><rect x="30" y="38" width="6" height="4" fill="navy" filter="url(#br)"/><rect x="36" y="38" width="6" height="4" fill="navy" filter="url(#br)"/></g>
+<g id="integer" data-box="43 33 14 14"><filter id="tt" filterUnits="userSpaceOnUse" x="44" y="34" width="12" height="6"><feTurbulence baseFrequency=".2" numOctaves="2" seed="3"/></filter><rect x="44" y="34" width="12" height="6" filter="url(#tt)"/><filter id="tr" filterUnits="userSpaceOnUse" x="44" y="40" width="12" height="6"><feTurbulence baseFrequency=".2" numOctaves="2" seed="3"/></filter><rect x="44" y="40" width="12" height="6" filter="url(#tr)"/></g>
+<g id="slope" data-box="57 33 14 14"><rect x="58" y="34" width="12" height="6" fill="lime" filter="url(#cr)"/><rect x="58" y="40" width="12" height="6" fill="lime" filter="url(#cr)"/></g>
+<g id="viewbox" data-box="1 49 14 14"><rect x="2" y="50" width="6" height="6" fill="lime"/></g>
+<g id="points" data-box="15 49 14 14"><polygon points="16,50 28,50 16,62" fill="lime"/></g>
+<g id="length-percent" data-box="29 49 14 14"><rect x="36" y="50" width="6" height="6" fill="lime"/></g>
+<g id="viewport-unit" data-box="43 49 8 14"><rect x="44" y="50" width="5" height="6" fill="lime"/></g>
+<g id="basic-shape" data-box="51 49 14 14"><circle cx="58" cy="56" r="6" fill="lime"/></g>
+<g id="object-position" data-box="65 49 14 14"><rect x="72" y="50" width="4" height="2" fill="lime"/></g>
+<g id="orient" data-box="79 49 12 14"><rect x="84" y="50" width="2" height="6" fill="lime"/></g>
+<g id="gradient-angle" data-box="91 49 14 14"><rect x="92" y="50" width="6" height="12" fill="lime"/></g>
+<g id="media" data-box="1 65 14 6"><rect x="2" y="66" width="12" height="4" fill="lime"/></g>
+<g id="transform-attribute" data-box="15 65 14 6"><rect x="16" y="66" width="12" height="4" fill="lime"/></g>
+<g id="zero-rotate" data-box="29 65 14 6"><rect x="30" y="66" width="12" height="4" fill="lime"/></g>
+<g id="zero-hue-rotate" data-box="43 65 14 6"><rect x="44" y="66" width="12" height="4" fill="lime"/></g>
+<g id="zero-blur" data-box="57 65 14 6"><rect x="58" y="66" width="12" height="4" fill="lime"/></g>
+<g id="zero-gradient" data-box="71 65 14 6"><rect x="72" y="66" width="12" height="4" fill="lime"/></g>
+<g id="shape" data-box="85 65 14 6"><polygon points="86,66 98,66 86,70" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="9" y="2" width="10" height="6"/><rect x="28" y="4" width="4" height="12"/><rect x="42" y="2" width="8" height="6"/><rect x="56" y="5" width="8" height="6"/><rect x="68" y="2" width="8" height="6"/><rect x="80" y="2" width="8" height="6"/><rect x="92" y="2" width="12" height="6"/><rect x="92" y="18" width="12" height="3"/><rect x="2" y="50" width="6" height="6"/><polygon points="16,50 28,50 16,62"/><rect x="36" y="50" width="6" height="6"/><rect x="44" y="50" width="5" height="6"/><circle cx="58" cy="56" r="6"/><rect x="72" y="50" width="4" height="2"/><rect x="84" y="50" width="2" height="6"/><rect x="92" y="50" width="6" height="12"/><rect x="2" y="66" width="12" height="4"/><rect x="16" y="66" width="12" height="4"/><rect x="30" y="66" width="12" height="4"/><rect x="44" y="66" width="12" height="4"/><rect x="58" y="66" width="12" height="4"/><rect x="72" y="66" width="12" height="4"/><polygon points="86,66 98,66 86,70"/></g>
+</svg>

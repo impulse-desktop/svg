@@ -30,8 +30,22 @@ naming the unit that draws it, and its statements are lines under it:
 
 `[ ]` is not yet checked, `[x]` drawn right by the feature's units, `[-]` left
 out, with the decision in `decisions.md` named at the end of the line, `(D4)`.
+
+A statement checked or left out ends with the test cells that draw it,
+`[unit#cell unit2#cell2]`, after its decision if it has one. A cell is an
+element of `tst/expect/unit.svg` with that id and a `data-box="x y w h"`:
+the expected drawing of `tst/unit/unit.svg`, the same size, drawing each
+cell as it should look by plain means, a length for a computed one, a path
+for a clip, a picture for a formula. `tst/oracle.py` draws both and
+compares them as a unit is compared with the canon, reporting each
+difference in the cells holding it, so a unit checks its statements, not
+only that it draws as the canon does. A unit with cells is written by its
+generator, `tst/gen/unit.py`, which writes both drawings.
+
 `ledger.py` checks that each anchor is in its page, that a checked feature's
-units exist and that what is left out names its decision.
+units exist, that what is left out names its decision and that every link
+names a unit and a cell of its expected drawing; a ledger that links one
+statement must link all.
 
 ## How
 

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="75">
+<!-- What tst/unit/css-url-syntax.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="72" height="75" fill="white"/>
+<defs>
+<linearGradient id="g"><stop stop-color="lime"/></linearGradient>
+<linearGradient id="a(b)"><stop stop-color="lime"/></linearGradient>
+<linearGradient id="ab"><stop stop-color="lime"/></linearGradient>
+<linearGradient id="dup"><stop stop-color="lime"/></linearGradient>
+<linearGradient id="dup"><stop stop-color="red"/></linearGradient>
+<linearGradient id="r"><stop stop-color="red"/></linearGradient>
+<clipPath id="c" clipPathUnits="objectBoundingBox"><rect x=".4" width=".6" height="1"/></clipPath>
+<mask id="m" maskContentUnits="objectBoundingBox"><rect x=".4" width=".6" height="1" fill="white"/></mask>
+<mask id="m 2" maskContentUnits="objectBoundingBox"><rect x=".4" width=".6" height="1" fill="white"/></mask>
+<filter id="f" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>
+<marker id="mk" markerWidth="6" markerHeight="6" refX="0" refY="0" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="lime"/></marker>
+</defs>
+<style>@import url(other.css); .imported { fill: lime }</style>
+<g id="quoted" data-box="1 1 72 8"><rect x="2" y="2" width="10" height="6" fill="lime"/><rect x="14" y="2" width="10" height="6" fill="lime"/><rect x="26" y="2" width="10" height="6" fill="lime"/><rect x="38" y="2" width="10" height="6" fill="lime"/><rect x="50" y="2" width="10" height="6" fill="lime"/></g>
+<g id="src" data-box="1 9 72 8"><rect x="2" y="10" width="10" height="6" fill="lime"/><rect x="14" y="10" width="10" height="6" fill="lime"/></g>
+<g id="escapes" data-box="1 17 72 8"><rect x="2" y="18" width="10" height="6" fill="lime"/><rect x="14" y="18" width="10" height="6" fill="lime"/><rect x="26" y="18" width="10" height="6" fill="lime"/></g>
+<g id="empty" data-box="1 25 72 8"><rect x="2" y="26" width="10" height="6" fill="lime"/><rect x="14" y="26" width="10" height="6" fill="lime"/></g>
+<g id="first" data-box="1 33 72 8"><rect x="2" y="34" width="10" height="6" fill="lime"/><rect x="14" y="34" width="10" height="6" fill="lime"/></g>
+<g id="fragment" data-box="1 41 72 8"><rect x="2" y="42" width="10" height="6" fill="lime"/><rect x="14" y="42" width="10" height="6" fill="lime"/></g>
+<g id="unquoted-invalid" data-box="1 49 72 8"><rect x="2" y="50" width="10" height="6" fill="lime"/><rect x="14" y="50" width="10" height="6" fill="lime"/><rect x="26" y="50" width="10" height="6" fill="lime"/><rect x="38" y="50" width="10" height="6" fill="lime"/></g>
+<g id="properties" data-box="1 57 72 8"><rect x="6" y="58" width="6" height="6" fill="lime"/><rect x="18" y="58" width="6" height="6" fill="lime"/><rect x="30" y="58" width="6" height="6" fill="lime"/><rect x="38" y="58" width="10" height="6" fill="lime"/><rect x="50" y="58" width="6" height="6" fill="lime"/></g>
+<g id="external" data-box="1 65 72 8"><rect x="2" y="66" width="10" height="6" fill="lime"/><rect x="14" y="66" width="10" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="10" height="6"/><rect x="14" y="2" width="10" height="6"/><rect x="26" y="2" width="10" height="6"/><rect x="38" y="2" width="10" height="6"/><rect x="50" y="2" width="10" height="6"/><rect x="2" y="10" width="10" height="6"/><rect x="14" y="10" width="10" height="6"/><rect x="2" y="18" width="10" height="6"/><rect x="14" y="18" width="10" height="6"/><rect x="26" y="18" width="10" height="6"/><rect x="2" y="26" width="10" height="6"/><rect x="14" y="26" width="10" height="6"/><rect x="2" y="34" width="10" height="6"/><rect x="14" y="34" width="10" height="6"/><rect x="2" y="42" width="10" height="6"/><rect x="14" y="42" width="10" height="6"/><rect x="2" y="50" width="10" height="6"/><rect x="14" y="50" width="10" height="6"/><rect x="26" y="50" width="10" height="6"/><rect x="38" y="50" width="10" height="6"/><rect x="6" y="58" width="6" height="6"/><rect x="18" y="58" width="6" height="6"/><rect x="30" y="58" width="6" height="6"/><rect x="38" y="58" width="10" height="6"/><rect x="50" y="58" width="6" height="6"/><rect x="2" y="66" width="10" height="6"/><rect x="14" y="66" width="10" height="6"/></g>
+</svg>

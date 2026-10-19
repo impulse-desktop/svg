@@ -1,47 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="72" height="40">
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="75">
 <!-- Each lime drawing fills its black outline, and nothing red shows. A
 url() takes its string quoted or not, with white space around it and
 escapes undone; src() takes a quoted string the same; an unquoted url
 with white space, a quote or a parenthesis in it is no url, so the
-presentation attribute is ignored and the fill inherits; an empty url
-is an invalid resource, so the fallback paints; of two elements of one
-id the first in tree order is the one; clip-path, mask, mask-image,
-filter and marker-start take the same urls. -->
-<rect width="72" height="40" fill="white"/>
+presentation attribute is ignored and the fill inherits; an empty url is
+an invalid resource, so the fallback paints; of two elements of one id
+the first in tree order is the one; a fragment is the document's own
+whatever the base; clip-path, mask, mask-image, filter and marker-start
+take the same urls. Nothing outside the document loads, a url of another
+file or an @import (D15), the rest of the sheet applying. -->
+<rect width="72" height="75" fill="white"/>
 <defs>
 <linearGradient id="g"><stop stop-color="lime"/></linearGradient>
 <linearGradient id="a(b)"><stop stop-color="lime"/></linearGradient>
 <linearGradient id="ab"><stop stop-color="lime"/></linearGradient>
 <linearGradient id="dup"><stop stop-color="lime"/></linearGradient>
 <linearGradient id="dup"><stop stop-color="red"/></linearGradient>
+<linearGradient id="r"><stop stop-color="red"/></linearGradient>
 <clipPath id="c" clipPathUnits="objectBoundingBox"><rect x=".4" width=".6" height="1"/></clipPath>
 <mask id="m" maskContentUnits="objectBoundingBox"><rect x=".4" width=".6" height="1" fill="white"/></mask>
 <mask id="m 2" maskContentUnits="objectBoundingBox"><rect x=".4" width=".6" height="1" fill="white"/></mask>
 <filter id="f" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>
 <marker id="mk" markerWidth="6" markerHeight="6" refX="0" refY="0" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="lime"/></marker>
 </defs>
-<rect x="2" y="2" width="10" height="6" fill="url(#g)"/>
-<rect x="14" y="2" width="10" height="6" fill="url('#g')"/>
-<rect x="26" y="2" width="10" height="6" fill='url("#g")'/>
-<rect x="38" y="2" width="10" height="6" fill="src('#g')"/>
-<rect x="50" y="2" width="10" height="6" fill="url(\#g)"/>
-<rect x="62" y="2" width="10" height="6" fill="url(#a\(b\))"/>
-<rect x="2" y="10" width="10" height="6" fill="url(#\61 b)"/>
-<rect x="14" y="10" width="10" height="6" fill="url( #g )"/>
-<rect x="26" y="10" width="10" height="6" style="fill: url(#g)"/>
-<rect x="38" y="10" width="10" height="6" style="fill: src('#g')"/>
-<rect x="50" y="10" width="10" height="6" fill="url() lime"/>
-<rect x="62" y="10" width="10" height="6" fill="url('') lime"/>
-<rect x="2" y="18" width="10" height="6" fill="url(#dup)"/>
-<rect x="14" y="18" width="10" height="6" fill="url(#g) red"/>
-<g fill="lime"><rect x="26" y="18" width="10" height="6" fill="red"/><rect x="26" y="18" width="10" height="6" fill="url(#g x)"/></g>
-<g fill="lime"><rect x="38" y="18" width="10" height="6" fill="red"/><rect x="38" y="18" width="10" height="6" fill="src(#g)"/></g>
-<g fill="lime"><rect x="50" y="18" width="10" height="6" fill="red"/><rect x="50" y="18" width="10" height="6" fill="url(#g'x)"/></g>
-<g fill="lime"><rect x="62" y="18" width="10" height="6" fill="red"/><rect x="62" y="18" width="10" height="6" fill="url(#g(x)"/></g>
-<rect x="2" y="26" width="10" height="6" fill="lime" clip-path="url('#c')"/>
-<rect x="14" y="26" width="10" height="6" fill="lime" style="mask: src('#m')"/>
-<rect x="26" y="26" width="10" height="6" fill="lime" style="mask-image: url(#m\ 2)"/>
-<rect x="38" y="26" width="10" height="6" fill="lime" style="filter: src('#f')"/>
-<path d="M50 26h4" style="marker-start: url('#mk')"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="10" height="6"/><rect x="14" y="2" width="10" height="6"/><rect x="26" y="2" width="10" height="6"/><rect x="38" y="2" width="10" height="6"/><rect x="50" y="2" width="10" height="6"/><rect x="62" y="2" width="10" height="6"/><rect x="2" y="10" width="10" height="6"/><rect x="14" y="10" width="10" height="6"/><rect x="26" y="10" width="10" height="6"/><rect x="38" y="10" width="10" height="6"/><rect x="50" y="10" width="10" height="6"/><rect x="62" y="10" width="10" height="6"/><rect x="2" y="18" width="10" height="6"/><rect x="14" y="18" width="10" height="6"/><rect x="26" y="18" width="10" height="6"/><rect x="38" y="18" width="10" height="6"/><rect x="50" y="18" width="10" height="6"/><rect x="62" y="18" width="10" height="6"/><rect x="6" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="30" y="26" width="6" height="6"/><rect x="38" y="26" width="10" height="6"/><rect x="50" y="26" width="6" height="6"/></g>
+<style>@import url(other.css); .imported { fill: lime }</style>
+<rect x="2" y="2" width="10" height="6" fill="url(#g)"/><rect x="14" y="2" width="10" height="6" fill="url('#g')"/><rect x="26" y="2" width="10" height="6" fill='url("#g")'/><rect x="38" y="2" width="10" height="6" fill="url( #g )"/><rect x="50" y="2" width="10" height="6" style="fill: url(#g)"/>
+<rect x="2" y="10" width="10" height="6" fill="src('#g')"/><rect x="14" y="10" width="10" height="6" style="fill: src('#g')"/>
+<rect x="2" y="18" width="10" height="6" fill="url(\#g)"/><rect x="14" y="18" width="10" height="6" fill="url(#a\(b\))"/><rect x="26" y="18" width="10" height="6" fill="url(#\61 b)"/>
+<rect x="2" y="26" width="10" height="6" fill="url() lime"/><rect x="14" y="26" width="10" height="6" fill="url('') lime"/>
+<rect x="2" y="34" width="10" height="6" fill="url(#dup)"/><rect x="14" y="34" width="10" height="6" fill="url(#g) red"/>
+<rect x="2" y="42" width="10" height="6" fill="url(#g)" xml:base="http://example.com/"/><rect x="14" y="42" width="10" height="6" fill="url(#ab) red" xml:base="other/"/>
+<g fill="lime"><rect x="2" y="50" width="10" height="6" fill="red"/><rect x="2" y="50" width="10" height="6" fill="url(#g x)"/></g><g fill="lime"><rect x="14" y="50" width="10" height="6" fill="red"/><rect x="14" y="50" width="10" height="6" fill="src(#g)"/></g><g fill="lime"><rect x="26" y="50" width="10" height="6" fill="red"/><rect x="26" y="50" width="10" height="6" fill="url(#g'x)"/></g><g fill="lime"><rect x="38" y="50" width="10" height="6" fill="red"/><rect x="38" y="50" width="10" height="6" fill="url(#g(x)"/></g>
+<rect x="2" y="58" width="10" height="6" fill="lime" clip-path="url('#c')"/><rect x="14" y="58" width="10" height="6" fill="lime" style="mask: src('#m')"/><rect x="26" y="58" width="10" height="6" fill="lime" style="mask-image: url(#m\ 2)"/><rect x="38" y="58" width="10" height="6" fill="red" style="filter: src('#f')"/><path d="M50 58h4" style="marker-start: url('#mk')"/>
+<rect x="2" y="66" width="10" height="6" fill="url(other.svg#r) lime"/><rect x="14" y="66" width="10" height="6" class="imported" fill="red"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="10" height="6"/><rect x="14" y="2" width="10" height="6"/><rect x="26" y="2" width="10" height="6"/><rect x="38" y="2" width="10" height="6"/><rect x="50" y="2" width="10" height="6"/><rect x="2" y="10" width="10" height="6"/><rect x="14" y="10" width="10" height="6"/><rect x="2" y="18" width="10" height="6"/><rect x="14" y="18" width="10" height="6"/><rect x="26" y="18" width="10" height="6"/><rect x="2" y="26" width="10" height="6"/><rect x="14" y="26" width="10" height="6"/><rect x="2" y="34" width="10" height="6"/><rect x="14" y="34" width="10" height="6"/><rect x="2" y="42" width="10" height="6"/><rect x="14" y="42" width="10" height="6"/><rect x="2" y="50" width="10" height="6"/><rect x="14" y="50" width="10" height="6"/><rect x="26" y="50" width="10" height="6"/><rect x="38" y="50" width="10" height="6"/><rect x="6" y="58" width="6" height="6"/><rect x="18" y="58" width="6" height="6"/><rect x="30" y="58" width="6" height="6"/><rect x="38" y="58" width="10" height="6"/><rect x="50" y="58" width="6" height="6"/><rect x="2" y="66" width="10" height="6"/><rect x="14" y="66" width="10" height="6"/></g>
 </svg>
