@@ -386,3 +386,17 @@ color() does not parse, and a declaration of it is invalid and ignored. The
 spec says both; the browsers drop the declaration, and so does the
 renderer: the property keeps what it had, an inherited or initial value or
 a presentation attribute under it.
+
+## D36. A percentage dash is a length, which pathLength scales
+
+`svg2/paths.md#PathLengthAttribute` says pathLength "has no effect on
+percentage distance-along-a-path calculations", and that zero scales "any
+non-percentage value" to infinity. The percentages it means are those of
+the path's own length: text on a path's startOffset, motion's key points,
+which text and animation draw, both out of scope. A percentage of
+stroke-dasharray or stroke-dashoffset is not of the path but of the
+viewport's normalized diagonal, a length, and painting says that "each dash
+and gap length is interpreted relative to the author's path length" with
+no exception, its stroke shape scaling every dash position alike. The
+renderer scales it as any other dash; the statement is left out as text's
+and animation's.

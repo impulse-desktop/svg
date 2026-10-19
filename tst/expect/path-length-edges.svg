@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="26">
+<!-- What tst/unit/path-length-edges.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="26" fill="white"/>
+<g id="zero" data-box="1 0 62 6"><rect x="2" y="1" width="60" height="4" fill="black"/></g>
+<g id="negative" data-box="1 6 62 6"><rect x="2" y="7" width="5" height="4" fill="black"/><rect x="12" y="7" width="5" height="4" fill="black"/><rect x="22" y="7" width="5" height="4" fill="black"/><rect x="32" y="7" width="5" height="4" fill="black"/><rect x="42" y="7" width="5" height="4" fill="black"/><rect x="52" y="7" width="5" height="4" fill="black"/></g>
+<g id="moveto" data-box="1 12 62 6"><rect x="2" y="13" width="10" height="4" fill="black"/><rect x="42" y="13" width="10" height="4" fill="black"/></g>
+<g id="percent" data-box="1 18 62 6"><rect x="2" y="19" width="9.7693" height="4" fill="black"/><rect x="21.5387" y="19" width="9.7693" height="4" fill="black"/><rect x="41.0774" y="19" width="9.7693" height="4" fill="black"/><rect x="60.6160" y="19" width="1.3840" height="4" fill="black"/></g>
+</svg>

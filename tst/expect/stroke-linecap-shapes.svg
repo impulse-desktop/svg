@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="76">
+<!-- What tst/unit/stroke-linecap-shapes.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="76" fill="white"/>
+<g id="caps" data-box="2 2 62 12"><rect x="6" y="5" width="8" height="6" fill="lime"/><path fill="lime" d="M 28 5 H 36 A 3 3 0 0 1 36 11 H 28 A 3 3 0 0 1 28 5 Z"/><rect x="47" y="5" width="14" height="6" fill="lime"/></g>
+<g id="zero-butt" data-box="1 17 14 14"><rect x="2" y="18" width="12" height="12" fill="lime"/></g>
+<g id="zero-round" data-box="17 19 10 10"><circle cx="22" cy="24" r="3" fill="lime"/><circle cx="50" cy="24" r="3" fill="lime"/></g>
+<g id="zero-square" data-box="31 19 10 10"><rect x="33" y="21" width="6" height="6" fill="lime"/></g>
+<g id="moveto-alone" data-box="1 33 14 18"><rect x="2" y="34" width="12" height="16" fill="lime"/></g>
+<g id="zero-direction" data-box="14 30 49 20"><path fill="lime" d="M13.7574 34.0000 24.0000 44.2426 28.2426 40.0000 18.0000 29.7574Z M30 38.2574L34.2426 42.5L30 46.7426L25.7574 42.5Z"/><rect x="45" y="39" width="6" height="6" fill="lime"/><path fill="lime" d="M54.0000 28.0000 54.0000 34.0000 58.0000 34.0000 58.0000 28.0000Z M56 40h4v4h-4Z"/></g>
+<g id="zero-next" data-box="1 52 20 12"><path fill="lime" d="M6 57.1716L8.8284 60L6 62.8284L3.1716 60Z M10.1716 55.0000 18.0000 62.8284 20.8284 60.0000 13.0000 52.1716Z"/></g>
+<g id="zero-after-closed" data-box="22 52 22 12"><path d="M 26 54 h 4 v 4 Z" fill="none" stroke="lime" stroke-width="4"/><path fill="lime" d="M38 57.1716L40.8284 60L38 62.8284L35.1716 60Z"/></g>
+<g id="zero-no-direction" data-box="44 56 16 6"><rect x="46" y="58" width="4" height="4" fill="lime"/><rect x="54" y="58" width="4" height="4" fill="lime"/></g>
+<g id="zero-after-close" data-box="1 63 20 12"><path d="M 4 66 h 4 v 4 L 4 66 Z" fill="none" stroke="lime" stroke-width="4"/><path fill="lime" d="M16 67.1716L18.8284 70L16 72.8284L13.1716 70Z"/></g>
+<g id="edges" data-box="0 0 0 0"><g fill="none" stroke="black" stroke-width=".3">
+<path d="M 6 5 H 14 V 11 H 6 Z"/>
+<path d="M 28 5 H 36 A 3 3 0 0 1 36 11 H 28 A 3 3 0 0 1 28 5 Z"/>
+<path d="M 47 5 H 61 V 11 H 47 Z"/>
+</g><g fill="none" stroke="black" stroke-width=".3">
+<circle cx="22" cy="24" r="3"/><rect x="33" y="21" width="6" height="6"/><circle cx="50" cy="24" r="3"/>
+<path d="M 30 38.257 L 34.243 42.5 L 30 46.743 L 25.757 42.5 Z"/><rect x="45" y="39" width="6" height="6"/>
+<rect x="56" y="40" width="4" height="4"/><path d="M 6 57.172 L 8.828 60 L 6 62.828 L 3.172 60 Z"/>
+<path d="M 38 57.172 L 40.828 60 L 38 62.828 L 35.172 60 Z"/><rect x="46" y="58" width="4" height="4"/><rect x="54" y="58" width="4" height="4"/>
+<path d="M 16 67.172 L 18.828 70 L 16 72.828 L 13.172 70 Z"/>
+</g></g>
+</svg>

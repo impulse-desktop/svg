@@ -6,6 +6,7 @@ start. Start paints first, then the middles in order, then the end. Marker
 content inherits from the marker's ancestors, not from the shape. A
 reference to no marker, or a marker of zero width, draws nothing; a marker
 under display none still draws; a marker is never drawn where it stands.
+A path of movetos alone has a vertex at each.
 The shorthand marker has no presentation attribute. -->
 <defs>
 <marker id="l" markerWidth="4" markerHeight="4" refX="2" refY="2" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="lime"/></marker>
@@ -26,6 +27,7 @@ The shorthand marker has no presentation attribute. -->
 <rect x="39" y="23" width="2" height="2"/><rect x="49" y="23" width="2" height="2"/><rect x="44" y="33" width="2" height="2"/>
 <rect x="30" y="50" width="2" height="2"/><rect x="42" y="50" width="2" height="2"/>
 <rect x="19" y="67" width="2" height="2"/><rect x="11" y="71" width="2" height="2"/><rect x="3" y="67" width="2" height="2"/><rect x="11" y="63" width="2" height="2"/>
+<rect x="29" y="67" width="2" height="2"/><rect x="37" y="67" width="2" height="2"/><rect x="45" y="67" width="2" height="2"/><rect x="53" y="67" width="2" height="2"/>
 </g>
 <g fill="none">
 <path d="M 4 6 H 14 V 14 Z M 22 6 H 32 V 14 Z" style="marker: url(#l)"/>
@@ -42,5 +44,6 @@ The shorthand marker has no presentation attribute. -->
 <path d="M 31 51 h 1" fill="red" marker-start="url(#inh)"/>
 <path d="M 43 51 h 1" marker-start="url(#hid)"/>
 <ellipse cx="12" cy="68" rx="8" ry="4" fill="none" style="marker: url(#l)"/>
+<path d="M 30 68 M 38 68 M 46 68 M 54 68" style="marker: url(#l)"/>
 <marker style="display: inline" markerWidth="20" markerHeight="20"><rect x="54" y="48" width="6" height="6" fill="red"/></marker>
 </svg>
