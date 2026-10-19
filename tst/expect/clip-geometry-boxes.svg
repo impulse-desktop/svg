@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- What tst/unit/clip-geometry-boxes.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="48" fill="white"/>
+<g id="border-box-default" data-box="1 1 14 14"><rect x="2" y="2" width="12" height="12" fill="lime"/></g>
+<g id="fill-box" data-box="17 1 14 14"><rect x="20" y="4" width="8" height="8" fill="lime"/></g>
+<g id="box-alone" data-box="33 1 30 14"><rect x="36" y="4" width="8" height="8" fill="lime"/><rect x="50" y="2" width="12" height="12" fill="lime"/></g>
+<g id="padding-box" data-box="1 17 14 14"><rect x="6" y="22" width="4" height="4" fill="lime"/></g>
+<g id="stroke-box" data-box="17 17 14 14"><rect x="21" y="21" width="6" height="6" fill="lime"/></g>
+<g id="circle-fill-box" data-box="33 17 14 14"><circle cx="40" cy="24" r="4" fill="lime"/></g>
+<g id="view-box" data-box="1 33 28 14"><rect x="14" y="34" width="12" height="12" fill="lime"/></g>
+<g id="view-box-root" data-box="33 33 22 12"><rect x="34" y="34" width="20" height="10" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="12" height="12"/><rect x="20" y="4" width="8" height="8"/><rect x="36" y="4" width="8" height="8"/><rect x="50" y="2" width="12" height="12"/>
+<rect x="6" y="22" width="4" height="4"/><rect x="21" y="21" width="6" height="6"/><circle cx="40" cy="24" r="4"/>
+<rect x="14" y="34" width="12" height="12"/><rect x="34" y="34" width="20" height="10"/>
+</g>
+</svg>

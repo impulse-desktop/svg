@@ -12347,8 +12347,8 @@ namespace {
 
     // The clip property's rect(): offsets from the top left of the box to
     // its top, right, bottom and left sides, each a length or auto, apart
-    // by commas or by spaces. Unclosed, it closes at the end, as CSS reads
-    // it.
+    // by commas or by spaces, not a mix (css-masking-1.md, clip-property).
+    // Unclosed, it closes at the end, as CSS reads it.
     static bool parseClipRect(StringView text, BasicShape& out) {
         text = trim(text);
 
@@ -12358,12 +12358,24 @@ namespace {
 
         const u8* p = text.begin() + 5;
         const u8* end = text.end()[-1] == ')' ? text.end() - 1 : text.end();
+        int separator = 0;
 
         out.autos = 0;
 
         for (u32 side = 0; side < 4; side++) {
+            const u8* before = p;
             StringView word = shapeWord(p, end);
+            int commas = 0;
 
+            for (const u8* q = before; q < word.begin(); q++) {
+                commas += *q == ',';
+            }
+
+            if (commas > 1 || (side == 0 && commas) || (side > 1 && commas != separator)) {
+                return false;
+            }
+
+            separator = side == 1 ? commas : separator;
             out.values[side] = Length{0.f, Unit::Number};
 
             if (equalsIgnoreCase(word, SV("auto"))) {
@@ -12373,7 +12385,9 @@ namespace {
             }
         }
 
-        return shapeWord(p, end).empty();
+        skipSpaces(p, end);
+
+        return p == end;
     }
 
     static bool readAngle(StringView text, float& out, bool& unit);
@@ -16533,16 +16547,23 @@ namespace {
 
     static bool loadImageFrom(Pass& l, const void* key, StringView reference, ImageSource& out);
 
-    // The mask layers of an element. none is no layer, nor a mask element
-    // in no usable place or that refers back; a reference to no element or
-    // to one not a mask, and an image that does not load, are transparent
-    // black, as CSS Masking has it, alone too.
+    // The mask layers of an element. none in a list with an image is a
+    // transparent black layer, which mask-composite composites, and none
+    // alone no layer (D23); a mask element in no usable place or that
+    // refers back is no layer; a reference to no element or to one not a
+    // mask, and an image that does not load, are transparent black, as CSS
+    // Masking has it, alone too.
     static void resolveMask(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Vector<MaskLayer> layers;
         u32 count = 0;
+        bool images = false;
 
         maskLayersOf(doc, style, layers);
+
+        for (const MaskLayer& layer : layers) {
+            images |= layer.source != MaskSource::None;
+        }
 
         // The border's layer goes first, over the others.
         MaskLayerOp* ops = (MaskLayerOp*)l.pool->allocate(sizeof(MaskLayerOp) * (layers.length() + 1));
@@ -16555,7 +16576,7 @@ namespace {
             Node* mask = found && found->name == AtomMask ? found : nullptr;
             ImageSource image;
 
-            if (layer.source == MaskSource::None || (mask && closesCycle(l, element, AtomMask, mask))) {
+            if ((layer.source == MaskSource::None && !images) || (mask && closesCycle(l, element, AtomMask, mask))) {
                 continue;
             }
 

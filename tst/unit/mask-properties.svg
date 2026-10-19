@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="122" height="263">
+<!-- Each lime drawing fills its black outline, and nothing red shows.
+none in a list of mask images is a transparent layer, so intersected
+with another it leaves nothing and added to one leaves that, and none
+alone, or only none, masks nothing (D23); a mask image makes a stacking
+context, so a blend in it meets nothing behind; mask-mode takes alpha,
+luminance or the source's, an image's alpha; one box in the shorthand is
+the origin and the clip, two the origin then the clip, no-clip clips
+nothing; a layer of a mask element takes none of the position, size,
+repeat, origin and clip. A mask element's region is in bounding box
+units unless userSpaceOnUse, its x -10% when only y is given, its width
+120% when only x is; mask-type is not inherited. clip-path applies to
+use, whose x and y move its user space, and a clipPath in user space
+units is in the user space of what it clips. A stroke box takes no
+dashes nor the stroke's opacity, is a use's content's, and an image's is
+its bounding box. -->
+<rect width="122" height="263" fill="white"/>
+<defs><mask id="w"><rect x="-50" y="-50" width="300" height="300" fill="white"/></mask>
+<mask id="u" maskUnits="userSpaceOnUse" x="4" y="4" width="8" height="200"><rect x="-50" y="-50" width="300" height="300" fill="white"/></mask>
+<mask id="ox" y="0"><rect x="-50" y="-50" width="300" height="300" fill="white"/></mask>
+<mask id="ow" x="0"><rect x="-50" y="-50" width="300" height="300" fill="white"/></mask>
+<g mask-type="alpha"><mask id="ti"><rect x="-50" y="-50" width="300" height="300" fill="white"/></mask></g>
+<rect id="r" width="12" height="12" fill="lime"/>
+<clipPath id="cu"><rect x="2" y="2" width="6" height="12"/></clipPath>
+<rect id="rs" x="1" y="1" width="6" height="6" fill="lime" stroke="lime" stroke-width="2"/></defs>
+<rect x="4" y="4" width="12" height="12" fill="red" style="mask-image: none, linear-gradient(black, black); mask-composite: intersect"/><rect x="24" y="4" width="12" height="12" fill="red" style="mask-image: linear-gradient(black, black), none; mask-composite: intersect"/><rect x="44" y="4" width="12" height="12" fill="red" style="mask: none intersect, linear-gradient(black, black)"/><rect x="64" y="4" width="12" height="12" fill="lime" style="mask-image: none, linear-gradient(black, black)"/><rect x="84" y="4" width="12" height="12" fill="lime" style="mask-image: none"/><rect x="104" y="4" width="12" height="12" fill="lime" style="mask-image: none, none"/>
+<rect x="4" y="24" width="12" height="12" fill="blue"/><g style="mask-image: linear-gradient(black, black)"><rect x="6" y="26" width="8" height="8" fill="yellow" style="mix-blend-mode: multiply"/></g>
+<rect x="4" y="44" width="12" height="12" fill="lime" style="mask: linear-gradient(white, white)"/><rect x="24" y="44" width="12" height="12" fill="red" style="mask: linear-gradient(black, black) luminance"/><rect x="44" y="44" width="12" height="12" fill="lime" style="mask: linear-gradient(black, black) alpha"/><rect x="64" y="44" width="12" height="12" fill="lime" style="mask: url(#w) alpha"/>
+<rect x="6" y="66" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="mask: linear-gradient(black, black) 0 0 / 4px 4px no-repeat stroke-box"/><rect x="26" y="66" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="mask: linear-gradient(black, black) 0 0 / 4px 4px no-repeat stroke-box fill-box"/><rect x="46" y="66" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="mask: linear-gradient(black, black) -2px -2px / 100% 100% no-repeat fill-box no-clip"/>
+<rect x="4" y="84" width="12" height="12" fill="lime" style="mask: url(#w) 4px 4px / 2px 2px no-repeat content-box"/>
+<rect x="0" y="104" width="16" height="12" fill="lime" mask="url(#u)"/>
+<rect x="4" y="124" width="12" height="12" fill="lime" stroke="lime" stroke-width="4" mask="url(#ox)"/><rect x="24" y="124" width="12" height="12" fill="lime" stroke="lime" stroke-width="4" mask="url(#ow)"/>
+<rect x="4" y="144" width="12" height="12" fill="lime" mask="url(#ti)"/>
+<use href="#r" x="4" y="164" style="clip-path: inset(0 50% 0 0)"/><use href="#r" x="24" y="164" clip-path="url(#cu)"/>
+<g transform="translate(2 182)"><rect width="16" height="16" fill="lime" clip-path="url(#cu)"/></g>
+<rect x="4" y="204" width="6" height="6" fill="lime" stroke="lime" stroke-width="2" stroke-dasharray="1 3" stroke-dashoffset="1" stroke-opacity=".5" style="transform-box: stroke-box; transform: translate(50%)"/>
+<use href="#rs" x="2" y="222" style="transform-box: stroke-box; transform: translate(50%)"/>
+<image x="4" y="244" width="8" height="4" stroke="lime" stroke-width="10" preserveAspectRatio="none" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAYAAAB/qH1jAAAADklEQVR42mNg+I8G0QUABykP8Qyx+pcAAAAASUVORK5CYII=" style="transform-box: stroke-box; transform: translate(50%)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="64" y="4" width="12" height="12"/><rect x="84" y="4" width="12" height="12"/><rect x="104" y="4" width="12" height="12"/><rect x="4" y="24" width="12" height="12"/><rect x="6" y="26" width="8" height="8"/><rect x="4" y="44" width="12" height="12"/><rect x="44" y="44" width="12" height="12"/><rect x="64" y="44" width="12" height="12"/><rect x="4" y="64" width="4" height="4"/><rect x="26" y="66" width="2" height="2"/><rect x="44" y="64" width="8" height="8"/><rect x="4" y="84" width="12" height="12"/><rect x="4" y="104" width="8" height="12"/><rect x="2.8" y="124" width="14.4" height="14"/><rect x="24" y="122.8" width="14" height="14.4"/><rect x="4" y="144" width="12" height="12"/><rect x="4" y="164" width="6" height="12"/><rect x="26" y="166" width="6" height="10"/><rect x="4" y="184" width="6" height="12"/><rect x="4" y="204" width="6" height="6" transform="translate(4 0)"/><rect x="2" y="222" width="6" height="6" transform="translate(5 1)"/><rect x="4" y="244" width="8" height="4" transform="translate(4 0)"/></g>
+</svg>

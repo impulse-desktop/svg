@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="122" height="211">
+<!-- Each lime drawing fills its black outline, and nothing red shows;
+each is a 16 by 12 rect masked by a mask border. A transparent border
+image hides its border area and leaves the middle, which is unmasked
+without fill and the image's with it; the width in px, a percentage of
+the area, a number times the border width, 0 for SVG, or auto, the
+slice's size, a gradient having none, so the border width again; the
+outset grows the area, its values copied as margin's; the repeat
+keywords, the second the first if none; the mode alpha unless luminance,
+mask-mode and mask-type aside; an image that does not load counts but
+masks nothing; a mask image masks too; the shorthand resets what it
+leaves out. -->
+<rect width="122" height="211" fill="white"/>
+<rect x="2" y="2" width="16" height="12" fill="lime" style="mask-border: none"/><rect x="22" y="2" width="16" height="12" fill="lime" style="mask-border-source: none; mask-border-width: 4px"/>
+<rect x="2" y="18" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 4px"/><rect x="22" y="18" width="16" height="12" fill="red" style="mask-border: linear-gradient(transparent, transparent) 30% fill / 4px"/>
+<rect x="2" y="34" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 2px"/><rect x="22" y="34" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 2px 4px"/>
+<rect x="2" y="50" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 25%"/>
+<rect x="2" y="66" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 2"/>
+<rect x="2" y="82" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30%"/><rect x="22" y="82" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / auto"/>
+<rect x="2" y="98" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 3px / 1px"/><rect x="22" y="98" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 3px / 1px 0"/><rect x="42" y="98" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 3px / 0 0 1px"/>
+<rect x="2" y="114" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 3px / -1px"/>
+<rect x="2" y="130" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 4px round"/><rect x="22" y="130" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 4px stretch space"/><rect x="42" y="130" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 4px repeat"/>
+<rect x="2" y="146" width="16" height="12" fill="lime" style="mask-border: linear-gradient(black, black) 30% / 4px"/><rect x="22" y="146" width="16" height="12" fill="lime" style="mask-border: linear-gradient(black, black) 30% / 4px luminance"/><rect x="42" y="146" width="16" height="12" fill="lime" style="mask-border: linear-gradient(black, black) 30% / 4px; mask-mode: luminance"/>
+<rect x="2" y="162" width="16" height="12" fill="lime" style="mask-border: url(data:image/png;base64,AAAA) 30% / 4px"/>
+<rect x="2" y="178" width="16" height="12" fill="lime" style="mask-border: linear-gradient(transparent, transparent) 30% / 4px; mask-image: linear-gradient(to right, black 50%, transparent 50%)"/>
+<rect x="2" y="194" width="16" height="12" fill="lime" style="mask-border-slice: 30%; mask-border-width: 4px; mask-border: linear-gradient(transparent, transparent)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="16" height="12"/><rect x="22" y="2" width="16" height="12"/><rect x="6" y="22" width="8" height="4"/><rect x="4" y="36" width="12" height="8"/><rect x="26" y="36" width="8" height="8"/><rect x="6" y="53" width="8" height="6"/><rect x="2" y="66" width="16" height="12"/><rect x="2" y="82" width="16" height="12"/><rect x="22" y="82" width="16" height="12"/><rect x="4" y="100" width="12" height="8"/><rect x="25" y="100" width="10" height="8"/><rect x="45" y="101" width="10" height="7"/><rect x="2" y="114" width="16" height="12"/><rect x="6" y="134" width="8" height="4"/><rect x="26" y="134" width="8" height="4"/><rect x="46" y="134" width="8" height="4"/><rect x="2" y="146" width="16" height="12"/><rect x="26" y="150" width="8" height="4"/><rect x="42" y="146" width="16" height="12"/><rect x="2" y="162" width="16" height="12"/><rect x="6" y="182" width="4" height="4"/><rect x="2" y="194" width="16" height="12"/></g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96">
+<!-- What tst/unit/stroke-bounding-box.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="96" height="96" fill="white"/>
+<g id="miter" data-box="0 0 24 24"><rect x="2" y="4" width="20" height="16" fill="lime"/></g>
+<g id="round" data-box="24 0 24 24"><rect x="29" y="7" width="14" height="10" fill="lime"/></g>
+<g id="square-cap" data-box="48 0 48 24"><rect x="52.5858" y="6.5858" width="14.8284" height="10.8284" fill="lime"/><rect x="76.5858" y="6.5858" width="14.8284" height="10.8284" fill="lime"/></g>
+<g id="miter-limit" data-box="0 24 24 24"><rect x="4.8" y="30.8" width="14.4" height="10.4" fill="lime"/></g>
+<g id="bevel" data-box="24 24 24 24"><rect x="29" y="31" width="14" height="10" fill="lime"/></g>
+<g id="miter-clip" data-box="48 24 24 24"><rect x="50" y="28" width="20" height="16" fill="lime"/></g>
+<g id="no-stroke" data-box="72 24 24 24"><rect x="78" y="32" width="12" height="8" fill="lime"/></g>
+<g id="zero-width" data-box="0 48 24 24"><rect x="6" y="56" width="12" height="8" fill="lime"/></g>
+<g id="limit-below-one" data-box="24 48 24 24"><rect x="29" y="55" width="14" height="10" fill="lime"/></g>
+<g id="rect-cap" data-box="48 48 24 24"><rect x="54" y="56" width="12" height="8" fill="lime"/></g>
+<g id="group" data-box="72 48 24 24"><rect x="74.3431" y="50" width="16.6569" height="20" fill="lime"/></g>
+<g id="half-border" data-box="0 72 24 24"><rect x="4" y="78" width="16" height="12" fill="lime"/></g>
+<g id="mask-origin" data-box="24 72 24 24"><rect x="26" y="76" width="10" height="8" fill="lime"/></g>
+<g id="transform-box" data-box="48 72 24 24"><path d="M52 82 55 78 58 82" fill="none" stroke="lime"/></g>
+<g id="shapes-cap" data-box="72 72 24 24"><rect x="73" y="79" width="10" height="10" fill="lime"/><rect x="86" y="78" width="8" height="12" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="4" width="20" height="16"/><rect x="29" y="7" width="14" height="10"/><rect x="52.5858" y="6.5858" width="14.8284" height="10.8284"/><rect x="76.5858" y="6.5858" width="14.8284" height="10.8284"/>
+<rect x="4.8" y="30.8" width="14.4" height="10.4"/><rect x="29" y="31" width="14" height="10"/><rect x="50" y="28" width="20" height="16"/><rect x="78" y="32" width="12" height="8"/>
+<rect x="6" y="56" width="12" height="8"/><rect x="29" y="55" width="14" height="10"/><rect x="54" y="56" width="12" height="8"/><rect x="74.3431" y="50" width="16.6569" height="20"/>
+<rect x="4" y="78" width="16" height="12"/><rect x="26" y="76" width="10" height="8"/><path d="M52 82 55 78 58 82"/>
+<rect x="73" y="79" width="10" height="10"/><rect x="86" y="78" width="8" height="12"/>
+</g>
+</svg>

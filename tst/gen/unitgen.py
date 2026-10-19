@@ -153,3 +153,26 @@ def png(rows):
     data = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", len(rows[0]), len(rows), 8, 6, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b"")
 
     return "data:image/png;base64," + base64.b64encode(data).decode()
+
+
+def expect(name, cells, tolerance=None):
+    """Writes the expected drawing of a handwritten unit, tst/unit/NAME.svg,
+    which stays as it is: its root, its ground and its outlines as the unit
+    has them, and each cell, (id, (x, y, width, height), plain markup[,
+    tolerance]), drawn plainly."""
+    text = open(os.path.join(ROOT, "tst", "unit", name + ".svg")).read()
+    root = re.match(r"<svg\b[^>]*>", text).group(0)
+    ground = re.search(r'<rect width="[^"]*" height="[^"]*" fill="white"/>', text)
+    outlines = re.findall(r'<g fill="none" stroke="black" stroke-width="\.25">.*?</g>|<(?:rect|path|circle|ellipse)\b[^>]*fill="none" stroke="black" stroke-width="\.25"[^>]*/>', text, re.S)
+    lines = [root[:-1] + (f' data-tolerance="{tolerance}"' if tolerance is not None else "") + ">", comment(f"What tst/unit/{name}.svg draws, drawn plainly; each cell's id is what the statement ledgers link to.")]
+    lines += [ground.group(0)] if ground else []
+
+    for cell in cells:
+        cid, (x, y, w, h), plain = cell[:3]
+        own = f' data-tolerance="{cell[3]}"' if len(cell) > 3 else ""
+        lines.append(f'<g id="{cid}" data-box="{x} {y} {w} {h}"{own}>{plain}</g>')
+
+    lines += outlines
+
+    with open(os.path.join(ROOT, "tst", "expect", name + ".svg"), "w") as handle:
+        handle.write("\n".join(lines) + "\n</svg>\n")
