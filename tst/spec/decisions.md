@@ -375,3 +375,14 @@ presentation attribute, and so does the renderer: presentation attributes
 are of the author presentational hint origin, below every author rule,
 layered or not, and above the user agent's. revert rolls them back with the
 author origin; revert-layer reaches them after the earliest layer.
+
+## D35. A color() of an unknown space is no color, as its grammar has it
+
+`css-color-4.md#color-function` says a color() whose space name matches none
+of the predefined ones is an invalid color, whose used value is opaque
+black, and shows it with a misspelt profoto-rgb. Its grammar, though, takes
+only the predefined names, <predefined-rgb> and <xyz-space>, so such a
+color() does not parse, and a declaration of it is invalid and ignored. The
+spec says both; the browsers drop the declaration, and so does the
+renderer: the property keeps what it had, an inherited or initial value or
+a presentation attribute under it.

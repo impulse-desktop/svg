@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="74" height="43">
+<!-- Each drawing fills its black outline as the plain drawing beside it
+in the expected drawing: lime at the opacity it should have. opacity
+takes a number or a percentage, clamped into 0 to 1; it applies to an
+element and its content as one, so overlapping children are no darker
+where they overlap, and an opaque child hides what is under it in the
+group; it is not inherited. -->
+<rect width="74" height="43" fill="white"/>
+<g opacity=".5"><rect x="2" y="2" width="6" height="6" fill="lime"/><rect x="5" y="2" width="6" height="6" fill="lime"/></g>
+<g opacity=".5"><rect x="2" y="10" width="9" height="6" fill="red"/><rect x="2" y="10" width="9" height="6" fill="lime"/></g>
+<rect x="2" y="18" width="9" height="6" fill="lime" opacity="50%"/><rect x="14" y="18" width="9" height="6" fill="lime" style="opacity: 25%"/><rect x="26" y="18" width="9" height="6" fill="lime" opacity=".75"/>
+<rect x="2" y="26" width="9" height="6" fill="lime" opacity="1.5"/><rect x="14" y="26" width="9" height="6" fill="red" opacity="-1"/><rect x="26" y="26" width="9" height="6" fill="lime" style="opacity: 300%"/>
+<g opacity=".5"><rect x="2" y="34" width="9" height="6" fill="lime"/></g><g style="opacity: .5"><rect x="14" y="34" width="9" height="6" fill="lime" style="opacity: inherit"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="9" height="6"/><rect x="2" y="10" width="9" height="6"/><rect x="2" y="18" width="9" height="6"/><rect x="14" y="18" width="9" height="6"/><rect x="26" y="18" width="9" height="6"/><rect x="2" y="26" width="9" height="6"/><rect x="14" y="26" width="9" height="6"/><rect x="26" y="26" width="9" height="6"/><rect x="2" y="34" width="9" height="6"/><rect x="14" y="34" width="9" height="6"/></g>
+</svg>

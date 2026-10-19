@@ -8621,6 +8621,18 @@ namespace {
         memcpy(rgb, clipped, sizeof(clipped));
     }
 
+    // A hue in degrees, in [0, 360): one an infinity was clamped to at the
+    // top of its calculation is 0 (css-color-4.md, hue-syntax).
+    static double hueDegrees(double h) {
+        if (!(fabs(h) < 3.0e38)) {
+            return 0.0;
+        }
+
+        h = fmod(h, 360.0);
+
+        return h < 0.0 ? h + 360.0 : h;
+    }
+
     // A colour function of CSS Color 4: rgb() and hsl() in their legacy and
     // modern forms, hwb(), lab(), lch(), oklab(), oklch() and color() of the
     // predefined spaces, a missing component zero, then mapped into sRGB.
@@ -8809,11 +8821,9 @@ namespace {
                 c[k] = v < 0.0 ? 0.0 : (v > 1.0 ? 1.0 : v);
             }
         } else if (hsl || kind == 4) {
-            double h = fmod(component(0, 1.0), 360.0);
+            double h = hueDegrees(component(0, 1.0));
             double second = component(1, 100.0) / 100.0;
             double third = component(2, 100.0) / 100.0;
-
-            h += h < 0.0 ? 360.0 : 0.0;
 
             // hwb's whiteness and blackness over a pure hue; hsl's.
             double saturation = hsl ? (second < 0.0 ? 0.0 : second) : 1.0;
@@ -8848,7 +8858,7 @@ namespace {
                 c[2] = component(2, ok ? 0.4 : 125.0);
             } else {
                 double chroma = component(1, ok ? 0.4 : 150.0);
-                double h = component(2, 1.0) * pi / 180.0;
+                double h = hueDegrees(component(2, 1.0)) * pi / 180.0;
 
                 chroma = chroma < 0.0 ? 0.0 : chroma;
                 c[1] = chroma * cos(h);

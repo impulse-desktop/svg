@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="74" height="43">
+<!-- What tst/unit/opacity-values.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="74" height="43" fill="white"/>
+<g id="group" data-box="1 1 72 8"><rect x="2" y="2" width="9" height="6" fill="lime" fill-opacity="0.5"/></g>
+<g id="occlude" data-box="1 9 72 8"><rect x="2" y="10" width="9" height="6" fill="lime" fill-opacity="0.5"/></g>
+<g id="values" data-box="1 17 72 8"><rect x="2" y="18" width="9" height="6" fill="lime" fill-opacity="0.5"/><rect x="14" y="18" width="9" height="6" fill="lime" fill-opacity="0.25"/><rect x="26" y="18" width="9" height="6" fill="lime" fill-opacity="0.75"/></g>
+<g id="clamp" data-box="1 25 72 8"><rect x="2" y="26" width="9" height="6" fill="lime" fill-opacity="1"/><rect x="26" y="26" width="9" height="6" fill="lime" fill-opacity="1"/></g>
+<g id="not-inherited" data-box="1 33 72 8"><rect x="2" y="34" width="9" height="6" fill="lime" fill-opacity="0.5"/><rect x="14" y="34" width="9" height="6" fill="lime" fill-opacity="0.25"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="9" height="6"/><rect x="2" y="10" width="9" height="6"/><rect x="2" y="18" width="9" height="6"/><rect x="14" y="18" width="9" height="6"/><rect x="26" y="18" width="9" height="6"/><rect x="2" y="26" width="9" height="6"/><rect x="14" y="26" width="9" height="6"/><rect x="26" y="26" width="9" height="6"/><rect x="2" y="34" width="9" height="6"/><rect x="14" y="34" width="9" height="6"/></g>
+</svg>
