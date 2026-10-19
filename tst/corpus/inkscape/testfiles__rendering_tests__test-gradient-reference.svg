@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="900"
+   height="200"
+   xmlns="http://www.w3.org/2000/svg">
+  <defs>
+
+    <linearGradient id="lg1" x1="0" x2="50" y1="0" y2="25%" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="red"/>
+      <stop offset="1.0" stop-color="blue"/>
+    </linearGradient>
+
+    <linearGradient id="lg2" href="#lg1"/>
+    <linearGradient id="lg3" href="#lg1" x1="-25.0" x2="25" gradientTransform="translate(25,0)"/>
+    <linearGradient id="lg4" href="#lg3"/>
+    <linearGradient id="lg5" href="#lg1" y1="0" y2="25%"/>
+
+    <radialGradient id="rg1" cx="25" cy="12.5%" r="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="red"/>
+      <stop offset="1.0" stop-color="blue"/>
+    </radialGradient>
+
+    <radialGradient id="rg2" href="#rg1"/>
+    <radialGradient id="rg3" href="#rg1" cx="0.0" gradientTransform="translate(25,0)"/>
+    <radialGradient id="rg4" href="#rg3"/>
+    <radialGradient id="rg5" href="#rg1" fx="40" fy="40"/>
+    <radialGradient id="rg6" href="#rg5"/>
+
+    <radialGradient id="rg7" cx="25" cy="25" fx="40" fy="20%" r="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0.0" stop-color="red"/>
+      <stop offset="1.0" stop-color="blue"/>
+    </radialGradient>
+    <radialGradient id="rg8" href="#rg7"/>
+
+  </defs>
+
+  <!-- Linear Gradients -->
+  <g transform="translate(25,25)">
+    <rect width="50" height="50" style="fill:url(#lg1)"/>
+  </g>
+
+  <g transform="translate(125,25)">
+    <rect width="50" height="50" style="fill:url(#lg2)"/>
+  </g>
+
+  <g transform="translate(225,25)">
+    <rect width="50" height="50" style="fill:url(#lg3)"/>
+  </g>
+
+  <g transform="translate(325,25)">
+    <rect width="50" height="50" style="fill:url(#lg4)"/>
+  </g>
+
+  <g transform="translate(425,25)">
+    <rect width="50" height="50" style="fill:url(#lg5)"/>
+  </g>
+
+  <!-- Radial Gradients -->
+  <g transform="translate(25,125)">
+    <rect width="50" height="50" style="fill:url(#rg1)"/>
+  </g>
+
+  <g transform="translate(125,125)">
+    <rect width="50" height="50" style="fill:url(#rg2)"/>
+  </g>
+
+  <g transform="translate(225,125)">
+    <rect width="50" height="50" style="fill:url(#rg3)"/>
+  </g>
+
+  <g transform="translate(325,125)">
+    <rect width="50" height="50" style="fill:url(#rg4)"/>
+  </g>
+
+  <g transform="translate(425,125)">
+    <rect width="50" height="50" style="fill:url(#rg5)"/>
+  </g>
+
+  <g transform="translate(525,125)">
+    <rect width="50" height="50" style="fill:url(#rg6)"/>
+  </g>
+
+  <g transform="translate(625,125)">
+    <rect width="50" height="50" style="fill:url(#rg7)"/>
+  </g>
+
+  <g transform="translate(725,125)">
+    <rect width="50" height="50" style="fill:url(#rg8)"/>
+  </g>
+
+  <g transform="translate(825,125)">
+    <rect width="50" height="50" style="fill:url(#rg9)"/>
+  </g>
+
+</svg>

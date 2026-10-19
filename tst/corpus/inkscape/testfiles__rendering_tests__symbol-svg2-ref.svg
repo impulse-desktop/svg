@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   viewBox="0 0 50 65">
+
+<defs>
+  <symbol id="mySymNoViewBoxTopLeft">
+    <rect width="10" height="10" style="fill:#00f" />
+  </symbol>
+  <symbol id="mySymNoViewBoxXYCenter" x="-5" y="-5">
+    <rect width="10" height="10" style="fill:#66f" />
+  </symbol>
+  <symbol id="mySymTopLeft" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#ccf" />
+  </symbol>
+  <symbol id="mySymXYCenter" x="-5" y="-5" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#f00" />
+  </symbol>
+  <symbol id="mySymXYTopRight" x="-10" y="0" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#f66" />
+  </symbol>
+  <symbol id="mySymXYBottomLeft" x="0" y="-10" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#fcc" />
+  </symbol>
+  <symbol id="mySymRefXRefYAbsoluteCenter" refX="2" refY="2" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#0f0" />
+  </symbol>
+  <symbol id="mySymRefXRefYPercentTopRight" refX="100%" refY="0%" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#0c0" />
+  </symbol>
+  <symbol id="mySymRefXRefYPercentBottomLeft" refX="0%" refY="100%" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#060" />
+  </symbol>
+  <symbol id="mySymRefXRefYNamedCenter" refX="center" refY="center" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#fc0" />
+  </symbol>
+  <symbol id="mySymRefXRefYNamedTopRight" refX="right" refY="top" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#c90" />
+  </symbol>
+  <symbol id="mySymRefXRefYNamedBottomLeft" refX="left" refY="bottom" width="10" height="10" viewBox="0 0 4 4">
+    <rect width="4" height="4" style="fill:#960" />
+  </symbol>
+</defs>
+
+<use xlink:href="#mySymNoViewBoxXYCenter" x="10" y="10" />
+<use xlink:href="#mySymNoViewBoxTopLeft" x="20" y="5" />
+<use xlink:href="#mySymTopLeft" x="35" y="5" />
+
+<use xlink:href="#mySymXYCenter" x="10" y="25" />
+<use xlink:href="#mySymXYTopRight" x="30" y="20" />
+<use xlink:href="#mySymXYBottomLeft" x="35" y="30" />
+
+<use xlink:href="#mySymRefXRefYAbsoluteCenter" x="10" y="40" />
+<use xlink:href="#mySymRefXRefYPercentTopRight" x="30" y="35" />
+<use xlink:href="#mySymRefXRefYPercentBottomLeft" x="35" y="45" />
+
+<use xlink:href="#mySymRefXRefYNamedCenter" x="10" y="55" />
+<use xlink:href="#mySymRefXRefYNamedTopRight" x="30" y="50" />
+<use xlink:href="#mySymRefXRefYNamedBottomLeft" x="35" y="60" />
+
+</svg>
