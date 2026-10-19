@@ -1,17 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="74" height="18">
+<svg xmlns="http://www.w3.org/2000/svg" width="74" height="34">
 <!-- Each lime drawing fills its black outline. path() takes a string of
 path data good to its end and drawing something: an empty string, one of
 no path data, or one with an error after good commands makes the whole
 path() invalid, for clip-path, which then clips nothing, and for d,
-whose attribute then stays; a good one is closed for clip-path and
-takes its fill rule. -->
-<rect width="74" height="18" fill="white"/>
+whose attribute then stays; a good one is closed for clip-path and takes
+its fill rule, nonzero unless it names one; in d, a path() without one
+takes the fill-rule property. -->
+<rect width="74" height="34" fill="white"/>
 <rect x="2" y="2" width="12" height="12" fill="lime" style="clip-path: path('')"/>
 <rect x="16" y="2" width="12" height="12" fill="lime" style="clip-path: path('X')"/>
 <rect x="30" y="2" width="12" height="12" fill="lime" style="clip-path: path('M0 0 h12 v12 X')"/>
 <rect x="44" y="2" width="12" height="12" fill="lime" style="clip-path: path('M0 0 h12 v12')"/>
 <rect x="58" y="2" width="12" height="12" fill="lime" style="clip-path: path(evenodd, 'M0 0h12v12h-12z M3 3h6v6h-6z')"/>
-<path d="M2 15h12v2h-12z" fill="lime" style="d: path('M2 15 h70 v2 h-70 z X')"/>
-<path d="M16 15h12v2h-12z" fill="lime" style="d: path('')"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="16" y="2" width="12" height="12"/><rect x="30" y="2" width="12" height="12"/><path d="M44 2h12v12z"/><path d="M58 2h12v12h-12z M61 5h6v6h-6z"/><rect x="2" y="15" width="12" height="2"/><rect x="16" y="15" width="12" height="2"/></g>
+<rect x="2" y="20" width="12" height="12" fill="lime" style="clip-path: path('M0 0h12v12h-12z M3 3h6v6h-6z')"/>
+<path d="M2 15h12v2h-12z" fill="lime" style="d: path('M2 15 h70 v2 h-70 z X')"/><path d="M16 15h12v2h-12z" fill="lime" style="d: path('')"/>
+<path d="M0 0" fill="lime" fill-rule="evenodd" style="d: path('M16 20h12v12h-12z M19 23h6v6h-6z')"/>
+<g fill="none" stroke="black" stroke-width=".25"><g transform="translate(2 2)"><rect width="12" height="12"/></g><g transform="translate(16 2)"><rect width="12" height="12"/></g><g transform="translate(30 2)"><rect width="12" height="12"/></g><g transform="translate(44 2)"><path d="M0 0h12v12z"/></g><g transform="translate(58 2)"><path fill-rule="evenodd" d="M0 0h12v12h-12z M3 3h6v6h-6z"/></g><g transform="translate(2 20)"><rect width="12" height="12"/></g><rect x="2" y="15" width="12" height="2"/><rect x="16" y="15" width="12" height="2"/><path d="M16 20h12v12h-12z M19 23h6v6h-6z"/></g>
 </svg>

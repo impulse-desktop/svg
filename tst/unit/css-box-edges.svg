@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="36">
+<!-- Each lime drawing fills its black outline, and nothing red shows.
+The box edges of a rect 8 by 8 with a stroke 4 wide: content-box and
+padding-box are its fill box, border-box and margin-box its stroke box,
+as fill-box and stroke-box are, here clipping with inset(0); view-box is
+the nearest viewport's size at the origin of its coordinates, so a rect
+in a 10 by 10 svg is clipped to it. transform-box takes no margin-box,
+so a translate of -50% after it stays of the fill box. -->
+<rect width="92" height="36" fill="white"/>
+<rect x="4" y="4" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="clip-path: inset(0) content-box"/><rect x="18" y="4" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="clip-path: inset(0) padding-box"/>
+<rect x="32" y="4" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="clip-path: inset(0) border-box"/><rect x="46" y="4" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="clip-path: inset(0) margin-box"/>
+<rect x="60" y="4" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="clip-path: inset(0) fill-box"/><rect x="74" y="4" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="clip-path: inset(0) stroke-box"/>
+<svg x="4" y="22" width="10" height="10" overflow="visible"><rect x="2" y="2" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="clip-path: inset(0) view-box"/></svg>
+<rect x="28" y="24" width="8" height="8" fill="lime" stroke="lime" stroke-width="4" style="transform-box: fill-box; transform-box: margin-box; transform: translate(-50%)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="4" width="8" height="8"/><rect x="18" y="4" width="8" height="8"/><rect x="30" y="2" width="12" height="12"/><rect x="44" y="2" width="12" height="12"/><rect x="60" y="4" width="8" height="8"/><rect x="72" y="2" width="12" height="12"/><rect x="4" y="22" width="10" height="10"/><rect x="22" y="22" width="12" height="12"/></g>
+</svg>

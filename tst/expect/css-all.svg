@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="34">
+<!-- What tst/unit/css-all.svg draws, drawn plainly; each cell's id is
+what the statement ledgers link to. -->
+<rect width="66" height="34" fill="white"/>
+<g id="all-initial" data-box="1 1 64 8"><rect x="2" y="2" width="6" height="6" fill="lime"/><rect x="10" y="2" width="6" height="6" fill="lime"/><rect x="18" y="2" width="6" height="6" fill="lime"/></g>
+<g id="all-inherit" data-box="1 9 64 8"><rect x="2" y="10" width="6" height="6" fill="lime"/></g>
+<g id="all-unset" data-box="1 17 64 8"><rect x="2" y="18" width="6" height="6" fill="lime"/></g>
+<g id="all-keywords-only" data-box="1 25 64 8"><rect x="2" y="26" width="6" height="6" fill="lime"/><rect x="10" y="26" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/></g>
+</svg>

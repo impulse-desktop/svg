@@ -1474,6 +1474,9 @@ namespace {
         bool floor = false;
         u32 size = 0;
         const u8* calc = nullptr;
+        // A position's offset from the far side of its reference, right or
+        // bottom (css-values-4 <position>).
+        bool far = false;
     };
 
     enum class Axis : u8 {
@@ -8332,11 +8335,15 @@ namespace {
     // A length in user units, a percentage in it, or in its math function,
     // a share of reference.
     static float resolveAgainst(Length length, float reference, Viewport vp, float fontSize) {
+        float value;
+
         if (length.unit == Unit::Percent) {
-            return length.value * reference / 100.f;
+            value = length.value * reference / 100.f;
+        } else {
+            value = length.unit == Unit::CalcPercent ? mathLength(length, reference, vp, fontSize) : resolveLength(length, Axis::Other, vp, fontSize);
         }
 
-        return length.unit == Unit::CalcPercent ? mathLength(length, reference, vp, fontSize) : resolveLength(length, Axis::Other, vp, fontSize);
+        return length.far ? reference - value : value;
     }
 
     // Whether a length has a percentage, alone or in its math function.
@@ -12121,7 +12128,7 @@ namespace {
 
     static bool parsePosition(StringView text, Length& x, Length& y) {
         const u8* p = text.begin();
-        StringView words[2];
+        StringView words[4];
         u32 count = 0;
 
         x = Length{50.f, Unit::Percent};
@@ -12134,11 +12141,32 @@ namespace {
                 break;
             }
 
-            if (count == 2) {
+            if (count == 4) {
                 return false;
             }
 
             words[count++] = word;
+        }
+
+        // Four: a side of each axis, each with its offset from that side;
+        // css-values-4's <position> has no three.
+        if (count > 2) {
+            bool set[2] = {false, false};
+
+            for (u32 i = 0; count == 4 && i < 4; i += 2) {
+                bool horizontal = equalsIgnoreCase(words[i], SV("left")) || equalsIgnoreCase(words[i], SV("right"));
+                bool vertical = equalsIgnoreCase(words[i], SV("top")) || equalsIgnoreCase(words[i], SV("bottom"));
+                Length& out = horizontal ? x : y;
+
+                if ((!horizontal && !vertical) || set[vertical] || !parseLength(words[i + 1], out)) {
+                    return false;
+                }
+
+                out.far = equalsIgnoreCase(words[i], SV("right")) || equalsIgnoreCase(words[i], SV("bottom"));
+                set[vertical] = true;
+            }
+
+            return count == 4;
         }
 
         bool xSet = false;

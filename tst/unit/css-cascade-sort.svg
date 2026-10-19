@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="106">
+<!-- Each lime square fills its black outline, and nothing red shows. A
+shorthand, mask here, sets every longhand, one it leaves out to its
+initial value, and mask-border, which it cannot set, too; a CSS-wide
+keyword sets them all and takes no other component; an important
+shorthand makes every longhand important. A property no declaration sets
+inherits or takes its initial value; one that does not apply to an
+element, fill on a group, still inherits from it; a url computes to its
+resource. Declarations sort by importance, then the style attribute
+above the sheets, then layer, specificity and order, each step settling
+only what the steps before left tied; author rules beat the user
+agent's, and a presentation attribute is below every author rule (D34).
+-->
+<rect width="66" height="106" fill="white"/>
+<style><![CDATA[
+.c0 > .t { mask: linear-gradient(black, black) 6px 0 / 6px 6px no-repeat }
+.c1 > .t { mask: linear-gradient(transparent, transparent) }
+.c2 > .t { mask-image: linear-gradient(black, black); mask-position: 6px 0; mask-repeat: no-repeat; mask-size: 1px 1px } .c2 > .t { mask: linear-gradient(black, black) }
+.c3 > .t { mask-border: linear-gradient(transparent, transparent) 0 fill / 0 } .c3 > .t { mask: none }
+.c4 > .t { mask: linear-gradient(transparent, transparent) } .c4 > .t { mask: initial }
+.c5 > .t { mask-border: linear-gradient(transparent, transparent) 0 fill / 0 } .c5 > .t { mask: initial }
+.c6 > .t { mask: initial linear-gradient(transparent, transparent) }
+.c7 > .t { mask: none !important } .c7 > .t.t { mask-image: linear-gradient(transparent, transparent) }
+.c9 { fill: lime }
+.c10 > g { fill: lime }
+.c12 > .t { fill: lime !important } .c12 > rect.t.t.t { fill: red }
+.c13 > .t { fill: lime !important }
+.c14 > rect.t.t.t { fill: red }
+@layer s1 { .c15 > .t { fill: red } }
+.c16 > .t { fill: red !important }
+@layer s2, s3; @layer s3 { .c17 > .t { fill: lime } } @layer s2 { .c17 > rect.t.t { fill: red } }
+.c18 > svg { overflow: visible }
+.c19 > .t { fill: lime }
+@layer p1 { .c20 > .t { fill: lime } }
+.c21 > * { fill: lime }
+]]></style>
+<g class="c0" transform="translate(2 2)"><rect width="6" height="6" fill="lime"/><rect class="t" width="6" height="6" fill="red"/></g><g class="c1" transform="translate(10 2)"><rect width="6" height="6" fill="lime"/><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c2" transform="translate(2 10)"><rect width="6" height="6" fill="red"/><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c3" transform="translate(2 18)"><rect width="6" height="6" fill="red"/><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c4" transform="translate(2 26)"><rect width="6" height="6" fill="red"/><rect class="t" width="6" height="6" fill="lime"/></g><g class="c5" transform="translate(10 26)"><rect width="6" height="6" fill="red"/><rect class="t" width="6" height="6" fill="lime"/></g><g class="c6" transform="translate(18 26)"><rect width="6" height="6" fill="red"/><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c7" transform="translate(2 34)"><rect width="6" height="6" fill="red"/><rect class="t" width="6" height="6" fill="lime"/></g>
+<g class="c8" transform="translate(2 42)"><g fill="lime"><rect class="t" width="6" height="6"/></g></g><g class="c9" transform="translate(10 42)"><g><rect class="t" width="6" height="6"/></g></g>
+<g class="c10" transform="translate(2 50)"><g><rect class="t" width="6" height="6"/></g></g>
+<g class="c11" transform="translate(2 58)"><linearGradient id="gu"><stop stop-color="lime"/></linearGradient><g fill="url(#gu)"><rect class="t" width="6" height="6"/></g></g>
+<g class="c12" transform="translate(2 66)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c13" transform="translate(10 66)"><rect class="t" width="6" height="6" style="fill: red"/></g>
+<g class="c14" transform="translate(2 74)"><rect class="t" width="6" height="6" style="fill: lime"/></g><g class="c15" transform="translate(10 74)"><rect class="t" width="6" height="6" style="fill: lime"/></g><g class="c16" transform="translate(18 74)"><rect class="t" width="6" height="6" style="fill: lime !important"/></g>
+<g class="c17" transform="translate(2 82)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c18" transform="translate(2 90)"><rect width="6" height="6" fill="red"/><svg width="2" height="6"><rect width="6" height="6" fill="lime"/></svg></g>
+<g class="c19" transform="translate(2 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c20" transform="translate(10 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c21" transform="translate(18 98)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="10" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="10" y="74" width="6" height="6"/><rect x="18" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="18" y="98" width="6" height="6"/></g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="74" height="34">
+<!-- What tst/unit/clip-path-path-validity.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="74" height="34" fill="white"/>
+<g id="empty" data-box="1 1 14 14"><g fill="lime" transform="translate(2 2)"><rect width="12" height="12"/></g></g>
+<g id="no-data" data-box="15 1 14 14"><g fill="lime" transform="translate(16 2)"><rect width="12" height="12"/></g></g>
+<g id="error" data-box="29 1 14 14"><g fill="lime" transform="translate(30 2)"><rect width="12" height="12"/></g></g>
+<g id="closed" data-box="43 1 14 14"><g fill="lime" transform="translate(44 2)"><path d="M0 0h12v12z"/></g></g>
+<g id="fill-rule" data-box="57 1 14 14"><g fill="lime" transform="translate(58 2)"><path fill-rule="evenodd" d="M0 0h12v12h-12z M3 3h6v6h-6z"/></g></g>
+<g id="nonzero" data-box="1 19 14 14"><g fill="lime" transform="translate(2 20)"><rect width="12" height="12"/></g></g>
+<g id="d-invalid" data-box="1 14 30 4"><rect x="2" y="15" width="12" height="2" fill="lime"/><rect x="16" y="15" width="12" height="2" fill="lime"/></g>
+<g id="d-fill-rule" data-box="15 19 14 14"><path fill="lime" fill-rule="evenodd" d="M16 20h12v12h-12z M19 23h6v6h-6z"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><g transform="translate(2 2)"><rect width="12" height="12"/></g><g transform="translate(16 2)"><rect width="12" height="12"/></g><g transform="translate(30 2)"><rect width="12" height="12"/></g><g transform="translate(44 2)"><path d="M0 0h12v12z"/></g><g transform="translate(58 2)"><path fill-rule="evenodd" d="M0 0h12v12h-12z M3 3h6v6h-6z"/></g><g transform="translate(2 20)"><rect width="12" height="12"/></g><rect x="2" y="15" width="12" height="2"/><rect x="16" y="15" width="12" height="2"/><path d="M16 20h12v12h-12z M19 23h6v6h-6z"/></g>
+</svg>

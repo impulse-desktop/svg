@@ -1,15 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="66" height="10">
-<!-- Each lime square fills its black outline, and nothing red shows. all sets every property, the geometry ones and the transforms too, to initial, inherit, unset or revert, the only values it takes, so a shape declared all initial draws nothing until its geometry is given again. -->
-<rect width="66" height="10" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="34">
+<!-- Each lime square fills its black outline, and nothing red shows.
+all sets every property, the geometry ones and the transforms too, to
+initial, inherit, unset or revert, the only values it takes, so a shape
+declared all initial draws nothing until its geometry is given again.
+-->
+<rect width="66" height="34" fill="white"/>
 <style><![CDATA[
-.c5 > .t { all: initial } .c5 > .t { width: 6px; height: 6px; fill: lime }
+.c1 > .t { all: initial } .c1 > .t { width: 6px; height: 6px; fill: lime }
 ]]></style>
-<g class="c0" transform="translate(2 2)"><rect class="t" fill="red" style="all: initial; width: 6px; height: 6px; fill: lime"/></g>
-<g class="c1" transform="translate(10 2)"><svg width="6" height="6" fill="lime"><rect fill="red" style="all: inherit"/></svg></g>
-<g class="c2" transform="translate(18 2)"><g fill="lime"><rect class="t" fill="red" opacity="0" style="all: unset; width: 6px; height: 6px"/></g></g>
-<g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="lime" style="all: red"/></g>
-<g class="c4" transform="translate(34 2)"><rect class="t" width="6" height="6" fill="lime" style="all: initial lime"/></g>
-<g class="c5" transform="translate(42 2)"><rect class="t" width="6" height="6" fill="red" stroke="red"/></g>
-<g class="c6" transform="translate(50 2)"><rect width="6" height="6" fill="lime"/><rect class="t" width="6" height="6" fill="red" style="all: initial"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/></g>
+<g class="c0" transform="translate(2 2)"><rect class="t" fill="red" style="all: initial; width: 6px; height: 6px; fill: lime"/></g><g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red" stroke="red"/></g><g class="c2" transform="translate(18 2)"><rect width="6" height="6" fill="lime"/><rect class="t" width="6" height="6" fill="red" style="all: initial"/></g>
+<g class="c3" transform="translate(2 10)"><svg width="6" height="6" fill="lime"><rect fill="red" style="all: inherit"/></svg></g>
+<g class="c4" transform="translate(2 18)"><g fill="lime"><rect class="t" fill="red" opacity="0" style="all: unset; width: 6px; height: 6px"/></g></g>
+<g class="c5" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="lime" style="all: red"/></g><g class="c6" transform="translate(10 26)"><rect class="t" width="6" height="6" fill="lime" style="all: initial lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/></g>
 </svg>
