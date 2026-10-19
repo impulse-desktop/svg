@@ -19124,6 +19124,20 @@ namespace {
         return -1;
     }
 
+    // A percent-encoded byte at p, %XY.
+    static bool percentByte(const u8* p, const u8* end, u8& byte) {
+        if (*p != '%' || end - p < 3 || hexDigit(p[1]) < 0 || hexDigit(p[2]) < 0) {
+            return false;
+        }
+
+        byte = (u8)(hexDigit(p[1]) * 16 + hexDigit(p[2]));
+
+        return true;
+    }
+
+    // A data: URL's body, percent-decoded and then, where its header ends
+    // in ;base64, read as base64 (the fetch standard's data: URL
+    // processor), its mime type the header's first part.
     static bool decodeDataUri(StringView href, StringView& mime, Buffer& out) {
         StringView text = trim(href);
 
@@ -19158,13 +19172,23 @@ namespace {
             int count = 0;
 
             for (; p < text.end(); p++) {
-                if (isSpace(*p) || *p == '=') {
+                u8 c = *p;
+
+                if (percentByte(p, text.end(), c)) {
+                    p += 2;
+                }
+
+                if (isSpace(c) || c == '=') {
                     continue;
                 }
 
-                int value = base64Value(*p);
+                int value = base64Value(c);
 
+                // A body that is no base64 is no image, whatever came
+                // before.
                 if (value < 0) {
+                    out.reset();
+
                     return false;
                 }
 
@@ -19184,9 +19208,9 @@ namespace {
         }
 
         while (p < text.end()) {
-            if (*p == '%' && text.end() - p >= 3 && hexDigit(p[1]) >= 0 && hexDigit(p[2]) >= 0) {
-                u8 byte = (u8)(hexDigit(p[1]) * 16 + hexDigit(p[2]));
+            u8 byte;
 
+            if (percentByte(p, text.end(), byte)) {
                 out.append(&byte, 1);
                 p += 3;
             } else {

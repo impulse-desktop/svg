@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="12">
+<!-- Each lime square fills its black outline; an empty outline holds
+nothing. A data: URL's body is percent-decoded first, then read as
+base64 where it says so (the fetch standard's data: URL processor, which
+Chromium and Firefox follow): a PNG whose base64 writes some of its
+letters and its padding as %XY draws, as an SVG written in %XY does. A %
+in base64 that is no %XY, at the end or before what is no hex digit, is
+no base64, and the image draws nothing. -->
+<rect width="58" height="12" fill="white"/>
+<image x="2" y="2" width="8" height="8" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgo%41%41%41%41NSUhEUg%41%41%41%41I%41%41%41%41CC%41Y%41%41%41Bytg0k%41%41%41%41DklEQVR42mNg+%41+FM%41Y%41Q84H+erKrJk%41%41%41%41%41SUVORK5CYII%3D"/>
+<image x="13" y="2" width="8" height="8" image-rendering="pixelated" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%222%22%20height%3D%222%22%3E%3Crect%20width%3D%222%22%20height%3D%222%22%20fill%3D%22lime%22%2F%3E%3C%2Fsvg%3E"/>
+<image x="24" y="2" width="8" height="8" image-rendering="pixelated" href="data:image/png;base64,iVBORw0K%ZZGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADklEQVR42mNg+A+FMAYAQ84H+erKrJkAAAAASUVORK5CYII="/>
+<image x="35" y="2" width="8" height="8" image-rendering="pixelated" href="data:image/png;base64,iVBORw0K%4ZGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADklEQVR42mNg+A+FMAYAQ84H+erKrJkAAAAASUVORK5CYII="/>
+<image x="46" y="2" width="8" height="8" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADklEQVR42mNg+A+FMAYAQ84H+erKrJkAAAAASUVORK5CYII=%4"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="8" height="8"/><rect x="13" y="2" width="8" height="8"/><rect x="24" y="2" width="8" height="8"/><rect x="35" y="2" width="8" height="8"/><rect x="46" y="2" width="8" height="8"/></g>
+</svg>

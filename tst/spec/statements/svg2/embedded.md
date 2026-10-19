@@ -10,7 +10,7 @@
 
 ## Image href and document reference: image-self, image-hrefs (exists)
 
-- [x] svg2/embedded.md#ImageElementHrefAttribute: href is a URL reference identifying the image to render, fetched as described in the Linking chapter. [image-placement#natural]
+- [x] svg2/embedded.md#ImageElementHrefAttribute: href is a URL reference identifying the image to render, fetched as described in the Linking chapter. [image-placement#natural image-data-urls#base64-percent image-data-urls#svg-percent image-data-urls#base64-percent-not-hex image-data-urls#base64-percent-half-hex image-data-urls#base64-percent-at-end]
 - [x] svg2/embedded.md#ImageElement: a target-only URL (a fragment with no path) is a reference to the same document, rendered again as an independent embedded image. [image-self#self-copy]
 - [x] svg2/embedded.md#ImageElement: unlike use, image cannot reference an element by id inside an SVG file; its reference is always to the whole document, optionally reduced by a view fragment. [image-fragments#view-element image-self#self-copy]
 
