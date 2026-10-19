@@ -15330,12 +15330,14 @@ namespace {
             float apart = hypotf(paint->cx - paint->fx, paint->cy - paint->fy);
 
             // A start circle over the whole end circle draws nothing; a focal
-            // circle touching the end circle from inside paints past it.
+            // circle touching the end circle from inside paints past it,
+            // touching within 1/4096 of the radius, as Chromium, Firefox and
+            // resvg take a focal point an editor rounded just outside.
             if (apart + paint->r <= paint->fr * (1.f + 1e-6f)) {
                 return nullptr;
             }
 
-            paint->beyond = paint->r > paint->fr && fabsf(apart - (paint->r - paint->fr)) <= 1e-6f * paint->r;
+            paint->beyond = paint->r > paint->fr && fabsf(apart - (paint->r - paint->fr)) <= paint->r / 4096.f;
         }
 
         for (u32 i = 0; i < paint->stopCount; i++) {
@@ -21729,7 +21731,10 @@ namespace {
         float b = pdx * cdx + pdy * cdy + paint.fr * dr;
         float c = pdx * pdx + pdy * pdy - paint.fr * paint.fr;
 
-        if (fabsf(a) < 1e-9f) {
+        // A focal circle that touches the end circle, within the tolerance
+        // paint.beyond took, is on it: its own geometry, a hair outside,
+        // would sweep its circles back over the whole end circle.
+        if (paint.beyond || fabsf(a) < 1e-9f) {
             if (b == 0.f) {
                 return false;
             }

@@ -71,4 +71,7 @@ expect("gradient-radial-focal", [
     ("weighted-average", (49, 40, 13, 5), '<rect x="49" y="40" width="13" height="5" fill="#808080"/>'),
     ("focal-on-circle-pad", (26, 45, 36, 10), picture(26, 45, 36, 10, lambda px, py: edgepad(radial(px, py, 40, 40, 8, 48, 40)))),
     ("tangent-centres", (2, 51, 20, 4), picture(2, 51, 20, 4, lambda px, py: edgepad(radial(px, py, 10.5, 53.5, 8, 18.5, 53.5)))),
+    # A focal point 0.001 outside, within 1/4096 of the radius, is on the
+    # end circle (D50).
+    ("focal-rounded", (26, 57, 36, 10), picture(26, 57, 36, 10, lambda px, py: edgepad(radial(px, py, 40, 62, 8, 48, 62)))),
 ])

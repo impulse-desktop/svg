@@ -596,3 +596,14 @@ where the curve is tighter than the half width, no sector filling it. An
 open subpath keeps the swept shape: the holes other renderers leave in a
 tight open curve are no author's drawing.
 
+## D50. A focal point within 1/4096 of the radius of the end circle is on it
+
+`svg2/pservers.md#RadialGradientNotes` draws a focal circle outside the end
+circle as a cone and gives a focal point on the end circle its own rule;
+it says nothing of how near is on. Illustrator writes focal points on the
+circle that its rounding leaves a hair outside (an OpenSky logo: 0.0004 out
+on a radius of 210): taken as outside, the cone's later circles sweep back
+over the whole end circle and paint it the last stop. Chromium, Firefox
+and resvg take a focal point within 1/4096 of the radius as on the circle
+(Skia's nearly-zero test) and draw the gradient; librsvg draws the last
+stop. The renderer takes the 1/4096 too.

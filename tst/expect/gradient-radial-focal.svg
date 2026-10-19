@@ -1,12 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="56">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="70">
 <!-- What tst/unit/gradient-radial-focal.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="64" height="56" fill="white"/>
+<rect width="64" height="70" fill="white"/>
 <defs>
 <radialGradient id="cone" gradientUnits="userSpaceOnUse" cx="20" cy="14" r="8" fx="40" fy="14"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
 <radialGradient id="over" gradientUnits="userSpaceOnUse" cx="12" cy="40" r="4" fx="12" fy="40" fr="6"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="red"/></radialGradient>
 <radialGradient id="edge" gradientUnits="userSpaceOnUse" cx="40" cy="40" r="8" fx="48" fy="40" spreadMethod="repeat"><stop offset="0" stop-color="black"/><stop offset="1" stop-color="white"/></radialGradient>
 <radialGradient id="edgepad" gradientUnits="userSpaceOnUse" cx="40" cy="40" r="8" fx="48" fy="40"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="rounded" gradientUnits="userSpaceOnUse" cx="40" cy="62" r="8" fx="48.001" fy="62"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
 <radialGradient id="edgec" gradientUnits="userSpaceOnUse" cx="10.5" cy="53.5" r="8" fx="18.5" fy="53.5"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
 </defs>
 <g id="cone" data-box="2 2 60 24"><image x="2" y="2" width="60" height="24" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAYCAYAAACmwZ5SAAAA/klEQVR42mP4f53hPymYYagDUj085D1OroeHrMcp9fCQ8zw1PTwkPE4LDw9qj9PSwyD86hjX/xHlYRB+eYT7/9m1kv9XT9T6PyI8/OMiy/+He/n/n1wp/X/9FI3/k6rN/w9rD4Pwa2DSvrpZ9P++BYr/l/fq/O+vtPhfmuz6f9h6+ONp9v93dgr9P7Zc9v+GqRr/ZzUZ/2/Jt/ufF+P5P8wj9L+lQfL/YeXhL+fY/t/fI/D/5Crp/1tmqP2f32bwv6vE+n9Jktv/+ICA/5520f+NtdP+y0oU/R/18GiSHi20Rqul0YbHaNNytPMw2j0cHQAYUUM8I2YQb6iP0gIALR1VYc/HQ2UAAAAASUVORK5CYII="/><path d="M -14.991 -10.000 L 40.000 14.000 L -14.991 38.000" fill="none" stroke="black" stroke-width=".3"/></g>
@@ -15,4 +16,5 @@ cell's id is what the statement ledgers link to. -->
 <g id="weighted-average" data-box="49 40 13 5"><rect x="49" y="40" width="13" height="5" fill="#808080"/></g>
 <g id="focal-on-circle-pad" data-box="26 45 36 10"><image x="26" y="45" width="36" height="10" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAKCAYAAADcpvzeAAAAn0lEQVR42mP4f53hPz78+wrT/3cnOP8/3Mf//+oW0f+nVkn/P7BI4f+O2Sr/N01T/79+isb/zdPV/h9aLP//5RHu/4TMI4QZiFH09yrj/09n2P8/P8zz/95ugf/Xt4r8v7hB/P/59RL/L20U/393t+D/HxeZKXYM0Q5Cdti386z/P55m///+FAfYkb8vM1HFIWQ5iB541EGjDhp1EK0xAOVB9sJM9yoyAAAAAElFTkSuQmCC"/></g>
 <g id="tangent-centres" data-box="2 51 20 4"><image x="2" y="51" width="20" height="4" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAAyUlEQVR42mP4f53h/+ezbP+fHOD7f2Wz2P+jy2T/b52p+n9Zj+7/6fUm/9uLbP5Xpjn/z4ry/h/jF/Q/wDniv6tV7H8HswQwG6QfGTOAiA+n2P8/2Mv//8IG8f8HF8n/3zhV/f/CDv3/E6vM/zfm2v8vSnD/nxTs/z/YLey/i2Xcf1Pd1P8aSjn/FaQLsBv4/hTH//t7BP6fXy/xf/9Chf/rp2j8n99m8L+/0uJ/Q47D/4I4j/8JgQFgF4FcZqCRATZMgLeC9i4EAOOLvCR8pa7CAAAAAElFTkSuQmCC"/></g>
+<g id="focal-rounded" data-box="26 57 36 10"><image x="26" y="57" width="36" height="10" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAKCAYAAADcpvzeAAABWElEQVR42mP4f53hPy789xrj//enOP4/3Mf///Imsf/Hlsv+3zlH+f/aSZr/F3fq/Z/ZaPx/UrX5//5Ki/9Tas3+r+zTBqvHZyYhzIBP8us51v/PDvH+v75V5P+JldL/d81V/r9motb/eW0GYIe0Fdr+r85w+l+c6Pa/IM7jf1my6/9ZTca0cRAodN6d5Px/f4/A//PrJf4fWKTwf+NU9f+LOvT/T64x+99aYPu/PMXlf1ak9/84/8D/Ie5h/wOcI/5H+QSD1VPdQT8vMf9/dZT7/60dwv9PrQKFjtL/1RO0/s9uNvrfU2b1vybT6X9ujCfYMSCHOFnE/zfTS/1voJEB5lPdQd8vsPx/fpjn//VtwOhaIfN/x2yV/yt6df7PaDD531Fs878i1eV/RoTP/wjvkP+etjH/LQ2S/2sqZ/+XFiv+L8BbMQIcNOiibNAl6kGX7QeqYAQABJqrpHXl0usAAAAASUVORK5CYII="/></g>
 </svg>

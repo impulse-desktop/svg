@@ -68,7 +68,7 @@
 
 - [x] svg2/pservers.md#RadialGradientNotes: if the start (focal) circle lies outside the end circle, the gradient is drawn as a cone touched by both circles, and areas outside the cone stay untouched (transparent black) [gradient-radial-focal#cone]
 - [x] svg2/pservers.md#RadialGradientNotes: if the start circle fully overlaps the end circle, no gradient is drawn and the area stays untouched (transparent black) [gradient-radial-focal#start-over-end]
-- [x] svg2/pservers.md#RadialGradientNotes: when the focal point lies exactly on the end circle's circumference, the area beyond that point on the gradient vector's extension is filled with the weighted average of the gradient's colors, not transparent black [gradient-radial-focal#focal-on-circle-repeat gradient-radial-focal#weighted-average gradient-radial-focal#focal-on-circle-pad gradient-radial-focal#tangent-centres]
+- [x] svg2/pservers.md#RadialGradientNotes: when the focal point lies exactly on the end circle's circumference, the area beyond that point on the gradient vector's extension is filled with the weighted average of the gradient's colors, not transparent black [gradient-radial-focal#focal-on-circle-repeat gradient-radial-focal#weighted-average gradient-radial-focal#focal-on-circle-pad gradient-radial-focal#tangent-centres gradient-radial-focal#focal-rounded]
 
 ## Gradient stop offsets: range, order, duplicates: gradient-stops
 
