@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" height='100' width='100'>
+<defs>
+<pattern id="plaid" height='10' width='10'>
+	<line x1='5' y1='0' x2='5' y2='10' stroke='green' stroke-width='2' stroke-opacity='.5' />
+</pattern>
+</defs>
+<rect height='100' width='100' fill='url(#plaid)'/>
+</svg>

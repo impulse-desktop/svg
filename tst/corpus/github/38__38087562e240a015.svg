@@ -1,0 +1,18 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="64" width="67.5">
+  <defs>
+    <ellipse id="ellipse-1" opacity="1" rx="33.75" ry="32" cx="33.75" cy="32"/>
+    <mask id="mask-2" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0">
+      <rect opacity="1" x="0" y="0" width="67.5" height="64" fill="black"/>
+      <use xlink:href="#ellipse-1" fill="white"/>
+    </mask>
+    <path id="path-3" opacity="1" fill-rule="evenodd" d="M25.499999999999886,20 L25.499999999999886,44 L47.684782608695514,32.32432432432432 L25.499999999999886,20Z"/>
+  </defs>
+  <g opacity="1">
+    <g opacity="1">
+      <use xlink:href="#ellipse-1" fill-opacity="0" stroke="rgb(50,65,66)" stroke-opacity="1" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter" mask="url(#mask-2)"/>
+    </g>
+    <g opacity="1">
+      <use xlink:href="#path-3" fill-opacity="0" stroke="rgb(50,65,66)" stroke-opacity="1" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter"/>
+    </g>
+  </g>
+</svg>

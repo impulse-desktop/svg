@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                width="398" height="659" shape-rendering="optimizeSpeed">
+                
+            <g>
+                <rect x="50" y="80"
+            width="323" height="30"
+            style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+                    
+                <line x1="60" y1="80" x2="60" y2="110"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+                <line x1="363" y1="80" x2="363" y2="110"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+             
+                <title>module.exports = function fact(num)</title>
+            
+                
+            </g><g>
+            <rect x="117" y="143.5"
+            width="130.2" height="30"
+            rx="3" ry="3"
+            style="fill:#ce93d8; stroke:#444; stroke-width:1" />                
+            <polygon points="87,158.5 117,128.5 147,158.5 117,188.5"
+            style="fill:#ce93d8; stroke:#444; stroke-width:1" />
+            <title>(num &lt; 0)</title>
+            
+            
+              
+        </g>
+            <g>
+                <rect x="137" y="198.5"
+            width="92.4" height="30"
+            rx="3" ry="3"
+            style="fill:#90caf9; stroke:#444; stroke-width:1" />
+                
+                <line x1="229.4" y1="208.5" x2="234.4" y2="208.5"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+                
+                <line x1="229.4" y1="218.5" x2="234.4" y2="218.5"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+
+                <path d="M234.4, 202.5 L250.4, 213.5 L234.4, 224.5 Z" 
+        fill="#a5d6a7" stroke="#444" stroke-width="1" />
+                             
+                <title>return 0</title>
+            
+                
+            </g><g>
+            <rect x="117" y="263.5"
+            width="138" height="30"
+            rx="3" ry="3"
+            style="fill:#ce93d8; stroke:#444; stroke-width:1" />                
+            <polygon points="87,278.5 117,248.5 147,278.5 117,308.5"
+            style="fill:#ce93d8; stroke:#444; stroke-width:1" />
+            <title>(num == 0)</title>
+            
+            
+              
+        </g>
+            <g>
+                <rect x="137" y="318.5"
+            width="92.4" height="30"
+            rx="3" ry="3"
+            style="fill:#90caf9; stroke:#444; stroke-width:1" />
+                
+                <line x1="229.4" y1="328.5" x2="234.4" y2="328.5"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+                
+                <line x1="229.4" y1="338.5" x2="234.4" y2="338.5"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+
+                <path d="M234.4, 322.5 L250.4, 333.5 L234.4, 344.5 Z" 
+        fill="#a5d6a7" stroke="#444" stroke-width="1" />
+                             
+                <title>return 1</title>
+            
+                
+            </g>
+                <g>
+                   <rect x="87" y="368.5"
+            width="123.6" height="30"
+            rx="3" ry="3"
+            style="fill:#90caf9; stroke:#444; stroke-width:1" />
+                   <title>let fact = 1</title>
+            
+                   
+                   
+                </g><g>
+
+            <rect x="117" y="452"
+            width="122.4" height="30"
+            rx="3" ry="3"
+            style="fill:#b39ddb; stroke:#444; stroke-width:1" />
+            <polygon points="87,467 117,437 147,467 117,497"
+            style="fill:#b39ddb; stroke:#444; stroke-width:1" />
+                
+            <title>num &gt;= 1</title>
+            
+            
+            
+        </g>
+                <g>
+                   <rect x="137" y="507"
+            width="115.8" height="30"
+            rx="3" ry="3"
+            style="fill:#90caf9; stroke:#444; stroke-width:1" />
+                   <title>fact *= num</title>
+            
+                   
+                   
+                </g>
+                <g>
+                   <rect x="137" y="555.5"
+            width="92.4" height="30"
+            rx="3" ry="3"
+            style="fill:#90caf9; stroke:#444; stroke-width:1" />
+                   <title>num -= 1</title>
+            
+                   
+                   
+                </g>
+            <g>
+                <rect x="87" y="604"
+            width="115.80000000000001" height="30"
+            rx="3" ry="3"
+            style="fill:#90caf9; stroke:#444; stroke-width:1" />
+                
+                <line x1="202.8" y1="614" x2="207.8" y2="614"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+                
+                <line x1="202.8" y1="624" x2="207.8" y2="624"
+                style="fill:#a5d6a7; stroke:#444; stroke-width:1" />
+
+                <path d="M207.8, 608 L223.8, 619 L207.8, 630 Z" 
+        fill="#a5d6a7" stroke="#444" stroke-width="1" />
+                             
+                <title>return fact</title>
+            
+                
+            </g>
+            <g>
+               <rect x="25" y="13.75"
+            width="216.6" height="24"
+            style="fill:#fff59d; stroke:#444; stroke-width:1" />
+               <circle cx="25" cy="25" r="15"
+        style="fill:#fff59d; stroke:#444; stroke-width:1" />
+               <title>Program: source module</title>
+            
+            </g>
+            <g>
+               <path d="M25, 40 L25 91 Q25 95
+                29 95
+                L42 95 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M42, 92 L50, 95 L42, 98 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M68.5, 110 L68.5 154.5 Q68.5 158.5
+                72.5 158.5
+                L79 158.5 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M79, 155.5 L87, 158.5 L79, 161.5 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M117, 188.5 L117 209.5 Q117 213.5
+                121 213.5
+                L129 213.5 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M129, 210.5 L137, 213.5 L129, 216.5 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M68.5, 110 L68.5 274.5 Q68.5 278.5
+                72.5 278.5
+                L79 278.5 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M79, 275.5 L87, 278.5 L79, 281.5 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M117, 308.5 L117 329.5 Q117 333.5
+                121 333.5
+                L129 333.5 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M129, 330.5 L137, 333.5 L129, 336.5 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M68.5, 110 L68.5 379.5 Q68.5 383.5
+                72.5 383.5
+                L79 383.5 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M79, 380.5 L87, 383.5 L79, 386.5 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M68.5, 110 L68.5 463 Q68.5 467
+                72.5 467
+                L79 467 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M79, 464 L87, 467 L79, 470 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M117, 497 L117 518 Q117 522
+                121 522
+                L129 522 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M129, 519 L137, 522 L129, 525 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M117, 497 L117 566.5 Q117 570.5
+                121 570.5
+                L129 570.5 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M129, 567.5 L137, 570.5 L129, 573.5 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M229.4, 570.5 L268.8 570.5  Q272.8 570.5
+                272.8 566.5
+                L272.8 425 Q272.8 417
+                268.8 417
+                L125 417  Q117 417
+                117 421
+                L117 429"
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M114, 429 L117, 437 L120, 429 Z" 
+        fill="#333" />
+            </g>
+            <g>
+               <path d="M68.5, 110 L68.5 615 Q68.5 619
+                72.5 619
+                L79 619 "
+        style="fill:none; stroke:#444; stroke-width:1" />
+               <path d="M79, 616 L87, 619 L79, 622 Z" 
+        fill="#333" />
+            </g>
+            </svg>

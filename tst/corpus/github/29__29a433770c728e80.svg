@@ -1,0 +1,148 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1056"
+   inkscape:version="1.0beta2 (2b71d25, 2019-12-03)"
+   sodipodi:docname="map.svg">
+  <defs
+     id="defs1050">
+    <filter
+       inkscape:menu="Textures"
+       inkscape:menu-tooltip="Aquarelle paper effect which can be used for pictures as for objects"
+       width="1.3"
+       x="-0.15"
+       height="1.3"
+       y="-0.15"
+       id="filter969"
+       inkscape:label="Rough Paper"
+       style="color-interpolation-filters:sRGB;">
+      <feTurbulence
+         id="feTurbulence965"
+         result="turbulence"
+         baseFrequency="0.0477 0.022"
+         seed="315"
+         numOctaves="5"
+         type="turbulence" />
+      <feDisplacementMap
+         result="fbSourceGraphic"
+         id="feDisplacementMap967"
+         xChannelSelector="R"
+         yChannelSelector="G"
+         scale="6.6"
+         in2="turbulence"
+         in="SourceGraphic" />
+      <feColorMatrix
+         id="feColorMatrix1013"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feTurbulence
+         in="fbSourceGraphic"
+         result="result4"
+         seed="0"
+         numOctaves="5"
+         baseFrequency="0.04"
+         type="fractalNoise"
+         id="feTurbulence1015" />
+      <feDisplacementMap
+         result="result3"
+         scale="10"
+         xChannelSelector="R"
+         yChannelSelector="G"
+         in="fbSourceGraphic"
+         id="feDisplacementMap1017"
+         in2="result4" />
+      <feDiffuseLighting
+         in="result4"
+         result="result1"
+         surfaceScale="2"
+         diffuseConstant="1"
+         lighting-color="rgb(233,230,215)"
+         id="feDiffuseLighting1019">
+        <feDistantLight
+           elevation="40"
+           azimuth="235"
+           id="feDistantLight1021" />
+      </feDiffuseLighting>
+      <feComposite
+         result="result2"
+         in="result3"
+         operator="in"
+         id="feComposite1023"
+         in2="result1" />
+      <feComposite
+         k1="1.7"
+         operator="arithmetic"
+         result="result5"
+         id="feComposite1025"
+         in2="result1" />
+      <feBlend
+         mode="normal"
+         in="result5"
+         id="feBlend1027"
+         in2="result3" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.12"
+     inkscape:cx="2.5673842e+08"
+     inkscape:cy="62377975"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="803"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata1053">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       transform="scale(0.26458333)"
+       d="M 27 428 L 27 574.77344 L 43 582 L 27 585.61328 L 27 624.8418 L 45.701172 622.73047 L 27 640.45703 L 27 699 L 62 699 L 47 719 L 51 707 L 27 717.37891 L 27 765 L 718 765 L 718 641 L 714 653 C 714 653 690.00003 654.00001 695 646 C 700.00001 637.99999 718 641 718 641 L 718 428 L 27 428 z "
+       style="opacity:1;fill:#c7965e;fill-opacity:1;stroke-width:0.999999;filter:url(#filter969)"
+       id="rect20" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path1044"
+       d="m 188.91249,172.77291 v 0"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <ellipse
+       ry="1865.3125"
+       rx="2963.3333"
+       cy="12253025"
+       cx="50648128"
+       id="path1046"
+       style="opacity:1;fill:#c7965e;fill-opacity:1;stroke-width:0.264583" />
+  </g>
+</svg>

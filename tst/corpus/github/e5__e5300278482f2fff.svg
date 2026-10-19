@@ -1,0 +1,69 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="48"
+  height="48"
+  viewBox="0 0 48 48"
+>
+  <rect width="48" height="48" fill="#fff" rx="6" />
+  <path
+    fill="#F2E4FF"
+    d="M24 43.219c10.614 0 19.219-8.605 19.219-19.219S34.614 4.781 24 4.781 4.781 13.386 4.781 24 13.386 43.219 24 43.219z"
+  />
+  <path
+    fill="url(#tor__a)"
+    fill-rule="evenodd"
+    d="M24.041 40.362v-2.424c7.68-.022 13.898-6.253 13.898-13.939 0-7.684-6.218-13.915-13.898-13.938V7.637c9.019.023 16.322 7.339 16.322 16.362 0 9.025-7.303 16.341-16.322 16.363zm0-8.485a7.878 7.878 0 000-15.754v-2.424c5.671.022 10.262 4.624 10.262 10.3 0 5.677-4.59 10.28-10.262 10.302v-2.424zm0-12.118a4.241 4.241 0 010 8.481v-8.48zM4 24c0 11.046 8.954 20 20 20s20-8.954 20-20S35.046 4 24 4 4 12.954 4 24z"
+    clip-rule="evenodd"
+  />
+  <g filter="url(#tor__b)">
+    <path d="M24 6.266c-9.967 0-18.047 8.044-18.047 17.968s8.08 17.97 18.047 17.97V6.265z" />
+  </g>
+  <path
+    fill="url(#tor__c)"
+    d="M24 6.266c-9.967 0-18.047 8.044-18.047 17.968s8.08 17.97 18.047 17.97V6.265z"
+  />
+  <defs>
+    <linearGradient
+      id="tor__a"
+      x1="24"
+      x2="24"
+      y1="44"
+      y2="4"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#420C5D" />
+      <stop offset="1" stop-color="#951AD1" />
+    </linearGradient>
+    <linearGradient
+      id="tor__c"
+      x1="14.977"
+      x2="14.977"
+      y1="42.203"
+      y2="6.266"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#420C5D" />
+      <stop offset="1" stop-color="#951AD1" />
+    </linearGradient>
+    <filter
+      id="tor__b"
+      width="21.172"
+      height="39.063"
+      x="3.766"
+      y="4.703"
+      color-interpolation-filters="sRGB"
+      filterUnits="userSpaceOnUse"
+    >
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix
+        in="SourceAlpha"
+        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+      />
+      <feOffset dx="-.625" />
+      <feGaussianBlur stdDeviation=".781" />
+      <feColorMatrix values="0 0 0 0 0.25098 0 0 0 0 0.25098 0 0 0 0 0.25098 0 0 0 0.2 0" />
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow" />
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+    </filter>
+  </defs>
+</svg>

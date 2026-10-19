@@ -1,0 +1,192 @@
+<svg width="578pt" height="173pt"
+ viewBox="0.00 0.00 577.50 173.33" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.329)">
+<title>TelephoneSystem</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-169.329 573.5,-169.329 573.5,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>PhoneCall</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;PhoneCall&quot;);" xlink:title="class PhoneCall&#10;Positioning&#13;">
+
+<g id="a_node1_0"><a xlink:href="javascript:Action.selectClass(&quot;PhoneCall&quot;);" xlink:title="String isOnHold&#13;">
+
+</a>
+</g>
+<g id="a_node1_1"><a xlink:href="javascript:Action.selectClass(&quot;PhoneCall&quot;);" xlink:title="String startTime&#13;">
+
+</a>
+</g>
+<g id="a_node1_2"><a xlink:href="javascript:Action.selectClass(&quot;PhoneCall&quot;);" xlink:title="String duration&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points=".5,-55 .5,-55 119.5,-55 119.5,-55 .5,-55"/>
+<polygon fill="none" stroke="#000000" points="0,0 0,-78 119,-78 119,0 0,0"/>
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>TelephoneNumber</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;TelephoneNumber&quot;);" xlink:title="class TelephoneNumber&#10;">
+
+<g id="a_node2_3"><a xlink:href="javascript:Action.selectClass(&quot;TelephoneNumber&quot;);" xlink:title="String digits&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="101.5,-133 101.5,-133 242.5,-133 242.5,-133 101.5,-133"/>
+<polygon fill="none" stroke="#000000" points="101,-114 101,-156 242,-156 242,-114 101,-114"/>
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>PhoneCall&#45;&gt;TelephoneNumber</title>
+<g id="a_edge1"><a xlink:title="PhoneCall * call &#45;&#45; 1 originator TelephoneNumber">
+<path fill="none" stroke="#000000" d="M98.4102,-78.0469C112.4111,-90.2977 127.9583,-103.3553 141.1473,-113.873"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PhoneCall&#45;&gt;TelephoneNumber</title>
+<g id="a_edge2"><a xlink:title="PhoneCall * &#160;&#45;&#45; * parties TelephoneNumber">
+<path fill="none" stroke="#000000" d="M111.6992,-78.0469C126.2836,-90.2977 141.204,-103.3553 152.5564,-113.873"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge3" class="edge">
+<title>TelephoneNumber&#45;&gt;TelephoneNumber</title>
+<g id="a_edge3"><a xlink:title="TelephoneNumber 0..1 number &#45;&#45; * voicemail TelephoneNumber">
+<path fill="none" stroke="#000000" d="M242.3256,-118.671C252.869,-121.2133 260,-126.6563 260,-135 260,-143.3438 252.869,-148.7867 242.3256,-151.329"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node3" class="node">
+<title>VoiceMailBox</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;VoiceMailBox&quot;);" xlink:title="class VoiceMailBox&#10;">
+
+<polygon fill="none" stroke="#000000" points="282,-21 282,-57 413,-57 413,-21 282,-21"/>
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>VoiceMailBox&#45;&gt;TelephoneNumber</title>
+<g id="a_edge5"><a xlink:title="VoiceMailBox 1 &#160;&#45;&#45; * &#160;TelephoneNumber">
+<path fill="none" stroke="#000000" d="M314.3957,-57.0569C284.8217,-73.1882 241.4751,-96.8318 210.2856,-113.8442"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node4" class="node">
+<title>VoiceMailMessage</title>
+<g id="a_node4"><a xlink:href="javascript:Action.selectClass(&quot;VoiceMailMessage&quot;);" xlink:title="class VoiceMailMessage&#10;">
+
+<g id="a_node4_4"><a xlink:href="javascript:Action.selectClass(&quot;VoiceMailMessage&quot;);" xlink:title="String digitizedSound&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="278.5,-133 278.5,-133 427.5,-133 427.5,-133 278.5,-133"/>
+<polygon fill="none" stroke="#000000" points="278,-114 278,-156 427,-156 427,-114 278,-114"/>
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>VoiceMailBox&#45;&gt;VoiceMailMessage</title>
+<g id="a_edge4"><a xlink:title="VoiceMailBox 1 &#160;&#45;&#45; * &#160;VoiceMailMessage">
+<path fill="none" stroke="#000000" d="M348.4405,-57.0569C349.2778,-73.1339 350.5038,-96.6726 351.3892,-113.6721"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node5" class="node">
+<title>Feature</title>
+<g id="a_node5"><a xlink:href="javascript:Action.selectClass(&quot;Feature&quot;);" xlink:title="class Feature&#10;">
+
+<g id="a_node5_5"><a xlink:href="javascript:Action.selectClass(&quot;Feature&quot;);" xlink:title="String description&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="137.5,-37 137.5,-37 264.5,-37 264.5,-37 137.5,-37"/>
+<polygon fill="none" stroke="#000000" points="137,-18 137,-60 264,-60 264,-18 137,-18"/>
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Feature&#45;&gt;TelephoneNumber</title>
+<g id="a_edge6"><a xlink:title="Feature * &#160;&#45;&#45; * &#160;TelephoneNumber">
+<path fill="none" stroke="#000000" d="M194.064,-60.3055C189.2582,-76.2143 182.7195,-97.8595 177.918,-113.754"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node6" class="node">
+<title>Telephone</title>
+<g id="a_node6"><a xlink:href="javascript:Action.selectClass(&quot;Telephone&quot;);" xlink:title="class Telephone&#10;">
+
+<g id="a_node6_6"><a xlink:href="javascript:Action.selectClass(&quot;Telephone&quot;);" xlink:title="String model&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="450.5,-133 450.5,-133 550.5,-133 550.5,-133 450.5,-133"/>
+<polygon fill="none" stroke="#000000" points="450.5,-114 450.5,-156 550.5,-156 550.5,-114 450.5,-114"/>
+</a>
+</g>
+</g>
+
+<g id="node7" class="node">
+<title>PhoneLine</title>
+<g id="a_node7"><a xlink:href="javascript:Action.selectClass(&quot;PhoneLine&quot;);" xlink:title="class PhoneLine&#10;">
+
+<g id="a_node7_7"><a xlink:href="javascript:Action.selectClass(&quot;PhoneLine&quot;);" xlink:title="String location&#13;">
+
+</a>
+</g>
+<g id="a_node7_8"><a xlink:href="javascript:Action.selectClass(&quot;PhoneLine&quot;);" xlink:title="String digOrAnalog&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="431.5,-46 431.5,-46 569.5,-46 569.5,-46 431.5,-46"/>
+<polygon fill="none" stroke="#000000" points="431.5,-9 431.5,-69 569.5,-69 569.5,-9 431.5,-9"/>
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>PhoneLine&#45;&gt;TelephoneNumber</title>
+<g id="a_edge7"><a xlink:title="PhoneLine * &#160;&#45;&#45; * &#160;TelephoneNumber">
+<path fill="none" stroke="#000000" d="M444.1104,-69.1658C436.9469,-72.4095 429.6279,-75.4507 422.5,-78 405.5382,-84.0664 310.3595,-105.1055 242.2284,-119.8483"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge8" class="edge">
+<title>PhoneLine&#45;&gt;Telephone</title>
+<g id="a_edge8"><a xlink:title="PhoneLine 1 &#160;&#45;&#45; 0..1 &#160;Telephone">
+<path fill="none" stroke="#000000" d="M500.5,-69.1116C500.5,-83.6283 500.5,-100.6924 500.5,-113.8173"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

@@ -1,0 +1,35 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 100"
+  preserveAspectRatio="none"
+  width="100%"
+  height="150"
+>
+  <defs>
+    <style>
+      .divider-shape--fill {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient
+      id="linear-gradient"
+      x1="565.65"
+      y1="332.98"
+      x2="29.35"
+      y2="-41.98"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop offset="0" stop-color="var(--shape-color-1)" />
+      <stop offset="1" stop-color="var(--shape-color-2)" />
+    </linearGradient>
+  </defs>
+  <path
+    class="divider-shape--fill"
+    d="M194,99c186.7,0.7,305-78.3,306-97.2c1,18.9,119.3,97.9,306,97.2c114.3-0.3,194,0.3,194,0.3s0-91.7,0-100c0,0,0,0,0-0 L0,0v99.3C0,99.3,79.7,98.7,194,99z"
+  ></path>
+
+  <path
+    class="divider-shape--fill divider-shape--fill__inverted"
+    d="M806,94.7C619.5,90,500,20.3,500,1.7c-1,18.6-117.5,88.3-306,93C92,97.2,0,97.9,0,97.9v-0l0,0v2.3h1000v-2.3 C1000,97.7,920.3,97.6,806,94.7z M350,65.1L350,65.1L350,65.1L350,65.1z"
+  ></path>
+</svg>

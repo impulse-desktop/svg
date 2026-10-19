@@ -1,0 +1,272 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="120"
+   height="120"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   inkscape:export-filename="C:\Users\Juan Fernandez\SimbologiaSVG\cdi.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="Documento nuevo 1">
+  <defs
+     id="defs4">
+    <filter
+       id="filter3013"
+       color-interpolation-filters="sRGB"
+       height="1"
+       y="0"
+       width="1"
+       x="0"
+       inkscape:menu-tooltip="Detect color edges in object"
+       inkscape:menu="Image effects"
+       inkscape:label="Edge detect">
+      <feColorMatrix
+         id="feColorMatrix3015"
+         result="result2"
+         type="luminanceToAlpha" />
+      <feComposite
+         id="feComposite3017"
+         result="result4"
+         k3="2"
+         in="result2"
+         operator="arithmetic"
+         in2="SourceGraphic" />
+      <feBlend
+         id="feBlend3019"
+         in2="result2"
+         result="result3"
+         mode="multiply"
+         in="result4" />
+      <feComposite
+         result="fbSourceGraphic"
+         id="feComposite3021"
+         in="result3"
+         operator="in"
+         in2="SourceGraphic" />
+      <feColorMatrix
+         id="feColorMatrix3023"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feGaussianBlur
+         in="fbSourceGraphic"
+         stdDeviation="0.4"
+         result="result6"
+         id="feGaussianBlur3025" />
+      <feComposite
+         result="result7"
+         in="fbSourceGraphic"
+         operator="in"
+         in2="result6"
+         id="feComposite3027" />
+      <feComposite
+         in="result7"
+         result="fbSourceGraphic"
+         operator="in"
+         in2="result7"
+         id="feComposite3029" />
+      <feColorMatrix
+         id="feColorMatrix3035"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feColorMatrix
+         in="fbSourceGraphic"
+         result="result91"
+         values="1"
+         type="saturate"
+         id="feColorMatrix3037" />
+      <feComposite
+         k3="0.3"
+         k1="0.3"
+         k2="0.4"
+         operator="arithmetic"
+         result="result15"
+         in2="result91"
+         id="feComposite3039" />
+      <feGaussianBlur
+         stdDeviation="5"
+         result="result8"
+         in="result15"
+         id="feGaussianBlur3041" />
+      <feComposite
+         result="result13"
+         operator="in"
+         in2="result8"
+         id="feComposite3043" />
+      <feComposite
+         result="result6"
+         in="result15"
+         operator="arithmetic"
+         k2="0.4"
+         k1="0.3"
+         k3="0.3"
+         in2="result13"
+         id="feComposite3045" />
+      <feFlood
+         result="result10"
+         in="result6"
+         flood-opacity="1"
+         flood-color="rgb(128,172,0)"
+         id="feFlood3047" />
+      <feBlend
+         mode="darken"
+         in="result6"
+         result="result12"
+         in2="result10"
+         id="feBlend3049" />
+      <feBlend
+         mode="screen"
+         result="result14"
+         in2="result6"
+         id="feBlend3051" />
+      <feComposite
+         result="fbSourceGraphic"
+         operator="in"
+         in="result14"
+         in2="fbSourceGraphic"
+         id="feComposite3053" />
+      <feColorMatrix
+         id="feColorMatrix3059"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feGaussianBlur
+         in="fbSourceGraphic"
+         stdDeviation="0.4"
+         result="result6"
+         id="feGaussianBlur3061" />
+      <feComposite
+         result="result7"
+         in="fbSourceGraphic"
+         operator="in"
+         in2="result6"
+         id="feComposite3063" />
+      <feComposite
+         in="result7"
+         result="fbSourceGraphic"
+         operator="in"
+         in2="result7"
+         id="feComposite3065" />
+      <feColorMatrix
+         id="feColorMatrix3067"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feConvolveMatrix
+         bias="0"
+         result="result0"
+         preserveAlpha="true"
+         targetY="1"
+         targetX="1"
+         divisor="3"
+         in="fbSourceGraphic"
+         kernelMatrix="1 1 1 1 -8 1 1 1 1"
+         order="3 3"
+         id="feConvolveMatrix3069" />
+    </filter>
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect4074"
+       effect="spiro" />
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect3849"
+       effect="spiro" />
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect4015"
+       effect="spiro" />
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect4019"
+       effect="spiro" />
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect4023"
+       effect="spiro" />
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect4027"
+       effect="spiro" />
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect4031"
+       effect="spiro" />
+    <inkscape:path-effect
+       is_visible="true"
+       id="path-effect3033"
+       effect="spiro" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.5735164"
+     inkscape:cx="68.135593"
+     inkscape:cy="57.966102"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="706"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-932.36218)">
+    <rect
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:1.02284073999999990px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       id="rect3064"
+       width="83.747208"
+       height="45.352116"
+       x="19.394152"
+       y="936.77112" />
+    <rect
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:1.10091603000000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+       id="rect3066"
+       width="113.95966"
+       height="76.830238"
+       x="4.0819173"
+       y="970.21503" />
+    <g
+       transform="translate(12.818701,-10.204793)"
+       id="layer1-9"
+       inkscape:label="Capa 1">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="C:\Mapa_web_tesis\iconos\CDI.png"
+         id="rect2985"
+         transform="translate(0,952.36218)"
+         d="m 20,5 0,35 -15,0 0,55 35,0 0,-30 20,0 0,30 35,0 0,-55 -15,0 0,-35 -60,0 z m 34.875,5.90625 13.0625,0 0,14.3125 8.6875,0 0,9.5625 0,4.75 -8.6875,0 0,4.78125 0,4.78125 -15.6875,0 c -0.473238,0.618 -0.961102,1.2316 -1.46875,1.875 -2.582989,3.2726 -5.615367,7.09375 -10.375,7.09375 -5.462339,0.4076 -17.391799,-11.32095 -17.09375,-19.96875 -1.049802,-7.6708 4.027762,-12.8028 9.1875,-12.75 2.207631,0.02264 4.22761,1.10727 5.8125,2.90625 l 0,0.15625 0,4.125 0,0.40625 c -1.036084,-0.8784 -2.272033,-1.362 -3.625,-1.375 -3.605488,-0.0327 -7.13982,3.1538 -6.40625,7.9375 -0.208261,5.393 8.120582,12.72275 11.9375,12.46875 3.325902,0 5.445081,-2.39626 7.25,-4.4375 2.179807,-2.4649 3.973288,-4.43 4.3125,-8.0625 0.385382,-4.1271 -2.600125,-7.4607 -6.5,-7.9375 l 0,-3.125 c 0,-1.73168 1.6e-5,-3.0739 0,-3.125 0.289024,-0.0283 0.580049,-0.0625 0.875,-0.0625 l 8.71875,0 0,-9.53125 0,-4.78125 z m 4.34375,4.78125 0,9.53125 0,4.78125 L 55,30 c 1.459092,2.1773 2.254765,4.943 2,8 -0.208689,2.5042 -0.824058,4.5102 -1.6875,6.3125 l 8.25,0 0,-4.75 0,-4.78125 8.71875,0 0,-4.78125 -8.71875,0 0,-14.3125 -4.34375,0 z M 10,65 l 20,0 0,10 -20,0 0,-10 z m 60,0 20,0 0,10 -20,0 0,-10 z m -60,15 20,0 0,10 -20,0 0,-10 z m 60,0 20,0 0,10 -20,0 0,-10 z"
+         style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-opacity:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

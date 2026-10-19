@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" version="1.1">
+
+<style type="text/css">
+	text {
+		font-family: 'Liberation Sans', sans-serif;
+		font-size: 15px;
+		fill: black;
+		stroke: none;
+		text-anchor:middle;
+		}
+		
+	path, line {stroke:black;stroke-width:2;}
+	
+	.axis {marker-end:url(#arrow);}
+</style>
+
+<defs>
+	<marker id="arrow" markerWidth="8" markerHeight="6" refX="5" refY="3" orient="auto">
+		<polygon points="0,6 8,3 0,0 2,3" style="fill:#000;stroke:none;"/>
+	</marker>
+</defs>
+
+<polygon id="B" points="50,450 450,50 450,450" style="fill:#80b3ff;" />
+
+<path id="A" d="M50 450 L 450 50 A400 400 0 0 1 50 450 Z" style="fill:#b0c4d6;"/>
+
+<line class="axis" x1="50" y1="450" x2="446" y2="450"/>
+<line class="axis" x1="450" y1="450" x2="450" y2="54"/>
+
+ 
+
+
+    
+
+
+ 
+
+
+
+
+</svg>

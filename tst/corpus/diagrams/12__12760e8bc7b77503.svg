@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="650" font-family="Montserrat">
+  <rect x="0" y="0" width="500" height="650" fill="#fd0"></rect>
+
+  <g class="title">
+    <rect x="0" y="35" width="500" height="40" fill="#000"></rect>
+    
+  </g>
+
+  <g transform="translate(0,150)" font-weight="bold" font-size="25" fill="#000" text-anchor="middle">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </g>
+  
+  <g transform="translate(160,490)" font-weight="bold" font-size="30" fill="#000" text-anchor="middle">
+    <rect x="0" y="80" width="160" rx="10" height="50" fill="#00"></rect>
+    
+  </g>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+            refX="0" refY="3.5" orient="auto">
+      <polygon fill="#fe0" points="0 0, 5 3.5, 0 7" />
+    </marker>
+    <marker id="diamond" markerWidth="12" markerHeight="12" refX="6" refY="6" >
+      <circle fill="#fe0" cx="6" cy="6" r="2" stroke="context-stroke" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  
+
+</svg>

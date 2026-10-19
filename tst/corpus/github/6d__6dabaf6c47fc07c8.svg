@@ -1,0 +1,118 @@
+<svg id="组_1" data-name="组 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="288" height="299.938" viewBox="0 0 288 299.938">
+<defs>
+    <style>
+      .cls-1, .cls-14, .cls-4, .cls-8 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-7 {
+        stroke: #045263;
+      }
+
+      .cls-1, .cls-14, .cls-2, .cls-3, .cls-7, .cls-8 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1px;
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-4 {
+        stroke: red;
+        stroke-width: 0.5px;
+        stroke-dasharray: 2 1;
+        filter: url(#filter);
+      }
+
+      .cls-5, .cls-6 {
+        fill: #00ffd2;
+      }
+
+      .cls-5 {
+        fill-opacity: 0.3;
+      }
+
+      .cls-6 {
+        fill-opacity: 0.17;
+      }
+
+      .cls-7 {
+        fill: #085664;
+        fill-opacity: 0.23;
+      }
+
+      .cls-8 {
+        stroke: #17bfdc;
+      }
+
+      .cls-11, .cls-13, .cls-9 {
+        font-size: 8.515px;
+      }
+
+      .cls-10, .cls-11 {
+        fill: #45e3ff;
+      }
+
+      .cls-10, .cls-11, .cls-12, .cls-13 {
+        font-family: "Microsoft YaHei";
+      }
+
+      .cls-11, .cls-13 {
+        font-weight: 700;
+      }
+
+      .cls-12, .cls-13 {
+        fill: #00f988;
+      }
+
+      .cls-14 {
+        stroke: #00f988;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="119.438" y1="139.578" x2="200.438" y2="139.578" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b3d6c"/>
+      <stop offset="0.475" stop-color="#040a29"/>
+      <stop offset="1" stop-color="#0e3f6d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="119.438" y1="190.578" x2="200.438" y2="190.578" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1069a4"/>
+      <stop offset="0.291" stop-color="#17bfdc"/>
+      <stop offset="0.643" stop-color="#1069a4"/>
+      <stop offset="1" stop-color="#17bfdc"/>
+    </linearGradient>
+    <filter id="filter" x="114" y="54" width="93" height="39" filterUnits="userSpaceOnUse">
+      <feGaussianBlur result="blur" stdDeviation="2" in="SourceAlpha"/>
+      <feComposite result="composite"/>
+      <feComposite result="composite-2"/>
+      <feComposite result="composite-3"/>
+      <feFlood result="flood" flood-color="#ff0202"/>
+      <feComposite result="composite-4" operator="in" in2="composite-3"/>
+      <feBlend result="blend" mode="screen" in2="SourceGraphic"/>
+      <feBlend result="blend-2" in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <path id="椭圆_1" data-name="椭圆 1" class="cls-1" d="M159.016,233.031c22.876,0,41.421,7.43,41.421,16.594s-18.545,16.594-41.421,16.594-41.422-7.43-41.422-16.594S136.139,233.031,159.016,233.031Z"/>
+  <path id="椭圆_2" data-name="椭圆 2" class="cls-1" d="M159.937,225.625c33.552,0,60.75,11.564,60.75,25.828s-27.2,25.828-60.75,25.828-60.75-11.563-60.75-25.828S126.386,225.625,159.937,225.625Z"/>
+  <path id="椭圆_3" data-name="椭圆 3" class="cls-1" d="M159.016,210.875c63.538,0,115.046,19.825,115.046,44.281s-51.508,44.281-115.046,44.281S43.969,279.612,43.969,255.156,95.477,210.875,159.016,210.875Z"/>
+  <path id="矩形_1" data-name="矩形 1" class="cls-2" d="M159.937,236.719c22.368,0,40.5,6.191,40.5,13.828s-18.132,13.828-40.5,13.828-40.5-6.191-40.5-13.828S137.57,236.719,159.937,236.719ZM119.436,14.8s-0.842,13.492,40.494,13.448c41.782-.045,40.5-13.448,40.5-13.448V253.308H119.436V14.8Z"/>
+  <path id="矩形_1_拷贝" data-name="矩形 1 拷贝" class="cls-3" d="M159.937,236.719c22.368,0,40.5,6.191,40.5,13.828s-18.132,13.828-40.5,13.828-40.5-6.191-40.5-13.828S137.57,236.719,159.937,236.719Zm-40.5-119.925s1.235,16.6,40.494,16.6c36.466,0,40.5-16.6,40.5-16.6V253.308H119.436V116.794Z"/>
+  <g style="fill: none; filter: url(#filter)">
+    <ellipse id="椭圆_6" data-name="椭圆 6" class="cls-4" cx="159.938" cy="73.063" rx="40.5" ry="13.844" style="stroke: inherit; filter: none; fill: inherit"/>
+  </g>
+  <use xlink:href="#椭圆_6" style="stroke: red; filter: none; fill: none"/>
+  <ellipse id="椭圆_5" data-name="椭圆 5" class="cls-5" cx="159.016" cy="117.703" rx="39.578" ry="15.672"/>
+  <ellipse id="椭圆_5_拷贝" data-name="椭圆 5 拷贝" class="cls-6" cx="159.016" cy="102.969" rx="39.578" ry="15.687"/>
+  <path id="椭圆_4" data-name="椭圆 4" class="cls-7" d="M159.937,0.562c22.368,0,40.5,6.2,40.5,13.844s-18.132,13.844-40.5,13.844-40.5-6.2-40.5-13.844S137.57,0.562,159.937.562Z"/>
+  <path id="形状_1" data-name="形状 1" class="cls-8" d="M200.425,209.033h31.292"/>
+  
+  
+  <path id="形状_2" data-name="形状 2" class="cls-14" d="M159.93,114.949H75.26"/>
+  <path id="形状_3" data-name="形状 3" class="cls-14" d="M-33.34,103.88"/>
+</svg>

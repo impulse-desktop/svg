@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern
+      id="p1"
+      x="0"
+      y="0"
+      width="0.2"
+      height="0.2"
+    >
+      <circle cx="10" cy="10" r="5" fill="red"/>
+      <polygon points="30 10 60 50 0 50" fill="green"/>
+    </pattern>
+  </defs>
+
+  <rect
+    x="100"
+    y="100"
+    width="800"
+    height="300"
+    fill="url(#p1)"
+    stroke="blue"
+  />
+</svg>

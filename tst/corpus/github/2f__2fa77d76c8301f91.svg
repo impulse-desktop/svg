@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="-svg" class="Diagram"  baseProfile="full" prefix="schema:http://schema.org/" preserveAspectRatio="xMidYMid"  version="1.1"><defs><g id="icon-defs"><symbol id="HexagonPathVisio" class=" Icon HexagonPathVisio" x="0" y="8" overflow="visible" preserveAspectRatio="none" viewBox="0 8 100 86"><desc>HexagonPathVisio</desc><g transform="scale(1 0.85)"><path d="m1.42 51.00 21.07-42.14h56.19l21.07 42.14-21.07 42.15h-56.19l-21.07-42.15z" stroke="currentColor" vector-effect="non-scaling-stroke"/></g></symbol><symbol id="Octagon" class=" Icon Octagon" x="0" y="0" overflow="visible" preserveAspectRatio="none" viewBox="0 0 100 100"><desc>Octagon</desc><path d="m0 25 25-25h50l25 25v50l-25 25h-50l-25-25z" vector-effect="non-scaling-stroke"/></symbol></g><g id="marker-defs"><marker id="mea" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-mea" transform=""><g transform="rotate(180 6 6)"><rect y="5.4" width="2" height="1.2" style="stroke:#fff"/><polygon points="12 11 0 6 12 1" stroke-width="0"/></g></g></marker><marker id="memcatalysis000" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-memcatalysis000" transform=""><g transform="rotate(180 6 6)"><circle cx="6" cy="6" r="5.3px" fill="#fff" stroke="#000"/></g></g></marker></g></defs><g id="viewport-20220102143029005" class="svg-pan-zoom_viewport" transform="matrix(1.08 0 0 1.08 45.68 0)" style="transform:matrix(1.08, 0, 0, 1.08, 45.68, 0)"><style>svg.Diagram {font-family: 'Liberation Sans', Arial, sans-serif; }.Diagram path {fill: transparent;stroke: #000;marker-end: url(#mea);}.Diagram symbol path {fill: inherit;stroke: inherit;stroke-width: inherit;marker-end: inherit;}.Diagram rect {fill: #fff;stroke: #000;}.Diagram text {dominant-baseline: central;overflow: hidden;text-anchor: middle;fill: #000;font-size: 10px;}</style><style type="text/css">.Viewport .textContent {
+  pointer-events: none;
+  stroke-width: 0px;
+}
+
+					.Viewport.Icon {
+  fill: white;
+}
+
+/* Hide the InfoBox */
+.Viewport.textContent {
+  font-size: 0;
+}
+
+.textContent {
+  stroke: none;
+}
+
+.DataNode {
+  stroke-miterlimit: 1;
+  pointer-events: auto;
+}
+
+.DataNode:hover {
+  cursor: pointer;
+}
+
+/* TODO should this apply to things other than DataNodes? */
+.DataNode.textContent {
+  pointer-events: none;
+}
+
+.DataNode.Highlighted {
+  opacity: 0.6;
+  stroke-width: 0px;
+}
+
+marker {
+  /* this is what should work per the spec
+  stroke-dasharray: none; */
+  /* but I need to add this to make it work in Safari */
+  stroke-dasharray: 9999999999999999999999999;
+}
+
+.Citation.Icon {
+  fill: none;
+  stroke-width: 0px;
+}
+
+.Citation.textContent {
+  text-align: center;
+  vertical-align: top;
+  font-size: 7px;
+  fill: #999;
+  fill-opacity: 1;
+  stroke: none;
+}</style><g id="WP4083" class="Pathway Viewport"  name="Name: Reelin signaling pathway Organism: Homo sapiens" ><g class="Pathway Viewport"><rect   width="1031" height="664" style="stroke:none"/><g id="ad0c8" class="Reactome_R-HSA-8854466"  ><path    d="m115 83h58" style="marker-end:none"/><g id="adc55" class="AB" transform="translate(115,83)"  ><g class="AB"/></g><g id="b2299" class="AB" transform="translate(172.42 83)"  ><g class="AB"/></g></g><g id="a53f3" class="Reactome_R-HSA-8854466"  ><path    d="m84 83h31" style="marker-end:none"/></g><g id="af6af" class="Reactome_R-HSA-8854466"  ><path    d="m173 83h3"/></g><g id="bb9f4" class="Reactome_R-HSA-8854466"  ><path    d="m89 45 26 38" style="marker-end:none"/></g><g id="d3adc" class="Reactome_R-HSA-8855259"  ><path    d="m506 83h47" style="marker-end:none"/><g id="e53ba" class="AB" transform="translate(506,83)"  ><g class="AB"/></g><g id="aa896" class="AB" transform="translate(552.53,83)"  ><g class="AB"/></g></g><g id="bc5d4" class="Reactome_R-HSA-8855259"  ><path    d="m457 83h49" style="marker-end:none"/></g><g id="d2bbc" class="Reactome_R-HSA-8855259"  ><path    d="m486 125 20-42" style="marker-end:none"/></g><g id="b58af" class="Reactome_R-HSA-8855259"  ><path    d="m553 83h3"/></g><g id="d9c19" class="Reactome_R-HSA-8855232"  ><path    d="m288 82 80 1" style="marker-end:none"/><g id="b5195" class="AB" transform="translate(288,82)"  ><g class="AB"/></g><g id="dc89d" class="AB" transform="translate(367.2,82.99)"  ><g class="AB"/></g></g><g id="d88e9" class="Reactome_R-HSA-8855232"  ><path    d="m263 125 25-43" style="marker-end:none"/></g><g id="dcb8b" class="Reactome_R-HSA-8855232"  ><path    d="m256 83 32-1" style="marker-end:none"/></g><g id="e1f52" class="Reactome_R-HSA-8855237"  ><path    d="m713 133 107-2" style="marker-end:none"/><g id="dc773" class="AB" transform="translate(713,133)"  ><g class="AB"/></g><g id="f3bb1" class="AB" transform="translate(818.93,131.02)"  ><g class="AB"/></g><g id="ac739" class="AB" transform="translate(766.5,132)"  ><g class="AB"/></g></g><g id="d5f92" class="Reactome_R-HSA-8855237"  ><path    d="m692 175 21-42" style="marker-end:none"/></g><g id="bfc63" class="Reactome_R-HSA-8855237"  ><path    d="m820 131 46-48"/></g><g id="da8cc" class="Reactome_R-HSA-8855237"  ><path    d="m820 131 31 48"/></g><g id="da740" class="Reactome_R-HSA-8855237"  ><path    d="m737 173 23-41" style="marker-end:url(#memcatalysis000)"/></g><g id="e441a" class="Reactome_R-HSA-8855237"  ><path    d="m674 83 39 50" style="marker-end:none"/></g><g id="f1234" class="Reactome_R-HSA-8855232"  ><path    d="m368 83h3"/></g><g id="be89b" class="GroupGroup" transform="translate(23,72)"  ><g class="GroupGroup"><g id="b37b5" class="" transform="translate(8,8)"  ><g class=""><rect   transform="matrix(1.00 0 0 0.98 1.50 1.47)" width="970" height="156" rx="15" ry="15" stroke-width="3" style="fill:transparent;stroke:#c0c0c0"/></g></g><g id="f2599" class="Label" transform="translate(33,105)"  name="cytosol" ><g class="Label"/></g></g></g><g id="ac21b" class="Protein" transform="translate(737,162)"  name="FYN" ><rect   width="44" height="23"/></g><g id="b1c2a" class="Metabolite " transform="translate(851,164)"  name="ADP" ><rect   width="39" height="30" style="stroke:#00f"/></g><g id="b8113" class="Protein" transform="translate(455,125)"  name="SH3KBP1" ><rect   width="62" height="22"/></g><g id="ba446" class="Complex Reactome_R-HSA-8854471" transform="translate(176,72)"  name="RELN:VLDLR" ><g class="Complex Reactome_R-HSA-8854471"><use class="Complex Reactome_R-HSA-8854471 Node Icon" width="80" height="22" fill="#fff" stroke="#a52a2a" href="#HexagonPathVisio"/></g><g ><defs><clipPath ><rect x="-40" y="-11" width="80" height="22" style="stroke:none"/></clipPath></defs></g></g><g id="c2645" class="Protein" transform="translate(240,125)"  name="DAB1" ><rect   width="47" height="22"/></g><g id="c674d" class="Complex Reactome_R-HSA-8855235" transform="translate(371,65)"  name="RELN:VLDLR:DAB1" ><g class="Complex Reactome_R-HSA-8855235"><use class="Complex Reactome_R-HSA-8855235 Node Icon" width="87" height="36" fill="#fff" stroke="#a52a2a" href="#HexagonPathVisio"/></g><g ><defs><clipPath ><rect x="-43.5" y="-18" width="87" height="36" style="stroke:none"/></clipPath></defs></g></g><g id="dbba0" class="Protein" transform="translate(70,23)"  name="RELN" ><rect   width="39" height="22"/></g><g id="e1fd2" class="Metabolite " transform="translate(654,160)"  name="ATP" ><rect   width="39" height="30" style="stroke:#00f"/></g><g id="e2d30" class="Protein" transform="translate(38,72)"  name="VLDLR" ><rect   width="46" height="22"/></g><g id="f4d5b" class="Complex Reactome_R-HSA-8855226" transform="translate(866,59)"  name="RELN:VLDLR:p-Y198,220,232-DAB1:SH3KBP1" ><g class="Complex Reactome_R-HSA-8855226"><use class="Complex Reactome_R-HSA-8855226 Node Icon" width="106" height="49" fill="#fff" stroke="#a52a2a" href="#HexagonPathVisio"/></g><g ><defs><clipPath ><rect x="-53" y="-24.5" width="106" height="49" style="stroke:none"/></clipPath></defs></g></g><g id="f69b6" class="Complex Reactome_R-HSA-8855258" transform="translate(556,65)"  name="RELN:VLDLR:DAB1:SH3KBP1" ><g class="Complex Reactome_R-HSA-8855258"><use class="Complex Reactome_R-HSA-8855258 Node Icon" width="118" height="36" fill="#fff" stroke="#a52a2a" href="#HexagonPathVisio"/></g><g ><defs><clipPath ><rect x="-59" y="-18" width="118" height="36" style="stroke:none"/></clipPath></defs></g></g><g id="ad5f9" class="GroupComplex" transform="translate(38,562)"  ><g class="GroupComplex"><use class="Icon" width="124" height="84" fill="#b4b464" fill-opacity=".1" stroke="grey" href="#Octagon"/><g id="f2784" class="Protein" transform="translate(12,52)"  name="RELN" ><rect   width="100" height="20"/></g><g id="f2900" class="Protein" transform="translate(12,12)"  name="DAB1" ><rect   width="100" height="20"/></g><g id="f7462" class="Protein" transform="translate(12,32)"  name="VLDLR" ><rect   width="100" height="20"/></g></g></g><g id="e1b13" class="GroupComplex" transform="translate(38,482)"  ><g class="GroupComplex"><use class="Icon" width="124" height="64" fill="#b4b464" fill-opacity=".1" stroke="grey" href="#Octagon"/><g id="b3635" class="Protein" transform="translate(12,32)"  name="RELN" ><rect   width="100" height="20"/></g><g id="c10c3" class="Protein" transform="translate(12,12)"  name="VLDLR" ><rect   width="100" height="20"/></g></g></g><g id="e9a70" class="GroupComplex" transform="translate(38,362)"  ><g class="GroupComplex"><use class="Icon" width="124" height="104" fill="#b4b464" fill-opacity=".1" stroke="grey" href="#Octagon"/><g id="a588b" class="Protein" transform="translate(12,12)"  name="VLDLR" ><rect   width="100" height="20"/></g><g id="a77eb" class="Protein" transform="translate(12,52)"  name="p-Y198,220,232-DAB1" ><rect   width="100" height="20"/></g><g id="c1ff0" class="Protein" transform="translate(12,32)"  name="RELN" ><rect   width="100" height="20"/></g><g id="efbef" class="Protein" transform="translate(12,72)"  name="SH3KBP1" ><rect   width="100" height="20"/></g></g></g><g id="f5129" class="GroupComplex" transform="translate(38,242)"  ><g class="GroupComplex"><use class="Icon" width="124" height="104" fill="#b4b464" fill-opacity=".1" stroke="grey" href="#Octagon"/><g id="d6802" class="Protein" transform="translate(12,72)"  name="RELN" ><rect   width="100" height="20"/></g><g id="e7169" class="Protein" transform="translate(12,12)"  name="SH3KBP1" ><rect   width="100" height="20"/></g><g id="ee3fc" class="Protein" transform="translate(12,52)"  name="VLDLR" ><rect   width="100" height="20"/></g><g id="fb228" class="Protein" transform="translate(12,32)"  name="DAB1" ><rect   width="100" height="20"/></g></g></g></g></g></g></svg>

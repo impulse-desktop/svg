@@ -1,0 +1,101 @@
+<svg height="100" width="560" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    path {
+        fill: white;
+        stroke: black;
+        stroke-width: 2;
+    }
+    g#house {
+        transform: translate(120px, 0px);
+    }
+
+    g#shaperep {
+        transform: translate(0px, 10px);
+    }
+
+    g#shaperep path:nth-child(1) {
+        stroke: red;
+    }
+
+    g#shaperep path:nth-child(2) {
+        stroke: blue;
+    }
+
+    g#linerep {
+        transform: translate(240px, 10px);
+    }
+
+    g#linerep path:nth-child(1) {
+        stroke: red;
+    }
+
+    g#linerep path:nth-child(2) {
+        stroke: blue;
+    }
+
+    g#linerep path:nth-child(3) {
+        stroke: green;
+    }
+
+    g#linerep path:nth-child(4) {
+        stroke: brown;
+    }
+
+    g#linerep path:nth-child(5) {
+        stroke: violet;
+    }
+
+    g#linerep path:nth-child(6) {
+        stroke: orange;
+    }
+
+    g#linerep path:nth-child(7) {
+        stroke: aqua;
+    }
+
+    path.arrow {
+        fill: #444;
+        stroke: none;
+    }
+
+    g#arrow path:nth-child(1) {
+        transform: translate(170px, 50px) rotate(160deg);
+    }
+
+    g#arrow path:nth-child(2) {
+        transform: translate(220px, 28px) rotate(20deg);
+    }
+
+    text {
+        text-anchor: middle;
+        transform: translate(70px, 85px);
+    }
+  </style>
+  <g id="house">
+      <path d="M51,25 L70,5 L89,25 Z" />
+      <path d="M50,27 L50,67 L90,67 L90,27 Z" />
+      
+  </g>
+
+  <g id="shaperep">
+      <path d="M51,25 L70,5 L89,25 Z" />
+      <path d="M50,27 L50,67 L90,67 L90,27 Z" />
+      
+  </g>
+
+  <g id="linerep">
+      <path d="M51,25 L70,5" />
+      <path d="M70,5 L89,25" />
+      <path d="M89,25 L51,25" />
+      <path d="M50,27 L50,67" />
+      <path d="M50,67 L90,67" />
+      <path d="M90,67 L90,27" />
+      <path d="M50,27 L90,27" />
+      
+  </g>
+
+  <g id="arrow">
+    <path class="arrow" d="M10,10 L50,10 L50,6 L60,12 L50,18 L50,14 L10,14 Z" />
+    <path class="arrow" d="M10,10 L50,10 L50,6 L60,12 L50,18 L50,14 L10,14 Z" />
+  </g>
+</svg>

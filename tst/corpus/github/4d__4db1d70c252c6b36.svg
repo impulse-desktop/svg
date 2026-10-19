@@ -1,0 +1,70 @@
+<svg width="468pt" height="116pt"
+ viewBox="0.00 0.00 467.74 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 463.74,-112 463.74,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>0</title>
+<g id="a_node1"><a xlink:href="TODO#FLIM.1" xlink:title="A unit in a nested directory.">
+<ellipse fill="none" stroke="black" cx="158.39" cy="-90" rx="38.99" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>1</title>
+<g id="a_node2"><a xlink:href="TODO#FLIM.1::FLAM.1" xlink:title="Second unit in the same directory. This one has a newline. And refers to [FLIM.1]">
+<ellipse fill="none" stroke="black" cx="75.39" cy="-18" rx="75.29" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>0&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M140.38,-73.81C129.43,-64.58 115.23,-52.6 102.89,-42.19"/>
+<polygon fill="black" stroke="black" points="105.01,-39.4 95.11,-35.63 100.5,-44.75 105.01,-39.4"/>
+</g>
+
+<g id="node3" class="node">
+<title>2</title>
+<g id="a_node3"><a xlink:href="TODO#FLIM.1::IMPL.1" xlink:title="FLIM.1::IMPL.1">
+<ellipse fill="none" stroke="black" cx="241.39" cy="-18" rx="72.29" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>0&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M176.4,-73.81C187.43,-64.51 201.76,-52.42 214.16,-41.97"/>
+<polygon fill="black" stroke="black" points="216.58,-44.5 221.97,-35.38 212.07,-39.15 216.58,-44.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>3</title>
+<g id="a_node4"><a xlink:href="TODO#FOO.2" xlink:title="We’ve updated the first unit.">
+<ellipse fill="none" stroke="black" cx="395.39" cy="-90" rx="35.19" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node5" class="node">
+<title>4</title>
+<g id="a_node5"><a xlink:href="TODO#FOO.2::BAZ.1" xlink:title="And we replaced FOO.1::BAR.1 with this unit.">
+<ellipse fill="none" stroke="black" cx="395.39" cy="-18" rx="64.19" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M395.39,-71.7C395.39,-63.98 395.39,-54.71 395.39,-46.11"/>
+<polygon fill="black" stroke="black" points="398.89,-46.1 395.39,-36.1 391.89,-46.1 398.89,-46.1"/>
+</g>
+</g>
+</svg>

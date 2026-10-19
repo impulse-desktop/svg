@@ -1,0 +1,43 @@
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="280"
+   height="280"
+   viewBox="0 0 280 280">
+   <style>
+        g {
+            fill: #ffe;
+            fill-opacity: 1;
+            stroke: #000;
+            stroke-width: 20;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+            stroke-miterlimit: 4;
+            stroke-dasharray: none;
+            stroke-opacity: 1;
+        }
+        @media (prefers-color-scheme: dark) {
+            g {
+                filter: invert(1);
+            }
+        }
+  </style>
+  <g>
+    <path
+       d="M 218,128 234,45 151,61 Z" />
+    <rect
+       transform="rotate(-45)"
+       y="164"
+       x="-83"
+       height="67"
+       width="149" />
+    <path
+       d="m 66,168 64,24" />
+    <path
+       d="m 101,136 64,24" />
+    <path
+       d="m 133,103 64,24" />
+    <path
+       d="M 35,237 C 68,236 55,202 86,201" />
+  </g>
+</svg>

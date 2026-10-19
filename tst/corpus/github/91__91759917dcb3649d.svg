@@ -1,0 +1,18 @@
+<svg    
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 600 400"
+     height="400" width="600"
+     >
+  <mask id="mask">
+    <rect x="0" y="0" width="400" height="400" fill="white"></rect>
+    <polygon points="169,86 200,140, 231,86"   fill="black"></polygon>  
+  </mask>
+  
+  <polygon points="70,87 200,315, 330,87"  fill="#4dba87" mask="url(#mask)" />
+  <polygon points="121,87 200,224, 279,87" fill="#435466" mask="url(#mask)"/>  
+
+  <polygon points="247,87 509,87 509,135 303,135" fill="gold" />
+  <polygon points="360,87 408,87 408,315 360,315" fill="gold" />
+  
+</svg>

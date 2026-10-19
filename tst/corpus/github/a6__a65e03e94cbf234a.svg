@@ -1,0 +1,18 @@
+<svg id="clouds" version="1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 344 147" xml:space="preserve">
+	<defs>
+	<style>
+		svg, symbol {
+			--pw:#fff;
+			--bl:#000;
+			--dG:#808083;
+		}
+	</style>
+		<linearGradient id="cloudsG" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="0%" y2="100%" spreadMethod="pad">
+			<stop stop-color="var(--pw)" offset="20%"/>
+			<stop stop-color="var(--dG)" offset="40%"/>
+			<stop stop-color="var(--bl)" offset="100%"/>
+		</linearGradient>
+		<path id="cloudP" fill="url(#cloudsG)" d="M-84-39q-17 0-30 12-12 13-12 30l2 14q-6-3-14-3-14 0-24 10t-10 24q0 14 10 24l2 1h315l5-3q12-13 12-30t-12-30Q147-2 130-2q-14 0-25 8V3q0-14-10-24T71-31q-10 0-17 5-3-18-16-31Q22-73-1-73t-39 16q-13 12-15 29-12-11-29-11z"/>
+	</defs>
+	<use transform="translate(172 73)" xlink:href="#cloudP"/>
+</svg>

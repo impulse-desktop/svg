@@ -1,0 +1,121 @@
+<svg width="163pt" height="341pt"
+ viewBox="0.00 0.00 163.00 341.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 337)">
+<title>%3</title>
+<g id="a_graph0"><a xlink:title="EventTracer class hierarchy">
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-337 159,-337 159,4 -4,4"/>
+</a>
+</g>
+
+<g id="node1" class="node">
+<title>EventTracer</title>
+<g id="a_node1"><a xlink:href="#" xlink:title="class EventTracer">
+<polygon fill="none" stroke="#000000" points="21,-.5 21,-64.5 134,-64.5 134,-.5 21,-.5"/>
+
+<polyline fill="none" stroke="#000000" points="21,-41.5 134,-41.5 "/>
+<g id="a_node1_0"><a xlink:href="#" xlink:title="EventTracer">
+<g id="a_node1_1"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7f9e45138b00&gt;, condition=None, events=[]):&#10; &#160;&#160;&#160;Constructor. `events` is a list of expressions to watch.">
+
+</a>
+</g>
+<g id="a_node1_2"><a xlink:href="#" xlink:title="do_report(self, frame, event, arg):&#10; &#160;&#160;&#160;Return True if a line should be shown">
+
+</a>
+</g>
+<g id="a_node1_3"><a xlink:href="#" xlink:title="events_changed(self, events, frame):&#10; &#160;&#160;&#160;Return True if any of the observed `events` has changed">
+
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>ConditionalTracer</title>
+<g id="a_node2"><a xlink:href="#" xlink:title="class ConditionalTracer">
+<polygon fill="none" stroke="#000000" points="8.5,-101.5 8.5,-176.5 146.5,-176.5 146.5,-101.5 8.5,-101.5"/>
+
+<polyline fill="none" stroke="#000000" points="8.5,-153.5 146.5,-153.5 "/>
+<g id="a_node2_4"><a xlink:href="#" xlink:title="ConditionalTracer">
+<g id="a_node2_5"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7f9e45138b00&gt;, condition=None)">
+
+</a>
+</g>
+<g id="a_node2_6"><a xlink:href="#" xlink:title="do_report(self, frame, event, arg)">
+
+</a>
+</g>
+<g id="a_node2_7"><a xlink:href="#" xlink:title="eval_in_context(self, expr, frame)">
+
+</a>
+</g>
+<g id="a_node2_8"><a xlink:href="#" xlink:title="traceit(self, frame, event, arg)">
+
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>EventTracer&#45;&gt;ConditionalTracer</title>
+<path fill="none" stroke="#000000" d="M77.5,-64.7425C77.5,-73.0152 77.5,-82.0934 77.5,-90.9758"/>
+<polygon fill="none" stroke="#000000" points="74.0001,-91.253 77.5,-101.253 81.0001,-91.253 74.0001,-91.253"/>
+</g>
+
+<g id="node3" class="node">
+<title>Tracer</title>
+<g id="a_node3"><a xlink:href="#" xlink:title="class Tracer">
+<polygon fill="none" stroke="#000000" points="0,-213.5 0,-332.5 155,-332.5 155,-213.5 0,-213.5"/>
+
+<polyline fill="none" stroke="#000000" points="0,-309.5 155,-309.5 "/>
+<g id="a_node3_9"><a xlink:href="#" xlink:title="Tracer">
+<g id="a_node3_10"><a xlink:href="#" xlink:title="__enter__(self):&#10; &#160;&#160;&#160;Called at begin of `with` block. Turn tracing on.">
+
+</a>
+</g>
+<g id="a_node3_11"><a xlink:href="#" xlink:title="__exit__(self, tp, value, traceback):&#10; &#160;&#160;&#160;Called at end of `with` block. Turn tracing off.">
+
+</a>
+</g>
+<g id="a_node3_12"><a xlink:href="#" xlink:title="__init__(self, file=&lt;ipykernel.iostream.OutStream object at 0x7f9e45138b00&gt;):&#10; &#160;&#160;&#160;Create a new tracer. If `file is given, output to `file`.">
+
+</a>
+</g>
+<g id="a_node3_13"><a xlink:href="#" xlink:title="_traceit(self, frame, event, arg):&#10; &#160;&#160;&#160;Internal tracing function.">
+
+</a>
+</g>
+<g id="a_node3_14"><a xlink:href="#" xlink:title="changed_vars(self, new_vars):&#10; &#160;&#160;&#160;Track changed variables, based on `new_vars` observed.">
+
+</a>
+</g>
+<g id="a_node3_15"><a xlink:href="#" xlink:title="log(self, *objects, sep=&#39; &#39;, end=&#39;\n&#39;, flush=False):&#10; &#160;&#160;&#160;Like print(), but always sending to file given at initialization,&#10; &#160;&#160;&#160;and always flushing">
+
+</a>
+</g>
+<g id="a_node3_16"><a xlink:href="#" xlink:title="print_debugger_status(self, frame, event, arg):&#10; &#160;&#160;&#160;Show current source line and changed vars">
+
+</a>
+</g>
+<g id="a_node3_17"><a xlink:href="#" xlink:title="traceit(self, frame, event, arg)">
+
+</a>
+</g>
+</a>
+</g>
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>ConditionalTracer&#45;&gt;Tracer</title>
+<path fill="none" stroke="#000000" d="M77.5,-176.6831C77.5,-184.9508 77.5,-193.9604 77.5,-203.0427"/>
+<polygon fill="none" stroke="#000000" points="74.0001,-203.292 77.5,-213.292 81.0001,-203.292 74.0001,-203.292"/>
+</g>
+</g>
+</svg>

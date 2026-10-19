@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="-svg" class="Diagram"  baseProfile="full" prefix="schema:http://schema.org/" preserveAspectRatio="xMidYMid"  version="1.1"><defs><g id="filter-defs"><filter id="doublefalse3filter" x="-50%" y="-50%" width="200%" height="200%"><feComposite in="SourceGraphic" in2="SourceGraphic" result="doubleDark"/><feMorphology in="doubleDark" operator="dilate" radius="0.17" result="in2Double"/><feMorphology in="SourceGraphic" operator="dilate" radius="3" result="inDouble"/><feComposite in="inDouble" in2="in2Double" operator="out" result="doubleResult"/></filter></g><g id="icon-defs"/><g id="marker-defs"><marker id="mea" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-mea" transform=""><g transform="rotate(180 6 6)"><rect y="5.4" width="2" height="1.2" style="stroke:#fff"/><polygon points="12 11 0 6 12 1" stroke-width="0"/></g></g></marker><marker id="memcatalysis000" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-memcatalysis000" transform=""><g transform="rotate(180 6 6)"><circle cx="6" cy="6" r="5.3px" fill="#fff" stroke="#000"/></g></g></marker><marker id="memstimulation000" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-memstimulation000" transform=""><g transform="rotate(180 6 6)"><rect y="5.4" width="2" height="1.2" style="stroke:none"/><line x1="12" x2="12" y1="6" y2="6" fill="none"/><polygon points="0 6 11 11 11 1" fill="#fff" stroke="#000"/></g></g></marker><marker id="memconversion000" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-memconversion000" transform=""><g transform="rotate(180 6 6)"><rect y="5.4" width="2" height="1.2" style="stroke:#fff"/><polygon points="12 11 0 6 12 1" stroke-width="0"/></g></g></marker></g></defs><g id="viewport-20220102140635489" class="svg-pan-zoom_viewport" transform="matrix(1.22 0 0 1.22 16.37 -4.65e-6)" style="transform:matrix(1.22, 0, 0, 1.22, 16.37, -4.65e-06)"><style>svg.Diagram {font-family: 'Liberation Sans', Arial, sans-serif; }.Diagram path {fill: transparent;stroke: #000;marker-end: url(#mea);}.Diagram symbol path {fill: inherit;stroke: inherit;stroke-width: inherit;marker-end: inherit;}.Diagram rect {fill: #fff;stroke: #000;}.Diagram text {dominant-baseline: central;overflow: hidden;text-anchor: middle;fill: #000;font-size: 10px;}</style><style type="text/css">.Viewport .textContent {
+  pointer-events: none;
+  stroke-width: 0px;
+}
+
+					.Viewport.Icon {
+  fill: white;
+}
+
+/* Hide the InfoBox */
+.Viewport.textContent {
+  font-size: 0;
+}
+
+.textContent {
+  stroke: none;
+}
+
+.DataNode {
+  stroke-miterlimit: 1;
+  pointer-events: auto;
+}
+
+.DataNode:hover {
+  cursor: pointer;
+}
+
+/* TODO should this apply to things other than DataNodes? */
+.DataNode.textContent {
+  pointer-events: none;
+}
+
+.DataNode.Highlighted {
+  opacity: 0.6;
+  stroke-width: 0px;
+}
+
+marker {
+  /* this is what should work per the spec
+  stroke-dasharray: none; */
+  /* but I need to add this to make it work in Safari */
+  stroke-dasharray: 9999999999999999999999999;
+}
+
+.Citation.Icon {
+  fill: none;
+  stroke-width: 0px;
+}
+
+.Citation.textContent {
+  text-align: center;
+  vertical-align: top;
+  font-size: 7px;
+  fill: #999;
+  fill-opacity: 1;
+  stroke: none;
+}</style><g id="WP2597" class="Pathway http___identifiers_org_pw_PW_0001103 Viewport"  name="Name: Secretion of hydrochloric acid in parietal cells Organism: Homo sapiens" ><g class="Pathway http___identifiers_org_pw_PW_0001103 Viewport"><rect   width="954.26" height="546.93" style="stroke:none"/><g id="id27ea39e4" class="Edge"  ><path    d="m567 413.62v-122"/></g><g id="id68fffdfa" class="Edge"  ><path    d="m781 114.62h-130" style="marker-end:url(#memstimulation000)"/></g><g id="id8cdd2181" class="Edge"  ><path    d="m476 223.62v189"/></g><g id="idde4befb5" class="Edge"  ><path    d="m781 91.62-130 1" style="marker-end:url(#memstimulation000)"/></g><g id="ide419581c" class="Edge"  ><path    d="m516 190.62h158"/><g id="ed8f4" class="AB" transform="translate(634.25 190.62)"  ><g class="AB"/></g></g><g id="id333256ed" class="Edge"  ><path    d="m634.25 190.62-67.25 57"/></g><g id="id52111a9a" class="Edge"  ><path    d="m635 163.62-0.75 27" style="marker-end:url(#memcatalysis000)"/></g><g id="id97d285d6" class="Edge"  ><path    d="m674 257.62-39.75-67" style="marker-end:none"/></g><g id="idf1f60b14" class="Edge"  ><path    d="m781 66.62-130 1" style="marker-end:url(#memstimulation000)"/></g><g id="iddee12465" class="Edge"  ><path    d="m283 202.12h145" style="marker-end:url(#memconversion000)"/><g id="eb82c" class="AB" transform="translate(357.03 202.12)"  ><g class="AB"/></g></g><g id="idff65d871" class="Edge"  ><path    d="m615 269.62h51"/></g><g id="idd39f19e8" class="Edge"  ><path    d="m357.28 126.62-0.25 75.5" style="marker-end:url(#memcatalysis000)"/><g id="f9b5d" class="AB" transform="translate(357.18 156.82)"  ><g class="AB"/></g></g><g id="idcbdfe077" class="Edge"  ><path    d="m563 91.12-205.82 65.7" style="marker-end:url(#memstimulation000)"/></g><g id="b1c39" class=" PhysicalEntity CellularComponent Extracellular_region" transform="translate(15.5 382.12)"  ><g class=" PhysicalEntity CellularComponent Extracellular_region"><rect   width="619.5" height="133.5" rx="15" ry="15" stroke-dasharray="5,3" style="fill:transparent;stroke:#c0c0c0"/></g></g><g id="b648e" class=" PhysicalEntity CellularComponent Extracellular_region" transform="translate(638.5 48.12)"  ><g class=" PhysicalEntity CellularComponent Extracellular_region"><rect   width="285.76" height="468.81" rx="15" ry="15" stroke-dasharray="5,3" style="fill:transparent;stroke:#c0c0c0"/></g></g><g id="e7491" class=" PhysicalEntity CellularComponent Cell" transform="translate(40 43.12)"  ><g class=" PhysicalEntity CellularComponent Cell" filter="url(#doublefalse3filter)"><g class=" PhysicalEntity CellularComponent Cell"><rect   transform="matrix(0.98 0 0 0.97 5.88 5.79)" width="596.5" height="338" rx="15" ry="15" stroke-width="3" style="fill:transparent;stroke:#c0c0c0"/></g></g></g><g id="acafc" class="Label" transform="translate(633.08 384.39)"  name="Stomach lumen" ><g class="Label"/></g><g id="cc0b3" class="Label" transform="translate(32.38 411.39)"  name="Venous blood" ><g class="Label"/></g><g id="a3371" class="GroupGroup" transform="translate(260.32 65.98)"  ><g class="GroupGroup"><g id="bed93" class="Label" transform="translate(8,8)"  name="carbonate dehydratase activity" ><g class="Label"/></g><g id="ec62f" class="Metabolite" transform="translate(53.12 32.64)"  name="Zinc" ><rect   width="80" height="20" style="stroke:#00f"/></g></g></g><g id="a02d6" class="GeneProduct" transform="translate(781 81.62)"  name="Gastrin" ><rect   width="80" height="20"/></g><g id="b67fa" class="Metabolite" transform="translate(781 104.62)"  name="Acetylcholine" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="bf022" class="GeneProduct " transform="translate(595 143.62)"  name="ATP4A" ><rect   width="80" height="20"/></g><g id="c6147" class="Metabolite" transform="translate(781 56.62)"  name="Histamine" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="b2383" class="GroupGroup" transform="translate(187 171.62)"  ><g class="GroupGroup"><g id="ca53a" class="Metabolite" transform="translate(8,33)"  name="Carbon dioxide" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="d80c0" class="Metabolite" transform="translate(8,8)"  name="Water" ><rect   width="80" height="20" style="stroke:#00f"/></g></g></g><g id="d4cca" class="GroupGroup" transform="translate(428 172.62)"  ><g class="GroupGroup"><g id="e1cc0" class="Metabolite" transform="translate(8,31)"  name="Bicarbonate ion" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="fc4df" class="Metabolite " transform="translate(8,8)"  name="Hydrogen" ><rect   width="80" height="20" style="stroke:#00f"/></g></g></g><g id="eca58" class="GroupGroup" transform="translate(519 239.62)"  ><g class="GroupGroup"><g id="b2fb9" class="Metabolite " transform="translate(8,32)"  name="Chloride ion" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="c559d" class="Metabolite " transform="translate(8,8)"  name="Potassium" ><rect   width="80" height="20" style="stroke:#00f"/></g></g></g><g id="f8803" class="GroupGroup" transform="translate(563 49.62)"  ><g class="GroupGroup"><g id="d0f77" class="GeneProduct " transform="translate(8,8)"  name="HRH2" ><rect   width="80" height="20"/></g><g id="ef034" class="GeneProduct " transform="translate(8,55)"  name="CHRM1" ><rect   width="80" height="20"/></g><g id="f4d16" class="GeneProduct " transform="translate(8,33)"  name="CCKBR" ><rect   width="80" height="20"/></g></g></g><g id="fac7b" class="Metabolite" transform="translate(436 412.62)"  name="Bicarbonate ion" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="d5d39" class="Metabolite " transform="translate(674 180.62)"  name="Hydrogen" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="bb54c" class="Metabolite " transform="translate(527 413.62)"  name="Chloride ion" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="ce186" class="GroupGroup" transform="translate(666 239.62)"  ><g class="GroupGroup"><g id="a55a0" class="Metabolite " transform="translate(8,8)"  name="Potassium" ><rect   width="80" height="20" style="stroke:#00f"/></g><g id="de43f" class="Metabolite " transform="translate(8,32)"  name="Chloride ion" ><rect   width="80" height="20" style="stroke:#00f"/></g></g></g></g></g></g></svg>

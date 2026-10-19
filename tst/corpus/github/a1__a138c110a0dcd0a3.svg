@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="82" height="5" viewBox="0 0 82 5">
+  <defs>
+    <style>
+      .cls-1 {
+        filter: url(#filter);
+      }
+
+      .cls-2 {
+        fill-rule: evenodd;
+      }
+    </style>
+    <filter id="filter" filterUnits="userSpaceOnUse">
+      <feFlood result="flood" flood-color="#00b9e3"/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Группа_8" data-name="Группа 8" class="cls-1">
+    <g>
+      <rect id="Line_копия" data-name="Line копия" y="4" width="82" height="1"/>
+      <path id="Фигура_4" data-name="Фигура 4" class="cls-2" d="M574,962l4-4,4,4h-8Z" transform="translate(-538 -958)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,273 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="power.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg35747"
+   version="1.1"
+   viewBox="0 0 200 200"
+   height="200mm"
+   width="200mm">
+  <defs
+     id="defs35741">
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12841"
+       effect="simplify" />
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12837"
+       effect="simplify" />
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12833"
+       effect="simplify" />
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12829"
+       effect="simplify" />
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12825"
+       effect="simplify" />
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12821"
+       effect="simplify" />
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12817"
+       effect="simplify" />
+    <inkscape:path-effect
+       simplify_just_coalesce="false"
+       simplify_individual_paths="false"
+       helper_size="0"
+       smooth_angles="360"
+       threshold="0.000736842"
+       steps="1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect12813"
+       effect="simplify" />
+    <filter
+       inkscape:menu-tooltip="Random paint streaks downwards"
+       inkscape:menu="Protrusions"
+       x="-0.15"
+       y="-0.5"
+       width="1.3"
+       height="2"
+       id="filter10247"
+       inkscape:label="Dripping"
+       style="color-interpolation-filters:sRGB;">
+      <feComponentTransfer
+         id="feComponentTransfer10245"
+         result="fbSourceGraphic"
+         in="blur">
+        <feFuncR
+           id="feFuncR10239"
+           offset="0.0239521"
+           exponent="8.80239"
+           amplitude="14.491"
+           type="gamma" />
+        <feFuncG
+           id="feFuncG10241"
+           offset="0.0239521"
+           exponent="8.80239"
+           amplitude="14.491"
+           type="gamma" />
+        <feFuncB
+           id="feFuncB10243"
+           offset="0.0239521"
+           exponent="8.80239"
+           amplitude="14.491"
+           type="gamma" />
+      </feComponentTransfer>
+      <feColorMatrix
+         id="feColorMatrix10319"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         in="fbSourceGraphic"
+         result="fbSourceGraphicAlpha" />
+      <feConvolveMatrix
+         in="fbSourceGraphic"
+         divisor="6.03"
+         result="result1"
+         kernelMatrix="0 -1 0 0 -1 0 0 2 0"
+         order="3 3"
+         id="feConvolveMatrix10321" />
+      <feTurbulence
+         result="result0"
+         baseFrequency="0.078 0.010"
+         numOctaves="1"
+         id="feTurbulence10323" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 10 -3.5"
+         result="result2"
+         id="feColorMatrix10325" />
+      <feComposite
+         operator="in"
+         in="result1"
+         id="feComposite10327"
+         in2="result2" />
+      <feMorphology
+         radius="1 30"
+         operator="dilate"
+         id="feMorphology10329" />
+      <feColorMatrix
+         result="result3"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 50 0"
+         id="feColorMatrix10331" />
+      <feOffset
+         result="result4"
+         dy="1.4"
+         dx="0"
+         id="feOffset10333" />
+      <feTurbulence
+         result="result8"
+         baseFrequency="0.032 0.025"
+         numOctaves="2"
+         id="feTurbulence10335" />
+      <feColorMatrix
+         result="result91"
+         values="0 0 0 0 0.52 0 -0.4 0 0 0.45 0 0 1 0 0 0 0 0 1 0"
+         id="feColorMatrix10337" />
+      <feDisplacementMap
+         result="result9"
+         scale="100"
+         yChannelSelector="G"
+         xChannelSelector="R"
+         in="result4"
+         id="feDisplacementMap10339"
+         in2="result91" />
+      <feComposite
+         in="fbSourceGraphic"
+         id="feComposite10341"
+         in2="result9" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     inkscape:snap-global="false"
+     inkscape:window-maximized="0"
+     inkscape:window-y="6"
+     inkscape:window-x="52"
+     inkscape:window-height="1040"
+     inkscape:window-width="1274"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="400"
+     inkscape:cy="331.42857"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     showborder="true"
+     inkscape:showpageshadow="true"
+     borderlayer="false" />
+  <metadata
+     id="metadata35744">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       d="M 67.0655 120.56 C 61.5951 120.519 58.8023 114.502 59.7308 109.7 C 60.187 105.487 62.4148 100.417 67.3207 100.342 C 69.8723 99.8944 72.7998 100.363 75.1431 101.663 C 77.5129 102.978 79.2853 105.142 79.4676 108.068 C 80.243 111.009 79.5012 113.967 77.8138 116.232 C 76.1272 118.495 73.496 120.067 70.4908 120.238 C 69.358 120.426 68.21 120.489 67.0655 120.56 C 67.0655 120.56 67.0655 120.56 67.0655 120.56"
+       style="fill:#8c8c8c;fill-opacity:1;stroke-width:0.0604978"
+       id="path11011" />
+    <path
+       d="M 105.028 125.922 C 102.947 123.437 102.074 120.421 101.302 117.351 C 100.532 114.293 99.8628 111.182 98.1974 108.49 C 97.3926 107.079 96.4174 99.6245 95.0873 101.892 C 95.0461 105.421 94.8457 108.951 94.718 112.482 C 94.5903 116.013 94.5353 119.544 94.7852 123.075 C 89.4374 126.121 87.7859 118.605 86.9036 114.863 C 86.1327 112.192 84.5963 109.926 82.9761 107.694 C 81.3669 105.477 79.6751 103.293 78.5684 100.778 C 77.9095 98.8012 76.4711 95.9785 75.6243 93.2552 C 74.6911 90.2538 74.4766 87.3734 76.8165 85.88 C 79.8656 86.9016 79.9974 89.994 80.2024 93.1802 C 80.3942 96.1623 80.6501 99.2265 83.422 100.752 C 84.4056 104.738 88.9816 110.211 90.4568 111.853 C 90.6599 108.745 90.8679 105.635 91.1464 102.532 C 91.4249 99.4287 91.774 96.3328 92.2595 93.2538 C 97.3106 90.5137 99.007 99.7645 100.456 103.141 C 101.156 106.704 103.271 114.68 105.958 114.67 C 106.463 110.658 106.681 106.58 106.927 102.503 C 107.173 98.4283 107.447 94.3554 108.065 90.352 C 108.683 86.3437 109.645 82.4052 111.267 78.6049 C 118.207 77.587 113.143 86.0373 111.786 88.8496 C 111.062 93.159 110.887 97.5129 110.752 101.871 C 110.617 106.228 110.522 110.59 109.955 114.915 C 107.645 118.192 109.544 124.363 105.028 125.922 C 105.028 125.922 105.028 125.922 105.028 125.922"
+       style="fill:#8c8c8c;fill-opacity:1;stroke-width:0.0604978"
+       id="path10881" />
+    <path
+       d="M 140.11 130.145 C 137.003 128.498 136.603 125.686 136.829 122.626 C 137.047 119.67 137.848 116.483 137.356 113.892 C 137.161 109.985 137.296 106.034 137.285 102.101 C 137.273 98.1507 137.113 94.2186 136.322 90.367 C 133.63 86.9235 134.479 81.8344 139.749 82.9809 C 142.746 82.6318 145.94 82.7596 148.867 83.5967 C 151.822 84.4415 154.503 86.009 156.435 88.5378 C 157.955 91.6331 157.142 94.3401 155.514 96.7806 C 153.906 99.1915 151.502 101.342 149.764 103.351 C 147.695 104.903 141.141 107.294 146.877 108.399 C 149.192 108.523 155.364 112.056 152.168 113.418 C 150.385 112.484 147.325 111.229 144.834 111.001 C 142.075 110.748 140.013 111.754 141.151 115.848 C 140.717 120.381 141.962 126.395 140.332 130.051 C 140.332 130.051 140.108 130.144 140.108 130.144 C 140.108 130.144 140.11 130.145 140.11 130.145 M 160.68 125.558 C 158.086 123.591 156.116 121.027 154.146 118.464 C 152.176 115.9 150.206 113.336 147.613 111.367 C 147.353 105.766 154.328 112.396 155.395 114.608 C 157.32 117.209 164.982 123.263 161.206 125.552 C 161.206 125.552 160.925 125.555 160.925 125.555 C 160.925 125.555 160.68 125.558 160.68 125.558"
+       style="fill:#8c8c8c;fill-opacity:1;stroke-width:0.0604978"
+       id="path10841" />
+    <path
+       d="M 35.811 132.601 C 34.5475 128.787 34.512 124.851 34.6309 120.892 C 34.7493 116.946 35.0212 112.977 34.3838 109.083 C 34.261 106.222 34.1041 103.348 33.9729 100.478 C 33.8413 97.5992 33.7355 94.7236 33.7155 91.8669 C 34.866 87.622 31.5384 81.2031 36.3462 78.6931 C 39.4219 77.0947 42.7514 76.7773 46.1204 76.9752 C 49.4689 77.1719 52.8564 77.8775 56.0726 78.3401 C 58.7772 78.912 61.6373 80.3889 63.6283 82.4887 C 65.6477 84.6185 66.773 87.3892 65.9352 90.5065 C 64.8639 94.0077 62.362 96.2579 59.4113 98.02 C 56.492 99.7634 53.1334 101.029 50.286 102.556 C 47.8159 103.266 44.3605 103.549 41.7382 104.57 C 38.9881 105.64 37.1541 107.522 38.3338 111.558 C 38.3827 114.81 38.3905 118.068 38.4873 121.322 C 38.5841 124.575 38.77 127.824 39.1749 131.057 C 38.5007 132.216 37.0649 132.613 35.811 132.601 C 35.811 132.601 35.811 132.601 35.811 132.601"
+       style="fill:#8c8c8c;fill-opacity:1;stroke-width:0.0604978"
+       id="path10831" />
+    <path
+       d="M 118.668 108.511 C 121.827 109.587 131.223 107.159 124.54 104.095 C 120.098 103.627 117.379 108.649 117.787 112.541 C 117.918 115.073 119.749 117.484 122.036 118.756 C 124.392 120.067 127.232 120.168 129.198 117.945 C 130.225 116.718 131.86 114.65 130.695 113.055"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path12811" />
+    <path
+       d="M 74.8355 109.313 C 76.4732 106.4 74.4636 104.096 71.9031 103.316 C 69.3848 102.548 66.3335 103.253 65.6953 106.298 C 63.5086 108.184 63.0926 111.402 64.0402 113.905 C 64.9989 116.437 67.3536 118.238 70.6824 117.186 C 74.1424 115.85 80.4416 111.192 75.37 107.442"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path12823" />
+    <path
+       d="M 43.2977 83.1208 C 42.8935 85.6531 41.75 88.269 41.0351 90.8838 C 40.3093 93.5386 40.0253 96.1922 41.4053 98.7561 C 44.606 103.075 50.1585 99.9696 53.8498 98.1451 C 58.9965 97.3217 59.4399 89.6202 55.2842 87.2098 C 52.5046 84.9479 49.1232 84.1552 45.7031 83.6553"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path12827" />
+    <path
+       d="M 141.92 87.1299 C 145.728 90.741 140.798 99.8398 143.497 101.259 C 145.662 97.6171 152.53 95.766 150.635 90.6479 C 150.444 87.2106 141.885 82.3622 141.92 87.1298 C 141.92 87.1298 141.92 87.1299 141.92 87.1299"
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path12839" />
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg width="120" height="120" viewBox="0 0 120 120"
+    xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <pattern id="Triangle" width="10" height="10"
+        patternUnits="userSpaceOnUse">
+      <polygon points="5,0 10,10 0,10"/>
+	</pattern>
+  </defs>
+
+  <circle cx="60" cy="60" r="50" fill="url(#Triangle)"/>
+</svg>

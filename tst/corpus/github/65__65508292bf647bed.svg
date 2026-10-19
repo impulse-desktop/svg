@@ -1,0 +1,249 @@
+<svg width="375px" height="375px" 
+	 version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <desc>A tennis court with stats</desc>
+	<style>
+		#buttons rect:hover {stroke: dimgrey; fill: grey; fill-opacity: 8%}
+		#buttons g.selected rect:first-child {stroke: dimgrey; fill: grey; fill-opacity: 3%}
+	</style>
+
+	<g id="scale" transform="scale(1.5)">
+		<g font-family="Gill Sans, Helvetica, Arial, sans-serif" font-size="10px" color="black" text-anchor="middle">
+			<defs>
+				<linearGradient id="fadeout1" y1="0%" y2="100%" x1="1" x2="1">
+					<stop offset="60%" stop-opacity="1" />
+					<stop offset="99%" stop-opacity="0" />
+				</linearGradient>
+				<linearGradient id="fadeout2" y1="100%" y2="0%" x1="1" x2="1">
+					<stop offset="60%" stop-opacity="1" />
+					<stop offset="99%" stop-opacity="0" />
+				</linearGradient>
+			</defs>
+
+<rect id="bg" x="0" y="0" width="100%" height="100%" fill="gainsboro"></rect>
+
+
+			
+<g transform="translate(3,5)">
+	<g id="court" fill="yellowgreen" stroke="white" stroke-width="2px">
+		<rect x="20" y="20" width="100" height="200"></rect>
+		<line x1="20" y1="65" x2="120" y2="65"></line>
+		<line x1="20" y1="175" x2="120" y2="175"></line>
+		<line x1="70" y1="65" x2="70" y2="175"></line>
+		<line x1="70" y1="20" x2="70" y2="25"></line>
+		<line x1="70" y1="215" x2="70" y2="220"></line>
+		<line x1="18" y1="120" x2="122" y2="120" stroke="dimgrey"></line>
+		</g>
+	<g id="players" font-size="13px" font-weight="bold" opacity="1">
+		
+		
+		</g>
+	<g id="zone_numbers" font-size="11px" opacity="0">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		</g>
+	<g id="return_zones_1" fill="black" opacity="0">
+		<rect id="z17" x="19" y="66" width="31" height="45" fill="url(#fadeout1)" opacity=".14"></rect>
+		<rect id="z27" x="50" y="66" width="40" height="45" fill="url(#fadeout1)" opacity=".15"></rect>
+		<rect id="z37" x="90" y="66" width="31" height="45" fill="url(#fadeout1)" opacity=".20"></rect>
+		<rect id="z18" x="19" y="42" width="31" height="24" opacity=".20"></rect>
+		<rect id="z28" x="50" y="42" width="40" height="24" opacity=".33"></rect>
+		<rect id="z38" x="90" y="42" width="31" height="24" opacity=".29"></rect>
+		<rect id="z19" x="19" y="19" width="31" height="23" opacity=".25"></rect>
+		<rect id="z29" x="50" y="19" width="40" height="23" opacity=".35"></rect>
+		<rect id="z39" x="90" y="19" width="31" height="23" opacity=".42"></rect>
+		
+		</g>
+	<g id="return_zones_2" fill="black" opacity="0" transform="rotate(180,70,120)">
+		<rect id="z17" x="19" y="66" width="31" height="45" fill="url(#fadeout1)" opacity=".14"></rect>
+		<rect id="z27" x="50" y="66" width="40" height="45" fill="url(#fadeout1)" opacity=".15"></rect>
+		<rect id="z37" x="90" y="66" width="31" height="45" fill="url(#fadeout1)" opacity=".20"></rect>
+		<rect id="z18" x="19" y="42" width="31" height="24" opacity=".20"></rect>
+		<rect id="z28" x="50" y="42" width="40" height="24" opacity=".33"></rect>
+		<rect id="z38" x="90" y="42" width="31" height="24" opacity=".29"></rect>
+		<rect id="z19" x="19" y="19" width="31" height="23" opacity=".25"></rect>
+		<rect id="z29" x="50" y="19" width="40" height="23" opacity=".35"></rect>
+		<rect id="z39" x="90" y="19" width="31" height="23" opacity=".42"></rect>
+		
+		</g>
+	<g id="groundie_zones_1" fill="url(#fadeout1)" opacity="0">
+		<rect id="za1" x="19" y="19" width="31" height="75" opacity=".25"></rect>
+		<rect id="za2" x="50" y="19" width="40" height="75" opacity=".45"></rect>
+		<rect id="za3" x="90" y="19" width="31" height="75" opacity=".35"></rect>
+		
+		
+		
+		</g>
+	<g id="groundie_zones_2" fill="url(#fadeout2)" opacity="0">
+		<rect id="zb1" x="19" y="146" width="31" height="75" opacity=".25"></rect>
+		<rect id="zb2" x="50" y="146" width="40" height="75" opacity=".45"></rect>
+		<rect id="zb3" x="90" y="146" width="31" height="75" opacity=".35"></rect>
+		
+		
+		
+		</g>
+	<g id="serve_line_deuce_1" stroke="firebrick" stroke-width="1" stroke-dasharray="3 3" opacity="0">
+		<line x1="75" y1="225" x2="20" y2="77"></line>
+		<line x1="75" y1="225" x2="42" y2="77"></line>
+		<line x1="75" y1="225" x2="65" y2="77"></line>
+		</g>
+	<g id="serve_line_ad_1" stroke="darkblue" stroke-width="1" stroke-dasharray="3 3" opacity="0">
+		<line x1="65" y1="225" x2="75" y2="77"></line>
+		<line x1="65" y1="225" x2="97" y2="77"></line>
+		<line x1="65" y1="225" x2="120" y2="77"></line>
+		</g>
+	<g id="serve_line_deuce_2" stroke="firebrick" stroke-width="1" stroke-dasharray="3 3" opacity="0" transform="rotate(180,70,120)">
+		<line x1="75" y1="225" x2="20" y2="77"></line>
+		<line x1="75" y1="225" x2="42" y2="77"></line>
+		<line x1="75" y1="225" x2="65" y2="77"></line>
+		</g>
+	<g id="serve_line_ad_2" stroke="darkblue" stroke-width="1" stroke-dasharray="3 3" opacity="0" transform="rotate(180,70,120)">
+		<line x1="65" y1="225" x2="75" y2="77"></line>
+		<line x1="65" y1="225" x2="97" y2="77"></line>
+		<line x1="65" y1="225" x2="120" y2="77"></line>
+		</g>
+	<g id="serve_box_stats_deuce_1" font-size="9px" opacity="0">
+		
+		
+		
+		<g id="bars_deuce_1">
+			<rect x="21" y="77" width="3" height="20" fill="green"></rect>
+			<rect x="25" y="77" width="3" height="15" fill="firebrick"></rect>
+			<rect x="41" y="77" width="3" height="5" fill="green"></rect>
+			<rect x="45" y="77" width="3" height="3" fill="firebrick"></rect>
+			<rect x="61" y="77" width="3" height="21" fill="green"></rect>
+			<rect x="65" y="77" width="3" height="6" fill="firebrick"></rect>
+		</g>
+		<g id="aces_deuce_1" fill="darkgreen">
+			<circle cx="20" cy="65" r="2"></circle>
+			
+			<circle cx="43" cy="65" r="2"></circle>
+			
+			<circle cx="68" cy="65" r="2"></circle>
+			
+		</g>
+		</g>
+	<g id="serve_box_stats_ad_1" font-size="9px" opacity="0" transform="translate(50,0)">
+		
+		
+		
+		<g id="bars_ad_1" fill="darkgreen">
+			<rect x="22" y="77" width="3" height="20" fill="green"></rect>
+			<rect x="26" y="77" width="3" height="15" fill="firebrick"></rect>
+			<rect x="42" y="77" width="3" height="5" fill="green"></rect>
+			<rect x="46" y="77" width="3" height="3" fill="firebrick"></rect>
+			<rect x="62" y="77" width="3" height="21" fill="green"></rect>
+			<rect x="66" y="77" width="3" height="6" fill="firebrick"></rect>
+		</g>
+		<g id="aces_ad_1" fill="darkgreen">
+			<circle cx="23" cy="65" r="2"></circle>
+			
+			<circle cx="46" cy="65" r="2"></circle>
+			
+			<circle cx="69" cy="65" r="2"></circle>
+			
+		</g>
+		</g>
+	<g id="serve_box_stats_deuce_2" font-size="9px" opacity="0">
+		
+		
+		
+		<g id="bars_deuce_2" transform="rotate(180,70,120)">
+			<rect x="65" y="77" width="3" height="6" fill="firebrick"></rect>
+			<rect x="61" y="77" width="3" height="21" fill="green"></rect>
+			<rect x="45" y="77" width="3" height="3" fill="firebrick"></rect>
+			<rect x="41" y="77" width="3" height="5" fill="green"></rect>
+			<rect x="25" y="77" width="3" height="15" fill="firebrick"></rect>
+			<rect x="21" y="77" width="3" height="20" fill="green"></rect>
+		</g>
+		<g id="aces_deuce_2" fill="darkgreen">
+			<circle cx="72" cy="175" r="2"></circle>
+			
+			<circle cx="94" cy="175" r="2"></circle>
+			
+			<circle cx="120" cy="175" r="2"></circle>
+			
+		</g>
+		</g>
+	<g id="serve_box_stats_ad_2" font-size="9px" opacity="0" transform="translate(50,0)">
+		
+		
+		
+		<g id="bars_ad_2" fill="darkgreen" transform="translate(-100,0), rotate(180,70,120)">
+			<rect x="66" y="77" width="3" height="6" fill="firebrick"></rect>
+			<rect x="62" y="77" width="3" height="21" fill="green"></rect>
+			<rect x="46" y="77" width="3" height="3" fill="firebrick"></rect>
+			<rect x="42" y="77" width="3" height="5" fill="green"></rect>
+			<rect x="26" y="77" width="3" height="15" fill="firebrick"></rect>
+			<rect x="22" y="77" width="3" height="20" fill="green"></rect>
+		</g>
+		<g id="aces_ad_2" fill="darkgreen">
+			<circle cx="-30" cy="175" r="2"></circle>
+			
+			<circle cx="-7" cy="175" r="2"></circle>
+			
+			<circle cx="18" cy="175" r="2"></circle>
+			
+		</g>
+		</g>
+	<g id="serve_stats_1" font-size="10px" opacity="0">
+		
+		
+		
+		</g>
+	<g id="serve_stats_2" font-size="10px" opacity="0">
+		
+		
+		
+		</g>
+	<g id="return_stats_1" font-size="10px" opacity="0">
+		
+		
+		</g>
+	<g id="return_stats_2" font-size="10px" opacity="0">
+		
+		
+		</g>
+	<g id="net_stats" font-size="10px" opacity="0">
+		
+		
+		</g>
+	<g id="buttons" transform="translate(150,60)" opacity="1">
+		<g id="serve1_btn" cursor="pointer" onclick="parent.tennisvg.buttonClick(event);">
+			<rect x="0" y="0" rx="5" ry="5" width="75" height="16" fill="white" stroke-opacity="0" />
+			
+			<rect x="0" y="0" rx="5" ry="5" width="75" height="16" fill-opacity="0" stroke="grey" />
+		</g>
+		<g id="return1_btn" cursor="pointer" onclick="parent.tennisvg.buttonClick(event);">
+			<rect x="0" y="25" rx="5" ry="5" width="75" height="16" fill="white" stroke-opacity="0" />
+			
+			<rect x="0" y="25" rx="5" ry="5" width="75" height="16" fill-opacity="0" stroke="grey" />
+		</g>
+		<g id="groundies_btn" cursor="pointer" onclick="parent.tennisvg.buttonClick(event);">
+			<rect x="0" y="50" rx="5" ry="5" width="75" height="16" fill="white" stroke-opacity="0" />
+			
+			<rect x="0" y="50" rx="5" ry="5" width="75" height="16" fill-opacity="0" stroke="grey" />
+		</g>
+		<g id="return2_btn" cursor="pointer" onclick="parent.tennisvg.buttonClick(event);">
+			<rect x="0" y="75" rx="5" ry="5" width="75" height="16" fill="white" stroke-opacity="0" />
+			
+			<rect x="0" y="75" rx="5" ry="5" width="75" height="16" fill-opacity="0" stroke="grey" />
+		</g>
+		<g id="serve2_btn" cursor="pointer" onclick="parent.tennisvg.buttonClick(event);">
+			<rect x="0" y="100" rx="5" ry="5" width="75" height="16" fill="white" stroke-opacity="0" />
+			
+			<rect x="0" y="100" rx="5" ry="5" width="75" height="16" fill-opacity="0" stroke="grey" />
+		</g>
+	</g>
+</g>
+
+</g></g></svg>

@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+	 xmlns:xlink="http://www.w3.org/1999/xlink">
+
+
+	<symbol id="myDot" x="30%"  y="10">
+		<circle cx="15" cy="20" r="20"/>
+	</symbol>
+	<use xlink:href="#myDot" x="15"  y="15%"/>
+
+	
+	
+	<circle cx="90" cy="100" r="20"/>
+</svg>

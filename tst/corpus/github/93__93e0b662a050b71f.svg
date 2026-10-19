@@ -1,0 +1,75 @@
+<svg class='board' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' baseProfile='full' xmlns:cc='http://creativecommons.org/ns#' xmlns:dc='http://purl.org/dc/elements/1.1/'>
+  
+
+  <style>
+      .frame--color-diffuse {fill: #442d18;}
+      .frame--color-specular {fill: #76522e;}
+      .frame--color-depth {fill: #2b1c0f;}
+      .frame--color-shadow {fill: #68300e;}
+      .plaque--color-diffuse {fill: #bfa162;}
+      .plaque--color-specular {fill: #d7bb7d;}
+      .plaque--color-depth {fill: #5f1802;}
+      .plaque--color-shadow {fill: #2b1c0f;}
+      .nail--color-diffuse {fill: #553d30;}
+      .nail--color-specular {fill: #968378;}
+      .nail--color-depth {fill: #372318;}
+      .planks--color-diffuse {fill: #a2703f;}
+      .planks--color-shade {fill: #673110;}
+      .planks--color-shadow {stroke: #5f2301;}
+      .planks--color-specular {stroke: #b98f65;}
+      .link--color-diffuse {fill: #433d18;}
+      .link--color-specular {fill: #746b2e;}
+      .link--color-shadow {fill: #2a260f;}
+  </style>
+
+  <defs>
+    <path id='bs-plaque-side' d='m 10.234,1e-4 c 5.1e-4,0.0445 0,0.0843 0,0.1289 0,4.2938 -3.4955,7.791 -7.7891,7.791 l 0,19.963 c 4.2938,0 7.7891,3.4974 7.7891,7.791 L 21,35.674 21,0 10.234,0 Z'/>
+    <rect id='bs-plaque-center' x='0' y='9.16' width='100%' height='35.67'/>
+    <path id='bs-plaque-specular-left' d='m 10.236,-0.00186 -0.002,0.002 c 5.1e-4,0.0445 0,0.0843 0,0.1289 0,4.2938 -3.4955,7.791 -7.7891,7.791 l 0,19.963 c 0.72288,0 1.4113,0.10567 2.0762,0.29102 l 0,-18.533 c 3.7812,-0.803 6.75,-3.7877 7.5645,-7.5648 l 8.9141,0 0,-2.0781 -10.764,0 z'/>
+    <path id='bs-plaque-specular-right' d='m 0,0 0,2.0781 8.9473,0 c 0.95735,4.4387 4.8843,7.791 9.6094,7.791 l 0,-2.0781 c -4.294,0 -7.76,-3.4974 -7.76,-7.791 L -3e-4,0 Z'/>
+    <path id='bs-plaque-side-shadow' d='m 10.234,1e-4 c 5.1e-4,0.0445 0,0.0843 0,0.1289 0,4.2938 -3.4954996,7.791 -7.7890996,7.791 l 0,22.041 2.0762,2.0762 c 1.6398,0 3.163,0.51134 4.4199,1.3809 C 10.1368,34.24537 10.234,37.7521 10.234,37.7521 l 2.0781,2.0762 8.6875,0 0,-39.693 -10.766,-0.13504 z'/>
+    
+    <circle id='bs-nail' cx='15.095px' cy='17.831px' r='4.866px'/>
+    <path id='bs-nail-specular' d='m15.105 12.987c-2.6875 0-4.8691 2.1492-4.8691 4.8366 0 1.6373 0.8054 3.1107 2.045 3.9926-0.62223-0.81751-1.0062-1.8473-1.0062-2.9539 0-2.6875 2.1816-4.8366 4.8691-4.8366 1.0502 0 2.0289 0.3107 2.8241 0.87642-0.88884-1.1678-2.282-1.9152-3.8628-1.9152z'/>
+  
+    
+    <clipPath id='cp-plaque-left-side'>
+      <rect x='18' y='0' width='100%' height='100%'/>
+    </clipPath>
+
+    <clipPath id='cp-plaque-right-side'>
+      <rect x='-18' y='0' width='100%' height='100%'/>
+    </clipPath>
+    
+    <g id='c-unclipped-plaque-center'>
+      <use xlink:href='#bs-plaque-center' class='plaque--color-shadow' transform='translate(0 4.32)'/>
+      <use xlink:href='#bs-plaque-center' class='plaque--color-depth' transform='translate(0 2.16)'/>
+      <use xlink:href='#bs-plaque-center' class='plaque--color-diffuse'/>
+      <rect x='0' y='9.16' width='100%' height='2.16' class='plaque--color-specular'/>
+    </g>
+
+    <use id='c-clipped-plaque-left' xlink:href='#c-unclipped-plaque-center' clip-path='url(#cp-plaque-left-side)'/>
+    <use id='clipped-plaque-center' xlink:href='#c-clipped-plaque-left' clip-path='url(#cp-plaque-right-side)'/>
+    
+    <symbol id='c-plaque-nail'>
+      <use xlink:href='#bs-nail' class='nail--color-depth' transform='translate(0 2.08)'/>
+      <use xlink:href='#bs-nail' class='nail--color-diffuse'/>
+      <use xlink:href='#bs-nail-specular' class='nail--color-specular'/>
+    </symbol>
+  </defs>
+  
+  
+  <g id='l-plaque' class='layer'>
+    <use xlink:href='#bs-plaque-side-shadow' class='plaque--color-shadow' transform='translate(0 9.08)'/>
+    <use xlink:href='#bs-plaque-side-shadow' class='plaque--color-shadow' x='-100%' transform='scale(-1, 1) translate(0 9.08)'/>
+    <use xlink:href='#bs-plaque-side' class='plaque--color-depth' transform='translate(0 11.24)'/>
+    <use xlink:href='#bs-plaque-side' class='plaque--color-depth' x='-100%' transform='scale(-1, 1) translate(0 11.24)'/>
+    <use xlink:href='#clipped-plaque-center'/>
+    <use xlink:href='#bs-plaque-side' class='plaque--color-diffuse' transform='translate(0 9.16)'/>
+    <use xlink:href='#bs-plaque-side' class='plaque--color-diffuse' x='-100%' transform='scale(-1, 1) translate(0 9.16)'/>
+    <use xlink:href='#bs-plaque-specular-left' class='plaque--color-specular' transform='translate(0 9.16)'/>
+    <use xlink:href='#bs-plaque-specular-right' class='plaque--color-specular' x='100%' transform='translate(-21 9.16)'/>
+    <use xlink:href='#c-plaque-nail' transform='translate(0 9.16)'/>
+    <use xlink:href='#c-plaque-nail' x='100%' transform='translate(-29.83 9.16)'/>
+  </g>
+</svg>

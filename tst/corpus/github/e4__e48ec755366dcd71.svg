@@ -1,0 +1,84 @@
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://web.resource.org/cc/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" viewBox="-100 -100 200 200">
+  <defs>
+    <circle id="dot" cy="-75" cx="0" r="6.35" fill="#fff"/>
+    <circle id="dot2" cy="-50" cx="0" r="6.35" fill="#fff"/>
+  </defs>
+  <g id="#dot">
+    <use xlink:href="#dot1" transform="rotate(150)"/>
+  </g>
+  <a>
+    <rect rx="0" ry="0" height="200" width="200" y="-100" x="-100" fill="#f60"/>
+    <circle cy="0" cx="0" r="35" fill="#fff"/>
+    <use xlink:href="#dot"/>
+    <use xlink:href="#dot" transform="rotate(24)"/>
+    <use xlink:href="#dot" transform="rotate(48)"/>
+    <use xlink:href="#dot" transform="rotate(72)"/>
+    <use xlink:href="#dot" transform="rotate(96)"/>
+    <use xlink:href="#dot" transform="rotate(120)"/>
+    <use xlink:href="#dot" transform="rotate(144)"/>
+    <use xlink:href="#dot" transform="rotate(168)"/>
+    <use xlink:href="#dot" transform="rotate(192)"/>
+    <use xlink:href="#dot" transform="rotate(216)"/>
+    <use xlink:href="#dot" transform="rotate(240)"/>
+    <use xlink:href="#dot" transform="rotate(264)"/>
+    <use xlink:href="#dot" transform="rotate(288)"/>
+    <use xlink:href="#dot" transform="rotate(312)"/>
+    <use xlink:href="#dot" transform="rotate(336)"/>
+    <use xlink:href="#dot2"/>
+    <use xlink:href="#dot2" transform="rotate(24)"/>
+    <use xlink:href="#dot2" transform="rotate(48)"/>
+    <use xlink:href="#dot2" transform="rotate(72)"/>
+    <use xlink:href="#dot2" transform="rotate(96)"/>
+    <use xlink:href="#dot2" transform="rotate(120)"/>
+    <use xlink:href="#dot2" transform="rotate(144)"/>
+    <use xlink:href="#dot2" transform="rotate(168)"/>
+    <use xlink:href="#dot2" transform="rotate(192)"/>
+    <use xlink:href="#dot2" transform="rotate(216)"/>
+    <use xlink:href="#dot2" transform="rotate(240)"/>
+    <use xlink:href="#dot2" transform="rotate(264)"/>
+    <use xlink:href="#dot2" transform="rotate(288)"/>
+    <use xlink:href="#dot2" transform="rotate(312)"/>
+    <use xlink:href="#dot2" transform="rotate(336)"/>
+  </a>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>DublinCore</dc:title>
+        <dc:date>2009-06-16T14:12:28</dc:date>
+        <dc:description>Dublin Core project logo</dc:description>
+        <dc:source>http://openclipart.org/detail/26698/dublincore-by-robin_upton</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Robin_Upton</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>cleanup</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>dublin core</rdf:li>
+            <rdf:li>image</rdf:li>
+            <rdf:li>logo</rdf:li>
+            <rdf:li>media</rdf:li>
+            <rdf:li>public domain</rdf:li>
+            <rdf:li>svg</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

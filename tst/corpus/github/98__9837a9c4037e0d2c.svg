@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="100%" height="100%" viewBox="0 0 500 600">
+<title>Collimator</title>
+<defs>
+	<marker id="Arrow" viewBox="0 0 10 10" refX="10" refY="5"
+		markerUnits="strokeWidth" orient="auto"
+		markerWidth="15" markerHeight="15">
+		<polyline points="10,5 0,0 4,5 0,10 10,5" fill="blue" />
+	</marker>
+	<circle id="point" cx="0" cy="0" r="3" fill="black" />
+</defs>
+<g style="fill:none;stroke:black;stroke-width:1;">
+	<g stroke="blue" marker-mid="url(#Arrow)">
+		<path d="M50,50 H125 H300" /><path d="M300,50 L450,200 L466.67,216.67" />
+		<path d="M50,50 L125,80 L450,210 L466.67,216.67" />
+		<path d="M50,350 H300 H470" /> <path d="M50,350 L300,408 L480,450" />
+		<path d="M470,350 L275,484.5 L229.36,516" />
+		<path d="M480,450 L275,504 L229.36,516" />
+	</g>
+	<g stroke-dasharray="5,2,2,2">
+		<line x1="0" x2="500" y1="150" y2="150" />
+		<line x1="0" x2="500" y1="450" y2="450" />
+	</g>
+	<use xlink:href="#point" transform="translate(400,150)" />
+	<use xlink:href="#point" transform="translate(325,450)" />
+	<path d="M450,320 a30,130 0 0,1 0,260" />
+	<g style="stroke-width:2;fill:black">
+		<path id="obj" d="M50,150 v-100 l-4,10 l4,-5 l4,5 l-4,-10" />
+		<use xlink:href="#obj" transform="translate(0,300)" />
+	</g>
+	<g fill="black">
+		<path d="M466.67,150 V216.67 l-3,-5 l3,2 l3,-2 l-3,5" />
+		<path d="M229.36,450 V516 l-3,-5 l3,2 l3,-2 l-3,5" />
+	</g>
+	<ellipse cx="300" cy="150" rx="15" ry="130" fill="cyan" opacity=".7" />
+</g>
+
+</svg>

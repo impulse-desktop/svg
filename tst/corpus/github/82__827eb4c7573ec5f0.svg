@@ -1,0 +1,43 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" height="500" width="500" version="1.1" id="het_ITO/P3HT/PCBM/Al">
+<defs>
+    <line y2="500" x2="0" y1="0" x1="0" id="ifLineProto"/>
+    <line y2="0" x2="15" y1="0" x1="-117.5" id="fermiProto"/>
+    <polyline points="-102.5,0 0,0 15,-15.5487804878049" id="bandFormProto0(ITO)"/>
+    <polyline points="-117.5,15.5487804878049 -102.5,0 0,0 15,1.5243902439024608" id="bandFormProto1(P3HT)"/>
+    <polyline points="-117.5,-1.5243902439024608 -102.5,0 0,0 15,-11.58536585365856" id="bandFormProto2(PCBM)"/>
+    <polyline points="-117.5,11.58536585365856 -102.5,0 0,0" id="bandFormProto3(Al)"/>
+</defs>
+<g transform="matrix(1,0,0,1,0,25)" id="layersLabels">
+    
+    
+    
+    
+</g>
+<g stroke-dasharray="5, 8, 3, 8" stroke-width="1" stroke="#000000" id="zonesBorders">
+    <use transform="matrix(1,0,0,1,117.5,0)" xlink:href="#ifLineProto" id="if_0(ITO)/1(P3HT)"/>
+    <use transform="matrix(1,0,0,1,250,0)" xlink:href="#ifLineProto" id="if_1(P3HT)/2(PCBM)"/>
+    <use transform="matrix(1,0,0,1,382.5,0)" xlink:href="#ifLineProto" id="if_2(PCBM)/3(Al)"/>
+</g>
+<g stroke-width="1" stroke="#000000" fill="none" transform="matrix(1,0,0,-1,0,348.7804878048781)" id="levelsStrokes">
+    <g id="layer0_ITO">
+        <use transform="matrix(1,0,0,1,102.5,0)" stroke="#67e2b6" xlink:href="#fermiProto" id="lvl_fermi:0(ITO)"/>
+        <use transform="matrix(1,0,0,1,102.5,298.7804878048781)" stroke="#b5ffd0" xlink:href="#bandFormProto0(ITO)" id="lvl_vacuum:0(ITO)"/>
+    </g>
+    <g id="layer1_P3HT">
+        <use transform="matrix(1,0,0,1,235,-49.39024390243905)" stroke="#64a0e9" xlink:href="#bandFormProto1(P3HT)" id="lvl_homo:1(P3HT)"/>
+        <use transform="matrix(1,0,0,1,235,72.56097560975607)" stroke="#4b1ee6" xlink:href="#bandFormProto1(P3HT)" id="lvl_lumo:1(P3HT)"/>
+        <use transform="matrix(1,0,0,1,235,0)" stroke="#67e2b6" xlink:href="#fermiProto" id="lvl_fermi:1(P3HT)"/>
+        <use transform="matrix(1,0,0,1,235,267.6829268292683)" stroke="#b5ffd0" xlink:href="#bandFormProto1(P3HT)" id="lvl_vacuum:1(P3HT)"/>
+    </g>
+    <g id="layer2_PCBM">
+        <use transform="matrix(1,0,0,1,367.5,-101.21951219512191)" stroke="#64a0e9" xlink:href="#bandFormProto2(PCBM)" id="lvl_homo:2(PCBM)"/>
+        <use transform="matrix(1,0,0,1,367.5,45.12195121951221)" stroke="#4b1ee6" xlink:href="#bandFormProto2(PCBM)" id="lvl_lumo:2(PCBM)"/>
+        <use transform="matrix(1,0,0,1,367.5,0)" stroke="#67e2b6" xlink:href="#fermiProto" id="lvl_fermi:2(PCBM)"/>
+        <use transform="matrix(1,0,0,1,367.5,270.7317073170732)" stroke="#b5ffd0" xlink:href="#bandFormProto2(PCBM)" id="lvl_vacuum:2(PCBM)"/>
+    </g>
+    <g id="layer3_Al">
+        <use transform="matrix(1,0,0,1,500,0)" stroke="#67e2b6" xlink:href="#fermiProto" id="lvl_fermi:3(Al)"/>
+        <use transform="matrix(1,0,0,1,500,247.56097560975607)" stroke="#b5ffd0" xlink:href="#bandFormProto3(Al)" id="lvl_vacuum:3(Al)"/>
+    </g>
+</g>
+</svg>

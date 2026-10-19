@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="77px" height="77px" viewBox="0 0 77 77">
+<defs>
+<linearGradient id="Gradient_1" gradientUnits="userSpaceOnUse" x1="1.4" y1="22.1" x2="1.4" y2="-19.300000000000004" spreadMethod="pad">
+<stop  offset="0%" stop-color="#870101"/>
+
+<stop  offset="100%" stop-color="#CC0000"/>
+
+<stop  offset="100%" stop-color="#2C6A20" stop-opacity="0.9019607843137255"/>
+
+<stop  offset="100%" stop-color="#CCCCCC"/>
+</linearGradient>
+
+<filter id="Filter_1" x="-21.754395082201487%" y="-21.754395082201487%" width="143.50879016440297%" height="143.50879016440297%" color-interpolation-filters="sRGB">
+<feFlood flood-color="#FFFFFF" flood-opacity="1" in="SourceGraphic" result="result1"/>
+
+<feGaussianBlur in="SourceGraphic" stdDeviation="1.6666666666666667,1.6666666666666667" result="result2"/>
+
+<feComposite in2="result2" in="result1" operator="in" result="result3"/>
+
+<feComposite in2="result3" in="SourceGraphic" operator="over" result="result4"/>
+</filter>
+
+<g id="FB_wrong22_0_Layer3_0_FILL">
+<path fill="url(#Gradient_1)" stroke="none" d="
+M 22.1 -13.05
+Q 22.1 -19.3 15.85 -19.3
+L -13 -19.3
+Q -19.3 -19.3 -19.3 -13.05
+L -19.3 15.85
+Q -19.3 22.1 -13 22.1
+L 15.85 22.1
+Q 22.1 22.1 22.1 15.85
+L 22.1 -13.05
+M 1.55 -3.6
+L 1.7 -3.7
+Q 6 -8.5 8.7 -10.1 10 -11 10.65 -10.1 7.75 -7.35 3.85 -1.6 4.8 -0.8 7 1.9 9.15 4.5 10.45 7.25 11.7 9.9 11.25 10.75 9.4 8.15 7.35 6 5.25 3.8 2 1.1 -1.65 6.8 -3.9 12.4
+L -6.8 10.7
+Q -7.8 9.95 -7.15 8.95 -3.65 3.2 -0.65 -0.8 -4.4 -3.55 -9 -5.9
+L -7.45 -8
+Q -6.55 -9.3 -4.2 -7.85 -1.9 -6.5 1.55 -3.6 Z"/>
+
+<path fill="#FFFFFF" stroke="none" d="
+M 1.7 -3.7
+L 1.55 -3.6
+Q -1.9 -6.5 -4.2 -7.85 -6.55 -9.3 -7.45 -8
+L -9 -5.9
+Q -4.4 -3.55 -0.65 -0.8 -3.65 3.2 -7.15 8.95 -7.8 9.95 -6.8 10.7
+L -3.9 12.4
+Q -1.65 6.8 2 1.1 5.25 3.8 7.35 6 9.4 8.15 11.25 10.75 11.7 9.9 10.45 7.25 9.15 4.5 7 1.9 4.8 -0.8 3.85 -1.6 7.75 -7.35 10.65 -10.1 10 -11 8.7 -10.1 6 -8.5 1.7 -3.7 Z"/>
+</g>
+
+<path id="FB_wrong22_0_Layer3_0_1_STROKES" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 15.85 -19.3
+L -13 -19.3
+Q -19.3 -19.3 -19.3 -13.05
+L -19.3 15.85
+Q -19.3 22.1 -13 22.1
+L 15.85 22.1
+Q 22.1 22.1 22.1 15.85
+L 22.1 -13.05
+Q 22.1 -19.3 15.85 -19.3 Z"/>
+</defs>
+
+<g filter="url(#Filter_1)" transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 1.6097412109375, 0, 0, 1.6097412109375, 38.55,38.3) ">
+<g transform="matrix( 1, 0, 0, 1, -1.4,-1.4) ">
+<use xlink:href="#FB_wrong22_0_Layer3_0_FILL"/>
+
+<use xlink:href="#FB_wrong22_0_Layer3_0_1_STROKES"/>
+</g>
+</g>
+</g>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="-svg" class="Diagram"  baseProfile="full" prefix="schema:http://schema.org/" preserveAspectRatio="xMidYMid"  version="1.1"><defs><g id="filter-defs"><filter id="doublefalse3filter" x="-50%" y="-50%" width="200%" height="200%"><feComposite in="SourceGraphic" in2="SourceGraphic" result="doubleDark"/><feMorphology in="doubleDark" operator="dilate" radius="0.17" result="in2Double"/><feMorphology in="SourceGraphic" operator="dilate" radius="3" result="inDouble"/><feComposite in="inDouble" in2="in2Double" operator="out" result="doubleResult"/></filter></g><g id="icon-defs"/><g id="marker-defs"><marker id="memcatalysis000" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-memcatalysis000" transform=""><g transform="rotate(180 6 6)"><circle cx="6" cy="6" r="5.3px" fill="#fff" stroke="#000"/></g></g></marker><marker id="mea" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-mea" transform=""><g transform="rotate(180 6 6)"><rect y="5.4" width="2" height="1.2" style="stroke:#fff"/><polygon points="12 11 0 6 12 1" stroke-width="0"/></g></g></marker><marker id="memconversion000" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-memconversion000" transform=""><g transform="rotate(180 6 6)"><rect y="5.4" width="2" height="1.2" style="stroke:#fff"/><polygon points="12 11 0 6 12 1" stroke-width="0"/></g></g></marker></g></defs><g id="viewport-20220102140156940" class="svg-pan-zoom_viewport" transform="matrix(1.36 0 0 1.36 0 2.63)" style="transform:matrix(1.36, 0, 0, 1.36, 0, 2.63)"><style>svg.Diagram {font-family: 'Liberation Sans', Arial, sans-serif; }.Diagram path {fill: transparent;stroke: #000;marker-end: url(#mea);}.Diagram symbol path {fill: inherit;stroke: inherit;stroke-width: inherit;marker-end: inherit;}.Diagram rect {fill: #fff;stroke: #000;}.Diagram text {dominant-baseline: central;overflow: hidden;text-anchor: middle;fill: #000;font-size: 10px;}</style><style type="text/css">.Viewport .textContent {
+  pointer-events: none;
+  stroke-width: 0px;
+}
+
+					.Viewport.Icon {
+  fill: white;
+}
+
+/* Hide the InfoBox */
+.Viewport.textContent {
+  font-size: 0;
+}
+
+.textContent {
+  stroke: none;
+}
+
+.DataNode {
+  stroke-miterlimit: 1;
+  pointer-events: auto;
+}
+
+.DataNode:hover {
+  cursor: pointer;
+}
+
+/* TODO should this apply to things other than DataNodes? */
+.DataNode.textContent {
+  pointer-events: none;
+}
+
+.DataNode.Highlighted {
+  opacity: 0.6;
+  stroke-width: 0px;
+}
+
+marker {
+  /* this is what should work per the spec
+  stroke-dasharray: none; */
+  /* but I need to add this to make it work in Safari */
+  stroke-dasharray: 9999999999999999999999999;
+}
+
+.Citation.Icon {
+  fill: none;
+  stroke-width: 0px;
+}
+
+.Citation.textContent {
+  text-align: center;
+  vertical-align: top;
+  font-size: 7px;
+  fill: #999;
+  fill-opacity: 1;
+  stroke: none;
+}</style><g id="WP1941" class="Pathway http___identifiers_org_pw_PW_0000738 Viewport"  name="Name: Peroxisomal beta-oxidation of tetracosanoyl-CoA License: CC BY 2.0 Last Modified: 10/16/2013 Organism: Homo sapiens" ><g class="Pathway http___identifiers_org_pw_PW_0000738 Viewport"><rect   width="882.46" height="488.11" style="stroke:none"/><g id="id248a5d23" class="Edge"  ><path    d="m165 134h93"/><g id="ffc67" class="AB" transform="translate(211.5,134)"  ><g class="AB"/></g></g><g id="id22e34d56" class="Edge"  ><path    d="m211 95 0.5 39" style="marker-end:url(#memcatalysis000)"/></g><g id="id2ab1d39b" class="Edge"  ><path    d="m211.5 134 46.75 28.25" style="marker-end:url(#memconversion000)"/></g><g id="id701f3d89" class="Edge"  ><path    d="m71 197 0.25-53" style="marker-end:url(#memconversion000)"/></g><g id="ida6d397e9" class="Edge"  ><path    d="m241 333h-38" style="marker-end:url(#memconversion000)"/></g><g id="idf807d3fa" class="Edge"  ><path    d="m162 162 49.5-28" style="marker-end:url(#memconversion000)"/></g><g id="id12643bd4" class="Edge"  ><path    d="m485.5 93v41.5" style="marker-end:url(#memcatalysis000)"/></g><g id="id8aea186f" class="Edge"  ><path    d="m402 161 83.5-26.5" style="marker-end:url(#memconversion000)"/></g><g id="id563ea124" class="Edge"  ><path    d="m687 236h-35.75" style="marker-end:url(#memcatalysis000)"/></g><g id="idd285ec97" class="Edge"  ><path    d="M651.25,236L609,299" style="marker-end:url(#memconversion000)"/></g><g id="idf3b08bb8" class="Edge"  ><path    d="m601 170 50.25 66" style="marker-end:url(#memconversion000)"/></g><g id="id28d6f8fd" class="Edge"  ><path    d="M464.5,335L327,363" style="marker-end:url(#memconversion000)"/></g><g id="id75e3cac4" class="Edge"  ><path    d="m464 397 0.5-62" style="marker-end:url(#memcatalysis000)"/></g><g id="idb69bc2a6" class="Edge"  ><path    d="m464 298 0.5 37" style="marker-end:url(#memcatalysis000)"/></g><g id="idd8587197" class="Edge"  ><path    d="m577 366-112.5-31" style="marker-end:url(#memconversion000)"/></g><g id="e79bf" class=" PhysicalEntity CellularComponent Organelle" transform="translate(14.94 39.52) rotate(-0.42 419.51 210.04)"  name="Peroxisome" ><g class=" PhysicalEntity CellularComponent Organelle" filter="url(#doublefalse3filter)"><g class=" PhysicalEntity CellularComponent Organelle"><rect   transform="matrix(0.99 0 0 0.97 5.92 5.83)" width="839.03" height="420.09" rx="15" ry="15" stroke-width="3" style="fill:transparent;stroke:#c0c0c0"/></g></g><g ><defs><clipPath ><rect x="-419.51" y="-210.04" width="839.03" height="420.09" style="stroke:none"/></clipPath></defs></g></g><g id="a3450" class="Protein" transform="translate(426,73)"  name="D-bifunctional protein" ><rect   width="119" height="20"/></g><g id="ab6b5" class="Metabolite " transform="translate(568,150)"  name="NAD+" ><rect   width="44" height="20" style="stroke:#00f"/></g><g id="ae9c7" class="Metabolite " transform="translate(129,152)"  name="O2" ><rect   width="33" height="20" style="stroke:#00f"/></g><g id="b0960" class="Protein" transform="translate(354,397)"  name="Peroxisomal 3-oxoacyl-CoA thiolase" ><rect   width="220" height="20"/></g><g id="b4e5e" class="Pathway" transform="translate(29,197)"  name="Peroxisomal beta-oxidation of hexacosanoyl-CoA" ><g class="Pathway"/><g ><defs><clipPath ><rect x="-84" y="-28.5" width="168" height="57" style="stroke:none"/></clipPath></defs></g></g><g id="ba539" class="Metabolite " transform="translate(40,124)"  name="tetracosanoyl-CoA" ><rect   width="125" height="20" style="stroke:#00f"/></g><g id="ca5db" class="Metabolite" transform="translate(241,323)"  name="docosanoyl-CoA" ><rect   width="112" height="20" style="stroke:#00f"/></g><g id="cf671" class="Protein" transform="translate(393,278)"  name="Sterol carrier protein X" ><rect   width="142" height="20"/></g><g id="dce4f" class="Metabolite " transform="translate(243,353)"  name="acetyl-CoA" ><rect   width="84" height="20" style="stroke:#00f"/></g><g id="e8cf2" class="Pathway" transform="translate(32,313)"  name="Peroxisomal beta-oxidation of docosanoyl-CoA" ><g class="Pathway"/><g ><defs><clipPath ><rect x="-85.5" y="-20" width="171" height="40" style="stroke:none"/></clipPath></defs></g></g><g id="e9292" class="Metabolite " transform="translate(356,151)"  name="H2O" ><rect   width="46" height="20" style="stroke:#00f"/></g><g id="ed23c" class="Metabolite " transform="translate(577,356)"  name="CoA-SH" ><rect   width="56" height="20" style="stroke:#00f"/></g><g id="efc98" class="Metabolite " transform="translate(568,125)"  name="3-hydroxytetracosanoyl-CoA" ><rect   width="167" height="20" style="stroke:#00f"/></g><g id="fc276" class="Metabolite " transform="translate(258,124)"  name="(2E)-tetracosenoyl-CoA" ><rect   width="145" height="20" style="stroke:#00f"/></g><g id="fd764" class="Metabolite " transform="translate(258.25,152.25)"  name="H2O2" ><rect   width="39.75" height="20" style="stroke:#00f"/></g><g id="fe505" class="Protein" transform="translate(159,75)"  name="Acyl-CoA Oxidase 1" ><rect   width="104" height="20"/></g><g id="ac82d" class="Edge"  ><path    d="m403 134 165 1"/><g id="fe444" class="AB" transform="translate(485.5,134.5)"  ><g class="AB"/></g></g><g id="c079c" class="Edge"  ><path    d="m651.5 145-0.5 182"/><g id="e3b54" class="AB" transform="translate(651.25,236)"  ><g class="AB"/></g></g><g id="e59c0" class="Metabolite " transform="translate(576,327)"  name="3-ketotetracosanoyl-CoA" ><rect   width="150" height="20" style="stroke:#00f"/></g><g id="cbed1" class="Protein" transform="translate(687,226)"  name="D-bifunctional protein" ><rect   width="130" height="20"/></g><g id="d5712" class="Metabolite " transform="translate(576,299)"  name="NADH" ><rect   width="44" height="20" style="stroke:#00f"/></g><g id="fdf3b" class="Edge"  ><path    d="m576 337-223-4"/><g id="b7bfc" class="AB" transform="translate(464.5,335)"  ><g class="AB"/></g></g></g></g></g></svg>
