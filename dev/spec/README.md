@@ -100,3 +100,4 @@ Searching:
 - [Selectors Level 4](selectors-4.md) (https://drafts.csswg.org/selectors-4/)
 - [CSS Syntax Module Level 3](css-syntax-3.md) (https://drafts.csswg.org/css-syntax-3/)
 - [CSS Cascading and Inheritance Module Level 5](css-cascade-5.md) (https://drafts.csswg.org/css-cascade-5/)
+- [CSS Custom Properties for Cascading Variables Module Level 1](css-variables-1.md) (https://drafts.csswg.org/css-variables-1/)
