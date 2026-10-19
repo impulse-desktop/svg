@@ -1,0 +1,61 @@
+<svg width="336pt" height="125pt" viewBox="0.00 0.00 335.53 125.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 121)">
+<title>entities</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-121 331.5279,-121 331.5279,4 -4,4"></polygon>
+<!-- Person -->
+<g id="node1" class="node">
+<title>Person</title>
+<ellipse fill="none" stroke="#000000" stroke-dasharray="5,2" cx="34.4962" cy="-72" rx="34.4923" ry="18"></ellipse>
+
+</g>
+<!-- Work -->
+<g id="node2" class="node">
+<title>Work</title>
+<ellipse fill="none" stroke="#000000" stroke-dasharray="5,2" cx="159.0749" cy="-99" rx="28.1962" ry="18"></ellipse>
+
+</g>
+<!-- Person&#45;&#45;Work -->
+<g id="edge1" class="edge">
+<title>Person--Work</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M66.5783,-78.9532C86.9086,-83.3594 112.9036,-88.9933 132.1558,-93.1658"></path>
+</g>
+<!-- Performance -->
+<g id="node3" class="node">
+<title>Performance</title>
+<ellipse fill="none" stroke="#000000" stroke-dasharray="5,2" cx="159.0749" cy="-45" rx="54.1652" ry="18"></ellipse>
+
+</g>
+<!-- Work&#45;&#45;Performance -->
+<g id="edge2" class="edge">
+<title>Work--Performance</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M159.0749,-80.7902C159.0749,-74.907 159.0749,-69.0238 159.0749,-63.1406"></path>
+</g>
+<!-- Performance&#45;&#45;Person -->
+<g id="edge3" class="edge">
+<title>Performance--Person</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M113.4848,-54.8808C97.9198,-58.2542 80.8527,-61.9531 66.5783,-65.0468"></path>
+</g>
+<!-- Location -->
+<g id="node4" class="node">
+<title>Location</title>
+<ellipse fill="none" stroke="#000000" stroke-dasharray="5,2" cx="288.3426" cy="-72" rx="39.3714" ry="18"></ellipse>
+
+</g>
+<!-- Performance&#45;&#45;Location -->
+<g id="edge4" class="edge">
+<title>Performance--Location</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M205.0138,-54.5952C220.5436,-57.8389 237.6488,-61.4116 252.2994,-64.4717"></path>
+</g>
+<!-- Date -->
+<g id="node5" class="node">
+<title>Date</title>
+<ellipse fill="none" stroke="#000000" stroke-dasharray="5,2" cx="288.3426" cy="-18" rx="27" ry="18"></ellipse>
+
+</g>
+<!-- Performance&#45;&#45;Date -->
+<g id="edge5" class="edge">
+<title>Performance--Date</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M205.0138,-35.4048C224.3171,-31.3729 246.0546,-26.8326 262.4868,-23.4005"></path>
+</g>
+</g>
+</svg>

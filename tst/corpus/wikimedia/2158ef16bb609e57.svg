@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="レイヤー_1" viewBox="-34 -24 560 560">
+	<defs>
+		<filter id="fuchi2px" filterUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+			<feMorphology in="SourceAlpha" operator="dilate" radius="2" result="fuchi"/>
+			<feColorMatrix in="fuchi" type="matrix" values="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 0"/>
+			<feMerge>
+				<feMergeNode/>
+				<feMergeNode in="SourceGraphic"/>
+			</feMerge>
+		</filter>
+		<filter id="fuchi3px" filterUnits="userSpaceOnUse" x="0" y="0" width="500" height="500">
+			<feMorphology in="SourceAlpha" operator="dilate" radius="3" result="fuchi"/>
+			<feColorMatrix in="fuchi" type="matrix" values="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 0"/>
+			<feMerge>
+				<feMergeNode/>
+				<feMergeNode in="SourceGraphic"/>
+			</feMerge>
+		</filter>
+		</defs>
+	<g>
+		<g stroke="#FFF" stroke-width="4">
+			<rect x="33" y="46" width="417" height="426"/>
+			<rect x="33" y="180" fill="#B4B4B4" width="417" height="292"/>
+			<g fill="#5A5AFF">
+				<rect x="281" y="323" width="169" height="150"/>
+				<rect x="132" y="293" width="149" height="180"/>
+				<rect x="33" y="273" width="99" height="200"/>
+			</g>
+		</g>
+		<g font-family="TakaoMincho" fill="#000" stroke="#000">
+			<g font-size="17" filter="url(#fuchi2px)">
+				<switch></switch>
+				<switch></switch>
+				<switch></switch>
+				<switch></switch>
+			</g>
+			<g font-size="23" filter="url(#fuchi3px)">
+				<switch></switch>
+				<switch></switch>
+				<switch></switch>
+			</g>
+		</g>
+		<g font-family="TakaoGothic">
+			<g font-size="29" fill="#FFF" stroke="#FFF">
+				<switch></switch>
+				<switch></switch>
+				<switch></switch>
+				<switch></switch>
+			</g>
+			<g font-size="23" fill="#000" stroke="#000">
+				<switch></switch>
+				<switch></switch>
+			</g>
+		</g>
+		<g>
+			<g stroke="#000" stroke-width="4">
+				<line x1="31" y1="472" x2="471" y2="472"/>
+				<line x1="33" y1="474" x2="33" y2="24"/>
+				
+			</g>
+			<g>
+				<path d="M468.471,472.999l-6.133-10.089l0.343-0.228l16.45,6.533c5.731,1.261,11.464,2.521,17.195,3.783c-5.731,1.261-11.464,2.521-17.195,3.783l-16.45,6.533l-0.343-0.172L468.471,472.999z"/>
+				<path d="M33.324,27.855l-10.088,6.133l-0.229-0.343l6.534-16.45C30.801,11.464,32.062,5.731,33.324,0c1.261,5.731,2.521,11.464,3.783,17.195l6.534,16.45l-0.172,0.343L33.324,27.855z"/>
+			</g>
+		</g>
+	</g>
+</svg>

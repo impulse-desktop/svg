@@ -12,10 +12,16 @@ is greedy: the worthiest candidate, the smaller of two of one worth, which
 the renderer must size and draw in time; the counts then grow, until no
 candidate is worth anything.
 
-usage: tst/pick.py SVG CORPUS OUT.tsv SOURCE=DIR...
+With --count N the pick goes on past that, WEAK doubling whenever nothing
+is worth anything, until N files are picked.
+
+usage: tst/pick.py [--write] [--weak N] [--count N] [--cache FILE] SVG CORPUS OUT.tsv SOURCE=DIR...
 
 Writes OUT.tsv, a picked file a line: source, path, worth, the features it
-brought. With --write, copies the picked files into CORPUS/SOURCE.
+brought, the WEAK it was picked at. With --write, copies the picked files
+into CORPUS/SOURCE. --weak sets the first WEAK, 5 by default. --cache keeps
+what examining a candidate found, by its path, size and time, so a run
+examines only what is new.
 """
 import hashlib
 import heapq
@@ -57,6 +63,7 @@ def examine(path):
 def examine_all(paths, jobs=24):
     """examine over the paths, in jobs processes of this script."""
     found = []
+    jobs = min(jobs, len(paths))
 
     with tempfile.TemporaryDirectory(prefix="svg-pick-") as temporary:
         workers = []
@@ -102,11 +109,27 @@ def main():
 
         return
 
+    global WEAK
+
     write = "--write" in sys.argv
     arguments = [a for a in sys.argv[1:] if a != "--write"]
 
+    count = 0
+
+    cache = None
+
+    while arguments[:1] in (["--weak"], ["--count"], ["--cache"]):
+        if arguments[0] == "--weak":
+            WEAK = int(arguments[1])
+        elif arguments[0] == "--count":
+            count = int(arguments[1])
+        else:
+            cache = arguments[1]
+
+        arguments = arguments[2:]
+
     if len(arguments) < 4:
-        sys.exit("usage: tst/pick.py [--write] SVG CORPUS OUT.tsv SOURCE=DIR...")
+        sys.exit("usage: tst/pick.py [--write] [--weak N] [--count N] [--cache FILE] SVG CORPUS OUT.tsv SOURCE=DIR...")
 
     program, corpus, out = arguments[:3]
     sources = [a.split("=", 1) for a in arguments[3:]]
@@ -123,7 +146,31 @@ def main():
     paths = [(source, os.path.join(directory, name)) for source, root in sources for directory, _, names in os.walk(root) for name in names if name.endswith(".svg")]
     source_of = dict((path, source) for source, path in paths)
 
-    examined = examine_all([p for _, p in paths])
+    def stamp(path):
+        status = os.stat(path)
+
+        return f"{path}\t{status.st_size}\t{status.st_mtime_ns}"
+
+    known_results = {}
+
+    if cache and os.path.exists(cache):
+        for line in open(cache):
+            key, result = line.rstrip("\n").rsplit("\t", 1)
+            known_results[key] = json.loads(result)
+
+    stamps = {path: stamp(path) for _, path in paths}
+    fresh = examine_all([path for _, path in paths if stamps[path] not in known_results])
+
+    if cache:
+        with open(cache, "a") as handle:
+            found = {row[0]: row for row in fresh}
+
+            for _, path in paths:
+                if stamps[path] not in known_results:
+                    known_results[stamps[path]] = found.get(path)
+                    handle.write(stamps[path] + "\t" + json.dumps(found.get(path)) + "\n")
+
+    examined = [tuple(known_results[stamps[path]]) for _, path in paths if known_results.get(stamps[path])] if cache else fresh
 
     candidates = {}
 
@@ -135,40 +182,50 @@ def main():
     def worth(keys):
         return sum(max(0, WEAK - counts.get(k, 0)) for k in keys)
 
-    heap = [(-worth(keys), size, path) for path, (size, keys) in candidates.items()]
-    heapq.heapify(heap)
     picked = []
+    done = set()
 
-    while heap:
-        negative, size, path = heapq.heappop(heap)
-        keys = candidates[path][1]
-        now = worth(keys)
+    while True:
+        heap = [(-worth(keys), size, path) for path, (size, keys) in candidates.items() if path not in done]
+        heapq.heapify(heap)
 
-        # Worth only falls: one of none now is done with.
-        if now <= 0:
-            continue
+        while heap and (not count or len(picked) < count):
+            negative, size, path = heapq.heappop(heap)
+            keys = candidates[path][1]
+            now = worth(keys)
 
-        if now != -negative:
-            heapq.heappush(heap, (-now, size, path))
-            continue
+            # Worth only falls: one of none now is done with.
+            if now <= 0:
+                continue
 
-        if not draws(program, path):
-            continue
+            if now != -negative:
+                heapq.heappush(heap, (-now, size, path))
+                continue
 
-        brought = [k for k in keys if counts.get(k, 0) < WEAK]
+            done.add(path)
 
-        for k in keys:
-            counts[k] = counts.get(k, 0) + 1
+            if not draws(program, path):
+                continue
 
-        picked.append((source_of[path], path, now, brought))
-        print(f"{len(picked)}\t{now}\t{path}", flush=True)
+            brought = [k for k in keys if counts.get(k, 0) < WEAK]
+
+            for k in keys:
+                counts[k] = counts.get(k, 0) + 1
+
+            picked.append((source_of[path], path, now, brought, WEAK))
+            print(f"{len(picked)}\t{WEAK}\t{now}\t{path}", flush=True)
+
+        if not count or len(picked) >= count or len(done) == len(candidates):
+            break
+
+        WEAK *= 2
 
     with open(out, "w") as handle:
-        for source, path, value, brought in picked:
-            handle.write(f"{source}\t{path}\t{value}\t{' | '.join(brought)}\n")
+        for source, path, value, brought, weak in picked:
+            handle.write(f"{source}\t{path}\t{value}\t{' | '.join(brought)}\t{weak}\n")
 
     if write:
-        for source, path, _, _ in picked:
+        for source, path, _, _, _ in picked:
             root = dict(sources)[source]
             target = Path(corpus) / source
             target.mkdir(exist_ok=True)

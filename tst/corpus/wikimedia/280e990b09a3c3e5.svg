@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="581.3326160228322" height="581.3326160228322" viewBox="-40 -40 661.3326160228322 661.3326160228322">
+
+    <defs>
+
+        <!-- define wedge shape -->
+        <polygon id="wedge-raw" points="270.6663080114161,601.3326160228322 310.6663080114161,601.3326160228322 290.6663080114161,556.3326160228322" transform="translate(-290.6663080114161, -290.6663080114161)" />
+
+        <!-- define wedge frame (visible as gray line) -->
+        <g id="wedge-frame">
+            <use xlink:href="#wedge-raw" style="fill: none; stroke: white; stroke-width: 25;" />
+            <use xlink:href="#wedge-raw" style="fill: black; stroke: black; stroke-width: 15;" />
+        </g>
+
+        <!-- define mask (visible as gray circle with wedge frames) -->
+        <mask id="demi-mask" mask-type="luminance">
+            <circle cx="290.6663080114161" cy="290.6663080114161" r="290.6663080114161" style="fill: none; stroke: white; stroke-width: 5;" />
+            <g transform="translate(290.6663080114161, 290.6663080114161)">
+                <use xlink:href="#wedge-frame" transform="rotate(0.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(40.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(80.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(120.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(160.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(200.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(240.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(280.0)" />
+                <use xlink:href="#wedge-frame" transform="rotate(320.0)" />
+            </g>
+            <circle cx="290.6663080114161" cy="290.6663080114161" r="285.6663080114161" style="fill: black; stroke: black; stroke-width: 5;" />
+        </mask>
+
+        <!-- define red wedge -->
+        <use id="wedge-core" xlink:href="#wedge-raw" style="fill: #e01313; stroke: #b30f0f; stroke-width: 2;" />
+
+        <!-- define separator (blue or green lines in non-singleton partition blocks) -->
+        <line id="separator" x1="290.6663080114161" y1="427.3326160228322" x2="290.6663080114161" y2="563.3326160228322" style="stroke-width: 4;"  transform="translate(-290.6663080114161, -290.6663080114161)" />
+
+        <!-- define partition (blue and green dashed circle outlines) -->
+        <circle id="partition_a" cx="290.6663080114161" cy="290.6663080114161" r="204.6663080114161" stroke-dashoffset="-535.815141405009" stroke-dasharray="142.88403770800238 285.76807541600476 0.0 285.76807541600476 0.0 571.5361508320095" />
+        <circle id="partition_b" cx="290.6663080114161" cy="290.6663080114161" r="204.6663080114161" stroke-dashoffset="-821.5832168210136" stroke-dasharray="0.0 285.76807541600476 0.0 285.76807541600476 285.76807541600476 428.65211312400714" />
+
+        <!-- define singleton circles -->
+        <circle id="single-green" cx="-70.0" cy="192.32341936182357" r="64.5" style="fill: #0b950b; stroke: #005700; stroke-width: 9.0;" />
+        <circle id="single-blue" cx="-70.0" cy="192.32341936182357" r="64.5" style="fill: #3c3cff; stroke: #000099; stroke-width: 9.0;" />
+
+        <!-- define gray dot -->
+        <circle id="change-dot" cx="-106.25413519252088" cy="291.93083716512984" r="13" style="fill: #777;" />
+
+    </defs>
+
+
+    <!-- ring behind partition -->
+    <circle cx="290.6663080114161" cy="290.6663080114161" r="204.6663080114161" style="fill: none; stroke: white; stroke-width: 152;" />
+    <circle cx="290.6663080114161" cy="290.6663080114161" r="128.6663080114161" style="fill: none; stroke: #ccc; stroke-width: 2;" />
+    <circle cx="290.6663080114161" cy="290.6663080114161" r="280.6663080114161" style="fill: none; stroke: #ccc; stroke-width: 2;" />
+
+    <!-- partition (blue and green dashed circle outlines) -->
+    <use xlink:href="#partition_a" style="fill: none; stroke: #005700; stroke-linecap: round; stroke-width: 138;" />
+    <use xlink:href="#partition_a" style="fill: none; stroke: #0b950b; stroke-linecap: round; stroke-width: 120;" />
+    <use xlink:href="#partition_b" style="fill: none; stroke: #000099; stroke-linecap: round; stroke-width: 138;" />
+    <use xlink:href="#partition_b" style="fill: none; stroke: #3c3cff; stroke-linecap: round; stroke-width: 120;" />
+
+    <!-- singleton circles (shown as backup above zero-length dashes, which are unreliable) -->
+    <g transform="translate(290.6663080114161, 290.6663080114161)">
+        <use xlink:href="#single-blue" transform="rotate(120.0)" />
+        <use xlink:href="#single-green" transform="rotate(160.0)" />
+        <use xlink:href="#single-blue" transform="rotate(200.0)" />
+        <use xlink:href="#single-green" transform="rotate(240.0)" />
+    </g>
+
+    <!-- gray circle and wedge frames -->
+    <rect x="-40" y="-40" width="661.3326160228322" height="661.3326160228322" mask="url(#demi-mask)" style="fill: #777;" />
+
+    <!-- wedges (red) and separators (blue or green) -->
+    <g transform="translate(290.6663080114161, 290.6663080114161)">
+        <use xlink:href="#separator" style="stroke: #000099;" transform="rotate(0.0)" />
+        <use xlink:href="#wedge-core" transform="rotate(40.0)" />
+        <use xlink:href="#separator" style="stroke: #005700;" transform="rotate(80.0)" />
+        <use xlink:href="#wedge-core" transform="rotate(120.0)" />
+        <use xlink:href="#wedge-core" transform="rotate(160.0)" />
+        <use xlink:href="#wedge-core" transform="rotate(200.0)" />
+        <use xlink:href="#wedge-core" transform="rotate(240.0)" />
+        <use xlink:href="#wedge-core" transform="rotate(280.0)" />
+        <use xlink:href="#separator" style="stroke: #000099;" transform="rotate(320.0)" />
+    </g>
+
+    <!-- gray dots around gray circle -->
+    <g transform="translate(290.6663080114161, 290.6663080114161)">
+        <use xlink:href="#change-dot" transform="rotate(0.0)" />
+        <use xlink:href="#change-dot" transform="rotate(40.0)" />
+        <use xlink:href="#change-dot" transform="rotate(80.0)" />
+        <use xlink:href="#change-dot" transform="rotate(280.0)" />
+    </g>
+
+</svg>

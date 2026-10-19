@@ -1,0 +1,102 @@
+<svg width="1200" height="1200" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <title>高校野球事典</title>
+  <defs>
+    <radialGradient id="ボール青" fx="34.381797948523%" fy="10.552924510437%">
+      <stop offset="0%" stop-color="#00afff"/>
+      <stop offset="100%" stop-color="#007fbf"/>
+    </radialGradient>
+    <radialGradient id="ボール緑" fx="34.381797948523%" fy="10.552924510437%">
+      <stop offset="0%" stop-color="#afff00"/>
+      <stop offset="100%" stop-color="#7fbf00"/>
+    </radialGradient>
+    <radialGradient id="ボール茶" fx="34.381797948523%" fy="10.552924510437%">
+      <stop offset="0%" stop-color="#ffaf00"/>
+      <stop offset="100%" stop-color="#bf7f00"/>
+    </radialGradient>
+    <radialGradient id="ボール赤1" fx="34.381797948523%" fy="10.552924510437%">
+      <stop offset="0%" stop-color="#ef2f2f"/>
+      <stop offset="100%" stop-color="#9f1f1f"/>
+    </radialGradient>
+    <radialGradient id="ボール赤2" fx="65.618202051477%" fy="89.447075489563%">
+      <stop offset="0%" stop-color="#ef2f2f"/>
+      <stop offset="100%" stop-color="#9f1f1f"/>
+    </radialGradient>
+    <clipPath id="ボール上部">
+      <circle cx="50%" cy="-30%" r="60%"/>
+    </clipPath>
+    <clipPath id="ボール下部">
+      <circle cx="50%" cy="130%" r="60%"/>
+    </clipPath>
+    <clipPath id="経緯線">
+      <path d="
+        M 49,100 L 49,0
+        L 51,0 L 51,100
+        L 49,100
+        M 24,50 A 26,51 0 0 1 76,50 A 26,51 0 0 1 24,50
+        M 26,50 A 24,49 0 0 0 74,50 A 24,49 0 0 0 26,50
+        M 6.6987298107780,50 A 43.301270189221,51 0 0 1 93.301270189221,50 A 43.301270189221,51 0 0 1 6.6987298107780,50
+        M 8.6987298107780,50 A 41.301270189221,49 0 0 0 91.301270189221,50 A 41.301270189221,49 0 0 0 8.6987298107780,50
+        M 0,49 L 100,49
+        L 100,51 L 0,51
+        L 0,49
+        "/>​
+    </clipPath>
+    <clipPath id="縫い目1">
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(40.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(35.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(30.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(25.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(20.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(15.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(10.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(5.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(0.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-4.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-9.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-14.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-19.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-24.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-29.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-34.5 50 -30)"/>
+      <path d="M 50,29.5 L 52,29.5 L 50,37.5 L 48,37.5 L 50,29.5" transform="rotate(-39.5 50 -30)"/>
+    </clipPath>
+    <clipPath id="縫い目2">
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(39.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(34.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(29.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(24.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(19.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(14.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(9.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(4.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-0.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-5.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-10.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-15.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-20.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-25.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-30.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-35.5 50 -30)"/>
+      <path d="M 50,30.5 L 52,30.5 L 50,22.5 L 48,22.5 L 50,30.5" transform="rotate(-40.5 50 -30)"/>
+    </clipPath>
+    <clipPath id="ボール輪郭">
+      <circle cx="50%" cy="50%" r="50%"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#ボール輪郭)" transform="rotate(-23.4 50 50)">
+    <circle cx="50%" cy="50%" r="50%" fill="url(#ボール緑)"/>
+    <rect width="100%" height="100%" clip-path="url(#経緯線)" fill="#EEEC"/>
+    <rect width="100%" height="100%" clip-path="url(#縫い目1)" fill="url(#ボール赤1)"/>
+    <rect width="100%" height="100%" clip-path="url(#縫い目1)" fill="url(#ボール赤2)" transform="rotate(180 50 50)"/>
+    <g clip-path="url(#ボール上部)">
+      <circle cx="50%" cy="50%" r="50%" fill="url(#ボール青)"/>
+      <rect width="100%" height="100%" clip-path="url(#経緯線)" fill="#EEEC"/>
+      <rect width="100%" height="100%" clip-path="url(#縫い目2)" fill="url(#ボール赤1)"/>
+    </g>
+    <g clip-path="url(#ボール下部)">
+      <circle cx="50%" cy="50%" r="50%" fill="url(#ボール茶)"/>
+      <rect width="100%" height="100%" clip-path="url(#経緯線)" fill="#EEEC"/>
+      <rect width="100%" height="100%" clip-path="url(#縫い目2)" fill="url(#ボール赤2)" transform="rotate(180 50 50)"/>
+    </g>
+  </g>
+</svg>

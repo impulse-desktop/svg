@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="100"
+   height="100"
+   viewBox="0 0 100 100"
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Colorize"
+       id="filter583"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feComposite
+         in2="SourceGraphic"
+         operator="arithmetic"
+         k1="2.5174"
+         k2="3.52321"
+         result="composite1"
+         id="feComposite569" />
+      <feColorMatrix
+         in="composite1"
+         values="1"
+         type="saturate"
+         result="colormatrix1"
+         id="feColorMatrix571" />
+      <feFlood
+         flood-opacity="0.768627"
+         flood-color="rgb(228,76,92)"
+         result="flood1"
+         id="feFlood573" />
+      <feBlend
+         in="flood1"
+         in2="colormatrix1"
+         mode="lighten"
+         result="blend1"
+         id="feBlend575" />
+      <feBlend
+         in2="blend1"
+         mode="darken"
+         result="blend2"
+         id="feBlend577" />
+      <feColorMatrix
+         in="blend2"
+         values="1"
+         type="saturate"
+         result="colormatrix2"
+         id="feColorMatrix579" />
+      <feComposite
+         in="colormatrix2"
+         in2="SourceGraphic"
+         operator="in"
+         k2="1"
+         result="composite2"
+         id="feComposite581" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Color Shift"
+       id="filter623"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         type="hueRotate"
+         values="194"
+         result="color1"
+         id="feColorMatrix619" />
+      <feColorMatrix
+         type="saturate"
+         values="0.6"
+         result="color2"
+         id="feColorMatrix621" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Greyscale"
+       id="filter337"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0 0 0 1 0 "
+         id="feColorMatrix335" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Invert"
+       id="filter622"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="0 1 0 0 0 1 0 0 0 0 0 0 1 0 0 -0.21 -0.72 -0.07 1.57101 0 "
+         result="color2"
+         id="feColorMatrix620" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="100"
+       height="100"
+       id="page1" />
+    <inkscape:page
+       x="110"
+       y="0"
+       width="100"
+       height="100"
+       id="page2" />
+  </sodipodi:namedview>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="mix-blend-mode:normal;fill:#007300;stroke:none;"
+       id="original-rect"
+       width="13.333333"
+       height="13.333333"
+       x="10"
+       y="10" />
+    
+    <rect
+       style="mix-blend-mode:normal;fill:#007300;stroke:none;filter:url(#filter583)"
+       id="rect407"
+       width="13.333333"
+       height="13.333333"
+       x="10"
+       y="26" />
+    
+    <use
+       x="0"
+       y="0"
+       xlink:href="#original-rect"
+       id="use589"
+       transform="translate(0,32)" />
+    
+    <use
+       x="0"
+       y="0"
+       xlink:href="#rect407"
+       id="use599"
+       transform="translate(0,32)" />
+    
+    <use
+       x="0"
+       y="0"
+       xlink:href="#original-rect"
+       id="use605"
+       transform="translate(0,64)"
+       style="filter:url(#filter623)" />
+    
+    <!-- Start test items on page 2 -->
+    <use
+       x="0"
+       y="0"
+       xlink:href="#original-rect"
+       id="use315"
+       transform="translate(110.40475,-0.2666545)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#rect407"
+       id="use317"
+       transform="translate(123.73808,-2.933322)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use317"
+       id="use319"
+       transform="translate(13.33333,0.02556623)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use589"
+       id="use321"
+       transform="translate(123.73808,-32.266655)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use599"
+       id="use323"
+       transform="translate(110.40475,-34.933321)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use605"
+       id="use325"
+       transform="translate(177.07141,-64.266654)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use325"
+       id="use327"
+       transform="translate(-13.333333)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use317"
+       id="use329"
+       transform="translate(26.666665)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use319"
+       id="use331"
+       transform="translate(26.666668,-0.02556623)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use327"
+       id="use333"
+       transform="translate(-26.666664)"
+       style="filter:url(#filter337)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use333"
+       id="use339"
+       transform="translate(13.333332)" />
+    <use
+       x="0"
+       y="0"
+       xlink:href="#use599"
+       id="use609"
+       transform="translate(177.07141,-34.933322)"
+       style="filter:url(#filter622)" />
+  </g>
+</svg>

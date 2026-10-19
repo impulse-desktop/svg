@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+  <style>
+  :root {
+    writing-mode: sideways-lr;
+    font: 32px sans-serif;
+  }
+  textPath {
+    font-size: 20px;
+  }
+  </style>
+
+  <circle cx="40" cy="580" r="3" fill="rgba(255,0,0,0.8)"></circle>
+  
+
+  <!-- RTL & text-anchor -->
+  <circle cx="80" cy="20" r="3" fill="rgba(255,0,0,0.8)"></circle>
+  
+  <circle cx="120" cy="20" r="3" fill="rgba(255,0,0,0.8)"></circle>
+  
+
+  <!-- textLength -->
+  <circle cx="160" cy="580" r="3" fill="rgba(255,0,0,0.8)"></circle>
+  
+  <circle cx="200" cy="580" r="3" fill="rgba(255,0,0,0.8)"></circle>
+  
+
+  <!-- textPath -->
+  <path id="p1" stroke="rgba(255,0,0,0.8)" d="M250,100 L350,100"/>
+  <path id="p2" stroke="rgba(255,0,0,0.8)" d="M350,100 L350,200"/>
+  <path id="p3" stroke="rgba(255,0,0,0.8)" d="M350,200 L250,200"/>
+  <path id="p4" stroke="rgba(255,0,0,0.8)" d="M250,200 L250,100"/>
+  
+</svg>

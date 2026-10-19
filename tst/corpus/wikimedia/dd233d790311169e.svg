@@ -1,0 +1,88 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="480" height="240" version="1.1" 
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+
+<defs>
+<g id="square">
+	<rect x="-50" y="-50" width="100" height="100" style="fill-opacity:0; stroke-width:5; stroke:rgb(0,0,0)"/>
+	<circle cx="-50" cy="-50" r="10"  stroke="none" fill="rgb(0,146,70)"/>
+	<circle cx="50" cy="-50" r="10"  stroke="none" fill="rgb(188,30,71)"/>
+	<circle cx="-50" cy="50" r="10"  stroke="none" fill="rgb(254,194,0)"/>
+	<circle cx="50" cy="50" r="10"  stroke="none" fill="rgb(0,129,205)"/>
+</g>
+<marker id="arrow" viewBox="0 0 10 10" refX="4" refY="5" 
+    markerUnits="strokeWidth" orient="auto"
+    markerWidth="5" markerHeight="5">
+    <polyline points="0,0 10,5 0,10 4,5" fill="lightgray" />
+</marker>
+<marker id="arrow2" viewBox="0 0 10 10" refX="4" refY="5" 
+    markerUnits="strokeWidth" orient="auto"
+    markerWidth="5" markerHeight="5">
+    <polyline points="10,0 0,5 10,10 6,5" fill="lightgray" />
+</marker>
+
+</defs>
+
+<use x="60" y="60" width="100" height="100" xlink:href="#square"/>
+
+<g transform="translate(180,60)">
+<g stroke="lightgray" stroke-width="3" fill="rgb(250,250,250)">
+	<path d="M-50,-50 l50,50 l50,-50"/>
+	<path d="M-20 -20  a28,28 0 0 1 20,-8 a28,28 0 0 1 20,8" marker-mid="url(#arrow)"/>
+</g>
+<use x="0" y="0" width="100" height="100" xlink:href="#square" transform="rotate(90,00,00)"/>
+</g>
+
+<g transform="translate(180,180)">
+<g stroke="lightgray" stroke-width="3" fill="rgb(250,250,250)">
+	<path d="M-50,-50 l100,100 l0,-100"/>
+	<path d="M-20 -20  a28,28 0 0 1 40,0 a28,28 0 0 1 0,40" fill="none" marker-mid="url(#arrow)"/>
+</g>
+<use x="0" y="0" width="200" height="200" xlink:href="#square" transform="rotate(180,00,00)"/>
+</g>
+
+<g transform="translate(60,180)">
+<g stroke="lightgray" stroke-width="3" fill="rgb(250,250,250)">
+	<path d="M-50,-50 l50,50 l-50,50"/>
+	<path d="M-20 -20  a28,28 0 0 0 -8,20 a28,28 0 0 0 8,20" marker-mid="url(#arrow)"/>
+</g>
+<use x="0" y="0" width="200" height="200" xlink:href="#square" transform="rotate(-90,00,00)"/>
+</g>
+
+<g transform="translate(300,60)">
+<g stroke="lightgray" stroke-width="3" fill="rgb(250,250,250)">
+	<path d="M0,-50 l0,100" stoke-dasharray="10,5"/>
+	<path d="M-25 0  l50,0" marker-start="url(#arrow2)" marker-end="url(#arrow)"/>
+</g>
+<use x="0" y="0" width="200" height="200" xlink:href="#square" transform="scale(-1,1)"/>
+</g>
+
+<g transform="translate(420,60)">
+<g stroke="lightgray" stroke-width="3" fill="rgb(250,250,250)">
+	<path d="M-50,0 l100,0" stoke-dasharray="10,5"/>
+	<path d="M0 -25  l0,50" marker-start="url(#arrow2)" marker-end="url(#arrow)"/>
+</g>
+<use x="0" y="0" width="200" height="200" xlink:href="#square" transform="scale(1,-1)"/>
+</g>
+
+<g transform="translate(300,180)">
+<g stroke="lightgray" stroke-width="3" fill="rgb(250,250,250)">
+	<path d="M-50,-50 l100,100" stoke-dasharray="10,5"/>
+	<path d="M20 -20  l-40,40" marker-start="url(#arrow2)" marker-end="url(#arrow)"/>
+</g>
+<use x="0" y="0" width="200" height="200" xlink:href="#square" transform="scale(-1,1)rotate(90,0,0)"/>
+</g>
+
+<g transform="translate(420,180)">
+<g stroke="lightgray" stroke-width="3" fill="rgb(250,250,250)">
+	<path d="M-50,50 l100,-100" stoke-dasharray="10,5"/>
+	<path d="M20 20  l-40,-40" marker-start="url(#arrow2)" marker-end="url(#arrow)"/>
+</g>
+<use x="0" y="0" width="200" height="200" xlink:href="#square" transform="scale(1,-1)rotate(90,0,0)"/>
+</g>
+
+
+</svg>

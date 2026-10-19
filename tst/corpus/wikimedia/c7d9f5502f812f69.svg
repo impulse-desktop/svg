@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="-90 -37 150 150">
+ <title>instant insanity solution</title>
+ <desc>Solution to the Instant Insanity puzzle using the two directed subgraphs of instant_insanity_graph.svg by CMG Lee.</desc>
+ <style type="text/css">
+.main { font-size:12px; font-family:Helvetica,Arial,sans-serif; text-anchor:middle;
+        fill:none; stroke-width:1.2; stroke-linecap:round; }
+.w    { fill:#eeeeee; }
+.r    { fill:url(#pattern_r); }
+.g    { fill:url(#pattern_g); }
+.b    { fill:url(#pattern_b); }
+.lr   { stroke:#000000; }
+.fb   { stroke:#000000; }
+.c2   { stroke-dashoffset:4;    stroke-dasharray:8,2; }
+.c3   { stroke-dashoffset:0.25; stroke-dasharray:0.5,2; }
+.c4   { stroke-dashoffset:2.75; stroke-dasharray:5.5,2,0.5,2; }
+ </style>
+ <defs>
+  <filter id="filter_top">
+   <feColorMatrix type="matrix" values="0.5,0,0,0,0 0,0.5,0,0,0 0,0,0.5,0,0 0,0,0,1,0"/>
+  </filter>
+  <pattern id="pattern_r" patternUnits="userSpaceOnUse" width="2" height="2">
+   <use xlink:href="#mute"/>
+   <path d="M -2,3 l 4,-4 M 0,3 l 4,-4" stroke="#ff0000" stroke-dasharray="none"/>
+  </pattern>
+  <pattern id="pattern_g" patternUnits="userSpaceOnUse" width="2" height="2">
+   <use xlink:href="#mute"/>
+   <path d="M -2,-1 l 4,4 M 0,-1 l 4,4" stroke="#00cc66" stroke-dasharray="none"/>
+  </pattern>
+  <pattern id="pattern_b" patternUnits="userSpaceOnUse" width="2" height="2">
+   <use xlink:href="#mute"/>
+   <circle cx="1" cy="1" r="1.2" fill="#0000ff"/>
+  </pattern>
+  <path id="face" d="M 0,0 H 10 V 10 H 0 Z" stroke="#000000"/>
+  <circle id="mute" cx="0" cy="0" r="99999" fill="#999999"/>
+  <g id="common1">
+   <path class="c1" d="M -20,-20 H 20 M -20,20 H 20 M -23,-24 a 5,5 0 1 0 -1,1"/>
+   <path class="c2" d="M -20, 20 V -20 A 60,60 0 0 1 20,20 V -20"/>
+   <path class="c3" d="M -20,-20 A 20,20 0 0 0 20,20 M  23,-24 a 5,5 0 1 1 1,1"/>
+   <path class="c4" d="M -20,-20 A 20,20 0 0 1 20,20 A  25, 25 0 0 0 -20,20"/>
+  </g>
+  <g id="common2" stroke-width="0.5">
+   <use class="r" xlink:href="#face" transform="translate(-25,-25)"/>
+   <use class="g" xlink:href="#face" transform="translate( 15,-25)"/>
+   <use class="b" xlink:href="#face" transform="translate(-25, 15)"/>
+   <use class="w" xlink:href="#face" transform="translate( 15, 15)"/>
+  </g>
+  <path id="arrow" d="M -3,-4 L 4,0 L -3,4" transform="scale(0.7)"/>
+  <g id="arrows">
+   <use xlink:href="#arrow" transform="translate(  0  ,-28.2)"/>
+   <use xlink:href="#arrow" transform="translate(  0  , 20  ) rotate(180)"/>
+   <use xlink:href="#arrow" transform="translate(-28.2,  0  ) rotate(270)"/>
+   <use xlink:href="#arrow" transform="translate( 20  ,  0  ) rotate( 90)"/>
+  </g>
+  <path id="brace" d="M -4,-3 c 0,3 4,0 4,3 c 0,-3 4,0 4,-3" stroke="#000000" stroke-width="0.8"/>
+  <!--
+  <g id="order">
+   <path d="M 0,0 a 30,30 0 0 0 44,0"/>
+   <use xlink:href="#arrow" transform="translate(24,9.5)"/>
+  </g>
+  -->
+  <mask id="mask">
+   <circle cx="0" cy="0" r="99999" fill="#202020"/>
+   <path d="M 20,-20 A 20,20 0 0 0 -20,20 H 20 Z" fill="none" stroke="#ffffff"/>
+  </mask>
+  <g id="top"   transform="matrix( 4,-2  3, 3 -30,-30)"><use xlink:href="#face" filter="url(#filter_top)"/></g>
+  <g id="left"  transform="matrix( 3, 3  0, 4 -30,-30)"><use xlink:href="#face"/></g>
+  <g id="right" transform="matrix( 4,-2  0, 4   0,  0)"><use xlink:href="#face"/></g>
+ </defs>
+ <circle cx="0" cy="0" r="99999" fill="#ffffff"/>
+ <g class="main">
+  <g fill="#000000">
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+  </g>
+  <use xlink:href="#brace" transform="translate(-8, 98)"/>
+  <use xlink:href="#brace" transform="translate(10, 98)"/>
+  <use xlink:href="#brace" transform="translate(32,-24) scale(-1)"/>
+  <use xlink:href="#brace" transform="translate(52,-24) scale(-1)"/>
+  <g class="fb" transform="translate(-57,83)">
+   <use xlink:href="#common1" mask="url(#mask)"/>
+   <use xlink:href="#common2"/>
+   <use xlink:href="#arrows"/>
+   <use xlink:href="#order" transform="translate(61,17)"/>
+  </g>
+  <g class="lr" transform="translate(-57,4)">
+   <g transform="scale(-1)">
+    <g mask="url(#mask)">
+     <use xlink:href="#common1" transform="scale(-1)"/>
+    </g>
+    <use xlink:href="#arrows"/>
+    <use xlink:href="#order" transform="translate(-35,18) scale(-1,1)"/>
+   </g>
+   <use xlink:href="#common2"/>
+  </g>
+  <g transform="scale(0.5)" stroke-width="0.5" stroke-linejoin="bevel">
+   <g class="c4" transform="translate(0,150)">
+    <use class="w" xlink:href="#top"/>
+    <use class="g" xlink:href="#left"/>
+    <use class="r" xlink:href="#right"/>
+   </g>
+   <g class="c3" transform="translate(0,100)">
+    <use class="g" xlink:href="#top"/>
+    <use class="w" xlink:href="#left"/>
+    <use class="b" xlink:href="#right"/>
+   </g>
+   <g class="c2" transform="translate(0,50)">
+    <use class="r" xlink:href="#top"/>
+    <use class="b" xlink:href="#left"/>
+    <use class="g" xlink:href="#right"/>
+   </g>
+   <g class="c1" transform="translate(0,0)">
+    <use class="r" xlink:href="#top"/>
+    <use class="r" xlink:href="#left"/>
+    <use class="w" xlink:href="#right"/>
+   </g>
+   <g class="c1" transform="translate(85,-3) scale(-1)">
+    <use class="r" xlink:href="#top"/>
+    <use class="b" xlink:href="#left"/>
+    <use class="g" xlink:href="#right"/>
+   </g>
+   <g class="c2" transform="translate(85,47) scale(-1)">
+    <use class="w" xlink:href="#top"/>
+    <use class="w" xlink:href="#left"/>
+    <use class="r" xlink:href="#right"/>
+   </g>
+   <g class="c3" transform="translate(85,97) scale(-1)">
+    <use class="g" xlink:href="#top"/>
+    <use class="r" xlink:href="#left"/>
+    <use class="b" xlink:href="#right"/>
+   </g>
+   <g class="c4" transform="translate(85,147) scale(-1)">
+    <use class="b" xlink:href="#top"/>
+    <use class="g" xlink:href="#left"/>
+    <use class="w" xlink:href="#right"/>
+   </g>
+  </g>
+ </g>
+</svg>

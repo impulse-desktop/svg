@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Generator: wikimedia.svg.chart, 2013-08-28 -->
+<!-- modify viewBox (x,y,dx,dy) for position (x,y) and size (dx,dy) -->
+<svg id="head"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="1.1"     
+  viewBox="-13.44,-62.9,99.94,75"      
+  width="750" height="560"
+  font-family="Helvetica, Arial"
+>
+
+<!-- also a workaround for librsvg: a <rect> must be placed somewhere before text for a good display of text -->
+<rect id="imagebackground" x="-13.44" y="-62.9" width="99.94" height="75" stroke-width="0.08" stroke="none" fill="white"/>
+ 
+<title>plain text svg graphic</title>
+<desc>   
+  This svg graphic is to edit with an text editor.
+  Please do not overwrite this file by saving with an image editor.
+  ----------------&#13; All values are scaled by 10. This is necessary to keep the lines from turning into ribbons.
+</desc>
+
+<style id="styles" type="text/css"> <![CDATA[
+  .graphgeneral {         /*-- general look of graphs and markers, e.g. in legend --*/
+    stroke-width:    0.176;
+    fill:            none;
+    stroke-linejoin: round;
+    stroke-linecap:  round;
+  }
+  .graphgeneralstretch {  /*-- general look of graphs and markers on a stretched chart --*/ 
+    stroke-width:    0.132;
+    fill:            none;
+    stroke-linejoin: round;
+    stroke-linecap:  round;
+  } 
+  .graph1lineblank { /*-- look of graph 1 --*/
+    stroke:           #FF0000;
+  }
+  .graph1line {
+    stroke:           #FF0000; 
+    marker-start:url(#graph1markerstretch); marker-mid:url(#graph1markerstretch); marker-end:url(#graph1markerstretch);
+  } 
+  .graph1marker {    /*-- look of marker 1 --*/
+    stroke:           #FF0000;
+    fill:             #FF0000;   
+  }   
+  .graph2lineblank { /*-- look of graph 2 --*/
+    stroke:          rgb(75%, 10%, 10%);
+  }
+  .graph2line {
+    stroke:          rgb(75%, 10%, 10%); 
+  }    
+  .graph3lineblank { /*-- look of graph 3 --*/
+    stroke:          rgb(00%, 60%, 00%);
+  }
+  .graph3line {
+    stroke:          rgb(00%, 60%, 00%); 
+  }  
+  .graph4lineblank { /*-- look of graph 4 --*/
+    stroke:          rgb(00%, 60%, 60%);
+  }
+  .graph4line {
+    stroke:          rgb(00%, 60%, 60%); 
+  }  
+  .graph5lineblank { /*-- look of graph 5 --*/
+    stroke:          rgb(60%, 00%, 60%);
+  }
+  .graph5line {
+    stroke:          rgb(60%, 00%, 60%); 
+  }  
+  .graph6lineblank { /*-- look of graph 6 --*/
+    stroke:          rgb(60%, 60%, 00%);
+  }
+  .graph6line {
+    stroke:          rgb(60%, 60%, 00%); 
+  }  
+  .graph7lineblank { /*-- look of graph 7 --*/
+    stroke:          rgb(00%, 00%, 30%);
+  }
+  .graph7line {
+    stroke:          rgb(00%, 00%, 30%); 
+  }  
+  .graph8lineblank { /*-- look of graph 8 --*/
+    stroke:          rgb(00%, 30%, 00%);
+  }
+  .graph8line {
+    stroke:          rgb(00%, 30%, 00%); 
+  }  
+  .axisline {
+    stroke:         black;
+    stroke-width:   0.294;
+    stroke-linecap: round;
+  }
+  .titletext {
+    font-size:    3.548px;       
+  }
+  .axistext-x {
+    font-size:    3.226px;
+  }
+  .axistext-x-number {
+    font-size:    3.226px;
+  }
+  .axistext-y {
+    font-size:    3.226px;
+  }
+  .axismark-main {
+    stroke:       black;
+    stroke-width: 0.206;
+  }
+  .axismark-second {
+    stroke:       black;
+    stroke-width: 0.206;
+  } 
+ 
+  .graphmarker {     
+    stroke-width:    0.294;
+    fill:            white;
+    stroke-linejoin: round;
+  } 
+      
+  .gridline {
+    stroke:       black;
+    stroke-width: 0.147;
+  }  
+]]></style>
+
+<defs>
+  <!--== axis dashes definitions ==-->
+  <!-- x-axis mark, modify "height" -->
+  <pattern id="x-axismark-main" x="0" width="20" height="1.6" patternUnits="userSpaceOnUse"> 
+    <line x1="0" y1="-1" x2="0" y2="1.6" class="axismark-main"/>
+  </pattern>
+ 
+   
+  <!-- x-axis gridline vertical, modify "width" -->
+  <pattern id="x-gridline" height="40" width="20" patternUnits="userSpaceOnUse">  
+    <line x1="0" x2="0" y1="0" y2="40" class="gridline"/>
+  </pattern>
+ 
+   
+  <!-- y-axis gridline horizontal, modify "height" -->
+  <pattern id="y-gridline" width="42" height="6" patternUnits="userSpaceOnUse">  
+    <line x1="0" x2="42" y1="0" y2="0" class="gridline"/>
+  </pattern>
+
+  <!-- y-axis mark, modify "width" -->
+  <pattern id="y-axismark-main" width="1.6" height="6" patternUnits="userSpaceOnUse">
+    <line x1="-1" y1="0" x2="1.6" y2="0" class="axismark-main"/>    
+  </pattern>
+
+  <!-- y-axis2 mark, modify "width" -->
+  <pattern id="y-axis2mark-main" width="0.8" height="10" patternUnits="userSpaceOnUse">
+    <line x1="-1" y1="0" x2="11" y2="0" class="axismark-main"/>    
+  </pattern>
+
+  <!--== graph marker ==-->
+  <g class="graphmarker">
+    <g id="graph1markershape" transform="translate(0.35,0.35)"><circle cx="0" cy="0" r="0.21" fill="x"/></g>  <!-- circle --> 
+    <marker id="graph1marker" class="graph1marker" refX="0.35" refY="0.35" viewBox="0 0 0.71 0.71" markerUnits="userSpaceOnUse" markerWidth="0.71" markerHeight="0.71">
+      <use xlink:href="#graph1markershape"/>  
+    </marker>
+    <marker id="graph1markerstretch" class="graph1marker" refX="0.265" refY="0.35" viewBox="0 0 0.71 0.71" markerUnits="userSpaceOnUse" markerWidth="0.71" markerHeight="0.71">
+      <use transform="scale(0.75, 1)" xlink:href="#graph1markershape"/>  
+    </marker>
+        
+  </g> 
+</defs> 
+
+<g transform="scale(1, -1)">  
+   
+  <rect id="x-gridline-area" x="0.3" y="0" width="85.7" height="60" fill="url(#x-gridline)"/>
+   
+  <rect id="y-gridline-area" x="0" y="0.3" width="84" height="61.2" fill="url(#y-gridline)"/>
+
+  <!-- x axis, modify "x2" and "width" -->
+  <rect id="x-axismark" x="-0.4" y="-1.4" width="85.7" height="1.4" fill="url(#x-axismark-main)"/>
+  <line id="x-axis" x1="0" y1="0" x2="84" y2="0" class="axisline"/>
+
+  <!-- y axis, modify "height" -->
+  <rect id="y-axismark" x="-1.4" y="-0.4" width="1.4" height="61" fill="url(#y-axismark-main)"/>
+  <line id="y-axis" x1="0" y1="0" x2="0" y2="60" class="axisline"/> 
+</g>
+
+<!-- x axis text, modify each value -->
+<g id="axistext-x" class="axistext-x-number" transform="translate(0, 4.4)" text-anchor="middle"> 
+  
+  
+  
+  
+  
+   
+</g>
+
+<!-- y axis text, modify each value -->
+<g id="axistext-y" class="axistext-y" text-anchor="end" transform="translate(-2.5, 1.3)"> 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</g> 
+  
+ 
+<!--====== graph data with origin values, you can manually copy or attach the values here ======-->
+<!-- modify displacement "translate" -->
+<defs>
+<g id="graphs">       
+</g>
+<g id="graph1">
+  <!-- Homicide Rate -->
+  <polyline id="graph1-line" stroke-width="0.132" points="  
+    1995     14.15
+    1996     15.71
+    1997     18.75
+    1998     16.17
+    1999     14.17
+    2000     7.00
+    2001     12.00
+    2002     9.00
+    2003     11.00
+    2004     10.00
+    2005     12.00
+    2006     10.00
+    2007     12.00
+    2008     13.00
+    2009     14.00
+    2010     16.00
+    2011     16.00
+    2012     15.00
+    2013     14.00
+    2014     10.00
+    2015     8.00
+  "/>
+</g>
+</defs>
+ 
+<g class="graphgeneralstretch" transform="scale(4, -3) translate(-1995, -0)"> 
+  <!-- graph 1 --> 
+  <use id="graphuse1p2" transform="translate(0, 0.022)" class="graph1lineblank" xlink:href="#graph1"/>  
+  <use id="graphuse1m2" transform="translate(0, -0.022)" class="graph1lineblank" xlink:href="#graph1"/> 
+  <use id="graphuse1-1" transform="translate(0, 0)" class="graph1line" xlink:href="#graph1"/>
+</g>
+</svg>

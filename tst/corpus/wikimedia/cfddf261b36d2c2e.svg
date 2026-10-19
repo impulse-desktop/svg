@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" width="139" height="136" viewBox="0 0 139 136"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xml:space="preserve"
+	xml:lang="en">
+<title xml:lang="he">מסמל מעבר זוג אלקטרונים במנגנוני תגובה</title>
+<style type="text/css">
+	line, polyline{
+		fill: none;
+		stroke: #000;
+		stroke-width: 1.5;
+	}
+	text{
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 15px;
+		text-anchor: end;
+	}
+	.centre { text-anchor: middle; }
+	.left   { text-anchor: start; }
+	.big    { font-size: 18px; font-weight: bold; }
+	.sub    { font-size: 11px; }
+	
+	/* Red arrow */
+	.arrow{
+		marker-end: url(#arrowhead);
+		stroke-width: 1.5;
+		stroke-linecap: round;
+		stroke: #f00;
+		fill: none;
+	}
+</style>
+<marker id="arrowhead"
+	viewBox="0 0 7.3 4.34"
+	refX="1"
+	refY="2.17"
+	markerWidth="7.3"
+	markerHeight="5"
+	markerUnits="userSpaceOnUse"
+	orient="auto"
+><polygon fill="#f00" points="0 0 0.878 2.17 0 4.34 7.3 2.17 0 0"/></marker>
+<circle cx="44.8" cy="58.694" r="2.043"/>
+<circle cx="47.8" cy="63.694" r="2.043"/>
+<line x1="29.271" y1="59.988" x2="32.744" y2="63.325"/>
+<line x1="23.073" y1="78.922" x2="31.382" y2="73.133"/>
+<polyline points="46.434,74.041 57.604,80.398 66.231,89.479"/>
+<polyline points="47.342,90.751 57.604,80.398 76.402,69.228"/>
+<polyline points="76.675,55.788 76.675,69.228 88.026,76.221"/>
+<line x1="79.944" y1="66.776" x2="89.843" y2="72.77"/>
+<polyline points="82.759,43.71 95.11,36.354 106.552,43.437"/>
+<line x1="93.43" y1="23.005" x2="93.43" y2="37.306"/>
+<line x1="97.244" y1="37.675" x2="97.244" y2="23.005"/>
+<line x1="102.193" y1="76.402" x2="105.916" y2="73.769"/>
+<path class="arrow" d="M49.344,52.586c0-6.739,3.107-12.485,7.756-17.285c6.355-6.561,17.514-7.388,22.887-5.011"/>
+
+
+
+
+
+
+
+
+
+
+
+</svg>

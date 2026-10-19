@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="plot" height="87" width="250">
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <line class="max-line" x1="15" x2="234" y1="15" y2="15"></line>
+  <g class="LineChart">
+    <rect fill-opacity="0" height="75" width="220" x="15" y="9"></rect>
+    <g class="HorizontalAxis" id="horizontal-axis">
+      <g id="tick-marks">
+        <line id="1963" stroke="#999" stroke-width="1" x1="15" x2="15" y1="68.5" y2="74"></line>
+        <line id="2026" stroke="#999" stroke-width="1" x1="234" x2="234" y1="68.5" y2="74"></line>
+      </g>
+      <g id="tick-labels">
+        
+        
+      </g>
+    </g>
+    <g class="AxisGridLines horizontalLines" id="horizontal-grid-lines">
+      <line class="zero-line" id="$0" stroke="#ddd" stroke-dasharray="4,4" x1="15.00" x2="234.00" y1="69" y2="69"></line>
+    </g>
+    <g class="Lines">
+      <rect fill="rgba(255,255,255,0)" height="54" opacity="0" width="219" x="15" y="15"></rect>
+      <path d="M122.8 52.3L147.1 39.7L164.5 36.2L174.9 39.7L206.2 15L216.6 21.3" fill="none" id="outline__Mali" stroke="#fff" stroke-linecap="butt" stroke-linejoin="round" stroke-width="4.7"></path>
+      <g id="line__Mali">
+        <polyline fill="none" id="line__Mali" points="122.80,52.30 134.95,46.00" stroke="#c4c4d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Mali" points="134.95,46.00 147.10,39.70 164.50,36.20 174.90,39.70 190.55,27.35" stroke="#b3b4d2" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Mali" points="190.55,27.35 206.20,15.00 211.40,18.15" stroke="#9e9ac8" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Mali" points="211.40,18.15 216.60,21.30" stroke="#b3b4d2" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+      </g>
+    </g>
+    <g class="hoverIndicator">
+      <line stroke="rgba(180,180,180,.4)" x1="216.6" x2="216.6" y1="69" y2="15"></line>
+      <circle cx="216.6" cy="21.3" fill="#b3b4d2" fill-opacity="1" r="4.5" stroke="#fff" stroke-width="0.5"></circle>
+    </g>
+  </g>
+  <g class="max axis-label">
+    
+  </g>
+  <g class="min axis-label">
+    
+    
+  </g>
+</svg>

@@ -1,0 +1,227 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<!--
+
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+-->
+<!-- ========================================================================= -->
+<!-- Size of the Sun                                                           -->
+<!--                                                                           -->
+<!-- @author tkormann@apache.org                                               -->
+<!-- @version $Id$ -->
+<!-- ========================================================================= -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width="450" height="500" viewBox="0 0 450 500" xml:space="preserve">
+  <title>Size of the Sun</title>
+  <rect id="background" x="0" y="0" width="100%" height="100%" style="fill:black"/>
+
+  <style type="text/css"><![CDATA[
+    .planet {
+      text-anchor:middle;
+      font-family: Helvetica;
+      font-size: 12;
+    }
+  ]]>
+  </style>
+
+  <defs>
+    <!-- ######################################################################### -->
+    <radialGradient id="mercuryGradient" fx=".3" fy=".3">
+      <stop style="stop-color:white" offset=".1"/>
+      <stop style="stop-color:#444" offset="1"/>
+    </radialGradient>
+    <g id="mercury" transform="scale(.1)" class="planet">
+      <circle transform="scale(10)" cx="0" cy="0" r="5" style="fill:url(#mercuryGradient)"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <radialGradient id="venusGradient" fx=".3" fy=".3">
+      <stop style="stop-color:cyan" offset=".1"/>
+      <stop style="stop-color:blue" offset="1"/>
+    </radialGradient>
+    <g id="venus" transform="scale(.2)" class="planet">
+      <circle transform="scale(5)" cx="0" cy="0" r="12" style="fill:url(#venusGradient)"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <radialGradient id="earthGradient" fx=".3" fy=".3">
+      <stop style="stop-color:white" offset=".1"/>
+      <stop style="stop-color:blue" offset="1"/>
+    </radialGradient>
+    <g id="earth" transform="scale(.2)" class="planet">
+      <circle transform="scale(5)" cx="0" cy="0" r="13" style="fill:url(#earthGradient)"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <radialGradient id="marsGradient" fx=".3" fy=".3">
+      <stop style="stop-color:orange" offset=".1"/>
+      <stop style="stop-color:black" offset="1"/>
+    </radialGradient>
+    <g id="mars" transform="scale(.2)" class="planet">
+      <circle transform="scale(5)" cx="0" cy="0" r="7" style="fill:url(#marsGradient)"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <radialGradient id="jupiterGradient" fx=".3" fy=".3">
+      <stop style="stop-color:red" offset="0"/>
+      <stop style="stop-color:#aa0000" offset=".8"/>
+      <stop style="stop-color:#660000" offset="1"/>
+    </radialGradient>
+    <g id="jupiter" transform="scale(2)" class="planet">
+      <circle transform="scale(.5)" cx="0" cy="0" r="143" style="fill:url(#jupiterGradient)"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <radialGradient id="saturnGradient" fx=".3" fy=".3">
+      <stop style="stop-color:yellow" offset=".1"/>
+      <stop style="stop-color:orange" offset="1"/>
+    </radialGradient>
+    <radialGradient id="ray" fx=".5" fy=".5">
+      <stop style="stop-color:yellow" offset=".3"/>
+      <stop style="stop-color:Sienna" offset="1"/>
+    </radialGradient>
+    <g id="saturn" transform="scale(2)" class="planet">
+      <g transform="scale(.5)">
+        <circle cx="0" cy="0" r="121" style="fill:url(#saturnGradient)"/>
+        <g transform="rotate(45)">
+          <path d="M-119 -21 L-120 -14 A180 20 180 1 0 120 -14 L119 -21 A240 25 180 1 1 -119 -21" style="fill:url(#ray)"/>
+          <path d="M-119 -24 L-120 -22 A250 28 180 1 0 120 -22 L119 -24 A300 30 180 1 1 -119 -24" style="fill:url(#ray)"/>
+        </g>
+      </g>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <radialGradient id="uranusGradient" fx=".3" fy=".3">
+      <stop style="stop-color:#00aa00" offset=".1"/>
+      <stop style="stop-color:green" offset="1"/>
+    </radialGradient>
+    <g id="uranus" class="planet">
+      <circle cx="0" cy="0" r="51"  style="fill:url(#uranusGradient)"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <radialGradient id="neptuneGradient" fx=".3" fy=".3">
+      <stop style="stop-color:CornFlowerBlue" offset=".1"/>
+      <stop style="stop-color:MediumBlue" offset="1"/>
+    </radialGradient>
+    <g id="neptune" class="planet">
+      <circle cx="0" cy="0" r="50"  style="fill:url(#neptuneGradient)"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+    <g id="pluto" transform="scale(.05)" class="planet">
+      <circle transform="scale(20)" cx="0" cy="0" r="2"   style="fill:#eeaa88"/>
+      
+      
+    </g>
+
+    <!-- ######################################################################### -->
+<!--
+    <filter id="blur" filterUnits="objectBoundingBox" primitiveUnits="objectBoundingBox" 
+            x="-10%" y="-25%" width="120%" height="150%" > 
+        <feGaussianBlur stdDeviation="64 48" x="-10%" y="-25%" width="120%" height="150%" /> 
+        <feColorMatrix type="matrix" values="1.1 0 0 0 0   0 1.1 0 0 0   0 0 1.1 0 0   0 0 0 1.1 0" /> 
+    </filter>
+-->
+    <radialGradient id="sunGradient" fx=".3" fy=".3">
+      <stop style="stop-color:white" offset=".1"/>
+      <stop style="stop-color:Gold" offset=".8"/>
+      <stop style="stop-color:orange" offset="1"/>
+    </radialGradient>
+    <clipPath id="clip">
+      <rect x="-143" y="-500" width="2780" height="1000"/>
+    </clipPath>
+    <g id="sun">
+<!--
+      <circle cx="1247" cy="0" r="1460" style="filter:url(#blur); fill:#ffb200;"/>
+      <ellipse cx="1247" cy="0" rx="1386" ry="1390" style="fill:black;"/>
+-->
+      <circle cx="1247" cy="0" r="1390" style="fill:url(#sunGradient); clip-path:url(#clip)"/>
+    </g>
+
+    <!-- ######################################################################### -->
+    <g id="line">
+      <use xlink:href="#jupiter" transform="translate(0 0)"/>
+      <use xlink:href="#saturn"  transform="translate(264 0)"/>
+      <use xlink:href="#uranus"  transform="translate(436 0)"/>
+      <use xlink:href="#neptune" transform="translate(537 0)"/>
+      <use xlink:href="#earth"   transform="translate(600 0)"/>
+      <use xlink:href="#venus"   transform="translate(625 0)"/>
+      <use xlink:href="#mars"    transform="translate(644 0)"/>
+      <use xlink:href="#mercury" transform="translate(656 0)"/>
+      <use xlink:href="#pluto"   transform="translate(663 0)"/>
+    </g>
+  </defs>
+
+  <!-- ######################################################################### -->
+  <!-- ######################################################################### -->
+  <g id="body">
+    <g transform="translate(50 280)scale(.14)">
+      <use xlink:href="#sun"/>
+      <g style="fill:none; stroke:black">
+        <line x1="665"  y1="-300" x2="665"  y2="0"/>
+        <line x1="1473" y1="-300" x2="1473" y2="0"/>
+        <line x1="2281" y1="-300" x2="2281" y2="0"/>
+      </g>
+      <use xlink:href="#line" transform="translate(0 0)"/>
+      <use xlink:href="#line" transform="translate(808 0)"/>
+      <use xlink:href="#line" transform="translate(1616 0)"/>
+      <g transform="translate(2402 0)">
+        <use xlink:href="#saturn"  transform="translate(0 0)"/>
+        <use xlink:href="#earth"   transform="translate(134 0)"/>
+        <use xlink:href="#earth"   transform="translate(160 0)"/>
+        <use xlink:href="#earth"   transform="translate(186 0)"/>
+        <use xlink:href="#earth"   transform="translate(212 0)"/>
+        <use xlink:href="#mercury" transform="translate(230 0)"/>
+      </g>
+    </g>
+    <g id="legend" style="font-family:Helvetica">
+      
+      <g style="font-size:12; text-anchor:middle; fill:white">
+        
+        
+        
+      </g>
+      <g style="font-size:12; text-anchor:end; fill:black">
+        
+        
+        
+      </g>
+    </g>
+  </g>
+  <!-- ============================================================= -->
+  <!-- Batik sample mark                                             -->
+  <!-- ============================================================= -->
+  <use xlink:href="batikLogo.svg#Batik_Tag_Box" />
+</svg>

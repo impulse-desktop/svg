@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="320">
+  <rect width="400" height="320" fill="white"/>
+  
+  <path d="M10 30H390" stroke="black" stroke-width="5" stroke-dasharray="xxx"/>
+
+  
+  <path d="M10 90H390" stroke="black" stroke-width="5" stroke-dasharray="10,5"/>
+  
+  <path d="M10 120H390" stroke="black" stroke-width="5" stroke-dasharray="10,5,,20,5"/>
+  
+  <path d="M10 150H390" stroke="black" stroke-width="5" stroke-dasharray="10,5,-20,5"/>
+  
+  <path d="M10 180H390" stroke="black" stroke-width="5" stroke-dasharray="10,5,20,5"/>
+
+  
+  <path d="M10 240H390" stroke="black" stroke-width="5" stroke-dasharray="0.5 0.25"/>
+  
+  <path d="M10 270H390" stroke="black" stroke-width="5" stroke-dasharray="0.5 0.25.99 0.25"/>
+  
+  <path d="M10 300H390" stroke="black" stroke-width="5" stroke-dasharray="0.5 0.25 0.99 0.25"/>
+</svg>
