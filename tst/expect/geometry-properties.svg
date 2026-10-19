@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- What tst/unit/geometry-properties.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="32" fill="white"/>
+<g id="center-percent" data-box="11 11 10 10"><circle cx="16" cy="16" r="4" fill="lime"/></g>
+<g id="initial-zero" data-box="1 1 8 8"><circle cx="5" cy="5" r="3" fill="lime"/></g>
+<g id="not-inherited" data-box="23 1 8 8"><circle cx="27" cy="5" r="2" fill="lime"/></g>
+<g id="position-percent" data-box="31 7 6 6"><rect x="32" y="8" width="4" height="4" fill="lime"/></g>
+<g id="svg-auto" data-box="39 1 24 14"><rect x="40" y="2" width="22" height="12" fill="lime"/></g>
+<g id="other-auto" data-box="1 17 10 10"></g>
+<g id="max-width" data-box="23 17 14 10"><rect x="24" y="18" width="12" height="8" fill="lime"/></g>
+<g id="not-designated" data-box="39 17 12 12"><rect x="40" y="18" width="10" height="10" fill="lime"/></g>
+<g id="polyline-open" data-box="52 17 11 14"><path d="M54 28H61V20" fill="none" stroke="lime" stroke-width="2"/></g>
+<g id="points-none" data-box="11 21 10 10"></g>
+<g fill="none" stroke="black" stroke-width=".25"><circle cx="16" cy="16" r="4"/><circle cx="5" cy="5" r="3"/><circle cx="27" cy="5" r="2"/><rect x="32" y="8" width="4" height="4"/><rect x="40" y="2" width="22" height="12"/><rect x="24" y="18" width="12" height="8"/><rect x="40" y="18" width="10" height="10"/></g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40">
+<!-- What tst/unit/render-groups.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="64" height="40" fill="white"/>
+<defs>
+<rect id="m" width="10" height="5" fill="#808080" style="mix-blend-mode: multiply"/>
+<marker id="k" markerWidth="10" markerHeight="5" markerUnits="userSpaceOnUse"><rect width="10" height="5" fill="#808080" style="mix-blend-mode: multiply"/></marker>
+</defs>
+<g id="group-opacity" data-box="1 1 14 12"><rect x="2" y="2" width="12" height="5" fill="#808080"/><rect x="2" y="7" width="12" height="5" fill="#808080"/></g>
+<g id="non-isolated" data-box="17 1 24 12"><rect x="18" y="2" width="22" height="5" fill="lime"/><rect x="18" y="2" width="10" height="5" fill="#008000"/><rect x="30" y="2" width="10" height="5" fill="#008000"/><rect x="18" y="7" width="22" height="5" fill="#008000"/></g>
+<g id="isolated" data-box="41 1 22 12"><rect x="40" y="2" width="2" height="5" fill="lime"/><rect x="42" y="2" width="20" height="5" fill="#808080"/><rect x="40" y="7" width="22" height="5" fill="#808080"/></g>
+<g id="marker-isolated" data-box="1 15 22 12"><rect x="2" y="16" width="20" height="5" fill="lime"/><rect x="2" y="16" width="10" height="5" fill="#808080"/><rect x="2" y="21" width="10" height="5" fill="#808080"/></g>
+</svg>

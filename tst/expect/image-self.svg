@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" viewBox="0 0 64 32">
+<!-- What tst/unit/image-self.svg draws, drawn plainly; each cell's id
+is what the statement ledgers link to. -->
+<rect width="64" height="32" fill="white"/>
+<g id="document" data-box="0 0 32 32"><rect width="32" height="32" fill="lime"/></g>
+<g id="self-copy" data-box="32 0 32 16" data-tolerance="32"><rect x="32" width="16" height="16" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="32" y="0" width="16" height="16"/></g>
+</svg>

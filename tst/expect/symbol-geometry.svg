@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- What tst/unit/symbol-geometry.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="64" height="64" fill="white"/>
+<defs>
+<symbol id="a" x="2" y="2" width="10" height="6"><rect width="100%" height="100%" fill="lime"/></symbol>
+<symbol id="b"><rect width="50%" height="25%" fill="lime"/></symbol>
+<symbol id="c" viewBox="0 0 10 10" refX="5" refY="5" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="d" viewBox="0 0 10 10" refX="right" refY="bottom" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="e" viewBox="10 10 10 10" width="8" height="8"><rect x="10" y="10" width="10" height="10" fill="lime"/></symbol>
+<symbol id="f" viewBox="10 10 10 10" refX="10" refY="10" width="8" height="8"><rect x="10" y="10" width="10" height="10" fill="lime"/></symbol>
+<symbol id="g" width="6" height="6"><rect x="-4" y="-4" width="20" height="20" fill="lime"/></symbol>
+<symbol id="h" display="none" width="6" height="6"><rect width="6" height="6" fill="lime"/><symbol><rect width="6" height="6" fill="red"/></symbol></symbol>
+</defs>
+<g id="position" data-box="1 1 12 8"><rect x="2" y="2" width="10" height="6" fill="lime"/></g>
+<g id="use-size" data-box="17 1 14 6"><rect x="18" y="2" width="12" height="4" fill="lime"/></g>
+<g id="auto-size" data-box="33 1 30 18"><rect x="34" y="2" width="12" height="4" fill="lime"/></g>
+<g id="ref" data-box="5 21 26 14"><rect x="6" y="26" width="8" height="8" fill="lime"/><rect x="22" y="22" width="8" height="8" fill="lime"/></g>
+<g id="viewbox-origin" data-box="33 21 10 10"><rect x="34" y="22" width="8" height="8" fill="lime"/></g>
+<g id="ref-viewbox" data-box="49 21 10 10"><rect x="50" y="22" width="8" height="8" fill="lime"/></g>
+<g id="overflow" data-box="1 43 8 8"><rect x="2" y="44" width="6" height="6" fill="lime"/></g>
+<g id="display-none-symbol" data-box="13 43 8 8"><rect x="14" y="44" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<rect x="2" y="2" width="10" height="6"/><rect x="18" y="2" width="12" height="4"/><rect x="34" y="2" width="12" height="4"/>
+<rect x="6" y="26" width="8" height="8"/><rect x="22" y="22" width="8" height="8"/><rect x="34" y="22" width="8" height="8"/><rect x="50" y="22" width="8" height="8"/>
+<rect x="2" y="44" width="6" height="6"/><rect x="14" y="44" width="6" height="6"/>
+</g>
+</svg>

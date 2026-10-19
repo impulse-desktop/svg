@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="34">
+<!-- What tst/unit/image-fragments.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="64" height="34" fill="white"/>
+<g id="svg-view" data-box="1 1 20 10"><rect x="2" y="2" width="8" height="8" fill="lime"/><rect x="12" y="2" width="8" height="8" fill="lime"/></g>
+<g id="media-fragment" data-box="21 1 20 10"><rect x="22" y="2" width="8" height="8" fill="lime"/><rect x="32" y="2" width="8" height="8" fill="lime"/></g>
+<g id="view-element" data-box="41 1 10 10"><rect x="42" y="2" width="8" height="8" fill="lime"/></g>
+<g id="time-segment" data-box="51 1 10 10"><rect x="52" y="2" width="8" height="8" fill="lime"/></g>
+<g id="view-transform" data-box="0 13 11 10"><rect x="5" y="14" width="4" height="8" fill="lime"/></g>
+<g id="zero-view" data-box="13 13 10 10"></g>
+<g id="invalid-fragment" data-box="25 13 30 10"><rect x="26" y="14" width="8" height="8" fill="lime"/><rect x="36" y="14" width="8" height="8" fill="lime"/><rect x="46" y="14" width="8" height="8" fill="lime"/></g>
+<g id="unclosed" data-box="1 25 8 8"><rect x="2" y="26" width="6" height="6" fill="lime"/></g>
+<g id="zero-media" data-box="11 25 8 8"></g>
+<g id="mask-fragment" data-box="21 25 8 8"><rect x="22" y="26" width="6" height="6" fill="lime"/></g>
+</svg>

@@ -155,13 +155,14 @@ def png(rows):
     return "data:image/png;base64," + base64.b64encode(data).decode()
 
 
-def expect(name, cells, tolerance=None):
+def expect(name, cells, tolerance=None, root=None):
     """Writes the expected drawing of a handwritten unit, tst/unit/NAME.svg,
     which stays as it is: its root, its ground and its outlines as the unit
     has them, and each cell, (id, (x, y, width, height), plain markup[,
-    tolerance]), drawn plainly."""
+    tolerance]), drawn plainly; root replaces the unit's root where its
+    attributes are what the cells draw."""
     text = open(os.path.join(ROOT, "tst", "unit", name + ".svg")).read()
-    root = re.match(r"<svg\b[^>]*>", text).group(0)
+    root = root or re.match(r"<svg\b[^>]*>", text).group(0)
     ground = re.search(r'<rect width="[^"]*" height="[^"]*" fill="white"/>', text)
     outlines = re.findall(r'<g fill="none" stroke="black" stroke-width="\.25">.*?</g>|<(?:rect|path|circle|ellipse)\b[^>]*fill="none" stroke="black" stroke-width="\.25"[^>]*/>', text, re.S)
     lines = [root[:-1] + (f' data-tolerance="{tolerance}"' if tolerance is not None else "") + ">", comment(f"What tst/unit/{name}.svg draws, drawn plainly; each cell's id is what the statement ledgers link to.")]
@@ -189,3 +190,22 @@ def pair(name, x, top, bottom):
     assert len(found) == 1, (name, x, bottom, found)
 
     return found[0].replace(f'y="{bottom}"', f'y="{top}"', 1) + found[0]
+
+
+def outlined(name, cells, paint=' fill="lime"', tolerance=None):
+    """Writes the expected drawing of a handwritten unit whose drawings fill
+    or follow their black outlines: each cell, (id, box, indices of its
+    outline shapes in the unit's outline group[, more plain markup[, own
+    tolerance]]), draws those shapes with paint, lime by default."""
+    text = open(os.path.join(ROOT, "tst", "unit", name + ".svg")).read()
+    group = re.findall(r'<g fill="none" stroke="black" stroke-width="\.25"[^>]*>(.*?)</g>', text, re.S)
+    shapes = re.findall(r"<[a-z]+\b[^>]*/>", "".join(group))
+    out = []
+
+    for cell in cells:
+        cid, box, indices = cell[:3]
+        more = cell[3] if len(cell) > 3 else ""
+        plain = "".join(re.sub(r"\s*/>$", paint + "/>", shapes[i]) for i in indices) + more
+        out.append((cid, box, plain) + ((cell[4],) if len(cell) > 4 else ()))
+
+    expect(name, out, tolerance)

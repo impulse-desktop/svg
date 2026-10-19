@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- What tst/unit/shape-radii.svg draws, drawn plainly; each cell's id
+is what the statement ledgers link to. -->
+<rect width="64" height="48" fill="white"/>
+<g id="rx-alone" data-box="1 1 12 26"><path d="M 7 2 A 5 8 0 0 1 12 10 V 18 A 5 8 0 0 1 7 26 A 5 8 0 0 1 2 18 V 10 A 5 8 0 0 1 7 2 Z" fill="lime"/></g>
+<g id="ry-alone" data-box="15 1 18 12"><path d="M 19 2 H 29 A 3 3 0 0 1 32 5 V 9 A 3 3 0 0 1 29 12 H 19 A 3 3 0 0 1 16 9 V 5 A 3 3 0 0 1 19 2 Z" fill="lime"/></g>
+<g id="negative-rx" data-box="35 1 14 12"><rect x="36" y="2" width="12" height="10" fill="lime"/></g>
+<g id="percent-radii" data-box="15 15 22 18"><path d="M 20 16 H 32 A 4 6 0 0 1 36 22 V 26 A 4 6 0 0 1 32 32 H 20 A 4 6 0 0 1 16 26 V 22 A 4 6 0 0 1 20 16 Z" fill="lime"/></g>
+<g id="percent-r" data-box="39 15 14 15"><circle cx="46" cy="22" r="5.657" fill="lime"/></g>
+<g id="ellipse-one-radius" data-box="3 31 36 16"><circle cx="10" cy="38" r="6" fill="lime"/><ellipse cx="30" cy="40" rx="7" ry="7" fill="lime"/></g>
+<g id="zero-negative" data-box="43 33 20 14"></g>
+<g fill="none" stroke="black" stroke-width=".25">
+<path d="M 7 2 A 5 8 0 0 1 12 10 V 18 A 5 8 0 0 1 7 26 A 5 8 0 0 1 2 18 V 10 A 5 8 0 0 1 7 2 Z"/>
+<path d="M 19 2 H 29 A 3 3 0 0 1 32 5 V 9 A 3 3 0 0 1 29 12 H 19 A 3 3 0 0 1 16 9 V 5 A 3 3 0 0 1 19 2 Z"/>
+<rect x="36" y="2" width="12" height="10"/>
+<path d="M 20 16 H 32 A 4 6 0 0 1 36 22 V 26 A 4 6 0 0 1 32 32 H 20 A 4 6 0 0 1 16 26 V 22 A 4 6 0 0 1 20 16 Z"/>
+<circle cx="46" cy="22" r="5.657"/>
+<circle cx="10" cy="38" r="6"/>
+<ellipse cx="30" cy="40" rx="7" ry="7"/>
+</g>
+</svg>

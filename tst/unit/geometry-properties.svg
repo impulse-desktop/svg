@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- Each lime drawing fills its black outline, and nothing red shows.
+cx and x percentages are of the viewport's width, cy and y of its
+height; cx and cy are 0 when not given; r is not inherited; width and
+height auto are 100% on a nested svg, 0 on a rect; max-width and min-
+width do nothing (D17); x, y and width on a group, cx and r on a rect,
+are no geometry properties and do nothing. A polyline is left open; a
+polygon or polyline of no points draws nothing. -->
+<rect width="64" height="32" fill="white"/>
+<circle cx="25%" cy="50%" r="4" fill="lime"/>
+<svg x="2" y="2" width="6" height="6" overflow="visible"><circle r="3" fill="lime" transform="translate(3 3)"/></svg>
+<g style="r: 6px"><circle cx="27" cy="5" r="2" fill="lime"/></g>
+<rect x="50%" y="25%" width="4" height="4" fill="lime"/>
+<svg x="40" y="2" width="auto" height="auto" viewBox="0 0 64 32" preserveAspectRatio="none"><rect width="22" height="12" fill="lime"/></svg>
+<rect x="2" y="18" width="auto" height="8" fill="red"/>
+<rect x="24" y="18" width="12" height="8" fill="lime" style="max-width: 2px; min-width: 20px"/>
+<g x="20" y="10" width="0"><rect x="40" y="18" width="10" height="10" fill="lime" cx="9" r="9"/></g>
+<polyline points="54,28 61,28 61,20" fill="none" stroke="lime" stroke-width="2"/>
+<polygon fill="red" stroke="red"/><polyline points="" fill="red" stroke="red" transform="translate(12 22)"/>
+<g fill="none" stroke="black" stroke-width=".25"><circle cx="16" cy="16" r="4"/><circle cx="5" cy="5" r="3"/><circle cx="27" cy="5" r="2"/><rect x="32" y="8" width="4" height="4"/><rect x="40" y="2" width="22" height="12"/><rect x="24" y="18" width="12" height="8"/><rect x="40" y="18" width="10" height="10"/></g>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- What tst/unit/gradient-radial-geometry.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="64" height="64" fill="white"/>
+<defs>
+<clipPath id="top" clipPathUnits="objectBoundingBox"><rect width="1" height=".5"/></clipPath>
+<clipPath id="bottom" clipPathUnits="objectBoundingBox"><rect y=".5" width="1" height=".5"/></clipPath>
+<radialGradient id="d"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="dr" gradientUnits="userSpaceOnUse" cx="12" cy="12" r="10"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="ta" cx=".3"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="tb" href="#ta"/>
+<radialGradient id="tbr" cx=".3" fx=".3"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="tc" fx=".2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="td" href="#tc" cx=".4"/>
+<radialGradient id="tdr" cx=".4" fx=".2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="f" fr=".2"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="fref"><stop offset=".4" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="p" gradientUnits="userSpaceOnUse" cx="44" cy="52" r="15%"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+<radialGradient id="pr" gradientUnits="userSpaceOnUse" cx="44" cy="52" r="9.6"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></radialGradient>
+</defs>
+<radialGradient id="nr" r="-.5"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="red"/></radialGradient>
+<radialGradient id="nf" fr="-.1"><stop offset="0" stop-color="red"/><stop offset="1" stop-color="red"/></radialGradient>
+<g id="defaults" data-box="1 1 22 22"><rect x="2" y="2" width="20" height="20" fill="url(#dr)"/></g>
+<g id="focus-template" data-box="23 1 18 22"><rect x="24" y="2" width="16" height="20" fill="url(#tbr)"/></g>
+<g id="focus-own" data-box="43 1 18 22"><rect x="44" y="2" width="16" height="20" fill="url(#tdr)"/></g>
+<g id="fr" data-box="1 25 22 22"><rect x="2" y="26" width="20" height="20" fill="url(#fref)"/></g>
+<g id="percent-r" data-box="29 41 30 22"><rect x="30" y="42" width="28" height="20" fill="url(#pr)"/></g>
+<g id="negative-r" data-box="1 49 12 14"><rect x="2" y="50" width="10" height="12" fill="lime"/></g>
+<g id="negative-fr" data-box="13 49 12 14"><rect x="14" y="50" width="10" height="12" fill="lime"/></g>
+</svg>

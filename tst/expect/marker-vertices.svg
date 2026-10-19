@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="76">
+<!-- What tst/unit/marker-vertices.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<defs>
+<marker id="l" markerWidth="4" markerHeight="4" refX="2" refY="2" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="lime"/></marker>
+<marker id="r" markerWidth="6" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="red"/></marker>
+<marker id="y" markerWidth="6" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="gold"/></marker>
+<marker id="g" markerWidth="6" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="lime"/></marker>
+<marker id="z" markerWidth="0" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="red"/></marker>
+<rect id="nm" width="6" height="6" fill="red"/>
+<g fill="lime"><marker id="inh" markerWidth="4" markerHeight="4" refX="2" refY="2" markerUnits="userSpaceOnUse"><rect width="4" height="4"/></marker></g>
+</defs>
+<marker id="hid" markerWidth="4" markerHeight="4" refX="2" refY="2" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="lime"/></marker>
+<marker style="display: inline" markerWidth="20" markerHeight="20"><rect x="54" y="48" width="6" height="6" fill="red"/></marker>
+<g id="subpaths" data-box="1 3 34 14"><rect x="2" y="4" width="4" height="4" fill="lime"/><rect x="12" y="4" width="4" height="4" fill="lime"/><rect x="12" y="12" width="4" height="4" fill="lime"/><rect x="20" y="4" width="4" height="4" fill="lime"/><rect x="30" y="4" width="4" height="4" fill="lime"/><rect x="30" y="12" width="4" height="4" fill="lime"/></g>
+<g id="zero-length" data-box="40 4 8 8"><rect x="41" y="5" width="6" height="6" fill="lime"/></g>
+<g id="rect" data-box="48 0 16 16"><rect x="49" y="1" width="6" height="6" fill="lime"/><rect x="58" y="2" width="4" height="4" fill="lime"/><rect x="58" y="10" width="4" height="4" fill="lime"/><rect x="50" y="10" width="4" height="4" fill="lime"/></g>
+<g id="circle" data-box="3 21 18 18"><rect x="16" y="28" width="4" height="4" fill="lime"/><rect x="10" y="34" width="4" height="4" fill="lime"/><rect x="4" y="28" width="4" height="4" fill="lime"/><rect x="10" y="22" width="4" height="4" fill="lime"/></g>
+<g id="line" data-box="21 27 16 6"><rect x="22" y="28" width="4" height="4" fill="lime"/><rect x="32" y="28" width="4" height="4" fill="lime"/></g>
+<g id="polygon" data-box="37 21 16 16"><rect x="38" y="22" width="4" height="4" fill="lime"/><rect x="48" y="22" width="4" height="4" fill="lime"/><rect x="43" y="32" width="4" height="4" fill="lime"/></g>
+<g id="not-presentation" data-box="53 24 10 12"><rect x="54" y="25" width="8" height="10" fill="lime"/></g>
+<g id="not-marker" data-box="1 45 12 12"><rect x="2" y="46" width="10" height="10" fill="lime"/></g>
+<g id="zero-size" data-box="13 45 12 12"><rect x="14" y="46" width="10" height="10" fill="lime"/></g>
+<g id="inherit" data-box="28 48 6 6"><rect x="29" y="49" width="4" height="4" fill="lime"/></g>
+<g id="display-none" data-box="40 48 6 6"><rect x="41" y="49" width="4" height="4" fill="lime"/></g>
+<g id="not-rendered" data-box="51 45 12 12"><rect x="52" y="46" width="10" height="10" fill="lime"/></g>
+<g id="ellipse" data-box="1 61 22 14"><rect x="18" y="66" width="4" height="4" fill="lime"/><rect x="10" y="70" width="4" height="4" fill="lime"/><rect x="2" y="66" width="4" height="4" fill="lime"/><rect x="10" y="62" width="4" height="4" fill="lime"/></g>
+</svg>

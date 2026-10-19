@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="56">
+<!-- What tst/unit/gradient-templates.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="56" fill="white"/>
+<defs>
+<linearGradient id="base" gradientUnits="userSpaceOnUse" x1="2" x2="32" spreadMethod="reflect"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="d1" href="#base"><desc>no stops</desc></linearGradient>
+<linearGradient id="d2" href="#d1" x2="17"/>
+<linearGradient id="r2" gradientUnits="userSpaceOnUse" x1="2" x2="17" spreadMethod="reflect"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<linearGradient id="d3" href="#base"><stop offset="0" stop-color="teal"/><stop offset="1" stop-color="white"/></linearGradient>
+<linearGradient id="r3" gradientUnits="userSpaceOnUse" x1="2" x2="32" spreadMethod="reflect"><stop offset="0" stop-color="teal"/><stop offset="1" stop-color="white"/></linearGradient>
+<radialGradient id="rad" gradientUnits="userSpaceOnUse" cx="0" r="5" spreadMethod="repeat" gradientTransform="translate(2 0)"><stop offset="0" stop-color="purple"/><stop offset="1" stop-color="orange"/></radialGradient>
+<linearGradient id="d4" href="#rad" x2="10"/>
+<linearGradient id="r4" gradientUnits="userSpaceOnUse" x1="2" x2="12" spreadMethod="repeat"><stop offset="0" stop-color="purple"/><stop offset="1" stop-color="orange"/></linearGradient>
+<rect id="notgradient"/>
+<linearGradient id="d5" href="#notgradient"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<g color="red"><linearGradient id="cur"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient></g>
+<g color="lime"><linearGradient id="d6" href="#cur"/></g>
+</defs>
+<linearGradient id="r5"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
+<g id="chain-stops" data-box="1 1 62 8"><rect x="2" y="2" width="60" height="6" fill="url(#base)"/></g>
+<g id="chain-attributes" data-box="1 9 62 8"><rect x="2" y="10" width="60" height="6" fill="url(#r2)"/></g>
+<g id="own-stops" data-box="1 17 62 8"><rect x="2" y="18" width="60" height="6" fill="url(#r3)"/></g>
+<g id="radial-template" data-box="1 25 62 8"><rect x="2" y="26" width="60" height="6" fill="url(#r4)"/></g>
+<g id="not-gradient" data-box="1 33 62 8"><rect x="2" y="34" width="60" height="6" fill="url(#r5)"/></g>
+<g id="cloned-stops" data-box="1 41 62 14"><rect x="2" y="42" width="60" height="12" fill="lime"/></g>
+</svg>

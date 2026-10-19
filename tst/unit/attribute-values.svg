@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="16">
+<!-- Each lime drawing fills its black outline, and nothing red shows.
+An invalid presentation attribute is ignored as an invalid declaration
+is (D16), so overflow="invalid" leaves the user agent's hidden and the
+nested svg clips; a transform scaling past a float's range and back is
+checked only as a whole, so it draws. -->
+<rect width="40" height="16" fill="white"/>
+<svg x="4" y="4" width="8" height="8" overflow="invalid"><rect x="-2" y="-2" width="12" height="12" fill="lime"/></svg>
+<rect width="10" height="10" fill="lime" transform="translate(18 3) scale(1e30) scale(1e-30)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="4" width="8" height="8"/><rect x="18" y="3" width="10" height="10"/></g>
+</svg>
