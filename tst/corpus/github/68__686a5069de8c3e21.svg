@@ -1,0 +1,122 @@
+<svg width="1194pt" height="291pt"
+ viewBox="0.00 0.00 1194.07 291.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 287)">
+<title>mysql</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-287 1190.07,-287 1190.07,4 -4,4"/>
+
+<g id="node1" class="node"><title>ROOT</title>
+<polygon fill="none" stroke="black" points="568.49,-283 519.559,-265 568.49,-247 617.422,-265 568.49,-283"/>
+
+</g>
+
+<g id="node2" class="node"><title>/etc/my.cnf</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="1,5" cx="423.49" cy="-178" rx="51.1914" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>ROOT&#45;&gt;/etc/my.cnf</title>
+<path fill="none" stroke="black" d="M550.419,-253.407C527.265,-239.833 486.656,-216.028 457.604,-198.998"/>
+<polygon fill="black" stroke="black" points="459.011,-195.766 448.614,-193.728 455.471,-201.804 459.011,-195.766"/>
+
+</g>
+
+<g id="node3" class="node"><title>/etc/mysql/my.cnf</title>
+<g id="a_node3"><a xlink:href="file:///etc/mysql/my.cnf" xlink:title="/etc/mysql/my.cnf">
+<ellipse fill="none" stroke="black" cx="568.49" cy="-178" rx="75.2868" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>ROOT&#45;&gt;/etc/mysql/my.cnf</title>
+<path fill="none" stroke="black" d="M568.49,-246.799C568.49,-235.163 568.49,-219.548 568.49,-206.237"/>
+<polygon fill="black" stroke="black" points="571.99,-206.175 568.49,-196.175 564.99,-206.175 571.99,-206.175"/>
+
+</g>
+
+<g id="node10" class="node"><title>~/.my.cnf</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="1,5" cx="708.49" cy="-178" rx="46.2923" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>ROOT&#45;&gt;~/.my.cnf</title>
+<path fill="none" stroke="black" d="M585.938,-253.407C608.294,-239.833 647.503,-216.028 675.553,-198.998"/>
+<polygon fill="black" stroke="black" points="677.501,-201.909 684.233,-193.728 673.868,-195.926 677.501,-201.909"/>
+
+</g>
+
+<g id="node4" class="node"><title>/etc/mysql/conf.d/</title>
+<polygon fill="none" stroke="black" points="428.49,-109 312.49,-109 312.49,-73 428.49,-73 428.49,-109"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>/etc/mysql/my.cnf&#45;&gt;/etc/mysql/conf.d/</title>
+<path fill="none" stroke="black" d="M533.548,-161.999C501.853,-148.393 454.807,-128.197 419.384,-112.99"/>
+<polygon fill="black" stroke="black" points="420.755,-109.77 410.186,-109.041 417.994,-116.202 420.755,-109.77"/>
+
+</g>
+
+<g id="node7" class="node"><title>/etc/mysql/mysql.conf.d/</title>
+<polygon fill="none" stroke="black" points="735.99,-109 582.99,-109 582.99,-73 735.99,-73 735.99,-109"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>/etc/mysql/my.cnf&#45;&gt;/etc/mysql/mysql.conf.d/</title>
+<path fill="none" stroke="black" d="M586.469,-160.207C599.966,-147.599 618.639,-130.158 633.723,-116.068"/>
+<polygon fill="black" stroke="black" points="636.319,-118.433 641.237,-109.049 631.54,-113.318 636.319,-118.433"/>
+
+</g>
+
+<g id="node5" class="node"><title>/etc/mysql/conf.d/mysql.cnf</title>
+<g id="a_node5"><a xlink:href="file:///etc/mysql/conf.d/mysql.cnf" xlink:title="/etc/mysql/conf.d/mysql.cnf">
+<ellipse fill="none" stroke="black" cx="110.49" cy="-18" rx="110.48" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>/etc/mysql/conf.d/&#45;&gt;/etc/mysql/conf.d/mysql.cnf</title>
+<path fill="none" stroke="black" d="M312.465,-74.1546C271.591,-62.9928 216.855,-48.0458 174.675,-36.5274"/>
+<polygon fill="black" stroke="black" points="175.355,-33.085 164.786,-33.827 173.511,-39.8378 175.355,-33.085"/>
+</g>
+
+<g id="node6" class="node"><title>/etc/mysql/conf.d/mysqldump.cnf</title>
+<g id="a_node6"><a xlink:href="file:///etc/mysql/conf.d/mysqldump.cnf" xlink:title="/etc/mysql/conf.d/mysqldump.cnf">
+<ellipse fill="none" stroke="black" cx="370.49" cy="-18" rx="131.077" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>/etc/mysql/conf.d/&#45;&gt;/etc/mysql/conf.d/mysqldump.cnf</title>
+<path fill="none" stroke="black" d="M370.49,-72.8129C370.49,-64.7895 370.49,-55.0475 370.49,-46.0691"/>
+<polygon fill="black" stroke="black" points="373.99,-46.0288 370.49,-36.0288 366.99,-46.0289 373.99,-46.0288"/>
+</g>
+
+<g id="node8" class="node"><title>/etc/mysql/mysql.conf.d/mysqld.cnf</title>
+<g id="a_node8"><a xlink:href="file:///etc/mysql/mysql.conf.d/mysqld.cnf" xlink:title="/etc/mysql/mysql.conf.d/mysqld.cnf">
+<ellipse fill="none" stroke="black" cx="659.49" cy="-18" rx="139.976" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>/etc/mysql/mysql.conf.d/&#45;&gt;/etc/mysql/mysql.conf.d/mysqld.cnf</title>
+<path fill="none" stroke="black" d="M659.49,-72.8129C659.49,-64.7895 659.49,-55.0475 659.49,-46.0691"/>
+<polygon fill="black" stroke="black" points="662.99,-46.0288 659.49,-36.0288 655.99,-46.0289 662.99,-46.0288"/>
+</g>
+
+<g id="node9" class="node"><title>/etc/mysql/mysql.conf.d/mysqld_safe_syslog.cnf</title>
+<g id="a_node9"><a xlink:href="file:///etc/mysql/mysql.conf.d/mysqld_safe_syslog.cnf" xlink:title="/etc/mysql/mysql.conf.d/mysqld_safe_syslog.cnf">
+<ellipse fill="none" stroke="black" cx="1001.49" cy="-18" rx="184.667" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>/etc/mysql/mysql.conf.d/&#45;&gt;/etc/mysql/mysql.conf.d/mysqld_safe_syslog.cnf</title>
+<path fill="none" stroke="black" d="M736.242,-74.0662C789.822,-62.9428 861.356,-48.0921 916.634,-36.6163"/>
+<polygon fill="black" stroke="black" points="917.679,-39.9741 926.759,-34.5144 916.256,-33.1202 917.679,-39.9741"/>
+</g>
+</g>
+</svg>

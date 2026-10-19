@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="100" viewBox="0 0 500 100">
+    <g overflow="hidden">
+        <defs>
+            <mask id="logo-text-mask">
+                
+                <filter id="logo-inner-shadow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+                    <feOffset in="blur" dx="2.5" dy="2.5" />
+                </filter>
+            </mask>
+        </defs>
+        <g mask="url(#logo-text-mask)">
+            <rect x="0" y="0" width="500" height="100" fill="rgb(163, 87, 118)" />
+            
+        </g>
+    </g>
+</svg>

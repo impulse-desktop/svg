@@ -1,0 +1,240 @@
+<svg width="531px" height="710px" 
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+        id="tl_04_01_12">
+
+    <desc>return_values</desc>
+
+    <defs>
+        <style type="text/css">
+        <![CDATA[
+        /* general setup */
+:root {
+    --bg-color:#f1f1f1;
+    --text-color: #6e6b5e;
+}
+
+svg {
+    background-color: var(--bg-color);
+}
+
+text {
+    vertical-align: baseline;
+    text-anchor: start;
+}
+
+#heading {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#caption {
+    font-size: 0.875em;
+    font-family: "Open Sans", sans-serif;
+    font-style: italic;
+}
+
+/* code related styling */
+text.code {
+    fill: #6e6b5e;
+    white-space: pre;
+    font-family: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace, monospace !important;
+    font-size: 0.875em;
+}
+
+/* event related styling */
+#eventDot:hover {
+    transform: scale(1.5);
+}
+
+#eventDot {
+    transition: all 0.3s;
+}
+
+#functionDot:hover {
+    transform: scale(1.5);
+}
+
+#functionDot {
+    transition: all 0.3s;
+}
+
+/* timeline/event interaction styling */
+.solid {
+    stroke-width: 5px;
+}
+
+.hollow {
+    stroke-width: 5px;
+    fill: var(--bg-color);
+}
+
+.dotted {
+    stroke-width: 5px;
+    stroke-dasharray: "2 1";
+}
+
+.extend {
+    stroke-width: 1px;
+    stroke-dasharray: "2 1";
+}
+
+.colorless {
+    stroke: var(--bg-color);
+    fill: var(--bg-color);
+}
+
+.functionIcon {
+    stroke: gray;
+    fill: white;
+    stroke-width: 1px;
+    font-size: 24px;
+    font-family: times;
+    font-weight: lighter;
+    dominant-baseline: central;
+    text-anchor: start;
+    font-style: italic;
+}
+
+/* flex related styling */
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+object.tl_panel {
+    flex-grow: 1;
+}
+
+object.code_panel {
+    flex-grow: 0;
+}
+
+/* hash based styling */
+[data-hash="0"] {
+    fill: #6e6b5e;
+}
+
+[data-hash="1"] {
+    fill: #3355ff;
+    stroke: #3355ff;
+}
+
+[data-hash="2"] {
+    fill: #33cc33;
+    stroke: #33cc33;
+}
+
+[data-hash="3"] {
+    fill: #dc143c;
+    stroke: #dc143c;
+}
+
+[data-hash="4"] {
+    fill: #6600ff;
+    stroke: #6600ff;
+}
+
+[data-hash="5"] {
+    fill: #ff33cc;
+    stroke: #ff33cc;
+}
+
+[data-hash="6"] {
+    fill: #008080;
+    stroke: #008080;
+}
+
+[data-hash="7"] {
+    fill: #ff9900;
+    stroke: #ff9900;
+}
+
+[data-hash="8"] {
+    fill: #00d6fc;
+    stroke: #00d6fc;
+}
+
+[data-hash="9"] {
+    fill: #9aeb58;
+    stroke: #9aeb58;
+}
+        ]]>
+        </style>
+        
+        <circle id="eventDot" cx="0" cy="0" r="5"/>
+        
+        <g id="functionDot">
+             <circle id="eventDot" cx="0" cy="0" r="5"/>
+             
+        </g>
+        <marker id="arrowHead" viewBox="0 0 10 10"
+            refX="1" refY="5" 
+            markerUnits="strokeWidth"
+            markerWidth="3px" markerHeight="3px"
+            orient="auto" fill="gray">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="inherit"/>
+        </marker>
+    </defs>
+
+    <g id="labels">
+        
+        
+        
+        
+        
+    </g>
+
+    <g id="timelines">
+        <line data-hash="1" class="hollow tooltip-trigger" x1="70" x2="70" y1="105" y2="265" data-tooltip-text="s1 is the unique value that can access the data in memory"/>
+
+        <line class="colorless tooltip-trigger" stroke-width="2px" x1="70" x2="70" y1="110" y2="260" data-tooltip-text="s1 is the unique value that can access the data in memory"/>
+        <line data-hash="2" class="hollow tooltip-trigger" x1="140" x2="140" y1="165" y2="205" data-tooltip-text="s2 is the unique value that can access the data in memory"/>
+
+        <line class="colorless tooltip-trigger" stroke-width="2px" x1="140" x2="140" y1="170" y2="200" data-tooltip-text="s2 is the unique value that can access the data in memory"/>
+        <line data-hash="3" class="hollow tooltip-trigger" x1="210" x2="210" y1="205" y2="265" data-tooltip-text="s3 is the unique value that can access the data in memory"/>
+
+        <line class="colorless tooltip-trigger" stroke-width="2px" x1="210" x2="210" y1="210" y2="260" data-tooltip-text="s3 is the unique value that can access the data in memory"/>
+        <line data-hash="4" class="hollow tooltip-trigger" x1="340" x2="340" y1="405" y2="445" data-tooltip-text="some_string is the unique value that can access the data in memory"/>
+
+        <line class="colorless tooltip-trigger" stroke-width="2px" x1="340" x2="340" y1="410" y2="440" data-tooltip-text="some_string is the unique value that can access the data in memory"/>
+        <line data-hash="5" class="hollow tooltip-trigger" x1="431" x2="431" y1="565" y2="625" data-tooltip-text="a_string is the unique value that can access the data in memory"/>
+
+        <line class="colorless tooltip-trigger" stroke-width="2px" x1="431" x2="431" y1="570" y2="620" data-tooltip-text="a_string is the unique value that can access the data in memory"/>
+    </g>
+
+    <g id="ref_line">
+    </g>
+
+    <g id="events">
+        <use xlink:href="#eventDot" data-hash="1" x="70" y="105" class="tooltip-trigger" data-tooltip-text="obtains data from gives_ownership() (s1's lifetime begins from here)"/>
+        <use xlink:href="#eventDot" data-hash="1" x="70" y="265" class="tooltip-trigger" data-tooltip-text="s1 goes out of scope. The data is dropped."/>
+        <use xlink:href="#eventDot" data-hash="2" x="140" y="165" class="tooltip-trigger" data-tooltip-text="obtains data from String::from() (s2's lifetime begins from here)"/>
+        <use xlink:href="#eventDot" data-hash="2" x="140" y="205" class="tooltip-trigger" data-tooltip-text="moves its value to takes_and_gives_back() (s2 lost ownership)"/>
+        <use xlink:href="#eventDot" data-hash="2" x="140" y="265" class="tooltip-trigger" data-tooltip-text="s2 goes out of scope. The data is dropped."/>
+        <use xlink:href="#eventDot" data-hash="3" x="210" y="205" class="tooltip-trigger" data-tooltip-text="obtains data from takes_and_gives_back() (s3's lifetime begins from here)"/>
+        <use xlink:href="#eventDot" data-hash="3" x="210" y="265" class="tooltip-trigger" data-tooltip-text="s3 goes out of scope. The data is dropped."/>
+        <use xlink:href="#eventDot" data-hash="4" x="340" y="405" class="tooltip-trigger" data-tooltip-text="obtains data from String::from() (some_string's lifetime begins from here)"/>
+        <use xlink:href="#eventDot" data-hash="4" x="340" y="445" class="tooltip-trigger" data-tooltip-text="moves its value to another value (some_string lost ownership)"/>
+        <use xlink:href="#eventDot" data-hash="4" x="340" y="505" class="tooltip-trigger" data-tooltip-text="some_string goes out of scope. The data is dropped."/>
+        <use xlink:href="#eventDot" data-hash="5" x="431" y="565" class="tooltip-trigger" data-tooltip-text="obtains data from another value (a_string's lifetime begins from here)"/>
+        <use xlink:href="#eventDot" data-hash="5" x="431" y="625" class="tooltip-trigger" data-tooltip-text="moves its value to another value (a_string lost ownership)"/>
+        <use xlink:href="#eventDot" data-hash="5" x="431" y="645" class="tooltip-trigger" data-tooltip-text="a_string goes out of scope. The data is dropped."/>
+    </g>
+
+    <g id="arrows">
+        
+        <polyline stroke-width="5px" stroke="gray" points="93,105 83,105 " marker-end="url(#arrowHead)" class="tooltip-trigger" data-tooltip-text="Move from the return value of gives_ownership() to s1"/>
+        
+        <polyline stroke-width="5px" stroke="gray" points="363,405 353,405 " marker-end="url(#arrowHead)" class="tooltip-trigger" data-tooltip-text="Move from the return value of String::from() to some_string"/>
+        
+        <polyline stroke-width="5px" stroke="gray" points="163,165 153,165 " marker-end="url(#arrowHead)" class="tooltip-trigger" data-tooltip-text="Move from the return value of String::from() to s2"/>
+        
+        <polyline stroke-width="5px" stroke="gray" points="135,205 125,205 " marker-end="url(#arrowHead)" class="tooltip-trigger" data-tooltip-text="Move from s2 to the parameter of takes_and_gives_back()"/>
+        
+        <polyline stroke-width="5px" stroke="gray" points="233,205 223,205 " marker-end="url(#arrowHead)" class="tooltip-trigger" data-tooltip-text="Move from the return value of takes_and_gives_back() to s3"/>
+    </g>
+
+</svg>

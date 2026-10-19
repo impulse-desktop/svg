@@ -1,0 +1,43 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1659px" height="1221px" viewBox="0 0 1659 1221" enable-background="new 0 0 1659 1221" xml:space="preserve">
+<filter  width="162.2%" height="183.0%" id="filter-5" filterUnits="objectBoundingBox" y="-48.7%" x="-18.7%">
+	<feOffset  dy="-62" dx="142" result="shadowOffsetOuter1" in="SourceAlpha"></feOffset>
+	<feGaussianBlur  stdDeviation="95" result="shadowBlurOuter1" in="shadowOffsetOuter1"></feGaussianBlur>
+	<feColorMatrix  type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" in="shadowBlurOuter1"></feColorMatrix>
+</filter>
+<title>Background</title>
+<desc>Created with Sketch.</desc>
+<g id="Background-">
+	
+		<linearGradient id="background_1_" gradientUnits="userSpaceOnUse" x1="430.5933" y1="911.0967" x2="429.5474" y2="910.6714" gradientTransform="matrix(1658.5812 0 0 -1220.0602 -712755.875 1111779.875)">
+		<stop  offset="0" style="stop-color:#FFB37E"/>
+		<stop  offset="1" style="stop-color:#FF4D00"/>
+	</linearGradient>
+	<path id="background" fill="url(#background_1_)" d="M1647.488,149.984C1670.965,99.991,1655.392,31.048,1617.58,0l0,0H0v1220.061
+		l1273.452-441.966c52.179-18.109,113.512-73.321,136.986-123.312L1647.488,149.984z"/>
+	
+		<linearGradient id="Shapoe_1_" gradientUnits="userSpaceOnUse" x1="430.3423" y1="909.8857" x2="430.4784" y2="909.6669" gradientTransform="matrix(747.7358 -563.4594 399.6745 530.386 -685076.875 -239211.0938)">
+		<stop  offset="0" style="stop-color:#E7EAF6"/>
+		<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.3148"/>
+	</linearGradient>
+	<path id="Shapoe" opacity="0.1" fill="url(#Shapoe_1_)" enable-background="new    " d="M710.469,618.037
+		c46.479,29.826,62.462,93.174,35.703,141.486l-138.573,250.193L0,1220.32V848.216l-0.01-212.195l431.694-110.015
+		c53.513-13.637,134.57-0.515,181.05,29.313L710.469,618.037z"/>
+	
+		<g id="shape" transform="translate(1182.123713, 697.176935) scale(-1, 1) rotate(40.000000) translate(-1182.123713, -697.176935) " opacity="0.1">
+		<g filter="url(#filter-5)">
+			<path id="path-4_2_" d="M1540.091-250.723c19.17-51.794-5.604-113.254-55.33-137.271l-60.907-29.417L400.995,440.871
+				l905.054-286.623c52.647-16.673,110.868-72.184,130.037-123.972L1540.091-250.723z"/>
+		</g>
+		<g>
+			
+				<linearGradient id="path-4_2_" gradientUnits="userSpaceOnUse" x1="1895.1786" y1="378.287" x2="1894.8638" y2="378.1009" gradientTransform="matrix(-877.5659 -551.6927 736.3655 -657.4819 1385898.75 1294165.375)">
+				<stop  offset="0" style="stop-color:#FFFFFF"/>
+				<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0.3148"/>
+			</linearGradient>
+			<path id="path-4_1_" fill="url(#path-4_2_)" d="M1540.091-250.723c19.17-51.794-5.604-113.254-55.33-137.271l-60.907-29.417
+				L400.995,440.871l905.054-286.623c52.647-16.673,110.868-72.184,130.037-123.972L1540.091-250.723z"/>
+		</g>
+	</g>
+</g>
+</svg>

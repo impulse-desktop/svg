@@ -1,0 +1,63 @@
+<svg width="270pt" height="228pt"
+ viewBox="0.00 0.00 270.17 228.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 224)">
+<title>GenealogyB</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-224 266.173,-224 266.173,4 -4,4"/>
+
+<g id="node1" class="node"><title>Person</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="class Person
+Positioning
+">
+<polygon fill="none" stroke="black" points="9,-0.5 9,-121.5 148,-121.5 148,-0.5 9,-0.5"/>
+
+<polyline fill="none" stroke="black" points="9,-98.5 148,-98.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Person&#45;&gt;Person</title>
+<g id="a_edge2"><a xlink:title="Person 0..2 adoptiveParents &#45;&#45; * adoptedChild Person">
+<path fill="none" stroke="black" d="M148.173,-39.1152C158.79,-42.4551 166,-49.75 166,-61 166,-72.25 158.79,-79.5449 148.173,-82.8848"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node2" class="node"><title>Union</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Union&quot;);" xlink:title="class Union
+">
+<polygon fill="none" stroke="black" points="0,-158.5 0,-219.5 157,-219.5 157,-158.5 0,-158.5"/>
+
+<polyline fill="none" stroke="black" points="0,-196.5 157,-196.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Person&#45;&gt;Union</title>
+<g id="a_edge1"><a xlink:title="Person * child &#45;&#45; 0..1 parents Union">
+<path fill="none" stroke="black" d="M71.7583,-121.679C71.6944,-134.401 71.9983,-147.303 72.6701,-158.304"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge3" class="edge"><title>Union&#45;&gt;Person</title>
+<g id="a_edge3"><a xlink:title="Union * &#160;&#45;&#45; 0..2 partner Person">
+<path fill="none" stroke="black" d="M84.3299,-158.304C85.0017,-147.303 85.3056,-134.401 85.2417,-121.679"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

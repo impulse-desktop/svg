@@ -1,0 +1,27 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#202020;}
+	.st1{fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;
+	stroke-dasharray: 150;
+	        stroke-dashoffset: 0;
+	        -webkit-animation: dash 10s cubic-bezier(.5,-0.84,.48,1.65) infinite;
+	        -o-animation: dash 10s cubic-bezier(.5,-0.84,.48,1.65) infinite;
+	        -moz-animation: dash 10s cubic-bezier(.5,-0.84,.48,1.65) infinite;
+	        animation: dash 10s cubic-bezier(.5,-0.84,.48,1.65) infinite;
+	}
+
+	@-webkit-keyframes dash{
+		from{
+			stroke-dashoffset: 0;
+		}
+
+		to{
+			stroke-dashoffset: 600;
+		}
+	}
+</style>
+<rect class="st0" width="50" height="50"/>
+<path class="st1" d="M26.806,16.358v3.53h3.937v3.736h-3.937v12.179h-4.042V23.624H18.86v-3.736h3.903v-4.602
+	c0-2.641,2.435-4.267,4.181-4.267h4.195v3.372h-1.846C28.174,14.392,26.806,15.301,26.806,16.358z"/>
+</svg>

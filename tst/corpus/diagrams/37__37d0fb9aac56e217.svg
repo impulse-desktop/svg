@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="86.80000000000001em" height="10.2em" style="background-color:white"><defs>
+	<marker id="Triangle"
+		viewBox="0 0 10 10" refX="0" refY="5" 
+		markerUnits="strokeWidth"
+		markerWidth="15" markerHeight="10"
+		orient="auto">
+		<path d="M 0 0 L 10 5 L 0 10 z" />
+	</marker>
+		
+		<marker id="Diamond"
+		viewBox="0 0 16 10" refX="0" refY="5" 
+		markerUnits="strokeWidth"
+		markerWidth="20" markerHeight="10"
+		orient="auto">
+		<path d="M 0 5 L 8 10 L 16 5 L 8 0 z" />
+	</marker>   
+</defs>
+<rect x="1em" y="1em" width="16em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+
+
+<rect x="23em" y="1em" width="3.2em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+
+
+<rect x="32.2em" y="1em" width="21.6em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+
+
+
+
+
+
+
+
+<rect x="59.800000000000004em" y="1em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+
+
+
+
+
+
+
+
+
+
+<line x1="17em" y1="2em" x2="19em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="19em" y1="2em" x2="19em" y2="2em" stroke="black" />
+<line x1="19em" y1="2em" x2="22.2em" y2="2em" stroke="black" marker-end="url(#Triangle)"/>
+
+<line x1="26.2em" y1="2em" x2="28.2em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="28.2em" y1="2em" x2="28.2em" y2="2em" stroke="black" />
+<line x1="28.2em" y1="2em" x2="31.400000000000002em" y2="2em" stroke="black" marker-end="url(#Triangle)"/>
+
+<line x1="53.800000000000004em" y1="2em" x2="55.800000000000004em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="55.800000000000004em" y1="2em" x2="55.800000000000004em" y2="2em" stroke="black" />
+<line x1="55.800000000000004em" y1="2em" x2="59.00000000000001em" y2="2em" stroke="black" marker-end="url(#Triangle)"/>
+</svg>

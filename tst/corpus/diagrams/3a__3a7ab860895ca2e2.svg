@@ -1,0 +1,254 @@
+<svg width="1120" height="590px" 
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <desc>ownership_function</desc>
+
+    <defs>
+        <style type="text/css">
+        <![CDATA[
+        /* general setup */
+:root {
+    --bg-color:#f1f1f1;
+    --text-color: #6e6b5e;
+}
+
+svg {
+    background-color: var(--bg-color);
+}
+
+text {
+    fill: var(--text-color);
+    vertical-align: baseline;
+    text-anchor: start;
+}
+
+#heading {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#caption {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+}
+
+/* code related styling */
+text.code {
+    white-space: pre;
+    font-family: "monospace";
+}
+
+/* event related styling */
+#eventDot:hover {
+    transform: scale(1.5);
+}
+
+#eventDot {
+    transition: all 0.3s;
+}
+
+/* text.functionIcon:hover {
+    transform: scale(1.5);
+}
+
+text.functionIcon {
+    transition: all 0.3s;
+} */
+
+#functionDot:hover {
+    transform: scale(1.5);
+}
+
+#functionDot {
+    transition: all 0.3s;
+}
+
+/* timeline/event interaction styling */
+.solid {
+    stroke-width: 5px;
+}
+
+.hollow_internal {
+    stroke-width: 3px;
+    fill: var(--bg-color);
+}
+
+.dotted {
+    stroke-width: 5px;
+    stroke-dasharray: "2 1";
+}
+
+.extend {
+    stroke-width: 1px;
+    stroke-dasharray: "2 1";
+}
+
+.colorless {
+    color: var(--bg-color);
+    fill: var(--bg-color);
+}
+
+.functionIcon {
+    stroke: gray;
+    fill: white;
+    stroke-width: 1px;
+    font-size: 30px;
+    font-family: times;
+    font-weight: lighter;
+    dominant-baseline: central;
+    text-anchor: start;
+    font-style: italic;
+}
+/* hash based styling */
+[data-hash*="1"] {
+    fill: #3355ff;
+    stroke: #3355ff;
+}
+
+[data-hash*="2"] {
+    fill: #33cc33;
+    stroke: #33cc33;
+}
+
+[data-hash*="3"] {
+    fill: #ff3300;
+    stroke: #ff3300;
+}
+
+[data-hash*="4"] {
+    fill: #6600ff;
+    stroke: #6600ff;
+}
+
+[data-hash*="5"] {
+    fill: #ff33cc;
+    stroke: #ff33cc;
+}
+
+[data-hash*="6"] {
+    fill: #663300;
+    stroke: #663300;
+}
+
+[data-hash*="7"] {
+    fill: #ff9900;
+    stroke: #ff9900;
+}
+[data-hash*="8"] {
+    fill: #00d6fc;
+    stroke: #00d6fc;
+}
+
+[data-hash*="9"] {
+    fill: #9aeb58;
+    stroke: #9aeb58;
+}
+        ]]>
+        </style>
+        
+        <circle id="eventDot" cx="0" cy="0" r="5"/>
+        
+        <g id="functionDot">
+             <circle id="eventDot" cx="0" cy="0" r="8"/>
+             
+        </g>
+        <marker id="arrowHead" viewBox="0 0 10 10"
+            refX="1" refY="5" 
+            markerUnits="strokeWidth"
+            markerWidth="3px" markerHeight="3px"
+            orient="auto" fill="gray">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="inherit"/>
+        </marker>
+    </defs>
+
+    <g>
+        
+        
+    </g>
+
+    <g id="labels">
+        
+        
+        
+        
+    </g>
+
+    <g id="timelines">
+        <line data-hash="1" class="solid" x1="740" x2="740" y1="105" y2="145"><title>s is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="740" x2="740" y1="110" y2="140"><title>s is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="2" class="solid" x1="810" x2="810" y1="205" y2="245"><title>x is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="810" x2="810" y1="210" y2="240"><title>x is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="2" class="solid" x1="810" x2="810" y1="245" y2="325"><title>x is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="810" x2="810" y1="250" y2="320"><title>x is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="3" class="solid" x1="910" x2="910" y1="385" y2="405"><title>some_string is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="910" x2="910" y1="390" y2="400"><title>some_string is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="3" class="solid" x1="910" x2="910" y1="405" y2="405"><title>some values are statically referencing to some_string; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="910" x2="910" y1="410" y2="400"><title>some values are statically referencing to some_string; can only read data</title></line>
+        <line data-hash="3" class="solid" x1="910" x2="910" y1="405" y2="425"><title>some_string is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="910" x2="910" y1="410" y2="420"><title>some_string is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="4" class="solid" x1="1020" x2="1020" y1="485" y2="505"><title>some_integer is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="1020" x2="1020" y1="490" y2="500"><title>some_integer is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="4" class="solid" x1="1020" x2="1020" y1="505" y2="505"><title>some values are statically referencing to some_integer; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="1020" x2="1020" y1="510" y2="500"><title>some values are statically referencing to some_integer; can only read data</title></line>
+        <line data-hash="4" class="solid" x1="1020" x2="1020" y1="505" y2="525"><title>some_integer is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="1020" x2="1020" y1="510" y2="520"><title>some_integer is the unique value that can access the data in memory; can only read data</title></line>
+    </g>
+
+    <g id="events">
+        <use xlink:href="#eventDot" data-hash="1" x="740" y="105"><title>obtains data from String::from() (s's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="740" y="145"><title>moves it's value to takes_ownership() (s lost ownership)</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="740" y="325"><title>s goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="810" y="205"><title>obtains data from another value (x's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="810" y="245"><title>copies it's value to makes_copy() (x keeps ownership)</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="810" y="325"><title>x goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="910" y="385"><title>obtains data from another value (some_string's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="910" y="405"><title>statically lends its data to println!() (some_string becomes read-only)</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="910" y="405"><title>println!() no longer borrows from some_string</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="910" y="425"><title>some_string goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="1020" y="485"><title>obtains data from another value (some_integer's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="1020" y="505"><title>statically lends its data to println!() (some_integer becomes read-only)</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="1020" y="505"><title>println!() no longer borrows from some_integer</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="1020" y="525"><title>some_integer goes out of scope. The data is dropped.</title></use>
+    </g>
+
+    <g id="arrows">
+                <polyline stroke-width="5" stroke="gray" points="763,105 753,105 " marker-end="url(#arrowHead)"><title>Move from the return value of String::from() to s</title></polyline>
+                <polyline stroke-width="5" stroke="gray" points="735,145 725,145 " marker-end="url(#arrowHead)"><title>Move from s to the parameter of takes_ownership()</title></polyline>
+                <polyline stroke-width="5" stroke="gray" points="805,245 795,245 " marker-end="url(#arrowHead)"><title>Duplicate from x to the parameter of makes_copy()</title></polyline>
+        <use xlink:href="#functionDot" data-hash="3" x="910" y="405"><title>println!() reads from some_string</title></use>
+        <use xlink:href="#functionDot" data-hash="4" x="1020" y="505"><title>println!() reads from some_integer</title></use>
+    </g>
+
+    <g id="dividers">
+            <line stroke="gray" stroke-width="2" x1="670" x2="670" y1="70" y2="540"/>
+    </g>
+
+    <g id="code">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </g>
+
+   
+</svg>

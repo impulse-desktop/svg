@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="-svg" class="Diagram"  baseProfile="full" prefix="schema:http://schema.org/" preserveAspectRatio="xMidYMid"  version="1.1"><defs><g id="icon-defs"><symbol id="HexagonPathVisio" class=" Icon HexagonPathVisio" x="0" y="8" overflow="visible" preserveAspectRatio="none" viewBox="0 8 100 86"><desc>HexagonPathVisio</desc><g transform="scale(1 0.85)"><path d="m1.42 51.00 21.07-42.14h56.19l21.07 42.14-21.07 42.15h-56.19l-21.07-42.15z" stroke="currentColor" vector-effect="non-scaling-stroke"/></g></symbol><symbol id="Octagon" class=" Icon Octagon" x="0" y="0" overflow="visible" preserveAspectRatio="none" viewBox="0 0 100 100"><desc>Octagon</desc><path d="m0 25 25-25h50l25 25v50l-25 25h-50l-25-25z" vector-effect="non-scaling-stroke"/></symbol></g><g id="marker-defs"><marker id="mea" markerHeight="12" markerWidth="12" orient="auto" preserveAspectRatio="none" refX="12" refY="6" viewBox="0 0 12 12"><g id="g-mea" transform=""><g transform="rotate(180 6 6)"><rect y="5.4" width="2" height="1.2" style="stroke:#fff"/><polygon points="12 11 0 6 12 1" stroke-width="0"/></g></g></marker></g></defs><g id="viewport-20220102141800638" class="svg-pan-zoom_viewport" transform="matrix(1.41 0 0 1.41 0 0.95)" style="transform:matrix(1.41, 0, 0, 1.41, 0, 0.95)"><style>svg.Diagram {font-family: 'Liberation Sans', Arial, sans-serif; }.Diagram path {fill: transparent;stroke: #000;marker-end: url(#mea);}.Diagram symbol path {fill: inherit;stroke: inherit;stroke-width: inherit;marker-end: inherit;}.Diagram rect {fill: #fff;stroke: #000;}.Diagram text {dominant-baseline: central;overflow: hidden;text-anchor: middle;fill: #000;font-size: 10px;}</style><style type="text/css">.Viewport .textContent {
+  pointer-events: none;
+  stroke-width: 0px;
+}
+
+					.Viewport.Icon {
+  fill: white;
+}
+
+/* Hide the InfoBox */
+.Viewport.textContent {
+  font-size: 0;
+}
+
+.textContent {
+  stroke: none;
+}
+
+.DataNode {
+  stroke-miterlimit: 1;
+  pointer-events: auto;
+}
+
+.DataNode:hover {
+  cursor: pointer;
+}
+
+/* TODO should this apply to things other than DataNodes? */
+.DataNode.textContent {
+  pointer-events: none;
+}
+
+.DataNode.Highlighted {
+  opacity: 0.6;
+  stroke-width: 0px;
+}
+
+marker {
+  /* this is what should work per the spec
+  stroke-dasharray: none; */
+  /* but I need to add this to make it work in Safari */
+  stroke-dasharray: 9999999999999999999999999;
+}
+
+.Citation.Icon {
+  fill: none;
+  stroke-width: 0px;
+}
+
+.Citation.textContent {
+  text-align: center;
+  vertical-align: top;
+  font-size: 7px;
+  fill: #999;
+  fill-opacity: 1;
+  stroke: none;
+}</style><g id="WP3394" class="Pathway http___identifiers_org_pw_PW_0000004 Viewport"  name="Name: NR1D1 (REV-ERBA) represses gene expression Organism: Homo sapiens" ><g class="Pathway http___identifiers_org_pw_PW_0000004 Viewport"><rect   width="851" height="505" style="stroke:none"/><g id="fd3f3" class="Reactome_R-HSA-5663252"  ><path    d="m386 186 107-1" style="marker-end:none"/><g id="c7e4e" class="AB" transform="translate(386,186)"  ><g class="AB"/></g><g id="ee325" class="AB" transform="translate(491.93,185.01)"  ><g class="AB"/></g></g><g id="c1e53" class="Reactome_R-HSA-5663252"  ><path    d="m125 72 261 114" style="marker-end:none"/></g><g id="c95e8" class="Reactome_R-HSA-5663252"  ><path    d="m125 250 261-64" style="marker-end:none"/></g><g id="d2e2e" class="Reactome_R-HSA-5663252"  ><path    d="m125 195 261-9" style="marker-end:none"/></g><g id="f625a" class="Reactome_R-HSA-5663252"  ><path    d="m337 217 49-31" style="marker-end:none"/></g><g id="f93e9" class="Reactome_R-HSA-5663252"  ><path    d="m132 139 254 47" style="marker-end:none"/></g><g id="a6921" class="Reactome_R-HSA-5663252"  ><path    d="m493 185 3 1"/></g><g id="bffaf" class="GroupGroup" transform="translate(-3,-4)"  ><g class="GroupGroup"><g id="fa1e6" class="" transform="translate(8,8)"  ><g class=""><rect   transform="matrix(1.00 0 0 0.99 1.49 1.49)" width="816" height="313" rx="15" ry="15" stroke-width="3" style="fill:transparent;stroke:#c0c0c0"/></g></g><g id="d7e4f" class="Label" transform="translate(63,272)"  name="nucleoplasm" ><g class="Label"/></g></g></g><g id="a1d4c" class="Complex Reactome_R-HSA-5663261" transform="translate(496,174)"  name="NR1D1:heme:Corepressors:ELOVL3 gene" ><g class="Complex Reactome_R-HSA-5663261"><use class="Complex Reactome_R-HSA-5663261 Node Icon" width="277" height="24" fill="#fff" stroke="#a52a2a" href="#HexagonPathVisio"/></g><g ><defs><clipPath ><rect x="-138.5" y="-12" width="277" height="24" style="stroke:none"/></clipPath></defs></g></g><g id="cfdb2" class="Protein" transform="translate(31,177)"  name="NCOR1" ><rect   width="94" height="36"/></g><g id="d35ba" class="Protein" transform="translate(31,232)"  name="HDAC3" ><rect   width="94" height="36"/></g><g id="d8521" class="Metabolite " transform="translate(30,117)"  name="ferriheme b" ><rect   width="102" height="44" style="stroke:#00f"/></g><g id="f6e3b" class="Protein" transform="translate(31,54)"  name="NR1D1" ><rect   width="94" height="36"/></g><g id="f9c2b" class="GeneProduct " transform="translate(245,192)"  name="ELOVL3 gene" ><rect   width="92" height="51"/></g><g id="ba6f0" class="GroupComplex" transform="translate(38,363)"  ><g class="GroupComplex"><use class="Icon" width="124" height="124" fill="#b4b464" fill-opacity=".1" stroke="grey" href="#Octagon"/><g id="aa549" class="Protein" transform="translate(12,52)"  name="HDAC3" ><rect   width="100" height="20"/></g><g id="b95b2" class="Protein " transform="translate(12,92)"  name="ELOVL3 gene" ><rect   width="100" height="20"/></g><g id="c6c1d" class="Protein" transform="translate(12,12)"  name="NR1D1" ><rect   width="100" height="20"/></g><g id="f33fa" class="Metabolite " transform="translate(12,32)"  name="ferriheme b" ><rect   width="100" height="20" style="stroke:#00f"/></g><g id="f4dd8" class="Protein" transform="translate(12,72)"  name="NCOR1" ><rect   width="100" height="20"/></g></g></g></g></g></g></svg>

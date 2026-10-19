@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 500">
+  <defs>
+    <linearGradient id="class-paint" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" style="stop-color: rgb(47, 143, 227);"/>
+      <stop offset="100%" style="stop-color: rgb(74, 82, 202);"/>
+    </linearGradient>
+
+    <marker class="connecter-view" id="connector-start" markerHeight="20" markerUnits="userSpaceOnUse" markerWidth="16" orient="auto" refX="1" refY="10">
+      <path class="connecter-marker" d="M 16 2 L 0 10 L 16 18"/>
+    </marker>
+
+    <marker class="connecter-view" id="connector-end" markerHeight="20" markerUnits="userSpaceOnUse" markerWidth="16" orient="auto" refX="15" refY="10">
+      <path class="connecter-marker" d="M 0 2 L 16 10 L 0 18"/>
+    </marker>
+
+    <style><![CDATA[
+*:root {
+  --background-paint: #eee;
+  font-family: "Arial", "Helvetica Neue", sans-serif;
+  text-rendering: optimizelegibility;
+  width: 800px;
+}
+
+@media (prefers-color-scheme: dark) {
+  *:root {
+    --background-paint: #eee;
+  }
+}
+
+*.background {
+  block-size: 100%;
+  fill: var(--background-paint);
+  inline-size: 100%;
+}
+
+*.class {
+  color: #fff;
+}
+
+*.class-frame {
+  fill: url(#class-paint);
+  rx: 12px;
+  ry: 12px;
+  stroke: none;
+}
+
+*.class-label {
+  dominant-baseline: central;
+  fill: currentcolor;
+  font-size: 18px;
+  text-anchor: middle;
+}
+
+*.class-desc {
+  dominant-baseline: central;
+  fill: currentcolor;
+  fill-opacity: 0.7;
+  font-size: 15px;
+  text-anchor: middle;
+}
+
+*:any-link {
+  color: unset;
+  fill: currentcolor;
+  text-decoration: underline;
+}
+
+*.connecter-view {
+  overflow: visible;
+}
+
+*.connecter-marker {
+  fill: none;
+  stroke: #0ecadd;
+  stroke-linecap: round;
+  stroke-width: 2px;
+}
+
+*.connecter {
+  fill: none;
+  marker-end: url(#connector-end);
+  stroke: #0ecadd;
+  stroke-linecap: round;
+  stroke-width: 3px;
+}
+
+*.connecter.bidi {
+  marker-start: url(#connector-start);
+}
+
+*.connecter-label {
+  dominant-baseline: central;
+  fill: #00b0b9;
+  font-size: 16px;
+  paint-order: stroke fill;
+  stroke: var(--background-paint);
+  stroke-width: 6px;
+  text-anchor: middle;
+}
+
+    ]]></style>
+  </defs>
+
+  <rect class="background"/>
+
+  <g class="class" style="transform: translate(440px, 250px);">
+    <rect class="class-frame" height="60" width="240"/>
+    
+    
+  </g>
+
+  <g class="class" style="transform: translate(100px, 100px);">
+    <rect class="class-frame" height="60" width="240"/>
+    
+    
+  </g>
+
+  <path class="connecter bidi" d="M 324 162 L 466 246"/>
+
+  <g class="class" style="transform: translate(60px, 200px);">
+    <rect class="class-frame" height="60" width="240"/>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMString/Binary" rel="noopener noreferrer">
+      
+    </a>
+    
+  </g>
+
+  <path class="connecter bidi" d="M 304 244 L 436 266"/>
+
+  <g class="class" style="transform: translate(60px, 300px);">
+    <rect class="class-frame" height="60" width="240"/>
+    
+    
+  </g>
+
+  <path class="connecter bidi" d="M 304 316 L 436 294"/>
+
+  <g class="class" style="transform: translate(80px, 400px);">
+    <rect class="class-frame" height="60" width="240"/>
+    
+    
+  </g>
+
+  <path class="connecter bidi" d="M 296 396 L 460 314"/>
+
+  <g class="class" style="transform: translate(400px, 40px);">
+    <rect class="class-frame" height="60" width="240"/>
+    
+    
+  </g>
+
+  <path class="connecter" d="M 526 104 L 554 246"/>
+
+  <g class="class" style="transform: translate(800px, 260px);">
+    <rect class="class-frame" height="60" width="240"/>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" rel="noopener noreferrer">
+      
+    </a>
+  </g>
+
+  <path class="connecter bidi" d="M 796 292 L 684 284"/>
+
+  <g class="class" style="transform: translate(780px, 360px);">
+    <rect class="class-frame" height="60" width="240"/>
+    
+    
+  </g>
+
+  <path class="connecter bidi" d="M 780 360 L 678 310"/>
+
+  <g class="class" style="transform: translate(760px, 120px);">
+    <rect class="class-frame" height="60" width="240"/>
+    
+    
+  </g>
+
+  <path class="connecter" d="M 756 170 L 608 246"/>
+  
+  <path class="connecter" d="M 648 246 L 769 184"/>
+  
+
+  <path class="connecter" d="M 508 314 L 464 412 A 8 8 0 0 0 480 420 L 528 314"/>
+  
+
+</svg>

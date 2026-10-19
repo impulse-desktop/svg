@@ -1,0 +1,24 @@
+<svg class="relation" width="380" height="45" viewBox="0 0 380 40"
+     preserveAspectRatio="xMinYMax meet" data-format="spacy"
+     id="displacy-svg" style="font-family: inherit;" version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+   <defs xmlns="http://www.w3.org/1999/xhtml">
+      <style type="text/css">
+         <![CDATA[
+         .relation { color: black; }
+         .relation-arrow { color: blue; }
+         .relation-label, .relation-token { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 1.1rem; line-height: normal; font-family: "Input Mono Compressed", Consolas, "Andale Mono", Menlo, Monaco, Courier, monospace; }
+         ]]>
+      </style>
+   </defs>
+   
+   
+   <g class="relation-arrow">
+      <path class="relation-arc" d="M178,25 h100" stroke-width="2px"
+            fill="none" stroke="currentColor" id="arrow"/>
+      
+      <path class="relation-arrowhead" d="M288,25 l-10,-6 0,12"
+            fill="currentColor"/>
+   </g>
+</svg>

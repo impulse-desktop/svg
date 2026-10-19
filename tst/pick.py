@@ -15,13 +15,15 @@ candidate is worth anything.
 With --count N the pick goes on past that, WEAK doubling whenever nothing
 is worth anything, until N files are picked.
 
-usage: tst/pick.py [--write] [--weak N] [--count N] [--cache FILE] SVG CORPUS OUT.tsv SOURCE=DIR...
+usage: tst/pick.py [--write] [--weak N] [--count N] [--cache FILE] [--featurize BIN] SVG CORPUS OUT.tsv SOURCE=DIR...
 
 Writes OUT.tsv, a picked file a line: source, path, worth, the features it
 brought, the WEAK it was picked at. With --write, copies the picked files
 into CORPUS/SOURCE. --weak sets the first WEAK, 5 by default. --cache keeps
 what examining a candidate found, by its path, size and time, so a run
-examines only what is new.
+examines only what is new. --featurize names tst/featurize built, which
+examines as this script does, on every core and many times faster. Whether
+a candidate draws is asked of the renderer for the next few at once.
 """
 import hashlib
 import heapq
@@ -58,6 +60,17 @@ def examine(path):
         return None
 
     return path, digest(data), len(data), sorted(features.features(data.decode("utf-8", "replace")))
+
+
+def featurize(program, paths, clean):
+    """What tst/featurize finds of the paths: (path, digest, size,
+    features), cleaned first with clean."""
+    if not paths:
+        return []
+
+    run = subprocess.run([program, "-root", str(Path(__file__).resolve().parent.parent)] + (["-clean"] if clean else []), input="\n".join(paths), capture_output=True, text=True, check=True)
+
+    return [tuple(json.loads(line)) for line in run.stdout.splitlines()]
 
 
 def examine_all(paths, jobs=24):
@@ -99,6 +112,17 @@ def draws(program, path):
         return False
 
 
+def draws_all(program, paths, known, jobs=48):
+    """draws over the paths not known yet, at once, into known."""
+    import concurrent.futures
+
+    fresh = [path for path in paths if path not in known]
+
+    with concurrent.futures.ThreadPoolExecutor(jobs) as pool:
+        for path, result in zip(fresh, pool.map(lambda path: draws(program, path), fresh)):
+            known[path] = result
+
+
 def main():
     if sys.argv[1:2] == ["--examine"]:
         for path in Path(sys.argv[2]).read_text().split("\n"):
@@ -118,30 +142,41 @@ def main():
 
     cache = None
 
-    while arguments[:1] in (["--weak"], ["--count"], ["--cache"]):
+    examiner = None
+
+    while arguments[:1] in (["--weak"], ["--count"], ["--cache"], ["--featurize"]):
         if arguments[0] == "--weak":
             WEAK = int(arguments[1])
         elif arguments[0] == "--count":
             count = int(arguments[1])
+        elif arguments[0] == "--featurize":
+            examiner = arguments[1]
         else:
             cache = arguments[1]
 
         arguments = arguments[2:]
 
     if len(arguments) < 4:
-        sys.exit("usage: tst/pick.py [--write] [--weak N] [--count N] [--cache FILE] SVG CORPUS OUT.tsv SOURCE=DIR...")
+        sys.exit("usage: tst/pick.py [--write] [--weak N] [--count N] [--cache FILE] [--featurize BIN] SVG CORPUS OUT.tsv SOURCE=DIR...")
 
     program, corpus, out = arguments[:3]
     sources = [a.split("=", 1) for a in arguments[3:]]
     counts = {}
     known = set()
 
-    for path in sorted(Path(corpus).glob("*/*.svg")):
-        data = path.read_bytes()
-        known.add(digest(data))
+    if examiner:
+        for _, key, _, keys in featurize(examiner, [str(path) for path in sorted(Path(corpus).glob("*/*.svg"))], False):
+            known.add(key)
 
-        for key in features.features(data.decode("utf-8", "replace")):
-            counts[key] = counts.get(key, 0) + 1
+            for k in keys:
+                counts[k] = counts.get(k, 0) + 1
+    else:
+        for path in sorted(Path(corpus).glob("*/*.svg")):
+            data = path.read_bytes()
+            known.add(digest(data))
+
+            for key in features.features(data.decode("utf-8", "replace")):
+                counts[key] = counts.get(key, 0) + 1
 
     paths = [(source, os.path.join(directory, name)) for source, root in sources for directory, _, names in os.walk(root) for name in names if name.endswith(".svg")]
     source_of = dict((path, source) for source, path in paths)
@@ -159,7 +194,8 @@ def main():
             known_results[key] = json.loads(result)
 
     stamps = {path: stamp(path) for _, path in paths}
-    fresh = examine_all([path for _, path in paths if stamps[path] not in known_results])
+    unknown = [path for _, path in paths if stamps[path] not in known_results]
+    fresh = featurize(examiner, unknown, True) if examiner else examine_all(unknown)
 
     if cache:
         with open(cache, "a") as handle:
@@ -184,6 +220,7 @@ def main():
 
     picked = []
     done = set()
+    drawn = {}
 
     while True:
         heap = [(-worth(keys), size, path) for path, (size, keys) in candidates.items() if path not in done]
@@ -204,7 +241,11 @@ def main():
 
             done.add(path)
 
-            if not draws(program, path):
+            # The renderer is asked of the next candidates at once.
+            if path not in drawn:
+                draws_all(program, [path] + [p for _, _, p in heapq.nsmallest(47, heap)], drawn)
+
+            if not drawn[path]:
                 continue
 
             brought = [k for k in keys if counts.get(k, 0) < WEAK]

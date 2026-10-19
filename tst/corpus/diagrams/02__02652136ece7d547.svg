@@ -1,0 +1,46 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 150 150" width="250px" height="250px" font-family="monospace" id="yin">
+  <title>uicuxd: yin-yang-logo</title>
+  <desc>Author: Shakiba Moshiri. MIT License. Has been created for uicuxd manually. For more see our github repository.</desc>
+
+  <g>
+	<path id="yin" fill="#000" d="M25,75 a50,50 0 1,1 100,0 a25,25 0 1,1 -50,0 a25,25 0 1,0 -50,0z"></path>
+	<path id="yang" fill="#FFF" d="M25,75 a50,50 0 1,0 100,0 a25,25 0 1,1 -50,0 a25,25 0 0,0 -50,0z"></path>
+  </g>
+  <g id="uic">
+	<path d="M40,75 a10,10 0 1,1 0,1z"></path>
+	
+  </g>
+  <g id="uxd">
+	<path  d="M90,75 a10,10 0 1,1 0,1z">
+	  
+	</path>
+	
+  </g>
+
+  <g fill="#FFF" font-size="10">
+	<path id="text-path" stroke="none" fill="none" d="M20,75 a55 55 0 1,1 0,1z"></path>
+	
+  </g>
+
+
+  <rect  x="0" y="0" width="150" height="150" fill="url(#grid24)"></rect>
+  
+
+  <defs>
+	<style type="text/css" ><![CDATA[
+	g:last-of-type { transform-origin: 75px 75px; transition: transform 2000ms ease 50ms; }
+	svg:hover > g:last-of-type { transform: rotate(180deg); }
+
+	g#uic > text { fill: #FFF; }
+	g#uxd > text { fill: #000; }
+
+	g#uic { transform-origin: 50px 75px; transition: transform 2000ms ease 50ms, fill 2000ms ease 50ms; fill: #000; }
+	g#uxd { transform-origin: 100px 75px; transition: transform 2000ms ease 50ms, fill 2000ms ease 50ms; fill: #FFF }
+
+	svg:hover > g#uic { transform: translate(50px,0px) rotate(360deg); fill: #FFF; }
+	svg:hover > g#uxd { transform: translate(-50px,0px) rotate(360deg); fill: #000 }
+	svg:hover > g#uic > text { fill: #000; }
+	svg:hover > g#uxd > text { fill: #FFF; }
+	]]></style>
+  </defs>
+</svg>

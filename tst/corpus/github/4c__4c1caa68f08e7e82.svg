@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1000.000000" height="1000.000000">
+<defs>
+<pattern id="pattern10" x="0.000000" y="0.000000" width="0.150000" height="0.150000">
+<rect x="0.000000" y="0.000000" width="150.000000" height="150.000000" fill="#293d56" fill-opacity="1.000000" />
+<radialGradient id="gradient10">
+<stop offset="0%" stop-color="#8bff95" />
+<stop offset="50%" stop-color="#38b142" />
+<stop offset="100%" stop-color="#177e1f" />
+</radialGradient>
+<circle cx="0.000000" cy="0.000000" r="20.000000" fill="url(#gradient10)" fill-opacity="1.000000" />
+<circle cx="150.000000" cy="0.000000" r="20.000000" fill="url(#gradient10)" fill-opacity="1.000000" />
+<circle cx="150.000000" cy="150.000000" r="20.000000" fill="url(#gradient10)" fill-opacity="1.000000" />
+<circle cx="0.000000" cy="150.000000" r="20.000000" fill="url(#gradient10)" fill-opacity="1.000000" />
+<circle cx="75.000000" cy="75.000000" r="20.000000" fill="url(#gradient10)" fill-opacity="1.000000" />
+</pattern>
+</defs>
+<rect x="0.000000" y="0.000000" width="1000.000000" height="1000.000000" fill="url(#pattern10)" fill-opacity="1.000000" />
+</svg>

@@ -1,0 +1,28 @@
+<svg version="1" xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 1000 1000">
+    <style>
+        text {
+            font-size: 500px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .flip-v {
+            transform: rotate3d(0, 1, 0, 180deg);
+            transform-origin: center;
+        }
+        #beer{
+            transform: rotate3d(0, 1, 0, 180deg) rotate(-30deg);
+            transform-origin: center;
+            font-size:400px;
+        }
+        #wine{
+            transform: rotate(-30deg);
+            transform-origin: center;
+            font-size:400px;
+        }
+    </style>
+    
+    
+    
+    
+</svg>

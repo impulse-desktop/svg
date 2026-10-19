@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="89.024" height="60.678" viewBox="0 0 89.024 60.678">
+<defs>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,1.993,58.685)" d="M0 0V56.69362H85.04042V0ZM85.04042 56.69362"/>
+</clipPath>
+<g id="pattern_tile_2">
+<path transform="matrix(1,0,0,-1,0,60.678)" stroke-width=".79701" stroke-linecap="butt" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="#bf8040" d="M0 2.83466H11.33871M0 8.50403H11.33871M2.83466 0V2.83466M8.50403 2.83466V8.50403M2.83466 8.50403V11.33871"/>
+</g>
+<pattern id="pattern_2" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" x="0" y="0" width="11.33871" height="11.33871">
+<clipPath id="clip_3">
+<path d="M -.99628 -.99628 L 14.17339 -.99628 L 14.17339 14.17339 L -.99628 14.17339 Z"/>
+</clipPath>
+<g clip-path="url(#clip_3)">
+<g transform="matrix(1,0,0,-1,-0,60.678)">
+<use x="0" y="0" xlink:href="#pattern_tile_2"/>
+<use x="0" y="-11.33871" xlink:href="#pattern_tile_2"/>
+<use x="-11.33871" y="0" xlink:href="#pattern_tile_2"/>
+<use x="-11.33871" y="-11.33871" xlink:href="#pattern_tile_2"/>
+</g>
+</g>
+</pattern>
+</defs>
+<g clip-path="url(#clip_1)">
+<rect transform="matrix(1,0,0,-1,0,60.678)" fill="url(#pattern_2)" x="1.993" y="1.993" width="85.04042" height="56.69362"/>
+</g>
+</svg>

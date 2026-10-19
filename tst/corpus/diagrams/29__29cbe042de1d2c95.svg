@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #bc89ff;
+        stroke-width: 5px;
+        fill-rule: evenodd;
+        filter: url(#filter);
+      }
+
+      .cls-2 {
+        font-size: 120px;
+        fill: #bc89ff;
+        font-family: Roboto;
+        font-weight: 800;
+      }
+    </style>
+    <filter id="filter" x="3" y="3" width="193.5" height="193.5" filterUnits="userSpaceOnUse">
+      <feImage preserveAspectRatio="none" x="3" y="3" width="193.5" height="193.5" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTkzLjUiIGhlaWdodD0iMTkzLjUiIHZpZXdCb3g9IjAgMCAxOTMuNSAxOTMuNSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogdXJsKCNsaW5lYXItZ3JhZGllbnQpOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJsaW5lYXItZ3JhZGllbnQiIHgxPSI5Ni43NSIgeTE9IjE5My41IiB4Mj0iOTYuNzUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwLjA2NSIgc3RvcC1jb2xvcj0iIzhiN2ZmZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuOTM1IiBzdG9wLWNvbG9yPSIjYmM4OWZmIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCBjbGFzcz0iY2xzLTEiIHdpZHRoPSIxOTMuNSIgaGVpZ2h0PSIxOTMuNSIvPgo8L3N2Zz4K"/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g style="fill: none; filter: url(#filter)">
+    <path id="Retângulo_Arredondado_1" data-name="Retângulo Arredondado 1" class="cls-1" d="M33,3H166.508a30,30,0,0,1,30,30V166.489a30,30,0,0,1-30,30H33a30,30,0,0,1-30-30V33A30,30,0,0,1,33,3Z" style="stroke: inherit; filter: none; fill: inherit"/>
+  </g>
+  <use xlink:href="#Retângulo_Arredondado_1" style="stroke: #bc89ff; filter: none; fill: none"/>
+  
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <title>Text selection highlight over following element</title>
+
+  <style>
+  #a, #b { font-size: 100px; font-family: Ahem }
+  #a::selection { color: red }
+  #b { fill: cyan }
+
+  #c1 { stroke: white; stroke-width: 2; fill: none }
+  #c2 { stroke: blue; stroke-width: 2; fill: none }
+  </style>
+
+  
+
+  
+  
+
+  
+  
+
+  <circle id="c1" cx="110" cy="90" r="8"/>
+  <circle id="c2" cx="110" cy="190" r="8"/>
+</svg>

@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    width="300" height="200">
+    <style type="text/css">
+        svg {
+            filter: drop-shadow(2px 2px 4px #AAA);
+            --folder-dark-color: #DD0;
+            --folder-light-color: #EE0;
+            --folder-text-color: #880;
+            --document-dark-color: #DDE;
+            --document-light-color: #EEF;
+            --document-text-color: #889;
+            --document-hl-color: #DA8;
+            --terminal-back-color: #000;
+            --terminal-border-color: #888;
+            --terminal-title-color: #12D;
+            --terminal-btn-color: #08F;
+            --terminal-text-color: #1F2;
+        }
+        text {
+            stroke: none;
+            font-family: Consolas, monospace;
+            font-size: 16px;
+            text-anchor: middle;
+        }
+        .container3D > * {
+            transform: perspective(100px);
+            transition: 0.2s ease;
+        }
+        .folder-back {
+            fill: var(--folder-dark-color);
+        }
+        .folder-front {
+            fill: var(--folder-light-color);
+            stroke: var(--folder-dark-color);
+            stroke-width: 1px;
+            transform-origin: 40px 30px;
+        }
+        .folder-front:hover {
+            transform: perspective(100px)
+                       rotateX(20deg);
+        }
+        .folder-text {
+            fill: var(--folder-text-color);
+        }
+        .document {
+            fill: var(--document-light-color);
+            stroke: var(--document-dark-color);
+            stroke-width: 1px;
+        }
+        .document:hover {
+            transform: perspective(100px) scale(1, 0.8);
+        }
+        .doc-bg {
+            fill: var(--document-hl-color);
+            font-size: 32px;
+        }
+        .doc-text {
+            fill: var(--document-text-color);
+        }
+        .terminal {
+            stroke: var(--terminal-border-color);
+            fill: var(--terminal-back-color);
+        }
+        .terminal:hover {
+            transform: perspective(100px) scale(1.1, 1.1);
+        }
+        .terminal-text {
+            fill: var(--terminal-text-color);
+            font-size: 28px;
+        }
+        .title-bar {
+            stroke: none;
+            fill: var(--terminal-title-color);
+        }
+        .title-button {
+            stroke: none;
+            fill: var(--terminal-btn-color);
+        }
+    </style>
+    <g id="folder" class="container3D" transform="translate(160 70)">
+        <g class="folder-back">
+            <rect id="fsheet" x="-40" y="-30" width="80" height="60" rx="4" />
+            <rect x="-40" y="-38" width="25" height="15" rx="4" />
+        </g>
+        <g class="folder-front">
+            <use xlink:href="#fsheet" />
+            
+        </g>
+    </g>
+    <g id="file" class="container3D" transform="translate(150 150)">
+        <g class="document" transform="">
+            <mask id="fold-mask">
+                <use xlink:href="#docbg" fill="white" stroke="none" />
+                <path d="M0 0 h30 v30 z" transform="translate(15 -40)" fill="black" stroke="none" /> 
+            </mask>
+            <g mask="url(#fold-mask)">
+                <rect id="docbg" x="-30" y="-40" width="60" height="80" rx="4" />
+                <path d="M0 0 h40
+                        M0 5 h38
+                        M0 10 h35
+                        M0 15 h39
+                        M0 20 h38
+                        M0 25 h39
+                        M0 30 h37
+                        M0 45 h39"
+                    stroke-width="2" transform="translate(-20 -20)"/>
+                
+                <rect width="15" height="15" rx="2" transform="translate(15 -40)" />
+            </g>
+            
+        </g>
+    </g>
+    <g id="terminal" class="container3D" transform="translate(60 60)">
+        <g class="terminal">
+            <rect x="-50" y="-40" width="100" height="80" rx="4" />
+            <rect class="title-bar" x="-50" y="-40" width="100" height="10" rx="2" />
+            <ellipse id="title-button" class="title-button" rx="3" ry="3" 
+                transform="translate(25, -35)" />
+            <use xlink:href="#title-button" transform="translate(9, 0)" />
+            <use xlink:href="#title-button" transform="translate(18, 0)" />
+            
+        </g>
+    </g>
+    <defs>
+    </defs>
+</svg>

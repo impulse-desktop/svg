@@ -1,0 +1,43 @@
+<svg width="297mm" height="210mm" xmlns="http://www.w3.org/2000/svg">
+
+  <title>Africa</title>
+
+  <desc>
+    Map of Arfica continent created in cooperation of Collboard.com and capital city of Prague.
+  </desc>
+
+  <metadata>
+    
+    <collboard>
+      <module name="@collboard/map-svg-geojson" />
+    </collboard>
+  </metadata>
+
+
+  <defs>
+
+    <pattern id="Board" x="0" y="0" width="1cm" height="1cm" patternUnits="userSpaceOnUse">
+      
+      <circle cx="0.5cm" cy="0.5cm" r="0.05cm" fill="black" fill-opacity="0.07" />
+    </pattern>
+
+
+  </defs>
+
+
+  
+  <rect x="0" y="0" width="100%" height="100%" fill="url(#Board)" />
+
+
+  <image x="0" y="0" height="100%" href="../../maps/4-svgs/world/africa/africa.aggregated2.geojson.lod-5.svg" />
+
+
+  <a href="#test">
+    <image x="5cm" y="15cm" width="4cm" height="4cm" href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https://collboard.com" />
+  </a>
+
+
+  
+
+
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="676" height="304" version="1.1" viewBox="0 0 507 228">
+    <path id="surface1" fill="none" stroke="#000" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-opacity="1" stroke-width="1.5" d="M274.57 102.449c1.94-11.901-22.137-24.642-45.72-23.447m47.405 21.458c-3.364-13.325-21.645-22.466-50.702-24.432m0 0c-24.811 4.19-45.01 15.08-46.596 27.1m46.919-26.575c-26.505.448-48.012 10.854-47.883 28.16m0 0c.369 12.272 22.078 21.973 45.484 25.081m-45.015-25.324c-1.157 15.372 18.876 22.134 46.441 21.902m0 0c27.085 3.612 45.578-6.486 47.072-20.042m-48.015 21.135c26.655 2.845 47.555-8.326 45.97-23.56m-.036-.674c1.773 1.872 2.482 1.52 4.6-.416m-4.834 1.104c1.98 2.1 3.176 1.547 5.033-1.254M3.797 158.704c134.344 5.535 269.387 3.53 495.059-.196M5.144 160.675c170.18 5.511 341.318 5.055 491.863-1.274"/>
+    <defs xmlns="http://www.w3.org/2000/svg">
+        <filter id="dsFilterNoBlur" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feBlend in="SourceGraphic" in2="matrixOut" mode="normal"/>
+        </filter>
+        <filter id="dsFilter" width="150%" height="150%">
+            <feOffset dx="3" dy="3" in="SourceGraphic" result="offOut"/>
+            <feColorMatrix in="offOut" result="matrixOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0"/>
+            <feGaussianBlur in="matrixOut" result="blurOut" stdDeviation="3"/>
+            <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+        </filter>
+        <marker id="iPointer-vz4uoyw9e7" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M10 0v10L0 5z"/>
+        </marker>
+        <marker id="Pointer-vz4uoyw9e7" fill="#000" markerHeight="7" markerUnits="strokeWidth" markerWidth="8" orient="auto" refX="5" refY="5" viewBox="0 0 10 10">
+            <path d="M0 0l10 5-10 5z"/>
+        </marker>
+    </defs>
+    <defs>
+        <style type="text/css">
+            @font-face{font-family:&quot;xkcd Script&quot;;src:url(./xkcd-script.ttf)}
+        </style>
+    </defs>
+    <g xmlns="http://www.w3.org/2000/svg" id="lines-vz4uoyw9e7" fill="none" stroke="#000" stroke-width="2" transform="scale(.75)">
+        <g id="group17">
+            <path id="path17" marker-end="url(#Pointer-vz4uoyw9e7)" marker-start="url(#iPointer-vz4uoyw9e7)" d="M4.5 216h657"/>
+        </g>
+    </g>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</svg>

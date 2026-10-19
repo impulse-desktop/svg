@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="body" width="450" height="500" viewBox="0 0 450 500">
+<title>feImage Test</title>
+
+    
+    
+    
+    <g id="testContent">
+
+      
+  
+      <defs>
+
+       <g id="elem1">
+         <circle id="Circle1" cx="112.5" cy="250" r="100" style="fill:orange" />
+         <circle id="Circle2" cx="337.5" cy="250" r="100" style="fill:blue" />
+       </g>
+  
+    	<filter id="Elem1" x="0" y="0" width="1" height="1">
+    	  <feImage xlink:href="#elem1"/>
+    	</filter>
+  
+    	<filter id="Elem2" x="0" y="0" width="1" height="1">
+    	  <feImage xlink:href="../rendering/opacity2.svg"/>
+    	</filter>
+  
+    	<filter id="Elem3" x="0" y="0" width="1" height="1">
+    	  <feImage xlink:href="../structure/dataProtocol.svg#testContent"/>
+    	</filter>
+  
+      </defs>
+  
+      <g transform="translate(0 40)" class="legend">
+
+        
+        
+        
+        <g transform="translate(40 20)" class="row1" >
+    	  <g id="c1" transform="translate(20 0)">
+              <rect x="0" y="0" width="450" height="500" transform="scale(0.25 0.25)" fill="Beige"/>
+    	      <rect x="0" y="0" width="450" height="500" transform="scale(0.25 0.25)"
+    	            style="fill:FireBrick;  filter:url(#Elem1)"/>
+              
+              
+    	  </g>
+             
+    	  <g id="c2" transform="translate(120 200)">
+              <rect x="0" y="0" width="450" height="500" transform="scale(0.25 0.25)" fill="Beige"/>
+    	      <rect x="0" y="0" width="450" height="500" 
+	            transform="scale(0.25 0.25)"
+    	            style="fill:FireBrick;  filter:url(#Elem2)" />
+              
+              
+    	  </g>
+  
+  
+    	  <g id="c3" transform="translate(240, 0)">
+              <rect x="0" y="0" width="450" height="500" transform="scale(.25, .25)" fill="Beige"/>
+    	      <rect x="0" y="0" width="450" height="500" 
+                    transform="scale(.25, .25)"
+    	            style="fill:FireBrick;  filter:url(#Elem3)" />
+              <g transform="translate(60, 140)">
+                    
+                    
+             </g>
+    	  </g>
+    	</g>
+      </g>
+    </g>
+
+    
+    
+    
+    <use xlink:href="../../../batikLogo.svg#Batik_Tag_Box" />
+    
+</svg>

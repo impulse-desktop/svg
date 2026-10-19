@@ -1,0 +1,39 @@
+<svg width="390" height="308" viewBox="-38 0 532 373" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="dash" y="144.5" width="83.653" height="50" stroke="#243C47"   stroke-dasharray="5,5" rx="6"/>
+        <filter x="-17.2%" y="-28.7%" width="134.4%" height="157.4%" filterUnits="objectBoundingBox" id="a">
+            <feOffset dx="8" dy="8" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur stdDeviation="12" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+            <feColorMatrix values="0 0 0 0 0.117647059 0 0 0 0 0.239215686 0 0 0 0 0.28627451 0 0 0 0.1 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"/>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+    <g fill="none" filter="url(#a)" style="transform: rotateX(23deg) rotateY(336deg) rotateZ(10deg);">
+        <g transform="translate(26 26)">
+            <rect fill="#243C47" width="480" height="321" rx="5.455"/>
+            <path d="M0 91h480v225a5 5 0 0 1-5 5H5a5 5 0 0 1-5-5V91z" fill="#E2E6E7"/>
+            <g transform="translate(41 42)">
+                <rect fill="#FFF" width="398" height="107" rx="6"/>
+                <rect fill="#BBC3C6" y="131" width="398" height="107" rx="6"/>
+                <g transform="translate(14.098 13.423)">
+                    <path d="M6 0h103.022a6 6 0 0 1 6 6v65a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6V6a6 6 0 0 1 6-6z" fill="#CFD4D7"/>
+                    <path d="M6 131h103.022a6 6 0 0 1 6 6v65a6 6 0 0 1-6 6H6a6 6 0 0 1-6-6v-65a6 6 0 0 1 6-6z" fill="#FFF"/>
+                    <use x="15.685"  xlink:href="#dash"/>
+                    <path d="M133.854 0h103.022a6 6 0 0 1 6 6v65a6 6 0 0 1-6 6H133.854a6 6 0 0 1-6-6V6a6 6 0 0 1 6-6z" fill="#CFD4D7"/>
+                    <path d="M133.854 131h103.022a6 6 0 0 1 6 6v65a6 6 0 0 1-6 6H133.854a6 6 0 0 1-6-6v-65a6 6 0 0 1 6-6z" fill="#FFF"/>
+                    <use x="143.538"  xlink:href="#dash"/>
+                    <path d="M261.707 0H364.73a6 6 0 0 1 6 6v65a6 6 0 0 1-6 6H261.707a6 6 0 0 1-6-6V6a6 6 0 0 1 6-6z" fill="#CFD4D7"/>
+                    <path d="M261.707 131H364.73a6 6 0 0 1 6 6v65a6 6 0 0 1-6 6H261.707a6 6 0 0 1-6-6v-65a6 6 0 0 1 6-6z" fill="#FFF"/>
+                    <use  x="271.392" xlink:href="#dash"/>
+                    <path d="m57.754 81.46.435.775 4.5 8 .245.436-.871.49-.245-.435-3.565-6.337v61.091h-1V84.39l-3.564 6.337-.245.435-.871-.49.245-.436 4.5-8 .436-.774zM185.754 81.46l.435.775 4.5 8 .245.436-.871.49-.245-.435-3.565-6.337v61.091h-1V84.39l-3.564 6.337-.245.435-.871-.49.245-.436 4.5-8 .436-.774zM313.754 81.46l.435.775 4.5 8 .245.436-.871.49-.245-.435-3.565-6.337v61.091h-1V84.39l-3.564 6.337-.245.435-.871-.49.245-.436 4.5-8 .436-.774z" fill="#243C47" fill-rule="nonzero"/>
+                </g>
+            </g>
+        </g>
+        
+        
+        
+    </g>
+</svg>

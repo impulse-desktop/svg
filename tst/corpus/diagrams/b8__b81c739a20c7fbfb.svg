@@ -1,0 +1,239 @@
+<svg width="505" height="555" viewbox="0 0 505 555" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Nunito');
+
+        .bbbingo-card rect.background {
+            fill: #223;
+            stroke-width: 0px;
+        }
+        .bbbingo-card text {
+            font-family: "Nunito", sans-serif;
+            fill: #dcd;
+        }
+        .bbbingo-card text.title {
+            font-size: 45px;
+            font-style: italic;
+        }
+        .bbbingo-card tspan.paler {
+            fill: #656;
+        }
+        .bbbingo-card tspan.pale {
+            fill: #989;
+        }
+        .bbbingo-card rect {
+            fill: none;
+            stroke: #bab;
+            stroke-width: 5px;
+        }
+        .bbbingo-card rect.selected {
+            fill: #445;
+            stroke: #fef;
+        }
+        .bbbingo-card path {
+            fill: #656;
+            {% if card.free_space %}opacity: 0.5;{% else %}display: none;{% endif %}
+        }
+        .bbbingo-card text.freespace {
+            font-size: 10pt;
+            {% if card.free_space %}opacity: 0.5;{% else %}display: none;{% endif %}
+        }
+        .bbbingo-card .text g text {
+            font-size: 12px;
+        }
+        .bbbingo-card a, a:visited, a:active, a:hover {
+            fill: #dcd;
+            text-decoration: underline;
+        }
+        .bbbingo-card rect.target {
+            fill: transparent;
+            stroke: none;
+        }
+        .bbbingo-card circle.play_marker {
+            display: none;
+        }
+        .bbbingo-card circle.marked {
+            display: block;
+            fill: #f8b;
+            opacity: 0.4;
+        }
+    </style>
+    <g class="bbbingo-card" transform="translate(2.5, 2.25)">
+        <rect class="background" x="-2.5" y="-2.5" width="507.5" height="557.5" />
+        
+        
+        
+        <g transform="translate(0, 50)">
+            <rect x="0" y="0" width="100" height="100" class="slot_0" />
+            <rect x="100" y="0" width="100" height="100" class="slot_1" />
+            <rect x="200" y="0" width="100" height="100" class="slot_2" />
+            <rect x="300" y="0" width="100" height="100" class="slot_3" />
+            <rect x="400" y="0" width="100" height="100" class="slot_4" />
+
+            <rect x="0" y="100" width="100" height="100" class="slot_5" />
+            <rect x="100" y="100" width="100" height="100" class="slot_6" />
+            <rect x="200" y="100" width="100" height="100" class="slot_7" />
+            <rect x="300" y="100" width="100" height="100" class="slot_8" />
+            <rect x="400" y="100" width="100" height="100" class="slot_9" />
+
+            <rect x="0" y="200" width="100" height="100" class="slot_10" />
+            <rect x="100" y="200" width="100" height="100" class="slot_11" />
+            <rect x="200" y="200" width="100" height="100" class="slot_12" />
+            <rect x="300" y="200" width="100" height="100" class="slot_13" />
+            <rect x="400" y="200" width="100" height="100" class="slot_14" />
+
+            <rect x="0" y="300" width="100" height="100" class="slot_15" />
+            <rect x="100" y="300" width="100" height="100" class="slot_16" />
+            <rect x="200" y="300" width="100" height="100" class="slot_17" />
+            <rect x="300" y="300" width="100" height="100" class="slot_18" />
+            <rect x="400" y="300" width="100" height="100" class="slot_19" />
+
+            <rect x="0" y="400" width="100" height="100" class="slot_20" />
+            <rect x="100" y="400" width="100" height="100" class="slot_21" />
+            <rect x="200" y="400" width="100" height="100" class="slot_22" />
+            <rect x="300" y="400" width="100" height="100" class="slot_23" />
+            <rect x="400" y="400" width="100" height="100" class="slot_24" />
+
+            {% if card.free_space %}
+                <path d="M 202.5 242.5 l 40 -40 l -40 0 z" />
+                
+            {% endif %}
+
+            <g class="text">
+                <g transform="translate(0, 0)">
+                    {{ slot_text(card.values[play.order[0]] if play else card.values[0]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[0] %}marked {% endif %} play_0" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="0" />
+                </g>
+                <g transform="translate(100, 0)">
+                    {{ slot_text(card.values[play.order[1]] if play else card.values[1]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[1] %}marked {% endif %} play_1" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="1" />
+                </g>
+                <g transform="translate(200, 0)">
+                    {{ slot_text(card.values[play.order[2]] if play else card.values[2]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[2] %}marked {% endif %} play_2" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="2" />
+                </g>
+                <g transform="translate(300, 0)">
+                    {{ slot_text(card.values[play.order[3]] if play else card.values[3]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[3] %}marked {% endif %} play_3" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="3" />
+                </g>
+                <g transform="translate(400, 0)">
+                    {{ slot_text(card.values[play.order[4]] if play else card.values[4]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[4] %}marked {% endif %} play_4" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="4" />
+                </g>
+
+                <g transform="translate(0, 100)">
+                    {{ slot_text(card.values[play.order[5]] if play else card.values[5]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[5] %}marked {% endif %} play_5" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="5" />
+                </g>
+                <g transform="translate(100, 100)">
+                    {{ slot_text(card.values[play.order[6]] if play else card.values[6]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[6] %}marked {% endif %} play_6" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="6" />
+                </g>
+                <g transform="translate(200, 100)">
+                    {{ slot_text(card.values[play.order[7]] if play else card.values[7]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[7] %}marked {% endif %} play_7" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="7" />
+                </g>
+                <g transform="translate(300, 100)">
+                    {{ slot_text(card.values[play.order[8]] if play else card.values[8]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[8] %}marked {% endif %} play_8" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="8" />
+                </g>
+                <g transform="translate(400, 100)">
+                    {{ slot_text(card.values[play.order[9]] if play else card.values[9]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[9] %}marked {% endif %} play_9" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="9" />
+                </g>
+
+                <g transform="translate(0, 200)">
+                    {{ slot_text(card.values[play.order[10]] if play else card.values[10]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[10] %}marked {% endif %} play_10" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="10" />
+                </g>
+                <g transform="translate(100, 200)">
+                    {{ slot_text(card.values[play.order[11]] if play else card.values[11]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[11] %}marked {% endif %} play_11" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="11" />
+                </g>
+                <g transform="translate(200, 200)">
+                    {{ slot_text(card.values[play.order[12]] if play else card.values[12]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[12] %}marked {% endif %} play_12" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="12" />
+                </g>
+                <g transform="translate(300, 200)">
+                    {{ slot_text(card.values[play.order[13]] if play else card.values[13]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[13] %}marked {% endif %} play_13" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="13" />
+                </g>
+                <g transform="translate(400, 200)">
+                    {{ slot_text(card.values[play.order[14]] if play else card.values[14]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[14] %}marked {% endif %} play_14" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="14" />
+                </g>
+
+                <g transform="translate(0, 300)">
+                    {{ slot_text(card.values[play.order[15]] if play else card.values[15]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[15] %}marked {% endif %} play_15" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="15" />
+                </g>
+                <g transform="translate(100, 300)">
+                    {{ slot_text(card.values[play.order[16]] if play else card.values[16]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[16] %}marked {% endif %} play_16" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="16" />
+                </g>
+                <g transform="translate(200, 300)">
+                    {{ slot_text(card.values[play.order[17]] if play else card.values[17]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[17] %}marked {% endif %} play_17" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="17" />
+                </g>
+                <g transform="translate(300, 300)">
+                    {{ slot_text(card.values[play.order[18]] if play else card.values[18]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[18] %}marked {% endif %} play_18" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="18" />
+                </g>
+                <g transform="translate(400, 300)">
+                    {{ slot_text(card.values[play.order[19]] if play else card.values[19]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[19] %}marked {% endif %} play_19" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="19" />
+                </g>
+
+                <g transform="translate(0, 400)">
+                    {{ slot_text(card.values[play.order[20]] if play else card.values[20]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[20] %}marked {% endif %} play_20" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="20" />
+                </g>
+                <g transform="translate(100, 400)">
+                    {{ slot_text(card.values[play.order[21]] if play else card.values[21]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[21] %}marked {% endif %} play_21" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="21" />
+                </g>
+                <g transform="translate(200, 400)">
+                    {{ slot_text(card.values[play.order[22]] if play else card.values[22]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[22] %}marked {% endif %} play_22" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="22" />
+                </g>
+                <g transform="translate(300, 400)">
+                    {{ slot_text(card.values[play.order[23]] if play else card.values[23]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[23] %}marked {% endif %} play_23" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="23" />
+                </g>
+                <g transform="translate(400, 400)">
+                    {{ slot_text(card.values[play.order[24]] if play else card.values[24]) }}
+                    <circle cx="50" cy="50" r="35" class="play_marker {% if play and play.solution[24] %}marked {% endif %} play_24" />
+                    <rect x="0" y="0" width="100" height="100" class="target" data-slot="24" />
+                </g>
+            </g>
+
+            {% if card.free_space %}
+                <path d="M 202.5 242.5 l 40 -40 l -40 0 z" />
+                
+            {% endif %}
+        </g>
+    </g>
+</svg>

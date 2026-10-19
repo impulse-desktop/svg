@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300.0" height="100.0" viewBox="0 0 300.0 100.0">
+    <style>
+        circle {
+            stroke: #3E4349;
+            fill: rgb(239, 239, 239);
+        }
+
+        text {
+            font-size: 5px;
+            stroke: #3E4349;
+            stroke-width: 0.5px;
+            text-anchor: middle;
+            alignment-baseline: middle;
+        }
+
+        line {
+            stroke:  #3E4349;
+        }
+    </style>
+    <line x1="150px" y1="25px" x2="170px" y2="85px" />
+    <line x1="150px" y1="25px" x2="130px" y2="85px" />
+    <line x1="150px" y1="25px" x2="120px" y2="50px" />
+
+    <line x1="180px" y1="50px" x2="170px" y2="85px" />
+    <line x1="180px" y1="50px" x2="130px" y2="85px" />
+    <line x1="180px" y1="50px" x2="120px" y2="50px" />
+
+    <line x1="170px" y1="85px" x2="130px" y2="85px" />
+    <line x1="170px" y1="85px" x2="120px" y2="50px" />
+
+    <circle cx="150px" cy="25px" r="5px" />
+    
+
+    <circle cx="180px" cy="50px" r="5px" />
+    
+
+    <circle cx="170px" cy="85px" r="5px" />
+    
+
+    <circle cx="130px" cy="85px" r="5px" />
+    
+
+    <circle cx="120px" cy="50px" r="5px" />
+    
+</svg>

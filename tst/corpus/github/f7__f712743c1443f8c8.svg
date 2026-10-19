@@ -1,0 +1,36 @@
+<svg width="73px" height="73px" viewBox="0 0 73 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <ellipse id="path-1" cx="32.4611691" cy="32.4611691" rx="32.4611691" ry="32.4611691"></ellipse>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="64.9223382" height="64.9223382" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-4" y="-4" width="72.9223382" height="72.9223382">
+            <rect x="-4" y="-4" width="72.9223382" height="72.9223382" fill="white"></rect>
+            <use xlink:href="#path-1" fill="black"></use>
+        </mask>
+        <path d="M60.7350453,62.9022024 C59.0590083,59.1244924 50.8784616,56.6248852 45.4429446,54.2781631 C40.0822483,51.9632447 40.7304616,50.5470634 40.5615031,48.6416495 C43.4566987,49.0505408 48.1232927,48.7159456 50.5046202,43.1969215 C50.5046202,43.1969215 45.7944098,45.7224622 45.7944098,42.1347855 C45.7944098,39.6758308 50.2691446,35.0029758 50.2691446,27.039716 C50.2691446,19.0765438 43.1099535,11 32.5345313,11 C21.9591964,11 15.1491105,19.5362508 15.1491105,27.9591299 C15.1491105,36.3813958 21.4175327,41.7989637 18.2833653,43.4683474 C18.2833653,43.4683474 16.4224616,44.5481813 14.3655031,42.9773625 C14.3655031,42.9773625 16.8451639,49.2995378 24.5029268,48.4209517 C24.4988187,48.4687009 24.4947105,48.5165378 24.4899905,48.5637613 C24.2945476,50.5098278 24.866192,51.9325801 19.430675,54.2799154 C13.9952453,56.6266375 5.81469867,59.126858 4.13866163,62.9040423 C2.4626246,66.681139 3.13199052,68.9039758 3.13199052,68.9039758 L61.7352483,68.9039758 C61.7358602,68.9022236 62.4116942,66.6793867 60.7350453,62.9022024" id="path-5"></path>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-1" y="-1" width="61" height="60">
+            <rect x="2" y="10" width="61" height="60" fill="white"></rect>
+            <use xlink:href="#path-5" fill="black"></use>
+        </mask>
+    </defs>
+    <g id="2-portefeuille" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="08-portefeuille-geconsolideerde-view-t" transform="translate(-476.000000, -2813.000000)">
+            <g id="Group" transform="translate(76.000000, 2665.000000)">
+                <g id="user-female" transform="translate(404.000000, 152.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Mask">
+                        <use stroke="#28648A" mask="url(#mask-3)" stroke-width="2" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <use stroke="#FFFFFF" mask="url(#mask-4)" stroke-width="8" xlink:href="#path-1"></use>
+                    </g>
+                    <g id="Imported-Layers" mask="url(#mask-2)">
+                        <use fill-opacity="0.2" fill="#28648A" fill-rule="evenodd" xlink:href="#path-5"></use>
+                        <use stroke="#28648A" mask="url(#mask-6)" stroke-width="2" xlink:href="#path-5"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

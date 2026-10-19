@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="504" height="240" viewbox="-2 -2 504 238">
+	<style>
+		text { font-family: sans-serif; font-size: 16px; text-anchor: middle; }
+		tspan.css { font-family: monospace; }
+		.bracket > path { stroke-width: 2; fill: transparent; }
+		.bracket > text { font-weight: bold; }
+		.red > path { stroke: hsl(0,80%,40%); }
+		.red > text { fill:   hsl(0,80%,40%); }
+		.green > path { stroke: hsl(120,80%,30%); }
+		.green > text { fill:   hsl(120,80%,30%); }
+		.blue > path { stroke: hsl(240,80%,50%); }
+		.blue > text { fill:   hsl(240,80%,50%); }
+
+		.flexbox > rect { fill: #ddd; }
+		.flexbox > rect:first-of-type { fill: #888; }
+	</style>
+	<g transform="translate(50,35)">
+		
+		
+		<g transform="translate(1,40)">
+			<g class='red bracket'>
+				<path d="M 1 8 v 10 h 97 v -10" />
+				
+			</g>
+			<g class='green bracket'>
+				<path d="M 103 8 v 10 h 97 v -10" />
+				
+			</g>
+			<g class='blue bracket'>
+				<path d="M 205 8 v 10 h 197 v -10" />
+				
+			</g>
+		</g>
+		<g transform="translate(0,20)" class='flexbox'>
+			<rect x='-2' y='-2' width='409' height='27' rx='6' ry='6' />
+			<rect x='1' y='1' width='99' height='21' rx='3' ry='3' />
+			
+			<rect x='103' y='1' width='99' height='21' rx='3' ry='3' />
+			
+			<rect x='205' y='1' width='199' height='21' rx='3' ry='3' />
+			
+		</g>
+	</g>
+	<g transform="translate(50,130)">
+		
+		
+		<g transform="translate(0,35)" class='flexbox'>
+			<rect x='-2' y='-2' width='409' height='27' rx='6' ry='6' />
+			<rect x='1' y='1' width='96' height='21' rx='3' ry='3' />
+			
+			<rect x='100' y='1' width='146' height='21' rx='3' ry='3' />
+			
+			<rect x='249' y='1' width='155' height='21' rx='3' ry='3' />
+			
+		</g>
+		<g transform="translate(0,78)">
+			<g class='red bracket'>
+				<path d="M 2 -15 v 10 h 29 v -10" />
+				
+				<path d="M 68 -15 v 10 h 28 v -10" />
+				
+			</g>
+			<g class='green bracket'>
+				<path d="M 101 -15 v 10 h 29 v -10" />
+				
+				<path d="M 216 -15 v 10 h 29 v -10" />
+				
+			</g>
+			<g class='blue bracket'>
+				<path d="M 250 -15 v 10 h 58 v -10" />
+				
+				<path d="M 346 -15 v 10 h 57 v -10" />
+				
+			</g>
+		</g>
+	</g>
+</svg>

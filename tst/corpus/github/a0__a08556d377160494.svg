@@ -1,0 +1,38 @@
+<svg id="svg1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+     font-family="Noto Sans" font-size="8">
+    <title>Color adjust functions, 100% (SVG 2)</title>
+
+    
+    <rect id="rect1" x="20" y="20" width="40" height="40" fill="seagreen"
+          filter="brightness(100%)"/>
+    
+
+    <rect id="rect2" x="20" y="80" width="40" height="40" fill="seagreen"
+          filter="contrast(100%)"/>
+    
+
+    <rect id="rect3" x="20" y="140" width="40" height="40" fill="seagreen"
+          filter="grayscale(100%)"/>
+    
+
+    
+    <rect id="rect4" x="80" y="20" width="40" height="40" fill="seagreen"
+          filter="invert(100%)"/>
+    
+
+    <rect id="rect5" x="80" y="80" width="40" height="40" fill="seagreen"
+          filter="opacity(100%)"/>
+    
+
+    <rect id="rect6" x="80" y="140" width="40" height="40" fill="seagreen"
+          filter="sepia(100%)"/>
+    
+
+    
+    <rect id="rect7" x="140" y="20" width="40" height="40" fill="seagreen"
+          filter="saturate(100%)"/>
+    
+
+    
+    <rect id="frame" x="1" y="1" width="198" height="198" fill="none" stroke="black"/>
+</svg>

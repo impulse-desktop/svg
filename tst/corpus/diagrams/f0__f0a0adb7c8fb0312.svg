@@ -1,0 +1,266 @@
+<svg width="826" height="370px" 
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <desc>shared_and_unique_borrow</desc>
+
+    <defs>
+        <style type="text/css">
+        <![CDATA[
+        /* general setup */
+:root {
+    --bg-color:#f1f1f1;
+    --text-color: #6e6b5e;
+}
+
+svg {
+    background-color: var(--bg-color);
+}
+
+text {
+    fill: var(--text-color);
+    vertical-align: baseline;
+    text-anchor: start;
+}
+
+#heading {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#caption {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+}
+
+/* code related styling */
+text.code {
+    white-space: pre;
+    font-family: "monospace";
+}
+
+/* event related styling */
+#eventDot:hover {
+    transform: scale(1.5);
+}
+
+#eventDot {
+    transition: all 0.3s;
+}
+
+/* text.functionIcon:hover {
+    transform: scale(1.5);
+}
+
+text.functionIcon {
+    transition: all 0.3s;
+} */
+
+#functionDot:hover {
+    transform: scale(1.5);
+}
+
+#functionDot {
+    transition: all 0.3s;
+}
+
+/* timeline/event interaction styling */
+.solid {
+    stroke-width: 5px;
+}
+
+.hollow_internal {
+    stroke-width: 3px;
+    fill: var(--bg-color);
+}
+
+.dotted {
+    stroke-width: 5px;
+    stroke-dasharray: "2 1";
+}
+
+.extend {
+    stroke-width: 1px;
+    stroke-dasharray: "2 1";
+}
+
+.colorless {
+    color: var(--bg-color);
+    fill: var(--bg-color);
+}
+
+.functionIcon {
+    stroke: gray;
+    fill: white;
+    stroke-width: 1px;
+    font-size: 30px;
+    font-family: times;
+    font-weight: lighter;
+    dominant-baseline: central;
+    text-anchor: start;
+    font-style: italic;
+}
+/* hash based styling */
+[data-hash*="1"] {
+    fill: #3355ff;
+    stroke: #3355ff;
+}
+
+[data-hash*="2"] {
+    fill: #33cc33;
+    stroke: #33cc33;
+}
+
+[data-hash*="3"] {
+    fill: #ff3300;
+    stroke: #ff3300;
+}
+
+[data-hash*="4"] {
+    fill: #6600ff;
+    stroke: #6600ff;
+}
+
+[data-hash*="5"] {
+    fill: #ff33cc;
+    stroke: #ff33cc;
+}
+
+[data-hash*="6"] {
+    fill: #663300;
+    stroke: #663300;
+}
+
+[data-hash*="7"] {
+    fill: #ff9900;
+    stroke: #ff9900;
+}
+[data-hash*="8"] {
+    fill: #00d6fc;
+    stroke: #00d6fc;
+}
+
+[data-hash*="9"] {
+    fill: #9aeb58;
+    stroke: #9aeb58;
+}
+        ]]>
+        </style>
+        
+        <circle id="eventDot" cx="0" cy="0" r="5"/>
+        
+        <g id="functionDot">
+             <circle id="eventDot" cx="0" cy="0" r="8"/>
+             
+        </g>
+        <marker id="arrowHead" viewBox="0 0 10 10"
+            refX="1" refY="5" 
+            markerUnits="strokeWidth"
+            markerWidth="3px" markerHeight="3px"
+            orient="auto" fill="gray">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="inherit"/>
+        </marker>
+    </defs>
+
+    <g>
+        
+        
+    </g>
+
+    <g id="labels">
+        
+        
+        
+        
+    </g>
+
+    <g id="timelines">
+        <line data-hash="1" class="solid" x1="516" x2="516" y1="105" y2="145"><title>s is the unique value that can access the data in memory; can read and write data</title></line>
+        <line data-hash="1" class="solid" x1="516" x2="516" y1="145" y2="165"><title>some values are statically referencing to s; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="516" x2="516" y1="150" y2="160"><title>some values are statically referencing to s; can only read data</title></line>
+        <line data-hash="1" class="solid" x1="516" x2="516" y1="165" y2="185"><title>some values are statically referencing to s; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="516" x2="516" y1="170" y2="180"><title>some values are statically referencing to s; can only read data</title></line>
+        <line data-hash="1" class="solid" x1="516" x2="516" y1="185" y2="185"><title>some values are statically referencing to s; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="516" x2="516" y1="190" y2="180"><title>some values are statically referencing to s; can only read data</title></line>
+        <line data-hash="1" class="solid" x1="516" x2="516" y1="185" y2="245"><title>s is the unique value that can access the data in memory; can read and write data</title></line>
+        <line data-hash="1" class="solid" x1="516" x2="516" y1="265" y2="305"><title>s is the unique value that can access the data in memory; can read and write data</title></line>
+        <line data-hash="2" class="solid" x1="586" x2="586" y1="145" y2="185"><title>some values are statically referencing to r1; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="586" x2="586" y1="150" y2="180"><title>some values are statically referencing to r1; can only read data</title></line>
+        <line data-hash="2" class="solid" x1="586" x2="586" y1="185" y2="185"><title>some values are statically referencing to r1; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="586" x2="586" y1="190" y2="180"><title>some values are statically referencing to r1; can only read data</title></line>
+        <line data-hash="2" class="solid" x1="586" x2="586" y1="185" y2="185"><title>some values are statically referencing to r1; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="586" x2="586" y1="190" y2="180"><title>some values are statically referencing to r1; can only read data</title></line>
+        <line data-hash="3" class="solid" x1="656" x2="656" y1="165" y2="185"><title>some values are statically referencing to r2; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="656" x2="656" y1="170" y2="180"><title>some values are statically referencing to r2; can only read data</title></line>
+        <line data-hash="3" class="solid" x1="656" x2="656" y1="185" y2="185"><title>some values are statically referencing to r2; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="656" x2="656" y1="190" y2="180"><title>some values are statically referencing to r2; can only read data</title></line>
+        <line data-hash="3" class="solid" x1="656" x2="656" y1="185" y2="185"><title>some values are statically referencing to r2; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="656" x2="656" y1="190" y2="180"><title>some values are statically referencing to r2; can only read data</title></line>
+        <line data-hash="4" class="solid" x1="726" x2="726" y1="245" y2="265"><title>r3 is the unique value that can access the data in memory; can read and write data; can not point to another piece of data</title></line>
+        <line class="colorless" stroke-width="8px" x1="726" x2="726" y1="250" y2="260"><title>r3 is the unique value that can access the data in memory; can read and write data; can not point to another piece of data</title></line>
+        <line data-hash="4" class="solid" x1="726" x2="726" y1="265" y2="265"><title>some values are statically referencing to r3; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="726" x2="726" y1="270" y2="260"><title>some values are statically referencing to r3; can only read data</title></line>
+        <line data-hash="4" class="solid" x1="726" x2="726" y1="265" y2="265"><title>r3 is the unique value that can access the data in memory; can read and write data; can not point to another piece of data</title></line>
+        <line class="colorless" stroke-width="8px" x1="726" x2="726" y1="270" y2="260"><title>r3 is the unique value that can access the data in memory; can read and write data; can not point to another piece of data</title></line>
+    </g>
+
+    <g id="events">
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="105"><title>obtains data from String::from() (s's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="145"><title>statically lends its data to r1 (s becomes read-only)</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="165"><title>statically lends its data to r2 (s becomes read-only)</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="185"><title>r1 no longer borrows from s</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="185"><title>r2 no longer borrows from s</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="245"><title>mutably lends its data to r3 (s becomes un-readable until the end of r3's lifetime)</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="265"><title>r3 is no longer a mutable referece of s, so we may read and write the data</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="516" y="305"><title>s goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="586" y="145"><title>statically borrows data from s (r1 gains read only access to data)</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="586" y="185"><title>statically lends its data to println!() (r1 becomes read-only)</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="586" y="185"><title>println!() no longer borrows from r1</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="586" y="185"><title>returns borrowed data to s (r1's lifetime ends here)</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="586" y="305"><title>r1 goes out of scope. The data is not dropped because r1 is not the owner.</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="656" y="165"><title>statically borrows data from s (r2 gains read only access to data)</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="656" y="185"><title>statically lends its data to println!() (r2 becomes read-only)</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="656" y="185"><title>println!() no longer borrows from r2</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="656" y="185"><title>returns borrowed data to s (r2's lifetime ends here)</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="656" y="305"><title>r2 goes out of scope. The data is not dropped because r2 is not the owner.</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="726" y="245"><title>mutably borrows data from s (r3 gains read and write access to data)</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="726" y="265"><title>statically lends its data to println!() (r3 becomes read-only)</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="726" y="265"><title>println!() no longer borrows from r3</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="726" y="265"><title>returns borrowed data to s (r3's lifetime ends here)</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="726" y="305"><title>r3 goes out of scope. The data is not dropped because r3 is not the owner.</title></use>
+    </g>
+
+    <g id="arrows">
+                <polyline stroke-width="5" stroke="gray" points="539,105 529,105 " marker-end="url(#arrowHead)"><title>Move from the return value of String::from() to s</title></polyline>
+        <polyline stroke-width="5" stroke="gray" points="516,145 576,145 " marker-end="url(#arrowHead)"><title>Static borrow from s to r1</title></polyline>
+        <polyline stroke-width="5" stroke="gray" points="516,165 646,165 " marker-end="url(#arrowHead)"><title>Static borrow from s to r2</title></polyline>
+        <use xlink:href="#functionDot" data-hash="2" x="586" y="185"><title>println!() reads from r1</title></use>
+        <use xlink:href="#functionDot" data-hash="3" x="656" y="185"><title>println!() reads from r2</title></use>
+        <polyline stroke-width="5" stroke="gray" points="586,185 526,185 " marker-end="url(#arrowHead)"><title>Return statically borrowed resource from r1 to s</title></polyline>
+        <polyline stroke-width="5" stroke="gray" points="656,185 526,185 " marker-end="url(#arrowHead)"><title>Return statically borrowed resource from r2 to s</title></polyline>
+        <polyline stroke-width="5" stroke="gray" points="516,245 716,245 " marker-end="url(#arrowHead)"><title>Mutable borrow from s to r3</title></polyline>
+        <use xlink:href="#functionDot" data-hash="4" x="726" y="265"><title>println!() reads from r3</title></use>
+        <polyline stroke-width="5" stroke="gray" points="726,265 526,265 " marker-end="url(#arrowHead)"><title>Return mutably borrowed resource from r3 to s</title></polyline>
+    </g>
+
+    <g id="dividers">
+            <line stroke="gray" stroke-width="2" x1="446" x2="446" y1="70" y2="320"/>
+    </g>
+
+    <g id="code">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </g>
+
+   
+</svg>

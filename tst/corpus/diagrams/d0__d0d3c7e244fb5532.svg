@@ -1,0 +1,42 @@
+<svg id="Group_110_copy_5" data-name="Group 110 copy 5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="111" height="114" viewBox="0 0 111 114">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        stroke: #fbda00;
+        stroke-linejoin: round;
+        stroke-width: 10px;
+        filter: url(#filter);
+      }
+
+      .cls-1, .cls-2 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        opacity: 0.05;
+        mix-blend-mode: multiply;
+      }
+
+      .cls-3 {
+        font-size: 25.527px;
+        fill: #93ce20;
+        font-family: "Proxima Soft";
+        font-weight: 800;
+      }
+    </style>
+    <filter id="filter" x="5139" y="903" width="121" height="124" filterUnits="userSpaceOnUse">
+      <feOffset result="offset" dx="21.855" dy="26.046" in="SourceAlpha"/>
+      <feGaussianBlur result="blur" stdDeviation="5.385"/>
+      <feFlood result="flood" flood-color="#3a5c31" flood-opacity="0.75"/>
+      <feComposite result="composite" operator="in" in2="blur"/>
+      <feBlend result="blend" in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="translate(-5144 -908)" style="fill: #fff; filter: url(#filter)">
+    <path id="path" class="cls-1" d="M5179.93,915.082a28.108,28.108,0,1,1-28.4,28.107A28.258,28.258,0,0,1,5179.93,915.082Z" style="stroke: inherit; filter: none; fill: inherit"/>
+  </g>
+  <use transform="translate(-5144 -908)" xlink:href="#path" style="stroke: #fbda00; filter: none; fill: none"/>
+  <path class="cls-2" d="M5172.02,956.5l35.41,32.513,19.56-21.39-46.59-43.635-5.59,11.122Z" transform="translate(-5144 -908)"/>
+  
+</svg>

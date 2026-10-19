@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700');
+
+    .numbers {
+        font-family: "Roboto Mono", monospace;
+        font-size: 42px;
+        font-weight: 300;
+    }
+
+    .label {
+        font-family: "Roboto Mono", monospace;
+        font-size: 32px;
+        font-weight: 300;
+    }
+
+    .button {
+        font-family: "Roboto Mono", monospace;
+        font-size: 42px;
+        font-weight: 800;
+    }
+
+    .message {
+        font-family: "Roboto Mono", monospace;
+        font-size: 18px;
+        font-weight: 300;
+    }
+</style>
+
+<g id="image_main" opacity="1">
+    <rect id="background" fill="#444"
+        x="0" y="0" width="100%" height="100%" />
+
+    <g id="numbers" opacity="1">
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+
+    </g>
+
+    <g id="notification" opacity="0.9">
+
+        <rect id="window"
+            x="532" y="400" width="900" height="80"
+            fill="#eee" rx="10"
+        />
+
+        
+
+        <circle id="window_button"
+            cx="1432" cy="440" r="32"
+            fill="#d44"
+        />
+        
+
+        
+    </g>
+
+</g>
+
+</svg>

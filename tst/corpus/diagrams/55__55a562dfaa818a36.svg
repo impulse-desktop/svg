@@ -1,0 +1,84 @@
+<svg width="253pt" height="326pt"
+ viewBox="0.00 0.00 253.10 326.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 322)">
+<title>GenealogyC</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-322 249.099,-322 249.099,4 -4,4"/>
+
+<g id="node1" class="node"><title>Person</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="class Person
+Positioning
+">
+<polygon fill="none" stroke="black" points="9,-83.5 9,-204.5 148,-204.5 148,-83.5 9,-83.5"/>
+
+<polyline fill="none" stroke="black" points="9,-181.5 148,-181.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>Union</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Union&quot;);" xlink:title="class Union
+">
+<polygon fill="none" stroke="black" points="0,-241.5 0,-317.5 157,-317.5 157,-241.5 0,-241.5"/>
+
+<polyline fill="none" stroke="black" points="0,-294.5 157,-294.5 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Person&#45;&gt;Union</title>
+<g id="a_edge1"><a xlink:title="Person * child &#45;&#45; 0..1 parents Union">
+<path fill="none" stroke="black" d="M71.7834,-204.722C71.6643,-217.218 71.8638,-230.046 72.3819,-241.429"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge2" class="edge"><title>Union&#45;&gt;Person</title>
+<g id="a_edge2"><a xlink:title="Union * &#160;&#45;&#45; 0..2 parent Person">
+<path fill="none" stroke="black" d="M84.6181,-241.429C85.1362,-230.046 85.3357,-217.218 85.2166,-204.722"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node3" class="node"><title>Adoption</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;Adoption&quot;);" xlink:title="class Adoption
+">
+<polygon fill="none" stroke="black" points="51,-0.5 51,-46.5 204,-46.5 204,-0.5 51,-0.5"/>
+
+<polyline fill="none" stroke="black" points="51,-23.5 204,-23.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Adoption&#45;&gt;Person</title>
+<g id="a_edge4"><a xlink:title="Adoption * &#160;&#45;&#45; 0..1 adoptedChild Person">
+<path fill="none" stroke="black" d="M103.177,-83.3208 108.621,-70.1561 114.053,-57.0196 118.398,-46.5112"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge3" class="edge"><title>Adoption&#45;&gt;Union</title>
+<g id="a_edge3"><a xlink:title="Adoption * &#160;&#45;&#45; 0..1 adoptiveParents Union">
+<path fill="none" stroke="black" d="M131.099,-241.137 141.806,-230.762 151.591,-218.568 157.5,-205 179.149,-155.287 170.227,-135.707 157.5,-83 154.419,-70.2407 148.052,-57.1397 141.973,-46.5788"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

@@ -1,0 +1,22 @@
+<svg viewBox="0 0 704 430" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M10,185l684,0" style="stroke-width: 1px; stroke: #666; opacity: 0.15;"/>
+  <defs>
+    <path id="arrow-right" d="M 0 0 C -2.779 1 -5.376 2.445 -7.69 4.28 L -6.14 0 L -7.69 -4.28 C -5.376 -2.445 -2.779 -1 0 0 Z"/>
+  </defs>
+  
+  
+  <g transform="translate(90, 0)">
+    <image x="260" y="0" width="192" height="127.67" style="clip-path: inset(0 0 0 0 round 6px);" xlink:href="images/analogy_image.jpg"/>
+    
+    
+    <path d="M 457 70 L 535 70" class="figure-path"/>
+    <use x="535" y="70" xlink:href="#arrow-right" class="figure-path"/>
+    
+    <image x="260" y="220" width="192" height="127.67" style="clip-path: inset(0 0 0 0 round 6px);" xlink:href="images/analogy_image.jpg"/>
+    
+    
+    <path d="M 457 290 L 535 290" class="figure-path"/>
+    <use x="535" y="290" xlink:href="#arrow-right" class="figure-path"/>
+    
+  </g>
+</svg>

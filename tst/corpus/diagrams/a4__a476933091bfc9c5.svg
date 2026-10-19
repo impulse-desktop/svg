@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2 -2 504 504" id="menu" style="transform-origin: 50% 50% 0px; transform: matrix3d(0.655813869551932, -0.754922624182984, 0, 0, 0.754922624182984, 0.655813869551932, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); touch-action: none; -webkit-user-select: none;">
+                    <style>
+                        #menu {
+                            display: block;
+                            margin: 0 auto;
+                            /*overflow: visible;*/ /* uncomment this if you are using bouncing animations*/
+                        }
+
+                        a { 
+                            cursor: pointer; /* SVG &lt;a&gt; elements don't get this by default, so you need to explicitly set it */
+                            outline: none;
+                        }
+                        
+                        /* You can change these default styles any way you want */
+
+                        .item .sector {
+                            transition: all .1s linear;
+                            fill: #fff;
+                            stroke: #111;
+                        }
+                        
+                        
+                        .item:hover .sector, .item:focus .sector {
+                            fill: #eee;
+                        }
+
+                        .menu-trigger {
+                            fill: #EA2A55;
+                            pointer-events: auto; /* KEEP THIS to make sure it stays clickable even when SVG's pointer events is disabled */
+                        }
+
+                        .menu-trigger:hover, .menu-trigger:focus {
+                            cursor: pointer;
+                        }
+                        symbol {
+                            overflow: visible; /* KEEP THIS so that text will not get cut off it it is wider than the icon width */
+                        }
+                    </style>
+                    <g id="symbolsContainer">    
+    <symbol id="icon-arrow-up2" viewBox="0 0 1024 1024">
+        <title>arrow-up2</title>
+        <path class="path1" d="M877.254 402.746l-320-320c-24.992-24.994-65.514-24.994-90.508 0l-320 320c-24.994 24.994-24.994 65.516 0 90.51 24.994 24.996 65.516 24.996 90.51 0l210.744-210.746v613.49c0 35.346 28.654 64 64 64s64-28.654 64-64v-613.49l210.746 210.746c12.496 12.496 28.876 18.744 45.254 18.744s32.758-6.248 45.254-18.746c24.994-24.994 24.994-65.514 0-90.508z"></path>
+    </symbol>
+    <symbol class="icon icon-" id="icon-1" viewBox="0 0 77 77"><rect fill="none" stroke="#111" stroke-width="1" width="100%" height="100%"></rect></symbol>
+
+    <symbol class="icon icon-" id="icon-2" viewBox="0 0 77 77"><rect fill="none" stroke="#111" stroke-width="1" width="100%" height="100%"></rect></symbol>
+
+    <symbol class="icon icon-" id="icon-3" viewBox="0 0 77 77"><rect fill="none" stroke="#111" stroke-width="1" width="100%" height="100%"></rect></symbol>
+
+    <symbol class="icon icon-" id="icon-4" viewBox="0 0 77 77"><rect fill="none" stroke="#111" stroke-width="1" width="100%" height="100%"></rect></symbol>
+
+</g>
+                    <g id="itemsContainer">        <a class="item" id="up" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(1,0,0,1,0,0)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M360,250 l140,0 A250,250 0 0,0 277.991119025827,1.5719475266893426 l-15.675026654463124,139.11970938505397 A110,110 0 0,1 360,250" class="sector"></path><use xlink:href="#icon-arrow-up2" width="77" height="77" x="350.49554443359375" y="87.28597259521484" transform="rotate(48.214285714285715 388.99554443359375 125.78597259521484)"></use></a>
+        <a class="item" id="left" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(0,-1,1,0,0,500)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M360,250 l140,0 A250,250 0 0,0 277.991119025827,1.5719475266893426 l-15.675026654463124,139.11970938505397 A110,110 0 0,1 360,250" class="sector"></path><use xlink:href="#icon-arrow-up2" width="77" height="77" x="350.49554443359375" y="87.28597259521484" transform="rotate(48.214285714285715 388.99554443359375 125.78597259521484)"></use></a>
+        <a class="item" id="down" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(-1,0,0,-1,500,500)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M360,250 l140,0 A250,250 0 0,0 277.991119025827,1.5719475266893426 l-15.675026654463124,139.11970938505397 A110,110 0 0,1 360,250" class="sector"></path><use xlink:href="#icon-arrow-up2" width="77" height="77" x="350.49554443359375" y="87.28597259521484" transform="rotate(48.214285714285715 388.99554443359375 125.78597259521484)"></use></a>
+        <a class="item" id="right" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(0,1,-1,0,500.00000000000006,0)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M360,250 l140,0 A250,250 0 0,0 277.991119025827,1.5719475266893426 l-15.675026654463124,139.11970938505397 A110,110 0 0,1 360,250" class="sector"></path><use xlink:href="#icon-arrow-up2" width="77" height="77" x="350.49554443359375" y="87.28597259521484" transform="rotate(48.214285714285715 388.99554443359375 125.78597259521484)"></use></a>
+</g>
+                    <g id="trigger" class="trigger menu-trigger" role="button">
+                        <circle cx="250" cy="250" r="60"></circle>
+                        
+			
+                    </g>
+                </svg>

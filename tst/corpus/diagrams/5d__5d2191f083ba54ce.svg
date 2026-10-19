@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="600px">
+<defs>
+      <marker id="marker1"
+      viewBox="0 0 10 10" refX="0" refY="5" orient="auto" >
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+                                     </marker>
+      <marker id="marker2"
+      viewBox="0 0 10 10" refX="0" refY="5" orient="0" >
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+                                     </marker>
+      <marker id="marker3"
+      viewBox="0 0 10 10" refX="0" refY="5" orient="-15" >
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+                                     </marker>
+      <marker id="marker4"
+      viewBox="0 0 10 10" refX="0" refY="5" orient="180" >
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+      <marker id="marker5"
+              viewBox="0 0 10 10" refX="0em" refY="2em" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+      <marker id="marker6"
+            viewBox="0 0 10 10" refX="0px" refY="5px" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+      <marker id="marker7"
+            viewBox="0 0 10 10" refX="0pt" refY="5pt" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+    <marker id="marker8"
+            viewBox="0 0 10 10" refX="0mm" refY="5mm" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+    <marker id="marker9"
+            viewBox="0 0 10 10" refX="0cm" refY="0.5cm" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+    <marker id="marker10"
+            viewBox="0 0 10 10" refX="0pc" refY="2pc" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+    <marker id="marker11"
+            viewBox="0 0 10 10" refX="0%" refY="5%" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+    <marker id="marker12"
+            viewBox="0 0 10 10" refX="0in" refY="0.1in" orient="auto" >
+        <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs>
+  
+    <line  x1="20" y1="20" x2="100" y2="100" stroke-width="8" stroke="blue" marker-end="url(#marker1)" />
+    
+  
+    <line  x1="220" y1="20" x2="300" y2="100" stroke-width="8" stroke="blue" marker-end="url(#marker2)" />
+    
+
+    <line  x1="420" y1="20" x2="500" y2="100" stroke-width="8" stroke="blue" marker-end="url(#marker3)" />
+    
+
+    <line  x1="620" y1="20" x2="700" y2="100" stroke-width="8" stroke="blue" marker-end="url(#marker4)" />
+    
+  
+    <line  x1="20" y1="220" x2="100" y2="300" stroke-width="8" stroke="blue" marker-end="url(#marker5)" />
+    
+  
+    <line  x1="220" y1="220" x2="300" y2="300" stroke-width="8" stroke="blue" marker-end="url(#marker6)" />
+    
+
+    <line  x1="420" y1="220" x2="500" y2="300" stroke-width="8" stroke="blue" marker-end="url(#marker7)" />
+    
+
+    <line  x1="620" y1="220" x2="700" y2="300" stroke-width="8" stroke="blue" marker-end="url(#marker8)" />
+    
+
+    <line  x1="20" y1="420" x2="100" y2="500" stroke-width="8" stroke="blue" marker-end="url(#marker9)" />
+    
+
+    <line  x1="220" y1="420" x2="300" y2="500" stroke-width="8" stroke="blue" marker-end="url(#marker10)" />
+    
+
+    <line  x1="420" y1="420" x2="500" y2="500" stroke-width="8" stroke="blue" marker-end="url(#marker11)" />
+    
+
+    <line  x1="620" y1="420" x2="700" y2="500" stroke-width="8" stroke="blue" marker-end="url(#marker12)" />
+    
+</svg>

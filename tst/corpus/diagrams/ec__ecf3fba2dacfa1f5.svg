@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 3387 3387"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#1B1B1B;stroke-width:33.86;stroke-linejoin:round}
+    .fil8 {fill:#00CCFF}
+    .fil6 {fill:lime}
+    .fil3 {fill:#3B030E}
+    .fil4 {fill:#51070D}
+    .fil1 {fill:#999999}
+    .fil5 {fill:#B81D09}
+    .fil2 {fill:#E6E6E6}
+    .fil9 {fill:red}
+    .fil7 {fill:yellow}
+    .fil0 {fill:#1B1B1B;fill-rule:nonzero}
+    .fnt0 {font-weight:bold;font-size:268.98px;font-family:'Arial'}
+	.fila {filter: url(#innerbevel);}
+	.filb {filter: url(#innerbevel2);}
+	.filv {filter: url(#innerbevel3);}
+   ]]>
+  </style>
+
+ <filter id="innerbevel" x0="-50%" y0="-50%" width="200%" height="200%">
+<feGaussianBlur in="SourceAlpha" stdDeviation="80" result="blur"/>
+<feOffset dy="-1" dx="-1"/>
+<feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="hlDiff"/>
+<feFlood flood-color="white" flood-opacity=".7"/>
+<feComposite in2="hlDiff" operator="in"/>
+<feComposite in2="SourceGraphic" operator="over" result="withGlow"/>
+<feOffset in="blur" dy="3" dx="3"/>
+<feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff"/>
+<feFlood flood-color="black" flood-opacity="1"/>
+<feComposite in2="shadowDiff" operator="in"/>
+<feComposite in2="withGlow" operator="over"/>
+</filter>
+
+<filter id="innerbevel2" filterUnits="userSpaceOnUse">
+<feGaussianBlur in="SourceAlpha" stdDeviation="30" result="blur"/>
+<feOffset in="blur" dx="4" dy="4" result="offsetBlur"/>
+<feSpecularLighting surfaceScale="5" specularConstant=".90"
+specularExponent="10" lighting-color="#bbbbbb" in="blur"
+result="highlight">
+<fePointLight x="-5000" y="-10000" z="20000"/>
+</feSpecularLighting>
+<feComposite in="highlight" in2="SourceAlpha" operator="in" result="highlight"/>
+<feComposite in="SourceGraphic" in2="highlight" operator="arithmetic"
+k1="0" k2="1" k3="1" k4="0" result="highlightText"/>
+<feMerge>
+<feMergeNode in="offsetBlur"/>
+<feMergeNode in="highlightText"/>
+</feMerge>
+</filter>
+
+<filter id="innerbevel3" filterUnits="userSpaceOnUse">
+<feGaussianBlur in="SourceAlpha" stdDeviation="20" result="blur"/>
+<feOffset in="blur" dx="4" dy="4" result="offsetBlur"/>
+<feSpecularLighting surfaceScale="5" specularConstant=".70"
+specularExponent="10" lighting-color="#444" in="blur"
+result="highlight">
+<fePointLight x="-5000" y="-10000" z="20000"/>
+</feSpecularLighting>
+<feComposite in="highlight" in2="SourceAlpha" operator="in" result="highlight"/>
+<feComposite in="SourceGraphic" in2="highlight" operator="arithmetic"
+k1="0" k2="1" k3="1" k4="0" result="highlightText"/>
+<feMerge>
+<feMergeNode in="offsetBlur"/>
+<feMergeNode in="highlightText"/>
+</feMerge>
+</filter>
+ 
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="simon">
+   <path id="frame" class="fil0 filv" d="M1845 968c144,30 272,102 372,202 100,99 172,228 202,371 8,40 42,68 82,68l622 0c25,0 46,-10 63,-29 17,-18 24,-41 21,-66 -41,-349 -200,-662 -436,-898 -236,-236 -549,-395 -898,-436 -25,-3 -48,4 -67,21 -18,16 -28,38 -28,63l0 621c0,41 28,75 67,83zm574 877c-30,144 -102,272 -202,372 -100,100 -228,172 -372,202 -39,8 -67,42 -67,82l0 622c0,25 10,46 28,63 19,17 42,24 67,21 349,-41 662,-200 898,-436 236,-236 395,-549 436,-898 3,-25 -4,-48 -21,-67 -17,-18 -38,-28 -63,-28l-622 0c-40,0 -74,28 -82,67zm-878 574c-143,-30 -272,-102 -371,-202 -100,-100 -172,-228 -202,-372 -8,-39 -42,-67 -83,-67l-621 0c-25,0 -47,10 -63,28 -17,19 -24,42 -21,67 41,349 200,662 436,898 236,236 549,395 898,436 25,3 48,-4 66,-21 19,-17 29,-38 29,-63l0 -622c0,-40 -28,-74 -68,-82zm-573 -878c30,-143 102,-272 202,-371 99,-100 228,-172 371,-202 40,-8 68,-42 68,-83l0 -621c0,-25 -10,-47 -29,-63 -18,-17 -41,-24 -66,-21 -349,41 -662,200 -898,436 -236,236 -395,549 -436,898 -3,25 4,48 21,66 16,19 38,29 63,29l621 0c41,0 75,-28 83,-68zm1129 -252c-103,-103 -246,-167 -404,-167 -157,0 -300,64 -404,167 -103,104 -167,247 -167,404 0,158 64,301 167,404 104,104 247,168 404,168 158,0 301,-64 404,-168 104,-103 168,-246 168,-404 0,-157 -64,-300 -168,-404zm-404 -1289c468,0 891,190 1198,496 306,306 496,730 496,1197 0,468 -190,891 -496,1198 -307,306 -730,496 -1198,496 -467,0 -891,-190 -1197,-496 -306,-307 -496,-730 -496,-1198 0,-467 190,-891 496,-1197 306,-306 730,-496 1197,-496z"/>
+   <g id="controls">
+    <path class="fil1" d="M1289 1289c-103,104 -167,247 -167,404 0,158 64,301 167,404 104,104 247,168 404,168 158,0 301,-64 404,-168 104,-103 168,-246 168,-404 0,-157 -64,-300 -168,-404 -103,-103 -246,-167 -404,-167 -157,0 -300,64 -404,167z"/>
+    
+    <g id="display">
+     <rect id="bg" class="fil3 str0" x="1482" y="1933" width="423" height="254"/>
+     <g id="d0">
+      <polygon id="s6" class="fil4" points="1753,1959 1818,1959 1806,1985 1758,1985 1739,1965 1747,1960 "/>
+      <path id="s5" class="fil4" d="M1728 1979c1,-4 3,-7 6,-10l19 20 -3 59 -18 13 -9 -7 5 -75z"/>
+      <path id="s4" class="fil4" d="M1717 2149c2,4 2,9 5,12l22 -21 3 -58 -16 -14 -9 7 -5 74z"/>
+      <polygon id="s3" class="fil4" points="1742,2170 1804,2170 1796,2144 1747,2144 1726,2164 1732,2168 "/>
+      <path id="s2" class="fil4" d="M1809 2169c9,-5 17,-12 18,-20l3 -74 -8 -7 -18 13 -3 60 8 28z"/>
+      <path id="s1" class="fil4" d="M1822 1960c9,5 14,11 15,19l-5 75 -9 7 -17 -14 4 -59 12 -28z"/>
+      <polygon id="s0" class="fil5" points="1736,2065 1753,2051 1802,2051 1818,2064 1801,2077 1751,2077 "/>
+     </g>
+     <g id="d1">
+      <polygon id="s6_0" class="fil4" points="1588,1959 1653,1959 1641,1985 1593,1985 1573,1965 1582,1960 "/>
+      <path id="s5_1" class="fil4" d="M1563 1979c1,-4 3,-7 6,-10l19 20 -3 59 -19 13 -8 -7 5 -75z"/>
+      <path id="s4_2" class="fil4" d="M1552 2149c2,4 2,9 5,12l22 -21 3 -58 -16 -14 -9 7 -5 74z"/>
+      <polygon id="s3_3" class="fil4" points="1576,2170 1639,2170 1631,2144 1582,2144 1561,2164 1566,2168 "/>
+      <path id="s2_4" class="fil4" d="M1644 2169c9,-5 17,-12 18,-20l3 -74 -8 -7 -18 13 -3 60 8 28z"/>
+      <path id="s1_5" class="fil4" d="M1657 1960c9,5 14,11 15,19l-5 75 -9 7 -17 -14 4 -59 12 -28z"/>
+      <polygon id="s0_6" class="fil5" points="1571,2065 1588,2051 1637,2051 1653,2064 1636,2077 1586,2077 "/>
+     </g>
+    </g>
+   </g>
+   <g id="buttons">
+    <path id="b3" class="filb fil6" d="M968 1541c30,-143 102,-272 202,-371 99,-100 228,-172 371,-202 40,-8 68,-42 68,-83l0 -621c0,-25 -10,-47 -29,-63 -18,-17 -41,-24 -66,-21 -349,41 -662,200 -898,436 -236,236 -395,549 -436,898 -3,25 4,48 21,66 16,19 38,29 63,29l621 0c41,0 75,-28 83,-68z"/>
+    <path id="b2" class="filb fil7" d="M1541 2419c-143,-30 -272,-102 -371,-202 -100,-100 -172,-228 -202,-372 -8,-39 -42,-67 -83,-67l-621 0c-25,0 -47,10 -63,28 -17,19 -24,42 -21,67 41,349 200,662 436,898 236,236 549,395 898,436 25,3 48,-4 66,-21 19,-17 29,-38 29,-63l0 -622c0,-40 -28,-74 -68,-82z"/>
+    <path id="b1" class="filb fil8" d="M2419 1845c-30,144 -102,272 -202,372 -100,100 -228,172 -372,202 -39,8 -67,42 -67,82l0 622c0,25 10,46 28,63 19,17 42,24 67,21 349,-41 662,-200 898,-436 236,-236 395,-549 436,-898 3,-25 -4,-48 -21,-67 -17,-18 -38,-28 -63,-28l-622 0c-40,0 -74,28 -82,67z"/>
+    <path id="b0" class="filb fil9" d="M1845 968c144,30 272,102 372,202 100,99 172,228 202,371 8,40 42,68 82,68l622 0c25,0 46,-10 63,-29 17,-18 24,-41 21,-66 -41,-349 -200,-662 -436,-898 -236,-236 -549,-395 -898,-436 -25,-3 -48,4 -67,21 -18,16 -28,38 -28,63l0 621c0,41 28,75 67,83z"/>
+   </g>
+  </g>
+ </g>
+</svg>

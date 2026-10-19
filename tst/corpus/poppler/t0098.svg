@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="117.371pt" height="89.024pt" viewBox="0 0 117.371 89.024">
+<defs>
+<filter id="filter-remove-color-and-invert-alpha" x="0%" y="0%" width="100%" height="100%">
+<feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 -1 1"/>
+</filter>
+<filter id="filter-0" x="0%" y="0%" width="100%" height="100%">
+<feImage xlink:href="#compositing-group-1" result="source" x="0" y="0" width="169.01424" height="128.19456"/>
+<feImage xlink:href="#compositing-group-2" result="destination" x="0" y="0" width="169.01424" height="128.19456"/>
+<feBlend in="source" in2="destination" mode="multiply" color-interpolation-filters="sRGB"/>
+</filter>
+<filter id="filter-1" x="0%" y="0%" width="100%" height="100%">
+<feImage xlink:href="#compositing-group-3" result="source" x="0" y="0" width="169.01424" height="128.19456"/>
+<feImage xlink:href="#compositing-group-4" result="destination" x="0" y="0" width="169.01424" height="128.19456"/>
+<feComposite in="source" in2="destination" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" color-interpolation-filters="sRGB"/>
+</filter>
+<filter id="filter-2" x="0%" y="0%" width="100%" height="100%">
+<feImage xlink:href="#compositing-group-6" result="source" x="0" y="0" width="169.01424" height="128.19456"/>
+<feImage xlink:href="#compositing-group-7" result="destination" x="0" y="0" width="169.01424" height="128.19456"/>
+<feBlend in="source" in2="destination" mode="multiply" color-interpolation-filters="sRGB"/>
+</filter>
+<filter id="filter-3" x="0%" y="0%" width="100%" height="100%">
+<feImage xlink:href="#compositing-group-8" result="source" x="0" y="0" width="169.01424" height="128.19456"/>
+<feImage xlink:href="#compositing-group-9" result="destination" x="0" y="0" width="169.01424" height="128.19456"/>
+<feComposite in="source" in2="destination" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" color-interpolation-filters="sRGB"/>
+</filter>
+<filter id="filter-remove-color" x="0%" y="0%" width="100%" height="100%">
+<feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+</filter>
+<clipPath id="clip-0">
+<path clip-rule="nonzero" d="M 0.324219 1 L 115 1 L 115 88.058594 L 0.324219 88.058594 Z M 0.324219 1 "/>
+</clipPath>
+<g id="compositing-group-0" transform="translate(25.82162, 20.58528)">
+<rect x="-25.82162" y="-20.58528" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 0%)" fill-opacity="0"/>
+<rect x="-25.82162" y="-20.58528" width="169.01424" height="128.19456" fill="rgb(100%, 100%, 100%)" fill-opacity="1"/>
+</g>
+<mask id="mask-0">
+<use xlink:href="#compositing-group-0"/>
+</mask>
+<mask id="mask-1">
+<use xlink:href="#compositing-group-0" filter="url(#filter-remove-color-and-invert-alpha)"/>
+</mask>
+<mask id="mask-2">
+<g transform="translate(25.82162, 20.58528)">
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" d="M 58.375 57.046875 C 58.375 41.5625 45.820312 29.007812 30.335938 29.007812 C 14.847656 29.007812 2.296875 41.5625 2.296875 57.046875 C 2.296875 72.535156 14.847656 85.089844 30.335938 85.089844 C 45.820312 85.089844 58.375 72.535156 58.375 57.046875 Z M 58.375 57.046875 "/>
+</g>
+</mask>
+<g id="compositing-group-1" mask="url(#mask-2)">
+<g transform="translate(25.82162, 20.58528)">
+<rect x="-25.82162" y="-20.58528" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 0%)" fill-opacity="1"/>
+</g>
+</g>
+<g id="compositing-group-2" transform="translate(25.82162, 20.58528)">
+</g>
+<g id="compositing-group-3" filter="url(#filter-0)" mask="url(#mask-0)">
+<rect x="0" y="0" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 0%)" fill-opacity="1"/>
+</g>
+<g id="compositing-group-4" mask="url(#mask-1)">
+<use xlink:href="#compositing-group-2"/>
+</g>
+<g id="compositing-group-5" transform="translate(25.82162, 20.58528)">
+<rect x="-25.82162" y="-20.58528" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 0%)" fill-opacity="0"/>
+<rect x="-25.82162" y="-20.58528" width="169.01424" height="128.19456" fill="rgb(100%, 100%, 100%)" fill-opacity="1"/>
+</g>
+<mask id="mask-3">
+<use xlink:href="#compositing-group-5"/>
+</mask>
+<mask id="mask-4">
+<use xlink:href="#compositing-group-5" filter="url(#filter-remove-color-and-invert-alpha)"/>
+</mask>
+<mask id="mask-5">
+<g transform="translate(25.82162, 20.58528)">
+<path fill-rule="nonzero" fill="rgb(100%, 100%, 100%)" fill-opacity="1" d="M 86.414062 57.046875 C 86.414062 41.5625 73.859375 29.007812 58.375 29.007812 C 42.890625 29.007812 30.335938 41.5625 30.335938 57.046875 C 30.335938 72.535156 42.890625 85.089844 58.375 85.089844 C 73.859375 85.089844 86.414062 72.535156 86.414062 57.046875 Z M 86.414062 57.046875 "/>
+</g>
+</mask>
+<g id="compositing-group-6" mask="url(#mask-5)">
+<g transform="translate(25.82162, 20.58528)">
+<rect x="-25.82162" y="-20.58528" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 100%)" fill-opacity="1"/>
+</g>
+</g>
+<g id="compositing-group-7" transform="translate(25.82162, 20.58528)">
+<g filter="url(#filter-1)" transform="translate(-25.82162, -20.58528)">
+<rect x="0" y="0" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 0%)" fill-opacity="1"/>
+</g>
+</g>
+<g id="compositing-group-8" filter="url(#filter-2)" mask="url(#mask-3)">
+<rect x="0" y="0" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 0%)" fill-opacity="1"/>
+</g>
+<g id="compositing-group-9" mask="url(#mask-4)">
+<use xlink:href="#compositing-group-7"/>
+</g>
+<clipPath id="clip-1">
+<rect x="0" y="0" width="115" height="88"/>
+</clipPath>
+<g id="source-5" clip-path="url(#clip-1)">
+<g filter="url(#filter-3)" transform="translate(-25.82162, -20.58528)">
+<rect x="0" y="0" width="169.01424" height="128.19456" fill="rgb(0%, 0%, 0%)" fill-opacity="1"/>
+</g>
+</g>
+<clipPath id="clip-2">
+<path clip-rule="nonzero" d="M 30.34375 1.957031 L 114.472656 1.957031 L 114.472656 58.042969 L 30.34375 58.042969 Z M 30.34375 1.957031 "/>
+</clipPath>
+<image id="source-12" x="0" y="0" width="118" height="90" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHYAAABaCAYAAABtyaJcAAAABmJLR0QA/wD/AP+gvaeTAAABPklEQVR4nO3dS2oCQQBF0adt9r/ekO/ARHAYECSXcyZOGy6vDVUBN+D/OG07/3zS8Lnt67Lt2DUuDe/bPn7DXp78MDzO54RNetuuQY9tL899Fh7odbuGvUzYkvN2jXqeV3HJLazFtlhslMVGWWzUabPYIouN8h0bdQvrSLHlLqzFdlhslMVGWWyUxUZZbNTt5MliW45N2CKv4iiXAFEuAaJcAkRZbJTFRllslMVGWWyUxUY5eYpyCRBlsVEu2qMsNspio4SN8iqOstgoi41ypBjlEiDKYqMsNsq/n0ZZbJTv2CiLjbLYKCdPUc6Koyw2ymKj7v4qPp77LDzQafN7O1nCRgkbJWyUsFHCRgkbJWyUsFHCRgkbJWyUsFHCRgkbJWyUsFHCRgkbJWyUsFHCRgkbJWyUsFHCRgkLAPAH35DZCwYDw1LHAAAAAElFTkSuQmCC"/>
+<mask id="mask-6">
+<g filter="url(#filter-remove-color)">
+<use xlink:href="#source-12" transform="matrix(1, 0, 0, 1, 0.000000000000003553, -0.000000000000014211)"/>
+</g>
+</mask>
+<clipPath id="clip-3">
+<path clip-rule="nonzero" d="M 0.324219 0 L 116.421875 0 L 116.421875 88.058594 L 0.324219 88.058594 Z M 0.324219 0 "/>
+</clipPath>
+<mask id="mask-7">
+<g filter="url(#filter-remove-color)">
+<rect x="-11.7371" y="-8.9024" width="140.8452" height="106.8288" fill="rgb(0%, 0%, 0%)" fill-opacity="0.6"/>
+</g>
+</mask>
+<clipPath id="clip-4">
+<rect x="0" y="0" width="117" height="89"/>
+</clipPath>
+<g id="source-15" clip-path="url(#clip-4)">
+<path fill-rule="nonzero" fill="rgb(0%, 50%, 50%)" fill-opacity="1" d="M 58.375 58.046875 C 58.375 42.5625 45.820312 30.007812 30.335938 30.007812 C 14.847656 30.007812 2.296875 42.5625 2.296875 58.046875 C 2.296875 73.535156 14.847656 86.089844 30.335938 86.089844 C 45.820312 86.089844 58.375 73.535156 58.375 58.046875 Z M 58.375 58.046875 "/>
+<path fill-rule="nonzero" fill="rgb(0%, 100%, 0%)" fill-opacity="1" d="M 86.414062 58.046875 C 86.414062 42.5625 73.859375 30.007812 58.375 30.007812 C 42.890625 30.007812 30.335938 42.5625 30.335938 58.046875 C 30.335938 73.535156 42.890625 86.089844 58.375 86.089844 C 73.859375 86.089844 86.414062 73.535156 86.414062 58.046875 Z M 86.414062 58.046875 "/>
+</g>
+</defs>
+<g clip-path="url(#clip-0)">
+<use xlink:href="#source-5" transform="matrix(1, 0, 0, 1, -0.000000000000003553, 1)"/>
+</g>
+<g clip-path="url(#clip-2)">
+<g mask="url(#mask-6)">
+<rect x="-11.7371" y="-8.9024" width="140.8452" height="106.8288" fill="rgb(75%, 50%, 25%)" fill-opacity="1"/>
+</g>
+</g>
+<g clip-path="url(#clip-3)">
+<g mask="url(#mask-7)">
+<use xlink:href="#source-15" transform="matrix(1, 0, 0, 1, -0.000000000000003553, 0.000000000000014211)"/>
+</g>
+</g>
+</svg>

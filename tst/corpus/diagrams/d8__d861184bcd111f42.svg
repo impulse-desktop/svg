@@ -1,0 +1,46 @@
+<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="294" height="270" viewBox="0 0 294 270">
+  <defs>
+    <filter id="svg-grayscale">
+      <feColorMatrix type="saturate" values="0"></feColorMatrix>
+    </filter>
+    <symbol id="svg-button" fill="#FFF">
+      <rect width="200" height="40" filter="url(#svg-button-shadow)" rx="4"></rect>
+      <rect width="199" height="39" x="1" y="1" stroke="#E1E3E3" rx="4"></rect>
+      <filter id="svg-button-shadow" width="107%" height="135%" x="-4%" y="-13%" filterUnits="objectBoundingBox">
+        <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+        <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"></feGaussianBlur>
+        <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+        <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.0549019608 0 0 0 0 0.117647059 0 0 0 0 0.145098039 0 0 0 0.12 0"></feColorMatrix>
+      </filter>
+    </symbol>
+    <linearGradient id="gradient-bitbucket" x1="99.872911%" x2="46.600994%" y1="26.560079%" y2="75.20479%">
+      <stop offset="0%" stop-color="#1B4AAA" stop-opacity=".4"></stop>
+      <stop offset="99.940211%" stop-color="#1B4AAA"></stop>
+    </linearGradient>
+  </defs>
+  <path fill="#0051C1" fill-opacity=".08" d="M60 17c-12 2-24 4-31 15-8 12-8 30-6 46s6 33 3 48c-5 24-25 39-26 64-1 17 9 33 21 42s26 10 40 8c53-7 95-63 149-64 24-1 53 9 71-10 15-16 17-45 7-67-16-38-62-60-92-72-45-16-91-17-136-10" opacity=".640342"></path>
+  <g transform="translate(34 41)">
+    <use xlink:href="#svg-button"></use>
+    
+    <path fill="#0051C1" d="M28 9c-6 0-11 5-11 11 0 5 3 9 8 11v-1-1c-3 0-3-2-3-2l-2-2c-1 0 0 0 0 0l2 1c1 2 3 1 3 1l1-2c-2 0-5-1-5-5l1-3v-3s1-1 3 1a10 10 0 0 1 6 0c2-2 3-1 3-1v3l1 3c0 4-3 5-5 5l1 2v4c5-2 8-6 8-11 0-6-5-11-11-11"></path>
+  </g>
+  <g filter="url(#svg-grayscale)" transform="translate(34 105)">
+    <use xlink:href="#svg-button"></use>
+    
+    <path fill="#FC6D26" d="M38 22l-1-4-3-7-3 7h-7l-2-7h-1l-2 7-1 4v1l10 7 9-7 1-1"></path>
+    <path fill="#E24329" d="M28 30l3-12h-7z"></path>
+    <path fill="#FC6D26" d="M28 30l-4-12h-5z"></path>
+    <path fill="#FCA326" d="M19 18l-1 4v1l10 7-9-12z"></path>
+    <path fill="#E24329" d="M19 18h5l-2-7h-1l-2 7z"></path>
+    <path fill="#FC6D26" d="M28 30l3-12h6z"></path>
+    <path fill="#FCA326" d="M37 18l1 4-1 1-9 7 9-12z"></path>
+    <path fill="#E24329" d="M37 18h-6l3-7 3 7z"></path>
+  </g>
+  <g filter="url(#svg-grayscale)" transform="translate(34 169)">
+    <use xlink:href="#svg-button"></use>
+    
+    <path fill="#fff" d="M26 23h4l1-6h-6z"></path>
+    <path fill="url(#gradient-bitbucket)" d="M20 6h-6l-1 6H8l-5 6h14l1-1 2-11z" transform="translate(18 11)"></path>
+    <path fill="#1B4AAA" d="M18 11v1l3 16v1l6-6h-1l-1-6h12l1-5v-1H18z"></path>
+  </g>
+</svg>

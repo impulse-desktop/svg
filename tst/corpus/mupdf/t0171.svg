@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.1" width="107.866" height="61.965" viewBox="0 0 107.866 61.965">
+<defs>
+<clipPath id="clip_1">
+<path transform="matrix(1,0,0,-1,20.635,59.773)" d="M0 0V56.69362H85.04042V0ZM85.04042 56.69362"/>
+</clipPath>
+<g id="pattern_tile_2">
+<path transform="matrix(1,0,0,-1,0,61.965)" stroke-width=".79701" stroke-linecap="butt" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="#008080" d="M0 2.83466H11.33871M0 8.50403H11.33871M2.83466 0V2.83466M8.50403 2.83466V8.50403M2.83466 8.50403V11.33871"/>
+</g>
+<pattern id="pattern_2" patternUnits="userSpaceOnUse" patternContentUnits="userSpaceOnUse" x="0" y="0" width="11.33871" height="11.33871">
+<clipPath id="clip_3">
+<path d="M -.99628 -.99628 L 14.17339 -.99628 L 14.17339 14.17339 L -.99628 14.17339 Z"/>
+</clipPath>
+<g clip-path="url(#clip_3)">
+<g transform="matrix(1,0,0,-1,-0,61.965)">
+<use x="0" y="0" xlink:href="#pattern_tile_2"/>
+<use x="0" y="-11.33871" xlink:href="#pattern_tile_2"/>
+<use x="-11.33871" y="0" xlink:href="#pattern_tile_2"/>
+<use x="-11.33871" y="-11.33871" xlink:href="#pattern_tile_2"/>
+</g>
+</g>
+</pattern>
+</defs>
+<g clip-path="url(#clip_1)">
+<rect transform="matrix(1,0,0,-1,0,61.965)" fill="url(#pattern_2)" x="20.635" y="2.1920014" width="85.04042" height="56.69362"/>
+</g>
+<path transform="matrix(1,0,0,-1,20.635,59.773)" stroke-width=".3985" stroke-linecap="butt" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="#ff0000" d="M0 0-18.44383 15.31183-.50131 57.58203 17.94252 42.27019ZM0 0-.50131 57.58203"/>
+<path transform="matrix(1,0,0,-1,20.635,59.773)" d="M56.69362 28.3468C56.69362 44.00252 44.00252 56.69362 28.3468 56.69362 12.69109 56.69362 0 44.00252 0 28.3468 0 12.69109 12.69109 0 28.3468 0 44.00252 0 56.69362 12.69109 56.69362 28.3468ZM28.3468 28.3468" fill="#00aeef" fill-opacity=".8"/>
+<g>
+<path transform="matrix(1,0,0,-1,20.635,59.773)" d="M85.04042 28.3468C85.04042 44.00252 72.34932 56.69362 56.69362 56.69362 41.0379 56.69362 28.3468 44.00252 28.3468 28.3468 28.3468 12.69109 41.0379 0 56.69362 0 72.34932 0 85.04042 12.69109 85.04042 28.3468ZM56.69362 28.3468" fill="#bf0040" fill-opacity=".5"/>
+<path transform="matrix(1,0,0,-1,20.635,59.773)" stroke-width=".3985" stroke-linecap="butt" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="#000000" stroke-opacity=".8" d="M85.04042 28.3468C85.04042 44.00252 72.34932 56.69362 56.69362 56.69362 41.0379 56.69362 28.3468 44.00252 28.3468 28.3468 28.3468 12.69109 41.0379 0 56.69362 0 72.34932 0 85.04042 12.69109 85.04042 28.3468ZM56.69362 28.3468"/>
+</g>
+</svg>

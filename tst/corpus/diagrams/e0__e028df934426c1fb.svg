@@ -1,0 +1,111 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns="http://www.w3.org/2000/svg"
+     viewBox="-800 -100 1600 200"
+     preserveAspectRatio="xMinYMid meet"
+     fill="#010101">
+    
+    <defs>
+        <filter id="fil-text" width="250%" height="250%">
+            <feOffset result="offOut" in="SourceAlpha" dx="0" dy="5"/>
+            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"/>
+            <feBlend in="SourceGraphic" in2="blurOut"/>
+        </filter>
+        <filter id="fil-clip" width="250%" height="250%">
+            <feOffset result="offOut" in="SourceAlpha" dx="-5" dy="5"/>
+            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"/>
+            <feBlend in="SourceGraphic" in2="blurOut"/>
+        </filter>
+        <filter id="fil-lap" width="250%" height="250%">
+            <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"/>
+            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"/>
+            <feBlend in="SourceGraphic" in2="blurOut"/>
+        </filter>
+        <linearGradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0" stop-color="#00aeef"/>
+            <stop offset="0.19" stop-color="#02aded"/>
+            <stop offset="0.26" stop-color="#09a9e8"/>
+            <stop offset="0.3" stop-color="#14a1dd"/>
+            <stop offset="0.34" stop-color="#2597cf"/>
+            <stop offset="0.38" stop-color="#3b89bc"/>
+            <stop offset="0.41" stop-color="#5779a5"/>
+            <stop offset="0.43" stop-color="#776589"/>
+            <stop offset="0.46" stop-color="#9d4d69"/>
+            <stop offset="0.48" stop-color="#c63446"/>
+            <stop offset="0.5" stop-color="#ed1c24"/>
+            <stop offset="0.51" stop-color="#e6202d"/>
+            <stop offset="0.53" stop-color="#cb2e4c"/>
+            <stop offset="0.57" stop-color="#b53a68"/>
+            <stop offset="0.61" stop-color="#a2447e"/>
+            <stop offset="0.65" stop-color="#944c8f"/>
+            <stop offset="0.71" stop-color="#8a519a"/>
+            <stop offset="0.78" stop-color="#8554a1"/>
+            <stop offset="1" stop-color="#8355a3"/>
+        </linearGradient>
+        <polyline id="beat" stroke-miterlimit="10" points="-43, 0  -15, 0 -8.5, 18 -1, -36 10.5, 41 15, 0 43, 0"/>
+        <g id="clipboard">
+            <rect x="-43" y="-55" height="110" width="86" rx="5" ry="5"/>
+            <rect x="-21.5" y="-61" height="12" width="43" rx="2" ry="2" fill="black"/>
+            <circle cx="0" cy="-61" r="8"/>
+            <path id="small-cross"
+                  d="m-32, -30 v-4 h8 v-8 h8 v8 h8 v8 h-8 v8 h-8 v-8 h-8 z"
+                  stroke-width="1"
+                  fill="red"/>
+            <polyline stroke-linecap="round" points="-28, -10 28 -10"/>
+            <polyline stroke-linecap="round" points="-28, 0 28 0"/>
+            <polyline stroke-linecap="round" points="-28, 10 28 10"/>
+            <polyline stroke-linecap="round" points="-28, 20 28 20"/>
+            <circle cx="38" cy="45" r="16"/>
+            <polyline id="check-mark" points="29.5, 44 35.5, 52 45, 40" stroke-linecap="round"/>
+        </g>
+    </defs>
+    <rect x="-797.5"
+          y="-100"
+          rx="5"
+          ry="5"
+          height="100%"
+          width="1595"
+          stroke="black"
+          stroke-width="5"
+          fill="url(#grad1)"/>
+    <g id="beat-left" fill="none" stroke="#20a020" stroke-width="2">
+        <line x1="-795" x2="-655"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(-632 0)"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(-546 0)"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(-460 0)"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(-374 0)"/>
+        <line x1="-332" x2="0"/>
+    </g>
+    <g id="beat-right" fill="none" stroke="#20a020" stroke-width="2">
+        <line x1="312" x2="0"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(354 0)"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(440 0)"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(526 0)"/>
+        <use xlink:href="#beat" href="#beat" transform="translate(612 0)"/>
+        <line x1="795" x2="635"/>
+    </g>
+    <use xlink:href="#clipboard"
+         href="#clipboard"
+         fill="white"
+         stroke="black"
+         stroke-width="6"
+         transform="translate(-720 0)"
+         filter="url(#fil-clip)"/>
+    
+    <g id="laptop" stroke="black" stroke-width="6" transform="translate(710 0)" filter="url(#fil-lap)">
+        <rect x="-60" y="-55" height="90" width="120" rx="4" ry="4" fill="white"/>
+        <path id="small-cross2" d="m-54, -37 v-4 h8 v-8 h8 v8 h8 v8 h-8 v8 h-8 v-8 h-8 z" stroke-width="1" fill="red"/>
+        <polyline stroke-linecap="round" points="-20, -42 46 -42"/>
+        <polyline stroke-linecap="round" points="-20, -28 46 -28"/>
+        <polyline stroke-linecap="round" points="-20, -14 46 -14"/>
+        <polyline stroke-linecap="round" points="-46, 1 46 1"/>
+        <polyline stroke-linecap="round" points="-46, 14 46 14"/>
+        <path d="m-57, 45 h114 l 5 5 q5 5 0 5 h-124 q-5 0 0 -5 z" stroke-width="4" fill="black"/>
+        <rect x="-12" y="50.5" height="3" width="24" stroke="none" fill="white" rx="1" ry="1"/>
+    </g>
+    
+    
+    
+    
+    
+    
+</svg>

@@ -1,0 +1,41 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+<title>Injection</title>
+
+<defs>
+<style type="text/css"><![CDATA[
+    .ellipse  { stroke-width: 2.0; stroke: black; fill: none; }
+    .setlabel { font-size: 18pt; text-anchor: middle; }
+    .xelement { font-size: 14pt; text-anchor: middle; }
+    .yelement { font-size: 14pt; text-anchor: middle; }
+    .map      { stroke-width: 1.0; stroke: black; fill: none; marker-end: url(#arrow); }
+    .arrow    { fill: black; }
+]]></style>
+<marker id="arrow" markerWidth="4" markerHeight="8" refX="3" refY="4" orient="auto">
+    <polyline points="0,0 4,4 0,8" class="arrow"/>
+</marker>
+</defs>
+
+<ellipse cx=" 50" cy="110" rx="40" ry="80" class="ellipse"/>
+
+<g class="xelement">
+    
+    
+    
+</g>
+
+<ellipse cx="150" cy="110" rx="40" ry="80" class="ellipse"/>
+
+<g class="yelement">
+    
+    
+    
+    
+</g>
+
+<g class="map">
+    <line x1="57" y1=" 53" x2="142" y2=" 53"/>
+    <line x1="57" y1=" 88" x2="142" y2=" 88"/>
+    <line x1="57" y1="123" x2="142" y2="158"/>
+</g>
+
+</svg>

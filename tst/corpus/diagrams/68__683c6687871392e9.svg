@@ -1,0 +1,190 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns="http://www.w3.org/2000/svg" viewBox="-5 60 630 160" width="100%" style="max-width: 1400px; margin: auto; display: block">
+  <title>Basic W3C Recommendation Track</title>
+
+  
+  <g role="list">
+
+    
+    <g role="listitem">
+
+      <a xlink:href="#wd-1">
+        <rect role="img" fill="white" y="122" width="57" height="45">
+          <title>First Public Working Draft (FPWD) - Exclusion opportunity</title>
+        </rect>
+
+        
+
+        <path d="M0,140h53" fill="none" stroke="#000"></path>
+        <polygon points="47,136 57,140 47,144"></polygon>
+      </a>
+    </g>
+
+    
+    <g role="listitem">
+
+      <a xlink:href="#cr-1">
+        <ellipse role="img" id="wd-1" ry="18" rx="38" cy="140" cx="97" stroke="black" fill="#fff">
+          <title>Working Draft (WD)</title>
+        </ellipse>
+
+        
+      </a>
+
+      <g role="list">
+
+        
+        <g role="listitem">
+
+          <a xlink:href="#wd-1">
+            <g role="img">
+              <title>Publish a new Working Draft</title>
+            </g>
+
+            
+
+            <path d="M78,124C73,114 79,104 97,104 108,104 115,108 117,114" fill="none" stroke="black" stroke-dasharray="6 1"></path>
+            <polygon points="120,114 116,124 114,113"></polygon>
+          </a>
+        </g>
+
+        
+        <g role="listitem" fill="#060">
+
+          <a xlink:href="#cr-1">
+            <g role="img">
+              <title>Advance to Candidate Recommendation</title>
+            </g>
+
+            
+
+            <path stroke="#060" d="M135,140h81"></path>
+            <polygon points="211,136 221,140 211,144"></polygon>
+          </a>
+        </g>
+      </g>
+    </g>
+
+    
+    <g role="listitem">
+      <a xlink:href="#pr-1">
+        <ellipse role="img" id="cr-1" ry="18" rx="38" cy="140" cx="260" stroke="black" fill="#fff">
+          <title>Candidate Recommendation (CR) - Patent Policy exclusion opportunity</title>
+        </ellipse>
+
+        
+      </a>
+
+      <g role="list">
+
+        
+        <g role="listitem">
+          <a xlink:href="#cr-1">
+            <g role="img">
+              <title>Publish revised Candidate Recommendation</title>
+            </g>
+
+            
+
+            <path stroke="#000" d="M242,124C238,114 244,104 260,104 271,104 277,108 279,114" stroke-dasharray="5 11" fill="none"></path>
+            <path stroke="#060" d="M242,124C238,114 244,104 260,104 271,104 277,108 279,114" stroke-dasharray="5 11" stroke-dashoffset="8" fill="none"></path>
+            <polygon points="282,114 277,124 275,113"></polygon>
+          </a>
+        </g>
+
+        
+        <g role="listitem">
+          <a xlink:href="#pr-1">
+            <g role="img">
+              <title>Advance to Proposed Recommendation</title>
+            </g>
+
+            
+            <path d="M298,140h77" stroke="#060"></path>
+            <polygon points="374,136 384,140 374,144"></polygon>
+          </a>
+        </g>
+
+        
+        <g role="listitem">
+          <a xlink:href="#wd-1">
+            <g role="img">
+              <title>Return to Working Draft</title>
+            </g>
+
+            
+
+            <path d="M140,147h84" stroke-dasharray="4 4" stroke="#600"></path>
+            <polygon points="140,145 133,147 140,149"></polygon>
+          </a>
+        </g>
+      </g>
+    </g>
+
+    
+    <g role="listitem">
+      <a xlink:href="#rec-1">
+        <ellipse role="img" id="pr-1" ry="18" rx="28" cy="140" cx="413" stroke="black" fill="#fff">
+          <title>Proposed Recommendation (PR) - Advisory Committee review</title>
+        </ellipse>
+
+        
+      </a>
+
+      <g role="list">
+
+
+        
+        <g role="listitem">
+          <a xlink:href="#rec-1">
+            <g role="img">
+              <title>Advance to Recommendation</title>
+            </g>
+
+            
+
+            <path d="M441,140h100" stroke="#060"></path>
+            <polygon points="534,136 544,140 534,144"></polygon>
+          </a>
+        </g>
+
+        
+        <g role="listitem">
+          <a xlink:href="#cr-1">
+            <g role="img">
+              <title>Return to Candidate Recommendation</title>
+            </g>
+
+            
+
+            <path d="M301,147h88" stroke-dasharray="3 5" stroke="#600"></path>
+            <polygon points="301,145 296,147 301,149"></polygon>
+          </a>
+        </g>
+
+        
+        <g role="listitem">
+          <a xlink:href="#wd-1">
+            <g role="img">
+              <title>Return to Working Draft</title>
+            </g>
+
+            
+
+            <path d="M413,158v32h-316v-26" stroke-dasharray="2 2" stroke="#c00" fill="none"></path>
+            <polygon points="95,164 97,159 99,164"></polygon>
+          </a>
+        </g>
+      </g>
+    </g>
+
+    
+    <g role="listitem">
+      <ellipse role="img" id="rec-1" ry="18" rx="28" cy="140" cx="573" stroke="black" fill="#fff" stroke-width="2">
+        <title>Recommendation (Rec)</title>
+      </ellipse>
+
+      
+    </g>
+  </g>
+</svg>

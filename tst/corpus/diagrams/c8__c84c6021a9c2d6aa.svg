@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="640" height="320" 
+viewbox="0 0 640 320" version="1.1">
+<title>Properties of AutoMicRecorder(autoRecording=false)</title>
+<defs>
+  <marker id="m_e" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="strokeWidth" 
+  preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+    <polygon points="0,0 0,10 10,5" fill="red" id="ms"/>
+  </marker>
+  <marker id="m_s" viewBox="0 0 10 10" refX="0" refY="5" markerUnits="strokeWidth" 
+  preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+    <use xlink:href="#ms" transform="rotate(180,5,5)"/>
+  </marker>
+  <marker id="m_eb" viewBox="0 0 10 10" refX="10" refY="5" markerUnits="strokeWidth" 
+  preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+    <polygon points="0,0 0,10 10,5" fill="blue" id="msb"/>
+  </marker>
+  <marker id="m_sb" viewBox="0 0 10 10" refX="0" refY="5" markerUnits="strokeWidth" 
+  preserveAspectRatio="none" markerWidth="10" markerHeight="10" orient="auto">
+    <use xlink:href="#msb" transform="rotate(180,5,5)"/>
+  </marker>
+ </defs>
+
+  <path d="M 20 120 l 600 0" stroke-width="4" stroke="black" fill="none"/>
+  <path d="M 20 100 L 90 100 L 100 50 L 110 100 L 160 100 L 180 80 L 200 40 L 210 35 L 380 40 L 400 90 L 410 90 L 420 40 L 440 40 L 450 80 L 460 100 L 520 90 L 620 100" stroke-width="4" stroke="blue" fill="none"/>
+  <path d="M 140 30 l 0 250" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 170 30 l 0 250" stroke-width="1" stroke="black" fill="none"/>
+  <path d="M 470 30 l 0 250" stroke-width="1" stroke="black" fill="none"/>
+
+  <path d="M 170 120 l -10 20 l 20 0 l -10 -20z" stroke-width="1" stroke="green" fill="green"/>
+  <path d="M 470 120 l -10 20 l 20 0 l -10 -20z" stroke-width="1" stroke="green" fill="green"/>
+
+  <path d="M 140 180 l 30 0" stroke-width="1" stroke="red" marker-start="url(#m_s)" marker-end="url(#m_e)"/>
+
+  <path d="M 170 220 L 470 220" stroke-width="1" stroke="blue" marker-start="url(#m_sb)" marker-end="url(#m_eb)"/>
+  <path d="M 140 270 L 470 270" stroke-width="1" stroke="blue" marker-start="url(#m_sb)" marker-end="url(#m_eb)"/>
+
+
+  <g font-family="sans-serif" font-size="16">
+    
+
+    
+    
+  </g>
+  <g font-family="sans-serif" font-size="16" fill="blue">
+    
+    
+    
+    
+  </g>
+  <g font-family="sans-serif" font-size="20">
+    
+  </g>
+</svg>

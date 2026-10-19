@@ -1,0 +1,250 @@
+<svg width="1134" height="710px" 
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <desc>return_values</desc>
+
+    <defs>
+        <style type="text/css">
+        <![CDATA[
+        /* general setup */
+:root {
+    --bg-color:#f1f1f1;
+    --text-color: #6e6b5e;
+}
+
+svg {
+    background-color: var(--bg-color);
+}
+
+text {
+    fill: var(--text-color);
+    vertical-align: baseline;
+    text-anchor: start;
+}
+
+#heading {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#caption {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+}
+
+/* code related styling */
+text.code {
+    white-space: pre;
+    font-family: "monospace";
+}
+
+/* event related styling */
+#eventDot:hover {
+    transform: scale(1.5);
+}
+
+#eventDot {
+    transition: all 0.3s;
+}
+
+/* text.functionIcon:hover {
+    transform: scale(1.5);
+}
+
+text.functionIcon {
+    transition: all 0.3s;
+} */
+
+#functionDot:hover {
+    transform: scale(1.5);
+}
+
+#functionDot {
+    transition: all 0.3s;
+}
+
+/* timeline/event interaction styling */
+.solid {
+    stroke-width: 5px;
+}
+
+.hollow_internal {
+    stroke-width: 3px;
+    fill: var(--bg-color);
+}
+
+.dotted {
+    stroke-width: 5px;
+    stroke-dasharray: "2 1";
+}
+
+.extend {
+    stroke-width: 1px;
+    stroke-dasharray: "2 1";
+}
+
+.colorless {
+    color: var(--bg-color);
+    fill: var(--bg-color);
+}
+
+.functionIcon {
+    stroke: gray;
+    fill: white;
+    stroke-width: 1px;
+    font-size: 30px;
+    font-family: times;
+    font-weight: lighter;
+    dominant-baseline: central;
+    text-anchor: start;
+    font-style: italic;
+}
+/* hash based styling */
+[data-hash*="1"] {
+    fill: #3355ff;
+    stroke: #3355ff;
+}
+
+[data-hash*="2"] {
+    fill: #33cc33;
+    stroke: #33cc33;
+}
+
+[data-hash*="3"] {
+    fill: #ff3300;
+    stroke: #ff3300;
+}
+
+[data-hash*="4"] {
+    fill: #6600ff;
+    stroke: #6600ff;
+}
+
+[data-hash*="5"] {
+    fill: #ff33cc;
+    stroke: #ff33cc;
+}
+
+[data-hash*="6"] {
+    fill: #663300;
+    stroke: #663300;
+}
+
+[data-hash*="7"] {
+    fill: #ff9900;
+    stroke: #ff9900;
+}
+[data-hash*="8"] {
+    fill: #00d6fc;
+    stroke: #00d6fc;
+}
+
+[data-hash*="9"] {
+    fill: #9aeb58;
+    stroke: #9aeb58;
+}
+        ]]>
+        </style>
+        
+        <circle id="eventDot" cx="0" cy="0" r="5"/>
+        
+        <g id="functionDot">
+             <circle id="eventDot" cx="0" cy="0" r="8"/>
+             
+        </g>
+        <marker id="arrowHead" viewBox="0 0 10 10"
+            refX="1" refY="5" 
+            markerUnits="strokeWidth"
+            markerWidth="3px" markerHeight="3px"
+            orient="auto" fill="gray">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="inherit"/>
+        </marker>
+    </defs>
+
+    <g>
+        
+        
+    </g>
+
+    <g id="labels">
+        
+        
+        
+        
+        
+    </g>
+
+    <g id="timelines">
+        <line data-hash="1" class="solid" x1="724" x2="724" y1="105" y2="265"><title>s1 is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="724" x2="724" y1="110" y2="260"><title>s1 is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="2" class="solid" x1="794" x2="794" y1="165" y2="205"><title>s2 is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="794" x2="794" y1="170" y2="200"><title>s2 is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="3" class="solid" x1="864" x2="864" y1="205" y2="265"><title>s3 is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="864" x2="864" y1="210" y2="260"><title>s3 is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="4" class="solid" x1="964" x2="964" y1="405" y2="445"><title>some_string is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="964" x2="964" y1="410" y2="440"><title>some_string is the unique value that can access the data in memory; can only read data</title></line>
+        <line data-hash="5" class="solid" x1="1034" x2="1034" y1="565" y2="625"><title>a_string is the unique value that can access the data in memory; can only read data</title></line>
+        <line class="colorless" stroke-width="8px" x1="1034" x2="1034" y1="570" y2="620"><title>a_string is the unique value that can access the data in memory; can only read data</title></line>
+    </g>
+
+    <g id="events">
+        <use xlink:href="#eventDot" data-hash="1" x="724" y="105"><title>obtains data from gives_ownership() (s1's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="1" x="724" y="265"><title>s1 goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="794" y="165"><title>obtains data from another value (s2's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="794" y="205"><title>moves it's value to takes_and_gives_back() (s2 lost ownership)</title></use>
+        <use xlink:href="#eventDot" data-hash="2" x="794" y="265"><title>s2 goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="864" y="205"><title>obtains data from takes_and_gives_back() (s3's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="3" x="864" y="265"><title>s3 goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="964" y="405"><title>obtains data from another value (some_string's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="964" y="445"><title>moves it's value to another value (some_string lost ownership)</title></use>
+        <use xlink:href="#eventDot" data-hash="4" x="964" y="505"><title>some_string goes out of scope. The data is dropped.</title></use>
+        <use xlink:href="#eventDot" data-hash="5" x="1034" y="565"><title>obtains data from another value (a_string's lifetime begins from here)</title></use>
+        <use xlink:href="#eventDot" data-hash="5" x="1034" y="625"><title>moves it's value to another value (a_string lost ownership)</title></use>
+        <use xlink:href="#eventDot" data-hash="5" x="1034" y="645"><title>a_string goes out of scope. The data is dropped.</title></use>
+    </g>
+
+    <g id="arrows">
+                <polyline stroke-width="5" stroke="gray" points="747,105 737,105 " marker-end="url(#arrowHead)"><title>Move from the return value of gives_ownership() to s1</title></polyline>
+                <polyline stroke-width="5" stroke="gray" points="789,205 779,205 " marker-end="url(#arrowHead)"><title>Move from s2 to the parameter of takes_and_gives_back()</title></polyline>
+                <polyline stroke-width="5" stroke="gray" points="887,205 877,205 " marker-end="url(#arrowHead)"><title>Move from the return value of takes_and_gives_back() to s3</title></polyline>
+    </g>
+
+    <g id="dividers">
+            <line stroke="gray" stroke-width="2" x1="654" x2="654" y1="70" y2="660"/>
+    </g>
+
+    <g id="code">
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </g>
+
+   
+</svg>

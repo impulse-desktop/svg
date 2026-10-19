@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="5in" height="7.25in" viewBox="0 0 480 696">
+
+    <mask maskUnits="userSpaceOnUse" id="fade">
+      
+      <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="100%">
+        <stop offset = "0" style="stop-color: #FFFFFF" />
+        <stop offset="1" style="stop-color: #000000" />
+      </linearGradient>
+
+      <rect fill="url(#gradient)" width="5in" height="7.25in" />
+    </mask>
+
+    <pattern id="quarter_inch" x="0" y="0" width="0.25in" height="0.25in"
+    patternUnits="userSpaceOnUse">
+
+      <circle cx="0.125in" cy="0.125in" r="0.02in" fill="#C0C0C0" />
+    </pattern>
+
+    
+    <rect x="0in" y="0in" width="5in" height="7.25in" fill="url(#quarter_inch)"
+                                                      />
+  </svg>

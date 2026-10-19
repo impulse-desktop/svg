@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="315" height="230">
+   <defs>
+  <pattern id="img1" patternUnits="userSpaceOnUse" width="315" height="230">
+    <image xlink:href="http://localhost:8000/images/general.jpg" x="0" y="0" width="315" height="230" preserveAspectRatio="xMinYMin" />
+  </pattern>
+    <clipPath id="boundary">
+      <rect x="0" y="0" width="315" height="230" rx="25" ry="25" />
+    </clipPath>
+  </defs>
+<g clip-path="url(#boundary)">
+<rect x="0" y="0" width="315" height="230" stroke="none" stroke-width="0" fill="#3876be" />
+<rect x="1.5" y="151.5" width="312" height="77" stroke="#3876be" stroke-width="3" fill="white" />
+
+   
+  <rect x="1.5" y="1.5" width="312" height="227" stroke="#3876be" stroke-width="3" fill="none"  rx="23.5" ry="23.5" />
+  </g>
+   Sorry, your browser does not support inline SVG.
+</svg>
