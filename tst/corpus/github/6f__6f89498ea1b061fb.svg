@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <title> Ensure images aren't scaled too small </title>
+
+  <rect width="100%" height="100%" fill="lime"/>
+  <rect width="183" height="183" fill="red"/>
+  <image style="image-rendering: -moz-crisp-edges" width="183" height="183" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAABGdBTUEAALGPC%2FxhBQAAAAxJREFUGFdjYPjPAAACAgEA0dNGRAAAAABJRU5ErkJggg%3D%3D"/>
+
+</svg>
