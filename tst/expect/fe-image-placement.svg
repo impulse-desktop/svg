@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="16">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="32">
 <!-- What tst/unit/fe-image-placement.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="64" height="16" fill="white"/>
+<rect width="64" height="32" fill="white"/>
 <defs>
 <filter id="m" x="0" y="0" width="1" height="1"><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAADElEQVR42mNg+A+BAA/5A/3mxKLtAAAAAElFTkSuQmCC"/></filter>
 <filter id="n" x="0" y="0" width="1" height="1"><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAADElEQVR42mNg+A+BAA/5A/3mxKLtAAAAAElFTkSuQmCC" preserveAspectRatio="none"/></filter>
@@ -9,11 +9,23 @@ cell's id is what the statement ledgers link to. -->
 <filter id="e" filterUnits="userSpaceOnUse" x="26" y="2" width="12" height="12"><feImage href="#r" x="26" y="2" width="6" height="12"/></filter>
 <filter id="z" x="0" y="0" width="1" height="1"><feImage href="#missing"/></filter>
 <filter id="h" x="0" y="0" width="1" height="1"><feImage href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAADElEQVR42mNg+A+BAA/5A/3mxKLtAAAAAElFTkSuQmCC" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP4z8DwHwAFAAH/VscvDQAAAABJRU5ErkJggg==" preserveAspectRatio="none"/></filter>
+<rect id="bb" width=".5" height="1" fill="lime"/>
+<filter id="eb" primitiveUnits="objectBoundingBox" x="0" y="0" width="1" height="1"><feImage href="#bb" x="0" y="0" width="1" height="1"/></filter>
+<symbol id="sy" viewBox="0 0 2 2"><rect width="1" height="2" fill="lime"/></symbol>
+<filter id="fs" filterUnits="userSpaceOnUse" x="18" y="18" width="12" height="12"><feImage href="#sy"/></filter>
+<svg id="sv" viewBox="0 0 2 2"><rect width="1" height="1" fill="lime"/></svg>
+<filter id="fv" filterUnits="userSpaceOnUse" x="34" y="18" width="12" height="12"><feImage href="#sv"/></filter>
+<g fill="red"><rect id="ih" width="6" height="6"/></g>
+<filter id="fi" filterUnits="userSpaceOnUse" x="50" y="18" width="12" height="12"><feImage href="#ih" fill="lime"/></filter>
 </defs>
 <g id="image-meet" data-box="1 1 10 14"><rect x="2" y="6" width="8" height="4" fill="lime"/></g>
 <g id="image-stretch" data-box="13 1 10 14"><rect x="14" y="2" width="8" height="12" fill="lime"/></g>
 <g id="element" data-box="25 1 14 14"><rect x="28" y="3" width="4" height="8" fill="lime"/></g>
 <g id="missing" data-box="41 1 10 14"></g>
 <g id="href-wins" data-box="53 1 10 14"><rect x="54" y="2" width="8" height="12" fill="lime"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="6" width="8" height="4"/><rect x="14" y="2" width="8" height="12"/><rect x="28" y="3" width="4" height="8"/><rect x="54" y="2" width="8" height="12"/></g>
+<g id="element-box" data-box="1 17 14 14"><rect x="2" y="18" width="6" height="12" fill="lime"/></g>
+<g id="symbol" data-box="17 17 14 14"><rect x="18" y="18" width="6" height="12" fill="lime"/></g>
+<g id="svg" data-box="33 17 14 14"><rect x="34" y="18" width="6" height="6" fill="lime"/></g>
+<g id="inherits" data-box="49 17 14 14"><rect x="50" y="18" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="6" width="8" height="4"/><rect x="14" y="2" width="8" height="12"/><rect x="28" y="3" width="4" height="8"/><rect x="54" y="2" width="8" height="12"/><rect x="2" y="18" width="6" height="12"/><rect x="18" y="18" width="6" height="12"/><rect x="34" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/></g>
 </svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="34">
+<!-- Each lime drawing fills its black outline. A length may be a plain
+number, of px, in a presentation attribute, as SVG 2 has it, and in a
+declaration too, in a style attribute or a style sheet, as the renderers
+of real files read it (D43): x, width, r, cx, font-size and transform-
+origin; 0, a number of px and stroke-width's numbers as anywhere. -->
+<rect width="50" height="34" fill="white"/>
+<style>.pn { width: 20; height: 2px }</style>
+<rect x="30" y="2" width="1" height="6" fill="lime" style="x: 2; width: 6"/><rect x="10" y="2" width="0.25em" height="6" fill="lime" style="font-size: 24"/><circle cx="40" cy="5" r="1" fill="lime" style="r: 3; cx: 21"/><g transform="translate(26 2)"><rect width="6" height="6" fill="lime" transform="rotate(180)" style="transform-origin: 3 3"/></g>
+<rect x="20" y="14" width="6" height="6" fill="lime" style="x: 2px"/><rect x="20" y="14" width="2" height="6" fill="lime" style="x: 0; width: 6px" transform="translate(10 0)"/><rect x="19" y="15" width="4" height="4" fill="none" stroke="lime" stroke-width="5" style="stroke-width: 2"/><rect x="40" y="14" width="6" height="6" fill="lime" style="x: calc(1px * 28)"/>
+<rect class="pn" x="2" y="26" width="6" height="6" fill="lime"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><circle cx="21" cy="5" r="3"/><rect x="26" y="2" width="6" height="6"/><rect x="2" y="14" width="6" height="6"/><rect x="10" y="14" width="6" height="6"/><rect x="18" y="14" width="6" height="6"/><rect x="28" y="14" width="6" height="6"/><rect x="2" y="26" width="20" height="2"/></g>
+</svg>

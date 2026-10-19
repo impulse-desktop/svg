@@ -12,12 +12,13 @@
 - [x] svg2/coords.md#ElementsThatEstablishViewports: an 'image' element establishes a new document viewport for the referenced document, which gets its own SVG viewport if it is SVG. [image-fragment-views#no-fragment image-fragments#view-element]
 - [x] svg2/coords.md#ElementsThatEstablishViewports: whether a new SVG viewport also clips its content is decided by the 'overflow' property on the viewport-establishing element. [viewport-nested#clip viewport-nested#overflow-visible]
 
-## The initial viewport: root-viewport
+## The initial viewport: root-viewport, render-root-box
 
 - [x] svg2/coords.md#ViewportSpace: the initial viewport's width is the 'width' presentation attribute on the outermost svg element, unless CSS positioning properties on a host document establish it instead. [root-viewport#user-units-px]
 - [x] svg2/coords.md#ViewportSpace: likewise the initial viewport's height is the 'height' presentation attribute on the outermost svg element, unless host CSS positioning properties establish it. [root-viewport#user-units-px]
 - [x] svg2/coords.md#ViewportSpace: a 'width' or 'height' on the outermost svg element given in user units (no unit identifier) is assumed equivalent to the same number of px units. [root-viewport#user-units-px]
 - [x] svg2/coords.md#InitialCoordinateSystem: the outermost svg element's initial viewport and user coordinate systems are identical, origin at the viewport's origin, x pointing right, y pointing down, one unit equal to one CSS px. [root-viewport#y-down]
+- [x] svg2/coords.md#InitialCoordinateSystem: the initial coordinate system's origin is at the top-left of the viewport, the raster, which the outermost svg's CSS border, padding, margin, outline or shadow neither take room from nor draw over (D39). [render-root-box#box]
 
 ## Computing the viewBox transform: viewbox-align
 
@@ -61,11 +62,11 @@
 - [x] svg2/coords.md#BoundingBoxes: for 'foreignObject' and 'image', the bounding box is the positioning rectangle given by x, y, width, height, regardless of the fill/stroke/markers inputs. [bbox-inputs#image-box]
 - [x] svg2/coords.md#BoundingBoxes: unioning a box with an empty shape at (0,0,0,0) leaves the box unchanged. [path-data-commands#none]
 
-## Object bounding box units: bbox-geometry, bbox-inputs, mask-values
+## Object bounding box units: bbox-geometry, bbox-inputs, mask-values, viewport-content-percent, resource-length-units
 
 - [x] svg2/coords.md#ObjectBoundingBox: setting gradientUnits, patternUnits/patternContentUnits, clipPathUnits, maskUnits/maskContentUnits or filterUnits/primitiveUnits to objectBoundingBox makes their coordinates fractions of the applicable element's object bounding box. [bbox-geometry#fractions bbox-geometry#group-children gradient-linear-geometry#defaults pattern-tiles#box-fractions mask-values#content-units]
-- [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox acts as an extra transform mapping (0,0) to the box's (minx,miny) corner and (1,1) to its (maxx,maxy) corner: matrix [(maxx-minx) 0 0 (maxy-miny) minx miny]. [bbox-geometry#fractions]
-- [x] svg2/coords.md#ObjectBoundingBoxUnits: a percentage used with these attributes equals the same decimal (50% = 0.5); percentages inside the referencing element's own content instead follow the ordinary Units percentage rules. [bbox-inputs#gradient-percent bbox-inputs#pattern-percent]
+- [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox acts as an extra transform mapping (0,0) to the box's (minx,miny) corner and (1,1) to its (maxx,maxy) corner: matrix [(maxx-minx) 0 0 (maxy-miny) minx miny]; a length of a unit is one of that user space (D42). [bbox-geometry#fractions resource-length-units#mask-box-em]
+- [x] svg2/coords.md#ObjectBoundingBoxUnits: a percentage used with these attributes equals the same decimal (50% = 0.5); percentages inside the referencing element's own content instead follow the ordinary Units percentage rules. [bbox-inputs#gradient-percent bbox-inputs#pattern-percent viewport-content-percent#clip-path-box viewport-content-percent#mask-box]
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: fractions or percentages below 0 or above 1 (100%) are permitted and not clamped. [bbox-geometry#fractions]
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox must not be used, and its effect is ignored, when the applicable element's geometry has no width or no height (stroke width is ignored for this check). [bbox-geometry#zero-height-gradient bbox-geometry#zero-height-filter bbox-geometry#zero-height-clip]
 

@@ -423,3 +423,59 @@ its edge in its own plane, while the planes of a 3D rendering context it
 established would be laid over its parent's space past that cut, the
 renderer drawing each plane apart. It flattens on overflow clip as on
 hidden: its content is drawn in its plane, cut there, as its overflow says.
+
+## D39. The outermost svg's CSS box draws nothing
+
+CSS gives the root element a box with border, padding, margin, an outline
+and a shadow; SVG 2 says nothing of them for an outermost svg. The renderer
+has no host to lay that box out in (D10): the raster is the svg's viewport,
+the document's own size stretched to it. Border, padding, margin and
+box-shadow draw nothing and take no room from the viewport, and an outline,
+which lies outside the box, falls past the raster.
+
+## D40. Languages are matched as written; an instance's is its host's
+
+`selectors-4.md#the-lang-pseudo` canonicalizes the content language and
+each range, and converts them to extlang form (RFC 5646, 4.5), before the
+extended filtering. Both need the IANA subtag registry, its preferred
+values and extlang prefixes, which the renderer does not carry: it filters
+the tags as written, ASCII case-insensitively, and an ill-formed tag or
+range matches nothing. `svg2/struct.md#LangSpaceAttrs` takes an element's
+language from xml:lang, then lang, then its parent; SVG does not say where
+an instance of a use's shadow tree gets its language past its root. DOM
+gives a shadow tree's root its host's, so an instance's language is the
+use's, not that of the element it copies.
+
+## D41. feImage draws an element as a use of its subregion
+
+`filter-effects-1.md#elementdef-feimage` renders a referenced element
+"according to the behavior of the use element", in the user space
+primitiveUnits gives, and says no more of the feImage's x, y, width and
+height than that they are its subregion. The renderer takes the subregion
+for the use's x, y, width and height: the element moves to the subregion's
+corner, a symbol or an svg becomes a viewport of the subregion's size, and
+the element inherits from the feImage. With primitiveUnits objectBoundingBox
+the element lies in the bounding box's units, as the spec says. Before,
+an element of percentage lengths was stretched from the viewport to the
+subregion, as Chromium does, and a symbol drew nothing.
+
+## D42. A length of a unit in bounding box units is of the box's user space
+
+`svg2/coords.md#ObjectBoundingBoxUnits` speaks of fractions and
+percentages of the box, and puts the box's matrix into the transforms as
+"a new user coordinate system"; the attributes' grammar takes lengths. A
+percentage is the fraction it names; a number is a fraction; any other
+length is resolved as lengths are, its px a user unit, its em the element's
+font-size, and is a distance in that user space, so the box's matrix scales
+it. Before, its unit was dropped and 0.25em read as 0.25.
+
+## D43. A declaration's plain number is a length, as in the attribute
+
+`svg2/types.md#presentation-attribute-css-value` lets a presentation
+attribute give a length as a plain number and disallows it in the
+property's values, so style="font-size:10" would be invalid. Chromium,
+WebKit and resvg read it as 10px, and real files count on it: 56 of a
+10 178-file sample of Wikimedia Commons, Batik's samples, WebKit's tests.
+Rejecting it would draw those files unlike anything their authors saw, for
+no gain (README, the goal), so a declaration takes a plain number where the
+attribute does.

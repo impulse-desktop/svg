@@ -11,6 +11,11 @@ id is what the statement ledgers link to. -->
 <symbol id="f" viewBox="10 10 10 10" refX="10" refY="10" width="8" height="8"><rect x="10" y="10" width="10" height="10" fill="lime"/></symbol>
 <symbol id="g" width="6" height="6"><rect x="-4" y="-4" width="20" height="20" fill="lime"/></symbol>
 <symbol id="h" display="none" width="6" height="6"><rect width="6" height="6" fill="lime"/><symbol><rect width="6" height="6" fill="red"/></symbol></symbol>
+<symbol id="i" transform="scale(.5)" width="8" height="8"><rect width="8" height="8" fill="lime"/></symbol>
+<symbol id="j" viewBox="0 0 10 10" refX="center" refY="top" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="k" viewBox="0 0 10 10" refX="left" refY="center" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="l" viewBox="0 0 10 10" refX="bottom" refY="right" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="m" viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice" refX="left" refY="top" width="8" height="4"><rect width="10" height="10" fill="lime"/></symbol>
 </defs>
 <g id="position" data-box="1 1 12 8"><rect x="2" y="2" width="10" height="6" fill="lime"/></g>
 <g id="use-size" data-box="17 1 14 6"><rect x="18" y="2" width="12" height="4" fill="lime"/></g>
@@ -20,9 +25,13 @@ id is what the statement ledgers link to. -->
 <g id="ref-viewbox" data-box="49 21 10 10"><rect x="50" y="22" width="8" height="8" fill="lime"/></g>
 <g id="overflow" data-box="1 43 8 8"><rect x="2" y="44" width="6" height="6" fill="lime"/></g>
 <g id="display-none-symbol" data-box="13 43 8 8"><rect x="14" y="44" width="6" height="6" fill="lime"/></g>
+<g id="transform" data-box="1 55 8 8"><rect x="2" y="56" width="4" height="4" fill="lime"/></g>
+<g id="ref-keywords" data-box="13 53 34 10"><rect x="14" y="54" width="8" height="8" fill="lime"/><rect x="26" y="54" width="8" height="8" fill="lime"/><rect x="38" y="54" width="8" height="8" fill="lime"/></g>
+<g id="ref-slice" data-box="49 51 10 9"><rect x="50" y="54" width="8" height="4" fill="lime"/></g>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2" y="2" width="10" height="6"/><rect x="18" y="2" width="12" height="4"/><rect x="34" y="2" width="12" height="4"/>
 <rect x="6" y="26" width="8" height="8"/><rect x="22" y="22" width="8" height="8"/><rect x="34" y="22" width="8" height="8"/><rect x="50" y="22" width="8" height="8"/>
 <rect x="2" y="44" width="6" height="6"/><rect x="14" y="44" width="6" height="6"/>
+<rect x="2" y="56" width="4" height="4"/><rect x="14" y="54" width="8" height="8"/><rect x="26" y="54" width="8" height="8"/><rect x="38" y="54" width="8" height="8"/><rect x="50" y="54" width="8" height="4"/>
 </g>
 </svg>

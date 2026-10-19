@@ -1093,6 +1093,8 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(MaskUnits, "maskUnits")                                   \
     ATOM(MaskContentUnits, "maskContentUnits")                     \
     ATOM(SystemLanguage, "systemLanguage")                         \
+    ATOM(Lang, "lang")                                             \
+    ATOM(XmlLang, "xml:lang")                                      \
     ATOM(RequiredExtensions, "requiredExtensions")                 \
     ATOM(Type, "type")                                             \
     ATOM(Mask, "mask")                                             \
@@ -1310,6 +1312,10 @@ namespace {
         u32 ruleCount;
         Vector<Layer> layers;
         bool structural;
+        // Whether a selector has :lang(), whose instances' language is
+        // their host's; the host of the instance being cascaded.
+        bool languages;
+        const Node* instanceHost;
         // The geometry values of declarations, by node in document order.
         Vector<GeometryValue> geometry;
     };
@@ -1372,6 +1378,7 @@ namespace {
         Empty,
         Scope,
         Never,
+        Lang,
         Not,
         Is,
         Has,
@@ -1383,7 +1390,8 @@ namespace {
     // case-insensitively when caseless. An nth test takes the positions
     // a * n + b, counted from the last sibling when last, among the
     // siblings of the element's type, or that a list matches. :not(),
-    // :is(), :where() and :has() test their list.
+    // :is(), :where() and :has() test their list; :lang() its ranges, in
+    // value, a comma after each.
     struct Condition {
         Test test;
         bool caseless;
@@ -2029,6 +2037,7 @@ namespace {
         PaintValue contextStroke;
         u32** instance;
         Vector<Node*> instanceTargets;
+        Vector<Node*> instanceHosts;
         Vector<u32**> instanceMaps;
         Vector<CachedImage*> images;
         // Whether the pass lowers to draw, so that its paints sample the images it decodes.
@@ -3619,15 +3628,19 @@ namespace {
                         fail(xml.fail, SVG_XML_UNDECLARED_PREFIX);
                     }
 
-                    if (attributeUri != xlinkNamespace || attributeLocal != SV("href")) {
-                        continue;
-                    }
+                    if (attributeUri == xmlNamespace && attributeLocal == SV("lang")) {
+                        atom = AtomXmlLang;
+                    } else {
+                        if (attributeUri != xlinkNamespace || attributeLocal != SV("href")) {
+                            continue;
+                        }
 
-                    if (plainHref) {
-                        continue;
-                    }
+                        if (plainHref) {
+                            continue;
+                        }
 
-                    atom = AtomHref;
+                        atom = AtomHref;
+                    }
                 }
 
                 u32 value = internAttribute(xml, xml.raw[i].value);
@@ -4554,8 +4567,9 @@ namespace {
     // A pseudo-class of arguments, p past its opening parenthesis: :not(),
     // :is(), :where(), :has() of selector lists, :nth-child() and
     // :nth-last-child() of An+B and an "of" list, :nth-of-type() and
-    // :nth-last-of-type() of An+B. Each adds its own specificity, :where()
-    // none, the others that of their most specific argument.
+    // :nth-last-of-type() of An+B, :lang() of language ranges. Each adds
+    // its own specificity, :where() none, the others that of their most
+    // specific argument.
     static bool parseFunctionalPseudo(Document& doc, StringView name, const u8*& p, const u8* end, u32 flags, Condition& condition, u32& specificity, bool& structural) {
         bool nthChild = equalsIgnoreCase(name, SV("nth-child")) || equalsIgnoreCase(name, SV("nth-last-child"));
         bool nthType = equalsIgnoreCase(name, SV("nth-of-type")) || equalsIgnoreCase(name, SV("nth-last-of-type"));
@@ -4595,6 +4609,40 @@ namespace {
             }
 
             inner = equalsIgnoreCase(name, SV("where")) ? 0 : inner;
+        } else if (equalsIgnoreCase(name, SV("lang"))) {
+            // Ranges, each an ident or a string (selectors-4.md,
+            // the-lang-pseudo); one with a comma is no language range and
+            // stands as "!", which matches nothing.
+            Buffer ranges;
+
+            condition.test = Test::Lang;
+            doc.languages = true;
+
+            do {
+                StringView range;
+
+                skipSpaces(p, end);
+
+                if (at(p, end, '"') || at(p, end, '\'')) {
+                    if (!readCssString(*doc.pool, p, range)) {
+                        return false;
+                    }
+                } else {
+                    range = readCssIdent(*doc.pool, p, end);
+
+                    if (range.empty()) {
+                        return false;
+                    }
+                }
+
+                range = memchr(range.data(), ',', range.length()) ? SV("!") : range;
+                ranges.append(range.data(), range.length());
+                ranges.append(",", 1);
+                skipSpaces(p, end);
+            } while (at(p, end, ',') && ++p);
+
+            condition.value = keep(*doc.pool, ranges.data(), ranges.length());
+            inner = addSpecificity(inner, 1 << 8);
         } else {
             return false;
         }
@@ -6802,6 +6850,108 @@ namespace {
         return condition.a == 0 ? d == 0 : d % condition.a == 0 && d / condition.a >= 0;
     }
 
+    // Whether a language tag, or a range when ranged, is well formed enough
+    // to match (selectors-4.md, the-lang-pseudo): subtags of one to eight
+    // ASCII letters or digits joined by hyphens, the first of letters, or a
+    // range's *.
+    static bool wellFormedLanguage(StringView text, bool ranged) {
+        size_t start = 0;
+
+        for (size_t i = 0; i <= text.length(); i++) {
+            if (i < text.length() && text[i] != '-') {
+                continue;
+            }
+
+            StringView subtag(text.begin() + start, text.begin() + i);
+            bool letters = !subtag.empty() && subtag.length() <= 8;
+            bool alphanumeric = letters;
+
+            for (u8 c : subtag) {
+                letters = letters && isLetter(c);
+                alphanumeric = alphanumeric && (isLetter(c) || (c >= '0' && c <= '9'));
+            }
+
+            if (!(ranged && subtag == SV("*")) && !(start == 0 ? letters : alphanumeric)) {
+                return false;
+            }
+
+            start = i + 1;
+        }
+
+        return true;
+    }
+
+    // The subtag of text at at, up to a hyphen; at moves past both.
+    static StringView nextSubtag(StringView text, size_t& at) {
+        size_t start = at;
+
+        while (at < text.length() && text[at] != '-') {
+            at++;
+        }
+
+        StringView subtag(text.begin() + start, text.begin() + at);
+
+        at += at < text.length();
+
+        return subtag;
+    }
+
+    // RFC 4647's extended filtering of a tag by a range, ASCII
+    // case-insensitively (selectors-4.md, the-lang-pseudo): the first
+    // subtags alike or the range's *, then each later subtag of the range
+    // but * found in turn, the tag's skipped up to it but never past a
+    // singleton.
+    static bool extendedFilter(StringView tag, StringView range) {
+        size_t t = 0;
+        size_t r = 0;
+        StringView first = nextSubtag(range, r);
+
+        if (!equalsIgnoreCase(first, nextSubtag(tag, t)) && !(first == SV("*"))) {
+            return false;
+        }
+
+        while (r < range.length()) {
+            StringView wanted = nextSubtag(range, r);
+
+            while (!(wanted == SV("*"))) {
+                if (t >= tag.length()) {
+                    return false;
+                }
+
+                StringView subtag = nextSubtag(tag, t);
+
+                if (equalsIgnoreCase(subtag, wanted)) {
+                    break;
+                }
+
+                if (subtag.length() == 1) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // A node's language (svg2/struct.md, LangSpaceAttrs): its xml:lang,
+    // else its lang, else its parent's; past an instance's root, its
+    // host's, as DOM has it for a shadow tree. Empty for none.
+    static StringView nodeLanguage(const Document& doc, const Node* node, const Node* boundary) {
+        while (node) {
+            u32 value = attribute(node, AtomXmlLang);
+
+            value = value ? value : attribute(node, AtomLang);
+
+            if (value) {
+                return textOf(doc, value);
+            }
+
+            node = node == boundary ? doc.instanceHost : node->parent;
+        }
+
+        return StringView();
+    }
+
     static bool matchCondition(Document& doc, Node* node, const Condition& condition, const Node* scope, const Node* boundary) {
         switch (condition.test) {
             case Test::Id:
@@ -6848,6 +6998,27 @@ namespace {
                 return node == scope;
             case Test::Never:
                 return false;
+            case Test::Lang: {
+                // The empty range matches an untagged node alone; any other
+                // a well-formed language alone.
+                StringView language = nodeLanguage(doc, node, boundary);
+                bool tagged = wellFormedLanguage(language, false);
+                size_t start = 0;
+
+                for (size_t i = 0; i < condition.value.length(); i++) {
+                    if (condition.value[i] == ',') {
+                        StringView range(condition.value.begin() + start, condition.value.begin() + i);
+
+                        start = i + 1;
+
+                        if (range.empty() ? language.empty() : tagged && wellFormedLanguage(range, true) && extendedFilter(language, range)) {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
             case Test::Not:
                 return !matchList(doc, node, condition, scope, boundary);
             case Test::Is:
@@ -7155,7 +7326,6 @@ namespace {
     }
 
     static bool isKeyword(StringView text, StringView keyword);
-
     // The attribute a geometry property sets on an element.
     static u32 geometryAttribute(u32 element, u32 property) {
         if (property == AtomTransform && (element == AtomLinearGradient || element == AtomRadialGradient)) {
@@ -7392,6 +7562,8 @@ namespace {
         StringView preferred;
 
         doc.layers.pushBack(Layer{0, 0, 0});
+        doc.languages = false;
+        doc.instanceHost = nullptr;
 
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
             if (node->name == AtomStyle && !node->text.empty()) {
@@ -8441,12 +8613,16 @@ namespace {
 
     // A length in object bounding box units: a number as it is, a
     // percentage a hundredth of it.
-    static float boxFraction(Length length, Viewport vp) {
+    // A length in bounding box units: a percentage the fraction it names,
+    // any other length one of the box's user space, which the box's
+    // matrix scales (coords.md, ObjectBoundingBoxUnits), its em of the
+    // element it is given on.
+    static float boxFraction(Length length, Viewport vp, float fontSize) {
         if (length.unit == Unit::Calc || length.unit == Unit::CalcPercent) {
-            return mathLength(length, 1.f, vp, 16.f);
+            return mathLength(length, 1.f, vp, fontSize);
         }
 
-        return length.unit == Unit::Percent ? length.value / 100.f : length.value;
+        return length.unit == Unit::Percent ? length.value / 100.f : resolveLength(length, Axis::Other, vp, fontSize);
     }
 
     static bool lengthAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
@@ -13898,18 +14074,17 @@ namespace {
     }
 
     static float patternLength(Lowering& l, Node* pattern, u32 name, bool boxUnits, Axis axis, Viewport vp, float fallback) {
-        u32 value = patternAttribute(*l.doc, pattern, name, nullptr);
+        Node* owner = pattern;
+        u32 value = patternAttribute(*l.doc, pattern, name, &owner);
         Length length;
 
         if (!value || !parseLength(textOf(*l.doc, value), length)) {
             return fallback;
         }
 
-        if (boxUnits) {
-            return boxFraction(length, vp);
-        }
+        float fs = documentStyle(l, owner, vp).fontSize;
 
-        return resolveLength(length, axis, vp, 16.f);
+        return boxUnits ? boxFraction(length, vp, fs) : resolveLength(length, axis, vp, fs);
     }
 
     static bool linkBroken(const Lowering& l, const Node* node, u32 property) {
@@ -14118,12 +14293,16 @@ namespace {
         return paint;
     }
 
-    static u32 gradientAttribute(const Document& doc, Node* gradient, u32 name) {
+    static u32 gradientAttribute(const Document& doc, Node* gradient, u32 name, Node** owner = nullptr) {
         Node* node = gradient;
         bool specific = name == AtomX1 || name == AtomY1 || name == AtomX2 || name == AtomY2 || name == AtomCx || name == AtomCy || name == AtomR || name == AtomFx || name == AtomFy || name == AtomFr;
 
         for (u32 hops = 0; hops < 16; hops++) {
             if (u32 value = attribute(node, name); value && !trim(textOf(doc, value)).empty() && (!specific || node->name == gradient->name)) {
+                if (owner) {
+                    *owner = node;
+                }
+
                 return value;
             }
 
@@ -14162,18 +14341,17 @@ namespace {
     }
 
     static float gradientLength(Lowering& l, Node* gradient, u32 name, bool boxUnits, Axis axis, Viewport vp, float fallback) {
-        u32 value = gradientAttribute(*l.doc, gradient, name);
+        Node* owner = gradient;
+        u32 value = gradientAttribute(*l.doc, gradient, name, &owner);
         Length length;
 
         if (!value || !parseLength(textOf(*l.doc, value), length)) {
             return fallback;
         }
 
-        if (boxUnits) {
-            return boxFraction(length, vp);
-        }
+        float fs = documentStyle(l, owner, vp).fontSize;
 
-        return resolveLength(length, axis, vp, 16.f);
+        return boxUnits ? boxFraction(length, vp, fs) : resolveLength(length, axis, vp, fs);
     }
 
     static float srgbToLinear(float c);
@@ -15847,7 +16025,7 @@ namespace {
     static void cascade(Document& doc);
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
 
-    static float unitFraction(const Document& doc, const Node* node, u32 name, float fallback) {
+    static float unitFraction(const Document& doc, const Node* node, u32 name, Viewport vp, float fontSize, float fallback) {
         u32 value = attribute(node, name);
         Length length;
 
@@ -15855,7 +16033,7 @@ namespace {
             return fallback;
         }
 
-        return boxFraction(length, Viewport{0.f, 0.f, 0.f, 0.f, 16.f});
+        return boxFraction(length, vp, fontSize);
     }
 
     // A mask element as a mask layer: its region in the user space of the
@@ -15889,10 +16067,10 @@ namespace {
             float bw = box.x1 - box.x0;
             float bh = box.y1 - box.y0;
 
-            x = box.x0 + unitFraction(doc, mask, AtomX, -0.1f) * bw;
-            y = box.y0 + unitFraction(doc, mask, AtomY, -0.1f) * bh;
-            w = unitFraction(doc, mask, AtomWidth, 1.2f) * bw;
-            h = unitFraction(doc, mask, AtomHeight, 1.2f) * bh;
+            x = box.x0 + unitFraction(doc, mask, AtomX, vp, maskStyle.fontSize, -0.1f) * bw;
+            y = box.y0 + unitFraction(doc, mask, AtomY, vp, maskStyle.fontSize, -0.1f) * bh;
+            w = unitFraction(doc, mask, AtomWidth, vp, maskStyle.fontSize, 1.2f) * bw;
+            h = unitFraction(doc, mask, AtomHeight, vp, maskStyle.fontSize, 1.2f) * bh;
         } else {
             float fs = maskStyle.fontSize;
 
@@ -16791,18 +16969,16 @@ namespace {
         }
     }
 
-    static float filterLength(const Document& doc, u32 value, bool boxUnits, Axis axis, Viewport vp, float fallback) {
+    // A length of a filter or a primitive, its em of the element it is
+    // given on.
+    static float filterLength(const Document& doc, u32 value, bool boxUnits, Axis axis, Viewport vp, float fontSize, float fallback) {
         Length length;
 
         if (!value || !parseLength(textOf(doc, value), length)) {
             return fallback;
         }
 
-        if (boxUnits) {
-            return boxFraction(length, vp);
-        }
-
-        return resolveLength(length, axis, vp, 16.f);
+        return boxUnits ? boxFraction(length, vp, fontSize) : resolveLength(length, axis, vp, fontSize);
     }
 
     static Box deviceBox(const Matrix& m, const Box& box) {
@@ -16877,7 +17053,7 @@ namespace {
         return fallback;
     }
 
-    static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h);
+    static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h, float unitX, float unitY);
 
     static Matrix rootContent(Lowering& l, Node* node);
 
@@ -16924,17 +17100,18 @@ namespace {
         Box region;
         float bw = bbox.x1 - bbox.x0;
         float bh = bbox.y1 - bbox.y0;
+        float fs = documentStyle(l, filterNode, vp).fontSize;
 
         if (boxRegion) {
-            region.x0 = bbox.x0 + filterLength(doc, attribute(filterNode, AtomX), true, Axis::X, vp, -0.1f) * bw;
-            region.y0 = bbox.y0 + filterLength(doc, attribute(filterNode, AtomY), true, Axis::Y, vp, -0.1f) * bh;
-            region.x1 = region.x0 + filterLength(doc, attribute(filterNode, AtomWidth), true, Axis::X, vp, 1.2f) * bw;
-            region.y1 = region.y0 + filterLength(doc, attribute(filterNode, AtomHeight), true, Axis::Y, vp, 1.2f) * bh;
+            region.x0 = bbox.x0 + filterLength(doc, attribute(filterNode, AtomX), true, Axis::X, vp, fs, -0.1f) * bw;
+            region.y0 = bbox.y0 + filterLength(doc, attribute(filterNode, AtomY), true, Axis::Y, vp, fs, -0.1f) * bh;
+            region.x1 = region.x0 + filterLength(doc, attribute(filterNode, AtomWidth), true, Axis::X, vp, fs, 1.2f) * bw;
+            region.y1 = region.y0 + filterLength(doc, attribute(filterNode, AtomHeight), true, Axis::Y, vp, fs, 1.2f) * bh;
         } else {
-            region.x0 = filterLength(doc, attribute(filterNode, AtomX), false, Axis::X, vp, -0.1f * vp.width);
-            region.y0 = filterLength(doc, attribute(filterNode, AtomY), false, Axis::Y, vp, -0.1f * vp.height);
-            region.x1 = region.x0 + filterLength(doc, attribute(filterNode, AtomWidth), false, Axis::X, vp, 1.2f * vp.width);
-            region.y1 = region.y0 + filterLength(doc, attribute(filterNode, AtomHeight), false, Axis::Y, vp, 1.2f * vp.height);
+            region.x0 = filterLength(doc, attribute(filterNode, AtomX), false, Axis::X, vp, fs, -0.1f * vp.width);
+            region.y0 = filterLength(doc, attribute(filterNode, AtomY), false, Axis::Y, vp, fs, -0.1f * vp.height);
+            region.x1 = region.x0 + filterLength(doc, attribute(filterNode, AtomWidth), false, Axis::X, vp, fs, 1.2f * vp.width);
+            region.y1 = region.y0 + filterLength(doc, attribute(filterNode, AtomHeight), false, Axis::Y, vp, fs, 1.2f * vp.height);
         }
 
         // An empty region, or one of no number where a box past the floats
@@ -17023,7 +17200,7 @@ namespace {
             bool boxPrimitives = filter->boxPrimitives;
 
             if (xValue) {
-                float x = filterLength(doc, xValue, boxPrimitives, Axis::X, vp, 0.f);
+                float x = filterLength(doc, xValue, boxPrimitives, Axis::X, vp, childStyle.fontSize, 0.f);
                 float width = user.x1 - user.x0;
 
                 user.x0 = boxPrimitives ? bbox.x0 + x * bw : x;
@@ -17031,7 +17208,7 @@ namespace {
             }
 
             if (yValue) {
-                float y = filterLength(doc, yValue, boxPrimitives, Axis::Y, vp, 0.f);
+                float y = filterLength(doc, yValue, boxPrimitives, Axis::Y, vp, childStyle.fontSize, 0.f);
                 float height = user.y1 - user.y0;
 
                 user.y0 = boxPrimitives ? bbox.y0 + y * bh : y;
@@ -17039,13 +17216,13 @@ namespace {
             }
 
             if (wValue) {
-                float width = filterLength(doc, wValue, boxPrimitives, Axis::X, vp, 0.f);
+                float width = filterLength(doc, wValue, boxPrimitives, Axis::X, vp, childStyle.fontSize, 0.f);
 
                 user.x1 = user.x0 + (boxPrimitives ? width * bw : width);
             }
 
             if (hValue) {
-                float height = filterLength(doc, hValue, boxPrimitives, Axis::Y, vp, 0.f);
+                float height = filterLength(doc, hValue, boxPrimitives, Axis::Y, vp, childStyle.fontSize, 0.f);
 
                 user.y1 = user.y0 + (boxPrimitives ? height * bh : height);
             }
@@ -17059,7 +17236,7 @@ namespace {
                 Vector<Op>* saved = l.out;
 
                 l.out = &program;
-                lowerImageContent(l, child, childStyle, m, vp, user.x0, user.y0, user.x1 - user.x0, user.y1 - user.y0);
+                lowerImageContent(l, child, childStyle, m, vp, user.x0, user.y0, user.x1 - user.x0, user.y1 - user.y0, boxPrimitives ? bw : 1.f, boxPrimitives ? bh : 1.f);
                 l.out = saved;
                 primitive.programFirst = (u32)l.programs.length();
                 primitive.programCount = (u32)program.length();
@@ -17176,9 +17353,13 @@ namespace {
         }
     }
 
-    static u32** instanceStyles(Pass& l, Node* target) {
+    static u32** instanceStyles(Pass& l, Node* target, Node* host) {
+        // Past the instance's root a language is its host's, so a document
+        // with :lang() keeps each host's styles apart.
+        Node* keyHost = l.doc->languages ? host : nullptr;
+
         for (size_t i = 0; i < l.instanceTargets.length(); i++) {
-            if (l.instanceTargets[i] == target) {
+            if (l.instanceTargets[i] == target && l.instanceHosts[i] == keyHost) {
                 return l.instanceMaps[i];
             }
         }
@@ -17187,12 +17368,15 @@ namespace {
         u32** map = (u32**)l.pool->allocate(sizeof(u32*) * (doc.nodeCount + 1));
 
         memset(map, 0, sizeof(u32*) * (doc.nodeCount + 1));
+        doc.instanceHost = host;
 
         for (Node* node = target; node; node = nextNode(node, target)) {
             map[node->index] = cascadeNode(doc, node, target);
         }
 
+        doc.instanceHost = nullptr;
         l.instanceTargets.pushBack(target);
+        l.instanceHosts.pushBack(keyHost);
         l.instanceMaps.pushBack(map);
 
         return map;
@@ -18042,7 +18226,7 @@ namespace {
         u32** outerInstance = l.instance;
 
         if (l.doc->structural) {
-            l.instance = instanceStyles(l, target);
+            l.instance = instanceStyles(l, target, node);
         }
 
         l.hasContext = true;
@@ -18730,10 +18914,12 @@ namespace {
 
         u32** outerInstance = l.instance;
         Vector<Node*> outerTargets;
+        Vector<Node*> outerHosts;
         Vector<u32**> outerMaps;
 
         outerStyles.xchg(l.documentStyles);
         outerTargets.xchg(l.instanceTargets);
+        outerHosts.xchg(l.instanceHosts);
         outerMaps.xchg(l.instanceMaps);
         l.instance = nullptr;
         l.documentStyles.zero(nested->nodeCount);
@@ -18764,6 +18950,7 @@ namespace {
         l.doc = outer;
         l.documentStyles.xchg(outerStyles);
         l.instanceTargets.xchg(outerTargets);
+        l.instanceHosts.xchg(outerHosts);
         l.instanceMaps.xchg(outerMaps);
         l.instance = outerInstance;
         endGroup(l, imageIndex);
@@ -18983,30 +19170,7 @@ namespace {
         return startsWithIgnoreCase(reference, SV("data:")) || startsWithIgnoreCase(reference, SV("http:")) || startsWithIgnoreCase(reference, SV("https:")) || (!reference.empty() && reference[0] == '#');
     }
 
-    static bool relativeLengths(const Document& doc, const Node* node, u32 depth) {
-        static const u32 lengths[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomX1, AtomY1, AtomX2, AtomY2};
-
-        for (u32 name : lengths) {
-            u32 value = attribute(node, name);
-            Length length;
-
-            if (value && parseLength(textOf(doc, value), length) && percentLength(length)) {
-                return true;
-            }
-        }
-
-        if (depth < 16) {
-            for (Node* child = node->first; child; child = child->next) {
-                if (relativeLengths(doc, child, depth + 1)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h) {
+    static void lowerImageContent(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h, float unitX, float unitY) {
         const Document& doc = *l.doc;
         u32 href = attribute(node, AtomHref);
 
@@ -19029,18 +19193,24 @@ namespace {
                 }
             }
 
-            const ComputedStyle& inherited = target->parent ? documentStyle(l, target->parent, vp) : style;
-
             l.active.pushBack(target);
 
-            // The node is an feImage, in a viewport of some size.
-            Matrix place = multiply(m, translation(x, y));
+            // The element draws as a use of it would (filter-effects-1.md,
+            // feImage), the subregion the use's x, y, width and height, in
+            // the user space primitiveUnits gives (unitX and unitY, the
+            // bounding box's sides or 1): a symbol or an svg is a viewport
+            // of the subregion, anything else moves to its corner; it
+            // inherits from the feImage.
+            Matrix place = multiply(multiply(m, translation(x, y)), scaling(unitX, unitY));
 
-            if (relativeLengths(doc, target, 0)) {
-                place = multiply(place, scaling(w / vp.width, h / vp.height));
+            if (target->name == AtomSymbol || target->name == AtomSvg) {
+                l.sized = target;
+                l.sizedWidth = w / unitX;
+                l.sizedHeight = h / unitY;
             }
 
-            lowerElement(l, target, inherited, place, vp);
+            lowerElement(l, target, style, place, vp);
+            l.sized = nullptr;
             l.active.popBack();
 
             return;

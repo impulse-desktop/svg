@@ -5,6 +5,27 @@ as it can without losing speed past a budget, and without following text
 that contradicts itself, the other specs or plain sense. Every decision of
 that kind is written down in `decisions.md`, to be looked at again.
 
+## The goal
+
+Real files drawn as their authors meant. The spec decides what a document
+means; how renderers commonly read real files decides what counts as a
+document.
+
+1. Valid input that the spec states plainly is drawn as the spec says, even
+   against every browser; only a proven cost, real files all renderers draw
+   alike otherwise and whose authors counted on it, moves it, by a decision.
+2. Sloppy or invalid input is accepted when its meaning is plain, Chromium
+   and resvg (and Firefox) accept it alike, and real files use it; else the
+   spec's error handling.
+3. Where the spec is silent or contradicts itself, what the authors saw:
+   the renderers' common behaviour; where they differ, the spec's intent.
+4. One renderer's quirk is not copied.
+5. The renderer grows no stricter than every other without cause: new
+   strictness on input is a regression on real files.
+
+That real files count on something is shown by a count over the corpus and
+the wide harvest, not guessed.
+
 ## Scope
 
 What README.md leaves out stays out: text, animation (SMIL and CSS),

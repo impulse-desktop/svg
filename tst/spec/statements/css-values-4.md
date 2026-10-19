@@ -1,13 +1,13 @@
 # CSS Values and Units Module Level 4
 
-## Lengths and percentages: css-length-units, lengths (exists)
+## Lengths and percentages: css-length-units, resource-length-units, lengths (exists)
 
 - [x] css-values-4.md#length-value: a length is a dimension; zero lengths may omit the unit and be written as the bare number 0 [css-length-units#zero]
 - [x] css-values-4.md#numeric-ranges: a property may restrict a length (or any numeric value) to a range; a value outside it makes the declaration invalid and ignored [css-length-units#range]
 - [x] css-values-4.md#absolute-length: the absolute units are cm, mm, Q, in, pt, pc, px, fixed to each other: 1in = 2.54cm = 96px, 1pc = 1in/6, 1pt = 1in/72, 1Q = 1cm/40 [css-length-units#absolute]
 - [x] css-values-4.md#absolute-length: px is the canonical absolute unit; unit identifiers are ASCII case-insensitive (1Q and 1q are the same) [css-length-units#case css-length-units#absolute]
 - [x] css-values-4.md#length-value: a length's computed value is resolved to an absolute length; its specific unit is not distinguished afterward [css-length-units#computed]
-- [x] css-values-4.md#em: em equals the computed font-size of the element it is used on; rem equals em computed on the root element [css-length-units#em css-length-units#rem]
+- [x] css-values-4.md#em: em equals the computed font-size of the element it is used on; rem equals em computed on the root element; on a filter, a primitive, a mask, a gradient or a pattern, that element's own, a template's where it gives the length [css-length-units#em css-length-units#rem resource-length-units#filter-em resource-length-units#primitive-em resource-length-units#gradient-em resource-length-units#pattern-em resource-length-units#gradient-template-em]
 - [x] css-values-4.md#font-relative-lengths: ex, cap, ch, ic and lh (and their root r-prefixed forms) are font metrics; lacking real metrics they fall back to defined multiples of em (ex and ch to 0.5em, cap, ic and lh to 1em) (D29) [css-length-units#metrics css-length-units#rem]
 - [x] css-values-4.md#viewport-relative-lengths: vw, vh, vi, vb are 1% of the initial containing block's width, height, inline-axis size and block-axis size; vmin and vmax are the smaller and larger of vw/vh (D31) [css-length-units#viewport]
 - [x] css-values-4.md#compat: units related by a fixed multiplicative factor (all absolute units together, all angle units together) are compatible and convertible to one canonical unit [css-calc-math#types css-calc-edges#canonical css-angle-units#compat]

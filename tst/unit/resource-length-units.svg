@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="50">
+<!-- Each lime drawing fills its black outline, and nothing red shows.
+An em in the attributes of a filter, a primitive, a mask, a gradient or
+a pattern is of that element's font-size, a gradient template's own
+where it gives the attribute, not of the element they paint; in bounding
+box units a length of a unit is one of the box's user space, here
+0.125em of a 4px font half the box. -->
+<rect width="80" height="50" fill="white"/>
+<defs><filter id="fe" filterUnits="userSpaceOnUse" style="font-size: 4px" x="1em" y="1em" width="3em" height="2em"><feFlood flood-color="lime"/></filter><filter id="fp" style="font-size: 4px"><feFlood flood-color="lime" x="1em" y="1em" width="2em" height="2em"/></filter><mask id="mb" style="font-size: 4px" x="0" y="0" width="0.125em" height="1"><rect width="100" height="100" fill="white"/></mask><linearGradient id="ge" gradientUnits="userSpaceOnUse" x2="2em" style="font-size: 6px"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient><pattern id="pe" patternUnits="userSpaceOnUse" width="2em" height="2em" style="font-size: 3px"><rect width="3" height="6" fill="lime"/></pattern><linearGradient id="gt" x2="2em" style="font-size: 6px"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="white"/></linearGradient><linearGradient id="gu" href="#gt" gradientUnits="userSpaceOnUse" style="font-size: 3px"/></defs>
+<g transform="translate(2 2)" style="font-size: 10px"><rect width="20" height="20" fill="red" filter="url(#fe)"/></g>
+<g transform="translate(28 2)" style="font-size: 10px"><rect width="20" height="20" fill="red" filter="url(#fp)"/></g>
+<g transform="translate(54 2)" style="font-size: 10px"><rect width="20" height="20" fill="lime" mask="url(#mb)"/></g>
+<g transform="translate(2 28)" style="font-size: 10px"><rect width="20" height="20" fill="url(#ge)"/></g>
+<g transform="translate(28 28)" style="font-size: 10px"><rect width="20" height="20" fill="url(#pe)"/></g>
+<g transform="translate(54 28)" style="font-size: 10px"><rect width="20" height="20" fill="url(#gu)"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="6" y="6" width="12" height="8"/><rect x="32" y="6" width="8" height="8"/><rect x="54" y="2" width="10" height="20"/><rect x="2" y="28" width="6" height="20"/><rect x="28" y="28" width="3" height="20"/><rect x="34" y="28" width="3" height="20"/><rect x="40" y="28" width="3" height="20"/><rect x="46" y="28" width="2" height="20"/><rect x="54" y="28" width="6" height="20"/></g>
+</svg>

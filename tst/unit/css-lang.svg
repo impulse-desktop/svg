@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="66">
+<!-- Each lime square fills its black outline, and nothing red shows.
+:lang() takes a list of language ranges, idents or strings, and matches
+an element whose language, its xml:lang, else its lang, else its
+parent's, an empty one none, falls in a range by extended filtering:
+ASCII case-insensitive, the first subtags alike or *, each later subtag
+found in turn, past others but never past a singleton; "*" matches any
+language but none, "" no language alone; an ill-formed range or language
+matches nothing, yet the selector stays valid. It weighs as a class. An
+instance's language past its root is its use's. -->
+<rect width="66" height="66" fill="white"/>
+<style><![CDATA[
+.c0 .t:lang(de) { fill: lime }
+.c1 .t:lang(de) { fill: lime }
+.c2 .t:lang(de) { fill: lime }
+.c3 .t:lang(de) { fill: lime }
+.c4 .t { fill: lime } .c4 .t:lang(fr) { fill: red }
+.c5 .t:lang(de) { fill: lime }
+.c6 .t { fill: lime } .c6 .t:lang(de) { fill: red }
+.c7 .t { fill: lime } .c7 .t:lang(de) { fill: red }
+.c8 .t:lang(en) { fill: lime }
+.c9 .t { fill: lime } .c9 .t:lang(en-US) { fill: red }
+.c10 .t { fill: lime } .c10 .t:lang(en-GB) { fill: red }
+.c11 .t:lang(de-DE) { fill: lime }
+.c12 .t { fill: lime } .c12 .t:lang(de-DE) { fill: red }
+.c13 .t:lang(DE-ch) { fill: lime }
+.c14 .t { fill: lime } .c14 .t:lang(de) { fill: red }
+.c15 .t:lang(fr, de) { fill: lime }
+.c16 .t:lang("*-CH") { fill: lime }
+.c17 .t:lang(\*-CH) { fill: lime }
+.c18 .t:lang("de-*-DE") { fill: lime }
+.c19 .t:lang("*") { fill: lime }
+.c20 .t { fill: lime } .c20 .t:lang("*") { fill: red }
+.c21 .t { fill: lime } .c21 .t:lang("*") { fill: red }
+.c22 .t:lang("") { fill: lime }
+.c23 .t:lang("") { fill: lime }
+.c24 .t { fill: lime } .c24 .t:lang("") { fill: red }
+.c25 .t { fill: lime } .c25 .t:lang(åå) { fill: red }
+.c26 .t:lang(åå), .c26 .t { fill: lime }
+.c27 .t { fill: lime } .c27 .t:lang('de,fr') { fill: red }
+.c28 .t { fill: lime } .c28 .t:lang(abcdefghi) { fill: red }
+.c29 .t { fill: lime } .c29 .t:lang(de) { fill: red }
+.c30 .t { fill: lime } .c30 .t:lang(\31 de) { fill: red }
+.c31 .t:lang(de-1996) { fill: lime }
+.c32 .t { fill: lime } .c32 .t:lang() { fill: red }
+.c33 .t { fill: lime } .c33 .t:lang(,de) { fill: red }
+.c34 .t { fill: lime } .c34 .t:lang(de fr) { fill: red }
+.c35 .t { fill: lime } .c35 .t:lang(5) { fill: red }
+.c37 .t:lang(de) { fill: lime } .c37 .t { fill: red }
+.lu { fill: red } .lu:lang(de) { fill: lime }
+.lv { fill: red } .lv:lang(fr) { visibility: hidden } .lv:lang(de) { fill: lime }
+]]></style><style>.c36 .t { fill: lime } .c36 .t:lang("de
+fr") { fill: red }</style>
+<g class="c0" transform="translate(2 2)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c1" transform="translate(10 2)"><g lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c2" transform="translate(18 2)"><g xml:lang="de"><g><g><rect class="t" width="6" height="6" fill="red"/></g></g></g></g><g class="c3" transform="translate(26 2)"><rect class="t" width="6" height="6" fill="red" xml:lang="de"/></g><g class="c4" transform="translate(34 2)"><g xml:lang="de" lang="fr"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c5" transform="translate(42 2)"><g lang="fr" xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c6" transform="translate(50 2)"><g xml:lang="de"><g xml:lang="fr"><rect class="t" width="6" height="6" fill="red"/></g></g></g><g class="c7" transform="translate(58 2)"><g xml:lang="de"><g xml:lang=""><rect class="t" width="6" height="6" fill="red"/></g></g></g>
+<g class="c8" transform="translate(2 10)"><g xml:lang="en-US"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c9" transform="translate(10 10)"><g xml:lang="en"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c10" transform="translate(18 10)"><g xml:lang="en-US"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c11" transform="translate(26 10)"><g xml:lang="de-Latn-DE-1996"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c12" transform="translate(34 10)"><g xml:lang="de-x-DE"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c13" transform="translate(42 10)"><g xml:lang="de-CH"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c14" transform="translate(50 10)"><g xml:lang="den"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c15" transform="translate(58 10)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c16" transform="translate(2 18)"><g xml:lang="de-CH"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c17" transform="translate(10 18)"><g xml:lang="it-CH"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c18" transform="translate(18 18)"><g xml:lang="de-Latn-DE"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c19" transform="translate(26 18)"><g xml:lang="und"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c20" transform="translate(34 18)"><g xml:lang=""><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c21" transform="translate(42 18)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c22" transform="translate(2 26)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c23" transform="translate(10 26)"><g xml:lang=""><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c24" transform="translate(18 26)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c25" transform="translate(2 34)"><g xml:lang="åå"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c26" transform="translate(10 34)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c27" transform="translate(18 34)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c28" transform="translate(26 34)"><g xml:lang="abcdefghi"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c29" transform="translate(34 34)"><g xml:lang="de--x"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c30" transform="translate(42 34)"><g xml:lang="1de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c31" transform="translate(50 34)"><g xml:lang="de-1996"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c32" transform="translate(2 42)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c33" transform="translate(10 42)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c34" transform="translate(18 42)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c35" transform="translate(26 42)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g><g class="c36" transform="translate(34 42)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c37" transform="translate(2 50)"><g xml:lang="de"><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c38" transform="translate(2 58)"><defs xml:lang="fr"><rect id="lu" class="lu" width="6" height="6"/></defs><g xml:lang="de"><use href="#lu"/></g></g><g class="c39" transform="translate(10 58)"><defs><rect id="lv" class="lv" width="6" height="6"/></defs><use href="#lv" xml:lang="fr"/><use href="#lv" xml:lang="de"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/><rect x="34" y="2" width="6" height="6"/><rect x="42" y="2" width="6" height="6"/><rect x="50" y="2" width="6" height="6"/><rect x="58" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="26" y="10" width="6" height="6"/><rect x="34" y="10" width="6" height="6"/><rect x="42" y="10" width="6" height="6"/><rect x="50" y="10" width="6" height="6"/><rect x="58" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="34" y="34" width="6" height="6"/><rect x="42" y="34" width="6" height="6"/><rect x="50" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="18" y="42" width="6" height="6"/><rect x="26" y="42" width="6" height="6"/><rect x="34" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="10" y="58" width="6" height="6"/></g>
+</svg>

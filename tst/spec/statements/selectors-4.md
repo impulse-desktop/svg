@@ -67,6 +67,15 @@
 - [x] selectors-4.md#any-link-pseudo: :any-link matches an element acting as a hyperlink's source anchor (equivalent to :is(:link, :visited)); :link matches it while unvisited and :visited once visited, and the two are mutually exclusive (D33) [css-link-state#never css-link-state#valid]
 - [x] selectors-4.md#link: a user agent may preserve privacy by always treating every hyperlink as unvisited, so that it always matches :link and never :visited; this is explicitly a conforming choice [css-link-state#never]
 
+## The language pseudo-class :lang(): css-lang
+
+- [x] selectors-4.md#lang-pseudo: :lang() takes a comma-separated list of one or more language ranges, each a CSS ident or string, and matches an element whose content language is one of them; it is a pseudo-class, of a class's specificity. [css-lang#filtering css-lang#wildcards css-lang#syntax css-lang#specificity]
+- [x] selectors-4.md#the-lang-pseudo: the content language comes from the document language; XML languages take it from xml:lang. [css-lang#language css-lang#instance]
+- [x] selectors-4.md#the-lang-pseudo: a language matches a range by extended filtering (RFC 4647 3.3.2), ASCII case-insensitively, after both are canonicalized and put in extlang form, which the renderer does without the registry, as written (D40). [css-lang#filtering css-lang#wildcards]
+- [x] selectors-4.md#the-lang-pseudo: a range or a language that is not a well-formed tag (with * standing in for a subtag) matches nothing; non-ASCII ranges are ill-formed. [css-lang#ill-formed]
+- [x] selectors-4.md#the-lang-pseudo: the range "*" matches no element whose language is not tagged (lang=""), but matches one tagged und; the range "" matches only elements whose language is not tagged. [css-lang#wildcards css-lang#untagged]
+- [x] selectors-4.md#the-lang-pseudo: :lang() performs implicit wildcard matching, de-DE matching de-Latn-DE, and an initial * matches any primary language, *-CH matching de-CH and it-CH. [css-lang#filtering css-lang#wildcards]
+
 ## Notes
 
 - selectors-4.md#invalid: for a dynamic pseudo-class never activated here (:hover, :active, :focus, :visited, :target), whether it is "unsupported" (invalidating its whole selector list) or just always-false is left open, and changes which rules in a mixed list apply; the renderer takes them as valid and never matching, :any-link and :link too (D33).

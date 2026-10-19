@@ -1,10 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
 <!-- What tst/unit/viewport-content-percent.svg draws, drawn plainly;
 each cell's id is what the statement ledgers link to. -->
-<rect width="64" height="16" fill="white"/>
+<rect width="64" height="32" fill="white"/>
 <g id="pattern" data-box="1 1 14 14"><rect x="2" y="2" width="12" height="12" fill="lime"/></g>
 <g id="marker" data-box="17 1 14 14"><rect x="18" y="2" width="12" height="12" fill="lime"/></g>
 <g id="clip-path" data-box="33 1 14 14"><rect x="34" y="2" width="12" height="12" fill="lime"/></g>
 <g id="mask" data-box="49 1 14 14"><rect x="50" y="2" width="12" height="12" fill="lime"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="18" y="2" width="12" height="12"/><rect x="34" y="2" width="12" height="12"/><rect x="50" y="2" width="12" height="12"/></g>
+<g id="clip-path-box" data-box="1 17 14 14"><rect x="2" y="18" width="12" height="6" fill="lime"/></g>
+<g id="mask-box" data-box="17 17 14 14"><rect x="18" y="18" width="12" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="18" y="2" width="12" height="12"/><rect x="34" y="2" width="12" height="12"/><rect x="50" y="2" width="12" height="12"/><rect x="2" y="18" width="12" height="6"/><rect x="18" y="18" width="12" height="6"/></g>
 </svg>

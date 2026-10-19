@@ -7,7 +7,10 @@ outline, and nothing red shows. clip cuts an svg viewport and a pattern's
 tiles to rect(top, right, bottom, left), each side's offset from the box's
 top or left edge, negative ones past it, auto the box's own edge; auto
 clips nothing; a group is no viewport, so clip does nothing there; commas
-or none, not a mix; clip is a presentation attribute.""")
+or none, not a mix; clip is a presentation attribute, whose lengths may be
+plain numbers, as in a declaration too (D43); a rect whose bottom is above its
+top, or right left of its left, clips everything; a symbol's instance and a
+mask are cut too.""")
 
 
 def svg(attributes, content='<rect x="-4" y="-4" width="24" height="24" fill="lime"/>'):
@@ -34,6 +37,11 @@ y = rows(unit, 2, [
                 (svg('style="clip: rect(,2px, 14px, 14px, 2px)"'), [(-4, -4, 24, 24)]), (svg('style="clip: rect(2px, 14px, 14px, 2px,)"'), [(-4, -4, 24, 24)]),
                 (svg('style="clip: rect(2px,, 14px, 14px, 2px)"'), [(-4, -4, 24, 24)])]),
     ("attribute", [(svg('clip="rect(2px, 14px, 14px, 2px)"'), [(2, 2, 12, 12)])]),
+    ("numbers", [(svg('clip="rect(2, 14, 14, 2)"'), [(2, 2, 12, 12)]), (svg('style="clip: rect(2, 14, 14, 2)"'), [(2, 2, 12, 12)]), (svg('style="clip: rect(0, 14px, 14px, 0)"'), [(0, 0, 14, 14)])]),
+    ("inverted", [(svg('style="clip: rect(5px, 4px, 3px, 2px)"'), []), (svg('style="clip: rect(2px, 4px, 14px, 6px)"'), [])]),
+    ("symbol", [('<symbol id="s{x}" overflow="visible" style="clip: rect(2px, 14px, 14px, 2px)"><rect x="-4" y="-4" width="24" height="24" fill="lime"/></symbol><use href="#s{x}" x="{x}" y="{y}" width="16" height="16"/>', [(2, 2, 12, 12)])]),
+    ("mask", [('<mask id="k{x}" maskUnits="userSpaceOnUse" x="{x}" y="{y}" width="16" height="16" style="clip: rect(2px, 14px, 14px, 2px)"><rect x="{x}" y="{y}" width="16" height="16" fill="white"/></mask>'
+               '<rect x="{x}" y="{y}" width="16" height="16" fill="lime" mask="url(#k{x})"/>', [(2, 2, 12, 12)])]),
 ], 5, 24, 24, item, x=6)
 unit.height = y + 4
 unit.write()

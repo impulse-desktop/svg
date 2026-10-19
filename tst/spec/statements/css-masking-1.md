@@ -125,12 +125,12 @@
 
 ## Deprecated clip property: clip-property-rect, clip-property (exists)
 
-- [x] css-masking-1.md#clip-property: clip applies, in SVG, to elements establishing a new viewport, to pattern elements, and to mask elements; deprecated in favor of clip-path but UAs must still support it (D22) [clip-property-rect#applies]
+- [x] css-masking-1.md#clip-property: clip applies, in SVG, to elements establishing a new viewport, to pattern elements, and to mask elements; deprecated in favor of clip-path but UAs must still support it (D22) [clip-property-rect#applies clip-property-rect#symbol clip-property-rect#mask]
 - [x] css-masking-1.md#clip-property: clip = rect(<top>,<right>,<bottom>,<left>) | auto, initial auto; auto means the element does not clip [clip-property-rect#auto]
-- [x] css-masking-1.md#clip-property: top/bottom offsets are from the border box's top edge, right/left offsets from its left edge; negative lengths are permitted [clip-property-rect#offsets]
+- [x] css-masking-1.md#clip-property: top/bottom offsets are from the border box's top edge, right/left offsets from its left edge; negative lengths are permitted [clip-property-rect#offsets clip-property-rect#inverted]
 - [x] css-masking-1.md#clip-property: auto for top/left means 0; auto for bottom means the border box height; auto for right means the border box width; four autos clip to the whole border box [clip-property-rect#auto-values clip-property-rect#auto]
 - [x] css-masking-1.md#clip-property: rect() arguments must be supported comma-separated; a UA may also accept them without commas, but not a mix of the two [clip-property-rect#commas]
-- [x] css-masking-1.md#clip-property: clip is a presentation attribute on SVG elements [clip-property-rect#attribute]
+- [x] css-masking-1.md#clip-property: clip is a presentation attribute on SVG elements [clip-property-rect#attribute clip-property-rect#numbers]
 
 ## Stroke bounding box: mask-properties, stroke-bounding-box
 

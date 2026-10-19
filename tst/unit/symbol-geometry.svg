@@ -3,9 +3,12 @@
 instances is a viewport: its own x, y, width and height place it, width and
 height 100% when auto, the use's width and height overriding; refX and refY
 put a point of its content, after its viewBox, at its x, y, keywords as
-percentages; without them its viewport's corner goes there; it clips its
-content; display none on the symbol does not keep the use from drawing it,
-while a symbol nested in the content draws nothing. -->
+percentages, a keyword of the other axis invalid, so ignored; the point
+is placed after a slice moves the content; without them its viewport's
+corner goes there; it clips its content; display none on the symbol does
+not keep the use from drawing it, while a symbol nested in the content draws
+nothing; the instance takes its transform after the use's x and y, about its
+origin. -->
 <rect width="64" height="64" fill="white"/>
 <defs>
 <symbol id="a" x="2" y="2" width="10" height="6"><rect width="100%" height="100%" fill="lime"/></symbol>
@@ -16,6 +19,11 @@ while a symbol nested in the content draws nothing. -->
 <symbol id="f" viewBox="10 10 10 10" refX="10" refY="10" width="8" height="8"><rect x="10" y="10" width="10" height="10" fill="lime"/></symbol>
 <symbol id="g" width="6" height="6"><rect x="-4" y="-4" width="20" height="20" fill="lime"/></symbol>
 <symbol id="h" display="none" width="6" height="6"><rect width="6" height="6" fill="lime"/><symbol><rect width="6" height="6" fill="red"/></symbol></symbol>
+<symbol id="i" transform="scale(.5)" width="8" height="8"><rect width="8" height="8" fill="lime"/></symbol>
+<symbol id="j" viewBox="0 0 10 10" refX="center" refY="top" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="k" viewBox="0 0 10 10" refX="left" refY="center" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="l" viewBox="0 0 10 10" refX="bottom" refY="right" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
+<symbol id="m" viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice" refX="left" refY="top" width="8" height="4"><rect width="10" height="10" fill="lime"/></symbol>
 </defs>
 <use href="#a"/>
 <use href="#a" x="16" width="12" height="4"/>
@@ -26,9 +34,15 @@ while a symbol nested in the content draws nothing. -->
 <use href="#f" x="50" y="22"/>
 <use href="#g" x="2" y="44"/>
 <use href="#h" x="14" y="44"/>
+<use href="#i" x="2" y="56"/>
+<use href="#j" x="18" y="54"/>
+<use href="#k" x="26" y="58"/>
+<use href="#l" x="38" y="54"/>
+<use href="#m" x="50" y="52"/>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2" y="2" width="10" height="6"/><rect x="18" y="2" width="12" height="4"/><rect x="34" y="2" width="12" height="4"/>
 <rect x="6" y="26" width="8" height="8"/><rect x="22" y="22" width="8" height="8"/><rect x="34" y="22" width="8" height="8"/><rect x="50" y="22" width="8" height="8"/>
 <rect x="2" y="44" width="6" height="6"/><rect x="14" y="44" width="6" height="6"/>
+<rect x="2" y="56" width="4" height="4"/><rect x="14" y="54" width="8" height="8"/><rect x="26" y="54" width="8" height="8"/><rect x="38" y="54" width="8" height="8"/><rect x="50" y="54" width="8" height="4"/>
 </g>
 </svg>

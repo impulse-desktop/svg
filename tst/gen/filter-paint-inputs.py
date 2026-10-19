@@ -7,4 +7,5 @@ def lime(x, y, w, h):
     return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="lime"/>'
 
 
-expect("filter-paint-inputs", [("fill-paint", (2, 0, 14, 20), lime(3, 1, 12, 18)), ("stroke-paint", (22, 0, 14, 20), lime(23, 1, 12, 18)), ("gradient-box", (41, 0, 16, 20), lime(42, 1, 8, 18))])
+expect("filter-paint-inputs", [("fill-paint", (2, 0, 14, 20), lime(3, 1, 12, 18)), ("stroke-paint", (22, 0, 14, 20), lime(23, 1, 12, 18)), ("gradient-box", (41, 0, 16, 20), lime(42, 1, 8, 18)),
+                              ("chain", (2, 20, 14, 20), lime(3, 21, 12, 18)), ("arithmetic", (22, 20, 14, 20), lime(23, 21, 12, 18))])

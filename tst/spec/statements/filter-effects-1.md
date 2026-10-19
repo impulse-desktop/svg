@@ -42,7 +42,7 @@
 
 ## Filter paint-server inputs: filter-paint-inputs, filter-paint-readers (exists)
 
-- [x] filter-effects-1.md#attr-valuedef-in-fillpaint: FillPaint is the target element's fill property value as an infinite-extent image; a paint server in it uses the filtered element's own reference box (objectBoundingBox or the nearest viewport). [filter-paint-inputs#fill-paint filter-paint-inputs#gradient-box]
+- [x] filter-effects-1.md#attr-valuedef-in-fillpaint: FillPaint is the target element's fill property value as an infinite-extent image; a paint server in it uses the filtered element's own reference box (objectBoundingBox or the nearest viewport). [filter-paint-inputs#fill-paint filter-paint-inputs#gradient-box filter-paint-inputs#chain filter-paint-inputs#arithmetic]
 - [x] filter-effects-1.md#attr-valuedef-in-strokepaint: StrokePaint is the same, taken from the stroke property. [filter-paint-inputs#stroke-paint]
 
 ## Background input and isolation backdrop: filter-background-image, filter-background (exists), background-unscoped (exists)
@@ -205,7 +205,7 @@
 
 ## feImage: fe-image-placement, feimage-refs (exists)
 
-- [x] filter-effects-1.md#elementdef-feimage: an feImage href to a stand-alone image resource renders like the image element; a reference to an element renders like the use element; the current coordinate system follows primitiveUnits either way. [fe-image-placement#image-meet fe-image-placement#element]
+- [x] filter-effects-1.md#elementdef-feimage: an feImage href to a stand-alone image resource renders like the image element; a reference to an element renders like the use element; the current coordinate system follows primitiveUnits either way (D41). [fe-image-placement#image-meet fe-image-placement#element fe-image-placement#element-box fe-image-placement#symbol fe-image-placement#svg fe-image-placement#inherits]
 - [x] filter-effects-1.md#elementdef-feimage: an href that is empty (zero width or height), fails to resolve, does not exist, or cannot be displayed fills the primitive subregion with transparent black. [fe-image-placement#missing]
 - [x] filter-effects-1.md#element-attrdef-feimage-preserveaspectratio: preserveAspectRatio has initial value xMidYMid meet and is processed as for the image element. [fe-image-placement#image-meet fe-image-placement#image-stretch]
 - [x] filter-effects-1.md#element-attrdef-feimage-xlinkhref: when both xlink:href and href are given, href overrides xlink:href. [fe-image-placement#href-wins]

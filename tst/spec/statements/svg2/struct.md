@@ -27,8 +27,8 @@
 
 - [x] svg2/struct.md#SymbolElement: a symbol defines a template only instantiated through use; once instantiated it establishes a nested coordinate system and renders much like a nested svg element. [symbol-geometry#position]
 - [x] svg2/struct.md#SymbolElement: x, y, width and height on symbol behave as they would on an svg element once instantiated by use; if width/height compute to auto and are not overridden by the use element, they are treated as 100%. [symbol-geometry#use-size symbol-geometry#auto-size]
-- [x] svg2/struct.md#SymbolElementRefXAttribute: refX/refY place a reference point of the symbol exactly at its x,y position; values are <length>|left|center|right for refX and <length>|top|center|bottom for refY, with keywords resolving to 0%, 50% or 100%. [symbol-geometry#ref]
-- [x] svg2/struct.md#SymbolElementRefXAttribute: refX/refY are interpreted in the symbol's own content coordinate system, after its viewBox and preserveAspectRatio have been applied. [symbol-geometry#ref-viewbox]
+- [x] svg2/struct.md#SymbolElementRefXAttribute: refX/refY place a reference point of the symbol exactly at its x,y position; values are <length>|left|center|right for refX and <length>|top|center|bottom for refY, with keywords resolving to 0%, 50% or 100%. [symbol-geometry#ref symbol-geometry#ref-keywords]
+- [x] svg2/struct.md#SymbolElementRefXAttribute: refX/refY are interpreted in the symbol's own content coordinate system, after its viewBox and preserveAspectRatio have been applied. [symbol-geometry#ref-viewbox symbol-geometry#ref-slice]
 - [x] svg2/struct.md#SymbolElementRefXAttribute: if refX or refY is omitted, no adjustment is made in that dimension and the top/left of the symbol's viewport region is placed at the x,y point instead; this differs from explicitly specifying a value of 0. [symbol-geometry#viewbox-origin]
 - [x] svg2/struct.md#SymbolNotes: the UA style sheet sets symbol's overflow to hidden, clipping content that falls outside the symbol's own viewport unless overridden. [symbol-geometry#overflow]
 - [x] svg2/struct.md#SymbolNotes: a symbol must never render directly (UA style sheet forces display:none with importance); the instance that is the direct referenced element of a use must always compute to display:inline (importance-enforced), rendering whenever the host use renders; any other symbol cloned deeper within a shadow tree is only a definition and must not render. [symbol-geometry#display-none-symbol]
@@ -78,6 +78,12 @@
 - [x] svg2/struct.md#ForeignNamespaces: unknown foreign-namespace elements are kept in the document but ignored and excluded from rendering (other than foreignObject content). [struct-fragment#fragment]
 - [x] svg2/struct.md#ForeignNamespaces: unknown attributes, including ones from foreign namespaces, are kept in the document but otherwise ignored for rendering. [struct-fragment#fragment]
 - [x] svg2/struct.md#IDAttribute: the id attribute must be unique within the node tree, must not be an empty string, and must not contain whitespace characters. [struct-elements#duplicate-id struct-elements#use-empty-href]
+
+## The lang and xml:lang attributes: css-lang
+
+- [x] svg2/struct.md#LangSpaceAttrs: lang (no namespace) and xml:lang give the primary language of an element's contents; omitted, an element's language is its parent's. [css-lang#language]
+- [x] svg2/struct.md#LangSpaceAttrs: with both lang and xml:lang on one element, xml:lang decides its language and lang is ignored. [css-lang#language]
+- [x] svg2/struct.md#LangAttribute: lang is a BCP 47 tag or empty; empty says the language is unknown, not the parent's. [css-lang#language css-lang#untagged]
 
 ## Notes
 

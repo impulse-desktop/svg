@@ -1,14 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
 <!-- Each lime square matches its plain twin in the expected drawing.
 Pattern, marker, clipPath and mask establish no viewport: a rect 25%
-wide and 75% high in their content is 16 by 12 of this 64 by 16 drawing,
+wide and 75% high in their content is 16 by 24 of this 64 by 32 drawing,
 not a part of the tile, the marker's box or the region, and covers the
-whole square. -->
-<rect width="64" height="16" fill="white"/>
-<defs><pattern id="tile" patternUnits="userSpaceOnUse" x="2" y="2" width="12" height="12"><rect width="25%" height="75%" fill="lime"/></pattern><marker id="mark" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse"><rect width="25%" height="75%" fill="lime"/></marker><clipPath id="clip"><rect x="34" y="2" width="25%" height="75%"/></clipPath><mask id="mask" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="16"><rect x="50" y="2" width="25%" height="75%" fill="white"/></mask></defs>
+whole square. In content of bounding box units a percentage is of the
+viewport still, then scaled with the box: 1.5625% wide and high is 1 by
+0.5, the square's top half. -->
+<rect width="64" height="32" fill="white"/>
+<defs><pattern id="tile" patternUnits="userSpaceOnUse" x="2" y="2" width="12" height="12"><rect width="25%" height="75%" fill="lime"/></pattern><marker id="mark" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse"><rect width="25%" height="75%" fill="lime"/></marker><clipPath id="clip"><rect x="34" y="2" width="25%" height="75%"/></clipPath><mask id="mask" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="16"><rect x="50" y="2" width="25%" height="75%" fill="white"/></mask><clipPath id="clip-box" clipPathUnits="objectBoundingBox"><rect width="1.5625%" height="1.5625%"/></clipPath><mask id="mask-box" maskContentUnits="objectBoundingBox"><rect width="1.5625%" height="1.5625%" fill="white"/></mask></defs>
 <rect x="2" y="2" width="12" height="12" fill="url(#tile)"/>
 <path d="M 18 2 h 1" marker-start="url(#mark)"/>
 <rect x="34" y="2" width="12" height="12" fill="lime" clip-path="url(#clip)"/>
 <rect x="50" y="2" width="12" height="12" fill="lime" mask="url(#mask)"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="18" y="2" width="12" height="12"/><rect x="34" y="2" width="12" height="12"/><rect x="50" y="2" width="12" height="12"/></g>
+<rect x="2" y="18" width="12" height="12" fill="lime" clip-path="url(#clip-box)"/>
+<rect x="18" y="18" width="12" height="12" fill="lime" mask="url(#mask-box)"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="12" height="12"/><rect x="18" y="2" width="12" height="12"/><rect x="34" y="2" width="12" height="12"/><rect x="50" y="2" width="12" height="12"/><rect x="2" y="18" width="12" height="6"/><rect x="18" y="18" width="12" height="6"/></g>
 </svg>
