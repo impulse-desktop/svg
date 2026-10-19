@@ -5894,6 +5894,34 @@ namespace {
         return true;
     }
 
+    static bool parseColor(StringView source, Color& out);
+    static StringView shapeWord(const u8*& p, const u8* end);
+
+    // The colour a background shorthand gives: a colour among its final
+    // layer's words, else transparent, which the shorthand resets it to
+    // (css-backgrounds-3.md, background), a CSS-wide keyword as it is.
+    static StringView backgroundColorOf(StringView value) {
+        const u8* layer = value.begin();
+
+        if (cssWideKeyword(value)) {
+            return value;
+        }
+
+        for (const u8* comma = findOutside(layer, value.end(), ','); comma; comma = findOutside(layer, value.end(), ',')) {
+            layer = comma + 1;
+        }
+
+        for (StringView word = shapeWord(layer, value.end()); !word.empty(); word = shapeWord(layer, value.end())) {
+            Color color;
+
+            if (parseColor(word, color) || equalsIgnoreCase(word, SV("currentcolor"))) {
+                return word;
+            }
+        }
+
+        return SV("transparent");
+    }
+
     static void parseDeclarations(Document& doc, StringView block, Vector<Declaration>& out) {
         const u8* p = block.begin();
         const u8* end = block.end();
@@ -5949,6 +5977,13 @@ namespace {
                 property = AtomClipPathProperty;
             }
 
+            // background is read for its colour alone, the canvas's.
+            bool background = StringView(lowered, name.length()) == SV("background");
+
+            if (background) {
+                property = AtomBackgroundColor;
+            }
+
             // all sets every property to a CSS-wide keyword, the only value
             // it takes (css-cascade-5 3.2); the renderer has no direction
             // nor unicode-bidi it would leave out.
@@ -5986,6 +6021,10 @@ namespace {
             // at computed-value time: it is unset.
             if (findFunction(value, SV("var(")) || findFunction(value, SV("env("))) {
                 value = substituteFallbacks(value, substituted, 0) ? trim(keep(*doc.pool, substituted.data(), substituted.length())) : SV("unset");
+            }
+
+            if (background) {
+                value = backgroundColorOf(value);
             }
 
             u32 parts[MaskParts];
