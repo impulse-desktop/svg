@@ -13,7 +13,8 @@ or the start after no curve, close; arc of one radius, a share of the
 box's diagonal over sqrt(2), or two, counter-clockwise and small unless cw
 or large, turned by rotate, as SVG's arc, which draws nothing between equal
 points, a line for a zero radius, takes a negative one's size and scales
-radii too small up.""")
+radii too small up. A shape() with a word out of its grammar is invalid,
+so nothing is clipped.""")
 
 
 def item(x, y, value):
@@ -45,6 +46,7 @@ y = rows(unit, 2, [
              ("from 6px 6px, arc to 10px 6px of 4px 2px rotate 30deg large, close", "M6 6A4 2 30 1 0 10 6Z"), ("from 6px 6px, arc by 4px 0 of 25% cw, close", "M6 6A3.5355 3.5355 0 0 1 10 6Z")]),
     ("arc-edges", [("from 0 0, line to 16px 0, arc to 16px 0 of 4px, line to 0 12px, close", "M0 0H16L0 12Z"), ("from 0 0, line to 16px 0, arc to 16px 12px of 0, close", "M0 0H16V12Z"),
                    ("from 6px 6px, arc to 10px 6px of -3px large, close", "M6 6A3 3 0 1 0 10 6Z"), ("from 6px 6px, arc to 10px 6px of 1px, close", "M6 6A2 2 0 0 0 10 6Z")]),
+    ("invalid", [("from 0 0, curve to 16px 12px with 8px 0 x, close", "M0 0H16V12H0Z"), ("from 0 0, curve by 16px 12px with 8px 0 x, close", "M0 0H16V12H0Z")]),
 ], 6, 20, 16, item)
 unit.height = y + 1
 unit.write()

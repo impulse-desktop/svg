@@ -1,8 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="16">
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="42">
 <!-- What tst/unit/attribute-values.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="40" height="16" fill="white"/>
+<rect width="50" height="42" fill="white"/>
 <g id="invalid-overflow" data-box="1 1 14 14"><rect x="4" y="4" width="8" height="8" fill="lime"/></g>
 <g id="range-deferred" data-box="17 1 14 14"><rect x="18" y="3" width="10" height="10" fill="lime"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="4" width="8" height="8"/><rect x="18" y="3" width="10" height="10"/></g>
+<g id="fill-1" data-box="1 17 8 8"><rect x="2" y="18" width="6" height="6" fill="lime"/></g>
+<g id="fill-2" data-box="9 17 8 8"><rect x="10" y="18" width="6" height="6" fill="lime"/></g>
+<g id="fill-3" data-box="17 17 8 8"><rect x="18" y="18" width="6" height="6" fill="lime"/></g>
+<g id="fill-4" data-box="25 17 8 8"><rect x="26" y="18" width="6" height="6" fill="lime"/></g>
+<g id="fill-5" data-box="33 17 8 8"><rect x="34" y="18" width="6" height="6" fill="lime"/></g>
+<g id="opacity-pair" data-box="41 17 8 8"><rect x="42" y="18" width="6" height="6" fill="lime"/></g>
+<g id="d-path-number" data-box="1 25 8 8"><rect x="2" y="26" width="6" height="6" fill="lime"/></g>
+<g id="path-length-1" data-box="9 25 8 8"><rect x="10" y="26" width="3" height="6" fill="lime"/></g>
+<g id="path-length-2" data-box="17 25 8 8"><rect x="18" y="26" width="3" height="6" fill="lime"/></g>
+<g id="offset-1" data-box="25 25 8 8"><linearGradient id="r0"><stop offset="0" stop-color="navy"/><stop offset=".5" stop-color="lime"/></linearGradient><rect x="26" y="26" width="6" height="6" fill="url(#r0)"/></g>
+<g id="offset-2" data-box="33 25 8 8"><linearGradient id="r1"><stop offset="0" stop-color="navy"/><stop offset=".5" stop-color="lime"/></linearGradient><rect x="34" y="26" width="6" height="6" fill="url(#r1)"/></g>
+<g id="viewbox-length" data-box="1 33 8 8"><rect x="2" y="34" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="4" width="8" height="8"/><rect x="18" y="3" width="10" height="10"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="3" height="6"/><rect x="18" y="26" width="3" height="6"/><rect x="2" y="34" width="6" height="6"/></g>
 </svg>

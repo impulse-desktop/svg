@@ -20,4 +20,4 @@
 ## Notes
 
 - A presentation attribute is read as CSS (svg2/types.md#presentation-attribute-css-value), so var() works in fill="var(--c)" as in a style attribute, as Chromium and Firefox take it [css-variables#presentation]. d and transform are read by SVG's own grammars (D30), and take none.
-- An instance's custom properties are its use's: the use is the parent the instance inherits from, and each use of one target can give it other values [css-variables#instance].
+- An instance's custom properties are its use's: the use is the parent the instance inherits from, and each use of one target can give it other values [css-variables#instance css-variables-use#own css-variables-use#inherited css-variables-use#twice css-variables-use#rule].

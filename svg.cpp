@@ -4076,9 +4076,9 @@ namespace {
         return (p < end && identStart(*p)) || validEscape(p, end);
     }
 
-    // Whether p would start a number (4.3.10).
+    // Whether p, before the end, would start a number (4.3.10).
     static bool startsNumber(const u8* p, const u8* end) {
-        const u8* q = p + (p < end && (*p == '+' || *p == '-'));
+        const u8* q = p + (*p == '+' || *p == '-');
 
         return q < end && (isDigit(*q) || (*q == '.' && q + 1 < end && isDigit(q[1])));
     }
@@ -4233,9 +4233,10 @@ namespace {
                 return;
             }
 
-            // A quote, a parenthesis, a non-printable code point or a
-            // backslash that escapes nothing makes it bad.
-            if (c == '"' || c == '\'' || c == '(' || c <= 0x08 || c == 0x0b || (c >= 0x0e && c <= 0x1f) || c == 0x7f || (c == '\\' && !validEscape(x.p, x.end))) {
+            // A quote, a parenthesis, a non-printable code point, which
+            // past white space is every control code point, or a backslash
+            // that escapes nothing makes it bad.
+            if (c == '"' || c == '\'' || c == '(' || c < 0x20 || c == 0x7f || (c == '\\' && !validEscape(x.p, x.end))) {
                 t.type = TokenType::BadUrl;
                 consumeBadUrl(x);
 
@@ -4530,8 +4531,9 @@ namespace {
         return t->type == TokenType::Ident && equalsIgnoreCase(t->text, name);
     }
 
+    // A delim token's text is its one code point.
     static bool isDelim(const Token* t, u8 c) {
-        return t->type == TokenType::Delim && t->text.length() == 1 && t->text[0] == c;
+        return t->type == TokenType::Delim && t->text[0] == c;
     }
 
     static bool isFunction(const Token* t, StringView name) {
@@ -4647,12 +4649,12 @@ namespace {
             n = t->text;
             p++;
         } else if (t->type == TokenType::Ident) {
-            bool minus = t->text.length() > 0 && t->text[0] == '-';
+            bool minus = t->text[0] == '-';
 
             a = minus ? -1 : 1;
             n = minus ? StringView(t->text.begin() + 1, t->text.end()) : t->text;
             p++;
-        } else if (isDelim(t, '+') && t + 1 < end && t[1].type == TokenType::Ident && !(t[1].text.length() > 0 && t[1].text[0] == '-')) {
+        } else if (isDelim(t, '+') && t + 1 < end && t[1].type == TokenType::Ident && t[1].text[0] != '-') {
             a = 1;
             n = t[1].text;
             p += 2;
@@ -4660,7 +4662,8 @@ namespace {
             return false;
         }
 
-        if (n.empty() || lowerAscii(n[0]) != 'n') {
+        // An ident or a unit has a code point; so has an ident after -.
+        if (lowerAscii(n[0]) != 'n') {
             return false;
         }
 
@@ -4735,7 +4738,7 @@ namespace {
             return true;
         }
 
-        const char* op = p->type == TokenType::Delim && p->text.length() == 1 ? (const char*)memchr(operators, p->text[0], 5) : nullptr;
+        const char* op = p->type == TokenType::Delim ? (const char*)memchr(operators, p->text[0], 5) : nullptr;
 
         if (isDelim(p, '=')) {
             condition.test = Test::Equals;
@@ -5294,7 +5297,7 @@ namespace {
         const Token* p = v.begin;
         bool unit;
 
-        return readAngle(p, v.end, out, unit) && p == v.end && (unit || (out == 0.f && v.begin->type == TokenType::Number));
+        return readAngle(p, v.end, out, unit) && (unit || (out == 0.f && v.begin->type == TokenType::Number));
     }
 
     // The line of a linear gradient: an angle with its unit, zero without,
@@ -5715,11 +5718,10 @@ namespace {
             tokens.append(parts[k].begin, parts[k].end);
         }
 
-        Token* kept = (Token*)doc.pool->allocate(sizeof(Token) * (tokens.length() + 1));
+        Token* kept = (Token*)doc.pool->allocate(sizeof(Token) * tokens.length());
 
-        if (tokens.length()) {
-            memcpy(kept, tokens.data(), sizeof(Token) * tokens.length());
-        }
+        // Every part has a token.
+        memcpy(kept, tokens.data(), sizeof(Token) * tokens.length());
 
         return addValue(doc, Tokens{kept, kept + tokens.length()});
     }
@@ -5921,14 +5923,19 @@ namespace {
 
                 return k >= 0;
             case MaskBorderPartSlice:
-                // fill after the numbers.
-                out.fill = numbers.end - numbers.begin > 2 && isIdent(numbers.end - 1, SV("fill")) && numbers.end[-2].type == TokenType::Whitespace;
+                // One to four numbers, fill before or after them
+                // (css-backgrounds-3.md, border-image-slice).
+                first = nextWord(p, value.end);
+                out.fill = isKeyword(first, SV("fill"));
 
                 if (out.fill) {
-                    numbers = trimmed(Tokens{numbers.begin, numbers.end - 1});
+                    numbers = Tokens{p, value.end};
+                } else if (numbers.begin < numbers.end && isIdent(numbers.end - 1, SV("fill"))) {
+                    out.fill = true;
+                    numbers.end--;
                 }
 
-                return borderSides(numbers, 0, out.slice, autos);
+                return !empty(numbers) && borderSides(numbers, 0, out.slice, autos);
             case MaskBorderPartWidth:
                 return borderSides(value, 1, out.width, out.autos);
             case MaskBorderPartOutset:
@@ -5958,6 +5965,11 @@ namespace {
             parts[k] = Tokens{nullptr, nullptr};
         }
 
+        // At least one part.
+        if (empty(value)) {
+            return false;
+        }
+
         for (;;) {
             skipWhitespace(p, end);
 
@@ -5982,7 +5994,7 @@ namespace {
                 }
 
                 parts[MaskBorderPartRepeat] = Tokens{start, p};
-            } else if (!parts[MaskBorderPartSlice].begin && parseLength(word, length)) {
+            } else if (!parts[MaskBorderPartSlice].begin && (parseLength(word, length) || isKeyword(word, SV("fill")))) {
                 // The slices run to the first word of another part, with
                 // fill; a slash takes the widths, another the outsets.
                 u32 part = MaskBorderPartSlice;
@@ -6111,7 +6123,8 @@ namespace {
     // tokenized once.
     static u32 keywordValue(const Document& doc, StringView text) {
         for (size_t k = 0; k < doc.constantTexts.length(); k++) {
-            if (doc.constantTexts[k].data() == text.data() && doc.constantTexts[k].length() == text.length()) {
+            // Two texts the renderer writes are one at the same address.
+            if (doc.constantTexts[k].data() == text.data()) {
                 return doc.constantValues[k];
             }
         }
@@ -6236,7 +6249,8 @@ namespace {
 
         const Token* p = tokens.data();
 
-        return readMathNumber(p, p + tokens.length(), out) && p == tokens.data() + tokens.length();
+        // The function's tokens are all the math function reads.
+        return readMathNumber(p, p + tokens.length(), out);
     }
 
     // Whether an attribute's value is blank: white space alone, but for the
@@ -6791,11 +6805,12 @@ namespace {
         return mediaFeature(view, inner);
     }
 
-    // not, or conditions in parentheses joined by and or by or.
+    // not, or conditions in parentheses joined by and or by or; p at a
+    // token, which its callers have seen.
     static Tristate mediaCondition(Viewport view, const Token*& p, const Token* end, u32 depth) {
         skipWhitespace(p, end);
 
-        if (p < end && isIdent(p, SV("not"))) {
+        if (isIdent(p, SV("not"))) {
             p++;
 
             return tristateNot(mediaInParens(view, p, end, depth));
@@ -8195,7 +8210,8 @@ namespace {
 
         const Token* t = single(doc.values[value].tokens);
 
-        if (property == AtomD && t && isFunction(t, SV("path"))) {
+        // d is path() or a keyword, one component either way.
+        if (property == AtomD && isFunction(t, SV("path"))) {
             return intern(doc.atoms, single(contents(t))->text);
         }
 
@@ -10638,8 +10654,9 @@ namespace {
             words[count++] = word;
         }
 
-        // A translation or a scale has one to three values.
-        if (count == 0 || (property != AtomRotate && count == 4)) {
+        // A translation or a scale has one to three values; a declaration
+        // has one value at least.
+        if (property != AtomRotate && count == 4) {
             return false;
         }
 
@@ -13197,7 +13214,6 @@ namespace {
     static bool parseBasicShape(ObjPool& pool, Tokens value, BasicShape& out) {
         const Token* p = value.begin;
         bool function = false;
-        bool boxed = false;
 
         out.kind = ShapeKind::None;
         out.box = GeometryBox::Stroke;
@@ -13225,8 +13241,6 @@ namespace {
                 continue;
             }
 
-            boxed = true;
-
             if (isKeyword(word, SV("fill-box")) || isKeyword(word, SV("content-box")) || isKeyword(word, SV("padding-box"))) {
                 out.box = GeometryBox::Fill;
             } else if (isKeyword(word, SV("stroke-box")) || isKeyword(word, SV("border-box")) || isKeyword(word, SV("margin-box"))) {
@@ -13240,7 +13254,8 @@ namespace {
             }
         }
 
-        if (out.kind == ShapeKind::None && boxed) {
+        // A value has a word: a box alone, which clips to that box.
+        if (out.kind == ShapeKind::None) {
             out.kind = ShapeKind::Inset;
 
             for (Length& v : out.values) {
@@ -13248,7 +13263,7 @@ namespace {
             }
         }
 
-        return out.kind != ShapeKind::None;
+        return true;
     }
 
     // The radii after round: one to four horizontal ones, then after a
@@ -13568,8 +13583,9 @@ namespace {
                     const Token* a = angle.begin;
                     bool unit;
 
-                    // An angle takes a unit, zero too, as browsers read it.
-                    if (!readAngle(a, angle.end, out.angle, unit) || a != angle.end || !unit) {
+                    // An angle takes a unit, zero too, as browsers read it;
+                    // one is a word whole.
+                    if (!readAngle(a, angle.end, out.angle, unit) || !unit) {
                         return false;
                     }
                 }
@@ -13818,14 +13834,12 @@ namespace {
                 points.pushBack(y);
             }
 
+            // Each item gave a point.
             out.pointCount = (u32)points.length() / 2;
-            out.points = (Length*)pool.allocate(sizeof(Length) * (points.length() + 1));
+            out.points = (Length*)pool.allocate(sizeof(Length) * points.length());
+            memcpy(out.points, points.data(), sizeof(Length) * points.length());
 
-            if (points.length()) {
-                memcpy(out.points, points.data(), sizeof(Length) * points.length());
-            }
-
-            return out.pointCount > 0;
+            return true;
         }
 
         return false;
@@ -14085,9 +14099,11 @@ namespace {
 
                             skipWhitespace(p, end);
 
-                            if (p >= end || !readLength(p, end, length)) {
+                            if (p >= end) {
                                 break;
                             }
+
+                            readLength(p, end, length);
 
                             float dash = resolveLength(length, Axis::Other, vp, style.fontSize);
 
@@ -23460,7 +23476,18 @@ namespace {
         float fy;
     };
 
+    // A shift past 2^24 pixels, or none of a number, moves anything off any
+    // plane, as 2^24 does.
+    static float shiftLimited(float d) {
+        const float limit = 16777216.f;
+
+        return d >= -limit && d <= limit ? d : (d > 0.f ? limit : -limit);
+    }
+
     static Shift shiftBy(float dx, float dy) {
+        dx = shiftLimited(dx);
+        dy = shiftLimited(dy);
+
         float floorX = floorf(dx);
         float floorY = floorf(dy);
 

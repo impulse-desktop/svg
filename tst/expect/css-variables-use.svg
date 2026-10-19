@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="10">
+<!-- What tst/unit/css-variables-use.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="34" height="10" fill="white"/>
+<style>.vu { --c: lime }</style><symbol id="s"><rect width="6" height="6" style="fill: var(--c, red)"/></symbol>
+<g id="own" data-box="1 1 8 8"><rect x="2" y="2" width="6" height="6" fill="lime"/></g>
+<g id="inherited" data-box="9 1 8 8"><rect x="10" y="2" width="6" height="6" fill="lime"/></g>
+<g id="twice" data-box="17 1 8 8"><rect x="18" y="2" width="6" height="6" fill="lime"/></g>
+<g id="rule" data-box="25 1 8 8"><rect x="26" y="2" width="6" height="6" fill="lime"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/></g>
+</svg>

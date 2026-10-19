@@ -22,17 +22,22 @@ empty ones too, and it inherits; initial makes it the guaranteed-invalid
 value, inherit, unset and revert its parent's. var() puts a custom
 property's tokens in a value, in a sheet, a style attribute or a
 presentation attribute, at computed-value time: its value, else its
-fallback, substituted in turn, the name itself perhaps from a var(); tokens
+fallback, substituted in turn, the name itself perhaps from a var(), and a
+name that is no custom property's, -- too, the fallback's again; tokens
 stay tokens, so a number before an ident is no dimension. A value it leaves
 invalid, a var() of nothing without a fallback, or a cycle among custom
 properties, makes the declaration invalid at computed-value time: unset, no
-lower declaration; a substitution of more than 16384 tokens, or past the
-half million a document may write, gives the guaranteed-invalid value; a
+lower declaration, but revert-layer and revert-rule from a fallback do
+revert; a substitution of more than 16384 tokens, into a custom property
+or any other, or past the
+half million a document may write, gives the guaranteed-invalid value, as
+a chain of more than 32 custom properties does; a
 var() or env() of no first argument makes it invalid as
 it is read, so a lower one does win. A shorthand's longhands take its value once it is
 substituted; all takes keywords alone, and resets no custom property. An instance takes its custom
 properties from its use. env() has no variable here and takes its
-fallback.""")
+fallback, in a custom property too. A mask attribute of var() is the
+shorthand's, substituted.""")
 squares(unit, [
     ("declared", [("{c} { --c: lime } {c} > .t { fill: var(--c) }", T), ("{c} > .t { --c: lime; fill: var(--c) }", T), ("", red("--c: lime; fill: var(--c)")),
                   ("{c} > .t { --c: lime } {c} > .t { fill: var( --c ) }", T)]),
@@ -46,7 +51,8 @@ squares(unit, [
     ("tokens", [("{c} { --n: 6 } {c} .t { fill: lime; stroke: red; stroke-width: var(--n)px }", '<g stroke-width="0">' + T + "</g>"),
                 ("{c} { --a: 0 255 } {c} > .t { fill: rgb(var(--a) 0) }", T), ("{c} { --e:; } {c} > .t { fill: var(--e) lime }", T),
                 ("{c} { --l: li } {c} .t { fill: red; fill: var(--l)me }", '<g fill="lime">' + T + "</g>")]),
-    ("names", [("{c} { --n: --c; --c: lime } {c} > .t { fill: var(var(--n)) }", T), ("{c} { --c: red } {c} > .t { fill: var(c, lime) }", T)]),
+    ("names", [("{c} { --n: --c; --c: lime } {c} > .t { fill: var(var(--n)) }", T), ("{c} { --c: red } {c} > .t { fill: var(c, lime) }", T), ("{c} > .t { fill: var(--c --d, lime) }", T),
+               ("{c} > .t { fill: var(1, lime) }", T), ("{c} { --abc: red } {c} > .t { fill: var(abc, lime) }", T), ("{c} > .t { fill: var(-ab, lime) }", T), ("{c} > .t { fill: var(--, lime) }", T)]),
     ("invalid", [("{c} .t { fill: red } {c} .t.t { fill: var(--none) }", '<g fill="lime">' + T + "</g>"), ("{c} .t { fill: red; fill: var(--none) }", '<g fill="lime">' + T + "</g>"),
                  ("{c} { --c: 5px } {c} .t { fill: var(--c) }", '<g fill="lime">' + T + "</g>"), ("{c} > .t { opacity: var(--none) }", LIME),
                  ("{c} .t { fill: var(--none, red, blue) }", '<g fill="lime">' + T + "</g>")]),
@@ -60,7 +66,8 @@ squares(unit, [
                   ("{c} .t { fill: red } {c} .t.t { fill: var(--none, revert) }", '<g fill="lime">' + T + "</g>")]),
     ("cycles", [("{c} > .t { --a: var(--b); --b: var(--a); fill: var(--a, lime) }", T), ("{c} > .t { --a: var(--a, red); fill: var(--a, lime) }", T),
                 ("{c} > .t { --a: var(--b, red); --b: var(--a, red); --x: var(--a, lime); fill: var(--x) }", T),
-                ("{c} { --a: lime } {c} > .t { --a: var(--a); fill: var(--a, lime) }", T)]),
+                ("{c} { --a: lime } {c} > .t { --a: var(--a); fill: var(--a, lime) }", T), ("{c} > .t { --a: var(--b, lime); --b: var(--c); --c: var(--b); fill: var(--a, red) }", T)]),
+    ("chain", [("{c} > .t { " + "; ".join(f"--v{k}: var(--v{k + 1})" for k in range(40)) + "; --v40: lime; fill: var(--v0, lime) }", T)]),
     ("cascade", [("{c} > .t { --c: lime !important } {c} > .t { --c: red }", lime("fill: var(--c)").replace('fill="lime"', 'fill="red"')),
                  ("@layer x { {c} > .t { --c: red } } {c} > .t { --c: lime } {c} > .t { fill: var(--c) }", T)]),
     ("shorthands", [("{c} { --m: none } {c} > .t { marker: var(--m) }", '<marker id="vm" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="red"/></marker><path class="t" d="M0 0h6v6h-6z" fill="lime" marker-start="url(#vm)"/>'),
@@ -69,7 +76,15 @@ squares(unit, [
     ("instance", [("", '<symbol id="vs"><rect width="6" height="6" style="fill: var(--c, red)"/></symbol><use href="#vs" style="--c: lime"/>'),
                   ("", '<g style="--c: lime"><use href="#vs"/></g>'), ("", '<use href="#vs" style="--c: red"/><use href="#vs" style="--c: lime"/>'),
                   ("", '<defs style="--c: red"><rect id="vr" width="6" height="6" style="fill: var(--c)"/></defs><use href="#vr" style="--c: lime"/>')]),
+    ("env", [("{c} > .t { fill: env(no-such-variable, lime) }", T), ("{c} .t { fill: env(no-such-variable) }", '<g fill="lime">' + T + "</g>"), ("{c} > .t { --c: env(x, lime); fill: var(--c) }", T),
+             ("{c} > .t { fill: rgb(env(x, 0) 255 0) }", T)]),
+    ("long-value", [("{c} .t { --a0: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1; " + "; ".join(f"--a{k + 1}: var(--a{k}) var(--a{k})" for k in range(9)) + "; stroke-dasharray: var(--a9) var(--a9) }",
+                     '<path class="t" d="M0 3h6" stroke="lime" stroke-width="6"/>')]),
+    ("revert-fallback", [("@layer x { {c} > .t { fill: lime } } {c} > .t { fill: var(--none, revert-layer) }", T), ("{c} > .t { fill: lime } {c} > .t.t { fill: var(--none, revert-rule) }", T)]),
+    ("mask-attribute", [("{c} { --m: url(#vh) }", '<mask id="vh"><rect width="6" height="6" fill="black"/></mask><rect width="6" height="6" fill="lime"/><rect width="6" height="6" fill="red" mask="var(--m)"/>'),
+                        ("", '<rect width="6" height="6" fill="lime" mask="inherit"/>'), ("", '<rect class="t" width="6" height="6" fill="url(&quot;var(x)&quot;) lime"/>')]),
+    # Last, as these spend the document's budget the cells after them would
+    # lack.
     ("long", [("{c} .t { --a0: x x x x x x x x x x x x x x x x; --a1: var(--a0) var(--a0); --a2: var(--a1) var(--a1); --a3: var(--a2) var(--a2); --a4: var(--a3) var(--a3); --a5: var(--a4) var(--a4); --a6: var(--a5) var(--a5); --a7: var(--a6) var(--a6); --a8: var(--a7) var(--a7); --a9: var(--a8) var(--a8); --a10: var(--a9) var(--a9); --a11: var(--a10) var(--a10); fill: var(--a11, lime) }", T), ("{c} .u { --a0: x x x x x x x x x x x x x x x x; --a1: var(--a0) var(--a0); --a2: var(--a1) var(--a1); --a3: var(--a2) var(--a2); --a4: var(--a3) var(--a3); --a5: var(--a4) var(--a4); --a6: var(--a5) var(--a5); --a7: var(--a6) var(--a6); --a8: var(--a7) var(--a7); --a9: var(--a8) var(--a8); --a10: var(--a9) var(--a9); --a11: var(--a10) var(--a10); fill: var(--a11, lime) }", "".join('<rect class="u" width="6" height="6" fill="red"/>' for k in range(20)))]),
-    ("env", [("{c} > .t { fill: env(no-such-variable, lime) }", T), ("{c} .t { fill: env(no-such-variable) }", '<g fill="lime">' + T + "</g>")]),
 ])
 unit.write()

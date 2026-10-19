@@ -35,6 +35,7 @@ squares(unit, [
     ("case-flags", [('{c} > [data-x="AB" I] { fill: lime }', red("ab")), ('{c} > [data-x="AB" s] { fill: red } {c} > .t { fill: lime }', target("ab")),
                     ('{c} > [data-x="AB" S] { fill: red } {c} > .t { fill: lime }', target("ab"))]),
     ("invalid", [("{c} > [], " + unless, T), ("{c} > [data-x=], " + unless, T), ("{c} > [data-x%=a], " + unless, T), ('{c} > [data-x="a" "b"], ' + unless, T),
-                 ('{c} > [data-x="ab" q], ' + unless, target("ab"))]),
+                 ('{c} > [data-x="ab" q], ' + unless, target("ab")), ('{c} > [ "data-x" ], ' + unless, target("ab")), ("{c} > [data-x~], " + unless, target("ab")),
+                 ("{c} > [data-x~a], " + unless, target("ab"))]),
 ])
 unit.write()

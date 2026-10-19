@@ -1,11 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="16">
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="42">
 <!-- Each lime drawing fills its black outline, and nothing red shows.
 An invalid presentation attribute is ignored as an invalid declaration
 is (D16), so overflow="invalid" leaves the user agent's hidden and the
 nested svg clips; a transform scaling past a float's range and back is
-checked only as a whole, so it draws. -->
-<rect width="40" height="16" fill="white"/>
+checked only as a whole, so it draws. A value of white space alone, or
+of a second number after the one it takes, is invalid: a fill, an
+opacity, a pathLength, a stop's offset, which is 0 then; color() needs
+its space, path() for d its string; a viewBox number from calc() takes
+no unit. -->
+<rect width="50" height="42" fill="white"/>
 <svg x="4" y="4" width="8" height="8" overflow="invalid"><rect x="-2" y="-2" width="12" height="12" fill="lime"/></svg>
 <rect width="10" height="10" fill="lime" transform="translate(18 3) scale(1e30) scale(1e-30)"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="4" width="8" height="8"/><rect x="18" y="3" width="10" height="10"/></g>
+<g fill="lime"><rect x="2" y="18" width="6" height="6" fill=""/></g>
+<g fill="lime"><rect x="10" y="18" width="6" height="6" fill=" "/></g>
+<g fill="lime"><rect x="18" y="18" width="6" height="6" fill="color()"/></g>
+<g fill="lime"><rect x="26" y="18" width="6" height="6" fill="color(1 2 3)"/></g>
+<g fill="lime"><rect x="34" y="18" width="6" height="6" fill="("/></g>
+<rect x="42" y="18" width="6" height="6" fill="lime" opacity="0 1"/>
+<path d="M2 26h6v6h-6z" fill="lime" style="d: path(1)"/>
+<path d="M10 29h6" stroke="lime" stroke-width="6" stroke-dasharray="3 3" pathLength=" "/>
+<path d="M18 29h6" stroke="lime" stroke-width="6" stroke-dasharray="3 3" pathLength="1 2"/>
+<linearGradient id="o0"><stop offset=" " stop-color="navy"/><stop offset=".5" stop-color="lime"/></linearGradient><rect x="26" y="26" width="6" height="6" fill="url(#o0)"/>
+<linearGradient id="o1"><stop offset="0.5 0.5" stop-color="navy"/><stop offset=".5" stop-color="lime"/></linearGradient><rect x="34" y="26" width="6" height="6" fill="url(#o1)"/>
+<svg x="2" y="34" width="6" height="6" viewBox="0 0 calc(12px) 12"><rect width="6" height="6" fill="lime"/></svg>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="4" y="4" width="8" height="8"/><rect x="18" y="3" width="10" height="10"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="26" y="18" width="6" height="6"/><rect x="34" y="18" width="6" height="6"/><rect x="42" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="3" height="6"/><rect x="18" y="26" width="3" height="6"/><rect x="2" y="34" width="6" height="6"/></g>
 </svg>

@@ -12,7 +12,8 @@ box's own, an edge before the opposite one meeting it; all three draw the
 same as the inset() they compute to, and round their corners. circle()
 takes one radius, a percentage of the box's diagonal over sqrt(2), closest
 side if none, and a centre, the box's if none; ellipse() two radii, each
-of its axis. polygon() closes its points, nonzero unless evenodd.
+of its axis. polygon() closes its points, nonzero unless evenodd; path()
+takes a fill rule and its string, nothing more.
 A position is one or two
 words, or a side of each axis with its offset from it, never three.
 half-border-box is midway between the fill box and the stroke box, and
@@ -58,6 +59,7 @@ y = rows(unit, 2, [
     ("polygon", [("polygon(0 0, 16px 0, 0 12px)", '<path d="M0 0H16L0 12Z"/>'), ("polygon(50% 0, 100% 100%, 0 100%)", '<path d="M8 0L16 12H0Z"/>')]),
     ("polygon-fill-rule", [("polygon(0 0, 16px 0, 16px 12px, 0 12px, 0 0, 4px 3px, 12px 3px, 12px 9px, 4px 9px, 4px 3px)", box(0, 0, 16, 12)),
                            ("polygon(evenodd, 0 0, 16px 0, 16px 12px, 0 12px, 0 0, 4px 3px, 12px 3px, 12px 9px, 4px 9px, 4px 3px)", '<path fill-rule="evenodd" d="M0 0H16V12H0Z M4 3H12V9H4Z"/>')]),
+    ("path", [("path('M0 0H16L0 12Z')", '<path d="M0 0H16L0 12Z"/>'), ("path(nonzero, 'M0 0H16L0 12Z', x)", box(0, 0, 16, 12))]),
 ], 6, 20, 16, item)
 
 

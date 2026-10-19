@@ -11,7 +11,8 @@ that of S. :not() takes a list of complex selectors, an invalid or empty
 one invalidating it, and matches what none of them does. :has() takes
 relative selectors, a descendant one, or one after a >, + or ~, from the
 element, and matches when one matches an element it reaches; :has() inside
-:has() and a pseudo-element in any of them are invalid.""")
+:has() and a pseudo-element in any of them are invalid. A pseudo-element,
+a function one too, matches nothing drawn.""")
 red = "{c} > * { fill: red } {c} > .t { fill: lime }"
 squares(unit, [
     ("is", [("{c} > :is(.t) { fill: lime }", T), ("{c} > :is(.t:first-child, g + .t) { fill: lime }", F + T), ("{c} > :IS(.t) { fill: lime }", T)]),
@@ -27,6 +28,6 @@ squares(unit, [
              ("{c} > .t:has(+ g) { fill: lime }", T + F), ("{c} > .t:has(~ circle) { fill: lime }", T + F + '<circle r="0"/>'), ("{c} > .t:has(+ circle) { fill: red } {c} > .t { fill: lime }", T + F + '<circle r="0"/>'),
              ("{c}:has(rect.t) .t { fill: lime }", f"<g>{T}</g>"), ("{c}:has(> circle, > .t) > .t { fill: lime }", T), ("{c} > .t:not(:has(circle)) { fill: lime }", T)]),
     ("has-nested", [("{c}:has(:has(.t)), " + red, T)]),
-    ("pseudo-element", [("{c} > :is(::before, .t) { fill: lime }", T), ("{c} > :not(::before), " + red, T), ("{c}:has(::before), " + red, T)]),
+    ("pseudo-element", [("{c} > :is(::before, .t) { fill: lime }", T), ("{c} > :not(::before), " + red, T), ("{c}:has(::before), " + red, T), ("{c} > .t::part(x) { fill: red } {c} > .t { fill: lime }", T)]),
 ])
 unit.write()

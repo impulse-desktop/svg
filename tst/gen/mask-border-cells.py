@@ -6,14 +6,17 @@ CLEAR, BLACK = "linear-gradient(transparent, transparent)", "linear-gradient(bla
 unit = Unit("mask-border-cells", 122, 0, """Each lime drawing fills its black
 outline, and nothing red shows; each is a 16 by 12 rect masked by a mask
 border. A transparent border image hides its border area and leaves the
-middle, which is unmasked without fill and the image's with it; the width
+middle, which is unmasked without fill and the image's with it, fill
+before or after the slice's numbers but alone or twice invalid; the width
 in px, a percentage of the area, a number times the border width, 0 for
 SVG, or auto, the slice's size, a gradient having none, so the border
 width again; the outset grows the area, its values
 copied as margin's; the repeat keywords, the second the first if none;
 the mode alpha unless luminance, mask-mode and mask-type aside; an image
 that does not load counts but masks nothing; a mask image masks too; the
-shorthand resets what it leaves out.""")
+shorthand resets what it leaves out, and an empty one, as written or
+after var(), is invalid; an empty slice after var() is its initial 0, no
+fill.""")
 
 
 def item(x, y, value):
@@ -32,7 +35,10 @@ def item(x, y, value):
 full = (0, 0, 16, 12)
 y = rows(unit, 2, [
     ("source-none", [("mask-border: none", full), ("mask-border-source: none; mask-border-width: 4px", full)]),
-    ("slice-fill", [(f"mask-border: {CLEAR} 30% / 4px", (4, 4, 8, 4)), (f"mask-border: {CLEAR} 30% fill / 4px", None)]),
+    ("slice-fill", [(f"mask-border: {CLEAR} 30% / 4px", (4, 4, 8, 4)), (f"mask-border: {CLEAR} 30% fill / 4px", None), (f"mask-border: {CLEAR} fill 30% / 4px", None), (f"mask-border: {CLEAR} 30%/**/fill / 4px", None)]),
+    ("slice-fill-longhand", [(f"mask-border: {CLEAR} 30% / 4px; mask-border-slice: fill 30%", None), (f"mask-border: {CLEAR} 30% / 4px; mask-border-slice: 30% fill", None), (f"mask-border: {CLEAR} 30% / 4px; mask-border-slice: fill", (4, 4, 8, 4))]),
+    ("slice-fill-invalid", [(f"mask-border: {CLEAR} fill / 4px", full), (f"mask-border: {CLEAR} 30% fill fill / 4px", full), (f"mask-border: {CLEAR} 30% / 4px; mask-border: ", (4, 4, 8, 4))]),
+    ("empty-substitution", [(f"--e: ; mask-border: {CLEAR} 30% / 4px; mask-border: var(--e)", full), (f"--e: ; mask-border: {CLEAR} 30% fill / 4px; mask-border-slice: var(--e)", (4, 4, 8, 4))]),
     ("width", [(f"mask-border: {CLEAR} 30% / 2px", (2, 2, 12, 8)), (f"mask-border: {CLEAR} 30% / 2px 4px", (4, 2, 8, 8))]),
     ("width-percent", [(f"mask-border: {CLEAR} 30% / 25%", (4, 3, 8, 6))]),
     ("width-number", [(f"mask-border: {CLEAR} 30% / 2", full)]),

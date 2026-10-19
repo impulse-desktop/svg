@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="10">
+<!-- Each lime square fills its black outline, and nothing red shows.
+With no selector of more than one compound in the document, an instance
+still takes its custom properties from its use: a use's own, one it
+inherits, each use of one symbol its own, one a rule gives the use. -->
+<rect width="34" height="10" fill="white"/>
+<style>.vu { --c: lime }</style><symbol id="s"><rect width="6" height="6" style="fill: var(--c, red)"/></symbol>
+<use x="2" y="2" href="#s" style="--c: lime"/>
+<g style="--c: lime"><use x="10" y="2" href="#s"/></g>
+<use x="18" y="2" href="#s" style="--c: red"/><use x="18" y="2" href="#s" style="--c: lime"/>
+<use class="vu" x="26" y="2" href="#s"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="18" y="2" width="6" height="6"/><rect x="26" y="2" width="6" height="6"/></g>
+</svg>

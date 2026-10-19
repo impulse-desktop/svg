@@ -9,7 +9,8 @@ and *.t is .t; a type or * goes first in a compound, once. Names and values
 are matched as XML has them, case-sensitively. A class selector matches a
 word of the class attribute split on white space, as [class~=] does, and
 none of an empty one; an id selector every element of that id; . or #
-alone invalidates the selector. A B matches a B at any depth under an A, A
+alone invalidates the selector, as a colon or two without a name or a
+:has() without a selector do. A B matches a B at any depth under an A, A
 > B a child, A + B the next element sibling, text and comments between
 them aside, A ~ B any later one; a leading combinator invalidates the
 selector. Specificity counts ids, then classes, attributes and
@@ -33,6 +34,7 @@ squares(unit, [
     ("next-sibling", [("{c} > g + .t { fill: lime }", F + "<!-- c -->text" + T), ("{c} > circle + .t { fill: red } {c} > .t { fill: lime }", '<circle r="0"/>' + F + T)]),
     ("subsequent-sibling", [("{c} > circle ~ .t { fill: lime }", '<circle r="0"/>' + F + F + T), ("{c} > .t ~ g { fill: red } {c} > g ~ .t { fill: lime }", F + T)]),
     ("leading-combinator", [("> .t, " + unless, T), ("+ .t, " + unless, T), ("~ .t, " + unless, T)]),
+    ("pseudo-incomplete", [("{c} > .t::, " + unless, T), ("{c} > .t::1, " + unless, T), ("{c} > .t:1, " + unless, T), ("{c} > .t:has(), " + unless, T)]),
     ("specificity", [("{c} > #s { fill: lime } {c} > .t.t.t.t.t { fill: red }", '<rect class="t" id="s" width="6" height="6"/>'), ("{c} > .t { fill: lime } {c} > rect { fill: red }", T),
                      ("{c} > [data-x] { fill: lime } {c} > g rect, {c} > rect { fill: red }", '<rect data-x="" width="6" height="6"/>'), ("{c} > :first-child { fill: lime } {c} > rect { fill: red }", T)]),
     ("specificity-universal", [("{c} > rect.t { fill: lime } {c} > *.t { fill: red }", T), ("{c} > g .t { fill: lime } {c} > * > .t { fill: red }", f"<g>{T}</g>")]),

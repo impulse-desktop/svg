@@ -1,17 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="66" height="138">
+<svg xmlns="http://www.w3.org/2000/svg" width="66" height="146">
 <!-- Each lime square fills its black outline, and nothing red shows. A
 type selector matches its element, * any, and *.t is .t; a type or *
 goes first in a compound, once. Names and values are matched as XML has
 them, case-sensitively. A class selector matches a word of the class
 attribute split on white space, as [class~=] does, and none of an empty
 one; an id selector every element of that id; . or # alone invalidates
-the selector. A B matches a B at any depth under an A, A > B a child, A
-+ B the next element sibling, text and comments between them aside, A ~
-B any later one; a leading combinator invalidates the selector.
+the selector, as a colon or two without a name or a :has() without a
+selector do. A B matches a B at any depth under an A, A > B a child, A +
+B the next element sibling, text and comments between them aside, A ~ B
+any later one; a leading combinator invalidates the selector.
 Specificity counts ids, then classes, attributes and pseudo-classes,
 then types, * nothing; a list takes that of the selector that matched; a
 tie goes to the later rule. -->
-<rect width="66" height="138" fill="white"/>
+<rect width="66" height="146" fill="white"/>
 <style><![CDATA[
 .c0 > rect { fill: lime }
 .c1 > circle { fill: red } .c1 > .t { fill: lime }
@@ -46,14 +47,18 @@ tie goes to the later rule. -->
 > .t, .c30 > * { fill: red } .c30 > .t { fill: lime }
 + .t, .c31 > * { fill: red } .c31 > .t { fill: lime }
 ~ .t, .c32 > * { fill: red } .c32 > .t { fill: lime }
-.c33 > #s { fill: lime } .c33 > .t.t.t.t.t { fill: red }
-.c34 > .t { fill: lime } .c34 > rect { fill: red }
-.c35 > [data-x] { fill: lime } .c35 > g rect, .c35 > rect { fill: red }
-.c36 > :first-child { fill: lime } .c36 > rect { fill: red }
-.c37 > rect.t { fill: lime } .c37 > *.t { fill: red }
-.c38 > g .t { fill: lime } .c38 > * > .t { fill: red }
-.c39 > rect.t { fill: lime } .c39 > #x, .c39 > .t { fill: red }
-.c40 > .t { fill: red } .c40 > .t { fill: lime }
+.c33 > .t::, .c33 > * { fill: red } .c33 > .t { fill: lime }
+.c34 > .t::1, .c34 > * { fill: red } .c34 > .t { fill: lime }
+.c35 > .t:1, .c35 > * { fill: red } .c35 > .t { fill: lime }
+.c36 > .t:has(), .c36 > * { fill: red } .c36 > .t { fill: lime }
+.c37 > #s { fill: lime } .c37 > .t.t.t.t.t { fill: red }
+.c38 > .t { fill: lime } .c38 > rect { fill: red }
+.c39 > [data-x] { fill: lime } .c39 > g rect, .c39 > rect { fill: red }
+.c40 > :first-child { fill: lime } .c40 > rect { fill: red }
+.c41 > rect.t { fill: lime } .c41 > *.t { fill: red }
+.c42 > g .t { fill: lime } .c42 > * > .t { fill: red }
+.c43 > rect.t { fill: lime } .c43 > #x, .c43 > .t { fill: red }
+.c44 > .t { fill: red } .c44 > .t { fill: lime }
 ]]></style>
 <g class="c0" transform="translate(2 2)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c1" transform="translate(10 2)"><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c2" transform="translate(2 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c3" transform="translate(10 10)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c4" transform="translate(18 10)"><rect class="t" width="6" height="6" fill="red"/></g>
@@ -68,9 +73,10 @@ tie goes to the later rule. -->
 <g class="c26" transform="translate(2 82)"><g/><!-- c -->text<rect class="t" width="6" height="6" fill="red"/></g><g class="c27" transform="translate(10 82)"><circle r="0"/><g/><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c28" transform="translate(2 90)"><circle r="0"/><g/><g/><rect class="t" width="6" height="6" fill="red"/></g><g class="c29" transform="translate(10 90)"><g/><rect class="t" width="6" height="6" fill="red"/></g>
 <g class="c30" transform="translate(2 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c31" transform="translate(10 98)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c32" transform="translate(18 98)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c33" transform="translate(2 106)"><rect class="t" id="s" width="6" height="6"/></g><g class="c34" transform="translate(10 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c35" transform="translate(18 106)"><rect data-x="" width="6" height="6"/></g><g class="c36" transform="translate(26 106)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c37" transform="translate(2 114)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c38" transform="translate(10 114)"><g><rect class="t" width="6" height="6" fill="red"/></g></g>
-<g class="c39" transform="translate(2 122)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g class="c40" transform="translate(2 130)"><rect class="t" width="6" height="6" fill="red"/></g>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="10" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="10" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="10" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="18" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="10" y="106" width="6" height="6"/><rect x="18" y="106" width="6" height="6"/><rect x="26" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/><rect x="2" y="122" width="6" height="6"/><rect x="2" y="130" width="6" height="6"/></g>
+<g class="c33" transform="translate(2 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c34" transform="translate(10 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c35" transform="translate(18 106)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c36" transform="translate(26 106)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c37" transform="translate(2 114)"><rect class="t" id="s" width="6" height="6"/></g><g class="c38" transform="translate(10 114)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c39" transform="translate(18 114)"><rect data-x="" width="6" height="6"/></g><g class="c40" transform="translate(26 114)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c41" transform="translate(2 122)"><rect class="t" width="6" height="6" fill="red"/></g><g class="c42" transform="translate(10 122)"><g><rect class="t" width="6" height="6" fill="red"/></g></g>
+<g class="c43" transform="translate(2 130)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g class="c44" transform="translate(2 138)"><rect class="t" width="6" height="6" fill="red"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="6" height="6"/><rect x="10" y="2" width="6" height="6"/><rect x="2" y="10" width="6" height="6"/><rect x="10" y="10" width="6" height="6"/><rect x="18" y="10" width="6" height="6"/><rect x="2" y="18" width="6" height="6"/><rect x="10" y="18" width="6" height="6"/><rect x="18" y="18" width="6" height="6"/><rect x="2" y="26" width="6" height="6"/><rect x="10" y="26" width="6" height="6"/><rect x="18" y="26" width="6" height="6"/><rect x="26" y="26" width="6" height="6"/><rect x="2" y="34" width="6" height="6"/><rect x="10" y="34" width="6" height="6"/><rect x="18" y="34" width="6" height="6"/><rect x="26" y="34" width="6" height="6"/><rect x="2" y="42" width="6" height="6"/><rect x="10" y="42" width="6" height="6"/><rect x="2" y="50" width="6" height="6"/><rect x="10" y="50" width="6" height="6"/><rect x="2" y="58" width="6" height="6"/><rect x="10" y="58" width="6" height="6"/><rect x="2" y="66" width="6" height="6"/><rect x="10" y="66" width="6" height="6"/><rect x="2" y="74" width="6" height="6"/><rect x="10" y="74" width="6" height="6"/><rect x="2" y="82" width="6" height="6"/><rect x="10" y="82" width="6" height="6"/><rect x="2" y="90" width="6" height="6"/><rect x="10" y="90" width="6" height="6"/><rect x="2" y="98" width="6" height="6"/><rect x="10" y="98" width="6" height="6"/><rect x="18" y="98" width="6" height="6"/><rect x="2" y="106" width="6" height="6"/><rect x="10" y="106" width="6" height="6"/><rect x="18" y="106" width="6" height="6"/><rect x="26" y="106" width="6" height="6"/><rect x="2" y="114" width="6" height="6"/><rect x="10" y="114" width="6" height="6"/><rect x="18" y="114" width="6" height="6"/><rect x="26" y="114" width="6" height="6"/><rect x="2" y="122" width="6" height="6"/><rect x="10" y="122" width="6" height="6"/><rect x="2" y="130" width="6" height="6"/><rect x="2" y="138" width="6" height="6"/></g>
 </svg>

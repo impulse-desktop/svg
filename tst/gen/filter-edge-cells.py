@@ -15,7 +15,8 @@ duplicate, wrap and mirror keep a solid square solid to its edges, none,
 the initial value, fades them, as a true Gaussian within a leeway. An
 arithmetic result, named, is read as any other: doubled to opaque and
 shifted within its subregion. A lighting primitive's own y and height cut
-its flat, fully lit result.""")
+its flat, fully lit result. An offset of a huge number of either sign, a
+shadow's too, moves its input off the region.""")
 F = 'filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"'
 
 
@@ -74,4 +75,7 @@ unit.cell("arithmetic-reader", (1, 37, 32, 14), f'<filter id="ar" {F} x="2" y="3
 unit.cell("lighting-subregion", (35, 37, 16, 14), f'<filter id="ls" {F} x="36" y="38" width="12" height="12"><feFlood flood-color="black"/>'
           '<feDiffuseLighting lighting-color="lime" y="41" height="5"><feDistantLight elevation="90"/></feDiffuseLighting></filter><rect x="36" y="38" width="12" height="12" fill="red" filter="url(#ls)"/>',
           lime(36, 41, 12, 5), '<rect x="36" y="41" width="12" height="5"/>')
+unit.cell("offset-far", (53, 37, 28, 14), '<filter id="of0"><feOffset dx="1e30"/></filter><filter id="of1"><feOffset dy="-1e30"/></filter><filter id="of2"><feDropShadow dx="-1e30" dy="1e30" stdDeviation="0" flood-color="red"/></filter>'
+          + lime(54, 38, 12, 12) + '<rect x="54" y="38" width="12" height="12" fill="red" filter="url(#of0)"/><rect x="54" y="38" width="12" height="12" fill="red" filter="url(#of1)"/>'
+          + lime(68, 38, 12, 12).replace("/>", ' filter="url(#of2)"/>'), lime(54, 38, 12, 12) + lime(68, 38, 12, 12), '<rect x="54" y="38" width="12" height="12"/><rect x="68" y="38" width="12" height="12"/>')
 unit.write()

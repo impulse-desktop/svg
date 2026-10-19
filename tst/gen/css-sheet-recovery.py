@@ -21,7 +21,16 @@ block of template text still applies. Tokens are CSS's: a number with an
 exponent or a dimension whose unit starts with e, a hash of an identifier
 alone an id, CDO and CDC nothing only at the top of a sheet, elsewhere a
 rule's prelude that fails, every code
-point past ASCII an identifier's (D45).""")
+point past ASCII an identifier's (D45), a - or -- at the end a delim and
+an identifier, a hyphen before an escape an identifier's start, a < ! or @
+without what follows them delims; a control code point or a backslash
+before a newline makes a url bad, and an escaped ) does not end its
+remnants. A declaration needs its colon; !important needs its !; a
+-WEBKIT-clip-path is clip-path, as browsers have it; -- names no custom
+property; a rule needs a prelude, and an identifier and a block, -x or
+--x, is a rule, one that matches nothing. A media query that does not
+parse is false, an empty one in a list too, which leaves the list true
+when another is.""")
 unit.common('<linearGradient id="gl"><stop stop-color="lime"/></linearGradient>')
 
 
@@ -61,6 +70,22 @@ squares(unit, [
     ("numbers", [("{c} > .t { fill: lime; stroke: red; stroke-width: 1e3e } {c} > .t { stroke-width: 0 }", T), ("{c} > .t { width: 0.6e1px; fill: lime }", '<rect class="t" height="6" fill="red"/>'), ("{c} > .t { opacity: 0e3 }", '<rect width="6" height="6" fill="lime"/>' + T),
                  ("{c} > .t { fill: lime } {c} > #1a { fill: red }", T.replace('/>', ' id="1a"/>')), ("{c} > .t { fill: lime; stroke: red; stroke-width: 0 } {c} > .t { stroke-width: .0e0 }", T)]),
     ("cdo-cdc-nested", [("{c} > .t { fill: lime } @media all { &lt;!-- {c} > .t { fill: red } }", T), ("{c} > .t { fill: lime; &lt;!-- fill: red }", T)]),
+    ("token-ends", [("", attribute('fill="lime" style="stroke: -"')), ("", attribute('fill="lime" style="stroke: --"')), ("!{c} > .t { fill: lime } /* x *", T), ("", inherited("url(#gl ")),
+                    ("{c} > .-\\61 { fill: lime }", T.replace('class="t"', 'class="t -a"'))]),
+    ("bad-url-tokens", [('{c} > .t { fill: lime } {c} > .t { stroke: url(a"\\); fill: red) }', T), ("{c} > .t { fill: lime } {c} > .t { fill: url(#gl\\\n) }", T),
+                        ("", inherited("url(#gl&#x7f;)")), ("", inherited("url(#gl&#x1;)")), ("", inherited("url(#gl&#x10;)")), ("", inherited("url(#gl&#xb;)"))]),
+    ("delim-tokens", [("{c} > .t { fill: lime } @1 {c} > .t { fill: red }", T), ("{c} > .t { fill: lime } <!x {c} > .t { fill: red }", T), ("{c} > .t { fill: lime } <!-x {c} > .t { fill: red }", T),
+                      ("", attribute('fill="red" style="] ; fill: lime"')), ("", attribute('fill="lime" style="stroke: ] }"'))]),
+    ("declaration-forms", [("", attribute('fill="lime" style="fill"')), ("", attribute('fill="lime" style="fill: important"')), ("", attribute('fill="lime" style="fill: red important"')),
+                           ("", attribute('fill="lime" style="fill: {red}"')), ("", attribute('fill="red" style=": red; fill: lime"')), ("", attribute('fill="lime" style="--: red"')),
+                           ("", attribute('fill="red" style="--c: url(a b); fill: var(--c, lime)"')), ("", attribute('fill="lime" style="-x-fill: red"')),
+                           ("", '<rect width="6" height="6" fill="lime"/><rect width="6" height="6" fill="red" style="-WEBKIT-clip-path: inset(50%)"/>')]),
+    ("rule-forms", [("!@layer a.; {c} > .t { fill: lime }", T), ("!@import; {c} > .t { fill: lime }", T), ("!{ fill: red } {c} > .t { fill: lime }", T),
+                    ("!-x { fill: red } {c} > .t { fill: lime }", T), ("!--x { fill: red } {c} > .t { fill: lime }", T)]),
+    ("media-errors", [("{c} > .t { fill: lime } @media (aspect-ratio:) { {c} > .t { fill: red } }", T), ("{c} > .t { fill: lime } @media (aspect-ratio: 1 2) { {c} > .t { fill: red } }", T),
+                      ("{c} > .t { fill: lime } @media (aspect-ratio: 1/) { {c} > .t { fill: red } }", T), ("{c} > .t { fill: lime } @media () { {c} > .t { fill: red } }", T),
+                      ("{c} > .t { fill: lime } @media 1 { {c} > .t { fill: red } }", T), ("{c} > .t { fill: lime } @media (" + "a" * 70 + ") { {c} > .t { fill: red } }", T),
+                      ("{c} > .t { fill: red } @media screen, { {c} > .t { fill: lime } }", T), ("{c} > .t { fill: red } @media , screen { {c} > .t { fill: lime } }", T)]),
     ("non-ascii", [("{c} > .a×b { fill: lime }", T.replace('class="t"', 'class="t a×b"')), ("{c} > .a b { fill: lime }", T.replace('class="t"', 'class="t a b"')),
                    ("{c} > .a b { fill: lime }", T.replace('class="t"', 'class="t a b"'))]),
 ])
