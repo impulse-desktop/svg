@@ -39,3 +39,7 @@
 - [x] css-backgrounds-3.md#background-origin: background-origin: border-box | padding-box | content-box (a comma list); initial padding-box; sets the positioning area's origin to the named box. [mask-tiling#origin]
 
 ## Notes
+
+## The root's background on the canvas: render-root-background-opacity, render-root-background-blend
+
+- [x] css-backgrounds-3.md#special-backgrounds: the root element's background is the canvas's, painted under the root element: the root's opacity does not fade it, and the root's content blends with it as its backdrop. [render-root-background-opacity#canvas render-root-background-blend#canvas]

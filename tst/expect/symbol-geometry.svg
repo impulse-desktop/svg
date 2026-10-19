@@ -17,7 +17,7 @@ id is what the statement ledgers link to. -->
 <symbol id="l" viewBox="0 0 10 10" refX="bottom" refY="right" width="8" height="8"><rect width="10" height="10" fill="lime"/></symbol>
 <symbol id="m" viewBox="0 0 10 10" preserveAspectRatio="xMidYMid slice" refX="left" refY="top" width="8" height="4"><rect width="10" height="10" fill="lime"/></symbol>
 <filter id="fb" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>
-<symbol id="n" width="10" height="10" filter="url(#fb)"><rect x="2" y="2" width="4" height="6" fill="red"/></symbol>
+<symbol id="n" width="10" height="10" display="none" filter="url(#fb)"><rect x="2" y="2" width="4" height="6" fill="red"/></symbol>
 <symbol id="o" width="10" height="10" refX="2" refY="2" filter="url(#fb)"><rect x="2" y="2" width="4" height="6" fill="red"/></symbol>
 </defs>
 <g id="position" data-box="1 1 12 8"><rect x="2" y="2" width="10" height="6" fill="lime"/></g>

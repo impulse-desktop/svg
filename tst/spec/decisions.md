@@ -486,3 +486,17 @@ WebKit and resvg read it as 10px, and real files count on it: 56 of a
 Rejecting it would draw those files unlike anything their authors saw, for
 no gain (README, the goal), so a declaration takes a plain number where the
 attribute does.
+
+## D44. A template's content inherits from the template
+
+`svg2/pservers.md#PaintServerTemplates` clones a template's content into a
+shadow tree whose host is the paint server that uses it, so the content
+would inherit from that paint server. Inkscape writes its stock patterns
+the other way: the stock pattern carries the colour in its style, its
+content none, and a pattern of nothing but an href and a patternTransform
+paints with it; Wikimedia Commons maps and Inkscape's own Patterns.svg
+draw so. Inkscape 1.4, Chromium, Firefox, librsvg and resvg all draw a
+template's content, a pattern's or a gradient's stops, inheriting from the
+template where it is in the document, a style on the referencing paint
+server ignored (README, the goal, rule 1: a proven cost), and so does the
+renderer. Before, it followed SVG 2 and drew those patterns black.

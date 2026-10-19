@@ -14253,9 +14253,10 @@ namespace {
 
         Vector<Op> program;
         Vector<Op>* saved = l.out;
-        // Content taken from a template is cloned under the pattern, and
-        // inherits from it (pservers.md, PaintServerTemplates).
-        const ComputedStyle& contentStyle = documentStyle(l, pattern, vp);
+        // Content taken from a template inherits from the template, where
+        // it is in the document, as every renderer and Inkscape's stock
+        // patterns have it (D44).
+        const ComputedStyle& contentStyle = documentStyle(l, content, vp);
 
         Matrix outerHost = l.host;
         Matrix screenInverse;
@@ -14402,9 +14403,9 @@ namespace {
                 offset = maxf(clampUnit(offset), previous);
                 previous = offset;
 
-                // Stops taken from a template are cloned under the gradient,
-                // and inherit from it (pservers.md, PaintServerTemplates).
-                ComputedStyle style = stopsNode == gradient ? documentStyle(l, child, vp) : computeStyle(l, child, documentStyle(l, gradient, vp), vp);
+                // Stops taken from a template inherit from the template, where
+                // they are in the document, as every renderer has it (D44).
+                const ComputedStyle& style = documentStyle(l, child, vp);
                 Color color = style.stopColor;
 
                 color.a *= style.stopOpacity * opacity;
@@ -18183,18 +18184,6 @@ namespace {
 
             l.rootFontSize = style.fontSize;
 
-            if (style.background.a > 0.f) {
-                Path canvas;
-                Flat flat;
-
-                moveTo(canvas, Point{0.f, 0.f});
-                lineTo(canvas, Point{(float)l.width, 0.f});
-                lineTo(canvas, Point{(float)l.width, (float)l.height});
-                lineTo(canvas, Point{0.f, (float)l.height});
-                closePath(canvas);
-                flatten(canvas, identity(), tolerance, flat);
-                emitFill(l, flat, WindingNonZero, solidPaint(l, style.background, 1.f), false);
-            }
             Box viewBox;
 
             if (!parseViewBox(*l.doc, node, viewBox)) {
@@ -20232,6 +20221,23 @@ namespace {
         }
 
         ComputedStyle style = computeStyle(l, node, parent, vp);
+
+        // The root's background is the canvas's, under the root
+        // (css-backgrounds-3.md, special-backgrounds): the root's opacity,
+        // blend and effects do not take it, and its content blends with it,
+        // as Chromium, Firefox and resvg draw it.
+        if (node == l.doc->root && style.background.a > 0.f) {
+            Path canvas;
+            Flat flat;
+
+            moveTo(canvas, Point{0.f, 0.f});
+            lineTo(canvas, Point{(float)l.width, 0.f});
+            lineTo(canvas, Point{(float)l.width, (float)l.height});
+            lineTo(canvas, Point{0.f, (float)l.height});
+            closePath(canvas);
+            flatten(canvas, identity(), tolerance, flat);
+            emitFill(l, flat, WindingNonZero, solidPaint(l, style.background, 1.f), false);
+        }
 
         // A symbol a use instances displays inline, whatever its display
         // (struct.md, SymbolNotes), as does a marker being drawn.

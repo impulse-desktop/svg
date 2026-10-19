@@ -13,14 +13,15 @@
 - [x] svg2/pservers.md#Gradients: any transform on the graphics element applies to the copied gradient vector and normals, and the gradient's own gradientTransform is applied before that transform [gradient-vector-interpolation#gradient-transform gradient-vector-interpolation#user-space-transform]
 - [x] svg2/pservers.md#math-gradient-linear-interpolation: between two stops the color of each channel is C0 + (C1-C0) * (D-O0)/(O1-O0), the linear interpolation by distance D along the vector between the stops' offsets O0 and O1 [gradient-vector-interpolation#unpremultiplied]
 
-## Paint server href templates: generic attribute and content inheritance: gradient-templates, pattern-tiles, pattern-templates, gradient-hrefs
+## Paint server href templates: generic attribute and content inheritance: gradient-templates, pattern-tiles, pattern-templates, gradient-hrefs, pattern-template-style
 
 - [x] svg2/pservers.md#PaintServerTemplates: an href attribute on a paint-server element names a compatible element to use as a template [gradient-templates#chain-attributes pattern-templates#copies-x gradient-hrefs#linear-x1]
 - [x] svg2/pservers.md#PaintServerTemplates: for each templated attribute not specified on the current element, the user agent uses the value the template element resolves to, recursing through the template's own href if needed [gradient-templates#chain-attributes gradient-templates#chain-stops]
 - [x] svg2/pservers.md#PaintServerTemplates: the initial value for a templated attribute is substituted only once every valid href reference in the chain is exhausted [gradient-templates#chain-attributes gradient-radial-geometry#focus-template]
 - [x] svg2/pservers.md#PaintServerTemplates: if the current element has no child elements other than descriptive elements, a shadow tree is generated for it, cloning the template's child content [gradient-templates#own-stops gradient-templates#chain-stops pattern-templates#copies-x]
 - [x] svg2/pservers.md#PaintServerTemplates: if the template itself has no such child content, the shadow tree instead clones the elements used, or that would be used, to build the template's own shadow tree [gradient-templates#chain-stops]
-- [x] svg2/pservers.md#PaintServerTemplates: the generated shadow tree behaves like a use-element shadow tree, with the paint-server element as its host, and its instances are used as if they were the paint server's own children [gradient-templates#cloned-stops]
+- [x] svg2/pservers.md#PaintServerTemplates: the template's content is used as if it were the paint server's own children [gradient-templates#cloned-stops pattern-template-style#stock]
+- [-] svg2/pservers.md#PaintServerTemplates: the generated shadow tree behaves like a use-element shadow tree with the paint server as its host, so its content inherits from the paint server; it inherits from the template instead, as Inkscape, Chromium, Firefox, librsvg and resvg draw it (D44) [gradient-templates#cloned-stops pattern-template-style#pattern-style pattern-template-style#template-context]
 
 ## Linear gradient vector and coordinate system: gradient-linear-geometry, pserver-properties
 

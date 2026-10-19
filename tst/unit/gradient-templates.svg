@@ -3,8 +3,9 @@
 red. href takes from its template, through a chain, the attributes the
 gradient leaves out, and its stops when it has none but descriptive ones;
 a linear gradient takes from a radial one the attributes they share; a
-template that is no gradient is no template. The template's stops are cloned
-under the gradient, so they inherit from it: currentColor is its color. -->
+template that is no gradient is no template. The template's stops inherit
+from where they are, as every renderer has it (D44): currentColor is the
+template's color, not the gradient's. -->
 <rect width="64" height="56" fill="white"/>
 <defs>
 <linearGradient id="base" gradientUnits="userSpaceOnUse" x1="2" x2="32" spreadMethod="reflect"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
@@ -18,8 +19,8 @@ under the gradient, so they inherit from it: currentColor is its color. -->
 <linearGradient id="r4" gradientUnits="userSpaceOnUse" x1="2" x2="12" spreadMethod="repeat"><stop offset="0" stop-color="purple"/><stop offset="1" stop-color="orange"/></linearGradient>
 <rect id="notgradient"/>
 <linearGradient id="d5" href="#notgradient"><stop offset="0" stop-color="navy"/><stop offset="1" stop-color="gold"/></linearGradient>
-<g color="red"><linearGradient id="cur"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient></g>
-<g color="lime"><linearGradient id="d6" href="#cur"/></g>
+<g color="lime"><linearGradient id="cur"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor"/></linearGradient></g>
+<g color="red"><linearGradient id="d6" href="#cur" color="red"/></g>
 </defs>
 <rect x="2" y="2" width="60" height="3" fill="url(#base)"/><rect x="2" y="5" width="60" height="3" fill="url(#d1)"/>
 <rect x="2" y="10" width="60" height="3" fill="url(#d2)"/><rect x="2" y="13" width="60" height="3" fill="url(#r2)"/>

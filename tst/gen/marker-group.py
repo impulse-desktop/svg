@@ -3,10 +3,11 @@ own properties, of SVG 2's painting chapter."""
 from unitgen import Unit
 
 M = 'markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8"'
-unit = Unit("marker-group", 42, 12, """Each lime drawing fills its black
+unit = Unit("marker-group", 52, 12, """Each lime drawing fills its black
 outline, and nothing red shows. A marker's content draws as a group that
 carries the marker's own properties: its opacity, a filter, which a box of
-bounding box units takes from the content, a clip-path and a mask.""")
+bounding box units takes from the content, a clip-path and a mask. A marker
+in a group adds nothing to the group's box.""")
 unit.common('<defs><filter id="mf" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>'
             '<clipPath id="mc"><rect width="4" height="8"/></clipPath>'
             '<mask id="mm" maskUnits="userSpaceOnUse" x="0" y="0" width="4" height="8"><rect width="8" height="8" fill="white"/></mask>'
@@ -24,5 +25,8 @@ for name, x, marker, rect in (("opacity", 2, "mo", (2, 2, 8, 8, ' opacity="0.5"'
                               ("clip-path", 22, "mcl", (22, 2, 4, 8)), ("mask", 32, "mma", (32, 2, 4, 8))):
     plain = lime(*rect)
     unit.cell(name, (x - 1, 1, 10, 10), f'<path d="M {x} 2 h 1" marker-start="url(#{marker})"/>', plain, lime(*rect[:4]).replace(' fill="lime"', ""))
+
+unit.cell("in-group", (41, 1, 10, 10), f'<g filter="url(#mf)"><marker {M}><rect x="-20" y="-20" width="40" height="40" fill="red"/></marker><rect x="44" y="4" width="4" height="4" fill="red"/></g>',
+          lime(44, 4, 4, 4), lime(44, 4, 4, 4).replace(' fill="lime"', ""))
 
 unit.write()
