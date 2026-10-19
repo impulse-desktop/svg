@@ -11527,20 +11527,53 @@ namespace {
         return k;
     }
 
+    // The ends of a stroke's piece of a cubic: their points, whether the
+    // stroke's sweep stops at the normal there, a cap's, and how much of
+    // the room behind that normal a point's distance from the end leaves
+    // the inner side, 1 - h / R for the radius of curvature R there, none
+    // where the curve turns tighter than the half width h.
+    struct PieceEnds {
+        DPoint a;
+        DPoint b;
+        bool capA;
+        bool capB;
+        double openA;
+        double openB;
+        double half;
+        double tol;
+    };
+
     // The parameters of a cubic strictly between t0 and t1, halving the
     // span where its direction bends past bend: a stroke's join between two
     // points then lies within the tolerance of the sweep of its normals.
-    static void bendParameters(const Powers& q, double t0, double t1, double bend, int depth, Vector<double>& out) {
+    // At a point the stroke turns its chords' normals through a sector,
+    // which on the inner side reaches back h times its turn past where the
+    // curve's normals do. Near an end that would show behind the end's
+    // normal, so there the span halves until h times its turn is within
+    // the room its distance from the end leaves, and the tolerance; where
+    // the curve turns tighter than h, its normals' inner ends run back
+    // themselves, and a point beside such a stretch turns its neighbour's
+    // chord too, so where it turns tighter than 2 h within 2 h of an end
+    // the room is none.
+    static void bendParameters(const Powers& q, double t0, double t1, double bend, const PieceEnds& ends, int depth, Vector<double>& out) {
+        double angle = deviation(powerVelocity(q, t0), powerVelocity(q, t1));
+        DPoint from = powerAt(q, t0);
+        DPoint to = powerAt(q, t1);
+        double toA = ends.capA ? hypot(from.x - ends.a.x, from.y - ends.a.y) : INFINITY;
+        double toB = ends.capB ? hypot(to.x - ends.b.x, to.y - ends.b.y) : INFINITY;
+        bool tight = 2.0 * ends.half * angle > hypot(to.x - from.x, to.y - from.y);
+        double room = tight ? (fmin(toA, toB) < 2.0 * ends.half ? 0.0 : INFINITY) : fmin(ends.openA * toA, ends.openB * toB);
+
         // A bend past the numbers is no bend to halve.
-        if (depth == 0 || !(deviation(powerVelocity(q, t0), powerVelocity(q, t1)) > bend)) {
+        if (depth == 0 || !(angle > bend || ends.half * angle > room + ends.tol)) {
             return;
         }
 
         double t = (t0 + t1) / 2.0;
 
-        bendParameters(q, t0, t, bend, depth - 1, out);
+        bendParameters(q, t0, t, bend, ends, depth - 1, out);
         out.pushBack(t);
-        bendParameters(q, t, t1, bend, depth - 1, out);
+        bendParameters(q, t, t1, bend, ends, depth - 1, out);
     }
 
     // The roots of c + 2 b t + a t^2 where its sign changes, in order, the
@@ -11619,12 +11652,26 @@ namespace {
         }
     }
 
+    // 1 - h / R for a cubic's radius of curvature R at t, its speed cubed
+    // against its turning, 1.5 |v|^3 / |v x (b + c t)| in its powers; none
+    // where R is under h, a cusp too.
+    static double openness(const Powers& q, double t, double half) {
+        DPoint v = powerVelocity(q, t);
+        double turning = fabs(v.x * (q.b.y + q.c.y * t) - v.y * (q.b.x + q.c.x * t));
+        double speed = sqrt(v.x * v.x + v.y * v.y);
+
+        return speed > 0.0 ? fmax(1.0 - half * turning / (1.5 * speed * speed * speed), 0.0) : 0.0;
+    }
+
     // A stroke's piece of a cubic from ta to tb, its points after ta: the
     // even steps of the tolerance, each end refined until its chord runs as
     // the cubic leaves it, and the points between where it bends sharply.
     // rate is the steps of the whole cubic. Where an end is the cubic's own
     // or a dash's cut, its direction is the tangent there.
-    static void strokePiece(Flat& out, Point p0, Point p3, const Powers& q, double ta, double tb, bool cuspA, bool cuspB, double rate, float turn, float tol, bool tangentA, bool tangentB) {
+    static void strokePiece(Flat& out, Point p0, Point p3, const Powers& q, double ta, double tb, bool cuspA, bool cuspB, double rate, float half, float tol, bool tangentA, bool tangentB, bool capA, bool capB) {
+        // The turn a step may take, as the offset at the half width allows,
+        // bounded for a stroke so wide that its points would know no end.
+        float turn = maxf(tol / half, 1.f / 1024.f);
         double span = tb - ta;
         double steps = ceil(rate * span);
         // At least a point between the ends, each then refining a chord of
@@ -11652,11 +11699,13 @@ namespace {
         ts.pushBack(tb);
 
         // The joins between the points keep within the tolerance of the
-        // turn the offset allows, sqrt(8 turn).
+        // turn the offset allows, sqrt(8 turn), and near the ends within
+        // what their normals leave.
+        PieceEnds ends{powerAt(q, ta), powerAt(q, tb), capA, capB, openness(q, ta, half), openness(q, tb, half), half, tol};
         Vector<double> all;
 
         for (size_t i = 1; i < ts.length(); i++) {
-            bendParameters(q, ts[i - 1], ts[i], sqrt(8.0 * turn), 24, all);
+            bendParameters(q, ts[i - 1], ts[i], sqrt(8.0 * turn), ends, 24, all);
             all.pushBack(ts[i]);
         }
 
@@ -11695,8 +11744,9 @@ namespace {
     // pieces between the points where its tangent turns back: the normals
     // there bound its sweep as the ends' do, and each piece refines its
     // chords at its ends, the range's own running along the tangents
-    // there. A cubic along a line is straight between its cusps.
-    static void strokeRange(Flat& out, const Point* p, double ta, double tb, float tol, float turn) {
+    // there. A cubic along a line is straight between its cusps. capA and
+    // capB tell whether the stroke ends at ta and at tb, in a cap.
+    static void strokeRange(Flat& out, const Point* p, double ta, double tb, float tol, float half, bool capA, bool capB) {
         Powers q = powers(p[0], p[1], p[2], p[3]);
         double at[2];
         u8 kind;
@@ -11721,24 +11771,26 @@ namespace {
             if (line) {
                 addCurvePoint(out, p[0], p[3], q, cuts[k], cuts[k + 1]);
             } else {
-                strokePiece(out, p[0], p[3], q, cuts[k], cuts[k + 1], !first && kind == PointCusp, !last && kind == PointCusp, rate, turn, tol, first, last);
+                strokePiece(out, p[0], p[3], q, cuts[k], cuts[k + 1], !first && kind == PointCusp, !last && kind == PointCusp, rate, half, tol, first, last, first && capA, last && capB);
             }
 
             out.kinds.mutBack() = last ? PointCorner : kind;
         }
     }
 
-    static void strokeCurve(Flat& out, Point p0, Point p1, Point p2, Point p3, float tol, float turn) {
+    static void strokeCurve(Flat& out, Point p0, Point p1, Point p2, Point p3, float tol, float half, bool capA, bool capB) {
         Point controls[4] = {p0, p1, p2, p3};
 
         if (out.measured) {
             out.curves.pushBack(FlatCurve{{p0, p1, p2, p3}});
         }
 
-        strokeRange(out, controls, 0.0, 1.0, tol, turn);
+        strokeRange(out, controls, 0.0, 1.0, tol, half, capA, capB);
     }
 
-    static void flatten(const Path& path, const Matrix& m, float tol, float turn, Flat& out) {
+    // A path's points to the tolerance; for a stroke of the half width,
+    // half above zero, their kinds and directions too.
+    static void flatten(const Path& path, const Matrix& m, float tol, float half, Flat& out) {
         const Point* pts = path.points.data();
         size_t pi = 0;
         bool open = false;
@@ -11756,7 +11808,7 @@ namespace {
         // The point a verb adds for a stroke, unless a curve gave its own: a
         // corner, come to along the chord from the point before.
         auto mark = [&]() {
-            if (turn > 0.f && out.kinds.length() < out.points.length()) {
+            if (half > 0.f && out.kinds.length() < out.points.length()) {
                 size_t k = out.points.length() - 1;
                 Point before = k ? out.points[k - 1] : out.points[k];
                 double dx = (double)out.points[k].x - before.x;
@@ -11773,7 +11825,13 @@ namespace {
             }
         };
 
-        for (u8 verb : path.verbs) {
+        // Whether the subpath being read ends without a close, its ends caps.
+        bool capped = false;
+        size_t verbCount = path.verbs.length();
+
+        for (size_t v = 0; v < verbCount; v++) {
+            u8 verb = path.verbs[v];
+
             switch (verb) {
                 case VerbMove:
                     finish(false);
@@ -11781,6 +11839,12 @@ namespace {
                     last = start;
                     out.points.pushBack(start);
                     open = true;
+                    capped = true;
+
+                    for (size_t k = v + 1; k < verbCount && path.verbs[k] != VerbMove; k++) {
+                        capped = capped && path.verbs[k] != VerbClose;
+                    }
+
                     break;
                 case VerbLine:
                     last = apply(m, pts[pi++]);
@@ -11802,8 +11866,8 @@ namespace {
                         break;
                     }
 
-                    if (turn > 0.f) {
-                        strokeCurve(out, p0, p1, p2, p3, tol, turn);
+                    if (half > 0.f) {
+                        strokeCurve(out, p0, p1, p2, p3, tol, half, capped && path.verbs[v - 1] == VerbMove, capped && (v + 1 == verbCount || path.verbs[v + 1] == VerbMove));
                     } else {
                         flattenCubic(p0, p1, p2, p3, tol, out.points);
                     }
@@ -12414,7 +12478,7 @@ namespace {
         return t;
     }
 
-    static void dashPolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, const u32* curveOf, const double* paramOf, const FlatCurve* curves, float turn, size_t count, bool closed, const float* dashes, u32 dashCount, float offset, const Box* cull) {
+    static void dashPolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, const u32* curveOf, const double* paramOf, const FlatCurve* curves, size_t count, bool closed, const float* dashes, u32 dashCount, float offset, const Box* cull) {
         Vector<Point> loop;
         Vector<u8> kind;
         Vector<Point> came;
@@ -12503,10 +12567,13 @@ namespace {
             // too sharp for the step after it. run is that cubic, if any.
             u32 run = ~0u;
             double from = 0.0;
-            auto leave = [&](u32 cubic, double ta, double tb, u8 last) {
+            // capped tells whether from is where the dash starts, a cut or
+            // the start of an open polyline.
+            bool capped = false;
+            auto leave = [&](u32 cubic, double ta, double tb, u8 last, bool capA, bool capB) {
                 Flat span;
 
-                strokeRange(span, curves[cubic].p, ta, tb, s.tol, turn);
+                strokeRange(span, curves[cubic].p, ta, tb, s.tol, s.half, capA, capB);
                 piece.append(span.points.data(), span.points.length());
                 flags.append(span.kinds.data(), span.kinds.length());
                 ways.append(span.dirs.data(), span.dirs.length());
@@ -12560,7 +12627,7 @@ namespace {
                         bool corner = travelled == 0.f;
 
                         if (curve && (run == c || !corner)) {
-                            leave(c, run == c ? from : t0, at, PointCorner);
+                            leave(c, run == c ? from : t0, at, PointCorner, run == c ? capped : i == 0 && !closed, true);
                         } else if (!corner) {
                             piece.pushBack(cut);
                             flags.pushBack(PointCorner);
@@ -12592,6 +12659,7 @@ namespace {
                         ways.pushBack(came[i + 1]);
                         run = curve ? c : ~0u;
                         from = at;
+                        capped = true;
                     }
 
                     on = !on;
@@ -12602,11 +12670,12 @@ namespace {
                 remaining -= length - travelled;
 
                 if (on && curve) {
+                    capped = run == c ? capped : i == 0 && !closed;
                     from = run == c ? from : t0;
                     run = c;
 
                     if (paramOf[i + 1] == 1.0) {
-                        leave(c, from, 1.0, kind[i + 1]);
+                        leave(c, from, 1.0, kind[i + 1], capped, i + 2 == loop.length() && !closed);
                     }
                 } else if (on) {
                     piece.pushBack(b);
@@ -12670,10 +12739,8 @@ namespace {
 
         Flat flat;
         StrokeParams s{style.strokeWidth / 2.f, style.cap, style.join, style.miterLimit, tolerance / maxf(scale, 1e-6f)};
-        float turn = maxf(s.tol / s.half, 1.f / 1024.f);
-
         flat.measured = style.dashCount > 0;
-        flatten(path, identity(), s.tol, turn, flat);
+        flatten(path, identity(), s.tol, s.half, flat);
 
         // A path past the finite numbers has no stroke, as browsers draw it:
         // the sum of a point's coordinates less itself is then no zero.
@@ -12736,7 +12803,7 @@ namespace {
 
             if (count >= 2) {
                 if (style.dashCount) {
-                    dashPolyline(out, s, points, kinds, into, flat.curveOf.data() + begin, flat.paramOf.data() + begin, flat.curves.data(), turn, count, flat.closed[i], style.dashes, style.dashCount, style.dashOffset, cull);
+                    dashPolyline(out, s, points, kinds, into, flat.curveOf.data() + begin, flat.paramOf.data() + begin, flat.curves.data(), count, flat.closed[i], style.dashes, style.dashCount, style.dashOffset, cull);
                 } else {
                     strokePolyline(out, s, points, kinds, into, count, flat.closed[i]);
                 }

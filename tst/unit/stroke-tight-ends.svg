@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">
+<!-- Each black drawing is the exact stroke of its curve, the union of
+its normal segments, drawn plainly beside nothing else. Where a stroke
+ends in a curve tighter than its half width, the inner ends of the
+normals near the end run back, and behind the end's normal a wedge by
+its inner corner is left out of the sweep: a dash ending in a tight
+turn, an open path starting where its curve tightens past the half width
+a little later, an open path ending in a tight turn. Within 8 levels,
+the exact model's own sampling and the flattening's tolerance; the
+second within 32 (D1): where the inner offset turns back, the sectors
+its points sweep fan out from nearly one point, and their edges cross
+too densely within a pixel for the rasterizer's bands to tell their
+order. -->
+<rect width="300" height="100" fill="white"/>
+<g transform="translate(0 0)" fill="none" stroke="black"><path d="M 40 80 C 40 55 45 50 50 50 C 55 50 60 55 60 80" stroke-width="30" stroke-dasharray="28 200" transform="translate(-5 -15)"/></g>
+<g transform="translate(100 0)" fill="none" stroke="black"><path d="M 128.92 313.55 C 132.55 309.89 136.53 309.70 146.47 314.58" stroke-width="19" transform="translate(-100 -290)"/></g>
+<g transform="translate(200 0)" fill="none" stroke="black"><path d="M 40 80 C 40 55 45 50 50 50" stroke-width="30" transform="translate(-10 -25)"/></g>
+</svg>
