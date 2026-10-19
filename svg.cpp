@@ -16681,10 +16681,12 @@ namespace {
         float x1 = ceilf(box.x1 - 1e-4f);
         float y1 = ceilf(box.y1 - 1e-4f);
 
-        out.x0 = x0 < (float)limit.x0 ? limit.x0 : (x0 > (float)limit.x1 ? limit.x1 : (int)x0);
-        out.y0 = y0 < (float)limit.y0 ? limit.y0 : (y0 > (float)limit.y1 ? limit.y1 : (int)y0);
-        out.x1 = x1 > (float)limit.x1 ? limit.x1 : (x1 < (float)out.x0 ? out.x0 : (int)x1);
-        out.y1 = y1 > (float)limit.y1 ? limit.y1 : (y1 < (float)out.y0 ? out.y0 : (int)y1);
+        // A side of no number, which coordinates past the floats' range
+        // can make, leaves the box empty.
+        out.x0 = !(x0 <= (float)limit.x1) ? limit.x1 : (x0 < (float)limit.x0 ? limit.x0 : (int)x0);
+        out.y0 = !(y0 <= (float)limit.y1) ? limit.y1 : (y0 < (float)limit.y0 ? limit.y0 : (int)y0);
+        out.x1 = !(x1 >= (float)out.x0) ? out.x0 : (x1 > (float)limit.x1 ? limit.x1 : (int)x1);
+        out.y1 = !(y1 >= (float)out.y0) ? out.y0 : (y1 > (float)limit.y1 ? limit.y1 : (int)y1);
 
         return out;
     }

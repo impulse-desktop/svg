@@ -17,7 +17,8 @@ and contain; object-position places it, by keywords, percentages of the
 room left, or lengths; with a fit other than fill preserveAspectRatio does
 nothing; an image larger than the box scales down; a document of a
 viewBox alone has its measured size (D10), one of neither has no ratio
-and is stretched, an empty one draws nothing; both properties inherit when asked.""")
+and is stretched, an empty one draws nothing; both properties inherit when asked and not else; neither is a
+presentation attribute; an invalid position is ignored.""")
 k = 0
 y0 = 2
 
@@ -53,6 +54,9 @@ cell("none", [one("object-fit: none", (4, 5, 4, 2)), one("object-fit: none; obje
 cell("scale-down", [one("object-fit: scale-down", (4, 5, 4, 2)), one("object-fit: scale-down", (0, 3, 12, 6), BIG)])
 cell("position", [one("object-fit: none; object-position: right 1px bottom 2px", (7, 8, 4, 2)), one("object-fit: none; object-position: 25% 100%", (2, 10, 4, 2))])
 cell("ratio", [one("object-fit: none", (5, 5.5, 2, 1), RATIO), one("object-fit: cover", (0, 0, 12, 12), NONE), one("object-fit: cover", (0, 0, 0, 0), EMPTY)])
-cell("inherit", [one("object-fit: inherit; object-position: inherit", (0, 0, 12, 12), parent="object-fit: cover; object-position: 100% 0")])
+cell("inherit", [one("object-fit: inherit; object-position: inherit", (0, 0, 12, 12), parent="object-fit: cover; object-position: 100% 0"),
+                 one("object-fit: unset; object-position: unset", (0, 3, 12, 6), parent="object-fit: cover; object-position: 100% 0")])
+cell("not-presentation", [one("", (0, 3, 12, 6), extra=' object-fit="cover" object-position="0 0"')])
+cell("invalid-position", [one("object-fit: none; object-position: foo", (4, 5, 4, 2))])
 unit.height = 2 + 16 * ((k + 4) // 5) + 1
 unit.write()
