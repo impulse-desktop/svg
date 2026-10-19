@@ -20,11 +20,11 @@
 - [x] svg2/conform.md#ConformingSVGViewers: all visual rendering must be accurate to within one device pixel of the mathematically correct result at the initial 1:1 zoom ratio [path-grammar#arc-small transform-double#viewbox-offset]
 - [x] svg2/conform.md#ConformingSVGViewers: on systems with accurate sRGB support, sRGB color computations and resulting values must be accurate to within one sRGB component value (range 0-255) [color-functions#rgb-forms color-functions#hex-6-8]
 
-## High-quality viewer requirements: paint-rendering-hints
+## High-quality viewer requirements: paint-rendering-hints, image-cells
 
 - [x] svg2/conform.md#ConformingHighQualitySVGViewers: on low-resolution devices (150dpi or less) a high-quality viewer must support smooth (anti-aliased) edges on lines and curves [paint-rendering-hints#shape-smooth]
 - [-] svg2/conform.md#ConformingHighQualitySVGViewers: a high-quality viewer must support color management via ICC profiles (D18) [color-functions#display-p3]
-- [x] svg2/conform.md#ConformingHighQualitySVGViewers: a high-quality viewer's image resampling must meet the stricter image-rendering requirements given for high-quality viewers [paint-rendering-hints#image-smooth]
+- [x] svg2/conform.md#ConformingHighQualitySVGViewers: a high-quality viewer's image resampling must meet the stricter image-rendering requirements given for high-quality viewers [paint-rendering-hints#image-smooth image-cells#natural-size]
 
 ## Notes
 

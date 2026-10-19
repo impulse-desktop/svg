@@ -5,10 +5,16 @@ from unitgen import Unit, png
 
 LIME = png([[(0, 1, 0, 1)] * 4] * 4)
 OVER = "data:image/svg+xml," + quote("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' overflow='visible'><rect x='-4' y='-4' width='12' height='12' fill='lime'/></svg>")
-unit = Unit("image-cells", 32, 12, """Each lime drawing fills its black outline.
+# A checker of lime and navy pixels.
+CHECKER = [[(0, 1, 0, 1) if (x + y) % 2 else (0, 0, .5, 1) for x in range(4)] for y in range(4)]
+unit = Unit("image-cells", 40, 12, """Each lime drawing fills its black outline.
 CSS positioning does not move an image; an image clips what its document
-draws past it, whatever that document's own overflow.""")
+draws past it, whatever that document's own overflow. A raster at its own
+size on whole pixels gives its pixels back as they are, as bilinear
+resampling would, the least image-rendering auto may do.""")
 unit.cell("css-position", (1, 1, 10, 10), f'<image x="2" y="2" width="8" height="8" href="{LIME}" style="position: relative; top: 4px; left: 4px; margin: 4px"/>',
           '<rect x="2" y="2" width="8" height="8" fill="lime"/>', '<rect x="2" y="2" width="8" height="8"/>')
 unit.cell("image-overflow", (13, 1, 18, 10), f'<image x="20" y="2" width="8" height="8" href="{OVER}"/>', '<rect x="20" y="2" width="8" height="8" fill="lime"/>', '<rect x="20" y="2" width="8" height="8"/>')
+unit.cell("natural-size", (31, 1, 6, 6), f'<image x="32" y="2" href="{png(CHECKER)}"/>',
+          "".join(f'<rect x="{32 + x}" y="{2 + y}" width="1" height="1" fill="{"lime" if (x + y) % 2 else "navy"}"/>' for y in range(4) for x in range(4)), "")
 unit.write()

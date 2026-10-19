@@ -18610,8 +18610,11 @@ namespace {
 
         float scale = minf(sqrtf(place.a * place.a + place.b * place.b), sqrtf(place.c * place.c + place.d * place.d));
         int levels = scale < 1.f ? (int)floorf(maxf(-log2f(scale) - 0.5f, 0.f) + 0.5f) : 0;
+        // At its own size on whole pixels each device pixel is a texel,
+        // which any filter is to give back as it is: the nearest does.
+        int whole = (place.a == 1.f) + (place.b == 0.f) + (place.c == 0.f) + (place.d == 1.f) + (place.e == floorf(place.e)) + (place.f == floorf(place.f));
 
-        paint->smooth = rendering == 0 || (rendering == 2 && scale < 1.f);
+        paint->smooth = whole < 6 && (rendering == 0 || (rendering == 2 && scale < 1.f));
         levels = paint->smooth ? levels : 0;
 
         // pixelated takes each axis to its nearest whole multiple by nearest

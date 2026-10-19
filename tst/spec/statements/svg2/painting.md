@@ -158,10 +158,10 @@
 - [x] svg2/painting.md#ShapeRenderingProperty: shape-rendering is auto | optimizeSpeed | crispEdges | geometricPrecision; initial auto; applies to shapes; is inherited [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp paint-properties#shape-rendering-inherited]
 - [x] svg2/painting.md#ShapeRenderingProperty: optimizeSpeed may disable anti-aliasing; crispEdges favors crisp edges over speed/precision; geometricPrecision favors precision over speed/crisp edges; auto balances all three favoring precision most [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp]
 
-## image-rendering: paint-rendering-hints
+## image-rendering: paint-rendering-hints, image-cells
 
 - [x] svg2/painting.md#ImageRenderingProperty: image-rendering is auto | optimizeQuality | optimizeSpeed; initial auto; applies to images; is inherited [paint-rendering-hints#image-smooth paint-rendering-hints#image-speed paint-properties#image-rendering-inherited]
-- [x] svg2/painting.md#ImageRenderingProperty: auto and optimizeQuality require resampling at least as good as bilinear; optimizeSpeed allows resampling as low as nearest-neighbor [paint-rendering-hints#image-smooth paint-rendering-hints#image-speed]
+- [x] svg2/painting.md#ImageRenderingProperty: auto and optimizeQuality require resampling at least as good as bilinear; optimizeSpeed allows resampling as low as nearest-neighbor [paint-rendering-hints#image-smooth paint-rendering-hints#image-speed image-cells#natural-size]
 - [x] svg2/painting.md#ImageRenderingProperty: resampling must always be performed in a truecolor color space, even when the source or target is indexed color [paint-rendering-hints#image-smooth]
 
 ## Notes
