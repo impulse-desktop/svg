@@ -131,3 +131,18 @@ def squares(unit, groups, columns=8):
     unit.common("<style><![CDATA[\n" + "\n".join(sheet) + "\n]]></style>" + "".join(own), "")
     unit.width = 2 + columns * 8
     unit.height = y
+
+
+def png(rows):
+    """A data URI of a PNG of rows of straight (r, g, b, a) in [0, 1]."""
+    import base64
+    import struct
+    import zlib
+
+    def chunk(kind, data):
+        return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data) & 0xffffffff)
+
+    raw = b"".join(b"\0" + bytes(min(255, max(0, round(255 * v))) for pixel in row for v in pixel) for row in rows)
+    data = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", len(rows[0]), len(rows), 8, 6, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b"")
+
+    return "data:image/png;base64," + base64.b64encode(data).decode()

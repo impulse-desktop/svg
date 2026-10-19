@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="14">
+<!-- What tst/unit/css-image-values.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="92" height="14" fill="white"/>
+<mask id="m"><rect width="100" height="100" fill="white"/></mask>
+<g id="invalid-image" data-box="1 1 20 12"></g>
+<g id="fragment" data-box="21 1 20 12"><rect x="22" y="2" width="8" height="10" fill="lime"/></g>
+<g id="other-document" data-box="41 1 20 12"><rect x="52" y="2" width="8" height="10" fill="lime"/></g>
+<g id="image-types" data-box="61 1 10 12"><rect x="62" y="2" width="8" height="10" fill="lime"/></g>
+<g id="gradient-box" data-box="71 1 20 12"><linearGradient id="gx" gradientUnits="userSpaceOnUse" x1="72" x2="80"><stop stop-color="lime"/><stop offset="1" stop-color="lime" stop-opacity="0"/></linearGradient><rect x="72" y="2" width="8" height="10" fill="url(#gx)"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="22" y="2" width="8" height="10"/><rect x="52" y="2" width="8" height="10"/><rect x="62" y="2" width="8" height="10"/><rect x="72" y="2" width="16" height="10"/></g>
+</svg>

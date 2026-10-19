@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="14">
+<!-- Each lime drawing fills its black outline, and nothing red shows. A
+url() image that cannot be decoded is an invalid image, transparent, so
+a mask of it hides all; a fragment url is an element of the document, a
+mask, or nothing, a transparent layer (D20); one of another document is
+an element of it, which nothing loads (D15), and so hides all too,
+unless it is an image, a data URI, whose fragment names no element of
+ours. An <image> is a url or a gradient; a gradient has no natural size
+and fills the size it is given. -->
+<rect width="92" height="14" fill="white"/>
+<mask id="m"><rect width="100" height="100" fill="white"/></mask>
+<rect x="2" y="2" width="8" height="10" fill="red" style="mask-image: url(data:image/png;base64,AAAA)"/><rect x="12" y="2" width="8" height="10" fill="red" style="mask-image: url(data:image/png;base64,iVBORw0KGgo=)"/>
+<rect x="22" y="2" width="8" height="10" fill="lime" style="mask-image: url(#m)"/><rect x="32" y="2" width="8" height="10" fill="red" style="mask-image: url(#nothing)"/>
+<rect x="42" y="2" width="8" height="10" fill="red" style="mask-image: url(other.svg#m)"/><rect x="52" y="2" width="8" height="10" fill="lime" style="mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%274%27%20height%3D%274%27%3E%3Crect%20width%3D%274%27%20height%3D%274%27/%3E%3C/svg%3E#m')"/>
+<rect x="62" y="2" width="8" height="10" fill="lime" style="mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%274%27%20height%3D%274%27%3E%3Crect%20width%3D%274%27%20height%3D%274%27/%3E%3C/svg%3E'), linear-gradient(transparent, transparent)"/>
+<rect x="72" y="2" width="16" height="10" fill="lime" style="mask: linear-gradient(90deg, black, transparent) 0 0 / 8px 10px no-repeat"/>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="22" y="2" width="8" height="10"/><rect x="52" y="2" width="8" height="10"/><rect x="62" y="2" width="8" height="10"/><rect x="72" y="2" width="16" height="10"/></g>
+</svg>
