@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="102" height="16">
+<!-- Each viewport, 8 by 12, shows the viewBox 0 0 10 10, lime with a
+navy top left quarter, within the black outline its value gives. A value
+outside the grammar is as if not given, xMidYMid meet, whole: a misspelt
+or miscased alignment, a word after it, slice after a bad alignment
+(Chromium, librsvg and resvg alike). SVG 1.1's defer before an alignment
+is read past; glued to it or alone it is invalid. Spaces around and
+between the words do not count, and none takes slice and stretches. -->
+<rect width="102" height="16" fill="white"/>
+<svg x="2" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="xMadYMid"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="12" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="xMadYMid slice"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="22" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="xMinYMin foo"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="32" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="xMinYmin"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="42" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="xMinYMin slicex"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="52" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="defer xMinYMin"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="62" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="deferxMinYMin"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="72" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="defer"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="82" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio=" xMinYMin  slice "><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<svg x="92" y="2" width="8" height="12" viewBox="0 0 10 10" preserveAspectRatio="none slice"><rect width="10" height="10" fill="lime"/><rect width="5" height="5" fill="navy"/></svg>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="4" width="8" height="8"/><rect x="12" y="4" width="8" height="8"/><rect x="22" y="4" width="8" height="8"/><rect x="32" y="4" width="8" height="8"/><rect x="42" y="4" width="8" height="8"/><rect x="52" y="2" width="8" height="8"/><rect x="62" y="4" width="8" height="8"/><rect x="72" y="4" width="8" height="8"/><rect x="82" y="2" width="8" height="12"/><rect x="92" y="2" width="8" height="12"/></g>
+</svg>

@@ -10850,6 +10850,31 @@ namespace {
         return value && parseViewBoxText(*doc.pool, textOf(doc, value), out);
     }
 
+    // A preserveAspectRatio value: an alignment, then meet or slice if any.
+    static bool validAspect(StringView text) {
+        const StringView aligns[10] = {SV("none"), SV("xMinYMin"), SV("xMidYMin"), SV("xMaxYMin"), SV("xMinYMid"), SV("xMidYMid"), SV("xMaxYMid"), SV("xMinYMax"), SV("xMidYMax"), SV("xMaxYMax")};
+        const u8* p = text.begin();
+        const u8* end = text.end();
+
+        skipSpaces(p, end);
+
+        const u8* start = p;
+
+        while (p < end && !isSpace(*p)) {
+            p++;
+        }
+
+        StringView align(start, p);
+        StringView rest = trim(StringView(p, end));
+        u32 k = 0;
+
+        while (k < 10 && !(align == aligns[k])) {
+            k++;
+        }
+
+        return k < 10 && (rest.empty() || rest == SV("meet") || rest == SV("slice"));
+    }
+
     static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, float width, float height) {
         float vw = viewBox.x1 - viewBox.x0;
         float vh = viewBox.y1 - viewBox.y0;
@@ -10860,44 +10885,27 @@ namespace {
         bool slice = false;
         bool none = false;
         u32 value = attribute(node, AtomPreserveAspectRatio);
+        StringView text = value ? trim(textOf(doc, value)) : StringView();
 
-        if (value) {
-            StringView text = trim(textOf(doc, value));
-            const u8* p = text.begin();
-            const u8* end = text.end();
-            const u8* start = p;
+        // SVG 1.1's defer, heeded by images alone, may come first.
+        if (startsWith(text, SV("defer")) && text.length() > 5 && isSpace(text[5])) {
+            text = trim(StringView(text.begin() + 5, text.end()));
+        }
 
-            while (p < end && !isSpace(*p)) {
-                p++;
-            }
+        // An invalid value is as if not given, xMidYMid meet: Chromium,
+        // librsvg and resvg read a misspelt alignment or a word after it so.
+        if (validAspect(text)) {
+            none = startsWith(text, SV("none"));
 
-            StringView align(start, p);
-
-            if (align == SV("defer")) {
-                skipSpaces(p, end);
-
-                start = p;
-
-                while (p < end && !isSpace(*p)) {
-                    p++;
-                }
-
-                align = StringView(start, p);
-            }
-
-            if (align == SV("none")) {
-                none = true;
-            } else if (align.length() == 8 && align[0] == 'x' && align[4] == 'Y') {
-                StringView ax(align.begin() + 1, align.begin() + 4);
-                StringView ay(align.begin() + 5, align.end());
+            if (!none) {
+                StringView ax(text.begin() + 1, text.begin() + 4);
+                StringView ay(text.begin() + 5, text.begin() + 8);
 
                 alignX = ax == SV("Min") ? 0 : (ax == SV("Mid") ? 1 : 2);
                 alignY = ay == SV("Min") ? 0 : (ay == SV("Mid") ? 1 : 2);
             }
 
-            skipSpaces(p, end);
-
-            slice = StringView(p, end) == SV("slice");
+            slice = text.length() > 8 && StringView(text.end() - 5, text.end()) == SV("slice");
         }
 
         if (none) {
@@ -19201,31 +19209,6 @@ namespace {
         }
 
         return view;
-    }
-
-    // A preserveAspectRatio value: an alignment, then meet or slice if any.
-    static bool validAspect(StringView text) {
-        const StringView aligns[10] = {SV("none"), SV("xMinYMin"), SV("xMidYMin"), SV("xMaxYMin"), SV("xMinYMid"), SV("xMidYMid"), SV("xMaxYMid"), SV("xMinYMax"), SV("xMidYMax"), SV("xMaxYMax")};
-        const u8* p = text.begin();
-        const u8* end = text.end();
-
-        skipSpaces(p, end);
-
-        const u8* start = p;
-
-        while (p < end && !isSpace(*p)) {
-            p++;
-        }
-
-        StringView align(start, p);
-        StringView rest = trim(StringView(p, end));
-        u32 k = 0;
-
-        while (k < 10 && !(align == aligns[k])) {
-            k++;
-        }
-
-        return k < 10 && (rest.empty() || rest == SV("meet") || rest == SV("slice"));
     }
 
     // The view a fragment's view part gives the document, viewBox its own
