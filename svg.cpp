@@ -21735,8 +21735,10 @@ namespace {
 
         // A focal circle that touches the end circle, within the tolerance
         // paint.beyond took, is on it: its own geometry, a hair outside,
-        // would sweep its circles back over the whole end circle.
-        if (paint.beyond || fabsf(a) < 1e-9f) {
+        // would sweep its circles back over the whole end circle. a is
+        // zero there alone, a start circle over the end circle drawing
+        // nothing.
+        if (paint.beyond) {
             if (b == 0.f) {
                 return false;
             }
