@@ -20,7 +20,7 @@
 - [x] compositing-1.md#mix-blend-mode: any blend mode other than normal establishes a new stacking context, which is then blended and composited with the stacking context containing the element [blend-groups#blend]
 - [x] compositing-1.md#csscompositingrules_CSS: an element with blending applied must blend against all the underlying content of the stacking context it belongs to [blend-groups#non-isolated blend-groups#transform-2d]
 
-## Compositing groups and backdrop: blend-groups, blend-root, filter-root (exists), clip-root.20x20 (exists)
+## Compositing groups and backdrop: blend-groups, blend-root, filter-root (exists), clip-root.20x20 (exists), render-root-background-backdrop
 
 - [x] compositing-1.md#whatiscompositing: compositing first blends source and backdrop colors where they overlap, then composites the blended source with the backdrop using the chosen operator [blend-mode-formulas#multiply blend-porter-duff#over]
 - [x] compositing-1.md#backdropCalc: the backdrop of an element is the result of compositing every element already composited before it [blend-groups#non-isolated]
@@ -29,7 +29,8 @@
 - [x] compositing-1.md#groupbackdrop: the group backdrop is the result of compositing every element before the group's first element [blend-groups#non-isolated]
 - [x] compositing-1.md#groupinvariance: with default attributes, adding or removing a group changes nothing: A+B+C = A+(B+C) = (A+B)+C; isolation, non-normal blending, or a non-source-over operator can break this invariance [blend-groups#invariance]
 - [x] compositing-1.md#isolatedgroups: an isolated group's initial backdrop is black and fully transparent, distinct from the group backdrop it is composited into afterward [blend-groups#isolate blend-groups#mask]
-- [x] compositing-1.md#pagebackdrop: the root element's isolated group (the root element group) receives the canvas background, then the root element's own filter, clip-path, mask and opacity, before compositing into the root group [blend-root#root-group]
+- [x] compositing-1.md#pagebackdrop: the root element's isolated group (the root element group) takes the root element's own filter, clip-path, mask and opacity as one, after its content, before compositing into the root group [blend-root#root-group]
+- [-] compositing-1.md#pagebackdrop: the canvas background is painted into the root element group: the root's content blends with it as its backdrop, while the root's own opacity, filter, clip-path and mask leave it whole, as Chromium, Firefox and resvg draw them. (D52) [render-root-background-backdrop#child render-root-background-opacity#canvas]
 
 ## Simple alpha compositing formula: blend-mode-formulas, blend-porter-duff
 

@@ -1,7 +1,7 @@
 """render-root-background-opacity, render-root-background-blend,
-render-root-background-shorthand, render-root-background-layers,
-render-root-background-reset, render-root-background-keyword and
-render-root-background-current: the
+render-root-background-backdrop, render-root-background-shorthand,
+render-root-background-layers, render-root-background-reset,
+render-root-background-keyword and render-root-background-current: the
 outermost svg's background, the canvas's under it (CSS Backgrounds 3,
 backgrounds of special elements), and the background shorthand's colour."""
 from unitgen import Unit
@@ -18,6 +18,13 @@ unit = Unit("render-root-background-blend", 16, 8, """The outermost svg's
 content blends with its background, the canvas's: red in difference with
 white is cyan.""", root='style="background-color: white; mix-blend-mode: difference"', plain_root="", ground=False)
 unit.cell("canvas", (0, 0, 16, 8), '<rect x="8" width="8" height="8" fill="red"/>', CANVAS + '<rect x="8" width="8" height="8" fill="cyan"/>')
+unit.write()
+
+unit = Unit("render-root-background-backdrop", 16, 8, """The canvas's
+background is painted into the root element's group (compositing-1,
+the root element group), so the root's content blends with it: a red
+square in difference with the white is cyan.""", root='style="background-color: white"', plain_root="", ground=False)
+unit.cell("child", (0, 0, 16, 8), '<rect x="8" width="8" height="8" fill="red" style="mix-blend-mode: difference"/>', CANVAS + '<rect x="8" width="8" height="8" fill="cyan"/>')
 unit.write()
 
 unit = Unit("render-root-background-shorthand", 16, 8, """The background

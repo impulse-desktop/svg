@@ -621,3 +621,17 @@ sizes; at a device scale they stretch the px instead. Real files use it
 for the canvas's texture: the railroad diagram generator's grid of two
 gradients (78 harvested files), a mind map's tiled PNG, a gradient behind
 a logo.
+
+## D52. The canvas is the backdrop of the root's content, outside its effects
+
+`compositing-1.md#pagebackdrop` paints the canvas background into the root
+element group, under the root's filter, clip-path, mask and opacity, and
+`css-backgrounds-3.md#root-background` has the root element not paint it
+again. Chromium, Firefox and resvg draw the canvas outside the root's
+effects: a root of opacity .5 fades its shapes and not the white of its
+background-color, and the renderer draws so. The root's content blends with
+the canvas, its backdrop in the root element group: a Sketch tile
+multiplies a gradient over its artboard's #A8B7C7, which Sketch shows
+darkened; Chromium and Firefox isolate the root's content from the canvas
+and draw the gradient lighter than the colour under it, which multiply
+cannot.

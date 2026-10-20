@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" style="background-color: white">
+<!-- The canvas's background is painted into the root element's group
+(compositing-1, the root element group), so the root's content blends
+with it: a red square in difference with the white is cyan. -->
+<rect x="8" width="8" height="8" fill="red" style="mix-blend-mode: difference"/>
+</svg>
