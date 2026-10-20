@@ -18,4 +18,7 @@ expect("paint-context", [
     ("marker-server-box", (53, 19, 8, 9), lime(54, 20.5, 6, 6), 64),
     # The use's box runs from 2 to 26: lime to 6.8 and from 21.2.
     ("use-server-box", (1, 29, 26, 10), lime(2, 30, 4, 8) + lime(22, 30, 4, 8)),
+    # The box of a nested svg and of an image of its own size, measured when
+    # the context paint asks: 30 to 54, lime to 34.8.
+    ("use-box-measured", (29, 29, 26, 10), lime(30, 30, 4, 8) + lime(50, 30, 4, 8)),
 ])

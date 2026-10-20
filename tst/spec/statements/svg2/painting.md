@@ -13,7 +13,7 @@
 - [x] svg2/painting.md#context-paint: context-fill and context-stroke reference the fill/stroke paint layers generated for the context element [paint-context#marker-stroke paint-context#marker-fill]
 - [x] svg2/painting.md#context-paint: the context element is the element referencing a marker (when painting inside that marker) or the use element (when inside a use shadow tree); otherwise there is no context element [paint-context#marker-fill paint-context#use-fill]
 - [x] svg2/painting.md#context-paint: if there is no context element and context-fill/context-stroke are used, no paint is applied for that layer [paint-context#no-context]
-- [x] svg2/painting.md#context-paint: the coordinate space and bounding box used for context paint servers are those of the context element, so gradients/patterns stay continuous from shape to marker or across the use shadow tree [paint-context#marker-server-box paint-context#use-server-box]
+- [x] svg2/painting.md#context-paint: the coordinate space and bounding box used for context paint servers are those of the context element, so gradients/patterns stay continuous from shape to marker or across the use shadow tree [paint-context#marker-server-box paint-context#use-server-box paint-context#use-box-measured]
 - [x] svg2/painting.md#context-paint: context-fill/context-stroke references are resolved recursively if the context element's own fill/stroke is itself context-fill/context-stroke [paint-context#use-recursive]
 
 ## color property currentColor: paint-current-color

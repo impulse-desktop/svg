@@ -12,6 +12,7 @@ element context paint is none. -->
 <symbol id="s" overflow="visible"><rect width="8" height="8" fill="context-fill"/></symbol>
 <symbol id="t" overflow="visible"><use href="#s" fill="context-fill"/></symbol>
 <g id="two"><rect width="4" height="8" fill="context-fill"/><rect x="20" width="4" height="8" fill="context-fill"/></g>
+<g id="far"><svg width="4" height="8"><rect width="4" height="8" fill="context-fill"/></svg><image x="20" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%228%22%3E%3Crect width=%224%22 height=%228%22 fill=%22lime%22/%3E%3C/svg%3E"/></g>
 <linearGradient id="end" x1="0" x2="1"><stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
 <linearGradient id="ends" x1="0" x2="1"><stop offset=".2" stop-color="lime"/><stop offset=".2" stop-color="red"/>
 <stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
@@ -27,4 +28,5 @@ element context paint is none. -->
 <rect x="55" y="21" width="5" height="5" fill="red"/>
 <path d="M 4 16 L 57 23.5" stroke="url(#end)" stroke-opacity="0" fill="none" marker-end="url(#mg)"/>
 <use href="#two" x="2" y="30" fill="url(#ends)"/>
+<use href="#far" x="30" y="30" fill="url(#ends)"/>
 </svg>

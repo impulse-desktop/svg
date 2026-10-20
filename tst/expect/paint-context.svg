@@ -11,6 +11,7 @@ id is what the statement ledgers link to. -->
 <symbol id="s" overflow="visible"><rect width="8" height="8" fill="context-fill"/></symbol>
 <symbol id="t" overflow="visible"><use href="#s" fill="context-fill"/></symbol>
 <g id="two"><rect width="4" height="8" fill="context-fill"/><rect x="20" width="4" height="8" fill="context-fill"/></g>
+<g id="far"><svg width="4" height="8"><rect width="4" height="8" fill="context-fill"/></svg><image x="20" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%228%22%3E%3Crect width=%224%22 height=%228%22 fill=%22lime%22/%3E%3C/svg%3E"/></g>
 <linearGradient id="end" x1="0" x2="1"><stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
 <linearGradient id="ends" x1="0" x2="1"><stop offset=".2" stop-color="lime"/><stop offset=".2" stop-color="red"/>
 <stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
@@ -22,4 +23,5 @@ id is what the statement ledgers link to. -->
 <g id="no-context" data-box="49 1 10 10"><rect x="50" y="2" width="8" height="8" fill="lime"/></g>
 <g id="marker-server-box" data-box="53 19 8 9" data-tolerance="64"><rect x="54" y="20.5" width="6" height="6" fill="lime"/></g>
 <g id="use-server-box" data-box="1 29 26 10"><rect x="2" y="30" width="4" height="8" fill="lime"/><rect x="22" y="30" width="4" height="8" fill="lime"/></g>
+<g id="use-box-measured" data-box="29 29 26 10"><rect x="30" y="30" width="4" height="8" fill="lime"/><rect x="50" y="30" width="4" height="8" fill="lime"/></g>
 </svg>
