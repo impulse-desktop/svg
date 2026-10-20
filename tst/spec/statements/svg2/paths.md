@@ -6,10 +6,10 @@
 - [x] svg2/paths.md#TheDProperty: every coordinate and length in path data is always in user units of the current user coordinate system (no unit identifiers or percentages). [path-data-commands#unit-error]
 - [x] svg2/paths.md#TheDProperty: the <string> must match the svg-path EBNF grammar; if it contains no valid commands at all, the path behaves as if d were none. [path-data-commands#empty]
 - [x] svg2/paths.md#PathDataGeneralInformation: the only decimal point allowed in path data is U+002E FULL STOP; no other delimiter (e.g. a thousands comma) may appear inside a number. [path-data-commands#comma-in-number path-data-commands#comma-separates]
-- [x] svg2/paths.md#PathDataBNF: a number is fractional-constant exponent?, optionally signed, with fractional-constant being digits with an optional embedded "."; trailing bare decimal points (e.g. "23.") are disallowed by SVG2, though a UA may still accept them where unambiguous. [path-data-commands#trailing-point path-grammar#number-ends]
+- [x] svg2/paths.md#PathDataBNF: a number is fractional-constant exponent?, optionally signed, with fractional-constant being digits with an optional embedded "."; trailing bare decimal points (e.g. "23.") are disallowed by SVG2, though a UA may still accept them where unambiguous; the renderer accepts a point after digits alone, as SVG 1.1 had it (D53). [path-data-commands#trailing-point path-grammar#number-ends]
 - [x] svg2/paths.md#PathDataBNF: EBNF productions consume as much as possible: "M 100-200" parses coordinates 100 and -200 (stopping at the sign); "M 0.6.5" parses 0.6 and .5 (stopping at the second decimal point). [path-grammar#number-ends]
 - [x] svg2/paths.md#PathDataBNF: path data not matching the grammar is an error, handled per the error-handling rules. [path-grammar#error path-data-commands#unit-error path-data-commands#comma-after-close]
-- [x] svg2/paths.md#PathDataErrorHandling: on an error, the path renders up to (but not including) the command containing the first error. [path-grammar#error path-data-commands#trailing-point]
+- [x] svg2/paths.md#PathDataErrorHandling: on an error, the path renders up to (but not including) the command containing the first error. [path-grammar#error]
 - [x] svg2/paths.md#PathDataErrorHandling: a command with an incorrect parameter count renders up to and including its last correctly-defined segment (e.g. 'M 10,10 L 20,20,30' draws the line to 20,20 only). [path-grammar#short-command]
 
 ## Path commands: path-grammar, path-data-commands

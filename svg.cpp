@@ -11246,7 +11246,21 @@ namespace {
                 } else if (upper == 'A' && i == 4) {
                     ok = readFlag(p, end, sweepArc);
                 } else {
+                    const u8* number = p;
+                    bool whole = true;
+
                     ok = readDouble(p, end, v[i]);
+
+                    for (const u8* q = number; q < p; q++) {
+                        whole = whole && *q != '.' && (*q | 32) != 'e';
+                    }
+
+                    // A point that no digit follows ends a number of digits
+                    // alone, as SVG 1.1's grammar had it and SVG 2 lets a
+                    // reader take it (paths.md, PathDataBNF; D53).
+                    if (ok && whole && at(p, end, '.')) {
+                        p++;
+                    }
 
                     if (ok) {
                         skipSeparator(p, end);

@@ -39,7 +39,7 @@ boxed("none", (40, 1, 8, 8), 41, 2, '<path d="none"/><path/><path d="M {x} {y} h
 boxed("empty", (52, 1, 8, 8), 53, 2, '<path d="L {x} {y} h 2"/><path d="X {x} {y} h 2"/><path d="{x} {y} h 2"/><path d=""/>')
 stroke("unit-error", (1, 1, 10, 4), "M 2 3 h 4 L 10px 3 h 2", "M 2 3 H 6")
 stroke("comma-separates", (12, 1, 10, 4), "M 13 3 h 1,2", "M 13 3 H 16")
-stroke("trailing-point", (24, 1, 12, 4), "M 25 3 h 4. 3", "M 25 3 H 29")
+stroke("trailing-point", (24, 1, 12, 4), "M 25 3 h 4. 3", "M 25 3 H 32")
 stroke("comma-in-number", (1, 6, 10, 4), "M 2 8 h 1,000 2", "M 2 8 H 3 H 3 H 5")
 stroke("comma-after-close", (12, 6, 24, 5), "M 14 7 h 6 v 2 h -6 z, M 24 7 h 6", "M 14 7 h 6 v 2 h -6 z")
 stroke("moveto-pairs", (1, 12, 14, 8), "M 2 14 6 14 6 18 m 2 -4 4 0 0 4", "M 2 14 L 6 14 L 6 18 M 8 14 L 12 14 L 12 18")

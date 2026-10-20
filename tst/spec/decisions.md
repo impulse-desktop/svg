@@ -635,3 +635,17 @@ multiplies a gradient over its artboard's #A8B7C7, which Sketch shows
 darkened; Chromium and Firefox isolate the root's content from the canvas
 and draw the gradient lighter than the colour under it, which multiply
 cannot.
+
+## D53. Path data takes a number's trailing point
+
+`svg2/paths.md#PathDataBNF` drops SVG 1.1's numbers with a point and no
+digit after it, "23.", and lets user agents accept them where the parse is
+unambiguous. Inkscape writes them in its own stock patterns, Ermine's
+spots among them ("M 675.437,501. C 637.586,501. ..."), in 30 harvested
+files, and Inkscape, resvg and librsvg read them; Chromium and Firefox
+take each one for an error and drop the rest of the path, cutting the
+ermine's tails. The renderer read the digits and failed on the point after
+them, which drew the command the number ended and nothing after, as no
+renderer does. It takes a point after a number of digits alone as that
+number's end now, and in a number with a point or an exponent still as
+the next number's start.
