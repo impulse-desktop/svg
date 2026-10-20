@@ -42,8 +42,9 @@
 - [x] svg2/struct.md#UseLayout: the computed x,y on use add a translate(x,y) appended after any other transforms on the use element itself, affecting the coordinate system used by userSpaceOnUse effects applied to the use element. [use-geometry#translate-after use-geometry#clip-translated]
 - [x] svg2/struct.md#UseLayout: width/height on use have no effect at all if the referenced element does not establish a new viewport; use itself never establishes a viewport, so it never affects percentage interpretation in the reused graphics. [use-geometry#size-other use-geometry#percent]
 
-## Resolving the use reference and its errors: use-geometry, struct-elements, use-chain, measure-use-chain
+## Resolving the use reference and its errors: use-geometry, struct-elements, use-chain, measure-use-chain, use-bomb, measure-use-bomb
 
+- [-] svg2/struct.md#UseShadowTree: every instance a document's uses make is drawn, however many they multiply to; the renderer draws and measures at most 16 384 + 32 elements per byte of the document, each instance counted. (D54) [use-bomb#first-square measure-use-bomb#measured]
 - [x] svg2/struct.md#UseShadowTree: if the resolved referenced element is not an SVG element, the reference is invalid and the use element is in error (not rendered). [use-geometry#foreign]
 - [x] svg2/struct.md#UseShadowTree: if the referenced element is a (shadow-including) ancestor of the use element, this is an invalid circular reference and the use element is in error. [use-geometry#ancestor struct-elements#use-empty-href]
 - [x] svg2/struct.md#UseShadowTree: a use element with an unresolved or invalid reference is not rendered; for bounding-box purposes it behaves as an empty container element. [bbox-inputs#unresolved-use struct-elements#use-data-url]

@@ -649,3 +649,17 @@ them, which drew the command the number ended and nothing after, as no
 renderer does. It takes a point after a number of digits alone as that
 number's end now, and in a number with a point or an exponent still as
 the next number's start.
+
+## D54. A pass draws and measures a bounded number of elements
+
+SVG sets no bound on how often a document instances its content: a group
+of two uses of the group before it, 40 deep, is 2^40 instances in 2 KB,
+and patterns and markers of patterns and markers multiply the same way.
+The renderer drew and measured them all, 22 levels taking 44 seconds.
+Each pass over a document, a drawing or a measure of its size, now visits
+at most 16 384 + 32 elements per byte of its source, every instance
+counted, and draws or measures nothing past that; a use's box for context
+paints is measured only when a context paint asks for it. The most any
+file of the corpus or of 60 000 harvested ones visits is 5.2 per byte, a
+Wikimedia map of uses; the 40-deep chain draws its first square and stops
+in a few hundredths of a second.

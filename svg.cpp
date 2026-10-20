@@ -1465,6 +1465,11 @@ namespace {
         Vector<CustomValue> customValues;
         bool variables;
         size_t substitutionBudget;
+        // How many elements a pass over the document may draw and measure,
+        // instances of a use, a marker or a pattern counted each time, by
+        // its source's length: what a document instancing itself over and
+        // over runs out of, and no file drawn as written comes near.
+        size_t workBudget;
     };
 
     struct Entity {
@@ -2216,6 +2221,8 @@ namespace {
         float sizedHeight;
         // The marker being drawn, a group of its content.
         Node* marker;
+        // What is left of the document's work budget.
+        size_t work;
     };
 
     // The pass that lowers the document to draw commands over width by
@@ -2249,8 +2256,15 @@ namespace {
         Matrix4 planeMatrix;
         Matrix planeFromLayer;
         bool extends;
+        // The space and the box context paints refer to: given, or, while
+        // contextTarget is set, the box of the element a use instances, which
+        // is measured, in the use's style and viewport, when a context paint
+        // first asks for it.
         Matrix contextMatrix;
         Box contextBox;
+        Node* contextTarget;
+        const ComputedStyle* contextStyle;
+        Viewport contextViewport;
         // How deep in patterns' content the lowering is: that content is
         // drawn again for each piece of a tile.
         u32 patternDepth;
@@ -16295,10 +16309,13 @@ namespace {
         bool symbol = node->name == AtomSymbol && p.sized == node;
         bool instance = symbol || (node->name == AtomMarker && p.marker == node);
 
-        // Nesting deeper than lowering draws counts nothing.
-        if (depth > 256 || (!renderable(node->name) && !instance) || (node != doc.root && !passesConditions(doc, node))) {
+        // Nesting deeper than lowering draws counts nothing, nor anything
+        // past the work budget.
+        if (p.work == 0 || depth > 256 || (!renderable(node->name) && !instance) || (node != doc.root && !passesConditions(doc, node))) {
             return;
         }
+
+        p.work--;
 
         ComputedStyle style = computeStyle(p, node, parent, vp);
         float fs = style.fontSize;
@@ -18280,6 +18297,24 @@ namespace {
         return filter;
     }
 
+    // The box context paints refer to, a use's target measured the first
+    // time one asks for it: a use instancing a use measures nothing it
+    // draws no context paint in.
+    static Box contextBoxOf(Lowering& l) {
+        Node* target = l.contextTarget;
+        Box box;
+
+        if (target) {
+            l.contextTarget = nullptr;
+
+            if (elementBox(l, target, *l.contextStyle, l.contextViewport, box, 0)) {
+                l.contextBox = deviceBox(boxTransform(l, target, *l.contextStyle, l.contextViewport), box);
+            }
+        }
+
+        return l.contextBox;
+    }
+
     static Filter* lowerFilters(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Filter* first = nullptr;
         Filter* last = nullptr;
@@ -18318,8 +18353,8 @@ namespace {
                     stroke = stroke || p.inputs[j] == InputStrokePaint;
                 }
             }
-            filter->fillPaint = fill ? devicePaint(l, element, AtomFill, style.fill, style.fillOpacity, style, style.fill.context ? l.contextBox : filter->bbox, style.fill.context ? l.contextMatrix : m, vp) : nullptr;
-            filter->strokePaint = stroke ? devicePaint(l, element, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : filter->bbox, style.stroke.context ? l.contextMatrix : m, vp) : nullptr;
+            filter->fillPaint = fill ? devicePaint(l, element, AtomFill, style.fill, style.fillOpacity, style, style.fill.context ? contextBoxOf(l) : filter->bbox, style.fill.context ? l.contextMatrix : m, vp) : nullptr;
+            filter->strokePaint = stroke ? devicePaint(l, element, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? contextBoxOf(l) : filter->bbox, style.stroke.context ? l.contextMatrix : m, vp) : nullptr;
 
             // A paint a filter reads is sampled over the whole canvas.
             DevicePaint* const read[] = {filter->fillPaint, filter->strokePaint};
@@ -18903,14 +18938,14 @@ namespace {
 
         for (u8 layer : style.paintOrder) {
             if (layer == 0 && style.visible) {
-                if (DevicePaint* fill = devicePaint(l, node, AtomFill, style.fill, style.fillOpacity, style, style.fill.context ? l.contextBox : box, style.fill.context ? l.contextMatrix : m, vp)) {
+                if (DevicePaint* fill = devicePaint(l, node, AtomFill, style.fill, style.fillOpacity, style, style.fill.context ? contextBoxOf(l) : box, style.fill.context ? l.contextMatrix : m, vp)) {
                     Flat flat;
 
                     flatten(path, m, tolerance, flat);
                     emitFill(l, flat, style.fillRule, fill, style.aliased, style.linearColors);
                 }
             } else if (layer == 1 && style.visible && style.strokeWidth > 0.f) {
-                if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? l.contextBox : box, style.stroke.context ? l.contextMatrix : m, vp)) {
+                if (DevicePaint* stroke = devicePaint(l, node, AtomStroke, style.stroke, style.strokeOpacity, style, style.stroke.context ? contextBoxOf(l) : box, style.stroke.context ? l.contextMatrix : m, vp)) {
                     ComputedStyle dashed = authorDashes(l, node, path, style, vp);
                     Flat outline;
                     Flat device;
@@ -18954,12 +18989,15 @@ namespace {
             } else if (layer == 2) {
                 Matrix outerMatrix = l.contextMatrix;
                 Box outerBox = l.contextBox;
+                Node* outerTarget = l.contextTarget;
 
                 l.contextMatrix = m;
                 l.contextBox = box;
+                l.contextTarget = nullptr;
                 lowerMarkers(l, node, path, style, m, vp);
                 l.contextMatrix = outerMatrix;
                 l.contextBox = outerBox;
+                l.contextTarget = outerTarget;
             }
         }
     }
@@ -19186,7 +19224,9 @@ namespace {
 
         Matrix outerMatrix = l.contextMatrix;
         Box outerBox = l.contextBox;
-        Box targetBox;
+        Node* outerTarget = l.contextTarget;
+        const ComputedStyle* outerStyle = l.contextStyle;
+        Viewport outerViewport = l.contextViewport;
         u32** outerInstance = l.instance;
 
         if (l.doc->structural || l.doc->variables) {
@@ -19198,11 +19238,9 @@ namespace {
         l.contextStroke = contextPaint(style.stroke, style);
         l.contextMatrix = m;
         l.contextBox = emptyBox();
-
-        if (elementBox(l, target, style, vp, targetBox, 0)) {
-            l.contextBox = deviceBox(boxTransform(l, target, style, vp), targetBox);
-        }
-
+        l.contextTarget = target;
+        l.contextStyle = &style;
+        l.contextViewport = vp;
         l.active.pushBack(target);
         l.hosts.pushBack(target);
         l.hosts.pushBack(node);
@@ -19232,6 +19270,9 @@ namespace {
         l.contextStroke = outerStroke;
         l.contextMatrix = outerMatrix;
         l.contextBox = outerBox;
+        l.contextTarget = outerTarget;
+        l.contextStyle = outerStyle;
+        l.contextViewport = outerViewport;
         l.instance = outerInstance;
     }
 
@@ -19948,7 +19989,10 @@ namespace {
 
             beginPass(inner, *source.nested, *p.pool, p.decode, p.fail, p.context);
             inner.imageDepth = p.imageDepth + 1;
+            // The image is the pass's work too.
+            inner.work = p.work;
             measureRoot(inner, source.width, source.height);
+            p.work = inner.work;
 
             if (!source.ratio) {
                 source.viewBox = Box{0.f, 0.f, source.width, source.height};
@@ -21190,9 +21234,12 @@ namespace {
         // What the element's resources and markers draw takes no part.
         l.extends = false;
 
-        if ((!renderable(node->name) && !instance) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
+        // Nothing is drawn past the work budget.
+        if (l.work == 0 || (!renderable(node->name) && !instance) || l.depth > 256 || (node != l.doc->root && !passesConditions(*l.doc, node))) {
             return;
         }
+
+        l.work--;
 
         if (node->name == AtomImage && !imageReachable(*l.doc, node)) {
             return;
@@ -27104,6 +27151,7 @@ namespace {
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
+        doc.workBudget = ((size_t)1 << 14) + 32 * source.length();
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
     }
@@ -27120,6 +27168,7 @@ namespace {
         p.hasContext = false;
         p.instance = nullptr;
         doc.substitutionBudget = 1 << 19;
+        p.work = doc.workBudget;
         p.documentStyles.zero(doc.nodeCount);
         p.draws = false;
         p.sized = nullptr;
@@ -27278,6 +27327,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.extends = false;
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
+        l.contextTarget = nullptr;
         l.screen = identity();
         l.host = identity();
         // The viewport units are of the document's size, which a drawing at
