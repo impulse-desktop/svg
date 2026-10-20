@@ -11076,10 +11076,14 @@ namespace {
         double cy = sn * cxp + cs * cyp + (p0.y + p1.y) / 2.0;
         double ux = (x1p - cxp) / rx;
         double uy = (y1p - cyp) / ry;
-        double vx = (-x1p - cxp) / rx;
-        double vy = (-y1p - cyp) / ry;
         double theta = atan2(uy, ux);
-        double delta = atan2(ux * vy - uy * vx, ux * vx + uy * vy);
+        // The angle from u to v, the ends seen from the centre on the unit
+        // circle, from v - u and v + u, which the ends' coordinates do not
+        // cancel in: radii far beyond the chord leave u and v themselves
+        // equal in doubles.
+        double ex = -2.0 * x1p / rx;
+        double ey = -2.0 * y1p / ry;
+        double delta = copysign(2.0 * atan2(hypot(ex, ey), hypot(2.0 * cxp / rx, 2.0 * cyp / ry)), ux * ey - uy * ex);
 
         if (!sweep && delta > 0.0) {
             delta -= 2.0 * piDouble;
@@ -11102,7 +11106,11 @@ namespace {
 
         double step = delta / segments;
         double k = 4.0 / 3.0 * tan(step / 4.0);
+        DPoint from{p0.x, p0.y};
 
+        // Each piece's controls go from its ends along the tangents there,
+        // the arc's own ends taken as given: a centre far off would cancel
+        // them away.
         for (int i = 0; i < segments; i++) {
             double a0 = theta + step * i;
             double a1 = a0 + step;
@@ -11110,18 +11118,12 @@ namespace {
             double s0 = sin(a0);
             double c1 = cos(a1);
             double s1 = sin(a1);
-            double e1x = c0 - k * s0;
-            double e1y = s0 + k * c0;
-            double e2x = c1 + k * s1;
-            double e2y = s1 - k * c1;
-            Point q1{(float)(cx + rx * cs * e1x - ry * sn * e1y), (float)(cy + rx * sn * e1x + ry * cs * e1y)};
-            Point q2{(float)(cx + rx * cs * e2x - ry * sn * e2y), (float)(cy + rx * sn * e2x + ry * cs * e2y)};
-            Point q3{(float)(cx + rx * cs * c1 - ry * sn * s1), (float)(cy + rx * sn * c1 + ry * cs * s1)};
+            DPoint to = i + 1 == segments ? DPoint{p1.x, p1.y} : DPoint{cx + rx * cs * c1 - ry * sn * s1, cy + rx * sn * c1 + ry * cs * s1};
+            Point q1{(float)(from.x - k * (rx * cs * s0 + ry * sn * c0)), (float)(from.y - k * (rx * sn * s0 - ry * cs * c0))};
+            Point q2{(float)(to.x + k * (rx * cs * s1 + ry * sn * c1)), (float)(to.y + k * (rx * sn * s1 - ry * cs * c1))};
+            Point q3{(float)to.x, (float)to.y};
 
-            if (i + 1 == segments) {
-                q3 = p1;
-            }
-
+            from = to;
             cubicTo(path, q1, q2, q3);
 
             if (i + 1 < segments) {

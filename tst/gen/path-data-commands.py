@@ -44,6 +44,9 @@ stroke("comma-in-number", (1, 6, 10, 4), "M 2 8 h 1,000 2", "M 2 8 H 3 H 3 H 5")
 stroke("comma-after-close", (12, 6, 24, 5), "M 14 7 h 6 v 2 h -6 z, M 24 7 h 6", "M 14 7 h 6 v 2 h -6 z")
 stroke("moveto-pairs", (1, 12, 14, 8), "M 2 14 6 14 6 18 m 2 -4 4 0 0 4", "M 2 14 L 6 14 L 6 18 M 8 14 L 12 14 L 12 18")
 stroke("relative-first", (16, 12, 8, 8), "m 17 14 4 0 0 4", "M 17 14 L 21 14 L 21 18")
+# Radii far beyond the chord leave an arc as good as its chord, which their
+# centre, 1e20 away, must not cancel away.
+stroke("arc-huge-radii", (1, 25, 24, 4), "M 2 27 a 1e20 1e20 0 0 1 20 0", "M 2 27 H 22")
 stroke("hv-lists", (25, 12, 14, 12), "M 26 14 H 30 34 V 18 22 h -2 -2 v -2 -2", "M 26 14 L 30 14 L 34 14 L 34 18 L 34 22 L 32 22 L 30 22 L 30 20 L 30 18")
 # A rectangle closed by Z joins at its first corner, mitred; closed by a
 # lineto back, its two ends there are butt, leaving the corner's square out.
