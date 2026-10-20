@@ -16279,7 +16279,8 @@ namespace {
         bool symbol = node->name == AtomSymbol && p.sized == node;
         bool instance = symbol || (node->name == AtomMarker && p.marker == node);
 
-        if (depth > 32 || (!renderable(node->name) && !instance) || (node != doc.root && !passesConditions(doc, node))) {
+        // Nesting deeper than lowering draws counts nothing.
+        if (depth > 256 || (!renderable(node->name) && !instance) || (node != doc.root && !passesConditions(doc, node))) {
             return;
         }
 
@@ -19135,7 +19136,7 @@ namespace {
     static void lowerUse(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         Node* target = hrefTarget(*l.doc, node);
 
-        if (!target || l.active.length() > 32 || isAncestor(target, node)) {
+        if (!target || isAncestor(target, node)) {
             return;
         }
 
