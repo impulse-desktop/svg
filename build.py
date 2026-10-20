@@ -84,7 +84,7 @@ install(svg)
 # A check imports canon, which imports the reference modules, so every
 # script under tst is an input of every check.
 checks = []
-for check in ["viewport_units", "cascade_priority", "curve_area", "straight_curves", "circle_coverage"]:
+for check in ["viewport_units", "canvas_scale", "cascade_priority", "curve_area", "straight_curves", "circle_coverage"]:
     checks.append(command(
         name="check_" + check,
         inputs=build.glob("$(S)/tst/*.py"),

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" background-color="red" background-image="linear-gradient(red, red)">
+<!-- SVG gives background-color and background-image no presentation
+attribute (styling.md): the root's attributes of those names paint no
+canvas. -->
+<rect x="8" width="8" height="8" fill="lime"/>
+</svg>

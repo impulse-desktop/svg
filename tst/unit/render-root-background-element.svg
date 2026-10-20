@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" style="background-color: white; background-image: url(#g)">
+<!-- A url of a fragment alone names an element of the document, not an
+image (css-values-4, fragment URLs): the gradient element it names draws
+nothing over the white. -->
+<linearGradient id="g"><stop stop-color="red"/></linearGradient>
+</svg>

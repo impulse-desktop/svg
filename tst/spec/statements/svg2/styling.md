@@ -13,9 +13,10 @@
 - [x] svg2/styling.md#ClassAttribute: the class attribute assigns one or more space-separated class names to an element, usable for selector matching. [css-selector-basics#class]
 - [x] svg2/styling.md#StyleAttribute: the style attribute is parsed as a CSS declaration-list and applies directly to the element (as inline style, at the top of author-origin specificity). [style-sheets#cascade css-cascade-sort#sort-attachment]
 
-## Presentation attributes: style-sheets, struct-fragment, geometry-properties, gradient-linear-geometry
+## Presentation attributes: style-sheets, struct-fragment, geometry-properties, gradient-linear-geometry, render-root-background-attribute
 
 - [x] svg2/styling.md#PresentationAttributes: a presentation attribute's name matches a CSS property and its value is parsed as a value of that property; it contributes to the author level of the cascade, after all other author style sheets, with specificity 0. [style-sheets#cascade css-cascade-sort#presentation]
+- [x] svg2/styling.md#PresentationAttributes: the properties the table lists have presentation attributes, and no others: background-color and background-image, CSS properties an outermost svg takes, have none. [render-root-background-attribute#none]
 - [x] svg2/styling.md#PresentationAttributes: an !important declaration is not permitted in a presentation attribute's value; using one makes the attribute's value invalid. [style-sheets#important-attribute]
 - [x] svg2/styling.md#PresentationAttributes: only SVG-namespace elements support presentation attributes; an attribute that merely shares a property's name on an element not designated to carry it must not be parsed as a presentation attribute and must not affect CSS cascading or inheritance. [struct-fragment#fragment]
 - [x] svg2/styling.md#PresentationAttributes: the geometry properties (cx, cy, r, rx, ry, x, y, width, height) have a presentation attribute only on the elements the spec designates for each property; elsewhere the identically-named XML attribute means something else (e.g. x on text, r on radialGradient). [geometry-properties#not-designated style-sheets#geometry]

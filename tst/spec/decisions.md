@@ -607,3 +607,17 @@ over the whole end circle and paint it the last stop. Chromium, Firefox
 and resvg take a focal point within 1/4096 of the radius as on the circle
 (Skia's nearly-zero test) and draw the gradient; librsvg draws the last
 stop. The renderer takes the 1/4096 too.
+
+## D51. The canvas's background images are laid out in the raster
+
+`css-backgrounds-3.md#root-background` sizes and positions the root's
+background images in the root's box and paints them over the whole
+canvas. The renderer's root box is the raster (D39), and with no device
+scale in its API a px of the root's box is a pixel of the raster, as the
+root's clip-path and mask take it (D46): a background-size of 15px is 15
+pixels at any size the document is drawn at, while the content stretches
+with the viewBox, as Chromium and Firefox draw an SVG image an img element
+sizes; at a device scale they stretch the px instead. Real files use it
+for the canvas's texture: the railroad diagram generator's grid of two
+gradients (78 harvested files), a mind map's tiled PNG, a gradient behind
+a logo.

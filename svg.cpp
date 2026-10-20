@@ -1143,6 +1143,12 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(ColorInterpolationFilters, "color-interpolation-filters") \
     ATOM(Filter, "filter")                                         \
     ATOM(BackgroundColor, "background-color")                      \
+    ATOM(BackgroundImage, "background-image")                      \
+    ATOM(BackgroundRepeat, "background-repeat")                    \
+    ATOM(BackgroundPosition, "background-position")                \
+    ATOM(BackgroundClip, "background-clip")                        \
+    ATOM(BackgroundOrigin, "background-origin")                    \
+    ATOM(BackgroundSize, "background-size")                        \
     ATOM(Overflow, "overflow")                                     \
     ATOM(MarkerStart, "marker-start")                              \
     ATOM(MarkerMid, "marker-mid")                                  \
@@ -1906,6 +1912,10 @@ namespace {
         FilterItem* filters;
         u32 filterCount;
         Color background;
+        // The values of background-image and the other longhands of
+        // background that lay out its layers, in the places of mask's,
+        // none for the initial one.
+        u32 backgroundParts[MaskParts];
         bool overflowVisible;
         u8 fillRule;
         u8 clipRule;
@@ -5285,6 +5295,22 @@ namespace {
     const char* const maskBoxes[] = {"fill-box", "stroke-box", "view-box", "content-box", "padding-box", "border-box", "no-clip"};
     const u8 maskClipBoxes[] = {(u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, (u8)GeometryBox::View, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, 255};
     const u8 maskOriginBoxes[] = {(u8)GeometryBox::Fill, (u8)GeometryBox::Stroke, (u8)GeometryBox::View, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill, (u8)GeometryBox::Fill};
+    // The longhands of background that lay out its layers, in the places
+    // of mask's: it has no mode or composite.
+    const u32 backgroundAtoms[MaskParts] = {AtomBackgroundImage, 0, AtomBackgroundRepeat, AtomBackgroundPosition, AtomBackgroundClip, AtomBackgroundOrigin, AtomBackgroundSize, 0};
+    const char* const maskInitials[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
+    const char* const backgroundInitials[MaskParts] = {"none", nullptr, "repeat", "0% 0%", "border-box", "padding-box", "auto", nullptr};
+
+    // The place of a longhand of background among mask's.
+    static u32 backgroundPart(u32 property) {
+        u32 k = 0;
+
+        while (backgroundAtoms[k] != property) {
+            k++;
+        }
+
+        return k;
+    }
 
     static bool parseColor(Tokens value, Color& out);
     static bool readAngle(const Token*& p, const Token* end, float& out, bool& unit);
@@ -5603,8 +5629,9 @@ namespace {
         return x >= 0 && y >= 0 && empty(Tokens{p, value.end});
     }
 
-    // mask-position: background-position's one to four words.
-    static bool maskPositionOf(Tokens value, MaskLayer& out) {
+    // mask-position: CSS Values' position, of one, two or four words;
+    // background-position's, of three too.
+    static bool maskPositionOf(Tokens value, MaskLayer& out, bool background) {
         const Token* p = value.begin;
         Tokens words[5];
         u32 count = 0;
@@ -5616,7 +5643,7 @@ namespace {
             count++;
         }
 
-        if (count == 0 || count == 5) {
+        if (count == 0 || count == 5 || (count == 3 && !background)) {
             return false;
         }
 
@@ -5624,23 +5651,41 @@ namespace {
             return parsePosition(value, out.position[0], out.position[1]);
         }
 
-        // Four: two sides, one of each axis, each with its offset; CSS
-        // Values' position has no three.
+        // Three or four: a side of each axis, each perhaps with its offset,
+        // or center for one of them, two offsets among four words.
         bool set[2] = {false, false};
+        bool center = false;
 
-        for (u32 i = 0; i < count; i += 2) {
-            int keyword = keywordIndex(words[i], maskPlaces, 4);
+        for (u32 i = 0; i < count; i++) {
+            int keyword = keywordIndex(words[i], maskPlaces, 5);
             int axis = keyword / 2;
 
-            if (count != 4 || keyword < 0 || set[axis] || !parseLength(words[i + 1], out.position[axis])) {
+            if (keyword == 4 && !center) {
+                center = true;
+                continue;
+            }
+
+            if (keyword < 0 || keyword == 4 || set[axis]) {
                 return false;
             }
 
+            Length offset;
+            bool given = i + 1 < count && parseLength(words[i + 1], offset);
+
+            out.position[axis] = given ? offset : Length{0.f, Unit::Percent};
+            i += given;
             set[axis] = true;
             out.far[axis] = keyword % 2 == 1;
         }
 
-        return true;
+        // center is of the axis no side names.
+        for (int axis = 0; axis < 2; axis++) {
+            if (!set[axis]) {
+                out.position[axis] = Length{50.f, Unit::Percent};
+            }
+        }
+
+        return set[0] + set[1] + center == 2;
     }
 
     // mask-size: cover, contain, or one or two extents of no sign or auto.
@@ -5668,8 +5713,9 @@ namespace {
         return empty(Tokens{p, value.end});
     }
 
-    // One value of a mask longhand, for the layer.
-    static bool maskPartOf(u32 part, Tokens value, MaskLayer& out) {
+    // One value of a mask longhand, for the layer, or of a background one
+    // in its place, whose boxes are CSS's.
+    static bool maskPartOf(u32 part, Tokens value, MaskLayer& out, bool background) {
         int k;
 
         switch (part) {
@@ -5683,12 +5729,12 @@ namespace {
             case MaskPartRepeat:
                 return maskRepeatOf(value, out);
             case MaskPartPosition:
-                return maskPositionOf(value, out);
+                return maskPositionOf(value, out, background);
             case MaskPartClip:
             case MaskPartOrigin:
                 k = keywordIndex(value, maskBoxes, 7);
 
-                if (k < 0 || (part == MaskPartOrigin && k == 6)) {
+                if (k < 0 || (part == MaskPartOrigin && k == 6) || (background && (k < 3 || k == 6))) {
                     return false;
                 }
 
@@ -5710,15 +5756,15 @@ namespace {
         }
     }
 
-    // A mask longhand's values apart by commas, each valid.
-    static bool maskListValid(u32 part, Tokens value) {
+    // A mask or background longhand's values apart by commas, each valid.
+    static bool maskListValid(u32 part, Tokens value, bool background) {
         Vector<Tokens> items;
         MaskLayer layer;
 
         commaItems(value, items);
 
         for (Tokens item : items) {
-            if (!maskPartOf(part, item, layer)) {
+            if (!maskPartOf(part, item, layer, background)) {
                 return false;
             }
         }
@@ -5754,11 +5800,18 @@ namespace {
     // The mask shorthand into its longhands' values: each layer's parts in
     // any order, a position perhaps with a size after a slash, one box both
     // the origin and the clip, two the one then the other; a part left out
-    // takes its initial value.
-    static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts]) {
-        static const char* const initial[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
+    // takes its initial value. With color, the background shorthand's the
+    // same: no mode or composite, its attachment read and left, as the
+    // renderer scrolls nothing, CSS's boxes, and a colour in its final
+    // layer, into color, transparent when none (css-backgrounds-3.md,
+    // background).
+    static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts], u32* color) {
+        static const char* const attachments[] = {"scroll", "fixed", "local"};
+        bool background = color != nullptr;
+        const char* const* initial = background ? backgroundInitials : maskInitials;
         Vector<Tokens> layers;
         Vector<Tokens> lists[MaskParts];
+        Tokens colour{nullptr, nullptr};
 
         commaItems(value, layers);
 
@@ -5766,8 +5819,10 @@ namespace {
             Tokens parts[MaskParts];
             Tokens boxes[2];
             u32 boxCount = 0;
+            bool attached = false;
             MaskLayer probe;
             const Token* end = layer.end;
+            Color parsed;
 
             memset(&probe, 0, sizeof(probe));
 
@@ -5790,10 +5845,14 @@ namespace {
 
                 if (!parts[MaskPartImage].begin && maskImageOf(word, probe)) {
                     parts[MaskPartImage] = word;
-                } else if (!parts[MaskPartMode].begin && keywordIndex(word, maskModes, 3) >= 0) {
+                } else if (!background && !parts[MaskPartMode].begin && keywordIndex(word, maskModes, 3) >= 0) {
                     parts[MaskPartMode] = word;
-                } else if (!parts[MaskPartComposite].begin && keywordIndex(word, maskComposites, 4) >= 0) {
+                } else if (!background && !parts[MaskPartComposite].begin && keywordIndex(word, maskComposites, 4) >= 0) {
                     parts[MaskPartComposite] = word;
+                } else if (background && !attached && keywordIndex(word, attachments, 3) >= 0) {
+                    attached = true;
+                } else if (background && !colour.begin && layer.end == layers.back().end && (parseColor(word, parsed) || isKeyword(word, SV("currentcolor")))) {
+                    colour = word;
                 } else if (!parts[MaskPartRepeat].begin && (keywordIndex(word, maskRepeats, 4) >= 0 || maskRepeatOf(word, probe))) {
                     const Token* r = q;
 
@@ -5856,9 +5915,13 @@ namespace {
             }
 
             for (u32 k = 0; k < MaskParts; k++) {
+                if (!initial[k]) {
+                    continue;
+                }
+
                 Tokens part = parts[k].begin ? parts[k] : doc.values[keywordValue(doc, StringView(initial[k]))].tokens;
 
-                if (!maskPartOf(k, part, probe)) {
+                if (!maskPartOf(k, part, probe, background)) {
                     return false;
                 }
 
@@ -5867,7 +5930,11 @@ namespace {
         }
 
         for (u32 k = 0; k < MaskParts; k++) {
-            out[k] = joinedValue(doc, lists[k].data(), (u32)lists[k].length());
+            out[k] = initial[k] ? joinedValue(doc, lists[k].data(), (u32)lists[k].length()) : 0;
+        }
+
+        if (background) {
+            *color = colour.begin ? addValue(doc, colour) : keywordValue(doc, SV("transparent"));
         }
 
         return true;
@@ -6062,28 +6129,6 @@ namespace {
         }
 
         return true;
-    }
-
-    // The colour a background shorthand gives: a colour among its final
-    // layer's words, else transparent, which the shorthand resets it to
-    // (css-backgrounds-3.md, background).
-    static u32 backgroundColorOf(const Document& doc, Tokens value) {
-        Vector<Tokens> layers;
-
-        commaItems(value, layers);
-
-        Tokens layer = layers.back();
-        const Token* p = layer.begin;
-
-        for (Tokens word = nextWord(p, layer.end); !empty(word); word = nextWord(p, layer.end)) {
-            Color color;
-
-            if (parseColor(word, color) || isKeyword(word, SV("currentcolor"))) {
-                return addValue(doc, word);
-            }
-        }
-
-        return keywordValue(doc, SV("transparent"));
     }
 
     // Makes a cache by atom long enough for every atom, the new entries
@@ -6352,18 +6397,9 @@ namespace {
 
     static bool validGeometry(u32 property, Tokens value);
     static bool validDeclaration(const Document& doc, u32 property, Tokens value);
-    static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts]);
+    static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts], u32* color);
     static bool expandMaskBorder(const Document& doc, Tokens value, u32 (&out)[MaskBorderParts]);
-    static u32 backgroundColorOf(const Document& doc, Tokens value);
 
-    // A declaration into out (css-cascade-5): of a custom property, its
-    // name kept as written; of a property; or of a shorthand, as its
-    // longhands, the background shorthand read for its colour alone, the
-    // canvas's; an invalid one is left out. A CSS-wide keyword sets every
-    // longhand of a shorthand to it, all every property. A value with
-    // var() or env() in it is valid until a node's custom properties
-    // substitute them (css-variables-1 3); a shorthand's longhands keep the
-    // shorthand's, to read it again then.
     // A width or height of a number other than 0: a style sheet's CSS
     // takes no such length, as Chromium and Firefox drop it there, though
     // Chromium takes it in a style attribute.
@@ -6374,6 +6410,13 @@ namespace {
         return (property == AtomWidth || property == AtomHeight) && t->type == TokenType::Number && t->number != 0.0;
     }
 
+    // A declaration into out (css-cascade-5): of a custom property, its
+    // name kept as written; of a property; or of a shorthand, as its
+    // longhands; an invalid one is left out. A CSS-wide keyword sets every
+    // longhand of a shorthand to it, all every property. A value with
+    // var() or env() in it is valid until a node's custom properties
+    // substitute them (css-variables-1 3); a shorthand's longhands keep the
+    // shorthand's, to read it again then.
     static void declare(Document& doc, const CssDeclaration& declaration, Vector<Declaration>& out, bool sheet) {
         static const u32 geometries[] = {AtomX, AtomY, AtomWidth, AtomHeight, AtomCx, AtomCy, AtomR, AtomRx, AtomRy, AtomD, AtomTransform, AtomTransformOrigin, AtomTransformBox, AtomTranslate, AtomRotate, AtomScale, AtomPathLengthProperty};
         StringView name = declaration.name;
@@ -6429,7 +6472,9 @@ namespace {
                     longhands[count++] = k;
                 }
             } else if (low == SV("background")) {
-                longhands[count++] = AtomBackgroundColor;
+                for (u32 k = AtomBackgroundColor; k <= AtomBackgroundSize; k++) {
+                    longhands[count++] = k;
+                }
             } else if (property == AtomMarker) {
                 longhands[count++] = AtomMarkerStart;
                 longhands[count++] = AtomMarkerMid;
@@ -6465,9 +6510,17 @@ namespace {
         if (low == SV("all")) {
             return;
         } else if (low == SV("background")) {
-            out.pushBack(Declaration{AtomBackgroundColor, backgroundColorOf(doc, tokens), 0, important, false});
+            u32 color;
+
+            if (expandMask(doc, tokens, parts, &color)) {
+                out.pushBack(Declaration{AtomBackgroundColor, color, 0, important, false});
+
+                for (u32 k = AtomBackgroundImage; k <= AtomBackgroundSize; k++) {
+                    out.pushBack(Declaration{k, parts[backgroundPart(k)], 0, important, false});
+                }
+            }
         } else if (property == AtomMask) {
-            if (expandMask(doc, tokens, parts)) {
+            if (expandMask(doc, tokens, parts, nullptr)) {
                 for (u32 k = 0; k < MaskParts; k++) {
                     out.pushBack(Declaration{AtomMaskImage + k, parts[k], 0, important, false});
                 }
@@ -8151,7 +8204,14 @@ namespace {
             case AtomMaskOrigin:
             case AtomMaskSize:
             case AtomMaskComposite:
-                return maskListValid(property - AtomMaskImage, value);
+                return maskListValid(property - AtomMaskImage, value, false);
+            case AtomBackgroundImage:
+            case AtomBackgroundRepeat:
+            case AtomBackgroundPosition:
+            case AtomBackgroundClip:
+            case AtomBackgroundOrigin:
+            case AtomBackgroundSize:
+                return maskListValid(backgroundPart(property), value, true);
             case AtomMaskBorderSource:
             case AtomMaskBorderMode:
             case AtomMaskBorderSlice:
@@ -8305,14 +8365,14 @@ namespace {
             if (name == AtomMask) {
                 CssKeyword keyword = valueKeyword(doc, value);
                 bool pending = !keyword && valueSubstitutes(doc, value);
-                bool expanded = keyword || pending || expandMask(doc, valueTokens(doc, value, one), parts);
+                bool expanded = keyword || pending || expandMask(doc, valueTokens(doc, value, one), parts, nullptr);
 
                 for (u32 k = 0; expanded && k < MaskParts; k++) {
                     apply(AtomMaskImage + k, keyword || pending ? value : parts[k], 1, 0, 0, presentationRule, pending ? AtomMask : 0, false);
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
                 bool pending = valueSubstitutes(doc, value);
 
                 if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
@@ -14037,6 +14097,7 @@ namespace {
         style.filters = nullptr;
         style.filterCount = 0;
         style.background = Color{0.f, 0.f, 0.f, 0.f};
+        memset(style.backgroundParts, 0, sizeof(style.backgroundParts));
         style.overflowVisible = !((node->name == AtomSvg && node != doc.root) || node->name == AtomSymbol || node->name == AtomImage || node->name == AtomMarker || node->name == AtomPattern);
 
         // A stroke's percentages, inherited as they were given, resolve
@@ -14067,7 +14128,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -14107,7 +14168,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && property != AtomBackgroundColor && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -14746,6 +14807,18 @@ namespace {
                     }
 
                     break;
+                case AtomBackgroundImage:
+                case AtomBackgroundRepeat:
+                case AtomBackgroundPosition:
+                case AtomBackgroundClip:
+                case AtomBackgroundOrigin:
+                case AtomBackgroundSize: {
+                    u32 part = backgroundPart(property);
+
+                    style.backgroundParts[part] = keyword ? source.backgroundParts[part] : cascaded;
+
+                    break;
+                }
                 case AtomOverflow:
                     if (keyword) {
                         style.overflowVisible = source.overflowVisible;
@@ -17375,24 +17448,18 @@ namespace {
         }
     }
 
-    // A mask layer of an image, a gradient or the one given: its image
-    // sized in the positioning area as mask-size has it, placed by
-    // mask-position, repeated over the painting area by mask-repeat, whole
-    // numbers for round and spread apart for space, as CSS Backgrounds lays
-    // images out; the painting area bounds it. The boxes are the fill box,
-    // the stroke box and the viewport.
-    static void imageMaskLayer(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const MaskLayer& layer, const ImageSource* image, const Matrix& m, Viewport vp, MaskLayerOp& out) {
+    // A layer of an image or a gradient, drawn into l.out: its image sized
+    // in the positioning area, area, as mask-size or background-size has
+    // it, placed by the position, repeated over the painting area, painted,
+    // by the repeat, whole numbers for round and spread apart for space, as
+    // CSS Backgrounds lays images out. False for an image of no size, which
+    // draws nothing.
+    static bool drawLayer(Lowering& l, const ComputedStyle& style, const MaskLayer& layer, const ImageSource* image, const Matrix& m, Viewport vp, Box area, Box painted) {
         CssGradient gradient;
-        Box fill;
         float fs = style.fontSize;
         // The image's own size and ratio, none a gradient's.
         float natural[2] = {0.f, 0.f};
         float ratio = 0.f;
-
-        out.type = layer.mode != 2;
-        out.first = (u32)l.programs.length();
-        out.count = 0;
-        out.region = (u32)l.clips.length();
 
         if (image) {
             imageNatural(*image, natural, ratio);
@@ -17401,23 +17468,6 @@ namespace {
             parseCssGradient(layer.image, style.color, gradient);
         }
 
-        // The outermost svg's boxes are its CSS box, the viewport.
-        bool root = element == l.doc->root;
-
-        if (root) {
-            fill = Box{0.f, 0.f, vp.width, vp.height};
-        } else if (!elementBox(l, element, parent, vp, fill, 0)) {
-            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
-
-            return;
-        }
-
-        Box stroke = !root && (layer.origin == GeometryBox::Stroke || layer.clip == (u8)GeometryBox::Stroke) ? strokeBox(l, element, parent, vp) : fill;
-        auto boxOf = [&](u8 kind) {
-            return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : stroke);
-        };
-        Box area = boxOf((u8)layer.origin);
-        Box painted = layer.clip == 255 ? Box{-3e7f, -3e7f, 3e7f, 3e7f} : boxOf(layer.clip);
         float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
         float start[2] = {area.x0, area.y0};
         float size[2];
@@ -17464,9 +17514,7 @@ namespace {
         }
 
         if (!(size[0] > 0.f) || !(size[1] > 0.f)) {
-            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
-
-            return;
+            return false;
         }
 
         for (int axis = 0; axis < 2; axis++) {
@@ -17483,12 +17531,7 @@ namespace {
             }
         }
 
-        Vector<Op> program;
-        Vector<Op>* saved = l.out;
         Matrix space = multiply(m, translation(origin[0], origin[1]));
-
-        l.out = &program;
-
         auto draw = [&](const Matrix& tile) {
             if (image) {
                 drawImage(l, nullptr, *image, tile, vp, 0.f, 0.f, size[0], size[1], style.imageRendering);
@@ -17527,7 +17570,51 @@ namespace {
             fillBox(l, strip, m, tilePaint(l, space, size[0] + gap[0], size[1] + gap[1], draw));
         }
 
+        return true;
+    }
+
+    // A mask layer of an image, a gradient or the one given, laid out as
+    // drawLayer has it; the painting area bounds it. The boxes are the
+    // fill box, the stroke box and the viewport.
+    static void imageMaskLayer(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const MaskLayer& layer, const ImageSource* image, const Matrix& m, Viewport vp, MaskLayerOp& out) {
+        Box fill;
+
+        out.type = layer.mode != 2;
+        out.first = (u32)l.programs.length();
+        out.count = 0;
+        out.region = (u32)l.clips.length();
+
+        // The outermost svg's boxes are its CSS box, the viewport.
+        bool root = element == l.doc->root;
+
+        if (root) {
+            fill = Box{0.f, 0.f, vp.width, vp.height};
+        } else if (!elementBox(l, element, parent, vp, fill, 0)) {
+            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+
+            return;
+        }
+
+        Box stroke = !root && (layer.origin == GeometryBox::Stroke || layer.clip == (u8)GeometryBox::Stroke) ? strokeBox(l, element, parent, vp) : fill;
+        auto boxOf = [&](u8 kind) {
+            return kind == (u8)GeometryBox::View ? Box{0.f, 0.f, vp.width, vp.height} : (kind == (u8)GeometryBox::Fill ? fill : stroke);
+        };
+        Box painted = layer.clip == 255 ? Box{-3e7f, -3e7f, 3e7f, 3e7f} : boxOf(layer.clip);
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+
+        l.out = &program;
+
+        bool drawn = drawLayer(l, style, layer, image, m, vp, boxOf((u8)layer.origin), painted);
+
         l.out = saved;
+
+        if (!drawn) {
+            addRectClip(l, m, 0.f, 0.f, 0.f, 0.f);
+
+            return;
+        }
+
         out.first = (u32)l.programs.length();
         out.count = (u32)program.length();
         l.programs.append(program.data(), program.length());
@@ -17728,14 +17815,19 @@ namespace {
         addRectClip(l, m, area.x0, area.y0, span[0], span[1]);
     }
 
-    const char* const maskInitials[MaskParts] = {"none", "match-source", "repeat", "0% 0%", "border-box", "border-box", "auto", "add"};
+    // The layers of a mask or of a background: one a value of its image,
+    // each of the other longhands' values in turn, the initial one where
+    // not set.
+    static void maskLayersOf(const Document& doc, const u32 (&parts)[MaskParts], bool background, Vector<MaskLayer>& out) {
+        const char* const* initials = background ? backgroundInitials : maskInitials;
 
-    // The mask layers of a style: one a value of mask-image, each of the
-    // other longhands' values in turn, the initial one where not set.
-    static void maskLayersOf(const Document& doc, const ComputedStyle& style, Vector<MaskLayer>& out) {
         for (u32 k = 0; k < MaskParts; k++) {
+            if (!initials[k]) {
+                continue;
+            }
+
             Token one;
-            Tokens list = style.maskParts[k] ? valueTokens(doc, style.maskParts[k], one) : doc.values[keywordValue(doc, StringView(maskInitials[k]))].tokens;
+            Tokens list = parts[k] ? valueTokens(doc, parts[k], one) : doc.values[keywordValue(doc, StringView(initials[k]))].tokens;
             Vector<Tokens> items;
 
             commaItems(list, items);
@@ -17745,7 +17837,7 @@ namespace {
             }
 
             for (size_t i = 0; i < out.length(); i++) {
-                maskPartOf(k, items[i % items.length()], out.mut(i));
+                maskPartOf(k, items[i % items.length()], out.mut(i), background);
             }
         }
     }
@@ -17766,7 +17858,7 @@ namespace {
         u32 count = 0;
         bool images = false;
 
-        maskLayersOf(doc, style, layers);
+        maskLayersOf(doc, style.maskParts, false, layers);
 
         for (const MaskLayer& layer : layers) {
             StringView url = layer.source == MaskSource::Element ? layer.url : StringView();
@@ -21027,6 +21119,36 @@ namespace {
         return multiply(host, linear);
     }
 
+    // The root's background, the canvas's, under the root
+    // (css-backgrounds-3.md, special-backgrounds): the root's opacity,
+    // blend and effects do not take it, and its content blends with it,
+    // as Chromium, Firefox and resvg draw it. Its colour fills the raster,
+    // then its layers, the last first, each laid out in the root's box,
+    // the raster (D39), and painted over all of it. An image that does not
+    // load, or a fragment, which names an element and no image, draws
+    // nothing.
+    static void paintCanvas(Lowering& l, const ComputedStyle& style, Viewport vp) {
+        Box raster{0.f, 0.f, vp.width, vp.height};
+        Vector<MaskLayer> layers;
+
+        if (style.background.a > 0.f) {
+            fillBox(l, raster, identity(), solidPaint(l, style.background, 1.f));
+        }
+
+        maskLayersOf(*l.doc, style.backgroundParts, true, layers);
+
+        for (size_t k = layers.length(); k-- > 0;) {
+            const MaskLayer& layer = layers[k];
+            ImageSource image;
+
+            if (layer.source == MaskSource::Gradient) {
+                drawLayer(l, style, layer, nullptr, identity(), vp, raster, raster);
+            } else if (layer.source != MaskSource::None && !startsWith(layer.url, SV("#")) && loadImageFrom(l, layer.url.data(), layer.url, image)) {
+                drawLayer(l, style, layer, &image, identity(), vp, raster, raster);
+            }
+        }
+    }
+
     static void lowerElementIn(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp, bool participates);
 
     // Lowers an element, which takes part in the 3D rendering context being
@@ -21061,21 +21183,8 @@ namespace {
 
         ComputedStyle style = computeStyle(l, node, parent, vp);
 
-        // The root's background is the canvas's, under the root
-        // (css-backgrounds-3.md, special-backgrounds): the root's opacity,
-        // blend and effects do not take it, and its content blends with it,
-        // as Chromium, Firefox and resvg draw it.
-        if (node == l.doc->root && style.background.a > 0.f) {
-            Path canvas;
-            Flat flat;
-
-            moveTo(canvas, Point{0.f, 0.f});
-            lineTo(canvas, Point{(float)l.width, 0.f});
-            lineTo(canvas, Point{(float)l.width, (float)l.height});
-            lineTo(canvas, Point{0.f, (float)l.height});
-            closePath(canvas);
-            flatten(canvas, identity(), tolerance, flat);
-            emitFill(l, flat, WindingNonZero, solidPaint(l, style.background, 1.f), false);
+        if (node == l.doc->root) {
+            paintCanvas(l, style, vp);
         }
 
         // A symbol a use instances displays inline, whatever its display

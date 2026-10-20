@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" style="background-color: white; background-image: linear-gradient(lime, lime), linear-gradient(blue, blue); background-size: 4px 4px, 2px 2px; background-repeat: no-repeat, repeat; background-origin: content-box; background-clip: content-box; padding: 2px">
+<!-- The root's boxes are all its box (D39): background-origin's
+content-box places the lime square at the corner, and background-clip's
+content-box cuts nothing from the canvas, which the painting area
+covers. -->
+</svg>

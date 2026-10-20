@@ -5,7 +5,7 @@
 - [x] css-images-3.md#url-notation: an image given by url() that cannot be decoded is treated as an invalid image. [css-image-values#invalid-image]
 - [x] css-images-3.md#invalid-image: an invalid image renders as a solid transparent image with no natural dimensions. [css-image-values#invalid-image]
 - [x] css-images-3.md#loading-image: a still-loading image is not invalid but renders the same way: solid transparent, no natural dimensions. [css-image-values#invalid-image]
-- [x] css-images-3.md#ambiguous-urls: a fragment-only url() is always an element reference, never an image. [css-image-values#fragment]
+- [x] css-images-3.md#ambiguous-urls: a fragment-only url() is always an element reference, never an image. [css-image-values#fragment render-root-background-element#fragment]
 - [x] css-images-3.md#ambiguous-urls: a non-fragment-only url() is an element reference only if its fragment names an element valid in context (e.g. a mask element for mask-image), else it is an image. [css-image-values#other-document]
 
 ## Image and gradient value types: css-gradient-geometry, css-image-values, mask-syntax (exists)
