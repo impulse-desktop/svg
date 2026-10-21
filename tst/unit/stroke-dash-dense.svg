@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="350" height="72">
+<!-- Zero-length dashes have square caps even when their stroke is
+thinner than a pixel. -->
+<rect width="350" height="72" fill="white"/>
+<path d="M8 15 H87" fill="none" stroke="lime" stroke-width=".44" stroke-linecap="square" stroke-dasharray="0 .02 0 0"/>
+<path d="M8 31 H87" fill="none" stroke="lime" stroke-width=".44" stroke-linecap="square" stroke-dasharray="0 2 0 0"/>
+<path d="M8 47 H87" fill="none" stroke="lime" stroke-width=".44" stroke-linecap="square" stroke-dasharray="none"/>
+</svg>

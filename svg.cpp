@@ -22945,9 +22945,12 @@ namespace {
 
             // Resolve winding before integrating coverage: disjoint contours
             // with opposite directions can share a pixel and cancel signed area.
-            // More active edges than half the limit take the scanlines below
-            // whatever the cuts: a row has two at least.
-            if (active.length() <= 2048) {
+            // Thin, densely dashed strokes can fall between every sampled
+            // scanline, so use exact bands while their edge work is bounded.
+            constexpr size_t maxBandEdges = 16384;
+            constexpr size_t maxBandWork = 65536;
+
+            if (active.length() <= maxBandEdges) {
                 cuts.clear();
                 cuts.pushBack(top);
                 cuts.pushBack(bottom);
@@ -22978,7 +22981,7 @@ namespace {
                 }
 
                 // Repeated boundaries of aligned dashes do not add integration bands.
-                if (cutCount * active.length() <= 4096) {
+                if (cutCount * active.length() <= maxBandWork) {
                     for (size_t k = 0; k < active.length(); k++) {
                         position.mut(active[k]) = (u32)k;
                     }
