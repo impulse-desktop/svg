@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32" overflow="hidden" transform="translate(16)">
+<!-- The part of the red bar outside the root viewport is clipped before
+the root's transform moves the remaining half. The green bar is inside. -->
+<rect x="-16" width="32" height="16" fill="red"/>
+<rect x="20" width="8" height="16" fill="green"/>
+</svg>

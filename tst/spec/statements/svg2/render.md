@@ -56,8 +56,8 @@
 ## The overflow property: marker-viewport, viewport-nested, symbol-geometry
 
 - [x] svg2/render.md#OverflowAndClipProperties: overflow's initial value is auto, but the UA style sheet sets it to hidden by default for a non-root svg, image, marker, pattern and symbol element (so visible content is clipped to the viewport unless overridden). [viewport-nested#clip symbol-geometry#overflow marker-viewport#overflow-hidden]
-- [x] svg2/render.md#OverflowAndClipProperties: overflow:visible has no effect: no clipping rectangle is created. [viewport-nested#overflow-visible marker-viewport#overflow-visible]
-- [x] svg2/render.md#OverflowAndClipProperties: overflow:hidden or scroll clips to a rectangle exactly the size of the SVG viewport. [marker-viewport#overflow-hidden marker-viewport#overflow-scroll]
+- [x] svg2/render.md#OverflowAndClipProperties: overflow:visible has no effect: no clipping rectangle is created, even at the transformed root. [viewport-nested#overflow-visible marker-viewport#overflow-visible root-viewport-visible#visible-overflow]
+- [x] svg2/render.md#OverflowAndClipProperties: overflow:hidden or scroll clips to a rectangle exactly the size of the SVG viewport, before a transform on that viewport element. [marker-viewport#overflow-hidden marker-viewport#overflow-scroll root-viewport-clip#pretransform-clip root-viewport-clip-viewbox#viewbox-clip]
 - [x] svg2/render.md#OverflowAndClipProperties: overflow:auto on SVG content requires all child content to render visibly (via scrolling or no clip); if there is no scrolling mechanism, or scroll would be treated as hidden, auto must instead be treated as visible. [marker-viewport#overflow-auto]
 
 ## Shape and text painting order: paint-order-values

@@ -1,6 +1,10 @@
 # Cases the renderer deliberately draws apart from the Chromium reference
 # by a decision of its design, not by a fault: out of the score, to review.
 # A line is `CASE: reason`, CASE relative to tst/corpus without .svg.
+breeze/breeze-icons-v6.31.0__icons__apps__48__kapptemplate: D53; SVG 2 permits accepting unambiguous path numbers such as `13.` and SVG 1.1 allowed them. The resulting complete play-button icon matches the author's shape; Chromium truncates these paths.
+breeze/breeze-icons-v6.31.0__icons__places__22__folder-open: D53; unambiguous trailing-point path numbers preserve the complete folder/ruler icon; Chromium truncates the path.
+svg-stack/1b__1b06440b8841ca44: SVG 2 objectBoundingBox units ignore a filter on the zero-width geometry of a vertical line, leaving its stroke visible; Chromium, resvg and librsvg suppress the line instead (bbox-geometry#zero-height-filter).
+svg-stack/7b__7b18e21de44aa510: SVG 2 leaves the root SVG's overflow visible, so its transform can bring outside graphics into the image viewport; Chromium clips the original viewport before the transform (root-viewport-visible#visible-overflow).
 resvg/structure__image__embedded-svgz: an SVG image that is no XML document, here svgz, leaves its image empty per SVG 2 error processing; Firefox and resvg agree, Chromium paints its broken-image icon
 w3c/svg__conform-viewers-02-f: an SVG image that is no XML document, here svgz, leaves its image empty per SVG 2 error processing; Firefox and resvg agree, Chromium paints its broken-image icon
 svg-diagrams/9c__9c6ecc45020a9035: a malformed data URL for its embedded SVG leaves that image empty per SVG 2 error processing; resvg and librsvg agree, Chromium paints its broken-image icon

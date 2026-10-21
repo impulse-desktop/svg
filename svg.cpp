@@ -19486,17 +19486,34 @@ namespace {
 
                 // A root with no side of its own zooms its content.
                 if (style.zoom != 1.f && !explicitSide(*l.doc, node, AtomWidth) && !explicitSide(*l.doc, node, AtomHeight)) {
-                    lowerViewport(l, node, style, multiply(l.screen, scaling(style.zoom, style.zoom)), vp, node, 0.f, 0.f, iw / style.zoom, ih / style.zoom, false);
+                    lowerViewport(l, node, style, multiply(l.screen, scaling(style.zoom, style.zoom)), vp, node, 0.f, 0.f, iw / style.zoom, ih / style.zoom, !style.overflowVisible);
 
                     return;
                 }
 
+                u32 clipIndex = (u32)l.out->length();
+
+                if (!style.overflowVisible) {
+                    u32 first = (u32)l.clips.length();
+                    Op op = groupOp(1.f);
+
+                    addRectClip(l, l.screen, 0.f, 0.f, iw, ih);
+                    op.clipped = true;
+                    op.clipFirst = first;
+                    op.clipCount = 1;
+                    l.out->pushBack(op);
+                }
+
                 lowerChildren(l, node, style, l.screen, Viewport{iw, ih, vp.screenWidth, vp.screenHeight, l.rootFontSize});
+
+                if (!style.overflowVisible) {
+                    endGroup(l, clipIndex);
+                }
 
                 return;
             }
 
-            lowerViewport(l, node, style, m, vp, node, 0.f, 0.f, w, h, false);
+            lowerViewport(l, node, style, m, vp, node, 0.f, 0.f, w, h, !style.overflowVisible);
 
             return;
         }
