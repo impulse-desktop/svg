@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="82">
 <!-- What tst/unit/gradient-stops.svg draws, drawn plainly; each cell's
 id is what the statement ledgers link to. -->
-<rect width="64" height="52" fill="white"/>
+<rect width="64" height="82" fill="white"/>
 <defs>
 <linearGradient id="c"><stop offset="-1" stop-color="navy"/><stop offset="50%" stop-color="gold"/><stop offset=".25" stop-color="teal"/><stop offset="2" stop-color="white"/></linearGradient>
 <linearGradient id="cr"><stop offset="0" stop-color="navy"/><stop offset=".5" stop-color="gold"/><stop offset=".5" stop-color="teal"/><stop offset="1" stop-color="white"/></linearGradient>
@@ -17,4 +17,7 @@ id is what the statement ledgers link to. -->
 <g id="opacity" data-box="1 21 62 10"><rect x="2" y="22" width="60" height="4" fill="url(#or)"/><rect x="2" y="26" width="60" height="4" fill="url(#or)"/></g>
 <g id="no-stops" data-box="1 31 30 20"><rect x="2" y="32" width="28" height="18" fill="lime"/></g>
 <g id="one-stop" data-box="33 31 30 20"><rect x="34" y="32" width="28" height="18" fill="lime"/></g>
+<g id="boundary-start" data-box="1 55 62 6"><rect x="2" y="56" width="16" height="4" fill="red"/><rect x="18" y="56" width="44" height="4" fill="blue"/></g>
+<g id="boundary-end" data-box="1 63 62 6"><rect x="2" y="64" width="16" height="4" fill="pink"/><rect x="18" y="64" width="44" height="4" fill="snow"/></g>
+<g id="boundary-radial" data-box="1 75 62 3"><rect x="2" y="76" width="60" height="1" fill="navy"/><rect x="24" y="76" width="16" height="1" fill="lime"/></g>
 </svg>

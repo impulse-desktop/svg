@@ -75,7 +75,7 @@
 - [x] svg2/pservers.md#StopElementOffsetAttribute: offset is a number or percentage locating the stop along the gradient vector (linear) or as a fractional distance between the inner and outer circles (radial); initial value is 0 [gradient-stops#offsets]
 - [x] svg2/pservers.md#StopNotes: an offset below 0 (or 0%) is rounded up to 0; an offset above 1 (or 100%) is rounded down to 1 [gradient-stops#offsets]
 - [x] svg2/pservers.md#StopNotes: each stop's offset must be at least as large as the previous stop's; if not, it is adjusted up to equal the largest offset seen so far [gradient-stops#offsets]
-- [x] svg2/pservers.md#StopNotes: if two stops share the same offset, the later stop in document order controls the color at that offset [gradient-stops#offsets]
+- [x] svg2/pservers.md#StopNotes: if two stops share the same offset, the later stop in document order controls the color at that offset [gradient-stops#offsets gradient-stops#boundary-start gradient-stops#boundary-end gradient-stops#boundary-radial]
 
 ## Gradient stop color, opacity, and stop count: gradient-stops, gradient-vector-interpolation, pserver-properties
 

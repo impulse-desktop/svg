@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="82">
 <!-- Each test strip runs on into the reference under it without a step; no
 red. Offsets clamp to [0, 1] and never go back, the later of two at one
 offset wins; transparent is black with no alpha, interpolated unpremultiplied;
 stop-opacity multiplies the colour's own alpha and clamps; no stop paints
 nothing, one paints its colour. -->
-<rect width="64" height="52" fill="white"/>
+<rect width="64" height="82" fill="white"/>
 <defs>
 <linearGradient id="c"><stop offset="-1" stop-color="navy"/><stop offset="50%" stop-color="gold"/><stop offset=".25" stop-color="teal"/><stop offset="2" stop-color="white"/></linearGradient>
 <linearGradient id="cr"><stop offset="0" stop-color="navy"/><stop offset=".5" stop-color="gold"/><stop offset=".5" stop-color="teal"/><stop offset="1" stop-color="white"/></linearGradient>
@@ -14,10 +14,16 @@ nothing, one paints its colour. -->
 <linearGradient id="or"><stop offset="0" stop-color="blue" stop-opacity=".25"/><stop offset="1" stop-color="navy"/></linearGradient>
 <linearGradient id="none"><desc>no stops</desc></linearGradient>
 <linearGradient id="one"><stop offset=".7" stop-color="lime"/></linearGradient>
+<linearGradient id="at-start" gradientUnits="userSpaceOnUse" x1="2.5" x2="34.5"><stop offset=".5" stop-color="red"/><stop offset=".5" stop-color="blue"/></linearGradient>
+<linearGradient id="at-end" gradientUnits="userSpaceOnUse" x1="2" x2="18"><stop offset="1" stop-color="pink"/><stop offset="1" stop-color="snow"/></linearGradient>
+<radialGradient id="radial-end" gradientUnits="userSpaceOnUse" cx="32" cy="76.5" r="8"><stop offset="1" stop-color="lime"/><stop offset="1" stop-color="navy"/></radialGradient>
 </defs>
 <rect x="2" y="2" width="60" height="4" fill="url(#c)"/><rect x="2" y="6" width="60" height="4" fill="url(#cr)"/>
 <rect x="2" y="12" width="60" height="4" fill="url(#t)"/><rect x="2" y="16" width="60" height="4" fill="url(#tr)"/>
 <rect x="2" y="22" width="60" height="4" fill="url(#o)"/><rect x="2" y="26" width="60" height="4" fill="url(#or)"/>
 <rect x="2" y="32" width="28" height="18" fill="lime"/><rect x="2" y="32" width="28" height="18" fill="url(#none) red"/>
 <rect x="35" y="33" width="26" height="16" fill="red"/><rect x="34" y="32" width="28" height="18" fill="url(#one)"/>
+<rect x="2" y="56" width="60" height="4" fill="url(#at-start)"/>
+<rect x="2" y="64" width="60" height="4" fill="url(#at-end)"/>
+<rect x="2" y="76" width="60" height="1" fill="url(#radial-end)"/>
 </svg>

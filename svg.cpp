@@ -22053,7 +22053,7 @@ namespace {
         u32 count = paint.stopCount;
         u16 c[4];
 
-        if (t <= stops[0].offset) {
+        if (t < stops[0].offset) {
             memcpy(c, stops[0].stored, sizeof(c));
         } else if (t >= stops[count - 1].offset) {
             memcpy(c, stops[count - 1].stored, sizeof(c));
@@ -22062,7 +22062,7 @@ namespace {
             // follows past it and the span to it is not empty: the first
             // one, as the offsets never decrease. Where stops inside share
             // an offset, the later one rules there, as SVG and CSS have it;
-            // at the first offset and before, the first, as browsers draw.
+            // at the first offset, the last stop there rules as well.
             u32 i = 1;
             u32 n = count - 1;
 
