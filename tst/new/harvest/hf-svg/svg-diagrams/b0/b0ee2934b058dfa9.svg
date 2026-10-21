@@ -1,8 +1,0 @@
-<svg id="n32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="872.8" height="130.0">  <defs>
-    <filter id="shadow1" x="0" y="0" width="200%" height="200%">
-      <feOffset result="offOut" in="SourceGraphic" dx="3" dy="3" />
-      <feColorMatrix result="matrixOut" in="offOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0" />
-      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="2" />
-      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
-    </filter>
-  </defs><g id="n33"><rect id="MedicinalProductInteraction" x="0.0" y="0.0" rx="4" ry="4" width="299.20000000000005" height="120.0" filter="url(#shadow1)" style="fill:#fff9ec;stroke:black;stroke-width:1"/><line id="n34" x1="0.0" y1="28.0" x2="299.20000000000005" y2="28.0" style="stroke:dimgrey;stroke-width:1"/></g><g id="n79"><rect id="MedicinalProductInteraction.interactant" x="400.0" y="25.0" rx="4" ry="4" width="272.8" height="64.0" filter="url(#shadow1)" style="fill:#fff9ec;stroke:black;stroke-width:1"/><line id="n80" x1="400.0" y1="53.0" x2="672.8" y2="53.0" style="stroke:dimgrey;stroke-width:1"/></g><line id="n102" x1="299.20000000000005" y1="58.83971044467425" x2="400.0" y2="58.05791106514995" style="stroke:navy;stroke-width:1"/><polygon id="n103" points="299.20000000000005,58.83971044467425 305.20000000000005,62.83971044467425 311.20000000000005,58.83971044467425 305.20000000000005,54.83971044467425 299.20000000000005,58.83971044467425" style="fill:navy;stroke:navy;stroke-width:1" transform="rotate(-0.44437407459437817 299.20000000000005 58.83971044467425)"/><rect id="n104" x="325.0" y="51.0" width="48.0" height="18.0" style="fill:white;stroke:black;stroke-width:0"/></svg>
