@@ -700,3 +700,20 @@ semicircle at a Bézier cusp with nearly opposed tangents. A reversal at an
 explicit line corner remains flat, as all three renderers draw it.
 This also corrects the old `path-direction#cusp-fold` oracle, which drew
 a square tip for a reversing quadratic despite Chromium's rounded one.
+
+## D56. A distant light's azimuth is fixed in the output frame
+
+`filter-effects-1.md#operating-coordinate-space` says primitives operate in
+device-dependent space, but notes that some light-source values cannot be
+mapped from `primitiveUnits` into it. We interpret a distant light's azimuth
+in that operating frame: turning or reflecting a symmetric filtered source
+does not turn its illumination. The source's Sobel slope is mapped from an
+intermediate filter layer back to the output frame before lighting. Point
+and spot lights retain their positions and targets in `primitiveUnits`.
+The existing user-space slope and surface scale are preserved before the
+map into the output frame. Resvg
+and librsvg agree on this for transformed sources. An Inkscape cog
+uses reflected copies of the same lighting filter and expects their relief
+to come from a common direction; Chromium suppresses most of its relief.
+`fe-distant-light-transform` tests reflection, a quarter-turn, diffuse and
+specular light, the contrasting point-light case, and retained scale.

@@ -2102,6 +2102,7 @@ namespace {
     struct Filter {
         Document* doc;
         Matrix ctm;
+        Matrix deviceToLayer;
         Box bbox;
         bool boxPrimitives;
         IntBox region;
@@ -18378,6 +18379,7 @@ namespace {
 
         filter->doc = l.doc;
         filter->ctm = m;
+        filter->deviceToLayer = identity();
         filter->boxPrimitives = primitiveUnits && textOf(doc, primitiveUnits) == SV("objectBoundingBox");
         filter->region = IntBox{0, 0, 0, 0};
         filter->count = 0;
@@ -18572,6 +18574,7 @@ namespace {
 
         filter->doc = l.doc;
         filter->ctm = m;
+        filter->deviceToLayer = identity();
         filter->bbox = Box{0.f, 0.f, 0.f, 0.f};
         filter->boxPrimitives = false;
         filter->region = primitive->box;
@@ -20865,6 +20868,11 @@ namespace {
         l.height = (u32)lh;
 
         Filter* filter = lowerFilters(l, node, parent, style, inner, vp);
+
+        for (Filter* f = filter; f; f = f->next) {
+            f->deviceToLayer = layer;
+        }
+
         Vector<Op> content;
         Vector<Op>* saved = l.out;
 
@@ -26703,8 +26711,22 @@ namespace {
                 constexpr float unit = 1.f / 65535.f;
                 float dx = factorX * (float)nx * unit / spanX;
                 float dy = factorY * (float)ny * unit / spanY;
-                // The height samples are in device space; the light is in user space.
-                Vector3 normal = normalize3(Vector3{-surfaceScale * kernelX * (f.ctm.a * dx + f.ctm.b * dy), -surfaceScale * kernelY * (f.ctm.c * dx + f.ctm.d * dy), 1.f});
+                // Keep the surface scale in primitive units. A distant
+                // light's azimuth stays in the output frame, so map its
+                // normal there after computing the user-space slope. Point
+                // and spot light positions stay in primitive user space.
+                float gx = kernelX * (f.ctm.a * dx + f.ctm.b * dy);
+                float gy = kernelY * (f.ctm.c * dx + f.ctm.d * dy);
+
+                if (light->name == AtomFeDistantLight) {
+                    const Matrix& layer = f.deviceToLayer;
+                    float outputX = layer.a * gx + layer.b * gy;
+
+                    gy = layer.c * gx + layer.d * gy;
+                    gx = outputX;
+                }
+
+                Vector3 normal = normalize3(Vector3{-surfaceScale * gx, -surfaceScale * gy, 1.f});
                 Vector3 toLight = direction;
                 Color color = lightColor;
 
