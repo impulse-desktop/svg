@@ -19324,11 +19324,13 @@ namespace {
                         }
                     }
 
-                    // Sampling only pixel centres can erase a stroke narrower
-                    // than a device pixel. A crisp-edges hint may remove
-                    // antialiasing, but it must not lose the authored line.
+                    // Outside a tile, sampling only pixel centres can erase a
+                    // stroke narrower than a device pixel. Inside a pattern,
+                    // keep crisp sampling: antialiased boundary strokes leave
+                    // seams when their reduced tile is repeated.
                     const Matrix& strokeMatrix = style.nonScaling ? l.host : m;
-                    bool aliased = style.aliased && (double)style.strokeWidth * minimumScale(strokeMatrix) >= 1.0;
+                    bool aliased = style.aliased &&
+                                   (l.patternDepth != 0 || (double)style.strokeWidth * minimumScale(strokeMatrix) >= 1.0);
 
                     emitFill(l, device, WindingNonZero, stroke, aliased, style.linearColors);
                 }

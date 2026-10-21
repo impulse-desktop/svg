@@ -157,7 +157,7 @@
 ## shape-rendering: paint-rendering-hints
 
 - [x] svg2/painting.md#ShapeRenderingProperty: shape-rendering is auto | optimizeSpeed | crispEdges | geometricPrecision; initial auto; applies to shapes; is inherited [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp paint-properties#shape-rendering-inherited]
-- [x] svg2/painting.md#ShapeRenderingProperty: optimizeSpeed may disable anti-aliasing; crispEdges favors crisp edges over speed/precision; geometricPrecision favors precision over speed/crisp edges; auto balances all three favoring precision most; this renderer keeps fractional coverage for subpixel strokes so a crisp hint does not erase them [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp stroke-crisp-subpixel#outline stroke-crisp-subpixel#horizontal stroke-crisp-subpixel#vertical stroke-crisp-subpixel#scaled stroke-crisp-subpixel#wide]
+- [x] svg2/painting.md#ShapeRenderingProperty: optimizeSpeed may disable anti-aliasing; crispEdges favors crisp edges over speed/precision; geometricPrecision favors precision over speed/crisp edges; auto balances all three favoring precision most; this renderer keeps fractional coverage for subpixel strokes outside pattern tiles, while crisp sampling in a tile avoids repeated seams [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp stroke-crisp-subpixel#outline stroke-crisp-subpixel#horizontal stroke-crisp-subpixel#vertical stroke-crisp-subpixel#scaled stroke-crisp-subpixel#wide stroke-crisp-pattern-tile#tile stroke-crisp-pattern-tile#outside]
 
 ## image-rendering: paint-rendering-hints, image-cells
 
