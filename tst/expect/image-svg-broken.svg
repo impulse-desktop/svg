@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="12">
+<!-- A broken embedded SVG leaves its image empty, not the whole drawing. -->
+<rect width="56" height="12" fill="white"/>
+<g id="malformed-xml" data-box="1 1 10 10"><rect x="2" y="2" width="8" height="8" fill="teal"/></g>
+<g id="wrong-root" data-box="12 1 10 10"><rect x="13" y="2" width="8" height="8" fill="teal"/></g>
+<g id="invalid-uri" data-box="23 1 10 10"><rect x="24" y="2" width="8" height="8" fill="teal"/></g>
+<g id="valid-svg" data-box="34 1 10 10"><rect x="35" y="2" width="8" height="8" fill="lime"/></g>
+<g id="after-error" data-box="45 1 10 10"><rect x="46" y="2" width="8" height="8" fill="teal"/></g>
+</svg>

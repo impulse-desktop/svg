@@ -3095,6 +3095,12 @@ namespace {
         __builtin_trap();
     }
 
+    struct InvalidImageXml {};
+
+    [[noreturn]] static void invalidImageXml(SvgError) {
+        throw InvalidImageXml{};
+    }
+
     static bool startsWith(const Cursor& c, StringView text) {
         return (size_t)(c.end - c.p) >= text.length() && memcmp(c.p, text.data(), text.length()) == 0;
     }
@@ -19944,7 +19950,14 @@ namespace {
             Document* nested = self ? l.doc : l.pool->make<Document>();
 
             if (!self) {
-                loadDocument(*nested, *l.pool, data, l.fail);
+                // An invalid image resource leaves the referring document
+                // intact (SVG 2 error processing); an invalid root document
+                // still reaches the library's fail callback.
+                try {
+                    loadDocument(*nested, *l.pool, data, invalidImageXml);
+                } catch (const InvalidImageXml&) {
+                    return false;
+                }
             }
 
             if (nested->root && nested->root->name == AtomSvg) {

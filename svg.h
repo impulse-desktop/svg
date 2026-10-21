@@ -42,6 +42,7 @@ extern "C" {
 
     // Why a call cannot do what it is asked: the file it parses is no XML
     // document, or no SVG one, or the image it draws is empty or too large.
+    // Invalid SVG images embedded in a document leave only that image empty.
     typedef enum SvgError {
         SVG_XML_NO_ROOT,                  // no element begins the document
         SVG_XML_TRAILING,                 // more than space after the root element

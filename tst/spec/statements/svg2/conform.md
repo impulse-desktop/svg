@@ -3,7 +3,7 @@
 ## Error processing: path-grammar, gradient-radial-geometry
 
 - [x] svg2/conform.md#ErrorProcessing: a document fragment is in error when non-conforming for its document type, or elsewhere stated as in error (e.g. an invalid attribute value) [path-grammar#error gradient-radial-geometry#negative-r]
-- [x] svg2/conform.md#ErrorProcessing: when in error, rendering continues for the rest of the document; only the element, or the part of it that is in error, is not rendered [path-grammar#error path-grammar#short-command gradient-radial-geometry#negative-fr]
+- [x] svg2/conform.md#ErrorProcessing: when in error, rendering continues for the rest of the document; only the element, or the part of it that is in error, is not rendered [path-grammar#error path-grammar#short-command gradient-radial-geometry#negative-fr image-svg-broken#malformed-xml image-svg-broken#wrong-root image-svg-broken#invalid-uri image-svg-broken#after-error]
 
 ## CTM and coordinate precision: transform-double (exists)
 

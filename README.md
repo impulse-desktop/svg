@@ -35,9 +35,11 @@ svg_library_destroy(library);
 ```
 
 No call returns NULL. What a call cannot do goes to the `fail` given to
-`svg_library_create`, which is never NULL, with an `SvgError` that says why: a
-file that is not XML, or whose root is not SVG, an SVG image inside a document
-that is not XML, an empty or oversized image.
+`svg_library_create`, which is never NULL, with an `SvgError` that says why:
+an input file is not XML or its root is not SVG, or the output image is empty
+or oversized.
+An invalid SVG used as an image leaves that image empty and preserves the
+rest of the document.
 `fail` does not return; a C++ program may throw from it.
 `svg_document_width` and `svg_document_height` give the document's own size
 in CSS pixels: the width and height its root gives, one of them with the

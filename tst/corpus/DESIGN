@@ -1,8 +1,9 @@
 # Cases the renderer deliberately draws apart from the Chromium reference
 # by a decision of its design, not by a fault: out of the score, to review.
 # A line is `CASE: reason`, CASE relative to tst/corpus without .svg.
-resvg/structure__image__embedded-svgz: an SVG image that is no XML document, here svgz, fails the whole drawing, as svg.h has it; Firefox and resvg leave the image out, Chromium paints its broken-image icon
-w3c/svg__conform-viewers-02-f: an SVG image that is no XML document, here svgz, fails the whole drawing, as svg.h has it; Firefox and resvg leave the image out, Chromium paints its broken-image icon
+resvg/structure__image__embedded-svgz: an SVG image that is no XML document, here svgz, leaves its image empty per SVG 2 error processing; Firefox and resvg agree, Chromium paints its broken-image icon
+w3c/svg__conform-viewers-02-f: an SVG image that is no XML document, here svgz, leaves its image empty per SVG 2 error processing; Firefox and resvg agree, Chromium paints its broken-image icon
+svg-diagrams/9c__9c6ecc45020a9035: a malformed data URL for its embedded SVG leaves that image empty per SVG 2 error processing; resvg and librsvg agree, Chromium paints its broken-image icon
 w3c/svg__coords-units-03-b: the renderer has no fonts, so an ex is 0.5em, as CSS Values 4 has it where the x-height cannot be had; the browsers take the x-height of their default font
 blink/W3C-SVG-1.1-SE__coords-units-03-b: the renderer has no fonts, so an ex is 0.5em, as CSS Values 4 has it where the x-height cannot be had; the browsers take the x-height of their default font
 svg-diagrams/ca__ca6f7dd615330a4c: SVG 2 stroke shape unions overlapping dashes; Chromium and resvg repeatedly composite dense zero-length square-capped dashes, making translucent and subpixel strokes artificially opaque; librsvg agrees with the union (stroke-dash-dense)
