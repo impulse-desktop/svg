@@ -8,6 +8,13 @@
 - [x] svg2/styling.md#StyleElement: a style element of the XHTML namespace, anywhere in the document, a foreign subtree or a foreignObject's content too, is a style sheet as SVG's style element is, its media and type attributes the same; another element of that namespace is none (D47) [style-html#child style-html#nested style-html#foreign-object style-html#media style-html#type style-html#other-element style-html#prefixed]
 - [-] svg2/styling.md#RequiredCSSFeatures: @media, @import, @charset and @font-face rules within a style sheet must be supported. (D15) [css-layers#import-nothing css-sheet-recovery#charset css-calc-contexts#media]
 
+## XML stylesheet instructions: xml-stylesheet
+
+- [x] svg2/styling.md#RequiredCSSFeatures: xml-stylesheet instructions in the prolog associate CSS sheets with the document; data: sheets are decoded and applied before its style elements, without creating selector-visible elements. [xml-stylesheet#percent xml-stylesheet#type-omitted xml-stylesheet#base64 xml-stylesheet#document-order xml-stylesheet#style-order xml-stylesheet#inline xml-stylesheet#important xml-stylesheet#structural xml-stylesheet#inside-root xml-stylesheet#after-root xml-stylesheet#after-doctype]
+- [x] svg2/styling.md#RequiredCSSFeatures: stylesheet associations use media queries and the preferred title; an alternate sheet is enabled only as a member of that selected set. [xml-stylesheet#screen xml-stylesheet#print xml-stylesheet#empty-media xml-stylesheet#preferred xml-stylesheet#alternate xml-stylesheet#alternate-no-title xml-stylesheet#alternate-before-preferred xml-stylesheet#alternate-after-preferred xml-stylesheet#alternate-before-style]
+- [x] svg2/styling.md#RequiredCSSFeatures: xml-stylesheet pseudo-attributes use quoted values, character references and predefined entities; malformed syntax, duplicate names and invalid references discard the instruction rather than the document, and a retrieved MIME type takes precedence over the advisory type. [xml-stylesheet#quoted-attributes xml-stylesheet#character-references xml-stylesheet#predefined-entities xml-stylesheet#duplicate xml-stylesheet#duplicate-unknown xml-stylesheet#unquoted xml-stylesheet#no-equals xml-stylesheet#unclosed-quote xml-stylesheet#no-space xml-stylesheet#bad-name xml-stylesheet#wrong-target xml-stylesheet#target-case xml-stylesheet#unknown-entity xml-stylesheet#empty-reference xml-stylesheet#invalid-digit xml-stylesheet#invalid-decimal xml-stylesheet#zero xml-stylesheet#control xml-stylesheet#surrogate xml-stylesheet#non-character xml-stylesheet#out-of-range xml-stylesheet#no-semicolon xml-stylesheet#literal-less-than xml-stylesheet#recovery xml-stylesheet#advisory-type xml-stylesheet#mime-parameters xml-stylesheet#wrong-mime]
+- [-] svg2/styling.md#RequiredCSSFeatures: external stylesheet associations require fetching a resource; only data: sheets are available without a resource loader. (D15) [xml-stylesheet#external xml-stylesheet#bad-data xml-stylesheet#missing-href]
+
 ## Class and style attributes: style-sheets, css-classes-attributes (exists)
 
 - [x] svg2/styling.md#ClassAttribute: the class attribute assigns one or more space-separated class names to an element, usable for selector matching. [css-selector-basics#class]
@@ -31,4 +38,7 @@
 - [x] svg2/styling.md#UAStyleSheet: SVG elements default transform-origin to 0 0 rather than CSS's normal 50% 50%, except a root svg element, or an svg that is a child of a foreignObject or of an element outside the SVG namespace, which keep the center as their default origin. [render-root-transform#root-origin render-root-transform#other-origin render-root-rotate#center]
 
 ## Notes
+
+The linked XML stylesheet recommendation defines the pseudo-attribute parser
+and prolog scope in [sections 3 and 4](https://www.w3.org/TR/xml-stylesheet/).
 

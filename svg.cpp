@@ -1431,6 +1431,15 @@ namespace {
         u32 value;
     };
 
+    // A data: stylesheet named in the XML prolog, before the document's
+    // style elements. A processing instruction is no element for selectors.
+    struct LinkedSheet {
+        StringView text;
+        u32 media;
+        u32 title;
+        bool alternate;
+    };
+
     struct Document {
         ObjPool* pool;
         Interner atoms;
@@ -1439,6 +1448,7 @@ namespace {
         Vector<Node*> byId;
         Rule* rules;
         u32 ruleCount;
+        Vector<LinkedSheet> linkedSheets;
         Vector<Layer> layers;
         bool structural;
         // Whether a selector has :lang(), whose instances' language is
@@ -3934,7 +3944,167 @@ namespace {
         }
     }
 
-    static void skipMisc(const Xml& xml, Cursor& c) {
+    // Pseudo-attributes have XML's quotes and character references, but
+    // no declared entities or attribute whitespace normalization. A bad
+    // instruction is ignored, not an XML error (xml-stylesheet, section 3).
+    static bool sheetValue(Cursor& c, Buffer& out) {
+        if (c.p == c.end || (*c.p != '"' && *c.p != '\'')) {
+            return false;
+        }
+
+        u8 quote = *c.p++;
+
+        while (c.p < c.end && *c.p != quote) {
+            u8 byte = *c.p++;
+
+            if (byte == '<') {
+                return false;
+            }
+
+            if (byte != '&') {
+                out.append(&byte, 1);
+                continue;
+            }
+
+            const u8* start = c.p;
+
+            while (c.p < c.end && *c.p != ';' && *c.p != quote) {
+                c.p++;
+            }
+
+            if (c.p == c.end || *c.p != ';') {
+                return false;
+            }
+
+            StringView ref(start, c.p++);
+            int predefined = predefinedEntity(ref);
+
+            if (predefined >= 0) {
+                byte = (u8)predefined;
+                out.append(&byte, 1);
+            } else {
+                if (ref.empty() || ref[0] != '#') {
+                    return false;
+                }
+
+                bool hex = ref.length() > 1 && ref[1] == 'x';
+                size_t i = hex ? 2 : 1;
+                u32 code = 0;
+
+                if (i == ref.length()) {
+                    return false;
+                }
+
+                for (; i < ref.length(); i++) {
+                    int digit = hexDigit(ref[i]);
+
+                    if (digit < 0 || (!hex && digit > 9)) {
+                        return false;
+                    }
+
+                    code = code * (hex ? 16 : 10) + (u32)digit;
+
+                    if (code > 0x10ffff) {
+                        return false;
+                    }
+                }
+
+                if ((code < 0x20 && code != 9 && code != 10 && code != 13) || (code >= 0xd800 && code <= 0xdfff) || code == 0xfffe || code == 0xffff) {
+                    return false;
+                }
+
+                appendUtf8(out, code);
+            }
+        }
+
+        if (c.p == c.end) {
+            return false;
+        }
+
+        c.p++;
+
+        return true;
+    }
+
+    static void linkedSheet(Document& doc, StringView instruction) {
+        Cursor c{instruction.begin(), instruction.end()};
+
+        if (!startsWith(c, SV("xml-stylesheet"))) {
+            return;
+        }
+
+        c.p += 14;
+        Vector<StringView> names;
+        u32 href = 0;
+        u32 media = 0;
+        u32 title = 0;
+        bool alternate = false;
+
+        while (c.p < c.end) {
+            if (!skipSpaces(c)) {
+                return;
+            }
+
+            if (c.p == c.end) {
+                break;
+            }
+
+            if (!isNameStart(*c.p)) {
+                return;
+            }
+
+            const u8* start = c.p++;
+
+            while (c.p < c.end && isNameChar(*c.p)) {
+                c.p++;
+            }
+
+            StringView name(start, c.p);
+
+            for (StringView prior : names) {
+                if (prior == name) {
+                    return;
+                }
+            }
+
+            names.pushBack(name);
+            skipSpaces(c);
+
+            if (c.p == c.end || *c.p++ != '=') {
+                return;
+            }
+
+            skipSpaces(c);
+            Buffer value;
+
+            if (!sheetValue(c, value)) {
+                return;
+            }
+
+            StringView text = keep(*doc.pool, value.data(), value.length());
+
+            if (name == SV("href")) {
+                href = intern(doc.atoms, text);
+            } else if (name == SV("media")) {
+                media = intern(doc.atoms, text);
+            } else if (name == SV("title")) {
+                title = intern(doc.atoms, text);
+            } else if (name == SV("alternate")) {
+                alternate = text == SV("yes");
+            }
+        }
+
+        StringView mime;
+        Buffer bytes;
+
+        // The fetched media type is authoritative; the PI's type is only
+        // a hint. As for images and XInclude, only data: URLs are available.
+        if (href && decodeDataUri(textOf(doc, href), mime, bytes) && equalsIgnoreCase(mime, SV("text/css"))) {
+            doc.linkedSheets.pushBack(LinkedSheet{keep(*doc.pool, bytes.data(), bytes.length()), media, title, alternate});
+        }
+    }
+
+    static void skipMisc(Xml& xml, Cursor& c, bool sheets = false) {
         for (;;) {
             skipSpaces(c);
 
@@ -3942,7 +4112,13 @@ namespace {
                 c.p += 4;
                 skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
             } else if (startsWith(c, SV("<?"))) {
+                const u8* start = c.p + 2;
+
                 skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
+
+                if (sheets) {
+                    linkedSheet(*xml.doc, StringView(start, c.p - 2));
+                }
             } else {
                 return;
             }
@@ -3973,7 +4149,7 @@ namespace {
         }
 
         for (;;) {
-            skipMisc(xml, c);
+            skipMisc(xml, c, !parent);
 
             if (startsWith(c, SV("<!DOCTYPE"))) {
                 parseDoctype(xml, c);
@@ -8511,14 +8687,34 @@ namespace {
         doc.substitutionBudget = 1 << 19;
         doc.customSets.pushBack(CustomSet{0, 0, 0});
 
+        for (const LinkedSheet& sheet : doc.linkedSheets) {
+            if (preferred.empty() && !sheet.alternate && sheet.title) {
+                preferred = textOf(doc, sheet.title);
+            }
+        }
+
+        for (Node* node = doc.root; preferred.empty() && node; node = nextNode(node, doc.root)) {
+            if (node->name == AtomStyle && !node->text.empty()) {
+                if (u32 title = attribute(node, AtomTitle)) {
+                    preferred = textOf(doc, title);
+                }
+            }
+        }
+
+        for (const LinkedSheet& sheet : doc.linkedSheets) {
+            StringView title = sheet.title ? textOf(doc, sheet.title) : StringView();
+
+            if ((!sheet.alternate || !title.empty()) && (title.empty() || title == preferred) && (!sheet.media || mediaMatches(view, doc.values[valueOfAtom(doc, sheet.media)].tokens))) {
+                parseSheet(doc, rules, sheet.text, view);
+            }
+        }
+
         for (Node* node = doc.root; node; node = nextNode(node, doc.root)) {
             if (node->name == AtomStyle && !node->text.empty()) {
                 u32 type = attribute(node, AtomType);
                 u32 media = attribute(node, AtomMedia);
                 u32 titleValue = attribute(node, AtomTitle);
                 StringView title = titleValue ? textOf(doc, titleValue) : StringView();
-
-                preferred = preferred.empty() ? title : preferred;
 
                 if ((!type || textOf(doc, type).empty() || equalsIgnoreCase(textOf(doc, type), SV("text/css"))) && (!media || mediaMatches(view, doc.values[valueOfAtom(doc, media)].tokens)) && (title.empty() || title == preferred)) {
                     parseSheet(doc, rules, node->text, view);

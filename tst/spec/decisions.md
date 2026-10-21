@@ -149,7 +149,9 @@ group's bounding box.
 `svg2/styling.md#RequiredCSSFeatures` requires @import. The renderer fetches
 no resource (README: images come from the embedding program); an imported
 style sheet is not loaded and the rule is skipped, the rest of the sheet
-applying.
+applying. An xml-stylesheet instruction likewise cannot fetch an external
+resource; its data: URL, already present in the document's bytes, is decoded
+and applied before the document's style elements.
 
 ## D16. An invalid presentation attribute is ignored, as a declaration
 

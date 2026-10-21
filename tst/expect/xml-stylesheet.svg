@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="112">
+<!-- What tst/unit/xml-stylesheet.svg draws, drawn plainly; each cell's
+id is what the statement ledgers link to. -->
+<rect width="128" height="112" fill="white"/>
+<g id="percent" data-box="1 1 14 14"><rect x="2" y="2" width="12" height="12" fill="lime"/></g>
+<g id="type-omitted" data-box="17 1 14 14"><rect x="18" y="2" width="12" height="12" fill="lime"/></g>
+<g id="base64" data-box="33 1 14 14"><rect x="34" y="2" width="12" height="12" fill="lime"/></g>
+<g id="mime-parameters" data-box="49 1 14 14"><rect x="50" y="2" width="12" height="12" fill="lime"/></g>
+<g id="advisory-type" data-box="65 1 14 14"><rect x="66" y="2" width="12" height="12" fill="lime"/></g>
+<g id="document-order" data-box="81 1 14 14"><rect x="82" y="2" width="12" height="12" fill="lime"/></g>
+<g id="style-order" data-box="97 1 14 14"><rect x="98" y="2" width="12" height="12" fill="lime"/></g>
+<g id="inline" data-box="113 1 14 14"><rect x="114" y="2" width="12" height="12" fill="lime"/></g>
+<g id="important" data-box="1 17 14 14"><rect x="2" y="18" width="12" height="12" fill="lime"/></g>
+<g id="structural" data-box="17 17 14 14"><rect x="18" y="18" width="12" height="12" fill="lime"/></g>
+<g id="screen" data-box="33 17 14 14"><rect x="34" y="18" width="12" height="12" fill="lime"/></g>
+<g id="print" data-box="49 17 14 14"><rect x="50" y="18" width="12" height="12" fill="red"/></g>
+<g id="empty-media" data-box="65 17 14 14"><rect x="66" y="18" width="12" height="12" fill="lime"/></g>
+<g id="preferred" data-box="81 17 14 14"><rect x="82" y="18" width="12" height="12" fill="lime"/></g>
+<g id="alternate" data-box="97 17 14 14"><rect x="98" y="18" width="12" height="12" fill="red"/></g>
+<g id="alternate-no-title" data-box="113 17 14 14"><rect x="114" y="18" width="12" height="12" fill="red"/></g>
+<g id="alternate-before-preferred" data-box="1 33 14 14"><rect x="2" y="34" width="12" height="12" fill="lime"/></g>
+<g id="alternate-after-preferred" data-box="17 33 14 14"><rect x="18" y="34" width="12" height="12" fill="lime"/></g>
+<g id="alternate-before-style" data-box="33 33 14 14"><rect x="34" y="34" width="12" height="12" fill="lime"/></g>
+<g id="quoted-attributes" data-box="49 33 14 14"><rect x="50" y="34" width="12" height="12" fill="lime"/></g>
+<g id="character-references" data-box="65 33 14 14"><rect x="66" y="34" width="12" height="12" fill="lime"/></g>
+<g id="predefined-entities" data-box="81 33 14 14"><rect x="82" y="34" width="12" height="12" fill="lime"/></g>
+<g id="unknown-attribute" data-box="97 33 14 14"><rect x="98" y="34" width="12" height="12" fill="lime"/></g>
+<g id="missing-href" data-box="113 33 14 14"><rect x="114" y="34" width="12" height="12" fill="red"/></g>
+<g id="external" data-box="1 49 14 14"><rect x="2" y="50" width="12" height="12" fill="red"/></g>
+<g id="wrong-mime" data-box="17 49 14 14"><rect x="18" y="50" width="12" height="12" fill="red"/></g>
+<g id="bad-data" data-box="33 49 14 14"><rect x="34" y="50" width="12" height="12" fill="red"/></g>
+<g id="duplicate" data-box="49 49 14 14"><rect x="50" y="50" width="12" height="12" fill="red"/></g>
+<g id="duplicate-unknown" data-box="65 49 14 14"><rect x="66" y="50" width="12" height="12" fill="red"/></g>
+<g id="unquoted" data-box="81 49 14 14"><rect x="82" y="50" width="12" height="12" fill="red"/></g>
+<g id="no-equals" data-box="97 49 14 14"><rect x="98" y="50" width="12" height="12" fill="red"/></g>
+<g id="unclosed-quote" data-box="113 49 14 14"><rect x="114" y="50" width="12" height="12" fill="red"/></g>
+<g id="no-space" data-box="1 65 14 14"><rect x="2" y="66" width="12" height="12" fill="red"/></g>
+<g id="bad-name" data-box="17 65 14 14"><rect x="18" y="66" width="12" height="12" fill="red"/></g>
+<g id="wrong-target" data-box="33 65 14 14"><rect x="34" y="66" width="12" height="12" fill="red"/></g>
+<g id="target-case" data-box="49 65 14 14"><rect x="50" y="66" width="12" height="12" fill="red"/></g>
+<g id="inside-root" data-box="65 65 14 14"><rect x="66" y="66" width="12" height="12" fill="red"/></g>
+<g id="after-root" data-box="81 65 14 14"><rect x="82" y="66" width="12" height="12" fill="red"/></g>
+<g id="after-doctype" data-box="97 65 14 14"><rect x="98" y="66" width="12" height="12" fill="lime"/></g>
+<g id="inside-doctype" data-box="113 65 14 14"><rect x="114" y="66" width="12" height="12" fill="red"/></g>
+<g id="unknown-entity" data-box="1 81 14 14"><rect x="2" y="82" width="12" height="12" fill="red"/></g>
+<g id="empty-reference" data-box="17 81 14 14"><rect x="18" y="82" width="12" height="12" fill="red"/></g>
+<g id="invalid-digit" data-box="33 81 14 14"><rect x="34" y="82" width="12" height="12" fill="red"/></g>
+<g id="invalid-decimal" data-box="49 81 14 14"><rect x="50" y="82" width="12" height="12" fill="red"/></g>
+<g id="zero" data-box="65 81 14 14"><rect x="66" y="82" width="12" height="12" fill="red"/></g>
+<g id="control" data-box="81 81 14 14"><rect x="82" y="82" width="12" height="12" fill="red"/></g>
+<g id="surrogate" data-box="97 81 14 14"><rect x="98" y="82" width="12" height="12" fill="red"/></g>
+<g id="non-character" data-box="113 81 14 14"><rect x="114" y="82" width="12" height="12" fill="red"/></g>
+<g id="out-of-range" data-box="1 97 14 14"><rect x="2" y="98" width="12" height="12" fill="red"/></g>
+<g id="no-semicolon" data-box="17 97 14 14"><rect x="18" y="98" width="12" height="12" fill="red"/></g>
+<g id="literal-less-than" data-box="33 97 14 14"><rect x="34" y="98" width="12" height="12" fill="red"/></g>
+<g id="recovery" data-box="49 97 14 14"><rect x="50" y="98" width="12" height="12" fill="lime"/></g>
+</svg>
