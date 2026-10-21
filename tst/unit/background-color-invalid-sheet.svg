@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" style="background-color:rgba(1)!important">
+<!-- A background-color outside its colour grammar is discarded before
+the cascade, preserving the valid declaration before or below it. A
+variable's invalid value is instead invalid at computed-value time and
+gives transparent. The expected drawing uses a plain rectangle, with no
+background declarations. -->
+<style>svg{background-color:lime}</style>
+</svg>

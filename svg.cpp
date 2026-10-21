@@ -8195,6 +8195,7 @@ namespace {
             case AtomStopColor:
             case AtomFloodColor:
             case AtomLightingColor:
+            case AtomBackgroundColor:
                 return parseColor(value, color) || isKeyword(value, SV("currentcolor"));
             case AtomStrokeDasharray:
                 return isKeyword(value, SV("none")) || validDashes(value);
