@@ -1,0 +1,106 @@
+<svg width="1040pt" height="188pt"
+ viewBox="0.00 0.00 1040.00 187.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 183.5)">
+<title>llama.files.coinc_analyses.CoincSkymapFrmLvcHDF5</title>
+<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-183.5 1036,-183.5 1036,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>llama.files.coinc_analyses.CoincSkymapFrmLvcHDF5</title>
+<g id="a_node1"><a xlink:href="/llama.files.coinc_analyses.html#llama.files.coinc_analyses.CoincSkymapFrmLvcHDF5" xlink:title="{{&lt;B&gt;CoincSkymapFrmLvcHDF5&lt;/B&gt;|&lt;I&gt;likelihood_frm&#45;lvc.hdf5&lt;/I&gt;|HEALPixSkyMapAnalysis}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="803,-54.5 803,-123.5 1032,-123.5 1032,-54.5 803,-54.5"/>
+
+<polyline fill="none" stroke="black" points="803,-100.5 1032,-100.5 "/>
+
+<polyline fill="none" stroke="black" points="803,-77.5 1032,-77.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>llama.files.fermi_grb.FermiGRBsJSON</title>
+<g id="a_node2"><a xlink:href="/llama.files.fermi_grb.html#llama.files.fermi_grb.FermiGRBsJSON" xlink:title="{{&lt;B&gt;FermiGRBsJSON&lt;/B&gt;|&lt;I&gt;fermi_grbs.json&lt;/I&gt;|JSONFile&lt;BR/&gt;HEALPixPSF}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="579,-95 579,-179 728,-179 728,-95 579,-95"/>
+
+<polyline fill="none" stroke="black" points="579,-156 728,-156 "/>
+
+<polyline fill="none" stroke="black" points="579,-133 728,-133 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>llama.files.fermi_grb.FermiGRBsJSON&#45;&gt;llama.files.coinc_analyses.CoincSkymapFrmLvcHDF5</title>
+<path fill="none" stroke="red" d="M728.09,-109.25C728.09,-109.25 792.64,-109.25 792.64,-109.25"/>
+<polygon fill="red" stroke="red" points="792.64,-112.75 802.64,-109.25 792.64,-105.75 792.64,-112.75"/>
+</g>
+
+<g id="node3" class="node">
+<title>llama.files.lvc_skymap.LvcSkymapFits</title>
+<g id="a_node3"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.LvcSkymapFits" xlink:title="{{&lt;B&gt;LvcSkymapFits&lt;/B&gt;|&lt;I&gt;lvc_skymap.fits.gz&lt;/I&gt;|GenerateOnceMixin&lt;BR/&gt;LvcHEALPixSkyMapFileHandler&lt;BR/&gt;OnlineVetoMixin}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="251,-0.5 251,-99.5 504,-99.5 504,-0.5 251,-0.5"/>
+
+<polyline fill="none" stroke="black" points="251,-76.5 504,-76.5 "/>
+
+<polyline fill="none" stroke="black" points="251,-53.5 504,-53.5 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node4" class="node">
+<title>llama.files.lvc_skymap.LvcSkymapHdf5</title>
+<g id="a_node4"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.LvcSkymapHdf5" xlink:title="{{&lt;B&gt;LvcSkymapHdf5&lt;/B&gt;|&lt;I&gt;lvc_skymap.hdf5&lt;/I&gt;|HEALPixSkyMapFileHandler}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="540,-7.5 540,-76.5 767,-76.5 767,-7.5 540,-7.5"/>
+
+<polyline fill="none" stroke="black" points="540,-53.5 767,-53.5 "/>
+
+<polyline fill="none" stroke="black" points="540,-30.5 767,-30.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>llama.files.lvc_skymap.LvcSkymapFits&#45;&gt;llama.files.lvc_skymap.LvcSkymapHdf5</title>
+<path fill="none" stroke="red" d="M504.19,-42C504.19,-42 529.88,-42 529.88,-42"/>
+<polygon fill="red" stroke="red" points="529.88,-45.5 539.88,-42 529.88,-38.5 529.88,-45.5"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>llama.files.lvc_skymap.LvcSkymapHdf5&#45;&gt;llama.files.coinc_analyses.CoincSkymapFrmLvcHDF5</title>
+<path fill="none" stroke="red" d="M767.38,-65.5C767.38,-65.5 792.75,-65.5 792.75,-65.5"/>
+<polygon fill="red" stroke="red" points="792.75,-69 802.75,-65.5 792.75,-62 792.75,-69"/>
+</g>
+
+<g id="node5" class="node">
+<title>llama.files.skymap_info.SkymapInfo</title>
+<g id="a_node5"><a xlink:href="/llama.files.skymap_info.html#llama.files.skymap_info.SkymapInfo" xlink:title="{{&lt;B&gt;SkymapInfo&lt;/B&gt;|&lt;I&gt;skymap_info.json&lt;/I&gt;|EventTriggeredFileHandler&lt;BR/&gt;JSONFile}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="0,-47 0,-131 215,-131 215,-47 0,-47"/>
+
+<polyline fill="none" stroke="black" points="0,-108 215,-108 "/>
+
+<polyline fill="none" stroke="black" points="0,-85 215,-85 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.fermi_grb.FermiGRBsJSON</title>
+<path fill="none" stroke="red" d="M215.05,-115.75C215.05,-115.75 568.61,-115.75 568.61,-115.75"/>
+<polygon fill="red" stroke="red" points="568.61,-119.25 578.61,-115.75 568.61,-112.25 568.61,-119.25"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.lvc_skymap.LvcSkymapFits</title>
+<path fill="none" stroke="red" d="M215.38,-73.25C215.38,-73.25 240.66,-73.25 240.66,-73.25"/>
+<polygon fill="red" stroke="red" points="240.66,-76.75 250.66,-73.25 240.66,-69.75 240.66,-76.75"/>
+</g>
+</g>
+</svg>

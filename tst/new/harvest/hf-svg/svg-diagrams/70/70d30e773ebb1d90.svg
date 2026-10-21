@@ -1,0 +1,199 @@
+<svg width="525pt" height="276pt"
+ viewBox="0.00 0.00 524.79 276.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 272)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-272 520.79,-272 520.79,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>gdal</title>
+<g id="a_node1"><a xlink:href="https://github.com/conda-forge/gdal-feedstock" xlink:title="gdal">
+<ellipse fill="#fde725" stroke="black" cx="27" cy="-178" rx="27" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node5" class="node">
+<title>qgis</title>
+<g id="a_node5"><a xlink:href="https://github.com/conda-forge/qgis-feedstock" xlink:title="qgis">
+<ellipse fill="#fde725" stroke="black" cx="135" cy="-106" rx="27" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>gdal&#45;&gt;qgis</title>
+<path fill="none" stroke="black" d="M45.81,-164.81C63,-153.67 88.62,-137.06 107.99,-124.5"/>
+<polygon fill="black" stroke="black" points="109.92,-127.43 116.4,-119.05 106.11,-121.56 109.92,-127.43"/>
+</g>
+
+<g id="node2" class="node">
+<title>libgd</title>
+<g id="a_node2"><a xlink:href="https://github.com/conda-forge/libgd-feedstock" xlink:title="libgd">
+<ellipse fill="#fde725" stroke="black" cx="101" cy="-178" rx="28.7" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node">
+<title>octave</title>
+<g id="a_node3"><a xlink:href="https://github.com/conda-forge/octave-feedstock" xlink:title="octave">
+<ellipse fill="#fde725" stroke="black" cx="181" cy="-178" rx="33.6" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node4" class="node">
+<title>python&#45;igraph</title>
+<g id="a_node4"><a xlink:href="https://github.com/conda-forge/python-igraph-feedstock/pull/31" xlink:title="python igraph">
+<ellipse fill="#31688e" stroke="black" cx="457" cy="-178" rx="59.59" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node6" class="node">
+<title>qt</title>
+<g id="a_node6"><a xlink:href="https://github.com/conda-forge/qt-feedstock/pull/157" xlink:title="qt">
+<ellipse fill="#31688e" stroke="black" cx="141" cy="-250" rx="27" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>qt&#45;&gt;gdal</title>
+<path fill="none" stroke="black" d="M121.66,-237.13C103.4,-225.91 75.81,-208.97 55.11,-196.26"/>
+<polygon fill="black" stroke="black" points="56.79,-193.18 46.43,-190.93 53.12,-199.15 56.79,-193.18"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>qt&#45;&gt;libgd</title>
+<path fill="none" stroke="black" d="M131.72,-232.76C126.83,-224.19 120.71,-213.49 115.23,-203.9"/>
+<polygon fill="black" stroke="black" points="118.23,-202.09 110.23,-195.15 112.15,-205.57 118.23,-202.09"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>qt&#45;&gt;octave</title>
+<path fill="none" stroke="black" d="M150.28,-232.76C155.05,-224.4 160.99,-214.02 166.37,-204.61"/>
+<polygon fill="black" stroke="black" points="169.57,-206.05 171.5,-195.63 163.49,-202.58 169.57,-206.05"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>qt&#45;&gt;qgis</title>
+<path fill="none" stroke="black" d="M164.78,-241.15C184.59,-233.2 211.51,-218.79 224,-196 231.69,-181.97 231.91,-173.91 224,-160 212.24,-139.31 188.85,-125.85 169,-117.67"/>
+<polygon fill="black" stroke="black" points="170.2,-114.38 159.61,-114.07 167.7,-120.92 170.2,-114.38"/>
+</g>
+
+<g id="node7" class="node">
+<title>r&#45;base</title>
+<g id="a_node7"><a xlink:href="https://github.com/conda-forge/r-base-feedstock/pull/135" xlink:title="r base">
+<ellipse fill="#31688e" stroke="black" cx="280" cy="-214" rx="31.7" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node8" class="node">
+<title>r&#45;stringi</title>
+<g id="a_node8"><a xlink:href="https://github.com/conda-forge/r-stringi-feedstock" xlink:title="r stringi">
+<ellipse fill="#fde725" stroke="black" cx="278" cy="-142" rx="38.19" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>r&#45;base&#45;&gt;r&#45;stringi</title>
+<path fill="none" stroke="black" d="M279.51,-195.7C279.29,-187.98 279.02,-178.71 278.77,-170.11"/>
+<polygon fill="black" stroke="black" points="282.27,-170 278.49,-160.1 275.28,-170.2 282.27,-170"/>
+</g>
+
+<g id="node15" class="node">
+<title>r&#45;v8</title>
+<g id="a_node15"><a xlink:href="https://github.com/conda-forge/r-v8-feedstock" xlink:title="r v8">
+<ellipse fill="#fde725" stroke="black" cx="361" cy="-142" rx="27" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>r&#45;base&#45;&gt;r&#45;v8</title>
+<path fill="none" stroke="black" d="M296.78,-198.5C308.53,-188.35 324.38,-174.65 337.39,-163.4"/>
+<polygon fill="black" stroke="black" points="339.79,-165.96 345.06,-156.77 335.21,-160.66 339.79,-165.96"/>
+</g>
+
+<g id="node9" class="node">
+<title>root5</title>
+<g id="a_node9"><a xlink:href="https://github.com/conda-forge/root5-feedstock/pull/22" xlink:title="root5">
+<ellipse fill="#31688e" stroke="black" cx="115" cy="-18" rx="29.5" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node10" class="node">
+<title>alps</title>
+<g id="a_node10"><a xlink:href="https://github.com/conda-forge/alps-feedstock/pull/32" xlink:title="alps">
+<ellipse fill="#31688e" stroke="black" cx="314" cy="-18" rx="27" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node11" class="node">
+<title>mdsplus</title>
+<g id="a_node11"><a xlink:href="https://github.com/conda-forge/mdsplus-feedstock/pull/12" xlink:title="mdsplus">
+<ellipse fill="#31688e" stroke="black" cx="314" cy="-62" rx="40.09" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node12" class="node">
+<title>scilab</title>
+<g id="a_node12"><a xlink:href="https://github.com/conda-forge/scilab-feedstock/pull/14" xlink:title="scilab">
+<ellipse fill="#31688e" stroke="black" cx="457" cy="-62" rx="31.4" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node13" class="node">
+<title>ifcopenshell</title>
+<g id="a_node13"><a xlink:href="https://github.com/conda-forge/ifcopenshell-feedstock/pull/10" xlink:title="ifcopenshell">
+<ellipse fill="#31688e" stroke="black" cx="115" cy="-62" rx="53.89" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node14" class="node">
+<title>libv8</title>
+<g id="a_node14"><a xlink:href="https://github.com/conda-forge/libv8-feedstock/pull/12" xlink:title="libv8">
+<ellipse fill="#31688e" stroke="black" cx="361" cy="-214" rx="28.7" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>libv8&#45;&gt;r&#45;v8</title>
+<path fill="none" stroke="black" d="M361,-195.7C361,-187.98 361,-178.71 361,-170.11"/>
+<polygon fill="black" stroke="black" points="364.5,-170.1 361,-160.1 357.5,-170.1 364.5,-170.1"/>
+</g>
+
+<g id="node16" class="node">
+<title>nbin</title>
+<g id="a_node16"><a xlink:href="https://github.com/conda-forge/nbin-feedstock/pull/1" xlink:title="nbin">
+<ellipse fill="#31688e" stroke="black" cx="457" cy="-18" rx="27" ry="18"/>
+
+</a>
+</g>
+</g>
+</g>
+</svg>

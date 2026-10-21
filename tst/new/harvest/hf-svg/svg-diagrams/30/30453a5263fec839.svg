@@ -1,0 +1,105 @@
+<svg width="488pt" height="85pt"
+ viewBox="0.00 0.00 488.00 85.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 81)">
+<title>readPhyByte</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-81 484,-81 484,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node193</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 73,-38.5 73,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node194</title>
+<g id="a_node2"><a xlink:href="espenc_8c.html#af925f259879dbba7c5d7b0eab062b34b" target="_top" xlink:title="readRegByte">
+<polygon fill="white" stroke="black" points="110,-38.5 110,-57.5 184,-57.5 184,-38.5 110,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node193&#45;&gt;Node194</title>
+<path fill="none" stroke="midnightblue" d="M73.027,-35.2213C81.5587,-36.7153 90.7946,-38.3327 99.7347,-39.8982"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="99.1956,-43.357 109.649,-41.6345 100.403,-36.4619 99.1956,-43.357"/>
+</g>
+
+<g id="node7" class="node"><title>Node199</title>
+<g id="a_node7"><a xlink:href="espenc_8c.html#a9dde37e22459a5eb9237e0b3bd7b2fa8" target="_top" xlink:title="writeRegByte">
+<polygon fill="white" stroke="black" points="109,-0.5 109,-19.5 185,-19.5 185,-0.5 109,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node193&#45;&gt;Node199</title>
+<path fill="none" stroke="midnightblue" d="M73.027,-22.7787C81.2893,-21.3318 90.212,-19.7693 98.8869,-18.2502"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="99.656,-21.6689 108.902,-16.4964 98.4485,-14.7738 99.656,-21.6689"/>
+</g>
+
+<g id="node3" class="node"><title>Node195</title>
+<g id="a_node3"><a xlink:href="espenc_8c.html#a7e04e867e5a788903adaca29045aa118" target="_top" xlink:title="SetBank">
+<polygon fill="white" stroke="black" points="221,-19.5 221,-38.5 275,-38.5 275,-19.5 221,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node194&#45;&gt;Node195</title>
+<path fill="none" stroke="midnightblue" d="M184.021,-41.0868C192.763,-39.409 202.113,-37.6147 210.86,-35.9359"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="211.619,-39.3542 220.78,-34.032 210.3,-32.4796 211.619,-39.3542"/>
+</g>
+
+<g id="node6" class="node"><title>Node198</title>
+<g id="a_node6"><a xlink:href="espenc_8c.html#a655fbec696cb6a8e30069f066615d830" target="_top" xlink:title="readOp">
+<polygon fill="white" stroke="black" points="312,-57.5 312,-76.5 360,-76.5 360,-57.5 312,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node194&#45;&gt;Node198</title>
+<path fill="none" stroke="midnightblue" d="M184.055,-51.6634C218.053,-55.1177 268.595,-60.253 301.671,-63.6136"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="301.451,-67.1092 311.753,-64.638 302.158,-60.145 301.451,-67.1092"/>
+</g>
+
+<g id="node4" class="node"><title>Node196</title>
+<g id="a_node4"><a xlink:href="espenc_8c.html#aa384e05ea3543cb9fca318f6623952fc" target="_top" xlink:title="writeOp">
+<polygon fill="white" stroke="black" points="311,-19.5 311,-38.5 361,-38.5 361,-19.5 311,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node195&#45;&gt;Node196</title>
+<path fill="none" stroke="midnightblue" d="M275.27,-29C283.347,-29 292.357,-29 300.881,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="300.941,-32.5001 310.941,-29 300.941,-25.5001 300.941,-32.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node197</title>
+<g id="a_node5"><a xlink:href="spi_8c.html#acebb579091ca980f217d3e5f3bd1f1d5" target="_top" xlink:title="spi_transaction">
+<polygon fill="white" stroke="black" points="397,-38.5 397,-57.5 480,-57.5 480,-38.5 397,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node196&#45;&gt;Node197</title>
+<path fill="none" stroke="midnightblue" d="M361.072,-33.551C368.836,-35.0187 377.755,-36.705 386.698,-38.3957"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="386.269,-41.8764 396.745,-40.2951 387.569,-34.9983 386.269,-41.8764"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node198&#45;&gt;Node197</title>
+<path fill="none" stroke="midnightblue" d="M360.057,-62.641C368.058,-61.1284 377.375,-59.367 386.716,-57.6009"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="387.626,-60.991 396.802,-55.6942 386.325,-54.1129 387.626,-60.991"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node199&#45;&gt;Node195</title>
+<path fill="none" stroke="midnightblue" d="M185.146,-17.129C193.571,-18.746 202.507,-20.4609 210.888,-22.0695"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="210.286,-25.5176 220.766,-23.9652 211.605,-18.6431 210.286,-25.5176"/>
+</g>
+
+<g id="edge9" class="edge"><title>Node199&#45;&gt;Node196</title>
+<path fill="none" stroke="midnightblue" d="M185.185,-7.02348C210.625,-5.71314 245.039,-5.36947 275,-10 283.693,-11.3435 292.851,-13.7207 301.323,-16.3488"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="300.291,-19.6938 310.884,-19.5023 302.484,-13.046 300.291,-19.6938"/>
+</g>
+</g>
+</svg>

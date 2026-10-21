@@ -1,0 +1,100 @@
+<svg width="925pt" height="211pt"
+ viewBox="0.00 0.00 925.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 921,-207 921,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="224.5,-10 224.5,-30 244.5,-30 244.5,-10 224.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="337.5,-10 337.5,-30 357.5,-30 357.5,-10 337.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="423.5,-10 423.5,-30 443.5,-30 443.5,-10 423.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="520.5,-10 520.5,-30 540.5,-30 540.5,-10 520.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="616.5,-10 616.5,-30 636.5,-30 636.5,-10 616.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_InsurerContactsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 909,-195 909,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_InsurerContactsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="715,-78 715,-130 901,-130 901,-78 715,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_InsurerContactsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="352,-78 352,-130 707,-130 707,-78 352,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_InsurerContactsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 344,-130 344,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>InsurerContactsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="892.965,-122 723.035,-122 723.035,-86 892.965,-86 892.965,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>InsurerContactsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="498.1825,-187 495.1825,-191 474.1825,-191 471.1825,-187 349.8175,-187 349.8175,-151 498.1825,-151 498.1825,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>InsurerContactsComponent&#45;&gt;InsurerContactsModule</title>
+<path fill="none" stroke="#000000" d="M808,-122.1061C808,-141.3391 808,-169 808,-169 808,-169 508.4944,-169 508.4944,-169"/>
+<polygon fill="#000000" stroke="#000000" points="508.4944,-165.5001 498.4944,-169 508.4943,-172.5001 508.4944,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>InsurerContactsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="698.8004,-122 695.8004,-126 674.8004,-126 671.8004,-122 505.1996,-122 505.1996,-86 698.8004,-86 698.8004,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>InsurerContactsRoutingModule&#45;&gt;InsurerContactsModule</title>
+<path fill="none" stroke="#000000" d="M504.938,-104C497.5176,-104 492.8388,-104 492.8388,-104 492.8388,-104 492.8388,-140.8939 492.8388,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="489.3388,-140.8938 492.8388,-150.8939 496.3388,-140.8939 489.3388,-140.8938"/>
+</g>
+
+<g id="node4" class="node">
+<title>PageHeaderModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="487.6727,-122 484.6727,-126 463.6727,-126 460.6727,-122 360.3273,-122 360.3273,-86 487.6727,-86 487.6727,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PageHeaderModule&#45;&gt;InsurerContactsModule</title>
+<path fill="none" stroke="#000000" d="M424,-122.1061C424,-122.1061 424,-140.991 424,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="420.5001,-140.9909 424,-150.991 427.5001,-140.991 420.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="260" cy="-104" rx="75.8836" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonService&#45;&gt;InsurerContactsModule</title>
+<path fill="none" stroke="#000000" d="M336.3604,-104C347.4233,-104 355.1613,-104 355.1613,-104 355.1613,-104 355.1613,-140.8939 355.1613,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="351.6613,-140.8938 355.1613,-150.8939 358.6613,-140.8939 351.6613,-140.8938"/>
+</g>
+
+<g id="node6" class="node">
+<title>InsurersService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="95" cy="-104" rx="71.1823" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>InsurersService&#45;&gt;InsurerContactsModule</title>
+<path fill="none" stroke="#000000" d="M95,-122.1061C95,-141.3391 95,-169 95,-169 95,-169 339.7558,-169 339.7558,-169"/>
+<polygon fill="#000000" stroke="#000000" points="339.7558,-172.5001 349.7558,-169 339.7557,-165.5001 339.7558,-172.5001"/>
+</g>
+</g>
+</svg>

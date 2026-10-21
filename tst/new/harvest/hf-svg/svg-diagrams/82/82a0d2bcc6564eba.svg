@@ -1,0 +1,216 @@
+<svg width="568pt" height="285pt"
+ viewBox="0.00 0.00 568.00 285.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 281)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-281 565,-281 565,5 -4,5"/>
+
+<g id="node1" class="node"><title>S0</title>
+<ellipse fill="none" stroke="black" cx="27" cy="-52" rx="27" ry="18"/>
+
+</g>
+
+<g id="node11" class="node"><title>Fw_1st_step_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="91" cy="-117" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge4" class="edge"><title>S0&#45;&gt;Fw_1st_step_intermediate_r</title>
+<path fill="none" stroke="black" d="M41.8438,-67.0757C60.1592,-85.6773 89.1205,-115.091 90.9126,-116.911"/>
+</g>
+
+<g id="node30" class="node"><title>Bw_1st_step_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="91" cy="-99" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge30" class="edge"><title>S0&#45;&gt;Bw_1st_step_intermediate_r</title>
+<path fill="none" stroke="black" d="M45.1686,-65.3426C63.4986,-78.8036 89.3259,-97.7706 90.9222,-98.9429"/>
+</g>
+
+<g id="node2" class="node"><title>ATP</title>
+<ellipse fill="none" stroke="black" cx="27" cy="-108" rx="18" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>ATP&#45;&gt;Fw_1st_step_intermediate_r</title>
+<path fill="none" stroke="black" d="M44.8276,-110.507C63.1729,-113.087 89.3059,-116.762 90.9213,-116.989"/>
+</g>
+
+<g id="edge32" class="edge"><title>ATP&#45;&gt;Bw_1st_step_intermediate_r</title>
+<path fill="none" stroke="black" d="M44.8276,-105.493C63.1729,-102.913 89.3059,-99.2382 90.9213,-99.0111"/>
+</g>
+
+<g id="node3" class="node"><title>S1</title>
+<ellipse fill="none" stroke="black" cx="262" cy="-151" rx="18" ry="18"/>
+
+</g>
+
+<g id="node21" class="node"><title>Fw_2nd_step_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="345" cy="-146" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge18" class="edge"><title>S1&#45;&gt;Fw_2nd_step_intermediate_r</title>
+<path fill="none" stroke="black" d="M280.01,-149.915C303.658,-148.49 342.48,-146.152 344.883,-146.007"/>
+</g>
+
+<g id="node40" class="node"><title>Bw_2nd_step_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="345" cy="-109" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge44" class="edge"><title>S1&#45;&gt;Bw_2nd_step_intermediate_r</title>
+<path fill="none" stroke="black" d="M278.398,-142.702C301.831,-130.845 342.367,-110.332 344.878,-109.062"/>
+</g>
+
+<g id="node4" class="node"><title>Pi_</title>
+<ellipse fill="none" stroke="black" cx="262" cy="-205" rx="18" ry="18"/>
+
+</g>
+
+<g id="node5" class="node"><title>ADP</title>
+<ellipse fill="none" stroke="black" cx="514" cy="-72" rx="18" ry="18"/>
+
+</g>
+
+<g id="node6" class="node"><title>fwd_step1</title>
+<ellipse fill="none" stroke="black" cx="262" cy="-259" rx="41.9758" ry="18"/>
+
+</g>
+
+<g id="node7" class="node"><title>fwd_step2</title>
+<ellipse fill="none" stroke="black" cx="514" cy="-126" rx="41.9758" ry="18"/>
+
+</g>
+
+<g id="node8" class="node"><title>back_step1</title>
+<ellipse fill="none" stroke="black" cx="262" cy="-97" rx="45.0529" ry="18"/>
+
+</g>
+
+<g id="node9" class="node"><title>back_step2</title>
+<ellipse fill="none" stroke="black" cx="514" cy="-18" rx="45.0529" ry="18"/>
+
+</g>
+
+<g id="node10" class="node"><title>Fw_1st_step</title>
+<polygon fill="none" stroke="black" points="142,-172 128,-172 128,-158 142,-158 142,-172"/>
+</g>
+
+<g id="node15" class="node"><title>Fw_1st_step_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="179" cy="-178" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge8" class="edge"><title>Fw_1st_step&#45;&gt;Fw_1st_step_intermediate_p</title>
+<path fill="none" stroke="black" d="M142.266,-167.147C154.372,-170.724 177.497,-177.556 178.93,-177.979"/>
+</g>
+
+<g id="edge2" class="edge"><title>Fw_1st_step_intermediate_r&#45;&gt;Fw_1st_step</title>
+<path fill="none" stroke="black" d="M91.1262,-117.138C93.0618,-119.249 116.773,-145.116 128.508,-157.917"/>
+</g>
+
+<g id="edge10" class="edge"><title>Fw_1st_step_intermediate_p&#45;&gt;S1</title>
+<path fill="none" stroke="black" d="M179.06,-177.98C180.606,-177.477 211.644,-167.381 235.299,-159.686"/>
+<polygon fill="black" stroke="black" points="236.451,-162.992 244.878,-156.57 234.286,-156.335 236.451,-162.992"/>
+</g>
+
+<g id="edge12" class="edge"><title>Fw_1st_step_intermediate_p&#45;&gt;Pi_</title>
+<path fill="none" stroke="black" d="M179.06,-178.02C180.606,-178.523 211.644,-188.619 235.299,-196.314"/>
+<polygon fill="black" stroke="black" points="234.286,-199.665 244.878,-199.43 236.451,-193.008 234.286,-199.665"/>
+</g>
+
+<g id="edge14" class="edge"><title>Fw_1st_step_intermediate_p&#45;&gt;fwd_step1</title>
+<path fill="none" stroke="black" d="M179.046,-178.099C179.988,-180.121 195.386,-212.78 216,-232 218.889,-234.694 222.092,-237.239 225.425,-239.612"/>
+<polygon fill="black" stroke="black" points="223.586,-242.591 233.871,-245.136 227.418,-236.733 223.586,-242.591"/>
+</g>
+
+<g id="node20" class="node"><title>Fw_2nd_step</title>
+<polygon fill="none" stroke="black" points="396,-137 382,-137 382,-123 396,-123 396,-137"/>
+</g>
+
+<g id="node24" class="node"><title>Fw_2nd_step_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="432" cy="-88" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge20" class="edge"><title>Fw_2nd_step&#45;&gt;Fw_2nd_step_intermediate_p</title>
+<path fill="none" stroke="black" d="M396.101,-123.065C407.932,-111.508 430.531,-89.435 431.932,-88.0667"/>
+</g>
+
+<g id="edge16" class="edge"><title>Fw_2nd_step_intermediate_r&#45;&gt;Fw_2nd_step</title>
+<path fill="none" stroke="black" d="M345.126,-145.954C347.022,-145.265 369.795,-136.984 381.759,-132.633"/>
+</g>
+
+<g id="edge22" class="edge"><title>Fw_2nd_step_intermediate_p&#45;&gt;S0</title>
+<path fill="none" stroke="black" d="M431.87,-87.8939C429.192,-85.7236 385.705,-51 345,-51 135,-51 135,-51 135,-51 111.42,-51 84.9456,-51.2413 64.1102,-51.4868"/>
+<polygon fill="black" stroke="black" points="64.0299,-47.9875 54.0738,-51.6105 64.1162,-54.9869 64.0299,-47.9875"/>
+</g>
+
+<g id="edge24" class="edge"><title>Fw_2nd_step_intermediate_p&#45;&gt;ADP</title>
+<path fill="none" stroke="black" d="M432.059,-87.9884C433.557,-87.6963 463.039,-81.9436 486.215,-77.4216"/>
+<polygon fill="black" stroke="black" points="487.151,-80.8049 496.296,-75.4545 485.81,-73.9345 487.151,-80.8049"/>
+</g>
+
+<g id="edge26" class="edge"><title>Fw_2nd_step_intermediate_p&#45;&gt;fwd_step2</title>
+<path fill="none" stroke="black" d="M432.059,-88.0275C433.344,-88.6227 455.219,-98.7601 476.042,-108.41"/>
+<polygon fill="black" stroke="black" points="474.603,-111.6 485.148,-112.629 477.546,-105.249 474.603,-111.6"/>
+</g>
+
+<g id="node29" class="node"><title>Bw_1st_step</title>
+<polygon fill="none" stroke="black" points="142,-107 128,-107 128,-93 142,-93 142,-107"/>
+</g>
+
+<g id="node34" class="node"><title>Bw_1st_step_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="179" cy="-105" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge34" class="edge"><title>Bw_1st_step&#45;&gt;Bw_1st_step_intermediate_p</title>
+<path fill="none" stroke="black" d="M142.266,-100.826C154.372,-102.201 177.497,-104.829 178.93,-104.992"/>
+</g>
+
+<g id="edge28" class="edge"><title>Bw_1st_step_intermediate_r&#45;&gt;Bw_1st_step</title>
+<path fill="none" stroke="black" d="M91.1262,-99.0029C93.0215,-99.0459 115.795,-99.5635 127.759,-99.8354"/>
+</g>
+
+<g id="edge36" class="edge"><title>Bw_1st_step_intermediate_p&#45;&gt;S1</title>
+<path fill="none" stroke="black" d="M179.06,-105.033C180.646,-105.912 213.262,-123.988 237.111,-137.206"/>
+<polygon fill="black" stroke="black" points="235.609,-140.375 246.052,-142.161 239.002,-134.253 235.609,-140.375"/>
+</g>
+
+<g id="edge38" class="edge"><title>Bw_1st_step_intermediate_p&#45;&gt;Pi_</title>
+<path fill="none" stroke="black" d="M179.035,-105.134C179.768,-107.887 191.863,-152.327 216,-178 221.582,-183.937 228.762,-188.983 235.781,-193.049"/>
+<polygon fill="black" stroke="black" points="234.614,-196.391 245.089,-197.977 237.889,-190.204 234.614,-196.391"/>
+</g>
+
+<g id="edge40" class="edge"><title>Bw_1st_step_intermediate_p&#45;&gt;back_step1</title>
+<path fill="none" stroke="black" d="M179.06,-104.994C180.027,-104.901 192.513,-103.698 207.517,-102.251"/>
+<polygon fill="black" stroke="black" points="208.027,-105.719 217.645,-101.275 207.355,-98.7508 208.027,-105.719"/>
+</g>
+
+<g id="node39" class="node"><title>Bw_2nd_step</title>
+<polygon fill="none" stroke="black" points="396,-101 382,-101 382,-87 396,-87 396,-101"/>
+</g>
+
+<g id="node43" class="node"><title>Bw_2nd_step_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="432" cy="-44" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge46" class="edge"><title>Bw_2nd_step&#45;&gt;Bw_2nd_step_intermediate_p</title>
+<path fill="none" stroke="black" d="M395.345,-86.6223C406.932,-73.1486 430.469,-45.7802 431.929,-44.0828"/>
+</g>
+
+<g id="edge42" class="edge"><title>Bw_2nd_step_intermediate_r&#45;&gt;Bw_2nd_step</title>
+<path fill="none" stroke="black" d="M345.126,-108.957C347.022,-108.311 369.795,-100.547 381.759,-96.4685"/>
+</g>
+
+<g id="edge48" class="edge"><title>Bw_2nd_step_intermediate_p&#45;&gt;S0</title>
+<path fill="none" stroke="black" d="M431.867,-43.9111C429.133,-42.0928 384.765,-13 345,-13 135,-13 135,-13 135,-13 107.167,-13 77.5699,-24.6001 56.4113,-35.1474"/>
+<polygon fill="black" stroke="black" points="54.5782,-32.1556 47.3202,-39.8739 57.8073,-38.3664 54.5782,-32.1556"/>
+</g>
+
+<g id="edge50" class="edge"><title>Bw_2nd_step_intermediate_p&#45;&gt;ADP</title>
+<path fill="none" stroke="black" d="M432.059,-44.0203C433.572,-44.5367 463.641,-54.8041 486.918,-62.7525"/>
+<polygon fill="black" stroke="black" points="486.097,-66.1704 496.691,-66.0897 488.359,-59.546 486.097,-66.1704"/>
+</g>
+
+<g id="edge52" class="edge"><title>Bw_2nd_step_intermediate_p&#45;&gt;back_step2</title>
+<path fill="none" stroke="black" d="M432.059,-43.9812C433.191,-43.6224 450.309,-38.1948 468.607,-32.3929"/>
+<polygon fill="black" stroke="black" points="469.731,-35.7084 478.205,-29.3496 467.615,-29.0358 469.731,-35.7084"/>
+</g>
+</g>
+</svg>

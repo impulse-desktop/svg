@@ -1,0 +1,71 @@
+<svg width="151pt" height="485pt"
+ viewBox="0.00 0.00 151.00 485.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 481)">
+<title>tbb::flow::interface10::internal::join_node_FE&lt; queueing, InputTuple, OutputTuple &gt;</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-481 147,-481 147,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-244.5 143,-244.5 143,-0.5 0,-0.5"/>
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-192.5 143,-192.5 "/>
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-140.5 143,-140.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00277.html" target="_top" xlink:title="{tbb::flow::interface10\l::internal::forwarding_base\n|+ graph_ref\l|+ forwarding_base()\l+ ~forwarding_base()\l+ decrement_port_count()\l+ increment_port_count()\l}">
+<polygon fill="white" stroke="black" points="6,-281.5 6,-382.5 137,-382.5 137,-281.5 6,-281.5"/>
+
+
+<polyline fill="none" stroke="black" points="6,-352.5 137,-352.5 "/>
+
+<polyline fill="none" stroke="black" points="6,-333.5 137,-333.5 "/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M71.5,-271.249C71.5,-262.799 71.5,-253.872 71.5,-244.759"/>
+<polygon fill="none" stroke="midnightblue" points="68.0001,-271.299 71.5,-281.299 75.0001,-271.299 68.0001,-271.299"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="12.5,-419.5 12.5,-476.5 130.5,-476.5 130.5,-419.5 12.5,-419.5"/>
+
+<polyline fill="none" stroke="black" points="12.5,-457.5 130.5,-457.5 "/>
+
+<polyline fill="none" stroke="black" points="12.5,-438.5 130.5,-438.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M71.5,-409.354C71.5,-400.796 71.5,-391.578 71.5,-382.608"/>
+<polygon fill="none" stroke="midnightblue" points="68.0001,-409.404 71.5,-419.404 75.0001,-409.404 68.0001,-409.404"/>
+</g>
+</g>
+</svg>

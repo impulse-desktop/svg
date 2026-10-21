@@ -1,0 +1,98 @@
+<svg width="962pt" height="174pt"
+ viewBox="0.00 0.00 962.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 958,-169.8 958,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ContactsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 946,-157.8 946,-32.8 8,-32.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ContactsModule_imports</title>
+<polygon fill="none" stroke="black" points="658,-40.8 658,-92.8 938,-92.8 938,-40.8 658,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ContactsModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 650,-92.8 650,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AddContactComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="642.49,-84.8 493.51,-84.8 493.51,-48.8 642.49,-48.8 642.49,-84.8"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>ContactsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="536.04,-149.8 533.04,-153.8 512.04,-153.8 509.04,-149.8 427.96,-149.8 427.96,-113.8 536.04,-113.8 536.04,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AddContactComponent&#45;&gt;ContactsModule</title>
+<path fill="none" stroke="black" d="M514.89,-84.91C514.89,-84.91 514.89,-103.79 514.89,-103.79"/>
+<polygon fill="black" stroke="black" points="511.39,-103.79 514.89,-113.79 518.39,-103.79 511.39,-103.79"/>
+</g>
+
+<g id="node2" class="node">
+<title>ContactDetailComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="475.59,-84.8 316.41,-84.8 316.41,-48.8 475.59,-48.8 475.59,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ContactDetailComponent&#45;&gt;ContactsModule</title>
+<path fill="none" stroke="black" d="M451.64,-84.91C451.64,-84.91 451.64,-103.79 451.64,-103.79"/>
+<polygon fill="black" stroke="black" points="448.14,-103.79 451.64,-113.79 455.14,-103.79 448.14,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>ContactListComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="298.16,-84.8 151.84,-84.8 151.84,-48.8 298.16,-48.8 298.16,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ContactListComponent&#45;&gt;ContactsModule</title>
+<path fill="none" stroke="black" d="M225,-84.82C225,-102.17 225,-125.8 225,-125.8 225,-125.8 417.81,-125.8 417.81,-125.8"/>
+<polygon fill="black" stroke="black" points="417.81,-129.3 427.81,-125.8 417.81,-122.3 417.81,-129.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>RatingColorPipe</title>
+<polygon fill="#ffffb3" stroke="black" points="134.11,-84.8 23.89,-84.8 23.89,-48.8 134.11,-48.8 134.11,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RatingColorPipe&#45;&gt;ContactsModule</title>
+<path fill="none" stroke="black" d="M79,-85.08C79,-106.12 79,-137.8 79,-137.8 79,-137.8 417.65,-137.8 417.65,-137.8"/>
+<polygon fill="black" stroke="black" points="417.65,-141.3 427.65,-137.8 417.65,-134.3 417.65,-141.3"/>
+</g>
+
+<g id="node6" class="node">
+<title>ContactRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="930.21,-84.8 927.21,-88.8 906.21,-88.8 903.21,-84.8 781.79,-84.8 781.79,-48.8 930.21,-48.8 930.21,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ContactRoutingModule&#45;&gt;ContactsModule</title>
+<path fill="none" stroke="black" d="M856,-85.08C856,-106.12 856,-137.8 856,-137.8 856,-137.8 546.38,-137.8 546.38,-137.8"/>
+<polygon fill="black" stroke="black" points="546.38,-134.3 536.38,-137.8 546.38,-141.3 546.38,-134.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="764.42,-84.8 761.42,-88.8 740.42,-88.8 737.42,-84.8 665.58,-84.8 665.58,-48.8 764.42,-48.8 764.42,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;ContactsModule</title>
+<path fill="none" stroke="black" d="M715,-84.82C715,-102.17 715,-125.8 715,-125.8 715,-125.8 546.33,-125.8 546.33,-125.8"/>
+<polygon fill="black" stroke="black" points="546.33,-122.3 536.33,-125.8 546.33,-129.3 546.33,-122.3"/>
+</g>
+</g>
+</svg>

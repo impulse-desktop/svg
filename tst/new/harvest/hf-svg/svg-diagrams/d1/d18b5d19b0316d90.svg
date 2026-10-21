@@ -1,0 +1,148 @@
+<svg width="1354pt" height="211pt"
+ viewBox="0.00 0.00 1354.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1350,-207 1350,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="439,-10 439,-30 459,-30 459,-10 439,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="552,-10 552,-30 572,-30 572,-10 552,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="638,-10 638,-30 658,-30 658,-10 638,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="735,-10 735,-30 755,-30 755,-10 735,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="831,-10 831,-30 851,-30 851,-10 831,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_UsersModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1338,-195 1338,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_UsersModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="592,-78 592,-130 1330,-130 1330,-78 592,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_UsersModule_imports</title>
+<polygon fill="none" stroke="#000000" points="164,-78 164,-130 584,-130 584,-78 164,-78"/>
+</g>
+<g id="clust11" class="cluster">
+<title>cluster_UsersModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 156,-130 156,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudAddComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1321.9369,-122 1188.0631,-122 1188.0631,-86 1321.9369,-86 1321.9369,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>UsersModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="711.9218,-187 708.9218,-191 687.9218,-191 684.9218,-187 620.0782,-187 620.0782,-151 711.9218,-151 711.9218,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudAddComponent&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M1255,-122.0109C1255,-144.4852 1255,-180 1255,-180 1255,-180 721.7277,-180 721.7277,-180"/>
+<polygon fill="#000000" stroke="#000000" points="721.7278,-176.5001 711.7277,-180 721.7277,-183.5001 721.7278,-176.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CrudComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1170.8301,-122 1061.1699,-122 1061.1699,-86 1170.8301,-86 1170.8301,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CrudComponent&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M1116,-122.1289C1116,-142.5724 1116,-173 1116,-173 1116,-173 722.0431,-173 722.0431,-173"/>
+<polygon fill="#000000" stroke="#000000" points="722.0432,-169.5001 712.0431,-173 722.0431,-176.5001 722.0432,-169.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CrudDetailComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1043.5379,-122 900.4621,-122 900.4621,-86 1043.5379,-86 1043.5379,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CrudDetailComponent&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M972,-122.2667C972,-140.5552 972,-166 972,-166 972,-166 721.8113,-166 721.8113,-166"/>
+<polygon fill="#000000" stroke="#000000" points="721.8113,-162.5001 711.8113,-166 721.8113,-169.5001 721.8113,-162.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>CrudEditComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="882.1638,-122 749.8362,-122 749.8362,-86 882.1638,-86 882.1638,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CrudEditComponent&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M816,-122.0091C816,-138.0494 816,-159 816,-159 816,-159 721.82,-159 721.82,-159"/>
+<polygon fill="#000000" stroke="#000000" points="721.82,-155.5001 711.82,-159 721.82,-162.5001 721.82,-155.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="731.608,-122 600.392,-122 600.392,-86 731.608,-86 731.608,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CrudListComponent&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M666,-122.1061C666,-122.1061 666,-140.991 666,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="662.5001,-140.9909 666,-150.991 669.5001,-140.991 662.5001,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>SchemaFormModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="576.2008,-122 573.2008,-126 552.2008,-126 549.2008,-122 441.7992,-122 441.7992,-86 576.2008,-86 576.2008,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SchemaFormModule&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M509,-122.0091C509,-138.0494 509,-159 509,-159 509,-159 610.1671,-159 610.1671,-159"/>
+<polygon fill="#000000" stroke="#000000" points="610.1671,-162.5001 620.1671,-159 610.167,-155.5001 610.1671,-162.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="424.4231,-122 421.4231,-126 400.4231,-126 397.4231,-122 325.5769,-122 325.5769,-86 424.4231,-86 424.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ThemeModule&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M375,-122.2667C375,-140.5552 375,-166 375,-166 375,-166 610.2111,-166 610.2111,-166"/>
+<polygon fill="#000000" stroke="#000000" points="610.2112,-169.5001 620.2111,-166 610.2111,-162.5001 610.2112,-169.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>UsersRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="308.0394,-122 305.0394,-126 284.0394,-126 281.0394,-122 171.9606,-122 171.9606,-86 308.0394,-86 308.0394,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>UsersRoutingModule&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M240,-122.1289C240,-142.5724 240,-173 240,-173 240,-173 610.0058,-173 610.0058,-173"/>
+<polygon fill="#000000" stroke="#000000" points="610.0058,-176.5001 620.0058,-173 610.0057,-169.5001 610.0058,-176.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>UsersService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="86" cy="-104" rx="61.9519" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>UsersService&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M86,-122.0109C86,-144.4852 86,-180 86,-180 86,-180 610.0036,-180 610.0036,-180"/>
+<polygon fill="#000000" stroke="#000000" points="610.0036,-183.5001 620.0036,-180 610.0035,-176.5001 610.0036,-183.5001"/>
+</g>
+</g>
+</svg>

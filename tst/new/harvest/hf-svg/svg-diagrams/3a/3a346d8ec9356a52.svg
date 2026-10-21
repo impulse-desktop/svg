@@ -1,0 +1,133 @@
+<svg width="840pt" height="332pt"
+ viewBox="0.00 0.00 840.09 332.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 328)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-328 836.0882,-328 836.0882,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>[root] aws_instance.secondserver</title>
+<polygon fill="none" stroke="#000000" points="770,-180 557,-180 557,-144 770,-144 770,-180"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>[root] data.aws_ami.ubuntu</title>
+<polygon fill="none" stroke="#000000" points="748.5,-108 578.5,-108 578.5,-72 748.5,-72 748.5,-108"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>[root] aws_instance.secondserver&#45;&gt;[root] data.aws_ami.ubuntu</title>
+<path fill="none" stroke="#000000" d="M663.5,-143.8314C663.5,-136.131 663.5,-126.9743 663.5,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="667.0001,-118.4132 663.5,-108.4133 660.0001,-118.4133 667.0001,-118.4132"/>
+</g>
+
+<g id="node2" class="node">
+<title>[root] aws_subnet.subnet1</title>
+<polygon fill="none" stroke="#000000" points="441,-180 278,-180 278,-144 441,-144 441,-180"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>[root] aws_vpc.enviroment&#45;example&#45;two</title>
+<polygon fill="none" stroke="#000000" points="560,-108 301,-108 301,-72 560,-72 560,-108"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>[root] aws_subnet.subnet1&#45;&gt;[root] aws_vpc.enviroment&#45;example&#45;two</title>
+<path fill="none" stroke="#000000" d="M377.4163,-143.8314C385.8442,-135.2848 396.041,-124.9443 405.236,-115.6198"/>
+<polygon fill="#000000" stroke="#000000" points="407.8131,-117.9912 412.3425,-108.4133 402.8289,-113.0761 407.8131,-117.9912"/>
+</g>
+
+<g id="node5" class="node">
+<title>[root] data.aws_availability_zones.available</title>
+<polygon fill="none" stroke="#000000" points="283,-108 0,-108 0,-72 283,-72 283,-108"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>[root] aws_subnet.subnet1&#45;&gt;[root] data.aws_availability_zones.available</title>
+<path fill="none" stroke="#000000" d="M304.7708,-143.9243C274.7098,-133.9959 237.255,-121.6255 205.8046,-111.2382"/>
+<polygon fill="#000000" stroke="#000000" points="206.8449,-107.8959 196.2517,-108.0831 204.6496,-114.5428 206.8449,-107.8959"/>
+</g>
+
+<g id="node6" class="node">
+<title>[root] provider.aws</title>
+<polygon fill="none" stroke="#000000" points="430.5,-36 331.4615,-18 430.5,0 529.5385,-18 430.5,-36"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>[root] aws_vpc.enviroment&#45;example&#45;two&#45;&gt;[root] provider.aws</title>
+<path fill="none" stroke="#000000" d="M430.5,-71.8314C430.5,-64.131 430.5,-54.9743 430.5,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="434.0001,-46.4132 430.5,-36.4133 427.0001,-46.4133 434.0001,-46.4132"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>[root] data.aws_ami.ubuntu&#45;&gt;[root] provider.aws</title>
+<path fill="none" stroke="#000000" d="M605.005,-71.9243C565.5752,-59.74 514.2436,-43.8778 477.4777,-32.5167"/>
+<polygon fill="#000000" stroke="#000000" points="478.1037,-29.0469 467.5161,-29.4384 476.037,-35.7349 478.1037,-29.0469"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>[root] data.aws_availability_zones.available&#45;&gt;[root] provider.aws</title>
+<path fill="none" stroke="#000000" d="M214.0539,-71.9243C265.3029,-59.1564 332.7621,-42.3499 378.6562,-30.9161"/>
+<polygon fill="#000000" stroke="#000000" points="379.5381,-34.3034 388.3954,-28.4897 377.8459,-27.5111 379.5381,-34.3034"/>
+</g>
+
+<g id="node7" class="node">
+<title>[root] meta.count&#45;boundary (EachMode fixup)</title>
+<ellipse fill="none" stroke="#000000" cx="324.5" cy="-234" rx="224.4604" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_instance.secondserver</title>
+<path fill="none" stroke="#000000" d="M403.9804,-217.1192C453.2524,-206.6544 516.8211,-193.153 568.7113,-182.1321"/>
+<polygon fill="#000000" stroke="#000000" points="569.537,-185.5349 578.5916,-180.0336 568.0826,-178.6876 569.537,-185.5349"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_subnet.subnet1</title>
+<path fill="none" stroke="#000000" d="M333.332,-215.8314C337.1986,-207.8771 341.8206,-198.369 346.0968,-189.5723"/>
+<polygon fill="#000000" stroke="#000000" points="349.3249,-190.9371 350.5491,-180.4133 343.0293,-187.8768 349.3249,-190.9371"/>
+</g>
+
+<g id="node8" class="node">
+<title>[root] provider.aws (close)</title>
+<ellipse fill="none" stroke="#000000" cx="699.5" cy="-234" rx="132.6765" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>[root] provider.aws (close)&#45;&gt;[root] aws_instance.secondserver</title>
+<path fill="none" stroke="#000000" d="M690.4157,-215.8314C686.4385,-207.8771 681.6845,-198.369 677.2861,-189.5723"/>
+<polygon fill="#000000" stroke="#000000" points="680.3093,-187.7923 672.7066,-180.4133 674.0483,-190.9228 680.3093,-187.7923"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>[root] provider.aws (close)&#45;&gt;[root] aws_subnet.subnet1</title>
+<path fill="none" stroke="#000000" d="M627.8102,-218.8186C576.3481,-207.9208 506.5731,-193.1449 451.0773,-181.3928"/>
+<polygon fill="#000000" stroke="#000000" points="451.7508,-177.9579 441.2426,-179.3102 450.3005,-184.8061 451.7508,-177.9579"/>
+</g>
+
+<g id="node9" class="node">
+<title>[root] root</title>
+<ellipse fill="none" stroke="#000000" cx="511.5" cy="-306" rx="58.4896" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>[root] root&#45;&gt;[root] meta.count&#45;boundary (EachMode fixup)</title>
+<path fill="none" stroke="#000000" d="M474.5548,-291.7751C447.5659,-281.3837 410.5069,-267.115 379.9711,-255.3578"/>
+<polygon fill="#000000" stroke="#000000" points="380.8969,-251.9639 370.3071,-251.6369 378.3816,-258.4964 380.8969,-251.9639"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>[root] root&#45;&gt;[root] provider.aws (close)</title>
+<path fill="none" stroke="#000000" d="M548.1946,-291.9468C575.8909,-281.3396 614.3202,-266.622 645.5184,-254.6738"/>
+<polygon fill="#000000" stroke="#000000" points="646.8617,-257.9073 654.9485,-251.0623 644.3581,-251.3703 646.8617,-257.9073"/>
+</g>
+</g>
+</svg>

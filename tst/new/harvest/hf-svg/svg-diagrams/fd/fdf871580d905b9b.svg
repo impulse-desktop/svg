@@ -1,0 +1,80 @@
+<svg width="596pt" height="176pt"
+ viewBox="0.00 0.00 596.00 176.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 172)">
+<title>LittleWeebLibrary.Services.SettingsWebSocketService.GetCurrentLittleWeebSettings</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-172 592,-172 592,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node16</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-66 0,-107 185,-107 185,-66 0,-66"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node17</title>
+<g id="a_node2"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_settings_handler.html#a53a5c5206eb6d2c58fa9d970c9b97463" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lSettingsHandler.GetLittleWeebSettings">
+<polygon fill="white" stroke="black" points="221,-137.5 221,-167.5 408,-167.5 408,-137.5 221,-137.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node16&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M161.903,-107.021C191.24,-115.822 225.205,-126.012 253.541,-134.512"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="252.728,-137.922 263.312,-137.444 254.739,-131.218 252.728,-137.922"/>
+</g>
+
+<g id="node3" class="node"><title>Node18</title>
+<g id="a_node3"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_debug_handler.html#afccb37dfd6b2114af72000c2f4fe4607" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lDebugHandler.TraceMessage">
+<polygon fill="white" stroke="black" points="444,-93.5 444,-123.5 588,-123.5 588,-93.5 444,-93.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node16&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M185.219,-91.2872C259.198,-95.1485 362.293,-100.53 433.427,-104.242"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="433.514,-107.752 443.682,-104.778 433.879,-100.761 433.514,-107.752"/>
+</g>
+
+<g id="node4" class="node"><title>Node19</title>
+<g id="a_node4"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_web_socket_handler.html#a1de289d54d665a32c93478c68d3e6ad0" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lWebSocketHandler.SendMessage">
+<polygon fill="white" stroke="black" points="231.5,-49.5 231.5,-79.5 397.5,-79.5 397.5,-49.5 231.5,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node16&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M185.207,-77.3293C197.181,-76.1319 209.453,-74.9047 221.433,-73.7067"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="221.813,-77.1862 231.415,-72.7085 221.116,-70.221 221.813,-77.1862"/>
+</g>
+
+<g id="node5" class="node"><title>Node20</title>
+<g id="a_node5"><a xlink:href="class_little_weeb_library_1_1_models_1_1_json_little_weeb_settings.html#afb2de66338da820dca2c6c6703008a82" target="_top" xlink:title="LittleWeebLibrary.Models.\lJsonLittleWeebSettings.ToJson">
+<polygon fill="white" stroke="black" points="238,-0.5 238,-30.5 391,-30.5 391,-0.5 238,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node16&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M147.451,-65.9233C170.034,-57.6012 196.647,-48.1697 221,-40.5 228.869,-38.0217 237.161,-35.5654 245.416,-33.2156"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="246.379,-36.5807 255.062,-30.5111 244.489,-29.8406 246.379,-36.5807"/>
+</g>
+
+<g id="edge2" class="edge"><title>Node17&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M383.599,-137.481C400.678,-133.714 419.138,-129.643 436.671,-125.776"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="437.858,-129.098 446.87,-123.526 436.351,-122.262 437.858,-129.098"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node19&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M383.599,-79.5192C400.678,-83.286 419.138,-87.3574 436.671,-91.2244"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="436.351,-94.7378 446.87,-93.4738 437.858,-87.9021 436.351,-94.7378"/>
+</g>
+</g>
+</svg>

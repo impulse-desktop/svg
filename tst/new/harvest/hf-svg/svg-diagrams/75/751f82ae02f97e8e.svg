@@ -1,0 +1,103 @@
+<svg width="527pt" height="142pt"
+ viewBox="0.00 0.00 527.00 142.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 138)">
+<title>coap_pdu_parse</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-138 523,-138 523,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node393</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-57.5 0,-76.5 88,-76.5 88,-57.5 0,-57.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node394</title>
+<g id="a_node2"><a xlink:href="pdu_8c.html#a53c48f11ca3bc0d2106bd8b76f7430c8" target="_top" xlink:title="Interprets data to determine the number of bytes in the header. ">
+<polygon fill="#ffffff" stroke="#000000" points="124,-114.5 124,-133.5 270,-133.5 270,-114.5 124,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node393&#45;&gt;Node394</title>
+<path fill="none" stroke="#191970" d="M61.6942,-76.5971C77.6354,-84.9525 101.8931,-96.9545 124,-105 130.7684,-107.4633 137.998,-109.7451 145.1783,-111.8098"/>
+<polygon fill="#191970" stroke="#191970" points="144.3204,-115.2038 154.891,-114.4872 146.1808,-108.4555 144.3204,-115.2038"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node395</title>
+<g id="a_node3"><a xlink:href="pdu_8c.html#add46ce956878a4121e8887b84c6d4a6b" target="_top" xlink:title="Dynamically grows the size of pdu to new_size. ">
+<polygon fill="#ffffff" stroke="#000000" points="152,-76.5 152,-95.5 242,-95.5 242,-76.5 152,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node393&#45;&gt;Node395</title>
+<path fill="none" stroke="#191970" d="M88.2539,-72.4956C104.9273,-74.5661 124.1021,-76.9473 141.6623,-79.128"/>
+<polygon fill="#191970" stroke="#191970" points="141.4286,-82.6258 151.7838,-80.3849 142.2913,-75.6791 141.4286,-82.6258"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node396</title>
+<g id="a_node4"><a xlink:href="pdu_8c.html#a516ac8dae1f2fe33963f80cf15ec59a0" target="_top" xlink:title="Decode the protocol specific header for the specified PDU. ">
+<polygon fill="#ffffff" stroke="#000000" points="136,-38.5 136,-57.5 258,-57.5 258,-38.5 136,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node393&#45;&gt;Node396</title>
+<path fill="none" stroke="#191970" d="M88.2539,-61.5044C99.9533,-60.0516 112.8842,-58.4457 125.6248,-56.8636"/>
+<polygon fill="#191970" stroke="#191970" points="126.282,-60.3089 135.7745,-55.6032 125.4193,-53.3623 126.282,-60.3089"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node397</title>
+<g id="a_node5"><a xlink:href="pdu_8c.html#aa7fbcbe0f8d7415e82447747abf31d51" target="_top" xlink:title="Verify consistency in the given CoAP PDU structure and locate the data. ">
+<polygon fill="#ffffff" stroke="#000000" points="143.5,-.5 143.5,-19.5 250.5,-19.5 250.5,-.5 143.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node393&#45;&gt;Node397</title>
+<path fill="none" stroke="#191970" d="M61.6942,-57.4029C77.6354,-49.0475 101.8931,-37.0455 124,-29 130.7684,-26.5367 137.998,-24.2549 145.1783,-22.1902"/>
+<polygon fill="#191970" stroke="#191970" points="146.1808,-25.5445 154.891,-19.5128 144.3204,-18.7962 146.1808,-25.5445"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node398</title>
+<g id="a_node6"><a xlink:href="pdu_8c.html#a1a5660500af5276ede2c7472958f2826" target="_top" xlink:title="Advances *optp to next option if still in PDU. ">
+<polygon fill="#ffffff" stroke="#000000" points="306,-.5 306,-19.5 397,-19.5 397,-.5 306,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node397&#45;&gt;Node398</title>
+<path fill="none" stroke="#191970" d="M250.603,-10C265.2614,-10 281.1769,-10 295.9419,-10"/>
+<polygon fill="#191970" stroke="#191970" points="295.9505,-13.5001 305.9504,-10 295.9504,-6.5001 295.9505,-13.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node399</title>
+<g id="a_node7"><a xlink:href="option_8c.html#a11de99f50cc9f5a34fd9e4d121ecfd13" target="_top" xlink:title="Parses the option pointed to by opt into result. ">
+<polygon fill="#ffffff" stroke="#000000" points="433,-.5 433,-19.5 519,-19.5 519,-.5 433,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node398&#45;&gt;Node399</title>
+<path fill="none" stroke="#191970" d="M397.1523,-10C405.4411,-10 414.1535,-10 422.6407,-10"/>
+<polygon fill="#191970" stroke="#191970" points="422.8381,-13.5001 432.8381,-10 422.838,-6.5001 422.8381,-13.5001"/>
+</g>
+</g>
+</svg>

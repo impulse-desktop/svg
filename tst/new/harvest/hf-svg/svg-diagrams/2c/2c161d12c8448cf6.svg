@@ -1,0 +1,153 @@
+<svg width="287pt" height="894pt"
+ viewBox="0.00 0.00 287.00 894.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 890)">
+<title>yw_data_view</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-890 283,-890 283,4 -4,4"/>
+
+<g id="clust1" class="cluster"><title>cluster_workflow</title>
+<polygon fill="none" stroke="black" stroke-width="2" points="8,-8 8,-796 271,-796 271,-8 8,-8"/>
+</g>
+<g id="clust2" class="cluster"><title>cluster_workflow_inner</title>
+<polygon fill="none" stroke="white" stroke-width="2" points="16,-16 16,-788 263,-788 263,-16 16,-16"/>
+</g>
+<g id="clust3" class="cluster"><title>cluster_inflows</title>
+<polygon fill="none" stroke="white" stroke-width="2" points="97,-804 97,-850 175,-850 175,-804 97,-804"/>
+</g>
+<g id="clust4" class="cluster"><title>cluster_inflows_inner</title>
+<polygon fill="none" stroke="white" stroke-width="2" points="105,-812 105,-842 167,-842 167,-812 105,-812"/>
+</g>
+
+<g id="node1" class="node"><title>FilterExcludingMarine</title>
+<polygon fill="#ccffcc" stroke="black" points="235.25,-276 42.75,-276 42.75,-240 235.25,-240 235.25,-276"/>
+
+</g>
+
+<g id="node10" class="node"><title>notMarineDataRecord</title>
+<path fill="#ffffcc" stroke="black" d="M203.25,-204C203.25,-204 74.75,-204 74.75,-204 68.75,-204 62.75,-198 62.75,-192 62.75,-192 62.75,-180 62.75,-180 62.75,-174 68.75,-168 74.75,-168 74.75,-168 203.25,-168 203.25,-168 209.25,-168 215.25,-174 215.25,-180 215.25,-180 215.25,-192 215.25,-192 215.25,-198 209.25,-204 203.25,-204"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>FilterExcludingMarine&#45;&gt;notMarineDataRecord</title>
+<path fill="none" stroke="black" d="M139,-239.697C139,-231.983 139,-222.712 139,-214.112"/>
+<polygon fill="black" stroke="black" points="142.5,-214.104 139,-204.104 135.5,-214.104 142.5,-214.104"/>
+</g>
+
+<g id="node2" class="node"><title>EnvironmentTagger</title>
+<polygon fill="#ccffcc" stroke="black" points="218.25,-420 59.75,-420 59.75,-384 218.25,-384 218.25,-420"/>
+
+</g>
+
+<g id="node9" class="node"><title>TaggedDataRecord</title>
+<path fill="#ffffcc" stroke="black" d="M196.25,-348C196.25,-348 81.75,-348 81.75,-348 75.75,-348 69.75,-342 69.75,-336 69.75,-336 69.75,-324 69.75,-324 69.75,-318 75.75,-312 81.75,-312 81.75,-312 196.25,-312 196.25,-312 202.25,-312 208.25,-318 208.25,-324 208.25,-324 208.25,-336 208.25,-336 208.25,-342 202.25,-348 196.25,-348"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>EnvironmentTagger&#45;&gt;TaggedDataRecord</title>
+<path fill="none" stroke="black" d="M139,-383.697C139,-375.983 139,-366.712 139,-358.112"/>
+<polygon fill="black" stroke="black" points="142.5,-358.104 139,-348.104 135.5,-358.104 142.5,-358.104"/>
+</g>
+
+<g id="node3" class="node"><title>FileToDataStream</title>
+<polygon fill="#ccffcc" stroke="black" points="214.25,-564 63.75,-564 63.75,-528 214.25,-528 214.25,-564"/>
+
+</g>
+
+<g id="node8" class="node"><title>DataRecord</title>
+<path fill="#ffffcc" stroke="black" d="M172.25,-492C172.25,-492 105.75,-492 105.75,-492 99.75,-492 93.75,-486 93.75,-480 93.75,-480 93.75,-468 93.75,-468 93.75,-462 99.75,-456 105.75,-456 105.75,-456 172.25,-456 172.25,-456 178.25,-456 184.25,-462 184.25,-468 184.25,-468 184.25,-480 184.25,-480 184.25,-486 178.25,-492 172.25,-492"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>FileToDataStream&#45;&gt;DataRecord</title>
+<path fill="none" stroke="black" d="M139,-527.697C139,-519.983 139,-510.712 139,-502.112"/>
+<polygon fill="black" stroke="black" points="142.5,-502.104 139,-492.104 135.5,-502.104 142.5,-502.104"/>
+</g>
+
+<g id="node4" class="node"><title>Setup</title>
+<polygon fill="#ccffcc" stroke="black" points="168.25,-708 109.75,-708 109.75,-672 168.25,-672 168.25,-708"/>
+
+</g>
+
+<g id="node7" class="node"><title>OccurrenceFile</title>
+<path fill="#ffffcc" stroke="black" d="M182.25,-636C182.25,-636 95.75,-636 95.75,-636 89.75,-636 83.75,-630 83.75,-624 83.75,-624 83.75,-612 83.75,-612 83.75,-606 89.75,-600 95.75,-600 95.75,-600 182.25,-600 182.25,-600 188.25,-600 194.25,-606 194.25,-612 194.25,-612 194.25,-624 194.25,-624 194.25,-630 188.25,-636 182.25,-636"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>Setup&#45;&gt;OccurrenceFile</title>
+<path fill="none" stroke="black" d="M139,-671.697C139,-663.983 139,-654.712 139,-646.112"/>
+<polygon fill="black" stroke="black" points="142.5,-646.104 139,-636.104 135.5,-646.104 142.5,-646.104"/>
+</g>
+
+<g id="node5" class="node"><title>GBIFLookup</title>
+<polygon fill="#ccffcc" stroke="black" points="189.25,-132 88.75,-132 88.75,-96 189.25,-96 189.25,-132"/>
+
+</g>
+
+<g id="node11" class="node"><title>GBIFOutput</title>
+<path fill="#ffffcc" stroke="black" d="M172.25,-60C172.25,-60 105.75,-60 105.75,-60 99.75,-60 93.75,-54 93.75,-48 93.75,-48 93.75,-36 93.75,-36 93.75,-30 99.75,-24 105.75,-24 105.75,-24 172.25,-24 172.25,-24 178.25,-24 184.25,-30 184.25,-36 184.25,-36 184.25,-48 184.25,-48 184.25,-54 178.25,-60 172.25,-60"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>GBIFLookup&#45;&gt;GBIFOutput</title>
+<path fill="none" stroke="black" d="M139,-95.6966C139,-87.9827 139,-78.7125 139,-70.1124"/>
+<polygon fill="black" stroke="black" points="142.5,-70.1043 139,-60.1043 135.5,-70.1044 142.5,-70.1043"/>
+</g>
+
+<g id="node6" class="node"><title>DarwinCoreFile</title>
+<path fill="#ffffcc" stroke="black" d="M242.25,-780C242.25,-780 153.75,-780 153.75,-780 147.75,-780 141.75,-774 141.75,-768 141.75,-768 141.75,-756 141.75,-756 141.75,-750 147.75,-744 153.75,-744 153.75,-744 242.25,-744 242.25,-744 248.25,-744 254.25,-750 254.25,-756 254.25,-756 254.25,-768 254.25,-768 254.25,-774 248.25,-780 242.25,-780"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>DarwinCoreFile&#45;&gt;Setup</title>
+<path fill="none" stroke="black" d="M183.416,-743.697C176.342,-735.305 167.717,-725.07 159.955,-715.861"/>
+<polygon fill="black" stroke="black" points="162.537,-713.495 153.417,-708.104 157.185,-718.006 162.537,-713.495"/>
+</g>
+
+<g id="edge4" class="edge"><title>OccurrenceFile&#45;&gt;FileToDataStream</title>
+<path fill="none" stroke="black" d="M139,-599.697C139,-591.983 139,-582.712 139,-574.112"/>
+<polygon fill="black" stroke="black" points="142.5,-574.104 139,-564.104 135.5,-574.104 142.5,-574.104"/>
+</g>
+
+<g id="edge3" class="edge"><title>DataRecord&#45;&gt;EnvironmentTagger</title>
+<path fill="none" stroke="black" d="M139,-455.697C139,-447.983 139,-438.712 139,-430.112"/>
+<polygon fill="black" stroke="black" points="142.5,-430.104 139,-420.104 135.5,-430.104 142.5,-430.104"/>
+</g>
+
+<g id="edge2" class="edge"><title>TaggedDataRecord&#45;&gt;FilterExcludingMarine</title>
+<path fill="none" stroke="black" d="M139,-311.697C139,-303.983 139,-294.712 139,-286.112"/>
+<polygon fill="black" stroke="black" points="142.5,-286.104 139,-276.104 135.5,-286.104 142.5,-286.104"/>
+</g>
+
+<g id="edge1" class="edge"><title>notMarineDataRecord&#45;&gt;GBIFLookup</title>
+<path fill="none" stroke="black" d="M139,-167.697C139,-159.983 139,-150.712 139,-142.112"/>
+<polygon fill="black" stroke="black" points="142.5,-142.104 139,-132.104 135.5,-142.104 142.5,-142.104"/>
+</g>
+
+<g id="node12" class="node"><title>InputFilePath</title>
+<path fill="#ffffff" stroke="black" d="M111.25,-780C111.25,-780 36.75,-780 36.75,-780 30.75,-780 24.75,-774 24.75,-768 24.75,-768 24.75,-756 24.75,-756 24.75,-750 30.75,-744 36.75,-744 36.75,-744 111.25,-744 111.25,-744 117.25,-744 123.25,-750 123.25,-756 123.25,-756 123.25,-768 123.25,-768 123.25,-774 117.25,-780 111.25,-780"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>InputFilePath&#45;&gt;Setup</title>
+<path fill="none" stroke="black" d="M90.0674,-743.697C97.9388,-735.22 107.555,-724.864 116.173,-715.583"/>
+<polygon fill="black" stroke="black" points="118.878,-717.814 123.117,-708.104 113.748,-713.051 118.878,-717.814"/>
+</g>
+
+<g id="node13" class="node"><title>DarwinCoreFile_inflow</title>
+<ellipse fill="none" stroke="black" cx="152" cy="-827" rx="7" ry="7"/>
+</g>
+
+<g id="edge12" class="edge"><title>DarwinCoreFile_inflow&#45;&gt;DarwinCoreFile</title>
+<path fill="none" stroke="black" d="M155.922,-820.629C161.132,-813.493 170.692,-800.4 179.384,-788.496"/>
+<polygon fill="black" stroke="black" points="182.415,-790.28 185.485,-780.14 176.762,-786.152 182.415,-790.28"/>
+</g>
+
+<g id="node14" class="node"><title>InputFilePath_inflow</title>
+<ellipse fill="none" stroke="black" cx="120" cy="-827" rx="7" ry="7"/>
+</g>
+
+<g id="edge13" class="edge"><title>InputFilePath_inflow&#45;&gt;InputFilePath</title>
+<path fill="none" stroke="black" d="M116.078,-820.629C110.868,-813.493 101.308,-800.4 92.616,-788.496"/>
+<polygon fill="black" stroke="black" points="95.2383,-786.152 86.5146,-780.14 89.5849,-790.28 95.2383,-786.152"/>
+</g>
+</g>
+</svg>

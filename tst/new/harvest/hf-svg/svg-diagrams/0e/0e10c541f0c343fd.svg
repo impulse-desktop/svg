@@ -1,0 +1,84 @@
+<svg width="669pt" height="211pt"
+ viewBox="0.00 0.00 669.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-207 665,-207 665,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="96.5,-10 96.5,-30 116.5,-30 116.5,-10 96.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="209.5,-10 209.5,-30 229.5,-30 229.5,-10 209.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="295.5,-10 295.5,-30 315.5,-30 315.5,-10 295.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="392.5,-10 392.5,-30 412.5,-30 412.5,-10 392.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="488.5,-10 488.5,-30 508.5,-30 508.5,-10 488.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_FcmAdminServerModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 653,-195 653,-70 8,-70"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_FcmAdminServerModule_providers</title>
+<polygon fill="none" stroke="black" points="128,-78 128,-130 645,-130 645,-78 128,-78"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_FcmAdminServerModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 120,-130 120,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="111.55,-122 108.55,-126 87.55,-126 84.55,-122 24.45,-122 24.45,-86 111.55,-86 111.55,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>FcmAdminServerModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="396.86,-187 393.86,-191 372.86,-191 369.86,-187 237.14,-187 237.14,-151 396.86,-151 396.86,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuthModule&#45;&gt;FcmAdminServerModule</title>
+<path fill="none" stroke="black" d="M68,-122.11C68,-141.34 68,-169 68,-169 68,-169 226.84,-169 226.84,-169"/>
+<polygon fill="black" stroke="black" points="226.84,-172.5 236.84,-169 226.84,-165.5 226.84,-172.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>FcmService</title>
+<ellipse fill="#fdb462" stroke="black" cx="580" cy="-104" rx="57.32" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FcmService&#45;&gt;FcmAdminServerModule</title>
+<path fill="none" stroke="black" d="M580,-122.11C580,-141.34 580,-169 580,-169 580,-169 406.98,-169 406.98,-169"/>
+<polygon fill="black" stroke="black" points="406.98,-165.5 396.98,-169 406.98,-172.5 406.98,-165.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>NotificationsService</title>
+<ellipse fill="#fdb462" stroke="black" cx="414" cy="-104" rx="90.32" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NotificationsService&#45;&gt;FcmAdminServerModule</title>
+<path fill="none" stroke="black" d="M360.26,-118.75C360.26,-118.75 360.26,-140.59 360.26,-140.59"/>
+<polygon fill="black" stroke="black" points="356.76,-140.59 360.26,-150.59 363.76,-140.59 356.76,-140.59"/>
+</g>
+
+<g id="node5" class="node">
+<title>SubscribersService</title>
+<ellipse fill="#fdb462" stroke="black" cx="221" cy="-104" rx="85.09" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SubscribersService&#45;&gt;FcmAdminServerModule</title>
+<path fill="none" stroke="black" d="M271.56,-118.75C271.56,-118.75 271.56,-140.59 271.56,-140.59"/>
+<polygon fill="black" stroke="black" points="268.06,-140.59 271.56,-150.59 275.06,-140.59 268.06,-140.59"/>
+</g>
+</g>
+</svg>

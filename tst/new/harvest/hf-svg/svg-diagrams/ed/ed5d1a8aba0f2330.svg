@@ -1,0 +1,111 @@
+<svg width="570pt" height="225pt"
+ viewBox="0.00 0.00 570.00 224.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 220.5)">
+<title>tbb::internal::allowed_parallelism_control::apply_active</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-220.5 566,-220.5 566,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-93 0,-134 109,-134 109,-93 0,-93"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00489.html#a50bb92619e74a81b3f8552ccca139c9f" target="_top" xlink:title="Set number of active workers. ">
+<polygon fill="white" stroke="black" points="145,-98.5 145,-128.5 276,-128.5 276,-98.5 145,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M109.362,-113.5C117.591,-113.5 126.209,-113.5 134.789,-113.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="134.818,-117 144.818,-113.5 134.818,-110 134.818,-117"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a01133.html#a9c086de4bb6ce45fe69a8fb911e5ebea" target="_top" xlink:title="Utility template function returning lesser of the two values. ">
+<polygon fill="white" stroke="black" points="322.5,-197 322.5,-216 411.5,-216 411.5,-197 322.5,-197"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M228.589,-128.568C247.782,-144.875 280.397,-170.785 312,-187.5 315.962,-189.595 320.203,-191.542 324.503,-193.327"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="323.334,-196.628 333.923,-196.973 325.861,-190.1 323.334,-196.628"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00489.html#af3e43d97626c3beff0b708c8089984fd" target="_top" xlink:title="Recalculates the number of workers assigned to each arena in the list. ">
+<polygon fill="white" stroke="black" points="315,-147.5 315,-177.5 419,-177.5 419,-147.5 315,-147.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M259.116,-128.601C274.755,-133.562 292.305,-139.127 308.592,-144.293"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="307.951,-147.761 318.541,-147.448 310.067,-141.089 307.951,-147.761"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00391.html#a27a1cf03b6f163c2835d861fc6519aba" target="_top" xlink:title="tbb::internal::intrusive\l_list_base::begin">
+<polygon fill="white" stroke="black" points="312,-98.5 312,-128.5 422,-128.5 422,-98.5 312,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M276.127,-113.5C284.592,-113.5 293.265,-113.5 301.725,-113.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="301.909,-117 311.909,-113.5 301.909,-110 301.909,-117"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00391.html#a61fa0658a500c11ff2cdf4c294c33e97" target="_top" xlink:title="tbb::internal::intrusive\l_list_base::end">
+<polygon fill="white" stroke="black" points="312,-49.5 312,-79.5 422,-79.5 422,-49.5 312,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M259.116,-98.3986C274.755,-93.4385 292.305,-87.8726 308.592,-82.7071"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="310.067,-85.911 318.541,-79.5516 307.951,-79.2385 310.067,-85.911"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a00489.html#a76b1783a39252c34da34d0cebfe101b5" target="_top" xlink:title="Decrements market&#39;s refcount and destroys it in the end. ">
+<polygon fill="white" stroke="black" points="315,-0.5 315,-30.5 419,-30.5 419,-0.5 315,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node2&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M230.014,-98.3553C249.63,-82.7225 281.873,-58.1879 312,-40.5 315.171,-38.6382 318.504,-36.8109 321.893,-35.0444"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="323.543,-38.1326 330.921,-30.5286 320.411,-31.8721 323.543,-38.1326"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a01133.html#a0e107bb5cdaa8996c5ac7545a57bc248" target="_top" xlink:title="tbb::internal::__TBB\l_load_with_acquire">
+<polygon fill="white" stroke="black" points="458,-0.5 458,-30.5 562,-30.5 562,-0.5 458,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M419.303,-15.5C428.555,-15.5 438.285,-15.5 447.785,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="447.971,-19.0001 457.971,-15.5 447.971,-12.0001 447.971,-19.0001"/>
+</g>
+</g>
+</svg>

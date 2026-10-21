@@ -1,0 +1,132 @@
+<svg width="1301pt" height="211pt"
+ viewBox="0.00 0.00 1301.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1297,-207 1297,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="412.5,-10 412.5,-30 432.5,-30 432.5,-10 412.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="525.5,-10 525.5,-30 545.5,-30 545.5,-10 525.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="611.5,-10 611.5,-30 631.5,-30 631.5,-10 611.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="708.5,-10 708.5,-30 728.5,-30 728.5,-10 708.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="804.5,-10 804.5,-30 824.5,-30 824.5,-10 804.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_GamesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1285,-195 1285,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_GamesModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="500,-78 500,-130 1277,-130 1277,-78 500,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_GamesModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 492,-130 492,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>GamesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1269.2036,-122 1148.7964,-122 1148.7964,-86 1269.2036,-86 1269.2036,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>GamesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="707.4217,-187 704.4217,-191 683.4217,-191 680.4217,-187 608.5783,-187 608.5783,-151 707.4217,-151 707.4217,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>GamesComponent&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M1209,-122.2921C1209,-144.2057 1209,-178 1209,-178 1209,-178 717.3825,-178 717.3825,-178"/>
+<polygon fill="#000000" stroke="#000000" points="717.3825,-174.5001 707.3825,-178 717.3824,-181.5001 717.3825,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>NewGameComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1130.6867,-122 989.3133,-122 989.3133,-86 1130.6867,-86 1130.6867,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>NewGameComponent&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M1060,-122.1061C1060,-141.3391 1060,-169 1060,-169 1060,-169 717.2931,-169 717.2931,-169"/>
+<polygon fill="#000000" stroke="#000000" points="717.2931,-165.5001 707.2931,-169 717.2931,-172.5001 717.2931,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>GamesPageComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="971.9158,-122 824.0842,-122 824.0842,-86 971.9158,-86 971.9158,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>GamesPageComponent&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M898,-122.027C898,-138.3976 898,-160 898,-160 898,-160 717.4372,-160 717.4372,-160"/>
+<polygon fill="#000000" stroke="#000000" points="717.4372,-156.5001 707.4372,-160 717.4371,-163.5001 717.4372,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>EditGameComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="806.0926,-122 667.9074,-122 667.9074,-86 806.0926,-86 806.0926,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>EditGameComponent&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M687.5821,-122.1061C687.5821,-122.1061 687.5821,-140.991 687.5821,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="684.0821,-140.9909 687.5821,-150.991 691.0821,-140.991 684.0821,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>InvitationsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="649.7148,-122 508.2852,-122 508.2852,-86 649.7148,-86 649.7148,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>InvitationsComponent&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M629.1985,-122.1061C629.1985,-122.1061 629.1985,-140.991 629.1985,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="625.6985,-140.9909 629.1985,-150.991 632.6985,-140.991 625.6985,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="483.6681,-122 480.6681,-126 459.6681,-126 456.6681,-122 372.3319,-122 372.3319,-86 483.6681,-86 483.6681,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CommonModule&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M428,-122.027C428,-138.3976 428,-160 428,-160 428,-160 598.6592,-160 598.6592,-160"/>
+<polygon fill="#000000" stroke="#000000" points="598.6593,-163.5001 608.6592,-160 598.6592,-156.5001 598.6593,-163.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>SharedComponentsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="354.6993,-122 351.6993,-126 330.6993,-126 327.6993,-122 185.3007,-122 185.3007,-86 354.6993,-86 354.6993,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedComponentsModule&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M270,-122.1061C270,-141.3391 270,-169 270,-169 270,-169 598.4654,-169 598.4654,-169"/>
+<polygon fill="#000000" stroke="#000000" points="598.4655,-172.5001 608.4654,-169 598.4654,-165.5001 598.4655,-172.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>GamesRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="167.5393,-122 164.5393,-126 143.5393,-126 140.5393,-122 24.4607,-122 24.4607,-86 167.5393,-86 167.5393,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>GamesRoutingModule&#45;&gt;GamesModule</title>
+<path fill="none" stroke="#000000" d="M96,-122.2921C96,-144.2057 96,-178 96,-178 96,-178 598.6188,-178 598.6188,-178"/>
+<polygon fill="#000000" stroke="#000000" points="598.6188,-181.5001 608.6188,-178 598.6188,-174.5001 598.6188,-181.5001"/>
+</g>
+</g>
+</svg>

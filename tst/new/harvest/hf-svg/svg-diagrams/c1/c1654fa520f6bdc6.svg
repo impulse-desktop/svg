@@ -1,0 +1,68 @@
+<svg width="558pt" height="211pt"
+ viewBox="0.00 0.00 558.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 554,-207 554,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="41,-10 41,-30 61,-30 61,-10 41,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="154,-10 154,-30 174,-30 174,-10 154,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="240,-10 240,-30 260,-30 260,-10 240,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="337,-10 337,-30 357,-30 357,-10 337,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="433,-10 433,-30 453,-30 453,-10 433,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TestingModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 542,-195 542,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TestingModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 534,-130 534,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DummyComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="525.7204,-122 398.2796,-122 398.2796,-86 525.7204,-86 525.7204,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>TestingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="351.5438,-187 348.5438,-191 327.5438,-191 324.5438,-187 250.4562,-187 250.4562,-151 351.5438,-151 351.5438,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DummyComponent&#45;&gt;TestingModule</title>
+<path fill="none" stroke="#000000" d="M462,-122.1061C462,-141.3391 462,-169 462,-169 462,-169 361.9414,-169 361.9414,-169"/>
+<polygon fill="#000000" stroke="#000000" points="361.9414,-165.5001 351.9414,-169 361.9414,-172.5001 361.9414,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>RouterLinkStubDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="380.3019,-122 221.6981,-122 221.6981,-86 380.3019,-86 380.3019,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>RouterLinkStubDirective&#45;&gt;TestingModule</title>
+<path fill="none" stroke="#000000" d="M301,-122.1061C301,-122.1061 301,-140.991 301,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="297.5001,-140.9909 301,-150.991 304.5001,-140.991 297.5001,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>RouterOutletStubComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="204.101,-122 23.899,-122 23.899,-86 204.101,-86 204.101,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>RouterOutletStubComponent&#45;&gt;TestingModule</title>
+<path fill="none" stroke="#000000" d="M114,-122.1061C114,-141.3391 114,-169 114,-169 114,-169 240.3951,-169 240.3951,-169"/>
+<polygon fill="#000000" stroke="#000000" points="240.3951,-172.5001 250.3951,-169 240.3951,-165.5001 240.3951,-172.5001"/>
+</g>
+</g>
+</svg>

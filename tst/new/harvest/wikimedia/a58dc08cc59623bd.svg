@@ -1,0 +1,138 @@
+﻿<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="750px" width="1200px" version="1.1" preserveAspectRatio="none" viewBox="0 0 1200 750">
+<title>United States Household Income - 1995</title>
+<desc>Distribution of Annual Household Income in the United States 1995</desc>
+<!-- background -->
+<rect width="100%" fill="#fff" height="100%"/>
+<!--
+     ORDER OF TRANSFORMATIONS:
+     (1)     Shift origin from (x, y) to (0, 0) (e.g., from [2004, 0] to [0, 0])
+     (2)     Scale as appropriate
+     (3)     Shift back to viewport's origin
+     (4)     Shift away from edge as desired
+     In working out your calculations, opt for a number that divides nicely into 100s (e.g., 1, 2, 2.5, 5, 10, 20, 25, etc.)
+     CALCULATIONS:
+     Horizontal     =     Width/Range
+                    =     800/ 2013-1996
+                    ~      39
+     Vertical     =     [-1 * Height]/Range
+                    =     -600 / (350 - 0)
+                    ~     -1.4
+-->
+<g font-family="Verdana, Tahoma, sans-serif" transform="translate(80 -30)" text-anchor="middle">
+<!-- The lines in the graph are scaled significantly. Make sure the stroke width is set appropriately. -->
+     <g stroke="#333" transform="translate(0 550) scale(101 -26) translate(-1)">
+<!-- Horizontal gridlines -->
+          <g stroke-width="0.02">
+          <path d="m1 1h11"/>
+          <path d="m1 3h11"/>
+          <path d="m1 5h11"/>
+          <path d="m1 7h11"/>
+          <path d="m1 9h11"/>
+          <path d="m1 11h11"/>
+          <path d="m1 13h11"/>
+          <path d="m1 15h11"/>
+          <path d="m1 17h11"/>
+          </g>
+          <g stroke-width="0.04">
+          <path d="m1 2h11"/>
+          <path d="m1 4h11"/>
+          <path d="m1 6h11"/>
+          <path d="m1 8h11"/>
+          <path d="m1 10h11"/>
+          <path d="m1 12h11"/>
+          <path d="m1 14h11"/>
+          <path d="m1 16h11"/>
+          <path d="m1 18h11"/>
+<!-- percentage -->
+          <path transform="translate(.5)" fill="none" stroke="red" stroke-width="0.75" d="
+     M     1     0
+     L     1     12.23
+     M     2     0
+     L     2     17.07
+     M     3     0
+     L     3     14.96
+     M     4     0
+     L     4     13.18
+     M     5     0
+     L     5     10.60
+     M     6     0
+     L     6     8.31
+     M     7     0
+     L     7     6.35
+     M     8     0
+     L     8     4.59
+     M     9     0
+     L     9     3.27
+     M     10     0
+     L     10     2.29
+     M     11     0
+     L     11     7.14
+          
+"/>
+
+<!-- X axis -->
+          <path d="m1 0h21"/>
+
+          </g>
+<!-- Vertical ticks -->
+          <g stroke-width=".01">
+          <path d="m1 18v-18"/>
+          <path d="m12 18v-18"/>
+          </g>
+     </g>
+<!-- Text can't be scaled or it goes strange. Its location must be calculated directly. -->
+     <g font-size="24" transform="translate(540 60)">
+                
+     </g>
+<!-- Y-axis -->
+     <g font-size="20" transform="translate(-50 320) rotate(270)">
+                
+     </g>
+     <g id="percentage" font-size="20px" text-anchor="end" transform="translate(-7)">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+     </g>
+     <g id="legend" font-size="20px" text-anchor="middle" transform="translate(50)">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+     </g>
+<!-- X-axis -->
+     <g id="x_axis_numbers" font-size="18" text-anchor="end" transform="translate(0 560) rotate(270)">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+     </g>
+     <g font-size="12" text-anchor="start" transform="translate(-30 770)">
+                
+     </g>
+</g>
+</svg>

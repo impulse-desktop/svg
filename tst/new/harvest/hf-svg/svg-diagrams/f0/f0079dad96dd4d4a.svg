@@ -1,0 +1,143 @@
+<svg width="558pt" height="1049pt"
+ viewBox="0.00 0.00 558.00 1049.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1045)">
+<title>posts</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-1045 554,-1045 554,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>posts</title>
+<polygon fill="#efefef" stroke="transparent" points="150,-592.5 150,-627.5 413,-627.5 413,-592.5 150,-592.5"/>
+<polygon fill="none" stroke="#000000" points="150,-592.5 150,-627.5 413,-627.5 413,-592.5 150,-592.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="150,-562.5 150,-592.5 413,-592.5 413,-562.5 150,-562.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="150,-532.5 150,-562.5 413,-562.5 413,-532.5 150,-532.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="150,-502.5 150,-532.5 413,-532.5 413,-502.5 150,-502.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="150,-472.5 150,-502.5 413,-502.5 413,-472.5 150,-472.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="150,-442.5 150,-472.5 413,-472.5 413,-442.5 150,-442.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="150,-412.5 150,-442.5 413,-442.5 413,-412.5 150,-412.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="150,-382.5 150,-412.5 413,-412.5 413,-382.5 150,-382.5"/>
+
+
+<polygon fill="none" stroke="#000000" stroke-width="3" points="148,-381.5 148,-629.5 414,-629.5 414,-381.5 148,-381.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>users</title>
+<polygon fill="#efefef" stroke="transparent" points="202,-222.5 202,-257.5 361,-257.5 361,-222.5 202,-222.5"/>
+<polygon fill="none" stroke="#000000" points="202,-222.5 202,-257.5 361,-257.5 361,-222.5 202,-222.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="202,-192.5 202,-222.5 361,-222.5 361,-192.5 202,-192.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="202,-162.5 202,-192.5 361,-192.5 361,-162.5 202,-162.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="202,-132.5 202,-162.5 361,-162.5 361,-132.5 202,-132.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="202,-102.5 202,-132.5 361,-132.5 361,-102.5 202,-102.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="202,-72.5 202,-102.5 361,-102.5 361,-72.5 202,-72.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="202,-42.5 202,-72.5 361,-72.5 361,-42.5 202,-42.5"/>
+
+
+</g>
+
+<g id="edge3" class="edge">
+<title>posts:user_id&#45;&gt;users:id</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M140.0082,-546.9931C-.4814,-532.3981 52.5653,-207.5 202,-207.5"/>
+<polygon fill="#000000" stroke="#000000" points="140.0128,-546.9933 149.772,-551.9942 145.0064,-547.2466 150,-547.5 150,-547.5 150,-547.5 145.0064,-547.2466 150.228,-543.0058 140.0128,-546.9933 140.0128,-546.9933"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>comments</title>
+<polygon fill="#efefef" stroke="transparent" points="43,-947.5 43,-982.5 237,-982.5 237,-947.5 43,-947.5"/>
+<polygon fill="none" stroke="#000000" points="43,-947.5 43,-982.5 237,-982.5 237,-947.5 43,-947.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="43,-917.5 43,-947.5 237,-947.5 237,-917.5 43,-917.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-887.5 43,-917.5 237,-917.5 237,-887.5 43,-887.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-857.5 43,-887.5 237,-887.5 237,-857.5 43,-857.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-827.5 43,-857.5 237,-857.5 237,-827.5 43,-827.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-797.5 43,-827.5 237,-827.5 237,-797.5 43,-797.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-767.5 43,-797.5 237,-797.5 237,-767.5 43,-767.5"/>
+
+
+</g>
+
+<g id="edge1" class="edge">
+<title>comments:post_id&#45;&gt;posts:id</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M247.3245,-901.7966C312.1708,-892.3658 274.3798,-790.2413 237,-725 214.7182,-686.1103 172.2818,-712.8897 150,-674 128.6786,-636.7864 107.1111,-577.5 150,-577.5"/>
+<polygon fill="#000000" stroke="#000000" points="246.9769,-901.8202 236.6941,-898.0104 241.9884,-902.1601 237,-902.5 237,-902.5 237,-902.5 241.9884,-902.1601 237.3059,-906.9896 246.9769,-901.8202 246.9769,-901.8202"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>logs</title>
+<polygon fill="#efefef" stroke="transparent" points="341,-962.5 341,-997.5 507,-997.5 507,-962.5 341,-962.5"/>
+<polygon fill="none" stroke="#000000" points="341,-962.5 341,-997.5 507,-997.5 507,-962.5 341,-962.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="341,-932.5 341,-962.5 507,-962.5 507,-932.5 341,-932.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="341,-902.5 341,-932.5 507,-932.5 507,-902.5 341,-902.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="341,-872.5 341,-902.5 507,-902.5 507,-872.5 341,-872.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="341,-842.5 341,-872.5 507,-872.5 507,-842.5 341,-842.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="341,-812.5 341,-842.5 507,-842.5 507,-812.5 341,-812.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="341,-782.5 341,-812.5 507,-812.5 507,-782.5 341,-782.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="341,-752.5 341,-782.5 507,-782.5 507,-752.5 341,-752.5"/>
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>logs:post_id&#45;&gt;posts:id</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M330.6613,-886.7881C265.6276,-877.2458 301.4698,-773.9613 341,-710 359.8091,-679.5662 394.1909,-704.4338 413,-674 435.548,-637.5165 455.8889,-577.5 413,-577.5"/>
+<polygon fill="#000000" stroke="#000000" points="331.0236,-886.813 340.6908,-891.9894 336.0118,-887.1565 341,-887.5 341,-887.5 341,-887.5 336.0118,-887.1565 341.3092,-883.0106 331.0236,-886.813 331.0236,-886.813"/>
+
+</g>
+</g>
+</svg>

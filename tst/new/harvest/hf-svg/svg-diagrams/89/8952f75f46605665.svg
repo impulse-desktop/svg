@@ -1,0 +1,136 @@
+<svg width="724pt" height="284pt"
+ viewBox="0.00 0.00 724.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 720,-280 720,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="124,-10 124,-30 144,-30 144,-10 124,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="237,-10 237,-30 257,-30 257,-10 237,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="323,-10 323,-30 343,-30 343,-10 323,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="420,-10 420,-30 440,-30 440,-10 420,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="516,-10 516,-30 536,-30 536,-10 516,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_MenuModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 708,-268 708,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_MenuModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="224,-78 224,-130 700,-130 700,-78 224,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_MenuModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 216,-130 216,-78 16,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_MenuModule_exports</title>
+<polygon fill="none" stroke="#000000" points="46,-208 46,-260 532,-260 532,-208 46,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>MenuComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="691.9916,-122 578.0084,-122 578.0084,-86 691.9916,-86 691.9916,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>MenuModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="355.2092,-187 352.2092,-191 331.2092,-191 328.2092,-187 262.7908,-187 262.7908,-151 355.2092,-151 355.2092,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>MenuComponent&#45;&gt;MenuModule</title>
+<path fill="none" stroke="#000000" d="M635,-122.1061C635,-141.3391 635,-169 635,-169 635,-169 365.3616,-169 365.3616,-169"/>
+<polygon fill="#000000" stroke="#000000" points="365.3617,-165.5001 355.3616,-169 365.3616,-172.5001 365.3617,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>MenuContainerDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="559.9496,-122 404.0504,-122 404.0504,-86 559.9496,-86 559.9496,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>MenuContainerDirective&#45;&gt;MenuModule</title>
+<path fill="none" stroke="#000000" d="M445.4181,-122.027C445.4181,-138.3976 445.4181,-160 445.4181,-160 445.4181,-160 365.1849,-160 365.1849,-160"/>
+<polygon fill="#000000" stroke="#000000" points="365.185,-156.5001 355.1849,-160 365.1849,-163.5001 365.185,-156.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>MenuSubmenuDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="385.6302,-122 232.3698,-122 232.3698,-86 385.6302,-86 385.6302,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MenuSubmenuDirective&#45;&gt;MenuModule</title>
+<path fill="none" stroke="#000000" d="M309,-122.1061C309,-122.1061 309,-140.991 309,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="305.5001,-140.9909 309,-150.991 312.5001,-140.991 305.5001,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>MenuComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="523.9926,-252 406.0074,-252 406.0074,-216 523.9926,-216 523.9926,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MenuModule&#45;&gt;MenuComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M355.1321,-178C407.154,-178 484.5819,-178 484.5819,-178 484.5819,-178 484.5819,-205.973 484.5819,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="481.082,-205.973 484.5819,-215.973 488.082,-205.973 481.082,-205.973"/>
+</g>
+
+<g id="node8" class="node">
+<title>MenuContainerDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="388.9502,-252 229.0498,-252 229.0498,-216 388.9502,-216 388.9502,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MenuModule&#45;&gt;MenuContainerDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M309,-187.1061C309,-187.1061 309,-205.991 309,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="305.5001,-205.9909 309,-215.991 312.5001,-205.991 305.5001,-205.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>MenuSubmenuDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="211.6299,-252 54.3701,-252 54.3701,-216 211.6299,-216 211.6299,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>MenuModule&#45;&gt;MenuSubmenuDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M262.7225,-178C216.3899,-178 151.9271,-178 151.9271,-178 151.9271,-178 151.9271,-205.973 151.9271,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="148.4272,-205.973 151.9271,-215.973 155.4272,-205.973 148.4272,-205.973"/>
+</g>
+
+<g id="node5" class="node">
+<title>FlexModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="208.4387,-122 205.4387,-126 184.4387,-126 181.4387,-122 123.5613,-122 123.5613,-86 208.4387,-86 208.4387,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>FlexModule&#45;&gt;MenuModule</title>
+<path fill="none" stroke="#000000" d="M180.0729,-122.027C180.0729,-138.3976 180.0729,-160 180.0729,-160 180.0729,-160 252.8185,-160 252.8185,-160"/>
+<polygon fill="#000000" stroke="#000000" points="252.8186,-163.5001 262.8185,-160 252.8185,-156.5001 252.8186,-163.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>ListModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="105.8289,-122 102.8289,-126 81.8289,-126 78.8289,-122 24.1711,-122 24.1711,-86 105.8289,-86 105.8289,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ListModule&#45;&gt;MenuModule</title>
+<path fill="none" stroke="#000000" d="M80.0496,-122.1061C80.0496,-141.3391 80.0496,-169 80.0496,-169 80.0496,-169 252.6685,-169 252.6685,-169"/>
+<polygon fill="#000000" stroke="#000000" points="252.6685,-172.5001 262.6685,-169 252.6684,-165.5001 252.6685,-172.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,136 @@
+<svg width="1193pt" height="284pt"
+ viewBox="0.00 0.00 1193.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1189,-280 1189,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="358.5,-10 358.5,-30 378.5,-30 378.5,-10 358.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="471.5,-10 471.5,-30 491.5,-30 491.5,-10 471.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="557.5,-10 557.5,-30 577.5,-30 577.5,-10 557.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="654.5,-10 654.5,-30 674.5,-30 674.5,-10 654.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="750.5,-10 750.5,-30 770.5,-30 770.5,-10 750.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_FormAccountModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1177,-268 1177,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_FormAccountModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="993,-78 993,-130 1169,-130 1169,-78 993,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_FormAccountModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 985,-130 985,-78 16,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_FormAccountModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="451,-208 451,-260 629,-260 629,-208 451,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>FormAccountComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1160.5926,-122 1001.4074,-122 1001.4074,-86 1160.5926,-86 1160.5926,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>FormAccountModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="608.8104,-187 605.8104,-191 584.8104,-191 581.8104,-187 471.1896,-187 471.1896,-151 608.8104,-151 608.8104,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>FormAccountComponent&#45;&gt;FormAccountModule</title>
+<path fill="none" stroke="#000000" d="M1081,-122.2921C1081,-144.2057 1081,-178 1081,-178 1081,-178 618.7926,-178 618.7926,-178"/>
+<polygon fill="#000000" stroke="#000000" points="618.7926,-174.5001 608.7926,-178 618.7925,-181.5001 618.7926,-174.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>FormAccountComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="621.0931,-252 458.9069,-252 458.9069,-216 621.0931,-216 621.0931,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>FormAccountModule&#45;&gt;FormAccountComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M540,-187.1061C540,-187.1061 540,-205.991 540,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="536.5001,-205.9909 540,-215.991 543.5001,-205.991 536.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>FormAccountRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="977.4283,-122 974.4283,-126 953.4283,-126 950.4283,-122 794.5717,-122 794.5717,-86 977.4283,-86 977.4283,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FormAccountRoutingModule&#45;&gt;FormAccountModule</title>
+<path fill="none" stroke="#000000" d="M886,-122.1061C886,-141.3391 886,-169 886,-169 886,-169 618.7721,-169 618.7721,-169"/>
+<polygon fill="#000000" stroke="#000000" points="618.7722,-165.5001 608.7721,-169 618.7721,-172.5001 618.7722,-165.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>MaterialDesignModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="776.1275,-122 773.1275,-126 752.1275,-126 749.1275,-122 629.8725,-122 629.8725,-86 776.1275,-86 776.1275,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MaterialDesignModule&#45;&gt;FormAccountModule</title>
+<path fill="none" stroke="#000000" d="M703,-122.027C703,-138.3976 703,-160 703,-160 703,-160 619.1267,-160 619.1267,-160"/>
+<polygon fill="#000000" stroke="#000000" points="619.1267,-156.5001 609.1267,-160 619.1266,-163.5001 619.1267,-156.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>ReactiveFormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="612.3047,-122 609.3047,-126 588.3047,-126 585.3047,-122 467.6953,-122 467.6953,-86 612.3047,-86 612.3047,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ReactiveFormsModule&#45;&gt;FormAccountModule</title>
+<path fill="none" stroke="#000000" d="M540,-122.1061C540,-122.1061 540,-140.991 540,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="536.5001,-140.9909 540,-150.991 543.5001,-140.991 536.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="449.6681,-122 446.6681,-126 425.6681,-126 422.6681,-122 338.3319,-122 338.3319,-86 449.6681,-86 449.6681,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CommonModule&#45;&gt;FormAccountModule</title>
+<path fill="none" stroke="#000000" d="M394,-122.027C394,-138.3976 394,-160 394,-160 394,-160 461.2752,-160 461.2752,-160"/>
+<polygon fill="#000000" stroke="#000000" points="461.2752,-163.5001 471.2752,-160 461.2751,-156.5001 461.2752,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>MatSelectModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="320.3076,-122 317.3076,-126 296.3076,-126 293.3076,-122 203.6924,-122 203.6924,-86 320.3076,-86 320.3076,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MatSelectModule&#45;&gt;FormAccountModule</title>
+<path fill="none" stroke="#000000" d="M262,-122.1061C262,-141.3391 262,-169 262,-169 262,-169 461.2809,-169 461.2809,-169"/>
+<polygon fill="#000000" stroke="#000000" points="461.2809,-172.5001 471.2809,-169 461.2808,-165.5001 461.2809,-172.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>MatAutocompleteModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="185.9129,-122 182.9129,-126 161.9129,-126 158.9129,-122 24.0871,-122 24.0871,-86 185.9129,-86 185.9129,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MatAutocompleteModule&#45;&gt;FormAccountModule</title>
+<path fill="none" stroke="#000000" d="M105,-122.2921C105,-144.2057 105,-178 105,-178 105,-178 461.073,-178 461.073,-178"/>
+<polygon fill="#000000" stroke="#000000" points="461.073,-181.5001 471.073,-178 461.0729,-174.5001 461.073,-181.5001"/>
+</g>
+</g>
+</svg>

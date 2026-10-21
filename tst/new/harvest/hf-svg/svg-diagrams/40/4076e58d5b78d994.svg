@@ -1,0 +1,178 @@
+<svg width="520pt" height="294pt"
+ viewBox="0.00 0.00 520.00 294.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 290)">
+<title>coap_send_confirmed</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-290 516,-290 516,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node812</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-114.5 0,-133.5 112,-133.5 112,-114.5 0,-114.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node813</title>
+<g id="a_node2"><a xlink:href="net_8c.html#a45d9cf1d576566b0a5ffd9e2e1c6b7fa" target="_top" xlink:title="Creates a new node suitable for adding to the CoAP sendqueue. ">
+<polygon fill="white" stroke="black" points="151,-190.5 151,-209.5 238,-209.5 238,-190.5 151,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node812&#45;&gt;Node813</title>
+<path fill="none" stroke="midnightblue" d="M70.7653,-133.623C88.2334,-145.598 119.523,-166.262 148,-181 151.576,-182.85 155.373,-184.662 159.19,-186.387"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="158.037,-189.702 168.604,-190.469 160.821,-183.28 158.037,-189.702"/>
+</g>
+
+<g id="node5" class="node"><title>Node816</title>
+<g id="a_node5"><a xlink:href="net_8c.html#aab05153e264360d06218abc2742f699a" target="_top" xlink:title="coap_send_impl">
+<polygon fill="white" stroke="black" points="151,-228.5 151,-247.5 238,-247.5 238,-228.5 151,-228.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node812&#45;&gt;Node816</title>
+<path fill="none" stroke="midnightblue" d="M63.998,-133.607C78.0426,-152.303 111.462,-193.937 148,-219 150.682,-220.84 153.571,-222.552 156.546,-224.135"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="155.077,-227.312 165.606,-228.488 158.108,-221.002 155.077,-227.312"/>
+</g>
+
+<g id="node8" class="node"><title>Node819</title>
+<g id="a_node8"><a xlink:href="net_8c.html#af126b3b1cc4dc6472de3cc7636193859" target="_top" xlink:title="coap_free_node">
+<polygon fill="white" stroke="black" points="151.5,-152.5 151.5,-171.5 237.5,-171.5 237.5,-152.5 151.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node812&#45;&gt;Node819</title>
+<path fill="none" stroke="midnightblue" d="M91.4447,-133.589C108.985,-138.472 130.51,-144.464 149.263,-149.685"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="148.494,-153.104 159.066,-152.414 150.371,-146.36 148.494,-153.104"/>
+</g>
+
+<g id="node10" class="node"><title>Node821</title>
+<g id="a_node10"><a xlink:href="net_8c.html#a9fe882a2640c4ea34d3ac88371996972" target="_top" xlink:title="Calculates the initial timeout based on the global CoAP transmission parameters ACK_TIMEOUT, ACK_RANDOM_FACTOR, and COAP_TICKS_PER_SECOND. ">
+<polygon fill="white" stroke="black" points="158.5,-114.5 158.5,-133.5 230.5,-133.5 230.5,-114.5 158.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node812&#45;&gt;Node821</title>
+<path fill="none" stroke="midnightblue" d="M112.126,-124C124.023,-124 136.472,-124 147.954,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="148.183,-127.5 158.183,-124 148.183,-120.5 148.183,-127.5"/>
+</g>
+
+<g id="node11" class="node"><title>Node822</title>
+<g id="a_node11"><a xlink:href="group__clock.html#ga350826988e63ff446a2a84034ecdf43d" target="_top" xlink:title="Sets t to the internal time with COAP_TICKS_PER_SECOND resolution. ">
+<polygon fill="white" stroke="black" points="162.5,-76.5 162.5,-95.5 226.5,-95.5 226.5,-76.5 162.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Node812&#45;&gt;Node822</title>
+<path fill="none" stroke="midnightblue" d="M91.4447,-114.411C110.007,-109.243 133.033,-102.833 152.513,-97.4104"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="153.639,-100.73 162.334,-94.6763 151.762,-93.9865 153.639,-100.73"/>
+</g>
+
+<g id="node12" class="node"><title>Node823</title>
+<g id="a_node12"><a xlink:href="net_8c.html#a80d2c3b0141e98bf3f7914e7e59b9530" target="_top" xlink:title="Adds node to given queue, ordered by node&#45;&gt;t. ">
+<polygon fill="white" stroke="black" points="148,-38.5 148,-57.5 241,-57.5 241,-38.5 148,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge"><title>Node812&#45;&gt;Node823</title>
+<path fill="none" stroke="midnightblue" d="M70.7653,-114.377C88.2334,-102.402 119.523,-81.7377 148,-67 151.576,-65.1495 155.373,-63.3377 159.19,-61.6127"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="160.821,-64.7204 168.604,-57.5315 158.037,-58.2979 160.821,-64.7204"/>
+</g>
+
+<g id="node13" class="node"><title>Node824</title>
+<g id="a_node13"><a xlink:href="net_8c.html#a037d8de79abc81464f8c75b0aa89931b" target="_top" xlink:title="Returns the next pdu to send without removing from sendqeue. ">
+<polygon fill="white" stroke="black" points="150.5,-0.5 150.5,-19.5 238.5,-19.5 238.5,-0.5 150.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge14" class="edge"><title>Node812&#45;&gt;Node824</title>
+<path fill="none" stroke="midnightblue" d="M63.998,-114.393C78.0426,-95.6965 111.462,-54.0631 148,-29 150.682,-27.1599 153.571,-25.4475 156.546,-23.8653"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="158.108,-26.9976 165.606,-19.5124 155.077,-20.688 158.108,-26.9976"/>
+</g>
+
+<g id="node3" class="node"><title>Node814</title>
+<g id="a_node3"><a xlink:href="net_8c.html#af79743c319ebdd944ce16395385e9896" target="_top" xlink:title="coap_malloc_node">
+<polygon fill="white" stroke="black" points="280,-190.5 280,-209.5 378,-209.5 378,-190.5 280,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node813&#45;&gt;Node814</title>
+<path fill="none" stroke="midnightblue" d="M238.153,-200C248.243,-200 259.173,-200 269.821,-200"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="269.907,-203.5 279.907,-200 269.907,-196.5 269.907,-203.5"/>
+</g>
+
+<g id="node4" class="node"><title>Node815</title>
+<g id="a_node4"><a xlink:href="mem_8h.html#a0204710ce56cbaa4f062b7f2622857f5" target="_top" xlink:title="Allocates a chunk of size bytes and returns a pointer to the newly allocated memory. ">
+<polygon fill="white" stroke="black" points="417,-152.5 417,-171.5 512,-171.5 512,-152.5 417,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node814&#45;&gt;Node815</title>
+<path fill="none" stroke="midnightblue" d="M363.688,-190.411C380.763,-185.551 401.7,-179.591 419.982,-174.387"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="421.163,-177.69 429.823,-171.586 419.247,-170.957 421.163,-177.69"/>
+</g>
+
+<g id="node6" class="node"><title>Node817</title>
+<g id="a_node6"><a xlink:href="address_8c.html#a5b47d6fe47a54a0798eddb9ea77005ea" target="_top" xlink:title="Checks if given address a denotes a multicast address. ">
+<polygon fill="white" stroke="black" points="287.5,-266.5 287.5,-285.5 370.5,-285.5 370.5,-266.5 287.5,-266.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node816&#45;&gt;Node817</title>
+<path fill="none" stroke="midnightblue" d="M228.935,-247.589C245.883,-252.449 266.663,-258.409 284.808,-263.613"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="283.998,-267.022 294.575,-266.414 285.928,-260.293 283.998,-267.022"/>
+</g>
+
+<g id="node7" class="node"><title>Node818</title>
+<g id="a_node7"><a xlink:href="net_8c.html#aab5ca063fd19725ae1ddd8d7c9623f05" target="_top" xlink:title="Calculates a unique transaction id from given arguments peer and pdu. ">
+<polygon fill="white" stroke="black" points="277,-228.5 277,-247.5 381,-247.5 381,-228.5 277,-228.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node816&#45;&gt;Node818</title>
+<path fill="none" stroke="midnightblue" d="M238.153,-238C247.153,-238 256.822,-238 266.362,-238"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="266.627,-241.5 276.627,-238 266.627,-234.5 266.627,-241.5"/>
+</g>
+
+<g id="edge9" class="edge"><title>Node819&#45;&gt;Node814</title>
+<path fill="none" stroke="midnightblue" d="M228.935,-171.589C245.883,-176.449 266.663,-182.409 284.808,-187.613"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="283.998,-191.022 294.575,-190.414 285.928,-184.293 283.998,-191.022"/>
+</g>
+
+<g id="edge10" class="edge"><title>Node819&#45;&gt;Node815</title>
+<path fill="none" stroke="midnightblue" d="M228.506,-152.493C243.214,-148.729 260.834,-144.859 277,-143 322.919,-137.718 335.073,-137.78 381,-143 393.906,-144.467 407.733,-147.185 420.307,-150.116"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="419.538,-153.531 430.082,-152.493 421.192,-146.729 419.538,-153.531"/>
+</g>
+
+<g id="node9" class="node"><title>Node820</title>
+<g id="a_node9"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type(). ">
+<polygon fill="white" stroke="black" points="287.5,-152.5 287.5,-171.5 370.5,-171.5 370.5,-152.5 287.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node819&#45;&gt;Node820</title>
+<path fill="none" stroke="midnightblue" d="M237.788,-162C250.338,-162 264.213,-162 277.242,-162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="277.468,-165.5 287.468,-162 277.468,-158.5 277.468,-165.5"/>
+</g>
+</g>
+</svg>

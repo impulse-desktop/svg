@@ -1,0 +1,104 @@
+<svg width="620pt" height="284pt"
+ viewBox="0.00 0.00 620.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 616,-280 616,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="72,-10 72,-30 92,-30 92,-10 72,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="185,-10 185,-30 205,-30 205,-10 185,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="271,-10 271,-30 291,-30 291,-10 271,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="368,-10 368,-30 388,-30 388,-10 368,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="464,-10 464,-30 484,-30 484,-10 464,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_OrderlistModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 604,-268 604,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_OrderlistModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="448,-78 448,-130 596,-130 596,-78 448,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_OrderlistModule_imports</title>
+<polygon fill="none" stroke="#000000" points="196,-78 196,-130 440,-130 440,-78 196,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_OrderlistModule_exports</title>
+<polygon fill="none" stroke="#000000" points="239,-208 239,-260 389,-260 389,-208 239,-208"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_OrderlistModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 188,-130 188,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>OrderlistComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="587.5912,-122 456.4088,-122 456.4088,-86 587.5912,-86 587.5912,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>OrderlistModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="368.809,-187 365.809,-191 344.809,-191 341.809,-187 259.191,-187 259.191,-151 368.809,-151 368.809,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>OrderlistComponent&#45;&gt;OrderlistModule</title>
+<path fill="none" stroke="#000000" d="M522,-122.1061C522,-141.3391 522,-169 522,-169 522,-169 378.9216,-169 378.9216,-169"/>
+<polygon fill="#000000" stroke="#000000" points="378.9217,-165.5001 368.9216,-169 378.9216,-172.5001 378.9217,-165.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>OrderlistComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="381.0918,-252 246.9082,-252 246.9082,-216 381.0918,-216 381.0918,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>OrderlistModule&#45;&gt;OrderlistComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M314,-187.1061C314,-187.1061 314,-205.991 314,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="310.5001,-205.9909 314,-215.991 317.5001,-205.991 310.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="431.6681,-122 428.6681,-126 407.6681,-126 404.6681,-122 320.3319,-122 320.3319,-86 431.6681,-86 431.6681,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CommonModule&#45;&gt;OrderlistModule</title>
+<path fill="none" stroke="#000000" d="M344.4103,-122.1061C344.4103,-122.1061 344.4103,-140.991 344.4103,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="340.9103,-140.9909 344.4103,-150.991 347.9103,-140.991 340.9103,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>ButtonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="301.6682,-122 298.6682,-126 277.6682,-126 274.6682,-122 204.3318,-122 204.3318,-86 301.6682,-86 301.6682,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ButtonModule&#45;&gt;OrderlistModule</title>
+<path fill="none" stroke="#000000" d="M280.5898,-122.1061C280.5898,-122.1061 280.5898,-140.991 280.5898,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="277.0898,-140.9909 280.5898,-150.991 284.0898,-140.991 277.0898,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>CommonHandler</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="102" cy="-104" rx="78.1733" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CommonHandler&#45;&gt;OrderlistModule</title>
+<path fill="none" stroke="#000000" d="M102,-122.1061C102,-141.3391 102,-169 102,-169 102,-169 249.129,-169 249.129,-169"/>
+<polygon fill="#000000" stroke="#000000" points="249.1291,-172.5001 259.129,-169 249.129,-165.5001 249.1291,-172.5001"/>
+</g>
+</g>
+</svg>

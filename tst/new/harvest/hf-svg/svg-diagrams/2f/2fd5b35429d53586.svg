@@ -1,0 +1,42 @@
+<svg width="439px" height="31px" viewBox="0 0 439 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>smallFlag3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="7.6914 14.91455 14.8924 7.71455 14.8924 1.16455 1.1409 14.91455 14.8924 28.66455 14.8924 22.11455"></polygon>
+        <filter x="-25.5%" y="-9.1%" width="150.9%" height="125.5%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-3" points="19 29.5 419 29.5 419 2 19 2"></polygon>
+        <filter x="-0.9%" y="-9.1%" width="101.8%" height="125.5%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-5" points="430.2005 15.25 423 22.45 423 29 436.751 15.25 423 1.5 423 8.05"></polygon>
+        <filter x="-25.5%" y="-9.1%" width="150.9%" height="125.5%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="smallFlag3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Fill-2">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#C8161E" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <path d="M14.6802,2.1123 L14.6802,27.4148" id="Stroke-3" stroke="#C8161E" stroke-width="0.5"></path>
+        <g id="Fill-5">
+            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+            <use fill="#C8161E" fill-rule="evenodd" xlink:href="#path-3"></use>
+        </g>
+        <g id="Fill-7">
+            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+            <use fill="#C8161E" fill-rule="evenodd" xlink:href="#path-5"></use>
+        </g>
+        <path d="M423.105,27.7168 L423.105,2.4148" id="Stroke-8" stroke="#C8161E" stroke-width="0.5"></path>
+        
+    </g>
+</svg>

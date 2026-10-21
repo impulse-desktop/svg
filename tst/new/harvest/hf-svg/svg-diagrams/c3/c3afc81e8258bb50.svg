@@ -1,0 +1,92 @@
+<svg width="626pt" height="284pt"
+ viewBox="0.00 0.00 626.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 622,-280 622,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="75,-10 75,-30 95,-30 95,-10 75,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="188,-10 188,-30 208,-30 208,-10 188,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="274,-10 274,-30 294,-30 294,-10 274,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="371,-10 371,-30 391,-30 391,-10 371,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="467,-10 467,-30 487,-30 487,-10 467,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaMonacoEditorModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 610,-268 610,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaMonacoEditorModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="398,-78 398,-130 602,-130 602,-78 398,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_DejaMonacoEditorModule_imports</title>
+<polygon fill="none" stroke="#000000" points="232,-78 232,-130 390,-130 390,-78 232,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_DejaMonacoEditorModule_exports</title>
+<polygon fill="none" stroke="#000000" points="207,-208 207,-260 415,-260 415,-208 207,-208"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DejaMonacoEditorModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 224,-130 224,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaMonacoEditorComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="594.1274,-122 405.8726,-122 405.8726,-86 594.1274,-86 594.1274,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>DejaMonacoEditorModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="394.3445,-187 391.3445,-191 370.3445,-191 367.3445,-187 227.6555,-187 227.6555,-151 394.3445,-151 394.3445,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaMonacoEditorComponent&#45;&gt;DejaMonacoEditorModule</title>
+<path fill="none" stroke="#000000" d="M405.8329,-104C395.3698,-104 388.3945,-104 388.3945,-104 388.3945,-104 388.3945,-140.8939 388.3945,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="384.8946,-140.8938 388.3945,-150.8939 391.8946,-140.8939 384.8946,-140.8938"/>
+</g>
+
+<g id="node4" class="node">
+<title>DejaMonacoEditorComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="407.127,-252 214.873,-252 214.873,-216 407.127,-216 407.127,-252"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DejaMonacoEditorModule&#45;&gt;DejaMonacoEditorComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M311,-187.1061C311,-187.1061 311,-205.991 311,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="307.5001,-205.9909 311,-215.991 314.5001,-205.991 307.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>ResizeListenerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="382.2338,-122 379.2338,-126 358.2338,-126 355.2338,-122 239.7662,-122 239.7662,-86 382.2338,-86 382.2338,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ResizeListenerModule&#45;&gt;DejaMonacoEditorModule</title>
+<path fill="none" stroke="#000000" d="M311,-122.1061C311,-122.1061 311,-140.991 311,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="307.5001,-140.9909 311,-150.991 314.5001,-140.991 307.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>MonacoEditorService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="120" cy="-104" rx="95.5471" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MonacoEditorService&#45;&gt;DejaMonacoEditorModule</title>
+<path fill="none" stroke="#000000" d="M215.8546,-104C226.5052,-104 233.6055,-104 233.6055,-104 233.6055,-104 233.6055,-140.8939 233.6055,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="230.1056,-140.8938 233.6055,-150.8939 237.1056,-140.8939 230.1056,-140.8938"/>
+</g>
+</g>
+</svg>

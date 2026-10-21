@@ -1,0 +1,110 @@
+<svg width="507pt" height="127pt"
+ viewBox="0.00 0.00 507.00 126.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 122.7)">
+<title>coap_free_packet</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-122.7 503,-122.7 503,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node15</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-42.1996 0,-61.1996 94,-61.1996 94,-42.1996 0,-42.1996"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>Node15&#45;&gt;Node15</title>
+<path fill="none" stroke="midnightblue" d="M26.0385,-61.4566C15.8409,-70.2648 22.8281,-79.6996 47,-79.6996 62.4851,-79.6996 70.9176,-75.8275 72.2975,-70.7287"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="75.3681,-69.0325 67.9615,-61.4566 69.0272,-71.9977 75.3681,-69.0325"/>
+</g>
+
+<g id="node2" class="node"><title>Node16</title>
+<g id="a_node2"><a xlink:href="mem_8h.html#ac01dd5f787fced5a3f9160b4584e81c7" target="_top" xlink:title="Wrapper function to coap_free_type() for backwards compatibility. ">
+<polygon fill="white" stroke="black" points="153.5,-61.1996 153.5,-80.1996 212.5,-80.1996 212.5,-61.1996 153.5,-61.1996"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node15&#45;&gt;Node16</title>
+<path fill="none" stroke="midnightblue" d="M94.1152,-58.2383C110.108,-60.5059 127.865,-63.0237 143.208,-65.1991"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="143,-68.7046 153.392,-66.6433 143.983,-61.774 143,-68.7046"/>
+</g>
+
+<g id="node3" class="node"><title>Node17</title>
+<g id="a_node3"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type(). ">
+<polygon fill="white" stroke="black" points="278.5,-99.1996 278.5,-118.2 361.5,-118.2 361.5,-99.1996 278.5,-99.1996"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node15&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M64.3373,-61.2658C80.4569,-70.2154 106.088,-83.157 130,-89.6996 175.648,-102.189 229.51,-106.647 268.032,-108.153"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="268.36,-111.665 278.471,-108.503 268.595,-104.669 268.36,-111.665"/>
+</g>
+
+<g id="node6" class="node"><title>Node20</title>
+<g id="a_node6"><a xlink:href="mem_8h.html#a0204710ce56cbaa4f062b7f2622857f5" target="_top" xlink:title="Allocates a chunk of size bytes and returns a pointer to the newly allocated memory. ">
+<polygon fill="white" stroke="black" points="404,-4.19956 404,-23.1996 499,-23.1996 499,-4.19956 404,-4.19956"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node15&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M63.3041,-42.1311C79.2579,-32.7657 105.331,-19.1378 130,-13.6996 220.649,6.28374 329.257,0.222367 393.923,-6.42523"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="393.599,-9.91048 403.915,-7.49327 394.343,-2.95014 393.599,-9.91048"/>
+</g>
+
+<g id="node7" class="node"><title>Node21</title>
+<g id="a_node7"><a xlink:href="coap__io_8c.html#a8da44c054df9091ae3771a4a3b7043d0" target="_top" xlink:title="coap_malloc_packet">
+<polygon fill="white" stroke="black" points="130,-23.1996 130,-42.1996 236,-42.1996 236,-23.1996 130,-23.1996"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node15&#45;&gt;Node21</title>
+<path fill="none" stroke="midnightblue" d="M94.1152,-45.1608C102.386,-43.9881 111.129,-42.7485 119.765,-41.5239"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="120.411,-44.9675 129.82,-40.0982 119.428,-38.0368 120.411,-44.9675"/>
+</g>
+
+<g id="edge2" class="edge"><title>Node16&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M212.63,-78.7584C230.855,-83.8884 254.815,-90.6326 275.38,-96.4212"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="274.588,-99.8344 285.162,-99.1749 276.485,-93.0963 274.588,-99.8344"/>
+</g>
+
+<g id="node4" class="node"><title>Node18</title>
+<g id="a_node4"><a xlink:href="mem_8h.html#a65d0fc0fe6cad555b56e92ccb57613ba" target="_top" xlink:title="Initializes libcoap&#39;s memory management. ">
+<polygon fill="white" stroke="black" points="272,-61.1996 272,-80.1996 368,-80.1996 368,-61.1996 272,-61.1996"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node16&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M212.63,-70.6996C226.859,-70.6996 244.584,-70.6996 261.46,-70.6996"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="261.819,-74.1997 271.819,-70.6996 261.819,-67.1997 261.819,-74.1997"/>
+</g>
+
+<g id="node5" class="node"><title>Node19</title>
+<g id="a_node5"><a xlink:href="mem_8h.html#a09b861aa54503f57f2a9412d546cd3c8" target="_top" xlink:title="Wrapper function to coap_malloc_type() for backwards compatibility. ">
+<polygon fill="white" stroke="black" points="284.5,-23.1996 284.5,-42.1996 355.5,-42.1996 355.5,-23.1996 284.5,-23.1996"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node16&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M212.63,-62.6407C230.855,-57.5108 254.815,-50.7665 275.38,-44.9779"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="276.485,-48.3029 285.162,-42.2242 274.588,-41.5647 276.485,-48.3029"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node19&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M355.704,-27.6079C367.291,-25.9079 380.527,-23.9659 393.359,-22.0832"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="394.138,-25.5064 403.524,-20.5917 393.122,-18.5805 394.138,-25.5064"/>
+</g>
+
+<g id="edge7" class="edge"><title>Node21&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M236.195,-32.6996C248.705,-32.6996 261.956,-32.6996 274.102,-32.6996"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="274.446,-36.1997 284.446,-32.6996 274.446,-29.1997 274.446,-36.1997"/>
+</g>
+</g>
+</svg>

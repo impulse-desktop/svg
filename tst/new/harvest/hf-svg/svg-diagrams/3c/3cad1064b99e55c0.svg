@@ -1,0 +1,107 @@
+<svg width="402pt" height="126pt"
+ viewBox="0.00 0.00 402.00 126.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 122)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-122 399,-122 399,5 -4,5"/>
+
+<g id="B" class="node"><title>B</title>
+<ellipse fill="none" stroke="black" cx="243" cy="-69" rx="27" ry="18"/>
+
+</g>
+
+<g id="node8" class="node"><title>Growth_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="307" cy="-111" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge9" class="edge"><title>B&#45;&gt;Growth_intermediate_r</title>
+<path fill="none" stroke="black" d="M262.602,-81.6014C280.294,-93.5861 304.436,-109.94 305.927,-110.951"/>
+</g>
+
+<g id="node10" class="node"><title>Growth_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="394" cy="-38" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge14" class="edge"><title>B&#45;&gt;Growth_intermediate_m</title>
+<path fill="none" stroke="black" d="M268.939,-63.8113C310.693,-55.1242 390.458,-38.5288 392.941,-38.0123"/>
+</g>
+
+<g id="A" class="node"><title>A</title>
+<ellipse fill="none" stroke="black" cx="27" cy="-54" rx="27" ry="18"/>
+
+</g>
+
+<g id="node4" class="node"><title>Nucleation_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="91" cy="-70" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge2" class="edge"><title>A&#45;&gt;Nucleation_intermediate_r</title>
+<path fill="none" stroke="black" d="M52.504,-60.3236C69.2925,-64.6561 88.7424,-69.6755 89.9416,-69.9849"/>
+</g>
+
+<g id="node6" class="node"><title>Nucleation_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="179" cy="-45" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge6" class="edge"><title>A&#45;&gt;Nucleation_intermediate_m</title>
+<path fill="none" stroke="black" d="M54.128,-52.4323C96.4325,-49.894 175.481,-45.1511 177.941,-45.0035"/>
+</g>
+
+<g id="edge8" class="edge"><title>A&#45;&gt;Growth_intermediate_r</title>
+<path fill="none" stroke="black" d="M42.6187,-69.0787C61.7734,-87.1425 97.2679,-115 134,-115 134,-115 134,-115 180,-115 235.153,-115 303.817,-111.124 305.949,-111.003"/>
+</g>
+
+<g id="edge13" class="edge"><title>A&#45;&gt;Growth_intermediate_m</title>
+<path fill="none" stroke="black" d="M43.9632,-39.8121C63.6664,-23.8129 98.8896,-0 134,-0 134,-0 134,-0 308,-0 348.088,-0 390.276,-35.6621 392.874,-37.891"/>
+</g>
+
+<g id="node3" class="node"><title>Nucleation</title>
+<polygon fill="none" stroke="black" points="142,-80 128,-80 128,-66 142,-66 142,-80"/>
+</g>
+
+<g id="node5" class="node"><title>Nucleation_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="179" cy="-71" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge3" class="edge"><title>Nucleation&#45;&gt;Nucleation_intermediate_p</title>
+<path fill="none" stroke="black" d="M142.197,-72.7049C153.515,-72.1659 176.505,-71.0712 177.93,-71.0033"/>
+</g>
+
+<g id="edge5" class="edge"><title>Nucleation&#45;&gt;Nucleation_intermediate_m</title>
+<path fill="none" stroke="black" d="M142.197,-68.8685C153.515,-61.3232 176.505,-45.9969 177.93,-45.0464"/>
+</g>
+
+<g id="edge1" class="edge"><title>Nucleation_intermediate_r&#45;&gt;Nucleation</title>
+<path fill="none" stroke="black" d="M92.1205,-70.0086C93.9681,-70.1406 116.602,-71.7573 127.803,-72.5573"/>
+</g>
+
+<g id="edge4" class="edge"><title>Nucleation_intermediate_p&#45;&gt;B</title>
+<path fill="none" stroke="black" d="M180.045,-70.9986C180.863,-70.9722 192.734,-70.5892 205.87,-70.1655"/>
+<polygon fill="black" stroke="black" points="206.116,-73.6595 215.998,-69.8388 205.891,-66.6631 206.116,-73.6595"/>
+</g>
+
+<g id="node7" class="node"><title>Growth</title>
+<polygon fill="none" stroke="black" points="358,-118 344,-118 344,-104 358,-104 358,-118"/>
+</g>
+
+<g id="node9" class="node"><title>Growth_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="394" cy="-93" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge10" class="edge"><title>Growth&#45;&gt;Growth_intermediate_p</title>
+<path fill="none" stroke="black" d="M358.05,-108.344C369.098,-103.494 391.54,-93.6409 392.932,-93.0298"/>
+</g>
+
+<g id="edge12" class="edge"><title>Growth&#45;&gt;Growth_intermediate_m</title>
+<path fill="none" stroke="black" d="M356.081,-103.734C366.128,-85.8461 391.357,-40.9262 392.924,-38.1362"/>
+</g>
+
+<g id="edge7" class="edge"><title>Growth_intermediate_r&#45;&gt;Growth</title>
+<path fill="none" stroke="black" d="M308.12,-111C309.968,-111 332.602,-111 343.803,-111"/>
+</g>
+
+<g id="edge11" class="edge"><title>Growth_intermediate_p&#45;&gt;B</title>
+<path fill="none" stroke="black" d="M392.941,-92.9905C390.667,-92.6242 322.845,-81.6999 279.516,-74.7207"/>
+<polygon fill="black" stroke="black" points="280.043,-71.2606 269.614,-73.1257 278.93,-78.1715 280.043,-71.2606"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,124 @@
+<svg width="938pt" height="284pt"
+ viewBox="0.00 0.00 938.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 934,-280 934,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="231,-10 231,-30 251,-30 251,-10 231,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="344,-10 344,-30 364,-30 364,-10 344,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="430,-10 430,-30 450,-30 450,-10 430,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="527,-10 527,-30 547,-30 547,-10 527,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="623,-10 623,-30 643,-30 643,-10 623,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_EmployeeModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 922,-268 922,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_EmployeeModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="318,-78 318,-130 914,-130 914,-78 318,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_EmployeeModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 310,-130 310,-78 16,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_EmployeeModule_exports</title>
+<polygon fill="none" stroke="#000000" points="392,-208 392,-260 572,-260 572,-208 392,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>EmployeeEditPage</title>
+<polygon fill="#ffffb3" stroke="#000000" points="905.809,-122 782.191,-122 782.191,-86 905.809,-86 905.809,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>EmployeeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="540.3132,-187 537.3132,-191 516.3132,-191 513.3132,-187 423.6868,-187 423.6868,-151 540.3132,-151 540.3132,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>EmployeeEditPage&#45;&gt;EmployeeModule</title>
+<path fill="none" stroke="#000000" d="M844,-122.2843C844,-143.3211 844,-175 844,-175 844,-175 550.1616,-175 550.1616,-175"/>
+<polygon fill="#000000" stroke="#000000" points="550.1616,-171.5001 540.1616,-175 550.1615,-178.5001 550.1616,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>EmployeeListPage</title>
+<polygon fill="#ffffb3" stroke="#000000" points="763.7534,-122 642.2466,-122 642.2466,-86 763.7534,-86 763.7534,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>EmployeeListPage&#45;&gt;EmployeeModule</title>
+<path fill="none" stroke="#000000" d="M703,-122.0225C703,-139.3734 703,-163 703,-163 703,-163 550.3542,-163 550.3542,-163"/>
+<polygon fill="#000000" stroke="#000000" points="550.3543,-159.5001 540.3542,-163 550.3542,-166.5001 550.3543,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>EmployeeNewPage</title>
+<polygon fill="#ffffb3" stroke="#000000" points="624.4032,-122 497.5968,-122 497.5968,-86 624.4032,-86 624.4032,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>EmployeeNewPage&#45;&gt;EmployeeModule</title>
+<path fill="none" stroke="#000000" d="M518.9776,-122.1061C518.9776,-122.1061 518.9776,-140.991 518.9776,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="515.4776,-140.9909 518.9776,-150.991 522.4776,-140.991 515.4776,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>ModalDeleteComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="480.4144,-122 325.5856,-122 325.5856,-86 480.4144,-86 480.4144,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ModalDeleteComponent&#45;&gt;EmployeeModule</title>
+<path fill="none" stroke="#000000" d="M452.0253,-122.1061C452.0253,-122.1061 452.0253,-140.991 452.0253,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="448.5253,-140.9909 452.0253,-150.991 455.5253,-140.991 448.5253,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>EmployeeRoutingModule </title>
+<polygon fill="#fb8072" stroke="#000000" points="564.4306,-252 399.5694,-252 399.5694,-216 564.4306,-216 564.4306,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>EmployeeModule&#45;&gt;EmployeeRoutingModule </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M482,-187.1061C482,-187.1061 482,-205.991 482,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="478.5001,-205.9909 482,-215.991 485.5001,-205.991 478.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>EmployeeRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="301.9312,-122 298.9312,-126 277.9312,-126 274.9312,-122 140.0688,-122 140.0688,-86 301.9312,-86 301.9312,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>EmployeeRoutingModule&#45;&gt;EmployeeModule</title>
+<path fill="none" stroke="#000000" d="M221,-122.0225C221,-139.3734 221,-163 221,-163 221,-163 413.7514,-163 413.7514,-163"/>
+<polygon fill="#000000" stroke="#000000" points="413.7514,-166.5001 423.7514,-163 413.7513,-159.5001 413.7514,-166.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;EmployeeModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.2843C73,-143.3211 73,-175 73,-175 73,-175 413.8346,-175 413.8346,-175"/>
+<polygon fill="#000000" stroke="#000000" points="413.8347,-178.5001 423.8346,-175 413.8346,-171.5001 413.8347,-178.5001"/>
+</g>
+</g>
+</svg>

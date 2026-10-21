@@ -1,0 +1,204 @@
+<svg width="1156pt" height="284pt"
+ viewBox="0.00 0.00 1156.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-280 1152,-280 1152,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="340,-10 340,-30 360,-30 360,-10 340,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="453,-10 453,-30 473,-30 473,-10 453,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="539,-10 539,-30 559,-30 559,-10 539,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="636,-10 636,-30 656,-30 656,-10 636,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="732,-10 732,-30 752,-30 752,-10 732,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SerUiModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 1140,-268 1140,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SerUiModule_declarations</title>
+<polygon fill="none" stroke="black" points="28,-78 28,-130 1120,-130 1120,-78 28,-78"/>
+</g>
+<g id="clust11" class="cluster">
+<title>cluster_SerUiModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-208 16,-260 1132,-260 1132,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>AddressColComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1111.93,-122 964.07,-122 964.07,-86 1111.93,-86 1111.93,-122"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>SerUiModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="615.21,-187 612.21,-191 591.21,-191 588.21,-187 522.79,-187 522.79,-151 615.21,-151 615.21,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AddressColComponent&#45;&gt;SerUiModule</title>
+<path fill="none" stroke="black" d="M968.91,-122.22C968.91,-140.83 968.91,-167 968.91,-167 968.91,-167 625.27,-167 625.27,-167"/>
+<polygon fill="black" stroke="black" points="625.27,-163.5 615.27,-167 625.27,-170.5 625.27,-163.5"/>
+</g>
+
+<g id="node2" class="node">
+<title>GrowOnInputDirective</title>
+<polygon fill="#ffffb3" stroke="black" points="946.11,-122 799.89,-122 799.89,-86 946.11,-86 946.11,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>GrowOnInputDirective&#45;&gt;SerUiModule</title>
+<path fill="none" stroke="black" d="M899.19,-122.03C899.19,-139.06 899.19,-162 899.19,-162 899.19,-162 625.26,-162 625.26,-162"/>
+<polygon fill="black" stroke="black" points="625.26,-158.5 615.26,-162 625.26,-165.5 625.26,-158.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>PinInputComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="781.56,-122 652.44,-122 652.44,-86 781.56,-86 781.56,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PinInputComponent&#45;&gt;SerUiModule</title>
+<path fill="none" stroke="black" d="M739.01,-122.24C739.01,-137.57 739.01,-157 739.01,-157 739.01,-157 625.46,-157 625.46,-157"/>
+<polygon fill="black" stroke="black" points="625.46,-153.5 615.46,-157 625.46,-160.5 625.46,-153.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>SerControlDirective</title>
+<polygon fill="#ffffb3" stroke="black" points="633.52,-122 504.48,-122 504.48,-86 633.52,-86 633.52,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SerControlDirective&#45;&gt;SerUiModule</title>
+<path fill="none" stroke="black" d="M569,-122.11C569,-122.11 569,-140.99 569,-140.99"/>
+<polygon fill="black" stroke="black" points="565.5,-140.99 569,-150.99 572.5,-140.99 565.5,-140.99"/>
+</g>
+
+<g id="node5" class="node">
+<title>SerErrorDirective</title>
+<polygon fill="#ffffb3" stroke="black" points="486.28,-122 369.72,-122 369.72,-86 486.28,-86 486.28,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SerErrorDirective&#45;&gt;SerUiModule</title>
+<path fill="none" stroke="black" d="M446.55,-122.24C446.55,-137.57 446.55,-157 446.55,-157 446.55,-157 512.71,-157 512.71,-157"/>
+<polygon fill="black" stroke="black" points="512.71,-160.5 522.71,-157 512.71,-153.5 512.71,-160.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>SerErrorsDirective</title>
+<polygon fill="#ffffb3" stroke="black" points="351.72,-122 230.28,-122 230.28,-86 351.72,-86 351.72,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SerErrorsDirective&#45;&gt;SerUiModule</title>
+<path fill="none" stroke="black" d="M308.45,-122.03C308.45,-139.06 308.45,-162 308.45,-162 308.45,-162 512.72,-162 512.72,-162"/>
+<polygon fill="black" stroke="black" points="512.72,-165.5 522.72,-162 512.72,-158.5 512.72,-165.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>SerFormElementComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="212.48,-122 35.52,-122 35.52,-86 212.48,-86 212.48,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SerFormElementComponent&#45;&gt;SerUiModule</title>
+<path fill="none" stroke="black" d="M208.36,-122.22C208.36,-140.83 208.36,-167 208.36,-167 208.36,-167 512.59,-167 512.59,-167"/>
+<polygon fill="black" stroke="black" points="512.59,-170.5 522.59,-167 512.59,-163.5 512.59,-170.5"/>
+</g>
+
+<g id="node9" class="node">
+<title>AddressColComponent </title>
+<polygon fill="#fb8072" stroke="black" points="1124.43,-252 973.57,-252 973.57,-216 1124.43,-216 1124.43,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SerUiModule&#45;&gt;AddressColComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M615.28,-172C734.45,-172 1042.62,-172 1042.62,-172 1042.62,-172 1042.62,-205.73 1042.62,-205.73"/>
+<polygon fill="black" stroke="black" points="1039.13,-205.73 1042.62,-215.73 1046.13,-205.73 1039.13,-205.73"/>
+</g>
+
+<g id="node10" class="node">
+<title>GrowOnInputDirective </title>
+<polygon fill="#fb8072" stroke="black" points="955.11,-252 804.89,-252 804.89,-216 955.11,-216 955.11,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SerUiModule&#45;&gt;GrowOnInputDirective </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M615.11,-177C695.32,-177 852.06,-177 852.06,-177 852.06,-177 852.06,-205.96 852.06,-205.96"/>
+<polygon fill="black" stroke="black" points="848.56,-205.96 852.06,-215.96 855.56,-205.96 848.56,-205.96"/>
+</g>
+
+<g id="node11" class="node">
+<title>PinInputComponent </title>
+<polygon fill="#fb8072" stroke="black" points="786.56,-252 653.44,-252 653.44,-216 786.56,-216 786.56,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>SerUiModule&#45;&gt;PinInputComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M615.3,-182C651.68,-182 696.24,-182 696.24,-182 696.24,-182 696.24,-205.81 696.24,-205.81"/>
+<polygon fill="black" stroke="black" points="692.74,-205.81 696.24,-215.81 699.74,-205.81 692.74,-205.81"/>
+</g>
+
+<g id="node12" class="node">
+<title>SerControlDirective </title>
+<polygon fill="#fb8072" stroke="black" points="635.52,-252 502.48,-252 502.48,-216 635.52,-216 635.52,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>SerUiModule&#45;&gt;SerControlDirective </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M569,-187.11C569,-187.11 569,-205.99 569,-205.99"/>
+<polygon fill="black" stroke="black" points="565.5,-205.99 569,-215.99 572.5,-205.99 565.5,-205.99"/>
+</g>
+
+<g id="node13" class="node">
+<title>SerErrorDirective </title>
+<polygon fill="#fb8072" stroke="black" points="484.78,-252 365.22,-252 365.22,-216 484.78,-216 484.78,-252"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>SerUiModule&#45;&gt;SerErrorDirective </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M522.49,-182C475,-182 408.2,-182 408.2,-182 408.2,-182 408.2,-205.81 408.2,-205.81"/>
+<polygon fill="black" stroke="black" points="404.7,-205.81 408.2,-215.81 411.7,-205.81 404.7,-205.81"/>
+</g>
+
+<g id="node14" class="node">
+<title>SerErrorsDirective </title>
+<polygon fill="#fb8072" stroke="black" points="347.72,-252 222.28,-252 222.28,-216 347.72,-216 347.72,-252"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>SerUiModule&#45;&gt;SerErrorsDirective </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M522.83,-177C438.76,-177 269.3,-177 269.3,-177 269.3,-177 269.3,-205.96 269.3,-205.96"/>
+<polygon fill="black" stroke="black" points="265.8,-205.96 269.3,-215.96 272.8,-205.96 265.8,-205.96"/>
+</g>
+
+<g id="node15" class="node">
+<title>SerFormElementComponent </title>
+<polygon fill="#fb8072" stroke="black" points="204.48,-252 23.52,-252 23.52,-216 204.48,-216 204.48,-252"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>SerUiModule&#45;&gt;SerFormElementComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M522.63,-172C407.88,-172 119.88,-172 119.88,-172 119.88,-172 119.88,-205.73 119.88,-205.73"/>
+<polygon fill="black" stroke="black" points="116.38,-205.73 119.88,-215.73 123.38,-205.73 116.38,-205.73"/>
+</g>
+</g>
+</svg>

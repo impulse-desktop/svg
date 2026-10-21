@@ -1,0 +1,232 @@
+<svg width="2677pt" height="284pt"
+ viewBox="0.00 0.00 2677.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 2673,-280 2673,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="1100.5,-10 1100.5,-30 1120.5,-30 1120.5,-10 1100.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="1213.5,-10 1213.5,-30 1233.5,-30 1233.5,-10 1213.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="1299.5,-10 1299.5,-30 1319.5,-30 1319.5,-10 1299.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="1396.5,-10 1396.5,-30 1416.5,-30 1416.5,-10 1396.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1492.5,-10 1492.5,-30 1512.5,-30 1512.5,-10 1492.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LineModuleModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 2661,-268 2661,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_LineModuleModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="162,-78 162,-130 2653,-130 2653,-78 162,-78"/>
+</g>
+<g id="clust16" class="cluster">
+<title>cluster_LineModuleModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 154,-130 154,-78 16,-78"/>
+</g>
+<g id="clust17" class="cluster">
+<title>cluster_LineModuleModule_exports</title>
+<polygon fill="none" stroke="#000000" points="1291,-208 1291,-260 1611,-260 1611,-208 1291,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>BasicLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2645.0912,-122 2506.9088,-122 2506.9088,-86 2645.0912,-86 2645.0912,-122"/>
+
+</g>
+
+<g id="node14" class="node">
+<title>LineModuleModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1515.2576,-187 1512.2576,-191 1491.2576,-191 1488.2576,-187 1386.7424,-187 1386.7424,-151 1515.2576,-151 1515.2576,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>BasicLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M2576,-122.0908C2576,-145.1328 2576,-182 2576,-182 2576,-182 1525.5255,-182 1525.5255,-182"/>
+<polygon fill="#000000" stroke="#000000" points="1525.5256,-178.5001 1515.5255,-182 1525.5255,-185.5001 1525.5256,-178.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>BrushLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2489.4327,-122 2348.5673,-122 2348.5673,-86 2489.4327,-86 2489.4327,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>BrushLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M2419,-122.0449C2419,-143.6623 2419,-177 2419,-177 2419,-177 1525.2628,-177 1525.2628,-177"/>
+<polygon fill="#000000" stroke="#000000" points="1525.2629,-173.5001 1515.2628,-177 1525.2628,-180.5001 1525.2629,-173.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>DashedLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2330.4706,-122 2181.5294,-122 2181.5294,-86 2330.4706,-86 2330.4706,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DashedLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M2256,-122.2228C2256,-142.3652 2256,-172 2256,-172 2256,-172 1525.5158,-172 1525.5158,-172"/>
+<polygon fill="#000000" stroke="#000000" points="1525.5158,-168.5001 1515.5158,-172 1525.5157,-175.5001 1525.5158,-168.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>GradientLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2163.9678,-122 2008.0322,-122 2008.0322,-86 2163.9678,-86 2163.9678,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>GradientLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M2086,-122.2222C2086,-140.8285 2086,-167 2086,-167 2086,-167 1525.3817,-167 1525.3817,-167"/>
+<polygon fill="#000000" stroke="#000000" points="1525.3817,-163.5001 1515.3817,-167 1525.3817,-170.5001 1525.3817,-163.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>LogarithmicLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1990.1951,-122 1813.8049,-122 1813.8049,-86 1990.1951,-86 1990.1951,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>LogarithmicLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M1902,-122.0336C1902,-139.0597 1902,-162 1902,-162 1902,-162 1525.6173,-162 1525.6173,-162"/>
+<polygon fill="#000000" stroke="#000000" points="1525.6173,-158.5001 1515.6173,-162 1525.6173,-165.5001 1525.6173,-158.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>RealtimeLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1795.5337,-122 1638.4663,-122 1638.4663,-86 1795.5337,-86 1795.5337,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>RealtimeLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M1717,-122.2396C1717,-137.5706 1717,-157 1717,-157 1717,-157 1525.3912,-157 1525.3912,-157"/>
+<polygon fill="#000000" stroke="#000000" points="1525.3912,-153.5001 1515.3912,-157 1525.3911,-160.5001 1525.3912,-153.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>SteplineLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1620.3739,-122 1467.6261,-122 1467.6261,-86 1620.3739,-86 1620.3739,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SteplineLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M1491.4709,-122.1061C1491.4709,-122.1061 1491.4709,-140.991 1491.4709,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="1487.971,-140.9909 1491.4709,-150.991 1494.971,-140.991 1487.971,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>SyncingChartLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1449.9804,-122 1266.0196,-122 1266.0196,-86 1449.9804,-86 1449.9804,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SyncingChartLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M1418.3058,-122.1061C1418.3058,-122.1061 1418.3058,-140.991 1418.3058,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="1414.8058,-140.9909 1418.3058,-150.991 1421.8058,-140.991 1414.8058,-140.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>WithAnnotationsLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1247.924,-122 1044.076,-122 1044.076,-86 1247.924,-86 1247.924,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>WithAnnotationsLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M1146,-122.2396C1146,-137.5706 1146,-157 1146,-157 1146,-157 1376.69,-157 1376.69,-157"/>
+<polygon fill="#000000" stroke="#000000" points="1376.6901,-160.5001 1386.69,-157 1376.69,-153.5001 1376.6901,-160.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>WithDataLabelsLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1026.2296,-122 827.7704,-122 827.7704,-86 1026.2296,-86 1026.2296,-122"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>WithDataLabelsLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M927,-122.0336C927,-139.0597 927,-162 927,-162 927,-162 1376.4847,-162 1376.4847,-162"/>
+<polygon fill="#000000" stroke="#000000" points="1376.4848,-165.5001 1386.4847,-162 1376.4847,-158.5001 1376.4848,-165.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>WithImageLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="809.9664,-122 640.0336,-122 640.0336,-86 809.9664,-86 809.9664,-122"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>WithImageLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M725,-122.2222C725,-140.8285 725,-167 725,-167 725,-167 1376.5723,-167 1376.5723,-167"/>
+<polygon fill="#000000" stroke="#000000" points="1376.5724,-170.5001 1386.5723,-167 1376.5723,-163.5001 1376.5724,-170.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>WithMissingDataLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="622.0279,-122 415.9721,-122 415.9721,-86 622.0279,-86 622.0279,-122"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>WithMissingDataLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M519,-122.2228C519,-142.3652 519,-172 519,-172 519,-172 1376.5721,-172 1376.5721,-172"/>
+<polygon fill="#000000" stroke="#000000" points="1376.5722,-175.5001 1386.5721,-172 1376.5721,-168.5001 1376.5722,-175.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>ZoomableTimeSeriesLineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="397.5097,-122 170.4903,-122 170.4903,-86 397.5097,-86 397.5097,-122"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>ZoomableTimeSeriesLineComponent&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M284,-122.0449C284,-143.6623 284,-177 284,-177 284,-177 1376.5947,-177 1376.5947,-177"/>
+<polygon fill="#000000" stroke="#000000" points="1376.5948,-180.5001 1386.5947,-177 1376.5947,-173.5001 1376.5948,-180.5001"/>
+</g>
+
+<g id="node16" class="node">
+<title>BasicLineComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1602.5918,-252 1461.4082,-252 1461.4082,-216 1602.5918,-216 1602.5918,-252"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>LineModuleModule&#45;&gt;BasicLineComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1488.2916,-187.1061C1488.2916,-187.1061 1488.2916,-205.991 1488.2916,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1484.7916,-205.9909 1488.2916,-215.991 1491.7916,-205.991 1484.7916,-205.9909"/>
+</g>
+
+<g id="node17" class="node">
+<title>BrushLineComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1442.932,-252 1299.068,-252 1299.068,-216 1442.932,-216 1442.932,-252"/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>LineModuleModule&#45;&gt;BrushLineComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1414.7937,-187.1061C1414.7937,-187.1061 1414.7937,-205.991 1414.7937,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1411.2937,-205.9909 1414.7937,-215.991 1418.2937,-205.991 1411.2937,-205.9909"/>
+</g>
+
+<g id="node15" class="node">
+<title>NgMschartModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="146.0269,-122 143.0269,-126 122.0269,-126 119.0269,-122 23.9731,-122 23.9731,-86 146.0269,-86 146.0269,-122"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>NgMschartModule&#45;&gt;LineModuleModule</title>
+<path fill="none" stroke="#000000" d="M85,-122.0908C85,-145.1328 85,-182 85,-182 85,-182 1376.4913,-182 1376.4913,-182"/>
+<polygon fill="#000000" stroke="#000000" points="1376.4913,-185.5001 1386.4913,-182 1376.4912,-178.5001 1376.4913,-185.5001"/>
+</g>
+</g>
+</svg>

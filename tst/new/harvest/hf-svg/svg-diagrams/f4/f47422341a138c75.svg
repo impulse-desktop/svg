@@ -1,0 +1,204 @@
+<svg width="452pt" height="575pt"
+ viewBox="0.00 0.00 452.00 575.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 571)">
+<title>structs</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-571 448,-571 448,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>xBodyEl</title>
+<polygon fill="none" stroke="black" points="32.5,-425.5 32.5,-494.5 97.5,-494.5 97.5,-425.5 32.5,-425.5"/>
+
+<polyline fill="none" stroke="black" points="32.5,-471.5 97.5,-471.5 "/>
+
+<polyline fill="none" stroke="black" points="32.5,-448.5 97.5,-448.5 "/>
+
+</g>
+
+<g id="node2" class="node"><title>xMlkViewUpdate</title>
+<polygon fill="none" stroke="black" points="71,-319.5 71,-388.5 179,-388.5 179,-319.5 71,-319.5"/>
+
+<polyline fill="none" stroke="black" points="134,-365.5 134,-388.5 "/>
+
+<polyline fill="none" stroke="black" points="71,-365.5 179,-365.5 "/>
+
+<polyline fill="none" stroke="black" points="71,-342.5 179,-342.5 "/>
+
+</g>
+
+<g id="edge1" class="edge"><title>xBodyEl:OUTPUT_selection&#45;&gt;xMlkViewUpdate:INPUT_element</title>
+<path fill="none" stroke="black" d="M99,-437C117.119,-437 106.676,-417.869 103.074,-399.022"/>
+<polygon fill="black" stroke="black" points="106.546,-398.57 102,-389 99.5854,-399.316 106.546,-398.57"/>
+</g>
+
+<g id="node3" class="node"><title>xSpeakingEl</title>
+<polygon fill="none" stroke="black" points="61.5,-107.5 61.5,-176.5 160.5,-176.5 160.5,-107.5 61.5,-107.5"/>
+
+<polyline fill="none" stroke="black" points="101.5,-153.5 101.5,-176.5 "/>
+
+<polyline fill="none" stroke="black" points="61.5,-153.5 160.5,-153.5 "/>
+
+<polyline fill="none" stroke="black" points="61.5,-130.5 160.5,-130.5 "/>
+
+</g>
+
+<g id="edge6" class="edge"><title>xMlkViewUpdate:OUTPUT_element&#45;&gt;xSpeakingEl:INPUT_start</title>
+<path fill="none" stroke="black" d="M70,-331C4.7317,-331 73.5782,-253.753 80.457,-187.16"/>
+<polygon fill="black" stroke="black" points="83.9613,-187.173 81,-177 76.9712,-186.799 83.9613,-187.173"/>
+</g>
+
+<g id="node7" class="node"><title>xAudioEl</title>
+<polygon fill="none" stroke="black" points="213.5,-213.5 213.5,-282.5 312.5,-282.5 312.5,-213.5 213.5,-213.5"/>
+
+<polyline fill="none" stroke="black" points="253.5,-259.5 253.5,-282.5 "/>
+
+<polyline fill="none" stroke="black" points="213.5,-259.5 312.5,-259.5 "/>
+
+<polyline fill="none" stroke="black" points="213.5,-236.5 312.5,-236.5 "/>
+
+</g>
+
+<g id="edge5" class="edge"><title>xMlkViewUpdate:OUTPUT_element&#45;&gt;xAudioEl:INPUT_start</title>
+<path fill="none" stroke="black" d="M180,-331C182.892,-331 197.899,-295.829 206.47,-279.343"/>
+<polygon fill="black" stroke="black" points="209.392,-281.269 212,-271 203.558,-277.402 209.392,-281.269"/>
+</g>
+
+<g id="node4" class="node"><title>xSpeaking</title>
+<polygon fill="none" stroke="black" points="22,-24 22,-70 122,-70 122,-24 22,-24"/>
+
+<polyline fill="none" stroke="black" points="82,-47 82,-70 "/>
+
+<polyline fill="none" stroke="black" points="22,-47 122,-47 "/>
+
+</g>
+
+<g id="edge2" class="edge"><title>xSpeakingEl:OUTPUT_selection&#45;&gt;xSpeaking:INPUT_element</title>
+<path fill="none" stroke="black" d="M111,-107C111,-80.6016 67.427,-95.6747 55.1721,-80.9401"/>
+<polygon fill="black" stroke="black" points="58.3746,-79.4626 52,-71 51.7059,-81.5908 58.3746,-79.4626"/>
+</g>
+
+<g id="node5" class="node"><title>xSilent</title>
+<polygon fill="none" stroke="black" points="140,-24 140,-70 240,-70 240,-24 140,-24"/>
+
+<polyline fill="none" stroke="black" points="200,-47 200,-70 "/>
+
+<polyline fill="none" stroke="black" points="140,-47 240,-47 "/>
+
+</g>
+
+<g id="edge3" class="edge"><title>xSpeakingEl:OUTPUT_selection&#45;&gt;xSilent:INPUT_element</title>
+<path fill="none" stroke="black" d="M162,-119C183.642,-119 142.874,-84.5432 134.286,-67.8532"/>
+<polygon fill="black" stroke="black" points="137.389,-69.4717 139,-59 131.211,-66.1816 137.389,-69.4717"/>
+</g>
+
+<g id="node6" class="node"><title>xMlkView</title>
+<polygon fill="none" stroke="black" points="153.5,-425.5 153.5,-494.5 236.5,-494.5 236.5,-425.5 153.5,-425.5"/>
+
+<polyline fill="none" stroke="black" points="197.5,-471.5 197.5,-494.5 "/>
+
+<polyline fill="none" stroke="black" points="153.5,-471.5 236.5,-471.5 "/>
+
+<polyline fill="none" stroke="black" points="153.5,-448.5 236.5,-448.5 "/>
+
+</g>
+
+<g id="edge4" class="edge"><title>xMlkView:OUTPUT_out&#45;&gt;xMlkViewUpdate:INPUT_html</title>
+<path fill="none" stroke="black" d="M152,-437C133.819,-437 150.053,-417.922 155.421,-399.046"/>
+<polygon fill="black" stroke="black" points="158.905,-399.422 157,-389 151.99,-398.335 158.905,-399.422"/>
+</g>
+
+<g id="node8" class="node"><title>xWebrtcHark</title>
+<polygon fill="none" stroke="black" points="203.5,-107.5 203.5,-176.5 322.5,-176.5 322.5,-107.5 203.5,-107.5"/>
+
+<polyline fill="none" stroke="black" points="203.5,-153.5 322.5,-153.5 "/>
+
+<polyline fill="none" stroke="black" points="203.5,-130.5 322.5,-130.5 "/>
+
+<polyline fill="none" stroke="black" points="268.5,-107.5 268.5,-130.5 "/>
+
+</g>
+
+<g id="edge7" class="edge"><title>xAudioEl:OUTPUT_selection&#45;&gt;xWebrtcHark:INPUT_stream</title>
+<path fill="none" stroke="black" d="M263,-213C263,-201 263,-195.75 263,-187.125"/>
+<polygon fill="black" stroke="black" points="266.5,-187 263,-177 259.5,-187 266.5,-187"/>
+</g>
+
+<g id="edge8" class="edge"><title>xWebrtcHark:OUTPUT_speaking&#45;&gt;xSpeaking:INPUT_start</title>
+<path fill="none" stroke="black" d="M202,-119C182.955,-119 144.423,-84.5104 131,-71 129.871,-69.8632 129.206,-68.5448 128.745,-67.2067"/>
+<polygon fill="black" stroke="black" points="131.602,-65.1847 123,-59 125.868,-69.1993 131.602,-65.1847"/>
+</g>
+
+<g id="edge10" class="edge"><title>xWebrtcHark:OUTPUT_silence&#45;&gt;xSilent:INPUT_start</title>
+<path fill="none" stroke="black" d="M296,-107C296,-73.7123 235.716,-100.809 222.529,-80.731"/>
+<polygon fill="black" stroke="black" points="225.903,-79.7983 220,-71 219.128,-81.5589 225.903,-79.7983"/>
+</g>
+
+<g id="node9" class="node"><title>xSpeakingLog</title>
+<polygon fill="none" stroke="black" points="258.5,-24 258.5,-70 347.5,-70 347.5,-24 258.5,-24"/>
+
+<polyline fill="none" stroke="black" points="258.5,-47 347.5,-47 "/>
+
+</g>
+
+<g id="edge9" class="edge"><title>xWebrtcHark:OUTPUT_speaking&#45;&gt;xSpeakingLog:INPUT_start</title>
+<path fill="none" stroke="black" d="M236,-107C236,-77.4214 287.297,-97.9241 300.121,-80.8658"/>
+<polygon fill="black" stroke="black" points="303.559,-81.5801 303,-71 296.839,-79.6192 303.559,-81.5801"/>
+</g>
+
+<g id="node10" class="node"><title>xSilenceLog</title>
+<polygon fill="none" stroke="black" points="366,-24 366,-70 444,-70 444,-24 366,-24"/>
+
+<polyline fill="none" stroke="black" points="366,-47 444,-47 "/>
+
+</g>
+
+<g id="edge11" class="edge"><title>xWebrtcHark:OUTPUT_silence&#45;&gt;xSilenceLog:INPUT_start</title>
+<path fill="none" stroke="black" d="M324,-119C325.546,-119 347.575,-83.8291 358.722,-67.3427"/>
+<polygon fill="black" stroke="black" points="361.784,-69.0948 365,-59 356.19,-64.8858 361.784,-69.0948"/>
+</g>
+
+<g id="node11" class="node"><title>xIIP0</title>
+
+</g>
+
+<g id="edge12" class="edge"><title>xIIP0&#45;&gt;xMlkView:INPUT_body</title>
+<path fill="none" stroke="black" d="M175,-530.814C175,-523.278 175,-514.101 175,-505.058"/>
+<polygon fill="black" stroke="black" points="178.5,-505 175,-495 171.5,-505 178.5,-505"/>
+</g>
+
+<g id="node12" class="node"><title>xIIP1</title>
+
+</g>
+
+<g id="edge13" class="edge"><title>xIIP1&#45;&gt;xMlkView:INPUT_vars</title>
+<path fill="none" stroke="black" d="M345.888,-530.922C324.23,-513.243 286.903,-487.639 248.354,-483.558"/>
+<polygon fill="black" stroke="black" points="248.174,-480.043 238,-483 247.797,-487.033 248.174,-480.043"/>
+</g>
+
+<g id="node13" class="node"><title>xIIP2</title>
+
+</g>
+
+<g id="edge14" class="edge"><title>xIIP2&#45;&gt;xAudioEl:INPUT_selector</title>
+<path fill="none" stroke="black" d="M283,-335.74C283,-324.228 283,-308.48 283,-293.332"/>
+<polygon fill="black" stroke="black" points="286.5,-293 283,-283 279.5,-293 286.5,-293"/>
+</g>
+
+<g id="node14" class="node"><title>xIIP3</title>
+
+</g>
+
+<g id="edge15" class="edge"><title>xIIP3&#45;&gt;xBodyEl:INPUT_selector</title>
+<path fill="none" stroke="black" d="M21.5437,-530.922C17.4646,-515.876 13.7996,-495.09 21.5563,-486.716"/>
+<polygon fill="black" stroke="black" points="22.9763,-489.919 31,-483 20.4129,-483.405 22.9763,-489.919"/>
+</g>
+
+<g id="node15" class="node"><title>xIIP4</title>
+
+</g>
+
+<g id="edge16" class="edge"><title>xIIP4&#45;&gt;xSpeakingEl:INPUT_selector</title>
+<path fill="none" stroke="black" d="M139.627,-229.93C136.389,-218.398 132.658,-202.511 131.422,-187.049"/>
+<polygon fill="black" stroke="black" points="134.916,-186.844 131,-177 127.923,-187.138 134.916,-186.844"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,200 @@
+<svg width="2081pt" height="284pt"
+ viewBox="0.00 0.00 2081.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 2077,-280 2077,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="802.5,-10 802.5,-30 822.5,-30 822.5,-10 802.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="915.5,-10 915.5,-30 935.5,-30 935.5,-10 915.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="1001.5,-10 1001.5,-30 1021.5,-30 1021.5,-10 1001.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="1098.5,-10 1098.5,-30 1118.5,-30 1118.5,-10 1098.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1194.5,-10 1194.5,-30 1214.5,-30 1214.5,-10 1194.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_FormacionAcademicaModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 2065,-268 2065,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_FormacionAcademicaModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1102,-78 1102,-130 2057,-130 2057,-78 1102,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_FormacionAcademicaModule_imports</title>
+<polygon fill="none" stroke="#000000" points="618,-78 618,-130 1094,-130 1094,-78 618,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_FormacionAcademicaModule_exports</title>
+<polygon fill="none" stroke="#000000" points="502,-208 502,-260 1258,-260 1258,-208 502,-208"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_FormacionAcademicaModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 610,-130 610,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2048.5702,-122 1819.4298,-122 1819.4298,-86 2048.5702,-86 2048.5702,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>FormacionAcademicaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="972.6643,-187 969.6643,-191 948.6643,-191 945.6643,-187 789.3357,-187 789.3357,-151 972.6643,-151 972.6643,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudDocumentoProgramaComponent&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M1934,-122.2843C1934,-143.3211 1934,-175 1934,-175 1934,-175 982.6048,-175 982.6048,-175"/>
+<polygon fill="#000000" stroke="#000000" points="982.6048,-171.5001 972.6048,-175 982.6047,-178.5001 982.6048,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1801.573,-122 1600.427,-122 1600.427,-86 1801.573,-86 1801.573,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DocumentoProgramaComponent&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M1701,-122.1061C1701,-141.3391 1701,-169 1701,-169 1701,-169 982.6776,-169 982.6776,-169"/>
+<polygon fill="#000000" stroke="#000000" points="982.6776,-165.5001 972.6776,-169 982.6775,-172.5001 982.6776,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1582.3514,-122 1359.6486,-122 1359.6486,-86 1582.3514,-86 1582.3514,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListDocumentoProgramaComponent&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M1471,-122.0225C1471,-139.3734 1471,-163 1471,-163 1471,-163 982.8636,-163 982.8636,-163"/>
+<polygon fill="#000000" stroke="#000000" points="982.8636,-159.5001 972.8636,-163 982.8636,-166.5001 982.8636,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ViewDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1341.8917,-122 1110.1083,-122 1110.1083,-86 1341.8917,-86 1341.8917,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewDocumentoProgramaComponent&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M1180.2632,-122.2396C1180.2632,-137.5706 1180.2632,-157 1180.2632,-157 1180.2632,-157 982.8226,-157 982.8226,-157"/>
+<polygon fill="#000000" stroke="#000000" points="982.8226,-153.5001 972.8226,-157 982.8225,-160.5001 982.8226,-153.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>CrudFormacionAcademicaComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1250.4444,-252 1013.5556,-252 1013.5556,-216 1250.4444,-216 1250.4444,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>FormacionAcademicaModule&#45;&gt;CrudFormacionAcademicaComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M972.8962,-181C1012.5246,-181 1049.9595,-181 1049.9595,-181 1049.9595,-181 1049.9595,-205.7604 1049.9595,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="1046.4596,-205.7604 1049.9595,-215.7604 1053.4596,-205.7604 1046.4596,-205.7604"/>
+</g>
+
+<g id="node10" class="node">
+<title>ListFormacionAcademicaComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="996.2253,-252 765.7747,-252 765.7747,-216 996.2253,-216 996.2253,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>FormacionAcademicaModule&#45;&gt;ListFormacionAcademicaComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M881,-187.1061C881,-187.1061 881,-205.991 881,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="877.5001,-205.9909 881,-215.991 884.5001,-205.991 877.5001,-205.9909"/>
+</g>
+
+<g id="node11" class="node">
+<title>ViewFormacionAcademicaComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="748.2653,-252 509.7347,-252 509.7347,-216 748.2653,-216 748.2653,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>FormacionAcademicaModule&#45;&gt;ViewFormacionAcademicaComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M789.3747,-181C759.0975,-181 733,-181 733,-181 733,-181 733,-205.7604 733,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="729.5001,-205.7604 733,-215.7604 736.5001,-205.7604 729.5001,-205.7604"/>
+</g>
+
+<g id="node6" class="node">
+<title>FormacionAcademicaRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1086.2822,-122 1083.2822,-126 1062.2822,-126 1059.2822,-122 857.7178,-122 857.7178,-86 1086.2822,-86 1086.2822,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>FormacionAcademicaRoutingModule&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M915.2206,-122.1061C915.2206,-122.1061 915.2206,-140.991 915.2206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="911.7206,-140.9909 915.2206,-150.991 918.7206,-140.991 911.7206,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="840.4231,-122 837.4231,-126 816.4231,-126 813.4231,-122 741.5769,-122 741.5769,-86 840.4231,-86 840.4231,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M814.8145,-122.1061C814.8145,-122.1061 814.8145,-140.991 814.8145,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="811.3146,-140.9909 814.8145,-150.991 818.3146,-140.991 811.3146,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="724.4231,-122 721.4231,-126 700.4231,-126 697.4231,-122 625.5769,-122 625.5769,-86 724.4231,-86 724.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ThemeModule&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M675,-122.2396C675,-137.5706 675,-157 675,-157 675,-157 779.1456,-157 779.1456,-157"/>
+<polygon fill="#000000" stroke="#000000" points="779.1456,-160.5001 789.1456,-157 779.1456,-153.5001 779.1456,-160.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>CampusMidService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="514" cy="-104" rx="87.98" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>CampusMidService&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M555.6785,-120.122C555.6785,-137.5908 555.6785,-163 555.6785,-163 555.6785,-163 779.0804,-163 779.0804,-163"/>
+<polygon fill="#000000" stroke="#000000" points="779.0804,-166.5001 789.0804,-163 779.0804,-159.5001 779.0804,-166.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>FormacionAcademicaService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="283" cy="-104" rx="125.0182" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>FormacionAcademicaService&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M283,-122.1061C283,-141.3391 283,-169 283,-169 283,-169 779.1996,-169 779.1996,-169"/>
+<polygon fill="#000000" stroke="#000000" points="779.1996,-172.5001 789.1996,-169 779.1996,-165.5001 779.1996,-172.5001"/>
+</g>
+
+<g id="node14" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="82" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>UserService&#45;&gt;FormacionAcademicaModule</title>
+<path fill="none" stroke="#000000" d="M82,-122.2843C82,-143.3211 82,-175 82,-175 82,-175 779.3445,-175 779.3445,-175"/>
+<polygon fill="#000000" stroke="#000000" points="779.3446,-178.5001 789.3445,-175 779.3445,-171.5001 779.3446,-178.5001"/>
+</g>
+</g>
+</svg>

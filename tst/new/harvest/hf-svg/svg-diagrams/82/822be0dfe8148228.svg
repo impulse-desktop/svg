@@ -1,0 +1,107 @@
+<svg width="1032pt" height="39pt"
+ viewBox="0.00 0.00 1032.00 39.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
+<title>p33c_PwmModule_GetHandle</title>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="Gets pointer to PWM module SFR set.">
+<polygon fill="#bfbfbf" stroke="black" points="877,-6 877,-25 1024,-25 1024,-6 877,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="a00532.html#ga6d12fd9e2f1d4f01ec6db21454693863" target="_top" xlink:title="Initializes the buck PWM module by resetting its registers to default.">
+<polygon fill="none" stroke="black" points="707,-6 707,-25 841,-25 841,-6 707,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M866.75,-15.5C858.19,-15.5 849.56,-15.5 841.21,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="866.76,-19 876.76,-15.5 866.76,-12 866.76,-19"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="a00509.html#gaf3c64772d6dfd473d6924fb8893bd180" target="_top" xlink:title="This function initializes all peripheral modules and their instances used by the power controller.">
+<polygon fill="none" stroke="black" points="574,-0.5 574,-30.5 671,-30.5 671,-0.5 574,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M696.78,-15.5C688.07,-15.5 679.39,-15.5 671.21,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="696.99,-19 706.99,-15.5 696.99,-12 696.99,-19"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="a00505.html#ga0b26acfec74d1804384b4ba1a3cffab4" target="_top" xlink:title="This function is used to load peripheral configuration templates from the power controller device dri...">
+<polygon fill="none" stroke="black" points="395,-0.5 395,-30.5 538,-30.5 538,-0.5 395,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M563.41,-15.5C555.19,-15.5 546.67,-15.5 538.25,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="563.62,-19 573.62,-15.5 563.62,-12 563.62,-19"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="a00502.html#ga7a4cf6371d09457539f96a74b2809ca0" target="_top" xlink:title="Calls the application layer power controller initialization.">
+<polygon fill="none" stroke="black" points="229,-6 229,-25 359,-25 359,-6 229,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M384.65,-15.5C376.06,-15.5 367.42,-15.5 359.07,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="384.67,-19 394.67,-15.5 384.67,-12 384.67,-19"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="a00366.html#ga2be64f5f0b9a2c0c6713f5a69d793e05" target="_top" xlink:title="Initializes the user&#45;defined tasks.">
+<polygon fill="none" stroke="black" points="74,-6 74,-25 193,-25 193,-6 74,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M218.9,-15.5C210.25,-15.5 201.52,-15.5 193.12,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="218.99,-19 228.99,-15.5 218.99,-12 218.99,-19"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:href="a00350.html#ga840291bc02cba5474a4cb46a9b9566fe" target="_top" xlink:title="Application main function executed after device comes out of RESET.">
+<polygon fill="none" stroke="black" points="0,-6 0,-25 38,-25 38,-6 0,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M63.65,-15.5C54.29,-15.5 45.43,-15.5 38.16,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="63.94,-19 73.94,-15.5 63.94,-12 63.94,-19"/>
+</g>
+</g>
+</svg>

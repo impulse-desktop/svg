@@ -1,0 +1,176 @@
+<svg width="1708pt" height="284pt"
+ viewBox="0.00 0.00 1708.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1704,-280 1704,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="616,-10 616,-30 636,-30 636,-10 616,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="729,-10 729,-30 749,-30 749,-10 729,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="815,-10 815,-30 835,-30 835,-10 815,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="912,-10 912,-30 932,-30 932,-10 912,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1008,-10 1008,-30 1028,-30 1028,-10 1008,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TraduccionModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1692,-268 1692,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TraduccionModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="718,-78 718,-130 1684,-130 1684,-78 718,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_TraduccionModule_imports</title>
+<polygon fill="none" stroke="#000000" points="294,-78 294,-130 710,-130 710,-78 294,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_TraduccionModule_exports</title>
+<polygon fill="none" stroke="#000000" points="458,-208 458,-260 1035,-260 1035,-208 458,-208"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_TraduccionModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 286,-130 286,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1676.1615,-122 1443.8385,-122 1443.8385,-86 1676.1615,-86 1676.1615,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>TraduccionModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="809.7978,-187 806.7978,-191 785.7978,-191 782.7978,-187 686.2022,-187 686.2022,-151 809.7978,-151 809.7978,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudDescuentoAcademicoComponent&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M1560,-122.1289C1560,-142.5724 1560,-173 1560,-173 1560,-173 819.6984,-173 819.6984,-173"/>
+<polygon fill="#000000" stroke="#000000" points="819.6985,-169.5001 809.6984,-173 819.6984,-176.5001 819.6985,-169.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1426.1643,-122 1221.8357,-122 1221.8357,-86 1426.1643,-86 1426.1643,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DescuentoAcademicoComponent&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M1324,-122.2667C1324,-140.5552 1324,-166 1324,-166 1324,-166 819.9155,-166 819.9155,-166"/>
+<polygon fill="#000000" stroke="#000000" points="819.9155,-162.5001 809.9155,-166 819.9154,-169.5001 819.9155,-162.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1203.9426,-122 978.0574,-122 978.0574,-86 1203.9426,-86 1203.9426,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListDescuentoAcademicoComponent&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M1002.6587,-122.0091C1002.6587,-138.0494 1002.6587,-159 1002.6587,-159 1002.6587,-159 819.9709,-159 819.9709,-159"/>
+<polygon fill="#000000" stroke="#000000" points="819.9709,-155.5001 809.9709,-159 819.9708,-162.5001 819.9709,-155.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ViewDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="960.4831,-122 725.5169,-122 725.5169,-86 960.4831,-86 960.4831,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewDescuentoAcademicoComponent&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M767.7037,-122.1061C767.7037,-122.1061 767.7037,-140.991 767.7037,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="764.2038,-140.9909 767.7037,-150.991 771.2038,-140.991 764.2038,-140.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>CrudTraduccionComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1027.0777,-252 850.9223,-252 850.9223,-216 1027.0777,-216 1027.0777,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>TraduccionModule&#45;&gt;CrudTraduccionComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M809.7868,-180C853.9047,-180 905.4764,-180 905.4764,-180 905.4764,-180 905.4764,-205.7181 905.4764,-205.7181"/>
+<polygon fill="#000000" stroke="#000000" points="901.9764,-205.718 905.4764,-215.7181 908.9764,-205.7181 901.9764,-205.718"/>
+</g>
+
+<g id="node10" class="node">
+<title>ListTraduccionComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="833.3588,-252 662.6412,-252 662.6412,-216 833.3588,-216 833.3588,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>TraduccionModule&#45;&gt;ListTraduccionComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M748,-187.1061C748,-187.1061 748,-205.991 748,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="744.5001,-205.9909 748,-215.991 751.5001,-205.991 744.5001,-205.9909"/>
+</g>
+
+<g id="node11" class="node">
+<title>ViewTraduccionComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="644.3984,-252 465.6016,-252 465.6016,-216 644.3984,-216 644.3984,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>TraduccionModule&#45;&gt;ViewTraduccionComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M686.0595,-180C655.0893,-180 624.1191,-180 624.1191,-180 624.1191,-180 624.1191,-205.7181 624.1191,-205.7181"/>
+<polygon fill="#000000" stroke="#000000" points="620.6191,-205.718 624.1191,-215.7181 627.6191,-205.7181 620.6191,-205.718"/>
+</g>
+
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="702.4231,-122 699.4231,-126 678.4231,-126 675.4231,-122 603.5769,-122 603.5769,-86 702.4231,-86 702.4231,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SharedModule&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M694.2812,-122.1061C694.2812,-122.1061 694.2812,-140.991 694.2812,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="690.7813,-140.9909 694.2812,-150.991 697.7813,-140.991 690.7813,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="586.4231,-122 583.4231,-126 562.4231,-126 559.4231,-122 487.5769,-122 487.5769,-86 586.4231,-86 586.4231,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ThemeModule&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M537,-122.0091C537,-138.0494 537,-159 537,-159 537,-159 676.1187,-159 676.1187,-159"/>
+<polygon fill="#000000" stroke="#000000" points="676.1188,-162.5001 686.1187,-159 676.1187,-155.5001 676.1188,-162.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>TraduccionRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="470.4157,-122 467.4157,-126 446.4157,-126 443.4157,-122 301.5843,-122 301.5843,-86 470.4157,-86 470.4157,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>TraduccionRoutingModule&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M383.6716,-122.2667C383.6716,-140.5552 383.6716,-166 383.6716,-166 383.6716,-166 676.1967,-166 676.1967,-166"/>
+<polygon fill="#000000" stroke="#000000" points="676.1967,-169.5001 686.1967,-166 676.1966,-162.5001 676.1967,-169.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>ProduccionAcademicaService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="151" cy="-104" rx="127.3074" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>ProduccionAcademicaService&#45;&gt;TraduccionModule</title>
+<path fill="none" stroke="#000000" d="M151,-122.1289C151,-142.5724 151,-173 151,-173 151,-173 676.0798,-173 676.0798,-173"/>
+<polygon fill="#000000" stroke="#000000" points="676.0798,-176.5001 686.0798,-173 676.0798,-169.5001 676.0798,-176.5001"/>
+</g>
+</g>
+</svg>

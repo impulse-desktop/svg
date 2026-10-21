@@ -1,0 +1,120 @@
+<svg width="446pt" height="303pt"
+ viewBox="0.00 0.00 446.00 303.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 299)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-299 442,-299 442,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_tarball</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-287 430,-287 430,-8 8,-8"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_manifest</title>
+<polygon fill="none" stroke="black" points="16,-16 16,-253 123,-253 123,-16 16,-16"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_layer1</title>
+<polygon fill="none" stroke="black" points="321,-46 321,-145 422,-145 422,-46 321,-46"/>
+
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_layer2</title>
+<polygon fill="none" stroke="black" points="321,-153 321,-252 422,-252 422,-153 321,-153"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>mconfig</title>
+<polygon fill="none" stroke="black" points="96.5,-168 42.5,-168 42.5,-132 96.5,-132 96.5,-168"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>config</title>
+<polygon fill="none" stroke="black" points="253,-154 205,-154 205,-118 259,-118 259,-148 253,-154"/>
+<polyline fill="none" stroke="black" points="253,-154 253,-148 "/>
+<polyline fill="none" stroke="black" points="259,-148 253,-148 "/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>mconfig&#45;&gt;config</title>
+<path fill="none" stroke="black" d="M96.64,-147.72C123.34,-145.39 165,-141.76 194.84,-139.15"/>
+<polygon fill="black" stroke="black" points="195.21,-142.64 204.87,-138.28 194.6,-135.66 195.21,-142.64"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>layers</title>
+<polygon fill="none" stroke="black" points="96.5,-222 42.5,-222 42.5,-186 96.5,-186 96.5,-222"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>l1</title>
+<polygon fill="none" stroke="black" points="402,-102 399,-106 378,-106 375,-102 341,-102 341,-66 402,-66 402,-102"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>layers&#45;&gt;l1</title>
+<path fill="none" stroke="black" d="M96.54,-196.49C106.38,-192.33 116.7,-186.1 123,-177 145.14,-144.99 105.95,-117.98 133,-90 156.67,-65.52 248.59,-70.12 310.89,-76.47"/>
+<polygon fill="black" stroke="black" points="310.69,-79.97 321,-77.55 311.43,-73.01 310.69,-79.97"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>l2</title>
+<polygon fill="none" stroke="black" points="402,-209 399,-213 378,-213 375,-209 341,-209 341,-173 402,-173 402,-209"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>layers&#45;&gt;l2</title>
+<path fill="none" stroke="black" d="M96.53,-206.48C133.73,-209.61 204.23,-214.02 264,-209 279.37,-207.71 295.85,-205.39 311.14,-202.84"/>
+<polygon fill="black" stroke="black" points="311.74,-206.29 321,-201.14 310.55,-199.39 311.74,-206.29"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>sources</title>
+<polygon fill="none" stroke="black" points="115,-114 24,-114 24,-78 115,-78 115,-114"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>sources&#45;&gt;l1</title>
+<path fill="none" stroke="black" d="M108.31,-77.92C133.61,-66.85 168.02,-53.74 200,-48 228,-42.98 235.93,-43.38 264,-48 287.01,-51.78 311.73,-59.87 331.56,-67.43"/>
+<polygon fill="black" stroke="black" points="330.28,-70.69 340.87,-71.07 332.84,-64.17 330.28,-70.69"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>sources&#45;&gt;l2</title>
+<path fill="none" stroke="black" d="M114.41,-114.14C117.65,-116.74 120.59,-119.68 123,-123 139.4,-145.59 111.98,-166.64 133,-185 136.67,-188.2 264.23,-189.95 330.85,-190.64"/>
+<polygon fill="black" stroke="black" points="330.96,-194.14 341,-190.74 331.03,-187.14 330.96,-194.14"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>tags</title>
+<polygon fill="none" stroke="black" points="105,-60 34,-60 34,-24 105,-24 105,-60"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>config&#45;&gt;l1</title>
+<path fill="none" stroke="black" d="M259.19,-126.1C279.5,-118.41 308,-107.64 331.07,-98.91"/>
+<polygon fill="black" stroke="black" points="332.47,-102.12 340.59,-95.31 329.99,-95.58 332.47,-102.12"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>config&#45;&gt;l2</title>
+<path fill="none" stroke="black" d="M259.19,-146.47C279.5,-154.6 308,-166 331.07,-175.23"/>
+<polygon fill="black" stroke="black" points="330,-178.57 340.59,-179.03 332.6,-172.07 330,-178.57"/>
+
+</g>
+</g>
+</svg>

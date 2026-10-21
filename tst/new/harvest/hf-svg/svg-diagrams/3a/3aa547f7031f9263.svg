@@ -1,0 +1,74 @@
+<svg width="94pt" height="425pt"
+ viewBox="0.00 0.00 94.00 425.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 421)">
+<title>MaterialsModel</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-421 90,-421 90,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="1.5,-0.5 1.5,-57.5 84.5,-57.5 84.5,-0.5 1.5,-0.5"/>
+
+<polyline fill="none" stroke="black" points="1.5,-38.5 84.5,-38.5 "/>
+
+<polyline fill="none" stroke="black" points="1.5,-19.5 84.5,-19.5 "/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="classBasicModel.html" target="_top" xlink:title="{BasicModel\n|&#45; $gateway\l|+ __construct()\l+ getValue()\l}">
+<polygon fill="white" stroke="black" points="1.5,-94.5 1.5,-162.5 84.5,-162.5 84.5,-94.5 1.5,-94.5"/>
+
+<polyline fill="none" stroke="black" points="1.5,-143.5 84.5,-143.5 "/>
+
+<polyline fill="none" stroke="black" points="1.5,-124.5 84.5,-124.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M43,-84.4538C43,-75.4036 43,-66.0876 43,-57.7765"/>
+<polygon fill="none" stroke="midnightblue" points="39.5001,-84.4909 43,-94.4909 46.5001,-84.491 39.5001,-84.4909"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classModel.html" target="_top" xlink:title="{Model\n|&#45; $next\l|+ otvetchat()\l+ getValue()\l+ setNext()\l+ getNext()\l+ setName()\l+ getName()\l}">
+<polygon fill="white" stroke="black" points="7,-199.5 7,-311.5 79,-311.5 79,-199.5 7,-199.5"/>
+
+<polyline fill="none" stroke="black" points="7,-292.5 79,-292.5 "/>
+
+<polyline fill="none" stroke="black" points="7,-273.5 79,-273.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M43,-189.257C43,-179.987 43,-170.797 43,-162.506"/>
+<polygon fill="none" stroke="midnightblue" points="39.5001,-189.309 43,-199.309 46.5001,-189.309 39.5001,-189.309"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="interfaceMogetOtvetchat.html" target="_top" xlink:title="{MogetOtvetchat\n||+ otvetchat()\l+ setNext()\l}">
+<polygon fill="white" stroke="black" points="0,-348.5 0,-416.5 86,-416.5 86,-348.5 0,-348.5"/>
+
+<polyline fill="none" stroke="black" points="0,-397.5 86,-397.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-378.5 86,-378.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M43,-338.182C43,-329.604 43,-320.493 43,-311.585"/>
+<polygon fill="none" stroke="midnightblue" points="39.5001,-338.33 43,-348.33 46.5001,-338.331 39.5001,-338.33"/>
+</g>
+</g>
+</svg>

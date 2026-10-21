@@ -1,0 +1,84 @@
+<svg width="130pt" height="540pt"
+ viewBox="0.00 0.00 130.00 540.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 536)">
+<title>DefaultSession</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-536 126,-536 126,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="DefaultSession uses the default PHP session implementation:">
+<polygon fill="#bfbfbf" stroke="black" points="0,-149.5 0,-338.5 122,-338.5 122,-149.5 0,-149.5"/>
+
+<polyline fill="none" stroke="black" points="0,-319.5 122,-319.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-300.5 122,-300.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="classwcmf_1_1lib_1_1core_1_1impl_1_1_auth_token_session.html" target="_top" xlink:title="AuthTokenSession is a DefaultSession, but additionally requires clients to send a token in the X&#45;Auth...">
+<polygon fill="white" stroke="black" points="3,-0.5 3,-112.5 119,-112.5 119,-0.5 3,-0.5"/>
+
+<polyline fill="none" stroke="black" points="3,-93.5 119,-93.5 "/>
+
+<polyline fill="none" stroke="black" points="3,-74.5 119,-74.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M61,-139.41C61,-130.21 61,-121.15 61,-112.61"/>
+<polygon fill="none" stroke="midnightblue" points="57.5,-139.43 61,-149.43 64.5,-139.43 57.5,-139.43"/>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="interfacewcmf_1_1lib_1_1core_1_1_session.html" target="_top" xlink:title="Session is the interface for session implementations and defines access to session variables.">
+<polygon fill="white" stroke="black" points="13,-375.5 13,-531.5 109,-531.5 109,-375.5 13,-375.5"/>
+
+<polyline fill="none" stroke="black" points="13,-512.5 109,-512.5 "/>
+
+<polyline fill="none" stroke="black" points="13,-493.5 109,-493.5 "/>
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M61,-365.12C61,-356.43 61,-347.58 61,-338.82"/>
+<polygon fill="none" stroke="midnightblue" points="57.5,-365.23 61,-375.23 64.5,-365.23 57.5,-365.23"/>
+</g>
+</g>
+</svg>

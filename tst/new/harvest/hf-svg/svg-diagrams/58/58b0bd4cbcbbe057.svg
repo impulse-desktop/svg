@@ -1,0 +1,156 @@
+<svg width="1660pt" height="226pt"
+ viewBox="0.00 0.00 1660.00 226.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 222)">
+<title>models_diagram</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-222 1656,-222 1656,4 -4,4"/>
+
+<g id="node1" class="node"><title>_diagram_info</title>
+
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Bond</title>
+<ellipse fill="none" stroke="black" cx="345" cy="-181" rx="28.9086" ry="18"/>
+
+</g>
+
+<g id="node11" class="node"><title>Person</title>
+<ellipse fill="none" stroke="black" cx="440" cy="-90" rx="34.2708" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>Bond&#45;&gt;Person</title>
+<path fill="none" stroke="#987bae" d="M366.283,-159.771C371.724,-154.618 377.571,-149.096 383,-144 393.835,-133.831 405.879,-122.618 416.095,-113.135"/>
+<ellipse fill="none" stroke="#987bae" cx="363.035" cy="-162.851" rx="4.00002" ry="4.00002"/>
+<polygon fill="#987bae" stroke="#987bae" points="416.168,-113.067 426.56,-109.566 419.834,-109.667 423.5,-106.267 423.5,-106.267 423.5,-106.267 419.834,-109.667 420.439,-102.968 416.168,-113.067 416.168,-113.067"/>
+</g>
+
+<g id="node3" class="node"><title>EmailTemplate</title>
+<ellipse fill="none" stroke="black" cx="889" cy="-181" rx="64.0015" ry="18"/>
+
+</g>
+
+<g id="node4" class="node"><title>Interest</title>
+<ellipse fill="none" stroke="black" cx="261" cy="-181" rx="36.4358" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>Interest&#45;&gt;Person</title>
+<path fill="none" stroke="#19663b" d="M285.978,-158.375C292.558,-153.271 299.829,-148.122 307,-144 337.23,-126.626 374.263,-112.379 401.568,-103.049"/>
+<polygon fill="#19663b" stroke="#19663b" points="285.865,-158.466 275.253,-161.229 281.97,-161.601 278.074,-164.735 278.074,-164.735 278.074,-164.735 281.97,-161.601 280.895,-168.241 285.865,-158.466 285.865,-158.466"/>
+<polygon fill="#19663b" stroke="#19663b" points="401.675,-103.013 412.586,-104.104 406.416,-101.425 411.157,-99.8372 411.157,-99.8372 411.157,-99.8372 406.416,-101.425 409.728,-95.5702 401.675,-103.013 401.675,-103.013"/>
+</g>
+
+<g id="node13" class="node"><title>InterestsPerson</title>
+<ellipse fill="none" stroke="black" cx="261" cy="-90" rx="64.2089" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>Interest&#45;&gt;InterestsPerson</title>
+<path fill="none" stroke="#85bbe6" d="M261,-154.546C261,-143.148 261,-129.696 261,-118.11"/>
+<ellipse fill="none" stroke="#85bbe6" cx="261" cy="-158.84" rx="4" ry="4"/>
+<polygon fill="#85bbe6" stroke="#85bbe6" points="261,-118.107 265.5,-108.107 261,-113.107 261,-108.107 261,-108.107 261,-108.107 261,-113.107 256.5,-108.107 261,-118.107 261,-118.107"/>
+</g>
+
+<g id="node5" class="node"><title>MarketingCampaign</title>
+<ellipse fill="none" stroke="black" cx="1054" cy="-181" rx="82.9423" ry="18"/>
+
+</g>
+
+<g id="node6" class="node"><title>MarketingCampaignEmail</title>
+<ellipse fill="none" stroke="black" cx="1260" cy="-181" rx="104.121" ry="18"/>
+
+</g>
+
+<g id="node7" class="node"><title>MarketingCampaignSms</title>
+<ellipse fill="none" stroke="black" cx="1481" cy="-181" rx="98.2992" ry="18"/>
+
+</g>
+
+<g id="node8" class="node"><title>PeopleList</title>
+<ellipse fill="none" stroke="black" cx="440" cy="-181" rx="47.4008" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>PeopleList&#45;&gt;Person</title>
+<path fill="none" stroke="#aa767a" d="M440,-152.437C440,-141.573 440,-129.126 440,-118.29"/>
+<polygon fill="#aa767a" stroke="#aa767a" points="440,-152.84 435.5,-162.84 440,-157.84 440,-162.84 440,-162.84 440,-162.84 440,-157.84 444.5,-162.84 440,-152.84 440,-152.84"/>
+<polygon fill="#aa767a" stroke="#aa767a" points="440,-118.107 444.5,-108.107 440,-113.107 440,-108.107 440,-108.107 440,-108.107 440,-113.107 435.5,-108.107 440,-118.107 440,-118.107"/>
+</g>
+
+<g id="node14" class="node"><title>PeoplelistsPerson</title>
+<ellipse fill="none" stroke="black" cx="573" cy="-90" rx="72.255" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>PeopleList&#45;&gt;PeoplelistsPerson</title>
+<path fill="none" stroke="#793e54" d="M469.349,-160.36C490.371,-146.293 518.686,-127.345 540.41,-112.808"/>
+<ellipse fill="none" stroke="#793e54" cx="465.886" cy="-162.678" rx="4.00002" ry="4.00002"/>
+<polygon fill="#793e54" stroke="#793e54" points="540.666,-112.637 551.48,-110.815 544.822,-109.856 548.977,-107.075 548.977,-107.075 548.977,-107.075 544.822,-109.856 546.475,-103.335 540.666,-112.637 540.666,-112.637"/>
+</g>
+
+<g id="node9" class="node"><title>PeopleListBond</title>
+<ellipse fill="none" stroke="black" cx="573" cy="-181" rx="67.1457" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>PeopleListBond&#45;&gt;Person</title>
+<path fill="none" stroke="#f9eadd" d="M540.791,-158.446C518.93,-143.818 490.262,-124.634 469.092,-110.467"/>
+<polygon fill="#f9eadd" stroke="#f9eadd" points="540.911,-158.527 546.72,-167.828 545.067,-161.308 549.222,-164.089 549.222,-164.089 549.222,-164.089 545.067,-161.308 551.725,-160.349 540.911,-158.527 540.911,-158.527"/>
+<polygon fill="#f9eadd" stroke="#f9eadd" points="468.83,-110.292 463.022,-100.991 464.675,-107.512 460.519,-104.731 460.519,-104.731 460.519,-104.731 464.675,-107.512 458.017,-108.471 468.83,-110.292 468.83,-110.292"/>
+</g>
+
+<g id="edge6" class="edge"><title>PeopleListBond&#45;&gt;PeoplelistsPerson</title>
+<path fill="none" stroke="#105ae9" d="M573,-154.546C573,-143.148 573,-129.696 573,-118.11"/>
+<ellipse fill="none" stroke="#105ae9" cx="573" cy="-158.84" rx="4" ry="4"/>
+<polygon fill="#105ae9" stroke="#105ae9" points="573,-118.107 577.5,-108.107 573,-113.107 573,-108.107 573,-108.107 573,-108.107 573,-113.107 568.5,-108.107 573,-118.107 573,-118.107"/>
+</g>
+
+<g id="node10" class="node"><title>PeopleListInterest</title>
+<ellipse fill="none" stroke="black" cx="733" cy="-181" rx="74.1764" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>PeopleListInterest&#45;&gt;Person</title>
+<path fill="none" stroke="#7db4bd" d="M691.417,-160.416C678.065,-154.607 663.084,-148.581 649,-144 580.51,-121.724 560.357,-127.411 491,-108 486.583,-106.764 481.983,-105.376 477.433,-103.94"/>
+<polygon fill="#7db4bd" stroke="#7db4bd" points="691.673,-160.53 698.99,-168.697 696.244,-162.557 700.814,-164.584 700.814,-164.584 700.814,-164.584 696.244,-162.557 702.639,-160.47 691.673,-160.53 691.673,-160.53"/>
+<polygon fill="#7db4bd" stroke="#7db4bd" points="477.151,-103.849 469.03,-96.4802 472.396,-102.304 467.64,-100.76 467.64,-100.76 467.64,-100.76 472.396,-102.304 466.25,-105.04 477.151,-103.849 477.151,-103.849"/>
+</g>
+
+<g id="edge8" class="edge"><title>PeopleListInterest&#45;&gt;PeoplelistsPerson</title>
+<path fill="none" stroke="#18295d" d="M697.651,-160.337C671.698,-145.9 636.52,-126.333 610.152,-111.666"/>
+<ellipse fill="none" stroke="#18295d" cx="701.268" cy="-162.349" rx="4.00002" ry="4.00002"/>
+<polygon fill="#18295d" stroke="#18295d" points="609.962,-111.56 603.41,-102.766 605.592,-109.13 601.223,-106.699 601.223,-106.699 601.223,-106.699 605.592,-109.13 599.035,-110.632 609.962,-111.56 609.962,-111.56"/>
+</g>
+
+<g id="node15" class="node"><title>PeopleInterest</title>
+<ellipse fill="none" stroke="black" cx="365" cy="-18" rx="60.5395" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>Person&#45;&gt;PeopleInterest</title>
+<path fill="none" stroke="#e8a221" d="M417.739,-68.2233C409.043,-60.1073 399.03,-50.7617 390.081,-42.409"/>
+<ellipse fill="none" stroke="#e8a221" cx="420.802" cy="-71.0818" rx="4.00002" ry="4.00002"/>
+<polygon fill="#e8a221" stroke="#e8a221" points="389.861,-42.2033 385.621,-32.0904 386.205,-38.7917 382.55,-35.3801 382.55,-35.3801 382.55,-35.3801 386.205,-38.7917 379.48,-38.6699 389.861,-42.2033 389.861,-42.2033"/>
+</g>
+
+<g id="node16" class="node"><title>PeoplePeopleList</title>
+<ellipse fill="none" stroke="black" cx="516" cy="-18" rx="72.0037" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>Person&#45;&gt;PeoplePeopleList</title>
+<path fill="none" stroke="#c8113d" d="M462.513,-68.2646C471.257,-60.2103 481.322,-50.9401 490.345,-42.6295"/>
+<ellipse fill="none" stroke="#c8113d" cx="459.433" cy="-71.1011" rx="4.00002" ry="4.00002"/>
+<polygon fill="#c8113d" stroke="#c8113d" points="490.591,-42.4026 500.996,-38.9378 494.269,-39.0152 497.947,-35.6278 497.947,-35.6278 497.947,-35.6278 494.269,-39.0152 494.898,-32.3179 490.591,-42.4026 490.591,-42.4026"/>
+</g>
+
+<g id="node12" class="node"><title>User</title>
+<ellipse fill="none" stroke="black" cx="1625" cy="-181" rx="27" ry="18"/>
+
+</g>
+</g>
+</svg>

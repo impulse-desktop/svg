@@ -1,0 +1,107 @@
+<svg width="664pt" height="421pt"
+ viewBox="0.00 0.00 664.44 420.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 416.5)">
+<title>netmeld</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-416.5 660.44,-416.5 660.44,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_lib</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="153.44,-118 153.44,-265 648.44,-265 648.44,-118 153.44,-118"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_datastore</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="446.94,-31 446.94,-110 633.94,-110 633.94,-31 446.94,-31"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>users</title>
+<ellipse fill="none" stroke="black" cx="41.72" cy="-204" rx="41.94" ry="41.94"/>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>bins</title>
+<polygon fill="none" stroke="black" points="404.44,-412.5 119.44,-412.5 119.44,-273.5 404.44,-273.5 404.44,-412.5"/>
+<polygon fill="none" stroke="black" points="126.94,-280 126.94,-405 179.94,-405 179.94,-280 126.94,-280"/>
+
+<polygon fill="none" stroke="black" points="179.94,-380 179.94,-405 397.94,-405 397.94,-380 179.94,-380"/>
+
+<polygon fill="none" stroke="black" points="179.94,-355 179.94,-380 397.94,-380 397.94,-355 179.94,-355"/>
+
+<polygon fill="none" stroke="black" points="179.94,-330 179.94,-355 397.94,-355 397.94,-330 179.94,-330"/>
+
+<polygon fill="none" stroke="black" points="179.94,-305 179.94,-330 397.94,-330 397.94,-305 179.94,-305"/>
+
+<polygon fill="none" stroke="black" points="179.94,-280 179.94,-305 397.94,-305 397.94,-280 179.94,-280"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>users&#45;&gt;bins</title>
+<path fill="none" stroke="black" d="M72.38,-232.38C84.28,-243.1 98.55,-255.17 116.27,-267.68"/>
+<polygon fill="black" stroke="black" points="114.43,-270.67 124.65,-273.46 118.41,-264.91 114.43,-270.67"/>
+</g>
+
+<g id="node6" class="node">
+<title>psqldb</title>
+<path fill="none" stroke="black" d="M625.94,-75.26C625.94,-77.26 587.62,-78.88 540.44,-78.88 493.26,-78.88 454.94,-77.26 454.94,-75.26 454.94,-75.26 454.94,-42.74 454.94,-42.74 454.94,-40.74 493.26,-39.12 540.44,-39.12 587.62,-39.12 625.94,-40.74 625.94,-42.74 625.94,-42.74 625.94,-75.26 625.94,-75.26"/>
+<path fill="none" stroke="black" d="M625.94,-75.26C625.94,-73.27 587.62,-71.65 540.44,-71.65 493.26,-71.65 454.94,-73.27 454.94,-75.26"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>users&#45;&gt;psqldb</title>
+<path fill="none" stroke="black" d="M68.26,-158.91C81.15,-140.36 98.52,-120.56 119.44,-109 220.31,-53.24 355.36,-47.06 444.77,-50.62"/>
+<polygon fill="black" stroke="black" points="65.29,-157.04 62.65,-167.3 71.11,-160.93 65.29,-157.04"/>
+<polygon fill="black" stroke="black" points="444.75,-54.13 454.9,-51.08 445.07,-47.13 444.75,-54.13"/>
+</g>
+
+<g id="node5" class="node">
+<title>datastore_library</title>
+<polygon fill="none" stroke="black" points="640.44,-162 440.44,-162 440.44,-126 640.44,-126 640.44,-162"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>bins&#45;&gt;datastore_library</title>
+<path fill="none" stroke="black" d="M401.31,-273.33C401.44,-273.19 401.57,-273.06 401.71,-272.91"/>
+<polygon fill="black" stroke="black" points="404.67,-274.84 408.59,-265 399.39,-270.25 404.67,-274.84"/>
+</g>
+
+<g id="node3" class="node">
+<title>utils</title>
+<polygon fill="none" stroke="black" points="362.44,-165.5 161.44,-165.5 161.44,-126.5 362.44,-126.5 362.44,-165.5"/>
+<polygon fill="none" stroke="black" points="168.94,-133 168.94,-158 224.94,-158 224.94,-133 168.94,-133"/>
+
+<polygon fill="none" stroke="black" points="224.94,-133 224.94,-158 355.94,-158 355.94,-133 224.94,-133"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>utils:queries&#45;&gt;psqldb</title>
+<path fill="none" stroke="black" d="M356.94,-145C364.21,-145 438.81,-108.83 490.35,-83.4"/>
+<polygon fill="black" stroke="black" points="491.95,-86.51 499.37,-78.95 488.85,-80.24 491.95,-86.51"/>
+</g>
+
+<g id="node4" class="node">
+<title>schemas</title>
+<polygon fill="none" stroke="black" points="619.44,-234 461.44,-234 461.44,-198 619.44,-198 619.44,-234"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>schemas&#45;&gt;psqldb</title>
+<path fill="none" stroke="black" d="M461.41,-199.02C444.51,-191.03 429.59,-179.28 422.44,-162 416.49,-147.63 416.49,-141.37 422.44,-127 426.77,-116.55 431.26,-115.62 440.44,-109 453.74,-99.41 469.15,-90.71 483.83,-83.35"/>
+<polygon fill="black" stroke="black" points="485.4,-86.48 492.85,-78.94 482.33,-80.19 485.4,-86.48"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>datastore_library&#45;&gt;psqldb</title>
+<path fill="none" stroke="black" d="M540.44,-125.95C540.44,-113.7 540.44,-101.46 540.44,-89.21"/>
+<polygon fill="black" stroke="black" points="543.94,-88.92 540.44,-78.92 536.94,-88.92 543.94,-88.92"/>
+</g>
+</g>
+</svg>

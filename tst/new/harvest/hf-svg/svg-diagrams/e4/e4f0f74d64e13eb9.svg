@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="702pt" height="187pt" viewBox="0.00 0.00 701.77 187.49">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 183.4894)">
+<title>G</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-183.4894 697.7727,-183.4894 697.7727,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_0</title>
+<polygon fill="none" stroke="#000000" points="8,-80.4894 8,-171.4894 241.6831,-171.4894 241.6831,-80.4894 8,-80.4894"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_1</title>
+<polygon fill="none" stroke="#000000" points="261.6831,-87.4894 261.6831,-164.4894 685.7727,-164.4894 685.7727,-87.4894 261.6831,-87.4894"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>authentication</title>
+<ellipse fill="none" stroke="#000000" cx="81.7441" cy="-113.4894" rx="65.989" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>server</title>
+<polygon fill="none" stroke="#000000" points="233.781,-138.6848 183.3902,-138.6848 183.3902,-88.294 233.781,-88.294 233.781,-138.6848"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>authentication-&gt;server</title>
+<path fill="none" stroke="#000000" d="M157.7719,-113.4894C163.0474,-113.4894 168.2016,-113.4894 173.0804,-113.4894"/>
+<polygon fill="#000000" stroke="#000000" points="157.7655,-109.9895 147.7654,-113.4894 157.7654,-116.9895 157.7655,-109.9895"/>
+<polygon fill="#000000" stroke="#000000" points="173.2614,-116.9895 183.2614,-113.4894 173.2614,-109.9895 173.2614,-116.9895"/>
+</g>
+
+<g id="node3" class="node">
+<title>key-value Store</title>
+<polygon fill="none" stroke="#000000" points="521.6646,-131.4894 518.6646,-135.4894 497.6646,-135.4894 494.6646,-131.4894 417.1772,-131.4894 417.1772,-95.4894 521.6646,-95.4894 521.6646,-131.4894"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>server-&gt;key-value Store</title>
+<path fill="none" stroke="#000000" d="M243.006,-133.886C249.0482,-136.6148 255.4133,-138.9869 261.6831,-140.4894 313.382,-152.8789 328.7228,-148.3633 381.2992,-140.4894 390.695,-139.0823 400.4727,-136.8755 409.9498,-134.3156"/>
+<polygon fill="#000000" stroke="#000000" points="244.3555,-130.6493 233.8373,-129.3777 241.2667,-136.931 244.3555,-130.6493"/>
+<polygon fill="#000000" stroke="#000000" points="411.0314,-137.6468 419.6884,-131.5389 409.112,-130.915 411.0314,-137.6468"/>
+</g>
+
+<g id="node4" class="node">
+<title>analytic sink</title>
+<ellipse fill="none" stroke="#000000" cx="617.6576" cy="-113.4894" rx="60.2303" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>server-&gt;analytic sink</title>
+<path fill="none" stroke="#000000" d="M243.006,-93.0928C249.0482,-90.364 255.4133,-87.992 261.6831,-86.4894 373.9961,-59.5739 407.1305,-70.7246 521.5426,-86.4894 537.0281,-88.6232 553.5316,-92.6045 568.414,-96.8668"/>
+<polygon fill="#000000" stroke="#000000" points="241.2667,-90.0478 233.8373,-97.6012 244.3555,-96.3295 241.2667,-90.0478"/>
+<polygon fill="#000000" stroke="#000000" points="567.843,-100.3484 578.4258,-99.8433 569.8378,-93.6386 567.843,-100.3484"/>
+</g>
+
+<g id="node5" class="node">
+<title>grim reaper</title>
+<ellipse fill="none" stroke="#000000" cx="325.4912" cy="-113.4894" rx="55.6167" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>server-&gt;grim reaper</title>
+<path fill="none" stroke="#000000" d="M244.053,-113.4894C248.9487,-113.4894 254.1002,-113.4894 259.3357,-113.4894"/>
+<polygon fill="#000000" stroke="#000000" points="243.9524,-109.9895 233.9524,-113.4894 243.9524,-116.9895 243.9524,-109.9895"/>
+<polygon fill="#000000" stroke="#000000" points="259.462,-116.9895 269.462,-113.4894 259.462,-109.9895 259.462,-116.9895"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>key-value Store-&gt;analytic sink</title>
+<path fill="none" stroke="#000000" d="M521.6836,-113.4894C530.0114,-113.4894 538.7435,-113.4894 547.4049,-113.4894"/>
+<polygon fill="#000000" stroke="#000000" points="547.5119,-116.9895 557.5118,-113.4894 547.5118,-109.9895 547.5119,-116.9895"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>grim reaper-&gt;key-value Store</title>
+<path fill="none" stroke="#000000" d="M381.5503,-113.4894C389.8554,-113.4894 398.458,-113.4894 406.8851,-113.4894"/>
+<polygon fill="#000000" stroke="#000000" points="407.0455,-116.9895 417.0454,-113.4894 407.0454,-109.9895 407.0455,-116.9895"/>
+</g>
+
+<g id="node6" class="node">
+<title>client</title>
+<ellipse fill="none" stroke="#000000" cx="81.7441" cy="-36.4894" rx="32.48" ry="32.48"/>
+<ellipse fill="none" stroke="#000000" cx="81.7441" cy="-36.4894" rx="36.4788" ry="36.4788"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>client-&gt;server</title>
+<path fill="none" stroke="#000000" d="M121.7421,-60.7705C138.6859,-71.0563 158.2249,-82.9176 174.4735,-92.7814"/>
+<polygon fill="#000000" stroke="#000000" points="123.4626,-57.7205 113.0982,-55.5231 119.8301,-63.7043 123.4626,-57.7205"/>
+<polygon fill="#000000" stroke="#000000" points="172.7602,-95.8358 183.1247,-98.0332 176.3927,-89.852 172.7602,-95.8358"/>
+</g>
+</g>
+</svg>

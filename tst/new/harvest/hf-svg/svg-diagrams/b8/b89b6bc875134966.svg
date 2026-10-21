@@ -1,0 +1,130 @@
+<svg width="504pt" height="352pt"
+ viewBox="0.00 0.00 504.00 352.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 348)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-348 500,-348 500,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="14,-10 14,-30 34,-30 34,-10 14,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="127,-10 127,-30 147,-30 147,-10 127,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="213,-10 213,-30 233,-30 233,-10 213,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="310,-10 310,-30 330,-30 330,-10 310,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="207,-146 207,-336 343,-336 343,-146 207,-146"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="215,-154 215,-271 323,-271 323,-154 215,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AuthModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="63,-70 63,-138 455,-138 455,-70 63,-70"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_AuthModule_exports</title>
+<polygon fill="none" stroke="#000000" points="345,-78 345,-130 447,-130 447,-78 345,-78"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_AuthModule_providers</title>
+<polygon fill="none" stroke="#000000" points="71,-78 71,-130 337,-130 337,-78 71,-78"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_TasksModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="41,-146 41,-214 199,-214 199,-146 41,-146"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_TasksModule_providers</title>
+<polygon fill="none" stroke="#000000" points="49,-154 49,-206 191,-206 191,-154 49,-154"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="313.5482,-198 310.5482,-202 289.5482,-202 286.5482,-198 226.4518,-198 226.4518,-162 313.5482,-162 313.5482,-198"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>TasksModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="315.2064,-263 312.2064,-267 291.2064,-267 288.2064,-263 222.7936,-263 222.7936,-227 315.2064,-227 315.2064,-263"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>AuthModule&#45;&gt;TasksModule</title>
+<path fill="none" stroke="#000000" d="M270,-198.1061C270,-198.1061 270,-216.991 270,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="266.5001,-216.9909 270,-226.991 273.5001,-216.991 266.5001,-216.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="322.6571,-328 319.6571,-332 298.6571,-332 295.6571,-328 239.3429,-328 239.3429,-292 322.6571,-292 322.6571,-328"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuthModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M313.7255,-186C316.9453,-186 318.9657,-186 318.9657,-186 318.9657,-186 318.9657,-281.9693 318.9657,-281.9693"/>
+<polygon fill="#000000" stroke="#000000" points="315.4657,-281.9693 318.9657,-291.9693 322.4657,-281.9694 315.4657,-281.9693"/>
+</g>
+
+<g id="node4" class="node">
+<title>JwtStrategy </title>
+<polygon fill="#fb8072" stroke="#000000" points="438.5964,-122 353.4036,-122 353.4036,-86 438.5964,-86 438.5964,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AuthModule&#45;&gt;JwtStrategy </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M313.7151,-174C350.1069,-174 396,-174 396,-174 396,-174 396,-132.0267 396,-132.0267"/>
+<polygon fill="#000000" stroke="#000000" points="399.5001,-132.0267 396,-122.0267 392.5001,-132.0268 399.5001,-132.0267"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>TasksModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M277.1375,-263.1061C277.1375,-263.1061 277.1375,-281.991 277.1375,-281.991"/>
+<polygon fill="#000000" stroke="#000000" points="273.6375,-281.9909 277.1375,-291.991 280.6375,-281.991 273.6375,-281.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>AuthService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="270" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AuthService&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M270,-122.0109C270,-122.0109 270,-151.855 270,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="266.5001,-151.8549 270,-161.855 273.5001,-151.855 266.5001,-151.8549"/>
+</g>
+
+<g id="node6" class="node">
+<title>JwtStrategy</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="136" cy="-104" rx="56.7561" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>JwtStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M187.5728,-111.565C187.5728,-130.7883 187.5728,-180 187.5728,-180 187.5728,-180 216.3728,-180 216.3728,-180"/>
+<polygon fill="#000000" stroke="#000000" points="216.3728,-183.5001 226.3728,-180 216.3727,-176.5001 216.3728,-183.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>TasksService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="120" cy="-180" rx="62.5354" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>TasksService&#45;&gt;TasksModule</title>
+<path fill="none" stroke="#000000" d="M120,-198.1061C120,-217.3391 120,-245 120,-245 120,-245 212.6722,-245 212.6722,-245"/>
+<polygon fill="#000000" stroke="#000000" points="212.6723,-248.5001 222.6722,-245 212.6722,-241.5001 212.6723,-248.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,148 @@
+<svg width="1125pt" height="284pt"
+ viewBox="0.00 0.00 1125.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1121,-280 1121,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="324.5,-10 324.5,-30 344.5,-30 344.5,-10 324.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="437.5,-10 437.5,-30 457.5,-30 457.5,-10 437.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="523.5,-10 523.5,-30 543.5,-30 543.5,-10 523.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="620.5,-10 620.5,-30 640.5,-30 640.5,-10 620.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="716.5,-10 716.5,-30 736.5,-30 736.5,-10 716.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ExpensesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1109,-268 1109,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ExpensesModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="442,-78 442,-130 1101,-130 1101,-78 442,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_ExpensesModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 434,-130 434,-78 16,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_ExpensesModule_exports</title>
+<polygon fill="none" stroke="#000000" points="514,-208 514,-260 636,-260 636,-208 514,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>AmountComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1092.7204,-122 965.2796,-122 965.2796,-86 1092.7204,-86 1092.7204,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>ExpensesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="631.4216,-187 628.4216,-191 607.4216,-191 604.4216,-187 518.5784,-187 518.5784,-151 631.4216,-151 631.4216,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AmountComponent&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M1029,-122.2921C1029,-144.2057 1029,-178 1029,-178 1029,-178 641.5815,-178 641.5815,-178"/>
+<polygon fill="#000000" stroke="#000000" points="641.5815,-174.5001 631.5815,-178 641.5814,-181.5001 641.5815,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="947.0452,-122 838.9548,-122 838.9548,-86 947.0452,-86 947.0452,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CardComponent&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M893,-122.1061C893,-141.3391 893,-169 893,-169 893,-169 641.4856,-169 641.4856,-169"/>
+<polygon fill="#000000" stroke="#000000" points="641.4856,-165.5001 631.4856,-169 641.4856,-172.5001 641.4856,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>FormComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="820.6667,-122 709.3333,-122 709.3333,-86 820.6667,-86 820.6667,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>FormComponent&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M765,-122.027C765,-138.3976 765,-160 765,-160 765,-160 641.2351,-160 641.2351,-160"/>
+<polygon fill="#000000" stroke="#000000" points="641.2351,-156.5001 631.2351,-160 641.235,-163.5001 641.2351,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="691.6109,-122 588.3891,-122 588.3891,-86 691.6109,-86 691.6109,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ListComponent&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M609.8275,-122.1061C609.8275,-122.1061 609.8275,-140.991 609.8275,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="606.3276,-140.9909 609.8275,-150.991 613.3276,-140.991 606.3276,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>LoaderComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="570.4748,-122 449.5252,-122 449.5252,-86 570.4748,-86 570.4748,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>LoaderComponent&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M544.6385,-122.1061C544.6385,-122.1061 544.6385,-140.991 544.6385,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="541.1386,-140.9909 544.6385,-150.991 548.1386,-140.991 541.1386,-140.9909"/>
+</g>
+
+<g id="node10" class="node">
+<title>ListComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="628.1115,-252 521.8885,-252 521.8885,-216 628.1115,-216 628.1115,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ExpensesModule&#45;&gt;ListComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M575,-187.1061C575,-187.1061 575,-205.991 575,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="571.5001,-205.9909 575,-215.991 578.5001,-205.991 571.5001,-205.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>ConfirmButtonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="425.6066,-122 422.6066,-126 401.6066,-126 398.6066,-122 280.3934,-122 280.3934,-86 425.6066,-86 425.6066,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ConfirmButtonModule&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M353,-122.027C353,-138.3976 353,-160 353,-160 353,-160 508.693,-160 508.693,-160"/>
+<polygon fill="#000000" stroke="#000000" points="508.6931,-163.5001 518.693,-160 508.693,-156.5001 508.6931,-163.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>DrawerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="262.5146,-122 259.5146,-126 238.5146,-126 235.5146,-122 161.4854,-122 161.4854,-86 262.5146,-86 262.5146,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>DrawerModule&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M212,-122.1061C212,-141.3391 212,-169 212,-169 212,-169 508.6795,-169 508.6795,-169"/>
+<polygon fill="#000000" stroke="#000000" points="508.6796,-172.5001 518.6795,-169 508.6795,-165.5001 508.6796,-172.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>PaginationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="143.9342,-122 140.9342,-126 119.9342,-126 116.9342,-122 24.0658,-122 24.0658,-86 143.9342,-86 143.9342,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>PaginationModule&#45;&gt;ExpensesModule</title>
+<path fill="none" stroke="#000000" d="M84,-122.2921C84,-144.2057 84,-178 84,-178 84,-178 508.6761,-178 508.6761,-178"/>
+<polygon fill="#000000" stroke="#000000" points="508.6761,-181.5001 518.6761,-178 508.676,-174.5001 508.6761,-181.5001"/>
+</g>
+</g>
+</svg>

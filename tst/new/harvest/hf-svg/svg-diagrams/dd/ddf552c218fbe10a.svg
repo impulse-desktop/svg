@@ -1,0 +1,164 @@
+<svg width="762pt" height="196pt"
+ viewBox="0.00 0.00 762.00 196.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 192)">
+<title>tbb::internal::mail_inbox::is_idle_state</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-192 758,-192 758,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-33.5 0,-63.5 106,-63.5 106,-33.5 0,-33.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00302.html#aa101d77dc7a5e986270073e1c0e09cf6" target="_top" xlink:title="tbb::internal::generic\l_scheduler::attach_arena">
+<polygon fill="white" stroke="black" points="142,-56.5 142,-86.5 268,-86.5 268,-56.5 142,-56.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M115.987,-58.0047C124.575,-59.3214 133.397,-60.6742 141.985,-61.9911"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="116.457,-54.5359 106.042,-56.4797 115.396,-61.455 116.457,-54.5359"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="a00059.html#aff17fc29650655b080b795be34179d20" target="_top" xlink:title="Registers the worker with the arena and enters TBB scheduler dispatch loop. ">
+<polygon fill="white" stroke="black" points="332.5,-7.5 332.5,-37.5 430.5,-37.5 430.5,-7.5 332.5,-7.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M116.282,-43.5404C179.177,-38.5318 274.995,-30.9016 332.314,-26.3372"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="115.787,-40.0686 106.096,-44.3515 116.342,-47.0465 115.787,-40.0686"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00302.html#ac7fb04a73dbb75dd8db5c9637bfadeae" target="_top" xlink:title="Initialize a scheduler for a master thread. ">
+<polygon fill="white" stroke="black" points="315.5,-108.5 315.5,-138.5 447.5,-138.5 447.5,-108.5 315.5,-108.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M266.184,-89.4344C287.031,-95.6468 310.167,-102.541 330.141,-108.493"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="267.056,-86.0422 256.473,-86.5406 265.057,-92.7507 267.056,-86.0422"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00307.html#abf62b8bc4890ad846ff01349f8d46a84" target="_top" xlink:title="Processes scheduler initialization request (possibly nested) in a master thread. ">
+<polygon fill="white" stroke="black" points="499,-157.5 499,-187.5 610,-187.5 610,-157.5 499,-157.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M227.202,-93.7761C245.657,-111.614 274.08,-135.558 304,-147.5 367.477,-172.835 446.936,-176.498 498.9,-175.542"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="229.492,-91.1172 219.928,-86.5581 224.561,-96.0862 229.492,-91.1172"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a00302.html#a7c98d05ea5c1e309b836335ea9af79fa" target="_top" xlink:title="tbb::internal::generic\l_scheduler::nested_arena_entry">
+<polygon fill="white" stroke="black" points="304,-56.5 304,-86.5 459,-86.5 459,-56.5 304,-56.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node2&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M278.178,-71.5C286.607,-71.5 295.231,-71.5 303.72,-71.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="278.014,-68.0001 268.014,-71.5 278.013,-75.0001 278.014,-68.0001"/>
+</g>
+
+<g id="edge9" class="edge"><title>Node2&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M269.455,-53.6818C290.168,-47.8654 312.819,-41.5051 332.23,-36.0544"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="268.461,-50.3254 259.78,-56.3986 270.353,-57.0647 268.461,-50.3254"/>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M444.947,-141.394C463.339,-146.664 483.27,-152.376 500.973,-157.448"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="445.778,-137.992 435.201,-138.601 443.85,-144.721 445.778,-137.992"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00307.html#a2fb697c689050c0d4f5438b0e29ad41c" target="_top" xlink:title="Automatic initialization of scheduler in a master thread with default settings without arena...">
+<polygon fill="white" stroke="black" points="499,-108.5 499,-138.5 610,-138.5 610,-108.5 499,-108.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M457.642,-123.5C471.504,-123.5 485.734,-123.5 498.846,-123.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="457.636,-120 447.636,-123.5 457.636,-127 457.636,-120"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00791.html#a786a7c6c49faa40101d5f4ca2209b1cb" target="_top" xlink:title="The overloaded method with stack size parameter. ">
+<polygon fill="white" stroke="black" points="651,-157.5 651,-187.5 753,-187.5 753,-157.5 651,-157.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M620.266,-172.5C630.541,-172.5 641.031,-172.5 650.903,-172.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="620.093,-169 610.093,-172.5 620.093,-176 620.093,-169"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a00514.html#a836d39a027baf51a4ff995cc44adee05" target="_top" xlink:title="tbb::internal::nested\l_arena_context::nested\l_arena_context">
+<polygon fill="white" stroke="black" points="495,-49 495,-90 614,-90 614,-49 495,-49"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M469.55,-70.4819C478.125,-70.3816 486.679,-70.2815 494.866,-70.1858"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="469.454,-66.9827 459.496,-70.5995 469.536,-73.9822 469.454,-66.9827"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="a00489.html#a574c6275a73f185d391151478e4a7634" target="_top" xlink:title="tbb::internal::market\l::process">
+<polygon fill="white" stroke="black" points="502.5,-0.5 502.5,-30.5 606.5,-30.5 606.5,-0.5 502.5,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node9&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M440.83,-20.1122C460.852,-19.2926 483.094,-18.3821 502.49,-17.5881"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="440.437,-16.6253 430.588,-20.5315 440.723,-23.6194 440.437,-16.6253"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="a00489.html#ac34ffcef09382c724dc962361d6fd2b1" target="_top" xlink:title="tbb::internal::market\l::policy">
+<polygon fill="white" stroke="black" points="650,-0.5 650,-30.5 754,-30.5 754,-0.5 650,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M617.073,-15.5C627.933,-15.5 639.133,-15.5 649.675,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="616.798,-12.0001 606.798,-15.5 616.798,-19.0001 616.798,-12.0001"/>
+</g>
+</g>
+</svg>

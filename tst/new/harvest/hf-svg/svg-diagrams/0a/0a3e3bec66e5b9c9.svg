@@ -1,0 +1,90 @@
+<svg width="444pt" height="247pt"
+ viewBox="0.00 0.00 444.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 440,-242.8 440,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LayoutModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 428,-230.8 428,-32.8 8,-32.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_LayoutModule_exports</title>
+<polygon fill="none" stroke="black" points="73,-170.8 73,-222.8 363,-222.8 363,-170.8 73,-170.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_LayoutModule_imports</title>
+<polygon fill="none" stroke="black" points="306,-40.8 306,-92.8 420,-92.8 420,-40.8 306,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_LayoutModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 298,-92.8 298,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>HeaderComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="289.74,-84.8 168.26,-84.8 168.26,-48.8 289.74,-48.8 289.74,-84.8"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>LayoutModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="278.71,-149.8 275.71,-153.8 254.71,-153.8 251.71,-149.8 179.29,-149.8 179.29,-113.8 278.71,-113.8 278.71,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>HeaderComponent&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="black" d="M229,-84.91C229,-84.91 229,-103.79 229,-103.79"/>
+<polygon fill="black" stroke="black" points="225.5,-103.79 229,-113.79 232.5,-103.79 225.5,-103.79"/>
+</g>
+
+<g id="node2" class="node">
+<title>SidenavComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="150.44,-84.8 23.56,-84.8 23.56,-48.8 150.44,-48.8 150.44,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SidenavComponent&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="black" d="M115.62,-84.91C115.62,-104.14 115.62,-131.8 115.62,-131.8 115.62,-131.8 169.27,-131.8 169.27,-131.8"/>
+<polygon fill="black" stroke="black" points="169.27,-135.3 179.27,-131.8 169.27,-128.3 169.27,-135.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>HeaderComponent </title>
+<polygon fill="#fb8072" stroke="black" points="354.74,-214.8 229.26,-214.8 229.26,-178.8 354.74,-178.8 354.74,-214.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LayoutModule&#45;&gt;HeaderComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M253.99,-149.91C253.99,-149.91 253.99,-168.79 253.99,-168.79"/>
+<polygon fill="black" stroke="black" points="250.49,-168.79 253.99,-178.79 257.49,-168.79 250.49,-168.79"/>
+</g>
+
+<g id="node6" class="node">
+<title>SidenavComponent </title>
+<polygon fill="#fb8072" stroke="black" points="210.93,-214.8 81.07,-214.8 81.07,-178.8 210.93,-178.8 210.93,-214.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>LayoutModule&#45;&gt;SidenavComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M195.18,-149.91C195.18,-149.91 195.18,-168.79 195.18,-168.79"/>
+<polygon fill="black" stroke="black" points="191.68,-168.79 195.18,-178.79 198.68,-168.79 191.68,-168.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="412.42,-84.8 409.42,-88.8 388.42,-88.8 385.42,-84.8 313.58,-84.8 313.58,-48.8 412.42,-48.8 412.42,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="black" d="M334.21,-84.91C334.21,-104.14 334.21,-131.8 334.21,-131.8 334.21,-131.8 288.83,-131.8 288.83,-131.8"/>
+<polygon fill="black" stroke="black" points="288.83,-128.3 278.83,-131.8 288.83,-135.3 288.83,-128.3"/>
+</g>
+</g>
+</svg>

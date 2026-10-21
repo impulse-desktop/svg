@@ -1,0 +1,98 @@
+<svg width="454pt" height="247pt"
+ viewBox="0.00 0.00 454.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 450,-242.8 450,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_NetworkModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 438,-230.8 438,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_NetworkModule_declarations</title>
+<polygon fill="none" stroke="black" points="21,-40.8 21,-92.8 425,-92.8 425,-40.8 21,-40.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_NetworkModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 430,-222.8 430,-170.8 16,-170.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>BsEdgeInfoCard</title>
+<polygon fill="#ffffb3" stroke="black" points="417.08,-84.8 306.92,-84.8 306.92,-48.8 417.08,-48.8 417.08,-84.8"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>NetworkModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="287.03,-149.8 284.03,-153.8 263.03,-153.8 260.03,-149.8 178.97,-149.8 178.97,-113.8 287.03,-113.8 287.03,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>BsEdgeInfoCard&#45;&gt;NetworkModule</title>
+<path fill="none" stroke="black" d="M380.76,-84.82C380.76,-102.17 380.76,-125.8 380.76,-125.8 380.76,-125.8 297.18,-125.8 297.18,-125.8"/>
+<polygon fill="black" stroke="black" points="297.18,-122.3 287.18,-125.8 297.18,-129.3 297.18,-122.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>BsNodeInfoCard</title>
+<polygon fill="#ffffb3" stroke="black" points="288.64,-84.8 177.36,-84.8 177.36,-48.8 288.64,-48.8 288.64,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>BsNodeInfoCard&#45;&gt;NetworkModule</title>
+<path fill="none" stroke="black" d="M233,-84.91C233,-84.91 233,-103.79 233,-103.79"/>
+<polygon fill="black" stroke="black" points="229.5,-103.79 233,-113.79 236.5,-103.79 229.5,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>NetworkComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="159.31,-84.8 28.69,-84.8 28.69,-48.8 159.31,-48.8 159.31,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NetworkComponent&#45;&gt;NetworkModule</title>
+<path fill="none" stroke="black" d="M114.89,-84.82C114.89,-102.17 114.89,-125.8 114.89,-125.8 114.89,-125.8 168.78,-125.8 168.78,-125.8"/>
+<polygon fill="black" stroke="black" points="168.78,-129.3 178.78,-125.8 168.78,-122.3 168.78,-129.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>BsEdgeInfoCard </title>
+<polygon fill="#fb8072" stroke="black" points="421.58,-214.8 308.42,-214.8 308.42,-178.8 421.58,-178.8 421.58,-214.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>NetworkModule&#45;&gt;BsEdgeInfoCard </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M287.11,-137.8C315.52,-137.8 344.49,-137.8 344.49,-137.8 344.49,-137.8 344.49,-168.78 344.49,-168.78"/>
+<polygon fill="black" stroke="black" points="340.99,-168.78 344.49,-178.78 347.99,-168.78 340.99,-168.78"/>
+</g>
+
+<g id="node6" class="node">
+<title>BsNodeInfoCard </title>
+<polygon fill="#fb8072" stroke="black" points="290.64,-214.8 175.36,-214.8 175.36,-178.8 290.64,-178.8 290.64,-214.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>NetworkModule&#45;&gt;BsNodeInfoCard </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M233,-149.91C233,-149.91 233,-168.79 233,-168.79"/>
+<polygon fill="black" stroke="black" points="229.5,-168.79 233,-178.79 236.5,-168.79 229.5,-168.79"/>
+</g>
+
+<g id="node7" class="node">
+<title>NetworkComponent </title>
+<polygon fill="#fb8072" stroke="black" points="157.81,-214.8 24.19,-214.8 24.19,-178.8 157.81,-178.8 157.81,-214.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>NetworkModule&#45;&gt;NetworkComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M178.9,-137.8C132.08,-137.8 71.86,-137.8 71.86,-137.8 71.86,-137.8 71.86,-168.78 71.86,-168.78"/>
+<polygon fill="black" stroke="black" points="68.36,-168.78 71.86,-178.78 75.36,-168.78 68.36,-168.78"/>
+</g>
+</g>
+</svg>

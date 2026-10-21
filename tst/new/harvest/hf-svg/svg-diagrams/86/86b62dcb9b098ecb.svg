@@ -1,0 +1,109 @@
+<svg width="544pt" height="116pt"
+ viewBox="0.00 0.00 544.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>espconn_copy_partial</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-112 540,-112 540,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node79</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-44.5 0,-63.5 111,-63.5 111,-44.5 0,-44.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node80</title>
+<g id="a_node2"><a xlink:href="espconn__tcp_8c.html#acf0ecfba42ea8bcc55836b8dccabe511" target="_top" xlink:title="espconn_tcp_accept">
+<polygon fill="white" stroke="black" points="156,-88.5 156,-107.5 263,-107.5 263,-88.5 156,-88.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node79&#45;&gt;Node80</title>
+<path fill="none" stroke="midnightblue" d="M99.1332,-66.3412C123.343,-73.3493 153.189,-81.9888 175.583,-88.4713"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="100.061,-62.966 89.4817,-63.5473 98.1142,-69.69 100.061,-62.966"/>
+</g>
+
+<g id="node5" class="node"><title>Node83</title>
+<g id="a_node5"><a xlink:href="espconn__tcp_8c.html#a20affdc6c469b20f65d27e24d6ba6bc1" target="_top" xlink:title="espconn_tcp_disconnect\l_successful">
+<polygon fill="white" stroke="black" points="147,-39 147,-69 272,-69 272,-39 147,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node79&#45;&gt;Node83</title>
+<path fill="none" stroke="midnightblue" d="M121.478,-54C129.857,-54 138.419,-54 146.744,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="121.376,-50.5001 111.375,-54 121.375,-57.5001 121.376,-50.5001"/>
+</g>
+
+<g id="node8" class="node"><title>Node86</title>
+<g id="a_node8"><a xlink:href="espconn__tcp_8c.html#ae7340333afa97bbdba4ae018539f8a1a" target="_top" xlink:title="espconn_tcp_reconnect">
+<polygon fill="white" stroke="black" points="149.5,-0.5 149.5,-19.5 269.5,-19.5 269.5,-0.5 149.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node79&#45;&gt;Node86</title>
+<path fill="none" stroke="midnightblue" d="M99.1332,-41.6588C123.343,-34.6507 153.189,-26.0112 175.583,-19.5287"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="98.1142,-38.31 89.4817,-44.4527 100.061,-45.034 98.1142,-38.31"/>
+</g>
+
+<g id="node3" class="node"><title>Node81</title>
+<g id="a_node3"><a xlink:href="espconn__tcp_8c.html#ace125fa28aced169fba2b955f1ce76fb" target="_top" xlink:title="espconn_tcp_server">
+<polygon fill="white" stroke="black" points="308,-88.5 308,-107.5 412,-107.5 412,-88.5 308,-88.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node80&#45;&gt;Node81</title>
+<path fill="none" stroke="midnightblue" d="M273.288,-98C284.828,-98 296.746,-98 307.891,-98"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.274,-94.5001 263.274,-98 273.274,-101.5 273.274,-94.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node82</title>
+<g id="a_node4"><a xlink:href="sdk_2include_2espconn_8h.html#abd44446e3fc4a61fdef77d473deb678b" target="_top" xlink:title="espconn_accept">
+<polygon fill="white" stroke="black" points="448,-88.5 448,-107.5 536,-107.5 536,-88.5 448,-88.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node81&#45;&gt;Node82</title>
+<path fill="none" stroke="midnightblue" d="M422.086,-98C430.74,-98 439.487,-98 447.71,-98"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="422.006,-94.5001 412.006,-98 422.006,-101.5 422.006,-94.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node84</title>
+<g id="a_node6"><a xlink:href="espconn__tcp_8c.html#a658001fa320693943742066d8870a1b9" target="_top" xlink:title="espconn_Task">
+<polygon fill="white" stroke="black" points="320,-22.5 320,-41.5 400,-41.5 400,-22.5 320,-22.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node83&#45;&gt;Node84</title>
+<path fill="none" stroke="midnightblue" d="M282.452,-43.3404C295.314,-41.435 308.267,-39.516 319.766,-37.8124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="281.566,-39.9334 272.187,-44.8611 282.592,-46.8578 281.566,-39.9334"/>
+</g>
+
+<g id="node7" class="node"><title>Node85</title>
+<g id="a_node7"><a xlink:href="espconn__tcp_8c.html#a86c6dca784d0ca2d55af8567a7968406" target="_top" xlink:title="espconn_init">
+<polygon fill="white" stroke="black" points="456.5,-22.5 456.5,-41.5 527.5,-41.5 527.5,-22.5 456.5,-22.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node84&#45;&gt;Node85</title>
+<path fill="none" stroke="midnightblue" d="M410.389,-32C425.741,-32 442.327,-32 456.44,-32"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="410.004,-28.5001 400.004,-32 410.004,-35.5001 410.004,-28.5001"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node86&#45;&gt;Node84</title>
+<path fill="none" stroke="midnightblue" d="M279.572,-20.2329C293.338,-22.2723 307.342,-24.347 319.68,-26.1748"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="280.023,-16.7616 269.618,-18.7582 278.997,-23.686 280.023,-16.7616"/>
+</g>
+</g>
+</svg>

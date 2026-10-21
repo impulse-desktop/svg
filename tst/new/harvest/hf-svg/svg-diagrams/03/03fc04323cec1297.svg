@@ -1,0 +1,100 @@
+<svg width="718pt" height="284pt"
+ viewBox="0.00 0.00 718.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 714,-280 714,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="121,-10 121,-30 141,-30 141,-10 121,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="234,-10 234,-30 254,-30 254,-10 234,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="320,-10 320,-30 340,-30 340,-10 320,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="417,-10 417,-30 437,-30 437,-10 417,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="513,-10 513,-30 533,-30 533,-10 513,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TipoDependenciaModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 702,-268 702,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_TipoDependenciaModule_imports</title>
+<polygon fill="none" stroke="#000000" points="242,-78 242,-130 694,-130 694,-78 242,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_TipoDependenciaModule_exports</title>
+<polygon fill="none" stroke="#000000" points="269,-208 269,-260 497,-260 497,-208 269,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_TipoDependenciaModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 234,-130 234,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="686.4231,-122 683.4231,-126 662.4231,-126 659.4231,-122 587.5769,-122 587.5769,-86 686.4231,-86 686.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>TipoDependenciaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="462.5632,-187 459.5632,-191 438.5632,-191 435.5632,-187 303.4368,-187 303.4368,-151 462.5632,-151 462.5632,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;TipoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M637,-122.1061C637,-141.3391 637,-169 637,-169 637,-169 472.6703,-169 472.6703,-169"/>
+<polygon fill="#000000" stroke="#000000" points="472.6703,-165.5001 462.6703,-169 472.6703,-172.5001 472.6703,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>TipoDependenciaRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="570.1811,-122 567.1811,-126 546.1811,-126 543.1811,-122 365.8189,-122 365.8189,-86 570.1811,-86 570.1811,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>TipoDependenciaRoutingModule&#45;&gt;TipoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M414.2206,-122.1061C414.2206,-122.1061 414.2206,-140.991 414.2206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="410.7206,-140.9909 414.2206,-150.991 417.7206,-140.991 410.7206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="348.4231,-122 345.4231,-126 324.4231,-126 321.4231,-122 249.5769,-122 249.5769,-86 348.4231,-86 348.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;TipoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M325.8398,-122.1061C325.8398,-122.1061 325.8398,-140.991 325.8398,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="322.3398,-140.9909 325.8398,-150.991 329.3398,-140.991 322.3398,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudTipoDependenciaComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="489.3433,-252 276.6567,-252 276.6567,-216 489.3433,-216 489.3433,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>TipoDependenciaModule&#45;&gt;CrudTipoDependenciaComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M383,-187.1061C383,-187.1061 383,-205.991 383,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="379.5001,-205.9909 383,-215.991 386.5001,-205.991 379.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>ProgramaOikosService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="125" cy="-104" rx="100.6998" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ProgramaOikosService&#45;&gt;TipoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M125,-122.1061C125,-141.3391 125,-169 125,-169 125,-169 293.1341,-169 293.1341,-169"/>
+<polygon fill="#000000" stroke="#000000" points="293.1341,-172.5001 303.1341,-169 293.134,-165.5001 293.1341,-172.5001"/>
+</g>
+</g>
+</svg>

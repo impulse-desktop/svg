@@ -1,0 +1,64 @@
+<svg width="380pt" height="66pt"
+ viewBox="0.00 0.00 380.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>spi_clock</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-62 376,-62 376,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 58,-38.5 58,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="ext__spi__flash_8h.html#a292607e88dd8cb8213d0bad78679210d" target="_top" xlink:title="ext_spi_init">
+<polygon fill="white" stroke="black" points="94,-38.5 94,-57.5 160,-57.5 160,-38.5 94,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M68.0853,-36.5377C76.5704,-38.2171 85.4877,-39.9819 93.7131,-41.6099"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="68.5145,-33.0548 58.0252,-34.5467 67.1554,-39.9216 68.5145,-33.0548"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="esp-open-sdk_2esp-open-lwip_2include_2netif_2driver_2spi_8h.html#a5b5feea007f57681d18d6fcd940ede27" target="_top" xlink:title="spi_init">
+<polygon fill="white" stroke="black" points="103.5,-0.5 103.5,-19.5 150.5,-19.5 150.5,-0.5 103.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M68.1767,-21.4442C80.0626,-19.0918 92.788,-16.5732 103.266,-14.4993"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="67.1554,-18.0784 58.0252,-23.4533 68.5145,-24.9452 67.1554,-18.0784"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="espenc_8c.html#a81a1bda1746cf556eca33a6ab92ea851" target="_top" xlink:title="enc28j60_init">
+<polygon fill="white" stroke="black" points="196,-0.5 196,-19.5 270,-19.5 270,-0.5 196,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M160.79,-10C171.981,-10 184.553,-10 195.984,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="160.566,-6.5001 150.566,-10 160.566,-13.5001 160.566,-6.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="espenc_8c.html#a193505f7e2d8f132ca9698a32783fe93" target="_top" xlink:title="espenc_init">
+<polygon fill="white" stroke="black" points="306,-0.5 306,-19.5 372,-19.5 372,-0.5 306,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M280.103,-10C288.776,-10 297.67,-10 305.805,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="280.082,-6.5001 270.082,-10 280.082,-13.5001 280.082,-6.5001"/>
+</g>
+</g>
+</svg>

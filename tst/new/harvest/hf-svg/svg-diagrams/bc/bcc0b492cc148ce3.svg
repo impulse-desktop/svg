@@ -1,0 +1,121 @@
+<svg width="599px" height="275px"
+ viewBox="0.00 0.00 599.00 275.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.0 1.0) rotate(0) translate(4 271)">
+<title>fulib.labworkflow</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-271 595,-271 595,4 -4,4"/>
+
+<g id="node1" class="node"><title>AddReagent</title>
+<polygon fill="none" stroke="black" points="369,-32.5 369,-53.5 461,-53.5 461,-32.5 369,-32.5"/>
+
+<polygon fill="none" stroke="black" points="369,-11.5 369,-32.5 461,-32.5 461,-11.5 369,-11.5"/>
+
+</g>
+
+<g id="node6" class="node"><title>ProtocolStep</title>
+<polygon fill="none" stroke="black" points="201,-133.5 201,-154.5 282,-154.5 282,-133.5 201,-133.5"/>
+
+<polygon fill="none" stroke="black" points="201,-112.5 201,-133.5 282,-133.5 282,-112.5 201,-112.5"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>AddReagent&#45;&gt;ProtocolStep</title>
+<path fill="none" stroke="black" d="M372.435,-57.7181C348.225,-71.4926 317.74,-88.8375 292.226,-103.354"/>
+<polygon fill="none" stroke="black" points="290.388,-100.373 283.427,-108.361 293.849,-106.457 290.388,-100.373"/>
+</g>
+
+<g id="node7" class="node"><title>Reagent</title>
+<polygon fill="none" stroke="black" points="375,-140.5 375,-161.5 459,-161.5 459,-140.5 375,-140.5"/>
+
+<polygon fill="none" stroke="black" points="375,-104.5 375,-140.5 459,-140.5 459,-104.5 375,-104.5"/>
+
+
+</g>
+
+<g id="edge1" class="edge"><title>AddReagent&#45;&gt;Reagent</title>
+<path fill="none" stroke="black" d="M415.489,-57.7181C415.751,-70.6552 416.076,-86.7417 416.357,-100.677"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Assay</title>
+<polygon fill="none" stroke="black" points="495,-32.5 495,-53.5 571,-53.5 571,-32.5 495,-32.5"/>
+
+<polygon fill="none" stroke="black" points="495,-11.5 495,-32.5 571,-32.5 571,-11.5 495,-11.5"/>
+
+</g>
+
+<g id="node5" class="node"><title>JobRequest</title>
+<polygon fill="none" stroke="black" points="497,-125.5 497,-146.5 570,-146.5 570,-125.5 497,-125.5"/>
+
+<polygon fill="none" stroke="black" points="497,-119.5 497,-125.5 570,-125.5 570,-119.5 497,-119.5"/>
+</g>
+
+<g id="edge2" class="edge"><title>Assay&#45;&gt;JobRequest</title>
+<path fill="none" stroke="black" d="M533,-57.7181C533,-75.5782 533,-99.4406 533,-115.358"/>
+
+
+</g>
+
+<g id="edge3" class="edge"><title>Assay&#45;&gt;Reagent</title>
+<path fill="none" stroke="black" d="M504.623,-57.7181C489.465,-70.6552 470.616,-86.7417 454.288,-100.677"/>
+
+
+</g>
+
+<g id="node3" class="node"><title>DistributeSample</title>
+<polygon fill="none" stroke="black" points="8,-32.5 8,-53.5 110,-53.5 110,-32.5 8,-32.5"/>
+
+<polygon fill="none" stroke="black" points="8,-11.5 8,-32.5 110,-32.5 110,-11.5 8,-11.5"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>DistributeSample&#45;&gt;ProtocolStep</title>
+<path fill="none" stroke="black" d="M103.522,-57.7181C128.956,-71.5528 161.01,-88.989 187.768,-103.544"/>
+<polygon fill="none" stroke="black" points="186.165,-106.657 196.622,-108.361 189.51,-100.508 186.165,-106.657"/>
+</g>
+
+<g id="node4" class="node"><title>Incubate</title>
+<polygon fill="none" stroke="black" points="145,-39.5 145,-60.5 262,-60.5 262,-39.5 145,-39.5"/>
+
+<polygon fill="none" stroke="black" points="145,-3.5 145,-39.5 262,-39.5 262,-3.5 145,-3.5"/>
+
+
+</g>
+
+<g id="edge8" class="edge"><title>Incubate&#45;&gt;ProtocolStep</title>
+<path fill="none" stroke="black" d="M215.128,-65.0964C219.252,-75.8411 223.876,-87.8864 228.061,-98.79"/>
+<polygon fill="none" stroke="black" points="224.903,-100.331 231.754,-108.412 231.438,-97.8223 224.903,-100.331"/>
+</g>
+
+<g id="node8" class="node"><title>Sample</title>
+<polygon fill="none" stroke="black" points="483,-241.5 483,-262.5 583,-262.5 583,-241.5 483,-241.5"/>
+
+<polygon fill="none" stroke="black" points="483,-205.5 483,-241.5 583,-241.5 583,-205.5 483,-205.5"/>
+
+
+</g>
+
+<g id="edge4" class="edge"><title>JobRequest&#45;&gt;Sample</title>
+<path fill="none" stroke="black" d="M533,-151.744C533,-165.483 533,-185.094 533,-201.665"/>
+
+
+</g>
+
+<g id="edge5" class="edge"><title>ProtocolStep&#45;&gt;ProtocolStep</title>
+<path fill="none" stroke="black" d="M289.714,-115.355C300.042,-117.198 307.5,-123.246 307.5,-133.5 307.5,-143.754 300.042,-149.802 289.714,-151.645"/>
+
+
+</g>
+
+<g id="node9" class="node"><title>Wash</title>
+<polygon fill="none" stroke="black" points="296,-24.5 296,-45.5 335,-45.5 335,-24.5 296,-24.5"/>
+
+<polygon fill="none" stroke="black" points="296,-18.5 296,-24.5 335,-24.5 335,-18.5 296,-18.5"/>
+</g>
+
+<g id="edge9" class="edge"><title>Wash&#45;&gt;ProtocolStep</title>
+<path fill="none" stroke="black" d="M302.11,-50.7445C291.955,-64.331 277.507,-83.6599 265.209,-100.113"/>
+<polygon fill="none" stroke="black" points="262.191,-98.3033 259.008,-108.408 267.798,-102.494 262.191,-98.3033"/>
+</g>
+</g>
+</svg>

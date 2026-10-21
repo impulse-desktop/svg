@@ -1,0 +1,118 @@
+<svg width="639pt" height="135pt"
+ viewBox="0.00 0.00 639.00 134.63" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 130.63)">
+<title>handle_request</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-130.63 635,-130.63 635,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1062</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-69.1298 0,-88.1298 83,-88.1298 83,-69.1298 0,-69.1298"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node1063</title>
+<g id="a_node2"><a xlink:href="net_8h.html#ab458d1c3b0f5d695dfa86b805ae8463d" target="_top" xlink:title="Dispatches the PDUs from the receive queue in given context. ">
+<polygon fill="white" stroke="black" points="119,-69.1298 119,-88.1298 199,-88.1298 199,-69.1298 119,-69.1298"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1062&#45;&gt;Node1063</title>
+<path fill="none" stroke="midnightblue" d="M93.4463,-78.6298C101.952,-78.6298 110.657,-78.6298 118.81,-78.6298"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="93.221,-75.1299 83.221,-78.6298 93.2209,-82.1299 93.221,-75.1299"/>
+</g>
+
+<g id="node3" class="node"><title>Node1064</title>
+<g id="a_node3"><a xlink:href="net_8h.html#a9900c032b74bd57f67d489484a2b3207" target="_top" xlink:title="Handles retransmissions of confirmable messages. ">
+<polygon fill="white" stroke="black" points="250,-69.1298 250,-88.1298 336,-88.1298 336,-69.1298 250,-69.1298"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1063&#45;&gt;Node1064</title>
+<path fill="none" stroke="midnightblue" d="M209.637,-78.6298C222.899,-78.6298 237.103,-78.6298 249.915,-78.6298"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="209.247,-75.1299 199.247,-78.6298 209.247,-82.1299 209.247,-75.1299"/>
+</g>
+
+<g id="node5" class="node"><title>Node1066</title>
+<g id="a_node5"><a xlink:href="net_8h.html#ac58be1c374afa04d10810aef1d073315" target="_top" xlink:title="Removes the transaction identified by id from given queue. ">
+<polygon fill="white" stroke="black" points="503,-107.13 503,-126.13 631,-126.13 631,-107.13 503,-107.13"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node1063&#45;&gt;Node1066</title>
+<path fill="none" stroke="midnightblue" d="M203.719,-90.6735C213.931,-93.2167 224.803,-95.7085 235,-97.6298 301.904,-110.236 319.05,-112.399 387,-116.63 425.46,-119.024 468.659,-119.099 502.982,-118.54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="204.333,-87.2179 193.778,-88.1325 202.599,-93.9999 204.333,-87.2179"/>
+</g>
+
+<g id="node7" class="node"><title>Node1068</title>
+<g id="a_node7"><a xlink:href="net_8h.html#a74c5ca78210280817a5586f61abfa5f3" target="_top" xlink:title="Parses and interprets a CoAP message with context ctx. ">
+<polygon fill="white" stroke="black" points="235,-12.1298 235,-31.1298 351,-31.1298 351,-12.1298 235,-12.1298"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node1063&#45;&gt;Node1068</title>
+<path fill="none" stroke="midnightblue" d="M191.537,-65.0117C215.687,-54.5833 248.393,-40.4601 269.834,-31.2014"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="189.887,-61.9116 182.094,-69.0893 192.662,-68.3381 189.887,-61.9116"/>
+</g>
+
+<g id="node4" class="node"><title>Node1065</title>
+<g id="a_node4"><a xlink:href="net_8h.html#a231e9a81ac7c03c3e5c251824a76d7b9" target="_top" xlink:title="Returns 1 if there are no messages to send or to dispatch in the context&#39;s queues. ">
+<polygon fill="white" stroke="black" points="387,-88.1298 387,-107.13 467,-107.13 467,-88.1298 387,-88.1298"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1064&#45;&gt;Node1065</title>
+<path fill="none" stroke="midnightblue" d="M346.297,-86.1574C359.853,-88.1087 374.216,-90.176 386.959,-92.0103"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="346.525,-82.6542 336.129,-84.6938 345.528,-89.5828 346.525,-82.6542"/>
+</g>
+
+<g id="node6" class="node"><title>Node1067</title>
+<g id="a_node6"><a xlink:href="net_8h.html#a08ba53f8f554cf7a2559813ebde1bb1d" target="_top" xlink:title="Sends an RST message with code 0 for the specified request to dst. ">
+<polygon fill="white" stroke="black" points="527,-12.1298 527,-31.1298 607,-31.1298 607,-12.1298 527,-12.1298"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1064&#45;&gt;Node1067</title>
+<path fill="none" stroke="midnightblue" d="M346.038,-67.7247C398.781,-56.672 479.2,-39.8196 526.792,-29.8462"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="345.271,-64.3094 336.202,-69.7861 346.707,-71.1606 345.271,-64.3094"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node1065&#45;&gt;Node1066</title>
+<path fill="none" stroke="midnightblue" d="M477.136,-104.395C485.505,-105.547 494.301,-106.758 502.969,-107.952"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="477.56,-100.92 467.176,-103.024 476.605,-107.855 477.56,-100.92"/>
+</g>
+
+<g id="edge9" class="edge"><title>Node1068&#45;&gt;Node1067</title>
+<path fill="none" stroke="midnightblue" d="M341.925,-9.91804C356.325,-6.92074 372.223,-4.12381 387,-2.62979 422.375,0.946863 431.604,0.736068 467,-2.62979 486.862,-4.51848 508.666,-8.49282 526.744,-12.3207"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="340.777,-6.58539 331.743,-12.1202 342.257,-13.4272 340.777,-6.58539"/>
+</g>
+
+<g id="node8" class="node"><title>Node1069</title>
+<g id="a_node8"><a xlink:href="net_8h.html#ade17f093221599e839345cf88b74b496" target="_top" xlink:title="Reads data from the network and tries to parse as CoAP PDU. ">
+<polygon fill="white" stroke="black" points="396,-12.1298 396,-31.1298 458,-31.1298 458,-12.1298 396,-12.1298"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node1068&#45;&gt;Node1069</title>
+<path fill="none" stroke="midnightblue" d="M361.247,-21.6298C373.318,-21.6298 385.334,-21.6298 395.678,-21.6298"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="361.129,-18.1299 351.129,-21.6298 361.129,-25.1299 361.129,-18.1299"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node1069&#45;&gt;Node1067</title>
+<path fill="none" stroke="midnightblue" d="M468.422,-21.6298C486.853,-21.6298 508.589,-21.6298 526.863,-21.6298"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="468.285,-18.1299 458.285,-21.6298 468.285,-25.1299 468.285,-18.1299"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,112 @@
+<svg width="1203pt" height="295pt"
+ viewBox="0.00 0.00 1203.07 295.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 291)">
+<title>proof_xor3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-291 1199.07,-291 1199.07,4 -4,4"/>
+
+<g id="node1" class="node"><title>n6807</title>
+</g>
+
+<g id="node2" class="node"><title>n6823</title>
+<ellipse fill="cyan" stroke="black" cx="838.833" cy="-197" rx="35.9954" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>n6807&#45;&gt;n6823</title>
+<path fill="none" stroke="lightgray" d="M530.244,-265.525C580.095,-258.516 692.743,-241.178 785.087,-216 790.122,-214.627 795.363,-212.996 800.501,-211.274"/>
+<polygon fill="lightgray" stroke="lightgray" points="801.888,-214.497 810.177,-207.897 799.582,-207.888 801.888,-214.497"/>
+
+</g>
+
+<g id="node3" class="node"><title>n6811</title>
+</g>
+
+<g id="edge13" class="edge"><title>n6807&#45;&gt;n6811</title>
+</g>
+
+<g id="node10" class="node"><title>QED</title>
+</g>
+
+<g id="edge12" class="edge"><title>n6823&#45;&gt;QED</title>
+<path fill="none" stroke="black" d="M874.613,-197C935.883,-197 1062.6,-197 1126.38,-197"/>
+<polygon fill="black" stroke="black" points="1126.42,-200.5 1136.42,-197 1126.42,-193.5 1126.42,-200.5"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>n6811&#45;&gt;n6823</title>
+<path fill="none" stroke="lightgray" d="M530.555,-197C587.215,-197 721.844,-197 792.602,-197"/>
+<polygon fill="lightgray" stroke="lightgray" points="792.975,-200.5 802.975,-197 792.975,-193.5 792.975,-200.5"/>
+
+</g>
+
+<g id="node5" class="node"><title>n6822</title>
+<ellipse fill="cyan" stroke="black" cx="503.39" cy="-125" rx="37.8943" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>n6811&#45;&gt;n6822</title>
+</g>
+
+<g id="node4" class="node"><title>n6814</title>
+</g>
+
+<g id="edge3" class="edge"><title>n6814&#45;&gt;n6822</title>
+<path fill="none" stroke="lightgray" d="M191.848,-193.491C241.573,-186.365 354.755,-168.75 447.693,-144 452.975,-142.593 458.481,-140.927 463.877,-139.175"/>
+<polygon fill="lightgray" stroke="lightgray" points="465.041,-142.476 473.4,-135.966 462.806,-135.843 465.041,-142.476"/>
+
+</g>
+
+<g id="node6" class="node"><title>n6818</title>
+</g>
+
+<g id="edge10" class="edge"><title>n6814&#45;&gt;n6818</title>
+</g>
+
+<g id="edge9" class="edge"><title>n6822&#45;&gt;n6823</title>
+<path fill="none" stroke="black" d="M539.806,-129.838C593.447,-137.578 698.245,-154.323 785.087,-178 790.122,-179.373 795.363,-181.004 800.501,-182.726"/>
+<polygon fill="black" stroke="black" points="799.582,-186.112 810.177,-186.103 801.888,-179.503 799.582,-186.112"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>n6818&#45;&gt;n6822</title>
+<path fill="none" stroke="lightgray" d="M192.436,-125C249.023,-125 383.711,-125 455.482,-125"/>
+<polygon fill="lightgray" stroke="lightgray" points="455.598,-128.5 465.597,-125 455.597,-121.5 455.598,-128.5"/>
+
+</g>
+
+<g id="node8" class="node"><title>n6821</title>
+<ellipse fill="cyan" stroke="black" cx="165.347" cy="-53" rx="38.1938" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>n6818&#45;&gt;n6821</title>
+</g>
+
+<g id="node7" class="node"><title>n6819</title>
+</g>
+
+<g id="edge5" class="edge"><title>n6819&#45;&gt;n6821</title>
+<path fill="none" stroke="lightgray" d="M52.376,-83.3851C71.6593,-78.1523 99.0498,-70.7194 121.913,-64.5151"/>
+<polygon fill="lightgray" stroke="lightgray" points="122.99,-67.8494 131.725,-61.8525 121.157,-61.0937 122.99,-67.8494"/>
+
+</g>
+
+<g id="node9" class="node"><title>n6820</title>
+</g>
+
+<g id="edge8" class="edge"><title>n6819&#45;&gt;n6820</title>
+</g>
+
+<g id="edge7" class="edge"><title>n6821&#45;&gt;n6822</title>
+<path fill="none" stroke="black" d="M202.257,-58.0204C256.112,-65.9406 360.759,-82.849 447.693,-106 452.975,-107.407 458.481,-109.073 463.877,-110.825"/>
+<polygon fill="black" stroke="black" points="462.806,-114.157 473.4,-114.034 465.041,-107.524 462.806,-114.157"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>n6820&#45;&gt;n6821</title>
+<path fill="none" stroke="lightgray" d="M52.376,-24.2573C71.5925,-29.1901 98.8603,-36.1897 121.676,-42.0464"/>
+<polygon fill="lightgray" stroke="lightgray" points="120.915,-45.4646 131.471,-44.5609 122.656,-38.6844 120.915,-45.4646"/>
+
+</g>
+</g>
+</svg>

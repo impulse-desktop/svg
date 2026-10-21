@@ -1,0 +1,100 @@
+<svg width="720pt" height="284pt"
+ viewBox="0.00 0.00 720.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 716,-280 716,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="122,-10 122,-30 142,-30 142,-10 122,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="235,-10 235,-30 255,-30 255,-10 235,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="321,-10 321,-30 341,-30 341,-10 321,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="418,-10 418,-30 438,-30 438,-10 418,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="514,-10 514,-30 534,-30 534,-10 514,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_RequisitoModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 704,-268 704,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_RequisitoModule_imports</title>
+<polygon fill="none" stroke="#000000" points="290,-78 290,-130 696,-130 696,-78 290,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_RequisitoModule_exports</title>
+<polygon fill="none" stroke="#000000" points="329,-208 329,-260 511,-260 511,-208 329,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_RequisitoModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 282,-130 282,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="688.4231,-122 685.4231,-126 664.4231,-126 661.4231,-122 589.5769,-122 589.5769,-86 688.4231,-86 688.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>RequisitoModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="476.7176,-187 473.7176,-191 452.7176,-191 449.7176,-187 363.2824,-187 363.2824,-151 476.7176,-151 476.7176,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;RequisitoModule</title>
+<path fill="none" stroke="#000000" d="M639,-122.1061C639,-141.3391 639,-169 639,-169 639,-169 486.6827,-169 486.6827,-169"/>
+<polygon fill="#000000" stroke="#000000" points="486.6828,-165.5001 476.6827,-169 486.6827,-172.5001 486.6828,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>RequisitoRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="572.3356,-122 569.3356,-126 548.3356,-126 545.3356,-122 413.6644,-122 413.6644,-86 572.3356,-86 572.3356,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>RequisitoRoutingModule&#45;&gt;RequisitoModule</title>
+<path fill="none" stroke="#000000" d="M445.2206,-122.1061C445.2206,-122.1061 445.2206,-140.991 445.2206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="441.7206,-140.9909 445.2206,-150.991 448.7206,-140.991 441.7206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="396.4231,-122 393.4231,-126 372.4231,-126 369.4231,-122 297.5769,-122 297.5769,-86 396.4231,-86 396.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;RequisitoModule</title>
+<path fill="none" stroke="#000000" d="M379.8012,-122.1061C379.8012,-122.1061 379.8012,-140.991 379.8012,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="376.3013,-140.9909 379.8012,-150.991 383.3013,-140.991 376.3013,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudRequisitoComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="503.4979,-252 336.5021,-252 336.5021,-216 503.4979,-216 503.4979,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RequisitoModule&#45;&gt;CrudRequisitoComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M420,-187.1061C420,-187.1061 420,-205.991 420,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="416.5001,-205.9909 420,-215.991 423.5001,-205.991 416.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>DescuentoAcademicoService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="149" cy="-104" rx="124.9384" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DescuentoAcademicoService&#45;&gt;RequisitoModule</title>
+<path fill="none" stroke="#000000" d="M149,-122.1061C149,-141.3391 149,-169 149,-169 149,-169 353.1895,-169 353.1895,-169"/>
+<polygon fill="#000000" stroke="#000000" points="353.1896,-172.5001 363.1895,-169 353.1895,-165.5001 353.1896,-172.5001"/>
+</g>
+</g>
+</svg>

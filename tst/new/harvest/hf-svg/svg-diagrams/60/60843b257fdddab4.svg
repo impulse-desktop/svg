@@ -1,0 +1,148 @@
+<svg width="1163pt" height="284pt"
+ viewBox="0.00 0.00 1163.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1159,-280 1159,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="343.5,-10 343.5,-30 363.5,-30 363.5,-10 343.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="456.5,-10 456.5,-30 476.5,-30 476.5,-10 456.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="542.5,-10 542.5,-30 562.5,-30 562.5,-10 542.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="639.5,-10 639.5,-30 659.5,-30 659.5,-10 639.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="735.5,-10 735.5,-30 755.5,-30 755.5,-10 735.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_WCUIKitGridModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1147,-268 1147,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_WCUIKitGridModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="184,-78 184,-130 1139,-130 1139,-78 184,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_WCUIKitGridModule_exports</title>
+<polygon fill="none" stroke="#000000" points="93,-208 93,-260 1062,-260 1062,-208 93,-208"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_WCUIKitGridModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 176,-130 176,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>WCGridButtonEditorComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1131.1539,-122 928.8461,-122 928.8461,-86 1131.1539,-86 1131.1539,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>WCUIKitGridModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="608.4144,-187 605.4144,-191 584.4144,-191 581.4144,-187 467.5856,-187 467.5856,-151 608.4144,-151 608.4144,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>WCGridButtonEditorComponent&#45;&gt;WCUIKitGridModule</title>
+<path fill="none" stroke="#000000" d="M991.375,-122.1061C991.375,-141.3391 991.375,-169 991.375,-169 991.375,-169 618.3424,-169 618.3424,-169"/>
+<polygon fill="#000000" stroke="#000000" points="618.3424,-165.5001 608.3424,-169 618.3424,-172.5001 618.3424,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>WCGridEditorCommandComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="910.3682,-122 687.6318,-122 687.6318,-86 910.3682,-86 910.3682,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>WCGridEditorCommandComponent&#45;&gt;WCUIKitGridModule</title>
+<path fill="none" stroke="#000000" d="M758.875,-122.027C758.875,-138.3976 758.875,-160 758.875,-160 758.875,-160 618.4935,-160 618.4935,-160"/>
+<polygon fill="#000000" stroke="#000000" points="618.4935,-156.5001 608.4935,-160 618.4935,-163.5001 618.4935,-156.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>WCGridEditorCommandsGroupComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="670.08,-122 405.92,-122 405.92,-86 670.08,-86 670.08,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>WCGridEditorCommandsGroupComponent&#45;&gt;WCUIKitGridModule</title>
+<path fill="none" stroke="#000000" d="M538,-122.1061C538,-122.1061 538,-140.991 538,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="534.5001,-140.9909 538,-150.991 541.5001,-140.991 534.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>WCLoadingOverlayComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="387.6288,-122 192.3712,-122 192.3712,-86 387.6288,-86 387.6288,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>WCLoadingOverlayComponent&#45;&gt;WCUIKitGridModule</title>
+<path fill="none" stroke="#000000" d="M353.0121,-122.027C353.0121,-138.3976 353.0121,-160 353.0121,-160 353.0121,-160 457.5363,-160 457.5363,-160"/>
+<polygon fill="#000000" stroke="#000000" points="457.5363,-163.5001 467.5363,-160 457.5363,-156.5001 457.5363,-163.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>WCGridButtonEditorComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1054.1537,-252 847.8463,-252 847.8463,-216 1054.1537,-216 1054.1537,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>WCUIKitGridModule&#45;&gt;WCGridButtonEditorComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M608.2788,-178C708.1543,-178 879.1787,-178 879.1787,-178 879.1787,-178 879.1787,-205.973 879.1787,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="875.6787,-205.973 879.1787,-215.973 882.6787,-205.973 875.6787,-205.973"/>
+</g>
+
+<g id="node7" class="node">
+<title>WCGridEditorCommandComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="830.3685,-252 603.6315,-252 603.6315,-216 830.3685,-216 830.3685,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>WCUIKitGridModule&#45;&gt;WCGridEditorCommandComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M594.803,-187.1061C594.803,-206.3391 594.803,-234 594.803,-234 594.803,-234 595.6818,-234 595.6818,-234"/>
+<polygon fill="#000000" stroke="#000000" points="593.5911,-237.5001 603.5911,-234 593.591,-230.5001 593.5911,-237.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>WCGridEditorCommandsGroupComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="585.5803,-252 318.4197,-252 318.4197,-216 585.5803,-216 585.5803,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>WCUIKitGridModule&#45;&gt;WCGridEditorCommandsGroupComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M526.7915,-187.1061C526.7915,-187.1061 526.7915,-205.991 526.7915,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="523.2916,-205.9909 526.7915,-215.991 530.2916,-205.991 523.2916,-205.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>WCLoadingOverlayComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="300.6284,-252 101.3716,-252 101.3716,-216 300.6284,-216 300.6284,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>WCUIKitGridModule&#45;&gt;WCLoadingOverlayComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M467.7774,-178C381.4859,-178 246.375,-178 246.375,-178 246.375,-178 246.375,-205.973 246.375,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="242.8751,-205.973 246.375,-215.973 249.8751,-205.973 242.8751,-205.973"/>
+</g>
+
+<g id="node10" class="node">
+<title>WCEditService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="96" cy="-104" rx="71.7853" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>WCEditService&#45;&gt;WCUIKitGridModule</title>
+<path fill="none" stroke="#000000" d="M134.5392,-119.4041C134.5392,-138.6255 134.5392,-169 134.5392,-169 134.5392,-169 457.7225,-169 457.7225,-169"/>
+<polygon fill="#000000" stroke="#000000" points="457.7225,-172.5001 467.7225,-169 457.7225,-165.5001 457.7225,-172.5001"/>
+</g>
+</g>
+</svg>

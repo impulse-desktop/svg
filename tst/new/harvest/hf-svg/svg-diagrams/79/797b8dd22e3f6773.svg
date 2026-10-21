@@ -1,0 +1,114 @@
+<svg width="919pt" height="247pt"
+ viewBox="0.00 0.00 919.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 915,-242.8 915,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ViewsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 903,-230.8 903,-32.8 8,-32.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_ViewsModule_exports</title>
+<polygon fill="none" stroke="black" points="372,-170.8 372,-222.8 532,-222.8 532,-170.8 372,-170.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ViewsModule_imports</title>
+<polygon fill="none" stroke="black" points="623,-40.8 623,-92.8 895,-92.8 895,-40.8 623,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ViewsModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 615,-92.8 615,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>ContainerComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="607.04,-84.8 470.96,-84.8 470.96,-48.8 607.04,-48.8 607.04,-84.8"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>ViewsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="499.81,-149.8 496.81,-153.8 475.81,-153.8 472.81,-149.8 404.19,-149.8 404.19,-113.8 499.81,-113.8 499.81,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ContainerComponent&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M485.19,-84.91C485.19,-84.91 485.19,-103.79 485.19,-103.79"/>
+<polygon fill="black" stroke="black" points="481.69,-103.79 485.19,-113.79 488.69,-103.79 481.69,-103.79"/>
+</g>
+
+<g id="node2" class="node">
+<title>CreateUserFormComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="452.12,-84.8 277.88,-84.8 277.88,-48.8 452.12,-48.8 452.12,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CreateUserFormComponent&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M428.33,-84.91C428.33,-84.91 428.33,-103.79 428.33,-103.79"/>
+<polygon fill="black" stroke="black" points="424.83,-103.79 428.33,-113.79 431.83,-103.79 424.83,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="259.61,-84.8 156.39,-84.8 156.39,-48.8 259.61,-48.8 259.61,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListComponent&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M208,-84.82C208,-102.17 208,-125.8 208,-125.8 208,-125.8 394.08,-125.8 394.08,-125.8"/>
+<polygon fill="black" stroke="black" points="394.08,-129.3 404.08,-125.8 394.08,-122.3 394.08,-129.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>LoginComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="138.28,-84.8 23.72,-84.8 23.72,-48.8 138.28,-48.8 138.28,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LoginComponent&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M81,-85.08C81,-106.12 81,-137.8 81,-137.8 81,-137.8 394.26,-137.8 394.26,-137.8"/>
+<polygon fill="black" stroke="black" points="394.26,-141.3 404.26,-137.8 394.26,-134.3 394.26,-141.3"/>
+</g>
+
+<g id="node8" class="node">
+<title>ViewsRoutingModule </title>
+<polygon fill="#fb8072" stroke="black" points="523.93,-214.8 380.07,-214.8 380.07,-178.8 523.93,-178.8 523.93,-214.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ViewsModule&#45;&gt;ViewsRoutingModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M452,-149.91C452,-149.91 452,-168.79 452,-168.79"/>
+<polygon fill="black" stroke="black" points="448.5,-168.79 452,-178.79 455.5,-168.79 448.5,-168.79"/>
+</g>
+
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="887.42,-84.8 884.42,-88.8 863.42,-88.8 860.42,-84.8 788.58,-84.8 788.58,-48.8 887.42,-48.8 887.42,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SharedModule&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M838,-85.08C838,-106.12 838,-137.8 838,-137.8 838,-137.8 509.72,-137.8 509.72,-137.8"/>
+<polygon fill="black" stroke="black" points="509.72,-134.3 499.72,-137.8 509.72,-141.3 509.72,-134.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>ViewsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="771.43,-84.8 768.43,-88.8 747.43,-88.8 744.43,-84.8 630.57,-84.8 630.57,-48.8 771.43,-48.8 771.43,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ViewsRoutingModule&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M701,-84.82C701,-102.17 701,-125.8 701,-125.8 701,-125.8 509.72,-125.8 509.72,-125.8"/>
+<polygon fill="black" stroke="black" points="509.72,-122.3 499.72,-125.8 509.72,-129.3 509.72,-122.3"/>
+</g>
+</g>
+</svg>

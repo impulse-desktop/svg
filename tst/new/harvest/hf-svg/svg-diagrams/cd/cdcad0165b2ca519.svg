@@ -1,0 +1,138 @@
+<svg width="1206pt" height="72pt"
+ viewBox="0.00 0.00 1206.00 71.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 67.5)">
+<title>p33c_DacInstance_ConfigWrite</title>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="Writes a user&#45;defined configuration to the DAC instance registers.">
+<polygon fill="#bfbfbf" stroke="black" points="1069,-14 1069,-44 1198,-44 1198,-14 1069,-14"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="a00532.html#ga91be1e9c6cefeb362af454e71869d042" target="_top" xlink:title="This function initializes the Digital&#45;To&#45;Analog converter, slope compensation and analog comparator u...">
+<polygon fill="none" stroke="black" points="890,-38.5 890,-57.5 1024,-57.5 1024,-38.5 890,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M1058.54,-37.05C1047.08,-38.3 1035.3,-39.58 1024.03,-40.81"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1058.95,-40.53 1068.51,-35.97 1058.19,-33.57 1058.95,-40.53"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node9</title>
+<g id="a_node9"><a xlink:href="a00381.html#ga460e4b439318c2f87879738ecb34fa8a" target="_top" xlink:title="Read the current configuration from the DAC instance registers.">
+<polygon fill="none" stroke="black" points="881,-0.5 881,-19.5 1033,-19.5 1033,-0.5 881,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M1058.44,-20.94C1050.09,-20.03 1041.58,-19.1 1033.22,-18.19"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1058.19,-24.43 1068.51,-22.03 1058.95,-17.47 1058.19,-24.43"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="a00532.html#ga45a54def97cc67eb8d36e22a3867d95f" target="_top" xlink:title="This function initializes the output pins for the PWM output and the default buck PWM settings.">
+<polygon fill="none" stroke="black" points="707,-38.5 707,-57.5 845,-57.5 845,-38.5 707,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M879.51,-48C868.13,-48 856.46,-48 845.27,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="879.86,-51.5 889.86,-48 879.86,-44.5 879.86,-51.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="a00509.html#gaf3c64772d6dfd473d6924fb8893bd180" target="_top" xlink:title="This function initializes all peripheral modules and their instances used by the power controller.">
+<polygon fill="none" stroke="black" points="574,-33 574,-63 671,-63 671,-33 574,-33"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M696.68,-48C688.06,-48 679.5,-48 671.42,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="696.78,-51.5 706.78,-48 696.78,-44.5 696.78,-51.5"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="a00505.html#ga0b26acfec74d1804384b4ba1a3cffab4" target="_top" xlink:title="This function is used to load peripheral configuration templates from the power controller device dri...">
+<polygon fill="none" stroke="black" points="395,-33 395,-63 538,-63 538,-33 395,-33"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M563.41,-48C555.19,-48 546.67,-48 538.25,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="563.62,-51.5 573.62,-48 563.62,-44.5 563.62,-51.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="a00502.html#ga7a4cf6371d09457539f96a74b2809ca0" target="_top" xlink:title="Calls the application layer power controller initialization.">
+<polygon fill="none" stroke="black" points="229,-38.5 229,-57.5 359,-57.5 359,-38.5 229,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M384.65,-48C376.06,-48 367.42,-48 359.07,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="384.67,-51.5 394.67,-48 384.67,-44.5 384.67,-51.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:href="a00366.html#ga2be64f5f0b9a2c0c6713f5a69d793e05" target="_top" xlink:title="Initializes the user&#45;defined tasks.">
+<polygon fill="none" stroke="black" points="74,-38.5 74,-57.5 193,-57.5 193,-38.5 74,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M218.9,-48C210.25,-48 201.52,-48 193.12,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="218.99,-51.5 228.99,-48 218.99,-44.5 218.99,-51.5"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node8</title>
+<g id="a_node8"><a xlink:href="a00350.html#ga840291bc02cba5474a4cb46a9b9566fe" target="_top" xlink:title="Application main function executed after device comes out of RESET.">
+<polygon fill="none" stroke="black" points="0,-38.5 0,-57.5 38,-57.5 38,-38.5 0,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M63.65,-48C54.29,-48 45.43,-48 38.16,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="63.94,-51.5 73.94,-48 63.94,-44.5 63.94,-51.5"/>
+</g>
+</g>
+</svg>

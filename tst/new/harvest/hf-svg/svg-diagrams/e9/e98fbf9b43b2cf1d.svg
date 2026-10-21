@@ -1,0 +1,96 @@
+<svg width="576pt" height="247pt"
+ viewBox="0.00 0.00 576.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 572,-242.8 572,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SharedModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 560,-230.8 560,-32.8 8,-32.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="black" points="163,-170.8 163,-222.8 476,-222.8 476,-170.8 163,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SharedModule_declarations</title>
+<polygon fill="none" stroke="black" points="246,-40.8 246,-92.8 552,-92.8 552,-40.8 246,-40.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_SharedModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 238,-92.8 238,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AddButtonComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="543.56,-84.8 400.44,-84.8 400.44,-48.8 543.56,-48.8 543.56,-84.8"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="367.42,-149.8 364.42,-153.8 343.42,-153.8 340.42,-149.8 268.58,-149.8 268.58,-113.8 367.42,-113.8 367.42,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AddButtonComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M433.88,-84.91C433.88,-104.14 433.88,-131.8 433.88,-131.8 433.88,-131.8 377.48,-131.8 377.48,-131.8"/>
+<polygon fill="black" stroke="black" points="377.48,-128.3 367.48,-131.8 377.48,-135.3 377.48,-128.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>LoadingComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="381.99,-84.8 254.01,-84.8 254.01,-48.8 381.99,-48.8 381.99,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LoadingComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M334.4,-84.91C334.4,-84.91 334.4,-103.79 334.4,-103.79"/>
+<polygon fill="black" stroke="black" points="330.9,-103.79 334.4,-113.79 337.9,-103.79 330.9,-103.79"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>LoadingComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M301.6,-84.91C301.6,-84.91 301.6,-103.79 301.6,-103.79"/>
+<polygon fill="black" stroke="black" points="298.1,-103.79 301.6,-113.79 305.1,-103.79 298.1,-103.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>AddButtonComponent </title>
+<polygon fill="#fb8072" stroke="black" points="467.56,-214.8 320.44,-214.8 320.44,-178.8 467.56,-178.8 467.56,-214.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SharedModule&#45;&gt;AddButtonComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M343.84,-149.91C343.84,-149.91 343.84,-168.79 343.84,-168.79"/>
+<polygon fill="black" stroke="black" points="340.34,-168.79 343.84,-178.79 347.34,-168.79 340.34,-168.79"/>
+</g>
+
+<g id="node5" class="node">
+<title>LoadingComponent </title>
+<polygon fill="#fb8072" stroke="black" points="302.99,-214.8 171.01,-214.8 171.01,-178.8 302.99,-178.8 302.99,-214.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SharedModule&#45;&gt;LoadingComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M285.77,-149.91C285.77,-149.91 285.77,-168.79 285.77,-168.79"/>
+<polygon fill="black" stroke="black" points="282.27,-168.79 285.77,-178.79 289.27,-168.79 282.27,-168.79"/>
+</g>
+
+<g id="node6" class="node">
+<title>AuthentificationService</title>
+<ellipse fill="#fdb462" stroke="black" cx="127" cy="-66.8" rx="103.07" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>AuthentificationService&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M200.77,-79.64C200.77,-98.58 200.77,-131.8 200.77,-131.8 200.77,-131.8 258.62,-131.8 258.62,-131.8"/>
+<polygon fill="black" stroke="black" points="258.62,-135.3 268.62,-131.8 258.62,-128.3 258.62,-135.3"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,212 @@
+<svg width="620pt" height="236pt"
+ viewBox="0.00 0.00 620.00 236.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 232)">
+<title>ImageWidget::setSelectable</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-232 616,-232 616,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node34</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-89.5 0,-108.5 140,-108.5 140,-89.5 0,-89.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node35</title>
+<g id="a_node2"><a xlink:href="class_image_widget.html#a08c72c6888bf10e0941443ea67c72498" target="_top" xlink:title="ImageWidget::actualPropagate\lEvent">
+<polygon fill="#ffffff" stroke="#000000" points="176,-106 176,-136 327,-136 327,-106 176,-106"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node34&#45;&gt;Node35</title>
+<path fill="none" stroke="#191970" d="M140.1726,-107.5058C148.5613,-108.5226 157.1976,-109.5694 165.7739,-110.609"/>
+<polygon fill="#191970" stroke="#191970" points="165.4472,-114.0949 175.7958,-111.8237 166.2896,-107.1458 165.4472,-114.0949"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node39</title>
+<g id="a_node6"><a xlink:href="class_image_widget.html#ac80b8e013edc3cda5e1413cbd174b2cb" target="_top" xlink:title="ImageWidget::actualRender">
+<polygon fill="#ffffff" stroke="#000000" points="182.5,-67.5 182.5,-86.5 320.5,-86.5 320.5,-67.5 182.5,-67.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node34&#45;&gt;Node39</title>
+<path fill="none" stroke="#191970" d="M140.1726,-90.4942C150.6803,-89.2206 161.5765,-87.8998 172.2567,-86.6053"/>
+<polygon fill="#191970" stroke="#191970" points="172.9043,-90.0525 182.4104,-85.3745 172.0619,-83.1033 172.9043,-90.0525"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node43</title>
+<g id="a_node10"><a xlink:href="class_image_widget.html#a3b5f1a6cf3f2fcde08f50f0b91eaff70" target="_top" xlink:title="ImageWidget::actualResize">
+<polygon fill="#ffffff" stroke="#000000" points="183,-155.5 183,-174.5 320,-174.5 320,-155.5 183,-155.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node34&#45;&gt;Node43</title>
+<path fill="none" stroke="#191970" d="M89.137,-108.6789C110.0639,-118.9784 144.7879,-135.2413 176,-146 183.108,-148.4501 190.6917,-150.7325 198.2087,-152.8044"/>
+<polygon fill="#191970" stroke="#191970" points="197.4435,-156.2224 208.0066,-155.4033 199.2382,-149.4564 197.4435,-156.2224"/>
+</g>
+
+<g id="node13" class="node">
+<title>Node46</title>
+<g id="a_node13"><a xlink:href="class_image_widget.html#a4a81c81681e243cb32066257ca9d3e92" target="_top" xlink:title="ImageWidget::actualSize">
+<polygon fill="#ffffff" stroke="#000000" points="188.5,-29.5 188.5,-48.5 314.5,-48.5 314.5,-29.5 188.5,-29.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge15" class="edge">
+<title>Node34&#45;&gt;Node46</title>
+<path fill="none" stroke="#191970" d="M92.4586,-89.3882C113.7207,-80.5105 146.6656,-67.3256 176,-58 183.6924,-55.5545 191.9045,-53.2161 199.9751,-51.0678"/>
+<polygon fill="#191970" stroke="#191970" points="200.9022,-54.4432 209.7049,-48.5472 199.1467,-47.6669 200.9022,-54.4432"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node36</title>
+<g id="a_node3"><a xlink:href="class_widget.html#a210d4c8e3ea02cb777c6e3ad7fdc22b3" target="_top" xlink:title="Widget::callRedraw">
+<polygon fill="#ffffff" stroke="#000000" points="363,-152.5 363,-171.5 465,-171.5 465,-152.5 363,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node35&#45;&gt;Node36</title>
+<path fill="none" stroke="#191970" d="M311.0863,-136.0341C329.2591,-140.6192 348.9917,-145.5979 366.2714,-149.9577"/>
+<polygon fill="#191970" stroke="#191970" points="365.5793,-153.3927 376.1317,-152.4455 367.2918,-146.6054 365.5793,-153.3927"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node37</title>
+<g id="a_node4"><a xlink:href="class_image.html#aa0342748b3c981c6c06e0bf82a397895" target="_top" xlink:title="Image::isSelected">
+<polygon fill="#ffffff" stroke="#000000" points="366.5,-76.5 366.5,-95.5 461.5,-95.5 461.5,-76.5 366.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node35&#45;&gt;Node37</title>
+<path fill="none" stroke="#191970" d="M321.3577,-105.9537C334.1265,-103.2035 347.2783,-100.3708 359.5178,-97.7346"/>
+<polygon fill="#191970" stroke="#191970" points="360.517,-101.0998 369.5559,-95.5726 359.0431,-94.2567 360.517,-101.0998"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node38</title>
+<g id="a_node5"><a xlink:href="class_image.html#a84d28d3d8ada85fb50c0d40f09563b99" target="_top" xlink:title="Image::select">
+<polygon fill="#ffffff" stroke="#000000" points="376,-114.5 376,-133.5 452,-133.5 452,-114.5 376,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node35&#45;&gt;Node38</title>
+<path fill="none" stroke="#191970" d="M327.0413,-122.3946C340.1186,-122.636 353.3941,-122.8811 365.5037,-123.1047"/>
+<polygon fill="#191970" stroke="#191970" points="365.7482,-126.6097 375.8111,-123.295 365.8775,-119.6109 365.7482,-126.6097"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node36&#45;&gt;Node36</title>
+<path fill="none" stroke="#191970" d="M392.1137,-171.7571C381.4663,-180.5653 388.7617,-190 414,-190 430.5626,-190 439.3979,-185.9368 440.5059,-180.6539"/>
+<polygon fill="#191970" stroke="#191970" points="443.6008,-179.0192 435.8863,-171.7571 437.3883,-182.2449 443.6008,-179.0192"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node39&#45;&gt;Node37</title>
+<path fill="none" stroke="#191970" d="M320.886,-80.8429C332.6421,-81.494 344.7369,-82.1639 356.1571,-82.7964"/>
+<polygon fill="#191970" stroke="#191970" points="356.2481,-86.3067 366.4264,-83.3652 356.6353,-79.3174 356.2481,-86.3067"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node40</title>
+<g id="a_node7"><a xlink:href="class_image.html#a657a199518956ca160b1100c2147b41d" target="_top" xlink:title="Image::getImgPtr">
+<polygon fill="#ffffff" stroke="#000000" points="368,-38.5 368,-57.5 460,-57.5 460,-38.5 368,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node39&#45;&gt;Node40</title>
+<path fill="none" stroke="#191970" d="M305.1589,-67.4239C322.0832,-64.4036 340.8197,-61.0599 357.9089,-58.0101"/>
+<polygon fill="#191970" stroke="#191970" points="358.5246,-61.4556 367.7542,-56.2531 357.2948,-54.5645 358.5246,-61.4556"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node41</title>
+<g id="a_node8"><a xlink:href="class_widget.html#a2516fd56cac645cb3aacef37937c49d3" target="_top" xlink:title="Widget::render">
+<polygon fill="#ffffff" stroke="#000000" points="374,-.5 374,-19.5 454,-19.5 454,-.5 374,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node39&#45;&gt;Node41</title>
+<path fill="none" stroke="#191970" d="M302.138,-67.4798C310.6678,-64.9751 319.2577,-61.8584 327,-58 345.3887,-48.836 345.1433,-39.1618 363,-29 366.458,-27.0321 370.1584,-25.1975 373.9277,-23.5057"/>
+<polygon fill="#191970" stroke="#191970" points="375.446,-26.6651 383.3407,-19.5994 372.7629,-20.1997 375.446,-26.6651"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node42</title>
+<g id="a_node9"><a xlink:href="class_widget.html#a5ff4883144670b8c93b41e440e3d4446" target="_top" xlink:title="Widget::actualRender">
+<polygon fill="#ffffff" stroke="#000000" points="501,-.5 501,-19.5 612,-19.5 612,-.5 501,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node41&#45;&gt;Node42</title>
+<path fill="none" stroke="#191970" d="M454.0734,-10C465.3924,-10 478.0191,-10 490.4347,-10"/>
+<polygon fill="#191970" stroke="#191970" points="490.7808,-13.5001 500.7808,-10 490.7807,-6.5001 490.7808,-13.5001"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>Node43&#45;&gt;Node36</title>
+<path fill="none" stroke="#191970" d="M320.4146,-163.7277C331.0545,-163.5313 341.9832,-163.3295 352.4481,-163.1363"/>
+<polygon fill="#191970" stroke="#191970" points="352.7967,-166.6306 362.7304,-162.9465 352.6674,-159.6318 352.7967,-166.6306"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node44</title>
+<g id="a_node11"><a xlink:href="class_widget.html#aea985c025ef9b1210d0e3ab7d9c075ea" target="_top" xlink:title="Widget::size">
+<polygon fill="#ffffff" stroke="#000000" points="378.5,-208.5 378.5,-227.5 449.5,-227.5 449.5,-208.5 378.5,-208.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge">
+<title>Node43&#45;&gt;Node44</title>
+<path fill="none" stroke="#191970" d="M280.9275,-174.5979C307.2719,-183.1902 346.0912,-195.8513 375.0115,-205.2837"/>
+<polygon fill="#191970" stroke="#191970" points="374.199,-208.7001 384.7914,-208.4735 376.3696,-202.0452 374.199,-208.7001"/>
+</g>
+
+<g id="node12" class="node">
+<title>Node45</title>
+<g id="a_node12"><a xlink:href="class_widget.html#aa6225b5a14e5861cc2cd98c737841854" target="_top" xlink:title="Widget::actualSize">
+<polygon fill="#ffffff" stroke="#000000" points="507,-208.5 507,-227.5 606,-227.5 606,-208.5 507,-208.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge14" class="edge">
+<title>Node44&#45;&gt;Node45</title>
+<path fill="none" stroke="#191970" d="M449.5912,-218C463.7922,-218 480.5395,-218 496.5121,-218"/>
+<polygon fill="#191970" stroke="#191970" points="496.8621,-221.5001 506.862,-218 496.862,-214.5001 496.8621,-221.5001"/>
+</g>
+</g>
+</svg>

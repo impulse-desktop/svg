@@ -1,0 +1,121 @@
+<svg width="439pt" height="140pt"
+ viewBox="0.00 0.00 438.50 140.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 136)">
+<title>program/syntaxer.h</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-136 434.5,-136 434.5,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node0</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="#000000" points="159.5,-112.5 159.5,-131.5 270.5,-131.5 270.5,-112.5 159.5,-112.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node1</title>
+<g id="a_node2"><a xlink:title=" ">
+<polygon fill="#ffffff" stroke="#bfbfbf" points="0,-56.5 0,-75.5 98,-75.5 98,-56.5 0,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node0&#45;&gt;Node1</title>
+<path fill="none" stroke="#191970" d="M186.4636,-112.3733C158.9798,-103.1016 117.2314,-89.0178 86.9548,-78.804"/>
+<polygon fill="#191970" stroke="#191970" points="87.7582,-75.3813 77.164,-75.5011 85.5206,-82.0141 87.7582,-75.3813"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node2</title>
+<g id="a_node3"><a xlink:title=" ">
+<polygon fill="#ffffff" stroke="#bfbfbf" points="116,-56.5 116,-75.5 172,-75.5 172,-56.5 116,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node0&#45;&gt;Node2</title>
+<path fill="none" stroke="#191970" d="M202.6327,-112.2455C192.0446,-103.8943 176.5936,-91.7076 164.2107,-81.9408"/>
+<polygon fill="#191970" stroke="#191970" points="166.2447,-79.0875 156.2255,-75.6427 161.9097,-84.5837 166.2447,-79.0875"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node3</title>
+<g id="a_node4"><a xlink:title=" ">
+<polygon fill="#ffffff" stroke="#bfbfbf" points="190.5,-56.5 190.5,-75.5 239.5,-75.5 239.5,-56.5 190.5,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node0&#45;&gt;Node3</title>
+<path fill="none" stroke="#191970" d="M215,-112.2455C215,-104.9382 215,-94.6944 215,-85.7046"/>
+<polygon fill="#191970" stroke="#191970" points="218.5001,-85.6426 215,-75.6427 211.5001,-85.6427 218.5001,-85.6426"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node4</title>
+<g id="a_node5"><a xlink:title=" ">
+<polygon fill="#ffffff" stroke="#bfbfbf" points="258,-56.5 258,-75.5 328,-75.5 328,-56.5 258,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node0&#45;&gt;Node4</title>
+<path fill="none" stroke="#191970" d="M228.5866,-112.2455C240.3305,-103.814 257.5199,-91.4729 271.1882,-81.6598"/>
+<polygon fill="#191970" stroke="#191970" points="273.4871,-84.3179 279.5691,-75.6427 269.4046,-78.6316 273.4871,-84.3179"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node5</title>
+<g id="a_node6"><a xlink:href="../../d8/dbf/trienode_8h.html" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="346,-56.5 346,-75.5 412,-75.5 412,-56.5 346,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node0&#45;&gt;Node5</title>
+<path fill="none" stroke="#191970" d="M243.1926,-112.3733C270.3453,-103.1016 311.5907,-89.0178 341.5025,-78.804"/>
+<polygon fill="#191970" stroke="#191970" points="342.8428,-82.0449 351.1753,-75.5011 340.5808,-75.4204 342.8428,-82.0449"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node6</title>
+<g id="a_node7"><a xlink:title=" ">
+<polygon fill="#ffffff" stroke="#bfbfbf" points="324.5,-.5 324.5,-19.5 371.5,-19.5 371.5,-.5 324.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="#191970" d="M373.6002,-56.2455C369.3773,-48.617 363.3827,-37.7881 358.2559,-28.5267"/>
+<polygon fill="#191970" stroke="#191970" points="361.2432,-26.6965 353.3379,-19.6427 355.119,-30.0867 361.2432,-26.6965"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node7</title>
+<g id="a_node8"><a xlink:title=" ">
+<polygon fill="#ffffff" stroke="#bfbfbf" points="389.5,-.5 389.5,-19.5 430.5,-19.5 430.5,-.5 389.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node5&#45;&gt;Node7</title>
+<path fill="none" stroke="#191970" d="M384.3998,-56.2455C388.6227,-48.617 394.6173,-37.7881 399.7441,-28.5267"/>
+<polygon fill="#191970" stroke="#191970" points="402.881,-30.0867 404.6621,-19.6427 396.7568,-26.6965 402.881,-30.0867"/>
+</g>
+</g>
+</svg>

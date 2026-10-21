@@ -1,0 +1,154 @@
+<svg width="764pt" height="145pt"
+ viewBox="0.00 0.00 764.00 144.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 140.5)">
+<title>ClassLoader::getMethoCount</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-140.5 760,-140.5 760,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-59.5 0,-78.5 144,-78.5 144,-59.5 0,-59.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="class_methods_area.html#ab8111f3fc9b55f1f8dbbbe0c1ca76d89" target="_top" xlink:title="MethodsArea::findMethodBy\lNameOrDeor">
+<polygon fill="white" stroke="black" points="180,-106 180,-136 320,-136 320,-106 180,-106"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M115.14,-81.4504C140.003,-88.7963 171.644,-98.1447 197.92,-105.908"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="115.863,-78.0146 105.281,-78.5376 113.88,-84.7277 115.863,-78.0146"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="class_interpreter.html#a16752843b70549dac6ed661365e95ae3" target="_top" xlink:title="Busca um metodo pelo seu descritor ou nome e o retorna. ">
+<polygon fill="white" stroke="black" points="186.5,-54 186.5,-84 313.5,-84 313.5,-54 186.5,-54"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M154.352,-69C165.132,-69 176.045,-69 186.441,-69"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="154.079,-65.5001 144.079,-69 154.079,-72.5001 154.079,-65.5001"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="jvm_8cpp.html#a893044ba12149c5e0ed3b4a19474fc4a" target="_top" xlink:title="Chama o exibidor de ClassLoader. ">
+<polygon fill="white" stroke="black" points="214.5,-10.5 214.5,-29.5 285.5,-29.5 285.5,-10.5 214.5,-10.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node1&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M117.216,-56.6899C147.434,-48.2768 186.896,-37.2902 214.734,-29.5399"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="116.047,-53.3821 107.352,-59.436 117.925,-60.1256 116.047,-53.3821"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="class_instruction_impl.html#a3d197a31eaa6bc79b6d882b0ac9f1a67" target="_top" xlink:title="InstructionImpl::invokevirtual">
+<polygon fill="white" stroke="black" points="358,-114.5 358,-133.5 500,-133.5 500,-114.5 358,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M330.472,-122.347C339.644,-122.502 348.947,-122.66 357.981,-122.813"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="330.251,-118.843 320.193,-122.173 330.133,-125.842 330.251,-118.843"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="class_instruction.html#a145a172552303c9cbd8a5856e31a701b" target="_top" xlink:title="Instruction::init">
+<polygon fill="white" stroke="black" points="538,-76.5 538,-95.5 619,-95.5 619,-76.5 538,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M477.014,-111.888C497.557,-106.596 521.3,-100.479 540.547,-95.5201"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="476.031,-108.527 467.22,-114.411 477.777,-115.305 476.031,-108.527"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="class_code_attribute.html#a380eb04a01b0a0db351cf74443067ba4" target="_top" xlink:title="CodeAttribute::print">
+<polygon fill="white" stroke="black" points="655,-95.5 655,-114.5 756,-114.5 756,-95.5 655,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M629.099,-93.539C637.505,-94.8167 646.236,-96.1438 654.648,-97.4224"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="629.463,-90.0543 619.051,-92.0117 628.411,-96.9748 629.463,-90.0543"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="struct_frame.html#abe0b370087d05267cab997ecdc78c4bd" target="_top" xlink:title="Frame::Frame">
+<polygon fill="white" stroke="black" points="666.5,-57.5 666.5,-76.5 744.5,-76.5 744.5,-57.5 666.5,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node4&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M629.257,-78.437C641.657,-76.5522 654.755,-74.5612 666.487,-72.778"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="628.411,-75.0252 619.051,-79.9883 629.463,-81.9457 628.411,-75.0252"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="class_instruction_impl.html#ae794ec480c5cd8809d1215aa9442501b" target="_top" xlink:title="InstructionImpl::invokespecial">
+<polygon fill="white" stroke="black" points="356,-76.5 356,-95.5 502,-95.5 502,-76.5 356,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M323.928,-76.0044C334.504,-77.0202 345.387,-78.0654 355.946,-79.0795"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="324.191,-72.5136 313.902,-75.0414 323.521,-79.4815 324.191,-72.5136"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="class_instruction_impl.html#a1d155354287a5fa501cce5c39c341abc" target="_top" xlink:title="InstructionImpl::invokestatic">
+<polygon fill="white" stroke="black" points="359,-38.5 359,-57.5 499,-57.5 499,-38.5 359,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node7&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M323.966,-60.343C335.549,-58.9688 347.498,-57.551 358.987,-56.188"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="323.42,-56.8832 313.902,-61.5371 324.245,-63.8344 323.42,-56.8832"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node8&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M512.086,-86C520.964,-86 529.678,-86 537.706,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="512.022,-82.5001 502.022,-86 512.022,-89.5001 512.022,-82.5001"/>
+</g>
+
+<g id="edge10" class="edge"><title>Node9&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M477.014,-60.1121C497.557,-65.4044 521.3,-71.5213 540.547,-76.4799"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="477.777,-56.6946 467.22,-57.589 476.031,-63.4732 477.777,-56.6946"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="jvm_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" target="_top" xlink:title="Função main. ">
+<polygon fill="white" stroke="black" points="410,-0.5 410,-19.5 448,-19.5 448,-0.5 410,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M295.569,-17.482C332.498,-15.3956 383.099,-12.5368 409.796,-11.0285"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="295.334,-13.9896 285.548,-18.0482 295.729,-20.9784 295.334,-13.9896"/>
+</g>
+</g>
+</svg>

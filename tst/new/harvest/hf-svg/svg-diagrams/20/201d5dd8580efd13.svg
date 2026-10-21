@@ -1,0 +1,128 @@
+<svg width="716pt" height="85pt"
+ viewBox="0.00 0.00 716.00 85.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 81)">
+<title>coap_resource_notify_observers</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-81 712,-81 712,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="black" points="598,-14 598,-44 708,-44 708,-14 598,-14"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="resource_8c.html#a1307a6b8dadd6d005352ce02f6cf392f" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="449.5,-38.5 449.5,-57.5 551.5,-57.5 551.5,-38.5 449.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M587.69,-37.12C575.67,-38.64 563.26,-40.2 551.75,-41.66"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="588.18,-40.58 597.67,-35.86 587.31,-33.64 588.18,-40.58"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node8</title>
+<g id="a_node8"><a xlink:href="resource_8c.html#a498adb2e66123e55cf6b0bb0ee061760" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="439,-0.5 439,-19.5 562,-19.5 562,-0.5 439,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node1&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M587.51,-20.86C579.09,-19.8 570.49,-18.71 562.13,-17.65"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="587.31,-24.36 597.67,-22.14 588.18,-17.42 587.31,-24.36"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="group__coap__resource.html#ga9a5f0705912b0a35a3d5764e86b94004" target="_top" xlink:title="Registers the given resource for context.">
+<polygon fill="white" stroke="black" points="134,-57.5 134,-76.5 235,-76.5 235,-57.5 134,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M450.19,-59.63C435.13,-62.66 418.47,-65.49 403,-67 345.69,-72.59 279.47,-71.52 235.3,-69.74"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="451.24,-62.98 460.32,-57.51 449.81,-56.13 451.24,-62.98"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="group__coap__resource__internal.html#ga1fae3046ad94fce85a7ea23455328958" target="_top" xlink:title="Deletes all resources from given context and frees their storage.">
+<polygon fill="white" stroke="black" points="271,-0.5 271,-19.5 403,-19.5 403,-0.5 271,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M448.94,-36.1C426.24,-30.76 399.82,-24.55 378.46,-19.52"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="448.21,-39.53 458.75,-38.41 449.81,-32.71 448.21,-39.53"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:href="group__coap__resource.html#gad3521b724ad4961e6bb11801fd82a3e3" target="_top" xlink:title="Deletes a resource identified by resource.">
+<polygon fill="white" stroke="black" points="281,-38.5 281,-57.5 393,-57.5 393,-38.5 281,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node2&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M439.07,-48C424.04,-48 408.01,-48 393.24,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="439.29,-51.5 449.29,-48 439.29,-44.5 439.29,-51.5"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="group__context.html#ga4a0717822713783908dd33d300440b2e" target="_top" xlink:title="CoAP stack context must be released with coap_free_context().">
+<polygon fill="white" stroke="black" points="136,-0.5 136,-19.5 233,-19.5 233,-0.5 136,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M260.68,-10C251.27,-10 241.86,-10 233.04,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="260.86,-13.5 270.86,-10 260.86,-6.5 260.86,-13.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="group__context.html#ga8baf4e3608ff5eb00adac694fe25eb60" target="_top" xlink:title="Creates a new coap_context_t object that will hold the CoAP stack status.">
+<polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 98,-19.5 98,-0.5 0,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M125.57,-10C116.5,-10 107.21,-10 98.38,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="125.68,-13.5 135.68,-10 125.68,-6.5 125.68,-13.5"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node7&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M270.88,-56.22C258.92,-57.73 246.61,-59.28 235.2,-60.73"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="271.33,-59.69 280.81,-54.97 270.45,-52.75 271.33,-59.69"/>
+</g>
+</g>
+</svg>

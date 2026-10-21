@@ -1,0 +1,138 @@
+<svg width="504pt" height="287pt"
+ viewBox="0.00 0.00 504.00 287.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 283)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-283 500,-283 500,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="14,-10 14,-30 34,-30 34,-10 14,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="127,-10 127,-30 147,-30 147,-10 127,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="213,-10 213,-30 233,-30 233,-10 213,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="310,-10 310,-30 330,-30 330,-10 310,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="95,-146 95,-271 340,-271 340,-146 95,-146"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="103,-154 103,-206 332,-206 332,-154 103,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ProductModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="186,-70 186,-138 466,-138 466,-70 186,-70"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_ProductModule_imports</title>
+<polygon fill="none" stroke="#000000" points="358,-78 358,-130 458,-130 458,-78 358,-78"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_ProductModule_providers</title>
+<polygon fill="none" stroke="#000000" points="194,-78 194,-130 350,-130 350,-78 194,-78"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_UsersModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="22,-70 22,-138 178,-138 178,-70 22,-70"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_UsersModule_providers</title>
+<polygon fill="none" stroke="#000000" points="30,-78 30,-130 170,-130 170,-78 30,-78"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_WssModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="348,-146 348,-214 474,-214 474,-146 348,-146"/>
+</g>
+<g id="clust22" class="cluster">
+<title>cluster_WssModule_exports</title>
+<polygon fill="none" stroke="#000000" points="356,-154 356,-206 466,-206 466,-154 356,-154"/>
+</g>
+
+<g id="node1" class="node">
+<title>ProductModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="323.5982,-198 320.5982,-202 299.5982,-202 296.5982,-198 220.4018,-198 220.4018,-162 323.5982,-162 323.5982,-198"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="255.6571,-263 252.6571,-267 231.6571,-267 228.6571,-263 172.3429,-263 172.3429,-227 255.6571,-227 255.6571,-263"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ProductModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M238.1396,-198.1061C238.1396,-198.1061 238.1396,-216.991 238.1396,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="234.6396,-216.9909 238.1396,-226.991 241.6396,-216.991 234.6396,-216.9909"/>
+</g>
+
+<g id="node2" class="node">
+<title>UsersModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="202.9218,-198 199.9218,-202 178.9218,-202 175.9218,-198 111.0782,-198 111.0782,-162 202.9218,-162 202.9218,-198"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>UsersModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M187.4411,-198.1061C187.4411,-198.1061 187.4411,-216.991 187.4411,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="183.9412,-216.9909 187.4411,-226.991 190.9412,-216.991 183.9412,-216.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>WssModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="449.6543,-122 446.6543,-126 425.6543,-126 422.6543,-122 366.3457,-122 366.3457,-86 449.6543,-86 449.6543,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>WssModule&#45;&gt;ProductModule</title>
+<path fill="none" stroke="#000000" d="M366.1697,-104C358.666,-104 353.1775,-104 353.1775,-104 353.1775,-104 353.1775,-180 353.1775,-180 353.1775,-180 333.8706,-180 333.8706,-180"/>
+<polygon fill="#000000" stroke="#000000" points="333.8706,-176.5001 323.8706,-180 333.8706,-183.5001 333.8706,-176.5001"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>WssModule&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M394.0577,-122.1097C394.0577,-131.897 394.0577,-142 394.0577,-142 394.0577,-142 181.9726,-142 181.9726,-142 181.9726,-142 181.9726,-151.8903 181.9726,-151.8903"/>
+<polygon fill="#000000" stroke="#000000" points="178.4727,-151.8903 181.9726,-161.8903 185.4727,-151.8904 178.4727,-151.8903"/>
+</g>
+
+<g id="node7" class="node">
+<title>WssGateway </title>
+<polygon fill="#fb8072" stroke="#000000" points="457.8521,-198 364.1479,-198 364.1479,-162 457.8521,-162 457.8521,-198"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>WssModule&#45;&gt;WssGateway </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M421.9423,-122.0109C421.9423,-122.0109 421.9423,-151.855 421.9423,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="418.4424,-151.8549 421.9423,-161.855 425.4424,-151.855 418.4424,-151.8549"/>
+</g>
+
+<g id="node5" class="node">
+<title>ProductService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="272" cy="-104" rx="70.0616" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ProductService&#45;&gt;ProductModule</title>
+<path fill="none" stroke="#000000" d="M272,-122.0109C272,-122.0109 272,-151.855 272,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="268.5001,-151.8549 272,-161.855 275.5001,-151.855 268.5001,-151.8549"/>
+</g>
+
+<g id="node6" class="node">
+<title>UsersService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="100" cy="-104" rx="61.9519" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>UsersService&#45;&gt;UsersModule</title>
+<path fill="none" stroke="#000000" d="M136.6328,-118.6536C136.6328,-118.6536 136.6328,-151.9047 136.6328,-151.9047"/>
+<polygon fill="#000000" stroke="#000000" points="133.1329,-151.9047 136.6328,-161.9047 140.1329,-151.9048 133.1329,-151.9047"/>
+</g>
+</g>
+</svg>

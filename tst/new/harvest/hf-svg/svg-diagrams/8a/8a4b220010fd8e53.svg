@@ -1,0 +1,155 @@
+<svg width="830pt" height="132pt"
+ viewBox="0.00 0.00 830.00 132.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 128)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-128 827,-128 827,5 -4,5"/>
+
+<g id="NFAT_phosphorylated" class="node"><title>NFAT_phosphorylated</title>
+<path fill="none" stroke="black" d="M100,-107C100,-107 12,-107 12,-107 6,-107 -7.10543e-15,-101 -7.10543e-15,-95 -7.10543e-15,-95 -7.10543e-15,-83 -7.10543e-15,-83 -7.10543e-15,-77 6,-71 12,-71 12,-71 100,-71 100,-71 106,-71 112,-77 112,-83 112,-83 112,-95 112,-95 112,-101 106,-107 100,-107"/>
+
+</g>
+
+<g id="node6" class="node"><title>Dephosphorylation_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="149" cy="-89" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge2" class="edge"><title>NFAT_phosphorylated&#45;&gt;Dephosphorylation_intermediate_r</title>
+<path fill="none" stroke="black" d="M112.034,-89C130.6,-89 146.948,-89 147.951,-89"/>
+</g>
+
+<g id="NFAT_dephosphorylated" class="node"><title>NFAT_dephosphorylated</title>
+<path fill="none" stroke="black" d="M430,-96C430,-96 332,-96 332,-96 326,-96 320,-90 320,-84 320,-84 320,-72 320,-72 320,-66 326,-60 332,-60 332,-60 430,-60 430,-60 436,-60 442,-66 442,-72 442,-72 442,-84 442,-84 442,-90 436,-96 430,-96"/>
+
+</g>
+
+<g id="node10" class="node"><title>Phosphorylation_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="479" cy="-58" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge8" class="edge"><title>NFAT_dephosphorylated&#45;&gt;Phosphorylation_intermediate_r</title>
+<path fill="none" stroke="black" d="M442.253,-65.4473C460.938,-61.5545 476.969,-58.2149 477.952,-58.01"/>
+</g>
+
+<g id="node13" class="node"><title>Translocation_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="479" cy="-83" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge12" class="edge"><title>NFAT_dephosphorylated&#45;&gt;Translocation_intermediate_r</title>
+<path fill="none" stroke="black" d="M442.253,-81.1382C460.938,-82.1114 476.969,-82.9463 477.952,-82.9975"/>
+</g>
+
+<g id="NFAT_transported" class="node"><title>NFAT_transported</title>
+<path fill="none" stroke="black" d="M686,-71C686,-71 616,-71 616,-71 610,-71 604,-65 604,-59 604,-59 604,-47 604,-47 604,-41 610,-35 616,-35 616,-35 686,-35 686,-35 692,-35 698,-41 698,-47 698,-47 698,-59 698,-59 698,-65 692,-71 686,-71"/>
+
+</g>
+
+<g id="node16" class="node"><title>Nuclear_export_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="735" cy="-48" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge16" class="edge"><title>NFAT_transported&#45;&gt;Nuclear_export_intermediate_r</title>
+<path fill="none" stroke="black" d="M698.272,-50.1785C716.291,-49.0798 732.928,-48.0654 733.95,-48.003"/>
+</g>
+
+<g id="stimulus" class="node"><title>stimulus</title>
+<ellipse fill="none" stroke="black" cx="216" cy="-46" rx="30.0436" ry="18"/>
+
+</g>
+
+<g id="node8" class="node"><title>Dephosphorylation_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="283" cy="-58" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge6" class="edge"><title>stimulus&#45;&gt;Dephosphorylation_intermediate_m</title>
+<path fill="none" stroke="black" d="M244.943,-51.1587C262.01,-54.3095 280.787,-57.776 281.944,-57.9896"/>
+</g>
+
+<g id="node5" class="node"><title>Dephosphorylation</title>
+<polygon fill="none" stroke="black" points="223,-96 209,-96 209,-82 223,-82 223,-96"/>
+</g>
+
+<g id="node7" class="node"><title>Dephosphorylation_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="283" cy="-83" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge3" class="edge"><title>Dephosphorylation&#45;&gt;Dephosphorylation_intermediate_p</title>
+<path fill="none" stroke="black" d="M223.47,-88.4028C239.397,-86.9326 279.394,-83.2405 281.879,-83.0112"/>
+</g>
+
+<g id="edge5" class="edge"><title>Dephosphorylation&#45;&gt;Dephosphorylation_intermediate_m</title>
+<path fill="none" stroke="black" d="M223.47,-85.9143C239.397,-78.3182 279.394,-59.2426 281.879,-58.0578"/>
+</g>
+
+<g id="edge1" class="edge"><title>Dephosphorylation_intermediate_r&#45;&gt;Dephosphorylation</title>
+<path fill="none" stroke="black" d="M150.047,-89C151.631,-89 192.724,-89 208.716,-89"/>
+</g>
+
+<g id="edge4" class="edge"><title>Dephosphorylation_intermediate_p&#45;&gt;NFAT_dephosphorylated</title>
+<path fill="none" stroke="black" d="M284.07,-82.9964C285.029,-82.9464 295.807,-82.3851 309.817,-81.6554"/>
+<polygon fill="black" stroke="black" points="310.147,-85.143 319.952,-81.1275 309.783,-78.1525 310.147,-85.143"/>
+</g>
+
+<g id="node9" class="node"><title>Phosphorylation</title>
+<polygon fill="none" stroke="black" points="530,-61 516,-61 516,-47 530,-47 530,-61"/>
+</g>
+
+<g id="node11" class="node"><title>Phosphorylation_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="567" cy="-116" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge9" class="edge"><title>Phosphorylation&#45;&gt;Phosphorylation_intermediate_p</title>
+<path fill="none" stroke="black" d="M528.818,-61.1122C539.505,-76.8887 564.38,-113.609 565.925,-115.889"/>
+</g>
+
+<g id="edge7" class="edge"><title>Phosphorylation_intermediate_r&#45;&gt;Phosphorylation</title>
+<path fill="none" stroke="black" d="M480.12,-57.9885C481.968,-57.8126 504.602,-55.657 515.803,-54.5902"/>
+</g>
+
+<g id="edge10" class="edge"><title>Phosphorylation_intermediate_p&#45;&gt;NFAT_phosphorylated</title>
+<path fill="none" stroke="black" d="M565.862,-116.023C563.033,-116.492 517.188,-124 480,-124 215,-124 215,-124 215,-124 183.459,-124 149.197,-117.269 120.665,-109.711"/>
+<polygon fill="black" stroke="black" points="121.396,-106.282 110.826,-107.013 119.544,-113.033 121.396,-106.282"/>
+</g>
+
+<g id="node12" class="node"><title>Translocation</title>
+<polygon fill="none" stroke="black" points="530,-93 516,-93 516,-79 530,-79 530,-93"/>
+</g>
+
+<g id="node14" class="node"><title>Translocation_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="567" cy="-68" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge13" class="edge"><title>Translocation&#45;&gt;Translocation_intermediate_p</title>
+<path fill="none" stroke="black" d="M530.197,-83.344C541.515,-78.4935 564.505,-68.6409 565.93,-68.0298"/>
+</g>
+
+<g id="edge11" class="edge"><title>Translocation_intermediate_r&#45;&gt;Translocation</title>
+<path fill="none" stroke="black" d="M480.12,-83.0086C481.968,-83.1406 504.602,-84.7573 515.803,-85.5573"/>
+</g>
+
+<g id="edge14" class="edge"><title>Translocation_intermediate_p&#45;&gt;NFAT_transported</title>
+<path fill="none" stroke="black" d="M568.059,-67.9891C568.966,-67.8233 580.126,-65.7818 593.935,-63.2558"/>
+<polygon fill="black" stroke="black" points="594.618,-66.6891 603.825,-61.4467 593.358,-59.8033 594.618,-66.6891"/>
+</g>
+
+<g id="node15" class="node"><title>Nuclear_export</title>
+<polygon fill="none" stroke="black" points="786,-46 772,-46 772,-32 786,-32 786,-46"/>
+</g>
+
+<g id="node17" class="node"><title>Nuclear_export_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="822" cy="-19" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge17" class="edge"><title>Nuclear_export&#45;&gt;Nuclear_export_intermediate_p</title>
+<path fill="none" stroke="black" d="M786.05,-36.0489C797.098,-30.6594 819.54,-19.7121 820.932,-19.0331"/>
+</g>
+
+<g id="edge15" class="edge"><title>Nuclear_export_intermediate_r&#45;&gt;Nuclear_export</title>
+<path fill="none" stroke="black" d="M736.12,-47.9742C737.968,-47.5783 760.602,-42.7282 771.803,-40.328"/>
+</g>
+
+<g id="edge18" class="edge"><title>Nuclear_export_intermediate_p&#45;&gt;NFAT_phosphorylated</title>
+<path fill="none" stroke="black" d="M820.866,-18.9455C818.114,-17.8311 773.5,-3.55271e-15 736,-0 215,-0 215,-0 215,-0 162.625,-0 111.598,-37.5841 82.2855,-63.905"/>
+<polygon fill="black" stroke="black" points="79.5846,-61.6349 74.6104,-70.9895 84.3325,-66.7786 79.5846,-61.6349"/>
+</g>
+</g>
+</svg>

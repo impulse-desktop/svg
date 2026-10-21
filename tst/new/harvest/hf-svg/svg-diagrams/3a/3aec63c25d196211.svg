@@ -1,0 +1,187 @@
+<svg width="1161pt" height="252pt"
+ viewBox="0.00 0.00 1161.00 252.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 248)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-248 1157,-248 1157,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster__ftl_dat</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="105,-8 105,-236 1145,-236 1145,-8 105,-8"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster__file</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="334,-59 334,-148 781,-148 781,-59 334,-59"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster__meta</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="801,-16 801,-205 1137,-205 1137,-16 801,-16"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>ftl_dat__seq</title>
+<polygon fill="#e0ffe0" stroke="transparent" points="121.5,-124 121.5,-145 152.5,-145 152.5,-124 121.5,-124"/>
+<polygon fill="none" stroke="black" points="121.5,-124 121.5,-145 152.5,-145 152.5,-124 121.5,-124"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="152.5,-124 152.5,-145 186.5,-145 186.5,-124 152.5,-124"/>
+<polygon fill="none" stroke="black" points="152.5,-124 152.5,-145 186.5,-145 186.5,-124 152.5,-124"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="186.5,-124 186.5,-145 224.5,-145 224.5,-124 186.5,-124"/>
+<polygon fill="none" stroke="black" points="186.5,-124 186.5,-145 224.5,-145 224.5,-124 186.5,-124"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="224.5,-124 224.5,-145 298.5,-145 298.5,-124 224.5,-124"/>
+<polygon fill="none" stroke="black" points="224.5,-124 224.5,-145 298.5,-145 298.5,-124 224.5,-124"/>
+
+<polygon fill="none" stroke="black" points="121.5,-103 121.5,-124 152.5,-124 152.5,-103 121.5,-103"/>
+
+<polygon fill="none" stroke="black" points="152.5,-103 152.5,-124 186.5,-124 186.5,-103 152.5,-103"/>
+
+<polygon fill="none" stroke="black" points="186.5,-103 186.5,-124 224.5,-124 224.5,-103 186.5,-103"/>
+
+<polygon fill="none" stroke="black" points="224.5,-103 224.5,-124 298.5,-124 298.5,-103 224.5,-103"/>
+
+<polygon fill="none" stroke="black" points="121.5,-82 121.5,-103 152.5,-103 152.5,-82 121.5,-82"/>
+
+<polygon fill="none" stroke="black" points="152.5,-82 152.5,-103 186.5,-103 186.5,-82 152.5,-82"/>
+
+<polygon fill="none" stroke="black" points="186.5,-82 186.5,-103 224.5,-103 224.5,-82 186.5,-82"/>
+
+<polygon fill="none" stroke="black" points="224.5,-82 224.5,-103 298.5,-103 298.5,-82 224.5,-82"/>
+
+<polygon fill="none" stroke="black" points="121.5,-61 121.5,-82 298.5,-82 298.5,-61 121.5,-61"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ftl_dat__seq:num_files_type&#45;&gt;ftl_dat__seq:files__repeat</title>
+<path fill="none" stroke="#404040" d="M224.24,-117.29C139.95,-122.35 0,-118.56 0,-92.5 0,-73.64 53.81,-66.44 111.4,-65.82"/>
+<polygon fill="#404040" stroke="#404040" points="111.43,-69.32 121.42,-65.78 111.4,-62.32 111.43,-69.32"/>
+</g>
+
+<g id="node2" class="node">
+<title>file__seq</title>
+<polygon fill="#e0ffe0" stroke="transparent" points="350.5,-92 350.5,-113 381.5,-113 381.5,-92 350.5,-92"/>
+<polygon fill="none" stroke="black" points="350.5,-92 350.5,-113 381.5,-113 381.5,-92 350.5,-92"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="381.5,-92 381.5,-113 415.5,-113 415.5,-92 381.5,-92"/>
+<polygon fill="none" stroke="black" points="381.5,-92 381.5,-113 415.5,-113 415.5,-92 381.5,-92"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="415.5,-92 415.5,-113 453.5,-113 453.5,-92 415.5,-92"/>
+<polygon fill="none" stroke="black" points="415.5,-92 415.5,-113 453.5,-113 453.5,-92 415.5,-92"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="453.5,-92 453.5,-113 523.5,-113 523.5,-92 453.5,-92"/>
+<polygon fill="none" stroke="black" points="453.5,-92 453.5,-113 523.5,-113 523.5,-92 453.5,-92"/>
+
+<polygon fill="none" stroke="black" points="350.5,-71 350.5,-92 381.5,-92 381.5,-71 350.5,-71"/>
+
+<polygon fill="none" stroke="black" points="381.5,-71 381.5,-92 415.5,-92 415.5,-71 381.5,-71"/>
+
+<polygon fill="none" stroke="black" points="415.5,-71 415.5,-92 453.5,-92 453.5,-71 415.5,-71"/>
+
+<polygon fill="none" stroke="black" points="453.5,-71 453.5,-92 523.5,-92 523.5,-71 453.5,-71"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ftl_dat__seq:files_type&#45;&gt;file__seq</title>
+<path fill="none" stroke="black" stroke-width="2" d="M299.5,-92C309.98,-92 320.92,-92 331.85,-92"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="331.86,-95.5 341.86,-92 331.86,-88.5 331.86,-95.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>file__inst__meta</title>
+<polygon fill="#e0ffe0" stroke="transparent" points="575,-92 575,-113 645,-113 645,-92 575,-92"/>
+<polygon fill="none" stroke="black" points="575,-92 575,-113 645,-113 645,-92 575,-92"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="645,-92 645,-113 679,-113 679,-92 645,-92"/>
+<polygon fill="none" stroke="black" points="645,-92 645,-113 679,-113 679,-92 645,-92"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="679,-92 679,-113 722,-113 722,-92 679,-92"/>
+<polygon fill="none" stroke="black" points="679,-92 679,-113 722,-113 722,-92 679,-92"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="722,-92 722,-113 765,-113 765,-92 722,-92"/>
+<polygon fill="none" stroke="black" points="722,-92 722,-113 765,-113 765,-92 722,-92"/>
+
+<polygon fill="none" stroke="black" points="575,-71 575,-92 645,-92 645,-71 575,-71"/>
+
+<polygon fill="none" stroke="black" points="645,-71 645,-92 679,-92 679,-71 645,-71"/>
+
+<polygon fill="none" stroke="black" points="679,-71 679,-92 722,-92 722,-71 679,-71"/>
+
+<polygon fill="none" stroke="black" points="722,-71 722,-92 765,-92 765,-71 722,-71"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>file__seq:ofs_meta_type&#45;&gt;file__inst__meta:meta_pos</title>
+<path fill="none" stroke="#404040" d="M524.5,-81C542.72,-81 549.62,-81 563.95,-81"/>
+<polygon fill="#404040" stroke="#404040" points="564,-84.5 574,-81 564,-77.5 564,-84.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>meta__seq</title>
+<polygon fill="#e0ffe0" stroke="transparent" points="817,-112 817,-133 848,-133 848,-112 817,-112"/>
+<polygon fill="none" stroke="black" points="817,-112 817,-133 848,-133 848,-112 817,-112"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="848,-112 848,-133 944,-133 944,-112 848,-112"/>
+<polygon fill="none" stroke="black" points="848,-112 848,-133 944,-133 944,-112 848,-112"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="944,-112 944,-133 1025,-133 1025,-112 944,-112"/>
+<polygon fill="none" stroke="black" points="944,-112 944,-133 1025,-133 1025,-112 944,-112"/>
+
+<polygon fill="#e0ffe0" stroke="transparent" points="1025,-112 1025,-133 1121,-133 1121,-112 1025,-112"/>
+<polygon fill="none" stroke="black" points="1025,-112 1025,-133 1121,-133 1121,-112 1025,-112"/>
+
+<polygon fill="none" stroke="black" points="817,-91 817,-112 848,-112 848,-91 817,-91"/>
+
+<polygon fill="none" stroke="black" points="848,-91 848,-112 944,-112 944,-91 848,-91"/>
+
+<polygon fill="none" stroke="black" points="944,-91 944,-112 1025,-112 1025,-91 944,-91"/>
+
+<polygon fill="none" stroke="black" points="1025,-91 1025,-112 1121,-112 1121,-91 1025,-91"/>
+
+<polygon fill="none" stroke="black" points="817,-70 817,-91 848,-91 848,-70 817,-70"/>
+
+<polygon fill="none" stroke="black" points="848,-70 848,-91 944,-91 944,-70 848,-70"/>
+
+<polygon fill="none" stroke="black" points="944,-70 944,-91 1025,-91 1025,-70 944,-70"/>
+
+<polygon fill="none" stroke="black" points="1025,-70 1025,-91 1121,-91 1121,-70 1025,-70"/>
+
+<polygon fill="none" stroke="black" points="817,-49 817,-70 848,-70 848,-49 817,-49"/>
+
+<polygon fill="none" stroke="black" points="848,-49 848,-70 944,-70 944,-49 848,-49"/>
+
+<polygon fill="none" stroke="black" points="944,-49 944,-70 1025,-70 1025,-49 944,-49"/>
+
+<polygon fill="none" stroke="black" points="1025,-49 1025,-70 1121,-70 1121,-49 1025,-49"/>
+
+<polygon fill="none" stroke="black" points="817,-28 817,-49 848,-49 848,-28 817,-28"/>
+
+<polygon fill="none" stroke="black" points="848,-28 848,-49 944,-49 944,-28 848,-28"/>
+
+<polygon fill="none" stroke="black" points="944,-28 944,-49 1025,-49 1025,-28 944,-28"/>
+<polygon fill="none" stroke="black" points="1025,-28 1025,-49 1121,-49 1121,-28 1025,-28"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>file__inst__meta:meta_type&#45;&gt;meta__seq</title>
+<path fill="none" stroke="black" stroke-width="2" d="M766,-81C776.67,-81 787.66,-81 798.74,-81"/>
+<polygon fill="black" stroke="black" stroke-width="2" points="798.94,-84.5 808.94,-81 798.94,-77.5 798.94,-84.5"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>meta__seq:len_filename_type&#45;&gt;meta__seq:filename_size</title>
+<path fill="none" stroke="#404040" d="M1098.53,-91.08C1144.62,-117.4 1125.85,-155.5 984.5,-155.5 850.49,-155.5 826.66,-107.06 863.82,-76.03"/>
+<polygon fill="#404040" stroke="#404040" points="866,-78.77 872.05,-70.07 861.89,-73.1 866,-78.77"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>meta__seq:len_file_type&#45;&gt;meta__seq:body_size</title>
+<path fill="none" stroke="#404040" d="M1098.53,-112.02C1144.62,-133.94 1125.85,-155.5 984.5,-155.5 848.73,-155.5 826.05,-91.21 865.31,-55.38"/>
+<polygon fill="#404040" stroke="#404040" points="867.66,-57.98 873.35,-49.04 863.33,-52.48 867.66,-57.98"/>
+</g>
+</g>
+</svg>

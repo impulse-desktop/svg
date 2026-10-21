@@ -1,0 +1,104 @@
+<svg width="238pt" height="610pt"
+ viewBox="0.00 0.00 238.00 610.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 606)">
+<title>tbb::interface6::aggregator</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-606 234,-606 234,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="12.5,-0.5 12.5,-68.5 143.5,-68.5 143.5,-0.5 12.5,-0.5"/>
+
+<polyline fill="none" stroke="black" points="12.5,-49.5 143.5,-49.5 "/>
+
+<polyline fill="none" stroke="black" points="12.5,-30.5 143.5,-30.5 "/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00036.html" target="_top" xlink:title="{tbb::interface6::aggregator\l_ext\&lt; internal::basic_handler \&gt;\n|&#45; mailbox\l&#45; handler_busy\l&#45; handle_operations\l|+ aggregator_ext()\l+ process()\l# execute_impl()\l&#45; start_handle_operations()\l}">
+<polygon fill="white" stroke="black" points="2.5,-106.5 2.5,-229.5 153.5,-229.5 153.5,-106.5 2.5,-106.5"/>
+
+
+<polyline fill="none" stroke="black" points="2.5,-199.5 153.5,-199.5 "/>
+
+
+
+<polyline fill="none" stroke="black" points="2.5,-158.5 153.5,-158.5 "/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#8b1a1a" d="M78,-96.2434C78,-86.6538 78,-77.207 78,-68.7255"/>
+<polygon fill="none" stroke="#8b1a1a" points="74.5001,-96.254 78,-106.254 81.5001,-96.254 74.5001,-96.254"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00516.html" target="_top" xlink:title="Base class for types that should not be copied or assigned. ">
+<polygon fill="white" stroke="black" points="4,-438.5 4,-506.5 114,-506.5 114,-438.5 4,-438.5"/>
+
+<polyline fill="none" stroke="black" points="4,-487.5 114,-487.5 "/>
+
+<polyline fill="none" stroke="black" points="4,-468.5 114,-468.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#8b1a1a" d="M59.6296,-428.357C60.4245,-388.91 62.183,-328.969 66,-277 67.1262,-261.666 68.7516,-245.149 70.4442,-229.757"/>
+<polygon fill="none" stroke="#8b1a1a" points="56.129,-428.356 59.4388,-438.421 63.1278,-428.489 56.129,-428.356"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00036.html" target="_top" xlink:title="Aggregator base class and expert interface. ">
+<polygon fill="white" stroke="black" points="75,-277.5 75,-400.5 207,-400.5 207,-277.5 75,-277.5"/>
+
+
+<polyline fill="none" stroke="black" points="75,-370.5 207,-370.5 "/>
+
+
+
+<polyline fill="none" stroke="black" points="75,-329.5 207,-329.5 "/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node3&#45;&gt;Node5</title>
+<path fill="none" stroke="#8b1a1a" d="M85.0739,-429.686C90.8526,-420.419 97.0893,-410.418 103.229,-400.572"/>
+<polygon fill="none" stroke="#8b1a1a" points="82.0135,-427.98 79.6921,-438.317 87.9533,-431.684 82.0135,-427.98"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="0,-544.5 0,-601.5 118,-601.5 118,-544.5 0,-544.5"/>
+
+<polyline fill="none" stroke="black" points="0,-582.5 118,-582.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-563.5 118,-563.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="#8b1a1a" d="M59,-534.007C59,-524.962 59,-515.383 59,-506.578"/>
+<polygon fill="none" stroke="#8b1a1a" points="55.5001,-534.3 59,-544.3 62.5001,-534.3 55.5001,-534.3"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node5&#45;&gt;Node2</title>
+<path fill="none" stroke="orange" d="M114.858,-267.873C110.13,-255.191 105.237,-242.064 100.621,-229.681"/>
+<polygon fill="orange" stroke="orange" points="111.661,-269.317 118.433,-277.464 118.22,-266.872 111.661,-269.317"/>
+
+</g>
+</g>
+</svg>

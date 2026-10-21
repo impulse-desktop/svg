@@ -1,0 +1,88 @@
+<svg width="617pt" height="211pt"
+ viewBox="0.00 0.00 617.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 613,-207 613,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="70.5,-10 70.5,-30 90.5,-30 90.5,-10 70.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="183.5,-10 183.5,-30 203.5,-30 203.5,-10 183.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="269.5,-10 269.5,-30 289.5,-30 289.5,-10 269.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="366.5,-10 366.5,-30 386.5,-30 386.5,-10 366.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="462.5,-10 462.5,-30 482.5,-30 482.5,-10 462.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PunishModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 601,-195 601,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PunishModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="457,-78 457,-130 593,-130 593,-78 457,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_PunishModule_imports</title>
+<polygon fill="none" stroke="#000000" points="172,-78 172,-130 449,-130 449,-78 172,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_PunishModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 164,-130 164,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>PunishComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="584.9511,-122 465.0489,-122 465.0489,-86 584.9511,-86 584.9511,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>PunishModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="348.6682,-187 345.6682,-191 324.6682,-191 321.6682,-187 251.3318,-187 251.3318,-151 348.6682,-151 348.6682,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PunishComponent&#45;&gt;PunishModule</title>
+<path fill="none" stroke="#000000" d="M525,-122.1061C525,-141.3391 525,-169 525,-169 525,-169 358.8216,-169 358.8216,-169"/>
+<polygon fill="#000000" stroke="#000000" points="358.8217,-165.5001 348.8216,-169 358.8216,-172.5001 358.8217,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>PunishRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="441.2856,-122 438.2856,-126 417.2856,-126 414.2856,-122 298.7144,-122 298.7144,-86 441.2856,-86 441.2856,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PunishRoutingModule&#45;&gt;PunishModule</title>
+<path fill="none" stroke="#000000" d="M323.7206,-122.1061C323.7206,-122.1061 323.7206,-140.991 323.7206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="320.2206,-140.9909 323.7206,-150.991 327.2206,-140.991 320.2206,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>NavbarModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="280.2465,-122 277.2465,-126 256.2465,-126 253.2465,-122 179.7535,-122 179.7535,-86 280.2465,-86 280.2465,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NavbarModule&#45;&gt;PunishModule</title>
+<path fill="none" stroke="#000000" d="M265.7697,-122.1061C265.7697,-122.1061 265.7697,-140.991 265.7697,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="262.2697,-140.9909 265.7697,-150.991 269.2697,-140.991 262.2697,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>PunishService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="90" cy="-104" rx="66.0704" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PunishService&#45;&gt;PunishModule</title>
+<path fill="none" stroke="#000000" d="M90,-122.1061C90,-141.3391 90,-169 90,-169 90,-169 241.2939,-169 241.2939,-169"/>
+<polygon fill="#000000" stroke="#000000" points="241.294,-172.5001 251.2939,-169 241.2939,-165.5001 241.294,-172.5001"/>
+</g>
+</g>
+</svg>

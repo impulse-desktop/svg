@@ -1,0 +1,91 @@
+<svg width="434pt" height="164pt"
+ viewBox="0.00 0.00 434.00 164.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 160)">
+<title>x265::RateControl::rowDiagonalVbvRateControl</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-160 430,-160 430,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-63 0,-93 140,-93 140,-63 0,-63"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="common_8cpp.html#a4f4c9b86a7de778b323e810d58f82881" target="_top" xlink:title="x265_qp2qScale">
+<polygon fill="white" stroke="black" points="330.5,-49.5 330.5,-68.5 419.5,-68.5 419.5,-49.5 330.5,-49.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M140.135,-73.6648C194.875,-70.2322 270.228,-65.5071 320.448,-62.358"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="320.693,-65.8496 330.455,-61.7306 320.255,-58.8634 320.693,-65.8496"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classx265_1_1RateControl.html#a3067a0ef55831bfa7442368718f2a5f0" target="_top" xlink:title="x265::RateControl::\lupdatePredictor">
+<polygon fill="white" stroke="black" points="181,-126 181,-156 283,-156 283,-126 181,-126"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M109.324,-93.0901C131.507,-101.824 159.621,-112.894 183.235,-122.192"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="182.125,-125.517 192.712,-125.924 184.689,-119.004 182.125,-125.517"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="common_8h.html#a0bc45c2b4097068046b78520c8c09a94" target="_top" xlink:title="Clip3">
+<polygon fill="white" stroke="black" points="355.5,-109.5 355.5,-128.5 394.5,-128.5 394.5,-109.5 355.5,-109.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M140.135,-87.3548C204.951,-96.1254 298.666,-108.806 345.338,-115.122"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="344.974,-118.604 355.353,-116.477 345.913,-111.667 344.974,-118.604"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="classx265_1_1RateControl.html#a7f16f7a200441c356c6fe14ba8d99568" target="_top" xlink:title="x265::RateControl::\lpredictRowsSizeSum">
+<polygon fill="white" stroke="black" points="176.5,-0 176.5,-30 287.5,-30 287.5,-0 176.5,-0"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M109.324,-62.9099C131.507,-54.1755 159.621,-43.1057 183.235,-33.8076"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="184.689,-36.9964 192.712,-30.076 182.125,-30.4831 184.689,-36.9964"/>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M283.108,-133.182C303.92,-129.934 327.326,-126.283 345.173,-123.498"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="345.894,-126.928 355.235,-121.928 344.815,-120.011 345.894,-126.928"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M281.13,-30.0192C298.175,-35.3383 317.167,-41.2647 333.512,-46.3654"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="332.717,-49.7839 343.306,-49.4217 334.803,-43.1017 332.717,-49.7839"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="classx265_1_1RateControl.html#a47722986970e185b7770688f20e45cc1" target="_top" xlink:title="x265::RateControl::\lpredictSize">
+<polygon fill="white" stroke="black" points="324,-0 324,-30 426,-30 426,-0 324,-0"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M287.514,-15C296.092,-15 305.003,-15 313.702,-15"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="313.785,-18.5001 323.785,-15 313.785,-11.5001 313.785,-18.5001"/>
+</g>
+</g>
+</svg>

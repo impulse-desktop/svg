@@ -1,0 +1,80 @@
+<svg width="390pt" height="104pt"
+ viewBox="0.00 0.00 390.00 104.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
+<title>Graphical Class Hierarchy</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-100 386,-100 386,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node0</title>
+<g id="a_node1"><a xlink:href="class_c_coins_view.html" target="_top" xlink:title="Abstract view on the open txout dataset. ">
+<polygon fill="white" stroke="black" points="0,-19.5 0,-38.5 71,-38.5 71,-19.5 0,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>Node1</title>
+<g id="a_node2"><a xlink:href="class_c_coins_view_backed.html" target="_top" xlink:title="CCoinsView backed by another CCoinsView. ">
+<polygon fill="white" stroke="black" points="107,-38.5 107,-57.5 214,-57.5 214,-38.5 107,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node0&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M81.0201,-35.8771C89.384,-37.1691 98.2025,-38.5313 106.788,-39.8575"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="81.5068,-32.4108 71.0897,-34.3431 80.4381,-39.3288 81.5068,-32.4108"/>
+</g>
+
+<g id="node6" class="node"><title>Node5</title>
+<g id="a_node6"><a xlink:href="class_c_coins_view_d_b.html" target="_top" xlink:title="CCoinsView backed by the coin database (chainstate/) ">
+<polygon fill="white" stroke="black" points="117.5,-0.5 117.5,-19.5 203.5,-19.5 203.5,-0.5 117.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node0&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M81.1721,-22.0994C92.9621,-20.2782 105.646,-18.3189 117.301,-16.5186"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="80.4381,-18.6712 71.0897,-23.6569 81.5068,-25.5892 80.4381,-18.6712"/>
+</g>
+
+<g id="node3" class="node"><title>Node2</title>
+<g id="a_node3"><a xlink:href="class_c_coins_view_cache.html" target="_top" xlink:title="CCoinsView that adds a memory cache for transactions to another CCoinsView. ">
+<polygon fill="white" stroke="black" points="265.5,-76.5 265.5,-95.5 366.5,-95.5 366.5,-76.5 265.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M210.135,-60.04C231.58,-65.3488 256.423,-71.4988 276.544,-76.4799"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="210.783,-56.5947 200.235,-57.589 209.1,-63.3896 210.783,-56.5947"/>
+</g>
+
+<g id="node4" class="node"><title>Node3</title>
+<g id="a_node4"><a xlink:href="class_c_coins_view_error_catcher.html" target="_top" xlink:title="This is a minimally invasive approach to shutdown on LevelDB read errors from the chainstate...">
+<polygon fill="white" stroke="black" points="250,-38.5 250,-57.5 382,-57.5 382,-38.5 250,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M224.423,-48C232.816,-48 241.437,-48 249.867,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="224.326,-44.5001 214.326,-48 224.326,-51.5001 224.326,-44.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node4</title>
+<g id="a_node5"><a xlink:href="class_c_coins_view_mem_pool.html" target="_top" xlink:title="CCoinsView that brings transactions from a memorypool into view. ">
+<polygon fill="white" stroke="black" points="258,-0.5 258,-19.5 374,-19.5 374,-0.5 258,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M210.135,-35.96C231.58,-30.6512 256.423,-24.5012 276.544,-19.5201"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="209.1,-32.6104 200.235,-38.411 210.783,-39.4053 209.1,-32.6104"/>
+</g>
+</g>
+</svg>

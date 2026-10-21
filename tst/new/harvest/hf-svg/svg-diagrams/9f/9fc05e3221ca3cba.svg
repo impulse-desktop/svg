@@ -1,0 +1,85 @@
+<svg width="77pt" height="366pt"
+ viewBox="0.00 0.00 77.00 366.49" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 362.489)">
+<title>finite_state_machine</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-362.489 73,-362.489 73,4 -4,4"/>
+
+<g id="node1" class="node"><title>S</title>
+<ellipse fill="none" stroke="black" cx="22" cy="-295.889" rx="18" ry="18"/>
+<ellipse fill="none" stroke="black" cx="22" cy="-295.889" rx="22" ry="22"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>S&#45;&gt;S</title>
+<path fill="none" stroke="black" d="M42.9908,-303.206C53.0872,-304.109 62,-301.671 62,-295.889 62,-292.186 58.3422,-289.854 53.0587,-288.893"/>
+<polygon fill="black" stroke="black" points="53.0973,-285.393 42.9908,-288.572 52.8741,-292.389 53.0973,-285.393"/>
+
+</g>
+
+<g id="node3" class="node"><title>q1</title>
+<ellipse fill="none" stroke="black" cx="22" cy="-202.741" rx="20.2975" ry="20.2975"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>S&#45;&gt;q1</title>
+<path fill="none" stroke="black" d="M13.9999,-275.253C10.7739,-265.06 8.19197,-252.368 10,-240.889 10.4801,-237.841 11.1691,-234.702 11.9773,-231.601"/>
+<polygon fill="black" stroke="black" points="15.3421,-232.565 14.8564,-221.981 8.63601,-230.558 15.3421,-232.565"/>
+
+</g>
+
+<g id="node2" class="node"><title>qi</title>
+<ellipse fill="black" stroke="black" cx="22" cy="-356.689" rx="1.8" ry="1.8"/>
+</g>
+
+<g id="edge1" class="edge"><title>qi&#45;&gt;S</title>
+<path fill="none" stroke="black" d="M22,-354.669C22,-351.295 22,-340.052 22,-328.368"/>
+<polygon fill="black" stroke="black" points="25.5001,-328.175 22,-318.175 18.5001,-328.175 25.5001,-328.175"/>
+</g>
+
+<g id="edge4" class="edge"><title>q1&#45;&gt;S</title>
+<path fill="none" stroke="black" d="M22,-222.904C22,-234.643 22,-249.952 22,-263.433"/>
+<polygon fill="black" stroke="black" points="18.5001,-263.749 22,-273.749 25.5001,-263.749 18.5001,-263.749"/>
+
+</g>
+
+<g id="node4" class="node"><title>q2</title>
+<ellipse fill="none" stroke="black" cx="22" cy="-111.445" rx="20.2975" ry="20.2975"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>q1&#45;&gt;q2</title>
+<path fill="none" stroke="black" d="M13.824,-184.022C10.149,-173.997 7.03053,-161.183 9,-149.593 9.53226,-146.46 10.3001,-143.24 11.2003,-140.068"/>
+<polygon fill="black" stroke="black" points="14.6257,-140.853 14.401,-130.261 7.97109,-138.681 14.6257,-140.853"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>q2&#45;&gt;q1</title>
+<path fill="none" stroke="black" d="M22,-131.783C22,-143.594 22,-158.934 22,-172.238"/>
+<polygon fill="black" stroke="black" points="18.5001,-172.365 22,-182.365 25.5001,-172.365 18.5001,-172.365"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>q2&#45;&gt;q2</title>
+<path fill="none" stroke="black" d="M40.8428,-119.354C50.9449,-120.698 60.1482,-118.062 60.1482,-111.445 60.1482,-107.206 56.3712,-104.6 51.0004,-103.628"/>
+<polygon fill="black" stroke="black" points="50.8745,-100.127 40.8428,-103.535 50.8103,-107.127 50.8745,-100.127"/>
+
+</g>
+
+<g id="node5" class="node"><title>q3</title>
+<ellipse fill="none" stroke="black" cx="22" cy="-20.1482" rx="20.2975" ry="20.2975"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>q2&#45;&gt;q3</title>
+<path fill="none" stroke="black" d="M14.4504,-92.7048C11.0573,-82.6729 8.17873,-69.8594 10,-58.2964 10.4801,-55.2481 11.1691,-52.109 11.9773,-49.0079"/>
+<polygon fill="black" stroke="black" points="15.3421,-49.9722 14.8564,-39.3885 8.63601,-47.965 15.3421,-49.9722"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>q3&#45;&gt;q2</title>
+<path fill="none" stroke="black" d="M22,-40.4864C22,-52.2974 22,-67.6371 22,-80.9414"/>
+<polygon fill="black" stroke="black" points="18.5001,-81.0686 22,-91.0686 25.5001,-81.0687 18.5001,-81.0686"/>
+
+</g>
+</g>
+</svg>

@@ -1,0 +1,57 @@
+<svg width="467pt" height="99pt"
+ viewBox="0.00 0.00 467.00 98.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 94.5)">
+<title>tbb::strict_ppl::concurrent_queue::try_pop</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-94.5 463,-94.5 463,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-33 0,-63 128,-63 128,-33 0,-33"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00148.html#aba7c8bda7a044dce67f46a971dc7193a" target="_top" xlink:title="Attempt to dequeue item from queue. ">
+<polygon fill="white" stroke="black" points="164,-27.5 164,-68.5 290,-68.5 290,-27.5 164,-27.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M128.169,-48C136.499,-48 145.089,-48 153.559,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="153.805,-51.5001 163.804,-48 153.804,-44.5001 153.805,-51.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00083.html#a4bb94f1a0d9cc00c5abb6fb3b110b2fc" target="_top" xlink:title="tbb::internal::atomic\l_impl::compare_and_swap">
+<polygon fill="white" stroke="black" points="326,-60 326,-90 459,-90 459,-60 326,-60"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M290.279,-58.2846C298.646,-59.6663 307.302,-61.0958 315.869,-62.5104"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="315.424,-65.9843 325.86,-64.1604 316.564,-59.0778 315.424,-65.9843"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00158.html#a18c4afb8c4d7675520e4c3f3b8cd272e" target="_top" xlink:title="tbb::strict_ppl::internal\l::concurrent_queue_rep\l::choose">
+<polygon fill="white" stroke="black" points="333,-0.5 333,-41.5 452,-41.5 452,-0.5 333,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M290.279,-37.7154C300.879,-35.9649 311.943,-34.1379 322.7,-32.3615"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="323.598,-35.7607 332.894,-30.6781 322.457,-28.8542 323.598,-35.7607"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,201 @@
+<svg width="2418pt" height="513pt"
+ viewBox="72.00 72.00 2346.00 440.85" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(76 436.853)">
+<title>library_load_diagram_1_object</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-364.853 2270,-364.853 2270,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_library_load_diagram_1_object</title>
+<g id="a_clust1"><a xlink:href="https://github.com/LogtalkDotOrg/logtalk3/tree/master/tools/diagrams/library_load_diagram.lgt" xlink:title="https://github.com/LogtalkDotOrg/logtalk3/tree/master/tools/diagrams/library_load_diagram.lgt">
+<path fill="#fffafa" stroke="#8b8989" d="M20,-27C20,-27 2246,-27 2246,-27 2252,-27 2258,-33 2258,-39 2258,-39 2258,-340.853 2258,-340.853 2258,-346.853 2252,-352.853 2246,-352.853 2246,-352.853 20,-352.853 20,-352.853 14,-352.853 8,-346.853 8,-340.853 8,-340.853 8,-39 8,-39 8,-33 14,-27 20,-27"/>
+
+</a>
+</g>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_other</title>
+<g id="a_clust2"><a xlink:title="(external predicates)">
+<path fill="#ffffff" stroke="#8b8989" d="M30,-37C30,-37 2236,-37 2236,-37 2242,-37 2248,-43 2248,-49 2248,-49 2248,-106.426 2248,-106.426 2248,-112.426 2242,-118.426 2236,-118.426 2236,-118.426 30,-118.426 30,-118.426 24,-118.426 18,-112.426 18,-106.426 18,-106.426 18,-49 18,-49 18,-43 24,-37 30,-37"/>
+
+</a>
+</g>
+</g>
+
+<g id="node1" class="node">
+<title>output_library/3</title>
+<ellipse fill="#f5f5dc" stroke="#000000" cx="1107" cy="-302.64" rx="94.5053" ry="21.4286"/>
+
+
+
+
+
+
+</g>
+
+<g id="node4" class="node">
+<title>logtalk::loaded_file_property/2</title>
+<g id="a_node4"><a xlink:href="http://logtalk.org/library/logtalk_0.html#loaded_file_property/2" xlink:title="http://logtalk.org/library/logtalk_0.html#loaded_file_property/2">
+<ellipse fill="#d3d3d3" stroke="#000000" stroke-dasharray="5,2" cx="193" cy="-68.2132" rx="164.512" ry="21.4286"/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>output_library/3&#45;&gt;logtalk::loaded_file_property/2</title>
+<g id="a_edge1"><a xlink:title="calls">
+<path fill="none" stroke="#000000" d="M1041.46,-287.185C912.115,-256.495 615.047,-185.067 367,-118.426 335.235,-109.892 300.375,-99.948 270.253,-91.171"/>
+<polygon fill="#000000" stroke="#000000" points="270.045,-91.1102 263.164,-93.2662 258.527,-87.7435 270.045,-91.1102"/>
+</a>
+</g>
+
+</g>
+
+<g id="node5" class="node">
+<title>entity_diagram::diagram_name_suffix/1</title>
+<g id="a_node5"><a xlink:href="http://logtalk.org/library/entity_diagram_0.html#diagram_name_suffix/1" xlink:title="http://logtalk.org/library/entity_diagram_0.html#diagram_name_suffix/1">
+<ellipse fill="#d3d3d3" stroke="#000000" stroke-dasharray="5,2" cx="569" cy="-68.2132" rx="193.08" ry="21.4286"/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>output_library/3&#45;&gt;entity_diagram::diagram_name_suffix/1</title>
+<g id="a_edge2"><a xlink:title="calls">
+<path fill="none" stroke="#000000" d="M1063.43,-283.654C967.149,-241.702 736.228,-141.081 627.496,-93.7021"/>
+<polygon fill="#000000" stroke="#000000" points="627.424,-93.6706 620.325,-94.9408 616.423,-88.877 627.424,-93.6706"/>
+</a>
+</g>
+
+</g>
+
+<g id="node6" class="node">
+<title>list::member/2</title>
+<g id="a_node6"><a xlink:href="http://logtalk.org/library/list_0.html#member/2" xlink:title="http://logtalk.org/library/list_0.html#member/2">
+<ellipse fill="#d3d3d3" stroke="#000000" stroke-dasharray="5,2" cx="866" cy="-68.2132" rx="85.6199" ry="21.4286"/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>output_library/3&#45;&gt;list::member/2</title>
+<g id="a_edge3"><a xlink:title="calls">
+<path fill="none" stroke="#000000" d="M1085.61,-281.836C1042.56,-239.956 945.342,-145.391 895.976,-97.3717"/>
+<polygon fill="#000000" stroke="#000000" points="895.941,-97.3375 888.851,-96.0212 887.339,-88.9704 895.941,-97.3375"/>
+</a>
+</g>
+
+</g>
+
+<g id="node7" class="node">
+<title>modules_diagram_support::loaded_file_property/2</title>
+<g id="a_node7"><a xlink:href="http://logtalk.org/library/modules_diagram_support_0.html#loaded_file_property/2" xlink:title="http://logtalk.org/library/modules_diagram_support_0.html#loaded_file_property/2">
+<ellipse fill="#d3d3d3" stroke="#000000" stroke-dasharray="5,2" cx="1209" cy="-68.2132" rx="239.919" ry="21.4286"/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>output_library/3&#45;&gt;modules_diagram_support::loaded_file_property/2</title>
+<g id="a_edge4"><a xlink:title="calls">
+<path fill="none" stroke="#000000" d="M1116.23,-281.422C1134.13,-240.294 1173.64,-149.488 1194.86,-100.709"/>
+<polygon fill="#000000" stroke="#000000" points="1194.93,-100.555 1193.65,-93.4573 1199.72,-89.5514 1194.93,-100.555"/>
+</a>
+</g>
+
+</g>
+
+<g id="node8" class="node">
+<title>logtalk::expand_library_path/2</title>
+<g id="a_node8"><a xlink:href="http://logtalk.org/library/logtalk_0.html#expand_library_path/2" xlink:title="http://logtalk.org/library/logtalk_0.html#expand_library_path/2">
+<ellipse fill="#d3d3d3" stroke="#000000" stroke-dasharray="5,2" cx="1627" cy="-68.2132" rx="160.526" ry="21.4286"/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>output_library/3&#45;&gt;logtalk::expand_library_path/2</title>
+<g id="a_edge5"><a xlink:title="calls">
+<path fill="none" stroke="#000000" d="M1149.55,-283.456C1242.93,-241.358 1465.81,-140.879 1570.66,-93.6122"/>
+<polygon fill="#000000" stroke="#000000" points="1570.7,-93.5947 1574.53,-87.4822 1581.64,-88.6628 1570.7,-93.5947"/>
+</a>
+</g>
+
+</g>
+
+<g id="node9" class="node">
+<title>modules_diagram_support::module_property/2</title>
+<g id="a_node9"><a xlink:href="http://logtalk.org/library/modules_diagram_support_0.html#module_property/2" xlink:title="http://logtalk.org/library/modules_diagram_support_0.html#module_property/2">
+<ellipse fill="#d3d3d3" stroke="#000000" stroke-dasharray="5,2" cx="2022" cy="-68.2132" rx="216.249" ry="21.4286"/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>output_library/3&#45;&gt;modules_diagram_support::module_property/2</title>
+<g id="a_edge6"><a xlink:title="calls">
+<path fill="none" stroke="#000000" d="M1169.53,-286.619C1328.45,-245.903 1748.26,-138.346 1932.81,-91.063"/>
+<polygon fill="#000000" stroke="#000000" points="1933,-91.0154 1937.82,-85.6513 1944.62,-88.037 1933,-91.0154"/>
+</a>
+</g>
+
+</g>
+
+<g id="node2" class="node">
+<title>default_option/1</title>
+<ellipse fill="#f5f5dc" stroke="#000000" cx="810" cy="-302.64" rx="94.5053" ry="21.4286"/>
+
+
+
+
+
+
+</g>
+
+<g id="node3" class="node">
+<title>diagram_name_suffix/1</title>
+<ellipse fill="#f5f5dc" stroke="#000000" cx="402" cy="-302.64" rx="118.174" ry="21.4286"/>
+
+
+
+
+
+
+</g>
+</g>
+</svg>

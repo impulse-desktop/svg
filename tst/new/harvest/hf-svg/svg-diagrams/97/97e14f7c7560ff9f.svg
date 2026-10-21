@@ -1,0 +1,138 @@
+<svg width="954pt" height="159pt"
+ viewBox="0.00 0.00 954.00 159.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 155)">
+<title>tbb::internal::fgt_algorithm</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-155 950,-155 950,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-73.5 0,-103.5 85,-103.5 85,-73.5 0,-73.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00729.html#aec2eb848e57c22157c14dffb5c3124f0" target="_top" xlink:title="Constructor for root task. ">
+<polygon fill="white" stroke="black" points="121,-73.5 121,-103.5 237,-103.5 237,-73.5 121,-73.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M95.3249,-88.5C103.695,-88.5 112.403,-88.5 120.89,-88.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="95.3194,-85.0001 85.3194,-88.5 95.3193,-92.0001 95.3194,-85.0001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00729.html#a176a32f32cd87efa33faf53d19a15c96" target="_top" xlink:title="spawn right task, serves as callback for partitioner ">
+<polygon fill="white" stroke="black" points="273,-98.5 273,-128.5 389,-128.5 389,-98.5 273,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M247.033,-99.6722C255.54,-101.09 264.186,-102.531 272.525,-103.921"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="247.576,-96.2144 237.136,-98.0227 246.425,-103.119 247.576,-96.2144"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00729.html#aa1762bde7c3f7fc628123175f52790c4" target="_top" xlink:title="tbb::interface9::internal\l::start_for::run">
+<polygon fill="white" stroke="black" points="273,-49.5 273,-79.5 389,-79.5 389,-49.5 273,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M247.033,-77.7747C255.54,-76.4135 264.186,-75.0302 272.525,-73.6959"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="246.458,-74.3221 237.136,-79.3582 247.564,-81.2342 246.458,-74.3221"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a01145.html#gaa8444c29dc4d2e527a1036717d109aef" target="_top" xlink:title="Parallel iteration over range with default partitioner. ">
+<polygon fill="white" stroke="black" points="425,-55 425,-74 508,-74 508,-55 425,-55"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M399.235,-64.5C407.978,-64.5 416.709,-64.5 424.83,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="399.003,-61.0001 389.003,-64.5 399.003,-68.0001 399.003,-61.0001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00569.html#afaeacfcdb47ebb412e1748e011278b8c" target="_top" xlink:title="tbb::internal::parallel\l_for_each_impl\&lt; Iterator,\l Function, std::random_access\l_iterator_tag \&gt;::doit">
+<polygon fill="white" stroke="black" points="544,-98.5 544,-150.5 696,-150.5 696,-98.5 544,-98.5"/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M501.079,-77.7985C516.459,-83.8897 535.243,-91.3291 553.259,-98.464"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="502.092,-74.4353 491.506,-74.0072 499.514,-80.9435 502.092,-74.4353"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a01141.html#af7e92accea40b9e372385af8f21d74b0" target="_top" xlink:title="Implementation of parallel iteration over stepped range of integers with explicit step and partitione...">
+<polygon fill="white" stroke="black" points="563.5,-49.5 563.5,-79.5 676.5,-79.5 676.5,-49.5 563.5,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M518.375,-64.5C532.866,-64.5 548.724,-64.5 563.477,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="518.099,-61.0001 508.099,-64.5 518.099,-68.0001 518.099,-61.0001"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a01145.html#ga8ea99adce8e471393803c5abca0c34fe" target="_top" xlink:title="Wrapper method to initiate the sort by calling parallel_for. ">
+<polygon fill="white" stroke="black" points="562,-0.5 562,-30.5 678,-30.5 678,-0.5 562,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node5&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M506.829,-51.7798C526.916,-45.2828 551.488,-37.3355 572.508,-30.537"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="505.508,-48.5284 497.07,-54.936 507.662,-55.1887 505.508,-48.5284"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="a01145.html#gabdc90813499f91d3e32298cd6dc2fe45" target="_top" xlink:title="Sorts the data in [begin,end) using the given comparator. ">
+<polygon fill="white" stroke="black" points="732,-6 732,-25 821,-25 821,-6 732,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M688.185,-15.5C702.919,-15.5 718.149,-15.5 731.683,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="688.091,-12.0001 678.091,-15.5 688.091,-19.0001 688.091,-12.0001"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="a01145.html#ga73b58ac9249f49587d0b081c152af551" target="_top" xlink:title="Sorts the data in [begin,end) with a default comparator std::less&lt;RandomAccessIterator&gt; ...">
+<polygon fill="white" stroke="black" points="857,-6 857,-25 946,-25 946,-6 857,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node9&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M831.458,-15.5C839.975,-15.5 848.687,-15.5 856.929,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="831.212,-12.0001 821.212,-15.5 831.211,-19.0001 831.212,-12.0001"/>
+</g>
+</g>
+</svg>

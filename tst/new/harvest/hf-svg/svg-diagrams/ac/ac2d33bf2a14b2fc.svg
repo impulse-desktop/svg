@@ -1,0 +1,102 @@
+<svg width="509pt" height="116pt"
+ viewBox="0.00 0.00 509.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>coap_option_filter_clear</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-112 505,-112 505,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node130</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-39 0,-69 93,-69 93,-39 0,-39"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node131</title>
+<g id="a_node2"><a xlink:href="group__opt__filter.html#gafd655c069130a0a54a0082c1951d09d9" target="_top" xlink:title="Sets the corresponding entry for type in filter. ">
+<polygon fill="white" stroke="black" points="129,-88.5 129,-107.5 241,-107.5 241,-88.5 129,-88.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node130&#45;&gt;Node131</title>
+<path fill="none" stroke="midnightblue" d="M93.3323,-68.7738C110.008,-74.1492 128.693,-80.1721 144.748,-85.3473"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="143.772,-88.7099 154.363,-88.4467 145.919,-82.0475 143.772,-88.7099"/>
+</g>
+
+<g id="node6" class="node"><title>Node135</title>
+<g id="a_node6"><a xlink:href="group__opt__filter.html#ga77ae345bb3d5ecd89adfaedc9949a4b2" target="_top" xlink:title="Clears the corresponding entry for type in filter. ">
+<polygon fill="white" stroke="black" points="138.5,-39 138.5,-69 231.5,-69 231.5,-39 138.5,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node130&#45;&gt;Node135</title>
+<path fill="none" stroke="midnightblue" d="M93.3323,-54C104.362,-54 116.27,-54 127.715,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="128.056,-57.5001 138.056,-54 128.056,-50.5001 128.056,-57.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node136</title>
+<g id="a_node7"><a xlink:href="group__opt__filter.html#ga43220918c5f526de3738bdd95832eda3" target="_top" xlink:title="Checks if type is contained in filter. ">
+<polygon fill="white" stroke="black" points="129,-0.5 129,-19.5 241,-19.5 241,-0.5 129,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node130&#45;&gt;Node136</title>
+<path fill="none" stroke="midnightblue" d="M93.3323,-39.2262C110.008,-33.8508 128.693,-27.8279 144.748,-22.6527"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="145.919,-25.9525 154.363,-19.5533 143.772,-19.2901 145.919,-25.9525"/>
+</g>
+
+<g id="node3" class="node"><title>Node132</title>
+<g id="a_node3"><a xlink:href="option_8c.html#a58b1764055e7ee09aca186314ea59beb" target="_top" xlink:title="Applies op on filter with respect to type. ">
+<polygon fill="white" stroke="black" points="277,-44.5 277,-63.5 386,-63.5 386,-44.5 277,-44.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node131&#45;&gt;Node132</title>
+<path fill="none" stroke="midnightblue" d="M217.354,-88.4527C238.467,-82.0237 266.528,-73.4794 289.422,-66.5082"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="290.66,-69.7899 299.207,-63.5287 288.621,-63.0935 290.66,-69.7899"/>
+</g>
+
+<g id="node4" class="node"><title>Node133</title>
+<g id="a_node4"><a xlink:href="option_8c.html#a613d8a39b97bcf7a9bae99072e5e23c6" target="_top" xlink:title="Returns true iff type denotes an option type larger than 255. ">
+<polygon fill="white" stroke="black" points="422,-63.5 422,-82.5 501,-82.5 501,-63.5 422,-63.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node132&#45;&gt;Node133</title>
+<path fill="none" stroke="midnightblue" d="M386.042,-61.9476C394.614,-63.22 403.443,-64.5306 411.892,-65.7847"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="411.56,-69.2737 421.966,-67.2801 412.588,-62.3496 411.56,-69.2737"/>
+</g>
+
+<g id="node5" class="node"><title>Node134</title>
+<g id="a_node5"><a xlink:href="encode_8c.html#a671b4261b2d24de8696258a8efb0f359" target="_top" xlink:title="coap_fls">
+<polygon fill="white" stroke="black" points="435,-25.5 435,-44.5 488,-44.5 488,-25.5 435,-25.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node132&#45;&gt;Node134</title>
+<path fill="none" stroke="midnightblue" d="M386.042,-46.0524C399.076,-44.1176 412.706,-42.0945 424.688,-40.3159"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="425.359,-43.7547 434.737,-38.8242 424.331,-36.8305 425.359,-43.7547"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node135&#45;&gt;Node132</title>
+<path fill="none" stroke="midnightblue" d="M231.721,-54C242.784,-54 254.811,-54 266.543,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="266.745,-57.5001 276.745,-54 266.745,-50.5001 266.745,-57.5001"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node136&#45;&gt;Node132</title>
+<path fill="none" stroke="midnightblue" d="M217.354,-19.5473C238.467,-25.9763 266.528,-34.5206 289.422,-41.4918"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="288.621,-44.9065 299.207,-44.4713 290.66,-38.2101 288.621,-44.9065"/>
+</g>
+</g>
+</svg>

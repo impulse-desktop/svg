@@ -1,0 +1,65 @@
+<svg width="510pt" height="66pt"
+ viewBox="0.00 0.00 510.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>x265::ShortYuv::copyPartToPartLuma</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-62 506,-62 506,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0.5,-14 0.5,-44 129.5,-44 129.5,-14 0.5,-14"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="classx265_1_1ShortYuv.html#a048ebc29e8a3839ab5a7a544f77b878f" target="_top" xlink:title="x265::ShortYuv::getLumaAddr">
+<polygon fill="white" stroke="black" points="166,-38.5 166,-57.5 314,-57.5 314,-38.5 166,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M129.927,-36.0209C138.367,-36.9479 147.116,-37.9087 155.819,-38.8646"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="155.672,-42.3694 165.995,-39.9821 156.437,-35.4112 155.672,-42.3694"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="classx265_1_1Yuv.html#a6c62d5a28f8007eda953bd8026089989" target="_top" xlink:title="x265::Yuv::getLumaAddr">
+<polygon fill="white" stroke="black" points="177.5,-0.5 177.5,-19.5 302.5,-19.5 302.5,-0.5 177.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M129.927,-21.9791C142.034,-20.6494 154.775,-19.2501 167.108,-17.8956"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="167.791,-21.3418 177.349,-16.7709 167.027,-14.3836 167.791,-21.3418"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classx265_1_1ShortYuv.html#a508fe415b0caa67a51e588bc1591a1d6" target="_top" xlink:title="x265::ShortYuv::getAddrOffset">
+<polygon fill="white" stroke="black" points="350.5,-38.5 350.5,-57.5 501.5,-57.5 501.5,-38.5 350.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M314.25,-48C322.822,-48 331.621,-48 340.331,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="340.497,-51.5001 350.497,-48 340.497,-44.5001 340.497,-51.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="classx265_1_1Yuv.html#a2a599599b46661ccf39f1144dfe2145a" target="_top" xlink:title="x265::Yuv::getAddrOffset">
+<polygon fill="white" stroke="black" points="362,-0.5 362,-19.5 490,-19.5 490,-0.5 362,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M302.525,-10C318.358,-10 335.548,-10 351.905,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="351.962,-13.5001 361.962,-10 351.962,-6.5001 351.962,-13.5001"/>
+</g>
+</g>
+</svg>

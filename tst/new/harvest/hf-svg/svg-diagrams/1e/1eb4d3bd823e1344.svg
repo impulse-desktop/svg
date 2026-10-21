@@ -1,0 +1,200 @@
+<svg width="1374pt" height="360pt"
+ viewBox="0.00 0.00 1374.00 360.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 356)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-356 1370,-356 1370,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="449,-10 449,-30 469,-30 469,-10 449,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="562,-10 562,-30 582,-30 582,-10 562,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="648,-10 648,-30 668,-30 668,-10 648,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="745,-10 745,-30 765,-30 765,-10 745,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="841,-10 841,-30 861,-30 861,-10 841,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="626,-146 626,-344 890,-344 890,-146 626,-146"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="760,-154 760,-206 882,-206 882,-154 760,-154"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="634,-154 634,-206 752,-206 752,-154 634,-154"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="696,-284 696,-336 820,-336 820,-284 696,-284"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_MobiusCesium</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-138 1358,-138 1358,-70 8,-70"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_MobiusCesium_declarations</title>
+<polygon fill="none" stroke="#000000" points="348,-78 348,-130 1350,-130 1350,-78 348,-78"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_MobiusCesium_exports</title>
+<polygon fill="none" stroke="#000000" points="156,-78 156,-130 340,-130 340,-78 156,-78"/>
+</g>
+<g id="clust20" class="cluster">
+<title>cluster_MobiusCesium_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 148,-130 148,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="873.9399,-198 768.0601,-198 768.0601,-162 873.9399,-162 873.9399,-198"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="799.6571,-263 796.6571,-267 775.6571,-267 772.6571,-263 716.3429,-263 716.3429,-227 799.6571,-227 799.6571,-263"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M784.0544,-198.1061C784.0544,-198.1061 784.0544,-216.991 784.0544,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="780.5544,-216.9909 784.0544,-226.991 787.5544,-216.991 780.5544,-216.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="812.439,-328 703.561,-328 703.561,-292 812.439,-292 812.439,-328"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M758,-263.1061C758,-263.1061 758,-281.991 758,-281.991"/>
+<polygon fill="#000000" stroke="#000000" points="754.5001,-281.9909 758,-291.991 761.5001,-281.991 754.5001,-281.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>MobiusCesium</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="743.5578,-198 740.5578,-202 719.5578,-202 716.5578,-198 642.4422,-198 642.4422,-162 743.5578,-162 743.5578,-198"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>MobiusCesium&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M729.9751,-198.1061C729.9751,-198.1061 729.9751,-216.991 729.9751,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="726.4752,-216.9909 729.9751,-226.991 733.4752,-216.991 726.4752,-216.9909"/>
+</g>
+
+<g id="node12" class="node">
+<title>MobiuscesiumComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="331.7674,-122 164.2326,-122 164.2326,-86 331.7674,-86 331.7674,-122"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>MobiusCesium&#45;&gt;MobiuscesiumComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M642.3861,-184C525.752,-184 248,-184 248,-184 248,-184 248,-132.1532 248,-132.1532"/>
+<polygon fill="#000000" stroke="#000000" points="251.5001,-132.1532 248,-122.1532 244.5001,-132.1533 251.5001,-132.1532"/>
+</g>
+
+<g id="node5" class="node">
+<title>DataComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1341.7591,-122 1234.2409,-122 1234.2409,-86 1341.7591,-86 1341.7591,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DataComponent&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M1288,-122.1467C1288,-135.7395 1288,-152 1288,-152 1288,-152 723.467,-152 723.467,-152 723.467,-152 723.467,-152.9793 723.467,-152.9793"/>
+<polygon fill="#000000" stroke="#000000" points="719.9672,-151.793 723.467,-161.793 726.9672,-151.7931 719.9672,-151.793"/>
+</g>
+
+<g id="node6" class="node">
+<title>DisplayComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1216.3795,-122 1091.6205,-122 1091.6205,-86 1216.3795,-86 1216.3795,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DisplayComponent&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M1154,-122.1097C1154,-131.897 1154,-142 1154,-142 1154,-142 703.1557,-142 703.1557,-142 703.1557,-142 703.1557,-151.8903 703.1557,-151.8903"/>
+<polygon fill="#000000" stroke="#000000" points="699.6558,-151.8903 703.1557,-161.8903 706.6558,-151.8904 699.6558,-151.8903"/>
+</g>
+
+<g id="node7" class="node">
+<title>MobiuscesiumComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1073.7674,-122 910.2326,-122 910.2326,-86 1073.7674,-86 1073.7674,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MobiuscesiumComponent&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M992,-122.207C992,-127.5549 992,-132 992,-132 992,-132 682.8443,-132 682.8443,-132 682.8443,-132 682.8443,-151.8533 682.8443,-151.8533"/>
+<polygon fill="#000000" stroke="#000000" points="679.3444,-151.8532 682.8443,-161.8533 686.3444,-151.8533 679.3444,-151.8532"/>
+</g>
+
+<g id="node8" class="node">
+<title>PublishComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="891.8413,-122 768.1587,-122 768.1587,-86 891.8413,-86 891.8413,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>PublishComponent&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M768.1668,-104C762.8976,-104 759.5252,-104 759.5252,-104 759.5252,-104 759.5252,-180 759.5252,-180 759.5252,-180 753.7597,-180 753.7597,-180"/>
+<polygon fill="#000000" stroke="#000000" points="753.7597,-176.5001 743.7597,-180 753.7597,-183.5001 753.7597,-176.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>SelectComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="750.5409,-122 635.4591,-122 635.4591,-86 750.5409,-86 750.5409,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SelectComponent&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M662.533,-122.0109C662.533,-122.0109 662.533,-151.855 662.533,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="659.0331,-151.8549 662.533,-161.855 666.0331,-151.855 659.0331,-151.8549"/>
+</g>
+
+<g id="node10" class="node">
+<title>SettingComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="617.5014,-122 496.4986,-122 496.4986,-86 617.5014,-86 617.5014,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SettingComponent&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M557,-122.0348C557,-141.5762 557,-170 557,-170 557,-170 632.3586,-170 632.3586,-170"/>
+<polygon fill="#000000" stroke="#000000" points="632.3587,-173.5001 642.3586,-170 632.3586,-166.5001 632.3587,-173.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>ViewerComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="478.0269,-122 355.9731,-122 355.9731,-86 478.0269,-86 478.0269,-122"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ViewerComponent&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M417,-122.0449C417,-143.6623 417,-177 417,-177 417,-177 632.3773,-177 632.3773,-177"/>
+<polygon fill="#000000" stroke="#000000" points="632.3774,-180.5001 642.3773,-177 632.3773,-173.5001 632.3774,-180.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>DataService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="82" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>DataService&#45;&gt;MobiusCesium</title>
+<path fill="none" stroke="#000000" d="M82,-122.0265C82,-147.5093 82,-191 82,-191 82,-191 632.2187,-191 632.2187,-191"/>
+<polygon fill="#000000" stroke="#000000" points="632.2188,-194.5001 642.2187,-191 632.2187,-187.5001 632.2188,-194.5001"/>
+</g>
+</g>
+</svg>

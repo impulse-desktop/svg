@@ -1,0 +1,128 @@
+<svg width="825pt" height="284pt"
+ viewBox="0.00 0.00 825.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 821,-280 821,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="174.5,-10 174.5,-30 194.5,-30 194.5,-10 174.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="287.5,-10 287.5,-30 307.5,-30 307.5,-10 287.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="373.5,-10 373.5,-30 393.5,-30 393.5,-10 373.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="470.5,-10 470.5,-30 490.5,-30 490.5,-10 470.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="566.5,-10 566.5,-30 586.5,-30 586.5,-10 566.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaTooltipModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 809,-268 809,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaTooltipModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="483,-78 483,-130 801,-130 801,-78 483,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_DejaTooltipModule_imports</title>
+<polygon fill="none" stroke="#000000" points="214,-78 214,-130 475,-130 475,-78 214,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_DejaTooltipModule_exports</title>
+<polygon fill="none" stroke="#000000" points="241,-208 241,-260 567,-260 567,-208 241,-208"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_DejaTooltipModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 206,-130 206,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaTooltipComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="793.4832,-122 644.5168,-122 644.5168,-86 793.4832,-86 793.4832,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>DejaTooltipModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="464.7008,-187 461.7008,-191 440.7008,-191 437.7008,-187 337.2992,-187 337.2992,-151 464.7008,-151 464.7008,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaTooltipComponent&#45;&gt;DejaTooltipModule</title>
+<path fill="none" stroke="#000000" d="M719,-122.2843C719,-143.3211 719,-175 719,-175 719,-175 474.9695,-175 474.9695,-175"/>
+<polygon fill="#000000" stroke="#000000" points="474.9696,-171.5001 464.9695,-175 474.9695,-178.5001 474.9696,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DejaTooltipDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="626.7339,-122 491.2661,-122 491.2661,-86 626.7339,-86 626.7339,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DejaTooltipDirective&#45;&gt;DejaTooltipModule</title>
+<path fill="none" stroke="#000000" d="M525.1874,-122.0225C525.1874,-139.3734 525.1874,-163 525.1874,-163 525.1874,-163 474.9126,-163 474.9126,-163"/>
+<polygon fill="#000000" stroke="#000000" points="474.9127,-159.5001 464.9126,-163 474.9126,-166.5001 474.9127,-159.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>DejaTooltipComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="559.484,-252 406.516,-252 406.516,-216 559.484,-216 559.484,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DejaTooltipModule&#45;&gt;DejaTooltipComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M435.6794,-187.1061C435.6794,-187.1061 435.6794,-205.991 435.6794,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="432.1794,-205.9909 435.6794,-215.991 439.1794,-205.991 432.1794,-205.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>DejaTooltipDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="388.7338,-252 249.2662,-252 249.2662,-216 388.7338,-216 388.7338,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DejaTooltipModule&#45;&gt;DejaTooltipDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M363.0082,-187.1061C363.0082,-187.1061 363.0082,-205.991 363.0082,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="359.5083,-205.9909 363.0082,-215.991 366.5083,-205.991 359.5083,-205.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>DejaOverlayModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="466.5632,-122 463.5632,-126 442.5632,-126 439.5632,-122 335.4368,-122 335.4368,-86 466.5632,-86 466.5632,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DejaOverlayModule&#45;&gt;DejaTooltipModule</title>
+<path fill="none" stroke="#000000" d="M401,-122.1061C401,-122.1061 401,-140.991 401,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="397.5001,-140.9909 401,-150.991 404.5001,-140.991 397.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>MediaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="317.8147,-122 314.8147,-126 293.8147,-126 290.8147,-122 222.1853,-122 222.1853,-86 317.8147,-86 317.8147,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MediaModule&#45;&gt;DejaTooltipModule</title>
+<path fill="none" stroke="#000000" d="M283.5202,-122.0225C283.5202,-139.3734 283.5202,-163 283.5202,-163 283.5202,-163 327.1033,-163 327.1033,-163"/>
+<polygon fill="#000000" stroke="#000000" points="327.1033,-166.5001 337.1033,-163 327.1033,-159.5001 327.1033,-166.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>DejaTooltipService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="111" cy="-104" rx="86.8126" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>DejaTooltipService&#45;&gt;DejaTooltipModule</title>
+<path fill="none" stroke="#000000" d="M111,-122.2843C111,-143.3211 111,-175 111,-175 111,-175 327.3583,-175 327.3583,-175"/>
+<polygon fill="#000000" stroke="#000000" points="327.3583,-178.5001 337.3583,-175 327.3582,-171.5001 327.3583,-178.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,55 @@
+<svg width="376pt" height="116pt"
+ viewBox="0.00 0.00 375.52 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 371.52,-112 371.52,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Biến Độc lập (X)</title>
+<ellipse fill="none" stroke="black" cx="111.75" cy="-90" rx="71.8" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Biến Hậu Can thiệp (C)</title>
+<ellipse fill="none" stroke="black" cx="94.75" cy="-18" rx="94.99" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>Biến Độc lập (X)&#45;&gt;Biến Hậu Can thiệp (C)</title>
+<path fill="none" stroke="black" d="M107.54,-71.7C105.65,-63.9 103.37,-54.51 101.26,-45.83"/>
+<polygon fill="black" stroke="black" points="104.66,-45 98.9,-36.1 97.86,-46.65 104.66,-45"/>
+</g>
+
+<g id="node4" class="node">
+<title>Biến Phụ thuộc (Y)</title>
+<ellipse fill="none" stroke="black" cx="287.75" cy="-18" rx="79.54" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>Biến Độc lập (X)&#45;&gt;Biến Phụ thuộc (Y)</title>
+<path fill="none" stroke="black" d="M148.64,-74.33C175.45,-63.66 211.94,-49.15 240.82,-37.67"/>
+<polygon fill="black" stroke="black" points="242.29,-40.84 250.29,-33.9 239.71,-34.34 242.29,-40.84"/>
+</g>
+
+<g id="node3" class="node">
+<title>Biến Nhiễu (W)</title>
+<ellipse fill="none" stroke="black" cx="278.75" cy="-90" rx="67.95" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>Biến Nhiễu (W)&#45;&gt;Biến Hậu Can thiệp (C)</title>
+<path fill="none" stroke="black" d="M241.51,-74.83C213.65,-64.24 175.26,-49.63 144.73,-38.02"/>
+<polygon fill="black" stroke="black" points="145.71,-34.64 135.12,-34.36 143.22,-41.19 145.71,-34.64"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>Biến Nhiễu (W)&#45;&gt;Biến Phụ thuộc (Y)</title>
+<path fill="none" stroke="black" d="M280.97,-71.7C281.96,-63.98 283.15,-54.71 284.26,-46.11"/>
+<polygon fill="black" stroke="black" points="287.74,-46.47 285.55,-36.1 280.8,-45.58 287.74,-46.47"/>
+</g>
+</g>
+</svg>

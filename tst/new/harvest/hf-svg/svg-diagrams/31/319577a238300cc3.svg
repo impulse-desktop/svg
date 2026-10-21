@@ -1,0 +1,124 @@
+<svg width="280pt" height="654pt"
+ viewBox="0.00 0.00 280.00 654.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 650)">
+<title>tbb::strict_ppl::internal::concurrent_queue_rep&lt; T &gt;</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-650 276,-650 276,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="68,-160.5 68,-239.5 211,-239.5 211,-160.5 68,-160.5"/>
+
+
+<polyline fill="none" stroke="black" points="68,-209.5 211,-209.5 "/>
+
+<polyline fill="none" stroke="black" points="68,-190.5 211,-190.5 "/>
+
+
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00158.html" target="_top" xlink:title="{tbb::strict_ppl::internal\l::concurrent_queue_rep\l\&lt; tbb_remove_cv\&lt; Value \&gt;\l::type \&gt;\n|+ array\l|+ choose()\l+ index()\l}">
+<polygon fill="white" stroke="black" points="0,-0.5 0,-101.5 135,-101.5 135,-0.5 0,-0.5"/>
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-49.5 135,-49.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-30.5 135,-30.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="orange" d="M83.7962,-152.347C81.4357,-149.021 79.3072,-145.566 77.5,-142 71.3176,-129.8 68.1824,-115.497 66.7372,-101.931"/>
+<polygon fill="orange" stroke="orange" points="81.1545,-154.65 90.0908,-160.342 86.6543,-150.32 81.1545,-154.65"/>
+
+
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00158.html" target="_top" xlink:title="{tbb::strict_ppl::internal\l::concurrent_queue_rep\l\&lt; Value \&gt;\n|+ array\l|+ choose()\l+ index()\l}">
+<polygon fill="white" stroke="black" points="153,-6 153,-96 272,-96 272,-6 153,-6"/>
+
+
+
+<polyline fill="none" stroke="black" points="153,-55 272,-55 "/>
+
+<polyline fill="none" stroke="black" points="153,-36 272,-36 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="orange" d="M184.33,-152.246C186.588,-148.897 188.672,-145.469 190.5,-142 197.921,-127.911 202.893,-111.259 206.2,-96.134"/>
+<polygon fill="orange" stroke="orange" points="181.459,-150.243 178.408,-160.389 187.12,-154.36 181.459,-150.243"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00160.html" target="_top" xlink:title="parts of concurrent_queue_rep that do not have references to micro_queue ">
+<polygon fill="white" stroke="black" points="67,-277.5 67,-444.5 212,-444.5 212,-277.5 67,-277.5"/>
+
+
+<polyline fill="none" stroke="black" points="67,-414.5 212,-414.5 "/>
+
+
+
+
+
+
+
+
+
+
+<polyline fill="none" stroke="black" points="67,-296.5 212,-296.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M139.5,-267.133C139.5,-257.505 139.5,-248.146 139.5,-239.643"/>
+<polygon fill="none" stroke="midnightblue" points="136,-267.24 139.5,-277.24 143,-267.24 136,-267.24"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00516.html" target="_top" xlink:title="Base class for types that should not be copied or assigned. ">
+<polygon fill="white" stroke="black" points="84.5,-482.5 84.5,-550.5 194.5,-550.5 194.5,-482.5 84.5,-482.5"/>
+
+<polyline fill="none" stroke="black" points="84.5,-531.5 194.5,-531.5 "/>
+
+<polyline fill="none" stroke="black" points="84.5,-512.5 194.5,-512.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M139.5,-472.059C139.5,-463.437 139.5,-454.119 139.5,-444.681"/>
+<polygon fill="none" stroke="midnightblue" points="136,-472.193 139.5,-482.193 143,-472.193 136,-472.193"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="80.5,-588.5 80.5,-645.5 198.5,-645.5 198.5,-588.5 80.5,-588.5"/>
+
+<polyline fill="none" stroke="black" points="80.5,-626.5 198.5,-626.5 "/>
+
+<polyline fill="none" stroke="black" points="80.5,-607.5 198.5,-607.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="#8b1a1a" d="M139.5,-578.007C139.5,-568.962 139.5,-559.383 139.5,-550.578"/>
+<polygon fill="none" stroke="#8b1a1a" points="136,-578.3 139.5,-588.3 143,-578.3 136,-578.3"/>
+</g>
+</g>
+</svg>

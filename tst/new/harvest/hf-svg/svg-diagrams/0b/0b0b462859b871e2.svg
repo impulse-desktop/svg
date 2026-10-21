@@ -1,0 +1,100 @@
+<svg width="866pt" height="211pt"
+ viewBox="0.00 0.00 866.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 862,-207 862,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="195,-10 195,-30 215,-30 215,-10 195,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="308,-10 308,-30 328,-30 328,-10 308,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="394,-10 394,-30 414,-30 414,-10 394,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="491,-10 491,-30 511,-30 511,-10 491,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="587,-10 587,-30 607,-30 607,-10 587,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ContractsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 850,-195 850,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ContractsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="692,-78 692,-130 842,-130 842,-78 692,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ContractsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="364,-78 364,-130 684,-130 684,-78 364,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ContractsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 356,-130 356,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ContractsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="834.4846,-122 699.5154,-122 699.5154,-86 834.4846,-86 834.4846,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ContractsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="492.7022,-187 489.7022,-191 468.7022,-191 465.7022,-187 379.2978,-187 379.2978,-151 492.7022,-151 492.7022,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ContractsComponent&#45;&gt;ContractsModule</title>
+<path fill="none" stroke="#000000" d="M767,-122.2843C767,-143.3211 767,-175 767,-175 767,-175 502.9009,-175 502.9009,-175"/>
+<polygon fill="#000000" stroke="#000000" points="502.901,-171.5001 492.9009,-175 502.9009,-178.5001 502.901,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ContractsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="676.3201,-122 673.3201,-126 652.3201,-126 649.3201,-122 517.6799,-122 517.6799,-86 676.3201,-86 676.3201,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ContractsRoutingModule&#45;&gt;ContractsModule</title>
+<path fill="none" stroke="#000000" d="M597,-122.0225C597,-139.3734 597,-163 597,-163 597,-163 502.7626,-163 502.7626,-163"/>
+<polygon fill="#000000" stroke="#000000" points="502.7626,-159.5001 492.7626,-163 502.7625,-166.5001 502.7626,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>PageHeaderModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="499.6727,-122 496.6727,-126 475.6727,-126 472.6727,-122 372.3273,-122 372.3273,-86 499.6727,-86 499.6727,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PageHeaderModule&#45;&gt;ContractsModule</title>
+<path fill="none" stroke="#000000" d="M436,-122.1061C436,-122.1061 436,-140.991 436,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="432.5001,-140.9909 436,-150.991 439.5001,-140.991 432.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="272" cy="-104" rx="75.8836" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonService&#45;&gt;ContractsModule</title>
+<path fill="none" stroke="#000000" d="M272,-122.0225C272,-139.3734 272,-163 272,-163 272,-163 369.101,-163 369.101,-163"/>
+<polygon fill="#000000" stroke="#000000" points="369.1011,-166.5001 379.101,-163 369.101,-159.5001 369.1011,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>ContractsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="101" cy="-104" rx="77.0004" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ContractsService&#45;&gt;ContractsModule</title>
+<path fill="none" stroke="#000000" d="M101,-122.2843C101,-143.3211 101,-175 101,-175 101,-175 369.1718,-175 369.1718,-175"/>
+<polygon fill="#000000" stroke="#000000" points="369.1719,-178.5001 379.1718,-175 369.1718,-171.5001 369.1719,-178.5001"/>
+</g>
+</g>
+</svg>

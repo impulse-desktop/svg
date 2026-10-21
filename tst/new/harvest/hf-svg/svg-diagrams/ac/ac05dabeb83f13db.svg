@@ -1,0 +1,128 @@
+<svg width="664pt" height="186pt"
+ viewBox="0.00 0.00 664.00 186.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 182)">
+<title>carla::geom::Mesh::AddMaterial</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-182 660,-182 660,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node16</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-73.5 0,-103.5 112,-103.5 112,-73.5 0,-73.5"/>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>Node17</title>
+<g id="a_node2"><a xlink:href="../../d6/d3d/classcarla_1_1geom_1_1MeshFactory.html#a1e3c826505f82d1ddffd9f40c39cfa2a" target="_top" xlink:title="Generates a mesh that defines a lane from a given s start and end. ">
+<polygon fill="#ffffff" stroke="#000000" points="148,-147.5 148,-177.5 289,-177.5 289,-147.5 148,-147.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node16&#45;&gt;Node17</title>
+<path fill="none" stroke="#191970" d="M90.1976,-108.888C107.2262,-118.5714 128.3317,-129.882 148,-138.5 155.2239,-141.6653 163.008,-144.6848 170.6752,-147.4482"/>
+<polygon fill="#191970" stroke="#191970" points="91.6043,-105.6594 81.1916,-103.7032 88.1118,-111.7258 91.6043,-105.6594"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node18</title>
+<g id="a_node3"><a xlink:href="../../d6/d3d/classcarla_1_1geom_1_1MeshFactory.html#a202f9750d3be15d0af4b42b3a90f3662" target="_top" xlink:title="Generates a wall&#45;like mesh at the left side of the lane. ">
+<polygon fill="#ffffff" stroke="#000000" points="148,-98.5 148,-128.5 289,-128.5 289,-98.5 148,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node16&#45;&gt;Node18</title>
+<path fill="none" stroke="#191970" d="M122.4732,-98.7266C130.8579,-100.0166 139.4598,-101.34 147.9055,-102.6393"/>
+<polygon fill="#191970" stroke="#191970" points="122.7945,-95.235 112.3786,-97.1736 121.7301,-102.1536 122.7945,-95.235"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node21</title>
+<g id="a_node6"><a xlink:href="../../d6/d3d/classcarla_1_1geom_1_1MeshFactory.html#a11c673db2f69ad3c21ebba4d068b8c6c" target="_top" xlink:title="Generates a wall&#45;like mesh at the right side of the lane. ">
+<polygon fill="#ffffff" stroke="#000000" points="148,-49.5 148,-79.5 289,-79.5 289,-49.5 148,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node16&#45;&gt;Node21</title>
+<path fill="none" stroke="#191970" d="M122.4732,-78.6824C130.8579,-77.4441 139.4598,-76.1736 147.9055,-74.9263"/>
+<polygon fill="#191970" stroke="#191970" points="121.7598,-75.2497 112.3786,-80.1733 122.7827,-82.1746 121.7598,-75.2497"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node22</title>
+<g id="a_node7"><a xlink:href="../../d0/d34/classcarla_1_1road_1_1Map.html#a82b38e5be122b3dd8d155175265f6e88" target="_top" xlink:title="Buids a mesh of all crosswalks based on the OpenDRIVE. ">
+<polygon fill="#ffffff" stroke="#000000" points="153,-.5 153,-30.5 284,-30.5 284,-.5 153,-.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node16&#45;&gt;Node22</title>
+<path fill="none" stroke="#191970" d="M90.6095,-68.3605C107.5847,-58.9264 128.5248,-47.9358 148,-39.5 155.2372,-36.3652 163.0282,-33.3617 170.6983,-30.6048"/>
+<polygon fill="#191970" stroke="#191970" points="88.6217,-65.4629 81.6212,-73.4155 92.053,-71.5642 88.6217,-65.4629"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node19</title>
+<g id="a_node4"><a xlink:href="../../d6/d3d/classcarla_1_1geom_1_1MeshFactory.html#aec242ce8214cea646ba254c0cfc0176a" target="_top" xlink:title="Genrates a mesh representing a wall on the road corners to avoid cars falling down. ">
+<polygon fill="#ffffff" stroke="#000000" points="325,-73.5 325,-103.5 466,-103.5 466,-73.5 325,-73.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node18&#45;&gt;Node19</title>
+<path fill="none" stroke="#191970" d="M299.2142,-102.0997C307.7843,-100.8892 316.4526,-99.6649 324.8942,-98.4726"/>
+<polygon fill="#191970" stroke="#191970" points="298.6304,-98.6473 289.2182,-103.5116 299.6094,-105.5785 298.6304,-98.6473"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node20</title>
+<g id="a_node5"><a xlink:href="../../d6/d3d/classcarla_1_1geom_1_1MeshFactory.html#a5588f2f98ea42ade1082db0ef1c8ce7b" target="_top" xlink:title="Generates a list of meshes that defines a lane_section safety wall with a maximum length...">
+<polygon fill="#ffffff" stroke="#000000" points="502,-73.5 502,-103.5 656,-103.5 656,-73.5 502,-73.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node18&#45;&gt;Node20</title>
+<path fill="none" stroke="#191970" d="M299.2528,-117.919C347.7384,-119.4747 410.5698,-119.5584 466,-113.5 484.5753,-111.4698 504.5675,-107.6153 522.4957,-103.5299"/>
+<polygon fill="#191970" stroke="#191970" points="299.2479,-114.4168 289.1321,-117.5664 299.0041,-121.4126 299.2479,-114.4168"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node19&#45;&gt;Node20</title>
+<path fill="none" stroke="#191970" d="M476.4411,-88.5C484.9176,-88.5 493.5189,-88.5 501.9501,-88.5"/>
+<polygon fill="#191970" stroke="#191970" points="476.1834,-85.0001 466.1834,-88.5 476.1834,-92.0001 476.1834,-85.0001"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node21&#45;&gt;Node19</title>
+<path fill="none" stroke="#191970" d="M299.2142,-75.4443C307.7843,-76.6064 316.4526,-77.7817 324.8942,-78.9263"/>
+<polygon fill="#191970" stroke="#191970" points="299.5978,-71.9644 289.2182,-74.0889 298.6572,-78.9009 299.5978,-71.9644"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node21&#45;&gt;Node20</title>
+<path fill="none" stroke="#191970" d="M299.2525,-59.5913C347.738,-57.7823 410.5693,-57.4415 466,-63.5 484.5753,-65.5302 504.5675,-69.3847 522.4957,-73.4701"/>
+<polygon fill="#191970" stroke="#191970" points="298.9832,-56.0992 289.1318,-59.9978 299.2642,-63.0935 298.9832,-56.0992"/>
+</g>
+</g>
+</svg>

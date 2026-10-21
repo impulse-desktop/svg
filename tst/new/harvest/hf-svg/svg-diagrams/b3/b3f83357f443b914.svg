@@ -1,0 +1,111 @@
+<svg width="201pt" height="687pt"
+ viewBox="0.00 0.00 200.50 687.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 683)">
+<title>tbb::mutex::scoped_lock</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-683 196.5,-683 196.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="14,-0.5 14,-145.5 138,-145.5 138,-0.5 14,-0.5"/>
+
+<polyline fill="none" stroke="black" points="14,-126.5 138,-126.5 "/>
+
+<polyline fill="none" stroke="black" points="14,-107.5 138,-107.5 "/>
+
+
+
+
+
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00516.html" target="_top" xlink:title="Base class for types that should not be copied or assigned. ">
+<polygon fill="white" stroke="black" points="4,-515.5 4,-583.5 114,-583.5 114,-515.5 4,-515.5"/>
+
+<polyline fill="none" stroke="black" points="4,-564.5 114,-564.5 "/>
+
+<polyline fill="none" stroke="black" points="4,-545.5 114,-545.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#8b1a1a" d="M59.2374,-504.966C59.7707,-437.923 61.4899,-305.376 67,-193 67.7509,-177.687 68.8196,-161.283 69.9598,-145.699"/>
+<polygon fill="none" stroke="#8b1a1a" points="55.7362,-505.125 59.1616,-515.151 62.736,-505.177 55.7362,-505.125"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00512.html" target="_top" xlink:title="{tbb::internal::mutex\l_copy_deprecated_and\l_disabled\n||}">
+<polygon fill="white" stroke="black" points="75.5,-398.5 75.5,-477.5 192.5,-477.5 192.5,-398.5 75.5,-398.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="75.5,-436.5 192.5,-436.5 "/>
+
+<polyline fill="none" stroke="black" points="75.5,-417.5 192.5,-417.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="#8b1a1a" d="M87.3622,-507.091C93.9407,-497.487 100.919,-487.299 107.418,-477.81"/>
+<polygon fill="none" stroke="#8b1a1a" points="84.4693,-505.121 81.706,-515.349 90.2445,-509.077 84.4693,-505.121"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="0,-621.5 0,-678.5 118,-678.5 118,-621.5 0,-621.5"/>
+
+<polyline fill="none" stroke="black" points="0,-659.5 118,-659.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-640.5 118,-640.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#8b1a1a" d="M59,-611.007C59,-601.962 59,-592.383 59,-583.578"/>
+<polygon fill="none" stroke="#8b1a1a" points="55.5001,-611.3 59,-621.3 62.5001,-611.3 55.5001,-611.3"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00511.html" target="_top" xlink:title="Wrapper around the platform&#39;s native lock. ">
+<polygon fill="white" stroke="black" points="76,-193.5 76,-360.5 186,-360.5 186,-193.5 76,-193.5"/>
+
+<polyline fill="none" stroke="black" points="76,-341.5 186,-341.5 "/>
+
+
+
+
+<polyline fill="none" stroke="black" points="76,-289.5 186,-289.5 "/>
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node1</title>
+<path fill="none" stroke="#404040" d="M108.471,-193.256C105.245,-181.407 101.924,-169.212 98.6946,-157.351"/>
+<polygon fill="none" stroke="#404040" points="98.6552,-157.206 93.2193,-152.468 95.5025,-145.627 100.938,-150.366 98.6552,-157.206"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="#8b1a1a" d="M133.073,-387.87C132.91,-379.223 132.736,-370.012 132.561,-360.742"/>
+<polygon fill="none" stroke="#8b1a1a" points="129.578,-388.172 133.266,-398.104 136.577,-388.04 129.578,-388.172"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,109 @@
+<svg width="998pt" height="66pt"
+ viewBox="0.00 0.00 998.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>chi::Subprocess::setArguments</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 994,-62 994,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node257</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 154,-38.5 154,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node258</title>
+<g id="a_node2"><a xlink:href="structchi_1_1Subprocess.html#a38101f1406d62b1dc386072f576b990f" target="_top" xlink:title="Set the arguments for the program with a begin and end iterator. ">
+<polygon fill="#ffffff" stroke="#000000" points="190,-19.5 190,-38.5 344,-38.5 344,-19.5 190,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node257&#45;&gt;Node258</title>
+<path fill="none" stroke="#191970" d="M154.0064,-29C162.5089,-29 171.211,-29 179.8267,-29"/>
+<polygon fill="#191970" stroke="#191970" points="179.884,-32.5001 189.884,-29 179.8839,-25.5001 179.884,-32.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node259</title>
+<g id="a_node3"><a xlink:href="structchi_1_1Subprocess.html#a9b2f4ecd9a0239232deaf3ff46c48bf0" target="_top" xlink:title="Check if the child has started (start() has been called) ">
+<polygon fill="#ffffff" stroke="#000000" points="380,-19.5 380,-38.5 503,-38.5 503,-19.5 380,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node258&#45;&gt;Node259</title>
+<path fill="none" stroke="#191970" d="M344.0462,-29C352.5493,-29 361.1835,-29 369.6198,-29"/>
+<polygon fill="#191970" stroke="#191970" points="369.7899,-32.5001 379.7898,-29 369.7898,-25.5001 369.7899,-32.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node260</title>
+<g id="a_node4"><a xlink:href="structchi_1_1Subprocess.html#a62114d525126e682028af5a906f771a6" target="_top" xlink:title="Pushes data to the stdin stream of the child process. ">
+<polygon fill="#ffffff" stroke="#000000" points="539,-38.5 539,-57.5 688,-57.5 688,-38.5 539,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node259&#45;&gt;Node260</title>
+<path fill="none" stroke="#191970" d="M503.1101,-35.8058C511.4241,-36.7242 520.0696,-37.6792 528.699,-38.6324"/>
+<polygon fill="#191970" stroke="#191970" points="528.477,-42.1291 538.8009,-39.7484 529.2457,-35.1715 528.477,-42.1291"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node263</title>
+<g id="a_node7"><a xlink:href="structchi_1_1Subprocess.html#a45fd483d620609100cdd6065ce4751f2" target="_top" xlink:title="Close the STDIN stream (send an EOF) ">
+<polygon fill="#ffffff" stroke="#000000" points="543.5,-.5 543.5,-19.5 683.5,-19.5 683.5,-.5 543.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node259&#45;&gt;Node263</title>
+<path fill="none" stroke="#191970" d="M503.1101,-22.1942C512.87,-21.1161 523.0867,-19.9875 533.198,-18.8706"/>
+<polygon fill="#191970" stroke="#191970" points="533.698,-22.3367 543.2532,-17.7598 532.9293,-15.379 533.698,-22.3367"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node261</title>
+<g id="a_node5"><a xlink:href="structchi_1_1Result.html#a59ef40f4a327cbdea263d6e4b5af2ad8" target="_top" xlink:title="Add a entry to the result, either a warning or an error. ">
+<polygon fill="#ffffff" stroke="#000000" points="724,-19.5 724,-38.5 832,-38.5 832,-19.5 724,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node260&#45;&gt;Node261</title>
+<path fill="none" stroke="#191970" d="M688.0491,-39.3895C696.631,-38.3982 705.3258,-37.394 713.7552,-36.4204"/>
+<polygon fill="#191970" stroke="#191970" points="714.3479,-39.8753 723.8802,-35.2509 713.5446,-32.9215 714.3479,-39.8753"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node262</title>
+<g id="a_node6"><a xlink:href="structchi_1_1Result.html#aa078d3cb3dfb2fb63e81b71acea036e0" target="_top" xlink:title="Get the JSON associated with the context that&#39;s been added. ">
+<polygon fill="#ffffff" stroke="#000000" points="868,-19.5 868,-38.5 990,-38.5 990,-19.5 868,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node261&#45;&gt;Node262</title>
+<path fill="none" stroke="#191970" d="M832.088,-29C840.4208,-29 849.1331,-29 857.7706,-29"/>
+<polygon fill="#191970" stroke="#191970" points="857.8487,-32.5001 867.8487,-29 857.8486,-25.5001 857.8487,-32.5001"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node263&#45;&gt;Node261</title>
+<path fill="none" stroke="#191970" d="M683.74,-18.1128C693.721,-19.2656 703.9431,-20.4463 713.8014,-21.585"/>
+<polygon fill="#191970" stroke="#191970" points="713.582,-25.0828 723.9176,-22.7534 714.3853,-18.129 713.582,-25.0828"/>
+</g>
+</g>
+</svg>

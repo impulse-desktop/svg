@@ -1,0 +1,128 @@
+<svg width="548pt" height="272pt"
+ viewBox="0.00 0.00 548.00 271.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 267.5)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-267.5 544,-267.5 544,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>quicklist</title>
+<polygon fill="none" stroke="black" points="0,-194 0,-263 63,-263 63,-194 0,-194"/>
+
+<polyline fill="none" stroke="black" points="0,-240 63,-240 "/>
+
+<polyline fill="none" stroke="black" points="0,-217 63,-217 "/>
+
+</g>
+
+<g id="node3" class="node"><title>quicklistNode1</title>
+<polygon fill="none" stroke="black" points="99,-80.5 99,-172.5 192,-172.5 192,-80.5 99,-80.5"/>
+
+<polyline fill="none" stroke="black" points="99,-149.5 192,-149.5 "/>
+
+<polyline fill="none" stroke="black" points="99,-126.5 192,-126.5 "/>
+
+<polyline fill="none" stroke="black" points="99,-103.5 192,-103.5 "/>
+
+</g>
+
+<g id="edge1" class="edge"><title>quicklist:head&#45;&gt;quicklistNode1:node1</title>
+<path fill="none" stroke="black" d="M63,-228.5C92.5786,-228.5 72.0759,-177.203 89.1342,-164.379"/>
+<polygon fill="black" stroke="black" points="90.3808,-167.661 99,-161.5 88.4199,-160.941 90.3808,-167.661"/>
+</g>
+
+<g id="node5" class="node"><title>quicklistNode3</title>
+<polygon fill="none" stroke="black" points="357,-126.5 357,-218.5 450,-218.5 450,-126.5 357,-126.5"/>
+
+<polyline fill="none" stroke="black" points="357,-195.5 450,-195.5 "/>
+
+<polyline fill="none" stroke="black" points="357,-172.5 450,-172.5 "/>
+
+<polyline fill="none" stroke="black" points="357,-149.5 450,-149.5 "/>
+
+</g>
+
+<g id="edge8" class="edge"><title>quicklist:tail&#45;&gt;quicklistNode3:node3</title>
+<path fill="none" stroke="black" d="M63,-205.5C190.224,-205.5 224.54,-207.396 346.865,-207.496"/>
+<polygon fill="black" stroke="black" points="346.999,-210.996 357,-207.5 347.001,-203.996 346.999,-210.996"/>
+</g>
+
+<g id="node2" class="node"><title>more_prev</title>
+
+</g>
+
+<g id="edge2" class="edge"><title>more_prev&#45;&gt;quicklistNode1:prev</title>
+<path fill="none" stroke="black" d="M68.9286,-138.5C78.6954,-138.5 89.2498,-138.5 99,-138.5"/>
+<polygon fill="black" stroke="black" points="68.715,-135 58.715,-138.5 68.7149,-142 68.715,-135"/>
+</g>
+
+<g id="node4" class="node"><title>quicklistNode2</title>
+<polygon fill="none" stroke="black" points="228,-94.5 228,-186.5 321,-186.5 321,-94.5 228,-94.5"/>
+
+<polyline fill="none" stroke="black" points="228,-163.5 321,-163.5 "/>
+
+<polyline fill="none" stroke="black" points="228,-140.5 321,-140.5 "/>
+
+<polyline fill="none" stroke="black" points="228,-117.5 321,-117.5 "/>
+
+</g>
+
+<g id="edge3" class="edge"><title>quicklistNode1:next&#45;&gt;quicklistNode2:node2</title>
+<path fill="none" stroke="black" d="M192,-114.5C219.299,-114.5 202.65,-160.373 218.276,-172.558"/>
+<polygon fill="black" stroke="black" points="217.415,-175.954 228,-175.5 219.442,-169.254 217.415,-175.954"/>
+</g>
+
+<g id="node7" class="node"><title>ziplist1</title>
+<polygon fill="none" stroke="black" points="247.5,-39.5 247.5,-75.5 301.5,-75.5 301.5,-39.5 247.5,-39.5"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>quicklistNode1:zl&#45;&gt;ziplist1</title>
+<path fill="none" stroke="black" d="M192,-91.5C207.944,-91.5 224.385,-85.8887 238.286,-79.2252"/>
+<polygon fill="black" stroke="black" points="240.178,-82.1881 247.468,-74.5 236.975,-75.964 240.178,-82.1881"/>
+</g>
+
+<g id="edge4" class="edge"><title>quicklistNode2:prev&#45;&gt;quicklistNode1:node1</title>
+<path fill="none" stroke="black" d="M228,-152.5C215.502,-152.5 210.743,-157.669 201.994,-160.172"/>
+<polygon fill="black" stroke="black" points="201.452,-156.713 192,-161.5 202.374,-163.652 201.452,-156.713"/>
+</g>
+
+<g id="edge5" class="edge"><title>quicklistNode2:next&#45;&gt;quicklistNode3:node3</title>
+<path fill="none" stroke="black" d="M321,-128.5C355.515,-128.5 326.212,-191.715 347.266,-205.049"/>
+<polygon fill="black" stroke="black" points="346.448,-208.452 357,-207.5 348.157,-201.664 346.448,-208.452"/>
+</g>
+
+<g id="node8" class="node"><title>ziplist2</title>
+<polygon fill="none" stroke="black" points="376.5,-71.5 376.5,-107.5 430.5,-107.5 430.5,-71.5 376.5,-71.5"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>quicklistNode2:zl&#45;&gt;ziplist2</title>
+<path fill="none" stroke="black" d="M321,-105.5C336.084,-105.5 352.449,-102.828 366.53,-99.6685"/>
+<polygon fill="black" stroke="black" points="367.423,-103.053 376.328,-97.3125 365.787,-96.2474 367.423,-103.053"/>
+</g>
+
+<g id="edge6" class="edge"><title>quicklistNode3:prev&#45;&gt;quicklistNode2:node2</title>
+<path fill="none" stroke="black" d="M357,-184.5C344.502,-184.5 339.743,-179.331 330.994,-176.828"/>
+<polygon fill="black" stroke="black" points="331.374,-173.348 321,-175.5 330.452,-180.287 331.374,-173.348"/>
+</g>
+
+<g id="node6" class="node"><title>more_next</title>
+
+</g>
+
+<g id="edge7" class="edge"><title>quicklistNode3:next&#45;&gt;more_next</title>
+<path fill="none" stroke="black" d="M450,-160.5C458.535,-160.5 467.528,-161.939 475.936,-163.955"/>
+<polygon fill="black" stroke="black" points="475.264,-167.399 485.832,-166.64 477.098,-160.643 475.264,-167.399"/>
+</g>
+
+<g id="node9" class="node"><title>ziplist3</title>
+<polygon fill="none" stroke="black" points="486,-103.5 486,-139.5 540,-139.5 540,-103.5 486,-103.5"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>quicklistNode3:zl&#45;&gt;ziplist3</title>
+<path fill="none" stroke="black" d="M450,-137.5C458.535,-137.5 467.528,-136.061 475.936,-134.045"/>
+<polygon fill="black" stroke="black" points="477.098,-137.357 485.832,-131.36 475.264,-130.601 477.098,-137.357"/>
+</g>
+</g>
+</svg>

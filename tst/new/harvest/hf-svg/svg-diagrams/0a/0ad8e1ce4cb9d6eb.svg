@@ -1,0 +1,86 @@
+<svg width="493pt" height="159pt"
+ viewBox="0.00 0.00 493.00 158.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 154.5)">
+<title>tbb::internal::circular_doubly_linked_list_with_sentinel::remove</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-154.5 489,-154.5 489,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-24 0,-65 122,-65 122,-24 0,-24"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00145.html#ab6e8b88bc5de74f5f872d18de94978f2" target="_top" xlink:title="Cancel the wait. Removes the thread from the wait queue if not removed yet. ">
+<polygon fill="white" stroke="black" points="169.5,-54.5 169.5,-84.5 288.5,-84.5 288.5,-54.5 169.5,-54.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M132.572,-55.1284C144.815,-56.9721 157.427,-58.8715 169.309,-60.6611"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="132.809,-51.6246 122.399,-53.5963 131.767,-58.5466 132.809,-51.6246"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00145.html#a24bfa3b8eae09a60d454e374620bd4dd" target="_top" xlink:title="Notify one thread about the event. Relaxed version. ">
+<polygon fill="white" stroke="black" points="158,-5.5 158,-35.5 300,-35.5 300,-5.5 158,-5.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M132.501,-34.3071C140.873,-33.0967 149.418,-31.8613 157.785,-30.6515"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="131.796,-30.8726 122.399,-35.7676 132.797,-37.8006 131.796,-30.8726"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00780.html#aa214b4121b92399cfa50b223500219fd" target="_top" xlink:title="tbb::interface7::internal\l::task_arena_base::internal\l_execute">
+<polygon fill="white" stroke="black" points="343.5,-109 343.5,-150 477.5,-150 477.5,-109 343.5,-109"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M284.846,-87.8329C304.791,-94.4996 327.459,-102.077 347.946,-108.925"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="285.889,-84.4913 275.295,-84.6405 283.67,-91.1303 285.889,-84.4913"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00149.html#a6b68fa0da8231513c31217b4090703ba" target="_top" xlink:title="Enqueues item at tail of queue using specified operation (copy or move) ">
+<polygon fill="white" stroke="black" points="346.5,-49 346.5,-90 474.5,-90 474.5,-49 346.5,-49"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M298.867,-69.5C314.451,-69.5 330.924,-69.5 346.262,-69.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="298.775,-66.0001 288.775,-69.5 298.775,-73.0001 298.775,-66.0001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00149.html#a0d5fe3f37435ae1f0d0a5a573a550421" target="_top" xlink:title="Dequeue item from head of queue. ">
+<polygon fill="white" stroke="black" points="336,-0.5 336,-30.5 485,-30.5 485,-0.5 336,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M289.82,-51.5041C312.409,-44.7085 337.854,-37.0535 359.456,-30.5549"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="288.569,-48.2255 280.001,-54.458 290.585,-54.9287 288.569,-48.2255"/>
+</g>
+</g>
+</svg>

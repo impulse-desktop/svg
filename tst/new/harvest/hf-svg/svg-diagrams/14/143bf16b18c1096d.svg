@@ -1,0 +1,236 @@
+<svg width="2143pt" height="290pt"
+ viewBox="0.00 0.00 2143.00 290.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 286)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-286 2139,-286 2139,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="833.5,-10 833.5,-30 853.5,-30 853.5,-10 833.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="946.5,-10 946.5,-30 966.5,-30 966.5,-10 946.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="1032.5,-10 1032.5,-30 1052.5,-30 1052.5,-10 1032.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="1129.5,-10 1129.5,-30 1149.5,-30 1149.5,-10 1129.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1225.5,-10 1225.5,-30 1245.5,-30 1245.5,-10 1225.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-274 252,-274 252,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 138,-130 138,-78 16,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="146,-78 146,-130 244,-130 244,-78 146,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="68,-214 68,-266 192,-266 192,-214 68,-214"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_UtilModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="260,-138 260,-206 2127,-206 2127,-138 260,-138"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_UtilModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1985,-146 1985,-198 2119,-198 2119,-146 1985,-146"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_UtilModule_exports</title>
+<polygon fill="none" stroke="#000000" points="1157,-146 1157,-198 1977,-198 1977,-146 1157,-146"/>
+</g>
+<g id="clust14" class="cluster">
+<title>cluster_UtilModule_providers</title>
+<polygon fill="none" stroke="#000000" points="268,-146 268,-198 1149,-198 1149,-146 268,-146"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="129.9399,-122 24.0601,-122 24.0601,-86 129.9399,-86 129.9399,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="171.6571,-190 168.6571,-194 147.6571,-194 144.6571,-190 88.3429,-190 88.3429,-154 171.6571,-154 171.6571,-190"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M108.9457,-122.2228C108.9457,-122.2228 108.9457,-143.7269 108.9457,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="105.4457,-143.7269 108.9457,-153.7269 112.4457,-143.727 105.4457,-143.7269"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="184.439,-258 75.561,-258 75.561,-222 184.439,-222 184.439,-258"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M130,-190.2228C130,-190.2228 130,-211.7269 130,-211.7269"/>
+<polygon fill="#000000" stroke="#000000" points="126.5001,-211.7269 130,-221.7269 133.5001,-211.727 126.5001,-211.7269"/>
+</g>
+
+<g id="node3" class="node">
+<title>UtilModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="235.8289,-122 232.8289,-126 211.8289,-126 208.8289,-122 154.1711,-122 154.1711,-86 235.8289,-86 235.8289,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>UtilModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M163.0821,-122.2228C163.0821,-122.2228 163.0821,-143.7269 163.0821,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="159.5821,-143.7269 163.0821,-153.7269 166.5821,-143.727 159.5821,-143.7269"/>
+</g>
+
+<g id="node6" class="node">
+<title>UtilityComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1968.8926,-190 1847.1074,-190 1847.1074,-154 1968.8926,-154 1968.8926,-190"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>UtilModule&#45;&gt;UtilityComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M236.0739,-92C496.5801,-92 1908,-92 1908,-92 1908,-92 1908,-143.8468 1908,-143.8468"/>
+<polygon fill="#000000" stroke="#000000" points="1904.5001,-143.8467 1908,-153.8468 1911.5001,-143.8468 1904.5001,-143.8467"/>
+</g>
+
+<g id="node7" class="node">
+<title>StringUtilService </title>
+<polygon fill="#fb8072" stroke="#000000" points="1829.9814,-190 1712.0186,-190 1712.0186,-154 1829.9814,-154 1829.9814,-190"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>UtilModule&#45;&gt;StringUtilService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M235.9418,-95C483.6129,-95 1771,-95 1771,-95 1771,-95 1771,-143.7521 1771,-143.7521"/>
+<polygon fill="#000000" stroke="#000000" points="1767.5001,-143.752 1771,-153.7521 1774.5001,-143.7521 1767.5001,-143.752"/>
+</g>
+
+<g id="node8" class="node">
+<title>NumberUtilService </title>
+<polygon fill="#fb8072" stroke="#000000" points="1694.6285,-190 1565.3715,-190 1565.3715,-154 1694.6285,-154 1694.6285,-190"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>UtilModule&#45;&gt;NumberUtilService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M236.0164,-98C470.4231,-98 1630,-98 1630,-98 1630,-98 1630,-143.7079 1630,-143.7079"/>
+<polygon fill="#000000" stroke="#000000" points="1626.5001,-143.7078 1630,-153.7079 1633.5001,-143.7079 1626.5001,-143.7078"/>
+</g>
+
+<g id="node9" class="node">
+<title>ObjectUtilService </title>
+<polygon fill="#fb8072" stroke="#000000" points="1547.0738,-190 1426.9262,-190 1426.9262,-154 1547.0738,-154 1547.0738,-190"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>UtilModule&#45;&gt;ObjectUtilService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M235.8009,-101C455.4155,-101 1487,-101 1487,-101 1487,-101 1487,-143.7157 1487,-143.7157"/>
+<polygon fill="#000000" stroke="#000000" points="1483.5001,-143.7157 1487,-153.7157 1490.5001,-143.7158 1483.5001,-143.7157"/>
+</g>
+
+<g id="node10" class="node">
+<title>ArrayUtilService </title>
+<polygon fill="#fb8072" stroke="#000000" points="1408.8984,-190 1293.1016,-190 1293.1016,-154 1408.8984,-154 1408.8984,-190"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>UtilModule&#45;&gt;ArrayUtilService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M235.8031,-104C441.0704,-104 1351,-104 1351,-104 1351,-104 1351,-143.7772 1351,-143.7772"/>
+<polygon fill="#000000" stroke="#000000" points="1347.5001,-143.7772 1351,-153.7772 1354.5001,-143.7773 1347.5001,-143.7772"/>
+</g>
+
+<g id="node11" class="node">
+<title>DateUtilService </title>
+<polygon fill="#fb8072" stroke="#000000" points="1274.6829,-190 1165.3171,-190 1165.3171,-154 1274.6829,-154 1274.6829,-190"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>UtilModule&#45;&gt;DateUtilService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M235.8137,-107C426.4514,-107 1220,-107 1220,-107 1220,-107 1220,-143.8939 1220,-143.8939"/>
+<polygon fill="#000000" stroke="#000000" points="1216.5001,-143.8938 1220,-153.8939 1223.5001,-143.8939 1216.5001,-143.8938"/>
+</g>
+
+<g id="node5" class="node">
+<title>UtilityComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2110.892,-190 1993.108,-190 1993.108,-154 2110.892,-154 2110.892,-190"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>UtilityComponent&#45;&gt;UtilModule</title>
+<path fill="none" stroke="#000000" d="M2052,-153.9902C2052,-129.5793 2052,-89 2052,-89 2052,-89 245.9503,-89 245.9503,-89"/>
+<polygon fill="#000000" stroke="#000000" points="245.9504,-85.5001 235.9503,-89 245.9503,-92.5001 245.9504,-85.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>StringUtilService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="1062" cy="-172" rx="78.7434" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>StringUtilService&#45;&gt;UtilModule</title>
+<path fill="none" stroke="#000000" d="M1062,-153.7333C1062,-135.4448 1062,-110 1062,-110 1062,-110 245.9437,-110 245.9437,-110"/>
+<polygon fill="#000000" stroke="#000000" points="245.9437,-106.5001 235.9437,-110 245.9436,-113.5001 245.9437,-106.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>NumberUtilService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="879" cy="-172" rx="86.8126" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>NumberUtilService&#45;&gt;UtilModule</title>
+<path fill="none" stroke="#000000" d="M879,-153.9775C879,-136.6266 879,-113 879,-113 879,-113 245.7389,-113 245.7389,-113"/>
+<polygon fill="#000000" stroke="#000000" points="245.739,-109.5001 235.7389,-113 245.7389,-116.5001 245.739,-109.5001"/>
+</g>
+
+<g id="node14" class="node">
+<title>ObjectUtilService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="694" cy="-172" rx="80.5104" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>ObjectUtilService&#45;&gt;UtilModule</title>
+<path fill="none" stroke="#000000" d="M694,-153.973C694,-137.6024 694,-116 694,-116 694,-116 245.8353,-116 245.8353,-116"/>
+<polygon fill="#000000" stroke="#000000" points="245.8353,-112.5001 235.8353,-116 245.8352,-119.5001 245.8353,-112.5001"/>
+</g>
+
+<g id="node15" class="node">
+<title>ArrayUtilService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="518" cy="-172" rx="77.5607" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>ArrayUtilService&#45;&gt;UtilModule</title>
+<path fill="none" stroke="#000000" d="M518,-153.7604C518,-138.4294 518,-119 518,-119 518,-119 245.9082,-119 245.9082,-119"/>
+<polygon fill="#000000" stroke="#000000" points="245.9082,-115.5001 235.9082,-119 245.9081,-122.5001 245.9082,-115.5001"/>
+</g>
+
+<g id="node16" class="node">
+<title>DateUtilService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="349" cy="-172" rx="73.4862" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>DateUtilService&#45;&gt;UtilModule</title>
+<path fill="none" stroke="#000000" d="M275.4652,-172C242.1396,-172 210.0668,-172 210.0668,-172 210.0668,-172 210.0668,-132.2228 210.0668,-132.2228"/>
+<polygon fill="#000000" stroke="#000000" points="213.5669,-132.2227 210.0668,-122.2228 206.5669,-132.2228 213.5669,-132.2227"/>
+</g>
+</g>
+</svg>

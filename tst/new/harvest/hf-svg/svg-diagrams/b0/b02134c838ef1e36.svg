@@ -1,0 +1,70 @@
+<svg width="428pt" height="88pt"
+ viewBox="0.00 0.00 428.00 88.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 84)">
+<title>tbb::interface5::reader_writer_lock::unblock_readers</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-84 424,-84 424,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-19 0,-60 112,-60 112,-19 0,-19"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00634.html#ae3756b1d4f49ba8caff3631584b81cfc" target="_top" xlink:title="Relinquishes write lock to next waiting writer or group of readers. ">
+<polygon fill="white" stroke="black" points="149,-49.5 149,-79.5 266,-79.5 266,-49.5 149,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M122.202,-50.4034C131.117,-51.8941 140.216,-53.4157 148.98,-54.8813"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="122.684,-46.9354 112.244,-48.738 121.529,-53.8395 122.684,-46.9354"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00634.html#a8fbf8ce4e563ed4563344186ae85aa09" target="_top" xlink:title="Attempts to acquire read lock. ">
+<polygon fill="white" stroke="black" points="148,-0.5 148,-30.5 267,-30.5 267,-0.5 148,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M122.202,-29.0327C130.776,-27.6563 139.52,-26.2526 147.973,-24.8956"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="121.562,-25.5906 112.244,-30.6315 122.672,-32.5021 121.562,-25.5906"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00634.html#ad2567a723d160b812f2a637e12e3091a" target="_top" xlink:title="Releases the reader_writer_lock. ">
+<polygon fill="white" stroke="black" points="305.5,-49.5 305.5,-79.5 417.5,-79.5 417.5,-49.5 305.5,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M276.684,-64.5C286.25,-64.5 295.983,-64.5 305.268,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="276.398,-61.0001 266.398,-64.5 276.398,-68.0001 276.398,-61.0001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00634.html#ad4c8eb4cb105c0e8df6dad7ee81c306b" target="_top" xlink:title="Acquires the reader_writer_lock for read. ">
+<polygon fill="white" stroke="black" points="303,-0.5 303,-30.5 420,-30.5 420,-0.5 303,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M277.525,-15.5C286.005,-15.5 294.603,-15.5 302.89,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="277.267,-12.0001 267.267,-15.5 277.267,-19.0001 277.267,-12.0001"/>
+</g>
+</g>
+</svg>

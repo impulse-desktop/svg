@@ -1,0 +1,81 @@
+<svg width="686pt" height="100pt"
+ viewBox="0.00 0.00 686.00 99.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 95.5)">
+<title>Graphical Class Hierarchy</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-95.5 682,-95.5 682,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node0</title>
+<g id="a_node1"><a xlink:href="interface_e_f___core_dapper_tuto_1_1_domain_1_1_interfaces_1_1_i_application_read_db_connection.html" target="_top" xlink:title="Sets the template for the read operations on the DB (Should be at Persistance layer)">
+<polygon fill="white" stroke="black" points="0,-49.5 0,-79.5 195,-79.5 195,-49.5 0,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node1</title>
+<g id="a_node2"><a xlink:href="interface_e_f___core_dapper_tuto_1_1_domain_1_1_interfaces_1_1_i_application_write_db_connection.html" target="_top" xlink:title="Sets the template for the write operations on the DB (Should be at Persistance layer)">
+<polygon fill="white" stroke="black" points="260,-50 260,-91 407,-91 407,-50 260,-50"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node0&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M205.24,-67.24C223.7,-67.71 242.5,-68.19 259.79,-68.64"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="205.11,-63.73 195.03,-66.98 204.93,-70.73 205.11,-63.73"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node3</title>
+<g id="a_node4"><a xlink:href="class_e_f___core_dapper_tuto_1_1_persistence_1_1_connections_1_1_application_read_db_connection.html" target="_top" xlink:title="Implements the read operations on the DB">
+<polygon fill="white" stroke="black" points="231,-0.5 231,-30.5 436,-30.5 436,-0.5 231,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node0&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M180.22,-47.39C206.48,-41.89 235.36,-35.84 260.84,-30.51"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="179.37,-43.99 170.3,-49.47 180.8,-50.84 179.37,-43.99"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node2</title>
+<g id="a_node3"><a xlink:href="class_e_f___core_dapper_tuto_1_1_persistence_1_1_connections_1_1_application_write_db_connection.html" target="_top" xlink:title="Implements the write operations on the DB">
+<polygon fill="white" stroke="black" points="472,-55.5 472,-85.5 678,-85.5 678,-55.5 472,-55.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M417.2,-70.5C434.76,-70.5 453.5,-70.5 471.7,-70.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="417.01,-67 407.01,-70.5 417.01,-74 417.01,-67"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node15</title>
+<g id="a_node5"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="64,-6 64,-25 131,-25 131,-6 64,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node15&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M141.32,-15.5C166.48,-15.5 199.43,-15.5 230.87,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="141.04,-12 131.04,-15.5 141.04,-19 141.04,-12"/>
+</g>
+</g>
+</svg>

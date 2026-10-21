@@ -1,0 +1,58 @@
+<svg width="382pt" height="116pt"
+ viewBox="0.00 0.00 382.14 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 378.14,-112 378.14,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>kafkacat</title>
+<g id="a_node1"><a xlink:href="https://github.com/conda-forge/kafkacat-feedstock/pull/6" xlink:title="kafkacat">
+<ellipse fill="#31688e" stroke="black" cx="50.05" cy="-90" rx="50.09" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node4" class="node">
+<title>conda&#45;forge&#45;pinning</title>
+<ellipse fill="none" stroke="black" cx="163.05" cy="-18" rx="103.18" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>kafkacat&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M74.01,-74.15C89.57,-64.52 110.12,-51.79 127.55,-40.99"/>
+<polygon fill="black" stroke="black" points="129.69,-43.78 136.35,-35.54 126,-37.83 129.69,-43.78"/>
+</g>
+
+<g id="node2" class="node">
+<title>pykafka</title>
+<g id="a_node2"><a xlink:href="https://github.com/conda-forge/pykafka-feedstock/pull/9" xlink:title="pykafka">
+<ellipse fill="#31688e" stroke="black" cx="163.05" cy="-90" rx="44.69" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>pykafka&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M163.05,-71.7C163.05,-63.98 163.05,-54.71 163.05,-46.11"/>
+<polygon fill="black" stroke="black" points="166.55,-46.1 163.05,-36.1 159.55,-46.1 166.55,-46.1"/>
+</g>
+
+<g id="node3" class="node">
+<title>omniscidb&#45;cpu</title>
+<g id="a_node3"><a xlink:href="https://github.com/conda-forge/omniscidb-cpu-feedstock/pull/25" xlink:title="omniscidb cpu">
+<ellipse fill="#31688e" stroke="black" cx="300.05" cy="-90" rx="74.19" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>omniscidb&#45;cpu&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M269.64,-73.46C250.28,-63.57 224.96,-50.63 203.85,-39.85"/>
+<polygon fill="black" stroke="black" points="205.29,-36.65 194.79,-35.22 202.11,-42.89 205.29,-36.65"/>
+</g>
+</g>
+</svg>

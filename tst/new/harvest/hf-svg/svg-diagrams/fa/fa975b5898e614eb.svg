@@ -1,0 +1,188 @@
+<svg width="1811pt" height="284pt"
+ viewBox="0.00 0.00 1811.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1807,-280 1807,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="667.5,-10 667.5,-30 687.5,-30 687.5,-10 667.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="780.5,-10 780.5,-30 800.5,-30 800.5,-10 780.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="866.5,-10 866.5,-30 886.5,-30 886.5,-10 866.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="963.5,-10 963.5,-30 983.5,-30 983.5,-10 963.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1059.5,-10 1059.5,-30 1079.5,-30 1079.5,-10 1059.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LibroModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1795,-268 1795,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_LibroModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="821,-78 821,-130 1787,-130 1787,-78 821,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_LibroModule_imports</title>
+<polygon fill="none" stroke="#000000" points="429,-78 429,-130 813,-130 813,-78 429,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_LibroModule_exports</title>
+<polygon fill="none" stroke="#000000" points="496,-208 496,-260 976,-260 976,-208 496,-208"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_LibroModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 421,-130 421,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1779.1615,-122 1546.8385,-122 1546.8385,-86 1779.1615,-86 1779.1615,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>LibroModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="782.1543,-187 779.1543,-191 758.1543,-191 755.1543,-187 691.8457,-187 691.8457,-151 782.1543,-151 782.1543,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudDescuentoAcademicoComponent&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M1663,-122.2843C1663,-143.3211 1663,-175 1663,-175 1663,-175 792.2898,-175 792.2898,-175"/>
+<polygon fill="#000000" stroke="#000000" points="792.2898,-171.5001 782.2898,-175 792.2897,-178.5001 792.2898,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1529.1643,-122 1324.8357,-122 1324.8357,-86 1529.1643,-86 1529.1643,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DescuentoAcademicoComponent&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M1427,-122.1061C1427,-141.3391 1427,-169 1427,-169 1427,-169 792.2728,-169 792.2728,-169"/>
+<polygon fill="#000000" stroke="#000000" points="792.2729,-165.5001 782.2728,-169 792.2728,-172.5001 792.2729,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1306.9426,-122 1081.0574,-122 1081.0574,-86 1306.9426,-86 1306.9426,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListDescuentoAcademicoComponent&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M1194,-122.0225C1194,-139.3734 1194,-163 1194,-163 1194,-163 792.4897,-163 792.4897,-163"/>
+<polygon fill="#000000" stroke="#000000" points="792.4897,-159.5001 782.4897,-163 792.4896,-166.5001 792.4897,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ViewDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1063.4831,-122 828.5169,-122 828.5169,-86 1063.4831,-86 1063.4831,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewDescuentoAcademicoComponent&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M875.1614,-122.2396C875.1614,-137.5706 875.1614,-157 875.1614,-157 875.1614,-157 792.2392,-157 792.2392,-157"/>
+<polygon fill="#000000" stroke="#000000" points="792.2392,-153.5001 782.2392,-157 792.2392,-160.5001 792.2392,-153.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>CrudLibroComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="967.9334,-252 824.0666,-252 824.0666,-216 967.9334,-216 967.9334,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>LibroModule&#45;&gt;CrudLibroComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M782.6226,-181C837.2773,-181 921.564,-181 921.564,-181 921.564,-181 921.564,-205.7604 921.564,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="918.0641,-205.7604 921.564,-215.7604 925.0641,-205.7604 918.0641,-205.7604"/>
+</g>
+
+<g id="node10" class="node">
+<title>ListLibroComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="805.7149,-252 668.2851,-252 668.2851,-216 805.7149,-216 805.7149,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>LibroModule&#45;&gt;ListLibroComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M737,-187.1061C737,-187.1061 737,-205.991 737,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="733.5001,-205.9909 737,-215.991 740.5001,-205.991 733.5001,-205.9909"/>
+</g>
+
+<g id="node11" class="node">
+<title>ViewLibroComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="650.2548,-252 503.7452,-252 503.7452,-216 650.2548,-216 650.2548,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>LibroModule&#45;&gt;ViewLibroComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M691.4655,-181C646.7622,-181 585.235,-181 585.235,-181 585.235,-181 585.235,-205.7604 585.235,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="581.7351,-205.7604 585.235,-215.7604 588.7351,-205.7604 581.7351,-205.7604"/>
+</g>
+
+<g id="node6" class="node">
+<title>LibroRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="804.7716,-122 801.7716,-126 780.7716,-126 777.7716,-122 669.2284,-122 669.2284,-86 804.7716,-86 804.7716,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>LibroRoutingModule&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M737,-122.1061C737,-122.1061 737,-140.991 737,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="733.5001,-140.9909 737,-150.991 740.5001,-140.991 733.5001,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="651.4231,-122 648.4231,-126 627.4231,-126 624.4231,-122 552.5769,-122 552.5769,-86 651.4231,-86 651.4231,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M617.6812,-122.2396C617.6812,-137.5706 617.6812,-157 617.6812,-157 617.6812,-157 681.5503,-157 681.5503,-157"/>
+<polygon fill="#000000" stroke="#000000" points="681.5503,-160.5001 691.5503,-157 681.5503,-153.5001 681.5503,-160.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="535.4231,-122 532.4231,-126 511.4231,-126 508.4231,-122 436.5769,-122 436.5769,-86 535.4231,-86 535.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ThemeModule&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M519.5419,-122.0225C519.5419,-139.3734 519.5419,-163 519.5419,-163 519.5419,-163 681.6784,-163 681.6784,-163"/>
+<polygon fill="#000000" stroke="#000000" points="681.6784,-166.5001 691.6784,-163 681.6783,-159.5001 681.6784,-166.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>ProduccionAcademicaService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="286" cy="-104" rx="127.3074" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>ProduccionAcademicaService&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M286,-122.1061C286,-141.3391 286,-169 286,-169 286,-169 681.6915,-169 681.6915,-169"/>
+<polygon fill="#000000" stroke="#000000" points="681.6915,-172.5001 691.6915,-169 681.6914,-165.5001 681.6915,-172.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="82" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>UserService&#45;&gt;LibroModule</title>
+<path fill="none" stroke="#000000" d="M82,-122.2843C82,-143.3211 82,-175 82,-175 82,-175 681.7208,-175 681.7208,-175"/>
+<polygon fill="#000000" stroke="#000000" points="681.7208,-178.5001 691.7208,-175 681.7207,-171.5001 681.7208,-178.5001"/>
+</g>
+</g>
+</svg>

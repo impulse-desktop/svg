@@ -1,0 +1,144 @@
+<svg width="539pt" height="252pt"
+ viewBox="0.00 0.00 538.84 252.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 248)">
+<title>Ioss::GroupingEntity</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-248 534.84,-248 534.84,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="Base class for all &#39;grouping&#39; entities. The following derived classes are typical:">
+<polygon fill="#bfbfbf" stroke="black" points="243.65,-160.5 243.65,-178.5 349.7,-178.5 349.7,-160.5 243.65,-160.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="classIoss_1_1Region.html" target="_top" xlink:title="A grouping entity that contains other grouping entities.">
+<polygon fill="white" stroke="black" points="318.88,-95.5 318.88,-113.5 390.47,-113.5 390.47,-95.5 318.88,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M311.1,-152.83C322.58,-140.36 338.19,-123.4 347.27,-113.54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="308.46,-150.54 304.26,-160.26 313.61,-155.28 308.46,-150.54"/>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="classIoss_1_1DatabaseIO.html" target="_top" xlink:title="An input or output Database.">
+<polygon fill="white" stroke="black" points="174.04,-0.5 174.04,-18.5 267.31,-18.5 267.31,-0.5 174.04,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M226.13,-28.35C232.86,-49.4 245.28,-85.18 260.19,-114 269.18,-131.4 282.56,-150.02 290.37,-160.37"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="229.39,-27.05 223.06,-18.55 222.71,-29.14 229.39,-27.05"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M336.25,-88.8C318.54,-74.9 290.84,-53.74 265.67,-37 255.86,-30.47 244.41,-23.74 235.52,-18.7"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="334.51,-91.89 344.53,-95.34 338.85,-86.4 334.51,-91.89"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="classIoss_1_1Map.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="0,-95.5 0,-113.5 59.35,-113.5 59.35,-95.5 0,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node4&#45;&gt;Node2</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M39.23,-86.86C48.99,-71.42 65.63,-49.06 86.2,-37 112.68,-21.47 146.62,-14.86 173.77,-12.13"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="36.23,-85.05 34.06,-95.42 42.22,-88.67 36.23,-85.05"/>
+
+
+
+
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="classIoss_1_1ParallelUtils.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="77.33,-95.5 77.33,-113.5 170.02,-113.5 170.02,-95.5 77.33,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node5&#45;&gt;Node2</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M130.33,-86.03C136.69,-71.32 147.54,-50.56 162.55,-37 171.6,-28.82 183.61,-22.78 194.36,-18.55"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="127.01,-84.9 126.5,-95.48 133.5,-87.53 127.01,-84.9"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="classIoss_1_1PropertyManager.html" target="_top" xlink:title="A collection of Ioss::Property objects.">
+<polygon fill="white" stroke="black" points="139.1,-225.5 139.1,-243.5 256.25,-243.5 256.25,-225.5 139.1,-225.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node6&#45;&gt;Node1</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M219.28,-219.75C239.08,-207.15 267.73,-188.92 284.04,-178.54"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="217.17,-216.94 210.62,-225.26 220.93,-222.85 217.17,-216.94"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>Node6&#45;&gt;Node2</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M199.55,-215.32C204.28,-169.47 216.54,-50.56 219.85,-18.54"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="196.07,-214.99 198.52,-225.3 203.03,-215.71 196.07,-214.99"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:href="classIoss_1_1ElementTopology.html" target="_top" xlink:title="Represents an element topology.">
+<polygon fill="white" stroke="black" points="408.37,-95.5 408.37,-113.5 524.98,-113.5 524.98,-95.5 408.37,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node7&#45;&gt;Node2</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M448.14,-89.16C427.46,-73.88 392.46,-50.14 358.67,-37 329.46,-25.64 294.8,-19.01 267.53,-15.22"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="446.23,-92.1 456.32,-95.32 450.44,-86.51 446.23,-92.1"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>Node8</title>
+<g id="a_node8"><a xlink:href="classIoss_1_1FieldManager.html" target="_top" xlink:title="A collection of Ioss::Field objects.">
+<polygon fill="white" stroke="black" points="274.16,-225.5 274.16,-243.5 375.19,-243.5 375.19,-225.5 274.16,-225.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node8&#45;&gt;Node1</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M316.91,-216.02C311.46,-203.76 304.42,-187.93 300.25,-178.54"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="313.75,-217.55 321.01,-225.26 320.15,-214.7 313.75,-217.55"/>
+
+</g>
+</g>
+</svg>

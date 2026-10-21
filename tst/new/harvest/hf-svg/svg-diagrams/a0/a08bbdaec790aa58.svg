@@ -1,0 +1,62 @@
+<svg width="551pt" height="174pt"
+ viewBox="0.00 0.00 551.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 547,-169.8 547,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_RegisterPageModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 535,-157.8 535,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_RegisterPageModule_declarations</title>
+<polygon fill="none" stroke="black" points="355,-40.8 355,-92.8 527,-92.8 527,-40.8 355,-40.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_RegisterPageModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 347,-92.8 347,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>RegisterPageComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="518.7,-84.8 363.3,-84.8 363.3,-48.8 518.7,-48.8 518.7,-84.8"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>RegisterPageModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="346.91,-149.8 343.91,-153.8 322.91,-153.8 319.91,-149.8 213.09,-149.8 213.09,-113.8 346.91,-113.8 346.91,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>RegisterPageComponent&#45;&gt;RegisterPageModule</title>
+<path fill="none" stroke="black" d="M363.32,-66.8C351.43,-66.8 343.02,-66.8 343.02,-66.8 343.02,-66.8 343.02,-103.69 343.02,-103.69"/>
+<polygon fill="black" stroke="black" points="339.52,-103.69 343.02,-113.69 346.52,-103.69 339.52,-103.69"/>
+</g>
+
+<g id="node3" class="node">
+<title>AppInputsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="339.15,-84.8 336.15,-88.8 315.15,-88.8 312.15,-84.8 220.85,-84.8 220.85,-48.8 339.15,-48.8 339.15,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AppInputsModule&#45;&gt;RegisterPageModule</title>
+<path fill="none" stroke="black" d="M280,-84.91C280,-84.91 280,-103.79 280,-103.79"/>
+<polygon fill="black" stroke="black" points="276.5,-103.79 280,-113.79 283.5,-103.79 276.5,-103.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>RegisterPageRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="202.03,-84.8 199.03,-88.8 178.03,-88.8 175.03,-84.8 23.97,-84.8 23.97,-48.8 202.03,-48.8 202.03,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>RegisterPageRoutingModule&#45;&gt;RegisterPageModule</title>
+<path fill="none" stroke="black" d="M202.09,-66.8C211.08,-66.8 216.98,-66.8 216.98,-66.8 216.98,-66.8 216.98,-103.69 216.98,-103.69"/>
+<polygon fill="black" stroke="black" points="213.48,-103.69 216.98,-113.69 220.48,-103.69 213.48,-103.69"/>
+</g>
+</g>
+</svg>

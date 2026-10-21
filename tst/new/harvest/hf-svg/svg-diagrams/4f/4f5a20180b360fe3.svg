@@ -1,0 +1,114 @@
+<svg width="1215pt" height="491pt"
+ viewBox="0.00 0.00 1214.84 490.85" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 486.85)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-486.85 1210.84,-486.85 1210.84,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>main_keyboard</title>
+<polygon fill="none" stroke="black" points="117.5,-367.15 117.5,-469.15 872.5,-469.15 872.5,-367.15 117.5,-367.15"/>
+
+<polyline fill="none" stroke="black" points="117.5,-418.15 872.5,-418.15 "/>
+
+<polyline fill="none" stroke="black" points="506.5,-367.15 506.5,-418.15 "/>
+
+<polyline fill="none" stroke="black" points="722.5,-367.15 722.5,-418.15 "/>
+
+</g>
+
+<g id="node2" class="node">
+<title>{current_time}</title>
+<polygon fill="none" stroke="black" points="727,-304.65 503,-304.65 503,-253.65 727,-253.65 727,-304.65"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>main_keyboard:time&#45;&gt;{current_time}</title>
+<path fill="none" stroke="black" d="M615,-366.65C615,-349.69 615,-330.86 615,-315.11"/>
+<polygon fill="black" stroke="black" points="618.5,-314.76 615,-304.76 611.5,-314.76 618.5,-314.76"/>
+</g>
+
+<g id="node3" class="node">
+<title>Some long and boring bot instruction...</title>
+<polygon fill="none" stroke="black" points="1175,-304.65 745,-304.65 745,-253.65 1175,-253.65 1175,-304.65"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>main_keyboard:help&#45;&gt;Some long and boring bot instruction...</title>
+<path fill="none" stroke="black" d="M874,-392.15C913.66,-392.15 937.54,-347.43 949.74,-314.51"/>
+<polygon fill="black" stroke="black" points="953.16,-315.33 953.16,-304.73 946.55,-313.02 953.16,-315.33"/>
+</g>
+
+<g id="node4" class="node">
+<title>nested_keyboard</title>
+<polygon fill="none" stroke="black" points="153.5,-228.15 153.5,-330.15 484.5,-330.15 484.5,-228.15 153.5,-228.15"/>
+
+<polyline fill="none" stroke="black" points="153.5,-279.15 484.5,-279.15 "/>
+
+<polyline fill="none" stroke="black" points="314.5,-228.15 314.5,-279.15 "/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>main_keyboard&#45;&gt;nested_keyboard</title>
+<path fill="none" stroke="black" d="M430.46,-366.92C417.71,-356.99 404.24,-346.51 391.25,-336.4"/>
+<polygon fill="black" stroke="black" points="393.28,-333.54 383.23,-330.15 388.98,-339.06 393.28,-333.54"/>
+</g>
+
+<g id="node5" class="node">
+<title>Your choice, not mine</title>
+<polygon fill="none" stroke="black" points="282,-191.65 0,-191.65 0,-140.65 282,-140.65 282,-191.65"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>nested_keyboard:sw&#45;&gt;Your choice, not mine</title>
+<path fill="none" stroke="black" d="M153,-227.65C146.22,-220.87 142.71,-211.42 141.02,-202.01"/>
+<polygon fill="black" stroke="black" points="144.48,-201.46 139.83,-191.94 137.53,-202.28 144.48,-201.46"/>
+</g>
+
+<g id="node6" class="node">
+<title>Here you are!</title>
+<polygon fill="none" stroke="black" points="520,-191.65 304,-191.65 304,-140.65 520,-140.65 520,-191.65"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>nested_keyboard:yes&#45;&gt;Here you are!</title>
+<path fill="none" stroke="black" d="M400,-227.65C400,-219.13 401.16,-210.05 402.76,-201.59"/>
+<polygon fill="black" stroke="black" points="406.22,-202.17 404.88,-191.66 399.37,-200.71 406.22,-202.17"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>Your choice, not mine&#45;&gt;main_keyboard:main</title>
+<path fill="none" stroke="black" d="M128.58,-191.74C96.77,-257.15 20.69,-431.32 106.02,-443.48"/>
+<polygon fill="black" stroke="black" points="105.79,-446.97 116,-444.15 106.26,-439.99 105.79,-446.97"/>
+</g>
+
+<g id="node7" class="node">
+<title>nested</title>
+<polygon fill="none" stroke="black" points="296,-2.15 296,-104.15 978,-104.15 978,-2.15 296,-2.15"/>
+
+<polyline fill="none" stroke="black" points="296,-53.15 978,-53.15 "/>
+
+<polyline fill="none" stroke="black" points="438,-2.15 438,-53.15 "/>
+
+<polyline fill="none" stroke="black" points="604,-2.15 604,-53.15 "/>
+
+<polyline fill="none" stroke="black" points="770,-2.15 770,-53.15 "/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>Here you are!&#45;&gt;nested</title>
+<path fill="none" stroke="black" d="M461.93,-140.52C481.14,-131.05 503.9,-119.82 526.56,-108.64"/>
+<polygon fill="black" stroke="black" points="528.15,-111.76 535.57,-104.19 525.05,-105.48 528.15,-111.76"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>nested:se&#45;&gt;main_keyboard:ne</title>
+<path fill="none" stroke="black" d="M978,-1.15C987.23,8.08 1289.87,-167.13 1184,-330.65 1144.68,-391.38 945.64,-512.21 881.17,-476.29"/>
+<polygon fill="black" stroke="black" points="883.1,-473.36 873,-470.15 878.9,-478.96 883.1,-473.36"/>
+</g>
+</g>
+</svg>

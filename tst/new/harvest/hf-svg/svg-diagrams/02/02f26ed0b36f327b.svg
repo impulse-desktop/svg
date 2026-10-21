@@ -1,0 +1,156 @@
+<svg width="1157pt" height="158pt"
+ viewBox="0.00 0.00 1156.59 158.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 154)">
+<title>vtkvmtkPolyDataManifoldStencil</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-154 1152.59,-154 1152.59,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node0</title>
+<polygon fill="#bfbfbf" stroke="black" points="605.098,-63.5 605.098,-81.5 763.373,-81.5 763.373,-63.5 605.098,-63.5"/>
+
+</g>
+
+<g id="node7" class="node"><title>Node6</title>
+<g id="a_node7"><a xlink:href="classvtkvmtkPolyDataAreaWeightedUmbrellaStencil.html" target="_top" xlink:title="Apply umbrella (laplacian) weighting to the neighborhood connections of a surface. ">
+<polygon fill="white" stroke="black" points="803.628,-121.5 803.628,-149.5 957.285,-149.5 957.285,-121.5 803.628,-121.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node0&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M719.516,-85.0914C742.092,-93.2404 772.36,-103.895 799.373,-112.5 808.883,-115.529 819.085,-118.597 828.914,-121.461"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="720.628,-81.7719 710.034,-81.6531 718.242,-88.3526 720.628,-81.7719"/>
+</g>
+
+<g id="node8" class="node"><title>Node7</title>
+<g id="a_node8"><a xlink:href="classvtkvmtkPolyDataGradientStencil.html" target="_top" xlink:title="Apply gradient weighting to the neighborhood connections of a surface. ">
+<polygon fill="white" stroke="black" points="801.041,-84.5 801.041,-102.5 959.873,-102.5 959.873,-84.5 801.041,-84.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node0&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M773.588,-82.053C782.671,-83.0352 791.858,-84.0285 800.826,-84.9982"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="773.711,-78.5461 763.393,-80.9507 772.959,-85.5055 773.711,-78.5461"/>
+</g>
+
+<g id="node9" class="node"><title>Node8</title>
+<g id="a_node9"><a xlink:href="classvtkvmtkPolyDataLaplaceBeltramiStencil.html" target="_top" xlink:title="Apply LB weighting to the neighborhood connections of a surface. ">
+<polygon fill="white" stroke="black" points="799.373,-37.5 799.373,-65.5 961.54,-65.5 961.54,-37.5 799.373,-37.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node0&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M773.43,-62.964C782.031,-62.0341 790.726,-61.094 799.242,-60.1732"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="772.959,-59.4945 763.393,-64.0493 773.711,-66.4539 772.959,-59.4945"/>
+</g>
+
+<g id="node12" class="node"><title>Node11</title>
+<g id="a_node12"><a xlink:href="classvtkvmtkPolyDataUmbrellaStencil.html" target="_top" xlink:title="Weight the neighborhood connections of a surface mesh with a laplacian. ">
+<polygon fill="white" stroke="black" points="800.213,-0.5 800.213,-18.5 960.7,-18.5 960.7,-0.5 800.213,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node0&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M714.953,-59.3186C737.728,-49.5773 770.111,-36.4981 799.373,-27.5 810.27,-24.1493 822.177,-21.135 833.398,-18.574"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="713.304,-56.2183 705.515,-63.3998 716.082,-62.6434 713.304,-56.2183"/>
+</g>
+
+<g id="node2" class="node"><title>Node1</title>
+<g id="a_node2"><a xlink:href="classvtkvmtkStencil.html" target="_top" xlink:title="Apply a weighting matrix to a single neighborhood of a data set. ">
+<polygon fill="white" stroke="black" points="489.196,-63.5 489.196,-81.5 569.098,-81.5 569.098,-63.5 489.196,-63.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
+<path fill="none" stroke="midnightblue" d="M579.285,-72.5C587.499,-72.5 596.199,-72.5 604.929,-72.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="579.174,-69.0001 569.174,-72.5 579.174,-76.0001 579.174,-69.0001"/>
+</g>
+
+<g id="node3" class="node"><title>Node2</title>
+<g id="a_node3"><a xlink:href="classvtkvmtkNeighborhood.html" target="_top" xlink:title="Query the neighborhood surrounding the set point id in an data set item. ">
+<polygon fill="white" stroke="black" points="340.482,-63.5 340.482,-81.5 453.196,-81.5 453.196,-63.5 340.482,-63.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M463.585,-72.5C472.218,-72.5 480.838,-72.5 488.838,-72.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="463.48,-69.0001 453.479,-72.5 463.479,-76.0001 463.48,-69.0001"/>
+</g>
+
+<g id="node4" class="node"><title>Node3</title>
+<g id="a_node4"><a xlink:href="classvtkvmtkDataSetItem.html" target="_top" xlink:title="create an item instance with a data set and particular point id. ">
+<polygon fill="white" stroke="black" points="199.015,-63.5 199.015,-81.5 304.482,-81.5 304.482,-63.5 199.015,-63.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M314.942,-72.5C323.343,-72.5 331.919,-72.5 340.197,-72.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="314.812,-69.0001 304.812,-72.5 314.812,-76.0001 314.812,-69.0001"/>
+</g>
+
+<g id="node5" class="node"><title>Node4</title>
+<g id="a_node5"><a xlink:href="classvtkvmtkItem.html" target="_top" xlink:title="Base class for the construction of neighborhoods and stencil from a set of points. ">
+<polygon fill="white" stroke="black" points="93.6797,-63.5 93.6797,-81.5 163.015,-81.5 163.015,-63.5 93.6797,-63.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M173.381,-72.5C181.679,-72.5 190.427,-72.5 198.936,-72.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="173.164,-69.0001 163.164,-72.5 173.164,-76.0001 173.164,-69.0001"/>
+</g>
+
+<g id="node6" class="node"><title>Node5</title>
+<polygon fill="white" stroke="#bfbfbf" points="0,-63.5 0,-81.5 57.6797,-81.5 57.6797,-63.5 0,-63.5"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M67.8182,-72.5C76.2928,-72.5 85.2246,-72.5 93.5186,-72.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="67.7816,-69.0001 57.7815,-72.5 67.7815,-76.0001 67.7816,-69.0001"/>
+</g>
+
+<g id="node10" class="node"><title>Node9</title>
+<g id="a_node10"><a xlink:href="classvtkvmtkPolyDataFELaplaceBeltramiStencil.html" target="_top" xlink:title="Apply finite&#45;element LB weighting to the neighborhood connections of a surface. ">
+<polygon fill="white" stroke="black" points="1003.93,-60.5 1003.93,-88.5 1142.2,-88.5 1142.2,-60.5 1003.93,-60.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M971.926,-62.4167C982.596,-63.7041 993.346,-65.0013 1003.64,-66.2436"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="972.086,-58.9107 961.739,-61.1874 971.248,-65.8603 972.086,-58.9107"/>
+</g>
+
+<g id="node11" class="node"><title>Node10</title>
+<g id="a_node11"><a xlink:href="classvtkvmtkPolyDataFVFELaplaceBeltramiStencil.html" target="_top" xlink:title="Apply finite&#45;volume, finite&#45;element LB weighting to the neighborhood connections of a surface...">
+<polygon fill="white" stroke="black" points="997.54,-13.5 997.54,-41.5 1148.59,-41.5 1148.59,-13.5 997.54,-13.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node8&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M971.755,-40.1302C980.323,-39.0515 988.944,-37.9659 997.342,-36.9085"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="971.223,-36.6695 961.739,-41.3914 972.098,-43.6146 971.223,-36.6695"/>
+</g>
+</g>
+</svg>

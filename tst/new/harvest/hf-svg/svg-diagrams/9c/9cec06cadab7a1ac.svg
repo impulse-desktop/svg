@@ -1,0 +1,92 @@
+<svg width="823pt" height="211pt"
+ viewBox="0.00 0.00 823.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 819,-207 819,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="173.5,-10 173.5,-30 193.5,-30 193.5,-10 173.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="286.5,-10 286.5,-30 306.5,-30 306.5,-10 286.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="372.5,-10 372.5,-30 392.5,-30 392.5,-10 372.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="469.5,-10 469.5,-30 489.5,-30 489.5,-10 469.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="565.5,-10 565.5,-30 585.5,-30 585.5,-10 565.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DataModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 807,-195 807,-70 8,-70"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_DataModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 799,-130 799,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ElectricityService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="711" cy="-104" rx="80.4267" ry="18"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>DataModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="422.9762,-187 419.9762,-191 398.9762,-191 395.9762,-187 337.0238,-187 337.0238,-151 422.9762,-151 422.9762,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ElectricityService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M711,-122.2843C711,-143.3211 711,-175 711,-175 711,-175 433.2725,-175 433.2725,-175"/>
+<polygon fill="#000000" stroke="#000000" points="433.2725,-171.5001 423.2725,-175 433.2724,-178.5001 433.2725,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>PlayerService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="548" cy="-104" rx="64.8215" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PlayerService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M548,-122.0225C548,-139.3734 548,-163 548,-163 548,-163 433.2642,-163 433.2642,-163"/>
+<polygon fill="#000000" stroke="#000000" points="433.2642,-159.5001 423.2642,-163 433.2641,-166.5001 433.2642,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SmartTableService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="380" cy="-104" rx="85.085" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SmartTableService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M380,-122.1061C380,-122.1061 380,-140.991 380,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="376.5001,-140.9909 380,-150.991 383.5001,-140.991 376.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>StateService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="218" cy="-104" rx="59.1026" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>StateService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M218,-122.0225C218,-139.3734 218,-163 218,-163 218,-163 327.0123,-163 327.0123,-163"/>
+<polygon fill="#000000" stroke="#000000" points="327.0123,-166.5001 337.0123,-163 327.0123,-159.5001 327.0123,-166.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="82" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>UserService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M82,-122.2843C82,-143.3211 82,-175 82,-175 82,-175 326.9865,-175 326.9865,-175"/>
+<polygon fill="#000000" stroke="#000000" points="326.9865,-178.5001 336.9865,-175 326.9865,-171.5001 326.9865,-178.5001"/>
+</g>
+</g>
+</svg>

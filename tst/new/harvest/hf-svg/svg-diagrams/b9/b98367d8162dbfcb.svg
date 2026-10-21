@@ -1,0 +1,128 @@
+<svg width="669pt" height="279pt"
+ viewBox="0.00 0.00 669.00 279.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 275)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-275 665,-275 665,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="96.5,-10 96.5,-30 116.5,-30 116.5,-10 96.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="209.5,-10 209.5,-30 229.5,-30 229.5,-10 209.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="295.5,-10 295.5,-30 315.5,-30 315.5,-10 295.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="392.5,-10 392.5,-30 412.5,-30 412.5,-10 392.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="488.5,-10 488.5,-30 508.5,-30 508.5,-10 488.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-263 360,-263 360,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="28,-146 28,-198 352,-198 352,-146 28,-146"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 166,-130 166,-78 16,-78"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_DataModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="368,-70 368,-138 653,-138 653,-70 368,-70"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_DataModule_providers</title>
+<polygon fill="none" stroke="#000000" points="376,-78 376,-130 645,-130 645,-78 376,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CryptoModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="344.4386,-190 341.4386,-194 320.4386,-194 317.4386,-190 245.5614,-190 245.5614,-154 344.4386,-154 344.4386,-190"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="172.6571,-255 169.6571,-259 148.6571,-259 145.6571,-255 89.3429,-255 89.3429,-219 172.6571,-219 172.6571,-255"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CryptoModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M295,-190.1061C295,-209.3391 295,-237 295,-237 295,-237 182.8085,-237 182.8085,-237"/>
+<polygon fill="#000000" stroke="#000000" points="182.8085,-233.5001 172.8085,-237 182.8084,-240.5001 182.8085,-233.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DataModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="121.9762,-190 118.9762,-194 97.9762,-194 94.9762,-190 36.0238,-190 36.0238,-154 121.9762,-154 121.9762,-190"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DataModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M105.58,-190.1061C105.58,-190.1061 105.58,-208.991 105.58,-208.991"/>
+<polygon fill="#000000" stroke="#000000" points="102.08,-208.9909 105.58,-218.991 109.08,-208.991 102.08,-208.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>LogsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="227.5482,-190 224.5482,-194 203.5482,-194 200.5482,-190 140.4518,-190 140.4518,-154 227.5482,-154 227.5482,-190"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>LogsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M156.5273,-190.1061C156.5273,-190.1061 156.5273,-208.991 156.5273,-208.991"/>
+<polygon fill="#000000" stroke="#000000" points="153.0274,-208.9909 156.5273,-218.991 160.0274,-208.991 153.0274,-208.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CryptoService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="91" cy="-104" rx="66.6325" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CryptoService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M57.506,-119.7715C57.506,-119.7715 57.506,-143.9112 57.506,-143.9112"/>
+<polygon fill="#000000" stroke="#000000" points="54.006,-143.9112 57.506,-153.9112 61.006,-143.9112 54.006,-143.9112"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>CryptoService&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M131.1073,-118.4865C131.1073,-118.4865 131.1073,-208.7195 131.1073,-208.7195"/>
+<polygon fill="#000000" stroke="#000000" points="127.6074,-208.7195 131.1073,-218.7195 134.6074,-208.7195 127.6074,-208.7195"/>
+</g>
+
+<g id="node6" class="node">
+<title>DataService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="442" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DataService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M442,-122.0579C442,-126.4945 442,-130 442,-130 442,-130 79,-130 79,-130 79,-130 79,-143.9445 79,-143.9445"/>
+<polygon fill="#000000" stroke="#000000" points="75.5001,-143.9444 79,-153.9445 82.5001,-143.9445 75.5001,-143.9444"/>
+</g>
+
+<g id="node7" class="node">
+<title>LogsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="578" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>LogsService&#45;&gt;DataModule</title>
+<path fill="none" stroke="#000000" d="M558.2321,-121C558.2321,-129.5 558.2321,-138 558.2321,-138 558.2321,-138 100.4941,-138 100.4941,-138 100.4941,-138 100.4941,-143.8056 100.4941,-143.8056"/>
+<polygon fill="#000000" stroke="#000000" points="96.9941,-143.8055 100.4941,-153.8056 103.9941,-143.8056 96.9941,-143.8055"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>LogsService&#45;&gt;LogsModule</title>
+<path fill="none" stroke="#000000" d="M597.7679,-121.083C597.7679,-132.7109 597.7679,-146 597.7679,-146 597.7679,-146 192.7947,-146 192.7947,-146 192.7947,-146 192.7947,-146.7942 192.7947,-146.7942"/>
+<polygon fill="#000000" stroke="#000000" points="189.2949,-143.9421 192.7947,-153.9421 196.2949,-143.9422 189.2949,-143.9421"/>
+</g>
+</g>
+</svg>

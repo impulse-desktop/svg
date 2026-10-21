@@ -1,0 +1,100 @@
+<svg width="775pt" height="211pt"
+ viewBox="0.00 0.00 775.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 771,-207 771,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="149.5,-10 149.5,-30 169.5,-30 169.5,-10 149.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="262.5,-10 262.5,-30 282.5,-30 282.5,-10 262.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="348.5,-10 348.5,-30 368.5,-30 368.5,-10 348.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="445.5,-10 445.5,-30 465.5,-30 465.5,-10 445.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="541.5,-10 541.5,-30 561.5,-30 561.5,-10 541.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LayoutModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 759,-195 759,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_LayoutModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="332,-78 332,-130 751,-130 751,-78 332,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_LayoutModule_imports</title>
+<polygon fill="none" stroke="#000000" points="164,-78 164,-130 324,-130 324,-78 164,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_LayoutModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 156,-130 156,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>HeaderComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="742.7437,-122 621.2563,-122 621.2563,-86 742.7437,-86 742.7437,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>LayoutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="451.7078,-187 448.7078,-191 427.7078,-191 424.7078,-187 352.2922,-187 352.2922,-151 451.7078,-151 451.7078,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>HeaderComponent&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="#000000" d="M682,-122.2843C682,-143.3211 682,-175 682,-175 682,-175 461.7357,-175 461.7357,-175"/>
+<polygon fill="#000000" stroke="#000000" points="461.7358,-171.5001 451.7357,-175 461.7357,-178.5001 461.7358,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>LayoutComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="603.4902,-122 482.5098,-122 482.5098,-86 603.4902,-86 603.4902,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LayoutComponent&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="#000000" d="M543,-122.0225C543,-139.3734 543,-163 543,-163 543,-163 461.7113,-163 461.7113,-163"/>
+<polygon fill="#000000" stroke="#000000" points="461.7114,-159.5001 451.7113,-163 461.7113,-166.5001 461.7114,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SidebarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="464.0954,-122 339.9046,-122 339.9046,-86 464.0954,-86 464.0954,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SidebarComponent&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="#000000" d="M402,-122.1061C402,-122.1061 402,-140.991 402,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="398.5001,-140.9909 402,-150.991 405.5001,-140.991 398.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>LayoutRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="316.3258,-122 313.3258,-126 292.3258,-126 289.3258,-122 171.6742,-122 171.6742,-86 316.3258,-86 316.3258,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LayoutRoutingModule&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="#000000" d="M244,-122.0225C244,-139.3734 244,-163 244,-163 244,-163 342.0078,-163 342.0078,-163"/>
+<polygon fill="#000000" stroke="#000000" points="342.0078,-166.5001 352.0078,-163 342.0078,-159.5001 342.0078,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>RolesService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="86" cy="-104" rx="61.9731" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>RolesService&#45;&gt;LayoutModule</title>
+<path fill="none" stroke="#000000" d="M86,-122.2843C86,-143.3211 86,-175 86,-175 86,-175 342.2774,-175 342.2774,-175"/>
+<polygon fill="#000000" stroke="#000000" points="342.2774,-178.5001 352.2774,-175 342.2773,-171.5001 342.2774,-178.5001"/>
+</g>
+</g>
+</svg>

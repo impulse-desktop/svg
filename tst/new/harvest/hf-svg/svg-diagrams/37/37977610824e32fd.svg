@@ -1,0 +1,124 @@
+<svg width="553pt" height="284pt"
+ viewBox="0.00 0.00 553.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 549,-280 549,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="38.5,-10 38.5,-30 58.5,-30 58.5,-10 38.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="151.5,-10 151.5,-30 171.5,-30 171.5,-10 151.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="237.5,-10 237.5,-30 257.5,-30 257.5,-10 237.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="334.5,-10 334.5,-30 354.5,-30 354.5,-10 334.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="430.5,-10 430.5,-30 450.5,-30 450.5,-10 430.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PipesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 537,-268 537,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PipesModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="152,-78 152,-130 529,-130 529,-78 152,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_PipesModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 144,-130 144,-78 16,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_PipesModule_exports</title>
+<polygon fill="none" stroke="#000000" points="78,-208 78,-260 466,-260 466,-208 78,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>GetSlugPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="521.2731,-122 434.7269,-122 434.7269,-86 521.2731,-86 521.2731,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>PipesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="338.8823,-187 335.8823,-191 314.8823,-191 311.8823,-187 249.1177,-187 249.1177,-151 338.8823,-151 338.8823,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>GetSlugPipe&#45;&gt;PipesModule</title>
+<path fill="none" stroke="#000000" d="M446.375,-122.0225C446.375,-139.3734 446.375,-163 446.375,-163 446.375,-163 348.8934,-163 348.8934,-163"/>
+<polygon fill="#000000" stroke="#000000" points="348.8934,-159.5001 338.8934,-163 348.8933,-166.5001 348.8934,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DecodeURIPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="416.7423,-122 309.2577,-122 309.2577,-86 416.7423,-86 416.7423,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DecodeURIPipe&#45;&gt;PipesModule</title>
+<path fill="none" stroke="#000000" d="M324.0351,-122.1061C324.0351,-122.1061 324.0351,-140.991 324.0351,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="320.5351,-140.9909 324.0351,-150.991 327.5351,-140.991 320.5351,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>FormatDurationPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="291.5898,-122 160.4102,-122 160.4102,-86 291.5898,-86 291.5898,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>FormatDurationPipe&#45;&gt;PipesModule</title>
+<path fill="none" stroke="#000000" d="M270.3019,-122.1061C270.3019,-122.1061 270.3019,-140.991 270.3019,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="266.802,-140.9909 270.3019,-150.991 273.802,-140.991 266.802,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>GetSlugPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="458.2732,-252 367.7268,-252 367.7268,-216 458.2732,-216 458.2732,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PipesModule&#45;&gt;GetSlugPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M339.1531,-175C365.0122,-175 392.3673,-175 392.3673,-175 392.3673,-175 392.3673,-205.9775 392.3673,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="388.8674,-205.9774 392.3673,-215.9775 395.8674,-205.9775 388.8674,-205.9774"/>
+</g>
+
+<g id="node7" class="node">
+<title>DecodeURIPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="349.7423,-252 238.2577,-252 238.2577,-216 349.7423,-216 349.7423,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>PipesModule&#45;&gt;DecodeURIPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M294,-187.1061C294,-187.1061 294,-205.991 294,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="290.5001,-205.9909 294,-215.991 297.5001,-205.991 290.5001,-205.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>FormatDurationPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="220.0904,-252 85.9096,-252 85.9096,-216 220.0904,-216 220.0904,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>PipesModule&#45;&gt;FormatDurationPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248.85,-175C220.9252,-175 190.375,-175 190.375,-175 190.375,-175 190.375,-205.9775 190.375,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="186.8751,-205.9774 190.375,-215.9775 193.8751,-205.9775 186.8751,-205.9774"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="135.6681,-122 132.6681,-126 111.6681,-126 108.6681,-122 24.3319,-122 24.3319,-86 135.6681,-86 135.6681,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;PipesModule</title>
+<path fill="none" stroke="#000000" d="M110.7695,-122.0225C110.7695,-139.3734 110.7695,-163 110.7695,-163 110.7695,-163 238.707,-163 238.707,-163"/>
+<polygon fill="#000000" stroke="#000000" points="238.7071,-166.5001 248.707,-163 238.707,-159.5001 238.7071,-166.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,91 @@
+<svg width="568pt" height="115pt"
+ viewBox="0.00 0.00 568.00 115.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 111)">
+<title>example_element_chain</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-111 564,-111 564,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_e1</title>
+<path fill="none" stroke="black" d="M20,-8C20,-8 172,-8 172,-8 178,-8 184,-14 184,-20 184,-20 184,-87 184,-87 184,-93 178,-99 172,-99 172,-99 20,-99 20,-99 14,-99 8,-93 8,-87 8,-87 8,-20 8,-20 8,-14 14,-8 20,-8"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_e1_sink</title>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_e1_src</title>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_e2</title>
+<path fill="none" stroke="black" d="M204,-8C204,-8 356,-8 356,-8 362,-8 368,-14 368,-20 368,-20 368,-87 368,-87 368,-93 362,-99 356,-99 356,-99 204,-99 204,-99 198,-99 192,-93 192,-87 192,-87 192,-20 192,-20 192,-14 198,-8 204,-8"/>
+
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_e2_sink</title>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_e2_src</title>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_e3</title>
+<path fill="none" stroke="black" d="M388,-8C388,-8 540,-8 540,-8 546,-8 552,-14 552,-20 552,-20 552,-87 552,-87 552,-93 546,-99 540,-99 540,-99 388,-99 388,-99 382,-99 376,-93 376,-87 376,-87 376,-20 376,-20 376,-14 382,-8 388,-8"/>
+
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_e3_sink</title>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_e3_src</title>
+</g>
+
+<g id="node1" class="node">
+<title>e1_sink_node</title>
+<path fill="none" stroke="black" d="M66,-60C66,-60 36,-60 36,-60 30,-60 24,-54 24,-48 24,-48 24,-36 24,-36 24,-30 30,-24 36,-24 36,-24 66,-24 66,-24 72,-24 78,-30 78,-36 78,-36 78,-48 78,-48 78,-54 72,-60 66,-60"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>e1_src_node</title>
+<path fill="none" stroke="black" d="M156,-60C156,-60 126,-60 126,-60 120,-60 114,-54 114,-48 114,-48 114,-36 114,-36 114,-30 120,-24 126,-24 126,-24 156,-24 156,-24 162,-24 168,-30 168,-36 168,-36 168,-48 168,-48 168,-54 162,-60 156,-60"/>
+
+</g>
+
+
+<g id="node3" class="node">
+<title>e2_sink_node</title>
+<path fill="none" stroke="black" d="M250,-60C250,-60 220,-60 220,-60 214,-60 208,-54 208,-48 208,-48 208,-36 208,-36 208,-30 214,-24 220,-24 220,-24 250,-24 250,-24 256,-24 262,-30 262,-36 262,-36 262,-48 262,-48 262,-54 256,-60 250,-60"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>e1_src_node&#45;&gt;e2_sink_node</title>
+<path fill="none" stroke="black" d="M168.12,-42C177.34,-42 187.89,-42 197.8,-42"/>
+<polygon fill="black" stroke="black" points="197.82,-45.5 207.82,-42 197.82,-38.5 197.82,-45.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>e2_src_node</title>
+<path fill="none" stroke="black" d="M340,-60C340,-60 310,-60 310,-60 304,-60 298,-54 298,-48 298,-48 298,-36 298,-36 298,-30 304,-24 310,-24 310,-24 340,-24 340,-24 346,-24 352,-30 352,-36 352,-36 352,-48 352,-48 352,-54 346,-60 340,-60"/>
+
+</g>
+
+
+<g id="node5" class="node">
+<title>e3_sink_node</title>
+<path fill="none" stroke="black" d="M434,-60C434,-60 404,-60 404,-60 398,-60 392,-54 392,-48 392,-48 392,-36 392,-36 392,-30 398,-24 404,-24 404,-24 434,-24 434,-24 440,-24 446,-30 446,-36 446,-36 446,-48 446,-48 446,-54 440,-60 434,-60"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>e2_src_node&#45;&gt;e3_sink_node</title>
+<path fill="none" stroke="black" d="M352.12,-42C361.34,-42 371.89,-42 381.8,-42"/>
+<polygon fill="black" stroke="black" points="381.82,-45.5 391.82,-42 381.82,-38.5 381.82,-45.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>e3_src_node</title>
+<path fill="none" stroke="black" d="M524,-60C524,-60 494,-60 494,-60 488,-60 482,-54 482,-48 482,-48 482,-36 482,-36 482,-30 488,-24 494,-24 494,-24 524,-24 524,-24 530,-24 536,-30 536,-36 536,-36 536,-48 536,-48 536,-54 530,-60 524,-60"/>
+
+</g>
+
+</g>
+</svg>

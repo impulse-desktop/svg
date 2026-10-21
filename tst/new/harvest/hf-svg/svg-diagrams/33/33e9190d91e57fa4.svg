@@ -1,0 +1,141 @@
+<svg width="3957pt" height="172pt"
+ viewBox="0.00 0.00 3957.00 172.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 168)">
+<title>Module00b</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-168 3953,-168 3953,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_1</title>
+<polygon fill="white" stroke="black" stroke-dasharray="5,2" points="465,-80 465,-156 3941,-156 3941,-80 465,-80"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_2</title>
+<polygon fill="white" stroke="black" stroke-dasharray="5,2" points="3125,-88 3125,-148 3933,-148 3933,-88 3125,-88"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_5</title>
+<polygon fill="white" stroke="black" stroke-dasharray="5,2" points="2281,-88 2281,-148 3117,-148 3117,-88 2281,-88"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_4</title>
+<polygon fill="white" stroke="black" stroke-dasharray="5,2" points="1435,-88 1435,-148 2273,-148 2273,-88 1435,-88"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_3</title>
+<polygon fill="white" stroke="black" stroke-dasharray="5,2" points="631,-88 631,-148 1427,-148 1427,-88 631,-88"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_0</title>
+<polygon fill="white" stroke="black" stroke-dasharray="5,2" points="8,-8 8,-68 294,-68 294,-8 8,-8"/>
+</g>
+
+<g id="node1" class="node">
+<title>CALL_MakeBincovMatrix</title>
+<ellipse fill="none" stroke="black" cx="355" cy="-118" rx="96.38" ry="18"/>
+<ellipse fill="none" stroke="black" cx="355" cy="-118" rx="100.38" ry="22"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>CALL_Ploidy</title>
+<ellipse fill="none" stroke="black" cx="233" cy="-38" rx="48.97" ry="18"/>
+<ellipse fill="none" stroke="black" cx="233" cy="-38" rx="52.99" ry="22"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CALL_MakeBincovMatrix&#45;&gt;CALL_Ploidy</title>
+<path fill="none" stroke="black" d="M323.58,-96.91C307.11,-86.38 286.84,-73.42 269.65,-62.43"/>
+<polygon fill="black" stroke="black" points="271.29,-59.33 260.98,-56.89 267.52,-65.23 271.29,-59.33"/>
+</g>
+
+<g id="node3" class="node">
+<title>CALL_WGD</title>
+<ellipse fill="none" stroke="black" cx="355" cy="-38" rx="46.61" ry="18"/>
+<ellipse fill="none" stroke="black" cx="355" cy="-38" rx="50.59" ry="22"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CALL_MakeBincovMatrix&#45;&gt;CALL_WGD</title>
+<path fill="none" stroke="black" d="M355,-95.69C355,-87.8 355,-78.68 355,-70.1"/>
+<polygon fill="black" stroke="black" points="358.5,-70.02 355,-60.02 351.5,-70.02 358.5,-70.02"/>
+</g>
+
+<g id="node4" class="node">
+<title>CALL_MedianCov</title>
+<ellipse fill="none" stroke="black" cx="495" cy="-38" rx="67.68" ry="18"/>
+<ellipse fill="none" stroke="black" cx="495" cy="-38" rx="71.69" ry="22"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CALL_MakeBincovMatrix&#45;&gt;CALL_MedianCov</title>
+<path fill="none" stroke="black" d="M390.33,-97.32C409.29,-86.75 432.8,-73.65 452.73,-62.55"/>
+<polygon fill="black" stroke="black" points="454.58,-65.53 461.61,-57.6 451.17,-59.41 454.58,-65.53"/>
+</g>
+
+<g id="node5" class="node">
+<title>CALL_RawVcfQC_Delly</title>
+<ellipse fill="none" stroke="black" cx="3830" cy="-118" rx="90.98" ry="18"/>
+<ellipse fill="none" stroke="black" cx="3830" cy="-118" rx="94.98" ry="22"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>CONDITIONAL_2_EXPRESSION</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="3716.88,-118 3570.94,-136 3279.06,-136 3133.12,-118 3279.06,-100 3570.94,-100 3716.88,-118"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>CONDITIONAL_1_EXPRESSION</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="621.1,-118 584.05,-136 509.95,-136 472.9,-118 509.95,-100 584.05,-100 621.1,-118"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>CALL_RawVcfQC_Manta</title>
+<ellipse fill="none" stroke="black" cx="3010" cy="-118" rx="94.79" ry="18"/>
+<ellipse fill="none" stroke="black" cx="3010" cy="-118" rx="98.78" ry="22"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>CONDITIONAL_5_EXPRESSION</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="2892.89,-118 2741.95,-136 2440.05,-136 2289.11,-118 2440.05,-100 2741.95,-100 2892.89,-118"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>CALL_RawVcfQC_Wham</title>
+<ellipse fill="none" stroke="black" cx="2165" cy="-118" rx="96.38" ry="18"/>
+<ellipse fill="none" stroke="black" cx="2165" cy="-118" rx="100.38" ry="22"/>
+
+</g>
+
+<g id="node11" class="node">
+<title>CONDITIONAL_4_EXPRESSION</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="2046.89,-118 1895.95,-136 1594.05,-136 1443.11,-118 1594.05,-100 1895.95,-100 2046.89,-118"/>
+
+</g>
+
+<g id="node12" class="node">
+<title>CALL_RawVcfQC_Melt</title>
+<ellipse fill="none" stroke="black" cx="1326" cy="-118" rx="89.08" ry="18"/>
+<ellipse fill="none" stroke="black" cx="1326" cy="-118" rx="93.08" ry="22"/>
+
+</g>
+
+<g id="node13" class="node">
+<title>CONDITIONAL_3_EXPRESSION</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="1215.38,-118 1071.19,-136 782.81,-136 638.62,-118 782.81,-100 1071.19,-100 1215.38,-118"/>
+
+</g>
+
+<g id="node14" class="node">
+<title>CONDITIONAL_0_EXPRESSION</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="161.6,-38 125.3,-56 52.7,-56 16.4,-38 52.7,-20 125.3,-20 161.6,-38"/>
+
+</g>
+</g>
+</svg>

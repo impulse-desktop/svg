@@ -1,0 +1,81 @@
+<svg width="605pt" height="203pt"
+ viewBox="0.00 0.00 605.00 203.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 199)">
+<title>oneDegreeRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="none" points="-4,4 -4,-199 601,-199 601,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>core_asciiarmoreddetachedsigningservice</title>
+<g id="a_node1"><a xlink:href="../../tables/core_asciiarmoreddetachedsigningservice.html" xlink:title="core_asciiarmoreddetachedsigningservice" target="_top">
+<polygon fill="#ffffff" stroke="none" points="302,-127 302,-189 589,-189 589,-127 302,-127"/>
+<polygon fill="#f5f5f5" stroke="none" points="302.5,-167 302.5,-189 589.5,-189 589.5,-167 302.5,-167"/>
+<polygon fill="none" stroke="black" points="302.5,-167 302.5,-189 589.5,-189 589.5,-167 302.5,-167"/>
+
+
+<polygon fill="none" stroke="black" points="302.5,-145 302.5,-167 589.5,-167 589.5,-145 302.5,-145"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="307.5" y="-162"/>
+
+<polygon fill="#ffffff" stroke="none" points="302.5,-127 302.5,-145 429.5,-145 429.5,-127 302.5,-127"/>
+<polygon fill="none" stroke="black" points="302.5,-127 302.5,-145 429.5,-145 429.5,-127 302.5,-127"/>
+
+<polygon fill="#ffffff" stroke="none" points="429.5,-127 429.5,-145 523.5,-145 523.5,-127 429.5,-127"/>
+<polygon fill="none" stroke="black" points="429.5,-127 429.5,-145 523.5,-145 523.5,-127 429.5,-127"/>
+
+<polygon fill="#ffffff" stroke="none" points="523.5,-127 523.5,-145 589.5,-145 589.5,-127 523.5,-127"/>
+<polygon fill="none" stroke="black" points="523.5,-127 523.5,-145 589.5,-145 589.5,-127 523.5,-127"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>core_signingservice</title>
+<g id="a_node2"><a xlink:href="../../tables/core_signingservice.html" xlink:title="core_signingservice" target="_top">
+<polygon fill="#ffffff" stroke="none" points="8,-37 8,-191 253,-191 253,-37 8,-37"/>
+<polygon fill="#f5f5f5" stroke="none" points="10.5,-167 10.5,-189 251.5,-189 251.5,-167 10.5,-167"/>
+<polygon fill="none" stroke="black" points="10.5,-167 10.5,-189 251.5,-189 251.5,-167 10.5,-167"/>
+
+
+<polygon fill="none" stroke="black" points="10.5,-145 10.5,-167 146.5,-167 146.5,-145 10.5,-145"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="15.5" y="-162"/>
+
+<polygon fill="none" stroke="black" points="146.5,-145 146.5,-167 251.5,-167 251.5,-145 146.5,-145"/>
+
+<polygon fill="none" stroke="black" points="10.5,-123 10.5,-145 146.5,-145 146.5,-123 10.5,-123"/>
+
+<polygon fill="none" stroke="black" points="146.5,-123 146.5,-145 251.5,-145 251.5,-123 146.5,-123"/>
+
+<polygon fill="none" stroke="black" points="10.5,-101 10.5,-123 146.5,-123 146.5,-101 10.5,-101"/>
+
+<polygon fill="none" stroke="black" points="146.5,-101 146.5,-123 251.5,-123 251.5,-101 146.5,-101"/>
+
+<polygon fill="#ffffff" stroke="none" points="10.5,-79 10.5,-101 146.5,-101 146.5,-79 10.5,-79"/>
+<polygon fill="none" stroke="black" points="10.5,-79 10.5,-101 146.5,-101 146.5,-79 10.5,-79"/>
+
+<polygon fill="none" stroke="black" points="146.5,-79 146.5,-101 251.5,-101 251.5,-79 146.5,-79"/>
+
+<polygon fill="none" stroke="black" points="10.5,-57 10.5,-79 146.5,-79 146.5,-57 10.5,-57"/>
+
+<polygon fill="none" stroke="black" points="146.5,-57 146.5,-79 251.5,-79 251.5,-57 146.5,-57"/>
+
+<polygon fill="#ffffff" stroke="none" points="10.5,-39 10.5,-57 68.5,-57 68.5,-39 10.5,-39"/>
+<polygon fill="none" stroke="black" points="10.5,-39 10.5,-57 68.5,-57 68.5,-39 10.5,-39"/>
+
+<polygon fill="#ffffff" stroke="none" points="68.5,-39 68.5,-57 146.5,-57 146.5,-39 68.5,-39"/>
+<polygon fill="none" stroke="black" points="68.5,-39 68.5,-57 146.5,-57 146.5,-39 68.5,-39"/>
+
+<polygon fill="#ffffff" stroke="none" points="146.5,-39 146.5,-57 251.5,-57 251.5,-39 146.5,-39"/>
+<polygon fill="none" stroke="black" points="146.5,-39 146.5,-57 251.5,-57 251.5,-39 146.5,-39"/>
+
+<polygon fill="none" stroke="black" stroke-width="2" points="9,-38 9,-190 252,-190 252,-38 9,-38"/>
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>core_asciiarmoreddetachedsigningservice:signingservice_ptr_id:w&#45;&gt;core_signingservice:pulp_id.type:e</title>
+<path fill="none" stroke="black" d="M290.757,-156C277.106,-156 270.194,-156 252.5,-156"/>
+<polygon fill="black" stroke="black" points="300.7,-152 300.7,-160 299.1,-160 299.1,-152 300.7,-152"/>
+<polyline fill="none" stroke="black" points="301.5,-156 297.5,-156 "/>
+<ellipse fill="none" stroke="black" cx="294.3" cy="-156" rx="3.2" ry="3.2"/>
+</g>
+</g>
+</svg>

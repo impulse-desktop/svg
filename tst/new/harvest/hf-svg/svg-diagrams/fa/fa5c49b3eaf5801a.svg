@@ -1,0 +1,161 @@
+<svg width="372pt" height="498pt"
+ viewBox="0.00 0.00 372.00 498.40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 494.4)">
+<title>AgentsCommunication</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-494.4 368,-494.4 368,4 -4,4"/>
+<g id="clust1" class="cluster"><title>clusterAgentA_sm</title>
+<polygon fill="none" stroke="black" stroke-width="0.5" points="8,-8 8,-482.4 177,-482.4 177,-8 8,-8"/>
+
+</g>
+<g id="clust2" class="cluster"><title>clusterAgentB_sm</title>
+<polygon fill="none" stroke="black" stroke-width="0.5" points="185,-8 185,-482.4 354,-482.4 354,-8 185,-8"/>
+
+</g>
+
+<g id="node1" class="node"><title>start_AgentA_sm</title>
+<ellipse fill="black" stroke="black" cx="52" cy="-444.2" rx="7.2" ry="7.2"/>
+</g>
+
+<g id="node2" class="node"><title>AgentA_sm_s1</title>
+<path fill="none" stroke="black" d="M76,-400C76,-400 28,-400 28,-400 22,-400 16,-394 16,-388 16,-388 16,-376 16,-376 16,-370 22,-364 28,-364 28,-364 76,-364 76,-364 82,-364 88,-370 88,-376 88,-376 88,-388 88,-388 88,-394 82,-400 76,-400"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>start_AgentA_sm&#45;&gt;AgentA_sm_s1</title>
+<g id="a_edge1"><a xlink:title="start &#160;&#45;&gt; s1">
+<path fill="none" stroke="black" d="M52,-436.758C52,-430.387 52,-420.197 52,-410.393"/>
+<polygon fill="black" stroke="black" points="55.5001,-410.105 52,-400.105 48.5001,-410.105 55.5001,-410.105"/>
+</a>
+</g>
+</g>
+
+<g id="node3" class="node"><title>AgentA_sm_s2</title>
+<path fill="none" stroke="black" d="M76,-313C76,-313 28,-313 28,-313 22,-313 16,-307 16,-301 16,-301 16,-289 16,-289 16,-283 22,-277 28,-277 28,-277 76,-277 76,-277 82,-277 88,-283 88,-289 88,-289 88,-301 88,-301 88,-307 82,-313 76,-313"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>AgentA_sm_s1&#45;&gt;AgentA_sm_s2</title>
+<g id="a_edge2"><a xlink:title="s1 clock &#45;&gt; s2">
+<path fill="none" stroke="black" d="M52,-363.799C52,-352.163 52,-336.548 52,-323.237"/>
+<polygon fill="black" stroke="black" points="55.5001,-323.175 52,-313.175 48.5001,-323.175 55.5001,-323.175"/>
+</a>
+</g>
+
+</g>
+
+<g id="node4" class="node"><title>AgentA_sm_s3</title>
+<path fill="none" stroke="black" d="M76,-226C76,-226 28,-226 28,-226 22,-226 16,-220 16,-214 16,-214 16,-202 16,-202 16,-196 22,-190 28,-190 28,-190 76,-190 76,-190 82,-190 88,-196 88,-202 88,-202 88,-214 88,-214 88,-220 82,-226 76,-226"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>AgentA_sm_s2&#45;&gt;AgentA_sm_s3</title>
+<g id="a_edge3"><a xlink:title="s2 clock &#45;&gt; s3">
+<path fill="none" stroke="black" d="M52,-276.799C52,-265.163 52,-249.548 52,-236.237"/>
+<polygon fill="black" stroke="black" points="55.5001,-236.175 52,-226.175 48.5001,-236.175 55.5001,-236.175"/>
+</a>
+</g>
+
+</g>
+
+<g id="node5" class="node"><title>AgentA_sm_s4</title>
+<path fill="none" stroke="black" d="M76,-139C76,-139 28,-139 28,-139 22,-139 16,-133 16,-127 16,-127 16,-115 16,-115 16,-109 22,-103 28,-103 28,-103 76,-103 76,-103 82,-103 88,-109 88,-115 88,-115 88,-127 88,-127 88,-133 82,-139 76,-139"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>AgentA_sm_s3&#45;&gt;AgentA_sm_s4</title>
+<g id="a_edge4"><a xlink:title="s3 clock [consume(Msgc)] &#45;&gt; s4">
+<path fill="none" stroke="black" d="M47.6007,-149.056 46.8547,-156.486 46.4704,-164.548 47,-172 47.4177,-177.878 48.2253,-184.269 49.0715,-189.962"/>
+<polygon fill="black" stroke="black" points="51.0774,-149.459 48.8386,-139.104 44.131,-148.595 51.0774,-149.459"/>
+</a>
+</g>
+
+</g>
+
+<g id="node6" class="node"><title>AgentA_sm_s5</title>
+<path fill="none" stroke="black" d="M76,-52C76,-52 28,-52 28,-52 22,-52 16,-46 16,-40 16,-40 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 76,-16 76,-16 82,-16 88,-22 88,-28 88,-28 88,-40 88,-40 88,-46 82,-52 76,-52"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>AgentA_sm_s4&#45;&gt;AgentA_sm_s5</title>
+<g id="a_edge5"><a xlink:title="s4 clock [consume(Msgd)] &#45;&gt; s5">
+<path fill="none" stroke="black" d="M46.8917,-62.0743 46.5285,-64.7445 46.2195,-67.42 46,-70 45.066,-80.9763 46.5049,-93.2602 48.2071,-102.906"/>
+<polygon fill="black" stroke="black" points="50.3774,-62.4398 48.4865,-52.0151 43.4638,-61.3437 50.3774,-62.4398"/>
+</a>
+</g>
+
+</g>
+
+<g id="node7" class="node"><title>start_AgentB_sm</title>
+<ellipse fill="black" stroke="black" cx="229" cy="-444.2" rx="7.2" ry="7.2"/>
+</g>
+
+<g id="node8" class="node"><title>AgentB_sm_s1</title>
+<path fill="none" stroke="black" d="M253,-400C253,-400 205,-400 205,-400 199,-400 193,-394 193,-388 193,-388 193,-376 193,-376 193,-370 199,-364 205,-364 205,-364 253,-364 253,-364 259,-364 265,-370 265,-376 265,-376 265,-388 265,-388 265,-394 259,-400 253,-400"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>start_AgentB_sm&#45;&gt;AgentB_sm_s1</title>
+<g id="a_edge6"><a xlink:title="start &#160;&#45;&gt; s1">
+<path fill="none" stroke="black" d="M229,-436.758C229,-430.387 229,-420.197 229,-410.393"/>
+<polygon fill="black" stroke="black" points="232.5,-410.105 229,-400.105 225.5,-410.105 232.5,-410.105"/>
+</a>
+</g>
+</g>
+
+<g id="node9" class="node"><title>AgentB_sm_s2</title>
+<path fill="none" stroke="black" d="M253,-313C253,-313 205,-313 205,-313 199,-313 193,-307 193,-301 193,-301 193,-289 193,-289 193,-283 199,-277 205,-277 205,-277 253,-277 253,-277 259,-277 265,-283 265,-289 265,-289 265,-301 265,-301 265,-307 259,-313 253,-313"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>AgentB_sm_s1&#45;&gt;AgentB_sm_s2</title>
+<g id="a_edge7"><a xlink:title="s1 clock &#45;&gt; s2">
+<path fill="none" stroke="black" d="M229,-363.799C229,-352.163 229,-336.548 229,-323.237"/>
+<polygon fill="black" stroke="black" points="232.5,-323.175 229,-313.175 225.5,-323.175 232.5,-323.175"/>
+</a>
+</g>
+
+</g>
+
+<g id="node10" class="node"><title>AgentB_sm_s3</title>
+<path fill="none" stroke="black" d="M253,-226C253,-226 205,-226 205,-226 199,-226 193,-220 193,-214 193,-214 193,-202 193,-202 193,-196 199,-190 205,-190 205,-190 253,-190 253,-190 259,-190 265,-196 265,-202 265,-202 265,-214 265,-214 265,-220 259,-226 253,-226"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>AgentB_sm_s2&#45;&gt;AgentB_sm_s3</title>
+<g id="a_edge8"><a xlink:title="s2 clock [consume(Msga)] &#45;&gt; s3">
+<path fill="none" stroke="black" d="M229,-276.799C229,-265.163 229,-249.548 229,-236.237"/>
+<polygon fill="black" stroke="black" points="232.5,-236.175 229,-226.175 225.5,-236.175 232.5,-236.175"/>
+</a>
+</g>
+
+</g>
+
+<g id="node11" class="node"><title>AgentB_sm_s4</title>
+<path fill="none" stroke="black" d="M253,-139C253,-139 205,-139 205,-139 199,-139 193,-133 193,-127 193,-127 193,-115 193,-115 193,-109 199,-103 205,-103 205,-103 253,-103 253,-103 259,-103 265,-109 265,-115 265,-115 265,-127 265,-127 265,-133 259,-139 253,-139"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>AgentB_sm_s3&#45;&gt;AgentB_sm_s4</title>
+<g id="a_edge9"><a xlink:title="s3 clock [consume(Msgb)] &#45;&gt; s4">
+<path fill="none" stroke="black" d="M229,-189.799C229,-178.163 229,-162.548 229,-149.237"/>
+<polygon fill="black" stroke="black" points="232.5,-149.175 229,-139.175 225.5,-149.175 232.5,-149.175"/>
+</a>
+</g>
+
+</g>
+
+<g id="node12" class="node"><title>AgentB_sm_s5</title>
+<path fill="none" stroke="black" d="M253,-52C253,-52 205,-52 205,-52 199,-52 193,-46 193,-40 193,-40 193,-28 193,-28 193,-22 199,-16 205,-16 205,-16 253,-16 253,-16 259,-16 265,-22 265,-28 265,-28 265,-40 265,-40 265,-46 259,-52 253,-52"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>AgentB_sm_s4&#45;&gt;AgentB_sm_s5</title>
+<g id="a_edge10"><a xlink:title="s4 clock &#45;&gt; s5">
+<path fill="none" stroke="black" d="M229,-102.799C229,-91.1626 229,-75.5479 229,-62.2368"/>
+<polygon fill="black" stroke="black" points="232.5,-62.1754 229,-52.1754 225.5,-62.1755 232.5,-62.1754"/>
+</a>
+</g>
+
+</g>
+</g>
+</svg>

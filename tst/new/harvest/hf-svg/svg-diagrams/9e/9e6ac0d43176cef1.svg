@@ -1,0 +1,113 @@
+<svg width="785pt" height="104pt"
+ viewBox="0.00 0.00 785.00 104.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
+<title>espconn_tcp_disconnect</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-100 781,-100 781,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node257</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 125,-38.5 125,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node258</title>
+<g id="a_node2"><a xlink:href="sdk_2include_2espconn_8h.html#ad6b3d2d0f556e6da81c898a6b9fa5c53" target="_top" xlink:title="espconn_abort">
+<polygon fill="white" stroke="black" points="174,-38.5 174,-57.5 254,-57.5 254,-38.5 174,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node257&#45;&gt;Node258</title>
+<path fill="none" stroke="midnightblue" d="M135.249,-38.1186C148.497,-39.8023 161.871,-41.502 173.702,-43.0056"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="135.532,-34.6265 125.171,-36.8377 134.649,-41.5706 135.532,-34.6265"/>
+</g>
+
+<g id="node8" class="node"><title>Node264</title>
+<g id="a_node8"><a xlink:href="sdk_2include_2espconn_8h.html#a9969873c3b8ee86a34496a5166cf8bfc" target="_top" xlink:title="espconn_disconnect">
+<polygon fill="white" stroke="black" points="161,-0.5 161,-19.5 267,-19.5 267,-0.5 161,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node257&#45;&gt;Node264</title>
+<path fill="none" stroke="midnightblue" d="M135.295,-19.8756C143.964,-18.7738 152.686,-17.6653 160.994,-16.6094"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="134.649,-16.4294 125.171,-21.1623 135.532,-23.3735 134.649,-16.4294"/>
+</g>
+
+<g id="node3" class="node"><title>Node259</title>
+<g id="a_node3"><a xlink:href="mqtt_8c.html#a21ab01c5c7342eb954bdd128a5f4244b" target="_top" xlink:title="Delete tcp client and free all memory. ">
+<polygon fill="white" stroke="black" points="303,-38.5 303,-57.5 413,-57.5 413,-38.5 303,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node258&#45;&gt;Node259</title>
+<path fill="none" stroke="midnightblue" d="M264.343,-48C276.763,-48 290.16,-48 302.804,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="264.178,-44.5001 254.178,-48 264.178,-51.5001 264.178,-44.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node260</title>
+<g id="a_node4"><a xlink:href="mqtt_8c.html#a9c9b677c6161329a3c3c6470a7182984" target="_top" xlink:title="Delete MQTT client and free all memory. ">
+<polygon fill="white" stroke="black" points="449,-76.5 449,-95.5 545,-95.5 545,-76.5 449,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node259&#45;&gt;Node260</title>
+<path fill="none" stroke="midnightblue" d="M403.411,-60.3183C422.234,-65.5393 443.838,-71.5316 461.44,-76.4141"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="404.143,-56.8892 393.571,-57.589 402.272,-63.6346 404.143,-56.8892"/>
+</g>
+
+<g id="node5" class="node"><title>Node261</title>
+<g id="a_node5"><a xlink:href="mqtt_8c.html#a9d88fa6efb9163d4dbf9dc750a8d4ed0" target="_top" xlink:title="MQTT_Task">
+<polygon fill="white" stroke="black" points="581,-38.5 581,-57.5 652,-57.5 652,-38.5 581,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node259&#45;&gt;Node261</title>
+<path fill="none" stroke="midnightblue" d="M423.138,-48C473.055,-48 540.417,-48 580.753,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="423.084,-44.5001 413.084,-48 423.084,-51.5001 423.084,-44.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node263</title>
+<g id="a_node7"><a xlink:href="mqtt_8c.html#ad34b681cb2f7473d8fc786c7ed468db5" target="_top" xlink:title="Begin connect to MQTT broker. ">
+<polygon fill="white" stroke="black" points="454,-0.5 454,-19.5 540,-19.5 540,-0.5 454,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node259&#45;&gt;Node263</title>
+<path fill="none" stroke="midnightblue" d="M403.411,-35.6817C422.234,-30.4607 443.838,-24.4684 461.44,-19.5859"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="402.272,-32.3654 393.571,-38.411 404.143,-39.1108 402.272,-32.3654"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node260&#45;&gt;Node261</title>
+<path fill="none" stroke="midnightblue" d="M537.209,-73.3196C553.085,-68.1852 571.11,-62.3559 585.859,-57.5859"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="536.088,-70.0036 527.65,-76.411 538.242,-76.664 536.088,-70.0036"/>
+</g>
+
+<g id="node6" class="node"><title>Node262</title>
+<g id="a_node6"><a xlink:href="mqtt_8c.html#a25cb7ac079d1d119250dac075c45acf1" target="_top" xlink:title="MQTT initialization mqtt client function. ">
+<polygon fill="white" stroke="black" points="688,-38.5 688,-57.5 777,-57.5 777,-38.5 688,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node261&#45;&gt;Node262</title>
+<path fill="none" stroke="midnightblue" d="M662.085,-48C670.541,-48 679.381,-48 687.809,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="662.013,-44.5001 652.013,-48 662.013,-51.5001 662.013,-44.5001"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node263&#45;&gt;Node261</title>
+<path fill="none" stroke="midnightblue" d="M537.209,-22.6804C553.085,-27.8148 571.11,-33.6441 585.859,-38.4141"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="538.242,-19.336 527.65,-19.589 536.088,-25.9964 538.242,-19.336"/>
+</g>
+</g>
+</svg>

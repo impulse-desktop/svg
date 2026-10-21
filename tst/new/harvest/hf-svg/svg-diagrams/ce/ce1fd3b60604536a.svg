@@ -1,0 +1,104 @@
+<svg width="147pt" height="645pt"
+ viewBox="0.00 0.00 147.00 645.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 641)">
+<title>SoapFormat</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-641 143,-641 143,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="SoapFormat implements the SOAP request/response format.">
+<polygon fill="#bfbfbf" stroke="black" points="11,-0.5 11,-134.5 128,-134.5 128,-0.5 11,-0.5"/>
+
+<polyline fill="none" stroke="black" points="11,-115.5 128,-115.5 "/>
+
+<polyline fill="none" stroke="black" points="11,-96.5 128,-96.5 "/>
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="classwcmf_1_1lib_1_1presentation_1_1format_1_1impl_1_1_hierarchical_format.html" target="_top" xlink:title="HierarchicalFormat is used as base class for formats that are able to represent hierarchical data lik...">
+<polygon fill="white" stroke="black" points="4.5,-171.5 4.5,-283.5 134.5,-283.5 134.5,-171.5 4.5,-171.5"/>
+
+<polyline fill="none" stroke="black" points="4.5,-264.5 134.5,-264.5 "/>
+
+<polyline fill="none" stroke="black" points="4.5,-245.5 134.5,-245.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M69.5,-161.09C69.5,-152.34 69.5,-143.35 69.5,-134.59"/>
+<polygon fill="none" stroke="midnightblue" points="66,-161.24 69.5,-171.24 73,-161.24 66,-161.24"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="classwcmf_1_1lib_1_1presentation_1_1format_1_1impl_1_1_abstract_format.html" target="_top" xlink:title="AbstractFormat is used as base class for specialized formats.">
+<polygon fill="white" stroke="black" points="0,-320.5 0,-487.5 139,-487.5 139,-320.5 0,-320.5"/>
+
+<polyline fill="none" stroke="black" points="0,-468.5 139,-468.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-449.5 139,-449.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M69.5,-310.23C69.5,-301.27 69.5,-292.39 69.5,-283.97"/>
+<polygon fill="none" stroke="midnightblue" points="66,-310.35 69.5,-320.35 73,-310.35 66,-310.35"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="interfacewcmf_1_1lib_1_1presentation_1_1format_1_1_format.html" target="_top" xlink:title="Format defines the interface for all format classes.">
+<polygon fill="white" stroke="black" points="0,-524.5 0,-636.5 139,-636.5 139,-524.5 0,-524.5"/>
+
+<polyline fill="none" stroke="black" points="0,-617.5 139,-617.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-598.5 139,-598.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M69.5,-514.24C69.5,-505.54 69.5,-496.53 69.5,-487.59"/>
+<polygon fill="none" stroke="midnightblue" points="66,-514.29 69.5,-524.29 73,-514.29 66,-514.29"/>
+</g>
+</g>
+</svg>

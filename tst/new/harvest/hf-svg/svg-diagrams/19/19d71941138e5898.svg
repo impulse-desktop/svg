@@ -1,0 +1,75 @@
+<svg width="376pt" height="161pt"
+ viewBox="0.00 0.00 376.00 160.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 156.7)">
+<title>oneDegreeRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-156.7 372,-156.7 372,4 -4,4"/>
+
+
+<g id="node1" class="node">
+<title>COUNTRIES</title>
+<g id="a_node1"><a xlink:href="../../tables/COUNTRIES.html" xlink:title="COUNTRIES" target="_top">
+<polygon fill="#ffffff" stroke="transparent" points="238,-43.7 238,-148.7 360,-148.7 360,-43.7 238,-43.7"/>
+<polygon fill="#f5f5f5" stroke="transparent" points="238,-125.2 238,-148.2 360,-148.2 360,-125.2 238,-125.2"/>
+<polygon fill="none" stroke="#000000" points="238,-125.2 238,-148.2 360,-148.2 360,-125.2 238,-125.2"/>
+
+
+<polygon fill="none" stroke="#000000" points="238,-103.2 238,-125.2 360,-125.2 360,-103.2 238,-103.2"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="243" y="-120.2"/>
+
+<polygon fill="none" stroke="#000000" points="238,-81.2 238,-103.2 360,-103.2 360,-81.2 238,-81.2"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="243" y="-98.2"/>
+
+<polygon fill="none" stroke="#000000" points="238,-62.2 238,-81.2 360,-81.2 360,-62.2 238,-62.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="238,-43.2 238,-62.2 280,-62.2 280,-43.2 238,-43.2"/>
+<polygon fill="none" stroke="#000000" points="238,-43.2 238,-62.2 280,-62.2 280,-43.2 238,-43.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="280,-43.2 280,-62.2 328,-62.2 328,-43.2 280,-43.2"/>
+<polygon fill="none" stroke="#000000" points="280,-43.2 280,-62.2 328,-62.2 328,-43.2 280,-43.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="328,-43.2 328,-62.2 360,-62.2 360,-43.2 328,-43.2"/>
+<polygon fill="none" stroke="#000000" points="328,-43.2 328,-62.2 360,-62.2 360,-43.2 328,-43.2"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>REGIONS</title>
+<g id="a_node2"><a xlink:href="../../tables/REGIONS.html" xlink:title="REGIONS" target="_top">
+<polygon fill="#ffffff" stroke="transparent" points="8,-38.2 8,-128.2 189,-128.2 189,-38.2 8,-38.2"/>
+<polygon fill="#f5f5f5" stroke="transparent" points="10.5,-103.2 10.5,-126.2 187.5,-126.2 187.5,-103.2 10.5,-103.2"/>
+<polygon fill="none" stroke="#000000" points="10.5,-103.2 10.5,-126.2 187.5,-126.2 187.5,-103.2 10.5,-103.2"/>
+
+
+<polygon fill="none" stroke="#000000" points="10.5,-81.2 10.5,-103.2 120.5,-103.2 120.5,-81.2 10.5,-81.2"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="15.5" y="-98.2"/>
+
+<polygon fill="none" stroke="#000000" points="120.5,-81.2 120.5,-103.2 187.5,-103.2 187.5,-81.2 120.5,-81.2"/>
+
+<polygon fill="none" stroke="#000000" points="10.5,-59.2 10.5,-81.2 120.5,-81.2 120.5,-59.2 10.5,-59.2"/>
+
+<polygon fill="none" stroke="#000000" points="120.5,-59.2 120.5,-81.2 187.5,-81.2 187.5,-59.2 120.5,-59.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="10.5,-40.2 10.5,-59.2 56.5,-59.2 56.5,-40.2 10.5,-40.2"/>
+<polygon fill="none" stroke="#000000" points="10.5,-40.2 10.5,-59.2 56.5,-59.2 56.5,-40.2 10.5,-40.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="56.5,-40.2 56.5,-59.2 120.5,-59.2 120.5,-40.2 56.5,-40.2"/>
+<polygon fill="none" stroke="#000000" points="56.5,-40.2 56.5,-59.2 120.5,-59.2 120.5,-40.2 56.5,-40.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="120.5,-40.2 120.5,-59.2 187.5,-59.2 187.5,-40.2 120.5,-40.2"/>
+<polygon fill="none" stroke="#000000" points="120.5,-40.2 120.5,-59.2 187.5,-59.2 187.5,-40.2 120.5,-40.2"/>
+
+<polygon fill="none" stroke="#000000" stroke-width="2" points="9,-39.2 9,-127.2 188,-127.2 188,-39.2 9,-39.2"/>
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>COUNTRIES:w&#45;&gt;REGIONS:e</title>
+<path fill="none" stroke="#000000" d="M223.4203,-92.2C211.5435,-92.2 204.158,-92.2 187.5,-92.2"/>
+<polygon fill="#000000" stroke="#000000" points="230,-92.2001 238,-95.8 234,-92.2 238,-92.2 238,-92.2 238,-92.2 234,-92.2 238,-88.6 230,-92.2001 230,-92.2001"/>
+<ellipse fill="none" stroke="#000000" cx="226.8" cy="-92.2001" rx="3.2" ry="3.2"/>
+</g>
+</g>
+</svg>

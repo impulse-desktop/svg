@@ -1,0 +1,136 @@
+<svg width="1241pt" height="211pt"
+ viewBox="0.00 0.00 1241.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1237,-207 1237,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="382.5,-10 382.5,-30 402.5,-30 402.5,-10 382.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="495.5,-10 495.5,-30 515.5,-30 515.5,-10 495.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="581.5,-10 581.5,-30 601.5,-30 601.5,-10 581.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="678.5,-10 678.5,-30 698.5,-30 698.5,-10 678.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="774.5,-10 774.5,-30 794.5,-30 794.5,-10 774.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ReviewsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1225,-195 1225,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ReviewsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="479,-78 479,-130 1217,-130 1217,-78 479,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_ReviewsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="186,-78 186,-130 471,-130 471,-78 186,-78"/>
+</g>
+<g id="clust11" class="cluster">
+<title>cluster_ReviewsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 178,-130 178,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudAddComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1208.9369,-122 1075.0631,-122 1075.0631,-86 1208.9369,-86 1208.9369,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>ReviewsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="681.7577,-187 678.7577,-191 657.7577,-191 654.7577,-187 574.2423,-187 574.2423,-151 681.7577,-151 681.7577,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudAddComponent&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M1142,-122.2921C1142,-144.2057 1142,-178 1142,-178 1142,-178 692.0355,-178 692.0355,-178"/>
+<polygon fill="#000000" stroke="#000000" points="692.0356,-174.5001 682.0355,-178 692.0355,-181.5001 692.0356,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CrudComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1057.8301,-122 948.1699,-122 948.1699,-86 1057.8301,-86 1057.8301,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CrudComponent&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M1003,-122.1061C1003,-141.3391 1003,-169 1003,-169 1003,-169 692.1277,-169 692.1277,-169"/>
+<polygon fill="#000000" stroke="#000000" points="692.1278,-165.5001 682.1277,-169 692.1277,-172.5001 692.1278,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CrudDetailComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="930.5379,-122 787.4621,-122 787.4621,-86 930.5379,-86 930.5379,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CrudDetailComponent&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M859,-122.027C859,-138.3976 859,-160 859,-160 859,-160 691.8677,-160 691.8677,-160"/>
+<polygon fill="#000000" stroke="#000000" points="691.8677,-156.5001 681.8677,-160 691.8677,-163.5001 691.8677,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>CrudEditComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="769.1638,-122 636.8362,-122 636.8362,-86 769.1638,-86 769.1638,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CrudEditComponent&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M659.2735,-122.1061C659.2735,-122.1061 659.2735,-140.991 659.2735,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="655.7736,-140.9909 659.2735,-150.991 662.7736,-140.991 655.7736,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="618.608,-122 487.392,-122 487.392,-86 618.608,-86 618.608,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CrudListComponent&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M596.3376,-122.1061C596.3376,-122.1061 596.3376,-140.991 596.3376,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="592.8377,-140.9909 596.3376,-150.991 599.8377,-140.991 592.8377,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>ReviewsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="463.3753,-122 460.3753,-126 439.3753,-126 436.3753,-122 310.6247,-122 310.6247,-86 463.3753,-86 463.3753,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ReviewsRoutingModule&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M387,-122.027C387,-138.3976 387,-160 387,-160 387,-160 564.2149,-160 564.2149,-160"/>
+<polygon fill="#000000" stroke="#000000" points="564.2149,-163.5001 574.2149,-160 564.2148,-156.5001 564.2149,-163.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="292.4231,-122 289.4231,-126 268.4231,-126 265.4231,-122 193.5769,-122 193.5769,-86 292.4231,-86 292.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ThemeModule&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M243,-122.1061C243,-141.3391 243,-169 243,-169 243,-169 564.062,-169 564.062,-169"/>
+<polygon fill="#000000" stroke="#000000" points="564.0621,-172.5001 574.062,-169 564.062,-165.5001 564.0621,-172.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>ReviewsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="97" cy="-104" rx="73.49" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ReviewsService&#45;&gt;ReviewsModule</title>
+<path fill="none" stroke="#000000" d="M97,-122.2921C97,-144.2057 97,-178 97,-178 97,-178 564.1627,-178 564.1627,-178"/>
+<polygon fill="#000000" stroke="#000000" points="564.1627,-181.5001 574.1627,-178 564.1627,-174.5001 564.1627,-181.5001"/>
+</g>
+</g>
+</svg>

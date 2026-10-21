@@ -1,0 +1,196 @@
+<svg width="961pt" height="404pt"
+ viewBox="0.00 0.00 961.04 404.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-400 957.04,-400 957.04,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>torchvision</title>
+<g id="a_node1"><a xlink:href="https://github.com/conda-forge/torchvision-feedstock" xlink:title="torchvision">
+<ellipse fill="#fde725" stroke="black" cx="62.5" cy="-306" rx="62.5" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>fcos</title>
+<g id="a_node2"><a xlink:href="https://github.com/conda-forge/fcos-feedstock" xlink:title="fcos">
+<ellipse fill="#fde725" stroke="black" cx="61.5" cy="-234" rx="29.5" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>torchvision&#45;&gt;fcos</title>
+<path fill="none" stroke="black" d="M62.25,-287.7C62.14,-279.98 62.01,-270.71 61.89,-262.11"/>
+<polygon fill="black" stroke="black" points="65.39,-262.05 61.74,-252.1 58.39,-262.15 65.39,-262.05"/>
+</g>
+
+<g id="node3" class="node">
+<title>pytorch&#45;cpu</title>
+<g id="a_node3"><a xlink:href="https://github.com/conda-forge/pytorch-cpu-feedstock/pull/27" xlink:title="pytorch cpu ❎">
+<ellipse fill="#31688e" stroke="black" cx="373.5" cy="-378" rx="80" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;torchvision</title>
+<path fill="none" stroke="black" d="M318.97,-364.73C263.26,-352.19 177.09,-332.79 120.24,-320"/>
+<polygon fill="black" stroke="black" points="120.85,-316.55 110.33,-317.77 119.32,-323.38 120.85,-316.55"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;fcos</title>
+<path fill="none" stroke="black" d="M335.1,-362.14C309.06,-351.86 273.98,-337.65 243.5,-324 189.57,-299.85 128.05,-269.07 92.12,-250.76"/>
+<polygon fill="black" stroke="black" points="93.62,-247.6 83.13,-246.17 90.44,-253.83 93.62,-247.6"/>
+</g>
+
+<g id="node4" class="node">
+<title>pytorch_cluster</title>
+<g id="a_node4"><a xlink:href="https://github.com/conda-forge/pytorch_cluster-feedstock" xlink:title="pytorch_cluster">
+<ellipse fill="#fde725" stroke="black" cx="191.5" cy="-234" rx="83.39" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;pytorch_cluster</title>
+<path fill="none" stroke="black" d="M345.08,-361.06C328.14,-351.14 306.5,-337.68 288.5,-324 261.95,-303.82 234.16,-277.73 215.16,-259.03"/>
+<polygon fill="black" stroke="black" points="217.4,-256.32 207.84,-251.75 212.47,-261.28 217.4,-256.32"/>
+</g>
+
+<g id="node5" class="node">
+<title>pytorch_scatter</title>
+<g id="a_node5"><a xlink:href="https://github.com/conda-forge/pytorch_scatter-feedstock" xlink:title="pytorch_scatter">
+<ellipse fill="#fde725" stroke="black" cx="451.5" cy="-162" rx="83.39" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;pytorch_scatter</title>
+<path fill="none" stroke="black" d="M379.75,-359.85C393.3,-322.68 425.46,-234.44 441.72,-189.82"/>
+<polygon fill="black" stroke="black" points="445.08,-190.83 445.22,-180.23 438.51,-188.43 445.08,-190.83"/>
+</g>
+
+<g id="node6" class="node">
+<title>pytorch_spline_conv</title>
+<g id="a_node6"><a xlink:href="https://github.com/conda-forge/pytorch_spline_conv-feedstock" xlink:title="pytorch_spline_conv">
+<ellipse fill="#fde725" stroke="black" cx="248.5" cy="-90" rx="104.78" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;pytorch_spline_conv</title>
+<path fill="none" stroke="black" d="M362.8,-360.16C356.51,-349.91 348.61,-336.44 342.5,-324 306.82,-251.32 273.46,-161.54 257.82,-117.67"/>
+<polygon fill="black" stroke="black" points="261.04,-116.29 254.4,-108.04 254.44,-118.63 261.04,-116.29"/>
+</g>
+
+<g id="node7" class="node">
+<title>pytorch_sparse</title>
+<g id="a_node7"><a xlink:href="https://github.com/conda-forge/pytorch_sparse-feedstock" xlink:title="pytorch_sparse">
+<ellipse fill="#fde725" stroke="black" cx="452.5" cy="-90" rx="81.49" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;pytorch_sparse</title>
+<path fill="none" stroke="black" d="M366.52,-360.02C351.03,-319.45 318.27,-214.95 359.5,-144 368.32,-128.82 383.29,-117.63 398.68,-109.55"/>
+<polygon fill="black" stroke="black" points="400.28,-112.66 407.74,-105.14 397.22,-106.37 400.28,-112.66"/>
+</g>
+
+<g id="node8" class="node">
+<title>openmm&#45;torch</title>
+<g id="a_node8"><a xlink:href="https://github.com/conda-forge/openmm-torch-feedstock" xlink:title="openmm torch">
+<ellipse fill="#fde725" stroke="black" cx="562.5" cy="-18" rx="78" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;openmm&#45;torch</title>
+<path fill="none" stroke="black" d="M394.38,-360.38C431.62,-329.39 508.82,-258.76 543.5,-180 562.76,-136.26 564.83,-79.71 564.04,-46.59"/>
+<polygon fill="black" stroke="black" points="567.53,-46.18 563.68,-36.31 560.53,-46.42 567.53,-46.18"/>
+</g>
+
+<g id="node9" class="node">
+<title>torchsparse</title>
+<g id="a_node9"><a xlink:href="https://github.com/conda-forge/torchsparse-feedstock" xlink:title="torchsparse">
+<ellipse fill="#fde725" stroke="black" cx="574.5" cy="-306" rx="65.79" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;torchsparse</title>
+<path fill="none" stroke="black" d="M415.15,-362.5C447.38,-351.27 492.09,-335.7 525.95,-323.91"/>
+<polygon fill="black" stroke="black" points="527.34,-327.13 535.63,-320.54 525.04,-320.52 527.34,-327.13"/>
+</g>
+
+<g id="node10" class="node">
+<title>torch&#45;scatter</title>
+<g id="a_node10"><a xlink:href="https://github.com/conda-forge/torch-scatter-feedstock" xlink:title="torch scatter">
+<ellipse fill="#fde725" stroke="black" cx="668.5" cy="-234" rx="71" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;torch&#45;scatter</title>
+<path fill="none" stroke="black" d="M448.73,-371.78C520.46,-365.23 621.57,-351.36 649.5,-324 665.69,-308.14 669.7,-282.11 670.1,-262.29"/>
+<polygon fill="black" stroke="black" points="673.6,-261.99 670,-252.02 666.6,-262.05 673.6,-261.99"/>
+</g>
+
+<g id="node11" class="node">
+<title>kaolin</title>
+<g id="a_node11"><a xlink:href="https://github.com/conda-forge/kaolin-feedstock" xlink:title="kaolin">
+<ellipse fill="#fde725" stroke="black" cx="767.5" cy="-162" rx="38.5" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>pytorch&#45;cpu&#45;&gt;kaolin</title>
+<path fill="none" stroke="black" d="M452.64,-375.31C515.28,-371.14 603.42,-358.82 672.5,-324 714.05,-303.06 725.73,-292.58 748.5,-252 759.16,-233 763.85,-208.63 765.91,-190.2"/>
+<polygon fill="black" stroke="black" points="769.41,-190.4 766.84,-180.12 762.43,-189.76 769.41,-190.4"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>pytorch_scatter&#45;&gt;pytorch_sparse</title>
+<path fill="none" stroke="black" d="M451.75,-143.7C451.86,-135.98 451.99,-126.71 452.11,-118.11"/>
+<polygon fill="black" stroke="black" points="455.61,-118.15 452.26,-108.1 448.61,-118.05 455.61,-118.15"/>
+</g>
+
+<g id="node12" class="node">
+<title>pycuda</title>
+<g id="a_node12"><a xlink:href="https://github.com/conda-forge/pycuda-feedstock/pull/4" xlink:title="pycuda ❎">
+<ellipse fill="#31688e" stroke="black" cx="883.5" cy="-234" rx="58" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node13" class="node">
+<title>timemory</title>
+<g id="a_node13"><a xlink:href="https://github.com/conda-forge/timemory-feedstock/pull/8" xlink:title="timemory ❎">
+<ellipse fill="#31688e" stroke="black" cx="883.5" cy="-162" rx="69.59" ry="18"/>
+
+</a>
+</g>
+</g>
+
+</g>
+</svg>

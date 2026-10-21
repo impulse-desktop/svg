@@ -1,0 +1,72 @@
+<svg width="514pt" height="211pt"
+ viewBox="0.00 0.00 514.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 510,-207 510,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="19,-10 19,-30 39,-30 39,-10 19,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="132,-10 132,-30 152,-30 152,-10 132,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="218,-10 218,-30 238,-30 238,-10 218,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="315,-10 315,-30 335,-30 335,-10 315,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="411,-10 411,-30 431,-30 431,-10 411,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ExamplesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 498,-195 498,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ExamplesModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="138,-78 138,-130 490,-130 490,-78 138,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ExamplesModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 130,-130 130,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ExamplesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="482.0408,-122 345.9592,-122 345.9592,-86 482.0408,-86 482.0408,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>ExamplesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="294.2577,-187 291.2577,-191 270.2577,-191 267.2577,-187 179.7423,-187 179.7423,-151 294.2577,-151 294.2577,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ExamplesComponent&#45;&gt;ExamplesModule</title>
+<path fill="none" stroke="#000000" d="M414,-122.1061C414,-141.3391 414,-169 414,-169 414,-169 304.4668,-169 304.4668,-169"/>
+<polygon fill="#000000" stroke="#000000" points="304.4669,-165.5001 294.4668,-169 304.4668,-172.5001 304.4669,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>FormsPlaygroundComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="327.6595,-122 146.3405,-122 146.3405,-86 327.6595,-86 327.6595,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FormsPlaygroundComponent&#45;&gt;ExamplesModule</title>
+<path fill="none" stroke="#000000" d="M237,-122.1061C237,-122.1061 237,-140.991 237,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="233.5001,-140.9909 237,-150.991 240.5001,-140.991 233.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;ExamplesModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.1061C73,-141.3391 73,-169 73,-169 73,-169 169.6408,-169 169.6408,-169"/>
+<polygon fill="#000000" stroke="#000000" points="169.6408,-172.5001 179.6408,-169 169.6407,-165.5001 169.6408,-172.5001"/>
+</g>
+</g>
+</svg>

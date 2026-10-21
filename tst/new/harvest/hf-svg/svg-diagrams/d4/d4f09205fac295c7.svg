@@ -1,0 +1,96 @@
+<svg width="775pt" height="211pt"
+ viewBox="0.00 0.00 775.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 771,-207 771,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="149.5,-10 149.5,-30 169.5,-30 169.5,-10 149.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="262.5,-10 262.5,-30 282.5,-30 282.5,-10 262.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="348.5,-10 348.5,-30 368.5,-30 368.5,-10 348.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="445.5,-10 445.5,-30 465.5,-30 465.5,-10 445.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="541.5,-10 541.5,-30 561.5,-30 561.5,-10 541.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_HomePageModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 759,-195 759,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_HomePageModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="657,-78 657,-130 751,-130 751,-78 657,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_HomePageModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 649,-130 649,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>HomePage</title>
+<polygon fill="#ffffb3" stroke="#000000" points="742.9248,-122 665.0752,-122 665.0752,-86 742.9248,-86 742.9248,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>HomePageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="465.4734,-187 462.4734,-191 441.4734,-191 438.4734,-187 344.5266,-187 344.5266,-151 465.4734,-151 465.4734,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>HomePage&#45;&gt;HomePageModule</title>
+<path fill="none" stroke="#000000" d="M704,-122.2843C704,-143.3211 704,-175 704,-175 704,-175 475.5071,-175 475.5071,-175"/>
+<polygon fill="#000000" stroke="#000000" points="475.5071,-171.5001 465.5071,-175 475.5071,-178.5001 475.5071,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CountryPickerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="640.7007,-122 637.7007,-126 616.7007,-126 613.7007,-122 499.2993,-122 499.2993,-86 640.7007,-86 640.7007,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CountryPickerModule&#45;&gt;HomePageModule</title>
+<path fill="none" stroke="#000000" d="M570,-122.0225C570,-139.3734 570,-163 570,-163 570,-163 475.503,-163 475.503,-163"/>
+<polygon fill="#000000" stroke="#000000" points="475.503,-159.5001 465.503,-163 475.503,-166.5001 475.503,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>IngredientPickerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="481.3445,-122 478.3445,-126 457.3445,-126 454.3445,-122 328.6555,-122 328.6555,-86 481.3445,-86 481.3445,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>IngredientPickerModule&#45;&gt;HomePageModule</title>
+<path fill="none" stroke="#000000" d="M405,-122.1061C405,-122.1061 405,-140.991 405,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="401.5001,-140.9909 405,-150.991 408.5001,-140.991 401.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>SimpleServiceModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="310.6965,-122 307.6965,-126 286.6965,-126 283.6965,-122 169.3035,-122 169.3035,-86 310.6965,-86 310.6965,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SimpleServiceModule&#45;&gt;HomePageModule</title>
+<path fill="none" stroke="#000000" d="M240,-122.0225C240,-139.3734 240,-163 240,-163 240,-163 334.497,-163 334.497,-163"/>
+<polygon fill="#000000" stroke="#000000" points="334.497,-166.5001 344.497,-163 334.497,-159.5001 334.497,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>TeamPickerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="151.6853,-122 148.6853,-126 127.6853,-126 124.6853,-122 24.3147,-122 24.3147,-86 151.6853,-86 151.6853,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>TeamPickerModule&#45;&gt;HomePageModule</title>
+<path fill="none" stroke="#000000" d="M88,-122.2843C88,-143.3211 88,-175 88,-175 88,-175 334.2543,-175 334.2543,-175"/>
+<polygon fill="#000000" stroke="#000000" points="334.2543,-178.5001 344.2543,-175 334.2543,-171.5001 334.2543,-178.5001"/>
+</g>
+</g>
+</svg>

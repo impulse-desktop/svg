@@ -1,0 +1,68 @@
+<svg width="697pt" height="211pt"
+ viewBox="0.00 0.00 697.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 693,-207 693,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="110.5,-10 110.5,-30 130.5,-30 130.5,-10 110.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="223.5,-10 223.5,-30 243.5,-30 243.5,-10 223.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="309.5,-10 309.5,-30 329.5,-30 329.5,-10 309.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="406.5,-10 406.5,-30 426.5,-30 426.5,-10 406.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="502.5,-10 502.5,-30 522.5,-30 522.5,-10 502.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppRoutingModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 681,-195 681,-70 8,-70"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppRoutingModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 673,-130 673,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuthGuard</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="611" cy="-104" rx="54.4566" ry="18"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>AppRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="494.2744,-187 491.2744,-191 470.2744,-191 467.2744,-187 365.7256,-187 365.7256,-151 494.2744,-151 494.2744,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuthGuard&#45;&gt;AppRoutingModule</title>
+<path fill="none" stroke="#000000" d="M611,-122.1061C611,-141.3391 611,-169 611,-169 611,-169 504.3235,-169 504.3235,-169"/>
+<polygon fill="#000000" stroke="#000000" points="504.3235,-165.5001 494.3235,-169 504.3234,-172.5001 504.3235,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>WorkflowDetailResolver</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="430" cy="-104" rx="108.7845" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>WorkflowDetailResolver&#45;&gt;AppRoutingModule</title>
+<path fill="none" stroke="#000000" d="M430,-122.1061C430,-122.1061 430,-140.991 430,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="426.5001,-140.9909 430,-150.991 433.5001,-140.991 426.5001,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>WorkflowDetailDeactivateGuard</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="164" cy="-104" rx="139.9638" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>WorkflowDetailDeactivateGuard&#45;&gt;AppRoutingModule</title>
+<path fill="none" stroke="#000000" d="M164,-122.1061C164,-141.3391 164,-169 164,-169 164,-169 355.6088,-169 355.6088,-169"/>
+<polygon fill="#000000" stroke="#000000" points="355.6089,-172.5001 365.6088,-169 355.6088,-165.5001 355.6089,-172.5001"/>
+</g>
+</g>
+</svg>

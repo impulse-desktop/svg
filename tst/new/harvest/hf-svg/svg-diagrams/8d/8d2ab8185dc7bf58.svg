@@ -1,0 +1,219 @@
+<svg width="817pt" height="260pt"
+ viewBox="0.00 0.00 816.50 260.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>optimizer</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-256 812.5,-256 812.5,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>src</title>
+<polygon fill="none" stroke="#000000" points="117,-252 114,-256 93,-256 90,-252 63,-252 63,-216 117,-216 117,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Foo.m</title>
+<polygon fill="none" stroke="#000000" points="54,-180 51,-184 30,-184 27,-180 0,-180 0,-144 54,-144 54,-180"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>src&#45;&gt;Foo.m</title>
+<path fill="none" stroke="#000000" d="M74.1024,-215.8314C66.7722,-207.454 57.934,-197.3531 49.9031,-188.1749"/>
+<polygon fill="#000000" stroke="#000000" points="52.3307,-185.6343 43.1116,-180.4133 47.0627,-190.2438 52.3307,-185.6343"/>
+</g>
+
+<g id="node3" class="node">
+<title>Foo+Bar.m</title>
+<polygon fill="none" stroke="#000000" points="152,-180 149,-184 128,-184 125,-180 72,-180 72,-144 152,-144 152,-180"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>src&#45;&gt;Foo+Bar.m</title>
+<path fill="none" stroke="#000000" d="M95.5515,-215.8314C97.9303,-208.0463 100.7638,-198.7729 103.4033,-190.1347"/>
+<polygon fill="#000000" stroke="#000000" points="106.7987,-190.9996 106.3737,-180.4133 100.1042,-188.954 106.7987,-190.9996"/>
+</g>
+
+<g id="node4" class="node">
+<title>dependencies</title>
+<polygon fill="none" stroke="#000000" points="265.5,-252 262.5,-256 241.5,-256 238.5,-252 176.5,-252 176.5,-216 265.5,-216 265.5,-252"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>include</title>
+<polygon fill="none" stroke="#000000" points="228,-180 225,-184 204,-184 201,-180 172,-180 172,-144 228,-144 228,-180"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>dependencies&#45;&gt;include</title>
+<path fill="none" stroke="#000000" d="M215.7008,-215.8314C213.4302,-208.0463 210.7254,-198.7729 208.206,-190.1347"/>
+<polygon fill="#000000" stroke="#000000" points="211.5306,-189.0332 205.3705,-180.4133 204.8106,-190.9933 211.5306,-189.0332"/>
+</g>
+
+<g id="node8" class="node">
+<title>lib</title>
+<polygon fill="none" stroke="#000000" points="301,-180 298,-184 277,-184 274,-180 247,-180 247,-144 301,-144 301,-180"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>dependencies&#45;&gt;lib</title>
+<path fill="none" stroke="#000000" d="M234.3741,-215.8314C240.4162,-207.6232 247.6763,-197.7606 254.3221,-188.7323"/>
+<polygon fill="#000000" stroke="#000000" points="257.3363,-190.5415 260.4458,-180.4133 251.6989,-186.3918 257.3363,-190.5415"/>
+</g>
+
+<g id="node6" class="node">
+<title>Foo</title>
+<polygon fill="none" stroke="#000000" points="226,-108 223,-112 202,-112 199,-108 172,-108 172,-72 226,-72 226,-108"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>include&#45;&gt;Foo</title>
+<path fill="none" stroke="#000000" d="M199.7477,-143.8314C199.6407,-136.131 199.5135,-126.9743 199.3947,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="202.8944,-118.3637 199.2557,-108.4133 195.8951,-118.4609 202.8944,-118.3637"/>
+</g>
+
+<g id="node7" class="node">
+<title>dependencies.inc</title>
+<polygon fill="none" stroke="#000000" points="248,-36 144,-36 144,0 254,0 254,-30 248,-36"/>
+<polyline fill="none" stroke="#000000" points="248,-36 248,-30 "/>
+<polyline fill="none" stroke="#000000" points="254,-30 248,-30 "/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>Foo&#45;&gt;dependencies.inc</title>
+<path fill="none" stroke="#000000" d="M199,-71.8314C199,-64.131 199,-54.9743 199,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="202.5001,-46.4132 199,-36.4133 195.5001,-46.4133 202.5001,-46.4132"/>
+</g>
+
+<g id="node9" class="node">
+<title>libFoo.a</title>
+<polygon fill="none" stroke="#000000" points="300,-108 244,-108 244,-72 306,-72 306,-102 300,-108"/>
+<polyline fill="none" stroke="#000000" points="300,-108 300,-102 "/>
+<polyline fill="none" stroke="#000000" points="306,-102 300,-102 "/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>lib&#45;&gt;libFoo.a</title>
+<path fill="none" stroke="#000000" d="M274.2523,-143.8314C274.3593,-136.131 274.4865,-126.9743 274.6053,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="278.1049,-118.4609 274.7443,-108.4133 271.1056,-118.3637 278.1049,-118.4609"/>
+</g>
+
+<g id="node10" class="node">
+<title>build</title>
+<polygon fill="none" stroke="#000000" points="682,-252 679,-256 658,-256 655,-252 628,-252 628,-216 682,-216 682,-252"/>
+
+</g>
+
+<g id="node11" class="node">
+<title>Foo.d</title>
+<polygon fill="none" stroke="#000000" points="587,-180 584,-184 563,-184 560,-180 533,-180 533,-144 587,-144 587,-180"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>build&#45;&gt;Foo.d</title>
+<path fill="none" stroke="#000000" d="M631.0275,-215.8314C619.2139,-206.8779 604.8028,-195.9558 592.0565,-186.2955"/>
+<polygon fill="#000000" stroke="#000000" points="594.0486,-183.4137 583.9648,-180.1628 589.8205,-188.9925 594.0486,-183.4137"/>
+</g>
+
+<g id="node17" class="node">
+<title>method_db.csv</title>
+<polygon fill="none" stroke="#000000" points="705,-180 702,-184 681,-184 678,-180 605,-180 605,-144 705,-144 705,-180"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>build&#45;&gt;method_db.csv</title>
+<path fill="none" stroke="#000000" d="M655,-215.8314C655,-208.131 655,-198.9743 655,-190.4166"/>
+<polygon fill="#000000" stroke="#000000" points="658.5001,-190.4132 655,-180.4133 651.5001,-190.4133 658.5001,-190.4132"/>
+</g>
+
+<g id="node18" class="node">
+<title>class_db.csv</title>
+<polygon fill="none" stroke="#000000" points="808.5,-180 805.5,-184 784.5,-184 781.5,-180 723.5,-180 723.5,-144 808.5,-144 808.5,-180"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>build&#45;&gt;class_db.csv</title>
+<path fill="none" stroke="#000000" d="M682.1537,-216.3868C696.3179,-207.1992 713.8493,-195.8275 729.2136,-185.8615"/>
+<polygon fill="#000000" stroke="#000000" points="731.4827,-188.5615 737.9676,-180.1832 727.6733,-182.6888 731.4827,-188.5615"/>
+</g>
+
+<g id="node12" class="node">
+<title>dependencies.db</title>
+<polygon fill="none" stroke="#000000" points="425.5,-108 324.5,-108 324.5,-72 431.5,-72 431.5,-102 425.5,-108"/>
+<polyline fill="none" stroke="#000000" points="425.5,-108 425.5,-102 "/>
+<polyline fill="none" stroke="#000000" points="431.5,-102 425.5,-102 "/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>Foo.d&#45;&gt;dependencies.db</title>
+<path fill="none" stroke="#000000" d="M532.7528,-151.2209C506.5789,-140.8664 466.2643,-124.9178 433.3445,-111.8945"/>
+<polygon fill="#000000" stroke="#000000" points="434.419,-108.5557 423.8326,-108.1316 431.8439,-115.0649 434.419,-108.5557"/>
+</g>
+
+<g id="node13" class="node">
+<title>Foo.o</title>
+<polygon fill="none" stroke="#000000" points="498,-108 450,-108 450,-72 504,-72 504,-102 498,-108"/>
+<polyline fill="none" stroke="#000000" points="498,-108 498,-102 "/>
+<polyline fill="none" stroke="#000000" points="504,-102 498,-102 "/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>Foo.d&#45;&gt;Foo.o</title>
+<path fill="none" stroke="#000000" d="M539.0556,-143.8314C528.9309,-135.0485 516.6223,-124.3712 505.6452,-114.8489"/>
+<polygon fill="#000000" stroke="#000000" points="507.7851,-112.0718 497.9377,-108.1628 503.1981,-117.3595 507.7851,-112.0718"/>
+</g>
+
+<g id="node14" class="node">
+<title>Foo+Bar.o</title>
+<polygon fill="none" stroke="#000000" points="592,-108 522,-108 522,-72 598,-72 598,-102 592,-108"/>
+<polyline fill="none" stroke="#000000" points="592,-108 592,-102 "/>
+<polyline fill="none" stroke="#000000" points="598,-102 592,-102 "/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>Foo.d&#45;&gt;Foo+Bar.o</title>
+<path fill="none" stroke="#000000" d="M560,-143.8314C560,-136.131 560,-126.9743 560,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="563.5001,-118.4132 560,-108.4133 556.5001,-118.4133 563.5001,-118.4132"/>
+</g>
+
+<g id="node15" class="node">
+<title>class.db</title>
+<polygon fill="none" stroke="#000000" points="670,-108 616,-108 616,-72 676,-72 676,-102 670,-108"/>
+<polyline fill="none" stroke="#000000" points="670,-108 670,-102 "/>
+<polyline fill="none" stroke="#000000" points="676,-102 670,-102 "/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>Foo.d&#45;&gt;class.db</title>
+<path fill="none" stroke="#000000" d="M581.7014,-143.8314C592.1921,-135.0485 604.9455,-124.3712 616.3194,-114.8489"/>
+<polygon fill="#000000" stroke="#000000" points="618.8847,-117.2659 624.3055,-108.1628 614.3911,-111.8986 618.8847,-117.2659"/>
+</g>
+
+<g id="node16" class="node">
+<title>method.db</title>
+<polygon fill="none" stroke="#000000" points="763.5,-108 694.5,-108 694.5,-72 769.5,-72 769.5,-102 763.5,-108"/>
+<polyline fill="none" stroke="#000000" points="763.5,-108 763.5,-102 "/>
+<polyline fill="none" stroke="#000000" points="769.5,-102 763.5,-102 "/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>Foo.d&#45;&gt;method.db</title>
+<path fill="none" stroke="#000000" d="M587.0078,-148.1854C590.0242,-146.7354 593.0661,-145.3131 596,-144 612.4616,-136.6327 652.4982,-120.8267 684.8953,-108.2088"/>
+<polygon fill="#000000" stroke="#000000" points="686.1844,-111.4629 694.236,-104.5766 683.6473,-104.9388 686.1844,-111.4629"/>
+</g>
+</g>
+</svg>

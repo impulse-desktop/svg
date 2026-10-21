@@ -1,0 +1,112 @@
+<svg width="1028pt" height="188pt"
+ viewBox="0.00 0.00 1027.50 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-184 1023.5,-184 1023.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>visions_bool</title>
+<polygon fill="none" stroke="red" points="89,-108 0,-108 0,-72 89,-72 89,-108"/>
+
+</g>
+
+<g id="node2" class="node"><title>visions_geometry</title>
+<polygon fill="none" stroke="red" points="907,-36 792,-36 792,-0 907,-0 907,-36"/>
+
+</g>
+
+<g id="node3" class="node"><title>visions_generic</title>
+<polygon fill="none" stroke="red" points="532,-180 429,-180 429,-144 532,-144 532,-180"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>visions_generic&#45;&gt;visions_bool</title>
+<path fill="none" stroke="black" d="M428.726,-156.586C356.765,-149.842 222.418,-135.055 99.1232,-107.915"/>
+<polygon fill="black" stroke="black" points="99.6546,-104.448 89.132,-105.683 98.1283,-111.279 99.6546,-104.448"/>
+</g>
+
+<g id="node4" class="node"><title>visions_complex</title>
+<polygon fill="none" stroke="red" points="218,-108 107,-108 107,-72 218,-72 218,-108"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>visions_generic&#45;&gt;visions_complex</title>
+<path fill="none" stroke="black" d="M428.972,-150.98C379.933,-141.269 303.844,-125.752 228.295,-108.127"/>
+<polygon fill="black" stroke="black" points="228.659,-104.618 218.124,-105.741 227.06,-111.433 228.659,-104.618"/>
+</g>
+
+<g id="node5" class="node"><title>visions_datetime</title>
+<polygon fill="none" stroke="red" points="346.5,-108 236.5,-108 236.5,-72 346.5,-72 346.5,-108"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>visions_generic&#45;&gt;visions_datetime</title>
+<path fill="none" stroke="black" d="M434.265,-143.876C407.969,-134.137 374.856,-121.872 347.142,-111.608"/>
+<polygon fill="black" stroke="black" points="348.178,-108.259 337.584,-108.068 345.746,-114.824 348.178,-108.259"/>
+</g>
+
+<g id="node7" class="node"><title>visions_timedelta</title>
+<polygon fill="none" stroke="red" points="478,-108 365,-108 365,-72 478,-72 478,-108"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>visions_generic&#45;&gt;visions_timedelta</title>
+<path fill="none" stroke="black" d="M465.916,-143.697C458.842,-135.305 450.217,-125.07 442.455,-115.861"/>
+<polygon fill="black" stroke="black" points="445.037,-113.495 435.917,-108.104 439.685,-118.006 445.037,-113.495"/>
+</g>
+
+<g id="node8" class="node"><title>visions_float</title>
+<polygon fill="none" stroke="red" points="584.5,-108 496.5,-108 496.5,-72 584.5,-72 584.5,-108"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>visions_generic&#45;&gt;visions_float</title>
+<path fill="none" stroke="black" d="M495.331,-143.697C502.525,-135.305 511.297,-125.07 519.19,-115.861"/>
+<polygon fill="black" stroke="black" points="521.989,-117.975 525.839,-108.104 516.674,-113.419 521.989,-117.975"/>
+</g>
+
+<g id="node9" class="node"><title>visions_integer</title>
+<polygon fill="none" stroke="red" points="702.5,-108 602.5,-108 602.5,-72 702.5,-72 702.5,-108"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>visions_generic&#45;&gt;visions_integer</title>
+<path fill="none" stroke="black" d="M522.576,-143.876C546.298,-134.222 576.116,-122.087 601.201,-111.878"/>
+<polygon fill="black" stroke="black" points="602.618,-115.08 610.561,-108.068 599.979,-108.596 602.618,-115.08"/>
+</g>
+
+<g id="node10" class="node"><title>visions_categorical</title>
+<polygon fill="none" stroke="red" points="844,-108 721,-108 721,-72 844,-72 844,-108"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>visions_generic&#45;&gt;visions_categorical</title>
+<path fill="none" stroke="black" d="M532.368,-149.247C577.011,-139.098 643.423,-123.921 710.964,-108.115"/>
+<polygon fill="black" stroke="black" points="711.997,-111.468 720.935,-105.779 710.4,-104.652 711.997,-111.468"/>
+</g>
+
+<g id="node11" class="node"><title>visions_object</title>
+<polygon fill="none" stroke="red" points="960.5,-108 862.5,-108 862.5,-72 960.5,-72 960.5,-108"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>visions_generic&#45;&gt;visions_object</title>
+<path fill="none" stroke="black" d="M532.2,-156.033C602.612,-148.745 732.669,-133.425 852.208,-108.114"/>
+<polygon fill="black" stroke="black" points="853.22,-111.476 862.263,-105.956 851.751,-104.632 853.22,-111.476"/>
+</g>
+
+<g id="node6" class="node"><title>visions_string</title>
+<polygon fill="none" stroke="red" points="1019.5,-36 925.5,-36 925.5,-0 1019.5,-0 1019.5,-36"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>visions_object&#45;&gt;visions_geometry</title>
+<path fill="none" stroke="black" d="M896.174,-71.6966C888.741,-63.3046 879.677,-53.0705 871.52,-43.8613"/>
+<polygon fill="black" stroke="black" points="873.9,-41.2696 864.65,-36.1043 868.66,-45.9109 873.9,-41.2696"/>
+</g>
+
+<g id="edge10" class="edge"><title>visions_object&#45;&gt;visions_string</title>
+<path fill="none" stroke="black" d="M926.579,-71.6966C933.892,-63.3046 942.81,-53.0705 950.835,-43.8613"/>
+<polygon fill="black" stroke="black" points="953.664,-45.9429 957.595,-36.1043 948.386,-41.344 953.664,-45.9429"/>
+</g>
+</g>
+</svg>

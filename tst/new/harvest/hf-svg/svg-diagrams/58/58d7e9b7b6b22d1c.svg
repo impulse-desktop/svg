@@ -1,0 +1,105 @@
+<svg width="614pt" height="85pt"
+ viewBox="0.00 0.00 614.00 85.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 81)">
+<title>coap_delete_all</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-81 610,-81 610,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node161</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-38.5 0,-57.5 84,-57.5 84,-38.5 0,-38.5"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>Node161&#45;&gt;Node161</title>
+<path fill="none" stroke="midnightblue" d="M22.888,-57.7571C13.5903,-66.5653 19.9609,-76 42,-76 56.1188,-76 63.8072,-72.128 65.0654,-67.0292"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="68.2537,-65.5831 61.112,-57.7571 61.8146,-68.3286 68.2537,-65.5831"/>
+</g>
+
+<g id="node2" class="node"><title>Node162</title>
+<g id="a_node2"><a xlink:href="net_8c.html#a44c39a2314035989d3e07b9d9328e08c" target="_top" xlink:title="Destroys specified node. ">
+<polygon fill="white" stroke="black" points="120,-38.5 120,-57.5 215,-57.5 215,-38.5 120,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node161&#45;&gt;Node162</title>
+<path fill="none" stroke="midnightblue" d="M84.1237,-48C92.2051,-48 100.819,-48 109.317,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="109.582,-51.5001 119.582,-48 109.582,-44.5001 109.582,-51.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node163</title>
+<g id="a_node3"><a xlink:href="pdu_8c.html#a48581f968a30ef4278702eb1c16b7a90" target="_top" xlink:title="coap_delete_pdu">
+<polygon fill="white" stroke="black" points="251,-57.5 251,-76.5 341,-76.5 341,-57.5 251,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node162&#45;&gt;Node163</title>
+<path fill="none" stroke="midnightblue" d="M215.245,-55.0209C223.642,-56.2822 232.457,-57.6061 241.038,-58.895"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="240.557,-62.362 250.966,-60.3862 241.597,-55.4396 240.557,-62.362"/>
+</g>
+
+<g id="node5" class="node"><title>Node165</title>
+<g id="a_node5"><a xlink:href="net_8c.html#af126b3b1cc4dc6472de3cc7636193859" target="_top" xlink:title="coap_free_node">
+<polygon fill="white" stroke="black" points="253,-19.5 253,-38.5 339,-38.5 339,-19.5 253,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node162&#45;&gt;Node165</title>
+<path fill="none" stroke="midnightblue" d="M215.245,-40.9791C224.142,-39.6427 233.509,-38.2359 242.569,-36.8749"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="243.259,-40.3107 252.629,-35.3641 242.22,-33.3883 243.259,-40.3107"/>
+</g>
+
+<g id="node4" class="node"><title>Node164</title>
+<g id="a_node4"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type(). ">
+<polygon fill="white" stroke="black" points="384.5,-57.5 384.5,-76.5 467.5,-76.5 467.5,-57.5 384.5,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node163&#45;&gt;Node164</title>
+<path fill="none" stroke="midnightblue" d="M341.05,-67C351.682,-67 363.13,-67 374.048,-67"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="374.31,-70.5001 384.31,-67 374.31,-63.5001 374.31,-70.5001"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node165&#45;&gt;Node164</title>
+<path fill="none" stroke="midnightblue" d="M329.3,-38.589C345.52,-43.4044 365.375,-49.2988 382.787,-54.468"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="382.128,-57.9233 392.711,-57.4141 384.12,-51.2127 382.128,-57.9233"/>
+</g>
+
+<g id="node6" class="node"><title>Node166</title>
+<g id="a_node6"><a xlink:href="net_8c.html#af79743c319ebdd944ce16395385e9896" target="_top" xlink:title="coap_malloc_node">
+<polygon fill="white" stroke="black" points="377,-19.5 377,-38.5 475,-38.5 475,-19.5 377,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node165&#45;&gt;Node166</title>
+<path fill="none" stroke="midnightblue" d="M339.267,-29C347.944,-29 357.225,-29 366.36,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="366.572,-32.5001 376.572,-29 366.572,-25.5001 366.572,-32.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node167</title>
+<g id="a_node7"><a xlink:href="mem_8h.html#a0204710ce56cbaa4f062b7f2622857f5" target="_top" xlink:title="Allocates a chunk of size bytes and returns a pointer to the newly allocated memory. ">
+<polygon fill="white" stroke="black" points="511,-0.5 511,-19.5 606,-19.5 606,-0.5 511,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node165&#45;&gt;Node167</title>
+<path fill="none" stroke="midnightblue" d="M329.388,-19.4934C343.823,-15.729 361.12,-11.8598 377,-10 418.217,-5.17263 465.092,-5.33962 500.742,-6.62562"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="500.823,-10.1316 510.955,-7.03544 501.103,-3.13721 500.823,-10.1316"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node166&#45;&gt;Node167</title>
+<path fill="none" stroke="midnightblue" d="M475.223,-21.9791C483.572,-20.7634 492.322,-19.4895 500.871,-18.2449"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="501.387,-21.7067 510.778,-16.8024 500.378,-14.7798 501.387,-21.7067"/>
+</g>
+</g>
+</svg>

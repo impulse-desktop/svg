@@ -1,0 +1,153 @@
+<svg width="1108pt" height="466pt"
+ viewBox="0.00 0.00 1108.00 466.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 462)">
+<title>buckets</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-462 1104,-462 1104,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_0</title>
+<polygon fill="none" stroke="black" points="8,-341 8,-450 308,-450 308,-341 8,-341"/>
+
+</g>
+<g id="clust2" class="cluster"><title>cluster_1</title>
+<polygon fill="none" stroke="black" points="201,-224 201,-333 556,-333 556,-224 201,-224"/>
+
+</g>
+<g id="clust3" class="cluster"><title>cluster_4</title>
+<polygon fill="none" stroke="black" points="578,-8 578,-247 1092,-247 1092,-8 578,-8"/>
+
+</g>
+
+<g id="node1" class="node"><title>b1</title>
+<polygon fill="none" stroke="black" points="16.5,-349 16.5,-395 157.5,-395 157.5,-349 16.5,-349"/>
+
+<polyline fill="none" stroke="black" points="16.5,-372 157.5,-372 "/>
+
+<polyline fill="none" stroke="black" points="96.5,-349 96.5,-372 "/>
+
+</g>
+
+<g id="node2" class="node"><title>b2</title>
+<polygon fill="none" stroke="black" points="198.5,-349.5 198.5,-418.5 299.5,-418.5 299.5,-349.5 198.5,-349.5"/>
+
+<polyline fill="none" stroke="black" points="198.5,-395.5 299.5,-395.5 "/>
+
+<polyline fill="none" stroke="black" points="198.5,-372.5 299.5,-372.5 "/>
+
+</g>
+
+<g id="edge1" class="edge"><title>b1:path1&#45;&gt;b2:path2</title>
+<path fill="none" stroke="black" d="M158,-360C174.683,-360 176.993,-375.541 188.062,-381.611"/>
+<polygon fill="black" stroke="black" points="187.459,-385.066 198,-384 189.095,-378.26 187.459,-385.066"/>
+</g>
+
+<g id="node3" class="node"><title>b1a</title>
+<polygon fill="none" stroke="black" points="209,-255 209,-301 289,-301 289,-255 209,-255"/>
+
+<polyline fill="none" stroke="black" points="209,-278 289,-278 "/>
+
+</g>
+
+<g id="edge2" class="edge"><title>b1:pre_path&#45;&gt;b1a:pre_path</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M56,-348C56,-274.689 124.633,-266.615 197.671,-266.038"/>
+<polygon fill="black" stroke="black" points="198.013,-269.537 208,-266 197.987,-262.537 198.013,-269.537"/>
+
+</g>
+
+<g id="node5" class="node"><title>b1b</title>
+<polygon fill="none" stroke="black" points="338,-232 338,-278 408,-278 408,-232 338,-232"/>
+
+<polyline fill="none" stroke="black" points="338,-255 408,-255 "/>
+
+</g>
+
+<g id="edge6" class="edge"><title>b1:path1&#45;&gt;b1b:path1</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M127,-348C127,-292.4 145.771,-264.065 198,-245 253.145,-224.87 273.458,-240.94 327.824,-242.825"/>
+<polygon fill="black" stroke="black" points="327.941,-246.327 338,-243 328.062,-239.328 327.941,-246.327"/>
+</g>
+
+<g id="node4" class="node"><title>b22</title>
+<polygon fill="none" stroke="black" points="446.5,-232.5 446.5,-301.5 547.5,-301.5 547.5,-232.5 446.5,-232.5"/>
+
+<polyline fill="none" stroke="black" points="446.5,-278.5 547.5,-278.5 "/>
+
+<polyline fill="none" stroke="black" points="446.5,-255.5 547.5,-255.5 "/>
+
+</g>
+
+<g id="edge3" class="edge"><title>b2:post_path&#45;&gt;b22:post_path</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M301,-361C358.82,-361 364.762,-325.388 408,-287 423.943,-272.845 421.963,-252.307 435.783,-245.949"/>
+<polygon fill="black" stroke="black" points="436.833,-249.312 446,-244 435.521,-242.436 436.833,-249.312"/>
+</g>
+
+<g id="edge4" class="edge"><title>b1a:pre_path&#45;&gt;b1b:path1</title>
+<path fill="none" stroke="black" d="M290,-266C309.775,-266 313.5,-249.928 328.009,-244.654"/>
+<polygon fill="black" stroke="black" points="328.706,-248.086 338,-243 327.563,-241.18 328.706,-248.086"/>
+</g>
+
+<g id="node7" class="node"><title>decoupled2</title>
+<polygon fill="none" stroke="black" points="601.5,-169 601.5,-215 722.5,-215 722.5,-169 601.5,-169"/>
+
+<polyline fill="none" stroke="black" points="601.5,-192 722.5,-192 "/>
+
+</g>
+
+<g id="edge8" class="edge"><title>b22:path2&#45;&gt;decoupled2:path</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M549,-267C589.794,-267 561.449,-194.931 589.819,-181.981"/>
+<polygon fill="black" stroke="black" points="590.852,-185.345 600,-180 589.516,-178.474 590.852,-185.345"/>
+</g>
+
+<g id="node10" class="node"><title>second_split</title>
+<polygon fill="none" stroke="black" points="990,-161 990,-207 1084,-207 1084,-161 990,-161"/>
+
+<polyline fill="none" stroke="black" points="990,-184 1084,-184 "/>
+
+</g>
+
+<g id="edge10" class="edge"><title>b22:post_path&#45;&gt;second_split:junk</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M549,-244C729.596,-244 780.372,-248.201 952,-192 966.312,-187.313 969.814,-177.57 980.032,-173.669"/>
+<polygon fill="black" stroke="black" points="980.715,-177.103 990,-172 979.559,-170.199 980.715,-177.103"/>
+</g>
+
+<g id="edge5" class="edge"><title>b1b:path1&#45;&gt;b22:post_path</title>
+<path fill="none" stroke="black" d="M408,-243C420.935,-243 426.435,-243.586 435.885,-243.861"/>
+<polygon fill="black" stroke="black" points="435.953,-247.362 446,-244 436.049,-240.363 435.953,-247.362"/>
+</g>
+
+<g id="node6" class="node"><title>decoupled1</title>
+<polygon fill="none" stroke="black" points="601,-104 601,-150 723,-150 723,-104 601,-104"/>
+
+<polyline fill="none" stroke="black" points="601,-127 723,-127 "/>
+
+</g>
+
+<g id="edge7" class="edge"><title>b1b:path1&#45;&gt;decoupled1:path</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M408,-243C431.286,-243 549.495,-137.421 590.208,-118.038"/>
+<polygon fill="black" stroke="black" points="591.486,-121.306 600,-115 589.412,-114.62 591.486,-121.306"/>
+</g>
+
+<g id="node8" class="node"><title>sent2</title>
+<polygon fill="none" stroke="black" points="586,-16.5 586,-85.5 738,-85.5 738,-16.5 586,-16.5"/>
+
+<polyline fill="none" stroke="black" points="586,-62.5 738,-62.5 "/>
+
+<polyline fill="none" stroke="black" points="586,-39.5 738,-39.5 "/>
+
+</g>
+
+<g id="node9" class="node"><title>new_data</title>
+<polygon fill="none" stroke="black" points="776.5,-137 776.5,-183 951.5,-183 951.5,-137 776.5,-137"/>
+
+<polyline fill="none" stroke="black" points="776.5,-160 951.5,-160 "/>
+
+</g>
+
+<g id="edge9" class="edge"><title>sent2:junk&#45;&gt;new_data:path</title>
+<path fill="none" stroke="black" d="M738,-51C780.322,-51 738.338,-132.044 766.17,-145.974"/>
+<polygon fill="black" stroke="black" points="765.499,-149.409 776,-148 766.912,-142.553 765.499,-149.409"/>
+</g>
+
+<g id="edge11" class="edge"><title>new_data:path&#45;&gt;second_split:junk</title>
+<path fill="none" stroke="black" d="M952,-148C967.918,-148 969.912,-163.24 980.174,-169.432"/>
+<polygon fill="black" stroke="black" points="979.44,-172.857 990,-172 981.21,-166.085 979.44,-172.857"/>
+</g>
+</g>
+</svg>

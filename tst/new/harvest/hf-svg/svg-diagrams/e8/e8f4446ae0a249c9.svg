@@ -1,0 +1,135 @@
+<svg width="735pt" height="127pt"
+ viewBox="0.00 0.00 735.00 126.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 122.5)">
+<title>Widget::actualPropagateEvent</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-122.5 731,-122.5 731,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node23</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-63.5 0,-82.5 149,-82.5 149,-63.5 0,-63.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node24</title>
+<g id="a_node2"><a xlink:href="class_widget.html#a1d36bcdc5a64ead5403be88654a5559f" target="_top" xlink:title="Widget::getWindow">
+<polygon fill="#ffffff" stroke="#000000" points="195,-82.5 195,-101.5 297,-101.5 297,-82.5 195,-82.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node23&#45;&gt;Node24</title>
+<path fill="none" stroke="#191970" d="M159.4011,-82.406C171.5491,-83.7518 183.7199,-85.1002 194.938,-86.343"/>
+<polygon fill="#191970" stroke="#191970" points="159.5481,-78.9009 149.2235,-81.2784 158.7773,-85.8583 159.5481,-78.9009"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node25</title>
+<g id="a_node3"><a xlink:href="class_widget.html#aa36c39c4ce428813dcbb13060b5d8ab0" target="_top" xlink:title="Widget::propagateEvent">
+<polygon fill="#ffffff" stroke="#000000" points="185,-44.5 185,-63.5 307,-63.5 307,-44.5 185,-44.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node23&#45;&gt;Node25</title>
+<path fill="none" stroke="#191970" d="M159.3244,-63.6025C167.9515,-62.6468 176.5912,-61.6896 184.894,-60.7698"/>
+<polygon fill="#191970" stroke="#191970" points="158.7773,-60.1417 149.2235,-64.7216 159.5481,-67.0991 158.7773,-60.1417"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node26</title>
+<g id="a_node4"><a xlink:href="class_grid_widget.html#a9c57f1ca2311d3caa936a481fa7fbef0" target="_top" xlink:title="GridWidget::actualPropagate\lEvent">
+<polygon fill="#ffffff" stroke="#000000" points="349,-88 349,-118 491,-118 491,-88 349,-88"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node25&#45;&gt;Node26</title>
+<path fill="none" stroke="#191970" d="M289.5978,-66.2776C312.9498,-72.8537 341.9103,-81.0092 366.6034,-87.963"/>
+<polygon fill="#191970" stroke="#191970" points="290.5364,-62.9058 279.962,-63.564 288.6389,-69.6437 290.5364,-62.9058"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node28</title>
+<g id="a_node6"><a xlink:href="class_list_widget.html#a91b56e252a550deda1d97a2992e3a9f7" target="_top" xlink:title="ListWidget::actualPropagate\lEvent">
+<polygon fill="#ffffff" stroke="#000000" points="350,-39 350,-69 490,-69 490,-39 350,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node25&#45;&gt;Node28</title>
+<path fill="none" stroke="#191970" d="M317.4405,-54C328.0949,-54 339.0712,-54 349.7017,-54"/>
+<polygon fill="#191970" stroke="#191970" points="317.3459,-50.5001 307.3459,-54 317.3459,-57.5001 317.3459,-50.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node29</title>
+<g id="a_node7"><a xlink:href="class_window_widget.html#a541a8f556d865da798786e2601cf031e" target="_top" xlink:title="WindowWidget::manageEvents">
+<polygon fill="#ffffff" stroke="#000000" points="343,-.5 343,-19.5 497,-19.5 497,-.5 343,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node25&#45;&gt;Node29</title>
+<path fill="none" stroke="#191970" d="M292.9456,-41.7965C308.8307,-37.6949 326.6777,-33.1171 343,-29 355.2828,-25.9018 368.6819,-22.5766 380.8087,-19.5877"/>
+<polygon fill="#191970" stroke="#191970" points="291.6312,-38.5212 282.8259,-44.4134 293.3837,-45.2983 291.6312,-38.5212"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node27</title>
+<g id="a_node5"><a xlink:href="class_grid_widget.html#abfc54e477706b66bd09f6f3c459fcfa4" target="_top" xlink:title="GridWidget::GridWidget">
+<polygon fill="#ffffff" stroke="#000000" points="533,-93.5 533,-112.5 653,-112.5 653,-93.5 533,-93.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node26&#45;&gt;Node27</title>
+<path fill="none" stroke="#191970" d="M501.4454,-103C512.0137,-103 522.683,-103 532.8193,-103"/>
+<polygon fill="#191970" stroke="#191970" points="501.3646,-99.5001 491.3645,-103 501.3645,-106.5001 501.3646,-99.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node30</title>
+<g id="a_node8"><a xlink:href="class_application.html#a81d5b51e54511185c84ee300e752a85f" target="_top" xlink:title="Lance l&#39;application. ">
+<polygon fill="#ffffff" stroke="#000000" points="540.5,-.5 540.5,-19.5 645.5,-19.5 645.5,-.5 540.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node29&#45;&gt;Node30</title>
+<path fill="none" stroke="#191970" d="M507.4408,-10C518.6746,-10 529.8873,-10 540.3207,-10"/>
+<polygon fill="#191970" stroke="#191970" points="507.1399,-6.5001 497.1399,-10 507.1398,-13.5001 507.1399,-6.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node31</title>
+<g id="a_node9"><a xlink:href="main_8cpp.html#adc4096c0dfd003425c219daa30db4e1e" target="_top" xlink:title="main">
+<polygon fill="#ffffff" stroke="#000000" points="689,-.5 689,-19.5 727,-19.5 727,-.5 689,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node30&#45;&gt;Node31</title>
+<path fill="none" stroke="#191970" d="M655.8811,-10C667.8639,-10 679.5322,-10 688.7799,-10"/>
+<polygon fill="#191970" stroke="#191970" points="655.7879,-6.5001 645.7879,-10 655.7879,-13.5001 655.7879,-6.5001"/>
+</g>
+</g>
+</svg>

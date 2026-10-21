@@ -1,0 +1,142 @@
+<svg width="836pt" height="169pt"
+ viewBox="0.00 0.00 836.00 169.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 165)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-165 832,-165 832,4 -4,4"/>
+
+<g id="node1" class="node"><title>n0</title>
+<polygon fill="lightgrey" stroke="black" points="0,-81.5 0,-127.5 54,-127.5 54,-81.5 0,-81.5"/>
+
+<polyline fill="none" stroke="black" points="0,-104.5 54,-104.5 "/>
+
+</g>
+
+<g id="node2" class="node"><title>n2</title>
+<path fill="none" stroke="black" d="M102,-49.5C102,-49.5 142,-49.5 142,-49.5 148,-49.5 154,-55.5 154,-61.5 154,-61.5 154,-83.5 154,-83.5 154,-89.5 148,-95.5 142,-95.5 142,-95.5 102,-95.5 102,-95.5 96,-95.5 90,-89.5 90,-83.5 90,-83.5 90,-61.5 90,-61.5 90,-55.5 96,-49.5 102,-49.5"/>
+
+<polyline fill="none" stroke="black" points="128,-72.5 128,-95.5 "/>
+
+<polyline fill="none" stroke="black" points="90,-72.5 154,-72.5 "/>
+
+</g>
+
+<g id="edge1" class="edge"><title>n0:1&#45;&gt;n2</title>
+<path fill="none" stroke="black" d="M54,-92.5C62.6377,-92.5 71.65,-90.9548 80.1613,-88.7235"/>
+<polygon fill="black" stroke="black" points="81.2803,-92.0423 89.8701,-85.8403 79.2875,-85.3319 81.2803,-92.0423"/>
+</g>
+
+<g id="node9" class="node"><title>n1</title>
+<path fill="none" stroke="black" d="M102,-114.5C102,-114.5 142,-114.5 142,-114.5 148,-114.5 154,-120.5 154,-126.5 154,-126.5 154,-148.5 154,-148.5 154,-154.5 148,-160.5 142,-160.5 142,-160.5 102,-160.5 102,-160.5 96,-160.5 90,-154.5 90,-148.5 90,-148.5 90,-126.5 90,-126.5 90,-120.5 96,-114.5 102,-114.5"/>
+
+<polyline fill="none" stroke="black" points="128,-137.5 128,-160.5 "/>
+
+<polyline fill="none" stroke="black" points="90,-137.5 154,-137.5 "/>
+
+</g>
+
+<g id="edge8" class="edge"><title>n0:0&#45;&gt;n1</title>
+<path fill="none" stroke="black" d="M54,-116.5C62.6739,-116.5 71.7022,-118.122 80.2178,-120.465"/>
+<polygon fill="black" stroke="black" points="79.3383,-123.857 89.9269,-123.493 81.4221,-117.175 79.3383,-123.857"/>
+</g>
+
+<g id="node3" class="node"><title>n4</title>
+<path fill="none" stroke="black" d="M202,-37.5C202,-37.5 260,-37.5 260,-37.5 266,-37.5 272,-43.5 272,-49.5 272,-49.5 272,-71.5 272,-71.5 272,-77.5 266,-83.5 260,-83.5 260,-83.5 202,-83.5 202,-83.5 196,-83.5 190,-77.5 190,-71.5 190,-71.5 190,-49.5 190,-49.5 190,-43.5 196,-37.5 202,-37.5"/>
+
+<polyline fill="none" stroke="black" points="249,-60.5 249,-83.5 "/>
+
+<polyline fill="none" stroke="black" points="190,-60.5 272,-60.5 "/>
+
+</g>
+
+<g id="edge2" class="edge"><title>n2:message&#45;&gt;n4</title>
+<path fill="none" stroke="black" d="M154,-60.5C162.255,-60.5 171.014,-60.5 179.538,-60.5"/>
+<polygon fill="black" stroke="black" points="179.769,-64.0001 189.769,-60.5 179.769,-57.0001 179.769,-64.0001"/>
+</g>
+
+<g id="node4" class="node"><title>n6</title>
+<path fill="none" stroke="black" d="M320,-25.5C320,-25.5 376,-25.5 376,-25.5 382,-25.5 388,-31.5 388,-37.5 388,-37.5 388,-59.5 388,-59.5 388,-65.5 382,-71.5 376,-71.5 376,-71.5 320,-71.5 320,-71.5 314,-71.5 308,-65.5 308,-59.5 308,-59.5 308,-37.5 308,-37.5 308,-31.5 314,-25.5 320,-25.5"/>
+
+<polyline fill="none" stroke="black" points="308,-48.5 388,-48.5 "/>
+
+</g>
+
+<g id="edge3" class="edge"><title>n4:take&#45;&gt;n6</title>
+<path fill="none" stroke="black" d="M272,-48.5C280.239,-48.5 288.987,-48.5 297.488,-48.5"/>
+<polygon fill="black" stroke="black" points="297.686,-52.0001 307.686,-48.5 297.686,-45.0001 297.686,-52.0001"/>
+</g>
+
+<g id="node5" class="node"><title>n8</title>
+<polygon fill="lightgrey" stroke="black" points="461,-0.5 461,-36.5 515,-36.5 515,-0.5 461,-0.5"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>n6:diagnostics&#45;&gt;n8</title>
+<path fill="none" stroke="black" d="M388,-36.5C409.078,-36.5 432.279,-32.5015 450.919,-28.2737"/>
+<polygon fill="black" stroke="black" points="451.848,-31.6503 460.763,-25.9252 450.224,-24.8413 451.848,-31.6503"/>
+</g>
+
+<g id="node6" class="node"><title>n7</title>
+<path fill="none" stroke="black" d="M436,-55.5C436,-55.5 540,-55.5 540,-55.5 546,-55.5 552,-61.5 552,-67.5 552,-67.5 552,-89.5 552,-89.5 552,-95.5 546,-101.5 540,-101.5 540,-101.5 436,-101.5 436,-101.5 430,-101.5 424,-95.5 424,-89.5 424,-89.5 424,-67.5 424,-67.5 424,-61.5 430,-55.5 436,-55.5"/>
+
+<polyline fill="none" stroke="black" points="424,-78.5 552,-78.5 "/>
+
+<polyline fill="none" stroke="black" points="510,-55.5 510,-78.5 "/>
+
+</g>
+
+<g id="edge5" class="edge"><title>n6:emit&#45;&gt;n7</title>
+<path fill="none" stroke="black" d="M388,-60.5C396.413,-60.5 405.163,-61.1369 413.827,-62.1712"/>
+<polygon fill="black" stroke="black" points="413.551,-65.6659 423.933,-63.5535 414.499,-58.7304 413.551,-65.6659"/>
+</g>
+
+<g id="node7" class="node"><title>n9</title>
+<polygon fill="lightgrey" stroke="black" points="588,-72.5 588,-108.5 642,-108.5 642,-72.5 588,-72.5"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>n7:outputFiles&#45;&gt;n9</title>
+<path fill="none" stroke="black" d="M552,-90.5C560.25,-90.5 569.116,-90.5 577.492,-90.5"/>
+<polygon fill="black" stroke="black" points="577.754,-94.0001 587.754,-90.5 577.754,-87.0001 577.754,-94.0001"/>
+</g>
+
+<g id="node8" class="node"><title>n11</title>
+<path fill="none" stroke="black" d="M690,-67.5C690,-67.5 816,-67.5 816,-67.5 822,-67.5 828,-73.5 828,-79.5 828,-79.5 828,-101.5 828,-101.5 828,-107.5 822,-113.5 816,-113.5 816,-113.5 690,-113.5 690,-113.5 684,-113.5 678,-107.5 678,-101.5 678,-101.5 678,-79.5 678,-79.5 678,-73.5 684,-67.5 690,-67.5"/>
+
+<polyline fill="none" stroke="black" points="724,-90.5 724,-113.5 "/>
+
+<polyline fill="none" stroke="black" points="678,-90.5 828,-90.5 "/>
+
+<polyline fill="none" stroke="black" points="725,-67.5 725,-90.5 "/>
+
+</g>
+
+<g id="edge7" class="edge"><title>n9:0&#45;&gt;n11</title>
+<path fill="none" stroke="black" d="M642.067,-90.5C649.741,-90.5 658.526,-90.5 667.711,-90.5"/>
+<polygon fill="black" stroke="black" points="667.802,-94.0001 677.802,-90.5 667.802,-87.0001 667.802,-94.0001"/>
+</g>
+
+<g id="node10" class="node"><title>n14</title>
+<path fill="none" stroke="black" d="M202,-102.5C202,-102.5 260,-102.5 260,-102.5 266,-102.5 272,-108.5 272,-114.5 272,-114.5 272,-136.5 272,-136.5 272,-142.5 266,-148.5 260,-148.5 260,-148.5 202,-148.5 202,-148.5 196,-148.5 190,-142.5 190,-136.5 190,-136.5 190,-114.5 190,-114.5 190,-108.5 196,-102.5 202,-102.5"/>
+
+<polyline fill="none" stroke="black" points="249,-125.5 249,-148.5 "/>
+
+<polyline fill="none" stroke="black" points="190,-125.5 272,-125.5 "/>
+
+</g>
+
+<g id="edge9" class="edge"><title>n1:message&#45;&gt;n14</title>
+<path fill="none" stroke="black" d="M154,-125.5C162.255,-125.5 171.014,-125.5 179.538,-125.5"/>
+<polygon fill="black" stroke="black" points="179.769,-129 189.769,-125.5 179.769,-122 179.769,-129"/>
+</g>
+
+<g id="node11" class="node"><title>n15</title>
+<path fill="none" stroke="black" d="M333,-95.5C333,-95.5 363,-95.5 363,-95.5 369,-95.5 375,-101.5 375,-107.5 375,-107.5 375,-119.5 375,-119.5 375,-125.5 369,-131.5 363,-131.5 363,-131.5 333,-131.5 333,-131.5 327,-131.5 321,-125.5 321,-119.5 321,-119.5 321,-107.5 321,-107.5 321,-101.5 327,-95.5 333,-95.5"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>n14:take&#45;&gt;n15</title>
+<path fill="none" stroke="black" d="M272,-113.5C284.589,-113.5 298.366,-113.5 310.638,-113.5"/>
+<polygon fill="black" stroke="black" points="310.968,-117 320.968,-113.5 310.968,-110 310.968,-117"/>
+</g>
+</g>
+</svg>

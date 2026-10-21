@@ -1,0 +1,88 @@
+<svg width="712pt" height="211pt"
+ viewBox="0.00 0.00 712.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 708,-207 708,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="118,-10 118,-30 138,-30 138,-10 118,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="231,-10 231,-30 251,-30 251,-10 231,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="317,-10 317,-30 337,-30 337,-10 317,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="414,-10 414,-30 434,-30 434,-10 414,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="510,-10 510,-30 530,-30 530,-10 510,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ReservationModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 696,-195 696,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ReservationModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="524,-78 524,-130 688,-130 688,-78 524,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ReservationModule_imports</title>
+<polygon fill="none" stroke="#000000" points="212,-78 212,-130 516,-130 516,-78 212,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ReservationModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 204,-130 204,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ReservationComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="680.1993,-122 531.8007,-122 531.8007,-86 680.1993,-86 680.1993,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ReservationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="445.4173,-187 442.4173,-191 421.4173,-191 418.4173,-187 318.5827,-187 318.5827,-151 445.4173,-151 445.4173,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ReservationComponent&#45;&gt;ReservationModule</title>
+<path fill="none" stroke="#000000" d="M606,-122.1061C606,-141.3391 606,-169 606,-169 606,-169 455.2912,-169 455.2912,-169"/>
+<polygon fill="#000000" stroke="#000000" points="455.2913,-165.5001 445.2912,-169 455.2912,-172.5001 455.2913,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="508.4231,-122 505.4231,-126 484.4231,-126 481.4231,-122 409.5769,-122 409.5769,-86 508.4231,-86 508.4231,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SharedModule&#45;&gt;ReservationModule</title>
+<path fill="none" stroke="#000000" d="M427.4986,-122.1061C427.4986,-122.1061 427.4986,-140.991 427.4986,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="423.9987,-140.9909 427.4986,-150.991 430.9987,-140.991 423.9987,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>ReservationRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="391.535,-122 388.535,-126 367.535,-126 364.535,-122 220.465,-122 220.465,-86 391.535,-86 391.535,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ReservationRoutingModule&#45;&gt;ReservationModule</title>
+<path fill="none" stroke="#000000" d="M355.2795,-122.1061C355.2795,-122.1061 355.2795,-140.991 355.2795,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="351.7795,-140.9909 355.2795,-150.991 358.7795,-140.991 351.7795,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>ReservationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="110" cy="-104" rx="86.2309" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ReservationService&#45;&gt;ReservationModule</title>
+<path fill="none" stroke="#000000" d="M110,-122.1061C110,-141.3391 110,-169 110,-169 110,-169 308.5714,-169 308.5714,-169"/>
+<polygon fill="#000000" stroke="#000000" points="308.5714,-172.5001 318.5714,-169 308.5713,-165.5001 308.5714,-172.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,124 @@
+<svg width="1117pt" height="284pt"
+ viewBox="0.00 0.00 1117.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1113,-280 1113,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="320.5,-10 320.5,-30 340.5,-30 340.5,-10 320.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="433.5,-10 433.5,-30 453.5,-30 453.5,-10 433.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="519.5,-10 519.5,-30 539.5,-30 539.5,-10 519.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="616.5,-10 616.5,-30 636.5,-30 636.5,-10 616.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="712.5,-10 712.5,-30 732.5,-30 732.5,-10 712.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ProgramaAcademicoModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1101,-268 1101,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_ProgramaAcademicoModule_imports</title>
+<polygon fill="none" stroke="#000000" points="621,-78 621,-130 1093,-130 1093,-78 621,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ProgramaAcademicoModule_exports</title>
+<polygon fill="none" stroke="#000000" points="472,-208 472,-260 718,-260 718,-208 472,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_ProgramaAcademicoModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 613,-130 613,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1085.4231,-122 1082.4231,-126 1061.4231,-126 1058.4231,-122 986.5769,-122 986.5769,-86 1085.4231,-86 1085.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>ProgramaAcademicoModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="683.7198,-187 680.7198,-191 659.7198,-191 656.7198,-187 506.2802,-187 506.2802,-151 683.7198,-151 683.7198,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;ProgramaAcademicoModule</title>
+<path fill="none" stroke="#000000" d="M1036,-122.2843C1036,-143.3211 1036,-175 1036,-175 1036,-175 693.9776,-175 693.9776,-175"/>
+<polygon fill="#000000" stroke="#000000" points="693.9776,-171.5001 683.9776,-175 693.9775,-178.5001 693.9776,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ProgramaAcademicoRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="968.3375,-122 965.3375,-126 944.3375,-126 941.3375,-122 745.6625,-122 745.6625,-86 968.3375,-86 968.3375,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ProgramaAcademicoRoutingModule&#45;&gt;ProgramaAcademicoModule</title>
+<path fill="none" stroke="#000000" d="M857,-122.0225C857,-139.3734 857,-163 857,-163 857,-163 694.0668,-163 694.0668,-163"/>
+<polygon fill="#000000" stroke="#000000" points="694.0669,-159.5001 684.0668,-163 694.0668,-166.5001 694.0669,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="727.4231,-122 724.4231,-126 703.4231,-126 700.4231,-122 628.5769,-122 628.5769,-86 727.4231,-86 727.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;ProgramaAcademicoModule</title>
+<path fill="none" stroke="#000000" d="M656.3244,-122.1061C656.3244,-122.1061 656.3244,-140.991 656.3244,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="652.8244,-140.9909 656.3244,-150.991 659.8244,-140.991 652.8244,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudProgramaAcademicoComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="710.4994,-252 479.5006,-252 479.5006,-216 710.4994,-216 710.4994,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ProgramaAcademicoModule&#45;&gt;CrudProgramaAcademicoComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M595,-187.1061C595,-187.1061 595,-205.991 595,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="591.5001,-205.9909 595,-215.991 598.5001,-205.991 591.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>OrganizacionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="513" cy="-104" rx="92.0123" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>OrganizacionService&#45;&gt;ProgramaAcademicoModule</title>
+<path fill="none" stroke="#000000" d="M555.5732,-120.0674C555.5732,-120.0674 555.5732,-140.8237 555.5732,-140.8237"/>
+<polygon fill="#000000" stroke="#000000" points="552.0733,-140.8236 555.5732,-150.8237 559.0733,-140.8237 552.0733,-140.8236"/>
+</g>
+
+<g id="node7" class="node">
+<title>ProgramaAcademicoService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="281" cy="-104" rx="121.5065" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ProgramaAcademicoService&#45;&gt;ProgramaAcademicoModule</title>
+<path fill="none" stroke="#000000" d="M281,-122.0225C281,-139.3734 281,-163 281,-163 281,-163 496.2793,-163 496.2793,-163"/>
+<polygon fill="#000000" stroke="#000000" points="496.2793,-166.5001 506.2793,-163 496.2792,-159.5001 496.2793,-166.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>CoreService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="83" cy="-104" rx="58.5251" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CoreService&#45;&gt;ProgramaAcademicoModule</title>
+<path fill="none" stroke="#000000" d="M83,-122.2843C83,-143.3211 83,-175 83,-175 83,-175 496.1088,-175 496.1088,-175"/>
+<polygon fill="#000000" stroke="#000000" points="496.1089,-178.5001 506.1088,-175 496.1088,-171.5001 496.1089,-178.5001"/>
+</g>
+</g>
+</svg>

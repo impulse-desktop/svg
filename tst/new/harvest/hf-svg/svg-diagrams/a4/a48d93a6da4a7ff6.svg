@@ -1,0 +1,72 @@
+<svg width="534pt" height="211pt"
+ viewBox="0.00 0.00 534.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 530,-207 530,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="29,-10 29,-30 49,-30 49,-10 29,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="142,-10 142,-30 162,-30 162,-10 142,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="228,-10 228,-30 248,-30 248,-10 228,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="325,-10 325,-30 345,-30 345,-10 325,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="421,-10 421,-30 441,-30 441,-10 421,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_UserModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 518,-195 518,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_UserModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="234,-78 234,-130 510,-130 510,-78 234,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_UserModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 226,-130 226,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>LoginComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="502.2758,-122 387.7242,-122 387.7242,-86 502.2758,-86 502.2758,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>UserModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="348.9762,-187 345.9762,-191 324.9762,-191 321.9762,-187 263.0238,-187 263.0238,-151 348.9762,-151 348.9762,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>LoginComponent&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M445,-122.1061C445,-141.3391 445,-169 445,-169 445,-169 359.2185,-169 359.2185,-169"/>
+<polygon fill="#000000" stroke="#000000" points="359.2186,-165.5001 349.2185,-169 359.2185,-172.5001 359.2186,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>RegisterComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="369.9846,-122 242.0154,-122 242.0154,-86 369.9846,-86 369.9846,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>RegisterComponent&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M306,-122.1061C306,-122.1061 306,-140.991 306,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="302.5001,-140.9909 306,-150.991 309.5001,-140.991 302.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>AuthenticationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="121" cy="-104" rx="97.2683" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AuthenticationService&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M121,-122.1061C121,-141.3391 121,-169 121,-169 121,-169 252.6257,-169 252.6257,-169"/>
+<polygon fill="#000000" stroke="#000000" points="252.6258,-172.5001 262.6257,-169 252.6257,-165.5001 252.6258,-172.5001"/>
+</g>
+</g>
+</svg>

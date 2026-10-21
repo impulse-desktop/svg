@@ -1,0 +1,96 @@
+<svg width="1012pt" height="211pt"
+ viewBox="0.00 0.00 1012.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1008,-207 1008,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="268,-10 268,-30 288,-30 288,-10 268,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="381,-10 381,-30 401,-30 401,-10 381,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="467,-10 467,-30 487,-30 487,-10 467,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="564,-10 564,-30 584,-30 584,-10 564,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="660,-10 660,-30 680,-30 680,-10 660,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PreRenderModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 996,-195 996,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_PreRenderModule_imports</title>
+<polygon fill="none" stroke="#000000" points="686,-78 686,-130 988,-130 988,-78 686,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_PreRenderModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 678,-130 678,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>LoggerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="979.9776,-122 976.9776,-126 955.9776,-126 952.9776,-122 880.0224,-122 880.0224,-86 979.9776,-86 979.9776,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>PreRenderModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="650.1346,-187 647.1346,-191 626.1346,-191 623.1346,-187 531.8654,-187 531.8654,-151 650.1346,-151 650.1346,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>LoggerModule&#45;&gt;PreRenderModule</title>
+<path fill="none" stroke="#000000" d="M930,-122.2843C930,-143.3211 930,-175 930,-175 930,-175 660.4372,-175 660.4372,-175"/>
+<polygon fill="#000000" stroke="#000000" points="660.4373,-171.5001 650.4372,-175 660.4372,-178.5001 660.4373,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>PreRendererConfigModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="862.3975,-122 859.3975,-126 838.3975,-126 835.3975,-122 693.6025,-122 693.6025,-86 862.3975,-86 862.3975,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PreRendererConfigModule&#45;&gt;PreRenderModule</title>
+<path fill="none" stroke="#000000" d="M778,-122.0225C778,-139.3734 778,-163 778,-163 778,-163 660.168,-163 660.168,-163"/>
+<polygon fill="#000000" stroke="#000000" points="660.168,-159.5001 650.168,-163 660.1679,-166.5001 660.168,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>OptimizerService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="591" cy="-104" rx="79.2864" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>OptimizerService&#45;&gt;PreRenderModule</title>
+<path fill="none" stroke="#000000" d="M591,-122.1061C591,-122.1061 591,-140.991 591,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="587.5001,-140.9909 591,-150.991 594.5001,-140.991 587.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>PersistanceLayerService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="388" cy="-104" rx="105.8899" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PersistanceLayerService&#45;&gt;PreRenderModule</title>
+<path fill="none" stroke="#000000" d="M388,-122.0225C388,-139.3734 388,-163 388,-163 388,-163 521.7383,-163 521.7383,-163"/>
+<polygon fill="#000000" stroke="#000000" points="521.7383,-166.5001 531.7383,-163 521.7383,-159.5001 521.7383,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>PreRenderingEngineService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="144" cy="-104" rx="120.3859" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PreRenderingEngineService&#45;&gt;PreRenderModule</title>
+<path fill="none" stroke="#000000" d="M144,-122.2843C144,-143.3211 144,-175 144,-175 144,-175 521.6419,-175 521.6419,-175"/>
+<polygon fill="#000000" stroke="#000000" points="521.6419,-178.5001 531.6419,-175 521.6418,-171.5001 521.6419,-178.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,117 @@
+<svg width="256pt" height="332pt"
+ viewBox="0.00 0.00 256.42 332.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 328)">
+<title>GenealogyC</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-328 252.4242,-328 252.4242,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Person</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="class Person&#10;">
+
+<g id="a_node1_0"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="String name&#13;">
+
+</a>
+</g>
+<g id="a_node1_1"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="String sex&#13;">
+
+</a>
+</g>
+<g id="a_node1_2"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="String placeOfBirth&#13;">
+
+</a>
+</g>
+<g id="a_node1_3"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="String dateOfBirth&#13;">
+
+</a>
+</g>
+<g id="a_node1_4"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="String placeOfDeath&#13;">
+
+</a>
+</g>
+<g id="a_node1_5"><a xlink:href="javascript:Action.selectClass(&quot;Person&quot;);" xlink:title="String dateOfDeath&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="9,-187 9,-187 151,-187 151,-187 9,-187"/>
+<polygon fill="none" stroke="#000000" points="9,-78 9,-210 151,-210 151,-78 9,-78"/>
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Union</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Union&quot;);" xlink:title="class Union&#10;Positioning&#13;">
+
+<g id="a_node2_6"><a xlink:href="javascript:Action.selectClass(&quot;Union&quot;);" xlink:title="String placeOfMarriage&#13;">
+
+</a>
+</g>
+<g id="a_node2_7"><a xlink:href="javascript:Action.selectClass(&quot;Union&quot;);" xlink:title="String dateOfMarriage&#13;">
+
+</a>
+</g>
+<g id="a_node2_8"><a xlink:href="javascript:Action.selectClass(&quot;Union&quot;);" xlink:title="String dateOfDivorce&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="0,-301 0,-301 160,-301 160,-301 0,-301"/>
+<polygon fill="none" stroke="#000000" points="0,-246 0,-324 160,-324 160,-246 0,-246"/>
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Person&#45;&gt;Union</title>
+<g id="a_edge1"><a xlink:title="Person * child &#45;&#45; 0..1 parents Union">
+<path fill="none" stroke="#000000" d="M73.2603,-210.3712C73.1997,-222.514 73.4068,-234.8206 73.8818,-245.8436"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>Union&#45;&gt;Person</title>
+<g id="a_edge2"><a xlink:title="Union * &#160;&#45;&#45; 0..2 parent Person">
+<path fill="none" stroke="#000000" d="M86.1182,-245.8436C86.5932,-234.8206 86.8003,-222.514 86.7397,-210.3712"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node3" class="node">
+<title>Adoption</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;Adoption&quot;);" xlink:title="class Adoption&#10;">
+
+<g id="a_node3_9"><a xlink:href="javascript:Action.selectClass(&quot;Adoption&quot;);" xlink:title="String dateOfAdoption&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="51,-19 51,-19 207,-19 207,-19 51,-19"/>
+<polygon fill="none" stroke="#000000" points="51,0 51,-42 207,-42 207,0 51,0"/>
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Adoption&#45;&gt;Person</title>
+<g id="a_edge4"><a xlink:title="Adoption * &#160;&#45;&#45; 0..1 adoptedChild Person">
+<path fill="none" stroke="#000000" d="M120.5766,-42.1445C116.5542,-52.2414 111.4968,-64.9366 106.3302,-77.9058"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge3" class="edge">
+<title>Adoption&#45;&gt;Union</title>
+<g id="a_edge3"><a xlink:title="Adoption * &#160;&#45;&#45; 0..1 adoptiveParents Union">
+<path fill="none" stroke="#000000" d="M143.7834,-42.1339C150.1121,-52.4456 156.7791,-65.3362 160,-78 174.4608,-134.8565 183.3217,-156.1681 160,-210 154.2482,-223.2765 144.8608,-235.2801 134.5033,-245.5966"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

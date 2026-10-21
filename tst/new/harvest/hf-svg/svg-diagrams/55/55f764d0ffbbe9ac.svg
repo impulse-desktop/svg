@@ -1,0 +1,131 @@
+<svg width="1346pt" height="230pt"
+ viewBox="0.00 0.00 1346.00 229.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 225.5)">
+<title>llama.files.coinc_plots.RctSlkLmaCoincScatterZtfLVCPdf</title>
+<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-225.5 1342,-225.5 1342,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>llama.files.coinc_plots.CoincScatterZtfLVCPdf</title>
+<g id="a_node1"><a xlink:href="/llama.files.coinc_plots.html#llama.files.coinc_plots.CoincScatterZtfLVCPdf" xlink:title="{{&lt;B&gt;CoincScatterZtfLVCPdf&lt;/B&gt;|&lt;I&gt;scatterplot_lvc&#45;ztf.pdf&lt;/I&gt;|CoincScatterZtfLVC}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="803,-121 803,-190 1004,-190 1004,-121 803,-121"/>
+
+<polyline fill="none" stroke="black" points="803,-167 1004,-167 "/>
+
+<polyline fill="none" stroke="black" points="803,-144 1004,-144 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>llama.files.coinc_plots.RctSlkLmaCoincScatterZtfLVCPdf</title>
+<g id="a_node2"><a xlink:href="/llama.files.coinc_plots.html#llama.files.coinc_plots.RctSlkLmaCoincScatterZtfLVCPdf" xlink:title="{{&lt;B&gt;RctSlkLmaCoincScatterZtfLVCPdf&lt;/B&gt;|&lt;I&gt;rct_slk_lma_scatterplot_lvc&#45;ztf.pdf.json&lt;/I&gt;|SlackReceiptLlama}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="1040,-152 1040,-221 1338,-221 1338,-152 1040,-152"/>
+
+<polyline fill="none" stroke="black" points="1040,-198 1338,-198 "/>
+
+<polyline fill="none" stroke="black" points="1040,-175 1338,-175 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>llama.files.coinc_plots.CoincScatterZtfLVCPdf&#45;&gt;llama.files.coinc_plots.RctSlkLmaCoincScatterZtfLVCPdf</title>
+<path fill="none" stroke="red" d="M1004.16,-171C1004.16,-171 1029.95,-171 1029.95,-171"/>
+<polygon fill="red" stroke="red" points="1029.95,-174.5 1039.95,-171 1029.95,-167.5 1029.95,-174.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>llama.files.lvc_skymap.LvcSkymapFits</title>
+<g id="a_node3"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.LvcSkymapFits" xlink:title="{{&lt;B&gt;LvcSkymapFits&lt;/B&gt;|&lt;I&gt;lvc_skymap.fits.gz&lt;/I&gt;|GenerateOnceMixin&lt;BR/&gt;LvcHEALPixSkyMapFileHandler&lt;BR/&gt;OnlineVetoMixin}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="251,-91 251,-190 504,-190 504,-91 251,-91"/>
+
+<polyline fill="none" stroke="black" points="251,-167 504,-167 "/>
+
+<polyline fill="none" stroke="black" points="251,-144 504,-144 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node4" class="node">
+<title>llama.files.lvc_skymap.LvcSkymapHdf5</title>
+<g id="a_node4"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.LvcSkymapHdf5" xlink:title="{{&lt;B&gt;LvcSkymapHdf5&lt;/B&gt;|&lt;I&gt;lvc_skymap.hdf5&lt;/I&gt;|HEALPixSkyMapFileHandler}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="540,-121 540,-190 767,-190 767,-121 540,-121"/>
+
+<polyline fill="none" stroke="black" points="540,-167 767,-167 "/>
+
+<polyline fill="none" stroke="black" points="540,-144 767,-144 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>llama.files.lvc_skymap.LvcSkymapFits&#45;&gt;llama.files.lvc_skymap.LvcSkymapHdf5</title>
+<path fill="none" stroke="red" d="M504.19,-155.5C504.19,-155.5 529.88,-155.5 529.88,-155.5"/>
+<polygon fill="red" stroke="red" points="529.88,-159 539.88,-155.5 529.88,-152 529.88,-159"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>llama.files.lvc_skymap.LvcSkymapHdf5&#45;&gt;llama.files.coinc_plots.CoincScatterZtfLVCPdf</title>
+<path fill="none" stroke="red" d="M767.16,-155.5C767.16,-155.5 792.74,-155.5 792.74,-155.5"/>
+<polygon fill="red" stroke="red" points="792.74,-159 802.74,-155.5 792.74,-152 792.74,-159"/>
+</g>
+
+<g id="node5" class="node">
+<title>llama.files.skymap_info.SkymapInfo</title>
+<g id="a_node5"><a xlink:href="/llama.files.skymap_info.html#llama.files.skymap_info.SkymapInfo" xlink:title="{{&lt;B&gt;SkymapInfo&lt;/B&gt;|&lt;I&gt;skymap_info.json&lt;/I&gt;|EventTriggeredFileHandler&lt;BR/&gt;JSONFile}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="0,-98.5 0,-182.5 215,-182.5 215,-98.5 0,-98.5"/>
+
+<polyline fill="none" stroke="black" points="0,-159.5 215,-159.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-136.5 215,-136.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.coinc_plots.RctSlkLmaCoincScatterZtfLVCPdf</title>
+<path fill="none" stroke="red" d="M72,-98.35C72,-56.96 72,0 72,0 72,0 1190,0 1190,0 1190,0 1190,-141.86 1190,-141.86"/>
+<polygon fill="red" stroke="red" points="1186.5,-141.86 1190,-151.86 1193.5,-141.86 1186.5,-141.86"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.lvc_skymap.LvcSkymapFits</title>
+<path fill="none" stroke="red" d="M215.38,-140.5C215.38,-140.5 240.66,-140.5 240.66,-140.5"/>
+<polygon fill="red" stroke="red" points="240.66,-144 250.66,-140.5 240.66,-137 240.66,-144"/>
+</g>
+
+<g id="node6" class="node">
+<title>llama.files.ztf_trigger_list.ZtfTriggerList</title>
+<g id="a_node6"><a xlink:href="/llama.files.ztf_trigger_list.html#llama.files.ztf_trigger_list.ZtfTriggerList" xlink:title="{{&lt;B&gt;ZtfTriggerList&lt;/B&gt;|&lt;I&gt;ztf_trigger_list.json&lt;/I&gt;|JSONFile&lt;BR/&gt;HEALPixPSF}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="575,-18.5 575,-102.5 732,-102.5 732,-18.5 575,-18.5"/>
+
+<polyline fill="none" stroke="black" points="575,-79.5 732,-79.5 "/>
+
+<polyline fill="none" stroke="black" points="575,-56.5 732,-56.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.ztf_trigger_list.ZtfTriggerList</title>
+<path fill="none" stroke="red" d="M144,-98.39C144,-76.49 144,-54.25 144,-54.25 144,-54.25 564.73,-54.25 564.73,-54.25"/>
+<polygon fill="red" stroke="red" points="564.73,-57.75 574.73,-54.25 564.73,-50.75 564.73,-57.75"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>llama.files.ztf_trigger_list.ZtfTriggerList&#45;&gt;llama.files.coinc_plots.CoincScatterZtfLVCPdf</title>
+<path fill="none" stroke="red" d="M732.07,-60.5C805.54,-60.5 904,-60.5 904,-60.5 904,-60.5 904,-110.93 904,-110.93"/>
+<polygon fill="red" stroke="red" points="900.5,-110.93 904,-120.93 907.5,-110.93 900.5,-110.93"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,63 @@
+<svg width="604pt" height="259pt"
+ viewBox="0.00 0.00 603.72 259.00" xmlns="http://www.w3.org/2000/svg">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 255)">
+<title>hierarchy</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-255 599.7222,-255 599.7222,4 -4,4"/>
+
+
+
+<g id="node1" class="node">
+<title>Event</title>
+<polygon fill="#f2f2f2" stroke="#000000" points="269.0801,-214.5 269.0801,-250.5 323.0801,-250.5 323.0801,-214.5 269.0801,-214.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>WorkAttributeEvent</title>
+<polygon fill="#f2f2f2" stroke="#000000" points="227.9033,-141.5 227.9033,-177.5 364.2568,-177.5 364.2568,-141.5 227.9033,-141.5"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>Event&#45;&gt;WorkAttributeEvent</title>
+<path fill="none" stroke="#000000" d="M296.0801,-204.3688C296.0801,-195.3769 296.0801,-185.6687 296.0801,-177.5904"/>
+<polygon fill="none" stroke="#000000" points="292.5802,-204.455 296.0801,-214.4551 299.5802,-204.4551 292.5802,-204.455"/>
+</g>
+
+<g id="node3" class="node">
+<title>WorkAttributeCreatedEvent</title>
+<polygon fill="#f2f2f2" stroke="#000000" points="0,-68.5 0,-104.5 186.1602,-104.5 186.1602,-68.5 0,-68.5"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>WorkAttributeEvent&#45;&gt;WorkAttributeCreatedEvent</title>
+<path fill="none" stroke="#000000" d="M236.1307,-137.9419C206.6289,-127.3328 171.4667,-114.6883 143.3861,-104.5904"/>
+<polygon fill="none" stroke="#000000" points="235.3058,-141.3646 245.9003,-141.4551 237.6746,-134.7776 235.3058,-141.3646"/>
+</g>
+
+<g id="node4" class="node">
+<title>WorkAttributeDeletedEvent</title>
+<polygon fill="#f2f2f2" stroke="#000000" points="203.7759,-68.5 203.7759,-104.5 388.3843,-104.5 388.3843,-68.5 203.7759,-68.5"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>WorkAttributeEvent&#45;&gt;WorkAttributeDeletedEvent</title>
+<path fill="none" stroke="#000000" d="M296.0801,-131.3688C296.0801,-122.3769 296.0801,-112.6687 296.0801,-104.5904"/>
+<polygon fill="none" stroke="#000000" points="292.5802,-131.455 296.0801,-141.4551 299.5802,-131.4551 292.5802,-131.455"/>
+</g>
+
+<g id="node5" class="node">
+<title>WorkAttributeUpdatedEvent</title>
+<polygon fill="#f2f2f2" stroke="#000000" points="406.438,-68.5 406.438,-104.5 595.7222,-104.5 595.7222,-68.5 406.438,-68.5"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>WorkAttributeEvent&#45;&gt;WorkAttributeUpdatedEvent</title>
+<path fill="none" stroke="#000000" d="M356.2318,-138.0801C386.1036,-127.4428 421.7979,-114.7322 450.2784,-104.5904"/>
+<polygon fill="none" stroke="#000000" points="355.0006,-134.8032 346.7542,-141.4551 357.3489,-141.3975 355.0006,-134.8032"/>
+</g>
+</g>
+</svg>

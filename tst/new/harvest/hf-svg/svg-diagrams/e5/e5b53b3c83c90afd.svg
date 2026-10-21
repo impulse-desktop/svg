@@ -1,0 +1,81 @@
+<svg width="457pt" height="137pt"
+ viewBox="0.00 0.00 457.00 137.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 133)">
+<title>amunmt::God::LoadScorers</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-133 453,-133 453,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-77 0,-96 137,-96 137,-77 0,-77"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../da/d4e/classamunmt_1_1Config.html#a5257f41272d06c35bebe8130b5897d23" target="_top" xlink:title="amunmt::Config::Get">
+<polygon fill="white" stroke="black" points="179,-99 179,-118 287,-118 287,-99 179,-99"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M137.003,-95.6389C147.467,-97.0555 158.244,-98.5146 168.613,-99.9184"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="168.44,-103.427 178.82,-101.3 169.38,-96.4901 168.44,-103.427"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d8/df9/classamunmt_1_1LoaderFactory.html#aaaf8621316a4c3832bcdfecbd5f69598" target="_top" xlink:title="amunmt::LoaderFactory\l::Create">
+<polygon fill="white" stroke="black" points="173,-49.5 173,-79.5 293,-79.5 293,-49.5 173,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M137.003,-77.3611C145.589,-76.1987 154.387,-75.0076 162.997,-73.842"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="163.554,-77.2986 172.994,-72.4886 162.614,-70.3619 163.554,-77.2986"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d8/df9/classamunmt_1_1LoaderFactory.html#a78af7437386e23443b9d02bb4f8be24b" target="_top" xlink:title="amunmt::LoaderFactory\l::CreateGPU">
+<polygon fill="white" stroke="black" points="329,-98.5 329,-128.5 449,-128.5 449,-98.5 329,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M281.462,-79.6014C297.05,-84.5615 314.543,-90.1274 330.778,-95.2929"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="330.105,-98.7516 340.695,-98.4484 332.227,-92.0811 330.105,-98.7516"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="../../d8/df9/classamunmt_1_1LoaderFactory.html#a78832d75891d43a96d36c1e61c6940b4" target="_top" xlink:title="amunmt::LoaderFactory\l::CreateCPU">
+<polygon fill="white" stroke="black" points="329,-49.5 329,-79.5 449,-79.5 449,-49.5 329,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node3&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M293.1,-64.5C301.422,-64.5 310.039,-64.5 318.533,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="318.804,-68.0001 328.804,-64.5 318.804,-61.0001 318.804,-68.0001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="../../d8/df9/classamunmt_1_1LoaderFactory.html#a167b89f68880a90da333d3a61458472b" target="_top" xlink:title="amunmt::LoaderFactory\l::CreateFPGA">
+<polygon fill="white" stroke="black" points="329,-0.5 329,-30.5 449,-30.5 449,-0.5 329,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M281.462,-49.3986C297.05,-44.4385 314.543,-38.8726 330.778,-33.7071"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="332.227,-36.9189 340.695,-30.5516 330.105,-30.2484 332.227,-36.9189"/>
+</g>
+</g>
+</svg>

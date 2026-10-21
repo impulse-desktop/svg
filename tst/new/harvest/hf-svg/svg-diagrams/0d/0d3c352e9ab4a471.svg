@@ -1,0 +1,111 @@
+<svg width="514pt" height="171pt"
+ viewBox="0.00 0.00 514.00 171.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 167)">
+<title>sensesp::connect_system_info_sensor</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-167 510,-167 510,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="Connect a system information sensor to SKOutput.">
+<polygon fill="#bfbfbf" stroke="black" points="0,-44.5 0,-74.5 131,-74.5 131,-44.5 0,-44.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="classsensesp_1_1_value_producer.html#a168e379778dd79bc926aff69d9a87663" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="186.5,-88.5 186.5,-118.5 308.5,-118.5 308.5,-88.5 186.5,-88.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M127.94,-74.52C143.55,-78.33 160.43,-82.46 176.42,-86.37"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="175.7,-89.8 186.25,-88.77 177.37,-83 175.7,-89.8"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="classsensesp_1_1_sens_e_s_p_base_app.html#a2df22469c69a8a1234ab673386f574d6" target="_top" xlink:title="Get the singleton instance of the SensESPBaseApp.">
+<polygon fill="white" stroke="black" points="167,-50 167,-69 328,-69 328,-50 167,-50"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M131.23,-59.5C139.56,-59.5 148.21,-59.5 156.85,-59.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="156.97,-63 166.97,-59.5 156.97,-56 156.97,-63"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:href="classsensesp_1_1_sens_e_s_p_base_app.html#ade8960b96e439f4cc0b387c312999dd5" target="_top" xlink:title="Get the hostname observable object.">
+<polygon fill="white" stroke="black" points="176.5,-0.5 176.5,-30.5 318.5,-30.5 318.5,-0.5 176.5,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M127.94,-44.48C143.06,-40.78 159.39,-36.79 174.94,-32.99"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="176.15,-36.3 185.03,-30.53 174.48,-29.5 176.15,-36.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="classsensesp_1_1_observable.html#a1bd8a207de69d386a7f05c28544df109" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="380.5,-132.5 380.5,-162.5 489.5,-162.5 489.5,-132.5 380.5,-132.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M308.73,-117.79C328.46,-122.47 350.43,-127.68 370.4,-132.41"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="369.79,-135.87 380.33,-134.77 371.41,-129.06 369.79,-135.87"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="classsensesp_1_1_value_producer.html#a438390eae6bba056ecf4ab329cb5c8e9" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="364,-94 364,-113 506,-113 506,-94 364,-94"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M308.73,-103.5C323,-103.5 338.44,-103.5 353.45,-103.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="353.75,-107 363.75,-103.5 353.75,-100 353.75,-107"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="classsensesp_1_1_value_consumer.html#a6dbfd22b19489ebd61a353545d1a5261" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="371,-44.5 371,-74.5 499,-74.5 499,-44.5 371,-44.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M308.73,-89.21C325.35,-85.27 343.57,-80.95 360.85,-76.85"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="361.96,-80.18 370.89,-74.47 360.35,-73.37 361.96,-80.18"/>
+</g>
+</g>
+</svg>

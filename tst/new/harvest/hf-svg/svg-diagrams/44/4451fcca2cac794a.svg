@@ -1,0 +1,64 @@
+<svg width="576pt" height="130pt"
+ viewBox="0.00 0.00 576.00 129.59" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.74 0.74) rotate(0) translate(4 171.89)">
+<title>finite_state_machine</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-171.89 777.76,-171.89 777.76,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Αρχικό πρόγραμμα</title>
+<ellipse fill="none" stroke="black" cx="83.94" cy="-83.94" rx="79.89" ry="79.89"/>
+<ellipse fill="none" stroke="black" cx="83.94" cy="-83.94" rx="83.89" ry="83.89"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Μεταγλωττιστής</title>
+<polygon fill="none" stroke="black" points="316.89,-101.94 203.89,-101.94 203.89,-65.94 316.89,-65.94 316.89,-101.94"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>Αρχικό πρόγραμμα&#45;&gt;Μεταγλωττιστής</title>
+<path fill="none" stroke="black" d="M168.08,-83.94C176.69,-83.94 185.35,-83.94 193.73,-83.94"/>
+<polygon fill="black" stroke="black" points="193.79,-87.44 203.79,-83.94 193.79,-80.44 193.79,-87.44"/>
+</g>
+
+<g id="node3" class="node">
+<title>Τελικό πρόγραμμα</title>
+<ellipse fill="none" stroke="black" cx="435.53" cy="-83.94" rx="78.78" ry="78.78"/>
+<ellipse fill="none" stroke="black" cx="435.53" cy="-83.94" rx="82.79" ry="82.79"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>Μεταγλωττιστής&#45;&gt;Τελικό πρόγραμμα</title>
+<path fill="none" stroke="black" d="M317.12,-83.94C325.29,-83.94 333.89,-83.94 342.55,-83.94"/>
+<polygon fill="black" stroke="black" points="342.74,-87.44 352.74,-83.94 342.74,-80.44 342.74,-87.44"/>
+</g>
+
+<g id="node4" class="node">
+<title>Συνδετής</title>
+<polygon fill="none" stroke="black" points="623.17,-101.94 554.17,-101.94 554.17,-65.94 623.17,-65.94 623.17,-101.94"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>Τελικό πρόγραμμα&#45;&gt;Συνδετής</title>
+<path fill="none" stroke="black" d="M518.29,-83.94C527.1,-83.94 535.78,-83.94 543.88,-83.94"/>
+<polygon fill="black" stroke="black" points="544.14,-87.44 554.14,-83.94 544.14,-80.44 544.14,-87.44"/>
+</g>
+
+<g id="node5" class="node">
+<title>Εκτελέσιμο</title>
+<ellipse fill="lightgrey" stroke="blue" cx="716.47" cy="-83.94" rx="53.11" ry="53.11"/>
+<ellipse fill="none" stroke="blue" cx="716.47" cy="-83.94" rx="57.09" ry="57.09"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>Συνδετής&#45;&gt;Εκτελέσιμο</title>
+<path fill="none" stroke="black" d="M623.38,-83.94C631.23,-83.94 639.85,-83.94 648.58,-83.94"/>
+<polygon fill="black" stroke="black" points="648.83,-87.44 658.83,-83.94 648.83,-80.44 648.83,-87.44"/>
+</g>
+</g>
+</svg>

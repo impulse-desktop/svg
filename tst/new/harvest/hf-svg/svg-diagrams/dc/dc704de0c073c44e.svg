@@ -1,0 +1,141 @@
+<svg width="518pt" height="457pt"
+ viewBox="0.00 0.00 518.00 457.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 453)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-453 514,-453 514,4 -4,4"/>
+
+<g id="node1" class="node"><title>EntityName</title>
+<polygon fill="white" stroke="black" points="509.5,-312 432.5,-312 432.5,-276 509.5,-276 509.5,-312"/>
+
+</g>
+
+<g id="node2" class="node"><title>EntityName_KeyField</title>
+<ellipse fill="white" stroke="black" cx="329" cy="-431" rx="38.0276" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>EntityName_KeyField&#45;&#45;EntityName</title>
+<path fill="none" stroke="black" d="M362.287,-422.1C373.742,-417.88 386.209,-411.974 396,-404 427.41,-378.419 450.608,-336.02 462.039,-312.018"/>
+</g>
+
+<g id="node3" class="node"><title>EntityName_OptionalField</title>
+<ellipse fill="white" stroke="black" cx="329" cy="-377" rx="62.9739" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>EntityName_OptionalField&#45;&#45;EntityName</title>
+<path fill="none" stroke="black" d="M369.185,-362.928C378.207,-359.156 387.611,-354.782 396,-350 415.036,-339.15 434.731,-324.023 449.012,-312.226"/>
+</g>
+
+<g id="node4" class="node"><title>EntityName_DerivedField</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="329" cy="-323" rx="52.2822" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>EntityName_DerivedField&#45;&#45;EntityName</title>
+<path fill="none" stroke="black" d="M374.297,-313.824C392.882,-309.974 414.274,-305.543 432.114,-301.848"/>
+</g>
+
+<g id="node5" class="node"><title>EntityName_MultiValueField</title>
+<ellipse fill="white" stroke="black" cx="329" cy="-265" rx="62.9747" ry="18"/>
+<ellipse fill="none" stroke="black" cx="329" cy="-265" rx="66.9739" ry="22"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>EntityName_MultiValueField&#45;&#45;EntityName</title>
+<path fill="none" stroke="black" d="M386.137,-276.628C401.655,-279.843 418.121,-283.254 432.316,-286.194"/>
+</g>
+
+<g id="node6" class="node"><title>EntityName_CompositeField</title>
+<ellipse fill="white" stroke="black" cx="329" cy="-207" rx="59.4099" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>EntityName_CompositeField&#45;&#45;EntityName</title>
+<path fill="none" stroke="black" d="M368.61,-220.58C377.838,-224.422 387.479,-228.952 396,-234 416.064,-245.886 436.475,-262.88 450.764,-275.75"/>
+</g>
+
+<g id="node7" class="node"><title>EntityName_CompositeField_SubField1</title>
+<ellipse fill="white" stroke="black" cx="177" cy="-323" rx="41.5911" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>EntityName_CompositeField_SubField1&#45;&#45;EntityName_CompositeField</title>
+<path fill="none" stroke="black" d="M206.645,-310.167C213.488,-306.255 220.418,-301.506 226,-296 248.685,-273.623 237.972,-254.927 262,-234 268.908,-227.983 277.338,-223.189 285.831,-219.413"/>
+</g>
+
+<g id="node8" class="node"><title>EntityName_CompositeField_SubField2</title>
+<ellipse fill="white" stroke="black" cx="177" cy="-265" rx="41.6089" ry="18"/>
+<ellipse fill="none" stroke="black" cx="177" cy="-265" rx="45.5911" ry="22"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>EntityName_CompositeField_SubField2&#45;&#45;EntityName_CompositeField</title>
+<path fill="none" stroke="black" d="M213.168,-251.402C236.722,-242.294 267.658,-230.332 291.486,-221.119"/>
+</g>
+
+<g id="node9" class="node"><title>EntityName_CompositeField_SubField3</title>
+<ellipse fill="white" stroke="black" cx="177" cy="-207" rx="48.7185" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>EntityName_CompositeField_SubField3&#45;&#45;EntityName_CompositeField</title>
+<path fill="none" stroke="black" d="M225.873,-207C239.677,-207 254.898,-207 269.28,-207"/>
+</g>
+
+<g id="node10" class="node"><title>EntityName_CompositeField_SubField4</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="177" cy="-153" rx="41.5911" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>EntityName_CompositeField_SubField4&#45;&#45;EntityName_CompositeField</title>
+<path fill="none" stroke="black" d="M209.811,-164.452C233.289,-172.904 265.331,-184.439 290.13,-193.367"/>
+</g>
+
+<g id="node11" class="node"><title>EntityName_ComplexField</title>
+<ellipse fill="white" stroke="black" cx="329" cy="-99" rx="52.2899" ry="18"/>
+<ellipse fill="none" stroke="black" cx="329" cy="-99" rx="56.2822" ry="22"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>EntityName_ComplexField&#45;&#45;EntityName</title>
+<path fill="none" stroke="black" d="M348.011,-119.824C361.657,-135.899 380.617,-158.889 396,-180 419.902,-212.8 445.09,-252.986 459.047,-275.827"/>
+</g>
+
+<g id="node12" class="node"><title>EntityName_ComplexField_SubField1</title>
+<ellipse fill="white" stroke="black" cx="177" cy="-99" rx="41.5911" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>EntityName_ComplexField_SubField1&#45;&#45;EntityName_ComplexField</title>
+<path fill="none" stroke="black" d="M218.988,-99C235.469,-99 254.73,-99 272.439,-99"/>
+</g>
+
+<g id="node13" class="node"><title>EntityName_ComplexField_SubField2</title>
+<ellipse fill="white" stroke="black" cx="177" cy="-45" rx="41.5911" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>EntityName_ComplexField_SubField2&#45;&#45;EntityName_ComplexField</title>
+<path fill="none" stroke="black" d="M209.811,-56.452C232.343,-64.5634 262.763,-75.5147 287.099,-84.2755"/>
+</g>
+
+<g id="node14" class="node"><title>EntityName_ComplexField_SubField2_SubField21</title>
+<ellipse fill="white" stroke="black" cx="46" cy="-72" rx="45.1548" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge"><title>EntityName_ComplexField_SubField2_SubField21&#45;&#45;EntityName_ComplexField_SubField2</title>
+<path fill="none" stroke="black" d="M86.4052,-63.7524C103.151,-60.2475 122.57,-56.1831 139.039,-52.736"/>
+</g>
+
+<g id="node15" class="node"><title>EntityName_ComplexField_SubField2_SubField22</title>
+<ellipse fill="white" stroke="black" cx="46" cy="-18" rx="45.1548" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>EntityName_ComplexField_SubField2_SubField22&#45;&#45;EntityName_ComplexField_SubField2</title>
+<path fill="none" stroke="black" d="M86.4052,-26.2476C103.151,-29.7525 122.57,-33.8169 139.039,-37.264"/>
+</g>
+</g>
+</svg>

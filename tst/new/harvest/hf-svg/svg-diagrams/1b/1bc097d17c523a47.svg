@@ -1,0 +1,149 @@
+<svg width="348pt" height="690pt"
+ viewBox="0.00 0.00 348.00 690.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 686)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-686 344,-686 344,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_Global</title>
+<path fill="none" stroke="gray" d="M20,-8C20,-8 320,-8 320,-8 326,-8 332,-14 332,-20 332,-20 332,-662 332,-662 332,-668 326,-674 320,-674 320,-674 20,-674 20,-674 14,-674 8,-668 8,-662 8,-662 8,-20 8,-20 8,-14 14,-8 20,-8"/>
+
+</g>
+
+<g id="node1" class="node"><title>\\Entity</title>
+<polygon fill="none" stroke="black" points="100,-430 16,-430 16,-394 100,-394 100,-430"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>\\Manager</title>
+<polygon fill="none" stroke="black" points="100,-592 16,-592 16,-556 100,-556 100,-592"/>
+
+
+</g>
+
+<g id="node3" class="node"><title>\\Comment</title>
+<polygon fill="none" stroke="black" points="280,-484 216,-484 216,-448 280,-448 280,-484"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>\\Comment&#45;&gt;\\Entity</title>
+<path fill="none" stroke="black" d="M215.956,-457.083C187.194,-448.822 143.88,-436.381 110.035,-426.659"/>
+<polygon fill="none" stroke="black" points="110.89,-423.263 100.312,-423.866 108.957,-429.991 110.89,-423.263"/>
+</g>
+
+<g id="node4" class="node"><title>\\CommentsManager</title>
+<polygon fill="none" stroke="black" points="307,-646 189,-646 189,-610 307,-610 307,-646"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>\\CommentsManager&#45;&gt;\\Manager</title>
+<path fill="none" stroke="black" d="M188.803,-611.284C163.591,-604.042 134.34,-595.64 109.995,-588.647"/>
+<polygon fill="none" stroke="black" points="110.812,-585.241 100.235,-585.844 108.88,-591.969 110.812,-585.241"/>
+</g>
+
+<g id="node5" class="node"><title>\\FractalsManager</title>
+<polygon fill="none" stroke="black" points="307,-592 189,-592 189,-556 307,-556 307,-592"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>\\FractalsManager&#45;&gt;\\Manager</title>
+<path fill="none" stroke="black" d="M188.803,-574C163.704,-574 134.6,-574 110.32,-574"/>
+<polygon fill="none" stroke="black" points="110.235,-570.5 100.235,-574 110.235,-577.5 110.235,-570.5"/>
+</g>
+
+<g id="node6" class="node"><title>\\Fractal</title>
+<polygon fill="none" stroke="black" points="280,-430 216,-430 216,-394 280,-394 280,-430"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>\\Fractal&#45;&gt;\\Entity</title>
+<path fill="none" stroke="black" d="M215.956,-412C187.318,-412 144.252,-412 110.471,-412"/>
+<polygon fill="none" stroke="black" points="110.312,-408.5 100.312,-412 110.312,-415.5 110.312,-408.5"/>
+</g>
+
+<g id="node7" class="node"><title>\\UsersManager</title>
+<polygon fill="none" stroke="black" points="297,-538 199,-538 199,-502 297,-502 297,-538"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>\\UsersManager&#45;&gt;\\Manager</title>
+<path fill="none" stroke="black" d="M198.585,-533.906C171.455,-541.699 137.639,-551.412 110.086,-559.326"/>
+<polygon fill="none" stroke="black" points="108.888,-556.029 100.243,-562.154 110.821,-562.757 108.888,-556.029"/>
+</g>
+
+<g id="node8" class="node"><title>\\User</title>
+<polygon fill="none" stroke="black" points="275,-376 221,-376 221,-340 275,-340 275,-376"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>\\User&#45;&gt;\\Entity</title>
+<path fill="none" stroke="black" d="M220.859,-365.508C192.27,-373.72 145.75,-387.083 109.902,-397.379"/>
+<polygon fill="none" stroke="black" points="108.743,-394.071 100.098,-400.195 110.675,-400.799 108.743,-394.071"/>
+</g>
+
+<g id="node9" class="node"><title>\\AdminController</title>
+<polygon fill="none" stroke="black" points="307,-322 189,-322 189,-286 307,-286 307,-322"/>
+
+</g>
+
+<g id="node10" class="node"><title>\\Controller</title>
+<polygon fill="none" stroke="black" points="100,-187 16,-187 16,-151 100,-151 100,-187"/>
+
+
+</g>
+
+<g id="edge7" class="edge"><title>\\AdminController&#45;&gt;\\Controller</title>
+<path fill="none" stroke="black" d="M188.93,-285.888C183.047,-283.236 177.295,-280.277 172,-277 135.719,-254.547 101.379,-218.936 80.2817,-194.799"/>
+<polygon fill="none" stroke="black" points="82.825,-192.388 73.6509,-187.089 77.5177,-196.953 82.825,-192.388"/>
+</g>
+
+<g id="node11" class="node"><title>\\FractalController</title>
+<polygon fill="none" stroke="black" points="313.5,-268 182.5,-268 182.5,-232 313.5,-232 313.5,-268"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>\\FractalController&#45;&gt;\\Controller</title>
+<path fill="none" stroke="black" d="M194.694,-231.931C187.034,-229.065 179.279,-226.04 172,-223 149.121,-213.443 124.203,-201.686 103.602,-191.584"/>
+<polygon fill="none" stroke="black" points="104.98,-188.361 94.4633,-187.073 101.881,-194.638 104.98,-188.361"/>
+</g>
+
+<g id="node12" class="node"><title>\\UserController</title>
+<polygon fill="none" stroke="black" points="303.5,-214 192.5,-214 192.5,-178 303.5,-178 303.5,-214"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>\\UserController&#45;&gt;\\Controller</title>
+<path fill="none" stroke="black" d="M192.37,-188.154C166.453,-184.432 135.661,-180.01 110.198,-176.353"/>
+<polygon fill="none" stroke="black" points="110.399,-172.846 100.003,-174.889 109.404,-179.775 110.399,-172.846"/>
+</g>
+
+<g id="node13" class="node"><title>\\FractalizeController</title>
+<polygon fill="none" stroke="black" points="324,-160 172,-160 172,-124 324,-124 324,-160"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>\\FractalizeController&#45;&gt;\\Controller</title>
+<path fill="none" stroke="black" d="M171.887,-152.788C151.167,-155.763 129.17,-158.922 110.15,-161.654"/>
+<polygon fill="none" stroke="black" points="109.61,-158.196 100.209,-163.082 110.605,-165.124 109.61,-158.196"/>
+</g>
+
+<g id="node14" class="node"><title>\\ConnectController</title>
+<polygon fill="none" stroke="black" points="313.5,-106 182.5,-106 182.5,-70 313.5,-70 313.5,-106"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>\\ConnectController&#45;&gt;\\Controller</title>
+<path fill="none" stroke="black" d="M194.694,-106.069C187.034,-108.935 179.279,-111.96 172,-115 149.121,-124.557 124.203,-136.314 103.602,-146.416"/>
+<polygon fill="none" stroke="black" points="101.881,-143.362 94.4633,-150.927 104.98,-149.639 101.881,-143.362"/>
+</g>
+
+<g id="node15" class="node"><title>\\IndexController</title>
+<polygon fill="none" stroke="black" points="307,-52 189,-52 189,-16 307,-16 307,-52"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>\\IndexController&#45;&gt;\\Controller</title>
+<path fill="none" stroke="black" d="M188.93,-52.1117C183.047,-54.7636 177.295,-57.7229 172,-61 135.719,-83.4528 101.379,-119.064 80.2817,-143.201"/>
+<polygon fill="none" stroke="black" points="77.5177,-141.047 73.6509,-150.911 82.825,-145.612 77.5177,-141.047"/>
+</g>
+</g>
+</svg>

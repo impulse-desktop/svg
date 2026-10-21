@@ -1,0 +1,17 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <style>
+  .small { font: italic 13px sans-serif;}
+  </style>
+  
+  <defs>
+  
+    <pattern id="dots" viewBox="0,0,10,10" width="3%" height="3%">
+      <circle cx="3" cy="3" r="3" fill="cyan" opacity=".8"/>
+      <circle cx="7" cy="7" r="3" fill="magenta" opacity=".5"/>
+      <circle cx="3" cy="6" r="3" fill="yellow" opacity=".9"/>
+    </pattern>
+  </defs>
+  <circle cx="50"  cy="50" r="50" fill="white" transform="rotate(30,50,50)" opacity=".2"/>
+  <circle cx="50"  cy="50" r="50" fill="url(#dots)" transform="rotate(30,50,50)" opacity=".9"/>
+  
+</svg>

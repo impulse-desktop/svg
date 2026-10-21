@@ -1,0 +1,112 @@
+<svg width="839pt" height="284pt"
+ viewBox="0.00 0.00 839.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-280 835,-280 835,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="181.5,-10 181.5,-30 201.5,-30 201.5,-10 181.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="294.5,-10 294.5,-30 314.5,-30 314.5,-10 294.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="380.5,-10 380.5,-30 400.5,-30 400.5,-10 380.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="477.5,-10 477.5,-30 497.5,-30 497.5,-10 477.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="573.5,-10 573.5,-30 593.5,-30 593.5,-10 573.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_GeneralCategoryAllModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 823,-268 823,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_GeneralCategoryAllModule_declarations</title>
+<polygon fill="none" stroke="black" points="605,-78 605,-130 815,-130 815,-78 605,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_GeneralCategoryAllModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 597,-130 597,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_GeneralCategoryAllModule_exports</title>
+<polygon fill="none" stroke="black" points="280,-208 280,-260 494,-260 494,-208 280,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>GeneralCategoryAllComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="807.34,-122 612.66,-122 612.66,-86 807.34,-86 807.34,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>GeneralCategoryAllModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="473.56,-187 470.56,-191 449.56,-191 446.56,-187 300.44,-187 300.44,-151 473.56,-151 473.56,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>GeneralCategoryAllComponent&#45;&gt;GeneralCategoryAllModule</title>
+<path fill="none" stroke="black" d="M710,-122.28C710,-143.32 710,-175 710,-175 710,-175 483.56,-175 483.56,-175"/>
+<polygon fill="black" stroke="black" points="483.56,-171.5 473.56,-175 483.56,-178.5 483.56,-171.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>GeneralCategoryAllComponent </title>
+<polygon fill="#fb8072" stroke="black" points="486.34,-252 287.66,-252 287.66,-216 486.34,-216 486.34,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>GeneralCategoryAllModule&#45;&gt;GeneralCategoryAllComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M387,-187.11C387,-187.11 387,-205.99 387,-205.99"/>
+<polygon fill="black" stroke="black" points="383.5,-205.99 387,-215.99 390.5,-205.99 383.5,-205.99"/>
+</g>
+
+<g id="node3" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="588.67,-122 585.67,-126 564.67,-126 561.67,-122 477.33,-122 477.33,-86 588.67,-86 588.67,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CommonModule&#45;&gt;GeneralCategoryAllModule</title>
+<path fill="none" stroke="black" d="M481.67,-122.02C481.67,-139.37 481.67,-163 481.67,-163 481.67,-163 480.86,-163 480.86,-163"/>
+<polygon fill="black" stroke="black" points="483.6,-159.5 473.6,-163 483.6,-166.5 483.6,-159.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>ProductServiceModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="459.58,-122 456.58,-126 435.58,-126 432.58,-122 314.42,-122 314.42,-86 459.58,-86 459.58,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ProductServiceModule&#45;&gt;GeneralCategoryAllModule</title>
+<path fill="none" stroke="black" d="M387,-122.11C387,-122.11 387,-140.99 387,-140.99"/>
+<polygon fill="black" stroke="black" points="383.5,-140.99 387,-150.99 390.5,-140.99 383.5,-140.99"/>
+</g>
+
+<g id="node5" class="node">
+<title>LoadingIndicatorModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="296.24,-122 293.24,-126 272.24,-126 269.24,-122 139.76,-122 139.76,-86 296.24,-86 296.24,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LoadingIndicatorModule&#45;&gt;GeneralCategoryAllModule</title>
+<path fill="none" stroke="black" d="M292.1,-122.02C292.1,-139.37 292.1,-163 292.1,-163 292.1,-163 292.91,-163 292.91,-163"/>
+<polygon fill="black" stroke="black" points="290.19,-166.5 300.19,-163 290.19,-159.5 290.19,-166.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>RouterModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="121.65,-122 118.65,-126 97.65,-126 94.65,-122 24.35,-122 24.35,-86 121.65,-86 121.65,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>RouterModule&#45;&gt;GeneralCategoryAllModule</title>
+<path fill="none" stroke="black" d="M73,-122.28C73,-143.32 73,-175 73,-175 73,-175 290.37,-175 290.37,-175"/>
+<polygon fill="black" stroke="black" points="290.37,-178.5 300.37,-175 290.37,-171.5 290.37,-178.5"/>
+</g>
+</g>
+</svg>

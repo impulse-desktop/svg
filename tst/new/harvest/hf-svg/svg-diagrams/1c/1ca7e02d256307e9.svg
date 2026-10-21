@@ -1,0 +1,92 @@
+<svg width="132pt" height="656pt"
+ viewBox="0.00 0.00 132.00 656.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 652)">
+<title>marian::rnn::SlowLSTM</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-652 128,-652 128,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="2.5,-0.5 2.5,-211.5 121.5,-211.5 121.5,-0.5 2.5,-0.5"/>
+
+<polyline fill="none" stroke="black" points="2.5,-192.5 121.5,-192.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+<polyline fill="none" stroke="black" points="2.5,-52.5 121.5,-52.5 "/>
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../d5/de5/classmarian_1_1rnn_1_1Cell.html" target="_top" xlink:title="{marian::rnn::Cell\n|# lazyInputs_\l|+ Cell()\l+ apply()\l+ getLazyInputs()\l+ setLazyInputs()\l+ applyInput()\l+ applyState()\l+ clear()\l}">
+<polygon fill="white" stroke="black" points="15.5,-248.5 15.5,-371.5 108.5,-371.5 108.5,-248.5 15.5,-248.5"/>
+
+<polyline fill="none" stroke="black" points="15.5,-352.5 108.5,-352.5 "/>
+
+<polyline fill="none" stroke="black" points="15.5,-333.5 108.5,-333.5 "/>
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M62,-238.12C62,-229.553 62,-220.668 62,-211.744"/>
+<polygon fill="none" stroke="midnightblue" points="58.5001,-238.393 62,-248.393 65.5001,-238.393 58.5001,-238.393"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d4/d04/classmarian_1_1rnn_1_1Stackable.html" target="_top" xlink:title="{marian::rnn::Stackable\n|# options_\l|+ Stackable()\l+ ~Stackable()\l+ as()\l+ is()\l+ getOptions()\l+ opt()\l+ opt()\l+ clear()\l}">
+<polygon fill="white" stroke="black" points="4.5,-408.5 4.5,-542.5 119.5,-542.5 119.5,-408.5 4.5,-408.5"/>
+
+<polyline fill="none" stroke="black" points="4.5,-523.5 119.5,-523.5 "/>
+
+<polyline fill="none" stroke="black" points="4.5,-504.5 119.5,-504.5 "/>
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M62,-398.425C62,-389.473 62,-380.43 62,-371.728"/>
+<polygon fill="none" stroke="midnightblue" points="58.5001,-398.47 62,-408.47 65.5001,-398.47 58.5001,-398.47"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<polygon fill="white" stroke="#bfbfbf" points="-7.10543e-15,-579.5 -7.10543e-15,-647.5 124,-647.5 124,-579.5 -7.10543e-15,-579.5"/>
+
+
+<polyline fill="none" stroke="#bfbfbf" points="-7.10543e-15,-617.5 124,-617.5 "/>
+
+<polyline fill="none" stroke="#bfbfbf" points="-7.10543e-15,-598.5 124,-598.5 "/>
+
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M62,-568.956C62,-560.567 62,-551.604 62,-542.683"/>
+<polygon fill="none" stroke="midnightblue" points="58.5001,-569.231 62,-579.231 65.5001,-569.231 58.5001,-569.231"/>
+</g>
+</g>
+</svg>

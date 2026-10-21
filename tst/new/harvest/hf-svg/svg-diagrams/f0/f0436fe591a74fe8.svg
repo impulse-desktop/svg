@@ -1,0 +1,120 @@
+<svg width="642pt" height="421pt"
+ viewBox="0.00 0.00 642.34 421.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 417)">
+<title>task_status</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-417 638.335,-417 638.335,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_0</title>
+<polygon fill="none" stroke="black" points="156.335,-212 156.335,-405 282.335,-405 282.335,-212 156.335,-212"/>
+
+</g>
+<g id="clust2" class="cluster"><title>cluster_1</title>
+<polygon fill="pink" stroke="pink" points="164.335,-299 164.335,-374 274.335,-374 274.335,-299 164.335,-299"/>
+
+</g>
+<g id="clust3" class="cluster"><title>cluster_2</title>
+<polygon fill="none" stroke="black" points="308.335,-8 308.335,-405 626.335,-405 626.335,-8 308.335,-8"/>
+
+</g>
+<g id="clust4" class="cluster"><title>cluster_2</title>
+<polygon fill="pink" stroke="pink" points="375.335,-212 375.335,-374 485.335,-374 485.335,-212 375.335,-212"/>
+
+</g>
+
+<g id="node1" class="node"><title>pending_task</title>
+<ellipse fill="lightgrey" stroke="black" cx="212.335" cy="-325" rx="40.0939" ry="18"/>
+
+</g>
+
+<g id="node2" class="node"><title>completed_task</title>
+<ellipse fill="lightgrey" stroke="black" cx="225.335" cy="-238" rx="48.9926" ry="18"/>
+
+</g>
+
+
+<g id="node3" class="node"><title>submitted_task</title>
+<ellipse fill="lightgrey" stroke="black" cx="430.335" cy="-325" rx="46.5926" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>pending_task&#45;&gt;submitted_task</title>
+<path fill="none" stroke="blue" stroke-width="2" d="M252.828,-325C286.594,-325 335.108,-325 372.888,-325"/>
+<polygon fill="blue" stroke="blue" stroke-width="2" points="373.238,-328.5 383.238,-325 373.238,-321.5 373.238,-328.5"/>
+
+
+</g>
+
+<g id="node4" class="node"><title>running_task</title>
+<ellipse fill="lightgrey" stroke="black" cx="422.335" cy="-238" rx="38.9931" ry="18"/>
+
+</g>
+
+
+<g id="node5" class="node"><title>result_ready_task</title>
+<ellipse fill="lightgrey" stroke="black" cx="370.335" cy="-136" rx="53.8905" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>pending_task&#45;&gt;result_ready_task</title>
+<path fill="none" stroke="green" stroke-width="2" d="M174.717,-318.239C103.663,-305.811 -38.9333,-272.59 10.3351,-212 47.0703,-166.823 214.234,-147.948 307.303,-140.83"/>
+<polygon fill="green" stroke="green" stroke-width="2" points="307.733,-144.308 317.446,-140.078 307.215,-137.327 307.733,-144.308"/>
+
+
+</g>
+
+<g id="edge1" class="edge"><title>submitted_task&#45;&gt;running_task</title>
+<path fill="none" stroke="blue" stroke-width="2" d="M428.716,-306.799C427.621,-295.163 426.151,-279.548 424.899,-266.237"/>
+<polygon fill="blue" stroke="blue" stroke-width="2" points="428.373,-265.803 423.952,-256.175 421.404,-266.459 428.373,-265.803"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>running_task&#45;&gt;result_ready_task</title>
+<path fill="none" stroke="blue" stroke-width="2" d="M388.131,-229.292C373.552,-224.131 357.946,-215.678 349.335,-202 341.76,-189.967 345.887,-174.947 352.416,-162.378"/>
+<polygon fill="blue" stroke="blue" stroke-width="2" points="355.442,-164.137 357.462,-153.737 349.397,-160.607 355.442,-164.137"/>
+
+
+</g>
+
+<g id="node7" class="node"><title>failed_task</title>
+<ellipse fill="none" stroke="black" cx="473.335" cy="-136" rx="31.3957" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>running_task&#45;&gt;failed_task</title>
+<path fill="none" stroke="red" d="M416.574,-220.166C412.914,-206.364 410.229,-186.767 418.335,-172 423.015,-163.475 430.749,-156.73 438.96,-151.53"/>
+<polygon fill="red" stroke="red" points="440.934,-154.436 447.935,-146.484 437.503,-148.334 440.934,-154.436"/>
+
+
+</g>
+
+<g id="node8" class="node"><title>aborted_task</title>
+<ellipse fill="none" stroke="black" cx="560.335" cy="-136" rx="37.8943" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>running_task&#45;&gt;aborted_task</title>
+<path fill="none" stroke="red" d="M445.325,-223.429C455.598,-217.163 467.749,-209.469 478.335,-202 497.801,-188.266 518.842,-171.546 534.736,-158.503"/>
+<polygon fill="red" stroke="red" points="537.063,-161.12 542.542,-152.053 532.604,-155.724 537.063,-161.12"/>
+
+
+</g>
+
+<g id="edge8" class="edge"><title>result_ready_task&#45;&gt;completed_task</title>
+<path fill="none" stroke="blue" stroke-width="2" d="M320.282,-142.868C298.254,-147.642 273.348,-156.299 255.335,-172 243.912,-181.957 236.565,-197.173 232.002,-210.38"/>
+<polygon fill="blue" stroke="blue" stroke-width="2" points="228.648,-209.381 229.035,-219.968 235.335,-211.45 228.648,-209.381"/>
+
+
+</g>
+
+<g id="node6" class="node"><title>result_mismatch</title>
+<ellipse fill="none" stroke="black" cx="386.335" cy="-34" rx="69.5877" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>result_ready_task&#45;&gt;result_mismatch</title>
+<path fill="none" stroke="red" d="M373.122,-117.581C375.554,-102.382 379.124,-80.0669 381.941,-62.4644"/>
+<polygon fill="red" stroke="red" points="385.456,-62.6465 383.58,-52.2191 378.544,-61.5405 385.456,-62.6465"/>
+
+
+</g>
+</g>
+</svg>

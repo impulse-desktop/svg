@@ -1,0 +1,237 @@
+<svg width="548pt" height="272pt"
+ viewBox="0.00 0.00 548.00 272.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 268)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-268 545,-268 545,5 -4,5"/>
+
+<g id="CaI [CHEBI:29108]" class="node"><title>CaI</title>
+<ellipse fill="none" stroke="black" cx="108" cy="-127" rx="18" ry="18"/>
+
+</g>
+
+<g id="node10" class="node"><title>JPump_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="163" cy="-127" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge9" class="edge"><title>CaI&#45;&gt;JPump_intermediate_r</title>
+<path fill="none" stroke="black" d="M126.061,-127C141.071,-127 160.727,-127 161.941,-127"/>
+</g>
+
+<g id="node15" class="node"><title>kPLC_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="163" cy="-201" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge16" class="edge"><title>CaI&#45;&gt;kPLC_intermediate_m</title>
+<path fill="none" stroke="black" d="M119.219,-141.268C134.139,-162.099 160.3,-198.627 161.921,-200.89"/>
+</g>
+
+<g id="node22" class="node"><title>inhibition_parameter1_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="163" cy="-53" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge24" class="edge"><title>CaI&#45;&gt;inhibition_parameter1_intermediate_m</title>
+<path fill="none" stroke="black" d="M119.219,-112.732C134.139,-91.9005 160.3,-55.3729 161.921,-53.1103"/>
+</g>
+
+<g id="node26" class="node"><title>inhibition_parameter2_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="427" cy="-82" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge29" class="edge"><title>CaI&#45;&gt;inhibition_parameter2_intermediate_m</title>
+<path fill="none" stroke="black" d="M123.425,-117.245C144.83,-103.742 186.713,-81 226,-81 226,-81 226,-81 292,-81 350.627,-81 423.677,-81.969 425.946,-81.9993"/>
+</g>
+
+<g id="IP3 [CHEBI:16595]" class="node"><title>IP3</title>
+<ellipse fill="none" stroke="black" cx="227" cy="-219" rx="18" ry="18"/>
+
+</g>
+
+<g id="node8" class="node"><title>JChannel_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="540" cy="-113" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge6" class="edge"><title>IP3&#45;&gt;JChannel_intermediate_m</title>
+<path fill="none" stroke="black" d="M244.283,-213.45C307.274,-191.981 531.831,-115.444 538.833,-113.057"/>
+</g>
+
+<g id="node17" class="node"><title>kPhosphatase_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="291" cy="-242" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge18" class="edge"><title>IP3&#45;&gt;kPhosphatase_intermediate_r</title>
+<path fill="none" stroke="black" d="M244.29,-225.043C262.085,-231.645 288.3,-241.369 289.921,-241.971"/>
+</g>
+
+<g id="CaS [CHEBI:29108]" class="node"><title>CaS</title>
+<ellipse fill="none" stroke="black" cx="346" cy="-127" rx="18" ry="18"/>
+
+</g>
+
+<g id="node6" class="node"><title>JChannel_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="427" cy="-117" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge2" class="edge"><title>CaS&#45;&gt;JChannel_intermediate_r</title>
+<path fill="none" stroke="black" d="M364.142,-124.83C386.65,-121.981 423.601,-117.304 425.888,-117.014"/>
+</g>
+
+<g id="g" class="node"><title>g</title>
+<ellipse fill="none" stroke="black" cx="227" cy="-35" rx="27" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>g&#45;&gt;JChannel_intermediate_m</title>
+<path fill="none" stroke="black" d="M249.421,-24.4988C272.458,-14.1894 310.441,-0 345,-0 345,-0 345,-0 428,-0 497.299,-0 537.724,-109.496 538.97,-112.918"/>
+</g>
+
+<g id="node24" class="node"><title>inhibition_parameter2_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="291" cy="-41" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge26" class="edge"><title>g&#45;&gt;inhibition_parameter2_intermediate_r</title>
+<path fill="none" stroke="black" d="M253.934,-37.5098C270.393,-39.1026 288.81,-40.8848 289.945,-40.9947"/>
+</g>
+
+<g id="node5" class="node"><title>JChannel</title>
+<polygon fill="none" stroke="black" points="504,-155 490,-155 490,-141 504,-141 504,-155"/>
+</g>
+
+<g id="node7" class="node"><title>JChannel_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="540" cy="-165" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge3" class="edge"><title>JChannel&#45;&gt;JChannel_intermediate_p</title>
+<path fill="none" stroke="black" d="M504.05,-150.508C515.098,-155.089 537.54,-164.395 538.932,-164.972"/>
+</g>
+
+<g id="edge5" class="edge"><title>JChannel&#45;&gt;JChannel_intermediate_m</title>
+<path fill="none" stroke="black" d="M504.05,-142.836C515.098,-133.404 537.54,-114.246 538.932,-113.058"/>
+</g>
+
+<g id="edge1" class="edge"><title>JChannel_intermediate_r&#45;&gt;JChannel</title>
+<path fill="none" stroke="black" d="M428.049,-117.022C429.722,-117.785 473.535,-137.758 489.906,-145.222"/>
+</g>
+
+<g id="edge4" class="edge"><title>JChannel_intermediate_p&#45;&gt;CaI</title>
+<path fill="none" stroke="black" d="M538.9,-165.006C534.72,-165.248 400.119,-173 292,-173 226,-173 226,-173 226,-173 191.471,-173 154.936,-155.433 132.061,-142.01"/>
+<polygon fill="black" stroke="black" points="133.787,-138.964 123.425,-136.755 130.148,-144.944 133.787,-138.964"/>
+</g>
+
+<g id="node9" class="node"><title>JPump</title>
+<polygon fill="none" stroke="black" points="234,-134 220,-134 220,-120 234,-120 234,-134"/>
+</g>
+
+<g id="node11" class="node"><title>JPump_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="291" cy="-127" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge10" class="edge"><title>JPump&#45;&gt;JPump_intermediate_p</title>
+<path fill="none" stroke="black" d="M234.171,-127C249.364,-127 287.515,-127 289.884,-127"/>
+</g>
+
+<g id="edge8" class="edge"><title>JPump_intermediate_r&#45;&gt;JPump</title>
+<path fill="none" stroke="black" d="M164.045,-127C165.541,-127 203.995,-127 219.555,-127"/>
+</g>
+
+<g id="edge11" class="edge"><title>JPump_intermediate_p&#45;&gt;CaS</title>
+<path fill="none" stroke="black" d="M292.152,-127C293.632,-127 305.681,-127 317.9,-127"/>
+<polygon fill="black" stroke="black" points="317.975,-130.5 327.975,-127 317.975,-123.5 317.975,-130.5"/>
+</g>
+
+<g id="node12" class="node"><title>kPLC</title>
+<polygon fill="none" stroke="black" points="115,-217 101,-217 101,-203 115,-203 115,-217"/>
+</g>
+
+<g id="node14" class="node"><title>kPLC_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="163" cy="-219" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge13" class="edge"><title>kPLC&#45;&gt;kPLC_intermediate_p</title>
+<path fill="none" stroke="black" d="M115.08,-211.032C128.566,-213.323 159.956,-218.653 161.905,-218.984"/>
+</g>
+
+<g id="edge15" class="edge"><title>kPLC&#45;&gt;kPLC_intermediate_m</title>
+<path fill="none" stroke="black" d="M115.08,-208.968C128.566,-206.677 159.956,-201.347 161.905,-201.016"/>
+</g>
+
+<g id="node13" class="node"><title>kPLC_empty</title>
+
+</g>
+
+<g id="edge12" class="edge"><title>kPLC_empty&#45;&gt;kPLC</title>
+<path fill="none" stroke="black" d="M54.3059,-210C70.8236,-210 90.8189,-210 100.76,-210"/>
+</g>
+
+<g id="edge14" class="edge"><title>kPLC_intermediate_p&#45;&gt;IP3</title>
+<path fill="none" stroke="black" d="M164.045,-219C165.044,-219 182.509,-219 198.641,-219"/>
+<polygon fill="black" stroke="black" points="198.863,-222.5 208.863,-219 198.863,-215.5 198.863,-222.5"/>
+</g>
+
+<g id="node16" class="node"><title>kPhosphatase</title>
+<polygon fill="none" stroke="black" points="353,-253 339,-253 339,-239 353,-239 353,-253"/>
+</g>
+
+<g id="node18" class="node"><title>kPhosphatase_empty</title>
+
+</g>
+
+<g id="edge19" class="edge"><title>kPhosphatase&#45;&gt;kPhosphatase_empty</title>
+<path fill="none" stroke="black" d="M353.199,-246C361.219,-246 375.832,-246 389.873,-246"/>
+<polygon fill="black" stroke="black" points="389.893,-249.5 399.893,-246 389.893,-242.5 389.893,-249.5"/>
+</g>
+
+<g id="edge17" class="edge"><title>kPhosphatase_intermediate_r&#45;&gt;kPhosphatase</title>
+<path fill="none" stroke="black" d="M292.152,-242.011C294.581,-242.195 325.47,-244.526 338.868,-245.537"/>
+</g>
+
+<g id="node19" class="node"><title>inhibition_parameter1</title>
+<polygon fill="none" stroke="black" points="115,-51 101,-51 101,-37 115,-37 115,-51"/>
+</g>
+
+<g id="node21" class="node"><title>inhibition_parameter1_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="163" cy="-35" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge21" class="edge"><title>inhibition_parameter1&#45;&gt;inhibition_parameter1_intermediate_p</title>
+<path fill="none" stroke="black" d="M115.08,-42.9676C128.566,-40.6775 159.956,-35.3471 161.905,-35.0161"/>
+</g>
+
+<g id="edge23" class="edge"><title>inhibition_parameter1&#45;&gt;inhibition_parameter1_intermediate_m</title>
+<path fill="none" stroke="black" d="M115.08,-45.0324C128.566,-47.3225 159.956,-52.6529 161.905,-52.9839"/>
+</g>
+
+<g id="node20" class="node"><title>inhibition_parameter1_empty</title>
+
+</g>
+
+<g id="edge20" class="edge"><title>inhibition_parameter1_empty&#45;&gt;inhibition_parameter1</title>
+<path fill="none" stroke="black" d="M54.3059,-44C70.8236,-44 90.8189,-44 100.76,-44"/>
+</g>
+
+<g id="edge22" class="edge"><title>inhibition_parameter1_intermediate_p&#45;&gt;g</title>
+<path fill="none" stroke="black" d="M164.045,-35C164.863,-35 176.734,-35 189.87,-35"/>
+<polygon fill="black" stroke="black" points="189.998,-38.5001 199.998,-35 189.998,-31.5001 189.998,-38.5001"/>
+</g>
+
+<g id="node23" class="node"><title>inhibition_parameter2</title>
+<polygon fill="none" stroke="black" points="353,-53 339,-53 339,-39 353,-39 353,-53"/>
+</g>
+
+<g id="node25" class="node"><title>inhibition_parameter2_empty</title>
+
+</g>
+
+<g id="edge27" class="edge"><title>inhibition_parameter2&#45;&gt;inhibition_parameter2_empty</title>
+<path fill="none" stroke="black" d="M353.199,-46C361.219,-46 375.832,-46 389.873,-46"/>
+<polygon fill="black" stroke="black" points="389.893,-49.5001 399.893,-46 389.893,-42.5001 389.893,-49.5001"/>
+</g>
+
+<g id="edge28" class="edge"><title>inhibition_parameter2&#45;&gt;inhibition_parameter2_intermediate_m</title>
+<path fill="none" stroke="black" d="M353.07,-49.4408C362.785,-54.868 382.515,-65.5621 400,-73 410.549,-77.4876 424.17,-81.4711 425.832,-81.9515"/>
+</g>
+
+<g id="edge25" class="edge"><title>inhibition_parameter2_intermediate_r&#45;&gt;inhibition_parameter2</title>
+<path fill="none" stroke="black" d="M292.152,-41.0143C294.581,-41.2435 325.47,-44.1576 338.868,-45.4216"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,84 @@
+<svg width="724pt" height="107pt"
+ viewBox="0.00 0.00 723.55 107.36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 103.36)">
+<title>power</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-103.36 719.55,-103.36 719.55,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_ups</title>
+<polygon fill="none" stroke="black" points="130.69,-16.36 130.69,-91.36 603.06,-91.36 603.06,-16.36 130.69,-16.36"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>ACin</title>
+<ellipse fill="none" stroke="black" cx="51.35" cy="-19.36" rx="51.19" ry="18"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>charger</title>
+<ellipse fill="none" stroke="black" cx="185.49" cy="-42.36" rx="46.59" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ACin&#45;&gt;charger</title>
+<path fill="none" stroke="black" d="M97.82,-27.28C109.02,-29.23 121.1,-31.33 132.58,-33.33"/>
+<polygon fill="black" stroke="black" points="132.03,-36.79 142.48,-35.05 133.23,-29.89 132.03,-36.79"/>
+</g>
+
+<g id="node6" class="node">
+<title>relay</title>
+<ellipse fill="none" stroke="black" cx="560.61" cy="-42.36" rx="34.39" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ACin&#45;&gt;relay</title>
+<path fill="none" stroke="black" d="M99.52,-13.02C180.33,-3.45 350.08,10.91 490.17,-15.36 502.06,-17.6 514.54,-21.8 525.59,-26.25"/>
+<polygon fill="black" stroke="black" points="524.3,-29.5 534.88,-30.17 527.03,-23.05 524.3,-29.5"/>
+</g>
+
+<g id="node2" class="node">
+<title>ACout</title>
+<ellipse fill="none" stroke="black" cx="673.31" cy="-42.36" rx="42.49" ry="18"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>battery</title>
+<ellipse fill="none" stroke="black" cx="313.13" cy="-42.36" rx="44.69" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>charger&#45;&gt;battery</title>
+<path fill="none" stroke="black" d="M232.56,-42.36C240.82,-42.36 249.51,-42.36 257.97,-42.36"/>
+<polygon fill="black" stroke="black" points="258.15,-45.86 268.15,-42.36 258.15,-38.86 258.15,-45.86"/>
+</g>
+
+<g id="node5" class="node">
+<title>inverter</title>
+<ellipse fill="none" stroke="black" cx="442.07" cy="-42.36" rx="48.19" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>battery&#45;&gt;inverter</title>
+<path fill="none" stroke="black" d="M358.17,-42.36C366.32,-42.36 374.93,-42.36 383.41,-42.36"/>
+<polygon fill="black" stroke="black" points="383.64,-45.86 393.64,-42.36 383.64,-38.86 383.64,-45.86"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>inverter&#45;&gt;relay</title>
+<path fill="none" stroke="black" d="M490.47,-42.36C498.8,-42.36 507.44,-42.36 515.67,-42.36"/>
+<polygon fill="black" stroke="black" points="515.83,-45.86 525.83,-42.36 515.83,-38.86 515.83,-45.86"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>relay&#45;&gt;ACout</title>
+<path fill="none" stroke="black" d="M595.13,-42.36C603.17,-42.36 611.96,-42.36 620.62,-42.36"/>
+<polygon fill="black" stroke="black" points="620.68,-45.86 630.68,-42.36 620.68,-38.86 620.68,-45.86"/>
+</g>
+</g>
+</svg>

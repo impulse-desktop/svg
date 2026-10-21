@@ -1,0 +1,109 @@
+<svg width="839pt" height="110pt"
+ viewBox="0.00 0.00 839.00 110.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 106)">
+<title>internal::kernel_executor_helper&lt; StreamFactory, KernelInputTuple, typename tbb::internal::void_t&lt; typename StreamFactory::range_type &gt;::type &gt;::set_range</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-106 835,-106 835,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-24.5 0,-98.5 172,-98.5 172,-24.5 0,-24.5"/>
+
+
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01113.html#ac41903d6b80e61bd6c605412e7820e08" target="_top" xlink:title="tbb::move">
+<polygon fill="white" stroke="black" points="208,-52 208,-71 268,-71 268,-52 208,-52"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M172.08,-61.5C181,-61.5 189.725,-61.5 197.74,-61.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="197.824,-65.0001 207.824,-61.5 197.824,-58.0001 197.824,-65.0001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a01133.html#abb11c7c316e44b5f97962d62e9ea5f70" target="_top" xlink:title="tbb::internal::move_v3">
+<polygon fill="white" stroke="black" points="304,-52 304,-71 417,-71 417,-52 304,-52"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M268.17,-61.5C275.963,-61.5 284.712,-61.5 293.627,-61.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="293.72,-65.0001 303.72,-61.5 293.72,-58.0001 293.72,-65.0001"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00808.html#a4ddee0e2030f8fa947fd93f403178104" target="_top" xlink:title="tbb::internal::tbb\l_thread_v3::joinable">
+<polygon fill="white" stroke="black" points="589,-71.5 589,-101.5 693,-101.5 693,-71.5 589,-71.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M417.189,-66.499C463.871,-70.6895 530.434,-76.6647 578.64,-80.9919"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="578.361,-84.4808 588.634,-81.889 578.987,-77.5089 578.361,-84.4808"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00808.html#aed1dc35a70fc537682452a1c7bd77faf" target="_top" xlink:title="When detach() returns, *this no longer represents the possibly continuing thread of execution...">
+<polygon fill="white" stroke="black" points="453,-23.5 453,-53.5 553,-53.5 553,-23.5 453,-23.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node3&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M417.029,-52.4098C425.519,-51.02 434.31,-49.5809 442.874,-48.179"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="443.489,-51.625 452.792,-46.5554 442.358,-44.717 443.489,-51.625"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M546.658,-53.5558C559.696,-58.1576 574.185,-63.2713 587.783,-68.0705"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="586.898,-71.4698 597.493,-71.4976 589.228,-64.8689 586.898,-71.4698"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a01133.html#a5aee4a416446e4270c5758f55a5336a0" target="_top" xlink:title="Throws std::runtime_error with what() returning error_code description prefixed with aux_info...">
+<polygon fill="white" stroke="black" points="590,-22.5 590,-52.5 692,-52.5 692,-22.5 590,-22.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M553.099,-38.139C561.63,-38.0762 570.592,-38.0104 579.388,-37.9457"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="579.626,-41.4441 589.6,-37.8706 579.575,-34.4443 579.626,-41.4441"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a01133.html#ab4841a5edb13e2982963a55e900a4812" target="_top" xlink:title="Throws std::runtime_error with what() returning error_code description prefixed with aux_info...">
+<polygon fill="white" stroke="black" points="729,-0.5 729,-30.5 831,-30.5 831,-0.5 729,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node5&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M544.505,-23.4314C558.407,-18.9825 574.196,-14.7136 589,-12.5 631.946,-6.07864 680.958,-7.05357 718.446,-9.5166"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="718.475,-13.0275 728.699,-10.2459 718.972,-6.04512 718.475,-13.0275"/>
+</g>
+
+<g id="edge7" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M692.236,-29.4329C700.892,-28.043 709.967,-26.5856 718.852,-25.1588"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="719.452,-28.6074 728.77,-23.5661 718.342,-21.696 719.452,-28.6074"/>
+</g>
+</g>
+</svg>

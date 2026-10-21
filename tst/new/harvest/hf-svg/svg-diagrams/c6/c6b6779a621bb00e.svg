@@ -1,0 +1,84 @@
+<svg width="640pt" height="211pt"
+ viewBox="0.00 0.00 640.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 636,-207 636,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="82,-10 82,-30 102,-30 102,-10 82,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="195,-10 195,-30 215,-30 215,-10 195,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="281,-10 281,-30 301,-30 301,-10 281,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="378,-10 378,-30 398,-30 398,-10 378,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="474,-10 474,-30 494,-30 494,-10 474,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PatientModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 624,-195 624,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PatientModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="184,-78 184,-130 616,-130 616,-78 184,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_PatientModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 176,-130 176,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ConfirmDialogComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="608.3738,-122 441.6262,-122 441.6262,-86 608.3738,-86 608.3738,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>PatientModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="349.4344,-187 346.4344,-191 325.4344,-191 322.4344,-187 250.5656,-187 250.5656,-151 349.4344,-151 349.4344,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ConfirmDialogComponent&#45;&gt;PatientModule</title>
+<path fill="none" stroke="#000000" d="M525,-122.1061C525,-141.3391 525,-169 525,-169 525,-169 359.3772,-169 359.3772,-169"/>
+<polygon fill="#000000" stroke="#000000" points="359.3772,-165.5001 349.3772,-169 359.3772,-172.5001 359.3772,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>PatientComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="423.2162,-122 302.7838,-122 302.7838,-86 423.2162,-86 423.2162,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PatientComponent&#45;&gt;PatientModule</title>
+<path fill="none" stroke="#000000" d="M326.0544,-122.1061C326.0544,-122.1061 326.0544,-140.991 326.0544,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="322.5544,-140.9909 326.0544,-150.991 329.5544,-140.991 322.5544,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>PatientDialog</title>
+<polygon fill="#ffffb3" stroke="#000000" points="284.486,-122 191.514,-122 191.514,-86 284.486,-86 284.486,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PatientDialog&#45;&gt;PatientModule</title>
+<path fill="none" stroke="#000000" d="M267.6382,-122.1061C267.6382,-122.1061 267.6382,-140.991 267.6382,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="264.1382,-140.9909 267.6382,-150.991 271.1382,-140.991 264.1382,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>PatientRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="167.5519,-122 164.5519,-126 143.5519,-126 140.5519,-122 24.4481,-122 24.4481,-86 167.5519,-86 167.5519,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PatientRoutingModule&#45;&gt;PatientModule</title>
+<path fill="none" stroke="#000000" d="M96,-122.1061C96,-141.3391 96,-169 96,-169 96,-169 240.6173,-169 240.6173,-169"/>
+<polygon fill="#000000" stroke="#000000" points="240.6173,-172.5001 250.6173,-169 240.6173,-165.5001 240.6173,-172.5001"/>
+</g>
+</g>
+</svg>

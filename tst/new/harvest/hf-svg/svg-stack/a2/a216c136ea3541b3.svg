@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1950" height="1151.427" viewBox="0 0 1950 1151.427">
+  <defs>
+    <filter id="Hero-bg" x="0" y="0" width="1950" height="1151.427" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-opacity="0.302"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Hero-bg)">
+    <path id="Hero-bg-2" data-name="Hero-bg" d="M1315.753,1209.55c251.375,27.066,486.136,3.879,602.247-29.55V100H-2V1194.608c42.261,6.128,118.744,11.587,243.42,14.942C489.277,1216.221,821.858,1164.651,1315.753,1209.55Z" transform="translate(17 -88)" fill="#101010"/>
+  </g>
+</svg>

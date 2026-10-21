@@ -1,0 +1,100 @@
+<svg width="766pt" height="284pt"
+ viewBox="0.00 0.00 766.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 762,-280 762,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="145,-10 145,-30 165,-30 165,-10 145,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="258,-10 258,-30 278,-30 278,-10 258,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="344,-10 344,-30 364,-30 364,-10 344,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="441,-10 441,-30 461,-30 461,-10 441,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="537,-10 537,-30 557,-30 557,-10 537,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_EstadoEntrevistaModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 750,-268 750,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_EstadoEntrevistaModule_imports</title>
+<polygon fill="none" stroke="#000000" points="294,-78 294,-130 742,-130 742,-78 294,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_EstadoEntrevistaModule_exports</title>
+<polygon fill="none" stroke="#000000" points="322,-208 322,-260 546,-260 546,-208 322,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_EstadoEntrevistaModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 286,-130 286,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="734.4231,-122 731.4231,-126 710.4231,-126 707.4231,-122 635.5769,-122 635.5769,-86 734.4231,-86 734.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>EstadoEntrevistaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="511.4115,-187 508.4115,-191 487.4115,-191 484.4115,-187 356.5885,-187 356.5885,-151 511.4115,-151 511.4115,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;EstadoEntrevistaModule</title>
+<path fill="none" stroke="#000000" d="M685,-122.1061C685,-141.3391 685,-169 685,-169 685,-169 521.3564,-169 521.3564,-169"/>
+<polygon fill="#000000" stroke="#000000" points="521.3564,-165.5001 511.3564,-169 521.3563,-172.5001 521.3564,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>EstadoEntrevistaRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="617.5294,-122 614.5294,-126 593.5294,-126 590.5294,-122 418.4706,-122 418.4706,-86 617.5294,-86 617.5294,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>EstadoEntrevistaRoutingModule&#45;&gt;EstadoEntrevistaModule</title>
+<path fill="none" stroke="#000000" d="M464.7206,-122.1061C464.7206,-122.1061 464.7206,-140.991 464.7206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="461.2206,-140.9909 464.7206,-150.991 468.2206,-140.991 461.2206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="400.4231,-122 397.4231,-126 376.4231,-126 373.4231,-122 301.5769,-122 301.5769,-86 400.4231,-86 400.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;EstadoEntrevistaModule</title>
+<path fill="none" stroke="#000000" d="M378.5028,-122.1061C378.5028,-122.1061 378.5028,-140.991 378.5028,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="375.0029,-140.9909 378.5028,-150.991 382.0029,-140.991 375.0029,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudEstadoEntrevistaComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="537.691,-252 330.309,-252 330.309,-216 537.691,-216 537.691,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>EstadoEntrevistaModule&#45;&gt;CrudEstadoEntrevistaComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434,-187.1061C434,-187.1061 434,-205.991 434,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="430.5001,-205.9909 434,-215.991 437.5001,-205.991 430.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>EvaluacionInscripcionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="151" cy="-104" rx="126.7452" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>EvaluacionInscripcionService&#45;&gt;EstadoEntrevistaModule</title>
+<path fill="none" stroke="#000000" d="M151,-122.1061C151,-141.3391 151,-169 151,-169 151,-169 346.669,-169 346.669,-169"/>
+<polygon fill="#000000" stroke="#000000" points="346.669,-172.5001 356.669,-169 346.669,-165.5001 346.669,-172.5001"/>
+</g>
+</g>
+</svg>

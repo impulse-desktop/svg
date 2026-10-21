@@ -1,0 +1,77 @@
+<svg width="493pt" height="104pt"
+ viewBox="0.00 0.00 493.00 104.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
+<title>coap_session_create_client</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-100 489,-100 489,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="black" points="376,-33 376,-63 485,-63 485,-33 376,-33"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="group__session.html#ga6c9b57585703c357b0222b674044a88d" target="_top" xlink:title="Creates a new client session to the designated server.">
+<polygon fill="white" stroke="black" points="198.5,-76.5 198.5,-95.5 326.5,-95.5 326.5,-76.5 198.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M365.76,-62.59C345.4,-67.25 323.39,-72.29 305.03,-76.49"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="366.64,-65.98 375.6,-60.34 365.08,-59.16 366.64,-65.98"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="group__session.html#ga9ce8da7d62a9c35be01208c44e8c7737" target="_top" xlink:title="Creates a new client session to the designated server with PKI credentials.">
+<polygon fill="white" stroke="black" points="189.5,-38.5 189.5,-57.5 335.5,-57.5 335.5,-38.5 189.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M365.53,-48C355.72,-48 345.52,-48 335.55,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="365.6,-51.5 375.6,-48 365.6,-44.5 365.6,-51.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="group__session.html#gac9d4dbb58c94b63231d615fe27203939" target="_top" xlink:title="Creates a new client session to the designated server with PSK credentials.">
+<polygon fill="white" stroke="black" points="185,-0.5 185,-19.5 340,-19.5 340,-0.5 185,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M365.76,-33.41C345.4,-28.75 323.39,-23.71 305.03,-19.51"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="365.08,-36.84 375.6,-35.66 366.64,-30.02 365.08,-36.84"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="group__session.html#ga5faf4dd14fcee5d87dd71eacfddf255a" target="_top" xlink:title="Creates a new client session to the designated server with PSK credentials.">
+<polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 149,-19.5 149,-0.5 0,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M174.74,-10C166.15,-10 157.49,-10 149.06,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="174.77,-13.5 184.77,-10 174.77,-6.5 174.77,-13.5"/>
+</g>
+</g>
+</svg>

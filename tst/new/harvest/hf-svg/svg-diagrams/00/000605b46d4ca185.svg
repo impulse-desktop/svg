@@ -1,0 +1,157 @@
+<svg width="876pt" height="173pt"
+ viewBox="0.00 0.00 876.00 173.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169)">
+<title>CProUpRegTx</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-169 872,-169 872,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="786.5,-77.5 786.5,-96.5 867.5,-96.5 867.5,-77.5 786.5,-77.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="class_c_script.html" target="_top" xlink:title="Serialized script, used inside transaction inputs and outputs. ">
+<polygon fill="white" stroke="black" points="607,-136.5 607,-155.5 657,-155.5 657,-136.5 607,-136.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M667.431,-141.195C695.136,-136.717 734.787,-128.916 768,-117 782.939,-111.64 798.885,-103.171 810.268,-96.5954"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="666.779,-137.754 657.436,-142.75 667.855,-144.671 666.779,-137.754"/>
+
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classprevector.html" target="_top" xlink:title="Implements a drop&#45;in replacement for std::vector&lt;T&gt; which stores up to N elements directly (without h...">
+<polygon fill="white" stroke="black" points="391,-137.5 391,-156.5 463,-156.5 463,-137.5 391,-137.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M473.44,-146.776C514.725,-146.573 574.038,-146.281 606.853,-146.119"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="473.343,-143.276 463.36,-146.826 473.377,-150.276 473.343,-143.276"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="unionprevector_1_1direct__or__indirect.html" target="_top" xlink:title="prevector\&lt; N, T, Size,\l Diff \&gt;::direct_or_indirect">
+<polygon fill="white" stroke="black" points="134.5,-135 134.5,-165 259.5,-165 259.5,-135 134.5,-135"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M269.767,-149.056C310.121,-148.525 358.698,-147.886 390.858,-147.462"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="269.653,-145.557 259.7,-149.188 269.745,-152.556 269.653,-145.557"/>
+
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="class_c_key_i_d.html" target="_top" xlink:title="A reference to a CKey: the Hash160 of its serialized public key. ">
+<polygon fill="white" stroke="black" points="606,-98.5 606,-117.5 658,-117.5 658,-98.5 606,-98.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node5&#45;&gt;Node1</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M668.442,-104.144C701.801,-100.514 751.682,-95.0864 786.35,-91.3142"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="667.794,-100.693 658.231,-105.255 668.551,-107.652 667.794,-100.693"/>
+
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="classuint160.html" target="_top" xlink:title="160&#45;bit opaque blob. ">
+<polygon fill="white" stroke="black" points="403,-98.5 403,-117.5 451,-117.5 451,-98.5 403,-98.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node6&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M461.469,-108C502,-108 569.352,-108 605.767,-108"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="461.287,-104.5 451.287,-108 461.287,-111.5 461.287,-104.5"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="classbase__blob.html" target="_top" xlink:title="base_blob\&lt; 160 \&gt;">
+<polygon fill="white" stroke="black" points="149.5,-96.5 149.5,-115.5 244.5,-115.5 244.5,-96.5 149.5,-96.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node7&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M254.878,-106.499C302.57,-106.917 368.248,-107.493 402.72,-107.796"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="254.72,-102.998 244.689,-106.41 254.658,-109.997 254.72,-102.998"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="classuint256.html" target="_top" xlink:title="256&#45;bit opaque blob. ">
+<polygon fill="white" stroke="black" points="173,-33.5 173,-52.5 221,-52.5 221,-33.5 173,-33.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node8&#45;&gt;Node1</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M231.043,-46.5595C245.454,-48.0459 262.553,-49.7206 278,-51 468.275,-66.759 696.183,-79.8914 786.424,-84.8638"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="231.396,-43.0774 221.086,-45.5188 230.668,-50.0395 231.396,-43.0774"/>
+
+
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="class_c_b_l_s_wrapper.html" target="_top" xlink:title="CBLSWrapper\&lt; bls::Public\lKey, BLS_CURVE_PUBKEY\l_SIZE, CBLSPublicKey \&gt;">
+<polygon fill="white" stroke="black" points="354,-0.5 354,-41.5 500,-41.5 500,-0.5 354,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node8&#45;&gt;Node11</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M231.279,-39.7889C263.33,-36.6962 312.865,-31.9165 353.951,-27.9521"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="230.734,-36.3251 221.117,-40.7695 231.407,-43.2927 230.734,-36.3251"/>
+
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="classbase__blob.html" target="_top" xlink:title="base_blob\&lt; 256 \&gt;">
+<polygon fill="white" stroke="black" points="0.5,-33.5 0.5,-52.5 95.5,-52.5 95.5,-33.5 0.5,-33.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node9&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M105.688,-43C129.039,-43 154.782,-43 172.789,-43"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="105.512,-39.5001 95.5117,-43 105.512,-46.5001 105.512,-39.5001"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="class_c_b_l_s_public_key.html" target="_top" xlink:title="CBLSPublicKey">
+<polygon fill="white" stroke="black" points="588.5,-19.5 588.5,-38.5 675.5,-38.5 675.5,-19.5 588.5,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node10&#45;&gt;Node1</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M685.927,-29.1119C711.467,-30.6931 742.108,-34.8874 768,-45 786.992,-52.4177 805.454,-67.5683 816.27,-77.4998"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="685.849,-25.6037 675.686,-28.5985 685.498,-32.5949 685.849,-25.6037"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>Node11&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M510.296,-24.2432C537.068,-25.2983 565.691,-26.4263 588.342,-27.3189"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="510.272,-20.7396 500.142,-23.843 509.996,-27.7342 510.272,-20.7396"/>
+</g>
+</g>
+</svg>

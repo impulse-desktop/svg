@@ -1,0 +1,104 @@
+<svg width="1044pt" height="211pt"
+ viewBox="0.00 0.00 1044.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1040,-207 1040,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="284,-10 284,-30 304,-30 304,-10 284,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="397,-10 397,-30 417,-30 417,-10 397,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="483,-10 483,-30 503,-30 503,-10 483,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="580,-10 580,-30 600,-30 600,-10 580,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="676,-10 676,-30 696,-30 696,-10 676,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ServicesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1028,-195 1028,-70 8,-70"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_ServicesModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1020,-130 1020,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AnalyticsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="935" cy="-104" rx="77.0004" ry="18"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>ServicesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="611.472,-187 608.472,-191 587.472,-191 584.472,-187 504.528,-187 504.528,-151 611.472,-151 611.472,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AnalyticsService&#45;&gt;ServicesModule</title>
+<path fill="none" stroke="#000000" d="M935,-122.2843C935,-143.3211 935,-175 935,-175 935,-175 621.6145,-175 621.6145,-175"/>
+<polygon fill="#000000" stroke="#000000" points="621.6146,-171.5001 611.6145,-175 621.6145,-178.5001 621.6146,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>AuthService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="781" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AuthService&#45;&gt;ServicesModule</title>
+<path fill="none" stroke="#000000" d="M781,-122.0225C781,-139.3734 781,-163 781,-163 781,-163 621.6978,-163 621.6978,-163"/>
+<polygon fill="#000000" stroke="#000000" points="621.6979,-159.5001 611.6978,-163 621.6978,-166.5001 621.6979,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CerApiService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="635" cy="-104" rx="68.3343" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CerApiService&#45;&gt;ServicesModule</title>
+<path fill="none" stroke="#000000" d="M589.0344,-117.468C589.0344,-117.468 589.0344,-140.8642 589.0344,-140.8642"/>
+<polygon fill="#000000" stroke="#000000" points="585.5345,-140.8641 589.0344,-150.8642 592.5345,-140.8642 585.5345,-140.8641"/>
+</g>
+
+<g id="node4" class="node">
+<title>LayoutService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="481" cy="-104" rx="67.1946" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LayoutService&#45;&gt;ServicesModule</title>
+<path fill="none" stroke="#000000" d="M526.4306,-117.468C526.4306,-117.468 526.4306,-140.8642 526.4306,-140.8642"/>
+<polygon fill="#000000" stroke="#000000" points="522.9307,-140.8641 526.4306,-150.8642 529.9307,-140.8642 522.9307,-140.8641"/>
+</g>
+
+<g id="node5" class="node">
+<title>OptionsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="325" cy="-104" rx="70.6432" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>OptionsService&#45;&gt;ServicesModule</title>
+<path fill="none" stroke="#000000" d="M325,-122.0225C325,-139.3734 325,-163 325,-163 325,-163 494.2525,-163 494.2525,-163"/>
+<polygon fill="#000000" stroke="#000000" points="494.2526,-166.5001 504.2525,-163 494.2525,-159.5001 494.2526,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>ResearchHubApiService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="130" cy="-104" rx="106.4792" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ResearchHubApiService&#45;&gt;ServicesModule</title>
+<path fill="none" stroke="#000000" d="M130,-122.2843C130,-143.3211 130,-175 130,-175 130,-175 494.2269,-175 494.2269,-175"/>
+<polygon fill="#000000" stroke="#000000" points="494.2269,-178.5001 504.2269,-175 494.2268,-171.5001 494.2269,-178.5001"/>
+</g>
+</g>
+</svg>

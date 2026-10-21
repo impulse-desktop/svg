@@ -1,0 +1,153 @@
+<svg width="532pt" height="284pt"
+ viewBox="0.00 0.00 532.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>Graphical Class Hierarchy</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-280 528,-280 528,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node34</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="2,-202 2,-221 69,-221 69,-202 2,-202"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>Node35</title>
+<g id="a_node2"><a xlink:href="class_pinknose_1_1_distributed_workers_1_1_clients_1_1_message_client_base.html" target="_top" xlink:title="The base class for message clients and servers.">
+<polygon fill="white" stroke="black" points="123.5,-245.5 123.5,-275.5 269.5,-275.5 269.5,-245.5 123.5,-245.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node34&#45;&gt;Node35</title>
+<path fill="none" stroke="midnightblue" d="M71.6158,-224.544C82.8589,-228.561 95.3995,-232.876 107,-236.5 116.725,-239.538 127.119,-242.557 137.239,-245.377"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="72.7201,-221.221 62.1258,-221.115 70.3417,-227.805 72.7201,-221.221"/>
+</g>
+
+<g id="node4" class="node"><title>Node0</title>
+<g id="a_node4"><a xlink:href="class_pinknose_1_1_distributed_workers_1_1_clients_1_1_message_client_info.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="123.5,-147.5 123.5,-177.5 269.5,-177.5 269.5,-147.5 123.5,-147.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node34&#45;&gt;Node0</title>
+<path fill="none" stroke="midnightblue" d="M73.1243,-198.623C83.9898,-194.913 95.9413,-190.942 107,-187.5 117.824,-184.131 129.451,-180.708 140.604,-177.52"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="71.8242,-195.369 63.5078,-201.933 74.1025,-201.987 71.8242,-195.369"/>
+</g>
+
+<g id="node5" class="node"><title>Node37</title>
+<g id="a_node5"><a xlink:href="class_pinknose_1_1_distributed_workers_1_1_message_queues_1_1_message_queue.html" target="_top" xlink:title="Abstraction of a RabbitMQ queue. This message queue can be written to, but cannot be read from.">
+<polygon fill="white" stroke="black" points="116,-196.5 116,-226.5 277,-226.5 277,-196.5 116,-196.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node34&#45;&gt;Node37</title>
+<path fill="none" stroke="midnightblue" d="M79.0778,-211.5C90.4211,-211.5 103.053,-211.5 115.696,-211.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="79.0597,-208 69.0597,-211.5 79.0597,-215 79.0597,-208"/>
+</g>
+
+<g id="node3" class="node"><title>Node36</title>
+<g id="a_node3"><a xlink:href="class_message_client_base.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="368,-245.5 368,-275.5 478,-275.5 478,-245.5 368,-245.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node35&#45;&gt;Node36</title>
+<path fill="none" stroke="midnightblue" d="M279.977,-260.5C309.22,-260.5 341.369,-260.5 367.673,-260.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="279.769,-257 269.769,-260.5 279.769,-264 279.769,-257"/>
+</g>
+
+<g id="node6" class="node"><title>Node38</title>
+<g id="a_node6"><a xlink:href="class_pinknose_1_1_distributed_workers_1_1_message_queues_1_1_readable_message_queue.html" target="_top" xlink:title="Abstraction of a RabbitMQ queue. This message queue can be written to and can be read from.">
+<polygon fill="white" stroke="black" points="322,-196.5 322,-226.5 524,-226.5 524,-196.5 322,-196.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node37&#45;&gt;Node38</title>
+<path fill="none" stroke="midnightblue" d="M287.499,-211.5C298.733,-211.5 310.277,-211.5 321.656,-211.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="287.282,-208 277.282,-211.5 287.282,-215 287.282,-208"/>
+</g>
+
+<g id="node7" class="node"><title>Node31</title>
+<g id="a_node7"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="0,-55 0,-74 71,-74 71,-55 0,-55"/>
+
+</a>
+</g>
+</g>
+
+<g id="node8" class="node"><title>Node32</title>
+<g id="a_node8"><a xlink:href="class_pinknose_1_1_distributed_workers_1_1_keystore_1_1_public_keystore.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="123.5,-49.5 123.5,-79.5 269.5,-79.5 269.5,-49.5 123.5,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node31&#45;&gt;Node32</title>
+<path fill="none" stroke="midnightblue" d="M81.1197,-64.5C94.2025,-64.5 108.857,-64.5 123.197,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="81.0007,-61.0001 71.0006,-64.5 81.0006,-68.0001 81.0007,-61.0001"/>
+</g>
+
+<g id="node9" class="node"><title>Node33</title>
+<g id="a_node9"><a xlink:href="class_pinknose_1_1_distributed_workers_1_1_keystore_1_1_shared_key_collection.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="122,-0.5 122,-30.5 271,-30.5 271,-0.5 122,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node31&#45;&gt;Node33</title>
+<path fill="none" stroke="midnightblue" d="M73.1243,-51.6227C83.9898,-47.9133 95.9413,-43.9417 107,-40.5 117.824,-37.1315 129.451,-33.7084 140.604,-30.5202"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="71.8242,-48.3685 63.5078,-54.9327 74.1025,-54.9874 71.8242,-48.3685"/>
+</g>
+
+<g id="node10" class="node"><title>Node24</title>
+<g id="a_node10"><a xlink:href="class_pinknose_1_1_distributed_workers_1_1_message_tags_1_1_message_tag_collection.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="107,-98.5 107,-128.5 286,-128.5 286,-98.5 107,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node31&#45;&gt;Node24</title>
+<path fill="none" stroke="midnightblue" d="M71.6158,-77.5436C82.8589,-81.5606 95.3995,-85.876 107,-89.5 116.725,-92.5381 127.119,-95.5572 137.239,-98.3768"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="72.7201,-74.2212 62.1258,-74.1153 70.3417,-80.8048 72.7201,-74.2212"/>
+</g>
+
+<g id="node11" class="node"><title>Node22</title>
+<g id="a_node11"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="1,-128 1,-147 70,-147 70,-128 1,-128"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node22&#45;&gt;Node0</title>
+<path fill="none" stroke="midnightblue" d="M80.4584,-144.412C93.7163,-146.496 108.635,-148.842 123.226,-151.136"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="80.6421,-140.898 70.2198,-142.802 79.5548,-147.813 80.6421,-140.898"/>
+</g>
+
+<g id="edge10" class="edge"><title>Node22&#45;&gt;Node24</title>
+<path fill="none" stroke="midnightblue" d="M80.1113,-130.917C88.5247,-129.647 97.6168,-128.275 106.876,-126.877"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="79.5854,-127.457 70.2198,-132.41 80.6302,-134.378 79.5854,-127.457"/>
+</g>
+</g>
+</svg>

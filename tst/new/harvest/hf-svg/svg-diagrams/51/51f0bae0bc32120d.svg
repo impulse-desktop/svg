@@ -1,0 +1,88 @@
+<svg width="557pt" height="123pt"
+ viewBox="0.00 0.00 557.00 123.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 119)">
+<title>process_word2vec.parse_user_args</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-119 553,-119 553,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-33 0,-63 125,-63 125,-33 0,-33"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="$dd/df7/namespaceprocess__word2vec.html#ab3d9c1343a892a23ca1e60230b030dce" xlink:title="process_word2vec.main">
+<polygon fill="white" stroke="black" points="161,-38.5 161,-57.5 283,-57.5 283,-38.5 161,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M125.296,-41.391C133.629,-41.2504 142.227,-41.215 150.694,-41.2846"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="150.883,-44.7874 160.929,-41.4217 150.977,-37.788 150.883,-44.7874"/>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M160.929,-54.5783C152.636,-54.7334 144.048,-54.7834 135.565,-54.7283"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="135.336,-51.2255 125.296,-54.609 135.255,-58.2251 135.336,-51.2255"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="$dd/df7/namespaceprocess__word2vec.html#a6e39a5dbf33a1c2bb0d4c2354051203f" xlink:title="process_word2vec.load_yaml">
+<polygon fill="white" stroke="black" points="325.5,-95.5 325.5,-114.5 471.5,-114.5 471.5,-95.5 325.5,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M244.8,-57.6398C264.055,-65.9096 293.03,-77.7614 319,-86 326.792,-88.4718 335.106,-90.8031 343.3,-92.9297"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="342.64,-96.3729 353.192,-95.4179 344.348,-89.5843 342.64,-96.3729"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="$da/d22/namespacemarian.html#a460460a6de63beebc5d968b44d49d11b" xlink:title="marian::sum">
+<polygon fill="white" stroke="black" points="363,-57.5 363,-76.5 434,-76.5 434,-57.5 363,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M283.053,-54.5387C305.928,-57.0294 331.575,-59.8219 352.783,-62.1311"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="352.486,-65.6193 362.806,-63.2224 353.244,-58.6605 352.486,-65.6193"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="$dd/df7/namespaceprocess__word2vec.html#a0c9fc4391f1004542a2cd02996445980" xlink:title="process_word2vec.replace_unks">
+<polygon fill="white" stroke="black" points="319,-19.5 319,-38.5 478,-38.5 478,-19.5 319,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M283.053,-41.4613C291.344,-40.5586 299.998,-39.6162 308.674,-38.6717"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="309.284,-42.1259 318.847,-37.564 308.526,-35.1671 309.284,-42.1259"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="$df/d5c/align2steps_8cpp.html#acc994bdb70df3b28bc0f94aede3731c3" xlink:title="split">
+<polygon fill="white" stroke="black" points="514,-0.5 514,-19.5 549,-19.5 549,-0.5 514,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node2&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M241.137,-38.4185C259.99,-29.0425 290.652,-15.4065 319,-10 384.418,2.47639 463.303,-2.72578 503.736,-6.81914"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="503.532,-10.3172 513.848,-7.90259 504.277,-3.35703 503.532,-10.3172"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M465.384,-19.4443C479,-17.4695 492.593,-15.4979 503.811,-13.8709"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="504.368,-17.3268 513.762,-12.4276 503.363,-10.3993 504.368,-17.3268"/>
+</g>
+</g>
+</svg>

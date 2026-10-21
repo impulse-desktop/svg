@@ -1,0 +1,54 @@
+<svg width="437pt" height="50pt"
+ viewBox="0.00 0.00 437.41 49.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 45.8)">
+<title>G</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-45.8 433.4082,-45.8 433.4082,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>curl</title>
+<polygon fill="none" stroke="#000000" points="54,-39 0,-39 0,-3 54,-3 54,-39"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>TCPHTTP\nServer</title>
+<polygon fill="none" stroke="#000000" points="258.6494,-41.6019 186.3156,-41.6019 182.3156,-37.6019 182.3156,-.3981 254.6494,-.3981 258.6494,-4.3981 258.6494,-41.6019"/>
+<polyline fill="none" stroke="#000000" points="254.6494,-37.6019 182.3156,-37.6019 "/>
+<polyline fill="none" stroke="#000000" points="254.6494,-37.6019 254.6494,-.3981 "/>
+<polyline fill="none" stroke="#000000" points="254.6494,-37.6019 258.6494,-41.6019 "/>
+
+
+</g>
+
+<g id="edge1" class="edge">
+<title>curl&#45;&gt;TCPHTTP\nServer</title>
+<path fill="none" stroke="#000000" d="M54.311,-21C84.7798,-21 134.6692,-21 171.8455,-21"/>
+<polygon fill="#000000" stroke="#000000" points="171.9674,-24.5001 181.9673,-21 171.9673,-17.5001 171.9674,-24.5001"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>TCPHTTP\nServer&#45;&gt;curl</title>
+<path fill="none" stroke="#000000" d="M181.9673,-21C147.9079,-21 98.5151,-21 64.7024,-21"/>
+<polygon fill="#000000" stroke="#000000" points="64.311,-17.5001 54.311,-21 64.3109,-24.5001 64.311,-17.5001"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>example.com:80</title>
+<polygon fill="none" stroke="#000000" points="429.3686,-39 324.527,-39 320.527,-35 320.527,-3 425.3686,-3 429.3686,-7 429.3686,-39"/>
+<polyline fill="none" stroke="#000000" points="425.3686,-35 320.527,-35 "/>
+<polyline fill="none" stroke="#000000" points="425.3686,-35 425.3686,-3 "/>
+<polyline fill="none" stroke="#000000" points="425.3686,-35 429.3686,-39 "/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>TCPHTTP\nServer&#45;&gt;example.com:80</title>
+<path fill="none" stroke="#000000" d="M269.0414,-21C282.0152,-21 296.247,-21 309.9514,-21"/>
+<polygon fill="#000000" stroke="#000000" points="268.665,-17.5001 258.6649,-21 268.6649,-24.5001 268.665,-17.5001"/>
+<polygon fill="#000000" stroke="#000000" points="310.299,-24.5001 320.2989,-21 310.2989,-17.5001 310.299,-24.5001"/>
+
+</g>
+</g>
+</svg>

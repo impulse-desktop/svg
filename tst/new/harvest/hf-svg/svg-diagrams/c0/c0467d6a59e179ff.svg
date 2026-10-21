@@ -1,0 +1,193 @@
+<svg width="1250pt" height="476pt"
+ viewBox="0.00 0.00 1249.59 476.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 472)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-472 1245.59,-472 1245.59,4 -4,4"/>
+
+<g id="node1" class="node"><title>[root] aws_iam_role.lambda (expand)</title>
+<polygon fill="none" stroke="black" points="487.679,-180 349.679,-180 349.679,-144 487.679,-144 487.679,-180"/>
+
+</g>
+
+<g id="node8" class="node"><title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;]</title>
+<polygon fill="none" stroke="black" points="418.679,-108 161.451,-90 418.679,-72 675.907,-90 418.679,-108"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>[root] aws_iam_role.lambda (expand)&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;]</title>
+<path fill="none" stroke="black" d="M418.679,-143.697C418.679,-135.983 418.679,-126.712 418.679,-118.112"/>
+<polygon fill="black" stroke="black" points="422.179,-118.104 418.679,-108.104 415.179,-118.104 422.179,-118.104"/>
+</g>
+
+<g id="node10" class="node"><title>[root] var.obj_prefix</title>
+<polygon fill="none" stroke="black" points="137.179,-108 48.1794,-108 48.1794,-72 143.179,-72 143.179,-102 137.179,-108"/>
+<polyline fill="none" stroke="black" points="137.179,-108 137.179,-102 "/>
+<polyline fill="none" stroke="black" points="143.179,-102 137.179,-102 "/>
+
+</g>
+
+<g id="edge2" class="edge"><title>[root] aws_iam_role.lambda (expand)&#45;&gt;[root] var.obj_prefix</title>
+<path fill="none" stroke="black" d="M349.674,-149.074C298.064,-139.735 225.61,-125.74 153.231,-108.019"/>
+<polygon fill="black" stroke="black" points="154.032,-104.612 143.484,-105.61 152.352,-111.407 154.032,-104.612"/>
+</g>
+
+<g id="node2" class="node"><title>[root] aws_iam_role.step_function (expand)</title>
+<polygon fill="none" stroke="black" points="358.679,-252 184.679,-252 184.679,-216 358.679,-216 358.679,-252"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>[root] aws_iam_role.step_function (expand)&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;]</title>
+<path fill="none" stroke="black" d="M282.496,-215.973C295.033,-197.045 317.023,-166.219 340.679,-144 353.406,-132.047 369.064,-120.856 383.004,-111.866"/>
+<polygon fill="black" stroke="black" points="385.267,-114.577 391.868,-106.29 381.54,-108.652 385.267,-114.577"/>
+</g>
+
+<g id="edge4" class="edge"><title>[root] aws_iam_role.step_function (expand)&#45;&gt;[root] var.obj_prefix</title>
+<path fill="none" stroke="black" d="M250.45,-215.871C219.132,-190.604 160.445,-143.254 125.028,-114.679"/>
+<polygon fill="black" stroke="black" points="126.965,-111.745 116.984,-108.189 122.569,-117.193 126.965,-111.745"/>
+</g>
+
+<g id="node3" class="node"><title>[root] aws_iam_role_policy.step_function_policy (expand)</title>
+<polygon fill="none" stroke="black" points="361.679,-324 103.679,-324 103.679,-288 361.679,-288 361.679,-324"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>[root] aws_iam_role_policy.step_function_policy (expand)&#45;&gt;[root] aws_iam_role.step_function (expand)</title>
+<path fill="none" stroke="black" d="M242.32,-287.697C246.806,-279.644 252.238,-269.894 257.203,-260.982"/>
+<polygon fill="black" stroke="black" points="260.34,-262.544 262.15,-252.104 254.225,-259.137 260.34,-262.544"/>
+</g>
+
+<g id="node4" class="node"><title>[root] aws_lambda_function.lambda (expand)</title>
+<polygon fill="none" stroke="black" points="580.679,-252 396.679,-252 396.679,-216 580.679,-216 580.679,-252"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>[root] aws_iam_role_policy.step_function_policy (expand)&#45;&gt;[root] aws_lambda_function.lambda (expand)</title>
+<path fill="none" stroke="black" d="M294.977,-287.966C331.523,-277.972 377.874,-265.298 416.071,-254.854"/>
+<polygon fill="black" stroke="black" points="417.38,-258.124 426.103,-252.111 415.534,-251.372 417.38,-258.124"/>
+</g>
+
+<g id="edge7" class="edge"><title>[root] aws_lambda_function.lambda (expand)&#45;&gt;[root] aws_iam_role.lambda (expand)</title>
+<path fill="none" stroke="black" d="M471.376,-215.697C462.814,-207.135 452.336,-196.656 442.984,-187.304"/>
+<polygon fill="black" stroke="black" points="445.33,-184.701 435.784,-180.104 440.38,-189.65 445.33,-184.701"/>
+</g>
+
+<g id="node6" class="node"><title>[root] data.archive_file.lambda_zip_file (expand)</title>
+<polygon fill="none" stroke="black" points="999.679,-180 799.679,-180 799.679,-144 999.679,-144 999.679,-180"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>[root] aws_lambda_function.lambda (expand)&#45;&gt;[root] data.archive_file.lambda_zip_file (expand)</title>
+<path fill="none" stroke="black" d="M580.916,-217.291C642.823,-206.747 724.673,-192.806 789.932,-181.692"/>
+<polygon fill="black" stroke="black" points="790.575,-185.133 799.846,-180.003 789.4,-178.232 790.575,-185.133"/>
+</g>
+
+<g id="node5" class="node"><title>[root] aws_sfn_state_machine.sfn_state_machine (expand)</title>
+<polygon fill="none" stroke="black" points="637.179,-324 380.179,-324 380.179,-288 637.179,-288 637.179,-324"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>[root] aws_sfn_state_machine.sfn_state_machine (expand)&#45;&gt;[root] aws_iam_role.step_function (expand)</title>
+<path fill="none" stroke="black" d="M451.006,-287.966C417.316,-278.015 374.626,-265.406 339.351,-254.987"/>
+<polygon fill="black" stroke="black" points="340.194,-251.587 329.612,-252.111 338.211,-258.3 340.194,-251.587"/>
+</g>
+
+<g id="edge10" class="edge"><title>[root] aws_sfn_state_machine.sfn_state_machine (expand)&#45;&gt;[root] aws_lambda_function.lambda (expand)</title>
+<path fill="none" stroke="black" d="M503.736,-287.697C501.507,-279.898 498.825,-270.509 496.345,-261.829"/>
+<polygon fill="black" stroke="black" points="499.679,-260.758 493.566,-252.104 492.948,-262.681 499.679,-260.758"/>
+</g>
+
+<g id="node7" class="node"><title>[root] provider[&quot;registry.terraform.io/hashicorp/archive&quot;]</title>
+<polygon fill="none" stroke="black" points="967.679,-108 693.862,-90 967.679,-72 1241.5,-90 967.679,-108"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>[root] data.archive_file.lambda_zip_file (expand)&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/archive&quot;]</title>
+<path fill="none" stroke="black" d="M916.488,-143.697C925.054,-134.879 935.594,-124.029 944.88,-114.47"/>
+<polygon fill="black" stroke="black" points="947.539,-116.756 951.996,-107.145 942.518,-111.879 947.539,-116.756"/>
+</g>
+
+<g id="node9" class="node"><title>[root] var.awsprofile</title>
+<polygon fill="none" stroke="black" points="409.179,-36 320.179,-36 320.179,-0 415.179,-0 415.179,-30 409.179,-36"/>
+<polyline fill="none" stroke="black" points="409.179,-36 409.179,-30 "/>
+<polyline fill="none" stroke="black" points="415.179,-30 409.179,-30 "/>
+
+</g>
+
+<g id="edge17" class="edge"><title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;]&#45;&gt;[root] var.awsprofile</title>
+<path fill="none" stroke="black" d="M406.851,-72.7646C400.723,-64.3538 393.1,-53.8904 386.211,-44.4356"/>
+<polygon fill="black" stroke="black" points="388.873,-42.1453 380.155,-36.1239 383.215,-46.2673 388.873,-42.1453"/>
+</g>
+
+<g id="node11" class="node"><title>[root] var.region</title>
+<polygon fill="none" stroke="black" points="499.679,-36 433.679,-36 433.679,-0 505.679,-0 505.679,-30 499.679,-36"/>
+<polyline fill="none" stroke="black" points="499.679,-36 499.679,-30 "/>
+<polyline fill="none" stroke="black" points="505.679,-30 499.679,-30 "/>
+
+</g>
+
+<g id="edge18" class="edge"><title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;]&#45;&gt;[root] var.region</title>
+<path fill="none" stroke="black" d="M430.508,-72.7646C436.636,-64.3538 444.259,-53.8904 451.148,-44.4356"/>
+<polygon fill="black" stroke="black" points="454.144,-46.2673 457.203,-36.1239 448.486,-42.1453 454.144,-46.2673"/>
+</g>
+
+<g id="node12" class="node"><title>[root] meta.count&#45;boundary (EachMode fixup)</title>
+<ellipse fill="none" stroke="black" cx="663.679" cy="-378" rx="180.868" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_iam_role_policy.step_function_policy (expand)</title>
+<path fill="none" stroke="black" d="M573.59,-362.368C507.967,-351.71 418.549,-337.188 347.754,-325.69"/>
+<polygon fill="black" stroke="black" points="347.881,-322.164 337.449,-324.016 346.759,-329.074 347.881,-322.164"/>
+</g>
+
+<g id="edge13" class="edge"><title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_sfn_state_machine.sfn_state_machine (expand)</title>
+<path fill="none" stroke="black" d="M626.553,-360.233C605.3,-350.635 578.426,-338.499 555.708,-328.239"/>
+<polygon fill="black" stroke="black" points="557.134,-325.042 546.58,-324.116 554.253,-331.422 557.134,-325.042"/>
+</g>
+
+<g id="node13" class="node"><title>[root] provider[&quot;registry.terraform.io/hashicorp/archive&quot;] (close)</title>
+<ellipse fill="none" stroke="black" cx="899.679" cy="-306" rx="244.257" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>[root] provider[&quot;registry.terraform.io/hashicorp/archive&quot;] (close)&#45;&gt;[root] data.archive_file.lambda_zip_file (expand)</title>
+<path fill="none" stroke="black" d="M899.679,-287.871C899.679,-263.67 899.679,-219.211 899.679,-190.393"/>
+<polygon fill="black" stroke="black" points="903.179,-190.189 899.679,-180.189 896.179,-190.189 903.179,-190.189"/>
+</g>
+
+<g id="node14" class="node"><title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;] (close)</title>
+<ellipse fill="none" stroke="black" cx="232.679" cy="-378" rx="232.859" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge"><title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;] (close)&#45;&gt;[root] aws_iam_role_policy.step_function_policy (expand)</title>
+<path fill="none" stroke="black" d="M232.679,-359.697C232.679,-351.983 232.679,-342.712 232.679,-334.112"/>
+<polygon fill="black" stroke="black" points="236.179,-334.104 232.679,-324.104 229.179,-334.104 236.179,-334.104"/>
+</g>
+
+<g id="edge16" class="edge"><title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;] (close)&#45;&gt;[root] aws_sfn_state_machine.sfn_state_machine (expand)</title>
+<path fill="none" stroke="black" d="M297.041,-360.676C337.236,-350.482 389.219,-337.298 431.607,-326.547"/>
+<polygon fill="black" stroke="black" points="432.495,-329.933 441.328,-324.082 430.774,-323.148 432.495,-329.933"/>
+</g>
+
+<g id="node15" class="node"><title>[root] root</title>
+<ellipse fill="none" stroke="black" cx="663.679" cy="-450" rx="49.2915" ry="18"/>
+
+</g>
+
+<g id="edge19" class="edge"><title>[root] root&#45;&gt;[root] meta.count&#45;boundary (EachMode fixup)</title>
+<path fill="none" stroke="black" d="M663.679,-431.697C663.679,-423.983 663.679,-414.712 663.679,-406.112"/>
+<polygon fill="black" stroke="black" points="667.179,-406.104 663.679,-396.104 660.179,-406.104 667.179,-406.104"/>
+</g>
+
+<g id="edge20" class="edge"><title>[root] root&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/archive&quot;] (close)</title>
+<path fill="none" stroke="black" d="M712.281,-446.129C753.888,-441.373 813.299,-428.848 853.679,-396 873.212,-380.111 885.364,-353.732 892.236,-333.807"/>
+<polygon fill="black" stroke="black" points="895.639,-334.658 895.359,-324.067 888.973,-332.52 895.639,-334.658"/>
+</g>
+
+<g id="edge21" class="edge"><title>[root] root&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;] (close)</title>
+<path fill="none" stroke="black" d="M619.58,-441.838C553.82,-431.157 428.136,-410.745 337.842,-396.08"/>
+<polygon fill="black" stroke="black" points="338.273,-392.604 327.842,-394.456 337.151,-399.514 338.273,-392.604"/>
+</g>
+</g>
+</svg>

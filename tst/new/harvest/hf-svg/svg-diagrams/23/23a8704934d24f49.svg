@@ -1,0 +1,201 @@
+<svg width="2030pt" height="131pt"
+ viewBox="0.00 0.00 2029.69 131.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 127)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-127 2025.69,-127 2025.69,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>message passing</title>
+<ellipse fill="none" stroke="black" cx="837.9" cy="-105" rx="89.88" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>bitstream</title>
+<ellipse fill="none" stroke="black" cx="55.9" cy="-18" rx="55.79" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>message passing&#45;&gt;bitstream</title>
+<path fill="none" stroke="black" d="M748.14,-103.59C633.37,-101.92 428.8,-95.11 255.9,-69 203.53,-61.09 144.89,-45.62 104.71,-33.97"/>
+<polygon fill="black" stroke="black" points="105.49,-30.56 94.91,-31.1 103.53,-37.27 105.49,-30.56"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>id</title>
+<ellipse fill="none" stroke="blue" cx="167.9" cy="-18" rx="38.19" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>message passing&#45;&gt;id</title>
+<path fill="none" stroke="blue" d="M750.69,-100.72C657.53,-96.44 505.74,-87.23 375.9,-69 303.99,-58.9 285.84,-55.5 215.9,-36 212.79,-35.13 209.59,-34.17 206.39,-33.15"/>
+<polygon fill="blue" stroke="blue" points="207.48,-29.82 196.88,-29.98 205.26,-36.46 207.48,-29.82"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>iri</title>
+<ellipse fill="none" stroke="blue" cx="268.9" cy="-18" rx="44.39" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>message passing&#45;&gt;iri</title>
+<path fill="none" stroke="blue" d="M753.79,-98.65C680.2,-93.3 570.57,-83.74 475.9,-69 407.16,-58.3 390.14,-53.8 322.9,-36 319.31,-35.05 315.61,-34.01 311.91,-32.93"/>
+<polygon fill="blue" stroke="blue" points="312.75,-29.53 302.17,-30.01 310.74,-36.24 312.75,-29.53"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>type</title>
+<ellipse fill="none" stroke="blue" cx="369.9" cy="-18" rx="38.19" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>message passing&#45;&gt;type</title>
+<path fill="none" stroke="blue" d="M756.99,-97.15C671.21,-88.46 532.41,-70.28 416.9,-36 413.99,-35.14 411.01,-34.2 408.02,-33.21"/>
+<polygon fill="blue" stroke="blue" points="409.15,-29.9 398.55,-29.97 406.88,-36.52 409.15,-29.9"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>name</title>
+<ellipse fill="none" stroke="blue" cx="482.9" cy="-18" rx="56.59" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>message passing&#45;&gt;name</title>
+<path fill="none" stroke="blue" d="M769.72,-93.23C733.61,-87.06 688.62,-78.63 648.9,-69 608.47,-59.2 563.31,-45.41 530.31,-34.79"/>
+<polygon fill="blue" stroke="blue" points="531.07,-31.36 520.48,-31.61 528.92,-38.02 531.07,-31.36"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>description</title>
+<ellipse fill="none" stroke="blue" cx="632.9" cy="-18" rx="75.29" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>message passing&#45;&gt;description</title>
+<path fill="none" stroke="blue" d="M784.97,-90.44C765.16,-84.7 742.68,-77.4 722.9,-69 703.87,-60.93 683.68,-49.95 667.25,-40.34"/>
+<polygon fill="blue" stroke="blue" points="668.93,-37.27 658.54,-35.17 665.35,-43.28 668.93,-37.27"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>source</title>
+<ellipse fill="none" stroke="blue" cx="782.9" cy="-18" rx="56.59" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>message passing&#45;&gt;source</title>
+<path fill="none" stroke="blue" d="M826.76,-86.8C818.89,-74.62 808.19,-58.09 799.33,-44.4"/>
+<polygon fill="blue" stroke="blue" points="802.19,-42.38 793.82,-35.89 796.31,-46.18 802.19,-42.38"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>provided by</title>
+<ellipse fill="none" stroke="blue" cx="894.9" cy="-18" rx="37.09" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>message passing&#45;&gt;provided by</title>
+<path fill="none" stroke="blue" d="M852.38,-86.94C856.89,-81.36 861.76,-75.04 865.9,-69 871.19,-61.26 876.48,-52.51 881.07,-44.52"/>
+<polygon fill="blue" stroke="blue" points="884.24,-46.02 886.09,-35.59 878.14,-42.59 884.24,-46.02"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>has attribute</title>
+<ellipse fill="none" stroke="blue" cx="1001.9" cy="-18" rx="51.99" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>message passing&#45;&gt;has attribute</title>
+<path fill="none" stroke="blue" d="M907.43,-93.62C927.19,-88.43 947.92,-80.64 964.9,-69 973.98,-62.77 981.7,-53.57 987.7,-44.75"/>
+<polygon fill="blue" stroke="blue" points="990.73,-46.51 993.11,-36.18 984.81,-42.77 990.73,-46.51"/>
+
+</g>
+
+<g id="node11" class="node">
+<title>category</title>
+<ellipse fill="none" stroke="black" cx="1122.9" cy="-18" rx="51.19" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>message passing&#45;&gt;category</title>
+<path fill="none" stroke="blue" d="M902.14,-92.42C913.38,-90.52 924.97,-88.64 935.9,-87 998.81,-77.56 1021.53,-98.49 1077.9,-69 1089.1,-63.14 1098.88,-53.29 1106.43,-43.88"/>
+<polygon fill="blue" stroke="blue" points="1109.27,-45.92 1112.47,-35.83 1103.67,-41.72 1109.27,-45.92"/>
+
+</g>
+
+<g id="node13" class="node">
+<title>trade name</title>
+<ellipse fill="none" stroke="blue" cx="1265.9" cy="-18" rx="73.39" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>message passing&#45;&gt;trade name</title>
+<path fill="none" stroke="blue" d="M901.03,-92.16C912.6,-90.24 924.59,-88.42 935.9,-87 1036.75,-74.3 1065.86,-95.85 1163.9,-69 1187.43,-62.55 1212.05,-50.66 1231.2,-40.08"/>
+<polygon fill="blue" stroke="blue" points="1233.16,-43 1240.14,-35.03 1229.71,-36.91 1233.16,-43"/>
+
+</g>
+
+<g id="node14" class="node">
+<title>available from</title>
+<ellipse fill="none" stroke="blue" cx="1570.9" cy="-18" rx="213.36" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>message passing&#45;&gt;available from</title>
+<path fill="none" stroke="blue" d="M900.21,-92.03C912.02,-90.09 924.31,-88.3 935.9,-87 1091.57,-69.58 1132.24,-86.66 1287.9,-69 1354.89,-61.4 1430.01,-47.89 1486.01,-36.83"/>
+<polygon fill="blue" stroke="blue" points="1486.76,-40.25 1495.89,-34.86 1485.4,-33.38 1486.76,-40.25"/>
+
+</g>
+
+<g id="node15" class="node">
+<title>max tolerated input</title>
+<ellipse fill="none" stroke="blue" cx="1840.9" cy="-18" rx="38.19" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>message passing&#45;&gt;max tolerated input</title>
+<path fill="none" stroke="blue" d="M899.66,-91.94C911.64,-89.98 924.13,-88.2 935.9,-87 1184.06,-61.62 1248.07,-86.83 1496.9,-69 1628.93,-59.54 1663.88,-65.62 1792.9,-36 1796.13,-35.26 1799.44,-34.37 1802.74,-33.39"/>
+<polygon fill="blue" stroke="blue" points="1804.08,-36.64 1812.53,-30.25 1801.94,-29.97 1804.08,-36.64"/>
+
+</g>
+
+<g id="node16" class="node">
+<title>is toxic</title>
+<ellipse fill="none" stroke="blue" cx="1974.9" cy="-18" rx="46.59" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>message passing&#45;&gt;is toxic</title>
+<path fill="none" stroke="blue" d="M899.39,-91.86C911.45,-89.9 924.03,-88.14 935.9,-87 1136.79,-67.7 1645.79,-107.55 1843.9,-69 1876.84,-62.59 1912.3,-48.58 1938.01,-37.01"/>
+<polygon fill="blue" stroke="blue" points="1939.73,-40.08 1947.36,-32.72 1936.81,-33.71 1939.73,-40.08"/>
+
+</g>
+
+<g id="node12" class="node">
+<title>named thing_category</title>
+<ellipse fill="none" stroke="blue" cx="1014.9" cy="-105" rx="69.59" ry="18"/>
+
+</g>
+</g>
+</svg>

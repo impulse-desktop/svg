@@ -1,0 +1,67 @@
+<svg width="685pt" height="140pt"
+ viewBox="0.00 0.00 685.00 139.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 135.5)">
+<title>llama.files.lvc_skymap_mat.LvcSkymapMat</title>
+<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-135.5 681,-135.5 681,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>llama.files.lvc_skymap.LvcSkymapFits</title>
+<g id="a_node1"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.LvcSkymapFits" xlink:title="{{&lt;B&gt;LvcSkymapFits&lt;/B&gt;|&lt;I&gt;lvc_skymap.fits.gz&lt;/I&gt;|GenerateOnceMixin&lt;BR/&gt;LvcHEALPixSkyMapFileHandler&lt;BR/&gt;OnlineVetoMixin}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="251,-32 251,-131 504,-131 504,-32 251,-32"/>
+
+<polyline fill="none" stroke="black" points="251,-108 504,-108 "/>
+
+<polyline fill="none" stroke="black" points="251,-85 504,-85 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>llama.files.lvc_skymap_mat.LvcSkymapMat</title>
+<g id="a_node2"><a xlink:href="/llama.files.lvc_skymap_mat.html#llama.files.lvc_skymap_mat.LvcSkymapMat" xlink:title="{{&lt;B&gt;LvcSkymapMat&lt;/B&gt;|&lt;I&gt;lvc_skymap.mat&lt;/I&gt;|FileHandler}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="540,-8 540,-77 677,-77 677,-8 540,-8"/>
+
+<polyline fill="none" stroke="black" points="540,-54 677,-54 "/>
+
+<polyline fill="none" stroke="black" points="540,-31 677,-31 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>llama.files.lvc_skymap.LvcSkymapFits&#45;&gt;llama.files.lvc_skymap_mat.LvcSkymapMat</title>
+<path fill="none" stroke="red" d="M504.15,-54.5C504.15,-54.5 529.96,-54.5 529.96,-54.5"/>
+<polygon fill="red" stroke="red" points="529.96,-58 539.96,-54.5 529.96,-51 529.96,-58"/>
+</g>
+
+<g id="node3" class="node">
+<title>llama.files.skymap_info.SkymapInfo</title>
+<g id="a_node3"><a xlink:href="/llama.files.skymap_info.html#llama.files.skymap_info.SkymapInfo" xlink:title="{{&lt;B&gt;SkymapInfo&lt;/B&gt;|&lt;I&gt;skymap_info.json&lt;/I&gt;|EventTriggeredFileHandler&lt;BR/&gt;JSONFile}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="0,-0.5 0,-84.5 215,-84.5 215,-0.5 0,-0.5"/>
+
+<polyline fill="none" stroke="black" points="0,-61.5 215,-61.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-38.5 215,-38.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.lvc_skymap.LvcSkymapFits</title>
+<path fill="none" stroke="red" d="M215.38,-58.25C215.38,-58.25 240.66,-58.25 240.66,-58.25"/>
+<polygon fill="red" stroke="red" points="240.66,-61.75 250.66,-58.25 240.66,-54.75 240.66,-61.75"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.lvc_skymap_mat.LvcSkymapMat</title>
+<path fill="none" stroke="red" d="M215.28,-19.5C215.28,-19.5 529.77,-19.5 529.77,-19.5"/>
+<polygon fill="red" stroke="red" points="529.77,-23 539.77,-19.5 529.77,-16 529.77,-23"/>
+</g>
+</g>
+</svg>

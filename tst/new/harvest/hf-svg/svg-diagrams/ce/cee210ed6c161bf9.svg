@@ -1,0 +1,84 @@
+<svg width="862pt" height="211pt"
+ viewBox="0.00 0.00 862.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 858,-207 858,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="193,-10 193,-30 213,-30 213,-10 193,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="306,-10 306,-30 326,-30 326,-10 306,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="392,-10 392,-30 412,-30 412,-10 392,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="489,-10 489,-30 509,-30 509,-10 489,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="585,-10 585,-30 605,-30 605,-10 585,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LazyRoleIsolateModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 846,-195 846,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_LazyRoleIsolateModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="624,-78 624,-130 838,-130 838,-78 624,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_LazyRoleIsolateModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 616,-130 616,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>LazyRoleIsolateTestComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="829.6741,-122 632.3259,-122 632.3259,-86 829.6741,-86 829.6741,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>LazyRoleIsolateModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="539.7893,-187 536.7893,-191 515.7893,-191 512.7893,-187 388.2107,-187 388.2107,-151 539.7893,-151 539.7893,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>LazyRoleIsolateTestComponent&#45;&gt;LazyRoleIsolateModule</title>
+<path fill="none" stroke="#000000" d="M731,-122.1061C731,-141.3391 731,-169 731,-169 731,-169 549.7973,-169 549.7973,-169"/>
+<polygon fill="#000000" stroke="#000000" points="549.7973,-165.5001 539.7973,-169 549.7973,-172.5001 549.7973,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="607.6681,-122 604.6681,-126 583.6681,-126 580.6681,-122 496.3319,-122 496.3319,-86 607.6681,-86 607.6681,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CommonModule&#45;&gt;LazyRoleIsolateModule</title>
+<path fill="none" stroke="#000000" d="M517.9054,-122.1061C517.9054,-122.1061 517.9054,-140.991 517.9054,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="514.4054,-140.9909 517.9054,-150.991 521.4054,-140.991 514.4054,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>LazyIsolateRolesRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="477.8515,-122 474.8515,-126 453.8515,-126 450.8515,-122 276.1485,-122 276.1485,-86 477.8515,-86 477.8515,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>LazyIsolateRolesRoutingModule&#45;&gt;LazyRoleIsolateModule</title>
+<path fill="none" stroke="#000000" d="M433.1406,-122.1061C433.1406,-122.1061 433.1406,-140.991 433.1406,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="429.6407,-140.9909 433.1406,-150.991 436.6407,-140.991 429.6407,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>NgxPermissionsModule.forChild(args)</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="258.3998,-122 255.3998,-126 234.3998,-126 231.3998,-122 23.6002,-122 23.6002,-86 258.3998,-86 258.3998,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>NgxPermissionsModule.forChild(args)&#45;&gt;LazyRoleIsolateModule</title>
+<path fill="none" stroke="#000000" d="M141,-122.1061C141,-141.3391 141,-169 141,-169 141,-169 378.2709,-169 378.2709,-169"/>
+<polygon fill="#000000" stroke="#000000" points="378.2709,-172.5001 388.2709,-169 378.2708,-165.5001 378.2709,-172.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,181 @@
+<svg width="608pt" height="282pt"
+ viewBox="0.00 0.00 608.00 282.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 278)">
+<title>DMMOverview</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-278 605,-278 605,5 -4,5"/>
+
+<g id="node1" class="node"><title>SourceObject</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;SourceObject&quot;);" xlink:title="class SourceObject
+This example refers to Figures 1, 4 and 5 of &#39;The Dagstuhl Middle Metamodel:
+A Schema for Reverse Engineering&#39;, ATEM 2003, First International
+Workshop on Meta&#45;Models and Schemas for Reverse Engineering,
+WCRE, Victoria, B.C., in Electronic Notes in Theoretical Computer
+Science, Elsevier, Vol. 94, pp 7&#45;18,
+Authors: Lethbridge, T.C., Sander Tichelaar, and Erhard Ploedereder (2003)
+To load the entire DMM example at once, copy and paste all
+five DMM components (DMM*) into the editor. &#160;Please note that the
+position attributes of classes and associations will need to be
+re&#45;adjusted, as the example has been made to display the diagrams
+as separate entities.
+Abstract
+">
+<polygon fill="none" stroke="black" points="17.9033,-230 17.9033,-266 110.097,-266 110.097,-230 17.9033,-230"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>Defines</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Defines&quot;);" xlink:title="class Defines
+">
+<polygon fill="none" stroke="black" points="-0.38623,-149 -0.38623,-185 58.3862,-185 58.3862,-149 -0.38623,-149"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Defines&#45;&gt;SourceObject</title>
+<path fill="none" stroke="black" d="M36.5945,-185.142C42.4652,-198.393 50.5534,-216.649 56.4203,-229.892"/>
+
+
+</g>
+
+<g id="node4" class="node"><title>ModelObject</title>
+<g id="a_node4"><a xlink:href="javascript:Action.selectClass(&quot;ModelObject&quot;);" xlink:title="class ModelObject
+Abstract
+">
+<polygon fill="none" stroke="black" points="145.283,-223.2 145.283,-272.8 236.717,-272.8 236.717,-223.2 145.283,-223.2"/>
+
+<polyline fill="none" stroke="black" points="145.283,-248 236.717,-248 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Defines&#45;&gt;ModelObject</title>
+<path fill="none" stroke="black" d="M58.7133,-182.49C82.9194,-194.294 117.506,-211.16 145.244,-224.687"/>
+
+
+</g>
+
+<g id="node3" class="node"><title>Declares</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;Declares&quot;);" xlink:title="class Declares
+">
+<polygon fill="none" stroke="black" points="76.5171,-149 76.5171,-185 141.483,-185 141.483,-149 76.5171,-149"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Declares&#45;&gt;SourceObject</title>
+<path fill="none" stroke="black" d="M99.2357,-185.142C91.6877,-198.393 81.2885,-216.649 73.7453,-229.892"/>
+
+
+</g>
+
+<g id="edge9" class="edge"><title>Declares&#45;&gt;ModelObject</title>
+<path fill="none" stroke="black" d="M126.793,-185.142C138.286,-196.215 153.407,-210.782 166.088,-222.999"/>
+
+
+</g>
+
+<g id="node5" class="node"><title>Relationship</title>
+<g id="a_node5"><a xlink:href="javascript:Action.selectClass(&quot;Relationship&quot;);" xlink:title="class Relationship
+Abstract
+">
+<polygon fill="none" stroke="black" points="332.614,-75 332.614,-111 419.386,-111 419.386,-75 332.614,-75"/>
+
+</a>
+</g>
+</g>
+
+<g id="node6" class="node"><title>SourceRelationship</title>
+<g id="a_node6"><a xlink:href="javascript:Action.selectClass(&quot;SourceRelationship&quot;);" xlink:title="class SourceRelationship
+">
+<polygon fill="none" stroke="black" points="475.176,-1 475.176,-37 600.824,-37 600.824,-1 475.176,-1"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>SourceRelationship&#45;&gt;Relationship</title>
+<path fill="none" stroke="black" d="M487.63,-37.1009C451.221,-49.4622 405.128,-65.111 385.522,-71.7674"/>
+<polygon fill="none" stroke="black" points="384.344,-68.4709 376,-75 386.594,-75.0993 384.344,-68.4709"/>
+</g>
+
+<g id="node7" class="node"><title>ModelElement</title>
+<g id="a_node7"><a xlink:href="javascript:Action.selectClass(&quot;ModelElement&quot;);" xlink:title="class ModelElement
+">
+<polygon fill="none" stroke="black" points="159.4,-149 159.4,-185 258.6,-185 258.6,-149 159.4,-149"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>ModelElement&#45;&gt;ModelObject</title>
+<path fill="none" stroke="black" d="M204.647,-185.101C202.303,-194.309 199.495,-205.341 197.515,-213.121"/>
+<polygon fill="none" stroke="black" points="194.075,-212.446 195,-223 200.859,-214.172 194.075,-212.446"/>
+</g>
+
+<g id="node8" class="node"><title>ModelRelationship</title>
+<g id="a_node8"><a xlink:href="javascript:Action.selectClass(&quot;ModelRelationship&quot;);" xlink:title="class ModelRelationship
+">
+<polygon fill="none" stroke="black" points="147.338,-75 147.338,-111 270.662,-111 270.662,-75 147.338,-75"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>ModelRelationship&#45;&gt;ModelObject</title>
+<path fill="none" stroke="black" d="M235.743,-111.181C247.692,-120.479 260.521,-133.115 267,-148 273.741,-163.485 275.8,-171.585 267,-186 253.307,-208.432 221.201,-217.835 204.888,-221.274"/>
+<polygon fill="none" stroke="black" points="204.249,-217.832 195,-223 205.453,-224.728 204.249,-217.832"/>
+</g>
+
+<g id="edge10" class="edge"><title>ModelRelationship&#45;&gt;ModelElement</title>
+<path fill="none" stroke="black" d="M203.16,-111.063C201.96,-122.374 201.947,-137.172 203.121,-148.559"/>
+
+
+</g>
+
+<g id="edge11" class="edge"><title>ModelRelationship&#45;&gt;ModelElement</title>
+<path fill="none" stroke="black" d="M214.84,-111.063C216.04,-122.374 216.053,-137.172 214.879,-148.559"/>
+
+
+</g>
+
+<g id="node9" class="node"><title>RelationshipInModel</title>
+<g id="a_node9"><a xlink:href="javascript:Action.selectClass(&quot;RelationshipInModel&quot;);" xlink:title="class RelationshipInModel
+">
+<polygon fill="none" stroke="black" points="141.507,-1 141.507,-37 276.493,-37 276.493,-1 141.507,-1"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>RelationshipInModel&#45;&gt;Relationship</title>
+<path fill="none" stroke="black" d="M260.924,-37.1009C298.649,-49.5252 346.459,-65.2708 366.492,-71.8685"/>
+<polygon fill="none" stroke="black" points="365.407,-75.1962 376,-75 367.597,-68.5474 365.407,-75.1962"/>
+</g>
+
+<g id="edge12" class="edge"><title>RelationshipInModel&#45;&gt;ModelRelationship</title>
+<path fill="none" stroke="black" d="M209,-37.063C209,-48.374 209,-63.1718 209,-74.5593"/>
+
+
+</g>
+
+<g id="node10" class="node"><title>SourceModelRelationship</title>
+<g id="a_node10"><a xlink:href="javascript:Action.selectClass(&quot;SourceModelRelationship&quot;);" xlink:title="class SourceModelRelationship
+Positioning
+">
+<polygon fill="none" stroke="black" points="294.9,-1 294.9,-37 457.1,-37 457.1,-1 294.9,-1"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>SourceModelRelationship&#45;&gt;Relationship</title>
+<path fill="none" stroke="black" d="M376,-37.1009C376,-46.1826 376,-57.0389 376,-64.7999"/>
+<polygon fill="none" stroke="black" points="372.5,-65 376,-75 379.5,-65 372.5,-65"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,101 @@
+<svg width="145pt" height="474pt"
+ viewBox="0.00 0.00 144.50 474.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 470)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-470 140.5,-470 140.5,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>entry</title>
+<polygon fill="none" stroke="black" points="85.5,-466 31.5,-466 31.5,-430 85.5,-430 85.5,-466"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>if_p</title>
+<polygon fill="none" stroke="black" points="85.5,-393 31.5,-393 31.5,-357 85.5,-357 85.5,-393"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>entry&#45;&gt;if_p</title>
+<path fill="none" stroke="black" d="M58.5,-429.81C58.5,-421.79 58.5,-412.05 58.5,-403.07"/>
+<polygon fill="black" stroke="black" points="62,-403.03 58.5,-393.03 55,-403.03 62,-403.03"/>
+</g>
+
+<g id="node4" class="node">
+<title>assign1</title>
+<polygon fill="none" stroke="black" points="59,-306 0,-306 0,-270 59,-270 59,-306"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>if_p&#45;&gt;assign1</title>
+<path fill="none" stroke="black" d="M52.63,-356.8C48.62,-345.05 43.23,-329.24 38.66,-315.84"/>
+<polygon fill="black" stroke="black" points="41.9,-314.51 35.36,-306.18 35.28,-316.77 41.9,-314.51"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>assign2</title>
+<polygon fill="none" stroke="black" points="117,-252 58,-252 58,-216 117,-216 117,-252"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>if_p&#45;&gt;assign2</title>
+<path fill="none" stroke="black" d="M62.06,-356.96C66.99,-333.3 75.97,-290.26 81.83,-262.15"/>
+<polygon fill="black" stroke="black" points="85.3,-262.69 83.91,-252.18 78.45,-261.26 85.3,-262.69"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>if_q</title>
+<polygon fill="none" stroke="black" points="56.5,-198 2.5,-198 2.5,-162 56.5,-162 56.5,-198"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>merge</title>
+<polygon fill="none" stroke="black" points="136.5,-111 38.5,-111 38.5,-73 136.5,-73 136.5,-111"/>
+
+
+</g>
+
+<g id="edge5" class="edge">
+<title>if_q&#45;&gt;merge</title>
+<path fill="none" stroke="black" d="M41.24,-161.6C49.33,-149.6 60.24,-133.42 69.43,-119.79"/>
+<polygon fill="black" stroke="black" points="72.49,-121.52 75.18,-111.27 66.69,-117.6 72.49,-121.52"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>exit</title>
+<polygon fill="none" stroke="black" points="54.5,-36 0.5,-36 0.5,0 54.5,0 54.5,-36"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>if_q&#45;&gt;exit</title>
+<path fill="none" stroke="black" d="M27.9,-161.97C26.69,-148.23 25.14,-128.39 24.5,-111 23.88,-94.12 24.03,-89.88 24.5,-73 24.74,-64.29 25.2,-54.8 25.69,-46.23"/>
+<polygon fill="black" stroke="black" points="29.2,-46.21 26.31,-36.01 22.21,-45.78 29.2,-46.21"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>assign1&#45;&gt;if_q</title>
+<path fill="none" stroke="black" d="M29.5,-269.97C29.5,-253.38 29.5,-227.88 29.5,-208.43"/>
+<polygon fill="black" stroke="black" points="33,-208.34 29.5,-198.34 26,-208.34 33,-208.34"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>assign2&#45;&gt;merge</title>
+<path fill="none" stroke="black" d="M87.5,-215.83C87.5,-192.27 87.5,-149.6 87.5,-121.28"/>
+<polygon fill="black" stroke="black" points="91,-121.19 87.5,-111.19 84,-121.19 91,-121.19"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>merge&#45;&gt;exit</title>
+<path fill="none" stroke="black" d="M72.36,-72.83C65.16,-64.2 56.44,-53.73 48.61,-44.33"/>
+<polygon fill="black" stroke="black" points="51.11,-41.86 42.01,-36.42 45.73,-46.34 51.11,-41.86"/>
+</g>
+</g>
+</svg>

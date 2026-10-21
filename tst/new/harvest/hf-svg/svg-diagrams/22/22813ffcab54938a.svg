@@ -1,0 +1,98 @@
+<svg width="538pt" height="617pt"
+ viewBox="0.00 0.00 538.12 617.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 613)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-613 534.119,-613 534.119,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_Global</title>
+<path fill="none" stroke="gray" d="M67.1363,-98C67.1363,-98 510.119,-98 510.119,-98 516.119,-98 522.119,-104 522.119,-110 522.119,-110 522.119,-589 522.119,-589 522.119,-595 516.119,-601 510.119,-601 510.119,-601 67.1363,-601 67.1363,-601 61.1363,-601 55.1363,-595 55.1363,-589 55.1363,-589 55.1363,-110 55.1363,-110 55.1363,-104 61.1363,-98 67.1363,-98"/>
+
+</g>
+
+<g id="node1" class="node"><title>\\adpapiUtilityFactory</title>
+<polygon fill="none" stroke="black" points="491.026,-574 342.983,-574 342.983,-538 491.026,-538 491.026,-574"/>
+
+</g>
+
+<g id="node2" class="node"><title>\\adpapiUtilityLogger</title>
+<polygon fill="none" stroke="black" points="487.925,-520 346.083,-520 346.083,-484 487.925,-484 487.925,-520"/>
+
+</g>
+
+<g id="node3" class="node"><title>\\adpapiProduct</title>
+<polygon fill="none" stroke="black" points="467.818,-466 366.19,-466 366.19,-430 467.818,-430 467.818,-466"/>
+
+
+</g>
+
+<g id="node4" class="node"><title>\\adpException</title>
+<polygon fill="none" stroke="black" points="464.717,-250 369.291,-250 369.291,-214 464.717,-214 464.717,-250"/>
+
+</g>
+
+<g id="node11" class="node"><title>\\Exception</title>
+<ellipse fill="none" stroke="black" cx="123.945" cy="-72" rx="48.3341" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>\\adpException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M368.962,-225.822C352.277,-221.897 334.127,-215.481 319.89,-205 272.536,-170.138 296.875,-126.531 247.89,-94 228.865,-81.3661 204.685,-75.4039 182.812,-72.7622"/>
+<polygon fill="none" stroke="black" points="182.921,-69.2558 172.623,-71.7437 182.225,-76.2211 182.921,-69.2558"/>
+</g>
+
+<g id="node5" class="node"><title>\\adpapiConnectionFactory</title>
+<polygon fill="none" stroke="black" points="500.829,-358 333.179,-358 333.179,-322 500.829,-322 500.829,-358"/>
+
+</g>
+
+<g id="node6" class="node"><title>\\adpapiConnection</title>
+<polygon fill="none" stroke="black" points="184.563,-358 63.3271,-358 63.3271,-322 184.563,-322 184.563,-358"/>
+
+
+</g>
+
+<g id="node7" class="node"><title>\\adpapiClientConnection</title>
+<polygon fill="none" stroke="black" points="497.728,-304 336.28,-304 336.28,-268 497.728,-268 497.728,-304"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>\\adpapiClientConnection&#45;&gt;\\adpapiConnection</title>
+<path fill="none" stroke="black" d="M336.086,-300.827C291.839,-309.036 237.357,-319.144 194.819,-327.036"/>
+<polygon fill="none" stroke="black" points="194.025,-323.624 184.831,-328.889 195.301,-330.506 194.025,-323.624"/>
+</g>
+
+<g id="node8" class="node"><title>\\adpapiAuthorizedConnection</title>
+<polygon fill="none" stroke="black" points="510.633,-412 323.376,-412 323.376,-376 510.633,-376 510.633,-412"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>\\adpapiAuthorizedConnection&#45;&gt;\\adpapiConnection</title>
+<path fill="none" stroke="black" d="M323.111,-376.766C281.571,-369.059 233.418,-360.125 194.982,-352.994"/>
+<polygon fill="none" stroke="black" points="195.392,-349.51 184.922,-351.127 194.115,-356.393 195.392,-349.51"/>
+</g>
+
+<g id="node9" class="node"><title>\\adpapiConnectionFactoryTest</title>
+<polygon fill="none" stroke="black" points="514.233,-142 319.775,-142 319.775,-106 514.233,-106 514.233,-142"/>
+
+</g>
+
+<g id="node12" class="node"><title>\\PHPUnit_Framework_Testcase</title>
+<ellipse fill="none" stroke="black" cx="123.945" cy="-18" rx="123.89" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>\\adpapiConnectionFactoryTest&#45;&gt;\\PHPUnit_Framework_Testcase</title>
+<path fill="none" stroke="black" d="M383.109,-105.845C349.864,-88.1495 296.588,-61.5574 247.89,-45 236.298,-41.059 223.892,-37.5498 211.583,-34.4722"/>
+<polygon fill="none" stroke="black" points="212.292,-31.0429 201.75,-32.0966 210.648,-37.8471 212.292,-31.0429"/>
+</g>
+
+<g id="node10" class="node"><title>\\adpapiUtliltyTest</title>
+<polygon fill="none" stroke="black" points="481.223,-196 352.786,-196 352.786,-160 481.223,-160 481.223,-196"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>\\adpapiUtliltyTest&#45;&gt;\\PHPUnit_Framework_Testcase</title>
+<path fill="none" stroke="black" d="M352.861,-167.096C341.218,-163.245 329.666,-158.038 319.89,-151 273.671,-117.724 295.049,-76.9292 247.89,-45 241.2,-40.4707 233.878,-36.6864 226.247,-33.5266"/>
+<polygon fill="none" stroke="black" points="227.398,-30.2203 216.806,-29.9737 224.933,-36.7717 227.398,-30.2203"/>
+</g>
+</g>
+</svg>

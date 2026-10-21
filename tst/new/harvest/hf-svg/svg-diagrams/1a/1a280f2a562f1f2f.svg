@@ -1,0 +1,157 @@
+<svg width="631pt" height="218pt"
+ viewBox="0.00 0.00 631.00 218.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 214)">
+<title>PARSERFUNC</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-214 627,-214 627,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node64</title>
+<g id="a_node1"><a xlink:title="Accepts parts of expressions containing unary operators like + &#45; and ~ to negate, invert or make posi...">
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-95.5 0,-114.5 81,-114.5 81,-95.5 0,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node65</title>
+<g id="a_node2"><a xlink:href="parser_8h.html#a8c4c57eca60b2cec9a372a04abea456d" target="_top" xlink:title="Advances the parser as long as it can find whitespace.">
+<polygon fill="#ffffff" stroke="#000000" points="287,-190.5 287,-209.5 373,-209.5 373,-190.5 287,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node64&#45;&gt;Node65</title>
+<path fill="none" stroke="#191970" d="M46.7018,-114.5574C58.2319,-131.3979 84.7504,-165.9928 117,-181 167.5885,-204.5412 232.1915,-206.9898 276.9176,-204.9982"/>
+<polygon fill="#191970" stroke="#191970" points="277.1926,-208.4886 286.9915,-204.4598 276.819,-201.4985 277.1926,-208.4886"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node68</title>
+<g id="a_node5"><a xlink:href="parser_8h.html#a499e49a3ad7a6fde77c49792f1a0774a" target="_top" xlink:title="Searches for any of the characters given in the parser.">
+<polygon fill="#ffffff" stroke="#000000" points="117,-152.5 117,-171.5 241,-171.5 241,-152.5 117,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node64&#45;&gt;Node68</title>
+<path fill="none" stroke="#191970" d="M57.7507,-114.5876C73.0173,-122.824 96.0604,-134.6559 117,-143 122.5608,-145.2159 128.4864,-147.331 134.3852,-149.2915"/>
+<polygon fill="#191970" stroke="#191970" points="133.6273,-152.7237 144.2183,-152.4355 135.7593,-146.0562 133.6273,-152.7237"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node70</title>
+<g id="a_node7"><a xlink:href="AST_8c.html#a3a1c70c232e669f02ef0a4e171ee6ab2" target="_top" xlink:title="Constructore for ast objects.">
+<polygon fill="#ffffff" stroke="#000000" points="148.5,-114.5 148.5,-133.5 209.5,-133.5 209.5,-114.5 148.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node64&#45;&gt;Node70</title>
+<path fill="none" stroke="#191970" d="M81.3055,-110.5979C99.1816,-113.0502 120.1185,-115.9224 138.0151,-118.3775"/>
+<polygon fill="#191970" stroke="#191970" points="137.7719,-121.8769 148.1548,-119.7685 138.7234,-114.9418 137.7719,-121.8769"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node71</title>
+<g id="a_node8"><a xlink:href="token_8h.html#a5f63b7723640416a125433badc7d6563" target="_top" xlink:title="Constructor for token objects.">
+<polygon fill="#ffffff" stroke="#000000" points="144,-76.5 144,-95.5 214,-95.5 214,-76.5 144,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node64&#45;&gt;Node71</title>
+<path fill="none" stroke="#191970" d="M81.3055,-99.4021C97.693,-97.154 116.6527,-94.5531 133.4843,-92.244"/>
+<polygon fill="#191970" stroke="#191970" points="134.2159,-95.6765 143.6474,-90.8498 133.2644,-88.7415 134.2159,-95.6765"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node72</title>
+<g id="a_node9"><a xlink:href="error_8c.html#ae07365063509d8944da638087336597b" target="_top" xlink:title="Construct a new error object out of parameters, and push it to the errorstack.">
+<polygon fill="#ffffff" stroke="#000000" points="131.5,-38.5 131.5,-57.5 226.5,-57.5 226.5,-38.5 131.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node64&#45;&gt;Node72</title>
+<path fill="none" stroke="#191970" d="M57.7507,-95.4124C73.0173,-87.176 96.0604,-75.3441 117,-67 122.5608,-64.7841 128.4864,-62.669 134.3852,-60.7085"/>
+<polygon fill="#191970" stroke="#191970" points="135.7593,-63.9438 144.2183,-57.5645 133.6273,-57.2763 135.7593,-63.9438"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node73</title>
+<g id="a_node10"><a xlink:href="AST_8c.html#a5f9c0bcd1d544aac044f4acf93c27ddb" target="_top" xlink:title="Adds a child ast node to a parent ast node.">
+<polygon fill="#ffffff" stroke="#000000" points="137.5,-.5 137.5,-19.5 220.5,-19.5 220.5,-.5 137.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node64&#45;&gt;Node73</title>
+<path fill="none" stroke="#191970" d="M47.6315,-95.3338C59.9917,-79.251 86.9681,-46.9915 117,-29 120.5854,-26.8521 124.4347,-24.9276 128.3961,-23.2068"/>
+<polygon fill="#191970" stroke="#191970" points="129.7253,-26.4453 137.7712,-19.5523 127.1829,-19.9233 129.7253,-26.4453"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node66</title>
+<g id="a_node3"><a xlink:href="parserutil_8c.html#a2d9e8c20025b7b883c4e87790685a6ad" target="_top" xlink:title="Proxy to parser_next.">
+<polygon fill="#ffffff" stroke="#000000" points="419,-171.5 419,-190.5 513,-190.5 513,-171.5 419,-171.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node65&#45;&gt;Node66</title>
+<path fill="none" stroke="#191970" d="M373.0313,-193.9883C384.2264,-192.4243 396.47,-190.7138 408.2891,-189.0626"/>
+<polygon fill="#191970" stroke="#191970" points="409.1098,-192.482 418.5293,-187.6319 408.1412,-185.5493 409.1098,-192.482"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node67</title>
+<g id="a_node4"><a xlink:href="parserutil_8c.html#ab25a97ff31329fe9461666bfe2dc6f2c" target="_top" xlink:title="Iterate the parser.">
+<polygon fill="#ffffff" stroke="#000000" points="549,-171.5 549,-190.5 623,-190.5 623,-171.5 549,-171.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node66&#45;&gt;Node67</title>
+<path fill="none" stroke="#191970" d="M513.0828,-181C521.4854,-181 530.2428,-181 538.6528,-181"/>
+<polygon fill="#191970" stroke="#191970" points="538.6916,-184.5001 548.6916,-181 538.6916,-177.5001 538.6916,-184.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node69</title>
+<g id="a_node6"><a xlink:href="parserutil_8c.html#a1a00af051004cb18edac760f39982eea" target="_top" xlink:title="Searches for the given character, advances the parser if it found it.">
+<polygon fill="#ffffff" stroke="#000000" points="277,-152.5 277,-171.5 383,-171.5 383,-152.5 277,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node68&#45;&gt;Node69</title>
+<path fill="none" stroke="#191970" d="M241.2893,-162C249.7217,-162 258.381,-162 266.8287,-162"/>
+<polygon fill="#191970" stroke="#191970" points="266.9986,-165.5001 276.9986,-162 266.9986,-158.5001 266.9986,-165.5001"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node69&#45;&gt;Node66</title>
+<path fill="none" stroke="#191970" d="M383.3605,-169.4548C391.7195,-170.6226 400.3884,-171.8337 408.8288,-173.0129"/>
+<polygon fill="#191970" stroke="#191970" points="408.5867,-176.5129 418.9748,-174.4303 409.5553,-169.5803 408.5867,-176.5129"/>
+</g>
+</g>
+</svg>

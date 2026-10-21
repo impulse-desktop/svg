@@ -1,0 +1,61 @@
+<svg width="441pt" height="28pt"
+ viewBox="0.00 0.00 441.00 28.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
+<title>coap_digest_final</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-24 437,-24 437,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="Finalize the coap_digest information into the provided digest_buffer.">
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 92,-19.5 92,-0.5 0,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="group__cache__internal.html#ga37ed3d3914023efe3ed1d05b13325192" target="_top" xlink:title="Free off coap_digest_ctx_t.">
+<polygon fill="white" stroke="black" points="128,-0.5 128,-19.5 219,-19.5 219,-0.5 128,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M92.31,-10C100.49,-10 109.11,-10 117.54,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="117.68,-13.5 127.68,-10 117.68,-6.5 117.68,-13.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="mem_8h.html#a1e46a1505bb13f03fdacd5d1b32502a6" target="_top" xlink:title="Wrapper function to coap_free_type() for backwards compatibility.">
+<polygon fill="white" stroke="black" points="255,-0.5 255,-19.5 314,-19.5 314,-0.5 255,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M219.15,-10C227.66,-10 236.51,-10 244.82,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="245,-13.5 255,-10 245,-6.5 245,-13.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type().">
+<polygon fill="white" stroke="black" points="350,-0.5 350,-19.5 433,-19.5 433,-0.5 350,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M314.19,-10C322.05,-10 330.81,-10 339.51,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="339.64,-13.5 349.64,-10 339.64,-6.5 339.64,-13.5"/>
+</g>
+</g>
+</svg>

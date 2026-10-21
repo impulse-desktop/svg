@@ -1,0 +1,169 @@
+<svg width="623px" height="518px"
+ viewBox="0.00 0.00 622.58 518.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="graph0" class="graph" transform=" rotate(0) translate(4 514)">
+<title>サービスメソッド呼び出し図</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-514 618.579,-514 618.579,4 -4,4"/>
+
+<g id="clust1" class="cluster"><title>cluster_usecases</title>
+</g>
+<g id="clust2" class="cluster"><title>cluster_example.application.service.VarietyRegisterService</title>
+<polygon fill="none" stroke="black" points="226.698,-364 226.698,-454 429.881,-454 429.881,-364 226.698,-364"/>
+
+
+</g>
+<g id="clust3" class="cluster"><title>cluster_example.application.service.StarterKitRegisterService</title>
+<polygon fill="none" stroke="black" points="202,-70 202,-160 454.579,-160 454.579,-70 202,-70"/>
+
+
+</g>
+<g id="clust4" class="cluster"><title>cluster_example.application.service.VarietyService</title>
+<polygon fill="none" stroke="black" points="226.698,-266 226.698,-356 429.881,-356 429.881,-266 226.698,-266"/>
+
+
+</g>
+<g id="clust5" class="cluster"><title>cluster_example.application.service.StarterKitService</title>
+<polygon fill="none" stroke="black" points="202,-168 202,-258 454.579,-258 454.579,-168 202,-168"/>
+
+
+</g>
+<g id="clust6" class="cluster"><title>cluster_controllers</title>
+</g>
+<g id="clust7" class="cluster"><title>cluster_example.presentation.web.kit.StarterKitController</title>
+<polygon fill="lightgrey" stroke="black" points="8,-39 8,-114 178,-114 178,-39 8,-39"/>
+
+</g>
+<g id="clust8" class="cluster"><title>cluster_example.presentation.api.kit.StarterKitController</title>
+<polygon fill="lightgrey" stroke="black" points="20,-122 20,-251 165,-251 165,-122 20,-122"/>
+
+</g>
+<g id="clust9" class="cluster"><title>cluster_example.presentation.api.kit.VarietyController</title>
+<polygon fill="lightgrey" stroke="black" points="39,-259 39,-388 146,-388 146,-259 39,-259"/>
+
+</g>
+<g id="clust10" class="cluster"><title>cluster_example.presentation.web.kit.VarietyController</title>
+<polygon fill="lightgrey" stroke="black" points="21,-396 21,-471 165,-471 165,-396 21,-396"/>
+
+</g>
+
+<g id="node1" class="node"><title>example.application.service.VarietyRegisterService.register(example.domain.model.kit.row.Variety)</title>
+<g id="a_node1"><a xlink:title="VarietyRegisterService.register(Variety)">
+<ellipse fill="greenyellow" stroke="black" cx="328.29" cy="-390" rx="93.6835" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node12" class="node"><title>example.application.repository.VarietyRepository</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="608.079,-359 489.079,-359 489.079,-323 608.079,-323 608.079,-359"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>example.application.service.VarietyRegisterService.register(example.domain.model.kit.row.Variety)&#45;&gt;example.application.repository.VarietyRepository</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M389.805,-376.416C417.458,-370.209 450.345,-362.826 478.919,-356.412"/>
+<polygon fill="black" stroke="black" points="479.84,-359.793 488.831,-354.187 478.307,-352.963 479.84,-359.793"/>
+</g>
+
+<g id="node2" class="node"><title>example.application.service.StarterKitRegisterService.register(example.domain.model.kit.StarterKit)</title>
+<g id="a_node2"><a xlink:title="StarterKitRegisterService.register(StarterKit)">
+<ellipse fill="greenyellow" stroke="black" cx="328.29" cy="-96" rx="118.079" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node11" class="node"><title>example.application.repository.StarterKitRepository</title>
+<polygon fill="none" stroke="black" stroke-dasharray="5,2" points="614.579,-163 482.579,-163 482.579,-127 614.579,-127 614.579,-163"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>example.application.service.StarterKitRegisterService.register(example.domain.model.kit.StarterKit)&#45;&gt;example.application.repository.StarterKitRepository</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M395.376,-110.835C419.747,-116.305 447.53,-122.542 472.629,-128.176"/>
+<polygon fill="black" stroke="black" points="471.945,-131.609 482.468,-130.384 473.478,-124.779 471.945,-131.609"/>
+</g>
+
+<g id="node3" class="node"><title>example.application.service.VarietyService.listAll()</title>
+<g id="a_node3"><a xlink:title="VarietyService.listAll()">
+<ellipse fill="greenyellow" stroke="black" cx="328.29" cy="-292" rx="93.6835" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>example.application.service.VarietyService.listAll()&#45;&gt;example.application.repository.VarietyRepository</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M389.805,-305.584C417.458,-311.791 450.345,-319.174 478.919,-325.588"/>
+<polygon fill="black" stroke="black" points="478.307,-329.037 488.831,-327.813 479.84,-322.207 478.307,-329.037"/>
+</g>
+
+<g id="node4" class="node"><title>example.application.service.StarterKitService.listAll()</title>
+<g id="a_node4"><a xlink:title="StarterKitService.listAll()">
+<ellipse fill="greenyellow" stroke="black" cx="328.29" cy="-194" rx="118.079" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>example.application.service.StarterKitService.listAll()&#45;&gt;example.application.repository.StarterKitRepository</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M395.376,-179.165C419.747,-173.695 447.53,-167.458 472.629,-161.824"/>
+<polygon fill="black" stroke="black" points="473.478,-165.221 482.468,-159.616 471.945,-158.391 473.478,-165.221"/>
+</g>
+
+<g id="node5" class="node"><title>example.presentation.web.kit.StarterKitController.register(example.domain.model.kit.specification.Specification, org.springframework.validation.BindingResult)</title>
+<polygon fill="lightgray" stroke="black" points="121,-83 64,-83 64,-47 121,-47 121,-83"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>example.presentation.web.kit.StarterKitController.register(example.domain.model.kit.specification.Specification, org.springframework.validation.BindingResult)&#45;&gt;example.application.service.StarterKitRegisterService.register(example.domain.model.kit.StarterKit)</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M121.237,-68.6778C147.773,-72.1965 189.403,-77.7165 228.317,-82.8765"/>
+<polygon fill="black" stroke="black" points="228.299,-86.4046 238.672,-84.2495 229.219,-79.4653 228.299,-86.4046"/>
+</g>
+
+<g id="node6" class="node"><title>example.presentation.api.kit.StarterKitController.listAll()</title>
+<polygon fill="lightgray" stroke="black" points="119.5,-220 65.5,-220 65.5,-184 119.5,-184 119.5,-220"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>example.presentation.api.kit.StarterKitController.listAll()&#45;&gt;example.application.service.StarterKitService.listAll()</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M119.864,-201.098C140.607,-200.388 171.15,-199.343 202.455,-198.272"/>
+<polygon fill="black" stroke="black" points="202.76,-201.763 212.635,-197.923 202.521,-194.767 202.76,-201.763"/>
+</g>
+
+<g id="node7" class="node"><title>example.presentation.api.kit.StarterKitController.register(example.domain.model.kit.specification.Specification)</title>
+<polygon fill="lightgray" stroke="black" points="121,-166 64,-166 64,-130 121,-130 121,-166"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>example.presentation.api.kit.StarterKitController.register(example.domain.model.kit.specification.Specification)&#45;&gt;example.application.service.StarterKitRegisterService.register(example.domain.model.kit.StarterKit)</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M121.237,-141.831C152.948,-134.778 206.21,-122.931 250.638,-113.049"/>
+<polygon fill="black" stroke="black" points="251.552,-116.431 260.554,-110.843 250.033,-109.598 251.552,-116.431"/>
+</g>
+
+<g id="node8" class="node"><title>example.presentation.api.kit.VarietyController.listAll()</title>
+<polygon fill="lightgray" stroke="black" points="119.5,-303 65.5,-303 65.5,-267 119.5,-267 119.5,-303"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>example.presentation.api.kit.VarietyController.listAll()&#45;&gt;example.application.service.VarietyService.listAll()</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M119.864,-285.789C145.68,-286.562 186.675,-287.79 225.428,-288.95"/>
+<polygon fill="black" stroke="black" points="225.651,-292.458 235.751,-289.259 225.861,-285.461 225.651,-292.458"/>
+</g>
+
+<g id="node9" class="node"><title>example.presentation.api.kit.VarietyController.register(example.domain.model.kit.row.VarietyName)</title>
+<polygon fill="lightgray" stroke="black" points="121,-357 64,-357 64,-321 121,-321 121,-357"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>example.presentation.api.kit.VarietyController.register(example.domain.model.kit.row.VarietyName)&#45;&gt;example.application.service.VarietyRegisterService.register(example.domain.model.kit.row.Variety)</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M121.237,-345.051C154.141,-352.229 210.25,-364.468 255.616,-374.365"/>
+<polygon fill="black" stroke="black" points="254.899,-377.791 265.415,-376.502 256.391,-370.951 254.899,-377.791"/>
+</g>
+
+<g id="node10" class="node"><title>example.presentation.web.kit.VarietyController.register(example.domain.model.kit.row.Variety, org.springframework.validation.BindingResult)</title>
+<polygon fill="lightgray" stroke="black" points="121,-440 64,-440 64,-404 121,-404 121,-440"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>example.presentation.web.kit.VarietyController.register(example.domain.model.kit.row.Variety, org.springframework.validation.BindingResult)&#45;&gt;example.application.service.VarietyRegisterService.register(example.domain.model.kit.row.Variety)</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M121.237,-418.204C150.799,-414.157 199.09,-407.547 241.494,-401.743"/>
+<polygon fill="black" stroke="black" points="242.133,-405.188 251.566,-400.365 241.184,-398.253 242.133,-405.188"/>
+</g>
+</g>
+</svg>

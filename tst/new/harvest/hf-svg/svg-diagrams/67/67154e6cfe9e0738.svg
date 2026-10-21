@@ -1,0 +1,72 @@
+<svg width="516pt" height="211pt"
+ viewBox="0.00 0.00 516.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 512,-207 512,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="20,-10 20,-30 40,-30 40,-10 20,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="133,-10 133,-30 153,-30 153,-10 133,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="219,-10 219,-30 239,-30 239,-10 219,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="316,-10 316,-30 336,-30 336,-10 316,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="412,-10 412,-30 432,-30 432,-10 412,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ExperienceModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 500,-195 500,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ExperienceModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="332,-78 332,-130 492,-130 492,-78 332,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ExperienceModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 324,-130 324,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ExperienceComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="484.2949,-122 339.7051,-122 339.7051,-86 484.2949,-86 484.2949,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ExperienceModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="293.013,-187 290.013,-191 269.013,-191 266.013,-187 170.987,-187 170.987,-151 293.013,-151 293.013,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ExperienceComponent&#45;&gt;ExperienceModule</title>
+<path fill="none" stroke="#000000" d="M412,-122.1061C412,-141.3391 412,-169 412,-169 412,-169 303.191,-169 303.191,-169"/>
+<polygon fill="#000000" stroke="#000000" points="303.191,-165.5001 293.191,-169 303.1909,-172.5001 303.191,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ExperienceRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="315.6302,-122 312.6302,-126 291.6302,-126 288.6302,-122 148.3698,-122 148.3698,-86 315.6302,-86 315.6302,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ExperienceRoutingModule&#45;&gt;ExperienceModule</title>
+<path fill="none" stroke="#000000" d="M232,-122.1061C232,-122.1061 232,-140.991 232,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="228.5001,-140.9909 232,-150.991 235.5001,-140.991 228.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>MaterialModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="130.4706,-122 127.4706,-126 106.4706,-126 103.4706,-122 23.5294,-122 23.5294,-86 130.4706,-86 130.4706,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MaterialModule&#45;&gt;ExperienceModule</title>
+<path fill="none" stroke="#000000" d="M77,-122.1061C77,-141.3391 77,-169 77,-169 77,-169 160.7399,-169 160.7399,-169"/>
+<polygon fill="#000000" stroke="#000000" points="160.7399,-172.5001 170.7399,-169 160.7399,-165.5001 160.7399,-172.5001"/>
+</g>
+</g>
+</svg>

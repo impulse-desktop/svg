@@ -1,0 +1,88 @@
+<svg width="757pt" height="211pt"
+ viewBox="0.00 0.00 757.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 753,-207 753,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="140.5,-10 140.5,-30 160.5,-30 160.5,-10 140.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="253.5,-10 253.5,-30 273.5,-30 273.5,-10 253.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="339.5,-10 339.5,-30 359.5,-30 359.5,-10 339.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="436.5,-10 436.5,-30 456.5,-30 456.5,-10 436.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="532.5,-10 532.5,-30 552.5,-30 552.5,-10 532.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_NewbillModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 741,-195 741,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_NewbillModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="591,-78 591,-130 733,-130 733,-78 591,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_NewbillModule_imports</title>
+<polygon fill="none" stroke="#000000" points="417,-78 417,-130 583,-130 583,-78 417,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_NewbillModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 409,-130 409,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>NewbillComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="725.4327,-122 598.5673,-122 598.5673,-86 725.4327,-86 725.4327,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>NewbillModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="454.15,-187 451.15,-191 430.15,-191 427.15,-187 349.85,-187 349.85,-151 454.15,-151 454.15,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>NewbillComponent&#45;&gt;NewbillModule</title>
+<path fill="none" stroke="#000000" d="M662,-122.1061C662,-141.3391 662,-169 662,-169 662,-169 464.3021,-169 464.3021,-169"/>
+<polygon fill="#000000" stroke="#000000" points="464.3022,-165.5001 454.3021,-169 464.3021,-172.5001 464.3022,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>NewbillRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="574.7674,-122 571.7674,-126 550.7674,-126 547.7674,-122 425.2326,-122 425.2326,-86 574.7674,-86 574.7674,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>NewbillRoutingModule&#45;&gt;NewbillModule</title>
+<path fill="none" stroke="#000000" d="M439.7206,-122.1061C439.7206,-122.1061 439.7206,-140.991 439.7206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="436.2206,-140.9909 439.7206,-150.991 443.2206,-140.991 436.2206,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>MiscFunctionsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="304" cy="-104" rx="97.2876" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MiscFunctionsService&#45;&gt;NewbillModule</title>
+<path fill="none" stroke="#000000" d="M375.5345,-116.226C375.5345,-116.226 375.5345,-140.683 375.5345,-140.683"/>
+<polygon fill="#000000" stroke="#000000" points="372.0346,-140.683 375.5345,-150.683 379.0346,-140.683 372.0346,-140.683"/>
+</g>
+
+<g id="node5" class="node">
+<title>ShowErrorService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="106" cy="-104" rx="82.2218" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ShowErrorService&#45;&gt;NewbillModule</title>
+<path fill="none" stroke="#000000" d="M106,-122.1061C106,-141.3391 106,-169 106,-169 106,-169 339.7625,-169 339.7625,-169"/>
+<polygon fill="#000000" stroke="#000000" points="339.7625,-172.5001 349.7625,-169 339.7625,-165.5001 339.7625,-172.5001"/>
+</g>
+</g>
+</svg>

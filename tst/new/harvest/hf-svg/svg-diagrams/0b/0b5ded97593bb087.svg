@@ -1,0 +1,43 @@
+<svg width="254pt" height="116pt"
+ viewBox="0.00 0.00 254.39 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 250.39,-112 250.39,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>texlive&#45;core</title>
+<g id="a_node1"><a xlink:href="https://github.com/conda-forge/texlive-core-feedstock/pull/34" xlink:title="texlive core">
+<ellipse fill="#31688e" stroke="black" cx="69.54" cy="-90" rx="69.59" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node">
+<title>conda&#45;forge&#45;pinning</title>
+<ellipse fill="none" stroke="black" cx="135.54" cy="-18" rx="103.18" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>texlive&#45;core&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M85.18,-72.41C93.37,-63.73 103.54,-52.95 112.59,-43.34"/>
+<polygon fill="black" stroke="black" points="115.24,-45.63 119.56,-35.96 110.15,-40.83 115.24,-45.63"/>
+</g>
+
+<g id="node2" class="node">
+<title>libvips</title>
+<g id="a_node2"><a xlink:href="https://github.com/conda-forge/libvips-feedstock/pull/11" xlink:title="libvips">
+<ellipse fill="#31688e" stroke="black" cx="201.54" cy="-90" rx="44.69" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>libvips&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M186.24,-72.76C178.06,-64.1 167.83,-53.25 158.71,-43.57"/>
+<polygon fill="black" stroke="black" points="161.1,-41 151.69,-36.12 156,-45.8 161.1,-41"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,124 @@
+<svg width="689pt" height="284pt"
+ viewBox="0.00 0.00 689.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 685,-280 685,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="106.5,-10 106.5,-30 126.5,-30 126.5,-10 106.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="219.5,-10 219.5,-30 239.5,-30 239.5,-10 219.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="305.5,-10 305.5,-30 325.5,-30 325.5,-10 305.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="402.5,-10 402.5,-30 422.5,-30 422.5,-10 402.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="498.5,-10 498.5,-30 518.5,-30 518.5,-10 498.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_HomeContainerModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 673,-268 673,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_HomeContainerModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="228,-78 228,-130 665,-130 665,-78 228,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_HomeContainerModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 220,-130 220,-78 16,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_HomeContainerModule_exports</title>
+<polygon fill="none" stroke="#000000" points="147,-208 147,-260 595,-260 595,-208 147,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>CampainComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="656.8795,-122 525.1205,-122 525.1205,-86 656.8795,-86 656.8795,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>HomeContainerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="437.4692,-187 434.4692,-191 413.4692,-191 410.4692,-187 288.5308,-187 288.5308,-151 437.4692,-151 437.4692,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CampainComponent&#45;&gt;HomeContainerModule</title>
+<path fill="none" stroke="#000000" d="M555.875,-122.0225C555.875,-139.3734 555.875,-163 555.875,-163 555.875,-163 447.5705,-163 447.5705,-163"/>
+<polygon fill="#000000" stroke="#000000" points="447.5705,-159.5001 437.5705,-163 447.5705,-166.5001 447.5705,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CampainsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="506.8244,-122 369.1756,-122 369.1756,-86 506.8244,-86 506.8244,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CampainsComponent&#45;&gt;HomeContainerModule</title>
+<path fill="none" stroke="#000000" d="M403.4113,-122.1061C403.4113,-122.1061 403.4113,-140.991 403.4113,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="399.9114,-140.9909 403.4113,-150.991 406.9114,-140.991 399.9114,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>HomeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="351.5451,-122 236.4549,-122 236.4549,-86 351.5451,-86 351.5451,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>HomeComponent&#45;&gt;HomeContainerModule</title>
+<path fill="none" stroke="#000000" d="M320.1438,-122.1061C320.1438,-122.1061 320.1438,-140.991 320.1438,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="316.6438,-140.9909 320.1438,-150.991 323.6438,-140.991 316.6438,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>CampainComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="586.8799,-252 451.1201,-252 451.1201,-216 586.8799,-216 586.8799,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>HomeContainerModule&#45;&gt;CampainComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M437.7672,-175C460.2103,-175 478.9862,-175 478.9862,-175 478.9862,-175 478.9862,-205.9775 478.9862,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="475.4862,-205.9774 478.9862,-215.9775 482.4862,-205.9775 475.4862,-205.9774"/>
+</g>
+
+<g id="node7" class="node">
+<title>CampainsComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="433.3241,-252 292.6759,-252 292.6759,-216 433.3241,-216 433.3241,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>HomeContainerModule&#45;&gt;CampainsComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M363,-187.1061C363,-187.1061 363,-205.991 363,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="359.5001,-205.9909 363,-215.991 366.5001,-205.991 359.5001,-205.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>HomeComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="274.5442,-252 155.4558,-252 155.4558,-216 274.5442,-216 274.5442,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>HomeContainerModule&#45;&gt;HomeComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288.2508,-175C269.8857,-175 255.375,-175 255.375,-175 255.375,-175 255.375,-205.9775 255.375,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="251.8751,-205.9774 255.375,-215.9775 258.8751,-205.9775 251.8751,-205.9774"/>
+</g>
+
+<g id="node5" class="node">
+<title>HomeContainerRoutesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="211.8557,-122 208.8557,-126 187.8557,-126 184.8557,-122 24.1443,-122 24.1443,-86 211.8557,-86 211.8557,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>HomeContainerRoutesModule&#45;&gt;HomeContainerModule</title>
+<path fill="none" stroke="#000000" d="M183.7029,-122.0225C183.7029,-139.3734 183.7029,-163 183.7029,-163 183.7029,-163 278.5195,-163 278.5195,-163"/>
+<polygon fill="#000000" stroke="#000000" points="278.5196,-166.5001 288.5195,-163 278.5195,-159.5001 278.5196,-166.5001"/>
+</g>
+</g>
+</svg>

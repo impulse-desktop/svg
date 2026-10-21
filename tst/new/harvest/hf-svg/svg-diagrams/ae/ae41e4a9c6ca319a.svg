@@ -1,0 +1,144 @@
+<svg width="832pt" height="298pt"
+ viewBox="0.00 0.00 832.00 298.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 294)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-294 828,-294 828,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="178,-10 178,-30 198,-30 198,-10 178,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="291,-10 291,-30 311,-30 311,-10 291,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="377,-10 377,-30 397,-30 397,-10 377,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="474,-10 474,-30 494,-30 494,-10 474,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="570,-10 570,-30 590,-30 590,-10 570,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="74,-146 74,-274 532,-274 532,-146 74,-146"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="82,-154 82,-206 524,-206 524,-154 82,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_CoreModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="540,-214 540,-282 816,-282 816,-214 540,-214"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_CoreModule_exports</title>
+<polygon fill="none" stroke="#000000" points="698,-222 698,-274 808,-274 808,-222 698,-222"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_CoreModule_providers</title>
+<polygon fill="none" stroke="#000000" points="548,-222 548,-274 690,-274 690,-222 548,-222"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_PaymentIntentsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-138 240,-138 240,-70 8,-70"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_PaymentIntentsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 232,-130 232,-78 16,-78"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_PaymentMethodsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="248,-70 248,-138 496,-138 496,-70 248,-70"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_PaymentMethodsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="256,-78 256,-130 488,-130 488,-78 256,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="516.2619,-198 513.2619,-202 492.2619,-202 489.2619,-198 429.7381,-198 429.7381,-162 516.2619,-162 516.2619,-198"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="374.6571,-266 371.6571,-270 350.6571,-270 347.6571,-266 291.3429,-266 291.3429,-230 374.6571,-230 374.6571,-266"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CoreModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M458.5397,-198.2921C458.5397,-220.2057 458.5397,-254 458.5397,-254 458.5397,-254 384.8029,-254 384.8029,-254"/>
+<polygon fill="#000000" stroke="#000000" points="384.8029,-250.5001 374.8029,-254 384.8029,-257.5001 384.8029,-250.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>StripeService </title>
+<polygon fill="#fb8072" stroke="#000000" points="800.4166,-266 705.5834,-266 705.5834,-230 800.4166,-230 800.4166,-266"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CoreModule&#45;&gt;StripeService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M516.4428,-180C595.0896,-180 753,-180 753,-180 753,-180 753,-219.7772 753,-219.7772"/>
+<polygon fill="#000000" stroke="#000000" points="749.5001,-219.7772 753,-229.7772 756.5001,-219.7773 749.5001,-219.7772"/>
+</g>
+
+<g id="node2" class="node">
+<title>PaymentIntentsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="236.1442,-198 233.1442,-202 212.1442,-202 209.1442,-198 89.8558,-198 89.8558,-162 236.1442,-162 236.1442,-198"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PaymentIntentsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M163,-198.2228C163,-218.3652 163,-248 163,-248 163,-248 280.9775,-248 280.9775,-248"/>
+<polygon fill="#000000" stroke="#000000" points="280.9776,-251.5001 290.9775,-248 280.9775,-244.5001 280.9776,-251.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>PaymentMethodsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="411.5379,-198 408.5379,-202 387.5379,-202 384.5379,-198 254.4621,-198 254.4621,-162 411.5379,-162 411.5379,-198"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PaymentMethodsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M333,-198.2228C333,-198.2228 333,-219.7269 333,-219.7269"/>
+<polygon fill="#000000" stroke="#000000" points="329.5001,-219.7269 333,-229.7269 336.5001,-219.727 329.5001,-219.7269"/>
+</g>
+
+<g id="node6" class="node">
+<title>StripeService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="619" cy="-248" rx="63.1151" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>StripeService&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M559.388,-242C524.5843,-242 487.4603,-242 487.4603,-242 487.4603,-242 487.4603,-208.2667 487.4603,-208.2667"/>
+<polygon fill="#000000" stroke="#000000" points="490.9604,-208.2667 487.4603,-198.2667 483.9604,-208.2667 490.9604,-208.2667"/>
+</g>
+
+<g id="node7" class="node">
+<title>PaymentIntentsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="124" cy="-104" rx="100.1355" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>PaymentIntentsService&#45;&gt;PaymentIntentsModule</title>
+<path fill="none" stroke="#000000" d="M156.8729,-121.2456C156.8729,-121.2456 156.8729,-151.7629 156.8729,-151.7629"/>
+<polygon fill="#000000" stroke="#000000" points="153.373,-151.7628 156.8729,-161.7629 160.373,-151.7629 153.373,-151.7628"/>
+</g>
+
+<g id="node8" class="node">
+<title>PaymentMethodsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="372" cy="-104" rx="107.6637" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>PaymentMethodsService&#45;&gt;PaymentMethodsModule</title>
+<path fill="none" stroke="#000000" d="M338.0934,-121.2456C338.0934,-121.2456 338.0934,-151.7629 338.0934,-151.7629"/>
+<polygon fill="#000000" stroke="#000000" points="334.5935,-151.7628 338.0934,-161.7629 341.5935,-151.7629 334.5935,-151.7628"/>
+</g>
+</g>
+</svg>

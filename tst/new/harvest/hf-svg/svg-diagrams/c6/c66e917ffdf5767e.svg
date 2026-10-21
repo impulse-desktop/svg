@@ -1,0 +1,206 @@
+<svg width="1344pt" height="181pt"
+ viewBox="0.00 0.00 1344.00 180.74" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 176.736)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-176.736 1341,-176.736 1341,5 -4,5"/>
+
+<g id="Pi [CHEBI:24838]" class="node"><title>Pi</title>
+<ellipse fill="none" stroke="black" cx="80" cy="-126" rx="18" ry="18"/>
+
+</g>
+
+<g id="RasGTP" class="node"><title>RasGTP</title>
+<ellipse fill="none" stroke="black" cx="317" cy="-18" rx="29.3664" ry="18"/>
+
+</g>
+
+<g id="node22" class="node"><title>NF1_binding_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="385" cy="-72" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge20" class="edge"><title>RasGTP&#45;&gt;NF1_binding_intermediate_r</title>
+<path fill="none" stroke="black" d="M335.341,-32.1879C354.284,-47.6872 382.19,-70.5193 383.916,-71.9312"/>
+</g>
+
+<g id="RasGTP_minus_NF1" class="node"><title>RasGTP_minus_NF1</title>
+<ellipse fill="none" stroke="black" cx="571" cy="-113" rx="61.4427" ry="18"/>
+
+</g>
+
+<g id="node16" class="node"><title>Ras_activation_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="669" cy="-120" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge11" class="edge"><title>RasGTP_minus_NF1&#45;&gt;Ras_activation_intermediate_r</title>
+<path fill="none" stroke="black" d="M630.609,-117.274C649.972,-118.685 666.91,-119.921 667.949,-119.996"/>
+</g>
+
+<g id="RasGTP_minus_NF1_star_" class="node"><title>RasGTP_minus_NF1_star_</title>
+<ellipse fill="none" stroke="black" cx="870" cy="-126" rx="75.198" ry="18"/>
+
+</g>
+
+<g id="node10" class="node"><title>GTP_hydrolysis_sbo_1_sbc__intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="983" cy="-126" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge2" class="edge"><title>RasGTP_minus_NF1_star_&#45;&gt;GTP_hydrolysis_sbo_1_sbc__intermediate_r</title>
+<path fill="none" stroke="black" d="M945.654,-126C965.106,-126 980.98,-126 981.953,-126"/>
+</g>
+
+<g id="RasGDP_minus_NF1_Pi [CHEBI:24838]" class="node"><title>RasGDP_minus_NF1_Pi</title>
+<ellipse fill="none" stroke="black" cx="1178" cy="-126" rx="70.1018" ry="18"/>
+
+</g>
+
+<g id="node13" class="node"><title>GTP_hydrolysis_sbo_2_sbc__intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="1285" cy="-135" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge6" class="edge"><title>RasGDP_minus_NF1_Pi&#45;&gt;GTP_hydrolysis_sbo_2_sbc__intermediate_r</title>
+<path fill="none" stroke="black" d="M1244.6,-131.623C1265.16,-133.386 1282.86,-134.902 1283.95,-134.995"/>
+</g>
+
+<g id="RasGDP_NF1" class="node"><title>RasGDP_NF1</title>
+<ellipse fill="none" stroke="black" cx="80" cy="-72" rx="44.3" ry="18"/>
+
+</g>
+
+<g id="node19" class="node"><title>GAP_dissociation_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="161" cy="-72" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge15" class="edge"><title>RasGDP_NF1&#45;&gt;GAP_dissociation_intermediate_r</title>
+<path fill="none" stroke="black" d="M124.198,-72C142.065,-72 158.914,-72 159.95,-72"/>
+</g>
+
+<g id="RasGDP" class="node"><title>RasGDP</title>
+<ellipse fill="none" stroke="black" cx="317" cy="-126" rx="30.7213" ry="18"/>
+
+</g>
+
+<g id="NF1" class="node"><title>NF1</title>
+<ellipse fill="none" stroke="black" cx="317" cy="-72" rx="27" ry="18"/>
+
+</g>
+
+<g id="edge21" class="edge"><title>NF1&#45;&gt;NF1_binding_intermediate_r</title>
+<path fill="none" stroke="black" d="M344.085,-72C361.957,-72 382.661,-72 383.938,-72"/>
+</g>
+
+<g id="node9" class="node"><title>GTP_hydrolysis_sbo_1_sbc_</title>
+<polygon fill="none" stroke="black" points="1034,-133 1020,-133 1020,-119 1034,-119 1034,-133"/>
+</g>
+
+<g id="node11" class="node"><title>GTP_hydrolysis_sbo_1_sbc__intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="1071" cy="-126" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge3" class="edge"><title>GTP_hydrolysis_sbo_1_sbc_&#45;&gt;GTP_hydrolysis_sbo_1_sbc__intermediate_p</title>
+<path fill="none" stroke="black" d="M1034.2,-126C1045.52,-126 1068.5,-126 1069.93,-126"/>
+</g>
+
+<g id="edge1" class="edge"><title>GTP_hydrolysis_sbo_1_sbc__intermediate_r&#45;&gt;GTP_hydrolysis_sbo_1_sbc_</title>
+<path fill="none" stroke="black" d="M984.12,-126C985.968,-126 1008.6,-126 1019.8,-126"/>
+</g>
+
+<g id="edge4" class="edge"><title>GTP_hydrolysis_sbo_1_sbc__intermediate_p&#45;&gt;RasGDP_minus_NF1_Pi</title>
+<path fill="none" stroke="black" d="M1072.08,-126C1073.07,-126 1083.59,-126 1097.62,-126"/>
+<polygon fill="black" stroke="black" points="1097.82,-129.5 1107.82,-126 1097.82,-122.5 1097.82,-129.5"/>
+</g>
+
+<g id="node12" class="node"><title>GTP_hydrolysis_sbo_2_sbc_</title>
+<polygon fill="none" stroke="black" points="1336,-160 1322,-160 1322,-146 1336,-146 1336,-160"/>
+</g>
+
+<g id="node14" class="node"><title>GTP_hydrolysis_sbo_2_sbc__intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="0" cy="-126" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge7" class="edge"><title>GTP_hydrolysis_sbo_2_sbc_&#45;&gt;GTP_hydrolysis_sbo_2_sbc__intermediate_p</title>
+<path fill="none" stroke="black" d="M1321.79,-154.366C1301.43,-158.723 1234.81,-172 1179,-172 160,-172 160,-172 160,-172 104.246,-172 87.2536,-174.946 36,-153 18.5041,-145.509 2.05982,-127.193 1.04915,-126.056"/>
+</g>
+
+<g id="edge5" class="edge"><title>GTP_hydrolysis_sbo_2_sbc__intermediate_r&#45;&gt;GTP_hydrolysis_sbo_2_sbc_</title>
+<path fill="none" stroke="black" d="M1286.12,-135.052C1287.97,-135.843 1310.6,-145.544 1321.8,-150.344"/>
+</g>
+
+<g id="edge8" class="edge"><title>GTP_hydrolysis_sbo_2_sbc__intermediate_p&#45;&gt;Pi</title>
+<path fill="none" stroke="black" d="M1.05653,-126C2.45993,-126 29.7133,-126 51.6022,-126"/>
+<polygon fill="black" stroke="black" points="51.78,-129.5 61.78,-126 51.7799,-122.5 51.78,-129.5"/>
+</g>
+
+<g id="edge9" class="edge"><title>GTP_hydrolysis_sbo_2_sbc__intermediate_p&#45;&gt;RasGDP_NF1</title>
+<path fill="none" stroke="black" d="M1.05466,-125.954C2.17757,-125.019 20.388,-109.886 36,-99 39.2426,-96.7391 42.6686,-94.4418 46.1142,-92.1902"/>
+<polygon fill="black" stroke="black" points="48.0961,-95.0772 54.6266,-86.7344 44.3188,-89.1838 48.0961,-95.0772"/>
+</g>
+
+<g id="node15" class="node"><title>Ras_activation</title>
+<polygon fill="none" stroke="black" points="720,-130 706,-130 706,-116 720,-116 720,-130"/>
+</g>
+
+<g id="node17" class="node"><title>Ras_activation_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="757" cy="-125" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge12" class="edge"><title>Ras_activation&#45;&gt;Ras_activation_intermediate_p</title>
+<path fill="none" stroke="black" d="M720.197,-123.295C731.515,-123.834 754.505,-124.929 755.93,-124.997"/>
+</g>
+
+<g id="edge10" class="edge"><title>Ras_activation_intermediate_r&#45;&gt;Ras_activation</title>
+<path fill="none" stroke="black" d="M670.12,-120.009C671.968,-120.141 694.602,-121.757 705.803,-122.557"/>
+</g>
+
+<g id="edge13" class="edge"><title>Ras_activation_intermediate_p&#45;&gt;RasGTP_minus_NF1_star_</title>
+<path fill="none" stroke="black" d="M758.08,-125.001C759.114,-125.01 770.008,-125.108 784.598,-125.24"/>
+<polygon fill="black" stroke="black" points="784.622,-128.74 794.653,-125.33 784.685,-121.74 784.622,-128.74"/>
+</g>
+
+<g id="node18" class="node"><title>GAP_dissociation</title>
+<polygon fill="none" stroke="black" points="212,-79 198,-79 198,-65 212,-65 212,-79"/>
+</g>
+
+<g id="node20" class="node"><title>GAP_dissociation_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="249" cy="-72" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge16" class="edge"><title>GAP_dissociation&#45;&gt;GAP_dissociation_intermediate_p</title>
+<path fill="none" stroke="black" d="M212.197,-72C223.515,-72 246.505,-72 247.93,-72"/>
+</g>
+
+<g id="edge14" class="edge"><title>GAP_dissociation_intermediate_r&#45;&gt;GAP_dissociation</title>
+<path fill="none" stroke="black" d="M162.12,-72C163.968,-72 186.602,-72 197.803,-72"/>
+</g>
+
+<g id="edge17" class="edge"><title>GAP_dissociation_intermediate_p&#45;&gt;RasGDP</title>
+<path fill="none" stroke="black" d="M250.048,-72.0391C251.185,-72.9697 272.388,-90.3172 290.449,-105.095"/>
+<polygon fill="black" stroke="black" points="288.487,-108.012 298.443,-111.635 292.92,-102.594 288.487,-108.012"/>
+</g>
+
+<g id="edge18" class="edge"><title>GAP_dissociation_intermediate_p&#45;&gt;NF1</title>
+<path fill="none" stroke="black" d="M250.048,-72C250.961,-72 264.816,-72 279.591,-72"/>
+<polygon fill="black" stroke="black" points="279.82,-75.5001 289.82,-72 279.82,-68.5001 279.82,-75.5001"/>
+</g>
+
+<g id="node21" class="node"><title>NF1_binding</title>
+<polygon fill="none" stroke="black" points="436,-80 422,-80 422,-66 436,-66 436,-80"/>
+</g>
+
+<g id="node23" class="node"><title>NF1_binding_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="473" cy="-100" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge22" class="edge"><title>NF1_binding&#45;&gt;NF1_binding_intermediate_p</title>
+<path fill="none" stroke="black" d="M436.197,-76.9839C447.515,-84.2597 470.505,-99.0387 471.93,-99.9553"/>
+</g>
+
+<g id="edge19" class="edge"><title>NF1_binding_intermediate_r&#45;&gt;NF1_binding</title>
+<path fill="none" stroke="black" d="M386.12,-72.0029C387.968,-72.0469 410.602,-72.5858 421.803,-72.8524"/>
+</g>
+
+<g id="edge23" class="edge"><title>NF1_binding_intermediate_p&#45;&gt;RasGTP_minus_NF1</title>
+<path fill="none" stroke="black" d="M474.07,-100.009C475.147,-100.155 488.603,-101.977 505.114,-104.213"/>
+<polygon fill="black" stroke="black" points="504.738,-107.694 515.117,-105.568 505.677,-100.758 504.738,-107.694"/>
+</g>
+</g>
+</svg>

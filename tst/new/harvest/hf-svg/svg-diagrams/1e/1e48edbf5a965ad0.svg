@@ -1,0 +1,172 @@
+<svg width="942pt" height="284pt"
+ viewBox="0.00 0.00 942.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 938,-280 938,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="233,-10 233,-30 253,-30 253,-10 233,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="346,-10 346,-30 366,-30 366,-10 346,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="432,-10 432,-30 452,-30 452,-10 432,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="529,-10 529,-30 549,-30 549,-10 529,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="625,-10 625,-30 645,-30 645,-10 625,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SemanticModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 926,-268 926,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SemanticModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="152,-78 152,-130 918,-130 918,-78 152,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_SemanticModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 144,-130 144,-78 16,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_SemanticModule_exports</title>
+<polygon fill="none" stroke="#000000" points="75,-208 75,-260 859,-260 859,-208 75,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>TabComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="909.5996,-122 806.4004,-122 806.4004,-86 909.5996,-86 909.5996,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>SemanticModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="584.6486,-187 581.6486,-191 560.6486,-191 557.6486,-187 473.3514,-187 473.3514,-151 584.6486,-151 584.6486,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>TabComponent&#45;&gt;SemanticModule</title>
+<path fill="none" stroke="#000000" d="M828.875,-122.2667C828.875,-140.5552 828.875,-166 828.875,-166 828.875,-166 594.7014,-166 594.7014,-166"/>
+<polygon fill="#000000" stroke="#000000" points="594.7014,-162.5001 584.7014,-166 594.7014,-169.5001 594.7014,-162.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>TabsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="788.0452,-122 679.9548,-122 679.9548,-86 788.0452,-86 788.0452,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>TabsComponent&#45;&gt;SemanticModule</title>
+<path fill="none" stroke="#000000" d="M703.375,-122.0091C703.375,-138.0494 703.375,-159 703.375,-159 703.375,-159 594.6528,-159 594.6528,-159"/>
+<polygon fill="#000000" stroke="#000000" points="594.6528,-155.5001 584.6528,-159 594.6527,-162.5001 594.6528,-155.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CollapsibleDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="661.8557,-122 530.1443,-122 530.1443,-86 661.8557,-86 661.8557,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CollapsibleDirective&#45;&gt;SemanticModule</title>
+<path fill="none" stroke="#000000" d="M557.4481,-122.1061C557.4481,-122.1061 557.4481,-140.991 557.4481,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="553.9482,-140.9909 557.4481,-150.991 560.9482,-140.991 553.9482,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>CollapsibleTitleDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="512.2949,-122 353.7051,-122 353.7051,-86 512.2949,-86 512.2949,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CollapsibleTitleDirective&#45;&gt;SemanticModule</title>
+<path fill="none" stroke="#000000" d="M492.6617,-122.1061C492.6617,-122.1061 492.6617,-140.991 492.6617,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="489.1617,-140.9909 492.6617,-150.991 496.1617,-140.991 489.1617,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CollapsibleContentDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="336.1881,-122 159.8119,-122 159.8119,-86 336.1881,-86 336.1881,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CollapsibleContentDirective&#45;&gt;SemanticModule</title>
+<path fill="none" stroke="#000000" d="M308.5984,-122.0091C308.5984,-138.0494 308.5984,-159 308.5984,-159 308.5984,-159 463.0984,-159 463.0984,-159"/>
+<polygon fill="#000000" stroke="#000000" points="463.0985,-162.5001 473.0984,-159 463.0984,-155.5001 463.0985,-162.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>TabComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="851.1003,-252 744.8997,-252 744.8997,-216 851.1003,-216 851.1003,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SemanticModule&#45;&gt;TabComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M584.68,-173C654.8737,-173 766.4861,-173 766.4861,-173 766.4861,-173 766.4861,-205.698 766.4861,-205.698"/>
+<polygon fill="#000000" stroke="#000000" points="762.9862,-205.698 766.4861,-215.698 769.9862,-205.698 762.9862,-205.698"/>
+</g>
+
+<g id="node9" class="node">
+<title>TabsComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="727.0442,-252 614.9558,-252 614.9558,-216 727.0442,-216 727.0442,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SemanticModule&#45;&gt;TabsComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M584.6884,-180C611.7272,-180 638.4528,-180 638.4528,-180 638.4528,-180 638.4528,-205.7181 638.4528,-205.7181"/>
+<polygon fill="#000000" stroke="#000000" points="634.9529,-205.718 638.4528,-215.7181 641.9529,-205.7181 634.9529,-205.718"/>
+</g>
+
+<g id="node10" class="node">
+<title>CollapsibleDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="596.8561,-252 461.1439,-252 461.1439,-216 596.8561,-216 596.8561,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SemanticModule&#45;&gt;CollapsibleDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M529,-187.1061C529,-187.1061 529,-205.991 529,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="525.5001,-205.9909 529,-215.991 532.5001,-205.991 525.5001,-205.9909"/>
+</g>
+
+<g id="node11" class="node">
+<title>CollapsibleTitleDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="442.7947,-252 281.2053,-252 281.2053,-216 442.7947,-216 442.7947,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>SemanticModule&#45;&gt;CollapsibleTitleDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M473.2243,-180C437.7209,-180 398.375,-180 398.375,-180 398.375,-180 398.375,-205.7181 398.375,-205.7181"/>
+<polygon fill="#000000" stroke="#000000" points="394.8751,-205.718 398.375,-215.7181 401.8751,-205.7181 394.8751,-205.718"/>
+</g>
+
+<g id="node12" class="node">
+<title>CollapsibleContentDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="262.6883,-252 83.3117,-252 83.3117,-216 262.6883,-216 262.6883,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>SemanticModule&#45;&gt;CollapsibleContentDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M473.3105,-173C382.217,-173 211.375,-173 211.375,-173 211.375,-173 211.375,-205.698 211.375,-205.698"/>
+<polygon fill="#000000" stroke="#000000" points="207.8751,-205.698 211.375,-215.698 214.8751,-205.698 207.8751,-205.698"/>
+</g>
+
+<g id="node7" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="135.6681,-122 132.6681,-126 111.6681,-126 108.6681,-122 24.3319,-122 24.3319,-86 135.6681,-86 135.6681,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CommonModule&#45;&gt;SemanticModule</title>
+<path fill="none" stroke="#000000" d="M109.4949,-122.2667C109.4949,-140.5552 109.4949,-166 109.4949,-166 109.4949,-166 463.293,-166 463.293,-166"/>
+<polygon fill="#000000" stroke="#000000" points="463.293,-169.5001 473.293,-166 463.2929,-162.5001 463.293,-169.5001"/>
+</g>
+</g>
+</svg>

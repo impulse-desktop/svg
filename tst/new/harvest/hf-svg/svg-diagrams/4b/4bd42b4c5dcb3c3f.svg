@@ -1,0 +1,156 @@
+<svg width="668pt" height="284pt"
+ viewBox="0.00 0.00 668.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 664,-280 664,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="96,-10 96,-30 116,-30 116,-10 96,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="209,-10 209,-30 229,-30 229,-10 209,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="295,-10 295,-30 315,-30 315,-10 295,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="392,-10 392,-30 412,-30 412,-10 392,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="488,-10 488,-30 508,-30 508,-10 488,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaPipeModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 652,-268 652,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaPipeModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="26,-78 26,-130 636,-130 636,-78 26,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_DejaPipeModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 644,-260 644,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>KeysPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="627.6545,-122 558.3455,-122 558.3455,-86 627.6545,-86 627.6545,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>DejaPipeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="424.3641,-187 421.3641,-191 400.3641,-191 397.3641,-187 313.6359,-187 313.6359,-151 424.3641,-151 424.3641,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>KeysPipe&#45;&gt;DejaPipeModule</title>
+<path fill="none" stroke="#000000" d="M606.0256,-122.027C606.0256,-138.3976 606.0256,-160 606.0256,-160 606.0256,-160 434.572,-160 434.572,-160"/>
+<polygon fill="#000000" stroke="#000000" points="434.572,-156.5001 424.572,-160 434.5719,-163.5001 434.572,-156.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>SafeHTMLPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="539.9174,-122 434.0826,-122 434.0826,-86 539.9174,-86 539.9174,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SafeHTMLPipe&#45;&gt;DejaPipeModule</title>
+<path fill="none" stroke="#000000" d="M434.1604,-104C426.0712,-104 420.3507,-104 420.3507,-104 420.3507,-104 420.3507,-140.8939 420.3507,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="416.8507,-140.8938 420.3507,-150.8939 423.8507,-140.8939 416.8507,-140.8938"/>
+</g>
+
+<g id="node3" class="node">
+<title>SafeStylePipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="416.0397,-122 321.9603,-122 321.9603,-86 416.0397,-86 416.0397,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SafeStylePipe&#45;&gt;DejaPipeModule</title>
+<path fill="none" stroke="#000000" d="M369,-122.1061C369,-122.1061 369,-140.991 369,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="365.5001,-140.9909 369,-150.991 372.5001,-140.991 365.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>StringToDateFormatPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="303.5309,-122 146.4691,-122 146.4691,-86 303.5309,-86 303.5309,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>StringToDateFormatPipe&#45;&gt;DejaPipeModule</title>
+<path fill="none" stroke="#000000" d="M303.5779,-104C312.0383,-104 317.6494,-104 317.6494,-104 317.6494,-104 317.6494,-140.8939 317.6494,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="314.1494,-140.8938 317.6494,-150.8939 321.1494,-140.8939 314.1494,-140.8938"/>
+</g>
+
+<g id="node5" class="node">
+<title>TimeAgoPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="128.0439,-122 33.9561,-122 33.9561,-86 128.0439,-86 128.0439,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>TimeAgoPipe&#45;&gt;DejaPipeModule</title>
+<path fill="none" stroke="#000000" d="M92.5905,-122.027C92.5905,-138.3976 92.5905,-160 92.5905,-160 92.5905,-160 303.3969,-160 303.3969,-160"/>
+<polygon fill="#000000" stroke="#000000" points="303.3969,-163.5001 313.3969,-160 303.3969,-156.5001 303.3969,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>KeysPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="635.6538,-252 562.3462,-252 562.3462,-216 635.6538,-216 635.6538,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DejaPipeModule&#45;&gt;KeysPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M424.4256,-169C488.1951,-169 584.2244,-169 584.2244,-169 584.2244,-169 584.2244,-205.8939 584.2244,-205.8939"/>
+<polygon fill="#000000" stroke="#000000" points="580.7245,-205.8938 584.2244,-215.8939 587.7245,-205.8939 580.7245,-205.8938"/>
+</g>
+
+<g id="node8" class="node">
+<title>SafeHTMLPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="544.4166,-252 435.5834,-252 435.5834,-216 544.4166,-216 544.4166,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>DejaPipeModule&#45;&gt;SafeHTMLPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M424.492,-178C455.3654,-178 487.625,-178 487.625,-178 487.625,-178 487.625,-205.973 487.625,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="484.1251,-205.973 487.625,-215.973 491.1251,-205.973 484.1251,-205.973"/>
+</g>
+
+<g id="node9" class="node">
+<title>SafeStylePipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="418.0386,-252 319.9614,-252 319.9614,-216 418.0386,-216 418.0386,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>DejaPipeModule&#45;&gt;SafeStylePipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M369,-187.1061C369,-187.1061 369,-205.991 369,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="365.5001,-205.9909 369,-215.991 372.5001,-205.991 365.5001,-205.9909"/>
+</g>
+
+<g id="node10" class="node">
+<title>StringToDateFormatPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="301.5302,-252 140.4698,-252 140.4698,-216 301.5302,-216 301.5302,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>DejaPipeModule&#45;&gt;StringToDateFormatPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M313.3059,-178C272.3799,-178 223.875,-178 223.875,-178 223.875,-178 223.875,-205.973 223.875,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="220.3751,-205.973 223.875,-215.973 227.3751,-205.973 220.3751,-205.973"/>
+</g>
+
+<g id="node11" class="node">
+<title>TimeAgoPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="122.0428,-252 23.9572,-252 23.9572,-216 122.0428,-216 122.0428,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>DejaPipeModule&#45;&gt;TimeAgoPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M313.6146,-169C225.4798,-169 63.1595,-169 63.1595,-169 63.1595,-169 63.1595,-205.8939 63.1595,-205.8939"/>
+<polygon fill="#000000" stroke="#000000" points="59.6596,-205.8938 63.1595,-215.8939 66.6596,-205.8939 59.6596,-205.8938"/>
+</g>
+</g>
+</svg>

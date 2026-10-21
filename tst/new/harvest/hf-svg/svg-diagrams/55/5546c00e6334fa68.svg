@@ -1,0 +1,96 @@
+<svg width="744pt" height="211pt"
+ viewBox="0.00 0.00 744.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 740,-207 740,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="134,-10 134,-30 154,-30 154,-10 134,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="247,-10 247,-30 267,-30 267,-10 247,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="333,-10 333,-30 353,-30 353,-10 333,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="430,-10 430,-30 450,-30 450,-10 430,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="526,-10 526,-30 546,-30 546,-10 526,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PagesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 728,-195 728,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PagesModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="590,-78 590,-130 720,-130 720,-78 590,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_PagesModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 582,-130 582,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>PagesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="711.9888,-122 598.0112,-122 598.0112,-86 711.9888,-86 711.9888,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>PagesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="412.2064,-187 409.2064,-191 388.2064,-191 385.2064,-187 319.7936,-187 319.7936,-151 412.2064,-151 412.2064,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PagesComponent&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M655,-122.2843C655,-143.3211 655,-175 655,-175 655,-175 422.1125,-175 422.1125,-175"/>
+<polygon fill="#000000" stroke="#000000" points="422.1125,-171.5001 412.1125,-175 422.1124,-178.5001 422.1125,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>DashboardModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="574.191,-122 571.191,-126 550.191,-126 547.191,-122 453.809,-122 453.809,-86 574.191,-86 574.191,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DashboardModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M514,-122.0225C514,-139.3734 514,-163 514,-163 514,-163 422.4221,-163 422.4221,-163"/>
+<polygon fill="#000000" stroke="#000000" points="422.4221,-159.5001 412.4221,-163 422.422,-166.5001 422.4221,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>MiscellaneousModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="436.4144,-122 433.4144,-126 412.4144,-126 409.4144,-122 295.5856,-122 295.5856,-86 436.4144,-86 436.4144,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MiscellaneousModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M366,-122.1061C366,-122.1061 366,-140.991 366,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="362.5001,-140.9909 366,-150.991 369.5001,-140.991 362.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>PagesRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="277.8244,-122 274.8244,-126 253.8244,-126 250.8244,-122 140.1756,-122 140.1756,-86 277.8244,-86 277.8244,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PagesRoutingModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M209,-122.0225C209,-139.3734 209,-163 209,-163 209,-163 309.744,-163 309.744,-163"/>
+<polygon fill="#000000" stroke="#000000" points="309.744,-166.5001 319.744,-163 309.7439,-159.5001 309.744,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ThemeModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.2843C73,-143.3211 73,-175 73,-175 73,-175 309.8964,-175 309.8964,-175"/>
+<polygon fill="#000000" stroke="#000000" points="309.8965,-178.5001 319.8964,-175 309.8964,-171.5001 309.8965,-178.5001"/>
+</g>
+</g>
+</svg>

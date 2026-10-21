@@ -1,0 +1,124 @@
+<svg width="1105pt" height="211pt"
+ viewBox="0.00 0.00 1105.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1101,-207 1101,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="314.5,-10 314.5,-30 334.5,-30 334.5,-10 314.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="427.5,-10 427.5,-30 447.5,-30 447.5,-10 427.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="513.5,-10 513.5,-30 533.5,-30 533.5,-10 513.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="610.5,-10 610.5,-30 630.5,-30 630.5,-10 610.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="706.5,-10 706.5,-30 726.5,-30 726.5,-10 706.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DashboardModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1089,-195 1089,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DashboardModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="481,-78 481,-130 1081,-130 1081,-78 481,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DashboardModule_imports</title>
+<polygon fill="none" stroke="#000000" points="192,-78 192,-130 473,-130 473,-78 192,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_DashboardModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 184,-130 184,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ChatComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1072.7744,-122 965.2256,-122 965.2256,-86 1072.7744,-86 1072.7744,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>DashboardModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="615.191,-187 612.191,-191 591.191,-191 588.191,-187 494.809,-187 494.809,-151 615.191,-151 615.191,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ChatComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M1019,-122.2921C1019,-144.2057 1019,-178 1019,-178 1019,-178 625.1842,-178 625.1842,-178"/>
+<polygon fill="#000000" stroke="#000000" points="625.1842,-174.5001 615.1842,-178 625.1842,-181.5001 625.1842,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DashboardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="946.9734,-122 805.0266,-122 805.0266,-86 946.9734,-86 946.9734,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DashboardComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M876,-122.1061C876,-141.3391 876,-169 876,-169 876,-169 625.3776,-169 625.3776,-169"/>
+<polygon fill="#000000" stroke="#000000" points="625.3777,-165.5001 615.3776,-169 625.3776,-172.5001 625.3777,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>NotificationComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="787.4818,-122 638.5182,-122 638.5182,-86 787.4818,-86 787.4818,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NotificationComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M713,-122.027C713,-138.3976 713,-160 713,-160 713,-160 625.1838,-160 625.1838,-160"/>
+<polygon fill="#000000" stroke="#000000" points="625.1838,-156.5001 615.1838,-160 625.1837,-163.5001 625.1838,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>TimelineComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="620.8767,-122 489.1233,-122 489.1233,-86 620.8767,-86 620.8767,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>TimelineComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M555,-122.1061C555,-122.1061 555,-140.991 555,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="551.5001,-140.9909 555,-150.991 558.5001,-140.991 551.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>DashboardRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="464.8089,-122 461.8089,-126 440.8089,-126 437.8089,-122 299.1911,-122 299.1911,-86 464.8089,-86 464.8089,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DashboardRoutingModule&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M382,-122.027C382,-138.3976 382,-160 382,-160 382,-160 484.493,-160 484.493,-160"/>
+<polygon fill="#000000" stroke="#000000" points="484.493,-163.5001 494.493,-160 484.493,-156.5001 484.493,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>StatModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="281.8289,-122 278.8289,-126 257.8289,-126 254.8289,-122 200.1711,-122 200.1711,-86 281.8289,-86 281.8289,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>StatModule&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M241,-122.1061C241,-141.3391 241,-169 241,-169 241,-169 484.8292,-169 484.8292,-169"/>
+<polygon fill="#000000" stroke="#000000" points="484.8292,-172.5001 494.8292,-169 484.8291,-165.5001 484.8292,-172.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>CommonService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="100" cy="-104" rx="75.8836" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CommonService&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M100,-122.2921C100,-144.2057 100,-178 100,-178 100,-178 484.5795,-178 484.5795,-178"/>
+<polygon fill="#000000" stroke="#000000" points="484.5795,-181.5001 494.5795,-178 484.5795,-174.5001 484.5795,-181.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,485 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="plot" height="87" width="250">
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <style>
+line.max-line {
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.HorizontalAxis text {
+    fill: #787878;
+    font-weight: 700;
+    font-size: 10px;
+    transform: translate(2px,2px)
+}
+
+.HorizontalAxis text:last-child {
+    transform: translate(-2px,2px)
+}
+
+.AxisGridLines.horizontalLines line {
+    stroke-dasharray: 0;
+    stroke-linecap: square;
+    stroke: #dadada
+}
+
+.AxisGridLines.horizontalLines line.zero-line {
+    stroke: #787878
+}
+
+.hoverIndicator circle {
+    stroke-width: 1;
+    r: 5px
+}
+
+.axis-label text {
+    font: 400 10px Lato;
+    letter-spacing: .01em;
+    font-style: italic;
+    text-anchor: end;
+    fill: #787878
+}
+
+.axis-label text.outline {
+    stroke: #ffffffd9;
+    stroke-width: 2px
+}
+</style>
+  <line class="max-line" x1="15" x2="234" y1="15" y2="15"></line>
+  <g class="LineChart">
+    <rect fill-opacity="0" height="75" width="220" x="15" y="9"></rect>
+    <g class="HorizontalAxis" id="horizontal-axis">
+      <g id="tick-marks">
+        <line id="1940" stroke="#999" stroke-width="1" x1="15" x2="15" y1="68.5" y2="74"></line>
+        <line id="2025" stroke="#999" stroke-width="1" x1="234" x2="234" y1="68.5" y2="74"></line>
+      </g>
+      <g id="tick-labels">
+        
+        
+      </g>
+    </g>
+    <g class="AxisGridLines horizontalLines" id="horizontal-grid-lines">
+      <line id="-351" stroke="#ddd" stroke-dasharray="4,4" x1="15.00" x2="234.00" y1="69" y2="69"></line>
+      <line class="zero-line" id="0" stroke="#ddd" stroke-dasharray="4,4" x1="15.00" x2="234.00" y1="35.4" y2="35.4"></line>
+    </g>
+    <g class="Lines">
+      <rect fill="rgba(255,255,255,0)" height="54" opacity="0" width="219" x="15" y="15"></rect>
+      <path d="M15 56.1L17.6 35.3L20.2 69L22.7 66.4L25.3 42.7L27.9 62L30.5 68.9L33 64.7L35.6 51.6L38.2 51.3L40.8 55.3L43.3 56.7L45.9 45L48.5 66.2L51.1 31.2L53.6 42.2L56.2 46.5L58.8 48.1L61.4 38L64 42.3L66.5 37.9L69.1 47.4L71.7 43.4L74.3 47.7L76.8 34.2L79.4 19.1L82 15L84.6 39L87.1 44.6L89.7 46L92.3 26L94.9 58.4L97.4 35.7L100 40.4L102.6 31.5L105.2 39L107.8 46.2L110.3 47.8L112.9 48.4L115.5 26.3L118.1 31.4L120.6 32L123.2 43.1L125.8 48.5L128.4 49.7L130.9 37.1L133.5 46.7L136.1 29.1L138.7 35L141.2 44.5L143.8 43.2L146.4 39.1L149 45.6L151.6 44.1L154.1 46.5L156.7 30.5L159.3 28.6L161.9 36.1L164.4 32.7L167 25.6L169.6 32.3L172.2 36.1L174.7 25.7L177.3 61.6L179.9 36.4L182.5 31.3L185 43.9L187.6 31.5L190.2 34.8L192.8 23.5L195.4 28.9L197.9 55.9L200.5 30.2L203.1 27.3L205.7 22.5L208.2 50.9L210.8 25.8L213.4 34.8L216 39.8L218.5 31.3L221.1 29.8L223.7 34.6L226.3 39.4L228.8 15.9L231.4 23.9L234 50.7" fill="none" id="outline__Austria" stroke="#fff" stroke-linecap="butt" stroke-linejoin="round" stroke-width="4.7"></path>
+      <g id="line__Austria">
+        <polyline fill="none" id="line__Austria" points="15.00,56.10 16.30,45.70" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="16.30,45.70 17.60,35.30 18.90,52.15" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="18.90,52.15 20.20,69.00 22.70,66.40 24.00,54.55" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="24.00,54.55 25.30,42.70 26.60,52.35" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="26.60,52.35 27.90,62.00 30.50,68.90 33.00,64.70 34.30,58.15" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="34.30,58.15 35.60,51.60 38.20,51.30 39.50,53.30" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="39.50,53.30 40.80,55.30 43.30,56.70 44.60,50.85" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="44.60,50.85 45.90,45.00 47.20,55.60" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="47.20,55.60 48.50,66.20 49.80,48.70" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="49.80,48.70 51.10,31.20 52.35,36.70" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="52.35,36.70 53.60,42.20 56.20,46.50 58.80,48.10 61.40,38.00 64.00,42.30 66.50,37.90 69.10,47.40 71.70,43.40 74.30,47.70 75.55,40.95" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="75.55,40.95 76.80,34.20 79.40,19.10 80.70,17.05" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="80.70,17.05 82.00,15.00 83.30,27.00" stroke="#998ec3" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="83.30,27.00 84.60,39.00 87.10,44.60 89.70,46.00 91.00,36.00" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="91.00,36.00 92.30,26.00 93.60,42.20" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="93.60,42.20 94.90,58.40 96.15,47.05" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="96.15,47.05 97.40,35.70 100.00,40.40 101.30,35.95" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="101.30,35.95 102.60,31.50 103.90,35.25" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="103.90,35.25 105.20,39.00 107.80,46.20 110.30,47.80 112.90,48.40 114.20,37.35" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="114.20,37.35 115.50,26.30 118.10,31.40 120.60,32.00 121.90,37.55" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="121.90,37.55 123.20,43.10 125.80,48.50 128.40,49.70 130.90,37.10 133.50,46.70 134.80,37.90" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="134.80,37.90 136.10,29.10 138.70,35.00 139.95,39.75" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="139.95,39.75 141.20,44.50 143.80,43.20 146.40,39.10 149.00,45.60 151.60,44.10 154.10,46.50 155.40,38.50" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="155.40,38.50 156.70,30.50 159.30,28.60 160.60,32.35" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="160.60,32.35 161.90,36.10 163.15,34.40" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="163.15,34.40 164.40,32.70 167.00,25.60 169.60,32.30 170.90,34.20" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="170.90,34.20 172.20,36.10 173.45,30.90" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="173.45,30.90 174.70,25.70 176.00,43.65" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="176.00,43.65 177.30,61.60 178.60,49.00" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="178.60,49.00 179.90,36.40 181.20,33.85" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="181.20,33.85 182.50,31.30 183.75,37.60" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="183.75,37.60 185.00,43.90 186.30,37.70" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="186.30,37.70 187.60,31.50 190.20,34.80 192.80,23.50 195.40,28.90 196.65,42.40" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="196.65,42.40 197.90,55.90 199.20,43.05" stroke="#eea13f" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="199.20,43.05 200.50,30.20 203.10,27.30 205.70,22.50 206.95,36.70" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="206.95,36.70 208.20,50.90 209.50,38.35" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="209.50,38.35 210.80,25.80 213.40,34.80 214.70,37.30" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="214.70,37.30 216.00,39.80 217.25,35.55" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="217.25,35.55 218.50,31.30 221.10,29.80 223.70,34.60 225.00,37.00" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="225.00,37.00 226.30,39.40 227.55,27.65" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="227.55,27.65 228.80,15.90 230.10,19.90" stroke="#998ec3" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="230.10,19.90 231.40,23.90 232.70,37.30" stroke="#c3c5d4" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+        <polyline fill="none" id="line__Austria" points="232.70,37.30 234.00,50.70" stroke="#e1c6a1" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity="1" stroke-width="2.7"></polyline>
+      </g>
+    </g>
+    <g class="hoverIndicator">
+      <line stroke="rgba(180,180,180,.4)" x1="234" x2="234" y1="69" y2="15"></line>
+      <circle cx="234" cy="50.7" fill="#e1c6a1" fill-opacity="1" r="4.5" stroke="#fff" stroke-width="0.5"></circle>
+    </g>
+  </g>
+  <g class="max axis-label">
+    
+  </g>
+  <g class="min axis-label">
+    
+    
+  </g>
+</svg>

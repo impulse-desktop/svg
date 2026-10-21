@@ -1,0 +1,62 @@
+<svg width="436pt" height="174pt"
+ viewBox="0.00 0.00 436.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 432,-169.8 432,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_UsersPageModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 420,-157.8 420,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_UsersPageModule_declarations</title>
+<polygon fill="none" stroke="black" points="320,-40.8 320,-92.8 412,-92.8 412,-40.8 320,-40.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_UsersPageModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 312,-92.8 312,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>UsersPage</title>
+<polygon fill="#ffffb3" stroke="black" points="403.58,-84.8 328.42,-84.8 328.42,-48.8 403.58,-48.8 403.58,-84.8"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>UsersPageModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="314.13,-149.8 311.13,-153.8 290.13,-153.8 287.13,-149.8 195.87,-149.8 195.87,-113.8 314.13,-113.8 314.13,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>UsersPage&#45;&gt;UsersPageModule</title>
+<path fill="none" stroke="black" d="M328.16,-66.8C317.75,-66.8 309.26,-66.8 309.26,-66.8 309.26,-66.8 309.26,-103.69 309.26,-103.69"/>
+<polygon fill="black" stroke="black" points="305.76,-103.69 309.26,-113.69 312.76,-103.69 305.76,-103.69"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="304.42,-84.8 301.42,-88.8 280.42,-88.8 277.42,-84.8 205.58,-84.8 205.58,-48.8 304.42,-48.8 304.42,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SharedModule&#45;&gt;UsersPageModule</title>
+<path fill="none" stroke="black" d="M255,-84.91C255,-84.91 255,-103.79 255,-103.79"/>
+<polygon fill="black" stroke="black" points="251.5,-103.79 255,-113.79 258.5,-103.79 251.5,-103.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>UsersPageRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="187.75,-84.8 184.75,-88.8 163.75,-88.8 160.75,-84.8 24.25,-84.8 24.25,-48.8 187.75,-48.8 187.75,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>UsersPageRoutingModule&#45;&gt;UsersPageModule</title>
+<path fill="none" stroke="black" d="M187.96,-66.8C195.7,-66.8 200.74,-66.8 200.74,-66.8 200.74,-66.8 200.74,-103.69 200.74,-103.69"/>
+<polygon fill="black" stroke="black" points="197.24,-103.69 200.74,-113.69 204.24,-103.69 197.24,-103.69"/>
+</g>
+</g>
+</svg>

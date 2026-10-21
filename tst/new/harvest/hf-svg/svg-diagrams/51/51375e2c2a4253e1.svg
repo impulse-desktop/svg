@@ -1,0 +1,81 @@
+<svg width="488pt" height="298pt"
+ viewBox="0.00 0.00 488.02 298.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 294)">
+<title>controllers_diagram</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-294 484.023,-294 484.023,4 -4,4"/>
+
+<g id="node1" class="node"><title>_diagram_info</title>
+
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>ApiController</title>
+<path fill="none" stroke="black" d="M105.546,-0.5C105.546,-0.5 211.829,-0.5 211.829,-0.5 217.829,-0.5 223.829,-6.5 223.829,-12.5 223.829,-12.5 223.829,-148.5 223.829,-148.5 223.829,-154.5 217.829,-160.5 211.829,-160.5 211.829,-160.5 105.546,-160.5 105.546,-160.5 99.5461,-160.5 93.5461,-154.5 93.5461,-148.5 93.5461,-148.5 93.5461,-12.5 93.5461,-12.5 93.5461,-6.5 99.5461,-0.5 105.546,-0.5"/>
+
+<polyline fill="none" stroke="black" points="93.5461,-138.5 223.829,-138.5 "/>
+
+
+<polyline fill="none" stroke="black" points="93.5461,-102.5 223.829,-102.5 "/>
+<polyline fill="none" stroke="black" points="93.5461,-78.5 223.829,-78.5 "/>
+
+
+
+
+
+</g>
+
+<g id="node3" class="node"><title>ApplicationController</title>
+<path fill="none" stroke="black" d="M237.867,-197.5C237.867,-197.5 353.509,-197.5 353.509,-197.5 359.509,-197.5 365.509,-203.5 365.509,-209.5 365.509,-209.5 365.509,-277.5 365.509,-277.5 365.509,-283.5 359.509,-289.5 353.509,-289.5 353.509,-289.5 237.867,-289.5 237.867,-289.5 231.867,-289.5 225.867,-283.5 225.867,-277.5 225.867,-277.5 225.867,-209.5 225.867,-209.5 225.867,-203.5 231.867,-197.5 237.867,-197.5"/>
+
+<polyline fill="none" stroke="black" points="225.867,-267.5 365.509,-267.5 "/>
+<polyline fill="none" stroke="black" points="225.867,-243.5 365.509,-243.5 "/>
+<polyline fill="none" stroke="black" points="225.867,-219.5 365.509,-219.5 "/>
+
+</g>
+
+<g id="edge1" class="edge"><title>ApplicationController&#45;&gt;ApiController</title>
+<path fill="none" stroke="black" d="M257.161,-197.224C246.793,-185.04 235.284,-171.515 223.897,-158.133"/>
+</g>
+
+<g id="node4" class="node"><title>HomeController</title>
+<path fill="none" stroke="black" d="M253.808,-35.5C253.808,-35.5 337.567,-35.5 337.567,-35.5 343.567,-35.5 349.567,-41.5 349.567,-47.5 349.567,-47.5 349.567,-113.5 349.567,-113.5 349.567,-119.5 343.567,-125.5 337.567,-125.5 337.567,-125.5 253.808,-125.5 253.808,-125.5 247.808,-125.5 241.808,-119.5 241.808,-113.5 241.808,-113.5 241.808,-47.5 241.808,-47.5 241.808,-41.5 247.808,-35.5 253.808,-35.5"/>
+
+<polyline fill="none" stroke="black" points="241.808,-103.5 349.567,-103.5 "/>
+
+<polyline fill="none" stroke="black" points="241.808,-81.5 349.567,-81.5 "/>
+<polyline fill="none" stroke="black" points="241.808,-57.5 349.567,-57.5 "/>
+
+</g>
+
+<g id="edge2" class="edge"><title>ApplicationController&#45;&gt;HomeController</title>
+<path fill="none" stroke="black" d="M295.688,-197.224C295.688,-174.809 295.688,-147.856 295.688,-125.603"/>
+</g>
+
+<g id="node5" class="node"><title>JwksController</title>
+<path fill="none" stroke="black" d="M379.912,-35.5C379.912,-35.5 457.464,-35.5 457.464,-35.5 463.464,-35.5 469.464,-41.5 469.464,-47.5 469.464,-47.5 469.464,-113.5 469.464,-113.5 469.464,-119.5 463.464,-125.5 457.464,-125.5 457.464,-125.5 379.912,-125.5 379.912,-125.5 373.912,-125.5 367.912,-119.5 367.912,-113.5 367.912,-113.5 367.912,-47.5 367.912,-47.5 367.912,-41.5 373.912,-35.5 379.912,-35.5"/>
+
+<polyline fill="none" stroke="black" points="367.912,-103.5 469.464,-103.5 "/>
+
+<polyline fill="none" stroke="black" points="367.912,-81.5 469.464,-81.5 "/>
+<polyline fill="none" stroke="black" points="367.912,-57.5 469.464,-57.5 "/>
+
+</g>
+
+<g id="edge3" class="edge"><title>ApplicationController&#45;&gt;JwksController</title>
+<path fill="none" stroke="black" d="M330.77,-197.307C339.888,-185.51 349.678,-172.796 358.688,-161 367.4,-149.594 376.769,-137.228 385.455,-125.722"/>
+</g>
+
+<g id="node6" class="node"><title>TestController</title>
+<path fill="none" stroke="black" d="M395.352,-198.5C395.352,-198.5 468.023,-198.5 468.023,-198.5 474.023,-198.5 480.023,-204.5 480.023,-210.5 480.023,-210.5 480.023,-276.5 480.023,-276.5 480.023,-282.5 474.023,-288.5 468.023,-288.5 468.023,-288.5 395.352,-288.5 395.352,-288.5 389.352,-288.5 383.352,-282.5 383.352,-276.5 383.352,-276.5 383.352,-210.5 383.352,-210.5 383.352,-204.5 389.352,-198.5 395.352,-198.5"/>
+
+<polyline fill="none" stroke="black" points="383.352,-266.5 480.023,-266.5 "/>
+
+<polyline fill="none" stroke="black" points="383.352,-244.5 480.023,-244.5 "/>
+<polyline fill="none" stroke="black" points="383.352,-220.5 480.023,-220.5 "/>
+
+</g>
+</g>
+</svg>

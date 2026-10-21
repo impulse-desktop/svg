@@ -1,0 +1,221 @@
+<svg width="584pt" height="252pt"
+ viewBox="0.00 0.00 583.50 252.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 248)">
+<title>Instance.hpp</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-248 579.5,-248 579.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="275,-224.5 275,-243.5 348,-243.5 348,-224.5 275,-224.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="_frame_8hpp.html" target="_top" xlink:title="Declarações das funções e da estrutura do Frame, utilizado para salvar resultados parciais...">
+<polygon fill="white" stroke="black" points="216,-168.5 216,-187.5 279,-187.5 279,-168.5 216,-168.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M287.734,-218.101C275.112,-208.382 260.787,-196.027 252.821,-187.834"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="285.99,-221.165 296.102,-224.324 290.167,-215.548 285.99,-221.165"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="_interpreter_8hpp.html" target="_top" xlink:title="Declarações das funções e atributos do Interpretador para interpretar o que foi lido do ...">
+<polygon fill="white" stroke="black" points="275.5,-112.5 275.5,-131.5 355.5,-131.5 355.5,-112.5 275.5,-112.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge21" class="edge"><title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M312.178,-214.348C313.054,-190.254 314.543,-149.308 315.188,-131.591"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="308.68,-214.248 311.814,-224.368 315.675,-214.502 308.68,-214.248"/>
+</g>
+
+<g id="node12" class="node"><title>Node12</title>
+<g id="a_node12"><a xlink:href="_g_l_o_b_a_l__file_8hpp.html" target="_top" xlink:title="Armazenas classes estáticas para serem usadas por todo o código. ">
+<polygon fill="white" stroke="black" points="373.5,-112.5 373.5,-131.5 465.5,-131.5 465.5,-112.5 373.5,-112.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge15" class="edge"><title>Node1&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M325.079,-216.361C336.293,-202.909 352.853,-183.695 368.5,-168 381.839,-154.62 398.426,-140.387 408.991,-131.594"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="322.213,-214.334 318.545,-224.274 327.611,-218.792 322.213,-214.334"/>
+</g>
+
+<g id="node14" class="node"><title>Node14</title>
+<g id="a_node14"><a xlink:href="_instance_8cpp.html" target="_top" xlink:title="Contém métodos para carregar as informações do Classloader na Instância;. ">
+<polygon fill="white" stroke="black" points="378,-168.5 378,-187.5 451,-187.5 451,-168.5 378,-168.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge20" class="edge"><title>Node1&#45;&gt;Node14</title>
+<path fill="none" stroke="midnightblue" d="M337.079,-219.59C356.123,-209.605 381.564,-196.267 397.992,-187.655"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="335.28,-216.581 328.049,-224.324 338.531,-222.78 335.28,-216.581"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M271.336,-193.954C283.899,-203.631 298.131,-215.905 306.098,-224.083"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.114,-190.914 263.003,-187.751 268.935,-196.529 273.114,-190.914"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="_instruction_impl_8hpp.html" target="_top" xlink:title="Declarações das funções do ClassLoader para salvar todos os bytes de .class corretamente. ">
+<polygon fill="white" stroke="black" points="81.5,-112.5 81.5,-131.5 181.5,-131.5 181.5,-112.5 81.5,-112.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M219.78,-164.096C198.108,-154.007 168.598,-140.27 149.795,-131.516"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="218.577,-167.396 229.119,-168.444 221.531,-161.05 218.577,-167.396"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="_frame_8cpp.html" target="_top" xlink:title="Contrutor, destrutor e metodos para o funcionamento da lógica do frame;. ">
+<polygon fill="white" stroke="black" points="0,-112.5 0,-131.5 63,-131.5 63,-112.5 0,-112.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node2&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M205.778,-166.57C164.079,-156.145 100.887,-140.347 63.1504,-130.913"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="205.078,-170.002 215.628,-169.032 206.776,-163.211 205.078,-170.002"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="_instruction_impl_8cpp.html" target="_top" xlink:title="Métodos referentes a execução de cada instrução ;. ">
+<polygon fill="white" stroke="black" points="197.5,-56.5 197.5,-75.5 297.5,-75.5 297.5,-56.5 197.5,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node2&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M247.5,-158.348C247.5,-134.254 247.5,-93.3079 247.5,-75.5914"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="244,-158.368 247.5,-168.368 251,-158.369 244,-158.368"/>
+</g>
+
+<g id="edge11" class="edge"><title>Node2&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M266.262,-162.101C278.5,-152.382 294.059,-140.027 304.376,-131.834"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="264.08,-159.364 258.425,-168.324 268.433,-164.846 264.08,-159.364"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="_instruction_8hpp.html" target="_top" xlink:title="Declarações das instruçoes referentes ao interpretador da JVM. ">
+<polygon fill="white" stroke="black" points="98,-56.5 98,-75.5 179,-75.5 179,-56.5 98,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M133.95,-102.101C135.112,-93.1357 136.444,-82.8579 137.366,-75.7511"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="130.471,-101.716 132.656,-112.083 137.412,-102.616 130.471,-101.716"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="_instruction_8cpp.html" target="_top" xlink:title="Métodos que servem para inicializar todas as intruções contidas na documentação;. ...">
+<polygon fill="white" stroke="black" points="29,-0.5 29,-19.5 110,-19.5 110,-0.5 29,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M113.09,-105.54C104.544,-97.5052 94.8865,-87.0635 88.5,-76 77.8025,-57.4684 72.7123,-32.4333 70.6634,-19.5084"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="111.017,-108.382 120.8,-112.448 115.688,-103.168 111.017,-108.382"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node4&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M157.097,-82.0284C167.267,-90.5068 179.913,-101.482 190.5,-112 209.666,-131.041 230.06,-155.44 240.479,-168.25"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="159.182,-79.211 149.236,-75.5586 154.733,-84.6159 159.182,-79.211"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="_attribute_info_8cpp.html" target="_top" xlink:title="Tem os métodos para adiquirir as informações dos atributos;. ">
+<polygon fill="white" stroke="black" points="128,-0.5 128,-19.5 217,-19.5 217,-0.5 128,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M149.477,-47.5656C155.327,-38.2747 162.27,-27.2484 166.99,-19.7511"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="146.481,-45.7558 144.114,-56.083 152.404,-49.4855 146.481,-45.7558"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node4&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M119.462,-50.1008C107.044,-40.3824 91.2566,-28.0269 80.7878,-19.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="117.382,-52.9171 127.414,-56.324 121.696,-47.4046 117.382,-52.9171"/>
+</g>
+
+<g id="edge12" class="edge"><title>Node9&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M296.738,-106.101C284.5,-96.3824 268.941,-84.0269 258.624,-75.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="294.567,-108.846 304.575,-112.324 298.92,-103.364 294.567,-108.846"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="_interpreter_8cpp.html" target="_top" xlink:title="Métodos que fazem a atuação do interpretador;. ">
+<polygon fill="white" stroke="black" points="315.5,-56.5 315.5,-75.5 395.5,-75.5 395.5,-56.5 315.5,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge"><title>Node9&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M328.2,-103.855C335.126,-94.5048 343.406,-83.3265 349.018,-75.7511"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="325.245,-101.964 322.105,-112.083 330.87,-106.131 325.245,-101.964"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="jvm_8cpp.html" target="_top" xlink:title="Arquivo inicial em que é selecionado ou a exibição do leitor ou do interpretador dependendo da chamad...">
+<polygon fill="white" stroke="black" points="414,-56.5 414,-75.5 465,-75.5 465,-56.5 414,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge14" class="edge"><title>Node9&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M344.507,-108.368C367.729,-98.2553 399.663,-84.3486 419.944,-75.5164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="342.919,-105.242 335.148,-112.444 345.714,-111.66 342.919,-105.242"/>
+</g>
+
+<g id="edge17" class="edge"><title>Node12&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M382.668,-109.436C350.238,-99.2551 303.763,-84.664 274.626,-75.5164"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="381.657,-112.787 392.246,-112.444 383.754,-106.109 381.657,-112.787"/>
+</g>
+
+<g id="edge18" class="edge"><title>Node12&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M401.509,-105.82C390.042,-96.1452 375.587,-83.9481 365.97,-75.8339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="399.317,-108.55 409.217,-112.324 403.831,-103.2 399.317,-108.55"/>
+</g>
+
+<g id="edge19" class="edge"><title>Node12&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M426.282,-102.69C429.652,-93.589 433.569,-83.0141 436.259,-75.7511"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="422.994,-101.49 422.803,-112.083 429.558,-103.921 422.994,-101.49"/>
+</g>
+
+<g id="node13" class="node"><title>Node13</title>
+<g id="a_node13"><a xlink:href="_g_l_o_b_a_l__file_8cpp.html" target="_top" xlink:title="Contém métodos que serão utilizados de forma global, ao invés de termos que setar o mesmo para todos ...">
+<polygon fill="white" stroke="black" points="483.5,-56.5 483.5,-75.5 575.5,-75.5 575.5,-56.5 483.5,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge16" class="edge"><title>Node12&#45;&gt;Node13</title>
+<path fill="none" stroke="midnightblue" d="M446.262,-107.862C466.659,-97.8492 494.166,-84.3458 511.87,-75.6545"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="444.608,-104.775 437.173,-112.324 447.692,-111.059 444.608,-104.775"/>
+</g>
+</g>
+</svg>

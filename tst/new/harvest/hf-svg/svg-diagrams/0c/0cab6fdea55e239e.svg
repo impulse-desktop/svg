@@ -1,0 +1,196 @@
+<svg width="2214pt" height="211pt"
+ viewBox="0.00 0.00 2214.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 2210,-207 2210,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="869,-10 869,-30 889,-30 889,-10 869,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="982,-10 982,-30 1002,-30 1002,-10 982,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="1068,-10 1068,-30 1088,-30 1088,-10 1068,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="1165,-10 1165,-30 1185,-30 1185,-10 1165,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1261,-10 1261,-30 1281,-30 1281,-10 1261,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DepartmentModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 2198,-195 2198,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DepartmentModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1103,-78 1103,-130 2190,-130 2190,-78 1103,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_DepartmentModule_imports</title>
+<polygon fill="none" stroke="#000000" points="402,-78 402,-130 1095,-130 1095,-78 402,-78"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_DepartmentModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 394,-130 394,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DepartmentComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2181.9158,-122 2034.0842,-122 2034.0842,-86 2181.9158,-86 2181.9158,-122"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>DepartmentModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1093.6331,-187 1090.6331,-191 1069.6331,-191 1066.6331,-187 968.3669,-187 968.3669,-151 1093.6331,-151 1093.6331,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DepartmentComponent&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M2108,-122.0908C2108,-145.1328 2108,-182 2108,-182 2108,-182 1103.9543,-182 1103.9543,-182"/>
+<polygon fill="#000000" stroke="#000000" points="1103.9543,-178.5001 1093.9543,-182 1103.9543,-185.5001 1103.9543,-178.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DepartmentAddComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2016.5225,-122 1845.4775,-122 1845.4775,-86 2016.5225,-86 2016.5225,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DepartmentAddComponent&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M1931,-122.0449C1931,-143.6623 1931,-177 1931,-177 1931,-177 1103.9285,-177 1103.9285,-177"/>
+<polygon fill="#000000" stroke="#000000" points="1103.9286,-173.5001 1093.9285,-177 1103.9285,-180.5001 1103.9286,-173.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>DepartmentEditComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1827.2492,-122 1656.7508,-122 1656.7508,-86 1827.2492,-86 1827.2492,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DepartmentEditComponent&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M1742,-122.2228C1742,-142.3652 1742,-172 1742,-172 1742,-172 1103.7846,-172 1103.7846,-172"/>
+<polygon fill="#000000" stroke="#000000" points="1103.7846,-168.5001 1093.7846,-172 1103.7846,-175.5001 1103.7846,-168.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>InformationComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1639.2007,-122 1490.7993,-122 1490.7993,-86 1639.2007,-86 1639.2007,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>InformationComponent&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M1565,-122.2222C1565,-140.8285 1565,-167 1565,-167 1565,-167 1103.8269,-167 1103.8269,-167"/>
+<polygon fill="#000000" stroke="#000000" points="1103.8269,-163.5001 1093.8269,-167 1103.8268,-170.5001 1103.8269,-163.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>InformationAddComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1473.3075,-122 1300.6925,-122 1300.6925,-86 1473.3075,-86 1473.3075,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>InformationAddComponent&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M1387,-122.0336C1387,-139.0597 1387,-162 1387,-162 1387,-162 1103.8262,-162 1103.8262,-162"/>
+<polygon fill="#000000" stroke="#000000" points="1103.8262,-158.5001 1093.8262,-162 1103.8261,-165.5001 1103.8262,-158.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>InformationEditComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1282.535,-122 1111.465,-122 1111.465,-86 1282.535,-86 1282.535,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>InformationEditComponent&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M1197,-122.2396C1197,-137.5706 1197,-157 1197,-157 1197,-157 1103.7575,-157 1103.7575,-157"/>
+<polygon fill="#000000" stroke="#000000" points="1103.7575,-153.5001 1093.7575,-157 1103.7574,-160.5001 1103.7575,-153.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1086.6681,-122 1083.6681,-126 1062.6681,-126 1059.6681,-122 975.3319,-122 975.3319,-86 1086.6681,-86 1086.6681,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CommonModule&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M1031,-122.1061C1031,-122.1061 1031,-140.991 1031,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="1027.5001,-140.9909 1031,-150.991 1034.5001,-140.991 1027.5001,-140.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="957.8288,-122 954.8288,-126 933.8288,-126 930.8288,-122 862.1712,-122 862.1712,-86 957.8288,-86 957.8288,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>FormsModule&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M910,-122.2396C910,-137.5706 910,-157 910,-157 910,-157 958.0192,-157 958.0192,-157"/>
+<polygon fill="#000000" stroke="#000000" points="958.0192,-160.5001 968.0192,-157 958.0191,-153.5001 958.0192,-160.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="844.4387,-122 841.4387,-126 820.4387,-126 817.4387,-122 759.5613,-122 759.5613,-86 844.4387,-86 844.4387,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>HttpModule&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M802,-122.0336C802,-139.0597 802,-162 802,-162 802,-162 958.1218,-162 958.1218,-162"/>
+<polygon fill="#000000" stroke="#000000" points="958.1219,-165.5001 968.1218,-162 958.1218,-158.5001 958.1219,-165.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>Ng2PaginationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="741.5407,-122 738.5407,-126 717.5407,-126 714.5407,-122 598.4593,-122 598.4593,-86 741.5407,-86 741.5407,-122"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>Ng2PaginationModule&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M670,-122.2222C670,-140.8285 670,-167 670,-167 670,-167 958.1186,-167 958.1186,-167"/>
+<polygon fill="#000000" stroke="#000000" points="958.1186,-170.5001 968.1186,-167 958.1186,-163.5001 958.1186,-170.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>DepartmentRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="580.2506,-122 577.2506,-126 556.2506,-126 553.2506,-122 409.7494,-122 409.7494,-86 580.2506,-86 580.2506,-122"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>DepartmentRoutingModule&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M495,-122.2228C495,-142.3652 495,-172 495,-172 495,-172 958.2016,-172 958.2016,-172"/>
+<polygon fill="#000000" stroke="#000000" points="958.2017,-175.5001 968.2016,-172 958.2016,-168.5001 958.2017,-175.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>DepartmentService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="300" cy="-104" rx="85.6493" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>DepartmentService&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M300,-122.0449C300,-143.6623 300,-177 300,-177 300,-177 958.3593,-177 958.3593,-177"/>
+<polygon fill="#000000" stroke="#000000" points="958.3594,-180.5001 968.3593,-177 958.3593,-173.5001 958.3594,-180.5001"/>
+</g>
+
+<g id="node14" class="node">
+<title>InformationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="110" cy="-104" rx="86.2329" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>InformationService&#45;&gt;DepartmentModule</title>
+<path fill="none" stroke="#000000" d="M110,-122.0908C110,-145.1328 110,-182 110,-182 110,-182 958.0584,-182 958.0584,-182"/>
+<polygon fill="#000000" stroke="#000000" points="958.0585,-185.5001 968.0584,-182 958.0584,-178.5001 958.0585,-185.5001"/>
+</g>
+</g>
+</svg>

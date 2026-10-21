@@ -1,0 +1,260 @@
+<svg width="967pt" height="404pt"
+ viewBox="0.00 0.00 966.68 404.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-400 962.68,-400 962.68,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>[root] azurerm_network_interface.slb2srv (expand)</title>
+<polygon fill="none" stroke="black" points="702,-180 490,-180 490,-144 702,-144 702,-180"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>[root] azurerm_resource_group.slb2srv (expand)</title>
+<polygon fill="none" stroke="black" points="850.5,-108 649.5,-108 649.5,-72 850.5,-72 850.5,-108"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>[root] azurerm_network_interface.slb2srv (expand)&#45;&gt;[root] azurerm_resource_group.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M633.67,-143.88C654.63,-134.35 680.9,-122.41 703.18,-112.28"/>
+<polygon fill="black" stroke="black" points="704.79,-115.39 712.45,-108.07 701.9,-109.02 704.79,-115.39"/>
+</g>
+
+<g id="node8" class="node">
+<title>[root] var.prefix</title>
+<polygon fill="none" stroke="black" points="625,-108 561,-108 561,-72 631,-72 631,-102 625,-108"/>
+<polyline fill="none" stroke="black" points="625,-108 625,-102 "/>
+<polyline fill="none" stroke="black" points="631,-102 625,-102 "/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>[root] azurerm_network_interface.slb2srv (expand)&#45;&gt;[root] var.prefix</title>
+<path fill="none" stroke="black" d="M596,-143.7C596,-135.98 596,-126.71 596,-118.11"/>
+<polygon fill="black" stroke="black" points="599.5,-118.1 596,-108.1 592.5,-118.1 599.5,-118.1"/>
+</g>
+
+<g id="node7" class="node">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/azurerm&quot;]</title>
+<polygon fill="none" stroke="black" points="342,-36 64.33,-18 342,0 619.67,-18 342,-36"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>[root] azurerm_resource_group.slb2srv (expand)&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/azurerm&quot;]</title>
+<path fill="none" stroke="black" d="M650.71,-71.97C581.31,-60.06 489.71,-44.34 424.35,-33.13"/>
+<polygon fill="black" stroke="black" points="424.54,-29.61 414.1,-31.37 423.36,-36.51 424.54,-29.61"/>
+</g>
+
+<g id="node9" class="node">
+<title>[root] var.pry_location</title>
+<polygon fill="none" stroke="black" points="740,-36 638,-36 638,0 746,0 746,-30 740,-36"/>
+<polyline fill="none" stroke="black" points="740,-36 740,-30 "/>
+<polyline fill="none" stroke="black" points="746,-30 740,-30 "/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>[root] azurerm_resource_group.slb2srv (expand)&#45;&gt;[root] var.pry_location</title>
+<path fill="none" stroke="black" d="M735.66,-71.7C728.71,-63.3 720.23,-53.07 712.6,-43.86"/>
+<polygon fill="black" stroke="black" points="715.25,-41.57 706.17,-36.1 709.86,-46.04 715.25,-41.57"/>
+</g>
+
+<g id="node10" class="node">
+<title>[root] var.rg_name</title>
+<polygon fill="none" stroke="black" points="844,-36 764,-36 764,0 850,0 850,-30 844,-36"/>
+<polyline fill="none" stroke="black" points="844,-36 844,-30 "/>
+<polyline fill="none" stroke="black" points="850,-30 844,-30 "/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>[root] azurerm_resource_group.slb2srv (expand)&#45;&gt;[root] var.rg_name</title>
+<path fill="none" stroke="black" d="M764.09,-71.7C770.92,-63.3 779.26,-53.07 786.76,-43.86"/>
+<polygon fill="black" stroke="black" points="789.47,-46.07 793.07,-36.1 784.04,-41.65 789.47,-46.07"/>
+</g>
+
+<g id="node11" class="node">
+<title>[root] var.tags</title>
+<polygon fill="none" stroke="black" points="922,-36 868,-36 868,0 928,0 928,-30 922,-36"/>
+<polyline fill="none" stroke="black" points="922,-36 922,-30 "/>
+<polyline fill="none" stroke="black" points="928,-30 922,-30 "/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>[root] azurerm_resource_group.slb2srv (expand)&#45;&gt;[root] var.tags</title>
+<path fill="none" stroke="black" d="M786.2,-71.88C808.07,-61.53 835.95,-48.35 858.4,-37.73"/>
+<polygon fill="black" stroke="black" points="860.11,-40.79 867.66,-33.35 857.12,-34.46 860.11,-40.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>[root] azurerm_virtual_machine.slb2srv (expand)</title>
+<polygon fill="none" stroke="black" points="710,-252 510,-252 510,-216 710,-216 710,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>[root] azurerm_virtual_machine.slb2srv (expand)&#45;&gt;[root] azurerm_network_interface.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M606.54,-215.7C605,-207.98 603.14,-198.71 601.42,-190.11"/>
+<polygon fill="black" stroke="black" points="604.81,-189.22 599.42,-180.1 597.95,-190.6 604.81,-189.22"/>
+</g>
+
+<g id="node4" class="node">
+<title>[root] azurerm_virtual_network.slb2srv (expand)</title>
+<polygon fill="none" stroke="black" points="445.5,-180 246.5,-180 246.5,-144 445.5,-144 445.5,-180"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>[root] azurerm_virtual_network.slb2srv (expand)&#45;&gt;[root] azurerm_resource_group.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M444.31,-143.97C503.94,-133.63 580.1,-120.44 641.49,-109.8"/>
+<polygon fill="black" stroke="black" points="642.34,-113.21 651.6,-108.05 641.15,-106.31 642.34,-113.21"/>
+</g>
+
+<g id="node12" class="node">
+<title>[root] var.vnet_address_space</title>
+<polygon fill="none" stroke="black" points="262,-108 116,-108 116,-72 268,-72 268,-102 262,-108"/>
+<polyline fill="none" stroke="black" points="262,-108 262,-102 "/>
+<polyline fill="none" stroke="black" points="268,-102 262,-102 "/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>[root] azurerm_virtual_network.slb2srv (expand)&#45;&gt;[root] var.vnet_address_space</title>
+<path fill="none" stroke="black" d="M308.33,-143.88C287.37,-134.35 261.1,-122.41 238.82,-112.28"/>
+<polygon fill="black" stroke="black" points="240.1,-109.02 229.55,-108.07 237.21,-115.39 240.1,-109.02"/>
+</g>
+
+<g id="node13" class="node">
+<title>[root] var.vnet_name</title>
+<polygon fill="none" stroke="black" points="92,-108 0,-108 0,-72 98,-72 98,-102 92,-108"/>
+<polyline fill="none" stroke="black" points="92,-108 92,-102 "/>
+<polyline fill="none" stroke="black" points="98,-102 92,-102 "/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>[root] azurerm_virtual_network.slb2srv (expand)&#45;&gt;[root] var.vnet_name</title>
+<path fill="none" stroke="black" d="M262.72,-143.96C219.16,-134.71 164.78,-122.64 108.15,-108.22"/>
+<polygon fill="black" stroke="black" points="108.85,-104.79 98.3,-105.69 107.12,-111.57 108.85,-104.79"/>
+</g>
+
+<g id="node14" class="node">
+<title>[root] var.vnet_subnet01</title>
+<polygon fill="none" stroke="black" points="399.5,-108 286.5,-108 286.5,-72 405.5,-72 405.5,-102 399.5,-108"/>
+<polyline fill="none" stroke="black" points="399.5,-108 399.5,-102 "/>
+<polyline fill="none" stroke="black" points="405.5,-102 399.5,-102 "/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>[root] azurerm_virtual_network.slb2srv (expand)&#45;&gt;[root] var.vnet_subnet01</title>
+<path fill="none" stroke="black" d="M346,-143.7C346,-135.98 346,-126.71 346,-118.11"/>
+<polygon fill="black" stroke="black" points="349.5,-118.1 346,-108.1 342.5,-118.1 349.5,-118.1"/>
+</g>
+
+<g id="node15" class="node">
+<title>[root] var.vnet_subnet02</title>
+<polygon fill="none" stroke="black" points="536.5,-108 423.5,-108 423.5,-72 542.5,-72 542.5,-102 536.5,-108"/>
+<polyline fill="none" stroke="black" points="536.5,-108 536.5,-102 "/>
+<polyline fill="none" stroke="black" points="542.5,-102 536.5,-102 "/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>[root] azurerm_virtual_network.slb2srv (expand)&#45;&gt;[root] var.vnet_subnet02</title>
+<path fill="none" stroke="black" d="M379.51,-143.88C397.84,-134.51 420.74,-122.81 440.33,-112.8"/>
+<polygon fill="black" stroke="black" points="442.04,-115.86 449.36,-108.19 438.86,-109.62 442.04,-115.86"/>
+</g>
+
+<g id="node5" class="node">
+<title>[root] output.resrouce_group_name</title>
+<polygon fill="none" stroke="black" points="896,-180 720,-180 720,-144 902,-144 902,-174 896,-180"/>
+<polyline fill="none" stroke="black" points="896,-180 896,-174 "/>
+<polyline fill="none" stroke="black" points="902,-174 896,-174 "/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>[root] output.resrouce_group_name&#45;&gt;[root] azurerm_resource_group.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M795.92,-143.7C788.61,-135.3 779.69,-125.07 771.66,-115.86"/>
+<polygon fill="black" stroke="black" points="774.11,-113.34 764.91,-108.1 768.84,-117.94 774.11,-113.34"/>
+</g>
+
+<g id="node6" class="node">
+<title>[root] output.vnet_address</title>
+<polygon fill="none" stroke="black" points="485.5,-252 360.5,-252 360.5,-216 491.5,-216 491.5,-246 485.5,-252"/>
+<polyline fill="none" stroke="black" points="485.5,-252 485.5,-246 "/>
+<polyline fill="none" stroke="black" points="491.5,-246 485.5,-246 "/>
+
+</g>
+
+<g id="edge17" class="edge">
+<title>[root] output.vnet_address&#45;&gt;[root] azurerm_virtual_network.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M406.22,-215.7C396.25,-206.97 383.99,-196.24 373.14,-186.75"/>
+<polygon fill="black" stroke="black" points="375.38,-184.06 365.55,-180.1 370.77,-189.32 375.38,-184.06"/>
+</g>
+
+<g id="node16" class="node">
+<title>[root] meta.count&#45;boundary (EachMode fixup)</title>
+<ellipse fill="none" stroke="black" cx="778" cy="-306" rx="180.87" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] azurerm_virtual_machine.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M738.19,-288.41C714.87,-278.7 685.2,-266.33 660.28,-255.95"/>
+<polygon fill="black" stroke="black" points="661.57,-252.69 650.99,-252.08 658.87,-259.16 661.57,-252.69"/>
+</g>
+
+<g id="edge14" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] output.resrouce_group_name</title>
+<path fill="none" stroke="black" d="M781.98,-287.87C787.63,-263.56 798.03,-218.82 804.72,-190.01"/>
+<polygon fill="black" stroke="black" points="808.15,-190.72 807.01,-180.19 801.33,-189.14 808.15,-190.72"/>
+</g>
+
+<g id="edge15" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] output.vnet_address</title>
+<path fill="none" stroke="black" d="M695.43,-289.96C642.76,-280.19 572.8,-266.88 501.84,-252.14"/>
+<polygon fill="black" stroke="black" points="502.33,-248.67 491.82,-250.05 500.9,-255.52 502.33,-248.67"/>
+</g>
+
+<g id="node17" class="node">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/azurerm&quot;] (close)</title>
+<ellipse fill="none" stroke="black" cx="332" cy="-306" rx="246.96" ry="18"/>
+
+</g>
+
+<g id="edge18" class="edge">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/azurerm&quot;] (close)&#45;&gt;[root] azurerm_virtual_machine.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M397.18,-288.59C437.68,-278.39 489.95,-265.23 532.56,-254.5"/>
+<polygon fill="black" stroke="black" points="533.48,-257.88 542.33,-252.04 531.77,-251.09 533.48,-257.88"/>
+</g>
+
+<g id="edge19" class="edge">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/azurerm&quot;] (close)&#45;&gt;[root] azurerm_virtual_network.slb2srv (expand)</title>
+<path fill="none" stroke="black" d="M333.69,-287.87C336.07,-263.67 340.46,-219.21 343.3,-190.39"/>
+<polygon fill="black" stroke="black" points="346.81,-190.48 344.31,-180.19 339.84,-189.8 346.81,-190.48"/>
+</g>
+
+<g id="node18" class="node">
+<title>[root] root</title>
+<ellipse fill="none" stroke="black" cx="555" cy="-378" rx="49.29" ry="18"/>
+
+</g>
+
+<g id="edge20" class="edge">
+<title>[root] root&#45;&gt;[root] meta.count&#45;boundary (EachMode fixup)</title>
+<path fill="none" stroke="black" d="M591.33,-365.6C625.07,-355 676.02,-339.01 716.17,-326.41"/>
+<polygon fill="black" stroke="black" points="717.37,-329.7 725.87,-323.36 715.28,-323.02 717.37,-329.7"/>
+</g>
+
+<g id="edge21" class="edge">
+<title>[root] root&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/azurerm&quot;] (close)</title>
+<path fill="none" stroke="black" d="M518.67,-365.6C485.15,-355.08 434.67,-339.23 394.64,-326.66"/>
+<polygon fill="black" stroke="black" points="395.56,-323.28 384.97,-323.63 393.47,-329.96 395.56,-323.28"/>
+</g>
+</g>
+</svg>

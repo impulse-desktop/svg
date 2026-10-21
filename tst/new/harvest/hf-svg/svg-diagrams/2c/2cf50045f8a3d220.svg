@@ -1,0 +1,174 @@
+<svg width="1328pt" height="476pt"
+ viewBox="0.00 0.00 1327.90 476.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 472)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-472 1323.9,-472 1323.9,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>[root] aws_db_instance.database (expand)</title>
+<polygon fill="none" stroke="black" points="745.27,-252 586.27,-252 586.27,-216 745.27,-216 745.27,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;]</title>
+<polygon fill="none" stroke="black" points="252.77,-180 0.23,-162 252.77,-144 505.3,-162 252.77,-180"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>[root] aws_db_instance.database (expand)&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;]</title>
+<path fill="none" stroke="black" d="M586.14,-219.5C513.49,-207.19 406.64,-189.08 333.62,-176.7"/>
+<polygon fill="black" stroke="black" points="333.99,-173.22 323.55,-175 332.82,-180.12 333.99,-173.22"/>
+</g>
+
+<g id="node5" class="node">
+<title>[root] var.namespace</title>
+<polygon fill="none" stroke="black" points="614.27,-180 523.27,-180 523.27,-144 620.27,-144 620.27,-174 614.27,-180"/>
+<polyline fill="none" stroke="black" points="614.27,-180 614.27,-174 "/>
+<polyline fill="none" stroke="black" points="620.27,-174 614.27,-174 "/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>[root] aws_db_instance.database (expand)&#45;&gt;[root] var.namespace</title>
+<path fill="none" stroke="black" d="M642.53,-215.7C630.58,-206.8 615.85,-195.82 602.92,-186.2"/>
+<polygon fill="black" stroke="black" points="604.85,-183.27 594.74,-180.1 600.67,-188.88 604.85,-183.27"/>
+</g>
+
+<g id="node6" class="node">
+<title>[root] var.sg</title>
+<polygon fill="none" stroke="black" points="686.77,-180 638.77,-180 638.77,-144 692.77,-144 692.77,-174 686.77,-180"/>
+<polyline fill="none" stroke="black" points="686.77,-180 686.77,-174 "/>
+<polyline fill="none" stroke="black" points="692.77,-174 686.77,-174 "/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>[root] aws_db_instance.database (expand)&#45;&gt;[root] var.sg</title>
+<path fill="none" stroke="black" d="M665.77,-215.7C665.77,-207.98 665.77,-198.71 665.77,-190.11"/>
+<polygon fill="black" stroke="black" points="669.27,-190.1 665.77,-180.1 662.27,-190.1 669.27,-190.1"/>
+</g>
+
+<g id="node7" class="node">
+<title>[root] var.vpc</title>
+<polygon fill="none" stroke="black" points="760.77,-180 710.77,-180 710.77,-144 766.77,-144 766.77,-174 760.77,-180"/>
+<polyline fill="none" stroke="black" points="760.77,-180 760.77,-174 "/>
+<polyline fill="none" stroke="black" points="766.77,-174 760.77,-174 "/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>[root] aws_db_instance.database (expand)&#45;&gt;[root] var.vpc</title>
+<path fill="none" stroke="black" d="M683.81,-215.7C692.83,-207.05 703.89,-196.45 713.71,-187.03"/>
+<polygon fill="black" stroke="black" points="716.14,-189.55 720.93,-180.1 711.29,-184.5 716.14,-189.55"/>
+</g>
+
+<g id="node8" class="node">
+<title>[root] local.db_password (expand)</title>
+<ellipse fill="none" stroke="black" cx="917.77" cy="-162" rx="132.68" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>[root] aws_db_instance.database (expand)&#45;&gt;[root] local.db_password (expand)</title>
+<path fill="none" stroke="black" d="M727.09,-215.97C764.94,-205.45 813.47,-191.97 852.1,-181.24"/>
+<polygon fill="black" stroke="black" points="853.5,-184.48 862.2,-178.44 851.63,-177.74 853.5,-184.48"/>
+</g>
+
+<g id="node3" class="node">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/random&quot;]</title>
+<polygon fill="none" stroke="black" points="997.77,-36 725.63,-18 997.77,0 1269.91,-18 997.77,-36"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>[root] random_id.random_16 (expand)</title>
+<polygon fill="none" stroke="black" points="1068.77,-108 926.77,-108 926.77,-72 1068.77,-72 1068.77,-108"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>[root] random_id.random_16 (expand)&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/random&quot;]</title>
+<path fill="none" stroke="black" d="M997.77,-71.7C997.77,-63.98 997.77,-54.71 997.77,-46.11"/>
+<polygon fill="black" stroke="black" points="1001.27,-46.1 997.77,-36.1 994.27,-46.1 1001.27,-46.1"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>[root] local.db_password (expand)&#45;&gt;[root] random_id.random_16 (expand)</title>
+<path fill="none" stroke="black" d="M937.13,-144.05C947.18,-135.26 959.62,-124.38 970.61,-114.76"/>
+<polygon fill="black" stroke="black" points="973.08,-117.25 978.3,-108.03 968.47,-111.98 973.08,-117.25"/>
+</g>
+
+<g id="node9" class="node">
+<title>[root] meta.count&#45;boundary (EachMode fixup)</title>
+<ellipse fill="none" stroke="black" cx="401.77" cy="-378" rx="176.27" ry="18"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>[root] output.db_config (expand)</title>
+<ellipse fill="none" stroke="black" cx="465.77" cy="-306" rx="126.98" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] output.db_config (expand)</title>
+<path fill="none" stroke="black" d="M417.26,-360.05C425.01,-351.58 434.53,-341.17 443.08,-331.82"/>
+<polygon fill="black" stroke="black" points="445.81,-334.02 449.97,-324.28 440.64,-329.29 445.81,-334.02"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>[root] output.db_config (expand)&#45;&gt;[root] aws_db_instance.database (expand)</title>
+<path fill="none" stroke="black" d="M511.15,-289.12C539.65,-279.14 576.68,-266.18 607.35,-255.45"/>
+<polygon fill="black" stroke="black" points="608.79,-258.65 617.07,-252.04 606.48,-252.04 608.79,-258.65"/>
+</g>
+
+<g id="node11" class="node">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;] (close)</title>
+<ellipse fill="none" stroke="black" cx="823.77" cy="-378" rx="227.46" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;] (close)&#45;&gt;[root] aws_db_instance.database (expand)</title>
+<path fill="none" stroke="black" d="M804.71,-359.87C776.71,-334.71 724.35,-287.65 692.52,-259.04"/>
+<polygon fill="black" stroke="black" points="694.67,-256.27 684.89,-252.19 689.99,-261.48 694.67,-256.27"/>
+</g>
+
+<g id="node12" class="node">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/random&quot;] (close)</title>
+<ellipse fill="none" stroke="black" cx="1078.77" cy="-306" rx="241.26" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>[root] provider[&quot;registry.terraform.io/hashicorp/random&quot;] (close)&#45;&gt;[root] random_id.random_16 (expand)</title>
+<path fill="none" stroke="black" d="M1080.65,-287.82C1083.22,-257.01 1084.96,-191.17 1059.77,-144 1053.66,-132.57 1044,-122.53 1034.1,-114.36"/>
+<polygon fill="black" stroke="black" points="1036.22,-111.58 1026.17,-108.22 1031.93,-117.11 1036.22,-111.58"/>
+</g>
+
+<g id="node13" class="node">
+<title>[root] root</title>
+<ellipse fill="none" stroke="black" cx="823.77" cy="-450" rx="47.39" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>[root] root&#45;&gt;[root] meta.count&#45;boundary (EachMode fixup)</title>
+<path fill="none" stroke="black" d="M780.98,-441.9C715.61,-431.06 589.11,-410.08 500.25,-395.34"/>
+<polygon fill="black" stroke="black" points="500.58,-391.84 490.14,-393.66 499.44,-398.75 500.58,-391.84"/>
+</g>
+
+<g id="edge13" class="edge">
+<title>[root] root&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/aws&quot;] (close)</title>
+<path fill="none" stroke="black" d="M823.77,-431.7C823.77,-423.98 823.77,-414.71 823.77,-406.11"/>
+<polygon fill="black" stroke="black" points="827.27,-406.1 823.77,-396.1 820.27,-406.1 827.27,-406.1"/>
+</g>
+
+<g id="edge14" class="edge">
+<title>[root] root&#45;&gt;[root] provider[&quot;registry.terraform.io/hashicorp/random&quot;] (close)</title>
+<path fill="none" stroke="black" d="M869.08,-444.61C929.94,-437.77 1033.52,-422.53 1059.77,-396 1075.61,-379.99 1079.7,-354.2 1080.21,-334.49"/>
+<polygon fill="black" stroke="black" points="1083.71,-334.26 1080.18,-324.27 1076.71,-334.28 1083.71,-334.26"/>
+</g>
+</g>
+</svg>

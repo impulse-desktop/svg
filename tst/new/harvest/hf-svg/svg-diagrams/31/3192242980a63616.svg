@@ -1,0 +1,136 @@
+<svg width="933pt" height="284pt"
+ viewBox="0.00 0.00 933.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 929,-280 929,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="228.5,-10 228.5,-30 248.5,-30 248.5,-10 228.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="341.5,-10 341.5,-30 361.5,-30 361.5,-10 341.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="427.5,-10 427.5,-30 447.5,-30 447.5,-10 427.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="524.5,-10 524.5,-30 544.5,-30 544.5,-10 524.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="620.5,-10 620.5,-30 640.5,-30 640.5,-10 620.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 917,-268 917,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="787,-78 787,-130 909,-130 909,-78 787,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 779,-130 779,-78 16,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="342,-208 342,-260 466,-260 466,-208 342,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="900.9399,-122 795.0601,-122 795.0601,-86 900.9399,-86 900.9399,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="445.6571,-187 442.6571,-191 421.6571,-191 418.6571,-187 362.3429,-187 362.3429,-151 445.6571,-151 445.6571,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M848,-122.2921C848,-144.2057 848,-178 848,-178 848,-178 455.7704,-178 455.7704,-178"/>
+<polygon fill="#000000" stroke="#000000" points="455.7705,-174.5001 445.7704,-178 455.7704,-181.5001 455.7705,-174.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="458.439,-252 349.561,-252 349.561,-216 458.439,-216 458.439,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M404,-187.1061C404,-187.1061 404,-205.991 404,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="400.5001,-205.9909 404,-215.991 407.5001,-205.991 400.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>BrowserModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="771.4734,-122 768.4734,-126 747.4734,-126 744.4734,-122 664.5266,-122 664.5266,-86 771.4734,-86 771.4734,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>BrowserModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M718,-122.1061C718,-141.3391 718,-169 718,-169 718,-169 455.6968,-169 455.6968,-169"/>
+<polygon fill="#000000" stroke="#000000" points="455.6968,-165.5001 445.6968,-169 455.6967,-172.5001 455.6968,-165.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>BrowserAnimationsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="646.3019,-122 643.3019,-126 622.3019,-126 619.3019,-122 473.6981,-122 473.6981,-86 646.3019,-86 646.3019,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>BrowserAnimationsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M560,-122.027C560,-138.3976 560,-160 560,-160 560,-160 455.8051,-160 455.8051,-160"/>
+<polygon fill="#000000" stroke="#000000" points="455.8052,-156.5001 445.8051,-160 455.8051,-163.5001 455.8052,-156.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>RoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="456.1681,-122 453.1681,-126 432.1681,-126 429.1681,-122 351.8319,-122 351.8319,-86 456.1681,-86 456.1681,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RoutingModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M404,-122.1061C404,-122.1061 404,-140.991 404,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="400.5001,-140.9909 404,-150.991 407.5001,-140.991 400.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="333.8288,-122 330.8288,-126 309.8288,-126 306.8288,-122 238.1712,-122 238.1712,-86 333.8288,-86 333.8288,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>FormsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M286,-122.027C286,-138.3976 286,-160 286,-160 286,-160 352.0654,-160 352.0654,-160"/>
+<polygon fill="#000000" stroke="#000000" points="352.0654,-163.5001 362.0654,-160 352.0653,-156.5001 352.0654,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="220.4387,-122 217.4387,-126 196.4387,-126 193.4387,-122 135.5613,-122 135.5613,-86 220.4387,-86 220.4387,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>HttpModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M178,-122.1061C178,-141.3391 178,-169 178,-169 178,-169 352.2847,-169 352.2847,-169"/>
+<polygon fill="#000000" stroke="#000000" points="352.2848,-172.5001 362.2847,-169 352.2847,-165.5001 352.2848,-172.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>BoardModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="117.7619,-122 114.7619,-126 93.7619,-126 90.7619,-122 24.2381,-122 24.2381,-86 117.7619,-86 117.7619,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>BoardModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M71,-122.2921C71,-144.2057 71,-178 71,-178 71,-178 352.1625,-178 352.1625,-178"/>
+<polygon fill="#000000" stroke="#000000" points="352.1625,-181.5001 362.1625,-178 352.1625,-174.5001 352.1625,-181.5001"/>
+</g>
+</g>
+</svg>

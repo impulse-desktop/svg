@@ -1,0 +1,104 @@
+<svg width="1112pt" height="211pt"
+ viewBox="0.00 0.00 1112.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1108,-207 1108,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="318,-10 318,-30 338,-30 338,-10 318,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="431,-10 431,-30 451,-30 451,-10 431,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="517,-10 517,-30 537,-30 537,-10 517,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="614,-10 614,-30 634,-30 634,-10 614,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="710,-10 710,-30 730,-30 730,-10 710,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DeepModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1096,-195 1096,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_DeepModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1088,-130 1088,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>RouterModule.forRoot(args)</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1079.8419,-122 1076.8419,-126 1055.8419,-126 1052.8419,-122 902.1581,-122 902.1581,-86 1079.8419,-86 1079.8419,-122"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>DeepModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="604.5856,-187 601.5856,-191 580.5856,-191 577.5856,-187 515.4144,-187 515.4144,-151 604.5856,-151 604.5856,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>RouterModule.forRoot(args)&#45;&gt;DeepModule</title>
+<path fill="none" stroke="#000000" d="M991,-122.2843C991,-143.3211 991,-175 991,-175 991,-175 614.9048,-175 614.9048,-175"/>
+<polygon fill="#000000" stroke="#000000" points="614.9049,-171.5001 604.9048,-175 614.9048,-178.5001 614.9049,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>StoreModule.provideStore(args)</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="884.5539,-122 881.5539,-126 860.5539,-126 857.5539,-122 687.4461,-122 687.4461,-86 884.5539,-86 884.5539,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>StoreModule.provideStore(args)&#45;&gt;DeepModule</title>
+<path fill="none" stroke="#000000" d="M786,-122.0225C786,-139.3734 786,-163 786,-163 786,-163 614.6503,-163 614.6503,-163"/>
+<polygon fill="#000000" stroke="#000000" points="614.6504,-159.5001 604.6503,-163 614.6503,-166.5001 614.6504,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="669.2619,-122 666.2619,-126 645.2619,-126 642.2619,-122 582.7381,-122 582.7381,-86 669.2619,-86 669.2619,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CoreModule&#45;&gt;DeepModule</title>
+<path fill="none" stroke="#000000" d="M593.581,-122.1061C593.581,-122.1061 593.581,-140.991 593.581,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="590.0811,-140.9909 593.581,-150.991 597.0811,-140.991 590.0811,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>HomeModule.yolo1()</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="564.4742,-122 561.4742,-126 540.4742,-126 537.4742,-122 425.5258,-122 425.5258,-86 564.4742,-86 564.4742,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>HomeModule.yolo1()&#45;&gt;DeepModule</title>
+<path fill="none" stroke="#000000" d="M539.847,-122.1061C539.847,-122.1061 539.847,-140.991 539.847,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="536.347,-140.9909 539.847,-150.991 543.347,-140.991 536.347,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>HomeModule.bar.yolo2()</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="407.8487,-122 404.8487,-126 383.8487,-126 380.8487,-122 248.1513,-122 248.1513,-86 407.8487,-86 407.8487,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>HomeModule.bar.yolo2()&#45;&gt;DeepModule</title>
+<path fill="none" stroke="#000000" d="M328,-122.0225C328,-139.3734 328,-163 328,-163 328,-163 505.2681,-163 505.2681,-163"/>
+<polygon fill="#000000" stroke="#000000" points="505.2681,-166.5001 515.2681,-163 505.268,-159.5001 505.2681,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>HomeModule.foo.bar.yolo3(args)</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="229.8293,-122 226.8293,-126 205.8293,-126 202.8293,-122 24.1707,-122 24.1707,-86 229.8293,-86 229.8293,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>HomeModule.foo.bar.yolo3(args)&#45;&gt;DeepModule</title>
+<path fill="none" stroke="#000000" d="M127,-122.2843C127,-143.3211 127,-175 127,-175 127,-175 505.2923,-175 505.2923,-175"/>
+<polygon fill="#000000" stroke="#000000" points="505.2923,-178.5001 515.2923,-175 505.2922,-171.5001 505.2923,-178.5001"/>
+</g>
+</g>
+</svg>

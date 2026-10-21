@@ -1,0 +1,36 @@
+<svg width="830px" height="546px" viewBox="0 0 830 546" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>Artboard Copy 7</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M113.819426,52 L716.180574,52 C720.638168,52 722.254599,52.4641281 723.884229,53.3356635 C725.513858,54.207199 726.792801,55.4861419 727.664336,57.1157715 C728.535872,58.7454011 729,60.3618323 729,64.819426 L729,447.180574 C729,451.638168 728.535872,453.254599 727.664336,454.884229 C726.792801,456.513858 725.513858,457.792801 723.884229,458.664336 C722.254599,459.535872 720.638168,460 716.180574,460 L113.819426,460 C109.361832,460 107.745401,459.535872 106.115771,458.664336 C104.486142,457.792801 103.207199,456.513858 102.335664,454.884229 C101.464128,453.254599 101,451.638168 101,447.180574 L101,64.819426 C101,60.3618323 101.464128,58.7454011 102.335664,57.1157715 C103.207199,55.4861419 104.486142,54.207199 106.115771,53.3356635 C107.745401,52.4641281 109.361832,52 113.819426,52 Z" id="path-1"></path>
+        <filter x="-4.8%" y="-0.0%" width="109.6%" height="117.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feGaussianBlur stdDeviation="0" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-10.4%" y="-8.6%" width="120.7%" height="134.3%" filterUnits="objectBoundingBox" id="filter-3">
+            <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="40" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="13" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.392373252 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M69.819426,52 L760.180574,52 C764.638168,52 766.254599,52.4641281 767.884229,53.3356635 C769.513858,54.207199 770.792801,55.4861419 771.664336,57.1157715 C772.535872,58.7454011 773,60.3618323 773,64.819426 L773,465.180574 C773,469.638168 772.535872,471.254599 771.664336,472.884229 C770.792801,474.513858 769.513858,475.792801 767.884229,476.664336 C766.254599,477.535872 764.638168,478 760.180574,478 L69.819426,478 C65.3618323,478 63.7454011,477.535872 62.1157715,476.664336 C60.4861419,475.792801 59.207199,474.513858 58.3356635,472.884229 C57.4641281,471.254599 57,469.638168 57,465.180574 L57,64.819426 C57,60.3618323 57.4641281,58.7454011 58.3356635,57.1157715 C59.207199,55.4861419 60.4861419,54.207199 62.1157715,53.3356635 C63.7454011,52.4641281 65.3618323,52 69.819426,52 Z" id="path-4"></path>
+        <filter x="-10.5%" y="-17.6%" width="120.9%" height="135.2%" filterUnits="objectBoundingBox" id="filter-5">
+            <feMorphology radius="10" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="15" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.202933785 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Artboard-Copy-7" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Rectangle" opacity="0.701288132" filter="url(#filter-2)">
+            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+            <use fill="#141414" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <g id="Rectangle-Copy">
+            <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-4"></use>
+            <use fill="#141414" fill-rule="evenodd" xlink:href="#path-4"></use>
+        </g>
+        
+        
+    </g>
+</svg>

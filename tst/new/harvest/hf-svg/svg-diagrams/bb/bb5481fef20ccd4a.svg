@@ -1,0 +1,86 @@
+<svg width="776pt" height="174pt"
+ viewBox="0.00 0.00 776.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 772,-169.8 772,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_NotesModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 760,-157.8 760,-32.8 8,-32.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_NotesModule_imports</title>
+<polygon fill="none" stroke="black" points="482,-40.8 482,-92.8 752,-92.8 752,-40.8 482,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_NotesModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 474,-92.8 474,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AddNoteComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="466.15,-84.8 333.85,-84.8 333.85,-48.8 466.15,-48.8 466.15,-84.8"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>NotesModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="446.21,-149.8 443.21,-153.8 422.21,-153.8 419.21,-149.8 353.79,-149.8 353.79,-113.8 446.21,-113.8 446.21,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AddNoteComponent&#45;&gt;NotesModule</title>
+<path fill="none" stroke="black" d="M400,-84.91C400,-84.91 400,-103.79 400,-103.79"/>
+<polygon fill="black" stroke="black" points="396.5,-103.79 400,-113.79 403.5,-103.79 396.5,-103.79"/>
+</g>
+
+<g id="node2" class="node">
+<title>NoteDetailComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="315.25,-84.8 172.75,-84.8 172.75,-48.8 315.25,-48.8 315.25,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>NoteDetailComponent&#45;&gt;NotesModule</title>
+<path fill="none" stroke="black" d="M244,-84.82C244,-102.17 244,-125.8 244,-125.8 244,-125.8 343.62,-125.8 343.62,-125.8"/>
+<polygon fill="black" stroke="black" points="343.62,-129.3 353.62,-125.8 343.62,-122.3 343.62,-129.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>NoteListComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="154.32,-84.8 23.68,-84.8 23.68,-48.8 154.32,-48.8 154.32,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NoteListComponent&#45;&gt;NotesModule</title>
+<path fill="none" stroke="black" d="M89,-85.08C89,-106.12 89,-137.8 89,-137.8 89,-137.8 343.78,-137.8 343.78,-137.8"/>
+<polygon fill="black" stroke="black" points="343.78,-141.3 353.78,-137.8 343.78,-134.3 343.78,-141.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>NotesRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="743.82,-84.8 740.82,-88.8 719.82,-88.8 716.82,-84.8 606.18,-84.8 606.18,-48.8 743.82,-48.8 743.82,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>NotesRoutingModule&#45;&gt;NotesModule</title>
+<path fill="none" stroke="black" d="M675,-85.08C675,-106.12 675,-137.8 675,-137.8 675,-137.8 456.34,-137.8 456.34,-137.8"/>
+<polygon fill="black" stroke="black" points="456.34,-134.3 446.34,-137.8 456.34,-141.3 456.34,-134.3"/>
+</g>
+
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="588.42,-84.8 585.42,-88.8 564.42,-88.8 561.42,-84.8 489.58,-84.8 489.58,-48.8 588.42,-48.8 588.42,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SharedModule&#45;&gt;NotesModule</title>
+<path fill="none" stroke="black" d="M539,-84.82C539,-102.17 539,-125.8 539,-125.8 539,-125.8 456.28,-125.8 456.28,-125.8"/>
+<polygon fill="black" stroke="black" points="456.29,-122.3 446.28,-125.8 456.28,-129.3 456.29,-122.3"/>
+</g>
+</g>
+</svg>

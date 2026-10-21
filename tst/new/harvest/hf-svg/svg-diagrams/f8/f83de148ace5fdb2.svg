@@ -1,0 +1,108 @@
+<svg width="546pt" height="142pt"
+ viewBox="0.00 0.00 546.00 142.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 138)">
+<title>init_aes_hmac_combined</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-138 542,-138 542,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node51</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-38.5 0,-57.5 127,-57.5 127,-38.5 0,-38.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node52</title>
+<g id="a_node2"><a xlink:href="sha256_8c.html#a7f22a0894ca55160852ddcdff7a1f2fc" target="_top" xlink:title="sha256_raw">
+<polygon fill="white" stroke="black" points="191,-76.5 191,-95.5 260,-95.5 260,-76.5 191,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node51&#45;&gt;Node52</title>
+<path fill="none" stroke="midnightblue" d="M104.875,-57.589C128.123,-63.1104 157.344,-70.0504 181.085,-75.6891"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="180.354,-79.1125 190.892,-78.018 181.971,-72.302 180.354,-79.1125"/>
+</g>
+
+<g id="node7" class="node"><title>Node57</title>
+<g id="a_node7"><a xlink:href="user__interface_8h.html#ab04830012b6818505fb8bc7ef76f9ab6" target="_top" xlink:title="system_soft_wdt_restart">
+<polygon fill="white" stroke="black" points="163,-38.5 163,-57.5 288,-57.5 288,-38.5 163,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node51&#45;&gt;Node57</title>
+<path fill="none" stroke="midnightblue" d="M127.277,-48C135.617,-48 144.22,-48 152.698,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="152.953,-51.5001 162.953,-48 152.953,-44.5001 152.953,-51.5001"/>
+</g>
+
+<g id="node8" class="node"><title>Node58</title>
+<g id="a_node8"><a xlink:href="user__interface_8h.html#a2f47f7ff2f650c014808dcc3b652f15a" target="_top" xlink:title="system_soft_wdt_stop">
+<polygon fill="white" stroke="black" points="167.5,-0.5 167.5,-19.5 283.5,-19.5 283.5,-0.5 167.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node51&#45;&gt;Node58</title>
+<path fill="none" stroke="midnightblue" d="M104.875,-38.411C125.988,-33.3965 152.029,-27.2119 174.417,-21.8947"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="175.495,-25.2361 184.416,-19.5201 173.877,-18.4256 175.495,-25.2361"/>
+</g>
+
+<g id="node3" class="node"><title>Node53</title>
+<g id="a_node3"><a xlink:href="sha256_8c.html#ad1c794b2d7e8eba243628e45cb69ef94" target="_top" xlink:title="sha256_init">
+<polygon fill="white" stroke="black" points="332.5,-114.5 332.5,-133.5 398.5,-133.5 398.5,-114.5 332.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node52&#45;&gt;Node53</title>
+<path fill="none" stroke="midnightblue" d="M260.259,-95.2958C278.962,-100.446 302.388,-106.897 322.293,-112.378"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="321.47,-115.781 332.04,-115.062 323.328,-109.033 321.47,-115.781"/>
+</g>
+
+<g id="node4" class="node"><title>Node54</title>
+<g id="a_node4"><a xlink:href="sha256_8c.html#a00647246fd4532c27d1aafd709d5973d" target="_top" xlink:title="sha256_update">
+<polygon fill="white" stroke="black" points="324,-76.5 324,-95.5 407,-95.5 407,-76.5 324,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node52&#45;&gt;Node54</title>
+<path fill="none" stroke="midnightblue" d="M260.259,-86C276.409,-86 296.081,-86 313.966,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="313.966,-89.5001 323.966,-86 313.966,-82.5001 313.966,-89.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node56</title>
+<g id="a_node6"><a xlink:href="sha256_8c.html#a28a4e37e67f8b97b374c49d8b83d8167" target="_top" xlink:title="sha256_final">
+<polygon fill="white" stroke="black" points="330,-38.5 330,-57.5 401,-57.5 401,-38.5 330,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node52&#45;&gt;Node56</title>
+<path fill="none" stroke="midnightblue" d="M260.259,-76.7042C278.197,-71.7645 300.48,-65.6286 319.834,-60.2994"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="320.937,-63.626 329.649,-57.5967 319.079,-56.8772 320.937,-63.626"/>
+</g>
+
+<g id="node5" class="node"><title>Node55</title>
+<g id="a_node5"><a xlink:href="sha256_8c.html#a97b828e7b6479297e92fb5ffc5225ee3" target="_top" xlink:title="sha256_transform">
+<polygon fill="white" stroke="black" points="443,-57.5 443,-76.5 538,-76.5 538,-57.5 443,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node54&#45;&gt;Node55</title>
+<path fill="none" stroke="midnightblue" d="M407.116,-79.726C415.364,-78.4519 424.181,-77.0899 432.868,-75.7481"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="433.615,-79.1743 442.963,-74.1886 432.546,-72.2563 433.615,-79.1743"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node56&#45;&gt;Node55</title>
+<path fill="none" stroke="midnightblue" d="M401.09,-53.3431C410.89,-54.857 421.825,-56.5462 432.574,-58.2065"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="432.361,-61.7151 442.778,-59.7828 433.43,-54.7972 432.361,-61.7151"/>
+</g>
+</g>
+</svg>

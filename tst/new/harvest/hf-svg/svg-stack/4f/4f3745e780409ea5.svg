@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 31.578947" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" style="white-space: pre;">
+    <defs>
+        <clipPath id="t">
+            <path d="M30,15.7895L60,15.7895L60,31.5789ZM30,15.7895L30,31.5789L0,31.5789ZM30,15.7895L0,15.7895L0,0ZM30,15.7895L30,0L60,0Z" transform="translate(30,15) translate(-30,-15)"/>
+        </clipPath>
+        <clipPath id="s">
+            <path d="M0,0L0,31.5789L60,31.5789L60,0Z" transform="translate(30,15) translate(-30,-15)"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#s)" transform="translate(30,15) translate(-30,-15)">
+        <path d="M0,0L0,31.5789L60,31.5789L60,0Z" fill="#012169" transform="translate(30,15) translate(-30,-15)"/>
+        <path d="M0,0L60,31.5789M60,0L0,31.5789" stroke="#fff" stroke-width="6" transform="translate(30,15) translate(-30,-15)"/>
+        <path d="M0,0L60,31.5789M60,0L0,31.5789" stroke="#C8102E" stroke-width="4" clip-path="url(#t)" transform="translate(30,15) translate(-30,-15)"/>
+        <path d="M30,0L30,31.5789M0,15.7894L60,15.7894" stroke="#fff" stroke-width="10" transform="translate(30,15) translate(-30,-15)"/>
+        <path d="M30,0L30,31.5789M0,15.7895L60,15.7895" stroke="#C8102E" stroke-width="6" transform="translate(30,15) translate(-30,-15)"/>
+    </g>
+</svg>

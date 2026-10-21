@@ -1,0 +1,75 @@
+<svg width="695pt" height="78pt"
+ viewBox="0.00 0.00 695.00 77.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 73.5)">
+<title>ACarlaRecorder::Ticking</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-73.5 691,-73.5 691,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1596</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-28 0,-47 133,-47 133,-28 0,-28"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node1597</title>
+<g id="a_node2"><a xlink:href="../../dc/d49/classFCarlaEngine.html#aff440c7ba9d004e4c5b60125cc4d709b" target="_top" xlink:title="FCarlaEngine::OnPostTick">
+<polygon fill="#ffffff" stroke="#000000" points="169,-28 169,-47 310,-47 310,-28 169,-28"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1596&#45;&gt;Node1597</title>
+<path fill="none" stroke="#191970" d="M143.5486,-37.5C151.9465,-37.5 160.4647,-37.5 168.7814,-37.5"/>
+<polygon fill="#191970" stroke="#191970" points="143.3864,-34.0001 133.3863,-37.5 143.3863,-41.0001 143.3864,-34.0001"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node1598</title>
+<g id="a_node3"><a xlink:href="../../dc/d49/classFCarlaEngine.html#ab8d13063cde985781237dd7da308227e" target="_top" xlink:title="FCarlaEngine::NotifyInitGame">
+<polygon fill="#ffffff" stroke="#000000" points="346,-50 346,-69 507,-69 507,-50 346,-50"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node1597&#45;&gt;Node1598</title>
+<path fill="none" stroke="#191970" d="M320.1604,-46.9895C328.7203,-47.9965 337.4265,-49.0208 345.9848,-50.0276"/>
+<polygon fill="#191970" stroke="#191970" points="320.5372,-43.5097 310.1967,-45.8173 319.7192,-50.4618 320.5372,-43.5097"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node1599</title>
+<g id="a_node4"><a xlink:href="../../dc/d49/classFCarlaEngine.html#a4dfd3b01c0b1413b4f69fda71efc25ce" target="_top" xlink:title="FCarlaEngine::ResetFrame\lCounter">
+<polygon fill="#ffffff" stroke="#000000" points="355,-.5 355,-30.5 498,-30.5 498,-.5 355,-.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node1597&#45;&gt;Node1599</title>
+<path fill="none" stroke="#191970" d="M320.2123,-28.0044C331.7067,-26.6522 343.4638,-25.269 354.7712,-23.9387"/>
+<polygon fill="#191970" stroke="#191970" points="319.7192,-24.5382 310.1967,-29.1827 320.5372,-31.4903 319.7192,-24.5382"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node1600</title>
+<g id="a_node5"><a xlink:href="../../dc/d49/classFCarlaEngine.html#ab4c918e4d4855a26ab57c4bb79ad4645" target="_top" xlink:title="FCarlaEngine::NotifyBegin\lEpisode">
+<polygon fill="#ffffff" stroke="#000000" points="543,-.5 543,-30.5 687,-30.5 687,-.5 543,-.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node1599&#45;&gt;Node1600</title>
+<path fill="none" stroke="#191970" d="M508.1165,-15.5C519.6875,-15.5 531.5172,-15.5 542.891,-15.5"/>
+<polygon fill="#191970" stroke="#191970" points="508.0326,-12.0001 498.0325,-15.5 508.0325,-19.0001 508.0326,-12.0001"/>
+</g>
+</g>
+</svg>

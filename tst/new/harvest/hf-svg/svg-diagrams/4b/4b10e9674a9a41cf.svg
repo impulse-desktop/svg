@@ -1,0 +1,100 @@
+<svg width="156pt" height="651pt"
+ viewBox="0.00 0.00 156.00 651.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 647)">
+<title>marian::rnn::StackedCellFactory</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-647 152,-647 152,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="11.5,-0.5 11.5,-90.5 136.5,-90.5 136.5,-0.5 11.5,-0.5"/>
+
+
+<polyline fill="none" stroke="black" points="11.5,-60.5 136.5,-60.5 "/>
+
+<polyline fill="none" stroke="black" points="11.5,-41.5 136.5,-41.5 "/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../d5/d41/classmarian_1_1rnn_1_1CellFactory.html" target="_top" xlink:title="{marian::rnn::CellFactory\n|# inputs_\l|+ CellFactory()\l+ construct()\l+ clone()\l+ add_input()\l+ add_input()\l}">
+<polygon fill="white" stroke="black" points="13,-127.5 13,-228.5 135,-228.5 135,-127.5 13,-127.5"/>
+
+<polyline fill="none" stroke="black" points="13,-209.5 135,-209.5 "/>
+
+<polyline fill="none" stroke="black" points="13,-190.5 135,-190.5 "/>
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M74,-117.232C74,-108.236 74,-99.1012 74,-90.5165"/>
+<polygon fill="none" stroke="midnightblue" points="70.5001,-117.291 74,-127.291 77.5001,-117.291 70.5001,-117.291"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d8/d32/structmarian_1_1rnn_1_1StackableFactory.html" target="_top" xlink:title="{marian::rnn::StackableFactory\n||+ StackableFactory()\l+ StackableFactory()\l+ StackableFactory()\l+ ~StackableFactory()\l+ as()\l+ is()\l}">
+<polygon fill="white" stroke="black" points="0,-265.5 0,-377.5 148,-377.5 148,-265.5 0,-265.5"/>
+
+<polyline fill="none" stroke="black" points="0,-358.5 148,-358.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-339.5 148,-339.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M74,-255.344C74,-246.375 74,-237.286 74,-228.658"/>
+<polygon fill="none" stroke="midnightblue" points="70.5001,-255.387 74,-265.387 77.5001,-255.387 70.5001,-255.387"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d5/d28/classmarian_1_1Factory.html" target="_top" xlink:title="{marian::Factory\n|# options_\l# graph_\l|+ Factory()\l+ ~Factory()\l+ getOptions()\l+ str()\l+ opt()\l+ opt()\l}">
+<polygon fill="white" stroke="black" points="31.5,-414.5 31.5,-537.5 116.5,-537.5 116.5,-414.5 31.5,-414.5"/>
+
+<polyline fill="none" stroke="black" points="31.5,-518.5 116.5,-518.5 "/>
+
+
+<polyline fill="none" stroke="black" points="31.5,-488.5 116.5,-488.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M74,-404.246C74,-395.288 74,-386.228 74,-377.564"/>
+<polygon fill="none" stroke="midnightblue" points="70.5001,-404.29 74,-414.29 77.5001,-404.29 70.5001,-404.29"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<polygon fill="white" stroke="#bfbfbf" points="17.5,-574.5 17.5,-642.5 130.5,-642.5 130.5,-574.5 17.5,-574.5"/>
+
+
+<polyline fill="none" stroke="#bfbfbf" points="17.5,-612.5 130.5,-612.5 "/>
+
+<polyline fill="none" stroke="#bfbfbf" points="17.5,-593.5 130.5,-593.5 "/>
+
+</g>
+
+<g id="edge4" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M74,-564.169C74,-555.652 74,-546.572 74,-537.609"/>
+<polygon fill="none" stroke="midnightblue" points="70.5001,-564.232 74,-574.232 77.5001,-564.232 70.5001,-564.232"/>
+</g>
+</g>
+</svg>

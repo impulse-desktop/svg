@@ -1,0 +1,181 @@
+<svg width="705pt" height="84pt"
+ viewBox="0.00 0.00 705.00 84.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 80)">
+<title>src/robin_growth_policy.h</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-80 701,-80 701,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="black" points="284,-56.5 284,-75.5 410,-75.5 410,-56.5 284,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="0,-0.5 0,-19.5 56,-19.5 56,-0.5 0,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M284.3,-56.47C229.22,-48.64 146.73,-36.1 66.06,-20.08"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="66.72,-16.65 56.23,-18.11 65.35,-23.51 66.72,-16.65"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="74,-0.5 74,-19.5 112,-19.5 112,-0.5 74,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M295.46,-56.47C251.65,-48.83 186.95,-36.63 122.17,-20.07"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="122.75,-16.61 112.19,-17.49 121,-23.39 122.75,-16.61"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="130.5,-0.5 130.5,-19.5 175.5,-19.5 175.5,-0.5 130.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M316.24,-56.49C285.55,-47.99 236.82,-34.47 185.36,-20.09"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="186.3,-16.72 175.72,-17.4 184.41,-23.46 186.3,-16.72"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="194,-0.5 194,-19.5 238,-19.5 238,-0.5 194,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M326.24,-56.44C304.68,-47.56 270.74,-33.56 246.21,-23.45"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="247.24,-20.09 236.66,-19.52 244.57,-26.56 247.24,-20.09"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="256.5,-0.5 256.5,-19.5 305.5,-19.5 305.5,-0.5 256.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M336.4,-56.32C326.54,-48.26 311.65,-36.08 299.78,-26.37"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="301.75,-23.46 291.8,-19.83 297.32,-28.88 301.75,-23.46"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="324,-0.5 324,-19.5 370,-19.5 370,-0.5 324,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M347,-56.08C347,-49.01 347,-38.86 347,-29.99"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="350.5,-29.75 347,-19.75 343.5,-29.75 350.5,-29.75"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node8</title>
+<g id="a_node8"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="388.5,-0.5 388.5,-19.5 435.5,-19.5 435.5,-0.5 388.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node1&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M357.44,-56.32C367.15,-48.26 381.82,-36.08 393.5,-26.37"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="395.91,-28.92 401.37,-19.83 391.44,-23.53 395.91,-28.92"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node9</title>
+<g id="a_node9"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="454,-0.5 454,-19.5 494,-19.5 494,-0.5 454,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M367.12,-56.44C388.02,-47.56 420.93,-33.56 444.72,-23.45"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="446.14,-26.65 453.97,-19.52 443.4,-20.21 446.14,-26.65"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node10</title>
+<g id="a_node10"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="512.5,-0.5 512.5,-19.5 547.5,-19.5 547.5,-0.5 512.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node1&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M377.89,-56.49C407.48,-48.25 453.58,-35.19 502.5,-20.06"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="503.8,-23.32 512.31,-17.01 501.73,-16.64 503.8,-23.32"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node11</title>
+<g id="a_node11"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="565.5,-0.5 565.5,-19.5 624.5,-19.5 624.5,-0.5 565.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node1&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M388.1,-56.46C428.41,-48.03 491.86,-34.6 555.37,-20.34"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="556.16,-23.75 565.14,-18.14 554.62,-16.92 556.16,-23.75"/>
+</g>
+
+<g id="node12" class="node">
+<title>Node12</title>
+<g id="a_node12"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="643,-0.5 643,-19.5 697,-19.5 697,-0.5 643,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node1&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M410.28,-56.74C466.34,-49.04 550.61,-36.55 632.91,-20.07"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="633.83,-23.46 642.93,-18.04 632.44,-16.6 633.83,-23.46"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="638pt" height="468pt" viewBox="0.00 0.00 638.24 468.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 464)">
+<title>cfpqExample</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-464 634.2432,-464 634.2432,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>director</title>
+<polygon fill="none" stroke="#000000" points="251.6515,-.5 251.6515,-74.9 364.9711,-74.9 364.9711,-.5 251.6515,-.5"/>
+
+<polyline fill="none" stroke="#000000" points="251.6515,-50.1 364.9711,-50.1 "/>
+
+<polyline fill="none" stroke="#000000" points="251.6515,-25.3 364.9711,-25.3 "/>
+
+</g>
+
+<g id="node2" class="node">
+<title>manager1</title>
+<polygon fill="none" stroke="#000000" points="189.223,-128.7 189.223,-203.1 299.3996,-203.1 299.3996,-128.7 189.223,-128.7"/>
+
+<polyline fill="none" stroke="#000000" points="189.223,-178.3 299.3996,-178.3 "/>
+
+<polyline fill="none" stroke="#000000" points="189.223,-153.5 299.3996,-153.5 "/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>manager1-&gt;director</title>
+<path fill="none" stroke="#000000" d="M262.9948,-128.4746C269.8954,-114.6518 277.8016,-98.8148 285.0578,-84.2797"/>
+<polygon fill="#000000" stroke="#000000" points="288.3801,-85.4607 289.7152,-74.9503 282.1171,-82.334 288.3801,-85.4607"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>manager2</title>
+<polygon fill="none" stroke="#000000" points="380.223,-128.7 380.223,-203.1 490.3996,-203.1 490.3996,-128.7 380.223,-128.7"/>
+
+<polyline fill="none" stroke="#000000" points="380.223,-178.3 490.3996,-178.3 "/>
+
+<polyline fill="none" stroke="#000000" points="380.223,-153.5 490.3996,-153.5 "/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>manager2-&gt;director</title>
+<path fill="none" stroke="#000000" d="M398.2362,-128.4746C383.8908,-113.9936 367.3554,-97.302 352.4071,-82.2124"/>
+<polygon fill="#000000" stroke="#000000" points="354.7372,-79.5913 345.2129,-74.9503 349.7642,-84.5178 354.7372,-79.5913"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>operator1</title>
+<polygon fill="none" stroke="#000000" points="0,-256.9 0,-331.3 108.6226,-331.3 108.6226,-256.9 0,-256.9"/>
+
+<polyline fill="none" stroke="#000000" points="0,-306.5 108.6226,-306.5 "/>
+
+<polyline fill="none" stroke="#000000" points="0,-281.7 108.6226,-281.7 "/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>operator1-&gt;manager1</title>
+<path fill="none" stroke="#000000" d="M108.7577,-257.363C131.2203,-242.2066 157.4069,-224.5376 180.742,-208.7926"/>
+<polygon fill="#000000" stroke="#000000" points="182.8661,-211.5816 189.1979,-203.087 178.9508,-205.779 182.8661,-211.5816"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>operator2</title>
+<polygon fill="none" stroke="#000000" points="127,-256.9 127,-331.3 235.6226,-331.3 235.6226,-256.9 127,-256.9"/>
+
+<polyline fill="none" stroke="#000000" points="127,-306.5 235.6226,-306.5 "/>
+
+<polyline fill="none" stroke="#000000" points="127,-281.7 235.6226,-281.7 "/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>operator2-&gt;manager1</title>
+<path fill="none" stroke="#000000" d="M199.7029,-256.6746C206.4956,-242.8518 214.2783,-227.0148 221.4211,-212.4797"/>
+<polygon fill="#000000" stroke="#000000" points="224.7365,-213.6688 226.0058,-203.1503 218.4541,-210.5815 224.7365,-213.6688"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>operator3</title>
+<polygon fill="none" stroke="#000000" points="254,-256.9 254,-331.3 362.6226,-331.3 362.6226,-256.9 254,-256.9"/>
+
+<polyline fill="none" stroke="#000000" points="254,-306.5 362.6226,-306.5 "/>
+
+<polyline fill="none" stroke="#000000" points="254,-281.7 362.6226,-281.7 "/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>operator3-&gt;manager1</title>
+<path fill="none" stroke="#000000" d="M289.6278,-256.6746C282.7272,-242.8518 274.821,-227.0148 267.5648,-212.4797"/>
+<polygon fill="#000000" stroke="#000000" points="270.5055,-210.534 262.9074,-203.1503 264.2425,-213.6607 270.5055,-210.534"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>operator4</title>
+<polygon fill="none" stroke="#000000" points="380.2146,-256.9 380.2146,-331.3 490.408,-331.3 490.408,-256.9 380.2146,-256.9"/>
+
+<polyline fill="none" stroke="#000000" points="380.2146,-306.5 490.408,-306.5 "/>
+
+<polyline fill="none" stroke="#000000" points="380.2146,-281.7 490.408,-281.7 "/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>operator4-&gt;manager2</title>
+<path fill="none" stroke="#000000" d="M435.3113,-256.6746C435.3113,-243.1151 435.3113,-227.6174 435.3113,-213.3117"/>
+<polygon fill="#000000" stroke="#000000" points="438.8114,-213.1502 435.3113,-203.1503 431.8114,-213.1503 438.8114,-213.1502"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>operator5</title>
+<polygon fill="none" stroke="#000000" points="508.3794,-256.9 508.3794,-331.3 630.2432,-331.3 630.2432,-256.9 508.3794,-256.9"/>
+
+<polyline fill="none" stroke="#000000" points="508.3794,-306.5 630.2432,-306.5 "/>
+
+<polyline fill="none" stroke="#000000" points="508.3794,-281.7 630.2432,-281.7 "/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>operator5-&gt;manager2</title>
+<path fill="none" stroke="#000000" d="M530.1927,-256.6746C515.0566,-242.1936 497.6098,-225.502 481.8376,-210.4124"/>
+<polygon fill="#000000" stroke="#000000" points="483.8921,-207.5342 474.2468,-203.1503 479.053,-212.5923 483.8921,-207.5342"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>trainee1</title>
+<polygon fill="none" stroke="#000000" points="320.1515,-385.1 320.1515,-459.5 426.4711,-459.5 426.4711,-385.1 320.1515,-385.1"/>
+
+<polyline fill="none" stroke="#000000" points="320.1515,-434.7 426.4711,-434.7 "/>
+
+<polyline fill="none" stroke="#000000" points="320.1515,-409.9 426.4711,-409.9 "/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>trainee1-&gt;operator4</title>
+<path fill="none" stroke="#000000" d="M391.4109,-384.8746C398.0959,-371.0518 405.755,-355.2148 412.7845,-340.6797"/>
+<polygon fill="#000000" stroke="#000000" points="416.0934,-341.8766 417.2964,-331.3503 409.7917,-338.8289 416.0934,-341.8766"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>trainee2</title>
+<polygon fill="none" stroke="#000000" points="444.1515,-385.1 444.1515,-459.5 550.4711,-459.5 550.4711,-385.1 444.1515,-385.1"/>
+
+<polyline fill="none" stroke="#000000" points="444.1515,-434.7 550.4711,-434.7 "/>
+
+<polyline fill="none" stroke="#000000" points="444.1515,-409.9 550.4711,-409.9 "/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>trainee2-&gt;operator4</title>
+<path fill="none" stroke="#000000" d="M479.2117,-384.8746C472.5267,-371.0518 464.8676,-355.2148 457.8381,-340.6797"/>
+<polygon fill="#000000" stroke="#000000" points="460.8309,-338.8289 453.3262,-331.3503 454.5292,-341.8766 460.8309,-338.8289"/>
+
+</g>
+</g>
+</svg>

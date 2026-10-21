@@ -1,0 +1,20 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='600' height='4'>
+	<defs id='defs4'>
+		<filter y='0' color-interpolation-filters='sRGB' id='t'>
+			<feTurbulence type='fractalNoise' baseFrequency='.8 0' result='out1' numOctaves='1'/>
+			<feColorMatrix type='saturate' in='out1' result='out2' values='0'/>
+			<feComposite operator='arithmetic' k1='0' k2='0.08' k3='0' k4='0' in='out2' in2='out1'/>
+		</filter>
+	</defs>
+	<rect fill='#000000' fill-opacity='0.25' x='5%' y='-5%' width='10%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.1' x='6%' y='-5%' width='10%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.1' x='7%' y='-5%' width='14%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.1' x='9%' y='-5%' width='20%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.1' x='11%' y='-5%' width='10%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.2' x='55%' y='-5%' width='40%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.075' x='62%' y='-5%' width='35%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.17500000000000002' x='38%' y='-5%' width='20%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.075' x='85%' y='-5%' width='40%' height='110%'/>
+	<rect fill='#000000' fill-opacity='0.125' x='52%' y='-5%' width='40%' height='110%'/>
+	<rect style='filter:url(#t)' x='-1%' y='-1%' width='102%' height='100%'/>
+</svg>

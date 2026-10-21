@@ -1,0 +1,112 @@
+<svg width="504pt" height="287pt"
+ viewBox="0.00 0.00 504.00 287.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 283)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-283 500,-283 500,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="14,-10 14,-30 34,-30 34,-10 14,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="127,-10 127,-30 147,-30 147,-10 127,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="213,-10 213,-30 233,-30 233,-10 213,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="310,-10 310,-30 330,-30 330,-10 310,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="27.5,-146 27.5,-271 421.5,-271 421.5,-146 27.5,-146"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="173.5,-154 173.5,-206 413.5,-206 413.5,-154 173.5,-154"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="35.5,-154 35.5,-206 165.5,-206 165.5,-154 35.5,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_CategoriaModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="114.5,-70 114.5,-138 302.5,-138 302.5,-70 114.5,-70"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_CategoriaModule_providers</title>
+<polygon fill="none" stroke="black" points="122.5,-78 122.5,-130 294.5,-130 294.5,-78 122.5,-78"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_FilmeModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="310.5,-70 310.5,-138 468.5,-138 468.5,-70 310.5,-70"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_FilmeModule_providers</title>
+<polygon fill="none" stroke="black" points="318.5,-78 318.5,-130 460.5,-130 460.5,-78 318.5,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CategoriaModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="295.47,-198 292.47,-202 271.47,-202 268.47,-198 181.53,-198 181.53,-162 295.47,-162 295.47,-198"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="280.16,-263 277.16,-267 256.16,-267 253.16,-263 196.84,-263 196.84,-227 280.16,-227 280.16,-263"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CategoriaModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M238.5,-198.11C238.5,-198.11 238.5,-216.99 238.5,-216.99"/>
+<polygon fill="black" stroke="black" points="235,-216.99 238.5,-226.99 242,-216.99 235,-216.99"/>
+</g>
+
+<g id="node2" class="node">
+<title>FilmeModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="405.72,-198 402.72,-202 381.72,-202 378.72,-198 313.28,-198 313.28,-162 405.72,-162 405.72,-198"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FilmeModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M359.5,-198.11C359.5,-217.34 359.5,-245 359.5,-245 359.5,-245 290.48,-245 290.48,-245"/>
+<polygon fill="black" stroke="black" points="290.48,-241.5 280.48,-245 290.48,-248.5 290.48,-241.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="black" cx="100.5" cy="-180" rx="56.74" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M100.5,-198.11C100.5,-217.34 100.5,-245 100.5,-245 100.5,-245 186.72,-245 186.72,-245"/>
+<polygon fill="black" stroke="black" points="186.72,-248.5 196.72,-245 186.72,-241.5 186.72,-248.5"/>
+</g>
+
+<g id="node5" class="node">
+<title>CategoriaService</title>
+<ellipse fill="#fdb462" stroke="black" cx="208.5" cy="-104" rx="77.56" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CategoriaService&#45;&gt;CategoriaModule</title>
+<path fill="none" stroke="black" d="M233.77,-121.25C233.77,-121.25 233.77,-151.76 233.77,-151.76"/>
+<polygon fill="black" stroke="black" points="230.27,-151.76 233.77,-161.76 237.27,-151.76 230.27,-151.76"/>
+</g>
+
+<g id="node6" class="node">
+<title>FilmeService</title>
+<ellipse fill="#fdb462" stroke="black" cx="389.5" cy="-104" rx="62.55" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>FilmeService&#45;&gt;FilmeModule</title>
+<path fill="none" stroke="black" d="M366.29,-120.87C366.29,-120.87 366.29,-151.85 366.29,-151.85"/>
+<polygon fill="black" stroke="black" points="362.79,-151.85 366.29,-161.85 369.79,-151.85 362.79,-151.85"/>
+</g>
+</g>
+</svg>

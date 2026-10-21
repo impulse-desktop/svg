@@ -1,0 +1,184 @@
+<svg width="1326pt" height="284pt"
+ viewBox="0.00 0.00 1326.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1322,-280 1322,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="425,-10 425,-30 445,-30 445,-10 425,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="538,-10 538,-30 558,-30 558,-10 538,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="624,-10 624,-30 644,-30 644,-10 624,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="721,-10 721,-30 741,-30 741,-10 721,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="817,-10 817,-30 837,-30 837,-10 817,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaSidenavModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1310,-268 1310,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaSidenavModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="300,-78 300,-130 1302,-130 1302,-78 300,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_DejaSidenavModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 292,-130 292,-78 16,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_DejaSidenavModule_exports</title>
+<polygon fill="none" stroke="#000000" points="96,-208 96,-260 1117,-260 1117,-208 96,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaSidenavComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1294.3613,-122 1141.6387,-122 1141.6387,-86 1294.3613,-86 1294.3613,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>DejaSidenavModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="703.5786,-187 700.5786,-191 679.5786,-191 676.5786,-187 572.4214,-187 572.4214,-151 703.5786,-151 703.5786,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaSidenavComponent&#45;&gt;DejaSidenavModule</title>
+<path fill="none" stroke="#000000" d="M1218,-122.1061C1218,-141.3391 1218,-169 1218,-169 1218,-169 713.6871,-169 713.6871,-169"/>
+<polygon fill="#000000" stroke="#000000" points="713.6871,-165.5001 703.6871,-169 713.687,-172.5001 713.6871,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DejaSidenavContentDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1123.944,-122 940.056,-122 940.056,-86 1123.944,-86 1123.944,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DejaSidenavContentDirective&#45;&gt;DejaSidenavModule</title>
+<path fill="none" stroke="#000000" d="M946.4237,-122.0225C946.4237,-139.3734 946.4237,-163 946.4237,-163 946.4237,-163 713.7863,-163 713.7863,-163"/>
+<polygon fill="#000000" stroke="#000000" points="713.7864,-159.5001 703.7863,-163 713.7863,-166.5001 713.7864,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>DejaSidenavHeaderDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="922.0226,-122 741.9774,-122 741.9774,-86 922.0226,-86 922.0226,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DejaSidenavHeaderDirective&#45;&gt;DejaSidenavModule</title>
+<path fill="none" stroke="#000000" d="M863.7669,-122.2396C863.7669,-137.5706 863.7669,-157 863.7669,-157 863.7669,-157 713.6044,-157 713.6044,-157"/>
+<polygon fill="#000000" stroke="#000000" points="713.6044,-153.5001 703.6044,-157 713.6044,-160.5001 713.6044,-153.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>DejaSidenavMenuDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="724.271,-122 551.729,-122 551.729,-86 724.271,-86 724.271,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DejaSidenavMenuDirective&#45;&gt;DejaSidenavModule</title>
+<path fill="none" stroke="#000000" d="M638,-122.1061C638,-122.1061 638,-140.991 638,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="634.5001,-140.9909 638,-150.991 641.5001,-140.991 634.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>DejaSidenavMenuSeparatorDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="533.909,-122 308.091,-122 308.091,-86 533.909,-86 533.909,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DejaSidenavMenuSeparatorDirective&#45;&gt;DejaSidenavModule</title>
+<path fill="none" stroke="#000000" d="M410.7049,-122.2396C410.7049,-137.5706 410.7049,-157 410.7049,-157 410.7049,-157 562.2568,-157 562.2568,-157"/>
+<polygon fill="#000000" stroke="#000000" points="562.2569,-160.5001 572.2568,-157 562.2568,-153.5001 562.2569,-160.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>DejaSidenavComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1109.3616,-252 952.6384,-252 952.6384,-216 1109.3616,-216 1109.3616,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>DejaSidenavModule&#45;&gt;DejaSidenavComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M703.7794,-175C815.6569,-175 1031,-175 1031,-175 1031,-175 1031,-205.9775 1031,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="1027.5001,-205.9774 1031,-215.9775 1034.5001,-205.9775 1027.5001,-205.9774"/>
+</g>
+
+<g id="node10" class="node">
+<title>DejaSidenavContentDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="934.9445,-252 747.0555,-252 747.0555,-216 934.9445,-216 934.9445,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>DejaSidenavModule&#45;&gt;DejaSidenavContentDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M703.7285,-181C750.6609,-181 805.5224,-181 805.5224,-181 805.5224,-181 805.5224,-205.7604 805.5224,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="802.0225,-205.7604 805.5224,-215.7604 809.0225,-205.7604 802.0225,-205.7604"/>
+</g>
+
+<g id="node11" class="node">
+<title>DejaSidenavHeaderDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="729.5232,-252 546.4768,-252 546.4768,-216 729.5232,-216 729.5232,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>DejaSidenavModule&#45;&gt;DejaSidenavHeaderDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M638,-187.1061C638,-187.1061 638,-205.991 638,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="634.5001,-205.9909 638,-215.991 641.5001,-205.991 634.5001,-205.9909"/>
+</g>
+
+<g id="node12" class="node">
+<title>DejaSidenavMenuDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="527.7709,-252 352.2291,-252 352.2291,-216 527.7709,-216 527.7709,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>DejaSidenavModule&#45;&gt;DejaSidenavMenuDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M572.2912,-181C524.9217,-181 469.2951,-181 469.2951,-181 469.2951,-181 469.2951,-205.7604 469.2951,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="465.7952,-205.7604 469.2951,-215.7604 472.7952,-205.7604 465.7952,-205.7604"/>
+</g>
+
+<g id="node13" class="node">
+<title>DejaSidenavMenuSeparatorDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="333.9094,-252 104.0906,-252 104.0906,-216 333.9094,-216 333.9094,-252"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>DejaSidenavModule&#45;&gt;DejaSidenavMenuSeparatorDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M572.2915,-175C479.4036,-175 320.875,-175 320.875,-175 320.875,-175 320.875,-205.9775 320.875,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="317.3751,-205.9774 320.875,-215.9775 324.3751,-205.9775 317.3751,-205.9774"/>
+</g>
+
+<g id="node7" class="node">
+<title>DejaSlimScrollModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="283.8697,-122 280.8697,-126 259.8697,-126 256.8697,-122 138.1303,-122 138.1303,-86 283.8697,-86 283.8697,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DejaSlimScrollModule&#45;&gt;DejaSidenavModule</title>
+<path fill="none" stroke="#000000" d="M211,-122.0225C211,-139.3734 211,-163 211,-163 211,-163 562.217,-163 562.217,-163"/>
+<polygon fill="#000000" stroke="#000000" points="562.2171,-166.5001 572.217,-163 562.217,-159.5001 562.2171,-166.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>MediaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="119.8147,-122 116.8147,-126 95.8147,-126 92.8147,-122 24.1853,-122 24.1853,-86 119.8147,-86 119.8147,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MediaModule&#45;&gt;DejaSidenavModule</title>
+<path fill="none" stroke="#000000" d="M111.9763,-122.1061C111.9763,-141.3391 111.9763,-169 111.9763,-169 111.9763,-169 562.4423,-169 562.4423,-169"/>
+<polygon fill="#000000" stroke="#000000" points="562.4423,-172.5001 572.4423,-169 562.4423,-165.5001 562.4423,-172.5001"/>
+</g>
+</g>
+</svg>

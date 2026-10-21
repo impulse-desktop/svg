@@ -1,0 +1,121 @@
+<svg width="689pt" height="260pt"
+ viewBox="0.00 0.00 688.50 260.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>sourcetree</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-256 684.5,-256 684.5,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>mulle&#45;testallocator</title>
+<polygon fill="yellow" stroke="black" points="421,-252 270,-252 270,-216 421,-216 421,-252"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>mulle&#45;stacktrace</title>
+<polygon fill="lightgrey" stroke="black" points="135,-180 0,-180 0,-144 135,-144 135,-180"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>mulle&#45;testallocator&#45;&gt;mulle&#45;stacktrace</title>
+<path fill="none" stroke="black" d="M277.85,-215.97C237.82,-205.89 186.97,-193.08 145.29,-182.59"/>
+<polygon fill="black" stroke="black" points="146.01,-179.16 135.45,-180.11 144.3,-185.95 146.01,-179.16"/>
+</g>
+
+<g id="node5" class="node">
+<title>mulle&#45;allocator</title>
+<polygon fill="lightgrey" stroke="black" points="276,-180 153,-180 153,-144 276,-144 276,-180"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>mulle&#45;testallocator&#45;&gt;mulle&#45;allocator</title>
+<path fill="none" stroke="black" d="M313.45,-215.88C296.01,-206.55 274.23,-194.92 255.56,-184.94"/>
+<polygon fill="black" stroke="black" points="257.14,-181.82 246.67,-180.19 253.84,-187.99 257.14,-181.82"/>
+</g>
+
+<g id="node6" class="node">
+<title>mulle&#45;atexit</title>
+<polygon fill="lightgrey" stroke="black" points="396.5,-180 294.5,-180 294.5,-144 396.5,-144 396.5,-180"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>mulle&#45;testallocator&#45;&gt;mulle&#45;atexit</title>
+<path fill="none" stroke="black" d="M345.5,-215.7C345.5,-207.98 345.5,-198.71 345.5,-190.11"/>
+<polygon fill="black" stroke="black" points="349,-190.1 345.5,-180.1 342,-190.1 349,-190.1"/>
+</g>
+
+<g id="node7" class="node">
+<title>mulle&#45;atinit</title>
+<polygon fill="lightgrey" stroke="black" points="514,-180 415,-180 415,-144 514,-144 514,-180"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>mulle&#45;testallocator&#45;&gt;mulle&#45;atinit</title>
+<path fill="none" stroke="black" d="M374.61,-215.88C390.17,-206.72 409.52,-195.34 426.28,-185.48"/>
+<polygon fill="black" stroke="black" points="428.43,-188.28 435.28,-180.19 424.88,-182.24 428.43,-188.28"/>
+</g>
+
+<g id="node8" class="node">
+<title>mulle&#45;thread</title>
+<polygon fill="lightgrey" stroke="black" points="640.5,-180 532.5,-180 532.5,-144 640.5,-144 640.5,-180"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>mulle&#45;testallocator&#45;&gt;mulle&#45;thread</title>
+<path fill="none" stroke="black" d="M404.15,-215.97C439.96,-205.56 485.77,-192.26 522.52,-181.58"/>
+<polygon fill="black" stroke="black" points="523.51,-184.94 532.14,-178.79 521.56,-178.22 523.51,-184.94"/>
+</g>
+
+<g id="node2" class="node">
+<title>mulle&#45;dlfcn</title>
+<polygon fill="lightgrey" stroke="black" points="115.5,-108 19.5,-108 19.5,-72 115.5,-72 115.5,-108"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>dlfcn&#45;win32</title>
+<polygon fill="lightgrey" stroke="black" points="117.5,-36 17.5,-36 17.5,0 117.5,0 117.5,-36"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>mulle&#45;dlfcn&#45;&gt;dlfcn&#45;win32</title>
+<path fill="none" stroke="black" d="M67.5,-71.7C67.5,-63.98 67.5,-54.71 67.5,-46.11"/>
+<polygon fill="black" stroke="black" points="71,-46.1 67.5,-36.1 64,-46.1 71,-46.1"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>mulle&#45;stacktrace&#45;&gt;mulle&#45;dlfcn</title>
+<path fill="none" stroke="black" d="M67.5,-143.7C67.5,-135.98 67.5,-126.71 67.5,-118.11"/>
+<polygon fill="black" stroke="black" points="71,-118.1 67.5,-108.1 64,-118.1 71,-118.1"/>
+</g>
+
+<g id="node9" class="node">
+<title>mintomic</title>
+<polygon fill="lightgrey" stroke="black" points="576,-108 493,-108 493,-72 576,-72 576,-108"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>mulle&#45;thread&#45;&gt;mintomic</title>
+<path fill="none" stroke="black" d="M573.65,-143.7C567.47,-135.39 559.96,-125.28 553.18,-116.14"/>
+<polygon fill="black" stroke="black" points="555.98,-114.04 547.21,-108.1 550.36,-118.22 555.98,-114.04"/>
+</g>
+
+<g id="node10" class="node">
+<title>mulle&#45;c11</title>
+<polygon fill="lightgrey" stroke="black" points="680.5,-108 594.5,-108 594.5,-72 680.5,-72 680.5,-108"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>mulle&#45;thread&#45;&gt;mulle&#45;c11</title>
+<path fill="none" stroke="black" d="M599.11,-143.7C605.1,-135.47 612.38,-125.48 618.98,-116.42"/>
+<polygon fill="black" stroke="black" points="621.98,-118.25 625.04,-108.1 616.32,-114.13 621.98,-118.25"/>
+</g>
+</g>
+</svg>

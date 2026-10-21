@@ -1,0 +1,166 @@
+<svg width="1426pt" height="284pt"
+ viewBox="0.00 0.00 1426.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1422,-280 1422,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="475,-10 475,-30 495,-30 495,-10 475,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="588,-10 588,-30 608,-30 608,-10 588,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="674,-10 674,-30 694,-30 694,-10 674,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="771,-10 771,-30 791,-30 791,-10 771,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="867,-10 867,-30 887,-30 887,-10 867,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CreateGlobalPlanModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1410,-268 1410,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CreateGlobalPlanModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1206,-78 1206,-130 1402,-130 1402,-78 1206,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_CreateGlobalPlanModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1198,-130 1198,-78 16,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_CreateGlobalPlanModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="582,-208 582,-260 782,-260 782,-208 582,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>CreateGlobalPlanComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1394.3543,-122 1213.6457,-122 1213.6457,-86 1394.3543,-86 1394.3543,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>CreateGlobalPlanModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="761.5716,-187 758.5716,-191 737.5716,-191 734.5716,-187 602.4284,-187 602.4284,-151 761.5716,-151 761.5716,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CreateGlobalPlanComponent&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M1304,-122.0109C1304,-144.4852 1304,-180 1304,-180 1304,-180 771.7251,-180 771.7251,-180"/>
+<polygon fill="#000000" stroke="#000000" points="771.7252,-176.5001 761.7251,-180 771.7251,-183.5001 771.7252,-176.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>CreateGlobalPlanComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="774.3545,-252 589.6455,-252 589.6455,-216 774.3545,-216 774.3545,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>CreateGlobalPlanModule&#45;&gt;CreateGlobalPlanComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M682,-187.1061C682,-187.1061 682,-205.991 682,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="678.5001,-205.9909 682,-215.991 685.5001,-205.991 678.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>CreateGlobalPlanRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1190.1895,-122 1187.1895,-126 1166.1895,-126 1163.1895,-122 985.8105,-122 985.8105,-86 1190.1895,-86 1190.1895,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CreateGlobalPlanRoutingModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M1088,-122.1289C1088,-142.5724 1088,-173 1088,-173 1088,-173 771.7281,-173 771.7281,-173"/>
+<polygon fill="#000000" stroke="#000000" points="771.7281,-169.5001 761.7281,-173 771.7281,-176.5001 771.7281,-169.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>MaterialDesignModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="968.1275,-122 965.1275,-126 944.1275,-126 941.1275,-122 821.8725,-122 821.8725,-86 968.1275,-86 968.1275,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MaterialDesignModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M870.5622,-122.0091C870.5622,-138.0494 870.5622,-159 870.5622,-159 870.5622,-159 771.694,-159 771.694,-159"/>
+<polygon fill="#000000" stroke="#000000" points="771.6941,-155.5001 761.694,-159 771.694,-162.5001 771.6941,-155.5001"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>MaterialDesignModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M919.4378,-122.2667C919.4378,-140.5552 919.4378,-166 919.4378,-166 919.4378,-166 771.7239,-166 771.7239,-166"/>
+<polygon fill="#000000" stroke="#000000" points="771.7239,-162.5001 761.7239,-166 771.7238,-169.5001 771.7239,-162.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="803.6681,-122 800.6681,-126 779.6681,-126 776.6681,-122 692.3319,-122 692.3319,-86 803.6681,-86 803.6681,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M726.851,-122.1061C726.851,-122.1061 726.851,-140.991 726.851,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="723.3511,-140.9909 726.851,-150.991 730.3511,-140.991 723.3511,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>MatSelectModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="674.3076,-122 671.3076,-126 650.3076,-126 647.3076,-122 557.6924,-122 557.6924,-86 674.3076,-86 674.3076,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MatSelectModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M638.3089,-122.1061C638.3089,-122.1061 638.3089,-140.991 638.3089,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="634.809,-140.9909 638.3089,-150.991 641.809,-140.991 634.809,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>MatAutocompleteModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="539.9129,-122 536.9129,-126 515.9129,-126 512.9129,-122 378.0871,-122 378.0871,-86 539.9129,-86 539.9129,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MatAutocompleteModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M459,-122.0091C459,-138.0494 459,-159 459,-159 459,-159 592.4363,-159 592.4363,-159"/>
+<polygon fill="#000000" stroke="#000000" points="592.4364,-162.5001 602.4363,-159 592.4363,-155.5001 592.4364,-162.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>HttpClientModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="360.1611,-122 357.1611,-126 336.1611,-126 333.1611,-122 241.8389,-122 241.8389,-86 360.1611,-86 360.1611,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>HttpClientModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M301,-122.2667C301,-140.5552 301,-166 301,-166 301,-166 592.1299,-166 592.1299,-166"/>
+<polygon fill="#000000" stroke="#000000" points="592.1299,-169.5001 602.1299,-166 592.1299,-162.5001 592.1299,-169.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="223.8288,-122 220.8288,-126 199.8288,-126 196.8288,-122 128.1712,-122 128.1712,-86 223.8288,-86 223.8288,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>FormsModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M176,-122.1289C176,-142.5724 176,-173 176,-173 176,-173 592.3809,-173 592.3809,-173"/>
+<polygon fill="#000000" stroke="#000000" points="592.3809,-176.5001 602.3809,-173 592.3808,-169.5001 592.3809,-176.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="110.2619,-122 107.2619,-126 86.2619,-126 83.2619,-122 23.7381,-122 23.7381,-86 110.2619,-86 110.2619,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>CoreModule&#45;&gt;CreateGlobalPlanModule</title>
+<path fill="none" stroke="#000000" d="M67,-122.0109C67,-144.4852 67,-180 67,-180 67,-180 592.23,-180 592.23,-180"/>
+<polygon fill="#000000" stroke="#000000" points="592.23,-183.5001 602.23,-180 592.2299,-176.5001 592.23,-183.5001"/>
+</g>
+</g>
+</svg>

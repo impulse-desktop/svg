@@ -1,0 +1,115 @@
+<svg width="670pt" height="165pt"
+ viewBox="0.00 0.00 670.00 164.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 160.5)">
+<title>LockManager::checkLockedFiles</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-160.5 666,-160.5 666,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node4</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-55 0,-85 150,-85 150,-55 0,-55"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node5</title>
+<g id="a_node2"><a xlink:href="../../d9/dc6/classLockManager.html#a0062afe21af04b7fc89cb4ca822ec0f2" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="194,-126 194,-156 344,-156 344,-126 194,-126"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="#191970" d="M107.6231,-85.0254C129.5271,-94.8119 159.1779,-107.4816 186,-117 191.6148,-118.9925 197.4852,-120.9445 203.3969,-122.8205"/>
+<polygon fill="#191970" stroke="#191970" points="202.759,-126.2868 213.3468,-125.8998 204.8286,-119.5997 202.759,-126.2868"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node6</title>
+<g id="a_node3"><a xlink:href="../../dd/d63/classFolderUtils.html#a0d2abc6f2d60de8fbef3040aee803080" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="202,-77 202,-107 336,-107 336,-77 202,-77"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node4&#45;&gt;Node6</title>
+<path fill="none" stroke="#191970" d="M150.0055,-78.5058C163.6,-80.0474 177.8031,-81.6581 191.4684,-83.2078"/>
+<polygon fill="#191970" stroke="#191970" points="191.4639,-86.7296 201.7947,-84.3788 192.2527,-79.7742 191.4639,-86.7296"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node7</title>
+<g id="a_node4"><a xlink:href="../../d9/dc6/classLockManager.html#af2d00c0d8ed33bcd024aaa24096208b2" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="186,-38.5 186,-57.5 352,-57.5 352,-38.5 186,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node4&#45;&gt;Node7</title>
+<path fill="none" stroke="#191970" d="M150.0055,-61.4942C158.4354,-60.5382 167.0994,-59.5557 175.724,-58.5777"/>
+<polygon fill="#191970" stroke="#191970" points="176.2722,-62.038 185.8141,-57.4335 175.4834,-55.0826 176.2722,-62.038"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node10</title>
+<g id="a_node7"><a xlink:href="../../dd/d63/classFolderUtils.html#a714dffeb9966767ba34d521fafb0f219" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="218.5,-.5 218.5,-19.5 319.5,-19.5 319.5,-.5 218.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node4&#45;&gt;Node10</title>
+<path fill="none" stroke="#191970" d="M112.1025,-54.9321C133.4816,-46.595 160.9951,-36.4463 186,-29 194.5437,-26.4557 203.668,-24.0558 212.6252,-21.8734"/>
+<polygon fill="#191970" stroke="#191970" points="213.7025,-25.2152 222.6273,-19.5058 212.09,-18.4035 213.7025,-25.2152"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node8</title>
+<g id="a_node5"><a xlink:href="../../d2/dfb/structLockedFile.html#a1cc1f64365e500f59da6b98822fddcf9" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="561,-38.5 561,-57.5 662,-57.5 662,-38.5 561,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="#191970" d="M352.347,-48C413.5478,-48 495.2987,-48 550.4859,-48"/>
+<polygon fill="#191970" stroke="#191970" points="550.8125,-51.5001 560.8125,-48 550.8125,-44.5001 550.8125,-51.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node9</title>
+<g id="a_node6"><a xlink:href="../../d9/dc6/classLockManager.html#ad613c0d86cd9dea15a3a7287092842e3" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="388,-19.5 388,-38.5 525,-38.5 525,-19.5 388,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node7&#45;&gt;Node9</title>
+<path fill="none" stroke="#191970" d="M352.059,-39.5833C360.5551,-38.7224 369.1698,-37.8495 377.6192,-36.9933"/>
+<polygon fill="#191970" stroke="#191970" points="378.2283,-40.4495 387.8245,-35.9591 377.5225,-33.4852 378.2283,-40.4495"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node9&#45;&gt;Node8</title>
+<path fill="none" stroke="#191970" d="M525.3879,-37.4443C533.8952,-38.4871 542.5426,-39.5472 550.9132,-40.5732"/>
+<polygon fill="#191970" stroke="#191970" points="550.6067,-44.0618 560.9583,-41.8046 551.4585,-37.1138 550.6067,-44.0618"/>
+</g>
+</g>
+</svg>

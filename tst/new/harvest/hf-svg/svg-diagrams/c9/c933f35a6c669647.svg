@@ -1,0 +1,32 @@
+<svg width="576pt" height="77pt"
+ viewBox="0.00 0.00 576.00 76.88" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.784486 0.784486) rotate(0) translate(4 94)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-94 730.239,-94 730.239,4 -4,4"/>
+
+<g id="node1" class="node"><title>test/test_call_graph/test_data/multiple_calls.yml</title>
+<ellipse fill="none" stroke="red" cx="181.984" cy="-45" rx="181.968" ry="18"/>
+
+</g>
+
+<g id="node2" class="node"><title>test/test_call_graph/test_data/empty.yml</title>
+<ellipse fill="none" stroke="black" cx="563.103" cy="-72" rx="154.073" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>test/test_call_graph/test_data/multiple_calls.yml&#45;&gt;test/test_call_graph/test_data/empty.yml</title>
+<path fill="none" stroke="blue" d="M330.104,-55.4775C360.024,-57.6084 391.431,-59.8451 421.132,-61.9603"/>
+<polygon fill="blue" stroke="blue" points="420.911,-65.4534 431.134,-62.6727 421.408,-58.4711 420.911,-65.4534"/>
+</g>
+
+<g id="node3" class="node"><title>test/test_call_graph/test_data/empty_2.yml</title>
+<ellipse fill="none" stroke="black" cx="563.103" cy="-18" rx="163.271" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>test/test_call_graph/test_data/multiple_calls.yml&#45;&gt;test/test_call_graph/test_data/empty_2.yml</title>
+<path fill="none" stroke="blue" d="M330.104,-34.5225C358.096,-32.529 387.389,-30.4428 415.368,-28.4501"/>
+<polygon fill="blue" stroke="blue" points="415.886,-31.9222 425.612,-27.7206 415.389,-24.9399 415.886,-31.9222"/>
+</g>
+</g>
+</svg>

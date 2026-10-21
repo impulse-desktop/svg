@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500"><defs><style type="text/css">
+.background {
+  fill: white;
+}
+
+text {
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+.axis-path,
+.axis-line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+.data-series-0 {
+  stroke: steelblue;
+  fill: steelblue;
+}
+
+.data-series-1 {
+  stroke: crimson;
+  fill: crimson;
+}
+
+.data-series-2 {
+  stroke: mediumseagreen;
+  fill: mediumseagreen;
+}
+
+.data-series-3 {
+  stroke: mediumslateblue;
+  fill: mediumslateblue;
+}
+
+.data-series-4 {
+  stroke: goldenrod;
+  fill: goldenrod;
+}
+
+.error-bar {
+  fill: none;
+}
+</style></defs><rect width="960" height="500" class="background"/><g transform="translate(80,40)"><g transform="translate(420, 0)"></g><g class="x axis" transform="translate(0,400)"><g class="tick" style="opacity: 1;" transform="translate(0,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(93.33333333333333,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(186.66666666666666,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(280,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(373.3333333333333,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(466.6666666666667,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(560,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(653.3333333333334,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(746.6666666666666,0)"><line y2="6" x2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(840,0)"><line y2="6" x2="0" class="axis-line"/></g><path class="axis-path" d="M0,6V0H840V6"/></g><g class="y axis"><g class="tick" style="opacity: 1;" transform="translate(0,368.9066813916113)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,325.11629548710295)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,281.32590958259453)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,237.53552367808615)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,193.74513777357777)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,149.9547518690694)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,106.16436596456099)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,62.37398006005259)"><line x2="-6" y2="0" class="axis-line"/></g><g class="tick" style="opacity: 1;" transform="translate(0,18.583594155544205)"><line x2="-6" y2="0" class="axis-line"/></g><path class="axis-path" d="M-6,0H0V400H-6"/></g><g class="data-series-0"><circle cx="0" cy="400" r="3"/><circle cx="93.33333333333333" cy="358.4433493642777" r="3"/><circle cx="186.66666666666666" cy="324.1384715189704" r="3"/><circle cx="280" cy="289.6119504916534" r="3"/><circle cx="373.3333333333333" cy="250.6897456358475" r="3"/><circle cx="466.6666666666667" cy="199.19482720704673" r="3"/><circle cx="560" cy="155.67407687068155" r="3"/><circle cx="653.3333333333334" cy="107.1439505111468" r="3"/><circle cx="746.6666666666666" cy="55.11020937074353" r="3"/><circle cx="840" cy="11.21942877190203" r="3"/><path class="error-bar" x="0" y="400" d="M 0 400 V 399.67018714489893 h -3 h 6 h -3 V 400.32981285510107 h -3 h 6"/><path class="error-bar" x="93.33333333333333" y="358.4433493642777" d="M 93.33333333333333 358.4433493642777 V 357.0288116960017 h -3 h 6 h -3 V 359.8578870325537 h -3 h 6"/><path class="error-bar" x="186.66666666666666" y="324.1384715189704" d="M 186.66666666666666 324.1384715189704 V 321.29055104183186 h -3 h 6 h -3 V 326.986391996109 h -3 h 6"/><path class="error-bar" x="280" y="289.6119504916534" d="M 280 289.6119504916534 V 286.18150394773176 h -3 h 6 h -3 V 293.04239703557516 h -3 h 6"/><path class="error-bar" x="373.3333333333333" y="250.6897456358475" d="M 373.3333333333333 250.6897456358475 V 245.37205869083047 h -3 h 6 h -3 V 256.00743258086453 h -3 h 6"/><path class="error-bar" x="466.6666666666667" y="199.19482720704673" d="M 466.6666666666667 199.19482720704673 V 188.77452558257684 h -3 h 6 h -3 V 209.61512883151664 h -3 h 6"/><path class="error-bar" x="560" y="155.67407687068155" d="M 560 155.67407687068155 V 147.43165115182438 h -3 h 6 h -3 V 163.91650258953874 h -3 h 6"/><path class="error-bar" x="653.3333333333334" y="107.1439505111468" d="M 653.3333333333334 107.1439505111468 V 97.21175751605364 h -3 h 6 h -3 V 117.07614350623996 h -3 h 6"/><path class="error-bar" x="746.6666666666666" y="55.11020937074353" d="M 746.6666666666666 55.11020937074353 V 43.159503016907095 h -3 h 6 h -3 V 67.06091572457993 h -3 h 6"/><path class="error-bar" x="840" y="11.21942877190203" d="M 840 11.21942877190203 V -6.524012028004389 h -3 h 6 h -3 V 28.96286957180849 h -3 h 6"/><path class="line" d="M0,400L93.33333333333333,358.4433493642777L186.66666666666666,324.1384715189704L280,289.6119504916534L373.3333333333333,250.6897456358475L466.6666666666667,199.19482720704673L560,155.67407687068155L653.3333333333334,107.1439505111468L746.6666666666666,55.11020937074353L840,11.21942877190203"/></g><g class="data-series-1"><circle cx="0" cy="385.91205925487634" r="3"/><circle cx="93.33333333333333" cy="354.5220004579936" r="3"/><circle cx="186.66666666666666" cy="322.52487511378484" r="3"/><circle cx="280" cy="286.37777083734096" r="3"/><circle cx="373.3333333333333" cy="243.49998942388308" r="3"/><circle cx="466.6666666666667" cy="193.65446510778597" r="3"/><circle cx="560" cy="154.32561555020135" r="3"/><circle cx="653.3333333333334" cy="103.18824438551992" r="3"/><circle cx="746.6666666666666" cy="42.376949884383386" r="3"/><circle cx="840" cy="0" r="3"/><path class="error-bar" x="0" y="385.91205925487634" d="M 0 385.91205925487634 V 385.3186426817606 h -3 h 6 h -3 V 386.5054758279921 h -3 h 6"/><path class="error-bar" x="93.33333333333333" y="354.5220004579936" d="M 93.33333333333333 354.5220004579936 V 353.1695168450742 h -3 h 6 h -3 V 355.87448407091296 h -3 h 6"/><path class="error-bar" x="186.66666666666666" y="322.52487511378484" d="M 186.66666666666666 322.52487511378484 V 320.41017119450305 h -3 h 6 h -3 V 324.6395790330667 h -3 h 6"/><path class="error-bar" x="280" y="286.37777083734096" d="M 280 286.37777083734096 V 282.9551385032204 h -3 h 6 h -3 V 289.8004031714615 h -3 h 6"/><path class="error-bar" x="373.3333333333333" y="243.49998942388308" d="M 373.3333333333333 243.49998942388308 V 236.04662591561043 h -3 h 6 h -3 V 250.95335293215575 h -3 h 6"/><path class="error-bar" x="466.6666666666667" y="193.65446510778597" d="M 466.6666666666667 193.65446510778597 V 186.291605665311 h -3 h 6 h -3 V 201.01732455026092 h -3 h 6"/><path class="error-bar" x="560" y="154.32561555020135" d="M 560 154.32561555020135 V 145.24232243830585 h -3 h 6 h -3 V 163.4089086620969 h -3 h 6"/><path class="error-bar" x="653.3333333333334" y="103.18824438551992" d="M 653.3333333333334 103.18824438551992 V 92.82113192746468 h -3 h 6 h -3 V 113.55535684357511 h -3 h 6"/><path class="error-bar" x="746.6666666666666" y="42.376949884383386" d="M 746.6666666666666 42.376949884383386 V 29.463968661890494 h -3 h 6 h -3 V 55.28993110687623 h -3 h 6"/><path class="error-bar" x="840" y="0" d="M 840 0 V -18.709022900273453 h -3 h 6 h -3 V 18.709022900273364 h -3 h 6"/><path class="line" d="M0,385.91205925487634L93.33333333333333,354.5220004579936L186.66666666666666,322.52487511378484L280,286.37777083734096L373.3333333333333,243.49998942388308L466.6666666666667,193.65446510778597L560,154.32561555020135L653.3333333333334,103.18824438551992L746.6666666666666,42.376949884383386L840,0"/></g><g class="legend" transform="translate(50, 50)"><rect x="0" y="0" width="15" height="15" class="data-series-0"/><rect x="0" y="20" width="15" height="15" class="data-series-1"/></g></g></svg>

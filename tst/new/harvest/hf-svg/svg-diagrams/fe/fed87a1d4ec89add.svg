@@ -1,0 +1,100 @@
+<svg width="1028pt" height="211pt"
+ viewBox="0.00 0.00 1028.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1024,-207 1024,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="276,-10 276,-30 296,-30 296,-10 276,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="389,-10 389,-30 409,-30 409,-10 389,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="475,-10 475,-30 495,-30 495,-10 475,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="572,-10 572,-30 592,-30 592,-10 572,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="668,-10 668,-30 688,-30 688,-10 668,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_VehicleTransactionLogsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1012,-195 1012,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_VehicleTransactionLogsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="770,-78 770,-130 1004,-130 1004,-78 770,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_VehicleTransactionLogsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="358,-78 358,-130 762,-130 762,-78 358,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_VehicleTransactionLogsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 350,-130 350,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>VehicleTransactionLogsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="996.444,-122 777.556,-122 777.556,-86 996.444,-86 996.444,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>VehicleTransactionLogsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="585.6615,-187 582.6615,-191 561.6615,-191 558.6615,-187 388.3385,-187 388.3385,-151 585.6615,-151 585.6615,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>VehicleTransactionLogsComponent&#45;&gt;VehicleTransactionLogsModule</title>
+<path fill="none" stroke="#000000" d="M887,-122.2843C887,-143.3211 887,-175 887,-175 887,-175 595.6198,-175 595.6198,-175"/>
+<polygon fill="#000000" stroke="#000000" points="595.6198,-171.5001 585.6198,-175 595.6197,-178.5001 595.6198,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>PageHeaderModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="753.6727,-122 750.6727,-126 729.6727,-126 726.6727,-122 626.3273,-122 626.3273,-86 753.6727,-86 753.6727,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PageHeaderModule&#45;&gt;VehicleTransactionLogsModule</title>
+<path fill="none" stroke="#000000" d="M690,-122.0225C690,-139.3734 690,-163 690,-163 690,-163 595.824,-163 595.824,-163"/>
+<polygon fill="#000000" stroke="#000000" points="595.824,-159.5001 585.824,-163 595.824,-166.5001 595.824,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>VehicleTransactionLogsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="608.2794,-122 605.2794,-126 584.2794,-126 581.2794,-122 365.7206,-122 365.7206,-86 608.2794,-86 608.2794,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>VehicleTransactionLogsRoutingModule&#45;&gt;VehicleTransactionLogsModule</title>
+<path fill="none" stroke="#000000" d="M487,-122.1061C487,-122.1061 487,-140.991 487,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="483.5001,-140.9909 487,-150.991 490.5001,-140.991 483.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="266" cy="-104" rx="75.8836" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonService&#45;&gt;VehicleTransactionLogsModule</title>
+<path fill="none" stroke="#000000" d="M266,-122.0225C266,-139.3734 266,-163 266,-163 266,-163 378.1351,-163 378.1351,-163"/>
+<polygon fill="#000000" stroke="#000000" points="378.1351,-166.5001 388.1351,-163 378.1351,-159.5001 378.1351,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>VehiclesService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="98" cy="-104" rx="73.5502" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>VehiclesService&#45;&gt;VehicleTransactionLogsModule</title>
+<path fill="none" stroke="#000000" d="M98,-122.2843C98,-143.3211 98,-175 98,-175 98,-175 378.336,-175 378.336,-175"/>
+<polygon fill="#000000" stroke="#000000" points="378.336,-178.5001 388.336,-175 378.336,-171.5001 378.336,-178.5001"/>
+</g>
+</g>
+</svg>

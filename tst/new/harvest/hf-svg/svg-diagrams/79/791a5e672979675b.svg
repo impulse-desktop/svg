@@ -1,0 +1,104 @@
+<svg width="560pt" height="279pt"
+ viewBox="0.00 0.00 560.00 279.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 275)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-275 556,-275 556,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="42,-10 42,-30 62,-30 62,-10 42,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="155,-10 155,-30 175,-30 175,-10 155,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="241,-10 241,-30 261,-30 261,-10 241,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="338,-10 338,-30 358,-30 358,-10 338,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="434,-10 434,-30 454,-30 454,-10 434,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-263 362,-263 362,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="200,-146 200,-198 320,-198 320,-146 200,-146"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 354,-130 354,-78 16,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DiscordModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="370,-70 370,-138 544,-138 544,-70 370,-70"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_DiscordModule_providers</title>
+<polygon fill="none" stroke="#000000" points="378,-78 378,-130 536,-130 536,-78 378,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DiscordModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="311.8669,-190 308.8669,-194 287.8669,-194 284.8669,-190 208.1331,-190 208.1331,-154 311.8669,-154 311.8669,-190"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="230.6571,-255 227.6571,-259 206.6571,-259 203.6571,-255 147.3429,-255 147.3429,-219 230.6571,-219 230.6571,-255"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DiscordModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M219.4474,-190.1061C219.4474,-190.1061 219.4474,-208.991 219.4474,-208.991"/>
+<polygon fill="#000000" stroke="#000000" points="215.9475,-208.9909 219.4474,-218.991 222.9475,-208.991 215.9475,-208.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>ProfileService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="90" cy="-104" rx="66.0454" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ProfileService&#45;&gt;DiscordModule</title>
+<path fill="none" stroke="#000000" d="M153.2388,-109.7976C153.2388,-126.2419 153.2388,-172 153.2388,-172 153.2388,-172 197.8704,-172 197.8704,-172"/>
+<polygon fill="#000000" stroke="#000000" points="197.8704,-175.5001 207.8704,-172 197.8704,-168.5001 197.8704,-175.5001"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>ProfileService&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M150.2053,-111.5317C150.2053,-111.5317 150.2053,-208.5724 150.2053,-208.5724"/>
+<polygon fill="#000000" stroke="#000000" points="146.7054,-208.5724 150.2053,-218.5724 153.7054,-208.5725 146.7054,-208.5724"/>
+</g>
+
+<g id="node4" class="node">
+<title>TransactionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="260" cy="-104" rx="85.6493" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>TransactionService&#45;&gt;DiscordModule</title>
+<path fill="none" stroke="#000000" d="M260,-122.2228C260,-122.2228 260,-143.7269 260,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="256.5001,-143.7269 260,-153.7269 263.5001,-143.727 256.5001,-143.7269"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>TransactionService&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M191.246,-114.8839C191.246,-114.8839 191.246,-208.8726 191.246,-208.8726"/>
+<polygon fill="#000000" stroke="#000000" points="187.7461,-208.8726 191.246,-218.8726 194.7461,-208.8726 187.7461,-208.8726"/>
+</g>
+
+<g id="node5" class="node">
+<title>DiscordService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="457" cy="-104" rx="70.622" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DiscordService&#45;&gt;DiscordModule</title>
+<path fill="none" stroke="#000000" d="M457,-122.2228C457,-142.3652 457,-172 457,-172 457,-172 322.0171,-172 322.0171,-172"/>
+<polygon fill="#000000" stroke="#000000" points="322.0172,-168.5001 312.0171,-172 322.0171,-175.5001 322.0172,-168.5001"/>
+</g>
+</g>
+</svg>

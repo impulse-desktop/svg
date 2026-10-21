@@ -1,0 +1,121 @@
+<svg width="390pt" height="95pt"
+ viewBox="0.00 0.00 390.50 95.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 91)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-91 386.4971,-91 386.4971,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>a</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="46" cy="-18" rx="27" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>bA</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="118" cy="-18" rx="27" ry="18"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>bR</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="190" cy="-18" rx="27" ry="18"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>bAR</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="262" cy="-18" rx="27.0966" ry="18"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>sigma</title>
+<ellipse fill="#ffffff" stroke="#000000" cx="350" cy="-18" rx="32.4942" ry="18"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>a_scale</title>
+<polygon fill="#ffffff" stroke="transparent" points="40,-87 0,-87 0,-72 40,-72 40,-87"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>a_scale&#45;&gt;a</title>
+<path fill="none" stroke="#000000" d="M23.1881,-71.9589C26.0859,-65.1044 30.5389,-54.5715 34.7439,-44.625"/>
+<polygon fill="#000000" stroke="#000000" points="37.9704,-45.9812 38.6407,-35.4076 31.5229,-43.2554 37.9704,-45.9812"/>
+</g>
+
+<g id="node7" class="node">
+<title>weights_loc</title>
+<polygon fill="#ffffff" stroke="transparent" points="196,-87 130,-87 130,-72 196,-72 196,-87"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>weights_loc&#45;&gt;bA</title>
+<path fill="none" stroke="#000000" d="M157.4821,-71.9589C152.1487,-64.6699 143.7717,-53.2214 136.1036,-42.7416"/>
+<polygon fill="#000000" stroke="#000000" points="138.9074,-40.6463 130.1776,-34.6428 133.2582,-44.7799 138.9074,-40.6463"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>weights_loc&#45;&gt;bR</title>
+<path fill="none" stroke="#000000" d="M166.3107,-71.9589C169.32,-65.1044 173.9442,-54.5715 178.311,-44.625"/>
+<polygon fill="#000000" stroke="#000000" points="181.5424,-45.971 182.3576,-35.4076 175.1329,-43.1571 181.5424,-45.971"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>weights_loc&#45;&gt;bAR</title>
+<path fill="none" stroke="#000000" d="M175.1393,-71.9589C189.492,-63.0429 213.8634,-47.9031 233.144,-35.9257"/>
+<polygon fill="#000000" stroke="#000000" points="235.214,-38.7602 241.8615,-30.5103 231.5201,-32.8141 235.214,-38.7602"/>
+</g>
+
+<g id="node8" class="node">
+<title>sigma_loc</title>
+<polygon fill="#ffffff" stroke="transparent" points="378.5,-87 321.5,-87 321.5,-72 378.5,-72 378.5,-87"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>sigma_loc&#45;&gt;sigma</title>
+<path fill="none" stroke="#000000" d="M350,-71.9589C350,-65.5269 350,-55.856 350,-46.4699"/>
+<polygon fill="#000000" stroke="#000000" points="353.5001,-46.1816 350,-36.1816 346.5001,-46.1817 353.5001,-46.1816"/>
+</g>
+
+<g id="node9" class="node">
+<title>weights_scale</title>
+<polygon fill="#ffffff" stroke="transparent" points="290,-87 214,-87 214,-72 290,-72 290,-87"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>weights_scale&#45;&gt;bA</title>
+<path fill="none" stroke="#000000" d="M234.1849,-71.8846C214.4608,-63.3854 181.7796,-49.1018 154,-36 152.2462,-35.1728 150.4496,-34.3135 148.6401,-33.4387"/>
+<polygon fill="#000000" stroke="#000000" points="150.1425,-30.2773 139.6234,-29.0128 147.0581,-36.5611 150.1425,-30.2773"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>weights_scale&#45;&gt;bR</title>
+<path fill="none" stroke="#000000" d="M244.3976,-71.9589C236.5158,-64.1407 223.8096,-51.537 212.659,-40.4762"/>
+<polygon fill="#000000" stroke="#000000" points="214.8307,-37.7006 205.2662,-33.1431 209.901,-42.6704 214.8307,-37.7006"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>weights_scale&#45;&gt;bAR</title>
+<path fill="none" stroke="#000000" d="M253.2262,-71.9589C254.291,-65.4106 255.9016,-55.5053 257.4535,-45.9612"/>
+<polygon fill="#000000" stroke="#000000" points="260.9354,-46.3548 259.0857,-35.9226 254.0261,-45.2313 260.9354,-46.3548"/>
+</g>
+
+<g id="node10" class="node">
+<title>a_loc</title>
+<polygon fill="#ffffff" stroke="transparent" points="88,-87 58,-87 58,-72 88,-72 88,-87"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>a_loc&#45;&gt;a</title>
+<path fill="none" stroke="#000000" d="M69.6893,-71.9589C66.68,-65.1044 62.0558,-54.5715 57.689,-44.625"/>
+<polygon fill="#000000" stroke="#000000" points="60.8671,-43.1571 53.6424,-35.4076 54.4576,-45.971 60.8671,-43.1571"/>
+</g>
+</g>
+</svg>

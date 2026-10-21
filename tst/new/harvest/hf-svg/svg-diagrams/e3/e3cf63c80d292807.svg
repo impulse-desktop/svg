@@ -1,0 +1,86 @@
+<svg width="1129pt" height="140pt"
+ viewBox="0.00 0.00 1129.00 140.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 136)">
+<title>llama.files.lvc_skymap.RctSlkLmaLvcDistancesJson</title>
+<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-136 1125,-136 1125,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>llama.files.lvc_skymap.LvcDistancesJson</title>
+<g id="a_node1"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.LvcDistancesJson" xlink:title="{{&lt;B&gt;LvcDistancesJson&lt;/B&gt;|&lt;I&gt;lvc_skymap_distances.json&lt;/I&gt;|JSONFile}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="540,-39.5 540,-108.5 750,-108.5 750,-39.5 540,-39.5"/>
+
+<polyline fill="none" stroke="black" points="540,-85.5 750,-85.5 "/>
+
+<polyline fill="none" stroke="black" points="540,-62.5 750,-62.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node">
+<title>llama.files.lvc_skymap.RctSlkLmaLvcDistancesJson</title>
+<g id="a_node3"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.RctSlkLmaLvcDistancesJson" xlink:title="{{&lt;B&gt;RctSlkLmaLvcDistancesJson&lt;/B&gt;|&lt;I&gt;rct_slk_lma_lvc_skymap_distances.json.json&lt;/I&gt;|SlackReceiptLlama}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="786,-0.5 786,-69.5 1121,-69.5 1121,-0.5 786,-0.5"/>
+
+<polyline fill="none" stroke="black" points="786,-46.5 1121,-46.5 "/>
+
+<polyline fill="none" stroke="black" points="786,-23.5 1121,-23.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>llama.files.lvc_skymap.LvcDistancesJson&#45;&gt;llama.files.lvc_skymap.RctSlkLmaLvcDistancesJson</title>
+<path fill="none" stroke="red" d="M750.31,-54.5C750.31,-54.5 775.79,-54.5 775.79,-54.5"/>
+<polygon fill="red" stroke="red" points="775.79,-58 785.79,-54.5 775.79,-51 775.79,-58"/>
+</g>
+
+<g id="node2" class="node">
+<title>llama.files.lvc_skymap.LvcSkymapFits</title>
+<g id="a_node2"><a xlink:href="/llama.files.lvc_skymap.html#llama.files.lvc_skymap.LvcSkymapFits" xlink:title="{{&lt;B&gt;LvcSkymapFits&lt;/B&gt;|&lt;I&gt;lvc_skymap.fits.gz&lt;/I&gt;|GenerateOnceMixin&lt;BR/&gt;LvcHEALPixSkyMapFileHandler&lt;BR/&gt;OnlineVetoMixin}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="251,-32.5 251,-131.5 504,-131.5 504,-32.5 251,-32.5"/>
+
+<polyline fill="none" stroke="black" points="251,-108.5 504,-108.5 "/>
+
+<polyline fill="none" stroke="black" points="251,-85.5 504,-85.5 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>llama.files.lvc_skymap.LvcSkymapFits&#45;&gt;llama.files.lvc_skymap.LvcDistancesJson</title>
+<path fill="none" stroke="red" d="M504.2,-74C504.2,-74 529.7,-74 529.7,-74"/>
+<polygon fill="red" stroke="red" points="529.7,-77.5 539.7,-74 529.7,-70.5 529.7,-77.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>llama.files.skymap_info.SkymapInfo</title>
+<g id="a_node4"><a xlink:href="/llama.files.skymap_info.html#llama.files.skymap_info.SkymapInfo" xlink:title="{{&lt;B&gt;SkymapInfo&lt;/B&gt;|&lt;I&gt;skymap_info.json&lt;/I&gt;|EventTriggeredFileHandler&lt;BR/&gt;JSONFile}}" target="_top">
+<polygon fill="#cccccc" stroke="black" points="0,-1 0,-85 215,-85 215,-1 0,-1"/>
+
+<polyline fill="none" stroke="black" points="0,-62 215,-62 "/>
+
+<polyline fill="none" stroke="black" points="0,-39 215,-39 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.lvc_skymap.LvcSkymapFits</title>
+<path fill="none" stroke="red" d="M215.38,-58.75C215.38,-58.75 240.66,-58.75 240.66,-58.75"/>
+<polygon fill="red" stroke="red" points="240.66,-62.25 250.66,-58.75 240.66,-55.25 240.66,-62.25"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>llama.files.skymap_info.SkymapInfo&#45;&gt;llama.files.lvc_skymap.RctSlkLmaLvcDistancesJson</title>
+<path fill="none" stroke="red" d="M215.08,-16.25C215.08,-16.25 775.87,-16.25 775.87,-16.25"/>
+<polygon fill="red" stroke="red" points="775.87,-19.75 785.87,-16.25 775.87,-12.75 775.87,-19.75"/>
+</g>
+</g>
+</svg>

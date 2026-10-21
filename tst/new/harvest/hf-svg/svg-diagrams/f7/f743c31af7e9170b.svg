@@ -1,0 +1,157 @@
+<svg width="595pt" height="404pt"
+ viewBox="0.00 0.00 594.83 404.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-400 590.8316,-400 590.8316,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>[root] aws_instance.ubuntu&#45;server</title>
+<polygon fill="none" stroke="#000000" points="550.0816,-252 378.2944,-252 378.2944,-216 550.0816,-216 550.0816,-252"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>[root] aws_subnet.subnet2</title>
+<polygon fill="none" stroke="#000000" points="425.5645,-180 296.8115,-180 296.8115,-144 425.5645,-144 425.5645,-180"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>[root] aws_instance.ubuntu&#45;server&#45;&gt;[root] aws_subnet.subnet2</title>
+<path fill="none" stroke="#000000" d="M438.1967,-215.8314C425.2664,-206.7927 409.4658,-195.7476 395.5497,-186.0198"/>
+<polygon fill="#000000" stroke="#000000" points="397.3723,-183.0235 387.1709,-180.1628 393.3617,-188.7608 397.3723,-183.0235"/>
+</g>
+
+<g id="node6" class="node">
+<title>[root] data.aws_ami.ubuntu</title>
+<polygon fill="none" stroke="#000000" points="502.6606,-108 367.7153,-108 367.7153,-72 502.6606,-72 502.6606,-108"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>[root] aws_instance.ubuntu&#45;server&#45;&gt;[root] data.aws_ami.ubuntu</title>
+<path fill="none" stroke="#000000" d="M460.5151,-215.7623C455.547,-191.0928 446.6389,-146.8598 440.8215,-117.9731"/>
+<polygon fill="#000000" stroke="#000000" points="444.2365,-117.2018 438.831,-108.0896 437.3743,-118.5838 444.2365,-117.2018"/>
+</g>
+
+<g id="node2" class="node">
+<title>[root] aws_security_group.subnetsecurity</title>
+<polygon fill="none" stroke="#000000" points="359.8091,-252 146.5669,-252 146.5669,-216 359.8091,-216 359.8091,-252"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>[root] aws_vpc.lil&#45;example&#45;two</title>
+<polygon fill="none" stroke="#000000" points="345.0884,-108 187.2876,-108 187.2876,-72 345.0884,-72 345.0884,-108"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>[root] aws_security_group.subnetsecurity&#45;&gt;[root] aws_vpc.lil&#45;example&#45;two</title>
+<path fill="none" stroke="#000000" d="M254.8344,-215.7623C257.0518,-191.201 261.0198,-147.2474 263.6282,-118.3541"/>
+<polygon fill="#000000" stroke="#000000" points="267.1415,-118.3638 264.5549,-108.0896 260.1699,-117.7344 267.1415,-118.3638"/>
+</g>
+
+<g id="node3" class="node">
+<title>[root] aws_subnet.subnet1</title>
+<polygon fill="none" stroke="#000000" points="128.5645,-252 -.1885,-252 -.1885,-216 128.5645,-216 128.5645,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>[root] aws_subnet.subnet1&#45;&gt;[root] aws_vpc.lil&#45;example&#45;two</title>
+<path fill="none" stroke="#000000" d="M89.7714,-215.7623C126.0468,-189.9026 192.4774,-142.5461 232.6571,-113.9032"/>
+<polygon fill="#000000" stroke="#000000" points="234.7012,-116.7444 240.8123,-108.0896 230.6378,-111.0444 234.7012,-116.7444"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>[root] aws_subnet.subnet2&#45;&gt;[root] aws_vpc.lil&#45;example&#45;two</title>
+<path fill="none" stroke="#000000" d="M337.2155,-143.8314C325.4019,-134.8779 310.9908,-123.9558 298.2445,-114.2955"/>
+<polygon fill="#000000" stroke="#000000" points="300.2366,-111.4137 290.1528,-108.1628 296.0085,-116.9925 300.2366,-111.4137"/>
+</g>
+
+<g id="node7" class="node">
+<title>[root] provider.aws</title>
+<polygon fill="none" stroke="#000000" points="348.188,-36 269.5797,-18 348.188,0 426.7963,-18 348.188,-36"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>[root] aws_vpc.lil&#45;example&#45;two&#45;&gt;[root] provider.aws</title>
+<path fill="none" stroke="#000000" d="M286.8801,-71.8314C298.2135,-61.8801 312.3166,-49.4968 324.138,-39.117"/>
+<polygon fill="#000000" stroke="#000000" points="326.6904,-41.5337 331.8955,-32.3056 322.0718,-36.2736 326.6904,-41.5337"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>[root] data.aws_ami.ubuntu&#45;&gt;[root] provider.aws</title>
+<path fill="none" stroke="#000000" d="M413.2342,-71.8314C401.0941,-61.7844 385.9586,-49.2585 373.3433,-38.8182"/>
+<polygon fill="#000000" stroke="#000000" points="375.4094,-35.9849 365.4739,-32.3056 370.9464,-41.3777 375.4094,-35.9849"/>
+</g>
+
+<g id="node8" class="node">
+<title>[root] meta.count&#45;boundary (EachMode fixup)</title>
+<ellipse fill="none" stroke="#000000" cx="412.188" cy="-306" rx="174.7874" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_instance.ubuntu&#45;server</title>
+<path fill="none" stroke="#000000" d="M425.3098,-287.8314C431.2379,-279.6232 438.3609,-269.7606 444.8813,-260.7323"/>
+<polygon fill="#000000" stroke="#000000" points="447.872,-262.5693 450.8895,-252.4133 442.1972,-258.4708 447.872,-262.5693"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_security_group.subnetsecurity</title>
+<path fill="none" stroke="#000000" d="M373.2922,-288.3868C351.8792,-278.6903 325.0939,-266.5612 302.2552,-256.2191"/>
+<polygon fill="#000000" stroke="#000000" points="303.6177,-252.994 293.0643,-252.0572 300.7301,-259.3707 303.6177,-252.994"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_subnet.subnet1</title>
+<path fill="none" stroke="#000000" d="M326.4971,-290.2662C274.6763,-280.494 207.0589,-267.2914 138.7214,-252.2941"/>
+<polygon fill="#000000" stroke="#000000" points="139.1546,-248.8055 128.6354,-250.0685 137.6463,-255.6411 139.1546,-248.8055"/>
+</g>
+
+<g id="node9" class="node">
+<title>[root] provider.aws (close)</title>
+<ellipse fill="none" stroke="#000000" cx="115.188" cy="-306" rx="104.3276" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>[root] provider.aws (close)&#45;&gt;[root] aws_instance.ubuntu&#45;server</title>
+<path fill="none" stroke="#000000" d="M182.4787,-292.1177C235.188,-281.2435 309.2046,-265.9737 368.1418,-253.8147"/>
+<polygon fill="#000000" stroke="#000000" points="369.1256,-257.1855 378.2122,-251.7371 367.7112,-250.3299 369.1256,-257.1855"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>[root] provider.aws (close)&#45;&gt;[root] aws_security_group.subnetsecurity</title>
+<path fill="none" stroke="#000000" d="M148.2424,-288.7542C166.553,-279.2009 189.5491,-267.2029 209.3446,-256.8748"/>
+<polygon fill="#000000" stroke="#000000" points="211.2307,-259.8386 218.4775,-252.1098 207.9927,-253.6325 211.2307,-259.8386"/>
+</g>
+
+<g id="edge13" class="edge">
+<title>[root] provider.aws (close)&#45;&gt;[root] aws_subnet.subnet1</title>
+<path fill="none" stroke="#000000" d="M102.3185,-287.8314C96.5044,-279.6232 89.5184,-269.7606 83.1234,-260.7323"/>
+<polygon fill="#000000" stroke="#000000" points="85.867,-258.5505 77.2307,-252.4133 80.1548,-262.5966 85.867,-258.5505"/>
+</g>
+
+<g id="node10" class="node">
+<title>[root] root</title>
+<ellipse fill="none" stroke="#000000" cx="263.188" cy="-378" rx="46.8976" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>[root] root&#45;&gt;[root] meta.count&#45;boundary (EachMode fixup)</title>
+<path fill="none" stroke="#000000" d="M292.6256,-363.7751C313.6646,-353.6086 342.3839,-339.7308 366.402,-328.1248"/>
+<polygon fill="#000000" stroke="#000000" points="368.2082,-331.1392 375.6893,-323.6369 365.1626,-324.8365 368.2082,-331.1392"/>
+</g>
+
+<g id="edge15" class="edge">
+<title>[root] root&#45;&gt;[root] provider.aws (close)</title>
+<path fill="none" stroke="#000000" d="M233.948,-363.7751C212.6782,-353.4277 183.506,-339.2358 159.3977,-327.5074"/>
+<polygon fill="#000000" stroke="#000000" points="160.6185,-324.2092 150.095,-322.9818 157.5562,-330.5038 160.6185,-324.2092"/>
+</g>
+</g>
+</svg>

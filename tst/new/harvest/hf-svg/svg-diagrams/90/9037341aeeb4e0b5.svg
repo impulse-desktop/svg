@@ -1,0 +1,79 @@
+<svg width="650pt" height="66pt"
+ viewBox="0.00 0.00 650.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>coap_remove_failed_observers</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-62 646,-62 646,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node350</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-14 0,-44 104,-44 104,-14 0,-14"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node351</title>
+<g id="a_node2"><a xlink:href="resource_8h.html#a22ecaa5a662f30da5a2241f91faf8929" target="_top" xlink:title="coap_handle_failed\l_notify">
+<polygon fill="white" stroke="black" points="140,-14 140,-44 240,-44 240,-14 140,-14"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node350&#45;&gt;Node351</title>
+<path fill="none" stroke="midnightblue" d="M114.087,-29C122.743,-29 131.55,-29 139.94,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="114.028,-25.5001 104.028,-29 114.028,-32.5001 114.028,-25.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node352</title>
+<g id="a_node3"><a xlink:href="net_8h.html#a9900c032b74bd57f67d489484a2b3207" target="_top" xlink:title="Handles retransmissions of confirmable messages. ">
+<polygon fill="white" stroke="black" points="276,-19.5 276,-38.5 362,-38.5 362,-19.5 276,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node351&#45;&gt;Node352</title>
+<path fill="none" stroke="midnightblue" d="M250.122,-29C258.732,-29 267.45,-29 275.639,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="250.102,-25.5001 240.102,-29 250.101,-32.5001 250.102,-25.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node353</title>
+<g id="a_node4"><a xlink:href="net_8h.html#a231e9a81ac7c03c3e5c251824a76d7b9" target="_top" xlink:title="Returns 1 if there are no messages to send or to dispatch in the context&#39;s queues. ">
+<polygon fill="white" stroke="black" points="398,-38.5 398,-57.5 478,-57.5 478,-38.5 398,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node352&#45;&gt;Node353</title>
+<path fill="none" stroke="midnightblue" d="M372.246,-37.4844C380.881,-38.8867 389.7,-40.3189 397.939,-41.6568"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="372.671,-34.0077 362.24,-35.8594 371.549,-40.9172 372.671,-34.0077"/>
+</g>
+
+<g id="node6" class="node"><title>Node355</title>
+<g id="a_node6"><a xlink:href="net_8h.html#a08ba53f8f554cf7a2559813ebde1bb1d" target="_top" xlink:title="Sends an RST message with code 0 for the specified request to dst. ">
+<polygon fill="white" stroke="black" points="398,-0.5 398,-19.5 478,-19.5 478,-0.5 398,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node352&#45;&gt;Node355</title>
+<path fill="none" stroke="midnightblue" d="M372.246,-20.5156C380.881,-19.1133 389.7,-17.6811 397.939,-16.3432"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="371.549,-17.0828 362.24,-22.1406 372.671,-23.9923 371.549,-17.0828"/>
+</g>
+
+<g id="node5" class="node"><title>Node354</title>
+<g id="a_node5"><a xlink:href="net_8h.html#ac58be1c374afa04d10810aef1d073315" target="_top" xlink:title="Removes the transaction identified by id from given queue. ">
+<polygon fill="white" stroke="black" points="514,-38.5 514,-57.5 642,-57.5 642,-38.5 514,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node353&#45;&gt;Node354</title>
+<path fill="none" stroke="midnightblue" d="M488.412,-48C496.699,-48 505.396,-48 513.969,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="488.176,-44.5001 478.176,-48 488.176,-51.5001 488.176,-44.5001"/>
+</g>
+</g>
+</svg>

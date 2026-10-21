@@ -1,0 +1,82 @@
+<svg width="924pt" height="396pt"
+ viewBox="0.00 0.00 924.00 395.59" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 391.5901)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-391.5901 920,-391.5901 920,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="224,-10 224,-30 244,-30 244,-10 224,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="337,-10 337,-30 357,-30 357,-10 337,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="423,-10 423,-30 443,-30 443,-10 423,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="520,-10 520,-30 540,-30 540,-10 520,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="616,-10 616,-30 636,-30 636,-10 616,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaChildValidatorModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-379.5901 908,-379.5901 908,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaChildValidatorModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="361,-189.5901 361,-241.5901 555,-241.5901 555,-189.5901 361,-189.5901"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_DejaChildValidatorModule_DejaChildValidatorDirective_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-176.5901 900,-176.5901 900,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_DejaChildValidatorModule_exports</title>
+<polygon fill="none" stroke="#000000" points="359,-319.5901 359,-371.5901 557,-371.5901 557,-319.5901 359,-319.5901"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaChildValidatorDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="547.4959,-233.5901 368.5041,-233.5901 368.5041,-197.5901 547.4959,-197.5901 547.4959,-233.5901"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>DejaChildValidatorModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="542.9622,-298.5901 539.9622,-302.5901 518.9622,-302.5901 515.9622,-298.5901 373.0378,-298.5901 373.0378,-262.5901 542.9622,-262.5901 542.9622,-298.5901"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaChildValidatorDirective&#45;&gt;DejaChildValidatorModule</title>
+<path fill="none" stroke="#000000" d="M458,-233.6962C458,-233.6962 458,-252.581 458,-252.581"/>
+<polygon fill="#000000" stroke="#000000" points="454.5001,-252.581 458,-262.581 461.5001,-252.5811 454.5001,-252.581"/>
+</g>
+
+<g id="node4" class="node">
+<title>DejaChildValidatorDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="548.9952,-363.5901 367.0048,-363.5901 367.0048,-327.5901 548.9952,-327.5901 548.9952,-363.5901"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DejaChildValidatorModule&#45;&gt;DejaChildValidatorDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M458,-298.6962C458,-298.6962 458,-317.581 458,-317.581"/>
+<polygon fill="#000000" stroke="#000000" points="454.5001,-317.581 458,-327.581 461.5001,-317.5811 454.5001,-317.581"/>
+</g>
+
+<g id="node3" class="node">
+<title>{
+ &#160;&#160;&#160;provide: NG_VALIDATORS, useExisting: forwardRef(() =&gt; DejaChildValidatorDirective), multi: true,
+}</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="458" cy="-127.295" rx="434.0631" ry="41.0911"/>
+
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>{
+ &#160;&#160;&#160;provide: NG_VALIDATORS, useExisting: forwardRef(() =&gt; DejaChildValidatorDirective), multi: true,
+}&#45;&gt;DejaChildValidatorDirective</title>
+<path fill="none" stroke="#000000" d="M458,-168.5989C458,-168.5989 458,-187.2551 458,-187.2551"/>
+<polygon fill="#000000" stroke="#000000" points="454.5001,-187.255 458,-197.2551 461.5001,-187.2551 454.5001,-187.255"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,143 @@
+<svg width="637pt" height="165pt"
+ viewBox="0.00 0.00 637.00 165.27" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 161.268)">
+<title>coap_free_packet</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-161.268 633,-161.268 633,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node15</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-61.7677 0,-80.7677 94,-80.7677 94,-61.7677 0,-61.7677"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node16</title>
+<g id="a_node2"><a xlink:href="mem_8h.html#ac01dd5f787fced5a3f9160b4584e81c7" target="_top" xlink:title="Wrapper function to coap_free_type() for backwards compatibility. ">
+<polygon fill="white" stroke="black" points="283.5,-99.7677 283.5,-118.768 342.5,-118.768 342.5,-99.7677 283.5,-99.7677"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node15&#45;&gt;Node16</title>
+<path fill="none" stroke="midnightblue" d="M63.9464,-80.8998C79.9811,-89.9856 105.737,-102.977 130,-108.268 178.33,-118.806 235.609,-116.829 272.82,-113.703"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.584,-117.148 283.225,-112.755 272.949,-110.177 273.584,-117.148"/>
+</g>
+
+<g id="node3" class="node"><title>Node17</title>
+<g id="a_node3"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type(). ">
+<polygon fill="white" stroke="black" points="408.5,-137.768 408.5,-156.768 491.5,-156.768 491.5,-137.768 408.5,-137.768"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge15" class="edge"><title>Node15&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M59.4058,-80.8698C74.5432,-93.0994 102.566,-113.995 130,-125.268 218.951,-161.818 333.59,-158.976 398.421,-153.318"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="398.753,-156.802 408.386,-152.391 398.105,-149.832 398.753,-156.802"/>
+</g>
+
+<g id="node6" class="node"><title>Node20</title>
+<g id="a_node6"><a xlink:href="mem_8h.html#a0204710ce56cbaa4f062b7f2622857f5" target="_top" xlink:title="Allocates a chunk of size bytes and returns a pointer to the newly allocated memory. ">
+<polygon fill="white" stroke="black" points="534,-23.7677 534,-42.7677 629,-42.7677 629,-23.7677 534,-23.7677"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node15&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M66.7499,-61.7562C83.0742,-53.8451 107.574,-42.851 130,-36.2677 287.214,9.88274 335.201,4.23672 498,-14.2677 510.906,-15.7346 524.733,-18.4531 537.307,-21.3841"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="536.538,-24.7988 547.082,-23.7604 538.192,-17.997 536.538,-24.7988"/>
+</g>
+
+<g id="node7" class="node"><title>Node21</title>
+<g id="a_node7"><a xlink:href="coap__io_8c.html#a8da44c054df9091ae3771a4a3b7043d0" target="_top" xlink:title="coap_malloc_packet">
+<polygon fill="white" stroke="black" points="260,-23.7677 260,-42.7677 366,-42.7677 366,-23.7677 260,-23.7677"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node15&#45;&gt;Node21</title>
+<path fill="none" stroke="midnightblue" d="M84.9513,-61.6827C98.9812,-58.3137 115.155,-54.7526 130,-52.2677 169.64,-45.6323 214.549,-40.9149 249.838,-37.8404"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="250.325,-41.3117 259.993,-36.9777 249.733,-34.3368 250.325,-41.3117"/>
+</g>
+
+<g id="node8" class="node"><title>Node22</title>
+<g id="a_node8"><a xlink:href="coap__io_8c.html#ad54b82c13f602cbcde3011c20c346493" target="_top" xlink:title="Releases the storage allocated for packet. ">
+<polygon fill="white" stroke="black" points="130,-61.7677 130,-80.7677 224,-80.7677 224,-61.7677 130,-61.7677"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node15&#45;&gt;Node22</title>
+<path fill="none" stroke="midnightblue" d="M94.2109,-71.2677C102.458,-71.2677 111.134,-71.2677 119.628,-71.2677"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="119.857,-74.7678 129.857,-71.2677 119.857,-67.7678 119.857,-74.7678"/>
+</g>
+
+<g id="edge2" class="edge"><title>Node16&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M342.63,-117.326C360.855,-122.456 384.815,-129.201 405.38,-134.989"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="404.588,-138.403 415.162,-137.743 406.485,-131.664 404.588,-138.403"/>
+</g>
+
+<g id="node4" class="node"><title>Node18</title>
+<g id="a_node4"><a xlink:href="mem_8h.html#a65d0fc0fe6cad555b56e92ccb57613ba" target="_top" xlink:title="Initializes libcoap&#39;s memory management. ">
+<polygon fill="white" stroke="black" points="402,-99.7677 402,-118.768 498,-118.768 498,-99.7677 402,-99.7677"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node16&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M342.63,-109.268C356.859,-109.268 374.584,-109.268 391.46,-109.268"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="391.819,-112.768 401.819,-109.268 391.819,-105.768 391.819,-112.768"/>
+</g>
+
+<g id="node5" class="node"><title>Node19</title>
+<g id="a_node5"><a xlink:href="mem_8h.html#a09b861aa54503f57f2a9412d546cd3c8" target="_top" xlink:title="Wrapper function to coap_malloc_type() for backwards compatibility. ">
+<polygon fill="white" stroke="black" points="414.5,-23.7677 414.5,-42.7677 485.5,-42.7677 485.5,-23.7677 414.5,-23.7677"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node16&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M331.098,-99.6422C354.327,-86.5651 396.058,-63.072 423.131,-47.8311"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="425.044,-50.7706 432.041,-42.815 421.61,-44.6708 425.044,-50.7706"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node19&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M485.704,-33.2677C497.291,-33.2677 510.527,-33.2677 523.359,-33.2677"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="523.524,-36.7678 533.524,-33.2677 523.524,-29.7678 523.524,-36.7678"/>
+</g>
+
+<g id="edge7" class="edge"><title>Node21&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M366.195,-33.2677C378.705,-33.2677 391.956,-33.2677 404.102,-33.2677"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="404.446,-36.7678 414.446,-33.2677 404.446,-29.7678 404.446,-36.7678"/>
+</g>
+
+<g id="edge10" class="edge"><title>Node22&#45;&gt;Node16</title>
+<path fill="none" stroke="midnightblue" d="M211.814,-80.8567C230.564,-86.174 253.954,-92.807 273.417,-98.3263"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="272.616,-101.737 283.192,-101.098 274.526,-95.0027 272.616,-101.737"/>
+</g>
+
+<g id="edge14" class="edge"><title>Node22&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M188.136,-80.9398C202.715,-94.1946 231.051,-117.575 260,-128.268 304.726,-144.788 359.216,-148.708 398.176,-148.991"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="398.232,-152.491 408.23,-148.986 398.228,-145.491 398.232,-152.491"/>
+</g>
+
+<g id="edge12" class="edge"><title>Node22&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M224.081,-70.9415C286.481,-69.9517 401.185,-66.1906 498,-52.2677 510.161,-50.5187 523.177,-47.8861 535.193,-45.1333"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="536.085,-48.5189 545.01,-42.8095 534.472,-41.7072 536.085,-48.5189"/>
+</g>
+
+<g id="edge11" class="edge"><title>Node22&#45;&gt;Node21</title>
+<path fill="none" stroke="midnightblue" d="M211.814,-61.6787C229.033,-56.7957 250.164,-50.8034 268.573,-45.5827"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="269.531,-48.9491 278.197,-42.8536 267.621,-42.2147 269.531,-48.9491"/>
+</g>
+
+<g id="edge13" class="edge"><title>Node22&#45;&gt;Node22</title>
+<path fill="none" stroke="midnightblue" d="M156.963,-81.0247C147.216,-89.8329 153.895,-99.2677 177,-99.2677 191.802,-99.2677 199.862,-95.3957 201.181,-90.2969"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="204.313,-88.7258 197.037,-81.0247 197.922,-91.5825 204.313,-88.7258"/>
+</g>
+</g>
+</svg>

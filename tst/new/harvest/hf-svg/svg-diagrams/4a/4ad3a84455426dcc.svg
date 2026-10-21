@@ -1,0 +1,86 @@
+<svg width="235pt" height="504pt"
+ viewBox="0.00 0.00 234.50 504.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 500)">
+<title>tbb::flow::interface10::internal::function_body_leaf&lt; Input, continue_msg, B &gt;</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-500 230.5,-500 230.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-112.5 157,-112.5 157,-0.5 0,-0.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="0,-71.5 157,-71.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-52.5 157,-52.5 "/>
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00280.html" target="_top" xlink:title="{tbb::flow::interface10\l::internal::function_body\l\&lt; Input, continue_msg \&gt;\n||+ ~function_body()\l+ operator()()\l+ clone()\l}">
+<polygon fill="white" stroke="black" points="17,-150.5 17,-251.5 140,-251.5 140,-150.5 17,-150.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="17,-210.5 140,-210.5 "/>
+
+<polyline fill="none" stroke="black" points="17,-191.5 140,-191.5 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M78.5,-140.115C78.5,-131.095 78.5,-121.827 78.5,-112.907"/>
+<polygon fill="none" stroke="midnightblue" points="75.0001,-140.16 78.5,-150.16 82.0001,-140.16 75.0001,-140.16"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="31.5,-438.5 31.5,-495.5 149.5,-495.5 149.5,-438.5 31.5,-438.5"/>
+
+<polyline fill="none" stroke="black" points="31.5,-476.5 149.5,-476.5 "/>
+
+<polyline fill="none" stroke="black" points="31.5,-457.5 149.5,-457.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#8b1a1a" d="M85.1761,-428.127C84.1115,-419.244 83.1286,-409.803 82.5,-401 78.87,-350.16 78.0951,-291.842 78.0903,-251.541"/>
+<polygon fill="none" stroke="#8b1a1a" points="81.7257,-428.741 86.447,-438.226 88.6709,-427.867 81.7257,-428.741"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00280.html" target="_top" xlink:title="A functor that takes an Input and generates an Output. ">
+<polygon fill="white" stroke="black" points="91,-299.5 91,-400.5 212,-400.5 212,-299.5 91,-299.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="91,-359.5 212,-359.5 "/>
+
+<polyline fill="none" stroke="black" points="91,-340.5 212,-340.5 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="#8b1a1a" d="M109.948,-429.337C114.759,-420.265 119.995,-410.394 125.078,-400.812"/>
+<polygon fill="none" stroke="#8b1a1a" points="106.705,-427.98 105.111,-438.455 112.889,-431.261 106.705,-427.98"/>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node2</title>
+<path fill="none" stroke="orange" d="M122.25,-290.099C115.932,-277.377 109.312,-264.046 103.189,-251.716"/>
+<polygon fill="orange" stroke="orange" points="119.203,-291.833 126.786,-299.233 125.472,-288.719 119.203,-291.833"/>
+
+</g>
+</g>
+</svg>

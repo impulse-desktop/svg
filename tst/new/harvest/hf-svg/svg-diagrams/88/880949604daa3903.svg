@@ -1,0 +1,63 @@
+<svg width="530pt" height="39pt"
+ viewBox="0.00 0.00 530.00 39.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
+<title>drv_BuckConverter_Suspend</title>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="This function suspends the operation of the buck converter.">
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-30.5 97,-30.5 97,-0.5 0,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="a00509.html#gab9877f90ffb129964ae42ce2921b3fe1" target="_top" xlink:title="This function is the main buck converter state machine executing the most recent state.">
+<polygon fill="none" stroke="black" points="133,-0.5 133,-30.5 230,-30.5 230,-0.5 133,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M97.16,-15.5C105.38,-15.5 114.01,-15.5 122.46,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="122.65,-19 132.65,-15.5 122.65,-12 122.65,-19"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="a00532.html#ga8e2253c136f05033e774d09032b283a1" target="_top" xlink:title="This function gets the state of the selected pin.">
+<polygon fill="none" stroke="black" points="266,-6 266,-25 386,-25 386,-6 266,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M230.35,-15.5C238.54,-15.5 247.2,-15.5 255.82,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="255.89,-19 265.89,-15.5 255.89,-12 255.89,-19"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="a00383.html#ga4d67af688d8f7f911d79107974e11e6b" target="_top" xlink:title="Gets pointer to GPIO Instance SFR set.">
+<polygon fill="none" stroke="black" points="422,-0.5 422,-30.5 522,-30.5 522,-0.5 422,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M386.4,-15.5C394.77,-15.5 403.38,-15.5 411.75,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="411.81,-19 421.81,-15.5 411.81,-12 411.81,-19"/>
+</g>
+</g>
+</svg>

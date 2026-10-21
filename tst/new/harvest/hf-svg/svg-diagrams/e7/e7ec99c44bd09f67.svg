@@ -1,0 +1,120 @@
+<svg width="1171pt" height="211pt"
+ viewBox="0.00 0.00 1171.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1167,-207 1167,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="347.5,-10 347.5,-30 367.5,-30 367.5,-10 347.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="460.5,-10 460.5,-30 480.5,-30 480.5,-10 460.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="546.5,-10 546.5,-30 566.5,-30 566.5,-10 546.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="643.5,-10 643.5,-30 663.5,-30 663.5,-10 643.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="739.5,-10 739.5,-30 759.5,-30 759.5,-10 739.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CreateAnnoucementModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1155,-195 1155,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CreateAnnoucementModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="935,-78 935,-130 1147,-130 1147,-78 935,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_CreateAnnoucementModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 927,-130 927,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CreateAnnoucementComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1139.396,-122 942.604,-122 942.604,-86 1139.396,-86 1139.396,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>CreateAnnoucementModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="674.1134,-187 671.1134,-191 650.1134,-191 647.1134,-187 499.8866,-187 499.8866,-151 674.1134,-151 674.1134,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CreateAnnoucementComponent&#45;&gt;CreateAnnoucementModule</title>
+<path fill="none" stroke="#000000" d="M1041,-122.2843C1041,-143.3211 1041,-175 1041,-175 1041,-175 684.267,-175 684.267,-175"/>
+<polygon fill="#000000" stroke="#000000" points="684.2671,-171.5001 674.267,-175 684.267,-178.5001 684.2671,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="918.8288,-122 915.8288,-126 894.8288,-126 891.8288,-122 823.1712,-122 823.1712,-86 918.8288,-86 918.8288,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FormsModule&#45;&gt;CreateAnnoucementModule</title>
+<path fill="none" stroke="#000000" d="M871,-122.0225C871,-139.3734 871,-163 871,-163 871,-163 684.1394,-163 684.1394,-163"/>
+<polygon fill="#000000" stroke="#000000" points="684.1394,-159.5001 674.1394,-163 684.1394,-166.5001 684.1394,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ReactiveFormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="805.3047,-122 802.3047,-126 781.3047,-126 778.3047,-122 660.6953,-122 660.6953,-86 805.3047,-86 805.3047,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ReactiveFormsModule&#45;&gt;CreateAnnoucementModule</title>
+<path fill="none" stroke="#000000" d="M667.5772,-122.1061C667.5772,-122.1061 667.5772,-140.991 667.5772,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="664.0772,-140.9909 667.5772,-150.991 671.0772,-140.991 664.0772,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="642.6681,-122 639.6681,-126 618.6681,-126 615.6681,-122 531.3319,-122 531.3319,-86 642.6681,-86 642.6681,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;CreateAnnoucementModule</title>
+<path fill="none" stroke="#000000" d="M587,-122.1061C587,-122.1061 587,-140.991 587,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="583.5001,-140.9909 587,-150.991 590.5001,-140.991 583.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="513.2619,-122 510.2619,-126 489.2619,-126 486.2619,-122 426.7381,-122 426.7381,-86 513.2619,-86 513.2619,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CoreModule&#45;&gt;CreateAnnoucementModule</title>
+<path fill="none" stroke="#000000" d="M506.5372,-122.1061C506.5372,-122.1061 506.5372,-140.991 506.5372,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="503.0372,-140.9909 506.5372,-150.991 510.0372,-140.991 503.0372,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>MaterialDesignModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="408.1275,-122 405.1275,-126 384.1275,-126 381.1275,-122 261.8725,-122 261.8725,-86 408.1275,-86 408.1275,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MaterialDesignModule&#45;&gt;CreateAnnoucementModule</title>
+<path fill="none" stroke="#000000" d="M335,-122.0225C335,-139.3734 335,-163 335,-163 335,-163 489.5699,-163 489.5699,-163"/>
+<polygon fill="#000000" stroke="#000000" points="489.5699,-166.5001 499.5699,-163 489.5698,-159.5001 489.5699,-166.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>CreateAnnoucementRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="243.731,-122 240.731,-126 219.731,-126 216.731,-122 24.269,-122 24.269,-86 243.731,-86 243.731,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CreateAnnoucementRoutingModule&#45;&gt;CreateAnnoucementModule</title>
+<path fill="none" stroke="#000000" d="M134,-122.2843C134,-143.3211 134,-175 134,-175 134,-175 489.657,-175 489.657,-175"/>
+<polygon fill="#000000" stroke="#000000" points="489.6571,-178.5001 499.657,-175 489.657,-171.5001 489.6571,-178.5001"/>
+</g>
+</g>
+</svg>

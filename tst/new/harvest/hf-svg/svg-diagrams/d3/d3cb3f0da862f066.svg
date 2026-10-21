@@ -1,0 +1,121 @@
+<svg width="576pt" height="141pt"
+ viewBox="0.00 0.00 576.00 141.11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 137.1053)">
+<title>coap_connect_session</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-137.1053 572,-137.1053 572,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node474</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-56.6053 0,-75.6053 116,-75.6053 116,-56.6053 0,-56.6053"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node475</title>
+<g id="a_node2"><a xlink:href="net_8h.html#a0748d791fd2af516dd93fbadb660d440" target="_top" xlink:title="For applications with their own message loop, reads all data from the network. ">
+<polygon fill="#ffffff" stroke="#000000" points="152,-56.6053 152,-75.6053 214,-75.6053 214,-56.6053 152,-56.6053"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node474&#45;&gt;Node475</title>
+<path fill="none" stroke="#191970" d="M126.2666,-66.1053C135.2388,-66.1053 144.0512,-66.1053 151.9556,-66.1053"/>
+<polygon fill="#191970" stroke="#191970" points="126.1087,-62.6054 116.1087,-66.1053 126.1087,-69.6054 126.1087,-62.6054"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node476</title>
+<g id="a_node3"><a xlink:href="coap__io_8c.html#a75a7c93e10ca7858449ba304aad4ea37" target="_top" xlink:title="coap_run_once">
+<polygon fill="#ffffff" stroke="#000000" points="485,-113.6053 485,-132.6053 568,-132.6053 568,-113.6053 485,-113.6053"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node475&#45;&gt;Node476</title>
+<path fill="none" stroke="#191970" d="M215.9915,-79.2864C253.1889,-93.3802 315.8211,-114.8182 372,-123.1053 409.9461,-128.7028 453.7075,-128.0468 484.9472,-126.3771"/>
+<polygon fill="#191970" stroke="#191970" points="217.2415,-76.0173 206.6515,-75.6987 214.7314,-82.5518 217.2415,-76.0173"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node477</title>
+<g id="a_node4"><a xlink:href="net_8h.html#a9900c032b74bd57f67d489484a2b3207" target="_top" xlink:title="Handles retransmissions of confirmable messages. ">
+<polygon fill="#ffffff" stroke="#000000" points="250,-56.6053 250,-75.6053 336,-75.6053 336,-56.6053 250,-56.6053"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node475&#45;&gt;Node477</title>
+<path fill="none" stroke="#191970" d="M224.4282,-66.1053C232.7153,-66.1053 241.4409,-66.1053 249.7866,-66.1053"/>
+<polygon fill="#191970" stroke="#191970" points="224.2274,-62.6054 214.2274,-66.1053 224.2273,-69.6054 224.2274,-62.6054"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node479</title>
+<g id="a_node6"><a xlink:href="net_8h.html#a5854b1394bfddd574e48af116e3aaaf9" target="_top" xlink:title="Sends an RST message with code 0 for the specified request to dst. ">
+<polygon fill="#ffffff" stroke="#000000" points="486.5,-56.6053 486.5,-75.6053 566.5,-75.6053 566.5,-56.6053 486.5,-56.6053"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node475&#45;&gt;Node479</title>
+<path fill="none" stroke="#191970" d="M208.9191,-51.6326C257.0505,-26.7048 363.1461,19.0672 449,-9.1053 477.5652,-18.4788 504.2754,-42.8507 517.617,-56.4954"/>
+<polygon fill="#191970" stroke="#191970" points="207.017,-48.6796 199.8222,-56.4569 210.2966,-54.8638 207.017,-48.6796"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node478</title>
+<g id="a_node5"><a xlink:href="net_8h.html#aaac86ac50793f309678e4951ecf8863f" target="_top" xlink:title="For applications with their own message loop, send all pending retransmits and return the list of soc...">
+<polygon fill="#ffffff" stroke="#000000" points="378.5,-94.6053 378.5,-113.6053 442.5,-113.6053 442.5,-94.6053 378.5,-94.6053"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node477&#45;&gt;Node478</title>
+<path fill="none" stroke="#191970" d="M332.2092,-78.7857C348.0854,-83.9201 366.11,-89.7494 380.8593,-94.5193"/>
+<polygon fill="#191970" stroke="#191970" points="333.242,-75.4413 322.6502,-75.6943 331.088,-82.1016 333.242,-75.4413"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node477&#45;&gt;Node479</title>
+<path fill="none" stroke="#191970" d="M346.2873,-66.1053C388.8913,-66.1053 447.692,-66.1053 486.3817,-66.1053"/>
+<polygon fill="#191970" stroke="#191970" points="346.0996,-62.6054 336.0996,-66.1053 346.0996,-69.6054 346.0996,-62.6054"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node480</title>
+<g id="a_node7"><a xlink:href="libcoap_8h.html#a5d1fb0b44497970b0f75fa0b38570a82" target="_top" xlink:title="coap_cleanup">
+<polygon fill="#ffffff" stroke="#000000" points="372,-18.6053 372,-37.6053 449,-37.6053 449,-18.6053 372,-18.6053"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node477&#45;&gt;Node480</title>
+<path fill="none" stroke="#191970" d="M332.2092,-53.4248C348.0854,-48.2904 366.11,-42.4612 380.8593,-37.6912"/>
+<polygon fill="#191970" stroke="#191970" points="331.088,-50.1089 322.6502,-56.5163 333.242,-56.7692 331.088,-50.1089"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node478&#45;&gt;Node476</title>
+<path fill="none" stroke="#191970" d="M452.6193,-111.0041C463.036,-112.7103 474.1933,-114.5378 484.5996,-116.2423"/>
+<polygon fill="#191970" stroke="#191970" points="452.9388,-107.5099 442.5046,-109.3474 451.8073,-114.4178 452.9388,-107.5099"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node478&#45;&gt;Node479</title>
+<path fill="none" stroke="#191970" d="M449.6528,-91.2793C465.2176,-86.1805 482.8141,-80.4162 497.2377,-75.6912"/>
+<polygon fill="#191970" stroke="#191970" points="448.1852,-88.077 439.7717,-94.5163 450.3644,-94.7292 448.1852,-88.077"/>
+</g>
+</g>
+</svg>

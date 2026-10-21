@@ -1,0 +1,100 @@
+<svg width="783pt" height="211pt"
+ viewBox="0.00 0.00 783.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 779,-207 779,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="153.5,-10 153.5,-30 173.5,-30 173.5,-10 153.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="266.5,-10 266.5,-30 286.5,-30 286.5,-10 266.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="352.5,-10 352.5,-30 372.5,-30 372.5,-10 352.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="449.5,-10 449.5,-30 469.5,-30 469.5,-10 449.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="545.5,-10 545.5,-30 565.5,-30 565.5,-10 545.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CancelModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 767,-195 767,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CancelModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="623,-78 623,-130 759,-130 759,-78 623,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_CancelModule_imports</title>
+<polygon fill="none" stroke="#000000" points="186,-78 186,-130 615,-130 615,-78 186,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_CancelModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 178,-130 178,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CancelComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="751.2036,-122 630.7964,-122 630.7964,-86 751.2036,-86 751.2036,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>CancelModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="444.4217,-187 441.4217,-191 420.4217,-191 417.4217,-187 345.5783,-187 345.5783,-151 444.4217,-151 444.4217,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CancelComponent&#45;&gt;CancelModule</title>
+<path fill="none" stroke="#000000" d="M691,-122.2843C691,-143.3211 691,-175 691,-175 691,-175 454.2107,-175 454.2107,-175"/>
+<polygon fill="#000000" stroke="#000000" points="454.2107,-171.5001 444.2107,-175 454.2106,-178.5001 454.2107,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CancelRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="606.5393,-122 603.5393,-126 582.5393,-126 579.5393,-122 463.4607,-122 463.4607,-86 606.5393,-86 606.5393,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CancelRoutingModule&#45;&gt;CancelModule</title>
+<path fill="none" stroke="#000000" d="M535,-122.0225C535,-139.3734 535,-163 535,-163 535,-163 454.3588,-163 454.3588,-163"/>
+<polygon fill="#000000" stroke="#000000" points="454.3588,-159.5001 444.3588,-163 454.3587,-166.5001 454.3588,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>NavbarModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="445.2465,-122 442.2465,-126 421.2465,-126 418.2465,-122 344.7535,-122 344.7535,-86 445.2465,-86 445.2465,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NavbarModule&#45;&gt;CancelModule</title>
+<path fill="none" stroke="#000000" d="M395,-122.1061C395,-122.1061 395,-140.991 395,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="391.5001,-140.9909 395,-150.991 398.5001,-140.991 391.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CancelDetailModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="326.1289,-122 323.1289,-126 302.1289,-126 299.1289,-122 193.8711,-122 193.8711,-86 326.1289,-86 326.1289,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CancelDetailModule&#45;&gt;CancelModule</title>
+<path fill="none" stroke="#000000" d="M260,-122.0225C260,-139.3734 260,-163 260,-163 260,-163 335.4976,-163 335.4976,-163"/>
+<polygon fill="#000000" stroke="#000000" points="335.4976,-166.5001 345.4976,-163 335.4975,-159.5001 335.4976,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>BookingService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="97" cy="-104" rx="73.0171" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>BookingService&#45;&gt;CancelModule</title>
+<path fill="none" stroke="#000000" d="M97,-122.2843C97,-143.3211 97,-175 97,-175 97,-175 335.4568,-175 335.4568,-175"/>
+<polygon fill="#000000" stroke="#000000" points="335.4569,-178.5001 345.4568,-175 335.4568,-171.5001 335.4569,-178.5001"/>
+</g>
+</g>
+</svg>

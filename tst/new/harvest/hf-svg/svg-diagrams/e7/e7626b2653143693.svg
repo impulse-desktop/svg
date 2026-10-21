@@ -1,0 +1,77 @@
+<svg width="566pt" height="103pt"
+ viewBox="0.00 0.00 566.00 102.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 98.5)">
+<title>carla::road::GetDistanceAtEndOfLane</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-98.5 562,-98.5 562,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node122</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-17 0,-47 134,-47 134,-17 0,-17"/>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>Node123</title>
+<g id="a_node2"><a xlink:href="../../d0/d34/classcarla_1_1road_1_1Map.html#adf1b3cb75595be020adbdbd325298638" target="_top" xlink:title="Generate waypoints of the junction. ">
+<polygon fill="#ffffff" stroke="#000000" points="182.5,-39 182.5,-69 339.5,-69 339.5,-39 182.5,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node122&#45;&gt;Node123</title>
+<path fill="none" stroke="#191970" d="M144.0119,-40.7333C156.5986,-42.1607 169.6546,-43.6412 182.2818,-45.0732"/>
+<polygon fill="#191970" stroke="#191970" points="144.3662,-37.2511 134.0354,-39.602 143.5774,-44.2066 144.3662,-37.2511"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node126</title>
+<g id="a_node5"><a xlink:href="../../d0/d34/classcarla_1_1road_1_1Map.html#ad0f471608dfa32a20135abb08bb53f4e" target="_top" xlink:title="carla::road::Map::GetPredecessors">
+<polygon fill="#ffffff" stroke="#000000" points="170,-.5 170,-19.5 352,-19.5 352,-.5 170,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node122&#45;&gt;Node126</title>
+<path fill="none" stroke="#191970" d="M144.2832,-23.2359C155.1002,-22.0093 166.2587,-20.7439 177.1896,-19.5043"/>
+<polygon fill="#191970" stroke="#191970" points="143.5774,-19.7934 134.0354,-24.398 144.3662,-26.7489 143.5774,-19.7934"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node124</title>
+<g id="a_node3"><a xlink:href="../../dd/d49/classcarla_1_1client_1_1Map.html#afdea683b9dd2fd832405e15053885488" target="_top" xlink:title="Returns a pair of waypoints (start and end) for each lane in the junction. ">
+<polygon fill="#ffffff" stroke="#000000" points="408,-64 408,-94 538,-94 538,-64 408,-64"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node123&#45;&gt;Node124</title>
+<path fill="none" stroke="#191970" d="M349.7111,-64.4612C369.1367,-66.752 389.3584,-69.1366 407.6711,-71.2961"/>
+<polygon fill="#191970" stroke="#191970" points="349.9808,-60.9689 339.6397,-63.2736 349.161,-67.9207 349.9808,-60.9689"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node125</title>
+<g id="a_node4"><a xlink:href="../../de/d16/classcarla_1_1road_1_1MapBuilder.html#ab0d9fe008defb1501769cf62f8cadf14" target="_top" xlink:title="Create the bounding boxes of each junction. ">
+<polygon fill="#ffffff" stroke="#000000" points="388,-15 388,-45 558,-45 558,-15 388,-15"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node123&#45;&gt;Node125</title>
+<path fill="none" stroke="#191970" d="M349.6577,-43.9633C362.2566,-42.537 375.1915,-41.0727 387.7242,-39.6539"/>
+<polygon fill="#191970" stroke="#191970" points="349.1825,-40.4946 339.6397,-45.0974 349.97,-47.4502 349.1825,-40.4946"/>
+</g>
+</g>
+</svg>

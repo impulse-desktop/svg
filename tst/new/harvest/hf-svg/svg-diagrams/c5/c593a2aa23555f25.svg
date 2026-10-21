@@ -1,0 +1,173 @@
+<svg width="1277pt" height="93pt"
+ viewBox="0.00 0.00 1277.00 93.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 89)">
+<title>UTrafficLightController::GetElapsedTime</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-89 1273,-89 1273,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node39</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-17 0,-47 125,-47 125,-17 0,-17"/>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>Node40</title>
+<g id="a_node2"><a xlink:href="../../dd/db9/classACarlaRecorder.html#aaf01c02f79e7335c224dcab7f2c18bb1" target="_top" xlink:title="ACarlaRecorder::AddTraffic\lLightState">
+<polygon fill="#ffffff" stroke="#000000" points="171.5,-39 171.5,-69 317.5,-69 317.5,-39 171.5,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node39&#45;&gt;Node40</title>
+<path fill="none" stroke="#191970" d="M135.4204,-40.8146C147.2747,-42.2475 159.5556,-43.732 171.4139,-45.1654"/>
+<polygon fill="#191970" stroke="#191970" points="135.4819,-37.2966 125.1341,-39.5712 134.6418,-44.246 135.4819,-37.2966"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node46</title>
+<g id="a_node8"><a xlink:href="../../d9/de7/WorldObserver_8cpp.html#a101723de0d64fc2d5570dfab556edc7f" target="_top" xlink:title="FWorldObserver_GetActorState">
+<polygon fill="#ffffff" stroke="#000000" points="161,-.5 161,-19.5 328,-19.5 328,-.5 161,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node39&#45;&gt;Node46</title>
+<path fill="none" stroke="#191970" d="M135.0712,-23.2277C145.1321,-22.0115 155.5068,-20.7574 165.6749,-19.5283"/>
+<polygon fill="#191970" stroke="#191970" points="134.6418,-19.754 125.1341,-24.4288 135.4819,-26.7034 134.6418,-19.754"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node41</title>
+<g id="a_node3"><a xlink:href="../../dd/db9/classACarlaRecorder.html#a1074f19dfe5b16a9e10b24ef35b26abc" target="_top" xlink:title="ACarlaRecorder::Ticking">
+<polygon fill="#ffffff" stroke="#000000" points="559,-43.5 559,-62.5 692,-62.5 692,-43.5 559,-43.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node40&#45;&gt;Node41</title>
+<path fill="none" stroke="#191970" d="M327.5286,-53.7821C396.8721,-53.6001 494.4524,-53.344 558.7965,-53.1751"/>
+<polygon fill="#191970" stroke="#191970" points="327.5006,-50.282 317.5098,-53.8084 327.519,-57.282 327.5006,-50.282"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node42</title>
+<g id="a_node4"><a xlink:href="../../dc/d49/classFCarlaEngine.html#aff440c7ba9d004e4c5b60125cc4d709b" target="_top" xlink:title="FCarlaEngine::OnPostTick">
+<polygon fill="#ffffff" stroke="#000000" points="748.5,-43.5 748.5,-62.5 889.5,-62.5 889.5,-43.5 748.5,-43.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node41&#45;&gt;Node42</title>
+<path fill="none" stroke="#191970" d="M702.4462,-53C717.5866,-53 733.4029,-53 748.325,-53"/>
+<polygon fill="#191970" stroke="#191970" points="702.0918,-49.5001 692.0917,-53 702.0917,-56.5001 702.0918,-49.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node43</title>
+<g id="a_node5"><a xlink:href="../../dc/d49/classFCarlaEngine.html#ab8d13063cde985781237dd7da308227e" target="_top" xlink:title="FCarlaEngine::NotifyInitGame">
+<polygon fill="#ffffff" stroke="#000000" points="928,-65.5 928,-84.5 1089,-84.5 1089,-65.5 928,-65.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node42&#45;&gt;Node43</title>
+<path fill="none" stroke="#191970" d="M899.6514,-62.3632C909.0336,-63.4524 918.6044,-64.5636 927.9847,-65.6526"/>
+<polygon fill="#191970" stroke="#191970" points="899.8997,-58.8686 889.5628,-61.192 899.0924,-65.8219 899.8997,-58.8686"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node44</title>
+<g id="a_node6"><a xlink:href="../../dc/d49/classFCarlaEngine.html#a4dfd3b01c0b1413b4f69fda71efc25ce" target="_top" xlink:title="FCarlaEngine::ResetFrame\lCounter">
+<polygon fill="#ffffff" stroke="#000000" points="937,-16 937,-46 1080,-46 1080,-16 937,-16"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node42&#45;&gt;Node44</title>
+<path fill="none" stroke="#191970" d="M899.8276,-43.6163C912.1602,-42.1846 924.8144,-40.7155 936.9299,-39.3089"/>
+<polygon fill="#191970" stroke="#191970" points="899.0924,-40.1781 889.5628,-44.808 899.8997,-47.1314 899.0924,-40.1781"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node45</title>
+<g id="a_node7"><a xlink:href="../../dc/d49/classFCarlaEngine.html#ab4c918e4d4855a26ab57c4bb79ad4645" target="_top" xlink:title="FCarlaEngine::NotifyBegin\lEpisode">
+<polygon fill="#ffffff" stroke="#000000" points="1125,-16 1125,-46 1269,-46 1269,-16 1125,-16"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node44&#45;&gt;Node45</title>
+<path fill="none" stroke="#191970" d="M1090.1165,-31C1101.6875,-31 1113.5172,-31 1124.891,-31"/>
+<polygon fill="#191970" stroke="#191970" points="1090.0326,-27.5001 1080.0325,-31 1090.0325,-34.5001 1090.0326,-27.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node47</title>
+<g id="a_node9"><a xlink:href="../../d9/de7/WorldObserver_8cpp.html#a55e677eb5bd393082eef8383920b2fde" target="_top" xlink:title="FWorldObserver_Serialize">
+<polygon fill="#ffffff" stroke="#000000" points="364,-3.5 364,-22.5 505,-22.5 505,-3.5 364,-3.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node46&#45;&gt;Node47</title>
+<path fill="none" stroke="#191970" d="M338.2344,-11.48C346.8762,-11.6165 355.532,-11.7531 363.9156,-11.8855"/>
+<polygon fill="#191970" stroke="#191970" points="338.1673,-7.9786 328.1133,-11.3202 338.0567,-14.9777 338.1673,-7.9786"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node48</title>
+<g id="a_node10"><a xlink:href="../../da/d9b/classFWorldObserver.html#ad866b204499b7d2252661e39bcff1811" target="_top" xlink:title="Send a message to every connected client with the info about the given Episode. ">
+<polygon fill="#ffffff" stroke="#000000" points="541,-4.5 541,-23.5 710,-23.5 710,-4.5 541,-4.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node47&#45;&gt;Node48</title>
+<path fill="none" stroke="#191970" d="M515.3312,-13.4232C523.8161,-13.4676 532.4592,-13.5129 540.984,-13.5575"/>
+<polygon fill="#191970" stroke="#191970" points="515.0969,-9.922 505.0787,-13.3695 515.0602,-16.9219 515.0969,-9.922"/>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node48&#45;&gt;Node42</title>
+<path fill="none" stroke="#191970" d="M683.0012,-25.5894C711.3194,-31.2969 745.0395,-38.0932 771.8183,-43.4905"/>
+<polygon fill="#191970" stroke="#191970" points="683.3298,-22.0853 672.8354,-23.5405 681.9468,-28.9473 683.3298,-22.0853"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node49</title>
+<g id="a_node11"><a xlink:href="../../da/d9b/classFWorldObserver.html#a6a9ceda97152eb6931a1d4f20123a2ac" target="_top" xlink:title="Return the token that allows subscribing to this sensor&#39;s stream. ">
+<polygon fill="#ffffff" stroke="#000000" points="746,-4.5 746,-23.5 892,-23.5 892,-4.5 746,-4.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node48&#45;&gt;Node49</title>
+<path fill="none" stroke="#191970" d="M720.1724,-14C728.7833,-14 737.4162,-14 745.798,-14"/>
+<polygon fill="#191970" stroke="#191970" points="720.0905,-10.5001 710.0904,-14 720.0904,-17.5001 720.0905,-10.5001"/>
+</g>
+</g>
+</svg>

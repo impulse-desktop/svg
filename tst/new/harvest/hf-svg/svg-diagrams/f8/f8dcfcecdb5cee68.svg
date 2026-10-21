@@ -1,0 +1,160 @@
+<svg width="1415pt" height="211pt"
+ viewBox="0.00 0.00 1415.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1411,-207 1411,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="469.5,-10 469.5,-30 489.5,-30 489.5,-10 469.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="582.5,-10 582.5,-30 602.5,-30 602.5,-10 582.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="668.5,-10 668.5,-30 688.5,-30 688.5,-10 668.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="765.5,-10 765.5,-30 785.5,-30 785.5,-10 765.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="861.5,-10 861.5,-30 881.5,-30 881.5,-10 861.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_UserModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1399,-195 1399,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_UserModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="818,-78 818,-130 1391,-130 1391,-78 818,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_UserModule_imports</title>
+<polygon fill="none" stroke="#000000" points="156,-78 156,-130 810,-130 810,-78 156,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_UserModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 148,-130 148,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>UserComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1382.7591,-122 1275.2409,-122 1275.2409,-86 1382.7591,-86 1382.7591,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>UserModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="727.9762,-187 724.9762,-191 703.9762,-191 700.9762,-187 642.0238,-187 642.0238,-151 727.9762,-151 727.9762,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>UserComponent&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M1329,-122.0109C1329,-144.4852 1329,-180 1329,-180 1329,-180 738.0037,-180 738.0037,-180"/>
+<polygon fill="#000000" stroke="#000000" points="738.0037,-176.5001 728.0037,-180 738.0037,-183.5001 738.0037,-176.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>UserAddComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1256.8655,-122 1125.1345,-122 1125.1345,-86 1256.8655,-86 1256.8655,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>UserAddComponent&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M1191,-122.1289C1191,-142.5724 1191,-173 1191,-173 1191,-173 738.1413,-173 738.1413,-173"/>
+<polygon fill="#000000" stroke="#000000" points="738.1413,-169.5001 728.1413,-173 738.1412,-176.5001 738.1413,-169.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>UserEditComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1107.5926,-122 976.4074,-122 976.4074,-86 1107.5926,-86 1107.5926,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>UserEditComponent&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M1042,-122.2667C1042,-140.5552 1042,-166 1042,-166 1042,-166 738.0625,-166 738.0625,-166"/>
+<polygon fill="#000000" stroke="#000000" points="738.0626,-162.5001 728.0625,-166 738.0625,-169.5001 738.0626,-162.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>UserPassComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="958.1457,-122 825.8543,-122 825.8543,-86 958.1457,-86 958.1457,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>UserPassComponent&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M892,-122.0091C892,-138.0494 892,-159 892,-159 892,-159 738.142,-159 738.142,-159"/>
+<polygon fill="#000000" stroke="#000000" points="738.142,-155.5001 728.142,-159 738.142,-162.5001 738.142,-155.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="801.6681,-122 798.6681,-126 777.6681,-126 774.6681,-122 690.3319,-122 690.3319,-86 801.6681,-86 801.6681,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CommonModule&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M709.0772,-122.1061C709.0772,-122.1061 709.0772,-140.991 709.0772,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="705.5772,-140.9909 709.0772,-150.991 712.5772,-140.991 705.5772,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="672.8288,-122 669.8288,-126 648.8288,-126 645.8288,-122 577.1712,-122 577.1712,-86 672.8288,-86 672.8288,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>FormsModule&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M657.338,-122.1061C657.338,-122.1061 657.338,-140.991 657.338,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="653.8381,-140.9909 657.338,-150.991 660.8381,-140.991 653.8381,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="559.4387,-122 556.4387,-126 535.4387,-126 532.4387,-122 474.5613,-122 474.5613,-86 559.4387,-86 559.4387,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>HttpModule&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M517,-122.0091C517,-138.0494 517,-159 517,-159 517,-159 631.7358,-159 631.7358,-159"/>
+<polygon fill="#000000" stroke="#000000" points="631.7359,-162.5001 641.7358,-159 631.7358,-155.5001 631.7359,-162.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>Ng2PaginationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="456.5407,-122 453.5407,-126 432.5407,-126 429.5407,-122 313.4593,-122 313.4593,-86 456.5407,-86 456.5407,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>Ng2PaginationModule&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M385,-122.2667C385,-140.5552 385,-166 385,-166 385,-166 632.0173,-166 632.0173,-166"/>
+<polygon fill="#000000" stroke="#000000" points="632.0173,-169.5001 642.0173,-166 632.0173,-162.5001 632.0173,-169.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>UserRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="295.594,-122 292.594,-126 271.594,-126 268.594,-122 164.406,-122 164.406,-86 295.594,-86 295.594,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>UserRoutingModule&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M230,-122.1289C230,-142.5724 230,-173 230,-173 230,-173 631.7845,-173 631.7845,-173"/>
+<polygon fill="#000000" stroke="#000000" points="631.7845,-176.5001 641.7845,-173 631.7845,-169.5001 631.7845,-176.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="82" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>UserService&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M82,-122.0109C82,-144.4852 82,-180 82,-180 82,-180 631.6337,-180 631.6337,-180"/>
+<polygon fill="#000000" stroke="#000000" points="631.6338,-183.5001 641.6337,-180 631.6337,-176.5001 631.6338,-183.5001"/>
+</g>
+</g>
+</svg>

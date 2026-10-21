@@ -1,0 +1,100 @@
+<svg width="654pt" height="284pt"
+ viewBox="0.00 0.00 654.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 650,-280 650,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="89,-10 89,-30 109,-30 109,-10 89,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="202,-10 202,-30 222,-30 222,-10 202,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="288,-10 288,-30 308,-30 308,-10 288,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="385,-10 385,-30 405,-30 405,-10 385,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="481,-10 481,-30 501,-30 501,-10 481,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PerfilProfesionalModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 638,-268 638,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_PerfilProfesionalModule_imports</title>
+<polygon fill="none" stroke="#000000" points="182,-78 182,-130 630,-130 630,-78 182,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_PerfilProfesionalModule_exports</title>
+<polygon fill="none" stroke="#000000" points="210,-208 210,-260 434,-260 434,-208 210,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_PerfilProfesionalModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 174,-130 174,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="622.4231,-122 619.4231,-126 598.4231,-126 595.4231,-122 523.5769,-122 523.5769,-86 622.4231,-86 622.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>PerfilProfesionalModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="399.4087,-187 396.4087,-191 375.4087,-191 372.4087,-187 244.5913,-187 244.5913,-151 399.4087,-151 399.4087,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;PerfilProfesionalModule</title>
+<path fill="none" stroke="#000000" d="M573,-122.1061C573,-141.3391 573,-169 573,-169 573,-169 409.3564,-169 409.3564,-169"/>
+<polygon fill="#000000" stroke="#000000" points="409.3564,-165.5001 399.3564,-169 409.3563,-172.5001 409.3564,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>PerfilProfesionalRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="505.5266,-122 502.5266,-126 481.5266,-126 478.5266,-122 306.4734,-122 306.4734,-86 505.5266,-86 505.5266,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PerfilProfesionalRoutingModule&#45;&gt;PerfilProfesionalModule</title>
+<path fill="none" stroke="#000000" d="M352.7206,-122.1061C352.7206,-122.1061 352.7206,-140.991 352.7206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="349.2206,-140.9909 352.7206,-150.991 356.2206,-140.991 349.2206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="288.4231,-122 285.4231,-126 264.4231,-126 261.4231,-122 189.5769,-122 189.5769,-86 288.4231,-86 288.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;PerfilProfesionalModule</title>
+<path fill="none" stroke="#000000" d="M266.5035,-122.1061C266.5035,-122.1061 266.5035,-140.991 266.5035,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="263.0036,-140.9909 266.5035,-150.991 270.0036,-140.991 263.0036,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudPerfilProfesionalComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="425.6882,-252 218.3118,-252 218.3118,-216 425.6882,-216 425.6882,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PerfilProfesionalModule&#45;&gt;CrudPerfilProfesionalComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M322,-187.1061C322,-187.1061 322,-205.991 322,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="318.5001,-205.9909 322,-215.991 325.5001,-205.991 318.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>PersonaService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="95" cy="-104" rx="70.622" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PersonaService&#45;&gt;PerfilProfesionalModule</title>
+<path fill="none" stroke="#000000" d="M95,-122.1061C95,-141.3391 95,-169 95,-169 95,-169 234.5144,-169 234.5144,-169"/>
+<polygon fill="#000000" stroke="#000000" points="234.5144,-172.5001 244.5144,-169 234.5143,-165.5001 234.5144,-172.5001"/>
+</g>
+</g>
+</svg>

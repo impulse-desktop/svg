@@ -1,0 +1,165 @@
+<svg width="964pt" height="187pt"
+ viewBox="0.00 0.00 964.00 186.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 182.5)">
+<title>carla::road::element::DirectedPoint::ApplyLateralOffset</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-182.5 960,-182.5 960,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-39 0,-80 142,-80 142,-39 0,-39"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../d0/d34/classcarla_1_1road_1_1Map.html#aef2b6e4da7011f284780ec3496f1df0f" target="_top" xlink:title="carla::road::Map::Compute\lTransform">
+<polygon fill="white" stroke="black" points="178,-93.5 178,-123.5 311,-123.5 311,-93.5 178,-93.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M152.246,-82.4275C165.389,-86.1826 178.705,-89.9871 190.952,-93.4863"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="152.827,-78.9535 142.25,-79.5716 150.904,-85.6842 152.827,-78.9535"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="../../dd/de6/classcarla_1_1road_1_1Road.html#aee534bd2e59111472ff8e658c9b4845d" target="_top" xlink:title="Returns a directed point on the center of the road (lane 0), with the corresponding laneOffset and el...">
+<polygon fill="white" stroke="black" points="194.5,-44.5 194.5,-74.5 294.5,-74.5 294.5,-44.5 194.5,-44.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node1&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M152.574,-59.5C166.828,-59.5 181.275,-59.5 194.329,-59.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="152.25,-56.0001 142.25,-59.5 152.25,-63.0001 152.25,-56.0001"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="../../dd/de6/classcarla_1_1road_1_1Road.html#a3f0dad30c9a6f16df5f29d8fac7c22aa" target="_top" xlink:title="Returns a pointer to the nearest lane, given s relative to Road and a location. ">
+<polygon fill="white" stroke="black" points="367.5,-0.5 367.5,-30.5 465.5,-30.5 465.5,-0.5 367.5,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Node1&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M151.958,-39.2842C160.71,-37.4775 169.518,-35.8316 178,-34.5 243.178,-24.2675 319.332,-19.4101 367.485,-17.202"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="151.17,-35.8734 142.121,-41.3841 152.632,-42.7191 151.17,-35.8734"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d2/d60/classcarla_1_1road_1_1element_1_1LaneCrossingCalculator.html#a589511f573df9e9c46c55a7a46c02cd6" target="_top" xlink:title="carla::road::element\l::LaneCrossingCalculator\l::Calculate">
+<polygon fill="white" stroke="black" points="353,-137 353,-178 480,-178 480,-137 353,-137"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M307.863,-126.475C322.522,-130.7 338.15,-135.205 352.823,-139.434"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="308.471,-123.008 297.893,-123.601 306.532,-129.734 308.471,-123.008"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="../../d0/d34/classcarla_1_1road_1_1Map.html#a2686993f028a6febd29a17b32b43142d" target="_top" xlink:title="======================================================================== – Georeference &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;...">
+<polygon fill="white" stroke="black" points="692,-93.5 692,-123.5 819,-123.5 819,-93.5 692,-93.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node2&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M321.096,-108.5C421.738,-108.5 597.903,-108.5 691.646,-108.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="321.001,-105 311.001,-108.5 321.001,-112 321.001,-105"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="../../dc/d07/classcarla_1_1rss_1_1RssCheck.html#aff1e8790fbe6df81d866570706defcad" target="_top" xlink:title="carla::rss::RssCheck\l::calculateOccupiedRegions">
+<polygon fill="white" stroke="black" points="347,-49.5 347,-79.5 486,-79.5 486,-49.5 347,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node2&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M313.477,-90.9059C328.04,-87.1368 343.297,-83.1878 357.444,-79.5262"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="312.333,-87.5867 303.529,-93.4808 314.087,-94.3634 312.333,-87.5867"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d0/d34/classcarla_1_1road_1_1Map.html#a1e606282c0bc3814dbd7cbbb23075a50" target="_top" xlink:title="carla::road::Map::Calculate\lCrossedLanes">
+<polygon fill="white" stroke="black" points="522,-142.5 522,-172.5 656,-172.5 656,-142.5 522,-142.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M490.345,-157.5C500.778,-157.5 511.465,-157.5 521.762,-157.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="490.02,-154 480.02,-157.5 490.02,-161 490.02,-154"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="../../dd/d49/classcarla_1_1client_1_1Map.html#ab38f325942fe41f8acce8e128404f0f4" target="_top" xlink:title="carla::client::Map\l::CalculateCrossedLanes">
+<polygon fill="white" stroke="black" points="692,-142.5 692,-172.5 819,-172.5 819,-142.5 692,-142.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M666.651,-157.5C675.079,-157.5 683.585,-157.5 691.814,-157.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="666.434,-154 656.434,-157.5 666.434,-161 666.434,-154"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node4&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M650.318,-139.533C667.943,-134.283 687.018,-128.601 703.97,-123.552"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="649.282,-136.189 640.698,-142.399 651.281,-142.898 649.282,-136.189"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="../../dd/d49/classcarla_1_1client_1_1Map.html#abf307dc940aefa23689a7046197603ed" target="_top" xlink:title="carla::client::Map\l::GetGeoReference">
+<polygon fill="white" stroke="black" points="855,-93.5 855,-123.5 956,-123.5 956,-93.5 855,-93.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M829.302,-108.5C837.883,-108.5 846.486,-108.5 854.649,-108.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="829.265,-105 819.265,-108.5 829.265,-112 829.265,-105"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="../../dc/d07/classcarla_1_1rss_1_1RssCheck.html#af0dcc48e400d434f51275bf1797be2e0" target="_top" xlink:title="carla::rss::RssCheck\l::checkObjects">
+<polygon fill="white" stroke="black" points="534,-49.5 534,-79.5 644,-79.5 644,-49.5 534,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M496.441,-64.5C509.092,-64.5 521.928,-64.5 533.829,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="496.357,-61.0001 486.357,-64.5 496.357,-68.0001 496.357,-61.0001"/>
+</g>
+
+<g id="edge11" class="edge"><title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M304.537,-44.2198C325.048,-38.911 347.791,-33.0247 367.319,-27.9703"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="303.475,-40.8793 294.671,-46.7734 305.229,-47.656 303.475,-40.8793"/>
+</g>
+</g>
+</svg>

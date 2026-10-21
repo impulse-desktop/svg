@@ -1,0 +1,91 @@
+<svg width="466pt" height="180pt"
+ viewBox="0.00 0.00 466.00 180.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 176)">
+<title>marian::ExpNodeOp::backwardOps</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-176 462,-176 462,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-71 0,-101 111,-101 111,-71 0,-71"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../da/d22/namespacemarian.html#a0ee0e667d3fcfdc776e4dddaffeea6e2" target="_top" xlink:title="marian::Add">
+<polygon fill="white" stroke="black" points="183.5,-152.5 183.5,-171.5 252.5,-171.5 252.5,-152.5 183.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M76.7274,-101.214C94.4524,-113.926 121.325,-131.732 147,-143 155.294,-146.64 164.454,-149.735 173.338,-152.303"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="172.622,-155.735 183.19,-154.98 174.457,-148.98 172.622,-155.735"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d3/d07/namespacethrust_1_1detail_1_1functional.html#a7ea3d852a4a359ba9c87ce76ea3fcbb2" target="_top" xlink:title="thrust::detail::functional::Exp">
+<polygon fill="white" stroke="black" points="147,-114.5 147,-133.5 289,-133.5 289,-114.5 147,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M111.286,-98.9712C129.202,-103.213 149.006,-107.902 166.584,-112.063"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="166.107,-115.547 176.645,-114.445 167.72,-108.736 166.107,-115.547"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d0/d7a/classmarian_1_1Node.html#a71a9c8ad6ba12d421fa97222d74a90b9" target="_top" xlink:title="marian::Node::child">
+<polygon fill="white" stroke="black" points="167.5,-76.5 167.5,-95.5 268.5,-95.5 268.5,-76.5 167.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M111.286,-86C126.043,-86 142.081,-86 157.102,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="157.309,-89.5001 167.309,-86 157.309,-82.5001 157.309,-89.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="../../d0/d7a/classmarian_1_1Node.html#a0497d2c3515385212b1086f8b8502826" target="_top" xlink:title="marian::Node::grad">
+<polygon fill="white" stroke="black" points="168,-38.5 168,-57.5 268,-57.5 268,-38.5 168,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M111.286,-73.0288C129.202,-68.7872 149.006,-64.0983 166.584,-59.9366"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="167.72,-63.2643 176.645,-57.5545 166.107,-56.4526 167.72,-63.2643"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="../../d0/d7a/classmarian_1_1Node.html#a0df86f2ff4a169111d6ba0865e6fd935" target="_top" xlink:title="marian::Node::val">
+<polygon fill="white" stroke="black" points="171,-0.5 171,-19.5 265,-19.5 265,-0.5 171,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M76.7274,-70.7856C94.4524,-58.0742 121.325,-40.2677 147,-29 152.393,-26.6334 158.151,-24.4974 163.961,-22.5868"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="165.204,-25.8666 173.734,-19.583 163.147,-19.1755 165.204,-25.8666"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="../../d0/d7a/classmarian_1_1Node.html#a4aa5aa482c70595fa5d43c1fbabf5c18" target="_top" xlink:title="marian::Node::getBackend">
+<polygon fill="white" stroke="black" points="325,-76.5 325,-95.5 458,-95.5 458,-76.5 325,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M268.605,-86C282.969,-86 298.988,-86 314.57,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="314.724,-89.5001 324.724,-86 314.724,-82.5001 314.724,-89.5001"/>
+</g>
+</g>
+</svg>

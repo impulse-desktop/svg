@@ -1,0 +1,114 @@
+<svg width="735pt" height="247pt"
+ viewBox="0.00 0.00 735.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 731,-242.8 731,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_BsResultsViewModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 719,-230.8 719,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_BsResultsViewModule_declarations</title>
+<polygon fill="none" stroke="black" points="401,-40.8 401,-92.8 711,-92.8 711,-40.8 401,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_BsResultsViewModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 393,-92.8 393,-40.8 16,-40.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_BsResultsViewModule_exports</title>
+<polygon fill="none" stroke="black" points="165,-170.8 165,-222.8 483,-222.8 483,-170.8 165,-170.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>BsResultsGridView</title>
+<polygon fill="#ffffb3" stroke="black" points="702.98,-84.8 575.02,-84.8 575.02,-48.8 702.98,-48.8 702.98,-84.8"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>BsResultsViewModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="401.87,-149.8 398.87,-153.8 377.87,-153.8 374.87,-149.8 256.13,-149.8 256.13,-113.8 401.87,-113.8 401.87,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>BsResultsGridView&#45;&gt;BsResultsViewModule</title>
+<path fill="none" stroke="black" d="M639,-84.91C639,-104.14 639,-131.8 639,-131.8 639,-131.8 412.07,-131.8 412.07,-131.8"/>
+<polygon fill="black" stroke="black" points="412.07,-128.3 402.07,-131.8 412.07,-135.3 412.07,-128.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>BsResultsViewSelector</title>
+<polygon fill="#ffffb3" stroke="black" points="557.19,-84.8 408.81,-84.8 408.81,-48.8 557.19,-48.8 557.19,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>BsResultsViewSelector&#45;&gt;BsResultsViewModule</title>
+<path fill="none" stroke="black" d="M408.75,-66.8C399.7,-66.8 393.58,-66.8 393.58,-66.8 393.58,-66.8 393.58,-103.69 393.58,-103.69"/>
+<polygon fill="black" stroke="black" points="390.08,-103.69 393.58,-113.69 397.08,-103.69 390.08,-103.69"/>
+</g>
+
+<g id="node7" class="node">
+<title>BsResultsGridView </title>
+<polygon fill="#fb8072" stroke="black" points="474.98,-214.8 343.02,-214.8 343.02,-178.8 474.98,-178.8 474.98,-214.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>BsResultsViewModule&#45;&gt;BsResultsGridView </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M372.6,-149.91C372.6,-149.91 372.6,-168.79 372.6,-168.79"/>
+<polygon fill="black" stroke="black" points="369.1,-168.79 372.6,-178.79 376.1,-168.79 369.1,-168.79"/>
+</g>
+
+<g id="node8" class="node">
+<title>BsResultsViewSelector </title>
+<polygon fill="#fb8072" stroke="black" points="324.69,-214.8 173.31,-214.8 173.31,-178.8 324.69,-178.8 324.69,-214.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>BsResultsViewModule&#45;&gt;BsResultsViewSelector </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M290.45,-149.91C290.45,-149.91 290.45,-168.79 290.45,-168.79"/>
+<polygon fill="black" stroke="black" points="286.95,-168.79 290.45,-178.79 293.95,-168.79 286.95,-168.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>BsActionModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="385.43,-84.8 382.43,-88.8 361.43,-88.8 358.43,-84.8 272.57,-84.8 272.57,-48.8 385.43,-48.8 385.43,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>BsActionModule&#45;&gt;BsResultsViewModule</title>
+<path fill="none" stroke="black" d="M329,-84.91C329,-84.91 329,-103.79 329,-103.79"/>
+<polygon fill="black" stroke="black" points="325.5,-103.79 329,-113.79 332.5,-103.79 325.5,-103.79"/>
+</g>
+
+<g id="node5" class="node">
+<title>BsSelectionModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="255.43,-84.8 252.43,-88.8 231.43,-88.8 228.43,-84.8 128.57,-84.8 128.57,-48.8 255.43,-48.8 255.43,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>BsSelectionModule&#45;&gt;BsResultsViewModule</title>
+<path fill="none" stroke="black" d="M255.25,-66.8C260.83,-66.8 264.42,-66.8 264.42,-66.8 264.42,-66.8 264.42,-103.69 264.42,-103.69"/>
+<polygon fill="black" stroke="black" points="260.92,-103.69 264.42,-113.69 267.92,-103.69 260.92,-103.69"/>
+</g>
+
+<g id="node6" class="node">
+<title>UtilsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="110.27,-84.8 107.27,-88.8 86.27,-88.8 83.27,-84.8 23.73,-84.8 23.73,-48.8 110.27,-48.8 110.27,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>UtilsModule&#45;&gt;BsResultsViewModule</title>
+<path fill="none" stroke="black" d="M67,-84.91C67,-104.14 67,-131.8 67,-131.8 67,-131.8 246.02,-131.8 246.02,-131.8"/>
+<polygon fill="black" stroke="black" points="246.02,-135.3 256.02,-131.8 246.02,-128.3 246.02,-135.3"/>
+</g>
+</g>
+</svg>

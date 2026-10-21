@@ -1,0 +1,172 @@
+<svg width="372pt" height="1019pt"
+ viewBox="0.00 0.00 372.00 1019.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1015)">
+<title>task_status</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-1015 368,-1015 368,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>def_file</title>
+<polygon fill="lightgrey" stroke="black" points="251.5,-1011 154.5,-1011 154.5,-958 251.5,-958 251.5,-1011"/>
+
+
+
+</g>
+
+<g id="node8" class="node"><title>check_status</title>
+<polygon fill="none" stroke="black" points="284,-907 155.147,-907 122,-871 250.853,-871 284,-907"/>
+
+</g>
+
+<g id="edge16" class="edge"><title>def_file&#45;&gt;check_status</title>
+<path fill="none" stroke="black" d="M203,-957.951C203,-945.363 203,-930.173 203,-917.35"/>
+<polygon fill="black" stroke="black" points="206.5,-917.245 203,-907.245 199.5,-917.245 206.5,-917.245"/>
+
+</g>
+
+<g id="node2" class="node"><title>pending</title>
+<polygon fill="lightgrey" stroke="black" points="221.5,-601 120.5,-601 120.5,-563 221.5,-563 221.5,-601"/>
+
+
+</g>
+
+<g id="node3" class="node"><title>local</title>
+<polygon fill="none" stroke="black" points="171,-526 100.449,-508 171,-490 241.551,-508 171,-526"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>pending&#45;&gt;local</title>
+<path fill="none" stroke="black" d="M171,-562.831C171,-554.894 171,-545.409 171,-536.628"/>
+<polygon fill="black" stroke="black" points="174.5,-536.418 171,-526.418 167.5,-536.418 174.5,-536.418"/>
+</g>
+
+<g id="node4" class="node"><title>remote</title>
+<polygon fill="lightgrey" stroke="black" points="166.5,-439 39.5,-439 39.5,-401 166.5,-401 166.5,-439"/>
+
+
+</g>
+
+<g id="edge5" class="edge"><title>local&#45;&gt;remote</title>
+<path fill="none" stroke="black" d="M159.771,-492.799C149.968,-480.401 135.491,-462.091 123.61,-447.065"/>
+<polygon fill="black" stroke="black" points="126.27,-444.787 117.322,-439.114 120.779,-449.129 126.27,-444.787"/>
+
+</g>
+
+<g id="node5" class="node"><title>job_queue</title>
+<polygon fill="none" stroke="black" points="172,-350 106.979,-332 172,-314 237.021,-332 172,-350"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>local&#45;&gt;job_queue</title>
+<path fill="none" stroke="black" d="M172.261,-490.245C173.229,-476.489 174.486,-456.495 175,-439 175.791,-412.08 174.698,-381.314 173.617,-359.887"/>
+<polygon fill="black" stroke="black" points="177.111,-359.687 173.078,-349.89 170.121,-360.064 177.111,-359.687"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>remote&#45;&gt;job_queue</title>
+<path fill="none" stroke="black" d="M117.633,-400.762C128.414,-387.325 143.12,-368.995 154.519,-354.788"/>
+<polygon fill="black" stroke="black" points="157.266,-356.957 160.794,-346.967 151.806,-352.576 157.266,-356.957"/>
+</g>
+
+<g id="node6" class="node"><title>job_queue_state</title>
+<polygon fill="lightgrey" stroke="black" points="181,-263 69,-263 69,-225 181,-225 181,-263"/>
+
+
+</g>
+
+<g id="edge8" class="edge"><title>job_queue&#45;&gt;job_queue_state</title>
+<path fill="none" stroke="black" d="M163.813,-316.02C157.211,-303.94 147.754,-286.634 139.827,-272.131"/>
+<polygon fill="black" stroke="black" points="142.752,-270.184 134.885,-263.087 136.609,-273.541 142.752,-270.184"/>
+
+</g>
+
+<g id="node7" class="node"><title>running</title>
+<polygon fill="lightgrey" stroke="black" points="240.851,-188 75.6473,-188 33.1491,-112 198.353,-112 240.851,-188"/>
+
+
+</g>
+
+<g id="edge7" class="edge"><title>job_queue&#45;&gt;running</title>
+<path fill="none" stroke="black" d="M179.118,-315.579C187.771,-294.651 200.046,-256.279 190,-225 186.814,-215.081 181.754,-205.362 175.996,-196.399"/>
+<polygon fill="black" stroke="black" points="178.829,-194.342 170.301,-188.056 173.048,-198.288 178.829,-194.342"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>job_queue_state&#45;&gt;running</title>
+<path fill="none" stroke="black" d="M127.371,-224.824C128.374,-217.132 129.594,-207.779 130.824,-198.349"/>
+<polygon fill="black" stroke="black" points="134.33,-198.532 132.153,-188.163 127.389,-197.626 134.33,-198.532"/>
+</g>
+
+<g id="node11" class="node"><title>failed</title>
+<polygon fill="lightgrey" stroke="black" points="228,-61 0,-61 0,-23 228,-23 228,-61"/>
+
+
+</g>
+
+<g id="edge15" class="edge"><title>running&#45;&gt;failed</title>
+<path fill="none" stroke="black" d="M128.956,-111.926C126.041,-98.4934 122.8,-83.5558 120.082,-71.0301"/>
+<polygon fill="black" stroke="black" points="123.482,-70.1922 117.941,-61.1618 116.641,-71.6766 123.482,-70.1922"/>
+
+</g>
+
+<g id="node12" class="node"><title>completed</title>
+<polygon fill="lightgrey" stroke="black" points="361.5,-61 246.5,-61 246.5,-23 361.5,-23 361.5,-61"/>
+
+
+</g>
+
+<g id="edge14" class="edge"><title>running&#45;&gt;completed</title>
+<path fill="none" stroke="black" d="M194.312,-111.96C210.95,-101.271 229.17,-89.6261 246,-79 252.407,-74.9545 259.232,-70.6842 265.866,-66.5537"/>
+<polygon fill="black" stroke="black" points="268.09,-69.2925 274.737,-61.0421 264.396,-63.3467 268.09,-69.2925"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>check_status&#45;&gt;pending</title>
+<path fill="none" stroke="black" d="M195.558,-870.635C186.019,-847.342 169.996,-804.449 164,-766 155.542,-711.766 161.675,-647.455 166.566,-611.323"/>
+<polygon fill="black" stroke="black" points="170.084,-611.45 168.027,-601.056 163.153,-610.464 170.084,-611.45"/>
+
+
+
+
+</g>
+
+<g id="node9" class="node"><title>forced</title>
+<polygon fill="none" stroke="black" points="286,-820 226.009,-802 286,-784 345.991,-802 286,-820"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>check_status&#45;&gt;forced</title>
+<path fill="none" stroke="black" d="M219.796,-870.799C233.065,-857.21 251.632,-838.196 265.728,-823.76"/>
+<polygon fill="black" stroke="black" points="268.555,-825.875 273.037,-816.275 263.546,-820.985 268.555,-825.875"/>
+
+</g>
+
+<g id="node10" class="node"><title>resumed</title>
+<polygon fill="none" stroke="black" points="257,-688 192.818,-670 257,-652 321.182,-670 257,-688"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>forced&#45;&gt;resumed</title>
+<path fill="none" stroke="black" d="M282.444,-785.059C277.552,-763.13 268.687,-723.39 262.821,-697.093"/>
+<polygon fill="black" stroke="black" points="266.178,-696.069 260.585,-687.071 259.346,-697.593 266.178,-696.069"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>forced&#45;&gt;completed</title>
+<path fill="none" stroke="black" d="M297.85,-787.255C316.099,-764.627 349,-717.398 349,-671 349,-671 349,-671 349,-149 349,-120.265 334.815,-90.3825 322.373,-69.6993"/>
+<polygon fill="black" stroke="black" points="325.293,-67.768 317.016,-61.1549 319.363,-71.4865 325.293,-67.768"/>
+
+</g>
+
+<g id="edge13" class="edge"><title>resumed&#45;&gt;pending</title>
+<path fill="none" stroke="black" d="M243.562,-655.562C230.977,-642.977 211.843,-623.843 196.383,-608.383"/>
+<polygon fill="black" stroke="black" points="198.679,-605.73 189.133,-601.133 193.73,-610.679 198.679,-605.73"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>resumed&#45;&gt;completed</title>
+<path fill="none" stroke="black" d="M263.942,-653.821C271.03,-636.91 281,-608.577 281,-583 281,-583 281,-583 281,-149 281,-121.975 288.228,-91.9367 294.581,-70.7575"/>
+<polygon fill="black" stroke="black" points="297.949,-71.713 297.593,-61.1241 291.268,-69.6237 297.949,-71.713"/>
+
+</g>
+</g>
+</svg>

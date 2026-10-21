@@ -1,0 +1,88 @@
+<svg width="515pt" height="284pt"
+ viewBox="0.00 0.00 515.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 511,-280 511,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="19.5,-10 19.5,-30 39.5,-30 39.5,-10 19.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="132.5,-10 132.5,-30 152.5,-30 152.5,-10 132.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="218.5,-10 218.5,-30 238.5,-30 238.5,-10 218.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="315.5,-10 315.5,-30 335.5,-30 335.5,-10 315.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="411.5,-10 411.5,-30 431.5,-30 431.5,-10 411.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_OnlineModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 499,-268 499,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_OnlineModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="299,-78 299,-130 491,-130 491,-78 299,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_OnlineModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 291,-130 291,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_OnlineModule_exports</title>
+<polygon fill="none" stroke="#000000" points="115,-208 115,-260 309,-260 309,-208 115,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>CalcQuestionaryComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="482.9115,-122 307.0885,-122 307.0885,-86 482.9115,-86 482.9115,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>OnlineModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="260.6528,-187 257.6528,-191 236.6528,-191 233.6528,-187 163.3472,-187 163.3472,-151 260.6528,-151 260.6528,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CalcQuestionaryComponent&#45;&gt;OnlineModule</title>
+<path fill="none" stroke="#000000" d="M395,-122.1061C395,-141.3391 395,-169 395,-169 395,-169 271.0406,-169 271.0406,-169"/>
+<polygon fill="#000000" stroke="#000000" points="271.0407,-165.5001 261.0406,-169 271.0406,-172.5001 271.0407,-165.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>CalcQuestionaryComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="301.411,-252 122.589,-252 122.589,-216 301.411,-216 301.411,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>OnlineModule&#45;&gt;CalcQuestionaryComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M212,-187.1061C212,-187.1061 212,-205.991 212,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="208.5001,-205.9909 212,-215.991 215.5001,-205.991 208.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>OnlineRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="283.2702,-122 280.2702,-126 259.2702,-126 256.2702,-122 140.7298,-122 140.7298,-86 283.2702,-86 283.2702,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>OnlineRoutingModule&#45;&gt;OnlineModule</title>
+<path fill="none" stroke="#000000" d="M212,-122.1061C212,-122.1061 212,-140.991 212,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="208.5001,-140.9909 212,-150.991 215.5001,-140.991 208.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;OnlineModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.1061C73,-141.3391 73,-169 73,-169 73,-169 152.9938,-169 152.9938,-169"/>
+<polygon fill="#000000" stroke="#000000" points="152.9938,-172.5001 162.9938,-169 152.9938,-165.5001 152.9938,-172.5001"/>
+</g>
+</g>
+</svg>

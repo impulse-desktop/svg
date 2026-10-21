@@ -1,0 +1,129 @@
+<svg width="158pt" height="937pt"
+ viewBox="0.00 0.00 158.00 937.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 933)">
+<title>tbb::internal::scheduler</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-933 154,-933 154,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="12,-628.5 12,-729.5 138,-729.5 138,-628.5 12,-628.5"/>
+
+<polyline fill="none" stroke="black" points="12,-710.5 138,-710.5 "/>
+
+<polyline fill="none" stroke="black" points="12,-691.5 138,-691.5 "/>
+
+
+
+
+
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00302.html" target="_top" xlink:title="Work stealing task scheduler. ">
+<polygon fill="white" stroke="black" points="8.5,-171.5 8.5,-591.5 141.5,-591.5 141.5,-171.5 8.5,-171.5"/>
+
+
+<polyline fill="none" stroke="black" points="8.5,-561.5 141.5,-561.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+<polyline fill="none" stroke="black" points="8.5,-421.5 141.5,-421.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M75,-618.056C75,-609.788 75,-600.944 75,-591.711"/>
+<polygon fill="none" stroke="midnightblue" points="71.5001,-618.207 75,-628.207 78.5001,-618.207 71.5001,-618.207"/>
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00516.html" target="_top" xlink:title="Base class for types that should not be copied or assigned. ">
+<polygon fill="white" stroke="black" points="20,-766.5 20,-834.5 130,-834.5 130,-766.5 20,-766.5"/>
+
+<polyline fill="none" stroke="black" points="20,-815.5 130,-815.5 "/>
+
+<polyline fill="none" stroke="black" points="20,-796.5 130,-796.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#8b1a1a" d="M75,-756.045C75,-747.469 75,-738.408 75,-729.646"/>
+<polygon fill="none" stroke="#8b1a1a" points="71.5001,-756.213 75,-766.213 78.5001,-756.213 71.5001,-756.213"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="16,-871.5 16,-928.5 134,-928.5 134,-871.5 16,-871.5"/>
+
+<polyline fill="none" stroke="black" points="16,-909.5 134,-909.5 "/>
+
+<polyline fill="none" stroke="black" points="16,-890.5 134,-890.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#8b1a1a" d="M75,-861.063C75,-852.393 75,-843.243 75,-834.786"/>
+<polygon fill="none" stroke="#8b1a1a" points="71.5001,-861.321 75,-871.321 78.5001,-861.321 71.5001,-861.321"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00194.html" target="_top" xlink:title="A scheduler with a customized evaluation loop. ">
+<polygon fill="white" stroke="black" points="-1.42109e-14,-0.5 -1.42109e-14,-134.5 150,-134.5 150,-0.5 -1.42109e-14,-0.5"/>
+
+
+<polyline fill="none" stroke="black" points="-1.42109e-14,-104.5 150,-104.5 "/>
+
+<polyline fill="none" stroke="black" points="-1.42109e-14,-85.5 150,-85.5 "/>
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="#8b1a1a" d="M75,-160.991C75,-151.803 75,-142.969 75,-134.652"/>
+<polygon fill="none" stroke="#8b1a1a" points="71.5001,-161.093 75,-171.093 78.5001,-161.093 71.5001,-161.093"/>
+</g>
+</g>
+</svg>

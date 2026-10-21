@@ -1,0 +1,124 @@
+<svg width="1061pt" height="211pt"
+ viewBox="0.00 0.00 1061.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1057,-207 1057,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="292.5,-10 292.5,-30 312.5,-30 312.5,-10 292.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="405.5,-10 405.5,-30 425.5,-30 425.5,-10 405.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="491.5,-10 491.5,-30 511.5,-30 511.5,-10 491.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="588.5,-10 588.5,-30 608.5,-30 608.5,-10 588.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="684.5,-10 684.5,-30 704.5,-30 704.5,-10 684.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PagesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1045,-195 1045,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PagesModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="907,-78 907,-130 1037,-130 1037,-78 907,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_PagesModule_imports</title>
+<polygon fill="none" stroke="#000000" points="375,-78 375,-130 899,-130 899,-78 375,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_PagesModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 367,-130 367,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>PagesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1028.9888,-122 915.0112,-122 915.0112,-86 1028.9888,-86 1028.9888,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>PagesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="594.2064,-187 591.2064,-191 570.2064,-191 567.2064,-187 501.7936,-187 501.7936,-151 594.2064,-151 594.2064,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PagesComponent&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M972,-122.2921C972,-144.2057 972,-178 972,-178 972,-178 604.1826,-178 604.1826,-178"/>
+<polygon fill="#000000" stroke="#000000" points="604.1826,-174.5001 594.1826,-178 604.1825,-181.5001 604.1826,-174.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>DashboardModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="891.191,-122 888.191,-126 867.191,-126 864.191,-122 770.809,-122 770.809,-86 891.191,-86 891.191,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DashboardModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M831,-122.1061C831,-141.3391 831,-169 831,-169 831,-169 604.4148,-169 604.4148,-169"/>
+<polygon fill="#000000" stroke="#000000" points="604.4148,-165.5001 594.4148,-169 604.4148,-172.5001 604.4148,-165.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>PagesRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="752.8244,-122 749.8244,-126 728.8244,-126 725.8244,-122 615.1756,-122 615.1756,-86 752.8244,-86 752.8244,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PagesRoutingModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M684,-122.027C684,-138.3976 684,-160 684,-160 684,-160 604.4231,-160 604.4231,-160"/>
+<polygon fill="#000000" stroke="#000000" points="604.4231,-156.5001 594.4231,-160 604.4231,-163.5001 604.4231,-156.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="597.4231,-122 594.4231,-126 573.4231,-126 570.4231,-122 498.5769,-122 498.5769,-86 597.4231,-86 597.4231,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SharedModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M548,-122.1061C548,-122.1061 548,-140.991 548,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="544.5001,-140.9909 548,-150.991 551.5001,-140.991 544.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="481.4231,-122 478.4231,-126 457.4231,-126 454.4231,-122 382.5769,-122 382.5769,-86 481.4231,-86 481.4231,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ThemeModule&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M432,-122.027C432,-138.3976 432,-160 432,-160 432,-160 491.8204,-160 491.8204,-160"/>
+<polygon fill="#000000" stroke="#000000" points="491.8205,-163.5001 501.8204,-160 491.8204,-156.5001 491.8205,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>ConfiguracionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="263" cy="-104" rx="95.5471" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ConfiguracionService&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M263,-122.1061C263,-141.3391 263,-169 263,-169 263,-169 491.8931,-169 491.8931,-169"/>
+<polygon fill="#000000" stroke="#000000" points="491.8931,-172.5001 501.8931,-169 491.893,-165.5001 491.8931,-172.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>MenuService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="87" cy="-104" rx="62.5392" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MenuService&#45;&gt;PagesModule</title>
+<path fill="none" stroke="#000000" d="M87,-122.2921C87,-144.2057 87,-178 87,-178 87,-178 491.6868,-178 491.6868,-178"/>
+<polygon fill="#000000" stroke="#000000" points="491.6869,-181.5001 501.6868,-178 491.6868,-174.5001 491.6869,-181.5001"/>
+</g>
+</g>
+</svg>

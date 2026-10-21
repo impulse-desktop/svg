@@ -1,0 +1,46 @@
+<svg id="bannersvg" version="1.1"
+			xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink"
+			xmlns:ev="http://www.w3.org/2001/xml-events"
+			x="0" y="0"
+			viewBox="0 0 2560 300"
+			baseProfile="full">
+			<title>iCreateOFX Banner</title>
+			<style type="text/css">
+				circle { cursor: pointer; cursor: hand; }
+			</style>
+			<defs>
+				<filter id="flood-2">
+					<feFlood in="SourceGraphic" flood-color="#00f" flood-opacity="0.6"></feFlood>
+					<feComposite in="SourceGraphic" operator="in"></feComposite>
+				</filter>
+				<pattern id="img1" patternUnits="userSpaceOnUse" x="51.5" y="17" width="80" height="80"  patternTransform="scale(1.75)">
+					<image xlink:href="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjgwIiB3aWR0aD0iODAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBzdHJva2Utd2lkdGg9IjIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDI7IiBzdHJva2U9IiM4MDgwODAiIGZpbGw9IiMwOTNiNmMiIHJ5PSIwIiByeD0iMCIgcj0iMCIgaGVpZ2h0PSI4MCIgd2lkdGg9IjgwIiB5PSIwIiB4PSIwIj48L3JlY3Q+PGNpcmNsZSBzdHJva2Utd2lkdGg9IjUiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDU7IiBzdHJva2U9IiNmZmM5NzkiIGZpbGw9IiNmZmM5NzkiIHI9IjM1IiBjeT0iNDAiIGN4PSI0MCI+PC9jaXJjbGU+PHBhdGggc3Ryb2tlLXdpZHRoPSIxIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAxOyIgZD0iTTQwLDIwTDE2LDI5TDYzLDI5TDQwLDIwTTU5LDMwTDU5LDMxTDIwLDMxTTIyLDMzTDU3LDMzTDU3LDMwTTI1LDMzTDI1LDQ5TTI3LDQ5TDI3LDMzTTM1LDMzTDM1LDQ5TTU0LDMzTDU0LDQ5TTUyLDQ5TDUyLDMzTTQ0LDMzTDQ0LDQ5IiBzdHJva2U9IiMwMDAwMDAiIGZpbGw9Im5vbmUiPjwvcGF0aD48cGF0aCBzdHJva2Utd2lkdGg9IjEiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDE7IiBkPSJNMTgsNDlMNjEsNDlNMTYsNTJMNjIsNTIiIHN0cm9rZT0iIzAwMDAwMCIgZmlsbD0ibm9uZSI+PC9wYXRoPjxwYXRoIHN0cm9rZS13aWR0aD0iMSIgc3R5bGU9InN0cm9rZS13aWR0aDogMTsiIGQ9Ik0xMyw1NUw2NSw1NSIgc3Ryb2tlPSIjMDAwMDAwIiBmaWxsPSJub25lIj48L3BhdGg+PC9zdmc+" width="80" height="80"></image>
+				</pattern>
+				<pattern id="img3" patternUnits="userSpaceOnUse" x="45" y="17" width="80" height="80" patternTransform="scale(1.75)">
+					<image xlink:href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyIgPz4NCjxzdmcgaGVpZ2h0PSI4MCIgd2lkdGg9IjgwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9ICJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4NCiAgICAgICAgPHBhdHRlcm4gaWQ9ImltZzIiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHg9IjE2IiB5PSIxNSIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIj4NCiAgICAgICAgICAgIDxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBEOTRiV3dnZG1WeWMybHZiajBpTVM0d0lpQmxibU52WkdsdVp6MGlkWFJtTFRnaVB6NE5Danh6ZG1jZ2RtVnljMmx2YmowaU1TNHhJaUJ3Y21WelpYSjJaVUZ6Y0dWamRGSmhkR2x2UFNKNFRXbHVXVTFwYmlCdFpXVjBJaUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGh0Ykc1ek9uaHNhVzVyUFNKb2RIUndPaTh2ZDNkM0xuY3pMbTl5Wnk4eE9UazVMM2hzYVc1cklpQjRQU0l3Y0hnaUlIazlJakJ3ZUNJZ2QybGtkR2c5SWpRNGNIZ2lJR2hsYVdkb2REMGlORGh3ZUNJZ2RtbGxkMEp2ZUQwaU1DQXdJRFE0SURRNElqNE5Danh5WldOMElIZzlJakFpSUhrOUlqQWlJSE4wY205clpUMGlJMkU1WVRsaE9TSWdjM1J5YjJ0bExYZHBaSFJvUFNJeUlpQm1hV3hzUFNJalJrWXdNRVJESWlCM2FXUjBhRDBpTkRnaUlHaGxhV2RvZEQwaU5EZ2lJQzgrRFFvOGNHRjBhQ0JrUFNKTk55QXhNaUJNTWpNZ01pQk1NemtnTVRKYUlFMHlNQ0F4TWlCTU1qQWdNakVnVERJM0lESXhJRXd5TnlBeE1sb2dUVE16SURFeUlFd3pNeUF5TVNCTU16Z2dNakVnVERNNElERXlXaUlnWm1sc2JEMGlJekF3TURBd01DSWdMejROQ2p4d1lYUm9JR1E5SWsweU15QXpJRXd4T0NBM0lFd3lNeUF4TWlCTU1qZ2dOMW9pSUdacGJHdzlJaU5HUmpaQk1EQWlJQzgrRFFvOGNHRjBhQ0JrUFNKTk55QXlNeUJNTVRjZ01qTWdUREl6SURJNElFd3pNQ0F5TXlCTU16a2dNak1nVERJNElETXhJRXcwTUNBME1DQk1NekFnTkRBZ1RESXpJRE0xSUV3eE55QTBNQ0JNTnlBME1DQk1NakFnTXpGYUlpQm1hV3hzUFNJak1EQXdNREF3SWlBdlBnMEtQSEJoZEdnZ1pEMGlUVEl6SURNM0lFd3hOeUEwTWlCTU1qTWdORGNnVERJNUlEUXlXaUlnWm1sc2JEMGlJMFpHUkRnd01DSWdMejROQ2p3dmMzWm5QZzBLIiB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIC8+DQogICAgICAgIDwvcGF0dGVybj4NCjxjaXJjbGUgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiNGRjAwREMiIHI9IjM4IiBjeT0iNDAiIGN4PSI0MCIgIGZpbGw9IiMwMDgwMDAiIC8+DQo8Y2lyY2xlIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlPSIjNzA4MDkwIiByPSIzOCIgY3k9IjQwIiBjeD0iNDAiICBmaWxsPSJ1cmwoI2ltZzIpIiAvPg0KPC9zdmc+" width="80" height="80"></image>
+				</pattern>
+				<pattern id="img2" patternUnits="userSpaceOnUse" x="63" y="18" width="80" height="80" patternTransform="scale(1.75)">
+					<image xlink:href="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjgwIiB3aWR0aD0iODAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIHN0cm9rZS13aWR0aD0iNSIgc3R5bGU9InN0cm9rZS13aWR0aDogNTsiIHN0cm9rZT0iIzcwODA5MCIgZmlsbD0iI2ZmZmZmZiIgcj0iMzciIGN5PSI0MCIgY3g9IjQwIj48L2NpcmNsZT48L3N2Zz4=" width="80" height="80"></image>
+				</pattern>
+				<pattern id="img4" patternUnits="userSpaceOnUse" x="40" y="18" width="80" height="80" patternTransform="scale(1.75)">
+					<image xlink:href="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjgwIiB3aWR0aD0iODAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIHN0cm9rZS13aWR0aD0iNSIgc3R5bGU9InN0cm9rZS13aWR0aDogNTsiIHN0cm9rZT0iIzcwODA5MCIgZmlsbD0iI2ZmZmZmZiIgcj0iMzciIGN5PSI0MCIgY3g9IjQwIj48L2NpcmNsZT48L3N2Zz4=" width="80" height="80"></image>
+				</pattern>
+				<pattern id="img5" patternUnits="userSpaceOnUse" x="57" y="17" width="80" height="80" patternTransform="scale(1.75)">
+					<image xlink:href="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjgwIiB3aWR0aD0iODAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIHN0cm9rZS13aWR0aD0iNSIgc3R5bGU9InN0cm9rZS13aWR0aDogNTsiIHN0cm9rZT0iIzcwODA5MCIgZmlsbD0iIzAwMDBjZCIgcj0iMzciIGN5PSI0MCIgY3g9IjQwIj48L2NpcmNsZT48cGF0aCBzdHJva2Utd2lkdGg9IjUiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDU7IiBkPSJNMjMsNjNMNTksNjMiIHN0cm9rZT0iI2ZmMDAwMCIgZmlsbD0ibm9uZSI+PC9wYXRoPjwvc3ZnPg==" width="80" height="80"></image>
+				</pattern>
+				<pattern id="Pattern" patternUnits="userSpaceOnUse" x="0" y="0" width="8" height="8" patternTransform="scale(0.8)">
+					<image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPg0KPHJlY3Qgd2lkdGg9IjgiIGhlaWdodD0iOCIgZmlsbD0iZ2FpbnNib3JvIj48L3JlY3Q+DQo8cGF0aCBkPSJNMCAwTDggOFoiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlPSJkYXJra2hha2kiPjwvcGF0aD4NCiAgPHBhdGggZD0iTTggMEwwIDhaIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0ib3JhbmdlIj48L3BhdGg+DQo8L3N2Zz4=" width="8" height="8"></image>
+				</pattern>
+			</defs>
+			<rect fill="url(#Pattern)" stroke="none" x="0" y="0" width="2560" height="300"></rect> 
+			
+			<circle onclick="window.location.href='/products/paypalapi'" stroke-width="3" stroke="darkkhaki" r="70" cy="100" cx="980"  fill="url(#img4)" ></circle>  
+			<circle onclick="window.location.href='/products/investment'" stroke-width="3" stroke="darkkhaki" r="70" cy="100" cx="1130"  fill="url(#img3)"></circle> 
+			<circle onclick="window.location.href='/products/basic'" stroke-width="3" stroke="darkkhaki" r="70" cy="100" cx="1280" fill="url(#img1)" ></circle> 
+			<circle onclick="window.location.href='/products/nationwide'" stroke-width="3" stroke="darkkhaki" r="70" cy="100" cx="1430"  fill="url(#img5)"></circle> 
+			<circle onclick="window.location.href='/products/paypalcsv'" stroke-width="3" stroke="darkkhaki" r="70" cy="100" cx="1580"  fill="url(#img2)"></circle> 
+			
+			<line stroke-width="3" stroke="blue" x1="1325" y1="204" x2="1325" y2="266"></line>
+			
+		</svg>

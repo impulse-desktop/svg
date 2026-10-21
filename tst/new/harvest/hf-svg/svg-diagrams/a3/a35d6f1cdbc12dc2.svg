@@ -1,0 +1,110 @@
+<svg width="264pt" height="540pt"
+ viewBox="0.00 0.00 264.00 540.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 536)">
+<title>AuthTokenSession</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-536 260,-536 260,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="AuthTokenSession is a DefaultSession, but additionally requires clients to send a token in the X&#45;Auth...">
+<polygon fill="#bfbfbf" stroke="black" points="71,-0.5 71,-112.5 187,-112.5 187,-0.5 71,-0.5"/>
+
+<polyline fill="none" stroke="black" points="71,-93.5 187,-93.5 "/>
+
+<polyline fill="none" stroke="black" points="71,-74.5 187,-74.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="classwcmf_1_1lib_1_1core_1_1impl_1_1_default_session.html" target="_top" xlink:title="DefaultSession uses the default PHP session implementation:">
+<polygon fill="white" stroke="black" points="0,-149.5 0,-338.5 122,-338.5 122,-149.5 0,-149.5"/>
+
+<polyline fill="none" stroke="black" points="0,-319.5 122,-319.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-300.5 122,-300.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M98.76,-140C102.2,-130.6 105.6,-121.33 108.8,-112.61"/>
+<polygon fill="none" stroke="midnightblue" points="95.45,-138.84 95.3,-149.43 102.03,-141.25 95.45,-138.84"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="interfacewcmf_1_1lib_1_1core_1_1_session.html" target="_top" xlink:title="Session is the interface for session implementations and defines access to session variables.">
+<polygon fill="white" stroke="black" points="81,-375.5 81,-531.5 177,-531.5 177,-375.5 81,-375.5"/>
+
+<polyline fill="none" stroke="black" points="81,-512.5 177,-512.5 "/>
+
+<polyline fill="none" stroke="black" points="81,-493.5 177,-493.5 "/>
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M100.55,-365.69C97.64,-356.81 94.68,-347.77 91.75,-338.82"/>
+<polygon fill="none" stroke="midnightblue" points="97.24,-366.82 103.68,-375.23 103.89,-364.64 97.24,-366.82"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="interfacewcmf_1_1lib_1_1core_1_1_token_based_session.html" target="_top" xlink:title="A session that requires clients to send a token for authentication.">
+<polygon fill="white" stroke="black" points="140,-210 140,-278 256,-278 256,-210 140,-210"/>
+
+<polyline fill="none" stroke="black" points="140,-259 256,-259 "/>
+
+<polyline fill="none" stroke="black" points="140,-240 256,-240 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M157.86,-365.71C168.15,-334.78 179.12,-301.77 186.99,-278.1"/>
+<polygon fill="none" stroke="midnightblue" points="154.53,-364.64 154.69,-375.23 161.17,-366.85 154.53,-364.64"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node4&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M182.1,-200.24C172.4,-174.18 159.91,-140.6 149.48,-112.56"/>
+<polygon fill="none" stroke="midnightblue" points="178.9,-201.68 185.66,-209.84 185.46,-199.24 178.9,-201.68"/>
+</g>
+</g>
+</svg>

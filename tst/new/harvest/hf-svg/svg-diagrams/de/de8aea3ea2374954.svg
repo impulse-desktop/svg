@@ -1,0 +1,145 @@
+<svg width="792pt" height="260pt"
+ viewBox="0.00 0.00 792.00 260.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>sourcetree</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-256 788,-256 788,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>MulleObjCHTTPFoundation</title>
+<polygon fill="yellow" stroke="black" points="433.5,-252 220.5,-252 220.5,-216 433.5,-216 433.5,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>mulle&#45;http</title>
+<polygon fill="lightgrey" stroke="black" points="208.5,-180 117.5,-180 117.5,-144 208.5,-144 208.5,-180"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>MulleObjCHTTPFoundation&#45;&gt;mulle&#45;http</title>
+<path fill="none" stroke="black" d="M286.88,-215.88C264.36,-206.26 236.08,-194.19 212.23,-184.01"/>
+<polygon fill="black" stroke="black" points="213.56,-180.77 202.99,-180.07 210.81,-187.21 213.56,-180.77"/>
+</g>
+
+<g id="node4" class="node">
+<title>MulleObjCInetFoundation</title>
+<polygon fill="lightgrey" stroke="black" points="427.5,-180 226.5,-180 226.5,-144 427.5,-144 427.5,-180"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MulleObjCHTTPFoundation&#45;&gt;MulleObjCInetFoundation</title>
+<path fill="none" stroke="black" d="M327,-215.7C327,-207.98 327,-198.71 327,-190.11"/>
+<polygon fill="black" stroke="black" points="330.5,-190.1 327,-180.1 323.5,-190.1 330.5,-190.1"/>
+</g>
+
+<g id="node5" class="node">
+<title>mulle&#45;objc&#45;list</title>
+<polygon fill="lightgrey" stroke="black" points="562.5,-180 445.5,-180 445.5,-144 562.5,-144 562.5,-180"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MulleObjCHTTPFoundation&#45;&gt;mulle&#45;objc&#45;list</title>
+<path fill="none" stroke="black" d="M370.3,-215.88C394.71,-206.22 425.4,-194.09 451.21,-183.88"/>
+<polygon fill="black" stroke="black" points="452.83,-187 460.84,-180.07 450.26,-180.49 452.83,-187"/>
+</g>
+
+<g id="node3" class="node">
+<title>mulle&#45;c11</title>
+<polygon fill="lightgrey" stroke="black" points="86,-108 0,-108 0,-72 86,-72 86,-108"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>mulle&#45;http&#45;&gt;mulle&#45;c11</title>
+<path fill="none" stroke="black" d="M133.64,-143.88C117.95,-134.72 98.44,-123.34 81.55,-113.48"/>
+<polygon fill="black" stroke="black" points="82.87,-110.21 72.47,-108.19 79.34,-116.25 82.87,-110.21"/>
+</g>
+
+<g id="node6" class="node">
+<title>MulleObjCLockFoundation</title>
+<polygon fill="lightgrey" stroke="black" points="310,-108 104,-108 104,-72 310,-72 310,-108"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MulleObjCInetFoundation&#45;&gt;MulleObjCLockFoundation</title>
+<path fill="none" stroke="black" d="M297.64,-143.88C281.95,-134.72 262.44,-123.34 245.55,-113.48"/>
+<polygon fill="black" stroke="black" points="246.87,-110.21 236.47,-108.19 243.34,-116.25 246.87,-110.21"/>
+</g>
+
+<g id="node7" class="node">
+<title>MulleObjCStandardFoundation</title>
+<polygon fill="lightgrey" stroke="black" points="567.5,-108 328.5,-108 328.5,-72 567.5,-72 567.5,-108"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MulleObjCInetFoundation&#45;&gt;MulleObjCStandardFoundation</title>
+<path fill="none" stroke="black" d="M356.6,-143.88C372.57,-134.64 392.46,-123.13 409.61,-113.21"/>
+<polygon fill="black" stroke="black" points="411.38,-116.23 418.29,-108.19 407.88,-110.17 411.38,-116.23"/>
+</g>
+
+<g id="node8" class="node">
+<title>mulle&#45;url</title>
+<polygon fill="lightgrey" stroke="black" points="666.5,-108 585.5,-108 585.5,-72 666.5,-72 666.5,-108"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MulleObjCInetFoundation&#45;&gt;mulle&#45;url</title>
+<path fill="none" stroke="black" d="M420.87,-143.99C465.47,-135.21 519.62,-123.57 575.73,-108.2"/>
+<polygon fill="black" stroke="black" points="576.78,-111.54 585.48,-105.5 574.91,-104.79 576.78,-111.54"/>
+</g>
+
+<g id="node9" class="node">
+<title>mulle&#45;time</title>
+<polygon fill="lightgrey" stroke="black" points="158.5,-36 65.5,-36 65.5,0 158.5,0 158.5,-36"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>MulleObjCLockFoundation&#45;&gt;mulle&#45;time</title>
+<path fill="none" stroke="black" d="M183.52,-71.7C171.44,-62.8 156.55,-51.82 143.48,-42.2"/>
+<polygon fill="black" stroke="black" points="145.34,-39.22 135.21,-36.1 141.19,-44.85 145.34,-39.22"/>
+</g>
+
+<g id="node10" class="node">
+<title>MulleObjCContainerFoundation</title>
+<polygon fill="lightgrey" stroke="black" points="419.5,-36 176.5,-36 176.5,0 419.5,0 419.5,-36"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>MulleObjCStandardFoundation&#45;&gt;MulleObjCContainerFoundation</title>
+<path fill="none" stroke="black" d="M411.31,-71.88C390.98,-62.39 365.53,-50.51 343.9,-40.42"/>
+<polygon fill="black" stroke="black" points="345.12,-37.13 334.57,-36.07 342.16,-43.47 345.12,-37.13"/>
+</g>
+
+<g id="node11" class="node">
+<title>MulleObjCValueFoundation</title>
+<polygon fill="lightgrey" stroke="black" points="650,-36 438,-36 438,0 650,0 650,-36"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>MulleObjCStandardFoundation&#45;&gt;MulleObjCValueFoundation</title>
+<path fill="none" stroke="black" d="M471.73,-71.7C483.94,-62.8 498.99,-51.82 512.18,-42.2"/>
+<polygon fill="black" stroke="black" points="514.52,-44.82 520.54,-36.1 510.4,-39.17 514.52,-44.82"/>
+</g>
+
+<g id="node12" class="node">
+<title>mulle&#45;unicode</title>
+<polygon fill="lightgrey" stroke="black" points="784,-36 668,-36 668,0 784,0 784,-36"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>MulleObjCStandardFoundation&#45;&gt;mulle&#45;unicode</title>
+<path fill="none" stroke="black" d="M515.95,-71.98C554.89,-62.21 604.94,-49.64 657.96,-36.26"/>
+<polygon fill="black" stroke="black" points="659.06,-39.59 667.9,-33.75 657.34,-32.81 659.06,-39.59"/>
+</g>
+</g>
+</svg>

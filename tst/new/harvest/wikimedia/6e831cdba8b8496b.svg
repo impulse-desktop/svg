@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+ <title>xtvÜWB</title>
+ <defs>
+  <mask id="1">
+   <circle r="999" fill="#FFF"/>
+   <path d="M 125,0 c 0,250 250,250 250,500 M 375,0 C 375,250 125,250 125,500" stroke-width="20" stroke="#000" fill="none"/>
+  </mask>
+ </defs>
+ <g mask="url(#1)" stroke-width="100" fill="none">
+  <path stroke="#D77F7E" d="m 0,0 m 500,0 M 375,-25 V 0 C 375,250 125,250 125,500" stroke-dasharray="50,46.291"/>
+  <path stroke="#BE2D2C" d="m 0,0 m 500,0 M 125,-25 V 0 c 0,250 250,250 250,500" stroke-dasharray="50,46.291"/>
+ </g>
+</svg>

@@ -1,0 +1,62 @@
+<svg width="473pt" height="99pt"
+ viewBox="0.00 0.00 473.00 98.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 94.5)">
+<title>tbb::queuing_rw_mutex::scoped_lock::try_acquire_internal_lock</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-94.5 469,-94.5 469,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-27.5 0,-68.5 131,-68.5 131,-27.5 0,-27.5"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00684.html#a50fb02b77f02a01c74754d163157ec77" target="_top" xlink:title="Release lock. ">
+<polygon fill="white" stroke="black" points="167,-60 167,-90 285,-90 285,-60 167,-60"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M141.386,-60.7567C149.918,-62.2101 158.518,-63.675 166.788,-65.0838"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="141.871,-57.2889 131.425,-59.0598 140.696,-64.1895 141.871,-57.2889"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00684.html#ae0f28ecfbbc5f8b3024cd47048b72b5b" target="_top" xlink:title="Upgrade reader to become a writer. ">
+<polygon fill="white" stroke="black" points="167,-0.5 167,-41.5 285,-41.5 285,-0.5 167,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M141.386,-35.2433C149.918,-33.7899 158.518,-32.325 166.788,-30.9162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="140.696,-31.8105 131.425,-36.9402 141.871,-38.7111 140.696,-31.8105"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00684.html#a6cb16cc55f884bbbd5a69430c47b288f" target="_top" xlink:title="Release lock (if lock is held). ">
+<polygon fill="white" stroke="black" points="321,-33 321,-63 465,-63 465,-33 321,-33"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M295.299,-63.8238C303.703,-62.4485 312.31,-61.0401 320.757,-59.658"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="294.476,-60.4118 285.173,-65.4808 295.607,-67.3199 294.476,-60.4118"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M295.299,-32.1762C303.703,-33.5515 312.31,-34.9599 320.757,-36.342"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="295.607,-28.6801 285.173,-30.5192 294.476,-35.5882 295.607,-28.6801"/>
+</g>
+</g>
+</svg>

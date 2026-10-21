@@ -1,0 +1,143 @@
+<svg width="398pt" height="256pt"
+ viewBox="0.00 0.00 398.00 256.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 252)">
+<title>marian::rnn::Tanh::applyState</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-252 394,-252 394,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-71 0,-101 99,-101 99,-71 0,-71"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../da/d22/namespacemarian.html#a268400392f22176821c7c4a36733b178" target="_top" xlink:title="marian::dropout">
+<polygon fill="white" stroke="black" points="144.5,-152.5 144.5,-171.5 228.5,-171.5 228.5,-152.5 144.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M70.1675,-101.209C86.7906,-113.578 111.572,-130.903 135,-143 138.839,-144.982 142.934,-146.867 147.068,-148.625"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="146.1,-152.008 156.684,-152.484 148.706,-145.511 146.1,-152.008"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="../../da/d22/namespacemarian.html#ad7fbf1ba8e2e04ffdc7d5e4841b5e691" target="_top" xlink:title="marian::dot">
+<polygon fill="white" stroke="black" points="154,-114.5 154,-133.5 219,-133.5 219,-114.5 154,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node1&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M99.2381,-99.7189C113.824,-103.825 129.68,-108.288 143.772,-112.254"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="143.104,-115.702 153.678,-115.043 145,-108.964 143.104,-115.702"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="../../da/d22/namespacemarian.html#a6202278a9da8ca8a281a6a96e75082f6" target="_top" xlink:title="marian::layer_norm">
+<polygon fill="white" stroke="black" points="136.5,-76.5 136.5,-95.5 236.5,-95.5 236.5,-76.5 136.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M99.2381,-86C108.018,-86 117.258,-86 126.296,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="126.38,-89.5001 136.38,-86 126.38,-82.5001 126.38,-89.5001"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="../../da/d22/namespacemarian.html#ab84fcdb2b1fa95f89e3921aea4027957" target="_top" xlink:title="marian::tanh">
+<polygon fill="white" stroke="black" points="151,-38.5 151,-57.5 222,-57.5 222,-38.5 151,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node1&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M99.2381,-72.2811C113.216,-68.3465 128.36,-64.0837 142.001,-60.2441"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="142.952,-63.6125 151.63,-57.5338 141.056,-56.8743 142.952,-63.6125"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="../../dd/d18/namespacemarian_1_1rnn.html#aebb005fe050e8538752175401598a47a" target="_top" xlink:title="marian::rnn::gruOps">
+<polygon fill="white" stroke="black" points="135,-0.5 135,-19.5 238,-19.5 238,-0.5 135,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node1&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M70.1675,-70.7908C86.7906,-58.4218 111.572,-41.0972 135,-29 138.839,-27.0176 142.934,-25.1328 147.068,-23.3748"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="148.706,-26.4888 156.684,-19.5164 146.1,-19.9923 148.706,-26.4888"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d4/d04/namespacemarian_1_1keywords.html#a74d7a2502faafdd421ef3dff629e284f" target="_top" xlink:title="marian::keywords::Get">
+<polygon fill="white" stroke="black" points="274,-228.5 274,-247.5 390,-247.5 390,-228.5 274,-228.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M199.775,-171.589C216.007,-183.908 245.852,-205.327 274,-219 278.401,-221.138 283.103,-223.13 287.848,-224.959"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="286.97,-228.363 297.564,-228.475 289.352,-221.781 286.97,-228.363"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../da/d22/namespacemarian.html#a763e5e9b5d5a329d2420fe9bab95476d" target="_top" xlink:title="marian::shift">
+<polygon fill="white" stroke="black" points="296.5,-190.5 296.5,-209.5 367.5,-209.5 367.5,-190.5 296.5,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M223.711,-171.589C242.747,-176.63 266.247,-182.853 286.397,-188.189"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="285.723,-191.631 296.286,-190.807 287.515,-184.864 285.723,-191.631"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="../../da/d22/namespacemarian.html#a3dbe8b5eb203876cd08cf3fe75a1c6bc" target="_top" xlink:title="marian::convolution">
+<polygon fill="white" stroke="black" points="281.5,-152.5 281.5,-171.5 382.5,-171.5 382.5,-152.5 281.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M228.621,-162C241.884,-162 256.865,-162 271.192,-162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="271.475,-165.5 281.475,-162 271.475,-158.5 271.475,-165.5"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="../../da/d22/namespacemarian.html#a8ee119d3ee4867a3c826de62ea1de4f5" target="_top" xlink:title="marian::avg_pooling">
+<polygon fill="white" stroke="black" points="280,-114.5 280,-133.5 384,-133.5 384,-114.5 280,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M223.711,-152.411C242.321,-147.483 265.197,-141.425 285.039,-136.171"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="286.03,-139.529 294.8,-133.586 284.238,-132.762 286.03,-139.529"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="../../da/d22/namespacemarian.html#abfe3b8c37f479da0a31a1e843d8bdedf" target="_top" xlink:title="marian::max_pooling">
+<polygon fill="white" stroke="black" points="278.5,-76.5 278.5,-95.5 385.5,-95.5 385.5,-76.5 278.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node2&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M219.555,-152.445C225.928,-149.866 232.381,-146.731 238,-143 257.381,-130.131 254.377,-117.497 274,-105 277.178,-102.976 280.595,-101.145 284.119,-99.4921"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="285.732,-102.611 293.608,-95.5257 283.032,-96.1528 285.732,-102.611"/>
+</g>
+</g>
+</svg>

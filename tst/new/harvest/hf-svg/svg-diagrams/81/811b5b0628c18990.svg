@@ -1,0 +1,80 @@
+<svg width="562pt" height="115pt"
+ viewBox="0.00 0.00 562.00 115.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 111)">
+<title>x265::ThreadPoolImpl::release</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-111 558,-111 558,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-33 0,-63 112,-63 112,-33 0,-33"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="classx265_1_1ThreadPoolImpl.html#a6069303d1024ffd65c0ec9dfbe4910b1" target="_top" xlink:title="x265::ThreadPoolImpl\l::Stop">
+<polygon fill="white" stroke="black" points="148,-33 148,-63 260,-63 260,-33 148,-33"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M112.196,-48C120.463,-48 129.055,-48 137.51,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="137.726,-51.5001 147.726,-48 137.726,-44.5001 137.726,-51.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classx265_1_1ThreadPoolImpl.html#af17f546fdc382ff7102897b91812ea12" target="_top" xlink:title="x265::ThreadPoolImpl\l::waitForAllIdle">
+<polygon fill="white" stroke="black" points="300,-77 300,-107 412,-107 412,-77 300,-77"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M256.202,-63.0192C268.323,-66.5748 281.37,-70.4018 293.882,-74.0721"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="293.193,-77.5175 303.774,-76.9738 295.164,-70.8005 293.193,-77.5175"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="classx265_1_1PoolThread.html#a9e1083006da7d4bea5e60ff5a9e2ff41" target="_top" xlink:title="x265::PoolThread::poke">
+<polygon fill="white" stroke="black" points="296,-38.5 296,-57.5 416,-57.5 416,-38.5 296,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M260.003,-48C268.416,-48 277.192,-48 285.863,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="285.965,-51.5001 295.965,-48 285.965,-44.5001 285.965,-51.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="classx265_1_1Thread.html#a6264fa4e413afa477a9db5e46a127113" target="_top" xlink:title="x265::Thread::stop">
+<polygon fill="white" stroke="black" points="307,-0.5 307,-19.5 405,-19.5 405,-0.5 307,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M260.003,-34.066C275.492,-30.142 292.209,-25.9071 307.237,-22.0998"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="308.502,-25.3901 317.336,-19.5415 306.783,-18.6045 308.502,-25.3901"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="classx265_1_1Event.html#ad3e86a968fd0b5340255f8691c22441b" target="_top" xlink:title="x265::Event::trigger">
+<polygon fill="white" stroke="black" points="452,-38.5 452,-57.5 554,-57.5 554,-38.5 452,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M416.395,-48C424.736,-48 433.316,-48 441.673,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="441.726,-51.5001 451.726,-48 441.726,-44.5001 441.726,-51.5001"/>
+</g>
+</g>
+</svg>

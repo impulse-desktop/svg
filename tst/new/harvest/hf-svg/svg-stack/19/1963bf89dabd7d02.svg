@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="609" height="476" viewBox="0 0 609 476">
+  <defs>
+    <rect id="ghost-content-a" width="604" height="471.017" x="1" y="1" rx="3"/>
+    <filter id="ghost-content-b" width="101.2%" height="101.5%" x="-.3%" y="-.4%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+      <feOffset dx="3" dy="3" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0.729   0 0 0 0 0.729   0 0 0 0 0.729  0 0 0 1 0"/>
+    </filter>
+    <rect id="ghost-content-e" width="604" height="471.017" x="1" y="1" rx="3"/>
+    <filter id="ghost-content-d" width="101.2%" height="101.5%" x="-.3%" y="-.4%" filterUnits="objectBoundingBox">
+      <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+      <feOffset dx="3" dy="3" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+      <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0.729   0 0 0 0 0.729   0 0 0 0 0.729  0 0 0 1 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="ghost-content-c" fill="#fff">
+      <use xlink:href="#ghost-content-a"/>
+    </mask>
+    <use fill="#000" filter="url(#ghost-content-b)" xlink:href="#ghost-content-a"/>
+    <use fill="#FFF" stroke="#BABABA" stroke-opacity=".5" xlink:href="#ghost-content-a"/>
+    <g mask="url(#ghost-content-c)">
+      <use fill="#000" filter="url(#ghost-content-d)" xlink:href="#ghost-content-e"/>
+      <use fill="#FFF" stroke="#BABABA" stroke-opacity=".5" xlink:href="#ghost-content-e"/>
+    </g>
+    <rect width="604" height="253.667" x="1" y="1" fill="#BABABA" mask="url(#ghost-content-c)"/>
+    <rect width="536" height="34" x="15" y="276" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <rect width="388" height="34" x="15" y="325" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <rect width="292" height="16" x="81" y="380" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <rect width="128" height="16" x="81" y="405" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <rect width="96" height="16" x="216" y="405" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <rect width="128" height="16" x="319" y="405" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <rect width="47" height="16" x="454" y="405" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <rect width="35" height="16" x="46" y="437" fill="#BABABA" mask="url(#ghost-content-c)" rx="3"/>
+    <circle cx="38" cy="400" r="24" fill="#BABABA" mask="url(#ghost-content-c)"/>
+    <circle cx="25" cy="445" r="10" fill="#BABABA" mask="url(#ghost-content-c)"/>
+  </g>
+</svg>

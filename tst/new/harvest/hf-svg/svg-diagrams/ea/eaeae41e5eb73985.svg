@@ -1,0 +1,148 @@
+<svg width="1496pt" height="211pt"
+ viewBox="0.00 0.00 1496.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1492,-207 1492,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="510,-10 510,-30 530,-30 530,-10 510,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="623,-10 623,-30 643,-30 643,-10 623,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="709,-10 709,-30 729,-30 729,-10 709,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="806,-10 806,-30 826,-30 826,-10 806,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="902,-10 902,-30 922,-30 922,-10 902,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SignupModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1480,-195 1480,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SignupModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="458,-78 458,-130 1472,-130 1472,-78 458,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_SignupModule_imports</title>
+<polygon fill="none" stroke="#000000" points="174,-78 174,-130 450,-130 450,-78 174,-78"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_SignupModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 166,-130 166,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ConfirmSignupComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1464.4452,-122 1295.5548,-122 1295.5548,-86 1464.4452,-86 1464.4452,-122"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>SignupModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="750.7233,-187 747.7233,-191 726.7233,-191 723.7233,-187 651.2767,-187 651.2767,-151 750.7233,-151 750.7233,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ConfirmSignupComponent&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M1380,-122.0109C1380,-144.4852 1380,-180 1380,-180 1380,-180 760.6534,-180 760.6534,-180"/>
+<polygon fill="#000000" stroke="#000000" points="760.6534,-176.5001 750.6534,-180 760.6534,-183.5001 760.6534,-176.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CredentialsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1277.5898,-122 1132.4102,-122 1132.4102,-86 1277.5898,-86 1277.5898,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CredentialsComponent&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M1205,-122.1289C1205,-142.5724 1205,-173 1205,-173 1205,-173 760.7048,-173 760.7048,-173"/>
+<polygon fill="#000000" stroke="#000000" points="760.7048,-169.5001 750.7048,-173 760.7048,-176.5001 760.7048,-169.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CuisineTypeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1114.3766,-122 961.6234,-122 961.6234,-86 1114.3766,-86 1114.3766,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CuisineTypeComponent&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M1038,-122.2667C1038,-140.5552 1038,-166 1038,-166 1038,-166 760.7255,-166 760.7255,-166"/>
+<polygon fill="#000000" stroke="#000000" points="760.7255,-162.5001 750.7255,-166 760.7255,-169.5001 760.7255,-162.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>LocationTypeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="943.8627,-122 784.1373,-122 784.1373,-86 943.8627,-86 943.8627,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LocationTypeComponent&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M864,-122.0091C864,-138.0494 864,-159 864,-159 864,-159 760.7911,-159 760.7911,-159"/>
+<polygon fill="#000000" stroke="#000000" points="760.7911,-155.5001 750.7911,-159 760.791,-162.5001 760.7911,-155.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>MaxCapComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="765.5436,-122 636.4564,-122 636.4564,-86 765.5436,-86 765.5436,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MaxCapComponent&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M701,-122.1061C701,-122.1061 701,-140.991 701,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="697.5001,-140.9909 701,-150.991 704.5001,-140.991 697.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>ResendCodeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="618.094,-122 465.906,-122 465.906,-86 618.094,-86 618.094,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ResendCodeComponent&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M542,-122.0091C542,-138.0494 542,-159 542,-159 542,-159 641.1277,-159 641.1277,-159"/>
+<polygon fill="#000000" stroke="#000000" points="641.1277,-162.5001 651.1277,-159 641.1276,-155.5001 641.1277,-162.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="442.4231,-122 439.4231,-126 418.4231,-126 415.4231,-122 343.5769,-122 343.5769,-86 442.4231,-86 442.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedModule&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M393,-122.2667C393,-140.5552 393,-166 393,-166 393,-166 641.1722,-166 641.1722,-166"/>
+<polygon fill="#000000" stroke="#000000" points="641.1722,-169.5001 651.1722,-166 641.1721,-162.5001 641.1722,-169.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>SignupRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="326.3412,-122 323.3412,-126 302.3412,-126 299.3412,-122 181.6588,-122 181.6588,-86 326.3412,-86 326.3412,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SignupRoutingModule&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M254,-122.1289C254,-142.5724 254,-173 254,-173 254,-173 641.0246,-173 641.0246,-173"/>
+<polygon fill="#000000" stroke="#000000" points="641.0246,-176.5001 651.0246,-173 641.0245,-169.5001 641.0246,-176.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>SignupService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="91" cy="-104" rx="67.2158" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SignupService&#45;&gt;SignupModule</title>
+<path fill="none" stroke="#000000" d="M91,-122.0109C91,-144.4852 91,-180 91,-180 91,-180 641.3398,-180 641.3398,-180"/>
+<polygon fill="#000000" stroke="#000000" points="641.3398,-183.5001 651.3398,-180 641.3397,-176.5001 641.3398,-183.5001"/>
+</g>
+</g>
+</svg>

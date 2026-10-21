@@ -1,0 +1,146 @@
+<svg width="1075pt" height="287pt"
+ viewBox="0.00 0.00 1075.00 287.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 283)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-283 1071,-283 1071,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="299.5,-10 299.5,-30 319.5,-30 319.5,-10 299.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="412.5,-10 412.5,-30 432.5,-30 432.5,-10 412.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="498.5,-10 498.5,-30 518.5,-30 518.5,-10 498.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="595.5,-10 595.5,-30 615.5,-30 615.5,-10 595.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="691.5,-10 691.5,-30 711.5,-30 711.5,-10 691.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="417,-70 417,-271 737,-271 737,-70 417,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="563,-78 563,-206 717,-206 717,-78 563,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="#000000" points="425,-154 425,-206 555,-206 555,-154 425,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ProductsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="745,-146 745,-214 1059,-214 1059,-146 745,-146"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_ProductsModule_exports</title>
+<polygon fill="none" stroke="#000000" points="925,-154 925,-206 1051,-206 1051,-154 925,-154"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_ProductsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="753,-154 753,-206 917,-206 917,-154 753,-154"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_ShoppingCartModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-138 409,-138 409,-70 8,-70"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_ShoppingCartModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 401,-130 401,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ProductsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="709.0438,-122 706.0438,-126 685.0438,-126 682.0438,-122 600.9562,-122 600.9562,-86 709.0438,-86 709.0438,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ShoppingCartModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="708.8258,-198 705.8258,-202 684.8258,-202 681.8258,-198 571.1742,-198 571.1742,-162 708.8258,-162 708.8258,-198"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ProductsModule&#45;&gt;ShoppingCartModule</title>
+<path fill="none" stroke="#000000" d="M654.6957,-122.0109C654.6957,-122.0109 654.6957,-151.855 654.6957,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="651.1957,-151.8549 654.6957,-161.855 658.1957,-151.855 651.1957,-151.8549"/>
+</g>
+
+<g id="node3" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="681.6571,-263 678.6571,-267 657.6571,-267 654.6571,-263 598.3429,-263 598.3429,-227 681.6571,-227 681.6571,-263"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ProductsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M709.4116,-113C723.7221,-113 735.2425,-113 735.2425,-113 735.2425,-113 735.2425,-245 735.2425,-245 735.2425,-245 691.7748,-245 691.7748,-245"/>
+<polygon fill="#000000" stroke="#000000" points="691.7748,-241.5001 681.7748,-245 691.7747,-248.5001 691.7748,-241.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>ProductsService </title>
+<polygon fill="#fb8072" stroke="#000000" points="1043.4716,-198 932.5284,-198 932.5284,-162 1043.4716,-162 1043.4716,-198"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ProductsModule&#45;&gt;ProductsService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M709.2433,-95C803.6028,-95 988,-95 988,-95 988,-95 988,-151.9737 988,-151.9737"/>
+<polygon fill="#000000" stroke="#000000" points="984.5001,-151.9737 988,-161.9737 991.5001,-151.9737 984.5001,-151.9737"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>ShoppingCartModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M640,-198.1061C640,-198.1061 640,-216.991 640,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="636.5001,-216.9909 640,-226.991 643.5001,-216.991 636.5001,-216.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="490" cy="-180" rx="56.7406" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppService&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M490,-198.1061C490,-217.3391 490,-245 490,-245 490,-245 588.2166,-245 588.2166,-245"/>
+<polygon fill="#000000" stroke="#000000" points="588.2167,-248.5001 598.2166,-245 588.2166,-241.5001 588.2167,-248.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>ProductsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="835" cy="-180" rx="73.5734" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ProductsService&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="#000000" d="M835,-161.9891C835,-139.5148 835,-104 835,-104 835,-104 719.4944,-104 719.4944,-104"/>
+<polygon fill="#000000" stroke="#000000" points="719.4944,-100.5001 709.4944,-104 719.4944,-107.5001 719.4944,-100.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>CurrenciesService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="311" cy="-104" rx="81.6365" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CurrenciesService&#45;&gt;ShoppingCartModule</title>
+<path fill="none" stroke="#000000" d="M393.0972,-104C475.697,-104 590.9315,-104 590.9315,-104 590.9315,-104 590.9315,-151.9891 590.9315,-151.9891"/>
+<polygon fill="#000000" stroke="#000000" points="587.4316,-151.989 590.9315,-161.9891 594.4316,-151.9891 587.4316,-151.989"/>
+</g>
+
+<g id="node8" class="node">
+<title>ShoppingCartService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="118" cy="-104" rx="93.7804" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ShoppingCartService&#45;&gt;ShoppingCartModule</title>
+<path fill="none" stroke="#000000" d="M118,-122.1097C118,-131.897 118,-142 118,-142 118,-142 581.1344,-142 581.1344,-142 581.1344,-142 581.1344,-151.8903 581.1344,-151.8903"/>
+<polygon fill="#000000" stroke="#000000" points="577.6345,-151.8903 581.1344,-161.8903 584.6345,-151.8904 577.6345,-151.8903"/>
+</g>
+</g>
+</svg>

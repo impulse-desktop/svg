@@ -1,0 +1,140 @@
+<svg width="576pt" height="259pt"
+ viewBox="0.00 0.00 576.00 258.57" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.772567 0.772567) rotate(0) translate(4 330.694)">
+<title>finite_state_machine</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-330.694 741.566,-330.694 741.566,4 -4,4"/>
+
+<g id="node1" class="node"><title>LR_0</title>
+<ellipse fill="none" stroke="black" cx="36.4971" cy="-106.197" rx="32.4945" ry="32.4945"/>
+<ellipse fill="none" stroke="black" cx="36.4971" cy="-106.197" rx="36.4942" ry="36.4942"/>
+
+</g>
+
+<g id="node5" class="node"><title>LR_2</title>
+<ellipse fill="none" stroke="black" cx="174.191" cy="-145.197" rx="31.3957" ry="31.3957"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>LR_0&#45;&gt;LR_2</title>
+<path fill="none" stroke="black" d="M71.7385,-116.039C90.8134,-121.521 114.629,-128.366 134.392,-134.046"/>
+<polygon fill="black" stroke="black" points="133.441,-137.414 144.019,-136.813 135.375,-130.687 133.441,-137.414"/>
+
+</g>
+
+<g id="node6" class="node"><title>LR_1</title>
+<ellipse fill="none" stroke="black" cx="174.191" cy="-55.1972" rx="31.3957" ry="31.3957"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>LR_0&#45;&gt;LR_1</title>
+<path fill="none" stroke="black" d="M71.0395,-93.5905C90.4639,-86.2899 114.979,-77.076 135.124,-69.5045"/>
+<polygon fill="black" stroke="black" points="136.492,-72.7296 144.621,-65.9351 134.029,-66.1771 136.492,-72.7296"/>
+
+</g>
+
+<g id="node2" class="node"><title>LR_3</title>
+<ellipse fill="none" stroke="black" cx="323.886" cy="-35.1972" rx="31.373" ry="31.373"/>
+<ellipse fill="none" stroke="black" cx="323.886" cy="-35.1972" rx="35.3956" ry="35.3956"/>
+
+</g>
+
+<g id="node3" class="node"><title>LR_4</title>
+<ellipse fill="none" stroke="black" cx="323.886" cy="-290.197" rx="32.4945" ry="32.4945"/>
+<ellipse fill="none" stroke="black" cx="323.886" cy="-290.197" rx="36.4942" ry="36.4942"/>
+
+</g>
+
+<g id="node4" class="node"><title>LR_8</title>
+<ellipse fill="none" stroke="black" cx="702.369" cy="-150.197" rx="31.373" ry="31.373"/>
+<ellipse fill="none" stroke="black" cx="702.369" cy="-150.197" rx="35.3956" ry="35.3956"/>
+
+</g>
+
+<g id="node7" class="node"><title>LR_6</title>
+<ellipse fill="none" stroke="black" cx="323.886" cy="-171.197" rx="31.6951" ry="31.6951"/>
+
+</g>
+
+<g id="edge13" class="edge"><title>LR_8&#45;&gt;LR_6</title>
+<path fill="none" stroke="black" d="M667.431,-156.114C624.571,-163.259 548.48,-174.858 482.777,-179.197 455.107,-181.025 448.09,-180.356 420.383,-179.197 402.487,-178.449 382.755,-176.915 365.895,-175.389"/>
+<polygon fill="black" stroke="black" points="366.093,-171.892 355.811,-174.447 365.442,-178.862 366.093,-171.892"/>
+
+</g>
+
+<g id="node8" class="node"><title>LR_5</title>
+<ellipse fill="none" stroke="black" cx="451.58" cy="-106.197" rx="31.3957" ry="31.3957"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>LR_8&#45;&gt;LR_5</title>
+<path fill="none" stroke="black" d="M667.228,-144.802C627.256,-138.394 559.092,-127.185 500.777,-116.197 497.982,-115.671 495.1,-115.112 492.199,-114.538"/>
+<polygon fill="black" stroke="black" points="492.865,-111.102 482.37,-112.556 491.481,-117.964 492.865,-111.102"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>LR_2&#45;&gt;LR_4</title>
+<path fill="none" stroke="black" d="M196.984,-166.592C221.513,-190.674 261.631,-230.059 289.98,-257.891"/>
+<polygon fill="black" stroke="black" points="287.69,-260.548 297.278,-265.057 292.594,-255.553 287.69,-260.548"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>LR_2&#45;&gt;LR_6</title>
+<path fill="none" stroke="black" d="M205.08,-150.459C227.28,-154.367 257.813,-159.742 282.232,-164.041"/>
+<polygon fill="black" stroke="black" points="281.825,-167.523 292.281,-165.81 283.039,-160.629 281.825,-167.523"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>LR_2&#45;&gt;LR_5</title>
+<path fill="none" stroke="black" d="M204.362,-135.621C226.801,-128.691 258.716,-119.771 287.389,-115.197 328.855,-108.583 376.913,-106.608 410.085,-106.119"/>
+<polygon fill="black" stroke="black" points="410.343,-109.617 420.305,-106.009 410.268,-102.617 410.343,-109.617"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>LR_1&#45;&gt;LR_3</title>
+<path fill="none" stroke="black" d="M205.436,-51.1017C226.535,-48.2446 255.032,-44.3856 278.672,-41.1844"/>
+<polygon fill="black" stroke="black" points="279.368,-44.6222 288.808,-39.8118 278.429,-37.6855 279.368,-44.6222"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>LR_6&#45;&gt;LR_6</title>
+<path fill="none" stroke="black" d="M311.538,-200.878C311.133,-211.939 315.249,-221.044 323.886,-221.044 329.689,-221.044 333.451,-216.934 335.172,-210.882"/>
+<polygon fill="black" stroke="black" points="338.659,-211.192 336.234,-200.878 331.698,-210.453 338.659,-211.192"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>LR_6&#45;&gt;LR_5</title>
+<path fill="none" stroke="black" d="M352.47,-156.933C370.687,-147.512 394.748,-135.07 414.482,-124.864"/>
+<polygon fill="black" stroke="black" points="416.218,-127.907 423.493,-120.205 413.002,-121.69 416.218,-127.907"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>LR_5&#45;&gt;LR_5</title>
+<path fill="none" stroke="black" d="M440.355,-135.491C439.987,-146.408 443.729,-155.394 451.58,-155.394 456.733,-155.394 460.115,-151.524 461.728,-145.778"/>
+<polygon fill="black" stroke="black" points="465.245,-145.801 462.805,-135.491 458.283,-145.072 465.245,-145.801"/>
+
+</g>
+
+<g id="node9" class="node"><title>LR_7</title>
+<ellipse fill="none" stroke="black" cx="574.975" cy="-83.1972" rx="31.3957" ry="31.3957"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>LR_5&#45;&gt;LR_7</title>
+<path fill="none" stroke="black" d="M482.277,-100.571C497.855,-97.6192 517.158,-93.9621 534.029,-90.7656"/>
+<polygon fill="black" stroke="black" points="534.99,-94.1457 544.164,-88.8453 533.687,-87.2681 534.99,-94.1457"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>LR_7&#45;&gt;LR_8</title>
+<path fill="none" stroke="black" d="M603.185,-97.0914C617.006,-104.208 634.036,-113.066 649.172,-121.197 653.455,-123.499 657.922,-125.93 662.36,-128.367"/>
+<polygon fill="black" stroke="black" points="660.916,-131.568 671.363,-133.336 664.299,-125.44 660.916,-131.568"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>LR_7&#45;&gt;LR_5</title>
+<path fill="none" stroke="black" d="M545.002,-74.2168C531.358,-71.3524 514.996,-69.9068 500.777,-74.1972 495.369,-75.8293 490.01,-78.2891 484.94,-81.1341"/>
+<polygon fill="black" stroke="black" points="482.827,-78.3263 476.178,-86.5755 486.52,-84.2729 482.827,-78.3263"/>
+
+</g>
+</g>
+</svg>

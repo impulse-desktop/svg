@@ -1,0 +1,148 @@
+<svg width="1311pt" height="211pt"
+ viewBox="0.00 0.00 1311.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1307,-207 1307,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="417.5,-10 417.5,-30 437.5,-30 437.5,-10 417.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="530.5,-10 530.5,-30 550.5,-30 550.5,-10 530.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="616.5,-10 616.5,-30 636.5,-30 636.5,-10 616.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="713.5,-10 713.5,-30 733.5,-30 733.5,-10 713.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="809.5,-10 809.5,-30 829.5,-30 829.5,-10 809.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PhoneModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1295,-195 1295,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PhoneModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="839,-78 839,-130 1287,-130 1287,-78 839,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_PhoneModule_imports</title>
+<polygon fill="none" stroke="#000000" points="168,-78 168,-130 831,-130 831,-78 168,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_PhoneModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 160,-130 160,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>PhoneComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1279.3301,-122 1162.6699,-122 1162.6699,-86 1279.3301,-86 1279.3301,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>PhoneModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="693.0481,-187 690.0481,-191 669.0481,-191 666.0481,-187 598.9519,-187 598.9519,-151 693.0481,-151 693.0481,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PhoneComponent&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M1221,-122.0109C1221,-144.4852 1221,-180 1221,-180 1221,-180 703.0547,-180 703.0547,-180"/>
+<polygon fill="#000000" stroke="#000000" points="703.0547,-176.5001 693.0547,-180 703.0546,-183.5001 703.0547,-176.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>PhoneAddComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1145.4369,-122 1004.5631,-122 1004.5631,-86 1145.4369,-86 1145.4369,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PhoneAddComponent&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M1075,-122.1289C1075,-142.5724 1075,-173 1075,-173 1075,-173 703.1377,-173 703.1377,-173"/>
+<polygon fill="#000000" stroke="#000000" points="703.1377,-169.5001 693.1377,-173 703.1376,-176.5001 703.1377,-169.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>PhoneEditComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="986.6638,-122 847.3362,-122 847.3362,-86 986.6638,-86 986.6638,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PhoneEditComponent&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M917,-122.2667C917,-140.5552 917,-166 917,-166 917,-166 703.2046,-166 703.2046,-166"/>
+<polygon fill="#000000" stroke="#000000" points="703.2046,-162.5001 693.2046,-166 703.2046,-169.5001 703.2046,-162.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="822.6681,-122 819.6681,-126 798.6681,-126 795.6681,-122 711.3319,-122 711.3319,-86 822.6681,-86 822.6681,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M767,-122.0091C767,-138.0494 767,-159 767,-159 767,-159 703.1282,-159 703.1282,-159"/>
+<polygon fill="#000000" stroke="#000000" points="703.1283,-155.5001 693.1282,-159 703.1282,-162.5001 703.1283,-155.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="693.8288,-122 690.8288,-126 669.8288,-126 666.8288,-122 598.1712,-122 598.1712,-86 693.8288,-86 693.8288,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>FormsModule&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M646,-122.1061C646,-122.1061 646,-140.991 646,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="642.5001,-140.9909 646,-150.991 649.5001,-140.991 642.5001,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="580.4387,-122 577.4387,-126 556.4387,-126 553.4387,-122 495.5613,-122 495.5613,-86 580.4387,-86 580.4387,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>HttpModule&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M538,-122.0091C538,-138.0494 538,-159 538,-159 538,-159 588.9438,-159 588.9438,-159"/>
+<polygon fill="#000000" stroke="#000000" points="588.9438,-162.5001 598.9438,-159 588.9438,-155.5001 588.9438,-162.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>Ng2PaginationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="477.5407,-122 474.5407,-126 453.5407,-126 450.5407,-122 334.4593,-122 334.4593,-86 477.5407,-86 477.5407,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>Ng2PaginationModule&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M406,-122.2667C406,-140.5552 406,-166 406,-166 406,-166 588.8701,-166 588.8701,-166"/>
+<polygon fill="#000000" stroke="#000000" points="588.8701,-169.5001 598.8701,-166 588.87,-162.5001 588.8701,-169.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>PhoneRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="315.6652,-122 312.6652,-126 291.6652,-126 288.6652,-122 176.3348,-122 176.3348,-86 315.6652,-86 315.6652,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>PhoneRoutingModule&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M246,-122.1289C246,-142.5724 246,-173 246,-173 246,-173 588.9387,-173 588.9387,-173"/>
+<polygon fill="#000000" stroke="#000000" points="588.9387,-176.5001 598.9387,-173 588.9386,-169.5001 588.9387,-176.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>PhoneService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="88" cy="-104" rx="64.2649" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>PhoneService&#45;&gt;PhoneModule</title>
+<path fill="none" stroke="#000000" d="M88,-122.0109C88,-144.4852 88,-180 88,-180 88,-180 588.9061,-180 588.9061,-180"/>
+<polygon fill="#000000" stroke="#000000" points="588.9062,-183.5001 598.9061,-180 588.9061,-176.5001 588.9062,-183.5001"/>
+</g>
+</g>
+</svg>

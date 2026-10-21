@@ -1,0 +1,96 @@
+<svg width="690pt" height="284pt"
+ viewBox="0.00 0.00 690.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 686,-280 686,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="107,-10 107,-30 127,-30 127,-10 107,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="220,-10 220,-30 240,-30 240,-10 220,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="306,-10 306,-30 326,-30 326,-10 306,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="403,-10 403,-30 423,-30 423,-10 403,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="499,-10 499,-30 519,-30 519,-10 499,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaComboListModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 674,-268 674,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaComboListModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 666,-130 666,-78 16,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DejaComboListModule_exports</title>
+<polygon fill="none" stroke="#000000" points="117,-208 117,-260 531,-260 531,-208 117,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaComboListActionbarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="658.2421,-122 431.7579,-122 431.7579,-86 658.2421,-86 658.2421,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>DejaComboListModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="387.4818,-187 384.4818,-191 363.4818,-191 360.4818,-187 238.5182,-187 238.5182,-151 387.4818,-151 387.4818,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaComboListActionbarComponent&#45;&gt;DejaComboListModule</title>
+<path fill="none" stroke="#000000" d="M477.1601,-122.1061C477.1601,-141.3391 477.1601,-169 477.1601,-169 477.1601,-169 397.8742,-169 397.8742,-169"/>
+<polygon fill="#000000" stroke="#000000" points="397.8743,-165.5001 387.8742,-169 397.8742,-172.5001 397.8743,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DejaComboListChildComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="413.8822,-122 212.1178,-122 212.1178,-86 413.8822,-86 413.8822,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DejaComboListChildComponent&#45;&gt;DejaComboListModule</title>
+<path fill="none" stroke="#000000" d="M313,-122.1061C313,-122.1061 313,-140.991 313,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="309.5001,-140.9909 313,-150.991 316.5001,-140.991 309.5001,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>DejaComboListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="194.2646,-122 23.7354,-122 23.7354,-86 194.2646,-86 194.2646,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DejaComboListComponent&#45;&gt;DejaComboListModule</title>
+<path fill="none" stroke="#000000" d="M159.625,-122.1061C159.625,-141.3391 159.625,-169 159.625,-169 159.625,-169 228.1097,-169 228.1097,-169"/>
+<polygon fill="#000000" stroke="#000000" points="228.1098,-172.5001 238.1097,-169 228.1097,-165.5001 228.1098,-172.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>DejaComboListChildComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="522.8826,-252 317.1174,-252 317.1174,-216 522.8826,-216 522.8826,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DejaComboListModule&#45;&gt;DejaComboListChildComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M352.3999,-187.1061C352.3999,-187.1061 352.3999,-205.991 352.3999,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="348.9,-205.9909 352.3999,-215.991 355.9,-205.991 348.9,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>DejaComboListComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="299.2646,-252 124.7354,-252 124.7354,-216 299.2646,-216 299.2646,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DejaComboListModule&#45;&gt;DejaComboListComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M268.8207,-187.1061C268.8207,-187.1061 268.8207,-205.991 268.8207,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="265.3207,-205.9909 268.8207,-215.991 272.3207,-205.991 265.3207,-205.9909"/>
+</g>
+</g>
+</svg>

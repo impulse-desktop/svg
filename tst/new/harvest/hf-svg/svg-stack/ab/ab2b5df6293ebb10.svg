@@ -1,0 +1,20 @@
+<svg width="1600px" height="119px" viewBox="0 0 1600 119" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>SVG Layer</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M761.777778,30.843766 C465.222222,-19.056234 189.111111,1.94376596 0,22.043766 L0,118.043766 L1600,118.043766 L1600,22.043766 C1391.88889,44.243766 1122.22222,91.443766 761.777778,30.843766 Z" id="path-1"></path>
+        <pattern id="pattern-2" width="6" height="6" x="-6" y="-6" patternUnits="userSpaceOnUse">
+            <use xlink:href="#image-3"></use>
+        </pattern>
+        <image id="image-3" width="6" height="6" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAABGdBTUEAALGN5fIAKQAAAExJREFUCB1jYAACZmZmXxYWls1AvAnEBomBBYGc/2jYF8hn7gXKq4FVQQlGRkZeJmQBJPZ/pv///89CEgAzgWKzwQygcTDLN4PYIEEA4isSIW0RAw0AAAAASUVORK5CYII="></image>
+    </defs>
+    <g id="Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="SVG-Layer" fill-rule="nonzero">
+            <g id="Path">
+                <use fill="#5141AC" xlink:href="#path-1"></use>
+                <use fill-opacity="0.05" fill="url(#pattern-2)" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>

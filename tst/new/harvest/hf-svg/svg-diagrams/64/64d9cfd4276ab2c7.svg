@@ -1,0 +1,208 @@
+<svg width="918pt" height="261pt"
+ viewBox="0.00 0.00 918.00 260.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-256.8 914,-256.8 914,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-108.8 8,-236.8 630,-236.8 630,-108.8 8,-108.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="154,-116.8 154,-168.8 622,-168.8 622,-116.8 154,-116.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-116.8 16,-168.8 146,-168.8 146,-116.8 16,-116.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_MoviesModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="32,-32.8 32,-100.8 358,-100.8 358,-32.8 32,-32.8"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_MoviesModule_providers</title>
+<polygon fill="none" stroke="black" points="40,-40.8 40,-92.8 350,-92.8 350,-40.8 40,-40.8"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_PaymentModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="366,-32.8 366,-100.8 680,-100.8 680,-32.8 366,-32.8"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_PaymentModule_providers</title>
+<polygon fill="none" stroke="black" points="374,-40.8 374,-92.8 672,-92.8 672,-40.8 374,-40.8"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_TheaterModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="638,-176.8 638,-244.8 774,-244.8 774,-176.8 638,-176.8"/>
+</g>
+<g id="clust22" class="cluster">
+<title>cluster_TheaterModule_exports</title>
+<polygon fill="none" stroke="black" points="646,-184.8 646,-236.8 766,-236.8 766,-184.8 646,-184.8"/>
+</g>
+<g id="clust25" class="cluster">
+<title>cluster_UserModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="782,-176.8 782,-244.8 902,-244.8 902,-176.8 782,-176.8"/>
+</g>
+<g id="clust28" class="cluster">
+<title>cluster_UserModule_exports</title>
+<polygon fill="none" stroke="black" points="790,-184.8 790,-236.8 894,-236.8 894,-184.8 790,-184.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>MoviesModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="263.55,-160.8 260.55,-164.8 239.55,-164.8 236.55,-160.8 162.45,-160.8 162.45,-124.8 263.55,-124.8 263.55,-160.8"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="374.66,-228.8 371.66,-232.8 350.66,-232.8 347.66,-228.8 291.34,-228.8 291.34,-192.8 374.66,-192.8 374.66,-228.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>MoviesModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M213,-161.07C213,-179.36 213,-204.8 213,-204.8 213,-204.8 281.03,-204.8 281.03,-204.8"/>
+<polygon fill="black" stroke="black" points="281.03,-208.3 291.03,-204.8 281.03,-201.3 281.03,-208.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>PaymentModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="510.04,-160.8 507.04,-164.8 486.04,-164.8 483.04,-160.8 401.96,-160.8 401.96,-124.8 510.04,-124.8 510.04,-160.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PaymentModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M456,-160.82C456,-178.17 456,-201.8 456,-201.8 456,-201.8 384.99,-201.8 384.99,-201.8"/>
+<polygon fill="black" stroke="black" points="384.99,-198.3 374.99,-201.8 384.99,-205.3 384.99,-198.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>TheaterModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="384.3,-160.8 381.3,-164.8 360.3,-164.8 357.3,-160.8 281.7,-160.8 281.7,-124.8 384.3,-124.8 384.3,-160.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>TheaterModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M333,-161.02C333,-161.02 333,-182.53 333,-182.53"/>
+<polygon fill="black" stroke="black" points="329.5,-182.53 333,-192.53 336.5,-182.53 329.5,-182.53"/>
+</g>
+
+<g id="node11" class="node">
+<title>TheaterService </title>
+<polygon fill="#fb8072" stroke="black" points="758.23,-228.8 653.77,-228.8 653.77,-192.8 758.23,-192.8 758.23,-228.8"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>TheaterModule&#45;&gt;TheaterService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M379.49,-161.05C379.49,-183.82 379.49,-219.8 379.49,-219.8 379.49,-219.8 643.54,-219.8 643.54,-219.8"/>
+<polygon fill="black" stroke="black" points="643.54,-223.3 653.54,-219.8 643.54,-216.3 643.54,-223.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>UserModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="613.98,-160.8 610.98,-164.8 589.98,-164.8 586.98,-160.8 528.02,-160.8 528.02,-124.8 613.98,-124.8 613.98,-160.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>UserModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M571,-161.02C571,-181.17 571,-210.8 571,-210.8 571,-210.8 384.73,-210.8 384.73,-210.8"/>
+<polygon fill="black" stroke="black" points="384.73,-207.3 374.73,-210.8 384.73,-214.3 384.73,-207.3"/>
+</g>
+
+<g id="node12" class="node">
+<title>UserService </title>
+<polygon fill="#fb8072" stroke="black" points="885.9,-228.8 798.1,-228.8 798.1,-192.8 885.9,-192.8 885.9,-228.8"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>UserModule&#45;&gt;UserService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M614.24,-142.8C690.75,-142.8 842,-142.8 842,-142.8 842,-142.8 842,-182.58 842,-182.58"/>
+<polygon fill="black" stroke="black" points="838.5,-182.58 842,-192.58 845.5,-182.58 838.5,-182.58"/>
+</g>
+
+<g id="node6" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="black" cx="81" cy="-142.8" rx="56.74" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>AppService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M81,-161.09C81,-183.01 81,-216.8 81,-216.8 81,-216.8 281.1,-216.8 281.1,-216.8"/>
+<polygon fill="black" stroke="black" points="281.1,-220.3 291.1,-216.8 281.1,-213.3 281.1,-220.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>MoviesService</title>
+<ellipse fill="#fdb462" stroke="black" cx="117" cy="-66.8" rx="68.92" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MoviesService&#45;&gt;MoviesModule</title>
+<path fill="none" stroke="black" d="M174.09,-77.05C174.09,-77.05 174.09,-114.57 174.09,-114.57"/>
+<polygon fill="black" stroke="black" points="170.59,-114.57 174.09,-124.57 177.59,-114.57 170.59,-114.57"/>
+</g>
+
+<g id="node8" class="node">
+<title>TheaterService</title>
+<ellipse fill="#fdb462" stroke="black" cx="273" cy="-66.8" rx="69.46" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>TheaterService&#45;&gt;MoviesModule</title>
+<path fill="none" stroke="black" d="M233.65,-81.82C233.65,-81.82 233.65,-114.6 233.65,-114.6"/>
+<polygon fill="black" stroke="black" points="230.15,-114.6 233.65,-124.6 237.15,-114.6 230.15,-114.6"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>TheaterService&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="black" d="M322.27,-79.82C322.27,-88.68 322.27,-98.8 322.27,-98.8 322.27,-98.8 428.86,-98.8 428.86,-98.8 428.86,-98.8 428.86,-114.65 428.86,-114.65"/>
+<polygon fill="black" stroke="black" points="425.36,-114.65 428.86,-124.65 432.36,-114.65 425.36,-114.65"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>TheaterService&#45;&gt;TheaterModule</title>
+<path fill="none" stroke="black" d="M302.06,-83.29C302.06,-83.29 302.06,-114.75 302.06,-114.75"/>
+<polygon fill="black" stroke="black" points="298.56,-114.75 302.06,-124.75 305.56,-114.75 298.56,-114.75"/>
+</g>
+
+<g id="node9" class="node">
+<title>PaymentService</title>
+<ellipse fill="#fdb462" stroke="black" cx="456" cy="-66.8" rx="73.57" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>PaymentService&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="black" d="M456,-84.81C456,-84.81 456,-114.65 456,-114.65"/>
+<polygon fill="black" stroke="black" points="452.5,-114.65 456,-124.65 459.5,-114.65 452.5,-114.65"/>
+</g>
+
+<g id="node10" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="black" cx="606" cy="-66.8" rx="58.44" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>UserService&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="black" d="M569.85,-81.04C569.85,-94.22 569.85,-111.8 569.85,-111.8 569.85,-111.8 483.14,-111.8 483.14,-111.8 483.14,-111.8 483.14,-114.77 483.14,-114.77"/>
+<polygon fill="black" stroke="black" points="479.64,-114.77 483.14,-124.77 486.64,-114.77 479.64,-114.77"/>
+</g>
+
+<g id="edge14" class="edge">
+<title>UserService&#45;&gt;UserModule</title>
+<path fill="none" stroke="black" d="M591.92,-84.43C591.92,-84.43 591.92,-114.74 591.92,-114.74"/>
+<polygon fill="black" stroke="black" points="588.42,-114.74 591.92,-124.74 595.42,-114.74 588.42,-114.74"/>
+</g>
+</g>
+</svg>

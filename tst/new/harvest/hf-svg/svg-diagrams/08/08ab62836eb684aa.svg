@@ -1,0 +1,132 @@
+<svg width="609pt" height="284pt"
+ viewBox="0.00 0.00 609.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 605,-280 605,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="66.5,-10 66.5,-30 86.5,-30 86.5,-10 66.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="179.5,-10 179.5,-30 199.5,-30 199.5,-10 179.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="265.5,-10 265.5,-30 285.5,-30 285.5,-10 265.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="362.5,-10 362.5,-30 382.5,-30 382.5,-10 362.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="458.5,-10 458.5,-30 478.5,-30 478.5,-10 458.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ComponentsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 593,-268 593,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ComponentsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="24,-78 24,-130 579,-130 579,-78 24,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_ComponentsModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 585,-260 585,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>CarouselComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="570.594,-122 439.406,-122 439.406,-86 570.594,-86 570.594,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>ComponentsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="295.3272,-187 292.3272,-191 271.3272,-191 268.3272,-187 164.6728,-187 164.6728,-151 295.3272,-151 295.3272,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CarouselComponent&#45;&gt;ComponentsModule</title>
+<path fill="none" stroke="#000000" d="M527.9323,-122.0225C527.9323,-139.3734 527.9323,-163 527.9323,-163 527.9323,-163 305.3825,-163 305.3825,-163"/>
+<polygon fill="#000000" stroke="#000000" points="305.3825,-159.5001 295.3825,-163 305.3825,-166.5001 305.3825,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DetailComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="421.5409,-122 306.4591,-122 306.4591,-86 421.5409,-86 421.5409,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DetailComponent&#45;&gt;ComponentsModule</title>
+<path fill="none" stroke="#000000" d="M306.1855,-104C297.574,-104 291.5175,-104 291.5175,-104 291.5175,-104 291.5175,-140.8939 291.5175,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="288.0176,-140.8938 291.5175,-150.8939 295.0176,-140.8939 288.0176,-140.8938"/>
+</g>
+
+<g id="node3" class="node">
+<title>HeaderComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="287.7437,-122 166.2563,-122 166.2563,-86 287.7437,-86 287.7437,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>HeaderComponent&#45;&gt;ComponentsModule</title>
+<path fill="none" stroke="#000000" d="M227,-122.1061C227,-122.1061 227,-140.991 227,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="223.5001,-140.9909 227,-150.991 230.5001,-140.991 223.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>PosterComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="148.3259,-122 31.6741,-122 31.6741,-86 148.3259,-86 148.3259,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PosterComponent&#45;&gt;ComponentsModule</title>
+<path fill="none" stroke="#000000" d="M106.5542,-122.0225C106.5542,-139.3734 106.5542,-163 106.5542,-163 106.5542,-163 154.6624,-163 154.6624,-163"/>
+<polygon fill="#000000" stroke="#000000" points="154.6624,-166.5001 164.6624,-163 154.6623,-159.5001 154.6624,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>CarouselComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="577.0946,-252 442.9054,-252 442.9054,-216 577.0946,-216 577.0946,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ComponentsModule&#45;&gt;CarouselComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M295.4191,-175C371.0661,-175 485.3177,-175 485.3177,-175 485.3177,-175 485.3177,-205.9775 485.3177,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="481.8178,-205.9774 485.3177,-215.9775 488.8178,-205.9775 481.8178,-205.9774"/>
+</g>
+
+<g id="node7" class="node">
+<title>DetailComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="424.54,-252 305.46,-252 305.46,-216 424.54,-216 424.54,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ComponentsModule&#45;&gt;DetailComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M291.3925,-187.1061C291.3925,-206.3391 291.3925,-234 291.3925,-234 291.3925,-234 295.2375,-234 295.2375,-234"/>
+<polygon fill="#000000" stroke="#000000" points="295.2376,-237.5001 305.2375,-234 295.2375,-230.5001 295.2376,-237.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>HeaderComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="287.7436,-252 162.2564,-252 162.2564,-216 287.7436,-216 287.7436,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ComponentsModule&#45;&gt;HeaderComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M226.2292,-187.1061C226.2292,-187.1061 226.2292,-205.991 226.2292,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="222.7292,-205.9909 226.2292,-215.991 229.7292,-205.991 222.7292,-205.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>PosterComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="143.8255,-252 24.1745,-252 24.1745,-216 143.8255,-216 143.8255,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ComponentsModule&#45;&gt;PosterComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M164.5948,-175C120.0752,-175 69.1958,-175 69.1958,-175 69.1958,-175 69.1958,-205.9775 69.1958,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="65.6957,-205.9775 69.1958,-215.9775 72.6957,-205.9774 65.6957,-205.9775"/>
+</g>
+</g>
+</svg>

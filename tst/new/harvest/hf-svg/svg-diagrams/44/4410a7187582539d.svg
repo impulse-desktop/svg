@@ -1,0 +1,175 @@
+<svg width="500pt" height="364pt"
+ viewBox="0.00 0.00 500.00 364.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 360)">
+<title>merge</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-360 496,-360 496,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_0</title>
+<polygon fill="none" stroke="#000000" points="8,-8 8,-348 198,-348 198,-8 8,-8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_1</title>
+<polygon fill="none" stroke="#000000" points="206,-8 206,-348 484,-348 484,-8 206,-8"/>
+</g>
+
+<g id="node1" class="node">
+<title>b_rev0</title>
+<ellipse fill="none" stroke="#000000" cx="92" cy="-322" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>b_rev1</title>
+<ellipse fill="none" stroke="#000000" cx="44" cy="-250" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>b_rev0&#45;&gt;b_rev1</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M80.8672,-305.3008C74.8696,-296.3043 67.3498,-285.0247 60.6686,-275.0029"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="63.5317,-272.9877 55.0724,-266.6087 57.7073,-276.8706 63.5317,-272.9877"/>
+</g>
+
+<g id="node4" class="node">
+<title>b_client1</title>
+<ellipse fill="none" stroke="#000000" cx="140" cy="-250" rx="49.7706" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>b_rev0&#45;&gt;b_client1</title>
+<path fill="none" stroke="#000000" d="M103.1328,-305.3008C108.9002,-296.6496 116.0752,-285.8873 122.5585,-276.1623"/>
+<polygon fill="#000000" stroke="#000000" points="125.623,-277.8752 128.2579,-267.6132 119.7987,-273.9922 125.623,-277.8752"/>
+</g>
+
+<g id="node3" class="node">
+<title>b_rev2</title>
+<ellipse fill="none" stroke="#000000" cx="44" cy="-178" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>b_rev1&#45;&gt;b_rev2</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M44,-231.8314C44,-224.131 44,-214.9743 44,-206.4166"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="47.5001,-206.4132 44,-196.4133 40.5001,-206.4133 47.5001,-206.4132"/>
+</g>
+
+<g id="node6" class="node">
+<title>inv1</title>
+</g>
+
+<g id="edge5" class="edge">
+<title>b_rev2&#45;&gt;inv1</title>
+</g>
+
+<g id="node5" class="node">
+<title>b_client2</title>
+<ellipse fill="none" stroke="#000000" cx="140" cy="-178" rx="49.7706" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>b_client1&#45;&gt;b_client2</title>
+<path fill="none" stroke="#000000" d="M140,-231.8314C140,-224.131 140,-214.9743 140,-206.4166"/>
+<polygon fill="#000000" stroke="#000000" points="143.5001,-206.4132 140,-196.4133 136.5001,-206.4133 143.5001,-206.4132"/>
+</g>
+
+<g id="node7" class="node">
+<title>inv2</title>
+</g>
+
+<g id="edge6" class="edge">
+<title>inv1&#45;&gt;inv2</title>
+</g>
+
+<g id="node8" class="node">
+<title>rev0</title>
+<ellipse fill="none" stroke="#000000" cx="358" cy="-322" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>rev1</title>
+<ellipse fill="none" stroke="#000000" cx="310" cy="-250" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>rev0&#45;&gt;rev1</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M346.8672,-305.3008C340.8696,-296.3043 333.3498,-285.0247 326.6686,-275.0029"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="329.5317,-272.9877 321.0724,-266.6087 323.7073,-276.8706 329.5317,-272.9877"/>
+</g>
+
+<g id="node11" class="node">
+<title>client1</title>
+<ellipse fill="none" stroke="#000000" cx="406" cy="-250" rx="49.7706" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>rev0&#45;&gt;client1</title>
+<path fill="none" stroke="#000000" d="M369.1328,-305.3008C374.9002,-296.6496 382.0752,-285.8873 388.5585,-276.1623"/>
+<polygon fill="#000000" stroke="#000000" points="391.623,-277.8752 394.2579,-267.6132 385.7987,-273.9922 391.623,-277.8752"/>
+</g>
+
+<g id="node10" class="node">
+<title>rev2</title>
+<ellipse fill="none" stroke="#000000" cx="310" cy="-178" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>rev1&#45;&gt;rev2</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M310,-231.8314C310,-224.131 310,-214.9743 310,-206.4166"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="313.5001,-206.4132 310,-196.4133 306.5001,-206.4133 313.5001,-206.4132"/>
+</g>
+
+<g id="node13" class="node">
+<title>client1_</title>
+<ellipse fill="none" stroke="#000000" cx="335" cy="-106" rx="120.6977" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>rev2&#45;&gt;client1_</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M316.1798,-160.2022C318.9533,-152.2146 322.2901,-142.6045 325.3789,-133.7087"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="328.7438,-134.6879 328.7177,-124.0931 322.1311,-132.3918 328.7438,-134.6879"/>
+</g>
+
+<g id="node12" class="node">
+<title>client2</title>
+<ellipse fill="none" stroke="#000000" cx="426" cy="-178" rx="49.7706" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>client1&#45;&gt;client2</title>
+<path fill="none" stroke="#000000" d="M411.0468,-231.8314C413.2426,-223.9266 415.8647,-214.4872 418.2954,-205.7365"/>
+<polygon fill="#000000" stroke="#000000" points="421.7199,-206.4854 421.0241,-195.9134 414.9752,-204.6118 421.7199,-206.4854"/>
+</g>
+
+<g id="edge13" class="edge">
+<title>client1&#45;&gt;client1_</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M391.2839,-232.3474C383.328,-222.1835 373.7745,-208.9005 367,-196 356.575,-176.1478 348.2353,-152.1588 342.6865,-133.9413"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="346.0051,-132.8206 339.8214,-124.2176 339.2905,-134.7991 346.0051,-132.8206"/>
+</g>
+
+<g id="node14" class="node">
+<title>client2_</title>
+<ellipse fill="none" stroke="#000000" cx="345" cy="-34" rx="120.6977" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>client2&#45;&gt;client2_</title>
+<path fill="none" stroke="#ff0000" stroke-dasharray="5,2" d="M443.0637,-160.9126C459.6449,-142.1625 480.2563,-111.5951 465,-88 454.8477,-72.2986 438.9217,-61.1175 421.9514,-53.1711"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="423.0152,-49.8186 412.446,-49.0811 420.2484,-56.2487 423.0152,-49.8186"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>client1_&#45;&gt;client2_</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M337.5234,-87.8314C338.5929,-80.131 339.8647,-70.9743 341.0532,-62.4166"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="344.5336,-62.7997 342.4426,-52.4133 337.6001,-61.8367 344.5336,-62.7997"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,96 @@
+<svg width="818pt" height="211pt"
+ viewBox="0.00 0.00 818.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 814,-207 814,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="171,-10 171,-30 191,-30 191,-10 171,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="284,-10 284,-30 304,-30 304,-10 284,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="370,-10 370,-30 390,-30 390,-10 370,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="467,-10 467,-30 487,-30 487,-10 467,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="563,-10 563,-30 583,-30 583,-10 563,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AuthModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 802,-195 802,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AuthModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="138,-78 138,-130 794,-130 794,-78 138,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AuthModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 130,-130 130,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ForgetPasswordComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="785.535,-122 614.465,-122 614.465,-86 785.535,-86 785.535,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="445.5482,-187 442.5482,-191 421.5482,-191 418.5482,-187 358.4518,-187 358.4518,-151 445.5482,-151 445.5482,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ForgetPasswordComponent&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M700,-122.2843C700,-143.3211 700,-175 700,-175 700,-175 455.6509,-175 455.6509,-175"/>
+<polygon fill="#000000" stroke="#000000" points="455.6509,-171.5001 445.6509,-175 455.6509,-178.5001 455.6509,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>LoginComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="596.2758,-122 481.7242,-122 481.7242,-86 596.2758,-86 596.2758,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LoginComponent&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M539,-122.0225C539,-139.3734 539,-163 539,-163 539,-163 455.7243,-163 455.7243,-163"/>
+<polygon fill="#000000" stroke="#000000" points="455.7244,-159.5001 445.7243,-163 455.7243,-166.5001 455.7244,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SignUpComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="464.1123,-122 339.8877,-122 339.8877,-86 464.1123,-86 464.1123,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SignUpComponent&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M402,-122.1061C402,-122.1061 402,-140.991 402,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="398.5001,-140.9909 402,-150.991 405.5001,-140.991 398.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>UpdatePasswordComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="321.9129,-122 146.0871,-122 146.0871,-86 321.9129,-86 321.9129,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>UpdatePasswordComponent&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M234,-122.0225C234,-139.3734 234,-163 234,-163 234,-163 348.2985,-163 348.2985,-163"/>
+<polygon fill="#000000" stroke="#000000" points="348.2986,-166.5001 358.2985,-163 348.2985,-159.5001 348.2986,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SharedModule&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.2843C73,-143.3211 73,-175 73,-175 73,-175 348.3113,-175 348.3113,-175"/>
+<polygon fill="#000000" stroke="#000000" points="348.3114,-178.5001 358.3113,-175 348.3113,-171.5001 348.3114,-178.5001"/>
+</g>
+</g>
+</svg>

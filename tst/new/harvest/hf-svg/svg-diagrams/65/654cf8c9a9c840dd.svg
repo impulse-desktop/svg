@@ -1,0 +1,79 @@
+<svg width="556pt" height="85pt"
+ viewBox="0.00 0.00 556.00 85.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 81)">
+<title>coap_resource_unknown_init</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-81 552,-81 552,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node701</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 143,-57.5 143,-38.5 0,-38.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node702</title>
+<g id="a_node2"><a xlink:href="mem_8h.html#a0204710ce56cbaa4f062b7f2622857f5" target="_top" xlink:title="Allocates a chunk of size bytes and returns a pointer to the newly allocated memory. ">
+<polygon fill="#ffffff" stroke="#000000" points="453,-57.5 453,-76.5 548,-76.5 548,-57.5 453,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node701&#45;&gt;Node702</title>
+<path fill="none" stroke="#191970" d="M115.2038,-57.5118C134.635,-61.2772 157.8544,-65.1457 179,-67 270.9099,-75.0598 378.1686,-72.7113 442.6357,-70.0353"/>
+<polygon fill="#191970" stroke="#191970" points="443.1551,-73.5162 452.9944,-69.5871 442.8525,-66.5227 443.1551,-73.5162"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node703</title>
+<g id="a_node3"><a xlink:href="group__string.html#ga983bc4d64851286070261bcc98baaa57" target="_top" xlink:title="Returns a new const string object with at least size+1 bytes storage allocated, and the provided data...">
+<polygon fill="#ffffff" stroke="#000000" points="181.5,-38.5 181.5,-57.5 288.5,-57.5 288.5,-38.5 181.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node701&#45;&gt;Node703</title>
+<path fill="none" stroke="#191970" d="M143.2135,-48C152.4398,-48 161.8393,-48 170.9323,-48"/>
+<polygon fill="#191970" stroke="#191970" points="171.0428,-51.5001 181.0427,-48 171.0427,-44.5001 171.0428,-51.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node705</title>
+<g id="a_node5"><a xlink:href="resource_8c.html#af3e125d7975a649b6ac818c8bfb87baa" target="_top" xlink:title="Registers the specified handler as message handler for the request type method. ">
+<polygon fill="#ffffff" stroke="#000000" points="179,-.5 179,-19.5 291,-19.5 291,-.5 179,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node701&#45;&gt;Node705</title>
+<path fill="none" stroke="#191970" d="M112.758,-38.411C134.4307,-33.3739 161.1832,-27.1562 184.1303,-21.8229"/>
+<polygon fill="#191970" stroke="#191970" points="185.0907,-25.1931 194.0387,-19.5201 183.506,-18.3748 185.0907,-25.1931"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node704</title>
+<g id="a_node4"><a xlink:href="group__string.html#ga48a2c3c1cc1cf95fc8443179c081ccb1" target="_top" xlink:title="Returns a new string object with at least size+1 bytes storage allocated. ">
+<polygon fill="#ffffff" stroke="#000000" points="327,-38.5 327,-57.5 417,-57.5 417,-38.5 327,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node703&#45;&gt;Node704</title>
+<path fill="none" stroke="#191970" d="M288.7528,-48C297.9031,-48 307.4218,-48 316.6134,-48"/>
+<polygon fill="#191970" stroke="#191970" points="316.8149,-51.5001 326.8148,-48 316.8148,-44.5001 316.8149,-51.5001"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node704&#45;&gt;Node702</title>
+<path fill="none" stroke="#191970" d="M417.3043,-54.6987C425.6139,-55.9274 434.3879,-57.2247 442.9984,-58.4978"/>
+<polygon fill="#191970" stroke="#191970" points="442.5892,-61.9753 452.9936,-59.9757 443.6132,-55.0506 442.5892,-61.9753"/>
+</g>
+</g>
+</svg>

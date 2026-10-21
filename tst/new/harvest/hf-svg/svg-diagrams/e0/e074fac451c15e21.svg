@@ -1,0 +1,156 @@
+<svg width="919pt" height="284pt"
+ viewBox="0.00 0.00 919.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 915,-280 915,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="221.5,-10 221.5,-30 241.5,-30 241.5,-10 221.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="334.5,-10 334.5,-30 354.5,-30 354.5,-10 334.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="420.5,-10 420.5,-30 440.5,-30 440.5,-10 420.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="517.5,-10 517.5,-30 537.5,-30 537.5,-10 517.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="613.5,-10 613.5,-30 633.5,-30 633.5,-10 613.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ModalWindowModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 903,-268 903,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ModalWindowModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="24,-78 24,-130 886,-130 886,-78 24,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_ModalWindowModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 895,-260 895,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>FirstComponentComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="878.3341,-122 705.6659,-122 705.6659,-86 878.3341,-86 878.3341,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>ModalWindowModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="565.3117,-187 562.3117,-191 541.3117,-191 538.3117,-187 420.6883,-187 420.6883,-151 565.3117,-151 565.3117,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>FirstComponentComponent&#45;&gt;ModalWindowModule</title>
+<path fill="none" stroke="#000000" d="M822.4723,-122.0225C822.4723,-139.3734 822.4723,-163 822.4723,-163 822.4723,-163 575.3041,-163 575.3041,-163"/>
+<polygon fill="#000000" stroke="#000000" points="575.3041,-159.5001 565.3041,-163 575.3041,-166.5001 575.3041,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ModalComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="687.8823,-122 570.1177,-122 570.1177,-86 687.8823,-86 687.8823,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ModalComponent&#45;&gt;ModalWindowModule</title>
+<path fill="none" stroke="#000000" d="M569.8677,-104C563.0903,-104 558.5484,-104 558.5484,-104 558.5484,-104 558.5484,-140.8939 558.5484,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="555.0485,-140.8938 558.5484,-150.8939 562.0485,-140.8939 555.0485,-140.8938"/>
+</g>
+
+<g id="node3" class="node">
+<title>ModelComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="551.8823,-122 434.1177,-122 434.1177,-86 551.8823,-86 551.8823,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ModelComponent&#45;&gt;ModalWindowModule</title>
+<path fill="none" stroke="#000000" d="M493,-122.1061C493,-122.1061 493,-140.991 493,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="489.5001,-140.9909 493,-150.991 496.5001,-140.991 489.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>SecondComponentComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="415.8766,-122 228.1234,-122 228.1234,-86 415.8766,-86 415.8766,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SecondComponentComponent&#45;&gt;ModalWindowModule</title>
+<path fill="none" stroke="#000000" d="M416.1664,-104C423.1007,-104 427.4516,-104 427.4516,-104 427.4516,-104 427.4516,-140.8939 427.4516,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="423.9517,-140.8938 427.4516,-150.8939 430.9517,-140.8939 423.9517,-140.8938"/>
+</g>
+
+<g id="node5" class="node">
+<title>ThirdComponentComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="209.7688,-122 32.2312,-122 32.2312,-86 209.7688,-86 209.7688,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ThirdComponentComponent&#45;&gt;ModalWindowModule</title>
+<path fill="none" stroke="#000000" d="M147.7948,-122.0225C147.7948,-139.3734 147.7948,-163 147.7948,-163 147.7948,-163 410.6337,-163 410.6337,-163"/>
+<polygon fill="#000000" stroke="#000000" points="410.6337,-166.5001 420.6337,-163 410.6336,-159.5001 410.6337,-166.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>FirstComponentComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="886.8339,-252 711.1661,-252 711.1661,-216 886.8339,-216 886.8339,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ModalWindowModule&#45;&gt;FirstComponentComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M565.29,-175C646.4023,-175 766.7777,-175 766.7777,-175 766.7777,-175 766.7777,-205.9775 766.7777,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="763.2778,-205.9774 766.7777,-215.9775 770.2778,-205.9775 763.2778,-205.9774"/>
+</g>
+
+<g id="node8" class="node">
+<title>ModalComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="692.8828,-252 571.1172,-252 571.1172,-216 692.8828,-216 692.8828,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ModalWindowModule&#45;&gt;ModalComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M559.4234,-187.1061C559.4234,-206.3391 559.4234,-234 559.4234,-234 559.4234,-234 561.0841,-234 561.0841,-234"/>
+<polygon fill="#000000" stroke="#000000" points="561.0841,-237.5001 571.0841,-234 561.0841,-230.5001 561.0841,-237.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>ModelComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="553.8828,-252 432.1172,-252 432.1172,-216 553.8828,-216 553.8828,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ModalWindowModule&#45;&gt;ModelComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M493,-187.1061C493,-187.1061 493,-205.991 493,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="489.5001,-205.9909 493,-215.991 496.5001,-205.991 489.5001,-205.9909"/>
+</g>
+
+<g id="node10" class="node">
+<title>SecondComponentComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="414.877,-252 223.123,-252 223.123,-216 414.877,-216 414.877,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ModalWindowModule&#45;&gt;SecondComponentComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M426.5766,-187.1061C426.5766,-206.3391 426.5766,-234 426.5766,-234 426.5766,-234 425.064,-234 425.064,-234"/>
+<polygon fill="#000000" stroke="#000000" points="425.0641,-230.5001 415.064,-234 425.064,-237.5001 425.0641,-230.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>ThirdComponentComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="205.7688,-252 24.2312,-252 24.2312,-216 205.7688,-216 205.7688,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ModalWindowModule&#45;&gt;ThirdComponentComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M420.4782,-175C304.4391,-175 89.9552,-175 89.9552,-175 89.9552,-175 89.9552,-205.9775 89.9552,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="86.4553,-205.9774 89.9552,-215.9775 93.4553,-205.9775 86.4553,-205.9774"/>
+</g>
+</g>
+</svg>

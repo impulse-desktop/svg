@@ -1,0 +1,196 @@
+<svg width="371pt" height="494pt"
+ viewBox="0.00 0.00 370.76 494.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 490)">
+<title>CoOpSystem</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-490 367.755,-490 367.755,5 -4,5"/>
+
+<g id="node1" class="node"><title>Program</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;Program&quot;);" xlink:title="class Program
+">
+<polygon fill="none" stroke="black" points="218.038,-227.2 218.038,-276.8 309.473,-276.8 309.473,-227.2 218.038,-227.2"/>
+
+<polyline fill="none" stroke="black" points="218.038,-252 309.473,-252 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node7" class="node"><title>Student</title>
+<g id="a_node7"><a xlink:href="javascript:Action.selectClass(&quot;Student&quot;);" xlink:title="class Student
+">
+<polygon fill="none" stroke="black" points="40.8209,-315.2 40.8209,-364.8 144.69,-364.8 144.69,-315.2 40.8209,-315.2"/>
+
+<polyline fill="none" stroke="black" points="40.8209,-340 144.69,-340 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Program&#45;&gt;Student</title>
+<path fill="none" stroke="black" d="M217.931,-276.046C193.891,-288.137 164.474,-302.931 140.199,-315.14"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Application</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Application&quot;);" xlink:title="class Application
+">
+<polygon fill="none" stroke="black" points="95.7071,-8 95.7071,-44 177.804,-44 177.804,-8 95.7071,-8"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Application&#45;&gt;Student</title>
+<path fill="none" stroke="black" d="M95.4338,-37.3817C69.6373,-46.2328 38.444,-61.8119 22.7554,-88 -20.8812,-160.84 5.43652,-201.73 42.7554,-278 49.3154,-291.407 59.3536,-304.456 68.7189,-315.021"/>
+
+
+</g>
+
+<g id="node3" class="node"><title>Job</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;Job&quot;);" xlink:title="class Job
+">
+<polygon fill="none" stroke="black" points="210.093,-89 210.093,-189 333.418,-189 333.418,-89 210.093,-89"/>
+
+<polyline fill="none" stroke="black" points="210.093,-164.2 333.418,-164.2 "/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Application&#45;&gt;Job</title>
+<path fill="none" stroke="black" d="M157.553,-44.1005C172.198,-56.1415 192.595,-72.9124 212.105,-88.9541"/>
+
+
+</g>
+
+<g id="node5" class="node"><title>Interview</title>
+<g id="a_node5"><a xlink:href="javascript:Action.selectClass(&quot;Interview&quot;);" xlink:title="class Interview
+">
+<polygon fill="none" stroke="black" points="162.649,-315.2 162.649,-364.8 268.862,-364.8 268.862,-315.2 162.649,-315.2"/>
+
+<polyline fill="none" stroke="black" points="162.649,-340 268.862,-340 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Application&#45;&gt;Interview</title>
+<path fill="none" stroke="black" d="M145.068,-44.0151C150.691,-56.0669 157.942,-72.7391 162.755,-88 188.475,-169.552 205.428,-269.963 212.297,-315.072"/>
+
+
+</g>
+
+<g id="node10" class="node"><title>Offer</title>
+<g id="a_node10"><a xlink:href="javascript:Action.selectClass(&quot;Offer&quot;);" xlink:title="class Offer
+">
+<polygon fill="none" stroke="black" points="31.5035,-105.8 31.5035,-172.2 154.007,-172.2 154.007,-105.8 31.5035,-105.8"/>
+
+<polyline fill="none" stroke="black" points="31.5035,-147.4 154.007,-147.4 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Application&#45;&gt;Offer</title>
+<path fill="none" stroke="black" d="M129.88,-44.3438C123.403,-60.6848 113.535,-85.5794 105.6,-105.596"/>
+
+
+</g>
+
+<g id="edge6" class="edge"><title>Job&#45;&gt;Program</title>
+<path fill="none" stroke="black" d="M268.223,-189.009C267.269,-202.251 266.279,-215.992 265.473,-227.162"/>
+
+
+</g>
+
+<g id="node4" class="node"><title>Employer</title>
+<g id="a_node4"><a xlink:href="javascript:Action.selectClass(&quot;Employer&quot;);" xlink:title="class Employer
+">
+<polygon fill="none" stroke="black" points="271.038,-1.2 271.038,-50.8 362.473,-50.8 362.473,-1.2 271.038,-1.2"/>
+
+<polyline fill="none" stroke="black" points="271.038,-26 362.473,-26 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Employer&#45;&gt;Job</title>
+<path fill="none" stroke="black" d="M307.102,-50.8123C302.608,-61.8964 297.087,-75.5165 291.755,-88.6686"/>
+
+
+</g>
+
+<g id="node6" class="node"><title>TimeSlot</title>
+<g id="a_node6"><a xlink:href="javascript:Action.selectClass(&quot;TimeSlot&quot;);" xlink:title="class TimeSlot
+">
+<polygon fill="none" stroke="black" points="158.615,-402.4 158.615,-485.6 272.896,-485.6 272.896,-402.4 158.615,-402.4"/>
+
+<polyline fill="none" stroke="black" points="158.615,-460.8 272.896,-460.8 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Employer&#45;&gt;TimeSlot</title>
+<path fill="none" stroke="black" d="M329.103,-50.9586C334.092,-61.9385 339.256,-75.3108 341.755,-88 350.516,-132.479 347.773,-145.068 341.755,-190 330.708,-272.497 321.421,-295.14 277.755,-366 271.965,-375.397 265.171,-384.932 258.243,-393.943"/>
+<polygon fill="black" stroke="black" points="251.868,-402.052 254.511,-391.409 254.958,-398.121 258.048,-394.19 258.048,-394.19 258.048,-394.19 254.958,-398.121 261.586,-396.972 251.868,-402.052 251.868,-402.052"/>
+
+
+</g>
+
+<g id="edge9" class="edge"><title>Interview&#45;&gt;TimeSlot</title>
+<path fill="none" stroke="black" d="M215.755,-364.914C215.755,-373.044 215.755,-382.467 215.755,-391.895"/>
+<polygon fill="black" stroke="black" points="215.755,-402.066 211.256,-392.066 215.755,-397.066 215.756,-392.066 215.756,-392.066 215.756,-392.066 215.755,-397.066 220.256,-392.066 215.755,-402.066 215.755,-402.066"/>
+
+
+</g>
+
+<g id="node9" class="node"><title>Transcript</title>
+<g id="a_node9"><a xlink:href="javascript:Action.selectClass(&quot;Transcript&quot;);" xlink:title="class Transcript
+">
+<polygon fill="none" stroke="black" points="51.7003,-419.2 51.7003,-468.8 133.811,-468.8 133.811,-419.2 51.7003,-419.2"/>
+
+<polyline fill="none" stroke="black" points="51.7003,-444 133.811,-444 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Student&#45;&gt;Transcript</title>
+<path fill="none" stroke="black" d="M92.7554,-364.914C92.7554,-381.166 92.7554,-402.587 92.7554,-418.882"/>
+
+
+</g>
+
+<g id="edge11" class="edge"><title>Student&#45;&gt;TimeSlot</title>
+<path fill="none" stroke="black" d="M121.593,-364.914C132.648,-374.082 145.686,-384.894 158.48,-395.503"/>
+<polygon fill="black" stroke="black" points="166.394,-402.066 155.824,-399.147 162.545,-398.874 158.696,-395.683 158.696,-395.683 158.696,-395.683 162.545,-398.874 161.569,-392.219 166.394,-402.066 166.394,-402.066"/>
+
+
+</g>
+
+<g id="node8" class="node"><title>Resume</title>
+<g id="a_node8"><a xlink:href="javascript:Action.selectClass(&quot;Resume&quot;);" xlink:title="class Resume
+">
+<polygon fill="none" stroke="black" points="51.7003,-227.2 51.7003,-276.8 133.811,-276.8 133.811,-227.2 51.7003,-227.2"/>
+
+<polyline fill="none" stroke="black" points="51.7003,-252 133.811,-252 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Resume&#45;&gt;Student</title>
+<path fill="none" stroke="black" d="M92.7554,-276.956C92.7554,-288.884 92.7554,-303.262 92.7554,-315.173"/>
+
+
+</g>
+</g>
+</svg>

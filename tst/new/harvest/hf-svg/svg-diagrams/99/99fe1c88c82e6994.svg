@@ -1,0 +1,101 @@
+<svg width="851pt" height="236pt"
+ viewBox="0.00 0.00 851.00 236.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 232)">
+<title>G</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-232 847,-232 847,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_local</title>
+<polygon fill="none" stroke="black" points="8,-145 8,-220 835,-220 835,-145 8,-145"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_remote</title>
+<polygon fill="none" stroke="black" points="238,-8 238,-137 586,-137 586,-8 238,-8"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>vscode</title>
+<polygon fill="none" stroke="black" points="78,-189 16,-189 16,-153 78,-153 78,-189"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>vscodenvim</title>
+<polygon fill="none" stroke="black" points="350,-189 243,-189 243,-153 350,-153 350,-189"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>vscode&#45;&gt;vscodenvim</title>
+<path fill="none" stroke="black" d="M78.35,-171C116.55,-171 183.14,-171 232.54,-171"/>
+<polygon fill="black" stroke="black" points="232.8,-174.5 242.8,-171 232.8,-167.5 232.8,-174.5"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>vscodeserver</title>
+<polygon fill="none" stroke="black" points="347,-106 246,-106 246,-70 347,-70 347,-106"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>vscode&#45;&gt;vscodeserver</title>
+<path fill="none" stroke="black" d="M78.1,-158.73C84.01,-156.42 90.18,-154.08 96,-152 142.67,-135.3 196.18,-118.24 236.02,-105.94"/>
+<polygon fill="black" stroke="black" points="237.06,-109.29 245.59,-103 235,-102.6 237.06,-109.29"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>nvim</title>
+<polygon fill="none" stroke="black" points="593,-189 484,-189 484,-153 593,-153 593,-189"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>vscodenvim&#45;&gt;nvim</title>
+<path fill="none" stroke="black" d="M350.17,-171C386.52,-171 435.06,-171 473.63,-171"/>
+<polygon fill="black" stroke="black" points="473.71,-174.5 483.71,-171 473.71,-167.5 473.71,-174.5"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>nvim_plugs</title>
+<polygon fill="none" stroke="black" points="827,-189 723,-189 723,-153 827,-153 827,-189"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>nvim&#45;&gt;nvim_plugs</title>
+<path fill="none" stroke="black" d="M593.01,-171C628.59,-171 675.43,-171 712.54,-171"/>
+<polygon fill="black" stroke="black" points="712.74,-174.5 722.74,-171 712.74,-167.5 712.74,-174.5"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>sources</title>
+<polygon fill="none" stroke="black" points="578,-52 499,-52 499,-16 578,-16 578,-52"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>vscodeserver&#45;&gt;sources</title>
+<path fill="none" stroke="black" d="M347.09,-74.24C354.09,-72.41 361.22,-70.61 368,-69 408.53,-59.36 454.88,-49.9 488.86,-43.24"/>
+<polygon fill="black" stroke="black" points="489.84,-46.62 498.98,-41.27 488.5,-39.75 489.84,-46.62"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>clangd</title>
+<polygon fill="none" stroke="black" points="565.5,-106 511.5,-106 511.5,-70 565.5,-70 565.5,-106"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>vscodeserver&#45;&gt;clangd</title>
+<path fill="none" stroke="black" d="M347.23,-88C393.08,-88 460.06,-88 501.1,-88"/>
+<polygon fill="black" stroke="black" points="501.2,-91.5 511.2,-88 501.2,-84.5 501.2,-91.5"/>
+
+</g>
+</g>
+</svg>

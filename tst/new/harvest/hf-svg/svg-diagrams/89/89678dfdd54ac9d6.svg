@@ -1,0 +1,134 @@
+<svg width="822pt" height="247pt"
+ viewBox="0.00 0.00 822.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 818,-242.8 818,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ShortcutsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 806,-230.8 806,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ShortcutsModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 798,-92.8 798,-40.8 16,-40.8"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_ShortcutsModule_exports</title>
+<polygon fill="none" stroke="black" points="77,-170.8 77,-222.8 737,-222.8 737,-170.8 77,-170.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>ShortcutsAnchorDirective</title>
+<polygon fill="#ffffb3" stroke="black" points="790.45,-84.8 627.55,-84.8 627.55,-48.8 790.45,-48.8 790.45,-84.8"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>ShortcutsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="452.43,-149.8 449.43,-153.8 428.43,-153.8 425.43,-149.8 339.57,-149.8 339.57,-113.8 452.43,-113.8 452.43,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ShortcutsAnchorDirective&#45;&gt;ShortcutsModule</title>
+<path fill="none" stroke="black" d="M678.38,-84.91C678.38,-104.14 678.38,-131.8 678.38,-131.8 678.38,-131.8 462.46,-131.8 462.46,-131.8"/>
+<polygon fill="black" stroke="black" points="462.46,-128.3 452.46,-131.8 462.46,-135.3 462.46,-128.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>ShortcutsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="609.22,-84.8 474.78,-84.8 474.78,-48.8 609.22,-48.8 609.22,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ShortcutsComponent&#45;&gt;ShortcutsModule</title>
+<path fill="none" stroke="black" d="M509.88,-84.83C509.88,-101.2 509.88,-122.8 509.88,-122.8 509.88,-122.8 462.27,-122.8 462.27,-122.8"/>
+<polygon fill="black" stroke="black" points="462.27,-119.3 452.27,-122.8 462.27,-126.3 462.27,-119.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>ShortcutsDirective</title>
+<polygon fill="#ffffb3" stroke="black" points="456.47,-84.8 335.53,-84.8 335.53,-48.8 456.47,-48.8 456.47,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ShortcutsDirective&#45;&gt;ShortcutsModule</title>
+<path fill="none" stroke="black" d="M396,-84.91C396,-84.91 396,-103.79 396,-103.79"/>
+<polygon fill="black" stroke="black" points="392.5,-103.79 396,-113.79 399.5,-103.79 392.5,-103.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>ShortcutsKeyComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="317.54,-84.8 160.46,-84.8 160.46,-48.8 317.54,-48.8 317.54,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ShortcutsKeyComponent&#45;&gt;ShortcutsModule</title>
+<path fill="none" stroke="black" d="M291.27,-84.83C291.27,-101.2 291.27,-122.8 291.27,-122.8 291.27,-122.8 329.65,-122.8 329.65,-122.8"/>
+<polygon fill="black" stroke="black" points="329.65,-126.3 339.65,-122.8 329.65,-119.3 329.65,-126.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>ShortkeyDirective</title>
+<polygon fill="#ffffb3" stroke="black" points="142.13,-84.8 23.87,-84.8 23.87,-48.8 142.13,-48.8 142.13,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ShortkeyDirective&#45;&gt;ShortcutsModule</title>
+<path fill="none" stroke="black" d="M113.9,-84.91C113.9,-104.14 113.9,-131.8 113.9,-131.8 113.9,-131.8 329.59,-131.8 329.59,-131.8"/>
+<polygon fill="black" stroke="black" points="329.59,-135.3 339.59,-131.8 329.59,-128.3 329.59,-135.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>ShortcutsAnchorDirective </title>
+<polygon fill="#fb8072" stroke="black" points="729.45,-214.8 562.55,-214.8 562.55,-178.8 729.45,-178.8 729.45,-214.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ShortcutsModule&#45;&gt;ShortcutsAnchorDirective </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M452.22,-140.8C508.23,-140.8 585.94,-140.8 585.94,-140.8 585.94,-140.8 585.94,-168.77 585.94,-168.77"/>
+<polygon fill="black" stroke="black" points="582.44,-168.77 585.94,-178.77 589.44,-168.77 582.44,-168.77"/>
+</g>
+
+<g id="node8" class="node">
+<title>ShortcutsComponent </title>
+<polygon fill="#fb8072" stroke="black" points="544.72,-214.8 407.28,-214.8 407.28,-178.8 544.72,-178.8 544.72,-214.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ShortcutsModule&#45;&gt;ShortcutsComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M429.68,-149.91C429.68,-149.91 429.68,-168.79 429.68,-168.79"/>
+<polygon fill="black" stroke="black" points="426.18,-168.79 429.68,-178.79 433.18,-168.79 426.18,-168.79"/>
+</g>
+
+<g id="node9" class="node">
+<title>ShortcutsDirective </title>
+<polygon fill="#fb8072" stroke="black" points="389.47,-214.8 264.53,-214.8 264.53,-178.8 389.47,-178.8 389.47,-214.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ShortcutsModule&#45;&gt;ShortcutsDirective </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M364.51,-149.91C364.51,-149.91 364.51,-168.79 364.51,-168.79"/>
+<polygon fill="black" stroke="black" points="361.01,-168.79 364.51,-178.79 368.01,-168.79 361.01,-168.79"/>
+</g>
+
+<g id="node10" class="node">
+<title>ShortcutsKeyComponent </title>
+<polygon fill="#fb8072" stroke="black" points="246.54,-214.8 85.46,-214.8 85.46,-178.8 246.54,-178.8 246.54,-214.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ShortcutsModule&#45;&gt;ShortcutsKeyComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M339.77,-140.8C282.91,-140.8 203.38,-140.8 203.38,-140.8 203.38,-140.8 203.38,-168.77 203.38,-168.77"/>
+<polygon fill="black" stroke="black" points="199.88,-168.77 203.38,-178.77 206.88,-168.77 199.88,-168.77"/>
+</g>
+</g>
+</svg>

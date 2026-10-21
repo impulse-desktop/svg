@@ -1,0 +1,122 @@
+<svg width="482pt" height="318pt"
+ viewBox="0.00 0.00 482.00 318.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 314)">
+<title>oneDegreeRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="none" points="-4,4 -4,-314 478,-314 478,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>galaxy_synclist_namespaces</title>
+<g id="a_node1"><a xlink:href="../../tables/galaxy_synclist_namespaces.html" xlink:title="galaxy_synclist_namespaces" target="_top">
+<polygon fill="#ffffff" stroke="none" points="219,-147 219,-257 466,-257 466,-147 219,-147"/>
+<polygon fill="#f5f5f5" stroke="none" points="221.5,-233 221.5,-255 464.5,-255 464.5,-233 221.5,-233"/>
+<polygon fill="none" stroke="black" points="221.5,-233 221.5,-255 464.5,-255 464.5,-233 221.5,-233"/>
+
+
+<polygon fill="none" stroke="black" points="221.5,-211 221.5,-233 409.5,-233 409.5,-211 221.5,-211"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="226.5" y="-228"/>
+
+<polygon fill="none" stroke="black" points="409.5,-211 409.5,-233 464.5,-233 464.5,-211 409.5,-211"/>
+
+<polygon fill="#ffffff" stroke="none" points="221.5,-189 221.5,-211 409.5,-211 409.5,-189 221.5,-189"/>
+<polygon fill="none" stroke="black" points="221.5,-189 221.5,-211 409.5,-211 409.5,-189 221.5,-189"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="226.5" y="-206"/>
+
+<polygon fill="none" stroke="black" points="409.5,-189 409.5,-211 464.5,-211 464.5,-189 409.5,-189"/>
+
+<polygon fill="#ffffff" stroke="none" points="221.5,-167 221.5,-189 409.5,-189 409.5,-167 221.5,-167"/>
+<polygon fill="none" stroke="black" points="221.5,-167 221.5,-189 409.5,-189 409.5,-167 221.5,-167"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="226.5" y="-184"/>
+
+<polygon fill="none" stroke="black" points="409.5,-167 409.5,-189 464.5,-189 464.5,-167 409.5,-167"/>
+
+<polygon fill="#ffffff" stroke="none" points="221.5,-149 221.5,-167 302.5,-167 302.5,-149 221.5,-149"/>
+<polygon fill="none" stroke="black" points="221.5,-149 221.5,-167 302.5,-167 302.5,-149 221.5,-149"/>
+
+<polygon fill="#ffffff" stroke="none" points="302.5,-149 302.5,-167 409.5,-167 409.5,-149 302.5,-149"/>
+<polygon fill="none" stroke="black" points="302.5,-149 302.5,-167 409.5,-167 409.5,-149 302.5,-149"/>
+
+<polygon fill="#ffffff" stroke="none" points="409.5,-149 409.5,-167 464.5,-167 464.5,-149 409.5,-149"/>
+<polygon fill="none" stroke="black" points="409.5,-149 409.5,-167 464.5,-167 464.5,-149 409.5,-149"/>
+
+<polygon fill="none" stroke="black" stroke-width="2" points="220,-148 220,-256 465,-256 465,-148 220,-148"/>
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>galaxy_namespace</title>
+<g id="a_node2"><a xlink:href="../../tables/galaxy_namespace.html" xlink:title="galaxy_namespace" target="_top">
+<polygon fill="#ffffff" stroke="none" points="12,-37 12,-139 166,-139 166,-37 12,-37"/>
+<polygon fill="#f5f5f5" stroke="none" points="12,-117 12,-139 166,-139 166,-117 12,-117"/>
+<polygon fill="none" stroke="black" points="12,-117 12,-139 166,-139 166,-117 12,-117"/>
+
+
+<polygon fill="none" stroke="black" points="12,-95 12,-117 166,-117 166,-95 12,-95"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="17" y="-112"/>
+
+<polygon fill="#ffffff" stroke="none" points="12,-73 12,-95 166,-95 166,-73 12,-73"/>
+<polygon fill="none" stroke="black" points="12,-73 12,-95 166,-95 166,-73 12,-73"/>
+
+<polygon fill="none" stroke="black" points="12,-55 12,-73 166,-73 166,-55 12,-55"/>
+
+<polygon fill="#ffffff" stroke="none" points="12,-37 12,-55 59,-55 59,-37 12,-37"/>
+<polygon fill="none" stroke="black" points="12,-37 12,-55 59,-55 59,-37 12,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="59,-37 59,-55 125,-55 125,-37 59,-37"/>
+<polygon fill="none" stroke="black" points="59,-37 59,-55 125,-55 125,-37 59,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="125,-37 125,-55 166,-55 166,-37 125,-37"/>
+<polygon fill="none" stroke="black" points="125,-37 125,-55 166,-55 166,-37 125,-37"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>galaxy_synclist_namespaces:namespace_id:w&#45;&gt;galaxy_namespace:id:e</title>
+<path fill="none" stroke="black" d="M206.684,-173.712C186.965,-158.211 200.949,-106 167,-106"/>
+<polygon fill="black" stroke="black" points="212.86,-175.629 219.433,-181.438 216.68,-176.814 220.5,-178 220.5,-178 220.5,-178 216.68,-176.814 221.567,-174.562 212.86,-175.629 212.86,-175.629"/>
+<ellipse fill="none" stroke="black" cx="209.803" cy="-174.68" rx="3.20001" ry="3.20001"/>
+</g>
+
+<g id="node3" class="node"><title>galaxy_synclist</title>
+<g id="a_node3"><a xlink:href="../../tables/galaxy_synclist.html" xlink:title="galaxy_synclist" target="_top">
+<polygon fill="#ffffff" stroke="none" points="8,-160 8,-306 170,-306 170,-160 8,-160"/>
+<polygon fill="#f5f5f5" stroke="none" points="8,-284 8,-306 170,-306 170,-284 8,-284"/>
+<polygon fill="none" stroke="black" points="8,-284 8,-306 170,-306 170,-284 8,-284"/>
+
+
+<polygon fill="none" stroke="black" points="8,-262 8,-284 170,-284 170,-262 8,-262"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="13" y="-279"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-240 8,-262 170,-262 170,-240 8,-240"/>
+<polygon fill="none" stroke="black" points="8,-240 8,-262 170,-262 170,-240 8,-240"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-218 8,-240 170,-240 170,-218 8,-218"/>
+<polygon fill="none" stroke="black" points="8,-218 8,-240 170,-240 170,-218 8,-218"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="13" y="-235"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-196 8,-218 170,-218 170,-196 8,-196"/>
+<polygon fill="none" stroke="black" points="8,-196 8,-218 170,-218 170,-196 8,-196"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="13" y="-213"/>
+
+<polygon fill="none" stroke="black" points="8,-178 8,-196 170,-196 170,-178 8,-178"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-160 8,-178 68,-178 68,-160 8,-160"/>
+<polygon fill="none" stroke="black" points="8,-160 8,-178 68,-178 68,-160 8,-160"/>
+
+<polygon fill="#ffffff" stroke="none" points="68,-160 68,-178 128,-178 128,-160 68,-160"/>
+<polygon fill="none" stroke="black" points="68,-160 68,-178 128,-178 128,-160 68,-160"/>
+
+<polygon fill="#ffffff" stroke="none" points="128,-160 128,-178 170,-178 170,-160 128,-160"/>
+<polygon fill="none" stroke="black" points="128,-160 128,-178 170,-178 170,-160 128,-160"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>galaxy_synclist_namespaces:synclist_id:w&#45;&gt;galaxy_synclist:id:e</title>
+<path fill="none" stroke="black" d="M206.593,-204.79C188.669,-221.03 204.075,-273 171,-273"/>
+<polygon fill="black" stroke="black" points="212.936,-202.605 221.672,-203.404 216.718,-201.303 220.5,-200 220.5,-200 220.5,-200 216.718,-201.303 219.328,-196.596 212.936,-202.605 212.936,-202.605"/>
+<ellipse fill="none" stroke="black" cx="209.91" cy="-203.647" rx="3.20001" ry="3.20001"/>
+</g>
+</g>
+</svg>

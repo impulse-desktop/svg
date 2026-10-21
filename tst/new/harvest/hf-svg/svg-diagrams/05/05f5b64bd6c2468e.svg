@@ -1,0 +1,88 @@
+<svg width="633pt" height="211pt"
+ viewBox="0.00 0.00 633.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 629,-207 629,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="78.5,-10 78.5,-30 98.5,-30 98.5,-10 78.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="191.5,-10 191.5,-30 211.5,-30 211.5,-10 191.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="277.5,-10 277.5,-30 297.5,-30 297.5,-10 277.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="374.5,-10 374.5,-30 394.5,-30 394.5,-10 374.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="470.5,-10 470.5,-30 490.5,-30 490.5,-10 470.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ReportDetailModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 617,-195 617,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ReportDetailModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="439,-78 439,-130 609,-130 609,-78 439,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ReportDetailModule_imports</title>
+<polygon fill="none" stroke="#000000" points="172,-78 172,-130 431,-130 431,-78 172,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ReportDetailModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 164,-130 164,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ReportDetailComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="600.6428,-122 447.3572,-122 447.3572,-86 600.6428,-86 600.6428,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ReportDetailModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="372.8599,-187 369.8599,-191 348.8599,-191 345.8599,-187 241.1401,-187 241.1401,-151 372.8599,-151 372.8599,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ReportDetailComponent&#45;&gt;ReportDetailModule</title>
+<path fill="none" stroke="#000000" d="M524,-122.1061C524,-141.3391 524,-169 524,-169 524,-169 382.991,-169 382.991,-169"/>
+<polygon fill="#000000" stroke="#000000" points="382.991,-165.5001 372.991,-169 382.991,-172.5001 382.991,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>NavbarModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="423.2465,-122 420.2465,-126 399.2465,-126 396.2465,-122 322.7535,-122 322.7535,-86 423.2465,-86 423.2465,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>NavbarModule&#45;&gt;ReportDetailModule</title>
+<path fill="none" stroke="#000000" d="M347.7784,-122.1061C347.7784,-122.1061 347.7784,-140.991 347.7784,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="344.2785,-140.9909 347.7784,-150.991 351.2785,-140.991 344.2785,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>GivePunishModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="304.3795,-122 301.3795,-126 280.3795,-126 277.3795,-122 179.6205,-122 179.6205,-86 304.3795,-86 304.3795,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>GivePunishModule&#45;&gt;ReportDetailModule</title>
+<path fill="none" stroke="#000000" d="M272.7549,-122.1061C272.7549,-122.1061 272.7549,-140.991 272.7549,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="269.255,-140.9909 272.7549,-150.991 276.255,-140.991 269.255,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>ReportService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="90" cy="-104" rx="66.0492" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ReportService&#45;&gt;ReportDetailModule</title>
+<path fill="none" stroke="#000000" d="M90,-122.1061C90,-141.3391 90,-169 90,-169 90,-169 231.009,-169 231.009,-169"/>
+<polygon fill="#000000" stroke="#000000" points="231.009,-172.5001 241.009,-169 231.009,-165.5001 231.009,-172.5001"/>
+</g>
+</g>
+</svg>

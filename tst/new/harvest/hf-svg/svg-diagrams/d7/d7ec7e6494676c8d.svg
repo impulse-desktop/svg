@@ -1,0 +1,192 @@
+<svg width="1180pt" height="360pt"
+ viewBox="0.00 0.00 1180.00 360.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 356)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-356 1176,-356 1176,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="352,-10 352,-30 372,-30 372,-10 352,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="465,-10 465,-30 485,-30 485,-10 465,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="551,-10 551,-30 571,-30 571,-10 551,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="648,-10 648,-30 668,-30 668,-10 648,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="744,-10 744,-30 764,-30 764,-10 744,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="534,-146 534,-344 969,-344 969,-146 534,-146"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="839,-154 839,-206 961,-206 961,-154 839,-154"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="542,-154 542,-206 831,-206 831,-154 542,-154"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="708,-284 708,-336 832,-336 832,-284 708,-284"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_NgxAgileSliderModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-138 1164,-138 1164,-70 8,-70"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_NgxAgileSliderModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="812,-78 812,-130 1156,-130 1156,-78 812,-78"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_NgxAgileSliderModule_imports</title>
+<polygon fill="none" stroke="#000000" points="574,-78 574,-130 804,-130 804,-78 574,-78"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_NgxAgileSliderModule_exports</title>
+<polygon fill="none" stroke="#000000" points="214,-78 214,-130 566,-130 566,-78 214,-78"/>
+</g>
+<g id="clust15" class="cluster">
+<title>cluster_NgxAgileSliderModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 206,-130 206,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="952.9399,-198 847.0601,-198 847.0601,-162 952.9399,-162 952.9399,-198"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="811.6571,-263 808.6571,-267 787.6571,-267 784.6571,-263 728.3429,-263 728.3429,-227 811.6571,-227 811.6571,-263"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M900,-198.1061C900,-217.3391 900,-245 900,-245 900,-245 821.8484,-245 821.8484,-245"/>
+<polygon fill="#000000" stroke="#000000" points="821.8484,-241.5001 811.8484,-245 821.8484,-248.5001 821.8484,-241.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="824.439,-328 715.561,-328 715.561,-292 824.439,-292 824.439,-328"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M770,-263.1061C770,-263.1061 770,-281.991 770,-281.991"/>
+<polygon fill="#000000" stroke="#000000" points="766.5001,-281.9909 770,-291.991 773.5001,-281.991 766.5001,-281.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>BrowserModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="823.4734,-198 820.4734,-202 799.4734,-202 796.4734,-198 716.5266,-198 716.5266,-162 823.4734,-162 823.4734,-198"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>BrowserModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M770,-198.1061C770,-198.1061 770,-216.991 770,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="766.5001,-216.9909 770,-226.991 773.5001,-216.991 766.5001,-216.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>NgxAgileSliderModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="698.1979,-198 695.1979,-202 674.1979,-202 671.1979,-198 549.8021,-198 549.8021,-162 698.1979,-162 698.1979,-198"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NgxAgileSliderModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M624,-198.1061C624,-217.3391 624,-245 624,-245 624,-245 718.1623,-245 718.1623,-245"/>
+<polygon fill="#000000" stroke="#000000" points="718.1623,-248.5001 728.1623,-245 718.1622,-241.5001 718.1623,-248.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>SliderContainerComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="557.9797,-122 384.0203,-122 384.0203,-86 557.9797,-86 557.9797,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>NgxAgileSliderModule&#45;&gt;SliderContainerComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M553.8203,-161.9891C553.8203,-161.9891 553.8203,-132.145 553.8203,-132.145"/>
+<polygon fill="#000000" stroke="#000000" points="557.3204,-132.145 553.8203,-122.145 550.3204,-132.1451 557.3204,-132.145"/>
+</g>
+
+<g id="node11" class="node">
+<title>SliderItemComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="365.9278,-122 222.0722,-122 222.0722,-86 365.9278,-86 365.9278,-122"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>NgxAgileSliderModule&#45;&gt;SliderItemComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M549.5301,-174C452.2,-174 294,-174 294,-174 294,-174 294,-132.0267 294,-132.0267"/>
+<polygon fill="#000000" stroke="#000000" points="297.5001,-132.0267 294,-122.0267 290.5001,-132.0268 297.5001,-132.0267"/>
+</g>
+
+<g id="node6" class="node">
+<title>SliderContainerComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1147.979,-122 978.021,-122 978.021,-86 1147.979,-86 1147.979,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SliderContainerComponent&#45;&gt;NgxAgileSliderModule</title>
+<path fill="none" stroke="#000000" d="M1063,-122.0439C1063,-134.5633 1063,-149 1063,-149 1063,-149 694.6157,-149 694.6157,-149 694.6157,-149 694.6157,-151.9672 694.6157,-151.9672"/>
+<polygon fill="#000000" stroke="#000000" points="691.1158,-151.9671 694.6157,-161.9672 698.1158,-151.9672 691.1158,-151.9671"/>
+</g>
+
+<g id="node7" class="node">
+<title>SliderItemComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="960.4285,-122 819.5715,-122 819.5715,-86 960.4285,-86 960.4285,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SliderItemComponent&#45;&gt;NgxAgileSliderModule</title>
+<path fill="none" stroke="#000000" d="M835.875,-122.2434C835.875,-129.4297 835.875,-136 835.875,-136 835.875,-136 691.1326,-136 691.1326,-136 691.1326,-136 691.1326,-151.8495 691.1326,-151.8495"/>
+<polygon fill="#000000" stroke="#000000" points="687.6326,-151.8494 691.1326,-161.8495 694.6326,-151.8495 687.6326,-151.8494"/>
+</g>
+
+<g id="node8" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="795.6681,-122 792.6681,-126 771.6681,-126 768.6681,-122 684.3319,-122 684.3319,-86 795.6681,-86 795.6681,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CommonModule&#45;&gt;NgxAgileSliderModule</title>
+<path fill="none" stroke="#000000" d="M687.6494,-122.0109C687.6494,-122.0109 687.6494,-151.855 687.6494,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="684.1495,-151.8549 687.6494,-161.855 691.1495,-151.855 684.1495,-151.8549"/>
+</g>
+
+<g id="node9" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="666.4387,-122 663.4387,-126 642.4387,-126 639.4387,-122 581.5613,-122 581.5613,-86 666.4387,-86 666.4387,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>HttpModule&#45;&gt;NgxAgileSliderModule</title>
+<path fill="none" stroke="#000000" d="M624,-122.0109C624,-122.0109 624,-151.855 624,-151.855"/>
+<polygon fill="#000000" stroke="#000000" points="620.5001,-151.8549 624,-161.855 627.5001,-151.855 620.5001,-151.8549"/>
+</g>
+
+<g id="node12" class="node">
+<title>LazyLoaderService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="111" cy="-104" rx="86.7759" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>LazyLoaderService&#45;&gt;NgxAgileSliderModule</title>
+<path fill="none" stroke="#000000" d="M111,-122.1985C111,-146.3563 111,-186 111,-186 111,-186 539.6795,-186 539.6795,-186"/>
+<polygon fill="#000000" stroke="#000000" points="539.6796,-189.5001 549.6795,-186 539.6795,-182.5001 539.6796,-189.5001"/>
+</g>
+</g>
+</svg>

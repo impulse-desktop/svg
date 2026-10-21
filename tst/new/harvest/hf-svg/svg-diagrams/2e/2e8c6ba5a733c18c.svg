@@ -1,0 +1,86 @@
+<svg width="494pt" height="127pt"
+ viewBox="0.00 0.00 494.00 126.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 122.5)">
+<title>sensesp::RgbLed</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-122.5 490,-122.5 490,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="A special device object that can be used to control a multi&#45;channel color rgb LED light using up to 3...">
+<polygon fill="#bfbfbf" stroke="black" points="393,-55 393,-74 486,-74 486,-55 393,-55"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="classsensesp_1_1_configurable.html" target="_top" xlink:title="An object that is capable of having configuration data that can be set remotely using a RESTful API,...">
+<polygon fill="white" stroke="black" points="235,-99 235,-118 349,-118 349,-99 235,-99"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M334.37,-96.03C341.58,-93.86 349.01,-91.61 356,-89.5 372.9,-84.39 391.75,-78.68 407.16,-74.01"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="333.29,-92.7 324.73,-98.94 335.31,-99.4 333.29,-92.7"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="classsensesp_1_1_value_consumer.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="228,-49.5 228,-79.5 356,-79.5 356,-49.5 228,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node3&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M366.5,-64.5C375.47,-64.5 384.42,-64.5 392.81,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="366.4,-61 356.4,-64.5 366.4,-68 366.4,-61"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="classsensesp_1_1_value_consumer.html" target="_top" xlink:title="A base class for piece of code (like a transform) that accepts data for input. ValueConsumers can acc...">
+<polygon fill="white" stroke="black" points="0,-30 0,-49 152,-49 152,-30 0,-30"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M162.1,-49.44C183.99,-52 207.16,-54.71 227.73,-57.11"/>
+<polygon fill="orange" stroke="orange" points="162.49,-45.96 152.15,-48.28 161.67,-52.92 162.49,-45.96"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="classsensesp_1_1_value_consumer.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="228,-0.5 228,-30.5 356,-30.5 356,-0.5 228,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="orange" stroke-dasharray="5,2" d="M159.31,-28.75C162.92,-28.32 166.5,-27.9 170,-27.5 188.77,-25.36 209.21,-23.25 227.85,-21.41"/>
+<polygon fill="orange" stroke="orange" points="158.58,-25.31 149.07,-29.99 159.42,-32.26 158.58,-25.31"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>Node5&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M347.44,-33.83C368.73,-41 392.26,-48.93 410.07,-54.92"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="348.44,-30.48 337.84,-30.6 346.2,-37.11 348.44,-30.48"/>
+</g>
+</g>
+</svg>

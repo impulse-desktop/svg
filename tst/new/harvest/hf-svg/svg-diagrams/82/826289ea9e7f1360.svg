@@ -1,0 +1,136 @@
+<svg width="1022pt" height="290pt"
+ viewBox="0.00 0.00 1022.00 290.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 286)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-286 1018,-286 1018,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="273,-10 273,-30 293,-30 293,-10 273,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="386,-10 386,-30 406,-30 406,-10 386,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="472,-10 472,-30 492,-30 492,-10 472,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="569,-10 569,-30 589,-30 589,-10 569,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="665,-10 665,-30 685,-30 685,-10 665,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-274 304,-274 304,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 138,-130 138,-78 16,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="146,-78 146,-130 296,-130 296,-78 146,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="87,-214 87,-266 211,-266 211,-214 87,-214"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_PeoplePickerModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="312,-138 312,-206 1006,-206 1006,-138 312,-138"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_PeoplePickerModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="666,-146 666,-198 998,-198 998,-146 666,-146"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_PeoplePickerModule_exports</title>
+<polygon fill="none" stroke="#000000" points="320,-146 320,-198 658,-198 658,-146 320,-146"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="129.9399,-122 24.0601,-122 24.0601,-86 129.9399,-86 129.9399,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="190.6571,-190 187.6571,-194 166.6571,-194 163.6571,-190 107.3429,-190 107.3429,-154 190.6571,-154 190.6571,-190"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M118.4457,-122.2228C118.4457,-122.2228 118.4457,-143.7269 118.4457,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="114.9457,-143.7269 118.4457,-153.7269 121.9457,-143.727 114.9457,-143.7269"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="203.439,-258 94.561,-258 94.561,-222 203.439,-222 203.439,-258"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M149,-190.2228C149,-190.2228 149,-211.7269 149,-211.7269"/>
+<polygon fill="#000000" stroke="#000000" points="145.5001,-211.7269 149,-221.7269 152.5001,-211.727 145.5001,-211.7269"/>
+</g>
+
+<g id="node3" class="node">
+<title>PeoplePickerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="287.9158,-122 284.9158,-126 263.9158,-126 260.9158,-122 154.0842,-122 154.0842,-86 287.9158,-86 287.9158,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PeoplePickerModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M172.5603,-122.2228C172.5603,-122.2228 172.5603,-143.7269 172.5603,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="169.0604,-143.7269 172.5603,-153.7269 176.0604,-143.727 169.0604,-143.7269"/>
+</g>
+
+<g id="node7" class="node">
+<title>PeoplePickerComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="650.1981,-190 491.8019,-190 491.8019,-154 650.1981,-154 650.1981,-190"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>PeoplePickerModule&#45;&gt;PeoplePickerComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288.0694,-113C389.6978,-113 571,-113 571,-113 571,-113 571,-143.9775 571,-143.9775"/>
+<polygon fill="#000000" stroke="#000000" points="567.5001,-143.9774 571,-153.9775 574.5001,-143.9775 567.5001,-143.9774"/>
+</g>
+
+<g id="node8" class="node">
+<title>PeoplePickerDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="473.9489,-190 328.0511,-190 328.0511,-154 473.9489,-154 473.9489,-190"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>PeoplePickerModule&#45;&gt;PeoplePickerDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M245.5886,-122.2228C245.5886,-142.3652 245.5886,-172 245.5886,-172 245.5886,-172 317.845,-172 317.845,-172"/>
+<polygon fill="#000000" stroke="#000000" points="317.8451,-175.5001 327.845,-172 317.845,-168.5001 317.8451,-175.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>PeoplePickerComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="989.6979,-190 834.3021,-190 834.3021,-154 989.6979,-154 989.6979,-190"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PeoplePickerComponent&#45;&gt;PeoplePickerModule</title>
+<path fill="none" stroke="#000000" d="M912,-153.7521C912,-130.9821 912,-95 912,-95 912,-95 297.8838,-95 297.8838,-95"/>
+<polygon fill="#000000" stroke="#000000" points="297.8839,-91.5001 287.8838,-95 297.8838,-98.5001 297.8839,-91.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>PeoplePickerDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="815.9482,-190 674.0518,-190 674.0518,-154 815.9482,-154 815.9482,-190"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PeoplePickerDirective&#45;&gt;PeoplePickerModule</title>
+<path fill="none" stroke="#000000" d="M745,-153.7772C745,-133.6348 745,-104 745,-104 745,-104 297.8972,-104 297.8972,-104"/>
+<polygon fill="#000000" stroke="#000000" points="297.8972,-100.5001 287.8972,-104 297.8972,-107.5001 297.8972,-100.5001"/>
+</g>
+</g>
+</svg>

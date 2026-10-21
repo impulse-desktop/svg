@@ -1,0 +1,120 @@
+<svg width="1510pt" height="174pt"
+ viewBox="0.00 0.00 1510.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 1506,-169.8 1506,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CirculationStatusModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 1494,-157.8 1494,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CirculationStatusModule_declarations</title>
+<polygon fill="none" stroke="black" points="400,-40.8 400,-92.8 1486,-92.8 1486,-40.8 400,-40.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_CirculationStatusModule_imports</title>
+<polygon fill="none" stroke="black" points="278,-40.8 278,-92.8 392,-92.8 392,-40.8 278,-40.8"/>
+</g>
+<g id="clust11" class="cluster">
+<title>cluster_CirculationStatusModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 270,-92.8 270,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AddCirculationStatusComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1478.15,-84.8 1275.85,-84.8 1275.85,-48.8 1478.15,-48.8 1478.15,-84.8"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>CirculationStatusModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="926.26,-149.8 923.26,-153.8 902.26,-153.8 899.26,-149.8 769.74,-149.8 769.74,-113.8 926.26,-113.8 926.26,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AddCirculationStatusComponent&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M1377,-85.09C1377,-107.01 1377,-140.8 1377,-140.8 1377,-140.8 936.34,-140.8 936.34,-140.8"/>
+<polygon fill="black" stroke="black" points="936.34,-137.3 926.34,-140.8 936.34,-144.3 936.34,-137.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>CirculationStatusComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1257.04,-84.8 1078.96,-84.8 1078.96,-48.8 1257.04,-48.8 1257.04,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CirculationStatusComponent&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M1138.24,-84.83C1138.24,-101.2 1138.24,-122.8 1138.24,-122.8 1138.24,-122.8 936.54,-122.8 936.54,-122.8"/>
+<polygon fill="black" stroke="black" points="936.54,-119.3 926.54,-122.8 936.54,-126.3 936.54,-119.3"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>CirculationStatusComponent&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M1197.76,-84.91C1197.76,-104.14 1197.76,-131.8 1197.76,-131.8 1197.76,-131.8 936.49,-131.8 936.49,-131.8"/>
+<polygon fill="black" stroke="black" points="936.49,-128.3 926.49,-131.8 936.49,-135.3 936.49,-128.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>CirculationStatusListComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1061.32,-84.8 860.68,-84.8 860.68,-48.8 1061.32,-48.8 1061.32,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CirculationStatusListComponent&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M893.61,-84.91C893.61,-84.91 893.61,-103.79 893.61,-103.79"/>
+<polygon fill="black" stroke="black" points="890.11,-103.79 893.61,-113.79 897.11,-103.79 890.11,-103.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>CirculationStatusModalComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="842.59,-84.8 627.41,-84.8 627.41,-48.8 842.59,-48.8 842.59,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CirculationStatusModalComponent&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M806.08,-84.91C806.08,-84.91 806.08,-103.79 806.08,-103.79"/>
+<polygon fill="black" stroke="black" points="802.58,-103.79 806.08,-113.79 809.58,-103.79 802.58,-103.79"/>
+</g>
+
+<g id="node5" class="node">
+<title>EditCirculationStatusComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="609.88,-84.8 408.12,-84.8 408.12,-48.8 609.88,-48.8 609.88,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>EditCirculationStatusComponent&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M509,-84.83C509,-101.2 509,-122.8 509,-122.8 509,-122.8 759.37,-122.8 759.37,-122.8"/>
+<polygon fill="black" stroke="black" points="759.37,-126.3 769.37,-122.8 759.37,-119.3 759.37,-126.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="384.42,-84.8 381.42,-88.8 360.42,-88.8 357.42,-84.8 285.58,-84.8 285.58,-48.8 384.42,-48.8 384.42,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedModule&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M335,-84.91C335,-104.14 335,-131.8 335,-131.8 335,-131.8 759.53,-131.8 759.53,-131.8"/>
+<polygon fill="black" stroke="black" points="759.53,-135.3 769.53,-131.8 759.53,-128.3 759.53,-135.3"/>
+</g>
+
+<g id="node8" class="node">
+<title>CirculationStatusValidation</title>
+<ellipse fill="#fdb462" stroke="black" cx="143" cy="-66.8" rx="118.71" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>CirculationStatusValidation&#45;&gt;CirculationStatusModule</title>
+<path fill="none" stroke="black" d="M143,-85.09C143,-107.01 143,-140.8 143,-140.8 143,-140.8 759.52,-140.8 759.52,-140.8"/>
+<polygon fill="black" stroke="black" points="759.52,-144.3 769.52,-140.8 759.52,-137.3 759.52,-144.3"/>
+</g>
+</g>
+</svg>

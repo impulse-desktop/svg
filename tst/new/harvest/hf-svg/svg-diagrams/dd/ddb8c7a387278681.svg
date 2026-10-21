@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="621pt" height="334pt" viewBox="0.00 0.00 621.33 334.40">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 330.4)">
+<title>G</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-330.4 617.3272,-330.4 617.3272,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_xinception</title>
+<polygon fill="none" stroke="#00ff00" points="115.5832,-92.8 115.5832,-282.4 493.5832,-282.4 493.5832,-92.8 115.5832,-92.8"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_mysql_57_daemon</title>
+<polygon fill="none" stroke="#0000ff" points="123.5832,-100.8 123.5832,-249.6 319.5832,-249.6 319.5832,-100.8 123.5832,-100.8"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_redis_daemon</title>
+<polygon fill="none" stroke="#ff0000" points="327.5832,-100.8 327.5832,-249.6 485.5832,-249.6 485.5832,-100.8 327.5832,-100.8"/>
+
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_backend</title>
+<polygon fill="none" stroke="#000000" points="134.5832,-8 134.5832,-84.8 474.5832,-84.8 474.5832,-8 134.5832,-8"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>mysql_client_1</title>
+<ellipse fill="none" stroke="#000000" cx="70.5832" cy="-308.4" rx="70.6664" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>mysql_57_deamon</title>
+<ellipse fill="none" stroke="#000000" cx="221.5832" cy="-198.8" rx="84.5594" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>mysql_client_1-&gt;mysql_57_deamon</title>
+<path fill="none" stroke="#000000" d="M94.1769,-291.275C119.7349,-272.7243 160.6738,-243.0097 189.2246,-222.2867"/>
+<polygon fill="#000000" stroke="#000000" points="191.6198,-224.8731 197.6568,-216.1664 187.5079,-219.208 191.6198,-224.8731"/>
+</g>
+
+<g id="node7" class="node">
+<title>mysql_57_inception</title>
+<ellipse fill="none" stroke="#000000" cx="221.5832" cy="-126.8" rx="89.7942" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>mysql_57_deamon-&gt;mysql_57_inception</title>
+<path fill="none" stroke="#000000" d="M221.5832,-180.6314C221.5832,-172.931 221.5832,-163.7743 221.5832,-155.2166"/>
+<polygon fill="#000000" stroke="#000000" points="225.0833,-155.2132 221.5832,-145.2133 218.0833,-155.2133 225.0833,-155.2132"/>
+</g>
+
+<g id="node3" class="node">
+<title>mysql_client_2</title>
+<ellipse fill="none" stroke="#000000" cx="229.5832" cy="-308.4" rx="70.6664" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>mysql_client_2-&gt;mysql_57_deamon</title>
+<path fill="none" stroke="#000000" d="M228.2621,-290.3018C227.0057,-273.0883 225.0965,-246.9333 223.6407,-226.9888"/>
+<polygon fill="#000000" stroke="#000000" points="227.125,-226.6437 222.9062,-216.9251 220.1435,-227.1534 227.125,-226.6437"/>
+</g>
+
+<g id="node4" class="node">
+<title>redis_client_1</title>
+<ellipse fill="none" stroke="#000000" cx="398.5832" cy="-308.4" rx="65.989" ry="18"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>redis_deamon</title>
+<ellipse fill="none" stroke="#000000" cx="406.5832" cy="-198.8" rx="65.4111" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>redis_client_1-&gt;redis_deamon</title>
+<path fill="none" stroke="#000000" d="M399.9042,-290.3018C401.1607,-273.0883 403.0698,-246.9333 404.5256,-226.9888"/>
+<polygon fill="#000000" stroke="#000000" points="408.0228,-227.1534 405.2602,-216.9251 401.0414,-226.6437 408.0228,-227.1534"/>
+</g>
+
+<g id="node8" class="node">
+<title>redis_inception</title>
+<ellipse fill="none" stroke="#000000" cx="406.5832" cy="-126.8" rx="70.6451" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>redis_deamon-&gt;redis_inception</title>
+<path fill="none" stroke="#000000" d="M406.5832,-180.6314C406.5832,-172.931 406.5832,-163.7743 406.5832,-155.2166"/>
+<polygon fill="#000000" stroke="#000000" points="410.0833,-155.2132 406.5832,-145.2133 403.0833,-155.2133 410.0833,-155.2132"/>
+</g>
+
+<g id="node6" class="node">
+<title>redis_client_2</title>
+<ellipse fill="none" stroke="#000000" cx="547.5832" cy="-308.4" rx="65.989" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>redis_client_2-&gt;redis_deamon</title>
+<path fill="none" stroke="#000000" d="M525.5519,-291.275C501.6496,-272.6956 463.3405,-242.9177 436.6751,-222.1906"/>
+<polygon fill="#000000" stroke="#000000" points="438.503,-219.1785 428.4597,-215.8047 434.2071,-224.7052 438.503,-219.1785"/>
+</g>
+
+<g id="node9" class="node">
+<title>mysql_57_backend</title>
+<ellipse fill="none" stroke="#000000" cx="228.5832" cy="-34" rx="86.2657" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>mysql_57_inception-&gt;mysql_57_backend</title>
+<path fill="none" stroke="#000000" d="M222.9661,-108.4657C223.9536,-95.3742 225.3013,-77.508 226.429,-62.5573"/>
+<polygon fill="#000000" stroke="#000000" points="229.9409,-62.5312 227.2031,-52.2962 222.9607,-62.0046 229.9409,-62.5312"/>
+</g>
+
+<g id="node10" class="node">
+<title>redis_backend</title>
+<ellipse fill="none" stroke="#000000" cx="399.5832" cy="-34" rx="66.6171" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>redis_inception-&gt;redis_backend</title>
+<path fill="none" stroke="#000000" d="M405.2002,-108.4657C404.2127,-95.3742 402.865,-77.508 401.7373,-62.5573"/>
+<polygon fill="#000000" stroke="#000000" points="405.2056,-62.0046 400.9633,-52.2962 398.2254,-62.5312 405.2056,-62.0046"/>
+</g>
+</g>
+</svg>

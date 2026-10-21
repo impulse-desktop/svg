@@ -1,0 +1,152 @@
+<svg width="837pt" height="180pt"
+ viewBox="0.00 0.00 837.00 180.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 176)">
+<title>coap_option_check_critical</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-176 833,-176 833,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node521</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-57.5 0,-76.5 134,-76.5 134,-57.5 0,-57.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node522</title>
+<g id="a_node2"><a xlink:href="group__opt__filter.html#gacec8f143e7a4fe66d97f719f619d42b3" target="_top" xlink:title="Initializes the given option iterator oi to point to the beginning of the pdu&#39;s option list...">
+<polygon fill="white" stroke="black" points="170,-114.5 170,-133.5 292,-133.5 292,-114.5 170,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node521&#45;&gt;Node522</title>
+<path fill="none" stroke="midnightblue" d="M92.6091,-76.5613C113.192,-84.4633 143.377,-95.832 170,-105 176.102,-107.101 182.582,-109.244 188.941,-111.298"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="188.171,-114.726 198.762,-114.433 190.299,-108.058 188.171,-114.726"/>
+</g>
+
+<g id="node3" class="node"><title>Node523</title>
+<g id="a_node3"><a xlink:href="group__opt__filter.html#ga182fdeffe0b37e1ab0dc6ba8494abe4a" target="_top" xlink:title="Updates the iterator oi to point to the next option. ">
+<polygon fill="white" stroke="black" points="184.5,-76.5 184.5,-95.5 277.5,-95.5 277.5,-76.5 184.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node521&#45;&gt;Node523</title>
+<path fill="none" stroke="midnightblue" d="M134.359,-74.7828C147.597,-76.3355 161.375,-77.9514 174.214,-79.4572"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="173.941,-82.9491 184.281,-80.6379 174.757,-75.9968 173.941,-82.9491"/>
+</g>
+
+<g id="node7" class="node"><title>Node527</title>
+<g id="a_node7"><a xlink:href="group__opt__filter.html#ga43220918c5f526de3738bdd95832eda3" target="_top" xlink:title="Checks if type is contained in filter. ">
+<polygon fill="white" stroke="black" points="457,-38.5 457,-57.5 569,-57.5 569,-38.5 457,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node521&#45;&gt;Node527</title>
+<path fill="none" stroke="midnightblue" d="M134.471,-64.1555C218.655,-60.5531 362.801,-54.3847 446.513,-50.8024"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="446.823,-54.2924 456.664,-50.368 446.523,-47.2988 446.823,-54.2924"/>
+</g>
+
+<g id="node11" class="node"><title>Node531</title>
+<g id="a_node11"><a xlink:href="group__opt__filter.html#gafd655c069130a0a54a0082c1951d09d9" target="_top" xlink:title="Sets the corresponding entry for type in filter. ">
+<polygon fill="white" stroke="black" points="457,-0.5 457,-19.5 569,-19.5 569,-0.5 457,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node521&#45;&gt;Node531</title>
+<path fill="none" stroke="midnightblue" d="M134.102,-57.816C146.047,-56.188 158.392,-54.5263 170,-53 266.221,-40.348 377.781,-26.4694 446.631,-17.9957"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="447.39,-21.4287 456.888,-16.7343 446.536,-14.4811 447.39,-21.4287"/>
+</g>
+
+<g id="node4" class="node"><title>Node524</title>
+<g id="a_node4"><a xlink:href="option_8c.html#ad34ae741f83acf83251f2f720f73f58e" target="_top" xlink:title="opt_finished">
+<polygon fill="white" stroke="black" points="340,-152.5 340,-171.5 409,-171.5 409,-152.5 340,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node523&#45;&gt;Node524</title>
+<path fill="none" stroke="midnightblue" d="M271.992,-95.5369C278.94,-98.0551 285.888,-101.172 292,-105 311.717,-117.349 308.852,-129.787 328,-143 330.525,-144.743 333.236,-146.37 336.03,-147.88"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="334.59,-151.071 345.113,-152.3 337.653,-144.777 334.59,-151.071"/>
+</g>
+
+<g id="node5" class="node"><title>Node525</title>
+<g id="a_node5"><a xlink:href="option_8c.html#a11de99f50cc9f5a34fd9e4d121ecfd13" target="_top" xlink:title="Parses the option pointed to by opt into result. ">
+<polygon fill="white" stroke="black" points="331.5,-114.5 331.5,-133.5 417.5,-133.5 417.5,-114.5 331.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node523&#45;&gt;Node525</title>
+<path fill="none" stroke="midnightblue" d="M267.706,-95.589C285.973,-100.494 308.408,-106.52 327.911,-111.757"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="327.239,-115.201 337.805,-114.414 329.055,-108.44 327.239,-115.201"/>
+</g>
+
+<g id="node6" class="node"><title>Node526</title>
+<g id="a_node6"><a xlink:href="group__opt__filter.html#ga7d109b7a83df74d0b3c2f709ecbbebad" target="_top" xlink:title="Gets the corresponding bit for type in filter. ">
+<polygon fill="white" stroke="black" points="328,-76.5 328,-95.5 421,-95.5 421,-76.5 328,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node523&#45;&gt;Node526</title>
+<path fill="none" stroke="midnightblue" d="M277.55,-86C290.173,-86 304.026,-86 317.184,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="317.55,-89.5001 327.55,-86 317.55,-82.5001 317.55,-89.5001"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node526&#45;&gt;Node527</title>
+<path fill="none" stroke="midnightblue" d="M409.945,-76.411C427.485,-71.5281 449.01,-65.5357 467.763,-60.315"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="468.871,-63.6397 477.566,-57.5859 466.994,-56.8961 468.871,-63.6397"/>
+</g>
+
+<g id="node8" class="node"><title>Node528</title>
+<g id="a_node8"><a xlink:href="option_8c.html#a58b1764055e7ee09aca186314ea59beb" target="_top" xlink:title="Applies op on filter with respect to type. ">
+<polygon fill="white" stroke="black" points="605,-19.5 605,-38.5 714,-38.5 714,-19.5 605,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node527&#45;&gt;Node528</title>
+<path fill="none" stroke="midnightblue" d="M569.041,-40.7627C577.411,-39.6622 586.108,-38.5187 594.646,-37.3961"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="595.108,-40.8654 604.567,-36.0916 594.196,-33.9252 595.108,-40.8654"/>
+</g>
+
+<g id="node9" class="node"><title>Node529</title>
+<g id="a_node9"><a xlink:href="option_8c.html#a613d8a39b97bcf7a9bae99072e5e23c6" target="_top" xlink:title="Returns true iff type denotes an option type larger than 255. ">
+<polygon fill="white" stroke="black" points="750,-38.5 750,-57.5 829,-57.5 829,-38.5 750,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node528&#45;&gt;Node529</title>
+<path fill="none" stroke="midnightblue" d="M714.042,-36.9476C722.614,-38.22 731.443,-39.5306 739.892,-40.7847"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="739.56,-44.2737 749.966,-42.2801 740.588,-37.3496 739.56,-44.2737"/>
+</g>
+
+<g id="node10" class="node"><title>Node530</title>
+<g id="a_node10"><a xlink:href="encode_8c.html#a671b4261b2d24de8696258a8efb0f359" target="_top" xlink:title="coap_fls">
+<polygon fill="white" stroke="black" points="763,-0.5 763,-19.5 816,-19.5 816,-0.5 763,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node528&#45;&gt;Node530</title>
+<path fill="none" stroke="midnightblue" d="M714.042,-21.0524C727.076,-19.1176 740.706,-17.0945 752.688,-15.3159"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="753.359,-18.7547 762.737,-13.8242 752.331,-11.8305 753.359,-18.7547"/>
+</g>
+
+<g id="edge12" class="edge"><title>Node531&#45;&gt;Node528</title>
+<path fill="none" stroke="midnightblue" d="M569.041,-17.2373C577.411,-18.3378 586.108,-19.4813 594.646,-20.6039"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="594.196,-24.0748 604.567,-21.9084 595.108,-17.1346 594.196,-24.0748"/>
+</g>
+</g>
+</svg>

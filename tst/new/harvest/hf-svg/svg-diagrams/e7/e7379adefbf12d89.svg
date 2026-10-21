@@ -1,0 +1,108 @@
+<svg width="504pt" height="284pt"
+ viewBox="0.00 0.00 504.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 500,-280 500,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="14,-10 14,-30 34,-30 34,-10 14,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="127,-10 127,-30 147,-30 147,-10 127,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="213,-10 213,-30 233,-30 233,-10 213,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="310,-10 310,-30 330,-30 330,-10 310,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ComponentsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="19,-70 19,-268 477,-268 477,-70 19,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ComponentsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="32,-78 32,-130 464,-130 464,-78 32,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ComponentsModule_exports</title>
+<polygon fill="none" stroke="#000000" points="27,-208 27,-260 469,-260 469,-208 27,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>FooterComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="455.8809,-122 338.1191,-122 338.1191,-86 455.8809,-86 455.8809,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>ComponentsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="324.3272,-187 321.3272,-191 300.3272,-191 297.3272,-187 193.6728,-187 193.6728,-151 324.3272,-151 324.3272,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>FooterComponent&#45;&gt;ComponentsModule</title>
+<path fill="none" stroke="#000000" d="M417.0635,-122.0225C417.0635,-139.3734 417.0635,-163 417.0635,-163 417.0635,-163 334.203,-163 334.203,-163"/>
+<polygon fill="#000000" stroke="#000000" points="334.2031,-159.5001 324.203,-163 334.203,-166.5001 334.2031,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>HeaderComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="319.7437,-122 198.2563,-122 198.2563,-86 319.7437,-86 319.7437,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>HeaderComponent&#45;&gt;ComponentsModule</title>
+<path fill="none" stroke="#000000" d="M259,-122.1061C259,-122.1061 259,-140.991 259,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="255.5001,-140.9909 259,-150.991 262.5001,-140.991 255.5001,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>MovieListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="179.661,-122 40.339,-122 40.339,-86 179.661,-86 179.661,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MovieListComponent&#45;&gt;ComponentsModule</title>
+<path fill="none" stroke="#000000" d="M132.4434,-122.0225C132.4434,-139.3734 132.4434,-163 132.4434,-163 132.4434,-163 183.4975,-163 183.4975,-163"/>
+<polygon fill="#000000" stroke="#000000" points="183.4975,-166.5001 193.4975,-163 183.4975,-159.5001 183.4975,-166.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>FooterComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="460.8814,-252 339.1186,-252 339.1186,-216 460.8814,-216 460.8814,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ComponentsModule&#45;&gt;FooterComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M324.1729,-175C351.9981,-175 378.1865,-175 378.1865,-175 378.1865,-175 378.1865,-205.9775 378.1865,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="374.6866,-205.9774 378.1865,-215.9775 381.6866,-205.9775 374.6866,-205.9774"/>
+</g>
+
+<g id="node6" class="node">
+<title>HeaderComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="321.7436,-252 196.2564,-252 196.2564,-216 321.7436,-216 321.7436,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ComponentsModule&#45;&gt;HeaderComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M259,-187.1061C259,-187.1061 259,-205.991 259,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="255.5001,-205.9909 259,-215.991 262.5001,-205.991 255.5001,-205.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>MovieListComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="178.6607,-252 35.3393,-252 35.3393,-216 178.6607,-216 178.6607,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ComponentsModule&#45;&gt;MovieListComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M193.712,-175C144.8083,-175 86.3066,-175 86.3066,-175 86.3066,-175 86.3066,-205.9775 86.3066,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="82.8067,-205.9774 86.3066,-215.9775 89.8067,-205.9775 82.8067,-205.9774"/>
+</g>
+</g>
+</svg>

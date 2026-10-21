@@ -1,0 +1,108 @@
+<svg width="1052pt" height="211pt"
+ viewBox="0.00 0.00 1052.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1048,-207 1048,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="288,-10 288,-30 308,-30 308,-10 288,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="401,-10 401,-30 421,-30 421,-10 401,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="487,-10 487,-30 507,-30 507,-10 487,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="584,-10 584,-30 604,-30 604,-10 584,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="680,-10 680,-30 700,-30 700,-10 680,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_HomeModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1036,-195 1036,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_HomeModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="140,-78 140,-130 1028,-130 1028,-78 140,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_HomeModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 132,-130 132,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>HomeCandidatesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1019.7506,-122 842.2494,-122 842.2494,-86 1019.7506,-86 1019.7506,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>HomeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="538.7619,-187 535.7619,-191 514.7619,-191 511.7619,-187 445.2381,-187 445.2381,-151 538.7619,-151 538.7619,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>HomeCandidatesComponent&#45;&gt;HomeModule</title>
+<path fill="none" stroke="#000000" d="M931,-122.2843C931,-143.3211 931,-175 931,-175 931,-175 548.9807,-175 548.9807,-175"/>
+<polygon fill="#000000" stroke="#000000" points="548.9807,-171.5001 538.9807,-175 548.9807,-178.5001 548.9807,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>HomeCategoriesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="823.9115,-122 648.0885,-122 648.0885,-86 823.9115,-86 823.9115,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>HomeCategoriesComponent&#45;&gt;HomeModule</title>
+<path fill="none" stroke="#000000" d="M736,-122.0225C736,-139.3734 736,-163 736,-163 736,-163 549.0457,-163 549.0457,-163"/>
+<polygon fill="#000000" stroke="#000000" points="549.0457,-159.5001 539.0457,-163 549.0456,-166.5001 549.0457,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>HomeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="630.5451,-122 515.4549,-122 515.4549,-86 630.5451,-86 630.5451,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>HomeComponent&#45;&gt;HomeModule</title>
+<path fill="none" stroke="#000000" d="M527.0544,-122.1061C527.0544,-122.1061 527.0544,-140.991 527.0544,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="523.5544,-140.9909 527.0544,-150.991 530.5544,-140.991 523.5544,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>HomeQuestionsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="496.5364,-122 325.4636,-122 325.4636,-86 496.5364,-86 496.5364,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>HomeQuestionsComponent&#45;&gt;HomeModule</title>
+<path fill="none" stroke="#000000" d="M470.9436,-122.1061C470.9436,-122.1061 470.9436,-140.991 470.9436,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="467.4436,-140.9909 470.9436,-150.991 474.4436,-140.991 467.4436,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>HomeScreensComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="307.5758,-122 148.4242,-122 148.4242,-86 307.5758,-86 307.5758,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>HomeScreensComponent&#45;&gt;HomeModule</title>
+<path fill="none" stroke="#000000" d="M228,-122.0225C228,-139.3734 228,-163 228,-163 228,-163 435.1063,-163 435.1063,-163"/>
+<polygon fill="#000000" stroke="#000000" points="435.1063,-166.5001 445.1063,-163 435.1063,-159.5001 435.1063,-166.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>LayoutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="123.7078,-122 120.7078,-126 99.7078,-126 96.7078,-122 24.2922,-122 24.2922,-86 123.7078,-86 123.7078,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>LayoutModule&#45;&gt;HomeModule</title>
+<path fill="none" stroke="#000000" d="M74,-122.2843C74,-143.3211 74,-175 74,-175 74,-175 434.8626,-175 434.8626,-175"/>
+<polygon fill="#000000" stroke="#000000" points="434.8627,-178.5001 444.8626,-175 434.8626,-171.5001 434.8627,-178.5001"/>
+</g>
+</g>
+</svg>

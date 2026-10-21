@@ -1,0 +1,196 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="363" height="549.5" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs">
+  <defs>
+    <style type="text/css">
+      <![CDATA[
+        rect {
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+        rect.port {
+          opacity: 1;
+          fill: #326CB2;
+        }
+        text {
+          font-size: 10px;
+          font-family: sans-serif;
+          text-align: left;
+        }
+        g.port > text {
+          font-size: 8px;
+        }
+        polyline {
+          fill: none;
+          stroke: black;
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+        path {
+          fill: none;
+          stroke: black;
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+        line {
+          fill: none;
+          shape-rendering: crispEdges;
+        }
+        rect {
+          stroke: black;
+        }
+        circle {
+          stroke: black;
+        }
+        .error { 
+          stroke: red !important;
+        }
+      ]]>
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,7 L10,4 L0,1 L0,7" style="fill: #000000;" />
+    </marker>
+  </defs>
+  <g>
+    <polyline points="131,323 131,363 52,363 52,273 92,273" id="e_U3_8_U3_4_VCC" class="edge" />
+    <polyline points="131,323 131,517 287,517 287,175 327,175" id="e_U3_8_PinHead8_1_VCC" class="edge" />
+    <g>
+      <circle cx="287" cy="517.5" r="3" class="junction" />
+    </g>
+    <polyline points="131,323 131,517 287,517 287,277 339,277 339,257" id="e_U3_8_R4_2_VCC" class="edge" />
+    <g>
+      <circle cx="287" cy="277.5" r="3" class="junction" />
+    </g>
+    <polyline points="131,323 131,517 339,517 339,497" id="e_U3_8_#PWR1_1_VCC" class="edge" />
+    <polyline points="167,323 167,397 267,397 267,172 327,172" id="e_U3_1_PinHead8_3_GND" class="edge" />
+    <g>
+      <circle cx="267" cy="397.5" r="3" class="junction" />
+      <circle cx="267" cy="172.5" r="3" class="junction" />
+    </g>
+    <polyline points="167,323 167,397 267,397 267,71 339,71 339,51" id="e_U3_1_C7_2_GND" class="edge" />
+    <polyline points="167,323 167,397 267,397 267,150 339,150 339,130" id="e_U3_1_C6_2_GND" class="edge" />
+    <g>
+      <circle cx="267" cy="150" r="3" class="junction" />
+    </g>
+    <polyline points="167,323 167,397 339,397 339,417" id="e_U3_1_#PWR2_1_GND" class="edge" />
+    <polyline points="92,297 72,297 72,343 227,343 227,273 207,273" id="e_U3_2_U3_6_Net_2" class="edge" />
+    <polyline points="92,297 32,297 32,537 307,537 307,377 339,377 339,357" id="e_U3_2_R5_2_Net_2" class="edge" />
+    <g>
+      <circle cx="32" cy="297.5" r="3" class="junction" />
+    </g>
+    <polyline points="92,297 32,297 32,91 339,91 339,111" id="e_U3_2_C6_1_Net_2" class="edge" />
+    <polyline points="207,250 247,250 247,173 327,173" id="e_U3_3_PinHead8_2_Net_6" class="edge" />
+    <polyline points="92,250 12,250 12,12 339,12 339,32" id="e_U3_5_C7_1_Net_5" class="edge" />
+    <polyline points="207,297 307,297 307,197 339,197 339,217" id="e_U3_7_R4_1_Net_3" class="edge" />
+    <g>
+      <circle cx="307" cy="297.5" r="3" class="junction" />
+    </g>
+    <polyline points="207,297 339,297 339,317" id="e_U3_7_R5_1_Net_3" class="edge" />
+<g transform="matrix(1,0,0,1,339,485)"><polyline points="-4.5,7.5 0,15" fill="none" stroke-width="1"></polyline><polyline points="0,0 0,15" fill="none" stroke-width="1"></polyline><polyline points="0,15 4.5,7.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(334.5,477.5)">
+      <rect id="#PWR1_1" class="node" x="2" y="15" width="5" height="5" />
+      <g id="#PWR1_1" class="port" transform="translate(2,15)">
+        
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,339,430)"><polyline points="0,0 0,-7.5 7.5,-7.5 0,-15 -7.5,-7.5 0,-7.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(331.5,422.5)">
+      <rect id="#PWR2_1" class="node" x="5" y="-5" width="5" height="5" />
+      <g id="#PWR2_1" class="port" transform="translate(5,-5)">
+        
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,149.5,273.75)"><rect width="105" height="90" x="-52.5" y="-45" fill="none" stroke-width="1"></rect><rect width="105" height="90" x="-52.5" y="-45" fill="none" stroke-width="1"></rect></g>
+    <g transform="translate(97,228.75)">
+      <rect id="U3_1" class="node" x="68.33333333333333" y="90" width="5" height="5" />
+      <g id="U3_1" class="port" transform="translate(68.33333333333333,90)">
+        
+      </g>
+      <rect id="U3_2" class="node" x="-5" y="66.25" width="5" height="5" />
+      <g id="U3_2" class="port" transform="translate(-5,66.25)">
+        
+      </g>
+      <rect id="U3_3" class="node" x="105" y="18.75" width="5" height="5" />
+      <g id="U3_3" class="port" transform="translate(105,18.75)">
+        
+      </g>
+      <rect id="U3_4" class="node" x="-5" y="42.5" width="5" height="5" />
+      <g id="U3_4" class="port" transform="translate(-5,42.5)">
+        
+      </g>
+      <rect id="U3_5" class="node" x="-5" y="18.75" width="5" height="5" />
+      <g id="U3_5" class="port" transform="translate(-5,18.75)">
+        
+      </g>
+      <rect id="U3_6" class="node" x="105" y="42.5" width="5" height="5" />
+      <g id="U3_6" class="port" transform="translate(105,42.5)">
+        
+      </g>
+      <rect id="U3_7" class="node" x="105" y="66.25" width="5" height="5" />
+      <g id="U3_7" class="port" transform="translate(105,66.25)">
+        
+      </g>
+      <rect id="U3_8" class="node" x="31.666666666666664" y="90" width="5" height="5" />
+      <g id="U3_8" class="port" transform="translate(31.666666666666664,90)">
+        
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,339,237.5)"><polyline points="0,-13.5 0,-15" fill="none" stroke-width="1"></polyline><polyline points="0,13.5 0,15" fill="none" stroke-width="1"></polyline><polyline points="0,-4.5 6,-6.75 0,-9 -6,-11.25 0,-13.5" fill="none" stroke-width="1"></polyline><polyline points="0,4.5 6,2.25 0,0 -6,-2.25 0,-4.5" fill="none" stroke-width="1"></polyline><polyline points="0,13.5 6,11.25 0,9 -6,6.75 0,4.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(333,222.5)">
+      <rect id="R4_1" class="node" x="3.5" y="-5" width="5" height="5" />
+      <g id="R4_1" class="port" transform="translate(3.5,-5)">
+
+      </g>
+      <rect id="R4_2" class="node" x="3.5" y="30" width="5" height="5" />
+      <g id="R4_2" class="port" transform="translate(3.5,30)">
+
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,339,337.5)"><polyline points="0,-13.5 0,-15" fill="none" stroke-width="1"></polyline><polyline points="0,13.5 0,15" fill="none" stroke-width="1"></polyline><polyline points="0,-4.5 6,-6.75 0,-9 -6,-11.25 0,-13.5" fill="none" stroke-width="1"></polyline><polyline points="0,4.5 6,2.25 0,0 -6,-2.25 0,-4.5" fill="none" stroke-width="1"></polyline><polyline points="0,13.5 6,11.25 0,9 -6,6.75 0,4.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(333,322.5)">
+      <rect id="R5_1" class="node" x="3.5" y="-5" width="5" height="5" />
+      <g id="R5_1" class="port" transform="translate(3.5,-5)">
+
+      </g>
+      <rect id="R5_2" class="node" x="3.5" y="30" width="5" height="5" />
+      <g id="R5_2" class="port" transform="translate(3.5,30)">
+
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,339,120.5)"><polyline points="-12,-4.5 12,-4.5" fill="none" stroke-width="1"></polyline><polyline points="-12,4.5 12,4.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(327,116)">
+      <rect id="C6_1" class="node" x="9.5" y="-5" width="5" height="5" />
+      <g id="C6_1" class="port" transform="translate(9.5,-5)">
+
+      </g>
+      <rect id="C6_2" class="node" x="9.5" y="9" width="5" height="5" />
+      <g id="C6_2" class="port" transform="translate(9.5,9)">
+
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,339,41.5)"><polyline points="-12,-4.5 12,-4.5" fill="none" stroke-width="1"></polyline><polyline points="-12,4.5 12,4.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(327,37)">
+      <rect id="C7_1" class="node" x="9.5" y="-5" width="5" height="5" />
+      <g id="C7_1" class="port" transform="translate(9.5,-5)">
+
+      </g>
+      <rect id="C7_2" class="node" x="9.5" y="9" width="5" height="5" />
+      <g id="C7_2" class="port" transform="translate(9.5,9)">
+
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,332,173.75)"></g>
+    <g transform="translate(332,173.75)">
+      <rect id="PinHead8_1" class="node" x="-5" y="-1.25" width="5" height="5" />
+      <g id="PinHead8_1" class="port" transform="translate(-5,-1.25)">
+        
+      </g>
+      <rect id="PinHead8_2" class="node" x="-5" y="-2.5" width="5" height="5" />
+      <g id="PinHead8_2" class="port" transform="translate(-5,-2.5)">
+        
+      </g>
+      <rect id="PinHead8_3" class="node" x="-5" y="-3.75" width="5" height="5" />
+      <g id="PinHead8_3" class="port" transform="translate(-5,-3.75)">
+        
+      </g>
+    </g>
+  </g>
+</svg>

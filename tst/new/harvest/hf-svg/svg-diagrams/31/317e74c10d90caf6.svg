@@ -1,0 +1,106 @@
+<svg width="722pt" height="247pt"
+ viewBox="0.00 0.00 722.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 718,-242.8 718,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 706,-230.8 706,-32.8 8,-32.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="442,-40.8 442,-92.8 698,-92.8 698,-40.8 442,-40.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="black" points="289,-170.8 289,-222.8 413,-222.8 413,-170.8 289,-170.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="146,-40.8 146,-92.8 434,-92.8 434,-40.8 146,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 138,-92.8 138,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="129.94,-84.8 24.06,-84.8 24.06,-48.8 129.94,-48.8 129.94,-84.8"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="392.66,-149.8 389.66,-153.8 368.66,-153.8 365.66,-149.8 309.34,-149.8 309.34,-113.8 392.66,-113.8 392.66,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M77,-85.08C77,-106.12 77,-137.8 77,-137.8 77,-137.8 299.09,-137.8 299.09,-137.8"/>
+<polygon fill="black" stroke="black" points="299.09,-141.3 309.09,-137.8 299.09,-134.3 299.09,-141.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="black" points="405.44,-214.8 296.56,-214.8 296.56,-178.8 405.44,-178.8 405.44,-214.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M351,-149.91C351,-149.91 351,-168.79 351,-168.79"/>
+<polygon fill="black" stroke="black" points="347.5,-168.79 351,-178.79 354.5,-168.79 347.5,-168.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>AppRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="690.27,-84.8 687.27,-88.8 666.27,-88.8 663.27,-84.8 561.73,-84.8 561.73,-48.8 690.27,-48.8 690.27,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AppRoutingModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M626,-85.08C626,-106.12 626,-137.8 626,-137.8 626,-137.8 402.77,-137.8 402.77,-137.8"/>
+<polygon fill="black" stroke="black" points="402.77,-134.3 392.77,-137.8 402.77,-141.3 402.77,-134.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>HomeModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="543.76,-84.8 540.76,-88.8 519.76,-88.8 516.76,-84.8 450.24,-84.8 450.24,-48.8 543.76,-48.8 543.76,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>HomeModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M497,-84.82C497,-102.17 497,-125.8 497,-125.8 497,-125.8 402.84,-125.8 402.84,-125.8"/>
+<polygon fill="black" stroke="black" points="402.84,-122.3 392.84,-125.8 402.84,-129.3 402.84,-122.3"/>
+</g>
+
+<g id="node6" class="node">
+<title>NoopInterceptor</title>
+<ellipse fill="#fdb462" stroke="black" cx="351" cy="-66.8" rx="74.7" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>NoopInterceptor&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M351,-84.91C351,-84.91 351,-103.79 351,-103.79"/>
+<polygon fill="black" stroke="black" points="347.5,-103.79 351,-113.79 354.5,-103.79 347.5,-103.79"/>
+</g>
+
+<g id="node7" class="node">
+<title>TodoStore</title>
+<ellipse fill="#fdb462" stroke="black" cx="206" cy="-66.8" rx="51.61" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>TodoStore&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M206,-84.82C206,-102.17 206,-125.8 206,-125.8 206,-125.8 299.06,-125.8 299.06,-125.8"/>
+<polygon fill="black" stroke="black" points="299.06,-129.3 309.06,-125.8 299.06,-122.3 299.06,-129.3"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,268 @@
+<svg width="933pt" height="1020pt"
+ viewBox="0.00 0.00 932.95 1020.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1016)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-1016 928.95,-1016 928.95,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_.1973</title>
+<polygon fill="none" stroke="black" points="8,-136 8,-945 588,-945 588,-136 8,-136"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_encoder..12</title>
+<polygon fill="none" stroke="black" points="16,-507 16,-798 568,-798 568,-507 16,-507"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_encoder..13</title>
+<polygon fill="none" stroke="black" points="28,-208 28,-499 580,-499 580,-208 28,-208"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>inp_input.1</title>
+<ellipse fill="none" stroke="black" cx="143" cy="-971" rx="63.09" ry="18"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>encoder.inp_input.1</title>
+<ellipse fill="none" stroke="black" cx="143" cy="-896" rx="102.08" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>inp_input.1&#45;&gt;encoder.inp_input.1</title>
+<path fill="none" stroke="black" d="M143,-952.7C143,-944.25 143,-933.87 143,-924.37"/>
+<polygon fill="black" stroke="black" points="146.5,-924.18 143,-914.18 139.5,-924.18 146.5,-924.18"/>
+</g>
+
+<g id="node2" class="node">
+<title>inp_mask.1</title>
+<ellipse fill="none" stroke="black" cx="659" cy="-896" rx="63.09" ry="18"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>encoder.inp_mask.1</title>
+<ellipse fill="none" stroke="black" cx="478" cy="-824" rx="102.08" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>inp_mask.1&#45;&gt;encoder.inp_mask.1</title>
+<path fill="none" stroke="black" d="M623.24,-881.17C596,-870.64 558.17,-856 527.94,-844.31"/>
+<polygon fill="black" stroke="black" points="529.01,-840.97 518.42,-840.63 526.48,-847.5 529.01,-840.97"/>
+</g>
+
+<g id="node19" class="node">
+<title>.1974</title>
+<polygon fill="none" stroke="black" points="799.5,-108 562.5,-108 562.5,-72 799.5,-72 799.5,-108"/>
+
+</g>
+
+<g id="edge20" class="edge">
+<title>inp_mask.1&#45;&gt;.1974</title>
+<path fill="none" stroke="black" d="M653.86,-877.77C646.29,-850.79 633,-796.8 633,-750 633,-750 633,-750 633,-233 633,-189.07 635.59,-176.75 652,-136 654.66,-129.4 658.32,-122.72 662.15,-116.6"/>
+<polygon fill="black" stroke="black" points="665.18,-118.37 667.78,-108.11 659.34,-114.5 665.18,-118.37"/>
+</g>
+
+<g id="node3" class="node">
+<title>inp_input.21</title>
+<ellipse fill="none" stroke="black" cx="730" cy="-162" rx="68.79" ry="18"/>
+
+</g>
+
+<g id="edge17" class="edge">
+<title>inp_input.21&#45;&gt;.1974</title>
+<path fill="none" stroke="black" d="M718.14,-144.05C712.39,-135.84 705.35,-125.79 698.96,-116.66"/>
+<polygon fill="black" stroke="black" points="701.69,-114.46 693.09,-108.28 695.96,-118.47 701.69,-114.46"/>
+</g>
+
+<g id="node4" class="node">
+<title>inp_mask</title>
+<ellipse fill="none" stroke="black" cx="871" cy="-162" rx="53.89" ry="18"/>
+
+</g>
+
+<g id="edge18" class="edge">
+<title>inp_mask&#45;&gt;.1974</title>
+<path fill="none" stroke="black" d="M838.07,-147.66C828.41,-143.82 817.8,-139.68 808,-136 785.97,-127.73 761.64,-119.01 740.23,-111.47"/>
+<polygon fill="black" stroke="black" points="741.21,-108.11 730.61,-108.1 738.89,-114.71 741.21,-108.11"/>
+</g>
+
+<g id="node7" class="node">
+<title>encoder..11</title>
+<polygon fill="none" stroke="black" points="269.5,-842 16.5,-842 16.5,-806 269.5,-806 269.5,-842"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>encoder.inp_input.1&#45;&gt;encoder..11</title>
+<path fill="none" stroke="black" d="M143,-877.7C143,-869.98 143,-860.71 143,-852.11"/>
+<polygon fill="black" stroke="black" points="146.5,-852.1 143,-842.1 139.5,-852.1 146.5,-852.1"/>
+</g>
+
+<g id="node9" class="node">
+<title>encoder.blocks.0.inp_mask.1</title>
+<ellipse fill="none" stroke="black" cx="417" cy="-749" rx="142.97" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>encoder.inp_mask.1&#45;&gt;encoder.blocks.0.inp_mask.1</title>
+<path fill="none" stroke="black" d="M463.85,-806.07C456.13,-796.83 446.43,-785.22 437.85,-774.96"/>
+<polygon fill="black" stroke="black" points="440.38,-772.52 431.28,-767.09 435.01,-777.01 440.38,-772.52"/>
+</g>
+
+<g id="node14" class="node">
+<title>encoder.blocks.1.inp_mask.1</title>
+<ellipse fill="none" stroke="black" cx="429" cy="-450" rx="142.97" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>encoder.inp_mask.1&#45;&gt;encoder.blocks.1.inp_mask.1</title>
+<path fill="none" stroke="black" d="M554.51,-812.04C561.17,-808.48 567.19,-803.89 572,-798 605.78,-756.61 579,-731.42 579,-678 579,-678 579,-678 579,-604 579,-560.78 597.63,-541.8 572,-507 558.77,-489.03 538.91,-476.83 518.16,-468.54"/>
+<polygon fill="black" stroke="black" points="519.19,-465.19 508.59,-465 516.76,-471.75 519.19,-465.19"/>
+</g>
+
+<g id="node8" class="node">
+<title>encoder.blocks.0.inp_1</title>
+<ellipse fill="none" stroke="black" cx="140" cy="-749" rx="115.88" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>encoder..11&#45;&gt;encoder.blocks.0.inp_1</title>
+<path fill="none" stroke="black" d="M142.29,-805.7C141.94,-797.25 141.52,-786.87 141.12,-777.37"/>
+<polygon fill="black" stroke="black" points="144.61,-777.02 140.71,-767.18 137.62,-777.31 144.61,-777.02"/>
+</g>
+
+<g id="node10" class="node">
+<title>encoder.blocks.0..7</title>
+<polygon fill="none" stroke="black" points="423.5,-695 36.5,-695 36.5,-659 423.5,-659 423.5,-695"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>encoder.blocks.0.inp_1&#45;&gt;encoder.blocks.0..7</title>
+<path fill="none" stroke="black" d="M161.79,-731.05C173.31,-722.09 187.63,-710.96 200.17,-701.2"/>
+<polygon fill="black" stroke="black" points="202.36,-703.93 208.1,-695.03 198.06,-698.41 202.36,-703.93"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>encoder.blocks.0.inp_mask.1&#45;&gt;encoder.blocks.0..7</title>
+<path fill="none" stroke="black" d="M373.63,-731.76C347.28,-721.9 313.39,-709.22 285.15,-698.64"/>
+<polygon fill="black" stroke="black" points="286.01,-695.23 275.42,-695 283.55,-701.78 286.01,-695.23"/>
+</g>
+
+<g id="node11" class="node">
+<title>encoder.blocks.0..8</title>
+<polygon fill="none" stroke="black" points="435.5,-623 24.5,-623 24.5,-587 435.5,-587 435.5,-623"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>encoder.blocks.0..7&#45;&gt;encoder.blocks.0..8</title>
+<path fill="none" stroke="black" d="M230,-658.7C230,-650.98 230,-641.71 230,-633.11"/>
+<polygon fill="black" stroke="black" points="233.5,-633.1 230,-623.1 226.5,-633.1 233.5,-633.1"/>
+</g>
+
+<g id="node12" class="node">
+<title>encoder.blocks.0.out_0</title>
+<ellipse fill="none" stroke="black" cx="191" cy="-533" rx="116.18" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>encoder.blocks.0..8&#45;&gt;encoder.blocks.0.out_0</title>
+<path fill="none" stroke="black" d="M220.36,-586.7C215.87,-578.64 210.44,-568.89 205.48,-559.98"/>
+<polygon fill="black" stroke="black" points="208.45,-558.14 200.53,-551.1 202.34,-561.54 208.45,-558.14"/>
+</g>
+
+<g id="node13" class="node">
+<title>encoder.blocks.1.inp_1</title>
+<ellipse fill="none" stroke="black" cx="152" cy="-450" rx="115.88" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>encoder.blocks.0.out_0&#45;&gt;encoder.blocks.1.inp_1</title>
+<path fill="none" stroke="black" d="M182.73,-514.82C177.51,-503.98 170.65,-489.74 164.75,-477.47"/>
+<polygon fill="black" stroke="black" points="167.75,-475.64 160.26,-468.15 161.44,-478.68 167.75,-475.64"/>
+</g>
+
+<g id="node15" class="node">
+<title>encoder.blocks.1..7</title>
+<polygon fill="none" stroke="black" points="559.5,-396 172.5,-396 172.5,-360 559.5,-360 559.5,-396"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>encoder.blocks.1.inp_1&#45;&gt;encoder.blocks.1..7</title>
+<path fill="none" stroke="black" d="M199.23,-433.55C230.15,-423.44 270.87,-410.12 304.34,-399.17"/>
+<polygon fill="black" stroke="black" points="305.6,-402.44 314.02,-396 303.43,-395.79 305.6,-402.44"/>
+</g>
+
+<g id="edge13" class="edge">
+<title>encoder.blocks.1.inp_mask.1&#45;&gt;encoder.blocks.1..7</title>
+<path fill="none" stroke="black" d="M413.75,-432.05C406.12,-423.58 396.75,-413.17 388.33,-403.82"/>
+<polygon fill="black" stroke="black" points="390.84,-401.37 381.55,-396.28 385.64,-406.05 390.84,-401.37"/>
+</g>
+
+<g id="node16" class="node">
+<title>encoder.blocks.1..8</title>
+<polygon fill="none" stroke="black" points="571.5,-324 160.5,-324 160.5,-288 571.5,-288 571.5,-324"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>encoder.blocks.1..7&#45;&gt;encoder.blocks.1..8</title>
+<path fill="none" stroke="black" d="M366,-359.7C366,-351.98 366,-342.71 366,-334.11"/>
+<polygon fill="black" stroke="black" points="369.5,-334.1 366,-324.1 362.5,-334.1 369.5,-334.1"/>
+</g>
+
+<g id="node17" class="node">
+<title>encoder.blocks.1.out_0</title>
+<ellipse fill="none" stroke="black" cx="401" cy="-234" rx="116.18" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>encoder.blocks.1..8&#45;&gt;encoder.blocks.1.out_0</title>
+<path fill="none" stroke="black" d="M374.65,-287.7C378.64,-279.73 383.45,-270.1 387.87,-261.26"/>
+<polygon fill="black" stroke="black" points="391.11,-262.61 392.45,-252.1 384.85,-259.48 391.11,-262.61"/>
+</g>
+
+<g id="node18" class="node">
+<title>encoder.out_0</title>
+<ellipse fill="none" stroke="black" cx="470" cy="-162" rx="75.29" ry="18"/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>encoder.blocks.1.out_0&#45;&gt;encoder.out_0</title>
+<path fill="none" stroke="black" d="M417.7,-216.05C426.26,-207.37 436.84,-196.64 446.23,-187.11"/>
+<polygon fill="black" stroke="black" points="448.92,-189.37 453.45,-179.79 443.94,-184.45 448.92,-189.37"/>
+</g>
+
+<g id="edge19" class="edge">
+<title>encoder.out_0&#45;&gt;.1974</title>
+<path fill="none" stroke="black" d="M512.19,-147C543.08,-136.75 585.46,-122.69 620.03,-111.23"/>
+<polygon fill="black" stroke="black" points="621.17,-114.54 629.56,-108.07 618.96,-107.89 621.17,-114.54"/>
+</g>
+
+<g id="node20" class="node">
+<title>out_0</title>
+<ellipse fill="none" stroke="black" cx="681" cy="-18" rx="36.29" ry="18"/>
+
+</g>
+
+<g id="edge21" class="edge">
+<title>.1974&#45;&gt;out_0</title>
+<path fill="none" stroke="black" d="M681,-71.7C681,-63.98 681,-54.71 681,-46.11"/>
+<polygon fill="black" stroke="black" points="684.5,-46.1 681,-36.1 677.5,-46.1 684.5,-46.1"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,91 @@
+<svg width="1028pt" height="61pt"
+ viewBox="0.00 0.00 1028.00 61.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 57)">
+<title>Graphical Class Hierarchy</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-57 1024,-57 1024,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<g id="a_node1"><a xlink:href="a00575.html" target="_top" xlink:title="tbb::internal::partition\l_type_base\&lt; affinity_partition_type \&gt;">
+<polygon fill="white" stroke="black" points="0,-11.5 0,-41.5 178,-41.5 178,-11.5 0,-11.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00027.html" target="_top" xlink:title="tbb::interface9::internal\l::adaptive_mode\&lt; affinity\l_partition_type \&gt;">
+<polygon fill="white" stroke="black" points="214,-6 214,-47 341,-47 341,-6 214,-6"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M188.257,-26.5C196.935,-26.5 205.554,-26.5 213.814,-26.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="188.062,-23.0001 178.062,-26.5 188.062,-30.0001 188.062,-23.0001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00607.html" target="_top" xlink:title="tbb::interface9::internal\l::proportional_mode\&lt; affinity\l_partition_type \&gt;">
+<polygon fill="white" stroke="black" points="377,-6 377,-47 517,-47 517,-6 377,-6"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M351.53,-26.5C359.957,-26.5 368.531,-26.5 376.903,-26.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="351.347,-23.0001 341.347,-26.5 351.347,-30.0001 351.347,-23.0001"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00476.html" target="_top" xlink:title="tbb::interface9::internal\l::linear_affinity_mode\l\&lt; affinity_partition_type \&gt;">
+<polygon fill="white" stroke="black" points="553,-6 553,-47 681,-47 681,-6 553,-6"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M527.568,-26.5C536.027,-26.5 544.547,-26.5 552.782,-26.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="527.302,-23.0001 517.302,-26.5 527.302,-30.0001 527.302,-23.0001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00232.html" target="_top" xlink:title="tbb::interface9::internal\l::dynamic_grainsize_mode\l\&lt; linear_affinity_mode\&lt; affinity\l_partition_type \&gt; \&gt;">
+<polygon fill="white" stroke="black" points="717,-0.5 717,-52.5 868,-52.5 868,-0.5 717,-0.5"/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M691.342,-26.5C699.805,-26.5 708.442,-26.5 716.921,-26.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="691.128,-23.0001 681.128,-26.5 691.128,-30.0001 691.128,-23.0001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00029.html" target="_top" xlink:title="tbb::interface9::internal\l::affinity_partition_type">
+<polygon fill="white" stroke="black" points="904,-11.5 904,-41.5 1020,-41.5 1020,-11.5 904,-11.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M878.462,-26.5C887.018,-26.5 895.557,-26.5 903.722,-26.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="878.432,-23.0001 868.432,-26.5 878.432,-30.0001 878.432,-23.0001"/>
+</g>
+</g>
+</svg>

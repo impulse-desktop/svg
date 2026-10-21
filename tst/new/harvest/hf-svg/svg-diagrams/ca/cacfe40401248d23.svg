@@ -1,0 +1,208 @@
+<svg width="560pt" height="216pt"
+ viewBox="0.00 0.00 560.00 216.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 212)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-212 557,-212 557,5 -4,5"/>
+
+<g id="node1" class="node"><title>RuBP</title>
+<ellipse fill="none" stroke="black" cx="212" cy="-131" rx="18" ry="18"/>
+
+</g>
+
+<g id="node8" class="node"><title>PGA_prod_Vc_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="267" cy="-92" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge4" class="edge"><title>RuBP&#45;&gt;PGA_prod_Vc_intermediate_r</title>
+<path fill="none" stroke="black" d="M226.739,-120.549C242.522,-109.357 265.509,-93.057 266.931,-92.0491"/>
+</g>
+
+<g id="node20" class="node"><title>PGA_prod_Vo_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="267" cy="-125" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge20" class="edge"><title>RuBP&#45;&gt;PGA_prod_Vo_intermediate_r</title>
+<path fill="none" stroke="black" d="M230.009,-129.035C245.548,-127.34 265.695,-125.142 266.939,-125.007"/>
+</g>
+
+<g id="node2" class="node"><title>PGA</title>
+<ellipse fill="none" stroke="black" cx="410" cy="-102" rx="18" ry="18"/>
+
+</g>
+
+<g id="node32" class="node"><title>PGA_cons_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="465" cy="-102" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge36" class="edge"><title>PGA&#45;&gt;PGA_cons_intermediate_r</title>
+<path fill="none" stroke="black" d="M428.009,-102C443.548,-102 463.695,-102 464.939,-102"/>
+</g>
+
+<g id="node3" class="node"><title>NADPH</title>
+<ellipse fill="none" stroke="black" cx="212" cy="-77" rx="18" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>NADPH&#45;&gt;PGA_prod_Vc_intermediate_r</title>
+<path fill="none" stroke="black" d="M229.402,-81.7461C245.012,-86.0033 265.662,-91.6352 266.938,-91.9831"/>
+</g>
+
+<g id="edge24" class="edge"><title>NADPH&#45;&gt;PGA_prod_Vo_intermediate_r</title>
+<path fill="none" stroke="black" d="M225.596,-88.8652C241.374,-102.635 265.439,-123.637 266.927,-124.937"/>
+</g>
+
+<g id="node38" class="node"><title>PGA_cons_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="552" cy="-84" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge44" class="edge"><title>NADPH&#45;&gt;PGA_cons_intermediate_m</title>
+<path fill="none" stroke="black" d="M228.357,-68.8024C247.621,-59.9199 280.828,-47 311,-47 311,-47 311,-47 465,-47 505.705,-47 549.192,-81.7236 551.87,-83.8939"/>
+</g>
+
+<g id="node4" class="node"><title>CO2</title>
+<ellipse fill="none" stroke="black" cx="212" cy="-18" rx="18" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>CO2&#45;&gt;PGA_prod_Vc_intermediate_r</title>
+<path fill="none" stroke="black" d="M222.866,-32.62C238.394,-53.5119 265.255,-89.6525 266.919,-91.8909"/>
+</g>
+
+<g id="node28" class="node"><title>PGA_prod_Vo_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="355" cy="-75" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge32" class="edge"><title>CO2&#45;&gt;PGA_prod_Vo_intermediate_m</title>
+<path fill="none" stroke="black" d="M228.966,-24.7625C266.253,-39.6253 352.257,-73.9068 354.936,-74.9745"/>
+</g>
+
+<g id="node5" class="node"><title>O2</title>
+<ellipse fill="none" stroke="black" cx="212" cy="-190" rx="18" ry="18"/>
+
+</g>
+
+<g id="node16" class="node"><title>PGA_prod_Vc_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="355" cy="-129" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge16" class="edge"><title>O2&#45;&gt;PGA_prod_Vc_intermediate_m</title>
+<path fill="none" stroke="black" d="M228.684,-182.883C265.816,-167.043 352.244,-130.176 354.936,-129.027"/>
+</g>
+
+<g id="edge22" class="edge"><title>O2&#45;&gt;PGA_prod_Vo_intermediate_r</title>
+<path fill="none" stroke="black" d="M223.664,-176.215C239.304,-157.731 265.311,-126.996 266.922,-125.093"/>
+</g>
+
+<g id="node6" class="node"><title>NADP</title>
+<ellipse fill="none" stroke="black" cx="18" cy="-77" rx="18" ry="18"/>
+
+</g>
+
+<g id="node42" class="node"><title>NADPH_prod_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="72" cy="-77" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge48" class="edge"><title>NADP&#45;&gt;NADPH_prod_intermediate_r</title>
+<path fill="none" stroke="black" d="M36.2819,-77C51.4582,-77 70.751,-77 71.942,-77"/>
+</g>
+
+<g id="node7" class="node"><title>PGA_prod_Vc</title>
+<polygon fill="none" stroke="black" points="318,-125 304,-125 304,-111 318,-111 318,-125"/>
+</g>
+
+<g id="node13" class="node"><title>PGA_prod_Vc_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="355" cy="-111" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge10" class="edge"><title>PGA_prod_Vc&#45;&gt;PGA_prod_Vc_intermediate_p</title>
+<path fill="none" stroke="black" d="M318.266,-116.844C330.372,-114.918 353.497,-111.239 354.93,-111.011"/>
+</g>
+
+<g id="edge14" class="edge"><title>PGA_prod_Vc&#45;&gt;PGA_prod_Vc_intermediate_m</title>
+<path fill="none" stroke="black" d="M330,-122.75C341.397,-125.599 353.889,-128.722 354.93,-128.983"/>
+<polygon fill="none" stroke="black" points="329.907,-122.727 323.116,-125.152 318.266,-119.816 325.057,-117.391 329.907,-122.727"/>
+</g>
+
+<g id="edge2" class="edge"><title>PGA_prod_Vc_intermediate_r&#45;&gt;PGA_prod_Vc</title>
+<path fill="none" stroke="black" d="M267.126,-92.0746C269.022,-93.1945 291.795,-106.651 303.759,-113.721"/>
+</g>
+
+<g id="edge12" class="edge"><title>PGA_prod_Vc_intermediate_p&#45;&gt;PGA</title>
+<path fill="none" stroke="black" d="M355.158,-110.974C356.699,-110.722 369.285,-108.662 382.011,-106.58"/>
+<polygon fill="black" stroke="black" points="382.735,-110.008 392.039,-104.939 381.605,-103.1 382.735,-110.008"/>
+</g>
+
+<g id="node19" class="node"><title>PGA_prod_Vo</title>
+<polygon fill="none" stroke="black" points="318,-93 304,-93 304,-79 318,-79 318,-93"/>
+</g>
+
+<g id="node25" class="node"><title>PGA_prod_Vo_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="355" cy="-93" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge26" class="edge"><title>PGA_prod_Vo&#45;&gt;PGA_prod_Vo_intermediate_p</title>
+<path fill="none" stroke="black" d="M318.266,-87.1559C330.372,-89.082 353.497,-92.7608 354.93,-92.9889"/>
+</g>
+
+<g id="edge30" class="edge"><title>PGA_prod_Vo&#45;&gt;PGA_prod_Vo_intermediate_m</title>
+<path fill="none" stroke="black" d="M330,-81.2501C341.397,-78.4008 353.889,-75.2778 354.93,-75.0175"/>
+<polygon fill="none" stroke="black" points="329.907,-81.2731 325.057,-86.6089 318.266,-84.1836 323.116,-78.8478 329.907,-81.2731"/>
+</g>
+
+<g id="edge18" class="edge"><title>PGA_prod_Vo_intermediate_r&#45;&gt;PGA_prod_Vo</title>
+<path fill="none" stroke="black" d="M267.126,-124.888C269.022,-123.208 291.795,-103.023 303.759,-92.4182"/>
+</g>
+
+<g id="edge28" class="edge"><title>PGA_prod_Vo_intermediate_p&#45;&gt;PGA</title>
+<path fill="none" stroke="black" d="M355.158,-93.0258C356.699,-93.278 369.285,-95.3376 382.011,-97.42"/>
+<polygon fill="black" stroke="black" points="381.605,-100.9 392.039,-99.0608 382.735,-93.9918 381.605,-100.9"/>
+</g>
+
+<g id="node31" class="node"><title>PGA_cons</title>
+<polygon fill="none" stroke="black" points="516,-109 502,-109 502,-95 516,-95 516,-109"/>
+</g>
+
+<g id="node35" class="node"><title>PGA_cons_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="552" cy="-120" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge38" class="edge"><title>PGA_cons&#45;&gt;PGA_cons_intermediate_p</title>
+<path fill="none" stroke="black" d="M516.101,-104.972C527.932,-109.925 550.531,-119.385 551.932,-119.971"/>
+</g>
+
+<g id="edge42" class="edge"><title>PGA_cons&#45;&gt;PGA_cons_intermediate_m</title>
+<path fill="none" stroke="black" d="M527.209,-94.3777C538.442,-89.6754 550.903,-84.4592 551.932,-84.0286"/>
+<polygon fill="none" stroke="black" points="527.17,-94.3939 523.18,-100.401 516.101,-99.0277 520.091,-93.021 527.17,-94.3939"/>
+</g>
+
+<g id="edge34" class="edge"><title>PGA_cons_intermediate_r&#45;&gt;PGA_cons</title>
+<path fill="none" stroke="black" d="M465.126,-102C467.022,-102 489.795,-102 501.759,-102"/>
+</g>
+
+<g id="edge40" class="edge"><title>PGA_cons_intermediate_p&#45;&gt;RuBP</title>
+<path fill="none" stroke="black" d="M551.87,-120.106C549.192,-122.276 505.705,-157 465,-157 311,-157 311,-157 311,-157 285.729,-157 257.984,-148.977 238.312,-141.844"/>
+<polygon fill="black" stroke="black" points="239.408,-138.516 228.816,-138.242 236.925,-145.061 239.408,-138.516"/>
+</g>
+
+<g id="node41" class="node"><title>NADPH_prod</title>
+<polygon fill="none" stroke="black" points="122,-84 108,-84 108,-70 122,-70 122,-84"/>
+</g>
+
+<g id="node45" class="node"><title>NADPH_prod_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="158" cy="-77" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge50" class="edge"><title>NADPH_prod&#45;&gt;NADPH_prod_intermediate_p</title>
+<path fill="none" stroke="black" d="M122.101,-77C133.932,-77 156.531,-77 157.932,-77"/>
+</g>
+
+<g id="edge46" class="edge"><title>NADPH_prod_intermediate_r&#45;&gt;NADPH_prod</title>
+<path fill="none" stroke="black" d="M72.1234,-77C73.9756,-77 96.231,-77 107.924,-77"/>
+</g>
+
+<g id="edge52" class="edge"><title>NADPH_prod_intermediate_p&#45;&gt;NADPH</title>
+<path fill="none" stroke="black" d="M158.155,-77C159.634,-77 171.471,-77 183.67,-77"/>
+<polygon fill="black" stroke="black" points="183.784,-80.5001 193.784,-77 183.784,-73.5001 183.784,-80.5001"/>
+</g>
+</g>
+</svg>

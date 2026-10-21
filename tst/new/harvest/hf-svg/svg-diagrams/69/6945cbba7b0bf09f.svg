@@ -1,0 +1,65 @@
+<svg width="439pt" height="104pt"
+ viewBox="0.00 0.00 439.00 104.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
+<title>marian::SoftmaxNodeOp::forwardOps</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-100 435,-100 435,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-33 0,-63 125,-63 125,-33 0,-33"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../da/d22/namespacemarian.html#a01a45889e366b16c79c2cc067f534021" target="_top" xlink:title="marian::Softmax">
+<polygon fill="white" stroke="black" points="167,-76.5 167,-95.5 256,-95.5 256,-76.5 167,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M121.598,-63.0186C135.54,-66.6225 150.255,-70.4264 163.614,-73.8798"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="162.973,-77.329 173.53,-76.4432 164.724,-70.5517 162.973,-77.329"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d0/d7a/classmarian_1_1Node.html#a71a9c8ad6ba12d421fa97222d74a90b9" target="_top" xlink:title="marian::Node::child">
+<polygon fill="white" stroke="black" points="161,-38.5 161,-57.5 262,-57.5 262,-38.5 161,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M125.415,-48C133.783,-48 142.356,-48 150.686,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="150.696,-51.5001 160.696,-48 150.696,-44.5001 150.696,-51.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="../../d0/d7a/classmarian_1_1Node.html#a0df86f2ff4a169111d6ba0865e6fd935" target="_top" xlink:title="marian::Node::val">
+<polygon fill="white" stroke="black" points="164.5,-0.5 164.5,-19.5 258.5,-19.5 258.5,-0.5 164.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M121.598,-32.9814C135.54,-29.3775 150.255,-25.5736 163.614,-22.1202"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="164.724,-25.4483 173.53,-19.5568 162.973,-18.671 164.724,-25.4483"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d0/d7a/classmarian_1_1Node.html#a4aa5aa482c70595fa5d43c1fbabf5c18" target="_top" xlink:title="marian::Node::getBackend">
+<polygon fill="white" stroke="black" points="298,-38.5 298,-57.5 431,-57.5 431,-38.5 298,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M262.362,-48C270.512,-48 279.114,-48 287.721,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="287.801,-51.5001 297.801,-48 287.801,-44.5001 287.801,-51.5001"/>
+</g>
+</g>
+</svg>

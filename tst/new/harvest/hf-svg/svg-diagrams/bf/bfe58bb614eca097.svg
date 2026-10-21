@@ -1,0 +1,91 @@
+<svg width="839pt" height="110pt"
+ viewBox="0.00 0.00 839.00 110.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 106)">
+<title>LittleWeebLibrary.Models.JsonKitsuAnimeInfo.ToJObject</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-106 835,-106 835,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node8</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-37 0,-67 149,-67 149,-37 0,-37"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node9</title>
+<g id="a_node2"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_anime_profile_handler.html#a5b163eb7e68b1e40904fa55454d8ba54" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lAnimeProfileHandler.GetAnimeEpisodes">
+<polygon fill="white" stroke="black" points="185,-63 185,-93 376,-93 376,-63 185,-63"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M159.26,-62.6753C167.632,-63.7423 176.173,-64.8309 184.648,-65.911"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="159.511,-59.179 149.149,-61.3866 158.626,-66.1229 159.511,-59.179"/>
+</g>
+
+<g id="node5" class="node"><title>Node12</title>
+<g id="a_node5"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_anime_profile_handler.html#aaa89fba506cfcdad18a5aa3f9b860061" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lAnimeProfileHandler.GetAnimeProfile">
+<polygon fill="white" stroke="black" points="191.5,-11 191.5,-41 369.5,-41 369.5,-11 191.5,-11"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node8&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M159.214,-41.3306C169.815,-39.9794 180.689,-38.5935 191.357,-37.2339"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="158.626,-37.8771 149.149,-42.6134 159.511,-44.8209 158.626,-37.8771"/>
+</g>
+
+<g id="node3" class="node"><title>Node10</title>
+<g id="a_node3"><a xlink:href="class_little_weeb_library_1_1_services_1_1_info_api_web_socket_service.html#a754f738fba586cc927d64251329c736a" target="_top" xlink:title="LittleWeebLibrary.Services.\lInfoApiWebSocketService.GetAnime\lEpisodes">
+<polygon fill="white" stroke="black" points="412,-60.5 412,-101.5 587,-101.5 587,-60.5 412,-60.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node9&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M386.111,-79.4462C394.707,-79.5651 403.336,-79.6844 411.781,-79.8011"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="386.096,-75.9458 376.048,-79.3071 385.999,-82.9451 386.096,-75.9458"/>
+</g>
+
+<g id="node4" class="node"><title>Node11</title>
+<g id="a_node4"><a xlink:href="class_little_weeb_library_1_1_controllers_1_1_sub_controllers_1_1_info_api_web_socket_controller.html#ad620537574b819085ff8eb394add2912" target="_top" xlink:title="LittleWeebLibrary.Controllers.\lSubControllers.InfoApiWebSocketController.\lOnWebSocketEvent">
+<polygon fill="white" stroke="black" points="623,-30.5 623,-71.5 831,-71.5 831,-30.5 623,-30.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M596.972,-68.1655C605.494,-67.0319 614.142,-65.8814 622.716,-64.7406"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="596.49,-64.6987 587.039,-69.487 597.414,-71.6376 596.49,-64.6987"/>
+</g>
+
+<g id="node6" class="node"><title>Node13</title>
+<g id="a_node6"><a xlink:href="class_little_weeb_library_1_1_services_1_1_info_api_web_socket_service.html#a12f4d83332b28988ce0e2bc5ff3ed369" target="_top" xlink:title="LittleWeebLibrary.Services.\lInfoApiWebSocketService.GetAnime\lProfile">
+<polygon fill="white" stroke="black" points="412,-0.5 412,-41.5 587,-41.5 587,-0.5 412,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node12&#45;&gt;Node13</title>
+<path fill="none" stroke="midnightblue" d="M379.889,-23.733C390.507,-23.4883 401.255,-23.2407 411.722,-22.9995"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="379.679,-20.2368 369.762,-23.9663 379.84,-27.2349 379.679,-20.2368"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node13&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M596.972,-33.8345C605.494,-34.9681 614.142,-36.1186 622.716,-37.2594"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="597.414,-30.3624 587.039,-32.513 596.49,-37.3013 597.414,-30.3624"/>
+</g>
+</g>
+</svg>

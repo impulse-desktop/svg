@@ -1,0 +1,208 @@
+<svg width="520pt" height="754pt"
+ viewBox="0.00 0.00 520.00 753.83" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 749.8313)">
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-749.8313 516,-749.8313 516,4 -4,4"/>
+<g id="clust4" class="cluster">
+<title>cluster_listener_1 http cnx mgr</title>
+<polygon fill="#d3d3d3" stroke="#000000" points="266,-383.4313 266,-571.2313 494,-571.2313 494,-383.4313 266,-383.4313"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_listener_0 http cnx mgr</title>
+<polygon fill="#d3d3d3" stroke="#000000" points="8,-272.4313 8,-571.2313 258,-571.2313 258,-272.4313 8,-272.4313"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_listeners</title>
+<polygon fill="#d3d3d3" stroke="#000000" points="78,-590.2313 78,-667.0313 456,-667.0313 456,-590.2313 78,-590.2313"/>
+
+</g>
+<g id="clust1" class="cluster">
+<title>cluster_clusters</title>
+<polygon fill="#d3d3d3" stroke="#000000" points="170,-65 170,-164.6313 504,-164.6313 504,-65 170,-65"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>Downstream</title>
+<ellipse fill="none" stroke="#000000" cx="267" cy="-727.8313" rx="60.2518" ry="18"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>Listener: listener_0</title>
+<ellipse fill="none" stroke="#000000" cx="172" cy="-616.2313" rx="85.7076" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>Downstream&#45;&gt;Listener: listener_0</title>
+<path fill="none" stroke="#000000" d="M247.8,-710.4263C241.7818,-704.6897 235.2439,-698.156 229.6094,-691.8313 215.6622,-676.1757 201.3679,-657.4368 190.507,-642.5322"/>
+<polygon fill="#000000" stroke="#000000" points="193.2247,-640.317 184.5375,-634.252 187.5464,-644.4106 193.2247,-640.317"/>
+
+</g>
+
+<g id="node11" class="node">
+<title>Listener: listener_1</title>
+<ellipse fill="none" stroke="#000000" cx="362" cy="-616.2313" rx="85.7076" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>Downstream&#45;&gt;Listener: listener_1</title>
+<path fill="none" stroke="#000000" d="M296.2061,-712.045C304.8772,-706.4376 313.9354,-699.5704 321,-691.8313 333.7991,-677.8101 343.9983,-659.0675 351.0229,-643.7522"/>
+<polygon fill="#000000" stroke="#000000" points="354.3712,-644.8312 355.176,-634.2669 347.9589,-642.0235 354.3712,-644.8312"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Cluster: some_service_1</title>
+<ellipse fill="none" stroke="#000000" cx="253" cy="-102.4156" rx="75.1746" ry="29.3315"/>
+
+
+</g>
+
+<g id="node3" class="node">
+<title>127.0.0.1:1234</title>
+<ellipse fill="none" stroke="#000000" cx="253" cy="-18" rx="69.4961" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>Cluster: some_service_1&#45;&gt;127.0.0.1:1234</title>
+<path fill="none" stroke="#000000" d="M253,-72.8911C253,-64.3331 253,-55.008 253,-46.5131"/>
+<polygon fill="#000000" stroke="#000000" points="256.5001,-46.3169 253,-36.3169 249.5001,-46.317 256.5001,-46.3169"/>
+</g>
+
+<g id="node4" class="node">
+<title>Cluster: some_service_2</title>
+<ellipse fill="none" stroke="#000000" cx="421" cy="-102.4156" rx="75.1746" ry="29.3315"/>
+
+
+</g>
+
+<g id="node5" class="node">
+<title>127.0.0.1:1235</title>
+<ellipse fill="none" stroke="#000000" cx="421" cy="-18" rx="69.4961" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>Cluster: some_service_2&#45;&gt;127.0.0.1:1235</title>
+<path fill="none" stroke="#000000" d="M421,-72.8911C421,-64.3331 421,-55.008 421,-46.5131"/>
+<polygon fill="#000000" stroke="#000000" points="424.5001,-46.3169 421,-36.3169 417.5001,-46.317 424.5001,-46.3169"/>
+</g>
+
+<g id="node7" class="node">
+<title>listener_0 http cnx mngr</title>
+<ellipse fill="none" stroke="#000000" cx="141" cy="-520.4313" rx="105.9229" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>Listener: listener_0&#45;&gt;listener_0 http cnx mngr</title>
+<path fill="none" stroke="#000000" d="M166.1691,-598.212C161.6515,-584.251 155.3092,-564.6514 150.1216,-548.62"/>
+<polygon fill="#000000" stroke="#000000" points="153.3189,-547.1321 146.9101,-538.6954 146.6589,-549.2873 153.3189,-547.1321"/>
+</g>
+
+<g id="node8" class="node">
+<title>listener_0envoy.filters.http.ext_authz</title>
+<ellipse fill="none" stroke="#000000" cx="133" cy="-409.4313" rx="116.9367" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>listener_0 http cnx mngr&#45;&gt;listener_0envoy.filters.http.ext_authz</title>
+<path fill="none" stroke="#000000" d="M139.679,-502.1019C138.4225,-484.6686 136.5134,-458.1795 135.0576,-437.9802"/>
+<polygon fill="#000000" stroke="#000000" points="138.5329,-437.5104 134.323,-427.7879 131.551,-438.0137 138.5329,-437.5104"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>listener_0envoy.filters.http.ext_authz&#45;&gt;Cluster: some_service_1</title>
+<path fill="none" stroke="#000000" d="M192.9372,-393.8965C225.0177,-383.7604 258,-369.5432 258,-353.9313 258,-353.9313 258,-353.9313 258,-225.4313 258,-197.6887 256.7147,-166.4558 255.4475,-142.403"/>
+<polygon fill="#000000" stroke="#000000" points="258.9321,-142.0248 254.8903,-132.2312 251.9426,-142.4077 258.9321,-142.0248"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>listener_0envoy.filters.http.router</title>
+<ellipse fill="none" stroke="#000000" cx="120" cy="-298.4313" rx="102.4678" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>listener_0envoy.filters.http.ext_authz&#45;&gt;listener_0envoy.filters.http.router</title>
+<path fill="none" stroke="#000000" d="M130.8533,-391.1019C128.8116,-373.6686 125.7092,-347.1795 123.3436,-326.9802"/>
+<polygon fill="#000000" stroke="#000000" points="126.7894,-326.3129 122.1499,-316.7879 119.8369,-327.1272 126.7894,-326.3129"/>
+</g>
+
+<g id="node10" class="node">
+<title>Route: local_route_1</title>
+<ellipse fill="none" stroke="#000000" cx="134" cy="-225.4313" rx="92.0979" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>listener_0envoy.filters.http.router&#45;&gt;Route: local_route_1</title>
+<path fill="none" stroke="#000000" d="M123.4607,-280.3863C125.0088,-272.3141 126.8703,-262.6077 128.5953,-253.613"/>
+<polygon fill="#000000" stroke="#000000" points="132.0844,-254.0019 130.5306,-243.5216 125.2097,-252.6834 132.0844,-254.0019"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>Route: local_route_1&#45;&gt;Cluster: some_service_1</title>
+<path fill="none" stroke="#000000" d="M151.3036,-207.5438C168.9863,-189.2644 196.9129,-160.3954 219.031,-137.5309"/>
+<polygon fill="#000000" stroke="#000000" points="221.5505,-139.9603 225.9878,-130.3394 216.5193,-135.0934 221.5505,-139.9603"/>
+
+</g>
+
+<g id="node12" class="node">
+<title>listener_1 http cnx mngr</title>
+<ellipse fill="none" stroke="#000000" cx="380" cy="-520.4313" rx="105.9229" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>Listener: listener_1&#45;&gt;listener_1 http cnx mngr</title>
+<path fill="none" stroke="#000000" d="M365.3857,-598.212C368.0088,-584.251 371.6914,-564.6514 374.7036,-548.62"/>
+<polygon fill="#000000" stroke="#000000" points="378.1614,-549.1698 376.5683,-538.6954 371.2818,-547.8771 378.1614,-549.1698"/>
+</g>
+
+<g id="node13" class="node">
+<title>listener_1envoy.filters.http.router</title>
+<ellipse fill="none" stroke="#000000" cx="380" cy="-409.4313" rx="102.4678" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>listener_1 http cnx mngr&#45;&gt;listener_1envoy.filters.http.router</title>
+<path fill="none" stroke="#000000" d="M380,-502.1019C380,-484.6686 380,-458.1795 380,-437.9802"/>
+<polygon fill="#000000" stroke="#000000" points="383.5001,-437.7879 380,-427.7879 376.5001,-437.7879 383.5001,-437.7879"/>
+</g>
+
+<g id="node14" class="node">
+<title>Route: local_route_2</title>
+<ellipse fill="none" stroke="#000000" cx="380" cy="-225.4313" rx="92.0979" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>listener_1envoy.filters.http.router&#45;&gt;Route: local_route_2</title>
+<path fill="none" stroke="#000000" d="M380,-391.116C380,-359.0156 380,-292.376 380,-254.1135"/>
+<polygon fill="#000000" stroke="#000000" points="383.5001,-253.6725 380,-243.6725 376.5001,-253.6726 383.5001,-253.6725"/>
+</g>
+
+<g id="edge14" class="edge">
+<title>Route: local_route_2&#45;&gt;Cluster: some_service_1</title>
+<path fill="none" stroke="#000000" d="M345.6691,-208.6501C336.262,-203.2158 326.4193,-196.6927 318.266,-189.4313 302.1742,-175.0998 287.4606,-156.256 276.0937,-139.7699"/>
+<polygon fill="#000000" stroke="#000000" points="278.9499,-137.745 270.4651,-131.4 273.1412,-141.6513 278.9499,-137.745"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>Route: local_route_2&#45;&gt;Cluster: some_service_2</title>
+<path fill="none" stroke="#000000" d="M386.0497,-207.2799C391.8061,-190.0086 400.6553,-163.4576 408.0088,-141.3942"/>
+<polygon fill="#000000" stroke="#000000" points="411.4242,-142.2159 411.2657,-131.6222 404.7833,-140.0025 411.4242,-142.2159"/>
+
+</g>
+</g>
+</svg>

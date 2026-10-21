@@ -1,0 +1,214 @@
+<svg width="1130pt" height="467pt"
+ viewBox="0.00 0.00 1130.00 466.59" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 462.5901)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-462.5901 1126,-462.5901 1126,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="327,-10 327,-30 347,-30 347,-10 327,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="440,-10 440,-30 460,-30 460,-10 440,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="526,-10 526,-30 546,-30 546,-10 526,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="623,-10 623,-30 643,-30 643,-10 623,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="719,-10 719,-30 739,-30 739,-10 719,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-184.5901 8,-450.5901 288,-450.5901 288,-184.5901 8,-184.5901"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-260.5901 16,-312.5901 138,-312.5901 138,-260.5901 16,-260.5901"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_AppComponent_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-192.5901 16,-244.5901 146,-244.5901 146,-192.5901 16,-192.5901"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="146,-260.5901 146,-312.5901 280,-312.5901 280,-260.5901 146,-260.5901"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="83,-390.5901 83,-442.5901 207,-442.5901 207,-390.5901 83,-390.5901"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_NgxEditorModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="296,-70 296,-252.5901 1114,-252.5901 1114,-70 296,-70"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_NgxEditorModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="304,-192.5901 304,-244.5901 965,-244.5901 965,-192.5901 304,-192.5901"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_NgxEditorModule_NgxEditorComponent_providers</title>
+<polygon fill="none" stroke="#000000" points="304,-78 304,-176.5901 502,-176.5901 502,-78 304,-78"/>
+</g>
+<g id="clust15" class="cluster">
+<title>cluster_NgxEditorModule_exports</title>
+<polygon fill="none" stroke="#000000" points="510,-101.295 510,-153.295 670,-153.295 670,-101.295 510,-101.295"/>
+</g>
+<g id="clust17" class="cluster">
+<title>cluster_NgxEditorModule_providers</title>
+<polygon fill="none" stroke="#000000" points="678,-101.295 678,-153.295 1106,-153.295 1106,-101.295 678,-101.295"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="129.9399,-304.5901 24.0601,-304.5901 24.0601,-268.5901 129.9399,-268.5901 129.9399,-304.5901"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="186.6571,-369.5901 183.6571,-373.5901 162.6571,-373.5901 159.6571,-369.5901 103.3429,-369.5901 103.3429,-333.5901 186.6571,-333.5901 186.6571,-369.5901"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M116.4457,-304.6962C116.4457,-304.6962 116.4457,-323.581 116.4457,-323.581"/>
+<polygon fill="#000000" stroke="#000000" points="112.9457,-323.581 116.4457,-333.581 119.9457,-323.5811 112.9457,-323.581"/>
+</g>
+
+<g id="node5" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="199.439,-434.5901 90.561,-434.5901 90.561,-398.5901 199.439,-398.5901 199.439,-434.5901"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M145,-369.6962C145,-369.6962 145,-388.581 145,-388.581"/>
+<polygon fill="#000000" stroke="#000000" points="141.5001,-388.581 145,-398.581 148.5001,-388.5811 141.5001,-388.581"/>
+</g>
+
+<g id="node3" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="81" cy="-218.5901" rx="56.7406" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AppService&#45;&gt;AppComponent</title>
+<path fill="none" stroke="#000000" d="M77.0497,-236.8128C77.0497,-236.8128 77.0497,-258.317 77.0497,-258.317"/>
+<polygon fill="#000000" stroke="#000000" points="73.5498,-258.317 77.0497,-268.317 80.5498,-258.3171 73.5498,-258.317"/>
+</g>
+
+<g id="node4" class="node">
+<title>NgxEditorModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="272.1513,-304.5901 269.1513,-308.5901 248.1513,-308.5901 245.1513,-304.5901 153.8487,-304.5901 153.8487,-268.5901 272.1513,-268.5901 272.1513,-304.5901"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NgxEditorModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M170.2514,-304.6962C170.2514,-304.6962 170.2514,-323.581 170.2514,-323.581"/>
+<polygon fill="#000000" stroke="#000000" points="166.7515,-323.581 170.2514,-333.581 173.7515,-323.5811 166.7515,-323.581"/>
+</g>
+
+<g id="node11" class="node">
+<title>NgxEditorComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="661.9334,-145.295 518.0666,-145.295 518.0666,-109.295 661.9334,-109.295 661.9334,-145.295"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>NgxEditorModule&#45;&gt;NgxEditorComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M272.2078,-274.5901C357.7005,-274.5901 505.5796,-274.5901 505.5796,-274.5901 505.5796,-274.5901 505.5796,-127.5901 505.5796,-127.5901 505.5796,-127.5901 508.0361,-127.5901 508.0361,-127.5901"/>
+<polygon fill="#000000" stroke="#000000" points="508.0362,-131.0902 518.0361,-127.5901 508.0361,-124.0902 508.0362,-131.0902"/>
+</g>
+
+<g id="node6" class="node">
+<title>GrippieComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="957.0954,-236.5901 832.9046,-236.5901 832.9046,-200.5901 957.0954,-200.5901 957.0954,-236.5901"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>GrippieComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M895,-236.601C895,-259.0752 895,-294.5901 895,-294.5901 895,-294.5901 282.33,-294.5901 282.33,-294.5901"/>
+<polygon fill="#000000" stroke="#000000" points="282.33,-291.0902 272.33,-294.5901 282.3299,-298.0902 282.33,-291.0902"/>
+</g>
+
+<g id="node7" class="node">
+<title>MessengerComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="814.9706,-236.5901 673.0294,-236.5901 673.0294,-200.5901 814.9706,-200.5901 814.9706,-236.5901"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MessengerComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M744,-236.6249C744,-256.1662 744,-284.5901 744,-284.5901 744,-284.5901 282.3668,-284.5901 282.3668,-284.5901"/>
+<polygon fill="#000000" stroke="#000000" points="282.3668,-281.0902 272.3668,-284.5901 282.3668,-288.0902 282.3668,-281.0902"/>
+</g>
+
+<g id="node8" class="node">
+<title>NgxEditorComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="655.4341,-236.5901 514.5659,-236.5901 514.5659,-200.5901 655.4341,-200.5901 655.4341,-236.5901"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>NgxEditorComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M585,-236.8921C585,-254.86 585,-279.5901 585,-279.5901 585,-279.5901 282.3558,-279.5901 282.3558,-279.5901"/>
+<polygon fill="#000000" stroke="#000000" points="282.3559,-276.0902 272.3558,-279.5901 282.3558,-283.0902 282.3559,-276.0902"/>
+</g>
+
+<g id="node9" class="node">
+<title>NgxEditorToolbarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="496.252,-236.5901 311.748,-236.5901 311.748,-200.5901 496.252,-200.5901 496.252,-236.5901"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>NgxEditorToolbarComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M311.5772,-218.5901C262.8238,-218.5901 213,-218.5901 213,-218.5901 213,-218.5901 213,-258.3673 213,-258.3673"/>
+<polygon fill="#000000" stroke="#000000" points="209.5001,-258.3673 213,-268.3673 216.5001,-258.3674 209.5001,-258.3673"/>
+</g>
+
+<g id="node10" class="node">
+<title>{
+ &#160;&#160;&#160;: , : (() =&gt; ), : true
+}</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="403" cy="-127.295" rx="91.4557" ry="41.0911"/>
+
+
+
+</g>
+
+<g id="edge8" class="edge">
+<title>{
+ &#160;&#160;&#160;: , : (() =&gt; ), : true
+}&#45;&gt;NgxEditorComponent</title>
+<path fill="none" stroke="#000000" d="M465.167,-157.5901C518.4381,-157.5901 586.625,-157.5901 586.625,-157.5901 586.625,-157.5901 586.625,-190.2881 586.625,-190.2881"/>
+<polygon fill="#000000" stroke="#000000" points="583.1251,-190.288 586.625,-200.2881 590.1251,-190.2881 583.1251,-190.288"/>
+</g>
+
+<g id="node12" class="node">
+<title>CommandExecutorService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="801" cy="-127.295" rx="115.1706" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>CommandExecutorService&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M823.9688,-144.9724C823.9688,-187.0357 823.9688,-289.5901 823.9688,-289.5901 823.9688,-289.5901 282.4158,-289.5901 282.4158,-289.5901"/>
+<polygon fill="#000000" stroke="#000000" points="282.4158,-286.0902 272.4158,-289.5901 282.4157,-293.0902 282.4158,-286.0902"/>
+</g>
+
+<g id="node13" class="node">
+<title>MessengerService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="1016" cy="-127.295" rx="81.6384" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>MessengerService&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M1027.4334,-145.408C1027.4334,-189.6441 1027.4334,-299.5901 1027.4334,-299.5901 1027.4334,-299.5901 282.2281,-299.5901 282.2281,-299.5901"/>
+<polygon fill="#000000" stroke="#000000" points="282.2281,-296.0902 272.2281,-299.5901 282.228,-303.0902 282.2281,-296.0902"/>
+</g>
+</g>
+</svg>

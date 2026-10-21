@@ -1,0 +1,62 @@
+<svg width="513pt" height="66pt"
+ viewBox="0.00 0.00 513.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>helios_integer_compare_test_teardown</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 509,-62 509,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node5</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-14 0,-44 134,-44 134,-14 0,-14"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node6</title>
+<g id="a_node2"><a xlink:href="helios__memory_8h.html#a0ba47c8ed7e1be60f1c360e33a0aff15" target="_top" xlink:title="Free a garbagecollector object.">
+<polygon fill="#ffffff" stroke="#000000" points="170,-38.5 170,-57.5 339,-57.5 339,-38.5 170,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="#191970" d="M134.1622,-35.8058C142.4701,-36.6476 151.0817,-37.5203 159.7051,-38.3941"/>
+<polygon fill="#191970" stroke="#191970" points="159.5142,-41.8926 169.8161,-39.4187 160.22,-34.9283 159.5142,-41.8926"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node8</title>
+<g id="a_node4"><a xlink:href="helios__memory_8h.html#a27b2da5d6954fd6e7aa0d2f352336c25" target="_top" xlink:title="Get the global current garbage collector.">
+<polygon fill="#ffffff" stroke="#000000" points="177.5,-.5 177.5,-19.5 331.5,-19.5 331.5,-.5 177.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node5&#45;&gt;Node8</title>
+<path fill="none" stroke="#191970" d="M134.1622,-22.1942C144.8623,-21.1099 156.0662,-19.9746 167.1502,-18.8514"/>
+<polygon fill="#191970" stroke="#191970" points="167.6817,-22.3156 177.2778,-17.8252 166.9759,-15.3513 167.6817,-22.3156"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node7</title>
+<g id="a_node3"><a xlink:href="refcount_8c.html#a5dcd65b50eabfe133b9fcf6206b2bd1e" target="_top" xlink:title="Frees all tracked objects of a garbagecollector without freeing the GC itself.">
+<polygon fill="#ffffff" stroke="#000000" points="375,-38.5 375,-57.5 505,-57.5 505,-38.5 375,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="#191970" d="M339.1075,-48C347.667,-48 356.3198,-48 364.7712,-48"/>
+<polygon fill="#191970" stroke="#191970" points="364.9603,-51.5001 374.9603,-48 364.9602,-44.5001 364.9603,-51.5001"/>
+</g>
+</g>
+</svg>

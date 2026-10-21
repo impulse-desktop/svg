@@ -1,0 +1,205 @@
+<svg width="817pt" height="476pt"
+ viewBox="0.00 0.00 816.81 476.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 472)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-472 812.8105,-472 812.8105,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>[root] alicloud_dns_record.hkprecord</title>
+<polygon fill="none" stroke="#000000" points="321.0064,-324 130.9077,-324 130.9077,-288 321.0064,-288 321.0064,-324"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>[root] alicloud_instance.sss_instance</title>
+<polygon fill="none" stroke="#000000" points="319.137,-252 132.7771,-252 132.7771,-216 319.137,-216 319.137,-252"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>[root] alicloud_dns_record.hkprecord&#45;&gt;[root] alicloud_instance.sss_instance</title>
+<path fill="none" stroke="#000000" d="M225.957,-287.8314C225.957,-280.131 225.957,-270.9743 225.957,-262.4166"/>
+<polygon fill="#000000" stroke="#000000" points="229.4571,-262.4132 225.957,-252.4133 222.4571,-262.4133 229.4571,-262.4132"/>
+</g>
+
+<g id="node3" class="node">
+<title>[root] alicloud_key_pair.mykey</title>
+<polygon fill="none" stroke="#000000" points="157.8711,-108 .0429,-108 .0429,-72 157.8711,-72 157.8711,-108"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>[root] alicloud_instance.sss_instance&#45;&gt;[root] alicloud_key_pair.mykey</title>
+<path fill="none" stroke="#000000" d="M207.3394,-215.7623C181.3828,-190.3354 134.2099,-144.1253 104.8422,-115.3569"/>
+<polygon fill="#000000" stroke="#000000" points="107.0164,-112.5872 97.4235,-108.0896 102.1179,-117.5877 107.0164,-112.5872"/>
+</g>
+
+<g id="node4" class="node">
+<title>[root] alicloud_security_group.sec_group</title>
+<polygon fill="none" stroke="#000000" points="639.5713,-180 426.3427,-180 426.3427,-144 639.5713,-144 639.5713,-180"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>[root] alicloud_instance.sss_instance&#45;&gt;[root] alicloud_security_group.sec_group</title>
+<path fill="none" stroke="#000000" d="M303.0298,-215.9243C346.6323,-205.6983 401.2805,-192.8818 446.3587,-182.3097"/>
+<polygon fill="#000000" stroke="#000000" points="447.1822,-185.7116 456.1188,-180.0207 445.5838,-178.8965 447.1822,-185.7116"/>
+</g>
+
+<g id="node8" class="node">
+<title>[root] alicloud_vswitch.vsw_c_001</title>
+<polygon fill="none" stroke="#000000" points="408.3779,-180 229.5361,-180 229.5361,-144 408.3779,-144 408.3779,-180"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>[root] alicloud_instance.sss_instance&#45;&gt;[root] alicloud_vswitch.vsw_c_001</title>
+<path fill="none" stroke="#000000" d="M249.4249,-215.8314C260.9897,-206.8779 275.0974,-195.9558 287.5754,-186.2955"/>
+<polygon fill="#000000" stroke="#000000" points="289.7321,-189.0521 295.4967,-180.1628 285.4468,-183.5171 289.7321,-189.0521"/>
+</g>
+
+<g id="node9" class="node">
+<title>[root] data.alicloud_instance_types.cores1mem1g</title>
+<polygon fill="none" stroke="#000000" points="435.8235,-108 176.0906,-108 176.0906,-72 435.8235,-72 435.8235,-108"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>[root] alicloud_instance.sss_instance&#45;&gt;[root] data.alicloud_instance_types.cores1mem1g</title>
+<path fill="none" stroke="#000000" d="M219.5937,-215.8481C214.0596,-196.7299 208.6738,-166.3558 220.957,-144 227.8671,-131.4235 239.0838,-121.3606 251.1353,-113.4922"/>
+<polygon fill="#000000" stroke="#000000" points="253.2493,-116.3047 260.0085,-108.1461 249.6367,-110.3089 253.2493,-116.3047"/>
+</g>
+
+<g id="node10" class="node">
+<title>[root] provider.alicloud</title>
+<polygon fill="none" stroke="#000000" points="305.957,-36 206.6764,-18 305.957,0 405.2377,-18 305.957,-36"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>[root] alicloud_key_pair.mykey&#45;&gt;[root] provider.alicloud</title>
+<path fill="none" stroke="#000000" d="M135.9457,-71.9243C174.2402,-59.778 224.0575,-43.9769 259.8528,-32.6234"/>
+<polygon fill="#000000" stroke="#000000" points="261.0821,-35.9054 269.5559,-29.5457 258.9657,-29.233 261.0821,-35.9054"/>
+</g>
+
+<g id="node6" class="node">
+<title>[root] alicloud_vpc.cloudxninja</title>
+<polygon fill="none" stroke="#000000" points="611.8643,-108 454.0498,-108 454.0498,-72 611.8643,-72 611.8643,-108"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>[root] alicloud_security_group.sec_group&#45;&gt;[root] alicloud_vpc.cloudxninja</title>
+<path fill="none" stroke="#000000" d="M532.957,-143.8314C532.957,-136.131 532.957,-126.9743 532.957,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="536.4571,-118.4132 532.957,-108.4133 529.4571,-118.4133 536.4571,-118.4132"/>
+</g>
+
+<g id="node5" class="node">
+<title>[root] alicloud_security_group_rule.allow_all_8388</title>
+<polygon fill="none" stroke="#000000" points="610.8959,-324 339.0182,-324 339.0182,-288 610.8959,-288 610.8959,-324"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>[root] alicloud_security_group_rule.allow_all_8388&#45;&gt;[root] alicloud_security_group.sec_group</title>
+<path fill="none" stroke="#000000" d="M482.3028,-287.7623C492.2827,-262.9846 510.2116,-218.4714 521.8428,-189.5939"/>
+<polygon fill="#000000" stroke="#000000" points="525.1813,-190.6731 525.6709,-180.0896 518.6882,-188.0578 525.1813,-190.6731"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>[root] alicloud_vpc.cloudxninja&#45;&gt;[root] provider.alicloud</title>
+<path fill="none" stroke="#000000" d="M475.9684,-71.9243C437.6739,-59.778 387.8566,-43.9769 352.0612,-32.6234"/>
+<polygon fill="#000000" stroke="#000000" points="352.9484,-29.233 342.3582,-29.5457 350.832,-35.9054 352.9484,-29.233"/>
+</g>
+
+<g id="node7" class="node">
+<title>[root] alicloud_vswitch.vsw_b_001</title>
+<polygon fill="none" stroke="#000000" points="808.6643,-324 629.2498,-324 629.2498,-288 808.6643,-288 808.6643,-324"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>[root] alicloud_vswitch.vsw_b_001&#45;&gt;[root] alicloud_vpc.cloudxninja</title>
+<path fill="none" stroke="#000000" d="M715.5463,-287.8286C708.5426,-255.1175 689.6501,-185.8409 648.957,-144 635.9546,-130.6308 619.0049,-120.2227 602.0953,-112.2715"/>
+<polygon fill="#000000" stroke="#000000" points="603.2897,-108.9721 592.7305,-108.1036 600.4434,-115.3673 603.2897,-108.9721"/>
+</g>
+
+<g id="edge11" class="edge">
+<title>[root] alicloud_vswitch.vsw_c_001&#45;&gt;[root] alicloud_vpc.cloudxninja</title>
+<path fill="none" stroke="#000000" d="M372.682,-143.9243C402.0643,-134.0387 438.6422,-121.7321 469.4328,-111.3726"/>
+<polygon fill="#000000" stroke="#000000" points="470.8481,-114.5893 479.2099,-108.0831 468.6159,-107.9548 470.8481,-114.5893"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>[root] data.alicloud_instance_types.cores1mem1g&#45;&gt;[root] provider.alicloud</title>
+<path fill="none" stroke="#000000" d="M305.957,-71.8314C305.957,-64.131 305.957,-54.9743 305.957,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="309.4571,-46.4132 305.957,-36.4133 302.4571,-46.4133 309.4571,-46.4132"/>
+</g>
+
+<g id="node11" class="node">
+<title>[root] meta.count&#45;boundary (EachMode fixup)</title>
+<ellipse fill="none" stroke="#000000" cx="315.957" cy="-378" rx="174.7874" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] alicloud_dns_record.hkprecord</title>
+<path fill="none" stroke="#000000" d="M293.2462,-359.8314C282.161,-350.9632 268.6616,-340.1637 256.6718,-330.5718"/>
+<polygon fill="#000000" stroke="#000000" points="258.6557,-327.6768 248.6606,-324.1628 254.2828,-333.1429 258.6557,-327.6768"/>
+</g>
+
+<g id="edge14" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] alicloud_security_group_rule.allow_all_8388</title>
+<path fill="none" stroke="#000000" d="M354.8528,-360.3868C376.2659,-350.6903 403.0511,-338.5612 425.8898,-328.2191"/>
+<polygon fill="#000000" stroke="#000000" points="427.4149,-331.3707 435.0807,-324.0572 424.5274,-324.994 427.4149,-331.3707"/>
+</g>
+
+<g id="edge15" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] alicloud_vswitch.vsw_b_001</title>
+<path fill="none" stroke="#000000" d="M404.1046,-362.4396C462.3093,-352.1419 540.5524,-338.2558 619.0453,-324.1605"/>
+<polygon fill="#000000" stroke="#000000" points="619.893,-327.5643 629.1165,-322.3511 618.6551,-320.6746 619.893,-327.5643"/>
+</g>
+
+<g id="node12" class="node">
+<title>[root] provider.alicloud (close)</title>
+<ellipse fill="none" stroke="#000000" cx="627.957" cy="-378" rx="118.7941" ry="18"/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>[root] provider.alicloud (close)&#45;&gt;[root] alicloud_dns_record.hkprecord</title>
+<path fill="none" stroke="#000000" d="M550.923,-364.2029C488.5589,-353.0332 400.0733,-337.185 331.1798,-324.8459"/>
+<polygon fill="#000000" stroke="#000000" points="331.6232,-321.3697 321.1627,-323.0518 330.389,-328.26 331.6232,-321.3697"/>
+</g>
+
+<g id="edge17" class="edge">
+<title>[root] provider.alicloud (close)&#45;&gt;[root] alicloud_security_group_rule.allow_all_8388</title>
+<path fill="none" stroke="#000000" d="M591.3097,-360.7542C570.7333,-351.0712 544.82,-338.8767 522.6742,-328.4552"/>
+<polygon fill="#000000" stroke="#000000" points="523.9789,-325.201 513.4404,-324.1098 520.9983,-331.5347 523.9789,-325.201"/>
+</g>
+
+<g id="edge18" class="edge">
+<title>[root] provider.alicloud (close)&#45;&gt;[root] alicloud_vswitch.vsw_b_001</title>
+<path fill="none" stroke="#000000" d="M650.4514,-360.2022C661.8496,-351.1839 675.8616,-340.0975 688.2371,-330.3059"/>
+<polygon fill="#000000" stroke="#000000" points="690.4188,-333.0428 696.0893,-324.0931 686.0754,-327.5532 690.4188,-333.0428"/>
+</g>
+
+<g id="node13" class="node">
+<title>[root] root</title>
+<ellipse fill="none" stroke="#000000" cx="471.957" cy="-450" rx="46.8976" ry="18"/>
+
+</g>
+
+<g id="edge19" class="edge">
+<title>[root] root&#45;&gt;[root] meta.count&#45;boundary (EachMode fixup)</title>
+<path fill="none" stroke="#000000" d="M441.8787,-436.1177C419.6416,-425.8544 388.9205,-411.6754 363.3897,-399.892"/>
+<polygon fill="#000000" stroke="#000000" points="364.7901,-396.6836 354.2438,-395.6708 361.8566,-403.0393 364.7901,-396.6836"/>
+</g>
+
+<g id="edge20" class="edge">
+<title>[root] root&#45;&gt;[root] provider.alicloud (close)</title>
+<path fill="none" stroke="#000000" d="M502.0354,-436.1177C524.5879,-425.7089 555.8668,-411.2724 581.6076,-399.392"/>
+<polygon fill="#000000" stroke="#000000" points="583.2012,-402.5114 590.8141,-395.1429 580.2678,-396.1557 583.2012,-402.5114"/>
+</g>
+</g>
+</svg>

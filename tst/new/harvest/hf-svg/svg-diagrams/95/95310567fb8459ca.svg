@@ -1,0 +1,100 @@
+<svg width="674pt" height="284pt"
+ viewBox="0.00 0.00 674.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 670,-280 670,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="99,-10 99,-30 119,-30 119,-10 99,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="212,-10 212,-30 232,-30 232,-10 212,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="298,-10 298,-30 318,-30 318,-10 298,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="395,-10 395,-30 415,-30 415,-10 395,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="491,-10 491,-30 511,-30 511,-10 491,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_RelacionCargoModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 658,-268 658,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_RelacionCargoModule_imports</title>
+<polygon fill="none" stroke="#000000" points="212,-78 212,-130 650,-130 650,-78 212,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_RelacionCargoModule_exports</title>
+<polygon fill="none" stroke="#000000" points="244,-208 244,-260 456,-260 456,-208 244,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_RelacionCargoModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 204,-130 204,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="642.4231,-122 639.4231,-126 618.4231,-126 615.4231,-122 543.5769,-122 543.5769,-86 642.4231,-86 642.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>RelacionCargoModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="421.524,-187 418.524,-191 397.524,-191 394.524,-187 278.476,-187 278.476,-151 421.524,-151 421.524,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;RelacionCargoModule</title>
+<path fill="none" stroke="#000000" d="M593,-122.1061C593,-141.3391 593,-169 593,-169 593,-169 431.5937,-169 431.5937,-169"/>
+<polygon fill="#000000" stroke="#000000" points="431.5937,-165.5001 421.5937,-169 431.5937,-172.5001 431.5937,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>RelacionCargoRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="525.1413,-122 522.1413,-126 501.1413,-126 498.1413,-122 336.8587,-122 336.8587,-86 525.1413,-86 525.1413,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>RelacionCargoRoutingModule&#45;&gt;RelacionCargoModule</title>
+<path fill="none" stroke="#000000" d="M379.2206,-122.1061C379.2206,-122.1061 379.2206,-140.991 379.2206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="375.7206,-140.9909 379.2206,-150.991 382.7206,-140.991 375.7206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="318.4231,-122 315.4231,-126 294.4231,-126 291.4231,-122 219.5769,-122 219.5769,-86 318.4231,-86 318.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;RelacionCargoModule</title>
+<path fill="none" stroke="#000000" d="M298.2247,-122.1061C298.2247,-122.1061 298.2247,-140.991 298.2247,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="294.7248,-140.9909 298.2247,-150.991 301.7248,-140.991 294.7248,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudRelacionCargoComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="448.3031,-252 251.6969,-252 251.6969,-216 448.3031,-216 448.3031,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RelacionCargoModule&#45;&gt;CrudRelacionCargoComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M350,-187.1061C350,-187.1061 350,-205.991 350,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="346.5001,-205.9909 350,-215.991 353.5001,-205.991 346.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>ExperienciaService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="110" cy="-104" rx="86.2116" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ExperienciaService&#45;&gt;RelacionCargoModule</title>
+<path fill="none" stroke="#000000" d="M110,-122.1061C110,-141.3391 110,-169 110,-169 110,-169 268.3172,-169 268.3172,-169"/>
+<polygon fill="#000000" stroke="#000000" points="268.3172,-172.5001 278.3172,-169 268.3171,-165.5001 268.3172,-172.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,46 @@
+<svg width="313pt" height="28pt"
+ viewBox="0.00 0.00 313.00 28.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
+<title>coap_digest_free</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-24 309,-24 309,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="Free off coap_digest_ctx_t.">
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 91,-19.5 91,-0.5 0,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="mem_8h.html#a1e46a1505bb13f03fdacd5d1b32502a6" target="_top" xlink:title="Wrapper function to coap_free_type() for backwards compatibility.">
+<polygon fill="white" stroke="black" points="127,-0.5 127,-19.5 186,-19.5 186,-0.5 127,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M91.15,-10C99.66,-10 108.51,-10 116.82,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="117,-13.5 127,-10 117,-6.5 117,-13.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type().">
+<polygon fill="white" stroke="black" points="222,-0.5 222,-19.5 305,-19.5 305,-0.5 222,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M186.19,-10C194.05,-10 202.81,-10 211.51,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="211.64,-13.5 221.64,-10 211.64,-6.5 211.64,-13.5"/>
+</g>
+</g>
+</svg>

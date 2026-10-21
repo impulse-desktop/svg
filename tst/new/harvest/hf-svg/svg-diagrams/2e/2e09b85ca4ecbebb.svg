@@ -1,0 +1,135 @@
+<svg width="1016pt" height="103pt"
+ viewBox="0.00 0.00 1016.00 103.44" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 99.4437)">
+<title>x265::RateControl::updatePredictor</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-99.4437 1012,-99.4437 1012,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-16.4437 0,-46.4437 102,-46.4437 102,-16.4437 0,-16.4437"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="classx265_1_1RateControl.html#a9048fff1bfee4305bff8a77ec45b813f" target="_top" xlink:title="x265::RateControl::\lrowDiagonalVbvRateControl">
+<polygon fill="white" stroke="black" points="138,-65.4437 138,-95.4437 278,-95.4437 278,-65.4437 138,-65.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M109.758,-49.7027C126.107,-54.8709 143.711,-60.4361 159.388,-65.3921"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="110.36,-46.2222 99.7699,-46.5451 108.25,-52.8966 110.36,-46.2222"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="classx265_1_1RateControl.html#ab7fe3380cc234b450909f871e9d0bd0a" target="_top" xlink:title="x265::RateControl::\lupdateVbv">
+<polygon fill="white" stroke="black" points="157,-16.4437 157,-46.4437 259,-46.4437 259,-16.4437 157,-16.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node1&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M112.364,-31.4437C127.109,-31.4437 142.724,-31.4437 156.928,-31.4437"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="112.324,-27.9438 102.324,-31.4437 112.324,-34.9438 112.324,-27.9438"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="classx265_1_1RateControl.html#a26331c267938f5e6e49ad5b07e4ff013" target="_top" xlink:title="x265::RateControl::\lrateControlEnd">
+<polygon fill="white" stroke="black" points="320,-16.4437 320,-46.4437 422,-46.4437 422,-16.4437 320,-16.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M104.608,-13.6098C115.523,-10.631 127.039,-8.00446 138,-6.44367 199.601,2.32837 216.325,1.78692 278,-6.44367 293.258,-8.47979 309.571,-12.3359 324.16,-16.4209"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="103.435,-10.3049 94.7858,-16.4239 105.363,-17.0341 103.435,-10.3049"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classx265_1_1FrameEncoder.html#a0ae85001572afd28238476542523ac5f" target="_top" xlink:title="x265::FrameEncoder\l::processRowEncoder">
+<polygon fill="white" stroke="black" points="314.5,-65.4437 314.5,-95.4437 427.5,-95.4437 427.5,-65.4437 314.5,-65.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M288.482,-80.4437C297.257,-80.4437 306.048,-80.4437 314.438,-80.4437"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="288.213,-76.9438 278.213,-80.4437 288.213,-83.9438 288.213,-76.9438"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="classx265_1_1FrameEncoder.html#acad645a8ece97d884895f8f7366b7d70" target="_top" xlink:title="x265::FrameEncoder\l::processRow">
+<polygon fill="white" stroke="black" points="464.5,-64.4437 464.5,-94.4437 571.5,-94.4437 571.5,-64.4437 464.5,-64.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M437.877,-79.9893C446.67,-79.9287 455.594,-79.8672 464.126,-79.8083"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="437.622,-76.4909 427.646,-80.0599 437.67,-83.4908 437.622,-76.4909"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="classx265_1_1FrameEncoder.html#ac4e9ce2e876c0cdb25c992c872fe4302" target="_top" xlink:title="x265::FrameEncoder\l::compressCTURows">
+<polygon fill="white" stroke="black" points="608,-63.4437 608,-93.4437 720,-93.4437 720,-63.4437 608,-63.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M581.834,-79.0073C590.475,-78.9473 599.295,-78.8861 607.786,-78.8271"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="581.778,-75.5075 571.803,-79.077 581.827,-82.5074 581.778,-75.5075"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="classx265_1_1FrameEncoder.html#a2f5c4c0f1a4e36fce4c9b87eb7ec4973" target="_top" xlink:title="x265::FrameEncoder\l::compressFrame">
+<polygon fill="white" stroke="black" points="756.5,-40.4437 756.5,-70.4437 863.5,-70.4437 863.5,-40.4437 756.5,-40.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M730.138,-68.0397C738.962,-66.6302 747.925,-65.1986 756.491,-63.8306"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="729.585,-64.5835 720.262,-69.617 730.689,-71.4959 729.585,-64.5835"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="classx265_1_1FrameEncoder.html#aef61f29b9e93b3af9255d96236bc90a7" target="_top" xlink:title="x265::FrameEncoder\l::threadMain">
+<polygon fill="white" stroke="black" points="900.5,-40.4437 900.5,-70.4437 1007.5,-70.4437 1007.5,-40.4437 900.5,-40.4437"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M873.994,-55.4437C882.704,-55.4437 891.578,-55.4437 900.08,-55.4437"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="873.876,-51.9438 863.876,-55.4437 873.876,-58.9438 873.876,-51.9438"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M269.271,-31.4437C285.975,-31.4437 303.922,-31.4437 319.972,-31.4437"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="269.059,-27.9438 259.059,-31.4437 269.059,-34.9438 269.059,-27.9438"/>
+</g>
+
+<g id="edge9" class="edge"><title>Node9&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M432.259,-34.7531C518.269,-39.4768 674.833,-48.0752 756.406,-52.5552"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="432.306,-31.2505 422.129,-34.1968 431.922,-38.24 432.306,-31.2505"/>
+</g>
+</g>
+</svg>

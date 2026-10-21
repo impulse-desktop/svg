@@ -1,0 +1,132 @@
+<svg width="630pt" height="284pt"
+ viewBox="0.00 0.00 630.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 626,-280 626,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="77,-10 77,-30 97,-30 97,-10 77,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="190,-10 190,-30 210,-30 210,-10 190,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="276,-10 276,-30 296,-30 296,-10 276,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="373,-10 373,-30 393,-30 393,-10 373,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="469,-10 469,-30 489,-30 489,-10 469,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_InGameModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 614,-268 614,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_InGameModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="25,-78 25,-130 600,-130 600,-78 25,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_InGameModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 606,-260 606,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>ChatComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="591.7744,-122 484.2256,-122 484.2256,-86 591.7744,-86 591.7744,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>InGameModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="281.1374,-187 278.1374,-191 257.1374,-191 254.1374,-187 176.8626,-187 176.8626,-151 281.1374,-151 281.1374,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ChatComponent&#45;&gt;InGameModule</title>
+<path fill="none" stroke="#000000" d="M556.7124,-122.2667C556.7124,-140.5552 556.7124,-166 556.7124,-166 556.7124,-166 291.2894,-166 291.2894,-166"/>
+<polygon fill="#000000" stroke="#000000" points="291.2894,-162.5001 281.2894,-166 291.2893,-169.5001 291.2894,-162.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>MainWindowComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="466.594,-122 307.406,-122 307.406,-86 466.594,-86 466.594,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>MainWindowComponent&#45;&gt;InGameModule</title>
+<path fill="none" stroke="#000000" d="M413.5157,-122.0091C413.5157,-138.0494 413.5157,-159 413.5157,-159 413.5157,-159 291.3812,-159 291.3812,-159"/>
+<polygon fill="#000000" stroke="#000000" points="291.3813,-155.5001 281.3812,-159 291.3812,-162.5001 291.3813,-155.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ToolbarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="289.6513,-122 164.3487,-122 164.3487,-86 289.6513,-86 289.6513,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ToolbarComponent&#45;&gt;InGameModule</title>
+<path fill="none" stroke="#000000" d="M229,-122.1061C229,-122.1061 229,-140.991 229,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="225.5001,-140.9909 229,-150.991 232.5001,-140.991 225.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>UsersComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="146.7036,-122 33.2964,-122 33.2964,-86 146.7036,-86 146.7036,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>UsersComponent&#45;&gt;InGameModule</title>
+<path fill="none" stroke="#000000" d="M104.7006,-122.0225C104.7006,-139.3734 104.7006,-163 104.7006,-163 104.7006,-163 166.6461,-163 166.6461,-163"/>
+<polygon fill="#000000" stroke="#000000" points="166.6461,-166.5001 176.6461,-163 166.6461,-159.5001 166.6461,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>ChatComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="597.7745,-252 486.2255,-252 486.2255,-216 597.7745,-216 597.7745,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>InGameModule&#45;&gt;ChatComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M281.2999,-173C365.4441,-173 521.5376,-173 521.5376,-173 521.5376,-173 521.5376,-205.698 521.5376,-205.698"/>
+<polygon fill="#000000" stroke="#000000" points="518.0377,-205.698 521.5376,-215.698 525.0377,-205.698 518.0377,-205.698"/>
+</g>
+
+<g id="node7" class="node">
+<title>MainWindowComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="468.0945,-252 305.9055,-252 305.9055,-216 468.0945,-216 468.0945,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>InGameModule&#45;&gt;MainWindowComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M281.3439,-180C318.0106,-180 360.4843,-180 360.4843,-180 360.4843,-180 360.4843,-205.7181 360.4843,-205.7181"/>
+<polygon fill="#000000" stroke="#000000" points="356.9844,-205.718 360.4843,-215.7181 363.9844,-205.7181 356.9844,-205.718"/>
+</g>
+
+<g id="node8" class="node">
+<title>ToolbarComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="287.6509,-252 158.3491,-252 158.3491,-216 287.6509,-216 287.6509,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>InGameModule&#45;&gt;ToolbarComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M229,-187.1061C229,-187.1061 229,-205.991 229,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="225.5001,-205.9909 229,-215.991 232.5001,-205.991 225.5001,-205.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>UsersComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="140.2038,-252 23.7962,-252 23.7962,-216 140.2038,-216 140.2038,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>InGameModule&#45;&gt;UsersComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M176.6262,-175C129.9779,-175 69.0494,-175 69.0494,-175 69.0494,-175 69.0494,-205.9775 69.0494,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="65.5495,-205.9774 69.0494,-215.9775 72.5495,-205.9775 65.5495,-205.9774"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,171 @@
+<svg width="458pt" height="1168pt"
+ viewBox="0.00 0.00 458.00 1168.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1164)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-1164 454,-1164 454,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_Global</title>
+<path fill="none" stroke="gray" d="M158,-8C158,-8 430,-8 430,-8 436,-8 442,-14 442,-20 442,-20 442,-1140 442,-1140 442,-1146 436,-1152 430,-1152 430,-1152 158,-1152 158,-1152 152,-1152 146,-1146 146,-1140 146,-1140 146,-20 146,-20 146,-14 152,-8 158,-8"/>
+
+</g>
+<g id="clust2" class="cluster"><title>cluster_\OpenBooking</title>
+<path fill="none" stroke="gray" d="M166,-16C166,-16 422,-16 422,-16 428,-16 434,-22 434,-28 434,-28 434,-1113 434,-1113 434,-1119 428,-1125 422,-1125 422,-1125 166,-1125 166,-1125 160,-1125 154,-1119 154,-1113 154,-1113 154,-28 154,-28 154,-22 160,-16 166,-16"/>
+
+</g>
+<g id="clust3" class="cluster"><title>cluster_\OpenBooking\_Class</title>
+<path fill="none" stroke="gray" d="M222,-535C222,-535 366,-535 366,-535 372,-535 378,-541 378,-547 378,-547 378,-1086 378,-1086 378,-1092 372,-1098 366,-1098 366,-1098 222,-1098 222,-1098 216,-1098 210,-1092 210,-1086 210,-1086 210,-547 210,-547 210,-541 216,-535 222,-535"/>
+
+</g>
+<g id="clust4" class="cluster"><title>cluster_\OpenBooking\_Class\Metier</title>
+<path fill="none" stroke="gray" d="M247,-784C247,-784 341,-784 341,-784 347,-784 353,-790 353,-796 353,-796 353,-1059 353,-1059 353,-1065 347,-1071 341,-1071 341,-1071 247,-1071 247,-1071 241,-1071 235,-1065 235,-1059 235,-1059 235,-796 235,-796 235,-790 241,-784 247,-784"/>
+
+</g>
+<g id="clust5" class="cluster"><title>cluster_\OpenBooking\_Class\Model</title>
+<path fill="none" stroke="gray" d="M230,-543C230,-543 358,-543 358,-543 364,-543 370,-549 370,-555 370,-555 370,-764 370,-764 370,-770 364,-776 358,-776 358,-776 230,-776 230,-776 224,-776 218,-770 218,-764 218,-764 218,-555 218,-555 218,-549 224,-543 230,-543"/>
+
+</g>
+<g id="clust6" class="cluster"><title>cluster_\OpenBooking\_Exceptions</title>
+<path fill="none" stroke="gray" d="M174,-24C174,-24 414,-24 414,-24 420,-24 426,-30 426,-36 426,-36 426,-515 426,-515 426,-521 420,-527 414,-527 414,-527 174,-527 174,-527 168,-527 162,-521 162,-515 162,-515 162,-36 162,-36 162,-30 168,-24 174,-24"/>
+
+</g>
+
+<g id="node1" class="node"><title>\\OpenBooking\\_Class\\Metier\\Participation</title>
+<polygon fill="none" stroke="black" points="344.814,-1044 243.186,-1044 243.186,-1008 344.814,-1008 344.814,-1044"/>
+
+</g>
+
+<g id="node2" class="node"><title>\\OpenBooking\\_Class\\Metier\\Event</title>
+<polygon fill="none" stroke="black" points="321,-990 267,-990 267,-954 321,-954 321,-990"/>
+
+</g>
+
+<g id="node3" class="node"><title>\\OpenBooking\\_Class\\Metier\\Participant</title>
+<polygon fill="none" stroke="black" points="338.113,-936 249.887,-936 249.887,-900 338.113,-900 338.113,-936"/>
+
+</g>
+
+<g id="node4" class="node"><title>\\OpenBooking\\_Class\\Metier\\Email</title>
+<polygon fill="none" stroke="black" points="321,-882 267,-882 267,-846 321,-846 321,-882"/>
+
+</g>
+
+<g id="node5" class="node"><title>\\OpenBooking\\_Class\\Metier\\EmailType</title>
+<polygon fill="none" stroke="black" points="331.911,-828 256.089,-828 256.089,-792 331.911,-792 331.911,-828"/>
+
+</g>
+
+<g id="node6" class="node"><title>\\OpenBooking\\_Class\\Model\\ModelEvent</title>
+<polygon fill="none" stroke="black" points="335.011,-749 252.989,-749 252.989,-713 335.011,-713 335.011,-749"/>
+
+</g>
+
+<g id="node7" class="node"><title>\\OpenBooking\\_Class\\Model\\ModelParticipation</title>
+<polygon fill="none" stroke="black" points="361.319,-695 226.681,-695 226.681,-659 361.319,-659 361.319,-695"/>
+
+</g>
+
+<g id="node8" class="node"><title>\\OpenBooking\\_Class\\Model\\ModelEmailType</title>
+<polygon fill="none" stroke="black" points="348.416,-641 239.584,-641 239.584,-605 348.416,-605 348.416,-641"/>
+
+</g>
+
+<g id="node9" class="node"><title>\\OpenBooking\\_Class\\Model\\ModelParticipant</title>
+<polygon fill="none" stroke="black" points="354.618,-587 233.382,-587 233.382,-551 354.618,-551 354.618,-587"/>
+
+</g>
+
+<g id="node10" class="node"><title>\\OpenBooking\\_Exceptions\\SQLErrorException</title>
+<polygon fill="none" stroke="black" points="358.218,-500 229.782,-500 229.782,-464 358.218,-464 358.218,-500"/>
+
+</g>
+
+<g id="node19" class="node"><title>\\Exception</title>
+<ellipse fill="none" stroke="black" cx="49" cy="-266" rx="48.3341" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>\\OpenBooking\\_Exceptions\\SQLErrorException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M229.737,-482.661C201.726,-480.048 169.808,-472.772 146,-455 92.1676,-414.816 66.2964,-335.85 55.8807,-293.836"/>
+<polygon fill="none" stroke="black" points="59.2619,-292.924 53.5581,-283.996 52.4492,-294.533 59.2619,-292.924"/>
+</g>
+
+<g id="node11" class="node"><title>\\OpenBooking\\_Exceptions\\LoginException</title>
+<polygon fill="none" stroke="black" points="348.416,-446 239.584,-446 239.584,-410 348.416,-410 348.416,-446"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>\\OpenBooking\\_Exceptions\\LoginException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M239.461,-427.8C209.903,-425.433 173.685,-418.634 146,-401 105.07,-374.929 76.3887,-324.575 61.5915,-293.276"/>
+<polygon fill="none" stroke="black" points="64.618,-291.478 57.2771,-283.838 58.2517,-294.388 64.618,-291.478"/>
+</g>
+
+<g id="node12" class="node"><title>\\OpenBooking\\_Exceptions\\EventIscancelledException</title>
+<polygon fill="none" stroke="black" points="384.527,-392 203.473,-392 203.473,-356 384.527,-356 384.527,-392"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>\\OpenBooking\\_Exceptions\\EventIscancelledException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M203.235,-365.138C183.766,-361.147 163.714,-355.367 146,-347 117.36,-333.473 90.3147,-309.22 72.2748,-290.767"/>
+<polygon fill="none" stroke="black" points="74.5511,-288.083 65.1164,-283.262 69.4858,-292.914 74.5511,-288.083"/>
+</g>
+
+<g id="node13" class="node"><title>\\OpenBooking\\_Exceptions\\NullDatasException</title>
+<polygon fill="none" stroke="black" points="361.319,-338 226.681,-338 226.681,-302 361.319,-302 361.319,-338"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>\\OpenBooking\\_Exceptions\\NullDatasException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M226.506,-309.131C201.197,-304.643 172.161,-299.068 146,-293 129.951,-289.278 112.57,-284.592 97.0632,-280.174"/>
+<polygon fill="none" stroke="black" points="97.7553,-276.731 87.177,-277.322 95.8149,-283.456 97.7553,-276.731"/>
+</g>
+
+<g id="node14" class="node"><title>\\OpenBooking\\_Exceptions\\AccessDeniedException</title>
+<polygon fill="none" stroke="black" points="371.123,-284 216.877,-284 216.877,-248 371.123,-248 371.123,-284"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>\\OpenBooking\\_Exceptions\\AccessDeniedException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M216.78,-266C181.613,-266 140.541,-266 107.955,-266"/>
+<polygon fill="none" stroke="black" points="107.692,-262.5 97.6919,-266 107.692,-269.5 107.692,-262.5"/>
+</g>
+
+<g id="node15" class="node"><title>\\OpenBooking\\_Exceptions\\ValidDatasException</title>
+<polygon fill="none" stroke="black" points="364.921,-230 223.079,-230 223.079,-194 364.921,-194 364.921,-230"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>\\OpenBooking\\_Exceptions\\ValidDatasException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M223.184,-223.46C198.678,-227.843 171.024,-233.196 146,-239 129.951,-242.722 112.57,-247.408 97.0632,-251.826"/>
+<polygon fill="none" stroke="black" points="95.8149,-248.544 87.177,-254.678 97.7553,-255.269 95.8149,-248.544"/>
+</g>
+
+<g id="node16" class="node"><title>\\OpenBooking\\_Exceptions\\DataAlreadyExistInDatabaseException</title>
+<polygon fill="none" stroke="black" points="417.538,-176 170.462,-176 170.462,-140 417.538,-140 417.538,-176"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>\\OpenBooking\\_Exceptions\\DataAlreadyExistInDatabaseException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M170.324,-175.445C161.932,-178.18 153.743,-181.343 146,-185 117.36,-198.527 90.3147,-222.78 72.2748,-241.233"/>
+<polygon fill="none" stroke="black" points="69.4858,-239.086 65.1164,-248.738 74.5511,-243.917 69.4858,-239.086"/>
+</g>
+
+<g id="node17" class="node"><title>\\OpenBooking\\_Exceptions\\UnknowEmailTemplateException</title>
+<polygon fill="none" stroke="black" points="394.33,-122 193.67,-122 193.67,-86 394.33,-86 394.33,-122"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>\\OpenBooking\\_Exceptions\\UnknowEmailTemplateException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M193.374,-111.53C176.704,-115.739 160.225,-121.939 146,-131 105.07,-157.071 76.3887,-207.425 61.5915,-238.724"/>
+<polygon fill="none" stroke="black" points="58.2517,-237.612 57.2771,-248.162 64.618,-240.522 58.2517,-237.612"/>
+</g>
+
+<g id="node18" class="node"><title>\\OpenBooking\\_Exceptions\\UnknowErrorException</title>
+<polygon fill="none" stroke="black" points="368.021,-68 219.979,-68 219.979,-32 368.021,-32 368.021,-68"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>\\OpenBooking\\_Exceptions\\UnknowErrorException&#45;&gt;\\Exception</title>
+<path fill="none" stroke="black" d="M219.686,-50.4672C194.313,-53.8137 167.001,-61.3232 146,-77 92.1676,-117.184 66.2964,-196.15 55.8807,-238.164"/>
+<polygon fill="none" stroke="black" points="52.4492,-237.467 53.5581,-248.004 59.2619,-239.076 52.4492,-237.467"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,250 @@
+<svg width="1533pt" height="318pt"
+ viewBox="0.00 0.00 1533.00 317.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 313.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-313.8 1529,-313.8 1529,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="198,-108.8 198,-301.8 907,-301.8 907,-108.8 198,-108.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="358,-116.8 358,-236.8 899,-236.8 899,-116.8 358,-116.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="206,-184.8 206,-236.8 336,-236.8 336,-184.8 206,-184.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AuthModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="365,-32.8 365,-100.8 757,-100.8 757,-32.8 365,-32.8"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_AuthModule_exports</title>
+<polygon fill="none" stroke="black" points="647,-40.8 647,-92.8 749,-92.8 749,-40.8 647,-40.8"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_AuthModule_providers</title>
+<polygon fill="none" stroke="black" points="373,-40.8 373,-92.8 639,-92.8 639,-40.8 373,-40.8"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_CategoryModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-108.8 8,-176.8 190,-176.8 190,-108.8 8,-108.8"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_CategoryModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-116.8 16,-168.8 182,-168.8 182,-116.8 16,-116.8"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_DeliveryAddressModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="915,-108.8 915,-176.8 1157,-176.8 1157,-108.8 915,-108.8"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_DeliveryAddressModule_providers</title>
+<polygon fill="none" stroke="black" points="923,-116.8 923,-168.8 1149,-168.8 1149,-116.8 923,-116.8"/>
+</g>
+<g id="clust25" class="cluster">
+<title>cluster_OrdersModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="1165,-108.8 1165,-176.8 1329,-176.8 1329,-108.8 1165,-108.8"/>
+</g>
+<g id="clust30" class="cluster">
+<title>cluster_OrdersModule_providers</title>
+<polygon fill="none" stroke="black" points="1173,-116.8 1173,-168.8 1321,-168.8 1321,-116.8 1173,-116.8"/>
+</g>
+<g id="clust31" class="cluster">
+<title>cluster_ProductsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="1337,-108.8 1337,-176.8 1517,-176.8 1517,-108.8 1337,-108.8"/>
+</g>
+<g id="clust36" class="cluster">
+<title>cluster_ProductsModule_providers</title>
+<polygon fill="none" stroke="black" points="1345,-116.8 1345,-168.8 1509,-168.8 1509,-116.8 1345,-116.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="615.55,-160.8 612.55,-164.8 591.55,-164.8 588.55,-160.8 528.45,-160.8 528.45,-124.8 615.55,-124.8 615.55,-160.8"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>CategoryModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="476.37,-228.8 473.37,-232.8 452.37,-232.8 449.37,-228.8 365.63,-228.8 365.63,-192.8 476.37,-192.8 476.37,-228.8"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>AuthModule&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="black" d="M528.29,-146.8C486.21,-146.8 428.9,-146.8 428.9,-146.8 428.9,-146.8 428.9,-182.63 428.9,-182.63"/>
+<polygon fill="black" stroke="black" points="425.4,-182.63 428.9,-192.63 432.4,-182.63 425.4,-182.63"/>
+</g>
+
+<g id="node3" class="node">
+<title>DeliveryAddressModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="649.4,-228.8 646.4,-232.8 625.4,-232.8 622.4,-228.8 494.6,-228.8 494.6,-192.8 649.4,-192.8 649.4,-228.8"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>AuthModule&#45;&gt;DeliveryAddressModule</title>
+<path fill="none" stroke="black" d="M572,-161.02C572,-161.02 572,-182.53 572,-182.53"/>
+<polygon fill="black" stroke="black" points="568.5,-182.53 572,-192.53 575.5,-182.53 568.5,-182.53"/>
+</g>
+
+<g id="node4" class="node">
+<title>OrdersModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="764.64,-228.8 761.64,-232.8 740.64,-232.8 737.64,-228.8 667.36,-228.8 667.36,-192.8 764.64,-192.8 764.64,-228.8"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>AuthModule&#45;&gt;OrdersModule</title>
+<path fill="none" stroke="black" d="M615.58,-153.8C654.03,-153.8 703.99,-153.8 703.99,-153.8 703.99,-153.8 703.99,-182.76 703.99,-182.76"/>
+<polygon fill="black" stroke="black" points="700.49,-182.76 703.99,-192.76 707.49,-182.76 700.49,-182.76"/>
+</g>
+
+<g id="node5" class="node">
+<title>ProductsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="891.04,-228.8 888.04,-232.8 867.04,-232.8 864.04,-228.8 782.96,-228.8 782.96,-192.8 891.04,-192.8 891.04,-228.8"/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>AuthModule&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M615.76,-146.8C691.03,-146.8 837,-146.8 837,-146.8 837,-146.8 837,-182.63 837,-182.63"/>
+<polygon fill="black" stroke="black" points="833.5,-182.63 837,-192.63 840.5,-182.63 833.5,-182.63"/>
+</g>
+
+<g id="node6" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="537.66,-293.8 534.66,-297.8 513.66,-297.8 510.66,-293.8 454.34,-293.8 454.34,-257.8 537.66,-257.8 537.66,-293.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuthModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M528.33,-153.8C508.14,-153.8 488.56,-153.8 488.56,-153.8 488.56,-153.8 488.56,-247.8 488.56,-247.8"/>
+<polygon fill="black" stroke="black" points="485.06,-247.8 488.56,-257.8 492.06,-247.8 485.06,-247.8"/>
+</g>
+
+<g id="node8" class="node">
+<title>JwtStrategy </title>
+<polygon fill="#fb8072" stroke="black" points="740.6,-84.8 655.4,-84.8 655.4,-48.8 740.6,-48.8 740.6,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>AuthModule&#45;&gt;JwtStrategy </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M615.55,-132.8C638.19,-132.8 661.19,-132.8 661.19,-132.8 661.19,-132.8 661.19,-94.83 661.19,-94.83"/>
+<polygon fill="black" stroke="black" points="664.69,-94.83 661.19,-84.83 657.69,-94.83 664.69,-94.83"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>CategoryModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M465.3,-228.91C465.3,-228.91 465.3,-247.79 465.3,-247.79"/>
+<polygon fill="black" stroke="black" points="461.8,-247.79 465.3,-257.79 468.8,-247.79 461.8,-247.79"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>DeliveryAddressModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M516.31,-228.91C516.31,-228.91 516.31,-247.79 516.31,-247.79"/>
+<polygon fill="black" stroke="black" points="512.81,-247.79 516.31,-257.79 519.81,-247.79 512.81,-247.79"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>OrdersModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M716,-228.82C716,-246.17 716,-269.8 716,-269.8 716,-269.8 547.9,-269.8 547.9,-269.8"/>
+<polygon fill="black" stroke="black" points="547.9,-266.3 537.9,-269.8 547.9,-273.3 547.9,-266.3"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>ProductsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M837,-229.08C837,-250.12 837,-281.8 837,-281.8 837,-281.8 547.81,-281.8 547.81,-281.8"/>
+<polygon fill="black" stroke="black" points="547.81,-278.3 537.81,-281.8 547.81,-285.3 547.81,-278.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="black" cx="271" cy="-210.8" rx="56.74" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>AppService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M271,-228.91C271,-248.14 271,-275.8 271,-275.8 271,-275.8 444.21,-275.8 444.21,-275.8"/>
+<polygon fill="black" stroke="black" points="444.21,-279.3 454.21,-275.8 444.21,-272.3 444.21,-279.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>AuthService</title>
+<ellipse fill="#fdb462" stroke="black" cx="572" cy="-66.8" rx="59.11" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>AuthService&#45;&gt;AuthModule</title>
+<path fill="none" stroke="black" d="M572,-84.81C572,-84.81 572,-114.65 572,-114.65"/>
+<polygon fill="black" stroke="black" points="568.5,-114.65 572,-124.65 575.5,-114.65 568.5,-114.65"/>
+</g>
+
+<g id="node10" class="node">
+<title>JwtStrategy</title>
+<ellipse fill="#fdb462" stroke="black" cx="438" cy="-66.8" rx="56.76" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>JwtStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="black" d="M482.5,-78.21C482.5,-98.74 482.5,-139.8 482.5,-139.8 482.5,-139.8 518.3,-139.8 518.3,-139.8"/>
+<polygon fill="black" stroke="black" points="518.3,-143.3 528.3,-139.8 518.3,-136.3 518.3,-143.3"/>
+</g>
+
+<g id="node11" class="node">
+<title>CategoryService</title>
+<ellipse fill="#fdb462" stroke="black" cx="99" cy="-142.8" rx="75.28" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>CategoryService&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="black" d="M161.97,-132.8C243,-132.8 373.47,-132.8 373.47,-132.8 373.47,-132.8 373.47,-182.71 373.47,-182.71"/>
+<polygon fill="black" stroke="black" points="369.97,-182.71 373.47,-192.71 376.97,-182.71 369.97,-182.71"/>
+</g>
+
+<g id="node12" class="node">
+<title>DeliveryAddressService</title>
+<ellipse fill="#fdb462" stroke="black" cx="1036" cy="-142.8" rx="105.33" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>DeliveryAddressService&#45;&gt;DeliveryAddressModule</title>
+<path fill="none" stroke="black" d="M932.02,-139.8C814.77,-139.8 640.25,-139.8 640.25,-139.8 640.25,-139.8 640.25,-182.52 640.25,-182.52"/>
+<polygon fill="black" stroke="black" points="636.75,-182.52 640.25,-192.52 643.75,-182.52 636.75,-182.52"/>
+</g>
+
+<g id="node13" class="node">
+<title>OrdersService</title>
+<ellipse fill="#fdb462" stroke="black" cx="1247" cy="-142.8" rx="66.03" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>OrdersService&#45;&gt;OrdersModule</title>
+<path fill="none" stroke="black" d="M1247,-160.99C1247,-169.08 1247,-176.8 1247,-176.8 1247,-176.8 752.81,-176.8 752.81,-176.8 752.81,-176.8 752.81,-182.61 752.81,-182.61"/>
+<polygon fill="black" stroke="black" points="749.31,-182.61 752.81,-192.61 756.31,-182.61 749.31,-182.61"/>
+</g>
+
+<g id="node14" class="node">
+<title>ProductsService</title>
+<ellipse fill="#fdb462" stroke="black" cx="1427" cy="-142.8" rx="73.57" ry="18"/>
+
+</g>
+
+<g id="edge17" class="edge">
+<title>ProductsService&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M1427,-161.02C1427,-181.17 1427,-210.8 1427,-210.8 1427,-210.8 901.19,-210.8 901.19,-210.8"/>
+<polygon fill="black" stroke="black" points="901.19,-207.3 891.19,-210.8 901.19,-214.3 901.19,-207.3"/>
+</g>
+</g>
+</svg>

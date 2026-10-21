@@ -1,0 +1,108 @@
+<svg width="504pt" height="284pt"
+ viewBox="0.00 0.00 504.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 500,-280 500,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="14,-10 14,-30 34,-30 34,-10 14,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="127,-10 127,-30 147,-30 147,-10 127,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="213,-10 213,-30 233,-30 233,-10 213,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="310,-10 310,-30 330,-30 330,-10 310,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaSplitterModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 488,-268 488,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaSplitterModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="22,-78 22,-130 474,-130 474,-78 22,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DejaSplitterModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 480,-260 480,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaSplitterComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="466.479,-122 317.521,-122 317.521,-86 466.479,-86 466.479,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>DejaSplitterModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="302.6966,-187 299.6966,-191 278.6966,-191 275.6966,-187 175.3034,-187 175.3034,-151 302.6966,-151 302.6966,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaSplitterComponent&#45;&gt;DejaSplitterModule</title>
+<path fill="none" stroke="#000000" d="M417.5798,-122.0225C417.5798,-139.3734 417.5798,-163 417.5798,-163 417.5798,-163 312.7151,-163 312.7151,-163"/>
+<polygon fill="#000000" stroke="#000000" points="312.7151,-159.5001 302.7151,-163 312.7151,-166.5001 312.7151,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>SplitAreaDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="299.7339,-122 178.2661,-122 178.2661,-86 299.7339,-86 299.7339,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SplitAreaDirective&#45;&gt;DejaSplitterModule</title>
+<path fill="none" stroke="#000000" d="M239,-122.1061C239,-122.1061 239,-140.991 239,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="235.5001,-140.9909 239,-150.991 242.5001,-140.991 235.5001,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SplitGutterDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="160.3005,-122 29.6995,-122 29.6995,-86 160.3005,-86 160.3005,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SplitGutterDirective&#45;&gt;DejaSplitterModule</title>
+<path fill="none" stroke="#000000" d="M115.2167,-122.0225C115.2167,-139.3734 115.2167,-163 115.2167,-163 115.2167,-163 165.2953,-163 165.2953,-163"/>
+<polygon fill="#000000" stroke="#000000" points="165.2954,-166.5001 175.2953,-163 165.2953,-159.5001 165.2954,-166.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>DejaSplitterComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="472.4798,-252 319.5202,-252 319.5202,-216 472.4798,-216 472.4798,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DejaSplitterModule&#45;&gt;DejaSplitterComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M302.6955,-175C335.4884,-175 368.6702,-175 368.6702,-175 368.6702,-175 368.6702,-205.9775 368.6702,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="365.1703,-205.9774 368.6702,-215.9775 372.1703,-205.9775 365.1703,-205.9774"/>
+</g>
+
+<g id="node6" class="node">
+<title>SplitAreaDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="301.7338,-252 176.2662,-252 176.2662,-216 301.7338,-216 301.7338,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DejaSplitterModule&#45;&gt;SplitAreaDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M239,-187.1061C239,-187.1061 239,-205.991 239,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="235.5001,-205.9909 239,-215.991 242.5001,-205.991 235.5001,-205.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>SplitGutterDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="157.8003,-252 24.1997,-252 24.1997,-216 157.8003,-216 157.8003,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DejaSplitterModule&#45;&gt;SplitGutterDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M175.1157,-175C128.1712,-175 72.5333,-175 72.5333,-175 72.5333,-175 72.5333,-205.9775 72.5333,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="69.0334,-205.9774 72.5333,-215.9775 76.0334,-205.9775 69.0334,-205.9774"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,84 @@
+<svg width="670pt" height="211pt"
+ viewBox="0.00 0.00 670.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 666,-207 666,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="97,-10 97,-30 117,-30 117,-10 97,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="210,-10 210,-30 230,-30 230,-10 210,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="296,-10 296,-30 316,-30 316,-10 296,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="393,-10 393,-30 413,-30 413,-10 393,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="489,-10 489,-30 509,-30 509,-10 489,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ContactModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 654,-195 654,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ContactModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="138,-78 138,-130 646,-130 646,-78 138,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_ContactModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 130,-130 130,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ContactComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="638.3795,-122 513.6205,-122 513.6205,-86 638.3795,-86 638.3795,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>ContactModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="381.5968,-187 378.5968,-191 357.5968,-191 354.5968,-187 278.4032,-187 278.4032,-151 381.5968,-151 381.5968,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ContactComponent&#45;&gt;ContactModule</title>
+<path fill="none" stroke="#000000" d="M576,-122.1061C576,-141.3391 576,-169 576,-169 576,-169 391.5697,-169 391.5697,-169"/>
+<polygon fill="#000000" stroke="#000000" points="391.5697,-165.5001 381.5697,-169 391.5696,-172.5001 391.5697,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ImageViewComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="495.1317,-122 348.8683,-122 348.8683,-86 495.1317,-86 495.1317,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ImageViewComponent&#45;&gt;ContactModule</title>
+<path fill="none" stroke="#000000" d="M365.1164,-122.1061C365.1164,-122.1061 365.1164,-140.991 365.1164,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="361.6165,-140.9909 365.1164,-150.991 368.6165,-140.991 361.6165,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>ImageViewDialogComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="330.2338,-122 145.7662,-122 145.7662,-86 330.2338,-86 330.2338,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ImageViewDialogComponent&#45;&gt;ContactModule</title>
+<path fill="none" stroke="#000000" d="M304.4092,-122.1061C304.4092,-122.1061 304.4092,-140.991 304.4092,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="300.9093,-140.9909 304.4092,-150.991 307.9093,-140.991 300.9093,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SharedModule&#45;&gt;ContactModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.1061C73,-141.3391 73,-169 73,-169 73,-169 268.3014,-169 268.3014,-169"/>
+<polygon fill="#000000" stroke="#000000" points="268.3014,-172.5001 278.3014,-169 268.3013,-165.5001 268.3014,-172.5001"/>
+</g>
+</g>
+</svg>

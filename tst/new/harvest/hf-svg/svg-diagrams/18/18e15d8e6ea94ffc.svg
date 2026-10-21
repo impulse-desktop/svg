@@ -1,0 +1,99 @@
+<svg width="438pt" height="197pt"
+ viewBox="0.00 0.00 438.00 196.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 192.5)">
+<title>tbb::task::allocate_child</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-192.5 434,-192.5 434,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-60 0,-90 95,-90 95,-60 0,-60"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01132.html#ac4236dcd3fe30778e6930c3785bd463c" target="_top" xlink:title="allocate right task with new parent ">
+<polygon fill="white" stroke="black" points="136,-109 136,-139 252,-139 252,-109 136,-109"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M102.731,-93.3896C117.776,-98.4916 133.935,-103.971 148.364,-108.864"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="103.628,-89.9983 93.0338,-90.1014 101.38,-96.6275 103.628,-89.9983"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00886.html#a1377f3dd127981bcb99990996bed7fb9" target="_top" xlink:title="Should be overridden by derived classes. ">
+<polygon fill="white" stroke="black" points="139,-60 139,-90 249,-90 249,-60 139,-60"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M105.03,-75C116.129,-75 127.747,-75 138.768,-75"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="105.016,-71.5001 95.0161,-75 105.016,-78.5001 105.016,-71.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a00228.html#aebb622ab2f9e46491a9d7cdcf300c8bd" target="_top" xlink:title="tbb::interface9::internal\l::do_task_iter::run_for\l_random_access_iterator">
+<polygon fill="white" stroke="black" points="131,-0.5 131,-41.5 257,-41.5 257,-0.5 131,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M98.3294,-56.3786C111.162,-51.5832 125.041,-46.3963 138.115,-41.5107"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="96.8934,-53.1788 88.7513,-59.958 99.3438,-59.7359 96.8934,-53.1788"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00729.html#a176a32f32cd87efa33faf53d19a15c96" target="_top" xlink:title="spawn right task, serves as callback for partitioner ">
+<polygon fill="white" stroke="black" points="303.5,-158 303.5,-188 419.5,-188 419.5,-158 303.5,-158"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M255.684,-141.967C273.417,-147.217 292.608,-152.899 309.663,-157.948"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="256.588,-138.584 246.006,-139.101 254.601,-145.296 256.588,-138.584"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00731.html#a01f8832834bde49b03c7d4b617acb06d" target="_top" xlink:title="spawn right task, serves as callback for partitioner ">
+<polygon fill="white" stroke="black" points="297.5,-109 297.5,-139 425.5,-139 425.5,-109 297.5,-109"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M262.757,-124C274.161,-124 285.959,-124 297.244,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="262.419,-120.5 252.419,-124 262.419,-127.5 262.419,-120.5"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00728.html#afe17dace21bda2ab77d9952903f319a6" target="_top" xlink:title="tbb::interface9::internal\l::start_deterministic_reduce\l::offer_work">
+<polygon fill="white" stroke="black" points="293,-49.5 293,-90.5 430,-90.5 430,-49.5 293,-49.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M250.777,-105.801C265.832,-100.889 282.225,-95.54 297.638,-90.5107"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="249.522,-102.529 241.101,-108.958 251.693,-109.183 249.522,-102.529"/>
+</g>
+</g>
+</svg>

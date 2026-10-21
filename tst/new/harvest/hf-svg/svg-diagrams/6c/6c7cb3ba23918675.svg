@@ -1,0 +1,215 @@
+<svg width="631pt" height="344pt"
+ viewBox="0.00 0.00 631.00 344.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 340)">
+<title>splitSubs</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-340 627,-340 627,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node210</title>
+<g id="a_node1"><a xlink:title="Split part connectors into net and not net elements.">
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-95.5 0,-114.5 61,-114.5 61,-95.5 0,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node211</title>
+<g id="a_node2"><a xlink:href="../../df/da0/drc_8cpp.html#a66732ec512aae8565354790a5c3adf19" target="_top" xlink:title="collect non&#45;net connector id attribute values from part">
+<polygon fill="#ffffff" stroke="#000000" points="97,-221.5 97,-240.5 275,-240.5 275,-221.5 97,-221.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node210&#45;&gt;Node211</title>
+<path fill="none" stroke="#191970" d="M42.4436,-114.6778C69.0794,-136.2605 133.5639,-188.5116 166.2712,-215.0139"/>
+<polygon fill="#191970" stroke="#191970" points="164.2555,-217.8854 174.2285,-221.4617 168.6624,-212.4467 164.2555,-217.8854"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node217</title>
+<g id="a_node8"><a xlink:href="../../df/da0/drc_8cpp.html#ad60cf803764a13f0bdf3053762e23e70" target="_top" xlink:title="collect dom elements for connectors of part in the current net">
+<polygon fill="#ffffff" stroke="#000000" points="133,-76.5 133,-95.5 239,-95.5 239,-76.5 133,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node210&#45;&gt;Node217</title>
+<path fill="none" stroke="#191970" d="M61.2218,-101.2462C78.8724,-99.0895 101.7026,-96.3 123,-93.6978"/>
+<polygon fill="#191970" stroke="#191970" points="123.475,-97.1658 132.9766,-92.4787 122.6259,-90.2175 123.475,-97.1658"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node220</title>
+<g id="a_node11"><a xlink:href="../../df/da0/drc_8cpp.html#a9b930a1435acd64d416e005e6cb8b34f" target="_top" xlink:title="Split part copper into net and not net elements.">
+<polygon fill="#ffffff" stroke="#000000" points="113,-114.5 113,-133.5 259,-133.5 259,-114.5 113,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node210&#45;&gt;Node220</title>
+<path fill="none" stroke="#191970" d="M61.2218,-108.7538C73.3035,-110.23 87.812,-112.0028 102.5946,-113.809"/>
+<polygon fill="#191970" stroke="#191970" points="102.4953,-117.3228 112.846,-115.0616 103.3443,-110.3745 102.4953,-117.3228"/>
+</g>
+
+<g id="node12" class="node">
+<title>Node221</title>
+<g id="a_node12"><a xlink:href="../../df/da0/drc_8cpp.html#abee0ecde90a6edc3e22e9860513f4050" target="_top" xlink:title="link extra graphic elements to the associated connector">
+<polygon fill="#ffffff" stroke="#000000" points="112.5,-38.5 112.5,-57.5 259.5,-57.5 259.5,-38.5 112.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge">
+<title>Node210&#45;&gt;Node221</title>
+<path fill="none" stroke="#191970" d="M44.3942,-95.3556C57.4284,-86.7316 77.7453,-74.3518 97,-67 103.7989,-64.404 111.0326,-62.1271 118.3244,-60.1385"/>
+<polygon fill="#191970" stroke="#191970" points="119.4435,-63.4652 128.2685,-57.6026 117.7137,-56.6823 119.4435,-63.4652"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node212</title>
+<g id="a_node3"><a xlink:href="../../d4/d4f/classItemBase.html#af8b5baf85b1febe04dbaccd09e90d58a" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="311,-153 311,-183 464,-183 464,-153 311,-153"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node211&#45;&gt;Node212</title>
+<path fill="none" stroke="#191970" d="M216.6035,-221.4317C246.5186,-212.0786 292.8136,-197.6042 329.6775,-186.0785"/>
+<polygon fill="#191970" stroke="#191970" points="330.8159,-189.3897 339.3158,-183.065 328.7269,-182.7087 330.8159,-189.3897"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node213</title>
+<g id="a_node4"><a xlink:href="../../dc/d3a/classConnectorItem.html#af0a6058a57e91d11f927dafa61c363d4" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="316,-316.5 316,-335.5 459,-335.5 459,-316.5 316,-316.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node211&#45;&gt;Node213</title>
+<path fill="none" stroke="#191970" d="M198.7931,-240.6055C220.6699,-256.599 267.1609,-288.7301 311,-307 316.8856,-309.4528 323.1629,-311.6422 329.4944,-313.5827"/>
+<polygon fill="#191970" stroke="#191970" points="328.8629,-317.0425 339.44,-316.4295 330.7892,-310.3127 328.8629,-317.0425"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node214</title>
+<g id="a_node5"><a xlink:href="../../d9/d65/classConnector.html#a5464f0672067790ea888b44f7aafb528" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="326.5,-278.5 326.5,-297.5 448.5,-297.5 448.5,-278.5 326.5,-278.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node211&#45;&gt;Node214</title>
+<path fill="none" stroke="#191970" d="M215.9294,-240.574C241.1732,-248.5346 278.3124,-259.9787 311,-269 319.5302,-271.3542 328.6321,-273.7314 337.4725,-275.9697"/>
+<polygon fill="#191970" stroke="#191970" points="336.7475,-279.3961 347.2981,-278.4292 338.4473,-272.6056 336.7475,-279.3961"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node215</title>
+<g id="a_node6"><a xlink:href="../../d4/d4f/classItemBase.html#a39957519ed5ac922dead0466357d4644" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="336,-240.5 336,-259.5 439,-259.5 439,-240.5 336,-240.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node211&#45;&gt;Node215</title>
+<path fill="none" stroke="#191970" d="M275.2608,-239.4167C292.2724,-241.0207 309.7267,-242.6665 325.6495,-244.1679"/>
+<polygon fill="#191970" stroke="#191970" points="325.5875,-247.6775 335.8719,-245.1318 326.2447,-240.7084 325.5875,-247.6775"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node216</title>
+<g id="a_node7"><a xlink:href="../../d4/d4f/classItemBase.html#a8f16baa26ee92ac6cd8dda5c69d759d4" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="322.5,-202.5 322.5,-221.5 452.5,-221.5 452.5,-202.5 322.5,-202.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node211&#45;&gt;Node216</title>
+<path fill="none" stroke="#191970" d="M275.2608,-222.5833C287.6792,-221.4124 300.3336,-220.2192 312.4558,-219.0761"/>
+<polygon fill="#191970" stroke="#191970" points="312.8693,-222.5528 322.4966,-218.1294 312.2121,-215.5837 312.8693,-222.5528"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node218</title>
+<g id="a_node9"><a xlink:href="../../df/da0/drc_8cpp.html#a5246491477d12b692f8c884a0696ca85" target="_top" xlink:title="append all immediate children of a dom element to an existing list">
+<polygon fill="#ffffff" stroke="#000000" points="500,-76.5 500,-95.5 623,-95.5 623,-76.5 500,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node217&#45;&gt;Node218</title>
+<path fill="none" stroke="#191970" d="M239.0036,-86C304.5543,-86 416.4215,-86 489.6505,-86"/>
+<polygon fill="#191970" stroke="#191970" points="489.7182,-89.5001 499.7181,-86 489.7181,-82.5001 489.7182,-89.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node219</title>
+<g id="a_node10"><a xlink:href="../../df/da0/drc_8cpp.html#a7d31d7180cb113a92ca6985dd0f4bde1" target="_top" xlink:title="mark part (graphical) sub elements as belonging to net category">
+<polygon fill="#ffffff" stroke="#000000" points="355,-38.5 355,-57.5 420,-57.5 420,-38.5 355,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node217&#45;&gt;Node219</title>
+<path fill="none" stroke="#191970" d="M236.5869,-76.46C270.0385,-70.1515 313.3957,-61.975 345.0485,-56.0057"/>
+<polygon fill="#191970" stroke="#191970" points="345.7086,-59.443 354.8867,-54.1504 344.4113,-52.5643 345.7086,-59.443"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node219&#45;&gt;Node218</title>
+<path fill="none" stroke="#191970" d="M420.2281,-55.1475C444.8853,-60.5324 479.2264,-68.0322 507.8758,-74.289"/>
+<polygon fill="#191970" stroke="#191970" points="507.2304,-77.7304 517.7469,-76.4447 508.724,-70.8916 507.2304,-77.7304"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>Node220&#45;&gt;Node218</title>
+<path fill="none" stroke="#191970" d="M259.2783,-118.8094C315.3991,-114.5593 394.6972,-107.9606 464,-100 472.3644,-99.0392 481.1178,-97.9301 489.8012,-96.7654"/>
+<polygon fill="#191970" stroke="#191970" points="490.5022,-100.2021 499.9351,-95.378 489.5527,-93.2668 490.5022,-100.2021"/>
+</g>
+
+<g id="edge15" class="edge">
+<title>Node221&#45;&gt;Node219</title>
+<path fill="none" stroke="#191970" d="M259.6015,-48C288.2275,-48 320.0133,-48 344.7363,-48"/>
+<polygon fill="#191970" stroke="#191970" points="344.8697,-51.5001 354.8696,-48 344.8696,-44.5001 344.8697,-51.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>Node222</title>
+<g id="a_node13"><a xlink:href="../../df/da0/drc_8cpp.html#af09d8d2cfd025cae691502c4087528da" target="_top" xlink:title="create svg text document string for a single part">
+<polygon fill="#ffffff" stroke="#000000" points="353,-.5 353,-19.5 422,-19.5 422,-.5 353,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge14" class="edge">
+<title>Node221&#45;&gt;Node222</title>
+<path fill="none" stroke="#191970" d="M236.5869,-38.46C269.1605,-32.3171 311.1265,-24.4029 342.5324,-18.4802"/>
+<polygon fill="#191970" stroke="#191970" points="343.5712,-21.8461 352.7494,-16.5535 342.2739,-14.9674 343.5712,-21.8461"/>
+</g>
+</g>
+</svg>

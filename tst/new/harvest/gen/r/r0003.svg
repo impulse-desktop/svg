@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="360pt" height="288pt" viewBox="0 0 360 288">
+<defs>
+<filter id="filter-remove-color" x="0%" y="0%" width="100%" height="100%">
+<feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" />
+</filter>
+<linearGradient id="linear-pattern-0" gradientUnits="userSpaceOnUse" x1="126.063821" y1="80.604619" x2="49.398989" y2="80.533335" spreadMethod="reflect">
+<stop offset="0" stop-color="rgb(100%, 84.313725%, 0%)" stop-opacity="1"/>
+<stop offset="0.5" stop-color="rgb(0%, 0%, 100%)" stop-opacity="1"/>
+<stop offset="1" stop-color="rgb(62.745098%, 12.54902%, 94.117647%)" stop-opacity="1"/>
+</linearGradient>
+<radialGradient id="radial-pattern-0" gradientUnits="userSpaceOnUse" cx="252" cy="115.2" fx="252" fy="115.2" r="79.891698" spreadMethod="reflect">
+<stop offset="0" stop-color="rgb(0%, 39.215686%, 0%)" stop-opacity="1"/>
+<stop offset="1" stop-color="rgb(0%, 0%, 0%)" stop-opacity="1"/>
+</radialGradient>
+<clipPath id="clip-0">
+<path clip-rule="nonzero" d="M 0 0 L 360 0 L 360 288 L 0 288 Z M 0 0 "/>
+</clipPath>
+<clipPath id="clip-1">
+<rect x="0" y="0" width="360" height="288"/>
+</clipPath>
+<g id="source-39" clip-path="url(#clip-1)">
+<g clip-path="url(#clip-0)">
+<path fill-rule="nonzero" fill="rgb(20%, 40%, 60%)" fill-opacity="0.152941" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="0.301961" stroke-miterlimit="10" d="M 266.083615 210.024603 C 266.083615 215.756717 261.436819 220.403655 255.704577 220.403655 C 249.972336 220.403655 245.32554 215.756717 245.32554 210.024603 C 245.32554 204.292489 249.972336 199.645551 255.704577 199.645551 C 261.436819 199.645551 266.083615 204.292489 266.083615 210.024603 " transform="matrix(18.454414, 0, 0, -20.32, -4538.878132, 4411.699932)"/>
+</g>
+</g>
+<pattern id="pattern-0" patternUnits="userSpaceOnUse" x="0" y="0" width="360" height="288" viewBox="0 0 360 288" patternTransform="matrix(0.0541876, 0, 0, -0.0492126, 245.950813, 217.111217)">
+<use xlink:href="#source-39"/>
+</pattern>
+<radialGradient id="radial-pattern-1" gradientUnits="userSpaceOnUse" cx="180" cy="144" fx="180" fy="144" r="99.864623" spreadMethod="reflect">
+<stop offset="0" stop-color="rgb(0%, 39.215686%, 0%)" stop-opacity="1"/>
+<stop offset="1" stop-color="rgb(0%, 0%, 0%)" stop-opacity="1"/>
+</radialGradient>
+<clipPath id="clip-2">
+<path clip-rule="nonzero" d="M 89 0 L 271 0 L 271 288 L 89 288 Z M 89 0 "/>
+</clipPath>
+<clipPath id="clip-3">
+<rect x="0" y="0" width="360" height="288"/>
+</clipPath>
+<g id="source-43" clip-path="url(#clip-3)">
+<path fill-rule="nonzero" fill="url(#radial-pattern-1)" d="M 90 288 L 270 288 L 270 0 L 90 0 Z M 90 288 "/>
+<g clip-path="url(#clip-2)">
+<path fill="none" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 90 288 L 270 288 L 270 0 L 90 0 Z M 90 288 "/>
+</g>
+</g>
+<mask id="mask-0">
+<g filter="url(#filter-remove-color)">
+<use xlink:href="#source-43"/>
+</g>
+</mask>
+<clipPath id="clip-4">
+<path clip-rule="nonzero" d="M 0 0 L 360 0 L 360 288 L 0 288 Z M 0 0 "/>
+</clipPath>
+<clipPath id="clip-5">
+<rect x="0" y="0" width="360" height="288"/>
+</clipPath>
+<g id="source-42" clip-path="url(#clip-5)">
+<g clip-path="url(#clip-4)">
+<rect x="-79.2" y="-63.36" width="518.4" height="414.72" fill="rgb(0%, 0%, 0%)" fill-opacity="1"/>
+</g>
+</g>
+<mask id="mask-1">
+<g filter="url(#filter-remove-color)">
+<use xlink:href="#source-43"/>
+</g>
+</mask>
+<clipPath id="clip-6">
+<path clip-rule="nonzero" d="M 0 0 L 360 0 L 360 288 L 0 288 Z M 0 0 "/>
+</clipPath>
+<clipPath id="clip-7">
+<rect x="0" y="0" width="360" height="288"/>
+</clipPath>
+<g id="source-46" clip-path="url(#clip-7)">
+<g clip-path="url(#clip-6)">
+<path fill="none" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 0 288 L 360 288 L 360 0 L 0 0 Z M 0 288 "/>
+</g>
+</g>
+</defs>
+<rect x="-36" y="-28.8" width="432" height="345.6" fill="rgb(100%, 100%, 100%)" fill-opacity="1"/>
+<path fill-rule="nonzero" fill="url(#linear-pattern-0)" stroke-width="1.808188" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-dasharray="12.657318 5.424565" stroke-miterlimit="10" d="M 36 187.199219 L 180 187.199219 L 180 43.199219 L 36 43.199219 Z M 36 187.199219 "/>
+<path fill-rule="nonzero" fill="url(#radial-pattern-0)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 324 115.199219 C 324 154.964844 291.765625 187.199219 252 187.199219 C 212.234375 187.199219 180 154.964844 180 115.199219 C 180 75.433594 212.234375 43.199219 252 43.199219 C 291.765625 43.199219 324 75.433594 324 115.199219 "/>
+<path fill-rule="nonzero" fill="url(#pattern-0)" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="0.301961" stroke-miterlimit="10" d="M 266.105469 208.128906 L 251.1875 185.539062 L 314.039062 231.089844 L 199.894531 176.542969 L 193.105469 222.179688 L 318.304688 243.507812 Z M 266.105469 208.128906 "/>
+<g mask="url(#mask-0)">
+<use xlink:href="#source-42"/>
+</g>
+<g mask="url(#mask-1)">
+<use xlink:href="#source-46"/>
+</g>
+</svg>

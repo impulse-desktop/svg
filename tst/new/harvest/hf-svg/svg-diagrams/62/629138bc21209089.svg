@@ -1,0 +1,109 @@
+<svg width="775pt" height="188pt"
+ viewBox="0.00 0.00 775.09 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>G</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-184 771.0877,-184 771.0877,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>split_words</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="383.5438" cy="-162" rx="51.9908" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>count_words__1</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="69.5438" cy="-90" rx="69.5877" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>split_words&#45;&gt;count_words__1</title>
+<path fill="none" stroke="#000000" d="M340.0415,-152.0715C292.684,-141.2573 214.724,-123.4374 147.5438,-108 142.2953,-106.7939 136.8486,-105.5406 131.3838,-104.2819"/>
+<polygon fill="#000000" stroke="#000000" points="132.0975,-100.8547 121.5669,-102.0195 130.5254,-107.6759 132.0975,-100.8547"/>
+</g>
+
+<g id="node3" class="node">
+<title>count_words__2</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="226.5438" cy="-90" rx="69.5877" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>split_words&#45;&gt;count_words__2</title>
+<path fill="none" stroke="#000000" d="M352.1499,-147.6028C328.6389,-136.8207 296.1821,-121.936 270.1516,-109.9985"/>
+<polygon fill="#000000" stroke="#000000" points="271.4294,-106.734 260.8806,-105.7468 268.5114,-113.0968 271.4294,-106.734"/>
+</g>
+
+<g id="node4" class="node">
+<title>count_words__3</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="383.5438" cy="-90" rx="69.5877" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>split_words&#45;&gt;count_words__3</title>
+<path fill="none" stroke="#000000" d="M383.5438,-143.8314C383.5438,-136.131 383.5438,-126.9743 383.5438,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="387.0439,-118.4132 383.5438,-108.4133 380.0439,-118.4133 387.0439,-118.4132"/>
+</g>
+
+<g id="node5" class="node">
+<title>count_words__4</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="540.5438" cy="-90" rx="69.5877" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>split_words&#45;&gt;count_words__4</title>
+<path fill="none" stroke="#000000" d="M414.9378,-147.6028C438.4487,-136.8207 470.9056,-121.936 496.9361,-109.9985"/>
+<polygon fill="#000000" stroke="#000000" points="498.5763,-113.0968 506.207,-105.7468 495.6583,-106.734 498.5763,-113.0968"/>
+</g>
+
+<g id="node6" class="node">
+<title>count_words__5</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="697.5438" cy="-90" rx="69.5877" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>split_words&#45;&gt;count_words__5</title>
+<path fill="none" stroke="#000000" d="M427.0461,-152.0715C474.4036,-141.2573 552.3637,-123.4374 619.5438,-108 624.7923,-106.7939 630.2391,-105.5406 635.7038,-104.2819"/>
+<polygon fill="#000000" stroke="#000000" points="636.5622,-107.6759 645.5208,-102.0195 634.9902,-100.8547 636.5622,-107.6759"/>
+</g>
+
+<g id="node7" class="node">
+<title>combine_counts</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="383.5438" cy="-18" rx="68.7879" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>count_words__1&#45;&gt;combine_counts</title>
+<path fill="none" stroke="#000000" d="M121.5669,-77.9805C130.2411,-75.9805 139.1462,-73.9297 147.5438,-72 206.6297,-58.4226 274.0543,-43.0023 321.6633,-32.1261"/>
+<polygon fill="#000000" stroke="#000000" points="322.5422,-35.5155 331.5117,-29.8765 320.9834,-28.6913 322.5422,-35.5155"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>count_words__2&#45;&gt;combine_counts</title>
+<path fill="none" stroke="#000000" d="M260.9981,-74.1993C284.2896,-63.5179 315.2299,-49.3287 340.1936,-37.8804"/>
+<polygon fill="#000000" stroke="#000000" points="341.8094,-40.9899 349.4401,-33.6399 338.8914,-34.6271 341.8094,-40.9899"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>count_words__3&#45;&gt;combine_counts</title>
+<path fill="none" stroke="#000000" d="M383.5438,-71.8314C383.5438,-64.131 383.5438,-54.9743 383.5438,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="387.0439,-46.4132 383.5438,-36.4133 380.0439,-46.4133 387.0439,-46.4132"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>count_words__4&#45;&gt;combine_counts</title>
+<path fill="none" stroke="#000000" d="M506.0895,-74.1993C482.798,-63.5179 451.8577,-49.3287 426.8941,-37.8804"/>
+<polygon fill="#000000" stroke="#000000" points="428.1963,-34.6271 417.6475,-33.6399 425.2783,-40.9899 428.1963,-34.6271"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>count_words__5&#45;&gt;combine_counts</title>
+<path fill="none" stroke="#000000" d="M645.5208,-77.9805C636.8466,-75.9805 627.9415,-73.9297 619.5438,-72 560.458,-58.4226 493.0334,-43.0023 445.4243,-32.1261"/>
+<polygon fill="#000000" stroke="#000000" points="446.1043,-28.6913 435.576,-29.8765 444.5454,-35.5155 446.1043,-28.6913"/>
+</g>
+</g>
+</svg>

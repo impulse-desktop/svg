@@ -1,0 +1,28 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100">
+<title>wave</title>
+  <defs>
+    <filter id="shadow" width="300%" height="300%">
+      <feDropShadow
+        dx="0"
+        dy="4"
+        stdDeviation="3"
+        floodColor="#92E64D"
+        floodOpacity=".5"
+      />
+    </filter>
+  </defs>
+  <path
+    fill="#f3f4f6"
+    vectorEffect="non-scaling-stroke"
+    stroke="#f3f4f6"
+    d="M 0 0 Q 0 100 220 80 L 600 60 L 1000 40 L 1000 100 L 0 100 L 0 0 "
+  />
+  <path
+    vectorEffect="non-scaling-stroke"
+    stroke="#5bc500"
+    strokeWidth="3"
+    fill="transparent"
+    filter="url(#shadow)"
+    d="M 0 0 Q 0 100 220 80 L 600 60 L 1000 40"
+  />
+</svg>

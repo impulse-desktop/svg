@@ -1,0 +1,132 @@
+<svg width="434pt" height="152pt"
+ viewBox="0.00 0.00 434.00 152.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 148)">
+<title>src/secp256k1/src/bench_verify.c</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-148 430,-148 430,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node0</title>
+<polygon fill="#bfbfbf" stroke="black" points="147,-113 147,-143 273,-143 273,-113 147,-113"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node1</title>
+<polygon fill="white" stroke="#bfbfbf" points="234,-0.5 234,-19.5 280,-19.5 280,-0.5 234,-0.5"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>Node0&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M218.958,-112.689C224.94,-102.689 232.659,-88.8752 238,-76 244.335,-60.7287 249.444,-42.6213 252.761,-29.4017"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="256.179,-30.1577 255.115,-19.6165 249.373,-28.5208 256.179,-30.1577"/>
+</g>
+
+<g id="node3" class="node"><title>Node2</title>
+<polygon fill="white" stroke="#bfbfbf" points="123.5,-56.5 123.5,-75.5 172.5,-75.5 172.5,-56.5 123.5,-56.5"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>Node0&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M195.307,-112.781C186.019,-103.792 174.001,-92.162 164.402,-82.8731"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="166.642,-80.1697 157.022,-75.7305 161.774,-85.1999 166.642,-80.1697"/>
+</g>
+
+<g id="node4" class="node"><title>Node3</title>
+<g id="a_node4"><a xlink:href="secp256k1_8h.html" target="_top" xlink:title="include/secp256k1.h">
+<polygon fill="white" stroke="black" points="0,-56.5 0,-75.5 106,-75.5 106,-56.5 0,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node0&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M173.19,-112.933C146.466,-102.72 110.661,-89.036 85.097,-79.2664"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="86.094,-75.9005 75.5034,-75.6 83.595,-82.4393 86.094,-75.9005"/>
+</g>
+
+<g id="node6" class="node"><title>Node5</title>
+<g id="a_node6"><a xlink:href="secp256k1_2src_2util_8h.html" target="_top" xlink:title="util.h">
+<polygon fill="white" stroke="black" points="191,-56.5 191,-75.5 229,-75.5 229,-56.5 191,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node0&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M210,-112.781C210,-104.781 210,-94.6887 210,-86.0168"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="213.5,-85.7305 210,-75.7305 206.5,-85.7306 213.5,-85.7305"/>
+</g>
+
+<g id="node9" class="node"><title>Node8</title>
+<g id="a_node9"><a xlink:href="secp256k1_2src_2bench_8h.html" target="_top" xlink:title="bench.h">
+<polygon fill="white" stroke="black" points="290.5,-56.5 290.5,-75.5 341.5,-75.5 341.5,-56.5 290.5,-56.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node0&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M234.852,-112.933C252.097,-103.171 274.942,-90.2401 291.999,-80.5856"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="293.828,-83.572 300.807,-75.6 290.38,-77.4802 293.828,-83.572"/>
+</g>
+
+<g id="node5" class="node"><title>Node4</title>
+<polygon fill="white" stroke="#bfbfbf" points="27,-0.5 27,-19.5 79,-19.5 79,-0.5 27,-0.5"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M53,-56.083C53,-49.0059 53,-38.8611 53,-29.9865"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="56.5001,-29.751 53,-19.7511 49.5001,-29.7511 56.5001,-29.751"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node5&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M217.761,-56.083C224.537,-48.2982 234.543,-36.8015 242.755,-27.3665"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="245.458,-29.592 249.383,-19.7511 240.178,-24.9963 245.458,-29.592"/>
+</g>
+
+<g id="node7" class="node"><title>Node6</title>
+<polygon fill="white" stroke="#bfbfbf" points="100,-0.5 100,-19.5 148,-19.5 148,-0.5 100,-0.5"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M196.183,-56.324C182.767,-47.9002 162.176,-34.9709 146.414,-25.0741"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="148.113,-22.0081 137.783,-19.6545 144.391,-27.9364 148.113,-22.0081"/>
+</g>
+
+<g id="node8" class="node"><title>Node7</title>
+<polygon fill="white" stroke="#bfbfbf" points="166.5,-0.5 166.5,-19.5 215.5,-19.5 215.5,-0.5 166.5,-0.5"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>Node5&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M206.863,-56.083C204.317,-48.8486 200.644,-38.4087 197.473,-29.3968"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="200.7,-28.0225 194.079,-19.7511 194.097,-30.3459 200.7,-28.0225"/>
+</g>
+
+<g id="edge10" class="edge"><title>Node8&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M306.521,-56.324C297.799,-48.3414 284.657,-36.3128 274.102,-26.6529"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="276.392,-24.0036 266.652,-19.8339 271.666,-29.1674 276.392,-24.0036"/>
+</g>
+
+<g id="node10" class="node"><title>Node9</title>
+<polygon fill="white" stroke="#bfbfbf" points="298.5,-0.5 298.5,-19.5 345.5,-19.5 345.5,-0.5 298.5,-0.5"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M316.991,-56.083C317.786,-48.9272 318.929,-38.6353 319.923,-29.6911"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="323.402,-30.0765 321.028,-19.7511 316.445,-29.3034 323.402,-30.0765"/>
+</g>
+
+<g id="node11" class="node"><title>Node10</title>
+<polygon fill="white" stroke="#bfbfbf" points="364,-0.5 364,-19.5 426,-19.5 426,-0.5 364,-0.5"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>Node8&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M328.693,-56.324C340.901,-47.979 359.578,-35.2122 374.003,-25.3524"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="376.058,-28.1871 382.339,-19.6545 372.108,-22.4082 376.058,-28.1871"/>
+</g>
+</g>
+</svg>

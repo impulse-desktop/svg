@@ -1,0 +1,86 @@
+<svg width="390pt" height="152pt"
+ viewBox="0.00 0.00 390.00 152.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 148)">
+<title>A</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-148 386,-148 386,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>c_a</title>
+<polygon fill="none" stroke="#000000" points="67,-144 0,-144 0,-108 67,-108 67,-144"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>kafka</title>
+<path fill="none" stroke="#000000" d="M157,-86.7273C157,-88.5331 144.8982,-90 130,-90 115.1018,-90 103,-88.5331 103,-86.7273 103,-86.7273 103,-57.2727 103,-57.2727 103,-55.4669 115.1018,-54 130,-54 144.8982,-54 157,-55.4669 157,-57.2727 157,-57.2727 157,-86.7273 157,-86.7273"/>
+<path fill="none" stroke="#000000" d="M157,-86.7273C157,-84.9214 144.8982,-83.4545 130,-83.4545 115.1018,-83.4545 103,-84.9214 103,-86.7273"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>c_a&#45;&gt;kafka</title>
+<path fill="none" stroke="#000000" d="M65.9016,-107.8686C74.936,-102.813 84.8045,-97.2908 94.0311,-92.1277"/>
+<polygon fill="#000000" stroke="#000000" points="95.9716,-95.0526 102.989,-87.1149 92.5533,-88.944 95.9716,-95.0526"/>
+</g>
+
+<g id="node2" class="node">
+<title>c_b</title>
+<polygon fill="none" stroke="#000000" points="67,-90 0,-90 0,-54 67,-54 67,-90"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>c_b&#45;&gt;kafka</title>
+<path fill="none" stroke="#000000" d="M67.251,-72C75.4292,-72 84.22,-72 92.557,-72"/>
+<polygon fill="#000000" stroke="#000000" points="92.7943,-75.5001 102.7942,-72 92.7942,-68.5001 92.7943,-75.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>c_c</title>
+<polygon fill="none" stroke="#000000" points="67,-36 0,-36 0,0 67,0 67,-36"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>c_c&#45;&gt;kafka</title>
+<path fill="none" stroke="#000000" d="M65.9016,-36.1314C74.936,-41.187 84.8045,-46.7092 94.0311,-51.8723"/>
+<polygon fill="#000000" stroke="#000000" points="92.5533,-55.056 102.989,-56.8851 95.9716,-48.9474 92.5533,-55.056"/>
+</g>
+
+<g id="node6" class="node">
+<title>backend</title>
+<polygon fill="none" stroke="#000000" points="257,-90 193,-90 193,-54 257,-54 257,-90"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>kafka&#45;&gt;backend</title>
+<path fill="none" stroke="#000000" d="M157.2232,-72C165.0971,-72 173.8862,-72 182.4575,-72"/>
+<polygon fill="#000000" stroke="#000000" points="182.7286,-75.5001 192.7286,-72 182.7286,-68.5001 182.7286,-75.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>postgres</title>
+<path fill="none" stroke="#000000" d="M379,-86.7273C379,-88.5331 360.399,-90 337.5,-90 314.601,-90 296,-88.5331 296,-86.7273 296,-86.7273 296,-57.2727 296,-57.2727 296,-55.4669 314.601,-54 337.5,-54 360.399,-54 379,-55.4669 379,-57.2727 379,-57.2727 379,-86.7273 379,-86.7273"/>
+<path fill="none" stroke="#000000" d="M379,-86.7273C379,-84.9214 360.399,-83.4545 337.5,-83.4545 314.601,-83.4545 296,-84.9214 296,-86.7273"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>viz</title>
+<polygon fill="none" stroke="#000000" points="382,-36 293,-36 293,0 382,0 382,-36"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>postgres&#45;&gt;viz</title>
+<path fill="none" stroke="#000000" d="M337.5,-53.7902C337.5,-47.907 337.5,-42.0238 337.5,-36.1406"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>backend&#45;&gt;postgres</title>
+<path fill="none" stroke="#000000" d="M257.238,-72C266.0115,-72 275.7444,-72 285.3193,-72"/>
+<polygon fill="#000000" stroke="#000000" points="285.5942,-75.5001 295.5942,-72 285.5941,-68.5001 285.5942,-75.5001"/>
+</g>
+</g>
+</svg>

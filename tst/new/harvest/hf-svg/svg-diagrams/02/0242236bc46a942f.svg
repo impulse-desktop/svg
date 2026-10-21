@@ -1,0 +1,88 @@
+<svg width="622pt" height="284pt"
+ viewBox="0.00 0.00 622.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 618,-280 618,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="73,-10 73,-30 93,-30 93,-10 73,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="186,-10 186,-30 206,-30 206,-10 186,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="272,-10 272,-30 292,-30 292,-10 272,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="369,-10 369,-30 389,-30 389,-10 369,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="465,-10 465,-30 485,-30 485,-10 465,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaNumericStepperModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 606,-268 606,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaNumericStepperModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="382,-78 382,-130 598,-130 598,-78 382,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_DejaNumericStepperModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 374,-130 374,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_DejaNumericStepperModule_exports</title>
+<polygon fill="none" stroke="#000000" points="172,-208 172,-260 390,-260 390,-208 172,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaNumericStepperComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="590,-122 390,-122 390,-86 590,-86 590,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>DejaNumericStepperModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="369.717,-187 366.717,-191 345.717,-191 342.717,-187 192.283,-187 192.283,-151 369.717,-151 369.717,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaNumericStepperComponent&#45;&gt;DejaNumericStepperModule</title>
+<path fill="none" stroke="#000000" d="M490,-122.1061C490,-141.3391 490,-169 490,-169 490,-169 379.9379,-169 379.9379,-169"/>
+<polygon fill="#000000" stroke="#000000" points="379.9379,-165.5001 369.9379,-169 379.9378,-172.5001 379.9379,-165.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>DejaNumericStepperComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="382.4994,-252 179.5006,-252 179.5006,-216 382.4994,-216 382.4994,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DejaNumericStepperModule&#45;&gt;DejaNumericStepperComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M281,-187.1061C281,-187.1061 281,-205.991 281,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="277.5001,-205.9909 281,-215.991 284.5001,-205.991 277.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>DejaChildValidatorModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="365.9622,-122 362.9622,-126 341.9622,-126 338.9622,-122 196.0378,-122 196.0378,-86 365.9622,-86 365.9622,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DejaChildValidatorModule&#45;&gt;DejaNumericStepperModule</title>
+<path fill="none" stroke="#000000" d="M281,-122.1061C281,-122.1061 281,-140.991 281,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="277.5001,-140.9909 281,-150.991 284.5001,-140.991 277.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>DejaTextMetricsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="178.3947,-122 175.3947,-126 154.3947,-126 151.3947,-122 23.6053,-122 23.6053,-86 178.3947,-86 178.3947,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DejaTextMetricsModule&#45;&gt;DejaNumericStepperModule</title>
+<path fill="none" stroke="#000000" d="M101,-122.1061C101,-141.3391 101,-169 101,-169 101,-169 182.0547,-169 182.0547,-169"/>
+<polygon fill="#000000" stroke="#000000" points="182.0547,-172.5001 192.0547,-169 182.0546,-165.5001 182.0547,-172.5001"/>
+</g>
+</g>
+</svg>

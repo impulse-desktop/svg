@@ -1,0 +1,124 @@
+<svg width="688pt" height="231pt"
+ viewBox="0.00 0.00 688.00 231.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 227)">
+<title>oneDegreeRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="none" points="-4,4 -4,-227 684,-227 684,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>container_blobmanifest</title>
+<g id="a_node1"><a xlink:href="../../tables/container_blobmanifest.html" xlink:title="container_blobmanifest" target="_top">
+<polygon fill="#ffffff" stroke="none" points="400,-86 400,-196 672,-196 672,-86 400,-86"/>
+<polygon fill="#f5f5f5" stroke="none" points="402,-172 402,-194 670,-194 670,-172 402,-172"/>
+<polygon fill="none" stroke="black" points="402,-172 402,-194 670,-194 670,-172 402,-172"/>
+
+
+<polygon fill="none" stroke="black" points="402,-150 402,-172 565,-172 565,-150 402,-150"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="407" y="-167"/>
+
+<polygon fill="none" stroke="black" points="565,-150 565,-172 670,-172 670,-150 565,-150"/>
+
+<polygon fill="#ffffff" stroke="none" points="402,-128 402,-150 565,-150 565,-128 402,-128"/>
+<polygon fill="none" stroke="black" points="402,-128 402,-150 565,-150 565,-128 402,-128"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="407" y="-145"/>
+
+<polygon fill="none" stroke="black" points="565,-128 565,-150 670,-150 670,-128 565,-128"/>
+
+<polygon fill="#ffffff" stroke="none" points="402,-106 402,-128 565,-128 565,-106 402,-106"/>
+<polygon fill="none" stroke="black" points="402,-106 402,-128 565,-128 565,-106 402,-106"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="407" y="-123"/>
+
+<polygon fill="none" stroke="black" points="565,-106 565,-128 670,-128 670,-106 565,-106"/>
+
+<polygon fill="#ffffff" stroke="none" points="402,-88 402,-106 474,-106 474,-88 402,-88"/>
+<polygon fill="none" stroke="black" points="402,-88 402,-106 474,-106 474,-88 402,-88"/>
+
+<polygon fill="#ffffff" stroke="none" points="474,-88 474,-106 565,-106 565,-88 474,-88"/>
+<polygon fill="none" stroke="black" points="474,-88 474,-106 565,-106 565,-88 474,-88"/>
+
+<polygon fill="#ffffff" stroke="none" points="565,-88 565,-106 670,-106 670,-88 565,-88"/>
+<polygon fill="none" stroke="black" points="565,-88 565,-106 670,-106 670,-88 565,-88"/>
+
+<polygon fill="none" stroke="black" stroke-width="2" points="401,-87 401,-195 671,-195 671,-87 401,-87"/>
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>container_blob</title>
+<g id="a_node2"><a xlink:href="../../tables/container_blob.html" xlink:title="container_blob" target="_top">
+<polygon fill="#ffffff" stroke="none" points="8,-37 8,-139 142,-139 142,-37 8,-37"/>
+<polygon fill="#f5f5f5" stroke="none" points="8,-117 8,-139 142,-139 142,-117 8,-117"/>
+<polygon fill="none" stroke="black" points="8,-117 8,-139 142,-139 142,-117 8,-117"/>
+
+
+<polygon fill="none" stroke="black" points="8,-95 8,-117 142,-117 142,-95 8,-95"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="13" y="-112"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-73 8,-95 142,-95 142,-73 8,-73"/>
+<polygon fill="none" stroke="black" points="8,-73 8,-95 142,-95 142,-73 8,-73"/>
+
+<polygon fill="none" stroke="black" points="8,-55 8,-73 142,-73 142,-55 8,-55"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-37 8,-55 54,-55 54,-37 8,-37"/>
+<polygon fill="none" stroke="black" points="8,-37 8,-55 54,-55 54,-37 8,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="54,-37 54,-55 107,-55 107,-37 54,-37"/>
+<polygon fill="none" stroke="black" points="54,-37 54,-55 107,-55 107,-37 54,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="107,-37 107,-55 142,-55 142,-37 107,-37"/>
+<polygon fill="none" stroke="black" points="107,-37 107,-55 142,-55 142,-37 107,-37"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>container_blobmanifest:manifest_blob_id:w&#45;&gt;container_blob:content_ptr_id:e</title>
+<path fill="none" stroke="black" d="M386.969,-112.458C377.601,-104.824 375.476,-89.6984 359,-84 285.074,-58.4319 258.763,-64.5398 183,-84 163.349,-89.0476 163.289,-106 143,-106"/>
+<polygon fill="black" stroke="black" points="393.389,-114.536 399.891,-120.425 397.194,-115.768 401,-117 401,-117 401,-117 397.194,-115.768 402.109,-113.575 393.389,-114.536 393.389,-114.536"/>
+<ellipse fill="none" stroke="black" cx="390.344" cy="-113.551" rx="3.20001" ry="3.20001"/>
+</g>
+
+<g id="node3" class="node"><title>container_manifest</title>
+<g id="a_node3"><a xlink:href="../../tables/container_manifest.html" xlink:title="container_manifest" target="_top">
+<polygon fill="#ffffff" stroke="none" points="191,-95 191,-219 351,-219 351,-95 191,-95"/>
+<polygon fill="#f5f5f5" stroke="none" points="191,-197 191,-219 351,-219 351,-197 191,-197"/>
+<polygon fill="none" stroke="black" points="191,-197 191,-219 351,-219 351,-197 191,-197"/>
+
+
+<polygon fill="none" stroke="black" points="191,-175 191,-197 351,-197 351,-175 191,-175"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="196" y="-192"/>
+
+<polygon fill="#ffffff" stroke="none" points="191,-153 191,-175 351,-175 351,-153 191,-153"/>
+<polygon fill="none" stroke="black" points="191,-153 191,-175 351,-175 351,-153 191,-153"/>
+
+<polygon fill="#ffffff" stroke="none" points="191,-131 191,-153 351,-153 351,-131 191,-131"/>
+<polygon fill="none" stroke="black" points="191,-131 191,-153 351,-153 351,-131 191,-131"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="196" y="-148"/>
+
+<polygon fill="none" stroke="black" points="191,-113 191,-131 351,-131 351,-113 191,-113"/>
+
+<polygon fill="#ffffff" stroke="none" points="191,-95 191,-113 250,-113 250,-95 191,-95"/>
+<polygon fill="none" stroke="black" points="191,-95 191,-113 250,-113 250,-95 191,-95"/>
+
+<polygon fill="#ffffff" stroke="none" points="250,-95 250,-113 310,-113 310,-95 250,-95"/>
+<polygon fill="none" stroke="black" points="250,-95 250,-113 310,-113 310,-95 250,-95"/>
+
+<polygon fill="#ffffff" stroke="none" points="310,-95 310,-113 351,-113 351,-95 310,-95"/>
+<polygon fill="none" stroke="black" points="310,-95 310,-113 351,-113 351,-95 310,-95"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>container_blobmanifest:manifest_id:w&#45;&gt;container_manifest:content_ptr_id:e</title>
+<path fill="none" stroke="black" d="M387.056,-144.03C373.722,-156.155 376.047,-186 352,-186"/>
+<polygon fill="black" stroke="black" points="393.475,-141.714 402.222,-142.386 397.237,-140.357 401,-139 401,-139 401,-139 397.237,-140.357 399.778,-135.614 393.475,-141.714 393.475,-141.714"/>
+<ellipse fill="none" stroke="black" cx="390.464" cy="-142.8" rx="3.20001" ry="3.20001"/>
+</g>
+
+<g id="edge3" class="edge"><title>container_manifest:config_blob_id:w&#45;&gt;container_blob:content_ptr_id:e</title>
+<path fill="none" stroke="black" d="M176.291,-137.294C164.597,-127.535 163.351,-106 143,-106"/>
+<polygon fill="black" stroke="black" points="182.433,-139.402 188.831,-145.405 186.217,-140.701 190,-142 190,-142 190,-142 186.217,-140.701 191.169,-138.595 182.433,-139.402 182.433,-139.402"/>
+<ellipse fill="none" stroke="black" cx="179.407" cy="-138.363" rx="3.20001" ry="3.20001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,248 @@
+<svg width="859pt" height="274pt"
+ viewBox="0.00 0.00 858.50 274.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 270)">
+<title>mqtt/include/ringbuf.h</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-270 854.5,-270 854.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node31</title>
+<polygon fill="#bfbfbf" stroke="black" points="524.5,-246.5 524.5,-265.5 634.5,-265.5 634.5,-246.5 524.5,-246.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node32</title>
+<g id="a_node2"><a xlink:href="_meter_logger_2mqtt_2include_2queue_8h.html" target="_top" xlink:title="mqtt/include/queue.h">
+<polygon fill="white" stroke="black" points="394,-190.5 394,-209.5 501,-209.5 501,-190.5 394,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node31&#45;&gt;Node32</title>
+<path fill="none" stroke="midnightblue" d="M549.281,-242.638C524.51,-232.504 490.1,-218.427 468.318,-209.516"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="548.003,-245.897 558.584,-246.444 550.654,-239.418 548.003,-245.897"/>
+</g>
+
+<g id="node14" class="node"><title>Node44</title>
+<g id="a_node14"><a xlink:href="proto_8h.html" target="_top" xlink:title="mqtt/include/proto.h">
+<polygon fill="white" stroke="black" points="568,-190.5 568,-209.5 671,-209.5 671,-190.5 568,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge17" class="edge"><title>Node31&#45;&gt;Node44</title>
+<path fill="none" stroke="midnightblue" d="M592.2,-237.855C599.126,-228.505 607.406,-217.327 613.018,-209.751"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="589.245,-235.964 586.105,-246.083 594.87,-240.131 589.245,-235.964"/>
+</g>
+
+<g id="node15" class="node"><title>Node45</title>
+<g id="a_node15"><a xlink:href="proto_8c.html" target="_top" xlink:title="mqtt/proto.c">
+<polygon fill="white" stroke="black" points="511,-134.5 511,-153.5 580,-153.5 580,-134.5 511,-134.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge20" class="edge"><title>Node31&#45;&gt;Node45</title>
+<path fill="none" stroke="midnightblue" d="M570.086,-237.389C566.044,-229.24 561.557,-219.318 558.5,-210 552.043,-190.317 548.239,-166.178 546.55,-153.581"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="566.98,-239.003 574.67,-246.291 573.203,-235.798 566.98,-239.003"/>
+</g>
+
+<g id="node17" class="node"><title>Node47</title>
+<g id="a_node17"><a xlink:href="ringbuf_8c.html" target="_top" xlink:title="mqtt/ringbuf.c">
+<polygon fill="white" stroke="black" points="689,-190.5 689,-209.5 766,-209.5 766,-190.5 689,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge21" class="edge"><title>Node31&#45;&gt;Node47</title>
+<path fill="none" stroke="midnightblue" d="M612.647,-242.906C640.472,-232.754 679.52,-218.506 704.159,-209.516"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="611.146,-239.728 602.951,-246.444 613.545,-246.304 611.146,-239.728"/>
+</g>
+
+<g id="node3" class="node"><title>Node33</title>
+<g id="a_node3"><a xlink:href="mqtt_8h.html" target="_top" xlink:title="mqtt/include/mqtt.h">
+<polygon fill="white" stroke="black" points="392,-134.5 392,-153.5 493,-153.5 493,-134.5 392,-134.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node32&#45;&gt;Node33</title>
+<path fill="none" stroke="midnightblue" d="M445.75,-180.101C444.92,-171.136 443.968,-160.858 443.31,-153.751"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="442.267,-180.448 446.674,-190.083 449.237,-179.803 442.267,-180.448"/>
+</g>
+
+<g id="node4" class="node"><title>Node34</title>
+<g id="a_node4"><a xlink:href="config_8c.html" target="_top" xlink:title="modules/config.c">
+<polygon fill="white" stroke="black" points="0,-73 0,-92 91,-92 91,-73 0,-73"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node33&#45;&gt;Node34</title>
+<path fill="none" stroke="midnightblue" d="M381.654,-137.465C312.776,-130.634 197.409,-117.48 99.5,-98 91.3124,-96.371 82.5317,-94.2001 74.4804,-92.0353"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="381.592,-140.976 391.885,-138.467 382.274,-134.009 381.592,-140.976"/>
+</g>
+
+<g id="node5" class="node"><title>Node35</title>
+<g id="a_node5"><a xlink:href="mqtt_8c.html" target="_top" xlink:title="mqtt/mqtt.c">
+<polygon fill="white" stroke="black" points="109,-73 109,-92 176,-92 176,-73 109,-73"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node33&#45;&gt;Node35</title>
+<path fill="none" stroke="midnightblue" d="M381.381,-135.148C328.731,-127.719 250.951,-115.149 184.5,-98 178.226,-96.3809 171.547,-94.2631 165.405,-92.1483"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="381.178,-138.654 391.565,-136.565 382.143,-131.72 381.178,-138.654"/>
+</g>
+
+<g id="node6" class="node"><title>Node36</title>
+<g id="a_node6"><a xlink:href="cron_8c.html" target="_top" xlink:title="user/cron/cron.c">
+<polygon fill="white" stroke="black" points="194,-73 194,-92 281,-92 281,-73 194,-73"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node33&#45;&gt;Node36</title>
+<path fill="none" stroke="midnightblue" d="M403.484,-131.676C363.651,-120.114 302.718,-102.429 266.817,-92.0091"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="402.549,-135.049 413.128,-134.475 404.5,-128.326 402.549,-135.049"/>
+</g>
+
+<g id="node7" class="node"><title>Node37</title>
+<g id="a_node7"><a xlink:href="en61107__request_8c.html" target="_top" xlink:title="user/en61107/en61107\l_request.c">
+<polygon fill="white" stroke="black" points="265,-0.5 265,-30.5 380,-30.5 380,-0.5 265,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node33&#45;&gt;Node37</title>
+<path fill="none" stroke="midnightblue" d="M441.81,-124.32C440.291,-107.637 435.748,-83.3744 422.5,-67 408.921,-50.2165 388.317,-38.4932 369.333,-30.5974"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="438.328,-124.708 442.449,-134.469 445.314,-124.269 438.328,-124.708"/>
+</g>
+
+<g id="node8" class="node"><title>Node38</title>
+<g id="a_node8"><a xlink:href="en61107__request_8h.html" target="_top" xlink:title="user/en61107/en61107\l_request.h">
+<polygon fill="white" stroke="black" points="299,-67.5 299,-97.5 414,-97.5 414,-67.5 299,-67.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node33&#45;&gt;Node38</title>
+<path fill="none" stroke="midnightblue" d="M421.887,-128.739C408.219,-119.282 390.366,-106.93 376.768,-97.523"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="419.963,-131.664 430.178,-134.475 423.946,-125.907 419.963,-131.664"/>
+</g>
+
+<g id="node9" class="node"><title>Node39</title>
+<g id="a_node9"><a xlink:href="kmp__request_8c.html" target="_top" xlink:title="user/kamstrup/kmp_request.c">
+<polygon fill="white" stroke="black" points="398.5,-6 398.5,-25 544.5,-25 544.5,-6 398.5,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node33&#45;&gt;Node39</title>
+<path fill="none" stroke="midnightblue" d="M448.678,-124.888C451.318,-116.734 454.293,-106.948 456.5,-98 462.977,-71.7395 468.03,-40.0956 470.258,-25.1377"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="445.329,-123.866 445.493,-134.459 451.971,-126.076 445.329,-123.866"/>
+</g>
+
+<g id="node10" class="node"><title>Node40</title>
+<g id="a_node10"><a xlink:href="kmp__request_8h.html" target="_top" xlink:title="user/kamstrup/kmp_request.h">
+<polygon fill="white" stroke="black" points="517.5,-73 517.5,-92 663.5,-92 663.5,-73 517.5,-73"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node33&#45;&gt;Node40</title>
+<path fill="none" stroke="midnightblue" d="M473.266,-130.631C502.019,-119.072 544.185,-102.12 569.335,-92.0091"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="471.678,-127.498 463.705,-134.475 474.289,-133.992 471.678,-127.498"/>
+</g>
+
+<g id="node12" class="node"><title>Node42</title>
+<g id="a_node12"><a xlink:href="mqtt__rpc_8c.html" target="_top" xlink:title="user/mqtt_rpc.c">
+<polygon fill="white" stroke="black" points="649,-6 649,-25 734,-25 734,-6 649,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge15" class="edge"><title>Node33&#45;&gt;Node42</title>
+<path fill="none" stroke="midnightblue" d="M503.028,-132.831C569.081,-121.484 666.347,-103.937 672.5,-98 692.784,-78.4299 693.236,-41.7169 692.266,-25.082"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="502.385,-129.39 493.118,-134.527 503.566,-136.29 502.385,-129.39"/>
+</g>
+
+<g id="node13" class="node"><title>Node43</title>
+<g id="a_node13"><a xlink:href="esp-open-sdk_2esp-open-lwip_2user_2user__main_8c.html" target="_top" xlink:title="esp&#45;open&#45;lwip/user\l/user_main.c">
+<polygon fill="white" stroke="black" points="752.5,-0.5 752.5,-30.5 850.5,-30.5 850.5,-0.5 752.5,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge16" class="edge"><title>Node33&#45;&gt;Node43</title>
+<path fill="none" stroke="midnightblue" d="M503.449,-133.595C572.083,-122.764 676.329,-105.503 693.5,-98 731.384,-81.4477 768.224,-49.1333 787.55,-30.5533"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="502.512,-130.199 493.177,-135.21 503.6,-137.114 502.512,-130.199"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node38&#45;&gt;Node37</title>
+<path fill="none" stroke="midnightblue" d="M344.356,-58.2835C339.512,-49.0223 334.093,-38.6632 329.863,-30.5765"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="341.386,-60.1572 349.123,-67.396 347.589,-56.9127 341.386,-60.1572"/>
+</g>
+
+<g id="edge12" class="edge"><title>Node40&#45;&gt;Node39</title>
+<path fill="none" stroke="midnightblue" d="M565.395,-67.7872C541.81,-54.9047 507.244,-36.0243 487.295,-25.1273"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="563.997,-71.0117 574.451,-72.7338 567.353,-64.8684 563.997,-71.0117"/>
+</g>
+
+<g id="node11" class="node"><title>Node41</title>
+<g id="a_node11"><a xlink:href="uart_8c.html" target="_top" xlink:title="driver/uart.c">
+<polygon fill="white" stroke="black" points="562.5,-6 562.5,-25 630.5,-25 630.5,-6 562.5,-6"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node40&#45;&gt;Node41</title>
+<path fill="none" stroke="midnightblue" d="M592.25,-62.537C593.392,-50.1703 594.827,-34.6198 595.704,-25.1273"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="588.743,-62.4544 591.309,-72.7338 595.714,-63.0979 588.743,-62.4544"/>
+</g>
+
+<g id="edge13" class="edge"><title>Node40&#45;&gt;Node42</title>
+<path fill="none" stroke="midnightblue" d="M612.613,-67.2687C632.605,-54.4026 661.388,-35.879 678.094,-25.1273"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="610.636,-64.3788 604.121,-72.7338 614.425,-70.2652 610.636,-64.3788"/>
+</g>
+
+<g id="edge14" class="edge"><title>Node40&#45;&gt;Node43</title>
+<path fill="none" stroke="midnightblue" d="M628.102,-69.9165C663.879,-58.8951 717.769,-42.2938 755.963,-30.5281"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="627.046,-66.5795 618.519,-72.8685 629.106,-73.2693 627.046,-66.5795"/>
+</g>
+
+<g id="edge18" class="edge"><title>Node44&#45;&gt;Node45</title>
+<path fill="none" stroke="midnightblue" d="M599.466,-184.38C586.091,-174.62 568.941,-162.106 557.606,-153.834"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="597.47,-187.257 607.611,-190.324 601.596,-181.602 597.47,-187.257"/>
+</g>
+
+<g id="node16" class="node"><title>Node46</title>
+<g id="a_node16"><a xlink:href="queue_8c.html" target="_top" xlink:title="mqtt/queue.c">
+<polygon fill="white" stroke="black" points="598.5,-134.5 598.5,-153.5 672.5,-153.5 672.5,-134.5 598.5,-134.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge19" class="edge"><title>Node44&#45;&gt;Node46</title>
+<path fill="none" stroke="midnightblue" d="M625.012,-180.396C627.689,-171.362 630.778,-160.936 632.907,-153.751"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="621.627,-179.501 622.142,-190.083 628.339,-181.489 621.627,-179.501"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,133 @@
+<svg width="749pt" height="188pt"
+ viewBox="0.00 0.00 749.00 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 745,-184 745,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Boolean</title>
+<polygon fill="none" stroke="red" points="74,-108 0,-108 0,-72 74,-72 74,-108"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Categorical</title>
+<polygon fill="none" stroke="red" points="190,-108 92,-108 92,-72 190,-72 190,-108"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>Complex</title>
+<polygon fill="none" stroke="red" points="287.5,-108 208.5,-108 208.5,-72 287.5,-72 287.5,-108"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>DateTime</title>
+<polygon fill="none" stroke="red" points="392,-108 306,-108 306,-72 392,-72 392,-108"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>Float</title>
+<polygon fill="none" stroke="red" points="464,-108 410,-108 410,-72 464,-72 464,-108"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>Generic</title>
+<polygon fill="none" stroke="red" points="429,-180 357,-180 357,-144 429,-144 429,-180"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>Generic&#45;&gt;Boolean</title>
+<path fill="none" stroke="black" d="M356.73,-157C300.14,-150.3 187.4,-135.02 83.89,-107.98"/>
+<polygon fill="black" stroke="black" points="84.78,-104.59 74.22,-105.41 82.99,-111.36 84.78,-104.59"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>Generic&#45;&gt;Categorical</title>
+<path fill="none" stroke="black" d="M356.83,-151.33C319.81,-141.39 260.35,-125.29 199.76,-108.19"/>
+<polygon fill="black" stroke="black" points="200.6,-104.79 190.03,-105.44 198.7,-111.53 200.6,-104.79"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>Generic&#45;&gt;Complex</title>
+<path fill="none" stroke="black" d="M357.53,-143.88C337.88,-134.39 313.28,-122.51 292.37,-112.42"/>
+<polygon fill="black" stroke="black" points="293.88,-109.26 283.36,-108.07 290.84,-115.57 293.88,-109.26"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>Generic&#45;&gt;DateTime</title>
+<path fill="none" stroke="black" d="M382.12,-143.7C377.01,-135.56 370.8,-125.69 365.16,-116.7"/>
+<polygon fill="black" stroke="black" points="368.04,-114.71 359.75,-108.1 362.11,-118.43 368.04,-114.71"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>Generic&#45;&gt;Float</title>
+<path fill="none" stroke="black" d="M403.88,-143.7C408.99,-135.56 415.2,-125.69 420.84,-116.7"/>
+<polygon fill="black" stroke="black" points="423.89,-118.43 426.25,-108.1 417.96,-114.71 423.89,-118.43"/>
+</g>
+
+<g id="node8" class="node">
+<title>Integer</title>
+<polygon fill="none" stroke="red" points="551.5,-108 482.5,-108 482.5,-72 551.5,-72 551.5,-108"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>Generic&#45;&gt;Integer</title>
+<path fill="none" stroke="black" d="M423.33,-143.88C439.7,-134.64 460.08,-123.13 477.65,-113.21"/>
+<polygon fill="black" stroke="black" points="479.56,-116.15 486.55,-108.19 476.12,-110.06 479.56,-116.15"/>
+</g>
+
+<g id="node9" class="node">
+<title>Object</title>
+<polygon fill="none" stroke="red" points="632.5,-108 569.5,-108 569.5,-72 632.5,-72 632.5,-108"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>Generic&#45;&gt;Object</title>
+<path fill="none" stroke="black" d="M429.06,-150.72C461.24,-141.3 509.78,-126.51 559.59,-108.37"/>
+<polygon fill="black" stroke="black" points="561.06,-111.56 569.23,-104.83 558.64,-104.99 561.06,-111.56"/>
+</g>
+
+<g id="node11" class="node">
+<title>TimeDelta</title>
+<polygon fill="none" stroke="red" points="741,-108 651,-108 651,-72 741,-72 741,-108"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>Generic&#45;&gt;TimeDelta</title>
+<path fill="none" stroke="black" d="M429.13,-154.43C475.9,-145.68 560.08,-129.1 640.88,-108.17"/>
+<polygon fill="black" stroke="black" points="641.93,-111.52 650.72,-105.6 640.16,-104.75 641.93,-111.52"/>
+</g>
+
+<g id="node7" class="node">
+<title>Geometry</title>
+<polygon fill="none" stroke="red" points="597.5,-36 510.5,-36 510.5,0 597.5,0 597.5,-36"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>Object&#45;&gt;Geometry</title>
+<path fill="none" stroke="black" d="M589.38,-71.7C583.86,-63.47 577.15,-53.48 571.07,-44.42"/>
+<polygon fill="black" stroke="black" points="573.96,-42.46 565.48,-36.1 568.15,-46.36 573.96,-42.46"/>
+</g>
+
+<g id="node10" class="node">
+<title>String</title>
+<polygon fill="none" stroke="red" points="678,-36 616,-36 616,0 678,0 678,-36"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>Object&#45;&gt;String</title>
+<path fill="none" stroke="black" d="M612.37,-71.7C617.72,-63.56 624.2,-53.69 630.11,-44.7"/>
+<polygon fill="black" stroke="black" points="633.19,-46.38 635.76,-36.1 627.34,-42.54 633.19,-46.38"/>
+</g>
+</g>
+</svg>

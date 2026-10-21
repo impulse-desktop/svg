@@ -1,0 +1,101 @@
+<svg width="435pt" height="151pt"
+ viewBox="0.00 0.00 434.60 151.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 147)">
+<title>dfa</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-147 430.6,-147 430.6,4 -4,4"/>
+
+
+<g id="node2" class="node"><title>0</title>
+<ellipse fill="none" stroke="black" cx="82.6" cy="-23" rx="18" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>__start&#45;&gt;0</title>
+<path fill="none" stroke="black" d="M3.68496,-23C8.69573,-23 34.008,-23 54.4423,-23"/>
+<polygon fill="black" stroke="black" points="54.5501,-26.5001 64.5501,-23 54.5501,-19.5001 54.5501,-26.5001"/>
+
+</g>
+
+<g id="node5" class="node"><title>3</title>
+<ellipse fill="none" stroke="black" cx="158.6" cy="-61" rx="18" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>0&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M98.9328,-30.8736C108.855,-35.9687 121.987,-42.712 133.31,-48.5269"/>
+<polygon fill="black" stroke="black" points="131.792,-51.6818 142.287,-53.1365 134.99,-45.4549 131.792,-51.6818"/>
+
+</g>
+
+<g id="node6" class="node"><title>4</title>
+<ellipse fill="none" stroke="black" cx="408.6" cy="-59" rx="18" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>0&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M99.0458,-15.2132C113.725,-8.54077 136.613,-0 157.6,-0 157.6,-0 157.6,-0 326.6,-0 352.615,-0 375.874,-20.1296 390.722,-36.8732"/>
+<polygon fill="black" stroke="black" points="388.198,-39.311 397.31,-44.7177 393.559,-34.8091 388.198,-39.311"/>
+
+</g>
+
+<g id="node3" class="node"><title>1</title>
+<ellipse fill="none" stroke="black" cx="238.6" cy="-103" rx="18" ry="18"/>
+<ellipse fill="none" stroke="black" cx="238.6" cy="-103" rx="22" ry="22"/>
+
+</g>
+
+<g id="node4" class="node"><title>2</title>
+<ellipse fill="none" stroke="black" cx="325.6" cy="-103" rx="18" ry="18"/>
+<ellipse fill="none" stroke="black" cx="325.6" cy="-103" rx="22" ry="22"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>1&#45;&gt;2</title>
+<path fill="none" stroke="black" d="M260.611,-103C270.521,-103 282.547,-103 293.485,-103"/>
+<polygon fill="black" stroke="black" points="293.536,-106.5 303.536,-103 293.536,-99.5001 293.536,-106.5"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>1&#45;&gt;3</title>
+<path fill="none" stroke="black" d="M221.784,-88.7608C215.017,-83.2378 206.795,-77.2365 198.6,-73 194.706,-70.9872 190.416,-69.2463 186.149,-67.7636"/>
+<polygon fill="black" stroke="black" points="187.019,-64.3692 176.432,-64.7656 184.955,-71.0581 187.019,-64.3692"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>2&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M347.584,-100.357C355.74,-98.7344 364.942,-96.1374 372.6,-92 378.483,-88.8217 384.109,-84.4037 389.064,-79.8322"/>
+<polygon fill="black" stroke="black" points="391.629,-82.2178 396.238,-72.6784 386.686,-77.2609 391.629,-82.2178"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>2&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M342.466,-88.8561C349.24,-83.3476 357.454,-77.3314 365.6,-73 370.397,-70.4492 375.747,-68.2396 380.979,-66.3773"/>
+<polygon fill="black" stroke="black" points="382.282,-69.6346 390.719,-63.2258 380.127,-62.9746 382.282,-69.6346"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>3&#45;&gt;1</title>
+<path fill="none" stroke="black" d="M171.453,-74.087C177.767,-80.3392 185.995,-87.436 194.6,-92 198.429,-94.0309 202.652,-95.7004 206.91,-97.0693"/>
+<polygon fill="black" stroke="black" points="206.173,-100.496 216.741,-99.7463 208.012,-93.742 206.173,-100.496"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>3&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M176.646,-60.8625C218.943,-60.5214 328.994,-59.6339 380.401,-59.2193"/>
+<polygon fill="black" stroke="black" points="380.463,-62.7191 390.435,-59.1384 380.407,-55.7193 380.463,-62.7191"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>4&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M405.184,-76.7817C404.604,-86.3149 405.743,-95 408.6,-95 410.341,-95 411.444,-91.7749 411.909,-87.0981"/>
+<polygon fill="black" stroke="black" points="415.412,-86.8174 412.016,-76.7817 408.412,-86.745 415.412,-86.8174"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>4&#45;&gt;4</title>
+<path fill="none" stroke="black" d="M403.041,-76.1418C399.77,-93.585 401.623,-113 408.6,-113 414.214,-113 416.51,-100.428 415.489,-86.4287"/>
+<polygon fill="black" stroke="black" points="418.913,-85.6105 414.159,-76.1418 411.97,-86.508 418.913,-85.6105"/>
+
+</g>
+</g>
+</svg>

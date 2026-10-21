@@ -1,0 +1,147 @@
+<svg width="783pt" height="311pt"
+ viewBox="0.00 0.00 782.54 311.38" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 307.379)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-307.379 778.545,-307.379 778.545,4 -4,4"/>
+
+<g id="node1" class="node"><title>root</title>
+<ellipse fill="none" stroke="black" cx="409.597" cy="-276.732" rx="26.7961" ry="26.7961"/>
+
+</g>
+
+<g id="node2" class="node"><title>build</title>
+<ellipse fill="none" stroke="black" cx="28.5975" cy="-169.888" rx="28.6953" ry="28.6953"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>root&#45;&#45;build</title>
+<path fill="none" stroke="black" d="M382.96,-273.228C312.199,-266.219 121.205,-244.886 66.5975,-214.084 57.8978,-209.177 50.1964,-201.513 44.0409,-193.993"/>
+</g>
+
+<g id="node3" class="node"><title>cmake</title>
+<ellipse fill="none" stroke="black" cx="109.597" cy="-169.888" rx="34.394" ry="34.394"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>root&#45;&#45;cmake</title>
+<path fill="none" stroke="black" d="M382.703,-274.093C333.913,-270.117 228.817,-256.873 152.597,-214.084 144.847,-209.733 137.553,-203.587 131.25,-197.291"/>
+</g>
+
+<g id="node4" class="node"><title>contrib</title>
+<ellipse fill="none" stroke="black" cx="197.597" cy="-169.888" rx="35.9954" ry="35.9954"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>root&#45;&#45;contrib</title>
+<path fill="none" stroke="black" d="M383.789,-269.741C349.647,-261.052 288.441,-242.781 242.597,-214.084 235.07,-209.373 227.748,-203.247 221.272,-197.098"/>
+</g>
+
+<g id="node5" class="node"><title>doc</title>
+<ellipse fill="none" stroke="black" cx="274.597" cy="-169.888" rx="23.2963" ry="23.2963"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>root&#45;&#45;doc</title>
+<path fill="none" stroke="black" d="M385.645,-264.515C363.83,-253.579 331.474,-235.496 307.597,-214.084 299.869,-207.153 292.689,-198.203 287.014,-190.249"/>
+</g>
+
+<g id="node6" class="node"><title>examples</title>
+<ellipse fill="none" stroke="black" cx="360.597" cy="-169.888" rx="44.393" ry="44.393"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>root&#45;&#45;examples</title>
+<path fill="none" stroke="black" d="M398.601,-252.203C392.845,-239.887 385.642,-224.476 379.06,-210.392"/>
+</g>
+
+<g id="node7" class="node"><title>include</title>
+<ellipse fill="none" stroke="black" cx="459.597" cy="-169.888" rx="36.2938" ry="36.2938"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>root&#45;&#45;include</title>
+<path fill="none" stroke="black" d="M420.694,-252.464C427.599,-237.985 436.579,-219.156 444.171,-203.236"/>
+</g>
+
+<g id="node8" class="node"><title>misc</title>
+<ellipse fill="none" stroke="black" cx="541.597" cy="-169.888" rx="27.8951" ry="27.8951"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>root&#45;&#45;misc</title>
+<path fill="none" stroke="black" d="M432.761,-263.222C452.836,-251.811 482.111,-233.769 504.597,-214.084 511.879,-207.71 519.007,-199.886 525.033,-192.656"/>
+</g>
+
+<g id="node9" class="node"><title>src</title>
+<ellipse fill="none" stroke="black" cx="608.597" cy="-169.888" rx="20.5982" ry="20.5982"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>root&#45;&#45;src</title>
+<path fill="none" stroke="black" d="M435.739,-271.326C471.15,-264.292 534.942,-247.741 578.597,-214.084 587.275,-207.394 594.409,-197.485 599.54,-188.844"/>
+</g>
+
+<g id="node10" class="node"><title>tests</title>
+<ellipse fill="none" stroke="black" cx="673.597" cy="-169.888" rx="26.7961" ry="26.7961"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>root&#45;&#45;tests</title>
+<path fill="none" stroke="black" d="M436.108,-273.89C481.114,-269.671 573.872,-256.158 638.597,-214.084 646.852,-208.719 654.085,-200.771 659.8,-193.151"/>
+</g>
+
+<g id="node11" class="node"><title>tools</title>
+<ellipse fill="none" stroke="black" cx="746.597" cy="-169.888" rx="27.8951" ry="27.8951"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>root&#45;&#45;tools</title>
+<path fill="none" stroke="black" d="M436.516,-275.881C491.658,-275.026 619.816,-267.002 709.597,-214.084 718.104,-209.07 725.611,-201.382 731.601,-193.874"/>
+</g>
+
+<g id="node15" class="node"><title>modules</title>
+<ellipse fill="none" stroke="black" cx="57.5975" cy="-44.846" rx="40.8928" ry="40.8928"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>cmake&#45;&#45;modules</title>
+<path fill="none" stroke="black" d="M96.4757,-137.839C89.4353,-121.181 80.7095,-100.534 73.3094,-83.0235"/>
+</g>
+
+<g id="node16" class="node"><title>platforms</title>
+<ellipse fill="none" stroke="black" cx="161.597" cy="-44.846" rx="44.6926" ry="44.6926"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>cmake&#45;&#45;platforms</title>
+<path fill="none" stroke="black" d="M122.719,-137.839C129.278,-122.32 137.3,-103.338 144.35,-86.657"/>
+</g>
+
+<g id="node13" class="node"><title>header</title>
+<ellipse fill="none" stroke="black" cx="459.597" cy="-44.846" rx="26.7961" ry="26.7961"/>
+
+</g>
+
+<g id="edge13" class="edge"><title>include&#45;&#45;header</title>
+<path fill="none" stroke="black" d="M459.597,-133.299C459.597,-113.568 459.597,-89.4814 459.597,-71.5858"/>
+</g>
+
+<g id="node12" class="node"><title>conf</title>
+<ellipse fill="none" stroke="black" cx="535.597" cy="-44.846" rx="26.7961" ry="26.7961"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>misc&#45;&#45;conf</title>
+<path fill="none" stroke="black" d="M540.281,-141.886C539.26,-120.947 537.854,-92.1191 536.85,-71.5226"/>
+</g>
+
+<g id="node14" class="node"><title>img</title>
+<ellipse fill="none" stroke="black" cx="604.597" cy="-44.846" rx="24.8972" ry="24.8972"/>
+
+</g>
+
+<g id="edge15" class="edge"><title>misc&#45;&#45;img</title>
+<path fill="none" stroke="black" d="M554.044,-144.579C565.591,-122.027 582.609,-88.7904 593.65,-67.2278"/>
+</g>
+</g>
+</svg>

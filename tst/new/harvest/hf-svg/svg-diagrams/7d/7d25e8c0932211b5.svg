@@ -1,0 +1,124 @@
+<svg width="662pt" height="284pt"
+ viewBox="0.00 0.00 662.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 658,-280 658,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="93,-10 93,-30 113,-30 113,-10 93,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="206,-10 206,-30 226,-30 226,-10 206,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="292,-10 292,-30 312,-30 312,-10 292,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="389,-10 389,-30 409,-30 409,-10 389,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="485,-10 485,-30 505,-30 505,-10 485,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CoreModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 646,-268 646,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CoreModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="172,-78 172,-130 638,-130 638,-78 172,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_CoreModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 164,-130 164,-78 16,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_CoreModule_exports</title>
+<polygon fill="none" stroke="#000000" points="88,-208 88,-260 566,-260 566,-208 88,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>MainComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="630.3823,-122 519.6177,-122 519.6177,-86 630.3823,-86 630.3823,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="384.2619,-187 381.2619,-191 360.2619,-191 357.2619,-187 297.7381,-187 297.7381,-151 384.2619,-151 384.2619,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>MainComponent&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M538.875,-122.0225C538.875,-139.3734 538.875,-163 538.875,-163 538.875,-163 394.4245,-163 394.4245,-163"/>
+<polygon fill="#000000" stroke="#000000" points="394.4245,-159.5001 384.4245,-163 394.4245,-166.5001 394.4245,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>PageNotFoundComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="501.8243,-122 336.1757,-122 336.1757,-86 501.8243,-86 501.8243,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PageNotFoundComponent&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M360.3594,-122.1061C360.3594,-122.1061 360.3594,-140.991 360.3594,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="356.8595,-140.9909 360.3594,-150.991 363.8595,-140.991 356.8595,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>WellcomeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="318.3627,-122 179.6373,-122 179.6373,-86 318.3627,-86 318.3627,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>WellcomeComponent&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M308.0253,-122.1061C308.0253,-122.1061 308.0253,-140.991 308.0253,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="304.5253,-140.9909 308.0253,-150.991 311.5253,-140.991 304.5253,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>MainComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="558.3828,-252 443.6172,-252 443.6172,-216 558.3828,-216 558.3828,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CoreModule&#45;&gt;MainComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M384.5002,-175C422.8718,-175 472.7355,-175 472.7355,-175 472.7355,-175 472.7355,-205.9775 472.7355,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="469.2355,-205.9774 472.7355,-215.9775 476.2355,-205.9775 469.2355,-205.9774"/>
+</g>
+
+<g id="node7" class="node">
+<title>PageNotFoundComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="425.3241,-252 256.6759,-252 256.6759,-216 425.3241,-216 425.3241,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CoreModule&#45;&gt;PageNotFoundComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M341,-187.1061C341,-187.1061 341,-205.991 341,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="337.5001,-205.9909 341,-215.991 344.5001,-205.991 337.5001,-205.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>WellcomeComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="238.3631,-252 95.6369,-252 95.6369,-216 238.3631,-216 238.3631,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CoreModule&#45;&gt;WellcomeComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M297.7373,-175C259.2041,-175 208.875,-175 208.875,-175 208.875,-175 208.875,-205.9775 208.875,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="205.3751,-205.9774 208.875,-215.9775 212.3751,-205.9775 205.3751,-205.9774"/>
+</g>
+
+<g id="node5" class="node">
+<title>CoreRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="155.8795,-122 152.8795,-126 131.8795,-126 128.8795,-122 24.1205,-122 24.1205,-86 155.8795,-86 155.8795,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CoreRoutingModule&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M125.8792,-122.0225C125.8792,-139.3734 125.8792,-163 125.8792,-163 125.8792,-163 287.7259,-163 287.7259,-163"/>
+<polygon fill="#000000" stroke="#000000" points="287.7259,-166.5001 297.7259,-163 287.7258,-159.5001 287.7259,-166.5001"/>
+</g>
+</g>
+</svg>

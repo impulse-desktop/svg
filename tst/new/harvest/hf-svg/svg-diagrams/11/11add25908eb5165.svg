@@ -1,0 +1,201 @@
+<svg width="789pt" height="338pt"
+ viewBox="0.00 0.00 789.00 338.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 334)">
+<title>carla::profiler::LifetimeProfiled</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-334 785,-334 785,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-73.5 0,-103.5 113,-103.5 113,-73.5 0,-73.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../d6/da5/classcarla_1_1client_1_1Actor.html" target="_top" xlink:title="Represents an actor in the simulation. ">
+<polygon fill="white" stroke="black" points="159,-148 159,-167 255,-167 255,-148 159,-148"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="#8b1a1a" d="M91.9439,-108.572C108.832,-117.991 129.656,-128.988 149,-137.5 157.639,-141.302 167.249,-144.902 176.079,-147.973"/>
+<polygon fill="#8b1a1a" stroke="#8b1a1a" points="93.4304,-105.392 83.0009,-103.528 89.9914,-111.489 93.4304,-105.392"/>
+</g>
+
+<g id="node13" class="node"><title>Node13</title>
+<g id="a_node13"><a xlink:href="../../df/df3/classcarla_1_1client_1_1detail_1_1Simulator.html" target="_top" xlink:title="Connects and controls a CARLA Simulator. ">
+<polygon fill="white" stroke="black" points="159,-98.5 159,-128.5 255,-128.5 255,-98.5 159,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Node1&#45;&gt;Node13</title>
+<path fill="none" stroke="#8b1a1a" d="M123.175,-99.5563C135.145,-101.571 147.416,-103.637 158.722,-105.541"/>
+<polygon fill="#8b1a1a" stroke="#8b1a1a" points="123.661,-96.089 113.218,-97.8802 122.499,-102.992 123.661,-96.089"/>
+</g>
+
+<g id="node14" class="node"><title>Node14</title>
+<g id="a_node14"><a xlink:href="../../dc/d96/classcarla_1_1streaming_1_1detail_1_1tcp_1_1Client.html" target="_top" xlink:title="A client that connects to a single stream. ">
+<polygon fill="white" stroke="black" points="149,-49.5 149,-79.5 265,-79.5 265,-49.5 149,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge"><title>Node1&#45;&gt;Node14</title>
+<path fill="none" stroke="#8b1a1a" d="M123.206,-77.8808C131.799,-76.4921 140.546,-75.0784 148.979,-73.7155"/>
+<polygon fill="#8b1a1a" stroke="#8b1a1a" points="122.532,-74.4443 113.218,-79.495 123.649,-81.3546 122.532,-74.4443"/>
+</g>
+
+<g id="node15" class="node"><title>Node15</title>
+<g id="a_node15"><a xlink:href="../../d6/d51/classcarla_1_1streaming_1_1detail_1_1tcp_1_1ServerSession.html" target="_top" xlink:title="A TCP server session. ">
+<polygon fill="white" stroke="black" points="149,-0.5 149,-30.5 265,-30.5 265,-0.5 149,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge14" class="edge"><title>Node1&#45;&gt;Node15</title>
+<path fill="none" stroke="#8b1a1a" d="M92.9145,-68.5422C109.722,-59.3277 130.2,-48.468 149,-39.5 155.299,-36.4952 162.074,-33.469 168.678,-30.626"/>
+<polygon fill="#8b1a1a" stroke="#8b1a1a" points="91.0517,-65.5726 83.9887,-73.4697 94.4349,-71.7008 91.0517,-65.5726"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../da/dec/classcarla_1_1client_1_1Sensor.html" target="_top" xlink:title="carla::client::Sensor">
+<polygon fill="white" stroke="black" points="326.5,-249 326.5,-268 430.5,-268 430.5,-249 326.5,-249"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M231.884,-172.391C250.604,-184.002 277.353,-200.456 301,-214.5 321.287,-226.548 344.85,-240.023 360.406,-248.849"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="233.729,-169.417 223.388,-167.113 230.035,-175.363 233.729,-169.417"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="../../dc/d5c/classcarla_1_1client_1_1TrafficSign.html" target="_top" xlink:title="carla::client::TrafficSign">
+<polygon fill="white" stroke="black" points="318.5,-186 318.5,-205 438.5,-205 438.5,-186 318.5,-186"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node2&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M260.742,-169.324C284.639,-174.682 312.515,-180.931 335.036,-185.98"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="261.295,-165.861 250.772,-167.089 259.764,-172.692 261.295,-165.861"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="../../d9/dc6/classcarla_1_1client_1_1Vehicle.html" target="_top" xlink:title="carla::client::Vehicle">
+<polygon fill="white" stroke="black" points="326,-148 326,-167 431,-167 431,-148 326,-148"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node2&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M265.239,-157.5C284.839,-157.5 306.642,-157.5 325.781,-157.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="265.215,-154 255.215,-157.5 265.215,-161 265.215,-154"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="../../de/d2b/classcarla_1_1client_1_1Walker.html" target="_top" xlink:title="carla::client::Walker">
+<polygon fill="white" stroke="black" points="326.5,-110 326.5,-129 430.5,-129 430.5,-110 326.5,-110"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node2&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M260.742,-145.676C284.639,-140.318 312.515,-134.069 335.036,-129.02"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="259.764,-142.308 250.772,-147.911 261.295,-149.139 259.764,-142.308"/>
+</g>
+
+<g id="node12" class="node"><title>Node12</title>
+<g id="a_node12"><a xlink:href="../../d0/d52/classcarla_1_1client_1_1WalkerAIController.html" target="_top" xlink:title="carla::client::WalkerAIController">
+<polygon fill="white" stroke="black" points="301,-72 301,-91 456,-91 456,-72 301,-72"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node2&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M252.716,-144.092C256.998,-142.139 261.167,-139.947 265,-137.5 284.338,-125.152 281.103,-111.926 301,-100.5 307.764,-96.6156 315.309,-93.519 322.951,-91.052"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="251.161,-140.947 243.248,-147.992 253.827,-147.42 251.161,-140.947"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../da/d2e/classcarla_1_1client_1_1ClientSideSensor.html" target="_top" xlink:title="carla::client::ClientSide\lSensor">
+<polygon fill="white" stroke="black" points="494,-299.5 494,-329.5 612,-329.5 612,-299.5 494,-299.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M418.958,-271.31C444.724,-279.674 478.48,-290.633 505.542,-299.418"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="419.746,-267.886 409.154,-268.127 417.584,-274.544 419.746,-267.886"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="../../d7/db6/classcarla_1_1client_1_1RssSensor.html" target="_top" xlink:title="carla::client::RssSensor">
+<polygon fill="white" stroke="black" points="492,-261 492,-280 614,-280 614,-261 492,-261"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M440.893,-262.771C457.438,-263.922 475.317,-265.166 491.796,-266.312"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="441.007,-259.27 430.789,-262.068 440.522,-266.254 441.007,-259.27"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="../../de/d68/classcarla_1_1client_1_1ServerSideSensor.html" target="_top" xlink:title="carla::client::ServerSide\lSensor">
+<polygon fill="white" stroke="black" points="492.5,-211.5 492.5,-241.5 613.5,-241.5 613.5,-211.5 492.5,-211.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node3&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M441,-247.091C457.722,-243.989 475.8,-240.636 492.414,-237.554"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="439.982,-243.72 430.789,-248.986 441.259,-250.603 439.982,-243.72"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="../../dc/d47/classcarla_1_1client_1_1LaneInvasionSensor.html" target="_top" xlink:title="carla::client::LaneInvasion\lSensor">
+<polygon fill="white" stroke="black" points="650,-299.5 650,-329.5 781,-329.5 781,-299.5 650,-299.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M622.535,-314.5C631.614,-314.5 640.896,-314.5 649.905,-314.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="622.398,-311 612.398,-314.5 622.398,-318 622.398,-311"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="../../df/def/classcarla_1_1client_1_1TrafficLight.html" target="_top" xlink:title="carla::client::TrafficLight">
+<polygon fill="white" stroke="black" points="492,-173 492,-192 614,-192 614,-173 492,-173"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M449.072,-190.257C463.275,-189.187 478.104,-188.069 491.94,-187.026"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="448.573,-186.784 438.865,-191.026 449.099,-193.765 448.573,-186.784"/>
+</g>
+</g>
+</svg>

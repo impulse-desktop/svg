@@ -1,0 +1,100 @@
+<svg width="620pt" height="284pt"
+ viewBox="0.00 0.00 620.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 616,-280 616,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="72,-10 72,-30 92,-30 92,-10 72,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="185,-10 185,-30 205,-30 205,-10 185,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="271,-10 271,-30 291,-30 291,-10 271,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="368,-10 368,-30 388,-30 388,-10 368,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="464,-10 464,-30 484,-30 484,-10 464,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TipoPublicoModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 604,-268 604,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_TipoPublicoModule_imports</title>
+<polygon fill="none" stroke="#000000" points="174,-78 174,-130 596,-130 596,-78 174,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_TipoPublicoModule_exports</title>
+<polygon fill="none" stroke="#000000" points="209,-208 209,-260 407,-260 407,-208 209,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_TipoPublicoModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 166,-130 166,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="588.4231,-122 585.4231,-126 564.4231,-126 561.4231,-122 489.5769,-122 489.5769,-86 588.4231,-86 588.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>TipoPublicoModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="372.2716,-187 369.2716,-191 348.2716,-191 345.2716,-187 243.7284,-187 243.7284,-151 372.2716,-151 372.2716,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;TipoPublicoModule</title>
+<path fill="none" stroke="#000000" d="M539,-122.1061C539,-141.3391 539,-169 539,-169 539,-169 382.3464,-169 382.3464,-169"/>
+<polygon fill="#000000" stroke="#000000" points="382.3464,-165.5001 372.3464,-169 382.3463,-172.5001 382.3464,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>TipoPublicoRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="471.8892,-122 468.8892,-126 447.8892,-126 444.8892,-122 298.1108,-122 298.1108,-86 471.8892,-86 471.8892,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>TipoPublicoRoutingModule&#45;&gt;TipoPublicoModule</title>
+<path fill="none" stroke="#000000" d="M335.2206,-122.1061C335.2206,-122.1061 335.2206,-140.991 335.2206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="331.7206,-140.9909 335.2206,-150.991 338.7206,-140.991 331.7206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="280.4231,-122 277.4231,-126 256.4231,-126 253.4231,-122 181.5769,-122 181.5769,-86 280.4231,-86 280.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;TipoPublicoModule</title>
+<path fill="none" stroke="#000000" d="M261.9127,-122.1061C261.9127,-122.1061 261.9127,-140.991 261.9127,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="258.4128,-140.9909 261.9127,-150.991 265.4128,-140.991 258.4128,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudTipoPublicoComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="399.0512,-252 216.9488,-252 216.9488,-216 399.0512,-216 399.0512,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>TipoPublicoModule&#45;&gt;CrudTipoPublicoComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M308,-187.1061C308,-187.1061 308,-205.991 308,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="304.5001,-205.9909 308,-215.991 311.5001,-205.991 304.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>EventoService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="91" cy="-104" rx="67.1946" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>EventoService&#45;&gt;TipoPublicoModule</title>
+<path fill="none" stroke="#000000" d="M91,-122.1061C91,-141.3391 91,-169 91,-169 91,-169 233.4804,-169 233.4804,-169"/>
+<polygon fill="#000000" stroke="#000000" points="233.4804,-172.5001 243.4804,-169 233.4803,-165.5001 233.4804,-172.5001"/>
+</g>
+</g>
+</svg>

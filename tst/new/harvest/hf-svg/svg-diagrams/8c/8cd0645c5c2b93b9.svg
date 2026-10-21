@@ -1,0 +1,144 @@
+<svg width="1658pt" height="211pt"
+ viewBox="0.00 0.00 1658.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1654,-207 1654,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="591,-10 591,-30 611,-30 611,-10 591,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="704,-10 704,-30 724,-30 724,-10 704,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="790,-10 790,-30 810,-30 810,-10 790,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="887,-10 887,-30 907,-30 907,-10 887,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="983,-10 983,-30 1003,-30 1003,-10 983,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AuditOverviewModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1642,-195 1642,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AuditOverviewModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="348,-78 348,-130 1634,-130 1634,-78 348,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_AuditOverviewModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 340,-130 340,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuditContactPersonCardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1626.0814,-122 1403.9186,-122 1403.9186,-86 1626.0814,-86 1626.0814,-122"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>AuditOverviewModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="872.1317,-187 869.1317,-191 848.1317,-191 845.1317,-187 725.8683,-187 725.8683,-151 872.1317,-151 872.1317,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuditContactPersonCardComponent&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M1515,-122.0109C1515,-144.4852 1515,-180 1515,-180 1515,-180 882.2597,-180 882.2597,-180"/>
+<polygon fill="#000000" stroke="#000000" points="882.2598,-176.5001 872.2597,-180 882.2597,-183.5001 882.2598,-176.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>AuditInfoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1386.0422,-122 1249.9578,-122 1249.9578,-86 1386.0422,-86 1386.0422,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AuditInfoComponent&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M1318,-122.1289C1318,-142.5724 1318,-173 1318,-173 1318,-173 882.2593,-173 882.2593,-173"/>
+<polygon fill="#000000" stroke="#000000" points="882.2593,-169.5001 872.2593,-173 882.2592,-176.5001 882.2593,-169.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>AuditOverviewComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1232.4143,-122 1063.5857,-122 1063.5857,-86 1232.4143,-86 1232.4143,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AuditOverviewComponent&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M1148,-122.2667C1148,-140.5552 1148,-166 1148,-166 1148,-166 882.1618,-166 882.1618,-166"/>
+<polygon fill="#000000" stroke="#000000" points="882.1619,-162.5001 872.1618,-166 882.1618,-169.5001 882.1619,-162.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>CriteriaByFactorIdPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1045.9074,-122 898.0926,-122 898.0926,-86 1045.9074,-86 1045.9074,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CriteriaByFactorIdPipe&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M972,-122.0091C972,-138.0494 972,-159 972,-159 972,-159 882.3676,-159 882.3676,-159"/>
+<polygon fill="#000000" stroke="#000000" points="882.3676,-155.5001 872.3676,-159 882.3675,-162.5001 882.3676,-155.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>InterviewCardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="880.1825,-122 717.8175,-122 717.8175,-86 880.1825,-86 880.1825,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>InterviewCardComponent&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M799,-122.1061C799,-122.1061 799,-140.991 799,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="795.5001,-140.9909 799,-150.991 802.5001,-140.991 795.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>InterviewListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="700.2492,-122 543.7508,-122 543.7508,-86 700.2492,-86 700.2492,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>InterviewListComponent&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M622,-122.0091C622,-138.0494 622,-159 622,-159 622,-159 715.7297,-159 715.7297,-159"/>
+<polygon fill="#000000" stroke="#000000" points="715.7297,-162.5001 725.7297,-159 715.7296,-155.5001 715.7297,-162.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>InterviewsByFacCritIdPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="525.958,-122 356.042,-122 356.042,-86 525.958,-86 525.958,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>InterviewsByFacCritIdPipe&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M441,-122.2667C441,-140.5552 441,-166 441,-166 441,-166 715.6895,-166 715.6895,-166"/>
+<polygon fill="#000000" stroke="#000000" points="715.6895,-169.5001 725.6895,-166 715.6894,-162.5001 715.6895,-169.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>AuditOverviewRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="331.7492,-122 328.7492,-126 307.7492,-126 304.7492,-122 140.2508,-122 140.2508,-86 331.7492,-86 331.7492,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>AuditOverviewRoutingModule&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M236,-122.1289C236,-142.5724 236,-173 236,-173 236,-173 715.6864,-173 715.6864,-173"/>
+<polygon fill="#000000" stroke="#000000" points="715.6864,-176.5001 725.6864,-173 715.6864,-169.5001 715.6864,-176.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SharedModule&#45;&gt;AuditOverviewModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.0109C73,-144.4852 73,-180 73,-180 73,-180 715.7284,-180 715.7284,-180"/>
+<polygon fill="#000000" stroke="#000000" points="715.7285,-183.5001 725.7284,-180 715.7284,-176.5001 715.7285,-183.5001"/>
+</g>
+</g>
+</svg>

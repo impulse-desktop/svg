@@ -1,0 +1,80 @@
+<svg width="2500pt" height="691pt"
+ viewBox="0.00 0.00 2500.29 690.87" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 686.8745)">
+<title>finite_state_machine</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-686.8745 2496.2895,-686.8745 2496.2895,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Wander the maze</title>
+<ellipse fill="none" stroke="#000000" cx="177.3697" cy="-292.486" rx="177.2396" ry="177.2396"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Chase Pac&#45;Man</title>
+<ellipse fill="none" stroke="#000000" cx="1025.4856" cy="-520.486" rx="162.277" ry="162.277"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>Wander the maze&#45;&gt;Chase Pac&#45;Man</title>
+<path fill="none" stroke="#000000" d="M312.2948,-407.6382C331.677,-420.0223 352.0797,-431.1321 372.7395,-439.486 519.6945,-498.9078 699.201,-517.7039 832.7502,-522.4606"/>
+<polygon fill="#000000" stroke="#000000" points="832.7966,-532.9661 863.0849,-523.3292 833.3977,-511.9747 832.7966,-532.9661"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>Flee</title>
+<ellipse fill="none" stroke="#000000" cx="1666.7942" cy="-305.486" rx="144" ry="144"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>Wander the maze&#45;&gt;Flee</title>
+<path fill="none" stroke="#000000" d="M355.0974,-293.9414C566.1728,-295.6813 928.8973,-298.7073 1240.302,-301.486 1323.2263,-302.2259 1415.2196,-303.084 1492.4767,-303.8152"/>
+<polygon fill="#000000" stroke="#000000" points="1492.5841,-314.3166 1522.6824,-304.1017 1492.7834,-293.3175 1492.5841,-314.3166"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>Chase Pac&#45;Man&#45;&gt;Wander the maze</title>
+<path fill="none" stroke="#000000" d="M889.4037,-431.7983C858.5855,-414.8606 825.2986,-398.8854 792.6692,-387.486 718.9234,-361.7221 532.301,-334.7664 383.7758,-316.178"/>
+<polygon fill="#000000" stroke="#000000" points="384.7315,-305.7164 353.6703,-312.4584 382.1564,-326.5579 384.7315,-305.7164"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>Chase Pac&#45;Man&#45;&gt;Flee</title>
+<path fill="none" stroke="#000000" d="M1179.5028,-468.8514C1276.7292,-436.256 1402.2604,-394.1714 1501.5613,-360.8806"/>
+<polygon fill="#000000" stroke="#000000" points="1505.0423,-370.788 1530.1488,-351.2966 1498.3671,-350.8772 1505.0423,-370.788"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>Flee&#45;&gt;Wander the maze</title>
+<path fill="none" stroke="#000000" d="M1524.6524,-280.8375C1441.9613,-267.7495 1335.5683,-253.0442 1240.302,-246.486 942.9539,-226.0162 598.1467,-249.6276 383.8476,-269.8822"/>
+<polygon fill="#000000" stroke="#000000" points="382.6989,-259.4442 353.846,-272.7768 384.7157,-280.3472 382.6989,-259.4442"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>Return to base</title>
+<ellipse fill="none" stroke="#000000" cx="2342.8036" cy="-149.486" rx="149.4719" ry="149.4719"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>Flee&#45;&gt;Return to base</title>
+<path fill="none" stroke="#000000" d="M1807.2742,-273.068C1911.9427,-248.914 2055.5421,-215.7762 2167.6948,-189.8951"/>
+<polygon fill="#000000" stroke="#000000" points="2170.087,-200.1191 2196.9578,-183.1422 2165.365,-179.6569 2170.087,-200.1191"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>Return to base&#45;&gt;Wander the maze</title>
+<path fill="none" stroke="#000000" d="M2193.1632,-143.7202C1866.8882,-133.8513 1067.3013,-124.3506 377.8661,-239.1272"/>
+<polygon fill="#000000" stroke="#000000" points="376.0515,-228.7849 348.2278,-244.1502 379.5606,-249.4896 376.0515,-228.7849"/>
+
+</g>
+</g>
+</svg>

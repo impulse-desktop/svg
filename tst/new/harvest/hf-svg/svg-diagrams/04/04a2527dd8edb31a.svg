@@ -1,0 +1,81 @@
+<svg width="512pt" height="181pt"
+ viewBox="0.00 0.00 512.00 181.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 177)">
+<title>oneDegreeRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="none" points="-4,4 -4,-177 508,-177 508,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>ansible_collectionremote</title>
+<g id="a_node1"><a xlink:href="../../tables/ansible_collectionremote.html" xlink:title="ansible_collectionremote" target="_top">
+<polygon fill="#ffffff" stroke="none" points="216,-37 216,-169 496,-169 496,-37 216,-37"/>
+<polygon fill="#f5f5f5" stroke="none" points="218,-145 218,-167 494,-167 494,-145 218,-145"/>
+<polygon fill="none" stroke="black" points="218,-145 218,-167 494,-167 494,-145 218,-145"/>
+
+
+<polygon fill="none" stroke="black" points="218,-123 218,-145 389,-145 389,-123 218,-123"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="223" y="-140"/>
+
+<polygon fill="none" stroke="black" points="389,-123 389,-145 494,-145 494,-123 389,-123"/>
+
+<polygon fill="none" stroke="black" points="218,-101 218,-123 389,-123 389,-101 218,-101"/>
+
+<polygon fill="none" stroke="black" points="389,-101 389,-123 494,-123 494,-101 389,-101"/>
+
+<polygon fill="none" stroke="black" points="218,-79 218,-101 389,-101 389,-79 218,-79"/>
+
+<polygon fill="none" stroke="black" points="389,-79 389,-101 494,-101 494,-79 389,-79"/>
+
+<polygon fill="none" stroke="black" points="218,-57 218,-79 389,-79 389,-57 218,-57"/>
+
+<polygon fill="none" stroke="black" points="389,-57 389,-79 494,-79 494,-57 389,-57"/>
+
+<polygon fill="#ffffff" stroke="none" points="218,-39 218,-57 294,-57 294,-39 218,-39"/>
+<polygon fill="none" stroke="black" points="218,-39 218,-57 294,-57 294,-39 218,-39"/>
+
+<polygon fill="#ffffff" stroke="none" points="294,-39 294,-57 389,-57 389,-39 294,-39"/>
+<polygon fill="none" stroke="black" points="294,-39 294,-57 389,-57 389,-39 294,-39"/>
+
+<polygon fill="#ffffff" stroke="none" points="389,-39 389,-57 494,-57 494,-39 389,-39"/>
+<polygon fill="none" stroke="black" points="389,-39 389,-57 494,-57 494,-39 389,-39"/>
+
+<polygon fill="none" stroke="black" stroke-width="2" points="217,-38 217,-168 495,-168 495,-38 217,-38"/>
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>core_remote</title>
+<g id="a_node2"><a xlink:href="../../tables/core_remote.html" xlink:title="core_remote" target="_top">
+<polygon fill="#ffffff" stroke="none" points="8,-65 8,-167 167,-167 167,-65 8,-65"/>
+<polygon fill="#f5f5f5" stroke="none" points="8.5,-145 8.5,-167 167.5,-167 167.5,-145 8.5,-145"/>
+<polygon fill="none" stroke="black" points="8.5,-145 8.5,-167 167.5,-167 167.5,-145 8.5,-145"/>
+
+
+<polygon fill="none" stroke="black" points="8.5,-123 8.5,-145 167.5,-145 167.5,-123 8.5,-123"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="13.5" y="-140"/>
+
+<polygon fill="#ffffff" stroke="none" points="8.5,-101 8.5,-123 167.5,-123 167.5,-101 8.5,-101"/>
+<polygon fill="none" stroke="black" points="8.5,-101 8.5,-123 167.5,-123 167.5,-101 8.5,-101"/>
+
+<polygon fill="none" stroke="black" points="8.5,-83 8.5,-101 167.5,-101 167.5,-83 8.5,-83"/>
+
+<polygon fill="#ffffff" stroke="none" points="8.5,-65 8.5,-83 61.5,-83 61.5,-65 8.5,-65"/>
+<polygon fill="none" stroke="black" points="8.5,-65 8.5,-83 61.5,-83 61.5,-65 8.5,-65"/>
+
+<polygon fill="#ffffff" stroke="none" points="61.5,-65 61.5,-83 123.5,-83 123.5,-65 61.5,-65"/>
+<polygon fill="none" stroke="black" points="61.5,-65 61.5,-83 123.5,-83 123.5,-65 61.5,-65"/>
+
+<polygon fill="#ffffff" stroke="none" points="123.5,-65 123.5,-83 167.5,-83 167.5,-65 123.5,-65"/>
+<polygon fill="none" stroke="black" points="123.5,-65 123.5,-83 167.5,-83 167.5,-65 123.5,-65"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>ansible_collectionremote:remote_ptr_id:w&#45;&gt;core_remote:pulp_id:e</title>
+<path fill="none" stroke="black" d="M206.367,-134C192.855,-134 186.014,-134 168.5,-134"/>
+<polygon fill="black" stroke="black" points="216.2,-130 216.2,-138 214.6,-138 214.6,-130 216.2,-130"/>
+<polyline fill="none" stroke="black" points="217,-134 213,-134 "/>
+<ellipse fill="none" stroke="black" cx="209.8" cy="-134" rx="3.2" ry="3.2"/>
+</g>
+</g>
+</svg>

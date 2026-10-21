@@ -1,0 +1,125 @@
+<svg width="213pt" height="841pt"
+ viewBox="0.00 0.00 212.50 841.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 837)">
+<title>tbb::spin_rw_mutex_v3::scoped_lock</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-837 208.5,-837 208.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="15.5,-0.5 15.5,-145.5 140.5,-145.5 140.5,-0.5 15.5,-0.5"/>
+
+
+<polyline fill="none" stroke="black" points="15.5,-115.5 140.5,-115.5 "/>
+
+<polyline fill="none" stroke="black" points="15.5,-96.5 140.5,-96.5 "/>
+
+
+
+
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00516.html" target="_top" xlink:title="Base class for types that should not be copied or assigned. ">
+<polygon fill="white" stroke="black" points="4,-669.5 4,-737.5 114,-737.5 114,-669.5 4,-669.5"/>
+
+<polyline fill="none" stroke="black" points="4,-718.5 114,-718.5 "/>
+
+<polyline fill="none" stroke="black" points="4,-699.5 114,-699.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#8b1a1a" d="M58.3307,-659.257C57.2489,-571.349 56.1364,-365.496 66,-193 66.8772,-177.659 68.25,-161.244 69.7585,-145.658"/>
+<polygon fill="none" stroke="#8b1a1a" points="54.8325,-659.428 58.4617,-669.382 61.8319,-659.338 54.8325,-659.428"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00512.html" target="_top" xlink:title="{tbb::internal::mutex\l_copy_deprecated_and\l_disabled\n||}">
+<polygon fill="white" stroke="black" points="78.5,-552.5 78.5,-631.5 195.5,-631.5 195.5,-552.5 78.5,-552.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="78.5,-590.5 195.5,-590.5 "/>
+
+<polyline fill="none" stroke="black" points="78.5,-571.5 195.5,-571.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="#8b1a1a" d="M88.4967,-661.091C95.3384,-651.487 102.596,-641.299 109.354,-631.81"/>
+<polygon fill="none" stroke="#8b1a1a" points="85.5654,-659.174 82.6142,-669.349 91.2668,-663.235 85.5654,-659.174"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="0,-775.5 0,-832.5 118,-832.5 118,-775.5 0,-775.5"/>
+
+<polyline fill="none" stroke="black" points="0,-813.5 118,-813.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-794.5 118,-794.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#8b1a1a" d="M59,-765.007C59,-755.962 59,-746.383 59,-737.578"/>
+<polygon fill="none" stroke="#8b1a1a" points="55.5001,-765.3 59,-775.3 62.5001,-765.3 55.5001,-765.3"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00722.html" target="_top" xlink:title="Fast, unfair, spinning reader&#45;writer lock with backoff and writer&#45;preference. ">
+<polygon fill="white" stroke="black" points="75.5,-193.5 75.5,-514.5 204.5,-514.5 204.5,-193.5 75.5,-193.5"/>
+
+<polyline fill="none" stroke="black" points="75.5,-495.5 204.5,-495.5 "/>
+
+
+
+
+
+
+
+
+
+<polyline fill="none" stroke="black" points="75.5,-388.5 204.5,-388.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node1</title>
+<path fill="none" stroke="#404040" d="M104.473,-193.13C101.771,-180.97 99.1158,-169.021 96.5918,-157.663"/>
+<polygon fill="none" stroke="#404040" points="96.5119,-157.303 91.3055,-152.314 93.9087,-145.589 99.115,-150.578 96.5119,-157.303"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="#8b1a1a" d="M137.62,-542.238C137.729,-533.671 137.847,-524.349 137.971,-514.593"/>
+<polygon fill="none" stroke="#8b1a1a" points="134.12,-542.25 137.492,-552.294 141.119,-542.339 134.12,-542.25"/>
+</g>
+</g>
+</svg>

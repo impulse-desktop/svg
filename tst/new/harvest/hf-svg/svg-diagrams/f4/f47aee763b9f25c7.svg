@@ -1,0 +1,51 @@
+<svg width="576pt" height="63pt"
+ viewBox="0.00 0.00 576.00 62.78" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.627768 0.627768) rotate(0) translate(4 96)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-96 913.536,-96 913.536,4 -4,4"/>
+
+<g id="node1" class="node"><title>test/test_call_graph/test_data/params_call_edge.yml</title>
+<ellipse fill="none" stroke="red" cx="195.633" cy="-45.5" rx="195.765" ry="18"/>
+
+</g>
+
+<g id="node2" class="node"><title>params_call_edge&#45;empty_2</title>
+<polygon fill="none" stroke="black" points="434.765,-55.5 434.765,-91.5 539.765,-91.5 539.765,-55.5 434.765,-55.5"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>test/test_call_graph/test_data/params_call_edge.yml&#45;&gt;params_call_edge&#45;empty_2</title>
+<path fill="none" stroke="blue" d="M331.274,-58.5163C368.058,-62.0724 405.721,-65.7135 434.709,-68.5158"/>
+</g>
+
+<g id="node4" class="node"><title>params_call_edge&#45;empty</title>
+<polygon fill="none" stroke="black" points="427.265,-0.5 427.265,-36.5 547.265,-36.5 547.265,-0.5 427.265,-0.5"/>
+
+
+</g>
+
+<g id="edge3" class="edge"><title>test/test_call_graph/test_data/params_call_edge.yml&#45;&gt;params_call_edge&#45;empty</title>
+<path fill="none" stroke="blue" d="M333.815,-32.7116C366.567,-29.6585 399.841,-26.5566 426.911,-24.0331"/>
+</g>
+
+<g id="node3" class="node"><title>test/test_call_graph/test_data/empty_2.yml</title>
+<ellipse fill="none" stroke="black" cx="746.401" cy="-73.5" rx="163.271" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>params_call_edge&#45;empty_2&#45;&gt;test/test_call_graph/test_data/empty_2.yml</title>
+<path fill="none" stroke="blue" d="M539.991,-73.5C550.188,-73.5 561.404,-73.5 573.174,-73.5"/>
+<polygon fill="blue" stroke="blue" points="573.181,-77.0001 583.181,-73.5 573.181,-70.0001 573.181,-77.0001"/>
+</g>
+
+<g id="node5" class="node"><title>test/test_call_graph/test_data/empty.yml</title>
+<ellipse fill="none" stroke="black" cx="746.401" cy="-18.5" rx="154.073" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>params_call_edge&#45;empty&#45;&gt;test/test_call_graph/test_data/empty.yml</title>
+<path fill="none" stroke="blue" d="M547.58,-18.5C558.298,-18.5 569.932,-18.5 582.009,-18.5"/>
+<polygon fill="blue" stroke="blue" points="582.247,-22.0001 592.247,-18.5 582.247,-15.0001 582.247,-22.0001"/>
+</g>
+</g>
+</svg>

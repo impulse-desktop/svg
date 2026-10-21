@@ -1,0 +1,121 @@
+<svg width="598pt" height="292pt"
+ viewBox="0.00 0.00 598.00 292.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 288)">
+<title>amunmt::GPU::Cell</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-288 594,-288 594,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="243.5,-215.5 243.5,-283.5 346.5,-283.5 346.5,-215.5 243.5,-215.5"/>
+
+<polyline fill="none" stroke="black" points="243.5,-264.5 346.5,-264.5 "/>
+
+<polyline fill="none" stroke="black" points="243.5,-245.5 346.5,-245.5 "/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="$d9/df6/classamunmt_1_1GPU_1_1FastGRU.html" xlink:title="{amunmt::GPU::FastGRU\l\&lt; Weights \&gt;\n|&#45; w_\l&#45; WWx_\l&#45; UUx_\l&#45; RUH_\l&#45; Temp_\l|+ FastGRU()\l+ GetNextState()\l+ ElementwiseOps()\l+ GetStateLength()\l&#45; FastGRU()\l}">
+<polygon fill="white" stroke="black" points="0,-11.5 0,-167.5 128,-167.5 128,-11.5 0,-11.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-137.5 128,-137.5 "/>
+
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-74.5 128,-74.5 "/>
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M233.584,-229.131C202.742,-217.578 165.895,-200.863 137,-179 132.394,-175.515 127.895,-171.684 123.537,-167.629"/>
+<polygon fill="none" stroke="midnightblue" points="232.775,-232.561 243.368,-232.7 235.174,-225.985 232.775,-232.561"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="$d2/dad/classamunmt_1_1GPU_1_1Multiplicative.html" xlink:title="{amunmt::GPU::Multiplicative\l\&lt; CellType, InnerWeights \&gt;\n|&#45; innerCell_\l&#45; w_\l&#45; x_mult_\l&#45; tempState_\l|+ Multiplicative()\l+ GetNextState()\l+ GetStateLength()\l}">
+<polygon fill="white" stroke="black" points="146.5,-28 146.5,-151 289.5,-151 289.5,-28 146.5,-28"/>
+
+
+<polyline fill="none" stroke="black" points="146.5,-121 289.5,-121 "/>
+
+
+
+
+<polyline fill="none" stroke="black" points="146.5,-69 289.5,-69 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M274.427,-206.286C266.164,-189.331 256.483,-169.466 247.496,-151.024"/>
+<polygon fill="none" stroke="midnightblue" points="271.331,-207.922 278.858,-215.378 277.624,-204.855 271.331,-207.922"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="$d8/dc9/classamunmt_1_1GPU_1_1SlowGRU.html" xlink:title="{amunmt::GPU::SlowGRU\l\&lt; Weights \&gt;\n|&#45; w_\l&#45; RU_\l&#45; R_\l&#45; U_\l&#45; H_\l&#45; Temp1_\l&#45; Temp2_\l|+ SlowGRU()\l+ GetNextState()\l+ GetStateLength()\l&#45; SlowGRU()\l}">
+<polygon fill="white" stroke="black" points="308,-6 308,-173 438,-173 438,-6 308,-6"/>
+
+
+<polyline fill="none" stroke="black" points="308,-143 438,-143 "/>
+
+
+
+
+
+
+
+<polyline fill="none" stroke="black" points="308,-58 438,-58 "/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M315.863,-206.24C320.952,-195.93 326.572,-184.547 332.241,-173.063"/>
+<polygon fill="none" stroke="midnightblue" points="312.64,-204.862 311.351,-215.378 318.916,-207.961 312.64,-204.862"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="$df/de1/classamunmt_1_1GPU_1_1SlowLSTM.html" xlink:title="{amunmt::GPU::SlowLSTM\l\&lt; Weights \&gt;\n|&#45; w_\l&#45; FIO_\l&#45; F_\l&#45; I_\l&#45; O_\l&#45; H_\l&#45; Temp1_\l&#45; Temp2_\l|+ SlowLSTM()\l+ GetNextState()\l+ GetStateLength()\l&#45; SlowLSTM()\l}">
+<polygon fill="white" stroke="black" points="456,-0.5 456,-178.5 590,-178.5 590,-0.5 456,-0.5"/>
+
+
+<polyline fill="none" stroke="black" points="456,-148.5 590,-148.5 "/>
+
+
+
+
+
+
+
+
+<polyline fill="none" stroke="black" points="456,-52.5 590,-52.5 "/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M356.263,-227.542C385.386,-215.876 419.711,-199.533 447,-179 449.913,-176.808 452.792,-174.487 455.628,-172.066"/>
+<polygon fill="none" stroke="midnightblue" points="354.643,-224.417 346.603,-231.318 357.191,-230.937 354.643,-224.417"/>
+</g>
+</g>
+</svg>

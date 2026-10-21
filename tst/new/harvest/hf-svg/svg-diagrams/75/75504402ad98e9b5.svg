@@ -1,0 +1,116 @@
+<svg width="733pt" height="104pt"
+ viewBox="0.00 0.00 733.00 104.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
+<title>RPN::Rpn_t::Item::isOperator</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-100 729,-100 729,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<g id="a_node1"><a xlink:title="是操作符">
+<polygon fill="#bfbfbf" stroke="black" points="581,-57.5 581,-76.5 725,-76.5 725,-57.5 581,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a05439.html#acc416b0c2ea4a909b71732a5bfa5f401" target="_top" xlink:title="执行一次运算.">
+<polygon fill="white" stroke="black" points="235,-76.5 235,-95.5 363,-95.5 363,-76.5 235,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M570.445,-71.4021C507.301,-74.8104 421.114,-79.4626 363.156,-82.591"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="570.971,-74.8789 580.768,-70.8449 570.593,-67.8891 570.971,-74.8789"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a05439.html#aba8239b34b7b75b7d0c5e9e8c781ee19" target="_top" xlink:title="是NAO?">
+<polygon fill="white" stroke="black" points="417,-38.5 417,-57.5 545,-57.5 545,-38.5 417,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M570.843,-57.9296C562.247,-56.9688 553.598,-56.0021 545.249,-55.069"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="570.563,-61.4199 580.89,-59.0524 571.34,-54.4632 570.563,-61.4199"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a05435.html#a760c2a7b4a404cfe61345e06110c40ff" target="_top" xlink:title="计算(后缀)表达式的值">
+<polygon fill="white" stroke="black" points="74,-76.5 74,-95.5 181,-95.5 181,-76.5 74,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M224.811,-86C210.119,-86 194.955,-86 181.129,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="224.884,-89.5001 234.884,-86 224.884,-82.5001 224.884,-89.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a04562.html#abf9e6b7e6f15df4b525a2e7705ba3089" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="0,-57.5 0,-76.5 38,-76.5 38,-57.5 0,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M64.0252,-74.8543C54.6621,-73.1839 45.6915,-71.5835 38.3194,-70.2682"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="63.4147,-78.3005 73.874,-76.6113 64.6442,-71.4093 63.4147,-78.3005"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M424.669,-59.681C399.143,-65.0699 369.224,-71.3861 345.095,-76.4799"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="425.517,-63.0792 434.578,-57.589 424.071,-56.2301 425.517,-63.0792"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a05435.html#a8dd551d02431c034e10f256ff384c39f" target="_top" xlink:title="用一个中缀list创建一个后缀list">
+<polygon fill="white" stroke="black" points="217,-38.5 217,-57.5 381,-57.5 381,-38.5 217,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M406.636,-48C398.211,-48 389.584,-48 381.066,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="406.792,-51.5001 416.792,-48 406.792,-44.5001 406.792,-51.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a05435.html#a13f84208d6722039432be70b4bffee8c" target="_top" xlink:title="设置Rpn_t类对象的值">
+<polygon fill="white" stroke="black" points="76,-38.5 76,-57.5 179,-57.5 179,-38.5 76,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M206.569,-48C197.229,-48 187.997,-48 179.332,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="206.725,-51.5001 216.725,-48 206.725,-44.5001 206.725,-51.5001"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a05435.html#a2328e43bfa616ee63c9bf475188ca511" target="_top" xlink:title="Construct a new Rpn_t object.">
+<polygon fill="white" stroke="black" points="77.5,-0.5 77.5,-19.5 177.5,-19.5 177.5,-0.5 77.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node6&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M245.258,-36.1757C221.361,-30.8184 193.485,-24.5689 170.964,-19.5201"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="244.705,-39.6386 255.228,-38.411 246.236,-32.8081 244.705,-39.6386"/>
+</g>
+
+<g id="edge8" class="edge"><title>Node7&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M65.6339,-58.8587C55.5911,-60.6504 45.9173,-62.3763 38.0813,-63.7742"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="66.5155,-62.2568 75.7453,-57.0548 65.286,-55.3656 66.5155,-62.2568"/>
+</g>
+</g>
+</svg>

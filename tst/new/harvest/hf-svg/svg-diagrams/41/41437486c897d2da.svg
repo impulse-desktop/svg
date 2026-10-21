@@ -1,0 +1,229 @@
+<svg width="463pt" height="428pt"
+ viewBox="0.00 0.00 463.00 428.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 424)">
+<title>InventoryManagement</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-424 459,-424 459,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>ProductSource</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;ProductSource&quot;);" xlink:title="class ProductSource&#10;">
+
+<g id="a_node1_0"><a xlink:href="javascript:Action.selectClass(&quot;ProductSource&quot;);" xlink:title="String advertisedCostPerUnit&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points=".5,-196 .5,-196 191.5,-196 191.5,-196 .5,-196"/>
+<polygon fill="none" stroke="#000000" points="0,-177 0,-219 191,-219 191,-177 0,-177"/>
+</a>
+</g>
+</g>
+
+<g id="node5" class="node">
+<title>SupplierOrderLineItem</title>
+<g id="a_node5"><a xlink:href="javascript:Action.selectClass(&quot;SupplierOrderLineItem&quot;);" xlink:title="class SupplierOrderLineItem&#10;">
+
+<g id="a_node5_1"><a xlink:href="javascript:Action.selectClass(&quot;SupplierOrderLineItem&quot;);" xlink:title="String numberOrdered&#13;">
+
+</a>
+</g>
+<g id="a_node5_2"><a xlink:href="javascript:Action.selectClass(&quot;SupplierOrderLineItem&quot;);" xlink:title="String dateExpected&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="101.5,-301 101.5,-301 270.5,-301 270.5,-301 101.5,-301"/>
+<polygon fill="none" stroke="#000000" points="101,-264 101,-324 270,-324 270,-264 101,-264"/>
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>ProductSource&#45;&gt;SupplierOrderLineItem</title>
+<g id="a_edge1"><a xlink:title="ProductSource 1 &#160;&#45;&#45; * &#160;SupplierOrderLineItem">
+<path fill="none" stroke="#000000" d="M115.4739,-219.3055C127.6956,-232.3419 143.5283,-249.2302 157.0466,-263.6497"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>Product</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="class Product&#10;Positioning&#13;">
+
+<g id="a_node2_3"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="String ourCode&#13;">
+
+</a>
+</g>
+<g id="a_node2_4"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="String description&#13;">
+
+</a>
+</g>
+<g id="a_node2_5"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="String picture&#13;">
+
+</a>
+</g>
+<g id="a_node2_6"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="String ourListPricePerunit&#13;">
+
+</a>
+</g>
+<g id="a_node2_7"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="String numberInInventory&#13;">
+
+</a>
+</g>
+<g id="a_node2_8"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="String numberToKeepInv&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="8.5,-109 8.5,-109 182.5,-109 182.5,-109 8.5,-109"/>
+<polygon fill="none" stroke="#000000" points="8.5,0 8.5,-132 182.5,-132 182.5,0 8.5,0"/>
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Product&#45;&gt;ProductSource</title>
+<g id="a_edge2"><a xlink:title="Product 1 &#160;&#45;&#45; * &#160;ProductSource">
+<path fill="none" stroke="#000000" d="M95.5,-132.3867C95.5,-148.5652 95.5,-164.7127 95.5,-176.9405"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node3" class="node">
+<title>Supplier</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;Supplier&quot;);" xlink:title="class Supplier&#10;">
+
+<g id="a_node3_9"><a xlink:href="javascript:Action.selectClass(&quot;Supplier&quot;);" xlink:title="String id&#13;">
+
+</a>
+</g>
+<g id="a_node3_10"><a xlink:href="javascript:Action.selectClass(&quot;Supplier&quot;);" xlink:title="String name&#13;">
+
+</a>
+</g>
+<g id="a_node3_11"><a xlink:href="javascript:Action.selectClass(&quot;Supplier&quot;);" xlink:title="String address&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="223.5,-82 223.5,-82 330.5,-82 330.5,-82 223.5,-82"/>
+<polygon fill="none" stroke="#000000" points="223,-27 223,-105 330,-105 330,-27 223,-27"/>
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Supplier&#45;&gt;ProductSource</title>
+<g id="a_edge3"><a xlink:title="Supplier 1 &#160;&#45;&#45; * &#160;ProductSource">
+<path fill="none" stroke="#000000" d="M226.9777,-105.2264C215.4309,-114.1562 203.1136,-123.5099 191.5,-132 170.4372,-147.3978 146.2253,-164.0363 127.3863,-176.7553"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node4" class="node">
+<title>ReceivedDelivery</title>
+<g id="a_node4"><a xlink:href="javascript:Action.selectClass(&quot;ReceivedDelivery&quot;);" xlink:title="class ReceivedDelivery&#10;">
+
+<g id="a_node4_12"><a xlink:href="javascript:Action.selectClass(&quot;ReceivedDelivery&quot;);" xlink:title="String numberReceived&#13;">
+
+</a>
+</g>
+<g id="a_node4_13"><a xlink:href="javascript:Action.selectClass(&quot;ReceivedDelivery&quot;);" xlink:title="String actualCostPerUnit&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="288.5,-301 288.5,-301 455.5,-301 455.5,-301 288.5,-301"/>
+<polygon fill="none" stroke="#000000" points="288,-264 288,-324 455,-324 455,-264 288,-264"/>
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Supplier&#45;&gt;ReceivedDelivery</title>
+<g id="a_edge5"><a xlink:title="Supplier 1 &#160;&#45;&#45; * &#160;ReceivedDelivery">
+<path fill="none" stroke="#000000" d="M312.9471,-105.3251C327.526,-123.1938 343.0671,-145.375 352.5,-168 365.4399,-199.0365 369.7119,-237.637 371.0473,-263.8778"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node6" class="node">
+<title>OrderToSupplier</title>
+<g id="a_node6"><a xlink:href="javascript:Action.selectClass(&quot;OrderToSupplier&quot;);" xlink:title="class OrderToSupplier&#10;">
+
+<g id="a_node6_14"><a xlink:href="javascript:Action.selectClass(&quot;OrderToSupplier&quot;);" xlink:title="String poNumber&#13;">
+
+</a>
+</g>
+<g id="a_node6_15"><a xlink:href="javascript:Action.selectClass(&quot;OrderToSupplier&quot;);" xlink:title="String dateOrdered&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="209.5,-205 209.5,-205 343.5,-205 343.5,-205 209.5,-205"/>
+<polygon fill="none" stroke="#000000" points="209.5,-168 209.5,-228 343.5,-228 343.5,-168 209.5,-168"/>
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Supplier&#45;&gt;OrderToSupplier</title>
+<g id="a_edge4"><a xlink:title="Supplier 1 &#160;&#45;&#45; * &#160;OrderToSupplier">
+<path fill="none" stroke="#000000" d="M276.5,-105.247C276.5,-125.3099 276.5,-149.3431 276.5,-167.9181"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node7" class="node">
+<title>ReceivedLineItem</title>
+<g id="a_node7"><a xlink:href="javascript:Action.selectClass(&quot;ReceivedLineItem&quot;);" xlink:title="class ReceivedLineItem&#10;">
+
+<g id="a_node7_16"><a xlink:href="javascript:Action.selectClass(&quot;ReceivedLineItem&quot;);" xlink:title="String numberReceived&#13;">
+
+</a>
+</g>
+<g id="a_node7_17"><a xlink:href="javascript:Action.selectClass(&quot;ReceivedLineItem&quot;);" xlink:title="String actualCostPerUnit&#13;">
+
+</a>
+</g>
+<polygon fill="#000000" stroke="#000000" points="195.5,-397 195.5,-397 362.5,-397 362.5,-397 195.5,-397"/>
+<polygon fill="none" stroke="#000000" points="195,-360 195,-420 362,-420 362,-360 195,-360"/>
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>ReceivedDelivery&#45;&gt;ReceivedLineItem</title>
+<g id="a_edge6"><a xlink:title="ReceivedDelivery 1 &#160;&#45;&#45; * &#160;ReceivedLineItem">
+<path fill="none" stroke="#000000" d="M342.3294,-324.1116C331.2494,-335.549 318.6375,-348.5677 307.5671,-359.9952"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SupplierOrderLineItem&#45;&gt;ReceivedLineItem</title>
+<g id="a_edge7"><a xlink:title="SupplierOrderLineItem 1 &#160;&#45;&#45; * &#160;ReceivedLineItem">
+<path fill="none" stroke="#000000" d="M214.6706,-324.1116C225.7506,-335.549 238.3625,-348.5677 249.4329,-359.9952"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge8" class="edge">
+<title>OrderToSupplier&#45;&gt;SupplierOrderLineItem</title>
+<g id="a_edge8"><a xlink:title="OrderToSupplier 1 &#160;&#45;&#45; * &#160;SupplierOrderLineItem">
+<path fill="none" stroke="#000000" d="M247.9567,-228.1116C237.115,-239.549 224.7744,-252.5677 213.942,-263.9952"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

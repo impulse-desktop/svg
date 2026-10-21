@@ -1,0 +1,174 @@
+<svg width="804pt" height="371pt"
+ viewBox="0.00 0.00 804.00 371.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 367)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-367 800,-367 800,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="164,-10 164,-30 184,-30 184,-10 164,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="277,-10 277,-30 297,-30 297,-10 277,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="363,-10 363,-30 383,-30 383,-10 363,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="460,-10 460,-30 480,-30 480,-10 460,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="556,-10 556,-30 576,-30 576,-10 556,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="189,-146 189,-347 434,-347 434,-146 189,-146"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="197,-154 197,-271 426,-271 426,-154 197,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ConfigModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="442,-211 442,-279 574,-279 574,-211 442,-211"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_ConfigModule_exports</title>
+<polygon fill="none" stroke="black" points="450,-219 450,-271 566,-271 566,-219 450,-219"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_DynamodbModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="442,-287 442,-355 788,-355 788,-287 442,-287"/>
+</g>
+<g id="clust16" class="cluster">
+<title>cluster_DynamodbModule_exports</title>
+<polygon fill="none" stroke="black" points="640,-295 640,-347 780,-347 780,-295 640,-295"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_DynamodbModule_providers</title>
+<polygon fill="none" stroke="black" points="450,-295 450,-347 632,-347 632,-295 450,-295"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_ForumModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-138 488,-138 488,-70 8,-70"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_ForumModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 480,-130 480,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ConfigModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="418.44,-198 415.44,-202 394.44,-202 391.44,-198 319.56,-198 319.56,-162 418.44,-162 418.44,-198"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>DynamodbModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="417.76,-263 414.76,-267 393.76,-267 390.76,-263 296.24,-263 296.24,-227 417.76,-227 417.76,-263"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ConfigModule&#45;&gt;DynamodbModule</title>
+<path fill="none" stroke="black" d="M385.18,-198.11C385.18,-198.11 385.18,-216.99 385.18,-216.99"/>
+<polygon fill="black" stroke="black" points="381.68,-216.99 385.18,-226.99 388.68,-216.99 381.68,-216.99"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="318.66,-339 315.66,-343 294.66,-343 291.66,-339 235.34,-339 235.34,-303 318.66,-303 318.66,-339"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ConfigModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M352.48,-198.04C352.48,-205.75 352.48,-213 352.48,-213 352.48,-213 275.8,-213 275.8,-213 275.8,-213 275.8,-292.68 275.8,-292.68"/>
+<polygon fill="black" stroke="black" points="272.3,-292.68 275.8,-302.68 279.3,-292.68 272.3,-292.68"/>
+</g>
+
+<g id="node5" class="node">
+<title>ConfigService </title>
+<polygon fill="#fb8072" stroke="black" points="558.37,-263 457.63,-263 457.63,-227 558.37,-227 558.37,-263"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ConfigModule&#45;&gt;ConfigService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M418.34,-180C441.83,-180 464.87,-180 464.87,-180 464.87,-180 464.87,-216.89 464.87,-216.89"/>
+<polygon fill="black" stroke="black" points="461.37,-216.89 464.87,-226.89 468.37,-216.89 461.37,-216.89"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>DynamodbModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M307.47,-263.01C307.47,-263.01 307.47,-292.85 307.47,-292.85"/>
+<polygon fill="black" stroke="black" points="303.97,-292.85 307.47,-302.85 310.97,-292.85 303.97,-292.85"/>
+</g>
+
+<g id="node6" class="node">
+<title>DynamodbService </title>
+<polygon fill="#fb8072" stroke="black" points="771.69,-339 648.31,-339 648.31,-303 771.69,-303 771.69,-339"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DynamodbModule&#45;&gt;DynamodbService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M351.85,-263.11C351.85,-272.9 351.85,-283 351.85,-283 351.85,-283 710,-283 710,-283 710,-283 710,-292.89 710,-292.89"/>
+<polygon fill="black" stroke="black" points="706.5,-292.89 710,-302.89 713.5,-292.89 706.5,-292.89"/>
+</g>
+
+<g id="node3" class="node">
+<title>ForumModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="301.38,-198 298.38,-202 277.38,-202 274.38,-198 204.62,-198 204.62,-162 301.38,-162 301.38,-198"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ForumModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M255.49,-198.14C255.49,-198.14 255.49,-292.93 255.49,-292.93"/>
+<polygon fill="black" stroke="black" points="251.99,-292.92 255.49,-302.93 258.99,-292.93 251.99,-292.92"/>
+</g>
+
+<g id="node7" class="node">
+<title>DynamodbService</title>
+<ellipse fill="#fdb462" stroke="black" cx="541" cy="-321" rx="82.81" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>DynamodbService&#45;&gt;DynamodbModule</title>
+<path fill="none" stroke="black" d="M457.9,-321C420.62,-321 384.86,-321 384.86,-321 384.86,-321 384.86,-273.01 384.86,-273.01"/>
+<polygon fill="black" stroke="black" points="388.36,-273.01 384.86,-263.01 381.36,-273.01 388.36,-273.01"/>
+</g>
+
+<g id="node8" class="node">
+<title>ForumPolice</title>
+<ellipse fill="#fdb462" stroke="black" cx="411" cy="-104" rx="60.85" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ForumPolice&#45;&gt;ForumModule</title>
+<path fill="none" stroke="black" d="M384.15,-120.34C384.15,-130.64 384.15,-142 384.15,-142 384.15,-142 269.15,-142 269.15,-142 269.15,-142 269.15,-151.89 269.15,-151.89"/>
+<polygon fill="black" stroke="black" points="265.65,-151.89 269.15,-161.89 272.65,-151.89 265.65,-151.89"/>
+</g>
+
+<g id="node9" class="node">
+<title>ForumRepository</title>
+<ellipse fill="#fdb462" stroke="black" cx="253" cy="-104" rx="79.33" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ForumRepository&#45;&gt;ForumModule</title>
+<path fill="none" stroke="black" d="M236.85,-121.63C236.85,-121.63 236.85,-151.94 236.85,-151.94"/>
+<polygon fill="black" stroke="black" points="233.35,-151.94 236.85,-161.94 240.35,-151.94 233.35,-151.94"/>
+</g>
+
+<g id="node10" class="node">
+<title>ForumService</title>
+<ellipse fill="#fdb462" stroke="black" cx="90" cy="-104" rx="65.99" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ForumService&#45;&gt;ForumModule</title>
+<path fill="none" stroke="black" d="M90,-122.01C90,-144.49 90,-180 90,-180 90,-180 194.54,-180 194.54,-180"/>
+<polygon fill="black" stroke="black" points="194.54,-183.5 204.54,-180 194.54,-176.5 194.54,-183.5"/>
+</g>
+</g>
+</svg>

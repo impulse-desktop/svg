@@ -1,0 +1,148 @@
+<svg width="625pt" height="349pt"
+ viewBox="0.00 0.00 625.00 349.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 345)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-345 621,-345 621,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="74.5,-10 74.5,-30 94.5,-30 94.5,-10 74.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="187.5,-10 187.5,-30 207.5,-30 207.5,-10 187.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="273.5,-10 273.5,-30 293.5,-30 293.5,-10 273.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="370.5,-10 370.5,-30 390.5,-30 390.5,-10 370.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="466.5,-10 466.5,-30 486.5,-30 486.5,-10 466.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TemplateSchemaModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-333 609,-333 609,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TemplateSchemaModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="28,-143 28,-195 601,-195 601,-143 28,-143"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_TemplateSchemaModule_TemplateSchemaDirective_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 246,-130 246,-78 16,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_TemplateSchemaModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-273 16,-325 601,-325 601,-273 16,-273"/>
+</g>
+
+<g id="node1" class="node">
+<title>ButtonComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="592.9511,-187 473.0489,-187 473.0489,-151 592.9511,-151 592.9511,-187"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>TemplateSchemaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="412.2352,-252 409.2352,-256 388.2352,-256 385.2352,-252 255.7648,-252 255.7648,-216 412.2352,-216 412.2352,-252"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ButtonComponent&#45;&gt;TemplateSchemaModule</title>
+<path fill="none" stroke="#000000" d="M513.0916,-187.0225C513.0916,-204.3734 513.0916,-228 513.0916,-228 513.0916,-228 422.2917,-228 422.2917,-228"/>
+<polygon fill="#000000" stroke="#000000" points="422.2917,-224.5001 412.2917,-228 422.2916,-231.5001 422.2917,-224.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>FieldComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="455.1109,-187 344.8891,-187 344.8891,-151 455.1109,-151 455.1109,-187"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FieldComponent&#45;&gt;TemplateSchemaModule</title>
+<path fill="none" stroke="#000000" d="M378.6561,-187.1061C378.6561,-187.1061 378.6561,-205.991 378.6561,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="375.1561,-205.9909 378.6561,-215.991 382.1561,-205.991 375.1561,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>ItemComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="326.4888,-187 219.5112,-187 219.5112,-151 326.4888,-151 326.4888,-187"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ItemComponent&#45;&gt;TemplateSchemaModule</title>
+<path fill="none" stroke="#000000" d="M291.0635,-187.1061C291.0635,-187.1061 291.0635,-205.991 291.0635,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="287.5635,-205.9909 291.0635,-215.991 294.5635,-205.991 287.5635,-205.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>TemplateSchemaDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="201.7682,-187 36.2318,-187 36.2318,-151 201.7682,-151 201.7682,-187"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>TemplateSchemaDirective&#45;&gt;TemplateSchemaModule</title>
+<path fill="none" stroke="#000000" d="M197.009,-187.0225C197.009,-204.3734 197.009,-228 197.009,-228 197.009,-228 245.5029,-228 245.5029,-228"/>
+<polygon fill="#000000" stroke="#000000" points="245.5029,-231.5001 255.5029,-228 245.5028,-224.5001 245.5029,-231.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>ButtonComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="593.4502,-317 470.5498,-317 470.5498,-281 593.4502,-281 593.4502,-317"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>TemplateSchemaModule&#45;&gt;ButtonComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M412.4126,-240C475.2261,-240 552.9084,-240 552.9084,-240 552.9084,-240 552.9084,-270.9775 552.9084,-270.9775"/>
+<polygon fill="#000000" stroke="#000000" points="549.4085,-270.9774 552.9084,-280.9775 556.4085,-270.9775 549.4085,-270.9774"/>
+</g>
+
+<g id="node8" class="node">
+<title>FieldComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="452.6115,-317 339.3885,-317 339.3885,-281 452.6115,-281 452.6115,-317"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>TemplateSchemaModule&#45;&gt;FieldComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M375.7811,-252.1061C375.7811,-252.1061 375.7811,-270.991 375.7811,-270.991"/>
+<polygon fill="#000000" stroke="#000000" points="372.2811,-270.9909 375.7811,-280.991 379.2811,-270.991 372.2811,-270.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>ItemComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="321.4899,-317 210.5101,-317 210.5101,-281 321.4899,-281 321.4899,-317"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>TemplateSchemaModule&#45;&gt;ItemComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288.4385,-252.1061C288.4385,-252.1061 288.4385,-270.991 288.4385,-270.991"/>
+<polygon fill="#000000" stroke="#000000" points="284.9385,-270.9909 288.4385,-280.991 291.9385,-270.991 284.9385,-270.9909"/>
+</g>
+
+<g id="node10" class="node">
+<title>TemplateSchemaDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="192.2682,-317 23.7318,-317 23.7318,-281 192.2682,-281 192.2682,-317"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>TemplateSchemaModule&#45;&gt;TemplateSchemaDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M255.6405,-240C192.5674,-240 114.375,-240 114.375,-240 114.375,-240 114.375,-270.9775 114.375,-270.9775"/>
+<polygon fill="#000000" stroke="#000000" points="110.8749,-270.9775 114.375,-280.9775 117.8749,-270.9774 110.8749,-270.9775"/>
+</g>
+
+<g id="node6" class="node">
+<title>TemplateSchemaService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="131" cy="-104" rx="107.0569" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>TemplateSchemaService&#45;&gt;TemplateSchemaDirective</title>
+<path fill="none" stroke="#000000" d="M119,-122.1061C119,-122.1061 119,-140.991 119,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="115.5001,-140.9909 119,-150.991 122.5001,-140.991 115.5001,-140.9909"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,112 @@
+<svg width="778pt" height="284pt"
+ viewBox="0.00 0.00 778.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-280 774,-280 774,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="151,-10 151,-30 171,-30 171,-10 151,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="264,-10 264,-30 284,-30 284,-10 264,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="350,-10 350,-30 370,-30 370,-10 350,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="447,-10 447,-30 467,-30 467,-10 447,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="543,-10 543,-30 563,-30 563,-10 543,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AddProductModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 762,-268 762,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AddProductModule_declarations</title>
+<polygon fill="none" stroke="black" points="590,-78 590,-130 754,-130 754,-78 590,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AddProductModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 582,-130 582,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AddProductModule_exports</title>
+<polygon fill="none" stroke="black" points="279,-208 279,-260 447,-260 447,-208 279,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>AddProductComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="746.49,-122 597.51,-122 597.51,-86 746.49,-86 746.49,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AddProductModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="426.7,-187 423.7,-191 402.7,-191 399.7,-187 299.3,-187 299.3,-151 426.7,-151 426.7,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AddProductComponent&#45;&gt;AddProductModule</title>
+<path fill="none" stroke="black" d="M672,-122.28C672,-143.32 672,-175 672,-175 672,-175 436.65,-175 436.65,-175"/>
+<polygon fill="black" stroke="black" points="436.65,-171.5 426.65,-175 436.65,-178.5 436.65,-171.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>AddProductComponent </title>
+<polygon fill="#fb8072" stroke="black" points="439.49,-252 286.51,-252 286.51,-216 439.49,-216 439.49,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>AddProductModule&#45;&gt;AddProductComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M363,-187.11C363,-187.11 363,-205.99 363,-205.99"/>
+<polygon fill="black" stroke="black" points="359.5,-205.99 363,-215.99 366.5,-205.99 359.5,-205.99"/>
+</g>
+
+<g id="node3" class="node">
+<title>ProductServiceModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="573.58,-122 570.58,-126 549.58,-126 546.58,-122 428.42,-122 428.42,-86 573.58,-86 573.58,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ProductServiceModule&#45;&gt;AddProductModule</title>
+<path fill="none" stroke="black" d="M433.85,-122.02C433.85,-139.37 433.85,-163 433.85,-163 433.85,-163 433.15,-163 433.15,-163"/>
+<polygon fill="black" stroke="black" points="436.8,-159.5 426.8,-163 436.8,-166.5 436.8,-159.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="410.83,-122 407.83,-126 386.83,-126 383.83,-122 315.17,-122 315.17,-86 410.83,-86 410.83,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>FormsModule&#45;&gt;AddProductModule</title>
+<path fill="none" stroke="black" d="M363,-122.11C363,-122.11 363,-140.99 363,-140.99"/>
+<polygon fill="black" stroke="black" points="359.5,-140.99 363,-150.99 366.5,-140.99 359.5,-140.99"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="297.67,-122 294.67,-126 273.67,-126 270.67,-122 186.33,-122 186.33,-86 297.67,-86 297.67,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;AddProductModule</title>
+<path fill="none" stroke="black" d="M292.3,-122.02C292.3,-139.37 292.3,-163 292.3,-163 292.3,-163 293,-163 293,-163"/>
+<polygon fill="black" stroke="black" points="289.33,-166.5 299.33,-163 289.33,-159.5 289.33,-166.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>ReactiveFormsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="168.3,-122 165.3,-126 144.3,-126 141.3,-122 23.7,-122 23.7,-86 168.3,-86 168.3,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ReactiveFormsModule&#45;&gt;AddProductModule</title>
+<path fill="none" stroke="black" d="M96,-122.28C96,-143.32 96,-175 96,-175 96,-175 289.39,-175 289.39,-175"/>
+<polygon fill="black" stroke="black" points="289.39,-178.5 299.39,-175 289.39,-171.5 289.39,-178.5"/>
+</g>
+</g>
+</svg>

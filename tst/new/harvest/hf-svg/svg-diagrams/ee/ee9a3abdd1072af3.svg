@@ -1,0 +1,140 @@
+<svg width="1378pt" height="211pt"
+ viewBox="0.00 0.00 1378.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-207 1374,-207 1374,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="451,-10 451,-30 471,-30 471,-10 451,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="564,-10 564,-30 584,-30 584,-10 564,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="650,-10 650,-30 670,-30 670,-10 650,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="747,-10 747,-30 767,-30 767,-10 747,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="843,-10 843,-30 863,-30 863,-10 843,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AdminLayoutModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 1362,-195 1362,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AdminLayoutModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 1354,-130 1354,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ClinicComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1345.56,-122 1230.44,-122 1230.44,-86 1345.56,-86 1345.56,-122"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>AdminLayoutModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="746.1,-187 743.1,-191 722.1,-191 719.1,-187 607.9,-187 607.9,-151 746.1,-151 746.1,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ClinicComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M1288,-122.01C1288,-144.49 1288,-180 1288,-180 1288,-180 756.2,-180 756.2,-180"/>
+<polygon fill="black" stroke="black" points="756.2,-176.5 746.2,-180 756.2,-183.5 756.2,-176.5"/>
+</g>
+
+<g id="node2" class="node">
+<title>ClinicsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1212.5,-122 1091.5,-122 1091.5,-86 1212.5,-86 1212.5,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ClinicsComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M1152,-122.13C1152,-142.57 1152,-173 1152,-173 1152,-173 756.07,-173 756.07,-173"/>
+<polygon fill="black" stroke="black" points="756.07,-169.5 746.07,-173 756.07,-176.5 756.07,-169.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>DashboardComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1073.97,-122 932.03,-122 932.03,-86 1073.97,-86 1073.97,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DashboardComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M1003,-122.27C1003,-140.56 1003,-166 1003,-166 1003,-166 756.14,-166 756.14,-166"/>
+<polygon fill="black" stroke="black" points="756.14,-162.5 746.14,-166 756.14,-169.5 756.14,-162.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>MedicalsheetComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="913.97,-122 758.03,-122 758.03,-86 913.97,-86 913.97,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MedicalsheetComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M836,-122.01C836,-138.05 836,-159 836,-159 836,-159 756.28,-159 756.28,-159"/>
+<polygon fill="black" stroke="black" points="756.28,-155.5 746.28,-159 756.28,-162.5 756.28,-155.5"/>
+</g>
+
+<g id="node5" class="node">
+<title>PatientsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="739.66,-122 614.34,-122 614.34,-86 739.66,-86 739.66,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PatientsComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M677,-122.11C677,-122.11 677,-140.99 677,-140.99"/>
+<polygon fill="black" stroke="black" points="673.5,-140.99 677,-150.99 680.5,-140.99 673.5,-140.99"/>
+</g>
+
+<g id="node6" class="node">
+<title>ReportsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="596.38,-122 471.62,-122 471.62,-86 596.38,-86 596.38,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ReportsComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M534,-122.01C534,-138.05 534,-159 534,-159 534,-159 597.59,-159 597.59,-159"/>
+<polygon fill="black" stroke="black" points="597.59,-162.5 607.59,-159 597.59,-155.5 597.59,-162.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>SpecialistsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="453.71,-122 312.29,-122 312.29,-86 453.71,-86 453.71,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SpecialistsComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M383,-122.27C383,-140.56 383,-166 383,-166 383,-166 597.7,-166 597.7,-166"/>
+<polygon fill="black" stroke="black" points="597.7,-169.5 607.7,-166 597.7,-162.5 597.7,-169.5"/>
+</g>
+
+<g id="node8" class="node">
+<title>TreatmentsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="294.31,-122 149.69,-122 149.69,-86 294.31,-86 294.31,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>TreatmentsComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M222,-122.13C222,-142.57 222,-173 222,-173 222,-173 597.9,-173 597.9,-173"/>
+<polygon fill="black" stroke="black" points="597.9,-176.5 607.9,-173 597.9,-169.5 597.9,-176.5"/>
+</g>
+
+<g id="node9" class="node">
+<title>UserComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="131.76,-122 24.24,-122 24.24,-86 131.76,-86 131.76,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>UserComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="black" d="M78,-122.01C78,-144.49 78,-180 78,-180 78,-180 597.7,-180 597.7,-180"/>
+<polygon fill="black" stroke="black" points="597.7,-183.5 607.7,-180 597.7,-176.5 597.7,-183.5"/>
+</g>
+</g>
+</svg>

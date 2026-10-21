@@ -1,0 +1,157 @@
+<svg width="648pt" height="98pt"
+ viewBox="0.00 0.00 648.00 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-94 645,-94 645,5 -4,5"/>
+
+<g id="node1" class="node"><title>x</title>
+<polyline fill="none" stroke="black" points="272,-41 242,-41 "/>
+<path fill="none" stroke="black" d="M242,-41C236,-41 230,-35 230,-29"/>
+<polyline fill="none" stroke="black" points="230,-29 230,-17 "/>
+<path fill="none" stroke="black" d="M230,-17C230,-11 236,-5 242,-5"/>
+<polyline fill="none" stroke="black" points="242,-5 272,-5 "/>
+<path fill="none" stroke="black" d="M272,-5C278,-5 284,-11 284,-17"/>
+<polyline fill="none" stroke="black" points="284,-17 284,-29 "/>
+<path fill="none" stroke="black" d="M284,-29C284,-35 278,-41 272,-41"/>
+
+</g>
+
+<g id="node10" class="node"><title>R3_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="320" cy="-23" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge10" class="edge"><title>x&#45;&gt;R3_intermediate_r</title>
+<path fill="none" stroke="black" d="M284.083,-23C300.625,-23 318.824,-23 319.945,-23"/>
+</g>
+
+<g id="node24" class="node"><title>R4_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="320" cy="-45" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge26" class="edge"><title>x&#45;&gt;R4_intermediate_m</title>
+<path fill="none" stroke="black" d="M284.083,-32.4577C300.625,-38.2341 318.824,-44.5894 319.945,-44.9809"/>
+</g>
+
+<g id="node2" class="node"><title>y</title>
+<polyline fill="none" stroke="black" points="398,-84 368,-84 "/>
+<path fill="none" stroke="black" d="M368,-84C362,-84 356,-78 356,-72"/>
+<polyline fill="none" stroke="black" points="356,-72 356,-60 "/>
+<path fill="none" stroke="black" d="M356,-60C356,-54 362,-48 368,-48"/>
+<polyline fill="none" stroke="black" points="368,-48 398,-48 "/>
+<path fill="none" stroke="black" d="M398,-48C404,-48 410,-54 410,-60"/>
+<polyline fill="none" stroke="black" points="410,-60 410,-72 "/>
+<path fill="none" stroke="black" d="M410,-72C410,-78 404,-84 398,-84"/>
+
+</g>
+
+<g id="node15" class="node"><title>R3_intermediate_m</title>
+<ellipse fill="black" stroke="black" cx="473" cy="-54" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge16" class="edge"><title>y&#45;&gt;R3_intermediate_m</title>
+<path fill="none" stroke="black" d="M410.003,-62.3996C435.685,-58.9754 470.729,-54.3028 472.895,-54.0141"/>
+</g>
+
+<g id="node28" class="node"><title>R5_intermediate_r</title>
+<ellipse fill="black" stroke="black" cx="473" cy="-72" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge30" class="edge"><title>y&#45;&gt;R5_intermediate_r</title>
+<path fill="none" stroke="black" d="M410.003,-67.8002C435.685,-69.5123 470.729,-71.8486 472.895,-71.993"/>
+</g>
+
+<g id="node3" class="node"><title>R1</title>
+<polygon fill="none" stroke="black" points="104,-30 90,-30 90,-16 104,-16 104,-30"/>
+</g>
+
+<g id="node6" class="node"><title>R1_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="167" cy="-23" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge4" class="edge"><title>R1&#45;&gt;R1_intermediate_p</title>
+<path fill="none" stroke="black" d="M104.228,-23C121.554,-23 164.221,-23 166.871,-23"/>
+</g>
+
+<g id="node4" class="node"><title>R1_empty</title>
+
+</g>
+
+<g id="edge2" class="edge"><title>R1_empty&#45;&gt;R1</title>
+<path fill="none" stroke="black" d="M54.2643,-23C67.1627,-23 81.5367,-23 89.8947,-23"/>
+</g>
+
+<g id="edge6" class="edge"><title>R1_intermediate_p&#45;&gt;x</title>
+<path fill="none" stroke="black" d="M167.065,-23C168.565,-23 195.648,-23 219.704,-23"/>
+<polygon fill="black" stroke="black" points="219.745,-26.5001 229.745,-23 219.745,-19.5001 219.745,-26.5001"/>
+</g>
+
+<g id="node9" class="node"><title>R3</title>
+<polygon fill="none" stroke="black" points="390,-30 376,-30 376,-16 390,-16 390,-30"/>
+</g>
+
+<g id="node13" class="node"><title>R3_empty</title>
+
+</g>
+
+<g id="edge12" class="edge"><title>R3&#45;&gt;R3_empty</title>
+<path fill="none" stroke="black" d="M390.062,-22.6077C399.877,-22.0624 418.359,-21.0356 435.389,-20.0895"/>
+<polygon fill="black" stroke="black" points="435.924,-23.5653 445.715,-19.5159 435.536,-16.576 435.924,-23.5653"/>
+</g>
+
+<g id="edge14" class="edge"><title>R3&#45;&gt;R3_intermediate_m</title>
+<path fill="none" stroke="black" d="M401.963,-29.701C414.457,-34.0962 431.184,-39.9442 446,-45 457.223,-48.8299 471.133,-53.3889 472.828,-53.9438"/>
+<polygon fill="none" stroke="black" points="401.676,-29.5997 394.687,-31.3761 390.36,-25.6081 397.348,-23.8317 401.676,-29.5997"/>
+</g>
+
+<g id="edge8" class="edge"><title>R3_intermediate_r&#45;&gt;R3</title>
+<path fill="none" stroke="black" d="M320.046,-23C321.551,-23 359.877,-23 375.979,-23"/>
+</g>
+
+<g id="node18" class="node"><title>R4</title>
+<polygon fill="none" stroke="black" points="264,-73 250,-73 250,-59 264,-59 264,-73"/>
+</g>
+
+<g id="node21" class="node"><title>R4_intermediate_p</title>
+<ellipse fill="black" stroke="black" cx="320" cy="-66" rx="0.036" ry="0.036"/>
+</g>
+
+<g id="edge20" class="edge"><title>R4&#45;&gt;R4_intermediate_p</title>
+<path fill="none" stroke="black" d="M264.227,-66C280.258,-66 317.571,-66 319.887,-66"/>
+</g>
+
+<g id="edge24" class="edge"><title>R4&#45;&gt;R4_intermediate_m</title>
+<path fill="none" stroke="black" d="M275.636,-59.7879C293.498,-53.834 318.023,-45.659 319.887,-45.0377"/>
+<polygon fill="none" stroke="black" points="275.611,-59.7962 271.184,-65.4884 264.227,-63.591 268.654,-57.8989 275.611,-59.7962"/>
+</g>
+
+<g id="node19" class="node"><title>R4_empty</title>
+
+</g>
+
+<g id="edge18" class="edge"><title>R4_empty&#45;&gt;R4</title>
+<path fill="none" stroke="black" d="M194.003,-66C213.264,-66 237.792,-66 249.766,-66"/>
+</g>
+
+<g id="edge22" class="edge"><title>R4_intermediate_p&#45;&gt;y</title>
+<path fill="none" stroke="black" d="M320.046,-66C320.865,-66 332.597,-66 345.716,-66"/>
+<polygon fill="black" stroke="black" points="345.86,-69.5001 355.86,-66 345.859,-62.5001 345.86,-69.5001"/>
+</g>
+
+<g id="node27" class="node"><title>R5</title>
+<polygon fill="none" stroke="black" points="550,-79 536,-79 536,-65 550,-65 550,-79"/>
+</g>
+
+<g id="node31" class="node"><title>R5_empty</title>
+
+</g>
+
+<g id="edge32" class="edge"><title>R5&#45;&gt;R5_empty</title>
+<path fill="none" stroke="black" d="M550.228,-72C556.45,-72 565.94,-72 575.672,-72"/>
+<polygon fill="black" stroke="black" points="575.773,-75.5001 585.773,-72 575.773,-68.5001 575.773,-75.5001"/>
+</g>
+
+<g id="edge28" class="edge"><title>R5_intermediate_r&#45;&gt;R5</title>
+<path fill="none" stroke="black" d="M473.051,-72C474.748,-72 518.582,-72 535.98,-72"/>
+</g>
+</g>
+</svg>

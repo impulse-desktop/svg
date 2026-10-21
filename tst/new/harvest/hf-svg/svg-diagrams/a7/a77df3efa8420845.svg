@@ -1,0 +1,71 @@
+<svg width="449pt" height="159pt"
+ viewBox="0.00 0.00 449.00 158.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 154.5)">
+<title>tbb::internal::generic_scheduler::leave_task_pool</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-154.5 445,-154.5 445,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-66 0,-96 140,-96 140,-66 0,-66"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01133.html#a1f6010c3e550e88ab739adbdee5dfdac" target="_top" xlink:title="tbb::internal::__TBB\l_store_relaxed">
+<polygon fill="white" stroke="black" points="186.5,-120 186.5,-150 290.5,-150 290.5,-120 186.5,-120"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M117.38,-96.042C137.233,-102.481 160.591,-110.057 181.407,-116.808"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="180.489,-120.189 191.081,-119.945 182.648,-113.531 180.489,-120.189"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00302.html#a1b5b30c44c0a0a0d6fa6548fead0f879" target="_top" xlink:title="tbb::internal::generic\l_scheduler::is_quiescent\l_local_task_pool_empty">
+<polygon fill="white" stroke="black" points="176,-60.5 176,-101.5 301,-101.5 301,-60.5 176,-60.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M140.165,-81C148.613,-81 157.26,-81 165.745,-81"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="165.99,-84.5001 175.99,-81 165.99,-77.5001 165.99,-84.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00302.html#a22a847d9945a845e136c9163f835adcd" target="_top" xlink:title="tbb::internal::generic\l_scheduler::is_task_pool\l_published">
+<polygon fill="white" stroke="black" points="176,-0.5 176,-41.5 301,-41.5 301,-0.5 176,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M113.015,-65.8595C130.566,-59.5347 151.389,-52.031 170.933,-44.9883"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="172.183,-48.2581 180.404,-41.5751 169.81,-41.6727 172.183,-48.2581"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a01133.html#a9c68ba9b3309fdabe739f77b71ed9a67" target="_top" xlink:title="tbb::internal::__TBB\l_load_relaxed">
+<polygon fill="white" stroke="black" points="337,-66 337,-96 441,-96 441,-66 337,-66"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M301.187,-81C309.572,-81 318.177,-81 326.557,-81"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="326.638,-84.5001 336.638,-81 326.638,-77.5001 326.638,-84.5001"/>
+</g>
+</g>
+</svg>

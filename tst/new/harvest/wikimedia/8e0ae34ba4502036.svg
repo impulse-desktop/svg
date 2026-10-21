@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2940" height="1050" viewBox="-120 -130 2940 1050">
+
+
+
+    <!-- ####################################### initial ####################################### -->
+    <g transform="">
+        <g transform="scale(50)">
+            <rect width="16" height="16" fill="white"/>
+            <!-- blue -->
+            <path fill="#0044cc" d="M12,3h1v1h-1M10,5h1v1h-1M6,9h1v1h-1M0,15h1v1h-1"/>
+            <!-- green -->
+            <path fill="#00a300" d="M3,3h1v1h-1M5,5h1v1h-1M9,9h1v1h-1"/>
+        </g>
+        <use xlink:href="#labels"/>
+        <g transform="scale(50)">
+            <!-- transparent mask -->
+            <path fill="white" fill-opacity=".8" d="M0,0h16v16h-15v-1h-1M3,3v1h1v-1M12,3v1h1v-1M5,5v1h1v-1M10,5v1h1v-1M6,9v1h1v-1M9,9v1h1v-1"/>
+            <use xlink:href="#grid"/>
+        </g>
+    </g>
+
+    <!-- ####################################### zhe ####################################### -->
+    <g transform="translate(920)">
+        <g transform="scale(50)">
+            <rect width="16" height="16" fill="white"/>
+            <!-- blue -->
+            <path fill="#0044cc" d="M8,1h1v1h-1M0,3h1v1h-1M0,5h1v1h-1M8,7h1v1h-1"/>
+            <!-- green -->
+            <path fill="#00a300" d="M8,3h1v1h-1M8,5h1v1h-1M0,7h1v1h-1"/>
+        </g>
+        <use xlink:href="#labels"/>
+        <g transform="scale(50)">
+            <!-- transparent mask -->
+            <path fill="white" fill-opacity=".8" d="M0,0h16v16h-16v-8h1v-1h-1v-1h1v-1h-1v-1h1v-1h-1M8,1v1h1v-1M8,3v1h1v-1M8,5v1h1v-1M8,7v1h1v-1"/>
+            <use xlink:href="#grid"/>
+        </g>
+            <use xlink:href="#letter_zhe" transform="translate(332, -105) scale(.07)" fill-opacity=".5"/>
+    </g>
+
+    <!-- ####################################### che ####################################### -->
+    <g transform="translate(1840, -50) scale(.5)">
+        <g transform="scale(50)">
+            <rect width="16" height="16" fill="white"/>
+            <!-- blue -->
+            <path fill="#0044cc" d="M12,3h1v1h-1M10,5h1v1h-1M6,9h1v1h-1M0,15h1v1h-1"/>
+            <!-- green -->
+            <path fill="#00a300" d="M3,3h1v1h-1M5,5h1v1h-1M9,9h1v1h-1"/>
+        </g>
+        <use xlink:href="#labels"/>
+        <g transform="scale(50)">
+            <!-- transparent mask -->
+            <path fill="white" fill-opacity=".8" d="M0,0h16v16h-15v-1h-1M3,3v1h1v-1M12,3v1h1v-1M5,5v1h1v-1M10,5v1h1v-1M6,9v1h1v-1M9,9v1h1v-1"/>
+            <use xlink:href="#grid"/>
+        </g>
+            <use xlink:href="#letter_che" transform="translate(319, -105) scale(.07)" fill-opacity=".5"/>
+    </g>
+
+    <!-- ####################################### yu ####################################### -->
+    <g transform="translate(2300, -50) scale(.5)">
+        <g transform="scale(50)">
+            <rect width="16" height="16" fill="white"/>
+            <!-- blue -->
+            <path fill="#0044cc" d="M8,1h1v1h-1M0,3h1v1h-1M0,5h1v1h-1M8,7h1v1h-1"/>
+            <!-- green -->
+            <path fill="#00a300" d="M8,3h1v1h-1M8,5h1v1h-1M0,7h1v1h-1"/>
+        </g>
+        <use xlink:href="#labels"/>
+        <g transform="scale(50)">
+            <!-- transparent mask -->
+            <path fill="white" fill-opacity=".8" d="M0,0h16v16h-16v-8h1v-1h-1v-1h1v-1h-1v-1h1v-1h-1M8,1v1h1v-1M8,3v1h1v-1M8,5v1h1v-1M8,7v1h1v-1"/>
+            <use xlink:href="#grid"/>
+        </g>
+            <use xlink:href="#letter_yu" transform="translate(336, -105) scale(.07)" fill-opacity=".5"/>
+    </g>
+
+    <!-- ####################################### ya ####################################### -->
+    <g transform="translate(1840, 450) scale(.5)">
+        <g transform="scale(50)">
+            <rect width="16" height="16" fill="white"/>
+            <!-- blue -->
+            <path fill="#0044cc" d="M7,8h1v1h-1M15,10h1v1h-1M15,12h1v1h-1M7,14h1v1h-1"/>
+            <!-- green -->
+            <path fill="#00a300" d="M9,1h1v1h-1M1,3h1v1h-1M1,5h1v1h-1"/>
+        </g>
+        <use xlink:href="#labels"/>
+        <g transform="scale(50)">
+            <!-- transparent mask -->
+            <path fill="white" fill-opacity=".8" d="M0,0h16v10h-1v1h1v1h-1v1h1v3h-16M9,1v1h1v-1M1,3v1h1v-1M1,5v1h1v-1M7,8v1h1v-1M7,14v1h1v-1"/>
+            <use xlink:href="#grid"/>
+        </g>
+            <use xlink:href="#letter_ya" transform="translate(328, -105) scale(.07)" fill-opacity=".5"/>
+    </g>
+
+    <!-- ####################################### sha ####################################### -->
+    <g transform="translate(2300, 450) scale(.5)">
+        <g transform="scale(50)">
+            <rect width="16" height="16" fill="white"/>
+            <!-- blue -->
+            <path fill="#0044cc" d="M12,2h1v1h-1M10,4h1v1h-1M6,8h1v1h-1M0,14h1v1h-1"/>
+            <!-- green -->
+            <path fill="#00a300" d="M13,3h1v1h-1M11,5h1v1h-1M1,15h1v1h-1"/>
+        </g>
+        <use xlink:href="#labels"/>
+        <g transform="scale(50)">
+            <!-- transparent mask -->
+            <path fill="white" fill-opacity=".8" d="M0,0h16v16h-14v-1h-1v-1h-1M12,2v1h1v1h1v-1h-1v-1M10,4v1h1v1h1v-1h-1v-1M6,8v1h1v-1M0,15h1v1h-1"/>
+            <use xlink:href="#grid"/>
+        </g>
+            <use xlink:href="#letter_sha" transform="translate(337, -105) scale(.07)" fill-opacity=".5"/>
+    </g>
+
+
+<defs>
+<!-- components of binary labels -->
+
+<path id="d0" d="M0,1h1v1H0"/>
+<path id="d1" d="M0,0h1v3H0"/>
+
+<g id="b00" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b01" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+<g id="b02" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b03" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+<g id="b04" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b05" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+<g id="b06" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b07" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d0"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+<g id="b08" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b09" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+<g id="b10" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b11" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d0" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+<g id="b12" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b13" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d0" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+<g id="b14" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d0" transform="translate(6)"/></g>
+<g id="b15" transform="translate(0, .74) scale(.04, .04)"><use xlink:href="#d1"/><use xlink:href="#d1" transform="translate(2)"/><use xlink:href="#d1" transform="translate(4)"/><use xlink:href="#d1" transform="translate(6)"/></g>
+
+<g id="left" transform="translate(.18)">
+    <use xlink:href="#b00"/>
+    <use xlink:href="#b08" transform="translate(0, 1)"/>
+    <use xlink:href="#b04" transform="translate(0, 2)"/>
+    <use xlink:href="#b12" transform="translate(0, 3)"/>
+    <use xlink:href="#b02" transform="translate(0, 4)"/>
+    <use xlink:href="#b10" transform="translate(0, 5)"/>
+    <use xlink:href="#b06" transform="translate(0, 6)"/>
+    <use xlink:href="#b14" transform="translate(0, 7)"/>
+    <use xlink:href="#b01" transform="translate(0, 8)"/>
+    <use xlink:href="#b09" transform="translate(0, 9)"/>
+    <use xlink:href="#b05" transform="translate(0, 10)"/>
+    <use xlink:href="#b13" transform="translate(0, 11)"/>
+    <use xlink:href="#b03" transform="translate(0, 12)"/>
+    <use xlink:href="#b11" transform="translate(0, 13)"/>
+    <use xlink:href="#b07" transform="translate(0, 14)"/>
+    <use xlink:href="#b15" transform="translate(0, 15)"/>
+</g>
+
+<g id="right" transform="translate(.54)">
+    <use xlink:href="#b00"/>
+    <use xlink:href="#b01" transform="translate(1)"/>
+    <use xlink:href="#b02" transform="translate(2)"/>
+    <use xlink:href="#b03" transform="translate(3)"/>
+    <use xlink:href="#b04" transform="translate(4)"/>
+    <use xlink:href="#b05" transform="translate(5)"/>
+    <use xlink:href="#b06" transform="translate(6)"/>
+    <use xlink:href="#b07" transform="translate(7)"/>
+    <use xlink:href="#b08" transform="translate(8)"/>
+    <use xlink:href="#b09" transform="translate(9)"/>
+    <use xlink:href="#b10" transform="translate(10)"/>
+    <use xlink:href="#b11" transform="translate(11)"/>
+    <use xlink:href="#b12" transform="translate(12)"/>
+    <use xlink:href="#b13" transform="translate(13)"/>
+    <use xlink:href="#b14" transform="translate(14)"/>
+    <use xlink:href="#b15" transform="translate(15)"/>
+</g>
+
+<g id="labels">
+
+    <!-- binary labels -->
+    <g transform="scale(50, 50)">
+
+        <use xlink:href="#left" transform="translate(0)"/>
+        <use xlink:href="#left" transform="translate(1)"/>
+        <use xlink:href="#left" transform="translate(2)"/>
+        <use xlink:href="#left" transform="translate(3)"/>
+        <use xlink:href="#left" transform="translate(4)"/>
+        <use xlink:href="#left" transform="translate(5)"/>
+        <use xlink:href="#left" transform="translate(6)"/>
+        <use xlink:href="#left" transform="translate(7)"/>
+        <use xlink:href="#left" transform="translate(8)"/>
+        <use xlink:href="#left" transform="translate(9)"/>
+        <use xlink:href="#left" transform="translate(10)"/>
+        <use xlink:href="#left" transform="translate(11)"/>
+        <use xlink:href="#left" transform="translate(12)"/>
+        <use xlink:href="#left" transform="translate(13)"/>
+        <use xlink:href="#left" transform="translate(14)"/>
+        <use xlink:href="#left" transform="translate(15)"/>
+
+        <use xlink:href="#right" transform="translate(0, 0)"/>
+        <use xlink:href="#right" transform="translate(0, 1)"/>
+        <use xlink:href="#right" transform="translate(0, 2)"/>
+        <use xlink:href="#right" transform="translate(0, 3)"/>
+        <use xlink:href="#right" transform="translate(0, 4)"/>
+        <use xlink:href="#right" transform="translate(0, 5)"/>
+        <use xlink:href="#right" transform="translate(0, 6)"/>
+        <use xlink:href="#right" transform="translate(0, 7)"/>
+        <use xlink:href="#right" transform="translate(0, 8)"/>
+        <use xlink:href="#right" transform="translate(0, 9)"/>
+        <use xlink:href="#right" transform="translate(0, 10)"/>
+        <use xlink:href="#right" transform="translate(0, 11)"/>
+        <use xlink:href="#right" transform="translate(0, 12)"/>
+        <use xlink:href="#right" transform="translate(0, 13)"/>
+        <use xlink:href="#right" transform="translate(0, 14)"/>
+        <use xlink:href="#right" transform="translate(0, 15)"/>
+
+    </g>
+
+    <!-- integer labels -->
+    <g style="text-anchor: middle; letter-spacing: -1;" font-size="20px" font-family="sans-serif" transform="translate(25, 30)" fill-opacity="0.8">
+
+        <g></g>
+        <g transform="translate(50)"></g>
+        <g transform="translate(100)"></g>
+        <g transform="translate(150)"></g>
+        <g transform="translate(200)"></g>
+        <g transform="translate(250)"></g>
+        <g transform="translate(300)"></g>
+        <g transform="translate(350)"></g>
+        <g transform="translate(400)"></g>
+        <g transform="translate(450)"></g>
+        <g transform="translate(500)"></g>
+        <g transform="translate(550)"></g>
+        <g transform="translate(600)"></g>
+        <g transform="translate(650)"></g>
+        <g transform="translate(700)"></g>
+        <g transform="translate(750)"></g>
+
+    </g>
+
+</g>
+
+<!-- grid lines -->
+<g id="grid" stroke="#000" stroke-width="16">
+    <path stroke-dasharray=".03,  .97" d="M0,8h17M8,0v17"/>
+    <path stroke-dasharray=".1, 3.9" d="M-.05,8h17M8,-.05v17"/>
+    <rect x="0" y="0" width="16" height="16" stroke-width=".1" fill="none"/>
+</g>
+
+<!-- cyrillic letters -->
+<path id="letter_zhe" d="M 398.40752 -13.274966 C 354.41232 -13.273861 321.14794 -3.7511431 298.61396 15.294412 C 276.07985 34.342118 264.81213 55.936709 264.81216 80.079314 C 264.81213 99.931743 272.18938 116.56475 286.94387 129.9769 C 301.69824 143.39099 320.34323 150.09758 342.87738 150.09664 C 362.19216 150.09758 385.53014 142.31824 412.89309 126.75807 C 441.32872 110.66328 464.39973 102.61538 482.1053 102.61439 C 500.88342 102.61538 515.77141 111.33395 526.77047 128.77004 C 537.76892 146.20805 554.26683 191.14224 576.26469 263.57227 C 603.62711 355.31883 625.62539 417.15299 642.25807 449.07558 C 658.88993 480.99945 683.30225 508.76508 715.49423 532.3716 C 683.83878 553.29663 651.37854 593.26761 618.11439 652.2849 C 526.90478 813.77931 462.25289 919.20633 424.15982 968.56649 C 386.06636 1017.9269 327.31691 1048.7773 247.91126 1061.1173 L 247.91126 1090.8951 L 525.5636 1090.8951 L 685.71637 792.31793 C 749.02585 675.35582 784.5708 610.70392 792.35097 598.36337 C 800.13002 586.02379 810.4585 576.099 823.33568 568.58713 C 836.21169 561.0763 852.5761 557.31931 872.42816 557.31878 L 894.96162 558.1239 L 894.96162 892.1115 C 894.96095 964.00603 885.57172 1009.6108 866.79399 1028.9257 C 848.01499 1048.2407 804.55721 1058.9713 736.41907 1061.1173 L 736.41907 1090.8951 L 1206.4158 1090.8951 L 1206.4158 1061.1173 C 1138.8127 1058.9713 1095.7554 1048.2407 1077.2461 1028.9257 C 1058.7352 1009.6108 1049.481 964.00603 1049.4818 892.1115 L 1049.4818 558.1239 C 1057.5289 557.5879 1064.5025 557.31931 1070.4051 557.31878 C 1098.84 557.31931 1120.3011 565.10026 1134.7882 580.65897 C 1149.2735 596.2187 1160.2726 611.24018 1167.7849 625.72588 L 1293.3324 858.31131 C 1369.5179 999.41757 1410.8301 1076.9455 1417.2696 1090.8951 L 1694.922 1090.8951 L 1694.922 1061.1173 C 1633.7566 1049.8503 1586.4084 1030.4011 1552.877 1002.77 C 1519.3429 975.13906 1472.7987 908.74382 1413.2457 803.58466 C 1350.471 693.59736 1310.365 625.72726 1292.929 599.97359 C 1275.4909 574.22089 1253.6278 551.68706 1227.339 532.3716 C 1259.5296 508.76508 1283.8083 481.13293 1300.1734 449.47733 C 1316.5364 417.823 1338.6682 355.85535 1366.5685 263.57227 C 1388.0284 193.28834 1404.3912 148.88971 1415.6594 130.37865 C 1426.9253 111.8695 1441.4128 102.61538 1459.1193 102.61439 C 1477.36 102.61538 1500.9666 110.66328 1529.9401 126.75807 C 1558.3747 142.31824 1581.7142 150.09758 1599.9575 150.09664 C 1623.0266 150.09758 1641.8051 143.39099 1656.2927 129.9769 C 1670.7774 116.56475 1678.0196 99.931743 1678.0211 80.079314 C 1678.0196 54.327134 1666.2163 32.330471 1642.6106 14.087551 C 1619.0022 -4.1532163 1586.2734 -13.273861 1544.4257 -13.274966 C 1500.9659 -13.273861 1462.2027 -2.0077508 1428.1346 20.525221 C 1394.064 43.060333 1369.7868 68.947466 1355.3018 98.187075 C 1340.8145 127.42867 1320.6948 184.16614 1294.9426 268.39971 C 1270.7979 346.73315 1252.4215 398.64252 1239.8142 424.12678 C 1227.2048 449.61238 1209.3656 469.19499 1186.296 482.87576 C 1163.2245 496.55776 1131.5685 503.39944 1091.3299 503.39886 C 1078.4525 503.39944 1064.5037 501.78955 1049.4818 498.5698 L 1049.4818 198.384 C 1049.481 126.49057 1058.7352 80.885726 1077.2461 61.569803 C 1095.7554 42.255939 1138.8127 31.525388 1206.4158 29.378227 L 1206.4158 -0.39962636 L 736.41907 -0.39962636 L 736.41907 29.378227 C 804.55721 31.525388 848.01499 42.255939 866.79399 61.569803 C 885.57172 80.885726 894.96095 126.49057 894.96162 198.384 L 894.96162 498.5698 C 874.57301 501.78955 858.2086 503.39944 845.86914 503.39886 C 809.38484 503.39944 779.47375 496.55776 756.13544 482.87576 C 732.7961 469.19499 714.82339 449.21031 702.21552 422.91992 C 689.60673 396.63088 671.49891 345.12358 647.89224 268.39971 C 621.6021 183.62962 601.21375 126.49008 586.72792 96.980214 C 572.24141 67.472344 547.96255 41.718698 513.89351 19.720109 C 479.82391 -2.2763371 441.32934 -13.273861 398.40752 -13.274966 z " />
+<path id="letter_che" d="M 605.23743 -0.39962636 L 605.23743 29.378227 C 648.15943 29.915813 681.29033 34.610429 704.62925 43.462041 C 727.96798 52.315748 743.52663 65.862423 751.30639 84.103261 C 759.08585 102.34611 762.97633 141.78153 762.97648 202.40795 L 762.97648 387.50951 C 762.97633 476.57333 767.93952 535.99344 777.8654 565.77004 C 787.79094 595.54769 812.73883 623.04473 852.71017 648.26095 C 892.68102 673.47806 944.59043 686.0855 1008.4372 686.08509 C 1093.7444 686.0855 1203.9994 655.77233 1339.2044 595.14453 L 1339.2044 888.08755 C 1339.2037 950.32463 1335.1797 990.02702 1327.1326 1007.1957 C 1319.084 1024.3646 1304.598 1037.3757 1283.6743 1046.2283 C 1262.7492 1055.081 1228.6806 1060.0443 1181.467 1061.1173 L 1181.467 1090.8951 L 1651.4637 1090.8951 L 1651.4637 1061.1173 C 1606.3945 1059.5078 1573.2636 1054.8132 1552.0718 1047.0335 C 1530.8782 1039.254 1515.8551 1026.5113 1507.0033 1008.806 C 1498.1498 991.1007 1493.7237 950.86116 1493.7246 888.08755 L 1493.7246 202.40795 C 1493.7237 142.85458 1497.4791 103.82123 1504.9913 85.310122 C 1512.5018 66.801022 1527.5249 52.98576 1550.0599 43.863791 C 1572.5929 34.743916 1606.3945 29.915813 1651.4637 29.378227 L 1651.4637 -0.39962636 L 1181.467 -0.39962636 L 1181.467 29.378227 C 1225.4614 29.915813 1258.9945 34.743916 1282.0656 43.863791 C 1305.1356 52.98576 1320.4256 66.265462 1327.9377 83.701512 C 1335.4483 101.13957 1339.2037 140.70848 1339.2044 202.40795 L 1339.2044 530.76138 C 1242.0927 574.75698 1153.2987 596.75526 1072.8204 596.75476 C 1034.7267 596.75526 1003.3391 588.84083 978.65939 573.01282 C 953.97889 557.18586 937.61447 534.38343 929.56692 504.60572 C 921.51872 474.82918 917.49476 424.52973 917.49507 353.70771 L 917.49507 202.40795 C 917.49476 147.6833 920.58109 110.25987 926.75144 90.139181 C 932.92117 70.020502 948.07775 54.863921 972.22172 44.668903 C 996.36498 34.475978 1031.2393 29.379289 1076.8443 29.378227 L 1076.8443 -0.39962636 L 605.23743 -0.39962636 z " />
+<path id="letter_sha" d="M 114.71926 -0.39962636 L 114.71926 29.378227 C 173.73695 32.598438 211.96454 43.999649 229.40175 63.581776 C 246.83865 83.16596 255.55721 128.10014 255.5574 198.384 L 255.5574 891.30639 C 255.55721 964.81048 247.3742 1010.1468 231.01036 1027.3155 C 214.64619 1044.4844 185.80784 1054.6793 144.4955 1057.8984 C 127.32663 1059.508 117.40184 1060.5808 114.71926 1061.1173 L 114.71926 1090.8951 L 1685.6672 1090.8951 L 1685.6672 1061.1173 C 1633.6227 1060.5808 1599.5525 1054.0077 1583.4583 1041.3993 C 1567.361 1028.791 1556.8991 1014.7071 1552.0718 999.14784 C 1547.2416 983.58872 1544.8276 947.64169 1544.8291 891.30639 L 1544.8291 198.384 C 1544.8276 147.41504 1547.9123 112.13867 1554.0838 92.554518 C 1560.2523 72.97236 1573.397 57.814166 1593.5182 47.082626 C 1613.6364 36.353173 1643.5474 30.452338 1683.2519 29.378227 L 1683.2519 -0.39962636 L 1266.3716 -0.39962636 L 1266.3716 29.378227 C 1319.4864 34.744537 1353.4214 47.620553 1368.1771 68.007473 C 1382.9302 88.396438 1390.3074 131.85582 1390.3088 198.384 L 1390.3088 891.30639 C 1390.3074 954.07999 1389.1014 990.56417 1386.6883 1000.7581 C 1384.2726 1010.9522 1378.5037 1018.5979 1369.384 1023.6949 C 1360.2618 1028.7919 1340.9477 1031.3394 1311.4401 1031.3394 L 1094.9521 1031.3394 C 1034.8603 1031.3394 1000.2546 1025.7072 991.1346 1014.4401 C 982.01274 1003.1731 977.45162 962.12787 977.45253 891.30639 L 977.45253 198.384 C 977.45162 132.39235 984.69538 89.068064 999.18249 68.410836 C 1013.6677 47.755653 1047.4676 34.744537 1100.5847 29.378227 L 1100.5847 -0.39962636 L 698.99507 -0.39962636 L 698.99507 29.378227 C 752.64693 34.744537 786.71708 47.889139 801.20397 68.812585 C 815.68942 89.738075 822.93318 132.92887 822.93393 198.384 L 822.93393 891.30639 C 822.93318 967.49311 818.10347 1009.8798 808.44676 1018.4641 C 798.78858 1027.0486 767.13409 1031.3394 713.48225 1031.3394 L 501.01817 1031.3394 C 467.21668 1031.3394 445.62048 1029.194 436.23166 1024.9017 C 426.84211 1020.6097 420.13551 1011.0869 416.11192 996.33237 C 412.08764 981.57804 410.07566 946.56864 410.076 891.30639 L 410.076 198.384 C 410.07566 131.3193 417.45292 87.726426 432.20771 67.605724 C 446.96178 47.487066 480.62986 34.744537 533.20975 29.378227 L 533.20975 -0.39962636 L 114.71926 -0.39962636 z " />
+<path id="letter_yu" d="M 1201.1833 -25.346807 C 1058.4667 -25.345691 933.85906 24.014524 827.35963 122.73412 C 720.85872 221.45565 663.85266 349.6851 656.34188 507.42281 L 431.80596 507.42281 L 431.80596 192.74983 C 431.80562 134.26952 435.69609 97.65184 443.47605 82.896399 C 451.25531 68.142975 463.46067 55.533933 480.09333 45.070652 C 496.72521 34.609465 524.62432 29.379289 563.7911 29.378227 L 588.73989 29.378227 L 588.73989 -0.39962636 L 121.15693 -0.39962636 L 121.15693 29.378227 L 146.10572 29.378227 C 180.97978 29.379289 208.20823 34.207391 227.79153 43.863791 C 247.37455 53.522284 260.51914 67.741233 267.22588 86.518597 C 273.93227 105.29797 277.28556 140.70782 277.28575 192.74983 L 277.28575 897.74567 C 277.28556 950.86183 274.20086 986.00314 268.031 1003.1718 C 261.86079 1020.3407 248.84967 1034.291 228.99839 1045.0215 C 209.14683 1055.752 184.19894 1061.1174 154.15362 1061.1173 L 121.15693 1061.1173 L 121.15693 1090.8951 L 588.73989 1090.8951 L 588.73989 1061.1173 L 563.7911 1061.1173 C 509.0651 1061.1174 473.38666 1050.1182 456.75476 1028.1206 C 440.12212 1006.1231 431.80562 962.66536 431.80596 897.74567 L 431.80596 566.17179 L 656.34188 566.17179 C 658.48742 670.25813 683.43531 764.28556 731.18665 848.25144 C 778.93672 932.21782 841.71013 997.80731 919.50705 1045.0215 C 997.30232 1092.2356 1086.6352 1115.8423 1187.5029 1115.8423 C 1343.094 1115.8423 1471.4569 1059.3734 1572.5933 946.43478 C 1673.7267 833.49646 1724.2948 697.88976 1724.2965 539.61439 C 1724.2948 374.3653 1671.4478 238.89208 1565.7539 133.19574 C 1460.057 27.501303 1338.5326 -25.345691 1201.1833 -25.346807 z M 1185.8927 33.402174 C 1303.3905 33.403232 1391.784 80.214296 1451.0714 173.83696 C 1510.3561 267.46145 1539.9986 396.36318 1540 560.53923 C 1539.9986 722.57026 1508.4776 846.10508 1445.4372 931.14411 C 1382.3943 1016.1835 1296.1478 1058.7035 1186.6978 1058.7035 C 1074.0265 1058.7035 988.04858 1010.281 928.76342 913.43809 C 869.47659 816.59555 839.83247 691.45081 839.83322 538.00416 C 839.83247 373.82812 871.48856 248.68339 934.79934 162.57023 C 998.10842 76.458922 1081.8058 33.403232 1185.8927 33.402174 z " />
+<path id="letter_ya" d="M 1103.8051 -0.39962636 C 987.9151 -0.39853506 902.47275 8.0530647 847.47936 24.952531 C 792.48516 41.854128 745.80757 72.971439 707.44633 118.30681 C 669.08453 163.64414 649.90399 217.69897 649.90421 280.47155 C 649.90399 347.53797 671.76717 405.75185 715.49423 455.1115 C 759.22071 504.47242 826.95731 539.34671 918.70355 559.73412 L 693.36252 872.79688 C 641.85588 944.69141 597.59235 992.4417 560.57227 1016.0487 C 523.55192 1039.6559 475.26444 1054.6791 415.71017 1061.1173 L 415.71017 1090.8951 L 707.04297 1090.8951 L 1076.441 580.65897 C 1103.8031 581.73254 1126.0699 582.26809 1143.2395 582.26758 C 1150.2136 582.26809 1157.7242 582.1346 1165.7729 581.86583 C 1173.82 581.59807 1182.1365 581.19601 1190.7217 580.65897 L 1190.7217 897.74567 C 1190.7209 966.42104 1183.2102 1009.0747 1168.1883 1025.7069 C 1147.7996 1049.314 1117.2162 1061.1174 1076.441 1061.1173 L 1033.7878 1061.1173 L 1033.7878 1090.8951 L 1501.3708 1090.8951 L 1501.3708 1061.1173 L 1460.3262 1061.1173 C 1414.184 1061.1174 1381.1866 1046.0942 1361.3361 1016.0487 C 1350.0682 999.41652 1344.4359 959.98275 1344.4368 897.74567 L 1344.4368 192.74983 C 1344.4359 124.07555 1351.9466 81.421933 1366.9703 64.788638 C 1387.8938 41.182572 1419.0127 29.379289 1460.3262 29.378227 L 1501.3708 29.378227 L 1501.3708 -0.39962636 L 1103.8051 -0.39962636 z M 1064.3691 60.764691 C 1095.4869 60.765721 1137.605 65.86241 1190.7217 76.055367 L 1190.7217 529.95627 C 1180.527 529.95683 1171.6749 530.09193 1164.1643 530.35963 C 1156.6522 530.62846 1150.4812 530.76194 1145.6532 530.76138 C 1041.5667 530.76194 963.09951 508.2281 910.25229 463.15939 C 857.40413 418.09193 830.97981 360.6838 830.98021 290.93478 C 830.97981 222.79693 852.30743 167.40078 894.96162 124.74609 C 937.61487 82.09334 994.08372 60.765721 1064.3691 60.764691 z " />
+</defs>
+
+</svg>

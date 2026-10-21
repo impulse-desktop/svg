@@ -1,0 +1,84 @@
+<svg width="556pt" height="211pt"
+ viewBox="0.00 0.00 556.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 552,-207 552,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="40,-10 40,-30 60,-30 60,-10 40,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="153,-10 153,-30 173,-30 173,-10 153,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="239,-10 239,-30 259,-30 259,-10 239,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="336,-10 336,-30 356,-30 356,-10 336,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="432,-10 432,-30 452,-30 452,-10 432,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TrekMapPageModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 540,-195 540,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TrekMapPageModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="268,-78 268,-130 532,-130 532,-78 268,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_TrekMapPageModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 260,-130 260,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>SelectPoiComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="524.2134,-122 389.7866,-122 389.7866,-86 524.2134,-86 524.2134,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>TrekMapPageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="332.3487,-187 329.3487,-191 308.3487,-191 305.3487,-187 193.6513,-187 193.6513,-151 332.3487,-151 332.3487,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>SelectPoiComponent&#45;&gt;TrekMapPageModule</title>
+<path fill="none" stroke="#000000" d="M457,-122.1061C457,-141.3391 457,-169 457,-169 457,-169 342.4905,-169 342.4905,-169"/>
+<polygon fill="#000000" stroke="#000000" points="342.4905,-165.5001 332.4905,-169 342.4905,-172.5001 342.4905,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>TrekMapPage</title>
+<polygon fill="#ffffb3" stroke="#000000" points="371.7993,-122 276.2007,-122 276.2007,-86 371.7993,-86 371.7993,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>TrekMapPage&#45;&gt;TrekMapPageModule</title>
+<path fill="none" stroke="#000000" d="M304.3875,-122.1061C304.3875,-122.1061 304.3875,-140.991 304.3875,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="300.8875,-140.9909 304.3875,-150.991 307.8875,-140.991 300.8875,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="252.4231,-122 249.4231,-126 228.4231,-126 225.4231,-122 153.5769,-122 153.5769,-86 252.4231,-86 252.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;TrekMapPageModule</title>
+<path fill="none" stroke="#000000" d="M222.8934,-122.1061C222.8934,-122.1061 222.8934,-140.991 222.8934,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="219.3935,-140.9909 222.8934,-150.991 226.3935,-140.991 219.3935,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>SharedUiModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="136.4202,-122 133.4202,-126 112.4202,-126 109.4202,-122 23.5798,-122 23.5798,-86 136.4202,-86 136.4202,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SharedUiModule&#45;&gt;TrekMapPageModule</title>
+<path fill="none" stroke="#000000" d="M80,-122.1061C80,-141.3391 80,-169 80,-169 80,-169 183.5546,-169 183.5546,-169"/>
+<polygon fill="#000000" stroke="#000000" points="183.5546,-172.5001 193.5546,-169 183.5546,-165.5001 183.5546,-172.5001"/>
+</g>
+</g>
+</svg>

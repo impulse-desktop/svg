@@ -1,0 +1,112 @@
+<svg width="640pt" height="290pt"
+ viewBox="0.00 0.00 640.00 290.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 286)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-286 636,-286 636,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="82,-10 82,-30 102,-30 102,-10 82,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="195,-10 195,-30 215,-30 215,-10 195,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="281,-10 281,-30 301,-30 301,-10 281,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="378,-10 378,-30 398,-30 398,-10 378,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="474,-10 474,-30 494,-30 494,-10 474,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-274 284,-274 284,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 138,-130 138,-78 16,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="146,-78 146,-130 276,-130 276,-78 146,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="82,-214 82,-266 206,-266 206,-214 82,-214"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_NgCCTVModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="292,-138 292,-206 624,-206 624,-138 292,-138"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_NgCCTVModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="464,-146 464,-198 616,-198 616,-146 464,-146"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_NgCCTVModule_exports</title>
+<polygon fill="none" stroke="#000000" points="300,-146 300,-198 456,-198 456,-146 300,-146"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="129.9399,-122 24.0601,-122 24.0601,-86 129.9399,-86 129.9399,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="185.6571,-190 182.6571,-194 161.6571,-194 158.6571,-190 102.3429,-190 102.3429,-154 185.6571,-154 185.6571,-190"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M115.9457,-122.2228C115.9457,-122.2228 115.9457,-143.7269 115.9457,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="112.4457,-143.7269 115.9457,-153.7269 119.4457,-143.727 112.4457,-143.7269"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="198.439,-258 89.561,-258 89.561,-222 198.439,-222 198.439,-258"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M144,-190.2228C144,-190.2228 144,-211.7269 144,-211.7269"/>
+<polygon fill="#000000" stroke="#000000" points="140.5001,-211.7269 144,-221.7269 147.5001,-211.727 140.5001,-211.7269"/>
+</g>
+
+<g id="node3" class="node">
+<title>NgCCTVModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="267.9888,-122 264.9888,-126 243.9888,-126 240.9888,-122 154.0112,-122 154.0112,-86 267.9888,-86 267.9888,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>NgCCTVModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M169.9169,-122.2228C169.9169,-122.2228 169.9169,-143.7269 169.9169,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="166.417,-143.7269 169.9169,-153.7269 173.417,-143.727 166.417,-143.7269"/>
+</g>
+
+<g id="node6" class="node">
+<title>NgCCTVComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="447.7717,-190 308.2283,-190 308.2283,-154 447.7717,-154 447.7717,-190"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>NgCCTVModule&#45;&gt;NgCCTVComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M233.232,-122.2228C233.232,-142.3652 233.232,-172 233.232,-172 233.232,-172 298.1603,-172 298.1603,-172"/>
+<polygon fill="#000000" stroke="#000000" points="298.1603,-175.5001 308.1603,-172 298.1602,-168.5001 298.1603,-175.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>NgCCTVComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="607.7716,-190 472.2284,-190 472.2284,-154 607.7716,-154 607.7716,-190"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>NgCCTVComponent&#45;&gt;NgCCTVModule</title>
+<path fill="none" stroke="#000000" d="M540,-153.7772C540,-133.6348 540,-104 540,-104 540,-104 278.3074,-104 278.3074,-104"/>
+<polygon fill="#000000" stroke="#000000" points="278.3075,-100.5001 268.3074,-104 278.3074,-107.5001 278.3075,-100.5001"/>
+</g>
+</g>
+</svg>

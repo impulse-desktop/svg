@@ -1,0 +1,119 @@
+<svg width="645pt" height="180pt"
+ viewBox="0.00 0.00 644.94 180.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 176)">
+<title>G</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-176 640.9443,-176 640.9443,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_1</title>
+<polygon fill="none" stroke="#000000" points="136.5965,-90 136.5965,-164 554.3499,-164 554.3499,-90 136.5965,-90"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_0</title>
+<polygon fill="none" stroke="#000000" points="113.0283,-8 113.0283,-82 554.3499,-82 554.3499,-8 113.0283,-8"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>facebook</title>
+<ellipse fill="none" stroke="#000000" cx="42.5142" cy="-116" rx="42.5283" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>fb_nginx</title>
+<ellipse fill="none" stroke="#000000" cx="186.6356" cy="-116" rx="42.0784" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>facebook&#45;&gt;fb_nginx</title>
+<path fill="none" stroke="#000000" d="M85.3651,-116C100.6118,-116 117.9584,-116 133.9339,-116"/>
+<polygon fill="#000000" stroke="#000000" points="134.1983,-119.5001 144.1982,-116 134.1982,-112.5001 134.1983,-119.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>fb_adapter</title>
+<ellipse fill="none" stroke="#000000" cx="359.7273" cy="-116" rx="47.8323" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>fb_nginx&#45;&gt;fb_adapter</title>
+<path fill="none" stroke="#000000" d="M228.9786,-116C250.7745,-116 277.6832,-116 301.4123,-116"/>
+<polygon fill="#000000" stroke="#000000" points="301.711,-119.5001 311.7109,-116 301.7109,-112.5001 301.711,-119.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>backend_1</title>
+<ellipse fill="#00ff00" stroke="#00ff00" cx="506.7807" cy="-116" rx="39.6385" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>fb_adapter&#45;&gt;backend_1</title>
+<path fill="none" stroke="#000000" d="M407.8781,-116C423.5445,-116 440.9628,-116 456.7626,-116"/>
+<polygon fill="#000000" stroke="#000000" points="456.8769,-119.5001 466.8769,-116 456.8768,-112.5001 456.8769,-119.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>redis</title>
+<ellipse fill="none" stroke="#000000" cx="609.6471" cy="-75" rx="27.0958" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>backend_1&#45;&gt;redis</title>
+<path fill="none" stroke="#000000" d="M536.8105,-104.0309C549.2861,-99.0584 563.8065,-93.271 576.5851,-88.1777"/>
+<polygon fill="#000000" stroke="#000000" points="577.9612,-91.397 585.9547,-84.4432 575.3695,-84.8945 577.9612,-91.397"/>
+</g>
+
+<g id="node6" class="node">
+<title>telegram</title>
+<ellipse fill="none" stroke="#000000" cx="42.5142" cy="-34" rx="41.0834" ry="18"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>telegram_nginx</title>
+<ellipse fill="none" stroke="#000000" cx="186.6356" cy="-34" rx="65.7149" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>telegram&#45;&gt;telegram_nginx</title>
+<path fill="none" stroke="#000000" d="M83.8136,-34C92.3043,-34 101.4965,-34 110.773,-34"/>
+<polygon fill="#000000" stroke="#000000" points="110.8428,-37.5001 120.8428,-34 110.8427,-30.5001 110.8428,-37.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>telegram_adapter</title>
+<ellipse fill="none" stroke="#000000" cx="359.7273" cy="-34" rx="71.4686" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>telegram_nginx&#45;&gt;telegram_adapter</title>
+<path fill="none" stroke="#000000" d="M252.5679,-34C260.9455,-34 269.5966,-34 278.1819,-34"/>
+<polygon fill="#000000" stroke="#000000" points="278.2097,-37.5001 288.2097,-34 278.2096,-30.5001 278.2097,-37.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>backend</title>
+<ellipse fill="#00ff00" stroke="#00ff00" cx="506.7807" cy="-34" rx="39.6385" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>telegram_adapter&#45;&gt;backend</title>
+<path fill="none" stroke="#000000" d="M431.5309,-34C440.1431,-34 448.7868,-34 456.9891,-34"/>
+<polygon fill="#000000" stroke="#000000" points="457.1071,-37.5001 467.1071,-34 457.107,-30.5001 457.1071,-37.5001"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>backend&#45;&gt;redis</title>
+<path fill="none" stroke="#000000" d="M536.8105,-45.9691C549.2861,-50.9416 563.8065,-56.729 576.5851,-61.8223"/>
+<polygon fill="#000000" stroke="#000000" points="575.3695,-65.1055 585.9547,-65.5568 577.9612,-58.603 575.3695,-65.1055"/>
+</g>
+</g>
+</svg>

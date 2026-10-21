@@ -1,0 +1,108 @@
+<svg width="1005pt" height="211pt"
+ viewBox="0.00 0.00 1005.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1001,-207 1001,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="264.5,-10 264.5,-30 284.5,-30 284.5,-10 264.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="377.5,-10 377.5,-30 397.5,-30 397.5,-10 377.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="463.5,-10 463.5,-30 483.5,-30 483.5,-10 463.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="560.5,-10 560.5,-30 580.5,-30 580.5,-10 560.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="656.5,-10 656.5,-30 676.5,-30 676.5,-10 656.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_QuestionsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 989,-195 989,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_QuestionsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="423,-78 423,-130 981,-130 981,-78 423,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_QuestionsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 415,-130 415,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>QuestionAddEditFormComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="972.6539,-122 763.3461,-122 763.3461,-86 972.6539,-86 972.6539,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>QuestionsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="491.5423,-187 488.5423,-191 467.5423,-191 464.5423,-187 376.4577,-187 376.4577,-151 491.5423,-151 491.5423,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>QuestionAddEditFormComponent&#45;&gt;QuestionsModule</title>
+<path fill="none" stroke="#000000" d="M868,-122.2843C868,-143.3211 868,-175 868,-175 868,-175 501.6318,-175 501.6318,-175"/>
+<polygon fill="#000000" stroke="#000000" points="501.6319,-171.5001 491.6318,-175 501.6318,-178.5001 501.6319,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>QuestionsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="745.8244,-122 608.1756,-122 608.1756,-86 745.8244,-86 745.8244,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>QuestionsComponent&#45;&gt;QuestionsModule</title>
+<path fill="none" stroke="#000000" d="M677,-122.0225C677,-139.3734 677,-163 677,-163 677,-163 501.5876,-163 501.5876,-163"/>
+<polygon fill="#000000" stroke="#000000" points="501.5876,-159.5001 491.5876,-163 501.5876,-166.5001 501.5876,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>QuestionsListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="590.6024,-122 431.3976,-122 431.3976,-86 590.6024,-86 590.6024,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>QuestionsListComponent&#45;&gt;QuestionsModule</title>
+<path fill="none" stroke="#000000" d="M461.6098,-122.1061C461.6098,-122.1061 461.6098,-140.991 461.6098,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="458.1098,-140.9909 461.6098,-150.991 465.1098,-140.991 458.1098,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>LayoutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="406.7078,-122 403.7078,-126 382.7078,-126 379.7078,-122 307.2922,-122 307.2922,-86 406.7078,-86 406.7078,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LayoutModule&#45;&gt;QuestionsModule</title>
+<path fill="none" stroke="#000000" d="M391.4166,-122.1061C391.4166,-122.1061 391.4166,-140.991 391.4166,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="387.9166,-140.9909 391.4166,-150.991 394.9166,-140.991 387.9166,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>MiscModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="289.5454,-122 286.5454,-126 265.5454,-126 262.5454,-122 202.4546,-122 202.4546,-86 289.5454,-86 289.5454,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MiscModule&#45;&gt;QuestionsModule</title>
+<path fill="none" stroke="#000000" d="M246,-122.0225C246,-139.3734 246,-163 246,-163 246,-163 366.3162,-163 366.3162,-163"/>
+<polygon fill="#000000" stroke="#000000" points="366.3162,-166.5001 376.3162,-163 366.3161,-159.5001 366.3162,-166.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>QuestionsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="184.1596,-122 181.1596,-126 160.1596,-126 157.1596,-122 23.8404,-122 23.8404,-86 184.1596,-86 184.1596,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>QuestionsRoutingModule&#45;&gt;QuestionsModule</title>
+<path fill="none" stroke="#000000" d="M104,-122.2843C104,-143.3211 104,-175 104,-175 104,-175 366.1408,-175 366.1408,-175"/>
+<polygon fill="#000000" stroke="#000000" points="366.1408,-178.5001 376.1408,-175 366.1407,-171.5001 366.1408,-178.5001"/>
+</g>
+</g>
+</svg>

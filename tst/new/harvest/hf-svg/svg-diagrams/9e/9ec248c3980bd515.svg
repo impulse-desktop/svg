@@ -1,0 +1,134 @@
+<svg width="714pt" height="137pt"
+ viewBox="0.00 0.00 714.00 137.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 133)">
+<title>tbb::queuing_mutex::scoped_lock::~scoped_lock</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-133 710,-133 710,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-49.5 0,-79.5 144,-79.5 144,-49.5 0,-49.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00681.html#ac6b9289521c6b7568eedc8e0ff4e96d8" target="_top" xlink:title="Acquire lock on given mutex. ">
+<polygon fill="white" stroke="black" points="188,-49.5 188,-79.5 303,-79.5 303,-49.5 188,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M144.242,-64.5C155.261,-64.5 166.609,-64.5 177.53,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="177.845,-68.0001 187.845,-64.5 177.845,-61.0001 177.845,-68.0001"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a00681.html#a75112bddb38e011e9cfa69695050c771" target="_top" xlink:title="Release lock. ">
+<polygon fill="white" stroke="black" points="188,-98.5 188,-128.5 303,-128.5 303,-98.5 188,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M125.855,-79.6014C143.625,-84.6785 163.616,-90.3902 182.052,-95.6577"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="181.243,-99.0665 191.819,-98.4484 183.166,-92.3358 181.243,-99.0665"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="a00681.html#aa35c2a7b36eb58201a804be7a36b4ccd" target="_top" xlink:title="Acquire lock on given mutex if free (i.e. non&#45;blocking) ">
+<polygon fill="white" stroke="black" points="180,-0.5 180,-30.5 311,-30.5 311,-0.5 180,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M125.855,-49.3986C143.625,-44.3215 163.616,-38.6098 182.052,-33.3423"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="183.166,-36.6642 191.819,-30.5516 181.243,-29.9335 183.166,-36.6642"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a01133.html#af06e92f81977291b074b4de815acc31e" target="_top" xlink:title="Spin WHILE the value of the variable is equal to a given value. ">
+<polygon fill="white" stroke="black" points="353,-49.5 353,-79.5 445,-79.5 445,-49.5 353,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M303.344,-64.5C316.197,-64.5 329.825,-64.5 342.617,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="342.665,-68.0001 352.665,-64.5 342.665,-61.0001 342.665,-68.0001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a01133.html#a0e107bb5cdaa8996c5ac7545a57bc248" target="_top" xlink:title="tbb::internal::__TBB\l_load_with_acquire">
+<polygon fill="white" stroke="black" points="347,-0.5 347,-30.5 451,-30.5 451,-0.5 347,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M293.191,-49.3986C308.527,-44.4385 325.736,-38.8726 341.707,-33.7071"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="343.025,-36.9592 351.463,-30.5516 340.871,-30.2989 343.025,-36.9592"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00082.html#a03a7500cc7bb0ad8ab421b2cafd48e9c" target="_top" xlink:title="Pause for a while. ">
+<polygon fill="white" stroke="black" points="487,-49.5 487,-79.5 590,-79.5 590,-49.5 487,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M445.023,-64.5C455.113,-64.5 465.98,-64.5 476.594,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="476.66,-68.0001 486.66,-64.5 476.66,-61.0001 476.66,-68.0001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a01089.html#af59caf1e16dfe886e37ae0cb69f79c28" target="_top" xlink:title="__TBB_Pause">
+<polygon fill="white" stroke="black" points="626,-55 626,-74 706,-74 706,-55 626,-55"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M590.184,-64.5C598.599,-64.5 607.316,-64.5 615.696,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="615.709,-68.0001 625.709,-64.5 615.709,-61.0001 615.709,-68.0001"/>
+</g>
+
+<g id="edge7" class="edge"><title>Node7&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M293.191,-98.3986C308.887,-93.322 326.545,-87.611 342.829,-82.344"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="344.324,-85.5392 352.761,-79.1316 342.17,-78.8789 344.324,-85.5392"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a01133.html#aea57866db2fc3fe1018c89b58109b39a" target="_top" xlink:title="tbb::internal::__TBB\l_store_with_release">
+<polygon fill="white" stroke="black" points="347,-98.5 347,-128.5 451,-128.5 451,-98.5 347,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M303.344,-113.5C314.272,-113.5 325.761,-113.5 336.82,-113.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="336.826,-117 346.826,-113.5 336.826,-110 336.826,-117"/>
+</g>
+
+<g id="edge10" class="edge"><title>Node9&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M311.189,-15.5C319.651,-15.5 328.302,-15.5 336.705,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="336.805,-19.0001 346.805,-15.5 336.805,-12.0001 336.805,-19.0001"/>
+</g>
+</g>
+</svg>

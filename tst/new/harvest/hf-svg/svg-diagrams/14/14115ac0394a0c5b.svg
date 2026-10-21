@@ -1,0 +1,61 @@
+<svg width="576pt" height="95pt"
+ viewBox="0.00 0.00 576.00 94.58" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.58022 0.58022) rotate(0) translate(4 159)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-159 988.727,-159 988.727,4 -4,4"/>
+
+<g id="node1" class="node"><title>test/test_analysis/depends_on/a.yml</title>
+<ellipse fill="none" stroke="black" cx="137.788" cy="-83" rx="137.576" ry="18"/>
+
+</g>
+
+<g id="node2" class="node"><title>test/test_analysis/depends_on/b.yml</title>
+<ellipse fill="none" stroke="black" cx="492.363" cy="-83" rx="137.576" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>test/test_analysis/depends_on/a.yml&#45;&gt;test/test_analysis/depends_on/b.yml</title>
+<path fill="none" stroke="green" d="M275.607,-83C298.117,-83 321.533,-83 344.28,-83"/>
+<polygon fill="green" stroke="green" points="344.33,-86.5001 354.33,-83 344.33,-79.5001 344.33,-86.5001"/>
+
+</g>
+
+<g id="node4" class="node"><title>test/test_analysis/depends_on/c.yml</title>
+<ellipse fill="none" stroke="black" cx="846.939" cy="-29" rx="137.576" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>test/test_analysis/depends_on/b.yml&#45;&gt;test/test_analysis/depends_on/c.yml</title>
+<path fill="none" stroke="green" d="M582.789,-69.3037C632.804,-61.6435 695.254,-52.0786 746.765,-44.1893"/>
+<polygon fill="green" stroke="green" points="747.56,-47.6085 756.914,-42.6349 746.5,-40.6892 747.56,-47.6085"/>
+
+</g>
+
+<g id="node5" class="node"><title>test/test_analysis/depends_on/e.yml</title>
+<ellipse fill="none" stroke="black" cx="846.939" cy="-94" rx="137.576" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>test/test_analysis/depends_on/b.yml&#45;&gt;test/test_analysis/depends_on/e.yml</title>
+<path fill="none" stroke="green" d="M626.657,-87.1586C651.423,-87.9313 677.395,-88.7416 702.451,-89.5233"/>
+<polygon fill="green" stroke="green" points="702.645,-93.031 712.749,-89.8446 702.863,-86.0344 702.645,-93.031"/>
+
+</g>
+
+<g id="node3" class="node"><title>test/test_analysis/depends_on/d.yml</title>
+<ellipse fill="none" stroke="black" cx="492.363" cy="-18" rx="137.576" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>test/test_analysis/depends_on/d.yml&#45;&gt;test/test_analysis/depends_on/c.yml</title>
+<path fill="none" stroke="green" d="M630.374,-17.636C650.753,-17.8884 671.504,-18.3163 691.151,-19 698.909,-19.27 706.883,-19.606 714.926,-19.9897"/>
+<polygon fill="green" stroke="green" points="714.977,-23.4965 725.139,-20.4999 715.326,-16.5052 714.977,-23.4965"/>
+
+</g>
+
+<g id="node6" class="node"><title>test/test_analysis/depends_on/f.yml</title>
+<ellipse fill="none" stroke="black" cx="137.788" cy="-137" rx="136.476" ry="18"/>
+
+</g>
+</g>
+</svg>

@@ -1,0 +1,176 @@
+<svg width="753pt" height="171pt"
+ viewBox="0.00 0.00 753.00 170.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 166.5)">
+<title>chi::GraphFunction::addExecOutput</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-166.5 749,-166.5 749,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node75</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-61 0,-91 99,-91 99,-61 0,-61"/>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>Node76</title>
+<g id="a_node2"><a xlink:href="structchi_1_1GraphFunction.html#ab47bbbd84f14240b824c1a780b125207" target="_top" xlink:title="Get the function exec outputs. ">
+<polygon fill="#ffffff" stroke="#000000" points="135,-61 135,-91 234,-91 234,-61 135,-61"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node75&#45;&gt;Node76</title>
+<path fill="none" stroke="#191970" d="M109.2071,-76C117.6702,-76 126.299,-76 134.5516,-76"/>
+<polygon fill="#191970" stroke="#191970" points="109.0025,-72.5001 99.0024,-76 109.0024,-79.5001 109.0025,-72.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node77</title>
+<g id="a_node3"><a xlink:href="namespacechi.html#a6e8d6d34851f9df4edc4b82fedf424ce" target="_top" xlink:title="Make sure it&#39;s a valid signautre for a main function. ">
+<polygon fill="#ffffff" stroke="#000000" points="270.5,-132 270.5,-162 398.5,-162 398.5,-132 270.5,-132"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node76&#45;&gt;Node77</title>
+<path fill="none" stroke="#191970" d="M218.5007,-96.1869C233.9481,-104.9661 252.62,-115.0414 270,-123 276.8438,-126.1339 284.2255,-129.1788 291.4657,-131.9888"/>
+<polygon fill="#191970" stroke="#191970" points="220.2264,-93.1418 209.8123,-91.1934 216.7383,-99.2109 220.2264,-93.1418"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node80</title>
+<g id="a_node6"><a xlink:href="structchi_1_1GraphFunction.html#af14ad950cfff4ad3091827f9b6ad1cd2" target="_top" xlink:title="Create a fresh NodeType for an exit. ">
+<polygon fill="#ffffff" stroke="#000000" points="279,-83 279,-113 390,-113 390,-83 279,-83"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node76&#45;&gt;Node80</title>
+<path fill="none" stroke="#191970" d="M243.9638,-84.7214C255.4478,-86.4057 267.4401,-88.1645 278.7988,-89.8305"/>
+<polygon fill="#191970" stroke="#191970" points="244.4334,-81.2529 234.0313,-83.2646 243.4175,-88.1788 244.4334,-81.2529"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node83</title>
+<g id="a_node9"><a xlink:href="namespacechi.html#afd8b8d8a207d88359ad1e6a48d8f3bb1" target="_top" xlink:title="Serialize a GraphFunction to json. ">
+<polygon fill="#ffffff" stroke="#000000" points="270,-3.5 270,-22.5 399,-22.5 399,-3.5 270,-3.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node76&#45;&gt;Node83</title>
+<path fill="none" stroke="#191970" d="M229.5245,-57.0217C242.5786,-51.5248 256.8552,-45.5186 270,-40 283.7674,-34.22 299.1951,-27.7613 311.5093,-22.6104"/>
+<polygon fill="#191970" stroke="#191970" points="228.1261,-53.8128 220.2687,-60.92 230.8432,-60.264 228.1261,-53.8128"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node78</title>
+<g id="a_node4"><a xlink:href="namespacechi.html#acdc71d0d7f04f55316cc16af79b7f5b1" target="_top" xlink:title="Validate that a function is compilable. ">
+<polygon fill="#ffffff" stroke="#000000" points="443,-137.5 443,-156.5 550,-156.5 550,-137.5 443,-137.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node77&#45;&gt;Node78</title>
+<path fill="none" stroke="#191970" d="M408.6014,-147C420.1481,-147 431.8831,-147 442.8587,-147"/>
+<polygon fill="#191970" stroke="#191970" points="408.5267,-143.5001 398.5267,-147 408.5267,-150.5001 408.5267,-143.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node79</title>
+<g id="a_node5"><a xlink:href="structchi_1_1FunctionCompiler.html#a344523ec8a120e2001436268bd47de52" target="_top" xlink:title="Creates the function, but don&#39;t actually generate into it. ">
+<polygon fill="#ffffff" stroke="#000000" points="614,-132 614,-162 725,-162 725,-132 614,-132"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node78&#45;&gt;Node79</title>
+<path fill="none" stroke="#191970" d="M560.4512,-147C578.0116,-147 596.9049,-147 613.951,-147"/>
+<polygon fill="#191970" stroke="#191970" points="560.29,-143.5001 550.29,-147 560.2899,-150.5001 560.29,-143.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node81</title>
+<g id="a_node7"><a xlink:href="structchi_1_1GraphFunction.html#a900c0b670ad04a76b6add803ade7ae0d" target="_top" xlink:title="Get the nodes in the function Usually called by connectData or connectExec or GraphFunction. ">
+<polygon fill="#ffffff" stroke="#000000" points="447,-88 447,-118 546,-118 546,-88 447,-88"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node80&#45;&gt;Node81</title>
+<path fill="none" stroke="#191970" d="M400.3299,-100.0318C415.8747,-100.5116 432.1925,-101.0152 446.8817,-101.4686"/>
+<polygon fill="#191970" stroke="#191970" points="400.3545,-96.531 390.2512,-99.7207 400.1384,-103.5276 400.3545,-96.531"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node82</title>
+<g id="a_node8"><a xlink:href="structchi_1_1GraphFunction.html#a3c10d56dd68371400993b4a3c120f585" target="_top" xlink:title="Rename an exec output If idx is out of range, this function does nothing. ">
+<polygon fill="#ffffff" stroke="#000000" points="443,-39 443,-69 550,-69 550,-39 443,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node80&#45;&gt;Node82</title>
+<path fill="none" stroke="#191970" d="M399.597,-80.3193C413.9445,-76.4225 428.985,-72.3374 442.8209,-68.5795"/>
+<polygon fill="#191970" stroke="#191970" points="398.5311,-76.982 389.7981,-82.9808 400.3659,-83.7372 398.5311,-76.982"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node82&#45;&gt;Node76</title>
+<path fill="none" stroke="#191970" d="M432.7047,-58.4984C373.9866,-62.6388 288.0843,-68.696 234.2823,-72.4897"/>
+<polygon fill="#191970" stroke="#191970" points="433.2454,-61.969 442.9744,-57.7742 432.753,-54.9864 433.2454,-61.969"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node84</title>
+<g id="a_node10"><a xlink:href="namespacechi.html#a9a4f3fa54c612f0c559a353bb7382d5a" target="_top" xlink:title="Serialize a JsonModule to json. ">
+<polygon fill="#ffffff" stroke="#000000" points="435,-.5 435,-19.5 558,-19.5 558,-.5 435,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node83&#45;&gt;Node84</title>
+<path fill="none" stroke="#191970" d="M409.7026,-11.6074C418.1561,-11.4508 426.6942,-11.2927 434.9461,-11.1399"/>
+<polygon fill="#191970" stroke="#191970" points="409.3916,-8.1124 399.4582,-11.7971 409.5213,-15.1112 409.3916,-8.1124"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node85</title>
+<g id="a_node11"><a xlink:href="structchi_1_1GraphModule.html#a5cd9fb1738336d5d382ebb50753bda3e" target="_top" xlink:title="Serialize to disk in the context. ">
+<polygon fill="#ffffff" stroke="#000000" points="594,-.5 594,-19.5 745,-19.5 745,-.5 594,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node84&#45;&gt;Node85</title>
+<path fill="none" stroke="#191970" d="M568.5243,-10C576.8612,-10 585.3827,-10 593.7672,-10"/>
+<polygon fill="#191970" stroke="#191970" points="568.4684,-6.5001 558.4683,-10 568.4683,-13.5001 568.4684,-6.5001"/>
+</g>
+</g>
+</svg>

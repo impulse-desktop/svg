@@ -1,0 +1,160 @@
+<svg width="826pt" height="188pt"
+ viewBox="0.00 0.00 826.14 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 822.14,-184 822.14,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>libgsasl</title>
+<g id="a_node1"><a xlink:href="https://github.com/conda-forge/libgsasl-feedstock/pull/16" xlink:title="libgsasl">
+<ellipse fill="#31688e" stroke="black" cx="89.05" cy="-162" rx="50.09" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node4" class="node">
+<title>libhdfs3</title>
+<g id="a_node4"><a xlink:href="https://github.com/conda-forge/libhdfs3-feedstock" xlink:title="libhdfs3">
+<ellipse fill="#fde725" stroke="black" cx="50.05" cy="-90" rx="50.09" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>libgsasl&#45;&gt;libhdfs3</title>
+<path fill="none" stroke="black" d="M79.6,-144.05C75.01,-135.8 69.38,-125.7 64.27,-116.54"/>
+<polygon fill="black" stroke="black" points="67.32,-114.82 59.4,-107.79 61.21,-118.23 67.32,-114.82"/>
+</g>
+
+<g id="node10" class="node">
+<title>conda&#45;forge&#45;pinning</title>
+<ellipse fill="none" stroke="black" cx="357.05" cy="-18" rx="103.18" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>libgsasl&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M95.49,-144.14C104.12,-123.88 121.38,-90.33 147.05,-72 179,-49.18 219.82,-36.16 256.96,-28.74"/>
+<polygon fill="black" stroke="black" points="257.64,-32.17 266.82,-26.88 256.35,-25.29 257.64,-32.17"/>
+</g>
+
+<g id="node2" class="node">
+<title>nco</title>
+<g id="a_node2"><a xlink:href="https://github.com/conda-forge/nco-feedstock/pull/108" xlink:title="nco">
+<ellipse fill="#31688e" stroke="black" cx="183.05" cy="-90" rx="27" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>nco&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M204.25,-78.67C209.08,-76.4 214.22,-74.06 219.05,-72 247.09,-60.01 278.83,-47.74 304.79,-38.02"/>
+<polygon fill="black" stroke="black" points="306.29,-41.2 314.44,-34.43 303.85,-34.64 306.29,-41.2"/>
+</g>
+
+<g id="node3" class="node">
+<title>r&#45;base</title>
+<g id="a_node3"><a xlink:href="https://github.com/conda-forge/r-base-feedstock/pull/122" xlink:title="r base">
+<ellipse fill="#31688e" stroke="black" cx="268.05" cy="-90" rx="40.09" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>r&#45;base&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M287.36,-73.81C299.21,-64.49 314.62,-52.37 327.94,-41.9"/>
+<polygon fill="black" stroke="black" points="330.21,-44.56 335.9,-35.63 325.88,-39.06 330.21,-44.56"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>libhdfs3&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M88.56,-78.47C96.94,-76.26 105.78,-74 114.05,-72 170.47,-58.36 234.65,-44.43 282.87,-34.28"/>
+<polygon fill="black" stroke="black" points="283.84,-37.65 292.91,-32.17 282.41,-30.8 283.84,-37.65"/>
+</g>
+
+<g id="node5" class="node">
+<title>xrootd</title>
+<g id="a_node5"><a xlink:href="https://github.com/conda-forge/xrootd-feedstock/pull/21" xlink:title="xrootd">
+<ellipse fill="#31688e" stroke="black" cx="386.05" cy="-162" rx="40.09" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node6" class="node">
+<title>root</title>
+<g id="a_node6"><a xlink:href="https://github.com/conda-forge/root-feedstock" xlink:title="root">
+<ellipse fill="#fde725" stroke="black" cx="357.05" cy="-90" rx="30.59" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>xrootd&#45;&gt;root</title>
+<path fill="none" stroke="black" d="M379.03,-144.05C375.68,-135.97 371.6,-126.12 367.86,-117.11"/>
+<polygon fill="black" stroke="black" points="371.06,-115.69 364,-107.79 364.59,-118.37 371.06,-115.69"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>xrootd&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M392.43,-144.16C398.36,-125.93 405.16,-96.21 397.05,-72 393.64,-61.83 387.43,-52.06 380.9,-43.73"/>
+<polygon fill="black" stroke="black" points="383.47,-41.35 374.36,-35.93 378.1,-45.84 383.47,-41.35"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>root&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M357.05,-71.7C357.05,-63.98 357.05,-54.71 357.05,-46.11"/>
+<polygon fill="black" stroke="black" points="360.55,-46.1 357.05,-36.1 353.55,-46.1 360.55,-46.1"/>
+</g>
+
+<g id="node7" class="node">
+<title>libcups</title>
+<g id="a_node7"><a xlink:href="https://github.com/conda-forge/libcups-feedstock/pull/5" xlink:title="libcups">
+<ellipse fill="#31688e" stroke="black" cx="489.05" cy="-90" rx="44.69" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>libcups&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M462.97,-75.17C444.03,-65.13 418.08,-51.37 396.6,-39.98"/>
+<polygon fill="black" stroke="black" points="398.18,-36.85 387.7,-35.26 394.9,-43.03 398.18,-36.85"/>
+</g>
+
+<g id="node8" class="node">
+<title>htcondor</title>
+<g id="a_node8"><a xlink:href="https://github.com/conda-forge/htcondor-feedstock/pull/10" xlink:title="htcondor">
+<ellipse fill="#31688e" stroke="black" cx="602.05" cy="-90" rx="50.09" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>htcondor&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M564.28,-78.1C557.22,-76.07 549.91,-73.97 543.05,-72 501.59,-60.12 454.92,-46.82 418.7,-36.52"/>
+<polygon fill="black" stroke="black" points="419.35,-33.06 408.77,-33.69 417.43,-39.8 419.35,-33.06"/>
+</g>
+
+<g id="node9" class="node">
+<title>libtiledb&#45;sql</title>
+<g id="a_node9"><a xlink:href="https://github.com/conda-forge/libtiledb-sql-feedstock/pull/13" xlink:title="libtiledb sql">
+<ellipse fill="#31688e" stroke="black" cx="744.05" cy="-90" rx="74.19" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>libtiledb&#45;sql&#45;&gt;conda&#45;forge&#45;pinning</title>
+<path fill="none" stroke="black" d="M689.62,-77.61C680.11,-75.69 670.29,-73.75 661.05,-72 586,-57.78 500.26,-42.96 439.01,-32.62"/>
+<polygon fill="black" stroke="black" points="439.46,-29.14 429.02,-30.93 438.3,-36.05 439.46,-29.14"/>
+</g>
+</g>
+</svg>

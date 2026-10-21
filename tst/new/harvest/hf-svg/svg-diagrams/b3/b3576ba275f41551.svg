@@ -1,0 +1,140 @@
+<svg width="746pt" height="276pt"
+ viewBox="0.00 0.00 746.00 276.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 272)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-272 742,-272 742,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="135,-10 135,-30 155,-30 155,-10 135,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="248,-10 248,-30 268,-30 268,-10 248,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="334,-10 334,-30 354,-30 354,-10 334,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="431,-10 431,-30 451,-30 451,-10 431,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="527,-10 527,-30 547,-30 547,-10 527,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AdminLayoutModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-260 730,-260 730,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AdminLayoutModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-143 16,-195 722,-195 722,-143 16,-143"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AdminLayoutModule_DashboardComponent_providers</title>
+<polygon fill="none" stroke="#000000" points="542,-78 542,-130 722,-130 722,-78 542,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AdminLayoutModule_TableListComponent_providers</title>
+<polygon fill="none" stroke="#000000" points="210,-78 210,-130 380,-130 380,-78 210,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AdminLayoutModule_UserProfileComponent_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 202,-130 202,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DashboardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="713.9734,-187 572.0266,-187 572.0266,-151 713.9734,-151 713.9734,-187"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>AdminLayoutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="449.0954,-252 446.0954,-256 425.0954,-256 422.0954,-252 310.9046,-252 310.9046,-216 449.0954,-216 449.0954,-252"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DashboardComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="#000000" d="M643,-187.1061C643,-206.3391 643,-234 643,-234 643,-234 459.1002,-234 459.1002,-234"/>
+<polygon fill="#000000" stroke="#000000" points="459.1002,-230.5001 449.1002,-234 459.1001,-237.5001 459.1002,-230.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>GraphComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="554.3146,-187 437.6854,-187 437.6854,-151 554.3146,-151 554.3146,-187"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>GraphComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="#000000" d="M443.4453,-187.1061C443.4453,-187.1061 443.4453,-205.991 443.4453,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="439.9454,-205.9909 443.4453,-215.991 446.9454,-205.991 439.9454,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SearchPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="419.4748,-187 340.5252,-187 340.5252,-151 419.4748,-151 419.4748,-187"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SearchPipe&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="#000000" d="M380,-187.1061C380,-187.1061 380,-205.991 380,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="376.5001,-205.9909 380,-215.991 383.5001,-205.991 376.5001,-205.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>TableListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="322.4832,-187 187.5168,-187 187.5168,-151 322.4832,-151 322.4832,-187"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>TableListComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="#000000" d="M316.722,-187.1061C316.722,-187.1061 316.722,-205.991 316.722,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="313.222,-205.9909 316.722,-215.991 320.222,-205.991 313.222,-205.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>UserProfileComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="169.8585,-187 24.1415,-187 24.1415,-151 169.8585,-151 169.8585,-187"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>UserProfileComponent&#45;&gt;AdminLayoutModule</title>
+<path fill="none" stroke="#000000" d="M97,-187.1061C97,-206.3391 97,-234 97,-234 97,-234 300.7704,-234 300.7704,-234"/>
+<polygon fill="#000000" stroke="#000000" points="300.7704,-237.5001 310.7704,-234 300.7704,-230.5001 300.7704,-237.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>DashboardService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="632" cy="-104" rx="81.6423" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DashboardService&#45;&gt;DashboardComponent</title>
+<path fill="none" stroke="#000000" d="M642.9171,-122.1061C642.9171,-122.1061 642.9171,-140.991 642.9171,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="639.4172,-140.9909 642.9171,-150.991 646.4172,-140.991 639.4172,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>TableListService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="295" cy="-104" rx="76.9985" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>TableListService&#45;&gt;TableListComponent</title>
+<path fill="none" stroke="#000000" d="M270.2462,-121.078C270.2462,-121.078 270.2462,-140.8993 270.2462,-140.8993"/>
+<polygon fill="#000000" stroke="#000000" points="266.7463,-140.8992 270.2462,-150.8993 273.7463,-140.8993 266.7463,-140.8992"/>
+</g>
+
+<g id="node9" class="node">
+<title>UserProfileService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="109" cy="-104" rx="84.5015" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>UserProfileService&#45;&gt;UserProfileComponent</title>
+<path fill="none" stroke="#000000" d="M97.2142,-122.1061C97.2142,-122.1061 97.2142,-140.991 97.2142,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="93.7143,-140.9909 97.2142,-150.991 100.7143,-140.991 93.7143,-140.9909"/>
+</g>
+</g>
+</svg>

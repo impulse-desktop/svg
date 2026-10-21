@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="96" height="8" viewBox="0 0 96 8">
+  <symbol id="star">
+    <polygon points="4,0 5.17557,2.381966 7.804226065180615,2.76393202250021 5.902113032590307,4.618033988749895 6.3511410091698925,7.23606797749979 4,6 1.648858990830108,7.23606797749979 2.0978869674096927,4.618033988749895 0.19577393481938588,2.7639320225002093 2.8244294954150533,2.381966011250105"/>
+  </symbol>
+  <symbol id="star-full">
+    <use xlink:href="#star" fill="dodgerblue"/>
+    <use xlink:href="#star" fill="white" transform="translate(1 1) scale(0.75)"/>
+  </symbol>
+  <g id="star" fill="dodgerblue">
+    <use xlink:href="#star-full"/>
+    <use xlink:href="#star-full" transform="translate(8) rotate(6, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(16) rotate(12, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(24) rotate(18, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(32) rotate(24, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(40) rotate(30, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(48) rotate(36, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(56) rotate(42, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(64) rotate(48, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(72) rotate(54, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(80) rotate(60, 4, 4)"/>
+    <use xlink:href="#star-full" transform="translate(88) rotate(66, 4, 4)"/>
+  </g>
+</svg>

@@ -1,0 +1,228 @@
+<svg width="1027pt" height="388pt"
+ viewBox="0.00 0.00 1027.00 387.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 383.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-383.8 1023,-383.8 1023,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-371.8 379,-371.8 379,-32.8 8,-32.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="154,-40.8 154,-233.8 371,-233.8 371,-40.8 154,-40.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_exports</title>
+<polygon fill="none" stroke="black" points="258,-311.8 258,-363.8 360,-363.8 360,-311.8 258,-311.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-181.8 16,-233.8 146,-233.8 146,-181.8 16,-181.8"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_RolesModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="387,-97.8 387,-165.8 695,-165.8 695,-97.8 387,-97.8"/>
+</g>
+<g id="clust16" class="cluster">
+<title>cluster_RolesModule_exports</title>
+<polygon fill="none" stroke="black" points="563,-105.8 563,-157.8 687,-157.8 687,-105.8 563,-105.8"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_RolesModule_providers</title>
+<polygon fill="none" stroke="black" points="395,-105.8 395,-157.8 555,-157.8 555,-105.8 395,-105.8"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_UseCasesModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="387,-173.8 387,-241.8 663,-241.8 663,-173.8 387,-173.8"/>
+</g>
+<g id="clust22" class="cluster">
+<title>cluster_UseCasesModule_exports</title>
+<polygon fill="none" stroke="black" points="545,-181.8 545,-233.8 655,-233.8 655,-181.8 545,-181.8"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_UseCasesModule_providers</title>
+<polygon fill="none" stroke="black" points="395,-181.8 395,-233.8 537,-233.8 537,-181.8 395,-181.8"/>
+</g>
+<g id="clust25" class="cluster">
+<title>cluster_UsersModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="703,-97.8 703,-165.8 1011,-165.8 1011,-97.8 703,-97.8"/>
+</g>
+<g id="clust28" class="cluster">
+<title>cluster_UsersModule_exports</title>
+<polygon fill="none" stroke="black" points="879,-105.8 879,-157.8 1003,-157.8 1003,-105.8 879,-105.8"/>
+</g>
+<g id="clust30" class="cluster">
+<title>cluster_UsersModule_providers</title>
+<polygon fill="none" stroke="black" points="711,-105.8 711,-157.8 871,-157.8 871,-105.8 711,-105.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>PresentationModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="290.25,-225.8 287.25,-229.8 266.25,-229.8 263.25,-225.8 161.75,-225.8 161.75,-189.8 290.25,-189.8 290.25,-225.8"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="350.66,-290.8 347.66,-294.8 326.66,-294.8 323.66,-290.8 267.34,-290.8 267.34,-254.8 350.66,-254.8 350.66,-290.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PresentationModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M278.77,-225.91C278.77,-225.91 278.77,-244.79 278.77,-244.79"/>
+<polygon fill="black" stroke="black" points="275.27,-244.79 278.77,-254.79 282.27,-244.79 275.27,-244.79"/>
+</g>
+
+<g id="node2" class="node">
+<title>RolesModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="253.94,-84.8 250.94,-88.8 229.94,-88.8 226.94,-84.8 162.06,-84.8 162.06,-48.8 253.94,-48.8 253.94,-84.8"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>UseCasesModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="309.97,-149.8 306.97,-153.8 285.97,-153.8 282.97,-149.8 196.03,-149.8 196.03,-113.8 309.97,-113.8 309.97,-149.8"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>RolesModule&#45;&gt;UseCasesModule</title>
+<path fill="none" stroke="black" d="M207.56,-84.91C207.56,-84.91 207.56,-103.79 207.56,-103.79"/>
+<polygon fill="black" stroke="black" points="204.06,-103.79 207.56,-113.79 211.06,-103.79 204.06,-103.79"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>RolesModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M230.64,-84.93C230.64,-95.51 230.64,-106.8 230.64,-106.8 230.64,-106.8 323.6,-106.8 323.6,-106.8 323.6,-106.8 323.6,-244.72 323.6,-244.72"/>
+<polygon fill="black" stroke="black" points="320.1,-244.72 323.6,-254.72 327.1,-244.72 320.1,-244.72"/>
+</g>
+
+<g id="node8" class="node">
+<title>RoleRepository </title>
+<polygon fill="#fb8072" stroke="black" points="678.88,-149.8 571.12,-149.8 571.12,-113.8 678.88,-113.8 678.88,-149.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>RolesModule&#45;&gt;RoleRepository </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M242.18,-84.86C242.18,-89.29 242.18,-92.8 242.18,-92.8 242.18,-92.8 625,-92.8 625,-92.8 625,-92.8 625,-103.67 625,-103.67"/>
+<polygon fill="black" stroke="black" points="621.5,-103.67 625,-113.67 628.5,-103.67 621.5,-103.67"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>UseCasesModule&#45;&gt;PresentationModule</title>
+<path fill="none" stroke="black" d="M243.2,-149.81C243.2,-149.81 243.2,-179.65 243.2,-179.65"/>
+<polygon fill="black" stroke="black" points="239.7,-179.65 243.2,-189.65 246.7,-179.65 239.7,-179.65"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>UseCasesModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M300.18,-149.94C300.18,-149.94 300.18,-244.73 300.18,-244.73"/>
+<polygon fill="black" stroke="black" points="296.68,-244.72 300.18,-254.73 303.68,-244.73 296.68,-244.72"/>
+</g>
+
+<g id="node10" class="node">
+<title>UserUseCase </title>
+<polygon fill="#fb8072" stroke="black" points="647.4,-225.8 552.6,-225.8 552.6,-189.8 647.4,-189.8 647.4,-225.8"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>UseCasesModule&#45;&gt;UserUseCase </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M295.28,-149.91C295.28,-159.7 295.28,-169.8 295.28,-169.8 295.28,-169.8 561.93,-169.8 561.93,-169.8 561.93,-169.8 561.93,-179.69 561.93,-179.69"/>
+<polygon fill="black" stroke="black" points="558.43,-179.69 561.93,-189.69 565.43,-179.69 558.43,-179.69"/>
+</g>
+
+<g id="node4" class="node">
+<title>UsersModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="362.92,-84.8 359.92,-88.8 338.92,-88.8 335.92,-84.8 271.08,-84.8 271.08,-48.8 362.92,-48.8 362.92,-84.8"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>UsersModule&#45;&gt;UseCasesModule</title>
+<path fill="none" stroke="black" d="M290.64,-84.91C290.64,-84.91 290.64,-103.79 290.64,-103.79"/>
+<polygon fill="black" stroke="black" points="287.14,-103.79 290.64,-113.79 294.14,-103.79 287.14,-103.79"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>UsersModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M337.21,-85.08C337.21,-85.08 337.21,-244.56 337.21,-244.56"/>
+<polygon fill="black" stroke="black" points="333.71,-244.56 337.21,-254.56 340.71,-244.56 333.71,-244.56"/>
+</g>
+
+<g id="node12" class="node">
+<title>UserRepository </title>
+<polygon fill="#fb8072" stroke="black" points="994.86,-149.8 887.14,-149.8 887.14,-113.8 994.86,-113.8 994.86,-149.8"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>UsersModule&#45;&gt;UserRepository </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M362.88,-60.8C506.99,-60.8 941,-60.8 941,-60.8 941,-60.8 941,-103.52 941,-103.52"/>
+<polygon fill="black" stroke="black" points="937.5,-103.52 941,-113.52 944.5,-103.52 937.5,-103.52"/>
+</g>
+
+<g id="node6" class="node">
+<title>AppService </title>
+<polygon fill="#fb8072" stroke="black" points="351.59,-355.8 266.41,-355.8 266.41,-319.8 351.59,-319.8 351.59,-355.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>AppModule&#45;&gt;AppService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M309,-290.91C309,-290.91 309,-309.79 309,-309.79"/>
+<polygon fill="black" stroke="black" points="305.5,-309.79 309,-319.79 312.5,-309.79 305.5,-309.79"/>
+</g>
+
+<g id="node7" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="black" cx="81" cy="-207.8" rx="56.74" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>AppService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M81,-225.91C81,-245.14 81,-272.8 81,-272.8 81,-272.8 257.18,-272.8 257.18,-272.8"/>
+<polygon fill="black" stroke="black" points="257.18,-276.3 267.18,-272.8 257.18,-269.3 257.18,-276.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>RoleRepository</title>
+<ellipse fill="#fdb462" stroke="black" cx="475" cy="-131.8" rx="71.81" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>RoleRepository&#45;&gt;RolesModule</title>
+<path fill="none" stroke="black" d="M475,-113.56C475,-106.37 475,-99.8 475,-99.8 475,-99.8 219.1,-99.8 219.1,-99.8 219.1,-99.8 219.1,-94.84 219.1,-94.84"/>
+<polygon fill="black" stroke="black" points="222.6,-94.84 219.1,-84.84 215.6,-94.84 222.6,-94.84"/>
+</g>
+
+<g id="node11" class="node">
+<title>UserUseCase</title>
+<ellipse fill="#fdb462" stroke="black" cx="466" cy="-207.8" rx="63.1" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>UserUseCase&#45;&gt;UseCasesModule</title>
+<path fill="none" stroke="black" d="M402.86,-207.8C357.78,-207.8 305.08,-207.8 305.08,-207.8 305.08,-207.8 305.08,-159.81 305.08,-159.81"/>
+<polygon fill="black" stroke="black" points="308.58,-159.81 305.08,-149.81 301.58,-159.81 308.58,-159.81"/>
+</g>
+
+<g id="node13" class="node">
+<title>UserRepository</title>
+<ellipse fill="#fdb462" stroke="black" cx="791" cy="-131.8" rx="71.79" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>UserRepository&#45;&gt;UsersModule</title>
+<path fill="none" stroke="black" d="M791,-113.78C791,-96.43 791,-72.8 791,-72.8 791,-72.8 372.88,-72.8 372.88,-72.8"/>
+<polygon fill="black" stroke="black" points="372.88,-69.3 362.88,-72.8 372.88,-76.3 372.88,-69.3"/>
+</g>
+</g>
+</svg>

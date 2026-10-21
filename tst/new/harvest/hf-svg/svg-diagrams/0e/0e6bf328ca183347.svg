@@ -1,0 +1,55 @@
+<svg width="518pt" height="50pt"
+ viewBox="0.00 0.00 518.00 50.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 46)">
+<title>tbb::queuing_rw_mutex::scoped_lock::wait_for_release_of_internal_lock</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-46 514,-46 514,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-41.5 127,-41.5 127,-0.5 0,-0.5"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01133.html#a9006317b947d3f9f7a457e295e5b8330" target="_top" xlink:title="Spin UNTIL the value of the variable is equal to a given value. ">
+<polygon fill="white" stroke="black" points="163,-6 163,-36 255,-36 255,-6 163,-6"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M127.024,-21C135.615,-21 144.386,-21 152.832,-21"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="152.94,-24.5001 162.94,-21 152.94,-17.5001 152.94,-24.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00082.html#a03a7500cc7bb0ad8ab421b2cafd48e9c" target="_top" xlink:title="Pause for a while. ">
+<polygon fill="white" stroke="black" points="291,-6 291,-36 394,-36 394,-6 291,-6"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M255.255,-21C263.389,-21 271.988,-21 280.481,-21"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="280.75,-24.5001 290.75,-21 280.75,-17.5001 280.75,-24.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a01089.html#af59caf1e16dfe886e37ae0cb69f79c28" target="_top" xlink:title="__TBB_Pause">
+<polygon fill="white" stroke="black" points="430,-11.5 430,-30.5 510,-30.5 510,-11.5 430,-11.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M394.184,-21C402.599,-21 411.316,-21 419.696,-21"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="419.709,-24.5001 429.709,-21 419.709,-17.5001 419.709,-24.5001"/>
+</g>
+</g>
+</svg>

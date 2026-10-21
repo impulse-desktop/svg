@@ -1,0 +1,96 @@
+<svg width="538pt" height="284pt"
+ viewBox="0.00 0.00 538.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 534,-280 534,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="31,-10 31,-30 51,-30 51,-10 31,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="144,-10 144,-30 164,-30 164,-10 144,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="230,-10 230,-30 250,-30 250,-10 230,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="327,-10 327,-30 347,-30 347,-10 327,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="423,-10 423,-30 443,-30 443,-10 423,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_WCUIKitDataModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 522,-268 522,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_WCUIKitDataModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="93,-78 93,-130 443,-130 443,-78 93,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_WCUIKitDataModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 514,-260 514,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>WCDataCounterComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="434.9129,-122 259.0871,-122 259.0871,-86 434.9129,-86 434.9129,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>WCUIKitDataModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="345.6825,-187 342.6825,-191 321.6825,-191 318.6825,-187 204.3175,-187 204.3175,-151 345.6825,-151 345.6825,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>WCDataCounterComponent&#45;&gt;WCUIKitDataModule</title>
+<path fill="none" stroke="#000000" d="M302.4425,-122.1061C302.4425,-122.1061 302.4425,-140.991 302.4425,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="298.9426,-140.9909 302.4425,-150.991 305.9426,-140.991 298.9426,-140.9909"/>
+</g>
+
+<g id="node2" class="node">
+<title>WCGaugeComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="241.42,-122 100.58,-122 100.58,-86 241.42,-86 241.42,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>WCGaugeComponent&#45;&gt;WCUIKitDataModule</title>
+<path fill="none" stroke="#000000" d="M222.8093,-122.1061C222.8093,-122.1061 222.8093,-140.991 222.8093,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="219.3093,-140.9909 222.8093,-150.991 226.3093,-140.991 219.3093,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>NgxGaugeModule </title>
+<polygon fill="#fb8072" stroke="#000000" points="505.6926,-252 382.3074,-252 382.3074,-216 505.6926,-216 505.6926,-252"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>WCUIKitDataModule&#45;&gt;NgxGaugeModule </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M345.6221,-169C377.6277,-169 408.4301,-169 408.4301,-169 408.4301,-169 408.4301,-205.8939 408.4301,-205.8939"/>
+<polygon fill="#000000" stroke="#000000" points="404.9301,-205.8938 408.4301,-215.8939 411.9301,-205.8939 404.9301,-205.8938"/>
+</g>
+
+<g id="node5" class="node">
+<title>WCDataCounterComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="364.4124,-252 185.5876,-252 185.5876,-216 364.4124,-216 364.4124,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>WCUIKitDataModule&#45;&gt;WCDataCounterComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M275,-187.1061C275,-187.1061 275,-205.991 275,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="271.5001,-205.9909 275,-215.991 278.5001,-205.991 271.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>WCGaugeComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="167.9194,-252 24.0806,-252 24.0806,-216 167.9194,-216 167.9194,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>WCUIKitDataModule&#45;&gt;WCGaugeComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M204.2755,-169C169.2571,-169 134.375,-169 134.375,-169 134.375,-169 134.375,-205.8939 134.375,-205.8939"/>
+<polygon fill="#000000" stroke="#000000" points="130.8751,-205.8938 134.375,-215.8939 137.8751,-205.8939 130.8751,-205.8938"/>
+</g>
+</g>
+</svg>

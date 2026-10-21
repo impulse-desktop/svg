@@ -1,0 +1,84 @@
+<svg width="127pt" height="629pt"
+ viewBox="0.00 0.00 127.00 629.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 625)">
+<title>tbb::atomic&lt; void * &gt;</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-625 123,-625 123,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="5.5,-0.5 5.5,-90.5 113.5,-90.5 113.5,-0.5 5.5,-0.5"/>
+
+<polyline fill="none" stroke="black" points="5.5,-71.5 113.5,-71.5 "/>
+
+<polyline fill="none" stroke="black" points="5.5,-52.5 113.5,-52.5 "/>
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00083.html" target="_top" xlink:title="{tbb::internal::atomic\l_impl\&lt; void * \&gt;\n|# my_storage\l|+ atomic_impl()\l+ atomic_impl()\l+ fetch_and_store()\l+ fetch_and_store()\l+ compare_and_swap()\l+ compare_and_swap()\l+ operator value_type()\l+ load()\l+ load()\l+ store()\l+ store()\l# store_with_release()\l&#45; to_bits()\l&#45; to_value()\l&#45; to_bits_ref()\l}">
+<polygon fill="white" stroke="black" points="0,-128.5 0,-350.5 119,-350.5 119,-128.5 0,-128.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-320.5 119,-320.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-301.5 119,-301.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M59.5,-118.333C59.5,-108.698 59.5,-99.4102 59.5,-90.8935"/>
+<polygon fill="none" stroke="midnightblue" points="56.0001,-118.482 59.5,-128.482 63.0001,-118.482 56.0001,-118.482"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00083.html" target="_top" xlink:title="Base class that provides basic functionality for atomic&lt;T&gt; without fetch_and_add. ...">
+<polygon fill="white" stroke="black" points="0,-398.5 0,-620.5 119,-620.5 119,-398.5 0,-398.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-590.5 119,-590.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-571.5 119,-571.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="orange" d="M59.5,-388.324C59.5,-375.788 59.5,-363.088 59.5,-350.671"/>
+<polygon fill="orange" stroke="orange" points="56.0001,-388.334 59.5,-398.334 63.0001,-388.334 56.0001,-388.334"/>
+
+</g>
+</g>
+</svg>

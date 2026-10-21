@@ -1,0 +1,281 @@
+<svg width="1076pt" height="180pt"
+ viewBox="0.00 0.00 1076.00 180.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 176)">
+<title>coap_make_session</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-176 1072,-176 1072,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="black" points="962,-114.5 962,-133.5 1068,-133.5 1068,-114.5 962,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="group__session__internal.html#ga0d8adbae82b2ced3accee1361ac8fe6c" target="_top" xlink:title="Lookup the server session for the packet received on an endpoint, or create a new one.">
+<polygon fill="white" stroke="black" points="789,-114.5 789,-133.5 926,-133.5 926,-114.5 789,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M951.66,-124C943.23,-124 934.55,-124 926.04,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="951.79,-127.5 961.79,-124 951.79,-120.5 951.79,-127.5"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node11</title>
+<g id="a_node11"><a xlink:href="group__session__internal.html#ga3170fc82514b107cd69719a59880e7bd" target="_top" xlink:title="Creates a new server session for the specified endpoint.">
+<polygon fill="white" stroke="black" points="791.5,-152.5 791.5,-171.5 923.5,-171.5 923.5,-152.5 791.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge">
+<title>Node1&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M965.03,-135.97C943.23,-141.29 917.93,-147.48 897.46,-152.48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="965.88,-139.36 974.76,-133.59 964.22,-132.56 965.88,-139.36"/>
+</g>
+
+<g id="node13" class="node">
+<title>Node13</title>
+<g id="a_node13"><a xlink:href="coap__session_8c.html#a78865254d0191854b0b7c35f28eefe71" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="803,-49 803,-79 912,-79 912,-49 803,-49"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge16" class="edge">
+<title>Node1&#45;&gt;Node13</title>
+<path fill="none" stroke="midnightblue" d="M979.84,-110.82C955.56,-101.45 922.89,-88.84 897.56,-79.07"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="978.77,-114.16 989.36,-114.49 981.29,-107.63 978.77,-114.16"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="net_8c.html#a44ffb4b70e537043e9a9cf344be24b92" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="623.5,-114.5 623.5,-133.5 727.5,-133.5 727.5,-114.5 623.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M778.83,-124C761.48,-124 743.49,-124 727.54,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="778.96,-127.5 788.96,-124 778.96,-120.5 778.96,-127.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="group__app__io__internal.html#ga503f851fa137eb8a9c2936e2098c5eb9" target="_top" xlink:title="Process all the epoll events.">
+<polygon fill="white" stroke="black" points="441.5,-114.5 441.5,-133.5 533.5,-133.5 533.5,-114.5 441.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M613.07,-124C587.14,-124 557.5,-124 533.63,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="613.18,-127.5 623.18,-124 613.18,-120.5 613.18,-127.5"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node8</title>
+<g id="a_node8"><a xlink:href="group__app__io__internal.html#ga2208802b0711ad20df07271b751b41dc" target="_top" xlink:title="Processes any outstanding read, write, accept or connect I/O as indicated in the coap_socket_t struct...">
+<polygon fill="white" stroke="black" points="448,-152.5 448,-171.5 527,-171.5 527,-152.5 448,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node3&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M617.48,-135.65C588.23,-141.63 553.37,-148.75 527.27,-154.08"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="618.47,-139.02 627.56,-133.59 617.07,-132.16 618.47,-139.02"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="group__app__io.html#ga2758ed5fdd6ce79ec95ea8dbf72a5644" target="_top" xlink:title="The main message processing loop with additional fds for internal select.">
+<polygon fill="white" stroke="black" points="245,-114.5 245,-133.5 377,-133.5 377,-114.5 245,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M430.76,-124C413.72,-124 394.82,-124 377.21,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="431.11,-127.5 441.11,-124 431.11,-120.5 431.11,-127.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="group__app__io.html#ga082f7bbf15d3f37c31c2a0a5e78ea4cf" target="_top" xlink:title="The main I/O processing function.">
+<polygon fill="white" stroke="black" points="119,-114.5 119,-133.5 209,-133.5 209,-114.5 119,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M234.53,-117.26C225.85,-117.28 217.23,-117.44 209.17,-117.73"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="234.7,-120.76 244.71,-117.28 234.72,-113.76 234.7,-120.76"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node6&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M219.41,-130.56C227.67,-130.74 236.25,-130.79 244.71,-130.72"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="219.26,-127.05 209.17,-130.27 219.07,-134.05 219.26,-127.05"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node7</title>
+<g id="a_node7"><a xlink:href="net_8h.html#ac6b34aa979ec545eb710e45a26c98fc1" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="0,-114.5 0,-133.5 83,-133.5 83,-114.5 0,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M108.79,-124C100.15,-124 91.34,-124 83.08,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="108.81,-127.5 118.81,-124 108.81,-120.5 108.81,-127.5"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node8&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M437.85,-151.41C412.13,-145.81 380.81,-138.98 355.84,-133.55"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="437.26,-154.86 447.77,-153.57 438.75,-148.02 437.26,-154.86"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node9</title>
+<g id="a_node9"><a xlink:href="net_8h.html#af937985e2b14a287a849663574d59bcb" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="280,-152.5 280,-171.5 342,-171.5 342,-152.5 280,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M437.71,-162C407.07,-162 368.51,-162 342.23,-162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="437.77,-165.5 447.77,-162 437.77,-158.5 437.77,-165.5"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node10</title>
+<g id="a_node10"><a xlink:href="coap__io__contiki_8c.html#a75a7c93e10ca7858449ba304aad4ea37" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="122.5,-152.5 122.5,-171.5 205.5,-171.5 205.5,-152.5 122.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node9&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M269.92,-162C249.94,-162 225.81,-162 205.73,-162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="269.96,-165.5 279.96,-162 269.96,-158.5 269.96,-165.5"/>
+</g>
+
+<g id="node12" class="node">
+<title>Node12</title>
+<g id="a_node12"><a xlink:href="net_8c.html#a7437c90770ffd13685e6a77799b4753b" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="618.5,-152.5 618.5,-171.5 732.5,-171.5 732.5,-152.5 618.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge">
+<title>Node11&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M781.23,-162C764.94,-162 748,-162 732.6,-162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="781.26,-165.5 791.26,-162 781.26,-158.5 781.26,-165.5"/>
+</g>
+
+<g id="edge14" class="edge">
+<title>Node12&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M617.52,-150.36C590.65,-144.87 559.03,-138.41 533.81,-133.26"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="617.07,-153.84 627.56,-152.41 618.47,-146.98 617.07,-153.84"/>
+</g>
+
+<g id="edge15" class="edge">
+<title>Node12&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M608.2,-162C581,-162 550.47,-162 527.06,-162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="608.44,-165.5 618.44,-162 608.44,-158.5 608.44,-165.5"/>
+</g>
+
+<g id="node14" class="node">
+<title>Node14</title>
+<g id="a_node14"><a xlink:href="group__session.html#ga6c9b57585703c357b0222b674044a88d" target="_top" xlink:title="Creates a new client session to the designated server.">
+<polygon fill="white" stroke="black" points="611.5,-76.5 611.5,-95.5 739.5,-95.5 739.5,-76.5 611.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge17" class="edge">
+<title>Node13&#45;&gt;Node14</title>
+<path fill="none" stroke="midnightblue" d="M792.98,-71.76C775.67,-73.88 756.93,-76.17 739.64,-78.28"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="793.48,-75.23 802.98,-70.54 792.63,-68.28 793.48,-75.23"/>
+</g>
+
+<g id="node15" class="node">
+<title>Node15</title>
+<g id="a_node15"><a xlink:href="group__session.html#ga9ce8da7d62a9c35be01208c44e8c7737" target="_top" xlink:title="Creates a new client session to the designated server with PKI credentials.">
+<polygon fill="white" stroke="black" points="602.5,-38.5 602.5,-57.5 748.5,-57.5 748.5,-38.5 602.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge18" class="edge">
+<title>Node13&#45;&gt;Node15</title>
+<path fill="none" stroke="midnightblue" d="M792.81,-58.34C778.57,-57.07 763.37,-55.72 748.81,-54.43"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="792.71,-61.84 802.98,-59.24 793.33,-54.87 792.71,-61.84"/>
+</g>
+
+<g id="node16" class="node">
+<title>Node16</title>
+<g id="a_node16"><a xlink:href="group__session.html#gac9d4dbb58c94b63231d615fe27203939" target="_top" xlink:title="Creates a new client session to the designated server with PSK credentials.">
+<polygon fill="white" stroke="black" points="598,-0.5 598,-19.5 753,-19.5 753,-0.5 598,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge19" class="edge">
+<title>Node13&#45;&gt;Node16</title>
+<path fill="none" stroke="midnightblue" d="M804.98,-45.64C788.46,-40.01 770.04,-33.99 753,-29 741.57,-25.66 729.08,-22.39 717.56,-19.54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="803.86,-48.96 814.45,-48.9 806.13,-42.34 803.86,-48.96"/>
+</g>
+
+<g id="node17" class="node">
+<title>Node17</title>
+<g id="a_node17"><a xlink:href="group__session.html#ga5faf4dd14fcee5d87dd71eacfddf255a" target="_top" xlink:title="Creates a new client session to the designated server with PSK credentials.">
+<polygon fill="white" stroke="black" points="413,-0.5 413,-19.5 562,-19.5 562,-0.5 413,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge20" class="edge">
+<title>Node16&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M587.74,-10C579.15,-10 570.49,-10 562.06,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="587.77,-13.5 597.77,-10 587.77,-6.5 587.77,-13.5"/>
+</g>
+</g>
+</svg>

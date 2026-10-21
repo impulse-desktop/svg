@@ -1,0 +1,90 @@
+<svg width="137pt" height="602pt"
+ viewBox="0.00 0.00 136.50 602.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 598)">
+<title>tbb::atomic&lt; T &gt;</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-598 132.5,-598 132.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="15,-0.5 15,-90.5 104,-90.5 104,-0.5 15,-0.5"/>
+
+<polyline fill="none" stroke="black" points="15,-71.5 104,-71.5 "/>
+
+<polyline fill="none" stroke="black" points="15,-52.5 104,-52.5 "/>
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00083.html" target="_top" xlink:title="Base class that provides basic functionality for atomic&lt;T&gt; without fetch_and_add. ...">
+<polygon fill="white" stroke="black" points="0,-128.5 0,-350.5 119,-350.5 119,-128.5 0,-128.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-320.5 119,-320.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-301.5 119,-301.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M59.5,-118.333C59.5,-108.698 59.5,-99.4102 59.5,-90.8935"/>
+<polygon fill="none" stroke="midnightblue" points="56.0001,-118.482 59.5,-128.482 63.0001,-118.482 56.0001,-118.482"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00043.html" target="_top" xlink:title="{tbb::internal::aligned\l_storage\&lt; T, sizeof(T)\&gt;\n||}">
+<polygon fill="white" stroke="black" points="0,-398.5 0,-466.5 119,-466.5 119,-398.5 0,-398.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-436.5 119,-436.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-417.5 119,-417.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#404040" d="M59.5,-398.23C59.5,-387.944 59.5,-375.951 59.5,-363.258"/>
+<polygon fill="none" stroke="#404040" points="59.5001,-362.905 55.5,-356.905 59.5,-350.905 63.5,-356.905 59.5001,-362.905"/>
+
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00043.html" target="_top" xlink:title="{tbb::internal::aligned\l_storage\&lt; value_type,\l size \&gt;\n||}">
+<polygon fill="white" stroke="black" points="3,-514.5 3,-593.5 116,-593.5 116,-514.5 3,-514.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="3,-552.5 116,-552.5 "/>
+
+<polyline fill="none" stroke="black" points="3,-533.5 116,-533.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="orange" d="M59.5,-503.933C59.5,-491.47 59.5,-478.367 59.5,-466.887"/>
+<polygon fill="orange" stroke="orange" points="56.0001,-504.202 59.5,-514.202 63.0001,-504.202 56.0001,-504.202"/>
+
+</g>
+</g>
+</svg>

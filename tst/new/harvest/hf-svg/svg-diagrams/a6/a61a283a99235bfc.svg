@@ -1,0 +1,100 @@
+<svg width="646pt" height="284pt"
+ viewBox="0.00 0.00 646.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-280 642,-280 642,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="85,-10 85,-30 105,-30 105,-10 85,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="198,-10 198,-30 218,-30 218,-10 198,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="284,-10 284,-30 304,-30 304,-10 284,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="381,-10 381,-30 401,-30 401,-10 381,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="477,-10 477,-30 497,-30 497,-10 477,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AttributesSearchModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 630,-268 630,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AttributesSearchModule_declarations</title>
+<polygon fill="none" stroke="black" points="430,-78 430,-130 622,-130 622,-78 430,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AttributesSearchModule_exports</title>
+<polygon fill="none" stroke="black" points="188,-208 188,-260 382,-260 382,-208 188,-208"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AttributesSearchModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 422,-130 422,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AttributesSearchComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="613.91,-122 438.09,-122 438.09,-86 613.91,-86 613.91,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AttributesSearchModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="361.63,-187 358.63,-191 337.63,-191 334.63,-187 208.37,-187 208.37,-151 361.63,-151 361.63,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AttributesSearchComponent&#45;&gt;AttributesSearchModule</title>
+<path fill="none" stroke="black" d="M526,-122.11C526,-141.34 526,-169 526,-169 526,-169 371.92,-169 371.92,-169"/>
+<polygon fill="black" stroke="black" points="371.92,-165.5 361.92,-169 371.92,-172.5 371.92,-165.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>AttributesSearchComponent </title>
+<polygon fill="#fb8072" stroke="black" points="374.41,-252 195.59,-252 195.59,-216 374.41,-216 374.41,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>AttributesSearchModule&#45;&gt;AttributesSearchComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M285,-187.11C285,-187.11 285,-205.99 285,-205.99"/>
+<polygon fill="black" stroke="black" points="281.5,-205.99 285,-215.99 288.5,-205.99 281.5,-205.99"/>
+</g>
+
+<g id="node3" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="413.67,-122 410.67,-126 389.67,-126 386.67,-122 302.33,-122 302.33,-86 413.67,-86 413.67,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CommonModule&#45;&gt;AttributesSearchModule</title>
+<path fill="none" stroke="black" d="M331.99,-122.11C331.99,-122.11 331.99,-140.99 331.99,-140.99"/>
+<polygon fill="black" stroke="black" points="328.49,-140.99 331.99,-150.99 335.49,-140.99 328.49,-140.99"/>
+</g>
+
+<g id="node4" class="node">
+<title>ProductServiceModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="284.58,-122 281.58,-126 260.58,-126 257.58,-122 139.42,-122 139.42,-86 284.58,-86 284.58,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ProductServiceModule&#45;&gt;AttributesSearchModule</title>
+<path fill="none" stroke="black" d="M246.36,-122.11C246.36,-122.11 246.36,-140.99 246.36,-140.99"/>
+<polygon fill="black" stroke="black" points="242.86,-140.99 246.36,-150.99 249.86,-140.99 242.86,-140.99"/>
+</g>
+
+<g id="node5" class="node">
+<title>RouterModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="121.65,-122 118.65,-126 97.65,-126 94.65,-122 24.35,-122 24.35,-86 121.65,-86 121.65,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RouterModule&#45;&gt;AttributesSearchModule</title>
+<path fill="none" stroke="black" d="M73,-122.11C73,-141.34 73,-169 73,-169 73,-169 198.16,-169 198.16,-169"/>
+<polygon fill="black" stroke="black" points="198.16,-172.5 208.16,-169 198.16,-165.5 198.16,-172.5"/>
+</g>
+</g>
+</svg>

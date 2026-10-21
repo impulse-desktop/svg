@@ -1,0 +1,84 @@
+<svg width="596pt" height="211pt"
+ viewBox="0.00 0.00 596.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 592,-207 592,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="60,-10 60,-30 80,-30 80,-10 60,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="173,-10 173,-30 193,-30 193,-10 173,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="259,-10 259,-30 279,-30 279,-10 259,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="356,-10 356,-30 376,-30 376,-10 356,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="452,-10 452,-30 472,-30 472,-10 452,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ShopModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 580,-195 580,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ShopModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="138,-78 138,-130 572,-130 572,-78 138,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_ShopModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 130,-130 130,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CustomersComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="563.7148,-122 422.2852,-122 422.2852,-86 563.7148,-86 563.7148,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>ShopModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="314.333,-187 311.333,-191 290.333,-191 287.333,-187 225.667,-187 225.667,-151 314.333,-151 314.333,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CustomersComponent&#45;&gt;ShopModule</title>
+<path fill="none" stroke="#000000" d="M493,-122.1061C493,-141.3391 493,-169 493,-169 493,-169 324.3242,-169 324.3242,-169"/>
+<polygon fill="#000000" stroke="#000000" points="324.3243,-165.5001 314.3242,-169 324.3242,-172.5001 324.3243,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ProductsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="404.3258,-122 273.6742,-122 273.6742,-86 404.3258,-86 404.3258,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ProductsComponent&#45;&gt;ShopModule</title>
+<path fill="none" stroke="#000000" d="M294.0018,-122.1061C294.0018,-122.1061 294.0018,-140.991 294.0018,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="290.5018,-140.9909 294.0018,-150.991 297.5018,-140.991 290.5018,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>ShopComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="256.1151,-122 145.8849,-122 145.8849,-86 256.1151,-86 256.1151,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ShopComponent&#45;&gt;ShopModule</title>
+<path fill="none" stroke="#000000" d="M240.9457,-122.1061C240.9457,-122.1061 240.9457,-140.991 240.9457,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="237.4457,-140.9909 240.9457,-150.991 244.4457,-140.991 237.4457,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SharedModule&#45;&gt;ShopModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.1061C73,-141.3391 73,-169 73,-169 73,-169 215.7894,-169 215.7894,-169"/>
+<polygon fill="#000000" stroke="#000000" points="215.7894,-172.5001 225.7894,-169 215.7893,-165.5001 215.7894,-172.5001"/>
+</g>
+</g>
+</svg>

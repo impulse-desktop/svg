@@ -1,0 +1,127 @@
+<svg
+   width="300mm"
+   height="210mm"
+   viewBox="0 0 300 210"
+   version="1.1"
+   id="svg5"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient1949">
+      <stop
+         style="stop-color:#002255;stop-opacity:1"
+         offset="0"
+         id="stop1945" />
+      <stop
+         style="stop-color:#d7f4ee;stop-opacity:1"
+         offset="1"
+         id="stop1947" />
+    </linearGradient>
+    <filter
+       height="1.0810969"
+       y="-0.040548471"
+       width="1.0609256"
+       x="-0.030462805"
+       style="color-interpolation-filters:sRGB"
+       id="filter1829">
+      <feGaussianBlur
+         stdDeviation="7.76545706371191"
+         result="result8"
+         id="feGaussianBlur1811" />
+      <feTurbulence
+         seed="171"
+         result="result7"
+         type="turbulence"
+         numOctaves="1"
+         baseFrequency="0.013736263736263736 0.02197802197802198"
+         id="feTurbulence1813" />
+      <feComposite
+         in2="result8"
+         result="result6"
+         in="result7"
+         id="feComposite1815" />
+      <feColorMatrix
+         result="result9"
+         values="1"
+         id="feColorMatrix1817"
+         type="matrix" />
+      <feDisplacementMap
+         in="result7"
+         in2="result9"
+         xChannelSelector="R"
+         yChannelSelector="G"
+         scale="100"
+         result="result4"
+         id="feDisplacementMap1819" />
+      <feComposite
+         in2="result4"
+         result="result2"
+         operator="in"
+         in="result8"
+         id="feComposite1821" />
+      <feComposite
+         result="fbSourceGraphic"
+         in="result2"
+         operator="in"
+         in2="result9"
+         id="feComposite1823" />
+      <feComposite
+         operator="arithmetic"
+         k2="1"
+         k1="0.5"
+         in="fbSourceGraphic"
+         in2="fbSourceGraphic"
+         result="result91"
+         id="feComposite1825"
+         k3="0"
+         k4="0" />
+      <feBlend
+         in="fbSourceGraphic"
+         mode="multiply"
+         in2="result91"
+         id="feBlend1827"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix1849" />
+      <feTurbulence
+         id="feTurbulence1851"
+         numOctaves="1"
+         baseFrequency="0.002 0.107" />
+      <feColorMatrix
+         id="feColorMatrix1853"
+         values="2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0.5"
+         result="result91" />
+      <feDisplacementMap
+         in2="result91"
+         id="feDisplacementMap1855"
+         yChannelSelector="A"
+         xChannelSelector="R"
+         scale="0"
+         in="fbSourceGraphic" />
+    </filter>
+    <linearGradient
+       xlink:href="#linearGradient1949"
+       id="linearGradient1921"
+       x1="131.34778"
+       y1="-64.82827"
+       x2="134.16412"
+       y2="534.3631"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <rect
+       style="fill:url(#linearGradient1921);stroke-width:5.29167;stroke-linejoin:round;stroke-miterlimit:2;paint-order:fill markers stroke;fill-opacity:1;filter:url(#filter1829)"
+       id="rect1199"
+       width="611.79846"
+       height="459.62515"
+       x="-168.24792"
+       y="-141.90578" />
+  </g>
+</svg>

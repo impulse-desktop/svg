@@ -1,0 +1,159 @@
+<svg width="342pt" height="164pt"
+ viewBox="0.00 0.00 342.00 164.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 160)">
+<title>dependency&#45;cruiser output</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-160 338,-160 338,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_src</title>
+<path fill="#ffffff" stroke="black" stroke-width="2" d="M20,-8C20,-8 314,-8 314,-8 320,-8 326,-14 326,-20 326,-20 326,-136 326,-136 326,-142 320,-148 314,-148 314,-148 20,-148 20,-148 14,-148 8,-142 8,-136 8,-136 8,-20 8,-20 8,-14 14,-8 20,-8"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>src/assets</title>
+<g id="a_node1"><a xlink:href="#/src/assets" xlink:title="no&#45;orphans">
+<polygon fill="#ccffcc" stroke="orange" points="70,-120 18,-120 16,-118 16,-102 68,-102 70,-104 70,-120"/>
+<polyline fill="none" stroke="orange" points="68,-118 16,-118 "/>
+<polyline fill="none" stroke="orange" points="68,-118 68,-102 "/>
+<polyline fill="none" stroke="orange" points="68,-118 70,-120 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>src/components</title>
+<g id="a_node2"><a xlink:href="#/src/components" xlink:title="no&#45;orphans">
+<polygon fill="#ffffcc" stroke="orange" points="162.5,-64 91.5,-64 89.5,-62 89.5,-46 160.5,-46 162.5,-48 162.5,-64"/>
+<polyline fill="none" stroke="orange" points="160.5,-62 89.5,-62 "/>
+<polyline fill="none" stroke="orange" points="160.5,-62 160.5,-46 "/>
+<polyline fill="none" stroke="orange" points="160.5,-62 162.5,-64 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node">
+<title>src/core</title>
+<g id="a_node3"><a xlink:href="#/src/core" xlink:title="no&#45;orphans">
+<polygon fill="#ffffcc" stroke="orange" points="310.5,-52 258.5,-52 256.5,-50 256.5,-34 308.5,-34 310.5,-36 310.5,-52"/>
+<polyline fill="none" stroke="orange" points="308.5,-50 256.5,-50 "/>
+<polyline fill="none" stroke="orange" points="308.5,-50 308.5,-34 "/>
+<polyline fill="none" stroke="orange" points="308.5,-50 310.5,-52 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>src/components&#45;&gt;src/core</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M158,-45.83C158,-43.68 158,-42 158,-42 158,-42 251.27,-42 251.27,-42"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="256.27,-42 251.27,-44.25 253.77,-42 251.27,-42 251.27,-42 251.27,-42 253.77,-42 251.27,-39.75 256.27,-42 256.27,-42"/>
+</g>
+
+<g id="node4" class="node">
+<title>src/global</title>
+<g id="a_node4"><a xlink:href="#/src/global" xlink:title="global">
+<polygon fill="#ffffcc" stroke="black" points="236,-74 184,-74 182,-72 182,-56 234,-56 236,-58 236,-74"/>
+<polyline fill="none" stroke="black" points="234,-72 182,-72 "/>
+<polyline fill="none" stroke="black" points="234,-72 234,-56 "/>
+<polyline fill="none" stroke="black" points="234,-72 236,-74 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>src/components&#45;&gt;src/global</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M162.65,-60C162.65,-60 176.77,-60 176.77,-60"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="181.77,-60 176.77,-62.25 179.27,-60 176.77,-60 176.77,-60 176.77,-60 179.27,-60 176.77,-57.75 181.77,-60 181.77,-60"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>src/global&#45;&gt;src/core</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M236.08,-61.67C257.56,-61.67 284,-61.67 284,-61.67 284,-61.67 284,-57.33 284,-57.33"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="284,-52.33 286.25,-57.33 284,-54.83 284,-57.33 284,-57.33 284,-57.33 284,-54.83 281.75,-57.33 284,-52.33 284,-52.33"/>
+</g>
+
+<g id="node5" class="node">
+<title>src/singleton.ts</title>
+<g id="a_node5"><a xlink:href="#/src/singleton.ts" xlink:title="singleton.ts">
+<path fill="#ddfeff" stroke="black" d="M312,-91C312,-91 255,-91 255,-91 252,-91 249,-88 249,-85 249,-85 249,-79 249,-79 249,-76 252,-73 255,-73 255,-73 312,-73 312,-73 315,-73 318,-76 318,-79 318,-79 318,-85 318,-85 318,-88 315,-91 312,-91"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>src/global&#45;&gt;src/singleton.ts</title>
+<path fill="none" stroke="#007700" stroke-dasharray="5,2" stroke-opacity="0.466667" d="M236.11,-67.33C245.17,-67.33 253,-67.33 253,-67.33 253,-67.33 253,-67.96 253,-67.96"/>
+<polygon fill="#007700" fill-opacity="0.466667" stroke="#007700" stroke-opacity="0.466667" points="253,-72.96 250.75,-67.96 253,-70.46 253,-67.96 253,-67.96 253,-67.96 253,-70.46 255.25,-67.96 253,-72.96 253,-72.96"/>
+</g>
+
+<g id="node6" class="node">
+<title>src/global.ts</title>
+<g id="a_node6"><a xlink:href="#/src/global.ts" xlink:title="global.ts">
+<path fill="#ddfeff" stroke="black" d="M147.5,-34C147.5,-34 104.5,-34 104.5,-34 101.5,-34 98.5,-31 98.5,-28 98.5,-28 98.5,-22 98.5,-22 98.5,-19 101.5,-16 104.5,-16 104.5,-16 147.5,-16 147.5,-16 150.5,-16 153.5,-19 153.5,-22 153.5,-22 153.5,-28 153.5,-28 153.5,-31 150.5,-34 147.5,-34"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>src/global.ts&#45;&gt;src/core</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M126,-34.17C126,-36.32 126,-38 126,-38 126,-38 251.42,-38 251.42,-38"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="256.42,-38 251.42,-40.25 253.92,-38 251.42,-38 251.42,-38 251.42,-38 253.92,-38 251.42,-35.75 256.42,-38 256.42,-38"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>src/global.ts&#45;&gt;src/global</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M153.64,-25C177.78,-25 209,-25 209,-25 209,-25 209,-50.72 209,-50.72"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="209,-55.72 206.75,-50.72 209,-53.22 209,-50.72 209,-50.72 209,-50.72 209,-53.22 211.25,-50.72 209,-55.72 209,-55.72"/>
+</g>
+
+<g id="node7" class="node">
+<title>src/index.ts</title>
+<g id="a_node7"><a xlink:href="#/src/index.ts" xlink:title="index.ts">
+<path fill="#ddfeff" stroke="black" d="M64,-87C64,-87 22,-87 22,-87 19,-87 16,-84 16,-81 16,-81 16,-75 16,-75 16,-72 19,-69 22,-69 22,-69 64,-69 64,-69 67,-69 70,-72 70,-75 70,-75 70,-81 70,-81 70,-84 67,-87 64,-87"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>src/index.ts&#45;&gt;src/global</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M70.04,-77.25C117.08,-77.25 209,-77.25 209,-77.25 209,-77.25 209,-76.94 209,-76.94"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="209,-74.16 211.25,-79.16 209,-76.66 209,-79.16 209,-79.16 209,-79.16 209,-76.66 206.75,-79.16 209,-74.16 209,-74.16"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>src/index.ts&#45;&gt;src/singleton.ts</title>
+<path fill="none" stroke="#007700" stroke-dasharray="5,2" stroke-opacity="0.466667" d="M70.12,-80.5C70.12,-80.5 243.73,-80.5 243.73,-80.5"/>
+<polygon fill="#007700" fill-opacity="0.466667" stroke="#007700" stroke-opacity="0.466667" points="248.73,-80.5 243.73,-82.75 246.23,-80.5 243.73,-80.5 243.73,-80.5 243.73,-80.5 246.23,-80.5 243.73,-78.25 248.73,-80.5 248.73,-80.5"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>src/index.ts&#45;&gt;src/global.ts</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M43,-68.77C43,-53.58 43,-25 43,-25 43,-25 93.36,-25 93.36,-25"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="98.36,-25 93.36,-27.25 95.86,-25 93.36,-25 93.36,-25 93.36,-25 95.86,-25 93.36,-22.75 98.36,-25 98.36,-25"/>
+</g>
+
+<g id="node8" class="node">
+<title>src/presentationals</title>
+<g id="a_node8"><a xlink:href="#/src/presentationals" xlink:title="presentationals">
+<polygon fill="#ffffcc" stroke="black" points="169,-122 85,-122 83,-120 83,-104 167,-104 169,-106 169,-122"/>
+<polyline fill="none" stroke="black" points="167,-120 83,-120 "/>
+<polyline fill="none" stroke="black" points="167,-120 167,-104 "/>
+<polyline fill="none" stroke="black" points="167,-120 169,-122 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>src/index.ts&#45;&gt;src/presentationals</title>
+<path fill="none" stroke="#000000" stroke-opacity="0.200000" d="M70.18,-83.75C94.38,-83.75 126,-83.75 126,-83.75 126,-83.75 126,-98.75 126,-98.75"/>
+<polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-opacity="0.200000" points="126,-103.75 123.75,-98.75 126,-101.25 126,-98.75 126,-98.75 126,-98.75 126,-101.25 128.25,-98.75 126,-103.75 126,-103.75"/>
+</g>
+</g>
+</svg>

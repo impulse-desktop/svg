@@ -1,0 +1,149 @@
+<svg width="994pt" height="131pt"
+ viewBox="0.00 0.00 994.19 131.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 127)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-127 990.1915,-127 990.1915,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>clinical entity</title>
+<ellipse fill="none" stroke="#000000" cx="483.2451" cy="-105" rx="59.2899" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>named thing</title>
+<ellipse fill="none" stroke="#000000" cx="55.2451" cy="-18" rx="55.4913" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>clinical entity&#45;&gt;named thing</title>
+<path fill="none" stroke="#000000" d="M427.2216,-99.0071C376.7112,-93.0978 300.5592,-82.9298 235.2451,-69 190.3847,-59.4325 140.2415,-44.9005 104.2959,-33.793"/>
+<polygon fill="#000000" stroke="#000000" points="105.1385,-30.3897 94.55,-30.7579 103.057,-37.0731 105.1385,-30.3897"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>id</title>
+<ellipse fill="none" stroke="#0000ff" cx="159.2451" cy="-18" rx="30.5947" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>clinical entity&#45;&gt;id</title>
+<path fill="none" stroke="#0000ff" d="M432.3593,-95.7786C374.8462,-84.6379 278.8651,-63.8646 199.2451,-36 197.0012,-35.2147 194.7097,-34.3532 192.4156,-33.4459"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="193.6611,-30.1729 183.0855,-29.5349 190.9549,-36.6287 193.6611,-30.1729"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>iri</title>
+<ellipse fill="none" stroke="#0000ff" cx="244.2451" cy="-18" rx="36.2938" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>clinical entity&#45;&gt;iri</title>
+<path fill="none" stroke="#0000ff" d="M443.6696,-91.5082C404.3298,-77.9598 342.3555,-56.2458 289.2451,-36 286.906,-35.1083 284.5029,-34.1808 282.0821,-33.2378"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="283.3436,-29.9731 272.7566,-29.5672 280.7798,-36.4867 283.3436,-29.9731"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>type</title>
+<ellipse fill="none" stroke="#0000ff" cx="329.2451" cy="-18" rx="30.5947" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>clinical entity&#45;&gt;type</title>
+<path fill="none" stroke="#0000ff" d="M454.9991,-89.0429C428.1623,-73.8818 387.9029,-51.1378 360.2043,-35.49"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="361.7583,-32.348 351.33,-30.4765 358.3151,-38.4426 361.7583,-32.348"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>name</title>
+<ellipse fill="none" stroke="#0000ff" cx="423.2451" cy="-18" rx="45.4919" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>clinical entity&#45;&gt;name</title>
+<path fill="none" stroke="#0000ff" d="M470.8131,-86.9735C462.2533,-74.5619 450.7473,-57.8782 441.1957,-44.0284"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="443.8104,-41.6548 435.2518,-35.4097 438.0479,-45.6289 443.8104,-41.6548"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>description</title>
+<ellipse fill="none" stroke="#0000ff" cx="544.2451" cy="-18" rx="57.6901" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>clinical entity&#45;&gt;description</title>
+<path fill="none" stroke="#0000ff" d="M495.5894,-87.3943C504.2959,-74.9767 516.1059,-58.1329 525.9102,-44.1498"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="528.8346,-46.0754 531.7098,-35.8782 523.1031,-42.0567 528.8346,-46.0754"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>source</title>
+<ellipse fill="none" stroke="#0000ff" cx="665.2451" cy="-18" rx="45.4919" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>clinical entity&#45;&gt;source</title>
+<path fill="none" stroke="#0000ff" d="M524.9159,-92.1924C543.1796,-86.0238 564.6452,-78.0073 583.2451,-69 600.7776,-60.5097 619.2876,-49.2199 634.276,-39.4211"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="636.2636,-42.3027 642.6599,-33.8565 632.3925,-36.4704 636.2636,-42.3027"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>provided by</title>
+<ellipse fill="none" stroke="#0000ff" cx="758.2451" cy="-18" rx="29.795" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>clinical entity&#45;&gt;provided by</title>
+<path fill="none" stroke="#0000ff" d="M527.0185,-92.8818C535.0501,-90.8098 543.3797,-88.7606 551.2451,-87 594.4599,-77.3268 607.0669,-82.4941 649.2451,-69 676.6326,-60.2379 706.0773,-46.156 727.451,-35.0072"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="729.1797,-38.0523 736.3768,-30.2771 725.9019,-31.8671 729.1797,-38.0523"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>has attribute</title>
+<ellipse fill="none" stroke="#0000ff" cx="846.2451" cy="-18" rx="40.0939" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>clinical entity&#45;&gt;has attribute</title>
+<path fill="none" stroke="#0000ff" d="M526.1652,-92.4477C534.4323,-90.3691 543.0647,-88.4292 551.2451,-87 641.7782,-71.183 669.5481,-96.4892 757.2451,-69 778.322,-62.3933 799.8671,-50.2169 816.4792,-39.4185"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="818.802,-42.0756 825.1664,-33.6054 814.909,-36.258 818.802,-42.0756"/>
+
+</g>
+
+<g id="node11" class="node">
+<title>category</title>
+<ellipse fill="none" stroke="#000000" cx="945.2451" cy="-18" rx="40.8928" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>clinical entity&#45;&gt;category</title>
+<path fill="none" stroke="#0000ff" d="M525.7681,-92.3443C534.1486,-90.2482 542.9241,-88.3283 551.2451,-87 619.6064,-76.0877 796.2008,-89.7486 862.2451,-69 881.9375,-62.8134 901.7181,-50.9341 917.027,-40.1961"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="919.4502,-42.7623 925.4895,-34.0573 915.3398,-37.0961 919.4502,-42.7623"/>
+
+</g>
+
+<g id="node12" class="node">
+<title>named thing_category</title>
+<ellipse fill="none" stroke="#0000ff" cx="615.2451" cy="-105" rx="55.4913" ry="18"/>
+
+</g>
+</g>
+</svg>

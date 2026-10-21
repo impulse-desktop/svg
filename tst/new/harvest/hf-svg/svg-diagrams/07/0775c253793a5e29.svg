@@ -1,0 +1,53 @@
+<svg width="442pt" height="155pt"
+ viewBox="0.00 0.00 442.00 155.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 151)">
+<title>G</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-151 438,-151 438,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>ReplicaSet:nginx&#45;6799fc88d8</title>
+<polygon fill="#c8c8c8" fill-opacity="0.784314" stroke="transparent" points="8,-58.5 8,-87.5 190,-87.5 190,-58.5 8,-58.5"/>
+<polygon fill="none" stroke="black" points="8,-58.5 8,-87.5 190,-87.5 190,-58.5 8,-58.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Pod:nginx&#45;6799fc88d8&#45;j4vv8</title>
+<polygon fill="#c8c8c8" fill-opacity="0.784314" stroke="transparent" points="244,-113.5 244,-142.5 424,-142.5 424,-113.5 244,-113.5"/>
+<polygon fill="none" stroke="black" points="244,-113.5 244,-142.5 424,-142.5 424,-113.5 244,-113.5"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ReplicaSet:nginx&#45;6799fc88d8&#45;&gt;Pod:nginx&#45;6799fc88d8&#45;j4vv8</title>
+<path fill="none" stroke="black" d="M178.56,-92.04C199.75,-97.05 222.83,-102.49 244.53,-107.62"/>
+<polygon fill="black" stroke="black" points="243.85,-111.05 254.39,-109.94 245.46,-104.24 243.85,-111.05"/>
+</g>
+
+<g id="node3" class="node">
+<title>Pod:nginx&#45;6799fc88d8&#45;np6b7</title>
+<polygon fill="#c8c8c8" fill-opacity="0.784314" stroke="transparent" points="242,-58.5 242,-87.5 426,-87.5 426,-58.5 242,-58.5"/>
+<polygon fill="none" stroke="black" points="242,-58.5 242,-87.5 426,-87.5 426,-58.5 242,-58.5"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ReplicaSet:nginx&#45;6799fc88d8&#45;&gt;Pod:nginx&#45;6799fc88d8&#45;np6b7</title>
+<path fill="none" stroke="black" d="M198.14,-73.5C206.63,-73.5 215.26,-73.5 223.83,-73.5"/>
+<polygon fill="black" stroke="black" points="223.86,-77 233.86,-73.5 223.86,-70 223.86,-77"/>
+</g>
+
+<g id="node4" class="node">
+<title>Pod:nginx&#45;6799fc88d8&#45;xjd9w</title>
+<polygon fill="#c8c8c8" fill-opacity="0.784314" stroke="transparent" points="242,-3.5 242,-32.5 426,-32.5 426,-3.5 242,-3.5"/>
+<polygon fill="none" stroke="black" points="242,-3.5 242,-32.5 426,-32.5 426,-3.5 242,-3.5"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ReplicaSet:nginx&#45;6799fc88d8&#45;&gt;Pod:nginx&#45;6799fc88d8&#45;xjd9w</title>
+<path fill="none" stroke="black" d="M178.56,-54.96C199.75,-49.95 222.83,-44.51 244.53,-39.38"/>
+<polygon fill="black" stroke="black" points="245.46,-42.76 254.39,-37.06 243.85,-35.95 245.46,-42.76"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,100 @@
+<svg width="196pt" height="805pt"
+ viewBox="0.00 0.00 195.50 805.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 801)">
+<title>tbb::flow::interface10::opencl_factory&lt; DeviceFilter &gt;</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-801 191.5,-801 191.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-486.5 0,-796.5 157,-796.5 157,-486.5 0,-486.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-766.5 157,-766.5 "/>
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-714.5 157,-714.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00538.html" target="_top" xlink:title="{tbb::flow::interface10\l::opencl_factory\&lt; default\l_device_filter \&gt;\n|&#45; my_once_flag\l&#45; my_devices\l&#45; my_cl_context\l&#45; my_devices_mutex\l|+ opencl_factory()\l+ ~opencl_factory()\l+ init()\l+ send_kernel()\l+ send_data()\l+ send_data()\l+ finalize()\l+ devices()\l&#45; opencl_factory()\l&#45; enqueue_map_buffer()\l&#45; enqueue_unmap_buffer()\l&#45; process_one_arg()\l&#45; process_one_arg()\l&#45; process_arg_list()\l&#45; process_arg_list()\l&#45; update_one_arg()\l&#45; update_one_arg()\l&#45; update_arg_list()\land 10 more...\l&#45; finalize_callback()\l}">
+<polygon fill="white" stroke="black" points="13.5,-117.5 13.5,-438.5 143.5,-438.5 143.5,-117.5 13.5,-117.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="13.5,-397.5 143.5,-397.5 "/>
+
+
+
+
+<polyline fill="none" stroke="black" points="13.5,-345.5 143.5,-345.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="orange" d="M78.5,-476.347C78.5,-463.77 78.5,-451.086 78.5,-438.539"/>
+<polygon fill="orange" stroke="orange" points="75.0001,-476.405 78.5,-486.405 82.0001,-476.405 75.0001,-476.405"/>
+
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00201.html" target="_top" xlink:title="{tbb::flow::interface10\l::opencl_info::default\l_opencl_factory\n||&#45; default_opencl_factory()\l}">
+<polygon fill="white" stroke="black" points="15,-0.5 15,-79.5 142,-79.5 142,-0.5 15,-0.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="15,-38.5 142,-38.5 "/>
+
+<polyline fill="none" stroke="black" points="15,-19.5 142,-19.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M78.5,-107.201C78.5,-97.2933 78.5,-87.9939 78.5,-79.6744"/>
+<polygon fill="none" stroke="midnightblue" points="75.0001,-107.296 78.5,-117.297 82.0001,-107.297 75.0001,-107.296"/>
+</g>
+</g>
+</svg>

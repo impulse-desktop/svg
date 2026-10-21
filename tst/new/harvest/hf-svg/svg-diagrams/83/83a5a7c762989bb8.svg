@@ -1,0 +1,196 @@
+<svg width="1670pt" height="284pt"
+ viewBox="0.00 0.00 1670.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1666,-280 1666,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="597,-10 597,-30 617,-30 617,-10 597,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="710,-10 710,-30 730,-30 730,-10 710,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="796,-10 796,-30 816,-30 816,-10 796,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="893,-10 893,-30 913,-30 913,-10 893,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="989,-10 989,-30 1009,-30 1009,-10 989,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SenzingSdkGraphModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1654,-268 1654,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SenzingSdkGraphModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="220,-78 220,-130 1646,-130 1646,-78 220,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_SenzingSdkGraphModule_exports</title>
+<polygon fill="none" stroke="#000000" points="108,-208 108,-260 1554,-260 1554,-208 108,-208"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_SenzingSdkGraphModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 212,-130 212,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>SzGraphTestComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1638.4144,-122 1483.5856,-122 1483.5856,-86 1638.4144,-86 1638.4144,-122"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>SenzingSdkGraphModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="920.9171,-187 917.9171,-191 896.9171,-191 893.9171,-187 759.0829,-187 759.0829,-151 920.9171,-151 920.9171,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>SzGraphTestComponent&#45;&gt;SenzingSdkGraphModule</title>
+<path fill="none" stroke="#000000" d="M1514.875,-122.1061C1514.875,-141.3391 1514.875,-169 1514.875,-169 1514.875,-169 930.7354,-169 930.7354,-169"/>
+<polygon fill="#000000" stroke="#000000" points="930.7354,-165.5001 920.7354,-169 930.7353,-172.5001 930.7354,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>SzRelationshipNetworkComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1465.5814,-122 1250.4186,-122 1250.4186,-86 1465.5814,-86 1465.5814,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SzRelationshipNetworkComponent&#45;&gt;SenzingSdkGraphModule</title>
+<path fill="none" stroke="#000000" d="M1310.375,-122.0225C1310.375,-139.3734 1310.375,-163 1310.375,-163 1310.375,-163 930.8603,-163 930.8603,-163"/>
+<polygon fill="#000000" stroke="#000000" points="930.8604,-159.5001 920.8603,-163 930.8603,-166.5001 930.8604,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SzRelationshipNetworkInputComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1232.1329,-122 987.8671,-122 987.8671,-86 1232.1329,-86 1232.1329,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SzRelationshipNetworkInputComponent&#45;&gt;SenzingSdkGraphModule</title>
+<path fill="none" stroke="#000000" d="M1060.875,-122.2396C1060.875,-137.5706 1060.875,-157 1060.875,-157 1060.875,-157 930.9915,-157 930.9915,-157"/>
+<polygon fill="#000000" stroke="#000000" points="930.9915,-153.5001 920.9915,-157 930.9915,-160.5001 930.9915,-153.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>SzRelationshipNetworkLookupComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="969.1343,-122 710.8657,-122 710.8657,-86 969.1343,-86 969.1343,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SzRelationshipNetworkLookupComponent&#45;&gt;SenzingSdkGraphModule</title>
+<path fill="none" stroke="#000000" d="M840,-122.1061C840,-122.1061 840,-140.991 840,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="836.5001,-140.9909 840,-150.991 843.5001,-140.991 836.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>SzRelationshipNetworkUploadComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="693.2934,-122 436.7066,-122 436.7066,-86 693.2934,-86 693.2934,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SzRelationshipNetworkUploadComponent&#45;&gt;SenzingSdkGraphModule</title>
+<path fill="none" stroke="#000000" d="M649.5398,-122.2396C649.5398,-137.5706 649.5398,-157 649.5398,-157 649.5398,-157 749.2277,-157 749.2277,-157"/>
+<polygon fill="#000000" stroke="#000000" points="749.2278,-160.5001 759.2277,-157 749.2277,-153.5001 749.2278,-160.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>SzRelationshipPathComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="418.4902,-122 227.5098,-122 227.5098,-86 418.4902,-86 418.4902,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SzRelationshipPathComponent&#45;&gt;SenzingSdkGraphModule</title>
+<path fill="none" stroke="#000000" d="M373.2993,-122.0225C373.2993,-139.3734 373.2993,-163 373.2993,-163 373.2993,-163 749.2397,-163 749.2397,-163"/>
+<polygon fill="#000000" stroke="#000000" points="749.2398,-166.5001 759.2397,-163 749.2397,-159.5001 749.2398,-166.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>SzGraphTestComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1545.9138,-252 1388.0862,-252 1388.0862,-216 1545.9138,-216 1545.9138,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SenzingSdkGraphModule&#45;&gt;SzGraphTestComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M920.9748,-175C1081.9472,-175 1426.7919,-175 1426.7919,-175 1426.7919,-175 1426.7919,-205.9775 1426.7919,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="1423.292,-205.9774 1426.7919,-215.9775 1430.292,-205.9775 1423.292,-205.9774"/>
+</g>
+
+<g id="node9" class="node">
+<title>SzRelationshipNetworkComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1370.0818,-252 1151.9182,-252 1151.9182,-216 1370.0818,-216 1370.0818,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SenzingSdkGraphModule&#45;&gt;SzRelationshipNetworkComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M920.7588,-181C1024.6851,-181 1192.0128,-181 1192.0128,-181 1192.0128,-181 1192.0128,-205.7604 1192.0128,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="1188.5129,-205.7604 1192.0128,-215.7604 1195.5129,-205.7604 1188.5129,-205.7604"/>
+</g>
+
+<g id="node10" class="node">
+<title>SzRelationshipNetworkInputComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1134.1326,-252 885.8674,-252 885.8674,-216 1134.1326,-216 1134.1326,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SenzingSdkGraphModule&#45;&gt;SzRelationshipNetworkInputComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M903.321,-187.1061C903.321,-187.1061 903.321,-205.991 903.321,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="899.8211,-205.9909 903.321,-215.991 906.8211,-205.991 899.8211,-205.9909"/>
+</g>
+
+<g id="node11" class="node">
+<title>SzRelationshipNetworkLookupComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="868.134,-252 605.866,-252 605.866,-216 868.134,-216 868.134,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>SenzingSdkGraphModule&#45;&gt;SzRelationshipNetworkLookupComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M813.6794,-187.1061C813.6794,-187.1061 813.6794,-205.991 813.6794,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="810.1794,-205.9909 813.6794,-215.991 817.1794,-205.991 810.1794,-205.9909"/>
+</g>
+
+<g id="node12" class="node">
+<title>SzRelationshipNetworkUploadComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="587.7933,-252 328.2067,-252 328.2067,-216 587.7933,-216 587.7933,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>SenzingSdkGraphModule&#45;&gt;SzRelationshipNetworkUploadComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M759.014,-181C661.9949,-181 512.375,-181 512.375,-181 512.375,-181 512.375,-205.7604 512.375,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="508.8751,-205.7604 512.375,-215.7604 515.8751,-205.7604 508.8751,-205.7604"/>
+</g>
+
+<g id="node13" class="node">
+<title>SzRelationshipPathComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="310.4908,-252 115.5092,-252 115.5092,-216 310.4908,-216 310.4908,-252"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>SenzingSdkGraphModule&#45;&gt;SzRelationshipPathComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M759.0809,-175C601.5263,-175 268.875,-175 268.875,-175 268.875,-175 268.875,-205.9775 268.875,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="265.3751,-205.9774 268.875,-215.9775 272.3751,-205.9775 265.3751,-205.9774"/>
+</g>
+
+<g id="node14" class="node">
+<title>SzGraphTestService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="114" cy="-104" rx="90.3043" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>SzGraphTestService&#45;&gt;SenzingSdkGraphModule</title>
+<path fill="none" stroke="#000000" d="M160.0785,-119.7347C160.0785,-138.9716 160.0785,-169 160.0785,-169 160.0785,-169 748.9978,-169 748.9978,-169"/>
+<polygon fill="#000000" stroke="#000000" points="748.9978,-172.5001 758.9978,-169 748.9977,-165.5001 748.9978,-172.5001"/>
+</g>
+</g>
+</svg>

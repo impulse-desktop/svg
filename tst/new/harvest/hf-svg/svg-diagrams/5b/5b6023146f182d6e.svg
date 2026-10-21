@@ -1,0 +1,87 @@
+<svg width="672pt" height="128pt"
+ viewBox="0.00 0.00 671.93 127.91" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 123.9117)">
+<title>M</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-123.9117 667.9303,-123.9117 667.9303,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>seed</title>
+<ellipse fill="none" stroke="#000000" cx="27" cy="-59.4558" rx="27" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>transformations</title>
+<ellipse fill="none" stroke="#000000" cx="155.6117" cy="-82.4558" rx="65.7235" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>seed&#45;&gt;transformations</title>
+<path fill="none" stroke="#000000" d="M53.3368,-64.1657C64.1709,-66.1032 77.2452,-68.4413 90.3713,-70.7887"/>
+<polygon fill="#000000" stroke="#000000" points="89.9229,-74.264 100.3829,-72.5791 91.1552,-67.3733 89.9229,-74.264"/>
+</g>
+
+<g id="node3" class="node">
+<title>computation</title>
+<ellipse fill="none" stroke="#000000" cx="311.5388" cy="-59.4558" rx="54.1317" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>seed&#45;&gt;computation</title>
+<path fill="none" stroke="#000000" d="M53.9606,-57.3671C65.1085,-56.6016 78.1697,-55.831 90,-55.4558 148.2922,-53.6072 162.9161,-54.1653 221.2233,-55.4558 229.6819,-55.6431 238.5828,-55.9288 247.3648,-56.2633"/>
+<polygon fill="#000000" stroke="#000000" points="247.4528,-59.7696 257.5857,-56.6753 247.7348,-52.7752 247.4528,-59.7696"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>transformations&#45;&gt;computation</title>
+<path fill="none" stroke="#000000" d="M213.6732,-73.8915C226.1761,-72.0472 239.411,-70.095 251.9703,-68.2425"/>
+<polygon fill="#000000" stroke="#000000" points="252.4888,-71.704 261.871,-66.7821 251.4673,-64.7789 252.4888,-71.704"/>
+</g>
+
+<g id="node4" class="node">
+<title>output from\n seed</title>
+<ellipse fill="none" stroke="#000000" cx="477.7758" cy="-94.4558" rx="58.1634" ry="25.4118"/>
+
+
+</g>
+
+<g id="edge4" class="edge">
+<title>computation&#45;&gt;output from\n seed</title>
+<path fill="none" stroke="#000000" d="M357.4039,-69.1124C375.2446,-72.8686 395.9726,-77.2328 415.1486,-81.2701"/>
+<polygon fill="#000000" stroke="#000000" points="414.5049,-84.7113 425.0115,-83.3467 415.9471,-77.8614 414.5049,-84.7113"/>
+</g>
+
+<g id="node5" class="node">
+<title>output from\n transformations</title>
+<ellipse fill="none" stroke="#000000" cx="477.7758" cy="-25.4558" rx="75.843" ry="25.4118"/>
+
+
+</g>
+
+<g id="edge5" class="edge">
+<title>computation&#45;&gt;output from\n transformations</title>
+<path fill="none" stroke="#000000" d="M357.8451,-49.9849C371.7941,-47.132 387.4765,-43.9245 402.7874,-40.793"/>
+<polygon fill="#000000" stroke="#000000" points="403.6774,-44.1835 412.7733,-38.7506 402.2747,-37.3255 403.6774,-44.1835"/>
+</g>
+
+<g id="node6" class="node">
+<title>relation</title>
+<ellipse fill="none" stroke="#000000" cx="626.8138" cy="-59.4558" rx="37.2334" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>output from\n seed&#45;&gt;relation</title>
+<path fill="none" stroke="#000000" d="M529.4838,-82.3128C547.0289,-78.1925 566.4411,-73.6337 583.2836,-69.6785"/>
+<polygon fill="#000000" stroke="#000000" points="584.4637,-72.9966 593.3986,-67.303 582.8633,-66.182 584.4637,-72.9966"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>output from\n transformations&#45;&gt;relation</title>
+<path fill="none" stroke="#000000" d="M540.5494,-39.7764C554.8763,-43.0448 569.7975,-46.4487 583.1222,-49.4885"/>
+<polygon fill="#000000" stroke="#000000" points="582.4362,-52.9218 592.9642,-51.7337 583.9931,-46.0972 582.4362,-52.9218"/>
+</g>
+</g>
+</svg>

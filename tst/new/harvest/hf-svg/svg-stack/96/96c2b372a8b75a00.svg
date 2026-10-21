@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="968" height="1188" viewBox="0 0 968 1188">
+  <defs>
+    <filter id="矩形_7" x="0" y="0" width="968" height="1188" filterUnits="userSpaceOnUse">
+      <feOffset dy="9" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#矩形_7)">
+    <rect id="矩形_7-2" data-name="矩形 7" width="950" height="1070" transform="translate(9)" fill="#282828"/>
+  </g>
+</svg>

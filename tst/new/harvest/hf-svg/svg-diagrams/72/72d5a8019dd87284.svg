@@ -1,0 +1,113 @@
+<svg width="607pt" height="291pt"
+ viewBox="0.00 0.00 607.00 291.19" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 287.19)">
+<title>docker_compose</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-287.19 603,-287.19 603,4 -4,4"/>
+
+<g id="node1" class="node"><title>.</title>
+<polygon fill="none" stroke="black" points="292.5,-246.595 289.5,-250.595 268.5,-250.595 265.5,-246.595 238.5,-246.595 238.5,-210.595 292.5,-210.595 292.5,-246.595"/>
+
+</g>
+
+<g id="node2" class="node"><title>web</title>
+<polygon fill="none" stroke="black" points="146.5,-123 92.5,-123 92.5,-119 88.5,-119 88.5,-115 92.5,-115 92.5,-95 88.5,-95 88.5,-91 92.5,-91 92.5,-87 146.5,-87 146.5,-123"/>
+<polyline fill="none" stroke="black" points="92.5,-119 96.5,-119 96.5,-115 92.5,-115 "/>
+<polyline fill="none" stroke="black" points="92.5,-95 96.5,-95 96.5,-91 92.5,-91 "/>
+
+</g>
+
+<g id="edge1" class="edge"><title>.&#45;&gt;web</title>
+<path fill="none" stroke="black" d="M256.032,-210.573C248.343,-198.405 236.355,-182.701 221.5,-174 182.157,-150.954 150.125,-190.661 120.5,-156 115.185,-149.782 113.647,-141.368 113.825,-133.217"/>
+<polygon fill="black" stroke="black" points="117.313,-133.514 114.815,-123.218 110.347,-132.825 117.313,-133.514"/>
+
+</g>
+
+<g id="node7" class="node"><title>back</title>
+<polygon fill="none" stroke="black" points="276.5,-123 222.5,-123 222.5,-119 218.5,-119 218.5,-115 222.5,-115 222.5,-95 218.5,-95 218.5,-91 222.5,-91 222.5,-87 276.5,-87 276.5,-123"/>
+<polyline fill="none" stroke="black" points="222.5,-119 226.5,-119 226.5,-115 222.5,-115 "/>
+<polyline fill="none" stroke="black" points="222.5,-95 226.5,-95 226.5,-91 222.5,-91 "/>
+
+</g>
+
+<g id="edge6" class="edge"><title>.&#45;&gt;back</title>
+<path fill="none" stroke="black" d="M274.013,-210.482C281.675,-192.633 290.464,-164.088 281.5,-141 280.139,-137.493 278.244,-134.124 276.05,-130.954"/>
+<polygon fill="black" stroke="black" points="278.7,-128.665 269.702,-123.072 273.249,-133.056 278.7,-128.665"/>
+
+</g>
+
+<g id="node6" class="node"><title>redis</title>
+<polygon fill="none" stroke="black" points="220.5,-36 166.5,-36 166.5,-32 162.5,-32 162.5,-28 166.5,-28 166.5,-8 162.5,-8 162.5,-4 166.5,-4 166.5,-0 220.5,-0 220.5,-36"/>
+<polyline fill="none" stroke="black" points="166.5,-32 170.5,-32 170.5,-28 166.5,-28 "/>
+<polyline fill="none" stroke="black" points="166.5,-8 170.5,-8 170.5,-4 166.5,-4 "/>
+
+</g>
+
+<g id="edge5" class="edge"><title>web&#45;&gt;redis</title>
+<path fill="none" stroke="black" d="M134.475,-86.799C145.207,-74.4713 159.827,-57.6787 171.831,-43.8902"/>
+<polygon fill="black" stroke="black" points="174.621,-46.0159 178.547,-36.1754 169.341,-41.4195 174.621,-46.0159"/>
+
+</g>
+
+<g id="node3" class="node"><title>5000:5000</title>
+<ellipse fill="none" stroke="black" cx="157.5" cy="-228.595" rx="54.6905" ry="54.6905"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>5000:5000&#45;&gt;web</title>
+<path fill="none" stroke="black" d="M109.492,-202.07C92.6862,-190.443 75.7206,-174.987 66.5,-156 60.1084,-142.839 70.3115,-131.363 83.4187,-122.738"/>
+<polygon fill="black" stroke="black" points="85.4737,-125.589 92.3062,-117.491 81.9154,-119.561 85.4737,-125.589"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>5000:5000&#45;&gt;back</title>
+<path fill="none" stroke="black" d="M197.669,-191.569C208.234,-180.813 219.032,-168.53 227.5,-156 232.279,-148.928 236.417,-140.649 239.774,-132.885"/>
+<polygon fill="black" stroke="black" points="243.083,-134.039 243.598,-123.457 236.596,-131.408 243.083,-134.039"/>
+
+</g>
+
+<g id="node4" class="node"><title>.:/code</title>
+<polygon fill="none" stroke="black" points="69,-246.595 66,-250.595 45,-250.595 42,-246.595 0,-246.595 0,-210.595 69,-210.595 69,-246.595"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>.:/code&#45;&gt;web</title>
+<path fill="none" stroke="black" d="M23.3867,-210.366C12.8572,-191.636 0.680409,-161.624 15.5,-141 30.6067,-119.977 58.9798,-111.411 82.2784,-108.001"/>
+<polygon fill="black" stroke="black" points="82.7195,-111.473 92.229,-106.802 81.8821,-104.523 82.7195,-111.473"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>.:/code&#45;&gt;back</title>
+<path fill="none" stroke="black" d="M49.1765,-210.568C60.2495,-198.721 76.4122,-183.419 93.5,-174 119.752,-159.529 131.764,-169.555 158.5,-156 168.096,-151.135 168.387,-146.718 177.5,-141 188.74,-133.947 201.611,-127.286 213.333,-121.707"/>
+<polygon fill="black" stroke="black" points="214.841,-124.866 222.434,-117.477 211.891,-118.518 214.841,-124.866"/>
+
+</g>
+
+<g id="node5" class="node"><title>logvolume01:/var/log</title>
+<polygon fill="none" stroke="black" points="482,-246.595 479,-250.595 458,-250.595 455,-246.595 315,-246.595 315,-210.595 482,-210.595 482,-246.595"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>logvolume01:/var/log&#45;&gt;web</title>
+<path fill="none" stroke="black" d="M389.554,-210.406C378.076,-190.226 356.176,-157.431 327.5,-141 282.994,-115.499 264.074,-131.565 213.5,-123 194.813,-119.835 174.078,-116.108 156.847,-112.952"/>
+<polygon fill="black" stroke="black" points="157.089,-109.438 146.621,-111.07 155.822,-116.322 157.089,-109.438"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>logvolume01:/var/log&#45;&gt;back</title>
+<path fill="none" stroke="black" d="M408.067,-210.294C417.177,-191.219 427.349,-160.638 411.5,-141 396.141,-121.969 329.754,-112.78 286.875,-108.753"/>
+<polygon fill="black" stroke="black" points="287.06,-105.256 276.79,-107.86 286.442,-112.229 287.06,-105.256"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>back&#45;&gt;redis</title>
+<path fill="none" stroke="black" d="M238.168,-86.799C230.198,-74.7017 219.395,-58.3049 210.41,-44.6665"/>
+<polygon fill="black" stroke="black" points="213.24,-42.6005 204.816,-36.1754 207.394,-46.4516 213.24,-42.6005"/>
+
+</g>
+
+<g id="node8" class="node"><title>logvolume01</title>
+<polygon fill="none" stroke="black" points="599,-246.595 596,-250.595 575,-250.595 572,-246.595 500,-246.595 500,-210.595 599,-210.595 599,-246.595"/>
+
+</g>
+</g>
+</svg>

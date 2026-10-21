@@ -1,0 +1,159 @@
+<svg width="1344pt" height="75pt"
+ viewBox="0.00 0.00 1344.00 74.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 70.5)">
+<title>DRC::checkHoles</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-70.5 1340,-70.5 1340,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node715</title>
+<g id="a_node1"><a xlink:title="locate part (mounting) holes that are too close to the edge of the board">
+<polygon fill="#bfbfbf" stroke="#000000" points="1236,-19.5 1236,-38.5 1336,-38.5 1336,-19.5 1236,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node716</title>
+<g id="a_node2"><a xlink:href="../../dc/d8c/classDRC.html#a3278b784f80fe4db30e4618cd910627b" target="_top" xlink:title="do the actual rule check processing for a single PCB">
+<polygon fill="#ffffff" stroke="#000000" points="1115,-19.5 1115,-38.5 1200,-38.5 1200,-19.5 1115,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node715&#45;&gt;Node716</title>
+<path fill="none" stroke="#191970" d="M1225.839,-29C1217.1537,-29 1208.3684,-29 1200.1213,-29"/>
+<polygon fill="#191970" stroke="#191970" points="1225.9506,-32.5001 1235.9506,-29 1225.9506,-25.5001 1225.9506,-32.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node717</title>
+<g id="a_node3"><a xlink:href="../../dc/d8c/classDRC.html#afafd7b4217ebc10c0f3b8904903277ec" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="1013,-19.5 1013,-38.5 1079,-38.5 1079,-19.5 1013,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node716&#45;&gt;Node717</title>
+<path fill="none" stroke="#191970" d="M1104.6174,-29C1095.9405,-29 1087.1707,-29 1079.1518,-29"/>
+<polygon fill="#191970" stroke="#191970" points="1104.7101,-32.5001 1114.7101,-29 1104.71,-25.5001 1104.7101,-32.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node718</title>
+<g id="a_node4"><a xlink:href="../../d6/d1a/classMainWindow.html#a515ccc1e117dfba77f0bab954a7c6523" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="811,-14 811,-44 977,-44 977,-14 811,-14"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node717&#45;&gt;Node718</title>
+<path fill="none" stroke="#191970" d="M1002.476,-29C994.4515,-29 985.832,-29 977.0863,-29"/>
+<polygon fill="#191970" stroke="#191970" points="1002.643,-32.5001 1012.643,-29 1002.6429,-25.5001 1002.643,-32.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node719</title>
+<g id="a_node5"><a xlink:href="../../d1/dec/classPanelizer.html#a746666008f0498b0b2d533eb542538a2" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="641,-38.5 641,-57.5 775,-57.5 775,-38.5 641,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node718&#45;&gt;Node719</title>
+<path fill="none" stroke="#191970" d="M800.7204,-38.5286C792.1268,-39.4064 783.5364,-40.2839 775.2427,-41.1311"/>
+<polygon fill="#191970" stroke="#191970" points="801.1999,-41.9979 810.7924,-37.4997 800.4885,-35.0341 801.1999,-41.9979"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node724</title>
+<g id="a_node10"><a xlink:href="../../dc/dc7/classFApplication.html#ad221f960da2ad821517d29ef4d91eb67" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="450,-.5 450,-19.5 605,-19.5 605,-.5 450,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node718&#45;&gt;Node724</title>
+<path fill="none" stroke="#191970" d="M800.5115,-24.1534C739.9792,-21.0153 662.0934,-16.9776 605.0134,-14.0184"/>
+<polygon fill="#191970" stroke="#191970" points="800.6677,-27.6661 810.8355,-24.6886 801.0301,-20.6755 800.6677,-27.6661"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node720</title>
+<g id="a_node6"><a xlink:href="../../d1/dec/classPanelizer.html#a17e70d92a6673b55cbe831bf41f51764" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="475,-39.5 475,-58.5 580,-58.5 580,-39.5 475,-39.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node719&#45;&gt;Node720</title>
+<path fill="none" stroke="#191970" d="M630.33,-48.4303C613.3723,-48.5243 595.8103,-48.6215 580.1022,-48.7086"/>
+<polygon fill="#191970" stroke="#191970" points="630.808,-51.9278 640.7885,-48.3724 630.7692,-44.9279 630.808,-51.9278"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node721</title>
+<g id="a_node7"><a xlink:href="../../dc/dc7/classFApplication.html#acf8b4e0eaaa72bb5ac8da5ac4350a8a4" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="265,-36 265,-66 414,-66 414,-36 265,-36"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node720&#45;&gt;Node721</title>
+<path fill="none" stroke="#191970" d="M464.5074,-49.6701C448.3852,-49.8416 430.8924,-50.0277 414.242,-50.2049"/>
+<polygon fill="#191970" stroke="#191970" points="464.9194,-53.166 474.8815,-49.5598 464.8448,-46.1664 464.9194,-53.166"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node722</title>
+<g id="a_node8"><a xlink:href="../../dc/dc7/classFApplication.html#ac5e0b62634df1a581eee3c3a36980754" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="77,-19.5 77,-38.5 229,-38.5 229,-19.5 77,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node721&#45;&gt;Node722</title>
+<path fill="none" stroke="#191970" d="M254.9749,-41.0292C246.3928,-40.0168 237.7113,-38.9927 229.2245,-37.9916"/>
+<polygon fill="#191970" stroke="#191970" points="254.645,-44.5145 264.9862,-42.2102 255.4651,-37.5627 254.645,-44.5145"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node723</title>
+<g id="a_node9"><a xlink:href="../../df/d0a/main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="0,-19.5 0,-38.5 41,-38.5 41,-19.5 0,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node722&#45;&gt;Node723</title>
+<path fill="none" stroke="#191970" d="M66.6912,-29C57.2673,-29 48.4413,-29 41.0804,-29"/>
+<polygon fill="#191970" stroke="#191970" points="66.692,-32.5001 76.6919,-29 66.6919,-25.5001 66.692,-32.5001"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node724&#45;&gt;Node722</title>
+<path fill="none" stroke="#191970" d="M439.8449,-14.4471C375.9616,-17.6882 290.2643,-22.036 229.2159,-25.1332"/>
+<polygon fill="#191970" stroke="#191970" points="440.0936,-17.9391 449.9034,-13.9368 439.7388,-10.9481 440.0936,-17.9391"/>
+</g>
+</g>
+</svg>

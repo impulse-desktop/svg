@@ -1,0 +1,160 @@
+<svg width="720pt" height="287pt"
+ viewBox="0.00 0.00 720.00 287.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 283)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-283 716,-283 716,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="122,-10 122,-30 142,-30 142,-10 122,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="235,-10 235,-30 255,-30 255,-10 235,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="321,-10 321,-30 341,-30 341,-10 321,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="418,-10 418,-30 438,-30 438,-10 418,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="514,-10 514,-30 534,-30 534,-10 514,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="121,-146 121,-271 607,-271 607,-146 121,-146"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="129,-154 129,-206 599,-206 599,-154 129,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DailyBalanceModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-138 226,-138 226,-70 8,-70"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_DailyBalanceModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 218,-130 218,-78 16,-78"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_MeModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="234,-70 234,-138 372,-138 372,-70 234,-70"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_MeModule_providers</title>
+<polygon fill="none" stroke="#000000" points="242,-78 242,-130 364,-130 364,-78 242,-78"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_Oauth2Module</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="380,-70 380,-138 548,-138 548,-70 380,-70"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_Oauth2Module_providers</title>
+<polygon fill="none" stroke="#000000" points="388,-78 388,-130 540,-130 540,-78 388,-78"/>
+</g>
+<g id="clust25" class="cluster">
+<title>cluster_UserModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="556,-70 556,-138 704,-138 704,-70 556,-70"/>
+</g>
+<g id="clust30" class="cluster">
+<title>cluster_UserModule_providers</title>
+<polygon fill="none" stroke="#000000" points="564,-78 564,-130 696,-130 696,-78 564,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DailyBalanceModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="272.7381,-198 269.7381,-202 248.7381,-202 245.7381,-198 137.2619,-198 137.2619,-162 272.7381,-162 272.7381,-198"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="424.6571,-263 421.6571,-267 400.6571,-267 397.6571,-263 341.3429,-263 341.3429,-227 424.6571,-227 424.6571,-263"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DailyBalanceModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M205,-198.1061C205,-217.3391 205,-245 205,-245 205,-245 331.2669,-245 331.2669,-245"/>
+<polygon fill="#000000" stroke="#000000" points="331.2669,-248.5001 341.2669,-245 331.2669,-241.5001 331.2669,-248.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>MeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="369.2093,-198 366.2093,-202 345.2093,-202 342.2093,-198 290.7907,-198 290.7907,-162 369.2093,-162 369.2093,-198"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>MeModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M355.1382,-198.1061C355.1382,-198.1061 355.1382,-216.991 355.1382,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="351.6382,-216.9909 355.1382,-226.991 358.6382,-216.991 351.6382,-216.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>Oauth2Module</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="487.2619,-198 484.2619,-202 463.2619,-202 460.2619,-198 386.7381,-198 386.7381,-162 487.2619,-162 487.2619,-198"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>Oauth2Module&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M405.7237,-198.1061C405.7237,-198.1061 405.7237,-216.991 405.7237,-216.991"/>
+<polygon fill="#000000" stroke="#000000" points="402.2238,-216.9909 405.7237,-226.991 409.2238,-216.991 402.2238,-216.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>UserModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="590.9762,-198 587.9762,-202 566.9762,-202 563.9762,-198 505.0238,-198 505.0238,-162 590.9762,-162 590.9762,-198"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>UserModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M548,-198.1061C548,-217.3391 548,-245 548,-245 548,-245 435.0634,-245 435.0634,-245"/>
+<polygon fill="#000000" stroke="#000000" points="435.0634,-241.5001 425.0634,-245 435.0634,-248.5001 435.0634,-241.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>DailyBalanceService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="117" cy="-104" rx="92.59" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DailyBalanceService&#45;&gt;DailyBalanceModule</title>
+<path fill="none" stroke="#000000" d="M173.338,-118.295C173.338,-118.295 173.338,-151.7342 173.338,-151.7342"/>
+<polygon fill="#000000" stroke="#000000" points="169.8381,-151.7341 173.338,-161.7342 176.8381,-151.7342 169.8381,-151.7341"/>
+</g>
+
+<g id="node7" class="node">
+<title>MeService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="303" cy="-104" rx="52.7257" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MeService&#45;&gt;MeModule</title>
+<path fill="none" stroke="#000000" d="M323.3791,-120.8669C323.3791,-120.8669 323.3791,-151.8535 323.3791,-151.8535"/>
+<polygon fill="#000000" stroke="#000000" points="319.8792,-151.8534 323.3791,-161.8535 326.8792,-151.8535 319.8792,-151.8534"/>
+</g>
+
+<g id="node8" class="node">
+<title>Oauth2Service</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="464" cy="-104" rx="68.3382" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>Oauth2Service&#45;&gt;Oauth2Module</title>
+<path fill="none" stroke="#000000" d="M441.4809,-121.2456C441.4809,-121.2456 441.4809,-151.7629 441.4809,-151.7629"/>
+<polygon fill="#000000" stroke="#000000" points="437.981,-151.7628 441.4809,-161.7629 444.981,-151.7629 437.981,-151.7628"/>
+</g>
+
+<g id="node9" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="630" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>UserService&#45;&gt;UserModule</title>
+<path fill="none" stroke="#000000" d="M581.3839,-113.9357C581.3839,-113.9357 581.3839,-151.9077 581.3839,-151.9077"/>
+<polygon fill="#000000" stroke="#000000" points="577.884,-151.9077 581.3839,-161.9077 584.884,-151.9078 577.884,-151.9077"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,80 @@
+<svg width="504pt" height="287pt"
+ viewBox="0.00 0.00 504.00 287.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 283)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-283 500,-283 500,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="14,-10 14,-30 34,-30 34,-10 14,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="127,-10 127,-30 147,-30 147,-10 127,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="213,-10 213,-30 233,-30 233,-10 213,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="310,-10 310,-30 330,-30 330,-10 310,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="104.5,-146 104.5,-271 374.5,-271 374.5,-146 104.5,-146"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="250.5,-154 250.5,-206 366.5,-206 366.5,-154 250.5,-154"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="112.5,-154 112.5,-206 242.5,-206 242.5,-154 112.5,-154"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_CourseModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="225.5,-70 225.5,-138 391.5,-138 391.5,-70 225.5,-70"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_CourseModule_providers</title>
+<polygon fill="none" stroke="black" points="233.5,-78 233.5,-130 383.5,-130 383.5,-78 233.5,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CourseModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="358.21,-198 355.21,-202 334.21,-202 331.21,-198 258.79,-198 258.79,-162 358.21,-162 358.21,-198"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="284.16,-263 281.16,-267 260.16,-267 257.16,-263 200.84,-263 200.84,-227 284.16,-227 284.16,-263"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CourseModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M271.61,-198.11C271.61,-198.11 271.61,-216.99 271.61,-216.99"/>
+<polygon fill="black" stroke="black" points="268.11,-216.99 271.61,-226.99 275.11,-216.99 268.11,-216.99"/>
+</g>
+
+<g id="node3" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="black" cx="177.5" cy="-180" rx="56.74" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AppService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M217.4,-192.84C217.4,-192.84 217.4,-216.52 217.4,-216.52"/>
+<polygon fill="black" stroke="black" points="213.9,-216.52 217.4,-226.52 220.9,-216.52 213.9,-216.52"/>
+</g>
+
+<g id="node4" class="node">
+<title>CourseService</title>
+<ellipse fill="#fdb462" stroke="black" cx="308.5" cy="-104" rx="67.19" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CourseService&#45;&gt;CourseModule</title>
+<path fill="none" stroke="black" d="M308.5,-122.01C308.5,-122.01 308.5,-151.85 308.5,-151.85"/>
+<polygon fill="black" stroke="black" points="305,-151.85 308.5,-161.85 312,-151.85 305,-151.85"/>
+</g>
+</g>
+</svg>

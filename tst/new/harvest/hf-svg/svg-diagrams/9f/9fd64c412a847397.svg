@@ -1,0 +1,131 @@
+<svg width="521pt" height="340pt"
+ viewBox="0.00 0.00 521.00 340.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 336)">
+<title>oneDegreeRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="none" points="-4,4 -4,-336 517,-336 517,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>core_groupprogressreport</title>
+<g id="a_node1"><a xlink:href="../../tables/core_groupprogressreport.html" xlink:title="core_groupprogressreport" target="_top">
+<polygon fill="#ffffff" stroke="none" points="309,-204 309,-328 505,-328 505,-204 309,-204"/>
+<polygon fill="#f5f5f5" stroke="none" points="309,-306 309,-328 505,-328 505,-306 309,-306"/>
+<polygon fill="none" stroke="black" points="309,-306 309,-328 505,-328 505,-306 309,-306"/>
+
+
+<polygon fill="none" stroke="black" points="309,-284 309,-306 505,-306 505,-284 309,-284"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="314" y="-301"/>
+
+<polygon fill="#ffffff" stroke="none" points="309,-262 309,-284 505,-284 505,-262 309,-262"/>
+<polygon fill="none" stroke="black" points="309,-262 309,-284 505,-284 505,-262 309,-262"/>
+
+<polygon fill="#ffffff" stroke="none" points="309,-240 309,-262 505,-262 505,-240 309,-240"/>
+<polygon fill="none" stroke="black" points="309,-240 309,-262 505,-262 505,-240 309,-240"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="314" y="-257"/>
+
+<polygon fill="none" stroke="black" points="309,-222 309,-240 505,-240 505,-222 309,-222"/>
+
+<polygon fill="#ffffff" stroke="none" points="309,-204 309,-222 387,-222 387,-204 309,-204"/>
+<polygon fill="none" stroke="black" points="309,-204 309,-222 387,-222 387,-204 309,-204"/>
+
+<polygon fill="#ffffff" stroke="none" points="387,-204 387,-222 464,-222 464,-204 387,-204"/>
+<polygon fill="none" stroke="black" points="387,-204 387,-222 464,-222 464,-204 387,-204"/>
+
+<polygon fill="#ffffff" stroke="none" points="464,-204 464,-222 505,-222 505,-204 464,-204"/>
+<polygon fill="none" stroke="black" points="464,-204 464,-222 505,-222 505,-204 464,-204"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>core_taskgroup</title>
+<g id="a_node2"><a xlink:href="../../tables/core_taskgroup.html" xlink:title="core_taskgroup" target="_top">
+<polygon fill="#ffffff" stroke="none" points="8,-48 8,-202 260,-202 260,-48 8,-48"/>
+<polygon fill="#f5f5f5" stroke="none" points="10,-178 10,-200 258,-200 258,-178 10,-178"/>
+<polygon fill="none" stroke="black" points="10,-178 10,-200 258,-200 258,-178 10,-178"/>
+
+
+<polygon fill="none" stroke="black" points="10,-156 10,-178 153,-178 153,-156 10,-156"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="15" y="-173"/>
+
+<polygon fill="none" stroke="black" points="153,-156 153,-178 258,-178 258,-156 153,-156"/>
+
+<polygon fill="none" stroke="black" points="10,-134 10,-156 153,-156 153,-134 10,-134"/>
+
+<polygon fill="none" stroke="black" points="153,-134 153,-156 258,-156 258,-134 153,-134"/>
+
+<polygon fill="none" stroke="black" points="10,-112 10,-134 153,-134 153,-112 10,-112"/>
+
+<polygon fill="none" stroke="black" points="153,-112 153,-134 258,-134 258,-112 153,-112"/>
+
+<polygon fill="none" stroke="black" points="10,-90 10,-112 153,-112 153,-90 10,-90"/>
+
+<polygon fill="none" stroke="black" points="153,-90 153,-112 258,-112 258,-90 153,-90"/>
+
+<polygon fill="none" stroke="black" points="10,-68 10,-90 153,-90 153,-68 10,-68"/>
+
+<polygon fill="none" stroke="black" points="153,-68 153,-90 258,-90 258,-68 153,-68"/>
+
+<polygon fill="#ffffff" stroke="none" points="10,-50 10,-68 68,-68 68,-50 10,-50"/>
+<polygon fill="none" stroke="black" points="10,-50 10,-68 68,-68 68,-50 10,-50"/>
+
+<polygon fill="#ffffff" stroke="none" points="68,-50 68,-68 153,-68 153,-50 68,-50"/>
+<polygon fill="none" stroke="black" points="68,-50 68,-68 153,-68 153,-50 68,-50"/>
+
+<polygon fill="#ffffff" stroke="none" points="153,-50 153,-68 258,-68 258,-50 153,-50"/>
+<polygon fill="none" stroke="black" points="153,-50 153,-68 258,-68 258,-50 153,-50"/>
+
+<polygon fill="none" stroke="black" stroke-width="2" points="9,-49 9,-201 259,-201 259,-49 9,-49"/>
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>core_groupprogressreport:task_group_id:w&#45;&gt;core_taskgroup:pulp_id.type:e</title>
+<path fill="none" stroke="black" d="M294.103,-246.484C273.714,-229.036 296.143,-167 259,-167"/>
+<polygon fill="black" stroke="black" points="300.392,-248.527 306.887,-254.424 304.196,-249.764 308,-251 308,-251 308,-251 304.196,-249.764 309.113,-247.576 300.392,-248.527 300.392,-248.527"/>
+<ellipse fill="none" stroke="black" cx="297.348" cy="-247.538" rx="3.20001" ry="3.20001"/>
+</g>
+
+<g id="node3" class="node"><title>core_task</title>
+<g id="a_node3"><a xlink:href="../../tables/core_task.html" xlink:title="core_task" target="_top">
+<polygon fill="#ffffff" stroke="none" points="342.5,-37 342.5,-183 471.5,-183 471.5,-37 342.5,-37"/>
+<polygon fill="#f5f5f5" stroke="none" points="343,-161 343,-183 472,-183 472,-161 343,-161"/>
+<polygon fill="none" stroke="black" points="343,-161 343,-183 472,-183 472,-161 343,-161"/>
+
+
+<polygon fill="none" stroke="black" points="343,-139 343,-161 472,-161 472,-139 343,-139"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="348" y="-156"/>
+
+<polygon fill="#ffffff" stroke="none" points="343,-117 343,-139 472,-139 472,-117 343,-117"/>
+<polygon fill="none" stroke="black" points="343,-117 343,-139 472,-139 472,-117 343,-117"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="348" y="-134"/>
+
+<polygon fill="#ffffff" stroke="none" points="343,-95 343,-117 472,-117 472,-95 343,-95"/>
+<polygon fill="none" stroke="black" points="343,-95 343,-117 472,-117 472,-95 343,-95"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="348" y="-112"/>
+
+<polygon fill="#ffffff" stroke="none" points="343,-73 343,-95 472,-95 472,-73 343,-73"/>
+<polygon fill="none" stroke="black" points="343,-73 343,-95 472,-95 472,-73 343,-73"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="348" y="-90"/>
+
+<polygon fill="none" stroke="black" points="343,-55 343,-73 472,-73 472,-55 343,-55"/>
+
+<polygon fill="#ffffff" stroke="none" points="343,-37 343,-55 375,-55 375,-37 343,-37"/>
+<polygon fill="none" stroke="black" points="343,-37 343,-55 375,-55 375,-37 343,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="375,-37 375,-55 444,-55 444,-37 375,-37"/>
+<polygon fill="none" stroke="black" points="375,-37 375,-55 444,-55 444,-37 375,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="444,-37 444,-55 472,-55 472,-37 444,-37"/>
+<polygon fill="none" stroke="black" points="444,-37 444,-55 472,-55 472,-37 444,-37"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>core_task:task_group_id:w&#45;&gt;core_taskgroup:pulp_id.type:e</title>
+<path fill="none" stroke="black" d="M327.774,-86.575C293.514,-100.585 305.667,-167 259,-167"/>
+<polygon fill="black" stroke="black" points="334.128,-85.425 342.641,-87.5424 338.064,-84.7125 342,-84 342,-84 342,-84 338.064,-84.7125 341.359,-80.4576 334.128,-85.425 334.128,-85.425"/>
+<ellipse fill="none" stroke="black" cx="330.979" cy="-85.9949" rx="3.2" ry="3.2"/>
+</g>
+</g>
+</svg>

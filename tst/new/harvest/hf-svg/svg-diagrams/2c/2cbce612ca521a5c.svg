@@ -1,0 +1,88 @@
+<svg width="149pt" height="579pt"
+ viewBox="0.00 0.00 149.00 579.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 575)">
+<title>marian::DecoderHardSoftAtt</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-575 145,-575 145,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0.5,-149.5 0.5,-228.5 140.5,-228.5 140.5,-149.5 0.5,-149.5"/>
+
+<polyline fill="none" stroke="black" points="0.5,-209.5 140.5,-209.5 "/>
+
+<polyline fill="none" stroke="black" points="0.5,-190.5 140.5,-190.5 "/>
+
+
+
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d7/d30/classmarian_1_1MultiDecoderHardSoftAtt.html" target="_top" xlink:title="{marian::MultiDecoderHard\lSoftAtt\n||+ MultiDecoderHardSoftAtt()\l+ startState()\l+ step()\l+ selectEmbeddings()\l+ getAlignments()\l}">
+<polygon fill="white" stroke="black" points="0,-0.5 0,-112.5 141,-112.5 141,-0.5 0,-0.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-82.5 141,-82.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-63.5 141,-63.5 "/>
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M70.5,-139.012C70.5,-130.464 70.5,-121.518 70.5,-112.814"/>
+<polygon fill="none" stroke="midnightblue" points="67.0001,-139.199 70.5,-149.199 74.0001,-139.199 67.0001,-139.199"/>
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../d1/dcc/classmarian_1_1DecoderHardAtt.html" target="_top" xlink:title="{marian::DecoderHardAtt\n|# rnn_\l# specialSymbols_\l|+ DecoderHardAtt()\l+ startState()\l+ step()\l+ groundTruth()\l+ selectEmbeddings()\l+ getAlignments()\l}">
+<polygon fill="white" stroke="black" points="9.5,-265.5 9.5,-388.5 131.5,-388.5 131.5,-265.5 9.5,-265.5"/>
+
+<polyline fill="none" stroke="black" points="9.5,-369.5 131.5,-369.5 "/>
+
+
+<polyline fill="none" stroke="black" points="9.5,-339.5 131.5,-339.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M70.5,-254.911C70.5,-245.831 70.5,-236.824 70.5,-228.54"/>
+<polygon fill="none" stroke="midnightblue" points="67.0001,-255.16 70.5,-265.16 74.0001,-255.16 67.0001,-255.16"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../db/d04/classmarian_1_1DecoderBase.html" target="_top" xlink:title="{marian::DecoderBase\n|# options_\l# prefix_\l# inference_\l|+ DecoderBase()\l+ startState()\l+ step()\l+ groundTruth()\l+ selectEmbeddings()\l+ getAlignments()\l+ opt()\l}">
+<polygon fill="white" stroke="black" points="14.5,-425.5 14.5,-570.5 126.5,-570.5 126.5,-425.5 14.5,-425.5"/>
+
+<polyline fill="none" stroke="black" points="14.5,-551.5 126.5,-551.5 "/>
+
+
+
+<polyline fill="none" stroke="black" points="14.5,-510.5 126.5,-510.5 "/>
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M70.5,-415.232C70.5,-406.254 70.5,-397.235 70.5,-388.58"/>
+<polygon fill="none" stroke="midnightblue" points="67.0001,-415.329 70.5,-425.329 74.0001,-415.329 67.0001,-415.329"/>
+</g>
+</g>
+</svg>

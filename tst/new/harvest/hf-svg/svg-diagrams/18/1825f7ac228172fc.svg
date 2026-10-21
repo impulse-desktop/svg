@@ -1,0 +1,78 @@
+<svg width="159pt" height="562pt"
+ viewBox="0.00 0.00 159.00 562.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 558)">
+<title>marian::EncoderDecoderRec</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-558 155,-558 155,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="4,-0.5 4,-101.5 147,-101.5 147,-0.5 4,-0.5"/>
+
+<polyline fill="none" stroke="black" points="4,-82.5 147,-82.5 "/>
+
+
+<polyline fill="none" stroke="black" points="4,-52.5 147,-52.5 "/>
+
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../d7/d2c/classmarian_1_1EncoderDecoder.html" target="_top" xlink:title="{marian::EncoderDecoder\l\&lt; EncoderS2S, DecoderS2S \&gt;\n|# options_\l# prefix_\l# encoder_\l# decoder_\l# batchIndices_\l# inference_\l|+ EncoderDecoder()\l+ EncoderDecoder()\l+ getEncoder()\l+ getDecoder()\l+ load()\l+ save()\l+ save()\l+ clear()\l+ startState()\l+ step()\land 7 more...\l}">
+<polygon fill="white" stroke="black" points="0,-138.5 0,-371.5 151,-371.5 151,-138.5 0,-138.5"/>
+
+
+<polyline fill="none" stroke="black" points="0,-341.5 151,-341.5 "/>
+
+
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-267.5 151,-267.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M75.5,-128.219C75.5,-119.064 75.5,-110.198 75.5,-101.949"/>
+<polygon fill="none" stroke="midnightblue" points="72.0001,-128.252 75.5,-138.252 79.0001,-128.252 72.0001,-128.252"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../d1/dad/classmarian_1_1EncoderDecoderBase.html" target="_top" xlink:title="{marian::EncoderDecoderBase\n||+ load()\l+ save()\l+ save()\l+ selectEmbeddings()\l+ step()\l+ step()\l+ build()\l+ getEncoder()\l+ getDecoder()\l}">
+<polygon fill="white" stroke="black" points="2,-408.5 2,-553.5 149,-553.5 149,-408.5 2,-408.5"/>
+
+<polyline fill="none" stroke="black" points="2,-534.5 149,-534.5 "/>
+
+<polyline fill="none" stroke="black" points="2,-515.5 149,-515.5 "/>
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M75.5,-397.949C75.5,-389.432 75.5,-380.665 75.5,-371.866"/>
+<polygon fill="none" stroke="midnightblue" points="72.0001,-398.201 75.5,-408.201 79.0001,-398.201 72.0001,-398.201"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,138 @@
+<svg width="1155pt" height="247pt"
+ viewBox="0.00 0.00 1155.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 1151,-242.8 1151,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SharedModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1139,-230.8 1139,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SharedModule_declarations</title>
+<polygon fill="none" stroke="black" points="273,-40.8 273,-92.8 1131,-92.8 1131,-40.8 273,-40.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_SharedModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 265,-92.8 265,-40.8 16,-40.8"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="black" points="354,-170.8 354,-222.8 610,-222.8 610,-170.8 354,-170.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AnagraficaAtletaComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1122.72,-84.8 945.28,-84.8 945.28,-48.8 1122.72,-48.8 1122.72,-84.8"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="520.42,-149.8 517.42,-153.8 496.42,-153.8 493.42,-149.8 421.58,-149.8 421.58,-113.8 520.42,-113.8 520.42,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AnagraficaAtletaComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M1034,-85.09C1034,-107.01 1034,-140.8 1034,-140.8 1034,-140.8 530.47,-140.8 530.47,-140.8"/>
+<polygon fill="black" stroke="black" points="530.47,-137.3 520.47,-140.8 530.47,-144.3 530.47,-137.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>AnagraficaRisultatoComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="927.07,-84.8 732.93,-84.8 732.93,-48.8 927.07,-48.8 927.07,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AnagraficaRisultatoComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M830,-84.91C830,-104.14 830,-131.8 830,-131.8 830,-131.8 530.54,-131.8 530.54,-131.8"/>
+<polygon fill="black" stroke="black" points="530.54,-128.3 520.54,-131.8 530.54,-135.3 530.54,-128.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>AnagraficaTestComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="714.61,-84.8 547.39,-84.8 547.39,-48.8 714.61,-48.8 714.61,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AnagraficaTestComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M574.67,-84.83C574.67,-101.2 574.67,-122.8 574.67,-122.8 574.67,-122.8 530.4,-122.8 530.4,-122.8"/>
+<polygon fill="black" stroke="black" points="530.4,-119.3 520.4,-122.8 530.4,-126.3 530.4,-119.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>HomeComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="528.55,-84.8 413.45,-84.8 413.45,-48.8 528.55,-48.8 528.55,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>HomeComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M471,-84.91C471,-84.91 471,-103.79 471,-103.79"/>
+<polygon fill="black" stroke="black" points="467.5,-103.79 471,-113.79 474.5,-103.79 467.5,-103.79"/>
+</g>
+
+<g id="node5" class="node">
+<title>LoginComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="395.28,-84.8 280.72,-84.8 280.72,-48.8 395.28,-48.8 395.28,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>LoginComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M378.63,-84.83C378.63,-101.2 378.63,-122.8 378.63,-122.8 378.63,-122.8 411.57,-122.8 411.57,-122.8"/>
+<polygon fill="black" stroke="black" points="411.57,-126.3 421.57,-122.8 411.57,-119.3 411.57,-126.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>AppRoutingModule </title>
+<polygon fill="#fb8072" stroke="black" points="602.27,-214.8 469.73,-214.8 469.73,-178.8 602.27,-178.8 602.27,-214.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SharedModule&#45;&gt;AppRoutingModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M495.04,-149.91C495.04,-149.91 495.04,-168.79 495.04,-168.79"/>
+<polygon fill="black" stroke="black" points="491.54,-168.79 495.04,-178.79 498.54,-168.79 491.54,-168.79"/>
+</g>
+
+<g id="node10" class="node">
+<title>BaseModule </title>
+<polygon fill="#fb8072" stroke="black" points="452.26,-214.8 361.74,-214.8 361.74,-178.8 452.26,-178.8 452.26,-214.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SharedModule&#45;&gt;BaseModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M436.96,-149.91C436.96,-149.91 436.96,-168.79 436.96,-168.79"/>
+<polygon fill="black" stroke="black" points="433.46,-168.79 436.96,-178.79 440.46,-168.79 433.46,-168.79"/>
+</g>
+
+<g id="node7" class="node">
+<title>AppRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="257.27,-84.8 254.27,-88.8 233.27,-88.8 230.27,-84.8 128.73,-84.8 128.73,-48.8 257.27,-48.8 257.27,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>AppRoutingModule&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M193,-84.91C193,-104.14 193,-131.8 193,-131.8 193,-131.8 411.62,-131.8 411.62,-131.8"/>
+<polygon fill="black" stroke="black" points="411.62,-135.3 421.62,-131.8 411.62,-128.3 411.62,-135.3"/>
+</g>
+
+<g id="node8" class="node">
+<title>BaseModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="110.26,-84.8 107.26,-88.8 86.26,-88.8 83.26,-84.8 23.74,-84.8 23.74,-48.8 110.26,-48.8 110.26,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>BaseModule&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M67,-85.09C67,-107.01 67,-140.8 67,-140.8 67,-140.8 411.46,-140.8 411.46,-140.8"/>
+<polygon fill="black" stroke="black" points="411.46,-144.3 421.46,-140.8 411.46,-137.3 411.46,-144.3"/>
+</g>
+</g>
+</svg>

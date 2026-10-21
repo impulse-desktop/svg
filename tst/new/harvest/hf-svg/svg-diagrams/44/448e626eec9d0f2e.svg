@@ -1,0 +1,236 @@
+<svg width="2343pt" height="284pt"
+ viewBox="0.00 0.00 2343.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 2339,-280 2339,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="933.5,-10 933.5,-30 953.5,-30 953.5,-10 933.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="1046.5,-10 1046.5,-30 1066.5,-30 1066.5,-10 1046.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="1132.5,-10 1132.5,-30 1152.5,-30 1152.5,-10 1132.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="1229.5,-10 1229.5,-30 1249.5,-30 1249.5,-10 1229.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1325.5,-10 1325.5,-30 1345.5,-30 1345.5,-10 1325.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_GridModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 2327,-268 2327,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_GridModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="2074,-78 2074,-130 2319,-130 2319,-78 2074,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_GridModule_imports</title>
+<polygon fill="none" stroke="#000000" points="1565,-78 1565,-130 2066,-130 2066,-78 1565,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_GridModule_exports</title>
+<polygon fill="none" stroke="#000000" points="1174,-208 1174,-260 1300,-260 1300,-208 1174,-208"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_GridModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1557,-130 1557,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>GridComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2311.4902,-122 2204.5098,-122 2204.5098,-86 2311.4902,-86 2311.4902,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>GridModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1279.7079,-187 1276.7079,-191 1255.7079,-191 1252.7079,-187 1194.2921,-187 1194.2921,-151 1279.7079,-151 1279.7079,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>GridComponent&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M2258,-122.3228C2258,-145.6602 2258,-183 2258,-183 2258,-183 1289.8945,-183 1289.8945,-183"/>
+<polygon fill="#000000" stroke="#000000" points="1289.8946,-179.5001 1279.8945,-183 1289.8945,-186.5001 1289.8946,-179.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CellComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2186.1653,-122 2081.8347,-122 2081.8347,-86 2186.1653,-86 2186.1653,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CellComponent&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M2134,-122.2921C2134,-144.2057 2134,-178 2134,-178 2134,-178 1289.6607,-178 1289.6607,-178"/>
+<polygon fill="#000000" stroke="#000000" points="1289.6608,-174.5001 1279.6607,-178 1289.6607,-181.5001 1289.6608,-174.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>GridComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1292.4913,-252 1181.5087,-252 1181.5087,-216 1292.4913,-216 1292.4913,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>GridModule&#45;&gt;GridComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1237,-187.1061C1237,-187.1061 1237,-205.991 1237,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1233.5001,-205.9909 1237,-215.991 1240.5001,-205.991 1233.5001,-205.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="2057.6681,-122 2054.6681,-126 2033.6681,-126 2030.6681,-122 1946.3319,-122 1946.3319,-86 2057.6681,-86 2057.6681,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CommonModule&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M2002,-122.0267C2002,-142.7672 2002,-174 2002,-174 2002,-174 1289.7689,-174 1289.7689,-174"/>
+<polygon fill="#000000" stroke="#000000" points="1289.769,-170.5001 1279.7689,-174 1289.7689,-177.5001 1289.769,-170.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1928.8288,-122 1925.8288,-126 1904.8288,-126 1901.8288,-122 1833.1712,-122 1833.1712,-86 1928.8288,-86 1928.8288,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>FormsModule&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M1881,-122.1061C1881,-141.3391 1881,-169 1881,-169 1881,-169 1289.7534,-169 1289.7534,-169"/>
+<polygon fill="#000000" stroke="#000000" points="1289.7534,-165.5001 1279.7534,-169 1289.7533,-172.5001 1289.7534,-165.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1815.4387,-122 1812.4387,-126 1791.4387,-126 1788.4387,-122 1730.5613,-122 1730.5613,-86 1815.4387,-86 1815.4387,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>HttpModule&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M1773,-122.302C1773,-140.2699 1773,-165 1773,-165 1773,-165 1289.9571,-165 1289.9571,-165"/>
+<polygon fill="#000000" stroke="#000000" points="1289.9571,-161.5001 1279.9571,-165 1289.957,-168.5001 1289.9571,-161.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>DndModule.forRoot()</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1713.026,-122 1710.026,-126 1689.026,-126 1686.026,-122 1572.974,-122 1572.974,-86 1713.026,-86 1713.026,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DndModule.forRoot()&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M1643,-122.027C1643,-138.3976 1643,-160 1643,-160 1643,-160 1289.6818,-160 1289.6818,-160"/>
+<polygon fill="#000000" stroke="#000000" points="1289.6818,-156.5001 1279.6818,-160 1289.6817,-163.5001 1289.6818,-156.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>GadgetInstanceService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="1449" cy="-104" rx="100.0969" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>GadgetInstanceService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M1449,-122.1871C1449,-137.1824 1449,-156 1449,-156 1449,-156 1289.6463,-156 1289.6463,-156"/>
+<polygon fill="#000000" stroke="#000000" points="1289.6464,-152.5001 1279.6463,-156 1289.6463,-159.5001 1289.6464,-152.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>ConfigurationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="1237" cy="-104" rx="94.3408" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ConfigurationService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M1237,-122.1061C1237,-122.1061 1237,-140.991 1237,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="1233.5001,-140.9909 1237,-150.991 1240.5001,-140.991 1233.5001,-140.9909"/>
+</g>
+
+<g id="node11" class="node">
+<title>AddGadgetService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="1040" cy="-104" rx="84.5112" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>AddGadgetService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M1040,-122.1871C1040,-137.1824 1040,-156 1040,-156 1040,-156 1184.2539,-156 1184.2539,-156"/>
+<polygon fill="#000000" stroke="#000000" points="1184.254,-159.5001 1194.2539,-156 1184.2539,-152.5001 1184.254,-159.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>NewsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="876" cy="-104" rx="61.9538" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>NewsService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M876,-122.027C876,-138.3976 876,-160 876,-160 876,-160 1184.1709,-160 1184.1709,-160"/>
+<polygon fill="#000000" stroke="#000000" points="1184.171,-163.5001 1194.1709,-160 1184.1709,-156.5001 1184.171,-163.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>JobAnalysisService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="709" cy="-104" rx="87.3963" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>JobAnalysisService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M709,-122.302C709,-140.2699 709,-165 709,-165 709,-165 1184.2388,-165 1184.2388,-165"/>
+<polygon fill="#000000" stroke="#000000" points="1184.2388,-168.5001 1194.2388,-165 1184.2388,-161.5001 1184.2388,-168.5001"/>
+</g>
+
+<g id="node14" class="node">
+<title>TrendLineService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="523" cy="-104" rx="80.9969" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>TrendLineService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M523,-122.1061C523,-141.3391 523,-169 523,-169 523,-169 1184.2095,-169 1184.2095,-169"/>
+<polygon fill="#000000" stroke="#000000" points="1184.2096,-172.5001 1194.2095,-169 1184.2095,-165.5001 1184.2096,-172.5001"/>
+</g>
+
+<g id="node15" class="node">
+<title>TrendService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="361" cy="-104" rx="63.0996" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>TrendService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M361,-122.0267C361,-142.7672 361,-174 361,-174 361,-174 1184.1557,-174 1184.1557,-174"/>
+<polygon fill="#000000" stroke="#000000" points="1184.1557,-177.5001 1194.1557,-174 1184.1557,-170.5001 1184.1557,-177.5001"/>
+</g>
+
+<g id="node16" class="node">
+<title>EdgeService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="220" cy="-104" rx="59.6704" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>EdgeService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M220,-122.2921C220,-144.2057 220,-178 220,-178 220,-178 1184.2735,-178 1184.2735,-178"/>
+<polygon fill="#000000" stroke="#000000" points="1184.2735,-181.5001 1194.2735,-178 1184.2735,-174.5001 1184.2735,-181.5001"/>
+</g>
+
+<g id="node17" class="node">
+<title>CPUService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="83" cy="-104" rx="58.5444" ry="18"/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>CPUService&#45;&gt;GridModule</title>
+<path fill="none" stroke="#000000" d="M83,-122.3228C83,-145.6602 83,-183 83,-183 83,-183 1184.2146,-183 1184.2146,-183"/>
+<polygon fill="#000000" stroke="#000000" points="1184.2146,-186.5001 1194.2146,-183 1184.2146,-179.5001 1184.2146,-186.5001"/>
+</g>
+</g>
+</svg>

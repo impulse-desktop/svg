@@ -1,0 +1,135 @@
+<svg version="1.1" baseProfile="full" width="1691" height="342" viewbox="0 0 1691 342" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" style="font-weight:bold; font-size:12pt; font-family:'Calibri', Helvetica, sans-serif;;stroke-width:1;stroke-linejoin:round;stroke-linecap:round">
+  <title >nomnoml</title>
+  <desc >#lineWidth:1
+#direction: right
+#.mroot: bold fill=#C9B6A1 align=center visual=roundrect 
+#.mseg: fill=#EDD5BD align=center
+#.mparam: fill=#EDD5BD italic align=center visual=dashed
+#.mchld: fill=#FFEBD9 align=center
+#.mchldparam: fill=#FFEBD9 italic align=center visual=dashed
+#.eroot: bold fill=#C9BECF align=center visual=roundrect 
+#.eseg: fill=#E1D5E7 align=center
+#.eparam: fill=#E1D5E7 italic align=center visual=dashed
+#.echld: fill=#F9EBFF align=center
+#.echldparam: fill=#F9EBFF italic align=center visual=dashed
+#.nroot: bold fill=#B7C7B6 align=center visual=roundrect
+#.nseg: fill=#D5E8D4 align=center
+#.nparam: fill=#D5E8D4 italic align=center visual=dashed
+#.nchld: fill=#E5FAE4 align=center
+#.nchldparam: fill=#E5FAE4 italic align=center visual=dashed
+[&lt;nroot&gt; individuals/income-received | 
+    [&lt;nseg&gt; dividends |    
+      [&lt;nparam&gt; {nino} | 
+        [&lt;nchldparam&gt; {taxYear} ]
+      ]
+    ]
+    [&lt;nseg&gt; employments | 
+      [&lt;nparam&gt; {nino} | 
+        [&lt;nparam&gt; {taxYear} |
+          [&lt;nparam&gt; {employmentId} | 
+            [&lt;nchld&gt; ignore]
+          ]
+          [&lt;nseg&gt; custom | 
+            [&lt;nchldparam&gt; {employmentId} ] 
+          ]
+        ]
+      ]     
+    ]    
+    [&lt;nseg&gt; foreign | 
+      [&lt;nparam&gt; {nino} | 
+        [&lt;nchldparam&gt; {taxYear} ]
+      ]     
+    ]        
+    [&lt;nseg&gt; insurance-policies | 
+      [&lt;nparam&gt; {nino} | 
+        [&lt;nchldparam&gt; {taxYear} ]
+      ] 
+    ]        
+    [&lt;nseg&gt; pensions | 
+      [&lt;nparam&gt; {nino} | 
+        [&lt;nchldparam&gt; {taxYear} ]
+      ]     
+    ]        
+    [&lt;nseg&gt; savings | 
+      [&lt;nparam&gt; {nino} | 
+        [&lt;nchldparam&gt; {taxYear} ]
+      ]     
+    ]        
+    [&lt;nseg&gt; other | 
+      [&lt;nparam&gt; {nino} | 
+        [&lt;nchldparam&gt; {taxYear} ]
+      ]     
+    ]            
+]
+</desc>
+  <rect x="13.5" y="13.5" rx="20" ry="20" height="316" width="1665" style="stroke:#33322E;fill:#B7C7B6;stroke-dasharray:none;"></rect>
+  
+  <path d="M13.5 44.5 L1678.5 44.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="26.5" y="114.5" height="145" width="154" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M26.5 145.5 L180.5 145.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="39.5" y="158.5" height="88" width="128" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M39.5 189.5 L167.5 189.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="52.5" y="202.5" height="31" width="102" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:4 4;"></rect>
+  
+  <rect x="220.5" y="57.5" height="259" width="442" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M220.5 88.5 L662.5 88.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="233.5" y="101.5" height="202" width="416" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M233.5 132.5 L649.5 132.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="246.5" y="145.5" height="145" width="390" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M246.5 176.5 L636.5 176.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="259.5" y="189.5" height="88" width="149" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M259.5 220.5 L408.5 220.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="272.5" y="233.5" height="31" width="73" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:none;"></rect>
+  
+  <rect x="448.5" y="189.5" height="88" width="175" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M448.5 220.5 L623.5 220.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="461.5" y="233.5" height="31" width="149" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:4 4;"></rect>
+  
+  <rect x="702.5" y="114.5" height="145" width="154" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M702.5 145.5 L856.5 145.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="715.5" y="158.5" height="88" width="128" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M715.5 189.5 L843.5 189.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="728.5" y="202.5" height="31" width="102" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:4 4;"></rect>
+  
+  <rect x="896.5" y="114.5" height="145" width="187" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M896.5 145.5 L1083.5 145.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="909.5" y="158.5" height="88" width="128" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M909.5 189.5 L1037.5 189.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="922.5" y="202.5" height="31" width="102" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:4 4;"></rect>
+  
+  <rect x="1123.5" y="114.5" height="145" width="154" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M1123.5 145.5 L1277.5 145.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="1136.5" y="158.5" height="88" width="128" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M1136.5 189.5 L1264.5 189.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="1149.5" y="202.5" height="31" width="102" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:4 4;"></rect>
+  
+  <rect x="1317.5" y="114.5" height="145" width="154" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M1317.5 145.5 L1471.5 145.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="1330.5" y="158.5" height="88" width="128" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M1330.5 189.5 L1458.5 189.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="1343.5" y="202.5" height="31" width="102" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:4 4;"></rect>
+  
+  <rect x="1511.5" y="114.5" height="145" width="154" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:none;"></rect>
+  
+  <path d="M1511.5 145.5 L1665.5 145.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="1524.5" y="158.5" height="88" width="128" style="stroke:#33322E;fill:#D5E8D4;stroke-dasharray:4 4;"></rect>
+  
+  <path d="M1524.5 189.5 L1652.5 189.5" style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+  <rect x="1537.5" y="202.5" height="31" width="102" style="stroke:#33322E;fill:#E5FAE4;stroke-dasharray:4 4;"></rect>
+  
+</svg>

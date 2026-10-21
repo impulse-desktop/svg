@@ -1,0 +1,212 @@
+<svg width="1662pt" height="284pt"
+ viewBox="0.00 0.00 1662.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1658,-280 1658,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="593,-10 593,-30 613,-30 613,-10 593,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="706,-10 706,-30 726,-30 726,-10 706,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="792,-10 792,-30 812,-30 812,-10 792,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="889,-10 889,-30 909,-30 909,-10 889,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="985,-10 985,-30 1005,-30 1005,-10 985,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DynamicFormsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1646,-268 1646,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DynamicFormsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="348,-78 348,-130 1638,-130 1638,-78 348,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_DynamicFormsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="220,-78 220,-130 340,-130 340,-78 220,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_DynamicFormsModule_exports</title>
+<polygon fill="none" stroke="#000000" points="118,-208 118,-260 1430,-260 1430,-208 118,-208"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_DynamicFormsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 212,-130 212,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DynamicFormComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1630.4832,-122 1467.5168,-122 1467.5168,-86 1630.4832,-86 1630.4832,-122"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>DynamicFormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="868.1456,-187 865.1456,-191 844.1456,-191 841.1456,-187 721.8544,-187 721.8544,-151 868.1456,-151 868.1456,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DynamicFormComponent&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M1549,-122.1061C1549,-141.3391 1549,-169 1549,-169 1549,-169 878.3253,-169 878.3253,-169"/>
+<polygon fill="#000000" stroke="#000000" points="878.3254,-165.5001 868.3253,-169 878.3253,-172.5001 878.3254,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DynamicFormInputComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1449.035,-122 1256.965,-122 1256.965,-86 1449.035,-86 1449.035,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DynamicFormInputComponent&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M1311.9024,-122.0225C1311.9024,-139.3734 1311.9024,-163 1311.9024,-163 1311.9024,-163 878.2367,-163 878.2367,-163"/>
+<polygon fill="#000000" stroke="#000000" points="878.2367,-159.5001 868.2367,-163 878.2366,-166.5001 878.2367,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>DynamicFormSelectComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1238.6909,-122 1041.3091,-122 1041.3091,-86 1238.6909,-86 1238.6909,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DynamicFormSelectComponent&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M1172.6724,-122.2396C1172.6724,-137.5706 1172.6724,-157 1172.6724,-157 1172.6724,-157 878.2668,-157 878.2668,-157"/>
+<polygon fill="#000000" stroke="#000000" points="878.2669,-153.5001 868.2668,-157 878.2668,-160.5001 878.2669,-153.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>DynamicFormCheckboxComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1023.7491,-122 804.2509,-122 804.2509,-86 1023.7491,-86 1023.7491,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DynamicFormCheckboxComponent&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M836.2241,-122.1061C836.2241,-122.1061 836.2241,-140.991 836.2241,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="832.7241,-140.9909 836.2241,-150.991 839.7241,-140.991 832.7241,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>DynamicFormRadioComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="786.4255,-122 589.5745,-122 589.5745,-86 786.4255,-86 786.4255,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DynamicFormRadioComponent&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M753.945,-122.1061C753.945,-122.1061 753.945,-140.991 753.945,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="750.445,-140.9909 753.945,-150.991 757.445,-140.991 750.445,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>DynamicFormTextAreaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="571.8375,-122 356.1625,-122 356.1625,-86 571.8375,-86 571.8375,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DynamicFormTextAreaComponent&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M567.9406,-122.2396C567.9406,-137.5706 567.9406,-157 567.9406,-157 567.9406,-157 711.5939,-157 711.5939,-157"/>
+<polygon fill="#000000" stroke="#000000" points="711.5939,-160.5001 721.5939,-157 711.5939,-153.5001 711.5939,-160.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>DynamicFormComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1422.4839,-252 1255.5161,-252 1255.5161,-216 1422.4839,-216 1422.4839,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>DynamicFormsModule&#45;&gt;DynamicFormComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M868.3256,-175C1022.6915,-175 1367.072,-175 1367.072,-175 1367.072,-175 1367.072,-205.9775 1367.072,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="1363.5721,-205.9774 1367.072,-215.9775 1370.5721,-205.9775 1363.5721,-205.9774"/>
+</g>
+
+<g id="node10" class="node">
+<title>DynamicFormInputComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1238.0344,-252 1041.9656,-252 1041.9656,-216 1238.0344,-216 1238.0344,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>DynamicFormsModule&#45;&gt;DynamicFormInputComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M868.2269,-181C960.5416,-181 1107.3276,-181 1107.3276,-181 1107.3276,-181 1107.3276,-205.7604 1107.3276,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="1103.8277,-205.7604 1107.3276,-215.7604 1110.8277,-205.7604 1103.8277,-205.7604"/>
+</g>
+
+<g id="node11" class="node">
+<title>DynamicFormSelectComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1024.191,-252 823.809,-252 823.809,-216 1024.191,-216 1024.191,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>DynamicFormsModule&#45;&gt;DynamicFormSelectComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M845.9886,-187.1061C845.9886,-187.1061 845.9886,-205.991 845.9886,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="842.4887,-205.9909 845.9886,-215.991 849.4887,-205.991 842.4887,-205.9909"/>
+</g>
+
+<g id="node12" class="node">
+<title>DynamicFormCheckboxComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="805.7491,-252 582.2509,-252 582.2509,-216 805.7491,-216 805.7491,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>DynamicFormsModule&#45;&gt;DynamicFormCheckboxComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M763.651,-187.1061C763.651,-187.1061 763.651,-205.991 763.651,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="760.151,-205.9909 763.651,-215.991 767.151,-205.991 760.151,-205.9909"/>
+</g>
+
+<g id="node13" class="node">
+<title>DynamicFormRadioComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="563.925,-252 364.075,-252 364.075,-216 563.925,-216 563.925,-252"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>DynamicFormsModule&#45;&gt;DynamicFormRadioComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M721.5404,-181C624.0251,-181 464,-181 464,-181 464,-181 464,-205.7604 464,-205.7604"/>
+<polygon fill="#000000" stroke="#000000" points="460.5001,-205.7604 464,-215.7604 467.5001,-205.7604 460.5001,-205.7604"/>
+</g>
+
+<g id="node14" class="node">
+<title>DynamicFormTextAreaComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="345.8377,-252 126.1623,-252 126.1623,-216 345.8377,-216 345.8377,-252"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>DynamicFormsModule&#45;&gt;DynamicFormTextAreaComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M721.6734,-175C592.6632,-175 338.6124,-175 338.6124,-175 338.6124,-175 338.6124,-205.9775 338.6124,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="335.1125,-205.9774 338.6124,-215.9775 342.1125,-205.9775 335.1125,-205.9774"/>
+</g>
+
+<g id="node8" class="node">
+<title>ButtonsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="331.6123,-122 328.6123,-126 307.6123,-126 304.6123,-122 228.3877,-122 228.3877,-86 331.6123,-86 331.6123,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ButtonsModule&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M280,-122.0225C280,-139.3734 280,-163 280,-163 280,-163 711.76,-163 711.76,-163"/>
+<polygon fill="#000000" stroke="#000000" points="711.76,-166.5001 721.76,-163 711.7599,-159.5001 711.76,-166.5001"/>
+</g>
+
+<g id="node15" class="node">
+<title>InputControlService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="114" cy="-104" rx="89.7672" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>InputControlService&#45;&gt;DynamicFormsModule</title>
+<path fill="none" stroke="#000000" d="M165.1074,-119.0757C165.1074,-138.2773 165.1074,-169 165.1074,-169 165.1074,-169 711.8195,-169 711.8195,-169"/>
+<polygon fill="#000000" stroke="#000000" points="711.8196,-172.5001 721.8195,-169 711.8195,-165.5001 711.8196,-172.5001"/>
+</g>
+</g>
+</svg>

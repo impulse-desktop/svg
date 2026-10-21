@@ -1,0 +1,180 @@
+<svg width="908pt" height="284pt"
+ viewBox="0.00 0.00 908.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 904,-280 904,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="216,-10 216,-30 236,-30 236,-10 216,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="329,-10 329,-30 349,-30 349,-10 329,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="415,-10 415,-30 435,-30 435,-10 415,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="512,-10 512,-30 532,-30 532,-10 512,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="608,-10 608,-30 628,-30 628,-10 608,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ListModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 892,-268 892,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ListModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="27,-78 27,-130 876,-130 876,-78 27,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_ListModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 884,-260 884,-208 16,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>ListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="867.6109,-122 764.3891,-122 764.3891,-86 867.6109,-86 867.6109,-122"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>ListModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="432.8289,-187 429.8289,-191 408.8289,-191 405.8289,-187 351.1711,-187 351.1711,-151 432.8289,-151 432.8289,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ListComponent&#45;&gt;ListModule</title>
+<path fill="none" stroke="#000000" d="M834.9351,-122.2222C834.9351,-140.8285 834.9351,-167 834.9351,-167 834.9351,-167 442.8763,-167 442.8763,-167"/>
+<polygon fill="#000000" stroke="#000000" points="442.8764,-163.5001 432.8763,-167 442.8763,-170.5001 442.8764,-163.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ListItemComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="746.2674,-122 617.7326,-122 617.7326,-86 746.2674,-86 746.2674,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ListItemComponent&#45;&gt;ListModule</title>
+<path fill="none" stroke="#000000" d="M704.2112,-122.0336C704.2112,-139.0597 704.2112,-162 704.2112,-162 704.2112,-162 442.8162,-162 442.8162,-162"/>
+<polygon fill="#000000" stroke="#000000" points="442.8162,-158.5001 432.8162,-162 442.8161,-165.5001 442.8162,-158.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListHeaderDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="599.2725,-122 468.7275,-122 468.7275,-86 599.2725,-86 599.2725,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListHeaderDirective&#45;&gt;ListModule</title>
+<path fill="none" stroke="#000000" d="M555.712,-122.2396C555.712,-137.5706 555.712,-157 555.712,-157 555.712,-157 442.8892,-157 442.8892,-157"/>
+<polygon fill="#000000" stroke="#000000" points="442.8892,-153.5001 432.8892,-157 442.8891,-160.5001 442.8892,-153.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ListFooterDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="451.4103,-122 324.5897,-122 324.5897,-86 451.4103,-86 451.4103,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ListFooterDirective&#45;&gt;ListModule</title>
+<path fill="none" stroke="#000000" d="M392,-122.1061C392,-122.1061 392,-140.991 392,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="388.5001,-140.9909 392,-150.991 395.5001,-140.991 388.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>ListArrowDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="307.3962,-122 180.6038,-122 180.6038,-86 307.3962,-86 307.3962,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ListArrowDirective&#45;&gt;ListModule</title>
+<path fill="none" stroke="#000000" d="M261.5659,-122.0091C261.5659,-138.0494 261.5659,-159 261.5659,-159 261.5659,-159 341.0877,-159 341.0877,-159"/>
+<polygon fill="#000000" stroke="#000000" points="341.0878,-162.5001 351.0877,-159 341.0877,-155.5001 341.0878,-162.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>ListRippleDirective</title>
+<polygon fill="#ffffb3" stroke="#000000" points="162.6937,-122 35.3063,-122 35.3063,-86 162.6937,-86 162.6937,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ListRippleDirective&#45;&gt;ListModule</title>
+<path fill="none" stroke="#000000" d="M158.4718,-122.2667C158.4718,-140.5552 158.4718,-166 158.4718,-166 158.4718,-166 341.3225,-166 341.3225,-166"/>
+<polygon fill="#000000" stroke="#000000" points="341.3225,-169.5001 351.3225,-166 341.3225,-162.5001 341.3225,-169.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>ListComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="876.1115,-252 769.8885,-252 769.8885,-216 876.1115,-216 876.1115,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ListModule&#45;&gt;ListComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M432.8426,-172C536.627,-172 802.3149,-172 802.3149,-172 802.3149,-172 802.3149,-205.7333 802.3149,-205.7333"/>
+<polygon fill="#000000" stroke="#000000" points="798.815,-205.7333 802.3149,-215.7333 805.815,-205.7333 798.815,-205.7333"/>
+</g>
+
+<g id="node9" class="node">
+<title>ListItemComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="752.2675,-252 619.7325,-252 619.7325,-216 752.2675,-216 752.2675,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ListModule&#45;&gt;ListItemComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M432.7199,-177C508.1577,-177 662.0388,-177 662.0388,-177 662.0388,-177 662.0388,-205.9648 662.0388,-205.9648"/>
+<polygon fill="#000000" stroke="#000000" points="658.5389,-205.9648 662.0388,-215.9648 665.5389,-205.9649 658.5389,-205.9648"/>
+</g>
+
+<g id="node10" class="node">
+<title>ListHeaderDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="601.7724,-252 468.2276,-252 468.2276,-216 601.7724,-216 601.7724,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ListModule&#45;&gt;ListHeaderDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M432.724,-182C467.6205,-182 512.288,-182 512.288,-182 512.288,-182 512.288,-205.8129 512.288,-205.8129"/>
+<polygon fill="#000000" stroke="#000000" points="508.7881,-205.8129 512.288,-215.8129 515.7881,-205.813 508.7881,-205.8129"/>
+</g>
+
+<g id="node11" class="node">
+<title>ListFooterDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="449.9096,-252 320.0904,-252 320.0904,-216 449.9096,-216 449.9096,-252"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ListModule&#45;&gt;ListFooterDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M392,-187.1061C392,-187.1061 392,-205.991 392,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="388.5001,-205.9909 392,-215.991 395.5001,-205.991 388.5001,-205.9909"/>
+</g>
+
+<g id="node12" class="node">
+<title>ListArrowDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="301.8956,-252 172.1044,-252 172.1044,-216 301.8956,-216 301.8956,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>ListModule&#45;&gt;ListArrowDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M351.0853,-180C300.5509,-180 221.1841,-180 221.1841,-180 221.1841,-180 221.1841,-205.7181 221.1841,-205.7181"/>
+<polygon fill="#000000" stroke="#000000" points="217.6842,-205.718 221.1841,-215.7181 224.6842,-205.7181 217.6842,-205.718"/>
+</g>
+
+<g id="node13" class="node">
+<title>ListRippleDirective </title>
+<polygon fill="#fb8072" stroke="#000000" points="154.194,-252 23.806,-252 23.806,-216 154.194,-216 154.194,-252"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>ListModule&#45;&gt;ListRippleDirective </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M351.309,-173C269.934,-173 94.875,-173 94.875,-173 94.875,-173 94.875,-205.698 94.875,-205.698"/>
+<polygon fill="#000000" stroke="#000000" points="91.3751,-205.698 94.875,-215.698 98.3751,-205.698 91.3751,-205.698"/>
+</g>
+</g>
+</svg>

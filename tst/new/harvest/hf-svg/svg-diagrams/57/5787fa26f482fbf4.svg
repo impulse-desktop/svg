@@ -1,0 +1,112 @@
+<svg width="847pt" height="284pt"
+ viewBox="0.00 0.00 847.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 843,-280 843,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="185.5,-10 185.5,-30 205.5,-30 205.5,-10 185.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="298.5,-10 298.5,-30 318.5,-30 318.5,-10 298.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="384.5,-10 384.5,-30 404.5,-30 404.5,-10 384.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="481.5,-10 481.5,-30 501.5,-30 501.5,-10 481.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="577.5,-10 577.5,-30 597.5,-30 597.5,-10 577.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_JobApplicationsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 831,-268 831,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_JobApplicationsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="635,-78 635,-130 823,-130 823,-78 635,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_JobApplicationsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 627,-130 627,-78 16,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_JobApplicationsModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="253,-208 253,-260 445,-260 445,-208 253,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>JobApplicationsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="815.3201,-122 642.6799,-122 642.6799,-86 815.3201,-86 815.3201,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>JobApplicationsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="424.0379,-187 421.0379,-191 400.0379,-191 397.0379,-187 273.9621,-187 273.9621,-151 424.0379,-151 424.0379,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>JobApplicationsComponent&#45;&gt;JobApplicationsModule</title>
+<path fill="none" stroke="#000000" d="M729,-122.2843C729,-143.3211 729,-175 729,-175 729,-175 434.0758,-175 434.0758,-175"/>
+<polygon fill="#000000" stroke="#000000" points="434.0758,-171.5001 424.0758,-175 434.0757,-178.5001 434.0758,-171.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>JobApplicationsComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="436.8199,-252 261.1801,-252 261.1801,-216 436.8199,-216 436.8199,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>JobApplicationsModule&#45;&gt;JobApplicationsComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M349,-187.1061C349,-187.1061 349,-205.991 349,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="345.5001,-205.9909 349,-215.991 352.5001,-205.991 345.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>JobApplicationsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="618.6553,-122 615.6553,-126 594.6553,-126 591.6553,-122 423.3447,-122 423.3447,-86 618.6553,-86 618.6553,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>JobApplicationsRoutingModule&#45;&gt;JobApplicationsModule</title>
+<path fill="none" stroke="#000000" d="M430.5893,-122.0225C430.5893,-139.3734 430.5893,-163 430.5893,-163 430.5893,-163 429.949,-163 429.949,-163"/>
+<polygon fill="#000000" stroke="#000000" points="434.1871,-159.5002 424.1871,-163 434.187,-166.5002 434.1871,-159.5002"/>
+</g>
+
+<g id="node4" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="404.6681,-122 401.6681,-126 380.6681,-126 377.6681,-122 293.3319,-122 293.3319,-86 404.6681,-86 404.6681,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CommonModule&#45;&gt;JobApplicationsModule</title>
+<path fill="none" stroke="#000000" d="M349,-122.1061C349,-122.1061 349,-140.991 349,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="345.5001,-140.9909 349,-150.991 352.5001,-140.991 345.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>MaterialDesignModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="275.1275,-122 272.1275,-126 251.1275,-126 248.1275,-122 128.8725,-122 128.8725,-86 275.1275,-86 275.1275,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MaterialDesignModule&#45;&gt;JobApplicationsModule</title>
+<path fill="none" stroke="#000000" d="M267.4108,-122.2843C267.4108,-143.3211 267.4108,-175 267.4108,-175 267.4108,-175 268.051,-175 268.051,-175"/>
+<polygon fill="#000000" stroke="#000000" points="263.813,-178.5002 273.8129,-175 263.8129,-171.5002 263.813,-178.5002"/>
+</g>
+
+<g id="node6" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="110.2619,-122 107.2619,-126 86.2619,-126 83.2619,-122 23.7381,-122 23.7381,-86 110.2619,-86 110.2619,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CoreModule&#45;&gt;JobApplicationsModule</title>
+<path fill="none" stroke="#000000" d="M67,-122.0225C67,-139.3734 67,-163 67,-163 67,-163 263.7996,-163 263.7996,-163"/>
+<polygon fill="#000000" stroke="#000000" points="263.7997,-166.5001 273.7996,-163 263.7996,-159.5001 263.7997,-166.5001"/>
+</g>
+</g>
+</svg>

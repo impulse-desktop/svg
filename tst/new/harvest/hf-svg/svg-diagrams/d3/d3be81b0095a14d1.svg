@@ -1,0 +1,150 @@
+<svg width="688pt" height="247pt"
+ viewBox="0.00 0.00 688.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 684,-242.8 684,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SharedModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 672,-230.8 672,-32.8 8,-32.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_SharedModule_imports</title>
+<polygon fill="none" stroke="black" points="530,-40.8 530,-92.8 652,-92.8 652,-40.8 530,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SharedModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 522,-92.8 522,-40.8 16,-40.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 664,-222.8 664,-170.8 16,-170.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>DisablePipe</title>
+<polygon fill="#ffffb3" stroke="black" points="513.65,-84.8 430.35,-84.8 430.35,-48.8 513.65,-48.8 513.65,-84.8"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="397.42,-149.8 394.42,-153.8 373.42,-153.8 370.42,-149.8 298.58,-149.8 298.58,-113.8 397.42,-113.8 397.42,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DisablePipe&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M472,-84.81C472,-100.85 472,-121.8 472,-121.8 472,-121.8 407.36,-121.8 407.36,-121.8"/>
+<polygon fill="black" stroke="black" points="407.36,-118.3 397.36,-121.8 407.36,-125.3 407.36,-118.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>FactorTranslatePipe</title>
+<polygon fill="#ffffb3" stroke="black" points="412.23,-84.8 283.77,-84.8 283.77,-48.8 412.23,-48.8 412.23,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FactorTranslatePipe&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M348,-84.91C348,-84.91 348,-103.79 348,-103.79"/>
+<polygon fill="black" stroke="black" points="344.5,-103.79 348,-113.79 351.5,-103.79 344.5,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>HoursSumPipe</title>
+<polygon fill="#ffffb3" stroke="black" points="265.27,-84.8 164.73,-84.8 164.73,-48.8 265.27,-48.8 265.27,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>HoursSumPipe&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M216.58,-84.81C216.58,-100.85 216.58,-121.8 216.58,-121.8 216.58,-121.8 288.69,-121.8 288.69,-121.8"/>
+<polygon fill="black" stroke="black" points="288.69,-125.3 298.69,-121.8 288.69,-118.3 288.69,-125.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>TimeTranslatePipe</title>
+<polygon fill="#ffffb3" stroke="black" points="146.02,-84.8 23.98,-84.8 23.98,-48.8 146.02,-48.8 146.02,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>TimeTranslatePipe&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M64.75,-85.07C64.75,-103.36 64.75,-128.8 64.75,-128.8 64.75,-128.8 288.66,-128.8 288.66,-128.8"/>
+<polygon fill="black" stroke="black" points="288.66,-132.3 298.66,-128.8 288.66,-125.3 288.66,-132.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>DisablePipe </title>
+<polygon fill="#fb8072" stroke="black" points="655.65,-214.8 568.35,-214.8 568.35,-178.8 655.65,-178.8 655.65,-214.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;DisablePipe </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M397.22,-135.8C472.21,-135.8 606.46,-135.8 606.46,-135.8 606.46,-135.8 606.46,-168.5 606.46,-168.5"/>
+<polygon fill="black" stroke="black" points="602.96,-168.5 606.46,-178.5 609.96,-168.5 602.96,-168.5"/>
+</g>
+
+<g id="node8" class="node">
+<title>FactorTranslatePipe </title>
+<polygon fill="#fb8072" stroke="black" points="550.23,-214.8 417.77,-214.8 417.77,-178.8 550.23,-178.8 550.23,-214.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedModule&#45;&gt;FactorTranslatePipe </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M397.44,-142.8C411.96,-142.8 424.03,-142.8 424.03,-142.8 424.03,-142.8 424.03,-168.52 424.03,-168.52"/>
+<polygon fill="black" stroke="black" points="420.53,-168.52 424.03,-178.52 427.53,-168.52 420.53,-168.52"/>
+</g>
+
+<g id="node9" class="node">
+<title>HoursSumPipe </title>
+<polygon fill="#fb8072" stroke="black" points="400.27,-214.8 295.73,-214.8 295.73,-178.8 400.27,-178.8 400.27,-214.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SharedModule&#45;&gt;HoursSumPipe </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M348,-149.91C348,-149.91 348,-168.79 348,-168.79"/>
+<polygon fill="black" stroke="black" points="344.5,-168.79 348,-178.79 351.5,-168.79 344.5,-168.79"/>
+</g>
+
+<g id="node10" class="node">
+<title>MaterialModule </title>
+<polygon fill="#fb8072" stroke="black" points="278.47,-214.8 167.53,-214.8 167.53,-178.8 278.47,-178.8 278.47,-214.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SharedModule&#45;&gt;MaterialModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M298.46,-142.8C283.91,-142.8 271.81,-142.8 271.81,-142.8 271.81,-142.8 271.81,-168.52 271.81,-168.52"/>
+<polygon fill="black" stroke="black" points="268.31,-168.52 271.81,-178.52 275.31,-168.52 268.31,-168.52"/>
+</g>
+
+<g id="node11" class="node">
+<title>TimeTranslatePipe </title>
+<polygon fill="#fb8072" stroke="black" points="150.02,-214.8 23.98,-214.8 23.98,-178.8 150.02,-178.8 150.02,-214.8"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>SharedModule&#45;&gt;TimeTranslatePipe </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M298.63,-135.8C227.73,-135.8 105.5,-135.8 105.5,-135.8 105.5,-135.8 105.5,-168.5 105.5,-168.5"/>
+<polygon fill="black" stroke="black" points="102,-168.5 105.5,-178.5 109,-168.5 102,-168.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>MaterialModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="644.47,-84.8 641.47,-88.8 620.47,-88.8 617.47,-84.8 537.53,-84.8 537.53,-48.8 644.47,-48.8 644.47,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MaterialModule&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M543.82,-85.07C543.82,-103.36 543.82,-128.8 543.82,-128.8 543.82,-128.8 407.41,-128.8 407.41,-128.8"/>
+<polygon fill="black" stroke="black" points="407.41,-125.3 397.41,-128.8 407.41,-132.3 407.41,-125.3"/>
+</g>
+</g>
+</svg>

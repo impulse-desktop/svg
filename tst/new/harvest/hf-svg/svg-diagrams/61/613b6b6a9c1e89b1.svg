@@ -1,0 +1,118 @@
+<svg width="769pt" height="85pt"
+ viewBox="0.00 0.00 769.00 85.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 81)">
+<title>coap_send_error</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-81 765,-81 765,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1696</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 89,-38.5 89,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node1697</title>
+<g id="a_node2"><a xlink:href="net_8h.html#ade36148140b152d713b23d17bbcf0024" target="_top" xlink:title="Returns a new message id and updates session&#45;&gt;tx_mid accordingly. ">
+<polygon fill="#ffffff" stroke="#000000" points="125,-19.5 125,-38.5 244,-38.5 244,-19.5 125,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1696&#45;&gt;Node1697</title>
+<path fill="none" stroke="#191970" d="M99.2589,-29C107.6745,-29 116.399,-29 124.9133,-29"/>
+<polygon fill="#191970" stroke="#191970" points="99.1818,-25.5001 89.1818,-29 99.1818,-32.5001 99.1818,-25.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node1698</title>
+<g id="a_node3"><a xlink:href="resource_8c.html#ae1a91e254baca4f43b7896f54a8d9944" target="_top" xlink:title="coap_notify_observers">
+<polygon fill="#ffffff" stroke="#000000" points="280,-19.5 280,-38.5 395,-38.5 395,-19.5 280,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node1697&#45;&gt;Node1698</title>
+<path fill="none" stroke="#191970" d="M254.1098,-29C262.7119,-29 271.4311,-29 279.8276,-29"/>
+<polygon fill="#191970" stroke="#191970" points="254.0919,-25.5001 244.0919,-29 254.0919,-32.5001 254.0919,-25.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node1699</title>
+<g id="a_node4"><a xlink:href="resource_8h.html#a579bcb559463d3a872831c18d8d9a1c1" target="_top" xlink:title="Checks for all known resources, if they are dirty and notifies subscribed observers. ">
+<polygon fill="#ffffff" stroke="#000000" points="431,-19.5 431,-38.5 529,-38.5 529,-19.5 431,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node1698&#45;&gt;Node1699</title>
+<path fill="none" stroke="#191970" d="M405.181,-29C413.8657,-29 422.6213,-29 430.93,-29"/>
+<polygon fill="#191970" stroke="#191970" points="405.0495,-25.5001 395.0495,-29 405.0494,-32.5001 405.0495,-25.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node1700</title>
+<g id="a_node5"><a xlink:href="net_8h.html#aaac86ac50793f309678e4951ecf8863f" target="_top" xlink:title="For applications with their own message loop, send all pending retransmits and return the list of soc...">
+<polygon fill="#ffffff" stroke="#000000" points="571.5,-38.5 571.5,-57.5 635.5,-57.5 635.5,-38.5 571.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node1699&#45;&gt;Node1700</title>
+<path fill="none" stroke="#191970" d="M539.2085,-38.109C550.2213,-39.8033 561.3421,-41.5142 571.1665,-43.0256"/>
+<polygon fill="#191970" stroke="#191970" points="539.5813,-34.6253 529.1653,-36.5639 538.5168,-41.5439 539.5813,-34.6253"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node1703</title>
+<g id="a_node8"><a xlink:href="libcoap_8h.html#a5d1fb0b44497970b0f75fa0b38570a82" target="_top" xlink:title="coap_cleanup">
+<polygon fill="#ffffff" stroke="#000000" points="565,-.5 565,-19.5 642,-19.5 642,-.5 565,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node1699&#45;&gt;Node1703</title>
+<path fill="none" stroke="#191970" d="M539.2663,-19.8821C547.9313,-18.549 556.6616,-17.2059 564.7733,-15.958"/>
+<polygon fill="#191970" stroke="#191970" points="538.5168,-16.4561 529.1653,-21.4361 539.5813,-23.3747 538.5168,-16.4561"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node1701</title>
+<g id="a_node6"><a xlink:href="coap__io_8c.html#a75a7c93e10ca7858449ba304aad4ea37" target="_top" xlink:title="coap_run_once">
+<polygon fill="#ffffff" stroke="#000000" points="678,-57.5 678,-76.5 761,-76.5 761,-57.5 678,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node1700&#45;&gt;Node1701</title>
+<path fill="none" stroke="#191970" d="M645.6193,-54.8988C656.036,-56.605 667.1933,-58.4325 677.5996,-60.137"/>
+<polygon fill="#191970" stroke="#191970" points="645.9388,-51.4046 635.5046,-53.2421 644.8073,-58.3126 645.9388,-51.4046"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node1702</title>
+<g id="a_node7"><a xlink:href="net_8h.html#a5854b1394bfddd574e48af116e3aaaf9" target="_top" xlink:title="Sends an RST message with code 0 for the specified request to dst. ">
+<polygon fill="#ffffff" stroke="#000000" points="679.5,-19.5 679.5,-38.5 759.5,-38.5 759.5,-19.5 679.5,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node1700&#45;&gt;Node1702</title>
+<path fill="none" stroke="#191970" d="M645.7099,-41.0863C656.6737,-39.2905 668.4523,-37.3613 679.309,-35.583"/>
+<polygon fill="#191970" stroke="#191970" points="644.8073,-37.6874 635.5046,-42.7579 645.9388,-44.5954 644.8073,-37.6874"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,138 @@
+<svg width="162pt" height="548pt"
+ viewBox="0.00 0.00 162.00 548.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 544)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-544 158,-544 158,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>entry</title>
+<polygon fill="none" stroke="black" points="126,-540 72,-540 72,-504 126,-504 126,-540"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>idom_v</title>
+<polygon fill="none" stroke="black" points="129.5,-468 68.5,-468 68.5,-432 129.5,-432 129.5,-468"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>entry&#45;&gt;idom_v</title>
+<path fill="none" stroke="black" d="M99,-503.7C99,-495.98 99,-486.71 99,-478.11"/>
+<polygon fill="black" stroke="black" points="102.5,-478.1 99,-468.1 95.5,-478.1 102.5,-478.1"/>
+</g>
+
+<g id="node3" class="node">
+<title>X</title>
+<polygon fill="none" stroke="black" points="54,-396 0,-396 0,-360 54,-360 54,-396"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>idom_v&#45;&gt;X</title>
+<path fill="none" stroke="red" d="M81.2,-431.7C72.4,-423.14 61.62,-412.66 52,-403.3"/>
+<polygon fill="red" stroke="red" points="54.2,-400.57 44.59,-396.1 49.32,-405.58 54.2,-400.57"/>
+</g>
+
+<g id="node8" class="node">
+<title>v</title>
+<polygon fill="none" stroke="black" points="153,-36 99,-36 99,0 153,0 153,-36"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>idom_v&#45;&gt;v</title>
+<path fill="none" stroke="black" d="M113.16,-431.85C120.69,-421.93 129.5,-408.89 135,-396 150.88,-358.8 154,-347.45 154,-307 154,-307 154,-307 154,-161 154,-120.27 142.77,-74.19 134.54,-45.86"/>
+<polygon fill="black" stroke="black" points="137.89,-44.85 131.67,-36.27 131.18,-46.86 137.89,-44.85"/>
+</g>
+
+<g id="node9" class="node">
+<title>a</title>
+<polygon fill="none" stroke="black" points="126,-396 72,-396 72,-360 126,-360 126,-396"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>idom_v&#45;&gt;a</title>
+<path fill="none" stroke="black" d="M99,-431.7C99,-423.98 99,-414.71 99,-406.11"/>
+<polygon fill="black" stroke="black" points="102.5,-406.1 99,-396.1 95.5,-406.1 102.5,-406.1"/>
+</g>
+
+<g id="node4" class="node">
+<title>idom_u</title>
+<polygon fill="none" stroke="black" points="91.5,-324 30.5,-324 30.5,-288 91.5,-288 91.5,-324"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>X&#45;&gt;idom_u</title>
+<path fill="none" stroke="red" d="M35.4,-359.7C39.27,-351.73 43.95,-342.1 48.24,-333.26"/>
+<polygon fill="red" stroke="red" points="51.47,-334.63 52.69,-324.1 45.17,-331.57 51.47,-334.63"/>
+</g>
+
+<g id="node5" class="node">
+<title>b</title>
+<polygon fill="none" stroke="black" points="54,-252 0,-252 0,-216 54,-216 54,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>idom_u&#45;&gt;b</title>
+<path fill="none" stroke="red" d="M52.6,-287.7C48.73,-279.73 44.05,-270.1 39.76,-261.26"/>
+<polygon fill="red" stroke="red" points="42.83,-259.57 35.31,-252.1 36.53,-262.63 42.83,-259.57"/>
+</g>
+
+<g id="node10" class="node">
+<title>c</title>
+<polygon fill="none" stroke="black" points="126,-252 72,-252 72,-216 126,-216 126,-252"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>idom_u&#45;&gt;c</title>
+<path fill="none" stroke="black" d="M70.39,-287.7C74.76,-279.64 80.06,-269.89 84.9,-260.98"/>
+<polygon fill="black" stroke="black" points="88.02,-262.56 89.71,-252.1 81.87,-259.22 88.02,-262.56"/>
+</g>
+
+<g id="node6" class="node">
+<title>u</title>
+<polygon fill="none" stroke="black" points="126,-180 72,-180 72,-144 126,-144 126,-180"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>b&#45;&gt;u</title>
+<path fill="none" stroke="red" d="M44.8,-215.7C53.6,-207.14 64.38,-196.66 74,-187.3"/>
+<polygon fill="red" stroke="red" points="76.68,-189.58 81.41,-180.1 71.8,-184.57 76.68,-189.58"/>
+</g>
+
+<g id="node7" class="node">
+<title>w</title>
+<polygon fill="none" stroke="black" points="126,-108 72,-108 72,-72 126,-72 126,-108"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>u&#45;&gt;w</title>
+<path fill="none" stroke="red" d="M99,-143.7C99,-135.98 99,-126.71 99,-118.11"/>
+<polygon fill="red" stroke="red" points="102.5,-118.1 99,-108.1 95.5,-118.1 102.5,-118.1"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>w&#45;&gt;v</title>
+<path fill="none" stroke="red" d="M105.67,-71.7C108.71,-63.81 112.38,-54.3 115.76,-45.55"/>
+<polygon fill="red" stroke="red" points="119.07,-46.69 119.4,-36.1 112.54,-44.17 119.07,-46.69"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>a&#45;&gt;idom_u</title>
+<path fill="none" stroke="black" d="M89.61,-359.7C85.24,-351.64 79.94,-341.89 75.1,-332.98"/>
+<polygon fill="black" stroke="black" points="78.13,-331.22 70.29,-324.1 71.98,-334.56 78.13,-331.22"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>c&#45;&gt;u</title>
+<path fill="none" stroke="black" d="M99,-215.7C99,-207.98 99,-198.71 99,-190.11"/>
+<polygon fill="black" stroke="black" points="102.5,-190.1 99,-180.1 95.5,-190.1 102.5,-190.1"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,121 @@
+<svg width="1057pt" height="154pt"
+ viewBox="0.00 0.00 1057.00 154.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 150)">
+<title>carla::road::MapBuilder::SetGeoReference</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-150 1053,-150 1053,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-55 0,-85 117,-85 117,-55 0,-55"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="../../d1/dae/classcarla_1_1opendrive_1_1parser_1_1GeoReferenceParser.html#abbd0edc0b3507042c5a0af753473192b" target="_top" xlink:title="carla::opendrive::parser\l::GeoReferenceParser::Parse">
+<polygon fill="white" stroke="black" points="153,-55 153,-85 299,-85 299,-55 153,-55"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M127.478,-70C135.859,-70 144.448,-70 152.887,-70"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="127.384,-66.5001 117.384,-70 127.384,-73.5001 127.384,-66.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="../../de/d5a/classcarla_1_1opendrive_1_1OpenDriveParser.html#a599fd6174f30aaee59590c16503afd8a" target="_top" xlink:title="carla::opendrive::OpenDrive\lParser::Load">
+<polygon fill="white" stroke="black" points="335,-55 335,-85 473,-85 473,-55 335,-55"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M309.181,-70C317.82,-70 326.534,-70 334.988,-70"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="309.094,-66.5001 299.094,-70 309.094,-73.5001 309.094,-66.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d0/d2d/classAOpenDriveActor.html#ac8678af2b371c3a3faca8775ab1e4816" target="_top" xlink:title="AOpenDriveActor::BuildRoutes">
+<polygon fill="white" stroke="black" points="509,-126.5 509,-145.5 661,-145.5 661,-126.5 509,-126.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M443.55,-89.3843C462.869,-98.5898 486.818,-109.246 509,-117 519.144,-120.546 530.272,-123.731 540.779,-126.435"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="444.994,-86.1947 434.467,-85.0008 441.952,-92.4991 444.994,-86.1947"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="../../db/de5/classACarlaGameModeBase.html#a5caddc59713354578997de90542ddd93" target="_top" xlink:title="ACarlaGameModeBase\l::InitGame">
+<polygon fill="white" stroke="black" points="525.5,-77 525.5,-107 644.5,-107 644.5,-77 525.5,-77"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node3&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M483.363,-79.6312C497.462,-81.3641 511.936,-83.143 525.356,-84.7923"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="483.535,-76.1261 473.183,-78.38 482.681,-83.0738 483.535,-76.1261"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="../../d8/dfe/classUOpenDriveMap.html#a0ce422ee1f79211e6957bab1d2048348" target="_top" xlink:title="Load this map with an OpenDrive (XODR) file. ">
+<polygon fill="white" stroke="black" points="527,-38.5 527,-57.5 643,-57.5 643,-38.5 527,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M483.235,-60.3845C497.878,-58.5848 512.93,-56.7348 526.789,-55.0315"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="482.681,-56.9262 473.183,-61.62 483.535,-63.8739 482.681,-56.9262"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="../../d2/daf/namespacecarla_1_1client.html#a228b83c6429f8e3406a93a1b41eb1565" target="_top" xlink:title="carla::client::MakeMap">
+<polygon fill="white" stroke="black" points="527,-0.5 527,-19.5 643,-19.5 643,-0.5 527,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node3&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M449.695,-50.9345C467.902,-43.5489 489.271,-35.3593 509,-29 519.739,-25.5385 531.505,-22.3029 542.469,-19.5178"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="448.137,-47.7906 440.213,-54.8235 450.793,-54.2671 448.137,-47.7906"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="../../d1/d1b/classUOpenDrive.html#ac05b8dc3f340e373582945f9215081d9" target="_top" xlink:title="Load OpenDriveMap associated to the given MapName. ">
+<polygon fill="white" stroke="black" points="697,-38.5 697,-57.5 860,-57.5 860,-38.5 697,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M653.277,-48C667.366,-48 682.361,-48 696.879,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="653.197,-44.5001 643.197,-48 653.197,-51.5001 653.197,-44.5001"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="../../d1/d1b/classUOpenDrive.html#a4486c7ee9d4a8bf6cd2a7ca5ad7e4ece" target="_top" xlink:title="Load OpenDriveMap associated to the currently loaded map. ">
+<polygon fill="white" stroke="black" points="896,-33 896,-63 1049,-63 1049,-33 896,-33"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M870.108,-48C878.677,-48 887.304,-48 895.714,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="870.091,-44.5001 860.091,-48 870.091,-51.5001 870.091,-44.5001"/>
+</g>
+</g>
+</svg>

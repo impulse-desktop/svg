@@ -1,0 +1,168 @@
+<svg width="1311pt" height="131pt"
+ viewBox="0.00 0.00 1311.49 131.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 127)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-127 1307.49,-127 1307.49,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>power</title>
+<ellipse fill="none" stroke="black" cx="719.49" cy="-105" rx="39.79" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>desired state</title>
+<ellipse fill="none" stroke="black" cx="71.49" cy="-18" rx="71.49" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>power&#45;&gt;desired state</title>
+<path fill="none" stroke="black" d="M680.02,-102.57C604.7,-99.45 435.38,-90.49 294.49,-69 237.61,-60.32 173.6,-45.43 128.81,-34.15"/>
+<polygon fill="black" stroke="black" points="129.54,-30.72 118.98,-31.66 127.81,-37.51 129.54,-30.72"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>iri</title>
+<ellipse fill="none" stroke="blue" cx="205.49" cy="-18" rx="44.39" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>power&#45;&gt;iri</title>
+<path fill="none" stroke="blue" d="M680.24,-101.3C619.52,-96.78 499.31,-86.39 398.49,-69 335.92,-58.2 320.7,-52.88 259.49,-36 255.92,-35.01 252.23,-33.95 248.53,-32.85"/>
+<polygon fill="blue" stroke="blue" points="249.38,-29.45 238.8,-29.9 247.35,-36.15 249.38,-29.45"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>type</title>
+<ellipse fill="none" stroke="blue" cx="306.49" cy="-18" rx="38.19" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>power&#45;&gt;type</title>
+<path fill="none" stroke="blue" d="M681.54,-99.36C635.44,-93.48 555.42,-82.46 487.49,-69 427.33,-57.08 412.19,-53.79 353.49,-36 350.73,-35.16 347.89,-34.26 345.04,-33.31"/>
+<polygon fill="blue" stroke="blue" points="346.01,-29.94 335.42,-30 343.74,-36.56 346.01,-29.94"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>name</title>
+<ellipse fill="none" stroke="blue" cx="419.49" cy="-18" rx="56.59" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>power&#45;&gt;name</title>
+<path fill="none" stroke="blue" d="M684.16,-96.81C653.4,-90.32 607.72,-80.1 568.49,-69 533.35,-59.05 494.22,-45.84 464.88,-35.49"/>
+<polygon fill="blue" stroke="blue" points="465.92,-32.15 455.32,-32.1 463.58,-38.74 465.92,-32.15"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>description</title>
+<ellipse fill="none" stroke="blue" cx="569.49" cy="-18" rx="75.29" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>power&#45;&gt;description</title>
+<path fill="none" stroke="blue" d="M688.67,-93.57C672.11,-87.41 651.64,-78.89 634.49,-69 621.1,-61.27 607.36,-51.1 595.99,-41.95"/>
+<polygon fill="blue" stroke="blue" points="598.12,-39.16 588.17,-35.52 593.67,-44.57 598.12,-39.16"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>source</title>
+<ellipse fill="none" stroke="blue" cx="719.49" cy="-18" rx="56.59" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>power&#45;&gt;source</title>
+<path fill="none" stroke="blue" d="M719.49,-86.8C719.49,-75.16 719.49,-59.55 719.49,-46.24"/>
+<polygon fill="blue" stroke="blue" points="722.99,-46.18 719.49,-36.18 715.99,-46.18 722.99,-46.18"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>provided by</title>
+<ellipse fill="none" stroke="blue" cx="831.49" cy="-18" rx="37.09" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>power&#45;&gt;provided by</title>
+<path fill="none" stroke="blue" d="M741.6,-89.84C750.97,-83.66 761.92,-76.18 771.49,-69 783.34,-60.12 795.99,-49.72 806.61,-40.71"/>
+<polygon fill="blue" stroke="blue" points="808.96,-43.3 814.29,-34.14 804.41,-37.98 808.96,-43.3"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>has attribute</title>
+<ellipse fill="none" stroke="blue" cx="938.49" cy="-18" rx="51.99" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>power&#45;&gt;has attribute</title>
+<path fill="none" stroke="blue" d="M748.68,-92.72C754.83,-90.61 761.33,-88.57 767.49,-87 816.34,-74.53 833.69,-90.07 879.49,-69 893.1,-62.74 906.05,-52.44 916.34,-42.81"/>
+<polygon fill="blue" stroke="blue" points="918.95,-45.15 923.65,-35.66 914.05,-40.15 918.95,-45.15"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>category</title>
+<ellipse fill="none" stroke="black" cx="1059.49" cy="-18" rx="51.19" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>power&#45;&gt;category</title>
+<path fill="none" stroke="blue" d="M748.08,-92.49C754.38,-90.35 761.09,-88.35 767.49,-87 869.54,-65.4 905.18,-109.05 1001.49,-69 1015.38,-63.22 1028.33,-52.78 1038.45,-42.93"/>
+<polygon fill="blue" stroke="blue" points="1041.12,-45.2 1045.6,-35.6 1036.11,-40.31 1041.12,-45.2"/>
+
+</g>
+
+<g id="node12" class="node">
+<title>is controller</title>
+<ellipse fill="none" stroke="blue" cx="1175.49" cy="-18" rx="46.59" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>power&#45;&gt;is controller</title>
+<path fill="none" stroke="blue" d="M748.05,-92.39C754.36,-90.25 761.08,-88.29 767.49,-87 909.34,-58.56 954.24,-111.58 1092.49,-69 1112.25,-62.92 1132.16,-51.15 1147.53,-40.56"/>
+<polygon fill="blue" stroke="blue" points="1149.91,-43.17 1156.02,-34.52 1145.84,-37.47 1149.91,-43.17"/>
+
+</g>
+
+<g id="node13" class="node">
+<title>id</title>
+<ellipse fill="none" stroke="black" cx="1276.49" cy="-18" rx="27" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>power&#45;&gt;id</title>
+<path fill="none" stroke="blue" d="M748.04,-92.32C754.35,-90.18 761.07,-88.24 767.49,-87 865.33,-68.16 1122.36,-104.41 1215.49,-69 1230.94,-63.13 1245.38,-51.67 1256.33,-41.21"/>
+<polygon fill="blue" stroke="blue" points="1259.08,-43.42 1263.65,-33.86 1254.12,-38.48 1259.08,-43.42"/>
+
+</g>
+
+<g id="node11" class="node">
+<title>named thing_category</title>
+<ellipse fill="none" stroke="blue" cx="846.49" cy="-105" rx="69.59" ry="18"/>
+
+</g>
+
+<g id="node14" class="node">
+<title>desired state_id</title>
+<ellipse fill="none" stroke="blue" cx="972.49" cy="-105" rx="38.19" ry="18"/>
+
+</g>
+</g>
+</svg>

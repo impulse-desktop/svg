@@ -1,0 +1,69 @@
+<svg width="611pt" height="153pt"
+ viewBox="0.00 0.00 611.00 153.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 149)">
+<title>oneDegreeRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="none" points="-4,4 -4,-149 607,-149 607,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>core_asciiarmoreddetachedsigningservice</title>
+<g id="a_node1"><a xlink:href="../../tables/core_asciiarmoreddetachedsigningservice.html" xlink:title="core_asciiarmoreddetachedsigningservice" target="_top">
+<polygon fill="#ffffff" stroke="none" points="215,-75 215,-141 595,-141 595,-75 215,-75"/>
+<polygon fill="#f5f5f5" stroke="none" points="217,-117 217,-139 593,-139 593,-117 217,-117"/>
+<polygon fill="none" stroke="black" points="217,-117 217,-139 593,-139 593,-117 217,-117"/>
+
+
+<polygon fill="none" stroke="black" points="217,-95 217,-117 488,-117 488,-95 217,-95"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="222" y="-112"/>
+
+<polygon fill="none" stroke="black" points="488,-95 488,-117 593,-117 593,-95 488,-95"/>
+
+<polygon fill="#ffffff" stroke="none" points="217,-77 217,-95 343,-95 343,-77 217,-77"/>
+<polygon fill="none" stroke="black" points="217,-77 217,-95 343,-95 343,-77 217,-77"/>
+
+<polygon fill="#ffffff" stroke="none" points="343,-77 343,-95 488,-95 488,-77 343,-77"/>
+<polygon fill="none" stroke="black" points="343,-77 343,-95 488,-95 488,-77 343,-77"/>
+
+<polygon fill="#ffffff" stroke="none" points="488,-77 488,-95 593,-95 593,-77 488,-77"/>
+<polygon fill="none" stroke="black" points="488,-77 488,-95 593,-95 593,-77 488,-77"/>
+
+<polygon fill="none" stroke="black" stroke-width="2" points="216,-76 216,-140 594,-140 594,-76 216,-76"/>
+</a>
+</g>
+</g>
+
+<g id="node2" class="node"><title>core_signingservice</title>
+<g id="a_node2"><a xlink:href="../../tables/core_signingservice.html" xlink:title="core_signingservice" target="_top">
+<polygon fill="#ffffff" stroke="none" points="8,-37 8,-139 166,-139 166,-37 8,-37"/>
+<polygon fill="#f5f5f5" stroke="none" points="8,-117 8,-139 166,-139 166,-117 8,-117"/>
+<polygon fill="none" stroke="black" points="8,-117 8,-139 166,-139 166,-117 8,-117"/>
+
+
+<polygon fill="none" stroke="black" points="8,-95 8,-117 166,-117 166,-95 8,-95"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="13" y="-112"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-73 8,-95 166,-95 166,-73 8,-73"/>
+<polygon fill="none" stroke="black" points="8,-73 8,-95 166,-95 166,-73 8,-73"/>
+
+<polygon fill="none" stroke="black" points="8,-55 8,-73 166,-73 166,-55 8,-55"/>
+
+<polygon fill="#ffffff" stroke="none" points="8,-37 8,-55 61,-55 61,-37 8,-37"/>
+<polygon fill="none" stroke="black" points="8,-37 8,-55 61,-55 61,-37 8,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="61,-37 61,-55 123,-55 123,-37 61,-37"/>
+<polygon fill="none" stroke="black" points="61,-37 61,-55 123,-55 123,-37 61,-37"/>
+
+<polygon fill="#ffffff" stroke="none" points="123,-37 123,-55 166,-55 166,-37 123,-37"/>
+<polygon fill="none" stroke="black" points="123,-37 123,-55 166,-55 166,-37 123,-37"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>core_asciiarmoreddetachedsigningservice:signingservice_ptr_id:w&#45;&gt;core_signingservice:pulp_id:e</title>
+<path fill="none" stroke="black" d="M205.257,-106C191.606,-106 184.694,-106 167,-106"/>
+<polygon fill="black" stroke="black" points="215.2,-102 215.2,-110 213.6,-110 213.6,-102 215.2,-102"/>
+<polyline fill="none" stroke="black" points="216,-106 212,-106 "/>
+<ellipse fill="none" stroke="black" cx="208.8" cy="-106" rx="3.2" ry="3.2"/>
+</g>
+</g>
+</svg>

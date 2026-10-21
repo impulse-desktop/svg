@@ -1,0 +1,190 @@
+<svg width="1017pt" height="103pt"
+ viewBox="0.00 0.00 1017.00 103.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 99)">
+<title>coap_delete_all</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-99 1013,-99 1013,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node524</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 84,-57.5 84,-38.5 0,-38.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node525</title>
+<g id="a_node2"><a xlink:href="net_8h.html#a2c1e86998c712346baf2d116dbf1ac7f" target="_top" xlink:title="Removes all items from given queue and frees the allocated storage. ">
+<polygon fill="#ffffff" stroke="#000000" points="120,-57.5 120,-76.5 204,-76.5 204,-57.5 120,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node524&#45;&gt;Node525</title>
+<path fill="none" stroke="#191970" d="M94.447,-56.3041C102.8793,-57.6392 111.5138,-59.0064 119.6701,-60.2978"/>
+<polygon fill="#191970" stroke="#191970" points="94.7319,-52.8057 84.3075,-54.6987 93.6371,-59.7196 94.7319,-52.8057"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node526</title>
+<g id="a_node3"><a xlink:href="net_8h.html#a4a0717822713783908dd33d300440b2e" target="_top" xlink:title="CoAP stack context must be released with coap_free_context(). ">
+<polygon fill="#ffffff" stroke="#000000" points="240,-38.5 240,-57.5 337,-57.5 337,-38.5 240,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge">
+<title>Node524&#45;&gt;Node526</title>
+<path fill="none" stroke="#191970" d="M94.3576,-48C137.368,-48 197.8303,-48 239.8076,-48"/>
+<polygon fill="#191970" stroke="#191970" points="94.0948,-44.5001 84.0948,-48 94.0947,-51.5001 94.0948,-44.5001"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node525&#45;&gt;Node525</title>
+<path fill="none" stroke="#191970" d="M139.6787,-86.0292C140.8962,-91.128 148.3367,-95 162,-95 183.3281,-95 189.4933,-85.5653 180.4955,-76.7571"/>
+<polygon fill="#191970" stroke="#191970" points="142.9256,-87.3361 143.5045,-76.7571 136.4548,-84.6661 142.9256,-87.3361"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node525&#45;&gt;Node526</title>
+<path fill="none" stroke="#191970" d="M214.0357,-59.1844C222.6254,-57.8942 231.5002,-56.5612 239.9988,-55.2848"/>
+<polygon fill="#191970" stroke="#191970" points="213.4919,-55.7267 204.1227,-60.6733 214.5316,-62.6491 213.4919,-55.7267"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node527</title>
+<g id="a_node4"><a xlink:href="net_8h.html#a8baf4e3608ff5eb00adac694fe25eb60" target="_top" xlink:title="Creates a new coap_context_t object that will hold the CoAP stack status. ">
+<polygon fill="#ffffff" stroke="#000000" points="383.5,-57.5 383.5,-76.5 481.5,-76.5 481.5,-57.5 383.5,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node526&#45;&gt;Node527</title>
+<path fill="none" stroke="#191970" d="M347.1786,-55.7423C359.1758,-57.3253 371.6844,-58.9757 383.3084,-60.5094"/>
+<polygon fill="#191970" stroke="#191970" points="347.6238,-52.2708 337.2518,-54.4325 346.708,-59.2107 347.6238,-52.2708"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node529</title>
+<g id="a_node6"><a xlink:href="net_8h.html#ade36148140b152d713b23d17bbcf0024" target="_top" xlink:title="Returns a new message id and updates session&#45;&gt;tx_mid accordingly. ">
+<polygon fill="#ffffff" stroke="#000000" points="373,-19.5 373,-38.5 492,-38.5 492,-19.5 373,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node526&#45;&gt;Node529</title>
+<path fill="none" stroke="#191970" d="M347.3448,-40.2358C355.7461,-39.1273 364.3948,-37.9861 372.8122,-36.8755"/>
+<polygon fill="#191970" stroke="#191970" points="346.708,-36.7893 337.2518,-41.5675 347.6238,-43.7292 346.708,-36.7893"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node528</title>
+<g id="a_node5"><a xlink:href="net_8h.html#a696acd1012ad1c2dba081ee5bea54fd8" target="_top" xlink:title="Registers the option type type with the given context object ctx. ">
+<polygon fill="#ffffff" stroke="#000000" points="532,-57.5 532,-76.5 639,-76.5 639,-57.5 532,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node527&#45;&gt;Node528</title>
+<path fill="none" stroke="#191970" d="M492.081,-67C505.1856,-67 518.9874,-67 531.8419,-67"/>
+<polygon fill="#191970" stroke="#191970" points="491.7524,-63.5001 481.7523,-67 491.7523,-70.5001 491.7524,-63.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node530</title>
+<g id="a_node7"><a xlink:href="resource_8c.html#ae1a91e254baca4f43b7896f54a8d9944" target="_top" xlink:title="coap_notify_observers">
+<polygon fill="#ffffff" stroke="#000000" points="528,-19.5 528,-38.5 643,-38.5 643,-19.5 528,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node529&#45;&gt;Node530</title>
+<path fill="none" stroke="#191970" d="M502.1098,-29C510.7119,-29 519.4311,-29 527.8276,-29"/>
+<polygon fill="#191970" stroke="#191970" points="502.0919,-25.5001 492.0919,-29 502.0919,-32.5001 502.0919,-25.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node531</title>
+<g id="a_node8"><a xlink:href="resource_8h.html#a579bcb559463d3a872831c18d8d9a1c1" target="_top" xlink:title="Checks for all known resources, if they are dirty and notifies subscribed observers. ">
+<polygon fill="#ffffff" stroke="#000000" points="679,-19.5 679,-38.5 777,-38.5 777,-19.5 679,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node530&#45;&gt;Node531</title>
+<path fill="none" stroke="#191970" d="M653.181,-29C661.8657,-29 670.6213,-29 678.93,-29"/>
+<polygon fill="#191970" stroke="#191970" points="653.0495,-25.5001 643.0495,-29 653.0494,-32.5001 653.0495,-25.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node532</title>
+<g id="a_node9"><a xlink:href="net_8h.html#aaac86ac50793f309678e4951ecf8863f" target="_top" xlink:title="For applications with their own message loop, send all pending retransmits and return the list of soc...">
+<polygon fill="#ffffff" stroke="#000000" points="819.5,-38.5 819.5,-57.5 883.5,-57.5 883.5,-38.5 819.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node531&#45;&gt;Node532</title>
+<path fill="none" stroke="#191970" d="M787.2085,-38.109C798.2213,-39.8033 809.3421,-41.5142 819.1665,-43.0256"/>
+<polygon fill="#191970" stroke="#191970" points="787.5813,-34.6253 777.1653,-36.5639 786.5168,-41.5439 787.5813,-34.6253"/>
+</g>
+
+<g id="node12" class="node">
+<title>Node535</title>
+<g id="a_node12"><a xlink:href="libcoap_8h.html#a5d1fb0b44497970b0f75fa0b38570a82" target="_top" xlink:title="coap_cleanup">
+<polygon fill="#ffffff" stroke="#000000" points="813,-.5 813,-19.5 890,-19.5 890,-.5 813,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge">
+<title>Node531&#45;&gt;Node535</title>
+<path fill="none" stroke="#191970" d="M787.2663,-19.8821C795.9313,-18.549 804.6616,-17.2059 812.7733,-15.958"/>
+<polygon fill="#191970" stroke="#191970" points="786.5168,-16.4561 777.1653,-21.4361 787.5813,-23.3747 786.5168,-16.4561"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node533</title>
+<g id="a_node10"><a xlink:href="coap__io_8c.html#a75a7c93e10ca7858449ba304aad4ea37" target="_top" xlink:title="coap_run_once">
+<polygon fill="#ffffff" stroke="#000000" points="926,-57.5 926,-76.5 1009,-76.5 1009,-57.5 926,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node532&#45;&gt;Node533</title>
+<path fill="none" stroke="#191970" d="M893.6193,-54.8988C904.036,-56.605 915.1933,-58.4325 925.5996,-60.137"/>
+<polygon fill="#191970" stroke="#191970" points="893.9388,-51.4046 883.5046,-53.2421 892.8073,-58.3126 893.9388,-51.4046"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node534</title>
+<g id="a_node11"><a xlink:href="net_8h.html#a5854b1394bfddd574e48af116e3aaaf9" target="_top" xlink:title="Sends an RST message with code 0 for the specified request to dst. ">
+<polygon fill="#ffffff" stroke="#000000" points="927.5,-19.5 927.5,-38.5 1007.5,-38.5 1007.5,-19.5 927.5,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node532&#45;&gt;Node534</title>
+<path fill="none" stroke="#191970" d="M893.7099,-41.0863C904.6737,-39.2905 916.4523,-37.3613 927.309,-35.583"/>
+<polygon fill="#191970" stroke="#191970" points="892.8073,-37.6874 883.5046,-42.7579 893.9388,-44.5954 892.8073,-37.6874"/>
+</g>
+</g>
+</svg>

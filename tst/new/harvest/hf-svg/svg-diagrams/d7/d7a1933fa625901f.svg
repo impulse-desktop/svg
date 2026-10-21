@@ -1,0 +1,88 @@
+<svg width="163pt" height="579pt"
+ viewBox="0.00 0.00 163.00 579.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 575)">
+<title>tbb::flow::interface10::streaming_node&lt; tuple&lt; Ports... &gt;, JP, StreamFactory &gt;::args_storage_base</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-575 159,-575 159,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-215.5 0,-371.5 155,-371.5 155,-215.5 0,-215.5"/>
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-319.5 155,-319.5 "/>
+
+
+<polyline fill="none" stroke="black" points="0,-289.5 155,-289.5 "/>
+
+
+
+
+
+
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00065.html" target="_top" xlink:title="{tbb::flow::interface10\l::streaming_node\&lt; tuple\l\&lt; Ports... \&gt;, JP, StreamFactory\l \&gt;::args_storage\&lt; Args \&gt;\n|&#45; my_args_pack\l|+ args_storage()\l+ args_storage()\l+ args_storage()\l+ enqueue()\l+ send()\l+ clone()\l&#45; do_try_put()\l&#45; do_try_put()\l&#45; make_run_finalize_func()\l}">
+<polygon fill="white" stroke="black" points="0,-0.5 0,-178.5 155,-178.5 155,-0.5 0,-0.5"/>
+
+
+
+
+<polyline fill="none" stroke="black" points="0,-126.5 155,-126.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-107.5 155,-107.5 "/>
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M77.5,-205.117C77.5,-196.403 77.5,-187.551 77.5,-178.828"/>
+<polygon fill="none" stroke="midnightblue" points="74.0001,-205.268 77.5,-215.268 81.0001,-205.268 74.0001,-205.268"/>
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00516.html" target="_top" xlink:title="Base class for types that should not be copied or assigned. ">
+<polygon fill="white" stroke="black" points="22.5,-408.5 22.5,-476.5 132.5,-476.5 132.5,-408.5 22.5,-408.5"/>
+
+<polyline fill="none" stroke="black" points="22.5,-457.5 132.5,-457.5 "/>
+
+<polyline fill="none" stroke="black" points="22.5,-438.5 132.5,-438.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#8b1a1a" d="M77.5,-398C77.5,-389.7 77.5,-380.784 77.5,-371.792"/>
+<polygon fill="none" stroke="#8b1a1a" points="74.0001,-398.143 77.5,-408.143 81.0001,-398.143 74.0001,-398.143"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00515.html" target="_top" xlink:title="Base class for types that should not be assigned. ">
+<polygon fill="white" stroke="black" points="18.5,-513.5 18.5,-570.5 136.5,-570.5 136.5,-513.5 18.5,-513.5"/>
+
+<polyline fill="none" stroke="black" points="18.5,-551.5 136.5,-551.5 "/>
+
+<polyline fill="none" stroke="black" points="18.5,-532.5 136.5,-532.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#8b1a1a" d="M77.5,-503.063C77.5,-494.393 77.5,-485.243 77.5,-476.786"/>
+<polygon fill="none" stroke="#8b1a1a" points="74.0001,-503.321 77.5,-513.321 81.0001,-503.321 74.0001,-503.321"/>
+</g>
+</g>
+</svg>

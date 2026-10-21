@@ -1,0 +1,144 @@
+<svg width="1781pt" height="211pt"
+ viewBox="0.00 0.00 1781.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-207 1777,-207 1777,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="652.5,-10 652.5,-30 672.5,-30 672.5,-10 652.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="765.5,-10 765.5,-30 785.5,-30 785.5,-10 765.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="851.5,-10 851.5,-30 871.5,-30 871.5,-10 851.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="948.5,-10 948.5,-30 968.5,-30 968.5,-10 948.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1044.5,-10 1044.5,-30 1064.5,-30 1064.5,-10 1044.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ProductsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 1765,-195 1765,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ProductsModule_declarations</title>
+<polygon fill="none" stroke="black" points="194,-78 194,-130 1757,-130 1757,-78 194,-78"/>
+</g>
+<g id="clust11" class="cluster">
+<title>cluster_ProductsModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 186,-130 186,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CreateProductComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1748.91,-122 1587.09,-122 1587.09,-86 1748.91,-86 1748.91,-122"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>ProductsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="989.04,-187 986.04,-191 965.04,-191 962.04,-187 880.96,-187 880.96,-151 989.04,-151 989.04,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CreateProductComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M1668,-122.01C1668,-144.49 1668,-180 1668,-180 1668,-180 999.2,-180 999.2,-180"/>
+<polygon fill="black" stroke="black" points="999.2,-176.5 989.2,-180 999.2,-183.5 999.2,-176.5"/>
+</g>
+
+<g id="node2" class="node">
+<title>DeleteProductComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1569.91,-122 1408.09,-122 1408.09,-86 1569.91,-86 1569.91,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DeleteProductComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M1489,-122.13C1489,-142.57 1489,-173 1489,-173 1489,-173 999.13,-173 999.13,-173"/>
+<polygon fill="black" stroke="black" points="999.13,-169.5 989.13,-173 999.13,-176.5 999.13,-169.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>ProductsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1390.33,-122 1259.67,-122 1259.67,-86 1390.33,-86 1390.33,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ProductsComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M1325,-122.27C1325,-140.56 1325,-166 1325,-166 1325,-166 999.23,-166 999.23,-166"/>
+<polygon fill="black" stroke="black" points="999.23,-162.5 989.23,-166 999.23,-169.5 999.23,-162.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>UpdateProductComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1241.81,-122 1076.19,-122 1076.19,-86 1241.81,-86 1241.81,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>UpdateProductComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M1159,-122.01C1159,-138.05 1159,-159 1159,-159 1159,-159 999.22,-159 999.22,-159"/>
+<polygon fill="black" stroke="black" points="999.22,-155.5 989.22,-159 999.22,-162.5 999.22,-155.5"/>
+</g>
+
+<g id="node5" class="node">
+<title>ViewAllProductsByCategoryComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1058.19,-122 811.81,-122 811.81,-86 1058.19,-86 1058.19,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ViewAllProductsByCategoryComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M935,-122.11C935,-122.11 935,-140.99 935,-140.99"/>
+<polygon fill="black" stroke="black" points="931.5,-140.99 935,-150.99 938.5,-140.99 931.5,-140.99"/>
+</g>
+
+<g id="node6" class="node">
+<title>ViewAllProductsByDateComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="793.79,-122 572.21,-122 572.21,-86 793.79,-86 793.79,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ViewAllProductsByDateComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M683,-122.01C683,-138.05 683,-159 683,-159 683,-159 870.94,-159 870.94,-159"/>
+<polygon fill="black" stroke="black" points="870.94,-162.5 880.94,-159 870.94,-155.5 870.94,-162.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>ViewAllProductsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="554.03,-122 375.97,-122 375.97,-86 554.03,-86 554.03,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ViewAllProductsComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M465,-122.27C465,-140.56 465,-166 465,-166 465,-166 870.63,-166 870.63,-166"/>
+<polygon fill="black" stroke="black" points="870.63,-169.5 880.63,-166 870.63,-162.5 870.63,-169.5"/>
+</g>
+
+<g id="node8" class="node">
+<title>ViewProductComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="357.7,-122 202.3,-122 202.3,-86 357.7,-86 357.7,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ViewProductComponent&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M280,-122.13C280,-142.57 280,-173 280,-173 280,-173 870.84,-173 870.84,-173"/>
+<polygon fill="black" stroke="black" points="870.84,-176.5 880.84,-173 870.84,-169.5 870.84,-176.5"/>
+</g>
+
+<g id="node10" class="node">
+<title>ProductsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="177.66,-122 174.66,-126 153.66,-126 150.66,-122 24.34,-122 24.34,-86 177.66,-86 177.66,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ProductsRoutingModule&#45;&gt;ProductsModule</title>
+<path fill="none" stroke="black" d="M101,-122.01C101,-144.49 101,-180 101,-180 101,-180 870.92,-180 870.92,-180"/>
+<polygon fill="black" stroke="black" points="870.92,-183.5 880.92,-180 870.92,-176.5 870.92,-183.5"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,198 @@
+<svg width="959pt" height="218pt"
+ viewBox="0.00 0.00 959.00 218.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 214)">
+<title>coap_handle_failed_notify</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-214 955,-214 955,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node185</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-128 0,-158 100,-158 100,-128 0,-128"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node186</title>
+<g id="a_node2"><a xlink:href="resource_8c.html#afbd204b59945b10d4e73b7a4a9915c6b" target="_top" xlink:title="Checks the failure counter for (peer, token) and removes peer from the list of observers for the give...">
+<polygon fill="white" stroke="black" points="136,-128 136,-158 240,-158 240,-128 136,-128"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node185&#45;&gt;Node186</title>
+<path fill="none" stroke="midnightblue" d="M100.099,-143C108.321,-143 116.943,-143 125.431,-143"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="125.681,-146.5 135.681,-143 125.681,-139.5 125.681,-146.5"/>
+</g>
+
+<g id="node3" class="node"><title>Node187</title>
+<g id="a_node3"><a xlink:href="address_8c.html#aece6d39e01149af8dea29b0b8cbde504" target="_top" xlink:title="Compares given address objects a and b. ">
+<polygon fill="white" stroke="black" points="449,-114.5 449,-133.5 560,-133.5 560,-114.5 449,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node186&#45;&gt;Node187</title>
+<path fill="none" stroke="midnightblue" d="M240.23,-139.905C294.333,-136.636 379.779,-131.474 438.569,-127.923"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="439.087,-131.398 448.858,-127.301 438.665,-124.411 439.087,-131.398"/>
+</g>
+
+<g id="node4" class="node"><title>Node188</title>
+<g id="a_node4"><a xlink:href="debug_8c.html#a10c3fbd56b0eb3a8722b27a65fc9b0ce" target="_top" xlink:title="Returns the current log level. ">
+<polygon fill="white" stroke="black" points="294.5,-152.5 294.5,-171.5 394.5,-171.5 394.5,-152.5 294.5,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node186&#45;&gt;Node188</title>
+<path fill="none" stroke="midnightblue" d="M240.017,-149.274C254.229,-151.022 269.785,-152.935 284.418,-154.734"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="284.021,-158.212 294.374,-155.959 284.876,-151.264 284.021,-158.212"/>
+</g>
+
+<g id="node5" class="node"><title>Node189</title>
+<g id="a_node5"><a xlink:href="debug_8c.html#ab9d398c4bed7c13cea20c716d09474f4" target="_top" xlink:title="coap_print_addr">
+<polygon fill="white" stroke="black" points="301.5,-190.5 301.5,-209.5 387.5,-209.5 387.5,-190.5 301.5,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node186&#45;&gt;Node189</title>
+<path fill="none" stroke="midnightblue" d="M220.803,-158.146C237.094,-165.581 257.374,-174.346 276,-181 282.47,-183.311 289.368,-185.527 296.191,-187.577"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="295.495,-191.019 306.075,-190.453 297.451,-184.298 295.495,-191.019"/>
+</g>
+
+<g id="node7" class="node"><title>Node191</title>
+<g id="a_node7"><a xlink:href="net_8c.html#a648df31fd1553a7fa8d294b652dd99da" target="_top" xlink:title="Cancels all outstanding messages for peer dst that have the specified token. ">
+<polygon fill="white" stroke="black" points="276,-76.5 276,-95.5 413,-95.5 413,-76.5 276,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node186&#45;&gt;Node191</title>
+<path fill="none" stroke="midnightblue" d="M228.346,-127.876C243.248,-122.201 260.382,-115.738 276,-110 285.894,-106.365 296.635,-102.506 306.578,-98.9707"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="307.937,-102.202 316.194,-95.5629 305.599,-95.6045 307.937,-102.202"/>
+</g>
+
+<g id="node6" class="node"><title>Node190</title>
+<g id="a_node6"><a xlink:href="debug_8c.html#aaa5ee5c2942fe13271a46000b2aebde6" target="_top" xlink:title="A length&#45;safe strlen() fake. ">
+<polygon fill="white" stroke="black" points="481.5,-190.5 481.5,-209.5 527.5,-209.5 527.5,-190.5 481.5,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node189&#45;&gt;Node190</title>
+<path fill="none" stroke="midnightblue" d="M387.841,-200C414.118,-200 447.347,-200 471.438,-200"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="471.481,-203.5 481.481,-200 471.481,-196.5 471.481,-203.5"/>
+</g>
+
+<g id="edge7" class="edge"><title>Node191&#45;&gt;Node187</title>
+<path fill="none" stroke="midnightblue" d="M385.37,-95.589C406.22,-100.604 431.935,-106.788 454.043,-112.105"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="453.375,-115.544 463.917,-114.48 455.012,-108.739 453.375,-115.544"/>
+</g>
+
+<g id="node8" class="node"><title>Node192</title>
+<g id="a_node8"><a xlink:href="net_8c.html#adf2cfdc3b12751e262d32e3be94cfa51" target="_top" xlink:title="token_match">
+<polygon fill="white" stroke="black" points="468,-76.5 468,-95.5 541,-95.5 541,-76.5 468,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node191&#45;&gt;Node192</title>
+<path fill="none" stroke="midnightblue" d="M413.423,-86C428.353,-86 443.821,-86 457.637,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="457.845,-89.5001 467.845,-86 457.845,-82.5001 457.845,-89.5001"/>
+</g>
+
+<g id="node9" class="node"><title>Node193</title>
+<g id="a_node9"><a xlink:href="net_8c.html#a44c39a2314035989d3e07b9d9328e08c" target="_top" xlink:title="Destroys specified node. ">
+<polygon fill="white" stroke="black" points="457,-38.5 457,-57.5 552,-57.5 552,-38.5 457,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node191&#45;&gt;Node193</title>
+<path fill="none" stroke="midnightblue" d="M385.37,-76.411C406.22,-71.3965 431.935,-65.2119 454.043,-59.8947"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="455.012,-63.2615 463.917,-57.5201 453.375,-56.4555 455.012,-63.2615"/>
+</g>
+
+<g id="node10" class="node"><title>Node194</title>
+<g id="a_node10"><a xlink:href="pdu_8c.html#a48581f968a30ef4278702eb1c16b7a90" target="_top" xlink:title="coap_delete_pdu">
+<polygon fill="white" stroke="black" points="596,-57.5 596,-76.5 686,-76.5 686,-57.5 596,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node193&#45;&gt;Node194</title>
+<path fill="none" stroke="midnightblue" d="M552.164,-54.592C562.969,-56.1183 574.558,-57.7554 585.66,-59.3237"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="585.29,-62.8062 595.682,-60.7394 586.27,-55.875 585.29,-62.8062"/>
+</g>
+
+<g id="node12" class="node"><title>Node196</title>
+<g id="a_node12"><a xlink:href="net_8c.html#af126b3b1cc4dc6472de3cc7636193859" target="_top" xlink:title="coap_free_node">
+<polygon fill="white" stroke="black" points="598,-19.5 598,-38.5 684,-38.5 684,-19.5 598,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Node193&#45;&gt;Node196</title>
+<path fill="none" stroke="midnightblue" d="M552.164,-41.408C563.666,-39.7833 576.057,-38.0329 587.802,-36.3737"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="588.507,-39.809 597.919,-34.9445 587.528,-32.8778 588.507,-39.809"/>
+</g>
+
+<g id="node11" class="node"><title>Node195</title>
+<g id="a_node11"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type(). ">
+<polygon fill="white" stroke="black" points="729.5,-57.5 729.5,-76.5 812.5,-76.5 812.5,-57.5 729.5,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node194&#45;&gt;Node195</title>
+<path fill="none" stroke="midnightblue" d="M686.05,-67C696.682,-67 708.13,-67 719.048,-67"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="719.31,-70.5001 729.31,-67 719.31,-63.5001 719.31,-70.5001"/>
+</g>
+
+<g id="edge13" class="edge"><title>Node196&#45;&gt;Node195</title>
+<path fill="none" stroke="midnightblue" d="M674.3,-38.589C690.52,-43.4044 710.375,-49.2988 727.787,-54.468"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="727.128,-57.9233 737.711,-57.4141 729.12,-51.2127 727.128,-57.9233"/>
+</g>
+
+<g id="node13" class="node"><title>Node197</title>
+<g id="a_node13"><a xlink:href="net_8c.html#af79743c319ebdd944ce16395385e9896" target="_top" xlink:title="coap_malloc_node">
+<polygon fill="white" stroke="black" points="722,-19.5 722,-38.5 820,-38.5 820,-19.5 722,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge14" class="edge"><title>Node196&#45;&gt;Node197</title>
+<path fill="none" stroke="midnightblue" d="M684.267,-29C692.944,-29 702.225,-29 711.36,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="711.572,-32.5001 721.572,-29 711.572,-25.5001 711.572,-32.5001"/>
+</g>
+
+<g id="node14" class="node"><title>Node198</title>
+<g id="a_node14"><a xlink:href="mem_8h.html#a0204710ce56cbaa4f062b7f2622857f5" target="_top" xlink:title="Allocates a chunk of size bytes and returns a pointer to the newly allocated memory. ">
+<polygon fill="white" stroke="black" points="856,-0.5 856,-19.5 951,-19.5 951,-0.5 856,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge16" class="edge"><title>Node196&#45;&gt;Node198</title>
+<path fill="none" stroke="midnightblue" d="M674.388,-19.4934C688.823,-15.729 706.12,-11.8598 722,-10 763.217,-5.17263 810.092,-5.33962 845.742,-6.62562"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="845.823,-10.1316 855.955,-7.03544 846.103,-3.13721 845.823,-10.1316"/>
+</g>
+
+<g id="edge15" class="edge"><title>Node197&#45;&gt;Node198</title>
+<path fill="none" stroke="midnightblue" d="M820.223,-21.9791C828.572,-20.7634 837.322,-19.4895 845.871,-18.2449"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="846.387,-21.7067 855.778,-16.8024 845.378,-14.7798 846.387,-21.7067"/>
+</g>
+</g>
+</svg>

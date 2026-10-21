@@ -1,0 +1,58 @@
+<svg width="532pt" height="174pt"
+ viewBox="0.00 0.00 532.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 528,-169.8 528,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_VaccineDataModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 516,-157.8 516,-32.8 8,-32.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_VaccineDataModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 508,-92.8 508,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>FindUser</title>
+<ellipse fill="#fdb462" stroke="black" cx="453" cy="-66.8" rx="46.95" ry="18"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>VaccineDataModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="370.83,-149.8 367.83,-153.8 346.83,-153.8 343.83,-149.8 239.17,-149.8 239.17,-113.8 370.83,-113.8 370.83,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>FindUser&#45;&gt;VaccineDataModule</title>
+<path fill="none" stroke="black" d="M453,-84.91C453,-104.14 453,-131.8 453,-131.8 453,-131.8 381.21,-131.8 381.21,-131.8"/>
+<polygon fill="black" stroke="black" points="381.21,-128.3 371.21,-131.8 381.21,-135.3 381.21,-128.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>FindVaccineName</title>
+<ellipse fill="#fdb462" stroke="black" cx="305" cy="-66.8" rx="83.37" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>FindVaccineName&#45;&gt;VaccineDataModule</title>
+<path fill="none" stroke="black" d="M305,-84.91C305,-84.91 305,-103.79 305,-103.79"/>
+<polygon fill="black" stroke="black" points="301.5,-103.79 305,-113.79 308.5,-103.79 301.5,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>VaccineDataService</title>
+<ellipse fill="#fdb462" stroke="black" cx="114" cy="-66.8" rx="89.7" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>VaccineDataService&#45;&gt;VaccineDataModule</title>
+<path fill="none" stroke="black" d="M114,-84.91C114,-104.14 114,-131.8 114,-131.8 114,-131.8 229,-131.8 229,-131.8"/>
+<polygon fill="black" stroke="black" points="229,-135.3 239,-131.8 229,-128.3 229,-135.3"/>
+</g>
+</g>
+</svg>

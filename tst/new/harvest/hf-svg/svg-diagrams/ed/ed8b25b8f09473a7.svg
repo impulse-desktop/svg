@@ -1,0 +1,108 @@
+<svg width="504pt" height="284pt"
+ viewBox="0.00 0.00 504.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 500,-280 500,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="14,-10 14,-30 34,-30 34,-10 14,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="127,-10 127,-30 147,-30 147,-10 127,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="213,-10 213,-30 233,-30 233,-10 213,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="310,-10 310,-30 330,-30 330,-10 310,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TabsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="23,-70 23,-268 473,-268 473,-70 23,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TabsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="37,-78 37,-130 460,-130 460,-78 37,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_TabsModule_exports</title>
+<polygon fill="none" stroke="#000000" points="31,-208 31,-260 465,-260 465,-208 31,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>TabsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="452.0452,-122 343.9548,-122 343.9548,-86 452.0452,-86 452.0452,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>TabsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="304.2619,-187 301.2619,-191 280.2619,-191 277.2619,-187 217.7381,-187 217.7381,-151 304.2619,-151 304.2619,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>TabsComponent&#45;&gt;TabsModule</title>
+<path fill="none" stroke="#000000" d="M416.5074,-122.0225C416.5074,-139.3734 416.5074,-163 416.5074,-163 416.5074,-163 314.3175,-163 314.3175,-163"/>
+<polygon fill="#000000" stroke="#000000" points="314.3175,-159.5001 304.3175,-163 314.3174,-166.5001 314.3175,-159.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>TabItemComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="325.2562,-122 196.7438,-122 196.7438,-86 325.2562,-86 325.2562,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>TabItemComponent&#45;&gt;TabsModule</title>
+<path fill="none" stroke="#000000" d="M261,-122.1061C261,-122.1061 261,-140.991 261,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="257.5001,-140.9909 261,-150.991 264.5001,-140.991 257.5001,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>TabPanelComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="179.2022,-122 44.7978,-122 44.7978,-86 179.2022,-86 179.2022,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>TabPanelComponent&#45;&gt;TabsModule</title>
+<path fill="none" stroke="#000000" d="M132.867,-122.0225C132.867,-139.3734 132.867,-163 132.867,-163 132.867,-163 207.62,-163 207.62,-163"/>
+<polygon fill="#000000" stroke="#000000" points="207.62,-166.5001 217.62,-163 207.62,-159.5001 207.62,-166.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>TabsComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="457.0442,-252 344.9558,-252 344.9558,-216 457.0442,-216 457.0442,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>TabsModule&#45;&gt;TabsComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M304.5686,-175C338.8059,-175 380.7426,-175 380.7426,-175 380.7426,-175 380.7426,-205.9775 380.7426,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="377.2427,-205.9774 380.7426,-215.9775 384.2427,-205.9775 377.2427,-205.9774"/>
+</g>
+
+<g id="node6" class="node">
+<title>TabItemComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="327.2562,-252 194.7438,-252 194.7438,-216 327.2562,-216 327.2562,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>TabsModule&#45;&gt;TabItemComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M261,-187.1061C261,-187.1061 261,-205.991 261,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="257.5001,-205.9909 261,-215.991 264.5001,-205.991 257.5001,-205.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>TabPanelComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="176.7023,-252 39.2977,-252 39.2977,-216 176.7023,-216 176.7023,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>TabsModule&#45;&gt;TabPanelComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M217.5676,-175C166.5794,-175 88.883,-175 88.883,-175 88.883,-175 88.883,-205.9775 88.883,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="85.3829,-205.9775 88.883,-215.9775 92.3829,-205.9774 85.3829,-205.9775"/>
+</g>
+</g>
+</svg>

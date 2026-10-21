@@ -1,0 +1,264 @@
+<svg width="2445pt" height="211pt"
+ viewBox="0.00 0.00 2445.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-207 2441,-207 2441,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="984.5,-10 984.5,-30 1004.5,-30 1004.5,-10 984.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="1097.5,-10 1097.5,-30 1117.5,-30 1117.5,-10 1097.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="1183.5,-10 1183.5,-30 1203.5,-30 1203.5,-10 1183.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="1280.5,-10 1280.5,-30 1300.5,-30 1300.5,-10 1280.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1376.5,-10 1376.5,-30 1396.5,-30 1396.5,-10 1376.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SeedsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 2429,-195 2429,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_SeedsModule_imports</title>
+<polygon fill="none" stroke="black" points="1349,-78 1349,-130 2421,-130 2421,-78 1349,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_SeedsModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 1341,-130 1341,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CategoriesModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="2412.92,-122 2409.92,-126 2388.92,-126 2385.92,-122 2293.08,-122 2293.08,-86 2412.92,-86 2412.92,-122"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>SeedsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1333.21,-187 1330.21,-191 1309.21,-191 1306.21,-187 1240.79,-187 1240.79,-151 1333.21,-151 1333.21,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CategoriesModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M2353,-122.15C2353,-145.76 2353,-184 2353,-184 2353,-184 1343.15,-184 1343.15,-184"/>
+<polygon fill="black" stroke="black" points="1343.15,-180.5 1333.15,-184 1343.15,-187.5 1343.15,-180.5"/>
+</g>
+
+<g id="node2" class="node">
+<title>EventsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="2274.65,-122 2271.65,-126 2250.65,-126 2247.65,-122 2177.35,-122 2177.35,-86 2274.65,-86 2274.65,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>EventsModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M2226,-122.01C2226,-144.49 2226,-180 2226,-180 2226,-180 1343.24,-180 1343.24,-180"/>
+<polygon fill="black" stroke="black" points="1343.24,-176.5 1333.24,-180 1343.24,-183.5 1343.24,-176.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>LikesModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="2159.15,-122 2156.15,-126 2135.15,-126 2132.15,-122 2068.85,-122 2068.85,-86 2159.15,-86 2159.15,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>LikesModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M2114,-122.04C2114,-143.66 2114,-177 2114,-177 2114,-177 1343.24,-177 1343.24,-177"/>
+<polygon fill="black" stroke="black" points="1343.24,-173.5 1333.24,-177 1343.24,-180.5 1343.24,-173.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>PinsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="2050.67,-122 2047.67,-126 2026.67,-126 2023.67,-122 1967.33,-122 1967.33,-86 2050.67,-86 2050.67,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PinsModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M2009,-122.13C2009,-142.57 2009,-173 2009,-173 2009,-173 1343.26,-173 1343.26,-173"/>
+<polygon fill="black" stroke="black" points="1343.26,-169.5 1333.26,-173 1343.26,-176.5 1343.26,-169.5"/>
+</g>
+
+<g id="node5" class="node">
+<title>RejoindersModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1949.2,-122 1946.2,-126 1925.2,-126 1922.2,-122 1828.8,-122 1828.8,-86 1949.2,-86 1949.2,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>RejoindersModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1889,-122.11C1889,-141.34 1889,-169 1889,-169 1889,-169 1343.24,-169 1343.24,-169"/>
+<polygon fill="black" stroke="black" points="1343.24,-165.5 1333.24,-169 1343.24,-172.5 1343.24,-165.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>RepliesModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1810.54,-122 1807.54,-126 1786.54,-126 1783.54,-122 1709.46,-122 1709.46,-86 1810.54,-86 1810.54,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>RepliesModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1760,-122.27C1760,-140.56 1760,-166 1760,-166 1760,-166 1343.21,-166 1343.21,-166"/>
+<polygon fill="black" stroke="black" points="1343.21,-162.5 1333.21,-166 1343.21,-169.5 1343.21,-162.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>SupportsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1691.83,-122 1688.83,-126 1667.83,-126 1664.83,-122 1582.17,-122 1582.17,-86 1691.83,-86 1691.83,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SupportsModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1637,-122.03C1637,-139.06 1637,-162 1637,-162 1637,-162 1343.12,-162 1343.12,-162"/>
+<polygon fill="black" stroke="black" points="1343.12,-158.5 1333.12,-162 1343.12,-165.5 1343.12,-158.5"/>
+</g>
+
+<g id="node8" class="node">
+<title>TopicsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1564.65,-122 1561.65,-126 1540.65,-126 1537.65,-122 1467.35,-122 1467.35,-86 1564.65,-86 1564.65,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>TopicsModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1516,-122.01C1516,-138.05 1516,-159 1516,-159 1516,-159 1343.34,-159 1343.34,-159"/>
+<polygon fill="black" stroke="black" points="1343.34,-155.5 1333.34,-159 1343.34,-162.5 1343.34,-155.5"/>
+</g>
+
+<g id="node9" class="node">
+<title>UsersModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1448.92,-122 1445.92,-126 1424.92,-126 1421.92,-122 1357.08,-122 1357.08,-86 1448.92,-86 1448.92,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>UsersModule&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1403,-122.12C1403,-136.78 1403,-155 1403,-155 1403,-155 1343.18,-155 1343.18,-155"/>
+<polygon fill="black" stroke="black" points="1343.18,-151.5 1333.18,-155 1343.18,-158.5 1343.18,-151.5"/>
+</g>
+
+<g id="node11" class="node">
+<title>AppSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="1287" cy="-104" rx="46.37" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>AppSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1287,-122.11C1287,-122.11 1287,-140.99 1287,-140.99"/>
+<polygon fill="black" stroke="black" points="1283.5,-140.99 1287,-150.99 1290.5,-140.99 1283.5,-140.99"/>
+</g>
+
+<g id="node12" class="node">
+<title>CategoriesSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="1151" cy="-104" rx="71.2" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>CategoriesSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1151,-122.12C1151,-136.78 1151,-155 1151,-155 1151,-155 1230.58,-155 1230.58,-155"/>
+<polygon fill="black" stroke="black" points="1230.58,-158.5 1240.58,-155 1230.58,-151.5 1230.58,-158.5"/>
+</g>
+
+<g id="node13" class="node">
+<title>EventsSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="1006" cy="-104" rx="56.18" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>EventsSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M1006,-122.01C1006,-138.05 1006,-159 1006,-159 1006,-159 1230.6,-159 1230.6,-159"/>
+<polygon fill="black" stroke="black" points="1230.6,-162.5 1240.6,-159 1230.6,-155.5 1230.6,-162.5"/>
+</g>
+
+<g id="node14" class="node">
+<title>LikesSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="881" cy="-104" rx="51.02" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>LikesSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M881,-122.03C881,-139.06 881,-162 881,-162 881,-162 1230.82,-162 1230.82,-162"/>
+<polygon fill="black" stroke="black" points="1230.82,-165.5 1240.82,-162 1230.82,-158.5 1230.82,-165.5"/>
+</g>
+
+<g id="node15" class="node">
+<title>PinsSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="765" cy="-104" rx="46.39" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>PinsSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M765,-122.27C765,-140.56 765,-166 765,-166 765,-166 1230.68,-166 1230.68,-166"/>
+<polygon fill="black" stroke="black" points="1230.68,-169.5 1240.68,-166 1230.68,-162.5 1230.68,-169.5"/>
+</g>
+
+<g id="node16" class="node">
+<title>RejoindersSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="629" cy="-104" rx="71.79" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>RejoindersSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M629,-122.11C629,-141.34 629,-169 629,-169 629,-169 1230.73,-169 1230.73,-169"/>
+<polygon fill="black" stroke="black" points="1230.73,-172.5 1240.73,-169 1230.73,-165.5 1230.73,-172.5"/>
+</g>
+
+<g id="node17" class="node">
+<title>RepliesSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="481" cy="-104" rx="58.54" ry="18"/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>RepliesSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M481,-122.13C481,-142.57 481,-173 481,-173 481,-173 1230.77,-173 1230.77,-173"/>
+<polygon fill="black" stroke="black" points="1230.77,-176.5 1240.77,-173 1230.77,-169.5 1230.77,-176.5"/>
+</g>
+
+<g id="node18" class="node">
+<title>SupportsSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="340" cy="-104" rx="64.29" ry="18"/>
+
+</g>
+
+<g id="edge17" class="edge">
+<title>SupportsSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M340,-122.04C340,-143.66 340,-177 340,-177 340,-177 1230.68,-177 1230.68,-177"/>
+<polygon fill="black" stroke="black" points="1230.68,-180.5 1240.68,-177 1230.68,-173.5 1230.68,-180.5"/>
+</g>
+
+<g id="node19" class="node">
+<title>TopicsSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="202" cy="-104" rx="56.18" ry="18"/>
+
+</g>
+
+<g id="edge18" class="edge">
+<title>TopicsSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M202,-122.01C202,-144.49 202,-180 202,-180 202,-180 1230.73,-180 1230.73,-180"/>
+<polygon fill="black" stroke="black" points="1230.73,-183.5 1240.73,-180 1230.73,-176.5 1230.73,-183.5"/>
+</g>
+
+<g id="node20" class="node">
+<title>UsersSeed</title>
+<ellipse fill="#fdb462" stroke="black" cx="76" cy="-104" rx="51.58" ry="18"/>
+
+</g>
+
+<g id="edge19" class="edge">
+<title>UsersSeed&#45;&gt;SeedsModule</title>
+<path fill="none" stroke="black" d="M76,-122.15C76,-145.76 76,-184 76,-184 76,-184 1230.64,-184 1230.64,-184"/>
+<polygon fill="black" stroke="black" points="1230.64,-187.5 1240.64,-184 1230.64,-180.5 1230.64,-187.5"/>
+</g>
+</g>
+</svg>

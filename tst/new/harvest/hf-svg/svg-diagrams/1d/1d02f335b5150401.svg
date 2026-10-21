@@ -1,0 +1,110 @@
+<svg width="876pt" height="127pt"
+ viewBox="0.00 0.00 876.00 126.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 122.5)">
+<title>tbb::internal::thread_closure_base::operator new</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-122.5 872,-122.5 872,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-39 0,-69 142,-69 142,-39 0,-39"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01133.html#a858f99e1aa372076223cc923fb8c4914" target="_top" xlink:title="Allocate a closure. ">
+<polygon fill="white" stroke="black" points="178,-39 178,-69 285,-69 285,-39 178,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M142.443,-54C150.908,-54 159.508,-54 167.85,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="167.873,-57.5001 177.873,-54 167.873,-50.5001 167.873,-57.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a01133.html#a9f226bc3212761202602d0198c587b12" target="_top" xlink:title="Allocates memory using MallocHandler. ">
+<polygon fill="white" stroke="black" points="321,-39 321,-69 428,-69 428,-39 321,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M285.003,-54C293.445,-54 302.255,-54 310.905,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="310.953,-57.5001 320.953,-54 310.953,-50.5001 310.953,-57.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a01133.html#a61a681f9fd15fdb055f7725d6416ddf4" target="_top" xlink:title="Versionless convenience wrapper for throw_exception_v4() ">
+<polygon fill="white" stroke="black" points="464,-39 464,-69 562,-69 562,-39 464,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M428.274,-54C436.595,-54 445.239,-54 453.677,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="453.83,-57.5001 463.83,-54 453.83,-50.5001 453.83,-57.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a01133.html#adccc1f69ee5a85094eb6a5f9fbac89d7" target="_top" xlink:title="Gathers all throw operators in one place. ">
+<polygon fill="white" stroke="black" points="598,-39 598,-69 696,-69 696,-39 598,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M562.028,-54C570.309,-54 578.997,-54 587.517,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="587.786,-57.5001 597.786,-54 587.786,-50.5001 587.786,-57.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a01133.html#a52bf5824abee2b87b339574e3ff6833c" target="_top" xlink:title="tbb::internal::fix\l_broken_rethrow">
+<polygon fill="white" stroke="black" points="755.5,-88 755.5,-118 844.5,-118 844.5,-88 755.5,-88"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M694.537,-69.1014C710.763,-74.3669 729.093,-80.315 745.818,-85.7421"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="744.859,-89.1107 755.451,-88.8683 747.02,-82.4525 744.859,-89.1107"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a01133.html#a01d042ccf49c2448856834818ebb80cf" target="_top" xlink:title="tbb::internal::gcc\l_rethrow_exception_broken">
+<polygon fill="white" stroke="black" points="732,-39 732,-69 868,-69 868,-39 732,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M696.193,-54C704.381,-54 713.065,-54 721.78,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="721.996,-57.5001 731.996,-54 721.996,-50.5001 721.996,-57.5001"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a01133.html#ad413aa12f103993fc8cf47ddc570bb9c" target="_top" xlink:title="Cast between unrelated pointer types. ">
+<polygon fill="white" stroke="black" points="735.5,-0.5 735.5,-19.5 864.5,-19.5 864.5,-0.5 735.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node5&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M696.193,-39.9572C715.507,-34.329 737.578,-27.8979 756.305,-22.4409"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="757.422,-25.7612 766.043,-19.6033 755.463,-19.0407 757.422,-25.7612"/>
+</g>
+</g>
+</svg>

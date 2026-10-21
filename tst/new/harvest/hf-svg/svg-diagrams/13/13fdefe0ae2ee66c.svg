@@ -1,0 +1,86 @@
+<svg width="514pt" height="247pt"
+ viewBox="0.00 0.00 514.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 510,-242.8 510,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PostsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 498,-230.8 498,-32.8 8,-32.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_PostsModule_exports</title>
+<polygon fill="none" stroke="black" points="105,-170.8 105,-222.8 415,-222.8 415,-170.8 105,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PostsModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 490,-92.8 490,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>PostCreateComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="481.98,-84.8 340.02,-84.8 340.02,-48.8 481.98,-48.8 481.98,-84.8"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>PostsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="302.61,-149.8 299.61,-153.8 278.61,-153.8 275.61,-149.8 213.39,-149.8 213.39,-113.8 302.61,-113.8 302.61,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PostCreateComponent&#45;&gt;PostsModule</title>
+<path fill="none" stroke="black" d="M373.38,-84.91C373.38,-104.14 373.38,-131.8 373.38,-131.8 373.38,-131.8 312.61,-131.8 312.61,-131.8"/>
+<polygon fill="black" stroke="black" points="312.61,-128.3 302.61,-131.8 312.61,-135.3 312.61,-128.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>PostListComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="321.73,-84.8 194.27,-84.8 194.27,-48.8 321.73,-48.8 321.73,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PostListComponent&#45;&gt;PostsModule</title>
+<path fill="none" stroke="black" d="M258,-84.91C258,-84.91 258,-103.79 258,-103.79"/>
+<polygon fill="black" stroke="black" points="254.5,-103.79 258,-113.79 261.5,-103.79 254.5,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>PostListItemComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="176.39,-84.8 23.61,-84.8 23.61,-48.8 176.39,-48.8 176.39,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PostListItemComponent&#45;&gt;PostsModule</title>
+<path fill="none" stroke="black" d="M144.54,-84.91C144.54,-104.14 144.54,-131.8 144.54,-131.8 144.54,-131.8 203.16,-131.8 203.16,-131.8"/>
+<polygon fill="black" stroke="black" points="203.16,-135.3 213.16,-131.8 203.16,-128.3 203.16,-135.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>PostCreateComponent </title>
+<polygon fill="#fb8072" stroke="black" points="406.98,-214.8 261.02,-214.8 261.02,-178.8 406.98,-178.8 406.98,-214.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PostsModule&#45;&gt;PostCreateComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M281.91,-149.91C281.91,-149.91 281.91,-168.79 281.91,-168.79"/>
+<polygon fill="black" stroke="black" points="278.41,-168.79 281.91,-178.79 285.41,-168.79 278.41,-168.79"/>
+</g>
+
+<g id="node6" class="node">
+<title>PostListComponent </title>
+<polygon fill="#fb8072" stroke="black" points="243.23,-214.8 112.77,-214.8 112.77,-178.8 243.23,-178.8 243.23,-214.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PostsModule&#45;&gt;PostListComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M228.4,-149.91C228.4,-149.91 228.4,-168.79 228.4,-168.79"/>
+<polygon fill="black" stroke="black" points="224.9,-168.79 228.4,-178.79 231.9,-168.79 224.9,-168.79"/>
+</g>
+</g>
+</svg>

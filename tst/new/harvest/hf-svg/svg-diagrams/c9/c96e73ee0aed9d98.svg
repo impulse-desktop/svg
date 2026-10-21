@@ -1,0 +1,134 @@
+<svg width="706pt" height="253pt"
+ viewBox="0.00 0.00 706.00 252.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 248.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-248.8 702,-248.8 702,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-160.8 124,-160.8 124,-32.8 8,-32.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 116,-92.8 116,-40.8 16,-40.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_CatsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="132,-100.8 132,-168.8 388,-168.8 388,-100.8 132,-100.8"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_CatsModule_exports</title>
+<polygon fill="none" stroke="black" points="278,-108.8 278,-160.8 380,-160.8 380,-108.8 278,-108.8"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_CatsModule_providers</title>
+<polygon fill="none" stroke="black" points="140,-108.8 140,-160.8 270,-160.8 270,-108.8 140,-108.8"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_CommonModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="396,-32.8 396,-236.8 580,-236.8 580,-32.8 396,-32.8"/>
+</g>
+<g id="clust16" class="cluster">
+<title>cluster_CommonModule_exports</title>
+<polygon fill="none" stroke="black" points="440,-176.8 440,-228.8 572,-228.8 572,-176.8 440,-176.8"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_CommonModule_providers</title>
+<polygon fill="none" stroke="black" points="404,-40.8 404,-92.8 572,-92.8 572,-40.8 404,-40.8"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_CoreModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="588,-176.8 588,-228.8 690,-228.8 690,-176.8 588,-176.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>CatsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="108.44,-84.8 105.44,-88.8 84.44,-88.8 81.44,-84.8 23.56,-84.8 23.56,-48.8 108.44,-48.8 108.44,-84.8"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="107.66,-152.8 104.66,-156.8 83.66,-156.8 80.66,-152.8 24.34,-152.8 24.34,-116.8 107.66,-116.8 107.66,-152.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CatsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M66,-85.02C66,-85.02 66,-106.53 66,-106.53"/>
+<polygon fill="black" stroke="black" points="62.5,-106.53 66,-116.53 69.5,-106.53 62.5,-106.53"/>
+</g>
+
+<g id="node3" class="node">
+<title>CatsService </title>
+<polygon fill="#fb8072" stroke="black" points="372.36,-152.8 285.64,-152.8 285.64,-116.8 372.36,-116.8 372.36,-152.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CatsModule&#45;&gt;CatsService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M108.26,-60.8C182.6,-60.8 329,-60.8 329,-60.8 329,-60.8 329,-106.51 329,-106.51"/>
+<polygon fill="black" stroke="black" points="325.5,-106.51 329,-116.51 332.5,-106.51 325.5,-106.51"/>
+</g>
+
+<g id="node4" class="node">
+<title>CatsService</title>
+<ellipse fill="#fdb462" stroke="black" cx="205" cy="-134.8" rx="57.32" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CatsService&#45;&gt;CatsModule</title>
+<path fill="none" stroke="black" d="M205,-116.53C205,-98.24 205,-72.8 205,-72.8 205,-72.8 118.46,-72.8 118.46,-72.8"/>
+<polygon fill="black" stroke="black" points="118.46,-69.3 108.46,-72.8 118.46,-76.3 118.46,-69.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule </title>
+<polygon fill="#fb8072" stroke="black" points="563.67,-220.8 448.33,-220.8 448.33,-184.8 563.67,-184.8 563.67,-220.8"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="561.67,-152.8 558.67,-156.8 537.67,-156.8 534.67,-152.8 450.33,-152.8 450.33,-116.8 561.67,-116.8 561.67,-152.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;CommonModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M506,-153.02C506,-153.02 506,-174.53 506,-174.53"/>
+<polygon fill="black" stroke="black" points="502.5,-174.53 506,-184.53 509.5,-174.53 502.5,-174.53"/>
+</g>
+
+<g id="node8" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="682.26,-220.8 679.26,-224.8 658.26,-224.8 655.26,-220.8 595.74,-220.8 595.74,-184.8 682.26,-184.8 682.26,-220.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CommonModule&#45;&gt;CoreModule</title>
+<path fill="none" stroke="black" d="M562.02,-134.8C598.37,-134.8 639,-134.8 639,-134.8 639,-134.8 639,-174.58 639,-174.58"/>
+<polygon fill="black" stroke="black" points="635.5,-174.58 639,-184.58 642.5,-174.58 635.5,-174.58"/>
+</g>
+
+<g id="node7" class="node">
+<title>CommonService</title>
+<ellipse fill="#fdb462" stroke="black" cx="488" cy="-66.8" rx="75.88" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CommonService&#45;&gt;CommonModule</title>
+<path fill="none" stroke="black" d="M506,-84.31C506,-84.31 506,-106.64 506,-106.64"/>
+<polygon fill="black" stroke="black" points="502.5,-106.64 506,-116.64 509.5,-106.64 502.5,-106.64"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>CoreModule&#45;&gt;CommonModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M595.45,-202.8C595.45,-202.8 573.68,-202.8 573.68,-202.8"/>
+<polygon fill="black" stroke="black" points="573.68,-199.3 563.68,-202.8 573.68,-206.3 573.68,-199.3"/>
+</g>
+</g>
+</svg>

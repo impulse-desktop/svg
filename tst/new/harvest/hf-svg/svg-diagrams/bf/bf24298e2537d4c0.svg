@@ -1,0 +1,134 @@
+<svg width="1573pt" height="174pt"
+ viewBox="0.00 0.00 1573.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 1569,-169.8 1569,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_InterventionsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 1557,-157.8 1557,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_InterventionsModule_declarations</title>
+<polygon fill="none" stroke="black" points="138,-40.8 138,-92.8 1549,-92.8 1549,-40.8 138,-40.8"/>
+</g>
+<g id="clust11" class="cluster">
+<title>cluster_InterventionsModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 130,-92.8 130,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>CausesDataComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1540.91,-84.8 1393.09,-84.8 1393.09,-48.8 1540.91,-48.8 1540.91,-84.8"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>InterventionsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="851.92,-149.8 848.92,-153.8 827.92,-153.8 824.92,-149.8 718.08,-149.8 718.08,-113.8 851.92,-113.8 851.92,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CausesDataComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M1467,-84.81C1467,-107.29 1467,-142.8 1467,-142.8 1467,-142.8 861.95,-142.8 861.95,-142.8"/>
+<polygon fill="black" stroke="black" points="861.95,-139.3 851.95,-142.8 861.95,-146.3 861.95,-139.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>CausesFormComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1375.82,-84.8 1224.18,-84.8 1224.18,-48.8 1375.82,-48.8 1375.82,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CausesFormComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M1300,-84.93C1300,-105.37 1300,-135.8 1300,-135.8 1300,-135.8 861.8,-135.8 861.8,-135.8"/>
+<polygon fill="black" stroke="black" points="861.8,-132.3 851.8,-135.8 861.8,-139.3 861.8,-132.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>DefectsDataComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1206.01,-84.8 1055.99,-84.8 1055.99,-48.8 1206.01,-48.8 1206.01,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DefectsDataComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M1131,-85.07C1131,-103.36 1131,-128.8 1131,-128.8 1131,-128.8 861.71,-128.8 861.71,-128.8"/>
+<polygon fill="black" stroke="black" points="861.71,-125.3 851.71,-128.8 861.71,-132.3 861.71,-125.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>DefectsFormComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1038.41,-84.8 883.59,-84.8 883.59,-48.8 1038.41,-48.8 1038.41,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DefectsFormComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M961,-84.81C961,-100.85 961,-121.8 961,-121.8 961,-121.8 861.79,-121.8 861.79,-121.8"/>
+<polygon fill="black" stroke="black" points="861.79,-118.3 851.79,-121.8 861.79,-125.3 861.79,-118.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>SolutionsDataComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="865.16,-84.8 704.84,-84.8 704.84,-48.8 865.16,-48.8 865.16,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SolutionsDataComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M785,-84.91C785,-84.91 785,-103.79 785,-103.79"/>
+<polygon fill="black" stroke="black" points="781.5,-103.79 785,-113.79 788.5,-103.79 781.5,-103.79"/>
+</g>
+
+<g id="node6" class="node">
+<title>SolutionsFormComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="686.07,-84.8 521.93,-84.8 521.93,-48.8 686.07,-48.8 686.07,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SolutionsFormComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M604,-84.81C604,-100.85 604,-121.8 604,-121.8 604,-121.8 708.12,-121.8 708.12,-121.8"/>
+<polygon fill="black" stroke="black" points="708.12,-125.3 718.12,-121.8 708.12,-118.3 708.12,-125.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>SymptomsDataComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="503.66,-84.8 336.34,-84.8 336.34,-48.8 503.66,-48.8 503.66,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SymptomsDataComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M420,-85.07C420,-103.36 420,-128.8 420,-128.8 420,-128.8 708.05,-128.8 708.05,-128.8"/>
+<polygon fill="black" stroke="black" points="708.05,-132.3 718.05,-128.8 708.05,-125.3 708.05,-132.3"/>
+</g>
+
+<g id="node8" class="node">
+<title>SymptomsFormComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="317.57,-84.8 146.43,-84.8 146.43,-48.8 317.57,-48.8 317.57,-84.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SymptomsFormComponent&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M232,-84.93C232,-105.37 232,-135.8 232,-135.8 232,-135.8 708.02,-135.8 708.02,-135.8"/>
+<polygon fill="black" stroke="black" points="708.02,-139.3 718.02,-135.8 708.02,-132.3 708.02,-139.3"/>
+</g>
+
+<g id="node10" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="122.42,-84.8 119.42,-88.8 98.42,-88.8 95.42,-84.8 23.58,-84.8 23.58,-48.8 122.42,-48.8 122.42,-84.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SharedModule&#45;&gt;InterventionsModule</title>
+<path fill="none" stroke="black" d="M73,-84.81C73,-107.29 73,-142.8 73,-142.8 73,-142.8 708.02,-142.8 708.02,-142.8"/>
+<polygon fill="black" stroke="black" points="708.02,-146.3 718.02,-142.8 708.02,-139.3 708.02,-146.3"/>
+</g>
+</g>
+</svg>

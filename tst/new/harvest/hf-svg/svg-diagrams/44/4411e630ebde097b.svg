@@ -1,0 +1,84 @@
+<svg width="576pt" height="211pt"
+ viewBox="0.00 0.00 576.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 572,-207 572,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="50,-10 50,-30 70,-30 70,-10 50,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="163,-10 163,-30 183,-30 183,-10 163,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="249,-10 249,-30 269,-30 269,-10 249,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="346,-10 346,-30 366,-30 366,-10 346,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="442,-10 442,-30 462,-30 462,-10 442,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SigninModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 560,-195 560,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_SigninModule_imports</title>
+<polygon fill="none" stroke="#000000" points="170,-78 170,-130 552,-130 552,-78 170,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_SigninModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 162,-130 162,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="543.5482,-122 540.5482,-126 519.5482,-126 516.5482,-122 456.4518,-122 456.4518,-86 543.5482,-86 543.5482,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>SigninModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="341.1137,-187 338.1137,-191 317.1137,-191 314.1137,-187 244.8863,-187 244.8863,-151 341.1137,-151 341.1137,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuthModule&#45;&gt;SigninModule</title>
+<path fill="none" stroke="#000000" d="M500,-122.1061C500,-141.3391 500,-169 500,-169 500,-169 351.2711,-169 351.2711,-169"/>
+<polygon fill="#000000" stroke="#000000" points="351.2711,-165.5001 341.2711,-169 351.271,-172.5001 351.2711,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>JwtRefreshAuthModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="438.0212,-122 435.0212,-126 414.0212,-126 411.0212,-122 287.9788,-122 287.9788,-86 438.0212,-86 438.0212,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>JwtRefreshAuthModule&#45;&gt;SigninModule</title>
+<path fill="none" stroke="#000000" d="M314.3983,-122.1061C314.3983,-122.1061 314.3983,-140.991 314.3983,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="310.8984,-140.9909 314.3983,-150.991 317.8984,-140.991 310.8984,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>UsersModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="269.9218,-122 266.9218,-126 245.9218,-126 242.9218,-122 178.0782,-122 178.0782,-86 269.9218,-86 269.9218,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>UsersModule&#45;&gt;SigninModule</title>
+<path fill="none" stroke="#000000" d="M257.3268,-122.1061C257.3268,-122.1061 257.3268,-140.991 257.3268,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="253.8269,-140.9909 257.3268,-150.991 260.8269,-140.991 253.8269,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>SigninService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="89" cy="-104" rx="65.4266" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SigninService&#45;&gt;SigninModule</title>
+<path fill="none" stroke="#000000" d="M89,-122.1061C89,-141.3391 89,-169 89,-169 89,-169 234.9132,-169 234.9132,-169"/>
+<polygon fill="#000000" stroke="#000000" points="234.9132,-172.5001 244.9132,-169 234.9131,-165.5001 234.9132,-172.5001"/>
+</g>
+</g>
+</svg>

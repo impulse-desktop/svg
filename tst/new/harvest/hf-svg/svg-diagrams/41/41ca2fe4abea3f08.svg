@@ -1,0 +1,72 @@
+<svg version="1.1" baseProfile="full" width="1224" height="128" viewbox="0 0 1224 128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" style="font:bold  12pt Helvetica, Helvetica, sans-serif;;stroke-linejoin:round;stroke-linecap:round">
+  <desc>#titel: nomnoml
+
+#direction: right
+#.play: visual=note
+#.dir: fill=#878787 stroke=#f2f2f2 dashed
+#.roleapp: fill=#eb4034
+#.rolesystem: fill=#c2c2c2
+
+[&lt;dir&gt; playbook]
+
+[&lt;package&gt; playbook/inventory|
+  - host
+]
+
+[&lt;play&gt; playbook/bootstrap.yml]
+[&lt;play&gt; playbook/upgrade.yml]
+[&lt;play&gt; playbook/plabook.yml]
+
+[&lt;rolesystem&gt; system.base]
+[&lt;rolesystem&gt; system.base.x86_64_server]
+
+[system.base.x86_64_server]--&gt;[system.base]
+
+[&lt;roleapp&gt; app.role]
+
+[playbook/inventory]-[playbook]
+[playbook]-&gt;[playbook/bootstrap.yml]
+[playbook]-&gt;[playbook/upgrade.yml]
+[playbook/bootstrap.yml]-&gt;[playbook/plabook.yml]
+[playbook/upgrade.yml]-&gt;[playbook/plabook.yml]
+[playbook/plabook.yml]-&gt;[system.base.x86_64_server]
+[playbook/plabook.yml]-&gt;[app.role]</desc>
+  <rect x="0" y="0" height="128" width="1224" style="stroke:none; fill:transparent;"/>
+  <path d="M1055.5 29 L1075.5 29 L1095.5 29 L1095.5 29 " style="stroke:#33322E;fill:none;stroke-dasharray:6 6;stroke-width:3;"/>
+  <path d="M1082.2 34.3 L1088.8 29 L1082.2 23.7 L1095.5 29 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M179.5 64.5 L199.5 64.5 L219.5 64.5 L219.5 64.5 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M291.4 49 L327.5 29 L347.5 29 L347.5 29 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M334.2 34.3 L340.8 29 L334.2 23.7 L347.5 29 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M291.4 80 L327.5 100 L352 100 L352 100 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M338.7 105.3 L345.3 100 L338.7 94.7 L352 100 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M547.5 29 L567.5 29 L631.7 49 L631.7 49 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M617.4 50.1 L625.4 47 L620.6 39.9 L631.7 49 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M543 100 L567.5 100 L631.7 80 L631.7 80 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M620.6 89.1 L625.4 82 L617.4 78.9 L631.7 80 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M731.3 49 L795.5 29 L815.5 29 L815.5 29 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M802.2 34.3 L808.8 29 L802.2 23.7 L815.5 29 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M731.3 80 L795.5 100 L895 100 L895 100 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M881.7 105.3 L888.3 100 L881.7 94.7 L895 100 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"/>
+  <rect x="13.5" y="64.5" height="31" width="166" data-name="playbook/inventory" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M13.5 64.5 L13.5 33.5 L179.5 33.5 L179.5 64.5 Z" data-name="playbook/inventory" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M13.5 64.5 L179.5 64.5" data-name="playbook/inventory" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  
+  
+  <rect x="219.5" y="49.5" height="31" width="88" data-name="playbook" style="stroke:#f2f2f2;fill:#878787;stroke-dasharray:6 6;stroke-width:3;"/>
+  
+  <path d="M347.5 13.5 L539.5 13.5 L547.5 21.5 L547.5 44.5 L347.5 44.5 L347.5 13.5 Z" data-name="playbook/bootstrap.yml" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M539.5 13.5 L539.5 21.5 L547.5 21.5" data-name="playbook/bootstrap.yml" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  
+  <path d="M352.5 84.5 L535.5 84.5 L543.5 92.5 L543.5 115.5 L352.5 115.5 L352.5 84.5 Z" data-name="playbook/upgrade.yml" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M535.5 84.5 L535.5 92.5 L543.5 92.5" data-name="playbook/upgrade.yml" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  
+  <path d="M587.5 49.5 L767.5 49.5 L775.5 57.5 L775.5 80.5 L587.5 80.5 L587.5 49.5 Z" data-name="playbook/plabook.yml" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"/>
+  <path d="M767.5 49.5 L767.5 57.5 L775.5 57.5" data-name="playbook/plabook.yml" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"/>
+  
+  <rect x="1095.5" y="13.5" height="31" width="116" data-name="system.base" style="stroke:#33322E;fill:#c2c2c2;stroke-dasharray:none;stroke-width:3;"/>
+  
+  <rect x="815.5" y="13.5" height="31" width="240" data-name="system.base.x86_64_server" style="stroke:#33322E;fill:#c2c2c2;stroke-dasharray:none;stroke-width:3;"/>
+  
+  <rect x="895.5" y="84.5" height="31" width="81" data-name="app.role" style="stroke:#33322E;fill:#eb4034;stroke-dasharray:none;stroke-width:3;"/>
+  
+</svg>

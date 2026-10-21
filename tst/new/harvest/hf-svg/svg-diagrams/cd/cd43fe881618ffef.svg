@@ -1,0 +1,80 @@
+<svg width="729pt" height="211pt"
+ viewBox="0.00 0.00 729.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 725,-207 725,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="126.5,-10 126.5,-30 146.5,-30 146.5,-10 126.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="239.5,-10 239.5,-30 259.5,-30 259.5,-10 239.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="325.5,-10 325.5,-30 345.5,-30 345.5,-10 325.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="422.5,-10 422.5,-30 442.5,-30 442.5,-10 422.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="518.5,-10 518.5,-30 538.5,-30 538.5,-10 518.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AuthModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 713,-195 713,-70 8,-70"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AuthModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 705,-130 705,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuthGuardService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="614" cy="-104" rx="83.3674" ry="18"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="393.5482,-187 390.5482,-191 369.5482,-191 366.5482,-187 306.4518,-187 306.4518,-151 393.5482,-151 393.5482,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuthGuardService&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M614,-122.1061C614,-141.3391 614,-169 614,-169 614,-169 403.5942,-169 403.5942,-169"/>
+<polygon fill="#000000" stroke="#000000" points="403.5943,-165.5001 393.5942,-169 403.5942,-172.5001 403.5943,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>AuthInteceptor</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="443" cy="-104" rx="69.4819" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AuthInteceptor&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M383.6413,-113.591C383.6413,-113.591 383.6413,-140.748 383.6413,-140.748"/>
+<polygon fill="#000000" stroke="#000000" points="380.1414,-140.7479 383.6413,-150.748 387.1414,-140.748 380.1414,-140.7479"/>
+</g>
+
+<g id="node3" class="node">
+<title>AuthIntercepterServer</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="258" cy="-104" rx="97.2278" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AuthIntercepterServer&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M330.7951,-116.226C330.7951,-116.226 330.7951,-140.683 330.7951,-140.683"/>
+<polygon fill="#000000" stroke="#000000" points="327.2952,-140.683 330.7951,-150.683 334.2952,-140.683 327.2952,-140.683"/>
+</g>
+
+<g id="node4" class="node">
+<title>AuthService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="83" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AuthService&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M83,-122.1061C83,-141.3391 83,-169 83,-169 83,-169 296.2094,-169 296.2094,-169"/>
+<polygon fill="#000000" stroke="#000000" points="296.2094,-172.5001 306.2094,-169 296.2093,-165.5001 296.2094,-172.5001"/>
+</g>
+</g>
+</svg>

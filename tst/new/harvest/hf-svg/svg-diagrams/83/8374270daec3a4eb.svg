@@ -1,0 +1,93 @@
+<svg width="1020pt" height="233pt"
+ viewBox="0.00 0.00 1020.00 233.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 229)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-229 1016,-229 1016,4 -4,4"/>
+
+
+<g id="node1" class="node"><title>PhpDA\\Writer\\Adapter</title>
+<path fill="#9999cc" stroke="black" d="M185,-53C185,-53 42,-53 42,-53 36,-53 30,-47 30,-41 30,-41 30,-29 30,-29 30,-23 36,-17 42,-17 42,-17 185,-17 185,-17 191,-17 197,-23 197,-29 197,-29 197,-41 197,-41 197,-47 191,-53 185,-53"/>
+
+</g>
+
+<g id="node2" class="node"><title>PhpDA\\Writer\\AdapterInterface</title>
+<path fill="#9999cc" stroke="black" d="M570,-53C570,-53 360,-53 360,-53 354,-53 348,-47 348,-41 348,-41 348,-29 348,-29 348,-23 354,-17 360,-17 360,-17 570,-17 570,-17 576,-17 582,-23 582,-29 582,-29 582,-41 582,-41 582,-47 576,-53 570,-53"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>PhpDA\\Writer\\Adapter&#45;&gt;PhpDA\\Writer\\AdapterInterface</title>
+<path fill="none" stroke="#999999" stroke-dasharray="5,2" d="M197.327,-35C240.398,-35 293.885,-35 341.626,-35"/>
+<polygon fill="#999999" stroke="#999999" points="341.718,-37.1001 347.718,-35 341.718,-32.9001 341.718,-37.1001"/>
+</g>
+
+<g id="node3" class="node"><title>PhpDA\\Writer\\Strategy\\Html</title>
+<path fill="#9999cc" stroke="black" d="M207.5,-182C207.5,-182 19.5,-182 19.5,-182 13.5,-182 7.5,-176 7.5,-170 7.5,-170 7.5,-158 7.5,-158 7.5,-152 13.5,-146 19.5,-146 19.5,-146 207.5,-146 207.5,-146 213.5,-146 219.5,-152 219.5,-158 219.5,-158 219.5,-170 219.5,-170 219.5,-176 213.5,-182 207.5,-182"/>
+
+</g>
+
+<g id="node4" class="node"><title>PhpDA\\Writer\\Strategy\\AbstractGraphViz</title>
+<path fill="#9999cc" stroke="black" d="M604,-139C604,-139 326,-139 326,-139 320,-139 314,-133 314,-127 314,-127 314,-115 314,-115 314,-109 320,-103 326,-103 326,-103 604,-103 604,-103 610,-103 616,-109 616,-115 616,-115 616,-127 616,-127 616,-133 610,-139 604,-139"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>PhpDA\\Writer\\Strategy\\Html&#45;&gt;PhpDA\\Writer\\Strategy\\AbstractGraphViz</title>
+<path fill="none" stroke="#999999" stroke-dasharray="5,2" d="M219.835,-151.04C248.665,-147.493 280.505,-143.576 311.405,-139.774"/>
+<polygon fill="#999999" stroke="#999999" points="311.873,-141.833 317.571,-139.016 311.36,-137.664 311.873,-141.833"/>
+</g>
+
+<g id="node5" class="node"><title>PhpDA\\Writer\\Strategy\\StrategyInterface</title>
+<path fill="#9999cc" stroke="black" d="M1000,-117C1000,-117 715,-117 715,-117 709,-117 703,-111 703,-105 703,-105 703,-93 703,-93 703,-87 709,-81 715,-81 715,-81 1000,-81 1000,-81 1006,-81 1012,-87 1012,-93 1012,-93 1012,-105 1012,-105 1012,-111 1006,-117 1000,-117"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>PhpDA\\Writer\\Strategy\\AbstractGraphViz&#45;&gt;PhpDA\\Writer\\Strategy\\StrategyInterface</title>
+<path fill="none" stroke="#999999" stroke-dasharray="5,2" d="M616.14,-112.541C642.521,-111.055 670.064,-109.503 696.696,-108.003"/>
+<polygon fill="#999999" stroke="#999999" points="696.85,-110.098 702.722,-107.664 696.614,-105.904 696.85,-110.098"/>
+</g>
+
+<g id="node6" class="node"><title>PhpDA\\Writer\\Strategy\\Json</title>
+<path fill="#9999cc" stroke="black" d="M559,-96C559,-96 371,-96 371,-96 365,-96 359,-90 359,-84 359,-84 359,-72 359,-72 359,-66 365,-60 371,-60 371,-60 559,-60 559,-60 565,-60 571,-66 571,-72 571,-72 571,-84 571,-84 571,-90 565,-96 559,-96"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>PhpDA\\Writer\\Strategy\\Json&#45;&gt;PhpDA\\Writer\\Strategy\\StrategyInterface</title>
+<path fill="none" stroke="#999999" stroke-dasharray="5,2" d="M571.161,-83.6552C609.701,-85.7278 654.24,-88.123 696.499,-90.3956"/>
+<polygon fill="#999999" stroke="#999999" points="696.613,-92.5047 702.717,-90.73 696.838,-88.3107 696.613,-92.5047"/>
+</g>
+
+<g id="node7" class="node"><title>PhpDA\\Writer\\Strategy\\Script</title>
+<path fill="#9999cc" stroke="black" d="M215,-139C215,-139 12,-139 12,-139 6,-139 0,-133 0,-127 0,-127 0,-115 0,-115 0,-109 6,-103 12,-103 12,-103 215,-103 215,-103 221,-103 227,-109 227,-115 227,-115 227,-127 227,-127 227,-133 221,-139 215,-139"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>PhpDA\\Writer\\Strategy\\Script&#45;&gt;PhpDA\\Writer\\Strategy\\AbstractGraphViz</title>
+<path fill="none" stroke="#999999" stroke-dasharray="5,2" d="M227.008,-121C252.702,-121 280.462,-121 307.623,-121"/>
+<polygon fill="#999999" stroke="#999999" points="307.774,-123.1 313.774,-121 307.774,-118.9 307.774,-123.1"/>
+</g>
+
+<g id="node8" class="node"><title>PhpDA\\Writer\\Strategy\\Svg</title>
+<path fill="#9999cc" stroke="black" d="M203.5,-96C203.5,-96 23.5,-96 23.5,-96 17.5,-96 11.5,-90 11.5,-84 11.5,-84 11.5,-72 11.5,-72 11.5,-66 17.5,-60 23.5,-60 23.5,-60 203.5,-60 203.5,-60 209.5,-60 215.5,-66 215.5,-72 215.5,-72 215.5,-84 215.5,-84 215.5,-90 209.5,-96 203.5,-96"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>PhpDA\\Writer\\Strategy\\Svg&#45;&gt;PhpDA\\Writer\\Strategy\\AbstractGraphViz</title>
+<path fill="none" stroke="#999999" stroke-dasharray="5,2" d="M215.59,-90.4374C245.577,-94.1268 279.106,-98.2519 311.588,-102.248"/>
+<polygon fill="#999999" stroke="#999999" points="311.428,-104.344 317.64,-102.993 311.941,-100.176 311.428,-104.344"/>
+</g>
+
+<g id="node9" class="node"><title>PhpDA\\Writer\\Extractor\\Graph</title>
+<path fill="#9999cc" stroke="black" d="M215,-225C215,-225 12,-225 12,-225 6,-225 0,-219 0,-213 0,-213 0,-201 0,-201 0,-195 6,-189 12,-189 12,-189 215,-189 215,-189 221,-189 227,-195 227,-201 227,-201 227,-213 227,-213 227,-219 221,-225 215,-225"/>
+
+</g>
+
+<g id="node10" class="node"><title>PhpDA\\Writer\\Extractor\\ExtractionInterface</title>
+<path fill="#9999cc" stroke="black" d="M619,-225C619,-225 311,-225 311,-225 305,-225 299,-219 299,-213 299,-213 299,-201 299,-201 299,-195 305,-189 311,-189 311,-189 619,-189 619,-189 625,-189 631,-195 631,-201 631,-201 631,-213 631,-213 631,-219 625,-225 619,-225"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>PhpDA\\Writer\\Extractor\\Graph&#45;&gt;PhpDA\\Writer\\Extractor\\ExtractionInterface</title>
+<path fill="none" stroke="#999999" stroke-dasharray="5,2" d="M227.008,-207C247.984,-207 270.337,-207 292.616,-207"/>
+<polygon fill="#999999" stroke="#999999" points="292.897,-209.1 298.897,-207 292.897,-204.9 292.897,-209.1"/>
+</g>
+</g>
+</svg>

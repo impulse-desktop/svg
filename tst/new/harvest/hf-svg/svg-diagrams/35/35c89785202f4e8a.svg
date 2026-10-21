@@ -1,0 +1,223 @@
+<svg width="1148pt" height="404pt"
+ viewBox="0.00 0.00 1148.29 404.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-400 1144.2907,-400 1144.2907,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>[root] aws_instance.ubuntu&#45;vm</title>
+<polygon fill="none" stroke="#000000" points="612.2907,-252 460.2907,-252 460.2907,-216 612.2907,-216 612.2907,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>[root] aws_key_pair.deployer</title>
+<polygon fill="none" stroke="#000000" points="430.7907,-180 287.7907,-180 287.7907,-144 430.7907,-144 430.7907,-180"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>[root] aws_instance.ubuntu&#45;vm&#45;&gt;[root] aws_key_pair.deployer</title>
+<path fill="none" stroke="#000000" d="M491.6261,-215.8314C467.743,-206.1162 438.1616,-194.0831 413.0279,-183.8592"/>
+<polygon fill="#000000" stroke="#000000" points="414.2158,-180.564 403.6341,-180.038 411.5782,-187.0481 414.2158,-180.564"/>
+</g>
+
+<g id="node10" class="node">
+<title>[root] provisioner.file</title>
+<ellipse fill="none" stroke="#000000" cx="536.2907" cy="-162" rx="87.1846" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>[root] aws_instance.ubuntu&#45;vm&#45;&gt;[root] provisioner.file</title>
+<path fill="none" stroke="#000000" d="M536.2907,-215.8314C536.2907,-208.131 536.2907,-198.9743 536.2907,-190.4166"/>
+<polygon fill="#000000" stroke="#000000" points="539.7908,-190.4132 536.2907,-180.4133 532.7908,-190.4133 539.7908,-190.4132"/>
+</g>
+
+<g id="node11" class="node">
+<title>[root] provisioner.remote&#45;exec</title>
+<ellipse fill="none" stroke="#000000" cx="761.2907" cy="-162" rx="119.6788" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>[root] aws_instance.ubuntu&#45;vm&#45;&gt;[root] provisioner.remote&#45;exec</title>
+<path fill="none" stroke="#000000" d="M592.7772,-215.9243C625.596,-205.4223 666.9531,-192.188 700.4824,-181.4587"/>
+<polygon fill="#000000" stroke="#000000" points="701.7096,-184.7409 710.1671,-178.3595 699.5761,-178.0739 701.7096,-184.7409"/>
+</g>
+
+<g id="node3" class="node">
+<title>[root] provider.aws</title>
+<polygon fill="none" stroke="#000000" points="275.2907,-108 195.3573,-90 275.2907,-72 355.224,-90 275.2907,-108"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>[root] aws_key_pair.deployer&#45;&gt;[root] provider.aws</title>
+<path fill="none" stroke="#000000" d="M338.0939,-143.8314C326.3724,-133.7844 311.7589,-121.2585 299.5785,-110.8182"/>
+<polygon fill="#000000" stroke="#000000" points="301.8509,-108.1561 291.9805,-104.3056 297.2953,-113.4709 301.8509,-108.1561"/>
+</g>
+
+<g id="node8" class="node">
+<title>[root] var.PUBIC_SSH_KEY</title>
+<polygon fill="none" stroke="#000000" points="509.7907,-108 372.7907,-108 372.7907,-72 515.7907,-72 515.7907,-102 509.7907,-108"/>
+<polyline fill="none" stroke="#000000" points="509.7907,-108 509.7907,-102 "/>
+<polyline fill="none" stroke="#000000" points="515.7907,-102 509.7907,-102 "/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>[root] aws_key_pair.deployer&#45;&gt;[root] var.PUBIC_SSH_KEY</title>
+<path fill="none" stroke="#000000" d="M380.7397,-143.8314C391.1084,-135.0485 403.7136,-124.3712 414.9552,-114.8489"/>
+<polygon fill="#000000" stroke="#000000" points="417.4802,-117.297 422.8484,-108.1628 412.9557,-111.9556 417.4802,-117.297"/>
+</g>
+
+<g id="node4" class="node">
+<title>[root] var.ACCESS_KEY_ID</title>
+<polygon fill="none" stroke="#000000" points="188.2907,-36 50.2907,-36 50.2907,0 194.2907,0 194.2907,-30 188.2907,-36"/>
+<polyline fill="none" stroke="#000000" points="188.2907,-36 188.2907,-30 "/>
+<polyline fill="none" stroke="#000000" points="194.2907,-30 188.2907,-30 "/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>[root] provider.aws&#45;&gt;[root] var.ACCESS_KEY_ID</title>
+<path fill="none" stroke="#000000" d="M249.3363,-77.7862C227.6957,-67.6024 196.2873,-52.8219 170.1148,-40.5055"/>
+<polygon fill="#000000" stroke="#000000" points="171.2755,-37.1836 160.737,-36.0924 168.2949,-43.5173 171.2755,-37.1836"/>
+</g>
+
+<g id="node5" class="node">
+<title>[root] var.AWS_REGION</title>
+<polygon fill="none" stroke="#000000" points="332.2907,-36 212.2907,-36 212.2907,0 338.2907,0 338.2907,-30 332.2907,-36"/>
+<polyline fill="none" stroke="#000000" points="332.2907,-36 332.2907,-30 "/>
+<polyline fill="none" stroke="#000000" points="338.2907,-30 332.2907,-30 "/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>[root] provider.aws&#45;&gt;[root] var.AWS_REGION</title>
+<path fill="none" stroke="#000000" d="M275.2907,-71.8314C275.2907,-64.131 275.2907,-54.9743 275.2907,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="278.7908,-46.4132 275.2907,-36.4133 271.7908,-46.4133 278.7908,-46.4132"/>
+</g>
+
+<g id="node9" class="node">
+<title>[root] var.SECRET_ACCESS_KEY</title>
+<polygon fill="none" stroke="#000000" points="530.2907,-36 356.2907,-36 356.2907,0 536.2907,0 536.2907,-30 530.2907,-36"/>
+<polyline fill="none" stroke="#000000" points="530.2907,-36 530.2907,-30 "/>
+<polyline fill="none" stroke="#000000" points="536.2907,-30 530.2907,-30 "/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>[root] provider.aws&#45;&gt;[root] var.SECRET_ACCESS_KEY</title>
+<path fill="none" stroke="#000000" d="M303.1453,-78.2717C327.6541,-67.9522 363.9918,-52.6522 393.9218,-40.0501"/>
+<polygon fill="#000000" stroke="#000000" points="395.5329,-43.1694 403.391,-36.063 392.8164,-36.7179 395.5329,-43.1694"/>
+</g>
+
+<g id="node6" class="node">
+<title>[root] var.INSTANCE_USERNAME</title>
+<polygon fill="none" stroke="#000000" points="920.2907,-252 740.2907,-252 740.2907,-216 926.2907,-216 926.2907,-246 920.2907,-252"/>
+<polyline fill="none" stroke="#000000" points="920.2907,-252 920.2907,-246 "/>
+<polyline fill="none" stroke="#000000" points="926.2907,-246 920.2907,-246 "/>
+
+</g>
+
+<g id="node7" class="node">
+<title>[root] var.PATH_TO_PRIVATE_KEY</title>
+<polygon fill="none" stroke="#000000" points="1134.2907,-252 944.2907,-252 944.2907,-216 1140.2907,-216 1140.2907,-246 1134.2907,-252"/>
+<polyline fill="none" stroke="#000000" points="1134.2907,-252 1134.2907,-246 "/>
+<polyline fill="none" stroke="#000000" points="1140.2907,-246 1134.2907,-246 "/>
+
+</g>
+
+<g id="node12" class="node">
+<title>[root] meta.count&#45;boundary (EachMode fixup)</title>
+<ellipse fill="none" stroke="#000000" cx="959.2907" cy="-306" rx="176.5689" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] aws_instance.ubuntu&#45;vm</title>
+<path fill="none" stroke="#000000" d="M868.2868,-290.51C795.352,-278.0956 693.729,-260.798 622.1807,-248.6196"/>
+<polygon fill="#000000" stroke="#000000" points="622.7362,-245.1639 612.2907,-246.9362 621.5616,-252.0646 622.7362,-245.1639"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] var.INSTANCE_USERNAME</title>
+<path fill="none" stroke="#000000" d="M928.1446,-288.2022C911.7613,-278.8404 891.4778,-267.2498 873.8778,-257.1927"/>
+<polygon fill="#000000" stroke="#000000" points="875.3726,-254.0157 864.9536,-252.0931 871.8996,-260.0934 875.3726,-254.0157"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>[root] meta.count&#45;boundary (EachMode fixup)&#45;&gt;[root] var.PATH_TO_PRIVATE_KEY</title>
+<path fill="none" stroke="#000000" d="M980.2351,-287.8314C990.3598,-279.0485 1002.6683,-268.3712 1013.6455,-258.8489"/>
+<polygon fill="#000000" stroke="#000000" points="1016.0925,-261.3595 1021.353,-252.1628 1011.5056,-256.0718 1016.0925,-261.3595"/>
+</g>
+
+<g id="node13" class="node">
+<title>[root] provider.aws (close)</title>
+<ellipse fill="none" stroke="#000000" cx="105.2907" cy="-306" rx="105.0817" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>[root] provider.aws (close)&#45;&gt;[root] aws_instance.ubuntu&#45;vm</title>
+<path fill="none" stroke="#000000" d="M180.8583,-293.3762C256.1028,-280.8063 371.4465,-261.5378 450.1881,-248.3837"/>
+<polygon fill="#000000" stroke="#000000" points="450.798,-251.8304 460.0846,-246.7305 449.6445,-244.9261 450.798,-251.8304"/>
+</g>
+
+<g id="node14" class="node">
+<title>[root] provisioner.file (close)</title>
+<ellipse fill="none" stroke="#000000" cx="342.2907" cy="-306" rx="113.9803" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>[root] provisioner.file (close)&#45;&gt;[root] aws_instance.ubuntu&#45;vm</title>
+<path fill="none" stroke="#000000" d="M387.2858,-289.3008C414.2371,-279.2982 448.7931,-266.4733 477.8407,-255.6928"/>
+<polygon fill="#000000" stroke="#000000" points="479.3042,-258.883 487.4615,-252.1222 476.8685,-252.3204 479.3042,-258.883"/>
+</g>
+
+<g id="node15" class="node">
+<title>[root] provisioner.remote&#45;exec (close)</title>
+<ellipse fill="none" stroke="#000000" cx="619.2907" cy="-306" rx="145.6742" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>[root] provisioner.remote&#45;exec (close)&#45;&gt;[root] aws_instance.ubuntu&#45;vm</title>
+<path fill="none" stroke="#000000" d="M598.3463,-287.8314C588.2215,-279.0485 575.913,-268.3712 564.9359,-258.8489"/>
+<polygon fill="#000000" stroke="#000000" points="567.0758,-256.0718 557.2284,-252.1628 562.4888,-261.3595 567.0758,-256.0718"/>
+</g>
+
+<g id="node16" class="node">
+<title>[root] root</title>
+<ellipse fill="none" stroke="#000000" cx="480.2907" cy="-378" rx="47.3916" ry="18"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>[root] root&#45;&gt;[root] meta.count&#45;boundary (EachMode fixup)</title>
+<path fill="none" stroke="#000000" d="M524.4952,-371.3555C597.7887,-360.3385 746.5853,-337.9724 849.5489,-322.4956"/>
+<polygon fill="#000000" stroke="#000000" points="850.3093,-325.9207 859.678,-320.9731 849.2688,-318.9985 850.3093,-325.9207"/>
+</g>
+
+<g id="edge16" class="edge">
+<title>[root] root&#45;&gt;[root] provider.aws (close)</title>
+<path fill="none" stroke="#000000" d="M437.6385,-369.8108C376.4602,-358.0646 262.6783,-336.2184 185.4811,-321.3966"/>
+<polygon fill="#000000" stroke="#000000" points="185.793,-317.8926 175.3124,-319.4442 184.4731,-324.767 185.793,-317.8926"/>
+</g>
+
+<g id="edge17" class="edge">
+<title>[root] root&#45;&gt;[root] provisioner.file (close)</title>
+<path fill="none" stroke="#000000" d="M452.3643,-363.4297C432.9308,-353.2905 406.6629,-339.5855 384.6617,-328.1066"/>
+<polygon fill="#000000" stroke="#000000" points="386.0111,-324.8629 375.5262,-323.3403 382.7731,-331.069 386.0111,-324.8629"/>
+</g>
+
+<g id="edge18" class="edge">
+<title>[root] root&#45;&gt;[root] provisioner.remote&#45;exec (close)</title>
+<path fill="none" stroke="#000000" d="M508.4194,-363.4297C527.8549,-353.3624 554.077,-339.7797 576.1404,-328.3512"/>
+<polygon fill="#000000" stroke="#000000" points="578.04,-331.309 585.3097,-323.6017 574.8204,-325.0933 578.04,-331.309"/>
+</g>
+</g>
+</svg>

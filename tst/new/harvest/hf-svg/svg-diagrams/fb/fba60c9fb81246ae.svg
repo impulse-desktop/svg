@@ -1,0 +1,100 @@
+<svg width="906pt" height="211pt"
+ viewBox="0.00 0.00 906.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 902,-207 902,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="215,-10 215,-30 235,-30 235,-10 215,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="328,-10 328,-30 348,-30 348,-10 328,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="414,-10 414,-30 434,-30 434,-10 414,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="511,-10 511,-30 531,-30 531,-10 511,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="607,-10 607,-30 627,-30 627,-10 607,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ClientContactsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 890,-195 890,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ClientContactsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="702,-78 702,-130 882,-130 882,-78 702,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ClientContactsModule_imports</title>
+<polygon fill="none" stroke="#000000" points="344,-78 344,-130 694,-130 694,-78 344,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_ClientContactsModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 336,-130 336,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ClientContactsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="874.0476,-122 709.9524,-122 709.9524,-86 874.0476,-86 874.0476,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ClientContactsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="487.2646,-187 484.2646,-191 463.2646,-191 460.2646,-187 344.7354,-187 344.7354,-151 487.2646,-151 487.2646,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ClientContactsComponent&#45;&gt;ClientContactsModule</title>
+<path fill="none" stroke="#000000" d="M792,-122.1061C792,-141.3391 792,-169 792,-169 792,-169 497.6078,-169 497.6078,-169"/>
+<polygon fill="#000000" stroke="#000000" points="497.6078,-165.5001 487.6078,-169 497.6077,-172.5001 497.6078,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ClientContactsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="685.8822,-122 682.8822,-126 661.8822,-126 658.8822,-122 498.1178,-122 498.1178,-86 685.8822,-86 685.8822,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ClientContactsRoutingModule&#45;&gt;ClientContactsModule</title>
+<path fill="none" stroke="#000000" d="M497.6708,-104C489.0544,-104 483.4843,-104 483.4843,-104 483.4843,-104 483.4843,-140.8939 483.4843,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="479.9843,-140.8938 483.4843,-150.8939 486.9843,-140.8939 479.9843,-140.8938"/>
+</g>
+
+<g id="node4" class="node">
+<title>PageHeaderModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="479.6727,-122 476.6727,-126 455.6727,-126 452.6727,-122 352.3273,-122 352.3273,-86 479.6727,-86 479.6727,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PageHeaderModule&#45;&gt;ClientContactsModule</title>
+<path fill="none" stroke="#000000" d="M416,-122.1061C416,-122.1061 416,-140.991 416,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="412.5001,-140.9909 416,-150.991 419.5001,-140.991 412.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>ClientsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="261" cy="-104" rx="67.2081" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ClientsService&#45;&gt;ClientContactsModule</title>
+<path fill="none" stroke="#000000" d="M328.6571,-104C340.1816,-104 348.5158,-104 348.5158,-104 348.5158,-104 348.5158,-140.8939 348.5158,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="345.0158,-140.8938 348.5158,-150.8939 352.0158,-140.8939 345.0158,-140.8938"/>
+</g>
+
+<g id="node6" class="node">
+<title>CommonService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="100" cy="-104" rx="75.8836" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CommonService&#45;&gt;ClientContactsModule</title>
+<path fill="none" stroke="#000000" d="M100,-122.1061C100,-141.3391 100,-169 100,-169 100,-169 334.6894,-169 334.6894,-169"/>
+<polygon fill="#000000" stroke="#000000" points="334.6895,-172.5001 344.6894,-169 334.6894,-165.5001 334.6895,-172.5001"/>
+</g>
+</g>
+</svg>

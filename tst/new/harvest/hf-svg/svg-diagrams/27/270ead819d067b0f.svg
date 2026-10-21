@@ -1,0 +1,128 @@
+<svg width="791pt" height="284pt"
+ viewBox="0.00 0.00 791.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 787,-280 787,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="157.5,-10 157.5,-30 177.5,-30 177.5,-10 157.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="270.5,-10 270.5,-30 290.5,-30 290.5,-10 270.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="356.5,-10 356.5,-30 376.5,-30 376.5,-10 356.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="453.5,-10 453.5,-30 473.5,-30 473.5,-10 453.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="549.5,-10 549.5,-30 569.5,-30 569.5,-10 549.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_GraphInteractionModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 775,-268 775,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_GraphInteractionModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="494,-78 494,-130 767,-130 767,-78 494,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_GraphInteractionModule_imports</title>
+<polygon fill="none" stroke="#000000" points="202,-78 202,-130 486,-130 486,-78 202,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_GraphInteractionModule_exports</title>
+<polygon fill="none" stroke="#000000" points="285,-208 285,-260 565,-260 565,-208 285,-208"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_GraphInteractionModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 194,-130 194,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>PaperComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="758.705,-122 645.295,-122 645.295,-86 758.705,-86 758.705,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>GraphInteractionModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="506.6685,-187 503.6685,-191 482.6685,-191 479.6685,-187 351.3315,-187 351.3315,-151 506.6685,-151 506.6685,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PaperComponent&#45;&gt;GraphInteractionModule</title>
+<path fill="none" stroke="#000000" d="M702,-122.1061C702,-141.3391 702,-169 702,-169 702,-169 516.8655,-169 516.8655,-169"/>
+<polygon fill="#000000" stroke="#000000" points="516.8655,-165.5001 506.8655,-169 516.8655,-172.5001 516.8655,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ToolbarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="627.6513,-122 502.3487,-122 502.3487,-86 627.6513,-86 627.6513,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ToolbarComponent&#45;&gt;GraphInteractionModule</title>
+<path fill="none" stroke="#000000" d="M502.2119,-104C495.0155,-104 490.1929,-104 490.1929,-104 490.1929,-104 490.1929,-140.8939 490.1929,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="486.6929,-140.8938 490.1929,-150.8939 493.6929,-140.8939 486.6929,-140.8938"/>
+</g>
+
+<g id="node6" class="node">
+<title>PaperComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="557.2052,-252 440.7948,-252 440.7948,-216 557.2052,-216 557.2052,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>GraphInteractionModule&#45;&gt;PaperComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M473.6159,-187.1061C473.6159,-187.1061 473.6159,-205.991 473.6159,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="470.116,-205.9909 473.6159,-215.991 477.116,-205.991 470.116,-205.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>ToolbarComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="422.6509,-252 293.3491,-252 293.3491,-216 422.6509,-216 422.6509,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>GraphInteractionModule&#45;&gt;ToolbarComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M386.9956,-187.1061C386.9956,-187.1061 386.9956,-205.991 386.9956,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="383.4957,-205.9909 386.9956,-215.991 390.4957,-205.991 383.4957,-205.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="478.4231,-122 475.4231,-126 454.4231,-126 451.4231,-122 379.5769,-122 379.5769,-86 478.4231,-86 478.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;GraphInteractionModule</title>
+<path fill="none" stroke="#000000" d="M429,-122.1061C429,-122.1061 429,-140.991 429,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="425.5001,-140.9909 429,-150.991 432.5001,-140.991 425.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>FlowbsterFormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="361.8187,-122 358.8187,-126 337.8187,-126 334.8187,-122 210.1813,-122 210.1813,-86 361.8187,-86 361.8187,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>FlowbsterFormsModule&#45;&gt;GraphInteractionModule</title>
+<path fill="none" stroke="#000000" d="M356.5375,-122.1061C356.5375,-122.1061 356.5375,-140.991 356.5375,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="353.0376,-140.9909 356.5375,-150.991 360.0376,-140.991 353.0376,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>DescriptorService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="105" cy="-104" rx="80.993" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>DescriptorService&#45;&gt;GraphInteractionModule</title>
+<path fill="none" stroke="#000000" d="M105,-122.1061C105,-141.3391 105,-169 105,-169 105,-169 341.3939,-169 341.3939,-169"/>
+<polygon fill="#000000" stroke="#000000" points="341.394,-172.5001 351.3939,-169 341.3939,-165.5001 341.394,-172.5001"/>
+</g>
+</g>
+</svg>

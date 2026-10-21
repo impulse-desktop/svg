@@ -1,0 +1,100 @@
+<svg width="658pt" height="75pt"
+ viewBox="0.00 0.00 658.00 75.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 71)">
+<title>coap_malloc_packet</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-71 654,-71 654,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node52</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-28.5 0,-47.5 106,-47.5 106,-28.5 0,-28.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node53</title>
+<g id="a_node2"><a xlink:href="coap__io_8h.html#ad54b82c13f602cbcde3011c20c346493" target="_top" xlink:title="Releases the storage allocated for packet. ">
+<polygon fill="white" stroke="black" points="142,-0.5 142,-19.5 236,-19.5 236,-0.5 142,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node52&#45;&gt;Node53</title>
+<path fill="none" stroke="midnightblue" d="M109.629,-26.376C120.562,-24.0915 131.911,-21.72 142.466,-19.5146"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="108.813,-22.9708 99.7404,-28.4423 110.245,-29.8229 108.813,-22.9708"/>
+</g>
+
+<g id="node3" class="node"><title>Node54</title>
+<g id="a_node3"><a xlink:href="coap__io_8h.html#a01655aadc98d6957fcb27a612297254a" target="_top" xlink:title="Function interface for reading data. ">
+<polygon fill="white" stroke="black" points="272,-47.5 272,-66.5 373,-66.5 373,-47.5 272,-47.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node52&#45;&gt;Node54</title>
+<path fill="none" stroke="midnightblue" d="M116.165,-44.7199C124.836,-45.5515 133.637,-46.3397 142,-47 185.872,-50.4636 235.869,-53.1455 271.935,-54.856"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="116.375,-41.2237 106.08,-43.7289 115.69,-48.1901 116.375,-41.2237"/>
+</g>
+
+<g id="edge2" class="edge"><title>Node53&#45;&gt;Node53</title>
+<path fill="none" stroke="midnightblue" d="M164.447,-29.0292C165.786,-34.128 173.97,-38 189,-38 212.461,-38 219.243,-28.5653 209.345,-19.7571"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="167.709,-30.3096 168.655,-19.7571 161.335,-27.4164 167.709,-30.3096"/>
+</g>
+
+<g id="edge3" class="edge"><title>Node53&#45;&gt;Node54</title>
+<path fill="none" stroke="midnightblue" d="M226.112,-22.907C247.717,-30.6289 274.721,-40.2806 294.477,-47.3417"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="227.206,-19.581 216.611,-19.5112 224.85,-26.1727 227.206,-19.581"/>
+</g>
+
+<g id="node6" class="node"><title>Node57</title>
+<g id="a_node6"><a xlink:href="net_8h.html#ade17f093221599e839345cf88b74b496" target="_top" xlink:title="Reads data from the network and tries to parse as CoAP PDU. ">
+<polygon fill="white" stroke="black" points="291.5,-0.5 291.5,-19.5 353.5,-19.5 353.5,-0.5 291.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node53&#45;&gt;Node57</title>
+<path fill="none" stroke="midnightblue" d="M246.782,-10C262.044,-10 277.964,-10 291.167,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="246.362,-6.5001 236.362,-10 246.362,-13.5001 246.362,-6.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node55</title>
+<g id="a_node4"><a xlink:href="net_8h.html#a8baf4e3608ff5eb00adac694fe25eb60" target="_top" xlink:title="Creates a new coap_context_t object that will hold the CoAP stack status. ">
+<polygon fill="white" stroke="black" points="409,-47.5 409,-66.5 507,-66.5 507,-47.5 409,-47.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node54&#45;&gt;Node55</title>
+<path fill="none" stroke="midnightblue" d="M383.386,-57C391.818,-57 400.398,-57 408.579,-57"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="383.211,-53.5001 373.21,-57 383.21,-60.5001 383.211,-53.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node56</title>
+<g id="a_node5"><a xlink:href="net_8h.html#a0b28834233cb704a89fb8e740ca65c69" target="_top" xlink:title="Registers the option type type with the given context object ctx. ">
+<polygon fill="white" stroke="black" points="543,-47.5 543,-66.5 650,-66.5 650,-47.5 543,-47.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node55&#45;&gt;Node56</title>
+<path fill="none" stroke="midnightblue" d="M517.284,-57C525.726,-57 534.376,-57 542.703,-57"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="517.125,-53.5001 507.125,-57 517.125,-60.5001 517.125,-53.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node58</title>
+<g id="a_node7"><a xlink:href="net_8h.html#a08ba53f8f554cf7a2559813ebde1bb1d" target="_top" xlink:title="Sends an RST message with code 0 for the specified request to dst. ">
+<polygon fill="white" stroke="black" points="418,-0.5 418,-19.5 498,-19.5 498,-0.5 418,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node57&#45;&gt;Node58</title>
+<path fill="none" stroke="midnightblue" d="M364.001,-10C381.039,-10 400.792,-10 417.699,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="363.793,-6.5001 353.793,-10 363.793,-13.5001 363.793,-6.5001"/>
+</g>
+</g>
+</svg>

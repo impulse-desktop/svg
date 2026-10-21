@@ -1,0 +1,91 @@
+<svg width="1189pt" height="188pt"
+ viewBox="0.00 0.00 1189.47 188.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-184 1185.4717,-184 1185.4717,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>follow_bot/kobuki.launch</title>
+<ellipse fill="none" stroke="#000000" cx="444.5358" cy="-90" rx="127.2775" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>follow_bot/run.launch</title>
+<ellipse fill="none" stroke="#000000" cx="718.5358" cy="-162" rx="111.5806" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>follow_bot/run.launch&#45;&gt;follow_bot/kobuki.launch</title>
+<path fill="none" stroke="#000000" d="M660.092,-146.6425C617.6286,-135.4842 559.9575,-120.3298 514.9527,-108.5037"/>
+<polygon fill="#000000" stroke="#000000" points="515.8228,-105.1136 505.2616,-105.9571 514.0437,-111.8838 515.8228,-105.1136"/>
+</g>
+
+<g id="node3" class="node">
+<title>follow_bot/control.launch</title>
+<ellipse fill="none" stroke="#000000" cx="718.5358" cy="-90" rx="128.8774" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>follow_bot/run.launch&#45;&gt;follow_bot/control.launch</title>
+<path fill="none" stroke="#000000" d="M718.5358,-143.8314C718.5358,-136.131 718.5358,-126.9743 718.5358,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="722.0359,-118.4132 718.5358,-108.4133 715.0359,-118.4133 722.0359,-118.4132"/>
+</g>
+
+<g id="node4" class="node">
+<title>openni2_launch/openni2.launch</title>
+<ellipse fill="none" stroke="#000000" cx="1023.5358" cy="-90" rx="157.872" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>follow_bot/run.launch&#45;&gt;openni2_launch/openni2.launch</title>
+<path fill="none" stroke="#000000" d="M781.732,-147.0816C829.0883,-135.9023 894.1842,-120.5354 944.9056,-108.5619"/>
+<polygon fill="#000000" stroke="#000000" points="945.9204,-111.9186 954.8487,-106.2146 944.3121,-105.1059 945.9204,-111.9186"/>
+</g>
+
+<g id="node5" class="node">
+<title>follow_bot/run_sim.launch</title>
+<ellipse fill="none" stroke="#000000" cx="444.5358" cy="-162" rx="133.4768" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>follow_bot/run_sim.launch&#45;&gt;follow_bot/kobuki.launch</title>
+<path fill="none" stroke="#000000" d="M444.5358,-143.8314C444.5358,-136.131 444.5358,-126.9743 444.5358,-118.4166"/>
+<polygon fill="#000000" stroke="#000000" points="448.0359,-118.4132 444.5358,-108.4133 441.0359,-118.4133 448.0359,-118.4132"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>follow_bot/run_sim.launch&#45;&gt;follow_bot/control.launch</title>
+<path fill="none" stroke="#000000" d="M505.6857,-145.9314C547.9159,-134.8344 604.187,-120.0479 648.2646,-108.4654"/>
+<polygon fill="#000000" stroke="#000000" points="649.2627,-111.822 658.0449,-105.8954 647.4837,-105.0519 649.2627,-111.822"/>
+</g>
+
+<g id="node6" class="node">
+<title>follow_bot/simulator.launch</title>
+<ellipse fill="none" stroke="#000000" cx="160.5358" cy="-90" rx="139.1754" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>follow_bot/run_sim.launch&#45;&gt;follow_bot/simulator.launch</title>
+<path fill="none" stroke="#000000" d="M381.8592,-146.1102C338.1826,-135.0372 279.7645,-120.227 233.9133,-108.6028"/>
+<polygon fill="#000000" stroke="#000000" points="234.5875,-105.163 224.034,-106.0982 232.8672,-111.9484 234.5875,-105.163"/>
+</g>
+
+<g id="node7" class="node">
+<title>gazebo_ros/empty_world.launch</title>
+<ellipse fill="none" stroke="#000000" cx="160.5358" cy="-18" rx="160.5715" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>follow_bot/simulator.launch&#45;&gt;gazebo_ros/empty_world.launch</title>
+<path fill="none" stroke="#000000" d="M160.5358,-71.8314C160.5358,-64.131 160.5358,-54.9743 160.5358,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="164.0359,-46.4132 160.5358,-36.4133 157.0359,-46.4133 164.0359,-46.4132"/>
+</g>
+</g>
+</svg>

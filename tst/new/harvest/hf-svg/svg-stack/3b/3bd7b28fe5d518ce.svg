@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="56" viewBox="0 0 32 56" version="1.1">
+  <defs>
+    <rect id="path-1" x="0" y="0" width="32" height="56" rx="4"/>
+    <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="32" height="56" fill="white">
+      <use xlink:href="#path-1"/>
+    </mask>
+    <rect id="path-3" x="1" y="7" width="23" height="2" rx="1"/>
+    <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="23" height="2" fill="white">
+      <use xlink:href="#path-3"/>
+    </mask>
+    <rect id="path-5" x="26" y="7" width="6" height="2" rx="1"/>
+    <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="6" height="2" fill="white">
+      <use xlink:href="#path-5"/>
+    </mask>
+    <rect id="path-7" x="12" y="49" width="7.74" height="2" rx="1"/>
+    <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="7.74" height="2" fill="white">
+      <use xlink:href="#path-7"/>
+    </mask>
+    <path d="M0 11.46C0 10.36 0.9 9.47 2 9.47L3.76 9.47C4.86 9.47 5.75 10.37 5.75 11.46L5.75 18.54 0 18.54 0 11.46Z" id="path-9"/>
+    <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="5.75" height="9.07" fill="white">
+      <use xlink:href="#path-9"/>
+    </mask>
+    <path d="M14.06 2C14.06 0.9 14.96 0 16.06 0L17.82 0C18.92 0 19.82 0.89 19.82 2L19.82 18.54 14.06 18.54 14.06 2Z" id="path-11"/>
+    <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="5.75" height="18.54" fill="white">
+      <use xlink:href="#path-11"/>
+    </mask>
+    <path d="M7.03 6.55C7.03 5.44 7.93 4.54 9.03 4.54L10.79 4.54C11.89 4.54 12.79 5.44 12.79 6.55L12.79 18.54 7.03 18.54 7.03 6.55Z" id="path-13"/>
+    <mask id="mask-14" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="5.75" height="13.99" fill="white">
+      <use xlink:href="#path-13"/>
+    </mask>
+  </defs>
+  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="MANAGER-APP---✓" transform="translate(-61.000000, -23.000000)">
+      <g id="APP" transform="translate(61.000000, 23.000000)">
+        <g id="PHONE" stroke="#1C1C1C">
+          <use id="Rectangle-58" mask="url(#mask-2)" stroke-width="4" xlink:href="#path-1"/>
+          <use id="Rectangle" mask="url(#mask-4)" stroke-width="2" xlink:href="#path-3"/>
+          <use id="Rectangle-Copy" mask="url(#mask-6)" stroke-width="2" xlink:href="#path-5"/>
+          <path d="M3 46L30 46" id="Line-Copy" stroke-width="2" stroke-linecap="square"/>
+          <use id="Rectangle-59" mask="url(#mask-8)" stroke-width="2" xlink:href="#path-7"/>
+        </g>
+        <g id="GRAPH" transform="translate(6.182796, 18.225806)" stroke-linecap="square" stroke-width="4">
+          <use id="Rectangle-36" stroke="#1C1C1C" mask="url(#mask-10)" xlink:href="#path-9"/>
+          <use id="Rectangle-36-Copy" stroke="#27A2C4" mask="url(#mask-12)" xlink:href="#path-11"/>
+          <use id="Rectangle-36-Copy-2" stroke="#1C1C1C" mask="url(#mask-14)" xlink:href="#path-13"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

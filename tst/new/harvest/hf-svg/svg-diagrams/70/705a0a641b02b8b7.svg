@@ -1,0 +1,96 @@
+<svg width="796pt" height="116pt"
+ viewBox="0.00 0.00 796.00 115.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 111.5)">
+<title>InstructionImpl::getstatic</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-111.5 792,-111.5 792,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-38.5 0,-57.5 125,-57.5 125,-38.5 0,-38.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="struct_cp_attribute_interface.html#a99cabbc15a0af5273a6d324dfbc78f41" target="_top" xlink:title="CpAttributeInterface\l::getUTF8">
+<polygon fill="white" stroke="black" points="177.5,-77 177.5,-107 281.5,-107 281.5,-77 177.5,-77"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M99.3025,-57.5473C119.289,-62.8772 144.729,-69.661 167.739,-75.797"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="166.864,-79.186 177.428,-78.3809 168.668,-72.4223 166.864,-79.186"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="class_interpreter.html#a99a623bb05c66632d0ab034ebaf2cf51" target="_top" xlink:title="Interpreter::getClassInfo">
+<polygon fill="white" stroke="black" points="168.5,-38.5 168.5,-57.5 290.5,-57.5 290.5,-38.5 168.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M125.409,-48C136.081,-48 147.244,-48 158.12,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="158.433,-51.5001 168.433,-48 158.433,-44.5001 158.433,-51.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="class_methods_area.html#adf2c71d678e710c5fd1c357737b07f5b" target="_top" xlink:title="MethodsArea::getStaticfield">
+<polygon fill="white" stroke="black" points="161,-0.5 161,-19.5 298,-19.5 298,-0.5 161,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M105.136,-38.411C127.008,-33.3739 154.006,-27.1562 177.164,-21.8229"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="178.204,-25.1751 187.163,-19.5201 176.633,-18.3537 178.204,-25.1751"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="class_interpreter.html#ab8fa17a7a73d119f3a3113555aef9702" target="_top" xlink:title="Interpreter::loadInMemo">
+<polygon fill="white" stroke="black" points="334,-57.5 334,-76.5 454,-76.5 454,-57.5 334,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M290.547,-55.0209C301.346,-56.2835 312.681,-57.6089 323.716,-58.8991"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="323.402,-62.3862 333.741,-60.0713 324.215,-55.4335 323.402,-62.3862"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="class_interpreter.html#a39a3745e54aa3cee8882075c96ae8b3f" target="_top" xlink:title="Interpreter::loadVariables">
+<polygon fill="white" stroke="black" points="490,-38.5 490,-57.5 615,-57.5 615,-38.5 490,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M454.166,-59.8169C462.565,-58.7972 471.276,-57.7396 479.88,-56.6951"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="480.4,-60.1578 489.905,-55.478 479.556,-53.2088 480.4,-60.1578"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M489.881,-48C435.829,-48 357.265,-48 300.78,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="300.501,-44.5001 290.501,-48 300.501,-51.5001 300.501,-44.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="class_class_loader.html#a8f3dc8367a76e7a4594bd5e8206d3977" target="_top" xlink:title="ClassLoader::getConstPool">
+<polygon fill="white" stroke="black" points="651,-38.5 651,-57.5 788,-57.5 788,-38.5 651,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M615.409,-48C623.756,-48 632.404,-48 640.98,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="640.991,-51.5001 650.991,-48 640.991,-44.5001 640.991,-51.5001"/>
+</g>
+</g>
+</svg>

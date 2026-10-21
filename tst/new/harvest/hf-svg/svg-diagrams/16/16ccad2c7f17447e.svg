@@ -1,0 +1,120 @@
+<svg width="639pt" height="255pt"
+ viewBox="0.00 0.00 639.00 255.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 251)">
+<title>tbb::internal::rml::private_server::adjust_job_count_estimate</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-251 635,-251 635,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-157 0,-198 116,-198 116,-157 0,-157"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00605.html#a2be83f895b89b3861ee8ab31535c1f34" target="_top" xlink:title="Equivalent of adding additional_slack to my_slack and waking up to 2 threads if my_slack permits...">
+<polygon fill="white" stroke="black" points="152,-162.5 152,-192.5 295,-192.5 295,-162.5 152,-162.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M116.184,-177.5C124.458,-177.5 133.101,-177.5 141.73,-177.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="141.83,-181 151.83,-177.5 141.83,-174 141.83,-181"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00083.html#a4bb94f1a0d9cc00c5abb6fb3b110b2fc" target="_top" xlink:title="tbb::internal::atomic\l_impl::compare_and_swap">
+<polygon fill="white" stroke="black" points="490.5,-216.5 490.5,-246.5 623.5,-246.5 623.5,-216.5 490.5,-216.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M295.208,-189.018C349.628,-197.883 424.691,-210.11 480.318,-219.172"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="480.036,-222.672 490.469,-220.825 481.162,-215.763 480.036,-222.672"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00606.html#aafc770ff14751ed4dd2c3f3b1d030156" target="_top" xlink:title="Wake up associated thread (or launch a thread if there is none) ">
+<polygon fill="white" stroke="black" points="331,-118 331,-159 447,-159 447,-118 331,-118"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M287.713,-162.422C298.584,-159.829 309.916,-157.126 320.884,-154.509"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="321.917,-157.861 330.832,-152.136 320.293,-151.052 321.917,-157.861"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M413.442,-159.233C431.446,-174.296 457.473,-194.276 483,-207.5 486.498,-209.312 490.161,-211.026 493.903,-212.639"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="492.739,-215.944 503.322,-216.443 495.36,-209.453 492.739,-215.944"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00606.html#a70d97a45a6aa80d21f193f1aabe631a0" target="_top" xlink:title="tbb::internal::rml\l::private_worker::thread\l_routine">
+<polygon fill="white" stroke="black" points="497.5,-157 497.5,-198 616.5,-198 616.5,-157 497.5,-157"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M447.128,-151.922C460.057,-154.959 473.917,-158.215 487.269,-161.352"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="486.821,-164.842 497.356,-163.722 488.422,-158.028 486.821,-164.842"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00028.html#a11acc19303b90ef5c4ee72c4a536ad98" target="_top" xlink:title="tbb::internal::affinity\l_helper::protect_affinity_mask">
+<polygon fill="white" stroke="black" points="483,-108.5 483,-138.5 631,-138.5 631,-108.5 483,-108.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node4&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M447.128,-133.338C455.419,-132.589 464.093,-131.805 472.77,-131.021"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="473.291,-134.488 482.935,-130.102 472.661,-127.516 473.291,-134.488"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a00606.html#a6e4301e948ea0fe1b57b4f5f3ec9375a" target="_top" xlink:title="tbb::internal::rml\l::private_worker::release\l_handle">
+<polygon fill="white" stroke="black" points="495,-49 495,-90 619,-90 619,-49 495,-49"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node4&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M438.722,-117.991C452.983,-112.009 468.609,-105.475 483,-99.5 487.358,-97.6908 491.865,-95.8254 496.401,-93.9518"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="497.806,-97.1584 505.716,-90.1096 495.137,-90.6872 497.806,-97.1584"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a00307.html#a43c19dfa41213a92de3da1d0841cbf5a" target="_top" xlink:title="tbb::internal::governor\l::does_client_join_workers">
+<polygon fill="white" stroke="black" points="491,-0.5 491,-30.5 623,-30.5 623,-0.5 491,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node4&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M404.459,-117.789C421.034,-95.4874 450.182,-60.4031 483,-39.5 485.562,-37.8684 488.245,-36.3372 491.008,-34.9014"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="492.502,-38.0666 500.053,-30.6346 489.516,-31.7356 492.502,-38.0666"/>
+</g>
+</g>
+</svg>

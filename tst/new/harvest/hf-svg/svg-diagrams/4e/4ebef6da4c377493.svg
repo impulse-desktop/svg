@@ -1,0 +1,108 @@
+<svg width="674pt" height="284pt"
+ viewBox="0.00 0.00 674.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-280 670,-280 670,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="99,-10 99,-30 119,-30 119,-10 99,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="212,-10 212,-30 232,-30 232,-10 212,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="298,-10 298,-30 318,-30 318,-10 298,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="395,-10 395,-30 415,-30 415,-10 395,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="491,-10 491,-30 511,-30 511,-10 491,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_RedisModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 658,-268 658,-70 8,-70"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_RedisModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 650,-130 650,-78 16,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_RedisModule_exports</title>
+<polygon fill="none" stroke="black" points="93,-208 93,-260 578,-260 578,-208 93,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>RedisConnectService </title>
+<polygon fill="#fb8072" stroke="black" points="570.02,-252 429.98,-252 429.98,-216 570.02,-216 570.02,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>RedisPromiseService </title>
+<polygon fill="#fb8072" stroke="black" points="411.75,-252 272.25,-252 272.25,-216 411.75,-216 411.75,-252"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>RedisSubscriberService </title>
+<polygon fill="#fb8072" stroke="black" points="254.73,-252 101.27,-252 101.27,-216 254.73,-216 254.73,-252"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>RedisModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="387.94,-187 384.94,-191 363.94,-191 360.94,-187 296.06,-187 296.06,-151 387.94,-151 387.94,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>RedisModule&#45;&gt;RedisConnectService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M387.96,-175C415.31,-175 444.73,-175 444.73,-175 444.73,-175 444.73,-205.98 444.73,-205.98"/>
+<polygon fill="black" stroke="black" points="441.23,-205.98 444.73,-215.98 448.23,-205.98 441.23,-205.98"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>RedisModule&#45;&gt;RedisPromiseService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M342,-187.11C342,-187.11 342,-205.99 342,-205.99"/>
+<polygon fill="black" stroke="black" points="338.5,-205.99 342,-215.99 345.5,-205.99 338.5,-205.99"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>RedisModule&#45;&gt;RedisSubscriberService </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M296.07,-175C268.73,-175 239.32,-175 239.32,-175 239.32,-175 239.32,-205.98 239.32,-205.98"/>
+<polygon fill="black" stroke="black" points="235.82,-205.98 239.32,-215.98 242.82,-205.98 235.82,-205.98"/>
+</g>
+
+<g id="node5" class="node">
+<title>RedisConnectService</title>
+<ellipse fill="#fdb462" stroke="black" cx="548" cy="-104" rx="94.34" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RedisConnectService&#45;&gt;RedisModule</title>
+<path fill="none" stroke="black" d="M511.92,-120.75C511.92,-138.19 511.92,-163 511.92,-163 511.92,-163 397.98,-163 397.98,-163"/>
+<polygon fill="black" stroke="black" points="397.98,-159.5 387.98,-163 397.98,-166.5 397.98,-159.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>RedisPromiseService</title>
+<ellipse fill="#fdb462" stroke="black" cx="342" cy="-104" rx="93.77" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>RedisPromiseService&#45;&gt;RedisModule</title>
+<path fill="none" stroke="black" d="M342,-122.11C342,-122.11 342,-140.99 342,-140.99"/>
+<polygon fill="black" stroke="black" points="338.5,-140.99 342,-150.99 345.5,-140.99 338.5,-140.99"/>
+</g>
+
+<g id="node7" class="node">
+<title>RedisSubscriberService</title>
+<ellipse fill="#fdb462" stroke="black" cx="127" cy="-104" rx="103.07" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>RedisSubscriberService&#45;&gt;RedisModule</title>
+<path fill="none" stroke="black" d="M165.83,-120.75C165.83,-138.19 165.83,-163 165.83,-163 165.83,-163 286.17,-163 286.17,-163"/>
+<polygon fill="black" stroke="black" points="286.17,-166.5 296.17,-163 286.17,-159.5 286.17,-166.5"/>
+</g>
+</g>
+</svg>

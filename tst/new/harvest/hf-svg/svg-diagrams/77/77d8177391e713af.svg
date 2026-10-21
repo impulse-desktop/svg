@@ -1,0 +1,124 @@
+<svg width="885pt" height="284pt"
+ viewBox="0.00 0.00 885.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 881,-280 881,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="204.5,-10 204.5,-30 224.5,-30 224.5,-10 204.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="317.5,-10 317.5,-30 337.5,-30 337.5,-10 317.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="403.5,-10 403.5,-30 423.5,-30 423.5,-10 403.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="500.5,-10 500.5,-30 520.5,-30 520.5,-10 500.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="596.5,-10 596.5,-30 616.5,-30 616.5,-10 596.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_NavbarModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 869,-268 869,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_NavbarModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="723,-78 723,-130 861,-130 861,-78 723,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_NavbarModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 715,-130 715,-78 16,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_NavbarModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="347,-208 347,-260 489,-260 489,-208 347,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>NavbarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="853.0297,-122 730.9703,-122 730.9703,-86 853.0297,-86 853.0297,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>NavbarModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="468.2465,-187 465.2465,-191 444.2465,-191 441.2465,-187 367.7535,-187 367.7535,-151 468.2465,-151 468.2465,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>NavbarComponent&#45;&gt;NavbarModule</title>
+<path fill="none" stroke="#000000" d="M792,-122.2843C792,-143.3211 792,-175 792,-175 792,-175 478.4393,-175 478.4393,-175"/>
+<polygon fill="#000000" stroke="#000000" points="478.4393,-171.5001 468.4393,-175 478.4393,-178.5001 478.4393,-171.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>NavbarComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="481.0288,-252 354.9712,-252 354.9712,-216 481.0288,-216 481.0288,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>NavbarModule&#45;&gt;NavbarComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M418,-187.1061C418,-187.1061 418,-205.991 418,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="414.5001,-205.9909 418,-215.991 421.5001,-205.991 414.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>MaterialDesignModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="707.1275,-122 704.1275,-126 683.1275,-126 680.1275,-122 560.8725,-122 560.8725,-86 707.1275,-86 707.1275,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>MaterialDesignModule&#45;&gt;NavbarModule</title>
+<path fill="none" stroke="#000000" d="M634,-122.0225C634,-139.3734 634,-163 634,-163 634,-163 478.3698,-163 478.3698,-163"/>
+<polygon fill="#000000" stroke="#000000" points="478.3698,-159.5001 468.3698,-163 478.3698,-166.5001 478.3698,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="542.6681,-122 539.6681,-126 518.6681,-126 515.6681,-122 431.3319,-122 431.3319,-86 542.6681,-86 542.6681,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CommonModule&#45;&gt;NavbarModule</title>
+<path fill="none" stroke="#000000" d="M449.7697,-122.1061C449.7697,-122.1061 449.7697,-140.991 449.7697,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="446.2697,-140.9909 449.7697,-150.991 453.2697,-140.991 446.2697,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>MatToolbarModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="413.4187,-122 410.4187,-126 389.4187,-126 386.4187,-122 286.5813,-122 286.5813,-86 413.4187,-86 413.4187,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MatToolbarModule&#45;&gt;NavbarModule</title>
+<path fill="none" stroke="#000000" d="M390.418,-122.1061C390.418,-122.1061 390.418,-140.991 390.418,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="386.918,-140.9909 390.418,-150.991 393.918,-140.991 386.918,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>MatButtonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="269.2176,-122 266.2176,-126 245.2176,-126 242.2176,-122 148.7824,-122 148.7824,-86 269.2176,-86 269.2176,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MatButtonModule&#45;&gt;NavbarModule</title>
+<path fill="none" stroke="#000000" d="M209,-122.0225C209,-139.3734 209,-163 209,-163 209,-163 357.6733,-163 357.6733,-163"/>
+<polygon fill="#000000" stroke="#000000" points="357.6734,-166.5001 367.6733,-163 357.6733,-159.5001 357.6734,-166.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>BrowserModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="130.4734,-122 127.4734,-126 106.4734,-126 103.4734,-122 23.5266,-122 23.5266,-86 130.4734,-86 130.4734,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>BrowserModule&#45;&gt;NavbarModule</title>
+<path fill="none" stroke="#000000" d="M77,-122.2843C77,-143.3211 77,-175 77,-175 77,-175 357.6843,-175 357.6843,-175"/>
+<polygon fill="#000000" stroke="#000000" points="357.6843,-178.5001 367.6843,-175 357.6842,-171.5001 357.6843,-178.5001"/>
+</g>
+</g>
+</svg>

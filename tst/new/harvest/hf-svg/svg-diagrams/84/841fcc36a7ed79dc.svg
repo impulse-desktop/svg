@@ -1,0 +1,62 @@
+<svg width="83pt" height="288pt"
+ viewBox="0.00 0.00 82.95 288.15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 284.149)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-284.149 78.9533,-284.149 78.9533,4 -4,4"/>
+
+<g id="node1" class="node"><title>A</title>
+<polygon fill="lightgray" stroke="black" points="25.9767,-280.149 2.97666,-280.149 2.97666,-262.149 25.9767,-262.149 25.9767,-280.149"/>
+
+</g>
+
+<g id="node3" class="node"><title>A XOR B</title>
+<ellipse fill="lightblue" stroke="black" cx="37.4767" cy="-37.4767" rx="37.4533" ry="37.4533"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>A&#45;&gt;A XOR B</title>
+<path fill="none" stroke="red" stroke-width="0.39792" d="M12.7827,-262.096C8.11639,-238.556 -3.85038,-167.935 7.47666,-110.953 9.48791,-100.836 12.9356,-90.3597 16.7935,-80.6236"/>
+<polygon fill="red" stroke="red" stroke-width="0.39792" points="20.1161,-81.7505 20.7502,-71.1746 13.6593,-79.0467 20.1161,-81.7505"/>
+</g>
+
+<g id="node5" class="node"><title>52</title>
+<ellipse fill="white" stroke="black" cx="37.4767" cy="-207.765" rx="18.2703" ry="18.2703"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>A&#45;&gt;52</title>
+<path fill="none" stroke="green" stroke-width="0.635722" d="M17.4835,-262.124C20.0954,-255.153 24.0279,-244.658 27.7161,-234.815"/>
+<polygon fill="green" stroke="green" stroke-width="0.635722" points="31.0336,-235.936 31.2648,-225.343 24.4786,-233.479 31.0336,-235.936"/>
+</g>
+
+<g id="node2" class="node"><title>B</title>
+<polygon fill="lightgray" stroke="black" points="70.9767,-280.149 47.9767,-280.149 47.9767,-262.149 70.9767,-262.149 70.9767,-280.149"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>B&#45;&gt;A XOR B</title>
+<path fill="none" stroke="red" stroke-width="0.295135" d="M61.2562,-262.097C66.1652,-238.562 78.807,-167.952 67.4767,-110.953 65.4654,-100.836 62.0177,-90.3597 58.1598,-80.6236"/>
+<polygon fill="red" stroke="red" stroke-width="0.295135" points="61.294,-79.0467 54.2031,-71.1746 54.8373,-81.7505 61.294,-79.0467"/>
+</g>
+
+<g id="edge2" class="edge"><title>B&#45;&gt;52</title>
+<path fill="none" stroke="green" stroke-width="0.508147" d="M56.6005,-262.124C54.1022,-255.153 50.3407,-244.658 46.8129,-234.815"/>
+<polygon fill="green" stroke="green" stroke-width="0.508147" points="50.0871,-233.576 43.4184,-225.343 43.4975,-235.938 50.0871,-233.576"/>
+</g>
+
+<g id="node4" class="node"><title>792</title>
+<ellipse fill="white" stroke="black" cx="37.4767" cy="-132.167" rx="21.4286" ry="21.4286"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>792&#45;&gt;A XOR B</title>
+<path fill="none" stroke="green" stroke-width="0.90195" d="M37.4767,-110.596C37.4767,-103 37.4767,-94.0512 37.4767,-85.0886"/>
+<polygon fill="green" stroke="green" stroke-width="0.90195" points="40.9768,-85.0353 37.4767,-75.0353 33.9768,-85.0353 40.9768,-85.0353"/>
+</g>
+
+<g id="edge5" class="edge"><title>52&#45;&gt;792</title>
+<path fill="none" stroke="green" stroke-width="0.381234" d="M37.4767,-189.323C37.4767,-181.707 37.4767,-172.546 37.4767,-163.852"/>
+<polygon fill="green" stroke="green" stroke-width="0.381234" points="40.9768,-163.616 37.4767,-153.616 33.9768,-163.616 40.9768,-163.616"/>
+</g>
+</g>
+</svg>

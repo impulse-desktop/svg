@@ -1,0 +1,177 @@
+<svg width="930pt" height="816pt"
+ viewBox="0.00 0.00 930.00 816.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 812)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,4 -4,-812 926,-812 926,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_Global</title>
+<path fill="none" stroke="gray" d="M20,-152C20,-152 902,-152 902,-152 908,-152 914,-158 914,-164 914,-164 914,-788 914,-788 914,-794 908,-800 902,-800 902,-800 20,-800 20,-800 14,-800 8,-794 8,-788 8,-788 8,-164 8,-164 8,-158 14,-152 20,-152"/>
+
+</g>
+<g id="clust2" class="cluster"><title>cluster_\Databox</title>
+<path fill="none" stroke="gray" d="M28,-160C28,-160 894,-160 894,-160 900,-160 906,-166 906,-172 906,-172 906,-760 906,-760 906,-766 900,-772 894,-772 894,-772 28,-772 28,-772 22,-772 16,-766 16,-760 16,-760 16,-172 16,-172 16,-166 22,-160 28,-160"/>
+
+</g>
+<g id="clust3" class="cluster"><title>cluster_\Databox\Widget</title>
+<path fill="none" stroke="gray" d="M36,-510C36,-510 871,-510 871,-510 877,-510 883,-516 883,-522 883,-522 883,-732 883,-732 883,-738 877,-744 871,-744 871,-744 36,-744 36,-744 30,-744 24,-738 24,-732 24,-732 24,-522 24,-522 24,-516 30,-510 36,-510"/>
+
+</g>
+<g id="clust4" class="cluster"><title>cluster_\Databox\Widget\Table</title>
+<path fill="none" stroke="gray" d="M787,-637C787,-637 863,-637 863,-637 869,-637 875,-643 875,-649 875,-649 875,-697 875,-697 875,-703 869,-709 863,-709 863,-709 787,-709 787,-709 781,-709 775,-703 775,-697 775,-697 775,-649 775,-649 775,-643 781,-637 787,-637"/>
+
+</g>
+<g id="clust5" class="cluster"><title>cluster_\Databox\Event</title>
+<path fill="none" stroke="gray" d="M764,-376C764,-376 886,-376 886,-376 892,-376 898,-382 898,-388 898,-388 898,-490 898,-490 898,-496 892,-502 886,-502 886,-502 764,-502 764,-502 758,-502 752,-496 752,-490 752,-490 752,-388 752,-388 752,-382 758,-376 764,-376"/>
+
+</g>
+<g id="clust6" class="cluster"><title>cluster_\Databox\Client</title>
+<path fill="none" stroke="gray" d="M361,-268C361,-268 515,-268 515,-268 521,-268 527,-274 527,-280 527,-280 527,-328 527,-328 527,-334 521,-340 515,-340 515,-340 361,-340 361,-340 355,-340 349,-334 349,-328 349,-328 349,-280 349,-280 349,-274 355,-268 361,-268"/>
+
+</g>
+
+<g id="node1" class="node"><title>\\Databox\\Widget\\Table\\ColumnData</title>
+<polygon fill="none" stroke="black" points="866.5,-681 783.5,-681 783.5,-645 866.5,-645 866.5,-681"/>
+
+</g>
+
+<g id="node2" class="node"><title>\\Databox\\Widget\\Funnel</title>
+<polygon fill="none" stroke="black" points="853,-621 797,-621 797,-585 853,-585 853,-621"/>
+
+</g>
+
+<g id="node4" class="node"><title>\\Databox\\Widget\\Pie</title>
+<polygon fill="none" stroke="black" points="465,-608 411,-608 411,-572 465,-572 465,-608"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>\\Databox\\Widget\\Funnel&#45;&gt;\\Databox\\Widget\\Pie</title>
+<path fill="none" stroke="black" d="M796.928,-602.086C729.087,-599.795 551.781,-593.808 475.148,-591.221"/>
+<polygon fill="none" stroke="black" points="475.137,-587.718 465.024,-590.879 474.901,-594.714 475.137,-587.718"/>
+</g>
+
+<g id="node3" class="node"><title>\\Databox\\Widget\\Base</title>
+<polygon fill="none" stroke="black" points="115.5,-635 32.5,-635 32.5,-599 115.5,-599 115.5,-635"/>
+
+
+</g>
+
+<g id="edge4" class="edge"><title>\\Databox\\Widget\\Pie&#45;&gt;\\Databox\\Widget\\Base</title>
+<path fill="none" stroke="black" d="M410.966,-591.942C351.311,-596.391 203.865,-607.389 125.634,-613.223"/>
+<polygon fill="none" stroke="black" points="125.242,-609.743 115.53,-613.977 125.762,-616.723 125.242,-609.743"/>
+</g>
+
+<g id="node5" class="node"><title>\\Databox\\Widget\\Progress</title>
+<polygon fill="none" stroke="black" points="472.5,-716 403.5,-716 403.5,-680 472.5,-680 472.5,-716"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>\\Databox\\Widget\\Progress&#45;&gt;\\Databox\\Widget\\Base</title>
+<path fill="none" stroke="black" d="M403.291,-697.916C354.776,-697.001 262.869,-692.278 188,-671 162.494,-663.751 135.645,-651.154 114.521,-639.949"/>
+<polygon fill="none" stroke="black" points="116.002,-636.771 105.542,-635.088 112.67,-642.927 116.002,-636.771"/>
+</g>
+
+<g id="node6" class="node"><title>\\Databox\\Widget\\Table</title>
+<polygon fill="none" stroke="black" points="465,-662 411,-662 411,-626 465,-626 465,-662"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>\\Databox\\Widget\\Table&#45;&gt;\\Databox\\Widget\\Base</title>
+<path fill="none" stroke="black" d="M410.966,-642.058C351.311,-637.609 203.865,-626.611 125.634,-620.777"/>
+<polygon fill="none" stroke="black" points="125.762,-617.277 115.53,-620.023 125.242,-624.257 125.762,-617.277"/>
+</g>
+
+<g id="node7" class="node"><title>\\Databox\\Widget\\Pipeline</title>
+<polygon fill="none" stroke="black" points="859.5,-567 790.5,-567 790.5,-531 859.5,-531 859.5,-567"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>\\Databox\\Widget\\Pipeline&#45;&gt;\\Databox\\Widget\\Pie</title>
+<path fill="none" stroke="black" d="M790.171,-552.603C718.117,-560.276 550.016,-578.177 475.584,-586.104"/>
+<polygon fill="none" stroke="black" points="474.877,-582.659 465.304,-587.199 475.618,-589.62 474.877,-582.659"/>
+</g>
+
+<g id="node8" class="node"><title>\\Databox\\Widget\\Messages</title>
+<polygon fill="none" stroke="black" points="472.5,-554 403.5,-554 403.5,-518 472.5,-518 472.5,-554"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>\\Databox\\Widget\\Messages&#45;&gt;\\Databox\\Widget\\Base</title>
+<path fill="none" stroke="black" d="M403.291,-536.084C354.776,-536.999 262.869,-541.722 188,-563 162.494,-570.249 135.645,-582.846 114.521,-594.051"/>
+<polygon fill="none" stroke="black" points="112.67,-591.073 105.542,-598.912 116.002,-597.229 112.67,-591.073"/>
+</g>
+
+<g id="node9" class="node"><title>\\Databox\\Event\\AuthListener</title>
+<polygon fill="none" stroke="black" points="873,-474 777,-474 777,-438 873,-438 873,-474"/>
+
+</g>
+
+<g id="node17" class="node"><title>\\Symfony\\Component\\EventDispatcher\\EventSubscriberInterface</title>
+<ellipse fill="none" stroke="black" cx="438" cy="-126" rx="249.656" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>\\Databox\\Event\\AuthListener&#45;&gt;\\Symfony\\Component\\EventDispatcher\\EventSubscriberInterface</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M776.848,-444.839C767.762,-440.992 758.93,-435.852 752,-429 696.07,-373.695 739.709,-323.271 688,-264 638.088,-206.79 558.42,-168.549 502.678,-147.112"/>
+<polygon fill="none" stroke="black" points="503.846,-143.812 493.254,-143.56 501.377,-150.362 503.846,-143.812"/>
+</g>
+
+<g id="node10" class="node"><title>\\Databox\\Event\\ExceptionListener</title>
+<polygon fill="none" stroke="black" points="889.5,-420 760.5,-420 760.5,-384 889.5,-384 889.5,-420"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>\\Databox\\Event\\ExceptionListener&#45;&gt;\\Symfony\\Component\\EventDispatcher\\EventSubscriberInterface</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M760.468,-385.819C757.485,-384.074 754.639,-382.141 752,-380 706.274,-342.903 729.596,-305.675 688,-264 633.324,-209.22 552.367,-169.821 497.74,-147.483"/>
+<polygon fill="none" stroke="black" points="498.781,-144.129 488.197,-143.645 496.168,-150.624 498.781,-144.129"/>
+</g>
+
+<g id="node11" class="node"><title>\\Databox\\Client\\DataboxClientInterface</title>
+<polygon fill="none" stroke="black" points="519,-312 357,-312 357,-276 519,-276 519,-312"/>
+
+</g>
+
+<g id="node12" class="node"><title>\\Databox\\DataboxBuilder</title>
+<polygon fill="none" stroke="black" points="879.5,-366 770.5,-366 770.5,-330 879.5,-330 879.5,-366"/>
+
+</g>
+
+<g id="node13" class="node"><title>\\Databox\\DataboxException</title>
+<polygon fill="none" stroke="black" points="886,-204 764,-204 764,-168 886,-168 886,-204"/>
+
+</g>
+
+<g id="node16" class="node"><title>\\Guzzle\\Http\\Exception\\BadResponseException</title>
+<ellipse fill="none" stroke="black" cx="438" cy="-18" rx="185.767" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>\\Databox\\DataboxException&#45;&gt;\\Guzzle\\Http\\Exception\\BadResponseException</title>
+<path fill="none" stroke="black" d="M812.79,-167.895C792.341,-136.662 745.719,-73.2907 688,-45 669.461,-35.9135 649.234,-29.2687 628.582,-24.4726"/>
+<polygon fill="none" stroke="black" points="629.259,-21.038 618.743,-22.3306 627.77,-27.8778 629.259,-21.038"/>
+</g>
+
+<g id="node14" class="node"><title>\\Databox\\KPI</title>
+<polygon fill="none" stroke="black" points="852,-258 798,-258 798,-222 852,-222 852,-258"/>
+
+</g>
+
+<g id="node15" class="node"><title>\\Databox\\DataboxClient</title>
+<polygon fill="none" stroke="black" points="876,-312 774,-312 774,-276 876,-276 876,-312"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>\\Databox\\DataboxClient&#45;&gt;\\Databox\\Client\\DataboxClientInterface</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M773.668,-294C711.734,-294 605.439,-294 529.251,-294"/>
+<polygon fill="none" stroke="black" points="529.178,-290.5 519.178,-294 529.178,-297.5 529.178,-290.5"/>
+</g>
+
+<g id="node18" class="node"><title>\\Guzzle\\Service\\Client</title>
+<ellipse fill="none" stroke="black" cx="438" cy="-72" rx="93.6835" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>\\Databox\\DataboxClient&#45;&gt;\\Guzzle\\Service\\Client</title>
+<path fill="none" stroke="black" d="M773.841,-281.558C765.821,-277.873 758.152,-273.12 752,-267 695.354,-210.649 751.248,-147.825 688,-99 641.517,-63.1168 574.784,-57.5786 522.101,-60.3555"/>
+<polygon fill="none" stroke="black" points="521.857,-56.8638 512.099,-60.9901 522.3,-63.8498 521.857,-56.8638"/>
+</g>
+</g>
+</svg>

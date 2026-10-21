@@ -1,0 +1,103 @@
+<svg width="544pt" height="104pt"
+ viewBox="0.00 0.00 544.00 104.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
+<title>coap_dtls_free_context</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 540,-100 540,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node5</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-57.5 0,-76.5 118,-76.5 118,-57.5 0,-57.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node6</title>
+<g id="a_node2"><a xlink:href="coap__dtls__gnutls_8c.html#a89102d85f6cce550adf91b075a6326c7" target="_top" xlink:title="coap_dtls_free_session">
+<polygon fill="#ffffff" stroke="#000000" points="154,-76.5 154,-95.5 273,-95.5 273,-76.5 154,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="#191970" d="M118.2919,-74.2916C126.6713,-75.322 135.3492,-76.3892 143.9007,-77.4409"/>
+<polygon fill="#191970" stroke="#191970" points="143.5036,-80.9183 153.8561,-78.6651 144.3581,-73.9707 143.5036,-80.9183"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node7</title>
+<g id="a_node3"><a xlink:href="mem_8h.html#a1e46a1505bb13f03fdacd5d1b32502a6" target="_top" xlink:title="Wrapper function to coap_free_type() for backwards compatibility. ">
+<polygon fill="#ffffff" stroke="#000000" points="184,-38.5 184,-57.5 243,-57.5 243,-38.5 184,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node5&#45;&gt;Node7</title>
+<path fill="none" stroke="#191970" d="M118.2919,-59.7084C136.8963,-57.4205 156.9718,-54.9517 173.87,-52.8736"/>
+<polygon fill="#191970" stroke="#191970" points="174.4413,-56.3298 183.9393,-51.6353 173.5868,-49.3821 174.4413,-56.3298"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node8</title>
+<g id="a_node4"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type(). ">
+<polygon fill="#ffffff" stroke="#000000" points="315.5,-76.5 315.5,-95.5 398.5,-95.5 398.5,-76.5 315.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="#191970" d="M243.2333,-55.8736C262.8107,-61.0579 288.8321,-67.9486 311.0472,-73.8313"/>
+<polygon fill="#191970" stroke="#191970" points="310.3867,-77.277 320.9495,-76.4535 312.1787,-70.5102 310.3867,-77.277"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node9</title>
+<g id="a_node5"><a xlink:href="mem_8h.html#a65d0fc0fe6cad555b56e92ccb57613ba" target="_top" xlink:title="Initializes libcoap&#39;s memory management. ">
+<polygon fill="#ffffff" stroke="#000000" points="309,-38.5 309,-57.5 405,-57.5 405,-38.5 309,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node7&#45;&gt;Node9</title>
+<path fill="none" stroke="#191970" d="M243.2333,-48C259.308,-48 279.7269,-48 298.8163,-48"/>
+<polygon fill="#191970" stroke="#191970" points="298.9469,-51.5001 308.9469,-48 298.9469,-44.5001 298.9469,-51.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node10</title>
+<g id="a_node6"><a xlink:href="mem_8h.html#a1539cf5011cdfb11500b476f4dbe9393" target="_top" xlink:title="Wrapper function to coap_malloc_type() for backwards compatibility. ">
+<polygon fill="#ffffff" stroke="#000000" points="321.5,-.5 321.5,-19.5 392.5,-19.5 392.5,-.5 321.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node7&#45;&gt;Node10</title>
+<path fill="none" stroke="#191970" d="M243.2333,-40.1264C262.9531,-34.9044 289.2109,-27.9511 311.5313,-22.0405"/>
+<polygon fill="#191970" stroke="#191970" points="312.7011,-25.3514 321.4719,-19.4081 310.9092,-18.5847 312.7011,-25.3514"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node11</title>
+<g id="a_node7"><a xlink:href="mem_8h.html#a0204710ce56cbaa4f062b7f2622857f5" target="_top" xlink:title="Allocates a chunk of size bytes and returns a pointer to the newly allocated memory. ">
+<polygon fill="#ffffff" stroke="#000000" points="441,-.5 441,-19.5 536,-19.5 536,-.5 441,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="#191970" d="M392.5858,-10C404.2294,-10 417.4843,-10 430.3462,-10"/>
+<polygon fill="#191970" stroke="#191970" points="430.5386,-13.5001 440.5386,-10 430.5386,-6.5001 430.5386,-13.5001"/>
+</g>
+</g>
+</svg>

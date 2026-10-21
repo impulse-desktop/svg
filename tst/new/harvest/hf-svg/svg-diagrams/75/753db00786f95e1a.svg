@@ -1,0 +1,58 @@
+<svg width="614pt" height="61pt"
+ viewBox="0.00 0.00 614.00 61.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 57)">
+<title>tbb::spin_mutex::scoped_lock::try_acquire</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-57 610,-57 610,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-22.5 0,-52.5 124,-52.5 124,-22.5 0,-22.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01089.html#ad95ec7e5b7103614f039c4019bf3b3f6" target="_top" xlink:title="__TBB_TryLockByte">
+<polygon fill="white" stroke="black" points="327,-28 327,-47 434,-47 434,-28 327,-28"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M124.051,-39.676C135.971,-40.0195 148.376,-40.3203 160,-40.5 218.215,-41.4 232.786,-41.4864 291,-40.5 299.286,-40.3596 308.007,-40.1453 316.611,-39.8945"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="316.739,-43.3923 326.626,-39.5854 316.523,-36.3956 316.739,-43.3923"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00679.html#ad06c3ea3c2738a37ba720a7fe042ebd8" target="_top" xlink:title="Like try_acquire, but with ITT instrumentation. ">
+<polygon fill="white" stroke="black" points="160,-0.5 160,-30.5 291,-30.5 291,-0.5 160,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M124.056,-29.1827C132.467,-28.0371 141.181,-26.85 149.802,-25.6756"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="150.421,-29.1237 159.857,-24.3059 149.476,-22.1878 150.421,-29.1237"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a01107.html#a1ba16e606202cdec1e611e5c0df2b9f6" target="_top" xlink:title="__TBB_machine_cmpswp1">
+<polygon fill="white" stroke="black" points="470,-28 470,-47 606,-47 606,-28 470,-28"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M434.145,-37.5C442.378,-37.5 451.031,-37.5 459.678,-37.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="459.799,-41.0001 469.799,-37.5 459.799,-34.0001 459.799,-41.0001"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M291.386,-24.83C299.724,-26.0289 308.25,-27.2549 316.556,-28.4493"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="316.155,-31.9275 326.551,-29.8865 317.151,-24.9988 316.155,-31.9275"/>
+</g>
+</g>
+</svg>

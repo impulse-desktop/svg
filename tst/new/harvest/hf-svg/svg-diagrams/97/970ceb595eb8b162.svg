@@ -1,0 +1,93 @@
+<svg width="534pt" height="225pt"
+ viewBox="0.00 0.00 534.00 225.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 221)">
+<title>LittleWeebLibrary.Handlers.DownloadHandler.AbortDownload</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-221 530,-221 530,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node60</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-98.5 0,-128.5 160,-128.5 160,-98.5 0,-98.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node61</title>
+<g id="a_node2"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_irc_client_handler.html#a093409b2b1397a6a061e00802546c87b" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lIrcClientHandler.IsDownloading">
+<polygon fill="white" stroke="black" points="196,-186.5 196,-216.5 346,-216.5 346,-186.5 196,-186.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node60&#45;&gt;Node61</title>
+<path fill="none" stroke="midnightblue" d="M109.513,-128.701C132.593,-140.805 166.069,-157.913 196,-171.5 204.163,-175.205 212.923,-178.953 221.458,-182.485"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="220.375,-185.823 230.956,-186.368 223.024,-179.344 220.375,-185.823"/>
+</g>
+
+<g id="node3" class="node"><title>Node62</title>
+<g id="a_node3"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_debug_handler.html#afccb37dfd6b2114af72000c2f4fe4607" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lDebugHandler.TraceMessage">
+<polygon fill="white" stroke="black" points="382,-142.5 382,-172.5 526,-172.5 526,-142.5 382,-142.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node60&#45;&gt;Node62</title>
+<path fill="none" stroke="midnightblue" d="M142.481,-128.532C159.709,-132.289 178.509,-135.965 196,-138.5 254.407,-146.965 320.859,-151.751 371.558,-154.402"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="371.64,-157.91 381.804,-154.92 371.994,-150.919 371.64,-157.91"/>
+</g>
+
+<g id="node4" class="node"><title>Node63</title>
+<g id="a_node4"><a xlink:href="class_little_weeb_library_1_1_handlers_1_1_irc_client_handler.html#a265ca021f5086addf758e87f59a0aa11" target="_top" xlink:title="LittleWeebLibrary.Handlers.\lIrcClientHandler.StopDownload">
+<polygon fill="white" stroke="black" points="196,-98.5 196,-128.5 346,-128.5 346,-98.5 196,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node60&#45;&gt;Node63</title>
+<path fill="none" stroke="midnightblue" d="M160.058,-113.5C168.472,-113.5 177.054,-113.5 185.527,-113.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="185.79,-117 195.79,-113.5 185.79,-110 185.79,-117"/>
+</g>
+
+<g id="node5" class="node"><title>Node64</title>
+<g id="a_node5"><a xlink:href="class_little_weeb_library_1_1_models_1_1_json_success.html#aa0e750a34606497266e5a4aedc03cdeb" target="_top" xlink:title="LittleWeebLibrary.Models.\lJsonSuccess.ToJObject">
+<polygon fill="white" stroke="black" points="206,-49.5 206,-79.5 336,-79.5 336,-49.5 206,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node60&#45;&gt;Node64</title>
+<path fill="none" stroke="midnightblue" d="M138.991,-98.4654C159.037,-93.2682 181.674,-87.3994 202.421,-82.0204"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="203.317,-85.4039 212.119,-79.5062 201.561,-78.6279 203.317,-85.4039"/>
+</g>
+
+<g id="node6" class="node"><title>Node65</title>
+<g id="a_node6"><a xlink:href="class_little_weeb_library_1_1_models_1_1_json_error.html#a0623b835bb68d5d5e1f591df6a09dd81" target="_top" xlink:title="LittleWeebLibrary.Models.\lJsonError.ToJObject">
+<polygon fill="white" stroke="black" points="206,-0.5 206,-30.5 336,-30.5 336,-0.5 206,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node60&#45;&gt;Node65</title>
+<path fill="none" stroke="midnightblue" d="M101.323,-98.4702C123.652,-82.476 161.006,-57.2189 196,-40.5 200.623,-38.2914 205.493,-36.1901 210.437,-34.2127"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="211.894,-37.4027 219.989,-30.5669 209.398,-30.8629 211.894,-37.4027"/>
+</g>
+
+<g id="edge2" class="edge"><title>Node61&#45;&gt;Node62</title>
+<path fill="none" stroke="midnightblue" d="M333.784,-186.481C348.989,-182.784 365.401,-178.795 381.042,-174.993"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="382.297,-178.289 391.188,-172.526 380.644,-171.487 382.297,-178.289"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node63&#45;&gt;Node62</title>
+<path fill="none" stroke="midnightblue" d="M333.784,-128.519C348.989,-132.216 365.401,-136.205 381.042,-140.007"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="380.644,-143.513 391.188,-142.474 382.297,-136.711 380.644,-143.513"/>
+</g>
+</g>
+</svg>

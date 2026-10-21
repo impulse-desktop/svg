@@ -1,0 +1,96 @@
+<svg width="852pt" height="211pt"
+ viewBox="0.00 0.00 852.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-207 848,-207 848,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="188,-10 188,-30 208,-30 208,-10 188,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="301,-10 301,-30 321,-30 321,-10 301,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="387,-10 387,-30 407,-30 407,-10 387,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="484,-10 484,-30 504,-30 504,-10 484,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="580,-10 580,-30 600,-30 600,-10 580,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AccountModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 836,-195 836,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AccountModule_declarations</title>
+<polygon fill="none" stroke="black" points="192,-78 192,-130 828,-130 828,-78 192,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AccountModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 184,-130 184,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>LayoutComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="820.49,-122 699.51,-122 699.51,-86 820.49,-86 820.49,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>AccountModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="500.48,-187 497.48,-191 476.48,-191 473.48,-187 393.52,-187 393.52,-151 500.48,-151 500.48,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>LayoutComponent&#45;&gt;AccountModule</title>
+<path fill="none" stroke="black" d="M760,-122.28C760,-143.32 760,-175 760,-175 760,-175 510.81,-175 510.81,-175"/>
+<polygon fill="black" stroke="black" points="510.81,-171.5 500.81,-175 510.81,-178.5 510.81,-171.5"/>
+</g>
+
+<g id="node2" class="node">
+<title>LoginComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="681.28,-122 566.72,-122 566.72,-86 681.28,-86 681.28,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LoginComponent&#45;&gt;AccountModule</title>
+<path fill="none" stroke="black" d="M624,-122.02C624,-139.37 624,-163 624,-163 624,-163 510.59,-163 510.59,-163"/>
+<polygon fill="black" stroke="black" points="510.59,-159.5 500.59,-163 510.59,-166.5 510.59,-159.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>PasswordStrengthBarComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="548.14,-122 345.86,-122 345.86,-86 548.14,-86 548.14,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PasswordStrengthBarComponent&#45;&gt;AccountModule</title>
+<path fill="none" stroke="black" d="M447,-122.11C447,-122.11 447,-140.99 447,-140.99"/>
+<polygon fill="black" stroke="black" points="443.5,-140.99 447,-150.99 450.5,-140.99 443.5,-140.99"/>
+</g>
+
+<g id="node4" class="node">
+<title>RegisterComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="327.98,-122 200.02,-122 200.02,-86 327.98,-86 327.98,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RegisterComponent&#45;&gt;AccountModule</title>
+<path fill="none" stroke="black" d="M264,-122.02C264,-139.37 264,-163 264,-163 264,-163 383.08,-163 383.08,-163"/>
+<polygon fill="black" stroke="black" points="383.08,-166.5 393.08,-163 383.08,-159.5 383.08,-166.5"/>
+</g>
+
+<g id="node6" class="node">
+<title>AccountRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="176.09,-122 173.09,-126 152.09,-126 149.09,-122 23.91,-122 23.91,-86 176.09,-86 176.09,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>AccountRoutingModule&#45;&gt;AccountModule</title>
+<path fill="none" stroke="black" d="M100,-122.28C100,-143.32 100,-175 100,-175 100,-175 383.16,-175 383.16,-175"/>
+<polygon fill="black" stroke="black" points="383.16,-178.5 393.16,-175 383.16,-171.5 383.16,-178.5"/>
+</g>
+</g>
+</svg>

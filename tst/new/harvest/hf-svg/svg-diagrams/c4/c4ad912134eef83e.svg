@@ -1,0 +1,219 @@
+<svg width="1177pt" height="215pt"
+ viewBox="0.00 0.00 1177.00 215.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 211)">
+<title>UBaseCarlaMovementComponent::EnableUE4VehiclePhysics</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-211 1173,-211 1173,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node8</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-132.5 0,-162.5 182,-162.5 182,-132.5 0,-132.5"/>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>Node9</title>
+<g id="a_node2"><a xlink:href="../../d2/d48/classUBaseCarlaMovementComponent.html#ac6f038c3f307cb6e6729304521ece924" target="_top" xlink:title="UBaseCarlaMovementComponent\l::GetVelocity">
+<polygon fill="#ffffff" stroke="#000000" points="218,-176.5 218,-206.5 400,-206.5 400,-176.5 218,-176.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="#191970" d="M165.4135,-162.5192C184.5123,-166.374 205.1916,-170.5478 224.7486,-174.4951"/>
+<polygon fill="#191970" stroke="#191970" points="224.0572,-177.9261 234.552,-176.4738 225.4421,-171.0644 224.0572,-177.9261"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node10</title>
+<g id="a_node3"><a xlink:href="../../d9/d36/namespacecarla.html#aca0bf2b2b37178b5e39c9bdbb5fadeb6" target="_top" xlink:title="carla::log_warning">
+<polygon fill="#ffffff" stroke="#000000" points="256,-138 256,-157 362,-157 362,-138 256,-138"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node8&#45;&gt;Node10</title>
+<path fill="none" stroke="#191970" d="M182.1885,-147.5C203.5501,-147.5 225.8497,-147.5 245.685,-147.5"/>
+<polygon fill="#191970" stroke="#191970" points="245.815,-151.0001 255.815,-147.5 245.815,-144.0001 245.815,-151.0001"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node12</title>
+<g id="a_node5"><a xlink:href="../../d5/d70/classACarlaWheeledVehicle.html#a0eb752614da592e60b34079ca09d0331" target="_top" xlink:title="ACarlaWheeledVehicle\l::RestoreVehiclePhysicsControl">
+<polygon fill="#ffffff" stroke="#000000" points="225.5,-87.5 225.5,-117.5 392.5,-117.5 392.5,-87.5 225.5,-87.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node8&#45;&gt;Node12</title>
+<path fill="none" stroke="#191970" d="M163.8939,-132.4531C183.8918,-128.3251 205.7175,-123.8198 226.2264,-119.5863"/>
+<polygon fill="#191970" stroke="#191970" points="227.0888,-122.9821 236.1748,-117.5327 225.6736,-116.1267 227.0888,-122.9821"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node11</title>
+<g id="a_node4"><a xlink:href="../../d2/d8c/namespacecarla_1_1logging.html#a4193666236852fb6a6977299a31445d8" target="_top" xlink:title="carla::logging::write\l_to_stream">
+<polygon fill="#ffffff" stroke="#000000" points="458.5,-134.5 458.5,-164.5 571.5,-164.5 571.5,-134.5 458.5,-134.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="#191970" d="M362.0501,-148.015C388.2748,-148.2697 420.1996,-148.5796 448.0851,-148.8503"/>
+<polygon fill="#191970" stroke="#191970" points="448.1243,-152.3508 458.1579,-148.9481 448.1924,-145.3511 448.1243,-152.3508"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node13</title>
+<g id="a_node6"><a xlink:href="../../d5/d70/classACarlaWheeledVehicle.html#a3e610d951ef26385950981f732fa9f42" target="_top" xlink:title="ACarlaWheeledVehicle\l::ApplyVehiclePhysicsControl">
+<polygon fill="#ffffff" stroke="#000000" points="436,-85.5 436,-115.5 594,-115.5 594,-85.5 436,-85.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node12&#45;&gt;Node13</title>
+<path fill="none" stroke="#191970" d="M392.7881,-101.6865C403.7044,-101.5805 414.9192,-101.4717 425.9183,-101.3649"/>
+<polygon fill="#191970" stroke="#191970" points="425.9787,-104.8645 435.9442,-101.2675 425.9106,-97.8649 425.9787,-104.8645"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node14</title>
+<g id="a_node7"><a xlink:href="../../d7/d1e/classUCarlaStatics.html#adf84009ecb71dd12430e36c61a030c91" target="_top" xlink:title="UCarlaStatics::GetRecorder">
+<polygon fill="#ffffff" stroke="#000000" points="630,-144 630,-163 779,-163 779,-144 630,-144"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node13&#45;&gt;Node14</title>
+<path fill="none" stroke="#191970" d="M568.7962,-115.5459C597.8377,-123.6683 633.2355,-133.5685 660.596,-141.2208"/>
+<polygon fill="#191970" stroke="#191970" points="659.7127,-144.608 670.2859,-143.9309 661.5982,-137.8667 659.7127,-144.608"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node17</title>
+<g id="a_node10"><a xlink:href="../../d5/d70/classACarlaWheeledVehicle.html#a80344597cc1f76c5759bf9b813bb346f" target="_top" xlink:title="ACarlaWheeledVehicle\l::ResetConstraints">
+<polygon fill="#ffffff" stroke="#000000" points="641,-85.5 641,-115.5 768,-115.5 768,-85.5 641,-85.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node13&#45;&gt;Node17</title>
+<path fill="none" stroke="#191970" d="M594.2671,-100.5C606.2689,-100.5 618.6114,-100.5 630.4959,-100.5"/>
+<polygon fill="#191970" stroke="#191970" points="630.802,-104.0001 640.802,-100.5 630.802,-97.0001 630.802,-104.0001"/>
+</g>
+
+<g id="node13" class="node">
+<title>Node20</title>
+<g id="a_node13"><a xlink:href="../../d5/d70/classACarlaWheeledVehicle.html#a33b430d2706ec2490b2147a242085af4" target="_top" xlink:title="ACarlaWheeledVehicle\l::SetWheelCollision">
+<polygon fill="#ffffff" stroke="#000000" points="641,-24.5 641,-54.5 768,-54.5 768,-24.5 641,-24.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge">
+<title>Node13&#45;&gt;Node20</title>
+<path fill="none" stroke="#191970" d="M561.8427,-85.4213C587.9058,-77.0316 620.5318,-66.5293 648.0023,-57.6866"/>
+<polygon fill="#191970" stroke="#191970" points="649.4216,-60.9067 657.8681,-54.5108 647.2767,-54.2434 649.4216,-60.9067"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node15</title>
+<g id="a_node8"><a xlink:href="../../d7/d1e/classUCarlaStatics.html#a83f2a341e32413abf1ec85ee740c2036" target="_top" xlink:title="UCarlaStatics::GetCurrent\lEpisode">
+<polygon fill="#ffffff" stroke="#000000" points="815,-147.5 815,-177.5 957,-177.5 957,-147.5 815,-147.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node14&#45;&gt;Node15</title>
+<path fill="none" stroke="#191970" d="M779.1087,-157.1996C787.612,-157.6213 796.3106,-158.0526 804.8929,-158.4782"/>
+<polygon fill="#191970" stroke="#191970" points="804.7345,-161.9745 814.8956,-158.9742 805.0812,-154.9831 804.7345,-161.9745"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node16</title>
+<g id="a_node9"><a xlink:href="../../d7/d1e/classUCarlaStatics.html#a35e7cb760a58848081a618e7fa8201e2" target="_top" xlink:title="UCarlaStatics::GetGameInstance">
+<polygon fill="#ffffff" stroke="#000000" points="993,-153 993,-172 1169,-172 1169,-153 993,-153"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node15&#45;&gt;Node16</title>
+<path fill="none" stroke="#191970" d="M957.2272,-162.5C965.5162,-162.5 974.079,-162.5 982.6506,-162.5"/>
+<polygon fill="#191970" stroke="#191970" points="982.701,-166.0001 992.701,-162.5 982.7009,-159.0001 982.701,-166.0001"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node18</title>
+<g id="a_node11"><a xlink:href="../../d5/d70/classACarlaWheeledVehicle.html#a114c84eaff7178ef92e37ea0e0ac9e34" target="_top" xlink:title="ACarlaWheeledVehicle\l::CloseDoorPhys">
+<polygon fill="#ffffff" stroke="#000000" points="822.5,-98.5 822.5,-128.5 949.5,-128.5 949.5,-98.5 822.5,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node17&#45;&gt;Node18</title>
+<path fill="none" stroke="#191970" d="M768.2349,-105.065C782.5094,-106.0875 797.7652,-107.1802 812.403,-108.2286"/>
+<polygon fill="#191970" stroke="#191970" points="812.194,-111.7225 822.4185,-108.946 812.6942,-104.7404 812.194,-111.7225"/>
+</g>
+
+<g id="node12" class="node">
+<title>Node19</title>
+<g id="a_node12"><a xlink:href="../../d5/d70/classACarlaWheeledVehicle.html#ac366b344047c94137d813a4a8a35eaeb" target="_top" xlink:title="ACarlaWheeledVehicle\l::OpenDoorPhys">
+<polygon fill="#ffffff" stroke="#000000" points="822.5,-49.5 822.5,-79.5 949.5,-79.5 949.5,-49.5 822.5,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node17&#45;&gt;Node19</title>
+<path fill="none" stroke="#191970" d="M768.2349,-87.8584C782.5094,-85.0271 797.7652,-82.0011 812.403,-79.0977"/>
+<polygon fill="#191970" stroke="#191970" points="813.2906,-82.49 822.4185,-77.1112 811.9286,-75.6237 813.2906,-82.49"/>
+</g>
+
+<g id="node14" class="node">
+<title>Node21</title>
+<g id="a_node14"><a xlink:href="../../d5/d70/classACarlaWheeledVehicle.html#a1a14797d457e94cbed68571fc8c914bb" target="_top" xlink:title="ACarlaWheeledVehicle\l::IsTwoWheeledVehicle">
+<polygon fill="#ffffff" stroke="#000000" points="822,-.5 822,-30.5 950,-30.5 950,-.5 822,-.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge">
+<title>Node20&#45;&gt;Node21</title>
+<path fill="none" stroke="#191970" d="M768.2349,-31.0722C782.2078,-29.2246 797.1209,-27.2526 811.4742,-25.3546"/>
+<polygon fill="#191970" stroke="#191970" points="812.3505,-28.7693 821.8054,-23.9885 811.4328,-21.8297 812.3505,-28.7693"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,147 @@
+<svg width="685pt" height="142pt"
+ viewBox="0.00 0.00 685.00 142.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 138)">
+<title>set_my_auto_connect</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-138 681,-138 681,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node95</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-66.5 0,-85.5 113,-85.5 113,-66.5 0,-66.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node96</title>
+<g id="a_node2"><a xlink:href="watchdog_8h.html#a98ac743883b75c5bf36e0d6b0fe982fa" target="_top" xlink:title="force_reset_wifi">
+<polygon fill="white" stroke="black" points="317,-95.5 317,-114.5 403,-114.5 403,-95.5 317,-95.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node95&#45;&gt;Node96</title>
+<path fill="none" stroke="midnightblue" d="M106.997,-87.758C120.544,-90.5704 135.276,-93.2593 149,-95 206.935,-102.348 274.483,-104.417 316.996,-104.936"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="107.417,-84.2686 96.9054,-85.597 105.951,-91.1134 107.417,-84.2686"/>
+</g>
+
+<g id="node7" class="node"><title>Node101</title>
+<g id="a_node7"><a xlink:href="utils_8h.html#abc584694613811efea7c661c9dcefe17" target="_top" xlink:title="system_restart_defered">
+<polygon fill="white" stroke="black" points="155,-28.5 155,-47.5 274,-47.5 274,-28.5 155,-28.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node95&#45;&gt;Node101</title>
+<path fill="none" stroke="midnightblue" d="M106.632,-64.032C128.493,-58.7069 153.876,-52.5238 174.418,-47.5201"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="105.753,-60.6437 96.8654,-66.411 107.41,-67.4448 105.753,-60.6437"/>
+</g>
+
+<g id="node11" class="node"><title>Node105</title>
+<g id="a_node11"><a xlink:href="watchdog_8c.html#a47b6861ffbed37fef88aa644f10ba917" target="_top" xlink:title="wifi_reconnect_timer_func">
+<polygon fill="white" stroke="black" points="149,-66.5 149,-85.5 280,-85.5 280,-66.5 149,-66.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node95&#45;&gt;Node105</title>
+<path fill="none" stroke="midnightblue" d="M123.536,-76C131.963,-76 140.58,-76 148.983,-76"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="123.379,-72.5001 113.379,-76 123.379,-79.5001 123.379,-72.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node97</title>
+<g id="a_node3"><a xlink:href="kmp__request_8c.html#a3f6b790a06b933b78f40ade5e9a16131" target="_top" xlink:title="kmp_received_task">
+<polygon fill="white" stroke="black" points="444.5,-114.5 444.5,-133.5 545.5,-133.5 545.5,-114.5 444.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node96&#45;&gt;Node97</title>
+<path fill="none" stroke="midnightblue" d="M413.136,-112.448C423.387,-113.912 434.117,-115.445 444.287,-116.898"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="413.477,-108.961 403.082,-111.012 412.487,-115.891 413.477,-108.961"/>
+</g>
+
+<g id="node5" class="node"><title>Node99</title>
+<g id="a_node5"><a xlink:href="watchdog_8c.html#aeb03c505b5b589ae4d89b2ae11dd1711" target="_top" xlink:title="watchdog_timer_func">
+<polygon fill="white" stroke="black" points="440,-76.5 440,-95.5 550,-95.5 550,-76.5 440,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node96&#45;&gt;Node99</title>
+<path fill="none" stroke="midnightblue" d="M413.21,-97.5414C422.008,-96.2845 431.157,-94.9776 440,-93.7143"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="412.487,-94.1092 403.082,-98.9883 413.477,-101.039 412.487,-94.1092"/>
+</g>
+
+<g id="node4" class="node"><title>Node98</title>
+<g id="a_node4"><a xlink:href="kmp__request_8h.html#a048753ff9d6b448e2dcd8c85db0d6873" target="_top" xlink:title="kmp_request_init">
+<polygon fill="white" stroke="black" points="586,-114.5 586,-133.5 677,-133.5 677,-114.5 586,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node97&#45;&gt;Node98</title>
+<path fill="none" stroke="midnightblue" d="M555.725,-124C565.861,-124 576.228,-124 585.889,-124"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="555.701,-120.5 545.701,-124 555.701,-127.5 555.701,-120.5"/>
+</g>
+
+<g id="node6" class="node"><title>Node100</title>
+<g id="a_node6"><a xlink:href="watchdog_8h.html#ab148f2150b52df5b60e312dded3a2934" target="_top" xlink:title="start_watchdog">
+<polygon fill="white" stroke="black" points="590,-76.5 590,-95.5 673,-95.5 673,-76.5 590,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node99&#45;&gt;Node100</title>
+<path fill="none" stroke="midnightblue" d="M560.569,-86C570.466,-86 580.442,-86 589.635,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="560.319,-82.5001 550.319,-86 560.319,-89.5001 560.319,-82.5001"/>
+</g>
+
+<g id="node8" class="node"><title>Node102</title>
+<g id="a_node8"><a xlink:href="cgiwifi_8c.html#a9d53126c0a5bdeb1318f081f1cca3a84" target="_top" xlink:title="resetTimerCb">
+<polygon fill="white" stroke="black" points="322,-38.5 322,-57.5 398,-57.5 398,-38.5 322,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node101&#45;&gt;Node102</title>
+<path fill="none" stroke="midnightblue" d="M284.557,-42.8124C297.442,-43.7102 310.442,-44.6162 321.894,-45.4142"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="284.5,-39.3 274.281,-42.0962 284.013,-46.283 284.5,-39.3"/>
+</g>
+
+<g id="node10" class="node"><title>Node104</title>
+<g id="a_node10"><a xlink:href="mqtt__rpc_8h.html#ae3c71a438ecea4bb271bd1586af59452" target="_top" xlink:title="mqtt_rpc_restart">
+<polygon fill="white" stroke="black" points="316,-0.5 316,-19.5 404,-19.5 404,-0.5 316,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node101&#45;&gt;Node104</title>
+<path fill="none" stroke="midnightblue" d="M274.463,-26.495C288.372,-23.781 302.944,-20.9378 315.995,-18.3911"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.628,-23.0919 264.483,-28.4423 274.968,-29.9623 273.628,-23.0919"/>
+</g>
+
+<g id="node9" class="node"><title>Node103</title>
+<g id="a_node9"><a xlink:href="cgiwifi_8h.html#a7c655a56f56ecebad923c5c4daeb7f1a" target="_top" xlink:title="cgiSetup">
+<polygon fill="white" stroke="black" points="467.5,-38.5 467.5,-57.5 522.5,-57.5 522.5,-38.5 467.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node102&#45;&gt;Node103</title>
+<path fill="none" stroke="midnightblue" d="M408.151,-48C427.989,-48 450.344,-48 467.268,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="408.048,-44.5001 398.048,-48 408.048,-51.5001 408.048,-44.5001"/>
+</g>
+
+<g id="edge11" class="edge"><title>Node105&#45;&gt;Node96</title>
+<path fill="none" stroke="midnightblue" d="M272.911,-87.6021C287.632,-90.5772 303.193,-93.722 316.977,-96.5075"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="273.38,-84.1263 262.885,-85.5761 271.993,-90.9876 273.38,-84.1263"/>
+</g>
+</g>
+</svg>

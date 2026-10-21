@@ -1,0 +1,279 @@
+<svg width="759pt" height="478pt"
+ viewBox="0.00 0.00 759.00 478.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 474)">
+<title>G</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-474 755,-474 755,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_arba</title>
+<polygon fill="none" stroke="black" points="8,-31 8,-462 569,-462 569,-31 8,-31"/>
+
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_base</title>
+<polygon fill="none" stroke="lightgrey" points="254,-39 254,-189 484,-189 484,-39 254,-39"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_other</title>
+<polygon fill="none" stroke="lightgrey" points="177,-209 177,-284 561,-284 561,-209 177,-209"/>
+
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_tools</title>
+<polygon fill="none" stroke="lightgrey" points="16,-209 16,-431 169,-431 169,-209 16,-209"/>
+
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_external</title>
+<polygon fill="none" stroke="black" points="577,-114 577,-189 743,-189 743,-114 577,-114"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>core</title>
+<defs>
+<radialGradient id="r_0" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_0)" stroke="black" cx="446" cy="-88" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>strn</title>
+<defs>
+<radialGradient id="r_1" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_1)" stroke="black" cx="369" cy="-163" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>math</title>
+<defs>
+<radialGradient id="r_2" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_2)" stroke="black" cx="446" cy="-163" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>math&#45;&gt;core</title>
+<path fill="none" stroke="black" d="M446,-144.7C446,-136.25 446,-125.87 446,-116.37"/>
+<polygon fill="black" stroke="black" points="449.5,-116.18 446,-106.18 442.5,-116.18 449.5,-116.18"/>
+</g>
+
+<g id="node4" class="node">
+<title>seri</title>
+<defs>
+<radialGradient id="r_3" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_3)" stroke="black" cx="292" cy="-163" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>seri&#45;&gt;core</title>
+<path fill="none" stroke="black" d="M300.84,-145.75C307.48,-135.09 317.55,-121.75 330,-114 352.85,-99.78 382.6,-93.56 406.24,-90.88"/>
+<polygon fill="black" stroke="black" points="406.68,-94.36 416.3,-89.91 406.01,-87.39 406.68,-94.36"/>
+</g>
+
+<g id="node5" class="node">
+<title>grid</title>
+<defs>
+<radialGradient id="r_4" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_4)" stroke="black" cx="446" cy="-235" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>grid&#45;&gt;math</title>
+<path fill="none" stroke="black" d="M446,-216.7C446,-208.98 446,-199.71 446,-191.11"/>
+<polygon fill="black" stroke="black" points="449.5,-191.1 446,-181.1 442.5,-191.1 449.5,-191.1"/>
+</g>
+
+<g id="node6" class="node">
+<title>cryp</title>
+<defs>
+<radialGradient id="r_5" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_5)" stroke="black" cx="523" cy="-235" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>cryp&#45;&gt;core</title>
+<path fill="none" stroke="black" d="M521.27,-216.81C517.99,-191.87 508.92,-145.23 485,-114 482.71,-111.02 479.96,-108.29 476.99,-105.82"/>
+<polygon fill="black" stroke="black" points="478.94,-102.91 468.78,-99.91 474.85,-108.59 478.94,-102.91"/>
+</g>
+
+<g id="node15" class="node">
+<title>TBB</title>
+<defs>
+<radialGradient id="r_6" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgrey;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_6)" stroke="black" cx="612" cy="-163" rx="27" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>cryp&#45;&gt;TBB</title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M540.58,-220.17C553.8,-209.78 572.08,-195.4 586.84,-183.79"/>
+<polygon fill="black" stroke="black" points="589.36,-186.26 595.06,-177.33 585.03,-180.76 589.36,-186.26"/>
+</g>
+
+<g id="node7" class="node">
+<title>wgen</title>
+<defs>
+<radialGradient id="r_7" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_7)" stroke="black" cx="369" cy="-235" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>wgen&#45;&gt;strn</title>
+<path fill="none" stroke="black" d="M369,-216.7C369,-208.98 369,-199.71 369,-191.11"/>
+<polygon fill="black" stroke="black" points="372.5,-191.1 369,-181.1 365.5,-191.1 372.5,-191.1"/>
+</g>
+
+<g id="node8" class="node">
+<title>dirn</title>
+<defs>
+<radialGradient id="r_8" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_8)" stroke="black" cx="292" cy="-235" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="node9" class="node">
+<title>inis</title>
+<defs>
+<radialGradient id="r_9" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_9)" stroke="black" cx="215" cy="-235" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>rsce</title>
+<defs>
+<radialGradient id="r_10" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_10)" stroke="black" cx="54" cy="-310" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="node12" class="node">
+<title>vlfs</title>
+<defs>
+<radialGradient id="r_11" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_11)" stroke="black" cx="92" cy="-235" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>rsce&#45;&gt;vlfs</title>
+<path fill="none" stroke="black" d="M62.62,-292.44C67.38,-283.29 73.4,-271.73 78.75,-261.46"/>
+<polygon fill="black" stroke="black" points="81.9,-262.99 83.41,-252.5 75.69,-259.75 81.9,-262.99"/>
+</g>
+
+<g id="node11" class="node">
+<title>evnt</title>
+<defs>
+<radialGradient id="r_12" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_12)" stroke="black" cx="131" cy="-310" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>vlfs&#45;&gt;strn</title>
+<path fill="none" stroke="black" d="M116.88,-225.09C132.75,-219.72 153.87,-213.13 173,-209 242.19,-194.06 264.6,-213.53 331,-189 335.08,-187.49 339.17,-185.47 343.07,-183.23"/>
+<polygon fill="black" stroke="black" points="345.16,-186.05 351.74,-177.75 341.42,-180.14 345.16,-186.05"/>
+</g>
+
+<g id="node13" class="node">
+<title>appt</title>
+<defs>
+<radialGradient id="r_13" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgreen;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_13)" stroke="black" cx="131" cy="-382" rx="29.88" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>appt&#45;&gt;rsce</title>
+<path fill="none" stroke="black" d="M115.05,-366.5C104.21,-356.64 89.68,-343.44 77.52,-332.38"/>
+<polygon fill="black" stroke="black" points="79.69,-329.62 69.93,-325.49 74.98,-334.8 79.69,-329.62"/>
+</g>
+
+<g id="edge1" class="edge">
+<title>appt&#45;&gt;evnt</title>
+<path fill="none" stroke="black" d="M131,-363.7C131,-355.98 131,-346.71 131,-338.11"/>
+<polygon fill="black" stroke="black" points="134.5,-338.1 131,-328.1 127.5,-338.1 134.5,-338.1"/>
+</g>
+
+<g id="node14" class="node">
+<title>spdlog</title>
+<defs>
+<radialGradient id="r_14" cx="50%" cy="50%" r="75%" fx="50%" fy="50%">
+<stop offset="0" style="stop-color:white;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:lightgrey;stop-opacity:1.;"/>
+</radialGradient>
+</defs>
+<ellipse fill="url(#r_14)" stroke="black" cx="696" cy="-163" rx="39.33" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>appt&#45;&gt;spdlog</title>
+<path fill="none" stroke="black" d="M160.7,-379.6C233.62,-375.09 425.69,-356.66 565,-284 611.1,-259.96 653.28,-215.55 676.73,-188.02"/>
+<polygon fill="black" stroke="black" points="679.65,-189.98 683.38,-180.06 674.28,-185.49 679.65,-189.98"/>
+</g>
+</g>
+</svg>

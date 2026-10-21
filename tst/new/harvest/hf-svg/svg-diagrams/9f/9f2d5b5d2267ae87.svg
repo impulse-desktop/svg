@@ -1,0 +1,176 @@
+<svg width="448pt" height="960pt"
+ viewBox="0.00 0.00 448.00 960.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 956)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-956 444,-956 444,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_Global</title>
+<path fill="none" stroke="gray" d="M202,-8C202,-8 420,-8 420,-8 426,-8 432,-14 432,-20 432,-20 432,-932 432,-932 432,-938 426,-944 420,-944 420,-944 202,-944 202,-944 196,-944 190,-938 190,-932 190,-932 190,-20 190,-20 190,-14 196,-8 202,-8"/>
+
+</g>
+
+<g id="node1" class="node"><title>\\Oai_model</title>
+<polygon fill="none" stroke="black" points="349.5,-754 272.5,-754 272.5,-718 349.5,-718 349.5,-754"/>
+
+</g>
+
+<g id="node18" class="node"><title>\\CI_Model</title>
+<ellipse fill="none" stroke="black" cx="63" cy="-736" rx="50.0912" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>\\Oai_model&#45;&gt;\\CI_Model</title>
+<path fill="none" stroke="black" d="M272.37,-736C232.704,-736 169.664,-736 123.301,-736"/>
+<polygon fill="none" stroke="black" points="123.085,-732.5 113.085,-736 123.085,-739.5 123.085,-732.5"/>
+</g>
+
+<g id="node2" class="node"><title>\\Session</title>
+<polygon fill="none" stroke="black" points="343,-214 279,-214 279,-178 343,-178 343,-214"/>
+
+</g>
+
+<g id="node19" class="node"><title>\\CI_Controller</title>
+<ellipse fill="none" stroke="black" cx="63" cy="-304" rx="62.2891" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>\\Session&#45;&gt;\\CI_Controller</title>
+<path fill="none" stroke="black" d="M278.757,-199.965C253.986,-203.827 218.859,-210.923 190,-223 154.592,-237.817 118.129,-262.474 93.5979,-280.699"/>
+<polygon fill="none" stroke="black" points="91.3171,-278.035 85.4397,-286.85 95.5315,-283.624 91.3171,-278.035"/>
+</g>
+
+<g id="node3" class="node"><title>\\User_model</title>
+<polygon fill="none" stroke="black" points="353,-700 269,-700 269,-664 353,-664 353,-700"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>\\User_model&#45;&gt;\\CI_Model</title>
+<path fill="none" stroke="black" d="M268.825,-691.038C226.862,-700.25 161.645,-714.566 116.109,-724.561"/>
+<polygon fill="none" stroke="black" points="115.151,-721.188 106.134,-726.751 116.652,-728.026 115.151,-721.188"/>
+</g>
+
+<g id="node4" class="node"><title>\\Main</title>
+<polygon fill="none" stroke="black" points="338,-106 284,-106 284,-70 338,-70 338,-106"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>\\Main&#45;&gt;\\CI_Controller</title>
+<path fill="none" stroke="black" d="M283.911,-88.3798C257.994,-89.9407 218.159,-95.6502 190,-115 130.548,-155.853 91.7273,-234.818 74.4075,-276.574"/>
+<polygon fill="none" stroke="black" points="71.0593,-275.518 70.5624,-286.101 77.5506,-278.138 71.0593,-275.518"/>
+</g>
+
+<g id="node5" class="node"><title>\\Login</title>
+<polygon fill="none" stroke="black" points="338,-484 284,-484 284,-448 338,-448 338,-484"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>\\Login&#45;&gt;\\CI_Controller</title>
+<path fill="none" stroke="black" d="M283.576,-464.537C258.12,-462.133 219.27,-455.782 190,-439 142.916,-412.005 103.004,-361.677 81.3689,-330.681"/>
+<polygon fill="none" stroke="black" points="84.0404,-328.387 75.5067,-322.108 78.2621,-332.338 84.0404,-328.387"/>
+</g>
+
+<g id="node6" class="node"><title>\\Admin</title>
+<polygon fill="none" stroke="black" points="338,-430 284,-430 284,-394 338,-394 338,-430"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>\\Admin&#45;&gt;\\CI_Controller</title>
+<path fill="none" stroke="black" d="M283.917,-408.816C259.054,-405.165 220.927,-397.942 190,-385 154.592,-370.183 118.129,-345.526 93.5979,-327.301"/>
+<polygon fill="none" stroke="black" points="95.5315,-324.376 85.4397,-321.15 91.3171,-329.965 95.5315,-324.376"/>
+</g>
+
+<g id="node7" class="node"><title>\\Installer</title>
+<polygon fill="none" stroke="black" points="349.5,-376 272.5,-376 272.5,-340 349.5,-340 349.5,-376"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>\\Installer&#45;&gt;\\CI_Controller</title>
+<path fill="none" stroke="black" d="M272.37,-349.74C232.621,-341.014 169.399,-327.136 123.009,-316.953"/>
+<polygon fill="none" stroke="black" points="123.603,-313.5 113.085,-314.775 122.102,-320.338 123.603,-313.5"/>
+</g>
+
+<g id="node8" class="node"><title>\\OAIPMH</title>
+<polygon fill="none" stroke="black" points="339.5,-538 282.5,-538 282.5,-502 339.5,-502 339.5,-538"/>
+
+</g>
+
+<g id="node9" class="node"><title>\\User</title>
+<polygon fill="none" stroke="black" points="338,-322 284,-322 284,-286 338,-286 338,-322"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>\\User&#45;&gt;\\CI_Controller</title>
+<path fill="none" stroke="black" d="M283.674,-304C248.596,-304 185.181,-304 135.472,-304"/>
+<polygon fill="none" stroke="black" points="135.407,-300.5 125.407,-304 135.407,-307.5 135.407,-300.5"/>
+</g>
+
+<g id="node10" class="node"><title>\\Main_model</title>
+<polygon fill="none" stroke="black" points="353,-646 269,-646 269,-610 353,-610 353,-646"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>\\Main_model&#45;&gt;\\CI_Model</title>
+<path fill="none" stroke="black" d="M268.911,-633.586C245.215,-637.698 215.215,-644.448 190,-655 154.163,-669.997 117.245,-695.073 92.7111,-713.359"/>
+<polygon fill="none" stroke="black" points="90.4355,-710.692 84.5716,-719.516 94.6585,-716.274 90.4355,-710.692"/>
+</g>
+
+<g id="node11" class="node"><title>\\User_standard_model</title>
+<polygon fill="none" stroke="black" points="383.5,-592 238.5,-592 238.5,-556 383.5,-556 383.5,-592"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>\\User_standard_model&#45;&gt;\\CI_Model</title>
+<path fill="none" stroke="black" d="M238.218,-582.84C221.665,-586.826 204.635,-592.609 190,-601 142.663,-628.141 102.575,-678.865 81.0215,-709.817"/>
+<polygon fill="none" stroke="black" points="77.9354,-708.13 75.1912,-718.364 83.718,-712.075 77.9354,-708.13"/>
+</g>
+
+<g id="node12" class="node"><title>\\Admin_model</title>
+<polygon fill="none" stroke="black" points="356.5,-916 265.5,-916 265.5,-880 356.5,-880 356.5,-916"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>\\Admin_model&#45;&gt;\\CI_Model</title>
+<path fill="none" stroke="black" d="M265.224,-894.33C241.611,-890.862 212.879,-884.117 190,-871 142.663,-843.859 102.575,-793.135 81.0215,-762.183"/>
+<polygon fill="none" stroke="black" points="83.718,-759.925 75.1912,-753.636 77.9354,-763.87 83.718,-759.925"/>
+</g>
+
+<g id="node13" class="node"><title>\\User_standard</title>
+<polygon fill="none" stroke="black" points="363,-268 259,-268 259,-232 363,-232 363,-268"/>
+
+</g>
+
+<g id="node14" class="node"><title>\\Oai</title>
+<polygon fill="none" stroke="black" points="338,-160 284,-160 284,-124 338,-124 338,-160"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>\\Oai&#45;&gt;\\CI_Controller</title>
+<path fill="none" stroke="black" d="M283.576,-143.463C258.12,-145.867 219.27,-152.218 190,-169 142.916,-195.995 103.004,-246.323 81.3689,-277.319"/>
+<polygon fill="none" stroke="black" points="78.2621,-275.662 75.5067,-285.892 84.0404,-279.613 78.2621,-275.662"/>
+</g>
+
+<g id="node15" class="node"><title>\\Session_model</title>
+<polygon fill="none" stroke="black" points="363,-862 259,-862 259,-826 363,-826 363,-862"/>
+
+</g>
+
+<g id="edge13" class="edge"><title>\\Session_model&#45;&gt;\\CI_Model</title>
+<path fill="none" stroke="black" d="M258.867,-836.576C237.101,-832.385 211.767,-826.109 190,-817 154.163,-802.003 117.245,-776.927 92.7111,-758.641"/>
+<polygon fill="none" stroke="black" points="94.6585,-755.726 84.5716,-752.484 90.4355,-761.308 94.6585,-755.726"/>
+</g>
+
+<g id="node16" class="node"><title>\\Installer_model</title>
+<polygon fill="none" stroke="black" points="370,-808 252,-808 252,-772 370,-772 370,-808"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>\\Installer_model&#45;&gt;\\CI_Model</title>
+<path fill="none" stroke="black" d="M251.701,-777.203C210.53,-768.165 155.837,-756.159 116.117,-747.44"/>
+<polygon fill="none" stroke="black" points="116.621,-743.968 106.103,-745.242 115.12,-750.805 116.621,-743.968"/>
+</g>
+
+<g id="node17" class="node"><title>\\Collection_subcollection_helper</title>
+<polygon fill="none" stroke="black" points="424,-52 198,-52 198,-16 424,-16 424,-52"/>
+
+</g>
+</g>
+</svg>

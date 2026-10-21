@@ -1,0 +1,148 @@
+<svg width="1520pt" height="211pt"
+ viewBox="0.00 0.00 1520.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1516,-207 1516,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="522,-10 522,-30 542,-30 542,-10 522,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="635,-10 635,-30 655,-30 655,-10 635,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="721,-10 721,-30 741,-30 741,-10 721,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="818,-10 818,-30 838,-30 838,-10 818,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="914,-10 914,-30 934,-30 934,-10 914,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CoordinationModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1504,-195 1504,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CoordinationModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="931,-78 931,-130 1496,-130 1496,-78 931,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_CoordinationModule_imports</title>
+<polygon fill="none" stroke="#000000" points="222,-78 222,-130 923,-130 923,-78 222,-78"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_CoordinationModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 214,-130 214,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CoordinationComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1487.7162,-122 1332.2838,-122 1332.2838,-86 1487.7162,-86 1487.7162,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>CoordinationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="804.9341,-187 801.9341,-191 780.9341,-191 777.9341,-187 671.0659,-187 671.0659,-151 804.9341,-151 804.9341,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CoordinationComponent&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M1410,-122.2921C1410,-144.2057 1410,-178 1410,-178 1410,-178 814.8907,-178 814.8907,-178"/>
+<polygon fill="#000000" stroke="#000000" points="814.8908,-174.5001 804.8907,-178 814.8907,-181.5001 814.8908,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CoordinationAddComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1314.8229,-122 1135.1771,-122 1135.1771,-86 1314.8229,-86 1314.8229,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CoordinationAddComponent&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M1225,-122.1061C1225,-141.3391 1225,-169 1225,-169 1225,-169 814.9489,-169 814.9489,-169"/>
+<polygon fill="#000000" stroke="#000000" points="814.9489,-165.5001 804.9489,-169 814.9488,-172.5001 814.9489,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>CoordinationEditComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1117.0504,-122 938.9496,-122 938.9496,-86 1117.0504,-86 1117.0504,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CoordinationEditComponent&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M1028,-122.027C1028,-138.3976 1028,-160 1028,-160 1028,-160 814.896,-160 814.896,-160"/>
+<polygon fill="#000000" stroke="#000000" points="814.896,-156.5001 804.896,-160 814.896,-163.5001 814.896,-156.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="914.6681,-122 911.6681,-126 890.6681,-126 887.6681,-122 803.3319,-122 803.3319,-86 914.6681,-86 914.6681,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M803.1254,-104C797.8456,-104 794.4152,-104 794.4152,-104 794.4152,-104 794.4152,-140.8939 794.4152,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="790.9152,-140.8938 794.4152,-150.8939 797.9152,-140.8939 790.9152,-140.8938"/>
+</g>
+
+<g id="node6" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="785.8288,-122 782.8288,-126 761.8288,-126 758.8288,-122 690.1712,-122 690.1712,-86 785.8288,-86 785.8288,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>FormsModule&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M738,-122.1061C738,-122.1061 738,-140.991 738,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="734.5001,-140.9909 738,-150.991 741.5001,-140.991 734.5001,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="672.4387,-122 669.4387,-126 648.4387,-126 645.4387,-122 587.5613,-122 587.5613,-86 672.4387,-86 672.4387,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>HttpModule&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M672.3455,-104C677.6594,-104 681.2774,-104 681.2774,-104 681.2774,-104 681.2774,-140.8939 681.2774,-140.8939"/>
+<polygon fill="#000000" stroke="#000000" points="677.7774,-140.8938 681.2774,-150.8939 684.7774,-140.8939 677.7774,-140.8938"/>
+</g>
+
+<g id="node8" class="node">
+<title>Ng2PaginationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="569.5407,-122 566.5407,-126 545.5407,-126 542.5407,-122 426.4593,-122 426.4593,-86 569.5407,-86 569.5407,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>Ng2PaginationModule&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M498,-122.027C498,-138.3976 498,-160 498,-160 498,-160 661.1466,-160 661.1466,-160"/>
+<polygon fill="#000000" stroke="#000000" points="661.1467,-163.5001 671.1466,-160 661.1466,-156.5001 661.1467,-163.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>CoordinationRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="408.0518,-122 405.0518,-126 384.0518,-126 381.0518,-122 229.9482,-122 229.9482,-86 408.0518,-86 408.0518,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>CoordinationRoutingModule&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M319,-122.1061C319,-141.3391 319,-169 319,-169 319,-169 661.1449,-169 661.1449,-169"/>
+<polygon fill="#000000" stroke="#000000" points="661.1449,-172.5001 671.1449,-169 661.1449,-165.5001 661.1449,-172.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>CoordinationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="115" cy="-104" rx="90.9109" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>CoordinationService&#45;&gt;CoordinationModule</title>
+<path fill="none" stroke="#000000" d="M115,-122.2921C115,-144.2057 115,-178 115,-178 115,-178 661.0324,-178 661.0324,-178"/>
+<polygon fill="#000000" stroke="#000000" points="661.0324,-181.5001 671.0324,-178 661.0324,-174.5001 661.0324,-181.5001"/>
+</g>
+</g>
+</svg>

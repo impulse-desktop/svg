@@ -1,0 +1,103 @@
+<svg width="685pt" height="100pt"
+ viewBox="0.00 0.00 685.00 99.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 95.5)">
+<title>tbb::parallel_reduce</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-95.5 681,-95.5 681,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-22.5 0,-41.5 101,-41.5 101,-22.5 0,-22.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00731.html#a36a113c75a7a83185efffd849efc9c76" target="_top" xlink:title="tbb::interface9::internal\l::start_reduce::run">
+<polygon fill="white" stroke="black" points="137,-17 137,-47 253,-47 253,-17 137,-17"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M101.34,-32C109.442,-32 117.952,-32 126.393,-32"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="126.624,-35.5001 136.624,-32 126.624,-28.5001 126.624,-35.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00778.html#af19c8ef47d1feb6dae459a99efb8bd31" target="_top" xlink:title="Spawn task allocated by allocate_root, wait for it to complete, and deallocate it. ">
+<polygon fill="white" stroke="black" points="291.5,-39 291.5,-69 402.5,-69 402.5,-39 291.5,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M253.136,-40.38C262.378,-41.7355 272.004,-43.1473 281.408,-44.5264"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="281.093,-48.0177 291.495,-46.006 282.109,-41.0918 281.093,-48.0177"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a00778.html#ac7a9405b422bec9110854acd71edb9f2" target="_top" xlink:title="Returns proxy for overloaded new that allocates a root task. ">
+<polygon fill="white" stroke="black" points="289,-0.5 289,-19.5 405,-19.5 405,-0.5 289,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node2&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M253.136,-23.62C261.468,-22.3981 270.111,-21.1304 278.622,-19.8821"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="279.139,-23.3438 288.525,-18.4296 278.123,-16.4179 279.139,-23.3438"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00778.html#a2bfe4567c87e5b783ca8595f95cfdb90" target="_top" xlink:title="Get reference to corresponding task_prefix. ">
+<polygon fill="white" stroke="black" points="441,-44.5 441,-63.5 526,-63.5 526,-44.5 441,-44.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M402.706,-54C411.901,-54 421.42,-54 430.542,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="430.635,-57.5001 440.635,-54 430.635,-50.5001 430.635,-57.5001"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a01133.html#a844f3b737c2859905eed4dee8a8215f6" target="_top" xlink:title="tbb::internal::make\l_critical">
+<polygon fill="white" stroke="black" points="570.5,-61 570.5,-91 668.5,-91 668.5,-61 570.5,-61"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M526.164,-54.539C536.979,-55.9134 548.826,-57.7264 560.321,-59.7506"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="559.83,-63.2188 570.297,-61.578 561.092,-56.3334 559.83,-63.2188"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a01133.html#a3354e5fb6a188f3ae9d96fdce8b0c26d" target="_top" xlink:title="tbb::internal::is_critical">
+<polygon fill="white" stroke="black" points="562,-22.5 562,-41.5 677,-41.5 677,-22.5 562,-22.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node4&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M509.704,-44.4505C521.654,-41.5969 536.558,-38.7039 551.464,-36.2559"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="552.413,-39.6497 561.748,-34.6382 551.325,-32.7348 552.413,-39.6497"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M570.349,-74.6014C553.684,-72.3062 535.326,-69.1338 519.878,-65.8399"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="520.229,-62.3315 509.704,-63.5495 518.691,-69.1605 520.229,-62.3315"/>
+</g>
+
+<g id="edge7" class="edge"><title>Node6&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M593.254,-41.5595C577.176,-45.3967 555.764,-49.3043 536.193,-52.1041"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="535.604,-48.6517 526.164,-53.461 536.543,-55.5885 535.604,-48.6517"/>
+</g>
+</g>
+</svg>

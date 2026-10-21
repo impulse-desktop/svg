@@ -1,0 +1,290 @@
+<svg width="673pt" height="236pt"
+ viewBox="0.00 0.00 673.00 236.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 232)">
+<title>ManufactoringPlantController</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-232 669,-232 669,4 -4,4"/>
+
+<g id="node1" class="node"><title>BillOfMaterialsLineItem</title>
+<g id="a_node1"><a xlink:href="javascript:Action.selectClass(&quot;BillOfMaterialsLineItem&quot;);" xlink:title="class BillOfMaterialsLineItem
+">
+<polygon fill="lightgreen" stroke="black" points="139,-8 139,-54 295,-54 295,-8 139,-8"/>
+
+<polyline fill="none" stroke="black" points="139,-31 295,-31 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>BillOfMaterialsLineItem&#45;&gt;BillOfMaterialsLineItem</title>
+<g id="a_edge1"><a xlink:title="BillOfMaterialsLineItem 0..1 &#160;&#45;&#45; * bill BillOfMaterialsLineItem">
+<path fill="none" stroke="black" d="M295.347,-16.0294C305.944,-18.5391 313,-23.5293 313,-31 313,-38.4707 305.944,-43.4609 295.347,-45.9706"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node8" class="node"><title>ProductType</title>
+<g id="a_node8"><a xlink:href="javascript:Action.selectClass(&quot;ProductType&quot;);" xlink:title="class ProductType
+">
+<polygon fill="lightgrey" stroke="black" points="225,-98.5 225,-144.5 349,-144.5 349,-98.5 225,-98.5"/>
+
+<polyline fill="none" stroke="black" points="225,-121.5 349,-121.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>BillOfMaterialsLineItem&#45;&gt;ProductType</title>
+<g id="a_edge2"><a xlink:title="BillOfMaterialsLineItem * bill &#45;&#45; 1 &#160;ProductType">
+<path fill="none" stroke="black" d="M228.712,-54.3323C238.332,-67.8506 251.921,-85.0201 263.657,-98.4814"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge3" class="edge"><title>BillOfMaterialsLineItem&#45;&gt;ProductType</title>
+<g id="a_edge3"><a xlink:title="BillOfMaterialsLineItem * &#160;&#45;&#45; 1 consistsOf ProductType">
+<path fill="none" stroke="black" d="M240.616,-54.3323C252.381,-67.8506 265.953,-85.0201 275.511,-98.4814"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node2" class="node"><title>Bin</title>
+<g id="a_node2"><a xlink:href="javascript:Action.selectClass(&quot;Bin&quot;);" xlink:title="class Bin
+">
+<polygon fill="lightgreen" stroke="black" points="264,-181.5 264,-227.5 368,-227.5 368,-181.5 264,-181.5"/>
+
+<polyline fill="none" stroke="black" points="264,-204.5 368,-204.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node"><title>Supplier</title>
+<g id="a_node3"><a xlink:href="javascript:Action.selectClass(&quot;Supplier&quot;);" xlink:title="class Supplier
+">
+<polygon fill="lightgreen" stroke="black" points="331,-8 331,-54 423,-54 423,-8 331,-8"/>
+
+<polyline fill="none" stroke="black" points="331,-31 423,-31 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node4" class="node"><title>Product</title>
+<g id="a_node4"><a xlink:href="javascript:Action.selectClass(&quot;Product&quot;);" xlink:title="class Product
+">
+<polygon fill="lightgreen" stroke="black" points="386,-181.5 386,-227.5 524,-227.5 524,-181.5 386,-181.5"/>
+
+<polyline fill="none" stroke="black" points="386,-204.5 524,-204.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Supplier&#45;&gt;Product</title>
+<g id="a_edge5"><a xlink:title="Supplier 0..1 &#160;&#45;&#45; * &#160;Product">
+<path fill="none" stroke="black" d="M376.782,-54.0694C377.413,-77.8049 380.989,-116.033 396,-145 403.168,-158.832 414.789,-171.405 425.829,-181.319"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge4" class="edge"><title>Supplier&#45;&gt;ProductType</title>
+<g id="a_edge4"><a xlink:title="Supplier * &#160;&#45;&#45; * &#160;ProductType">
+<path fill="none" stroke="black" d="M309.392,-98.4814 323.081,-85.0201 340.542,-67.8506 354.289,-54.3323"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge6" class="edge"><title>Product&#45;&gt;Product</title>
+<g id="a_edge6"><a xlink:title="Product 0..1 &#160;&#45;&#45; * packagedWith Product">
+<path fill="none" stroke="black" d="M524.275,-190.48C534.831,-192.62 542,-197.293 542,-204.5 542,-211.707 534.831,-216.38 524.275,-218.52"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node5" class="node"><title>AssemblyStep</title>
+<g id="a_node5"><a xlink:href="javascript:Action.selectClass(&quot;AssemblyStep&quot;);" xlink:title="class AssemblyStep
+">
+<polygon fill="pink" stroke="black" points="122,-181.5 122,-227.5 246,-227.5 246,-181.5 122,-181.5"/>
+
+<polyline fill="none" stroke="black" points="122,-204.5 246,-204.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>AssemblyStep&#45;&gt;BillOfMaterialsLineItem</title>
+<g id="a_edge7"><a xlink:title="AssemblyStep 1 &#160;&#45;&#45; * &#160;BillOfMaterialsLineItem">
+<path fill="none" stroke="black" d="M188.283,-181.244C194.622,-148.296 206.434,-86.9093 212.753,-54.0695"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node6" class="node"><title>Robot</title>
+<g id="a_node6"><a xlink:href="javascript:Action.selectClass(&quot;Robot&quot;);" xlink:title="class Robot
+">
+<polygon fill="pink" stroke="black" points="0,-181.5 0,-227.5 104,-227.5 104,-181.5 0,-181.5"/>
+
+<polyline fill="none" stroke="black" points="0,-204.5 104,-204.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node7" class="node"><title>RobotAllocation</title>
+<g id="a_node7"><a xlink:href="javascript:Action.selectClass(&quot;RobotAllocation&quot;);" xlink:title="class RobotAllocation
+">
+<polygon fill="pink" stroke="black" points="17.5,-98.5 17.5,-144.5 140.5,-144.5 140.5,-98.5 17.5,-98.5"/>
+
+<polyline fill="none" stroke="black" points="17.5,-121.5 140.5,-121.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>RobotAllocation&#45;&gt;AssemblyStep</title>
+<g id="a_edge8"><a xlink:title="RobotAllocation * &#160;&#45;&#45; 1 &#160;AssemblyStep">
+<path fill="none" stroke="black" d="M107.692,-144.634C122.507,-156.063 140.532,-169.968 155.343,-181.393"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge9" class="edge"><title>RobotAllocation&#45;&gt;Robot</title>
+<g id="a_edge9"><a xlink:title="RobotAllocation * &#160;&#45;&#45; 1 &#160;Robot">
+<path fill="none" stroke="black" d="M59.3689,-181.393 63.1774,-169.968 67.8124,-156.063 71.6221,-144.634"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge11" class="edge"><title>ProductType&#45;&gt;Bin</title>
+<g id="a_edge11"><a xlink:title="ProductType 1 &#160;&#45;&#45; * keptIn Bin">
+<path fill="none" stroke="black" d="M294.924,-144.634C299.016,-156.063 303.995,-169.968 308.085,-181.393"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge12" class="edge"><title>ProductType&#45;&gt;Product</title>
+<g id="a_edge12"><a xlink:title="ProductType 1 &#160;&#45;&#45; * &#160;Product">
+<path fill="none" stroke="black" d="M332.907,-144.634C356.612,-156.063 385.452,-169.968 409.149,-181.393"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge10" class="edge"><title>ProductType&#45;&gt;AssemblyStep</title>
+<g id="a_edge10"><a xlink:title="ProductType 1 &#160;&#45;&#45; * &#160;AssemblyStep">
+<path fill="none" stroke="black" d="M212.111,-181.393 226.64,-169.968 244.321,-156.063 258.855,-144.634"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node9" class="node"><title>AssemblyLine</title>
+<g id="a_node9"><a xlink:href="javascript:Action.selectClass(&quot;AssemblyLine&quot;);" xlink:title="class AssemblyLine
+">
+<polygon fill="lightgrey" stroke="black" points="561,-98.5 561,-144.5 665,-144.5 665,-98.5 561,-98.5"/>
+
+<polyline fill="none" stroke="black" points="561,-121.5 665,-121.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="node10" class="node"><title>ProductRun</title>
+<g id="a_node10"><a xlink:href="javascript:Action.selectClass(&quot;ProductRun&quot;);" xlink:title="class ProductRun
+Associations classes taken out and substituted with basic classes and associations on May 26, 2008
+because of lack of implementations for associations classes in current Umple 2.0
+association ProductRun{
+ timePeriod;
+ numUnits;
+ ProductType;
+ AssemblyLine;
+}
+association BillOfMaterialsLineItem{ 
+ numberRequired; 
+ reflexive;
+ ProductType;
+ ProductType consistsOf;
+}
+association RobotAllocation {
+ timePeriod;
+ AssemblyStep;
+ Robot;
+}
+">
+<polygon fill="lightgrey" stroke="black" points="471.5,-0.5 471.5,-61.5 594.5,-61.5 594.5,-0.5 471.5,-0.5"/>
+
+<polyline fill="none" stroke="black" points="471.5,-38.5 594.5,-38.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge15" class="edge"><title>ProductRun&#45;&gt;Product</title>
+<g id="a_edge15"><a xlink:title="ProductRun 0..1 &#160;&#45;&#45; * &#160;Product">
+<path fill="none" stroke="black" d="M484.171,-181.319 495.211,-171.405 506.832,-158.832 514,-145 527.455,-119.036 531.723,-85.6308 532.918,-61.8913"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge13" class="edge"><title>ProductRun&#45;&gt;ProductType</title>
+<g id="a_edge13"><a xlink:title="ProductRun * &#160;&#45;&#45; 1 &#160;ProductType">
+<path fill="none" stroke="black" d="M348.357,-98.4263 385.858,-84.9353 433.668,-67.7354 471.241,-54.2181"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="edge14" class="edge"><title>ProductRun&#45;&gt;AssemblyLine</title>
+<g id="a_edge14"><a xlink:title="ProductRun * &#160;&#45;&#45; 1 &#160;AssemblyLine">
+<path fill="none" stroke="black" d="M560.084,-61.9621C570.873,-73.8967 583.065,-87.3847 593.025,-98.4031"/>
+</a>
+</g>
+
+
+</g>
+
+<g id="node11" class="node"><title>OrderLineItem</title>
+<g id="a_node11"><a xlink:href="javascript:Action.selectClass(&quot;OrderLineItem&quot;);" xlink:title="class OrderLineItem
+">
+<polygon fill="lightblue" stroke="black" points="405,-103.5 405,-139.5 505,-139.5 505,-103.5 405,-103.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge16" class="edge"><title>OrderLineItem&#45;&gt;Product</title>
+<g id="a_edge16"><a xlink:title="OrderLineItem 1 &#160;&#45;&#45; * &#160;Product">
+<path fill="none" stroke="black" d="M455,-139.678C455,-151.845 455,-168.272 455,-181.413"/>
+</a>
+</g>
+
+
+</g>
+</g>
+</svg>

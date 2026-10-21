@@ -1,0 +1,109 @@
+<svg width="704pt" height="109pt"
+ viewBox="0.00 0.00 704.00 109.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 105)">
+<title>x265::Entropy::codeSplitFlag</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-105 700,-105 700,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0.5,-24.5 0.5,-43.5 143.5,-43.5 143.5,-24.5 0.5,-24.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="classx265_1_1CUData.html#a5b3c8ae499809ce6416582bdfd48b3fa" target="_top" xlink:title="x265::CUData::getCtxSplitFlag">
+<polygon fill="white" stroke="black" points="180.5,-43.5 180.5,-62.5 333.5,-62.5 333.5,-43.5 180.5,-43.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M143.753,-41.3459C152.449,-42.2488 161.409,-43.179 170.296,-44.1017"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="169.972,-47.5869 180.28,-45.1384 170.695,-40.6243 169.972,-47.5869"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="classx265_1_1Entropy.html#ad5bd127b6afa68ee4408890c75fdd4bd" target="_top" xlink:title="x265::Entropy::encodeBin">
+<polygon fill="white" stroke="black" points="192.5,-5.5 192.5,-24.5 321.5,-24.5 321.5,-5.5 192.5,-5.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M143.753,-26.6541C156.371,-25.344 169.546,-23.9761 182.246,-22.6575"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="182.724,-26.1267 192.31,-21.6127 182.002,-19.1642 182.724,-26.1267"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classx265_1_1CUData.html#a790220d1a24b35b6be3f205334c961b9" target="_top" xlink:title="x265::CUData::getPULeft">
+<polygon fill="white" stroke="black" points="376,-81.5 376,-100.5 506,-100.5 506,-81.5 376,-81.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M303.926,-62.589C328.376,-67.6939 358.633,-74.0113 384.403,-79.3918"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="383.9,-82.8622 394.404,-81.4799 385.33,-76.0099 383.9,-82.8622"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="classx265_1_1CUData.html#a1776d2850dab48b37a6ffac109e02fdb" target="_top" xlink:title="x265::CUData::getPUAbove">
+<polygon fill="white" stroke="black" points="370.5,-43.5 370.5,-62.5 511.5,-62.5 511.5,-43.5 370.5,-43.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M333.603,-53C342.378,-53 351.349,-53 360.178,-53"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="360.456,-56.5001 370.456,-53 360.456,-49.5001 360.456,-56.5001"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="classx265_1_1FrameData.html#a83d98df913873a07c3ce59bd5c16b2e4" target="_top" xlink:title="x265::FrameData::getPicCTU">
+<polygon fill="white" stroke="black" points="548.5,-65.5 548.5,-84.5 695.5,-84.5 695.5,-65.5 548.5,-65.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M506.118,-85.2688C516.456,-84.3447 527.288,-83.3765 537.995,-82.4195"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="538.553,-85.8836 548.202,-81.5071 537.93,-78.9114 538.553,-85.8836"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M511.719,-61.5688C520.42,-62.6382 529.384,-63.7399 538.259,-64.8307"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="537.87,-68.3091 548.222,-66.0552 538.724,-61.3614 537.87,-68.3091"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="classx265_1_1Entropy.html#a38c906d03fe47f10456a3d5bc0cd2080" target="_top" xlink:title="x265::Entropy::writeOut">
+<polygon fill="white" stroke="black" points="381,-5.5 381,-24.5 501,-24.5 501,-5.5 381,-5.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M321.655,-15C337.463,-15 354.485,-15 370.556,-15"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="370.957,-18.5001 380.957,-15 370.957,-11.5001 370.957,-18.5001"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="classx265_1_1BitInterface.html#a0ab2614d14b086091eefc0ed19f3be6d" target="_top" xlink:title="x265::BitInterface\l::writeByte">
+<polygon fill="white" stroke="black" points="575,-0 575,-30 669,-30 669,-0 575,-0"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M501.107,-15C521.667,-15 544.654,-15 564.957,-15"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="564.994,-18.5001 574.994,-15 564.994,-11.5001 564.994,-18.5001"/>
+</g>
+</g>
+</svg>

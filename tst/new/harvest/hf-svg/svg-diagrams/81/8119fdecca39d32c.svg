@@ -1,0 +1,200 @@
+<svg width="1030pt" height="290pt"
+ viewBox="0.00 0.00 1030.00 290.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 286)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-286 1026,-286 1026,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="277,-10 277,-30 297,-30 297,-10 277,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="390,-10 390,-30 410,-30 410,-10 390,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="476,-10 476,-30 496,-30 496,-10 476,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="573,-10 573,-30 593,-30 593,-10 573,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="669,-10 669,-30 689,-30 689,-10 669,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-274 296,-274 296,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 138,-130 138,-78 16,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="146,-78 146,-130 288,-130 288,-78 146,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="85,-214 85,-266 209,-266 209,-214 85,-214"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_DateFormatModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="304,-138 304,-206 660,-206 660,-138 304,-138"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_DateFormatModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="488,-146 488,-198 652,-198 652,-146 488,-146"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_DateFormatModule_exports</title>
+<polygon fill="none" stroke="#000000" points="312,-146 312,-198 480,-198 480,-146 312,-146"/>
+</g>
+<g id="clust15" class="cluster">
+<title>cluster_MdDateFormatModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="668,-70 668,-274 1014,-274 1014,-70 668,-70"/>
+</g>
+<g id="clust16" class="cluster">
+<title>cluster_MdDateFormatModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="822,-78 822,-130 1006,-130 1006,-78 822,-78"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_MdDateFormatModule_imports</title>
+<polygon fill="none" stroke="#000000" points="676,-78 676,-130 814,-130 814,-78 676,-78"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_MdDateFormatModule_exports</title>
+<polygon fill="none" stroke="#000000" points="747,-214 747,-266 935,-266 935,-214 747,-214"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="129.9399,-122 24.0601,-122 24.0601,-86 129.9399,-86 129.9399,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="188.6571,-190 185.6571,-194 164.6571,-194 161.6571,-190 105.3429,-190 105.3429,-154 188.6571,-154 188.6571,-190"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M117.4457,-122.2228C117.4457,-122.2228 117.4457,-143.7269 117.4457,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="113.9457,-143.7269 117.4457,-153.7269 120.9457,-143.727 113.9457,-143.7269"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="201.439,-258 92.561,-258 92.561,-222 201.439,-222 201.439,-258"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M147,-190.2228C147,-190.2228 147,-211.7269 147,-211.7269"/>
+<polygon fill="#000000" stroke="#000000" points="143.5001,-211.7269 147,-221.7269 150.5001,-211.727 143.5001,-211.7269"/>
+</g>
+
+<g id="node3" class="node">
+<title>DateFormatModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="280.4159,-122 277.4159,-126 256.4159,-126 253.4159,-122 153.5841,-122 153.5841,-86 280.4159,-86 280.4159,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DateFormatModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M171.3103,-122.2228C171.3103,-122.2228 171.3103,-143.7269 171.3103,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="167.8104,-143.7269 171.3103,-153.7269 174.8104,-143.727 167.8104,-143.7269"/>
+</g>
+
+<g id="node6" class="node">
+<title>DateFormatComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="471.6981,-190 320.3019,-190 320.3019,-154 471.6981,-154 471.6981,-190"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DateFormatModule&#45;&gt;DateFormatComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M253.9616,-122.2667C253.9616,-140.5552 253.9616,-166 253.9616,-166 253.9616,-166 309.9909,-166 309.9909,-166"/>
+<polygon fill="#000000" stroke="#000000" points="309.9909,-169.5001 319.9909,-166 309.9909,-162.5001 309.9909,-169.5001"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>DateFormatModule&#45;&gt;DateFormatComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M227.7155,-122.2921C227.7155,-144.2057 227.7155,-178 227.7155,-178 227.7155,-178 310.2268,-178 310.2268,-178"/>
+<polygon fill="#000000" stroke="#000000" points="310.2268,-181.5001 320.2268,-178 310.2268,-174.5001 310.2268,-181.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>DateFormatComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="644.1979,-190 495.8021,-190 495.8021,-154 644.1979,-154 644.1979,-190"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DateFormatComponent&#45;&gt;DateFormatModule</title>
+<path fill="none" stroke="#000000" d="M545.3004,-153.7333C545.3004,-135.4448 545.3004,-110 545.3004,-110 545.3004,-110 290.2996,-110 290.2996,-110"/>
+<polygon fill="#000000" stroke="#000000" points="290.2996,-106.5001 280.2996,-110 290.2996,-113.5001 290.2996,-106.5001"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>DateFormatComponent&#45;&gt;DateFormatModule</title>
+<path fill="none" stroke="#000000" d="M594.6996,-153.7079C594.6996,-131.7943 594.6996,-98 594.6996,-98 594.6996,-98 290.2184,-98 290.2184,-98"/>
+<polygon fill="#000000" stroke="#000000" points="290.2185,-94.5001 280.2184,-98 290.2184,-101.5001 290.2185,-94.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>MdDateFormatComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="997.6428,-122 830.3572,-122 830.3572,-86 997.6428,-86 997.6428,-122"/>
+
+</g>
+
+<g id="node8" class="node">
+<title>MdDateFormatModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="913.8599,-190 910.8599,-194 889.8599,-194 886.8599,-190 768.1401,-190 768.1401,-154 913.8599,-154 913.8599,-190"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>MdDateFormatComponent&#45;&gt;MdDateFormatModule</title>
+<path fill="none" stroke="#000000" d="M858.0958,-122.2228C858.0958,-122.2228 858.0958,-143.7269 858.0958,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="854.5959,-143.7269 858.0958,-153.7269 861.5959,-143.727 854.5959,-143.7269"/>
+</g>
+
+<g id="edge11" class="edge">
+<title>MdDateFormatComponent&#45;&gt;MdDateFormatModule</title>
+<path fill="none" stroke="#000000" d="M886.0129,-122.2228C886.0129,-122.2228 886.0129,-143.7269 886.0129,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="882.513,-143.7269 886.0129,-153.7269 889.513,-143.727 882.513,-143.7269"/>
+</g>
+
+<g id="node10" class="node">
+<title>MdDateFormatComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="926.6425,-258 755.3575,-258 755.3575,-222 926.6425,-222 926.6425,-258"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>MdDateFormatModule&#45;&gt;MdDateFormatComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M865.31,-190.2228C865.31,-190.2228 865.31,-211.7269 865.31,-211.7269"/>
+<polygon fill="#000000" stroke="#000000" points="861.8101,-211.7269 865.31,-221.7269 868.8101,-211.727 861.8101,-211.7269"/>
+</g>
+
+<g id="edge13" class="edge">
+<title>MdDateFormatModule&#45;&gt;MdDateFormatComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M816.69,-190.2228C816.69,-190.2228 816.69,-211.7269 816.69,-211.7269"/>
+<polygon fill="#000000" stroke="#000000" points="813.1901,-211.7269 816.69,-221.7269 820.1901,-211.727 813.1901,-211.7269"/>
+</g>
+
+<g id="node9" class="node">
+<title>...CommonImports</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="806.1649,-122 803.1649,-126 782.1649,-126 779.1649,-122 683.8351,-122 683.8351,-86 806.1649,-86 806.1649,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>...CommonImports&#45;&gt;MdDateFormatModule</title>
+<path fill="none" stroke="#000000" d="M780.7409,-122.2228C780.7409,-122.2228 780.7409,-143.7269 780.7409,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="777.241,-143.7269 780.7409,-153.7269 784.241,-143.727 777.241,-143.7269"/>
+</g>
+
+<g id="edge12" class="edge">
+<title>...CommonImports&#45;&gt;MdDateFormatModule</title>
+<path fill="none" stroke="#000000" d="M793.4116,-122.2228C793.4116,-122.2228 793.4116,-143.7269 793.4116,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="789.9117,-143.7269 793.4116,-153.7269 796.9117,-143.727 789.9117,-143.7269"/>
+</g>
+</g>
+</svg>

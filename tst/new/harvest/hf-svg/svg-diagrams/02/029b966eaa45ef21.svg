@@ -1,0 +1,171 @@
+<svg width="1036pt" height="343pt"
+ viewBox="0.00 0.00 1035.50 343.37" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 339.3701)">
+<title>dataProcessingInCPU</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-339.3701 1031.5,-339.3701 1031.5,4 -4,4"/>
+<g id="clust3" class="cluster">
+<title>cluster_1</title>
+<polygon fill="none" stroke="#0000ff" points="240,-8 240,-327.3701 638,-327.3701 638,-8 240,-8"/>
+
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_11</title>
+<polygon fill="none" stroke="#ff0000" points="248,-16 248,-182.8701 432,-182.8701 432,-16 248,-16"/>
+
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_12</title>
+<polygon fill="none" stroke="#00ff00" points="440,-107.8701 440,-296.3701 630,-296.3701 630,-107.8701 440,-107.8701"/>
+
+</g>
+<g id="clust1" class="cluster">
+<title>cluster_0</title>
+<polygon fill="none" stroke="#0000ff" points="8,-221.3701 8,-296.3701 232,-296.3701 232,-221.3701 8,-221.3701"/>
+
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_2</title>
+<polygon fill="none" stroke="#0000ff" points="646,-24.8701 646,-99.8701 862,-99.8701 862,-24.8701 646,-24.8701"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>keyboard</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="170" cy="-247.3701" rx="53.8905" ry="18"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>RAM</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="365" cy="-133.8701" rx="33.5952" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>keyboard&#45;&gt;RAM</title>
+<path fill="none" stroke="#000000" d="M197.1139,-231.5884C232.7128,-210.868 295.1171,-174.5455 332.9937,-152.4994"/>
+<polygon fill="#000000" stroke="#000000" points="335.1817,-155.2756 342.0636,-147.2202 331.6603,-149.2258 335.1817,-155.2756"/>
+</g>
+
+<g id="node2" class="node">
+<title>mouse</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="57" cy="-247.3701" rx="40.8928" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>mouse&#45;&gt;RAM</title>
+<path fill="none" stroke="#000000" d="M68.0024,-229.8824C76.9557,-217.1173 90.7441,-200.4361 107,-190.8701 143.0453,-169.6586 258.642,-149.7448 322.1731,-140.0422"/>
+<polygon fill="#000000" stroke="#000000" points="322.9105,-143.4706 332.2766,-138.5182 321.8664,-136.5489 322.9105,-143.4706"/>
+</g>
+
+<g id="node4" class="node">
+<title>disk</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="340" cy="-50.8701" rx="84.2917" ry="26.7407"/>
+
+
+</g>
+
+<g id="edge1" class="edge">
+<title>RAM&#45;&gt;disk</title>
+<path fill="none" stroke="#000000" d="M354.2273,-116.6724C350.7849,-108.2679 347.2619,-97.8103 344.3882,-87.7235"/>
+<polygon fill="#000000" stroke="#000000" points="347.7142,-86.6121 341.758,-77.85 340.9501,-88.414 347.7142,-86.6121"/>
+</g>
+
+<g id="node6" class="node">
+<title>cachememory</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="524" cy="-133.8701" rx="76.0865" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>RAM&#45;&gt;cachememory</title>
+<path fill="none" stroke="#000000" d="M398.8496,-133.8701C411.7079,-133.8701 424.5661,-133.8701 437.4244,-133.8701"/>
+<polygon fill="#000000" stroke="#000000" points="437.7365,-137.3702 447.7365,-133.8701 437.7364,-130.3702 437.7365,-137.3702"/>
+</g>
+
+<g id="node7" class="node">
+<title>monitor</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="807" cy="-50.8701" rx="47.3916" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>RAM&#45;&gt;monitor</title>
+<path fill="none" stroke="#000000" d="M390.7222,-122.1483C403.9582,-116.7144 420.5259,-110.8173 436,-107.8701 470.393,-101.3194 718.3848,-112.5995 751,-99.8701 764.1044,-94.7555 776.1926,-85.1266 785.7582,-75.749"/>
+<polygon fill="#000000" stroke="#000000" points="788.4452,-78.0046 792.8601,-68.3734 783.4027,-73.1493 788.4452,-78.0046"/>
+</g>
+
+<g id="node8" class="node">
+<title>printer</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="698" cy="-50.8701" rx="43.5923" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>RAM&#45;&gt;printer</title>
+<path fill="none" stroke="#000000" d="M392.0201,-122.9866C405.1531,-117.9521 421.2509,-112.1532 436,-107.8701 508.6543,-86.7714 594.6572,-69.4883 647.7761,-59.6799"/>
+<polygon fill="#000000" stroke="#000000" points="648.4178,-63.1207 657.6243,-57.8776 647.1576,-56.235 648.4178,-63.1207"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>disk&#45;&gt;RAM</title>
+<path fill="none" stroke="#000000" d="M354.3188,-77.3564C357.5873,-86.4856 360.6998,-96.735 363.0141,-105.9733"/>
+<polygon fill="#000000" stroke="#000000" points="359.6309,-106.8807 365.2538,-115.8603 366.458,-105.3341 359.6309,-106.8807"/>
+</g>
+
+<g id="node5" class="node">
+<title>CPU</title>
+<ellipse fill="#d3d3d3" stroke="#000000" cx="524" cy="-247.3701" rx="32.4942" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>CPU&#45;&gt;RAM</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M503.8625,-232.9952C475.9829,-213.0937 425.4741,-177.0387 393.6658,-154.3327"/>
+<polygon fill="#000000" stroke="#000000" points="395.397,-151.2683 385.2245,-148.307 391.33,-156.9657 395.397,-151.2683"/>
+</g>
+
+<g id="edge11" class="edge">
+<title>CPU&#45;&gt;disk</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M549.7019,-235.9422C569.9448,-225.3864 596.7256,-207.5923 609,-182.8701 623.8232,-153.014 629.9855,-133.7683 609,-107.8701 586.8354,-80.5168 500.9151,-65.7615 432.0633,-58.1675"/>
+<polygon fill="#000000" stroke="#000000" points="432.3531,-54.6787 422.0383,-57.0984 431.6107,-61.6392 432.3531,-54.6787"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>CPU&#45;&gt;cachememory</title>
+<path fill="none" stroke="#000000" d="M513.9813,-230.1319C510.0665,-212.0944 509.4534,-183.485 512.142,-162.1361"/>
+<polygon fill="#000000" stroke="#000000" points="515.636,-162.4555 513.7874,-152.0232 508.7268,-161.3313 515.636,-162.4555"/>
+</g>
+
+<g id="edge13" class="edge">
+<title>CPU&#45;&gt;cachememory</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M534.0187,-230.1319C537.9335,-212.0944 538.5466,-183.485 535.858,-162.1361"/>
+<polygon fill="#000000" stroke="#000000" points="539.2732,-161.3313 534.2126,-152.0232 532.364,-162.4555 539.2732,-161.3313"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>cachememory&#45;&gt;RAM</title>
+<path fill="none" stroke="#000000" d="M447.7365,-133.8701C434.8782,-133.8701 422.0199,-133.8701 409.1617,-133.8701"/>
+<polygon fill="#000000" stroke="#000000" points="408.8496,-130.3702 398.8496,-133.8701 408.8496,-137.3702 408.8496,-130.3702"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>cachememory&#45;&gt;CPU</title>
+<path fill="none" stroke="#000000" d="M524,-152.0605C524,-170.0805 524,-197.9418 524,-218.8954"/>
+<polygon fill="#000000" stroke="#000000" points="520.5001,-219.1343 524,-229.1343 527.5001,-219.1344 520.5001,-219.1343"/>
+</g>
+
+<g id="node9" class="node">
+<title>notice</title>
+<polygon fill="none" stroke="#000000" points="1027.5,-303.8701 646.5,-303.8701 646.5,-190.8701 1027.5,-190.8701 1027.5,-303.8701"/>
+
+
+
+
+
+
+
+</g>
+</g>
+</svg>

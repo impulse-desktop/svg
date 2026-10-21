@@ -1,0 +1,85 @@
+<svg width="587pt" height="99pt"
+ viewBox="0.00 0.00 587.00 98.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 94.5)">
+<title>tbb::flow::interface9::gfx_factory::send_kernel</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-94.5 583,-94.5 583,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-33 0,-63 130,-63 130,-33 0,-33"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01121.html#a3f7297d0b99732aba3a29f67f51fdf18" target="_top" xlink:title="tbb::flow::interface9\l::gfx_offload::run_kernel">
+<polygon fill="white" stroke="black" points="166,-33 166,-63 288,-63 288,-33 166,-33"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M130.156,-48C138.562,-48 147.211,-48 155.712,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="155.981,-51.5001 165.981,-48 155.981,-44.5001 155.981,-51.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a01121.html#ac746efa3979d4efbc109fb947ce91e59" target="_top" xlink:title="tbb::flow::interface9\l::gfx_offload::raw_data">
+<polygon fill="white" stroke="black" points="324,-60 324,-90 440,-90 440,-60 324,-60"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M288.031,-58.5936C296.455,-60.0802 305.159,-61.6162 313.707,-63.1247"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="313.188,-66.5872 323.644,-64.8784 314.405,-59.6937 313.188,-66.5872"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a01121.html#a33f40a94b7a3761bf026571ce8bf2b02" target="_top" xlink:title="tbb::flow::interface9\l::gfx_offload::check\l_enqueue_retcode">
+<polygon fill="white" stroke="black" points="330.5,-0.5 330.5,-41.5 433.5,-41.5 433.5,-0.5 330.5,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M288.031,-37.4064C298.562,-35.5479 309.531,-33.6122 320.086,-31.7495"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="320.812,-35.1756 330.052,-29.9909 319.595,-28.2821 320.812,-35.1756"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00304.html#a919ae73a47d2ef2809fb65e10c9e0145" target="_top" xlink:title="tbb::flow::interface9\l::gfx_buffer::data">
+<polygon fill="white" stroke="black" points="476,-60 476,-90 579,-90 579,-60 476,-60"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M440.127,-75C448.462,-75 457.072,-75 465.481,-75"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="465.606,-78.5001 475.606,-75 465.606,-71.5001 465.606,-78.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a01121.html#a2ba2600642acfafb847d1b207a416314" target="_top" xlink:title="tbb::flow::interface9\l::gfx_offload::throw\l_gfx_exception">
+<polygon fill="white" stroke="black" points="476,-0.5 476,-41.5 579,-41.5 579,-0.5 476,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M433.593,-21C443.988,-21 455.034,-21 465.746,-21"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="465.88,-24.5001 475.88,-21 465.88,-17.5001 465.88,-24.5001"/>
+</g>
+</g>
+</svg>

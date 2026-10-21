@@ -1,0 +1,121 @@
+<svg width="589pt" height="374pt"
+ viewBox="0.00 0.00 589.00 374.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 370)">
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-370 585,-370 585,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_repository</title>
+<polygon fill="lightgrey" stroke="black" points="8,-196 8,-358 542,-358 542,-196 8,-196"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_component</title>
+<polygon fill="lightgrey" stroke="black" points="204,-102 204,-177 346,-177 346,-102 204,-102"/>
+
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_container</title>
+<polygon fill="lightgrey" stroke="black" points="79,-8 79,-83 573,-83 573,-8 79,-8"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>podcast_player</title>
+<polygon fill="white" stroke="black" points="332,-327 212,-327 212,-291 332,-291 332,-327"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>podcast_player_api</title>
+<polygon fill="white" stroke="black" points="161.5,-240 16.5,-240 16.5,-204 161.5,-204 161.5,-240"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>podcast_player&#45;&#45;podcast_player_api</title>
+<path fill="none" stroke="black" d="M230.51,-290.82C217.47,-285.29 203.08,-279.02 190,-273 167.25,-262.52 142,-250.02 122.44,-240.14"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>podcast_player_common</title>
+<polygon fill="white" stroke="black" points="364,-240 180,-240 180,-204 364,-204 364,-240"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>podcast_player&#45;&#45;podcast_player_common</title>
+<path fill="none" stroke="black" d="M272,-290.8C272,-276.05 272,-254.92 272,-240.18"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>podcast_player_pwa</title>
+<polygon fill="white" stroke="black" points="534,-240 382,-240 382,-204 534,-204 534,-240"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>podcast_player&#45;&#45;podcast_player_pwa</title>
+<path fill="none" stroke="black" d="M313.03,-290.91C326.17,-285.32 340.75,-279.01 354,-273 377.35,-262.41 403.35,-249.91 423.52,-240.06"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>api</title>
+<polygon fill="white" stroke="black" points="266,-146 212,-146 212,-142 208,-142 208,-138 212,-138 212,-118 208,-118 208,-114 212,-114 212,-110 266,-110 266,-146"/>
+<polyline fill="none" stroke="black" points="212,-142 216,-142 216,-138 212,-138 "/>
+<polyline fill="none" stroke="black" points="212,-118 216,-118 216,-114 212,-114 "/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>podcast_player_api&#45;&#45;api</title>
+<path fill="none" stroke="black" d="M116.86,-203.91C143.97,-187.28 184.91,-162.18 211.79,-145.69"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>podcast_player_common&#45;&#45;api</title>
+<path fill="none" stroke="black" d="M265.79,-203.7C259.89,-187.25 251.07,-162.65 245.18,-146.23"/>
+</g>
+
+<g id="node6" class="node">
+<title>pwa</title>
+<polygon fill="white" stroke="black" points="338,-146 284,-146 284,-142 280,-142 280,-138 284,-138 284,-118 280,-118 280,-114 284,-114 284,-110 338,-110 338,-146"/>
+<polyline fill="none" stroke="black" points="284,-142 288,-142 288,-138 284,-138 "/>
+<polyline fill="none" stroke="black" points="284,-118 288,-118 288,-114 284,-114 "/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>podcast_player_common&#45;&#45;pwa</title>
+<path fill="none" stroke="black" d="M279.34,-203.7C286.31,-187.25 296.74,-162.65 303.7,-146.23"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>podcast_player_pwa&#45;&#45;pwa</title>
+<path fill="none" stroke="black" d="M430.69,-203.91C404.29,-187.39 364.51,-162.49 338.16,-146"/>
+</g>
+
+<g id="node7" class="node">
+<title>api_cont</title>
+<polygon fill="white" stroke="black" points="313,-52 87,-52 87,-16 313,-16 313,-52"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>api&#45;&#45;api_cont</title>
+<path fill="none" stroke="black" d="M231.66,-109.7C224.69,-93.25 214.26,-68.65 207.3,-52.23"/>
+</g>
+
+<g id="node8" class="node">
+<title>pwa_cont</title>
+<polygon fill="white" stroke="black" points="564.5,-52 331.5,-52 331.5,-16 564.5,-16 564.5,-52"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>pwa&#45;&#45;pwa_cont</title>
+<path fill="none" stroke="black" d="M336.45,-109.91C360.9,-93.49 397.66,-68.8 422.22,-52.31"/>
+</g>
+</g>
+</svg>

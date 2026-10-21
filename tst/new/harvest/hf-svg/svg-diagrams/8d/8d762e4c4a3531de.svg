@@ -1,0 +1,96 @@
+<svg width="948pt" height="211pt"
+ viewBox="0.00 0.00 948.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 944,-207 944,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="236,-10 236,-30 256,-30 256,-10 236,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="349,-10 349,-30 369,-30 369,-10 349,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="435,-10 435,-30 455,-30 455,-10 435,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="532,-10 532,-30 552,-30 552,-10 532,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="628,-10 628,-30 648,-30 648,-10 628,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PaymentModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 932,-195 932,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PaymentModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="188,-78 188,-130 924,-130 924,-78 188,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_PaymentModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 180,-130 180,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CashOnDeliveryComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="915.9129,-122 740.0871,-122 740.0871,-86 915.9129,-86 915.9129,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>PaymentModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="523.0438,-187 520.0438,-191 499.0438,-191 496.0438,-187 414.9562,-187 414.9562,-151 523.0438,-151 523.0438,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CashOnDeliveryComponent&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="#000000" d="M828,-122.2843C828,-143.3211 828,-175 828,-175 828,-175 533.1346,-175 533.1346,-175"/>
+<polygon fill="#000000" stroke="#000000" points="533.1347,-171.5001 523.1346,-175 533.1346,-178.5001 533.1347,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>HostedPaymentComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="721.9818,-122 552.0182,-122 552.0182,-86 721.9818,-86 721.9818,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>HostedPaymentComponent&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="#000000" d="M637,-122.0225C637,-139.3734 637,-163 637,-163 637,-163 533.081,-163 533.081,-163"/>
+<polygon fill="#000000" stroke="#000000" points="533.081,-159.5001 523.081,-163 533.081,-166.5001 533.081,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>PaymentComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="534.3258,-122 403.6742,-122 403.6742,-86 534.3258,-86 534.3258,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PaymentComponent&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="#000000" d="M469,-122.1061C469,-122.1061 469,-140.991 469,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="465.5001,-140.9909 469,-150.991 472.5001,-140.991 465.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>PaymentModesListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="386.2077,-122 195.7923,-122 195.7923,-86 386.2077,-86 386.2077,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>PaymentModesListComponent&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="#000000" d="M291,-122.0225C291,-139.3734 291,-163 291,-163 291,-163 404.6269,-163 404.6269,-163"/>
+<polygon fill="#000000" stroke="#000000" points="404.627,-166.5001 414.6269,-163 404.6269,-159.5001 404.627,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>PaymentService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="98" cy="-104" rx="73.5734" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PaymentService&#45;&gt;PaymentModule</title>
+<path fill="none" stroke="#000000" d="M98,-122.2843C98,-143.3211 98,-175 98,-175 98,-175 404.6561,-175 404.6561,-175"/>
+<polygon fill="#000000" stroke="#000000" points="404.6561,-178.5001 414.6561,-175 404.6561,-171.5001 404.6561,-178.5001"/>
+</g>
+</g>
+</svg>

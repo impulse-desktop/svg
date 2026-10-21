@@ -1,0 +1,120 @@
+<svg width="1437pt" height="211pt"
+ viewBox="0.00 0.00 1437.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1433,-207 1433,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="480.5,-10 480.5,-30 500.5,-30 500.5,-10 480.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="593.5,-10 593.5,-30 613.5,-30 613.5,-10 593.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="679.5,-10 679.5,-30 699.5,-30 699.5,-10 679.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="776.5,-10 776.5,-30 796.5,-30 796.5,-10 776.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="872.5,-10 872.5,-30 892.5,-30 892.5,-10 872.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_MiscellaneousModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1421,-195 1421,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_MiscellaneousModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="458,-78 458,-130 1413,-130 1413,-78 458,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_MiscellaneousModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 450,-130 450,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1404.5702,-122 1175.4298,-122 1175.4298,-86 1404.5702,-86 1404.5702,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>MiscellaneousModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="652.4144,-187 649.4144,-191 628.4144,-191 625.4144,-187 511.5856,-187 511.5856,-151 652.4144,-151 652.4144,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudDocumentoProgramaComponent&#45;&gt;MiscellaneousModule</title>
+<path fill="none" stroke="#000000" d="M1290,-122.2921C1290,-144.2057 1290,-178 1290,-178 1290,-178 662.4741,-178 662.4741,-178"/>
+<polygon fill="#000000" stroke="#000000" points="662.4742,-174.5001 652.4741,-178 662.4741,-181.5001 662.4742,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1157.573,-122 956.427,-122 956.427,-86 1157.573,-86 1157.573,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DocumentoProgramaComponent&#45;&gt;MiscellaneousModule</title>
+<path fill="none" stroke="#000000" d="M1057,-122.1061C1057,-141.3391 1057,-169 1057,-169 1057,-169 662.3435,-169 662.3435,-169"/>
+<polygon fill="#000000" stroke="#000000" points="662.3435,-165.5001 652.3435,-169 662.3434,-172.5001 662.3435,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="938.3514,-122 715.6486,-122 715.6486,-86 938.3514,-86 938.3514,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListDocumentoProgramaComponent&#45;&gt;MiscellaneousModule</title>
+<path fill="none" stroke="#000000" d="M827,-122.027C827,-138.3976 827,-160 827,-160 827,-160 662.2072,-160 662.2072,-160"/>
+<polygon fill="#000000" stroke="#000000" points="662.2072,-156.5001 652.2072,-160 662.2071,-163.5001 662.2072,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ViewDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="697.8917,-122 466.1083,-122 466.1083,-86 697.8917,-86 697.8917,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewDocumentoProgramaComponent&#45;&gt;MiscellaneousModule</title>
+<path fill="none" stroke="#000000" d="M582,-122.1061C582,-122.1061 582,-140.991 582,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="578.5001,-140.9909 582,-150.991 585.5001,-140.991 578.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>MiscellaneousRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="441.5322,-122 438.5322,-126 417.5322,-126 414.5322,-122 256.4678,-122 256.4678,-86 441.5322,-86 441.5322,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MiscellaneousRoutingModule&#45;&gt;MiscellaneousModule</title>
+<path fill="none" stroke="#000000" d="M349,-122.027C349,-138.3976 349,-160 349,-160 349,-160 501.7763,-160 501.7763,-160"/>
+<polygon fill="#000000" stroke="#000000" points="501.7764,-163.5001 511.7763,-160 501.7763,-156.5001 501.7764,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="238.4231,-122 235.4231,-126 214.4231,-126 211.4231,-122 139.5769,-122 139.5769,-86 238.4231,-86 238.4231,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;MiscellaneousModule</title>
+<path fill="none" stroke="#000000" d="M189,-122.1061C189,-141.3391 189,-169 189,-169 189,-169 501.7395,-169 501.7395,-169"/>
+<polygon fill="#000000" stroke="#000000" points="501.7395,-172.5001 511.7395,-169 501.7394,-165.5001 501.7395,-172.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ThemeModule&#45;&gt;MiscellaneousModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.2921C73,-144.2057 73,-178 73,-178 73,-178 501.7601,-178 501.7601,-178"/>
+<polygon fill="#000000" stroke="#000000" points="501.7602,-181.5001 511.7601,-178 501.7601,-174.5001 501.7602,-181.5001"/>
+</g>
+</g>
+</svg>

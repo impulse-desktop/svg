@@ -1,0 +1,100 @@
+<svg width="668pt" height="284pt"
+ viewBox="0.00 0.00 668.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 664,-280 664,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="96,-10 96,-30 116,-30 116,-10 96,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="209,-10 209,-30 229,-30 229,-10 209,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="295,-10 295,-30 315,-30 315,-10 295,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="392,-10 392,-30 412,-30 412,-10 392,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="488,-10 488,-30 508,-30 508,-10 488,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LugarUbicacionModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 652,-268 652,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_LugarUbicacionModule_imports</title>
+<polygon fill="none" stroke="#000000" points="200,-78 200,-130 644,-130 644,-78 200,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_LugarUbicacionModule_exports</title>
+<polygon fill="none" stroke="#000000" points="229,-208 229,-260 449,-260 449,-208 229,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_LugarUbicacionModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 192,-130 192,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="636.4231,-122 633.4231,-126 612.4231,-126 609.4231,-122 537.5769,-122 537.5769,-86 636.4231,-86 636.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>LugarUbicacionModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="414.01,-187 411.01,-191 390.01,-191 387.01,-187 263.99,-187 263.99,-151 414.01,-151 414.01,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;LugarUbicacionModule</title>
+<path fill="none" stroke="#000000" d="M587,-122.1061C587,-141.3391 587,-169 587,-169 587,-169 424.0812,-169 424.0812,-169"/>
+<polygon fill="#000000" stroke="#000000" points="424.0812,-165.5001 414.0812,-169 424.0812,-172.5001 424.0812,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>LugarUbicacionRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="519.6274,-122 516.6274,-126 495.6274,-126 492.6274,-122 324.3726,-122 324.3726,-86 519.6274,-86 519.6274,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LugarUbicacionRoutingModule&#45;&gt;LugarUbicacionModule</title>
+<path fill="none" stroke="#000000" d="M369.2206,-122.1061C369.2206,-122.1061 369.2206,-140.991 369.2206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="365.7206,-140.9909 369.2206,-150.991 372.7206,-140.991 365.7206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="306.4231,-122 303.4231,-126 282.4231,-126 279.4231,-122 207.5769,-122 207.5769,-86 306.4231,-86 306.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;LugarUbicacionModule</title>
+<path fill="none" stroke="#000000" d="M284.9783,-122.1061C284.9783,-122.1061 284.9783,-140.991 284.9783,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="281.4783,-140.9909 284.9783,-150.991 288.4783,-140.991 281.4783,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudLugarUbicacionComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="440.7891,-252 237.2109,-252 237.2109,-216 440.7891,-216 440.7891,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LugarUbicacionModule&#45;&gt;CrudLugarUbicacionComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M339,-187.1061C339,-187.1061 339,-205.991 339,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="335.5001,-205.9909 339,-215.991 342.5001,-205.991 335.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>UbicacionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="104" cy="-104" rx="79.8527" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>UbicacionService&#45;&gt;LugarUbicacionModule</title>
+<path fill="none" stroke="#000000" d="M104,-122.1061C104,-141.3391 104,-169 104,-169 104,-169 253.6749,-169 253.6749,-169"/>
+<polygon fill="#000000" stroke="#000000" points="253.6749,-172.5001 263.6749,-169 253.6748,-165.5001 253.6749,-172.5001"/>
+</g>
+</g>
+</svg>

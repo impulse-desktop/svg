@@ -1,0 +1,196 @@
+<svg width="1077pt" height="326pt"
+ viewBox="0.00 0.00 1077.00 325.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 321.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-321.8 1073,-321.8 1073,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-309.8 447,-309.8 447,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="black" points="48,-105.8 48,-157.8 170,-157.8 170,-105.8 48,-105.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="178,-40.8 178,-157.8 439,-157.8 439,-40.8 178,-40.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="black" points="31,-249.8 31,-301.8 155,-301.8 155,-249.8 31,-249.8"/>
+</g>
+<g id="clust14" class="cluster">
+<title>cluster_SharedModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="455,-97.8 455,-165.8 735,-165.8 735,-97.8 455,-97.8"/>
+</g>
+<g id="clust15" class="cluster">
+<title>cluster_SharedModule_declarations</title>
+<polygon fill="none" stroke="black" points="601,-105.8 601,-157.8 727,-157.8 727,-105.8 601,-105.8"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="black" points="463,-105.8 463,-157.8 593,-157.8 593,-105.8 463,-105.8"/>
+</g>
+<g id="clust21" class="cluster">
+<title>cluster_ViewsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="455,-173.8 455,-241.8 1061,-241.8 1061,-173.8 455,-173.8"/>
+</g>
+<g id="clust22" class="cluster">
+<title>cluster_ViewsModule_declarations</title>
+<polygon fill="none" stroke="black" points="927,-181.8 927,-233.8 1053,-233.8 1053,-181.8 927,-181.8"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_ViewsModule_imports</title>
+<polygon fill="none" stroke="black" points="763,-181.8 763,-233.8 919,-233.8 919,-181.8 763,-181.8"/>
+</g>
+<g id="clust25" class="cluster">
+<title>cluster_ViewsModule_exports</title>
+<polygon fill="none" stroke="black" points="463,-181.8 463,-233.8 755,-233.8 755,-181.8 463,-181.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="161.94,-149.8 56.06,-149.8 56.06,-113.8 161.94,-113.8 161.94,-149.8"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="134.66,-225.8 131.66,-229.8 110.66,-229.8 107.66,-225.8 51.34,-225.8 51.34,-189.8 134.66,-189.8 134.66,-225.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M95.55,-149.81C95.55,-149.81 95.55,-179.65 95.55,-179.65"/>
+<polygon fill="black" stroke="black" points="92.05,-179.65 95.55,-189.65 99.05,-179.65 92.05,-179.65"/>
+</g>
+
+<g id="node6" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="black" points="147.44,-293.8 38.56,-293.8 38.56,-257.8 147.44,-257.8 147.44,-293.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M93,-226.02C93,-226.02 93,-247.53 93,-247.53"/>
+<polygon fill="black" stroke="black" points="89.5,-247.53 93,-257.53 96.5,-247.53 89.5,-247.53"/>
+</g>
+
+<g id="node3" class="node">
+<title>AppRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="314.27,-84.8 311.27,-88.8 290.27,-88.8 287.27,-84.8 185.73,-84.8 185.73,-48.8 314.27,-48.8 314.27,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AppRoutingModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M250,-85.01C250,-121.01 250,-197.8 250,-197.8 250,-197.8 144.66,-197.8 144.66,-197.8"/>
+<polygon fill="black" stroke="black" points="144.66,-194.3 134.66,-197.8 144.66,-201.3 144.66,-194.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="431.42,-84.8 428.42,-88.8 407.42,-88.8 404.42,-84.8 332.58,-84.8 332.58,-48.8 431.42,-48.8 431.42,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M332.71,-66.8C327.24,-66.8 323.59,-66.8 323.59,-66.8 323.59,-66.8 323.59,-204.8 323.59,-204.8 323.59,-204.8 144.76,-204.8 144.76,-204.8"/>
+<polygon fill="black" stroke="black" points="144.76,-201.3 134.76,-204.8 144.76,-208.3 144.76,-201.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>ViewsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="430.81,-149.8 427.81,-153.8 406.81,-153.8 403.81,-149.8 335.19,-149.8 335.19,-113.8 430.81,-113.8 430.81,-149.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SharedModule&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M383,-84.91C383,-84.91 383,-103.79 383,-103.79"/>
+<polygon fill="black" stroke="black" points="379.5,-103.79 383,-113.79 386.5,-103.79 379.5,-103.79"/>
+</g>
+
+<g id="node8" class="node">
+<title>ErrorComponent </title>
+<polygon fill="#fb8072" stroke="black" points="585.37,-149.8 470.63,-149.8 470.63,-113.8 585.37,-113.8 585.37,-149.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedModule&#45;&gt;ErrorComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M431.43,-72.8C473.78,-72.8 528,-72.8 528,-72.8 528,-72.8 528,-103.78 528,-103.78"/>
+<polygon fill="black" stroke="black" points="524.5,-103.78 528,-113.78 531.5,-103.78 524.5,-103.78"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M398.89,-149.95C398.89,-173.56 398.89,-211.8 398.89,-211.8 398.89,-211.8 144.89,-211.8 144.89,-211.8"/>
+<polygon fill="black" stroke="black" points="144.89,-208.3 134.89,-211.8 144.89,-215.3 144.89,-208.3"/>
+</g>
+
+<g id="node11" class="node">
+<title>MainComponent </title>
+<polygon fill="#fb8072" stroke="black" points="747.38,-225.8 632.62,-225.8 632.62,-189.8 747.38,-189.8 747.38,-225.8"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>ViewsModule&#45;&gt;MainComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M383,-149.95C383,-163.54 383,-179.8 383,-179.8 383,-179.8 676.12,-179.8 676.12,-179.8 676.12,-179.8 676.12,-180.78 676.12,-180.78"/>
+<polygon fill="black" stroke="black" points="672.62,-179.59 676.12,-189.59 679.62,-179.59 672.62,-179.59"/>
+</g>
+
+<g id="node12" class="node">
+<title>ViewsRoutingModule </title>
+<polygon fill="#fb8072" stroke="black" points="614.93,-225.8 471.07,-225.8 471.07,-189.8 614.93,-189.8 614.93,-225.8"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>ViewsModule&#45;&gt;ViewsRoutingModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M414.77,-149.83C414.77,-175.31 414.77,-218.8 414.77,-218.8 414.77,-218.8 461.01,-218.8 461.01,-218.8"/>
+<polygon fill="black" stroke="black" points="461.01,-222.3 471.01,-218.8 461.01,-215.3 461.01,-222.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>ErrorComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="719.37,-149.8 608.63,-149.8 608.63,-113.8 719.37,-113.8 719.37,-149.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ErrorComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M664,-113.52C664,-92.48 664,-60.8 664,-60.8 664,-60.8 441.44,-60.8 441.44,-60.8"/>
+<polygon fill="black" stroke="black" points="441.44,-57.3 431.44,-60.8 441.44,-64.3 441.44,-57.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>MainComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1045.38,-225.8 934.62,-225.8 934.62,-189.8 1045.38,-189.8 1045.38,-225.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>MainComponent&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M990,-189.65C990,-176.06 990,-159.8 990,-159.8 990,-159.8 367.11,-159.8 367.11,-159.8 367.11,-159.8 367.11,-158.82 367.11,-158.82"/>
+<polygon fill="black" stroke="black" points="370.61,-160.01 367.11,-150.01 363.61,-160.01 370.61,-160.01"/>
+</g>
+
+<g id="node10" class="node">
+<title>ViewsRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="911.43,-225.8 908.43,-229.8 887.43,-229.8 884.43,-225.8 770.57,-225.8 770.57,-189.8 911.43,-189.8 911.43,-225.8"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ViewsRoutingModule&#45;&gt;ViewsModule</title>
+<path fill="none" stroke="black" d="M841,-189.69C841,-179.9 841,-169.8 841,-169.8 841,-169.8 351.23,-169.8 351.23,-169.8 351.23,-169.8 351.23,-159.91 351.23,-159.91"/>
+<polygon fill="black" stroke="black" points="354.73,-159.91 351.23,-149.91 347.73,-159.91 354.73,-159.91"/>
+</g>
+</g>
+</svg>

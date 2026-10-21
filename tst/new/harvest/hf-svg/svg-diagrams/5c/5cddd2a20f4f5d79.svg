@@ -1,0 +1,88 @@
+<svg width="675pt" height="211pt"
+ viewBox="0.00 0.00 675.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 671,-207 671,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="99.5,-10 99.5,-30 119.5,-30 119.5,-10 99.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="212.5,-10 212.5,-30 232.5,-30 232.5,-10 212.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="298.5,-10 298.5,-30 318.5,-30 318.5,-10 298.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="395.5,-10 395.5,-30 415.5,-30 415.5,-10 395.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="491.5,-10 491.5,-30 511.5,-30 511.5,-10 491.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_FeaturesModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 659,-195 659,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_FeaturesModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="334,-78 334,-130 651,-130 651,-78 334,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_FeaturesModule_imports</title>
+<polygon fill="none" stroke="#000000" points="158,-78 158,-130 326,-130 326,-78 158,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_FeaturesModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 150,-130 150,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>FeaturesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="643.2548,-122 514.7452,-122 514.7452,-86 643.2548,-86 643.2548,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>FeaturesModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="383.472,-187 380.472,-191 359.472,-191 356.472,-187 276.528,-187 276.528,-151 383.472,-151 383.472,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>FeaturesComponent&#45;&gt;FeaturesModule</title>
+<path fill="none" stroke="#000000" d="M579,-122.1061C579,-141.3391 579,-169 579,-169 579,-169 393.7227,-169 393.7227,-169"/>
+<polygon fill="#000000" stroke="#000000" points="393.7228,-165.5001 383.7227,-169 393.7227,-172.5001 393.7228,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>UserPopoverComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="496.4172,-122 341.5828,-122 341.5828,-86 496.4172,-86 496.4172,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>UserPopoverComponent&#45;&gt;FeaturesModule</title>
+<path fill="none" stroke="#000000" d="M362.6389,-122.1061C362.6389,-122.1061 362.6389,-140.991 362.6389,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="359.1389,-140.9909 362.6389,-150.991 366.1389,-140.991 359.1389,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>FeaturesRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="318.0898,-122 315.0898,-126 294.0898,-126 291.0898,-122 165.9102,-122 165.9102,-86 318.0898,-86 318.0898,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>FeaturesRoutingModule&#45;&gt;FeaturesModule</title>
+<path fill="none" stroke="#000000" d="M297.2795,-122.1061C297.2795,-122.1061 297.2795,-140.991 297.2795,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="293.7795,-140.9909 297.2795,-150.991 300.7795,-140.991 293.7795,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>AuthService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="83" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AuthService&#45;&gt;FeaturesModule</title>
+<path fill="none" stroke="#000000" d="M83,-122.1061C83,-141.3391 83,-169 83,-169 83,-169 266.4047,-169 266.4047,-169"/>
+<polygon fill="#000000" stroke="#000000" points="266.4047,-172.5001 276.4047,-169 266.4046,-165.5001 266.4047,-172.5001"/>
+</g>
+</g>
+</svg>

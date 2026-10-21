@@ -1,0 +1,21 @@
+<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="chalk" height="2" width="1.6" color-interpolation-filters="sRGB" y="-0.5" x="-0.3">
+      <title>chalk</title>
+      <feTurbulence baseFrequency="50" seed="115" result="result1" numOctaves="1" type="turbulence"/>
+      <feOffset result="result2" dx="-5" dy="-5" in="result1"/>
+      <feDisplacementMap scale="1.5" yChannelSelector="G" in2="result1" xChannelSelector="R" in="SourceGraphic" result="displacement-map-0"/>
+      <feGaussianBlur stdDeviation="0.1" in="displacement-map-0" result="gaussian-blur-0"/>
+    </filter>
+    <radialGradient gradientUnits="userSpaceOnUse" cx="9.332" cy="10.461" r="6.704" id="gradient-0" gradientTransform="matrix(1, 0, 0, 1, 0, 0)">
+      <stop offset="0" style="stop-color: #cc9595;"/>
+      <stop offset="1" style=""/>
+    </radialGradient>
+  </defs>
+  <g style="filter: url(#chalk);">
+    <ellipse style="fill: url(#gradient-0); fill-opacity: 0; stroke: #cc9595;" cx="10.108" cy="9.774" rx="6.704" ry="7.398"/>
+    <path style="fill: none; stroke: #cc9595;" d="M 7.638 4.675 C 9.323 3.718 10.78 3.693 12.007 4.601 C 13.522 5.722 12.965 7.522 10.338 10.001 C 8.898 11.36 6.525 5.141 7.638 4.675 Z"/>
+    <path style="fill: none; stroke: #cc9595;" d="M 15.223 9.486 C 15.881 12.242 14.737 13.676 13.136 14.126 C 11.973 14.453 11.248 13.874 10.387 11.843 C 9.74 10.317 14.65 8.324 15.223 9.486 Z"/>
+    <path style="fill: none; stroke: #cc9595;" d="M 7.957 14.985 C 6.697 14.404 5.748 13.397 5.109 11.965 C 4.579 10.776 5.766 10.179 8.669 10.173 C 10.258 10.17 8.572 15.088 7.957 14.985 Z"/>
+  </g>
+</svg>

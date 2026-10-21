@@ -1,0 +1,203 @@
+<svg width="701pt" height="230pt"
+ viewBox="0.00 0.00 701.00 230.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 226)">
+<title>PARSERFUNC</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-226 697,-226 697,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node10</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-107.5 0,-126.5 81,-126.5 81,-107.5 0,-107.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node11</title>
+<g id="a_node2"><a xlink:href="parser_8h.html#a8c4c57eca60b2cec9a372a04abea456d" target="_top" xlink:title="Advances the parser as long as it can find whitespace.">
+<polygon fill="#ffffff" stroke="#000000" points="287,-202.5 287,-221.5 373,-221.5 373,-202.5 287,-202.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="#191970" d="M46.7018,-126.5574C58.2319,-143.3979 84.7504,-177.9928 117,-193 167.5885,-216.5412 232.1915,-218.9898 276.9176,-216.9982"/>
+<polygon fill="#191970" stroke="#191970" points="277.1926,-220.4886 286.9915,-216.4598 276.819,-213.4985 277.1926,-220.4886"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node14</title>
+<g id="a_node5"><a xlink:href="parser_8h.html#a499e49a3ad7a6fde77c49792f1a0774a" target="_top" xlink:title="Searches for any of the characters given in the parser.">
+<polygon fill="#ffffff" stroke="#000000" points="117,-164.5 117,-183.5 241,-183.5 241,-164.5 117,-164.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node10&#45;&gt;Node14</title>
+<path fill="none" stroke="#191970" d="M57.7507,-126.5876C73.0173,-134.824 96.0604,-146.6559 117,-155 122.5608,-157.2159 128.4864,-159.331 134.3852,-161.2915"/>
+<polygon fill="#191970" stroke="#191970" points="133.6273,-164.7237 144.2183,-164.4355 135.7593,-158.0562 133.6273,-164.7237"/>
+</g>
+
+<g id="node7" class="node">
+<title>Node16</title>
+<g id="a_node7"><a xlink:href="AST_8c.html#a3a1c70c232e669f02ef0a4e171ee6ab2" target="_top" xlink:title="Constructore for ast objects.">
+<polygon fill="#ffffff" stroke="#000000" points="148.5,-126.5 148.5,-145.5 209.5,-145.5 209.5,-126.5 148.5,-126.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge">
+<title>Node10&#45;&gt;Node16</title>
+<path fill="none" stroke="#191970" d="M81.3055,-122.5979C99.1816,-125.0502 120.1185,-127.9224 138.0151,-130.3775"/>
+<polygon fill="#191970" stroke="#191970" points="137.7719,-133.8769 148.1548,-131.7685 138.7234,-126.9418 137.7719,-133.8769"/>
+</g>
+
+<g id="node8" class="node">
+<title>Node17</title>
+<g id="a_node8"><a xlink:href="token_8h.html#a5f63b7723640416a125433badc7d6563" target="_top" xlink:title="Constructor for token objects.">
+<polygon fill="#ffffff" stroke="#000000" points="144,-88.5 144,-107.5 214,-107.5 214,-88.5 144,-88.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge">
+<title>Node10&#45;&gt;Node17</title>
+<path fill="none" stroke="#191970" d="M81.3055,-111.4021C97.693,-109.154 116.6527,-106.5531 133.4843,-104.244"/>
+<polygon fill="#191970" stroke="#191970" points="134.2159,-107.6765 143.6474,-102.8498 133.2644,-100.7415 134.2159,-107.6765"/>
+</g>
+
+<g id="node9" class="node">
+<title>Node18</title>
+<g id="a_node9"><a xlink:href="helios__string_8c.html#a4338910535421a24735fc7eb3123495c" target="_top" xlink:title="Create a helios_string object from a c string.">
+<polygon fill="#ffffff" stroke="#000000" points="125.5,-39 125.5,-69 232.5,-69 232.5,-39 125.5,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge">
+<title>Node10&#45;&gt;Node18</title>
+<path fill="none" stroke="#191970" d="M58.8577,-107.3786C74.2356,-99.4409 96.8439,-88.0534 117,-79 121.4631,-76.9953 126.1376,-74.973 130.8328,-72.9931"/>
+<polygon fill="#191970" stroke="#191970" points="132.5428,-76.073 140.4383,-69.0081 129.8604,-69.6073 132.5428,-76.073"/>
+</g>
+
+<g id="node13" class="node">
+<title>Node22</title>
+<g id="a_node13"><a xlink:href="error_8c.html#ae07365063509d8944da638087336597b" target="_top" xlink:title="Construct a new error object out of parameters, and push it to the errorstack.">
+<polygon fill="#ffffff" stroke="#000000" points="131.5,-.5 131.5,-19.5 226.5,-19.5 226.5,-.5 131.5,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge13" class="edge">
+<title>Node10&#45;&gt;Node22</title>
+<path fill="none" stroke="#191970" d="M46.3424,-107.2211C57.6736,-89.0896 84.4096,-50.1793 117,-29 120.1594,-26.9468 123.5524,-25.1058 127.0639,-23.4564"/>
+<polygon fill="#191970" stroke="#191970" points="128.6575,-26.5848 136.5569,-19.5244 125.9787,-20.1176 128.6575,-26.5848"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node12</title>
+<g id="a_node3"><a xlink:href="parserutil_8c.html#a2d9e8c20025b7b883c4e87790685a6ad" target="_top" xlink:title="Proxy to parser_next.">
+<polygon fill="#ffffff" stroke="#000000" points="454,-183.5 454,-202.5 548,-202.5 548,-183.5 454,-183.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node11&#45;&gt;Node12</title>
+<path fill="none" stroke="#191970" d="M373.1505,-207.2055C394.6109,-204.821 420.8334,-201.9074 443.9317,-199.3409"/>
+<polygon fill="#191970" stroke="#191970" points="444.4031,-202.8102 453.9553,-198.2272 443.63,-195.853 444.4031,-202.8102"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node13</title>
+<g id="a_node4"><a xlink:href="parserutil_8c.html#ab25a97ff31329fe9461666bfe2dc6f2c" target="_top" xlink:title="Iterate the parser.">
+<polygon fill="#ffffff" stroke="#000000" points="619,-183.5 619,-202.5 693,-202.5 693,-183.5 619,-183.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node12&#45;&gt;Node13</title>
+<path fill="none" stroke="#191970" d="M548.3473,-193C567.5156,-193 589.5994,-193 608.7571,-193"/>
+<polygon fill="#191970" stroke="#191970" points="608.7689,-196.5001 618.7689,-193 608.7689,-189.5001 608.7689,-196.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>Node15</title>
+<g id="a_node6"><a xlink:href="parserutil_8c.html#a1a00af051004cb18edac760f39982eea" target="_top" xlink:title="Searches for the given character, advances the parser if it found it.">
+<polygon fill="#ffffff" stroke="#000000" points="277,-164.5 277,-183.5 383,-183.5 383,-164.5 277,-164.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node14&#45;&gt;Node15</title>
+<path fill="none" stroke="#191970" d="M241.2893,-174C249.7217,-174 258.381,-174 266.8287,-174"/>
+<polygon fill="#191970" stroke="#191970" points="266.9986,-177.5001 276.9986,-174 266.9986,-170.5001 266.9986,-177.5001"/>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node15&#45;&gt;Node12</title>
+<path fill="none" stroke="#191970" d="M383.1681,-179.9076C402.454,-182.0504 424.3138,-184.4793 443.9229,-186.6581"/>
+<polygon fill="#191970" stroke="#191970" points="443.6211,-190.146 453.9465,-187.7718 444.3942,-183.1888 443.6211,-190.146"/>
+</g>
+
+<g id="node10" class="node">
+<title>Node19</title>
+<g id="a_node10"><a xlink:href="helios__string_8c.html#af727ca5352482ab7e542510f178a9f85" target="_top" xlink:title="Constructor of a helios_string.">
+<polygon fill="#ffffff" stroke="#000000" points="280,-44.5 280,-63.5 380,-63.5 380,-44.5 280,-44.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge">
+<title>Node18&#45;&gt;Node19</title>
+<path fill="none" stroke="#191970" d="M232.6621,-54C244.649,-54 257.4394,-54 269.6752,-54"/>
+<polygon fill="#191970" stroke="#191970" points="269.793,-57.5001 279.7929,-54 269.7929,-50.5001 269.793,-57.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>Node20</title>
+<g id="a_node11"><a xlink:href="helios__memory_8h.html#af87f0050f8e236d0945592fa4e54dc94" target="_top" xlink:title="Allocates a new helios object (and performs all the GC steps associated with that action).">
+<polygon fill="#ffffff" stroke="#000000" points="438.5,-63.5 438.5,-82.5 563.5,-82.5 563.5,-63.5 438.5,-63.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge">
+<title>Node19&#45;&gt;Node20</title>
+<path fill="none" stroke="#191970" d="M380.3808,-59.5979C395.3923,-61.2658 412.152,-63.128 428.2898,-64.9211"/>
+<polygon fill="#191970" stroke="#191970" points="427.9109,-68.4004 438.2363,-66.0263 428.684,-61.4433 427.9109,-68.4004"/>
+</g>
+
+<g id="node12" class="node">
+<title>Node21</title>
+<g id="a_node12"><a xlink:href="helios__memory_8h.html#ab14fb1c046aae61ab06eda8eeaf2cd85" target="_top" xlink:title=" ">
+<polygon fill="#ffffff" stroke="#000000" points="419,-25.5 419,-44.5 583,-44.5 583,-25.5 419,-25.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge">
+<title>Node19&#45;&gt;Node21</title>
+<path fill="none" stroke="#191970" d="M380.3808,-48.4021C389.3743,-47.4029 398.9953,-46.3339 408.7341,-45.2518"/>
+<polygon fill="#191970" stroke="#191970" points="409.352,-48.7047 418.9043,-44.1217 408.5789,-41.7476 409.352,-48.7047"/>
+</g>
+</g>
+</svg>

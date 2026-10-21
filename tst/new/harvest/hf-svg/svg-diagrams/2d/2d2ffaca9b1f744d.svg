@@ -1,0 +1,186 @@
+<svg width="894pt" height="428pt"
+ viewBox="0.00 0.00 894.00 428.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 424)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-424 890,-424 890,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="209,-10 209,-30 229,-30 229,-10 209,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="322,-10 322,-30 342,-30 342,-10 322,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="408,-10 408,-30 428,-30 428,-10 408,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="505,-10 505,-30 525,-30 525,-10 505,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="601,-10 601,-30 621,-30 621,-10 601,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="378,-200 378,-412 742,-412 742,-200 378,-200"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="386,-208 386,-260 508,-260 508,-208 386,-208"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="516,-208 516,-260 734,-260 734,-208 516,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="508,-352 508,-404 632,-404 632,-352 508,-352"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_CardsModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 370,-268 370,-70 8,-70"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_CardsModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="23,-78 23,-130 361,-130 361,-78 23,-78"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_CardsModule_exports</title>
+<polygon fill="none" stroke="#000000" points="16,-208 16,-260 362,-260 362,-208 16,-208"/>
+</g>
+<g id="clust16" class="cluster">
+<title>cluster_PicUiModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="750,-276 750,-344 878,-344 878,-276 750,-276"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_PicUiModule_exports</title>
+<polygon fill="none" stroke="#000000" points="758,-284 758,-336 870,-336 870,-284 758,-284"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="499.9399,-252 394.0601,-252 394.0601,-216 499.9399,-216 499.9399,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="611.6571,-328 608.6571,-332 587.6571,-332 584.6571,-328 528.3429,-328 528.3429,-292 611.6571,-292 611.6571,-328"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M447,-252.0109C447,-274.4852 447,-310 447,-310 447,-310 518.0144,-310 518.0144,-310"/>
+<polygon fill="#000000" stroke="#000000" points="518.0144,-313.5001 528.0144,-310 518.0144,-306.5001 518.0144,-313.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="624.439,-396 515.561,-396 515.561,-360 624.439,-360 624.439,-396"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M570,-328.2228C570,-328.2228 570,-349.7269 570,-349.7269"/>
+<polygon fill="#000000" stroke="#000000" points="566.5001,-349.7269 570,-359.7269 573.5001,-349.727 566.5001,-349.7269"/>
+</g>
+
+<g id="node3" class="node">
+<title>PicUiModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="725.9358,-252 722.9358,-256 701.9358,-256 698.9358,-252 634.0642,-252 634.0642,-216 725.9358,-216 725.9358,-252"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>PicUiModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M664.7609,-252.0263C664.7609,-276.9773 664.7609,-319 664.7609,-319 664.7609,-319 621.8393,-319 621.8393,-319"/>
+<polygon fill="#000000" stroke="#000000" points="621.8394,-315.5001 611.8393,-319 621.8393,-322.5001 621.8394,-315.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>CardsModule </title>
+<polygon fill="#fb8072" stroke="#000000" points="861.7066,-328 766.2934,-328 766.2934,-292 861.7066,-292 861.7066,-328"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>PicUiModule&#45;&gt;CardsModule </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M695.2391,-252.308C695.2391,-272.1455 695.2391,-301 695.2391,-301 695.2391,-301 756.0377,-301 756.0377,-301"/>
+<polygon fill="#000000" stroke="#000000" points="756.0378,-304.5001 766.0377,-301 756.0377,-297.5001 756.0378,-304.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>PscUiModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="616.4888,-252 613.4888,-256 592.4888,-256 589.4888,-252 523.5112,-252 523.5112,-216 616.4888,-216 616.4888,-252"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>PscUiModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M570,-252.0109C570,-252.0109 570,-281.855 570,-281.855"/>
+<polygon fill="#000000" stroke="#000000" points="566.5001,-281.8549 570,-291.855 573.5001,-281.855 566.5001,-281.8549"/>
+</g>
+
+<g id="edge11" class="edge">
+<title>PscUiModule&#45;&gt;CardsModule </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M616.5207,-234C618.9907,-234 620.482,-234 620.482,-234 620.482,-234 620.482,-310 620.482,-310 620.482,-310 756.1641,-310 756.1641,-310"/>
+<polygon fill="#000000" stroke="#000000" points="756.1641,-313.5001 766.1641,-310 756.164,-306.5001 756.1641,-313.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>BankCardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="353.0954,-122 214.9046,-122 214.9046,-86 353.0954,-86 353.0954,-122"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>CardsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="329.2064,-187 326.2064,-191 305.2064,-191 302.2064,-187 236.7936,-187 236.7936,-151 329.2064,-151 329.2064,-187"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>BankCardComponent&#45;&gt;CardsModule</title>
+<path fill="none" stroke="#000000" d="M283,-122.1061C283,-122.1061 283,-140.991 283,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="279.5001,-140.9909 283,-150.991 286.5001,-140.991 279.5001,-140.9909"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>CardsModule&#45;&gt;PicUiModule</title>
+<path fill="none" stroke="#000000" d="M329.3179,-169C434.0422,-169 680,-169 680,-169 680,-169 680,-205.8939 680,-205.8939"/>
+<polygon fill="#000000" stroke="#000000" points="676.5001,-205.8938 680,-215.8939 683.5001,-205.8939 676.5001,-205.8938"/>
+</g>
+
+<g id="node8" class="node">
+<title>BankCardComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="353.596,-252 212.404,-252 212.404,-216 353.596,-216 353.596,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CardsModule&#45;&gt;BankCardComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M283,-187.1061C283,-187.1061 283,-205.991 283,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="279.5001,-205.9909 283,-215.991 286.5001,-205.991 279.5001,-205.9909"/>
+</g>
+
+<g id="node10" class="node">
+<title>WorkshopCardComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="194.3644,-252 23.6356,-252 23.6356,-216 194.3644,-216 194.3644,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>CardsModule&#45;&gt;WorkshopCardComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M236.8524,-175C178.3763,-175 85.106,-175 85.106,-175 85.106,-175 85.106,-205.9775 85.106,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="81.6061,-205.9774 85.106,-215.9775 88.6061,-205.9775 81.6061,-205.9774"/>
+</g>
+
+<g id="node9" class="node">
+<title>WorkshopCardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="197.3641,-122 30.6359,-122 30.6359,-86 197.3641,-86 197.3641,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>WorkshopCardComponent&#45;&gt;CardsModule</title>
+<path fill="none" stroke="#000000" d="M139.644,-122.0225C139.644,-139.3734 139.644,-163 139.644,-163 139.644,-163 226.8522,-163 226.8522,-163"/>
+<polygon fill="#000000" stroke="#000000" points="226.8522,-166.5001 236.8522,-163 226.8521,-159.5001 226.8522,-166.5001"/>
+</g>
+</g>
+</svg>

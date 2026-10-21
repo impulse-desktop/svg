@@ -1,0 +1,180 @@
+<svg width="1689pt" height="211pt"
+ viewBox="0.00 0.00 1689.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1685,-207 1685,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="606.5,-10 606.5,-30 626.5,-30 626.5,-10 606.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="719.5,-10 719.5,-30 739.5,-30 739.5,-10 719.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="805.5,-10 805.5,-30 825.5,-30 825.5,-10 805.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="902.5,-10 902.5,-30 922.5,-30 922.5,-10 902.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="998.5,-10 998.5,-30 1018.5,-30 1018.5,-10 998.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SearchModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1673,-195 1673,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SearchModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1205,-78 1205,-130 1665,-130 1665,-78 1205,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_SearchModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1197,-130 1197,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>SDialogComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1656.7176,-122 1529.2824,-122 1529.2824,-86 1656.7176,-86 1656.7176,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>SearchModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="862.6375,-187 859.6375,-191 838.6375,-191 835.6375,-187 765.3625,-187 765.3625,-151 862.6375,-151 862.6375,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>SDialogComponent&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M1593,-122.0908C1593,-145.1328 1593,-182 1593,-182 1593,-182 872.7299,-182 872.7299,-182"/>
+<polygon fill="#000000" stroke="#000000" points="872.73,-178.5001 862.7299,-182 872.7299,-185.5001 872.73,-178.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>SDialogCardsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1510.8738,-122 1351.1262,-122 1351.1262,-86 1510.8738,-86 1510.8738,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SDialogCardsComponent&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M1431,-122.2843C1431,-143.3211 1431,-175 1431,-175 1431,-175 872.6725,-175 872.6725,-175"/>
+<polygon fill="#000000" stroke="#000000" points="872.6726,-171.5001 862.6725,-175 872.6725,-178.5001 872.6726,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SearchComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1332.9201,-122 1213.0799,-122 1213.0799,-86 1332.9201,-86 1332.9201,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SearchComponent&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M1273,-122.1061C1273,-141.3391 1273,-169 1273,-169 1273,-169 872.6865,-169 872.6865,-169"/>
+<polygon fill="#000000" stroke="#000000" points="872.6865,-165.5001 862.6865,-169 872.6865,-172.5001 872.6865,-165.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1188.6681,-122 1185.6681,-126 1164.6681,-126 1161.6681,-122 1077.3319,-122 1077.3319,-86 1188.6681,-86 1188.6681,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CommonModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M1133,-122.0225C1133,-139.3734 1133,-163 1133,-163 1133,-163 872.7965,-163 872.7965,-163"/>
+<polygon fill="#000000" stroke="#000000" points="872.7965,-159.5001 862.7965,-163 872.7964,-166.5001 872.7965,-159.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>RouterModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1058.6528,-122 1055.6528,-126 1034.6528,-126 1031.6528,-122 961.3472,-122 961.3472,-86 1058.6528,-86 1058.6528,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>RouterModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M1010,-122.2396C1010,-137.5706 1010,-157 1010,-157 1010,-157 872.7013,-157 872.7013,-157"/>
+<polygon fill="#000000" stroke="#000000" points="872.7013,-153.5001 862.7013,-157 872.7012,-160.5001 872.7013,-153.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>FlexLayoutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="943.0954,-122 940.0954,-126 919.0954,-126 916.0954,-122 818.9046,-122 818.9046,-86 943.0954,-86 943.0954,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>FlexLayoutModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M840.8854,-122.1061C840.8854,-122.1061 840.8854,-140.991 840.8854,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="837.3854,-140.9909 840.8854,-150.991 844.3854,-140.991 837.3854,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>MaterialModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="800.4706,-122 797.4706,-126 776.4706,-126 773.4706,-122 693.5294,-122 693.5294,-86 800.4706,-86 800.4706,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MaterialModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M782.8335,-122.1061C782.8335,-122.1061 782.8335,-140.991 782.8335,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="779.3335,-140.9909 782.8335,-150.991 786.3335,-140.991 779.3335,-140.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>LayoutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="675.7078,-122 672.7078,-126 651.7078,-126 648.7078,-122 576.2922,-122 576.2922,-86 675.7078,-86 675.7078,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>LayoutModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M626,-122.2396C626,-137.5706 626,-157 626,-157 626,-157 755.096,-157 755.096,-157"/>
+<polygon fill="#000000" stroke="#000000" points="755.096,-160.5001 765.096,-157 755.096,-153.5001 755.096,-160.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>FormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="558.8288,-122 555.8288,-126 534.8288,-126 531.8288,-122 463.1712,-122 463.1712,-86 558.8288,-86 558.8288,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>FormsModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M511,-122.0225C511,-139.3734 511,-163 511,-163 511,-163 755.3178,-163 755.3178,-163"/>
+<polygon fill="#000000" stroke="#000000" points="755.3178,-166.5001 765.3178,-163 755.3178,-159.5001 755.3178,-166.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>ReactiveFormsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="445.3047,-122 442.3047,-126 421.3047,-126 418.3047,-122 300.6953,-122 300.6953,-86 445.3047,-86 445.3047,-122"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ReactiveFormsModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M373,-122.1061C373,-141.3391 373,-169 373,-169 373,-169 755.1203,-169 755.1203,-169"/>
+<polygon fill="#000000" stroke="#000000" points="755.1203,-172.5001 765.1203,-169 755.1203,-165.5001 755.1203,-172.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="283.4231,-122 280.4231,-126 259.4231,-126 256.4231,-122 184.5769,-122 184.5769,-86 283.4231,-86 283.4231,-122"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>SharedModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M234,-122.2843C234,-143.3211 234,-175 234,-175 234,-175 755.0494,-175 755.0494,-175"/>
+<polygon fill="#000000" stroke="#000000" points="755.0494,-178.5001 765.0494,-175 755.0494,-171.5001 755.0494,-178.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>SearchRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="166.2548,-122 163.2548,-126 142.2548,-126 139.2548,-122 23.7452,-122 23.7452,-86 166.2548,-86 166.2548,-122"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>SearchRoutingModule&#45;&gt;SearchModule</title>
+<path fill="none" stroke="#000000" d="M95,-122.0908C95,-145.1328 95,-182 95,-182 95,-182 755.1455,-182 755.1455,-182"/>
+<polygon fill="#000000" stroke="#000000" points="755.1455,-185.5001 765.1455,-182 755.1454,-178.5001 755.1455,-185.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="768" height="54" viewBox="0 0 768 54">
+  <defs>
+    <path id="wave_tablet-b" d="M144,24 C395.287623,24 397.290361,0 624,0 C671.138147,0 719.138147,0.443649003 768,2 L768,36 L2.84217094e-13,36 L2.21120899e-11,22 C47.3657867,23.3484787 95.3657867,24 144,24 Z"/>
+    <filter id="wave_tablet-a" width="103.8%" height="180.6%" x="-1.9%" y="-45.8%" filterUnits="objectBoundingBox">
+      <feOffset dy="-2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="4.5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.0454030797 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(0 11)">
+    <use fill="#000" filter="url(#wave_tablet-a)" xlink:href="#wave_tablet-b"/>
+    <use fill="#FFF" xlink:href="#wave_tablet-b"/>
+  </g>
+</svg>

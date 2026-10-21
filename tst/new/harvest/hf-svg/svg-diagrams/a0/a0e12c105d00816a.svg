@@ -1,0 +1,91 @@
+<svg width="485pt" height="192pt"
+ viewBox="0.00 0.00 485.00 192.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 188)">
+<title>amunmt::BPE::Preprocess</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-188 481,-188 481,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-76.5 0,-95.5 134,-95.5 134,-76.5 0,-76.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="$da/d75/classamunmt_1_1BPE.html#a31bddda15c8e822540612885885e3a3a" xlink:title="amunmt::BPE::Encode">
+<polygon fill="white" stroke="black" points="170,-76.5 170,-95.5 287,-95.5 287,-76.5 170,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M134.257,-86C142.654,-86 151.257,-86 159.678,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="159.834,-89.5001 169.834,-86 159.834,-82.5001 159.834,-89.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="$da/d75/classamunmt_1_1BPE.html#a7840a80bf09596f2b3415070f3324b4b" xlink:title="amunmt::BPE::IsCached">
+<polygon fill="white" stroke="black" points="337,-164.5 337,-183.5 463,-183.5 463,-164.5 337,-164.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M239.559,-95.5489C255.81,-110.454 289.421,-139.177 323,-155 328.202,-157.451 333.759,-159.611 339.411,-161.509"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="338.381,-164.854 348.968,-164.461 340.446,-158.166 338.381,-164.854"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="$da/d75/classamunmt_1_1BPE.html#a6089b76990dd5e462f8bcc7249fcb912" xlink:title="amunmt::BPE::SplitWordInto\lLetters">
+<polygon fill="white" stroke="black" points="328.5,-115 328.5,-145 471.5,-145 471.5,-115 328.5,-115"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M266.279,-95.5473C285.277,-100.479 309.072,-106.656 331.247,-112.412"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="330.405,-115.81 340.964,-114.935 332.164,-109.034 330.405,-115.81"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="$da/d75/classamunmt_1_1BPE.html#a98b27329dd9a9146202d2bd732ce4ba3" xlink:title="amunmt::BPE::GetPairs">
+<polygon fill="white" stroke="black" points="339,-76.5 339,-95.5 461,-95.5 461,-76.5 339,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node2&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M287.358,-86C300.579,-86 314.775,-86 328.461,-86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="328.804,-89.5001 338.803,-86 328.803,-82.5001 328.804,-89.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="$da/d75/classamunmt_1_1BPE.html#ab1ad9af2c5806b7e2ee2bf91bd38d80b" xlink:title="amunmt::BPE::FindBestBigram">
+<polygon fill="white" stroke="black" points="323,-38.5 323,-57.5 477,-57.5 477,-38.5 323,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node2&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M272.272,-76.411C294.841,-71.3513 322.723,-65.1004 346.583,-59.7512"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="347.543,-63.1229 356.536,-57.5201 346.012,-56.2925 347.543,-63.1229"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="$da/d75/classamunmt_1_1BPE.html#a21b9fe0b9cd1782985a5917bed7eb5f2" xlink:title="amunmt::BPE::EndsWith">
+<polygon fill="white" stroke="black" points="336.5,-0.5 336.5,-19.5 463.5,-19.5 463.5,-0.5 336.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node2&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M242.44,-76.3481C259.885,-63.7614 292.308,-41.84 323,-29 328.846,-26.5543 335.082,-24.3695 341.371,-22.4316"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="342.61,-25.7173 351.252,-19.5876 340.674,-18.9904 342.61,-25.7173"/>
+</g>
+</g>
+</svg>

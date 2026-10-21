@@ -1,0 +1,189 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   sodipodi:docname="bsmicon.svg"
+   viewBox="0 0 200 200"
+   version="1.1"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   enable-background="new">
+  <defs
+     id="defs4">
+    <filter
+       id="filter4606"
+       inkscape:menu="Bevels"
+       inkscape:menu-tooltip="Ridged border with inner bevel"
+       inkscape:label="Ridged border"
+       color-interpolation-filters="sRGB">
+      <feMorphology
+         id="feMorphology4608"
+         result="result91"
+         radius="4.3"
+         in="SourceAlpha" />
+      <feComposite
+         id="feComposite4610"
+         operator="out"
+         in2="result91"
+         in="SourceGraphic" />
+      <feGaussianBlur
+         id="feGaussianBlur4612"
+         stdDeviation="1.2"
+         result="result0" />
+      <feDiffuseLighting
+         id="feDiffuseLighting4614"
+         result="result92"
+         diffuseConstant="1">
+        <feDistantLight
+           id="feDistantLight4616"
+           elevation="66"
+           azimuth="225" />
+      </feDiffuseLighting>
+      <feBlend
+         id="feBlend4618"
+         result="result93"
+         in2="SourceGraphic"
+         mode="multiply" />
+      <feComposite
+         id="feComposite4620"
+         operator="in"
+         in2="SourceAlpha" />
+    </filter>
+    <filter
+       id="filter4652"
+       inkscape:menu="Shadows and Glows"
+       inkscape:menu-tooltip="Adds a colorizable drop shadow inside"
+       inkscape:label="Inner Shadow"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4654"
+         stdDeviation="4"
+         result="result8" />
+      <feOffset
+         id="feOffset4656"
+         result="result11"
+         dx="4"
+         dy="4" />
+      <feComposite
+         id="feComposite4658"
+         operator="in"
+         in="SourceGraphic"
+         in2="result11"
+         result="result6" />
+      <feFlood
+         id="feFlood4660"
+         flood-color="rgb(0,0,0)"
+         in="result6"
+         result="result10" />
+      <feBlend
+         id="feBlend4662"
+         result="result12"
+         in="result6"
+         in2="result10"
+         mode="normal" />
+      <feComposite
+         id="feComposite4664"
+         operator="in"
+         in2="SourceGraphic"
+         result="result2" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter873">
+      <feBlend
+         inkscape:collect="always"
+         mode="overlay"
+         in2="BackgroundImage"
+         id="feBlend875" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     fit-margin-left="0"
+     inkscape:showpageshadow="true"
+     inkscape:zoom="2.3275598"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="272.55207"
+     inkscape:cy="60.32817"
+     inkscape:window-maximized="1"
+     showgrid="false"
+     fit-margin-right="0"
+     inkscape:document-units="px"
+     bordercolor="#666666"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     pagecolor="#ffffff"
+     inkscape:window-height="1017"
+     showborder="true"
+     fit-margin-top="0" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-134.57 -188.27)">
+    <path
+       id="rect4552"
+       style="fill-rule:evenodd;filter:url(#filter873);stroke-width:0;fill:#25c2a0;fill-opacity:1"
+       inkscape:connector-curvature="0"
+       d="m154.57 188.27h160c11.08 0 20 8.92 20 20v160c0 11.08-8.92 20-20 20h-160c-11.08 0-20-8.92-20-20v-160c0-11.08 8.92-20 20-20z" />
+    <circle
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.00312901;paint-order:normal"
+       id="path1623"
+       cx="234.57001"
+       cy="288.26999"
+       r="64" />
+  </g>
+  <metadata
+     id="metadata858">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title></dc:title>
+        <dc:date>2011-01-26T12:35:51</dc:date>
+        <dc:description>A rounded square with a circle cut from the centre forming a border.</dc:description>
+        <dc:source>https://openclipart.org/detail/110101/border-040-by-ovideva</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>ovideva</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>border</rdf:li>
+            <rdf:li>circle</rdf:li>
+            <rdf:li>square</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

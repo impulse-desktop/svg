@@ -1,0 +1,143 @@
+<svg width="946pt" height="1049pt"
+ viewBox="0.00 0.00 946.00 1049.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1045)">
+<title>comments</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-1045 942,-1045 942,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>comments</title>
+<polygon fill="#efefef" stroke="transparent" points="282,-622.5 282,-657.5 656,-657.5 656,-622.5 282,-622.5"/>
+<polygon fill="none" stroke="#000000" points="282,-622.5 282,-657.5 656,-657.5 656,-622.5 282,-622.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="282,-592.5 282,-622.5 656,-622.5 656,-592.5 282,-592.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-562.5 282,-592.5 656,-592.5 656,-562.5 282,-562.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-532.5 282,-562.5 656,-562.5 656,-532.5 282,-532.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-502.5 282,-532.5 656,-532.5 656,-502.5 282,-502.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-472.5 282,-502.5 656,-502.5 656,-472.5 282,-472.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-442.5 282,-472.5 656,-472.5 656,-442.5 282,-442.5"/>
+
+
+<polygon fill="none" stroke="#000000" stroke-width="3" points="280.5,-441.5 280.5,-659.5 657.5,-659.5 657.5,-441.5 280.5,-441.5"/>
+</g>
+
+<g id="node2" class="node">
+<title>posts</title>
+<polygon fill="#efefef" stroke="transparent" points="43,-282.5 43,-317.5 417,-317.5 417,-282.5 43,-282.5"/>
+<polygon fill="none" stroke="#000000" points="43,-282.5 43,-317.5 417,-317.5 417,-282.5 43,-282.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="43,-252.5 43,-282.5 417,-282.5 417,-252.5 43,-252.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-222.5 43,-252.5 417,-252.5 417,-222.5 43,-222.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-192.5 43,-222.5 417,-222.5 417,-192.5 43,-192.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-162.5 43,-192.5 417,-192.5 417,-162.5 43,-162.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-132.5 43,-162.5 417,-162.5 417,-132.5 43,-132.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-102.5 43,-132.5 417,-132.5 417,-102.5 43,-102.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-72.5 43,-102.5 417,-102.5 417,-72.5 43,-72.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="43,-42.5 43,-72.5 417,-72.5 417,-42.5 43,-42.5"/>
+
+
+</g>
+
+<g id="edge1" class="edge">
+<title>comments:user_id&#45;&gt;posts:user_id</title>
+<path fill="none" stroke="#000000" d="M271.6255,-606.8878C191.3317,-596.9455 227.229,-468.2905 282,-397 319.8316,-347.758 379.1684,-410.242 417,-361 442.3171,-328.0469 458.5556,-267.5 417,-267.5"/>
+<polygon fill="#000000" stroke="#000000" points="272.0174,-606.9109 281.7349,-611.9922 277.0087,-607.2054 282,-607.5 282,-607.5 282,-607.5 277.0087,-607.2054 282.2651,-603.0078 272.0174,-606.9109 272.0174,-606.9109"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>users</title>
+<polygon fill="#efefef" stroke="transparent" points="521,-252.5 521,-287.5 895,-287.5 895,-252.5 521,-252.5"/>
+<polygon fill="none" stroke="#000000" points="521,-252.5 521,-287.5 895,-287.5 895,-252.5 521,-252.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="521,-222.5 521,-252.5 895,-252.5 895,-222.5 521,-222.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="521,-192.5 521,-222.5 895,-222.5 895,-192.5 521,-192.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="521,-162.5 521,-192.5 895,-192.5 895,-162.5 521,-162.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="521,-132.5 521,-162.5 895,-162.5 895,-132.5 521,-132.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="521,-102.5 521,-132.5 895,-132.5 895,-102.5 521,-102.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="521,-72.5 521,-102.5 895,-102.5 895,-72.5 521,-72.5"/>
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>comments:user_id&#45;&gt;users:user_id</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666.3417,-606.9106C746.1084,-597.3339 703.6047,-473.2626 656,-397 620.635,-340.3453 556.365,-387.6547 521,-331 498.9954,-295.7486 479.4444,-237.5 521,-237.5"/>
+<polygon fill="#000000" stroke="#000000" points="665.9838,-606.9309 655.7439,-603.0073 660.9919,-607.2155 656,-607.5 656,-607.5 656,-607.5 660.9919,-607.2155 656.2561,-611.9927 665.9838,-606.9309 665.9838,-606.9309"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>comment_stars</title>
+<polygon fill="#efefef" stroke="transparent" points="282,-962.5 282,-997.5 656,-997.5 656,-962.5 282,-962.5"/>
+<polygon fill="none" stroke="#000000" points="282,-962.5 282,-997.5 656,-997.5 656,-962.5 282,-962.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="282,-932.5 282,-962.5 656,-962.5 656,-932.5 282,-932.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-902.5 282,-932.5 656,-932.5 656,-902.5 282,-902.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-872.5 282,-902.5 656,-902.5 656,-872.5 282,-872.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-842.5 282,-872.5 656,-872.5 656,-842.5 282,-842.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-812.5 282,-842.5 656,-842.5 656,-812.5 282,-812.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="282,-782.5 282,-812.5 656,-812.5 656,-782.5 282,-782.5"/>
+
+
+</g>
+
+<g id="edge3" class="edge">
+<title>comment_stars:comment_post_id&#45;&gt;comments:post_id</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M666.2283,-886.9106C793.689,-871.9577 790.2795,-577.5 656,-577.5"/>
+<polygon fill="#000000" stroke="#000000" points="665.9834,-886.9246 655.7411,-883.0075 660.9917,-887.2123 656,-887.5 656,-887.5 656,-887.5 660.9917,-887.2123 656.2589,-891.9925 665.9834,-886.9246 665.9834,-886.9246"/>
+
+</g>
+</g>
+</svg>

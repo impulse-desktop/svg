@@ -1,0 +1,105 @@
+<svg width="1186pt" height="315pt"
+ viewBox="0.00 0.00 1185.88 315.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 311)">
+<title>Avast_Password_Manager</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-311 1181.88,-311 1181.88,4 -4,4"/>
+<g id="clust1" class="cluster"><title>cluster_Topee</title>
+<polygon fill="blanchedalmond" stroke="blanchedalmond" points="431.884,-60 431.884,-135 1169.88,-135 1169.88,-60 431.884,-60"/>
+
+</g>
+<g id="clust2" class="cluster"><title>cluster_Extension</title>
+<polygon fill="none" stroke="black" points="8,-8 8,-299 411.884,-299 411.884,-8 8,-8"/>
+
+</g>
+
+<g id="node1" class="node"><title>requestHandlers</title>
+<polygon fill="none" stroke="black" points="809.884,-104 662.884,-104 662.884,-68 809.884,-68 809.884,-104"/>
+
+</g>
+
+<g id="node4" class="node"><title>webView</title>
+<polygon fill="none" stroke="black" points="913.884,-104 845.884,-104 845.884,-68 913.884,-68 913.884,-104"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>requestHandlers&#45;&gt;webView</title>
+<path fill="none" stroke="black" d="M810.207,-79.2526C818.87,-79.2741 827.492,-79.4307 835.553,-79.7223"/>
+<polygon fill="black" stroke="black" points="835.634,-83.2295 845.781,-80.1835 835.949,-76.2366 835.634,-83.2295"/>
+</g>
+
+<g id="node2" class="node"><title>chromeApi</title>
+<polygon fill="none" stroke="black" points="1161.88,-104 949.884,-104 949.884,-68 1161.88,-68 1161.88,-104"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>chromeApi&#45;&gt;webView</title>
+<path fill="none" stroke="black" d="M949.711,-92.6174C940.779,-92.4853 932.115,-92.2544 924.117,-91.9249"/>
+<polygon fill="black" stroke="black" points="924.18,-88.4239 914.022,-91.4348 923.84,-95.4157 924.18,-88.4239"/>
+</g>
+
+<g id="node3" class="node"><title>contentMsg</title>
+<polygon fill="none" stroke="black" points="626.884,-104 439.884,-104 439.884,-68 626.884,-68 626.884,-104"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>contentMsg&#45;&gt;requestHandlers</title>
+<path fill="none" stroke="black" d="M626.942,-86C635.512,-86 644.16,-86 652.634,-86"/>
+<polygon fill="black" stroke="black" points="652.867,-89.5001 662.867,-86 652.867,-82.5001 652.867,-89.5001"/>
+</g>
+
+<g id="edge4" class="edge"><title>webView&#45;&gt;requestHandlers</title>
+<path fill="none" stroke="black" d="M845.781,-91.8165C837.978,-92.2449 829.312,-92.5259 820.377,-92.6594"/>
+<polygon fill="black" stroke="black" points="820.176,-89.1609 810.207,-92.7474 820.237,-96.1606 820.176,-89.1609"/>
+</g>
+
+<g id="edge2" class="edge"><title>webView&#45;&gt;chromeApi</title>
+<path fill="none" stroke="black" d="M914.022,-80.5652C921.77,-80.1258 930.458,-79.7965 939.614,-79.5773"/>
+<polygon fill="black" stroke="black" points="939.781,-83.0748 949.711,-79.3826 939.646,-76.0761 939.781,-83.0748"/>
+</g>
+
+<g id="node5" class="node"><title>carthage</title>
+<polygon fill="none" stroke="black" points="386.399,-268 65.0014,-268 33.4858,-232 354.883,-232 386.399,-268"/>
+
+</g>
+
+<g id="node6" class="node"><title>resources</title>
+<polygon fill="none" stroke="black" points="403.827,-214 50.6861,-214 16.0578,-178 369.198,-178 403.827,-214"/>
+
+</g>
+
+<g id="node7" class="node"><title>backgroundScript</title>
+<polygon fill="none" stroke="black" points="279.942,-52 139.942,-52 139.942,-16 279.942,-16 279.942,-52"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>backgroundScript&#45;&gt;chromeApi</title>
+<path fill="none" stroke="black" d="M280.048,-32.9491C406.343,-31.8073 682.721,-32.9133 913.884,-59 929.574,-60.7706 946.134,-63.3184 962.171,-66.1502"/>
+<polygon fill="black" stroke="black" points="961.613,-69.606 972.077,-67.9457 962.862,-62.7182 961.613,-69.606"/>
+</g>
+
+<g id="node8" class="node"><title>contentScript</title>
+<polygon fill="none" stroke="black" points="267.442,-106 152.442,-106 152.442,-70 267.442,-70 267.442,-106"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>contentScript&#45;&gt;contentMsg</title>
+<path fill="none" stroke="black" d="M267.67,-87.647C312.37,-87.3689 375.88,-86.9738 429.486,-86.6402"/>
+<polygon fill="black" stroke="black" points="429.742,-90.1388 439.72,-86.5766 429.698,-83.1389 429.742,-90.1388"/>
+</g>
+
+<g id="node9" class="node"><title>platformCode</title>
+<polygon fill="none" stroke="black" points="318.942,-160 100.942,-160 100.942,-124 318.942,-124 318.942,-160"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>platformCode&#45;&gt;requestHandlers</title>
+<path fill="none" stroke="black" d="M319.251,-139.613C403.538,-136.513 523.209,-129.386 626.884,-113 637.932,-111.254 649.504,-108.926 660.803,-106.367"/>
+<polygon fill="black" stroke="black" points="661.702,-109.751 670.643,-104.067 660.109,-102.935 661.702,-109.751"/>
+</g>
+
+<g id="edge9" class="edge"><title>platformCode&#45;&gt;webView</title>
+<path fill="none" stroke="black" d="M319.189,-149.739C440.67,-155.456 642.641,-156.006 809.884,-113 818.574,-110.765 827.651,-107.744 836.258,-104.531"/>
+<polygon fill="black" stroke="black" points="837.677,-107.735 845.732,-100.853 835.143,-101.209 837.677,-107.735"/>
+</g>
+</g>
+</svg>

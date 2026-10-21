@@ -1,0 +1,88 @@
+<svg width="516pt" height="284pt"
+ viewBox="0.00 0.00 516.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 512,-280 512,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="20,-10 20,-30 40,-30 40,-10 20,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="133,-10 133,-30 153,-30 153,-10 133,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="219,-10 219,-30 239,-30 239,-10 219,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="316,-10 316,-30 336,-30 336,-10 316,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="412,-10 412,-30 432,-30 432,-10 412,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_TimePickerModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 500,-268 500,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TimePickerModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="330,-78 330,-130 492,-130 492,-78 330,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_TimePickerModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 322,-130 322,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_TimePickerModule_exports</title>
+<polygon fill="none" stroke="#000000" points="164,-208 164,-260 330,-260 330,-208 164,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>TimePickerComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="484.1442,-122 337.8558,-122 337.8558,-86 484.1442,-86 484.1442,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>TimePickerModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="309.3613,-187 306.3613,-191 285.3613,-191 282.3613,-187 184.6387,-187 184.6387,-151 309.3613,-151 309.3613,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>TimePickerComponent&#45;&gt;TimePickerModule</title>
+<path fill="none" stroke="#000000" d="M411,-122.1061C411,-141.3391 411,-169 411,-169 411,-169 319.4692,-169 319.4692,-169"/>
+<polygon fill="#000000" stroke="#000000" points="319.4692,-165.5001 309.4692,-169 319.4692,-172.5001 319.4692,-165.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>TimePickerComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="322.1439,-252 171.8561,-252 171.8561,-216 322.1439,-216 322.1439,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>TimePickerModule&#45;&gt;TimePickerComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M247,-187.1061C247,-187.1061 247,-205.991 247,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="243.5001,-205.9909 247,-215.991 250.5001,-205.991 243.5001,-205.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>NumberInputModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="314.4734,-122 311.4734,-126 290.4734,-126 287.4734,-122 179.5266,-122 179.5266,-86 314.4734,-86 314.4734,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>NumberInputModule&#45;&gt;TimePickerModule</title>
+<path fill="none" stroke="#000000" d="M247,-122.1061C247,-122.1061 247,-140.991 247,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="243.5001,-140.9909 247,-150.991 250.5001,-140.991 243.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>ToggleButtonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="161.8258,-122 158.8258,-126 137.8258,-126 134.8258,-122 24.1742,-122 24.1742,-86 161.8258,-86 161.8258,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ToggleButtonModule&#45;&gt;TimePickerModule</title>
+<path fill="none" stroke="#000000" d="M93,-122.1061C93,-141.3391 93,-169 93,-169 93,-169 174.3623,-169 174.3623,-169"/>
+<polygon fill="#000000" stroke="#000000" points="174.3623,-172.5001 184.3623,-169 174.3623,-165.5001 174.3623,-172.5001"/>
+</g>
+</g>
+</svg>

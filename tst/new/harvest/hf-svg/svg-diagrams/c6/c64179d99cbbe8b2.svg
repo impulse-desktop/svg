@@ -1,0 +1,156 @@
+<svg width="299pt" height="420pt"
+ viewBox="0.00 0.00 299.00 420.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 416)">
+<title>NBest::operator[]</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-416 295,-416 295,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-190.5 0,-209.5 92,-209.5 92,-190.5 0,-190.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="$df/d28/classNBest.html#a7c0e484c776c65e44e65034cf5127234" xlink:title="NBest::size">
+<polygon fill="white" stroke="black" points="175.5,-392.5 175.5,-411.5 243.5,-411.5 243.5,-392.5 175.5,-392.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M48.269,-209.753C52.7984,-240.432 71.063,-335.726 128,-383 138.477,-391.699 152.237,-396.56 165.412,-399.233"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="164.869,-402.691 175.308,-400.878 166.017,-395.786 164.869,-402.691"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="$df/d28/classNBest.html#a8f4ea909cf3d0083c058ffb4d315c4f0" xlink:title="NBest::GetSentence">
+<polygon fill="white" stroke="black" points="156,-354.5 156,-373.5 263,-373.5 263,-354.5 156,-354.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M49.4262,-209.57C56.5757,-235.727 80.129,-308.867 128,-345 133.467,-349.127 139.692,-352.375 146.203,-354.93"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="145.296,-358.318 155.89,-358.197 147.533,-351.685 145.296,-358.318"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="$df/d28/classNBest.html#a655136ec5cf258b827ad7113adba62d3" xlink:title="NBest::GetTokens">
+<polygon fill="white" stroke="black" points="160.5,-316.5 160.5,-335.5 258.5,-335.5 258.5,-316.5 160.5,-316.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M51.4805,-209.788C61.754,-231.076 89.1493,-281.696 128,-307 134.843,-311.457 142.62,-314.872 150.576,-317.487"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="149.742,-320.889 160.32,-320.297 151.681,-314.163 149.742,-320.889"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="$df/d28/classNBest.html#a3d5b1d94acb0f6f23ff754c35e1d5a17" xlink:title="NBest::GetEncodedTokens">
+<polygon fill="white" stroke="black" points="141,-278.5 141,-297.5 278,-297.5 278,-278.5 141,-278.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M55.4213,-209.66C69.0974,-224.718 97.6748,-253.646 128,-269 132.804,-271.432 137.928,-273.56 143.175,-275.42"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="142.119,-278.756 152.711,-278.486 144.262,-272.092 142.119,-278.756"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="$df/d28/classNBest.html#a4f9908d927e5312228e65eaeee451ec3" xlink:title="NBest::DivideNBestListInto\lBatches">
+<polygon fill="white" stroke="black" points="140.5,-229 140.5,-259 278.5,-259 278.5,-229 140.5,-229"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M82.0431,-209.547C99.9826,-214.435 122.41,-220.545 143.376,-226.257"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="142.635,-229.683 153.203,-228.935 144.475,-222.929 142.635,-229.683"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="$df/d28/classNBest.html#aab4853101e05435c3df0a4380d260c8c" xlink:title="NBest::Parse_">
+<polygon fill="white" stroke="black" points="169,-190.5 169,-209.5 250,-209.5 250,-190.5 169,-190.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M92.4165,-200C113.102,-200 137.641,-200 158.817,-200"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="158.91,-203.5 168.91,-200 158.91,-196.5 158.91,-203.5"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="$df/d28/classNBest.html#ad73a4cae337bf293c451dbebc329ddca" xlink:title="NBest::SplitBatch">
+<polygon fill="white" stroke="black" points="162,-152.5 162,-171.5 257,-171.5 257,-152.5 162,-152.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node1&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M87.7533,-190.411C109.161,-185.374 135.586,-179.156 158.253,-173.823"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="159.107,-177.217 168.04,-171.52 157.504,-170.404 159.107,-177.217"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="$df/d28/classNBest.html#a2215cf0548472839f871608bbd28aad7" xlink:title="NBest::ParseInputFile">
+<polygon fill="white" stroke="black" points="153,-114.5 153,-133.5 266,-133.5 266,-114.5 153,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node1&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M57.6999,-190.415C72.4631,-177.697 100.397,-155.409 128,-143 133.454,-140.548 139.263,-138.391 145.168,-136.498"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="146.548,-139.741 155.15,-133.556 144.569,-133.026 146.548,-139.741"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="$df/d28/classNBest.html#a233054c9107f4f6d65afb09365f32f34" xlink:title="NBest::EncodeBatch">
+<polygon fill="white" stroke="black" points="155,-76.5 155,-95.5 264,-95.5 264,-76.5 155,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node1&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M52.2881,-190.44C63.5249,-171.066 91.7452,-127.142 128,-105 133.308,-101.758 139.124,-99.0696 145.124,-96.8396"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="146.256,-100.152 154.659,-93.6994 144.066,-93.5033 146.256,-100.152"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="$df/d28/classNBest.html#aacbc43e7c51dda0483afa71532f05986" xlink:title="NBest::MaskAndTransposeBatch">
+<polygon fill="white" stroke="black" points="128,-38.5 128,-57.5 291,-57.5 291,-38.5 128,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node1&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M50.0226,-190.143C58.1866,-165.256 83.1445,-99.5523 128,-67 130.673,-65.0602 133.516,-63.3155 136.475,-61.7466"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="138.017,-64.8902 145.656,-57.548 135.106,-58.5244 138.017,-64.8902"/>
+</g>
+
+<g id="node12" class="node"><title>Node12</title>
+<g id="a_node12"><a xlink:href="$df/d28/classNBest.html#ae5410268f7e233ae0eafd6b4514cd559" xlink:title="NBest::ProcessBatch">
+<polygon fill="white" stroke="black" points="153.5,-0.5 153.5,-19.5 265.5,-19.5 265.5,-0.5 153.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge11" class="edge"><title>Node1&#45;&gt;Node12</title>
+<path fill="none" stroke="midnightblue" d="M48.5573,-190.463C53.838,-161.325 73.8533,-72.7955 128,-29 132.721,-25.1818 138.078,-22.1066 143.733,-19.633"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="145.316,-22.7784 153.47,-16.0133 142.877,-16.2171 145.316,-22.7784"/>
+</g>
+</g>
+</svg>

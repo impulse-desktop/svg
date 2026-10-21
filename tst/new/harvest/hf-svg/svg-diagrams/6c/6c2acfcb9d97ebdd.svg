@@ -1,0 +1,52 @@
+<svg width="518pt" height="66pt"
+ viewBox="0.00 0.00 518.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>x265::Predict::isAboveLeftAvailable</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-62 514,-62 514,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-14 0,-44 132,-44 132,-14 0,-14"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="classx265_1_1CUData.html#ad1ad60ca75127ee52e217c987dfc2814" target="_top" xlink:title="x265::CUData::getPUAboveLeft">
+<polygon fill="white" stroke="black" points="168,-38.5 168,-57.5 326,-57.5 326,-38.5 168,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M132.129,-35.9132C140.464,-36.7978 149.103,-37.7149 157.728,-38.6303"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="157.512,-42.127 167.826,-39.7022 158.251,-35.1661 157.512,-42.127"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="classx265_1_1CUData.html#a4de1cda97a0a06196c9f6ac92d6829a2" target="_top" xlink:title="x265::CUData::isIntra">
+<polygon fill="white" stroke="black" points="190.5,-0.5 190.5,-19.5 303.5,-19.5 303.5,-0.5 190.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M132.129,-22.0868C147.791,-20.4244 164.531,-18.6475 180.223,-16.982"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="180.786,-20.4419 190.361,-15.9058 180.047,-13.481 180.786,-20.4419"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="classx265_1_1FrameData.html#a83d98df913873a07c3ce59bd5c16b2e4" target="_top" xlink:title="x265::FrameData::getPicCTU">
+<polygon fill="white" stroke="black" points="362.5,-38.5 362.5,-57.5 509.5,-57.5 509.5,-38.5 362.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M326.221,-48C334.854,-48 343.664,-48 352.349,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="352.467,-51.5001 362.467,-48 352.467,-44.5001 352.467,-51.5001"/>
+</g>
+</g>
+</svg>

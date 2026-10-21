@@ -1,0 +1,138 @@
+<svg width="902pt" height="242pt"
+ viewBox="0.00 0.00 902.00 241.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 237.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-237.8 898,-237.8 898,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-225.8 346,-225.8 346,-32.8 8,-32.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="55,-108.8 55,-160.8 338,-160.8 338,-108.8 55,-108.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 338,-92.8 338,-40.8 16,-40.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AuthModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="354,-32.8 354,-100.8 500,-100.8 500,-32.8 354,-32.8"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_AuthModule_providers</title>
+<polygon fill="none" stroke="black" points="362,-40.8 362,-92.8 492,-92.8 492,-40.8 362,-40.8"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_CustomValidatorsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="508,-32.8 508,-100.8 886,-100.8 886,-32.8 508,-32.8"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_CustomValidatorsModule_providers</title>
+<polygon fill="none" stroke="black" points="516,-40.8 516,-92.8 878,-92.8 878,-40.8 516,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="150.55,-152.8 147.55,-156.8 126.55,-156.8 123.55,-152.8 63.45,-152.8 63.45,-116.8 150.55,-116.8 150.55,-152.8"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="123.66,-217.8 120.66,-221.8 99.66,-221.8 96.66,-217.8 40.34,-217.8 40.34,-181.8 123.66,-181.8 123.66,-217.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AuthModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M93.53,-152.91C93.53,-152.91 93.53,-171.79 93.53,-171.79"/>
+<polygon fill="black" stroke="black" points="90.03,-171.79 93.53,-181.79 97.03,-171.79 90.03,-171.79"/>
+</g>
+
+<g id="node2" class="node">
+<title>CustomValidatorsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="329.93,-152.8 326.93,-156.8 305.93,-156.8 302.93,-152.8 168.07,-152.8 168.07,-116.8 329.93,-116.8 329.93,-152.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CustomValidatorsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M249,-152.91C249,-172.14 249,-199.8 249,-199.8 249,-199.8 133.71,-199.8 133.71,-199.8"/>
+<polygon fill="black" stroke="black" points="133.71,-196.3 123.71,-199.8 133.71,-203.3 133.71,-196.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>ChallengeService</title>
+<ellipse fill="#fdb462" stroke="black" cx="103" cy="-66.8" rx="79.29" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>ChallengeService&#45;&gt;AuthModule</title>
+<path fill="none" stroke="black" d="M85.11,-84.67C85.11,-84.67 85.11,-106.34 85.11,-106.34"/>
+<polygon fill="black" stroke="black" points="81.61,-106.34 85.11,-116.34 88.61,-106.34 81.61,-106.34"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>ChallengeService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M47.86,-80.04C47.86,-80.04 47.86,-171.56 47.86,-171.56"/>
+<polygon fill="black" stroke="black" points="44.36,-171.56 47.86,-181.56 51.36,-171.56 44.36,-171.56"/>
+</g>
+
+<g id="node5" class="node">
+<title>TokenService</title>
+<ellipse fill="#fdb462" stroke="black" cx="265" cy="-66.8" rx="64.83" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>TokenService&#45;&gt;AuthModule</title>
+<path fill="none" stroke="black" d="M286.55,-83.8C286.55,-92.3 286.55,-100.8 286.55,-100.8 286.55,-100.8 107,-100.8 107,-100.8 107,-100.8 107,-106.61 107,-106.61"/>
+<polygon fill="black" stroke="black" points="103.5,-106.61 107,-116.61 110.5,-106.61 103.5,-106.61"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>TokenService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M243.45,-84C243.45,-88.83 243.45,-92.8 243.45,-92.8 243.45,-92.8 55.54,-92.8 55.54,-92.8 55.54,-92.8 55.54,-171.65 55.54,-171.65"/>
+<polygon fill="black" stroke="black" points="52.04,-171.65 55.54,-181.65 59.04,-171.65 52.04,-171.65"/>
+</g>
+
+<g id="node6" class="node">
+<title>JwtStrategy</title>
+<ellipse fill="#fdb462" stroke="black" cx="427" cy="-66.8" rx="56.76" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>JwtStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="black" d="M427,-84.86C427,-96.24 427,-108.8 427,-108.8 427,-108.8 128.89,-108.8 128.89,-108.8 128.89,-108.8 128.89,-109.59 128.89,-109.59"/>
+<polygon fill="black" stroke="black" points="125.39,-106.74 128.89,-116.74 132.39,-106.74 125.39,-106.74"/>
+</g>
+
+<g id="node7" class="node">
+<title>hasValidSignatures</title>
+<ellipse fill="#fdb462" stroke="black" cx="784" cy="-66.8" rx="86.25" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>hasValidSignatures&#45;&gt;CustomValidatorsModule</title>
+<path fill="none" stroke="black" d="M784,-85.09C784,-107.01 784,-140.8 784,-140.8 784,-140.8 339.96,-140.8 339.96,-140.8"/>
+<polygon fill="black" stroke="black" points="339.96,-137.3 329.96,-140.8 339.96,-144.3 339.96,-137.3"/>
+</g>
+
+<g id="node8" class="node">
+<title>isValidChallenge</title>
+<ellipse fill="#fdb462" stroke="black" cx="602" cy="-66.8" rx="78.17" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>isValidChallenge&#45;&gt;CustomValidatorsModule</title>
+<path fill="none" stroke="black" d="M602,-85.07C602,-103.36 602,-128.8 602,-128.8 602,-128.8 339.99,-128.8 339.99,-128.8"/>
+<polygon fill="black" stroke="black" points="339.99,-125.3 329.99,-128.8 339.99,-132.3 339.99,-125.3"/>
+</g>
+</g>
+</svg>

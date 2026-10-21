@@ -1,0 +1,155 @@
+<svg width="1100pt" height="314pt"
+ viewBox="0.00 0.00 1100.23 314.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 310)">
+<title>generation</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-310 1096.23,-310 1096.23,4 -4,4"/>
+
+<g id="node1" class="node"><title>RouteUnknownErr</title>
+<ellipse fill="none" stroke="black" stroke-width="2" cx="923.243" cy="-234" rx="106.681" ry="18"/>
+
+</g>
+
+<g id="node2" class="node"><title>MarkRouteNotReconciled</title>
+<g id="a_node2"><a xlink:href="https://godoc.org/github.com/knative/serving/pkg/apis/serving/v1alpha1#ServiceStatus.MarkRouteNotReconciled" xlink:title="MarkRouteNotReconciled">
+<ellipse fill="none" stroke="black" cx="923.243" cy="-288" rx="131.877" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node3" class="node"><title>PropagateRouteStatus</title>
+<g id="a_node3"><a xlink:href="https://godoc.org/github.com/knative/serving/pkg/apis/serving/v1alpha1#ServiceStatus.PropagateRouteStatus" xlink:title="PropagateRouteStatus">
+<ellipse fill="none" stroke="black" cx="923.243" cy="-180" rx="115.88" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node4" class="node"><title>ConfigUnknownErr</title>
+<ellipse fill="none" stroke="black" stroke-width="2" cx="923.243" cy="-72" rx="106.681" ry="18"/>
+
+</g>
+
+<g id="node5" class="node"><title>MarkConfigurationNotReconciled</title>
+<g id="a_node5"><a xlink:href="https://godoc.org/github.com/knative/serving/pkg/apis/serving/v1alpha1#ServiceStatus.MarkConfigurationNotReconciled" xlink:title="MarkConfigurationNotReconciled">
+<ellipse fill="none" stroke="black" cx="923.243" cy="-126" rx="168.97" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node6" class="node"><title>PropagateConfigurationStatus</title>
+<g id="a_node6"><a xlink:href="https://godoc.org/github.com/knative/serving/pkg/apis/serving/v1alpha1#ServiceStatus.PropagateConfigurationStatus" xlink:title="PropagateConfigurationStatus">
+<ellipse fill="none" stroke="black" cx="923.243" cy="-18" rx="152.173" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node7" class="node"><title>Reconcile</title>
+<g id="a_node7"><a xlink:href="https://github.com/knative/serving/blob/03b04365f0c9f552298436012a911ce3a32cc3bf/pkg/reconciler/service/service.go#L66" xlink:title="Reconcile">
+<ellipse fill="none" stroke="black" cx="55.895" cy="-171" rx="55.7903" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="node8" class="node"><title>reconcile</title>
+<g id="a_node8"><a xlink:href="https://github.com/knative/serving/blob/03b04365f0c9f552298436012a911ce3a32cc3bf/pkg/reconciler/service/service.go#L127" xlink:title="reconcile">
+<ellipse fill="none" stroke="black" cx="243.682" cy="-171" rx="53.8905" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Reconcile&#45;&gt;reconcile</title>
+<path fill="none" stroke="black" d="M111.883,-171C133.036,-171 157.354,-171 179.24,-171"/>
+<polygon fill="black" stroke="black" points="179.433,-174.5 189.432,-171 179.432,-167.5 179.433,-174.5"/>
+</g>
+
+<g id="node11" class="node"><title>updateStatus</title>
+<g id="a_node11"><a xlink:href="https://github.com/knative/serving/blob/03b04365f0c9f552298436012a911ce3a32cc3bf/pkg/reconciler/service/service.go#L277" xlink:title="updateStatus">
+<ellipse fill="none" stroke="black" cx="243.682" cy="-117" rx="72.5877" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Reconcile&#45;&gt;updateStatus</title>
+<path fill="none" stroke="black" d="M97.5943,-158.987C113.552,-154.291 132.024,-148.874 148.79,-144 160.742,-140.526 173.557,-136.825 185.758,-133.312"/>
+<polygon fill="black" stroke="black" points="186.74,-136.672 195.383,-130.544 184.805,-129.945 186.74,-136.672"/>
+</g>
+
+<g id="node12" class="node"><title>updateGeneration</title>
+<ellipse fill="none" stroke="black" stroke-width="2" cx="243.682" cy="-225" rx="94.7833" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>Reconcile&#45;&gt;updateGeneration</title>
+<path fill="none" stroke="black" d="M97.5943,-183.013C113.552,-187.709 132.024,-193.126 148.79,-198 159.14,-201.009 170.137,-204.187 180.822,-207.266"/>
+<polygon fill="black" stroke="black" points="179.942,-210.655 190.52,-210.058 181.878,-203.928 179.942,-210.655"/>
+</g>
+
+<g id="node9" class="node"><title>reconcileRoute</title>
+<g id="a_node9"><a xlink:href="https://github.com/knative/serving/blob/03b04365f0c9f552298436012a911ce3a32cc3bf/pkg/reconciler/service/service.go#L358" xlink:title="reconcileRoute">
+<ellipse fill="none" stroke="black" cx="459.416" cy="-207" rx="81.4863" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>reconcile&#45;&gt;reconcileRoute</title>
+<path fill="none" stroke="black" d="M292.116,-178.99C319.077,-183.531 353.437,-189.318 383.917,-194.452"/>
+<polygon fill="black" stroke="black" points="383.647,-197.956 394.089,-196.165 384.81,-191.053 383.647,-197.956"/>
+</g>
+
+<g id="node10" class="node"><title>reconcileConfig</title>
+<g id="a_node10"><a xlink:href="https://github.com/knative/serving/blob/03b04365f0c9f552298436012a911ce3a32cc3bf/pkg/reconciler/service/service.go#L315" xlink:title="reconcileConfig">
+<ellipse fill="none" stroke="black" cx="459.416" cy="-96" rx="83.6854" ry="18"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>reconcile&#45;&gt;reconcileConfig</title>
+<path fill="none" stroke="black" d="M286.562,-159.932C302.906,-155.36 321.728,-149.779 338.573,-144 362.95,-135.637 389.606,-125.103 411.576,-116.036"/>
+<polygon fill="black" stroke="black" points="413.109,-119.189 420.999,-112.118 410.422,-112.725 413.109,-119.189"/>
+</g>
+
+<g id="edge7" class="edge"><title>reconcileRoute&#45;&gt;RouteUnknownErr</title>
+<path fill="none" stroke="black" d="M538.236,-211.55C613.331,-215.94 727.742,-222.629 812.159,-227.564"/>
+<polygon fill="black" stroke="black" points="812.113,-231.067 822.3,-228.157 812.522,-224.079 812.113,-231.067"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>reconcileRoute&#45;&gt;MarkRouteNotReconciled</title>
+<path fill="none" stroke="black" d="M500.619,-222.57C518.886,-229.119 540.918,-236.295 561.258,-241 639.166,-259.022 728.244,-270.711 798.419,-277.924"/>
+<polygon fill="black" stroke="black" points="798.331,-281.433 808.632,-278.956 799.035,-274.468 798.331,-281.433"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>reconcileRoute&#45;&gt;PropagateRouteStatus</title>
+<path fill="none" stroke="black" d="M528.404,-197.393C539.372,-196.086 550.616,-194.891 561.258,-194 639.742,-187.433 728.087,-183.939 797.735,-182.085"/>
+<polygon fill="black" stroke="black" points="797.966,-185.58 807.872,-181.823 797.785,-178.583 797.966,-185.58"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>reconcileConfig&#45;&gt;ConfigUnknownErr</title>
+<path fill="none" stroke="black" d="M539.127,-90.3665C546.606,-89.8823 554.075,-89.4184 561.258,-89 644.239,-84.1666 738.012,-79.7829 809.183,-76.678"/>
+<polygon fill="black" stroke="black" points="809.677,-80.16 819.516,-76.2293 809.373,-73.1665 809.677,-80.16"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>reconcileConfig&#45;&gt;MarkConfigurationNotReconciled</title>
+<path fill="none" stroke="black" d="M538.033,-102.301C545.877,-102.895 553.725,-103.472 561.258,-104 627.548,-108.649 700.727,-113.214 763.767,-116.97"/>
+<polygon fill="black" stroke="black" points="763.605,-120.467 773.795,-117.566 764.021,-113.479 763.605,-120.467"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>reconcileConfig&#45;&gt;PropagateConfigurationStatus</title>
+<path fill="none" stroke="black" d="M501.087,-80.1776C519.255,-73.6616 541.079,-66.5812 561.258,-62 633.436,-45.614 715.209,-35.0084 782.653,-28.3254"/>
+<polygon fill="black" stroke="black" points="783.309,-31.7782 792.923,-27.3269 782.631,-24.811 783.309,-31.7782"/>
+
+</g>
+</g>
+</svg>

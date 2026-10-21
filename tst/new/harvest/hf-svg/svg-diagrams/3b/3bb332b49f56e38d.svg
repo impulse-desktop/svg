@@ -1,0 +1,184 @@
+<svg width="1831pt" height="284pt"
+ viewBox="0.00 0.00 1831.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1827,-280 1827,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="677.5,-10 677.5,-30 697.5,-30 697.5,-10 677.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="790.5,-10 790.5,-30 810.5,-30 810.5,-10 790.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="876.5,-10 876.5,-30 896.5,-30 896.5,-10 876.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="973.5,-10 973.5,-30 993.5,-30 993.5,-10 973.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1069.5,-10 1069.5,-30 1089.5,-30 1089.5,-10 1069.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ValidarPagoModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1815,-268 1815,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_ValidarPagoModule_imports</title>
+<polygon fill="none" stroke="#000000" points="1383,-78 1383,-130 1807,-130 1807,-78 1383,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ValidarPagoModule_exports</title>
+<polygon fill="none" stroke="#000000" points="855,-208 855,-260 1053,-260 1053,-208 855,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_ValidarPagoModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1375,-130 1375,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1799.4231,-122 1796.4231,-126 1775.4231,-126 1772.4231,-122 1700.5769,-122 1700.5769,-86 1799.4231,-86 1799.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>ValidarPagoModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1018.5255,-187 1015.5255,-191 994.5255,-191 991.5255,-187 889.4745,-187 889.4745,-151 1018.5255,-151 1018.5255,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M1750,-122.2479C1750,-145.0179 1750,-181 1750,-181 1750,-181 1028.8025,-181 1028.8025,-181"/>
+<polygon fill="#000000" stroke="#000000" points="1028.8026,-177.5001 1018.8025,-181 1028.8025,-184.5001 1028.8026,-177.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ValidarPagoRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1682.1428,-122 1679.1428,-126 1658.1428,-126 1655.1428,-122 1507.8572,-122 1507.8572,-86 1682.1428,-86 1682.1428,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ValidarPagoRoutingModule&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M1595,-122.2843C1595,-143.3211 1595,-175 1595,-175 1595,-175 1028.6929,-175 1028.6929,-175"/>
+<polygon fill="#000000" stroke="#000000" points="1028.693,-171.5001 1018.6929,-175 1028.6929,-178.5001 1028.693,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1489.4231,-122 1486.4231,-126 1465.4231,-126 1462.4231,-122 1390.5769,-122 1390.5769,-86 1489.4231,-86 1489.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M1440,-122.1061C1440,-141.3391 1440,-169 1440,-169 1440,-169 1028.537,-169 1028.537,-169"/>
+<polygon fill="#000000" stroke="#000000" points="1028.5371,-165.5001 1018.537,-169 1028.537,-172.5001 1028.5371,-165.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudValidarPagoComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1045.3045,-252 862.6955,-252 862.6955,-216 1045.3045,-216 1045.3045,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ValidarPagoModule&#45;&gt;CrudValidarPagoComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M954,-187.1061C954,-187.1061 954,-205.991 954,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="950.5001,-205.9909 954,-215.991 957.5001,-205.991 950.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>CampusMidService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="1279" cy="-104" rx="87.98" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CampusMidService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M1279,-122.0225C1279,-139.3734 1279,-163 1279,-163 1279,-163 1028.5981,-163 1028.5981,-163"/>
+<polygon fill="#000000" stroke="#000000" points="1028.5982,-159.5001 1018.5981,-163 1028.5981,-166.5001 1028.5982,-159.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>CoreService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="1114" cy="-104" rx="58.5251" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CoreService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M1114,-122.2396C1114,-137.5706 1114,-157 1114,-157 1114,-157 1028.6169,-157 1028.6169,-157"/>
+<polygon fill="#000000" stroke="#000000" points="1028.617,-153.5001 1018.6169,-157 1028.6169,-160.5001 1028.617,-153.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>InscripcionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="954" cy="-104" rx="83.3635" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>InscripcionService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M954,-122.1061C954,-122.1061 954,-140.991 954,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="950.5001,-140.9909 954,-150.991 957.5001,-140.991 950.5001,-140.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>ProgramaOikosService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="752" cy="-104" rx="100.6998" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>ProgramaOikosService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M752,-122.2396C752,-137.5706 752,-157 752,-157 752,-157 879.2524,-157 879.2524,-157"/>
+<polygon fill="#000000" stroke="#000000" points="879.2525,-160.5001 889.2524,-157 879.2524,-153.5001 879.2525,-160.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>ReciboService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="566" cy="-104" rx="67.1927" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ReciboService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M566,-122.0225C566,-139.3734 566,-163 566,-163 566,-163 879.0575,-163 879.0575,-163"/>
+<polygon fill="#000000" stroke="#000000" points="879.0576,-166.5001 889.0575,-163 879.0575,-159.5001 879.0576,-166.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>PagoService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="421" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>PagoService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M421,-122.1061C421,-141.3391 421,-169 421,-169 421,-169 879.4424,-169 879.4424,-169"/>
+<polygon fill="#000000" stroke="#000000" points="879.4424,-172.5001 889.4424,-169 879.4424,-165.5001 879.4424,-172.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>NuxeoService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="278" cy="-104" rx="65.9716" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>NuxeoService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M278,-122.2843C278,-143.3211 278,-175 278,-175 278,-175 879.1823,-175 879.1823,-175"/>
+<polygon fill="#000000" stroke="#000000" points="879.1823,-178.5001 889.1823,-175 879.1822,-171.5001 879.1823,-178.5001"/>
+</g>
+
+<g id="node13" class="node">
+<title>DocumentoService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="109" cy="-104" rx="85.0928" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>DocumentoService&#45;&gt;ValidarPagoModule</title>
+<path fill="none" stroke="#000000" d="M109,-122.2479C109,-145.0179 109,-181 109,-181 109,-181 879.4461,-181 879.4461,-181"/>
+<polygon fill="#000000" stroke="#000000" points="879.4462,-184.5001 889.4461,-181 879.4461,-177.5001 879.4462,-184.5001"/>
+</g>
+</g>
+</svg>

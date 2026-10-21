@@ -1,0 +1,88 @@
+<svg width="553pt" height="284pt"
+ viewBox="0.00 0.00 553.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 549,-280 549,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="38.5,-10 38.5,-30 58.5,-30 58.5,-10 38.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="151.5,-10 151.5,-30 171.5,-30 171.5,-10 151.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="237.5,-10 237.5,-30 257.5,-30 257.5,-10 237.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="334.5,-10 334.5,-30 354.5,-30 354.5,-10 334.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="430.5,-10 430.5,-30 450.5,-30 450.5,-10 430.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppCoreModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 537,-268 537,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppCoreModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="214,-78 214,-130 529,-130 529,-78 214,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppCoreModule_exports</title>
+<polygon fill="none" stroke="#000000" points="212,-208 212,-260 364,-260 364,-208 212,-208"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_AppCoreModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 206,-130 206,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>NotificationComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="521.4818,-122 372.5182,-122 372.5182,-86 521.4818,-86 521.4818,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>AppCoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="343.3683,-187 340.3683,-191 319.3683,-191 316.3683,-187 232.6317,-187 232.6317,-151 343.3683,-151 343.3683,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>NotificationComponent&#45;&gt;AppCoreModule</title>
+<path fill="none" stroke="#000000" d="M447,-122.1061C447,-141.3391 447,-169 447,-169 447,-169 353.6105,-169 353.6105,-169"/>
+<polygon fill="#000000" stroke="#000000" points="353.6105,-165.5001 343.6105,-169 353.6104,-172.5001 353.6105,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>AppCoreComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="354.1513,-122 221.8487,-122 221.8487,-86 354.1513,-86 354.1513,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AppCoreComponent&#45;&gt;AppCoreModule</title>
+<path fill="none" stroke="#000000" d="M288,-122.1061C288,-122.1061 288,-140.991 288,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="284.5001,-140.9909 288,-150.991 291.5001,-140.991 284.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppCoreComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="356.1509,-252 219.8491,-252 219.8491,-216 356.1509,-216 356.1509,-252"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppCoreModule&#45;&gt;AppCoreComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M288,-187.1061C288,-187.1061 288,-205.991 288,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="284.5001,-205.9909 288,-215.991 291.5001,-205.991 284.5001,-205.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>NotificationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="111" cy="-104" rx="86.8107" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>NotificationService&#45;&gt;AppCoreModule</title>
+<path fill="none" stroke="#000000" d="M111,-122.1061C111,-141.3391 111,-169 111,-169 111,-169 222.4817,-169 222.4817,-169"/>
+<polygon fill="#000000" stroke="#000000" points="222.4818,-172.5001 232.4817,-169 222.4817,-165.5001 222.4818,-172.5001"/>
+</g>
+</g>
+</svg>

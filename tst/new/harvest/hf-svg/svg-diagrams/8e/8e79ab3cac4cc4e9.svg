@@ -1,0 +1,192 @@
+<svg width="1880pt" height="284pt"
+ viewBox="0.00 0.00 1880.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1876,-280 1876,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="702,-10 702,-30 722,-30 722,-10 702,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="815,-10 815,-30 835,-30 835,-10 815,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="901,-10 901,-30 921,-30 921,-10 901,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="998,-10 998,-30 1018,-30 1018,-10 998,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1094,-10 1094,-30 1114,-30 1114,-10 1094,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1864,-268 1864,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1856,-130 1856,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="991,-208 991,-260 1079,-260 1079,-208 991,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>HttpModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1848.4387,-122 1845.4387,-126 1824.4387,-126 1821.4387,-122 1763.5613,-122 1763.5613,-86 1848.4387,-86 1848.4387,-122"/>
+
+</g>
+
+<g id="node13" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1076.6571,-187 1073.6571,-191 1052.6571,-191 1049.6571,-187 993.3429,-187 993.3429,-151 1076.6571,-151 1076.6571,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>HttpModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1806,-122.2479C1806,-145.0179 1806,-181 1806,-181 1806,-181 1086.7257,-181 1086.7257,-181"/>
+<polygon fill="#000000" stroke="#000000" points="1086.7257,-177.5001 1076.7257,-181 1086.7256,-184.5001 1086.7257,-177.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>LazyLoadImageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1745.7795,-122 1742.7795,-126 1721.7795,-126 1718.7795,-122 1594.2205,-122 1594.2205,-86 1745.7795,-86 1745.7795,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LazyLoadImageModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1670,-122.2843C1670,-143.3211 1670,-175 1670,-175 1670,-175 1086.6641,-175 1086.6641,-175"/>
+<polygon fill="#000000" stroke="#000000" points="1086.6642,-171.5001 1076.6641,-175 1086.6641,-178.5001 1086.6642,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>BrowserModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1576.4734,-122 1573.4734,-126 1552.4734,-126 1549.4734,-122 1469.5266,-122 1469.5266,-86 1576.4734,-86 1576.4734,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>BrowserModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1523,-122.1061C1523,-141.3391 1523,-169 1523,-169 1523,-169 1087.029,-169 1087.029,-169"/>
+<polygon fill="#000000" stroke="#000000" points="1087.029,-165.5001 1077.029,-169 1087.0289,-172.5001 1087.029,-165.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>VgCoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1451.8683,-122 1448.8683,-126 1427.8683,-126 1424.8683,-122 1348.1317,-122 1348.1317,-86 1451.8683,-86 1451.8683,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>VgCoreModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1400,-122.0225C1400,-139.3734 1400,-163 1400,-163 1400,-163 1086.8701,-163 1086.8701,-163"/>
+<polygon fill="#000000" stroke="#000000" points="1086.8702,-159.5001 1076.8701,-163 1086.8701,-166.5001 1086.8702,-159.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>VgControlsModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1330.3795,-122 1327.3795,-126 1306.3795,-126 1303.3795,-122 1205.6205,-122 1205.6205,-86 1330.3795,-86 1330.3795,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>VgControlsModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1268,-122.2396C1268,-137.5706 1268,-157 1268,-157 1268,-157 1086.9248,-157 1086.9248,-157"/>
+<polygon fill="#000000" stroke="#000000" points="1086.9249,-153.5001 1076.9248,-157 1086.9248,-160.5001 1086.9249,-153.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>VgOverlayPlayModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1187.1317,-122 1184.1317,-126 1163.1317,-126 1160.1317,-122 1040.8683,-122 1040.8683,-86 1187.1317,-86 1187.1317,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>VgOverlayPlayModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1058.7563,-122.1061C1058.7563,-122.1061 1058.7563,-140.991 1058.7563,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="1055.2564,-140.9909 1058.7563,-150.991 1062.2564,-140.991 1055.2564,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>VgBufferingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1022.58,-122 1019.58,-126 998.58,-126 995.58,-122 891.42,-122 891.42,-86 1022.58,-86 1022.58,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>VgBufferingModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M1007.8559,-122.1061C1007.8559,-122.1061 1007.8559,-140.991 1007.8559,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="1004.356,-140.9909 1007.8559,-150.991 1011.356,-140.991 1004.356,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>VgStreamingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="873.2008,-122 870.2008,-126 849.2008,-126 846.2008,-122 738.7992,-122 738.7992,-86 873.2008,-86 873.2008,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>VgStreamingModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M806,-122.2396C806,-137.5706 806,-157 806,-157 806,-157 983.2641,-157 983.2641,-157"/>
+<polygon fill="#000000" stroke="#000000" points="983.2642,-160.5001 993.2641,-157 983.2641,-153.5001 983.2642,-160.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>SwingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="720.8302,-122 717.8302,-126 696.8302,-126 693.8302,-122 625.1698,-122 625.1698,-86 720.8302,-86 720.8302,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SwingModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M673,-122.0225C673,-139.3734 673,-163 673,-163 673,-163 983.1204,-163 983.1204,-163"/>
+<polygon fill="#000000" stroke="#000000" points="983.1204,-166.5001 993.1204,-163 983.1203,-159.5001 983.1204,-166.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>TranslateModule.forRoot(args)</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="607.8223,-122 604.8223,-126 583.8223,-126 580.8223,-122 416.1777,-122 416.1777,-86 607.8223,-86 607.8223,-122"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>TranslateModule.forRoot(args)&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M512,-122.1061C512,-141.3391 512,-169 512,-169 512,-169 983.0848,-169 983.0848,-169"/>
+<polygon fill="#000000" stroke="#000000" points="983.0848,-172.5001 993.0848,-169 983.0848,-165.5001 983.0848,-172.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>IonicModule.forRoot(args)</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="398.005,-122 395.005,-126 374.005,-126 371.005,-122 229.995,-122 229.995,-86 398.005,-86 398.005,-122"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>IonicModule.forRoot(args)&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M314,-122.2843C314,-143.3211 314,-175 314,-175 314,-175 983.1196,-175 983.1196,-175"/>
+<polygon fill="#000000" stroke="#000000" points="983.1196,-178.5001 993.1196,-175 983.1195,-171.5001 983.1196,-178.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>IonicStorageModule.forRoot()</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="211.9487,-122 208.9487,-126 187.9487,-126 184.9487,-122 24.0513,-122 24.0513,-86 211.9487,-86 211.9487,-122"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>IonicStorageModule.forRoot()&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M118,-122.2479C118,-145.0179 118,-181 118,-181 118,-181 983.2156,-181 983.2156,-181"/>
+<polygon fill="#000000" stroke="#000000" points="983.2156,-184.5001 993.2156,-181 983.2155,-177.5001 983.2156,-184.5001"/>
+</g>
+
+<g id="node14" class="node">
+<title>IonicApp </title>
+<polygon fill="#80b1d3" stroke="#000000" points="1071.3734,-252 998.6266,-252 998.6266,-216 1071.3734,-216 1071.3734,-252"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>AppModule&#45;&gt;IonicApp </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M1035,-187.1061C1035,-187.1061 1035,-205.991 1035,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1031.5001,-205.9909 1035,-215.991 1038.5001,-205.991 1031.5001,-205.9909"/>
+</g>
+</g>
+</svg>

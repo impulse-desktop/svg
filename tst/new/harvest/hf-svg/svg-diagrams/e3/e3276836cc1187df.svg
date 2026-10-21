@@ -1,0 +1,100 @@
+<svg width="642pt" height="284pt"
+ viewBox="0.00 0.00 642.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 638,-280 638,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="83,-10 83,-30 103,-30 103,-10 83,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="196,-10 196,-30 216,-30 216,-10 196,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="282,-10 282,-30 302,-30 302,-10 282,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="379,-10 379,-30 399,-30 399,-10 379,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="475,-10 475,-30 495,-30 495,-10 475,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LineaInvestigacionModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 626,-268 626,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_LineaInvestigacionModule_imports</title>
+<polygon fill="none" stroke="#000000" points="158,-78 158,-130 618,-130 618,-78 158,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_LineaInvestigacionModule_exports</title>
+<polygon fill="none" stroke="#000000" points="183,-208 183,-260 419,-260 419,-208 183,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_LineaInvestigacionModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 150,-130 150,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="610.4231,-122 607.4231,-126 586.4231,-126 583.4231,-122 511.5769,-122 511.5769,-86 610.4231,-86 610.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>LineaInvestigacionModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="384.3431,-187 381.3431,-191 360.3431,-191 357.3431,-187 217.6569,-187 217.6569,-151 384.3431,-151 384.3431,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;LineaInvestigacionModule</title>
+<path fill="none" stroke="#000000" d="M561,-122.1061C561,-141.3391 561,-169 561,-169 561,-169 394.6968,-169 394.6968,-169"/>
+<polygon fill="#000000" stroke="#000000" points="394.6968,-165.5001 384.6968,-169 394.6968,-172.5001 394.6968,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>LineaInvestigacionRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="493.9608,-122 490.9608,-126 469.9608,-126 466.9608,-122 282.0392,-122 282.0392,-86 493.9608,-86 493.9608,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LineaInvestigacionRoutingModule&#45;&gt;LineaInvestigacionModule</title>
+<path fill="none" stroke="#000000" d="M333.2206,-122.1061C333.2206,-122.1061 333.2206,-140.991 333.2206,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="329.7206,-140.9909 333.2206,-150.991 336.7206,-140.991 329.7206,-140.9909"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="264.4231,-122 261.4231,-126 240.4231,-126 237.4231,-122 165.5769,-122 165.5769,-86 264.4231,-86 264.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;LineaInvestigacionModule</title>
+<path fill="none" stroke="#000000" d="M240.8948,-122.1061C240.8948,-122.1061 240.8948,-140.991 240.8948,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="237.3949,-140.9909 240.8948,-150.991 244.3949,-140.991 237.3949,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudLineaInvestigacionComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="411.1228,-252 190.8772,-252 190.8772,-216 411.1228,-216 411.1228,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LineaInvestigacionModule&#45;&gt;CrudLineaInvestigacionComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M301,-187.1061C301,-187.1061 301,-205.991 301,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="297.5001,-205.9909 301,-215.991 304.5001,-205.991 297.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>CoreService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="83" cy="-104" rx="58.5251" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>CoreService&#45;&gt;LineaInvestigacionModule</title>
+<path fill="none" stroke="#000000" d="M83,-122.1061C83,-141.3391 83,-169 83,-169 83,-169 207.6504,-169 207.6504,-169"/>
+<polygon fill="#000000" stroke="#000000" points="207.6505,-172.5001 217.6504,-169 207.6504,-165.5001 207.6505,-172.5001"/>
+</g>
+</g>
+</svg>

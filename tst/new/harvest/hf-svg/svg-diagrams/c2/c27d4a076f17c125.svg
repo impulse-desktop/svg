@@ -1,0 +1,120 @@
+<svg width="1072pt" height="211pt"
+ viewBox="0.00 0.00 1072.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1068,-207 1068,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="298,-10 298,-30 318,-30 318,-10 298,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="411,-10 411,-30 431,-30 431,-10 411,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="497,-10 497,-30 517,-30 517,-10 497,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="594,-10 594,-30 614,-30 614,-10 594,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="690,-10 690,-30 710,-30 710,-10 690,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AuthModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1056,-195 1056,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AuthModule_imports</title>
+<polygon fill="none" stroke="#000000" points="940,-78 940,-130 1048,-130 1048,-78 940,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AuthModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 932,-130 932,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>UsersModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1039.9218,-122 1036.9218,-126 1015.9218,-126 1012.9218,-122 948.0782,-122 948.0782,-86 1039.9218,-86 1039.9218,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AuthModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="580.5482,-187 577.5482,-191 556.5482,-191 553.5482,-187 493.4518,-187 493.4518,-151 580.5482,-151 580.5482,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>UsersModule&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M994,-122.2921C994,-144.2057 994,-178 994,-178 994,-178 590.8191,-178 590.8191,-178"/>
+<polygon fill="#000000" stroke="#000000" points="590.8191,-174.5001 580.8191,-178 590.819,-181.5001 590.8191,-174.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>AuthService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="865" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AuthService&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M865,-122.1061C865,-141.3391 865,-169 865,-169 865,-169 590.5559,-169 590.5559,-169"/>
+<polygon fill="#000000" stroke="#000000" points="590.5559,-165.5001 580.5559,-169 590.5558,-172.5001 590.5559,-165.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>FacebookStrategy</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="707" cy="-104" rx="80.52" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>FacebookStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M707,-122.027C707,-138.3976 707,-160 707,-160 707,-160 590.7792,-160 590.7792,-160"/>
+<polygon fill="#000000" stroke="#000000" points="590.7793,-156.5001 580.7792,-160 590.7792,-163.5001 590.7793,-156.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>GoogleStrategy</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="537" cy="-104" rx="71.7892" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>GoogleStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M537,-122.1061C537,-122.1061 537,-140.991 537,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="533.5001,-140.9909 537,-150.991 540.5001,-140.991 533.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>JwtStrategy</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="391" cy="-104" rx="56.7561" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>JwtStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M391,-122.027C391,-138.3976 391,-160 391,-160 391,-160 483.1952,-160 483.1952,-160"/>
+<polygon fill="#000000" stroke="#000000" points="483.1952,-163.5001 493.1952,-160 483.1952,-156.5001 483.1952,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>LocalStrategy</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="251" cy="-104" rx="65.4053" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>LocalStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M251,-122.1061C251,-141.3391 251,-169 251,-169 251,-169 483.2514,-169 483.2514,-169"/>
+<polygon fill="#000000" stroke="#000000" points="483.2515,-172.5001 493.2514,-169 483.2514,-165.5001 483.2515,-172.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>TwitterStrategy</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="96" cy="-104" rx="71.7815" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>TwitterStrategy&#45;&gt;AuthModule</title>
+<path fill="none" stroke="#000000" d="M96,-122.2921C96,-144.2057 96,-178 96,-178 96,-178 483.103,-178 483.103,-178"/>
+<polygon fill="#000000" stroke="#000000" points="483.103,-181.5001 493.103,-178 483.1029,-174.5001 483.103,-181.5001"/>
+</g>
+</g>
+</svg>

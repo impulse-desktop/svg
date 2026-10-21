@@ -1,0 +1,164 @@
+<svg width="1778pt" height="284pt"
+ viewBox="0.00 0.00 1778.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1774,-280 1774,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="651,-10 651,-30 671,-30 671,-10 651,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="764,-10 764,-30 784,-30 784,-10 764,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="850,-10 850,-30 870,-30 870,-10 850,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="947,-10 947,-30 967,-30 967,-10 947,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1043,-10 1043,-30 1063,-30 1063,-10 1043,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CoreModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1762,-268 1762,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CoreModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1488,-78 1488,-130 1754,-130 1754,-78 1488,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_CoreModule_imports</title>
+<polygon fill="none" stroke="#000000" points="1064,-78 1064,-130 1480,-130 1480,-78 1064,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_CoreModule_exports</title>
+<polygon fill="none" stroke="#000000" points="1063,-208 1063,-260 1205,-260 1205,-208 1063,-208"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_CoreModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 1056,-130 1056,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ShellComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1746.1109,-122 1635.8891,-122 1635.8891,-86 1746.1109,-86 1746.1109,-122"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>CoreModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1177.2619,-187 1174.2619,-191 1153.2619,-191 1150.2619,-187 1090.7381,-187 1090.7381,-151 1177.2619,-151 1177.2619,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ShellComponent&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M1691,-122.0109C1691,-144.4852 1691,-180 1691,-180 1691,-180 1187.7069,-180 1187.7069,-180"/>
+<polygon fill="#000000" stroke="#000000" points="1187.7069,-176.5001 1177.7069,-180 1187.7068,-183.5001 1187.7069,-176.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>HeaderComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1617.7437,-122 1496.2563,-122 1496.2563,-86 1617.7437,-86 1617.7437,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>HeaderComponent&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M1557,-122.1289C1557,-142.5724 1557,-173 1557,-173 1557,-173 1187.2805,-173 1187.2805,-173"/>
+<polygon fill="#000000" stroke="#000000" points="1187.2806,-169.5001 1177.2805,-173 1187.2805,-176.5001 1187.2806,-169.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>HeaderComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="1196.7436,-252 1071.2564,-252 1071.2564,-216 1196.7436,-216 1196.7436,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CoreModule&#45;&gt;HeaderComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1134,-187.1061C1134,-187.1061 1134,-205.991 1134,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="1130.5001,-205.9909 1134,-215.991 1137.5001,-205.991 1130.5001,-205.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>CommonModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1471.6681,-122 1468.6681,-126 1447.6681,-126 1444.6681,-122 1360.3319,-122 1360.3319,-86 1471.6681,-86 1471.6681,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>CommonModule&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M1416,-122.2667C1416,-140.5552 1416,-166 1416,-166 1416,-166 1187.4445,-166 1187.4445,-166"/>
+<polygon fill="#000000" stroke="#000000" points="1187.4445,-162.5001 1177.4445,-166 1187.4445,-169.5001 1187.4445,-162.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>AppRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1342.2744,-122 1339.2744,-126 1318.2744,-126 1315.2744,-122 1213.7256,-122 1213.7256,-86 1342.2744,-86 1342.2744,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AppRoutingModule&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M1278,-122.0091C1278,-138.0494 1278,-159 1278,-159 1278,-159 1187.5955,-159 1187.5955,-159"/>
+<polygon fill="#000000" stroke="#000000" points="1187.5956,-155.5001 1177.5955,-159 1187.5955,-162.5001 1187.5956,-155.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>FlexLayoutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1196.0954,-122 1193.0954,-126 1172.0954,-126 1169.0954,-122 1071.9046,-122 1071.9046,-86 1196.0954,-86 1196.0954,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>FlexLayoutModule&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M1134,-122.1061C1134,-122.1061 1134,-140.991 1134,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="1130.5001,-140.9909 1134,-150.991 1137.5001,-140.991 1130.5001,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>UserDetailService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="966" cy="-104" rx="81.6326" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>UserDetailService&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M966,-122.0091C966,-138.0494 966,-159 966,-159 966,-159 1080.7358,-159 1080.7358,-159"/>
+<polygon fill="#000000" stroke="#000000" points="1080.7359,-162.5001 1090.7358,-159 1080.7358,-155.5001 1080.7359,-162.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>{ provide: AuthServiceConfig, useFactory: getAuthServiceConfigs }</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="588" cy="-104" rx="277.5248" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>{ provide: AuthServiceConfig, useFactory: getAuthServiceConfigs }&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M588,-122.2667C588,-140.5552 588,-166 588,-166 588,-166 1080.6999,-166 1080.6999,-166"/>
+<polygon fill="#000000" stroke="#000000" points="1080.6999,-169.5001 1090.6999,-166 1080.6999,-162.5001 1080.6999,-169.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>SignInService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="226" cy="-104" rx="65.989" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SignInService&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M226,-122.1289C226,-142.5724 226,-173 226,-173 226,-173 1080.5112,-173 1080.5112,-173"/>
+<polygon fill="#000000" stroke="#000000" points="1080.5112,-176.5001 1090.5112,-173 1080.5111,-169.5001 1080.5112,-176.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>AuthService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="83" cy="-104" rx="59.1083" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>AuthService&#45;&gt;CoreModule</title>
+<path fill="none" stroke="#000000" d="M83,-122.0109C83,-144.4852 83,-180 83,-180 83,-180 1080.5096,-180 1080.5096,-180"/>
+<polygon fill="#000000" stroke="#000000" points="1080.5096,-183.5001 1090.5096,-180 1080.5096,-176.5001 1080.5096,-183.5001"/>
+</g>
+</g>
+</svg>

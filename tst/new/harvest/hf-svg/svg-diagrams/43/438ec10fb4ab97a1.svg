@@ -1,0 +1,124 @@
+<svg width="1128pt" height="284pt"
+ viewBox="0.00 0.00 1128.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1124,-280 1124,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="326,-10 326,-30 346,-30 346,-10 326,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="439,-10 439,-30 459,-30 459,-10 439,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="525,-10 525,-30 545,-30 545,-10 525,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="622,-10 622,-30 642,-30 642,-10 622,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="718,-10 718,-30 738,-30 738,-10 718,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_CupoDependenciaModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1112,-268 1112,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_CupoDependenciaModule_imports</title>
+<polygon fill="none" stroke="#000000" points="648,-78 648,-130 1104,-130 1104,-78 648,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_CupoDependenciaModule_exports</title>
+<polygon fill="none" stroke="#000000" points="489,-208 489,-260 721,-260 721,-208 489,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_CupoDependenciaModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 640,-130 640,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1096.4231,-122 1093.4231,-126 1072.4231,-126 1069.4231,-122 997.5769,-122 997.5769,-86 1096.4231,-86 1096.4231,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>CupoDependenciaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="686.4566,-187 683.4566,-191 662.4566,-191 659.4566,-187 523.5434,-187 523.5434,-151 686.4566,-151 686.4566,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ThemeModule&#45;&gt;CupoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M1047,-122.2843C1047,-143.3211 1047,-175 1047,-175 1047,-175 696.5847,-175 696.5847,-175"/>
+<polygon fill="#000000" stroke="#000000" points="696.5847,-171.5001 686.5847,-175 696.5847,-178.5001 696.5847,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>CupoDependenciaRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="980.0744,-122 977.0744,-126 956.0744,-126 953.0744,-122 771.9256,-122 771.9256,-86 980.0744,-86 980.0744,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>CupoDependenciaRoutingModule&#45;&gt;CupoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M876,-122.0225C876,-139.3734 876,-163 876,-163 876,-163 696.6764,-163 696.6764,-163"/>
+<polygon fill="#000000" stroke="#000000" points="696.6765,-159.5001 686.6764,-163 696.6764,-166.5001 696.6765,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="754.4231,-122 751.4231,-126 730.4231,-126 727.4231,-122 655.5769,-122 655.5769,-86 754.4231,-86 754.4231,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>SharedModule&#45;&gt;CupoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M671.1336,-122.1061C671.1336,-122.1061 671.1336,-140.991 671.1336,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="667.6337,-140.9909 671.1336,-150.991 674.6337,-140.991 667.6337,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>CrudCupoDependenciaComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="713.2365,-252 496.7635,-252 496.7635,-216 713.2365,-216 713.2365,-252"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CupoDependenciaModule&#45;&gt;CrudCupoDependenciaComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M605,-187.1061C605,-187.1061 605,-205.991 605,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="601.5001,-205.9909 605,-215.991 608.5001,-205.991 601.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>EvaluacionInscripcionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="505" cy="-104" rx="126.7452" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>EvaluacionInscripcionService&#45;&gt;CupoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M577.6971,-119.0757C577.6971,-119.0757 577.6971,-140.7642 577.6971,-140.7642"/>
+<polygon fill="#000000" stroke="#000000" points="574.1972,-140.7642 577.6971,-150.7642 581.1972,-140.7642 574.1972,-140.7642"/>
+</g>
+
+<g id="node7" class="node">
+<title>ProgramaOikosService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="260" cy="-104" rx="100.6998" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ProgramaOikosService&#45;&gt;CupoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M260,-122.0225C260,-139.3734 260,-163 260,-163 260,-163 513.2398,-163 513.2398,-163"/>
+<polygon fill="#000000" stroke="#000000" points="513.2399,-166.5001 523.2398,-163 513.2398,-159.5001 513.2399,-166.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>CoreService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="83" cy="-104" rx="58.5251" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>CoreService&#45;&gt;CupoDependenciaModule</title>
+<path fill="none" stroke="#000000" d="M83,-122.2843C83,-143.3211 83,-175 83,-175 83,-175 513.4375,-175 513.4375,-175"/>
+<polygon fill="#000000" stroke="#000000" points="513.4375,-178.5001 523.4375,-175 513.4375,-171.5001 513.4375,-178.5001"/>
+</g>
+</g>
+</svg>

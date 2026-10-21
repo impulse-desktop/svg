@@ -1,0 +1,102 @@
+<svg width="626pt" height="270pt"
+ viewBox="0.00 0.00 625.50 270.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 266)">
+<title>LittleWeebLibrary.Controllers.SubControllers.SettingsWebSocketController</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-266 621.5,-266 621.5,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node2</title>
+<polygon fill="#bfbfbf" stroke="black" points="207,-0.5 207,-90.5 377,-90.5 377,-0.5 207,-0.5"/>
+
+
+
+<polyline fill="none" stroke="black" points="207,-49.5 377,-49.5 "/>
+
+<polyline fill="none" stroke="black" points="207,-30.5 377,-30.5 "/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node3</title>
+<g id="a_node2"><a xlink:href="interface_little_weeb_library_1_1_controllers_1_1_i_sub_web_socket_controller.html" target="_top" xlink:title="{ISubWebSocketController\n||+ OnWebSocketEvent()\l}">
+<polygon fill="white" stroke="black" points="0,-171.5 0,-228.5 128,-228.5 128,-171.5 0,-171.5"/>
+
+<polyline fill="none" stroke="black" points="0,-209.5 128,-209.5 "/>
+
+<polyline fill="none" stroke="black" points="0,-190.5 128,-190.5 "/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M102.43,-164.896C113.322,-155.786 125.382,-146.201 137,-138 160.487,-121.421 187.11,-104.94 211.583,-90.6294"/>
+<polygon fill="none" stroke="midnightblue" points="100.098,-162.285 94.7295,-171.419 104.622,-167.626 100.098,-162.285"/>
+</g>
+
+<g id="node3" class="node"><title>Node4</title>
+<g id="a_node3"><a xlink:href="interface_little_weeb_library_1_1_handlers_1_1_i_debug_handler.html" target="_top" xlink:title="{LittleWeebLibrary.Handlers.\lIDebugHandler\n||+ SetSettings()\l+ StopDebugger()\l+ TraceMessage()\l}">
+<polygon fill="white" stroke="black" points="146.5,-155 146.5,-245 283.5,-245 283.5,-155 146.5,-155"/>
+
+
+<polyline fill="none" stroke="black" points="146.5,-215 283.5,-215 "/>
+
+<polyline fill="none" stroke="black" points="146.5,-196 283.5,-196 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node4&#45;&gt;Node2</title>
+<path fill="none" stroke="#404040" d="M237.272,-154.891C245.731,-138.136 255.471,-118.846 264.367,-101.227"/>
+<polygon fill="none" stroke="#404040" points="264.37,-101.222 263.503,-94.0633 269.778,-90.5102 270.645,-97.6691 264.37,-101.222"/>
+
+</g>
+
+<g id="node4" class="node"><title>Node5</title>
+<g id="a_node4"><a xlink:href="interface_little_weeb_library_1_1_handlers_1_1_i_web_socket_handler.html" target="_top" xlink:title="{LittleWeebLibrary.Handlers.\lIWebSocketHandler\n||+ SendMessage()\l+ StartServer()\l+ StopServer()\l}">
+<polygon fill="white" stroke="black" points="301.5,-155 301.5,-245 438.5,-245 438.5,-155 301.5,-155"/>
+
+
+<polyline fill="none" stroke="black" points="301.5,-215 438.5,-215 "/>
+
+<polyline fill="none" stroke="black" points="301.5,-196 438.5,-196 "/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node5&#45;&gt;Node2</title>
+<path fill="none" stroke="#404040" d="M353.099,-154.821C346.973,-140.006 339.661,-123.559 332,-109 330.659,-106.451 329.246,-103.87 327.786,-101.283"/>
+<polygon fill="none" stroke="#404040" points="327.636,-101.027 321.151,-97.8736 321.568,-90.6745 328.053,-93.8284 327.636,-101.027"/>
+
+</g>
+
+<g id="node5" class="node"><title>Node6</title>
+<g id="a_node5"><a xlink:href="interface_little_weeb_library_1_1_services_1_1_i_settings_web_socket_service.html" target="_top" xlink:title="{LittleWeebLibrary.Services.\lISettingsWebSocketService\n||+ GetCurrentIrcSettings()\l+ GetCurrentLittleWeebSettings()\l+ Setfullfilepath()\l+ SetIrcSettings()\l+ SetLittleWeebSettings()\l+ SetSettingsClasses()\l}">
+<polygon fill="white" stroke="black" points="456.5,-138.5 456.5,-261.5 617.5,-261.5 617.5,-138.5 456.5,-138.5"/>
+
+
+<polyline fill="none" stroke="black" points="456.5,-231.5 617.5,-231.5 "/>
+
+<polyline fill="none" stroke="black" points="456.5,-212.5 617.5,-212.5 "/>
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node6&#45;&gt;Node2</title>
+<path fill="none" stroke="#404040" d="M472.038,-138.334C459.263,-127.867 445.593,-117.603 432,-109 418.335,-100.352 403.272,-92.2884 388.243,-85.0192"/>
+<polygon fill="none" stroke="#404040" points="388.179,-84.9892 381.046,-86.0471 377.326,-79.8695 384.459,-78.8116 388.179,-84.9892"/>
+
+</g>
+</g>
+</svg>

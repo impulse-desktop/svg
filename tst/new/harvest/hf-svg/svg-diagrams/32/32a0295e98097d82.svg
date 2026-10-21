@@ -1,0 +1,181 @@
+<svg width="865pt" height="260pt"
+ viewBox="0.00 0.00 865.00 260.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>sourcetree</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-256 861,-256 861,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>MulleObjC&#45;startup</title>
+<polygon fill="yellow" stroke="black" points="595.5,-252 446.5,-252 446.5,-216 595.5,-216 595.5,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>mulle&#45;atinit</title>
+<polygon fill="lightgrey" stroke="black" points="268.5,-180 169.5,-180 169.5,-144 268.5,-144 268.5,-180"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>MulleObjC&#45;startup&#45;&gt;mulle&#45;atinit</title>
+<path fill="none" stroke="black" d="M447.51,-215.97C395.67,-203.95 327.12,-188.06 278.67,-176.83"/>
+<polygon fill="black" stroke="black" points="279.18,-173.36 268.65,-174.51 277.6,-180.18 279.18,-173.36"/>
+</g>
+
+<g id="node8" class="node">
+<title>MulleObjC</title>
+<polygon fill="lightgrey" stroke="black" points="567,-180 475,-180 475,-144 567,-144 567,-180"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>MulleObjC&#45;startup&#45;&gt;MulleObjC</title>
+<path fill="none" stroke="black" d="M521,-215.7C521,-207.98 521,-198.71 521,-190.11"/>
+<polygon fill="black" stroke="black" points="524.5,-190.1 521,-180.1 517.5,-190.1 524.5,-190.1"/>
+</g>
+
+<g id="node13" class="node">
+<title>mulle&#45;atexit</title>
+<polygon fill="lightgrey" stroke="black" points="687,-180 585,-180 585,-144 687,-144 687,-180"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>MulleObjC&#45;startup&#45;&gt;mulle&#45;atexit</title>
+<path fill="none" stroke="black" d="M549.13,-215.88C564.17,-206.72 582.87,-195.34 599.06,-185.48"/>
+<polygon fill="black" stroke="black" points="601.04,-188.38 607.76,-180.19 597.4,-182.4 601.04,-188.38"/>
+</g>
+
+<g id="node3" class="node">
+<title>mulle&#45;dlfcn</title>
+<polygon fill="lightgrey" stroke="black" points="131,-108 35,-108 35,-72 131,-72 131,-108"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>mulle&#45;atinit&#45;&gt;mulle&#45;dlfcn</title>
+<path fill="none" stroke="black" d="M185.73,-143.88C167.54,-134.51 144.81,-122.81 125.36,-112.8"/>
+<polygon fill="black" stroke="black" points="126.89,-109.65 116.4,-108.19 123.69,-115.88 126.89,-109.65"/>
+</g>
+
+<g id="node4" class="node">
+<title>mulle&#45;thread</title>
+<polygon fill="lightgrey" stroke="black" points="273,-108 165,-108 165,-72 273,-72 273,-108"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>mulle&#45;atinit&#45;&gt;mulle&#45;thread</title>
+<path fill="none" stroke="black" d="M219,-143.7C219,-135.98 219,-126.71 219,-118.11"/>
+<polygon fill="black" stroke="black" points="222.5,-118.1 219,-108.1 215.5,-118.1 222.5,-118.1"/>
+</g>
+
+<g id="node5" class="node">
+<title>dlfcn&#45;win32</title>
+<polygon fill="lightgrey" stroke="black" points="100,-36 0,-36 0,0 100,0 100,-36"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>mulle&#45;dlfcn&#45;&gt;dlfcn&#45;win32</title>
+<path fill="none" stroke="black" d="M74.84,-71.7C71.09,-63.73 66.55,-54.1 62.38,-45.26"/>
+<polygon fill="black" stroke="black" points="65.49,-43.66 58.06,-36.1 59.16,-46.64 65.49,-43.66"/>
+</g>
+
+<g id="node14" class="node">
+<title>mintomic</title>
+<polygon fill="lightgrey" stroke="black" points="201.5,-36 118.5,-36 118.5,0 201.5,0 201.5,-36"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>mulle&#45;thread&#45;&gt;mintomic</title>
+<path fill="none" stroke="black" d="M204.42,-71.7C197.34,-63.3 188.72,-53.07 180.95,-43.86"/>
+<polygon fill="black" stroke="black" points="183.54,-41.49 174.42,-36.1 178.19,-46.01 183.54,-41.49"/>
+</g>
+
+<g id="node15" class="node">
+<title>mulle&#45;c11</title>
+<polygon fill="lightgrey" stroke="black" points="306,-36 220,-36 220,0 306,0 306,-36"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>mulle&#45;thread&#45;&gt;mulle&#45;c11</title>
+<path fill="none" stroke="black" d="M229.88,-71.7C234.99,-63.56 241.2,-53.69 246.84,-44.7"/>
+<polygon fill="black" stroke="black" points="249.89,-46.43 252.25,-36.1 243.96,-42.71 249.89,-46.43"/>
+</g>
+
+<g id="node6" class="node">
+<title>mulle&#45;objc&#45;debug</title>
+<polygon fill="lightgrey" stroke="black" points="438.5,-108 299.5,-108 299.5,-72 438.5,-72 438.5,-108"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>mulle&#45;fprintf</title>
+<polygon fill="lightgrey" stroke="black" points="431.5,-36 324.5,-36 324.5,0 431.5,0 431.5,-36"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>mulle&#45;objc&#45;debug&#45;&gt;mulle&#45;fprintf</title>
+<path fill="none" stroke="black" d="M371.22,-71.7C372.22,-63.98 373.41,-54.71 374.51,-46.11"/>
+<polygon fill="black" stroke="black" points="378,-46.47 375.8,-36.1 371.05,-45.58 378,-46.47"/>
+</g>
+
+<g id="edge7" class="edge">
+<title>MulleObjC&#45;&gt;mulle&#45;objc&#45;debug</title>
+<path fill="none" stroke="black" d="M483.82,-143.88C463.13,-134.35 437.2,-122.41 415.22,-112.28"/>
+<polygon fill="black" stroke="black" points="416.61,-109.07 406.06,-108.07 413.68,-115.43 416.61,-109.07"/>
+</g>
+
+<g id="node9" class="node">
+<title>mulle&#45;container</title>
+<polygon fill="lightgrey" stroke="black" points="585,-108 457,-108 457,-72 585,-72 585,-108"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MulleObjC&#45;&gt;mulle&#45;container</title>
+<path fill="none" stroke="black" d="M521,-143.7C521,-135.98 521,-126.71 521,-118.11"/>
+<polygon fill="black" stroke="black" points="524.5,-118.1 521,-108.1 517.5,-118.1 524.5,-118.1"/>
+</g>
+
+<g id="node10" class="node">
+<title>mulle&#45;fifo</title>
+<polygon fill="lightgrey" stroke="black" points="686.5,-108 603.5,-108 603.5,-72 686.5,-72 686.5,-108"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MulleObjC&#45;&gt;mulle&#45;fifo</title>
+<path fill="none" stroke="black" d="M551.33,-143.88C567.7,-134.64 588.08,-123.13 605.65,-113.21"/>
+<polygon fill="black" stroke="black" points="607.56,-116.15 614.55,-108.19 604.12,-110.06 607.56,-116.15"/>
+</g>
+
+<g id="node11" class="node">
+<title>mulle&#45;objc&#45;runtime</title>
+<polygon fill="lightgrey" stroke="black" points="857,-108 705,-108 705,-72 857,-72 857,-108"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>MulleObjC&#45;&gt;mulle&#45;objc&#45;runtime</title>
+<path fill="none" stroke="black" d="M567.17,-146.56C570.15,-145.68 573.12,-144.82 576,-144 617.23,-132.31 663.42,-120.27 701.51,-110.63"/>
+<polygon fill="black" stroke="black" points="702.67,-113.95 711.51,-108.11 700.96,-107.16 702.67,-113.95"/>
+</g>
+
+<g id="node12" class="node">
+<title>mulle&#45;concurrent</title>
+<polygon fill="lightgrey" stroke="black" points="850.5,-36 711.5,-36 711.5,0 850.5,0 850.5,-36"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>mulle&#45;objc&#45;runtime&#45;&gt;mulle&#45;concurrent</title>
+<path fill="none" stroke="black" d="M781,-71.7C781,-63.98 781,-54.71 781,-46.11"/>
+<polygon fill="black" stroke="black" points="784.5,-46.1 781,-36.1 777.5,-46.1 784.5,-46.1"/>
+</g>
+</g>
+</svg>

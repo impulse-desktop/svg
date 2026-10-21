@@ -1,0 +1,138 @@
+<svg width="804pt" height="247pt"
+ viewBox="0.00 0.00 804.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 800,-242.8 800,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_BsAutocompleteModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 788,-230.8 788,-32.8 8,-32.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_BsAutocompleteModule_imports</title>
+<polygon fill="none" stroke="black" points="678,-40.8 678,-92.8 780,-92.8 780,-40.8 678,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_BsAutocompleteModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 670,-92.8 670,-40.8 16,-40.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_BsAutocompleteModule_exports</title>
+<polygon fill="none" stroke="black" points="65,-170.8 65,-222.8 732,-222.8 732,-170.8 65,-170.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>Autocomplete</title>
+<polygon fill="#ffffb3" stroke="black" points="661.81,-84.8 566.19,-84.8 566.19,-48.8 661.81,-48.8 661.81,-84.8"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>BsAutocompleteModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="543.64,-149.8 540.64,-153.8 519.64,-153.8 516.64,-149.8 390.36,-149.8 390.36,-113.8 543.64,-113.8 543.64,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>Autocomplete&#45;&gt;BsAutocompleteModule</title>
+<path fill="none" stroke="black" d="M587.09,-84.83C587.09,-101.2 587.09,-122.8 587.09,-122.8 587.09,-122.8 553.74,-122.8 553.74,-122.8"/>
+<polygon fill="black" stroke="black" points="553.74,-119.3 543.74,-122.8 553.74,-126.3 553.74,-119.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>AutocompleteFieldSearch</title>
+<polygon fill="#ffffb3" stroke="black" points="548.18,-84.8 385.82,-84.8 385.82,-48.8 548.18,-48.8 548.18,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AutocompleteFieldSearch&#45;&gt;BsAutocompleteModule</title>
+<path fill="none" stroke="black" d="M467,-84.91C467,-84.91 467,-103.79 467,-103.79"/>
+<polygon fill="black" stroke="black" points="463.5,-103.79 467,-113.79 470.5,-103.79 463.5,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>BsAutocompleteList</title>
+<polygon fill="#ffffb3" stroke="black" points="367.87,-84.8 236.13,-84.8 236.13,-48.8 367.87,-48.8 367.87,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>BsAutocompleteList&#45;&gt;BsAutocompleteModule</title>
+<path fill="none" stroke="black" d="M328.12,-84.83C328.12,-101.2 328.12,-122.8 328.12,-122.8 328.12,-122.8 380.25,-122.8 380.25,-122.8"/>
+<polygon fill="black" stroke="black" points="380.25,-126.3 390.25,-122.8 380.25,-119.3 380.25,-126.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>BsFieldSearchItemsComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="218.08,-84.8 23.92,-84.8 23.92,-48.8 218.08,-48.8 218.08,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>BsFieldSearchItemsComponent&#45;&gt;BsAutocompleteModule</title>
+<path fill="none" stroke="black" d="M145.62,-84.91C145.62,-104.14 145.62,-131.8 145.62,-131.8 145.62,-131.8 380.02,-131.8 380.02,-131.8"/>
+<polygon fill="black" stroke="black" points="380.02,-135.3 390.02,-131.8 380.02,-128.3 380.02,-135.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>Autocomplete </title>
+<polygon fill="#fb8072" stroke="black" points="724.31,-214.8 625.69,-214.8 625.69,-178.8 724.31,-178.8 724.31,-214.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>BsAutocompleteModule&#45;&gt;Autocomplete </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M543.7,-140.8C591.37,-140.8 643.62,-140.8 643.62,-140.8 643.62,-140.8 643.62,-168.77 643.62,-168.77"/>
+<polygon fill="black" stroke="black" points="640.13,-168.77 643.62,-178.77 647.13,-168.77 640.13,-168.77"/>
+</g>
+
+<g id="node8" class="node">
+<title>AutocompleteFieldSearch </title>
+<polygon fill="#fb8072" stroke="black" points="607.68,-214.8 442.32,-214.8 442.32,-178.8 607.68,-178.8 607.68,-214.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>BsAutocompleteModule&#45;&gt;AutocompleteFieldSearch </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M492.99,-149.91C492.99,-149.91 492.99,-168.79 492.99,-168.79"/>
+<polygon fill="black" stroke="black" points="489.49,-168.79 492.99,-178.79 496.49,-168.79 489.49,-168.79"/>
+</g>
+
+<g id="node9" class="node">
+<title>BsAutocompleteList </title>
+<polygon fill="#fb8072" stroke="black" points="423.87,-214.8 288.13,-214.8 288.13,-178.8 423.87,-178.8 423.87,-214.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>BsAutocompleteModule&#45;&gt;BsAutocompleteList </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M406.93,-149.91C406.93,-149.91 406.93,-168.79 406.93,-168.79"/>
+<polygon fill="black" stroke="black" points="403.43,-168.79 406.93,-178.79 410.43,-168.79 403.43,-168.79"/>
+</g>
+
+<g id="node10" class="node">
+<title>BsFieldSearchItemsComponent </title>
+<polygon fill="#fb8072" stroke="black" points="270.58,-214.8 73.42,-214.8 73.42,-178.8 270.58,-178.8 270.58,-214.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>BsAutocompleteModule&#45;&gt;BsFieldSearchItemsComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M390.2,-140.8C328.97,-140.8 253.43,-140.8 253.43,-140.8 253.43,-140.8 253.43,-168.77 253.43,-168.77"/>
+<polygon fill="black" stroke="black" points="249.93,-168.77 253.43,-178.77 256.93,-168.77 249.93,-168.77"/>
+</g>
+
+<g id="node6" class="node">
+<title>UtilsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="772.27,-84.8 769.27,-88.8 748.27,-88.8 745.27,-84.8 685.73,-84.8 685.73,-48.8 772.27,-48.8 772.27,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>UtilsModule&#45;&gt;BsAutocompleteModule</title>
+<path fill="none" stroke="black" d="M705.01,-84.91C705.01,-104.14 705.01,-131.8 705.01,-131.8 705.01,-131.8 553.95,-131.8 553.95,-131.8"/>
+<polygon fill="black" stroke="black" points="553.95,-128.3 543.95,-131.8 553.95,-135.3 553.95,-128.3"/>
+</g>
+</g>
+</svg>

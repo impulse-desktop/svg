@@ -1,0 +1,138 @@
+<svg width="1466pt" height="247pt"
+ viewBox="0.00 0.00 1466.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 1462,-242.8 1462,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_GestioneModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1450,-230.8 1450,-32.8 8,-32.8"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_GestioneModule_imports</title>
+<polygon fill="none" stroke="black" points="1167,-40.8 1167,-92.8 1442,-92.8 1442,-40.8 1167,-40.8"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_GestioneModule_exports</title>
+<polygon fill="none" stroke="black" points="697,-170.8 697,-222.8 847,-222.8 847,-170.8 697,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_GestioneModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 1159,-92.8 1159,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>GestioneAtletiComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1151.48,-84.8 988.52,-84.8 988.52,-48.8 1151.48,-48.8 1151.48,-84.8"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>GestioneModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="826.81,-149.8 823.81,-153.8 802.81,-153.8 799.81,-149.8 717.19,-149.8 717.19,-113.8 826.81,-113.8 826.81,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>GestioneAtletiComponent&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M1070,-84.83C1070,-101.2 1070,-122.8 1070,-122.8 1070,-122.8 836.66,-122.8 836.66,-122.8"/>
+<polygon fill="black" stroke="black" points="836.66,-119.3 826.66,-122.8 836.66,-126.3 836.66,-119.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>GestioneAtletiLandingComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="970.64,-84.8 761.36,-84.8 761.36,-48.8 970.64,-48.8 970.64,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>GestioneAtletiLandingComponent&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M793.92,-84.91C793.92,-84.91 793.92,-103.79 793.92,-103.79"/>
+<polygon fill="black" stroke="black" points="790.42,-103.79 793.92,-113.79 797.42,-103.79 790.42,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>GestioneComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="743.59,-84.8 612.41,-84.8 612.41,-48.8 743.59,-48.8 743.59,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>GestioneComponent&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M730.45,-84.91C730.45,-84.91 730.45,-103.79 730.45,-103.79"/>
+<polygon fill="black" stroke="black" points="726.95,-103.79 730.45,-113.79 733.95,-103.79 726.95,-103.79"/>
+</g>
+
+<g id="node4" class="node">
+<title>GestioneLandingComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="594.75,-84.8 417.25,-84.8 417.25,-48.8 594.75,-48.8 594.75,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>GestioneLandingComponent&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M506,-84.83C506,-101.2 506,-122.8 506,-122.8 506,-122.8 707.21,-122.8 707.21,-122.8"/>
+<polygon fill="black" stroke="black" points="707.21,-126.3 717.21,-122.8 707.21,-119.3 707.21,-126.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>GestioneTestComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="399.7,-84.8 244.3,-84.8 244.3,-48.8 399.7,-48.8 399.7,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>GestioneTestComponent&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M322,-84.91C322,-104.14 322,-131.8 322,-131.8 322,-131.8 707.27,-131.8 707.27,-131.8"/>
+<polygon fill="black" stroke="black" points="707.27,-135.3 717.27,-131.8 707.27,-128.3 707.27,-135.3"/>
+</g>
+
+<g id="node6" class="node">
+<title>GestioneTestLandingComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="225.85,-84.8 24.15,-84.8 24.15,-48.8 225.85,-48.8 225.85,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>GestioneTestLandingComponent&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M125,-85.09C125,-107.01 125,-140.8 125,-140.8 125,-140.8 707.12,-140.8 707.12,-140.8"/>
+<polygon fill="black" stroke="black" points="707.12,-144.3 717.12,-140.8 707.12,-137.3 707.12,-144.3"/>
+</g>
+
+<g id="node10" class="node">
+<title>GestioneComponent </title>
+<polygon fill="#fb8072" stroke="black" points="839.09,-214.8 704.91,-214.8 704.91,-178.8 839.09,-178.8 839.09,-214.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>GestioneModule&#45;&gt;GestioneComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M772,-149.91C772,-149.91 772,-168.79 772,-168.79"/>
+<polygon fill="black" stroke="black" points="768.5,-168.79 772,-178.79 775.5,-168.79 768.5,-168.79"/>
+</g>
+
+<g id="node8" class="node">
+<title>BaseModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1434.26,-84.8 1431.26,-88.8 1410.26,-88.8 1407.26,-84.8 1347.74,-84.8 1347.74,-48.8 1434.26,-48.8 1434.26,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>BaseModule&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M1391,-85.09C1391,-107.01 1391,-140.8 1391,-140.8 1391,-140.8 836.66,-140.8 836.66,-140.8"/>
+<polygon fill="black" stroke="black" points="836.66,-137.3 826.66,-140.8 836.66,-144.3 836.66,-137.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>GestioneRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1329.43,-84.8 1326.43,-88.8 1305.43,-88.8 1302.43,-84.8 1174.57,-84.8 1174.57,-48.8 1329.43,-48.8 1329.43,-84.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>GestioneRoutingModule&#45;&gt;GestioneModule</title>
+<path fill="none" stroke="black" d="M1252,-84.91C1252,-104.14 1252,-131.8 1252,-131.8 1252,-131.8 837.06,-131.8 837.06,-131.8"/>
+<polygon fill="black" stroke="black" points="837.06,-128.3 827.06,-131.8 837.06,-135.3 837.06,-128.3"/>
+</g>
+</g>
+</svg>

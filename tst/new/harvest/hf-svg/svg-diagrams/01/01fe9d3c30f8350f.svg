@@ -1,0 +1,126 @@
+<svg width="1370pt" height="174pt"
+ viewBox="0.00 0.00 1370.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 1366,-169.8 1366,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_MemberrModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 1354,-157.8 1354,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_MemberrModule_declarations</title>
+<polygon fill="none" stroke="black" points="332,-40.8 332,-92.8 1346,-92.8 1346,-40.8 332,-40.8"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_MemberrModule_providers</title>
+<polygon fill="none" stroke="black" points="138,-40.8 138,-92.8 324,-92.8 324,-40.8 138,-40.8"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_MemberrModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 130,-92.8 130,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AddMemberComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1338.36,-84.8 1185.64,-84.8 1185.64,-48.8 1338.36,-48.8 1338.36,-84.8"/>
+
+</g>
+
+<g id="node7" class="node">
+<title>MemberrModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="743.64,-149.8 740.64,-153.8 719.64,-153.8 716.64,-149.8 632.36,-149.8 632.36,-113.8 743.64,-113.8 743.64,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AddMemberComponent&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M1262,-85.09C1262,-107.01 1262,-140.8 1262,-140.8 1262,-140.8 753.82,-140.8 753.82,-140.8"/>
+<polygon fill="black" stroke="black" points="753.82,-137.3 743.82,-140.8 753.82,-144.3 753.82,-137.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>EditMemberComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1168.09,-84.8 1015.91,-84.8 1015.91,-48.8 1168.09,-48.8 1168.09,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>EditMemberComponent&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M1092,-84.91C1092,-104.14 1092,-131.8 1092,-131.8 1092,-131.8 753.75,-131.8 753.75,-131.8"/>
+<polygon fill="black" stroke="black" points="753.75,-128.3 743.75,-131.8 753.75,-135.3 753.75,-128.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>MemberComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="998.26,-84.8 869.74,-84.8 869.74,-48.8 998.26,-48.8 998.26,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MemberComponent&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M934,-84.83C934,-101.2 934,-122.8 934,-122.8 934,-122.8 753.82,-122.8 753.82,-122.8"/>
+<polygon fill="black" stroke="black" points="753.82,-119.3 743.82,-122.8 753.82,-126.3 753.82,-119.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>MemberListComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="851.04,-84.8 700.96,-84.8 700.96,-48.8 851.04,-48.8 851.04,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MemberListComponent&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M722.27,-84.91C722.27,-84.91 722.27,-103.79 722.27,-103.79"/>
+<polygon fill="black" stroke="black" points="718.77,-103.79 722.27,-113.79 725.77,-103.79 718.77,-103.79"/>
+</g>
+
+<g id="node5" class="node">
+<title>MemberModalComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="682.81,-84.8 517.19,-84.8 517.19,-48.8 682.81,-48.8 682.81,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MemberModalComponent&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M657.42,-84.91C657.42,-84.91 657.42,-103.79 657.42,-103.79"/>
+<polygon fill="black" stroke="black" points="653.92,-103.79 657.42,-113.79 660.92,-103.79 653.92,-103.79"/>
+</g>
+
+<g id="node6" class="node">
+<title>ViewMemberComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="499.58,-84.8 340.42,-84.8 340.42,-48.8 499.58,-48.8 499.58,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>ViewMemberComponent&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M420,-84.83C420,-101.2 420,-122.8 420,-122.8 420,-122.8 622.14,-122.8 622.14,-122.8"/>
+<polygon fill="black" stroke="black" points="622.14,-126.3 632.14,-122.8 622.14,-119.3 622.14,-126.3"/>
+</g>
+
+<g id="node8" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="122.42,-84.8 119.42,-88.8 98.42,-88.8 95.42,-84.8 23.58,-84.8 23.58,-48.8 122.42,-48.8 122.42,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedModule&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M73,-85.09C73,-107.01 73,-140.8 73,-140.8 73,-140.8 622.34,-140.8 622.34,-140.8"/>
+<polygon fill="black" stroke="black" points="622.34,-144.3 632.34,-140.8 622.34,-137.3 622.34,-144.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>MemberValidation</title>
+<ellipse fill="#fdb462" stroke="black" cx="231" cy="-66.8" rx="84.53" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>MemberValidation&#45;&gt;MemberrModule</title>
+<path fill="none" stroke="black" d="M231,-84.91C231,-104.14 231,-131.8 231,-131.8 231,-131.8 621.96,-131.8 621.96,-131.8"/>
+<polygon fill="black" stroke="black" points="621.96,-135.3 631.96,-131.8 621.96,-128.3 621.96,-135.3"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,88 @@
+<svg width="551pt" height="112pt"
+ viewBox="0.00 0.00 551.00 112.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 108)">
+<title>marian::data::MNIST::MNIST</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-108 547,-108 547,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-48.5 0,-78.5 108,-78.5 108,-48.5 0,-48.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="$d2/d2b/classmarian_1_1data_1_1Dataset.html#a6db460dbb984620b13700ac6069f9925" xlink:title="marian::data::Dataset\l::Dataset">
+<polygon fill="white" stroke="black" points="144,-73.5 144,-103.5 255,-103.5 255,-73.5 144,-73.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M108.026,-72.738C116.405,-74.1977 125.149,-75.7211 133.757,-77.2208"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="133.318,-80.6969 143.771,-78.9653 134.52,-73.8008 133.318,-80.6969"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="$d7/d07/classmarian_1_1data_1_1MNIST.html#a5e3526d45ba1bac24092e77e293a7173" xlink:title="marian::data::MNIST\l::loadData">
+<polygon fill="white" stroke="black" points="145.5,-24.5 145.5,-54.5 253.5,-54.5 253.5,-24.5 145.5,-24.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M108.026,-54.6315C116.844,-53.1568 126.067,-51.6143 135.11,-50.1018"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="135.927,-53.5139 145.212,-48.4122 134.772,-46.6098 135.927,-53.5139"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="$d7/d07/classmarian_1_1data_1_1MNIST.html#a632c9c300ce5389d27ce97e326571137" xlink:title="marian::data::MNIST\l::ReadImages">
+<polygon fill="white" stroke="black" points="291,-49.5 291,-79.5 399,-79.5 399,-49.5 291,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M253.526,-48.738C262.344,-50.2742 271.567,-51.8809 280.61,-53.4564"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="280.26,-56.9481 290.712,-55.2165 281.462,-50.052 280.26,-56.9481"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="$d7/d07/classmarian_1_1data_1_1MNIST.html#a81c2e2ce98c2b3cfbe3f772900a74c62" xlink:title="marian::data::MNIST\l::ReadLabels">
+<polygon fill="white" stroke="black" points="291,-0.5 291,-30.5 399,-30.5 399,-0.5 291,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M253.526,-30.6315C262.344,-29.1568 271.567,-27.6143 280.61,-26.1018"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="281.427,-29.5139 290.712,-24.4122 280.272,-22.6098 281.427,-29.5139"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="$d7/d07/classmarian_1_1data_1_1MNIST.html#a631d1fd994e50776b4daf8c9853c0f88" xlink:title="marian::data::MNIST\l::reverseInt">
+<polygon fill="white" stroke="black" points="435,-24.5 435,-54.5 543,-54.5 543,-24.5 435,-24.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M399.28,-55.1198C407.651,-53.646 416.374,-52.1103 424.94,-50.6021"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="425.652,-54.0306 434.894,-48.8496 424.439,-47.1366 425.652,-54.0306"/>
+</g>
+
+<g id="edge6" class="edge"><title>Node6&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M399.28,-24.505C407.651,-25.9199 416.374,-27.3941 424.94,-28.842"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="424.451,-32.3088 434.894,-30.5244 425.617,-25.4067 424.451,-32.3088"/>
+</g>
+</g>
+</svg>

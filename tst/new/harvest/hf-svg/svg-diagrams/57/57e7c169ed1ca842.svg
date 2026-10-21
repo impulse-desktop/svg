@@ -1,0 +1,52 @@
+<svg width="576pt" height="50pt"
+ viewBox="0.00 0.00 576.00 50.07" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.510951 0.510951) rotate(0) translate(4 94)">
+<title>%3</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-94 1123.31,-94 1123.31,4 -4,4"/>
+
+<g id="node1" class="node"><title>maxscale_jobs/build.yaml</title>
+<ellipse fill="none" stroke="red" cx="103.991" cy="-45" rx="103.982" ry="18"/>
+
+</g>
+
+<g id="node2" class="node"><title>maxscale_jobs/cleanup.yaml</title>
+<ellipse fill="none" stroke="black" cx="357.072" cy="-45" rx="113.18" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>maxscale_jobs/build.yaml&#45;&gt;maxscale_jobs/cleanup.yaml</title>
+<path fill="none" stroke="green" d="M208.202,-45C216.66,-45 225.257,-45 233.834,-45"/>
+<polygon fill="green" stroke="green" points="233.884,-48.5001 243.884,-45 233.884,-41.5001 233.884,-48.5001"/>
+</g>
+
+<g id="node3" class="node"><title>maxscale_jobs/destroy.yaml</title>
+<ellipse fill="none" stroke="black" cx="662.798" cy="-72" rx="111.581" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>maxscale_jobs/cleanup.yaml&#45;&gt;maxscale_jobs/destroy.yaml</title>
+<path fill="none" stroke="blue" d="M456.263,-53.7288C487.541,-56.5093 522.306,-59.5997 554.212,-62.4361"/>
+<polygon fill="blue" stroke="blue" points="554.192,-65.9481 564.463,-63.3474 554.812,-58.9756 554.192,-65.9481"/>
+</g>
+
+<g id="node5" class="node"><title>maxscale_jobs/smart_remove_lock.yaml</title>
+<ellipse fill="none" stroke="black" cx="662.798" cy="-18" rx="156.772" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>maxscale_jobs/cleanup.yaml&#45;&gt;maxscale_jobs/smart_remove_lock.yaml</title>
+<path fill="none" stroke="blue" d="M456.263,-36.2712C479.265,-34.2264 504.152,-32.0141 528.401,-29.8584"/>
+<polygon fill="blue" stroke="blue" points="528.73,-33.343 538.381,-28.9712 528.11,-26.3705 528.73,-33.343"/>
+</g>
+
+<g id="node4" class="node"><title>maxscale_jobs/remove_lock.yaml</title>
+<ellipse fill="none" stroke="black" cx="987.372" cy="-18" rx="131.877" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>maxscale_jobs/smart_remove_lock.yaml&#45;&gt;maxscale_jobs/remove_lock.yaml</title>
+<path fill="none" stroke="blue" d="M819.888,-18C828.234,-18 836.599,-18 844.892,-18"/>
+<polygon fill="blue" stroke="blue" points="844.968,-21.5001 854.968,-18 844.968,-14.5001 844.968,-21.5001"/>
+</g>
+</g>
+</svg>

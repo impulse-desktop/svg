@@ -1,0 +1,222 @@
+<svg width="1213pt" height="247pt"
+ viewBox="0.00 0.00 1213.00 246.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 242.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-242.8 1209,-242.8 1209,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SharedModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1197,-230.8 1197,-32.8 8,-32.8"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 1189,-222.8 1189,-170.8 16,-170.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_SharedModule_imports</title>
+<polygon fill="none" stroke="black" points="845,-40.8 845,-92.8 1178,-92.8 1178,-40.8 845,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SharedModule_declarations</title>
+<polygon fill="none" stroke="black" points="26,-40.8 26,-92.8 837,-92.8 837,-40.8 26,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>ButtonComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="828.95,-84.8 709.05,-84.8 709.05,-48.8 828.95,-48.8 828.95,-84.8"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="663.42,-149.8 660.42,-153.8 639.42,-153.8 636.42,-149.8 564.58,-149.8 564.58,-113.8 663.42,-113.8 663.42,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ButtonComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M718.97,-84.99C718.97,-99.98 718.97,-118.8 718.97,-118.8 718.97,-118.8 673.41,-118.8 673.41,-118.8"/>
+<polygon fill="black" stroke="black" points="673.41,-115.3 663.41,-118.8 673.41,-122.3 673.41,-115.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>ContactDetailTranslatorPipe</title>
+<polygon fill="#ffffb3" stroke="black" points="691.17,-84.8 514.83,-84.8 514.83,-48.8 691.17,-48.8 691.17,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ContactDetailTranslatorPipe&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M614,-84.91C614,-84.91 614,-103.79 614,-103.79"/>
+<polygon fill="black" stroke="black" points="610.5,-103.79 614,-113.79 617.5,-103.79 610.5,-103.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>EnumUserDisplayTranslatorPipe</title>
+<polygon fill="#ffffb3" stroke="black" points="496.83,-84.8 295.17,-84.8 295.17,-48.8 496.83,-48.8 496.83,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>EnumUserDisplayTranslatorPipe&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M443.67,-84.99C443.67,-99.98 443.67,-118.8 443.67,-118.8 443.67,-118.8 554.73,-118.8 554.73,-118.8"/>
+<polygon fill="black" stroke="black" points="554.73,-122.3 564.73,-118.8 554.73,-115.3 554.73,-122.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>FormComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="276.67,-84.8 165.33,-84.8 165.33,-48.8 276.67,-48.8 276.67,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>FormComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M269.3,-84.83C269.3,-101.2 269.3,-122.8 269.3,-122.8 269.3,-122.8 554.61,-122.8 554.61,-122.8"/>
+<polygon fill="black" stroke="black" points="554.61,-126.3 564.61,-122.8 554.61,-119.3 554.61,-126.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>TableComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="147.7,-84.8 34.3,-84.8 34.3,-48.8 147.7,-48.8 147.7,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>TableComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M143.98,-85.1C143.98,-103.07 143.98,-127.8 143.98,-127.8 143.98,-127.8 554.59,-127.8 554.59,-127.8"/>
+<polygon fill="black" stroke="black" points="554.59,-131.3 564.59,-127.8 554.59,-124.3 554.59,-131.3"/>
+</g>
+
+<g id="node10" class="node">
+<title>ButtonComponent </title>
+<polygon fill="#fb8072" stroke="black" points="1181.45,-214.8 1058.55,-214.8 1058.55,-178.8 1181.45,-178.8 1181.45,-214.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SharedModule&#45;&gt;ButtonComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M663.53,-136.8C781.37,-136.8 1068.69,-136.8 1068.69,-136.8 1068.69,-136.8 1068.69,-168.8 1068.69,-168.8"/>
+<polygon fill="black" stroke="black" points="1065.19,-168.8 1068.69,-178.8 1072.19,-168.8 1065.19,-168.8"/>
+</g>
+
+<g id="node11" class="node">
+<title>CardsModule </title>
+<polygon fill="#fb8072" stroke="black" points="1040.71,-214.8 945.29,-214.8 945.29,-178.8 1040.71,-178.8 1040.71,-214.8"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>SharedModule&#45;&gt;CardsModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M663.41,-140.8C756.54,-140.8 948.83,-140.8 948.83,-140.8 948.83,-140.8 948.83,-168.77 948.83,-168.77"/>
+<polygon fill="black" stroke="black" points="945.33,-168.77 948.83,-178.77 952.33,-168.77 945.33,-168.77"/>
+</g>
+
+<g id="node12" class="node">
+<title>ContactDetailTranslatorPipe </title>
+<polygon fill="#fb8072" stroke="black" points="926.67,-214.8 747.33,-214.8 747.33,-178.8 926.67,-178.8 926.67,-214.8"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>SharedModule&#45;&gt;ContactDetailTranslatorPipe </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M663.38,-145.8C714.81,-145.8 787.94,-145.8 787.94,-145.8 787.94,-145.8 787.94,-168.68 787.94,-168.68"/>
+<polygon fill="black" stroke="black" points="784.44,-168.68 787.94,-178.68 791.44,-168.68 784.44,-168.68"/>
+</g>
+
+<g id="node13" class="node">
+<title>EnumUserDisplayTranslatorPipe </title>
+<polygon fill="#fb8072" stroke="black" points="728.83,-214.8 523.17,-214.8 523.17,-178.8 728.83,-178.8 728.83,-214.8"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>SharedModule&#45;&gt;EnumUserDisplayTranslatorPipe </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M614,-149.91C614,-149.91 614,-168.79 614,-168.79"/>
+<polygon fill="black" stroke="black" points="610.5,-168.79 614,-178.79 617.5,-168.79 610.5,-168.79"/>
+</g>
+
+<g id="node14" class="node">
+<title>FormComponent </title>
+<polygon fill="#fb8072" stroke="black" points="505.67,-214.8 390.33,-214.8 390.33,-178.8 505.67,-178.8 505.67,-214.8"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>SharedModule&#45;&gt;FormComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M564.55,-145.8C534.25,-145.8 501.25,-145.8 501.25,-145.8 501.25,-145.8 501.25,-168.68 501.25,-168.68"/>
+<polygon fill="black" stroke="black" points="497.75,-168.68 501.25,-178.68 504.75,-168.68 497.75,-168.68"/>
+</g>
+
+<g id="node15" class="node">
+<title>MaterialModule </title>
+<polygon fill="#fb8072" stroke="black" points="372.47,-214.8 261.53,-214.8 261.53,-178.8 372.47,-178.8 372.47,-214.8"/>
+
+</g>
+
+<g id="edge14" class="edge">
+<title>SharedModule&#45;&gt;MaterialModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M564.53,-140.8C484.05,-140.8 333.66,-140.8 333.66,-140.8 333.66,-140.8 333.66,-168.77 333.66,-168.77"/>
+<polygon fill="black" stroke="black" points="330.16,-168.77 333.66,-178.77 337.16,-168.77 330.16,-168.77"/>
+</g>
+
+<g id="node16" class="node">
+<title>TabModule </title>
+<polygon fill="#fb8072" stroke="black" points="243.32,-214.8 158.68,-214.8 158.68,-178.8 243.32,-178.8 243.32,-214.8"/>
+
+</g>
+
+<g id="edge15" class="edge">
+<title>SharedModule&#45;&gt;TabModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M564.58,-136.8C455.61,-136.8 204.29,-136.8 204.29,-136.8 204.29,-136.8 204.29,-168.8 204.29,-168.8"/>
+<polygon fill="black" stroke="black" points="200.79,-168.8 204.29,-178.8 207.79,-168.8 200.79,-168.8"/>
+</g>
+
+<g id="node17" class="node">
+<title>TableComponent </title>
+<polygon fill="#fb8072" stroke="black" points="140.21,-214.8 23.79,-214.8 23.79,-178.8 140.21,-178.8 140.21,-214.8"/>
+
+</g>
+
+<g id="edge16" class="edge">
+<title>SharedModule&#45;&gt;TableComponent </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M564.46,-131.8C433.36,-131.8 87.38,-131.8 87.38,-131.8 87.38,-131.8 87.38,-168.69 87.38,-168.69"/>
+<polygon fill="black" stroke="black" points="83.88,-168.69 87.38,-178.69 90.88,-168.69 83.88,-168.69"/>
+</g>
+
+<g id="node7" class="node">
+<title>CardsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1170.21,-84.8 1167.21,-88.8 1146.21,-88.8 1143.21,-84.8 1077.79,-84.8 1077.79,-48.8 1170.21,-48.8 1170.21,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CardsModule&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M1124,-84.91C1124,-104.14 1124,-131.8 1124,-131.8 1124,-131.8 673.36,-131.8 673.36,-131.8"/>
+<polygon fill="black" stroke="black" points="673.36,-128.3 663.36,-131.8 673.36,-135.3 673.36,-128.3"/>
+</g>
+
+<g id="node8" class="node">
+<title>MaterialModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1059.47,-84.8 1056.47,-88.8 1035.47,-88.8 1032.47,-84.8 952.53,-84.8 952.53,-48.8 1059.47,-48.8 1059.47,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MaterialModule&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M996.68,-85.1C996.68,-103.07 996.68,-127.8 996.68,-127.8 996.68,-127.8 673.25,-127.8 673.25,-127.8"/>
+<polygon fill="black" stroke="black" points="673.25,-124.3 663.25,-127.8 673.25,-131.3 673.25,-124.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>TabModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="934.82,-84.8 931.82,-88.8 910.82,-88.8 907.82,-84.8 853.18,-84.8 853.18,-48.8 934.82,-48.8 934.82,-84.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>TabModule&#45;&gt;SharedModule</title>
+<path fill="none" stroke="black" d="M890.09,-84.83C890.09,-101.2 890.09,-122.8 890.09,-122.8 890.09,-122.8 673.36,-122.8 673.36,-122.8"/>
+<polygon fill="black" stroke="black" points="673.36,-119.3 663.36,-122.8 673.36,-126.3 673.36,-119.3"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,140 @@
+<svg width="1587pt" height="284pt"
+ viewBox="0.00 0.00 1587.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-280 1583,-280 1583,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="555.5,-10 555.5,-30 575.5,-30 575.5,-10 555.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="668.5,-10 668.5,-30 688.5,-30 688.5,-10 668.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="754.5,-10 754.5,-30 774.5,-30 774.5,-10 754.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="851.5,-10 851.5,-30 871.5,-30 871.5,-10 851.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="947.5,-10 947.5,-30 967.5,-30 967.5,-10 947.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DiscussionUiModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 1571,-268 1571,-70 8,-70"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DiscussionUiModule_providers</title>
+<polygon fill="none" stroke="black" points="640,-78 640,-130 1563,-130 1563,-78 640,-78"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DiscussionUiModule_declarations</title>
+<polygon fill="none" stroke="black" points="484,-78 484,-130 632,-130 632,-78 484,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_DiscussionUiModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 476,-130 476,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_DiscussionUiModule_exports</title>
+<polygon fill="none" stroke="black" points="483,-208 483,-260 633,-260 633,-208 483,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>LibEntryComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="623.88,-122 492.12,-122 492.12,-86 623.88,-86 623.88,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>DiscussionUiModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="625.48,-187 622.48,-191 601.48,-191 598.48,-187 490.52,-187 490.52,-151 625.48,-151 625.48,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>LibEntryComponent&#45;&gt;DiscussionUiModule</title>
+<path fill="none" stroke="black" d="M558,-122.11C558,-122.11 558,-140.99 558,-140.99"/>
+<polygon fill="black" stroke="black" points="554.5,-140.99 558,-150.99 561.5,-140.99 554.5,-140.99"/>
+</g>
+
+<g id="node6" class="node">
+<title>ComponentsModule </title>
+<polygon fill="#fb8072" stroke="black" points="624.83,-252 491.17,-252 491.17,-216 624.83,-216 624.83,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>DiscussionUiModule&#45;&gt;ComponentsModule </title>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M558,-187.11C558,-187.11 558,-205.99 558,-205.99"/>
+<polygon fill="black" stroke="black" points="554.5,-205.99 558,-215.99 561.5,-205.99 554.5,-205.99"/>
+</g>
+
+<g id="node3" class="node">
+<title>ComponentsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="468.33,-122 465.33,-126 444.33,-126 441.33,-122 337.67,-122 337.67,-86 468.33,-86 468.33,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ComponentsModule&#45;&gt;DiscussionUiModule</title>
+<path fill="none" stroke="black" d="M403,-122.03C403,-138.4 403,-160 403,-160 403,-160 480.47,-160 480.47,-160"/>
+<polygon fill="black" stroke="black" points="480.47,-163.5 490.47,-160 480.47,-156.5 480.47,-163.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>DiscussionRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="320.1,-122 317.1,-126 296.1,-126 293.1,-122 153.9,-122 153.9,-86 320.1,-86 320.1,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DiscussionRoutingModule&#45;&gt;DiscussionUiModule</title>
+<path fill="none" stroke="black" d="M237,-122.11C237,-141.34 237,-169 237,-169 237,-169 480.32,-169 480.32,-169"/>
+<polygon fill="black" stroke="black" points="480.32,-172.5 490.32,-169 480.32,-165.5 480.32,-172.5"/>
+</g>
+
+<g id="node5" class="node">
+<title>ElementsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="135.65,-122 132.65,-126 111.65,-126 108.65,-122 24.35,-122 24.35,-86 135.65,-86 135.65,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ElementsModule&#45;&gt;DiscussionUiModule</title>
+<path fill="none" stroke="black" d="M80,-122.29C80,-144.21 80,-178 80,-178 80,-178 480.28,-178 480.28,-178"/>
+<polygon fill="black" stroke="black" points="480.28,-181.5 490.28,-178 480.28,-174.5 480.28,-181.5"/>
+</g>
+
+<g id="node7" class="node">
+<title>DiscussionEventsService</title>
+<ellipse fill="#fdb462" stroke="black" cx="1446" cy="-104" rx="108.8" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>DiscussionEventsService&#45;&gt;DiscussionUiModule</title>
+<path fill="none" stroke="black" d="M1446,-122.29C1446,-144.21 1446,-178 1446,-178 1446,-178 635.84,-178 635.84,-178"/>
+<polygon fill="black" stroke="black" points="635.84,-174.5 625.84,-178 635.84,-181.5 635.84,-174.5"/>
+</g>
+
+<g id="node8" class="node">
+<title>TelemetryUtilsService</title>
+<ellipse fill="#fdb462" stroke="black" cx="1221" cy="-104" rx="98.4" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>TelemetryUtilsService&#45;&gt;DiscussionUiModule</title>
+<path fill="none" stroke="black" d="M1221,-122.11C1221,-141.34 1221,-169 1221,-169 1221,-169 635.53,-169 635.53,-169"/>
+<polygon fill="black" stroke="black" points="635.53,-165.5 625.53,-169 635.53,-172.5 635.53,-165.5"/>
+</g>
+
+<g id="node9" class="node">
+<title>{ provide: &#39;CsModule&#39;, useFactory: provideCsModule }</title>
+<ellipse fill="#fdb462" stroke="black" cx="876" cy="-104" rx="228.35" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>{ provide: &#39;CsModule&#39;, useFactory: provideCsModule }&#45;&gt;DiscussionUiModule</title>
+<path fill="none" stroke="black" d="M876,-122.03C876,-138.4 876,-160 876,-160 876,-160 635.83,-160 635.83,-160"/>
+<polygon fill="black" stroke="black" points="635.83,-156.5 625.83,-160 635.83,-163.5 635.83,-156.5"/>
+</g>
+</g>
+</svg>

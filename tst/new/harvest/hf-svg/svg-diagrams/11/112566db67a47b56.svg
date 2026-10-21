@@ -1,0 +1,82 @@
+<svg width="354pt" height="142pt"
+ viewBox="0.00 0.00 354.00 142.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 138)">
+<title>server_info</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-138 350,-138 350,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node5</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-57.5 0,-76.5 71,-76.5 71,-57.5 0,-57.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node6</title>
+<g id="a_node2"><a xlink:href="networking_8h.html#aef872c822cd6533165667d89134ac522" target="_top" xlink:title="Initialise the required libraries and the TCP connection to the server. ">
+<polygon fill="white" stroke="black" points="107.5,-114.5 107.5,-133.5 199.5,-133.5 199.5,-114.5 107.5,-114.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M53.0688,-76.5324C67.2058,-84.5195 88.1744,-96.0228 107,-105 110.825,-106.824 114.872,-108.653 118.912,-110.417"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="117.646,-113.682 128.218,-114.381 120.39,-107.242 117.646,-113.682"/>
+</g>
+
+<g id="node3" class="node"><title>Node7</title>
+<g id="a_node3"><a xlink:href="networking_8h.html#a6c56eb3350af36e56b684ba7604cdb60" target="_top" xlink:title="Send a message to the server via TCP. ">
+<polygon fill="white" stroke="black" points="110.5,-76.5 110.5,-95.5 196.5,-95.5 196.5,-76.5 110.5,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node5&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M71.3038,-72.7006C80.4174,-74.1934 90.4457,-75.8359 100.253,-77.4422"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="99.9102,-80.9327 110.344,-79.0952 101.042,-74.0248 99.9102,-80.9327"/>
+</g>
+
+<g id="node4" class="node"><title>Node8</title>
+<g id="a_node4"><a xlink:href="protocol__utils_8h.html#a4b463fcc042e8f1ab593b1c0811d8f74" target="_top" xlink:title="Read and parse a response from the server. ">
+<polygon fill="white" stroke="black" points="107,-38.5 107,-57.5 200,-57.5 200,-38.5 107,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node5&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M71.3038,-61.2994C79.3621,-59.9795 88.1357,-58.5424 96.8388,-57.1169"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="97.6735,-60.5269 106.976,-55.4565 96.542,-53.619 97.6735,-60.5269"/>
+</g>
+
+<g id="node6" class="node"><title>Node10</title>
+<g id="a_node6"><a xlink:href="networking_8h.html#aed9a5ef41373d2bee0c1366e70c088a7" target="_top" xlink:title="Close the TCP connection if it is still active, then de&#45;initialize the used libraries. ">
+<polygon fill="white" stroke="black" points="241,-0.5 241,-19.5 341,-19.5 341,-0.5 241,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M50.3543,-57.4015C64.071,-48.4281 86.0053,-35.4693 107,-29 147.007,-16.6721 194.015,-11.9871 230.37,-10.3504"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="230.949,-13.8308 240.807,-9.95035 230.681,-6.83596 230.949,-13.8308"/>
+</g>
+
+<g id="node5" class="node"><title>Node9</title>
+<g id="a_node5"><a xlink:href="networking_8h.html#a452c1ce9209a371b08301df0fb35b7aa" target="_top" xlink:title="Read a single char from the server. ">
+<polygon fill="white" stroke="black" points="236,-38.5 236,-57.5 346,-57.5 346,-38.5 236,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M200.374,-48C208.452,-48 216.996,-48 225.471,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="225.741,-51.5001 235.741,-48 225.741,-44.5001 225.741,-51.5001"/>
+</g>
+
+<g id="edge5" class="edge"><title>Node8&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M188.692,-38.411C206.104,-33.5281 227.471,-27.5357 246.087,-22.315"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="247.135,-25.6562 255.819,-19.5859 245.245,-18.9163 247.135,-25.6562"/>
+</g>
+</g>
+</svg>

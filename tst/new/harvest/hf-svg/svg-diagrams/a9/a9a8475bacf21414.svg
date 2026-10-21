@@ -1,0 +1,120 @@
+<svg width="1437pt" height="211pt"
+ viewBox="0.00 0.00 1437.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1433,-207 1433,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="480.5,-10 480.5,-30 500.5,-30 500.5,-10 480.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="593.5,-10 593.5,-30 613.5,-30 613.5,-10 593.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="679.5,-10 679.5,-30 699.5,-30 699.5,-10 679.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="776.5,-10 776.5,-30 796.5,-30 796.5,-10 776.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="872.5,-10 872.5,-30 892.5,-30 892.5,-10 872.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_NotificacionModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1421,-195 1421,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_NotificacionModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="447,-78 447,-130 1413,-130 1413,-78 447,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_NotificacionModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 439,-130 439,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1405.1615,-122 1172.8385,-122 1172.8385,-86 1405.1615,-86 1405.1615,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>NotificacionModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="636.5241,-187 633.5241,-191 612.5241,-191 609.5241,-187 507.4759,-187 507.4759,-151 636.5241,-151 636.5241,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudDescuentoAcademicoComponent&#45;&gt;NotificacionModule</title>
+<path fill="none" stroke="#000000" d="M1289,-122.2921C1289,-144.2057 1289,-178 1289,-178 1289,-178 646.5764,-178 646.5764,-178"/>
+<polygon fill="#000000" stroke="#000000" points="646.5765,-174.5001 636.5764,-178 646.5764,-181.5001 646.5765,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1155.1643,-122 950.8357,-122 950.8357,-86 1155.1643,-86 1155.1643,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DescuentoAcademicoComponent&#45;&gt;NotificacionModule</title>
+<path fill="none" stroke="#000000" d="M1053,-122.1061C1053,-141.3391 1053,-169 1053,-169 1053,-169 646.8698,-169 646.8698,-169"/>
+<polygon fill="#000000" stroke="#000000" points="646.8698,-165.5001 636.8698,-169 646.8698,-172.5001 646.8698,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="932.9426,-122 707.0574,-122 707.0574,-86 932.9426,-86 932.9426,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListDescuentoAcademicoComponent&#45;&gt;NotificacionModule</title>
+<path fill="none" stroke="#000000" d="M820,-122.027C820,-138.3976 820,-160 820,-160 820,-160 646.8351,-160 646.8351,-160"/>
+<polygon fill="#000000" stroke="#000000" points="646.8352,-156.5001 636.8351,-160 646.8351,-163.5001 646.8352,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ViewDescuentoAcademicoComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="689.4831,-122 454.5169,-122 454.5169,-86 689.4831,-86 689.4831,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewDescuentoAcademicoComponent&#45;&gt;NotificacionModule</title>
+<path fill="none" stroke="#000000" d="M572,-122.1061C572,-122.1061 572,-140.991 572,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="568.5001,-140.9909 572,-150.991 575.5001,-140.991 568.5001,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>NotificacionRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="431.1414,-122 428.1414,-126 407.1414,-126 404.1414,-122 256.8586,-122 256.8586,-86 431.1414,-86 431.1414,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>NotificacionRoutingModule&#45;&gt;NotificacionModule</title>
+<path fill="none" stroke="#000000" d="M344,-122.027C344,-138.3976 344,-160 344,-160 344,-160 497.2742,-160 497.2742,-160"/>
+<polygon fill="#000000" stroke="#000000" points="497.2743,-163.5001 507.2742,-160 497.2742,-156.5001 497.2743,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="238.4231,-122 235.4231,-126 214.4231,-126 211.4231,-122 139.5769,-122 139.5769,-86 238.4231,-86 238.4231,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;NotificacionModule</title>
+<path fill="none" stroke="#000000" d="M189,-122.1061C189,-141.3391 189,-169 189,-169 189,-169 497.4624,-169 497.4624,-169"/>
+<polygon fill="#000000" stroke="#000000" points="497.4624,-172.5001 507.4624,-169 497.4623,-165.5001 497.4624,-172.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="122.4231,-122 119.4231,-126 98.4231,-126 95.4231,-122 23.5769,-122 23.5769,-86 122.4231,-86 122.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ThemeModule&#45;&gt;NotificacionModule</title>
+<path fill="none" stroke="#000000" d="M73,-122.2921C73,-144.2057 73,-178 73,-178 73,-178 497.276,-178 497.276,-178"/>
+<polygon fill="#000000" stroke="#000000" points="497.2761,-181.5001 507.276,-178 497.276,-174.5001 497.2761,-181.5001"/>
+</g>
+</g>
+</svg>

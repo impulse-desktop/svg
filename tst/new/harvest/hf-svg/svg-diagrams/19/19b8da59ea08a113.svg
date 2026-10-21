@@ -1,0 +1,64 @@
+<svg width="735pt" height="131pt"
+ viewBox="0.00 0.00 734.54 131.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 127)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-127 730.5358,-127 730.5358,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>organism taxon</title>
+<ellipse fill="none" stroke="#000000" cx="275.3431" cy="-105" rx="83.3857" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ontology class</title>
+<ellipse fill="none" stroke="#000000" cx="77.3431" cy="-18" rx="77.1866" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>organism taxon&#45;&gt;ontology class</title>
+<path fill="none" stroke="#000000" d="M238.5649,-88.8399C205.955,-74.5113 158.1983,-53.5273 123.1235,-38.1156"/>
+<polygon fill="#000000" stroke="#000000" points="124.1533,-34.7452 113.5901,-33.9267 121.3373,-41.1538 124.1533,-34.7452"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>has taxonomic rank</title>
+<ellipse fill="none" stroke="#000000" cx="275.3431" cy="-18" rx="102.8821" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>organism taxon&#45;&gt;has taxonomic rank</title>
+<path fill="none" stroke="#0000ff" d="M275.3431,-86.9735C275.3431,-75.1918 275.3431,-59.5607 275.3431,-46.1581"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="278.8432,-46.0033 275.3431,-36.0034 271.8432,-46.0034 278.8432,-46.0033"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>subclass of</title>
+<ellipse fill="none" stroke="#000000" cx="458.3431" cy="-18" rx="62.2891" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>organism taxon&#45;&gt;subclass of</title>
+<path fill="none" stroke="#0000ff" d="M335.0435,-92.3108C372.0293,-84.0976 413.8714,-74.0294 421.3431,-69 430.4631,-62.8612 438.1248,-53.6823 444.0677,-44.7963"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="447.1434,-46.4771 449.4279,-36.1315 441.1904,-42.7944 447.1434,-46.4771"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>organism taxon_has taxonomic rank</title>
+<ellipse fill="none" stroke="#0000ff" cx="459.3431" cy="-105" rx="83.3857" ry="18"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>organism taxon_subclass of</title>
+<ellipse fill="none" stroke="#0000ff" cx="643.3431" cy="-105" rx="83.3857" ry="18"/>
+
+</g>
+</g>
+</svg>

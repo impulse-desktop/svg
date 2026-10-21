@@ -1,0 +1,135 @@
+<svg width="615pt" height="201pt"
+ viewBox="0.00 0.00 615.00 200.70" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 196.7)">
+<title>twoDegreesRelationshipsDiagram</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-196.7 611,-196.7 611,4 -4,4"/>
+
+
+<g id="node1" class="node">
+<title>INVENTORIES</title>
+<g id="a_node1"><a xlink:href="../../tables/INVENTORIES.html" xlink:title="INVENTORIES" target="_top">
+<polygon fill="#ffffff" stroke="transparent" points="479.5,-127.7 479.5,-188.7 596.5,-188.7 596.5,-127.7 479.5,-127.7"/>
+<polygon fill="#f5f5f5" stroke="transparent" points="480,-165.2 480,-188.2 597,-188.2 597,-165.2 480,-165.2"/>
+<polygon fill="none" stroke="#000000" points="480,-165.2 480,-188.2 597,-188.2 597,-165.2 480,-165.2"/>
+
+
+<polygon fill="none" stroke="#000000" points="480,-146.2 480,-165.2 597,-165.2 597,-146.2 480,-146.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="480,-127.2 480,-146.2 524,-146.2 524,-127.2 480,-127.2"/>
+<polygon fill="none" stroke="#000000" points="480,-127.2 480,-146.2 524,-146.2 524,-127.2 480,-127.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="524,-127.2 524,-146.2 573,-146.2 573,-127.2 524,-127.2"/>
+<polygon fill="none" stroke="#000000" points="524,-127.2 524,-146.2 573,-146.2 573,-127.2 524,-127.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="573,-127.2 573,-146.2 597,-146.2 597,-127.2 573,-127.2"/>
+<polygon fill="none" stroke="#000000" points="573,-127.2 573,-146.2 597,-146.2 597,-127.2 573,-127.2"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>PRODUCTS</title>
+<g id="a_node2"><a xlink:href="../../tables/PRODUCTS.html" xlink:title="PRODUCTS" target="_top">
+<polygon fill="#ffffff" stroke="transparent" points="300,-43.7 300,-148.7 428,-148.7 428,-43.7 300,-43.7"/>
+<polygon fill="#f5f5f5" stroke="transparent" points="300,-125.2 300,-148.2 428,-148.2 428,-125.2 300,-125.2"/>
+<polygon fill="none" stroke="#000000" points="300,-125.2 300,-148.2 428,-148.2 428,-125.2 300,-125.2"/>
+
+
+<polygon fill="none" stroke="#000000" points="300,-103.2 300,-125.2 428,-125.2 428,-103.2 300,-103.2"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="305" y="-120.2"/>
+
+<polygon fill="none" stroke="#000000" points="300,-81.2 300,-103.2 428,-103.2 428,-81.2 300,-81.2"/>
+<image xlink:href="../../images/foreignKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="305" y="-98.2"/>
+
+<polygon fill="none" stroke="#000000" points="300,-62.2 300,-81.2 428,-81.2 428,-62.2 300,-62.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="300,-43.2 300,-62.2 345,-62.2 345,-43.2 300,-43.2"/>
+<polygon fill="none" stroke="#000000" points="300,-43.2 300,-62.2 345,-62.2 345,-43.2 300,-43.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="345,-43.2 345,-62.2 395,-62.2 395,-43.2 345,-43.2"/>
+<polygon fill="none" stroke="#000000" points="345,-43.2 345,-62.2 395,-62.2 395,-43.2 345,-43.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="395,-43.2 395,-62.2 428,-62.2 428,-43.2 395,-43.2"/>
+<polygon fill="none" stroke="#000000" points="395,-43.2 395,-62.2 428,-62.2 428,-43.2 395,-43.2"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>INVENTORIES:w&#45;&gt;PRODUCTS:e</title>
+<path fill="none" stroke="#000000" d="M465.9495,-150.8123C451.8593,-140.2354 451.4527,-114.2 428,-114.2"/>
+<polygon fill="#000000" stroke="#000000" points="472.3637,-152.8153 478.9269,-158.6363 476.1818,-154.0076 480,-155.2 480,-155.2 480,-155.2 476.1818,-154.0076 481.0731,-151.7637 472.3637,-152.8153 472.3637,-152.8153"/>
+<ellipse fill="none" stroke="#000000" cx="469.3092" cy="-151.8614" rx="3.2" ry="3.2"/>
+</g>
+
+<g id="node4" class="node">
+<title>PRODUCT_CATEGORIES</title>
+<g id="a_node4"><a xlink:href="../../tables/PRODUCT_CATEGORIES.html" xlink:title="PRODUCT_CATEGORIES" target="_top">
+<polygon fill="#ffffff" stroke="transparent" points="8,-38.2 8,-128.2 251,-128.2 251,-38.2 8,-38.2"/>
+<polygon fill="#f5f5f5" stroke="transparent" points="10.5,-103.2 10.5,-126.2 249.5,-126.2 249.5,-103.2 10.5,-103.2"/>
+<polygon fill="none" stroke="#000000" points="10.5,-103.2 10.5,-126.2 249.5,-126.2 249.5,-103.2 10.5,-103.2"/>
+
+
+<polygon fill="none" stroke="#000000" points="10.5,-81.2 10.5,-103.2 176.5,-103.2 176.5,-81.2 10.5,-81.2"/>
+<image xlink:href="../../images/primaryKeys.png" width="11px" height="12px" preserveAspectRatio="xMinYMin meet" x="15.5" y="-98.2"/>
+
+<polygon fill="none" stroke="#000000" points="176.5,-81.2 176.5,-103.2 249.5,-103.2 249.5,-81.2 176.5,-81.2"/>
+
+<polygon fill="none" stroke="#000000" points="10.5,-59.2 10.5,-81.2 176.5,-81.2 176.5,-59.2 10.5,-59.2"/>
+
+<polygon fill="none" stroke="#000000" points="176.5,-59.2 176.5,-81.2 249.5,-81.2 249.5,-59.2 176.5,-59.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="10.5,-40.2 10.5,-59.2 84.5,-59.2 84.5,-40.2 10.5,-40.2"/>
+<polygon fill="none" stroke="#000000" points="10.5,-40.2 10.5,-59.2 84.5,-59.2 84.5,-40.2 10.5,-40.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="84.5,-40.2 84.5,-59.2 176.5,-59.2 176.5,-40.2 84.5,-40.2"/>
+<polygon fill="none" stroke="#000000" points="84.5,-40.2 84.5,-59.2 176.5,-59.2 176.5,-40.2 84.5,-40.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="176.5,-40.2 176.5,-59.2 249.5,-59.2 249.5,-40.2 176.5,-40.2"/>
+<polygon fill="none" stroke="#000000" points="176.5,-40.2 176.5,-59.2 249.5,-59.2 249.5,-40.2 176.5,-40.2"/>
+
+<polygon fill="none" stroke="#000000" stroke-width="2" points="9,-39.2 9,-127.2 250,-127.2 250,-39.2 9,-39.2"/>
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>PRODUCTS:w&#45;&gt;PRODUCT_CATEGORIES:e</title>
+<path fill="none" stroke="#000000" d="M285.4203,-92.2C273.5435,-92.2 266.158,-92.2 249.5,-92.2"/>
+<polygon fill="#000000" stroke="#000000" points="292,-92.2001 300,-95.8 296,-92.2 300,-92.2 300,-92.2 300,-92.2 296,-92.2 300,-88.6 292,-92.2001 292,-92.2001"/>
+<ellipse fill="none" stroke="#000000" cx="288.8" cy="-92.2001" rx="3.2" ry="3.2"/>
+</g>
+
+<g id="node3" class="node">
+<title>ORDER_ITEMS</title>
+<g id="a_node3"><a xlink:href="../../tables/ORDER_ITEMS.html" xlink:title="ORDER_ITEMS" target="_top">
+<polygon fill="#ffffff" stroke="transparent" points="477,-45.7 477,-106.7 599,-106.7 599,-45.7 477,-45.7"/>
+<polygon fill="#f5f5f5" stroke="transparent" points="477,-83.2 477,-106.2 599,-106.2 599,-83.2 477,-83.2"/>
+<polygon fill="none" stroke="#000000" points="477,-83.2 477,-106.2 599,-106.2 599,-83.2 477,-83.2"/>
+
+
+<polygon fill="none" stroke="#000000" points="477,-64.2 477,-83.2 599,-83.2 599,-64.2 477,-64.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="477,-45.2 477,-64.2 523,-64.2 523,-45.2 477,-45.2"/>
+<polygon fill="none" stroke="#000000" points="477,-45.2 477,-64.2 523,-64.2 523,-45.2 477,-45.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="523,-45.2 523,-64.2 574,-64.2 574,-45.2 523,-45.2"/>
+<polygon fill="none" stroke="#000000" points="523,-45.2 523,-64.2 574,-64.2 574,-45.2 523,-45.2"/>
+
+<polygon fill="#ffffff" stroke="transparent" points="574,-45.2 574,-64.2 599,-64.2 599,-45.2 574,-45.2"/>
+<polygon fill="none" stroke="#000000" points="574,-45.2 574,-64.2 599,-64.2 599,-45.2 574,-45.2"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>ORDER_ITEMS:w&#45;&gt;PRODUCTS:e</title>
+<path fill="none" stroke="#000000" d="M463.1819,-77.9032C450.2811,-88.6726 450.4061,-114.2 428,-114.2"/>
+<polygon fill="#000000" stroke="#000000" points="469.4267,-75.7778 478.16,-76.608 473.2133,-74.4889 477,-73.2 477,-73.2 477,-73.2 473.2133,-74.4889 475.84,-69.792 469.4267,-75.7778 469.4267,-75.7778"/>
+<ellipse fill="none" stroke="#000000" cx="466.3973" cy="-76.8089" rx="3.2" ry="3.2"/>
+</g>
+</g>
+</svg>

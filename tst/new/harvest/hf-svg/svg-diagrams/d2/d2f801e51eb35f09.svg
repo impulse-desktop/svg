@@ -1,0 +1,97 @@
+<svg width="406pt" height="929pt"
+ viewBox="0.00 0.00 406.00 929.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 925)">
+<title>SUPPLIER</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-925 402,-925 402,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>SUPPLIER</title>
+<polygon fill="#efefef" stroke="transparent" points="97,-532.5 97,-567.5 297,-567.5 297,-532.5 97,-532.5"/>
+<polygon fill="none" stroke="#000000" points="97,-532.5 97,-567.5 297,-567.5 297,-532.5 97,-532.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="97,-502.5 97,-532.5 297,-532.5 297,-502.5 97,-502.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="97,-472.5 97,-502.5 297,-502.5 297,-472.5 97,-472.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="97,-442.5 97,-472.5 297,-472.5 297,-442.5 97,-442.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="97,-412.5 97,-442.5 297,-442.5 297,-412.5 97,-412.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="97,-382.5 97,-412.5 297,-412.5 297,-382.5 97,-382.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="97,-352.5 97,-382.5 297,-382.5 297,-352.5 97,-352.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="97,-322.5 97,-352.5 297,-352.5 297,-322.5 97,-322.5"/>
+
+
+<polygon fill="none" stroke="#000000" stroke-width="3" points="95.5,-321.5 95.5,-569.5 298.5,-569.5 298.5,-321.5 95.5,-321.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>NATION</title>
+<polygon fill="#efefef" stroke="transparent" points="103,-162.5 103,-197.5 290,-197.5 290,-162.5 103,-162.5"/>
+<polygon fill="none" stroke="#000000" points="103,-162.5 103,-197.5 290,-197.5 290,-162.5 103,-162.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="103,-132.5 103,-162.5 290,-162.5 290,-132.5 103,-132.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="103,-102.5 103,-132.5 290,-132.5 290,-102.5 103,-102.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="103,-72.5 103,-102.5 290,-102.5 290,-72.5 103,-72.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="103,-42.5 103,-72.5 290,-72.5 290,-42.5 103,-42.5"/>
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SUPPLIER:S_NATIONKEY&#45;&gt;NATION:N_NATIONKEY</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M86.831,-426.6353C32.8078,-416.8089 56.5956,-325.6378 97,-277 152.7571,-209.8809 234.2429,-308.1191 290,-241 316.5539,-209.0351 331.5556,-147.5 290,-147.5"/>
+<polygon fill="#000000" stroke="#000000" points="87.036,-426.6526 96.6187,-431.9838 92.018,-427.0763 97,-427.5 97,-427.5 97,-427.5 92.018,-427.0763 97.3813,-423.0162 87.036,-426.6526 87.036,-426.6526"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>PARTSUPP</title>
+<polygon fill="#efefef" stroke="transparent" points="93,-842.5 93,-877.5 301,-877.5 301,-842.5 93,-842.5"/>
+<polygon fill="none" stroke="#000000" points="93,-842.5 93,-877.5 301,-877.5 301,-842.5 93,-842.5"/>
+
+
+
+<polygon fill="none" stroke="#000000" points="93,-812.5 93,-842.5 301,-842.5 301,-812.5 93,-812.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="93,-782.5 93,-812.5 301,-812.5 301,-782.5 93,-782.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="93,-752.5 93,-782.5 301,-782.5 301,-752.5 93,-752.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="93,-722.5 93,-752.5 301,-752.5 301,-722.5 93,-722.5"/>
+
+
+<polygon fill="none" stroke="#000000" points="93,-692.5 93,-722.5 301,-722.5 301,-692.5 93,-692.5"/>
+
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PARTSUPP:PS_SUPPKEY&#45;&gt;SUPPLIER:S_SUPPKEY</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M310.938,-794.9069C362.5886,-766.6795 355.7039,-517.5 297,-517.5"/>
+<polygon fill="#000000" stroke="#000000" points="310.676,-794.9752 299.8638,-793.1458 305.838,-796.2376 301,-797.5 301,-797.5 301,-797.5 305.838,-796.2376 302.1362,-801.8542 310.676,-794.9752 310.676,-794.9752"/>
+
+</g>
+</g>
+</svg>

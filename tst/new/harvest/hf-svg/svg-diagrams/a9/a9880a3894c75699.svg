@@ -1,0 +1,158 @@
+<svg width="918pt" height="250pt"
+ viewBox="0.00 0.00 918.00 249.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 245.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-245.8 914,-245.8 914,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="137,-108.8 137,-233.8 699,-233.8 699,-108.8 137,-108.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="black" points="283,-116.8 283,-168.8 691,-168.8 691,-116.8 283,-116.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_providers</title>
+<polygon fill="none" stroke="black" points="145,-116.8 145,-168.8 275,-168.8 275,-116.8 145,-116.8"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_UserModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-100.8 156,-100.8 156,-32.8 8,-32.8"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_UserModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 148,-92.8 148,-40.8 16,-40.8"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_VaccineDataModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="164,-32.8 164,-100.8 672,-100.8 672,-32.8 164,-32.8"/>
+</g>
+<g id="clust18" class="cluster">
+<title>cluster_VaccineDataModule_providers</title>
+<polygon fill="none" stroke="black" points="172,-40.8 172,-92.8 664,-92.8 664,-40.8 172,-40.8"/>
+</g>
+<g id="clust19" class="cluster">
+<title>cluster_VaccineNameModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="680,-32.8 680,-100.8 902,-100.8 902,-32.8 680,-32.8"/>
+</g>
+<g id="clust24" class="cluster">
+<title>cluster_VaccineNameModule_providers</title>
+<polygon fill="none" stroke="black" points="688,-40.8 688,-92.8 894,-92.8 894,-40.8 688,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>UserModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="376.98,-160.8 373.98,-164.8 352.98,-164.8 349.98,-160.8 291.02,-160.8 291.02,-124.8 376.98,-124.8 376.98,-160.8"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="438.66,-225.8 435.66,-229.8 414.66,-229.8 411.66,-225.8 355.34,-225.8 355.34,-189.8 438.66,-189.8 438.66,-225.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>UserModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M366.08,-160.91C366.08,-160.91 366.08,-179.79 366.08,-179.79"/>
+<polygon fill="black" stroke="black" points="362.58,-179.79 366.08,-189.79 369.58,-179.79 362.58,-179.79"/>
+</g>
+
+<g id="node2" class="node">
+<title>VaccineDataModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="526.83,-160.8 523.83,-164.8 502.83,-164.8 499.83,-160.8 395.17,-160.8 395.17,-124.8 526.83,-124.8 526.83,-160.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>VaccineDataModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M416.96,-160.91C416.96,-160.91 416.96,-179.79 416.96,-179.79"/>
+<polygon fill="black" stroke="black" points="413.46,-179.79 416.96,-189.79 420.46,-179.79 413.46,-179.79"/>
+</g>
+
+<g id="node3" class="node">
+<title>VaccineNameModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="683.33,-160.8 680.33,-164.8 659.33,-164.8 656.33,-160.8 544.67,-160.8 544.67,-124.8 683.33,-124.8 683.33,-160.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>VaccineNameModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M614,-160.91C614,-180.14 614,-207.8 614,-207.8 614,-207.8 448.84,-207.8 448.84,-207.8"/>
+<polygon fill="black" stroke="black" points="448.84,-204.3 438.84,-207.8 448.84,-211.3 448.84,-204.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>AppService</title>
+<ellipse fill="#fdb462" stroke="black" cx="210" cy="-142.8" rx="56.74" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AppService&#45;&gt;AppModule</title>
+<path fill="none" stroke="black" d="M210,-160.91C210,-180.14 210,-207.8 210,-207.8 210,-207.8 345.03,-207.8 345.03,-207.8"/>
+<polygon fill="black" stroke="black" points="345.03,-211.3 355.03,-207.8 345.03,-204.3 345.03,-211.3"/>
+</g>
+
+<g id="node6" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="black" cx="82" cy="-66.8" rx="58.44" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>UserService&#45;&gt;UserModule</title>
+<path fill="none" stroke="black" d="M82,-84.91C82,-94.7 82,-104.8 82,-104.8 82,-104.8 313.96,-104.8 313.96,-104.8 313.96,-104.8 313.96,-114.69 313.96,-114.69"/>
+<polygon fill="black" stroke="black" points="310.46,-114.69 313.96,-124.69 317.46,-114.69 310.46,-114.69"/>
+</g>
+
+<g id="node7" class="node">
+<title>FindUser</title>
+<ellipse fill="#fdb462" stroke="black" cx="609" cy="-66.8" rx="46.95" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>FindUser&#45;&gt;VaccineDataModule</title>
+<path fill="none" stroke="black" d="M609,-84.95C609,-98.54 609,-114.8 609,-114.8 609,-114.8 493.96,-114.8 493.96,-114.8 493.96,-114.8 493.96,-115.78 493.96,-115.78"/>
+<polygon fill="black" stroke="black" points="490.46,-114.59 493.96,-124.59 497.46,-114.59 490.46,-114.59"/>
+</g>
+
+<g id="node8" class="node">
+<title>FindVaccineName</title>
+<ellipse fill="#fdb462" stroke="black" cx="461" cy="-66.8" rx="83.37" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>FindVaccineName&#45;&gt;VaccineDataModule</title>
+<path fill="none" stroke="black" d="M461,-84.81C461,-84.81 461,-114.65 461,-114.65"/>
+<polygon fill="black" stroke="black" points="457.5,-114.65 461,-124.65 464.5,-114.65 457.5,-114.65"/>
+</g>
+
+<g id="node9" class="node">
+<title>VaccineDataService</title>
+<ellipse fill="#fdb462" stroke="black" cx="270" cy="-66.8" rx="89.7" ry="18"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>VaccineDataService&#45;&gt;VaccineDataModule</title>
+<path fill="none" stroke="black" d="M336.9,-78.84C336.9,-86.43 336.9,-94.8 336.9,-94.8 336.9,-94.8 428.04,-94.8 428.04,-94.8 428.04,-94.8 428.04,-114.65 428.04,-114.65"/>
+<polygon fill="black" stroke="black" points="424.54,-114.65 428.04,-124.65 431.54,-114.65 424.54,-114.65"/>
+</g>
+
+<g id="node10" class="node">
+<title>VaccineNameService</title>
+<ellipse fill="#fdb462" stroke="black" cx="791" cy="-66.8" rx="94.86" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>VaccineNameService&#45;&gt;VaccineNameModule</title>
+<path fill="none" stroke="black" d="M696.32,-66.8C680.81,-66.8 669.69,-66.8 669.69,-66.8 669.69,-66.8 669.69,-114.79 669.69,-114.79"/>
+<polygon fill="black" stroke="black" points="666.19,-114.79 669.69,-124.79 673.19,-114.79 666.19,-114.79"/>
+</g>
+</g>
+</svg>

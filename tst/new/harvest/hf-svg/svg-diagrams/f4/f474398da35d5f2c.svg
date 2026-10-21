@@ -1,0 +1,108 @@
+<svg width="542pt" height="284pt"
+ viewBox="0.00 0.00 542.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 538,-280 538,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="33,-10 33,-30 53,-30 53,-10 33,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="146,-10 146,-30 166,-30 166,-10 146,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="232,-10 232,-30 252,-30 252,-10 232,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="329,-10 329,-30 349,-30 349,-10 329,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="425,-10 425,-30 445,-30 445,-10 425,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PlanModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 526,-268 526,-70 8,-70"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_PlanModule_exports</title>
+<polygon fill="none" stroke="#000000" points="58,-208 58,-260 448,-260 448,-208 58,-208"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_PlanModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 518,-130 518,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CloudNotificationService </title>
+<polygon fill="#fb8072" stroke="#000000" points="439.8546,-252 276.1454,-252 276.1454,-216 439.8546,-216 439.8546,-252"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>PlanService </title>
+<polygon fill="#fb8072" stroke="#000000" points="258.3662,-252 171.6338,-252 171.6338,-216 258.3662,-216 258.3662,-252"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>UserService </title>
+<polygon fill="#fb8072" stroke="#000000" points="153.9041,-252 66.0959,-252 66.0959,-216 153.9041,-216 153.9041,-252"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>PlanModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="257.4387,-187 254.4387,-191 233.4387,-191 230.4387,-187 172.5613,-187 172.5613,-151 257.4387,-151 257.4387,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>PlanModule&#45;&gt;CloudNotificationService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M257.3103,-175C271.1446,-175 283.0292,-175 283.0292,-175 283.0292,-175 283.0292,-205.9775 283.0292,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="279.5293,-205.9774 283.0292,-215.9775 286.5293,-205.9775 279.5293,-205.9774"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>PlanModule&#45;&gt;PlanService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M215,-187.1061C215,-187.1061 215,-205.991 215,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="211.5001,-205.9909 215,-215.991 218.5001,-205.991 211.5001,-205.9909"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>PlanModule&#45;&gt;UserService </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M172.7615,-175C158.9506,-175 147.0862,-175 147.0862,-175 147.0862,-175 147.0862,-205.9775 147.0862,-205.9775"/>
+<polygon fill="#000000" stroke="#000000" points="143.5863,-205.9774 147.0862,-215.9775 150.5863,-205.9775 143.5863,-205.9774"/>
+</g>
+
+<g id="node5" class="node">
+<title>CloudNotificationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="400" cy="-104" rx="110.0295" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>CloudNotificationService&#45;&gt;PlanModule</title>
+<path fill="none" stroke="#000000" d="M364.7063,-121.0652C364.7063,-138.4902 364.7063,-163 364.7063,-163 364.7063,-163 267.4994,-163 267.4994,-163"/>
+<polygon fill="#000000" stroke="#000000" points="267.4994,-159.5001 257.4994,-163 267.4993,-166.5001 267.4994,-159.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>PlanService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="215" cy="-104" rx="57.3185" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>PlanService&#45;&gt;PlanModule</title>
+<path fill="none" stroke="#000000" d="M215,-122.1061C215,-122.1061 215,-140.991 215,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="211.5001,-140.9909 215,-150.991 218.5001,-140.991 211.5001,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>UserService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="82" cy="-104" rx="58.4415" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>UserService&#45;&gt;PlanModule</title>
+<path fill="none" stroke="#000000" d="M103.1342,-121.0652C103.1342,-138.4902 103.1342,-163 103.1342,-163 103.1342,-163 162.7083,-163 162.7083,-163"/>
+<polygon fill="#000000" stroke="#000000" points="162.7084,-166.5001 172.7083,-163 162.7083,-159.5001 162.7084,-166.5001"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,168 @@
+<svg width="1728pt" height="211pt"
+ viewBox="0.00 0.00 1728.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1724,-207 1724,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="626,-10 626,-30 646,-30 646,-10 626,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="739,-10 739,-30 759,-30 759,-10 739,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="825,-10 825,-30 845,-30 845,-10 825,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="922,-10 922,-30 942,-30 942,-10 922,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1018,-10 1018,-30 1038,-30 1038,-10 1018,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DashboardModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1712,-195 1712,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DashboardModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="322,-78 322,-130 1704,-130 1704,-78 322,-78"/>
+</g>
+<g id="clust12" class="cluster">
+<title>cluster_DashboardModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 314,-130 314,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>DashboardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1695.9734,-122 1554.0266,-122 1554.0266,-86 1695.9734,-86 1695.9734,-122"/>
+
+</g>
+
+<g id="node10" class="node">
+<title>DashboardModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="912.191,-187 909.191,-191 888.191,-191 885.191,-187 791.809,-187 791.809,-151 912.191,-151 912.191,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DashboardComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M1625,-122.0908C1625,-145.1328 1625,-182 1625,-182 1625,-182 922.334,-182 922.334,-182"/>
+<polygon fill="#000000" stroke="#000000" points="922.3341,-178.5001 912.334,-182 922.334,-185.5001 922.3341,-178.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>StatusCardComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1536.2674,-122 1393.7326,-122 1393.7326,-86 1536.2674,-86 1536.2674,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>StatusCardComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M1465,-122.2843C1465,-143.3211 1465,-175 1465,-175 1465,-175 922.1735,-175 922.1735,-175"/>
+<polygon fill="#000000" stroke="#000000" points="922.1736,-171.5001 912.1735,-175 922.1735,-178.5001 922.1736,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ContactsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1375.3244,-122 1244.6756,-122 1244.6756,-86 1375.3244,-86 1375.3244,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ContactsComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M1310,-122.1061C1310,-141.3391 1310,-169 1310,-169 1310,-169 922.3465,-169 922.3465,-169"/>
+<polygon fill="#000000" stroke="#000000" points="922.3465,-165.5001 912.3465,-169 922.3464,-172.5001 922.3465,-165.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>RoomSelectorComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1226.9284,-122 1065.0716,-122 1065.0716,-86 1226.9284,-86 1226.9284,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>RoomSelectorComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M1146,-122.0225C1146,-139.3734 1146,-163 1146,-163 1146,-163 922.2047,-163 922.2047,-163"/>
+<polygon fill="#000000" stroke="#000000" points="922.2048,-159.5001 912.2047,-163 922.2047,-166.5001 922.2048,-159.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>RoomsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1047.5042,-122 926.4958,-122 926.4958,-86 1047.5042,-86 1047.5042,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>RoomsComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M987,-122.2396C987,-137.5706 987,-157 987,-157 987,-157 922.3926,-157 922.3926,-157"/>
+<polygon fill="#000000" stroke="#000000" points="922.3926,-153.5001 912.3926,-157 922.3926,-160.5001 922.3926,-153.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>TeamComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="908.705,-122 795.295,-122 795.295,-86 908.705,-86 908.705,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>TeamComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M852,-122.1061C852,-122.1061 852,-140.991 852,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="848.5001,-140.9909 852,-150.991 855.5001,-140.991 848.5001,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>KittenComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="777.3259,-122 660.6741,-122 660.6741,-86 777.3259,-86 777.3259,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>KittenComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M719,-122.2396C719,-137.5706 719,-157 719,-157 719,-157 781.7263,-157 781.7263,-157"/>
+<polygon fill="#000000" stroke="#000000" points="781.7263,-160.5001 791.7263,-157 781.7262,-153.5001 781.7263,-160.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>SecurityCamerasComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="642.4622,-122 465.5378,-122 465.5378,-86 642.4622,-86 642.4622,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SecurityCamerasComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M554,-122.0225C554,-139.3734 554,-163 554,-163 554,-163 781.6953,-163 781.6953,-163"/>
+<polygon fill="#000000" stroke="#000000" points="781.6953,-166.5001 791.6953,-163 781.6952,-159.5001 781.6953,-166.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>PlayerComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="447.5954,-122 330.4046,-122 330.4046,-86 447.5954,-86 447.5954,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>PlayerComponent&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M389,-122.1061C389,-141.3391 389,-169 389,-169 389,-169 781.4708,-169 781.4708,-169"/>
+<polygon fill="#000000" stroke="#000000" points="781.4709,-172.5001 791.4708,-169 781.4708,-165.5001 781.4709,-172.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="306.4231,-122 303.4231,-126 282.4231,-126 279.4231,-122 207.5769,-122 207.5769,-86 306.4231,-86 306.4231,-122"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ThemeModule&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M257,-122.2843C257,-143.3211 257,-175 257,-175 257,-175 781.6738,-175 781.6738,-175"/>
+<polygon fill="#000000" stroke="#000000" points="781.6739,-178.5001 791.6738,-175 781.6738,-171.5001 781.6739,-178.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>DashboardRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="189.8089,-122 186.8089,-126 165.8089,-126 162.8089,-122 24.1911,-122 24.1911,-86 189.8089,-86 189.8089,-122"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>DashboardRoutingModule&#45;&gt;DashboardModule</title>
+<path fill="none" stroke="#000000" d="M107,-122.0908C107,-145.1328 107,-182 107,-182 107,-182 781.6646,-182 781.6646,-182"/>
+<polygon fill="#000000" stroke="#000000" points="781.6646,-185.5001 791.6646,-182 781.6645,-178.5001 781.6646,-185.5001"/>
+</g>
+</g>
+</svg>

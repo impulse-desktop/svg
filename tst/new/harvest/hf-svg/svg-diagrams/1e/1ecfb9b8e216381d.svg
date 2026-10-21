@@ -1,0 +1,92 @@
+<svg width="642pt" height="211pt"
+ viewBox="0.00 0.00 642.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 638,-207 638,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="83,-10 83,-30 103,-30 103,-10 83,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="196,-10 196,-30 216,-30 216,-10 196,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="282,-10 282,-30 302,-30 302,-10 282,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="379,-10 379,-30 399,-30 399,-10 379,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="475,-10 475,-30 495,-30 495,-10 475,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_PageModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 626,-195 626,-70 8,-70"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_PageModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 618,-130 618,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>AboutModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="610.0481,-122 607.0481,-126 586.0481,-126 583.0481,-122 515.9519,-122 515.9519,-86 610.0481,-86 610.0481,-122"/>
+
+</g>
+
+<g id="node6" class="node">
+<title>PageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="375.2619,-187 372.2619,-191 351.2619,-191 348.2619,-187 288.7381,-187 288.7381,-151 375.2619,-151 375.2619,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AboutModule&#45;&gt;PageModule</title>
+<path fill="none" stroke="#000000" d="M563,-122.2843C563,-143.3211 563,-175 563,-175 563,-175 385.4493,-175 385.4493,-175"/>
+<polygon fill="#000000" stroke="#000000" points="385.4494,-171.5001 375.4493,-175 385.4493,-178.5001 385.4494,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>HomeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="497.7619,-122 494.7619,-126 473.7619,-126 470.7619,-122 404.2381,-122 404.2381,-86 497.7619,-86 497.7619,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>HomeModule&#45;&gt;PageModule</title>
+<path fill="none" stroke="#000000" d="M451,-122.0225C451,-139.3734 451,-163 451,-163 451,-163 385.2984,-163 385.2984,-163"/>
+<polygon fill="#000000" stroke="#000000" points="385.2984,-159.5001 375.2984,-163 385.2983,-166.5001 385.2984,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>Page404Module</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="385.7619,-122 382.7619,-126 361.7619,-126 358.7619,-122 278.2381,-122 278.2381,-86 385.7619,-86 385.7619,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>Page404Module&#45;&gt;PageModule</title>
+<path fill="none" stroke="#000000" d="M332,-122.1061C332,-122.1061 332,-140.991 332,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="328.5001,-140.9909 332,-150.991 335.5001,-140.991 328.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>SearchModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="259.6375,-122 256.6375,-126 235.6375,-126 232.6375,-122 162.3625,-122 162.3625,-86 259.6375,-86 259.6375,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SearchModule&#45;&gt;PageModule</title>
+<path fill="none" stroke="#000000" d="M211,-122.0225C211,-139.3734 211,-163 211,-163 211,-163 278.658,-163 278.658,-163"/>
+<polygon fill="#000000" stroke="#000000" points="278.658,-166.5001 288.658,-163 278.658,-159.5001 278.658,-166.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>VideopageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="144.191,-122 141.191,-126 120.191,-126 117.191,-122 23.809,-122 23.809,-86 144.191,-86 144.191,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>VideopageModule&#45;&gt;PageModule</title>
+<path fill="none" stroke="#000000" d="M84,-122.2843C84,-143.3211 84,-175 84,-175 84,-175 278.5179,-175 278.5179,-175"/>
+<polygon fill="#000000" stroke="#000000" points="278.5179,-178.5001 288.5179,-175 278.5179,-171.5001 278.5179,-178.5001"/>
+</g>
+</g>
+</svg>

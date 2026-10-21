@@ -1,0 +1,33 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="588"
+  height="400"
+  viewBox="0 0 588 400"
+>
+  <filter id="noise" x="0" y="0">
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency="0.75"
+      stitchTiles="stitch"
+    />
+  </filter>
+
+  <defs>
+    <radialGradient
+      id="gradient"
+      cx="0"
+      cy="0"
+      r="1"
+      gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(8.89331e-05 400) rotate(-34.07) scale(802 1867)"
+    >
+      <stop />
+      <stop offset="1" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+
+  <rect width="588" height="400" filter="url(#noise)" opacity="0.2" />
+  <path opacity="0.85" d="M0 0H588V400H0V0Z" fill="url(#gradient)" />
+</svg>

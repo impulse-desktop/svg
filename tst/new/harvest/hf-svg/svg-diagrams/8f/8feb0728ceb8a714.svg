@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="904" preserveAspectRatio="none" style="width:2300px;height:904px" width="2300">
+  <defs>
+    <filter height="300%" id="a" width="300%" x="-1" y="-1">
+      <feGaussianBlur result="blurOut" stdDeviation="2"/>
+      <feColorMatrix in="blurOut" result="blurOut2" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/>
+      <feOffset dx="4" dy="4" in="blurOut2" result="blurOut3"/>
+      <feBlend in="SourceGraphic" in2="blurOut3"/>
+    </filter>
+  </defs>
+  
+  <path fill="#D3D3D3" stroke="#a80036" d="M1 40.953h196v857.844H1z"/>
+  
+  <path fill="#ADD8E6" stroke="#a80036" d="M666 40.953h238v857.844H666z"/>
+  
+  <path fill="#FFFFE0" stroke="#a80036" d="M1223.5 40.953H2256v857.844H1223.5z"/>
+  
+  <path fill="#FFF" filter="url(#a)" stroke="#a80036" d="M780 169.68h10v616.523h-10zM1293 214.945h10v30h-10zM1440.5 322.344h10v197.797h-10zM1440.5 556.273h10V735.07h-10zM1644.5 351.477h10v139.531h-10zM1877 585.406h10v120.531h-10zM2199 614.539h10v172.664h-10z"/>
+  <path fill="#FFF" filter="url(#a)" stroke="#000" stroke-width="2" d="M40 176.68h2246v602.523H40z"/>
+  <path fill="#FFF" filter="url(#a)" stroke="#000" stroke-width="2" d="M50 259.945h2226v512.258H50z"/>
+  <path fill="#FFF" filter="url(#a)" stroke="#000" stroke-width="2" d="M660 284.078h1051.5v244.063H660z"/>
+  <path stroke="#a80036" stroke-dasharray="5,5" d="M99 159.68v636.523M785 159.68v636.523M1297.5 159.68v636.523M1445.5 159.68v636.523M1649.5 159.68v636.523M1762.5 159.68v636.523M1881.5 159.68v636.523M2204 159.68v636.523"/>
+  
+  
+  <circle cx="99" cy="70.086" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="8"/>
+  <path d="M99 78.086v27m-13-19h26m-13 19l-13 15m13-15l13 15" fill="none" filter="url(#a)" stroke="#a80036" stroke-width="2"/>
+  
+  
+  <circle cx="99" cy="837.797" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="8"/>
+  <path d="M99 845.797v27m-13-19h26m-13 19l-13 15m13-15l13 15" fill="none" filter="url(#a)" stroke="#a80036" stroke-width="2"/>
+  
+  <circle cx="785" cy="127.383" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="12"/>
+  <path fill="#A80036" stroke="#a80036" d="M781 115.383l6-5-2 5 2 5-6-5z"/>
+  
+  <circle cx="785" cy="827.5" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="12"/>
+  <path fill="#A80036" stroke="#a80036" d="M781 815.5l6-5-2 5 2 5-6-5z"/>
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1231.5 120.383h133v30.297h-133z"/>
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1227.5 124.383h133v30.297h-133z"/>
+  
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1231.5 795.203h133V825.5h-133z"/>
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1227.5 799.203h133V829.5h-133z"/>
+  
+  
+  <path d="M1425 115.383v24m0-12h17" fill="none" filter="url(#a)" stroke="#a80036" stroke-width="2"/>
+  <circle cx="1454" cy="127.383" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="12"/>
+  
+  <path d="M1425 815.5v24m0-12h17" fill="none" filter="url(#a)" stroke="#a80036" stroke-width="2"/>
+  <circle cx="1454" cy="827.5" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="12"/>
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1601.5 120.383h96v30.297h-96z"/>
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1597.5 124.383h96v30.297h-96z"/>
+  
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1601.5 795.203h96V825.5h-96z"/>
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1597.5 799.203h96V829.5h-96z"/>
+  
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1711.5 124.383h98v30.297h-98z"/>
+  
+  <path fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="1.5" d="M1711.5 795.203h98V825.5h-98z"/>
+  
+  
+  <circle cx="1882" cy="127.383" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="12"/>
+  <path stroke="#a80036" stroke-width="2" d="M1870 141.383h24"/>
+  
+  <circle cx="1882" cy="827.5" fill="#FEFECE" filter="url(#a)" stroke="#a80036" stroke-width="2" r="12"/>
+  <path stroke="#a80036" stroke-width="2" d="M1870 841.5h24"/>
+  
+  <path d="M2186 107.383c0-10 18-10 18-10s18 0 18 10v26c0 10-18 10-18 10s-18 0-18-10v-26" fill="#FEFECE" filter="url(#a)" stroke="#000" stroke-width="1.5"/>
+  <path d="M2186 107.383c0 10 18 10 18 10s18 0 18-10" fill="none" stroke="#000" stroke-width="1.5"/>
+  
+  <path d="M2186 821.5c0-10 18-10 18-10s18 0 18 10v26c0 10-18 10-18 10s-18 0-18-10v-26" fill="#FEFECE" filter="url(#a)" stroke="#000" stroke-width="1.5"/>
+  <path d="M2186 821.5c0 10 18 10 18 10s18 0 18-10" fill="none" stroke="#000" stroke-width="1.5"/>
+  <path fill="#FFF" filter="url(#a)" stroke="#a80036" d="M780 169.68h10v616.523h-10zM1293 214.945h10v30h-10zM1440.5 322.344h10v197.797h-10zM1440.5 556.273h10V735.07h-10zM1644.5 351.477h10v139.531h-10zM1877 585.406h10v120.531h-10zM2199 614.539h10v172.664h-10z"/>
+  <path d="M40 176.68h276v7l-10 10H40v-17" fill="#EEE" stroke="#000"/>
+  <path fill="none" stroke="#000" stroke-width="2" d="M40 176.68h2246v602.523H40z"/>
+  
+  <path fill="#A80036" stroke="#a80036" d="M1281 210.945l10 4-10 4 4-4z"/>
+  <path stroke="#a80036" d="M790 214.945h497"/>
+  
+  
+  <path d="M50 259.945h77v7l-10 10H50v-17" fill="#EEE" stroke="#000"/>
+  <path fill="none" stroke="#000" stroke-width="2" d="M50 259.945h2226v512.258H50z"/>
+  
+  
+  <path d="M660 284.078h232v7l-10 10H660v-17" fill="#EEE" stroke="#000"/>
+  <path fill="none" stroke="#000" stroke-width="2" d="M660 284.078h1051.5v244.063H660z"/>
+  
+  <path fill="#A80036" stroke="#a80036" d="M1428.5 318.344l10 4-10 4 4-4z"/>
+  <path stroke="#a80036" d="M790 322.344h644.5"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M1632.5 347.477l10 4-10 4 4-4z"/>
+  <path stroke="#a80036" d="M1450.5 351.477h188"/>
+  
+  
+  <path fill="#FFF" filter="url(#a)" stroke="#000" stroke-width="2" d="M1594.5 384.477h163v55.398h-163z"/>
+  <path fill="#EEE" stroke="#000" stroke-width="2" d="M1594.5 384.477h66v7l-10 10h-56v-17z"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M1461.5 487.008l-10 4 10 4-4-4z"/>
+  <path stroke="#a80036" stroke-dasharray="2,2" d="M1455.5 491.008h193"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M801 516.14l-10 4 10 4-4-4z"/>
+  <path stroke="#a80036" stroke-dasharray="2,2" d="M795 520.141h649.5"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M1428.5 552.273l10 4-10 4 4-4z"/>
+  <path stroke="#a80036" d="M790 556.273h644.5"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M1865 581.406l10 4-10 4 4-4z"/>
+  <path stroke="#a80036" d="M1450.5 585.406H1871"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M2187 610.54l10 4-10 4 4-4z"/>
+  <path stroke="#a80036" d="M1887 614.539h306"/>
+  
+  
+  <path fill="#FFFFE0" filter="url(#a)" stroke="#a80036" d="M2152 627.54h104l10 11-10 12h-104l-10-12 10-11z"/>
+  
+  <path fill="#A80036" stroke="#a80036" d="M1898 672.805l-10 4 10 4-4-4z"/>
+  <path stroke="#a80036" stroke-dasharray="2,2" d="M1892 676.805h306"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M1461.5 701.938l-10 4 10 4-4-4z"/>
+  <path stroke="#a80036" stroke-dasharray="2,2" d="M1455.5 705.938H1881"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M801 731.07l-10 4 10 4-4-4z"/>
+  <path stroke="#a80036" stroke-dasharray="2,2" d="M795 735.07h649.5"/>
+  
+  
+  <path fill="#A80036" stroke="#a80036" d="M110 760.203l-10 4 10 4-4-4z"/>
+  <path stroke="#a80036" stroke-dasharray="2,2" d="M104 764.203h675"/>
+  
+  
+</svg>

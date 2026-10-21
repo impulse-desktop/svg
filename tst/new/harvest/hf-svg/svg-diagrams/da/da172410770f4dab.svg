@@ -1,0 +1,150 @@
+<svg width="145pt" height="997pt"
+ viewBox="0.00 0.00 145.17 997.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 993)">
+<title>CO_Cobra_Login</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-993 141.1719,-993 141.1719,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node0</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="9.8706,-121.5 9.8706,-205.5 127.3013,-205.5 127.3013,-121.5 9.8706,-121.5"/>
+
+<polyline fill="none" stroke="#000000" points="9.8706,-187.5 127.3013,-187.5 "/>
+
+
+<polyline fill="none" stroke="#000000" points="9.8706,-159.5 127.3013,-159.5 "/>
+
+
+
+</g>
+
+<g id="node5" class="node">
+<title>Node4</title>
+<g id="a_node5"><a xlink:href="a00229.html" target="_top" xlink:title="{CO_Login_Manager\n|# $_added_new_id\l|+ __construct()\l+ load_from_db()\l+ is_manager()\l+ add_new_login_id()\l}">
+<polygon fill="#ffffff" stroke="#000000" points="12.6343,-.5 12.6343,-84.5 124.5376,-84.5 124.5376,-.5 12.6343,-.5"/>
+
+<polyline fill="none" stroke="#000000" points="12.6343,-66.5 124.5376,-66.5 "/>
+
+<polyline fill="none" stroke="#000000" points="12.6343,-48.5 124.5376,-48.5 "/>
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node0&#45;&gt;Node4</title>
+<path fill="none" stroke="#191970" d="M68.5859,-110.977C68.5859,-102.1562 68.5859,-93.1052 68.5859,-84.5917"/>
+<polygon fill="none" stroke="#191970" points="65.086,-111.18 68.5859,-121.1801 72.086,-111.1801 65.086,-111.18"/>
+</g>
+
+<g id="node2" class="node">
+<title>Node1</title>
+<g id="a_node2"><a xlink:href="a00337.html" target="_top" xlink:title="{CO_Security_Login\n|+ $login_id\l# $_api_key\l&#45; $_override_access_class\l|+ __construct()\l+ load_from_db()\l+ get_crypted_password()\l+ is_login_valid()\l+ i_am_a_god()\l+ is_god()\l+ is_manager()\l+ get_lang()\l+ set_lang()\l+ get_user_object()\land 7 more...\l# _set_up_api_key()\l# _default_setup()\l# _build_parameter_array()\l# _random_str()\l}">
+<polygon fill="#ffffff" stroke="#000000" points="0,-242.5 0,-456.5 137.1719,-456.5 137.1719,-242.5 0,-242.5"/>
+
+<polyline fill="none" stroke="#000000" points="0,-438.5 137.1719,-438.5 "/>
+
+
+
+<polyline fill="none" stroke="#000000" points="0,-400.5 137.1719,-400.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node0</title>
+<path fill="none" stroke="#191970" d="M68.5859,-232.1826C68.5859,-222.8925 68.5859,-213.9506 68.5859,-205.7644"/>
+<polygon fill="none" stroke="#191970" points="65.086,-232.3807 68.5859,-242.3807 72.086,-232.3808 65.086,-232.3807"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node2</title>
+<g id="a_node3"><a xlink:href="a00325.html" target="_top" xlink:title="{CO_Security_Node\n|# $_ids\l|+ __construct()\l+ load_from_db()\l+ set_ids()\l+ add_id()\l+ remove_id()\l+ ids()\l+ user_can_edit_ids()\l# _default_setup()\l# _build_parameter_array()\l}">
+<polygon fill="#ffffff" stroke="#000000" points="0,-493.5 0,-627.5 137.1719,-627.5 137.1719,-493.5 0,-493.5"/>
+
+<polyline fill="none" stroke="#000000" points="0,-609.5 137.1719,-609.5 "/>
+
+<polyline fill="none" stroke="#000000" points="0,-591.5 137.1719,-591.5 "/>
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="#191970" d="M68.5859,-483.4141C68.5859,-474.7449 68.5859,-465.7991 68.5859,-456.8357"/>
+<polygon fill="none" stroke="#191970" points="65.086,-483.4483 68.5859,-493.4484 72.086,-483.4484 65.086,-483.4483"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node3</title>
+<g id="a_node4"><a xlink:href="a00305.html" target="_top" xlink:title="{A_CO_DB_Table_Base\n|+ $class_description\l+ $instance_description\l+ $last_access\l+ $name\l+ $read_security_id\l+ $write_security_id\l+ $context\l+ $error\l# $_db_object\l# $_id\l# $_batch_mode\l|+ __construct()\l+ set_batch_mode()\l+ clear_batch_mode()\l+ load_from_db()\l+ id()\l+ lock()\l+ locked()\l+ danger_will_robinson\l_danger_clear_id()\l+ user_can_read()\l+ user_can_write()\land 9 more...\l# _default_setup()\l# _build_parameter_array()\l# _badger_serialize()\l# _badger_unserialize()\l# _write_to_db()\l# _seppuku()\l}">
+<polygon fill="#ffffff" stroke="#000000" points="0,-664.5 0,-988.5 137.1719,-988.5 137.1719,-664.5 0,-664.5"/>
+
+<polyline fill="none" stroke="#000000" points="0,-970.5 137.1719,-970.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+<polyline fill="none" stroke="#000000" points="0,-852.5 137.1719,-852.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="#191970" d="M68.5859,-654.3743C68.5859,-645.1473 68.5859,-636.196 68.5859,-627.721"/>
+<polygon fill="none" stroke="#191970" points="65.086,-654.4854 68.5859,-664.4854 72.086,-654.4854 65.086,-654.4854"/>
+</g>
+</g>
+</svg>

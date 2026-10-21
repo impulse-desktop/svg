@@ -1,0 +1,124 @@
+<svg width="1192pt" height="284pt"
+ viewBox="0.00 0.00 1192.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1188,-280 1188,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="358,-10 358,-30 378,-30 378,-10 358,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="471,-10 471,-30 491,-30 491,-10 471,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="557,-10 557,-30 577,-30 577,-10 557,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="654,-10 654,-30 674,-30 674,-10 654,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="750,-10 750,-30 770,-30 770,-10 750,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_NgxEditorModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1176,-268 1176,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_NgxEditorModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="436,-78 436,-130 1168,-130 1168,-78 436,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_NgxEditorModule_exports</title>
+<polygon fill="none" stroke="#000000" points="558,-208 558,-260 718,-260 718,-208 558,-208"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_NgxEditorModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 428,-130 428,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>NgxEditorComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1160.4341,-122 1019.5659,-122 1019.5659,-86 1160.4341,-86 1160.4341,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>NgxEditorModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="697.1513,-187 694.1513,-191 673.1513,-191 670.1513,-187 578.8487,-187 578.8487,-151 697.1513,-151 697.1513,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>NgxEditorComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M1090,-122.2843C1090,-143.3211 1090,-175 1090,-175 1090,-175 707.5559,-175 707.5559,-175"/>
+<polygon fill="#000000" stroke="#000000" points="707.5559,-171.5001 697.5559,-175 707.5559,-178.5001 707.5559,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>NgxGrippieComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1002.2021,-122 853.7979,-122 853.7979,-86 1002.2021,-86 1002.2021,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>NgxGrippieComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M928,-122.0225C928,-139.3734 928,-163 928,-163 928,-163 707.3856,-163 707.3856,-163"/>
+<polygon fill="#000000" stroke="#000000" points="707.3857,-159.5001 697.3856,-163 707.3856,-166.5001 707.3857,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>NgxEditorMessageComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="835.9114,-122 646.0886,-122 646.0886,-86 835.9114,-86 835.9114,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NgxEditorMessageComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M671.81,-122.1061C671.81,-122.1061 671.81,-140.991 671.81,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="668.31,-140.9909 671.81,-150.991 675.31,-140.991 668.31,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>NgxEditorToolbarComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="628.252,-122 443.748,-122 443.748,-86 628.252,-86 628.252,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>NgxEditorToolbarComponent&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M603.5253,-122.1061C603.5253,-122.1061 603.5253,-140.991 603.5253,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="600.0253,-140.9909 603.5253,-150.991 607.0253,-140.991 600.0253,-140.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>NgxEditorComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="709.9334,-252 566.0666,-252 566.0666,-216 709.9334,-216 709.9334,-252"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>NgxEditorModule&#45;&gt;NgxEditorComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M638,-187.1061C638,-187.1061 638,-205.991 638,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="634.5001,-205.9909 638,-215.991 641.5001,-205.991 634.5001,-205.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>CommandExecutorService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="305" cy="-104" rx="115.1706" ry="18"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>CommandExecutorService&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M305,-122.0225C305,-139.3734 305,-163 305,-163 305,-163 568.4663,-163 568.4663,-163"/>
+<polygon fill="#000000" stroke="#000000" points="568.4663,-166.5001 578.4663,-163 568.4662,-159.5001 568.4663,-166.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>MessageService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="98" cy="-104" rx="73.5522" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>MessageService&#45;&gt;NgxEditorModule</title>
+<path fill="none" stroke="#000000" d="M98,-122.2843C98,-143.3211 98,-175 98,-175 98,-175 568.6659,-175 568.6659,-175"/>
+<polygon fill="#000000" stroke="#000000" points="568.6659,-178.5001 578.6659,-175 568.6658,-171.5001 568.6659,-178.5001"/>
+</g>
+</g>
+</svg>

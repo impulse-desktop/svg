@@ -1,0 +1,148 @@
+<svg width="867pt" height="284pt"
+ viewBox="0.00 0.00 867.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 863,-280 863,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="195.5,-10 195.5,-30 215.5,-30 215.5,-10 195.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="308.5,-10 308.5,-30 328.5,-30 328.5,-10 308.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="394.5,-10 394.5,-30 414.5,-30 414.5,-10 394.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="491.5,-10 491.5,-30 511.5,-30 511.5,-10 491.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="587.5,-10 587.5,-30 607.5,-30 607.5,-10 587.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_SharedModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 851,-268 851,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SharedModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="146,-78 146,-130 843,-130 843,-78 146,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_SharedModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 138,-130 138,-78 16,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_SharedModule_exports</title>
+<polygon fill="none" stroke="#000000" points="103,-208 103,-260 753,-260 753,-208 103,-208"/>
+</g>
+
+<g id="node1" class="node">
+<title>ConfirmDialogComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="835.3738,-122 668.6262,-122 668.6262,-86 835.3738,-86 835.3738,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="448.4231,-187 445.4231,-191 424.4231,-191 421.4231,-187 349.5769,-187 349.5769,-151 448.4231,-151 448.4231,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ConfirmDialogComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M706.8989,-122.1061C706.8989,-141.3391 706.8989,-169 706.8989,-169 706.8989,-169 458.4693,-169 458.4693,-169"/>
+<polygon fill="#000000" stroke="#000000" points="458.4693,-165.5001 448.4693,-169 458.4692,-172.5001 458.4693,-165.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>ErrorDialogComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="650.4692,-122 501.5308,-122 501.5308,-86 650.4692,-86 650.4692,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ErrorDialogComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M538.2379,-122.027C538.2379,-138.3976 538.2379,-160 538.2379,-160 538.2379,-160 458.4821,-160 458.4821,-160"/>
+<polygon fill="#000000" stroke="#000000" points="458.4822,-156.5001 448.4821,-160 458.4821,-163.5001 458.4822,-156.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListItemToRouterLinkPipe</title>
+<polygon fill="#ffffb3" stroke="#000000" points="483.4213,-122 314.5787,-122 314.5787,-86 483.4213,-86 483.4213,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListItemToRouterLinkPipe&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M399,-122.1061C399,-122.1061 399,-140.991 399,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="395.5001,-140.9909 399,-150.991 402.5001,-140.991 395.5001,-140.9909"/>
+</g>
+
+<g id="node4" class="node">
+<title>MarkdownComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="296.259,-122 153.741,-122 153.741,-86 296.259,-86 296.259,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>MarkdownComponent&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M267.625,-122.027C267.625,-138.3976 267.625,-160 267.625,-160 267.625,-160 339.707,-160 339.707,-160"/>
+<polygon fill="#000000" stroke="#000000" points="339.7071,-163.5001 349.707,-160 339.707,-156.5001 339.7071,-163.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>ErrorDialogComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="745.4699,-252 592.5301,-252 592.5301,-216 745.4699,-216 745.4699,-252"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;ErrorDialogComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M448.4077,-178C513.9948,-178 621.625,-178 621.625,-178 621.625,-178 621.625,-205.973 621.625,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="618.1251,-205.973 621.625,-215.973 625.1251,-205.973 618.1251,-205.973"/>
+</g>
+
+<g id="node8" class="node">
+<title>ListItemToRouterLinkPipe </title>
+<polygon fill="#fb8072" stroke="#000000" points="574.9208,-252 403.0792,-252 403.0792,-216 574.9208,-216 574.9208,-252"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedModule&#45;&gt;ListItemToRouterLinkPipe </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M425.6254,-187.1061C425.6254,-187.1061 425.6254,-205.991 425.6254,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="422.1254,-205.9909 425.6254,-215.991 429.1254,-205.991 422.1254,-205.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>MarkdownComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="385.259,-252 238.741,-252 238.741,-216 385.259,-216 385.259,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SharedModule&#45;&gt;MarkdownComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M367.4592,-187.1061C367.4592,-187.1061 367.4592,-205.991 367.4592,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="363.9592,-205.9909 367.4592,-215.991 370.9592,-205.991 363.9592,-205.9909"/>
+</g>
+
+<g id="node10" class="node">
+<title>MaterialModule </title>
+<polygon fill="#fb8072" stroke="#000000" points="221.4716,-252 110.5284,-252 110.5284,-216 221.4716,-216 221.4716,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>SharedModule&#45;&gt;MaterialModule </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M349.6628,-178C287.1449,-178 187.428,-178 187.428,-178 187.428,-178 187.428,-205.973 187.428,-205.973"/>
+<polygon fill="#000000" stroke="#000000" points="183.928,-205.973 187.428,-215.973 190.928,-205.973 183.928,-205.973"/>
+</g>
+
+<g id="node6" class="node">
+<title>MaterialModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="130.4706,-122 127.4706,-126 106.4706,-126 103.4706,-122 23.5294,-122 23.5294,-86 130.4706,-86 130.4706,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MaterialModule&#45;&gt;SharedModule</title>
+<path fill="none" stroke="#000000" d="M120.625,-122.1061C120.625,-141.3391 120.625,-169 120.625,-169 120.625,-169 339.5529,-169 339.5529,-169"/>
+<polygon fill="#000000" stroke="#000000" points="339.5529,-172.5001 349.5529,-169 339.5529,-165.5001 339.5529,-172.5001"/>
+</g>
+</g>
+</svg>

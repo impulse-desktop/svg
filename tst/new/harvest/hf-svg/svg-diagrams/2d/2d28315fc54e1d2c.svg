@@ -1,0 +1,152 @@
+<svg width="1265pt" height="284pt"
+ viewBox="0.00 0.00 1265.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1261,-280 1261,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="394.5,-10 394.5,-30 414.5,-30 414.5,-10 394.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="507.5,-10 507.5,-30 527.5,-30 527.5,-10 507.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="593.5,-10 593.5,-30 613.5,-30 613.5,-10 593.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="690.5,-10 690.5,-30 710.5,-30 710.5,-10 690.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="786.5,-10 786.5,-30 806.5,-30 806.5,-10 786.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_MovieModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1249,-268 1249,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_MovieModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="576,-78 576,-130 1241,-130 1241,-78 576,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_MovieModule_imports</title>
+<polygon fill="none" stroke="#000000" points="170,-78 170,-130 568,-130 568,-78 170,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_MovieModule_exports</title>
+<polygon fill="none" stroke="#000000" points="519,-208 519,-260 645,-260 645,-208 519,-208"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_MovieModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 162,-130 162,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>MovieComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1232.8823,-122 1115.1177,-122 1115.1177,-86 1232.8823,-86 1232.8823,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>MovieModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="630.0997,-187 627.0997,-191 606.0997,-191 603.0997,-187 533.9003,-187 533.9003,-151 630.0997,-151 630.0997,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>MovieComponent&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M1174,-122.2921C1174,-144.2057 1174,-178 1174,-178 1174,-178 640.4458,-178 640.4458,-178"/>
+<polygon fill="#000000" stroke="#000000" points="640.4459,-174.5001 630.4458,-178 640.4458,-181.5001 640.4459,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>MovieDescriptionComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1096.6951,-122 913.3049,-122 913.3049,-86 1096.6951,-86 1096.6951,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>MovieDescriptionComponent&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M1005,-122.1061C1005,-141.3391 1005,-169 1005,-169 1005,-169 640.1116,-169 640.1116,-169"/>
+<polygon fill="#000000" stroke="#000000" points="640.1117,-165.5001 630.1116,-169 640.1116,-172.5001 640.1117,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>MoviePageComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="895.594,-122 750.406,-122 750.406,-86 895.594,-86 895.594,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>MoviePageComponent&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M823,-122.027C823,-138.3976 823,-160 823,-160 823,-160 640.1907,-160 640.1907,-160"/>
+<polygon fill="#000000" stroke="#000000" points="640.1908,-156.5001 630.1907,-160 640.1907,-163.5001 640.1908,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>SocialFeedsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="732.4818,-122 583.5182,-122 583.5182,-86 732.4818,-86 732.4818,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SocialFeedsComponent&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M606.7795,-122.1061C606.7795,-122.1061 606.7795,-140.991 606.7795,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="603.2795,-140.9909 606.7795,-150.991 610.2795,-140.991 603.2795,-140.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>MaterialModule </title>
+<polygon fill="#fb8072" stroke="#000000" points="637.4716,-252 526.5284,-252 526.5284,-216 637.4716,-216 637.4716,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>MovieModule&#45;&gt;MaterialModule </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M582,-187.1061C582,-187.1061 582,-205.991 582,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="578.5001,-205.9909 582,-215.991 585.5001,-205.991 578.5001,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>MaterialModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="560.4706,-122 557.4706,-126 536.4706,-126 533.4706,-122 453.5294,-122 453.5294,-86 560.4706,-86 560.4706,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>MaterialModule&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M547.2178,-122.1061C547.2178,-122.1061 547.2178,-140.991 547.2178,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="543.7178,-140.9909 547.2178,-150.991 550.7178,-140.991 543.7178,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>MovieRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="435.7176,-122 432.7176,-126 411.7176,-126 408.7176,-122 294.2824,-122 294.2824,-86 435.7176,-86 435.7176,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>MovieRoutingModule&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M365,-122.027C365,-138.3976 365,-160 365,-160 365,-160 523.8407,-160 523.8407,-160"/>
+<polygon fill="#000000" stroke="#000000" points="523.8407,-163.5001 533.8407,-160 523.8406,-156.5001 523.8407,-163.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="276.4231,-122 273.4231,-126 252.4231,-126 249.4231,-122 177.5769,-122 177.5769,-86 276.4231,-86 276.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>SharedModule&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M227,-122.1061C227,-141.3391 227,-169 227,-169 227,-169 523.7537,-169 523.7537,-169"/>
+<polygon fill="#000000" stroke="#000000" points="523.7537,-172.5001 533.7537,-169 523.7536,-165.5001 523.7537,-172.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>MovieService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="89" cy="-104" rx="65.4072" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>MovieService&#45;&gt;MovieModule</title>
+<path fill="none" stroke="#000000" d="M89,-122.2921C89,-144.2057 89,-178 89,-178 89,-178 523.8315,-178 523.8315,-178"/>
+<polygon fill="#000000" stroke="#000000" points="523.8315,-181.5001 533.8315,-178 523.8314,-174.5001 523.8315,-181.5001"/>
+</g>
+</g>
+</svg>

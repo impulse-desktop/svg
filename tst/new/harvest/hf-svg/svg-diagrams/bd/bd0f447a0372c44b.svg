@@ -1,0 +1,155 @@
+<svg width="992pt" height="167pt"
+ viewBox="0.00 0.00 992.00 166.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 162.5)">
+<title>tbb::internal::__TBB_InitOnce::initialization_done</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-162.5 988,-162.5 988,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-75.5 0,-105.5 142,-105.5 142,-75.5 0,-75.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a01133.html#a66931f1de2fe17bad8867074cc504825" target="_top" xlink:title="Performs thread&#45;safe lazy one&#45;time general TBB initialization. ">
+<polygon fill="white" stroke="black" points="482.5,-98.5 482.5,-128.5 608.5,-128.5 608.5,-98.5 482.5,-98.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M152.464,-94.4168C245.73,-98.9567 397.443,-106.342 482.192,-110.467"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="152.386,-90.9089 142.228,-93.9185 152.046,-97.9006 152.386,-90.9089"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00307.html#afe9a6e0c86063b682a133234ca3a2f2b" target="_top" xlink:title="tbb::internal::governor\l::one_time_init">
+<polygon fill="white" stroke="black" points="678,-122.5 678,-152.5 789,-152.5 789,-122.5 678,-122.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M148.16,-107.452C158.164,-109.342 168.305,-111.09 178,-112.5 308.649,-131.505 342.093,-131.94 474,-137.5 544.285,-140.463 625.414,-139.797 677.757,-138.836"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="148.707,-103.993 138.223,-105.522 147.372,-110.864 148.707,-103.993"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00307.html#a1534625d2863ecea71a35972aee09c6f" target="_top" xlink:title="Destroy the thread&#45;local storage key and deinitialize RML. ">
+<polygon fill="white" stroke="black" points="178,-52.5 178,-82.5 289,-82.5 289,-52.5 178,-52.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M152.392,-78.9796C160.925,-77.7569 169.456,-76.5344 177.598,-75.3675"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="151.8,-75.5286 142.398,-80.4119 152.793,-82.4579 151.8,-75.5286"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="a00019.html#aef2402e6d0b42fc5521b9f4ed008af11" target="_top" xlink:title="Remove the initial reference to resources. ">
+<polygon fill="white" stroke="black" points="474,-0.5 474,-30.5 617,-30.5 617,-0.5 474,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge12" class="edge"><title>Node1&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M107.555,-70.5953C127.61,-60.3548 153.495,-48.7408 178,-42.5 278.47,-16.9132 399.063,-12.9306 473.75,-13.4346"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="105.735,-67.597 98.4933,-75.3305 108.977,-73.801 105.735,-67.597"/>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M618.822,-122.832C638.452,-125.365 659.378,-128.065 677.855,-130.449"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="619.06,-119.334 608.694,-121.525 618.164,-126.276 619.06,-119.334"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00780.html#ae01d134b4edd1c8887f166fb55c66aa5" target="_top" xlink:title="tbb::interface7::internal\l::task_arena_base::internal\l_initialize">
+<polygon fill="white" stroke="black" points="850,-117 850,-158 984,-158 984,-117 850,-117"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M799.902,-137.5C816.103,-137.5 833.475,-137.5 849.718,-137.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="799.449,-134 789.449,-137.5 799.448,-141 799.449,-134"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00019.html#a78b2b1b7265cdedc9ea3689fff04ac35" target="_top" xlink:title="Remove reference to resources. If last reference removed, release the resources. ">
+<polygon fill="white" stroke="black" points="325,-50.5 325,-80.5 438,-80.5 438,-50.5 325,-50.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M299.519,-66.6093C307.998,-66.4932 316.622,-66.375 324.926,-66.2613"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="299.231,-63.1128 289.28,-66.7496 299.327,-70.1122 299.231,-63.1128"/>
+</g>
+
+<g id="edge10" class="edge"><title>Node6&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M443.005,-83.4273C459.75,-88.389 477.747,-93.7213 493.867,-98.4976"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="443.896,-80.041 433.313,-80.5558 441.907,-86.7526 443.896,-80.041"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a00489.html#a5ca285e2d383ecaf3ff0460b30a3551e" target="_top" xlink:title="Destroys and deallocates market object created by market::create() ">
+<polygon fill="white" stroke="black" points="493.5,-49.5 493.5,-79.5 597.5,-79.5 597.5,-49.5 493.5,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M448.456,-65.0929C463.397,-65.0006 479.046,-64.904 493.272,-64.8162"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="448.229,-61.5941 438.251,-65.1559 448.273,-68.594 448.229,-61.5941"/>
+</g>
+
+<g id="edge11" class="edge"><title>Node6&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M440.889,-47.4789C458.842,-41.9378 478.406,-35.8995 495.649,-30.5774"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="439.628,-44.2048 431.105,-50.4984 441.693,-50.8935 439.628,-44.2048"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a00489.html#abc37f18193cd93d6b5c54acef4feec17" target="_top" xlink:title="tbb::internal::market\l::acknowledge_close_connection">
+<polygon fill="white" stroke="black" points="653,-49.5 653,-79.5 814,-79.5 814,-49.5 653,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M608.018,-64.5C622.33,-64.5 637.771,-64.5 652.744,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="607.818,-61.0001 597.818,-64.5 607.818,-68.0001 607.818,-61.0001"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="a00489.html#ac34ffcef09382c724dc962361d6fd2b1" target="_top" xlink:title="tbb::internal::market\l::policy">
+<polygon fill="white" stroke="black" points="865,-49.5 865,-79.5 969,-79.5 969,-49.5 865,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M824.253,-64.5C838.219,-64.5 852.217,-64.5 864.922,-64.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="824.109,-61.0001 814.109,-64.5 824.109,-68.0001 824.109,-61.0001"/>
+</g>
+</g>
+</svg>

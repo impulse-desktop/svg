@@ -1,0 +1,222 @@
+<svg width="498pt" height="805pt"
+ viewBox="0.00 0.00 498.20 805.44" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 801.44)">
+<title>preproc_func</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-801.44 494.2,-801.44 494.2,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_preproc_func</title>
+<polygon fill="#b4b4ff" stroke="black" points="8,-8 8,-789.44 472,-789.44 472,-8 8,-8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_prepareflow</title>
+<polygon fill="#ffb4b4" stroke="black" points="16,-616.7 16,-781.44 432,-781.44 432,-616.7 16,-616.7"/>
+
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_coregflow</title>
+<polygon fill="#ffb4b4" stroke="black" points="32,-344.48 32,-526.96 242,-526.96 242,-344.48 32,-344.48"/>
+
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_filterflow</title>
+<polygon fill="#ffb4b4" stroke="black" points="82,-16 82,-254.74 308,-254.74 308,-16 82,-16"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>motion_estimation</title>
+<ellipse fill="#e6e6ff" stroke="black" cx="281" cy="-561.83" rx="77.15" ry="26.74"/>
+
+
+</g>
+
+<g id="node2" class="node">
+<title>motion_parameters</title>
+<ellipse fill="#e6e6ff" stroke="black" cx="353" cy="-469.09" rx="90.52" ry="26.74"/>
+
+
+</g>
+
+<g id="edge13" class="edge">
+<title>motion_estimation&#45;&gt;motion_parameters</title>
+<path fill="none" stroke="#0000ff" d="M301.06,-535.55C308.95,-525.61 318.12,-514.05 326.54,-503.44"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="329.33,-505.55 332.8,-495.55 323.84,-501.2 329.33,-505.55"/>
+</g>
+
+<g id="node8" class="node">
+<title>coregflow_coreg_pre</title>
+<ellipse fill="#ffe6e6" stroke="black" cx="132" cy="-469.09" rx="91.85" ry="26.74"/>
+
+
+</g>
+
+<g id="edge11" class="edge">
+<title>motion_estimation&#45;&gt;coregflow_coreg_pre</title>
+<path fill="none" stroke="#0000ff" d="M243.79,-538.17C224.25,-526.27 200.11,-511.57 179.26,-498.87"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="180.92,-495.78 170.56,-493.57 177.28,-501.76 180.92,-495.78"/>
+</g>
+
+<g id="node9" class="node">
+<title>coregflow_coreg_bbr</title>
+<ellipse fill="#ffe6e6" stroke="black" cx="137" cy="-379.35" rx="96.75" ry="26.74"/>
+
+
+</g>
+
+<g id="edge12" class="edge">
+<title>motion_estimation&#45;&gt;coregflow_coreg_bbr</title>
+<path fill="none" stroke="#0000ff" d="M258.27,-535.8C256.3,-532.94 254.49,-529.97 253,-526.96 235.78,-492.31 255.33,-473.83 233,-442.22 223.34,-428.54 209.6,-417.15 195.53,-408.03"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="197.11,-404.9 186.76,-402.65 193.45,-410.86 197.11,-404.9"/>
+</g>
+
+<g id="node3" class="node">
+<title>slice_time</title>
+<ellipse fill="#e6e6ff" stroke="black" cx="353" cy="-379.35" rx="81.13" ry="26.74"/>
+
+
+</g>
+
+<g id="edge6" class="edge">
+<title>motion_parameters&#45;&gt;slice_time</title>
+<path fill="none" stroke="transparent" d="M353,-441.77C353,-433.8 353,-424.91 353,-416.42"/>
+<polygon fill="transparent" stroke="transparent" points="356.5,-416.35 353,-406.35 349.5,-416.35 356.5,-416.35"/>
+</g>
+
+<g id="node4" class="node">
+<title>apply_warp</title>
+<ellipse fill="#e6e6ff" stroke="black" cx="195" cy="-289.61" rx="90.52" ry="26.74"/>
+
+
+</g>
+
+<g id="edge14" class="edge">
+<title>motion_parameters&#45;&gt;apply_warp</title>
+<path fill="none" stroke="#0000ff" d="M307.59,-445.55C291.43,-435.51 274.44,-422.29 263,-406.22 246.5,-383.03 259.98,-369.27 246,-344.48 241.73,-336.9 236.16,-329.57 230.27,-322.88"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="232.65,-320.3 223.28,-315.36 227.52,-325.06 232.65,-320.3"/>
+</g>
+
+<g id="edge15" class="edge">
+<title>slice_time&#45;&gt;apply_warp</title>
+<path fill="none" stroke="#0000ff" d="M312.72,-355.98C292.15,-344.56 266.92,-330.55 245.11,-318.44"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="246.75,-315.34 236.31,-313.55 243.35,-321.46 246.75,-315.34"/>
+</g>
+
+<g id="node10" class="node">
+<title>filterflow_warp_masks</title>
+<ellipse fill="#ffe6e6" stroke="black" cx="195" cy="-196.87" rx="104.8" ry="26.74"/>
+
+
+</g>
+
+<g id="edge18" class="edge">
+<title>apply_warp&#45;&gt;filterflow_warp_masks</title>
+<path fill="none" stroke="#0000ff" d="M195,-262.36C195,-253.45 195,-243.32 195,-233.78"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="198.5,-233.74 195,-223.74 191.5,-233.74 198.5,-233.74"/>
+</g>
+
+<g id="node5" class="node">
+<title>prepareflow_reorient</title>
+<ellipse fill="#ffe6e6" stroke="black" cx="321" cy="-732.44" rx="100.18" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>prepareflow_reorient&#45;&gt;motion_estimation</title>
+<path fill="none" stroke="#0000ff" d="M379.32,-717.79C399.91,-709.87 420.92,-697.52 433,-678.44 447.68,-655.26 448.83,-639.11 433,-616.7 416.88,-593.89 390.25,-580.68 363.74,-573.05"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="364.56,-569.64 354,-570.48 362.78,-576.41 364.56,-569.64"/>
+</g>
+
+<g id="edge10" class="edge">
+<title>prepareflow_reorient&#45;&gt;slice_time</title>
+<path fill="none" stroke="#0000ff" d="M384.33,-718.34C406.45,-710.51 429.17,-698.08 443,-678.44 503.49,-592.52 504.15,-534.01 453,-442.22 444.28,-426.57 429.78,-414.37 414.49,-405.11"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="415.87,-401.87 405.44,-399.99 412.42,-407.96 415.87,-401.87"/>
+</g>
+
+<g id="node6" class="node">
+<title>prepareflow_nss_detection</title>
+<ellipse fill="#ffe6e6" stroke="black" cx="110" cy="-651.57" rx="86.03" ry="26.74"/>
+
+
+</g>
+
+<g id="edge1" class="edge">
+<title>prepareflow_reorient&#45;&gt;prepareflow_nss_detection</title>
+<path fill="none" stroke="#ff0000" d="M279.56,-715.95C249.29,-704.63 207.68,-689.08 173.26,-676.22"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="174.35,-672.89 163.75,-672.66 171.9,-679.44 174.35,-672.89"/>
+</g>
+
+<g id="node7" class="node">
+<title>prepareflow_brain_extraction</title>
+<ellipse fill="#ffe6e6" stroke="black" cx="319" cy="-651.57" rx="104.8" ry="26.74"/>
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>prepareflow_reorient&#45;&gt;prepareflow_brain_extraction</title>
+<path fill="none" stroke="#ff0000" d="M320.57,-714.33C320.38,-706.84 320.15,-697.75 319.92,-688.87"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="323.41,-688.56 319.66,-678.65 316.42,-688.74 323.41,-688.56"/>
+</g>
+
+<g id="edge9" class="edge">
+<title>prepareflow_nss_detection&#45;&gt;motion_estimation</title>
+<path fill="none" stroke="#0000ff" d="M153.59,-628.2C176.84,-616.27 205.59,-601.52 229.89,-589.06"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="231.66,-592.08 238.96,-584.4 228.47,-585.85 231.66,-592.08"/>
+</g>
+
+<g id="edge17" class="edge">
+<title>prepareflow_nss_detection&#45;&gt;apply_warp</title>
+<path fill="none" stroke="#0000ff" d="M86.77,-625.42C66.8,-601.95 39.45,-564.93 28,-526.96 4.59,-449.31 -19.74,-410.04 28,-344.48 44.69,-321.56 71.32,-308.18 98.45,-300.44"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="99.66,-303.75 108.45,-297.84 97.89,-296.97 99.66,-303.75"/>
+</g>
+
+<g id="edge8" class="edge">
+<title>prepareflow_brain_extraction&#45;&gt;motion_estimation</title>
+<path fill="none" stroke="#0000ff" d="M307.8,-624.72C304.17,-616.33 300.08,-606.88 296.2,-597.93"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="299.3,-596.28 292.12,-588.5 292.88,-599.06 299.3,-596.28"/>
+</g>
+
+<g id="edge3" class="edge">
+<title>coregflow_coreg_pre&#45;&gt;coregflow_coreg_bbr</title>
+<path fill="none" stroke="#ff0000" d="M133.5,-441.77C133.95,-433.8 134.46,-424.91 134.94,-416.42"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="138.44,-416.54 135.52,-406.35 131.45,-416.14 138.44,-416.54"/>
+</g>
+
+<g id="edge16" class="edge">
+<title>coregflow_coreg_bbr&#45;&gt;apply_warp</title>
+<path fill="none" stroke="#0000ff" d="M154.09,-352.5C159.81,-343.84 166.28,-334.05 172.36,-324.86"/>
+<polygon fill="#0000ff" stroke="#0000ff" points="175.44,-326.55 178.03,-316.28 169.6,-322.69 175.44,-326.55"/>
+</g>
+
+<g id="node11" class="node">
+<title>filterflow_temporal_filter</title>
+<polygon fill="#d9d9d9" stroke="black" points="253,-134 141,-134 137,-130 137,-96 249,-96 253,-100 253,-134"/>
+<polyline fill="none" stroke="black" points="249,-130 137,-130 "/>
+<polyline fill="none" stroke="black" points="249,-130 249,-96 "/>
+<polyline fill="none" stroke="black" points="249,-130 253,-134 "/>
+
+
+</g>
+
+<g id="edge4" class="edge">
+<title>filterflow_warp_masks&#45;&gt;filterflow_temporal_filter</title>
+<path fill="none" stroke="#ff0000" d="M195,-169.72C195,-161.53 195,-152.46 195,-144.14"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="198.5,-144.12 195,-134.12 191.5,-144.12 198.5,-144.12"/>
+</g>
+
+<g id="node12" class="node">
+<title>filterflow_spatial_filter</title>
+<polygon fill="#d9d9d9" stroke="black" points="265,-60 129,-60 125,-56 125,-24 261,-24 265,-28 265,-60"/>
+<polyline fill="none" stroke="black" points="261,-56 125,-56 "/>
+<polyline fill="none" stroke="black" points="261,-56 261,-24 "/>
+<polyline fill="none" stroke="black" points="261,-56 265,-60 "/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>filterflow_temporal_filter&#45;&gt;filterflow_spatial_filter</title>
+<path fill="none" stroke="#ff0000" d="M195,-95.72C195,-87.97 195,-78.79 195,-70.27"/>
+<polygon fill="#ff0000" stroke="#ff0000" points="198.5,-70 195,-60 191.5,-70 198.5,-70"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,35 @@
+<svg
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:cc="http://creativecommons.org/ns#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:svg="http://www.w3.org/2000/svg"
+	xmlns="http://www.w3.org/2000/svg"
+	width="100mm"
+	height="1.25mm"
+	viewBox="0 0 100 1.25"
+	version="1.1">
+	<defs>
+		<filter x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox" id="pencil">
+			<feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="4" stitchTiles="stitch" result="f1">
+			</feTurbulence>
+			<feColorMatrix type="matrix" values="0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0 0 0 -1.5 1.5" result="f2">
+			</feColorMatrix>
+			<feComposite operator="in" in2="f2" in="SourceGraphic" result="f3">
+			</feComposite>
+		</filter>
+
+		<linearGradient id="fade">
+			<stop offset="0" stop-color="#f36e27" stop-opacity="0"/>
+			<stop offset="0.05" stop-color="#f36e27" stop-opacity="1"/>
+			<stop offset="0.75" stop-color="#f36e27" stop-opacity="1"/>
+			<stop offset="1" stop-color="#f36e27" stop-opacity="0"/>
+		</linearGradient>
+	</defs>
+	<g filter="url(#pencil)">
+		<rect
+			width="100"
+			height="1.25" 
+			fill="url(#fade)"
+		/>
+	</g>
+</svg>

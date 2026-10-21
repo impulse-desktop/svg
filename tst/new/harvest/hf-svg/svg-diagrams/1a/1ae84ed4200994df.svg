@@ -1,0 +1,145 @@
+<svg width="587pt" height="218pt"
+ viewBox="0.00 0.00 586.97 218.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 214)">
+<title>life_cycle</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-214 582.97,-214 582.97,4 -4,4"/>
+
+<g id="node1" class="node"><title>not_exist</title>
+<ellipse fill="none" stroke="black" cx="128.425" cy="-192" rx="51.9908" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>not_exist&#45;&gt;not_exist</title>
+<path fill="none" stroke="black" d="M175.532,-199.827C188.506,-199.449 198.42,-196.84 198.42,-192 198.42,-188.521 193.298,-186.195 185.6,-185.021"/>
+<polygon fill="black" stroke="black" points="185.791,-181.525 175.532,-184.173 185.203,-188.501 185.791,-181.525"/>
+
+</g>
+
+<g id="node2" class="node"><title>exist</title>
+<ellipse fill="none" stroke="black" cx="43.4246" cy="-105" rx="31.6951" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>not_exist&#45;&gt;exist</title>
+<path fill="none" stroke="black" d="M88.9584,-180.071C76.2455,-174.731 63.1923,-167.004 54.4246,-156 49.3411,-149.62 46.4888,-141.388 44.9212,-133.452"/>
+<polygon fill="black" stroke="black" points="48.3635,-132.793 43.5209,-123.37 41.43,-133.757 48.3635,-132.793"/>
+
+</g>
+
+<g id="node3" class="node"><title>untouched</title>
+<ellipse fill="none" stroke="black" cx="134.425" cy="-18" rx="58.4896" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge"><title>not_exist&#45;&gt;untouched</title>
+<path fill="none" stroke="black" d="M130.399,-173.713C133.147,-147.743 137.655,-97.1061 136.425,-54 136.352,-51.4448 136.249,-48.7859 136.128,-46.1262"/>
+<polygon fill="black" stroke="black" points="139.62,-45.8826 135.596,-36.0815 132.63,-46.2525 139.62,-45.8826"/>
+
+</g>
+
+<g id="edge4" class="edge"><title>exist&#45;&gt;not_exist</title>
+<path fill="none" stroke="black" d="M59.4297,-120.822C66.003,-126.992 73.6472,-134.272 80.4246,-141 88.9246,-149.438 98.0708,-158.872 106.076,-167.253"/>
+<polygon fill="black" stroke="black" points="103.629,-169.759 113.055,-174.595 108.702,-164.936 103.629,-169.759"/>
+
+</g>
+
+<g id="edge6" class="edge"><title>exist&#45;&gt;exist</title>
+<path fill="none" stroke="black" d="M72.1101,-112.827C83.6151,-113.269 93.2718,-110.66 93.2718,-105 93.2718,-101.109 88.7075,-98.6594 82.1163,-97.6524"/>
+<polygon fill="black" stroke="black" points="82.2662,-94.1557 72.1101,-97.1731 81.9312,-101.148 82.2662,-94.1557"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>exist&#45;&gt;untouched</title>
+<path fill="none" stroke="black" d="M22.1404,-91.3688C7.94003,-81.3253 -6.46029,-66.8727 3.42464,-54 12.2483,-42.5093 42.8707,-33.9771 72.2902,-28.2148"/>
+<polygon fill="black" stroke="black" points="73.0003,-31.6428 82.1879,-26.3666 71.7153,-24.7618 73.0003,-31.6428"/>
+
+</g>
+
+<g id="edge8" class="edge"><title>untouched&#45;&gt;not_exist</title>
+<path fill="none" stroke="black" d="M167.741,-32.9153C189.637,-44.0326 216.536,-61.9252 229.425,-87 236.739,-101.23 236.942,-108.876 229.425,-123 217.084,-146.185 192.931,-162.883 171.338,-173.929"/>
+<polygon fill="black" stroke="black" points="169.754,-170.807 162.282,-178.319 172.807,-177.106 169.754,-170.807"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>untouched&#45;&gt;exist</title>
+<path fill="none" stroke="black" d="M122.143,-35.6783C114.236,-45.8654 103.413,-58.8414 92.4246,-69 86.2716,-74.6885 79.1679,-80.2461 72.312,-85.1971"/>
+<polygon fill="black" stroke="black" points="70.044,-82.5119 63.8507,-91.1081 74.0529,-88.2504 70.044,-82.5119"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>untouched&#45;&gt;untouched</title>
+<path fill="none" stroke="black" d="M187.336,-25.7808C200.807,-25.2694 210.919,-22.6758 210.919,-18 210.919,-14.6028 205.581,-12.3047 197.495,-11.1058"/>
+<polygon fill="black" stroke="black" points="197.603,-7.60195 187.336,-10.2192 196.994,-14.5754 197.603,-7.60195"/>
+
+</g>
+
+<g id="node4" class="node"><title>no_access</title>
+<ellipse fill="none" stroke="black" cx="458.425" cy="-192" rx="56.59" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge"><title>no_access&#45;&gt;no_access</title>
+<path fill="none" stroke="black" d="M509.641,-199.794C522.941,-199.315 532.97,-196.717 532.97,-192 532.97,-188.573 527.676,-186.264 519.679,-185.074"/>
+<polygon fill="black" stroke="black" points="519.906,-181.581 509.641,-184.206 519.302,-188.555 519.906,-181.581"/>
+
+</g>
+
+<g id="node5" class="node"><title>access</title>
+<ellipse fill="none" stroke="black" cx="365.425" cy="-105" rx="38.9931" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>no_access&#45;&gt;access</title>
+<path fill="none" stroke="black" d="M411.677,-181.703C397.009,-176.513 382.131,-168.463 372.425,-156 367.481,-149.653 365.183,-141.43 364.268,-133.492"/>
+<polygon fill="black" stroke="black" points="367.759,-133.213 363.757,-123.404 360.768,-133.568 367.759,-133.213"/>
+
+</g>
+
+<g id="node6" class="node"><title>edited</title>
+<ellipse fill="none" stroke="black" cx="463.425" cy="-18" rx="38.1938" ry="18"/>
+
+</g>
+
+<g id="edge12" class="edge"><title>no_access&#45;&gt;edited</title>
+<path fill="none" stroke="black" d="M464.38,-173.759C466.034,-168.165 467.601,-161.883 468.425,-156 473.729,-118.129 470.405,-73.8294 467.195,-46.0887"/>
+<polygon fill="black" stroke="black" points="470.644,-45.465 465.943,-35.9706 463.697,-46.3248 470.644,-45.465"/>
+
+</g>
+
+<g id="edge13" class="edge"><title>access&#45;&gt;no_access</title>
+<path fill="none" stroke="black" d="M382.361,-121.479C396.501,-134.403 416.874,-153.024 432.977,-167.742"/>
+<polygon fill="black" stroke="black" points="430.751,-170.448 440.493,-174.611 435.473,-165.281 430.751,-170.448"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>access&#45;&gt;access</title>
+<path fill="none" stroke="black" d="M400.769,-112.875C412.773,-112.916 422.421,-110.291 422.421,-105 422.421,-101.362 417.861,-98.985 411.11,-97.8678"/>
+<polygon fill="black" stroke="black" points="410.994,-94.3506 400.769,-97.1255 410.492,-101.333 410.994,-94.3506"/>
+
+</g>
+
+<g id="edge15" class="edge"><title>access&#45;&gt;edited</title>
+<path fill="none" stroke="black" d="M366.87,-86.9134C368.582,-76.3123 372.312,-63.0365 380.425,-54 390.696,-42.5596 405.319,-34.7444 419.437,-29.4571"/>
+<polygon fill="black" stroke="black" points="420.726,-32.7158 429.07,-26.1871 418.476,-26.0872 420.726,-32.7158"/>
+
+</g>
+
+<g id="edge16" class="edge"><title>edited&#45;&gt;no_access</title>
+<path fill="none" stroke="black" d="M478.86,-34.7371C490.327,-47.6013 505.042,-66.8909 511.425,-87 516.265,-102.25 516.625,-107.869 511.425,-123 505.718,-139.605 494.113,-155.27 483.213,-167.37"/>
+<polygon fill="black" stroke="black" points="480.538,-165.105 476.221,-174.781 485.63,-169.909 480.538,-165.105"/>
+
+</g>
+
+<g id="edge17" class="edge"><title>edited&#45;&gt;access</title>
+<path fill="none" stroke="black" d="M449.832,-35.1627C440.852,-45.3953 428.543,-58.6075 416.425,-69 410.177,-74.3577 403.099,-79.6445 396.249,-84.4225"/>
+<polygon fill="black" stroke="black" points="394.085,-81.661 387.772,-90.1696 398.013,-87.4549 394.085,-81.661"/>
+
+</g>
+
+<g id="edge18" class="edge"><title>edited&#45;&gt;edited</title>
+<path fill="none" stroke="black" d="M498.089,-25.8731C510.084,-25.9564 519.771,-23.332 519.771,-18 519.771,-14.3342 515.193,-11.9483 508.433,-10.8421"/>
+<polygon fill="black" stroke="black" points="508.307,-7.32508 498.089,-10.1269 507.824,-14.3084 508.307,-7.32508"/>
+
+</g>
+</g>
+</svg>

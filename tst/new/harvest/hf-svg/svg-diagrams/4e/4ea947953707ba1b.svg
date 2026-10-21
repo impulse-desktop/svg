@@ -1,0 +1,96 @@
+<svg width="800pt" height="211pt"
+ viewBox="0.00 0.00 800.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 796,-207 796,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="162,-10 162,-30 182,-30 182,-10 162,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="275,-10 275,-30 295,-30 295,-10 275,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="361,-10 361,-30 381,-30 381,-10 361,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="458,-10 458,-30 478,-30 478,-10 458,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="554,-10 554,-30 574,-30 574,-10 554,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_ManageModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 784,-195 784,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ManageModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="634,-78 634,-130 776,-130 776,-78 634,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ManageModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 626,-130 626,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>ManageComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="768.4215,-122 641.5785,-122 641.5785,-86 768.4215,-86 768.4215,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>ManageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="452.1388,-187 449.1388,-191 428.1388,-191 425.1388,-187 347.8612,-187 347.8612,-151 452.1388,-151 452.1388,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>ManageComponent&#45;&gt;ManageModule</title>
+<path fill="none" stroke="#000000" d="M705,-122.2843C705,-143.3211 705,-175 705,-175 705,-175 462.4314,-175 462.4314,-175"/>
+<polygon fill="#000000" stroke="#000000" points="462.4314,-171.5001 452.4314,-175 462.4313,-178.5001 462.4314,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ManageRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="617.7562,-122 614.7562,-126 593.7562,-126 590.7562,-122 468.2438,-122 468.2438,-86 617.7562,-86 617.7562,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>ManageRoutingModule&#45;&gt;ManageModule</title>
+<path fill="none" stroke="#000000" d="M543,-122.0225C543,-139.3734 543,-163 543,-163 543,-163 462.4359,-163 462.4359,-163"/>
+<polygon fill="#000000" stroke="#000000" points="462.436,-159.5001 452.4359,-163 462.4359,-166.5001 462.436,-159.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>NavbarModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="450.2465,-122 447.2465,-126 426.2465,-126 423.2465,-122 349.7535,-122 349.7535,-86 450.2465,-86 450.2465,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>NavbarModule&#45;&gt;ManageModule</title>
+<path fill="none" stroke="#000000" d="M400,-122.1061C400,-122.1061 400,-140.991 400,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="396.5001,-140.9909 400,-150.991 403.5001,-140.991 396.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>AdminManageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="331.5268,-122 328.5268,-126 307.5268,-126 304.5268,-122 188.4732,-122 188.4732,-86 331.5268,-86 331.5268,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AdminManageModule&#45;&gt;ManageModule</title>
+<path fill="none" stroke="#000000" d="M260,-122.0225C260,-139.3734 260,-163 260,-163 260,-163 337.4709,-163 337.4709,-163"/>
+<polygon fill="#000000" stroke="#000000" points="337.4709,-166.5001 347.4709,-163 337.4708,-159.5001 337.4709,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>SectionManageModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="170.1317,-122 167.1317,-126 146.1317,-126 143.1317,-122 23.8683,-122 23.8683,-86 170.1317,-86 170.1317,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>SectionManageModule&#45;&gt;ManageModule</title>
+<path fill="none" stroke="#000000" d="M97,-122.2843C97,-143.3211 97,-175 97,-175 97,-175 337.5673,-175 337.5673,-175"/>
+<polygon fill="#000000" stroke="#000000" points="337.5674,-178.5001 347.5673,-175 337.5673,-171.5001 337.5674,-178.5001"/>
+</g>
+</g>
+</svg>

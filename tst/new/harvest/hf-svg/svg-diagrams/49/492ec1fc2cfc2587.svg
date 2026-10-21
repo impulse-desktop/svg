@@ -1,0 +1,98 @@
+<svg width="922pt" height="396pt"
+ viewBox="0.00 0.00 922.00 395.59" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 391.5901)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-391.5901 918,-391.5901 918,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="223,-10 223,-30 243,-30 243,-10 223,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="336,-10 336,-30 356,-30 356,-10 336,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="422,-10 422,-30 442,-30 442,-10 422,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="519,-10 519,-30 539,-30 539,-10 519,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="615,-10 615,-30 635,-30 635,-10 615,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_DejaEditorModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-379.5901 906,-379.5901 906,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_DejaEditorModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="378,-189.5901 378,-241.5901 536,-241.5901 536,-189.5901 378,-189.5901"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_DejaEditorModule_DejaEditorComponent_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-176.5901 898,-176.5901 898,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_DejaEditorModule_exports</title>
+<polygon fill="none" stroke="#000000" points="287,-319.5901 287,-371.5901 449,-371.5901 449,-319.5901 287,-319.5901"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_DejaEditorModule_providers</title>
+<polygon fill="none" stroke="#000000" points="190,-189.5901 190,-241.5901 370,-241.5901 370,-189.5901 190,-189.5901"/>
+</g>
+
+<g id="node1" class="node">
+<title>DejaEditorComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="528.2534,-233.5901 385.7466,-233.5901 385.7466,-197.5901 528.2534,-197.5901 528.2534,-233.5901"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>DejaEditorModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="428.4706,-298.5901 425.4706,-302.5901 404.4706,-302.5901 401.4706,-298.5901 307.5294,-298.5901 307.5294,-262.5901 428.4706,-262.5901 428.4706,-298.5901"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>DejaEditorComponent&#45;&gt;DejaEditorModule</title>
+<path fill="none" stroke="#000000" d="M407.0544,-233.6962C407.0544,-233.6962 407.0544,-252.581 407.0544,-252.581"/>
+<polygon fill="#000000" stroke="#000000" points="403.5544,-252.581 407.0544,-262.581 410.5544,-252.5811 403.5544,-252.581"/>
+</g>
+
+<g id="node4" class="node">
+<title>DejaEditorComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="441.2534,-363.5901 294.7466,-363.5901 294.7466,-327.5901 441.2534,-327.5901 441.2534,-363.5901"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>DejaEditorModule&#45;&gt;DejaEditorComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M368,-298.6962C368,-298.6962 368,-317.581 368,-317.581"/>
+<polygon fill="#000000" stroke="#000000" points="364.5001,-317.581 368,-327.581 371.5001,-317.5811 364.5001,-317.581"/>
+</g>
+
+<g id="node3" class="node">
+<title>{
+ &#160;&#160;&#160;provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() =&gt; DejaEditorComponent), multi: true
+}</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="457" cy="-127.295" rx="432.8842" ry="41.0911"/>
+
+
+
+</g>
+
+<g id="edge2" class="edge">
+<title>{
+ &#160;&#160;&#160;provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() =&gt; DejaEditorComponent), multi: true
+}&#45;&gt;DejaEditorComponent</title>
+<path fill="none" stroke="#000000" d="M457,-168.5989C457,-168.5989 457,-187.2551 457,-187.2551"/>
+<polygon fill="#000000" stroke="#000000" points="453.5001,-187.255 457,-197.2551 460.5001,-187.2551 453.5001,-187.255"/>
+</g>
+
+<g id="node5" class="node">
+<title>DejaEditorService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="280" cy="-215.5901" rx="82.2179" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>DejaEditorService&#45;&gt;DejaEditorModule</title>
+<path fill="none" stroke="#000000" d="M334.9368,-229.0581C334.9368,-229.0581 334.9368,-252.4542 334.9368,-252.4542"/>
+<polygon fill="#000000" stroke="#000000" points="331.4369,-252.4542 334.9368,-262.4542 338.4369,-252.4543 331.4369,-252.4542"/>
+</g>
+</g>
+</svg>

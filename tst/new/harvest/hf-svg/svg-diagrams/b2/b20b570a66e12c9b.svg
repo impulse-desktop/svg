@@ -1,0 +1,82 @@
+<svg width="415pt" height="104pt"
+ viewBox="0.00 0.00 415.00 104.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
+<title>coap_block_delete_lg_srcv</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-100 411,-100 411,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title=" ">
+<polygon fill="#bfbfbf" stroke="black" points="0,-38.5 0,-57.5 134,-57.5 134,-38.5 0,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="group__string.html#ga4c283744d0fa51b553bf3fc52488e4b0" target="_top" xlink:title="Deletes the given const string and releases any memory allocated.">
+<polygon fill="white" stroke="black" points="170,-76.5 170,-95.5 285,-95.5 285,-76.5 170,-76.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M108,-57.59C128.91,-62.6 154.71,-68.79 176.89,-74.11"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="176.25,-77.55 186.79,-76.48 177.88,-70.74 176.25,-77.55"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="mem_8h.html#ae7214e0c73a4d4290525873e739ed422" target="_top" xlink:title="Releases the memory that was allocated by coap_malloc_type().">
+<polygon fill="white" stroke="black" points="322.5,-57.5 322.5,-76.5 405.5,-76.5 405.5,-57.5 322.5,-57.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M134.2,-52.26C188.13,-55.74 263.13,-60.57 312.35,-63.74"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="312.24,-67.24 322.44,-64.39 312.69,-60.25 312.24,-67.24"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="group__logging.html#ga8b690dbed6cc3a5beb81ba5d2d27d290" target="_top" xlink:title="Get session description.">
+<polygon fill="white" stroke="black" points="181,-0.5 181,-19.5 274,-19.5 274,-0.5 181,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M108,-38.41C128.91,-33.4 154.71,-27.21 176.89,-21.89"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="177.88,-25.26 186.79,-19.52 176.25,-18.45 177.88,-25.26"/>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M285.15,-78C294.13,-76.73 303.37,-75.42 312.2,-74.18"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="312.93,-77.61 322.34,-72.74 311.95,-70.68 312.93,-77.61"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="group__logging.html#ga9e421197c17712bedbec55e42b4493fc" target="_top" xlink:title="Print the address into the defined buffer.">
+<polygon fill="white" stroke="black" points="321,-0.5 321,-19.5 407,-19.5 407,-0.5 321,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M274.04,-10C285.71,-10 298.35,-10 310.35,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="310.69,-13.5 320.69,-10 310.69,-6.5 310.69,-13.5"/>
+</g>
+</g>
+</svg>

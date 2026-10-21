@@ -1,0 +1,19 @@
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="120px" height="200px" viewBox="0 0 60 100">
+	<filter id="blur">
+		<feGaussianBlur in="SourceGraphic" stdDeviation="0.3"/>
+	</filter>
+	<g filter="url(#blur)">
+		<g fill="none" stroke="goldenrod" stroke-width="7">
+			<polyline points="10,75 25,15 40,75" fill="none"/>
+			<path d="M 5,52 A 60,60 0,0,0 51,18"/>
+		</g>
+		<g fill="goldenrod" stroke="#5e4609" stroke-width="3">
+			<circle cx="25" cy="15" r="5"/>
+			<ellipse cx="25" cy="9" rx="1" ry="6"/>
+			<g fill="#5e4609" stroke-width="0.5">
+				<polygon points="6,74 14,76 9,79"/>
+				<polygon points="44,74 36,76 41,79"/>
+			</g>
+		</g>
+	</g>
+</svg>

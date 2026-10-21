@@ -1,0 +1,181 @@
+<svg width="1144pt" height="372pt"
+ viewBox="0.00 0.00 1144.00 372.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 368)">
+<title>g</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-368 1141,-368 1141,5 -4,5"/>
+<g id="clust1" class="cluster"><title>cluster_twitter</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="24,-196 24,-272 227,-272 227,-196 24,-196"/>
+
+</g>
+<g id="clust2" class="cluster"><title>cluster_alchemy</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-280 8,-356 1128,-356 1128,-280 8,-280"/>
+
+</g>
+<g id="clust3" class="cluster"><title>cluster_elastic</title>
+<polygon fill="none" stroke="black" points="318,-72 318,-188 538,-188 538,-72 318,-72"/>
+
+</g>
+<g id="clust4" class="cluster"><title>cluster_espostdb</title>
+<polygon fill="none" stroke="black" points="452,-80 452,-156 530,-156 530,-80 452,-80"/>
+
+</g>
+<g id="clust5" class="cluster"><title>cluster_esdisambiguated</title>
+<polygon fill="none" stroke="black" points="326,-80 326,-156 444,-156 444,-80 326,-80"/>
+
+</g>
+<g id="clust6" class="cluster"><title>cluster_neo</title>
+<polygon fill="none" stroke="black" points="51,-8 51,-156 167,-156 167,-8 51,-8"/>
+
+</g>
+
+<g id="node1" class="node"><title>twitterfriends</title>
+<ellipse fill="none" stroke="black" cx="73" cy="-222" rx="40.303" ry="18"/>
+
+</g>
+
+<g id="node10" class="node"><title>neofollows</title>
+<ellipse fill="none" stroke="black" cx="109" cy="-34" rx="49.4747" ry="18"/>
+
+</g>
+
+<g id="edge13" class="edge"><title>twitterfriends&#45;&gt;neofollows</title>
+<path fill="none" stroke="black" d="M63.16,-204.413C60.6408,-199.322 58.2825,-193.585 57,-188 45.4611,-137.752 33.3674,-117.82 57,-72 60.4568,-65.2977 65.7512,-59.5439 71.6617,-54.708"/>
+<polygon fill="black" stroke="black" points="73.941,-57.3788 79.9887,-48.6796 69.8361,-51.7087 73.941,-57.3788"/>
+</g>
+
+<g id="node9" class="node"><title>neopages</title>
+<ellipse fill="none" stroke="black" cx="109" cy="-106" rx="43.3141" ry="18"/>
+
+</g>
+
+<g id="edge14" class="edge"><title>twitterfriends&#45;&gt;neopages</title>
+<path fill="none" stroke="black" d="M78.4676,-203.686C84.3429,-185.081 93.7545,-155.277 100.577,-133.674"/>
+<polygon fill="black" stroke="black" points="103.925,-134.693 103.599,-124.104 97.25,-132.585 103.925,-134.693"/>
+</g>
+
+<g id="node2" class="node"><title>twitterstatuses</title>
+<ellipse fill="none" stroke="black" cx="175" cy="-222" rx="43.1445" ry="18"/>
+
+</g>
+
+<g id="node7" class="node"><title>esposts</title>
+<polygon fill="none" stroke="black" points="521.408,-124 460.592,-124 460.592,-88 521.408,-88 521.408,-124"/>
+
+</g>
+
+<g id="edge15" class="edge"><title>twitterstatuses&#45;&gt;esposts</title>
+<path fill="none" stroke="black" d="M199.309,-207.01C208.07,-202.658 218.213,-198.38 228,-196 251.768,-190.22 427.27,-200.984 448,-188 467.126,-176.021 478.255,-152.473 484.379,-133.841"/>
+<polygon fill="black" stroke="black" points="487.78,-134.684 487.286,-124.101 481.073,-132.682 487.78,-134.684"/>
+</g>
+
+<g id="node3" class="node"><title>sentiment</title>
+<ellipse fill="none" stroke="black" cx="133" cy="-306" rx="116.354" ry="18"/>
+
+</g>
+
+<g id="node14" class="node"><title>SentimentPipeline</title>
+<ellipse fill="none" stroke="black" cx="319" cy="-222" rx="81.2704" ry="18"/>
+
+</g>
+
+<g id="edge9" class="edge"><title>sentiment&#45;&gt;SentimentPipeline</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M184.034,-289.781C199.357,-284.688 216.059,-278.608 231,-272 249.047,-264.018 268.284,-253.551 284.154,-244.341"/>
+<polygon fill="black" stroke="black" points="286.231,-247.18 293.075,-239.092 282.681,-241.147 286.231,-247.18"/>
+</g>
+
+<g id="node4" class="node"><title>entities</title>
+<ellipse fill="none" stroke="black" cx="415" cy="-306" rx="146.914" ry="18"/>
+
+</g>
+
+<g id="node11" class="node"><title>EntitiesPipeline</title>
+<ellipse fill="none" stroke="black" cx="491" cy="-222" rx="72.2842" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge"><title>entities&#45;&gt;EntitiesPipeline</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M430.747,-288.01C441.723,-276.167 456.524,-260.198 468.709,-247.05"/>
+<polygon fill="black" stroke="black" points="471.302,-249.402 475.533,-239.688 466.168,-244.643 471.302,-249.402"/>
+</g>
+
+<g id="node5" class="node"><title>keywords</title>
+<ellipse fill="none" stroke="black" cx="710" cy="-306" rx="129.369" ry="18"/>
+
+</g>
+
+<g id="node12" class="node"><title>KeywordsPipeline</title>
+<ellipse fill="none" stroke="black" cx="687" cy="-222" rx="82.0691" ry="18"/>
+
+</g>
+
+<g id="edge5" class="edge"><title>keywords&#45;&gt;KeywordsPipeline</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M705.234,-288.01C702.171,-277.088 698.123,-262.657 694.62,-250.167"/>
+<polygon fill="black" stroke="black" points="697.909,-248.934 691.839,-240.251 691.169,-250.824 697.909,-248.934"/>
+</g>
+
+<g id="node6" class="node"><title>taxonomy</title>
+<ellipse fill="none" stroke="black" cx="989" cy="-306" rx="131.076" ry="18"/>
+
+</g>
+
+<g id="node13" class="node"><title>TaxonomyPipeline</title>
+<ellipse fill="none" stroke="black" cx="930" cy="-222" rx="83.2764" ry="18"/>
+
+</g>
+
+<g id="edge7" class="edge"><title>taxonomy&#45;&gt;TaxonomyPipeline</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M976.775,-288.01C968.548,-276.575 957.553,-261.294 948.29,-248.42"/>
+<polygon fill="black" stroke="black" points="950.891,-246.042 942.209,-239.969 945.209,-250.13 950.891,-246.042"/>
+</g>
+
+<g id="node15" class="node"><title>EntityIndexPipeline</title>
+<ellipse fill="none" stroke="black" cx="438" cy="-34" rx="87.9178" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge"><title>esposts&#45;&gt;EntityIndexPipeline</title>
+<path fill="none" stroke="black" d="M477.899,-87.6966C471.609,-79.3893 463.953,-69.2771 457.035,-60.1407"/>
+<polygon fill="black" stroke="black" points="459.777,-57.9642 450.95,-52.1043 454.196,-62.1897 459.777,-57.9642"/>
+</g>
+
+<g id="node8" class="node"><title>esdisambiguated</title>
+<polygon fill="none" stroke="black" points="435.156,-124 334.844,-124 334.844,-88 435.156,-88 435.156,-124"/>
+
+</g>
+
+<g id="edge1" class="edge"><title>neopages&#45;&gt;neofollows</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M103.122,-88.055C102.304,-80.3456 102.061,-71.0269 102.395,-62.3642"/>
+<polygon fill="black" stroke="black" points="105.894,-62.4915 103.087,-52.2753 98.9107,-62.0122 105.894,-62.4915"/>
+</g>
+
+<g id="edge2" class="edge"><title>neofollows&#45;&gt;neopages</title>
+<path fill="none" stroke="black" stroke-dasharray="1,5" d="M114.913,-52.2753C115.715,-60.03 115.94,-69.3618 115.591,-78.0054"/>
+<polygon fill="black" stroke="black" points="112.094,-77.8325 114.878,-88.055 119.077,-78.3275 112.094,-77.8325"/>
+</g>
+
+<g id="edge4" class="edge"><title>EntitiesPipeline&#45;&gt;esposts</title>
+<path fill="none" stroke="black" d="M491,-203.686C491,-185.249 491,-155.816 491,-134.262"/>
+<polygon fill="black" stroke="black" points="494.5,-134.104 491,-124.104 487.5,-134.104 494.5,-134.104"/>
+</g>
+
+<g id="edge6" class="edge"><title>KeywordsPipeline&#45;&gt;esposts</title>
+<path fill="none" stroke="black" d="M659.334,-204.908C625.337,-185.135 567.474,-151.48 529.24,-129.242"/>
+<polygon fill="black" stroke="black" points="530.85,-126.129 520.446,-124.127 527.33,-132.18 530.85,-126.129"/>
+</g>
+
+<g id="edge8" class="edge"><title>TaxonomyPipeline&#45;&gt;esposts</title>
+<path fill="none" stroke="black" d="M878.782,-207.7C790.503,-184.775 611.466,-138.283 531.346,-117.477"/>
+<polygon fill="black" stroke="black" points="532.182,-114.078 521.623,-114.952 530.422,-120.853 532.182,-114.078"/>
+</g>
+
+<g id="edge10" class="edge"><title>SentimentPipeline&#45;&gt;esposts</title>
+<path fill="none" stroke="black" d="M366.559,-207.349C380.512,-203.503 395.829,-199.435 410,-196 426.773,-191.934 434.21,-198.378 448,-188 465.735,-174.653 476.907,-151.821 483.403,-133.793"/>
+<polygon fill="black" stroke="black" points="486.791,-134.696 486.623,-124.102 480.148,-132.488 486.791,-134.696"/>
+</g>
+
+<g id="edge12" class="edge"><title>EntityIndexPipeline&#45;&gt;esdisambiguated</title>
+<path fill="none" stroke="black" d="M425.05,-52.1043C418.782,-60.3826 411.13,-70.488 404.201,-79.6398"/>
+<polygon fill="black" stroke="black" points="401.347,-77.6113 398.101,-87.6966 406.928,-81.8368 401.347,-77.6113"/>
+</g>
+</g>
+</svg>

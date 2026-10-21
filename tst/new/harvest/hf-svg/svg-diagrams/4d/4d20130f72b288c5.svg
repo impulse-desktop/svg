@@ -1,0 +1,83 @@
+<svg width="624pt" height="112pt"
+ viewBox="0.00 0.00 624.00 112.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 108)">
+<title>tbb::internal::generic_scheduler::leave_task_pool</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-108 620,-108 620,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-24.5 0,-54.5 140,-54.5 140,-24.5 0,-24.5"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00302.html#ac223f7892d65e496c37190c4009ea1f7" target="_top" xlink:title="Perform necessary cleanup when a master thread stops using TBB. ">
+<polygon fill="white" stroke="black" points="176,-49.5 176,-79.5 315,-79.5 315,-49.5 176,-49.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M150.125,-50.9013C158.747,-52.1436 167.47,-53.4006 175.951,-54.6226"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="150.467,-47.4146 140.07,-49.4525 149.469,-54.343 150.467,-47.4146"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00302.html#a21fedf3ec39056fdd7b7718f2421e229" target="_top" xlink:title="For internal use only. ">
+<polygon fill="white" stroke="black" points="192,-0.5 192,-30.5 299,-30.5 299,-0.5 192,-0.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M150.293,-28.5314C164.428,-26.5763 178.828,-24.5843 191.978,-22.7653"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="149.496,-25.1083 140.07,-29.9456 150.456,-32.0423 149.496,-25.1083"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00307.html#a5fbd38947c75c1e8494bc1bac598a9fe" target="_top" xlink:title="The internal routine to undo automatic initialization. ">
+<polygon fill="white" stroke="black" points="351,-73.5 351,-103.5 462,-103.5 462,-73.5 351,-73.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M325.424,-76.413C334.059,-77.7165 342.704,-79.0213 350.95,-80.266"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="325.725,-72.919 315.315,-74.8872 324.681,-79.8406 325.725,-72.919"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00307.html#a0962408ba1eaf67d0ad741a0749f3a4e" target="_top" xlink:title="Processes scheduler termination request (possibly nested) in a master thread. ">
+<polygon fill="white" stroke="black" points="351,-24.5 351,-54.5 462,-54.5 462,-24.5 351,-24.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M325.424,-52.0906C334.059,-50.7328 342.704,-49.3736 350.95,-48.0771"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="324.65,-48.6692 315.315,-53.68 325.737,-55.5842 324.65,-48.6692"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00791.html#a2647279bff44f88c82eead707d4c7a14" target="_top" xlink:title="tbb::task_scheduler\l_init::internal_terminate">
+<polygon fill="white" stroke="black" points="498,-24.5 498,-54.5 616,-54.5 616,-24.5 498,-24.5"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M472.544,-39.5C480.971,-39.5 489.559,-39.5 497.865,-39.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="472.374,-36.0001 462.374,-39.5 472.374,-43.0001 472.374,-36.0001"/>
+</g>
+</g>
+</svg>

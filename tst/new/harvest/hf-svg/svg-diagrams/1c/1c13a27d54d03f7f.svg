@@ -1,0 +1,164 @@
+<svg width="1659pt" height="284pt"
+ viewBox="0.00 0.00 1659.00 284.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280 1655,-280 1655,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="591.5,-10 591.5,-30 611.5,-30 611.5,-10 591.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="704.5,-10 704.5,-30 724.5,-30 724.5,-10 704.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="790.5,-10 790.5,-30 810.5,-30 810.5,-10 790.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="887.5,-10 887.5,-30 907.5,-30 907.5,-10 887.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="983.5,-10 983.5,-30 1003.5,-30 1003.5,-10 983.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_InformacionContactoModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-268 1643,-268 1643,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_InformacionContactoModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="680,-78 680,-130 1635,-130 1635,-78 680,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_InformacionContactoModule_imports</title>
+<polygon fill="none" stroke="#000000" points="200,-78 200,-130 672,-130 672,-78 200,-78"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_InformacionContactoModule_exports</title>
+<polygon fill="none" stroke="#000000" points="427,-208 427,-260 928,-260 928,-208 427,-208"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_InformacionContactoModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 192,-130 192,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1626.5702,-122 1397.4298,-122 1397.4298,-86 1626.5702,-86 1626.5702,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>InformacionContactoModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="767.7892,-187 764.7892,-191 743.7892,-191 740.7892,-187 588.2108,-187 588.2108,-151 767.7892,-151 767.7892,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudDocumentoProgramaComponent&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M1512,-122.2921C1512,-144.2057 1512,-178 1512,-178 1512,-178 777.6485,-178 777.6485,-178"/>
+<polygon fill="#000000" stroke="#000000" points="777.6485,-174.5001 767.6485,-178 777.6484,-181.5001 777.6485,-174.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1379.573,-122 1178.427,-122 1178.427,-86 1379.573,-86 1379.573,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DocumentoProgramaComponent&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M1279,-122.1061C1279,-141.3391 1279,-169 1279,-169 1279,-169 777.6511,-169 777.6511,-169"/>
+<polygon fill="#000000" stroke="#000000" points="777.6511,-165.5001 767.6511,-169 777.651,-172.5001 777.6511,-165.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1160.3514,-122 937.6486,-122 937.6486,-86 1160.3514,-86 1160.3514,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListDocumentoProgramaComponent&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M1049,-122.027C1049,-138.3976 1049,-160 1049,-160 1049,-160 777.8088,-160 777.8088,-160"/>
+<polygon fill="#000000" stroke="#000000" points="777.8088,-156.5001 767.8088,-160 777.8087,-163.5001 777.8088,-156.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ViewDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="919.8917,-122 688.1083,-122 688.1083,-86 919.8917,-86 919.8917,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewDocumentoProgramaComponent&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M727.9744,-122.1061C727.9744,-122.1061 727.9744,-140.991 727.9744,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="724.4745,-140.9909 727.9744,-150.991 731.4745,-140.991 724.4745,-140.9909"/>
+</g>
+
+<g id="node9" class="node">
+<title>CrudInformacionContactoComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="920.0692,-252 687.9308,-252 687.9308,-216 920.0692,-216 920.0692,-252"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>InformacionContactoModule&#45;&gt;CrudInformacionContactoComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M727.68,-187.1061C727.68,-187.1061 727.68,-205.991 727.68,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="724.1801,-205.9909 727.68,-215.991 731.1801,-205.991 724.1801,-205.9909"/>
+</g>
+
+<g id="node10" class="node">
+<title>ViewInformacionContactoComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="669.39,-252 434.61,-252 434.61,-216 669.39,-216 669.39,-252"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>InformacionContactoModule&#45;&gt;ViewInformacionContactoComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M628.9002,-187.1061C628.9002,-187.1061 628.9002,-205.991 628.9002,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="625.4003,-205.9909 628.9002,-215.991 632.4003,-205.991 625.4003,-205.9909"/>
+</g>
+
+<g id="node6" class="node">
+<title>InformacionContactoRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="664.4072,-122 661.4072,-126 640.4072,-126 637.4072,-122 439.5928,-122 439.5928,-86 664.4072,-86 664.4072,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>InformacionContactoRoutingModule&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M626.2795,-122.1061C626.2795,-122.1061 626.2795,-140.991 626.2795,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="622.7795,-140.9909 626.2795,-150.991 629.7795,-140.991 622.7795,-140.9909"/>
+</g>
+
+<g id="node7" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="422.4231,-122 419.4231,-126 398.4231,-126 395.4231,-122 323.5769,-122 323.5769,-86 422.4231,-86 422.4231,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>SharedModule&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M373,-122.027C373,-138.3976 373,-160 373,-160 373,-160 578.1396,-160 578.1396,-160"/>
+<polygon fill="#000000" stroke="#000000" points="578.1396,-163.5001 588.1396,-160 578.1395,-156.5001 578.1396,-163.5001"/>
+</g>
+
+<g id="node8" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="306.4231,-122 303.4231,-126 282.4231,-126 279.4231,-122 207.5769,-122 207.5769,-86 306.4231,-86 306.4231,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>ThemeModule&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M257,-122.1061C257,-141.3391 257,-169 257,-169 257,-169 578.2013,-169 578.2013,-169"/>
+<polygon fill="#000000" stroke="#000000" points="578.2014,-172.5001 588.2013,-169 578.2013,-165.5001 578.2014,-172.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>UbicacionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="104" cy="-104" rx="79.8527" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>UbicacionService&#45;&gt;InformacionContactoModule</title>
+<path fill="none" stroke="#000000" d="M104,-122.2921C104,-144.2057 104,-178 104,-178 104,-178 578.3125,-178 578.3125,-178"/>
+<polygon fill="#000000" stroke="#000000" points="578.3125,-181.5001 588.3125,-178 578.3125,-174.5001 578.3125,-181.5001"/>
+</g>
+</g>
+</svg>

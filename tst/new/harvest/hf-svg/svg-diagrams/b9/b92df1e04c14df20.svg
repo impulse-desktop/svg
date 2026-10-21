@@ -1,0 +1,172 @@
+<svg width="2144pt" height="211pt"
+ viewBox="0.00 0.00 2144.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 2140,-207 2140,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="834,-10 834,-30 854,-30 854,-10 834,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="947,-10 947,-30 967,-30 967,-10 947,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="1033,-10 1033,-30 1053,-30 1053,-10 1033,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="1130,-10 1130,-30 1150,-30 1150,-10 1130,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="1226,-10 1226,-30 1246,-30 1246,-10 1226,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AdmisionModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 2128,-195 2128,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AdmisionModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="1165,-78 1165,-130 2120,-130 2120,-78 1165,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AdmisionModule_imports</title>
+<polygon fill="none" stroke="#000000" points="471,-78 471,-130 1157,-130 1157,-78 471,-78"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_AdmisionModule_providers</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 463,-130 463,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>CrudDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="2111.5702,-122 1882.4298,-122 1882.4298,-86 2111.5702,-86 2111.5702,-122"/>
+
+</g>
+
+<g id="node5" class="node">
+<title>AdmisionModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="967.273,-187 964.273,-191 943.273,-191 940.273,-187 852.727,-187 852.727,-151 967.273,-151 967.273,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>CrudDocumentoProgramaComponent&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M1997,-122.0908C1997,-145.1328 1997,-182 1997,-182 1997,-182 977.2923,-182 977.2923,-182"/>
+<polygon fill="#000000" stroke="#000000" points="977.2924,-178.5001 967.2923,-182 977.2923,-185.5001 977.2924,-178.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>DocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1864.573,-122 1663.427,-122 1663.427,-86 1864.573,-86 1864.573,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>DocumentoProgramaComponent&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M1764,-122.2843C1764,-143.3211 1764,-175 1764,-175 1764,-175 977.3594,-175 977.3594,-175"/>
+<polygon fill="#000000" stroke="#000000" points="977.3595,-171.5001 967.3594,-175 977.3594,-178.5001 977.3595,-171.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>ListDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1645.3514,-122 1422.6486,-122 1422.6486,-86 1645.3514,-86 1645.3514,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>ListDocumentoProgramaComponent&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M1534,-122.1061C1534,-141.3391 1534,-169 1534,-169 1534,-169 977.3077,-169 977.3077,-169"/>
+<polygon fill="#000000" stroke="#000000" points="977.3077,-165.5001 967.3077,-169 977.3077,-172.5001 977.3077,-165.5001"/>
+</g>
+
+<g id="node4" class="node">
+<title>ViewDocumentoProgramaComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1404.8917,-122 1173.1083,-122 1173.1083,-86 1404.8917,-86 1404.8917,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>ViewDocumentoProgramaComponent&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M1289,-122.0225C1289,-139.3734 1289,-163 1289,-163 1289,-163 977.5619,-163 977.5619,-163"/>
+<polygon fill="#000000" stroke="#000000" points="977.562,-159.5001 967.5619,-163 977.5619,-166.5001 977.562,-159.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>AdmisionRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="1148.8906,-122 1145.8906,-126 1124.8906,-126 1121.8906,-122 989.1094,-122 989.1094,-86 1148.8906,-86 1148.8906,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>AdmisionRoutingModule&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M1069,-122.2396C1069,-137.5706 1069,-157 1069,-157 1069,-157 977.4026,-157 977.4026,-157"/>
+<polygon fill="#000000" stroke="#000000" points="977.4027,-153.5001 967.4026,-157 977.4026,-160.5001 977.4027,-153.5001"/>
+</g>
+
+<g id="node7" class="node">
+<title>InscripcionModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="971.0269,-122 968.0269,-126 947.0269,-126 944.0269,-122 848.9731,-122 848.9731,-86 971.0269,-86 971.0269,-122"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>InscripcionModule&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M910,-122.1061C910,-122.1061 910,-140.991 910,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="906.5001,-140.9909 910,-150.991 913.5001,-140.991 906.5001,-140.9909"/>
+</g>
+
+<g id="node8" class="node">
+<title>PagoLineaModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="830.9201,-122 827.9201,-126 806.9201,-126 803.9201,-122 711.0799,-122 711.0799,-86 830.9201,-86 830.9201,-122"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>PagoLineaModule&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M771,-122.2396C771,-137.5706 771,-157 771,-157 771,-157 842.6609,-157 842.6609,-157"/>
+<polygon fill="#000000" stroke="#000000" points="842.6609,-160.5001 852.6609,-157 842.6608,-153.5001 842.6609,-160.5001"/>
+</g>
+
+<g id="node9" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="693.4231,-122 690.4231,-126 669.4231,-126 666.4231,-122 594.5769,-122 594.5769,-86 693.4231,-86 693.4231,-122"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>SharedModule&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M644,-122.0225C644,-139.3734 644,-163 644,-163 644,-163 842.6094,-163 842.6094,-163"/>
+<polygon fill="#000000" stroke="#000000" points="842.6095,-166.5001 852.6094,-163 842.6094,-159.5001 842.6095,-166.5001"/>
+</g>
+
+<g id="node10" class="node">
+<title>ThemeModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="577.4231,-122 574.4231,-126 553.4231,-126 550.4231,-122 478.5769,-122 478.5769,-86 577.4231,-86 577.4231,-122"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>ThemeModule&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M528,-122.1061C528,-141.3391 528,-169 528,-169 528,-169 842.3971,-169 842.3971,-169"/>
+<polygon fill="#000000" stroke="#000000" points="842.3972,-172.5001 852.3971,-169 842.3971,-165.5001 842.3972,-172.5001"/>
+</g>
+
+<g id="node11" class="node">
+<title>ImplicitAutenticationService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="332" cy="-104" rx="123.2649" ry="18"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ImplicitAutenticationService&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M332,-122.2843C332,-143.3211 332,-175 332,-175 332,-175 842.466,-175 842.466,-175"/>
+<polygon fill="#000000" stroke="#000000" points="842.4661,-178.5001 852.466,-175 842.466,-171.5001 842.4661,-178.5001"/>
+</g>
+
+<g id="node12" class="node">
+<title>InscripcionService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="107" cy="-104" rx="83.3635" ry="18"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>InscripcionService&#45;&gt;AdmisionModule</title>
+<path fill="none" stroke="#000000" d="M107,-122.0908C107,-145.1328 107,-182 107,-182 107,-182 842.5725,-182 842.5725,-182"/>
+<polygon fill="#000000" stroke="#000000" points="842.5725,-185.5001 852.5725,-182 842.5724,-178.5001 842.5725,-185.5001"/>
+</g>
+</g>
+</svg>

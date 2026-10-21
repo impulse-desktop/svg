@@ -1,0 +1,152 @@
+<svg width="730pt" height="207pt"
+ viewBox="0.00 0.00 730.00 207.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 203)">
+<title>tbb::internal::custom_scheduler::allocate_scheduler</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-203 726,-203 726,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-123.5 0,-164.5 106,-164.5 106,-123.5 0,-123.5"/>
+
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00302.html#a08edecb9bd9ef648bada9fb5b1febeec" target="_top" xlink:title="tbb::internal::generic\l_scheduler::assert_task\l_pool_valid">
+<polygon fill="white" stroke="black" points="142,-157.5 142,-198.5 263,-198.5 263,-157.5 142,-157.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M106.003,-155.987C114.44,-157.932 123.293,-159.973 132.065,-161.995"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="131.377,-165.428 141.908,-164.264 132.95,-158.607 131.377,-165.428"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a01147.html#ga4844e4d5f62a0843af83cf534f908ddf" target="_top" xlink:title="Allocate memory on cache/sector line boundary. ">
+<polygon fill="white" stroke="black" points="155.5,-95 155.5,-125 249.5,-125 249.5,-95 155.5,-95"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M106.003,-132.013C118.825,-129.057 132.611,-125.88 145.609,-122.883"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="146.408,-126.291 155.366,-120.634 144.835,-119.47 146.408,-126.291"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a01133.html#acf23419eb6d3adac787a4fee78cb3c27" target="_top" xlink:title="tbb::internal::first">
+<polygon fill="white" stroke="black" points="312.5,-175.5 312.5,-194.5 402.5,-194.5 402.5,-175.5 312.5,-175.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M263.092,-180.726C276.068,-181.32 289.728,-181.945 302.475,-182.528"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="302.321,-186.025 312.471,-182.986 302.641,-179.032 302.321,-186.025"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a01133.html#a90dc6f41bbea1ea94df0f0c776e246a3" target="_top" xlink:title="A function to check if passed in pointer is aligned on a specific border. ">
+<polygon fill="white" stroke="black" points="299,-137.5 299,-156.5 416,-156.5 416,-137.5 299,-137.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M249.82,-121.202C267.928,-125.581 288.721,-130.609 307.114,-135.057"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="306.51,-138.512 317.052,-137.46 308.155,-131.708 306.51,-138.512"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a01133.html#a9083f0017633fb48d690ba23fbd4387f" target="_top" xlink:title="A function to check if passed integer is a power of 2. ">
+<polygon fill="white" stroke="black" points="301,-88 301,-118 414,-118 414,-88 301,-88"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node4&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M249.82,-107.881C262.646,-107.294 276.82,-106.645 290.534,-106.018"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="291.071,-109.497 300.901,-105.544 290.751,-102.505 291.071,-109.497"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="a01133.html#a61a681f9fd15fdb055f7725d6416ddf4" target="_top" xlink:title="Versionless convenience wrapper for throw_exception_v4() ">
+<polygon fill="white" stroke="black" points="308.5,-39 308.5,-69 406.5,-69 406.5,-39 308.5,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node4&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M244.501,-94.993C263.366,-88.0882 285.932,-79.8288 305.849,-72.539"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="307.198,-75.7724 315.386,-69.0484 304.792,-69.1988 307.198,-75.7724"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="a01133.html#adccc1f69ee5a85094eb6a5f9fbac89d7" target="_top" xlink:title="Gathers all throw operators in one place. ">
+<polygon fill="white" stroke="black" points="452,-39 452,-69 550,-69 550,-39 452,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node7&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M406.801,-54C418.07,-54 430.188,-54 441.836,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="441.917,-57.5001 451.917,-54 441.917,-50.5001 441.917,-57.5001"/>
+</g>
+
+<g id="node9" class="node"><title>Node9</title>
+<g id="a_node9"><a xlink:href="a01133.html#a52bf5824abee2b87b339574e3ff6833c" target="_top" xlink:title="tbb::internal::fix\l_broken_rethrow">
+<polygon fill="white" stroke="black" points="609.5,-88 609.5,-118 698.5,-118 698.5,-88 609.5,-88"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node8&#45;&gt;Node9</title>
+<path fill="none" stroke="midnightblue" d="M548.537,-69.1014C564.763,-74.3669 583.093,-80.315 599.818,-85.7421"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="598.859,-89.1107 609.451,-88.8683 601.02,-82.4525 598.859,-89.1107"/>
+</g>
+
+<g id="node10" class="node"><title>Node10</title>
+<g id="a_node10"><a xlink:href="a01133.html#a01d042ccf49c2448856834818ebb80cf" target="_top" xlink:title="tbb::internal::gcc\l_rethrow_exception_broken">
+<polygon fill="white" stroke="black" points="586,-39 586,-69 722,-69 722,-39 586,-39"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge9" class="edge"><title>Node8&#45;&gt;Node10</title>
+<path fill="none" stroke="midnightblue" d="M550.193,-54C558.381,-54 567.065,-54 575.78,-54"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="575.996,-57.5001 585.996,-54 575.996,-50.5001 575.996,-57.5001"/>
+</g>
+
+<g id="node11" class="node"><title>Node11</title>
+<g id="a_node11"><a xlink:href="a01133.html#ad413aa12f103993fc8cf47ddc570bb9c" target="_top" xlink:title="Cast between unrelated pointer types. ">
+<polygon fill="white" stroke="black" points="589.5,-0.5 589.5,-19.5 718.5,-19.5 718.5,-0.5 589.5,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge10" class="edge"><title>Node8&#45;&gt;Node11</title>
+<path fill="none" stroke="midnightblue" d="M550.385,-39.4832C562.039,-36.019 574.457,-32.3542 586,-29 593.51,-26.8176 601.503,-24.5249 609.255,-22.3171"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="610.228,-25.6794 618.891,-19.5806 608.315,-18.9457 610.228,-25.6794"/>
+</g>
+</g>
+</svg>

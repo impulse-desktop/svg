@@ -1,0 +1,96 @@
+<svg width="811pt" height="211pt"
+ viewBox="0.00 0.00 811.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 807,-207 807,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="167.5,-10 167.5,-30 187.5,-30 187.5,-10 167.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="280.5,-10 280.5,-30 300.5,-30 300.5,-10 280.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="366.5,-10 366.5,-30 386.5,-30 386.5,-10 366.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="463.5,-10 463.5,-30 483.5,-30 483.5,-10 463.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="559.5,-10 559.5,-30 579.5,-30 579.5,-10 559.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_LoginModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 795,-195 795,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_LoginModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="294,-78 294,-130 787,-130 787,-78 294,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_LoginModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 286,-130 286,-78 16,-78"/>
+</g>
+
+<g id="node1" class="node">
+<title>SignUpComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="779.1123,-122 654.8877,-122 654.8877,-86 779.1123,-86 779.1123,-122"/>
+
+</g>
+
+<g id="node4" class="node">
+<title>LoginModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="447.493,-187 444.493,-191 423.493,-191 420.493,-187 354.507,-187 354.507,-151 447.493,-151 447.493,-187"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>SignUpComponent&#45;&gt;LoginModule</title>
+<path fill="none" stroke="#000000" d="M717,-122.2843C717,-143.3211 717,-175 717,-175 717,-175 457.6269,-175 457.6269,-175"/>
+<polygon fill="#000000" stroke="#000000" points="457.6269,-171.5001 447.6269,-175 457.6269,-178.5001 457.6269,-171.5001"/>
+</g>
+
+<g id="node2" class="node">
+<title>SignInComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="637.1667,-122 518.8333,-122 518.8333,-86 637.1667,-86 637.1667,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>SignInComponent&#45;&gt;LoginModule</title>
+<path fill="none" stroke="#000000" d="M578,-122.0225C578,-139.3734 578,-163 578,-163 578,-163 457.5047,-163 457.5047,-163"/>
+<polygon fill="#000000" stroke="#000000" points="457.5047,-159.5001 447.5047,-163 457.5046,-166.5001 457.5047,-159.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>EmailPasswordFormComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="500.2589,-122 301.7411,-122 301.7411,-86 500.2589,-86 500.2589,-122"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>EmailPasswordFormComponent&#45;&gt;LoginModule</title>
+<path fill="none" stroke="#000000" d="M401,-122.1061C401,-122.1061 401,-140.991 401,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="397.5001,-140.9909 401,-150.991 404.5001,-140.991 397.5001,-140.9909"/>
+</g>
+
+<g id="node5" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="278.4231,-122 275.4231,-126 254.4231,-126 251.4231,-122 179.5769,-122 179.5769,-86 278.4231,-86 278.4231,-122"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>SharedModule&#45;&gt;LoginModule</title>
+<path fill="none" stroke="#000000" d="M229,-122.0225C229,-139.3734 229,-163 229,-163 229,-163 344.4543,-163 344.4543,-163"/>
+<polygon fill="#000000" stroke="#000000" points="344.4544,-166.5001 354.4543,-163 344.4543,-159.5001 344.4544,-166.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>LoginRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="162.1108,-122 159.1108,-126 138.1108,-126 135.1108,-122 23.8892,-122 23.8892,-86 162.1108,-86 162.1108,-122"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>LoginRoutingModule&#45;&gt;LoginModule</title>
+<path fill="none" stroke="#000000" d="M93,-122.2843C93,-143.3211 93,-175 93,-175 93,-175 344.2214,-175 344.2214,-175"/>
+<polygon fill="#000000" stroke="#000000" points="344.2215,-178.5001 354.2214,-175 344.2214,-171.5001 344.2215,-178.5001"/>
+</g>
+</g>
+</svg>

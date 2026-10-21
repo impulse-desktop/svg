@@ -1,0 +1,261 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="750"
+   height="750"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="speedpowerup.svg"
+   inkscape:export-filename="speedpowerup.png"
+   inkscape:export-xdpi="2.4000001"
+   inkscape:export-ydpi="2.4000001">
+  <defs
+     id="defs4">
+    <filter
+       id="filter6065"
+       y="-0.5"
+       x="-0.5"
+       width="2"
+       height="2"
+       inkscape:label="Plaster"
+       inkscape:menu="Bumps"
+       inkscape:menu-tooltip="Combine a HSL edges detection bump with a matte and crumpled surface effect"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur6067"
+         stdDeviation="2"
+         result="result14" />
+      <feFlood
+         id="feFlood6069"
+         flood-opacity="0.75"
+         result="result15"
+         flood-color="rgb(255,255,255)"
+         in="result14" />
+      <feTurbulence
+         id="feTurbulence6071"
+         result="result5"
+         numOctaves="5"
+         baseFrequency="0.004 0.004"
+         seed="25"
+         type="fractalNoise" />
+      <feDisplacementMap
+         id="feDisplacementMap6073"
+         in2="result14"
+         yChannelSelector="G"
+         result="result8"
+         in="result5"
+         xChannelSelector="R"
+         scale="200" />
+      <feDiffuseLighting
+         id="feDiffuseLighting6075"
+         in="result8"
+         surfaceScale="50"
+         lighting-color="#ffffff"
+         diffuseConstant="1"
+         result="result16">
+        <feDistantLight
+           id="feDistantLight6077"
+           azimuth="225"
+           elevation="10" />
+      </feDiffuseLighting>
+      <feBlend
+         id="feBlend6079"
+         in2="SourceGraphic"
+         mode="screen"
+         result="result9" />
+      <feComposite
+         id="feComposite6081"
+         in2="SourceGraphic"
+         operator="in"
+         result="result11"
+         in="result9" />
+    </filter>
+    <filter
+       id="filter5471"
+       inkscape:label="Drop Shadow"
+       inkscape:menu="Materials"
+       inkscape:menu-tooltip="Stylized reptile skin texture"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur5473"
+         stdDeviation="0.5"
+         in="SourceGraphic"
+         result="result0" />
+      <feTurbulence
+         id="feTurbulence5475"
+         result="result1"
+         numOctaves="1"
+         seed="488"
+         baseFrequency="0.095"
+         type="turbulence" />
+      <feComposite
+         id="feComposite5477"
+         in2="result1"
+         in="result0"
+         operator="in"
+         result="result2" />
+      <feComposite
+         k4="0"
+         k2="0"
+         id="feComposite5479"
+         in2="result2"
+         operator="arithmetic"
+         k3="1"
+         k1="3"
+         result="result91" />
+      <feBlend
+         id="feBlend5481"
+         in2="result91"
+         mode="multiply"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         id="feColorMatrix5483"
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 5 0" />
+      <feGaussianBlur
+         id="feGaussianBlur5485"
+         result="result0"
+         in="fbSourceGraphicAlpha"
+         stdDeviation="3" />
+      <feOffset
+         id="feOffset5487"
+         result="result3"
+         in="result0"
+         dy="2"
+         dx="2" />
+      <feSpecularLighting
+         id="feSpecularLighting5489"
+         specularExponent="30"
+         specularConstant="1.10000002"
+         surfaceScale="2"
+         lighting-color="#6fecfd"
+         result="result1"
+         in="result0">
+        <fePointLight
+           id="fePointLight5491"
+           z="20000"
+           y="-10000"
+           x="-5000" />
+      </feSpecularLighting>
+      <feComposite
+         id="feComposite5493"
+         in2="fbSourceGraphicAlpha"
+         operator="in"
+         result="result2"
+         in="result1" />
+      <feComposite
+         k4="0"
+         k1="0"
+         id="feComposite5495"
+         in2="result2"
+         k3="1"
+         k2="3"
+         operator="arithmetic"
+         result="result4"
+         in="fbSourceGraphic" />
+      <feBlend
+         id="feBlend5497"
+         in2="result4"
+         mode="multiply"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix3056" />
+      <feFlood
+         id="feFlood3058"
+         flood-opacity="0.7"
+         flood-color="rgb(255,255,255)"
+         result="flood"
+         in="fbSourceGraphic" />
+      <feComposite
+         id="feComposite3060"
+         in2="fbSourceGraphic"
+         in="flood"
+         operator="in"
+         result="composite1" />
+      <feGaussianBlur
+         id="feGaussianBlur3062"
+         stdDeviation="2"
+         result="blur" />
+      <feOffset
+         id="feOffset3064"
+         dx="0"
+         dy="0"
+         result="offset" />
+      <feComposite
+         id="feComposite3066"
+         in2="offset"
+         in="fbSourceGraphic"
+         operator="over"
+         result="composite2" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.24748737"
+     inkscape:cx="672.10775"
+     inkscape:cy="-573.97877"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3051"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1014"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-302.36218)">
+    <g
+       id="g3051"
+       transform="translate(-1920,511.42857)">
+      <path
+         transform="matrix(6.96832,0,0,6.9691638,-13667.979,424.13892)"
+         sodipodi:nodetypes="ccccccc"
+         inkscape:connector-curvature="0"
+         id="path2999"
+         d="m 2249.4037,8.9542218 c 42.9693,4.0342502 47.1185,2.7773202 79.0267,1.2500002 19.8373,-0.3174002 9.1005,-20.0687502 -0.5357,-19.2730302 l -43.8481,-8.0483998 c -9.2887,-6.66171 -2.5438,-56.149818 -3.2143,-61.071428 -2.3531,10.383921 -25.4446,14.112774 -30.7143,0 0.1624,31.586923 -15.0152,89.137998 -0.7143,87.1428578 z"
+         style="fill:#666666;fill-opacity:1;stroke:#000000;stroke-width:0.14349793px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5471)" />
+      <path
+         transform="matrix(6.96832,0,0,6.9691638,-13667.979,424.13892)"
+         inkscape:connector-curvature="0"
+         id="path5229"
+         d="m 2260.5139,-70.275425 c -3.469,-0.839335 -7.1097,-3.514018 -8.8593,-6.508621 l -0.7182,-1.229284 0.4755,-0.883022 c 1.2062,-2.239688 5.8448,-5.27877 9.5826,-6.278244 2.0747,-0.554766 7.8511,-0.767945 9.6877,-0.357522 0.7832,0.175027 2.3331,0.738685 3.4443,1.252572 2.2963,1.061982 4.1574,2.858445 5.2659,5.082974 l 0.6488,1.301879 -0.5186,1.016431 c -1.6022,3.140628 -6.0181,5.92822 -10.6827,6.743656 -2.0902,0.365387 -6.5453,0.290037 -8.326,-0.140819 z"
+         style="opacity:0.75;color:#000000;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7.50313759;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter6065);enable-background:accumulate" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path3001"
+         d="m 2011.0483,-119.52601 c 33.3253,-75.12972 191.8462,-84.97795 212.7825,-1.24449"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter5279)" />
+    </g>
+  </g>
+</svg>

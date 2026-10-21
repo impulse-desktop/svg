@@ -1,0 +1,90 @@
+<svg width="581pt" height="143pt"
+ viewBox="0.00 0.00 581.00 142.50" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 138.5)">
+<title>tbb::internal::micro_queue::make_invalid</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-138.5 577,-138.5 577,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-79 0,-109 111,-109 111,-79 0,-79"/>
+
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="a00497.html#a7cce1248bacd9b29b296868bdd6b72dc" target="_top" xlink:title="tbb::internal::micro\l_queue::assign">
+<polygon fill="white" stroke="black" points="147,-104 147,-134 245,-134 245,-104 147,-104"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M121.298,-105.696C129.932,-107.255 138.657,-108.83 146.936,-110.324"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="121.702,-102.213 111.239,-103.881 120.458,-109.101 121.702,-102.213"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="a00497.html#a7fe11e7da2dc9af4a9e37e208c1d0308" target="_top" xlink:title="tbb::internal::micro\l_queue::push">
+<polygon fill="white" stroke="black" points="147,-55 147,-85 245,-85 245,-55 147,-55"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M121.298,-82.7714C129.932,-81.2754 138.657,-79.7634 146.936,-78.3288"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="120.494,-79.3585 111.239,-84.5146 121.69,-86.2557 120.494,-79.3585"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="a00497.html#abf8b2f9f05a9152a8c53ec6f9551d0d0" target="_top" xlink:title="tbb::internal::micro\l_queue::abort_push">
+<polygon fill="white" stroke="black" points="294,-99 294,-129 396,-129 396,-99 294,-99"/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M254.863,-87.3197C267.797,-91.1909 281.408,-95.265 293.992,-99.0317"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="255.717,-83.9218 245.133,-84.4072 253.71,-90.6278 255.717,-83.9218"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="a00149.html#a6b68fa0da8231513c31217b4090703ba" target="_top" xlink:title="Enqueues item at tail of queue using specified operation (copy or move) ">
+<polygon fill="white" stroke="black" points="445,-71.5 445,-112.5 573,-112.5 573,-71.5 445,-71.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node3&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M255.351,-74.1277C309.329,-77.9461 389.361,-83.6076 444.826,-87.5311"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="255.475,-70.6278 245.253,-73.4134 254.981,-77.6104 255.475,-70.6278"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="a00149.html#aa893f5b109edc6e29006933079b40c28" target="_top" xlink:title="Attempts to enqueue at tail of queue using specified operation (copy or move) ">
+<polygon fill="white" stroke="black" points="281,-0.5 281,-41.5 409,-41.5 409,-0.5 281,-0.5"/>
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M252.012,-51.6626C261.908,-48.3639 272.283,-44.9057 282.353,-41.5491"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="250.684,-48.4158 242.304,-54.8986 252.898,-55.0566 250.684,-48.4158"/>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M406.645,-105.764C419.104,-104.072 432.249,-102.287 444.796,-100.583"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="405.808,-102.346 396.37,-107.16 406.75,-109.282 405.808,-102.346"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,136 @@
+<svg width="979pt" height="290pt"
+ viewBox="0.00 0.00 979.00 290.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 286)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-286 975,-286 975,4 -4,4"/>
+
+<polygon fill="#ffffb3" stroke="transparent" points="251.5,-10 251.5,-30 271.5,-30 271.5,-10 251.5,-10"/>
+
+<polygon fill="#8dd3c7" stroke="transparent" points="364.5,-10 364.5,-30 384.5,-30 384.5,-10 364.5,-10"/>
+
+<polygon fill="#80b1d3" stroke="transparent" points="450.5,-10 450.5,-30 470.5,-30 470.5,-10 450.5,-10"/>
+
+<polygon fill="#fdb462" stroke="transparent" points="547.5,-10 547.5,-30 567.5,-30 567.5,-10 547.5,-10"/>
+
+<polygon fill="#fb8072" stroke="transparent" points="643.5,-10 643.5,-30 663.5,-30 663.5,-10 643.5,-10"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AppModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-274 298,-274 298,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AppModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 138,-130 138,-78 16,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_AppModule_imports</title>
+<polygon fill="none" stroke="#000000" points="146,-78 146,-130 290,-130 290,-78 146,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_AppModule_bootstrap</title>
+<polygon fill="none" stroke="#000000" points="86,-214 86,-266 210,-266 210,-214 86,-214"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_LazyRenderModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="306,-138 306,-206 963,-206 963,-138 306,-138"/>
+</g>
+<g id="clust9" class="cluster">
+<title>cluster_LazyRenderModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="642,-146 642,-198 955,-198 955,-146 642,-146"/>
+</g>
+<g id="clust13" class="cluster">
+<title>cluster_LazyRenderModule_exports</title>
+<polygon fill="none" stroke="#000000" points="314,-146 314,-198 634,-198 634,-146 314,-146"/>
+</g>
+
+<g id="node1" class="node">
+<title>AppComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="129.9399,-122 24.0601,-122 24.0601,-86 129.9399,-86 129.9399,-122"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>AppModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="189.6571,-190 186.6571,-194 165.6571,-194 162.6571,-190 106.3429,-190 106.3429,-154 189.6571,-154 189.6571,-190"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AppComponent&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M117.9457,-122.2228C117.9457,-122.2228 117.9457,-143.7269 117.9457,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="114.4457,-143.7269 117.9457,-153.7269 121.4457,-143.727 114.4457,-143.7269"/>
+</g>
+
+<g id="node4" class="node">
+<title>AppComponent </title>
+<polygon fill="#80b1d3" stroke="#000000" points="202.439,-258 93.561,-258 93.561,-222 202.439,-222 202.439,-258"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AppModule&#45;&gt;AppComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="1,5" d="M148,-190.2228C148,-190.2228 148,-211.7269 148,-211.7269"/>
+<polygon fill="#000000" stroke="#000000" points="144.5001,-211.7269 148,-221.7269 151.5001,-211.727 144.5001,-211.7269"/>
+</g>
+
+<g id="node3" class="node">
+<title>LazyRenderModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="281.958,-122 278.958,-126 257.958,-126 254.958,-122 154.042,-122 154.042,-86 281.958,-86 281.958,-122"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>LazyRenderModule&#45;&gt;AppModule</title>
+<path fill="none" stroke="#000000" d="M171.9246,-122.2228C171.9246,-122.2228 171.9246,-143.7269 171.9246,-143.7269"/>
+<polygon fill="#000000" stroke="#000000" points="168.4247,-143.7269 171.9246,-153.7269 175.4247,-143.727 168.4247,-143.7269"/>
+</g>
+
+<g id="node7" class="node">
+<title>LazyPageComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="626.026,-190 485.974,-190 485.974,-154 626.026,-154 626.026,-190"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>LazyRenderModule&#45;&gt;LazyPageComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M281.9726,-113C379.9623,-113 556,-113 556,-113 556,-113 556,-143.9775 556,-143.9775"/>
+<polygon fill="#000000" stroke="#000000" points="552.5001,-143.9774 556,-153.9775 559.5001,-143.9775 552.5001,-143.9774"/>
+</g>
+
+<g id="node8" class="node">
+<title>LazyBlockComponent </title>
+<polygon fill="#fb8072" stroke="#000000" points="468.2562,-190 321.7438,-190 321.7438,-154 468.2562,-154 468.2562,-190"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>LazyRenderModule&#45;&gt;LazyBlockComponent </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M242.2243,-122.2228C242.2243,-142.3652 242.2243,-172 242.2243,-172 242.2243,-172 311.7444,-172 311.7444,-172"/>
+<polygon fill="#000000" stroke="#000000" points="311.7445,-175.5001 321.7444,-172 311.7444,-168.5001 311.7445,-175.5001"/>
+</g>
+
+<g id="node5" class="node">
+<title>LazyPageComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="947.0268,-190 810.9732,-190 810.9732,-154 947.0268,-154 947.0268,-190"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>LazyPageComponent&#45;&gt;LazyRenderModule</title>
+<path fill="none" stroke="#000000" d="M879,-153.7521C879,-130.9821 879,-95 879,-95 879,-95 291.9801,-95 291.9801,-95"/>
+<polygon fill="#000000" stroke="#000000" points="291.9801,-91.5001 281.9801,-95 291.98,-98.5001 291.9801,-91.5001"/>
+</g>
+
+<g id="node6" class="node">
+<title>LazyBlockComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="792.2562,-190 649.7438,-190 649.7438,-154 792.2562,-154 792.2562,-190"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>LazyBlockComponent&#45;&gt;LazyRenderModule</title>
+<path fill="none" stroke="#000000" d="M721,-153.7772C721,-133.6348 721,-104 721,-104 721,-104 291.9606,-104 291.9606,-104"/>
+<polygon fill="#000000" stroke="#000000" points="291.9606,-100.5001 281.9606,-104 291.9605,-107.5001 291.9606,-100.5001"/>
+</g>
+</g>
+</svg>

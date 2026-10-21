@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="355.75" height="32.657" viewBox="0 0 355.75 32.657">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #a5e24d;
+        fill-rule: evenodd;
+        filter: url(#filter);
+      }
+    </style>
+    <filter id="filter" x="75.375" y="862.281" width="355.75" height="32.657" filterUnits="userSpaceOnUse">
+      <feImage preserveAspectRatio="none" x="75.375" y="862.281" width="355.75" height="32.657" result="image" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzU1Ljc1IiBoZWlnaHQ9IjMyLjY1NyIgdmlld0JveD0iMCAwIDM1NS43NSAzMi42NTciPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIG9wYWNpdHk6IDAuNTsKICAgICAgICBmaWxsOiB1cmwoI2xpbmVhci1ncmFkaWVudCk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxpbmVhci1ncmFkaWVudCIgeDE9IjE3Ny44NzUiIHkxPSIzMi42NTciIHgyPSIxNzcuODc1IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgd2lkdGg9IjM1NS43NSIgaGVpZ2h0PSIzMi42NTciLz4KPC9zdmc+Cg=="/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" mode="softLight" in2="SourceGraphic"/>
+      <feGaussianBlur result="blur" stdDeviation="1.667" in="SourceAlpha"/>
+      <feFlood result="flood" flood-color="#37904a"/>
+      <feComposite result="composite-3" operator="out" in2="blur"/>
+      <feComposite result="composite-2" operator="in" in2="SourceAlpha"/>
+      <feBlend result="blend-2" in2="blend"/>
+      <feGaussianBlur result="blur-2" stdDeviation="3.162" in="SourceAlpha"/>
+      <feFlood result="flood-2" flood-color="#008616"/>
+      <feComposite result="composite-4" operator="out" in2="blur-2"/>
+      <feOffset result="offset" dy="-1"/>
+      <feComposite result="composite-5" operator="in" in2="SourceAlpha"/>
+      <feBlend result="blend-3" mode="multiply" in2="blend-2"/>
+    </filter>
+  </defs>
+  <path id="Progress" class="cls-1" d="M91.986,862.29s30.072,2.292,84.035.646C226.279,861.4,286.8,864.02,336,864.02c46.844,0,77.117-1.563,83.659-1.084s8.514,2.868,10.084,7.548,2.312,10.084-.541,15.984c-2.027,4.19-3.605,4.949-9.71,6.928-2.008.651-37.87,1.541-85.284,1.547-44.672,0-99.578-1.057-146.1-1.26-54.2-.237-97.018.38-98.92,0.38-7.782,0-11.168-3.015-12.687-5.911-1.1-2.1-2.638-12.343,2.3-19.9C81.308,864.41,88.166,862.29,91.986,862.29Z" transform="translate(-75.375 -862.281)"/>
+</svg>
