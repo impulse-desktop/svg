@@ -122,7 +122,9 @@ namespace {
                 return 0;
             }
 
-            if (!memcmp(chunk + 4, "iCCP", 4) || !memcmp(chunk + 4, "sRGB", 4) || !memcmp(chunk + 4, "cICP", 4)) {
+            // This viewer does not use ICC profiles. PNG encoders may pair
+            // iCCP with gAMA as a fallback for viewers without ICC support.
+            if (!memcmp(chunk + 4, "sRGB", 4) || !memcmp(chunk + 4, "cICP", 4)) {
                 return 0;
             }
 
