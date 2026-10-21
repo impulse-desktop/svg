@@ -19,7 +19,7 @@ extern "C" {
 
 namespace {
     constexpr unsigned caseSeconds = 120;
-    constexpr uint64_t maxPixels = 1u << 27;
+    constexpr uint64_t maxPixels = 1u << 28;
     constexpr int structTolerance = 32;
     constexpr int unitTolerance = 2;
 
