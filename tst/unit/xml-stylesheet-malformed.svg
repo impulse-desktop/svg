@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="32">
+<!-- Malformed pseudo-attributes invalidate the instruction, not the SVG.
+XML character references 9, 10 and 13 remain valid in an unused attribute.
+Each upper image has an independent prolog; the lower row is its oracle. -->
+<rect width="128" height="32" fill="white"/>
+<!-- value ends after = -->
+<image x="2" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3D%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="2" y="18" width="12" height="12" fill="red"/>
+<!-- unterminated reference and quote -->
+<image x="18" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3D%22%26%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="18" y="18" width="12" height="12" fill="red"/>
+<!-- empty reference -->
+<image x="34" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3D%22%26%3B%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="34" y="18" width="12" height="12" fill="red"/>
+<!-- name ends without = -->
+<image x="50" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="50" y="18" width="12" height="12" fill="red"/>
+<!-- tab character reference -->
+<image x="66" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3D%22data%3Atext%2Fcss%2Crect%257Bfill%253Alime%257D%22%20x%3D%22%26%239%3B%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="66" y="18" width="12" height="12" fill="lime"/>
+<!-- line feed character reference -->
+<image x="82" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3D%22data%3Atext%2Fcss%2Crect%257Bfill%253Alime%257D%22%20x%3D%22%26%2310%3B%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="82" y="18" width="12" height="12" fill="lime"/>
+<!-- carriage return character reference -->
+<image x="98" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3D%22data%3Atext%2Fcss%2Crect%257Bfill%253Alime%257D%22%20x%3D%22%26%2313%3B%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="98" y="18" width="12" height="12" fill="lime"/>
+<!-- forbidden noncharacter reference -->
+<image x="114" y="2" width="12" height="12" href="data:image/svg+xml,%3C%3Fxml-stylesheet%20href%3D%22data%3Atext%2Fcss%2Crect%257Bfill%253Alime%257D%22%20x%3D%22%26%2365534%3B%22%3F%3E%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%3E%3Crect%20width%3D%2212%22%20height%3D%2212%22%20fill%3D%22red%22%2F%3E%3C%2Fsvg%3E"/>
+<rect x="114" y="18" width="12" height="12" fill="red"/>
+</svg>

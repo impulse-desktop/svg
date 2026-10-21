@@ -15028,11 +15028,8 @@ namespace {
                     } else if (isKeyword(value, SV("currentcolor"))) {
                         style.background = style.color;
                     } else {
-                        Color color;
-
-                        if (parseColor(value, color)) {
-                            style.background = color;
-                        }
+                        // The cascade has already rejected invalid colours.
+                        parseColor(value, style.background);
                     }
 
                     break;
