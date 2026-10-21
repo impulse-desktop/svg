@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="256">
+<!-- A short open path can bend one way and then back, so its net signed
+turn is small although its offset folds inside out. The nonzero outline
+leaves a large opening. A wide stroke must keep that opening when the
+endpoint tangents resume the same heading. Another tight path bends
+around once, with its endpoint tangents across one another; the normal
+sweep covers the cropped region within its very first cubic, so no hole
+belongs there (D49). -->
+<rect width="320" height="256" fill="white"/>
+<svg width="256" height="256" viewBox="0 0 35 35"><path d="m16.5,16.5c-1.564,-1.52802 -1.88824,-1.19034 -2,-0.29999c-0.08652,0.68918 -0.70532,-0.17233 -1,-0.74167l-0.29468,-0.60934" fill="none" stroke="black" stroke-width="20"/></svg>
+<svg x="256" width="64" height="192" viewBox="131 185 2 6"><path d="m130.5,187.89999c1.8,0 2.70006,-0.01067 3.60001,0c0.87935,0.01042 1.53835,0.44937 2.116,1.08401c0.58859,0.64665 1.02182,1.27789 1.30933,2.06532c0.3035,0.83124 0.78368,1.39378 0.9955,2.35066c0.18719,0.84563 0.56425,1.64972 1.14584,2.33334c0.56659,0.666 1.30733,1.06042 2.03333,1.45067c0.85478,0.45947 1.60001,0.71532 2.5,0.71599c0.90001,0.00067 1.75833,0 1.3,0c-0.8,0 -1.48848,0.28796 -2.2215,0.87868c-0.64632,0.52084 -1.43111,0.92151 -2.2785,1.10049c-0.8808,0.18605 -1.88933,0.03151 -2.5,0.52083c-0.61067,0.48933 -1.55197,0.21092 -2.38933,0.51068c-0.73674,0.26373 -1.25836,0.94772 -2.09334,0.99066c-0.95045,0.04887 -1.50179,0.84436 -2.31866,0.99733c-0.82895,0.15523 -1.64482,-0.54623 -2.11334,-1.284c-0.43912,-0.69147 -0.08533,-1.71468 -0.08533,-2.51466c0,-0.90001 0,-1.8 0,-2.70001c0,-0.89999 0,-1.79999 0,-2.7l0,-0.89999l0,-0.90001" fill="none" stroke="black" stroke-width="39.84"/></svg>
+</svg>

@@ -601,7 +601,15 @@ their centers open, and those openings are visible parts of the author's
 drawing. Their endpoints are within half the stroke width, their
 centerline fits within one stroke width in both axes, and they turn through
 more than a half-circle. Those loops keep their inverted inner offset too,
-while their end caps remain open. A long open path can make the same small
+while their end caps remain open. Two opposed bends can cancel the signed
+turn while still folding the offset inside out: when the end tangents face
+the same way and the sum of absolute turns exceeds a half-circle, the
+tiny path keeps its inverted offset. `stroke-folded-open#opposed-bends`
+uses a real Sketchy-SVG path and a fixed Chromium drawing; resvg and
+librsvg agree on its large opening. The boundary
+`stroke-folded-open#one-way-bend` keeps the ideal sweep where its first
+cubic's normals cover the sampled area; absolute turning alone would cut
+an erroneous hole. A long open path can make the same small
 reversal at either tip. When the tangents entering and leaving the part
 within half a stroke width of the endpoint point against one another, its
 inverted inner offset is kept locally. Chromium, resvg and librsvg leave

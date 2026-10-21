@@ -12636,8 +12636,11 @@ namespace {
             inners.pushBack(d0.x * d1.y - d0.y * d1.x > 0.f ? 0 : 1);
         }
 
-        // An open path that curls back within the half width keeps its
-        // inverted inner offset, as a closed path does. Its caps stay open.
+        // A tiny open path that curls back within the half width keeps its
+        // inverted inner offset, as a closed path does. Two opposite folds
+        // may cancel their signed turn while their end tangents face the
+        // same way; a one-way bend does not make the same opening. Its caps
+        // stay open.
         float endDx = pts[0].x - pts[n - 1].x;
         float endDy = pts[0].y - pts[n - 1].y;
         bool looped = closed;
@@ -12651,15 +12654,22 @@ namespace {
 
             if (centerline.x1 - centerline.x0 <= 2.f * s.half && centerline.y1 - centerline.y0 <= 2.f * s.half) {
                 float rotation = 0.f;
+                float turn = 0.f;
 
                 for (size_t k = 1; k + 1 < n; k++) {
                     Point a = dirs[k - 1];
                     Point b = dirs[k];
+                    float angle = atan2f(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y);
 
-                    rotation += atan2f(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y);
+                    rotation += angle;
+                    turn += fabsf(angle);
                 }
 
-                looped = fabsf(rotation) > pi + 0.1f;
+                Point first = dirs[0];
+                Point last = dirs[segments - 1];
+                bool sameHeading = first.x * last.x + first.y * last.y > 0.f;
+
+                looped = fabsf(rotation) > pi + 0.1f || (sameHeading && turn > pi + 0.1f);
             }
         }
 
