@@ -14,7 +14,7 @@
 
 ## Hex color notation: color-functions, color-syntax (exists)
 
-- [x] css-color-4.md#hex-notation: a hex color is "#" followed by exactly 3, 4, 6 or 8 hex digits; any other digit count is invalid. [color-functions#hex-3-4 color-functions#hex-6-8 color-functions#hex-invalid]
+- [x] css-color-4.md#hex-notation: a hex color is "#" followed by exactly 3, 4, 6 or 8 hex digits; any other digit count is invalid. Six digits without the leading "#" are not a hex color. [color-functions#hex-3-4 color-functions#hex-6-8 color-functions#hex-invalid background-color-invalid-hashless#hashless]
 - [x] css-color-4.md#hex-notation: 6 digits give RRGGBB with alpha fully opaque; 8 digits add AA as alpha (00 transparent, ff opaque). [color-functions#hex-6-8]
 - [x] css-color-4.md#hex-notation: 3 digits give RGB, each digit duplicated to form the 6-digit value (#123 = #112233); 4 digits add A, duplicated the same way. [color-functions#hex-3-4]
 - [x] css-color-4.md#hex-notation: hex digits are case-insensitive. [color-functions#hex-case]
