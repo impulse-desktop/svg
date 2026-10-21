@@ -1167,7 +1167,8 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(ShapeRendering, "shape-rendering")                        \
     ATOM(ImageRendering, "image-rendering")                        \
     ATOM(Zoom, "zoom")                                             \
-    ATOM(Outline, "outline")
+    ATOM(Outline, "outline")                                         \
+    ATOM(BorderRadius, "border-radius")
 
 namespace {
     enum Atom : u32 {
@@ -1186,7 +1187,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomOutline - AtomFill + 1;
+    constexpr u32 propertyCount = AtomBorderRadius - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.025f;
@@ -1890,6 +1891,8 @@ namespace {
         BasicShape* clipShape;
         // The clip property's rect(), as the four sides of a rect().
         BasicShape* clipRect;
+        // The non-inherited CSS corners of the outer SVG's image content.
+        Length* borderRadii;
         // The values of mask-image and the other longhands of mask, in
         // their order, none for the initial one; of mask-border's the same.
         u32 maskParts[MaskParts];
@@ -6612,6 +6615,7 @@ namespace {
 
     static bool validGeometry(u32 property, Tokens value);
     static bool validDeclaration(const Document& doc, u32 property, Tokens value);
+    static bool cssRadii(Tokens value, BasicShape& out);
     static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts], u32* color);
     static bool expandMaskBorder(const Document& doc, Tokens value, u32 (&out)[MaskBorderParts]);
 
@@ -8400,6 +8404,11 @@ namespace {
                 return isKeyword(value, SV("none")) || validDashes(value);
             case AtomStrokeWidth:
                 return parseLength(value, length) && nonNegative(length);
+            case AtomBorderRadius: {
+                BasicShape shape;
+
+                return cssRadii(value, shape);
+            }
             case AtomTransformStyle:
                 return isKeyword(value, SV("flat")) || isKeyword(value, SV("preserve-3d"));
             case AtomPerspective:
@@ -8603,7 +8612,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomBorderRadius && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
                 bool pending = valueSubstitutes(doc, value);
 
                 if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
@@ -14136,6 +14145,24 @@ namespace {
         return true;
     }
 
+    // The CSS border-radius shorthand has the same corner expansion as
+    // inset(... round ...), but a nonzero bare number is not a CSS length.
+    static bool cssRadii(Tokens value, BasicShape& out) {
+        const Token* p = value.begin;
+
+        if (!parseRadii(p, value.end, out) || p != value.end) {
+            return false;
+        }
+
+        for (const Length& radius : out.radii) {
+            if (radius.unit == Unit::Number && radius.value != 0.f && !radius.calc) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // Four values, each a length or for rect() auto, then the radii.
     static bool parseSides(const Token*& p, const Token* end, BasicShape& out, bool autos) {
         for (u32 count = 0; count < 4; count++) {
@@ -14712,6 +14739,7 @@ namespace {
         style.clipPath = 0;
         style.clipShape = nullptr;
         style.clipRect = nullptr;
+        style.borderRadii = nullptr;
         style.nonScaling = false;
         style.vectorEffects = 0;
         style.blend = 0;
@@ -14764,7 +14792,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomBorderRadius && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -14804,7 +14832,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomBorderRadius && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -15217,6 +15245,29 @@ namespace {
 
                     style.outlineWidth = solid ? width : 0.f;
                     style.outlineColor = color;
+                    break;
+                }
+                case AtomBorderRadius: {
+                    if (keyword) {
+                        style.borderRadii = source.borderRadii;
+                        break;
+                    }
+
+                    BasicShape shape;
+
+                    if (cssRadii(value, shape)) {
+                        bool rounded = false;
+
+                        for (const Length& radius : shape.radii) {
+                            rounded = rounded || radius.value != 0.f || radius.calc;
+                        }
+
+                        if (rounded) {
+                            style.borderRadii = (Length*)l.pool->allocate(sizeof(shape.radii));
+                            memcpy(style.borderRadii, shape.radii, sizeof(shape.radii));
+                        }
+                    }
+
                     break;
                 }
                 case AtomZoom:
@@ -28018,7 +28069,28 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.host = identity();
         // The viewport units are of the document's size, which a drawing at
         // another scale stretches (D10).
-        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, l.docWidth, l.docHeight, 16.f});
+        Viewport viewport{(float)width, (float)height, l.docWidth, l.docHeight, 16.f};
+        ComputedStyle root = computeStyle(l, doc.root, initialStyle(), viewport);
+        bool rounded = root.borderRadii != nullptr;
+        u32 clipIndex = (u32)l.ops.length();
+
+        if (rounded) {
+            Path path;
+            Op op = groupOp(1.f);
+
+            roundedRectPath(path, 0.f, 0.f, (float)width, (float)height, root.borderRadii, (float)width, (float)height, viewport, root.fontSize);
+            op.clipped = true;
+            op.clipFirst = (u32)l.clips.length();
+            addClipShape(l, path, identity(), WindingNonZero);
+            op.clipCount = 1;
+            l.ops.pushBack(op);
+        }
+
+        lowerElement(l, doc.root, initialStyle(), identity(), viewport);
+
+        if (rounded) {
+            endGroup(l, clipIndex);
+        }
 
         Raster raster;
 

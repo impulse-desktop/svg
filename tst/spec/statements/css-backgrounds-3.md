@@ -1,5 +1,10 @@
 # CSS Backgrounds and Borders Module Level 3, layer grammars borrowed by mask-*
 
+## The rounded content edge of an SVG image: root-border-radius-percent.64x48, root-border-radius-pixels.64x64, root-border-radius-invalid.32x32
+
+- [x] css-backgrounds-3.md#border-radius: the shorthand expands one to four horizontal corner radii and, after a slash, one to four vertical radii; percentages use the rendered box's width and height, while lengths stay in output CSS pixels; negative radii invalidate the declaration. [root-border-radius-percent.64x48#elliptical-corners root-border-radius-pixels.64x64#output-pixel-radius root-border-radius-invalid.32x32#invalid-radius]
+- [x] css-backgrounds-3.md#corner-clipping: the root SVG's image content clips to the curved content edge, even when the viewport is larger than the SVG's intrinsic size. [root-border-radius-percent.64x48#elliptical-corners root-border-radius-pixels.64x64#output-pixel-radius]
+
 ## background-repeat grammar: mask-tiling, mask-layers (exists)
 
 - [x] css-backgrounds-3.md#background-repeat: <repeat-style> = repeat-x | repeat-y | [repeat | space | round | no-repeat]{1,2}; a comma-separated list, one per layer; initial value repeat. [mask-tiling#repeat mask-tiling#two-keywords]

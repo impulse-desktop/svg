@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+<!-- A CSS px radius remains eight output pixels when this SVG is rendered
+     at 64 pixels, not 32 pixels scaled from its intrinsic 16-pixel size. -->
+<style>svg { --corner: 8px; border-radius: var(--corner) }</style>
+<rect width="16" height="16" fill="orange"/>
+</svg>
