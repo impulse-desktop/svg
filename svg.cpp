@@ -13240,6 +13240,25 @@ namespace {
             if (count >= 2) {
                 if (style.dashCount) {
                     dashPolyline(out, s, points, kinds, into, flat.curveOf.data() + begin, flat.paramOf.data() + begin, flat.curves.data(), count, flat.closed[i], style.dashes, style.dashCount, style.dashOffset, cull);
+                } else if (cull && !flat.closed[i]) {
+                    // A join wholly beyond the raster cannot contribute to
+                    // it. Leave such turns out of the same stroke contour:
+                    // with very distant points, its two sides can otherwise
+                    // collapse onto each other in float precision and fill
+                    // the space between visible, separate legs.
+                    float reach = s.half * maxf(s.miterLimit, 1.f) + s.tol;
+                    size_t from = 0;
+
+                    for (size_t k = 1; k + 1 < count; k++) {
+                        Point p = points[k];
+
+                        if (p.x < cull->x0 - reach || p.x > cull->x1 + reach || p.y < cull->y0 - reach || p.y > cull->y1 + reach) {
+                            strokePolyline(out, s, points + from, kinds + from, into + from, k - from + 1, false);
+                            from = k;
+                        }
+                    }
+
+                    strokePolyline(out, s, points + from, kinds + from, into + from, count - from, false);
                 } else {
                     strokePolyline(out, s, points, kinds, into, count, flat.closed[i]);
                 }
