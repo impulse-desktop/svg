@@ -54,7 +54,7 @@
 
 ## Style scoping inside the use shadow tree: use-shadow-styles
 
-- [x] svg2/struct.md#UseStyleInheritance: elements in the use shadow tree inherit from the host use element; outer-document style rules do not match shadow-tree elements directly, only the shadow tree's own cloned stylesheets are matched against them. [use-shadow-styles#inherit-from-use use-shadow-styles#clone-rules]
+- [x] svg2/struct.md#UseStyleInheritance: elements in the use shadow tree inherit from the host use element; outer-document style rules do not match shadow-tree elements directly, only the shadow tree's own cloned stylesheets are matched against them. [use-shadow-styles#inherit-from-use use-shadow-styles#clone-rules use-geometry-inherit-shadow#first-host use-geometry-inherit-shadow#second-host]
 - [x] svg2/struct.md#UseStyleInheritance: presentation attributes and the style attribute are cloned onto each element instance like any other attribute. [use-shadow-styles#clone-rules use-shadow-styles#inherit-from-use]
 - [x] svg2/struct.md#UseStyleInheritance: a complex selector that matched an original element via its ancestors or siblings will not match the corresponding element instance when those ancestors/siblings were not themselves cloned into the shadow tree. [use-shadow-styles#not-ancestors use-shadow-styles#not-siblings]
 - [x] svg2/struct.md#UseStyleInheritance: visibility:hidden on a use element does not guarantee the referenced content is hidden, since visibility does not apply directly to container elements; an explicit visibility:visible on a shadow-tree descendant still renders that descendant. [use-shadow-styles#visibility]

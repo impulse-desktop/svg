@@ -1408,6 +1408,9 @@ namespace {
         u32* classes;
         u32 classCount;
         bool classesReady;
+        // Shape geometry declarations explicitly using the CSS inherit
+        // keyword. A use instance resolves them against its shadow parent.
+        u32 inheritedShapeGeometry;
         // Whether a child element or text, white space too, is in it.
         bool filled;
     };
@@ -8462,6 +8465,21 @@ namespace {
         }
     }
 
+    static u32 shapeGeometryBit(u32 property) {
+        switch (property) {
+            case AtomX: return 1u << 0;
+            case AtomY: return 1u << 1;
+            case AtomWidth: return 1u << 2;
+            case AtomHeight: return 1u << 3;
+            case AtomCx: return 1u << 4;
+            case AtomCy: return 1u << 5;
+            case AtomR: return 1u << 6;
+            case AtomRx: return 1u << 7;
+            case AtomRy: return 1u << 8;
+            default: return 0;
+        }
+    }
+
     // A geometry property's initial value.
     static StringView geometryInitial(u32 property) {
         static const struct {
@@ -8651,6 +8669,10 @@ namespace {
             // initial and unset, as no geometry property inherits, the
             // initial one.
             CssKeyword keyword = value ? valueKeyword(doc, value) : CssNone;
+
+            if (!boundary && keyword == CssInherit) {
+                node->inheritedShapeGeometry |= shapeGeometryBit(declaration.property);
+            }
 
             if (keyword == CssInherit && declaration.property != AtomD) {
                 value = inheritedGeometry(doc, node->parent, declaration.property);
@@ -9772,21 +9794,6 @@ namespace {
         float value;
 
         return lengthAttribute(doc, node, name, axis, vp, fontSize, value) ? value : fallback;
-    }
-
-    // A length attribute in a non-negative range, a math function clamped
-    // into it.
-    static bool nonNegativeAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
-        u32 value = attribute(node, name);
-        Length length;
-
-        if (!value || !attributeLength(doc, value, length) || !nonNegative(length)) {
-            return false;
-        }
-
-        out = resolveLength(length, axis, vp, fontSize);
-
-        return true;
     }
 
     // A refX or refY: a length, or a keyword for 0%, 50% or 100% of the
@@ -11615,6 +11622,83 @@ namespace {
         closePath(path);
     }
 
+    // A geometry declaration of inherit is resolved against the source's
+    // parent for the original element, but against the use host (or its
+    // cloned parent) when the element is instanced. Keep the source's
+    // ordinary resolved attribute and substitute only in that instance.
+    static u32 shapeGeometryValue(const Pass& l, const Node* node, u32 property, u32 depth = 0) {
+        u32 original = attribute(node, property);
+        u32 bit = shapeGeometryBit(property);
+
+        if (!(node->inheritedShapeGeometry & bit)) {
+            return original;
+        }
+
+        bool instanced = false;
+
+        for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
+            for (const Node* up = node; up; up = up->parent) {
+                if (up == l.hosts[k - 2]) {
+                    instanced = true;
+                    break;
+                }
+            }
+
+            if (instanced) {
+                break;
+            }
+        }
+
+        Document& doc = *l.doc;
+
+        if (!instanced || depth >= 64) {
+            u32 value = inheritedGeometry(doc, node, property);
+
+            return value ? geometryAtom(doc, property, value) : 0;
+        }
+
+        const Node* parent = node->parent;
+
+        for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
+            if (l.hosts[k - 2] == node) {
+                parent = l.hosts[k - 1];
+                break;
+            }
+        }
+
+        if (!parent) {
+            return 0;
+        }
+
+        if (parent->inheritedShapeGeometry & bit) {
+            return shapeGeometryValue(l, parent, property, depth + 1);
+        }
+
+        u32 value = inheritedGeometry(doc, parent, property);
+
+        return value ? geometryAtom(doc, property, value) : 0;
+    }
+
+    static float shapeLengthOr(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float fallback) {
+        u32 value = shapeGeometryValue(l, node, property);
+        Length length;
+
+        return value && attributeLength(*l.doc, value, length) ? resolveLength(length, axis, vp, fontSize) : fallback;
+    }
+
+    static bool shapeNonNegative(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float& out) {
+        u32 value = shapeGeometryValue(l, node, property);
+        Length length;
+
+        if (!value || !attributeLength(*l.doc, value, length) || !nonNegative(length)) {
+            return false;
+        }
+
+        out = resolveLength(length, axis, vp, fontSize);
+
+        return true;
+    }
+
     static bool buildShape(const Pass& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
         const Document& doc = *l.doc;
         float fs = style.fontSize;
@@ -11643,14 +11727,14 @@ namespace {
                 }
             } break;
             case AtomRect: {
-                float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
-                float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
-                float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
-                float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+                float x = shapeLengthOr(l, node, AtomX, Axis::X, vp, fs, 0.f);
+                float y = shapeLengthOr(l, node, AtomY, Axis::Y, vp, fs, 0.f);
+                float w = shapeLengthOr(l, node, AtomWidth, Axis::X, vp, fs, 0.f);
+                float h = shapeLengthOr(l, node, AtomHeight, Axis::Y, vp, fs, 0.f);
                 float rx;
                 float ry;
-                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
-                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
+                bool hasRx = shapeNonNegative(l, node, AtomRx, Axis::X, vp, fs, rx);
+                bool hasRy = shapeNonNegative(l, node, AtomRy, Axis::Y, vp, fs, ry);
 
                 if (w <= 0.f || h <= 0.f) {
                     return false;
@@ -11691,20 +11775,20 @@ namespace {
                 break;
             }
             case AtomCircle: {
-                float r = lengthOr(doc, node, AtomR, Axis::Other, vp, fs, 0.f);
+                float r = shapeLengthOr(l, node, AtomR, Axis::Other, vp, fs, 0.f);
 
                 if (r <= 0.f) {
                     return false;
                 }
 
-                ellipsePath(path, lengthOr(doc, node, AtomCx, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomCy, Axis::Y, vp, fs, 0.f), r, r);
+                ellipsePath(path, shapeLengthOr(l, node, AtomCx, Axis::X, vp, fs, 0.f), shapeLengthOr(l, node, AtomCy, Axis::Y, vp, fs, 0.f), r, r);
                 break;
             }
             case AtomEllipse: {
                 float rx;
                 float ry;
-                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
-                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
+                bool hasRx = shapeNonNegative(l, node, AtomRx, Axis::X, vp, fs, rx);
+                bool hasRy = shapeNonNegative(l, node, AtomRy, Axis::Y, vp, fs, ry);
 
                 if (!hasRx) {
                     rx = hasRy ? ry : 0.f;
@@ -11718,7 +11802,7 @@ namespace {
                     return false;
                 }
 
-                ellipsePath(path, lengthOr(doc, node, AtomCx, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomCy, Axis::Y, vp, fs, 0.f), rx, ry);
+                ellipsePath(path, shapeLengthOr(l, node, AtomCx, Axis::X, vp, fs, 0.f), shapeLengthOr(l, node, AtomCy, Axis::Y, vp, fs, 0.f), rx, ry);
                 break;
             }
             case AtomLine:
@@ -16925,6 +17009,8 @@ namespace {
             }
 
             p.active.pushBack(target);
+            p.hosts.pushBack(target);
+            p.hosts.pushBack(node);
 
             if (target->name == AtomSymbol || target->name == AtomSvg) {
                 // The use sizes the viewport it instances.
@@ -16944,6 +17030,8 @@ namespace {
                 childExtent(p, target, m, style, vp, how, depth, box);
             }
 
+            p.hosts.popBack();
+            p.hosts.popBack();
             p.active.popBack();
 
             return;
