@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="18">
+<!-- A one-point polyline is equivalent to a path with one moveto. Its
+vertex receives start or end markers, but is never a mid vertex. -->
+<defs>
+  <marker id="m" markerUnits="userSpaceOnUse" markerWidth="4" markerHeight="4" refX="2" refY="2">
+    <rect width="4" height="4" fill="lime"/>
+  </marker>
+</defs>
+<g fill="red">
+  <rect x="2" y="2" width="4" height="4"/>
+  <rect x="10" y="2" width="4" height="4"/>
+  <rect x="18" y="2" width="4" height="4"/>
+  <rect x="2" y="10" width="4" height="4"/>
+  <rect x="10" y="10" width="4" height="4"/>
+</g>
+<g fill="none" stroke="none">
+  <polyline points="4,4" marker-start="url(#m)"/>
+  <polyline points="12,4" marker-end="url(#m)"/>
+  <polyline points="20,4" marker-mid="url(#m)"/>
+  <polyline points="4,12 12,12" marker-start="url(#m)" marker-end="url(#m)"/>
+</g>
+</svg>
