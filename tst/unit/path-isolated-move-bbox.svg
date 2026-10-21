@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="128">
+<!-- A moveto-only subpath contributes no geometric shape to
+objectBoundingBox effects. A zero-length line segment does contribute
+(SVG 2 coords, ObjectBoundingBox). -->
+<rect width="192" height="128" fill="white"/>
+<defs>
+  <mask id="region"><rect width="192" height="128" fill="white"/></mask>
+  <linearGradient id="object" x1="0" y1="0" x2="0" y2="1">
+    <stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/>
+  </linearGradient>
+</defs>
+<path d="M10 50 M10 10 L50 10 L50 30" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+<path d="M74 10 L114 10 L114 30 M74 50" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+<path d="M138 50 L138 50 M138 10 L178 10 L178 30" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+<path d="M10 114 M10 74 L50 74 L50 94 Z" fill="url(#object)"/>
+</svg>

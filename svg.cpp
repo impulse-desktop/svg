@@ -12297,20 +12297,33 @@ namespace {
         size_t pi = 0;
         Point start{0.f, 0.f};
         Point last{0.f, 0.f};
+        Point move{0.f, 0.f};
+        bool pendingMove = false;
 
         for (u8 verb : path.verbs) {
             switch (verb) {
                 case VerbMove:
                     start = apply(m, pts[pi++]);
                     last = start;
-                    extend(box, last);
+                    move = start;
+                    pendingMove = true;
                     break;
                 case VerbLine:
+                    if (pendingMove) {
+                        extend(box, move);
+                        pendingMove = false;
+                    }
+
                     last = apply(m, pts[pi++]);
                     extend(box, last);
                     break;
                 case VerbCubic:
                 case VerbArcCubic: {
+                    if (pendingMove) {
+                        extend(box, move);
+                        pendingMove = false;
+                    }
+
                     Point p1 = apply(m, pts[pi]);
                     Point p2 = apply(m, pts[pi + 1]);
                     Point p3 = apply(m, pts[pi + 2]);
@@ -12324,9 +12337,20 @@ namespace {
                 }
                 default:
                     // VerbClose
+                    if (pendingMove) {
+                        extend(box, move);
+                        pendingMove = false;
+                    }
+
                     last = start;
                     break;
             }
+        }
+
+        // A moveto-only subpath has no geometry beside a drawable subpath.
+        // For a path made only of moves, its last point is its zero-size box.
+        if (!boxValid(box) && pendingMove) {
+            extend(box, move);
         }
 
         return box;
