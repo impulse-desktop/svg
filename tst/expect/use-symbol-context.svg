@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="208">
+<!-- What tst/unit/use-symbol-context.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="208" fill="white"/>
+<defs><clipPath id="left"><rect x="-2" y="-2" width="10" height="12"/></clipPath><clipPath id="right"><rect x="8" y="-2" width="10" height="12"/></clipPath></defs>
+<g id="gradient" data-box="0 0 64 16"><g transform="translate(4 4)"><rect x="0" y="0" width="8.0" height="8" fill="lime"/><rect x="8.0" y="0" width="8.0" height="8" fill="blue"/></g></g>
+<g id="pattern" data-box="0 16 64 16"><g transform="translate(4 20)"><rect x="0" y="0" width="4" height="8" fill="lime"/><rect x="4" y="0" width="4" height="8" fill="blue"/><rect x="8" y="0" width="4" height="8" fill="lime"/><rect x="12" y="0" width="4" height="8" fill="blue"/></g></g>
+<g id="stroke" data-box="0 32 64 16"><g transform="translate(4 36)"><path d="M 0,0 H 16 V 8 H 0 Z" fill="none" stroke="lime" stroke-width="2" clip-path="url(#left)"/><path d="M 0,0 H 16 V 8 H 0 Z" fill="none" stroke="blue" stroke-width="2" clip-path="url(#right)"/></g></g>
+<g id="whole-instance" data-box="0 48 64 16"><g transform="translate(4 52)"><rect x="0" y="0" width="4" height="8" fill="lime"/><rect x="20" y="0" width="4" height="8" fill="lime"/></g></g>
+<g id="viewbox" data-box="0 64 64 16"><g transform="translate(4 68)"><rect x="12" y="0" width="4" height="8" fill="lime"/><rect x="32" y="0" width="4" height="8" fill="lime"/></g></g>
+<g id="sized-percent" data-box="0 80 64 16"><g transform="translate(4 84)"><rect x="0" y="0" width="8.0" height="8" fill="lime"/><rect x="8.0" y="0" width="8.0" height="8" fill="blue"/></g></g>
+<g id="default-size" data-box="0 96 64 16"><g transform="translate(4 100)"><rect x="0" y="0" width="10.0" height="10" fill="lime"/><rect x="10.0" y="0" width="10.0" height="10" fill="blue"/></g></g>
+<g id="reference-point" data-box="0 112 64 16"><g transform="translate(4 116)"><rect x="0" y="0" width="8.0" height="8" fill="lime"/><rect x="8.0" y="0" width="8.0" height="8" fill="blue"/></g></g>
+<g id="target-transform" data-box="0 128 64 16"><g transform="translate(4 132)"><rect x="2" y="0" width="8.0" height="8" fill="lime"/><rect x="10.0" y="0" width="8.0" height="8" fill="blue"/></g></g>
+<g id="nested-sizes" data-box="0 144 64 16"><g transform="translate(4 148)"><rect x="0" y="0" width="4.0" height="8" fill="lime"/><rect x="4.0" y="0" width="4.0" height="8" fill="blue"/><rect x="16" y="0" width="16" height="8" fill="blue"/></g></g>
+<g id="svg-size" data-box="0 160 64 16"><g transform="translate(4 164)"><rect x="0" y="0" width="8.0" height="8" fill="lime"/><rect x="8.0" y="0" width="8.0" height="8" fill="blue"/></g></g>
+<g id="missing-server" data-box="0 176 64 16"><g transform="translate(4 180)"><rect x="0" y="0" width="16" height="8" fill="lime"/></g></g>
+<g id="svg-default-size" data-box="0 192 64 16"><g transform="translate(4 196)"><rect x="0" y="0" width="10.0" height="10" fill="lime"/><rect x="10.0" y="0" width="10.0" height="10" fill="blue"/></g></g>
+</svg>

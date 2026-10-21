@@ -4,16 +4,16 @@
 
 - [x] svg2/painting.md#DataTypePaint: <paint> = none | <color> | <url> [none | <color>]? | context-fill | context-stroke [paint-fallback#resolves paint-fallback#missing-fallback paint-current-color#fill paint-context#marker-fill]
 - [x] svg2/painting.md#DataTypePaint: the <url> references a paint server element (linearGradient, pattern, radialGradient), optionally followed by a fallback <color> or none [paint-fallback#resolves paint-fallback#missing-fallback]
-- [x] svg2/painting.md#DataTypePaint: the fallback is used only if the paint server reference cannot be resolved (points to a nonexistent element or one that is not a valid paint server) [paint-fallback#resolves paint-fallback#not-server]
+- [x] svg2/painting.md#DataTypePaint: the fallback is used only if the paint server reference cannot be resolved (points to a nonexistent element or one that is not a valid paint server) [paint-fallback#resolves paint-fallback#not-server use-symbol-context#missing-server]
 - [x] svg2/painting.md#DataTypePaint: if a paint server reference is invalid and no fallback is given, no paint is rendered for that layer [paint-fallback#no-fallback]
 - [x] svg2/painting.md#DataTypePaint: for any <color>, CSS Color Module 3 syntaxes (rgb(), rgba(), hsl(), hsla(), extended keywords, currentColor) must be supported [color-functions#rgb-forms color-functions#legacy color-functions#hsl-forms color-functions#named color-keywords#currentcolor]
 
-## Context element paint: paint-context
+## Context element paint: paint-context, use-symbol-context
 
 - [x] svg2/painting.md#context-paint: context-fill and context-stroke reference the fill/stroke paint layers generated for the context element [paint-context#marker-stroke paint-context#marker-fill]
 - [x] svg2/painting.md#context-paint: the context element is the element referencing a marker (when painting inside that marker) or the use element (when inside a use shadow tree); otherwise there is no context element [paint-context#marker-fill paint-context#use-fill]
 - [x] svg2/painting.md#context-paint: if there is no context element and context-fill/context-stroke are used, no paint is applied for that layer [paint-context#no-context]
-- [x] svg2/painting.md#context-paint: the coordinate space and bounding box used for context paint servers are those of the context element, so gradients/patterns stay continuous from shape to marker or across the use shadow tree [paint-context#marker-server-box paint-context#use-server-box paint-context#use-box-measured]
+- [x] svg2/painting.md#context-paint: the coordinate space and bounding box used for context paint servers are those of the context element, so gradients/patterns stay continuous from shape to marker or across the use shadow tree [paint-context#marker-server-box paint-context#use-server-box paint-context#use-box-measured use-symbol-context#gradient use-symbol-context#pattern use-symbol-context#stroke use-symbol-context#whole-instance use-symbol-context#viewbox use-symbol-context#sized-percent use-symbol-context#default-size use-symbol-context#reference-point use-symbol-context#target-transform use-symbol-context#nested-sizes use-symbol-context#svg-size use-symbol-context#svg-default-size]
 - [x] svg2/painting.md#context-paint: context-fill/context-stroke references are resolved recursively if the context element's own fill/stroke is itself context-fill/context-stroke [paint-context#use-recursive]
 
 ## color property currentColor: paint-current-color

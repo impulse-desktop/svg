@@ -2258,13 +2258,15 @@ namespace {
         bool extends;
         // The space and the box context paints refer to: given, or, while
         // contextTarget is set, the box of the element a use instances, which
-        // is measured, in the use's style and viewport, when a context paint
-        // first asks for it.
+        // is measured, in the use's style, viewport and instance size, when
+        // a context paint first asks for it.
         Matrix contextMatrix;
         Box contextBox;
         Node* contextTarget;
         const ComputedStyle* contextStyle;
         Viewport contextViewport;
+        float contextWidth;
+        float contextHeight;
         // How deep in patterns' content the lowering is: that content is
         // drawn again for each piece of a tile.
         u32 patternDepth;
@@ -16385,7 +16387,10 @@ namespace {
         }
 
         if (node->name == AtomSvg && node != doc.root) {
-            viewportExtent(p, node, style, m, vp, lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f), lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, vp.width), lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, vp.height), vp.width <= 0.f && !givenSide(doc, node, AtomWidth), vp.height <= 0.f && !givenSide(doc, node, AtomHeight), how, depth, box);
+            float w = p.sized == node && p.sizedWidth >= 0.f ? p.sizedWidth : lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, vp.width);
+            float h = p.sized == node && p.sizedHeight >= 0.f ? p.sizedHeight : lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, vp.height);
+
+            viewportExtent(p, node, style, m, vp, lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f), w, h, vp.width <= 0.f && !givenSide(doc, node, AtomWidth), vp.height <= 0.f && !givenSide(doc, node, AtomHeight), how, depth, box);
 
             return;
         }
@@ -18305,11 +18310,24 @@ namespace {
         Box box;
 
         if (target) {
+            Node* sized = l.sized;
+            float width = l.sizedWidth;
+            float height = l.sizedHeight;
+
             l.contextTarget = nullptr;
+            // Drawing has entered the viewport already. Measure the same
+            // instance, including the size its use gives it.
+            l.sized = target;
+            l.sizedWidth = l.contextWidth;
+            l.sizedHeight = l.contextHeight;
 
             if (elementBox(l, target, *l.contextStyle, l.contextViewport, box, 0)) {
                 l.contextBox = deviceBox(boxTransform(l, target, *l.contextStyle, l.contextViewport), box);
             }
+
+            l.sized = sized;
+            l.sizedWidth = width;
+            l.sizedHeight = height;
         }
 
         return l.contextBox;
@@ -19227,6 +19245,8 @@ namespace {
         Node* outerTarget = l.contextTarget;
         const ComputedStyle* outerStyle = l.contextStyle;
         Viewport outerViewport = l.contextViewport;
+        float outerWidth = l.contextWidth;
+        float outerHeight = l.contextHeight;
         u32** outerInstance = l.instance;
 
         if (l.doc->structural || l.doc->variables) {
@@ -19241,26 +19261,22 @@ namespace {
         l.contextTarget = target;
         l.contextStyle = &style;
         l.contextViewport = vp;
+        l.contextWidth = -1.f;
+        l.contextHeight = -1.f;
         l.active.pushBack(target);
         l.hosts.pushBack(target);
         l.hosts.pushBack(node);
 
-        if (target->name == AtomSymbol) {
+        if (target->name == AtomSymbol || target->name == AtomSvg) {
             l.sized = target;
             l.sizedWidth = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, -1.f);
             l.sizedHeight = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, -1.f);
-            lowerElement(l, target, style, placed, vp);
-            l.sized = nullptr;
-        } else {
-            if (target->name == AtomSvg) {
-                l.sized = target;
-                l.sizedWidth = lengthOr(*l.doc, node, AtomWidth, Axis::X, vp, fs, -1.f);
-                l.sizedHeight = lengthOr(*l.doc, node, AtomHeight, Axis::Y, vp, fs, -1.f);
-            }
-
-            lowerElement(l, target, style, placed, vp);
-            l.sized = nullptr;
+            l.contextWidth = l.sizedWidth;
+            l.contextHeight = l.sizedHeight;
         }
+
+        lowerElement(l, target, style, placed, vp);
+        l.sized = nullptr;
 
         l.hosts.popBack();
         l.hosts.popBack();
@@ -19273,6 +19289,8 @@ namespace {
         l.contextTarget = outerTarget;
         l.contextStyle = outerStyle;
         l.contextViewport = outerViewport;
+        l.contextWidth = outerWidth;
+        l.contextHeight = outerHeight;
         l.instance = outerInstance;
     }
 
@@ -27328,6 +27346,10 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.contextMatrix = identity();
         l.contextBox = emptyBox();
         l.contextTarget = nullptr;
+        l.contextStyle = nullptr;
+        l.contextViewport = Viewport{};
+        l.contextWidth = -1.f;
+        l.contextHeight = -1.f;
         l.screen = identity();
         l.host = identity();
         // The viewport units are of the document's size, which a drawing at

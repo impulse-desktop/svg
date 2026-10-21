@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="208">
+<!-- Context paint servers use the geometry of the whole symbol
+instance, with its viewport size, viewBox, reference point and
+transforms. Measuring one instance leaves the size and context of the
+next intact. -->
+<rect width="64" height="208" fill="white"/>
+<defs>
+<linearGradient id="half"><stop offset=".5" stop-color="lime"/><stop offset=".5" stop-color="blue"/></linearGradient>
+<linearGradient id="ends"><stop offset=".2" stop-color="lime"/><stop offset=".2" stop-color="red"/><stop offset=".8" stop-color="red"/><stop offset=".8" stop-color="lime"/></linearGradient>
+<pattern id="tiles" width=".5" height="1" patternContentUnits="objectBoundingBox"><rect width=".25" height="1" fill="lime"/><rect x=".25" width=".25" height="1" fill="blue"/></pattern>
+<symbol id="plain"><rect width="16" height="8" fill="context-fill"/></symbol>
+<symbol id="stroke" overflow="visible"><path d="M 0,0 H 16 V 8 H 0 Z" fill="none" stroke="context-stroke" stroke-width="2"/></symbol>
+<symbol id="two"><rect width="4" height="8" fill="context-fill"/><rect x="20" width="4" height="8" fill="context-fill"/></symbol>
+<symbol id="view" viewBox="10 20 24 8"><rect x="10" y="20" width="4" height="8" fill="context-fill"/><rect x="30" y="20" width="4" height="8" fill="context-fill"/></symbol>
+<symbol id="percent" width="40" height="20"><rect width="100%" height="100%" fill="context-fill"/></symbol>
+<symbol id="ref" viewBox="0 0 16 8" refX="8" refY="4" overflow="visible"><rect width="16" height="8" fill="context-fill"/></symbol>
+<symbol id="transformed" transform="translate(4 0) scale(2)" overflow="visible"><rect width="16" height="8" fill="context-fill"/></symbol>
+<symbol id="nested"><use href="#percent" width="8" height="8" fill="url(#half) red"/><rect x="16" width="16" height="8" fill="context-fill"/></symbol>
+<svg id="svg" width="40" height="20" viewBox="0 0 16 8"><rect width="16" height="8" fill="context-fill"/></svg>
+</defs>
+<defs><clipPath id="left"><rect x="-2" y="-2" width="10" height="12"/></clipPath><clipPath id="right"><rect x="8" y="-2" width="10" height="12"/></clipPath></defs>
+<g transform="translate(4 4)"><use href="#plain" fill="url(#half) red"/></g>
+<g transform="translate(4 20)"><use href="#plain" fill="url(#tiles) red"/></g>
+<g transform="translate(4 36)"><use href="#stroke" stroke="url(#half) red"/></g>
+<g transform="translate(4 52)"><use href="#two" fill="url(#ends) red"/></g>
+<g transform="translate(4 68)"><use href="#view" width="48" height="8" fill="url(#ends) red"/></g>
+<g transform="translate(4 84)"><use href="#percent" width="16" height="8" fill="url(#half) red"/></g>
+<g transform="translate(4 100)"><use href="#percent" fill="url(#half) red" transform="scale(.5)"/></g>
+<g transform="translate(4 116)"><use href="#ref" x="8" y="4" width="16" height="8" fill="url(#half) red"/></g>
+<g transform="translate(4 132)"><use href="#transformed" fill="url(#half) red" transform="scale(.5)"/></g>
+<g transform="translate(4 148)"><use href="#nested" fill="url(#half) red"/></g>
+<g transform="translate(4 164)"><use href="#svg" width="16" height="8" fill="url(#half) red"/></g>
+<g transform="translate(4 180)"><use href="#plain" fill="url(#missing) lime"/></g>
+<g transform="translate(4 196)"><use href="#svg" fill="url(#half) red" transform="scale(.5)"/></g>
+</svg>
