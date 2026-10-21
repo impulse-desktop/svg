@@ -12555,16 +12555,53 @@ namespace {
         Vector<Point> pts;
         Vector<u8> kind;
         Vector<Point> came;
+        Vector<u8> collapsedCorner;
 
         // Each point after the first comes along the direction of its
         // segment, which may be shorter than the floats can tell; one come
         // along none, a line's after no length, goes, the corner before it
-        // standing for it.
+        // standing for it. At an internal corner, float-identical points
+        // from short adjacent curves have no edges to offset; merge the run
+        // into its one corner. Keep points at a cap, whose curve tangent
+        // still determines its shape even when its last chord rounds away.
         for (size_t i = 0; i < count; i++) {
+            if (pts.length() > 1 && points[i].x == pts.back().x && points[i].y == pts.back().y) {
+                size_t end = i;
+                bool corner = false;
+
+                while (end < count && points[end].x == pts.back().x && points[end].y == pts.back().y) {
+                    corner = corner || (kinds[end] == PointCorner && end + 1 < count);
+                    end++;
+                }
+
+                if (corner && end < count) {
+                    kind.mutBack() = PointCorner;
+                    collapsedCorner.mutBack() = 1;
+                    i = end - 1;
+                    continue;
+                }
+
+                // Keep a run without an internal join as it was: the
+                // samples at either cap still set its tangent. Process the
+                // whole run here so repeated points take linear time.
+                for (size_t j = i; j < end; j++) {
+                    if (into[j].x != 0.f || into[j].y != 0.f) {
+                        pts.pushBack(points[j]);
+                        kind.pushBack(kinds[j]);
+                        came.pushBack(into[j]);
+                        collapsedCorner.pushBack(0);
+                    }
+                }
+
+                i = end - 1;
+                continue;
+            }
+
             if (pts.length() == 0 || into[i].x != 0.f || into[i].y != 0.f) {
                 pts.pushBack(points[i]);
                 kind.pushBack(kinds[i]);
                 came.pushBack(into[i]);
+                collapsedCorner.pushBack(0);
             }
         }
 
@@ -12577,6 +12614,7 @@ namespace {
             pts.popBack();
             kind.popBack();
             closing = came.popBack();
+            collapsedCorner.popBack();
         }
 
         // A run of two or more points at one place: its caps make a dot, a
@@ -12733,6 +12771,33 @@ namespace {
             Point p = pts[k];
             Point d0 = dirs[in];
             Point d1 = dirs[next];
+
+            if (collapsedCorner[k] && kind[k] == PointCorner) {
+                float min2 = s.tol * s.tol;
+
+                for (size_t j = k; j > 0; j--) {
+                    Point v = direction(pts[j - 1], p);
+                    float len2 = v.x * v.x + v.y * v.y;
+
+                    if (len2 >= min2) {
+                        float inv = 1.f / sqrtf(len2);
+                        d0 = Point{v.x * inv, v.y * inv};
+                        break;
+                    }
+                }
+
+                for (size_t j = k + 1; j < n; j++) {
+                    Point v = direction(p, pts[j]);
+                    float len2 = v.x * v.x + v.y * v.y;
+
+                    if (len2 >= min2) {
+                        float inv = 1.f / sqrtf(len2);
+                        d1 = Point{v.x * inv, v.y * inv};
+                        break;
+                    }
+                }
+            }
+
             float cross = d0.x * d1.y - d0.y * d1.x;
             float dot = d0.x * d1.x + d0.y * d1.y;
             // The right side is outer where the turn is to the left.
