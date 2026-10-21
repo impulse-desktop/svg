@@ -12702,7 +12702,7 @@ namespace {
                     addArcPoints(sides[outer], p, s.half, from, sweep, s.tol);
                 }
             } else if (kind[k] == PointCusp && dot < -0.99f) {
-                // A cubic's internal reversal is smooth on both sides of
+                // A Bezier's internal reversal is smooth on both sides of
                 // its stationary point. Its normals sweep around the tip;
                 // an explicit line corner with the same legs stays flat.
                 sweep = normalSweep(Point{-d0.y * side, d0.x * side}, Point{-d1.y * side, d1.x * side}, d0, d1, from);

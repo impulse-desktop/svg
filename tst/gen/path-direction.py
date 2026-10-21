@@ -9,8 +9,8 @@ unit = Unit("path-direction", 64, 20, """Each lime stroke fills its black
 outline, the shape the direction of the path gives it. A dash starting at a
 segment boundary goes along the segment starting there, past a zero length
 one; a dash ending inside a curve takes its tangent there; a curve along a
-line that turns back on itself ends square at the turn, its two directions
-there opposite.""")
+line that turns back on itself sweeps a round tip at the turn, its two
+directions there opposite.""")
 
 STROKE = '<path d="{}" fill="none" stroke="lime" stroke-width="2" stroke-linecap="square"{}/>'
 
@@ -45,9 +45,10 @@ unit.cell("curve-tangent", (21, 1, 14, 14), STROKE.format(f"M {cx + r} {cy} A {r
           f'<path d="{outline}" fill="lime"/>', f'<path d="{outline}"/>')
 
 # A quadratic along a line from 40 out and back to 46: it turns at t = 4/7,
-# where its speed is none, at 2632/49, and its stroke ends square there.
+# where its speed is none, at 2632/49, and its stroke sweeps a round tip.
 turn = (9 * 40 + 24 * 64 + 16 * 46) / 49
 unit.cell("cusp-fold", (38, 6, 18, 8), '<path d="M 40 10 Q 64 10 46 10" fill="none" stroke="lime" stroke-width="4"/>',
-          '<rect x="40" y="8" width="%.6f" height="4" fill="lime"/>' % (turn - 40), '<rect x="40" y="8" width="%.6f" height="4"/>' % (turn - 40))
+          '<rect x="40" y="8" width="%.6f" height="4" fill="lime"/><circle cx="%.6f" cy="10" r="2" fill="lime"/>' % (turn - 40, turn),
+          '<rect x="40" y="8" width="%.6f" height="4"/><circle cx="%.6f" cy="10" r="2"/>' % (turn - 40, turn), tolerance=4)
 
 unit.write()

@@ -672,14 +672,16 @@ file of the corpus or of 60 000 harvested ones visits is 5.2 per byte, a
 Wikimedia map of uses; the 40-deep chain draws its first square and stops
 in a few hundredths of a second.
 
-## D55. A cubic that turns back inside itself has a round stroke tip
+## D55. A Bézier that turns back inside itself has a round stroke tip
 
 `svg2/painting.md#StrokeShape` describes the ideal swept stroke but gives
 implementations leeway at extremely tight curves. At an internal stationary
-point of a cubic whose tangent reverses, Chromium, resvg and librsvg sweep
+point of a cubic or quadratic whose tangent reverses, Chromium, resvg and librsvg sweep
 the outer offset through a semicircle, even with `stroke-linecap: butt`.
 Real Sketchy-SVG drawings use this for rounded ends on strokes that double
 back, including the horizontal strokes of a chair. The renderer previously
 joined the offset edges directly and made those ends flat. It now adds the
-semicircle at a cubic cusp with nearly opposed tangents. A reversal at an
+semicircle at a Bézier cusp with nearly opposed tangents. A reversal at an
 explicit line corner remains flat, as all three renderers draw it.
+This also corrects the old `path-direction#cusp-fold` oracle, which drew
+a square tip for a reversing quadratic despite Chromium's rounded one.

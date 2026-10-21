@@ -1076,7 +1076,7 @@ tst/new/harvest/hf-svg/sketchy-svgs/91/9194c146cdd34109.svg	unseen			tst/corpus/
 tst/new/harvest/hf-svg/sketchy-svgs/91/91b4c299e851765f.svg	unseen			tst/corpus/sketchy-svgs/91__91b4c299e851765f.svg	23607692c4977d7454ebcde888b01f3bc114068b06a543ed0bd2f067419f72b3		
 tst/new/harvest/hf-svg/sketchy-svgs/91/91d04aadf7d3345c.svg	unseen			tst/corpus/sketchy-svgs/91__91d04aadf7d3345c.svg	56b8419f4e6112cb574ab46f22a2ded5481afc87a37c82a01e03c380fd49a307		
 tst/new/harvest/hf-svg/sketchy-svgs/92/9219b9920ecb6380.svg	unseen			tst/corpus/sketchy-svgs/92__9219b9920ecb6380.svg	748e06a21a7432fa73031730667be77e210e6c979da5117dbe8acde1d9d5e927		
-tst/new/harvest/hf-svg/sketchy-svgs/92/9242e44cdd226e01.svg	unseen			tst/corpus/sketchy-svgs/92__9242e44cdd226e01.svg	d5525f1ffd4d5c9ac38d1ef9f7833bff36fae4ef46d8f4779c5b79031de33add		
+tst/new/harvest/hf-svg/sketchy-svgs/92/9242e44cdd226e01.svg	moved	D49: tiny returning open strokes lost the author-visible holes; now matches Chromium, resvg and librsvg at 256px.	stroke-wider-than-shape#open-path; f51b5ee1	tst/corpus/sketchy-svgs/92__9242e44cdd226e01.svg	d5525f1ffd4d5c9ac38d1ef9f7833bff36fae4ef46d8f4779c5b79031de33add	f51b5ee1	sketchy-competitors
 tst/new/harvest/hf-svg/sketchy-svgs/92/924dc7ca680df2cc.svg	unseen			tst/corpus/sketchy-svgs/92__924dc7ca680df2cc.svg	a43975c09061d3291d09a4420afd0a11ad58f1df7a7ab8200efad0d9ae56dacd		
 tst/new/harvest/hf-svg/sketchy-svgs/92/9257f05d7c5d2262.svg	unseen			tst/corpus/sketchy-svgs/92__9257f05d7c5d2262.svg	5683f6a1ae50a64c4b83616be8f1a8a8a75e6d724ce6de0319789bf704950e03		
 tst/new/harvest/hf-svg/sketchy-svgs/92/926a2d055f152444.svg	unseen			tst/corpus/sketchy-svgs/92__926a2d055f152444.svg	8eec66c08e3eed80b410c15c02d187340340dfed40fed69502cda5416cf14a7d		
@@ -1413,7 +1413,7 @@ tst/new/harvest/hf-svg/sketchy-svgs/cd/cd053a934c82e3cc.svg	unseen			tst/corpus/
 tst/new/harvest/hf-svg/sketchy-svgs/cd/cd5005fd7df5512e.svg	unseen			tst/corpus/sketchy-svgs/cd__cd5005fd7df5512e.svg	7938cedb6a16cafcf04e9ec80bd3706823e77526fe8a399d4fd915194710ac9f		
 tst/new/harvest/hf-svg/sketchy-svgs/cd/cd935731d64f67ca.svg	unseen			tst/corpus/sketchy-svgs/cd__cd935731d64f67ca.svg	111b1757fb26a5a030d5453068066640c7cd421157b3fb394a133383a766bbc1		
 tst/new/harvest/hf-svg/sketchy-svgs/cd/cda4fccd18ef303e.svg	unseen			tst/corpus/sketchy-svgs/cd__cda4fccd18ef303e.svg	32c2f4efbc4796bcd31f3f5bf059f8429efeceea8cdb185b8ce6c539a70b5745		
-tst/new/harvest/hf-svg/sketchy-svgs/cd/cdce506fe54df790.svg	unseen			tst/corpus/sketchy-svgs/cd__cdce506fe54df790.svg	2d45b344a9df06af49f183da1dedc0becd64ae6e75600c3628cb28c9915abc37		
+tst/new/harvest/hf-svg/sketchy-svgs/cd/cdce506fe54df790.svg	moved	D55: internal cubic reversals had flat tips; rounded tips now match Chromium, resvg and librsvg at 256px.	stroke-cubic-cusp#cubic; f51b5ee1	tst/corpus/sketchy-svgs/cd__cdce506fe54df790.svg	2d45b344a9df06af49f183da1dedc0becd64ae6e75600c3628cb28c9915abc37	f51b5ee1	sketchy-chair-competitors
 tst/new/harvest/hf-svg/sketchy-svgs/cd/cdcf88134ecde0c5.svg	unseen			tst/corpus/sketchy-svgs/cd__cdcf88134ecde0c5.svg	ee7113ce214bc102d8729c6f83c4de58dad593e6b961d7798999ffe8f75f26ac		
 tst/new/harvest/hf-svg/sketchy-svgs/cd/cdfa5d2b62dbcf4f.svg	unseen			tst/corpus/sketchy-svgs/cd__cdfa5d2b62dbcf4f.svg	1d018027b641f02d9353f32969ddb20d211be290a611f6d79b9f7ac784fe7e76		
 tst/new/harvest/hf-svg/sketchy-svgs/ce/ce14c30854340668.svg	unseen			tst/corpus/sketchy-svgs/ce__ce14c30854340668.svg	99b45a2e49f918dc9650472aa51f9496caf5efb908f6153994f2a4fe34486aec		
