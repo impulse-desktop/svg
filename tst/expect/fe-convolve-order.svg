@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="96">
+<!-- What tst/unit/fe-convolve-order.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="144" height="96" fill="white"/>
+<g id="missing" data-box="3 3 18 18"><rect x="4" y="4" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="negative-x" data-box="27 3 18 18"><rect x="28" y="4" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="negative-y" data-box="51 3 18 18"><rect x="52" y="4" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="zero" data-box="75 3 18 18"><rect x="76" y="4" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="zero-y" data-box="99 3 18 18"><rect x="100" y="4" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="fraction-below-one" data-box="123 3 18 18"><rect x="124" y="4" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="tiny-positive" data-box="3 27 18 18"><rect x="4" y="28" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="empty" data-box="27 27 18 18"><rect x="28" y="28" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="malformed" data-box="51 27 18 18"><rect x="52" y="28" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="trailing-token" data-box="75 27 18 18"><rect x="76" y="28" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="length" data-box="99 27 18 18"><rect x="100" y="28" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="huge-negative" data-box="123 27 18 18"><rect x="124" y="28" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="negative-pair" data-box="3 51 18 18"><rect x="4" y="52" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="one" data-box="27 51 18 18"><rect x="28" y="52" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="fraction" data-box="51 51 18 18"><rect x="52" y="52" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="fraction-pair" data-box="75 51 18 18"><rect x="76" y="52" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="fraction-three" data-box="99 51 18 18"><rect x="100" y="52" width="16" height="16" fill="rgb(64,128,192)"/></g>
+<g id="oversized" data-box="123 51 18 18"></g>
+<g id="huge-positive-x" data-box="3 75 18 18"></g>
+<g id="huge-positive-y" data-box="27 75 18 18"></g>
+<g id="maximum-float" data-box="51 75 18 18"></g>
+</svg>

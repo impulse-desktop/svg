@@ -25523,17 +25523,20 @@ namespace {
         float ox = 3.f;
         float oy = 3.f;
 
-        if (attribute(p.node, AtomOrder) && !numberPair(doc, p.node, AtomOrder, ox, oy)) {
+        // Invalid attributes take their initial value (SVG 2, types 4.2).
+        // A fractional order truncating to zero is invalid too.
+        if (attribute(p.node, AtomOrder) && (!numberPair(doc, p.node, AtomOrder, ox, oy) || !(ox >= 1.f) || !(oy >= 1.f))) {
+            ox = oy = 3.f;
+        }
+
+        // Bound the work before converting an order that may exceed int.
+        if (!(ox < 33.f) || !(oy < 33.f)) {
             return;
         }
 
         // An order not whole is truncated toward zero.
         int orderX = (int)ox;
         int orderY = (int)oy;
-
-        if (!(ox < 33.f) || !(oy < 33.f) || orderX < 1 || orderY < 1) {
-            return;
-        }
 
         Vector<float> kernel;
 

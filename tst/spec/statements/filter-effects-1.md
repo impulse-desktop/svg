@@ -117,10 +117,11 @@
 
 - [x] filter-effects-1.md#elementdef-fecomposite: an arithmetic feComposite's result, once named by result, is read like any other named result by later in/in2/feMergeNode references. [filter-edge-cells#arithmetic-reader]
 
-## feConvolveMatrix: fe-convolve-formula, filter-morphology-tile-convolve (exists)
+## feConvolveMatrix: fe-convolve-formula, fe-convolve-order, filter-morphology-tile-convolve (exists)
 
 - [x] filter-effects-1.md#feConvolveMatrixElementFormula: each result color is sum(source*kernelMatrix, kernel rotated 180 degrees) / divisor + bias*alpha, over the order x order neighborhood positioned by targetX/targetY. [fe-convolve-formula#kernel]
-- [x] filter-effects-1.md#element-attrdef-order: order gives orderX, orderY as positive integers (orderY defaults to orderX, truncated toward zero if not integral); initial 3. [fe-convolve-formula#order-wrap fe-convolve-formula#target-divisor-bias]
+- [x] filter-effects-1.md#element-attrdef-order: order gives orderX, orderY as positive integers (orderY defaults to orderX, truncated toward zero if not integral); initial 3. [fe-convolve-formula#order-wrap fe-convolve-formula#target-divisor-bias fe-convolve-order#missing fe-convolve-order#fraction fe-convolve-order#fraction-pair fe-convolve-order#fraction-three]
+- [x] svg2/types.md#syntax: an invalid order takes its initial value, 3 by 3, including malformed values and a component truncating below one. [fe-convolve-order#negative-x fe-convolve-order#negative-y fe-convolve-order#zero fe-convolve-order#zero-y fe-convolve-order#fraction-below-one fe-convolve-order#tiny-positive fe-convolve-order#empty fe-convolve-order#malformed fe-convolve-order#trailing-token fe-convolve-order#length fe-convolve-order#huge-negative fe-convolve-order#negative-pair]
 - [x] filter-effects-1.md#element-attrdef-feconvolvematrix-kernelmatrix: kernelMatrix must list exactly orderX*orderY numbers; a mismatched count makes feConvolveMatrix a pass-through filter. [fe-convolve-formula#wrong-count]
 - [x] filter-effects-1.md#element-attrdef-feconvolvematrix-divisor: divisor initial is the sum of kernelMatrix (or 1 if that sum is 0); a specified divisor of 0 falls back to this default too. [fe-convolve-formula#kernel fe-convolve-formula#order-wrap]
 - [x] filter-effects-1.md#element-attrdef-feconvolvematrix-bias: bias is added to every channel after the divisor; initial 0. [fe-convolve-formula#target-divisor-bias fe-convolve-formula#edge-none]

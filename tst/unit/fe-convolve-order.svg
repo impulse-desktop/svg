@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="96">
+<!-- An invalid order takes the initial 3 by 3 kernel. A center-only
+kernel doubles an opaque source's sRGB channels; the expected drawing is
+a plain rectangle. Valid fractional orders truncate toward zero. Large
+positive kernels stay outside the implementation's limit, and must be
+checked before converting their order to an integer. -->
+<rect width="144" height="96" fill="white"/>
+<filter id="f0" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="4" y="4" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f0)"/>
+<filter id="f1" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="-3" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="28" y="4" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f1)"/>
+<filter id="f2" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="3 -1" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="52" y="4" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f2)"/>
+<filter id="f3" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="0" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="76" y="4" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f3)"/>
+<filter id="f4" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="3 0" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="100" y="4" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f4)"/>
+<filter id="f5" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="0.9" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="124" y="4" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f5)"/>
+<filter id="f6" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="1e-30" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="4" y="28" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f6)"/>
+<filter id="f7" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="28" y="28" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f7)"/>
+<filter id="f8" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="bad" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="52" y="28" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f8)"/>
+<filter id="f9" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="3 3 1" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="76" y="28" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f9)"/>
+<filter id="f10" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="3px" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="100" y="28" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f10)"/>
+<filter id="f11" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="-1e30" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="124" y="28" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f11)"/>
+<filter id="f12" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="1 -1e30" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="4" y="52" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f12)"/>
+<filter id="f13" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="1" kernelMatrix="2" divisor="1"/></filter><rect x="28" y="52" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f13)"/>
+<filter id="f14" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="1.9" kernelMatrix="2" divisor="1"/></filter><rect x="52" y="52" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f14)"/>
+<filter id="f15" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="1.2 1.8" kernelMatrix="2" divisor="1"/></filter><rect x="76" y="52" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f15)"/>
+<filter id="f16" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="3.9" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="100" y="52" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f16)"/>
+<filter id="f17" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="33" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="124" y="52" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f17)"/>
+<filter id="f18" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="1e30 3" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="4" y="76" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f18)"/>
+<filter id="f19" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="3 1e30" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="28" y="76" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f19)"/>
+<filter id="f20" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feConvolveMatrix order="3.4e38" kernelMatrix="0 0 0 0 2 0 0 0 0" divisor="1"/></filter><rect x="52" y="76" width="16" height="16" fill="rgb(32,64,96)" filter="url(#f20)"/>
+</svg>
