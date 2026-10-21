@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
 <!-- What tst/unit/image-placement.svg draws, drawn plainly; each cell's
 id is what the statement ledgers link to. -->
-<rect width="64" height="48" fill="white"/>
+<rect width="64" height="64" fill="white"/>
 <g id="natural" data-box="1 1 10 6"><rect x="2" y="2" width="8" height="4" fill="lime"/></g>
 <g id="one-dimension" data-box="13 1 46 14"><rect x="14" y="2" width="16" height="8" fill="lime"/><rect x="34" y="2" width="24" height="12" fill="lime"/></g>
 <g id="ratio-width" data-box="1 17 18 10"><rect x="2" y="18" width="16" height="8" fill="lime"/></g>
@@ -10,10 +10,12 @@ id is what the statement ledgers link to. -->
 <g id="channels" data-box="47 17 14 12"><rect x="48" y="18" width="12" height="4" fill="#808080"/><rect x="48" y="24" width="12" height="4" fill="lime"/></g>
 <g id="meet" data-box="1 31 10 10"><rect x="2" y="34" width="8" height="4" fill="lime"/></g>
 <g id="not-inherited" data-box="13 31 10 10"><rect x="14" y="32" width="8" height="8" fill="black"/></g>
+<g id="svg-min-meet" data-box="1 49 18 10"><rect x="2" y="50" width="8" height="8" fill="lime"/></g>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2" y="2" width="8" height="4"/><rect x="14" y="2" width="16" height="8"/><rect x="34" y="2" width="24" height="12"/>
 <rect x="2" y="18" width="16" height="8"/><rect x="22" y="18" width="10" height="10"/>
 <rect x="48" y="18" width="12" height="4"/><rect x="48" y="24" width="12" height="4"/>
 <rect x="2" y="34" width="8" height="4"/><rect x="14" y="32" width="8" height="8"/>
+<rect x="2" y="50" width="16" height="8"/>
 </g>
 </svg>

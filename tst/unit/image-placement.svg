@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
 <!-- Each image fills its black outline; no red. With width and height auto
 an image takes its own size, with one of them its own ratio; an SVG image
 with no size and no viewBox is 300 by 150, clipped here by a viewport; a zero
 width draws nothing; preserveAspectRatio fits it, and the referenced root's
 own is ignored as none; a gray or RGB image is opaque, R, G and B the gray;
 an image inherits nothing from the document using it: its rect is black. -->
-<rect width="64" height="48" fill="white"/>
+<rect width="64" height="64" fill="white"/>
 <image x="2" y="2" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAECAYAAACzzX7wAAAAD0lEQVR4nGNg+E8A0l4BAFEUP8HfeOrjAAAAAElFTkSuQmCC"/>
 <image x="14" y="2" width="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAECAYAAACzzX7wAAAAD0lEQVR4nGNg+E8A0l4BAFEUP8HfeOrjAAAAAElFTkSuQmCC"/>
 <image x="34" y="2" height="12" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAECAYAAACzzX7wAAAAD0lEQVR4nGNg+E8A0l4BAFEUP8HfeOrjAAAAAElFTkSuQmCC"/>
@@ -16,10 +16,14 @@ an image inherits nothing from the document using it: its rect is black. -->
 <image x="48" y="24" width="12" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAD0lEQVR4nGNg+M+AQMRxAJ6jD/Flt2QIAAAAAElFTkSuQmCC" preserveAspectRatio="none"/>
 <image x="2" y="32" width="8" height="8" preserveAspectRatio="xMidYMid meet" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%278%27%20height%3D%274%27%20viewBox%3D%270%200%208%204%27%20preserveAspectRatio%3D%27xMinYMin%20slice%27%3E%3Crect%20width%3D%278%27%20height%3D%274%27%20fill%3D%27lime%27/%3E%3C/svg%3E"/>
 <g fill="red"><image x="14" y="32" width="8" height="8" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%278%27%20height%3D%278%27%3E%3Crect%20width%3D%278%27%20height%3D%278%27/%3E%3C/svg%3E"/></g>
+<!-- xMinYMin aligns an embedded SVG at the left of a wider image viewport.
+     The referenced root's xMaxYMax slice must not override that alignment. -->
+<image x="2" y="50" width="16" height="8" preserveAspectRatio="xMinYMin meet" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%278%27%20height%3D%278%27%20viewBox%3D%270%200%208%208%27%20preserveAspectRatio%3D%27xMaxYMax%20slice%27%3E%3Crect%20width%3D%278%27%20height%3D%278%27%20fill%3D%27lime%27/%3E%3C/svg%3E"/>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2" y="2" width="8" height="4"/><rect x="14" y="2" width="16" height="8"/><rect x="34" y="2" width="24" height="12"/>
 <rect x="2" y="18" width="16" height="8"/><rect x="22" y="18" width="10" height="10"/>
 <rect x="48" y="18" width="12" height="4"/><rect x="48" y="24" width="12" height="4"/>
 <rect x="2" y="34" width="8" height="4"/><rect x="14" y="32" width="8" height="8"/>
+<rect x="2" y="50" width="16" height="8"/>
 </g>
 </svg>
