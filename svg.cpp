@@ -2858,6 +2858,19 @@ namespace {
         return maxf(sx, sy);
     }
 
+    // The least width a transformed stroke can have, in device pixels.
+    // Use the smaller singular value rather than either column's length:
+    // a skew can compress a stroke in a direction neither column shows.
+    static float minimumScale(const Matrix& m) {
+        double x = (double)m.a * m.a + (double)m.b * m.b;
+        double y = (double)m.c * m.c + (double)m.d * m.d;
+        double cross = (double)m.a * m.c + (double)m.b * m.d;
+        double largest = (x + y + hypot(x - y, 2.0 * cross)) / 2.0;
+        double determinant = (double)m.a * m.d - (double)m.b * m.c;
+
+        return largest > 0.0 ? (float)(fabs(determinant) / sqrt(largest)) : 0.f;
+    }
+
     static Box emptyBox() {
         return Box{INFINITY, INFINITY, -INFINITY, -INFINITY};
     }
@@ -19311,7 +19324,13 @@ namespace {
                         }
                     }
 
-                    emitFill(l, device, WindingNonZero, stroke, style.aliased, style.linearColors);
+                    // Sampling only pixel centres can erase a stroke narrower
+                    // than a device pixel. A crisp-edges hint may remove
+                    // antialiasing, but it must not lose the authored line.
+                    const Matrix& strokeMatrix = style.nonScaling ? l.host : m;
+                    bool aliased = style.aliased && (double)style.strokeWidth * minimumScale(strokeMatrix) >= 1.0;
+
+                    emitFill(l, device, WindingNonZero, stroke, aliased, style.linearColors);
                 }
             } else if (layer == 2) {
                 Matrix outerMatrix = l.contextMatrix;

@@ -157,7 +157,7 @@
 ## shape-rendering: paint-rendering-hints
 
 - [x] svg2/painting.md#ShapeRenderingProperty: shape-rendering is auto | optimizeSpeed | crispEdges | geometricPrecision; initial auto; applies to shapes; is inherited [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp paint-properties#shape-rendering-inherited]
-- [x] svg2/painting.md#ShapeRenderingProperty: optimizeSpeed may disable anti-aliasing; crispEdges favors crisp edges over speed/precision; geometricPrecision favors precision over speed/crisp edges; auto balances all three favoring precision most [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp]
+- [x] svg2/painting.md#ShapeRenderingProperty: optimizeSpeed may disable anti-aliasing; crispEdges favors crisp edges over speed/precision; geometricPrecision favors precision over speed/crisp edges; auto balances all three favoring precision most; this renderer keeps fractional coverage for subpixel strokes so a crisp hint does not erase them [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp stroke-crisp-subpixel#outline stroke-crisp-subpixel#horizontal stroke-crisp-subpixel#vertical stroke-crisp-subpixel#scaled stroke-crisp-subpixel#wide]
 
 ## image-rendering: paint-rendering-hints, image-cells
 
