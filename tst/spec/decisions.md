@@ -579,7 +579,7 @@ librsvg and resvg draw the convolution so where they draw the edge on
 whole pixels; a blur's edge mode they leave out. Wrap and mirror bring
 other pixels across the edge and keep the pixels as stored.
 
-## D49. A closed subpath stroked wider than its curve keeps every renderer's hole
+## D49. A small loop stroked wider than its curve keeps every renderer's hole
 
 `svg2/painting.md#StrokeShape` defines the ideal stroke as the sweep of the
 subpath's normals, so a circle stroked wider than its diameter would be a
@@ -593,10 +593,16 @@ the image around a small circle vanishes. Real files count on it: of the
 closed curve so, an Inkscape recording icon among them, its ring a circle
 of radius 1.5 stroked 18.6 wide, and Figma icons whose circles carry
 stroke-width 44 that every renderer hides; the renderer drew solid disks
-over them. Its closed subpaths now keep their inner side on its offset
-where the curve is tighter than the half width, no sector filling it. An
-open subpath keeps the swept shape: the holes other renderers leave in a
-tight open curve are no author's drawing.
+over them. Its closed subpaths keep their inner side on its offset where
+the curve is tighter than the half width, no sector filling it. Open paths
+ordinarily keep the swept shape. Real Sketchy-SVG drawings also use tiny,
+almost returning open loops as spots: Chromium, resvg and librsvg leave
+their centers open, and those openings are visible parts of the author's
+drawing. Their endpoints are within half the stroke width, their
+centerline fits within one stroke width in both axes, and they turn through
+more than a half-circle. Those loops keep their inverted inner offset too,
+while their end caps remain open. Broad open bends and large outlines
+still use the swept shape.
 
 ## D50. A focal point within 1/4096 of the radius of the end circle is on it
 
@@ -665,3 +671,15 @@ paints is measured only when a context paint asks for it. The most any
 file of the corpus or of 60 000 harvested ones visits is 5.2 per byte, a
 Wikimedia map of uses; the 40-deep chain draws its first square and stops
 in a few hundredths of a second.
+
+## D55. A cubic that turns back inside itself has a round stroke tip
+
+`svg2/painting.md#StrokeShape` describes the ideal swept stroke but gives
+implementations leeway at extremely tight curves. At an internal stationary
+point of a cubic whose tangent reverses, Chromium, resvg and librsvg sweep
+the outer offset through a semicircle, even with `stroke-linecap: butt`.
+Real Sketchy-SVG drawings use this for rounded ends on strokes that double
+back, including the horizontal strokes of a chair. The renderer previously
+joined the offset edges directly and made those ends flat. It now adds the
+semicircle at a cubic cusp with nearly opposed tangents. A reversal at an
+explicit line corner remains flat, as all three renderers draw it.

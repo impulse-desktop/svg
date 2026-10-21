@@ -12526,8 +12526,9 @@ namespace {
     // the count of the segments' quads, joins and caps over a point less
     // the inner corners where two quads overlap, at least one inside their
     // union and none outside: the nonzero rule fills exactly the union.
-    // A cusp takes no join. At a smooth point, inside a curve, the stroke
-    // sweeps its normal round the turn instead: its outer end arcs whatever
+    // A cubic cusp that turns back sweeps a half-circle; a line corner
+    // keeps its join. At a smooth point inside a curve, the stroke sweeps
+    // its normal round the turn: its outer end arcs whatever
     // the join, and its inner end sweeps a sector of the same angle, a
     // polygon of its own where the inner offset edges do not cross.
     static void strokePolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, size_t count, bool closed) {
@@ -12635,6 +12636,33 @@ namespace {
             inners.pushBack(d0.x * d1.y - d0.y * d1.x > 0.f ? 0 : 1);
         }
 
+        // An open path that curls back within the half width keeps its
+        // inverted inner offset, as a closed path does. Its caps stay open.
+        float endDx = pts[0].x - pts[n - 1].x;
+        float endDy = pts[0].y - pts[n - 1].y;
+        bool looped = closed;
+
+        if (!looped && endDx * endDx + endDy * endDy <= s.half * s.half) {
+            Box centerline = emptyBox();
+
+            for (Point p : pts) {
+                extend(centerline, p);
+            }
+
+            if (centerline.x1 - centerline.x0 <= 2.f * s.half && centerline.y1 - centerline.y0 <= 2.f * s.half) {
+                float rotation = 0.f;
+
+                for (size_t k = 1; k + 1 < n; k++) {
+                    Point a = dirs[k - 1];
+                    Point b = dirs[k];
+
+                    rotation += atan2f(a.x * b.y - a.y * b.x, a.x * b.x + a.y * b.y);
+                }
+
+                looped = fabsf(rotation) > pi + 0.1f;
+            }
+        }
+
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
             Point d0 = dirs[in];
@@ -12673,6 +12701,12 @@ namespace {
                 if (arc) {
                     addArcPoints(sides[outer], p, s.half, from, sweep, s.tol);
                 }
+            } else if (kind[k] == PointCusp && dot < -0.99f) {
+                // A cubic's internal reversal is smooth on both sides of
+                // its stationary point. Its normals sweep around the tip;
+                // an explicit line corner with the same legs stays flat.
+                sweep = normalSweep(Point{-d0.y * side, d0.x * side}, Point{-d1.y * side, d1.x * side}, d0, d1, from);
+                addArcPoints(sides[outer], p, s.half, from, sweep, s.tol);
             } else if (kind[k] == PointCorner) {
                 addJoin(sides[outer], s, p, d0, d1);
             }
@@ -12701,13 +12735,11 @@ namespace {
                 return;
             }
 
-            // A closed subpath's inner side keeps to its offset where the
-            // curve is tighter than the half width, and turns inside out
-            // there: its two sides, nonzero, leave a hole where the inner
-            // side has turned all the way round, as every renderer and
-            // Inkscape draw a stroke wider than its shape (decisions.md,
-            // D49).
-            if (closed && kind[k] == PointSmooth) {
+            // A small loop's inner side keeps to its offset where the curve
+            // is tighter than the half width, and turns inside out there:
+            // its two sides, nonzero, leave a hole when the inner side has
+            // turned all the way round (D49).
+            if (looped && kind[k] == PointSmooth) {
                 sides[inner].pushBack(offset(p, d1, -side));
 
                 return;
