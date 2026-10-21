@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="64">
+<!-- Both directions of a finite line whose far end is outside the clip. -->
+<rect width="192" height="64" fill="white"/>
+<defs><clipPath id="window"><rect width="32" height="64"/></clipPath></defs>
+<g fill="none" stroke="black" stroke-width="2">
+  <g clip-path="url(#window)"><path d="M8 56 L80000008 -400000000"/></g>
+  <g transform="translate(64)" clip-path="url(#window)"><path d="M80000008 -400000000 L8 56"/></g>
+  <g transform="translate(128)" clip-path="url(#window)"><path d="M8 56 L20 40 L80000008 -400000000"/></g>
+</g>
+</svg>

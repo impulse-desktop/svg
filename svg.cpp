@@ -13176,6 +13176,114 @@ namespace {
         return out;
     }
 
+    // Trim a line in double precision before its stroke offsets are rounded
+    // to floats. At a remote endpoint those offsets can round to the same
+    // point, leaving the visible stroke with a collapsed, jagged outline.
+    // The box includes room for the cap, so trimming cannot change the raster.
+    static bool clipStrokeLine(Point a, Point b, const Box& box, float margin, Point& first, Point& last) {
+        if (!isfinite(margin) || !isfinite(box.x0) || !isfinite(box.y0) || !isfinite(box.x1) || !isfinite(box.y1)) {
+            first = a;
+            last = b;
+
+            return true;
+        }
+
+        double dx = (double)b.x - a.x;
+        double dy = (double)b.y - a.y;
+        double enter = 0.0;
+        double leave = 1.0;
+
+        auto axis = [&](double origin, double delta, double lo, double hi) {
+            if (delta == 0.0) {
+                return origin >= lo && origin <= hi;
+            }
+
+            double near = (lo - origin) / delta;
+            double far = (hi - origin) / delta;
+
+            if (near > far) {
+                double swap = near;
+
+                near = far;
+                far = swap;
+            }
+
+            enter = fmax(enter, near);
+            leave = fmin(leave, far);
+
+            return enter <= leave;
+        };
+
+        if (!axis(a.x, dx, (double)box.x0 - margin, (double)box.x1 + margin) ||
+            !axis(a.y, dy, (double)box.y0 - margin, (double)box.y1 + margin)) {
+            return false;
+        }
+
+        first = Point{(float)((double)a.x + dx * enter), (float)((double)a.y + dy * enter)};
+        last = Point{(float)((double)a.x + dx * leave), (float)((double)a.y + dy * leave)};
+
+        return true;
+    }
+
+    // Each run has no offscreen turn inside it. Its first and last lines
+    // may still have remote ends, so trim those ends without disturbing the
+    // joins in the visible part of the run.
+    static void strokeCulledOpenPolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, size_t count, const Box& box) {
+        float margin = count == 2 ? 2.f * s.half + s.tol : s.half * maxf(s.miterLimit, 1.f) + s.tol;
+
+        if (!isfinite(margin)) {
+            strokePolyline(out, s, points, kinds, into, count, false);
+
+            return;
+        }
+
+        auto outside = [&](Point p) {
+            return p.x < (double)box.x0 - margin || p.x > (double)box.x1 + margin ||
+                   p.y < (double)box.y0 - margin || p.y > (double)box.y1 + margin;
+        };
+
+        bool trimFirst = outside(points[0]);
+        bool trimLast = outside(points[count - 1]);
+
+        if (!trimFirst && !trimLast) {
+            strokePolyline(out, s, points, kinds, into, count, false);
+
+            return;
+        }
+
+        if (count == 2) {
+            Point clipped[2];
+
+            if (clipStrokeLine(points[0], points[1], box, margin, clipped[0], clipped[1])) {
+                strokePolyline(out, s, clipped, kinds, into, 2, false);
+            }
+
+            return;
+        }
+
+        Vector<Point> clipped;
+
+        clipped.append(points, count);
+
+        if (trimFirst) {
+            Point end;
+
+            if (!clipStrokeLine(points[0], points[1], box, margin, clipped.mut(0), end)) {
+                return;
+            }
+        }
+
+        if (trimLast) {
+            Point start;
+
+            if (!clipStrokeLine(points[count - 2], points[count - 1], box, margin, start, clipped.mut(count - 1))) {
+                return;
+            }
+        }
+
+        strokePolyline(out, s, clipped.data(), kinds, into, count, false);
+    }
+
     // The stroke of the path, in the path's space; a dash outside the box, the
     // raster in that space, is left out.
     static void strokePath(const Path& path, const ComputedStyle& style, float scale, const Box* cull, Flat& out) {
@@ -13272,12 +13380,12 @@ namespace {
                         Point p = points[k];
 
                         if (p.x < cull->x0 - reach || p.x > cull->x1 + reach || p.y < cull->y0 - reach || p.y > cull->y1 + reach) {
-                            strokePolyline(out, s, points + from, kinds + from, into + from, k - from + 1, false);
+                            strokeCulledOpenPolyline(out, s, points + from, kinds + from, into + from, k - from + 1, *cull);
                             from = k;
                         }
                     }
 
-                    strokePolyline(out, s, points + from, kinds + from, into + from, count - from, false);
+                    strokeCulledOpenPolyline(out, s, points + from, kinds + from, into + from, count - from, *cull);
                 } else {
                     strokePolyline(out, s, points, kinds, into, count, flat.closed[i]);
                 }
