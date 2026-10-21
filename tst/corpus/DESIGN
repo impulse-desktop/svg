@@ -1,6 +1,9 @@
 # Cases the renderer deliberately draws apart from the Chromium reference
 # by a decision of its design, not by a fault: out of the score, to review.
 # A line is `CASE: reason`, CASE relative to tst/corpus without .svg.
+svg-diagrams/6e__6edbe93cafd487ca: Inkscape meshgradient extension colors the rounded blue shape; SVG 2 deferred mesh gradients and Chromium, resvg and librsvg leave its fill empty. Removing only the mesh fill takes struct to zero (mesh-linear).
+svg-stack/37__37d173f235f9fca5: Inkscape meshgradient extension colors the gear icon; Chromium, resvg and librsvg leave its fill empty. Removing only the mesh fill takes struct to zero (mesh-linear).
+svg-stack/c2__c23cc190781c4bbb: Inkscape meshgradient extension colors a complex patch in the framed cloth; Chromium, resvg and librsvg leave its fill empty. Removing only the mesh fill takes struct to zero (mesh-bicubic).
 wikimedia/3d5832812a9ecf71: XML internal DTD entities may expand other internal entities; ours, resvg and librsvg draw the authored county map, while Chromium paints the entire valid SVG black (xml-nested-entities#nested-style).
 breeze/breeze-icons-v6.31.0__icons__apps__48__kapptemplate: D53; SVG 2 permits accepting unambiguous path numbers such as `13.` and SVG 1.1 allowed them. The resulting complete play-button icon matches the author's shape; Chromium truncates these paths.
 breeze/breeze-icons-v6.31.0__icons__places__22__folder-open: D53; unambiguous trailing-point path numbers preserve the complete folder/ruler icon; Chromium truncates the path.
