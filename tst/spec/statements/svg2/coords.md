@@ -62,13 +62,13 @@
 - [x] svg2/coords.md#BoundingBoxes: for 'foreignObject' and 'image', the bounding box is the positioning rectangle given by x, y, width, height, regardless of the fill/stroke/markers inputs. [bbox-inputs#image-box]
 - [x] svg2/coords.md#BoundingBoxes: unioning a box with an empty shape at (0,0,0,0) leaves the box unchanged. [path-data-commands#none]
 
-## Object bounding box units: bbox-geometry, bbox-inputs, mask-values, viewport-content-percent, resource-length-units
+## Object bounding box units: bbox-geometry, bbox-inputs, mask-values, mask-zero-bbox, viewport-content-percent, resource-length-units
 
 - [x] svg2/coords.md#ObjectBoundingBox: setting gradientUnits, patternUnits/patternContentUnits, clipPathUnits, maskUnits/maskContentUnits or filterUnits/primitiveUnits to objectBoundingBox makes their coordinates fractions of the applicable element's object bounding box. [bbox-geometry#fractions bbox-geometry#group-children gradient-linear-geometry#defaults pattern-tiles#box-fractions mask-values#content-units]
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox acts as an extra transform mapping (0,0) to the box's (minx,miny) corner and (1,1) to its (maxx,maxy) corner: matrix [(maxx-minx) 0 0 (maxy-miny) minx miny]; a length of a unit is one of that user space (D42). [bbox-geometry#fractions resource-length-units#mask-box-em]
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: a percentage used with these attributes equals the same decimal (50% = 0.5); percentages inside the referencing element's own content instead follow the ordinary Units percentage rules. [bbox-inputs#gradient-percent bbox-inputs#pattern-percent viewport-content-percent#clip-path-box viewport-content-percent#mask-box]
 - [x] svg2/coords.md#ObjectBoundingBoxUnits: fractions or percentages below 0 or above 1 (100%) are permitted and not clamped. [bbox-geometry#fractions]
-- [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox must not be used, and its effect is ignored, when the applicable element's geometry has no width or no height (stroke width is ignored for this check). [bbox-geometry#zero-height-gradient bbox-geometry#zero-height-filter bbox-geometry#zero-height-clip]
+- [x] svg2/coords.md#ObjectBoundingBoxUnits: objectBoundingBox must not be used, and its effect is ignored, when the applicable element's geometry has no width or no height (stroke width is ignored for this check). [bbox-geometry#zero-height-gradient bbox-geometry#zero-height-filter bbox-geometry#zero-height-clip mask-zero-bbox#horizontal mask-zero-bbox#vertical mask-zero-bbox#path mask-zero-bbox#group]
 
 ## Intrinsic size of SVG as a replaced image: root-viewport
 

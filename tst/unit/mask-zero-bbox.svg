@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64">
+<!-- SVG 2 objectBoundingBox ignores the stroke width: a horizontal or
+vertical shape has a zero-sized box, so its mask effect is ignored.
+Positive boxes and user-space masks still mask normally. -->
+<rect width="128" height="64" fill="white"/>
+<defs>
+  <mask id="black"><rect width="128" height="64" fill="black"/></mask>
+  <mask id="white"><rect width="128" height="64" fill="white"/></mask>
+  <mask id="user-black" maskUnits="userSpaceOnUse" x="0" y="0" width="128" height="64">
+    <rect width="128" height="64" fill="black"/>
+  </mask>
+</defs>
+<line x1="4" y1="16" x2="28" y2="16" stroke="lime" stroke-width="4" mask="url(#black)"/>
+<line x1="48" y1="4" x2="48" y2="28" stroke="lime" stroke-width="4" mask="url(#black)"/>
+<path d="M68 16 H92" stroke="lime" stroke-width="4" mask="url(#black)"/>
+<g mask="url(#black)"><line x1="100" y1="16" x2="124" y2="16" stroke="lime" stroke-width="4"/></g>
+<line x1="4" y1="36" x2="28" y2="60" stroke="lime" stroke-width="4" mask="url(#black)"/>
+<rect x="40" y="40" width="16" height="16" fill="lime" mask="url(#black)"/>
+<line x1="68" y1="48" x2="92" y2="48" stroke="lime" stroke-width="4" mask="url(#user-black)"/>
+<line x1="100" y1="48" x2="124" y2="48" stroke="lime" stroke-width="4" mask="url(#white)"/>
+</svg>
