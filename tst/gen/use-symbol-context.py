@@ -3,7 +3,7 @@ The expected drawings use solid rectangles, without context paints."""
 from unitgen import Unit
 
 
-unit = Unit("use-symbol-context", 64, 208, """Context paint servers use the
+unit = Unit("use-symbol-context", 64, 256, """Context paint servers use the
 geometry of the whole symbol instance, with its viewport size, viewBox,
 reference point and transforms. Measuring one instance leaves the size
 and context of the next intact.""")
@@ -13,13 +13,16 @@ unit.common('''<defs>
 <pattern id="tiles" width=".5" height="1" patternContentUnits="objectBoundingBox"><rect width=".25" height="1" fill="lime"/><rect x=".25" width=".25" height="1" fill="blue"/></pattern>
 <symbol id="plain"><rect width="16" height="8" fill="context-fill"/></symbol>
 <symbol id="stroke" overflow="visible"><path d="M 0,0 H 16 V 8 H 0 Z" fill="none" stroke="context-stroke" stroke-width="2"/></symbol>
-<symbol id="two"><rect width="4" height="8" fill="context-fill"/><rect x="20" width="4" height="8" fill="context-fill"/></symbol>
+<symbol id="two"><rect width="4" height="8" fill="context-fill"/><rect x="20" width="4" height="8" fill="context-fill"/><symbol><rect width="1000" height="1000"/></symbol></symbol>
 <symbol id="view" viewBox="10 20 24 8"><rect x="10" y="20" width="4" height="8" fill="context-fill"/><rect x="30" y="20" width="4" height="8" fill="context-fill"/></symbol>
 <symbol id="percent" width="40" height="20"><rect width="100%" height="100%" fill="context-fill"/></symbol>
 <symbol id="ref" viewBox="0 0 16 8" refX="8" refY="4" overflow="visible"><rect width="16" height="8" fill="context-fill"/></symbol>
 <symbol id="transformed" transform="translate(4 0) scale(2)" overflow="visible"><rect width="16" height="8" fill="context-fill"/></symbol>
 <symbol id="nested"><use href="#percent" width="8" height="8" fill="url(#half) red"/><rect x="16" width="16" height="8" fill="context-fill"/></symbol>
 <svg id="svg" width="40" height="20" viewBox="0 0 16 8"><rect width="16" height="8" fill="context-fill"/></svg>
+<filter id="paint" filterUnits="userSpaceOnUse" x="0" y="0" width="16" height="8"><feComposite in="FillPaint" in2="SourceGraphic" operator="over"/></filter>
+<symbol id="empty"><g fill="context-fill" filter="url(#paint)"/></symbol>
+<meshgradient id="mesh"><meshrow><meshpatch><stop path="l 1,0" stop-color="red"/><stop path="l 0,1" stop-color="lime"/><stop path="l -1,0" stop-color="blue"/><stop path="l 0,-1" stop-color="yellow"/></meshpatch></meshrow></meshgradient>
 </defs>''', "")
 
 
@@ -53,4 +56,8 @@ cell("nested-sizes", 9, '<use href="#nested" fill="url(#half) red"/>', halves(0,
 cell("svg-size", 10, '<use href="#svg" width="16" height="8" fill="url(#half) red"/>', halves(0, 0))
 cell("missing-server", 11, '<use href="#plain" fill="url(#missing) lime"/>', rect(0, 0, 16, 8))
 cell("svg-default-size", 12, '<use href="#svg" fill="url(#half) red" transform="scale(.5)"/>', halves(0, 0, 20, 10))
+# A filter paints even without source geometry. Its context genuinely has
+# no bounding box: box-unit servers take their fallback (D8).
+for row, name, server in [(13, "empty-gradient-box", "half"), (14, "empty-pattern-box", "tiles"), (15, "empty-mesh-box", "mesh")]:
+    cell(name, row, f'<use href="#empty" fill="url(#{server}) lime"/>', rect(0, 0, 16, 8))
 unit.write()

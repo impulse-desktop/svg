@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="208">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="256">
 <!-- What tst/unit/use-symbol-context.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="64" height="208" fill="white"/>
+<rect width="64" height="256" fill="white"/>
 <defs><clipPath id="left"><rect x="-2" y="-2" width="10" height="12"/></clipPath><clipPath id="right"><rect x="8" y="-2" width="10" height="12"/></clipPath></defs>
 <g id="gradient" data-box="0 0 64 16"><g transform="translate(4 4)"><rect x="0" y="0" width="8.0" height="8" fill="lime"/><rect x="8.0" y="0" width="8.0" height="8" fill="blue"/></g></g>
 <g id="pattern" data-box="0 16 64 16"><g transform="translate(4 20)"><rect x="0" y="0" width="4" height="8" fill="lime"/><rect x="4" y="0" width="4" height="8" fill="blue"/><rect x="8" y="0" width="4" height="8" fill="lime"/><rect x="12" y="0" width="4" height="8" fill="blue"/></g></g>
@@ -16,4 +16,7 @@ cell's id is what the statement ledgers link to. -->
 <g id="svg-size" data-box="0 160 64 16"><g transform="translate(4 164)"><rect x="0" y="0" width="8.0" height="8" fill="lime"/><rect x="8.0" y="0" width="8.0" height="8" fill="blue"/></g></g>
 <g id="missing-server" data-box="0 176 64 16"><g transform="translate(4 180)"><rect x="0" y="0" width="16" height="8" fill="lime"/></g></g>
 <g id="svg-default-size" data-box="0 192 64 16"><g transform="translate(4 196)"><rect x="0" y="0" width="10.0" height="10" fill="lime"/><rect x="10.0" y="0" width="10.0" height="10" fill="blue"/></g></g>
+<g id="empty-gradient-box" data-box="0 208 64 16"><g transform="translate(4 212)"><rect x="0" y="0" width="16" height="8" fill="lime"/></g></g>
+<g id="empty-pattern-box" data-box="0 224 64 16"><g transform="translate(4 228)"><rect x="0" y="0" width="16" height="8" fill="lime"/></g></g>
+<g id="empty-mesh-box" data-box="0 240 64 16"><g transform="translate(4 244)"><rect x="0" y="0" width="16" height="8" fill="lime"/></g></g>
 </svg>
