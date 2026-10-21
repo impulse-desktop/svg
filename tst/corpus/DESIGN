@@ -1,6 +1,9 @@
 # Cases the renderer deliberately draws apart from the Chromium reference
 # by a decision of its design, not by a fault: out of the score, to review.
 # A line is `CASE: reason`, CASE relative to tst/corpus without .svg.
+svg-stack/28__282b96add5e16418: D18; at the 324x1 intrinsic size ours and Chromium match exactly. The 256x1 thumbnail renders the root in a changed viewport here (alpha 201) while Chromium resamples its intrinsic image (alpha 255), making the structural metric 1 without a document disagreement.
+svg-stack/42__4242e8b0f84a3626: D18; at the 953x2 intrinsic size ours and Chromium match exactly. The 256x1 CSS image sample has alpha 73 in Chromium versus 128 from direct vector rendering; the author drew the same one-pixel stroke.
+svg-stack/63__63cb18001be8d984: D18; at the 1309x9 intrinsic size ours and Chromium differ by more than two RGB levels in only 3 of 11,781 pixels. Downscaling this filtered one-pixel stroke to 256x2 exaggerates raster-sampling differences.
 svg-diagrams/6e__6edbe93cafd487ca: Inkscape meshgradient extension colors the rounded blue shape; SVG 2 deferred mesh gradients and Chromium, resvg and librsvg leave its fill empty. Removing only the mesh fill takes struct to zero (mesh-linear).
 svg-stack/37__37d173f235f9fca5: Inkscape meshgradient extension colors the gear icon; Chromium, resvg and librsvg leave its fill empty. Removing only the mesh fill takes struct to zero (mesh-linear).
 svg-stack/c2__c23cc190781c4bbb: Inkscape meshgradient extension colors a complex patch in the framed cloth; Chromium, resvg and librsvg leave its fill empty. Removing only the mesh fill takes struct to zero (mesh-bicubic).
