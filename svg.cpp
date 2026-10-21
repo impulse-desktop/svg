@@ -12663,6 +12663,42 @@ namespace {
             }
         }
 
+        // A long open path can turn back in only its short tip. Compare the
+        // tangents entering and leaving the part within a half width of its
+        // endpoint: a tight quarter turn is not a return along the stroke.
+        bool returningStart = false;
+        bool returningEnd = false;
+
+        if (!closed) {
+            float half2 = s.half * s.half;
+            size_t startEdge = 0;
+            size_t endEdge = segments - 1;
+
+            for (size_t k = 1; k + 1 < n; k++) {
+                float dx = pts[k].x - pts[0].x;
+                float dy = pts[k].y - pts[0].y;
+
+                if (dx * dx + dy * dy >= half2) break;
+                startEdge = k;
+            }
+
+            for (size_t k = n - 2; k > 0; k--) {
+                float dx = pts[k].x - pts[n - 1].x;
+                float dy = pts[k].y - pts[n - 1].y;
+
+                if (dx * dx + dy * dy >= half2) break;
+                endEdge = k - 1;
+            }
+
+            Point start = dirs[0];
+            Point fromStart = dirs[startEdge];
+            Point intoEnd = dirs[endEdge];
+            Point end = dirs[segments - 1];
+
+            returningStart = startEdge > 0 && start.x * fromStart.x + start.y * fromStart.y < 0.f;
+            returningEnd = endEdge + 1 < segments && intoEnd.x * end.x + intoEnd.y * end.y < 0.f;
+        }
+
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
             Point d0 = dirs[in];
@@ -12739,7 +12775,16 @@ namespace {
             // is tighter than the half width, and turns inside out there:
             // its two sides, nonzero, leave a hole when the inner side has
             // turned all the way round (D49).
-            if (looped && kind[k] == PointSmooth) {
+            // A tiny reversal at either end of a long open path has the
+            // same inverted inner offset as a tiny open loop.
+            float fromStartX = pts[0].x - p.x;
+            float fromStartY = pts[0].y - p.y;
+            float fromEndX = pts[n - 1].x - p.x;
+            float fromEndY = pts[n - 1].y - p.y;
+            bool nearTip = (returningStart && fromStartX * fromStartX + fromStartY * fromStartY < s.half * s.half) ||
+                           (returningEnd && fromEndX * fromEndX + fromEndY * fromEndY < s.half * s.half);
+
+            if ((looped || nearTip) && kind[k] == PointSmooth) {
                 sides[inner].pushBack(offset(p, d1, -side));
 
                 return;

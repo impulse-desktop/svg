@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128">
+<!-- A long open stroke with a sub-width reversal by its tip leaves a
+small opening inside the tip, whether the path runs towards or away from
+it. The opening is not a line cap: it comes from the returning inner
+offset of the stroke outline (D49). -->
+<rect width="128" height="128" fill="white"/>
+<path transform="translate(0 0) scale(2)" d="M 10 20 H 50 C 50.2 19.2 49.9 18.8 49.8 19.4 L 49.5 20.2" fill="none" stroke="black" stroke-width="10"/>
+<path transform="translate(0 64) scale(2)" d="M 49.5 20.2 L 49.8 19.4 C 49.9 18.8 50.2 19.2 50 20 H 10" fill="none" stroke="black" stroke-width="10"/>
+</svg>
