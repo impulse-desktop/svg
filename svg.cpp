@@ -1204,8 +1204,8 @@ namespace {
     const StringView xincludeNamespace = SV("http://www.w3.org/2001/XInclude");
 
     struct Point {
-        float x;
-        float y;
+        double x;
+        double y;
     };
 
     struct DPoint {
@@ -1214,12 +1214,12 @@ namespace {
     };
 
     struct Matrix {
-        float a;
-        float b;
-        float c;
-        float d;
-        float e;
-        float f;
+        double a;
+        double b;
+        double c;
+        double d;
+        double e;
+        double f;
     };
 
     // A 3D transform seen on the plane z = 0 in perspective: a point goes to
@@ -1241,10 +1241,10 @@ namespace {
     };
 
     struct Box {
-        float x0;
-        float y0;
-        float x1;
-        float y1;
+        double x0;
+        double y0;
+        double x1;
+        double y1;
     };
 
     struct Color {
@@ -2703,23 +2703,24 @@ namespace {
         return Matrix{1.f, 0.f, 0.f, 1.f, 0.f, 0.f};
     }
 
-    static Matrix translation(float x, float y) {
+    static Matrix translation(double x, double y) {
         return Matrix{1.f, 0.f, 0.f, 1.f, x, y};
     }
 
-    static Matrix scaling(float x, float y) {
+    static Matrix scaling(double x, double y) {
         return Matrix{x, 0.f, 0.f, y, 0.f, 0.f};
     }
 
-    // SVG 2 makes a CTM in doubles and keeps it in singles.
+    // Keep CTM arithmetic in doubles so a small viewBox around large
+    // coordinates does not lose its low bits before reaching the viewport.
     static Matrix multiply(const Matrix& m, const Matrix& n) {
         return Matrix{
-            (float)((double)m.a * n.a + (double)m.c * n.b),
-            (float)((double)m.b * n.a + (double)m.d * n.b),
-            (float)((double)m.a * n.c + (double)m.c * n.d),
-            (float)((double)m.b * n.c + (double)m.d * n.d),
-            (float)((double)m.a * n.e + (double)m.c * n.f + m.e),
-            (float)((double)m.b * n.e + (double)m.d * n.f + m.f),
+            m.a * n.a + m.c * n.b,
+            m.b * n.a + m.d * n.b,
+            m.a * n.c + m.c * n.d,
+            m.b * n.c + m.d * n.d,
+            m.a * n.e + m.c * n.f + m.e,
+            m.b * n.e + m.d * n.f + m.f,
         };
     }
 
@@ -2736,18 +2737,18 @@ namespace {
 
         double inv = 1.0 / det;
 
-        out.a = (float)(m.d * inv);
-        out.b = (float)(-m.b * inv);
-        out.c = (float)(-m.c * inv);
-        out.d = (float)(m.a * inv);
-        out.e = (float)((m.c * (double)m.f - m.d * (double)m.e) * inv);
-        out.f = (float)((m.b * (double)m.e - m.a * (double)m.f) * inv);
+        out.a = m.d * inv;
+        out.b = -m.b * inv;
+        out.c = -m.c * inv;
+        out.d = m.a * inv;
+        out.e = (m.c * m.f - m.d * m.e) * inv;
+        out.f = (m.b * m.e - m.a * m.f) * inv;
 
         return true;
     }
 
     static Projective projectiveOf(const Matrix& m) {
-        return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true, false, false};
+        return Projective{{(float)m.a, (float)m.c, (float)m.e, (float)m.b, (float)m.d, (float)m.f, 0.f, 0.f, 1.f}, true, false, false};
     }
 
     static Matrix4 identity4() {
@@ -2755,7 +2756,7 @@ namespace {
     }
 
     static Matrix4 matrix4Of(const Matrix& m) {
-        return Matrix4{{{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}};
+        return Matrix4{{{(float)m.a, (float)m.c, 0.f, (float)m.e}, {(float)m.b, (float)m.d, 0.f, (float)m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}};
     }
 
     static Matrix4 translation4(float x, float y, float z) {
@@ -6540,6 +6541,32 @@ namespace {
         return readMathNumber(p, p + tokens.length(), out);
     }
 
+    static bool listNumber(Lexer& x, double& out) {
+        skipBlank(x);
+
+        if (x.p >= x.end) {
+            return false;
+        }
+
+        const u8* start = x.p;
+        Token t = consumeToken(x);
+
+        if (t.type == TokenType::Number) {
+            out = t.number;
+            return true;
+        }
+
+        x.p = start;
+        float value;
+
+        if (!listNumber(x, value)) {
+            return false;
+        }
+
+        out = value;
+        return true;
+    }
+
     // Whether an attribute's value is blank: white space alone, but for the
     // atom of a declaration's value, which has no text.
     static bool blank(const Document& doc, u32 atom) {
@@ -7226,7 +7253,7 @@ namespace {
         Viewport view{0.f, 0.f, 0.f, 0.f, 16.f};
         Box viewBox;
         bool boxed = parseViewBox(doc, doc.root, viewBox);
-        float sides[2] = {boxed ? viewBox.x1 - viewBox.x0 : 0.f, boxed ? viewBox.y1 - viewBox.y0 : 0.f};
+        float sides[2] = {(float)(boxed ? viewBox.x1 - viewBox.x0 : 0.0), (float)(boxed ? viewBox.y1 - viewBox.y0 : 0.0)};
         u32 names[2] = {AtomWidth, AtomHeight};
 
         for (int k = 0; k < 2; k++) {
@@ -10526,7 +10553,7 @@ namespace {
         float t[4][4];
 
         if (!b.deep) {
-            float flat[4][4] = {{b.result.a, b.result.c, 0.f, b.result.e}, {b.result.b, b.result.d, 0.f, b.result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            float flat[4][4] = {{(float)b.result.a, (float)b.result.c, 0.f, (float)b.result.e}, {(float)b.result.b, (float)b.result.d, 0.f, (float)b.result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
             memcpy(b.m4, flat, sizeof(flat));
             b.deep = true;
@@ -10632,6 +10659,8 @@ namespace {
             args[i] = units[i] == 3 ? args[i] / 100.f * (scale ? 1.f : side) : args[i];
         }
 
+        bool sourceMatrix = name == SV("matrix");
+
         // A function of CSS alone comes here with its count: a declaration
         // checked it above, a value either grammar takes was one.
         if (name == SV("translateX")) {
@@ -10714,7 +10743,15 @@ namespace {
         }
 
         if (name == SV("matrix") && count == 6) {
-            m = Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
+            bool numbers = true;
+
+            for (u32 i = 0; i < 6 && sourceMatrix; i++) {
+                numbers &= units[i] == 0 && arguments[i].begin->type == TokenType::Number;
+            }
+
+            m = numbers && sourceMatrix ? Matrix{arguments[0].begin->number, arguments[1].begin->number, arguments[2].begin->number,
+                                 arguments[3].begin->number, arguments[4].begin->number, arguments[5].begin->number}
+                        : Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
         } else if (name == SV("translate") && (count == 1 || count == 2)) {
             m = translation(args[0], count == 2 ? args[1] : 0.f);
         } else if (name == SV("scale") && (count == 1 || count == 2)) {
@@ -10738,7 +10775,7 @@ namespace {
         }
 
         if (b.deep) {
-            float flat[4][4] = {{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            float flat[4][4] = {{(float)m.a, (float)m.c, 0.f, (float)m.e}, {(float)m.b, (float)m.d, 0.f, (float)m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
             composeTransform(b, flat);
         } else {
@@ -11164,7 +11201,7 @@ namespace {
     // viewBox, or a view's box in a fragment.
     static bool parseViewBoxText(ObjPool& pool, StringView text, Box& out) {
         Lexer x{&pool, text.begin(), text.end()};
-        float numbers[4];
+        double numbers[4];
 
         for (u32 i = 0; i < 4; i++) {
             if (!listNumber(x, numbers[i])) {
@@ -11178,7 +11215,7 @@ namespace {
 
         skipBlank(x);
 
-        if (x.p != x.end || numbers[2] < 0.f || numbers[3] < 0.f) {
+        if (x.p != x.end || numbers[2] < 0.0 || numbers[3] < 0.0) {
             return false;
         }
 
@@ -11219,10 +11256,10 @@ namespace {
     }
 
     static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, float width, float height) {
-        float vw = viewBox.x1 - viewBox.x0;
-        float vh = viewBox.y1 - viewBox.y0;
-        double sx = (double)width / vw;
-        double sy = (double)height / vh;
+        double vw = viewBox.x1 - viewBox.x0;
+        double vh = viewBox.y1 - viewBox.y0;
+        double sx = width / vw;
+        double sy = height / vh;
         int alignX = 1;
         int alignY = 1;
         bool slice = false;
@@ -11252,7 +11289,7 @@ namespace {
         }
 
         if (none) {
-            return multiply(scaling((float)sx, (float)sy), translation(-viewBox.x0, -viewBox.y0));
+            return multiply(scaling(sx, sy), translation(-viewBox.x0, -viewBox.y0));
         }
 
         // The side that sets the scale is filled exactly; only the other is
@@ -11261,7 +11298,7 @@ namespace {
         double tx = -(double)viewBox.x0 * s + (s == sx ? 0.0 : (width - vw * s) * alignX * 0.5);
         double ty = -(double)viewBox.y0 * s + (s == sy ? 0.0 : (height - vh * s) * alignY * 0.5);
 
-        return Matrix{(float)s, 0.f, 0.f, (float)s, (float)tx, (float)ty};
+        return Matrix{s, 0.0, 0.0, s, tx, ty};
     }
 
     static void moveTo(Path& path, Point p) {
@@ -11442,7 +11479,7 @@ namespace {
             u8 upper = relative ? (u8)(command - 32) : command;
             DPoint base = relative ? current : DPoint{0.0, 0.0};
             auto stored = [](DPoint q) {
-                return Point{(float)q.x, (float)q.y};
+                return Point{q.x, q.y};
             };
 
             // A closepath takes no comma after it (paths.md, PathDataBNF):
@@ -12244,6 +12281,18 @@ namespace {
         bool open = false;
         Point start{0.f, 0.f};
         Point last{0.f, 0.f};
+        // Round only where a float's spacing is far below the flattening
+        // tolerance. Strokes are outlined in source space, which can still
+        // have a large origin even when the final image is small.
+        auto rasterPoint = [&](Point p) {
+            Point device = apply(m, p);
+
+            if (fmax(fabs(device.x), fabs(device.y)) * 0x1p-23 <= tol / 8.0) {
+                return Point{(float)device.x, (float)device.y};
+            }
+
+            return device;
+        };
 
         auto finish = [&](bool closed) {
             if (open) {
@@ -12283,7 +12332,7 @@ namespace {
             switch (verb) {
                 case VerbMove:
                     finish(false);
-                    start = apply(m, pts[pi++]);
+                    start = rasterPoint(pts[pi++]);
                     last = start;
                     out.points.pushBack(start);
                     open = true;
@@ -12295,15 +12344,15 @@ namespace {
 
                     break;
                 case VerbLine:
-                    last = apply(m, pts[pi++]);
+                    last = rasterPoint(pts[pi++]);
                     out.points.pushBack(last);
                     break;
                 case VerbCubic:
                 case VerbArcCubic: {
                     Point p0 = last;
-                    Point p1 = apply(m, pts[pi]);
-                    Point p2 = apply(m, pts[pi + 1]);
-                    Point p3 = apply(m, pts[pi + 2]);
+                    Point p1 = rasterPoint(pts[pi]);
+                    Point p2 = rasterPoint(pts[pi + 1]);
+                    Point p3 = rasterPoint(pts[pi + 2]);
 
                     // Subdividing a straight cubic with a stationary endpoint
                     // can round its final chord into a false stroke-join tangent.
@@ -12351,7 +12400,7 @@ namespace {
 
     // Widens a range by the extremes of a cubic's coordinate between its
     // ends: where its derivative, a quadratic in t, is zero inside (0, 1).
-    static void cubicExtremes(float p0, float p1, float p2, float p3, float& lo, float& hi) {
+    static void cubicExtremes(double p0, double p1, double p2, double p3, double& lo, double& hi) {
         double a = -(double)p0 + 3.0 * p1 - 3.0 * p2 + p3;
         double b = 2.0 * ((double)p0 - 2.0 * p1 + p2);
         double c = (double)p1 - p0;
@@ -12378,10 +12427,10 @@ namespace {
 
             if (t > 0.0 && t < 1.0) {
                 double u = 1.0 - t;
-                float at = (float)(u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3);
+                double at = u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3;
 
-                lo = minf(lo, at);
-                hi = maxf(hi, at);
+                lo = fmin(lo, at);
+                hi = fmax(hi, at);
             }
         }
     }
@@ -15733,7 +15782,7 @@ namespace {
                     extend(bounds, a);
 
                     if (a.y != b.y) {
-                        l.edges.pushBack(Edge{a.x, a.y, b.x, b.y});
+                        l.edges.pushBack(Edge{(float)a.x, (float)a.y, (float)b.x, (float)b.y});
                     }
                 }
             }
@@ -15902,7 +15951,7 @@ namespace {
     // the space the transform works in, or the viewport
     // (css-transforms-1.md, transform-box).
     static Matrix referencedTransform(Pass& l, Node* node, u32 transform, Box box, Viewport vp) {
-        TransformBasis basis{Viewport{box.x1 - box.x0, box.y1 - box.y0, vp.screenWidth, vp.screenHeight, vp.rootFontSize}, documentStyle(l, node, vp).fontSize};
+        TransformBasis basis{Viewport{(float)(box.x1 - box.x0), (float)(box.y1 - box.y0), vp.screenWidth, vp.screenHeight, vp.rootFontSize}, documentStyle(l, node, vp).fontSize};
         Vector<Token> scratch;
         Matrix m = flatTransform(readTokens(*l.doc, transform, scratch), &basis);
         u32 origin = attribute(node, AtomTransformOrigin);
@@ -17737,7 +17786,7 @@ namespace {
         if (shape.kind == ShapeKind::Circle || shape.kind == ShapeKind::Ellipse) {
             float cx = box.x0 + shapeLength(shape.values[2], w, vp, fs);
             float cy = box.y0 + shapeLength(shape.values[3], h, vp, fs);
-            float sides[2][2] = {{cx - box.x0, box.x1 - cx}, {cy - box.y0, box.y1 - cy}};
+            float sides[2][2] = {{(float)(cx - box.x0), (float)(box.x1 - cx)}, {(float)(cy - box.y0), (float)(box.y1 - cy)}};
             float radii[2];
 
             for (int axis = 0; axis < 2; axis++) {
@@ -18339,8 +18388,8 @@ namespace {
             parseCssGradient(layer.image, style.color, gradient);
         }
 
-        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
-        float start[2] = {area.x0, area.y0};
+        float span[2] = {(float)(area.x1 - area.x0), (float)(area.y1 - area.y0)};
+        float start[2] = {(float)area.x0, (float)area.y0};
         float size[2];
         float gap[2] = {0.f, 0.f};
         float origin[2];
@@ -18541,7 +18590,7 @@ namespace {
         }
 
         Box area{box.x0 - outset[3], box.y0 - outset[0], box.x1 + outset[1], box.y1 + outset[2]};
-        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
+        float span[2] = {(float)(area.x1 - area.x0), (float)(area.y1 - area.y0)};
         float size[2];
 
         for (int axis = 0; axis < 2; axis++) {
@@ -18575,8 +18624,8 @@ namespace {
         }
 
         // The regions' and the parts' edges, and the edges' scales.
-        float dx[4] = {area.x0, area.x0 + width[3], area.x1 - width[1], area.x1};
-        float dy[4] = {area.y0, area.y0 + width[0], area.y1 - width[2], area.y1};
+        float dx[4] = {(float)area.x0, (float)(area.x0 + width[3]), (float)(area.x1 - width[1]), (float)area.x1};
+        float dy[4] = {(float)area.y0, (float)(area.y0 + width[0]), (float)(area.y1 - width[2]), (float)area.y1};
         float sx[4] = {0.f, slice[3], size[0] - slice[1], size[0]};
         float sy[4] = {0.f, slice[0], size[1] - slice[2], size[1]};
         float scale[4];
@@ -18622,7 +18671,7 @@ namespace {
             for (int c = 0; c < 3; c++) {
                 Box region{dx[c], dy[r], dx[c + 1], dy[r + 1]};
                 Box part{sx[c], sy[r], sx[c + 1], sy[r + 1]};
-                float length[2] = {region.x1 - region.x0, region.y1 - region.y0};
+                float length[2] = {(float)(region.x1 - region.x0), (float)(region.y1 - region.y0)};
 
                 if (!(length[0] > 0.f) || !(length[1] > 0.f)) {
                     continue;
@@ -18641,7 +18690,7 @@ namespace {
                 float across = c != 1 ? length[0] : (part.x1 - part.x0) * (r != 1 ? scale[r] : (usable(scale[0]) ? scale[0] : (usable(scale[2]) ? scale[2] : 1.f)));
                 float down = r != 1 ? length[1] : (part.y1 - part.y0) * (c != 1 ? scale[3 - c] : (usable(scale[3]) ? scale[3] : (usable(scale[1]) ? scale[1] : 1.f)));
                 float tile[2] = {across, down};
-                float start[2] = {region.x0, region.y0};
+                float start[2] = {(float)region.x0, (float)region.y0};
                 float gap[2] = {0.f, 0.f};
                 u8 repeat[2] = {c == 1 ? border.repeat[0] : (u8)0, r == 1 ? border.repeat[1] : (u8)0};
                 bool empty = false;
@@ -19496,7 +19545,7 @@ namespace {
             }
 
             content = viewBoxTransform(doc, marker, viewBox, w, h);
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, p.rootFontSize};
+            inside = Viewport{(float)(viewBox.x1 - viewBox.x0), (float)(viewBox.y1 - viewBox.y0), vp.screenWidth, vp.screenHeight, p.rootFontSize};
         }
 
         // A percentage of refX or refY is of the viewBox, a keyword its 0%,
@@ -19877,7 +19926,7 @@ namespace {
             }
 
             boxed = viewBoxTransform(*l.doc, node, viewBox, w, h);
-            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, l.rootFontSize};
+            inside = Viewport{(float)(viewBox.x1 - viewBox.x0), (float)(viewBox.y1 - viewBox.y0), vp.screenWidth, vp.screenHeight, l.rootFontSize};
         }
 
         // A symbol's refX and refY put that point of its content at x and
@@ -20839,7 +20888,7 @@ namespace {
 
         l.out->pushBack(op);
         l.rootFontSize = rootStyle.fontSize;
-        lowerChildren(l, nested->root, rootStyle, multiply(place, source.transform), Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
+        lowerChildren(l, nested->root, rootStyle, multiply(place, source.transform), Viewport{(float)(viewBox.x1 - viewBox.x0), (float)(viewBox.y1 - viewBox.y0), source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
         l.rootFontSize = outerFontSize;
         l.docWidth = outerDocWidth;
         l.docHeight = outerDocHeight;
@@ -21549,7 +21598,7 @@ namespace {
             // derivative there, the linear part less the point by the weight's
             // gradient, over the weight.
             float weight = d[6] * middle.x + d[7] * middle.y + d[8];
-            float columns[2][2] = {{(d[0] - at.x * d[6]) / weight, (d[3] - at.y * d[6]) / weight}, {(d[1] - at.x * d[7]) / weight, (d[4] - at.y * d[7]) / weight}};
+            float columns[2][2] = {{(float)((d[0] - at.x * d[6]) / weight), (float)((d[3] - at.y * d[6]) / weight)}, {(float)((d[1] - at.x * d[7]) / weight), (float)((d[4] - at.y * d[7]) / weight)}};
             float scale = minf(maxf(maxf(hypotf(columns[0][0], columns[0][1]), hypotf(columns[1][0], columns[1][1])), 0.0625f), 16.f);
             float budget = 16.f * (float)l.width * (float)l.height;
 
@@ -23935,8 +23984,8 @@ namespace {
         // apply forms, taken once.
         const Matrix& m = paint.inverse;
         float py = (float)y + 0.5f;
-        float rowX = m.c * py;
-        float rowY = m.d * py;
+        double rowX = m.c * py;
+        double rowY = m.d * py;
 
         for (u32 i = 0; i < count; i++) {
             float t;
@@ -27382,7 +27431,7 @@ namespace {
                 if (light->name != AtomFeDistantLight) {
                     Point surface = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
 
-                    toLight = normalize3(Vector3{lightPosition.x - surface.x, lightPosition.y - surface.y, lightPosition.z - surfaceScale * (float)a11 * unit});
+                    toLight = normalize3(Vector3{(float)(lightPosition.x - surface.x), (float)(lightPosition.y - surface.y), lightPosition.z - surfaceScale * (float)a11 * unit});
                 }
 
                 if (light->name == AtomFeSpotLight) {
