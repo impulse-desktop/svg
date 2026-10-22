@@ -627,6 +627,15 @@ including `stroke-tight-ends#end-tight`, still uses the ideal swept shape.
 `stroke-hairpin-tip` tests both path directions against a fixed Chromium
 drawing; resvg agrees on the opening.
 
+These exceptions do not establish author reliance on every opening an offset
+outline leaves. The returning tail in Sketchy-SVG fb7665865da144f8 has
+normal segments that cover the opening left by Chromium, resvg and librsvg;
+there is no evidence that its author relied on that opening. It keeps the
+ideal sweep. `stroke-normal-witnesses` certifies complete interior squares
+by a sign change of the normal equation and a convex-hull distance bound,
+in both path directions. The independent `stroke-tight-ends` controls stay
+in force; a smaller comparison error alone does not justify extending D49.
+
 ## D50. A focal point within 1/4096 of the radius of the end circle is on it
 
 `svg2/pservers.md#RadialGradientNotes` draws a focal circle outside the end
