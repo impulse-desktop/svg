@@ -38,7 +38,7 @@ SVG11_PAGES = [
 MODULES = [
     "filter-effects-1", "css-masking-1", "compositing-1", "css-transforms-1", "css-transforms-2", "css-color-4",
     "css-values-4", "css-shapes-1", "css-images-3", "css-backgrounds-3", "css-box-4", "selectors-4",
-    "css-syntax-3", "css-cascade-5", "css-variables-1", "css-values-5",
+    "css-syntax-3", "css-cascade-5", "css-variables-1", "css-values-5", "css-ui-4",
 ]
 
 # The bases a link to these specs is written with.

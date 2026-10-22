@@ -1167,7 +1167,8 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(ShapeRendering, "shape-rendering")                        \
     ATOM(ImageRendering, "image-rendering")                        \
     ATOM(Zoom, "zoom")                                             \
-    ATOM(Outline, "outline")
+    ATOM(Outline, "outline")                                       \
+    ATOM(OutlineOffset, "outline-offset")
 
 namespace {
     enum Atom : u32 {
@@ -1186,7 +1187,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomOutline - AtomFill + 1;
+    constexpr u32 propertyCount = AtomOutlineOffset - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.025f;
@@ -1920,6 +1921,7 @@ namespace {
         u32 objectPosition;
         float zoom;
         float outlineWidth;
+        float outlineOffset;
         Color outlineColor;
         u8 paintOrder[3];
         u8 maskType;
@@ -8417,6 +8419,8 @@ namespace {
             case AtomPerspective:
                 // A length of no less than zero, a number only as 0.
                 return isKeyword(value, SV("none")) || (parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc)) && nonNegative(length));
+            case AtomOutlineOffset:
+                return parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc));
             case AtomPerspectiveOrigin: {
                 Length y;
 
@@ -8615,7 +8619,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomOutlineOffset && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
                 bool pending = valueSubstitutes(doc, value);
 
                 if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
@@ -14547,6 +14551,7 @@ namespace {
         style.objectFit = 0;
         style.objectPosition = 0;
         style.outlineWidth = 0.f;
+        style.outlineOffset = 0.f;
         style.zoom = 1.f;
         memset(style.maskParts, 0, sizeof(style.maskParts));
         memset(style.maskBorder, 0, sizeof(style.maskBorder));
@@ -14591,7 +14596,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomOutlineOffset && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -14977,6 +14982,7 @@ namespace {
                     float width = 3.f;
                     Color color = style.color;
                     bool solid = false;
+                    bool automatic = false;
 
                     for (;;) {
                         Tokens word = nextWord(p, value.end);
@@ -14988,6 +14994,8 @@ namespace {
 
                         if (isKeyword(word, SV("solid"))) {
                             solid = true;
+                        } else if (isKeyword(word, SV("auto"))) {
+                            automatic = true;
                         } else if (isKeyword(word, SV("thin"))) {
                             width = 1.f;
                         } else if (isKeyword(word, SV("medium"))) {
@@ -14998,12 +15006,27 @@ namespace {
                             width = resolveLength(length, Axis::Other, vp, style.fontSize);
                         } else if (!parseColor(word, color)) {
                             solid = false;
+                            automatic = false;
                             break;
                         }
                     }
 
-                    style.outlineWidth = solid ? width : 0.f;
+                    // CSS UI permits auto as a solid outline. Its width is
+                    // chosen by the UA, ignoring the specified width; with
+                    // an explicit solid style, auto is the current color.
+                    style.outlineWidth = solid ? width : automatic ? 3.f : 0.f;
                     style.outlineColor = color;
+                    break;
+                }
+                case AtomOutlineOffset: {
+                    Length length;
+
+                    if (keyword) {
+                        style.outlineOffset = source.outlineOffset;
+                    } else if (parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc))) {
+                        style.outlineOffset = resolveLength(length, Axis::Other, vp, style.fontSize);
+                    }
+
                     break;
                 }
                 case AtomZoom:
@@ -21857,6 +21880,14 @@ namespace {
 
         if (style.outlineWidth > 0.f && style.outlineColor.a > 0.f && elementBox(l, node, parent, vp, outline, 0)) {
             float w = style.outlineWidth;
+            // A negative offset shrinks each axis independently. Keeping
+            // the inner box nonnegative leaves an outer size of at least
+            // twice the outline width, as CSS UI recommends.
+            float dx = fmaxf(style.outlineOffset, -(outline.x1 - outline.x0) * 0.5f);
+            float dy = fmaxf(style.outlineOffset, -(outline.y1 - outline.y0) * 0.5f);
+
+            outline = Box{outline.x0 - dx, outline.y0 - dy, outline.x1 + dx, outline.y1 + dy};
+
             Path ring;
             Flat flat;
 
@@ -21865,11 +21896,13 @@ namespace {
             lineTo(ring, Point{outline.x1 + w, outline.y1 + w});
             lineTo(ring, Point{outline.x0 - w, outline.y1 + w});
             closePath(ring);
-            moveTo(ring, Point{outline.x0, outline.y0});
-            lineTo(ring, Point{outline.x1, outline.y0});
-            lineTo(ring, Point{outline.x1, outline.y1});
-            lineTo(ring, Point{outline.x0, outline.y1});
-            closePath(ring);
+            if (outline.x1 > outline.x0 && outline.y1 > outline.y0) {
+                moveTo(ring, Point{outline.x0, outline.y0});
+                lineTo(ring, Point{outline.x1, outline.y0});
+                lineTo(ring, Point{outline.x1, outline.y1});
+                lineTo(ring, Point{outline.x0, outline.y1});
+                closePath(ring);
+            }
             flatten(ring, m, tolerance, flat);
             emitFill(l, flat, WindingEvenOdd, solidPaint(l, style.outlineColor, 1.f), false);
         }

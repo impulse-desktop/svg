@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240">
+<!-- Positive and negative outline offsets are compared with fixed solid
+rectangular strips. A negative offset clamps independently per axis so
+the outer shape remains at least twice the outline width. Cascading,
+invalid values, variables and font-relative units are checked
+separately. The outline shorthand preserves offset. Auto uses the
+permitted solid rendering with a fixed 3px width and current color; its
+specified width is ignored. -->
+<rect width="320" height="240" fill="white"/>
+<g transform="translate(0 0)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:4px" /></g></g>
+<g transform="translate(64 0)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:0" /></g></g>
+<g transform="translate(128 0)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:-2px" /></g></g>
+<g transform="translate(192 0)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:-3px" /></g></g>
+<g transform="translate(256 0)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:-8px" /></g></g>
+<g transform="translate(0 48)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:-100px" /></g></g>
+<g transform="translate(64 48)"><g style="outline-offset:4px"><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;" /></g></g>
+<g transform="translate(128 48)"><g style="outline-offset:4px"><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:inherit" /></g></g>
+<g transform="translate(192 48)"><g style="outline-offset:4px"><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:initial" /></g></g>
+<g transform="translate(256 48)"><g style="outline-offset:4px"><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:unset" /></g></g>
+<g transform="translate(0 96)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline-offset:4px;outline:3px solid red;" /></g></g>
+<g transform="translate(64 96)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:4px;outline-offset:50%" /></g></g>
+<g transform="translate(128 96)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:4px;outline-offset:2" /></g></g>
+<g transform="translate(192 96)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;font-size:16px;outline-offset:.25em" /></g></g>
+<g transform="translate(256 96)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;--distance:-2px;outline-offset:var(--distance)" /></g></g>
+<g transform="translate(0 144)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;--distance:20%;outline-offset:4px;outline-offset:var(--distance)" /></g></g>
+<g transform="translate(64 144)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;" outline-offset="4px"/></g></g>
+<g transform="translate(128 144)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:auto;color:blue;outline-offset:2px" /></g></g>
+<g transform="translate(192 144)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:20px auto red;outline-offset:2px" /></g></g>
+<g transform="translate(256 144)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:auto;color:blue;outline-offset:-2px" /></g></g>
+<g transform="translate(0 192)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:5px solid auto;color:blue" /></g></g>
+<g transform="translate(64 192)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:auto 5px solid;color:blue" /></g></g>
+<g transform="translate(128 192)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid red;outline-offset:calc(1px + 3px)" /></g></g>
+<g transform="translate(192 192)"><g style=""><rect x="12" y="12" width="24" height="16" fill="lime" style="outline:3px solid rgba(27,31,35,.06);outline-offset:-2px" /></g></g>
+</svg>
