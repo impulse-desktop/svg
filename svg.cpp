@@ -12676,7 +12676,9 @@ namespace {
         Vector<Point> pts;
         Vector<u8> kind;
         Vector<Point> came;
-        Vector<u8> collapsedCorner;
+        // Zero for an ordinary point, source index plus one for a merged
+        // corner with known tangents, all ones for one needing its local legs.
+        Vector<u32> cornerSource;
 
         // Each point after the first comes along the direction of its
         // segment, which may be shorter than the floats can tell; one come
@@ -12689,26 +12691,30 @@ namespace {
             if (pts.length() > 1 && points[i].x == pts.back().x && points[i].y == pts.back().y) {
                 size_t end = i;
                 bool corner = false;
+                size_t source = ~(size_t)0;
+                bool multiple = false;
 
                 while (end < count && points[end].x == pts.back().x && points[end].y == pts.back().y) {
                     if (kinds[end] == PointCorner && end + 1 < count) {
-                        Point a = into[end];
-                        Point b = into[end + 1];
-                        float cross = a.x * b.y - a.y * b.x;
-                        float dot = a.x * b.x + a.y * b.y;
-
-                        // The exact tangents at a continuous curve join can
-                        // agree even when its adjacent flattened points have
-                        // rounded to the same float position. Replacing them
-                        // with longer chords would invent a miter there.
-                        corner = corner || !(dot > 0.f && s.half * fabsf(cross) <= s.tol);
+                        corner = true;
+                        multiple = multiple || source != ~(size_t)0;
+                        source = end;
                     }
                     end++;
                 }
 
                 if (corner && end < count) {
                     kind.mutBack() = PointCorner;
-                    collapsedCorner.mutBack() = 1;
+                    // Cubic ends and the next cubic's first sample carry
+                    // their true tangents even when both points round to the
+                    // same float position. A remote chord can invent a miter.
+                    // At an opposed-tangent cusp the join side is ambiguous;
+                    // its surrounding legs still determine the outer wedge.
+                    Point a = into[source];
+                    Point b = into[source + 1];
+                    float dot = a.x * b.x + a.y * b.y;
+
+                    cornerSource.mutBack() = !multiple && nonZero(a) && nonZero(b) && dot > -0.99f ? (u32)source + 1 : ~0u;
                     i = end - 1;
                     continue;
                 }
@@ -12721,7 +12727,7 @@ namespace {
                         pts.pushBack(points[j]);
                         kind.pushBack(kinds[j]);
                         came.pushBack(into[j]);
-                        collapsedCorner.pushBack(0);
+                        cornerSource.pushBack(0);
                     }
                 }
 
@@ -12733,7 +12739,7 @@ namespace {
                 pts.pushBack(points[i]);
                 kind.pushBack(kinds[i]);
                 came.pushBack(into[i]);
-                collapsedCorner.pushBack(0);
+                cornerSource.pushBack(0);
             }
         }
 
@@ -12746,7 +12752,7 @@ namespace {
             pts.popBack();
             kind.popBack();
             closing = came.popBack();
-            collapsedCorner.popBack();
+            cornerSource.popBack();
         }
 
         // A run of two or more points at one place: its caps make a dot, a
@@ -12904,28 +12910,33 @@ namespace {
             Point d0 = dirs[in];
             Point d1 = dirs[next];
 
-            if (collapsedCorner[k] && kind[k] == PointCorner) {
-                float min2 = s.tol * s.tol;
+            if (cornerSource[k] && kind[k] == PointCorner) {
+                if (cornerSource[k] != ~0u) {
+                    d0 = into[cornerSource[k] - 1];
+                    d1 = into[cornerSource[k]];
+                } else {
+                    float min2 = s.tol * s.tol;
 
-                for (size_t j = k; j > 0; j--) {
-                    Point v = direction(pts[j - 1], p);
-                    float len2 = v.x * v.x + v.y * v.y;
+                    for (size_t j = k; j > 0; j--) {
+                        Point v = direction(pts[j - 1], p);
+                        float len2 = v.x * v.x + v.y * v.y;
 
-                    if (len2 >= min2) {
-                        float inv = 1.f / sqrtf(len2);
-                        d0 = Point{v.x * inv, v.y * inv};
-                        break;
+                        if (len2 >= min2) {
+                            float inv = 1.f / sqrtf(len2);
+                            d0 = Point{v.x * inv, v.y * inv};
+                            break;
+                        }
                     }
-                }
 
-                for (size_t j = k + 1; j < n; j++) {
-                    Point v = direction(p, pts[j]);
-                    float len2 = v.x * v.x + v.y * v.y;
+                    for (size_t j = k + 1; j < n; j++) {
+                        Point v = direction(p, pts[j]);
+                        float len2 = v.x * v.x + v.y * v.y;
 
-                    if (len2 >= min2) {
-                        float inv = 1.f / sqrtf(len2);
-                        d1 = Point{v.x * inv, v.y * inv};
-                        break;
+                        if (len2 >= min2) {
+                            float inv = 1.f / sqrtf(len2);
+                            d1 = Point{v.x * inv, v.y * inv};
+                            break;
+                        }
                     }
                 }
             }
