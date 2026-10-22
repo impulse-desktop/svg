@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40">
+<!-- A zero-length dash with square caps follows the path tangent.
+Cardinal directions make axis-aligned squares; diagonal directions make
+diamonds. A translucent dot is painted once, and a nonuniform transform
+acts on the square built in user space. Expected polygons and rectangles
+use fixed analytic vertices. -->
+<rect width="100" height="40" fill="white"/>
+<path transform="translate(10 10)" d="M0 0l8 0" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(30 10)" d="M0 0l0 -8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(50 10)" d="M0 0l8 -8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(70 10)" d="M0 0l-8 -8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(90 10)" d="M0 0l-8 0" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(10 30)" d="M0 0l0 8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(30 30)" d="M0 0l8 8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(50 30)" d="M0 0l-8 8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+<path transform="translate(70 30)" d="M0 0l8 8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000" stroke-opacity=".5"/>
+<path transform="translate(90 30) scale(1.25 .75)" d="M0 0l8 8" fill="none" stroke="lime" stroke-width="6" stroke-linecap="square" stroke-dasharray="0 1000"/>
+</svg>

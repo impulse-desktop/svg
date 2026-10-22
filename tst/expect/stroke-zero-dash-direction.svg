@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="40">
+<!-- What tst/unit/stroke-zero-dash-direction.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="100" height="40" fill="white"/>
+<g id="east" data-box="0 0 20 20"><rect x="7" y="7" width="6" height="6" fill="lime"/></g>
+<g id="north" data-box="20 0 20 20"><rect x="27" y="7" width="6" height="6" fill="lime"/></g>
+<g id="northeast" data-box="40 0 20 20"><path d="M45.757359313 10L50 5.757359313L54.242640687 10L50 14.242640687Z" fill="lime"/></g>
+<g id="northwest" data-box="60 0 20 20"><path d="M65.757359313 10L70 5.757359313L74.242640687 10L70 14.242640687Z" fill="lime"/></g>
+<g id="west" data-box="80 0 20 20"><rect x="87" y="7" width="6" height="6" fill="lime"/></g>
+<g id="south" data-box="0 20 20 20"><rect x="7" y="27" width="6" height="6" fill="lime"/></g>
+<g id="southeast" data-box="20 20 20 20"><path d="M25.757359313 30L30 25.757359313L34.242640687 30L30 34.242640687Z" fill="lime"/></g>
+<g id="southwest" data-box="40 20 20 20"><path d="M45.757359313 30L50 25.757359313L54.242640687 30L50 34.242640687Z" fill="lime"/></g>
+<g id="translucent" data-box="60 20 20 20"><path d="M65.757359313 30L70 25.757359313L74.242640687 30L70 34.242640687Z" fill="lime" fill-opacity=".5"/></g>
+<g id="stretched" data-box="80 20 20 20"><path d="M84.696699141 30L90 26.818019485L95.303300859 30L90 33.181980515Z" fill="lime"/></g>
+</svg>

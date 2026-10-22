@@ -170,3 +170,9 @@
 
 - svg2/painting.md#issue592: miter-clip and arcs stroke-linejoin values are flagged "at risk" (no known browser implementations); the spec itself says these could still be dropped.
 - svg2/painting.md#CurvatureCalculation: exact per-segment curvature-matched circles for the arcs join, plus the ArcsLinejoinFallback radius search when they don't intersect, are expensive to compute exactly per join; a close approximation is far cheaper and arcs is rare in content.
+
+## Zero-length square dash direction: stroke-zero-dash-direction
+
+- [x] svg2/painting.md#TermCapShape: each square cap is a half-width rectangle oriented by the path tangent; at a zero-length dash their union is a full square with that orientation, rather than a square aligned to device axes. [stroke-zero-dash-direction#east stroke-zero-dash-direction#north stroke-zero-dash-direction#northeast stroke-zero-dash-direction#northwest stroke-zero-dash-direction#west stroke-zero-dash-direction#south stroke-zero-dash-direction#southeast stroke-zero-dash-direction#southwest]
+- [x] svg2/painting.md#StrokeShape: the two cap shapes are united into the stroke shape before that shape is painted, so a translucent zero-length dash is painted once. [stroke-zero-dash-direction#translucent]
+- [x] svg2/painting.md#StrokeShape: the square cap is constructed in user space; a nonuniform transform acts on its geometry. [stroke-zero-dash-direction#stretched]
