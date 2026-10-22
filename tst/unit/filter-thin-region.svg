@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="12">
+<!-- Thin filter regions retain their fractional pixel coverage. Eight
+independent pixel-area expectations check direct and transformed
+regions, a huge region width, flood and source alpha, half and whole
+rows, a clip crossing two rows, and a thin column. -->
+<svg x="0" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f0" filterUnits="userSpaceOnUse" x="0" y="0" width="8" height="0.06640625"><feGaussianBlur in="SourceAlpha" stdDeviation="0"/></filter></defs><g transform="translate(2 2) scale(1 1)"><rect width="8" height="2" fill="red" filter="url(#f0)"/></g></svg>
+<svg x="16" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f1" filterUnits="userSpaceOnUse" x="0" y="0" width="8" height="17"><feGaussianBlur in="SourceAlpha" stdDeviation="0"/></filter></defs><g transform="translate(2 2) scale(1 0.00390625)"><rect width="8" height="512" fill="red" filter="url(#f1)"/></g></svg>
+<svg x="32" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f2" filterUnits="userSpaceOnUse" x="0" y="0" width="4194305" height="17"><feGaussianBlur in="SourceAlpha" stdDeviation="0"/></filter></defs><g transform="translate(2 2) scale(1 0.00390625)"><rect width="8" height="512" fill="red" filter="url(#f2)"/></g></svg>
+<svg x="48" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f3" filterUnits="userSpaceOnUse" x="0" y="0" width="8" height="17"><feFlood flood-color="black"/></filter></defs><g transform="translate(2 2) scale(1 0.00390625)"><rect width="8" height="512" fill="red" filter="url(#f3)"/></g></svg>
+<svg x="64" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f4" filterUnits="userSpaceOnUse" x="0" y="0" width="8" height="128"><feFlood flood-color="black"/></filter></defs><g transform="translate(2 2) scale(1 0.00390625)"><rect width="8" height="512" fill="red" filter="url(#f4)"/></g></svg>
+<svg x="80" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f5" filterUnits="userSpaceOnUse" x="0" y="0" width="8" height="256"><feFlood flood-color="black"/></filter></defs><g transform="translate(2 2) scale(1 0.00390625)"><rect width="8" height="512" fill="red" filter="url(#f5)"/></g></svg>
+<svg x="96" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f6" filterUnits="userSpaceOnUse" x="0" y="192" width="8" height="128"><feFlood flood-color="black"/></filter></defs><g transform="translate(2 2) scale(1 0.00390625)"><rect width="8" height="512" fill="red" filter="url(#f6)"/></g></svg>
+<svg x="112" width="16" height="12" viewBox="0 0 16 12"><defs><filter id="f7" filterUnits="userSpaceOnUse" x="0" y="0" width="17" height="8"><feFlood flood-color="black"/></filter></defs><g transform="translate(2 2) scale(0.00390625 1)"><rect width="512" height="8" fill="red" filter="url(#f7)"/></g></svg>
+</svg>

@@ -11,13 +11,13 @@
 - [x] filter-effects-1.md#FilterProperty: the compositing order is filter, then clipping, masking and opacity. [blend-render-order#filter-clip blend-render-order#mask-blend]
 - [x] filter-effects-1.md#FilterProperty: filter is a presentation attribute for SVG elements. [filter-region#default-region]
 
-## Filter element and filter region: filter-region, filter-root (exists)
+## Filter element and filter region: filter-region, filter-thin-region, filter-root (exists)
 
 - [x] filter-effects-1.md#element-attrdef-filter-filterunits: filterUnits is userSpaceOnUse or objectBoundingBox; initial objectBoundingBox. [filter-region#default-region filter-region#user-space]
 - [x] filter-effects-1.md#element-attrdef-filter-primitiveunits: primitiveUnits is userSpaceOnUse or objectBoundingBox; initial userSpaceOnUse; sets the coordinate system of primitive lengths and of the primitive subregion attributes. [filter-region#primitive-units]
 - [x] filter-effects-1.md#element-attrdef-filter-primitiveunits: for a number-optional-number value under objectBoundingBox, a single number is expanded to two before the objectBoundingBox scaling is applied. [filter-region#primitive-units-radius]
 - [x] filter-effects-1.md#filter-region: x, y, width, height set a rectangular filter region in the filterUnits coordinate system; initial x/y -10%, width/height 120%. [filter-region#default-region filter-region#user-space]
-- [x] filter-effects-1.md#filter-region: the filter region is a hard clip on every filter primitive of the filter; effects that would extend past it (e.g. a large feGaussianBlur stdDeviation) are clipped. [filter-region#cut filter-region#group-region]
+- [x] filter-effects-1.md#filter-region: the filter region is a hard clip on every filter primitive of the filter; effects that would extend past it (e.g. a large feGaussianBlur stdDeviation) are clipped. Thin regions keep their fractional row or column coverage under transforms. [filter-region#cut filter-region#group-region filter-thin-region#direct filter-thin-region#scaled filter-thin-region#huge-width filter-thin-region#flood filter-thin-region#half-row filter-thin-region#whole-row filter-thin-region#cross-row filter-thin-region#thin-column]
 - [x] filter-effects-1.md#element-attrdef-filter-filterres: filterRes was removed from this specification. [filter-region#filter-res]
 - [x] filter-effects-1.md#element-attrdef-filter-filterres: properties inherit into the filter element from its ancestors, not from the element that references the filter. [filter-region#inherit]
 - [x] filter-effects-1.md#element-attrdef-filter-filterres: a filter element is never rendered directly; display on it or its ancestors does not stop it being referenced. [filter-region#display]
