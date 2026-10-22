@@ -38,7 +38,7 @@
 - [x] css-masking-1.md#ClipPathElement: each child's raw geometry (ignoring fill, stroke, stroke-width, antialiasing aside) forms a 1-bit silhouette; a child hidden by display or visibility contributes nothing (D14) [clip-path-element#union]
 - [x] css-masking-1.md#ClipPathElement: the silhouettes of all children are OR'd together: a point is inside the clip if it is inside any child [clip-path-element#union]
 - [x] css-masking-1.md#ClipPathElement: clipPath's own children do not inherit the clip-path of the clipPath element's ancestors [clip-path-element#ancestor-clip]
-- [x] css-masking-1.md#ClipPathElement: clip-path on the clipPath element itself intersects its whole content with the referenced path; clip-path on one child clips that child before it is OR'd with the rest [clip-path-element#clip-on-clippath clip-path-element#clip-on-child]
+- [x] css-masking-1.md#ClipPathElement: clip-path on the clipPath element itself intersects its whole content with the referenced path; clip-path on one child clips that child before it is OR'd with the rest [clip-path-element#clip-on-clippath clip-path-element#clip-on-child clip-path-element#four-resource-chain clip-path-element#negative-resource-chain]
 - [x] css-masking-1.md#ClipPathElement: an empty clipping path clips away the entire element that referenced it [clip-path-element#clip-rule-child]
 
 ## clip-rule: clip-path-element, clipping-region, clip-path (exists)

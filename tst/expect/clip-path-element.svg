@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
 <!-- What tst/unit/clip-path-element.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="64" height="48" fill="white"/>
+<rect width="64" height="64" fill="white"/>
 <defs>
 <clipPath id="a"><rect x="2" y="2" width="4" height="10" fill="none" stroke="red" stroke-width="6" fill-opacity="0"/><rect x="8" y="2" width="4" height="4"/>
 <rect x="8" y="8" width="4" height="4" display="none"/><rect x="8" y="8" width="4" height="4" visibility="hidden"/></clipPath>
@@ -27,6 +27,24 @@ cell's id is what the statement ledgers link to. -->
 <g display="none"><clipPath id="dn" display="none"><rect x="56" y="34" width="4" height="6"/></clipPath></g>
 <clipPath id="left"><rect x="0" y="32" width="30" height="16"/></clipPath>
 <g clip-path="url(#left)"><clipPath id="anc"><rect x="26" y="42" width="12" height="4"/></clipPath></g>
+<style>.chain-one {clip-path:url(#chain-a)} .chain-two {clip-path:url(#chain-b)} .chain-three {clip-path:url(#chain-c)}</style>
+<rect id="chain-r1" x="2" y="50" width="12" height="12"/>
+<rect id="chain-r2" x="4" y="48" width="8" height="16"/>
+<rect id="chain-r3" x="0" y="52" width="16" height="8"/>
+<rect id="chain-r4" x="6" y="48" width="4" height="16"/>
+<clipPath id="chain-d" class="chain-three"><use href="#chain-r4"/></clipPath>
+<clipPath id="chain-c" class="chain-two"><use href="#chain-r3"/></clipPath>
+<clipPath id="chain-b" class="chain-one"><use href="#chain-r2"/></clipPath>
+<clipPath id="chain-a"><use href="#chain-r1"/></clipPath>
+</defs>
+<defs>
+<style>.negative-one {clip-path:url(#negative-a)} .negative-two {clip-path:url(#negative-b)}</style>
+<polygon id="negative-wide" points="-8,-1 16,-1 16,17 -8,17"/>
+<path id="negative-wide-path" d="M-8-2H20V20H-8Z"/>
+<rect id="negative-cut" x="4" y="4" width="8" height="8"/>
+<clipPath id="negative-c" class="negative-two"><use href="#negative-cut"/></clipPath>
+<clipPath id="negative-b" class="negative-one"><use href="#negative-wide-path"/></clipPath>
+<clipPath id="negative-a"><use href="#negative-wide"/></clipPath>
 </defs>
 <g id="union" data-box="1 1 12 12"><rect x="2" y="2" width="4" height="10" fill="lime"/><rect x="8" y="2" width="4" height="4" fill="lime"/></g>
 <g id="object-bounding-box" data-box="17 1 14 14"><rect x="18" y="2" width="6" height="6" fill="lime"/></g>
@@ -42,6 +60,8 @@ cell's id is what the statement ledgers link to. -->
 <g id="display" data-box="55 33 8 8"><rect x="56" y="34" width="4" height="6" fill="lime"/></g>
 <g id="use-text" data-box="55 41 9 7"></g>
 <g id="ancestor-clip" data-box="25 41 14 6"><rect x="26" y="42" width="12" height="4" fill="lime"/></g>
+<g id="four-resource-chain" data-box="0 48 16 16"><rect x="6" y="52" width="4" height="8" fill="lime"/></g>
+<g id="negative-resource-chain" data-box="16 48 16 16"><rect x="20" y="52" width="8" height="8" fill="lime"/></g>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2" y="2" width="4" height="10"/><rect x="8" y="2" width="4" height="4"/><rect x="18" y="2" width="6" height="6"/>
 <rect x="34" y="2" width="4" height="6"/><rect x="50" y="2" width="4" height="4"/><rect x="50" y="8" width="12" height="4"/>

@@ -22,4 +22,9 @@ expect("clip-path-element", [
     ("display", (55, 33, 8, 8), lime((56, 34, 4, 6))),
     ("use-text", (55, 41, 9, 7), ""),
     ("ancestor-clip", (25, 41, 14, 6), lime((26, 42, 12, 4))),
+    # Each resource contributes an intersection. The expected rectangles
+    # are the max of the lower bounds and min of the upper bounds, without
+    # any clipPath, use, CSS selector or forward reference in the drawing.
+    ("four-resource-chain", (0, 48, 16, 16), lime((6, 52, 4, 8))),
+    ("negative-resource-chain", (16, 48, 16, 16), lime((20, 52, 8, 8))),
 ])
