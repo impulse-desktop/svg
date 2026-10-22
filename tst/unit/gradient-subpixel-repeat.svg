@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- A nonzero gradient repeats thousands of times across a device pixel.
+The repeating and reflecting strips resolve to their area-weighted colour;
+pad still uses the distinct start and end colours. -->
+<rect width="64" height="64" fill="white"/>
+<defs>
+<linearGradient id="pad" gradientUnits="userSpaceOnUse" x1="31.9999" x2="32" spreadMethod="pad">
+<stop offset="0" stop-color="green"/><stop offset=".5" stop-color="green"/><stop offset=".5" stop-color="blue"/><stop offset="1" stop-color="blue"/>
+</linearGradient>
+<linearGradient id="repeat" href="#pad" spreadMethod="repeat"/>
+<linearGradient id="reflect" href="#pad" spreadMethod="reflect"/>
+<linearGradient id="narrow" gradientUnits="userSpaceOnUse" x1="31.9999" x2="32" spreadMethod="repeat">
+<stop offset="0" stop-color="red"/><stop offset=".01" stop-color="red"/><stop offset=".01" stop-color="blue"/><stop offset="1" stop-color="blue"/>
+</linearGradient>
+</defs>
+<rect x="8" y="4" width="48" height="8" fill="url(#pad)"/>
+<rect x="8" y="20" width="48" height="8" fill="url(#repeat)"/>
+<rect x="8" y="36" width="48" height="8" fill="url(#reflect)"/>
+<rect x="8" y="52" width="48" height="8" fill="url(#narrow)"/>
+</svg>

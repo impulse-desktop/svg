@@ -2035,6 +2035,10 @@ namespace {
         // the average of its colours (pservers.md, RadialGradientNotes).
         bool beyond;
         u16 beyond16[4];
+        // A repeating linear gradient with hundreds of cycles per device
+        // pixel is sampled by its area average instead of at one point.
+        bool denseLinear;
+        u16 dense16[4];
         // The device bounds of the fill a pattern paints and whether a filter
         // samples it everywhere; the tile pixels its tile is drawn over,
         // unwrapped.
@@ -22476,6 +22480,39 @@ namespace {
         out[3] = c[3];
     }
 
+    // Integrate one cycle, splitting at every stop so a narrow interval or
+    // coincident stops cannot disappear in a uniformly sampled table.
+    static void gradientMean(const DevicePaint& paint, u16* out) {
+        double sums[4] = {0, 0, 0, 0};
+        float start = 0.f;
+
+        for (u32 i = 0; i <= paint.stopCount; i++) {
+            float end = i < paint.stopCount ? paint.stops[i].offset : 1.f;
+
+            if (end <= start) {
+                continue;
+            }
+
+            constexpr int samples = 32;
+            double step = (double)(end - start) / samples;
+
+            for (int j = 0; j < samples; j++) {
+                u16 c[4];
+                gradientColor(paint, (float)((double)start + ((double)j + .5) * step), c);
+
+                for (int k = 0; k < 4; k++) {
+                    sums[k] += step * c[k];
+                }
+            }
+
+            start = end;
+        }
+
+        for (int k = 0; k < 4; k++) {
+            out[k] = (u16)(sums[k] + .5);
+        }
+    }
+
     // The table of a gradient: its colours at as many evenly spaced t from 0
     // to 1 as the gradient spans device pixels twice over, from 16 to 4096.
     // A pixel blends the two entries around its t: the colour is linear in t
@@ -22488,6 +22525,26 @@ namespace {
         }
 
         const Matrix& m = paint.inverse;
+        if (paint.type == PaintType::Linear && paint.spread != SpreadPad) {
+            double dx = (double)paint.x2 - paint.x1;
+            double dy = (double)paint.y2 - paint.y1;
+            double length2 = dx * dx + dy * dy;
+
+            if (length2 > 0.) {
+                double tx = ((double)m.a * dx + (double)m.b * dy) / length2;
+                double ty = ((double)m.c * dx + (double)m.d * dy) / length2;
+
+                // A reflect cycle spans two t units; at 256 t units per
+                // pixel even it has 128 cycles. The residual partial cycle
+                // changes the area mean by less than 2/255 per channel.
+                paint.denseLinear = fabs(tx) >= 256. || fabs(ty) >= 256.;
+
+                if (paint.denseLinear) {
+                    gradientMean(paint, paint.dense16);
+                }
+            }
+        }
+
         float extent = paint.type == PaintType::Linear ? hypotf(paint.x2 - paint.x1, paint.y2 - paint.y1) : (paint.type == PaintType::Conic ? paint.x2 : paint.r + hypotf(paint.cx - paint.fx, paint.cy - paint.fy));
         float frobenius = sqrtf(m.a * m.a + m.b * m.b + m.c * m.c + m.d * m.d);
         float length = extent * frobenius / fabsf(m.a * m.d - m.b * m.c);
@@ -22682,6 +22739,12 @@ namespace {
     static bool paintAt(const DevicePaint& paint, float x, float y, u16* out) {
         if (paint.type == PaintType::Solid) {
             memcpy(out, paint.color16, sizeof(u16) * 4);
+
+            return true;
+        }
+
+        if (paint.denseLinear) {
+            memcpy(out, paint.dense16, sizeof(paint.dense16));
 
             return true;
         }
@@ -23670,6 +23733,14 @@ namespace {
     // pixel the paint leaves out gets no cover. A gradient takes the t of
     // each pixel, the two entries around it, and blends them all at once.
     static void paintSpan(const DevicePaint& paint, int x, int y, u32 count, u16* cover, u16* out, PaintRows& rows) {
+        if (paint.denseLinear) {
+            for (u32 i = 0; i < count; i++) {
+                memcpy(out + (size_t)i * 4, paint.dense16, sizeof(paint.dense16));
+            }
+
+            return;
+        }
+
         if (paint.type != PaintType::Linear && paint.type != PaintType::Radial && paint.type != PaintType::Conic) {
             for (u32 i = 0; i < count; i++) {
                 if (!paintAt(paint, (float)(x + (int)i) + 0.5f, (float)y + 0.5f, out + (size_t)i * 4)) {
