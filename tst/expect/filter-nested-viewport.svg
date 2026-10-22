@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="32">
+<!-- What tst/unit/filter-nested-viewport.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="128" height="32" fill="white"/>
+<g id="filtered-shift" data-box="0 0 32 16"><g transform="translate(0 0)"><rect width="32" height="16" fill="lime"/></g></g>
+<g id="plain-shift" data-box="32 0 32 16"><g transform="translate(32 0)"><rect width="32" height="16" fill="lime"/></g></g>
+<g id="visible-overflow" data-box="64 0 32 16"><g transform="translate(64 0)"><rect width="32" height="16" fill="lime"/><circle cx="16" cy="8" r="3" fill="red"/></g></g>
+<g id="inside" data-box="96 0 32 16"><g transform="translate(96 0)"><rect width="32" height="16" fill="lime"/><circle cx="8" cy="8" r="3" fill="red"/></g></g>
+<g id="shifted-inside" data-box="0 16 32 16"><g transform="translate(0 16)"><rect width="32" height="16" fill="lime"/><circle cx="8" cy="8" r="3" fill="red"/></g></g>
+<g id="scaled" data-box="32 16 32 16"><g transform="translate(32 16)"><rect width="32" height="16" fill="lime"/><circle cx="8" cy="8" r="3" fill="red"/></g></g>
+<g id="partial-clip" data-box="64 16 32 16"><g transform="translate(64 16)"><rect width="32" height="16" fill="lime"/><defs><clipPath id="edge"><rect x="4" y="4" width="8" height="8"/></clipPath></defs><circle cx="12" cy="8" r="3" fill="red" clip-path="url(#edge)"/></g></g>
+<g id="filtered-child" data-box="96 16 32 16"><g transform="translate(96 16)"><rect width="32" height="16" fill="lime"/></g></g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Default antialiasing preserves the area of horizontal and vertical
+bands, including fractional widths and positions. Expected alpha is the
+exact covered fraction of each pixel. Thin SVG viewports retain their
+meet scale and letterbox. -->
+<g transform="translate(0 0)"><path d="M0 0.75H16" fill="none" stroke="#000000" stroke-width="0.5"/></g>
+<g transform="translate(16 0)"><path d="M0 0.75H16" fill="none" stroke="#636366" stroke-width="0.5"/></g>
+<g transform="translate(32 0)"><path d="M0 0.5H16" fill="none" stroke="#000000" stroke-width="1"/></g>
+<g transform="translate(48 0)"><path d="M0 1.25H16" fill="none" stroke="#000000" stroke-width="1"/></g>
+<g transform="translate(0 4)"><path d="M0 1.59538H16" fill="none" stroke="#bbbbbb" stroke-width="1.31163"/></g>
+<g transform="translate(16 4)"><path d="M0 1.24609H16" fill="none" stroke="#fff8f3" stroke-width="1"/></g>
+<g transform="translate(32 4)"><path d="M0 2H16" fill="none" stroke="#d976ff" stroke-width="2.85"/></g>
+<g transform="translate(48 4)"><path d="M0 1.18066H16" fill="none" stroke="#40a9ff" stroke-width="2"/></g>
+<g transform="translate(0 8)"><path d="M0.5 0V4" fill="none" stroke="#dce3e6" stroke-width="1"/></g>
+<g transform="translate(16 8)"><path d="M0.75 0V4" fill="none" stroke="#000000" stroke-width="0.5"/></g>
+<g transform="translate(32 8)"><path d="M1.5 0V4" fill="none" stroke="#000000" stroke-width="3"/></g>
+<g transform="translate(48 8)"><path d="M1.59538 0V4" fill="none" stroke="#bbbbbb" stroke-width="1.31163"/></g>
+<g transform="translate(0 12)"><rect y="0.8125" width="16" height="1.1875" fill="#00d6c2"/></g>
+<g transform="translate(16 12)"><rect y="0" width="16" height="0.6" fill="#ffffff"/></g>
+<g transform="translate(32 12)"><svg width="16" height="1" viewBox="0 0 20 1"><rect width="20" height="1" fill="#e1eae7"/></svg></g>
+<g transform="translate(48 12)"><svg width="16" height="1" viewBox="0 0 80 1"><rect width="80" height="1" fill="#ccd814"/></svg></g>
+</svg>

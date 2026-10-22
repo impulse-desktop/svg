@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="32">
+<!-- A nested SVG clips to its viewport after viewBox placement,
+including when the SVG itself has a filter. Overflow visible is an
+explicit contrasting case. Literal circles and clip rectangles define
+the expected geometry. -->
+<rect width="128" height="32" fill="white"/>
+<defs><filter id="tiny"><feGaussianBlur stdDeviation=".001"/></filter></defs>
+<g transform="translate(0 0)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="-8 0 8 8" filter="url(#tiny)"><circle cx="4" cy="4" r="3" fill="red"/></svg></g>
+<g transform="translate(32 0)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="-8 0 8 8"><circle cx="4" cy="4" r="3" fill="red"/></svg></g>
+<g transform="translate(64 0)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="-8 0 8 8" overflow="visible" filter="url(#tiny)"><circle cx="4" cy="4" r="3" fill="red"/></svg></g>
+<g transform="translate(96 0)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="0 0 8 8" filter="url(#tiny)"><circle cx="4" cy="4" r="3" fill="red"/></svg></g>
+<g transform="translate(0 16)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="8 0 8 8" filter="url(#tiny)"><circle cx="12" cy="4" r="3" fill="red"/></svg></g>
+<g transform="translate(32 16)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="0 0 16 16" filter="url(#tiny)"><circle cx="8" cy="8" r="6" fill="red"/></svg></g>
+<g transform="translate(64 16)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="-4 0 8 8" filter="url(#tiny)"><circle cx="4" cy="4" r="3" fill="red"/></svg></g>
+<g transform="translate(96 16)"><rect width="32" height="16" fill="lime"/><svg x="4" y="4" width="8" height="8" viewBox="-8 0 8 8"><g filter="url(#tiny)"><circle cx="4" cy="4" r="3" fill="red"/></g></svg></g>
+</svg>

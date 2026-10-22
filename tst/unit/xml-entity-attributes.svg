@@ -1,0 +1,28 @@
+<!DOCTYPE svg [
+<!ENTITY base "#3a7d2a">
+<!ENTITY alias "&base;">
+<!ENTITY chain "&alias;">
+<!ENTITY size "8">
+<!ENTITY path "M4 4H12V12H4Z">
+<!ENTITY shape "<rect x='4' y='4' width='8' height='8' fill='&chain;'/>">
+<!ENTITY target "tile">
+<!ENTITY target2 "other">
+<!ENTITY svgNS "http://www.w3.org/2000/svg">
+]>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- Internal declared entities and nested aliases are expanded in
+attributes, style text, markup, IDs and namespace values. Expected
+shapes have literal geometry and color. -->
+<g transform="translate(0 0)"><rect x="4" y="4" width="8" height="8" fill="&base;"/></g>
+<g transform="translate(16 0)"><rect x="4" y="4" width="8" height="8" fill="&alias;"/></g>
+<g transform="translate(32 0)"><rect x="4" y="4" width="8" height="8" fill="&chain;"/></g>
+<g transform="translate(48 0)"><rect x="4" y="4" width="8" height="8" style="fill:&chain;"/></g>
+<g transform="translate(0 16)"><style>.entity-color{fill:&chain;}</style><rect x="4" y="4" width="8" height="8" class="entity-color"/></g>
+<g transform="translate(16 16)"><rect x="4" y="4" width="8" height="8" style="--paint:&alias;;fill:var(--paint)"/></g>
+<g transform="translate(32 16)"><rect x="4" y="4" width="&size;" height="&size;" fill="&chain;"/></g>
+<g transform="translate(48 16)"><path d="&path;" fill="&chain;"/></g>
+<g transform="translate(0 32)">&shape;</g>
+<g transform="translate(16 32)"><defs><rect id="tile" x="4" y="4" width="8" height="8" fill="&chain;"/></defs><use href="#&target;"/></g>
+<g transform="translate(32 32)"><defs><rect id="&target2;" x="4" y="4" width="8" height="8" fill="&chain;"/></defs><use href="#other"/></g>
+<g transform="translate(48 32)"><e:rect xmlns:e="&svgNS;" x="4" y="4" width="8" height="8" fill="&chain;"/></g>
+</svg>

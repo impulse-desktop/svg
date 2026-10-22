@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- What tst/unit/raster-area-bands.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="half-pixel" data-box="0 0 16 4"><image x="0" y="0" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAEUlEQVR42mNgYGBooBAPdQAAEW0IAfWz1o0AAAAASUVORK5CYII="/></g>
+<g id="half-gray" data-box="16 0 16 4"><image x="16" y="0" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAFklEQVR42mNITk5roAQzAAmK8MAbAABOZ1MBikrH3wAAAABJRU5ErkJggg=="/></g>
+<g id="whole-row" data-box="32 0 16 4"><image x="32" y="0" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAEUlEQVR42mNgYGD4TyEe6gAAE7YP8aO/5FUAAAAASUVORK5CYII="/></g>
+<g id="quarter-shift" data-box="48 0 16 4"><image x="48" y="0" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAFUlEQVR42mNgYGBwoBAz7KcQDzAAAAuZD/H4e21dAAAAAElFTkSuQmCC"/></g>
+<g id="fractional-width" data-box="0 4 16 4"><image x="0" y="4" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAHklEQVR42mPYvXs3PyWYAUj8pwSDDHCgBIMMoAgDAN5RoSEDcZWMAAAAAElFTkSuQmCC"/></g>
+<g id="fractional-center" data-box="16 4 16 4"><image x="16" y="4" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAG0lEQVR42mP4/+OzIyWYAUjsowSDDKAIU2wAACp6ynHyZxTGAAAAAElFTkSuQmCC"/></g>
+<g id="wide-band" data-box="32 4 16 4"><image x="32" y="4" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAGklEQVR42mO4WfY/hxLMACT+U4KpYgBFXgAA9KPA4TezBvIAAAAASUVORK5CYII="/></g>
+<g id="two-row-band" data-box="48 4 16 4"><image x="48" y="4" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAHklEQVR42mNwWPn/IiWYAUj8pwSDDNCjBIMMoAgDAKlAmeEq0lOCAAAAAElFTkSuQmCC"/></g>
+<g id="whole-column" data-box="0 8 16 4"><image x="0" y="8" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAFUlEQVR42mO48/jZfyBmIBczDH0DAMJSrT0oPqetAAAAAElFTkSuQmCC"/></g>
+<g id="half-column" data-box="16 8 16 4"><image x="16" y="8" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAEklEQVR42mNgYGBoYKAQDHEDAD4TAgGqLZsfAAAAAElFTkSuQmCC"/></g>
+<g id="three-columns" data-box="32 8 16 4"><image x="32" y="8" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAE0lEQVR42mNgYGD4j4TJAkPcAAA4Lwv12KNhLQAAAABJRU5ErkJggg=="/></g>
+<g id="fractional-column" data-box="48 8 16 4"><image x="48" y="8" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAGklEQVR42mPYvXs3PxD/B2IHIGYgFTMMfQMApzaReQ/vNukAAAAASUVORK5CYII="/></g>
+<g id="fractional-rect" data-box="0 12 16 4"><image x="0" y="12" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAGUlEQVR42mNguHbIgCIMJP5ThIEEZZhSAwB/NHjxgG3TmwAAAABJRU5ErkJggg=="/></g>
+<g id="partial-row" data-box="16 12 16 4"><image x="16" y="12" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAFklEQVR42mP4////TEowA5CgCA+8AQD2a8jRjC+aawAAAABJRU5ErkJggg=="/></g>
+<g id="viewport-20" data-box="32 12 16 4"><image x="32" y="12" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAFklEQVR42mN4+Or5GUowA5CgCA+8AQA2EblBE2DWgAAAAABJRU5ErkJggg=="/></g>
+<g id="viewport-80" data-box="48 12 16 4"><image x="48" y="12" width="16" height="4" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAECAYAAACHtL/sAAAAFklEQVR42mM4c0PEmBLMACQowgNvAAAV2XExWyfgEAAAAABJRU5ErkJggg=="/></g>
+</svg>

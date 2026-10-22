@@ -10,7 +10,7 @@
 - [x] svg2/coords.md#ElementsThatEstablishViewports: only the 'svg' element, and a 'symbol' element instanced by 'use', establish new SVG viewports. [viewport-nested#symbol-viewport viewport-content-percent#pattern viewport-content-percent#marker]
 - [x] svg2/coords.md#ElementsThatEstablishViewports: 'pattern' and 'marker' accept a viewBox but establish no new viewport, nor do 'clipPath' or 'mask'; percentage lengths in their content are not proportional to the effect region. [viewport-content-percent#pattern viewport-content-percent#marker viewport-content-percent#clip-path viewport-content-percent#mask]
 - [x] svg2/coords.md#ElementsThatEstablishViewports: an 'image' element establishes a new document viewport for the referenced document, which gets its own SVG viewport if it is SVG. [image-fragment-views#no-fragment image-fragments#view-element]
-- [x] svg2/coords.md#ElementsThatEstablishViewports: whether a new SVG viewport also clips its content is decided by the 'overflow' property on the viewport-establishing element. [viewport-nested#clip viewport-nested#overflow-visible]
+- [x] svg2/coords.md#ElementsThatEstablishViewports: whether a new SVG viewport also clips its content is decided by the 'overflow' property on the viewport-establishing element. [viewport-nested#clip viewport-nested#overflow-visible filter-nested-viewport#filtered-shift filter-nested-viewport#plain-shift filter-nested-viewport#visible-overflow filter-nested-viewport#inside filter-nested-viewport#shifted-inside filter-nested-viewport#scaled filter-nested-viewport#partial-clip filter-nested-viewport#filtered-child]
 
 ## The initial viewport: root-viewport, render-root-box
 

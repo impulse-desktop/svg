@@ -22193,6 +22193,60 @@ namespace {
         out[3] = c[3];
     }
 
+    // One cycle's area mean. Splitting at the stops preserves even narrow
+    // intervals and hard edges. Straight colour times straight alpha is
+    // quadratic; only linear-light colours need numerical integration of
+    // their conversion back to sRGB.
+    static void gradientMean(const DevicePaint& paint, u16* out) {
+        double sums[4] = {0, 0, 0, 0};
+        auto interval = [&](const GradientStop& a, const GradientStop& b, double span) {
+            if (span <= 0.0) {
+                return;
+            }
+
+            double a0 = a.stored[3] / 65535.0;
+            double a1 = b.stored[3] / 65535.0;
+
+            sums[3] += span * (a.stored[3] + b.stored[3]) / 2.0;
+
+            for (int k = 0; k < 3; k++) {
+                double c0 = a.stored[k];
+                double c1 = b.stored[k];
+
+                if (!paint.linear) {
+                    sums[k] += span * (2.0 * c0 * a0 + c0 * a1 + c1 * a0 + 2.0 * c1 * a1) / 6.0;
+                } else {
+                    constexpr int samples = 64;
+
+                    for (int j = 0; j < samples; j++) {
+                        double f = (j + .5) / samples;
+                        float color = linearToSrgb((float)((c0 + (c1 - c0) * f) / 65535.0));
+
+                        sums[k] += span / samples * color * (a0 + (a1 - a0) * f) * 65535.0;
+                    }
+                }
+            }
+        };
+
+        interval(paint.stops[0], paint.stops[0], paint.stops[0].offset);
+
+        for (u32 i = 1; i < paint.stopCount; i++) {
+            double span = (double)paint.stops[i].offset - paint.stops[i - 1].offset;
+
+            if (span > 0.0) {
+                interval(paint.stops[i - 1], paint.stops[i], span);
+            }
+        }
+
+        const GradientStop& last = paint.stops[paint.stopCount - 1];
+
+        interval(last, last, 1.0 - last.offset);
+
+        for (int k = 0; k < 4; k++) {
+            out[k] = (u16)toUnit16((float)(sums[k] / 65535.0));
+        }
+    }
+
     // The table of a gradient: its colours at as many evenly spaced t from 0
     // to 1 as the gradient spans device pixels twice over, from 16 to 4096.
     // A pixel blends the two entries around its t: the colour is linear in t
@@ -22205,6 +22259,27 @@ namespace {
         }
 
         const Matrix& m = paint.inverse;
+
+        if (paint.type == PaintType::Linear && paint.spread != SpreadPad) {
+            double dx = (double)paint.x2 - paint.x1;
+            double dy = (double)paint.y2 - paint.y1;
+            double length2 = dx * dx + dy * dy;
+
+            if (length2 > 0.0) {
+                double tx = ((double)m.a * dx + (double)m.b * dy) / length2;
+                double ty = ((double)m.c * dx + (double)m.d * dy) / length2;
+
+                // At 256 t units per pixel even reflect has 128 cycles.
+                // A partial cycle changes the mean by less than 2/255.
+                if (fabs(tx) >= 256.0 || fabs(ty) >= 256.0) {
+                    gradientMean(paint, paint.color16);
+                    paint.type = PaintType::Solid;
+
+                    return;
+                }
+            }
+        }
+
         float extent = paint.type == PaintType::Linear ? hypotf(paint.x2 - paint.x1, paint.y2 - paint.y1) : (paint.type == PaintType::Conic ? paint.x2 : paint.r + hypotf(paint.cx - paint.fx, paint.cy - paint.fy));
         float frobenius = sqrtf(m.a * m.a + m.b * m.b + m.c * m.c + m.d * m.d);
         float length = extent * frobenius / fabsf(m.a * m.d - m.b * m.c);
