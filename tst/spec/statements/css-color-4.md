@@ -2,7 +2,7 @@
 
 ## <color> grammar, legacy vs modern syntax: color-functions, color-syntax (exists)
 
-- [x] css-color-4.md#color-syntax: <color> = <color-base> | currentColor | <system-color>; <color-base> = <hex-color> | <color-function> | <named-color> | transparent. [color-functions#kinds color-keywords#currentcolor color-keywords#transparent color-functions#system]
+- [x] css-color-4.md#color-syntax: <color> = <color-base> | currentColor | <system-color>; <color-base> = <hex-color> | <color-function> | <named-color> | transparent. [color-functions#kinds color-keywords#currentcolor color-keywords#transparent color-functions#system background-color-invalid-hashless#hashless background-color-invalid-hashless-cascade#hashless-cascade]
 - [x] css-color-4.md#color-syntax: <color-function> = rgb() | rgba() | hsl() | hsla() | hwb() | lab() | lch() | oklab() | oklch() | color(). [color-functions#functions]
 - [x] css-color-4.md#color-syntax: hex colors, rgb()/rgba(), hsl()/hsla(), hwb() and named colors resolve to sRGB. [color-functions#kinds color-functions#hex-6-8 color-functions#rgb-forms color-functions#hsl-values color-functions#hwb color-functions#named]
 - [x] css-color-4.md#color-syntax: only rgb()/rgba() and hsl()/hsla() support the legacy comma syntax; it is invalid for every other color function. [color-functions#legacy-only color-functions#legacy]

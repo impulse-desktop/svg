@@ -11,6 +11,8 @@ cases = [
     ("current", "color:lime;background-color:currentColor;background-color:rgba(1)", "", "lime"),
     ("variable", "--c:rgba(1);background-color:lime;background-color:var(--c)", "", None),
     ("fallback", "background-color:var(--missing,lime)", "", "lime"),
+    ("hashless", "background-color:11ee11", "", None),
+    ("hashless-cascade", "background-color:lime;background-color:11ee11", "", "lime"),
 ]
 
 for name, style, sheet, color in cases:

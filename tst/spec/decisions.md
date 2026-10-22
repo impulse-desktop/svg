@@ -725,3 +725,24 @@ uses reflected copies of the same lighting filter and expects their relief
 to come from a common direction; Chromium suppresses most of its relief.
 `fe-distant-light-transform` tests reflection, a quarter-turn, diffuse and
 specular light, the contrasting point-light case, and retained scale.
+
+## D57. Retain the authored mesh paint from the SVG 2 2016 draft
+
+The current SVG 2 paint-server chapter omits meshes. The renderer retains
+its existing mesh support for real Inkscape exports that use the
+[2016 Candidate Recommendation](https://www.w3.org/TR/2016/CR-SVG2-20160915/pservers.html#MeshGradients):
+Coons geometry and bilinear or monotone bicubic corner colors. Ignoring
+these definitions, as Chromium does, removes the authored fills entirely.
+This is support for an established document format, not an attempt to
+make a transparent Chromium image the intended drawing.
+
+The selected harvest contains fifteen such documents. Every original pair
+was inspected; replacing only the mesh with the same constant paint in
+both renderers removes the structural difference in fourteen documents
+(one retains struct 0.000076). The remaining document also uses turbulence:
+neutralizing that input per D25 leaves struct 0. Independent analytic PNG
+controls in `mesh-reference-bilinear` check corner colors, opacity,
+transforms, objectBoundingBox coordinates and referencing-shape clips.
+The existing mesh units retain curved sides, shared patch boundaries,
+invalid inputs and Inkscape's bicubic behavior. No mesh renderer behavior
+was changed in making this record.

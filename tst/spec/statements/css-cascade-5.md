@@ -1,5 +1,9 @@
 # CSS Cascading and Inheritance Module Level 5
 
+## Legacy transform names: transform-webkit-aliases
+
+- [x] css-cascade-5.md#legacy-name-alias: a legacy name whose value syntax is identical is converted to the new property at parse time, sharing its validation and cascade slot [transform-webkit-aliases#translate transform-webkit-aliases#case transform-webkit-aliases#alias-last transform-webkit-aliases#standard-last transform-webkit-aliases#alias-important transform-webkit-aliases#standard-important transform-webkit-aliases#important-order transform-webkit-aliases#invalid transform-webkit-aliases#variable transform-webkit-aliases#variable-fallback transform-webkit-aliases#initial transform-webkit-aliases#unset transform-webkit-aliases#inherit transform-webkit-aliases#sheet transform-webkit-aliases#clip-child transform-webkit-aliases#clip-container transform-webkit-aliases#use transform-webkit-aliases#origin transform-webkit-aliases#preserve-3d transform-webkit-aliases#flat-last transform-webkit-aliases#backface-hidden transform-webkit-aliases#backface-visible transform-webkit-aliases#perspective transform-webkit-aliases#perspective-origin transform-webkit-aliases#perspective-reset transform-webkit-aliases#unknown-vendor transform-webkit-aliases#unknown-webkit transform-webkit-aliases#attribute-guard]
+
 ## @import in a style element: css-layers, css-cascade-edges (exists)
 
 - [x] css-cascade-5.md#at-ruledef-import: @import must precede every other valid at-rule and style rule in its style sheet (@charset and @layer-statement rules aside) or the @import rule itself is invalid [css-layers#import-position]

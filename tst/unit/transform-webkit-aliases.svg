@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="112">
+<!-- Legacy WebKit aliases of transform, origin, style, perspective,
+perspective-origin and backface-visibility share validation and cascade
+order with their standard properties. Literal rectangles independently
+test coordinates, clipping, inheritance, variables and 3D ordering.
+Unknown prefixes and presentation attributes stay unknown. -->
+<svg x="0" y="0" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-webkit-transform:translate(4px)" /></svg>
+<svg x="16" y="0" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-WEBKIT-TRANSFORM:translate(4px)" /></svg>
+<svg x="32" y="0" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="transform:translate(2px);-webkit-transform:translate(4px)" /></svg>
+<svg x="48" y="0" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-webkit-transform:translate(4px);transform:translate(2px)" /></svg>
+<svg x="0" y="16" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-webkit-transform:translate(4px)!important;transform:translate(2px)" /></svg>
+<svg x="16" y="16" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="transform:translate(2px)!important;-webkit-transform:translate(4px)" /></svg>
+<svg x="32" y="16" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-webkit-transform:translate(4px)!important;transform:translate(2px)!important" /></svg>
+<svg x="48" y="16" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="transform:translate(2px);-webkit-transform:translate(garbage)" /></svg>
+<svg x="0" y="32" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="--t:translate(4px);-webkit-transform:var(--t)" /></svg>
+<svg x="16" y="32" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-webkit-transform:var(--missing,translate(4px))" /></svg>
+<svg x="32" y="32" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="transform:translate(4px);-webkit-transform:initial" /></svg>
+<svg x="48" y="32" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="transform:translate(4px);-webkit-transform:unset" /></svg>
+<svg x="0" y="48" width="16" height="16"><g style="transform:translate(2px)"><rect x="2" y="2" width="4" height="4" fill="lime" style="-webkit-transform:inherit"/></g></svg>
+<svg x="16" y="48" width="16" height="16"><style>.alias-sheet{-webkit-transform:translate(4px)}</style><rect x="2" y="2" width="4" height="4" fill="lime" class="alias-sheet"/></svg>
+<svg x="32" y="48" width="16" height="16"><defs><clipPath id="child"><rect width="16" height="16" style="-webkit-transform:scale(.5)"/></clipPath></defs><rect width="16" height="16" fill="lime" clip-path="url(#child)"/></svg>
+<svg x="48" y="48" width="16" height="16"><defs><clipPath id="container" style="-webkit-transform:translate(4px)"><rect width="8" height="8"/></clipPath></defs><rect width="16" height="16" fill="lime" clip-path="url(#container)"/></svg>
+<svg x="0" y="64" width="16" height="16"><defs><rect x="2" y="2" width="4" height="4" fill="lime" id="alias-tile"/></defs><use href="#alias-tile" style="-webkit-transform:translate(4px)"/></svg>
+<svg x="16" y="64" width="16" height="16"><rect x="4" y="4" width="4" height="2" fill="lime" style="transform:rotate(90deg);transform-origin:0 0;-webkit-transform-origin:50% 50%"/></svg>
+<svg x="32" y="64" width="16" height="16"><g style="transform-style:flat;-webkit-transform-style:preserve-3d"><rect x="4" y="4" width="8" height="8" fill="lime" style="transform:translateZ(2px)"/><rect x="4" y="4" width="8" height="8" fill="red"/></g></svg>
+<svg x="48" y="64" width="16" height="16"><g style="-webkit-transform-style:preserve-3d;transform-style:flat"><rect x="4" y="4" width="8" height="8" fill="lime" style="transform:translateZ(2px)"/><rect x="4" y="4" width="8" height="8" fill="red"/></g></svg>
+<svg x="0" y="80" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="transform:rotateY(180deg);transform-origin:4px 4px;backface-visibility:visible;-webkit-backface-visibility:hidden"/></svg>
+<svg x="16" y="80" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="transform:rotateY(180deg);transform-origin:4px 4px;backface-visibility:hidden;-webkit-backface-visibility:visible"/></svg>
+<svg x="32" y="80" width="16" height="16"><g style="-webkit-perspective:20px;perspective-origin:0 0"><rect x="2" y="2" width="2" height="2" fill="lime" style="transform:translateZ(10px)"/></g></svg>
+<svg x="48" y="80" width="16" height="16"><g style="perspective:20px;perspective-origin:0 0;-webkit-perspective-origin:100% 0"><rect x="10" y="2" width="2" height="2" fill="lime" style="transform:translateZ(10px)"/></g></svg>
+<svg x="0" y="96" width="16" height="16"><g style="perspective:20px;-webkit-perspective:none;perspective-origin:0 0"><rect x="2" y="2" width="2" height="2" fill="lime" style="transform:translateZ(10px)"/></g></svg>
+<svg x="16" y="96" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-vendor-transform:translate(4px)" /></svg>
+<svg x="32" y="96" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="-webkit-fill:red" /></svg>
+<svg x="48" y="96" width="16" height="16"><rect x="2" y="2" width="4" height="4" fill="lime" style="" webkit-transform="translate(4)"/></svg>
+</svg>

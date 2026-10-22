@@ -10,7 +10,7 @@
 - [x] svg2/paths.md#PathDataBNF: EBNF productions consume as much as possible: "M 100-200" parses coordinates 100 and -200 (stopping at the sign); "M 0.6.5" parses 0.6 and .5 (stopping at the second decimal point). [path-grammar#number-ends]
 - [x] svg2/paths.md#PathDataBNF: path data not matching the grammar is an error, handled per the error-handling rules. [path-grammar#error path-data-commands#unit-error path-data-commands#comma-after-close]
 - [x] svg2/paths.md#PathDataErrorHandling: on an error, the path renders up to (but not including) the command containing the first error. [path-grammar#error]
-- [x] svg2/paths.md#PathDataErrorHandling: a command with an incorrect parameter count renders up to and including its last correctly-defined segment (e.g. 'M 10,10 L 20,20,30' draws the line to 20,20 only). [path-grammar#short-command]
+- [x] svg2/paths.md#PathDataErrorHandling: a command with an incorrect parameter count renders up to and including its last correctly-defined segment (e.g. 'M 10,10 L 20,20,30' draws the line to 20,20 only). [path-grammar#short-command path-error-prefix#vertical-dot path-error-prefix#relative-dot path-error-prefix#horizontal-dot path-error-prefix#valid-second-dot path-error-prefix#partial-pair path-error-prefix#partial-curve path-error-prefix#bad-command path-error-prefix#after-close path-error-prefix#bad-sign path-error-prefix#partial-arc path-error-prefix#line-pair path-error-prefix#complete-control]
 
 ## Path commands: path-grammar, path-data-commands
 

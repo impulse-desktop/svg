@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- SVG 2 PathDataErrorHandling preserves every completely defined
+segment before an invalid suffix, including within a compound command. A
+second decimal point starts a new number; a lone point cannot erase the
+preceding complete segment. Literal valid paths define the expected
+prefix, with a stroke for the incomplete line-pair case. -->
+<g transform="translate(0 0)"><path d="M12 2H4V10..h--2" fill="lime"/></g>
+<g transform="translate(16 0)"><path d="M12 2H4v8..h--2" fill="lime"/></g>
+<g transform="translate(32 0)"><path d="M2 12V4H10..v--2" fill="lime"/></g>
+<g transform="translate(48 0)"><path d="M12 2H4v8..0h--2" fill="lime"/></g>
+<g transform="translate(0 16)"><path d="M2 2L12 2 12 12 .Z" fill="lime"/></g>
+<g transform="translate(16 16)"><path d="M2 2H12V12C5 5 ." fill="lime"/></g>
+<g transform="translate(32 16)"><path d="M2 2H12V12X2 12Z" fill="lime"/></g>
+<g transform="translate(48 16)"><path d="M2 2H12V12ZX" fill="lime"/></g>
+<g transform="translate(0 32)"><path d="M2 2H12V12h--2" fill="lime"/></g>
+<g transform="translate(16 32)"><path d="M2 2H12V12A4 4 0 0 1 2" fill="lime"/></g>
+<g transform="translate(32 32)"><path d="M2 4L12 4 12" fill="none" stroke="lime" stroke-width="2"/></g>
+<g transform="translate(48 32)"><path d="M2 2L12 2 12 12Z" fill="lime"/></g>
+</svg>

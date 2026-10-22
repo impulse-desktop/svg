@@ -6661,6 +6661,18 @@ namespace {
 
         StringView low(lowered, name.length());
         u32 property = low == SV("-webkit-clip-path") ? AtomClipPathProperty : lookup(doc.atoms, low);
+
+        // Compatibility's legacy transform names share validation and the
+        // cascade slot with the unprefixed property. Other vendor names
+        // are not made aliases merely by dropping their prefix.
+        if (low.length() > 8 && StringView(low.begin(), low.begin() + 8) == SV("-webkit-")) {
+            StringView plain(low.begin() + 8, low.end());
+
+            if (plain == SV("transform") || plain == SV("transform-origin") || plain == SV("transform-style") || plain == SV("perspective") || plain == SV("perspective-origin") || plain == SV("backface-visibility")) {
+                property = lookup(doc.atoms, plain);
+            }
+        }
+
         u32 shorthand = 0;
 
         if (low == SV("background") || low == SV("all")) {

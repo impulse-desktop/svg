@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="112">
+<!-- What tst/unit/transform-webkit-aliases.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="translate" data-box="0 0 16 16"><g transform="translate(0 0)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="case" data-box="16 0 16 16"><g transform="translate(16 0)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="alias-last" data-box="32 0 16 16"><g transform="translate(32 0)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="standard-last" data-box="48 0 16 16"><g transform="translate(48 0)"><rect x="4" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="alias-important" data-box="0 16 16 16"><g transform="translate(0 16)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="standard-important" data-box="16 16 16 16"><g transform="translate(16 16)"><rect x="4" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="important-order" data-box="32 16 16 16"><g transform="translate(32 16)"><rect x="4" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="invalid" data-box="48 16 16 16"><g transform="translate(48 16)"><rect x="4" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="variable" data-box="0 32 16 16"><g transform="translate(0 32)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="variable-fallback" data-box="16 32 16 16"><g transform="translate(16 32)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="initial" data-box="32 32 16 16"><g transform="translate(32 32)"><rect x="2" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="unset" data-box="48 32 16 16"><g transform="translate(48 32)"><rect x="2" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="inherit" data-box="0 48 16 16"><g transform="translate(0 48)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="sheet" data-box="16 48 16 16"><g transform="translate(16 48)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="clip-child" data-box="32 48 16 16"><g transform="translate(32 48)"><rect width="8" height="8" fill="lime"/></g></g>
+<g id="clip-container" data-box="48 48 16 16"><g transform="translate(48 48)"><rect x="4" width="8" height="8" fill="lime"/></g></g>
+<g id="use" data-box="0 64 16 16"><g transform="translate(0 64)"><rect x="6" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="origin" data-box="16 64 16 16"><g transform="translate(16 64)"><rect x="10" y="4" width="2" height="4" fill="lime"/></g></g>
+<g id="preserve-3d" data-box="32 64 16 16"><g transform="translate(32 64)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="flat-last" data-box="48 64 16 16"><g transform="translate(48 64)"><rect x="4" y="4" width="8" height="8" fill="red"/></g></g>
+<g id="backface-hidden" data-box="0 80 16 16"><g transform="translate(0 80)"></g></g>
+<g id="backface-visible" data-box="16 80 16 16"><g transform="translate(16 80)"><rect x="2" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="perspective" data-box="32 80 16 16"><g transform="translate(32 80)"><rect x="4" y="4" width="4" height="4" fill="lime"/></g></g>
+<g id="perspective-origin" data-box="48 80 16 16"><g transform="translate(48 80)"><rect x="4" y="4" width="4" height="4" fill="lime"/></g></g>
+<g id="perspective-reset" data-box="0 96 16 16"><g transform="translate(0 96)"><rect x="2" y="2" width="2" height="2" fill="lime"/></g></g>
+<g id="unknown-vendor" data-box="16 96 16 16"><g transform="translate(16 96)"><rect x="2" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="unknown-webkit" data-box="32 96 16 16"><g transform="translate(32 96)"><rect x="2" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="attribute-guard" data-box="48 96 16 16"><g transform="translate(48 96)"><rect x="2" y="2" width="4" height="4" fill="lime"/></g></g>
+</svg>
