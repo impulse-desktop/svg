@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160">
+<!-- Nonzero control-point displacement retains the limiting tangent
+through a tiny smooth bend. Its outer normal sweep approaches a quarter-
+circle; both directions give the same stroke. Exactly zero displacement
+instead makes an explicit miter join. Plain rectangles and a circle
+construct the independent expectations; small curvature and raster
+approximation are allowed within 4 levels (D1). -->
+<rect width="320" height="160" fill="white"/>
+<path transform="translate(0 0) scale(2)" d="M20 2V20C20 20 20 20.00100000 20.18 20H38" fill="none" stroke="black" stroke-width="12"/>
+<path transform="translate(0 80) scale(2)" d="M38 20H20.18C20 20.00100000 20 20 20 20V2" fill="none" stroke="black" stroke-width="12"/>
+<path transform="translate(80 0) scale(2)" d="M20 2V20C20 20 20 20.00010000 20.18 20H38" fill="none" stroke="black" stroke-width="12"/>
+<path transform="translate(80 80) scale(2)" d="M38 20H20.18C20 20.00010000 20 20 20 20V2" fill="none" stroke="black" stroke-width="12"/>
+<path transform="translate(160 0) scale(2)" d="M20 2V20C20 20 20 20.00001000 20.18 20H38" fill="none" stroke="black" stroke-width="12"/>
+<path transform="translate(160 80) scale(2)" d="M38 20H20.18C20 20.00001000 20 20 20 20V2" fill="none" stroke="black" stroke-width="12"/>
+<path transform="translate(240 0) scale(2)" d="M20 2V20C20 20 20 20.00000000 20.18 20H38" fill="none" stroke="black" stroke-width="12"/>
+<path transform="translate(240 80) scale(2)" d="M38 20H20.18C20 20.00000000 20 20 20 20V2" fill="none" stroke="black" stroke-width="12"/>
+</svg>
