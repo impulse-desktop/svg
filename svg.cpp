@@ -27409,12 +27409,14 @@ namespace {
                 constexpr float unit = 1.f / 65535.f;
                 float dx = factorX * (float)nx * unit / spanX;
                 float dy = factorY * (float)ny * unit / spanY;
-                // Keep the surface scale in primitive units. A distant
-                // light's azimuth stays in the output frame, so map its
-                // normal there after computing the user-space slope. Point
-                // and spot light positions stay in primitive user space.
-                float gx = kernelX * (f.ctm.a * dx + f.ctm.b * dy);
-                float gy = kernelY * (f.ctm.c * dx + f.ctm.d * dy);
+                // The sample separation is already divided out of dx/dy.
+                // Map that slope to primitive units once: multiplying by
+                // kernelUnitLength again would erase a bevel whose kernel
+                // is much smaller than a device pixel. A distant light's
+                // azimuth stays in the output frame; point and spot light
+                // positions remain in primitive user space.
+                float gx = f.ctm.a * dx + f.ctm.b * dy;
+                float gy = f.ctm.c * dx + f.ctm.d * dy;
 
                 if (light->name == AtomFeDistantLight) {
                     const Matrix& layer = f.deviceToLayer;
