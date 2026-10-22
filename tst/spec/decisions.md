@@ -620,7 +620,13 @@ the resulting opening inside the tip, visible in Sketchy-SVG white strokes;
 the old swept fill closed it. A tight bend whose tangent does not return,
 including `stroke-tight-ends#end-tight`, still uses the ideal swept shape.
 `stroke-hairpin-tip` tests both path directions against a fixed Chromium
-drawing; resvg agrees on the opening.
+drawing; resvg agrees on the opening. A nearly collinear reversal in the
+first or last cubic does not open the stroke: Chromium, resvg and librsvg
+keep the tip covered in real Sketchy-SVG paths. The two
+`stroke-hairpin-tip#no-collinear-hole` cells test both path directions;
+`stroke-hairpin-tip#shallow-return-opening` tests a shallow return whose
+first cubic does move sideways enough to leave a real opening. The first
+cubic's collinear return must not be mistaken for an internal fold either.
 
 The same inversion occurs inside a long open path, away from either cap.
 Sketchy-SVG `76743021` has a short backward run between forward strokes:
