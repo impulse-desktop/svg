@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40" viewBox="0 0 32 20" style="background:navy;border-radius:50%;overflow:visible;clip-path:inset(0 0 0 32px)">
+<!-- The root CSS box is the raster viewport, independent of viewBox.
+Its border-radius clips content even with visible overflow, and
+intersects an explicit root clip-path. The background is propagated to
+the canvas, so it is not rounded or clipped with the element. -->
+<rect width="32" height="20" fill="lime"/>
+</svg>

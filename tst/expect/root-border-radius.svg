@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="196">
+<!-- What tst/unit/root-border-radius.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="length" data-box="0 0 40 28"><g transform="translate(4 4)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="two" data-box="40 0 40 28"><g transform="translate(44 4)"><path fill="lime" d="M2 0H28A4 4 0 0 1 32 4V18A2 2 0 0 1 30 20H4A4 4 0 0 1 0 16V2A2 2 0 0 1 2 0Z"/></g></g>
+<g id="three" data-box="80 0 40 28"><g transform="translate(84 4)"><path fill="lime" d="M2 0H28A4 4 0 0 1 32 4V14A6 6 0 0 1 26 20H4A4 4 0 0 1 0 16V2A2 2 0 0 1 2 0Z"/></g></g>
+<g id="four" data-box="120 0 40 28"><g transform="translate(124 4)"><path fill="lime" d="M2 0H28A4 4 0 0 1 32 4V14A6 6 0 0 1 26 20H8A8 8 0 0 1 0 12V2A2 2 0 0 1 2 0Z"/></g></g>
+<g id="slash" data-box="160 0 40 28"><g transform="translate(164 4)"><rect width="32" height="20" rx="8" ry="4" fill="lime"/></g></g>
+<g id="percent-bases" data-box="200 0 40 28"><g transform="translate(204 4)"><path fill="lime" d="M8 0H25.6A6.4 4 0 0 1 32 4V15A8 5 0 0 1 24 20H6.4A6.4 4 0 0 1 0 16V5A8 5 0 0 1 8 0Z"/></g></g>
+<g id="percent-ellipse" data-box="0 28 40 28"><g transform="translate(4 32)"><ellipse cx="16" cy="10" rx="16" ry="10" fill="lime"/></g></g>
+<g id="overlap" data-box="40 28 40 28"><g transform="translate(44 32)"><path fill="lime" d="M4 0H20A12 12 0 0 1 32 12V12A8 8 0 0 1 24 20H2A2 2 0 0 1 0 18V4A4 4 0 0 1 4 0Z"/></g></g>
+<g id="large-uniform" data-box="80 28 40 28"><g transform="translate(84 32)"><rect width="32" height="20" rx="10" fill="lime"/></g></g>
+<g id="zero-axis" data-box="120 28 40 28"><g transform="translate(124 32)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="longhand-pair" data-box="160 28 40 28"><g transform="translate(164 32)"><path fill="lime" d="M8 0H32V20H0V4A8 4 0 0 1 8 0Z"/></g></g>
+<g id="longhand-override" data-box="200 28 40 28"><g transform="translate(204 32)"><path fill="lime" d="M8 0H28A4 4 0 0 1 32 4V16A4 4 0 0 1 28 20H4A4 4 0 0 1 0 16V4A8 4 0 0 1 8 0Z"/></g></g>
+<g id="shorthand-reset" data-box="0 56 40 28"><g transform="translate(4 60)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="initial" data-box="40 56 40 28"><g transform="translate(44 60)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="unset" data-box="80 56 40 28"><g transform="translate(84 60)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="inherit-root" data-box="120 56 40 28"><g transform="translate(124 60)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="invalid-negative" data-box="160 56 40 28"><g transform="translate(164 60)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="invalid-unitless" data-box="200 56 40 28"><g transform="translate(204 60)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="invalid-slash" data-box="0 84 40 28"><g transform="translate(4 88)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="font-length" data-box="40 84 40 28"><g transform="translate(44 88)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="calc" data-box="80 84 40 28"><g transform="translate(84 88)"><rect width="32" height="20" rx="4" ry="4" fill="lime"/></g></g>
+<g id="variable" data-box="120 84 40 28"><g transform="translate(124 88)"><rect width="32" height="20" rx="8" ry="4" fill="lime"/></g></g>
+<g id="variable-invalid" data-box="160 84 40 28"><g transform="translate(164 88)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="longhand-variable" data-box="200 84 40 28"><g transform="translate(204 88)"><path fill="lime" d="M8 0H32V20H0V4A8 4 0 0 1 8 0Z"/></g></g>
+<g id="overflow-visible" data-box="0 112 40 28"><g transform="translate(4 116)"><ellipse cx="16" cy="10" rx="16" ry="10" fill="lime"/></g></g>
+<g id="border-no-layout" data-box="40 112 40 28"><g transform="translate(44 116)"><ellipse cx="16" cy="10" rx="16" ry="10" fill="lime"/></g></g>
+<g id="not-presentation" data-box="80 112 40 28"><g transform="translate(84 116)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="importance" data-box="120 112 40 28"><g transform="translate(124 116)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="stylesheet" data-box="160 112 40 28"><g transform="translate(164 116)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="graphic-no-css-box" data-box="200 112 40 28"><g transform="translate(204 116)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="negative-math-clamp" data-box="0 140 40 28"><g transform="translate(4 144)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="longhand-initial" data-box="40 140 40 28"><g transform="translate(44 144)"><path fill="lime" d="M0 0H28A4 4 0 0 1 32 4V16A4 4 0 0 1 28 20H4A4 4 0 0 1 0 16Z"/></g></g>
+<g id="invalid-longhand" data-box="80 140 40 28"><g transform="translate(84 144)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="shorthand-variable-reset" data-box="120 140 40 28"><g transform="translate(124 144)"><rect width="32" height="20" rx="4" fill="lime"/></g></g>
+<g id="zero-number" data-box="160 140 40 28"><g transform="translate(164 144)"><rect width="32" height="20" fill="lime"/></g></g>
+<g id="huge-finite-radius" data-box="200 140 40 28"><g transform="translate(204 144)"><rect width="32" height="20" rx="10" fill="lime"/></g></g>
+<g id="slash-four" data-box="0 168 40 28"><g transform="translate(4 172)"><path fill="lime" d="M2 0H28A4 2 0 0 1 32 2V12A6 8 0 0 1 26 20H8A8 6 0 0 1 0 14V4A2 4 0 0 1 2 0Z"/></g></g>
+</svg>

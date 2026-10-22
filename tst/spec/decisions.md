@@ -461,6 +461,16 @@ explicitly inherited outline values still apply to graphic descendants.
 `outline-root-box` checks a transparent, partly empty viewport and both
 forms of inheritance, so a full-viewport background cannot hide the error.
 
+This does not discard the curved content edge of a root image. CSS
+Backgrounds 3's corner-clipping rule clips replaced content to that edge,
+even with visible overflow. `border-radius` and its corner longhands use
+the root's viewport box (D46), its px the raster's pixels as for the canvas
+background (D51); there is no border or padding to subtract. The root's
+background is propagated to the canvas and stays unrounded. `root-border-radius`
+and `root-border-radius-box` check the curve and its intersection with a
+root clip-path independently of the viewBox. Graphic descendants have no
+CSS layout box, so these properties do not round their geometry.
+
 ## D40. Languages are matched as written; an instance's is its host's
 
 `selectors-4.md#the-lang-pseudo` canonicalizes the content language and

@@ -1101,6 +1101,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(MaskBorder, "mask-border")                                \
     ATOM(Media, "media")                                           \
     ATOM(Title, "title")                                           \
+    ATOM(BorderRadius, "border-radius")                            \
     ATOM(Fill, "fill")                                             \
     ATOM(FillOpacity, "fill-opacity")                              \
     ATOM(FillRule, "fill-rule")                                    \
@@ -1168,7 +1169,11 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(ImageRendering, "image-rendering")                        \
     ATOM(Zoom, "zoom")                                             \
     ATOM(Outline, "outline")                                       \
-    ATOM(OutlineOffset, "outline-offset")
+    ATOM(OutlineOffset, "outline-offset")                          \
+    ATOM(BorderTopLeftRadius, "border-top-left-radius")             \
+    ATOM(BorderTopRightRadius, "border-top-right-radius")           \
+    ATOM(BorderBottomRightRadius, "border-bottom-right-radius")     \
+    ATOM(BorderBottomLeftRadius, "border-bottom-left-radius")
 
 namespace {
     enum Atom : u32 {
@@ -1187,7 +1192,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomOutlineOffset - AtomFill + 1;
+    constexpr u32 propertyCount = AtomBorderBottomLeftRadius - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.025f;
@@ -1923,6 +1928,9 @@ namespace {
         float outlineWidth;
         float outlineOffset;
         Color outlineColor;
+        // Corner pairs in clockwise order; their percentages wait for the
+        // CSS box, and font-relative lengths keep the font that computed them.
+        HeldLength* borderRadii;
         u8 paintOrder[3];
         u8 maskType;
         Color floodColor;
@@ -6617,6 +6625,71 @@ namespace {
     static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts], u32* color);
     static bool expandMaskBorder(const Document& doc, Tokens value, u32 (&out)[MaskBorderParts]);
 
+    static bool radiusLength(Tokens value, Length& length) {
+        return parseLength(value, length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc)) && nonNegative(length);
+    }
+
+    static bool cornerRadius(Tokens value, Length (&pair)[2]) {
+        const Token* p = value.begin;
+
+        if (!radiusLength(nextWord(p, value.end), pair[0])) {
+            return false;
+        }
+
+        Tokens second = nextWord(p, value.end);
+
+        pair[1] = pair[0];
+
+        return (empty(second) || radiusLength(second, pair[1])) && empty(nextWord(p, value.end));
+    }
+
+    // Expand the shorthand before the cascade, retaining each pair's
+    // tokens so that var(), longhands and CSS-wide keywords share the
+    // ordinary declaration machinery.
+    static bool expandBorderRadius(const Document& doc, Tokens value, u32 (&out)[4]) {
+        Tokens sets[2][4];
+        u32 counts[2] = {0, 0};
+        u32 set = 0;
+        const Token* p = value.begin;
+
+        for (Tokens word = nextWord(p, value.end); !empty(word); word = nextWord(p, value.end)) {
+            Length length;
+
+            if (isDelim(single(word), '/') && set == 0 && counts[0]) {
+                set = 1;
+            } else if (counts[set] == 4 || !radiusLength(word, length)) {
+                return false;
+            } else {
+                sets[set][counts[set]++] = word;
+            }
+        }
+
+        if (!counts[0] || (set && !counts[1])) {
+            return false;
+        }
+
+        if (!set) {
+            memcpy(sets[1], sets[0], sizeof(sets[0]));
+            counts[1] = counts[0];
+        }
+
+        for (u32 k = 0; k < 4; k++) {
+            Vector<Token> pair;
+
+            for (u32 axis = 0; axis < 2; axis++) {
+                u32 n = counts[axis];
+                u32 index = k < n ? k : k == 3 && n > 1 ? 1 : 0;
+                Tokens word = sets[axis][index];
+
+                pair.append(word.begin, (size_t)(word.end - word.begin));
+            }
+
+            out[k] = keptValue(doc, pair);
+        }
+
+        return true;
+    }
+
     // A width or height of a number other than 0: a style sheet's CSS
     // takes no such length, as Chromium and Firefox drop it there, though
     // Chromium takes it in a style attribute.
@@ -6679,7 +6752,7 @@ namespace {
 
         if (low == SV("background") || low == SV("all")) {
             shorthand = intern(doc.atoms, low == SV("all") ? SV("all") : SV("background"));
-        } else if (property == AtomMarker || property == AtomMask || property == AtomMaskBorder) {
+        } else if (property == AtomMarker || property == AtomMask || property == AtomMaskBorder || property == AtomBorderRadius) {
             shorthand = property;
         } else if (!(property >= firstProperty && property < firstProperty + propertyCount) && !geometryProperty(property)) {
             return;
@@ -6702,6 +6775,10 @@ namespace {
                 }
             } else if (low == SV("background")) {
                 for (u32 k = AtomBackgroundColor; k <= AtomBackgroundSize; k++) {
+                    longhands[count++] = k;
+                }
+            } else if (property == AtomBorderRadius) {
+                for (u32 k = AtomBorderTopLeftRadius; k <= AtomBorderBottomLeftRadius; k++) {
                     longhands[count++] = k;
                 }
             } else if (property == AtomMarker) {
@@ -6746,6 +6823,14 @@ namespace {
 
                 for (u32 k = AtomBackgroundImage; k <= AtomBackgroundSize; k++) {
                     out.pushBack(Declaration{k, parts[backgroundPart(k)], 0, important, false});
+                }
+            }
+        } else if (property == AtomBorderRadius) {
+            u32 corners[4];
+
+            if (expandBorderRadius(doc, tokens, corners)) {
+                for (u32 k = 0; k < 4; k++) {
+                    out.pushBack(Declaration{AtomBorderTopLeftRadius + k, corners[k], 0, important, false});
                 }
             }
         } else if (property == AtomMask) {
@@ -8421,6 +8506,14 @@ namespace {
                 return isKeyword(value, SV("none")) || (parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc)) && nonNegative(length));
             case AtomOutlineOffset:
                 return parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc));
+            case AtomBorderTopLeftRadius:
+            case AtomBorderTopRightRadius:
+            case AtomBorderBottomRightRadius:
+            case AtomBorderBottomLeftRadius: {
+                Length pair[2];
+
+                return cornerRadius(value, pair);
+            }
             case AtomPerspectiveOrigin: {
                 Length y;
 
@@ -8619,7 +8712,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomOutlineOffset && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomOutlineOffset && !(name >= AtomBorderTopLeftRadius && name <= AtomBorderBottomLeftRadius) && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
                 bool pending = valueSubstitutes(doc, value);
 
                 if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
@@ -14552,6 +14645,7 @@ namespace {
         style.objectPosition = 0;
         style.outlineWidth = 0.f;
         style.outlineOffset = 0.f;
+        style.borderRadii = nullptr;
         style.zoom = 1.f;
         memset(style.maskParts, 0, sizeof(style.maskParts));
         memset(style.maskBorder, 0, sizeof(style.maskBorder));
@@ -14596,7 +14690,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomOutlineOffset && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomOutlineOffset && !(property >= AtomBorderTopLeftRadius && property <= AtomBorderBottomLeftRadius) && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -15025,6 +15119,30 @@ namespace {
                         style.outlineOffset = source.outlineOffset;
                     } else if (parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc))) {
                         style.outlineOffset = resolveLength(length, Axis::Other, vp, style.fontSize);
+                    }
+
+                    break;
+                }
+                case AtomBorderTopLeftRadius:
+                case AtomBorderTopRightRadius:
+                case AtomBorderBottomRightRadius:
+                case AtomBorderBottomLeftRadius: {
+                    Length pair[2];
+
+                    if (!(keyword ? source.borderRadii != nullptr : cornerRadius(value, pair))) {
+                        break;
+                    }
+
+                    if (!style.borderRadii) {
+                        style.borderRadii = (HeldLength*)l.pool->allocate(8 * sizeof(HeldLength));
+
+                        memset(style.borderRadii, 0, 8 * sizeof(HeldLength));
+                    }
+
+                    u32 corner = 2 * (property - AtomBorderTopLeftRadius);
+
+                    for (u32 axis = 0; axis < 2; axis++) {
+                        style.borderRadii[corner + axis] = keyword ? source.borderRadii[corner + axis] : HeldLength{pair[axis], style.fontSize};
                     }
 
                     break;
@@ -17197,11 +17315,13 @@ namespace {
 
         // The corners by sides: top 0 1, right 1 2, bottom 2 3, left 3 0.
         for (int k = 0; k < 4; k++) {
-            float sum = k % 2 ? ry[k] + ry[(k + 1) % 4] : rx[k] + rx[(k + 1) % 4];
+            // Finite radii may sum past float's range. Keep that sum
+            // finite so the common reduction still leaves a curved box.
+            double sum = k % 2 ? (double)ry[k] + ry[(k + 1) % 4] : (double)rx[k] + rx[(k + 1) % 4];
             float side = k % 2 ? height : width;
 
             if (sum > side) {
-                scale = minf(scale, side / sum);
+                scale = minf(scale, (float)(side / sum));
             }
         }
 
@@ -17222,6 +17342,40 @@ namespace {
         lineTo(path, Point{x0, y0 + ry[0]});
         cubicTo(path, Point{x0, y0 + ry[0] - ry[0] * c}, Point{x0 + rx[0] - rx[0] * c, y0}, Point{x0 + rx[0], y0});
         closePath(path);
+    }
+
+    // Only an SVG document's root has a CSS layout box. Its rounded
+    // content edge clips the rendered image even with overflow:visible;
+    // SVG graphics do not acquire CSS boxes from these properties.
+    static bool rootCornerClip(Lowering& l, const ComputedStyle& style, const Matrix& m, Viewport vp, float x, float y, float w, float h) {
+        if (!style.borderRadii) {
+            return false;
+        }
+
+        Length radii[8];
+        bool curved = false;
+
+        for (u32 k = 0; k < 4; k++) {
+            for (u32 axis = 0; axis < 2; axis++) {
+                const HeldLength& held = style.borderRadii[2 * k + axis];
+                float value = resolveAgainst(held.length, axis ? h : w, vp, held.fontSize);
+
+                radii[k + axis * 4] = Length{value, Unit::Px};
+            }
+
+            curved = curved || (radii[k].value > 0.f && radii[k + 4].value > 0.f);
+        }
+
+        if (!curved) {
+            return false;
+        }
+
+        Path path;
+
+        roundedRectPath(path, x, y, x + w, y + h, radii, w, h, vp, style.fontSize);
+        addClipShape(l, path, m, WindingNonZero);
+
+        return true;
     }
 
     // The path of shape()'s commands in the reference box of the size given,
@@ -20420,7 +20574,23 @@ namespace {
 
         l.out->pushBack(op);
         l.rootFontSize = rootStyle.fontSize;
+        u32 cornerIndex = (u32)l.out->length();
+        Op corner = groupOp(1.f);
+
+        corner.clipFirst = (u32)l.clips.length();
+        corner.clipCount = 1;
+        corner.clipped = rootCornerClip(l, rootStyle, m, vp, x, y, w, h);
+
+        if (corner.clipped) {
+            l.out->pushBack(corner);
+        }
+
         lowerChildren(l, nested->root, rootStyle, multiply(place, source.transform), Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
+
+        if (corner.clipped) {
+            endGroup(l, cornerIndex);
+        }
+
         l.rootFontSize = outerFontSize;
         l.docWidth = outerDocWidth;
         l.docHeight = outerDocHeight;
@@ -21810,6 +21980,17 @@ namespace {
         Matrix m = multiply(ctm, own);
         Op op = groupOp(style.opacity);
 
+        u32 cornerIndex = (u32)l.out->length();
+        Op corner = groupOp(1.f);
+
+        corner.clipFirst = (u32)l.clips.length();
+        corner.clipCount = 1;
+        corner.clipped = node == l.doc->root && rootCornerClip(l, style, m, vp, 0.f, 0.f, (float)l.width, (float)l.height);
+
+        if (corner.clipped) {
+            l.out->pushBack(corner);
+        }
+
         if (style.vectorEffects && (isShape(node->name) || node->name == AtomImage || node->name == AtomUse)) {
             m = vectorEffectMatrix(l.host, m, own, style.vectorEffects);
         }
@@ -21911,6 +22092,10 @@ namespace {
 
         if (layer) {
             endGroup(l, index);
+        }
+
+        if (corner.clipped) {
+            endGroup(l, cornerIndex);
         }
     }
 
