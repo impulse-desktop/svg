@@ -12905,6 +12905,51 @@ namespace {
             returningEnd = endEdge + 1 < segments && intoEnd.x * end.x + intoEnd.y * end.y < 0.f;
         }
 
+        // An internal fold can have two opposed bends within one stroke
+        // width even when the complete open path is long. Its inverted
+        // offset must stay open just as at a small loop or returning tip.
+        // Evaluate the turn in a half-width of path on either side of each
+        // vertex; the two moving bounds visit every segment only once.
+        Vector<u8> localFold;
+
+        if (!closed) {
+            Vector<double> distance;
+            Vector<double> signedTurn;
+            Vector<double> totalTurn;
+            distance.pushBack(0.0);
+            signedTurn.pushBack(0.0);
+            totalTurn.pushBack(0.0);
+
+            for (size_t i = 0; i < segments; i++) {
+                distance.pushBack(distance.back() + lengths[i]);
+
+                if (i > 0) {
+                    Point a = dirs[i - 1];
+                    Point b = dirs[i];
+                    double angle = atan2((double)a.x * b.y - (double)a.y * b.x, (double)a.x * b.x + (double)a.y * b.y);
+                    signedTurn.pushBack(signedTurn.back() + angle);
+                    totalTurn.pushBack(totalTurn.back() + fabs(angle));
+                }
+            }
+
+            size_t left = 0;
+            size_t right = 0;
+
+            for (size_t k = 0; k < n; k++) {
+                while (left + 1 < k && distance[left + 1] < distance[k] - s.half) left++;
+                if (right < k && k < segments) right = k;
+                while (right + 1 < segments && distance[right + 1] <= distance[k] + s.half) right++;
+
+                double rotation = signedTurn[right] - signedTurn[left];
+                double turn = totalTurn[right] - totalTurn[left];
+                Point first = dirs[left];
+                Point last = dirs[right];
+                bool sameHeading = first.x * last.x + first.y * last.y > 0.f;
+
+                localFold.pushBack(fabs(rotation) > pi + 0.1f || (sameHeading && turn > pi + 0.1f));
+            }
+        }
+
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
             Point d0 = dirs[in];
@@ -13022,7 +13067,7 @@ namespace {
             bool nearTip = (returningStart && fromStartX * fromStartX + fromStartY * fromStartY < s.half * s.half) ||
                            (returningEnd && fromEndX * fromEndX + fromEndY * fromEndY < s.half * s.half);
 
-            if ((looped || nearTip) && kind[k] == PointSmooth) {
+            if ((looped || nearTip || (!closed && localFold[k])) && kind[k] == PointSmooth) {
                 sides[inner].pushBack(offset(p, d1, -side));
 
                 return;

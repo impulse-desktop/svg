@@ -582,7 +582,7 @@ librsvg and resvg draw the convolution so where they draw the edge on
 whole pixels; a blur's edge mode they leave out. Wrap and mirror bring
 other pixels across the edge and keep the pixels as stored.
 
-## D49. A small loop or returning tip keeps every renderer's hole
+## D49. A small loop or returning fold keeps every renderer's hole
 
 `svg2/painting.md#StrokeShape` defines the ideal stroke as the sweep of the
 subpath's normals, so a circle stroked wider than its diameter would be a
@@ -621,6 +621,17 @@ the old swept fill closed it. A tight bend whose tangent does not return,
 including `stroke-tight-ends#end-tight`, still uses the ideal swept shape.
 `stroke-hairpin-tip` tests both path directions against a fixed Chromium
 drawing; resvg agrees on the opening.
+
+The same inversion occurs inside a long open path, away from either cap.
+Sketchy-SVG `76743021` has a short backward run between forward strokes:
+Chromium, resvg and librsvg leave an opening in its thick stroke, while
+the ideal normal sweep and our old sector fill close it. A local window
+extending one half-width of arc length to either side of a smooth point
+keeps the inverted inner offset when the path turns back and resumes its
+heading, or rotates past a half-circle. `stroke-internal-returning-fold`
+isolates the internal opening with three cubics and checks that the outer
+stroke remains. The earlier `stroke-degenerate-internal-bend` and
+`stroke-folded-open#one-way-bend` keep the outer stroke at a single bend.
 
 ## D50. A focal point within 1/4096 of the radius of the end circle is on it
 
