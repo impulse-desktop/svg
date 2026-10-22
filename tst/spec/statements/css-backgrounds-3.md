@@ -53,7 +53,7 @@
 
 ## Root corner clipping: root-border-radius, root-border-radius-box
 
-- [x] css-backgrounds-3.md#border-radius: each corner radius is a non-negative length-percentage pair; one component supplies both axes; horizontal percentages use box width and vertical percentages use box height. [root-border-radius#length root-border-radius#longhand-pair root-border-radius#percent-bases root-border-radius#zero-axis]
+- [x] css-backgrounds-3.md#border-radius: each corner radius is a non-negative length-percentage pair; one component supplies both axes; horizontal percentages use box width and vertical percentages use box height. [root-border-radius#length root-border-radius#font-length root-border-radius#root-font-rem root-border-radius#longhand-pair root-border-radius#percent-bases root-border-radius#zero-axis]
 - [x] css-backgrounds-3.md#border-radius: the shorthand expands one to four radii clockwise from top left, repeating omitted corners; a slash supplies the independent vertical set, otherwise both sets agree. [root-border-radius#two root-border-radius#three root-border-radius#four root-border-radius#slash]
 - [x] css-backgrounds-3.md#corner-overlap: when adjacent radii exceed any side, all radii are reduced by the smallest side-to-sum ratio, preserving relative sizes. [root-border-radius#overlap root-border-radius#large-uniform root-border-radius#percent-ellipse]
 - [x] css-backgrounds-3.md#corner-clipping: replaced content clips to its curved content edge, including with visible overflow; the root SVG image's box is its viewport (D39, D46). SVG graphics have no CSS layout boxes. [root-border-radius#overflow-visible root-border-radius#graphic-no-css-box root-border-radius-box#canvas-and-intersection]

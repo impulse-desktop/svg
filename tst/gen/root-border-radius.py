@@ -42,6 +42,7 @@ cases = [
  ('invalid-negative', 'border-radius:4px;border-radius:-2px', r4),
  ('invalid-unitless', 'border-radius:4px;border-radius:2', r4),
  ('invalid-slash', 'border-radius:4px;border-radius:2px/', r4),
+ ('root-font-rem', 'font-size:8px;border-radius:.5rem', r4),
  ('font-length', 'font-size:8px;border-radius:.5em', r4),
  ('calc', 'border-radius:calc(25% - 4px)/calc(50% - 6px)', '<rect width="32" height="20" rx="4" ry="4" fill="lime"/>'),
  ('variable', '--r:8px/4px;border-radius:var(--r)', r8_4),
@@ -61,7 +62,7 @@ cases = [
  ('huge-finite-radius', 'border-radius:3e38px', '<rect width="32" height="20" rx="10" fill="lime"/>'),
  ('slash-four', 'border-radius:2px 4px 6px 8px/4px 2px 8px 6px', '<path fill="lime" d="M2 0H28A4 2 0 0 1 32 2V12A6 8 0 0 1 26 20H8A8 6 0 0 1 0 14V4A2 4 0 0 1 2 0Z"/>'),
 ]
-assert len(cases) == 37
+assert len(cases) == 38
 for i, (name, style, expected) in enumerate(cases):
  x, y = (i % 6)*40, (i//6)*28
  extra = ' border-radius="50%"' if name == 'not-presentation' else ''

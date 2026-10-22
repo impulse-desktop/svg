@@ -15136,7 +15136,9 @@ namespace {
                     if (!style.borderRadii) {
                         style.borderRadii = (HeldLength*)l.pool->allocate(8 * sizeof(HeldLength));
 
-                        memset(style.borderRadii, 0, 8 * sizeof(HeldLength));
+                        for (u32 k = 0; k < 8; k++) {
+                            style.borderRadii[k] = HeldLength{};
+                        }
                     }
 
                     u32 corner = 2 * (property - AtomBorderTopLeftRadius);
@@ -17354,6 +17356,8 @@ namespace {
 
         Length radii[8];
         bool curved = false;
+
+        vp.rootFontSize = style.fontSize;
 
         for (u32 k = 0; k < 4; k++) {
             for (u32 axis = 0; axis < 2; axis++) {
