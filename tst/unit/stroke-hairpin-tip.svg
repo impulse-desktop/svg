@@ -1,9 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128">
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="128">
 <!-- A long open stroke with a sub-width reversal by its tip leaves a
 small opening inside the tip, whether the path runs towards or away from
 it. The opening is not a line cap: it comes from the returning inner
 offset of the stroke outline (D49). -->
-<rect width="128" height="128" fill="white"/>
+<rect width="512" height="128" fill="white"/>
 <path transform="translate(0 0) scale(2)" d="M 10 20 H 50 C 50.2 19.2 49.9 18.8 49.8 19.4 L 49.5 20.2" fill="none" stroke="black" stroke-width="10"/>
 <path transform="translate(0 64) scale(2)" d="M 49.5 20.2 L 49.8 19.4 C 49.9 18.8 50.2 19.2 50 20 H 10" fill="none" stroke="black" stroke-width="10"/>
+<!-- A nearly collinear, sub-tolerance reversal in the first cubic does
+     not make a hole through the otherwise solid stroke (Sketchy 2ed9dd82). -->
+<svg x="128" width="128" height="128" viewBox="330 251.78333 100 100">
+  <path d="M 380 301.78333 C 378.65866 301.78333 379.52783 301.7815 380.33334 301.78333 L 500 300" fill="none" stroke="black" stroke-width="34.12888987744369"/>
+</svg>
+<!-- This return moves sideways within its first cubic, so its opening
+     remains even though the initial displacement is tiny (Sketchy 5037a6c6). -->
+<svg x="256" width="128" height="128" viewBox="300 115 70 70">
+  <path d="M 331.50348 149.88889
+           C 332.142640 149.888890 331.030820 149.968680 330.582120 149.318230
+           C 330.064050 148.567220 329.692470 147.853390 329.075470 147.490230
+           C 328.337010 147.055570 327.418430 146.712580 326.923800 146.546060
+           C 325.349550 146.016060 324.784000 145.902610 324.219450 145.775570
+           C 323.081630 145.519500 322.505580 145.416500 321.356140 145.250560
+           C 320.788420 145.168610 319.671360 145.035790 318.584810 144.978240
+           C 318.047550 144.949780 316.960600 144.956760 316.406130 145.007570"
+        fill="none" stroke="black" stroke-width="29.82976291982821"/>
+</svg>
+<!-- The collinear case stays solid when the path is reversed too. -->
+<svg x="384" width="128" height="128" viewBox="330 251.78333 100 100">
+  <path d="M 500 300 L 380.33334 301.78333 C 379.52783 301.7815 378.65866 301.78333 380 301.78333" fill="none" stroke="black" stroke-width="34.12888987744369"/>
+</svg>
 </svg>

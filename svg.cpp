@@ -12874,6 +12874,9 @@ namespace {
         // endpoint: a tight quarter turn is not a return along the stroke.
         bool returningStart = false;
         bool returningEnd = false;
+        bool collinearStartReturn = false;
+        size_t startReturnBoundary = 0;
+        size_t endReturnBoundary = 0;
 
         if (!closed) {
             float half2 = s.half * s.half;
@@ -12903,6 +12906,43 @@ namespace {
 
             returningStart = startEdge > 0 && start.x * fromStart.x + start.y * fromStart.y < 0.f;
             returningEnd = endEdge + 1 < segments && intoEnd.x * end.x + intoEnd.y * end.y < 0.f;
+
+            // A cubic that doubles back along the same line cannot carve a
+            // visible opening in the stroke. Keep the return only when its
+            // containing source curve moves transversely at this tolerance.
+            auto hasVisibleReturn = [&](bool atStart, size_t& boundary) {
+                Point tip = atStart ? pts[0] : pts[n - 1];
+                Point away = atStart ? dirs[0] : Point{-dirs[segments - 1].x, -dirs[segments - 1].y};
+                float transverse = 0.f;
+                bool reversed = false;
+
+                for (size_t j = 1; j < segments; j++) {
+                    size_t index = atStart ? j : n - 1 - j;
+                    Point p = pts[index];
+                    float dx = p.x - tip.x;
+                    float dy = p.y - tip.y;
+                    transverse = maxf(transverse, fabsf(dx * away.y - dy * away.x));
+                    Point d = atStart ? dirs[j] : Point{-dirs[segments - 1 - j].x, -dirs[segments - 1 - j].y};
+
+                    reversed |= away.x * d.x + away.y * d.y < 0.f;
+
+                    if ((reversed && kind[index] == PointCorner) || dx * dx + dy * dy >= half2) {
+                        boundary = index;
+                        break;
+                    }
+                }
+
+                return transverse > s.tol;
+            };
+
+            if (returningStart) {
+                collinearStartReturn = !hasVisibleReturn(true, startReturnBoundary);
+                returningStart = !collinearStartReturn;
+            }
+
+            if (returningEnd) {
+                returningEnd = hasVisibleReturn(false, endReturnBoundary);
+            }
         }
 
         // An internal fold can have two opposed bends within one stroke
@@ -13006,6 +13046,10 @@ namespace {
                     window(k, high, first, last);
                     isFold = folded(first, last);
                 }
+
+                // The first cubic's collinear return can also satisfy the
+                // local-fold turn test, without an opening in that cubic.
+                if (collinearStartReturn && k <= startReturnBoundary) isFold = false;
 
                 localFold.pushBack(isFold);
             }
