@@ -42,8 +42,8 @@
 
 ## Filter paint-server inputs: filter-paint-inputs, filter-paint-readers (exists)
 
-- [x] filter-effects-1.md#attr-valuedef-in-fillpaint: FillPaint is the target element's fill property value as an infinite-extent image; a paint server in it uses the filtered element's own reference box (objectBoundingBox or the nearest viewport). [filter-paint-inputs#fill-paint filter-paint-inputs#gradient-box filter-paint-inputs#chain filter-paint-inputs#arithmetic]
-- [x] filter-effects-1.md#attr-valuedef-in-strokepaint: StrokePaint is the same, taken from the stroke property. [filter-paint-inputs#stroke-paint]
+- [x] filter-effects-1.md#attr-valuedef-in-fillpaint: FillPaint is the target element's fill property value as an infinite-extent image; a paint server in it uses the filtered element's own reference box (objectBoundingBox or the nearest viewport). [filter-paint-inputs#fill-paint filter-paint-inputs#gradient-box filter-paint-inputs#chain filter-paint-inputs#arithmetic filter-empty-paint#solid filter-empty-paint#pattern filter-empty-paint#gradient filter-empty-paint#bbox-empty filter-empty-paint#source-empty filter-empty-paint#transparent-child filter-empty-paint#opacity]
+- [x] filter-effects-1.md#attr-valuedef-in-strokepaint: StrokePaint is the same, taken from the stroke property. [filter-paint-inputs#stroke-paint filter-empty-paint#stroke]
 
 ## Background input and isolation backdrop: filter-background-image, filter-background (exists), background-unscoped (exists)
 

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- Finite positive rectangle dimensions are not rounded to zero.
+Literal outer rectangles check very thin mitered strokes, including a
+transformed rectangle; exact-zero and invalid negative dimensions draw
+nothing. -->
+<g transform="translate(0 0)"><rect x="2" y="4" width="4" height="0.1" fill="none" stroke="#aeaeae" stroke-width="2"/></g>
+<g transform="translate(16 0)"><rect x="2" y="4" width="4" height="0.0001" fill="none" stroke="#aeaeae" stroke-width="2"/></g>
+<g transform="translate(32 0)"><rect x="2" y="4" width="4" height="3.4173e-07" fill="none" stroke="#aeaeae" stroke-width="2"/></g>
+<g transform="translate(48 0)"><rect x="4" y="2" width="3.4173e-07" height="4" fill="none" stroke="#aeaeae" stroke-width="2"/></g>
+<g transform="translate(0 16)"><g transform="scale(.001)"><rect x="2000" y="4000" width="4000" height=".00034173" fill="none" stroke="#aeaeae" stroke-width="2000"/></g></g>
+<g transform="translate(16 16)"><rect x="2" y="4" width="4" height="0" fill="none" stroke="#aeaeae" stroke-width="2"/></g>
+<g transform="translate(32 16)"><rect x="4" y="2" width="0" height="4" fill="none" stroke="#aeaeae" stroke-width="2"/></g>
+<g transform="translate(48 16)"><rect x="2" y="4" width="4" height="-1" fill="none" stroke="#aeaeae" stroke-width="2"/></g>
+</svg>

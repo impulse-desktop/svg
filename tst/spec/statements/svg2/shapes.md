@@ -3,7 +3,7 @@
 ## rect, circle and ellipse sizing and error handling: shape-radii
 
 - [x] svg2/shapes.md#RectElement: rect's x,y are the left/top edges of the rectangle in the current user coordinate system. [shape-radii#rx-alone geometry-properties#position-percent]
-- [x] svg2/shapes.md#RectElement: a negative rect width or height is invalid and ignored; a computed zero for either disables rendering of the element. [shape-radii#zero-negative]
+- [x] svg2/shapes.md#RectElement: a negative rect width or height is invalid and ignored; a computed zero for either disables rendering of the element. [shape-radii#zero-negative shape-tiny-positive#height-tenth shape-tiny-positive#height-small shape-tiny-positive#height-tiny shape-tiny-positive#width-tiny shape-tiny-positive#scaled shape-tiny-positive#height-zero shape-tiny-positive#width-zero shape-tiny-positive#negative]
 - [x] svg2/shapes.md#RectElement: a negative rx or ry on rect is invalid and ignored. [shape-radii#negative-rx]
 - [x] svg2/shapes.md#RectElement: if both rx and ry compute to auto, their used value is 0 (square corners); if exactly one is a length/percentage, the other's absolute value mirrors it, resolving rx against width and ry against height. [shape-radii#rx-alone shape-radii#ry-alone]
 - [x] svg2/shapes.md#RectElement: used rx/ry are clamped so a radius greater than half the rectangle's width or height is reduced to that half. [shape-radii#rx-alone]
