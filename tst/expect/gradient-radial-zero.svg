@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="96">
+<!-- What tst/unit/gradient-radial-zero.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="zero-concentric" data-box="0 0 32 24"></g>
+<g id="zero-shifted" data-box="32 0 32 24"></g>
+<g id="zero-repeat" data-box="64 0 32 24"></g>
+<g id="zero-valid-fallback" data-box="96 0 32 24"></g>
+<g id="tiny-covered" data-box="0 24 32 24"></g>
+<g id="tiny-exterior" data-box="32 24 32 24"></g>
+<g id="tiny-interior" data-box="64 24 32 24"><rect x="64" y="24" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="normal-exterior" data-box="96 24 32 24"></g>
+<g id="normal-interior" data-box="0 48 32 24"><rect x="0" y="48" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="zero-end-covered" data-box="32 48 32 24"></g>
+<g id="zero-end-exterior" data-box="64 48 32 24"></g>
+<g id="zero-end-interior" data-box="96 48 32 24"><rect x="96" y="48" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="smaller-exterior" data-box="0 72 32 24"></g>
+<g id="tiny-transparent" data-box="32 72 32 24"><rect x="32" y="72" width="32" height="24" fill="lime" fill-opacity="0.5"/></g>
+<g id="tiny-linear-exterior" data-box="64 72 32 24"></g>
+<g id="negative-fallback" data-box="96 72 32 24"><rect x="96" y="72" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+</svg>

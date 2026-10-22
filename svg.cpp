@@ -16021,8 +16021,11 @@ namespace {
                 return nullptr;
             }
 
-            if (paint->r <= 1.f / 32768.f) {
-                return solidPaint(l, Color{last.r, last.g, last.b, 1.f}, last.a);
+            // Two point circles sweep only a line, of no painted area.
+            // A positive radius, however small before its transform, keeps
+            // the same cone geometry as a larger equivalent gradient.
+            if (paint->r == 0.f && paint->fr == 0.f) {
+                return nullptr;
             }
 
             float apart = hypotf(paint->cx - paint->fx, paint->cy - paint->fy);

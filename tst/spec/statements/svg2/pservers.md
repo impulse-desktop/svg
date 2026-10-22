@@ -110,3 +110,16 @@
 
 - svg2/pservers.md#PatternNotes: overflow:visible on a pattern is explicitly left undefined by the spec text itself ("currently undefined"), though implementers are "encouraged" to render it left-to-right, top-to-bottom; the renderer must pick one behavior.
 - svg2/pservers.md#RadialGradientNotes: the weighted-average fill beyond a focal point sitting exactly on the end circle is an expensive-to-notice edge case (a single-pixel boundary condition) kept only for SVG 1.1 compatibility; cheap rounding at that exact boundary is unlikely to be checked pixel-for-pixel.
+
+## Zero and small radial circles: gradient-radial-zero
+
+These multi-stop gradients follow the SVG 2 two-circle geometry. SVG 1.1
+painted a zero end radius with the last stop; `gradient-edge` retains its
+original input, but its 8 by 8 zero-radius cell now stays transparent. The
+other pixels of that existing unit stay unchanged. The new unit certifies
+whole rectangular probes independently of browser images.
+
+- [x] svg2/pservers.md#RadialGradientNotes: a start circle fully overlapping the end circle leaves the area untouched, including coincident point circles; a positive radius cannot be replaced by a solid color merely because its value before transformation is small. [gradient-radial-zero#zero-concentric gradient-radial-zero#tiny-covered gradient-radial-zero#zero-end-covered]
+- [x] svg2/pservers.md#RadialGradientNotes: areas outside the cone are transparent; two point circles sweep no area, and a valid empty gradient does not invoke the paint fallback. [gradient-radial-zero#zero-shifted gradient-radial-zero#zero-repeat gradient-radial-zero#zero-valid-fallback gradient-radial-zero#tiny-exterior gradient-radial-zero#normal-exterior gradient-radial-zero#zero-end-exterior gradient-radial-zero#smaller-exterior gradient-radial-zero#tiny-linear-exterior]
+- [x] svg2/pservers.md#RadialGradientNotes: interior cone probes retain their paint under an equivalent power-of-two transformation, including an end circle of zero radius and translucent paint. [gradient-radial-zero#tiny-interior gradient-radial-zero#normal-interior gradient-radial-zero#zero-end-interior gradient-radial-zero#tiny-transparent]
+- [x] svg2/pservers.md#RadialGradientElementRAttribute: a negative radius is an error and takes the supplied paint fallback. [gradient-radial-zero#negative-fallback]
