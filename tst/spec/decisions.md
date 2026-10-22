@@ -674,7 +674,12 @@ ermine's tails. The renderer read the digits and failed on the point after
 them, which drew the command the number ended and nothing after, as no
 renderer does. It takes a point after a number of digits alone as that
 number's end now, and in a number with a point or an exponent still as
-the next number's start.
+the next number's start. This recovery does not consume two adjacent
+points, such as `266..59`: that may also be a mistyped `266.59`, so its
+meaning is not unambiguous. SVG 2 path error handling stops at that
+command; Chromium and Firefox do so in the harvested icon, while resvg
+and librsvg read two numbers. `path-data-commands#double-point-line` and
+`#double-point-arc` test the error boundary beside the accepted lone point.
 
 ## D54. A pass draws and measures a bounded number of elements
 

@@ -1,20 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="62">
 <!-- Each lime stroke follows the same path spelled out in black, and
 each lime square covers its red one alone; no red. A d of none, as a
 property too, and data with no valid command draw nothing and add
 nothing to the group's bounding box, which the square fills; a unit on a
-number, a comma in it and a point that ends it are errors, the path
-drawn up to the segment before, as is a comma after a closepath. A first
+number, a comma in it and two adjacent points are errors, the path drawn
+up to the segment before, as is a comma after a closepath. A first
 relative moveto is absolute, the pairs after a moveto are linetos, H and
-V take lists, a closepath joins where a lineto back leaves butt ends,
-and the arc flags pick one of four arcs. -->
-<rect width="64" height="52" fill="white"/>
+V take lists, a number ending in one point before a separator is
+accepted, a closepath joins where a lineto back leaves butt ends, and
+the arc flags pick one of four arcs. -->
+<rect width="64" height="62" fill="white"/>
 <defs><filter id="none-box" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter><filter id="empty-box" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter></defs>
 <g fill="none" stroke="red" stroke-width="2"><path d="none"/><path/><path d="M 44 5 h 2" style="d: none"/></g><g filter="url(#none-box)"><rect x="41" y="2" width="6" height="6" fill="red"/><path d="none"/><path/><path d="M 0 0 h 2" style="d: none"/></g>
 <g fill="none" stroke="red" stroke-width="2"><path d="L 56 5 h 2"/><path d="X 56 5 h 2"/><path d="56 5 h 2"/><path d=""/></g><g filter="url(#empty-box)"><rect x="53" y="2" width="6" height="6" fill="red"/><path d="L 0 0 h 2"/><path d="X 0 0 h 2"/><path d="0 0 h 2"/><path d=""/></g>
 <path d="M 2 3 h 4 L 10px 3 h 2" fill="none" stroke="lime" stroke-width="2"/>
 <path d="M 13 3 h 1,2" fill="none" stroke="lime" stroke-width="2"/>
 <path d="M 25 3 h 4. 3" fill="none" stroke="lime" stroke-width="2"/>
+<path d="M 3 56 h 10..5 v 5" fill="none" stroke="lime" stroke-width="2"/>
+<path d="M 22 56 h 7 a 2..5 3 0 0 1 5 0 v 5" fill="none" stroke="lime" stroke-width="2"/>
 <path d="M 2 8 h 1,000 2" fill="none" stroke="lime" stroke-width="2"/>
 <path d="M 14 7 h 6 v 2 h -6 z, M 24 7 h 6" fill="none" stroke="lime" stroke-width="2"/>
 <path d="M 2 14 6 14 6 18 m 2 -4 4 0 0 4" fill="none" stroke="lime" stroke-width="2"/>
@@ -26,5 +29,5 @@ and the arc flags pick one of four arcs. -->
 <path d="M 19 40 A 5 5 0 0 1 27 40" fill="none" stroke="lime" stroke-width="2"/>
 <path d="M 34 40 A 5 5 0 1 0 42 40" fill="none" stroke="lime" stroke-width="2"/>
 <path d="M 49 40 A 5 5 0 1 1 57 40" fill="none" stroke="lime" stroke-width="2"/>
-<g fill="none" stroke="black" stroke-width=".25"><rect x="41" y="2" width="6" height="6"/><rect x="53" y="2" width="6" height="6"/><path d="M 2 3 H 6"/><path d="M 13 3 H 16"/><path d="M 25 3 H 32"/><path d="M 2 8 H 3 H 3 H 5"/><path d="M 14 7 h 6 v 2 h -6 z"/><path d="M 2 14 L 6 14 L 6 18 M 8 14 L 12 14 L 12 18"/><path d="M 17 14 L 21 14 L 21 18"/><path d="M 2 27 H 22"/><path d="M 26 14 L 30 14 L 34 14 L 34 18 L 34 22 L 32 22 L 30 22 L 30 20 L 30 18"/><path d="M 41 13 H 51 V 21 H 41 Z M 54 13 H 63 V 21 H 53 V 14 H 54 Z"/><path d="M 4 40 C 4.9443 41.2590 6.4262 42.0000 8.0000 42.0000 C 9.5738 42.0000 11.0557 41.2590 12.0000 40.0000"/><path d="M 19 40 C 19.9443 38.7410 21.4262 38.0000 23.0000 38.0000 C 24.5738 38.0000 26.0557 38.7410 27.0000 40.0000"/><path d="M 34 40 C 32.4529 42.0628 32.7282 44.9637 34.6356 46.6987 C 36.5430 48.4338 39.4570 48.4338 41.3644 46.6987 C 43.2718 44.9637 43.5471 42.0628 42.0000 40.0000"/><path d="M 49 40 C 47.4529 37.9372 47.7282 35.0363 49.6356 33.3013 C 51.5430 31.5662 54.4570 31.5662 56.3644 33.3013 C 58.2718 35.0363 58.5471 37.9372 57.0000 40.0000"/></g>
+<g fill="none" stroke="black" stroke-width=".25"><rect x="41" y="2" width="6" height="6"/><rect x="53" y="2" width="6" height="6"/><path d="M 2 3 H 6"/><path d="M 13 3 H 16"/><path d="M 25 3 H 32"/><path d="M 3 56 H 13"/><path d="M 22 56 H 29"/><path d="M 2 8 H 3 H 3 H 5"/><path d="M 14 7 h 6 v 2 h -6 z"/><path d="M 2 14 L 6 14 L 6 18 M 8 14 L 12 14 L 12 18"/><path d="M 17 14 L 21 14 L 21 18"/><path d="M 2 27 H 22"/><path d="M 26 14 L 30 14 L 34 14 L 34 18 L 34 22 L 32 22 L 30 22 L 30 20 L 30 18"/><path d="M 41 13 H 51 V 21 H 41 Z M 54 13 H 63 V 21 H 53 V 14 H 54 Z"/><path d="M 4 40 C 4.9443 41.2590 6.4262 42.0000 8.0000 42.0000 C 9.5738 42.0000 11.0557 41.2590 12.0000 40.0000"/><path d="M 19 40 C 19.9443 38.7410 21.4262 38.0000 23.0000 38.0000 C 24.5738 38.0000 26.0557 38.7410 27.0000 40.0000"/><path d="M 34 40 C 32.4529 42.0628 32.7282 44.9637 34.6356 46.6987 C 36.5430 48.4338 39.4570 48.4338 41.3644 46.6987 C 43.2718 44.9637 43.5471 42.0628 42.0000 40.0000"/><path d="M 49 40 C 47.4529 37.9372 47.7282 35.0363 49.6356 33.3013 C 51.5430 31.5662 54.4570 31.5662 56.3644 33.3013 C 58.2718 35.0363 58.5471 37.9372 57.0000 40.0000"/></g>
 </svg>

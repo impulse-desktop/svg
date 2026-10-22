@@ -11510,10 +11510,10 @@ namespace {
                         whole = whole && *q != '.' && (*q | 32) != 'e';
                     }
 
-                    // A point that no digit follows ends a number of digits
-                    // alone, as SVG 1.1's grammar had it and SVG 2 lets a
-                    // reader take it (paths.md, PathDataBNF; D53).
-                    if (ok && whole && at(p, end, '.')) {
+                    // Accept a lone trailing point as SVG 1.1 did (D53),
+                    // but not two adjacent points: that can also be a typo
+                    // for one fractional number. SVG 2 stops at the error.
+                    if (ok && whole && at(p, end, '.') && !(p + 1 < end && p[1] == '.')) {
                         p++;
                     }
 
