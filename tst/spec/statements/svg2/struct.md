@@ -48,7 +48,7 @@
 - [x] svg2/struct.md#UseShadowTree: if the resolved referenced element is not an SVG element, the reference is invalid and the use element is in error (not rendered). [use-geometry#foreign]
 - [x] svg2/struct.md#UseShadowTree: if the referenced element is a (shadow-including) ancestor of the use element, this is an invalid circular reference and the use element is in error. [use-geometry#ancestor struct-elements#use-empty-href]
 - [x] svg2/struct.md#UseShadowTree: a use element with an unresolved or invalid reference is not rendered; for bounding-box purposes it behaves as an empty container element. [bbox-inputs#unresolved-use struct-elements#use-data-url]
-- [x] svg2/struct.md#UseShadowTree: use-of-use chains are resolved recursively, at any depth: 40 uses each of the one before draw and measure whole, as an Inkscape drawing cloning its clones 35 deep needs; a chain of references that is circular is in error and must not be rendered. [use-geometry#indirect use-geometry#circular use-chain#deep measure-use-chain#measured]
+- [x] svg2/struct.md#UseShadowTree: use-of-use chains are resolved recursively, at any depth: 40 uses each of the one before draw and measure whole, as an Inkscape drawing cloning its clones 35 deep needs; a chain of references that is circular is in error and must not be rendered. A later ancestor with the same ID as the first referenced element does not create a circular dependency. [use-geometry#indirect use-geometry#circular use-chain#deep measure-use-chain#measured use-reference-identity#late-ancestor use-reference-identity#nested-symbol use-reference-identity#actual-ancestor-cycle use-reference-identity#actual-indirect-cycle]
 - [x] svg2/struct.md#UseElementHrefAttribute: this specification does not allow cross-origin or data: URL resource requests for a use element's reference. [struct-elements#use-data-url]
 - [x] svg2/struct.md#UseElementHrefAttribute: an href without a fragment identifier refers to the root element of the referenced document. [struct-elements#use-empty-href]
 
@@ -79,6 +79,7 @@
 - [x] svg2/struct.md#ForeignNamespaces: unknown foreign-namespace elements are kept in the document but ignored and excluded from rendering (other than foreignObject content). [struct-fragment#fragment]
 - [x] svg2/struct.md#ForeignNamespaces: unknown attributes, including ones from foreign namespaces, are kept in the document but otherwise ignored for rendering. [struct-fragment#fragment]
 - [x] svg2/struct.md#IDAttribute: the id attribute must be unique within the node tree, must not be an empty string, and must not contain whitespace characters. [struct-elements#duplicate-id struct-elements#use-empty-href]
+- [x] svg2/struct.md#__svg__SVGSVGElement__getElementById: the first matching element in tree order is returned. A repeated ID on a later group or use does not replace that target, including references used by masks, filters and transformed symbol chains. [use-reference-identity#late-use use-reference-identity#mask-reference use-reference-identity#filtered-reference use-reference-identity#transformed-symbol use-reference-identity#unique-control use-reference-identity#first-not-last]
 
 ## The lang and xml:lang attributes: css-lang
 

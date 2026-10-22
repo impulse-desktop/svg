@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="20">
+<!-- Each cell is a lime square. A later repeated ID does not replace
+the first target or turn an acyclic reference into a cycle. Real
+ancestor and indirect cycles are omitted; their valid siblings remain.
+All expectations are plain rectangles. -->
+<rect width="50" height="20" fill="white"/>
+<g transform="translate(2 2)"><defs><rect id="a0" width="6" height="6"/></defs><g id="a0"><rect width="6" height="6" fill="red"/><use href="#a0" fill="lime"/></g></g>
+<g transform="translate(12 2)"><defs><symbol id="a1"><rect width="6" height="6"/></symbol><symbol id="b1"><use href="#a1"/></symbol></defs><g id="a1"><rect width="6" height="6" fill="red"/><use href="#b1" fill="lime"/></g></g>
+<g transform="translate(22 2)"><defs><rect id="a2" width="6" height="6"/></defs><rect width="6" height="6" fill="red"/><use id="a2" href="#a2" fill="lime"/></g>
+<g transform="translate(32 2)"><defs><path id="a3" d="M0 0H6V6H0Z"/><mask id="m3" maskUnits="userSpaceOnUse" x="0" y="0" width="6" height="6"><use href="#a3" fill="white"/></mask></defs><g id="a3"><rect width="6" height="6" fill="red"/><use href="#a3" fill="lime" mask="url(#m3)"/></g></g>
+<g transform="translate(42 2)"><defs><path id="a4" d="M0 0H6V6H0Z"/><filter id="f4" x="0" y="0" width="1" height="1"><feOffset dx="0" dy="0"/></filter></defs><g id="a4"><rect width="6" height="6" fill="red"/><use href="#a4" fill="lime" filter="url(#f4)"/></g></g>
+<g transform="translate(2 12)"><defs><symbol id="a5"><rect width="2" height="3"/></symbol><symbol id="b5"><use href="#a5" transform="scale(3 2)"/></symbol></defs><g id="a5"><rect width="6" height="6" fill="red"/><use href="#b5" fill="lime"/></g></g>
+<g transform="translate(12 12)"><defs><symbol id="a6"><rect width="6" height="6"/></symbol><symbol id="b6"><use href="#a6"/></symbol></defs><g id="unique6"><rect width="6" height="6" fill="red"/><use href="#b6" fill="lime"/></g></g>
+<g transform="translate(22 12)"><defs><rect id="a7" width="6" height="6" fill="lime"/><rect id="a7" width="6" height="6" fill="red"/></defs><use href="#a7"/></g>
+<g transform="translate(32 12)"><g fill="lime"><g id="a8"><rect width="6" height="6"/><use href="#a8" fill="red"/></g></g></g>
+<g transform="translate(42 12)"><defs><g id="a9"><rect width="6" height="6"/><use href="#b9" fill="red"/></g><g id="b9"><use href="#a9"/></g></defs><use href="#a9" fill="lime"/></g>
+</svg>
