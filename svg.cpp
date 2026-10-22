@@ -8935,8 +8935,8 @@ namespace {
         }
     }
 
-    // A number in doubles, within the floats' range.
-    static bool readDouble(const u8*& p, const u8* end, double& out) {
+    // A number's syntax, before the caller applies its numeric range.
+    static bool readDoubleSyntax(const u8*& p, const u8* end, double& out) {
         const u8* s = p;
         double sign = 1.0;
         double value = 0.0;
@@ -8995,12 +8995,37 @@ namespace {
             }
         }
 
-        // A number beyond the floats' range is the closest one in it
-        // (css-values-4 5).
-        double result = sign * (value > 3.0e38 ? 3.0e38 : value);
-
-        out = result;
+        out = sign * value;
         p = s;
+
+        return true;
+    }
+
+    // CSS numeric values saturate at the supported range (css-values-4 5).
+    static bool readDouble(const u8*& p, const u8* end, double& out) {
+        if (!readDoubleSyntax(p, end, out)) {
+            return false;
+        }
+
+        out = out < -3.0e38 ? -3.0e38 : (out > 3.0e38 ? 3.0e38 : out);
+
+        return true;
+    }
+
+    // A path string is SVG path syntax, not a CSS numeric token. An
+    // argument outside finite float storage ends its current segment;
+    // path error recovery keeps the preceding complete segments. Keep
+    // the supported argument in double precision for relative arithmetic.
+    static bool readPathNumber(const u8*& p, const u8* end, double& out) {
+        const u8* s = p;
+        double value;
+
+        if (!readDoubleSyntax(s, end, value) || !isfinite((float)value)) {
+            return false;
+        }
+
+        p = s;
+        out = value;
 
         return true;
     }
@@ -11663,7 +11688,7 @@ namespace {
                     const u8* number = p;
                     bool whole = true;
 
-                    ok = readDouble(p, end, v[i]);
+                    ok = readPathNumber(p, end, v[i]);
 
                     for (const u8* q = number; q < p; q++) {
                         whole = whole && *q != '.' && (*q | 32) != 'e';

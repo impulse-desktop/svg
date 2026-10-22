@@ -21,7 +21,7 @@
 - [x] css-values-4.md#number-value: a number is an integer, or digits with a decimal point and at least one further digit, optionally followed by e/E and an integer exponent, optionally signed [css-numbers#number css-numbers#syntax]
 - [x] css-values-4.md#zero-value: the literal number token 0 is distinct from any expression that merely evaluates to 0, such as calc(0) [css-calc-math#zero css-calc-contexts#zero-rotate css-calc-contexts#zero-hue-rotate css-calc-contexts#zero-blur css-calc-contexts#zero-gradient]
 - [x] css-values-4.md#numeric-ranges: a numeric type's allowed range is [-infinity, infinity] unless a property or the type notation states otherwise [css-numbers#negative]
-- [x] css-values-4.md#numeric-types: a value that exceeds the implementation's supported precision or range is converted to the closest value it can support [css-numbers#precision css-numbers#large]
+- [x] css-values-4.md#numeric-types: a value that exceeds the implementation's supported precision or range is converted to the closest value it can support [css-numbers#precision css-numbers#large path-number-range#css-number-clamped]
 
 ## Angle units: css-angle-units, transform-css-units (exists)
 

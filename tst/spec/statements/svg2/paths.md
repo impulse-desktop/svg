@@ -60,3 +60,7 @@
 - svg2/paths.md#PathDataBNF: the spec disallows numbers with a trailing bare decimal point (e.g. "23.") but explicitly still permits a UA to accept them when parsing is unambiguous — a deliberate leeway, not a hard requirement.
 - svg2/paths.md#DistanceAlongAPath: exact distance-along-a-path mathematics is "highly complex"; the spec itself recommends only "as precise as possible" approximations, sanctioning a faster inexact algorithm.
 - svg2/paths.md#PathLengthAttribute: treating a zero pathLength as a scaling factor of infinity needs a special zero/non-zero branch per sample rather than a plain multiply.
+
+## Supported path argument range: path-number-range
+
+The path reader stores finite float coordinates, retaining doubles for relative arithmetic. An argument that cannot become a finite float ends its current segment; the complete preceding path remains (PathDataErrorHandling). This is path-string parsing, distinct from CSS numeric saturation. Finite boundary values, underflow, zero with a large exponent, and a compensated mantissa/exponent remain supported. [path-number-range#horizontal path-number-range#quadratic-control path-number-range#first-move path-number-range#finite-positive path-number-range#finite-negative path-number-range#maximum-finite path-number-range#underflow path-number-range#relative-return path-number-range#zero-large-exponent path-number-range#compensated-exponent]

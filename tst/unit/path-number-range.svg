@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="96">
+<!-- An unsupported path argument stops the path at its last complete
+segment. Finite float boundaries remain supported, tiny values round to
+zero, and relative arithmetic may return from far away. CSS path
+functions remain invalid as a whole; CSS numeric values retain their own
+saturation rule. -->
+<svg x="1" y="2" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 H1e180 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="33" y="2" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 V3.5e38 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="65" y="2" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 L-1e180 4 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="97" y="2" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 Q10 1e180 12 4 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="1" y="18" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 T12 1e180 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="33" y="18" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 C9 0 10 1e180 12 4 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="65" y="18" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 A1e180 2 0 0 1 12 4 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="97" y="18" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 A2 2 1e180 0 1 12 4 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="1" y="34" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 L1e10000 4 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="33" y="34" width="24" height="10"><path d="M0 0h4v4H0Z M8 0 L-1e10000 4 M16 0h4v4h-4Z" fill="lime"/></svg>
+<svg x="65" y="34" width="24" height="10"><path d="M0 2L4 2 1e180 4 M16 0h4v4h-4Z" fill="none" stroke="lime" stroke-width="4"/></svg>
+<svg x="97" y="34" width="24" height="10"><path d="M1e180 0 M0 0h4v4H0Z" fill="lime"/></svg>
+<svg x="1" y="50" width="24" height="10"><path d="M0 0H3.4e38V2e38H0Z" fill="lime" transform="scale(1e-38)"/></svg>
+<svg x="33" y="50" width="24" height="10"><path d="M0 0H-3.4e38V-2e38H0Z" fill="lime" transform="scale(-1e-38)"/></svg>
+<svg x="65" y="50" width="24" height="10"><path d="M0 0H3.4028234663852886e38V2e38H0Z" fill="lime" transform="scale(1e-38)"/></svg>
+<svg x="97" y="50" width="24" height="10"><path d="M1e-303 0h4v4H0Z" fill="lime"/></svg>
+<svg x="1" y="66" width="24" height="10"><path d="M0 0h3e38 3e38 -3e38 -3e38 4v4H0Z" fill="lime"/></svg>
+<svg x="33" y="66" width="24" height="10"><path d="M0 0h4v4H0Z" fill="lime" style="d:path('M8 0h4v4h-4Z M16 0L1e180 4')"/></svg>
+<svg x="65" y="66" width="24" height="10"><rect width="12" height="4" fill="lime" style="clip-path:path('M0 0h4v4H0Z M16 0L1e180 4')"/></svg>
+<svg x="97" y="66" width="24" height="10"><svg width="4" height="4"><rect height="4" fill="lime" style="width:1e180px"/></svg></svg>
+<svg x="1" y="82" width="24" height="10"><path d="M0e10000 0h4v4H0Z" fill="lime"/></svg>
+<svg x="33" y="82" width="24" height="10"><path d="M0 0H.01e40V2e38H0Z" fill="lime" transform="scale(1e-38)"/></svg>
+</svg>
