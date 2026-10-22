@@ -12935,18 +12935,79 @@ namespace {
             size_t left = 0;
             size_t right = 0;
 
-            for (size_t k = 0; k < n; k++) {
-                while (left + 1 < k && distance[left + 1] < distance[k] - s.half) left++;
-                if (right < k && k < segments) right = k;
-                while (right + 1 < segments && distance[right + 1] <= distance[k] + s.half) right++;
-
-                double rotation = signedTurn[right] - signedTurn[left];
-                double turn = totalTurn[right] - totalTurn[left];
-                Point first = dirs[left];
-                Point last = dirs[right];
+            auto folded = [&](size_t firstSegment, size_t lastSegment) {
+                double rotation = signedTurn[lastSegment] - signedTurn[firstSegment];
+                double turn = totalTurn[lastSegment] - totalTurn[firstSegment];
+                Point first = dirs[firstSegment];
+                Point last = dirs[lastSegment];
                 bool sameHeading = first.x * last.x + first.y * last.y > 0.f;
 
-                localFold.pushBack(fabs(rotation) > pi + 0.1f || (sameHeading && turn > pi + 0.1f));
+                return fabs(rotation) > pi + 0.1f || (sameHeading && turn > pi + 0.1f);
+            };
+
+            auto window = [&](size_t k, double radius, size_t& firstSegment, size_t& lastSegment) {
+                double start = distance[k] - radius;
+                double end = distance[k] + radius;
+                size_t lo = 0;
+                size_t hi = k - 1;
+
+                while (lo < hi) {
+                    size_t mid = (lo + hi) / 2;
+
+                    if (distance[mid + 1] < start) lo = mid + 1;
+                    else hi = mid;
+                }
+
+                firstSegment = lo;
+                lo = k;
+                hi = segments - 1;
+
+                while (lo < hi) {
+                    size_t mid = (lo + hi + 1) / 2;
+
+                    if (distance[mid] <= end) lo = mid;
+                    else hi = mid - 1;
+                }
+
+                lastSegment = lo;
+            };
+
+            for (size_t k = 0; k < n; k++) {
+                if (k == 0 || k + 1 == n) {
+                    localFold.pushBack(0);
+                    continue;
+                }
+
+                while (left + 1 < k && distance[left + 1] < distance[k] - s.half) left++;
+                if (right < k) right = k;
+                while (right + 1 < segments && distance[right + 1] <= distance[k] + s.half) right++;
+
+                bool isFold = folded(left, right);
+
+                // A wider window can include a later unrelated turn. If it
+                // sees sufficient turning but no fold, inspect the smallest
+                // arc-length window that contains the two bends themselves.
+                if (!isFold && totalTurn[right] - totalTurn[left] > pi + 0.1f) {
+                    double low = 0.0;
+                    double high = s.half;
+
+                    for (int step = 0; step < 24; step++) {
+                        double middle = (low + high) / 2.0;
+                        size_t first;
+                        size_t last;
+                        window(k, middle, first, last);
+
+                        if (totalTurn[last] - totalTurn[first] > pi + 0.1f) high = middle;
+                        else low = middle;
+                    }
+
+                    size_t first;
+                    size_t last;
+                    window(k, high, first, last);
+                    isFold = folded(first, last);
+                }
+
+                localFold.pushBack(isFold);
             }
         }
 

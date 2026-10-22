@@ -1,14 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="192" viewBox="320 305 65 48.75">
-<rect x="320" y="305" width="65" height="48.75" fill="white"/>
-<path d="M 330 337 L 352.545 337
-         C 352.545 336.988 352.502 337 352.458 337
-         C 352.2 337 352 337 352 337
-         C 352 337 352.4 337 353.424 336.993
-         L 370 320" fill="none" stroke="black" stroke-width="25.152854025036255"/>
-<g id="internal-opening" data-box="100 135 1 1">
-  <rect x="345.390625" y="339.27734375" width="0.25390625" height="0.25390625" fill="white"/>
-</g>
-<g id="outer-stroke" data-box="175 140 1 1">
-  <rect x="364.43359375" y="340.546875" width="0.25390625" height="0.25390625" fill="black"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="256">
+<rect width="512" height="256" fill="white"/>
+<svg width="256" height="192" viewBox="320 305 65 48.75">
+  <path d="M 330 337 L 352.545 337
+           C 352.545 336.988 352.502 337 352.458 337
+           C 352.2 337 352 337 352 337
+           C 352 337 352.4 337 353.424 336.993
+           L 370 320" fill="none" stroke="black" stroke-width="25.152854025036255"/>
+  <g id="internal-opening" data-box="100 135 1 1">
+    <rect x="345.390625" y="339.27734375" width="0.25390625" height="0.25390625" fill="white"/>
+  </g>
+  <g id="outer-stroke" data-box="175 140 1 1">
+    <rect x="364.43359375" y="340.546875" width="0.25390625" height="0.25390625" fill="black"/>
+  </g>
+</svg>
+<svg x="256" width="256" height="256" viewBox="120 175 70 70">
+  <path d="M 180 197 L 141.909 197
+           C 141.909 197.025 142.083 197 142.083 197
+           C 142.4 197 143 197 143 197
+           C 143 197 142.8 197 141.58 197.568
+           C 139 198.5 136.5 200 136.56 209.5
+           L 137 250" fill="none" stroke="black" stroke-width="35.6"/>
+  <g id="turning-opening" data-box="371 65 1 1">
+    <rect x="151.4453125" y="192.7734375" width="0.2734375" height="0.2734375" fill="white"/>
+  </g>
+  <g id="turning-outer-stroke" data-box="436 100 1 1">
+    <rect x="169.21875" y="202.34375" width="0.2734375" height="0.2734375" fill="black"/>
+  </g>
+</svg>
 </svg>

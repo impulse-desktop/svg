@@ -628,10 +628,13 @@ Chromium, resvg and librsvg leave an opening in its thick stroke, while
 the ideal normal sweep and our old sector fill close it. A local window
 extending one half-width of arc length to either side of a smooth point
 keeps the inverted inner offset when the path turns back and resumes its
-heading, or rotates past a half-circle. `stroke-internal-returning-fold`
-isolates the internal opening with three cubics and checks that the outer
-stroke remains. The earlier `stroke-degenerate-internal-bend` and
-`stroke-folded-open#one-way-bend` keep the outer stroke at a single bend.
+heading, or rotates past a half-circle. Where that window also includes
+a later, unrelated bend, the smallest window with enough turning decides
+whether the short return folded the offset. `stroke-internal-returning-fold`
+tests both a return that resumes straight and one followed by a quarter
+turn, and checks that their outer strokes remain. The earlier
+`stroke-degenerate-internal-bend` and `stroke-folded-open#one-way-bend`
+keep the outer stroke at a single bend.
 
 ## D50. A focal point within 1/4096 of the radius of the end circle is on it
 
