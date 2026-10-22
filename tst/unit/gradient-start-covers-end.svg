@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="96">
+<!-- SVG 2 leaves the painted area untouched when the focal disk fully
+overlaps the end disk, including coincident circles. Spread methods and
+template inheritance do not change that rule. Distinct centers with
+equal radii instead sweep a strip; a smaller concentric focal disk still
+paints. Constant blue stops make all nondegenerate covered areas exactly
+blue, without relying on gradient interpolation. -->
+<rect width="192" height="96" fill="white"/>
+<defs><radialGradient id="template" r="30%" fr="30%"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient></defs>
+<g transform="translate(0 0)"><radialGradient id="g0" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="8" fr="8" spreadMethod="pad"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g0)"/></g>
+<g transform="translate(48 0)"><radialGradient id="g1" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="8" fr="8" spreadMethod="repeat"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g1)"/></g>
+<g transform="translate(96 0)"><radialGradient id="g2" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="8" fr="8" spreadMethod="reflect"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g2)"/></g>
+<g transform="translate(144 0)"><radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="8" fx="28" fr="13" spreadMethod="pad"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g3)"/></g>
+<g transform="translate(0 48)"><radialGradient id="g4" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="8" fx="28" fr="12" spreadMethod="pad"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g4)"/></g>
+<g transform="translate(48 48)"><radialGradient id="g5" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="8" fx="28" fr="8" spreadMethod="pad"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g5)"/></g>
+<g transform="translate(96 48)"><radialGradient id="g6" gradientUnits="userSpaceOnUse" cx="24" cy="24" r="8" fr="7.99" spreadMethod="pad"><stop stop-color="blue"/><stop offset="1" stop-color="blue"/></radialGradient><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g6)"/></g>
+<g transform="translate(144 48)"><radialGradient id="g7" href="#template"/><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="url(#g7)"/></g>
+</svg>

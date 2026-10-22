@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="96">
+<!-- What tst/unit/gradient-start-covers-end.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="192" height="96" fill="white"/>
+<g id="coincident-pad" data-box="0 0 48 48"><g transform="translate(0 0)"><rect x="2" y="2" width="44" height="44" fill="lime"/></g></g>
+<g id="coincident-repeat" data-box="48 0 48 48"><g transform="translate(48 0)"><rect x="2" y="2" width="44" height="44" fill="lime"/></g></g>
+<g id="coincident-reflect" data-box="96 0 48 48"><g transform="translate(96 0)"><rect x="2" y="2" width="44" height="44" fill="lime"/></g></g>
+<g id="contains-end" data-box="144 0 48 48"><g transform="translate(144 0)"><rect x="2" y="2" width="44" height="44" fill="lime"/></g></g>
+<g id="internal-tangent" data-box="0 48 48 48"><g transform="translate(0 48)"><rect x="2" y="2" width="44" height="44" fill="lime"/></g></g>
+<g id="shifted-equal-radii" data-box="48 48 48 48"><g transform="translate(48 48)"><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="16" width="44" height="16" fill="blue"/></g></g>
+<g id="smaller-start" data-box="96 48 48 48"><g transform="translate(96 48)"><rect x="2" y="2" width="44" height="44" fill="lime"/><rect x="2" y="2" width="44" height="44" fill="blue"/></g></g>
+<g id="template-percent" data-box="144 48 48 48"><g transform="translate(144 48)"><rect x="2" y="2" width="44" height="44" fill="lime"/></g></g>
+</svg>
