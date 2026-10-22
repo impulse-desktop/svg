@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
 <!-- What tst/unit/image-png-gamma-fallback.svg draws, drawn plainly;
 each cell's id is what the statement ledgers link to. -->
 <g id="gamma-alone" data-box="0 0 16 16"><rect x="0" y="0" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
@@ -13,4 +13,8 @@ each cell's id is what the statement ledgers link to. -->
 <g id="wide-icc" data-box="16 32 16 16"><rect x="16" y="32" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
 <g id="gray-gamma" data-box="32 32 16 16"><rect x="32" y="32" width="16" height="16" fill="#eeeeee" fill-opacity="0.5019607843137255"/></g>
 <g id="linear-gamma" data-box="48 32 16 16"><rect x="48" y="32" width="16" height="16" fill="#f75d69" fill-opacity="0.5019607843137255"/></g>
+<g id="wide-gamma" data-box="0 48 16 16"><rect x="0" y="48" width="16" height="16" fill="#fba3ac" fill-opacity="0.5019607843137255"/></g>
+<g id="rounded-gamma" data-box="16 48 16 16"><rect x="16" y="48" width="16" height="16" fill="#ed151e" fill-opacity="0.5019607843137255"/></g>
+<g id="near-srgb-gamma" data-box="32 48 16 16"><rect x="32" y="48" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
+<g id="bad-gamma-crc" data-box="48 48 16 16"><rect x="48" y="48" width="16" height="16" fill="#ed1c24" fill-opacity="0.5019607843137255"/></g>
 </svg>

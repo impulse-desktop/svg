@@ -193,7 +193,10 @@ recommends for decoders without ICC support. `cHRM` describes primaries and
 does not suppress the transfer fallback; this viewer still performs no
 primary conversion. `sRGB` and `cICP` keep precedence over `gAMA`.
 The independent `image-png-gamma-fallback` unit covers the color and alpha
-values, palette transparency, 16-bit samples and chunk precedence.
+values, palette transparency, 16-bit samples and chunk precedence. It also
+covers positive gamma values found in real files (`2.19998`, `0.45` and
+`0.45453`) and a `gAMA` chunk with an invalid CRC. That invalid ancillary
+chunk contributes no transfer; the stored color samples remain unchanged.
 
 ## D19. A percent: media fragment is a percent of the image's own coordinates
 

@@ -19,7 +19,7 @@ def chunk(kind, data):
     return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data) & 0xffffffff)
 
 
-def png(tags, palette=False, depth=8, gray=False, gamma=45455):
+def png(tags, palette=False, depth=8, gray=False, gamma=45455, bad_gamma_crc=False):
     color = 3 if palette else 4 if gray else 6
     values = (237, 128) if gray else (237, 28, 36, 128)
     pixel = bytes((0, 0)) if palette else bytes((0,)) + (struct.pack(">" + "H" * len(values), *(x * 257 for x in values)) if depth == 16 else bytes(values))
@@ -33,7 +33,10 @@ def png(tags, palette=False, depth=8, gray=False, gamma=45455):
         "other-chrm": (b"cHRM", struct.pack(">8I", 31270, 32900, 64000, 33000, 21000, 71000, 15000, 6000)),
     }
     for tag in tags:
-        data += chunk(*contents[tag])
+        encoded = chunk(*contents[tag])
+        if tag == "gamma" and bad_gamma_crc:
+            encoded = encoded[:-1] + bytes((encoded[-1] ^ 1,))
+        data += encoded
     if palette:
         data += chunk(b"PLTE", bytes((237, 28, 36))) + chunk(b"tRNS", bytes((128,)))
     return base64.b64encode(data + chunk(b"IDAT", zlib.compress(pixel)) + chunk(b"IEND", b"")).decode()
@@ -58,13 +61,17 @@ cases = [
     ("wide-icc", ["gamma", "icc"], {"depth": 16}),
     ("gray-gamma", ["gamma"], {"gray": True}),
     ("linear-gamma", ["gamma"], {"gamma": 100000}),
+    ("wide-gamma", ["gamma"], {"gamma": 219998}),
+    ("rounded-gamma", ["gamma"], {"gamma": 45000}),
+    ("near-srgb-gamma", ["gamma"], {"gamma": 45453}),
+    ("bad-gamma-crc", ["gamma"], {"bad_gamma_crc": True}),
 ]
-unit = Unit("image-png-gamma-fallback", 64, 48,
+unit = Unit("image-png-gamma-fallback", 64, 64,
             "PNG 3 gAMA is the transfer fallback when iCCP is not supported; cHRM does not suppress it. sRGB and cICP retain precedence. Alpha is linear and unchanged. Expected colors use the power transfer and sRGB equations.", ground=False)
 for i, (name, tags, options) in enumerate(cases):
     x, y = i % 4 * 16, i // 4 * 16
     rgb = (237,) * 3 if options.get("gray") else (237, 28, 36)
-    if "gamma" in tags and not {"srgb", "cicp"}.intersection(tags):
+    if "gamma" in tags and not options.get("bad_gamma_crc") and not {"srgb", "cicp"}.intersection(tags):
         rgb = tuple(transferred(v, options.get("gamma", 45455)) for v in rgb)
     color = "#" + "".join(f"{v:02x}" for v in rgb)
     unit.cell(name, (x, y, 16, 16),
