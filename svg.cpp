@@ -12914,7 +12914,12 @@ namespace {
             bool nearTip = (returningStart && fromStartX * fromStartX + fromStartY * fromStartY < s.half * s.half) ||
                            (returningEnd && fromEndX * fromEndX + fromEndY * fromEndY < s.half * s.half);
 
-            if ((looped || nearTip) && kind[k] == PointSmooth) {
+            // The mean chord length divided by the tangent turn estimates
+            // the local radius. A return tighter than the curve tolerance
+            // is unresolved: its inverted offset must not cancel ink that
+            // the normals cover. Resolved tips keep the D49 opening.
+            if (kind[k] == PointSmooth &&
+                (looped || (nearTip && lengths[in] + lengths[next] >= 2.f * s.tol * fabsf(atan2f(cross, dot))))) {
                 sides[inner].pushBack(offset(p, d1, -side));
 
                 return;

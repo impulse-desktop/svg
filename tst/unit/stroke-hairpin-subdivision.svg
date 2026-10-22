@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="128">
+<!-- De Casteljau subdivision changes no curve geometry or endpoint
+direction. Both highly unequal and half splits retain the same D49
+opening in either path direction. The independent fixed Chromium image
+is the existing hairpin-tip reference, also checked with resvg and
+librsvg. -->
+<rect width="256" height="128" fill="white"/>
+<path transform="translate(0 0) scale(2)" d="M10 20H50C50.0001953125 19.99921875 50.0003901481628 19.9984378814697 50.0005845076404 19.997657394968C50.1994142532349 19.1992197036743 49.89990234375 18.8005859375 49.8 19.4L49.5 20.2" fill="none" stroke="black" stroke-width="10"/>
+<path transform="translate(128 0) scale(2)" d="M10 20H50C50.1 19.6 50.075 19.3 50.0125 19.175C49.95 19.05 49.85 19.1 49.8 19.4L49.5 20.2" fill="none" stroke="black" stroke-width="10"/>
+<path transform="translate(0 64) scale(2)" d="M49.5 20.2L49.8 19.4C49.80009765625 19.3994140625 49.8001955032349 19.3988290786743 49.8002935403027 19.3982450479642C49.9005854606628 18.8007816314697 50.1998046875 19.20078125 50 20H10" fill="none" stroke="black" stroke-width="10"/>
+<path transform="translate(128 64) scale(2)" d="M49.5 20.2L49.8 19.4C49.85 19.1 49.95 19.05 50.0125 19.175C50.075 19.3 50.1 19.6 50 20H10" fill="none" stroke="black" stroke-width="10"/>
+</svg>

@@ -627,6 +627,17 @@ including `stroke-tight-ends#end-tight`, still uses the ideal swept shape.
 `stroke-hairpin-tip` tests both path directions against a fixed Chromium
 drawing; resvg agrees on the opening.
 
+This local tip exception requires a resolved turn. Its mean adjacent chord
+length divided by the tangent turn estimates the local radius; a radius
+below the existing curve tolerance cannot justify an inverted inner
+offset. Five real Sketchy-SVG paths lost ink there, although Chromium,
+resvg and librsvg all cover it. `stroke-returning-cap-witnesses` reduces
+them to contiguous cubic pieces and independently certifies interior ink
+in both directions. `stroke-hairpin-subdivision` splits the existing
+finite-radius control exactly, including a highly unequal split, and keeps
+its original fixed reference and tolerance. The whole-loop exception above
+and the independent tight-end controls remain in force.
+
 These exceptions do not establish author reliance on every opening an offset
 outline leaves. The returning tail in Sketchy-SVG fb7665865da144f8 has
 normal segments that cover the opening left by Chromium, resvg and librsvg;
