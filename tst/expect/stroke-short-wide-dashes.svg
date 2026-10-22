@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="48">
+<!-- What tst/unit/stroke-short-wide-dashes.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<rect width="128" height="48" fill="white"/>
+<g id="horizontal" data-box="0 0 32 16"><rect x="2" y="2" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="vertical" data-box="32 0 32 16"><rect x="34" y="2" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="horizontal-phase" data-box="64 0 32 16"><rect x="66" y="2" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="vertical-phase" data-box="96 0 32 16"><rect x="98" y="2" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="horizontal-negative" data-box="0 16 32 16"><rect x="2" y="18" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="vertical-negative" data-box="32 16 32 16"><rect x="34" y="18" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="horizontal-decimal" data-box="64 16 32 16"><rect x="66" y="18" width="8" height="8" fill="black" fill-opacity="0.03"/></g>
+<g id="vertical-decimal" data-box="96 16 32 16"><rect x="98" y="18" width="8" height="8" fill="black" fill-opacity="0.03"/></g>
+<g id="horizontal-reverse" data-box="0 32 32 16"><rect x="2" y="34" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="vertical-reverse" data-box="32 32 32 16"><rect x="34" y="34" width="8" height="8" fill="black" fill-opacity="0.03125"/></g>
+<g id="crossing" data-box="64 32 32 16"><rect x="66" y="34" width="8" height="8" fill="black" fill-opacity="0.0615234375"/></g>
+<g id="no-gap" data-box="96 32 32 16"><rect x="98" y="34" width="8" height="8" fill="black" fill-opacity="1"/></g>
+</svg>

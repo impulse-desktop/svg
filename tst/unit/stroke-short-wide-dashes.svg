@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="48">
+<!-- Each eight-pixel square is covered by one short, wide dash per
+pixel. Its area is the dash length times the stroke width. Rotating,
+reversing or changing phase preserves pixel coverage. Crossing
+horizontal and vertical dashes cover their union. -->
+<rect width="128" height="48" fill="white"/>
+<g transform="translate(2 2)"><path d="M0 4H8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="0"/></g>
+<g transform="translate(34 2)"><path d="M4 0V8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="0"/></g>
+<g transform="translate(66 2)"><path d="M0 4H8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="0.5"/></g>
+<g transform="translate(98 2)"><path d="M4 0V8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="0.5"/></g>
+<g transform="translate(2 18)"><path d="M0 4H8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="-0.25"/></g>
+<g transform="translate(34 18)"><path d="M4 0V8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="-0.25"/></g>
+<g transform="translate(66 18)"><path d="M0 4H8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03 0.97" stroke-dashoffset="0"/></g>
+<g transform="translate(98 18)"><path d="M4 0V8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03 0.97" stroke-dashoffset="0"/></g>
+<g transform="translate(2 34)"><path d="M8 4H0" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="0"/></g>
+<g transform="translate(34 34)"><path d="M4 8V0" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="0"/></g>
+<g transform="translate(66 34)"><path d="M0 4H8M4 0V8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="0.03125 0.96875" stroke-dashoffset="0"/></g>
+<g transform="translate(98 34)"><path d="M0 4H8" fill="none" stroke="black" stroke-width="8" stroke-dasharray="1 0" stroke-dashoffset="0"/></g>
+</svg>
