@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- Preserve geometric coverage when crispEdges would otherwise sample
+past a stroke narrower than one device pixel. The hint still gives sharp
+edges to fills and strokes at least a pixel wide. The skew's two matrix
+columns are both long, but its stroke is thin perpendicular to the path. -->
+<rect width="64" height="64" fill="white"/>
+<g fill="none" stroke="black" shape-rendering="crispEdges" stroke-linecap="butt">
+<path d="M4 4H12V12H4Z" stroke-width=".5"/>
+<path d="M2 18H22" stroke-width=".5"/>
+<path d="M28 2V16" stroke-width=".5"/>
+<path d="M9 50H15" stroke-width="1" transform="scale(4 .4)"/>
+<path d="M40 6H60" stroke-width="2"/>
+<path d="M4 15H12" stroke-width=".5" transform="scale(2)" vector-effect="non-scaling-stroke"/>
+<circle cx="30" cy="29" r="4" stroke-width=".5"/>
+<path d="M2 39.25H22" stroke-width="1"/>
+<path d="M5 0V5" stroke-width="1" transform="matrix(4 0 4 .4 -10 44)"/>
+<path d="M2 4H10" stroke-width="1" transform="matrix(-2 0 0 .5 64 48)"/>
+<path d="M4 58H24" stroke-width="0"/>
+</g>
+<path d="M36 57H60" fill="none" stroke="black" stroke-width=".5" shape-rendering="optimizeSpeed"/>
+<rect x="40.25" y="28.25" width="7" height="7" shape-rendering="crispEdges"/>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="64" viewBox="0 0 160 64">
+<!-- Literal shapes at the computed values required by CSS Cascade 7.3.2
+and SVG 2 UseStyleInheritance. No shared geometry with the unit. -->
+<rect width="160" height="64" fill="white"/>
+<g id="host" data-box="0 0 20 20"><rect x="2" y="2" width="8" height="6" fill="lime"/></g>
+<g id="source" data-box="20 0 20 20"><rect x="22" y="2" width="8" height="6" fill="lime"/></g>
+<g id="specified" data-box="40 0 20 20"><rect x="42" y="2" width="10" height="4" fill="lime"/></g>
+<g id="parent-chain" data-box="60 0 20 20"><rect x="62" y="2" width="8" height="6" fill="lime"/></g>
+<g id="use-chain" data-box="80 0 20 20"><rect x="82" y="2" width="8" height="6" fill="lime"/></g>
+<g id="zero" data-box="100 0 20 20"/>
+<g id="unset" data-box="120 0 20 20"/>
+<g id="initial" data-box="140 0 20 20"/>
+<g id="position" data-box="0 22 20 20"><rect x="6" y="28" width="8" height="6" fill="lime"/></g>
+<g id="circle" data-box="20 22 20 20"><circle cx="30" cy="32" r="4" fill="lime"/></g>
+<g id="ellipse" data-box="40 22 20 20"><ellipse cx="50" cy="32" rx="5" ry="3" fill="lime"/></g>
+<g id="rounded" data-box="60 22 20 20"><rect x="62" y="24" width="10" height="8" rx="2" ry="2" fill="lime"/></g>
+<g id="percent" data-box="80 22 20 20"><rect x="82" y="24" width="8" height="8" fill="lime"/></g>
+<g id="font-shadow" data-box="100 22 20 20"><rect x="102" y="24" width="8" height="6" fill="lime"/></g>
+<g id="font-source" data-box="120 22 20 20"><rect x="122" y="24" width="8" height="6" fill="lime"/></g>
+<g id="custom-host" data-box="140 22 20 20"><rect x="142" y="24" width="8" height="6" fill="lime"/></g>
+<g id="attribute" data-box="0 44 20 20"><rect x="2" y="46" width="8" height="6" fill="lime"/></g>
+<g id="calc-font" data-box="20 44 20 20"><rect x="22" y="46" width="8" height="6" fill="lime"/></g>
+<g id="font-chain" data-box="40 44 20 20"><rect x="42" y="46" width="8" height="6" fill="lime"/></g>
+<g id="second-instance" data-box="60 44 20 20"><rect x="62" y="46" width="4" height="10" fill="lime"/></g>
+<g id="clone-before-source" data-box="80 44 20 20"><rect x="82" y="46" width="8" height="6" fill="lime"/></g>
+<g id="visible-source" data-box="100 44 20 20"><rect x="102" y="46" width="6" height="4" fill="lime"/></g>
+<g id="cascade" data-box="120 44 20 20"><rect x="122" y="46" width="10" height="4" fill="lime"/></g>
+<g id="missing" data-box="140 44 20 20"/>
+</svg>

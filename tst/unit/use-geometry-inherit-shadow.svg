@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="64" viewBox="0 0 160 64">
+<!-- CSS inherit uses the parent in the instance tree, without changing
+the source. Width/height on use do not otherwise size a basic shape.
+Percentages stay percentages; em lengths use the declaring parent's font,
+even when the child overrides font-size. The expected file uses only
+literal geometry and contains no use elements or inheritance. -->
+<rect width="160" height="64" fill="white"/>
+<style>.own-geometry { width:10px !important; height:4px !important }</style>
+<defs style="width:18px;height:16px;x:8px;y:8px;cx:14px;cy:14px;r:7px;rx:8px;ry:7px">
+<rect id="inherited" style="width:inherit;height:inherit;font-size:20px" fill="lime"/>
+<rect id="specified" width="10" height="4" fill="lime"/>
+<g id="parent-chain" style="width:inherit;height:inherit"><rect style="width:inherit;height:inherit" fill="lime"/></g>
+<use id="use-chain" href="#inherited" style="width:inherit;height:inherit"/>
+<rect id="unset" style="width:unset;height:unset" fill="lime"/>
+<rect id="initial" style="width:initial;height:initial" fill="lime"/>
+<rect id="position" width="8" height="6" style="x:inherit;y:inherit" fill="lime"/>
+<circle id="circle" style="cx:inherit;cy:inherit;r:inherit" fill="lime"/>
+<ellipse id="ellipse" style="cx:inherit;cy:inherit;rx:inherit;ry:inherit" fill="lime"/>
+<rect id="rounded" width="10" height="8" style="rx:inherit;ry:inherit" fill="lime"/>
+<rect id="attribute" width="inherit" height="inherit" fill="lime"/>
+<use id="font-chain" href="#inherited" style="font-size:30px;width:inherit;height:inherit"/>
+<rect id="cascade" class="own-geometry" style="width:inherit;height:inherit" fill="lime"/>
+</defs>
+<use href="#inherited" x="2" y="2" style="width:8px;height:6px"/>
+<g transform="translate(22 2)" style="width:8px;height:6px"><rect style="width:inherit;height:inherit" fill="lime"/></g>
+<use href="#specified" x="42" y="2" style="width:8px;height:6px"/>
+<use href="#parent-chain" x="62" y="2" style="width:8px;height:6px"/>
+<use href="#use-chain" x="82" y="2" style="width:8px;height:6px"/>
+<use href="#inherited" x="102" y="2" style="width:0;height:6px"/>
+<use href="#unset" x="122" y="2" style="width:8px;height:6px"/>
+<use href="#initial" x="142" y="2" style="width:8px;height:6px"/>
+<g transform="translate(2 24)"><use href="#position" x="2" y="2"/></g>
+<g transform="translate(22 24)"><use href="#circle" style="cx:8px;cy:8px;r:4px"/></g>
+<g transform="translate(42 24)"><use href="#ellipse" style="cx:8px;cy:8px;rx:5px;ry:3px"/></g>
+<use href="#rounded" x="62" y="24" style="rx:2px;ry:2px"/>
+<use href="#inherited" x="82" y="24" style="width:5%;height:12.5%"/>
+<use href="#inherited" x="102" y="24" style="font-size:10px;width:.8em;height:.6em"/>
+<g transform="translate(122 24)" style="font-size:10px;width:.8em;height:.6em"><rect style="font-size:20px;width:inherit;height:inherit" fill="lime"/></g>
+<use href="#inherited" x="142" y="24" style="--w:8px;width:var(--w);height:6px"/>
+<use href="#attribute" x="2" y="46" style="width:8px;height:6px"/>
+<use href="#inherited" x="22" y="46" style="font-size:10px;width:calc(.4em + 2.5%);height:calc(.3em + 4.6875%)"/>
+<use href="#font-chain" x="42" y="46" style="font-size:10px;width:.8em;height:.6em"/>
+<use href="#inherited" x="62" y="46" style="width:4px;height:10px"/>
+<use href="#visible-source" x="82" y="46" style="width:8px;height:6px"/>
+<g transform="translate(102 46)" style="width:6px;height:4px"><rect id="visible-source" style="width:inherit;height:inherit" fill="lime"/></g>
+<use href="#cascade" x="122" y="46" style="width:8px;height:6px"/>
+<use href="#inherited" x="142" y="46"/>
+</svg>

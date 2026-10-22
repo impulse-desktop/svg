@@ -1408,6 +1408,9 @@ namespace {
         u32* classes;
         u32 classCount;
         bool classesReady;
+        // Geometry declarations that explicitly inherit. Their parent can
+        // change when this element is cloned into a use shadow tree.
+        u32 inheritedShapeGeometry;
         // Whether a child element or text, white space too, is in it.
         bool filled;
     };
@@ -2856,6 +2859,19 @@ namespace {
         float sy = sqrtf(m.c * m.c + m.d * m.d);
 
         return maxf(sx, sy);
+    }
+
+    // The smallest scale of a transformed stroke. Column lengths alone
+    // miss compression perpendicular to a sheared segment. The product
+    // of the singular values is the absolute determinant.
+    static float minimumScale(const Matrix& m) {
+        double x = (double)m.a * m.a + (double)m.b * m.b;
+        double y = (double)m.c * m.c + (double)m.d * m.d;
+        double cross = (double)m.a * m.c + (double)m.b * m.d;
+        double largest = (x + y + hypot(x - y, 2.0 * cross)) / 2.0;
+        double determinant = (double)m.a * m.d - (double)m.b * m.c;
+
+        return largest > 0.0 ? (float)(fabs(determinant) / sqrt(largest)) : 0.f;
     }
 
     static Box emptyBox() {
@@ -8449,6 +8465,21 @@ namespace {
         }
     }
 
+    static u32 shapeGeometryBit(u32 property) {
+        switch (property) {
+            case AtomX: return 1u << 0;
+            case AtomY: return 1u << 1;
+            case AtomWidth: return 1u << 2;
+            case AtomHeight: return 1u << 3;
+            case AtomCx: return 1u << 4;
+            case AtomCy: return 1u << 5;
+            case AtomR: return 1u << 6;
+            case AtomRx: return 1u << 7;
+            case AtomRy: return 1u << 8;
+            default: return 0;
+        }
+    }
+
     // A geometry property's initial value.
     static StringView geometryInitial(u32 property) {
         static const struct {
@@ -8468,7 +8499,7 @@ namespace {
 
     // The value of a geometry property a child inherits: what the parent's
     // declarations gave it, else its presentation attribute, else none for
-    // the initial one. A use's instance inherits its target's parent's.
+    // the initial one. The caller selects the parent in the instance tree.
     static u32 inheritedGeometry(const Document& doc, const Node* parent, u32 property) {
         if (!parent) {
             return 0;
@@ -8627,9 +8658,11 @@ namespace {
             // which take no var() (D30).
             bool own = declaration.rule == presentationRule && (declaration.property == AtomD || declaration.property == AtomTransform);
             u32 value = boundary ? 0 : (own ? declaration.value : resolvedValue(doc, applied, index, set));
+            CssKeyword keyword = value ? valueKeyword(doc, value) : CssNone;
+            u32 shapeBit = shapeGeometryBit(declaration.property);
 
             // A presentation attribute that wins is the attribute already.
-            if (boundary || (declaration.rule == presentationRule && value == declaration.value)) {
+            if (boundary || (declaration.rule == presentationRule && value == declaration.value && (!shapeBit || keyword == CssNone))) {
                 continue;
             }
 
@@ -8637,7 +8670,9 @@ namespace {
             // follows up as it draws, through a use to its instance;
             // initial and unset, as no geometry property inherits, the
             // initial one.
-            CssKeyword keyword = value ? valueKeyword(doc, value) : CssNone;
+            if (keyword == CssInherit) {
+                node->inheritedShapeGeometry |= shapeBit;
+            }
 
             if (keyword == CssInherit && declaration.property != AtomD) {
                 value = inheritedGeometry(doc, node->parent, declaration.property);
@@ -9761,19 +9796,25 @@ namespace {
         return lengthAttribute(doc, node, name, axis, vp, fontSize, value) ? value : fallback;
     }
 
-    // A length attribute in a non-negative range, a math function clamped
-    // into it.
-    static bool nonNegativeAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
-        u32 value = attribute(node, name);
-        Length length;
-
-        if (!value || !attributeLength(doc, value, length) || !nonNegative(length)) {
-            return false;
+    static float computedFontSize(const Document& doc, u32 value, float parent, Viewport vp) {
+        if (!value) {
+            return parent;
         }
 
-        out = resolveLength(length, axis, vp, fontSize);
+        CssKeyword keyword = valueKeyword(doc, value);
 
-        return true;
+        if (keyword == CssInitial) {
+            return 16.f;
+        }
+
+        if (keyword == CssInherit || keyword == CssUnset) {
+            return parent;
+        }
+
+        Token one;
+        Length length;
+
+        return parseLength(valueTokens(doc, value, one), length) && nonNegative(length) ? resolveAgainst(length, parent, vp, parent) : parent;
     }
 
     // A refX or refY: a length, or a keyword for 0%, 50% or 100% of the
@@ -11602,6 +11643,61 @@ namespace {
         closePath(path);
     }
 
+    static const Node* geometryParent(const Pass& l, const Node* node) {
+        for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
+            if (l.hosts[k - 2] == node) {
+                return l.hosts[k - 1];
+            }
+        }
+
+        return node->parent;
+    }
+
+    // Only font-size is needed to compute an inherited em length. Follow
+    // the same instance parents as geometry, without rebuilding full styles.
+    static float geometryFontSize(const Pass& l, const Node* node, Viewport vp, u32 depth = 0) {
+        if (!node || depth >= 256) {
+            return 16.f;
+        }
+
+        float parent = geometryFontSize(l, geometryParent(l, node), vp, depth + 1);
+        const u32* values = l.instance && l.instance[node->index] ? l.instance[node->index] : node->style;
+
+        return computedFontSize(*l.doc, values[AtomFontSize - firstProperty], parent, vp);
+    }
+
+    static bool shapeLengthOf(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float& out, bool nonNegativeRange = false) {
+        const Node* source = node;
+        u32 bit = shapeGeometryBit(property);
+
+        for (u32 depth = 0; source && (source->inheritedShapeGeometry & bit); depth++) {
+            source = depth < 256 ? geometryParent(l, source) : nullptr;
+        }
+
+        u32 atom = attribute(node, property);
+        u32 value = source == node ? (atom ? atomValue | atom : 0) : inheritedGeometry(*l.doc, source, property);
+        Token one;
+        Length length;
+
+        if (!value || !parseLength(valueTokens(*l.doc, value, one), length) || (nonNegativeRange && !nonNegative(length))) {
+            return false;
+        }
+
+        if (source != node && (length.unit == Unit::Em || length.unit == Unit::Ex || length.unit == Unit::Calc || length.unit == Unit::CalcPercent)) {
+            fontSize = geometryFontSize(l, source, vp);
+        }
+
+        out = resolveLength(length, axis, vp, fontSize);
+
+        return true;
+    }
+
+    static float shapeLengthOr(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float fallback) {
+        float value;
+
+        return shapeLengthOf(l, node, property, axis, vp, fontSize, value) ? value : fallback;
+    }
+
     static bool buildShape(const Pass& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
         const Document& doc = *l.doc;
         float fs = style.fontSize;
@@ -11612,16 +11708,7 @@ namespace {
                 const Node* at = node;
 
                 for (u32 hops = 0; d && hops < 64 && equalsIgnoreCase(trim(textOf(doc, d)), SV("inherit")); hops++) {
-                    const Node* parent = at->parent;
-
-                    for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
-                        if (l.hosts[k - 2] == at) {
-                            parent = l.hosts[k - 1];
-                            break;
-                        }
-                    }
-
-                    at = parent;
+                    at = geometryParent(l, at);
                     d = at ? attribute(at, AtomD) : 0;
                 }
 
@@ -11630,14 +11717,14 @@ namespace {
                 }
             } break;
             case AtomRect: {
-                float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
-                float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
-                float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
-                float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+                float x = shapeLengthOr(l, node, AtomX, Axis::X, vp, fs, 0.f);
+                float y = shapeLengthOr(l, node, AtomY, Axis::Y, vp, fs, 0.f);
+                float w = shapeLengthOr(l, node, AtomWidth, Axis::X, vp, fs, 0.f);
+                float h = shapeLengthOr(l, node, AtomHeight, Axis::Y, vp, fs, 0.f);
                 float rx;
                 float ry;
-                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
-                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
+                bool hasRx = shapeLengthOf(l, node, AtomRx, Axis::X, vp, fs, rx, true);
+                bool hasRy = shapeLengthOf(l, node, AtomRy, Axis::Y, vp, fs, ry, true);
 
                 if (w <= 0.f || h <= 0.f) {
                     return false;
@@ -11678,20 +11765,20 @@ namespace {
                 break;
             }
             case AtomCircle: {
-                float r = lengthOr(doc, node, AtomR, Axis::Other, vp, fs, 0.f);
+                float r = shapeLengthOr(l, node, AtomR, Axis::Other, vp, fs, 0.f);
 
                 if (r <= 0.f) {
                     return false;
                 }
 
-                ellipsePath(path, lengthOr(doc, node, AtomCx, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomCy, Axis::Y, vp, fs, 0.f), r, r);
+                ellipsePath(path, shapeLengthOr(l, node, AtomCx, Axis::X, vp, fs, 0.f), shapeLengthOr(l, node, AtomCy, Axis::Y, vp, fs, 0.f), r, r);
                 break;
             }
             case AtomEllipse: {
                 float rx;
                 float ry;
-                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
-                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
+                bool hasRx = shapeLengthOf(l, node, AtomRx, Axis::X, vp, fs, rx, true);
+                bool hasRy = shapeLengthOf(l, node, AtomRy, Axis::Y, vp, fs, ry, true);
 
                 if (!hasRx) {
                     rx = hasRy ? ry : 0.f;
@@ -11705,7 +11792,7 @@ namespace {
                     return false;
                 }
 
-                ellipsePath(path, lengthOr(doc, node, AtomCx, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomCy, Axis::Y, vp, fs, 0.f), rx, ry);
+                ellipsePath(path, shapeLengthOr(l, node, AtomCx, Axis::X, vp, fs, 0.f), shapeLengthOr(l, node, AtomCy, Axis::Y, vp, fs, 0.f), rx, ry);
                 break;
             }
             case AtomLine:
@@ -14456,45 +14543,8 @@ namespace {
             resolveDashes(l, style, vp);
         }
 
-        for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
-            u32 cascaded = (l.instance && l.instance[node->index] ? l.instance[node->index] : node->style)[property - firstProperty];
-            Token one;
-            Tokens value = cascaded ? valueTokens(doc, cascaded, one) : Tokens{&one, &one};
-
-            if (value.begin == value.end) {
-                continue;
-            }
-
-            CssKeyword wide = valueKeyword(doc, cascaded);
-            bool inherit = wide == CssInherit;
-            bool reset = wide == CssInitial;
-
-            if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
-
-                inherit = inherited;
-                reset = !inherited;
-            }
-
-            const ComputedStyle& source = inherit ? parent : initial;
-
-            switch (property) {
-                case AtomFontSize:
-                    if (inherit || reset) {
-                        style.fontSize = source.fontSize;
-                    } else {
-                        Length length;
-
-                        if (parseLength(value, length) && nonNegative(length)) {
-                            style.fontSize = resolveAgainst(length, parent.fontSize, vp, parent.fontSize);
-                        }
-                    }
-
-                    break;
-                default:
-                    break;
-            }
-        }
+        const u32* fontValues = l.instance && l.instance[node->index] ? l.instance[node->index] : node->style;
+        style.fontSize = computedFontSize(doc, fontValues[AtomFontSize - firstProperty], parent.fontSize, vp);
 
         for (u32 property = firstProperty; property < firstProperty + propertyCount; property++) {
             u32 cascaded = (l.instance && l.instance[node->index] ? l.instance[node->index] : node->style)[property - firstProperty];
@@ -16715,6 +16765,8 @@ namespace {
             }
 
             p.active.pushBack(target);
+            p.hosts.pushBack(target);
+            p.hosts.pushBack(node);
 
             if (target->name == AtomSymbol || target->name == AtomSvg) {
                 // The use sizes the viewport it instances.
@@ -16734,6 +16786,8 @@ namespace {
                 childExtent(p, target, m, style, vp, how, depth, box);
             }
 
+            p.hosts.popBack();
+            p.hosts.popBack();
             p.active.popBack();
 
             return;
@@ -19311,7 +19365,13 @@ namespace {
                         }
                     }
 
-                    emitFill(l, device, WindingNonZero, stroke, style.aliased, style.linearColors);
+                    // Centre-only sampling can erase a subpixel stroke.
+                    // Rendering hints permit retaining its area coverage;
+                    // wider strokes and fills keep their crisp sampling.
+                    const Matrix& strokeMatrix = style.nonScaling ? l.host : m;
+                    bool aliased = style.aliased && (double)style.strokeWidth * minimumScale(strokeMatrix) >= 1.0;
+
+                    emitFill(l, device, WindingNonZero, stroke, aliased, style.linearColors);
                 }
             } else if (layer == 2) {
                 Matrix outerMatrix = l.contextMatrix;

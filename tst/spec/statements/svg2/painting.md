@@ -158,7 +158,7 @@
 ## shape-rendering: paint-rendering-hints
 
 - [x] svg2/painting.md#ShapeRenderingProperty: shape-rendering is auto | optimizeSpeed | crispEdges | geometricPrecision; initial auto; applies to shapes; is inherited [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp paint-properties#shape-rendering-inherited]
-- [x] svg2/painting.md#ShapeRenderingProperty: optimizeSpeed may disable anti-aliasing; crispEdges favors crisp edges over speed/precision; geometricPrecision favors precision over speed/crisp edges; auto balances all three favoring precision most [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp]
+- [x] svg2/painting.md#ShapeRenderingProperty: optimizeSpeed may disable anti-aliasing; crispEdges favors crisp edges over speed/precision; geometricPrecision favors precision over speed/crisp edges; auto balances all three favoring precision most; these hints allow retaining area coverage for subpixel strokes to avoid losing them to centre-only sampling. [paint-rendering-hints#shape-smooth paint-rendering-hints#shape-crisp stroke-crisp-subpixel#outline stroke-crisp-subpixel#curved stroke-crisp-subpixel#horizontal stroke-crisp-subpixel#vertical stroke-crisp-subpixel#scaled stroke-crisp-subpixel#non-scaling stroke-crisp-subpixel#skewed stroke-crisp-subpixel#reflected stroke-crisp-subpixel#unit-pixel stroke-crisp-subpixel#wide stroke-crisp-subpixel#filled-crisp stroke-crisp-subpixel#speed stroke-crisp-subpixel#zero stroke-crisp-pattern-coverage#clipped-grid stroke-crisp-pattern-coverage#outside-thin stroke-crisp-pattern-coverage#outside-crisp]
 
 ## image-rendering: paint-rendering-hints, image-cells
 

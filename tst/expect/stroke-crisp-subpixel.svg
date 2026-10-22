@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- Stroke regions drawn as literal filled shapes. No strokes, vector
+effects or rendering hints are shared with the unit. Wide crisp shapes
+are the full pixel rows/columns selected by their centres. -->
+<rect width="64" height="64" fill="white"/>
+<path id="outline" data-box="2 2 12 12" d="M3.75 3.75H12.25V12.25H3.75Z M4.25 4.25V11.75H11.75V4.25Z" fill-rule="evenodd"/>
+<rect id="horizontal" data-box="1 16 22 4" x="2" y="17.75" width="20" height=".5"/>
+<rect id="vertical" data-box="26 1 4 16" x="27.75" y="2" width=".5" height="14"/>
+<rect id="scaled" data-box="35 18 27 4" x="36" y="19.8" width="24" height=".4"/>
+<rect id="wide" data-box="39 3 22 6" x="40" y="5" width="20" height="2"/>
+<rect id="non-scaling" data-box="6 27 20 6" x="8" y="29.75" width="16" height=".5"/>
+<path id="curved" data-box="25 24 10 10" fill-rule="evenodd" d="M34.25 29A4.25 4.25 0 1 0 25.75 29A4.25 4.25 0 1 0 34.25 29Z M33.75 29A3.75 3.75 0 1 0 26.25 29A3.75 3.75 0 1 0 33.75 29Z"/>
+<rect id="unit-pixel" data-box="1 37 22 5" x="2" y="39" width="20" height="1"/>
+<path id="skewed" data-box="6 42 28 6" d="M8 44H12L32 46H28Z"/>
+<rect id="reflected" data-box="42 47 20 6" x="44" y="49.75" width="16" height=".5"/>
+<g id="zero" data-box="2 55 24 6"/>
+<rect id="speed" data-box="34 54 28 6" x="36" y="56.75" width="24" height=".5"/>
+<rect id="filled-crisp" data-box="38 26 12 12" x="40" y="28" width="7" height="7"/>
+</svg>
