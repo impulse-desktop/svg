@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="76">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="100">
 <!-- What tst/unit/marker-vertices.svg draws, drawn plainly; each cell's
 id is what the statement ledgers link to. -->
 <defs>
@@ -26,4 +26,7 @@ id is what the statement ledgers link to. -->
 <g id="not-rendered" data-box="51 45 12 12"><rect x="52" y="46" width="10" height="10" fill="lime"/></g>
 <g id="ellipse" data-box="1 61 22 14"><rect x="18" y="66" width="4" height="4" fill="lime"/><rect x="10" y="70" width="4" height="4" fill="lime"/><rect x="2" y="66" width="4" height="4" fill="lime"/><rect x="10" y="62" width="4" height="4" fill="lime"/></g>
 <g id="movetos" data-box="27 65 30 6"><rect x="28" y="66" width="4" height="4" fill="lime"/><rect x="36" y="66" width="4" height="4" fill="lime"/><rect x="44" y="66" width="4" height="4" fill="lime"/><rect x="52" y="66" width="4" height="4" fill="lime"/></g>
+<g id="circle-mid-only" data-box="2 78 20 20" fill="lime"><rect x="10" y="92" width="4" height="4"/><rect x="4" y="86" width="4" height="4"/><rect x="10" y="80" width="4" height="4"/></g>
+<g id="ellipse-mid-only" data-box="22 80 20 16" fill="lime"><rect x="30" y="90" width="4" height="4"/><rect x="24" y="86" width="4" height="4"/><rect x="30" y="82" width="4" height="4"/></g>
+<g id="rect-mid-only" data-box="44 78 18 20" fill="lime"><rect x="56" y="80" width="4" height="4"/><rect x="56" y="92" width="4" height="4"/><rect x="46" y="92" width="4" height="4"/></g>
 </svg>
