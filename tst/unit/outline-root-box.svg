@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64" viewBox="0 0 64 32" style="outline:3px solid red;outline-offset:-1px">
+<!-- The outermost SVG has no surrounding CSS box in this API (D39). Its
+outline must not become an outline of its content bounding box, even
+with a negative offset. A transparent partial viewport exposes that
+error. Descendants still obtain explicitly inherited outline and offset
+values; both ordinary and inherited-offset rectangles are constructed
+plainly. -->
+<rect x="8" y="8" width="8" height="8" fill="lime"/>
+<rect x="28" y="8" width="8" height="8" fill="lime" style="outline:inherit"/>
+<rect x="48" y="8" width="8" height="8" fill="lime" style="outline:inherit;outline-offset:inherit"/>
+</svg>

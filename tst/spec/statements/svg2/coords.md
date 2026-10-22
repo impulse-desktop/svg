@@ -18,7 +18,7 @@
 - [x] svg2/coords.md#ViewportSpace: likewise the initial viewport's height is the 'height' presentation attribute on the outermost svg element, unless host CSS positioning properties establish it. [root-viewport#user-units-px]
 - [x] svg2/coords.md#ViewportSpace: a 'width' or 'height' on the outermost svg element given in user units (no unit identifier) is assumed equivalent to the same number of px units. [root-viewport#user-units-px]
 - [x] svg2/coords.md#InitialCoordinateSystem: the outermost svg element's initial viewport and user coordinate systems are identical, origin at the viewport's origin, x pointing right, y pointing down, one unit equal to one CSS px. [root-viewport#y-down]
-- [x] svg2/coords.md#InitialCoordinateSystem: the initial coordinate system's origin is at the top-left of the viewport, the raster, which the outermost svg's CSS border, padding, margin, outline or shadow neither take room from nor draw over (D39). [render-root-box#box]
+- [x] svg2/coords.md#InitialCoordinateSystem: the initial coordinate system's origin is at the top-left of the viewport, the raster, which the outermost svg's CSS border, padding, margin, outline or shadow neither take room from nor draw over (D39). [render-root-box#box outline-root-box#partial-viewport outline-root-box#inherit-outline outline-root-box#inherit-offset]
 
 ## Computing the viewBox transform: viewbox-align
 

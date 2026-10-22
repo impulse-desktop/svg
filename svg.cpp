@@ -21878,7 +21878,7 @@ namespace {
 
         Box outline;
 
-        if (style.outlineWidth > 0.f && style.outlineColor.a > 0.f && elementBox(l, node, parent, vp, outline, 0)) {
+        if (node != l.doc->root && style.outlineWidth > 0.f && style.outlineColor.a > 0.f && elementBox(l, node, parent, vp, outline, 0)) {
             float w = style.outlineWidth;
             // A negative offset shrinks each axis independently. Keeping
             // the inner box nonnegative leaves an outer size of at least

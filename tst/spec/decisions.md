@@ -455,6 +455,12 @@ the document's own size stretched to it. Border, padding, margin and
 box-shadow draw nothing and take no room from the viewport, and an outline,
 which lies outside the box, falls past the raster.
 
+An outline on the root must not become an outline of its content bounding
+box. The outer CSS box is outside this API, including inset outlines;
+explicitly inherited outline values still apply to graphic descendants.
+`outline-root-box` checks a transparent, partly empty viewport and both
+forms of inheritance, so a full-viewport background cannot hide the error.
+
 ## D40. Languages are matched as written; an instance's is its host's
 
 `selectors-4.md#the-lang-pseudo` canonicalizes the content language and

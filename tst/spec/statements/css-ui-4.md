@@ -16,4 +16,6 @@ SVG's non-presentation CSS properties do not become presentation attributes:
 outline-offset#not-presentation-attribute preserves that distinction. The
 outermost SVG has no surrounding CSS box in this API (D39); these outlines
 apply to rendered graphics, while the existing render-root-box test remains
-unchanged.
+unchanged. outline-root-box#partial-viewport exposes the root's partly empty
+viewport, while outline-root-box#inherit-outline and
+outline-root-box#inherit-offset retain explicit descendant inheritance.
