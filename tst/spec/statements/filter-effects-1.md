@@ -194,7 +194,8 @@
 ## feGaussianBlur stdDeviation: fe-blur-values, filter-primitives-edge (exists)
 
 - [x] filter-effects-1.md#elementdef-fegaussianblur: the Gaussian kernel is the separable product H(x)*I(y) of two 1-D Gaussians with standard deviations s (x) and t (y). [fe-blur-values#one-deviation]
-- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: stdDeviation is one or two numbers: one value is used for both axes, two give x then y; initial 0. [fe-blur-values#one-deviation fe-blur-values#x-then-y]
+- [x] filter-effects-1.md#feGaussianBlurElement: feGaussianBlur approximates a normalized separable Gaussian convolution, including subpixel alpha inputs. [filter-subpixel-shadow#quarter-row filter-subpixel-shadow#scaled filter-subpixel-shadow#whole-row]
+- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: stdDeviation is one or two numbers: one value is used for both axes, two give x then y; initial 0. [fe-blur-values#one-deviation fe-blur-values#x-then-y filter-subpixel-shadow#unequal-axes]
 - [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: a negative value, or zero in both axes, disables the primitive, so its result is its input image unchanged. [fe-blur-values#pass-through]
 - [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: if stdDeviation is 0 in exactly one axis, the blur applies only along the other axis. [fe-blur-values#zero-axis fe-blur-values#x-then-y]
 
@@ -227,7 +228,7 @@
 
 ## feOffset: fe-offset-tile-merge, filter-offset-vertical (exists)
 
-- [x] filter-effects-1.md#elementdef-feoffset: feOffset shifts its input by dx, dy in the primitiveUnits coordinate system. [fe-offset-tile-merge#offset fe-offset-tile-merge#offset-units]
+- [x] filter-effects-1.md#elementdef-feoffset: feOffset shifts its input by dx, dy in the primitiveUnits coordinate system. [fe-offset-tile-merge#offset fe-offset-tile-merge#offset-units filter-subpixel-shadow#negative-offset filter-subpixel-shadow#zero-shadow]
 - [x] filter-effects-1.md#element-attrdef-feoffset-dx: dx, dy each have initial value 0. [fe-offset-tile-merge#offset-zero]
 
 ## feTile: fe-offset-tile-merge, filter-tile-clipped (exists)
