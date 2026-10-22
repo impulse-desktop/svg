@@ -1,8 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
-<!-- Default antialiasing preserves the area of horizontal and vertical
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
+<!-- Default antialiasing preserves the area of straight and cubic
 bands, including fractional widths and positions. Expected alpha is the
-exact covered fraction of each pixel. Thin SVG viewports retain their
-meet scale and letterbox. -->
+exact covered fraction of each pixel, from interval intersections or
+polynomial integrals. Cubic controls allow the existing 0.025px
+geometric approximation per boundary (D1). Thin SVG viewports retain
+their meet scale and letterbox. -->
 <g transform="translate(0 0)"><path d="M0 0.75H16" fill="none" stroke="#000000" stroke-width="0.5"/></g>
 <g transform="translate(16 0)"><path d="M0 0.75H16" fill="none" stroke="#636366" stroke-width="0.5"/></g>
 <g transform="translate(32 0)"><path d="M0 0.5H16" fill="none" stroke="#000000" stroke-width="1"/></g>
@@ -19,4 +21,12 @@ meet scale and letterbox. -->
 <g transform="translate(16 12)"><rect y="0" width="16" height="0.6" fill="#ffffff"/></g>
 <g transform="translate(32 12)"><svg width="16" height="1" viewBox="0 0 20 1"><rect width="20" height="1" fill="#e1eae7"/></svg></g>
 <g transform="translate(48 12)"><svg width="16" height="1" viewBox="0 0 80 1"><rect width="80" height="1" fill="#ccd814"/></svg></g>
+<g transform="translate(0 16)"><path d="M0 0.10000000000000001C5.333333333333333 0 10.666666666666666 0.29999999999999999 16 0.20000000000000001L16 0.80000000000000004C10.666666666666666 1 5.333333333333333 0.90000000000000002 0 0.84999999999999998Z" fill="#ecb71e"/></g>
+<g transform="translate(16 16)"><path d="M0 0.84999999999999998C5.333333333333333 0.90000000000000002 10.666666666666666 1 16 0.80000000000000004L16 0.20000000000000001C10.666666666666666 0.29999999999999999 5.333333333333333 0 0 0.10000000000000001Z" fill="#ecb71e"/></g>
+<g transform="translate(32 16)"><path d="M0 0.10000000000000001C5.333333333333333 0 10.666666666666666 0.29999999999999999 16 0.20000000000000001L16 0.80000000000000004C10.666666666666666 1 5.333333333333333 0.90000000000000002 0 0.84999999999999998Z" fill="#ecb71e" transform="translate(16) scale(-1 1)"/></g>
+<g transform="translate(48 16)"><path d="M0 0.10000000000000001C5.333333333333333 0 10.666666666666666 0.29999999999999999 16 0.20000000000000001L16 0.80000000000000004C10.666666666666666 1 5.333333333333333 0.90000000000000002 0 0.84999999999999998Z" fill="#ecb71e" transform="translate(0 1) scale(1 -1)"/></g>
+<g transform="translate(0 20)"><path d="M0 0.10000000000000001C1.3333333333333333 0.074999999999999997 2.6666666666666665 0.074999999999999997 4 0.087499999999999994C8 0.125 12 0.27500000000000002 16 0.20000000000000001L16 0.80000000000000004C12 0.94999999999999996 8 0.93125000000000002 4 0.89140624999999996C2.6666666666666665 0.87812500000000004 1.3333333333333333 0.86250000000000004 0 0.84999999999999998Z" fill="#ecb71e"/></g>
+<g transform="translate(16 20)"><svg width="16" height="1" viewBox="0 0 64 4"><path d="M0 0.40000000000000002C21.333333333333332 0 42.666666666666664 1.2 64 0.80000000000000004L64 3.2000000000000002C42.666666666666664 4 21.333333333333332 3.6000000000000001 0 3.3999999999999999Z" fill="#ecb71e"/></svg></g>
+<g transform="translate(32 20)"><path d="M0 0.10000000000000001C5.333333333333333 0.12 10.666666666666666 0.089999999999999997 16 0.14999999999999999L16 0.20999999999999999C10.666666666666666 0.29999999999999999 5.333333333333333 0.40000000000000002 0 0.25Z" fill="#ecb71e"/></g>
+<g transform="translate(48 20)"><path d="M0 0.25C5.333333333333333 0.25 10.666666666666666 0.25 16 0.25L16 0.75C10.666666666666666 0.75 5.333333333333333 0.75 0 0.75Z" fill="#ecb71e"/></g>
 </svg>

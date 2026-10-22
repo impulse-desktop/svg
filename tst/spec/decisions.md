@@ -14,6 +14,14 @@ or leaves a statement out: each entry names the statement (a link into
   "implementations ... some leeway to deviate from this description for
   performance reasons". Curves are flattened within a tolerance.
 
+The cubic-band controls in `raster-area-bands` use the existing 0.025px
+flattening target. Their x coordinate is linear in the curve parameter,
+so each boundary's vertical error is at most 0.025px. The two boundaries
+can change the area inside a unit-wide pixel by at most 0.05; one byte
+level covers rounding. Their expected PNGs contain exact polynomial
+integrals and allow this derived bound of 14 byte levels. Straight bands
+and the flat cubic retain the ordinary two-level comparison tolerance.
+
 ## D2. A filter primitive's subregion is snapped out to whole pixels where it meets its content's edge
 
 `filter-effects-1.md#FilterPrimitiveSubRegion`: the subregion restricts the
@@ -780,6 +788,14 @@ uses reflected copies of the same lighting filter and expects their relief
 to come from a common direction; Chromium suppresses most of its relief.
 `fe-distant-light-transform` tests reflection, a quarter-turn, diffuse and
 specular light, the contrasting point-light case, and retained scale.
+
+The Inkscape ducks in `svg-stack/3a__3ad45c2d9ae07ebb.svg` provide another
+real example: Chromium loses the green duck's relief and the reflected red
+arrow's shaft. Moving the same reflections inside their filtered groups
+restores both in Chromium while changing our drawing by at most one
+premultiplied byte level. Resvg also retains both reliefs. The remaining
+small lighting texture difference follows the intermediate blur results
+and the existing Gaussian approximation in D1.
 
 ## D57. Retain the authored mesh paint from the SVG 2 2016 draft
 
