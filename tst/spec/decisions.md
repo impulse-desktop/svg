@@ -314,6 +314,16 @@ pixels a tile's edges blur and move within a pixel of their exact place. A
 tile of a whole period, an image tiled edge to edge and a single tile are
 drawn exactly.
 
+The same one-tile sampling applies to SVG patterns. In librsvg's synthetic
+`bug515-pattern-billion-laughs.svg`, ten nested patterns eventually make a
+tile about one output pixel across. Rasterizing that tile washes out fine
+stripes that Chromium, Firefox, resvg and librsvg retain. SVG 2 specifies
+the repeated geometry but no antialiasing or subpixel tile filter. A reduced
+two-pattern, one-rectangle case does not establish a common alternative:
+Chromium produces dark green, Firefox and librsvg pale green, and resvg no
+paint. The fixture tests termination rather than a prescribed picture, so
+we retain the bounded one-tile sampling and record its image difference.
+
 ## D29. A font's metrics are the fallbacks of a font without them
 
 `css-values-4.md#font-relative-lengths`: ex, cap, ch, ic and lh are metrics
