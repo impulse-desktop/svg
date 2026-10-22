@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- What tst/unit/image-png-gamma-fallback.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="gamma-alone" data-box="0 0 16 16"><rect x="0" y="0" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
+<g id="icc-gamma" data-box="16 0 16 16"><rect x="16" y="0" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
+<g id="gamma-icc" data-box="32 0 16 16"><rect x="32" y="0" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
+<g id="icc-only" data-box="48 0 16 16"><rect x="48" y="0" width="16" height="16" fill="#ed1c24" fill-opacity="0.5019607843137255"/></g>
+<g id="srgb-over-gamma" data-box="0 16 16 16"><rect x="0" y="16" width="16" height="16" fill="#ed1c24" fill-opacity="0.5019607843137255"/></g>
+<g id="srgb-first" data-box="16 16 16 16"><rect x="16" y="16" width="16" height="16" fill="#ed1c24" fill-opacity="0.5019607843137255"/></g>
+<g id="cicp-over-gamma" data-box="32 16 16 16"><rect x="32" y="16" width="16" height="16" fill="#ed1c24" fill-opacity="0.5019607843137255"/></g>
+<g id="palette-icc" data-box="48 16 16 16"><rect x="48" y="16" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
+<g id="other-chrm" data-box="0 32 16 16"><rect x="0" y="32" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
+<g id="wide-icc" data-box="16 32 16 16"><rect x="16" y="32" width="16" height="16" fill="#ee151f" fill-opacity="0.5019607843137255"/></g>
+<g id="gray-gamma" data-box="32 32 16 16"><rect x="32" y="32" width="16" height="16" fill="#eeeeee" fill-opacity="0.5019607843137255"/></g>
+<g id="linear-gamma" data-box="48 32 16 16"><rect x="48" y="32" width="16" height="16" fill="#f75d69" fill-opacity="0.5019607843137255"/></g>
+</svg>

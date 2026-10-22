@@ -23,7 +23,7 @@
 ## High-quality viewer requirements: paint-rendering-hints, image-cells
 
 - [x] svg2/conform.md#ConformingHighQualitySVGViewers: on low-resolution devices (150dpi or less) a high-quality viewer must support smooth (anti-aliased) edges on lines and curves [paint-rendering-hints#shape-smooth]
-- [-] svg2/conform.md#ConformingHighQualitySVGViewers: a high-quality viewer must support color management via ICC profiles (D18) [color-functions#display-p3]
+- [-] svg2/conform.md#ConformingHighQualitySVGViewers: a high-quality viewer must support color management via ICC profiles (D18) [color-functions#display-p3 image-png-gamma-fallback#icc-only image-png-gamma-fallback#icc-gamma image-png-gamma-fallback#other-chrm]
 - [x] svg2/conform.md#ConformingHighQualitySVGViewers: a high-quality viewer's image resampling must meet the stricter image-rendering requirements given for high-quality viewers [paint-rendering-hints#image-smooth image-cells#natural-size]
 
 ## Notes

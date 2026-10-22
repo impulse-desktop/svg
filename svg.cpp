@@ -11295,8 +11295,8 @@ namespace {
 
     static void arcTo(Path& path, Point p0, float rxIn, float ryIn, float angle, bool large, bool sweep, Point p1) {
         if (p0.x == p1.x && p0.y == p1.y) {
-            lineTo(path, p1);
-
+            // SVG 2 omits this arc entirely. A zero-length line would
+            // instead add geometry and, with round/square caps, paint.
             return;
         }
 
@@ -12371,13 +12371,22 @@ namespace {
         size_t pi = 0;
         Point start{0.f, 0.f};
         Point last{0.f, 0.f};
+        bool pendingMove = false;
 
         for (u8 verb : path.verbs) {
+            // A move starts a subpath but contributes no segment. Include
+            // its point only when a drawing command follows, even one of
+            // zero length (including closepath).
+            if (verb != VerbMove && pendingMove) {
+                extend(box, last);
+                pendingMove = false;
+            }
+
             switch (verb) {
                 case VerbMove:
                     start = apply(m, pts[pi++]);
                     last = start;
-                    extend(box, last);
+                    pendingMove = true;
                     break;
                 case VerbLine:
                     last = apply(m, pts[pi++]);
@@ -12401,6 +12410,11 @@ namespace {
                     last = start;
                     break;
             }
+        }
+
+        // With no segments, retain the path's last specified position.
+        if (!boxValid(box) && pendingMove) {
+            extend(box, last);
         }
 
         return box;

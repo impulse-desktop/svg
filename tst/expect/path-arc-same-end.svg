@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<!-- What tst/unit/path-arc-same-end.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<rect width="64" height="48" fill="white"/>
+<g id="arc-only" data-box="0 0 16 16"></g>
+<g id="zero-line" data-box="16 0 16 16"><circle cx="24" cy="8" r="3" fill="navy"/></g>
+<g id="zero-rx-same" data-box="32 0 16 16"></g>
+<g id="zero-ry-same" data-box="48 0 16 16"></g>
+<g id="zero-rx-line" data-box="0 16 16 16"><rect x="4" y="22" width="8" height="4" fill="navy"/></g>
+<g id="end-of-line" data-box="16 16 16 16"><path d="M20 24H28" fill="none" stroke="navy" stroke-width="4" stroke-linecap="round"/></g>
+<g id="relative-after-arc" data-box="32 16 16 16"><rect x="36" y="22" width="8" height="4" fill="navy"/></g>
+<g id="zero-ry-line" data-box="48 16 16 16"><rect x="52" y="22" width="8" height="4" fill="navy"/></g>
+<g id="repeated-same" data-box="0 32 16 16"></g>
+<g id="repeated-zero-rx" data-box="16 32 16 16"></g>
+<g id="close-after-arc" data-box="32 32 16 16"><circle cx="40" cy="40" r="3" fill="navy"/></g>
+<g id="line-after-repeated" data-box="48 32 16 16"><rect x="52" y="38" width="8" height="4" fill="navy"/></g>
+</svg>

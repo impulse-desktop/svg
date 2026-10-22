@@ -26,8 +26,8 @@
 
 ## Out-of-range elliptical arc parameters: path-grammar, path-data-commands
 
-- [x] svg2/paths.md#ArcOutOfRangeParameters: if an arc's endpoint equals the current point, the arc segment is omitted entirely. [path-grammar#arc-same-ends]
-- [x] svg2/paths.md#ArcOutOfRangeParameters: if rx or ry is 0, the arc is treated as a straight lineto to the endpoint. [path-grammar#arc-zero]
+- [x] svg2/paths.md#ArcOutOfRangeParameters: if an arc's endpoint equals the current point, the arc segment is omitted entirely. [path-grammar#arc-same-ends path-arc-same-end#arc-only path-arc-same-end#zero-rx-same path-arc-same-end#zero-ry-same path-arc-same-end#end-of-line path-arc-same-end#relative-after-arc path-arc-same-end#repeated-same path-arc-same-end#repeated-zero-rx path-arc-same-end#close-after-arc path-arc-same-end#line-after-repeated path-isolated-move-bbox#zero-arc]
+- [x] svg2/paths.md#ArcOutOfRangeParameters: if rx or ry is 0, the arc is treated as a straight lineto to the endpoint. [path-grammar#arc-zero path-arc-same-end#zero-rx-line path-arc-same-end#zero-ry-line]
 - [x] svg2/paths.md#ArcOutOfRangeParameters: a negative rx or ry has its sign dropped; the absolute value is used. [path-grammar#arc-negative]
 - [x] svg2/paths.md#ArcOutOfRangeParameters: if rx, ry and x-axis-rotation admit no solution reaching the endpoint, the ellipse is scaled up uniformly until exactly one solution exists. [path-grammar#arc-small]
 - [x] svg2/paths.md#PathDataEllipticalArcCommands: an arc is a part of its ellipse at any size: radii far beyond the chord, 1e20 on a chord of 20, give the arc as good as straight that their ellipse draws, its centre that far off. [path-data-commands#arc-huge-radii]

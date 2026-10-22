@@ -106,7 +106,6 @@ namespace {
 
     static size_t pngGamma(const uint8_t* bytes, size_t length, double& gamma) {
         static const uint8_t signature[] = {137, 80, 78, 71, 13, 10, 26, 10};
-        static const uint32_t srgbChromaticities[] = {31270, 32900, 64000, 33000, 30000, 60000, 15000, 6000};
 
         if (length < 33 || memcmp(bytes, signature, sizeof(signature)) || pngNumber(bytes + 8) != 13 || memcmp(bytes + 12, "IHDR", 4)) {
             return 0;
@@ -122,22 +121,13 @@ namespace {
                 return 0;
             }
 
-            if (!memcmp(chunk + 4, "iCCP", 4) || !memcmp(chunk + 4, "sRGB", 4) || !memcmp(chunk + 4, "cICP", 4)) {
+            // ICC profiles are not used by this viewer. PNG's gAMA is
+            // their transfer fallback; sRGB and cICP still take priority.
+            if (!memcmp(chunk + 4, "sRGB", 4) || !memcmp(chunk + 4, "cICP", 4)) {
                 return 0;
             }
 
-            if (!memcmp(chunk + 4, "cHRM", 4)) {
-                if (chunkLength != 32 || !pngChecksum(chunk, chunkLength)) {
-                    return 0;
-                }
-
-                for (int k = 0; k < 8; k++) {
-                    if (pngNumber(chunk + 8 + k * 4) != srgbChromaticities[k]) {
-                        return 0;
-                    }
-                }
-            }
-
+            // cHRM describes primaries, independently of the gAMA transfer.
             if (!memcmp(chunk + 4, "gAMA", 4)) {
                 if (found || chunkLength != 4 || !pngNumber(chunk + 8) || !pngChecksum(chunk, chunkLength)) {
                     return 0;

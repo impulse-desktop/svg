@@ -179,6 +179,14 @@ for ICC colour management. The renderer draws in sRGB, as the conforming
 viewer of `#ConformingSVGViewers` does: antialiased, resampling as
 image-rendering asks, within a pixel and a component value, CTMs in doubles.
 
+For embedded PNGs, the test renderer uses a valid `gAMA` as the transfer
+fallback when it cannot use `iCCP`, as [PNG 3](https://www.w3.org/TR/png-3/#11iCCP)
+recommends for decoders without ICC support. `cHRM` describes primaries and
+does not suppress the transfer fallback; this viewer still performs no
+primary conversion. `sRGB` and `cICP` keep precedence over `gAMA`.
+The independent `image-png-gamma-fallback` unit covers the color and alpha
+values, palette transparency, 16-bit samples and chunk precedence.
+
 ## D19. A percent: media fragment is a percent of the image's own coordinates
 
 `svg2/linking.md#SVGFragmentIdentifiersDefinitions`: with "percent:" the

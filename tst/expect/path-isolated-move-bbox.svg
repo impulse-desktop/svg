@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="192">
+<rect width="256" height="192" fill="white"/>
+<g id="leading-mask" data-box="0 0 64 64" transform="translate(0 0)">
+<clipPath id="clip-0"><rect x="6" y="8" width="48" height="24"/></clipPath>
+<path d="M10 10H50V30" fill="none" stroke="lime" stroke-width="20" clip-path="url(#clip-0)"/>
+</g>
+<g id="trailing-mask" data-box="64 0 64 64" transform="translate(64 0)">
+<clipPath id="clip-1"><rect x="6" y="8" width="48" height="24"/></clipPath>
+<path d="M10 10H50V30" fill="none" stroke="lime" stroke-width="20" clip-path="url(#clip-1)"/>
+</g>
+<g id="zero-line" data-box="128 0 64 64" transform="translate(128 0)">
+<clipPath id="clip-2"><rect x="6" y="6" width="48" height="48"/></clipPath>
+<path d="M10 50L10 50 M10 10H50V30" fill="none" stroke="lime" stroke-width="20" clip-path="url(#clip-2)"/>
+</g>
+<g id="close-only" data-box="192 0 64 64" transform="translate(192 0)">
+<clipPath id="clip-3"><rect x="6" y="6" width="48" height="48"/></clipPath>
+<path d="M10 50Z M10 10H50V30" fill="none" stroke="lime" stroke-width="20" clip-path="url(#clip-3)"/>
+</g>
+<g id="zero-cubic" data-box="0 64 64 64" transform="translate(0 64)">
+<clipPath id="clip-4"><rect x="6" y="6" width="48" height="48"/></clipPath>
+<path d="M10 50L10 50 M10 10H50V30" fill="none" stroke="lime" stroke-width="20" clip-path="url(#clip-4)"/>
+</g>
+<g id="zero-arc" data-box="64 64 64 64" transform="translate(64 64)">
+<clipPath id="clip-5"><rect x="6" y="8" width="48" height="24"/></clipPath>
+<path d="M10 10H50V30" fill="none" stroke="lime" stroke-width="20" clip-path="url(#clip-5)"/>
+</g>
+<g id="leading-curve" data-box="128 64 64 64" transform="translate(128 64)">
+<linearGradient id="plain-6" gradientUnits="userSpaceOnUse" x2="0" y1="15" y2="30"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<path d="M10 30C10 10 50 10 50 30Z" fill="url(#plain-6)"/>
+</g>
+<g id="trailing-curve" data-box="192 64 64 64" transform="translate(192 64)">
+<linearGradient id="plain-7" gradientUnits="userSpaceOnUse" x2="0" y1="15" y2="30"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<path d="M10 30C10 10 50 10 50 30Z" fill="url(#plain-7)"/>
+</g>
+<g id="leading-arc" data-box="0 128 64 64" transform="translate(0 128)">
+<linearGradient id="plain-8" gradientUnits="userSpaceOnUse" x2="0" y1="10" y2="30"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<path d="M10 30A20 20 0 0 1 50 30Z" fill="url(#plain-8)"/>
+</g>
+<g id="trailing-arc" data-box="64 128 64 64" transform="translate(64 128)">
+<linearGradient id="plain-9" gradientUnits="userSpaceOnUse" x2="0" y1="10" y2="30"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<path d="M10 30A20 20 0 0 1 50 30Z" fill="url(#plain-9)"/>
+</g>
+<g id="many-moves" data-box="128 128 64 64" transform="translate(128 128)">
+<linearGradient id="plain-10" gradientUnits="userSpaceOnUse" x2="0" y1="10" y2="30"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<path d="M10 10H50V30Z" fill="url(#plain-10)"/>
+</g>
+<g id="zero-gradient" data-box="192 128 64 64" transform="translate(192 128)">
+<linearGradient id="plain-11" gradientUnits="userSpaceOnUse" x2="0" y1="10" y2="50"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient>
+<path d="M10 10H50V30Z" fill="url(#plain-11)"/>
+</g>
+</svg>

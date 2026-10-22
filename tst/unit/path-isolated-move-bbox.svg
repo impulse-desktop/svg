@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="192">
+<rect width="256" height="192" fill="white"/>
+<defs><mask id="region"><rect width="64" height="64" fill="white"/></mask>
+<linearGradient id="object" x2="0" y2="1"><stop offset=".5" stop-color="navy"/><stop offset=".5" stop-color="gold"/></linearGradient></defs>
+<g transform="translate(0 0)">
+<path d="M10 50 M10 10H50V30" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+</g>
+<g transform="translate(64 0)">
+<path d="M10 10H50V30 M10 50" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+</g>
+<g transform="translate(128 0)">
+<path d="M10 50L10 50 M10 10H50V30" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+</g>
+<g transform="translate(192 0)">
+<path d="M10 50Z M10 10H50V30" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+</g>
+<g transform="translate(0 64)">
+<path d="M10 50C10 50 10 50 10 50 M10 10H50V30" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+</g>
+<g transform="translate(64 64)">
+<path d="M10 50A20 20 0 0 1 10 50 M10 10H50V30" fill="none" stroke="lime" stroke-width="20" mask="url(#region)"/>
+</g>
+<g transform="translate(128 64)">
+<path d="M10 50 M10 30C10 10 50 10 50 30Z" fill="url(#object)"/>
+</g>
+<g transform="translate(192 64)">
+<path d="M10 30C10 10 50 10 50 30Z M0 60" fill="url(#object)"/>
+</g>
+<g transform="translate(0 128)">
+<path d="M10 50 M10 30A20 20 0 0 1 50 30Z" fill="url(#object)"/>
+</g>
+<g transform="translate(64 128)">
+<path d="M10 30A20 20 0 0 1 50 30Z M10 50" fill="url(#object)"/>
+</g>
+<g transform="translate(128 128)">
+<path d="M0 60M60 0 M10 10H50V30Z M60 60M0 0" fill="url(#object)"/>
+</g>
+<g transform="translate(192 128)">
+<path d="M10 10H50V30Z M10 50L10 50" fill="url(#object)"/>
+</g>
+</svg>
