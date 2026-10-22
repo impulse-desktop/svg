@@ -23124,6 +23124,25 @@ namespace {
         return true;
     }
 
+    // An edge's x at y, its ends ordered by y. Compute each endpoint's
+    // weight from the distance to the other end, without subtracting two
+    // large x coordinates or rounding a near-end weight as 1 minus another.
+    static float edgeX(float x0, float y0, float x1, float y1, float y) {
+        if (y == y0) {
+            return x0;
+        }
+
+        if (y == y1) {
+            return x1;
+        }
+
+        double from = (double)y - y0;
+        double to = (double)y1 - y;
+        double dy = (double)y1 - y0;
+
+        return (float)((double)x0 * (to / dy) + (double)x1 * (from / dy));
+    }
+
     static void addAliasedEdge(u32* acc, u32 stride, u32 width, u32 height, Edge e) {
         u32 dir = 0x10000u;
 
@@ -23134,12 +23153,11 @@ namespace {
 
         // Rows and columns clamp to the raster; one that is not a number
         // takes its start.
-        float dxdy = (e.x1 - e.x0) / (e.y1 - e.y0);
         int y0 = (int)minf(maxf(floorf(e.y0 + 0.5f), 0.f), (float)height);
         int y1 = (int)minf(maxf(floorf(e.y1 + 0.5f), 0.f), (float)height);
 
         for (int y = y0; y < y1; y++) {
-            int column = (int)minf(maxf(floorf(e.x0 + ((float)y + 0.5f - e.y0) * dxdy + 0.5f), 0.f), (float)width);
+            int column = (int)minf(maxf(floorf(edgeX(e.x0, e.y0, e.x1, e.y1, (float)y + .5f) + 0.5f), 0.f), (float)width);
 
             acc[(size_t)y * stride + column] += dir;
         }
@@ -23154,7 +23172,7 @@ namespace {
     };
 
     static float bandX(const BandEdge& e, float y) {
-        return e.x0 + (e.x1 - e.x0) * ((y - e.y0) / (e.y1 - e.y0));
+        return edgeX(e.x0, e.y0, e.x1, e.y1, y);
     }
 
     static bool insideWinding(i64 winding, u8 rule) {

@@ -29,7 +29,7 @@
 ## fill-rule: fill-rule-crossings
 
 - [x] svg2/painting.md#FillRuleProperty: fill-rule is nonzero | evenodd; initial nonzero; applies to shapes and text content elements; is inherited [fill-rule-crossings#nonzero-same fill-rule-crossings#evenodd-same]
-- [x] svg2/painting.md#FillRuleProperty: nonzero sums signed ray crossings (+1 left-to-right, -1 right-to-left) from the point to infinity; zero sum is outside, nonzero is inside [fill-rule-crossings#nonzero-same fill-rule-crossings#nonzero-opposite fill-rule-crossings#nonzero-pentagram]
+- [x] svg2/painting.md#FillRuleProperty: nonzero sums signed ray crossings (+1 left-to-right, -1 right-to-left) from the point to infinity; zero sum is outside, nonzero is inside [fill-rule-crossings#nonzero-same fill-rule-crossings#nonzero-opposite fill-rule-crossings#nonzero-pentagram raster-nan-band-first#nonzero raster-nan-band#nonzero]
 - [x] svg2/painting.md#FillRuleProperty: evenodd counts ray crossings; an odd count is inside, an even count is outside [fill-rule-crossings#evenodd-same fill-rule-crossings#evenodd-pentagram]
 - [x] svg2/painting.md#FillRuleProperty: a ray tangent to or coincident with a path segment may be replaced by a different ray that avoids the problem intersection [fill-rule-crossings#nonzero-pentagram fill-rule-crossings#evenodd-pentagram]
 

@@ -10,7 +10,7 @@
 - [x] svg2/types.md#attribute-url: a URL-valued attribute is parsed with the URL parser, using the attribute's value as input and the document's URL as base. [gradient-templates#chain-stops]
 - [x] svg2/types.md#syntax: an attribute that fails to parse against its grammar (CSS, ABNF, EBNF, URL or prose) is treated as if it had been given its initial value. (D16) [style-sheets#important-attribute stroke-width-values#negative]
 - [-] svg2/types.md#syntax: an invalid presentation attribute's resulting initial value can override lower-priority stylesheet rules, e.g. overflow="invalid" on an svg element yields overflow:visible, overriding the UA stylesheet's hidden default. (D16) [attribute-values#invalid-overflow]
-- [x] svg2/types.md#Precision: numeric SVG attribute and property values must support at least every finite single-precision value of the host architecture. [css-numbers#precision]
+- [x] svg2/types.md#Precision: numeric SVG attribute and property values must support at least every finite single-precision value of the host architecture. [css-numbers#precision raster-nan-band-first#nonzero raster-nan-band#nonzero]
 - [x] svg2/types.md#RangeClamping: out-of-range checking for range-restricted values must be deferred as late as possible in rendering, since a compound operation's intermediate values may be out of range even when its final value is not. [attribute-values#range-deferred]
 
 ## Notes
