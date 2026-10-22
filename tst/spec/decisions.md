@@ -736,12 +736,19 @@ of two uses of the group before it, 40 deep, is 2^40 instances in 2 KB,
 and patterns and markers of patterns and markers multiply the same way.
 The renderer drew and measured them all, 22 levels taking 44 seconds.
 Each pass over a document, a drawing or a measure of its size, now visits
-at most 16 384 + 32 elements per byte of its source, every instance
-counted, and draws or measures nothing past that; a use's box for context
+at most 16 384 + 32 elements per byte of its source and draws or measures
+nothing past that; a use's box for context
 paints is measured only when a context paint asks for it. The most any
 file of the corpus or of 60 000 harvested ones visits is 5.2 per byte, a
 Wikimedia map of uses; the 40-deep chain draws its first square and stops
 in a few hundredths of a second.
+
+A complete standalone pattern program may be reused without visiting its
+nodes again. Its tile geometry, viewport, reference chain, and use, marker
+or image binding must match; placement, opacity and the sampled tile window
+remain each paint's own. A partial program, or one that changes reference
+or binding state, is not shared. This keeps the same visit budget while a
+finite graph of repeated patterns can finish instead of expanding as a tree.
 
 ## D55. A Bézier that turns back inside itself has a round stroke tip
 

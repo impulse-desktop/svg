@@ -86,7 +86,7 @@
 - [x] svg2/pservers.md#StopNotes: at least two stops are needed for a gradient effect; with no stops defined, painting occurs as if 'none' were specified [gradient-stops#no-stops]
 - [x] svg2/pservers.md#StopNotes: with exactly one stop defined, the element is painted with the solid color and opacity of that one stop [gradient-stops#one-stop]
 
-## Pattern reference rectangle, coordinate system, and tiling: pattern-tiles, pserver-properties
+## Pattern reference rectangle, coordinate system, and tiling: pattern-tiles, pserver-properties, pattern-program-reuse
 
 - [x] svg2/pservers.md#PatternElement: x, y, width, height and patternUnits define a reference rectangle with top/left at (x,y) and bottom/right at (x+width, y+height) [pattern-tiles#user-space pattern-tiles#box-fractions]
 - [x] svg2/pservers.md#PatternElement: tiling extends copies of the reference rectangle to infinity in x and y, with each tile's origin at (x + m*width, y + n*height) for every integer m and n [pattern-tiles#box-fractions pattern-tiles#user-space]
@@ -94,10 +94,10 @@
 - [x] svg2/pservers.md#PatternElementPatternUnitsAttribute: with patternUnits=userSpaceOnUse, x/y/width/height resolve in the user coordinate system at the time the pattern is referenced, then patternTransform is applied; percentages are relative to the current viewport [pattern-tiles#user-space]
 - [x] svg2/pservers.md#PatternElementPatternUnitsAttribute: with patternUnits=objectBoundingBox, x/y/width/height resolve against the referencing element's bounding box, then patternTransform is applied; percentages are relative to that bounding box [pattern-tiles#box-fractions]
 - [x] svg2/pservers.md#PatternElementPatternContentUnitsAttribute: patternContentUnits initial value is userSpaceOnUse, and it has no effect at all when a viewBox is specified on the pattern [pattern-tiles#box-fractions pattern-tiles#view-box]
-- [x] svg2/pservers.md#PatternElementPatternContentUnitsAttribute: with patternContentUnits=objectBoundingBox (and no viewBox), the pattern's content coordinate system is established from the referencing element's bounding box, then patternTransform is applied [pattern-tiles#content-box-units]
+- [x] svg2/pservers.md#PatternElementPatternContentUnitsAttribute: with patternContentUnits=objectBoundingBox (and no viewBox), the pattern's content coordinate system is established from the referencing element's bounding box, then patternTransform is applied [pattern-tiles#content-box-units pattern-program-reuse#content-box]
 - [x] svg2/pservers.md#PatternElementPatternTransformAttribute: patternTransform is post-multiplied after any bounding-box-to-user-space transform; initial value is the identity transform [pattern-tiles#transform pattern-tiles#css-transform]
-- [x] svg2/pservers.md#PatternNotes: if a viewBox is given, the pattern's content coordinate system is fit into the x/y/width/height/patternUnits region using the standard viewBox and preserveAspectRatio rules; otherwise the content coordinate system simply originates at (x, y) [pattern-tiles#view-box]
-- [x] svg2/pservers.md#PatternNotes: the UA style sheet sets overflow:hidden on pattern elements, clipping any content outside the pattern tile rectangle unless overflow is overridden (D7) [pattern-tiles#overflow-hidden]
+- [x] svg2/pservers.md#PatternNotes: if a viewBox is given, the pattern's content coordinate system is fit into the x/y/width/height/patternUnits region using the standard viewBox and preserveAspectRatio rules; otherwise the content coordinate system simply originates at (x, y) [pattern-tiles#view-box pattern-program-reuse#reflected pattern-program-reuse#tile-scale pattern-program-reuse#template-viewbox]
+- [x] svg2/pservers.md#PatternNotes: the UA style sheet sets overflow:hidden on pattern elements, clipping any content outside the pattern tile rectangle unless overflow is overridden (D7) [pattern-tiles#overflow-hidden pattern-program-reuse#minimum-tile]
 
 ## Pattern href validity and dimension errors: pattern-tiles, pattern-templates
 

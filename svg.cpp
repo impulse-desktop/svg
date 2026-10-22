@@ -2259,6 +2259,28 @@ namespace {
     // height pixels; the document itself is docWidth by docHeight.
     struct Context3D;
 
+    // The inputs of a pattern's tile program. Placement and paint opacity
+    // belong to each paint, outside this program. A binding identifies one
+    // use, marker or image context, whose style maps and context paints may
+    // otherwise have the same addresses on separate calls.
+    struct PatternProgramKey {
+        // Separate arrays let comparison and hashing omit struct padding.
+        const void* objects[7];
+        u64 state[2];
+        float values[30];
+        u32 counts[6];
+    };
+
+    struct PatternProgram {
+        PatternProgramKey key;
+        u64 hash;
+        Node** active;
+        u32 activeCount;
+        u32 first;
+        u32 count;
+        u32 next;
+    };
+
     struct Lowering: Pass {
         Vector<Op> ops;
         Vector<Op> programs;
@@ -2300,6 +2322,10 @@ namespace {
         // How deep in patterns' content the lowering is: that content is
         // drawn again for each piece of a tile.
         u32 patternDepth;
+        u64 bindingScope = 0;
+        u64 nextBindingScope = 0;
+        Vector<PatternProgram> patternPrograms;
+        Vector<u32> patternBuckets;
         mutable HeldPaints held;
     };
 
@@ -15680,6 +15706,84 @@ namespace {
         return multiply(multiply(translation(box.x0 + o.x, box.y0 + o.y), m), translation(-box.x0 - o.x, -box.y0 - o.y));
     }
 
+    static PatternProgramKey patternProgramKey(const Lowering& l, Node* pattern, Node* content, const Matrix& matrix, const Matrix& host, Viewport vp, float w, float h, u32 tw, u32 th) {
+        return PatternProgramKey{
+            {l.doc, pattern, content, l.flattened, l.sized, l.marker, l.instance},
+            {l.bindingScope, (u64)l.broken.length()},
+            {matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f, host.a, host.b, host.c, host.d, host.e, host.f, l.screen.a, l.screen.b, l.screen.c, l.screen.d, l.screen.e, l.screen.f, vp.width, vp.height, vp.screenWidth, vp.screenHeight, vp.rootFontSize, w, h, l.docWidth, l.docHeight, l.rootFontSize, l.sizedWidth, l.sizedHeight},
+            {tw, th, l.depth, l.patternDepth, l.imageDepth, (u32)l.hasContext | (u32)l.backgroundInputs << 1},
+        };
+    }
+
+    static bool samePatternProgramKey(const PatternProgramKey& a, const PatternProgramKey& b) {
+        return memcmp(a.objects, b.objects, sizeof(a.objects)) == 0 && memcmp(a.state, b.state, sizeof(a.state)) == 0 && memcmp(a.values, b.values, sizeof(a.values)) == 0 && memcmp(a.counts, b.counts, sizeof(a.counts)) == 0;
+    }
+
+    static u64 patternProgramHash(const PatternProgramKey& key, const Vector<Node*>& active) {
+        u64 hash = shash64(key.objects, sizeof(key.objects));
+
+        hash = splitMix64(hash ^ shash64(key.state, sizeof(key.state)));
+        hash = splitMix64(hash ^ shash64(key.values, sizeof(key.values)));
+        hash = splitMix64(hash ^ shash64(key.counts, sizeof(key.counts)));
+
+        for (Node* node : active) {
+            hash = splitMix64(hash ^ (u64)(uintptr_t)node);
+        }
+
+        return hash;
+    }
+
+    static const PatternProgram* findPatternProgram(const Lowering& l, const PatternProgramKey& key, u64 hash) {
+        if (l.patternBuckets.empty()) {
+            return nullptr;
+        }
+
+        u32 at = l.patternBuckets[hash & (l.patternBuckets.length() - 1)];
+
+        while (at) {
+            const PatternProgram& entry = l.patternPrograms[at - 1];
+
+            // A cycle is decided in the active reference chain, not merely
+            // by the pattern's ID. Different chains are separate programs.
+            if (entry.hash == hash && samePatternProgramKey(entry.key, key) && entry.activeCount == l.active.length() && (!entry.activeCount || memcmp(entry.active, l.active.data(), entry.activeCount * sizeof(Node*)) == 0)) {
+                return &entry;
+            }
+
+            at = entry.next;
+        }
+
+        return nullptr;
+    }
+
+    static void rememberPatternProgram(Lowering& l, const PatternProgramKey& key, u64 hash, u32 first, u32 count) {
+        if (l.patternPrograms.length() * 2 >= l.patternBuckets.length()) {
+            size_t size = l.patternBuckets.empty() ? 64 : l.patternBuckets.length() * 2;
+
+            l.patternBuckets.zero(size);
+
+            for (size_t i = 0; i < l.patternPrograms.length(); i++) {
+                PatternProgram& entry = l.patternPrograms.mut(i);
+                size_t bucket = entry.hash & (size - 1);
+
+                entry.next = l.patternBuckets[bucket];
+                l.patternBuckets.mut(bucket) = (u32)i + 1;
+            }
+        }
+
+        u32 activeCount = (u32)l.active.length();
+        Node** active = activeCount ? (Node**)l.pool->allocate(activeCount * sizeof(Node*)) : nullptr;
+
+        if (activeCount) {
+            memcpy(active, l.active.data(), activeCount * sizeof(Node*));
+        }
+
+        size_t bucket = hash & (l.patternBuckets.length() - 1);
+        PatternProgram entry{key, hash, active, activeCount, first, count, l.patternBuckets[bucket]};
+
+        l.patternPrograms.pushBack(entry);
+        l.patternBuckets.mut(bucket) = (u32)l.patternPrograms.length();
+    }
+
     static DevicePaint* patternPaint(Lowering& l, Node* pattern, float opacity, Box bbox, const Matrix& ctm, Viewport vp) {
         const Document& doc = *l.doc;
 
@@ -15766,22 +15870,38 @@ namespace {
             return nullptr;
         }
 
-        Vector<Op> program;
-        Vector<Op>* saved = l.out;
         // Content taken from a template inherits from the template, where
         // it is in the document, as every renderer and Inkscape's stock
         // patterns have it (D44).
         const ComputedStyle& contentStyle = documentStyle(l, content, vp);
-
-        Matrix outerHost = l.host;
+        Matrix matrix = multiply(scaling(tw / w, th / h), inner);
         Matrix screenInverse;
+        Matrix host = invert(l.screen, screenInverse) ? multiply(matrix, screenInverse) : identity();
+        PatternProgramKey key = patternProgramKey(l, pattern, content, matrix, host, vp, w, h, paint->imageWidth, paint->imageHeight);
+        u64 hash = patternProgramHash(key, l.active);
+        // A live 3D context collects planes outside the command vector;
+        // such a lowering is not a standalone tile program.
+        bool share = l.context3d == nullptr;
+
+        if (share) {
+            if (const PatternProgram* known = findPatternProgram(l, key, hash)) {
+                paint->programFirst = known->first;
+                paint->programCount = known->count;
+
+                return paint;
+            }
+        }
+
+        Vector<Op> program;
+        Vector<Op>* saved = l.out;
+        Matrix outerHost = l.host;
 
         u32 outerWidth = l.width;
         u32 outerHeight = l.height;
 
         l.out = &program;
         l.active.pushBack(pattern);
-        l.host = invert(l.screen, screenInverse) ? multiply(multiply(scaling(tw / w, th / h), inner), screenInverse) : identity();
+        l.host = host;
         l.width = paint->imageWidth;
         l.height = paint->imageHeight;
         l.patternDepth++;
@@ -15801,7 +15921,7 @@ namespace {
             l.out->pushBack(op);
         }
 
-        lowerChildren(l, content, contentStyle, multiply(scaling(tw / w, th / h), inner), vp);
+        lowerChildren(l, content, contentStyle, matrix, vp);
 
         if (cutting) {
             endGroup(l, cutIndex);
@@ -15816,6 +15936,14 @@ namespace {
         paint->programFirst = (u32)l.programs.length();
         paint->programCount = (u32)program.length();
         l.programs.append(program.data(), program.length());
+
+        PatternProgramKey after = patternProgramKey(l, pattern, content, matrix, host, vp, w, h, paint->imageWidth, paint->imageHeight);
+
+        // Never publish a partial program, or one that changed semantic
+        // state such as the set of circular references or background inputs.
+        if (share && !l.context3d && l.work && doc.substitutionBudget && samePatternProgramKey(key, after)) {
+            rememberPatternProgram(l, key, hash, paint->programFirst, paint->programCount);
+        }
 
         return paint;
     }
@@ -19350,6 +19478,8 @@ namespace {
             l.out->pushBack(op);
         }
 
+        u64 outerBinding = l.bindingScope;
+        l.bindingScope = ++l.nextBindingScope;
         bool hadContext = l.hasContext;
         PaintValue outerFill = l.contextFill;
         PaintValue outerStroke = l.contextStroke;
@@ -19371,6 +19501,7 @@ namespace {
         l.hasContext = hadContext;
         l.contextFill = outerFill;
         l.contextStroke = outerStroke;
+        l.bindingScope = outerBinding;
 
         if (clip) {
             endGroup(l, clipIndex);
@@ -19903,6 +20034,8 @@ namespace {
         float fs = style.fontSize;
         const Matrix& placed = m;
 
+        u64 outerBinding = l.bindingScope;
+        l.bindingScope = ++l.nextBindingScope;
         bool hadContext = l.hasContext;
         PaintValue outerFill = l.contextFill;
         PaintValue outerStroke = l.contextStroke;
@@ -19959,6 +20092,7 @@ namespace {
         l.contextWidth = outerWidth;
         l.contextHeight = outerHeight;
         l.instance = outerInstance;
+        l.bindingScope = outerBinding;
     }
 
     static int base64Value(u8 c) {
@@ -20611,6 +20745,8 @@ namespace {
         op.clipCount = 1;
         addRectClip(l, m, x, y, w, h);
 
+        u64 outerBinding = l.bindingScope;
+        l.bindingScope = ++l.nextBindingScope;
         Document* outer = l.doc;
         Document* nested = source.nested;
         Vector<ComputedStyle*> outerStyles;
@@ -20676,6 +20812,7 @@ namespace {
         l.instanceMaps.xchg(outerMaps);
         l.instance = outerInstance;
         endGroup(l, imageIndex);
+        l.bindingScope = outerBinding;
     }
 
     // Where an image goes in its user space: its x, y, width and height, a

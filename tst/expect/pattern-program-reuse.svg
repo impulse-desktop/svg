@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64">
+<!-- What tst/unit/pattern-program-reuse.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="opacity" data-box="0 0 32 16"><g transform="translate(2 2)"><rect x="0" y="0" width="4" height="4" fill="lime" fill-opacity="0.25"/><rect x="8" y="0" width="4" height="4" fill="lime" fill-opacity="0.75"/></g></g>
+<g id="reflected" data-box="32 0 32 16"><g transform="translate(34 2)"><rect x="0" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="4" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="14" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="18" y="0" width="2" height="4" fill="lime" fill-opacity="1"/></g></g>
+<g id="tile-scale" data-box="64 0 32 16"><g transform="translate(66 2)"><rect x="0" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="4" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="12" y="0" width="4" height="4" fill="lime" fill-opacity="1"/><rect x="20" y="0" width="4" height="4" fill="lime" fill-opacity="1"/></g></g>
+<g id="template-viewbox" data-box="96 0 32 16"><g transform="translate(98 2)"><rect x="0" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="4" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="12" y="0" width="1" height="4" fill="lime" fill-opacity="1"/><rect x="16" y="0" width="1" height="4" fill="lime" fill-opacity="1"/></g></g>
+<g id="content-box" data-box="0 16 32 16"><g transform="translate(2 18)"><rect x="0" y="0" width="2" height="4" fill="lime" fill-opacity="1"/><rect x="12" y="0" width="3" height="4" fill="lime" fill-opacity="1"/><rect x="16" y="0" width="2" height="4" fill="lime" fill-opacity="1"/></g></g>
+<g id="use-fill" data-box="32 16 32 16"><g transform="translate(34 18)"><rect x="0" y="0" width="4" height="4" fill="lime" fill-opacity="1"/><rect x="8" y="0" width="4" height="4" fill="blue" fill-opacity="1"/></g></g>
+<g id="use-stroke" data-box="64 16 32 16"><g transform="translate(66 18)"><rect x="0" y="0" width="4" height="4" fill="lime" fill-opacity="1"/><rect x="8" y="0" width="4" height="4" fill="blue" fill-opacity="1"/></g></g>
+<g id="marker-fill" data-box="96 16 32 16"><g transform="translate(98 18)"><rect x="0" y="0" width="8" height="4" fill="lime" fill-opacity="1"/><rect x="12" y="0" width="8" height="4" fill="blue" fill-opacity="1"/></g></g>
+<g id="marker-stroke" data-box="0 32 32 16"><g transform="translate(2 34)"><rect x="0" y="0" width="8" height="4" fill="lime" fill-opacity="1"/><rect x="12" y="0" width="8" height="4" fill="blue" fill-opacity="1"/></g></g>
+<g id="empty-fallback" data-box="32 32 32 16"><g transform="translate(34 34)"><rect x="0" y="0" width="4" height="4" fill="lime" fill-opacity="1"/></g></g>
+<g id="cycle-fallback" data-box="64 32 32 16"><g transform="translate(66 34)"><rect x="0" y="0" width="4" height="4" fill="lime" fill-opacity="1"/></g></g>
+<g id="minimum-tile" data-box="96 32 32 16"><g transform="translate(98 34)"><rect x="0" y="0" width="1" height="1" fill="rgb(110,152,131)" fill-opacity="0.5774703880140353"/></g></g>
+<g id="branching-late-fill" data-box="0 48 32 16"><g transform="translate(2 50)"><rect x="0" y="0" width="8" height="8" fill="lime" fill-opacity="1"/></g></g>
+</svg>
