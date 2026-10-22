@@ -72,5 +72,25 @@ y = rows(unit, 2, [
     ("smooth", [(10, 5, 'image-rendering="auto"', None), (10, 5, 'image-rendering="high-quality"', None), (10, 5, 'style="image-rendering: smooth"', None)]),
     ("inherited", [(10, 5, '<g image-rendering="crisp-edges">', png(nearest(10, 5))), (7, 8, '<g style="image-rendering: crisp-edges">', png(nearest(7, 8)))]),
 ], 5, 14, 18, item, tolerances={"pixelated": 32})
-unit.height = y + 1
+
+# Shrinking and unequal axis scales still preserve the source palette for
+# crisp-edges and its optimizeSpeed alias. Expected samples use pixel
+# centers in the untransformed source, independently of the renderer.
+y = rows(unit, y + 2, [
+    ("crisp-down", [(3, 2, 'image-rendering="crisp-edges"', png(nearest(3, 2))),
+                    (7, 2, 'image-rendering="crisp-edges"', png(nearest(7, 2))),
+                    (2, 5, 'style="image-rendering: crisp-edges"', png(nearest(2, 5)))]),
+    ("legacy-down", [(3, 2, 'image-rendering="optimizeSpeed"', png(nearest(3, 2))),
+                     (7, 2, 'style="image-rendering: optimizeSpeed"', png(nearest(7, 2))),
+                     (2, 5, 'image-rendering="optimizeSpeed"', png(nearest(2, 5)))]),
+], 5, 14, 18, item)
+test, expected = [], []
+for x, mode in [(2, "crisp-edges"), (16, "optimizeSpeed")]:
+    test.append(f'<g transform="translate({x} {y + 2})">'
+                '<image width="4" height="3" transform="scale(.75 .6666666666666667)" '
+                f'image-rendering="{mode}" href="{IMAGE}"/></g>')
+    expected.append(f'<image x="{x}" y="{y + 2}" width="3" height="2" '
+                    f'image-rendering="pixelated" href="{png(nearest(3, 2))}"/>')
+unit.cell("transform-down", (2, y + 1, 28, 10), ''.join(test), ''.join(expected))
+unit.height = y + 12
 unit.write()
