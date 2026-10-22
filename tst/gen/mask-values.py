@@ -24,4 +24,10 @@ expect("mask-values", [
     ("inherit", (37, 41, 9, 10), rect(38, 42, 7, 8)),
     ("not-rendered", (46, 41, 9, 10), rect(47, 42, 7, 8)),
     ("negative-width", (55, 41, 9, 10), ""),
+    ("zero-width-box", (2, 54, 18, 12), rect(7, 56, 6, 8)),
+    ("use-zero-height", (22, 54, 18, 12), rect(24, 57, 12, 4)),
+    ("use-transformed-zero-height", (42, 54, 18, 12), rect(44, 59, 12, 4)),
+    ("content-zero-width", (2, 68, 18, 12), rect(7, 70, 6, 8)),
+    ("positive-group-height", (22, 68, 18, 12), rect(24, 70, 12, 2, "#bfffbf") + rect(24, 76, 12, 2, "#bfffbf")),
+    ("user-space-zero-height", (42, 68, 18, 12), rect(44, 71, 12, 4, "#bfffbf")),
 ])

@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="52">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="82">
 <!-- What tst/unit/mask-values.svg draws, drawn plainly; each cell's id
 is what the statement ledgers link to. -->
-<rect width="64" height="52" fill="white"/>
+<rect width="64" height="82" fill="white"/>
 <defs>
 <mask id="g"><rect width="64" height="40" fill="lime"/></mask>
 <mask id="s"><rect width="64" height="40" fill="#808080"/></mask>
@@ -14,6 +14,11 @@ is what the statement ledgers link to. -->
 <g fill="white"><mask id="mi"><rect width="64" height="52"/></mask></g>
 <g display="none"><mask id="mo" opacity=".2" display="none" style="filter: blur(2px)"><rect width="64" height="52" fill="white"/></mask></g>
 <mask id="mn" width="-1"><rect width="64" height="52" fill="white"/></mask>
+<mask id="quarter" x="-100%" y="-100%" width="300%" height="300%"><rect x="-100" y="-100" width="300" height="300" fill="white" fill-opacity=".25"/></mask>
+<mask id="quarter-user" maskUnits="userSpaceOnUse" x="-100" y="-100" width="300" height="300"><rect x="-100" y="-100" width="300" height="300" fill="white" fill-opacity=".25"/></mask>
+<mask id="quarter-content" maskUnits="userSpaceOnUse" maskContentUnits="objectBoundingBox" x="-100" y="-100" width="300" height="300"><rect width="1" height="1" fill="white" fill-opacity=".25"/></mask>
+<g id="horizontal-group"><path d="M 2 5 L 14 5" fill="none" stroke="lime" stroke-width="4"/></g>
+<g id="transformed-horizontal-group"><path d="M 0 2 L 6 2" transform="matrix(2 0 0 3 2 1)" fill="none" stroke="lime" stroke-width="1.3333333333333333"/></g>
 </defs>
 <g id="luminance" data-box="1 1 30 10"><rect x="2" y="2" width="8" height="8" fill="#49ff49"/><rect x="12" y="2" width="8" height="8" fill="#7fff7f"/><rect x="22" y="2" width="8" height="8" fill="#c8ffc8"/></g>
 <g id="mask-type" data-box="31 1 10 10"><rect x="32" y="2" width="8" height="8" fill="lime"/></g>
@@ -31,6 +36,12 @@ is what the statement ledgers link to. -->
 <g id="inherit" data-box="37 41 9 10"><rect x="38" y="42" width="7" height="8" fill="lime"/></g>
 <g id="not-rendered" data-box="46 41 9 10"><rect x="47" y="42" width="7" height="8" fill="lime"/></g>
 <g id="negative-width" data-box="55 41 9 10"></g>
+<g id="zero-width-box" data-box="2 54 18 12"><rect x="7" y="56" width="6" height="8" fill="lime"/></g>
+<g id="use-zero-height" data-box="22 54 18 12"><rect x="24" y="57" width="12" height="4" fill="lime"/></g>
+<g id="use-transformed-zero-height" data-box="42 54 18 12"><rect x="44" y="59" width="12" height="4" fill="lime"/></g>
+<g id="content-zero-width" data-box="2 68 18 12"><rect x="7" y="70" width="6" height="8" fill="lime"/></g>
+<g id="positive-group-height" data-box="22 68 18 12"><rect x="24" y="70" width="12" height="2" fill="#bfffbf"/><rect x="24" y="76" width="12" height="2" fill="#bfffbf"/></g>
+<g id="user-space-zero-height" data-box="42 68 18 12"><rect x="44" y="71" width="12" height="4" fill="#bfffbf"/></g>
 <rect x="0" y="13" width="24" height="12" fill="none" stroke="black" stroke-width=".25"/>
 <rect x="54" y="28" width="8" height="8" fill="none" stroke="black" stroke-width=".25"/>
 </svg>
