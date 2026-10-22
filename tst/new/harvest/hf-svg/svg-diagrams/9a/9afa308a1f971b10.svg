@@ -1,0 +1,8 @@
+<svg id="n37" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="702.4" height="130.0">  <defs>
+    <filter id="shadow1" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="3" dy="3" />
+      <feColorMatrix result="matrixOut" in="offOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0" />
+      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="2" />
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+  </defs><g id="n38"><rect id="Subscription" x="0.0" y="0.0" rx="4" ry="4" width="189.20000000000002" height="120.0" filter="url(#shadow1)" style="fill:#fff9ec;stroke:black;stroke-width:1"/><line id="n39" x1="0.0" y1="28.0" x2="189.20000000000002" y2="28.0" style="stroke:dimgrey;stroke-width:1"/></g><g id="n82"><rect id="Subscription.channel" x="300.0" y="10.0" rx="4" ry="4" width="202.4" height="92.0" filter="url(#shadow1)" style="fill:#fff9ec;stroke:black;stroke-width:1"/><line id="n83" x1="300.0" y1="38.0" x2="502.4" y2="38.0" style="stroke:dimgrey;stroke-width:1"/></g><line id="n117" x1="189.20000000000002" y1="58.76581865622963" x2="300.0" y2="57.32028701891716" style="stroke:navy;stroke-width:1"/><polygon id="n118" points="189.20000000000002,58.76581865622963 195.20000000000002,62.76581865622963 201.20000000000002,58.76581865622963 195.20000000000002,54.76581865622963 189.20000000000002,58.76581865622963" style="fill:navy;stroke:navy;stroke-width:1" transform="rotate(-0.7474563489074783 189.20000000000002 58.76581865622963)"/><rect id="n119" x="229.0" y="51.0" width="30.0" height="18.0" style="fill:white;stroke:black;stroke-width:0"/></svg>

@@ -1,0 +1,108 @@
+<svg width="980pt" height="66pt"
+ viewBox="0.00 0.00 980.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>calc_timeout</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-62 976,-62 976,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node1</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 72,-38.5 72,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node2</title>
+<g id="a_node2"><a xlink:href="net_8h.html#a6c0e56cd7bd35cb0961c3baf85e98eaf" target="_top" xlink:title="Sends a confirmed CoAP message to given destination. ">
+<polygon fill="white" stroke="black" points="108,-19.5 108,-38.5 220,-38.5 220,-19.5 108,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node1&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M82.2885,-29C90.5585,-29 99.2717,-29 107.792,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="82.0981,-25.5001 72.098,-29 82.098,-32.5001 82.0981,-25.5001"/>
+</g>
+
+<g id="node3" class="node"><title>Node3</title>
+<g id="a_node3"><a xlink:href="net_8h.html#ac09b38583adc73fd96e33e9c61eac39f" target="_top" xlink:title="Returns a new message id and updates context&#45;&gt;message_id accordingly. ">
+<polygon fill="white" stroke="black" points="256,-38.5 256,-57.5 375,-57.5 375,-38.5 256,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node2&#45;&gt;Node3</title>
+<path fill="none" stroke="midnightblue" d="M230.202,-37.2866C238.776,-38.3762 247.52,-39.4875 255.973,-40.5618"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="230.605,-33.8097 220.244,-36.0209 229.722,-40.7538 230.605,-33.8097"/>
+</g>
+
+<g id="node4" class="node"><title>Node4</title>
+<g id="a_node4"><a xlink:href="resource_8c.html#ae1a91e254baca4f43b7896f54a8d9944" target="_top" xlink:title="coap_notify_observers">
+<polygon fill="white" stroke="black" points="411,-19.5 411,-38.5 526,-38.5 526,-19.5 411,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node2&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M230.255,-29C284.082,-29 359.669,-29 410.952,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="230.131,-25.5001 220.131,-29 230.131,-32.5001 230.131,-25.5001"/>
+</g>
+
+<g id="edge3" class="edge"><title>Node3&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M385.477,-39.3208C393.877,-38.2639 402.385,-37.1933 410.581,-36.1619"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="384.798,-35.8786 375.313,-40.5997 385.672,-42.8238 384.798,-35.8786"/>
+</g>
+
+<g id="node5" class="node"><title>Node5</title>
+<g id="a_node5"><a xlink:href="resource_8h.html#a579bcb559463d3a872831c18d8d9a1c1" target="_top" xlink:title="Checks for all known resources, if they are dirty and notifies subscribed observers. ">
+<polygon fill="white" stroke="black" points="562,-19.5 562,-38.5 660,-38.5 660,-19.5 562,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M536.51,-29C544.982,-29 553.516,-29 561.619,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="536.242,-25.5001 526.242,-29 536.242,-32.5001 536.242,-25.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node6</title>
+<g id="a_node6"><a xlink:href="net_8h.html#a231e9a81ac7c03c3e5c251824a76d7b9" target="_top" xlink:title="Returns 1 if there are no messages to send or to dispatch in the context&#39;s queues. ">
+<polygon fill="white" stroke="black" points="712,-38.5 712,-57.5 792,-57.5 792,-38.5 712,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M670.234,-36.96C684.175,-38.8656 698.738,-40.8562 711.597,-42.6139"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="670.607,-33.4786 660.225,-35.592 669.659,-40.4141 670.607,-33.4786"/>
+</g>
+
+<g id="node8" class="node"><title>Node8</title>
+<g id="a_node8"><a xlink:href="resource_8h.html#a8f78ecf70cfbe5a69677bf3b97f0b776" target="_top" xlink:title="Registers the specified handler as message handler for the request type method. ">
+<polygon fill="white" stroke="black" points="696,-0.5 696,-19.5 808,-19.5 808,-0.5 696,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node5&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M670.332,-21.0265C678.737,-19.8776 687.366,-18.6982 695.709,-17.5577"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="669.659,-17.5859 660.225,-22.408 670.607,-24.5214 669.659,-17.5859"/>
+</g>
+
+<g id="node7" class="node"><title>Node7</title>
+<g id="a_node7"><a xlink:href="net_8h.html#ac58be1c374afa04d10810aef1d073315" target="_top" xlink:title="Removes the transaction identified by id from given queue. ">
+<polygon fill="white" stroke="black" points="844,-38.5 844,-57.5 972,-57.5 972,-38.5 844,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node6&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M802.519,-48C815.687,-48 830.089,-48 843.876,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="802.259,-44.5001 792.259,-48 802.259,-51.5001 802.259,-44.5001"/>
+</g>
+</g>
+</svg>

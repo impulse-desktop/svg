@@ -1,0 +1,329 @@
+﻿<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="600px" width="800px" version="1.1" preserveAspectRatio="none" viewBox="0 0 800 600">
+<title>Laos Population Pyramid for 2017</title>
+<desc>Translations are included for Albanian, Arabic, Basque, Bulgarian, Catalan, Chinese, Croatian, Czech, Dutch, English, Finnish, French, Galician, Georgian, German, Hebrew, Italian, Japanese, Korean, Lithuanian, Macedonian, Mongolian, Norwegian, Polish, Portuguese, Russian, Slovenian, Spanish, Swedish, Ukranian, and Vietnamese. Other languages can easily be added.</desc>
+<!-- background -->
+<rect width="100%" fill="#fff" height="100%"/>
+<!--
+     ORDER OF TRANSFORMATIONS:
+     (1)     Shift origin from (x, y) to (0, 0) (e.g., from [2004, 0] to [0, 0])
+     (2)     Scale as appropriate
+     (3)     Shift back to viewport's origin
+     (4)     Shift away from edge as desired
+     In working out your calculations, opt for a number that divides nicely into 100s (e.g., 1, 2, 2.5, 5, 10, 20, 25, etc.)
+     CALCULATIONS:
+     Horizontal     =     Width/Range
+                    =     800/ 2015-1995
+                    ~      40
+     Vertical     =     [-1 * Height]/Range
+                    =     -400 / (13 - 6)
+                    ~     -60
+     Population values are in ten thousands (1000s divided by 10) -->
+
+<g font-family="Verdana, Tahoma, sans-serif" transform="translate(25 -35)" text-anchor="middle">
+<!-- Border -->
+          <path style="fill:#f4f4f4; stroke:grey; stroke-width:1" d="
+          m -10 40 h 775 v 590 h -775 v -590"/>
+
+<!-- The lines in the graph are scaled significantly. Make sure the stroke width is set appropriately. -->
+<!-- The ratio between the x/y scaling needs to be between 0.25 and 2.5. If not, multiply or divide the values by 10 until it is. -->
+
+     <g stroke="#333" transform="translate(94 420) scale(7.5 -22) translate(4)">
+
+<!-- Male -->
+      <g transform="translate(28 -7) scale(-1 1)" stroke-width="0.05">
+          <path style="fill:lightgrey; stroke-width:0.03;" d="
+          m 0 1 h 40 v 21 h -40 v -21"/>
+          <path d="m 0 1 v -0.6"/>
+          <path d="m 5 1 v -0.3"/>
+          <path d="m 10 1 v -0.6"/>
+          <path d="m 15 1 v -0.3"/>
+          <path d="m 20 1 v -0.6"/>
+          <path d="m 25 1 v -0.3"/>
+          <path d="m 30 1 v -0.6"/>
+          <path d="m 35 1 v -0.3"/>
+          <path d="m 40 1 v -0.6"/>
+
+          <g style="fill:lightblue; stroke:black;" stroke-width="0.03">
+               <path d="m 0 1 h 38.9596 v 1 h -38.9596 v -1"/>
+               <path d="m 0 2 h 39.0468 v 1 h -39.0468 v -1"/>
+               <path d="m 0 3 h 37.0445 v 1 h -37.0445 v -1"/>
+               <path d="m 0 4 h 35.7944 v 1 h -35.7944 v -1"/>
+               <path d="m 0 5 h 35.4471 v 1 h -35.4471 v -1"/>
+               <path d="m 0 6 h 32.2451 v 1 h -32.2451 v -1"/>
+               <path d="m 0 7 h 26.9245 v 1 h -26.9245 v -1"/>
+               <path d="m 0 8 h 21.7884 v 1 h -21.7884 v -1"/>
+               <path d="m 0 9 h 17.9743 v 1 h -17.9743 v -1"/>
+               <path d="m 0 10 h 14.9732 v 1 h -14.9732 v -1"/>
+               <path d="m 0 11 h 12.3864 v 1 h -12.3864 v -1"/>
+               <path d="m 0 12 h 9.8527 v 1 h -9.8527 v -1"/>
+               <path d="m 0 13 h 7.5445 v 1 h -7.5445 v -1"/>
+               <path d="m 0 14 h 5.1519 v 1 h -5.1519 v -1"/>
+               <path d="m 0 15 h 3.2809 v 1 h -3.2809 v -1"/>
+               <path d="m 0 16 h 2.0947 v 1 h -2.0947 v -1"/>
+               <path d="m 0 17 h 1.0864 v 1 h -1.0864 v -1"/>
+               <path d="m 0 18 h 0.3943 v 1 h -0.3943 v -1"/>
+               <path d="m 0 19 h 0.0913 v 1 h -0.0913 v -1"/>
+               <path d="m 0 20 h 0.0118 v 1 h -0.0118 v -1"/>
+               <path d="m 0 21 h 0.0004 v 1 h -0.0004 v -1"/>
+          </g>
+      </g>
+<!-- Female -->
+      <g transform="translate(39.5 -7) scale(1 1)" stroke-width="0.05">
+          <path style="fill:lightgrey; stroke-width:0.03;" d="
+          m 0 1 h 40 v 21 h -40 v -21"/>
+          <path d="m 0 1 v -0.6"/>
+          <path d="m 5 1 v -0.3"/>
+          <path d="m 10 1 v -0.6"/>
+          <path d="m 15 1 v -0.3"/>
+          <path d="m 20 1 v -0.6"/>
+          <path d="m 25 1 v -0.3"/>
+          <path d="m 30 1 v -0.6"/>
+          <path d="m 35 1 v -0.3"/>
+          <path d="m 40 1 v -0.6"/>
+
+          <g transform="translate(0 0)" style="fill:pink; stroke:black;" stroke-width="0.03">
+               <path d="m 0 1 h 37.3824 v 1 h -37.3824 v -1"/>
+               <path d="m 0 2 h 37.4443 v 1 h -37.4443 v -1"/>
+               <path d="m 0 3 h 35.6520 v 1 h -35.6520 v -1"/>
+               <path d="m 0 4 h 34.7255 v 1 h -34.7255 v -1"/>
+               <path d="m 0 5 h 34.6739 v 1 h -34.6739 v -1"/>
+               <path d="m 0 6 h 31.7091 v 1 h -31.7091 v -1"/>
+               <path d="m 0 7 h 26.9073 v 1 h -26.9073 v -1"/>
+               <path d="m 0 8 h 22.5208 v 1 h -22.5208 v -1"/>
+               <path d="m 0 9 h 19.1327 v 1 h -19.1327 v -1"/>
+               <path d="m 0 10 h 16.0059 v 1 h -16.0059 v -1"/>
+               <path d="m 0 11 h 13.1889 v 1 h -13.1889 v -1"/>
+               <path d="m 0 12 h 10.6087 v 1 h -10.6087 v -1"/>
+               <path d="m 0 13 h 8.2499 v 1 h -8.2499 v -1"/>
+               <path d="m 0 14 h 6.1661 v 1 h -6.1661 v -1"/>
+               <path d="m 0 15 h 4.2722 v 1 h -4.2722 v -1"/>
+               <path d="m 0 16 h 2.7629 v 1 h -2.7629 v -1"/>
+               <path d="m 0 17 h 1.5160 v 1 h -1.5160 v -1"/>
+               <path d="m 0 18 h 0.6130 v 1 h -0.6130 v -1"/>
+               <path d="m 0 19 h 0.1652 v 1 h -0.1652 v -1"/>
+               <path d="m 0 20 h 0.0252 v 1 h -0.0252 v -1"/>
+               <path d="m 0 21 h 0.0013 v 1 h -0.0013 v -1"/>
+          </g>
+      </g>
+
+     </g>
+<!-- Text can't be scaled or it goes strange. Its location must be calculated directly. -->
+
+<!-- Title -->
+     <g font-size="30" transform="translate(375 70)">
+     <switch>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+           
+           
+          
+          
+     </switch>
+     </g>
+<!-- Y-axis -->
+     <g font-size="24" transform="translate(360 620)">
+     <switch>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+           
+          
+          
+          
+     </switch>
+     </g>
+     <g id="age" font-size="20" text-anchor="middle" transform="translate(377 571)">
+     <switch>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+           
+          
+          
+          
+     </switch>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+     </g>
+<!-- X-axis -->
+     <g id="x_axis_numbers" font-size="24" transform="translate(0 591)">
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+     </g>
+<!-- legend -->
+          <!-- Male -->
+     <g id="legend" font-size="36" transform="translate(45 149)" text-anchor="start">
+          <switch>
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               
+              
+              
+              
+          </switch>
+     </g>
+          <!-- Female -->
+     <g id="legend" font-size="36" transform="translate(715 149)" text-anchor="end">
+           <switch>
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               
+              
+              
+              
+          </switch>
+     </g>
+
+</g>
+</svg>

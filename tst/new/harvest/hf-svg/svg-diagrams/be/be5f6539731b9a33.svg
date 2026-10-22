@@ -1,0 +1,89 @@
+<svg width="130pt" height="595pt"
+ viewBox="0.00 0.00 130.00 595.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 591)">
+<title>ClientSideSession</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-591 126,-591 126,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node1</title>
+<g id="a_node1"><a xlink:title="ClientSideSession has no server state as it stores the data in cookies.">
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-288.5 122,-288.5 122,-0.5 0,-0.5"/>
+
+<polyline fill="none" stroke="black" points="0,-269.5 122,-269.5 "/>
+
+
+
+<polyline fill="none" stroke="black" points="0,-228.5 122,-228.5 "/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="node2" class="node">
+<title>Node2</title>
+<g id="a_node2"><a xlink:href="interfacewcmf_1_1lib_1_1core_1_1_token_based_session.html" target="_top" xlink:title="A session that requires clients to send a token for authentication.">
+<polygon fill="white" stroke="black" points="3,-325.5 3,-393.5 119,-393.5 119,-325.5 3,-325.5"/>
+
+<polyline fill="none" stroke="black" points="3,-374.5 119,-374.5 "/>
+
+<polyline fill="none" stroke="black" points="3,-355.5 119,-355.5 "/>
+
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node2&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M61,-314.99C61,-306.85 61,-297.94 61,-288.61"/>
+<polygon fill="none" stroke="midnightblue" points="57.5,-315.22 61,-325.22 64.5,-315.22 57.5,-315.22"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node3</title>
+<g id="a_node3"><a xlink:href="interfacewcmf_1_1lib_1_1core_1_1_session.html" target="_top" xlink:title="Session is the interface for session implementations and defines access to session variables.">
+<polygon fill="white" stroke="black" points="13,-430.5 13,-586.5 109,-586.5 109,-430.5 13,-430.5"/>
+
+<polyline fill="none" stroke="black" points="13,-567.5 109,-567.5 "/>
+
+<polyline fill="none" stroke="black" points="13,-548.5 109,-548.5 "/>
+
+
+
+
+
+
+
+
+
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node3&#45;&gt;Node2</title>
+<path fill="none" stroke="midnightblue" d="M61,-419.94C61,-410.63 61,-401.64 61,-393.59"/>
+<polygon fill="none" stroke="midnightblue" points="57.5,-420.13 61,-430.13 64.5,-420.13 57.5,-420.13"/>
+</g>
+</g>
+</svg>

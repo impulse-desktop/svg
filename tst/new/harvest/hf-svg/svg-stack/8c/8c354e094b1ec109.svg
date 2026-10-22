@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="530" height="530" viewBox="0 0 530 530">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#177192"/>
+      <stop offset="1" stop-color="#0b344b"/>
+    </radialGradient>
+    <filter id="Ellipse_1" x="0" y="0" width="530" height="530" filterUnits="userSpaceOnUse">
+      <feOffset dy="5" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#e7e7e7"/>
+    </linearGradient>
+    <filter id="Vereinigungsmenge_1" x="100" y="64" width="330" height="366" filterUnits="userSpaceOnUse">
+      <feOffset dy="5" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Gruppe_1" data-name="Gruppe 1" transform="translate(-425 -232)">
+    <g transform="matrix(1, 0, 0, 1, 425, 232)" filter="url(#Ellipse_1)">
+      <circle id="Ellipse_1-2" data-name="Ellipse 1" cx="250" cy="250" r="250" transform="translate(15 10)" fill="url(#radial-gradient)"/>
+    </g>
+    <g id="Ellipse_3" data-name="Ellipse 3" transform="translate(450 252)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="40 30">
+      <circle cx="240" cy="240" r="240" stroke="none"/>
+      <circle cx="240" cy="240" r="239.5" fill="none"/>
+    </g>
+    <g id="Ellipse_4" data-name="Ellipse 4" transform="translate(460 262)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="60 70">
+      <circle cx="230" cy="230" r="230" stroke="none"/>
+      <circle cx="230" cy="230" r="229.5" fill="none"/>
+    </g>
+    <g id="Ellipse_5" data-name="Ellipse 5" transform="translate(470 272)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="100 100">
+      <circle cx="220" cy="220" r="220" stroke="none"/>
+      <circle cx="220" cy="220" r="219.5" fill="none"/>
+    </g>
+    <g id="Ellipse_6" data-name="Ellipse 6" transform="translate(480 282)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="10 50">
+      <circle cx="210" cy="210" r="210" stroke="none"/>
+      <circle cx="210" cy="210" r="209.5" fill="none"/>
+    </g>
+    <g id="Ellipse_7" data-name="Ellipse 7" transform="translate(490 292)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="40 50">
+      <circle cx="200" cy="200" r="200" stroke="none"/>
+      <circle cx="200" cy="200" r="199.5" fill="none"/>
+    </g>
+    <g id="Ellipse_8" data-name="Ellipse 8" transform="translate(500 302)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="65 65">
+      <circle cx="190" cy="190" r="190" stroke="none"/>
+      <circle cx="190" cy="190" r="189.5" fill="none"/>
+    </g>
+    <g id="Ellipse_9" data-name="Ellipse 9" transform="translate(510 312)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="120 120">
+      <circle cx="180" cy="180" r="180" stroke="none"/>
+      <circle cx="180" cy="180" r="179.5" fill="none"/>
+    </g>
+    <g id="Ellipse_10" data-name="Ellipse 10" transform="translate(520 322)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="20 120">
+      <circle cx="170" cy="170" r="170" stroke="none"/>
+      <circle cx="170" cy="170" r="169.5" fill="none"/>
+    </g>
+    <g id="Ellipse_11" data-name="Ellipse 11" transform="translate(530 332)" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="30 80">
+      <circle cx="160" cy="160" r="160" stroke="none"/>
+      <circle cx="160" cy="160" r="159.5" fill="none"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, 425, 232)" filter="url(#Vereinigungsmenge_1)">
+      <path id="Vereinigungsmenge_1-2" data-name="Vereinigungsmenge 1" d="M0,200A150.061,150.061,0,0,1,104.676,56.969L150,14l45.323,42.969A150.018,150.018,0,1,1,0,200Z" transform="translate(115 60)" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+</svg>

@@ -1,8 +1,0 @@
-<!DOCTYPE svg [<!ENTITY base "#caca82"><!ENTITY shade "&base;">]>
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="24">
-<!-- XML internal general entities are expanded recursively in SVG
-attributes, including paint properties inside style attributes. -->
-<rect width="64" height="24" fill="white"/>
-<rect x="4" y="4" width="20" height="16" fill="&base;"/>
-<rect x="36" y="4" width="20" height="16" style="fill:&shade;"/>
-</svg>

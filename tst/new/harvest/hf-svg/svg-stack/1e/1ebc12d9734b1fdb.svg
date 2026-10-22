@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="57.5" height="55.5" viewBox="0 0 57.5 55.5">
+  <defs>
+    <filter id="Neuo_dark_shade_" x="1.5" y="1.5" width="56" height="54" filterUnits="userSpaceOnUse">
+      <feOffset dx="2" dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Neuo_white_shade_" x="0" y="0" width="53" height="51" filterUnits="userSpaceOnUse">
+      <feOffset dx="-1" dy="-1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="0.5" result="blur-2"/>
+      <feFlood flood-color="#fff"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#a657d5"/>
+      <stop offset="1" stop-color="#7379eb"/>
+    </linearGradient>
+  </defs>
+  <g id="Groupe_78" data-name="Groupe 78" transform="translate(-615.5 -10.5)">
+    <g id="Button_round_pressed_" data-name="Button round (pressed)" transform="translate(618 13)">
+      <g id="Button_pressed_" data-name="Button (pressed)" transform="translate(0 0)">
+        <g transform="matrix(1, 0, 0, 1, -2.5, -2.5)" filter="url(#Neuo_dark_shade_)">
+          <path id="Neuo_dark_shade_2" data-name="Neuo (dark shade)" d="M26,48H24A24.006,24.006,0,0,1,14.658,1.886,23.848,23.848,0,0,1,24,0h2a24.006,24.006,0,0,1,9.342,46.114A23.849,23.849,0,0,1,26,48ZM24.214,5.143a18.857,18.857,0,1,0,0,37.715h1.572a18.857,18.857,0,1,0,0-37.715Z" transform="translate(2.5 2.5)" fill="#f5f5f5"/>
+        </g>
+        <g transform="matrix(1, 0, 0, 1, -2.5, -2.5)" filter="url(#Neuo_white_shade_)">
+          <path id="Neuo_white_shade_2" data-name="Neuo (white shade)" d="M26,48H24A24.006,24.006,0,0,1,14.658,1.886,23.848,23.848,0,0,1,24,0h2a24.006,24.006,0,0,1,9.342,46.114A23.849,23.849,0,0,1,26,48ZM24.214,5.143a18.857,18.857,0,1,0,0,37.715h1.572a18.857,18.857,0,1,0,0-37.715Z" transform="translate(2.5 2.5)" fill="#f5f5f5"/>
+        </g>
+        <rect id="Button_background" data-name="Button background" width="34" height="32" rx="16" transform="translate(8 8)" fill="#f5f5f5"/>
+      </g>
+    </g>
+    <path id="Icon_ionic-md-home" data-name="Icon ionic-md-home" d="M12,24.39V17.76H17.18v6.63h5.263V14.445h3.365L14.592,4.5,3.375,14.445H6.74V24.39Z" transform="translate(629.135 22.631)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ version="1.0" width="600" height="400">
+
+  <rect width="600" height="400" style="stroke:none;fill:#FFF;" />
+  <defs>
+    <marker id="arrowhead_red" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+      <polygon style="fill:#F00" points="0 0, 8 3.5, 0 7" />
+    </marker>
+    <marker id="arrowhead_cyan" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+      <polygon style="fill:#09F" points="0 0, 8 3.5, 0 7" />
+    </marker>
+  </defs>
+  <g style="fill:none;stroke-width:1;stroke-linecap:round;">
+    <g style="stroke:#000">
+      <path d="M25, 25l 0,350"/>
+      <path d="M75, 25l 0,350"/>
+      <path d="M125, 25l 0,350"/>
+      <path d="M175, 25l 0,350"/>
+      <path d="M225, 25l 0,350"/>
+      <path d="M275, 25l 0,350"/>
+      <path d="M325, 25l 0,350"/>
+      <path d="M375, 25l 0,350"/>
+      <path d="M425, 25l 0,350"/>
+      <path d="M475, 25l 0,350"/>
+      <path d="M525, 25l 0,350"/>
+      <path d="M575, 25l 0,350"/>
+      <path d="M25, 25l 550,0"/>
+      <path d="M25, 75l 550,0"/>
+      <path d="M25, 125l 550,0"/>
+      <path d="M25, 175l 550,0"/>
+      <path d="M25, 225l 550,0"/>
+      <path d="M25, 275l 550,0"/>
+      <path d="M25, 325l 550,0"/>
+      <path d="M25, 375l 550,0"/>
+    </g>
+    <g style="stroke:#09F" marker-end="url(#arrowhead_cyan)">
+      <path d="M25, 25l 12, 16"/>
+      <path d="M25, 75l -12, 16"/>
+      <path d="M25, 125l -16, -12"/>
+      <path d="M25, 175l 12, -16"/>
+      <path d="M25, 225l -16, 12"/>
+      <path d="M25, 275l 16, -12"/>
+      <path d="M25, 325l -12, -16"/>
+      <path d="M25, 375l 16, 12"/>
+     
+      <path d="M75, 25l -12, 16"/>
+      <path d="M75, 75l 12, 16"/>
+      <path d="M75, 125l 16, -12"/>
+      <path d="M75, 175l -12, 16"/>
+      <path d="M75, 225l 16, -12"/>
+      <path d="M75, 275l -16, -12"/>
+      <path d="M75, 325l -12, -16"/>
+      <path d="M75, 375l 16, 12"/>
+
+      <path d="M125, 25l 12, 16"/>
+      <path d="M125, 75l -12, -16"/>
+      <path d="M125, 125l 16, 12"/>
+      <path d="M125, 175l -12, -16"/>
+      <path d="M125, 225l -16, -12"/>
+      <path d="M125, 275l 16, 12"/>
+      <path d="M125, 325l -12, -16"/>
+      <path d="M125, 375l 16, 12"/>
+
+      <path d="M175, 25l 12, 16"/>
+      <path d="M175, 75l -12, 16"/>
+      <path d="M175, 125l -16, -12"/>
+      <path d="M175, 175l 12, -16"/>
+      <path d="M175, 225l 16, 12"/>
+      <path d="M175, 275l -16, -12"/>
+      <path d="M175, 325l -12, 16"/>
+      <path d="M175, 375l 16, -12"/>
+
+      <path d="M225, 25l 12, 16"/>
+      <path d="M225, 75l 12, 16"/>
+      <path d="M225, 125l -16, -12"/>
+      <path d="M225, 175l 12, -16"/>
+      <path d="M225, 225l -16, 12"/>
+      <path d="M225, 275l 16, 12"/>
+      <path d="M225, 325l -12, -16"/>
+      <path d="M225, 375l -16, -12"/>
+
+      <path d="M275, 25l 12, -16"/>
+      <path d="M275, 75l -12, 16"/>
+      <path d="M275, 125l 16, -12"/>
+      <path d="M275, 175l -12, 16"/>
+      <path d="M275, 225l -16, 12"/>
+      <path d="M275, 275l 16, -12"/>
+      <path d="M275, 325l -12, -16"/>
+      <path d="M275, 375l 16, 12"/>
+
+      <path d="M325, 25l -12, 16"/>
+      <path d="M325, 75l 12, -16"/>
+      <path d="M325, 125l 16, 12"/>
+      <path d="M325, 175l -12, 16"/>
+      <path d="M325, 225l -16, -12"/>
+      <path d="M325, 275l 16, 12"/>
+      <path d="M325, 325l -12, -16"/>
+      <path d="M325, 375l 16, -12"/>
+
+      <path d="M375, 25l 12, 16"/>
+      <path d="M375, 75l -12, 16"/>
+      <path d="M375, 125l 16, -12"/>
+      <path d="M375, 175l -12, -16"/>
+      <path d="M375, 225l 16, -12"/>
+      <path d="M375, 275l -16, 12"/>
+      <path d="M375, 325l 12, -16"/>
+      <path d="M375, 375l -16, 12"/>
+
+      <path d="M425, 25l 12, 16"/>
+      <path d="M425, 75l -12, -16"/>
+      <path d="M425, 125l -16, 12"/>
+      <path d="M425, 175l 12, -16"/>
+      <path d="M425, 225l -16, 12"/>
+      <path d="M425, 275l 16, -12"/>
+      <path d="M425, 325l 12, -16"/>
+      <path d="M425, 375l -16, 12"/>
+
+      <path d="M475, 25l 12, 16"/>
+      <path d="M475, 75l -12, -16"/>
+      <path d="M475, 125l -16, -12"/>
+      <path d="M475, 175l 12, 16"/>
+      <path d="M475, 225l -16, -12"/>
+      <path d="M475, 275l 16, -12"/>
+      <path d="M475, 325l -12, 16"/>
+      <path d="M475, 375l 16, 12"/>
+
+      <path d="M525, 25l -12, 16"/>
+      <path d="M525, 75l 12, -16"/>
+      <path d="M525, 125l -16, 12"/>
+      <path d="M525, 175l -12, -16"/>
+      <path d="M525, 225l -16, 12"/>
+      <path d="M525, 275l 16, 12"/>
+      <path d="M525, 325l 12, -16"/>
+      <path d="M525, 375l 16, -12"/>
+
+      <path d="M575, 25l 12, 16"/>
+      <path d="M575, 75l -12, 16"/>
+      <path d="M575, 125l 16, -12"/>
+      <path d="M575, 175l 12, 16"/>
+      <path d="M575, 225l -16, -12"/>
+      <path d="M575, 275l -16, -12"/>
+      <path d="M575, 325l -12, 16"/>
+      <path d="M575, 375l 16, -12"/>
+
+</g>
+    <g style="stroke:#F00" marker-end="url(#arrowhead_red)">
+      <path d="M25, 375L 575, 340"/>
+      <path d="M25, 340L 575, 305"/>
+      <path d="M25, 305L 575, 270"/>
+      <path d="M25, 270L 575, 235"/>
+      <path d="M25, 235L 575, 200"/>
+      <path d="M25, 200L 300, 182.5"/>
+    </g>
+  </g>
+</svg>

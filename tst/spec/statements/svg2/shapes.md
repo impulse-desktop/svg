@@ -19,7 +19,7 @@
 - [x] svg2/shapes.md#CircleElement: circle maps to a moveto at its 3-o'clock point followed by four clockwise quarter-circle elliptical arcs (rx=ry=r) and a segment-completing close. [marker-vertices#circle stroke-basics#circle-start]
 - [x] svg2/shapes.md#EllipseElement: ellipse maps the same way as circle, but with independent rx and ry radii. [marker-vertices#ellipse stroke-basics#ellipse-start]
 - [x] svg2/shapes.md#LineElement: line maps to an absolute moveto (x1,y1) then lineto (x2,y2); being one-dimensional, a line is never filled regardless of the fill property. [path-grammar#line-not-filled marker-vertices#line stroke-basics#line-start]
-- [x] svg2/shapes.md#PolylineElement: polyline maps to an absolute moveto at its first point followed by an absolute lineto to each subsequent point, left open (no closepath). [geometry-properties#polyline-open marker-single-polyline#single-start]
+- [x] svg2/shapes.md#PolylineElement: polyline maps to an absolute moveto at its first point followed by an absolute lineto to each subsequent point, left open (no closepath). [geometry-properties#polyline-open]
 - [x] svg2/shapes.md#PolygonElement: polygon maps the same way as polyline, but ends with a closepath, making it a closed shape. [path-grammar#points-odd marker-vertices#polygon]
 
 ## line and points attribute grammar: path-grammar, geometry-properties, shape-points (exists)

@@ -178,11 +178,6 @@ renderer reads no min- or max- property.
 for ICC colour management. The renderer draws in sRGB, as the conforming
 viewer of `#ConformingSVGViewers` does: antialiased, resampling as
 image-rendering asks, within a pixel and a component value, CTMs in doubles.
-For embedded PNGs, it uses a valid `gAMA` as the transfer-function fallback
-when it cannot use `iCCP`, as PNG 3 recommends for decoders without ICC
-support. It does not transform `cHRM` primaries, but a `cHRM` chunk does not
-suppress gamma correction. `sRGB` and `cICP` still take precedence over
-`gAMA`.
 
 ## D19. A percent: media fragment is a percent of the image's own coordinates
 
@@ -313,16 +308,6 @@ and sampling it at the period, so where the period is no whole number of
 pixels a tile's edges blur and move within a pixel of their exact place. A
 tile of a whole period, an image tiled edge to edge and a single tile are
 drawn exactly.
-
-The same one-tile sampling applies to SVG patterns. In librsvg's synthetic
-`bug515-pattern-billion-laughs.svg`, ten nested patterns eventually make a
-tile about one output pixel across. Rasterizing that tile washes out fine
-stripes that Chromium, Firefox, resvg and librsvg retain. SVG 2 specifies
-the repeated geometry but no antialiasing or subpixel tile filter. A reduced
-two-pattern, one-rectangle case does not establish a common alternative:
-Chromium produces dark green, Firefox and librsvg pale green, and resvg no
-paint. The fixture tests termination rather than a prescribed picture, so
-we retain the bounded one-tile sampling and record its image difference.
 
 ## D29. A font's metrics are the fallbacks of a font without them
 
@@ -594,7 +579,7 @@ librsvg and resvg draw the convolution so where they draw the edge on
 whole pixels; a blur's edge mode they leave out. Wrap and mirror bring
 other pixels across the edge and keep the pixels as stored.
 
-## D49. A small loop or returning fold keeps every renderer's hole
+## D49. A small loop or returning tip keeps every renderer's hole
 
 `svg2/painting.md#StrokeShape` defines the ideal stroke as the sweep of the
 subpath's normals, so a circle stroked wider than its diameter would be a
@@ -632,27 +617,7 @@ the resulting opening inside the tip, visible in Sketchy-SVG white strokes;
 the old swept fill closed it. A tight bend whose tangent does not return,
 including `stroke-tight-ends#end-tight`, still uses the ideal swept shape.
 `stroke-hairpin-tip` tests both path directions against a fixed Chromium
-drawing; resvg agrees on the opening. A nearly collinear reversal in the
-first or last cubic does not open the stroke: Chromium, resvg and librsvg
-keep the tip covered in real Sketchy-SVG paths. The two
-`stroke-hairpin-tip#no-collinear-hole` cells test both path directions;
-`stroke-hairpin-tip#shallow-return-opening` tests a shallow return whose
-first cubic does move sideways enough to leave a real opening. The first
-cubic's collinear return must not be mistaken for an internal fold either.
-
-The same inversion occurs inside a long open path, away from either cap.
-Sketchy-SVG `76743021` has a short backward run between forward strokes:
-Chromium, resvg and librsvg leave an opening in its thick stroke, while
-the ideal normal sweep and our old sector fill close it. A local window
-extending one half-width of arc length to either side of a smooth point
-keeps the inverted inner offset when the path turns back and resumes its
-heading, or rotates past a half-circle. Where that window also includes
-a later, unrelated bend, the smallest window with enough turning decides
-whether the short return folded the offset. `stroke-internal-returning-fold`
-tests both a return that resumes straight and one followed by a quarter
-turn, and checks that their outer strokes remain. The earlier
-`stroke-degenerate-internal-bend` and `stroke-folded-open#one-way-bend`
-keep the outer stroke at a single bend.
+drawing; resvg agrees on the opening.
 
 ## D50. A focal point within 1/4096 of the radius of the end circle is on it
 
@@ -706,12 +671,7 @@ ermine's tails. The renderer read the digits and failed on the point after
 them, which drew the command the number ended and nothing after, as no
 renderer does. It takes a point after a number of digits alone as that
 number's end now, and in a number with a point or an exponent still as
-the next number's start. This recovery does not consume two adjacent
-points, such as `266..59`: that may also be a mistyped `266.59`, so its
-meaning is not unambiguous. SVG 2 path error handling stops at that
-command; Chromium and Firefox do so in the harvested icon, while resvg
-and librsvg read two numbers. `path-data-commands#double-point-line` and
-`#double-point-arc` test the error boundary beside the accepted lone point.
+the next number's start.
 
 ## D54. A pass draws and measures a bounded number of elements
 
@@ -719,18 +679,13 @@ SVG sets no bound on how often a document instances its content: a group
 of two uses of the group before it, 40 deep, is 2^40 instances in 2 KB,
 and patterns and markers of patterns and markers multiply the same way.
 The renderer drew and measured them all, 22 levels taking 44 seconds.
-Each pass over an ordinary document, a drawing or a measure of its size,
-visits at most 16 384 + 32 elements per byte of its source, every instance
+Each pass over a document, a drawing or a measure of its size, now visits
+at most 16 384 + 32 elements per byte of its source, every instance
 counted, and draws or measures nothing past that; a use's box for context
-paints is measured only when a context paint asks for it. A statically
-reachable use graph projected to exceed 2^32 instances instead gets a
-4 096-element pass limit. The Gecko 50-level two-use chain otherwise takes
-over 20 seconds merely to exhaust the ordinary limit; the smaller limit
-still draws its first branch and keeps drawing and measurement consistent.
-No ordinary corpus document approaches this threshold; the largest
-projected use graph among the current corpus has about 31 000 visits.
-`use-bomb#first-square` and `measure-use-bomb#measured` cover the visible
-result and its measured box.
+paints is measured only when a context paint asks for it. The most any
+file of the corpus or of 60 000 harvested ones visits is 5.2 per byte, a
+Wikimedia map of uses; the 40-deep chain draws its first square and stops
+in a few hundredths of a second.
 
 ## D55. A Bézier that turns back inside itself has a round stroke tip
 

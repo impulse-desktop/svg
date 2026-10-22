@@ -1,0 +1,54 @@
+<svg width="152" height="152" viewBox="0 0 152 152" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="150" height="150" transform="translate(1 1)" fill="#C4C4C4" stroke="#373737"/>
+<circle cx="67.5" cy="67.5" r="67.5" transform="translate(8.5 8.5)" fill="url(#paint0_linear)"/>
+<g>
+    <path class="reflector" id="horizontal_upper" d="M5 5H105L110 0H0L5 5Z" transform="translate(21 21)" fill="#373737"/>
+    <path class="reflector" id="horizontal_lower" d="M5 5H105L110 0H0L5 5Z" transform="translate(131 131) rotate(-180)" fill="#373737"/>
+    <path class="reflector" id="vertical_upper" d="M5 5H105L110 0H0L5 5Z" transform="translate(131 21) rotate(90)" fill="#373737"/>
+    <path class="reflector" id="vertical_lower" d="M5 5H105L110 0H0L5 5Z" transform="translate(21 131) rotate(-90)" fill="#373737"/>
+</g>
+<g class="selector">
+    <path id="vertical_lower"
+      cursor="pointer"
+      onclick="top.switch_direction(this.id)"
+      d="M0.25 149.396V0.603553L74.6465 75L0.25 149.396Z"
+      transform="translate(1 1)"
+      fill="white"
+      fill-opacity="0"
+      stroke="black"
+      stroke-width="0.5"/>
+    <path id="horizontal_lower"
+      cursor="pointer"
+      onclick="top.switch_direction(this.id)"
+      d="M0.25 149.396V0.603553L74.6465 75L0.25 149.396Z"
+      transform="translate(1 151) rotate(-90)"
+      fill="white"
+      fill-opacity="0"
+      stroke="black"
+      stroke-width="0.5"/>
+    <path id="vertical_upper"
+      cursor="pointer"
+      onclick="top.switch_direction(this.id)"
+      d="M0.25 149.396V0.603553L74.6465 75L0.25 149.396Z"
+      transform="translate(151 151) rotate(-180)"
+      fill="white"
+      fill-opacity="0"
+      stroke="black"
+      stroke-width="0.5"/>
+    <path id="horizontal_upper"
+      cursor="pointer"
+      onclick="top.switch_direction(this.id)"
+      d="M0.25 149.396V0.603553L74.6465 75L0.25 149.396Z"
+      transform="translate(151 1) rotate(90)"
+      fill="white"
+      fill-opacity="0"
+      stroke="black"
+      stroke-width="0.5"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(135) scale(135) rotate(90)">
+<stop stop-color="#F2C94C"/>
+<stop offset="1" stop-color="#6FCF97"/>
+</linearGradient>
+</defs>
+</svg>

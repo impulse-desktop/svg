@@ -40,9 +40,9 @@
 ## Gradient spreadMethod: pad, reflect, repeat: gradient-spread
 
 - [x] svg2/pservers.md#LinearGradientElementSpreadMethodAttribute: spreadMethod initial value is pad [gradient-spread#linear-pad gradient-spread#radial-pad]
-- [x] svg2/pservers.md#LinearGradientElementSpreadMethodAttribute: pad fills the remainder of the target region with the gradient's terminal colors [gradient-spread#linear-pad gradient-spread#radial-pad gradient-subpixel-repeat#pad-distinct-ends]
-- [x] svg2/pservers.md#LinearGradientElementSpreadMethodAttribute: reflect continuously reflects the gradient pattern start-to-end, end-to-start, etc. until the region is filled [gradient-spread#linear-reflect gradient-subpixel-repeat#reflect-average]
-- [x] svg2/pservers.md#LinearGradientElementSpreadMethodAttribute: repeat continuously repeats the gradient pattern start-to-end until the region is filled [gradient-spread#linear-repeat gradient-subpixel-repeat#repeat-average gradient-subpixel-repeat#narrow-stop-average]
+- [x] svg2/pservers.md#LinearGradientElementSpreadMethodAttribute: pad fills the remainder of the target region with the gradient's terminal colors [gradient-spread#linear-pad gradient-spread#radial-pad]
+- [x] svg2/pservers.md#LinearGradientElementSpreadMethodAttribute: reflect continuously reflects the gradient pattern start-to-end, end-to-start, etc. until the region is filled [gradient-spread#linear-reflect]
+- [x] svg2/pservers.md#LinearGradientElementSpreadMethodAttribute: repeat continuously repeats the gradient pattern start-to-end until the region is filled [gradient-spread#linear-repeat]
 - [x] svg2/pservers.md#RadialGradientElementSpreadMethodAttribute: radialGradient's spreadMethod has the same values and meanings as linearGradient's [gradient-spread#radial-pad gradient-spread#radial-reflect gradient-spread#radial-repeat]
 
 ## Gradient href: target validity and copied attributes: gradient-templates, gradient-hrefs

@@ -1,0 +1,182 @@
+<svg width="2659pt" height="174pt"
+ viewBox="0.00 0.00 2659.00 173.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 169.8)">
+<title>dependencies</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-169.8 2655,-169.8 2655,4 -4,4"/>
+
+<g id="clust1" class="cluster">
+<title>cluster_AllenamentiModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 2643,-157.8 2643,-32.8 8,-32.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_AllenamentiModule_declarations</title>
+<polygon fill="none" stroke="black" points="318,-40.8 318,-92.8 2635,-92.8 2635,-40.8 318,-40.8"/>
+</g>
+<g id="clust14" class="cluster">
+<title>cluster_AllenamentiModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 310,-92.8 310,-40.8 16,-40.8"/>
+</g>
+
+<g id="node1" class="node">
+<title>AllenamentiComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="2627.04,-84.8 2476.96,-84.8 2476.96,-48.8 2627.04,-48.8 2627.04,-84.8"/>
+
+</g>
+
+<g id="node12" class="node">
+<title>AllenamentiModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="1381.25,-149.8 1378.25,-153.8 1357.25,-153.8 1354.25,-149.8 1252.75,-149.8 1252.75,-113.8 1381.25,-113.8 1381.25,-149.8"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>AllenamentiComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M2552,-84.89C2552,-107.93 2552,-144.8 2552,-144.8 2552,-144.8 1391.66,-144.8 1391.66,-144.8"/>
+<polygon fill="black" stroke="black" points="1391.66,-141.3 1381.66,-144.8 1391.66,-148.3 1391.66,-141.3"/>
+</g>
+
+<g id="node2" class="node">
+<title>AllenamentiLandingComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="2458.69,-84.8 2261.31,-84.8 2261.31,-48.8 2458.69,-48.8 2458.69,-84.8"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>AllenamentiLandingComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M2360,-84.84C2360,-106.46 2360,-139.8 2360,-139.8 2360,-139.8 1391.46,-139.8 1391.46,-139.8"/>
+<polygon fill="black" stroke="black" points="1391.46,-136.3 1381.46,-139.8 1391.46,-143.3 1391.46,-136.3"/>
+</g>
+
+<g id="node3" class="node">
+<title>AllenamentoAttivoComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="2243.92,-84.8 2054.08,-84.8 2054.08,-48.8 2243.92,-48.8 2243.92,-84.8"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>AllenamentoAttivoComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M2149,-85.02C2149,-105.17 2149,-134.8 2149,-134.8 2149,-134.8 1391.59,-134.8 1391.59,-134.8"/>
+<polygon fill="black" stroke="black" points="1391.59,-131.3 1381.59,-134.8 1391.59,-138.3 1391.59,-131.3"/>
+</g>
+
+<g id="node4" class="node">
+<title>AllenamentoComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="2035.65,-84.8 1882.35,-84.8 1882.35,-48.8 2035.65,-48.8 2035.65,-84.8"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>AllenamentoComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M1959,-85.02C1959,-103.63 1959,-129.8 1959,-129.8 1959,-129.8 1391.5,-129.8 1391.5,-129.8"/>
+<polygon fill="black" stroke="black" points="1391.5,-126.3 1381.5,-129.8 1391.5,-133.3 1391.5,-126.3"/>
+</g>
+
+<g id="node5" class="node">
+<title>AllenamentoLandingComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1864.3,-84.8 1663.7,-84.8 1663.7,-48.8 1864.3,-48.8 1864.3,-84.8"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>AllenamentoLandingComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M1764,-84.83C1764,-101.86 1764,-124.8 1764,-124.8 1764,-124.8 1391.52,-124.8 1391.52,-124.8"/>
+<polygon fill="black" stroke="black" points="1391.52,-121.3 1381.52,-124.8 1391.52,-128.3 1391.52,-121.3"/>
+</g>
+
+<g id="node6" class="node">
+<title>AllenamentoPreviewComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1645.52,-84.8 1446.48,-84.8 1446.48,-48.8 1645.52,-48.8 1645.52,-84.8"/>
+
+</g>
+
+<g id="edge6" class="edge">
+<title>AllenamentoPreviewComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M1546,-85.04C1546,-100.37 1546,-119.8 1546,-119.8 1546,-119.8 1391.4,-119.8 1391.4,-119.8"/>
+<polygon fill="black" stroke="black" points="1391.4,-116.3 1381.4,-119.8 1391.4,-123.3 1391.4,-116.3"/>
+</g>
+
+<g id="node7" class="node">
+<title>AllenamentoSelectAtletaComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1428.06,-84.8 1205.94,-84.8 1205.94,-48.8 1428.06,-48.8 1428.06,-84.8"/>
+
+</g>
+
+<g id="edge7" class="edge">
+<title>AllenamentoSelectAtletaComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M1317,-84.91C1317,-84.91 1317,-103.79 1317,-103.79"/>
+<polygon fill="black" stroke="black" points="1313.5,-103.79 1317,-113.79 1320.5,-103.79 1313.5,-103.79"/>
+</g>
+
+<g id="node8" class="node">
+<title>AllenamentoSelectTestComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="1187.96,-84.8 976.04,-84.8 976.04,-48.8 1187.96,-48.8 1187.96,-84.8"/>
+
+</g>
+
+<g id="edge8" class="edge">
+<title>AllenamentoSelectTestComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M1082,-85.04C1082,-100.37 1082,-119.8 1082,-119.8 1082,-119.8 1242.47,-119.8 1242.47,-119.8"/>
+<polygon fill="black" stroke="black" points="1242.47,-123.3 1252.47,-119.8 1242.47,-116.3 1242.47,-123.3"/>
+</g>
+
+<g id="node9" class="node">
+<title>BeforeAllenamentoComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="957.73,-84.8 766.27,-84.8 766.27,-48.8 957.73,-48.8 957.73,-84.8"/>
+
+</g>
+
+<g id="edge9" class="edge">
+<title>BeforeAllenamentoComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M862,-84.83C862,-101.86 862,-124.8 862,-124.8 862,-124.8 1242.29,-124.8 1242.29,-124.8"/>
+<polygon fill="black" stroke="black" points="1242.29,-128.3 1252.29,-124.8 1242.29,-121.3 1242.29,-128.3"/>
+</g>
+
+<g id="node10" class="node">
+<title>ListaAllenamentiComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="748.03,-84.8 569.97,-84.8 569.97,-48.8 748.03,-48.8 748.03,-84.8"/>
+
+</g>
+
+<g id="edge10" class="edge">
+<title>ListaAllenamentiComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M659,-85.02C659,-103.63 659,-129.8 659,-129.8 659,-129.8 1242.71,-129.8 1242.71,-129.8"/>
+<polygon fill="black" stroke="black" points="1242.71,-133.3 1252.71,-129.8 1242.71,-126.3 1242.71,-133.3"/>
+</g>
+
+<g id="node11" class="node">
+<title>ListaAllenamentiLandingComponent</title>
+<polygon fill="#ffffb3" stroke="black" points="551.69,-84.8 326.31,-84.8 326.31,-48.8 551.69,-48.8 551.69,-84.8"/>
+
+</g>
+
+<g id="edge11" class="edge">
+<title>ListaAllenamentiLandingComponent&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M439,-85.02C439,-105.17 439,-134.8 439,-134.8 439,-134.8 1242.44,-134.8 1242.44,-134.8"/>
+<polygon fill="black" stroke="black" points="1242.44,-138.3 1252.44,-134.8 1242.44,-131.3 1242.44,-138.3"/>
+</g>
+
+<g id="node13" class="node">
+<title>AllenamentiRoutingModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="301.87,-84.8 298.87,-88.8 277.87,-88.8 274.87,-84.8 128.13,-84.8 128.13,-48.8 301.87,-48.8 301.87,-84.8"/>
+
+</g>
+
+<g id="edge12" class="edge">
+<title>AllenamentiRoutingModule&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M215,-84.84C215,-106.46 215,-139.8 215,-139.8 215,-139.8 1242.58,-139.8 1242.58,-139.8"/>
+<polygon fill="black" stroke="black" points="1242.58,-143.3 1252.58,-139.8 1242.58,-136.3 1242.58,-143.3"/>
+</g>
+
+<g id="node14" class="node">
+<title>BaseModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="110.26,-84.8 107.26,-88.8 86.26,-88.8 83.26,-84.8 23.74,-84.8 23.74,-48.8 110.26,-48.8 110.26,-84.8"/>
+
+</g>
+
+<g id="edge13" class="edge">
+<title>BaseModule&#45;&gt;AllenamentiModule</title>
+<path fill="none" stroke="black" d="M67,-84.89C67,-107.93 67,-144.8 67,-144.8 67,-144.8 1242.43,-144.8 1242.43,-144.8"/>
+<polygon fill="black" stroke="black" points="1242.43,-148.3 1252.43,-144.8 1242.43,-141.3 1242.43,-148.3"/>
+</g>
+</g>
+</svg>

@@ -9,7 +9,6 @@ cases = [
     ("layer", "", "@layer a,b;@layer a{svg{background-color:lime}}@layer b{svg{background-color:rgba(1)}}", "lime"),
     ("shorthand", "background:lime;background-color:rgba(1)", "", "lime"),
     ("current", "color:lime;background-color:currentColor;background-color:rgba(1)", "", "lime"),
-    ("hashless", "background-color:lime;background-color:11ee11", "", "lime"),
     ("variable", "--c:rgba(1);background-color:lime;background-color:var(--c)", "", None),
     ("fallback", "background-color:var(--missing,lime)", "", "lime"),
 ]

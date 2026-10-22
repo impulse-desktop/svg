@@ -1,0 +1,234 @@
+<svg version="1.1" width="1500" height="3100" xmlns="http://www.w3.org/2000/svg">
+  
+  <defs>
+      <linearGradient id="greenGradient" x1="0" x2="1" y1="1" y2="0">
+        <stop class="greenEdge" offset="0%"/>
+        <stop class="greenMiddle" offset="50%"/>
+        <stop class="greenEdge" offset="100%"/>
+      </linearGradient>
+      <linearGradient id="redGradient" x1="0" x2="1" y1="1" y2="0">
+        <stop class="redEdge" offset="0%"/>
+        <stop class="redMiddle" offset="50%"/>
+        <stop class="redEdge" offset="100%"/>
+      </linearGradient>
+      <linearGradient id="blackGradient" x1="0" x2="1" y1="1" y2="0">
+        <stop class="blackEdge" offset="0%"/>
+        <stop class="blackMiddle" offset="50%"/>
+        <stop class="blackEdge" offset="100%"/>
+      </linearGradient>
+  </defs>
+  <style type="text/css" >
+      <![CDATA[
+          .greenEdge { stop-color: #0c0; }
+          .greenMiddle { stop-color: #93f346; }
+          .redEdge { stop-color: #c00; }
+          .redMiddle { stop-color: #ec5b3f; }
+          .blackEdge { stop-color: #000; }
+          .blackMiddle { stop-color: #37360b; }
+
+          .borderLine {
+            stroke: #fff;
+            stroke-width: 10;
+            opacity: 0.8;
+          }
+          .greenSpot {
+            fill: url(#greenGradient);
+            stroke: #696;
+            stroke-width: 6px;
+            stroke-opacity: 0.5;
+          }
+          .redSpot {
+            fill: url(#redGradient);
+            stroke: #ccc;
+            stroke-width: 7px;
+            stroke-opacity: 0.5;
+          }
+          .blackSpot {
+            fill: url(#blackGradient);
+            stroke: #969;
+            stroke-width: 7px;
+            stroke-opacity: 0.5;
+          }
+          .yellowOval {
+            stroke: #ff0;
+            stroke-width: 6px;
+            fill: none;
+            opacity: 0.8;
+          }
+          .numberText {
+            font-family: Garamond, Times New Roman, Georgia;
+            font-size: 140px;
+            font-weight: bold;
+            text-anchor: middle;
+            fill: #fff;
+            stroke: #333;
+            stroke-width: 3px;
+          }
+          .outsideText {
+            font-family: Georgia, Garamond, Times New Roman;
+            font-size: 70px;
+            text-anchor: middle;
+            fill: #fff;
+            stroke: #000;
+            stroke-width: 1px;
+          }
+      ]]>
+  </style>
+
+  <rect width="100%" height="100%" fill="#5c317c"/>
+  <g class="borderLine">
+    
+    <line x1="505" y1="150" x2="505" y2="3010"/>
+    <line x1="805" y1="300" x2="805" y2="3010"/>
+    <line x1="955" y1="150" x2="955" y2="300"/>
+    <line x1="1105" y1="300" x2="1105" y2="3010"/>
+    <line x1="1405" y1="150" x2="1405" y2="3010"/>
+    <line x1="105" y1="300" x2="105" y2="2710"/>
+    <line x1="305" y1="300" x2="305" y2="2710"/>
+
+    
+    <line x1="105" y1="305" x2="1410" y2="305"/>
+    <line x1="505" y1="505" x2="1410" y2="505"/>
+    <line x1="505" y1="705" x2="1410" y2="705"/>
+    <line x1="105" y1="705" x2="305" y2="705"/>
+    <line x1="505" y1="905" x2="1410" y2="905"/>
+    <line x1="105" y1="1105" x2="1410" y2="1105"/>
+    <line x1="505" y1="1305" x2="1410" y2="1305"/>
+    <line x1="505" y1="1505" x2="1410" y2="1505"/>
+    <line x1="105" y1="1505" x2="305" y2="1505"/>
+    <line x1="505" y1="1705" x2="1410" y2="1705"/>
+    <line x1="105" y1="1905" x2="1410" y2="1905"/>
+    <line x1="505" y1="2105" x2="1410" y2="2105"/>
+    <line x1="505" y1="2305" x2="1410" y2="2305"/>
+    <line x1="105" y1="2305" x2="305" y2="2305"/>
+    <line x1="505" y1="2505" x2="1410" y2="2505"/>
+    <line x1="105" y1="2705" x2="1410" y2="2705"/>
+    <line x1="505" y1="3005" x2="1410" y2="3005"/>
+
+    
+    <line x1="502" y1="154" x2="732" y2="75"/>
+    <line x1="728" y1="75" x2="955" y2="150"/>
+    <line x1="955" y1="150" x2="1182" y2="75"/>
+    <line x1="1178" y1="75" x2="1408" y2="154"/>
+  </g>
+  <g class="greenSpot">
+    <ellipse cx="730" cy="205" rx="140" ry="90"/>
+    <ellipse cx="1180" cy="205" rx="140" ry="90"/>
+  </g>
+  <g class="redSpot">
+    <ellipse cx="655" cy="405" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="405" rx="140" ry="90"/>
+    <ellipse cx="955" cy="605" rx="140" ry="90"/>
+    <ellipse cx="655" cy="805" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="805" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="1005" rx="140" ry="90"/>
+    <ellipse cx="955" cy="1205" rx="140" ry="90"/>
+    <ellipse cx="655" cy="1405" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="1405" rx="140" ry="90"/>
+    <ellipse cx="655" cy="1605" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="1605" rx="140" ry="90"/>
+    <ellipse cx="955" cy="1805" rx="140" ry="90"/>
+    <ellipse cx="655" cy="2005" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="2005" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="2205" rx="140" ry="90"/>
+    <ellipse cx="955" cy="2405" rx="140" ry="90"/>
+    <ellipse cx="655" cy="2605" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="2605" rx="140" ry="90"/>
+
+    <polygon points="120,1305 205,1130 290,1305 205,1480" />
+  </g>
+  <g class="blackSpot">
+    <ellipse cx="955" cy="405" rx="140" ry="90"/>
+    <ellipse cx="655" cy="605" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="605" rx="140" ry="90"/>
+    <ellipse cx="955" cy="805" rx="140" ry="90"/>
+    <ellipse cx="655" cy="1005" rx="140" ry="90"/>
+    <ellipse cx="955" cy="1005" rx="140" ry="90"/>
+    <ellipse cx="655" cy="1205" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="1205" rx="140" ry="90"/>
+    <ellipse cx="955" cy="1405" rx="140" ry="90"/>
+    <ellipse cx="955" cy="1605" rx="140" ry="90"/>
+    <ellipse cx="655" cy="1805" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="1805" rx="140" ry="90"/>
+    <ellipse cx="955" cy="2005" rx="140" ry="90"/>
+    <ellipse cx="655" cy="2205" rx="140" ry="90"/>
+    <ellipse cx="955" cy="2205" rx="140" ry="90"/>
+    <ellipse cx="655" cy="2405" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="2405" rx="140" ry="90"/>
+    <ellipse cx="955" cy="2605" rx="140" ry="90"/>
+
+    <polygon points="120,1705 205,1530 290,1705 205,1880" />
+  </g>
+  <g class="yellowOval">
+    <ellipse cx="655" cy="2855" rx="140" ry="90"/>
+    <ellipse cx="955" cy="2855" rx="140" ry="90"/>
+    <ellipse cx="1255" cy="2855" rx="140" ry="90"/>
+
+    <rect x="145" y="340" width="120" height="320" rx="30" />
+    <rect x="145" y="740" width="120" height="320" rx="30" />
+    <rect x="145" y="1940" width="120" height="320" rx="30" />
+    <rect x="145" y="2340" width="120" height="320" rx="30" />
+
+    <rect x="345" y="540" width="120" height="320" rx="30" />
+    <rect x="345" y="1340" width="120" height="320" rx="30" />
+    <rect x="345" y="2140" width="120" height="320" rx="30" />
+  </g>
+  <g class="numberText">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+  </g>
+  <g class="outsideText">
+    
+    
+    
+  </g>
+  <g class="outsideText">
+    
+    
+    
+
+    
+    
+
+    
+    
+  </g>
+
+</svg>

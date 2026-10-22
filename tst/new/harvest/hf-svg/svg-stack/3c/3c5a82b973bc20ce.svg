@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="43" height="56" viewBox="0 0 43 56">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="43" height="56" fill="none"/>
+    </clipPath>
+    <filter id="Path_78" x="28" y="-0.849" width="17.849" height="17.849" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feFlood flood-opacity="0.353"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="icon-image" clip-path="url(#clip-path)">
+    <g id="icon-file" clip-path="url(#clip-path)">
+      <path id="Path_259" data-name="Path 259" d="M36.985,0H7.963C7.155,0,6.5.643,6.5,1.892V54.016c0,.339.655.982,1.463.982H48.037c.808,0,1.463-.643,1.463-.982V12.746c0-.684-.093-.9-.257-1.066L37.607.252A.892.892,0,0,0,36.985,0Z" transform="translate(-6.5 1)" fill="#00113f"/>
+      <path id="Path_77" data-name="Path 77" d="M36.985,0H7.963C7.155,0,6.5.644,6.5,1.894V54.076c0,.339.655.983,1.463.983H48.037c.808,0,1.463-.644,1.463-.983V12.76c0-.684-.093-.9-.257-1.067L37.607.253A.891.891,0,0,0,36.985,0Z" transform="translate(-6.5)" fill="#efefef"/>
+      <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#Path_78)">
+        <path id="Path_78-2" data-name="Path 78" d="M37.5.151V12H49.349Z" transform="translate(-6.5)" fill="#efefef"/>
+      </g>
+    </g>
+    <circle id="Ellipse_12" data-name="Ellipse 12" cx="4.569" cy="4.569" r="4.569" transform="translate(7.862 23.862)" fill="#ffcd00"/>
+    <path id="Path_101" data-name="Path 101" d="M6.5,40.207h43V28.559L39.5,18.5,29,30.677l-5.483-5.806Z" transform="translate(-6.5 14)" fill="#ffcd00"/>
+  </g>
+</svg>

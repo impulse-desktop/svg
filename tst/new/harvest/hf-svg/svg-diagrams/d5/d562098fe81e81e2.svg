@@ -1,0 +1,93 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="143" height="264" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs">
+  <defs>
+    <style type="text/css">
+      <![CDATA[
+        rect {
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+        rect.port {
+          opacity: 1;
+          fill: #326CB2;
+        }
+        text {
+          font-size: 10px;
+          font-family: sans-serif;
+          text-align: left;
+        }
+        g.port > text {
+          font-size: 8px;
+        }
+        polyline {
+          fill: none;
+          stroke: black;
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+        path {
+          fill: none;
+          stroke: black;
+          stroke-width: 1;
+          shape-rendering: crispEdges;
+        }
+        line {
+          fill: none;
+          shape-rendering: crispEdges;
+        }
+        rect {
+          stroke: black;
+        }
+        circle {
+          stroke: black;
+        }
+        .error { 
+          stroke: red !important;
+        }
+      ]]>
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,7 L10,4 L0,1 L0,7" style="fill: #000000;" />
+    </marker>
+  </defs>
+  <g>
+    <polyline points="18,72 18,52 70,52 70,32" id="e_R3_1_#PWR1_1_VCC" class="edge" />
+    <polyline points="70,192 70,212 123,212 123,232" id="e_R4_2_#PWR2_1_GND" class="edge" />
+    <polyline points="18,112 18,132 70,132 70,152" id="e_R3_2_R4_1_Net_1" class="edge" />
+<g transform="matrix(1,0,0,1,70,172)"><rect width="12" height="30" x="-6" y="-15" fill="none" stroke-width="1"></rect></g>
+    <g transform="translate(64,157)">
+      <rect id="R4_1" class="node" x="3.5" y="-5" width="5" height="5" />
+      <g id="R4_1" class="port" transform="translate(3.5,-5)">
+
+      </g>
+      <rect id="R4_2" class="node" x="3.5" y="30" width="5" height="5" />
+      <g id="R4_2" class="port" transform="translate(3.5,30)">
+
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,18,92)"><rect width="12" height="30" x="-6" y="-15" fill="none" stroke-width="1"></rect></g>
+    <g transform="translate(12,77)">
+      <rect id="R3_1" class="node" x="3.5" y="-5" width="5" height="5" />
+      <g id="R3_1" class="port" transform="translate(3.5,-5)">
+
+      </g>
+      <rect id="R3_2" class="node" x="3.5" y="30" width="5" height="5" />
+      <g id="R3_2" class="port" transform="translate(3.5,30)">
+
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,123.5,244.5)"><polyline points="0,0 0,-7.5 7.5,-7.5 0,-15 -7.5,-7.5 0,-7.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(116,237)">
+      <rect id="#PWR2_1" class="node" x="5" y="-5" width="5" height="5" />
+      <g id="#PWR2_1" class="port" transform="translate(5,-5)">
+        
+      </g>
+    </g>
+<g transform="matrix(1,0,0,1,70,19.5)"><polyline points="-4.5,7.5 0,15" fill="none" stroke-width="1"></polyline><polyline points="0,0 0,15" fill="none" stroke-width="1"></polyline><polyline points="0,15 4.5,7.5" fill="none" stroke-width="1"></polyline></g>
+    <g transform="translate(65.5,12)">
+      <rect id="#PWR1_1" class="node" x="2" y="15" width="5" height="5" />
+      <g id="#PWR1_1" class="port" transform="translate(2,15)">
+        
+      </g>
+    </g>
+  </g>
+</svg>

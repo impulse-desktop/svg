@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="651.2" height="112.0">  <defs>
+    <filter id="shadow1" x="0" y="0" width="200%" height="200%">
+      <feOffset result="offOut" in="SourceGraphic" dx="3" dy="3" />
+      <feColorMatrix result="matrixOut" in="offOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0" />
+      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="2" />
+      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+    </filter>
+  </defs><g><rect x="0.0" y="28.0" rx="4" ry="4" width="159.2" height="36.0" filter="url(#shadow1)" style="fill:#f0f8ff;stroke:black;stroke-width:1"/><line x1="0.0" y1="56.0" x2="159.2" y2="56.0" style="stroke:dimgrey;stroke-width:1"/><g><rect x="279.2" y="0.0" rx="4" ry="4" width="172.0" height="92.0" filter="url(#shadow1)" style="fill:#f0f8ff;stroke:black;stroke-width:1"/><line x1="279.2" y1="28.0" x2="451.2" y2="28.0" style="stroke:dimgrey;stroke-width:1"/></g></g><line x1="159.2" y1="46.0" x2="279.2" y2="46.0" style="stroke:navy;stroke-width:1"/><polygon points="159.2,46.0 165.2,50.0 171.2,46.0 165.2,42.0 159.2,46.0" style="fill:navy;stroke:navy;stroke-width:1" transform="rotate(0.0 159.2 46.0)"/><rect x="209.0" y="39.0" width="20.0" height="18.0" style="fill:white;stroke:black;stroke-width:0"/></svg>

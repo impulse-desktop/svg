@@ -1,0 +1,58 @@
+<svg width="488pt" height="28pt"
+ viewBox="0.00 0.00 488.00 28.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
+<title>coap_dtls_startup</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-24 484,-24 484,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node47</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-19.5 94,-19.5 94,-0.5 0,-0.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node48</title>
+<g id="a_node2"><a xlink:href="libcoap_8h.html#aceceb550566e0ab9e184d09604a73bb6" target="_top" xlink:title="coap_startup">
+<polygon fill="white" stroke="black" points="130,-0.5 130,-19.5 203,-19.5 203,-0.5 130,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node47&#45;&gt;Node48</title>
+<path fill="none" stroke="midnightblue" d="M104.21,-10C112.89,-10 121.64,-10 129.7,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="104.1,-6.5 94.1,-10 104.1,-13.5 104.1,-6.5"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node49</title>
+<g id="a_node3"><a xlink:href="net_8h.html#a8baf4e3608ff5eb00adac694fe25eb60" target="_top" xlink:title="Creates a new coap_context_t object that will hold the CoAP stack status. ">
+<polygon fill="white" stroke="black" points="239,-0.5 239,-19.5 337,-19.5 337,-0.5 239,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node48&#45;&gt;Node49</title>
+<path fill="none" stroke="midnightblue" d="M213.11,-10C221.58,-10 230.46,-10 238.99,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="213.03,-6.5 203.03,-10 213.03,-13.5 213.03,-6.5"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node50</title>
+<g id="a_node4"><a xlink:href="net_8h.html#a696acd1012ad1c2dba081ee5bea54fd8" target="_top" xlink:title="Registers the option type type with the given context object ctx. ">
+<polygon fill="white" stroke="black" points="373,-0.5 373,-19.5 480,-19.5 480,-0.5 373,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node49&#45;&gt;Node50</title>
+<path fill="none" stroke="midnightblue" d="M347.28,-10C355.73,-10 364.38,-10 372.7,-10"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="347.12,-6.5 337.12,-10 347.12,-13.5 347.12,-6.5"/>
+</g>
+</g>
+</svg>

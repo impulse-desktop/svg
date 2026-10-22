@@ -9,15 +9,14 @@ from unitgen import Unit
 LINE = '<path d="{}" fill="none" stroke="lime" stroke-width="2"/>'
 BOX = '<filter id="{}" x="0" y="0" width="1" height="1"><feFlood flood-color="lime"/></filter>'
 
-unit = Unit("path-data-commands", 64, 62, """Each lime stroke follows the same path
+unit = Unit("path-data-commands", 64, 52, """Each lime stroke follows the same path
 spelled out in black, and each lime square covers its red one alone; no red.
 A d of none, as a property too, and data with no valid command draw nothing
 and add nothing to the group's bounding box, which the square fills; a unit
-on a number, a comma in it and two adjacent points are errors, the path
+on a number, a comma in it and a point that ends it are errors, the path
 drawn up to the segment before, as is a comma after a closepath. A first
 relative moveto is absolute, the pairs after a moveto are linetos, H and V
-take lists, a number ending in one point before a separator is accepted,
-a closepath joins where a lineto back leaves butt ends, and
+take lists, a closepath joins where a lineto back leaves butt ends, and
 the arc flags pick one of four arcs.""")
 unit.common(f"<defs>{BOX.format('none-box')}{BOX.format('empty-box')}</defs>")
 
@@ -41,8 +40,6 @@ boxed("empty", (52, 1, 8, 8), 53, 2, '<path d="L {x} {y} h 2"/><path d="X {x} {y
 stroke("unit-error", (1, 1, 10, 4), "M 2 3 h 4 L 10px 3 h 2", "M 2 3 H 6")
 stroke("comma-separates", (12, 1, 10, 4), "M 13 3 h 1,2", "M 13 3 H 16")
 stroke("trailing-point", (24, 1, 12, 4), "M 25 3 h 4. 3", "M 25 3 H 32")
-stroke("double-point-line", (1, 53, 16, 9), "M 3 56 h 10..5 v 5", "M 3 56 H 13")
-stroke("double-point-arc", (20, 53, 19, 9), "M 22 56 h 7 a 2..5 3 0 0 1 5 0 v 5", "M 22 56 H 29")
 stroke("comma-in-number", (1, 6, 10, 4), "M 2 8 h 1,000 2", "M 2 8 H 3 H 3 H 5")
 stroke("comma-after-close", (12, 6, 24, 5), "M 14 7 h 6 v 2 h -6 z, M 24 7 h 6", "M 14 7 h 6 v 2 h -6 z")
 stroke("moveto-pairs", (1, 12, 14, 8), "M 2 14 6 14 6 18 m 2 -4 4 0 0 4", "M 2 14 L 6 14 L 6 18 M 8 14 L 12 14 L 12 18")

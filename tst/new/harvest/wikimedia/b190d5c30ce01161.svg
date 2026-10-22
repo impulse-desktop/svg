@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="-11.2 -9.2 31 31">
+ <title>Magna Doodle principle</title>
+ <desc>Principle of operation of a Magna Doodle board by CMG Lee. 1. shows erasing and 2. shows writing operations.</desc>
+ <style type="text/css">
+#main { font-family:Helvetica,Arial,sans-serif; font-size:2px; text-anchor:middle;
+        fill:#000000; stroke:none; stroke-linecap:round; }
+text  { stroke:none; }
+.common  { stroke:#000000; stroke-opacity:0.5; stroke-width:0.5; }
+.writing { font-weight:bold; font-size:12px; filter:url(#filter_noise); }
+ </style>
+ <defs>
+  <filter id="filter_noise">
+   <feTurbulence type="turbulence" baseFrequency="10"/>
+   <feDisplacementMap in="SourceGraphic" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+   <feColorMatrix type="matrix" values="1,0,0,0,0 0,1,0,0,0 0,0,1,0,0 0,0,0,0.5,0"/>
+  </filter>
+  <linearGradient id="grad_fade" x1="0%" y1="0%" x2="0%" y2="100%">
+   <stop offset="10%" stop-color="#000000"/>
+   <stop offset="60%" stop-color="#666666"/>
+   <stop offset="99%" stop-color="#ffffff"/>
+  </linearGradient>
+  <linearGradient id="grad_pen" x1="0%" y1="0%" x2="0%" y2="100%">
+   <stop offset="10%" stop-color="#990000"/>
+   <stop offset="50%" stop-color="#ff0000"/>
+   <stop offset="90%" stop-color="#990000"/>
+  </linearGradient>
+  <linearGradient id="grad_nib" x1="0%" y1="0%" x2="0%" y2="100%">
+   <stop offset="10%" stop-color="#999999"/>
+   <stop offset="50%" stop-color="#eeeeee"/>
+   <stop offset="90%" stop-color="#999999"/>
+  </linearGradient>
+  <mask id="mask_reset">
+   <circle cx="0" cy="0" r="99999" fill="#000000"/>
+   <rect x="4" y="-10" width="20" height="10" fill="url(#grad_fade)"/>
+  </mask>
+  <mask id="mask_set">
+   <circle cx="0" cy="0" r="99999" fill="#000000"/>
+   <rect x="-10" y="-10" width="25" height="10" fill="url(#grad_fade)"/>
+  </mask>
+  <mask id="mask_section">
+   <circle cx="0" cy="0" r="99999" fill="#000000"/>
+   <rect x="-10" y="0.5" width="24" height="2.5" fill="#ffffff"/>
+  </mask>
+  <pattern id="pattern_top" patternUnits="userSpaceOnUse" width="4" height="4">
+   <path d="M 0,1 C 0,0 2,1 2,0 C 2,1 4,0 4,1 V 2 C 4,3 2,2 2,3 V 4 V 3 C 2,2 0,3 0,2 Z" fill="none" stroke="#000000" stroke-opacity="0.25" stroke-width="0.1"/>
+  </pattern>
+  <pattern id="pattern_side" patternUnits="userSpaceOnUse" width="4" height="2">
+   <path d="M 2,0 V 2" fill="none" stroke="#000000" stroke-width="0.05"/>
+  </pattern>
+  <g id="common">
+   <g transform="matrix(1,0 -1,1 0,0)">
+    <rect x="-10" y="-10" width="24" height="10" fill="url(#pattern_top)" mask="url(#mask_set)"/>
+   </g>
+   <rect x="-10" y="0.5" width="24" height="2.5" fill="url(#pattern_side)"/>
+   <path d="M -10,0.25 h 24 M -10,3.25 h 24" stroke="#66ccff" stroke-width="0.5"/>
+  </g>
+  <path id="arrow" d="M 0,0 h 4 m -1,-1 l 1,1 l -1,1" fill="none" stroke="#ffcc00" stroke-width="0.5"/>
+ </defs>
+ <circle cx="0" cy="0" r="99999" fill="#ffffff"/>
+ <g id="main">
+  <g transform="translate(0,0)">
+   <g transform="matrix(1,0 -1,1 0,0)">
+    <g mask="url(#mask_reset)">
+     
+    </g>
+   </g>
+   <g mask="url(#mask_section)">
+    <path class="writing" d="M -10,2 H 3 L 4,0 H 5 M 5,2 H 6 M 7,0 H 8 M 8,2 L 99,3" fill="none" stroke="#000000"/>
+   </g>
+   <use xlink:href="#common"/>
+   <use xlink:href="#arrow" transform="translate(6,5)"/>
+   <rect x="1" y="4" width="3" height="2" fill="#cc00cc"/>
+   <path d="M 4,4 v 2 l 2.5,-2.5 h -2"    fill="#990099"/>
+   <path d="M 4,4 h -3 l 0.5,-0.5 h 3"    fill="#660066"/>
+   <path d="M 2,1 l 2,-6 M 0,0.2 l -2,-2" fill="none" stroke="#000000" stroke-width="0.1"/>
+   
+   
+   
+   
+  </g>
+  <g transform="translate(0,15)">
+   <g transform="matrix(1,0 -1,1 0,0)" mask="url(#mask_set)">
+    
+   </g>
+   <g mask="url(#mask_section)">
+    <path class="writing" d="M -10,2 H -5 M -5,0 H 0 M 0,2 H 2 M 2,0 H 7 L 9,2 L 99,3" fill="none" stroke="#000000"/>
+   </g>
+   <use xlink:href="#common"/>
+   <use xlink:href="#arrow" transform="translate(12,-2)"/>
+   <g transform="translate(9,-0.5) rotate(-60)">
+    <path d="M 1,-0.5 H 0 V 0.5 H 1" fill="url(#grad_nib)"/>
+    <path d="M 8,1.5 Q 9,0 8,-1.5 H 4 L 0.5,-0.8 V 0.8 L 4,1.5 Z" fill="url(#grad_pen)"/>
+   </g>
+   <path d="M -3,2.5 l 1,2 M 9,2 l -1,2.5" fill="none" stroke="#000000" stroke-width="0.1"/>
+   
+   
+   
+   
+  </g>
+ </g>
+</svg>

@@ -44,7 +44,7 @@
 
 ## Resolving the use reference and its errors: use-geometry, struct-elements, use-chain, measure-use-chain, use-bomb, measure-use-bomb
 
-- [-] svg2/struct.md#UseShadowTree: every instance a document's uses make is drawn, however many they multiply to; the renderer draws and measures at most 16 384 + 32 elements per byte, or 4 096 for a use graph projected above 2^32 visits, each instance counted. (D54) [use-bomb#first-square measure-use-bomb#measured]
+- [-] svg2/struct.md#UseShadowTree: every instance a document's uses make is drawn, however many they multiply to; the renderer draws and measures at most 16 384 + 32 elements per byte of the document, each instance counted. (D54) [use-bomb#first-square measure-use-bomb#measured]
 - [x] svg2/struct.md#UseShadowTree: if the resolved referenced element is not an SVG element, the reference is invalid and the use element is in error (not rendered). [use-geometry#foreign]
 - [x] svg2/struct.md#UseShadowTree: if the referenced element is a (shadow-including) ancestor of the use element, this is an invalid circular reference and the use element is in error. [use-geometry#ancestor struct-elements#use-empty-href]
 - [x] svg2/struct.md#UseShadowTree: a use element with an unresolved or invalid reference is not rendered; for bounding-box purposes it behaves as an empty container element. [bbox-inputs#unresolved-use struct-elements#use-data-url]
@@ -54,7 +54,7 @@
 
 ## Style scoping inside the use shadow tree: use-shadow-styles
 
-- [x] svg2/struct.md#UseStyleInheritance: elements in the use shadow tree inherit from the host use element; outer-document style rules do not match shadow-tree elements directly, only the shadow tree's own cloned stylesheets are matched against them. [use-shadow-styles#inherit-from-use use-shadow-styles#clone-rules use-geometry-inherit-shadow#first-host use-geometry-inherit-shadow#second-host]
+- [x] svg2/struct.md#UseStyleInheritance: elements in the use shadow tree inherit from the host use element; outer-document style rules do not match shadow-tree elements directly, only the shadow tree's own cloned stylesheets are matched against them. [use-shadow-styles#inherit-from-use use-shadow-styles#clone-rules]
 - [x] svg2/struct.md#UseStyleInheritance: presentation attributes and the style attribute are cloned onto each element instance like any other attribute. [use-shadow-styles#clone-rules use-shadow-styles#inherit-from-use]
 - [x] svg2/struct.md#UseStyleInheritance: a complex selector that matched an original element via its ancestors or siblings will not match the corresponding element instance when those ancestors/siblings were not themselves cloned into the shadow tree. [use-shadow-styles#not-ancestors use-shadow-styles#not-siblings]
 - [x] svg2/struct.md#UseStyleInheritance: visibility:hidden on a use element does not guarantee the referenced content is hidden, since visibility does not apply directly to container elements; an explicit visibility:visible on a shadow-tree descendant still renders that descendant. [use-shadow-styles#visibility]

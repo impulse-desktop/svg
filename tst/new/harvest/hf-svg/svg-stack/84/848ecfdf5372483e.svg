@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1905" height="512" viewBox="0 0 1905 512">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_2629" data-name="Rectángulo 2629" width="1905" height="512" transform="translate(7274 1333.073)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="0.383" y1="0.573" x2="0.975" y2="0.204" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f55806"/>
+      <stop offset="1" stop-color="#fa0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="-0.039" y1="0.919" x2="1.381" y2="0.269" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#3c06f5"/>
+      <stop offset="1" stop-color="#3d008e"/>
+    </linearGradient>
+    <filter id="Unión_2" x="-39.483" y="-93.319" width="2007.57" height="614.819" filterUnits="userSpaceOnUse">
+      <feOffset dy="-4" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="4.5" result="blur"/>
+      <feFlood flood-opacity="0.271"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Enmascarar_grupo_3129" data-name="Enmascarar grupo 3129" transform="translate(-7274 -1333.073)" clip-path="url(#clip-path)">
+    <path id="Trazado_6742" data-name="Trazado 6742" d="M7907,2177.952C7836.393,2301.3,7644.64,2252.964,7533.335,2352s-146.612,38.378-428.646,0c-267.131-22.7-248.575,82.062-1097.422,130.03-3.438,1.174-123.869,37.545-128.064,39.005-598.57,208.4,220.708,179.051,220.708,179.051L7907,2611.573Z" transform="translate(1296.88 -871.474)" fill="url(#linear-gradient)"/>
+    <g transform="matrix(1, 0, 0, 1, 7274, 1333.07)" filter="url(#Unión_2)">
+      <path id="Unión_2-2" data-name="Unión 2" d="M17.819,587.819,0,554.046V328.73l834.037-14.409c16.713-.784,33.246-1.617,49.478-2.5,207.375,1.469,319.689-29.125,400.711-59.719,112.4-42.441,164.579-84.884,326.792-41.725C1879.938,281.923,1971.57,56.8,1979.882,7c-4.849,55.714-33.715,425.314-33.715,425.314l-.142-.009L1937.3,587.819ZM1980.475,2.1A47.444,47.444,0,0,1,1979.882,7C1980.486.061,1980.717-2.01,1980.475,2.1Z" transform="translate(-25.98 -75.82)" fill="url(#linear-gradient-2)"/>
+    </g>
+  </g>
+</svg>

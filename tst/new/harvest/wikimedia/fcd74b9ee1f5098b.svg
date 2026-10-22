@@ -1,0 +1,221 @@
+﻿<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="600px" width="800px" version="1.1" preserveAspectRatio="none" viewBox="0 0 800 600">
+<title>Puerto Rico Population Pyramid for 2017</title>
+<desc>Translations are included for Arabic, Chinese, English, French, German, Russian, and Spanish. Other languages can easily be added.</desc>
+<!-- background -->
+<rect width="100%" fill="#fff" height="100%"/>
+<!--
+     ORDER OF TRANSFORMATIONS:
+     (1)     Shift origin from (x, y) to (0, 0) (e.g., from [2004, 0] to [0, 0])
+     (2)     Scale as appropriate
+     (3)     Shift back to viewport's origin
+     (4)     Shift away from edge as desired
+     In working out your calculations, opt for a number that divides nicely into 100s (e.g., 1, 2, 2.5, 5, 10, 20, 25, etc.)
+     CALCULATIONS:
+     Horizontal     =     Width/Range
+                    =     800/ 2015-1995
+                    ~      40
+     Vertical     =     [-1 * Height]/Range
+                    =     -400 / (13 - 6)
+                    ~     -60
+     Population values are in ten thousands -->
+
+<g font-family="Verdana, Tahoma, sans-serif" transform="translate(25 -35)" text-anchor="middle">
+<!-- Border -->
+          <path style="fill:#f4f4f4; stroke:grey; stroke-width:1" d="
+          m -10 40 h 775 v 590 h -775 v -590"/>
+
+<!-- The lines in the graph are scaled significantly. Make sure the stroke width is set appropriately. -->
+<!-- The ratio between the x/y scaling needs to be between 0.25 and 2.5. If not, multiply or divide the values by 10 until it is. -->
+
+     <g stroke="#333" transform="translate(48 420) scale(22 -22) translate(-15)">
+
+<!-- Male -->
+      <g transform="translate(28 -7) scale(-1 1)" stroke-width="0.1">
+          <path style="fill:lightgrey; stroke-width:0.04;" d="
+          m 0 1 h 15 v 21 h -15 v -21"/>
+          <path d="m 0 1 v -0.6"/>
+          <path d="m 1 1 v -0.3"/>
+          <path d="m 2 1 v -0.3"/>
+          <path d="m 3 1 v -0.3"/>
+          <path d="m 4 1 v -0.3"/>
+          <path d="m 5 1 v -0.6"/>
+          <path d="m 6 1 v -0.3"/>
+          <path d="m 7 1 v -0.3"/>
+          <path d="m 8 1 v -0.3"/>
+          <path d="m 9 1 v -0.3"/>
+          <path d="m 10 1 v -0.6"/>
+          <path d="m 11 1 v -0.3"/>
+          <path d="m 12 1 v -0.3"/>
+          <path d="m 13 1 v -0.3"/>
+          <path d="m 14 1 v -0.3"/>
+          <path d="m 15 1 v -0.6"/>
+
+          <g style="fill:lightblue; stroke:black;" stroke-width="0.03">
+               <path d="m 0 1 h 10.0009 v 1 h -10.0009 v -1"/>
+               <path d="m 0 2 h 11.3885 v 1 h -11.3885 v -1"/>
+               <path d="m 0 3 h 12.6842 v 1 h -12.6842 v -1"/>
+               <path d="m 0 4 h 13.7602 v 1 h -13.7602 v -1"/>
+               <path d="m 0 5 h 13.9604 v 1 h -13.9604 v -1"/>
+               <path d="m 0 6 h 13.3305 v 1 h -13.3305 v -1"/>
+               <path d="m 0 7 h 12.7726 v 1 h -12.7726 v -1"/>
+               <path d="m 0 8 h 12.6697 v 1 h -12.6697 v -1"/>
+               <path d="m 0 9 h 11.9371 v 1 h -11.9371 v -1"/>
+               <path d="m 0 10 h 11.2454 v 1 h -11.2454 v -1"/>
+               <path d="m 0 11 h 10.7450 v 1 h -10.7450 v -1"/>
+               <path d="m 0 12 h 9.8179 v 1 h -9.8179 v -1"/>
+               <path d="m 0 13 h 8.5848 v 1 h -8.5848 v -1"/>
+               <path d="m 0 14 h 7.6749 v 1 h -7.6749 v -1"/>
+               <path d="m 0 15 h 6.0580 v 1 h -6.0580 v -1"/>
+               <path d="m 0 16 h 4.1682 v 1 h -4.1682 v -1"/>
+               <path d="m 0 17 h 2.7152 v 1 h -2.7152 v -1"/>
+               <path d="m 0 18 h 1.5626 v 1 h -1.5626 v -1"/>
+               <path d="m 0 19 h 0.7191 v 1 h -0.7191 v -1"/>
+               <path d="m 0 20 h 0.2391 v 1 h -0.2391 v -1"/>
+               <path d="m 0 21 h 0.0486 v 1 h -0.0486 v -1"/>
+          </g>
+      </g>
+<!-- Female -->
+      <g transform="translate(32 -7) scale(1 1)" stroke-width="0.1">
+          <path style="fill:lightgrey; stroke-width:0.04;" d="
+          m 0 1 h 15 v 21 h -15 v -21"/>
+          <path d="m 0 1 v -0.6"/>
+          <path d="m 1 1 v -0.3"/>
+          <path d="m 2 1 v -0.3"/>
+          <path d="m 3 1 v -0.3"/>
+          <path d="m 4 1 v -0.3"/>
+          <path d="m 5 1 v -0.6"/>
+          <path d="m 6 1 v -0.3"/>
+          <path d="m 7 1 v -0.3"/>
+          <path d="m 8 1 v -0.3"/>
+          <path d="m 9 1 v -0.3"/>
+          <path d="m 10 1 v -0.6"/>
+          <path d="m 11 1 v -0.3"/>
+          <path d="m 12 1 v -0.3"/>
+          <path d="m 13 1 v -0.3"/>
+          <path d="m 14 1 v -0.3"/>
+          <path d="m 15 1 v -0.6"/>
+
+          <g style="fill:pink; stroke:black;" stroke-width="0.03">
+               <path d="m 0 1 h 9.4876 v 1 h -9.4876 v -1"/>
+               <path d="m 0 2 h 10.5923 v 1 h -10.5923 v -1"/>
+               <path d="m 0 3 h 11.5502 v 1 h -11.5502 v -1"/>
+               <path d="m 0 4 h 12.6291 v 1 h -12.6291 v -1"/>
+               <path d="m 0 5 h 13.6335 v 1 h -13.6335 v -1"/>
+               <path d="m 0 6 h 13.3478 v 1 h -13.3478 v -1"/>
+               <path d="m 0 7 h 13.0887 v 1 h -13.0887 v -1"/>
+               <path d="m 0 8 h 13.2636 v 1 h -13.2636 v -1"/>
+               <path d="m 0 9 h 12.9280 v 1 h -12.9280 v -1"/>
+               <path d="m 0 10 h 12.7207 v 1 h -12.7207 v -1"/>
+               <path d="m 0 11 h 12.4497 v 1 h -12.4497 v -1"/>
+               <path d="m 0 12 h 11.5675 v 1 h -11.5675 v -1"/>
+               <path d="m 0 13 h 10.5933 v 1 h -10.5933 v -1"/>
+               <path d="m 0 14 h 9.7163 v 1 h -9.7163 v -1"/>
+               <path d="m 0 15 h 7.7440 v 1 h -7.7440 v -1"/>
+               <path d="m 0 16 h 5.7397 v 1 h -5.7397 v -1"/>
+               <path d="m 0 17 h 4.1766 v 1 h -4.1766 v -1"/>
+               <path d="m 0 18 h 2.7311 v 1 h -2.7311 v -1"/>
+               <path d="m 0 19 h 1.5416 v 1 h -1.5416 v -1"/>
+               <path d="m 0 20 h 0.5959 v 1 h -0.5959 v -1"/>
+               <path d="m 0 21 h 0.1334 v 1 h -0.1334 v -1"/>
+          </g>
+      </g>
+
+     </g>
+<!-- Text can't be scaled or it goes strange. Its location must be calculated directly. -->
+
+<!-- Title -->
+     <g font-size="30" transform="translate(375 75)">
+     <switch>
+          
+          
+          
+          
+          
+          
+          
+     </switch>
+     </g>
+<!-- Y-axis -->
+     <g font-size="24" transform="translate(360 620)">
+     <switch>
+          
+          
+          
+          
+          
+          
+          
+     </switch>
+     </g>
+     <g id="age" font-size="20" text-anchor="middle" transform="translate(377 571)">
+     <switch>
+          
+          
+          
+          
+          
+          
+          
+     </switch>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+     </g>
+<!-- X-axis -->
+     <g id="x_axis_numbers" font-size="24" transform="translate(0 591)">
+          
+          
+          
+          
+          
+          
+          
+          
+     </g>
+<!-- legend -->
+          <!-- Male -->
+     <g id="legend" font-size="36" transform="translate(45 149)" text-anchor="start">
+          <switch>
+              
+              
+              
+              
+              
+              
+              
+          </switch>
+     </g>
+          <!-- Female -->
+     <g id="legend" font-size="36" transform="translate(715 149)" text-anchor="end">
+          <switch>
+              
+              
+              
+              
+              
+              
+              
+          </switch>
+     </g>
+
+</g>
+</svg>

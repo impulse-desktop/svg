@@ -1,0 +1,113 @@
+<svg width="841pt" height="66pt"
+ viewBox="0.00 0.00 841.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>spi_flash_write</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-62 837,-62 837,4 -4,4"/>
+
+<g id="node1" class="node"><title>Node17</title>
+<polygon fill="#bfbfbf" stroke="black" points="0,-19.5 0,-38.5 82,-38.5 82,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node"><title>Node18</title>
+<g id="a_node2"><a xlink:href="exception__handler_8h.html#a55df0a6f3d7521b2d15e0ac2de68fb17" target="_top" xlink:title="stack_trace_append">
+<polygon fill="white" stroke="black" points="118,-0.5 118,-19.5 222,-19.5 222,-0.5 118,-0.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge"><title>Node17&#45;&gt;Node18</title>
+<path fill="none" stroke="midnightblue" d="M92.2607,-21.4807C100.689,-20.2197 109.444,-18.91 117.893,-17.6459"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="91.5556,-18.0471 82.1836,-22.9883 92.5914,-24.9701 91.5556,-18.0471"/>
+</g>
+
+<g id="node8" class="node"><title>Node24</title>
+<g id="a_node8"><a xlink:href="exception__handler_8h.html#a6dd972687fcba7dedc66efa292a264f6" target="_top" xlink:title="stack_trace_last">
+<polygon fill="white" stroke="black" points="125.5,-38.5 125.5,-57.5 214.5,-57.5 214.5,-38.5 125.5,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge8" class="edge"><title>Node17&#45;&gt;Node24</title>
+<path fill="none" stroke="midnightblue" d="M92.3605,-36.5342C103.191,-38.1546 114.555,-39.8547 125.116,-41.4347"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="92.5914,-33.0299 82.1836,-35.0117 91.5556,-39.9529 92.5914,-33.0299"/>
+</g>
+
+<g id="node3" class="node"><title>Node19</title>
+<g id="a_node3"><a xlink:href="exception__handler_8c.html#a2e046011a1fec4843b394a30be788b81" target="_top" xlink:title="print_stack">
+<polygon fill="white" stroke="black" points="258,-38.5 258,-57.5 323,-57.5 323,-38.5 258,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge"><title>Node18&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M210.543,-22.6804C226.554,-27.8148 244.732,-33.6441 259.607,-38.4141"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="211.494,-19.3098 200.903,-19.589 209.356,-25.9755 211.494,-19.3098"/>
+</g>
+
+<g id="node4" class="node"><title>Node20</title>
+<g id="a_node4"><a xlink:href="exception__handler_8c.html#ad7392f29fdb9ff04315bdc1ce1a81ad9" target="_top" xlink:title="print_reason">
+<polygon fill="white" stroke="black" points="359,-19.5 359,-38.5 429,-38.5 429,-19.5 359,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge7" class="edge"><title>Node18&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M232.334,-15.2493C273.184,-18.7455 325.339,-23.2092 358.954,-26.0862"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="232.472,-11.7484 222.21,-14.3828 231.875,-18.7229 232.472,-11.7484"/>
+</g>
+
+<g id="edge3" class="edge"><title>Node19&#45;&gt;Node20</title>
+<path fill="none" stroke="midnightblue" d="M332.98,-40.2353C341.63,-38.6161 350.652,-36.9272 358.995,-35.3655"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="332.244,-36.8121 323.059,-42.0924 333.532,-43.6926 332.244,-36.8121"/>
+</g>
+
+<g id="node5" class="node"><title>Node21</title>
+<g id="a_node5"><a xlink:href="exception__handler_8c.html#a4ce27bb819b79646b07f435f96c7bf93" target="_top" xlink:title="exception_handler">
+<polygon fill="white" stroke="black" points="465,-19.5 465,-38.5 560,-38.5 560,-19.5 465,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge4" class="edge"><title>Node20&#45;&gt;Node21</title>
+<path fill="none" stroke="midnightblue" d="M439.265,-29C447.576,-29 456.29,-29 464.675,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="439.01,-25.5001 429.01,-29 439.01,-32.5001 439.01,-25.5001"/>
+</g>
+
+<g id="node6" class="node"><title>Node22</title>
+<g id="a_node6"><a xlink:href="exception__handler_8h.html#a2e398672b972b305c3c493fef388989f" target="_top" xlink:title="exception_handler_init">
+<polygon fill="white" stroke="black" points="596,-19.5 596,-38.5 709,-38.5 709,-19.5 596,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge5" class="edge"><title>Node21&#45;&gt;Node22</title>
+<path fill="none" stroke="midnightblue" d="M570.314,-29C578.719,-29 587.373,-29 595.755,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="570.221,-25.5001 560.221,-29 570.22,-32.5001 570.221,-25.5001"/>
+</g>
+
+<g id="node7" class="node"><title>Node23</title>
+<g id="a_node7"><a xlink:href="mqtt__rpc_8h.html#ae3c71a438ecea4bb271bd1586af59452" target="_top" xlink:title="mqtt_rpc_restart">
+<polygon fill="white" stroke="black" points="745,-19.5 745,-38.5 833,-38.5 833,-19.5 745,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge"><title>Node22&#45;&gt;Node23</title>
+<path fill="none" stroke="midnightblue" d="M719.44,-29C728.057,-29 736.702,-29 744.81,-29"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="719.372,-25.5001 709.372,-29 719.372,-32.5001 719.372,-25.5001"/>
+</g>
+
+<g id="edge9" class="edge"><title>Node24&#45;&gt;Node19</title>
+<path fill="none" stroke="midnightblue" d="M224.966,-48C236.177,-48 247.642,-48 257.739,-48"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="224.788,-44.5001 214.788,-48 224.788,-51.5001 224.788,-44.5001"/>
+</g>
+</g>
+</svg>

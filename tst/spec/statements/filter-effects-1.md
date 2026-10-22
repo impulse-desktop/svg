@@ -145,7 +145,7 @@
 
 - [x] filter-effects-1.md#element-attrdef-feconvolvematrix-kernelunitlength: kernelUnitLength is dx, dy (dy defaults to dx) in primitiveUnits, giving a scalable pixel grid for the kernel. [filter-edge-cells#kernel-unit-length]
 - [x] filter-effects-1.md#element-attrdef-feconvolvematrix-kernelunitlength: a negative or zero kernelUnitLength falls back to the default of one device pixel. [filter-edge-cells#kernel-unit-length]
-- [x] filter-effects-1.md#element-attrdef-fediffuselighting-kernelunitlength: feDiffuseLighting/feSpecularLighting kernelUnitLength sets dx, dy for the surface-normal Sobel deltas the same way; a negative or zero value also falls back to the default. On an affine alpha ramp, the interior normal is unchanged by a smaller kernel sampling distance. [filter-edge-cells#lighting-unit-length lighting-kernel-tiny#diffuse-slope lighting-kernel-tiny#specular-slope]
+- [x] filter-effects-1.md#element-attrdef-fediffuselighting-kernelunitlength: feDiffuseLighting/feSpecularLighting kernelUnitLength sets dx, dy for the surface-normal Sobel deltas the same way; a negative or zero value also falls back to the default. [filter-edge-cells#lighting-unit-length]
 
 ## feDiffuseLighting, feSpecularLighting and light sources: fe-lighting-formulas, filter-lighting (exists)
 

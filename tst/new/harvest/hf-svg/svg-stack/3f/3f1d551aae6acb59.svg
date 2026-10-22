@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" width="139.422" height="214.496" viewBox="0 0 36.888 56.752" version="1.1">
+  <title>Novanet Icon</title>
+  <defs>
+    <linearGradient id="blue-gradient">
+      <stop style="stop-color:#56afcc;stop-opacity:1" offset="0"/>
+      <stop style="stop-color:#a9e3f2;stop-opacity:1" offset="1"/>
+    </linearGradient>
+    <linearGradient xlink:href="#blue-gradient" id="blue-gradient-for-icon" x1="75.021" y1="211.534" x2="75.601" y2="2.938" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.264,0,0,0.264,0,2.865)"/>
+    <filter style="color-interpolation-filters:sRGB" id="drop-shadow">
+      <feFlood flood-opacity="0.498" flood-color="rgb(128,128,128)" result="flood"/>
+      <feComposite in="flood" in2="SourceGraphic" operator="in" result="composite1"/>
+      <feGaussianBlur in="composite1" stdDeviation="0.3" result="blur"/>
+      <feOffset dx="-0.6" dy="0.6" result="offset"/>
+      <feComposite in="SourceGraphic" in2="offset" operator="over" result="fbSourceGraphic"/>
+      <feColorMatrix result="fbSourceGraphicAlpha" in="fbSourceGraphic" values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"/>
+      <feFlood flood-opacity="0.498" flood-color="rgb(128,128,128)" result="flood" in="fbSourceGraphic"/>
+      <feComposite in2="fbSourceGraphic" in="flood" operator="in" result="composite1"/>
+      <feGaussianBlur in="composite1" stdDeviation="0.1" result="blur"/>
+      <feOffset dx="0.1" dy="-0.1" result="offset"/>
+      <feComposite in2="offset" in="fbSourceGraphic" operator="over" result="composite2"/>
+    </filter>
+  </defs>
+  <metadata>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type>StillImage</dc:type>
+    <dc:title>Novanet Icon</dc:title>
+    <dc:date>2017-05-25</dc:date>
+    <dc:creator>Brad Dewar</dc:creator>
+    <dc:publisher>Novanet, Inc.</dc:publisher>
+    <dc:identifier>http://novanet.ca/images/novanet-icon.svg</dc:identifier>
+    <dc:contributor>norex</dc:contributor>
+  </metadata>
+  <g aria-label="novanet" transform="translate(0.441,-3.123)">
+    <path aria-label="o-burst" d="m 27.467,3.779 a 3.208,3.208 0 0 0 -3.208,3.208 3.208,3.208 0 0 0 1.559,2.747 L 22.725,20.114 a 11.641,11.641 0 0 0 -2.683,-0.327 11.641,11.641 0 0 0 -3.706,0.617 l -0.702,-1.605 a 3.803,3.803 0 0 0 1.234,-2.798 3.803,3.803 0 0 0 -3.803,-3.803 3.803,3.803 0 0 0 -3.803,3.803 3.803,3.803 0 0 0 3.803,3.803 3.803,3.803 0 0 0 0.961,-0.128 l 0.631,1.442 A 11.641,11.641 0 0 0 8.400,31.428 11.641,11.641 0 0 0 11.838,39.678 L 4.639,50.514 A 2.910,2.910 0 0 0 3.770,50.378 2.910,2.910 0 0 0 0.859,53.289 2.910,2.910 0 0 0 3.770,56.199 2.910,2.910 0 0 0 6.680,53.289 2.910,2.910 0 0 0 6.121,51.578 L 13.242,40.860 a 11.641,11.641 0 0 0 5.609,2.136 L 18.700,51.767 a 3.522,3.522 0 0 0 -2.643,3.406 3.522,3.522 0 0 0 3.522,3.522 3.522,3.522 0 0 0 3.522,-3.522 3.522,3.522 0 0 0 -2.577,-3.393 l 0.151,-8.743 a 11.641,11.641 0 0 0 6.871,-2.710 c 0.001,0.001 0.002,0.003 0.004,0.005 l 2.283,2.461 a 2.960,2.960 0 0 0 -0.317,1.333 2.960,2.960 0 0 0 2.960,2.960 2.960,2.960 0 0 0 2.960,-2.960 2.960,2.960 0 0 0 -2.960,-2.960 2.960,2.960 0 0 0 -1.354,0.331 L 28.889,39.091 c -0.017,-0.019 -0.038,-0.033 -0.057,-0.051 a 11.641,11.641 0 0 0 2.852,-7.612 11.641,11.641 0 0 0 -7.221,-10.760 l 3.122,-10.478 A 3.208,3.208 0 0 0 30.675,6.987 3.208,3.208 0 0 0 27.467,3.779 Z m 0,1.785 A 1.422,1.422 0 0 1 28.889,6.987 1.422,1.422 0 0 1 27.467,8.409 1.422,1.422 0 0 1 26.044,6.987 1.422,1.422 0 0 1 27.467,5.565 Z M 13.063,14.180 a 1.819,1.819 0 0 1 1.819,1.819 1.819,1.819 0 0 1 -1.819,1.819 1.819,1.819 0 0 1 -1.819,-1.819 1.819,1.819 0 0 1 1.819,-1.819 z m 6.978,8.913 a 8.334,8.334 0 0 1 8.334,8.334 8.334,8.334 0 0 1 -8.334,8.334 8.334,8.334 0 0 1 -8.334,-8.334 8.334,8.334 0 0 1 8.334,-8.334 z m 12.435,20.058 a 0.975,0.975 0 0 1 0.975,0.975 0.975,0.975 0 0 1 -0.975,0.975 0.975,0.975 0 0 1 -0.975,-0.975 0.975,0.975 0 0 1 0.975,-0.975 z M 3.770,52.156 a 1.133,1.133 0 0 1 1.133,1.133 1.133,1.133 0 0 1 -1.133,1.133 1.133,1.133 0 0 1 -1.133,-1.133 1.133,1.133 0 0 1 1.133,-1.133 z m 15.808,1.282 a 1.736,1.736 0 0 1 1.736,1.736 1.736,1.736 0 0 1 -1.736,1.736 1.736,1.736 0 0 1 -1.736,-1.736 1.736,1.736 0 0 1 1.736,-1.736 z" style="display:inline;fill:url(#blue-gradient-for-icon);fill-opacity:1;stroke-width:0.264;filter:url(#drop-shadow)"/>
+  </g>
+</svg>

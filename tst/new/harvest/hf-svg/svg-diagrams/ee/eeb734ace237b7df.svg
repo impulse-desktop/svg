@@ -1,0 +1,42 @@
+<svg width="645px" height="47px" viewBox="0 0 645 47" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>flag1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="31 43 615 43 615 3 31 3"></polygon>
+        <filter x="-1.2%" y="-12.5%" width="102.4%" height="135.0%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-3" points="12.0264 22.5693 22.5004 12.0963 22.5004 2.5693 2.4984 22.5693 22.5004 42.5693 22.5004 33.0433"></polygon>
+        <filter x="-35.0%" y="-12.5%" width="170.0%" height="135.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-5" points="630.9736 22.708 620.4996 33.182 620.4996 42.708 640.5016 22.708 620.4996 2.708 620.4996 12.235"></polygon>
+        <filter x="-35.0%" y="-12.5%" width="170.0%" height="135.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="flag1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Fill-2">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#C8161E" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <g id="Fill-4">
+            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+            <use fill="#C8161E" fill-rule="evenodd" xlink:href="#path-3"></use>
+        </g>
+        <path d="M22.1914,3.9482 L22.1914,40.7522" id="Stroke-5" stroke="#C8161E" stroke-width="0.495"></path>
+        <g id="Fill-7">
+            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+            <use fill="#C8161E" fill-rule="evenodd" xlink:href="#path-5"></use>
+        </g>
+        <path d="M620.8086,41.3301 L620.8086,4.5261" id="Stroke-8" stroke="#C8161E" stroke-width="0.495"></path>
+        
+    </g>
+</svg>

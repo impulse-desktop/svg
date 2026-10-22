@@ -1,0 +1,29 @@
+<svg width="198px" height="91px" viewBox="0 0 198 91" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="99.6127619%" y1="50.3872381%" x2="0.387238078%" y2="50.3872381%" id="linearGradient-1">
+            <stop stop-color="#8955E8" offset="0%"></stop>
+            <stop stop-color="#5D38D4" offset="50.1468522%"></stop>
+            <stop stop-color="#4B2CAE" offset="100%"></stop>
+        </linearGradient>
+        <path d="M100.047672,137.166234 C99.1283741,137.725245 98.0801441,138.018172 97.0193847,138.018172 C95.9559981,138.018172 94.9079701,137.725245 93.9886722,137.166234 L59.0515117,115.903561 C57.1799755,114.763808 56.0181721,112.644507 56.0181721,110.370754 L56.0181721,-28.3707539 C56.0181721,-30.6445073 57.1799755,-32.7638082 59.0515117,-33.9033479 L93.9886722,-55.1660206 C94.9079701,-55.725245 95.9559981,-56.0181721 97.0193847,-56.0181721 C98.0801441,-56.0181721 99.1283741,-55.725245 100.047672,-55.1660206 L134.987258,-33.9033479 C136.856369,-32.7638082 138.018172,-30.6445073 138.018172,-28.3707539 L138.018172,110.370754 C138.018172,112.644507 136.856369,114.763808 134.987258,115.903561 L100.047672,137.166234 Z" id="path-2"></path>
+        <filter x="-11.0%" y="-2.1%" width="115.9%" height="104.1%" filterUnits="objectBoundingBox" id="filter-3">
+            <feMorphology radius="1.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="-5" dy="0" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.776470588   0 0 0 0 0.678431373   0 0 0 0 0.874509804  0 0 0 1 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mainpage_login" transform="translate(-285.000000, -959.000000)">
+            <g id="Group" transform="translate(287.000000, 961.000000)">
+                <g id="Fill-12-Copy" transform="translate(97.018172, 41.000000) rotate(-90.000000) translate(-97.018172, -41.000000) ">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <use stroke="#E9D0FF" stroke-width="3" fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

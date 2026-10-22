@@ -1,0 +1,240 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+
+	class="figure"
+	width="1020" height="230"
+	transform="translate(.5 .5)">
+
+	<defs>
+		<marker id="guide3:arrow"
+				markerWidth="5" markerHeight="5"
+				markerUnits="userSpaceOnUse"
+				refX="5" refY="2.5"
+				orient="auto">
+			<polyline points="0,0 5,2.5 0,5" class="arrow"/>
+		</marker>
+
+		<g id="guide3:program">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:api">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:dotj">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:dott">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:dots">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:doto">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:other_dott">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:other_doto">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:other_dotj">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:other_objects">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:capsules_p">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+				
+				
+			</g>
+			
+		</g>
+
+		<g id="guide3:exe">
+			<rect x="-50" y="-20" width="100" height="40"/>
+			<g transform="translate(-45 -10)" text-anchor="start" style="font-weight: bold;">
+				
+			</g>
+		</g>
+
+		<g id="guide3:upright">
+			<path d="M 0,-20 l 0,-30 q 0,-10 10,-10 l 60,0"
+				marker-end="url(#guide3:arrow)"/>
+		</g>
+
+		<g id="guide3:downright">
+			<path d="M 0,20 l 0,30 q 0,10 10,10 l 60,0"
+				marker-end="url(#guide3:arrow)"/>
+		</g>
+
+		<g id="guide3:upmerge">
+			<path d="M 50,0 l 15,0 q 10,0 10,-10 l 0,-40 q 0,-10 10,-10 l 15,0"/>
+		</g>
+
+		<g id="guide3:downmerge">
+			<path d="M 50,0 l 15,0 q 10,0 10,10 l 0,40 q 0,10 10,10 l 15,0"/>
+		</g>
+	</defs>
+
+	<g transform="translate(75 60)">
+		<use xlink:href="#guide3:api"/>
+		<use xlink:href="#guide3:downright"/>
+		
+		
+		<line x1="180" x2="220" class="dashed"/>
+		<line x1="215" x2="220" marker-end="url(#guide3:arrow)"/>
+	</g>
+
+	<g transform="translate(75 180)">
+		<use xlink:href="#guide3:program"/>
+		<use xlink:href="#guide3:upright"/>
+	</g>
+
+
+	<g transform="translate(195 120)">
+		<use xlink:href="#guide3:dotj"/>
+		<line x1="50" x2="240" marker-end="url(#guide3:arrow)"/>
+		
+	</g>
+
+	<g transform="translate(195 180)">
+		<use xlink:href="#guide3:other_dotj"/>
+		<use xlink:href="#guide3:upmerge"/>
+	</g>
+
+
+	<g transform="translate(355 180)">
+		<use xlink:href="#guide3:other_dott"/>
+		<use xlink:href="#guide3:upmerge"/>
+	</g>
+
+	<g transform="translate(355 60)">
+		<use xlink:href="#guide3:capsules_p"/>
+		<use xlink:href="#guide3:downmerge"/>
+		
+		
+		<line x1="210" x2="370" class="dashed"/>
+		<line x1="365" x2="370" marker-end="url(#guide3:arrow)"/>
+	</g>
+
+
+	<g transform="translate(505 120)">
+		<use xlink:href="#guide3:dott"/>
+		<line x1="50" x2="100" marker-end="url(#guide3:arrow)"/>
+		
+	</g>
+
+
+	<g transform="translate(655 120)">
+		<use xlink:href="#guide3:dots"/>
+		<line x1="50" x2="80" marker-end="url(#guide3:arrow)"/>
+		
+	</g>
+
+
+	<g transform="translate(785 60)">
+		<use xlink:href="#guide3:other_objects"/>
+		<use xlink:href="#guide3:downmerge"/>
+	</g>
+
+	<g transform="translate(785 120)">
+		<use xlink:href="#guide3:doto"/>
+		<line x1="50" x2="110" marker-end="url(#guide3:arrow)"/>
+		
+	</g>
+
+	<g transform="translate(785 180)">
+		<use xlink:href="#guide3:other_doto"/>
+		<use xlink:href="#guide3:upmerge"/>
+	</g>
+
+
+	<g transform="translate(945 120)">
+		<use xlink:href="#guide3:exe"/>
+		
+	</g>
+
+
+	<g class="region">
+		<rect x="5" height="220" width="1010" rx="5" ry="5"/>
+
+		<line x1="285" x2="285" y2="220"/>
+		<line x1="575" x2="575" y2="220"/>
+
+		
+
+		
+		
+
+		
+	</g>
+
+</svg>

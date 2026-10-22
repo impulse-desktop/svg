@@ -98,9 +98,9 @@
 - [x] css-masking-1.md#MaskValues: the effect of a mask equals multiplying the masked object's alpha channel by the mask's mask value [mask-values#luminance]
 - [x] css-masking-1.md#MaskValues: regions not covered by a mask image are transparent black, a mask value of 0 [mask-values#region mask-tiling#no-repeat]
 
-## mask element geometry: mask-properties, mask-values, mask-zero-bbox, mask (exists)
+## mask element geometry: mask-properties, mask-values, mask (exists)
 
-- [x] css-masking-1.md#MaskElement: maskUnits = userSpaceOnUse | objectBoundingBox for x/y/width/height, default objectBoundingBox [mask-properties#mask-units mask-values#region mask-zero-bbox#horizontal mask-zero-bbox#user-space]
+- [x] css-masking-1.md#MaskElement: maskUnits = userSpaceOnUse | objectBoundingBox for x/y/width/height, default objectBoundingBox [mask-properties#mask-units mask-values#region]
 - [x] css-masking-1.md#MaskElement: maskContentUnits = userSpaceOnUse | objectBoundingBox for the mask's content, default userSpaceOnUse [mask-values#content-units]
 - [x] css-masking-1.md#MaskElement: on the outermost svg the bounding box is its content's mapped into its viewport by its viewBox, where the mask applies (D46) [root-effects-mask-units#root]
 - [x] css-masking-1.md#MaskElement: if x is unspecified but one of y/width/height is, x defaults to -10%; same rule in turn for y [mask-properties#mask-defaults]

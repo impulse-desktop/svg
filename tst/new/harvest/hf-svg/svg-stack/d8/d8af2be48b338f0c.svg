@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="68.937" height="46.958" viewBox="0 0 68.937 46.958">
+  <defs>
+    <filter id="eye-solid" x="0" y="0" width="68.937" height="46.958" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="3" input="SourceAlpha"/>
+      <feGaussianBlur result="blur"/>
+      <feFlood flood-color="#b58dd6"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#eye-solid)">
+    <path id="eye-solid-2" data-name="eye-solid" d="M65.539,84.308A36.716,36.716,0,0,0,32.969,64,36.722,36.722,0,0,0,.4,84.309a3.7,3.7,0,0,0,0,3.341,36.716,36.716,0,0,0,32.57,20.308,36.722,36.722,0,0,0,32.57-20.309,3.7,3.7,0,0,0,0-3.341Zm-32.57,18.156A16.484,16.484,0,1,1,49.453,85.979,16.484,16.484,0,0,1,32.969,102.463Zm0-27.474a10.909,10.909,0,0,0-2.9.434,5.478,5.478,0,0,1-7.658,7.658,10.964,10.964,0,1,0,10.556-8.092Z" transform="translate(0 -64)" fill="#080a1e"/>
+  </g>
+</svg>

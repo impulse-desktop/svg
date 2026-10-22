@@ -1167,8 +1167,7 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(ShapeRendering, "shape-rendering")                        \
     ATOM(ImageRendering, "image-rendering")                        \
     ATOM(Zoom, "zoom")                                             \
-    ATOM(Outline, "outline")                                         \
-    ATOM(BorderRadius, "border-radius")
+    ATOM(Outline, "outline")
 
 namespace {
     enum Atom : u32 {
@@ -1187,7 +1186,7 @@ namespace {
     };
 
     constexpr u32 firstProperty = AtomFill;
-    constexpr u32 propertyCount = AtomBorderRadius - AtomFill + 1;
+    constexpr u32 propertyCount = AtomOutline - AtomFill + 1;
     constexpr float pi = 3.14159265358979323846f;
     constexpr double piDouble = 3.14159265358979323846;
     constexpr float tolerance = 0.025f;
@@ -1204,8 +1203,8 @@ namespace {
     const StringView xincludeNamespace = SV("http://www.w3.org/2001/XInclude");
 
     struct Point {
-        double x;
-        double y;
+        float x;
+        float y;
     };
 
     struct DPoint {
@@ -1214,12 +1213,12 @@ namespace {
     };
 
     struct Matrix {
-        double a;
-        double b;
-        double c;
-        double d;
-        double e;
-        double f;
+        float a;
+        float b;
+        float c;
+        float d;
+        float e;
+        float f;
     };
 
     // A 3D transform seen on the plane z = 0 in perspective: a point goes to
@@ -1241,10 +1240,10 @@ namespace {
     };
 
     struct Box {
-        double x0;
-        double y0;
-        double x1;
-        double y1;
+        float x0;
+        float y0;
+        float x1;
+        float y1;
     };
 
     struct Color {
@@ -1409,9 +1408,6 @@ namespace {
         u32* classes;
         u32 classCount;
         bool classesReady;
-        // Shape geometry declarations explicitly using the CSS inherit
-        // keyword. A use instance resolves them against its shadow parent.
-        u32 inheritedShapeGeometry;
         // Whether a child element or text, white space too, is in it.
         bool filled;
     };
@@ -1449,7 +1445,6 @@ namespace {
         Interner atoms;
         Node* root;
         u32 nodeCount;
-        u32 useCount;
         Vector<Node*> byId;
         Rule* rules;
         u32 ruleCount;
@@ -1480,9 +1475,10 @@ namespace {
         Vector<CustomValue> customValues;
         bool variables;
         size_t substitutionBudget;
-        // How many elements a pass may draw and measure, instances counted
-        // each time. Source length sets the ordinary limit; an astronomical
-        // use graph gets the smaller D54 limit.
+        // How many elements a pass over the document may draw and measure,
+        // instances of a use, a marker or a pattern counted each time, by
+        // its source's length: what a document instancing itself over and
+        // over runs out of, and no file drawn as written comes near.
         size_t workBudget;
     };
 
@@ -1891,8 +1887,6 @@ namespace {
         BasicShape* clipShape;
         // The clip property's rect(), as the four sides of a rect().
         BasicShape* clipRect;
-        // The non-inherited CSS corners of the outer SVG's image content.
-        Length* borderRadii;
         // The values of mask-image and the other longhands of mask, in
         // their order, none for the initial one; of mask-border's the same.
         u32 maskParts[MaskParts];
@@ -2035,10 +2029,6 @@ namespace {
         // the average of its colours (pservers.md, RadialGradientNotes).
         bool beyond;
         u16 beyond16[4];
-        // A repeating linear gradient with hundreds of cycles per device
-        // pixel is sampled by its area average instead of at one point.
-        bool denseLinear;
-        u16 dense16[4];
         // The device bounds of the fill a pattern paints and whether a filter
         // samples it everywhere; the tile pixels its tile is drawn over,
         // unwrapped.
@@ -2703,24 +2693,23 @@ namespace {
         return Matrix{1.f, 0.f, 0.f, 1.f, 0.f, 0.f};
     }
 
-    static Matrix translation(double x, double y) {
+    static Matrix translation(float x, float y) {
         return Matrix{1.f, 0.f, 0.f, 1.f, x, y};
     }
 
-    static Matrix scaling(double x, double y) {
+    static Matrix scaling(float x, float y) {
         return Matrix{x, 0.f, 0.f, y, 0.f, 0.f};
     }
 
-    // Keep CTM arithmetic in doubles so a small viewBox around large
-    // coordinates does not lose its low bits before reaching the viewport.
+    // SVG 2 makes a CTM in doubles and keeps it in singles.
     static Matrix multiply(const Matrix& m, const Matrix& n) {
         return Matrix{
-            m.a * n.a + m.c * n.b,
-            m.b * n.a + m.d * n.b,
-            m.a * n.c + m.c * n.d,
-            m.b * n.c + m.d * n.d,
-            m.a * n.e + m.c * n.f + m.e,
-            m.b * n.e + m.d * n.f + m.f,
+            (float)((double)m.a * n.a + (double)m.c * n.b),
+            (float)((double)m.b * n.a + (double)m.d * n.b),
+            (float)((double)m.a * n.c + (double)m.c * n.d),
+            (float)((double)m.b * n.c + (double)m.d * n.d),
+            (float)((double)m.a * n.e + (double)m.c * n.f + m.e),
+            (float)((double)m.b * n.e + (double)m.d * n.f + m.f),
         };
     }
 
@@ -2737,18 +2726,18 @@ namespace {
 
         double inv = 1.0 / det;
 
-        out.a = m.d * inv;
-        out.b = -m.b * inv;
-        out.c = -m.c * inv;
-        out.d = m.a * inv;
-        out.e = (m.c * m.f - m.d * m.e) * inv;
-        out.f = (m.b * m.e - m.a * m.f) * inv;
+        out.a = (float)(m.d * inv);
+        out.b = (float)(-m.b * inv);
+        out.c = (float)(-m.c * inv);
+        out.d = (float)(m.a * inv);
+        out.e = (float)((m.c * (double)m.f - m.d * (double)m.e) * inv);
+        out.f = (float)((m.b * (double)m.e - m.a * (double)m.f) * inv);
 
         return true;
     }
 
     static Projective projectiveOf(const Matrix& m) {
-        return Projective{{(float)m.a, (float)m.c, (float)m.e, (float)m.b, (float)m.d, (float)m.f, 0.f, 0.f, 1.f}, true, false, false};
+        return Projective{{m.a, m.c, m.e, m.b, m.d, m.f, 0.f, 0.f, 1.f}, true, false, false};
     }
 
     static Matrix4 identity4() {
@@ -2756,7 +2745,7 @@ namespace {
     }
 
     static Matrix4 matrix4Of(const Matrix& m) {
-        return Matrix4{{{(float)m.a, (float)m.c, 0.f, (float)m.e}, {(float)m.b, (float)m.d, 0.f, (float)m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}};
+        return Matrix4{{{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}};
     }
 
     static Matrix4 translation4(float x, float y, float z) {
@@ -2867,19 +2856,6 @@ namespace {
         float sy = sqrtf(m.c * m.c + m.d * m.d);
 
         return maxf(sx, sy);
-    }
-
-    // The least width a transformed stroke can have, in device pixels.
-    // Use the smaller singular value rather than either column's length:
-    // a skew can compress a stroke in a direction neither column shows.
-    static float minimumScale(const Matrix& m) {
-        double x = (double)m.a * m.a + (double)m.b * m.b;
-        double y = (double)m.c * m.c + (double)m.d * m.d;
-        double cross = (double)m.a * m.c + (double)m.b * m.d;
-        double largest = (x + y + hypot(x - y, 2.0 * cross)) / 2.0;
-        double determinant = (double)m.a * m.d - (double)m.b * m.c;
-
-        return largest > 0.0 ? (float)(fabs(determinant) / sqrt(largest)) : 0.f;
     }
 
     static Box emptyBox() {
@@ -3833,10 +3809,6 @@ namespace {
             node = xml.doc->pool->make<Node>();
             node->name = intern(xml.doc->atoms, local);
             node->index = xml.doc->nodeCount++;
-
-            if (node->name == AtomUse) {
-                xml.doc->useCount++;
-            }
 
             if (parent) {
                 attach(parent, node);
@@ -6545,32 +6517,6 @@ namespace {
         return readMathNumber(p, p + tokens.length(), out);
     }
 
-    static bool listNumber(Lexer& x, double& out) {
-        skipBlank(x);
-
-        if (x.p >= x.end) {
-            return false;
-        }
-
-        const u8* start = x.p;
-        Token t = consumeToken(x);
-
-        if (t.type == TokenType::Number) {
-            out = t.number;
-            return true;
-        }
-
-        x.p = start;
-        float value;
-
-        if (!listNumber(x, value)) {
-            return false;
-        }
-
-        out = value;
-        return true;
-    }
-
     // Whether an attribute's value is blank: white space alone, but for the
     // atom of a declaration's value, which has no text.
     static bool blank(const Document& doc, u32 atom) {
@@ -6650,7 +6596,6 @@ namespace {
 
     static bool validGeometry(u32 property, Tokens value);
     static bool validDeclaration(const Document& doc, u32 property, Tokens value);
-    static bool cssRadii(Tokens value, BasicShape& out);
     static bool expandMask(const Document& doc, Tokens value, u32 (&out)[MaskParts], u32* color);
     static bool expandMaskBorder(const Document& doc, Tokens value, u32 (&out)[MaskBorderParts]);
 
@@ -7257,7 +7202,7 @@ namespace {
         Viewport view{0.f, 0.f, 0.f, 0.f, 16.f};
         Box viewBox;
         bool boxed = parseViewBox(doc, doc.root, viewBox);
-        float sides[2] = {(float)(boxed ? viewBox.x1 - viewBox.x0 : 0.0), (float)(boxed ? viewBox.y1 - viewBox.y0 : 0.0)};
+        float sides[2] = {boxed ? viewBox.x1 - viewBox.x0 : 0.f, boxed ? viewBox.y1 - viewBox.y0 : 0.f};
         u32 names[2] = {AtomWidth, AtomHeight};
 
         for (int k = 0; k < 2; k++) {
@@ -8439,11 +8384,6 @@ namespace {
                 return isKeyword(value, SV("none")) || validDashes(value);
             case AtomStrokeWidth:
                 return parseLength(value, length) && nonNegative(length);
-            case AtomBorderRadius: {
-                BasicShape shape;
-
-                return cssRadii(value, shape);
-            }
             case AtomTransformStyle:
                 return isKeyword(value, SV("flat")) || isKeyword(value, SV("preserve-3d"));
             case AtomPerspective:
@@ -8506,21 +8446,6 @@ namespace {
                 return AtomScaleProperty;
             default:
                 return property == AtomPathLengthProperty ? AtomPathLength : property;
-        }
-    }
-
-    static u32 shapeGeometryBit(u32 property) {
-        switch (property) {
-            case AtomX: return 1u << 0;
-            case AtomY: return 1u << 1;
-            case AtomWidth: return 1u << 2;
-            case AtomHeight: return 1u << 3;
-            case AtomCx: return 1u << 4;
-            case AtomCy: return 1u << 5;
-            case AtomR: return 1u << 6;
-            case AtomRx: return 1u << 7;
-            case AtomRy: return 1u << 8;
-            default: return 0;
         }
     }
 
@@ -8647,7 +8572,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomBorderRadius && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
                 bool pending = valueSubstitutes(doc, value);
 
                 if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
@@ -8713,10 +8638,6 @@ namespace {
             // initial and unset, as no geometry property inherits, the
             // initial one.
             CssKeyword keyword = value ? valueKeyword(doc, value) : CssNone;
-
-            if (!boundary && keyword == CssInherit) {
-                node->inheritedShapeGeometry |= shapeGeometryBit(declaration.property);
-            }
 
             if (keyword == CssInherit && declaration.property != AtomD) {
                 value = inheritedGeometry(doc, node->parent, declaration.property);
@@ -9840,6 +9761,21 @@ namespace {
         return lengthAttribute(doc, node, name, axis, vp, fontSize, value) ? value : fallback;
     }
 
+    // A length attribute in a non-negative range, a math function clamped
+    // into it.
+    static bool nonNegativeAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
+        u32 value = attribute(node, name);
+        Length length;
+
+        if (!value || !attributeLength(doc, value, length) || !nonNegative(length)) {
+            return false;
+        }
+
+        out = resolveLength(length, axis, vp, fontSize);
+
+        return true;
+    }
+
     // A refX or refY: a length, or a keyword for 0%, 50% or 100% of the
     // size the content draws in, as SVG 2 maps them. False when the
     // attribute gives neither.
@@ -10557,7 +10493,7 @@ namespace {
         float t[4][4];
 
         if (!b.deep) {
-            float flat[4][4] = {{(float)b.result.a, (float)b.result.c, 0.f, (float)b.result.e}, {(float)b.result.b, (float)b.result.d, 0.f, (float)b.result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            float flat[4][4] = {{b.result.a, b.result.c, 0.f, b.result.e}, {b.result.b, b.result.d, 0.f, b.result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
             memcpy(b.m4, flat, sizeof(flat));
             b.deep = true;
@@ -10663,8 +10599,6 @@ namespace {
             args[i] = units[i] == 3 ? args[i] / 100.f * (scale ? 1.f : side) : args[i];
         }
 
-        bool sourceMatrix = name == SV("matrix");
-
         // A function of CSS alone comes here with its count: a declaration
         // checked it above, a value either grammar takes was one.
         if (name == SV("translateX")) {
@@ -10747,15 +10681,7 @@ namespace {
         }
 
         if (name == SV("matrix") && count == 6) {
-            bool numbers = true;
-
-            for (u32 i = 0; i < 6 && sourceMatrix; i++) {
-                numbers &= units[i] == 0 && arguments[i].begin->type == TokenType::Number;
-            }
-
-            m = numbers && sourceMatrix ? Matrix{arguments[0].begin->number, arguments[1].begin->number, arguments[2].begin->number,
-                                 arguments[3].begin->number, arguments[4].begin->number, arguments[5].begin->number}
-                        : Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
+            m = Matrix{args[0], args[1], args[2], args[3], args[4], args[5]};
         } else if (name == SV("translate") && (count == 1 || count == 2)) {
             m = translation(args[0], count == 2 ? args[1] : 0.f);
         } else if (name == SV("scale") && (count == 1 || count == 2)) {
@@ -10779,7 +10705,7 @@ namespace {
         }
 
         if (b.deep) {
-            float flat[4][4] = {{(float)m.a, (float)m.c, 0.f, (float)m.e}, {(float)m.b, (float)m.d, 0.f, (float)m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            float flat[4][4] = {{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
             composeTransform(b, flat);
         } else {
@@ -11205,7 +11131,7 @@ namespace {
     // viewBox, or a view's box in a fragment.
     static bool parseViewBoxText(ObjPool& pool, StringView text, Box& out) {
         Lexer x{&pool, text.begin(), text.end()};
-        double numbers[4];
+        float numbers[4];
 
         for (u32 i = 0; i < 4; i++) {
             if (!listNumber(x, numbers[i])) {
@@ -11219,7 +11145,7 @@ namespace {
 
         skipBlank(x);
 
-        if (x.p != x.end || numbers[2] < 0.0 || numbers[3] < 0.0) {
+        if (x.p != x.end || numbers[2] < 0.f || numbers[3] < 0.f) {
             return false;
         }
 
@@ -11260,10 +11186,10 @@ namespace {
     }
 
     static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, float width, float height) {
-        double vw = viewBox.x1 - viewBox.x0;
-        double vh = viewBox.y1 - viewBox.y0;
-        double sx = width / vw;
-        double sy = height / vh;
+        float vw = viewBox.x1 - viewBox.x0;
+        float vh = viewBox.y1 - viewBox.y0;
+        double sx = (double)width / vw;
+        double sy = (double)height / vh;
         int alignX = 1;
         int alignY = 1;
         bool slice = false;
@@ -11293,7 +11219,7 @@ namespace {
         }
 
         if (none) {
-            return multiply(scaling(sx, sy), translation(-viewBox.x0, -viewBox.y0));
+            return multiply(scaling((float)sx, (float)sy), translation(-viewBox.x0, -viewBox.y0));
         }
 
         // The side that sets the scale is filled exactly; only the other is
@@ -11302,7 +11228,7 @@ namespace {
         double tx = -(double)viewBox.x0 * s + (s == sx ? 0.0 : (width - vw * s) * alignX * 0.5);
         double ty = -(double)viewBox.y0 * s + (s == sy ? 0.0 : (height - vh * s) * alignY * 0.5);
 
-        return Matrix{s, 0.0, 0.0, s, tx, ty};
+        return Matrix{(float)s, 0.f, 0.f, (float)s, (float)tx, (float)ty};
     }
 
     static void moveTo(Path& path, Point p) {
@@ -11483,7 +11409,7 @@ namespace {
             u8 upper = relative ? (u8)(command - 32) : command;
             DPoint base = relative ? current : DPoint{0.0, 0.0};
             auto stored = [](DPoint q) {
-                return Point{q.x, q.y};
+                return Point{(float)q.x, (float)q.y};
             };
 
             // A closepath takes no comma after it (paths.md, PathDataBNF):
@@ -11551,10 +11477,10 @@ namespace {
                         whole = whole && *q != '.' && (*q | 32) != 'e';
                     }
 
-                    // Accept a lone trailing point as SVG 1.1 did (D53),
-                    // but not two adjacent points: that can also be a typo
-                    // for one fractional number. SVG 2 stops at the error.
-                    if (ok && whole && at(p, end, '.') && !(p + 1 < end && p[1] == '.')) {
+                    // A point that no digit follows ends a number of digits
+                    // alone, as SVG 1.1's grammar had it and SVG 2 lets a
+                    // reader take it (paths.md, PathDataBNF; D53).
+                    if (ok && whole && at(p, end, '.')) {
                         p++;
                     }
 
@@ -11676,83 +11602,6 @@ namespace {
         closePath(path);
     }
 
-    // A geometry declaration of inherit is resolved against the source's
-    // parent for the original element, but against the use host (or its
-    // cloned parent) when the element is instanced. Keep the source's
-    // ordinary resolved attribute and substitute only in that instance.
-    static u32 shapeGeometryValue(const Pass& l, const Node* node, u32 property, u32 depth = 0) {
-        u32 original = attribute(node, property);
-        u32 bit = shapeGeometryBit(property);
-
-        if (!(node->inheritedShapeGeometry & bit)) {
-            return original;
-        }
-
-        bool instanced = false;
-
-        for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
-            for (const Node* up = node; up; up = up->parent) {
-                if (up == l.hosts[k - 2]) {
-                    instanced = true;
-                    break;
-                }
-            }
-
-            if (instanced) {
-                break;
-            }
-        }
-
-        Document& doc = *l.doc;
-
-        if (!instanced || depth >= 64) {
-            u32 value = inheritedGeometry(doc, node, property);
-
-            return value ? geometryAtom(doc, property, value) : 0;
-        }
-
-        const Node* parent = node->parent;
-
-        for (size_t k = l.hosts.length(); k >= 2; k -= 2) {
-            if (l.hosts[k - 2] == node) {
-                parent = l.hosts[k - 1];
-                break;
-            }
-        }
-
-        if (!parent) {
-            return 0;
-        }
-
-        if (parent->inheritedShapeGeometry & bit) {
-            return shapeGeometryValue(l, parent, property, depth + 1);
-        }
-
-        u32 value = inheritedGeometry(doc, parent, property);
-
-        return value ? geometryAtom(doc, property, value) : 0;
-    }
-
-    static float shapeLengthOr(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float fallback) {
-        u32 value = shapeGeometryValue(l, node, property);
-        Length length;
-
-        return value && attributeLength(*l.doc, value, length) ? resolveLength(length, axis, vp, fontSize) : fallback;
-    }
-
-    static bool shapeNonNegative(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float& out) {
-        u32 value = shapeGeometryValue(l, node, property);
-        Length length;
-
-        if (!value || !attributeLength(*l.doc, value, length) || !nonNegative(length)) {
-            return false;
-        }
-
-        out = resolveLength(length, axis, vp, fontSize);
-
-        return true;
-    }
-
     static bool buildShape(const Pass& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
         const Document& doc = *l.doc;
         float fs = style.fontSize;
@@ -11781,14 +11630,14 @@ namespace {
                 }
             } break;
             case AtomRect: {
-                float x = shapeLengthOr(l, node, AtomX, Axis::X, vp, fs, 0.f);
-                float y = shapeLengthOr(l, node, AtomY, Axis::Y, vp, fs, 0.f);
-                float w = shapeLengthOr(l, node, AtomWidth, Axis::X, vp, fs, 0.f);
-                float h = shapeLengthOr(l, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+                float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
+                float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
+                float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
+                float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
                 float rx;
                 float ry;
-                bool hasRx = shapeNonNegative(l, node, AtomRx, Axis::X, vp, fs, rx);
-                bool hasRy = shapeNonNegative(l, node, AtomRy, Axis::Y, vp, fs, ry);
+                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
+                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
 
                 if (w <= 0.f || h <= 0.f) {
                     return false;
@@ -11829,20 +11678,20 @@ namespace {
                 break;
             }
             case AtomCircle: {
-                float r = shapeLengthOr(l, node, AtomR, Axis::Other, vp, fs, 0.f);
+                float r = lengthOr(doc, node, AtomR, Axis::Other, vp, fs, 0.f);
 
                 if (r <= 0.f) {
                     return false;
                 }
 
-                ellipsePath(path, shapeLengthOr(l, node, AtomCx, Axis::X, vp, fs, 0.f), shapeLengthOr(l, node, AtomCy, Axis::Y, vp, fs, 0.f), r, r);
+                ellipsePath(path, lengthOr(doc, node, AtomCx, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomCy, Axis::Y, vp, fs, 0.f), r, r);
                 break;
             }
             case AtomEllipse: {
                 float rx;
                 float ry;
-                bool hasRx = shapeNonNegative(l, node, AtomRx, Axis::X, vp, fs, rx);
-                bool hasRy = shapeNonNegative(l, node, AtomRy, Axis::Y, vp, fs, ry);
+                bool hasRx = nonNegativeAttribute(doc, node, AtomRx, Axis::X, vp, fs, rx);
+                bool hasRy = nonNegativeAttribute(doc, node, AtomRy, Axis::Y, vp, fs, ry);
 
                 if (!hasRx) {
                     rx = hasRy ? ry : 0.f;
@@ -11856,7 +11705,7 @@ namespace {
                     return false;
                 }
 
-                ellipsePath(path, shapeLengthOr(l, node, AtomCx, Axis::X, vp, fs, 0.f), shapeLengthOr(l, node, AtomCy, Axis::Y, vp, fs, 0.f), rx, ry);
+                ellipsePath(path, lengthOr(doc, node, AtomCx, Axis::X, vp, fs, 0.f), lengthOr(doc, node, AtomCy, Axis::Y, vp, fs, 0.f), rx, ry);
                 break;
             }
             case AtomLine:
@@ -12285,18 +12134,6 @@ namespace {
         bool open = false;
         Point start{0.f, 0.f};
         Point last{0.f, 0.f};
-        // Round only where a float's spacing is far below the flattening
-        // tolerance. Strokes are outlined in source space, which can still
-        // have a large origin even when the final image is small.
-        auto rasterPoint = [&](Point p) {
-            Point device = apply(m, p);
-
-            if (fmax(fabs(device.x), fabs(device.y)) * 0x1p-23 <= tol / 8.0) {
-                return Point{(float)device.x, (float)device.y};
-            }
-
-            return device;
-        };
 
         auto finish = [&](bool closed) {
             if (open) {
@@ -12336,7 +12173,7 @@ namespace {
             switch (verb) {
                 case VerbMove:
                     finish(false);
-                    start = rasterPoint(pts[pi++]);
+                    start = apply(m, pts[pi++]);
                     last = start;
                     out.points.pushBack(start);
                     open = true;
@@ -12348,15 +12185,15 @@ namespace {
 
                     break;
                 case VerbLine:
-                    last = rasterPoint(pts[pi++]);
+                    last = apply(m, pts[pi++]);
                     out.points.pushBack(last);
                     break;
                 case VerbCubic:
                 case VerbArcCubic: {
                     Point p0 = last;
-                    Point p1 = rasterPoint(pts[pi]);
-                    Point p2 = rasterPoint(pts[pi + 1]);
-                    Point p3 = rasterPoint(pts[pi + 2]);
+                    Point p1 = apply(m, pts[pi]);
+                    Point p2 = apply(m, pts[pi + 1]);
+                    Point p3 = apply(m, pts[pi + 2]);
 
                     // Subdividing a straight cubic with a stationary endpoint
                     // can round its final chord into a false stroke-join tangent.
@@ -12404,7 +12241,7 @@ namespace {
 
     // Widens a range by the extremes of a cubic's coordinate between its
     // ends: where its derivative, a quadratic in t, is zero inside (0, 1).
-    static void cubicExtremes(double p0, double p1, double p2, double p3, double& lo, double& hi) {
+    static void cubicExtremes(float p0, float p1, float p2, float p3, float& lo, float& hi) {
         double a = -(double)p0 + 3.0 * p1 - 3.0 * p2 + p3;
         double b = 2.0 * ((double)p0 - 2.0 * p1 + p2);
         double c = (double)p1 - p0;
@@ -12431,10 +12268,10 @@ namespace {
 
             if (t > 0.0 && t < 1.0) {
                 double u = 1.0 - t;
-                double at = u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3;
+                float at = (float)(u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3);
 
-                lo = fmin(lo, at);
-                hi = fmax(hi, at);
+                lo = minf(lo, at);
+                hi = maxf(hi, at);
             }
         }
     }
@@ -12447,33 +12284,20 @@ namespace {
         size_t pi = 0;
         Point start{0.f, 0.f};
         Point last{0.f, 0.f};
-        Point move{0.f, 0.f};
-        bool pendingMove = false;
 
         for (u8 verb : path.verbs) {
             switch (verb) {
                 case VerbMove:
                     start = apply(m, pts[pi++]);
                     last = start;
-                    move = start;
-                    pendingMove = true;
+                    extend(box, last);
                     break;
                 case VerbLine:
-                    if (pendingMove) {
-                        extend(box, move);
-                        pendingMove = false;
-                    }
-
                     last = apply(m, pts[pi++]);
                     extend(box, last);
                     break;
                 case VerbCubic:
                 case VerbArcCubic: {
-                    if (pendingMove) {
-                        extend(box, move);
-                        pendingMove = false;
-                    }
-
                     Point p1 = apply(m, pts[pi]);
                     Point p2 = apply(m, pts[pi + 1]);
                     Point p3 = apply(m, pts[pi + 2]);
@@ -12487,20 +12311,9 @@ namespace {
                 }
                 default:
                     // VerbClose
-                    if (pendingMove) {
-                        extend(box, move);
-                        pendingMove = false;
-                    }
-
                     last = start;
                     break;
             }
-        }
-
-        // A moveto-only subpath has no geometry beside a drawable subpath.
-        // For a path made only of moves, its last point is its zero-size box.
-        if (!boxValid(box) && pendingMove) {
-            extend(box, move);
         }
 
         return box;
@@ -12729,70 +12542,16 @@ namespace {
         Vector<Point> pts;
         Vector<u8> kind;
         Vector<Point> came;
-        // Zero for an ordinary point, source index plus one for a merged
-        // corner with known tangents, all ones for one needing its local legs.
-        Vector<u32> cornerSource;
 
         // Each point after the first comes along the direction of its
         // segment, which may be shorter than the floats can tell; one come
         // along none, a line's after no length, goes, the corner before it
-        // standing for it. At an internal corner, float-identical points
-        // from short adjacent curves have no edges to offset; merge the run
-        // into its one corner. Keep points at a cap, whose curve tangent
-        // still determines its shape even when its last chord rounds away.
+        // standing for it.
         for (size_t i = 0; i < count; i++) {
-            if (pts.length() > 1 && points[i].x == pts.back().x && points[i].y == pts.back().y) {
-                size_t end = i;
-                bool corner = false;
-                size_t source = ~(size_t)0;
-                bool multiple = false;
-
-                while (end < count && points[end].x == pts.back().x && points[end].y == pts.back().y) {
-                    if (kinds[end] == PointCorner && end + 1 < count) {
-                        corner = true;
-                        multiple = multiple || source != ~(size_t)0;
-                        source = end;
-                    }
-                    end++;
-                }
-
-                if (corner && end < count) {
-                    kind.mutBack() = PointCorner;
-                    // Cubic ends and the next cubic's first sample carry
-                    // their true tangents even when both points round to the
-                    // same float position. A remote chord can invent a miter.
-                    // At an opposed-tangent cusp the join side is ambiguous;
-                    // its surrounding legs still determine the outer wedge.
-                    Point a = into[source];
-                    Point b = into[source + 1];
-                    float dot = a.x * b.x + a.y * b.y;
-
-                    cornerSource.mutBack() = !multiple && nonZero(a) && nonZero(b) && dot > -0.99f ? (u32)source + 1 : ~0u;
-                    i = end - 1;
-                    continue;
-                }
-
-                // Keep a run without an internal join as it was: the
-                // samples at either cap still set its tangent. Process the
-                // whole run here so repeated points take linear time.
-                for (size_t j = i; j < end; j++) {
-                    if (into[j].x != 0.f || into[j].y != 0.f) {
-                        pts.pushBack(points[j]);
-                        kind.pushBack(kinds[j]);
-                        came.pushBack(into[j]);
-                        cornerSource.pushBack(0);
-                    }
-                }
-
-                i = end - 1;
-                continue;
-            }
-
             if (pts.length() == 0 || into[i].x != 0.f || into[i].y != 0.f) {
                 pts.pushBack(points[i]);
                 kind.pushBack(kinds[i]);
                 came.pushBack(into[i]);
-                cornerSource.pushBack(0);
             }
         }
 
@@ -12805,7 +12564,6 @@ namespace {
             pts.popBack();
             kind.popBack();
             closing = came.popBack();
-            cornerSource.popBack();
         }
 
         // A run of two or more points at one place: its caps make a dot, a
@@ -12927,9 +12685,6 @@ namespace {
         // endpoint: a tight quarter turn is not a return along the stroke.
         bool returningStart = false;
         bool returningEnd = false;
-        bool collinearStartReturn = false;
-        size_t startReturnBoundary = 0;
-        size_t endReturnBoundary = 0;
 
         if (!closed) {
             float half2 = s.half * s.half;
@@ -12959,229 +12714,12 @@ namespace {
 
             returningStart = startEdge > 0 && start.x * fromStart.x + start.y * fromStart.y < 0.f;
             returningEnd = endEdge + 1 < segments && intoEnd.x * end.x + intoEnd.y * end.y < 0.f;
-
-            // A cubic that doubles back along the same line cannot carve a
-            // visible opening in the stroke. Keep the return only when its
-            // containing source curve moves transversely at this tolerance.
-            auto hasVisibleReturn = [&](bool atStart, size_t& boundary) {
-                Point tip = atStart ? pts[0] : pts[n - 1];
-                Point away = atStart ? dirs[0] : Point{-dirs[segments - 1].x, -dirs[segments - 1].y};
-                float transverse = 0.f;
-                bool reversed = false;
-
-                for (size_t j = 1; j < segments; j++) {
-                    size_t index = atStart ? j : n - 1 - j;
-                    Point p = pts[index];
-                    float dx = p.x - tip.x;
-                    float dy = p.y - tip.y;
-                    transverse = maxf(transverse, fabsf(dx * away.y - dy * away.x));
-                    Point d = atStart ? dirs[j] : Point{-dirs[segments - 1 - j].x, -dirs[segments - 1 - j].y};
-
-                    reversed |= away.x * d.x + away.y * d.y < 0.f;
-
-                    if ((reversed && kind[index] == PointCorner) || dx * dx + dy * dy >= half2) {
-                        boundary = index;
-                        break;
-                    }
-                }
-
-                return transverse > s.tol;
-            };
-
-            if (returningStart) {
-                collinearStartReturn = !hasVisibleReturn(true, startReturnBoundary);
-                returningStart = !collinearStartReturn;
-            }
-
-            if (returningEnd) {
-                returningEnd = hasVisibleReturn(false, endReturnBoundary);
-            }
-        }
-
-        // An internal fold can have two opposed bends within one stroke
-        // width even when the complete open path is long. Its inverted
-        // offset must stay open just as at a small loop or returning tip.
-        // Evaluate the turn in a half-width of path on either side of each
-        // vertex; the two moving bounds visit every segment only once.
-        Vector<u8> localFold;
-
-        if (!closed) {
-            Vector<double> distance;
-            Vector<double> signedTurn;
-            Vector<double> totalTurn;
-            distance.pushBack(0.0);
-            signedTurn.pushBack(0.0);
-            totalTurn.pushBack(0.0);
-
-            for (size_t i = 0; i < segments; i++) {
-                distance.pushBack(distance.back() + lengths[i]);
-
-                if (i > 0) {
-                    Point a = dirs[i - 1];
-                    Point b = dirs[i];
-                    double angle = atan2((double)a.x * b.y - (double)a.y * b.x, (double)a.x * b.x + (double)a.y * b.y);
-                    signedTurn.pushBack(signedTurn.back() + angle);
-                    totalTurn.pushBack(totalTurn.back() + fabs(angle));
-                }
-            }
-
-            size_t left = 0;
-            size_t right = 0;
-
-            auto folded = [&](size_t firstSegment, size_t lastSegment) {
-                double rotation = signedTurn[lastSegment] - signedTurn[firstSegment];
-                double turn = totalTurn[lastSegment] - totalTurn[firstSegment];
-                Point first = dirs[firstSegment];
-                Point last = dirs[lastSegment];
-                bool sameHeading = first.x * last.x + first.y * last.y > 0.f;
-
-                return fabs(rotation) > pi + 0.1f || (sameHeading && turn > pi + 0.1f);
-            };
-
-            auto window = [&](size_t k, double radius, size_t& firstSegment, size_t& lastSegment) {
-                double start = distance[k] - radius;
-                double end = distance[k] + radius;
-                size_t lo = 0;
-                size_t hi = k - 1;
-
-                while (lo < hi) {
-                    size_t mid = (lo + hi) / 2;
-
-                    if (distance[mid + 1] < start) lo = mid + 1;
-                    else hi = mid;
-                }
-
-                firstSegment = lo;
-                lo = k;
-                hi = segments - 1;
-
-                while (lo < hi) {
-                    size_t mid = (lo + hi + 1) / 2;
-
-                    if (distance[mid] <= end) lo = mid;
-                    else hi = mid - 1;
-                }
-
-                lastSegment = lo;
-            };
-
-            for (size_t k = 0; k < n; k++) {
-                if (k == 0 || k + 1 == n) {
-                    localFold.pushBack(0);
-                    continue;
-                }
-
-                while (left + 1 < k && distance[left + 1] < distance[k] - s.half) left++;
-                if (right < k) right = k;
-                while (right + 1 < segments && distance[right + 1] <= distance[k] + s.half) right++;
-
-                bool isFold = folded(left, right);
-
-                // A wider window can include a later unrelated turn. If it
-                // sees sufficient turning but no fold, inspect the smallest
-                // arc-length window that contains the two bends themselves.
-                if (!isFold && totalTurn[right] - totalTurn[left] > pi + 0.1f) {
-                    double low = 0.0;
-                    double high = s.half;
-
-                    for (int step = 0; step < 24; step++) {
-                        double middle = (low + high) / 2.0;
-                        size_t first;
-                        size_t last;
-                        window(k, middle, first, last);
-
-                        if (totalTurn[last] - totalTurn[first] > pi + 0.1f) high = middle;
-                        else low = middle;
-                    }
-
-                    size_t first;
-                    size_t last;
-                    window(k, high, first, last);
-                    isFold = folded(first, last);
-                }
-
-                // The first cubic's collinear return can also satisfy the
-                // local-fold turn test, without an opening in that cubic.
-                if (collinearStartReturn && k <= startReturnBoundary) isFold = false;
-
-                localFold.pushBack(isFold);
-            }
-        }
-
-        // On a short open path the two offset sides can cross behind a butt
-        // cap. Filling their single outline then paints points that no normal
-        // of the centerline reaches. Draw the normal strips as a union instead.
-        // Returning paths keep their intentional inverted offsets (D49).
-        if (!closed && !looped && !returningStart && !returningEnd && s.cap == CapButt) {
-            float run = 0.f;
-            bool folded = false;
-
-            for (float length : lengths) run += length;
-            for (u8 value : localFold) folded |= value != 0;
-
-            // Below a device pixel, the sampled normals can almost coincide
-            // while turning sharply; the existing contour remains the better
-            // approximation at that resolution.
-            if (!folded && run > s.tol / tolerance && run < s.half) {
-                for (size_t i = 0; i < segments; i++) {
-                    Point p = pts[i];
-                    Point q = pts[i + 1];
-                    Point a = i && kind[i] == PointSmooth ? dirs[i - 1] : (i ? dirs[i] : came[0]);
-                    Point b = dirs[i];
-                    Point quad[4] = {offset(p, a, 1.f), offset(q, b, 1.f), offset(q, b, -1.f), offset(p, a, -1.f)};
-
-                    addPolygon(out, quad, 4);
-                }
-
-                for (size_t k = 1; k + 1 < n; k++) {
-                    Point d0 = dirs[k - 1];
-                    Point d1 = dirs[k];
-
-                    if (kind[k] == PointCorner) {
-                        addJoinShape(out, s, pts[k], d0, d1);
-                    }
-                }
-
-                return;
-            }
         }
 
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
             Point d0 = dirs[in];
             Point d1 = dirs[next];
-
-            if (cornerSource[k] && kind[k] == PointCorner) {
-                if (cornerSource[k] != ~0u) {
-                    d0 = into[cornerSource[k] - 1];
-                    d1 = into[cornerSource[k]];
-                } else {
-                    float min2 = s.tol * s.tol;
-
-                    for (size_t j = k; j > 0; j--) {
-                        Point v = direction(pts[j - 1], p);
-                        float len2 = v.x * v.x + v.y * v.y;
-
-                        if (len2 >= min2) {
-                            float inv = 1.f / sqrtf(len2);
-                            d0 = Point{v.x * inv, v.y * inv};
-                            break;
-                        }
-                    }
-
-                    for (size_t j = k + 1; j < n; j++) {
-                        Point v = direction(p, pts[j]);
-                        float len2 = v.x * v.x + v.y * v.y;
-
-                        if (len2 >= min2) {
-                            float inv = 1.f / sqrtf(len2);
-                            d1 = Point{v.x * inv, v.y * inv};
-                            break;
-                        }
-                    }
-                }
-            }
-
             float cross = d0.x * d1.y - d0.y * d1.x;
             float dot = d0.x * d1.x + d0.y * d1.y;
             // The right side is outer where the turn is to the left.
@@ -13263,7 +12801,7 @@ namespace {
             bool nearTip = (returningStart && fromStartX * fromStartX + fromStartY * fromStartY < s.half * s.half) ||
                            (returningEnd && fromEndX * fromEndX + fromEndY * fromEndY < s.half * s.half);
 
-            if ((looped || nearTip || (!closed && localFold[k])) && kind[k] == PointSmooth) {
+            if ((looped || nearTip) && kind[k] == PointSmooth) {
                 sides[inner].pushBack(offset(p, d1, -side));
 
                 return;
@@ -13625,114 +13163,6 @@ namespace {
         return out;
     }
 
-    // Trim a line in double precision before its stroke offsets are rounded
-    // to floats. At a remote endpoint those offsets can round to the same
-    // point, leaving the visible stroke with a collapsed, jagged outline.
-    // The box includes room for the cap, so trimming cannot change the raster.
-    static bool clipStrokeLine(Point a, Point b, const Box& box, float margin, Point& first, Point& last) {
-        if (!isfinite(margin) || !isfinite(box.x0) || !isfinite(box.y0) || !isfinite(box.x1) || !isfinite(box.y1)) {
-            first = a;
-            last = b;
-
-            return true;
-        }
-
-        double dx = (double)b.x - a.x;
-        double dy = (double)b.y - a.y;
-        double enter = 0.0;
-        double leave = 1.0;
-
-        auto axis = [&](double origin, double delta, double lo, double hi) {
-            if (delta == 0.0) {
-                return origin >= lo && origin <= hi;
-            }
-
-            double near = (lo - origin) / delta;
-            double far = (hi - origin) / delta;
-
-            if (near > far) {
-                double swap = near;
-
-                near = far;
-                far = swap;
-            }
-
-            enter = fmax(enter, near);
-            leave = fmin(leave, far);
-
-            return enter <= leave;
-        };
-
-        if (!axis(a.x, dx, (double)box.x0 - margin, (double)box.x1 + margin) ||
-            !axis(a.y, dy, (double)box.y0 - margin, (double)box.y1 + margin)) {
-            return false;
-        }
-
-        first = Point{(float)((double)a.x + dx * enter), (float)((double)a.y + dy * enter)};
-        last = Point{(float)((double)a.x + dx * leave), (float)((double)a.y + dy * leave)};
-
-        return true;
-    }
-
-    // Each run has no offscreen turn inside it. Its first and last lines
-    // may still have remote ends, so trim those ends without disturbing the
-    // joins in the visible part of the run.
-    static void strokeCulledOpenPolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, size_t count, const Box& box) {
-        float margin = count == 2 ? 2.f * s.half + s.tol : s.half * maxf(s.miterLimit, 1.f) + s.tol;
-
-        if (!isfinite(margin)) {
-            strokePolyline(out, s, points, kinds, into, count, false);
-
-            return;
-        }
-
-        auto outside = [&](Point p) {
-            return p.x < (double)box.x0 - margin || p.x > (double)box.x1 + margin ||
-                   p.y < (double)box.y0 - margin || p.y > (double)box.y1 + margin;
-        };
-
-        bool trimFirst = outside(points[0]);
-        bool trimLast = outside(points[count - 1]);
-
-        if (!trimFirst && !trimLast) {
-            strokePolyline(out, s, points, kinds, into, count, false);
-
-            return;
-        }
-
-        if (count == 2) {
-            Point clipped[2];
-
-            if (clipStrokeLine(points[0], points[1], box, margin, clipped[0], clipped[1])) {
-                strokePolyline(out, s, clipped, kinds, into, 2, false);
-            }
-
-            return;
-        }
-
-        Vector<Point> clipped;
-
-        clipped.append(points, count);
-
-        if (trimFirst) {
-            Point end;
-
-            if (!clipStrokeLine(points[0], points[1], box, margin, clipped.mut(0), end)) {
-                return;
-            }
-        }
-
-        if (trimLast) {
-            Point start;
-
-            if (!clipStrokeLine(points[count - 2], points[count - 1], box, margin, start, clipped.mut(count - 1))) {
-                return;
-            }
-        }
-
-        strokePolyline(out, s, clipped.data(), kinds, into, count, false);
-    }
-
     // The stroke of the path, in the path's space; a dash outside the box, the
     // raster in that space, is left out.
     static void strokePath(const Path& path, const ComputedStyle& style, float scale, const Box* cull, Flat& out) {
@@ -13829,12 +13259,12 @@ namespace {
                         Point p = points[k];
 
                         if (p.x < cull->x0 - reach || p.x > cull->x1 + reach || p.y < cull->y0 - reach || p.y > cull->y1 + reach) {
-                            strokeCulledOpenPolyline(out, s, points + from, kinds + from, into + from, k - from + 1, *cull);
+                            strokePolyline(out, s, points + from, kinds + from, into + from, k - from + 1, false);
                             from = k;
                         }
                     }
 
-                    strokeCulledOpenPolyline(out, s, points + from, kinds + from, into + from, count - from, *cull);
+                    strokePolyline(out, s, points + from, kinds + from, into + from, count - from, false);
                 } else {
                     strokePolyline(out, s, points, kinds, into, count, flat.closed[i]);
                 }
@@ -14407,24 +13837,6 @@ namespace {
             Length corners[4] = {r[0], n > 1 ? r[1] : r[0], n > 2 ? r[2] : r[0], n > 3 ? r[3] : (n > 1 ? r[1] : r[0])};
 
             memcpy(out.radii + k * 4, corners, sizeof(corners));
-        }
-
-        return true;
-    }
-
-    // The CSS border-radius shorthand has the same corner expansion as
-    // inset(... round ...), but a nonzero bare number is not a CSS length.
-    static bool cssRadii(Tokens value, BasicShape& out) {
-        const Token* p = value.begin;
-
-        if (!parseRadii(p, value.end, out) || p != value.end) {
-            return false;
-        }
-
-        for (const Length& radius : out.radii) {
-            if (radius.unit == Unit::Number && radius.value != 0.f && !radius.calc) {
-                return false;
-            }
         }
 
         return true;
@@ -15006,7 +14418,6 @@ namespace {
         style.clipPath = 0;
         style.clipShape = nullptr;
         style.clipRect = nullptr;
-        style.borderRadii = nullptr;
         style.nonScaling = false;
         style.vectorEffects = 0;
         style.blend = 0;
@@ -15059,7 +14470,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomBorderRadius && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -15099,7 +14510,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomBorderRadius && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -15514,29 +14925,6 @@ namespace {
                     style.outlineColor = color;
                     break;
                 }
-                case AtomBorderRadius: {
-                    if (keyword) {
-                        style.borderRadii = source.borderRadii;
-                        break;
-                    }
-
-                    BasicShape shape;
-
-                    if (cssRadii(value, shape)) {
-                        bool rounded = false;
-
-                        for (const Length& radius : shape.radii) {
-                            rounded = rounded || radius.value != 0.f || radius.calc;
-                        }
-
-                        if (rounded) {
-                            style.borderRadii = (Length*)l.pool->allocate(sizeof(shape.radii));
-                            memcpy(style.borderRadii, shape.radii, sizeof(shape.radii));
-                        }
-                    }
-
-                    break;
-                }
                 case AtomZoom:
                     if (keyword) {
                         style.zoom = source.zoom;
@@ -15824,7 +15212,7 @@ namespace {
                     extend(bounds, a);
 
                     if (a.y != b.y) {
-                        l.edges.pushBack(Edge{(float)a.x, (float)a.y, (float)b.x, (float)b.y});
+                        l.edges.pushBack(Edge{a.x, a.y, b.x, b.y});
                     }
                 }
             }
@@ -15993,7 +15381,7 @@ namespace {
     // the space the transform works in, or the viewport
     // (css-transforms-1.md, transform-box).
     static Matrix referencedTransform(Pass& l, Node* node, u32 transform, Box box, Viewport vp) {
-        TransformBasis basis{Viewport{(float)(box.x1 - box.x0), (float)(box.y1 - box.y0), vp.screenWidth, vp.screenHeight, vp.rootFontSize}, documentStyle(l, node, vp).fontSize};
+        TransformBasis basis{Viewport{box.x1 - box.x0, box.y1 - box.y0, vp.screenWidth, vp.screenHeight, vp.rootFontSize}, documentStyle(l, node, vp).fontSize};
         Vector<Token> scratch;
         Matrix m = flatTransform(readTokens(*l.doc, transform, scratch), &basis);
         u32 origin = attribute(node, AtomTransformOrigin);
@@ -17327,8 +16715,6 @@ namespace {
             }
 
             p.active.pushBack(target);
-            p.hosts.pushBack(target);
-            p.hosts.pushBack(node);
 
             if (target->name == AtomSymbol || target->name == AtomSvg) {
                 // The use sizes the viewport it instances.
@@ -17348,8 +16734,6 @@ namespace {
                 childExtent(p, target, m, style, vp, how, depth, box);
             }
 
-            p.hosts.popBack();
-            p.hosts.popBack();
             p.active.popBack();
 
             return;
@@ -17828,7 +17212,7 @@ namespace {
         if (shape.kind == ShapeKind::Circle || shape.kind == ShapeKind::Ellipse) {
             float cx = box.x0 + shapeLength(shape.values[2], w, vp, fs);
             float cy = box.y0 + shapeLength(shape.values[3], h, vp, fs);
-            float sides[2][2] = {{(float)(cx - box.x0), (float)(box.x1 - cx)}, {(float)(cy - box.y0), (float)(box.y1 - cy)}};
+            float sides[2][2] = {{cx - box.x0, box.x1 - cx}, {cy - box.y0, box.y1 - cy}};
             float radii[2];
 
             for (int axis = 0; axis < 2; axis++) {
@@ -18430,8 +17814,8 @@ namespace {
             parseCssGradient(layer.image, style.color, gradient);
         }
 
-        float span[2] = {(float)(area.x1 - area.x0), (float)(area.y1 - area.y0)};
-        float start[2] = {(float)area.x0, (float)area.y0};
+        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
+        float start[2] = {area.x0, area.y0};
         float size[2];
         float gap[2] = {0.f, 0.f};
         float origin[2];
@@ -18632,7 +18016,7 @@ namespace {
         }
 
         Box area{box.x0 - outset[3], box.y0 - outset[0], box.x1 + outset[1], box.y1 + outset[2]};
-        float span[2] = {(float)(area.x1 - area.x0), (float)(area.y1 - area.y0)};
+        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
         float size[2];
 
         for (int axis = 0; axis < 2; axis++) {
@@ -18666,8 +18050,8 @@ namespace {
         }
 
         // The regions' and the parts' edges, and the edges' scales.
-        float dx[4] = {(float)area.x0, (float)(area.x0 + width[3]), (float)(area.x1 - width[1]), (float)area.x1};
-        float dy[4] = {(float)area.y0, (float)(area.y0 + width[0]), (float)(area.y1 - width[2]), (float)area.y1};
+        float dx[4] = {area.x0, area.x0 + width[3], area.x1 - width[1], area.x1};
+        float dy[4] = {area.y0, area.y0 + width[0], area.y1 - width[2], area.y1};
         float sx[4] = {0.f, slice[3], size[0] - slice[1], size[0]};
         float sy[4] = {0.f, slice[0], size[1] - slice[2], size[1]};
         float scale[4];
@@ -18713,7 +18097,7 @@ namespace {
             for (int c = 0; c < 3; c++) {
                 Box region{dx[c], dy[r], dx[c + 1], dy[r + 1]};
                 Box part{sx[c], sy[r], sx[c + 1], sy[r + 1]};
-                float length[2] = {(float)(region.x1 - region.x0), (float)(region.y1 - region.y0)};
+                float length[2] = {region.x1 - region.x0, region.y1 - region.y0};
 
                 if (!(length[0] > 0.f) || !(length[1] > 0.f)) {
                     continue;
@@ -18732,7 +18116,7 @@ namespace {
                 float across = c != 1 ? length[0] : (part.x1 - part.x0) * (r != 1 ? scale[r] : (usable(scale[0]) ? scale[0] : (usable(scale[2]) ? scale[2] : 1.f)));
                 float down = r != 1 ? length[1] : (part.y1 - part.y0) * (c != 1 ? scale[3 - c] : (usable(scale[3]) ? scale[3] : (usable(scale[1]) ? scale[1] : 1.f)));
                 float tile[2] = {across, down};
-                float start[2] = {(float)region.x0, (float)region.y0};
+                float start[2] = {region.x0, region.y0};
                 float gap[2] = {0.f, 0.f};
                 u8 repeat[2] = {c == 1 ? border.repeat[0] : (u8)0, r == 1 ? border.repeat[1] : (u8)0};
                 bool empty = false;
@@ -19587,7 +18971,7 @@ namespace {
             }
 
             content = viewBoxTransform(doc, marker, viewBox, w, h);
-            inside = Viewport{(float)(viewBox.x1 - viewBox.x0), (float)(viewBox.y1 - viewBox.y0), vp.screenWidth, vp.screenHeight, p.rootFontSize};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, p.rootFontSize};
         }
 
         // A percentage of refX or refY is of the viewBox, a keyword its 0%,
@@ -19927,15 +19311,7 @@ namespace {
                         }
                     }
 
-                    // Outside a tile, sampling only pixel centres can erase a
-                    // stroke narrower than a device pixel. Inside a pattern,
-                    // keep crisp sampling: antialiased boundary strokes leave
-                    // seams when their reduced tile is repeated.
-                    const Matrix& strokeMatrix = style.nonScaling ? l.host : m;
-                    bool aliased = style.aliased &&
-                                   (l.patternDepth != 0 || (double)style.strokeWidth * minimumScale(strokeMatrix) >= 1.0);
-
-                    emitFill(l, device, WindingNonZero, stroke, aliased, style.linearColors);
+                    emitFill(l, device, WindingNonZero, stroke, style.aliased, style.linearColors);
                 }
             } else if (layer == 2) {
                 Matrix outerMatrix = l.contextMatrix;
@@ -19968,7 +19344,7 @@ namespace {
             }
 
             boxed = viewBoxTransform(*l.doc, node, viewBox, w, h);
-            inside = Viewport{(float)(viewBox.x1 - viewBox.x0), (float)(viewBox.y1 - viewBox.y0), vp.screenWidth, vp.screenHeight, l.rootFontSize};
+            inside = Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, vp.screenWidth, vp.screenHeight, l.rootFontSize};
         }
 
         // A symbol's refX and refY put that point of its content at x and
@@ -20930,7 +20306,7 @@ namespace {
 
         l.out->pushBack(op);
         l.rootFontSize = rootStyle.fontSize;
-        lowerChildren(l, nested->root, rootStyle, multiply(place, source.transform), Viewport{(float)(viewBox.x1 - viewBox.x0), (float)(viewBox.y1 - viewBox.y0), source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
+        lowerChildren(l, nested->root, rootStyle, multiply(place, source.transform), Viewport{viewBox.x1 - viewBox.x0, viewBox.y1 - viewBox.y0, source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize});
         l.rootFontSize = outerFontSize;
         l.docWidth = outerDocWidth;
         l.docHeight = outerDocHeight;
@@ -21640,7 +21016,7 @@ namespace {
             // derivative there, the linear part less the point by the weight's
             // gradient, over the weight.
             float weight = d[6] * middle.x + d[7] * middle.y + d[8];
-            float columns[2][2] = {{(float)((d[0] - at.x * d[6]) / weight), (float)((d[3] - at.y * d[6]) / weight)}, {(float)((d[1] - at.x * d[7]) / weight), (float)((d[4] - at.y * d[7]) / weight)}};
+            float columns[2][2] = {{(d[0] - at.x * d[6]) / weight, (d[3] - at.y * d[6]) / weight}, {(d[1] - at.x * d[7]) / weight, (d[4] - at.y * d[7]) / weight}};
             float scale = minf(maxf(maxf(hypotf(columns[0][0], columns[0][1]), hypotf(columns[1][0], columns[1][1])), 0.0625f), 16.f);
             float budget = 16.f * (float)l.width * (float)l.height;
 
@@ -22743,39 +22119,6 @@ namespace {
         out[3] = c[3];
     }
 
-    // Integrate one cycle, splitting at every stop so a narrow interval or
-    // coincident stops cannot disappear in a uniformly sampled table.
-    static void gradientMean(const DevicePaint& paint, u16* out) {
-        double sums[4] = {0, 0, 0, 0};
-        float start = 0.f;
-
-        for (u32 i = 0; i <= paint.stopCount; i++) {
-            float end = i < paint.stopCount ? paint.stops[i].offset : 1.f;
-
-            if (end <= start) {
-                continue;
-            }
-
-            constexpr int samples = 32;
-            double step = (double)(end - start) / samples;
-
-            for (int j = 0; j < samples; j++) {
-                u16 c[4];
-                gradientColor(paint, (float)((double)start + ((double)j + .5) * step), c);
-
-                for (int k = 0; k < 4; k++) {
-                    sums[k] += step * c[k];
-                }
-            }
-
-            start = end;
-        }
-
-        for (int k = 0; k < 4; k++) {
-            out[k] = (u16)(sums[k] + .5);
-        }
-    }
-
     // The table of a gradient: its colours at as many evenly spaced t from 0
     // to 1 as the gradient spans device pixels twice over, from 16 to 4096.
     // A pixel blends the two entries around its t: the colour is linear in t
@@ -22788,26 +22131,6 @@ namespace {
         }
 
         const Matrix& m = paint.inverse;
-        if (paint.type == PaintType::Linear && paint.spread != SpreadPad) {
-            double dx = (double)paint.x2 - paint.x1;
-            double dy = (double)paint.y2 - paint.y1;
-            double length2 = dx * dx + dy * dy;
-
-            if (length2 > 0.) {
-                double tx = ((double)m.a * dx + (double)m.b * dy) / length2;
-                double ty = ((double)m.c * dx + (double)m.d * dy) / length2;
-
-                // A reflect cycle spans two t units; at 256 t units per
-                // pixel even it has 128 cycles. The residual partial cycle
-                // changes the area mean by less than 2/255 per channel.
-                paint.denseLinear = fabs(tx) >= 256. || fabs(ty) >= 256.;
-
-                if (paint.denseLinear) {
-                    gradientMean(paint, paint.dense16);
-                }
-            }
-        }
-
         float extent = paint.type == PaintType::Linear ? hypotf(paint.x2 - paint.x1, paint.y2 - paint.y1) : (paint.type == PaintType::Conic ? paint.x2 : paint.r + hypotf(paint.cx - paint.fx, paint.cy - paint.fy));
         float frobenius = sqrtf(m.a * m.a + m.b * m.b + m.c * m.c + m.d * m.d);
         float length = extent * frobenius / fabsf(m.a * m.d - m.b * m.c);
@@ -23002,12 +22325,6 @@ namespace {
     static bool paintAt(const DevicePaint& paint, float x, float y, u16* out) {
         if (paint.type == PaintType::Solid) {
             memcpy(out, paint.color16, sizeof(u16) * 4);
-
-            return true;
-        }
-
-        if (paint.denseLinear) {
-            memcpy(out, paint.dense16, sizeof(paint.dense16));
 
             return true;
         }
@@ -23996,14 +23313,6 @@ namespace {
     // pixel the paint leaves out gets no cover. A gradient takes the t of
     // each pixel, the two entries around it, and blends them all at once.
     static void paintSpan(const DevicePaint& paint, int x, int y, u32 count, u16* cover, u16* out, PaintRows& rows) {
-        if (paint.denseLinear) {
-            for (u32 i = 0; i < count; i++) {
-                memcpy(out + (size_t)i * 4, paint.dense16, sizeof(paint.dense16));
-            }
-
-            return;
-        }
-
         if (paint.type != PaintType::Linear && paint.type != PaintType::Radial && paint.type != PaintType::Conic) {
             for (u32 i = 0; i < count; i++) {
                 if (!paintAt(paint, (float)(x + (int)i) + 0.5f, (float)y + 0.5f, out + (size_t)i * 4)) {
@@ -24026,8 +23335,8 @@ namespace {
         // apply forms, taken once.
         const Matrix& m = paint.inverse;
         float py = (float)y + 0.5f;
-        double rowX = m.c * py;
-        double rowY = m.d * py;
+        float rowX = m.c * py;
+        float rowY = m.d * py;
 
         for (u32 i = 0; i < count; i++) {
             float t;
@@ -27451,14 +26760,12 @@ namespace {
                 constexpr float unit = 1.f / 65535.f;
                 float dx = factorX * (float)nx * unit / spanX;
                 float dy = factorY * (float)ny * unit / spanY;
-                // The sample separation is already divided out of dx/dy.
-                // Map that slope to primitive units once: multiplying by
-                // kernelUnitLength again would erase a bevel whose kernel
-                // is much smaller than a device pixel. A distant light's
-                // azimuth stays in the output frame; point and spot light
-                // positions remain in primitive user space.
-                float gx = f.ctm.a * dx + f.ctm.b * dy;
-                float gy = f.ctm.c * dx + f.ctm.d * dy;
+                // Keep the surface scale in primitive units. A distant
+                // light's azimuth stays in the output frame, so map its
+                // normal there after computing the user-space slope. Point
+                // and spot light positions stay in primitive user space.
+                float gx = kernelX * (f.ctm.a * dx + f.ctm.b * dy);
+                float gy = kernelY * (f.ctm.c * dx + f.ctm.d * dy);
 
                 if (light->name == AtomFeDistantLight) {
                     const Matrix& layer = f.deviceToLayer;
@@ -27475,7 +26782,7 @@ namespace {
                 if (light->name != AtomFeDistantLight) {
                     Point surface = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
 
-                    toLight = normalize3(Vector3{(float)(lightPosition.x - surface.x), (float)(lightPosition.y - surface.y), lightPosition.z - surfaceScale * (float)a11 * unit});
+                    toLight = normalize3(Vector3{lightPosition.x - surface.x, lightPosition.y - surface.y, lightPosition.z - surfaceScale * (float)a11 * unit});
                 }
 
                 if (light->name == AtomFeSpotLight) {
@@ -28216,65 +27523,13 @@ namespace {
         return false;
     }
 
-    // Count the statically reachable use instances, stopping long before an
-    // exponential graph can overflow. This only selects a tighter resource
-    // limit; rendering still applies the ordinary cycle and depth checks.
-    static u64 projectedUseVisits(const Document& doc, Node* node, bool instance, u32 depth, Vector<u64>& memo, Vector<u8>& state) {
-        constexpr u64 limit = (u64)1 << 32;
-
-        if (!node || depth > 256 || (!instance && node != doc.root && !renderable(node->name))) {
-            return 0;
-        }
-
-        size_t key = (size_t)node->index * 2 + (instance ? 1 : 0);
-
-        if (state[key] == 1) return 0;
-        if (state[key] == 2) return memo[key];
-
-        state.mut(key) = 1;
-        u64 visits = 1;
-
-        if (node->name == AtomUse) {
-            Node* target = hrefTarget(doc, node);
-
-            if (target && !isAncestor(target, node)) {
-                visits += projectedUseVisits(doc, target, true, depth + 1, memo, state);
-            }
-        } else {
-            for (Node* child = node->first; child && visits < limit; child = child->next) {
-                visits += projectedUseVisits(doc, child, false, depth + 1, memo, state);
-            }
-        }
-
-        visits = visits < limit ? visits : limit;
-        memo.mut(key) = visits;
-        state.mut(key) = 2;
-
-        return visits;
-    }
-
     static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail) {
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
-        doc.useCount = 0;
         doc.workBudget = ((size_t)1 << 14) + 32 * source.length();
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
-
-        if (doc.root && doc.useCount >= 2) {
-            Vector<u64> memo;
-            Vector<u8> state;
-
-            memo.zero((size_t)doc.nodeCount * 2);
-            state.zero((size_t)doc.nodeCount * 2);
-
-            if (projectedUseVisits(doc, doc.root, false, 0, memo, state) >= ((u64)1 << 32)) {
-                // A graph with billions of instances is already truncated
-                // by D54; let it draw its first branch promptly.
-                doc.workBudget = 4096;
-            }
-        }
     }
 
     // A pass over a cascaded document, out of a pool of its own.
@@ -28457,28 +27712,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         l.host = identity();
         // The viewport units are of the document's size, which a drawing at
         // another scale stretches (D10).
-        Viewport viewport{(float)width, (float)height, l.docWidth, l.docHeight, 16.f};
-        ComputedStyle root = computeStyle(l, doc.root, initialStyle(), viewport);
-        bool rounded = root.borderRadii != nullptr;
-        u32 clipIndex = (u32)l.ops.length();
-
-        if (rounded) {
-            Path path;
-            Op op = groupOp(1.f);
-
-            roundedRectPath(path, 0.f, 0.f, (float)width, (float)height, root.borderRadii, (float)width, (float)height, viewport, root.fontSize);
-            op.clipped = true;
-            op.clipFirst = (u32)l.clips.length();
-            addClipShape(l, path, identity(), WindingNonZero);
-            op.clipCount = 1;
-            l.ops.pushBack(op);
-        }
-
-        lowerElement(l, doc.root, initialStyle(), identity(), viewport);
-
-        if (rounded) {
-            endGroup(l, clipIndex);
-        }
+        lowerElement(l, doc.root, initialStyle(), identity(), Viewport{(float)width, (float)height, l.docWidth, l.docHeight, 16.f});
 
         Raster raster;
 

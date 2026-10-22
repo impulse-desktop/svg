@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33.4" height="43.538" viewBox="0 0 33.4 43.538">
+  <defs>
+    <filter id="receipt-solid" x="0" y="0" width="33.4" height="43.538" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="3" input="SourceAlpha"/>
+      <feGaussianBlur result="blur"/>
+      <feFlood flood-color="#b58dd6"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#receipt-solid)">
+    <path id="receipt-solid-2" data-name="receipt-solid" d="M28.374.229l-3.04,3.547L21.027.229a1.259,1.259,0,0,0-1.52,0L15.2,3.775,10.893.229a1.259,1.259,0,0,0-1.52,0L5.067,3.775,2.027.229A1.266,1.266,0,0,0,0,1.242v38a1.266,1.266,0,0,0,2.027,1.013l3.04-3.547,4.307,3.547a1.259,1.259,0,0,0,1.52,0L15.2,36.709l4.307,3.547a1.259,1.259,0,0,0,1.52,0l4.307-3.547,3.04,3.547A1.267,1.267,0,0,0,30.4,39.242v-38A1.266,1.266,0,0,0,28.374.229Zm-3.04,28.247a.635.635,0,0,1-.633.633H5.7a.635.635,0,0,1-.633-.633V27.209a.635.635,0,0,1,.633-.633h19a.635.635,0,0,1,.633.633Zm0-7.6a.635.635,0,0,1-.633.633H5.7a.635.635,0,0,1-.633-.633V19.609a.635.635,0,0,1,.633-.633h19a.635.635,0,0,1,.633.633Zm0-7.6a.635.635,0,0,1-.633.633H5.7a.635.635,0,0,1-.633-.633V12.009a.635.635,0,0,1,.633-.633h19a.635.635,0,0,1,.633.633Z" transform="translate(0 0.03)" fill="#080a1e"/>
+  </g>
+</svg>

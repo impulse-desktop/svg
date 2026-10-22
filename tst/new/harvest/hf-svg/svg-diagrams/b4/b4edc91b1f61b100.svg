@@ -1,0 +1,85 @@
+<svg width="719pt" height="66pt"
+ viewBox="0.00 0.00 719.00 66.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
+<title>getSaveFileName</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 715,-62 715,4 -4,4"/>
+
+<g id="node1" class="node">
+<title>Node9</title>
+<polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 95,-38.5 95,-19.5 0,-19.5"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>Node10</title>
+<g id="a_node2"><a xlink:href="class_application.html#ae22fc39c79b4efa62e80f548805410e5" target="_top" xlink:title="Lance la fenêtre modale qui demande un fichier d&#39;enregistre ment puis appelle la fonction actualSave...">
+<polygon fill="#ffffff" stroke="#000000" points="131,-19.5 131,-38.5 235,-38.5 235,-19.5 131,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge1" class="edge">
+<title>Node9&#45;&gt;Node10</title>
+<path fill="none" stroke="#191970" d="M105.3567,-29C113.7372,-29 122.3241,-29 130.5894,-29"/>
+<polygon fill="#191970" stroke="#191970" points="105.2723,-25.5001 95.2722,-29 105.2722,-32.5001 105.2723,-25.5001"/>
+</g>
+
+<g id="node3" class="node">
+<title>Node11</title>
+<g id="a_node3"><a xlink:href="class_application.html#a45f71b866fbbae7dcf028a88b2af4cc7" target="_top" xlink:title="Lance la fonction saveAs s&#39;il n&#39;existe pas de sauvegarde antérieure et actualSave s&#39;il en existe une...">
+<polygon fill="#ffffff" stroke="#000000" points="271,-38.5 271,-57.5 363,-57.5 363,-38.5 271,-38.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge2" class="edge">
+<title>Node10&#45;&gt;Node11</title>
+<path fill="none" stroke="#191970" d="M245.2298,-37.8236C253.8516,-39.0461 262.5793,-40.2836 270.8379,-41.4546"/>
+<polygon fill="#191970" stroke="#191970" points="245.5839,-34.3389 235.1916,-36.4003 244.6012,-41.2696 245.5839,-34.3389"/>
+</g>
+
+<g id="node5" class="node">
+<title>Node13</title>
+<g id="a_node5"><a xlink:href="class_application.html#a8f9f948d5439efe526f3219d85b29d7f" target="_top" xlink:title="Enregistre la liste des tags accéssibles à l&#39;utilisateur. ">
+<polygon fill="#ffffff" stroke="#000000" points="399,-.5 399,-19.5 550,-19.5 550,-.5 399,-.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge6" class="edge">
+<title>Node10&#45;&gt;Node13</title>
+<path fill="none" stroke="#191970" d="M245.3016,-24.9392C290.1952,-22.013 351.0183,-18.0485 398.7262,-14.9389"/>
+<polygon fill="#191970" stroke="#191970" points="244.8655,-21.4601 235.1144,-25.6032 245.3209,-28.4453 244.8655,-21.4601"/>
+</g>
+
+<g id="node4" class="node">
+<title>Node12</title>
+<g id="a_node4"><a xlink:href="class_application.html#a748bca84fefb9c12661cfaa2f623748d" target="_top" xlink:title="Effectue une sauvegarde de la collection et enregistre les tags. ">
+<polygon fill="#ffffff" stroke="#000000" points="586,-19.5 586,-38.5 711,-38.5 711,-19.5 586,-19.5"/>
+
+</a>
+</g>
+</g>
+
+<g id="edge3" class="edge">
+<title>Node11&#45;&gt;Node12</title>
+<path fill="none" stroke="#191970" d="M373.3374,-44.771C432.2893,-41.3922 524.6143,-36.1005 585.8308,-32.5919"/>
+<polygon fill="#191970" stroke="#191970" points="372.877,-41.2916 363.0937,-45.3581 373.2776,-48.2801 372.877,-41.2916"/>
+</g>
+
+<g id="edge4" class="edge">
+<title>Node11&#45;&gt;Node13</title>
+<path fill="none" stroke="#191970" d="M366.6041,-36.032C388.6753,-30.7069 414.3027,-24.5238 435.0419,-19.5201"/>
+<polygon fill="#191970" stroke="#191970" points="365.6441,-32.6631 356.7439,-38.411 367.2859,-39.4679 365.6441,-32.6631"/>
+</g>
+
+<g id="edge5" class="edge">
+<title>Node13&#45;&gt;Node12</title>
+<path fill="none" stroke="#191970" d="M560.1685,-19.3546C568.8039,-20.2976 577.4568,-21.2424 585.7867,-22.152"/>
+<polygon fill="#191970" stroke="#191970" points="560.3807,-15.8571 550.0598,-18.2508 559.6208,-22.8157 560.3807,-15.8571"/>
+</g>
+</g>
+</svg>

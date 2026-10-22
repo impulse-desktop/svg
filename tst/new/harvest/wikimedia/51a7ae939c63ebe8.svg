@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="790"> <!-- extra large version for finetuned details -->
+<title id="title1">Wikiproject Jainism Barnstar 2.0 Ribbon</title>
+<defs>
+	<filter id="shadow" x="0" y="0" width="200%" height="200%"> <!-- Creates a background drop shadow -->
+		<feOffset result="offOut" in="SourceAlpha" dx="20" dy="20"/>
+		<feGaussianBlur result="blurOut" in="offOut" stdDeviation="1"/>
+		<feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+	</filter>
+	<filter id='roughpaper' x='0%' y='0%' width='100%' height="100%">
+    	<feTurbulence type="fractalNoise" baseFrequency='0.04' result='noise' numOctaves="5" />
+    	<feDiffuseLighting in='noise' lighting-color='#252525' surfaceScale='2'>
+      		<feDistantLight azimuth='45' elevation='60' />
+    	</feDiffuseLighting>
+  	</filter>
+</defs>
+	<g><!-- This creates the solid backround color. Use #252525 for black to keep ribbing texture. Total width must equal 2180. -->
+		<rect fill="#ffffff" width="2180" height="750" filter="url(#shadow)"/>
+	</g>
+	<g><!-- These lines create the vertical stripes on the ribbon. Stripes will overlay backgrounds. The M location is the center of the stripe. -->
+		<path stroke="#ff0000" stroke-width="360" d="m180,0v750"/>
+		<path stroke="#ffce00" stroke-width="360" d="m540,0v750"/>
+		<path stroke="#009431" stroke-width="360" d="m1640,0v750"/>
+		<path stroke="#252525" stroke-width="360" d="m2000,0v750"/>
+	</g>
+	<g><!-- This creates the ribbon knit effect -->
+		<path stroke="#000000" stroke-width="2180" stroke-dasharray="30" opacity=".25" d="m1090,0v750"/> <!-- horizontal grid -->
+		<path stroke="#000000" stroke-width="60" opacity=".25" d="m30,0v750"/> <!-- left edge -->
+		<path stroke="#000000" stroke-width="60" opacity=".25" d="m2150,0v750"/> <!-- right edge -->
+	</g>
+	<g id="overshadow"><!-- This creates the shadow effect over the whole ribbon -->
+		<rect fill="none" width="2180" height="750" filter="url(#roughpaper)" id="rect12" opacity=".25" />
+	</g>
+</svg>

@@ -1,0 +1,78 @@
+<svg width="2739pt" height="136pt"
+ viewBox="0.00 0.00 2738.64 136.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 132)">
+<title>G</title>
+<polygon fill="#eeeeee" stroke="transparent" points="-4,4 -4,-132 2734.64,-132 2734.64,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_inputs</title>
+<polygon fill="#eeeeee" stroke="black" stroke-dasharray="5,2" points="870.82,-44 870.82,-120 1050.82,-120 1050.82,-44 870.82,-44"/>
+
+</g>
+
+<g id="node1" class="node">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#fasta_path</title>
+<polygon fill="#94ddf4" stroke="black" points="970.82,-75.5 970.82,-111.5 1042.82,-111.5 1042.82,-75.5 970.82,-75.5"/>
+
+</g>
+
+<g id="node3" class="node">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#combine_features</title>
+<ellipse fill="none" stroke="black" cx="2386.82" cy="-18" rx="343.64" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#fasta_path&#45;&gt;file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#combine_features</title>
+<path fill="none" stroke="black" d="M1043.02,-90.57C1196.57,-82.39 1801.84,-50.16 2145.36,-31.86"/>
+<polygon fill="black" stroke="black" points="2145.65,-35.35 2155.45,-31.32 2145.27,-28.36 2145.65,-35.35"/>
+</g>
+
+<g id="node4" class="node">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#generate_hhm</title>
+<ellipse fill="none" stroke="black" cx="330.82" cy="-18" rx="330.64" ry="18"/>
+
+</g>
+
+<g id="edge2" class="edge">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#fasta_path&#45;&gt;file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#generate_hhm</title>
+<path fill="none" stroke="black" d="M996.16,-75.25C988.21,-64.12 976.26,-50.54 961.82,-44 947.04,-37.31 686.04,-36.63 669.82,-36 636.86,-34.72 602.11,-33.19 567.92,-31.58"/>
+<polygon fill="black" stroke="black" points="567.97,-28.08 557.81,-31.1 567.64,-35.07 567.97,-28.08"/>
+</g>
+
+<g id="node5" class="node">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#generate_pc7</title>
+<ellipse fill="none" stroke="black" cx="1006.82" cy="-18" rx="327.64" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#fasta_path&#45;&gt;file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#generate_pc7</title>
+<path fill="none" stroke="black" d="M1006.82,-75.45C1006.82,-66.8 1006.82,-56.07 1006.82,-46.29"/>
+<polygon fill="black" stroke="black" points="1010.32,-46.21 1006.82,-36.21 1003.32,-46.21 1010.32,-46.21"/>
+</g>
+
+<g id="node6" class="node">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#generate_psp19</title>
+<ellipse fill="none" stroke="black" cx="1688.82" cy="-18" rx="336.04" ry="18"/>
+
+</g>
+
+<g id="edge4" class="edge">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#fasta_path&#45;&gt;file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#generate_psp19</title>
+<path fill="none" stroke="black" d="M1043.01,-88.6C1133.91,-78.8 1376.03,-52.71 1536.6,-35.4"/>
+<polygon fill="black" stroke="black" points="1537.01,-38.88 1546.58,-34.33 1536.26,-31.92 1537.01,-38.88"/>
+</g>
+
+<g id="node2" class="node">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#uniclust30</title>
+<polygon fill="#94ddf4" stroke="black" points="879.32,-75.5 879.32,-111.5 952.32,-111.5 952.32,-75.5 879.32,-75.5"/>
+
+</g>
+
+<g id="edge5" class="edge">
+<title>file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#uniclust30&#45;&gt;file:///Users/renskedewit/Documents/GitHub/cwl&#45;epitope/niaa_abstract.cwl#generate_hhm</title>
+<path fill="none" stroke="black" d="M879.23,-87.9C798.21,-77.72 600.23,-52.85 465.69,-35.95"/>
+<polygon fill="black" stroke="black" points="466.07,-32.47 455.71,-34.69 465.2,-39.41 466.07,-32.47"/>
+</g>
+</g>
+</svg>

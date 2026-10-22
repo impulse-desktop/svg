@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 68.532 68.532">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #950002;
+        stroke-linejoin: round;
+        stroke-width: 4px;
+      }
+
+      .cls-3 {
+        filter: url(#Ellipse_1);
+      }
+    </style>
+    <filter id="Ellipse_1" x="0" y="0" width="68.532" height="68.532" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Slider_Button" data-name="Slider Button" transform="translate(-606 -689)">
+    <g class="cls-3" transform="matrix(1, 0, 0, 1, 606, 689)">
+      <circle id="Ellipse_1-2" data-name="Ellipse 1" class="cls-1" cx="25.266" cy="25.266" r="25.266" transform="translate(9 6)"/>
+    </g>
+    <path id="Arrow" class="cls-2" d="M0,.066,12.633,12.7ZM25.333,0,12.7,12.633Z" transform="translate(627.619 717.22)"/>
+  </g>
+</svg>
