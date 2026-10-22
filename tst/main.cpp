@@ -19,9 +19,19 @@ extern "C" {
 
 namespace {
     constexpr unsigned caseSeconds = 120;
-    constexpr uint64_t maxPixels = 1u << 27;
+    // The former 2^27-pixel limit already admitted this much pixel storage
+    // for a sixteen-bit PNG: eight-bit RGBA plus its temporary wide pixels.
+    // Apply the same byte allowance to every raster instead of rejecting
+    // a smaller eight-bit buffer merely because it holds more pixels.
+    constexpr uint64_t maxRasterStorage = (1ull << 27) * 12;
     constexpr int structTolerance = 32;
     constexpr int unitTolerance = 2;
+
+    static bool rasterFits(uint64_t pixels, int depth = 8) {
+        uint64_t bytesPerPixel = depth == 16 ? 12 : 4;
+
+        return pixels && pixels <= maxRasterStorage / bytesPerPixel;
+    }
 
     struct DriverError: std::runtime_error {
         using std::runtime_error::runtime_error;
@@ -273,7 +283,7 @@ static SvgImage* decodePng(const uint8_t* bytes, size_t length) {
 
     uint64_t pixels = pngInfo(png, info, source, width, height, depth) ? (uint64_t)width * height : 0;
 
-    if (!pixels || pixels > maxPixels) {
+    if (!rasterFits(pixels, depth)) {
         png_destroy_read_struct(&png, &info, nullptr);
 
         return nullptr;
@@ -410,7 +420,7 @@ static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
     uint32_t height = info.output_height;
     uint64_t pixels = (uint64_t)width * height;
 
-    if (!pixels || pixels > maxPixels || info.output_components != (cmyk ? 4 : 3)) {
+    if (!rasterFits(pixels) || info.output_components != (cmyk ? 4 : 3)) {
         jpeg_destroy_decompress(&info);
 
         return nullptr;
@@ -467,7 +477,7 @@ static bool rasterSize(const void* bytes, size_t length, uint32_t& width, uint32
         width = (uint32_t)w;
         height = (uint32_t)h;
 
-        return known && (uint64_t)w * h && (uint64_t)w * h <= maxPixels;
+        return known && rasterFits((uint64_t)w * h, depth);
     }
 
     if (length >= 3 && p[0] == 0xff && p[1] == 0xd8 && p[2] == 0xff) {
@@ -485,7 +495,7 @@ static bool rasterSize(const void* bytes, size_t length, uint32_t& width, uint32
         height = info.output_height;
         jpeg_destroy_decompress(&info);
 
-        return known && (uint64_t)width * height && (uint64_t)width * height <= maxPixels;
+        return known && rasterFits((uint64_t)width * height);
     }
 
     return false;
