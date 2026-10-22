@@ -13104,6 +13104,44 @@ namespace {
             }
         }
 
+        // On a short open path the two offset sides can cross behind a butt
+        // cap. Filling their single outline then paints points that no normal
+        // of the centerline reaches. Draw the normal strips as a union instead.
+        // Returning paths keep their intentional inverted offsets (D49).
+        if (!closed && !looped && !returningStart && !returningEnd && s.cap == CapButt) {
+            float run = 0.f;
+            bool folded = false;
+
+            for (float length : lengths) run += length;
+            for (u8 value : localFold) folded |= value != 0;
+
+            // Below a device pixel, the sampled normals can almost coincide
+            // while turning sharply; the existing contour remains the better
+            // approximation at that resolution.
+            if (!folded && run > s.tol / tolerance && run < s.half) {
+                for (size_t i = 0; i < segments; i++) {
+                    Point p = pts[i];
+                    Point q = pts[i + 1];
+                    Point a = i && kind[i] == PointSmooth ? dirs[i - 1] : (i ? dirs[i] : came[0]);
+                    Point b = dirs[i];
+                    Point quad[4] = {offset(p, a, 1.f), offset(q, b, 1.f), offset(q, b, -1.f), offset(p, a, -1.f)};
+
+                    addPolygon(out, quad, 4);
+                }
+
+                for (size_t k = 1; k + 1 < n; k++) {
+                    Point d0 = dirs[k - 1];
+                    Point d1 = dirs[k];
+
+                    if (kind[k] == PointCorner) {
+                        addJoinShape(out, s, pts[k], d0, d1);
+                    }
+                }
+
+                return;
+            }
+        }
+
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
             Point d0 = dirs[in];

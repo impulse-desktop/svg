@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="225 114 201 201">
+<!-- The first curve's normal sweep stays in front of its butt cap, even
+     though the whole centerline is shorter than the stroke's half width.
+     The second path traces the same shape in reverse (Sketchy-SVG 0e184867).
+     A short straight stroke checks the uncurved boundary. -->
+<rect x="225" y="114" width="201" height="201" fill="black"/>
+<g fill="none" stroke="white" stroke-width="20">
+  <path d="M 250.5 195.5 C 251.5 194.5 252.3 194.41467 253 194 L 253.89999 193.536"/>
+  <path d="M 354.39999 193.536 L 353.5 194 C 352.8 194.41467 352 194.5 351 195.5"/>
+  <path d="M 300 260 L 304 260"/>
+</g>
+</svg>
