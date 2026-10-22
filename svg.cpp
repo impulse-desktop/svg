@@ -1449,6 +1449,7 @@ namespace {
         Interner atoms;
         Node* root;
         u32 nodeCount;
+        u32 useCount;
         Vector<Node*> byId;
         Rule* rules;
         u32 ruleCount;
@@ -1479,10 +1480,9 @@ namespace {
         Vector<CustomValue> customValues;
         bool variables;
         size_t substitutionBudget;
-        // How many elements a pass over the document may draw and measure,
-        // instances of a use, a marker or a pattern counted each time, by
-        // its source's length: what a document instancing itself over and
-        // over runs out of, and no file drawn as written comes near.
+        // How many elements a pass may draw and measure, instances counted
+        // each time. Source length sets the ordinary limit; an astronomical
+        // use graph gets the smaller D54 limit.
         size_t workBudget;
     };
 
@@ -3833,6 +3833,10 @@ namespace {
             node = xml.doc->pool->make<Node>();
             node->name = intern(xml.doc->atoms, local);
             node->index = xml.doc->nodeCount++;
+
+            if (node->name == AtomUse) {
+                xml.doc->useCount++;
+            }
 
             if (parent) {
                 attach(parent, node);
@@ -28212,13 +28216,65 @@ namespace {
         return false;
     }
 
+    // Count the statically reachable use instances, stopping long before an
+    // exponential graph can overflow. This only selects a tighter resource
+    // limit; rendering still applies the ordinary cycle and depth checks.
+    static u64 projectedUseVisits(const Document& doc, Node* node, bool instance, u32 depth, Vector<u64>& memo, Vector<u8>& state) {
+        constexpr u64 limit = (u64)1 << 32;
+
+        if (!node || depth > 256 || (!instance && node != doc.root && !renderable(node->name))) {
+            return 0;
+        }
+
+        size_t key = (size_t)node->index * 2 + (instance ? 1 : 0);
+
+        if (state[key] == 1) return 0;
+        if (state[key] == 2) return memo[key];
+
+        state.mut(key) = 1;
+        u64 visits = 1;
+
+        if (node->name == AtomUse) {
+            Node* target = hrefTarget(doc, node);
+
+            if (target && !isAncestor(target, node)) {
+                visits += projectedUseVisits(doc, target, true, depth + 1, memo, state);
+            }
+        } else {
+            for (Node* child = node->first; child && visits < limit; child = child->next) {
+                visits += projectedUseVisits(doc, child, false, depth + 1, memo, state);
+            }
+        }
+
+        visits = visits < limit ? visits : limit;
+        memo.mut(key) = visits;
+        state.mut(key) = 2;
+
+        return visits;
+    }
+
     static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail) {
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
+        doc.useCount = 0;
         doc.workBudget = ((size_t)1 << 14) + 32 * source.length();
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
+
+        if (doc.root && doc.useCount >= 2) {
+            Vector<u64> memo;
+            Vector<u8> state;
+
+            memo.zero((size_t)doc.nodeCount * 2);
+            state.zero((size_t)doc.nodeCount * 2);
+
+            if (projectedUseVisits(doc, doc.root, false, 0, memo, state) >= ((u64)1 << 32)) {
+                // A graph with billions of instances is already truncated
+                // by D54; let it draw its first branch promptly.
+                doc.workBudget = 4096;
+            }
+        }
     }
 
     // A pass over a cascaded document, out of a pool of its own.

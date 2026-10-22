@@ -44,7 +44,7 @@
 
 ## Resolving the use reference and its errors: use-geometry, struct-elements, use-chain, measure-use-chain, use-bomb, measure-use-bomb
 
-- [-] svg2/struct.md#UseShadowTree: every instance a document's uses make is drawn, however many they multiply to; the renderer draws and measures at most 16 384 + 32 elements per byte of the document, each instance counted. (D54) [use-bomb#first-square measure-use-bomb#measured]
+- [-] svg2/struct.md#UseShadowTree: every instance a document's uses make is drawn, however many they multiply to; the renderer draws and measures at most 16 384 + 32 elements per byte, or 4 096 for a use graph projected above 2^32 visits, each instance counted. (D54) [use-bomb#first-square measure-use-bomb#measured]
 - [x] svg2/struct.md#UseShadowTree: if the resolved referenced element is not an SVG element, the reference is invalid and the use element is in error (not rendered). [use-geometry#foreign]
 - [x] svg2/struct.md#UseShadowTree: if the referenced element is a (shadow-including) ancestor of the use element, this is an invalid circular reference and the use element is in error. [use-geometry#ancestor struct-elements#use-empty-href]
 - [x] svg2/struct.md#UseShadowTree: a use element with an unresolved or invalid reference is not rendered; for bounding-box purposes it behaves as an empty container element. [bbox-inputs#unresolved-use struct-elements#use-data-url]

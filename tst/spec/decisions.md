@@ -709,13 +709,18 @@ SVG sets no bound on how often a document instances its content: a group
 of two uses of the group before it, 40 deep, is 2^40 instances in 2 KB,
 and patterns and markers of patterns and markers multiply the same way.
 The renderer drew and measured them all, 22 levels taking 44 seconds.
-Each pass over a document, a drawing or a measure of its size, now visits
-at most 16 384 + 32 elements per byte of its source, every instance
+Each pass over an ordinary document, a drawing or a measure of its size,
+visits at most 16 384 + 32 elements per byte of its source, every instance
 counted, and draws or measures nothing past that; a use's box for context
-paints is measured only when a context paint asks for it. The most any
-file of the corpus or of 60 000 harvested ones visits is 5.2 per byte, a
-Wikimedia map of uses; the 40-deep chain draws its first square and stops
-in a few hundredths of a second.
+paints is measured only when a context paint asks for it. A statically
+reachable use graph projected to exceed 2^32 instances instead gets a
+4 096-element pass limit. The Gecko 50-level two-use chain otherwise takes
+over 20 seconds merely to exhaust the ordinary limit; the smaller limit
+still draws its first branch and keeps drawing and measurement consistent.
+No ordinary corpus document approaches this threshold; the largest
+projected use graph among the current corpus has about 31 000 visits.
+`use-bomb#first-square` and `measure-use-bomb#measured` cover the visible
+result and its measured box.
 
 ## D55. A Bézier that turns back inside itself has a round stroke tip
 
