@@ -12691,7 +12691,18 @@ namespace {
                 bool corner = false;
 
                 while (end < count && points[end].x == pts.back().x && points[end].y == pts.back().y) {
-                    corner = corner || (kinds[end] == PointCorner && end + 1 < count);
+                    if (kinds[end] == PointCorner && end + 1 < count) {
+                        Point a = into[end];
+                        Point b = into[end + 1];
+                        float cross = a.x * b.y - a.y * b.x;
+                        float dot = a.x * b.x + a.y * b.y;
+
+                        // The exact tangents at a continuous curve join can
+                        // agree even when its adjacent flattened points have
+                        // rounded to the same float position. Replacing them
+                        // with longer chords would invent a miter there.
+                        corner = corner || !(dot > 0.f && s.half * fabsf(cross) <= s.tol);
+                    }
                     end++;
                 }
 
