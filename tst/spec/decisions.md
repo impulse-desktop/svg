@@ -663,6 +663,18 @@ by a sign change of the normal equation and a convex-hull distance bound,
 in both path directions. The independent `stroke-tight-ends` controls stay
 in force; a smaller comparison error alone does not justify extending D49.
 
+A folded offset does not remove the band of a literal straight command in
+a closed subpath. A real svg-stack hexagon lost 114 pixels whose entire
+pixel squares lie strictly inside three straight bands. Those bands are
+united with the retained offset outline before coverage and painting, so
+the outline's winding cannot cancel them. `stroke-closed-normal-bands`
+reduces the cause to one small cubic and straight segments, and certifies
+its full probe rectangles by their projections and normal distances. Both
+directions, exact subdivisions, a changed start, a straight cubic,
+rotations, reflection, non-scaling stroke, crisp edges and coincident
+transparent subpaths keep that coverage. The established closed circles
+and the open-loop and returning-tip controls above keep their D49 output.
+
 ## D50. A focal point within 1/4096 of the radius of the end circle is on it
 
 `svg2/pservers.md#RadialGradientNotes` draws a focal circle outside the end

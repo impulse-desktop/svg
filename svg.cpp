@@ -1170,9 +1170,9 @@ SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* c
     ATOM(Zoom, "zoom")                                             \
     ATOM(Outline, "outline")                                       \
     ATOM(OutlineOffset, "outline-offset")                          \
-    ATOM(BorderTopLeftRadius, "border-top-left-radius")             \
-    ATOM(BorderTopRightRadius, "border-top-right-radius")           \
-    ATOM(BorderBottomRightRadius, "border-bottom-right-radius")     \
+    ATOM(BorderTopLeftRadius, "border-top-left-radius")            \
+    ATOM(BorderTopRightRadius, "border-top-right-radius")          \
+    ATOM(BorderBottomRightRadius, "border-bottom-right-radius")    \
     ATOM(BorderBottomLeftRadius, "border-bottom-left-radius")
 
 namespace {
@@ -1728,6 +1728,9 @@ namespace {
 
     struct Flat {
         Vector<Point> points;
+        // Literal straight stroke bands, united with the offset outline
+        // before coverage is integrated. All quads turn the same way.
+        Vector<Point> bands;
         Vector<u32> ends;
         Vector<u8> closed;
         // For a stroke, per point: its kind, and the direction of the
@@ -2151,6 +2154,9 @@ namespace {
         bool aliased;
         u32 first;
         u32 count;
+        // The ordinary edge count before the straight stroke bands, or
+        // zero when this fill needs only the ordinary winding rule.
+        u32 bandStart;
         Box bounds;
         DevicePaint* paint;
         float opacity;
@@ -8576,16 +8582,26 @@ namespace {
 
     static u32 shapeGeometryBit(u32 property) {
         switch (property) {
-            case AtomX: return 1u << 0;
-            case AtomY: return 1u << 1;
-            case AtomWidth: return 1u << 2;
-            case AtomHeight: return 1u << 3;
-            case AtomCx: return 1u << 4;
-            case AtomCy: return 1u << 5;
-            case AtomR: return 1u << 6;
-            case AtomRx: return 1u << 7;
-            case AtomRy: return 1u << 8;
-            default: return 0;
+            case AtomX:
+                return 1u << 0;
+            case AtomY:
+                return 1u << 1;
+            case AtomWidth:
+                return 1u << 2;
+            case AtomHeight:
+                return 1u << 3;
+            case AtomCx:
+                return 1u << 4;
+            case AtomCy:
+                return 1u << 5;
+            case AtomR:
+                return 1u << 6;
+            case AtomRx:
+                return 1u << 7;
+            case AtomRy:
+                return 1u << 8;
+            default:
+                return 0;
         }
     }
 
@@ -12905,7 +12921,9 @@ namespace {
                 float dx = pts[k].x - pts[0].x;
                 float dy = pts[k].y - pts[0].y;
 
-                if (dx * dx + dy * dy >= half2) break;
+                if (dx * dx + dy * dy >= half2) {
+                    break;
+                }
                 startEdge = k;
             }
 
@@ -12913,7 +12931,9 @@ namespace {
                 float dx = pts[k].x - pts[n - 1].x;
                 float dy = pts[k].y - pts[n - 1].y;
 
-                if (dx * dx + dy * dy >= half2) break;
+                if (dx * dx + dy * dy >= half2) {
+                    break;
+                }
                 endEdge = k - 1;
             }
 
@@ -12925,6 +12945,8 @@ namespace {
             returningStart = startEdge > 0 && start.x * fromStart.x + start.y * fromStart.y < 0.f;
             returningEnd = endEdge + 1 < segments && intoEnd.x * end.x + intoEnd.y * end.y < 0.f;
         }
+
+        bool keptInverted = false;
 
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
@@ -13008,15 +13030,14 @@ namespace {
             float fromStartY = pts[0].y - p.y;
             float fromEndX = pts[n - 1].x - p.x;
             float fromEndY = pts[n - 1].y - p.y;
-            bool nearTip = (returningStart && fromStartX * fromStartX + fromStartY * fromStartY < s.half * s.half) ||
-                           (returningEnd && fromEndX * fromEndX + fromEndY * fromEndY < s.half * s.half);
+            bool nearTip = (returningStart && fromStartX * fromStartX + fromStartY * fromStartY < s.half * s.half) || (returningEnd && fromEndX * fromEndX + fromEndY * fromEndY < s.half * s.half);
 
             // The mean chord length divided by the tangent turn estimates
             // the local radius. A return tighter than the curve tolerance
             // is unresolved: its inverted offset must not cancel ink that
             // the normals cover. Resolved tips keep the D49 opening.
-            if (kind[k] == PointSmooth &&
-                (looped || (nearTip && lengths[in] + lengths[next] >= 2.f * s.tol * fabsf(atan2f(cross, dot))))) {
+            if (kind[k] == PointSmooth && (looped || (nearTip && lengths[in] + lengths[next] >= 2.f * s.tol * fabsf(atan2f(cross, dot))))) {
+                keptInverted = true;
                 sides[inner].pushBack(offset(p, d1, -side));
 
                 return;
@@ -13036,6 +13057,29 @@ namespace {
         }
 
         Vector<Point> outline;
+
+        // Keeping a folded inner offset (D49) must not subtract the band
+        // of a literal straight segment in a closed path. Those bands are
+        // a separate union operand: adding ordinary winding contours would
+        // let a folded loop cancel them again. Smooth curve samples are not
+        // straight commands; the D49 circle retains its original outline.
+        if (closed && keptInverted) {
+            for (size_t k = 0; k < segments; k++) {
+                size_t next = (k + 1) % n;
+
+                if (kind[k] == PointCorner && kind[next] == PointCorner && lengths[k] > 0.f) {
+                    Point a = pts[k];
+                    Point b = pts[next];
+                    float nx = -dirs[k].y * s.half;
+                    float ny = dirs[k].x * s.half;
+
+                    out.bands.pushBack(Point{a.x + nx, a.y + ny});
+                    out.bands.pushBack(Point{b.x + nx, b.y + ny});
+                    out.bands.pushBack(Point{b.x - nx, b.y - ny});
+                    out.bands.pushBack(Point{a.x - nx, a.y - ny});
+                }
+            }
+        }
 
         if (closed) {
             for (int i = 0; i < 2; i++) {
@@ -15457,6 +15501,22 @@ namespace {
         op.first = (u32)l.edges.length();
         op.bounds = emptyBox();
         emitEdges(l, flat, op.bounds);
+
+        if (flat.bands.length()) {
+            op.bandStart = (u32)l.edges.length() - op.first;
+            for (size_t k = 0; k < flat.bands.length(); k += 4) {
+                for (size_t j = 0; j < 4; j++) {
+                    Point a = flat.bands[k + j];
+                    Point b = flat.bands[k + (j + 1) % 4];
+                    extend(op.bounds, a);
+
+                    if (a.y != b.y) {
+                        l.edges.pushBack(Edge{a.x, a.y, b.x, b.y});
+                    }
+                }
+            }
+        }
+
         op.count = (u32)l.edges.length() - op.first;
 
         if (op.count && boxValid(op.bounds)) {
@@ -19563,6 +19623,9 @@ namespace {
                         for (Point p : hosted.points) {
                             device.points.pushBack(apply(l.host, p));
                         }
+                        for (Point p : hosted.bands) {
+                            device.bands.pushBack(apply(l.host, p));
+                        }
                     } else {
                         Matrix inverse;
                         bool culled = invert(m, inverse);
@@ -19574,6 +19637,9 @@ namespace {
 
                         for (Point p : outline.points) {
                             device.points.pushBack(apply(m, p));
+                        }
+                        for (Point p : outline.bands) {
+                            device.bands.pushBack(apply(m, p));
                         }
                     }
 
@@ -22944,14 +23010,14 @@ namespace {
         float y0;
         float x1;
         float y1;
-        int dir;
+        i64 dir;
     };
 
     static float bandX(const BandEdge& e, float y) {
         return e.x0 + (e.x1 - e.x0) * ((y - e.y0) / (e.y1 - e.y0));
     }
 
-    static bool insideWinding(int winding, u8 rule) {
+    static bool insideWinding(i64 winding, u8 rule) {
         return rule == WindingEvenOdd ? (winding & 1) != 0 : winding != 0;
     }
 
@@ -22959,7 +23025,7 @@ namespace {
         float x0;
         float x1;
         float key;
-        int dir;
+        i64 dir;
         u32 order;
         u32 edge;
     };
@@ -23027,7 +23093,7 @@ namespace {
     // through the band and is drawn whole; each run of samples that do
     // cross is halved, up to six times or until the middle rounds onto an
     // end, and its halves entered with the winding left of the run.
-    static void unionBand(u32* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, int winding) {
+    static void unionBand(u32* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding) {
         Vector<BandSample>& band = samples[depth];
 
         if (band.empty()) {
@@ -23123,7 +23189,7 @@ namespace {
 
     struct Crossing {
         float x;
-        int dir;
+        i64 dir;
         u32 edge;
     };
 
@@ -23290,7 +23356,7 @@ namespace {
         return BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1};
     }
 
-    static void rasterizeUnion(u32* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule) {
+    static void rasterizeUnion(u32* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
         Vector<BandEdge> edges;
         // The band edges are built in place, counted into the rows they start
         // in; an edge level in y is no band edge. A few are then sorted whole,
@@ -23326,7 +23392,18 @@ namespace {
             Edge e = l.edges[i];
 
             if (spansRows(e)) {
-                edges.mut(starts.mut(bucket(minf(e.y0, e.y1) - oy))++) = bandEdge(e, ox, oy);
+                BandEdge edge = bandEdge(e, ox, oy);
+
+                // The ordinary winding is bounded by its M edges. Bands
+                // contribute multiples of M+1, so the sum is zero exactly
+                // when both windings are zero. This gives their union,
+                // whatever sign the original folded outline has. With B
+                // band edges, M+(M+1)*B fits i64 since M+B fits u32.
+                if (bands && i - first >= bands) {
+                    edge.dir *= (i64)bands + 1;
+                }
+
+                edges.mut(starts.mut(bucket(minf(e.y0, e.y1) - oy))++) = edge;
             }
         }
 
@@ -23385,6 +23462,27 @@ namespace {
             }
 
             if (active.empty()) {
+                continue;
+            }
+
+            if (aliased) {
+                scanCrossings(edges.data(), order, top + .5f, (float)w, crossings, scratch, rest);
+                i64 winding = 0;
+                u32* line = acc + (size_t)row * stride;
+
+                for (const Crossing& c : crossings) {
+                    bool before = insideWinding(winding, rule);
+
+                    winding += c.dir;
+
+                    bool after = insideWinding(winding, rule);
+
+                    if (before != after) {
+                        u32 x = (u32)minf(maxf(floorf(c.x + .5f), 0.f), (float)w);
+                        line[x] += after ? 0x10000u : 0u - 0x10000u;
+                    }
+                }
+
                 continue;
             }
 
@@ -23461,7 +23559,7 @@ namespace {
             }
 
             for (int sub = 0; sub < subs; sub++) {
-                int winding = 0;
+                i64 winding = 0;
                 float start = 0.f;
                 float y = top + (sub + 0.5f) / (float)subs;
 
@@ -23495,7 +23593,7 @@ namespace {
     }
 
     // Rasterizes the edges within the clip, the pixels the fill can reach.
-    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, const IntBox& clip, u32& ix0, u32& iy0, u32& w, u32& h, u8 rule) {
+    static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, const IntBox& clip, u32& ix0, u32& iy0, u32& w, u32& h, u8 rule, u32 bands = 0) {
         float bx0 = floorf(maxf(bounds.x0, (float)clip.x0));
         float by0 = floorf(maxf(bounds.y0, (float)clip.y0));
         float bx1 = ceilf(minf(bounds.x1, (float)clip.x1));
@@ -23516,8 +23614,8 @@ namespace {
 
         u32* acc = r.accumulation.mutData();
 
-        if (!aliased) {
-            rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule);
+        if (!aliased || bands) {
+            rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule, bands, aliased);
 
             return true;
         }
@@ -23823,7 +23921,7 @@ namespace {
         // the layer of the group around it, which may pass the base.
         IntBox clip = r.layers.back().box;
 
-        if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, clip, ix0, iy0, w, h, op.rule)) {
+        if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, clip, ix0, iy0, w, h, op.rule, op.bandStart)) {
             return;
         }
 

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="96">
+<!-- What tst/unit/stroke-closed-normal-bands.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="closed" data-box="0 0 32 24"><rect x="0" y="0" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="reversed" data-box="32 0 32 24"><rect x="32" y="0" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="split-half" data-box="64 0 32 24"><rect x="64" y="0" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="split-unequal" data-box="96 0 32 24"><rect x="96" y="0" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="straight-split" data-box="0 24 32 24"><rect x="0" y="24" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="changed-start" data-box="32 24 32 24"><rect x="32" y="24" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="rotated" data-box="64 24 32 24"><rect x="64" y="24" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="rotated-reversed" data-box="96 24 32 24"><rect x="96" y="24" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="line-as-cubic" data-box="0 48 32 24"><rect x="0" y="48" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="translucent-overlap" data-box="32 48 32 24"><rect x="32" y="48" width="32" height="24" fill="lime" fill-opacity="0.5"/></g>
+<g id="crisp" data-box="64 48 32 24"><rect x="64" y="48" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="non-scaling" data-box="96 48 32 24"><rect x="96" y="48" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="reflected" data-box="0 72 32 24"><rect x="0" y="72" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="opposite-subpaths" data-box="32 72 32 24"><rect x="32" y="72" width="32" height="24" fill="lime" fill-opacity="1"/></g>
+<g id="many-subpaths" data-box="64 72 32 24"><rect x="64" y="72" width="32" height="24" fill="lime" fill-opacity="0.5"/></g>
+<g id="many-crisp" data-box="96 72 32 24"><rect x="96" y="72" width="32" height="24" fill="lime" fill-opacity="0.5"/></g>
+</svg>
