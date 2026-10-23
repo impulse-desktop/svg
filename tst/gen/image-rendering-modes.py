@@ -92,5 +92,16 @@ for x, mode in [(2, "crisp-edges"), (16, "optimizeSpeed")]:
     expected.append(f'<image x="{x}" y="{y + 2}" width="3" height="2" '
                     f'image-rendering="pixelated" href="{png(nearest(3, 2))}"/>')
 unit.cell("transform-down", (2, y + 1, 28, 10), ''.join(test), ''.join(expected))
-unit.height = y + 12
+# A sample exactly on a source texel boundary must not cross it because
+# the inverse's translation was rounded separately from its scale. With
+# four source columns drawn over five device pixels, the middle sample is
+# source coordinate 2 exactly, even after the image is translated.
+test, expected = [], []
+for x, mode in [(6, "crisp-edges"), (20, "optimizeSpeed")]:
+    test.append(f'<image x="{x}" y="{y + 14}" width="5" height="3" '
+                f'preserveAspectRatio="none" image-rendering="{mode}" href="{IMAGE}"/>')
+    expected.append(f'<image x="{x}" y="{y + 14}" width="5" height="3" '
+                    f'image-rendering="pixelated" href="{png(nearest(5, 3))}"/>')
+unit.cell("translated-texel-boundary", (2, y + 12, 28, 8), ''.join(test), ''.join(expected))
+unit.height = y + 22
 unit.write()

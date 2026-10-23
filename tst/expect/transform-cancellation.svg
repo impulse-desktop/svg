@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="128">
+<!-- What tst/unit/transform-cancellation.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="positive" data-box="0 0 64 64"><g transform="translate(0 0)"><rect x="19.75" y="19.75" width="19.75" height="19.75" fill="lime"/></g></g>
+<g id="reflected" data-box="64 0 64 64"><g transform="translate(64 0)"><rect x="24.5" y="19.75" width="19.75" height="19.75" fill="lime"/></g></g>
+<g id="unequal-axes" data-box="128 0 64 64"><g transform="translate(128 0)"><rect x="19.75" y="31.5" width="19.75" height="31.5" fill="lime"/></g></g>
+<g id="negative" data-box="0 64 64 64"><g transform="translate(0 64)"><rect x="24.5" y="24.5" width="19.75" height="19.75" fill="lime"/></g></g>
+<g id="skew" data-box="64 64 64 64"><g transform="translate(64 64)"><path d="M19.5 19.75H29.25L39 39.5H29.25Z" fill="lime"/></g></g>
+<g id="quarter-turn" data-box="128 64 64 64"><g transform="translate(128 64)"><rect x="24.5" y="19.75" width="19.75" height="19.75" fill="lime"/></g></g>
+</svg>

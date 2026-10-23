@@ -2004,6 +2004,9 @@ namespace {
         PaintType type;
         Color color;
         Matrix inverse;
+        // Raster samples need the inverse before rounding its components:
+        // a tiny error at a texel boundary changes the selected pixel.
+        double imageInverse[6];
         float x1;
         float y1;
         float x2;
@@ -2759,7 +2762,12 @@ namespace {
     }
 
     static Point apply(const Matrix& m, Point p) {
-        return Point{m.a * p.x + m.c * p.y + m.e, m.b * p.x + m.d * p.y + m.f};
+        // Large products can cancel to a small visible coordinate. Keep
+        // their low bits until the complete coordinate is ready to store.
+        return Point{
+            (float)((double)m.a * p.x + (double)m.c * p.y + m.e),
+            (float)((double)m.b * p.x + (double)m.d * p.y + m.f),
+        };
     }
 
     static bool invert(const Matrix& m, Matrix& out) {
@@ -20698,6 +20706,16 @@ namespace {
         cached->paintsLeft++;
 
         paint->inverse = multiply(scaling(ldexpf(1.f, -(int)kx), ldexpf(1.f, -(int)ky)), inverse);
+        double reciprocal = 1.0 / ((double)place.a * place.d - (double)place.b * place.c);
+        double sampleX = ldexp(1.0, -(int)kx);
+        double sampleY = ldexp(1.0, -(int)ky);
+
+        paint->imageInverse[0] = place.d * reciprocal * sampleX;
+        paint->imageInverse[1] = -place.b * reciprocal * sampleY;
+        paint->imageInverse[2] = -place.c * reciprocal * sampleX;
+        paint->imageInverse[3] = place.a * reciprocal * sampleY;
+        paint->imageInverse[4] = ((double)place.c * place.f - (double)place.d * place.e) * reciprocal * sampleX;
+        paint->imageInverse[5] = ((double)place.b * place.e - (double)place.a * place.f) * reciprocal * sampleY;
         paint->texels = IntBox{(int)floorf(ldexpf(part.x0, -(int)kx)), (int)floorf(ldexpf(part.y0, -(int)ky)), (int)ceilf(ldexpf(part.x1, -(int)kx)), (int)ceilf(ldexpf(part.y1, -(int)ky))};
 
         return paint;
@@ -22948,7 +22966,18 @@ namespace {
             return true;
         }
 
-        Point p = apply(paint.inverse, Point{x, y});
+        Point p;
+
+        if (paint.type == PaintType::Image) {
+            const double* inverse = paint.imageInverse;
+
+            p = Point{
+                (float)(inverse[0] * x + inverse[2] * y + inverse[4]),
+                (float)(inverse[1] * x + inverse[3] * y + inverse[5]),
+            };
+        } else {
+            p = apply(paint.inverse, Point{x, y});
+        }
 
         if (paint.type == PaintType::Mesh) {
             int ix = (int)floorf(p.x);

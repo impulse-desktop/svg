@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="128">
+<!-- An affine transform can map large, exactly representable
+coordinates into a small visible shape. Compute the products and their
+sum before rounding the final point. Casting each product to single
+precision first loses several output pixels. Plain rectangles and a
+four-corner polygon give the exact expected geometry, including alpha at
+its edges. -->
+<g transform="translate(0 0)"><g transform="matrix(39.5 0 0 39.5 -197500000 -197500000)"><rect x="5000000.5" y="5000000.5" width=".5" height=".5" fill="lime"/></g></g>
+<g transform="translate(64 0)"><g transform="matrix(-39.5 0 0 39.5 197500064 -197500000)"><rect x="5000000.5" y="5000000.5" width=".5" height=".5" fill="lime"/></g></g>
+<g transform="translate(128 0)"><g transform="matrix(39.5 0 0 63 -197500000 -315000000)"><rect x="5000000.5" y="5000000.5" width=".5" height=".5" fill="lime"/></g></g>
+<g transform="translate(0 64)"><g transform="matrix(39.5 0 0 39.5 197500064 197500064)"><rect x="-5000001" y="-5000001" width=".5" height=".5" fill="lime"/></g></g>
+<g transform="translate(64 64)"><g transform="matrix(19.5 0 19.5 39.5 -195000000 -197500000)"><rect x="5000000.5" y="5000000.5" width=".5" height=".5" fill="lime"/></g></g>
+<g transform="translate(128 64)"><g transform="matrix(0 39.5 -39.5 0 197500064 -197500000)"><rect x="5000000.5" y="5000000.5" width=".5" height=".5" fill="lime"/></g></g>
+</svg>
