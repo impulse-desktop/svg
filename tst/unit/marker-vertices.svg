@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="100">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="132">
 <!-- Lime everywhere, no red, no gold. Markers sit on every vertex of the
 equivalent path: a closed subpath's first vertex gets two; start is the
 path's first vertex, end its last; a rect, circle and polygon end where they
@@ -8,7 +8,10 @@ reference to no marker, or a marker of zero width, draws nothing; a marker
 under display none still draws; a marker is never drawn where it stands.
 A path of movetos alone has a vertex at each.
 The shorthand marker has no presentation attribute. With marker-mid alone,
-the shared first/last vertex of a basic shape remains unmarked. -->
+the shared first/last vertex of a basic shape remains unmarked. A single
+polyline point is both its first and last vertex, and has no middle
+vertex; the same holds for a path of one moveto. An empty list or path has
+no vertex at all. -->
 <defs>
 <marker id="l" markerWidth="4" markerHeight="4" refX="2" refY="2" markerUnits="userSpaceOnUse"><rect width="4" height="4" fill="lime"/></marker>
 <marker id="r" markerWidth="6" markerHeight="6" refX="3" refY="3" markerUnits="userSpaceOnUse"><rect width="6" height="6" fill="red"/></marker>
@@ -52,4 +55,12 @@ the shared first/last vertex of a basic shape remains unmarked. -->
 <ellipse cx="32" cy="88" rx="6" ry="4"/>
 <rect x="48" y="82" width="10" height="12"/>
 </g>
+<polyline points="8 108" marker-start="url(#l)"/>
+<polyline points="24 108" marker-mid="url(#r)"/>
+<polyline points="40 108" marker-end="url(#l)"/>
+<polyline points="56 108" marker-start="url(#r)" marker-mid="url(#y)" marker-end="url(#g)"/>
+<path d="M8 124" marker-start="url(#l)"/>
+<path d="M24 124" marker-end="url(#l)"/>
+<polyline points="" marker-start="url(#r)" marker-end="url(#r)"/>
+<path d="" marker-start="url(#r)" marker-end="url(#r)"/>
 </svg>

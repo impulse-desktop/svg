@@ -101,6 +101,27 @@ int main(void) {
         return fail("the decoded images were not destroyed once drawn");
     }
 
+    // D10/D31: output dimensions scale a drawing; media queries retain the
+    // document's logical viewport. The viewBox and the two output sizes
+    // deliberately have different dimensions from that viewport.
+    static const char responsive[] = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"64\" height=\"16\" viewBox=\"0 0 16 16\" preserveAspectRatio=\"none\">"
+                                     "<style>rect { fill: red } @media (width: 64px) and (height: 16px) { rect { fill: lime } }</style>"
+                                     "<rect width=\"16\" height=\"16\"/></svg>";
+    SvgLibrary* mediaLibrary = svg_library_create(NULL, failed, NULL);
+    SvgDocument* mediaDocument = svg_library_parse(mediaLibrary, responsive, sizeof(responsive) - 1);
+    SvgImage* reduced = svg_document_render(mediaDocument, 16, 16);
+    SvgImage* enlarged = svg_document_render(mediaDocument, 256, 32);
+
+    if (svg_document_width(mediaDocument) != 64.f || svg_document_height(mediaDocument) != 16.f ||
+        !pixel(reduced, 8, 8, green) || !pixel(enlarged, 128, 16, green)) {
+        return fail("media queries changed with output scale or used viewBox dimensions");
+    }
+
+    svg_image_destroy(reduced);
+    svg_image_destroy(enlarged);
+    svg_document_destroy(mediaDocument);
+    svg_library_destroy(mediaLibrary);
+
     svg_image_destroy(plain);
     svg_image_destroy(doubled);
     puts("checked the C API from C99 against svg.cpp as C++17");

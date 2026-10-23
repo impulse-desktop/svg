@@ -368,6 +368,18 @@ in, stretched to the pixels it is drawn into (README), so the viewport
 units are of that size. Before, they were of the output pixels, and a
 document drawn at twice its size had twice the vw in its user units.
 
+Width and height media queries likewise see that logical viewport, not
+the number of output pixels or the viewBox's user-coordinate dimensions.
+The C API unit renders a 64 by 16 document with a 16 by 16 viewBox into
+both 16 by 16 and 256 by 32 pixels; the same width/height condition applies
+to both. For comparison with a browser image, its CSS width and height can
+retain that logical viewport while a CSS transform scales the resulting
+drawing. Five real
+responsive diagrams in the review selection distinguish these contexts:
+at a 256 CSS-pixel image viewport their small-screen branch changes
+opacity, stroke width or the selected geometry; at the document's 1400
+logical pixels both renderers choose the large-screen branch.
+
 ## D32. A value is read from its tokens, its escapes in them
 
 `css-syntax-3.md#syntax-description`: any code point may be escaped in an
