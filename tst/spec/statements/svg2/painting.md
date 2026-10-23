@@ -35,7 +35,7 @@
 
 ## fill-opacity: paint-opacity-values
 
-- [x] svg2/painting.md#FillOpacityProperty: fill-opacity is <number> | <percentage>; initial 1; applies to shapes and text content elements; is inherited; computed value is clamped to [0,1] [paint-opacity-values#fill-values paint-opacity-values#fill-clamp paint-properties#fill-opacity-inherited paint-low-opacity-layers#opaque-plain-8 paint-low-opacity-layers#opaque-mask-8 paint-low-opacity-layers#transparent-plain-8 paint-low-opacity-layers#transparent-mask-8]
+- [x] svg2/painting.md#FillOpacityProperty: fill-opacity is <number> | <percentage>; initial 1; applies to shapes and text content elements; is inherited; computed value is clamped to [0,1] [paint-opacity-values#fill-values paint-opacity-values#fill-clamp paint-properties#fill-opacity-inherited paint-low-opacity-layers#opaque-plain-8 paint-low-opacity-layers#opaque-mask-8 paint-low-opacity-layers#transparent-plain-8 paint-low-opacity-layers#transparent-mask-8 pattern-coverage-product#svg-fill-opacity pattern-coverage-product#svg-group-opacity]
 - [x] svg2/painting.md#FillOpacityProperty: values outside 0 (fully transparent) to 1 (fully opaque) must be clamped to that range; a percentage is of the 0-1 range [paint-opacity-values#fill-clamp paint-opacity-values#fill-values]
 
 ## stroke basics: stroke-basics, stroke-linecap-shapes, paint-opacity-values, paint-properties
