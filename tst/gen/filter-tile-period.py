@@ -75,6 +75,11 @@ for i, (name, origin, width, height, transform, kind, opacity) in enumerate(case
                 plain.append(f'<rect x="{x}" y="{y}" width="1" height="1" fill="{colour}" fill-opacity="{float(opacity)}"/>')
             else:
                 clear += 1
+    # Constant tiles exercise every output phase, with one rectangle instead
+    # of hundreds of identical probes. An empty tile must leave it all white.
+    if kind in ('solid', 'empty'):
+        probes = ['<rect width="96" height="24"/>']
+        plain = [f'<rect width="96" height="24" fill="{colour}" fill-opacity="{float(opacity)}"/>'] if kind == 'solid' else []
     assert probes and (green or kind == 'empty'), name
     assert clear or kind == 'solid', name
     left, top = 2 + i % 2 * 100, 2 + i // 2 * 28
