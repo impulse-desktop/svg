@@ -16113,7 +16113,7 @@ namespace {
         paint->imageHeight = (u32)th;
         paint->opacity = opacity;
 
-        if (!invert(multiply(space, scaling(w / tw, h / th)), paint->inverse)) {
+        if (!invert(multiply(space, scaling((double)w / tw, (double)h / th)), paint->inverse)) {
             return nullptr;
         }
 
@@ -16121,7 +16121,7 @@ namespace {
         // it is in the document, as every renderer and Inkscape's stock
         // patterns have it (D44).
         const ComputedStyle& contentStyle = documentStyle(l, content, vp);
-        Matrix matrix = multiply(scaling(tw / w, th / h), inner);
+        Matrix matrix = multiply(scaling((double)tw / w, (double)th / h), inner);
         Matrix screenInverse;
         Matrix host = invert(l.screen, screenInverse) ? multiply(matrix, screenInverse) : identity();
         PatternProgramKey key = patternProgramKey(l, pattern, content, matrix, host, vp, w, h, paint->imageWidth, paint->imageHeight);

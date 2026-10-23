@@ -165,7 +165,7 @@
 ## image-rendering: paint-rendering-hints, image-cells
 
 - [x] svg2/painting.md#ImageRenderingProperty: image-rendering is auto | optimizeQuality | optimizeSpeed; initial auto; applies to images; is inherited [paint-rendering-hints#image-smooth paint-rendering-hints#image-speed paint-properties#image-rendering-inherited]
-- [x] svg2/painting.md#ImageRenderingProperty: auto and optimizeQuality require resampling at least as good as bilinear; optimizeSpeed allows resampling as low as nearest-neighbor [paint-rendering-hints#image-smooth paint-rendering-hints#image-speed image-cells#natural-size pattern-minification-area#embedded-crossing pattern-minification-area#embedded-rotated pattern-minification-area#raster-checker pattern-minification-area#raster-alpha]
+- [x] svg2/painting.md#ImageRenderingProperty: auto and optimizeQuality require resampling at least as good as bilinear; optimizeSpeed allows resampling as low as nearest-neighbor [paint-rendering-hints#image-smooth paint-rendering-hints#image-speed image-cells#natural-size pattern-minification-area#embedded-crossing pattern-minification-area#embedded-rotated pattern-minification-area#raster-checker pattern-minification-area#raster-alpha pattern-image-native-pixels#fractional pattern-image-native-pixels#thirds pattern-image-native-pixels#sevenths pattern-image-native-pixels#whole pattern-image-native-pixels#half pattern-image-native-pixels#view-box pattern-image-native-pixels#phase pattern-image-native-pixels#reflection pattern-image-native-pixels#unequal-axes]
 - [x] svg2/painting.md#ImageRenderingProperty: resampling must always be performed in a truecolor color space, even when the source or target is indexed color [paint-rendering-hints#image-smooth]
 
 ## Notes
