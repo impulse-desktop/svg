@@ -22,6 +22,13 @@ level covers rounding. Their expected PNGs contain exact polynomial
 integrals and allow this derived bound of 14 byte levels. Straight bands
 and the flat cubic retain the ordinary two-level comparison tolerance.
 
+`filter-small-gaussian` checks the existing kernel below a deviation of
+two pixels: normalized samples of the specification's exponential over
+`ceil(3 * sigma)` pixels on each side. Its independent PNG references
+convolve literal premultiplied input pixels, with the ordinary two-level
+tolerance. The cells cover unequal and zero axes, a deviation just below
+two, source alpha, group opacity, and transparent or duplicated edges.
+
 ## D2. A filter primitive's subregion is snapped out to whole pixels where it meets its content's edge
 
 `filter-effects-1.md#FilterPrimitiveSubRegion`: the subregion restricts the

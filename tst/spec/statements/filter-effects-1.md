@@ -195,15 +195,15 @@
 
 ## feGaussianBlur stdDeviation: fe-blur-values, filter-primitives-edge (exists)
 
-- [x] filter-effects-1.md#elementdef-fegaussianblur: the Gaussian kernel is the separable product H(x)*I(y) of two 1-D Gaussians with standard deviations s (x) and t (y). [fe-blur-values#one-deviation]
+- [x] filter-effects-1.md#elementdef-fegaussianblur: the Gaussian kernel is the separable product H(x)*I(y) of two 1-D Gaussians with standard deviations s (x) and t (y). [fe-blur-values#one-deviation filter-small-gaussian#narrow filter-small-gaussian#half filter-small-gaussian#map-scale filter-small-gaussian#unequal filter-small-gaussian#below-two filter-small-gaussian#tiny filter-small-gaussian#premultiplied-pair filter-small-gaussian#group-half]
 - [x] filter-effects-1.md#feGaussianBlurElement: feGaussianBlur approximates a normalized separable Gaussian convolution, including subpixel alpha inputs. [filter-subpixel-shadow#quarter-row filter-subpixel-shadow#scaled filter-subpixel-shadow#whole-row filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-translucent filter-subpixel-shadow#diagram-near-two filter-coloured-shadow#linear-default filter-coloured-shadow#near-two]
 - [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: stdDeviation is one or two numbers: one value is used for both axes, two give x then y; initial 0. [fe-blur-values#one-deviation fe-blur-values#x-then-y filter-subpixel-shadow#unequal-axes filter-subpixel-shadow#diagram-zero-blur]
 - [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: a negative value, or zero in both axes, disables the primitive, so its result is its input image unchanged. [fe-blur-values#pass-through filter-coloured-shadow#zero-blur]
-- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: if stdDeviation is 0 in exactly one axis, the blur applies only along the other axis. [fe-blur-values#zero-axis fe-blur-values#x-then-y filter-coloured-shadow#one-axis]
+- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: if stdDeviation is 0 in exactly one axis, the blur applies only along the other axis. [fe-blur-values#zero-axis fe-blur-values#x-then-y filter-coloured-shadow#one-axis filter-small-gaussian#x-only filter-small-gaussian#y-only]
 
 ## feGaussianBlur edgeMode: filter-edge-cells, blur-edge-modes (exists)
 
-- [x] filter-effects-1.md#element-attrdef-fegaussianblur-edgemode: feGaussianBlur's edgeMode is duplicate, wrap, mirror or none, defined as for feConvolveMatrix; initial none. [filter-edge-cells#blur-edge-solid filter-edge-cells#blur-edge-none]
+- [x] filter-effects-1.md#element-attrdef-fegaussianblur-edgemode: feGaussianBlur's edgeMode is duplicate, wrap, mirror or none, defined as for feConvolveMatrix; initial none. [filter-edge-cells#blur-edge-solid filter-edge-cells#blur-edge-none filter-small-gaussian#constant-duplicate filter-small-gaussian#constant-none]
 
 ## feGaussianBlur on infinite-extent inputs: fe-blur-values, filter-blur-paths (exists)
 
