@@ -10,7 +10,7 @@ import base64
 from unitgen import Unit
 
 
-unit = Unit('image-root-transform', 72, 80,
+unit = Unit('image-root-transform', 72, 100,
             'The root has a CSS layout box. Its view-box transform reference '
             'box has the used border-box value and its default origin is '
             '50% 50%. Quarter turns retain the viewport center for negative '
@@ -30,12 +30,18 @@ cases = [
     ('root-hidden', '-8 -4 16 8', '7 -2', 90, 8, 'overflow="hidden"', None),
     ('root-visible', '-8 -4 16 8', '7 -2', 90, 8, 'overflow="visible"', (9, 11, 1, 2)),
     ('host-hidden', '-8 -4 16 8', '7 -2', 90, 8, 'overflow="visible"', None),
+    ('open-size', '', '5 2', 90, 8, 'transform-origin="50vw 50vh"', (9, 1, 1, 2)),
+    ('open-height', '', '5 2', 90, 8, 'transform-origin="50vw 50vh"', (9, 1, 1, 2)),
+    ('open-width', '', '5 2', 90, 8, 'transform-origin="50vw 50vh"', (9, 1, 1, 2)),
 ]
 for i, (name, viewbox, position, angle, height, origin, expected) in enumerate(cases):
     x, y = i % 3 * 24, i // 3 * 20
     px, py = position.split()
-    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="8" '
-           f'viewBox="{viewbox}" transform="rotate({angle})" {origin}>'
+    size = ('' if name == 'open-size' else 'width="16"' if name == 'open-height'
+            else 'height="8"' if name == 'open-width' else 'width="16" height="8"')
+    box = f'viewBox="{viewbox}"' if viewbox else ''
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" {size} '
+           f'{box} transform="rotate({angle})" {origin}>'
            f'<rect x="{px}" y="{py}" width="2" height="1" fill="lime"/></svg>')
     href = 'data:image/svg+xml;base64,' + base64.b64encode(svg.encode()).decode()
     image_attrs = ('preserveAspectRatio="none"' if name == 'unequal-axes' else 'overflow="visible"' if name in ['root-hidden', 'root-visible'] else '')

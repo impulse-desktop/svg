@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="72" height="80">
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="100">
 <!-- What tst/unit/image-root-transform.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
 <g id="center-quarter" data-box="0 0 24 20"><rect x="13" y="5" width="1" height="2" fill="lime"/></g>
@@ -13,4 +13,7 @@ cell's id is what the statement ledgers link to. -->
 <g id="root-hidden" data-box="0 60 24 20"></g>
 <g id="root-visible" data-box="24 60 24 20"><rect x="37" y="75" width="1" height="2" fill="lime"/></g>
 <g id="host-hidden" data-box="48 60 24 20"></g>
+<g id="open-size" data-box="0 80 24 20"><rect x="13" y="85" width="1" height="2" fill="lime"/></g>
+<g id="open-height" data-box="24 80 24 20"><rect x="37" y="85" width="1" height="2" fill="lime"/></g>
+<g id="open-width" data-box="48 80 24 20"><rect x="61" y="85" width="1" height="2" fill="lime"/></g>
 </svg>
