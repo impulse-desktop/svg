@@ -211,6 +211,7 @@
 ## feImage: fe-image-placement, feimage-refs (exists)
 
 - [x] filter-effects-1.md#elementdef-feimage: an feImage href to a stand-alone image resource renders like the image element; a reference to an element renders like the use element; the current coordinate system follows primitiveUnits either way (D41). [fe-image-placement#image-meet fe-image-placement#element fe-image-placement#element-box fe-image-placement#symbol fe-image-placement#svg fe-image-placement#inherits]
+- [x] filter-effects-1.md#elementdef-feimage: a use-like shape reference retains its containing viewport for percentages; only a symbol or svg reference establishes a viewport of the subregion's size. Bounding-box primitive units add their coordinate transform. [fe-image-placement#element-percent-viewport fe-image-placement#element-box-percent-viewport fe-image-placement#element-percent-clipped fe-image-placement#symbol-percent-viewport]
 - [x] filter-effects-1.md#elementdef-feimage: an href that is empty (zero width or height), fails to resolve, does not exist, or cannot be displayed fills the primitive subregion with transparent black. [fe-image-placement#missing]
 - [x] filter-effects-1.md#element-attrdef-feimage-preserveaspectratio: preserveAspectRatio has initial value xMidYMid meet and is processed as for the image element. [fe-image-placement#image-meet fe-image-placement#image-stretch]
 - [x] filter-effects-1.md#element-attrdef-feimage-xlinkhref: when both xlink:href and href are given, href overrides xlink:href. [fe-image-placement#href-wins]

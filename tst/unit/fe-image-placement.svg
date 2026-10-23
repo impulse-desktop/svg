@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="32">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="48">
 <!-- Each lime drawing fills its black outline, no red. feImage draws an
 image file as image does, in its subregion, meeting at the middle by
 default, or stretched; an element as a use of it with the subregion's x,
@@ -21,7 +21,7 @@ transparent; href wins over xlink:href. -->
 <filter id="fv" filterUnits="userSpaceOnUse" x="34" y="18" width="12" height="12"><feImage href="#sv"/></filter>
 <g fill="red"><rect id="ih" width="6" height="6"/></g>
 <filter id="fi" filterUnits="userSpaceOnUse" x="50" y="18" width="12" height="12"><feImage href="#ih" fill="lime"/></filter>
-</defs><rect width="64" height="32" fill="white"/>
+</defs><rect width="64" height="48" fill="white"/>
 <rect x="2" y="2" width="8" height="12" fill="red" filter="url(#m)"/>
 <rect x="14" y="2" width="8" height="12" fill="red" filter="url(#n)"/>
 <rect x="26" y="2" width="12" height="12" fill="red" filter="url(#e)"/>
@@ -32,4 +32,19 @@ transparent; href wins over xlink:href. -->
 <rect x="34" y="18" width="12" height="12" fill="red" filter="url(#fv)"/>
 <rect x="50" y="18" width="12" height="12" fill="red" filter="url(#fi)"/>
 <g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="6" width="8" height="4"/><rect x="14" y="2" width="8" height="12"/><rect x="28" y="3" width="4" height="8"/><rect x="54" y="2" width="8" height="12"/><rect x="2" y="18" width="6" height="12"/><rect x="18" y="18" width="6" height="12"/><rect x="34" y="18" width="6" height="6"/><rect x="50" y="18" width="6" height="6"/></g>
+<defs>
+<!-- A use of a shape retains the containing viewport for its percentages;
+only a symbol or svg establishes the feImage subregion as a viewport. -->
+<circle id="pc" cx="50%" cy="50%" r="2" fill="lime"/>
+<rect id="pr" width="50%" height="50%" fill="lime"/>
+<symbol id="ps" viewBox="0 0 2 2"><rect width="50%" height="50%" fill="lime"/></symbol>
+<filter id="fpc" filterUnits="userSpaceOnUse" x="2" y="34" width="12" height="12"><feImage href="#pc"/></filter>
+<filter id="fpcb" primitiveUnits="objectBoundingBox" x="0" y="0" width="1" height="1"><feImage href="#pc" x="0" y="0" width="1" height="1"/></filter>
+<filter id="fpr" filterUnits="userSpaceOnUse" x="34" y="34" width="12" height="12"><feImage href="#pr"/></filter>
+<filter id="fps" filterUnits="userSpaceOnUse" x="50" y="34" width="12" height="12"><feImage href="#ps"/></filter>
+</defs>
+<rect x="2" y="34" width="12" height="12" fill="red" filter="url(#fpc)"/>
+<rect x="18" y="34" width="12" height="12" fill="red" filter="url(#fpcb)"/>
+<rect x="34" y="34" width="12" height="12" fill="red" filter="url(#fpr)"/>
+<rect x="50" y="34" width="12" height="12" fill="red" filter="url(#fps)"/>
 </svg>

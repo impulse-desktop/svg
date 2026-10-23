@@ -16945,6 +16945,7 @@ namespace {
     static bool isAuto(const Document& doc, const Node* node, u32 name);
     static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, float& x, float& y, float& w, float& h);
     static void releaseImage(ImageSource& source);
+    static bool transformed(const Node* node);
     static Matrix boxTransform(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp);
     static Box deviceBox(const Matrix& m, const Box& box);
     static bool givenSide(const Document& doc, const Node* node, u32 name);
@@ -20820,6 +20821,19 @@ namespace {
         float outerFontSize = l.rootFontSize;
         float outerDocWidth = l.docWidth;
         float outerDocHeight = l.docHeight;
+
+        // The image-rendering rectangle is the embedded document's
+        // viewport. Its root transforms in that box, before the fitted
+        // viewBox content, as a standalone root does in its viewport.
+        if (transformed(nested->root)) {
+            Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
+            Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
+            Viewport frame{b.x - a.x, b.y - a.y, source.width > 0.f ? source.width : w, source.height > 0.f ? source.height : h, rootStyle.fontSize};
+            Matrix root = boxTransform(l, nested->root, initialStyle(), frame);
+
+            root = multiply(multiply(translation(a.x, a.y), root), translation(-a.x, -a.y));
+            place = multiply(multiply(m, root), fit);
+        }
 
         // The image clips to its positioning rectangle; its document's
         // root independently clips to the fitted image-rendering rectangle.
