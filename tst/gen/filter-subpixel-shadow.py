@@ -49,12 +49,13 @@ def shadow(width, height, source_width, source_height, dx, dy, sx, sy,
     return result
 
 
-unit = Unit('filter-subpixel-shadow', 60, 24,
+unit = Unit('filter-subpixel-shadow', 60, 36,
             'Exact source rectangle areas feed a fractional offset and normalized Gaussian. '
             'Atop preserves the blurred second input alpha, the color matrix scales it, '
             'then the gray foreground composites over the black shadow. Independent PNG '
             'expectations include line ends, filter edges, uniform and unequal transforms, '
-            'an opaque row, negative offsets, translucent source and zero shadow opacity.',
+            'an opaque row, negative offsets, translucent source, zero shadow opacity '
+            'and clamped high-gain SourceAlpha before blur and out compositing.',
             ground=False)
 cases = [
     ('quarter-row', 1, 1, .25, .625, .625, 1.25, 1.25, 89 / 255, 1),
@@ -81,5 +82,65 @@ for i, (name, sx, sy, height, sigma_x, sigma_y, dx, dy, opacity, source_opacity)
                     sigma_x * sx, sigma_y * sy, opacity, source_opacity)
     expected = (f'<image x="{x + 2}" y="{y + 2}" width="16" height="6" '
                 f'image-rendering="pixelated" href="{png(pixels)}"/>')
+    unit.cell(name, (x, y, 20, 12), test, expected)
+
+
+def hard_shadow(source_height, source_opacity, cutout):
+    # The clamp is two-dimensional: at a partial end pixel, multiplying
+    # independently clamped x and y would give a different answer.
+    source = [[max(0, min(i + 1, 13.25) - i)
+               * max(0, min(j + 1, source_height) - j) * source_opacity
+               for i in range(16)] for j in range(6)]
+    hard = [[min(1, 127 * a) for a in row] for row in source]
+
+    def at(i, j):
+        return hard[j][i] if 0 <= i < 16 and 0 <= j < 6 else 0
+
+    shifted = []
+    for j in range(6):
+        row = []
+        for i in range(16):
+            x, y = i - 1.25, j - 1.25
+            ix, iy = math.floor(x), math.floor(y)
+            fx, fy = x - ix, y - iy
+            row.append((at(ix, iy) * (1 - fx) + at(ix + 1, iy) * fx) * (1 - fy)
+                       + (at(ix, iy + 1) * (1 - fx) + at(ix + 1, iy + 1) * fx) * fy)
+        shifted.append(row)
+    weights = {k: math.exp(-k * k / (2 * .625 ** 2)) for k in range(-32, 33)}
+    total = sum(weights.values()) ** 2
+    result = []
+    for j in range(6):
+        row = []
+        for i in range(16):
+            blurred = sum(shifted[y][x] * weights[i - x] * weights[j - y]
+                          for y in range(6) for x in range(16)) / total
+            backdrop = blurred * (1 - hard[j][i] if cutout else 1) * .25
+            foreground = source[j][i]
+            alpha = foreground + backdrop * (1 - foreground)
+            gray = (215 / 255) * foreground / alpha if alpha else 0
+            row.append((gray, gray, gray, alpha))
+        result.append(row)
+    return result
+
+
+for i, (name, height, opacity, cutout) in enumerate([
+    ('hard-alpha-row', .25, 1, False),
+    ('hard-alpha-subbyte', 1, 1 / 254, False),
+    ('hard-alpha-out', .25, 1, True),
+]):
+    x, y = i * 20, 24
+    test = (f'<defs><filter id="h{i}" filterUnits="userSpaceOnUse" '
+            'x="0" y="0" width="16" height="6" color-interpolation-filters="sRGB">'
+            '<feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hard"/>'
+            '<feOffset dx="1.25" dy="1.25"/>'
+            '<feGaussianBlur stdDeviation=".625"/>'
+            + ('<feComposite in2="hard" operator="out"/>' if cutout else '')
+            + '<feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .25 0"/>'
+            '<feBlend in="SourceGraphic"/></filter></defs>'
+            f'<g transform="translate({x + 2} {y + 2})">'
+            f'<rect width="13.25" height="{height}" fill="#d7d7d7" '
+            f'fill-opacity="{opacity:.17g}" filter="url(#h{i})"/></g>')
+    expected = (f'<image x="{x + 2}" y="{y + 2}" width="16" height="6" '
+                f'image-rendering="pixelated" href="{png(hard_shadow(height, opacity, cutout))}"/>')
     unit.cell(name, (x, y, 20, 12), test, expected)
 unit.write()
