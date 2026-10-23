@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="448">
+<!-- What tst/unit/coordinate-precision.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="viewbox-extent" data-box="0 0 64 64"><g transform="translate(0 0)"><rect x="42.6666666666666667" y="16" width="21.3333333333333333" height="16" fill="lime"/></g></g>
+<g id="path-decimals" data-box="64 0 64 64"><g transform="translate(64 0)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="rect-decimals" data-box="128 0 64 64"><g transform="translate(128 0)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="nested-ctm" data-box="192 0 64 64"><g transform="translate(192 0)"><rect x="8" y="8" width="4" height="4" fill="lime"/></g></g>
+<g id="stroke-offset" data-box="256 0 64 64"><g transform="translate(256 0)"><rect x="16" y="15" width="32" height="2" fill="lime"/></g></g>
+<g id="negative" data-box="0 64 64 64"><g transform="translate(0 64)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="relative" data-box="64 64 64 64"><g transform="translate(64 64)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="polygon" data-box="128 64 64 64"><g transform="translate(128 64)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="polyline-stroke" data-box="192 64 64 64"><g transform="translate(192 64)"><rect x="16" y="15" width="32" height="2" fill="lime"/></g></g>
+<g id="cubic" data-box="256 64 64 64"><g transform="translate(256 64)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="circle" data-box="0 128 64 64"><g transform="translate(0 128)"><circle cx="20" cy="20" r="8" fill="lime"/></g></g>
+<g id="ellipse" data-box="64 128 64 64"><g transform="translate(64 128)"><ellipse cx="20" cy="20" rx="8" ry="4" fill="lime"/></g></g>
+<g id="arc" data-box="128 128 64 64"><g transform="translate(128 128)"><circle cx="20" cy="20" r="8" fill="lime"/></g></g>
+<g id="css-nested" data-box="192 128 64 64"><g transform="translate(192 128)"><rect x="8" y="8" width="4" height="4" fill="lime"/></g></g>
+<g id="rotation-pivot" data-box="256 128 64 64"><g transform="translate(256 128)"><rect x="24" y="24" width="8" height="8" fill="lime"/></g></g>
+<g id="clip" data-box="0 192 64 64"><g transform="translate(0 192)"><rect x="12" y="8" width="8" height="16" fill="lime"/></g></g>
+<g id="symbol" data-box="64 192 64 64"><g transform="translate(64 192)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="use-position" data-box="128 192 64 64"><g transform="translate(128 192)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="image-position" data-box="192 192 64 64"><g transform="translate(192 192)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="raster-position" data-box="256 192 64 64"><g transform="translate(256 192)"><rect x="4" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="quarter-turn" data-box="0 256 64 64"><g transform="translate(0 256)"><rect x="52" y="4" width="8" height="8" fill="lime"/></g></g>
+<g id="half-turn" data-box="64 256 64 64"><g transform="translate(64 256)"><rect x="52" y="52" width="8" height="8" fill="lime"/></g></g>
+<g id="matrix3d" data-box="128 256 64 64"><g transform="translate(128 256)"><rect x="8" y="8" width="4" height="4" fill="lime"/></g></g>
+<g id="intermediate-range" data-box="192 256 64 64"><g transform="translate(192 256)"><rect x="30" width="34" height="40" fill="lime"/></g></g>
+<g id="pattern-period" data-box="256 256 64 64"><g transform="translate(256 256)"><rect width="32" height="64" fill="red"/><rect x="32" width="32" height="64" fill="blue"/></g></g>
+<g id="micro-miter" data-box="0 320 64 64"><g transform="translate(0 320)"><path transform="translate(10 10)" d="M0 0L.00000002 .00000005L30 0" fill="none" stroke="lime" stroke-width="8" stroke-linejoin="miter"/></g></g>
+<g id="micro-reversal" data-box="64 320 64 64"><g transform="translate(64 320)"><path transform="translate(10 10)" d="M0 0L-.00000002 .00000001L30 0" fill="none" stroke="lime" stroke-width="8" stroke-linejoin="round"/></g></g>
+<g id="micro-close" data-box="128 320 64 64"><g transform="translate(128 320)"><path transform="translate(10 10)" d="M0 0L30 0L30 30L0 30L-.00000002 -.00000002Z" fill="none" stroke="lime" stroke-width="8" stroke-linejoin="miter"/></g></g>
+<g id="rotation-turns" data-box="192 320 64 64"><g transform="translate(192 320)"><rect x="10000" y="10000" width="8" height="8" fill="lime" transform="translate(-9980 -9980) rotate(.01 -10000 -10000)"/></g></g>
+<g id="mask-nonzero-box" data-box="256 320 64 64"><g transform="translate(256 320)"><g/></g></g>
+<g id="mask-zero-box" data-box="0 384 64 64"><g transform="translate(0 384)"><rect x="12" y="8" width="8" height="32" fill="lime"/></g></g>
+</svg>

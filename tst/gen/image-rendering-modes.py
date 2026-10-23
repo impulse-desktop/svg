@@ -103,5 +103,47 @@ for x, mode in [(6, "crisp-edges"), (20, "optimizeSpeed")]:
     expected.append(f'<image x="{x}" y="{y + 14}" width="5" height="3" '
                     f'image-rendering="pixelated" href="{png(nearest(5, 3))}"/>')
 unit.cell("translated-texel-boundary", (2, y + 12, 28, 8), ''.join(test), ''.join(expected))
-unit.height = y + 22
+def rotated_pixelated():
+    """Nearest texel centers and exact clipped-quad areas for a unit rotation."""
+    cs, sn = math.cos(math.radians(10)), math.sin(math.radians(10))
+    quad = [(8 + cs * (x - 8) - sn * (y - 8),
+             8 + sn * (x - 8) + cs * (y - 8))
+            for x, y in [(4, 4), (12, 4), (12, 12), (4, 12)]]
+
+    def cut(points, axis, bound, above):
+        out = []
+        for a, b in zip(points[-1:] + points[:-1], points):
+            ia, ib = (a[axis] >= bound, b[axis] >= bound) if above else (a[axis] <= bound, b[axis] <= bound)
+            if ia != ib:
+                t = (bound - a[axis]) / (b[axis] - a[axis])
+                out.append(tuple(a[k] + t * (b[k] - a[k]) for k in range(2)))
+            if ib:
+                out.append(b)
+        return out
+
+    pixels = []
+    for j in range(16):
+        row = []
+        for i in range(16):
+            shape = quad
+            for axis, bound, above in [(0, i, True), (0, i + 1, False),
+                                       (1, j, True), (1, j + 1, False)]:
+                shape = cut(shape, axis, bound, above) if shape else []
+            area = abs(sum(a[0] * b[1] - a[1] * b[0]
+                           for a, b in zip(shape[-1:] + shape[:-1], shape))) / 2
+            sx = min(7, max(0, math.floor(cs * (i + .5 - 8) + sn * (j + .5 - 8) + 4)))
+            sy = min(7, max(0, math.floor(-sn * (i + .5 - 8) + cs * (j + .5 - 8) + 4)))
+            value = (sx + sy) % 2
+            row.append((value, value, value, area))
+        pixels.append(row)
+    return png(pixels)
+
+
+checker = png([[(v, v, v, 1) for v in [(i + j) % 2 for i in range(8)]] for j in range(8)])
+unit.cell('pixelated-unit-rotation', (2, y + 22, 16, 16),
+          f'<g transform="translate(2 {y + 22})"><image x="4" y="4" width="8" height="8" '
+          f'transform="rotate(10 8 8)" image-rendering="pixelated" href="{checker}"/></g>',
+          f'<image x="2" y="{y + 22}" width="16" height="16" image-rendering="pixelated" '
+          f'href="{rotated_pixelated()}"/>')
+unit.height = y + 40
 unit.write()

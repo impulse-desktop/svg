@@ -832,3 +832,9 @@ transforms, objectBoundingBox coordinates and referencing-shape clips.
 The existing mesh units retain curved sides, shared patch boundaries,
 invalid inputs and Inkscape's bicubic behavior. No mesh renderer behavior
 was changed in making this record.
+
+The coordinate-precision fix also checks large translated and reflected
+mesh coordinates with analytic bilinear colors. The small-saddle control
+bounds triangular color interpolation independently: its mixed coefficient
+is 510 byte levels, and four subdivisions give a maximum error of
+510/(4*4^2), with one further level allowed for color quantization.

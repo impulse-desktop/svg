@@ -67,7 +67,7 @@
 ## image-rendering keywords: image-rendering-modes, style-image-rendering (exists)
 
 - [x] css-images-3.md#the-image-rendering: image-rendering accepts auto | smooth | high-quality | pixelated | crisp-edges; initial auto; inherited. [image-rendering-modes#smooth image-rendering-modes#inherited image-rendering-modes#pixelated image-rendering-modes#crisp-edges]
-- [x] css-images-3.md#valdef-image-rendering-pixelated: pixelated scales each axis to the nearest positive integer multiple of its natural size with nearest-neighbor, then the rest of the way as for smooth. [image-rendering-modes#pixelated]
+- [x] css-images-3.md#valdef-image-rendering-pixelated: pixelated scales each axis to the nearest positive integer multiple of its natural size with nearest-neighbor, then the rest of the way as for smooth; a unit-scale rotation retains that integer scale. [image-rendering-modes#pixelated image-rendering-modes#pixelated-unit-rotation]
 - [x] css-images-3.md#valdef-image-rendering-crisp-edges: crisp-edges scales to avoid blurring edges or blending colors, e.g. via nearest-neighbor. [image-rendering-modes#crisp-edges image-rendering-modes#crisp-down image-rendering-modes#transform-down image-rendering-modes#translated-texel-boundary]
 - [x] css-images-3.md#the-image-rendering: the deprecated legacy values optimizeSpeed and optimizeQuality must be accepted and behave as crisp-edges and smooth respectively. [image-rendering-modes#legacy image-rendering-modes#legacy-down image-rendering-modes#transform-down image-rendering-modes#translated-texel-boundary]
 

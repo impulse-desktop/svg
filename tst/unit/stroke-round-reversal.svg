@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="384" height="384">
+<!-- Round joins at exact and near reversals sweep one half-circle in
+front of the incoming segment. Both path directions, both sides of the
+angular cut and five headings agree with the literal outline of a
+rectangle with a semicircular end. The near-reversal displacement is
+below 1e-8 device pixels; raster approximation is allowed within 4
+levels (D1). -->
+<rect width="384" height="384" fill="white"/>
+<path transform="translate(0 0) rotate(0 32 32)" d="M42 32L22 32L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(64 0) rotate(0 32 32)" d="M48 32L22 32L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(128 0) rotate(0 32 32)" d="M42 32L22 32.0000000001L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(192 0) rotate(0 32 32)" d="M48 32L22 32.0000000001L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(256 0) rotate(0 32 32)" d="M42 32L22 31.9999999999L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(320 0) rotate(0 32 32)" d="M48 32L22 31.9999999999L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(0 64) rotate(90 32 32)" d="M42 32L22 32L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(64 64) rotate(90 32 32)" d="M48 32L22 32L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(128 64) rotate(90 32 32)" d="M42 32L22 32.0000000001L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(192 64) rotate(90 32 32)" d="M48 32L22 32.0000000001L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(256 64) rotate(90 32 32)" d="M42 32L22 31.9999999999L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(320 64) rotate(90 32 32)" d="M48 32L22 31.9999999999L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(0 128) rotate(180 32 32)" d="M42 32L22 32L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(64 128) rotate(180 32 32)" d="M48 32L22 32L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(128 128) rotate(180 32 32)" d="M42 32L22 32.0000000001L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(192 128) rotate(180 32 32)" d="M48 32L22 32.0000000001L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(256 128) rotate(180 32 32)" d="M42 32L22 31.9999999999L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(320 128) rotate(180 32 32)" d="M48 32L22 31.9999999999L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(0 192) rotate(270 32 32)" d="M42 32L22 32L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(64 192) rotate(270 32 32)" d="M48 32L22 32L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(128 192) rotate(270 32 32)" d="M42 32L22 32.0000000001L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(192 192) rotate(270 32 32)" d="M48 32L22 32.0000000001L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(256 192) rotate(270 32 32)" d="M42 32L22 31.9999999999L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(320 192) rotate(270 32 32)" d="M48 32L22 31.9999999999L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(0 256) rotate(35 32 32)" d="M42 32L22 32L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(64 256) rotate(35 32 32)" d="M48 32L22 32L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(128 256) rotate(35 32 32)" d="M42 32L22 32.0000000001L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(192 256) rotate(35 32 32)" d="M48 32L22 32.0000000001L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(256 256) rotate(35 32 32)" d="M42 32L22 31.9999999999L48 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(320 256) rotate(35 32 32)" d="M48 32L22 31.9999999999L42 32" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(0 320) rotate(0 32 32)" d="M22 32L48 32Z" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(64 320) rotate(0 32 32)" d="M48 32L22 32Z" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(128 320) rotate(35 32 32)" d="M22 32L48 32Z" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+<path transform="translate(192 320) rotate(35 32 32)" d="M48 32L22 32Z" fill="none" stroke="black" stroke-width="12" stroke-linejoin="round"/>
+</svg>

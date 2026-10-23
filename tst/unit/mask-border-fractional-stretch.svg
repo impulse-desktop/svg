@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="64">
+<!-- A stretched mask-border part keeps the exact fractional size of its
+region. Percentages, lengths, exchanged axes and whole lengths agree
+with nine explicitly placed source rectangles and a radial SVG gradient.
+-->
+<svg x="0" width="64" height="64"><rect x="17" y="17" width="14" height="14" fill="teal" style="mask-border:radial-gradient(black 30%, transparent 70%) 30% fill / 20% 10%"/></svg>
+<svg x="64" width="64" height="64"><rect x="17" y="17" width="14" height="14" fill="teal" style="mask-border:radial-gradient(black 30%, transparent 70%) 30% fill / 2.8px 1.4px"/></svg>
+<svg x="128" width="64" height="64"><rect x="17" y="17" width="14" height="14" fill="teal" style="mask-border:radial-gradient(black 30%, transparent 70%) 30% fill / 10% 20%"/></svg>
+<svg x="192" width="64" height="64"><rect x="17" y="17" width="14" height="14" fill="teal" style="mask-border:radial-gradient(black 30%, transparent 70%) 30% fill / 2px 1px"/></svg>
+</svg>

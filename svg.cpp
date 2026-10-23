@@ -1208,9 +1208,11 @@ namespace {
     const StringView xmlNamespace = SV("http://www.w3.org/XML/1998/namespace");
     const StringView xincludeNamespace = SV("http://www.w3.org/2001/XInclude");
 
+    // Keep world geometry until its full transform has cancelled large
+    // origins. Raster edges convert the resulting device coordinates.
     struct Point {
-        float x;
-        float y;
+        double x;
+        double y;
     };
 
     struct DPoint {
@@ -1219,12 +1221,12 @@ namespace {
     };
 
     struct Matrix {
-        float a;
-        float b;
-        float c;
-        float d;
-        float e;
-        float f;
+        double a;
+        double b;
+        double c;
+        double d;
+        double e;
+        double f;
     };
 
     // A 3D transform seen on the plane z = 0 in perspective: a point goes to
@@ -1232,7 +1234,7 @@ namespace {
     // m[6] x + m[7] y + m[8], and of a weight of no sign it is behind the
     // eye. on when the transform is such, past an affine one.
     struct Projective {
-        float m[9];
+        double m[9];
         bool on;
         // Made by a 3D transform function, affine or not.
         bool solid;
@@ -1242,14 +1244,14 @@ namespace {
 
     // A 3D transform, rows by columns, a point a column.
     struct Matrix4 {
-        float m[4][4];
+        double m[4][4];
     };
 
     struct Box {
-        float x0;
-        float y0;
-        float x1;
-        float y1;
+        double x0;
+        double y0;
+        double x1;
+        double y1;
     };
 
     struct Color {
@@ -1260,11 +1262,11 @@ namespace {
     };
 
     struct Viewport {
-        float width;
-        float height;
-        float screenWidth;
-        float screenHeight;
-        float rootFontSize;
+        double width;
+        double height;
+        double screenWidth;
+        double screenHeight;
+        double rootFontSize;
     };
 
     // The CSS tokens (css-syntax-3 4).
@@ -1652,7 +1654,7 @@ namespace {
     // and CalcPercent evaluate at every use, and whether its place clamps
     // it at zero (css-values-4 10.12).
     struct Length {
-        float value;
+        double value;
         Unit unit;
         bool floor = false;
         const Token* calc = nullptr;
@@ -2270,7 +2272,7 @@ namespace {
         // Separate arrays let comparison and hashing omit struct padding.
         const void* objects[7];
         u64 state[2];
-        float values[30];
+        double values[30];
         u32 counts[6];
     };
 
@@ -2567,11 +2569,13 @@ namespace {
         return value < 0.f ? 0.f : (value > 1.f ? 1.f : value);
     }
 
-    static float minf(float a, float b) {
+    template <typename A, typename B>
+    static auto minf(A a, B b) -> decltype(a + b) {
         return a < b ? a : b;
     }
 
-    static float maxf(float a, float b) {
+    template <typename A, typename B>
+    static auto maxf(A a, B b) -> decltype(a + b) {
         return a > b ? a : b;
     }
 
@@ -2741,23 +2745,23 @@ namespace {
         return Matrix{1.f, 0.f, 0.f, 1.f, 0.f, 0.f};
     }
 
-    static Matrix translation(float x, float y) {
+    static Matrix translation(double x, double y) {
         return Matrix{1.f, 0.f, 0.f, 1.f, x, y};
     }
 
-    static Matrix scaling(float x, float y) {
+    static Matrix scaling(double x, double y) {
         return Matrix{x, 0.f, 0.f, y, 0.f, 0.f};
     }
 
-    // SVG 2 makes a CTM in doubles and keeps it in singles.
+    // Keep the CTM in doubles through the final coordinate conversion.
     static Matrix multiply(const Matrix& m, const Matrix& n) {
         return Matrix{
-            (float)((double)m.a * n.a + (double)m.c * n.b),
-            (float)((double)m.b * n.a + (double)m.d * n.b),
-            (float)((double)m.a * n.c + (double)m.c * n.d),
-            (float)((double)m.b * n.c + (double)m.d * n.d),
-            (float)((double)m.a * n.e + (double)m.c * n.f + m.e),
-            (float)((double)m.b * n.e + (double)m.d * n.f + m.f),
+            ((double)m.a * n.a + (double)m.c * n.b),
+            ((double)m.b * n.a + (double)m.d * n.b),
+            ((double)m.a * n.c + (double)m.c * n.d),
+            ((double)m.b * n.c + (double)m.d * n.d),
+            ((double)m.a * n.e + (double)m.c * n.f + m.e),
+            ((double)m.b * n.e + (double)m.d * n.f + m.f),
         };
     }
 
@@ -2765,8 +2769,8 @@ namespace {
         // Large products can cancel to a small visible coordinate. Keep
         // their low bits until the complete coordinate is ready to store.
         return Point{
-            (float)((double)m.a * p.x + (double)m.c * p.y + m.e),
-            (float)((double)m.b * p.x + (double)m.d * p.y + m.f),
+            ((double)m.a * p.x + (double)m.c * p.y + m.e),
+            ((double)m.b * p.x + (double)m.d * p.y + m.f),
         };
     }
 
@@ -2779,12 +2783,12 @@ namespace {
 
         double inv = 1.0 / det;
 
-        out.a = (float)(m.d * inv);
-        out.b = (float)(-m.b * inv);
-        out.c = (float)(-m.c * inv);
-        out.d = (float)(m.a * inv);
-        out.e = (float)((m.c * (double)m.f - m.d * (double)m.e) * inv);
-        out.f = (float)((m.b * (double)m.e - m.a * (double)m.f) * inv);
+        out.a = (m.d * inv);
+        out.b = (-m.b * inv);
+        out.c = (-m.c * inv);
+        out.d = (m.a * inv);
+        out.e = ((m.c * (double)m.f - m.d * (double)m.e) * inv);
+        out.f = ((m.b * (double)m.e - m.a * (double)m.f) * inv);
 
         return true;
     }
@@ -2801,7 +2805,7 @@ namespace {
         return Matrix4{{{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}}};
     }
 
-    static Matrix4 translation4(float x, float y, float z) {
+    static Matrix4 translation4(double x, double y, double z) {
         return Matrix4{{{1.f, 0.f, 0.f, x}, {0.f, 1.f, 0.f, y}, {0.f, 0.f, 1.f, z}, {0.f, 0.f, 0.f, 1.f}}};
     }
 
@@ -2810,7 +2814,7 @@ namespace {
 
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
-                out.m[r][c] = (float)((double)a.m[r][0] * b.m[0][c] + (double)a.m[r][1] * b.m[1][c] + (double)a.m[r][2] * b.m[2][c] + (double)a.m[r][3] * b.m[3][c]);
+                out.m[r][c] = ((double)a.m[r][0] * b.m[0][c] + (double)a.m[r][1] * b.m[1][c] + (double)a.m[r][2] * b.m[2][c] + (double)a.m[r][3] * b.m[3][c]);
             }
         }
 
@@ -2821,7 +2825,7 @@ namespace {
     // last columns of its first, second and last rows; turned to show its
     // back where m33 is negative (css-transforms-2.md, backface-visibility).
     static Projective projectiveOf4(const Matrix4& t) {
-        const float (*m)[4] = t.m;
+        const double (*m)[4] = t.m;
 
         return Projective{{m[0][0], m[0][1], m[0][3], m[1][0], m[1][1], m[1][3], m[3][0], m[3][1], m[3][3]}, true, true, m[2][2] < 0.f};
     }
@@ -2834,7 +2838,7 @@ namespace {
 
     // The affine map z = 0 goes by under a transform affine4 holds.
     static Matrix affineOf4(const Matrix4& t) {
-        float w = t.m[3][3];
+        double w = t.m[3][3];
 
         return Matrix{t.m[0][0] / w, t.m[1][0] / w, t.m[0][1] / w, t.m[1][1] / w, t.m[0][3] / w, t.m[1][3] / w};
     }
@@ -2844,7 +2848,7 @@ namespace {
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-                out.m[r * 3 + c] = (float)((double)p.m[r * 3] * q.m[c] + (double)p.m[r * 3 + 1] * q.m[3 + c] + (double)p.m[r * 3 + 2] * q.m[6 + c]);
+                out.m[r * 3 + c] = ((double)p.m[r * 3] * q.m[c] + (double)p.m[r * 3 + 1] * q.m[3 + c] + (double)p.m[r * 3 + 2] * q.m[6 + c]);
             }
         }
 
@@ -2854,11 +2858,11 @@ namespace {
     // The inverse, by the adjugate over the determinant, which keeps the
     // weight's sign: a point in front of the eye maps back to one.
     static bool invertProjective(const Projective& p, Projective& out) {
-        const float* m = p.m;
-        float adjugate[9] = {m[4] * m[8] - m[5] * m[7], m[2] * m[7] - m[1] * m[8], m[1] * m[5] - m[2] * m[4], m[5] * m[6] - m[3] * m[8], m[0] * m[8] - m[2] * m[6], m[2] * m[3] - m[0] * m[5], m[3] * m[7] - m[4] * m[6], m[1] * m[6] - m[0] * m[7], m[0] * m[4] - m[1] * m[3]};
-        float determinant = m[0] * adjugate[0] + m[1] * adjugate[3] + m[2] * adjugate[6];
+        const double* m = p.m;
+        double adjugate[9] = {m[4] * m[8] - m[5] * m[7], m[2] * m[7] - m[1] * m[8], m[1] * m[5] - m[2] * m[4], m[5] * m[6] - m[3] * m[8], m[0] * m[8] - m[2] * m[6], m[2] * m[3] - m[0] * m[5], m[3] * m[7] - m[4] * m[6], m[1] * m[6] - m[0] * m[7], m[0] * m[4] - m[1] * m[3]};
+        double determinant = m[0] * adjugate[0] + m[1] * adjugate[3] + m[2] * adjugate[6];
 
-        if (!(fabsf(determinant) > 0.f) || !isfinite(1.f / determinant)) {
+        if (!(fabs(determinant) > 0.f) || !isfinite(1.f / determinant)) {
             return false;
         }
 
@@ -2873,8 +2877,8 @@ namespace {
 
     // Where a point goes, false behind the eye.
     static bool projectPoint(const Projective& p, Point in, Point& out) {
-        const float* m = p.m;
-        float w = m[6] * in.x + m[7] * in.y + m[8];
+        const double* m = p.m;
+        double w = m[6] * in.x + m[7] * in.y + m[8];
 
         if (!(w > 0.f)) {
             return false;
@@ -2904,9 +2908,9 @@ namespace {
         return out;
     }
 
-    static float matrixScale(const Matrix& m) {
-        float sx = sqrtf(m.a * m.a + m.b * m.b);
-        float sy = sqrtf(m.c * m.c + m.d * m.d);
+    static double matrixScale(const Matrix& m) {
+        double sx = sqrtf(m.a * m.a + m.b * m.b);
+        double sy = sqrtf(m.c * m.c + m.d * m.d);
 
         return maxf(sx, sy);
     }
@@ -2914,14 +2918,14 @@ namespace {
     // The smallest scale of a transformed stroke. Column lengths alone
     // miss compression perpendicular to a sheared segment. The product
     // of the singular values is the absolute determinant.
-    static float minimumScale(const Matrix& m) {
+    static double minimumScale(const Matrix& m) {
         double x = (double)m.a * m.a + (double)m.b * m.b;
         double y = (double)m.c * m.c + (double)m.d * m.d;
         double cross = (double)m.a * m.c + (double)m.b * m.d;
         double largest = (x + y + hypot(x - y, 2.0 * cross)) / 2.0;
         double determinant = (double)m.a * m.d - (double)m.b * m.c;
 
-        return largest > 0.0 ? (float)(fabs(determinant) / sqrt(largest)) : 0.f;
+        return largest > 0.0 ? (double)(fabs(determinant) / sqrt(largest)) : 0.f;
     }
 
     static Box emptyBox() {
@@ -6524,7 +6528,8 @@ namespace {
         return Tokens{scratch.data(), scratch.data() + scratch.length()};
     }
 
-    static bool readMathNumber(const Token*& p, const Token* end, float& out);
+    template <typename Number>
+    static bool readMathNumber(const Token*& p, const Token* end, Number& out);
 
     // Past what parts two numbers of a list: white space, a comma perhaps.
     static void skipListComma(Lexer& x) {
@@ -6540,7 +6545,8 @@ namespace {
     // a time (svg2/types.md#syntax, D30): a number token, or a math
     // function of a number, whose tokens alone are kept while it is read.
     // False at the end, or at what is no number.
-    static bool listNumber(Lexer& x, float& out) {
+    template <typename Number>
+    static bool listNumber(Lexer& x, Number& out) {
         skipBlank(x);
 
         if (x.p >= x.end) {
@@ -6551,7 +6557,7 @@ namespace {
         Token t = consumeToken(x);
 
         if (t.type == TokenType::Number) {
-            out = (float)t.number;
+            out = (Number)t.number;
 
             return true;
         }
@@ -6900,7 +6906,7 @@ namespace {
         }
     }
 
-    static float resolveLength(Length length, Axis axis, Viewport vp, float fontSize);
+    static double resolveLength(Length length, Axis axis, Viewport vp, float fontSize);
     static bool parseViewBox(const Document& doc, const Node* node, Box& out);
     static bool attributeLength(const Document& doc, u32 atom, Length& out);
 
@@ -7017,7 +7023,7 @@ namespace {
     static bool parseLength(Tokens value, Length& out);
     static bool parseNumber(Tokens value, float& out);
     static bool percentLength(const Length& length);
-    static float resolveLength(Length length, Axis axis, Viewport vp, float fontSize);
+    static double resolveLength(Length length, Axis axis, Viewport vp, float fontSize);
 
     // A value a numeric feature compares with, as the name takes it: a
     // ratio, a resolution, a length, which takes a unit but for zero, or a
@@ -7357,7 +7363,7 @@ namespace {
         Viewport view{0.f, 0.f, 0.f, 0.f, 16.f};
         Box viewBox;
         bool boxed = parseViewBox(doc, doc.root, viewBox);
-        float sides[2] = {boxed ? viewBox.x1 - viewBox.x0 : 0.f, boxed ? viewBox.y1 - viewBox.y0 : 0.f};
+        double sides[2] = {boxed ? viewBox.x1 - viewBox.x0 : 0.f, boxed ? viewBox.y1 - viewBox.y0 : 0.f};
         u32 names[2] = {AtomWidth, AtomHeight};
 
         for (int k = 0; k < 2; k++) {
@@ -9021,7 +9027,7 @@ namespace {
     }
 
     // A path string is SVG path syntax, not a CSS numeric token. An
-    // argument outside finite float storage ends its current segment;
+    // argument outside the supported finite float range ends its segment;
     // path error recovery keeps the preceding complete segments. Keep
     // the supported argument in double precision for relative arithmetic.
     static bool readPathNumber(const u8*& p, const u8* end, double& out) {
@@ -9132,8 +9138,8 @@ namespace {
     // relative is set when a term needs any of these.
     struct MathContext {
         Viewport vp;
-        float fontSize;
-        float basis;
+        double fontSize;
+        double basis;
         bool percent;
         bool relative;
     };
@@ -9701,7 +9707,8 @@ namespace {
     // A math function where a number, a percentage or an angle goes, which
     // needs no viewport or font: its value, an angle's in degrees, and its
     // base type, MathBases for a number.
-    static bool readMathQuantity(const Token*& p, const Token* end, float& out, u8& base) {
+    template <typename Number>
+    static bool readMathQuantity(const Token*& p, const Token* end, Number& out, u8& base) {
         MathContext c{Viewport{0.f, 0.f, 0.f, 0.f, 16.f}, 16.f, 0.f, false, false};
         MathValue math;
         const Token* s = p;
@@ -9716,13 +9723,14 @@ namespace {
             return false;
         }
 
-        out = (float)math.value;
+        out = (Number)math.value;
         p = s;
 
         return true;
     }
 
-    static bool readMathNumber(const Token*& p, const Token* end, float& out) {
+    template <typename Number>
+    static bool readMathNumber(const Token*& p, const Token* end, Number& out) {
         const Token* s = p;
         u8 base;
 
@@ -9839,7 +9847,7 @@ namespace {
             return false;
         }
 
-        out = Length{(float)p->number, unit};
+        out = Length{p->number, unit};
         p++;
 
         return true;
@@ -9868,17 +9876,17 @@ namespace {
 
     // A Calc or CalcPercent length in user units, a percentage in it a
     // share of basis.
-    static float mathLength(Length length, float basis, Viewport vp, float fontSize) {
+    static double mathLength(Length length, float basis, Viewport vp, float fontSize) {
         MathContext c{vp, fontSize, basis, true, false};
         MathValue math{0.0, MathType{{0, 0, 0, 0, 0, 0}, MathBases}};
         const Token* p = length.calc;
 
         readMath(p, p + p->span + 1, c, math);
 
-        return length.floor ? maxf((float)math.value, 0.f) : (float)math.value;
+        return length.floor ? maxf(math.value, 0.f) : math.value;
     }
 
-    static float resolveLength(Length length, Axis axis, Viewport vp, float fontSize) {
+    static double resolveLength(Length length, Axis axis, Viewport vp, float fontSize) {
         switch (length.unit) {
             case Unit::Number:
             case Unit::Px:
@@ -9961,7 +9969,8 @@ namespace {
         return parseLength(attributeTokens(doc, atom, one), out);
     }
 
-    static bool lengthAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float& out) {
+    template <typename Number>
+    static bool lengthAttribute(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, Number& out) {
         u32 value = attribute(node, name);
         Length length;
 
@@ -9974,8 +9983,8 @@ namespace {
         return true;
     }
 
-    static float lengthOr(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float fallback) {
-        float value;
+    static double lengthOr(const Document& doc, const Node* node, u32 name, Axis axis, Viewport vp, float fontSize, float fallback) {
+        double value;
 
         return lengthAttribute(doc, node, name, axis, vp, fontSize, value) ? value : fallback;
     }
@@ -10648,7 +10657,7 @@ namespace {
     // angle A, a number or percentage S, a number N. A length takes its
     // unit, an angle too, but zero. The units of the arguments: 0 none, 1
     // a length, 2 an angle, 3 a percentage.
-    static bool cssTransformArguments(StringView name, const u8* units, const float* args, u32 count) {
+    static bool cssTransformArguments(StringView name, const u8* units, const double* args, u32 count) {
         static const struct {
             const char* name;
             const char* kinds;
@@ -10711,14 +10720,14 @@ namespace {
     struct TransformBuilder {
         Matrix result;
         bool deep;
-        float m4[4][4];
+        double m4[4][4];
     };
 
-    static void composeTransform(TransformBuilder& b, const float (&n)[4][4]) {
-        float t[4][4];
+    static void composeTransform(TransformBuilder& b, const double (&n)[4][4]) {
+        double t[4][4];
 
         if (!b.deep) {
-            float flat[4][4] = {{b.result.a, b.result.c, 0.f, b.result.e}, {b.result.b, b.result.d, 0.f, b.result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            double flat[4][4] = {{b.result.a, b.result.c, 0.f, b.result.e}, {b.result.b, b.result.d, 0.f, b.result.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
             memcpy(b.m4, flat, sizeof(flat));
             b.deep = true;
@@ -10726,7 +10735,7 @@ namespace {
 
         for (int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
-                t[r][c] = (float)((double)b.m4[r][0] * n[0][c] + (double)b.m4[r][1] * n[1][c] + (double)b.m4[r][2] * n[2][c] + (double)b.m4[r][3] * n[3][c]);
+                t[r][c] = (double)((double)b.m4[r][0] * n[0][c] + (double)b.m4[r][1] * n[1][c] + (double)b.m4[r][2] * n[2][c] + (double)b.m4[r][3] * n[3][c]);
             }
         }
 
@@ -10738,7 +10747,7 @@ namespace {
     // angles, percentages and math functions too.
     static bool transformFunction(TransformBuilder& b, StringView name, const Tokens* arguments, u32 count, TransformGrammar grammar, const TransformBasis* basis) {
         bool css = grammar != TransformGrammar::Attribute;
-        float args[16];
+        double args[16];
         // Each argument's unit: none, a length, an angle, a percentage, or a
         // number from a math function, which is never a zero length or
         // angle (css-values-4 5.3).
@@ -10750,7 +10759,7 @@ namespace {
             // that share of the box's side along its axis is, elsewhere a
             // percentage still.
             Viewport box = basis ? basis->box : Viewport{0.f, 0.f, 0.f, 0.f, 16.f};
-            float fontSize = basis ? basis->fontSize : 16.f;
+            double fontSize = basis ? basis->fontSize : 16.f;
             bool translate = equalsIgnoreCase(name, SV("translate")) || equalsIgnoreCase(name, SV("translate3d"));
             bool vertical = equalsIgnoreCase(name, SV("translateY")) || (translate && i == 1);
             bool along = (translate && i < 2) || equalsIgnoreCase(name, SV("translateX")) || vertical;
@@ -10766,7 +10775,7 @@ namespace {
                     return false;
                 }
 
-                args[i] = (float)math.value;
+                args[i] = math.value;
                 units[i] = mathOf(math.type, MathBases) ? 4 : (mathOf(math.type, MathLength) ? 1 : (mathOf(math.type, MathAngle) ? 2 : 3));
 
                 if (units[i] == 3 && !mathOf(math.type, MathPercent)) {
@@ -10780,7 +10789,7 @@ namespace {
                 return false;
             }
 
-            args[i] = (float)t->number;
+            args[i] = t->number;
             units[i] = t->type == TokenType::Number ? 0 : (t->type == TokenType::Percentage ? 3 : 1);
 
             if (!css && units[i]) {
@@ -10793,11 +10802,11 @@ namespace {
 
             if (equalsIgnoreCase(t->text, SV("deg")) || equalsIgnoreCase(t->text, SV("rad")) || equalsIgnoreCase(t->text, SV("grad")) || equalsIgnoreCase(t->text, SV("turn"))) {
                 units[i] = 2;
-                args[i] *= equalsIgnoreCase(t->text, SV("rad")) ? 180.f / pi : (equalsIgnoreCase(t->text, SV("grad")) ? 0.9f : (equalsIgnoreCase(t->text, SV("turn")) ? 360.f : 1.f));
+                args[i] *= equalsIgnoreCase(t->text, SV("rad")) ? 180.f / piDouble : (equalsIgnoreCase(t->text, SV("grad")) ? 0.9f : (equalsIgnoreCase(t->text, SV("turn")) ? 360.f : 1.f));
             } else if (lengthUnitOf(t->text, unit)) {
                 // A length of any unit, in pixels: font-relative ones of the
                 // element's font, viewport ones of the screen.
-                args[i] = resolveLength(Length{(float)t->number, unit}, Axis::Other, box, fontSize);
+                args[i] = resolveLength(Length{t->number, unit}, Axis::Other, box, fontSize);
             } else {
                 return false;
             }
@@ -10819,7 +10828,7 @@ namespace {
 
         for (u32 i = 0; i < count; i++) {
             bool vertical = name == SV("translateY") || i == 1;
-            float side = basis ? (vertical ? basis->box.height : basis->box.width) : 0.f;
+            double side = basis ? (vertical ? basis->box.height : basis->box.width) : 0.f;
 
             args[i] = units[i] == 3 ? args[i] / 100.f * (scale ? 1.f : side) : args[i];
         }
@@ -10844,8 +10853,8 @@ namespace {
             count = 2;
         } else if (name == SV("skew")) {
             name = SV("matrix");
-            args[1] = count == 2 ? tanf(args[1] * pi / 180.f) : 0.f;
-            args[2] = tanf(args[0] * pi / 180.f);
+            args[1] = count == 2 ? tan(args[1] * piDouble / 180.f) : 0.f;
+            args[2] = tan(args[0] * piDouble / 180.f);
             args[0] = 1.f;
             args[3] = 1.f;
             args[4] = 0.f;
@@ -10854,7 +10863,7 @@ namespace {
         }
 
         // The 3D functions of CSS Transforms 2.
-        float n[4][4] = {{1.f, 0.f, 0.f, 0.f}, {0.f, 1.f, 0.f, 0.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+        double n[4][4] = {{1.f, 0.f, 0.f, 0.f}, {0.f, 1.f, 0.f, 0.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
         bool rotation = name == SV("rotateX") || name == SV("rotateY") || name == SV("rotateZ");
         bool three = true;
 
@@ -10871,21 +10880,21 @@ namespace {
         } else if (name == SV("scaleZ")) {
             n[2][2] = args[0];
         } else if (name == SV("rotate3d") || rotation) {
-            float axis[3] = {name == SV("rotateX") ? 1.f : 0.f, name == SV("rotateY") ? 1.f : 0.f, name == SV("rotateZ") ? 1.f : 0.f};
-            float angle = (rotation ? args[0] : args[3]) * pi / 180.f;
-            float length = rotation ? 1.f : sqrtf(args[0] * args[0] + args[1] * args[1] + args[2] * args[2]);
+            double axis[3] = {name == SV("rotateX") ? 1.f : 0.f, name == SV("rotateY") ? 1.f : 0.f, name == SV("rotateZ") ? 1.f : 0.f};
+            double angle = (rotation ? args[0] : args[3]) * piDouble / 180.f;
+            double length = rotation ? 1.f : sqrt(args[0] * args[0] + args[1] * args[1] + args[2] * args[2]);
 
             // An axis of no length turns nothing.
             for (int k = 0; k < 3 && !rotation; k++) {
                 axis[k] = length > 0.f ? args[k] / length : 0.f;
             }
 
-            float x = axis[0];
-            float y = axis[1];
-            float z = axis[2];
-            float sc = sinf(angle / 2.f) * cosf(angle / 2.f);
-            float sq = sinf(angle / 2.f) * sinf(angle / 2.f);
-            float turn[4][4] = {{1.f - 2.f * (y * y + z * z) * sq, 2.f * (x * y * sq - z * sc), 2.f * (x * z * sq + y * sc), 0.f}, {2.f * (x * y * sq + z * sc), 1.f - 2.f * (x * x + z * z) * sq, 2.f * (y * z * sq - x * sc), 0.f}, {2.f * (x * z * sq - y * sc), 2.f * (y * z * sq + x * sc), 1.f - 2.f * (x * x + y * y) * sq, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            double x = axis[0];
+            double y = axis[1];
+            double z = axis[2];
+            double sc = sin(angle / 2.f) * cos(angle / 2.f);
+            double sq = sin(angle / 2.f) * sin(angle / 2.f);
+            double turn[4][4] = {{1.f - 2.f * (y * y + z * z) * sq, 2.f * (x * y * sq - z * sc), 2.f * (x * z * sq + y * sc), 0.f}, {2.f * (x * y * sq + z * sc), 1.f - 2.f * (x * x + z * z) * sq, 2.f * (y * z * sq - x * sc), 0.f}, {2.f * (x * z * sq - y * sc), 2.f * (y * z * sq + x * sc), 1.f - 2.f * (x * x + y * y) * sq, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
             memcpy(n, turn, sizeof(n));
         } else if (name == SV("perspective") && args[0] >= 0.f) {
@@ -10912,9 +10921,9 @@ namespace {
         } else if (name == SV("scale") && (count == 1 || count == 2)) {
             m = scaling(args[0], count == 2 ? args[1] : args[0]);
         } else if (name == SV("rotate") && (count == 1 || count == 3)) {
-            float angle = args[0] * pi / 180.f;
-            float cs = cosf(angle);
-            float sn = sinf(angle);
+            double angle = args[0] * piDouble / 180.f;
+            double cs = cos(angle);
+            double sn = sin(angle);
 
             m = Matrix{cs, sn, -sn, cs, 0.f, 0.f};
 
@@ -10922,15 +10931,15 @@ namespace {
                 m = multiply(multiply(translation(args[1], args[2]), m), translation(-args[1], -args[2]));
             }
         } else if (name == SV("skewX") && count == 1) {
-            m = Matrix{1.f, 0.f, tanf(args[0] * pi / 180.f), 1.f, 0.f, 0.f};
+            m = Matrix{1.f, 0.f, tan(args[0] * piDouble / 180.f), 1.f, 0.f, 0.f};
         } else if (name == SV("skewY") && count == 1) {
-            m = Matrix{1.f, tanf(args[0] * pi / 180.f), 0.f, 1.f, 0.f, 0.f};
+            m = Matrix{1.f, tan(args[0] * piDouble / 180.f), 0.f, 1.f, 0.f, 0.f};
         } else {
             return false;
         }
 
         if (b.deep) {
-            float flat[4][4] = {{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
+            double flat[4][4] = {{m.a, m.c, 0.f, m.e}, {m.b, m.d, 0.f, m.f}, {0.f, 0.f, 1.f, 0.f}, {0.f, 0.f, 0.f, 1.f}};
 
             composeTransform(b, flat);
         } else {
@@ -11033,8 +11042,8 @@ namespace {
         }
 
         if (b.deep) {
-            const float (&m4)[4][4] = b.m4;
-            float w = m4[3][3] != 0.f ? m4[3][3] : 1.f;
+            const double (&m4)[4][4] = b.m4;
+            double w = m4[3][3] != 0.f ? m4[3][3] : 1.f;
 
             result = Matrix{m4[0][0] / w, m4[1][0] / w, m4[0][1] / w, m4[1][1] / w, m4[0][3] / w, m4[1][3] / w};
 
@@ -11356,7 +11365,7 @@ namespace {
     // viewBox, or a view's box in a fragment.
     static bool parseViewBoxText(ObjPool& pool, StringView text, Box& out) {
         Lexer x{&pool, text.begin(), text.end()};
-        float numbers[4];
+        double numbers[4];
 
         for (u32 i = 0; i < 4; i++) {
             if (!listNumber(x, numbers[i])) {
@@ -11410,9 +11419,9 @@ namespace {
         return k < 10 && (rest.empty() || rest == SV("meet") || rest == SV("slice"));
     }
 
-    static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, float width, float height) {
-        float vw = viewBox.x1 - viewBox.x0;
-        float vh = viewBox.y1 - viewBox.y0;
+    static Matrix viewBoxTransform(const Document& doc, const Node* node, const Box& viewBox, double width, double height) {
+        double vw = viewBox.x1 - viewBox.x0;
+        double vh = viewBox.y1 - viewBox.y0;
         double sx = (double)width / vw;
         double sy = (double)height / vh;
         int alignX = 1;
@@ -11444,16 +11453,16 @@ namespace {
         }
 
         if (none) {
-            return multiply(scaling((float)sx, (float)sy), translation(-viewBox.x0, -viewBox.y0));
+            return multiply(scaling(sx, sy), translation(-viewBox.x0, -viewBox.y0));
         }
 
         // The side that sets the scale is filled exactly; only the other is
-        // aligned, so a scale rounded to a float shifts nothing.
+        // aligned.
         double s = slice ? (sx > sy ? sx : sy) : (sx < sy ? sx : sy);
         double tx = -(double)viewBox.x0 * s + (s == sx ? 0.0 : (width - vw * s) * alignX * 0.5);
         double ty = -(double)viewBox.y0 * s + (s == sy ? 0.0 : (height - vh * s) * alignY * 0.5);
 
-        return Matrix{(float)s, 0.f, 0.f, (float)s, (float)tx, (float)ty};
+        return Matrix{s, 0.f, 0.f, s, tx, ty};
     }
 
     static void moveTo(Path& path, Point p) {
@@ -11564,9 +11573,9 @@ namespace {
             double c1 = cos(a1);
             double s1 = sin(a1);
             DPoint to = i + 1 == segments ? DPoint{p1.x, p1.y} : DPoint{cx + rx * cs * c1 - ry * sn * s1, cy + rx * sn * c1 + ry * cs * s1};
-            Point q1{(float)(from.x - k * (rx * cs * s0 + ry * sn * c0)), (float)(from.y - k * (rx * sn * s0 - ry * cs * c0))};
-            Point q2{(float)(to.x + k * (rx * cs * s1 + ry * sn * c1)), (float)(to.y + k * (rx * sn * s1 - ry * cs * c1))};
-            Point q3{(float)to.x, (float)to.y};
+            Point q1{(from.x - k * (rx * cs * s0 + ry * sn * c0)), (from.y - k * (rx * sn * s0 - ry * cs * c0))};
+            Point q2{(to.x + k * (rx * cs * s1 + ry * sn * c1)), (to.y + k * (rx * sn * s1 - ry * cs * c1))};
+            Point q3{to.x, to.y};
 
             from = to;
             cubicTo(path, q1, q2, q3);
@@ -11590,10 +11599,186 @@ namespace {
         return true;
     }
 
-    // The numbers and the current point go in doubles, each point stored
-    // rounded once to floats: relative steps that come back to a point come
-    // back to it, as written, without the floats' error adding up along the
-    // path.
+    // Decimal arithmetic keeps ordinary authored coordinates exact through
+    // relative additions. If a coefficient no longer fits, the caller keeps
+    // using its compensated binary sum; no geometric tolerance is involved.
+    struct PathDecimal {
+        i64 coefficient = 0;
+        i64 exponent = 0;
+        bool known = true;
+
+        void normalize() {
+            if (coefficient == 0) {
+                exponent = 0;
+            } else {
+                while (coefficient % 10 == 0) {
+                    coefficient /= 10;
+                    exponent++;
+                }
+            }
+        }
+
+        static bool scale(i64& value, i64 power) {
+            constexpr i64 limit = 9223372036854775807ll;
+
+            if (power > 18) {
+                return false;
+            }
+
+            while (power-- > 0) {
+                if (value > limit / 10 || value < -limit / 10) {
+                    return false;
+                }
+
+                value *= 10;
+            }
+            return true;
+        }
+
+        void add(PathDecimal value) {
+            if (!known || !value.known) {
+                known = false;
+                return;
+            }
+            if (value.coefficient == 0) {
+                return;
+            }
+
+            if (coefficient == 0) {
+                *this = value;
+                return;
+            }
+            i64 power = exponent < value.exponent ? exponent : value.exponent;
+            i64 a = coefficient;
+            i64 b = value.coefficient;
+            constexpr i64 limit = 9223372036854775807ll;
+
+            if (!scale(a, exponent - power) || !scale(b, value.exponent - power)
+                || (b > 0 && a > limit - b) || (b < 0 && a < -limit - b)) {
+                known = false;
+                return;
+            }
+            coefficient = a + b;
+            exponent = power;
+            normalize();
+        }
+
+        double value() const {
+            return coefficient == 0 ? 0.0 : (double)coefficient * pow(10.0, exponent);
+        }
+    };
+
+    static PathDecimal pathDecimal(const u8* p, const u8* end) {
+        PathDecimal out;
+        bool negative = p < end && *p == '-';
+
+        if (p < end && (*p == '-' || *p == '+')) {
+            p++;
+        }
+
+        i64 fraction = 0;
+        i64 zeros = 0;
+        bool point = false;
+        constexpr i64 limit = 9223372036854775807ll;
+
+        while (p < end && *p != 'e' && *p != 'E') {
+            if (*p == '.') {
+                point = true;
+            } else {
+                fraction += point;
+                int digit = *p - '0';
+
+                if (digit == 0) {
+                    zeros += out.coefficient != 0;
+                } else if (out.known) {
+                    if (!PathDecimal::scale(out.coefficient, zeros)
+                        || out.coefficient > (limit - digit) / 10) {
+                        out.known = false;
+                    } else {
+                        out.coefficient = out.coefficient * 10 + digit;
+                    }
+                    zeros = 0;
+                }
+            }
+            p++;
+        }
+        int exponent = 0;
+        int sign = 1;
+        if (p < end) {
+            p++;
+            if (p < end && (*p == '+' || *p == '-')) {
+                sign = *p == '-' ? -1 : 1;
+                p++;
+            }
+            while (p < end) {
+                exponent = exponent < 10000 ? exponent * 10 + (*p - '0') : exponent;
+                p++;
+            }
+        }
+        out.coefficient *= negative ? -1 : 1;
+        out.exponent = sign * exponent - fraction + zeros;
+        out.normalize();
+        return out;
+    }
+
+    struct PathNumber {
+        double binary;
+        PathDecimal decimal;
+
+        operator double() const {
+            return binary;
+        }
+    };
+
+    static bool readPathArgument(const u8*& p, const u8* end, PathNumber& out) {
+        const u8* first = p;
+
+        if (!readPathNumber(p, end, out.binary)) {
+            return false;
+        }
+
+        out.decimal = pathDecimal(first, p);
+
+        if (out.decimal.known) {
+            out.binary = out.decimal.value();
+        }
+
+        return true;
+    }
+
+    struct PathCoordinate {
+        PathDecimal exact;
+        double origin = 0.0;
+        double sum = 0.0;
+        double residual = 0.0;
+
+        double update(PathNumber value, bool relative) {
+            if (!relative) {
+                exact = value.decimal;
+                origin = value.binary;
+                sum = residual = 0.0;
+                return origin;
+            }
+            double next = sum + value.binary;
+            residual += fabs(sum) >= fabs(value.binary) ? (sum - next) + value.binary : (value.binary - next) + sum;
+            sum = next;
+            exact.add(value.decimal);
+            return exact.known ? exact.value() : origin + (sum + residual);
+        }
+
+        void rebase(double value) {
+            origin = value;
+            sum = residual = 0.0;
+        }
+
+        double at(PathNumber value, bool relative) const {
+            PathCoordinate copy = *this;
+            return copy.update(value, relative);
+        }
+    };
+
+    // Numbers, relative arithmetic and stored points retain doubles until
+    // the complete world transform maps them into raster coordinates.
     // Path data into path, as far as it is good; false when it is not good
     // to its end.
     static bool parsePathData(StringView text, Path& path) {
@@ -11602,6 +11787,10 @@ namespace {
         DPoint current{0.0, 0.0};
         DPoint start{0.0, 0.0};
         DPoint control{0.0, 0.0};
+        PathCoordinate x;
+        PathCoordinate y;
+        PathCoordinate startX;
+        PathCoordinate startY;
         u8 command = 0;
         u8 previous = 0;
         bool needMove = false;
@@ -11632,9 +11821,14 @@ namespace {
 
             bool relative = command >= 'a';
             u8 upper = relative ? (u8)(command - 32) : command;
-            DPoint base = relative ? current : DPoint{0.0, 0.0};
+            auto next = [&](PathNumber vx, PathNumber vy) {
+                return DPoint{x.update(vx, relative), y.update(vy, relative)};
+            };
+            auto pointAt = [&](PathNumber vx, PathNumber vy) {
+                return DPoint{x.at(vx, relative), y.at(vy, relative)};
+            };
             auto stored = [](DPoint q) {
-                return Point{(float)q.x, (float)q.y};
+                return Point{q.x, q.y};
             };
 
             // A closepath takes no comma after it (paths.md, PathDataBNF):
@@ -11643,6 +11837,8 @@ namespace {
             if (upper == 'Z') {
                 closePath(path);
                 current = start;
+                x = startX;
+                y = startY;
                 needMove = true;
                 previous = upper;
                 continue;
@@ -11654,7 +11850,7 @@ namespace {
 
             needMove = false;
 
-            double v[7];
+            PathNumber v[7];
             u32 count;
 
             switch (upper) {
@@ -11696,7 +11892,7 @@ namespace {
                     const u8* number = p;
                     bool whole = true;
 
-                    ok = readPathNumber(p, end, v[i]);
+                    ok = readPathArgument(p, end, v[i]);
 
                     for (const u8* q = number; q < p; q++) {
                         whole = whole && *q != '.' && (*q | 32) != 'e';
@@ -11721,26 +11917,30 @@ namespace {
 
             switch (upper) {
                 case 'M':
-                    current = DPoint{base.x + v[0], base.y + v[1]};
+                    current = next(v[0], v[1]);
                     start = current;
+                    x.rebase(current.x);
+                    y.rebase(current.y);
+                    startX = x;
+                    startY = y;
                     moveTo(path, stored(current));
                     break;
                 case 'L':
-                    current = DPoint{base.x + v[0], base.y + v[1]};
+                    current = next(v[0], v[1]);
                     lineTo(path, stored(current));
                     break;
                 case 'H':
-                    current = DPoint{base.x + v[0], current.y};
+                    current.x = x.update(v[0], relative);
                     lineTo(path, stored(current));
                     break;
                 case 'V':
-                    current = DPoint{current.x, base.y + v[0]};
+                    current.y = y.update(v[0], relative);
                     lineTo(path, stored(current));
                     break;
                 case 'C': {
-                    DPoint c1{base.x + v[0], base.y + v[1]};
-                    DPoint c2{base.x + v[2], base.y + v[3]};
-                    DPoint to{base.x + v[4], base.y + v[5]};
+                    DPoint c1 = pointAt(v[0], v[1]);
+                    DPoint c2 = pointAt(v[2], v[3]);
+                    DPoint to = next(v[4], v[5]);
 
                     cubicTo(path, stored(c1), stored(c2), stored(to));
                     control = c2;
@@ -11748,8 +11948,8 @@ namespace {
                 } break;
                 case 'S': {
                     DPoint c1 = previous == 'C' || previous == 'S' ? DPoint{2.0 * current.x - control.x, 2.0 * current.y - control.y} : current;
-                    DPoint c2{base.x + v[0], base.y + v[1]};
-                    DPoint to{base.x + v[2], base.y + v[3]};
+                    DPoint c2 = pointAt(v[0], v[1]);
+                    DPoint to = next(v[2], v[3]);
 
                     cubicTo(path, stored(c1), stored(c2), stored(to));
                     control = c2;
@@ -11757,8 +11957,8 @@ namespace {
                 } break;
                 case 'Q':
                 case 'T': {
-                    DPoint q = upper == 'Q' ? DPoint{base.x + v[0], base.y + v[1]} : (previous == 'Q' || previous == 'T' ? DPoint{2.0 * current.x - control.x, 2.0 * current.y - control.y} : current);
-                    DPoint to = upper == 'Q' ? DPoint{base.x + v[2], base.y + v[3]} : DPoint{base.x + v[0], base.y + v[1]};
+                    DPoint q = upper == 'Q' ? pointAt(v[0], v[1]) : (previous == 'Q' || previous == 'T' ? DPoint{2.0 * current.x - control.x, 2.0 * current.y - control.y} : current);
+                    DPoint to = upper == 'Q' ? next(v[2], v[3]) : next(v[0], v[1]);
                     DPoint c1{current.x + 2.0 / 3.0 * (q.x - current.x), current.y + 2.0 / 3.0 * (q.y - current.y)};
                     DPoint c2{to.x + 2.0 / 3.0 * (q.x - to.x), to.y + 2.0 / 3.0 * (q.y - to.y)};
 
@@ -11769,7 +11969,7 @@ namespace {
                 }
                 default: {
                     // 'A', the last command of the count switch above.
-                    DPoint to{base.x + v[5], base.y + v[6]};
+                    DPoint to = next(v[5], v[6]);
 
                     arcTo(path, stored(current), (float)v[0], (float)v[1], (float)v[2], largeArc, sweepArc, stored(to));
                     current = to;
@@ -11816,8 +12016,8 @@ namespace {
         }
     }
 
-    static void ellipsePath(Path& path, float cx, float cy, float rx, float ry) {
-        const float k = 0.5522847498f;
+    static void ellipsePath(Path& path, double cx, double cy, double rx, double ry) {
+        const double k = 0.5522847498f;
 
         moveTo(path, Point{cx + rx, cy});
         cubicTo(path, Point{cx + rx, cy + ry * k}, Point{cx + rx * k, cy + ry}, Point{cx, cy + ry});
@@ -11850,7 +12050,7 @@ namespace {
         return computedFontSize(*l.doc, values[AtomFontSize - firstProperty], parent, vp);
     }
 
-    static bool shapeLengthOf(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float& out, bool nonNegativeRange = false) {
+    static bool shapeLengthOf(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, double& out, bool nonNegativeRange = false) {
         const Node* source = node;
         u32 bit = shapeGeometryBit(property);
 
@@ -11876,15 +12076,15 @@ namespace {
         return true;
     }
 
-    static float shapeLengthOr(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, float fontSize, float fallback) {
-        float value;
+    static double shapeLengthOr(const Pass& l, const Node* node, u32 property, Axis axis, Viewport vp, double fontSize, double fallback) {
+        double value;
 
         return shapeLengthOf(l, node, property, axis, vp, fontSize, value) ? value : fallback;
     }
 
     static bool buildShape(const Pass& l, const Node* node, const ComputedStyle& style, Viewport vp, Path& path) {
         const Document& doc = *l.doc;
-        float fs = style.fontSize;
+        double fs = style.fontSize;
 
         switch (node->name) {
             case AtomPath: {
@@ -11901,12 +12101,12 @@ namespace {
                 }
             } break;
             case AtomRect: {
-                float x = shapeLengthOr(l, node, AtomX, Axis::X, vp, fs, 0.f);
-                float y = shapeLengthOr(l, node, AtomY, Axis::Y, vp, fs, 0.f);
-                float w = shapeLengthOr(l, node, AtomWidth, Axis::X, vp, fs, 0.f);
-                float h = shapeLengthOr(l, node, AtomHeight, Axis::Y, vp, fs, 0.f);
-                float rx;
-                float ry;
+                double x = shapeLengthOr(l, node, AtomX, Axis::X, vp, fs, 0.f);
+                double y = shapeLengthOr(l, node, AtomY, Axis::Y, vp, fs, 0.f);
+                double w = shapeLengthOr(l, node, AtomWidth, Axis::X, vp, fs, 0.f);
+                double h = shapeLengthOr(l, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+                double rx;
+                double ry;
                 bool hasRx = shapeLengthOf(l, node, AtomRx, Axis::X, vp, fs, rx, true);
                 bool hasRy = shapeLengthOf(l, node, AtomRy, Axis::Y, vp, fs, ry, true);
 
@@ -11926,7 +12126,7 @@ namespace {
                 ry = minf(ry, h / 2.f);
 
                 if (rx > 0.f && ry > 0.f) {
-                    const float k = 0.5522847498f;
+                    const double k = 0.5522847498f;
 
                     moveTo(path, Point{x + rx, y});
                     lineTo(path, Point{x + w - rx, y});
@@ -11949,7 +12149,7 @@ namespace {
                 break;
             }
             case AtomCircle: {
-                float r = shapeLengthOr(l, node, AtomR, Axis::Other, vp, fs, 0.f);
+                double r = shapeLengthOr(l, node, AtomR, Axis::Other, vp, fs, 0.f);
 
                 if (r <= 0.f) {
                     return false;
@@ -11959,8 +12159,8 @@ namespace {
                 break;
             }
             case AtomEllipse: {
-                float rx;
-                float ry;
+                double rx;
+                double ry;
                 bool hasRx = shapeLengthOf(l, node, AtomRx, Axis::X, vp, fs, rx, true);
                 bool hasRy = shapeLengthOf(l, node, AtomRy, Axis::Y, vp, fs, ry, true);
 
@@ -12043,8 +12243,8 @@ namespace {
 
     // The points of a cubic after its start, to the tolerance.
     static void flattenCubic(Point p0, Point p1, Point p2, Point p3, float tol, Vector<Point>& points) {
-        float ddx = maxf(fabsf(p0.x - 2.f * p1.x + p2.x), fabsf(p1.x - 2.f * p2.x + p3.x));
-        float ddy = maxf(fabsf(p0.y - 2.f * p1.y + p2.y), fabsf(p1.y - 2.f * p2.y + p3.y));
+        float ddx = maxf(fabs(p0.x - 2.f * p1.x + p2.x), fabs(p1.x - 2.f * p2.x + p3.x));
+        float ddy = maxf(fabs(p0.y - 2.f * p1.y + p2.y), fabs(p1.y - 2.f * p2.y + p3.y));
         float dd = sqrtf(ddx * ddx + ddy * ddy);
         float steps = ceilf(sqrtf(0.75f * dd / tol));
         int n = steps >= 1.f ? (steps < 512.f ? (int)steps : 512) : 1;
@@ -12063,26 +12263,47 @@ namespace {
         DPoint a;
         DPoint b;
         DPoint c;
+        DPoint middle;
+        DPoint last;
+        DPoint span;
     };
 
     static Powers powers(Point p0, Point p1, Point p2, Point p3) {
-        return Powers{DPoint{(double)p1.x - p0.x, (double)p1.y - p0.y}, DPoint{(double)p2.x - 2.0 * p1.x + p0.x, (double)p2.y - 2.0 * p1.y + p0.y}, DPoint{(double)p3.x - 3.0 * p2.x + 3.0 * p1.x - p0.x, (double)p3.y - 3.0 * p2.y + 3.0 * p1.y - p0.y}};
+        DPoint a{p1.x - p0.x, p1.y - p0.y};
+        DPoint middle{p2.x - p1.x, p2.y - p1.y};
+        DPoint last{p3.x - p2.x, p3.y - p2.y};
+        DPoint b{middle.x - a.x, middle.y - a.y};
+
+        return Powers{a, b, DPoint{last.x - middle.x - b.x, last.y - middle.y - b.y}, middle, last, DPoint{p3.x - p0.x, p3.y - p0.y}};
     }
 
     static DPoint powerAt(const Powers& q, double t) {
+        if (t == 1.0) {
+            return q.span;
+        }
+
         return DPoint{((q.c.x * t + 3.0 * q.b.x) * t + 3.0 * q.a.x) * t, ((q.c.y * t + 3.0 * q.b.y) * t + 3.0 * q.a.y) * t};
     }
 
     static DPoint powerVelocity(const Powers& q, double t) {
-        return DPoint{q.a.x + (2.0 * q.b.x + q.c.x * t) * t, q.a.y + (2.0 * q.b.y + q.c.y * t) * t};
+        // Bernstein differences preserve a stationary endpoint exactly;
+        // evaluating expanded powers there can leave a false tangent.
+        double u = 1.0 - t;
+
+        return DPoint{u * u * q.a.x + 2.0 * u * t * q.middle.x + t * t * q.last.x, u * u * q.a.y + 2.0 * u * t * q.middle.y + t * t * q.last.y};
+    }
+
+    static DPoint powerAcceleration(const Powers& q, double t) {
+        return DPoint{(1.0 - t) * q.b.x + t * (q.last.x - q.middle.x), (1.0 - t) * q.b.y + t * (q.last.y - q.middle.y)};
     }
 
     // The chord of a cubic from t to t + h, as powers of h, exact however
     // short.
     static DPoint powerChord(const Powers& q, double t, double h) {
         DPoint v = powerVelocity(q, t);
-        double wx = q.b.x + q.c.x * t;
-        double wy = q.b.y + q.c.y * t;
+        DPoint acceleration = powerAcceleration(q, t);
+        double wx = acceleration.x;
+        double wy = acceleration.y;
 
         return DPoint{((q.c.x * h + 3.0 * wx) * h + 3.0 * v.x) * h, ((q.c.y * h + 3.0 * wy) * h + 3.0 * v.y) * h};
     }
@@ -12090,7 +12311,7 @@ namespace {
     static Point unitOf(DPoint d) {
         double length = sqrt(d.x * d.x + d.y * d.y);
 
-        return Point{(float)(d.x / length), (float)(d.y / length)};
+        return Point{(d.x / length), (d.y / length)};
     }
 
     static double deviation(DPoint a, DPoint b) {
@@ -12104,7 +12325,7 @@ namespace {
         DPoint v = powerVelocity(q, t);
 
         if (cusp || (v.x == 0.0 && v.y == 0.0)) {
-            return DPoint{q.b.x + q.c.x * t, q.b.y + q.c.y * t};
+            return powerAcceleration(q, t);
         }
 
         return DPoint{v.x * side, v.y * side};
@@ -12251,9 +12472,9 @@ namespace {
         DPoint d = powerChord(q, from, t - from);
         double length = sqrt(d.x * d.x + d.y * d.y);
 
-        out.points.pushBack(t == 1.0 ? p3 : Point{(float)(p0.x + at.x), (float)(p0.y + at.y)});
+        out.points.pushBack(t == 1.0 ? p3 : Point{(p0.x + at.x), (p0.y + at.y)});
         out.kinds.pushBack(PointSmooth);
-        out.dirs.pushBack(length > 0.0 ? Point{(float)(d.x / length), (float)(d.y / length)} : Point{0.f, 0.f});
+        out.dirs.pushBack(length > 0.0 ? Point{(d.x / length), (d.y / length)} : Point{0.f, 0.f});
 
         if (out.measured) {
             out.curveOf.pushBack((u32)out.curves.length() - 1);
@@ -12266,7 +12487,8 @@ namespace {
     // where R is under h, a cusp too.
     static double openness(const Powers& q, double t, double half) {
         DPoint v = powerVelocity(q, t);
-        double turning = fabs(v.x * (q.b.y + q.c.y * t) - v.y * (q.b.x + q.c.x * t));
+        DPoint a = powerAcceleration(q, t);
+        double turning = fabs(v.x * a.y - v.y * a.x);
         double speed = sqrt(v.x * v.x + v.y * v.y);
 
         return speed > 0.0 ? fmax(1.0 - half * turning / (1.5 * speed * speed * speed), 0.0) : 0.0;
@@ -12425,7 +12647,7 @@ namespace {
                 double length = sqrt(dx * dx + dy * dy);
 
                 out.kinds.pushBack(PointCorner);
-                out.dirs.pushBack(length > 0.0 ? Point{(float)(dx / length), (float)(dy / length)} : Point{0.f, 0.f});
+                out.dirs.pushBack(length > 0.0 ? Point{(dx / length), (dy / length)} : Point{0.f, 0.f});
             }
 
             while (out.measured && out.curveOf.length() < out.points.length()) {
@@ -12512,7 +12734,7 @@ namespace {
 
     // Widens a range by the extremes of a cubic's coordinate between its
     // ends: where its derivative, a quadratic in t, is zero inside (0, 1).
-    static void cubicExtremes(float p0, float p1, float p2, float p3, float& lo, float& hi) {
+    static void cubicExtremes(double p0, double p1, double p2, double p3, double& lo, double& hi) {
         double a = -(double)p0 + 3.0 * p1 - 3.0 * p2 + p3;
         double b = 2.0 * ((double)p0 - 2.0 * p1 + p2);
         double c = (double)p1 - p0;
@@ -12539,7 +12761,7 @@ namespace {
 
             if (t > 0.0 && t < 1.0) {
                 double u = 1.0 - t;
-                float at = (float)(u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3);
+                double at = (u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3);
 
                 lo = minf(lo, at);
                 hi = maxf(hi, at);
@@ -12659,28 +12881,20 @@ namespace {
 
     // The angle through which the outer normal n0 of a turn from d0 to d1
     // sweeps round to n1, the way the turn goes, and from where.
-    static float normalSweep(Point n0, Point n1, Point d0, Point d1, float& from) {
+    static float normalSweep(Point n0, Point d0, Point d1, float& from) {
         from = atan2f(n0.y, n0.x);
+        double cross = d0.x * d1.y - d0.y * d1.x;
+        double dot = d0.x * d1.x + d0.y * d1.y;
 
-        float sweep = atan2f(n1.y, n1.x) - from;
-
-        while (sweep > pi) {
-            sweep -= 2.f * pi;
+        // The signed tangent turn is also the normal's turn. Subtracting
+        // separately rounded angles can put a near reversal across atan2's
+        // cut and turn a half-circle into three halves. Only an exact
+        // reversal needs a choice: sweep in front of the incoming segment.
+        if (cross == 0.0 && dot < 0.0) {
+            return d0.x * n0.y - d0.y * n0.x > 0.0 ? -pi : pi;
         }
 
-        while (sweep < -pi) {
-            sweep += 2.f * pi;
-        }
-
-        float middle = from + sweep / 2.f;
-
-        // Only a reversal is ambiguous, and its normals sweep half a turn
-        // from the cut of atan2 the wrong way.
-        if (cosf(middle) * (d0.x - d1.x) + sinf(middle) * (d0.y - d1.y) < 0.f) {
-            sweep -= 2.f * pi;
-        }
-
-        return sweep;
+        return (float)atan2(cross, dot);
     }
 
     // The points of the join of a turn at p from d0 to d1 on its outer side,
@@ -12697,7 +12911,7 @@ namespace {
 
         if (s.join == JoinRound) {
             float from;
-            float sweep = normalSweep(n0, n1, d0, d1, from);
+            float sweep = normalSweep(n0, d0, d1, from);
 
             addArcPoints(out, p, s.half, from, sweep, s.tol);
 
@@ -13035,7 +13249,7 @@ namespace {
             bool arc = false;
 
             if (kind[k] == PointSmooth) {
-                sweep = normalSweep(Point{-d0.y * side, d0.x * side}, Point{-d1.y * side, d1.x * side}, d0, d1, from);
+                sweep = normalSweep(Point{-d0.y * side, d0.x * side}, d0, d1, from);
 
                 // The chord between the offset edges' ends does where it
                 // keeps to the tolerance of the arc, as the bends of a
@@ -13049,7 +13263,7 @@ namespace {
                 // A Bezier's internal reversal is smooth on both sides of
                 // its stationary point. Its normals sweep around the tip;
                 // an explicit line corner with the same legs stays flat.
-                sweep = normalSweep(Point{-d0.y * side, d0.x * side}, Point{-d1.y * side, d1.x * side}, d0, d1, from);
+                sweep = normalSweep(Point{-d0.y * side, d0.x * side}, d0, d1, from);
                 addArcPoints(sides[outer], p, s.half, from, sweep, s.tol);
             } else if (kind[k] == PointCorner) {
                 addJoin(sides[outer], s, p, d0, d1);
@@ -15539,7 +15753,7 @@ namespace {
                     extend(bounds, a);
 
                     if (a.y != b.y) {
-                        l.edges.pushBack(Edge{a.x, a.y, b.x, b.y});
+                        l.edges.pushBack(Edge{(float)a.x, (float)a.y, (float)b.x, (float)b.y});
                     }
                 }
             }
@@ -15570,7 +15784,7 @@ namespace {
                     extend(op.bounds, a);
 
                     if (a.y != b.y) {
-                        l.edges.pushBack(Edge{a.x, a.y, b.x, b.y});
+                        l.edges.pushBack(Edge{(float)a.x, (float)a.y, (float)b.x, (float)b.y});
                     }
                 }
             }
@@ -15716,7 +15930,7 @@ namespace {
     }
 
     static Op groupOp(float opacity);
-    static void addRectClip(Lowering& l, const Matrix& m, float x, float y, float w, float h);
+    static void addRectClip(Lowering& l, const Matrix& m, double x, double y, double w, double h);
     static void endGroup(Lowering& l, u32 begin);
 
     // The transform of a paint server or a clip path, its percentages and
@@ -16284,7 +16498,7 @@ namespace {
 
         u8 command = *p++;
         bool relative = command == 'c' || command == 'l';
-        float v[6];
+        double v[6];
         int count = command == 'c' || command == 'C' ? 6 : (command == 'l' || command == 'L' ? 2 : 0);
 
         for (int k = 0; k < count; k++) {
@@ -16296,7 +16510,7 @@ namespace {
                 return false;
             }
 
-            v[k] = (float)number;
+            v[k] = number;
 
             if (relative) {
                 v[k] += k % 2 ? start.y : start.x;
@@ -16320,14 +16534,15 @@ namespace {
         return true;
     }
 
-    static Point bezierAt(const Point* c, float t) {
-        float s = 1.f - t;
-        float a = s * s * s;
-        float b = 3.f * s * s * t;
-        float d = 3.f * s * t * t;
-        float e = t * t * t;
+    static Point bezierAt(const Point* c, double t) {
+        double s = 1.0 - t;
+        double b = 3.0 * s * s * t;
+        double d = 3.0 * s * t * t;
+        double e = t * t * t;
 
-        return Point{a * c[0].x + b * c[1].x + d * c[2].x + e * c[3].x, a * c[0].y + b * c[1].y + d * c[2].y + e * c[3].y};
+        // Relative coordinates retain a constant edge coordinate exactly,
+        // and do not amplify rounded weights by a large mesh origin.
+        return Point{c[0].x + b * (c[1].x - c[0].x) + d * (c[2].x - c[0].x) + e * (c[3].x - c[0].x), c[0].y + b * (c[1].y - c[0].y) + d * (c[2].y - c[0].y) + e * (c[3].y - c[0].y)};
     }
 
     struct MeshVertex {
@@ -16704,7 +16919,7 @@ namespace {
                         Point a = apply(local, e[k]);
                         Point b = apply(local, e[k + 1]);
 
-                        extent = maxf(extent, fabsf(a.x - b.x) + fabsf(a.y - b.y));
+                        extent = maxf(extent, fabs(a.x - b.x) + fabs(a.y - b.y));
                     }
                 }
 
@@ -16752,17 +16967,20 @@ namespace {
                 grid.zero((size_t)(nv + 1) * (nu + 1));
 
                 for (int a = 0; a <= nv; a++) {
-                    float v = (float)a / (float)nv;
+                    double v = (double)a / nv;
                     Point l0 = bezierAt(left, v);
                     Point r0 = bezierAt(right, v);
 
                     for (int b = 0; b <= nu; b++) {
-                        float u = (float)b / (float)nu;
+                        double u = (double)b / nu;
                         Point t0 = bezierAt(top, u);
                         Point b0 = bezierAt(bottom, u);
+                        // The Coons sum has one copy of the patch's origin.
+                        // Remove it before combining the edge displacements.
+                        Point o = top[0];
                         Point p{
-                            (1.f - v) * t0.x + v * b0.x + (1.f - u) * l0.x + u * r0.x - ((1.f - u) * (1.f - v) * top[0].x + u * (1.f - v) * top[3].x + (1.f - u) * v * bottom[0].x + u * v * bottom[3].x),
-                            (1.f - v) * t0.y + v * b0.y + (1.f - u) * l0.y + u * r0.y - ((1.f - u) * (1.f - v) * top[0].y + u * (1.f - v) * top[3].y + (1.f - u) * v * bottom[0].y + u * v * bottom[3].y),
+                            o.x + (1.0 - v) * (t0.x - o.x) + v * (b0.x - o.x) + (1.0 - u) * (l0.x - o.x) + u * (r0.x - o.x) - (u * (1.0 - v) * (top[3].x - o.x) + (1.0 - u) * v * (bottom[0].x - o.x) + u * v * (bottom[3].x - o.x)),
+                            o.y + (1.0 - v) * (t0.y - o.y) + v * (b0.y - o.y) + (1.0 - u) * (l0.y - o.y) + u * (r0.y - o.y) - (u * (1.0 - v) * (top[3].y - o.y) + (1.0 - u) * v * (bottom[0].y - o.y) + u * v * (bottom[3].y - o.y)),
                         };
 
                         // On its sides a patch is its edges, and its corners
@@ -16778,7 +16996,7 @@ namespace {
                             p = a == 0 ? t0 : b0;
                         }
                         MeshVertex& vertex = grid.mutData()[(size_t)a * (nu + 1) + b];
-                        float w[4] = {(1.f - u) * (1.f - v), u * (1.f - v), (1.f - u) * v, u * v};
+                        float w[4] = {(float)((1.0 - u) * (1.0 - v)), (float)(u * (1.0 - v)), (float)((1.0 - u) * v), (float)(u * v)};
                         float color[4] = {0.f, 0.f, 0.f, 0.f};
 
                         for (int k = 0; k < 4; k++) {
@@ -16943,7 +17161,7 @@ namespace {
     static void markerExtent(Pass& p, Node* node, const Path& path, const ComputedStyle& style, const Matrix& m, Viewport vp, Extent how, u32 depth, Box& box);
     static bool imageReachable(const Document& doc, const Node* node);
     static bool isAuto(const Document& doc, const Node* node, u32 name);
-    static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, float& x, float& y, float& w, float& h);
+    static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, double& x, double& y, double& w, double& h);
     static void releaseImage(ImageSource& source);
     static bool transformed(const Node* node);
     static Matrix boxTransform(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp);
@@ -17116,10 +17334,10 @@ namespace {
         }
 
         if (node->name == AtomImage) {
-            float x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
-            float y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
-            float w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
-            float h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
+            double x = lengthOr(doc, node, AtomX, Axis::X, vp, fs, 0.f);
+            double y = lengthOr(doc, node, AtomY, Axis::Y, vp, fs, 0.f);
+            double w = lengthOr(doc, node, AtomWidth, Axis::X, vp, fs, 0.f);
+            double h = lengthOr(doc, node, AtomHeight, Axis::Y, vp, fs, 0.f);
 
             // A side left auto is the source's.
             if (isAuto(doc, node, AtomWidth) || isAuto(doc, node, AtomHeight)) {
@@ -17321,7 +17539,7 @@ namespace {
         l.clips.pushBack(shape);
     }
 
-    static void addRectClip(Lowering& l, const Matrix& m, float x, float y, float w, float h) {
+    static void addRectClip(Lowering& l, const Matrix& m, double x, double y, double w, double h) {
         Path path;
 
         moveTo(path, Point{x, y});
@@ -17703,7 +17921,7 @@ namespace {
         if (shape.kind == ShapeKind::Circle || shape.kind == ShapeKind::Ellipse) {
             float cx = box.x0 + shapeLength(shape.values[2], w, vp, fs);
             float cy = box.y0 + shapeLength(shape.values[3], h, vp, fs);
-            float sides[2][2] = {{cx - box.x0, box.x1 - cx}, {cy - box.y0, box.y1 - cy}};
+            double sides[2][2] = {{cx - box.x0, box.x1 - cx}, {cy - box.y0, box.y1 - cy}};
             float radii[2];
 
             for (int axis = 0; axis < 2; axis++) {
@@ -17714,14 +17932,14 @@ namespace {
                     bool farthest = r.value < -1.5f;
 
                     if (shape.kind == ShapeKind::Circle) {
-                        float a = minf(fabsf(sides[0][0]), fabsf(sides[0][1]));
-                        float b = minf(fabsf(sides[1][0]), fabsf(sides[1][1]));
-                        float c = maxf(fabsf(sides[0][0]), fabsf(sides[0][1]));
-                        float d = maxf(fabsf(sides[1][0]), fabsf(sides[1][1]));
+                        float a = minf(fabs(sides[0][0]), fabs(sides[0][1]));
+                        float b = minf(fabs(sides[1][0]), fabs(sides[1][1]));
+                        float c = maxf(fabs(sides[0][0]), fabs(sides[0][1]));
+                        float d = maxf(fabs(sides[1][0]), fabs(sides[1][1]));
 
                         radii[axis] = farthest ? maxf(c, d) : minf(a, b);
                     } else {
-                        radii[axis] = farthest ? maxf(fabsf(sides[axis][0]), fabsf(sides[axis][1])) : minf(fabsf(sides[axis][0]), fabsf(sides[axis][1]));
+                        radii[axis] = farthest ? maxf(fabs(sides[axis][0]), fabs(sides[axis][1])) : minf(fabs(sides[axis][0]), fabs(sides[axis][1]));
                     }
                 } else {
                     radii[axis] = shapeLength(r, reference, vp, fs);
@@ -18228,7 +18446,7 @@ namespace {
     // matrix takes to the device from the tile's origin, drawn by draw in
     // the tile's pixels from the matrix it is given.
     template <typename Draw>
-    static DevicePaint* tilePaint(Lowering& l, const Matrix& space, float pw, float ph, Draw draw) {
+    static DevicePaint* tilePaint(Lowering& l, const Matrix& space, double pw, double ph, Draw draw) {
         float tw = minf(maxf(ceilf(pw * hypotf(space.a, space.b)), 1.f), 2048.f);
         float th = minf(maxf(ceilf(ph * hypotf(space.c, space.d)), 1.f), 2048.f);
         DevicePaint* paint = l.pool->make<DevicePaint>();
@@ -18263,7 +18481,7 @@ namespace {
         return paint;
     }
 
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete = nullptr, bool clip = true);
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, double x, double y, double w, double h, u8 rendering, const Box* concrete = nullptr, bool clip = true);
     static bool explicitSide(const Document& doc, const Node* root, u32 name);
     static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps, const Box& part);
 
@@ -18305,8 +18523,8 @@ namespace {
             parseCssGradient(layer.image, style.color, gradient);
         }
 
-        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
-        float start[2] = {area.x0, area.y0};
+        double span[2] = {area.x1 - area.x0, area.y1 - area.y0};
+        double start[2] = {area.x0, area.y0};
         float size[2];
         float gap[2] = {0.f, 0.f};
         float origin[2];
@@ -18507,7 +18725,7 @@ namespace {
         }
 
         Box area{box.x0 - outset[3], box.y0 - outset[0], box.x1 + outset[1], box.y1 + outset[2]};
-        float span[2] = {area.x1 - area.x0, area.y1 - area.y0};
+        double span[2] = {area.x1 - area.x0, area.y1 - area.y0};
         float size[2];
 
         for (int axis = 0; axis < 2; axis++) {
@@ -18541,8 +18759,8 @@ namespace {
         }
 
         // The regions' and the parts' edges, and the edges' scales.
-        float dx[4] = {area.x0, area.x0 + width[3], area.x1 - width[1], area.x1};
-        float dy[4] = {area.y0, area.y0 + width[0], area.y1 - width[2], area.y1};
+        double dx[4] = {area.x0, area.x0 + width[3], area.x1 - width[1], area.x1};
+        double dy[4] = {area.y0, area.y0 + width[0], area.y1 - width[2], area.y1};
         float sx[4] = {0.f, slice[3], size[0] - slice[1], size[0]};
         float sy[4] = {0.f, slice[0], size[1] - slice[2], size[1]};
         float scale[4];
@@ -18556,7 +18774,7 @@ namespace {
         };
         // A part of the image scaled onto a tile of w by h the matrix
         // places.
-        auto drawPart = [&](const Matrix& at, const Box& part, float w, float h) {
+        auto drawPart = [&](const Matrix& at, const Box& part, double w, double h) {
             Matrix space = multiply(at, multiply(scaling(w / (part.x1 - part.x0), h / (part.y1 - part.y0)), translation(-part.x0, -part.y0)));
 
             if (!image) {
@@ -18588,7 +18806,7 @@ namespace {
             for (int c = 0; c < 3; c++) {
                 Box region{dx[c], dy[r], dx[c + 1], dy[r + 1]};
                 Box part{sx[c], sy[r], sx[c + 1], sy[r + 1]};
-                float length[2] = {region.x1 - region.x0, region.y1 - region.y0};
+                double length[2] = {region.x1 - region.x0, region.y1 - region.y0};
 
                 if (!(length[0] > 0.f) || !(length[1] > 0.f)) {
                     continue;
@@ -18604,11 +18822,11 @@ namespace {
                     continue;
                 }
 
-                float across = c != 1 ? length[0] : (part.x1 - part.x0) * (r != 1 ? scale[r] : (usable(scale[0]) ? scale[0] : (usable(scale[2]) ? scale[2] : 1.f)));
-                float down = r != 1 ? length[1] : (part.y1 - part.y0) * (c != 1 ? scale[3 - c] : (usable(scale[3]) ? scale[3] : (usable(scale[1]) ? scale[1] : 1.f)));
-                float tile[2] = {across, down};
-                float start[2] = {region.x0, region.y0};
-                float gap[2] = {0.f, 0.f};
+                double across = c != 1 ? length[0] : (part.x1 - part.x0) * (r != 1 ? scale[r] : (usable(scale[0]) ? scale[0] : (usable(scale[2]) ? scale[2] : 1.f)));
+                double down = r != 1 ? length[1] : (part.y1 - part.y0) * (c != 1 ? scale[3 - c] : (usable(scale[3]) ? scale[3] : (usable(scale[1]) ? scale[1] : 1.f)));
+                double tile[2] = {across, down};
+                double start[2] = {region.x0, region.y0};
+                double gap[2] = {0.f, 0.f};
                 u8 repeat[2] = {c == 1 ? border.repeat[0] : (u8)0, r == 1 ? border.repeat[1] : (u8)0};
                 bool empty = false;
 
@@ -20725,7 +20943,7 @@ namespace {
     // An image in its box: of an image element, as its preserveAspectRatio
     // fits it; of none, a CSS image, a raster stretched over the box and a
     // document as its own root fits it.
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete, bool clip) {
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, double x, double y, double w, double h, u8 rendering, const Box* concrete, bool clip) {
         const Document& doc = *l.doc;
         Box viewBox = source.viewBox;
 
@@ -20764,10 +20982,10 @@ namespace {
 
             Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
             Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
-            float rx0 = minf(a.x, b.x);
-            float ry0 = minf(a.y, b.y);
-            float rx1 = maxf(a.x, b.x);
-            float ry1 = maxf(a.y, b.y);
+            double rx0 = minf(a.x, b.x);
+            double ry0 = minf(a.y, b.y);
+            double rx1 = maxf(a.x, b.x);
+            double ry1 = maxf(a.y, b.y);
 
             if (clip) {
                 rx0 = maxf(rx0, x);
@@ -20901,7 +21119,7 @@ namespace {
     // Where an image goes in its user space: its x, y, width and height, a
     // side left auto from its source's size. A nested document's side left
     // open then measures as what it draws. False for one that draws nothing.
-    static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, float& x, float& y, float& w, float& h) {
+    static bool imageRect(Pass& p, Node* node, const ComputedStyle& style, Viewport vp, ImageSource& source, double& x, double& y, double& w, double& h) {
         const Document& doc = *p.doc;
 
         if (!loadImage(p, node, source)) {
@@ -20944,10 +21162,10 @@ namespace {
 
     static void lowerImage(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
         ImageSource source;
-        float x;
-        float y;
-        float w;
-        float h;
+        double x;
+        double y;
+        double w;
+        double h;
 
         if (!style.visible || !imageRect(l, node, style, vp, source, x, y, w, h)) {
             return;
@@ -21342,7 +21560,7 @@ namespace {
 
         int blurX = blurReach(userX(f, sx) * scaleX);
         int blurY = blurReach(userY(f, sy) * scaleY);
-        float shift = maxf(fabsf(f.ctm.a * dx + f.ctm.c * dy), fabsf(f.ctm.b * dx + f.ctm.d * dy));
+        float shift = maxf(fabs(f.ctm.a * dx + f.ctm.c * dy), fabs(f.ctm.b * dx + f.ctm.d * dy));
 
         reach += (float)(blurX > blurY ? blurX : blurY);
         reach += shift > 0.f ? shift + 1.f : 0.f;
@@ -21429,7 +21647,7 @@ namespace {
             // Axis permutations can keep device pixel centres exactly on the
             // layer's pixel centres. Retain the element's translation inside
             // the filter instead of resampling its result at a fractional phase.
-            if ((fabsf(toLayer.b) < 1e-6f && fabsf(toLayer.c) < 1e-6f) || (fabsf(toLayer.a) < 1e-6f && fabsf(toLayer.d) < 1e-6f)) {
+            if ((fabs(toLayer.b) < 1e-6f && fabs(toLayer.c) < 1e-6f) || (fabs(toLayer.a) < 1e-6f && fabs(toLayer.d) < 1e-6f)) {
                 toLayer.a = roundf(toLayer.a);
                 toLayer.b = roundf(toLayer.b);
                 toLayer.c = roundf(toLayer.c);
@@ -21565,7 +21783,7 @@ namespace {
         Matrix toLayer;
         float lw;
         float lh;
-        const float* d = device.m;
+        const double* d = device.m;
 
         if (!invertProjective(device, fromDevice)) {
             return false;
@@ -21593,7 +21811,7 @@ namespace {
             // derivative there, the linear part less the point by the weight's
             // gradient, over the weight.
             float weight = d[6] * middle.x + d[7] * middle.y + d[8];
-            float columns[2][2] = {{(d[0] - at.x * d[6]) / weight, (d[3] - at.y * d[6]) / weight}, {(d[1] - at.x * d[7]) / weight, (d[4] - at.y * d[7]) / weight}};
+            double columns[2][2] = {{(d[0] - at.x * d[6]) / weight, (d[3] - at.y * d[6]) / weight}, {(d[1] - at.x * d[7]) / weight, (d[4] - at.y * d[7]) / weight}};
             float scale = minf(maxf(maxf(hypotf(columns[0][0], columns[0][1]), hypotf(columns[1][0], columns[1][1])), 0.0625f), 16.f);
             float budget = 16.f * (float)l.width * (float)l.height;
 
@@ -21958,7 +22176,7 @@ namespace {
             Box b = plane.content;
             Point corners[4] = {{b.x0, b.y0}, {b.x1, b.y0}, {b.x1, b.y1}, {b.x0, b.y1}};
             double homogeneous[4][4];
-            const float (*m)[4] = plane.matrix.m;
+            const double (*m)[4] = plane.matrix.m;
 
             invert(plane.layer.toLayer, fromLayer);
 
@@ -22091,7 +22309,7 @@ namespace {
         }
 
         Matrix ctm = multiply(hostInverse, m);
-        float area = fabsf(ctm.a * ctm.d - ctm.b * ctm.c);
+        float area = fabs(ctm.a * ctm.d - ctm.b * ctm.c);
         float root = sqrtf(area);
         Matrix linear{ctm.a, ctm.b, ctm.c, ctm.d, 0.f, 0.f};
 
@@ -22303,7 +22521,7 @@ namespace {
             resolveMask(l, node, parent, style, m, vp, op);
         }
 
-        bool complex = style.filterCount && node != l.doc->root && (fabsf(m.b) > 1e-6f || fabsf(m.c) > 1e-6f || m.a < 0.f || m.d < 0.f);
+        bool complex = style.filterCount && node != l.doc->root && (fabs(m.b) > 1e-6f || fabs(m.c) > 1e-6f || m.a < 0.f || m.d < 0.f);
         bool offscreen = false;
         Box extent;
         const Filter* measured = nullptr;
@@ -22810,7 +23028,7 @@ namespace {
 
         float extent = paint.type == PaintType::Linear ? hypotf(paint.x2 - paint.x1, paint.y2 - paint.y1) : (paint.type == PaintType::Conic ? paint.x2 : paint.r + hypotf(paint.cx - paint.fx, paint.cy - paint.fy));
         float frobenius = sqrtf(m.a * m.a + m.b * m.b + m.c * m.c + m.d * m.d);
-        float length = extent * frobenius / fabsf(m.a * m.d - m.b * m.c);
+        float length = extent * frobenius / fabs(m.a * m.d - m.b * m.c);
         u32 size = 16;
 
         while (size < 4096 && (float)size < 2.f * length) {
@@ -23914,10 +24132,10 @@ namespace {
 
             // A sample and a corner each round by a few units in the last
             // place of the terms of the map.
-            float ax = maxf(fabsf(s.x0), fabsf(s.x1));
-            float ay = maxf(fabsf(s.y0), fabsf(s.y1));
-            float mx = ceilf(0x1p-21f * (fabsf(m.a) * ax + fabsf(m.c) * ay + fabsf(m.e))) + 1.f;
-            float my = ceilf(0x1p-21f * (fabsf(m.b) * ax + fabsf(m.d) * ay + fabsf(m.f))) + 1.f;
+            float ax = maxf(fabs(s.x0), fabs(s.x1));
+            float ay = maxf(fabs(s.y0), fabs(s.y1));
+            float mx = ceilf(0x1p-21f * (fabs(m.a) * ax + fabs(m.c) * ay + fabs(m.e))) + 1.f;
+            float my = ceilf(0x1p-21f * (fabs(m.b) * ax + fabs(m.d) * ay + fabs(m.f))) + 1.f;
             float x0 = floorf(b.x0 - 0.5f) - mx;
             float y0 = floorf(b.y0 - 0.5f) - my;
             float x1 = floorf(b.x1 - 0.5f) + 2.f + mx;
@@ -24073,8 +24291,8 @@ namespace {
         // apply forms, taken once.
         const Matrix& m = paint.inverse;
         float py = (float)y + 0.5f;
-        float rowX = m.c * py;
-        float rowY = m.d * py;
+        double rowX = m.c * py;
+        double rowY = m.d * py;
 
         for (u32 i = 0; i < count; i++) {
             float t;
@@ -27520,7 +27738,7 @@ namespace {
                 if (light->name != AtomFeDistantLight) {
                     Point surface = apply(inverse, Point{(float)x + 0.5f, (float)y + 0.5f});
 
-                    toLight = normalize3(Vector3{lightPosition.x - surface.x, lightPosition.y - surface.y, lightPosition.z - surfaceScale * (float)a11 * unit});
+                    toLight = normalize3(Vector3{(float)(lightPosition.x - surface.x), (float)(lightPosition.y - surface.y), lightPosition.z - surfaceScale * (float)a11 * unit});
                 }
 
                 if (light->name == AtomFeSpotLight) {
@@ -28042,7 +28260,7 @@ namespace {
         // shift. Else each device pixel blends the four layer pixels around
         // its centre.
         const Matrix& lm = op.layerMatrix;
-        int tests = !maps + (lm.a == 1.f) + (lm.b == 0.f) + (lm.c == 0.f) + (lm.d == 1.f) + (lm.e == floorf(lm.e)) + (lm.f == floorf(lm.f)) + (fabsf(lm.e) < 16777216.f) + (fabsf(lm.f) < 16777216.f);
+        int tests = !maps + (lm.a == 1.f) + (lm.b == 0.f) + (lm.c == 0.f) + (lm.d == 1.f) + (lm.e == floorf(lm.e)) + (lm.f == floorf(lm.f)) + (fabs(lm.e) < 16777216.f) + (fabs(lm.f) < 16777216.f);
         // An empty box is all zero, as boxInside makes it.
         drawn = boxInside(drawn, IntBox{0, 0, (int)r.width, (int)r.height});
 
