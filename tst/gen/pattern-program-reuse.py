@@ -65,6 +65,14 @@ for level in range(1, 7):
 definitions.append('<pattern id="last" patternUnits="userSpaceOnUse" width="4" height="4">'
                    '<rect width="4" height="4" fill="url(#d6)"/>'
                    '<rect width="4" height="4" fill="lime"/></pattern>')
+# Many distinct finite servers, followed by repeated early references,
+# must preserve each server's paint as the program index grows.
+indexed_colors = [f'#{i * 5:02x}{(i * 29 + 17) % 256:02x}{(i * 53 + 23) % 256:02x}'
+                  for i in range(40)]
+for i in range(40):
+    definitions.append(f'<pattern id="indexed-{i}" patternUnits="userSpaceOnUse" '
+                       'width="1" height="1">'
+                       f'<rect width="1" height="1" fill="{indexed_colors[i]}"/></pattern>')
 u.common('<defs>' + ''.join(definitions) + '</defs>', '')
 
 
@@ -112,6 +120,11 @@ cases = [
      '<rect width="20" height="20" fill="url(#leaf)"/></svg>',
      rect(0, 0, 1, 1, leaf_color, pixel[3])),
     ('branching-late-fill', '<rect width="8" height="8" fill="url(#last)"/>', rect(0, 0, 8, 8)),
+    ('many-servers',
+     ''.join(rect(i % 8 * 3, i // 8 * 2, 2, 1, f'url(#indexed-{server})')
+             for i, server in enumerate([*range(40), *range(16)])),
+     ''.join(rect(i % 8 * 3, i // 8 * 2, 2, 1, indexed_colors[server])
+             for i, server in enumerate([*range(40), *range(16)]))),
 ]
 for i, (name, test, expected) in enumerate(cases):
     x, y = i % 4 * 32, i // 4 * 16

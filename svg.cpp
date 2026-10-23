@@ -11661,8 +11661,7 @@ namespace {
             i64 b = value.coefficient;
             constexpr i64 limit = 9223372036854775807ll;
 
-            if (!scale(a, exponent - power) || !scale(b, value.exponent - power)
-                || (b > 0 && a > limit - b) || (b < 0 && a < -limit - b)) {
+            if (!scale(a, exponent - power) || !scale(b, value.exponent - power) || (b > 0 && a > limit - b) || (b < 0 && a < -limit - b)) {
                 known = false;
                 return;
             }
@@ -11699,8 +11698,7 @@ namespace {
                 if (digit == 0) {
                     zeros += out.coefficient != 0;
                 } else if (out.known) {
-                    if (!PathDecimal::scale(out.coefficient, zeros)
-                        || out.coefficient > (limit - digit) / 10) {
+                    if (!PathDecimal::scale(out.coefficient, zeros) || out.coefficient > (limit - digit) / 10) {
                         out.known = false;
                     } else {
                         out.coefficient = out.coefficient * 10 + digit;
@@ -23523,6 +23521,47 @@ namespace {
         u32 edge;
     };
 
+    // With a NaN key, insertion comparisons cannot cross that sample, and
+    // equal numeric keys keep their input order. Sort each numeric run by
+    // key and original index to preserve exactly that recovery in bounded
+    // time, including after a prefix has already been inserted into place.
+    static void sortBandRuns(BandSample* data, size_t count) {
+        Vector<u32> order;
+        Vector<BandSample> sorted;
+
+        order.zero(count);
+        sorted.zero(count);
+
+        for (size_t i = 0; i < count; i++) {
+            order.mutData()[i] = (u32)i;
+        }
+
+        for (size_t begin = 0; begin < count;) {
+            if (data[begin].key != data[begin].key) {
+                begin++;
+                continue;
+            }
+
+            size_t end = begin + 1;
+
+            while (end < count && data[end].key == data[end].key) {
+                end++;
+            }
+
+            quickSort(order.mutData() + begin, order.mutData() + end, [&](u32 a, u32 b) {
+                return data[a].key < data[b].key || (data[a].key == data[b].key && a < b);
+            });
+
+            begin = end;
+        }
+
+        for (size_t i = 0; i < count; i++) {
+            sorted.mutData()[i] = data[order[i]];
+        }
+
+        memcpy(data, sorted.data(), count * sizeof(BandSample));
+    }
+
     static void xchg(BandEdge& l, BandEdge& r) noexcept {
         BandEdge t = l;
 
@@ -23621,10 +23660,14 @@ namespace {
             sorted[k] = sample;
             moves += i - k;
 
-            if (comparable && moves > 8 * count + 64) {
-                quickSort(sorted, sorted + count, [](const BandSample& p, const BandSample& q) {
-                    return p.key < q.key || (p.key == q.key && p.order < q.order);
-                });
+            if (moves > 8 * count + 64) {
+                if (comparable) {
+                    quickSort(sorted, sorted + count, [](const BandSample& p, const BandSample& q) {
+                        return p.key < q.key || (p.key == q.key && p.order < q.order);
+                    });
+                } else {
+                    sortBandRuns(sorted, count);
+                }
 
                 break;
             }

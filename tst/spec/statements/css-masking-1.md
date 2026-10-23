@@ -95,7 +95,7 @@
 - [x] css-masking-1.md#MaskValues: in luminance mode, if color-interpolation on the mask element computes to linearRGB, the image is converted to linearRGB first, then luminance-to-alpha coefficients are applied to non-premultiplied RGB, then multiplied by alpha [mask-values#luminance]
 - [x] css-masking-1.md#MaskValues: a three-channel RGB mask object is treated as RGBA with alpha uniformly 1 [mask-values#three-channel]
 - [x] css-masking-1.md#MaskValues: a single-channel mask object is treated as RGBA with that channel used for all three color channels and alpha uniformly 1 [mask-values#single-channel]
-- [x] css-masking-1.md#MaskValues: the effect of a mask equals multiplying the masked object's alpha channel by the mask's mask value [mask-values#luminance]
+- [x] css-masking-1.md#MaskValues: the effect of a mask equals multiplying the masked object's alpha channel by the mask's mask value [mask-values#luminance raster-nan-sort.64x64#covered-mask]
 - [x] css-masking-1.md#MaskValues: regions not covered by a mask image are transparent black, a mask value of 0 [mask-values#region mask-tiling#no-repeat]
 
 ## mask element geometry: mask-properties, mask-values, mask (exists)
