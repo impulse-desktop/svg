@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="120">
+<!-- What tst/unit/filter-input-region.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="right-empty" data-box="0 0 24 24"><g transform="translate(0 0)"></g></g>
+<g id="left-empty" data-box="24 0 24 24"><g transform="translate(24 0)"></g></g>
+<g id="down-empty" data-box="48 0 24 24"><g transform="translate(48 0)"></g></g>
+<g id="up-empty" data-box="72 0 24 24"><g transform="translate(72 0)"></g></g>
+<g id="right-partial" data-box="96 0 24 24"><g transform="translate(96 0)"><rect x="11" y="8" width="5" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="fractional-shift" data-box="120 0 24 24"><g transform="translate(120 0)"><rect x="11.25" y="8" width="4.75" height="5.5" fill="#20bf40" opacity="1"/></g></g>
+<g id="source-alpha" data-box="0 24 24 24"><g transform="translate(0 24)"><rect x="11" y="8" width="5" height="8" fill="black" opacity="0.5"/></g></g>
+<g id="post-group-opacity" data-box="24 24 24 24"><g transform="translate(24 24)"><rect x="11" y="8" width="5" height="8" fill="#20bf40" opacity="0.5"/></g></g>
+<g id="outside-input-stays-empty" data-box="48 24 24 24"><g transform="translate(48 24)"></g></g>
+<g id="off-viewport-input-stays-empty" data-box="72 24 24 24"><g transform="translate(72 24)"></g></g>
+<g id="erosion-input-edge" data-box="96 24 24 24"><g transform="translate(96 24)"><rect x="9" y="9" width="6" height="6" fill="#20bf40" opacity="1"/></g></g>
+<g id="explicit-source-after-flood" data-box="120 24 24 24"><g transform="translate(120 24)"><rect x="11" y="8" width="5" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="previous-result" data-box="0 48 24 24"><g transform="translate(0 48)"><rect x="11" y="8" width="5" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="background-image" data-box="24 48 24 24"><g transform="translate(24 48)"><rect x="0" y="0" width="24" height="24" fill="#20bf40" opacity="1"/><rect x="0" y="0" width="8" height="24" fill="#8030bc" opacity="1"/></g></g>
+<g id="background-alpha" data-box="48 48 24 24"><g transform="translate(48 48)"><rect x="0" y="0" width="24" height="24" fill="#20bf40" opacity="1"/><rect x="0" y="0" width="8" height="24" fill="#8030bc" opacity="1"/><rect x="11" y="8" width="5" height="8" fill="black" opacity="1"/></g></g>
+<g id="isolated-backdrop" data-box="72 48 24 24"><g transform="translate(72 48)"><rect x="0" y="0" width="24" height="24" fill="#20bf40" opacity="1"/><rect x="0" y="0" width="8" height="24" fill="#8030bc" opacity="1"/></g></g>
+<g id="original-input-clip" data-box="96 48 24 24"><g transform="translate(96 48)"><rect x="8" y="8" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="chain-input-clip" data-box="120 48 24 24"><g transform="translate(120 48)"><rect x="8" y="8" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="blur-input-edge" data-box="0 72 24 24"><g transform="translate(0 72)"><image width="24" height="24" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAXklEQVR42mNgGAUjEyjsdyALj1wLaoF4BRBvQsMroHIUWwAy6BEQvwfiD1D8Hiq2ghoWbIIa+BeI/0HxX6jYJmpZ8AFq8H8o/gcVGzoW0DSIaB7JNE+mo0XFKBjuAAAVQRCAyXMqFAAAAABJRU5ErkJggg=="/></g></g>
+<g id="blur-unequal" data-box="24 72 24 24"><g transform="translate(24 72)"><image width="24" height="24" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAT0lEQVR42mNgGAWjgKpAYb8DVfCgs2ACEB8E4ltA/AiKb0HFJlDDgoVAfAOIvwDxHyj+AhVbSG0L/kLxqAUDZwFNIpnmyXQI5eRRMArIAgAl4SdgE6PTHQAAAABJRU5ErkJggg=="/></g></g>
+<g id="blur-source-alpha" data-box="48 72 24 24"><g transform="translate(48 72)"><image width="24" height="24" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAV0lEQVR42mNgGAWjYBQQA2qBeAUQb0LDK6ByFAOQQY+A+D0Qf4Di91CxFdSwYBPUwL9A/A+K/0LFNlHLgg9Qg/9D8T+o2NCxgKZBRPNIpnkyHQWjYLgDAGp7NLUsPDxuAAAAAElFTkSuQmCC"/></g></g>
+<g id="blur-colours" data-box="72 72 24 24"><g transform="translate(72 72)"><image width="24" height="24" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAhElEQVR42u3UwQmAIBiG4a9LU7RX87RMeHIFDy0SuIOggvaeo6MeKr8fQRR54FeURv6XehtFk6JmeS0yWinDzLMS2SkPJ/4IbAAWwAEcAAeAA7AAWwtgBzgBAkAGyAAB4ATYWwAGwAMkgAJQABKABzCtgQpQXw10aVH3S+7+TMdXMfL1XL9YE+z8Ha+4AAAAAElFTkSuQmCC"/></g></g>
+<g id="primitive-result-clip" data-box="96 72 24 24"><g transform="translate(96 72)"><image width="24" height="24" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAbElEQVR42mNgGAUjEyjsdyALj1wL9IE4BIgj0XAIVI5iC+qA+BEQvwfiD1D8HipWRw0LWqEG/gXif1D8FyrWSg0L2qCuBhn8H4r/QcXahoQFNA8imkeyG9SgVmiQtEHZdVC50ZxMAwtGwfACAIZlCli3IFZ0AAAAAElFTkSuQmCC"/></g></g>
+<g id="convolution-input-edge" data-box="120 72 24 24"><g transform="translate(120 72)"><image width="24" height="24" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAKUlEQVR42mNgGAWjYBTgBQr7HUB4FRD/x4FBcqMWjFowrC0YBaNghAAAfTeUIZybL0oAAAAASUVORK5CYII="/></g></g>
+<g id="inner-offset-quarter" data-box="0 96 24 24"><g transform="translate(0 96)"><rect x="8" y="8" width="8" height="1" fill="#808080" opacity="0.25"/></g></g>
+<g id="inner-offset-half" data-box="24 96 24 24"><g transform="translate(24 96)"><rect x="8" y="8" width="8" height="1" fill="#808080" opacity="0.5"/></g></g>
+</svg>

@@ -40,7 +40,7 @@ def cumulative(x, radius, pitch, dash, cap):
     return cycles*total+part
 
 
-u = Unit('stroke-round-dash-union', 128, 64,
+u = Unit('stroke-round-dash-union', 128, 80,
          'A dashed stroke paints the union of its bands and caps once. '
          'Exact capsule-area integrals cover overlapping and separated '
          'round caps, zero-length dashes, both axes, reversal, phase, '
@@ -65,6 +65,14 @@ cases = [
     ('square-separated', .125, .5, .125, 'square', 'x', 0, False, 1, 'opacity'),
     ('butt', .5, .25, .125, 'butt', 'x', 0, False, 1, 'opacity'),
     ('zero-width', 0, .25, .125, 'round', 'x', 0, False, 1, 'opacity'),
+]
+map_scale = 256/654.76562
+map_dash = .46918932*map_scale
+map_pitch = (.46918932+.00012512)*map_scale
+cases += [
+    ('map-border', map_dash, map_pitch, map_dash, 'round', 'x', 0, False, 1, 'opacity'),
+    ('map-thin-border', .25023431*map_scale, map_pitch, map_dash, 'round', 'x', 0, False, 1, 'opacity'),
+    ('map-vertical-border', map_dash, map_pitch, map_dash, 'round', 'y', map_pitch/2, False, 1, 'opacity'),
 ]
 for i, (name, width, pitch, dash, cap, axis, phase, reverse, opacity, prop) in enumerate(cases):
     x, y = i % 4*32, i//4*16

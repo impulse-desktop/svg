@@ -29,17 +29,18 @@
 - [x] filter-effects-1.md#filtersColorSpace: the color space of a filter primitive's operations is set by color-interpolation-filters on that primitive, not by color-interpolation. [filter-primitive-values#space filter-interpolation-space#linear-default]
 - [x] filter-effects-1.md#filtersColorSpace: pixels left undefined by a filter primitive (e.g. shifted off by feOffset) are set to transparent black. [fe-offset-tile-merge#offset]
 
-## Filter primitive common attributes and references: filter-primitive-inputs, filter-inputs (exists), filter-subregion-composite
+## Filter primitive common attributes and references: filter-primitive-inputs, filter-inputs (exists), filter-subregion-composite, filter-input-region
 
 - [x] filter-effects-1.md#element-attrdef-filter-primitive-x: x, y initial 0%; width, height initial 100%, in the primitiveUnits coordinate system. [filter-region#default-region fe-flood#subregion]
 - [x] filter-effects-1.md#FilterPrimitiveSubRegion: a subregion boundary strictly inside the input clips the result by its fractional pixel area after compositing; SourceGraphic remains opaque across an internal colour boundary, including under fractional use placement, in linearRGB and sRGB (D2) [filter-subregion-composite#linearRGB-in filter-subregion-composite#linearRGB-out filter-subregion-composite#linearRGB-atop filter-subregion-composite#linearRGB-over filter-subregion-composite#linearRGB-xor filter-subregion-composite#linearRGB-k1 filter-subregion-composite#linearRGB-k2 filter-subregion-composite#linearRGB-k3 filter-subregion-composite#linearRGB-k4 filter-subregion-composite#sRGB-in filter-subregion-composite#sRGB-out filter-subregion-composite#sRGB-atop filter-subregion-composite#sRGB-over filter-subregion-composite#sRGB-xor filter-subregion-composite#sRGB-k1 filter-subregion-composite#sRGB-k2 filter-subregion-composite#sRGB-k3 filter-subregion-composite#sRGB-k4]
+- [x] filter-effects-1.md#FilterPrimitiveSubRegion: the filter region hard-clips primitive input images too, before shifting, blurring, convolution or erosion; a primitive subregion separately clips its result, including for original SourceGraphic and a preceding filter in a chain. [filter-input-region#right-empty filter-input-region#left-empty filter-input-region#down-empty filter-input-region#up-empty filter-input-region#right-partial filter-input-region#fractional-shift filter-input-region#outside-input-stays-empty filter-input-region#off-viewport-input-stays-empty filter-input-region#chain-input-clip filter-input-region#original-input-clip filter-input-region#blur-input-edge filter-input-region#blur-unequal filter-input-region#blur-colours filter-input-region#primitive-result-clip filter-input-region#convolution-input-edge filter-input-region#erosion-input-edge]
 - [x] filter-effects-1.md#element-attrdef-filter-primitive-width: a negative or zero width or height disables the primitive: its result is transparent black. [filter-primitive-inputs#zero-subregion]
 - [x] filter-effects-1.md#element-attrdef-filter-primitive-result: result is a custom-ident naming this primitive's output for a later in/in2 reference. [filter-primitive-inputs#duplicate-result filter-primitive-inputs#previous]
 - [x] filter-effects-1.md#element-attrdef-filter-primitive-in: in defaults to SourceGraphic for the first primitive in the filter, and to the previous primitive's result for any later one. [filter-primitive-inputs#previous filter-region#cut]
 - [x] filter-effects-1.md#element-attrdef-filter-primitive-in: a reference to a result name that occurs more than once resolves to the closest preceding primitive with that result. [filter-primitive-inputs#duplicate-result]
 - [x] filter-effects-1.md#element-attrdef-filter-primitive-in: a forward reference to a result, and a reference to a non-existent result, are both treated as if no in value had been given. [filter-primitive-inputs#forward-result filter-primitive-inputs#missing-result]
 - [x] filter-effects-1.md#attr-valuedef-in-sourcegraphic: SourceGraphic is the filtered element's content rasterized in linear RGBA; its alpha is the exact per-pixel coverage. [filter-region#cut fe-offset-tile-merge#offset]
-- [x] filter-effects-1.md#attr-valuedef-in-sourcealpha: SourceAlpha is SourceGraphic with RGB forced to black, keeping SourceGraphic's alpha channel. [filter-primitive-inputs#source-alpha filter-property-chain#source-alpha]
+- [x] filter-effects-1.md#attr-valuedef-in-sourcealpha: SourceAlpha is SourceGraphic with RGB forced to black, keeping SourceGraphic's alpha channel. [filter-primitive-inputs#source-alpha filter-property-chain#source-alpha filter-input-region#source-alpha filter-input-region#blur-source-alpha]
 
 ## Filter paint-server inputs: filter-paint-inputs, filter-paint-readers (exists)
 
@@ -48,8 +49,8 @@
 
 ## Background input and isolation backdrop: filter-background-image, filter-background (exists), background-unscoped (exists)
 
-- [x] filter-effects-1.md#attr-valuedef-in-backgroundimage: BackgroundImage is the backdrop defined by the current isolation group behind the filter region, at the time the filter was invoked. [filter-background-image#root filter-background-image#group filter-background-image#isolated]
-- [x] filter-effects-1.md#attr-valuedef-in-backgroundalpha: BackgroundAlpha is BackgroundImage with only its alpha channel kept. [filter-background-image#background-alpha]
+- [x] filter-effects-1.md#attr-valuedef-in-backgroundimage: BackgroundImage is the backdrop defined by the current isolation group behind the filter region, at the time the filter was invoked. [filter-background-image#root filter-background-image#group filter-background-image#isolated filter-input-region#background-image filter-input-region#isolated-backdrop]
+- [x] filter-effects-1.md#attr-valuedef-in-backgroundalpha: BackgroundAlpha is BackgroundImage with only its alpha channel kept. [filter-background-image#background-alpha filter-input-region#background-alpha]
 
 ## Deprecated enable-background: filter-background-image, enable-background (exists)
 
@@ -111,7 +112,7 @@
 ## feComposite: blend-porter-duff, fe-composite-arithmetic, filter-composite (exists)
 
 - [x] filter-effects-1.md#elementdef-fecomposite: feComposite combines in (source) and in2 (destination) pixel-wise via a Porter-Duff operator: over, in, out, atop, xor, lighter, or arithmetic; initial operator over. [blend-porter-duff#over blend-porter-duff#in blend-porter-duff#out blend-porter-duff#atop blend-porter-duff#xor blend-porter-duff#lighter]
-- [x] filter-effects-1.md#elementdef-fecomposite: arithmetic computes result = k1*i1*i2 + k2*i1 + k3*i2 + k4 per channel, clamped to [0,1]; k1-k4 each initial 0. [fe-composite-arithmetic#average fe-composite-arithmetic#product fe-composite-arithmetic#sum-clamped fe-composite-arithmetic#all-terms fe-composite-arithmetic#below-zero]
+- [x] filter-effects-1.md#elementdef-fecomposite: arithmetic computes result = k1*i1*i2 + k2*i1 + k3*i2 + k4 per channel, clamped to [0,1]; k1-k4 each initial 0. [fe-composite-arithmetic#average fe-composite-arithmetic#product fe-composite-arithmetic#sum-clamped fe-composite-arithmetic#all-terms fe-composite-arithmetic#below-zero filter-input-region#inner-offset-quarter filter-input-region#inner-offset-half]
 - [x] filter-effects-1.md#element-attrdef-fecomposite-in2: in2 is the second (destination) input image. [fe-composite-arithmetic#average blend-porter-duff#over]
 - [x] filter-effects-1.md#elementdef-fecomposite: feComposite's result may extend beyond its input images' extent, subject to the filter primitive subregion rules. [fe-composite-arithmetic#k4-subregion]
 
