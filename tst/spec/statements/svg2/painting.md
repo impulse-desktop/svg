@@ -23,14 +23,14 @@
 ## fill area: fill-open-subpath, paint-properties
 
 - [x] svg2/painting.md#FillProperty: fill's initial value is black; applies to shapes and text content elements; is inherited [paint-properties#fill-initial paint-properties#fill-inherited]
-- [x] svg2/painting.md#FillProperty: the painted area is everywhere inside the outline per the fill-rule; the zero-width geometric outline itself is included in the area painted [fill-open-subpath#polyline fill-rule-crossings#nonzero-same]
+- [x] svg2/painting.md#FillProperty: the painted area is everywhere inside the outline per the fill-rule; the zero-width geometric outline itself is included in the area painted [fill-open-subpath#polyline fill-rule-crossings#nonzero-same raster-row-events#sparse raster-row-events#remote raster-row-events#more-remote raster-row-events#many-remote raster-row-events#many-endpoints raster-row-events#dense-starts raster-row-events#following-row raster-row-events#reflected raster-row-events#subdivided raster-row-events#source-order raster-row-events#grid raster-row-events#grid-reverse raster-row-events#grid-reflected raster-row-events#grid-clipped raster-row-events#grid-transposed]
 - [x] svg2/painting.md#FillProperty: fill treats each open subpath as if an extra closepath were added, so fill applies to open subpaths of path elements and to polyline elements the same as to closed ones [fill-open-subpath#polyline fill-open-subpath#path]
 
 ## fill-rule: fill-rule-crossings
 
 - [x] svg2/painting.md#FillRuleProperty: fill-rule is nonzero | evenodd; initial nonzero; applies to shapes and text content elements; is inherited [fill-rule-crossings#nonzero-same fill-rule-crossings#evenodd-same]
-- [x] svg2/painting.md#FillRuleProperty: nonzero sums signed ray crossings (+1 left-to-right, -1 right-to-left) from the point to infinity; zero sum is outside, nonzero is inside [fill-rule-crossings#nonzero-same fill-rule-crossings#nonzero-opposite fill-rule-crossings#nonzero-pentagram raster-nan-band-first#nonzero raster-nan-band#nonzero]
-- [x] svg2/painting.md#FillRuleProperty: evenodd counts ray crossings; an odd count is inside, an even count is outside [fill-rule-crossings#evenodd-same fill-rule-crossings#evenodd-pentagram]
+- [x] svg2/painting.md#FillRuleProperty: nonzero sums signed ray crossings (+1 left-to-right, -1 right-to-left) from the point to infinity; zero sum is outside, nonzero is inside [fill-rule-crossings#nonzero-same fill-rule-crossings#nonzero-opposite fill-rule-crossings#nonzero-pentagram raster-nan-band-first#nonzero raster-nan-band#nonzero raster-row-events#negative raster-row-events#overlap raster-row-events#opposed-contours raster-row-events#intersecting raster-row-events#crisp-overlap raster-row-events#grid-opposed-winding raster-row-events#grid-holes raster-row-events#grid-cancel raster-coverage-sum#coincident raster-coverage-sum#opposed]
+- [x] svg2/painting.md#FillRuleProperty: evenodd counts ray crossings; an odd count is inside, an even count is outside [fill-rule-crossings#evenodd-same fill-rule-crossings#evenodd-pentagram raster-row-events#evenodd raster-row-events#evenodd-overlap raster-row-events#crisp-evenodd raster-row-events#crisp-odd raster-row-events#grid-evenodd raster-row-events#grid-evenodd-holes raster-row-events#grid-evenodd-cancel raster-coverage-sum#evenodd]
 - [x] svg2/painting.md#FillRuleProperty: a ray tangent to or coincident with a path segment may be replaced by a different ray that avoids the problem intersection [fill-rule-crossings#nonzero-pentagram fill-rule-crossings#evenodd-pentagram]
 
 ## fill-opacity: paint-opacity-values
@@ -102,9 +102,10 @@
 
 ## dash positions algorithm: stroke-dash-positions
 
+- [x] svg2/painting.md#TermDashPositions: dash distances accumulate along the whole subpath, including segments outside the viewport; exact subdivision retains the dash positions [dash-distance#short dash-distance#long dash-distance#longer dash-distance#subdivided dash-distance#reflected dash-distance#vertical raster-fan-scan#fan]
 - [x] svg2/painting.md#TermDashPositions: the dash pattern is reset and restarts at the beginning of every subpath [stroke-dash-positions#restart]
-- [x] svg2/painting.md#TermDashPositions: stroke-dashoffset is taken mod the sum of the dasharray values before locating the starting dash/gap index along the subpath [stroke-dasharray-values#offset stroke-dasharray-values#negative-offset stroke-dash-positions#offset-dot stroke-short-wide-dashes#horizontal-phase stroke-short-wide-dashes#vertical-phase]
-- [x] svg2/painting.md#TermDashPositions: only even-indexed entries of the (possibly repeated) dasharray are emitted as painted dash spans; odd-indexed entries are unpainted gaps [stroke-dasharray-values#odd-list stroke-dash-positions#pattern-start]
+- [x] svg2/painting.md#TermDashPositions: stroke-dashoffset is taken mod the sum of the dasharray values before locating the starting dash/gap index along the subpath [stroke-dasharray-values#offset stroke-dasharray-values#negative-offset stroke-dash-positions#offset-dot stroke-short-wide-dashes#horizontal-phase stroke-short-wide-dashes#vertical-phase dash-distance#offset dash-distance#negative-offset]
+- [x] svg2/painting.md#TermDashPositions: only even-indexed entries of the (possibly repeated) dasharray are emitted as painted dash spans; odd-indexed entries are unpainted gaps [stroke-dasharray-values#odd-list stroke-dash-positions#pattern-start dash-distance#odd-pattern]
 - [x] svg2/painting.md#TermDashPositions: if the dasharray sum is zero, the whole subpath is treated as one dash spanning 0 to the subpath's length [stroke-dasharray-values#zero-sum]
 
 ## non-scaling-stroke: stroke-non-scaling

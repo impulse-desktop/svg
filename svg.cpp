@@ -72,6 +72,13 @@ namespace {
         r = t;
     }
 
+    static void xchg(u32& l, u32& r) noexcept {
+        u32 t = l;
+
+        l = r;
+        r = t;
+    }
+
     static void xchg(float& l, float& r) noexcept {
         float t = l;
 
@@ -2353,9 +2360,9 @@ namespace {
         Vector<IntBox> dirty;
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
-        // The coverage deltas of a fill's rows, 65536 for a whole pixel,
-        // summed modulo 2^32.
-        Vector<u32> accumulation;
+        // The coverage deltas of a fill's rows, 2^32 for a whole pixel,
+        // summed modulo 2^64.
+        Vector<u64> accumulation;
         // The backdrop a layer drawn apart inherits, which its own filters
         // read as their background.
         Plane backdrop{nullptr, IntBox{0, 0, 0, 0}};
@@ -13513,7 +13520,7 @@ namespace {
                 index = (index + 1) % dashCount;
             }
 
-            float remaining = dashes[index] - phase;
+            double remaining = dashes[index] - phase;
             bool on = index % 2 == 0;
             // A dash's points, their kinds and the directions they come
             // along; its ends are cuts.
@@ -13554,10 +13561,12 @@ namespace {
             for (size_t i = 0; i + 1 < loop.length(); i++) {
                 Point a = loop[i];
                 Point b = loop[i + 1];
-                float dx = b.x - a.x;
-                float dy = b.y - a.y;
-                float length = (float)sqrt((double)dx * dx + (double)dy * dy);
-                float travelled = 0.f;
+                double dx = b.x - a.x;
+                double dy = b.y - a.y;
+                double length = sqrt(dx * dx + dy * dy);
+                // A small dash may advance a long segment thousands of times.
+                // Keep its distance and the remainder in the path's precision.
+                double travelled = 0.0;
                 // A chord of a cubic is measured along the cubic, from t0,
                 // and a dash cut on it there.
                 u32 c = i + 1 < count ? curveOf[i + 1] : ~0u;
@@ -13568,7 +13577,7 @@ namespace {
                 if (curve) {
                     q = powers(curve->p[0], curve->p[1], curve->p[2], curve->p[3]);
                     t0 = curveOf[i] == c ? paramOf[i] : 0.0;
-                    length = (float)arcLength(q, t0, paramOf[i + 1]);
+                    length = arcLength(q, t0, paramOf[i + 1]);
                 }
 
                 if (came[i].x != 0.f || came[i].y != 0.f) {
@@ -22719,16 +22728,16 @@ namespace {
         return IntBox{(int)x0, (int)y0, (int)x1, (int)y1};
     }
 
-    // A coverage in units of the accumulator, 65536 for a whole pixel,
-    // rounded alike either side of zero.
-    static i32 fixedCover(float v) {
-        return (i32)rintf(v * 65536.f);
+    // A coverage with 32 fraction bits, rounded alike either side of zero.
+    // Keep the fractions until the complete pixel has been accumulated.
+    static i64 fixedCover(float v) {
+        return (i64)rintf(v * 0x1p32f);
     }
 
     // A line's coverage of the rows it crosses, a cell at a time: each cell
     // takes the difference of the rounded running total of the row, so that
     // the cells sum to the line's rounded height in the row exactly.
-    static void addLine(u32* acc, u32 stride, u32 width, float x0, float y0, float x1, float y1) {
+    static void addLine(u64* acc, u32 stride, u32 width, float x0, float y0, float x1, float y1) {
         if (y0 == y1) {
             return;
         }
@@ -22754,7 +22763,7 @@ namespace {
         u32 yend = (u32)ceilf(y1);
 
         for (u32 y = ystart; y < yend; y++) {
-            u32* line = acc + (size_t)y * stride;
+            u64* line = acc + (size_t)y * stride;
             float dy = minf((float)(y + 1), y1) - maxf((float)y, y0);
             float xnext = x + dxdy * dy;
             float d = dy * dir;
@@ -22764,24 +22773,24 @@ namespace {
             int x0i = (int)x0floor;
             float x1ceil = ceilf(xb);
             int x1i = (int)x1ceil;
-            i32 total = fixedCover(d);
+            i64 total = fixedCover(d);
 
             if (x1i <= x0i + 1) {
                 float xmf = 0.5f * (xa + xb) - x0floor;
-                i32 first = fixedCover(d - d * xmf);
+                i64 first = fixedCover(d - d * xmf);
 
-                line[x0i] += (u32)first;
-                line[x0i + 1] += (u32)(total - first);
+                line[x0i] += (u64)first;
+                line[x0i + 1] += (u64)(total - first);
             } else {
                 float s = 1.f / (xb - xa);
                 float x0f = xa - x0floor;
                 float a0 = 0.5f * s * (1.f - x0f) * (1.f - x0f);
                 float x1f = xb - x1ceil + 1.f;
                 float am = 0.5f * s * x1f * x1f;
-                i32 done = fixedCover(d * a0);
-                i32 next;
+                i64 done = fixedCover(d * a0);
+                i64 next;
 
-                line[x0i] += (u32)done;
+                line[x0i] += (u64)done;
 
                 if (x1i > x0i + 2) {
                     float a1 = s * (1.5f - x0f);
@@ -22789,21 +22798,21 @@ namespace {
                     // The running total through each cell before the last two.
                     for (int xi = x0i + 1; xi < x1i - 1; xi++) {
                         next = fixedCover(d * (a1 + (float)(xi - x0i - 1) * s));
-                        line[xi] += (u32)(next - done);
+                        line[xi] += (u64)(next - done);
                         done = next;
                     }
                 }
 
                 next = fixedCover(d * (1.f - am));
-                line[x1i - 1] += (u32)(next - done);
-                line[x1i] += (u32)(total - next);
+                line[x1i - 1] += (u64)(next - done);
+                line[x1i] += (u64)(total - next);
             }
 
             x = xnext;
         }
     }
 
-    static void addEdge(u32* acc, u32 stride, u32 width, Edge e) {
+    static void addEdge(u64* acc, u32 stride, u32 width, Edge e) {
         float w = (float)width;
         float bounds[2] = {0.f, w};
         float ts[2];
@@ -22864,17 +22873,20 @@ namespace {
 
     // The stored coverage of a running sum of the accumulator: nonzero
     // clamps its magnitude to a whole pixel, even-odd folds it every two.
-    static u32 coverStored(u32 sum, u8 rule) {
-        u32 a = sum >> 31 ? 0u - sum : sum;
+    static u32 coverStored(u64 sum, u8 rule) {
+        u64 a = sum >> 63 ? 0ull - sum : sum;
 
         if (rule == WindingEvenOdd) {
-            a &= 0x1ffffu;
-            a = a > 0x10000u ? 0x20000u - a : a;
+            a &= 0x1ffffffffull;
+            a = a > 0x100000000ull ? 0x200000000ull - a : a;
         } else {
-            a = a < 0x10000u ? a : 0x10000u;
+            a = a < 0x100000000ull ? a : 0x100000000ull;
         }
 
-        return a - (a >> 16);
+        // Round the whole pixel to the stored 16 fraction bits, ties to even.
+        u32 cover = (u32)((a + 0x7fffull + ((a >> 16) & 1)) >> 16);
+
+        return cover - (cover >> 16);
     }
 
     static float spreadT(float t, u8 spread) {
@@ -23463,12 +23475,12 @@ namespace {
         return (float)((double)x0 * (to / dy) + (double)x1 * (from / dy));
     }
 
-    static void addAliasedEdge(u32* acc, u32 stride, u32 width, u32 height, Edge e) {
-        u32 dir = 0x10000u;
+    static void addAliasedEdge(u64* acc, u32 stride, u32 width, u32 height, Edge e) {
+        u64 dir = 0x100000000ull;
 
         if (e.y0 > e.y1) {
             e = Edge{e.x1, e.y1, e.x0, e.y0};
-            dir = 0u - 0x10000u;
+            dir = 0ull - 0x100000000ull;
         }
 
         // Rows and columns clamp to the raster; one that is not a number
@@ -23571,7 +23583,7 @@ namespace {
     // through the band and is drawn whole; each run of samples that do
     // cross is halved, up to six times or until the middle rounds onto an
     // end, and its halves entered with the winding left of the run.
-    static void unionBand(u32* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding) {
+    static void unionBand(u64* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding) {
         Vector<BandSample>& band = samples[depth];
 
         if (band.empty()) {
@@ -23777,31 +23789,6 @@ namespace {
         sortCrossings(crossings, width, scratch);
     }
 
-    static void addSpan(u32* acc, u32 w, float x0, float x1, i32 weight) {
-        float limit = (float)w;
-
-        x0 = x0 < 0.f ? 0.f : (x0 > limit ? limit : x0);
-        x1 = x1 < 0.f ? 0.f : (x1 > limit ? limit : x1);
-
-        if (!(x1 > x0)) {
-            return;
-        }
-
-        float c0 = floorf(x0);
-        float c1 = floorf(x1);
-        u32 i0 = (u32)c0;
-        u32 i1 = (u32)c1;
-
-        // Each end splits the span's weight between two cells, rounded.
-        i32 a = (i32)rintf((1.f - (x0 - c0)) * (float)weight);
-        i32 b = (i32)rintf((1.f - (x1 - c1)) * (float)weight);
-
-        acc[i0] += (u32)a;
-        acc[i0 + 1] += (u32)(weight - a);
-        acc[i1] -= (u32)b;
-        acc[i1 + 1] -= (u32)(weight - b);
-    }
-
     static bool edgeBefore(const BandEdge& p, const BandEdge& q) {
         if (p.y0 != q.y0) {
             return p.y0 < q.y0;
@@ -23834,7 +23821,327 @@ namespace {
         return BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1};
     }
 
-    static void rasterizeUnion(u32* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
+    struct BandEvent {
+        float y;
+        i64 change;
+    };
+
+    // Stable byte passes preserve equal keys; an even count leaves the result
+    // in items. Float keys also order finite negative coordinates and zeros.
+    template <int Passes, class T, class Key>
+    static void sortBandKeys(Vector<T>& items, Vector<T>& scratch, Key key) {
+        static_assert(Passes % 2 == 0);
+        size_t count = items.length();
+
+        if (count < 2) {
+            return;
+        }
+
+        scratch.zero(count);
+        T* data = items.mutData();
+        T* target = scratch.mutData();
+
+        for (int pass = 0; pass < Passes; pass++) {
+            size_t counts[256] = {};
+            for (size_t i = 0; i < count; i++) {
+                counts[key(data[i], pass)]++;
+            }
+            size_t start = 0;
+            for (size_t i = 0; i < 256; i++) {
+                size_t n = counts[i];
+                counts[i] = start;
+                start += n;
+            }
+            for (size_t i = 0; i < count; i++) {
+                target[counts[key(data[i], pass)]++] = data[i];
+            }
+            T* temporary = data;
+            data = target;
+            target = temporary;
+        }
+    }
+
+    static u32 bandKey(float value, int pass) {
+        u32 bits;
+        memcpy(&bits, &value, sizeof(bits));
+        bits = value == 0.f ? 0u : bits;
+        bits = bits & 0x80000000u ? ~bits : bits ^ 0x80000000u;
+        return (bits >> (8 * (pass & 3))) & 255u;
+    }
+
+    struct BandRowScratch {
+        Vector<float> cuts;
+        Vector<BandEvent> endpoints;
+        Vector<BandEvent> sorting;
+        Vector<u32> order;
+        Vector<u32> position;
+        Vector<u32> rest;
+        Vector<BandSample> samples[8];
+    };
+
+    static bool bandWorkExceeds(const BandEdge* edges, const Vector<u32>& indices, const Vector<float>& cuts, size_t cutCount, float top, float bottom) {
+        constexpr size_t limit = 8192;
+        size_t work = 0;
+        auto cutIndex = [&](float y) {
+            size_t lo = 0;
+            size_t hi = cutCount - 1;
+
+            while (lo < hi) {
+                size_t mid = lo + (hi - lo) / 2;
+
+                if (cuts[mid] < y) {
+                    lo = mid + 1;
+                } else {
+                    hi = mid;
+                }
+            }
+
+            return lo;
+        };
+
+        for (u32 index : indices) {
+            const BandEdge& e = edges[index];
+            size_t n = cutIndex(minf(bottom, e.y1)) - cutIndex(maxf(top, e.y0));
+
+            if (n > limit - work) {
+                return true;
+            }
+
+            work += n;
+        }
+
+        return false;
+    }
+
+    static void prepareBandRow(const Vector<BandEdge>& edges, BandRowScratch& scratch) {
+        Vector<float>& cuts = scratch.cuts;
+        Vector<BandEvent>& endpoints = scratch.endpoints;
+        endpoints.clear();
+        cuts.clear();
+        endpoints.pushBack(BandEvent{0.f, 0});
+        endpoints.pushBack(BandEvent{1.f, 0});
+
+        for (const BandEdge& edge : edges) {
+            endpoints.pushBack(BandEvent{edge.y0, 1});
+            endpoints.pushBack(BandEvent{edge.y1, -1});
+        }
+
+        sortBandKeys<4>(endpoints, scratch.sorting, [](const BandEvent& e, int pass) {
+            return bandKey(e.y, pass);
+        });
+
+        for (const BandEvent& event : endpoints) {
+            if (cuts.empty() || event.y > cuts.back()) {
+                cuts.pushBack(event.y);
+            }
+        }
+    }
+
+    static bool boundaryBandWindow(const Vector<BandEdge>& edges, float left, float right) {
+        for (const BandEdge& edge : edges) {
+            if (edge.x0 != edge.x1 || (edge.x0 != left && edge.x0 != right)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Integrate one transposed pixel from all of its endpoint intervals.
+    // Keep raw coverage fractions until the complete pixel has been summed.
+    static void rasterizeBandRow(u64* output, u32 width, Vector<BandEdge>& edges, u8 rule, float left, float right, BandRowScratch& scratch) {
+        if (edges.empty()) {
+            return;
+        }
+
+        if (boundaryBandWindow(edges, left, right)) {
+            Vector<BandEvent>& changes = scratch.endpoints;
+            changes.clear();
+
+            for (const BandEdge& edge : edges) {
+                if (edge.x0 == left) {
+                    changes.pushBack(BandEvent{edge.y0, edge.dir});
+                    changes.pushBack(BandEvent{edge.y1, -edge.dir});
+                }
+            }
+
+            if (changes.empty()) {
+                return;
+            }
+
+            sortBandKeys<4>(changes, scratch.sorting, [](const BandEvent& e, int pass) {
+                return bandKey(e.y, pass);
+            });
+
+            i64 winding = 0;
+            float previous = changes[0].y;
+            double height = 0.0;
+
+            for (const BandEvent& event : changes) {
+                if (insideWinding(winding, rule)) {
+                    height += (double)event.y - previous;
+                }
+
+                winding += event.change;
+                previous = event.y;
+            }
+
+            addEdge(output, width + 2, width, Edge{left, 0.f, left, (float)height});
+            addEdge(output, width + 2, width, Edge{right, (float)height, right, 0.f});
+
+            return;
+        }
+
+        prepareBandRow(edges, scratch);
+        const Vector<float>& cuts = scratch.cuts;
+
+        size_t cutCount = cuts.length();
+
+        quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
+
+        Vector<u32>& order = scratch.order;
+        Vector<u32>& position = scratch.position;
+        Vector<u32>& rest = scratch.rest;
+        Vector<BandSample>* samples = scratch.samples;
+        size_t next = 0;
+        order.clear();
+
+        position.zero(edges.length());
+
+        for (size_t i = 0; i < edges.length(); i++) {
+            position.mut(i) = (u32)i;
+        }
+
+        for (size_t i = 0; i + 1 < cutCount; i++) {
+            float a = cuts[i];
+            float b = cuts[i + 1];
+            size_t kept = 0;
+
+            for (u32 index : order) {
+                if (edges[index].y1 > a) {
+                    order.mutData()[kept++] = index;
+                }
+            }
+
+            while (order.length() > kept) {
+                order.popBack();
+            }
+
+            while (next < edges.length() && edges[next].y0 <= a) {
+                order.pushBack((u32)next++);
+            }
+
+            bool comparable = bandSamples(edges.data(), order, position, a, b, samples[0], rest);
+
+            unionBand(output, width + 2, width, edges.data(), samples, a, b, rule, 0, comparable, 0);
+            order.clear();
+
+            for (const BandSample& sample : samples[0]) {
+                order.pushBack(sample.edge);
+            }
+        }
+    }
+
+    struct RowVertex {
+        float x;
+        float y;
+        i64 change;
+    };
+
+    // The vertical edges also determine the omitted horizontal edges: at
+    // every height their endpoint flows close uniquely from left to right.
+    // Close them before transposing the row, including its clipping edges.
+    static void rasterizeTransposedRow(u64* output, u32 width, const Vector<BandEdge>& edges, u8 rule) {
+        Vector<BandEdge> transposed;
+        Vector<RowVertex> vertices;
+        auto transpose = [&](float x0, float y0, float x1, float y1, i64 dir) {
+            if (x0 < x1) {
+                transposed.pushBack(BandEdge{y0, x0, y1, x1, dir});
+            } else if (x1 < x0) {
+                transposed.pushBack(BandEdge{y1, x1, y0, x0, -dir});
+            }
+        };
+
+        for (const BandEdge& e : edges) {
+            transpose(e.x0, e.y0, e.x1, e.y1, e.dir);
+            vertices.pushBack(RowVertex{e.x0, e.y0, -e.dir});
+            vertices.pushBack(RowVertex{e.x1, e.y1, e.dir});
+        }
+
+        Vector<RowVertex> vertexScratch;
+        sortBandKeys<8>(vertices, vertexScratch, [](const RowVertex& v, int pass) {
+            return bandKey(pass < 4 ? v.x : v.y, pass);
+        });
+
+        float x = 0.f;
+        float y = -1.f;
+        i64 winding = 0;
+
+        for (const RowVertex& vertex : vertices) {
+            if (vertex.y != y) {
+                y = vertex.y;
+                winding = 0;
+            } else if (winding && x < vertex.x) {
+                transpose(x, y, vertex.x, y, winding);
+            }
+
+            x = vertex.x;
+            winding += vertex.change;
+        }
+
+        Vector<BandEdge> edgeScratch;
+        sortBandKeys<4>(transposed, edgeScratch, [](const BandEdge& e, int pass) {
+            return bandKey(e.y0, pass);
+        });
+
+        Vector<u32> active;
+        size_t next = 0;
+        u64 previous = 0;
+        Vector<BandEdge> pixel;
+        BandRowScratch scratch;
+
+        for (u32 column = 0; column < width; column++) {
+            float top = (float)column;
+            float bottom = (float)(column + 1);
+            size_t kept = 0;
+
+            for (u32 index : active) {
+                if (transposed[index].y1 > top) {
+                    active.mutData()[kept++] = index;
+                }
+            }
+
+            while (active.length() > kept) {
+                active.popBack();
+            }
+
+            while (next < transposed.length() && transposed[next].y0 < bottom) {
+                if (transposed[next].y1 > top) {
+                    active.pushBack((u32)next);
+                }
+
+                next++;
+            }
+
+            pixel.clear();
+
+            for (u32 index : active) {
+                const BandEdge& e = transposed[index];
+                float a = maxf(top, e.y0);
+                float b = minf(bottom, e.y1);
+                pixel.pushBack(BandEdge{bandX(e, a), a - top, bandX(e, b), b - top, e.dir});
+            }
+
+            u64 area[3] = {};
+            rasterizeBandRow(area, 1, pixel, rule, 0.f, 1.f, scratch);
+            output[column] += area[0] - previous;
+            previous = area[0];
+        }
+
+        output[width] -= previous;
+    }
+
+    static void rasterizeUnion(u64* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
         Vector<BandEdge> edges;
         // The band edges are built in place, counted into the rows they start
         // in; an edge level in y is no band edge. A few are then sorted whole,
@@ -23897,6 +24204,7 @@ namespace {
         Vector<u32> rest;
         Vector<BandSample> samples[8];
         Vector<float> cuts;
+        Vector<u32> incoming;
         Vector<Crossing> crossings;
         Vector<Crossing> scratch;
         size_t next = 0;
@@ -23946,7 +24254,7 @@ namespace {
             if (aliased) {
                 scanCrossings(edges.data(), order, top + .5f, (float)w, crossings, scratch, rest);
                 i64 winding = 0;
-                u32* line = acc + (size_t)row * stride;
+                u64* line = acc + (size_t)row * stride;
 
                 for (const Crossing& c : crossings) {
                     bool before = insideWinding(winding, rule);
@@ -23957,112 +24265,128 @@ namespace {
 
                     if (before != after) {
                         u32 x = (u32)minf(maxf(floorf(c.x + .5f), 0.f), (float)w);
-                        line[x] += after ? 0x10000u : 0u - 0x10000u;
+                        line[x] += after ? 0x100000000ull : 0ull - 0x100000000ull;
                     }
                 }
 
                 continue;
             }
 
-            // Resolve winding before integrating coverage: disjoint contours
-            // with opposite directions can share a pixel and cancel signed area.
-            // Thin, densely dashed strokes can fall between every sampled
-            // scanline, so use exact bands while their edge work is bounded.
-            constexpr size_t maxBandEdges = 16384;
-            constexpr size_t maxBandWork = 65536;
+            // Resolve winding before integrating each interval's coverage:
+            // disjoint, opposed contours can occupy different parts of a pixel.
+            // A sampled row can miss thin fills, so every endpoint is a cut.
+            cuts.clear();
+            cuts.pushBack(top);
+            cuts.pushBack(bottom);
 
-            if (active.length() <= maxBandEdges) {
-                cuts.clear();
-                cuts.pushBack(top);
-                cuts.pushBack(bottom);
+            for (u32 index : active) {
+                const BandEdge& e = edges[index];
 
-                // An active edge starts above the bottom and ends below the top.
+                if (e.y0 > top) {
+                    cuts.pushBack(e.y0);
+                }
+
+                if (e.y1 < bottom) {
+                    cuts.pushBack(e.y1);
+                }
+            }
+
+            quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
+                return p < q;
+            });
+
+            size_t cutCount = 0;
+
+            for (float cut : cuts) {
+                if (cutCount == 0 || cut > cuts[cutCount - 1]) {
+                    cuts.mutData()[cutCount++] = cut;
+                }
+            }
+
+            if (w > 1 && cutCount > 8192 / active.length() && bandWorkExceeds(edges.data(), active, cuts, cutCount, top, bottom)) {
+                Vector<BandEdge> rowEdges;
+                bool finite = true;
+
                 for (u32 index : active) {
                     const BandEdge& e = edges[index];
+                    float a = maxf(top, e.y0);
+                    float b = minf(bottom, e.y1);
+                    float x0 = bandX(e, a);
+                    float x1 = bandX(e, b);
 
-                    if (e.y0 > top) {
-                        cuts.pushBack(e.y0);
-                    }
-
-                    if (e.y1 < bottom) {
-                        cuts.pushBack(e.y1);
-                    }
+                    finite = finite && isfinite(x0) && isfinite(x1);
+                    rowEdges.pushBack(BandEdge{x0, a - top, x1, b - top, e.dir});
                 }
 
-                quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
-                    return p < q;
-                });
+                if (finite) {
+                    Vector<u64> rowAccumulation;
 
-                size_t cutCount = 0;
+                    rowAccumulation.zero((size_t)w + 2);
+                    rasterizeTransposedRow(rowAccumulation.mutData(), w, rowEdges, rule);
 
-                for (float cut : cuts) {
-                    if (cutCount == 0 || cut > cuts[cutCount - 1]) {
-                        cuts.mutData()[cutCount++] = cut;
-                    }
-                }
-
-                // Repeated boundaries of aligned dashes do not add integration bands.
-                if (cutCount * active.length() <= maxBandWork) {
-                    for (size_t k = 0; k < active.length(); k++) {
-                        position.mut(active[k]) = (u32)k;
-                    }
-
-                    for (size_t k = 0; k + 1 < cutCount; k++) {
-                        bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], rest);
-
-                        unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0);
-
-                        // The samples in x order, then the rest: the band
-                        // below comes nearly sorted.
-                        order.clear();
-
-                        for (const BandSample& s : samples[0]) {
-                            order.pushBack(s.edge);
-                        }
-
-                        order.append(rest.data(), rest.length());
+                    for (u32 x = 0; x < w; x++) {
+                        acc[(size_t)row * stride + x] = rowAccumulation[x];
                     }
 
                     continue;
                 }
             }
 
-            u32* line = acc + (size_t)row * stride;
-            // A row of many edges takes fewer scanlines, 4 at least: their
-            // crossings are capped near 16384 a row.
-            int subs = 16;
-
-            while (subs > 4 && active.length() * (size_t)subs > 16384) {
-                subs /= 2;
+            for (size_t k = 0; k < active.length(); k++) {
+                position.mut(active[k]) = (u32)k;
             }
 
-            for (int sub = 0; sub < subs; sub++) {
-                i64 winding = 0;
-                float start = 0.f;
-                float y = top + (sub + 0.5f) / (float)subs;
+            // Only edges spanning this band remain in its order. Later starts
+            // enter at their endpoint, rather than being scanned in every band.
+            incoming.clear();
+            kept = 0;
 
-                scanCrossings(edges.data(), order, y, (float)w, crossings, scratch, rest);
+            for (u32 index : order) {
+                if (edges[index].y0 > top) {
+                    incoming.pushBack(index);
+                } else {
+                    order.mutData()[kept++] = index;
+                }
+            }
 
-                for (const Crossing& c : crossings) {
-                    bool before = insideWinding(winding, rule);
+            while (order.length() > kept) {
+                order.popBack();
+            }
 
-                    winding += c.dir;
+            if (incoming.length() > 1) {
+                quickSort(incoming.mutBegin(), incoming.mutEnd(), [&](u32 a, u32 b) {
+                    return edges[a].y0 < edges[b].y0 || (edges[a].y0 == edges[b].y0 && position[a] < position[b]);
+                });
+            }
 
-                    bool after = insideWinding(winding, rule);
+            size_t arriving = 0;
 
-                    if (!before) {
-                        start = c.x;
-                    } else if (!after) {
-                        addSpan(line, w, start, c.x, 0x10000 / subs);
+            for (size_t k = 0; k + 1 < cutCount; k++) {
+                size_t kept = 0;
+
+                for (u32 index : order) {
+                    if (edges[index].y1 > cuts[k]) {
+                        order.mutData()[kept++] = index;
                     }
                 }
 
-                // The crossings in x order, then the rest: the scanline
-                // below comes nearly sorted.
+                while (order.length() > kept) {
+                    order.popBack();
+                }
+
+                while (arriving < incoming.length() && edges[incoming[arriving]].y0 <= cuts[k]) {
+                    order.pushBack(incoming[arriving++]);
+                }
+
+                bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], rest);
+
+                unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0);
+
+                // The next band starts in this band's x order.
                 order.clear();
 
-                for (const Crossing& c : crossings) {
-                    order.pushBack(c.edge);
+                for (const BandSample& s : samples[0]) {
+                    order.pushBack(s.edge);
                 }
 
                 order.append(rest.data(), rest.length());
@@ -24090,7 +24414,7 @@ namespace {
 
         r.accumulation.zero((size_t)stride * h);
 
-        u32* acc = r.accumulation.mutData();
+        u64* acc = r.accumulation.mutData();
 
         if (!aliased || bands) {
             rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule, bands, aliased);
@@ -24403,7 +24727,7 @@ namespace {
             return;
         }
 
-        const u32* acc = r.accumulation.data();
+        const u64* acc = r.accumulation.data();
         u32 stride = w + 2;
         const DevicePaint& paint = *op.paint;
         IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
@@ -24425,9 +24749,9 @@ namespace {
         // coverage before them; a run ends on the first cell of none, so
         // none of them is in a run when that coverage is none.
         for (u32 y = 0; y < h; y++) {
-            u32 sum = 0;
+            u64 sum = 0;
             u16 c = 0;
-            const u32* line = acc + (size_t)y * stride;
+            const u64* line = acc + (size_t)y * stride;
             u16* coverRow = cover.mutData();
             u32 count = 0;
             auto draw = [&](u32 end) {
@@ -24449,7 +24773,7 @@ namespace {
 
             for (u32 x = 0; x < w;) {
                 u32 end = x + 8 < w ? x + 8 : w;
-                u32 change = 0;
+                u64 change = 0;
 
                 for (u32 i = x; i < end; i++) {
                     change |= line[i];
@@ -24505,14 +24829,14 @@ namespace {
             return;
         }
 
-        const u32* acc = r.accumulation.data();
+        const u64* acc = r.accumulation.data();
         u32 stride = w + 2;
         int width = box.x1 - box.x0;
 
         // The raster's window lies within the box it was clipped to.
         for (u32 y = 0; y < h; y++) {
-            u32 sum = 0;
-            const u32* line = acc + (size_t)y * stride;
+            u64 sum = 0;
+            const u64* line = acc + (size_t)y * stride;
             u16* values = target + (size_t)((int)(iy0 + y) - box.y0) * width + (size_t)((int)ix0 - box.x0);
 
             for (u32 x = 0; x < w; x++) {
