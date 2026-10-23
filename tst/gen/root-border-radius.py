@@ -7,7 +7,7 @@ use literal radii/arc endpoints; they never parse CSS or normalize radii.
 import base64
 from unitgen import Unit
 
-u = Unit('root-border-radius', 240, 196,
+u = Unit('root-border-radius', 240, 252,
          'Each root viewport clips its graphic content to its CSS corner curve. Radius lengths and percentages, the slash and one-to-four expansion, longhand cascade, invalid declarations and CSS-wide keywords are tested against fixed rectangles and arc paths. Internal SVG graphics acquire no CSS border box.', ground=False)
 
 rect = '<rect width="32" height="20" fill="lime"/>'
@@ -65,12 +65,21 @@ cases = [
  ('invalid-longhand-second-number', 'border-radius:4px;border-top-left-radius:0 2', r4),
  ('invalid-longhand-number-math', 'border-radius:4px;border-top-left-radius:calc(0)', r4),
  ('longhand-zero-number', 'border-radius:4px;border-top-left-radius:0', '<path fill="lime" d="M0 0H28A4 4 0 0 1 32 4V16A4 4 0 0 1 28 20H4A4 4 0 0 1 0 16Z"/>'),
+ ('right-longhand-pair', 'border-top-right-radius:8px 4px', '<path fill="lime" d="M0 0H24A8 4 0 0 1 32 4V20H0Z"/>'),
+ ('bottom-right-longhand-pair', 'border-bottom-right-radius:8px 4px', '<path fill="lime" d="M0 0H32V16A8 4 0 0 1 24 20H0Z"/>'),
+ ('bottom-left-longhand-pair', 'border-bottom-left-radius:8px 4px', '<path fill="lime" d="M0 0H32V20H8A8 4 0 0 1 0 16Z"/>'),
+ ('invalid-repeated-slash', 'border-radius:4px;border-radius:2px/3px/4px', r4),
+ ('invalid-leading-slash', 'border-radius:4px;border-radius:/2px', r4),
+ ('invalid-fifth-radius', 'border-radius:4px;border-radius:1px 2px 3px 4px 5px', r4),
+ ('graphic-inherit-no-css-box', 'border-radius:4px', r4),
 ]
-assert len(cases) == 42
+assert len(cases) == 49
 for i, (name, style, expected) in enumerate(cases):
  x, y = (i % 6)*40, (i//6)*28
  extra = ' border-radius="50%"' if name == 'not-presentation' else ''
  content = '<style>:root{border-radius:4px}</style>'+rect if name == 'stylesheet' else '<g style="border-radius:50%">'+rect+'</g>' if name == 'graphic-no-css-box' else rect
+ if name == 'graphic-inherit-no-css-box':
+  content = '<g style="border-radius:inherit"><g style="border-top-left-radius:inherit;border-top-right-radius:inherit;border-bottom-left-radius:inherit;border-bottom-right-radius:inherit">'+rect+'</g></g>'
  svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" style="{style}"{extra}>{content}</svg>'
  uri = 'data:image/svg+xml;base64,'+base64.b64encode(svg.encode()).decode()
  u.cell(name, (x, y, 40, 28), f'<image x="{x+4}" y="{y+4}" width="32" height="20" href="{uri}"/>', f'<g transform="translate({x+4} {y+4})">{expected}</g>')

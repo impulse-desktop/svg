@@ -23578,26 +23578,22 @@ namespace {
 
     // The samples of a band: the edges spanning it in the order given, with
     // the x where each enters, leaves and crosses the middle, and the place
-    // of each in the active list; the edges not spanning it go to rest.
-    static bool bandSamples(const BandEdge* edges, const Vector<u32>& order, const Vector<u32>& position, float a, float b, Vector<BandSample>& samples, Vector<u32>& rest) {
+    // of each in the active list. Both callers cut at every endpoint and
+    // retain only active edges, so each supplied edge spans the whole band.
+    static bool bandSamples(const BandEdge* edges, const Vector<u32>& order, const Vector<u32>& position, float a, float b, Vector<BandSample>& samples) {
         bool comparable = true;
 
         samples.clear();
-        rest.clear();
 
         for (u32 index : order) {
             const BandEdge& e = edges[index];
 
-            if (e.y0 <= a && e.y1 >= b) {
-                float x0 = bandX(e, a);
-                float x1 = bandX(e, b);
-                double key = ((double)x0 + x1) * 0.5;
+            float x0 = bandX(e, a);
+            float x1 = bandX(e, b);
+            double key = ((double)x0 + x1) * 0.5;
 
-                comparable = comparable && key == key;
-                samples.pushBack(BandSample{x0, x1, key, e.dir, position[index], index});
-            } else {
-                rest.pushBack(index);
-            }
+            comparable = comparable && key == key;
+            samples.pushBack(BandSample{x0, x1, key, e.dir, position[index], index});
         }
 
         return comparable;
@@ -24007,7 +24003,6 @@ namespace {
         Vector<BandEvent> sorting;
         Vector<u32> order;
         Vector<u32> position;
-        Vector<u32> rest;
         Vector<BandSample> samples[bandCacheLevels];
     };
 
@@ -24133,7 +24128,6 @@ namespace {
 
         Vector<u32>& order = scratch.order;
         Vector<u32>& position = scratch.position;
-        Vector<u32>& rest = scratch.rest;
         Vector<BandSample>* samples = scratch.samples;
         size_t next = 0;
         order.clear();
@@ -24163,7 +24157,7 @@ namespace {
                 order.pushBack((u32)next++);
             }
 
-            bool comparable = bandSamples(edges.data(), order, position, a, b, samples[0], rest);
+            bool comparable = bandSamples(edges.data(), order, position, a, b, samples[0]);
 
             unionBand(output, width + 2, width, edges.data(), samples, a, b, rule, 0, comparable, 0);
             order.clear();
@@ -24510,7 +24504,7 @@ namespace {
                     order.pushBack(incoming[arriving++]);
                 }
 
-                bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], rest);
+                bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0]);
 
                 unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0);
 
@@ -24520,8 +24514,6 @@ namespace {
                 for (const BandSample& s : samples[0]) {
                     order.pushBack(s.edge);
                 }
-
-                order.append(rest.data(), rest.length());
             }
         }
     }

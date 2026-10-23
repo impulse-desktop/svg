@@ -12,7 +12,7 @@ from unitgen import Unit
 
 relative = 'm2.468 13.617h8.768c0.862 0 1.556 0.694 1.556 1.556v8.767c0 0.863-0.694 1.557-1.556 1.557h-8.768c-0.8621 0-1.5562-0.694-1.5562-1.557l0.00005-8.767c0-0.862 0.69405-1.556 1.5562-1.556z'
 absolute = 'M2.468 13.617H11.236C12.098 13.617 12.792 14.311 12.792 15.173V23.94C12.792 24.803 12.098 25.497 11.236 25.497H2.468C1.6059 25.497 .9118 24.803 .9118 23.94L.91185 15.173C.91185 14.311 1.6059 13.617 2.46805 13.617Z'
-unit = Unit('path-relative-accumulation', 192, 320,
+unit = Unit('path-relative-accumulation', 192, 576,
             'Relative decimal coordinates retain exact cancellations and stationary curve endpoints. Literal absolute control points independently specify the geometry, including a real .00005-unit closing segment, curves returning to zero and different stroke orientations. Long coefficients and wide exponent ranges agree with plain rectangles.', ground=False)
 for row, width in enumerate([3.125, 8.125]):
     for col, frame in enumerate(['', 'translate(16 0) scale(-1 1)', 'rotate(90 8 20)']):
@@ -46,6 +46,30 @@ boundaries = [
     ('positive-large-sum', f'0 0 {4*limit} {4*limit}', f'M{limit} {limit}h{limit}v{limit}h-{limit}z', (16, 16, 16, 16)),
     ('negative-large-sum', f'{-4*limit} {-4*limit} {4*limit} {4*limit}', f'M-{limit} -{limit}h-{limit}v-{limit}h{limit}z', (32, 32, 16, 16)),
     ('exponent-extremes', '0 0 16 16', 'M0e10000 1e-10000h4v4h-4z', (0, 0, 16, 16)),
+    # A .1 displacement is below 1e-18 device pixels in these large
+    # viewBoxes. Exact rational bounds therefore round to the same plain
+    # rectangles while decimal scaling falls back on either operand.
+    ('positive-left-scale', f'0 0 {4*limit} {4*limit}',
+     f'M{limit} {limit}h.1h{limit}v{limit}h-{limit}z', (16, 16, 16, 16)),
+    ('negative-left-scale', f'{-4*limit} {-4*limit} {4*limit} {4*limit}',
+     f'M-{limit} -{limit}h-.1h-{limit}v-{limit}h{limit}z', (32, 32, 16, 16)),
+    ('positive-right-scale', f'0 0 {4*limit} {4*limit}',
+     f'M.1 .1h{limit}v{limit}h-{limit}z', (0, 0, 16, 16)),
+    ('negative-right-scale', f'{-4*limit} {-4*limit} {4*limit} {4*limit}',
+     f'M-.1 -.1h-{limit}v-{limit}h{limit}z', (48, 48, 16, 16)),
+    ('long-relative-coefficient', '0 0 16 16',
+     'M1 1h4.12345678901234567890123456789v4h-4.12345678901234567890123456789z',
+     (4, 4, 16.493827156049383, 16)),
+    ('long-zero-run', '0 0 16 16',
+     'M1.00000000000000000001 1h4v4h-4z', (4, 4, 16, 16)),
+    ('negative-long-zero-run', '-16 -16 16 16',
+     'M-1.00000000000000000001 -1h-4v-4h4z', (44, 44, 16, 16)),
+    ('explicit-positive-signs', '0 0 16 16',
+     'M+1E+0 +1e+0h+4E+0v+4E+0h-4E+0z', (4, 4, 16, 16)),
+    ('zero-positive-huge-exponent', '0 0 16 16',
+     'M0e+100000000 1h4v4h-4z', (0, 4, 16, 16)),
+    ('nonzero-negative-huge-exponent', '0 0 16 16',
+     'M1e-1000000 1e-1000000h4v4h-4z', (0, 0, 16, 16)),
 ]
 for i, (name, viewbox, data, box) in enumerate(boundaries, 11):
     x, y = i % 3 * 64, i // 3 * 64

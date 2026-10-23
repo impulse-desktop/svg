@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="320">
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="576">
 <!-- Relative decimal coordinates retain exact cancellations and
 stationary curve endpoints. Literal absolute control points
 independently specify the geometry, including a real .00005-unit closing
@@ -20,4 +20,14 @@ Long coefficients and wide exponent ranges agree with plain rectangles.
 <svg x="0" y="256" width="64" height="64" viewBox="0 0 36893488147419103228 36893488147419103228"><path d="M9223372036854775807 9223372036854775807h9223372036854775807v9223372036854775807h-9223372036854775807z" fill="lime"/></svg>
 <svg x="64" y="256" width="64" height="64" viewBox="-36893488147419103228 -36893488147419103228 36893488147419103228 36893488147419103228"><path d="M-9223372036854775807 -9223372036854775807h-9223372036854775807v-9223372036854775807h9223372036854775807z" fill="lime"/></svg>
 <svg x="128" y="256" width="64" height="64" viewBox="0 0 16 16"><path d="M0e10000 1e-10000h4v4h-4z" fill="lime"/></svg>
+<svg x="0" y="320" width="64" height="64" viewBox="0 0 36893488147419103228 36893488147419103228"><path d="M9223372036854775807 9223372036854775807h.1h9223372036854775807v9223372036854775807h-9223372036854775807z" fill="lime"/></svg>
+<svg x="64" y="320" width="64" height="64" viewBox="-36893488147419103228 -36893488147419103228 36893488147419103228 36893488147419103228"><path d="M-9223372036854775807 -9223372036854775807h-.1h-9223372036854775807v-9223372036854775807h9223372036854775807z" fill="lime"/></svg>
+<svg x="128" y="320" width="64" height="64" viewBox="0 0 36893488147419103228 36893488147419103228"><path d="M.1 .1h9223372036854775807v9223372036854775807h-9223372036854775807z" fill="lime"/></svg>
+<svg x="0" y="384" width="64" height="64" viewBox="-36893488147419103228 -36893488147419103228 36893488147419103228 36893488147419103228"><path d="M-.1 -.1h-9223372036854775807v-9223372036854775807h9223372036854775807z" fill="lime"/></svg>
+<svg x="64" y="384" width="64" height="64" viewBox="0 0 16 16"><path d="M1 1h4.12345678901234567890123456789v4h-4.12345678901234567890123456789z" fill="lime"/></svg>
+<svg x="128" y="384" width="64" height="64" viewBox="0 0 16 16"><path d="M1.00000000000000000001 1h4v4h-4z" fill="lime"/></svg>
+<svg x="0" y="448" width="64" height="64" viewBox="-16 -16 16 16"><path d="M-1.00000000000000000001 -1h-4v-4h4z" fill="lime"/></svg>
+<svg x="64" y="448" width="64" height="64" viewBox="0 0 16 16"><path d="M+1E+0 +1e+0h+4E+0v+4E+0h-4E+0z" fill="lime"/></svg>
+<svg x="128" y="448" width="64" height="64" viewBox="0 0 16 16"><path d="M0e+100000000 1h4v4h-4z" fill="lime"/></svg>
+<svg x="0" y="512" width="64" height="64" viewBox="0 0 16 16"><path d="M1e-1000000 1e-1000000h4v4h-4z" fill="lime"/></svg>
 </svg>

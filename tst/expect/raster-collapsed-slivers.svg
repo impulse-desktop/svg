@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="8">
+<!-- What tst/unit/raster-collapsed-slivers.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="horizontal" data-box="0 0 8 8" data-tolerance="0"><rect x="0" y="7" width="8" height="1" fill="navy"/></g>
+<g id="reverse" data-box="8 0 8 8" data-tolerance="0"><rect x="8" y="7" width="8" height="1" fill="navy"/></g>
+<g id="evenodd" data-box="16 0 8 8" data-tolerance="0"><rect x="16" y="7" width="8" height="1" fill="navy"/></g>
+<g id="dense-vertical" data-box="24 0 8 8" data-tolerance="0"><rect x="24" y="7" width="8" height="1" fill="navy"/></g>
+<g id="offscreen-tip" data-box="32 0 8 8" data-tolerance="0"><rect x="32" y="7" width="8" height="1" fill="navy"/></g>
+</svg>

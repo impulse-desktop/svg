@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" transform="scale(1e19) scale(1e19) scale(1e19) scale(1e19) scale(1e19) scale(1e19) scale(1e19) scale(1e19)" style="background:lime">
+<!-- A very large finite root transform puts all foreground outside the
+viewport. Its offscreen pattern has a tiny content map, a non-scaling
+stroke, a marker and non-rotation. Numerical recovery must leave the
+independent root canvas background intact. -->
+<defs>
+<marker id="m" markerUnits="userSpaceOnUse" markerWidth="1" markerHeight="1"><rect width="1" height="1" fill="red"/></marker>
+<pattern id="p" patternUnits="userSpaceOnUse" width="1" height="1" viewBox="0 0 1e38 1e38">
+<path d="M0 0H1" fill="none" stroke="red" vector-effect="non-scaling-stroke" marker-end="url(#m)"/>
+<rect width="1" height="1" fill="red" vector-effect="non-rotation"/>
+</pattern></defs>
+<rect x="1" y="1" width="1" height="1" fill="url(#p)"/>
+</svg>
