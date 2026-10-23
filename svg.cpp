@@ -18262,7 +18262,7 @@ namespace {
         return paint;
     }
 
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete = nullptr);
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete = nullptr, bool clip = true);
     static bool explicitSide(const Document& doc, const Node* root, u32 name);
     static DevicePaint* rasterPaint(Lowering& l, CachedImage* cached, const Matrix& place, u8 rendering, bool tent, u8 wraps, const Box& part);
 
@@ -20724,7 +20724,7 @@ namespace {
     // An image in its box: of an image element, as its preserveAspectRatio
     // fits it; of none, a CSS image, a raster stretched over the box and a
     // document as its own root fits it.
-    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete) {
+    static void drawImage(Lowering& l, Node* node, const ImageSource& source, const Matrix& m, Viewport vp, float x, float y, float w, float h, u8 rendering, const Box* concrete, bool clip) {
         const Document& doc = *l.doc;
         Box viewBox = source.viewBox;
 
@@ -20763,10 +20763,17 @@ namespace {
 
             Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
             Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
-            float rx0 = maxf(minf(a.x, b.x), x);
-            float ry0 = maxf(minf(a.y, b.y), y);
-            float rx1 = minf(maxf(a.x, b.x), x + w);
-            float ry1 = minf(maxf(a.y, b.y), y + h);
+            float rx0 = minf(a.x, b.x);
+            float ry0 = minf(a.y, b.y);
+            float rx1 = maxf(a.x, b.x);
+            float ry1 = maxf(a.y, b.y);
+
+            if (clip) {
+                rx0 = maxf(rx0, x);
+                ry0 = maxf(ry0, y);
+                rx1 = minf(rx1, x + w);
+                ry1 = minf(ry1, y + h);
+            }
             Path rect;
             Flat flat;
 
@@ -20783,10 +20790,9 @@ namespace {
 
         Op op = groupOp(1.f);
 
-        op.clipped = true;
+        op.clipped = clip;
         op.clipFirst = (u32)l.clips.length();
-        op.clipCount = 1;
-        addRectClip(l, m, x, y, w, h);
+        op.clipCount = 0;
 
         u64 outerBinding = l.bindingScope;
         l.bindingScope = ++l.nextBindingScope;
@@ -20814,6 +20820,26 @@ namespace {
         float outerFontSize = l.rootFontSize;
         float outerDocWidth = l.docWidth;
         float outerDocHeight = l.docHeight;
+
+        // The image clips to its positioning rectangle; its document's
+        // root independently clips to the fitted image-rendering rectangle.
+        // Both rectangles share the image's axes, so intersect them before
+        // making the clip (the shapes of one clip path otherwise unite).
+        Box cut{x, y, x + w, y + h};
+
+        if (!rootStyle.overflowVisible) {
+            Point a = apply(fit, Point{viewBox.x0, viewBox.y0});
+            Point b = apply(fit, Point{viewBox.x1, viewBox.y1});
+            Box fitted{minf(a.x, b.x), minf(a.y, b.y), maxf(a.x, b.x), maxf(a.y, b.y)};
+
+            cut = clip ? Box{maxf(cut.x0, fitted.x0), maxf(cut.y0, fitted.y0), minf(cut.x1, fitted.x1), minf(cut.y1, fitted.y1)} : fitted;
+            op.clipped = true;
+        }
+
+        if (op.clipped) {
+            addRectClip(l, m, cut.x0, cut.y0, maxf(cut.x1 - cut.x0, 0.f), maxf(cut.y1 - cut.y0, 0.f));
+            op.clipCount = 1;
+        }
 
         // The nested root's content, for its filters, stretches a side it
         // gives; a side it leaves open is the box's.
@@ -20943,12 +20969,12 @@ namespace {
             float oy = resolveAgainst(py, h - ch, vp, style.fontSize);
             Box concrete{x + ox, y + oy, x + ox + cw, y + oy + ch};
 
-            drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering, &concrete);
+            drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering, &concrete, !style.overflowVisible);
 
             return;
         }
 
-        drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering);
+        drawImage(l, node, source, m, vp, x, y, w, h, style.imageRendering, nullptr, !style.overflowVisible);
     }
 
     // Where an element's transform turns about, and the box its
