@@ -1,8 +1,0 @@
-<svg id="n18" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="674.0" height="84.0">  <defs>
-    <filter id="shadow1" x="0" y="0" width="200%" height="200%">
-      <feOffset result="offOut" in="SourceGraphic" dx="3" dy="3" />
-      <feColorMatrix result="matrixOut" in="offOut" type="matrix" values="0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0" />
-      <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="2" />
-      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
-    </filter>
-  </defs><g id="n19"><rect id="Linkage" x="0.0" y="0.0" rx="4" ry="4" width="242.00000000000003" height="64.0" filter="url(#shadow1)" style="fill:#fff9ec;stroke:black;stroke-width:1"/><line id="n20" x1="0.0" y1="28.0" x2="242.00000000000003" y2="28.0" style="stroke:dimgrey;stroke-width:1"/></g><g id="n39"><rect id="Linkage.item" x="320.0" y="0.0" rx="4" ry="4" width="154.0" height="64.0" filter="url(#shadow1)" style="fill:#fff9ec;stroke:black;stroke-width:1"/><line id="n40" x1="320.0" y1="28.0" x2="474.0" y2="28.0" style="stroke:dimgrey;stroke-width:1"/></g><line id="n60" x1="242.00000000000003" y1="32.0" x2="320.0" y2="32.0" style="stroke:navy;stroke-width:1"/><polygon id="n61" points="242.00000000000003,32.0 248.00000000000003,36.0 254.00000000000003,32.0 248.00000000000003,28.0 242.00000000000003,32.0" style="fill:navy;stroke:navy;stroke-width:1" transform="rotate(0.0 242.00000000000003 32.0)"/><rect id="n62" x="272.5" y="25.0" width="17.0" height="18.0" style="fill:white;stroke:black;stroke-width:0"/></svg>

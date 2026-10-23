@@ -78,11 +78,11 @@
 - [x] filter-effects-1.md#element-attrdef-feblend-mode: mode is a blend-mode keyword, blending in (source Cs) over in2 (backdrop Cb); initial normal. [fe-blend-formulas#normal fe-blend-formulas#multiply fe-blend-formulas#screen fe-blend-formulas#overlay fe-blend-formulas#color-dodge fe-blend-formulas#soft-light fe-blend-formulas#difference fe-blend-formulas#hue fe-blend-formulas#color fe-blend-formulas#luminosity]
 - [x] filter-effects-1.md#element-attrdef-feblend-no-composite: no-composite applies the blend mode's mixing formula without alpha compositing; otherwise the blend mode is combined with the Source Over operator. [fe-blend-formulas#no-composite]
 - [x] filter-effects-1.md#element-attrdef-feblend-in2: in2 is the second (backdrop) input image. [fe-blend-formulas#normal]
-- [x] filter-effects-1.md#element-attrdef-feblend-mode: normal with compositing equals feComposite operator="over", feMerge's own blending, and SVG's simple alpha compositing. [fe-blend-formulas#normal blend-porter-duff#over filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-zero-shadow]
+- [x] filter-effects-1.md#element-attrdef-feblend-mode: normal with compositing equals feComposite operator="over", feMerge's own blending, and SVG's simple alpha compositing. [fe-blend-formulas#normal blend-porter-duff#over filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-zero-shadow filter-coloured-shadow#linear-default]
 
 ## feColorMatrix: fe-color-matrix-formulas, filter-color (exists)
 
-- [x] filter-effects-1.md#elementdef-fecolormatrix: feColorMatrix applies a 5x4 matrix to non-premultiplied RGBA of every pixel. [fe-color-matrix-formulas#matrix filter-primitive-values#unpremultiplied filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-zero-shadow]
+- [x] filter-effects-1.md#elementdef-fecolormatrix: feColorMatrix applies a 5x4 matrix to non-premultiplied RGBA of every pixel. [fe-color-matrix-formulas#matrix filter-primitive-values#unpremultiplied filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-zero-shadow filter-coloured-shadow#translucent filter-coloured-shadow#black-shadow filter-coloured-shadow#zero-shadow]
 - [x] filter-effects-1.md#FilterPrimitivesOverviewIntro: each primitive clamps its RGBA result before the next primitive; a SourceAlpha matrix can amplify sub-byte coverage and saturates at one. [fe-color-matrix-formulas#hard-alpha-zero fe-color-matrix-formulas#hard-alpha-quarter fe-color-matrix-formulas#hard-alpha-half fe-color-matrix-formulas#hard-alpha-one fe-color-matrix-formulas#hard-alpha-over fe-color-matrix-formulas#hard-alpha-before-next fe-color-matrix-formulas#hard-alpha-negative fe-color-matrix-formulas#hard-alpha-source-rgb filter-subpixel-shadow#hard-alpha-row filter-subpixel-shadow#hard-alpha-subbyte filter-subpixel-shadow#hard-alpha-out]
 - [x] filter-effects-1.md#element-attrdef-fecolormatrix-type: type is matrix, saturate, hueRotate or luminanceToAlpha; initial matrix. [fe-color-matrix-formulas#matrix fe-color-matrix-formulas#saturate fe-color-matrix-formulas#hue-rotate fe-color-matrix-formulas#luminance-to-alpha]
 - [x] filter-effects-1.md#element-attrdef-fecolormatrix-values: for type="matrix", values is 20 numbers, the identity matrix by default; for "hueRotate" and "saturate" it is a single number. [fe-color-matrix-formulas#matrix fe-color-matrix-formulas#defaults]
@@ -195,10 +195,10 @@
 ## feGaussianBlur stdDeviation: fe-blur-values, filter-primitives-edge (exists)
 
 - [x] filter-effects-1.md#elementdef-fegaussianblur: the Gaussian kernel is the separable product H(x)*I(y) of two 1-D Gaussians with standard deviations s (x) and t (y). [fe-blur-values#one-deviation]
-- [x] filter-effects-1.md#feGaussianBlurElement: feGaussianBlur approximates a normalized separable Gaussian convolution, including subpixel alpha inputs. [filter-subpixel-shadow#quarter-row filter-subpixel-shadow#scaled filter-subpixel-shadow#whole-row filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-translucent filter-subpixel-shadow#diagram-near-two]
+- [x] filter-effects-1.md#feGaussianBlurElement: feGaussianBlur approximates a normalized separable Gaussian convolution, including subpixel alpha inputs. [filter-subpixel-shadow#quarter-row filter-subpixel-shadow#scaled filter-subpixel-shadow#whole-row filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-translucent filter-subpixel-shadow#diagram-near-two filter-coloured-shadow#linear-default filter-coloured-shadow#near-two]
 - [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: stdDeviation is one or two numbers: one value is used for both axes, two give x then y; initial 0. [fe-blur-values#one-deviation fe-blur-values#x-then-y filter-subpixel-shadow#unequal-axes filter-subpixel-shadow#diagram-zero-blur]
-- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: a negative value, or zero in both axes, disables the primitive, so its result is its input image unchanged. [fe-blur-values#pass-through]
-- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: if stdDeviation is 0 in exactly one axis, the blur applies only along the other axis. [fe-blur-values#zero-axis fe-blur-values#x-then-y]
+- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: a negative value, or zero in both axes, disables the primitive, so its result is its input image unchanged. [fe-blur-values#pass-through filter-coloured-shadow#zero-blur]
+- [x] filter-effects-1.md#element-attrdef-fegaussianblur-stddeviation: if stdDeviation is 0 in exactly one axis, the blur applies only along the other axis. [fe-blur-values#zero-axis fe-blur-values#x-then-y filter-coloured-shadow#one-axis]
 
 ## feGaussianBlur edgeMode: filter-edge-cells, blur-edge-modes (exists)
 
@@ -230,7 +230,7 @@
 
 ## feOffset: fe-offset-tile-merge, filter-offset-vertical (exists)
 
-- [x] filter-effects-1.md#elementdef-feoffset: feOffset shifts its input by dx, dy in the primitiveUnits coordinate system. [fe-offset-tile-merge#offset fe-offset-tile-merge#offset-units filter-subpixel-shadow#negative-offset filter-subpixel-shadow#zero-shadow filter-subpixel-shadow#diagram-linear]
+- [x] filter-effects-1.md#elementdef-feoffset: feOffset shifts its input by dx, dy in the primitiveUnits coordinate system. [fe-offset-tile-merge#offset fe-offset-tile-merge#offset-units filter-subpixel-shadow#negative-offset filter-subpixel-shadow#zero-shadow filter-subpixel-shadow#diagram-linear filter-coloured-shadow#negative-offset]
 - [x] filter-effects-1.md#element-attrdef-feoffset-dx: dx, dy each have initial value 0. [fe-offset-tile-merge#offset-zero]
 
 ## feTile: fe-offset-tile-merge, filter-tile-clipped (exists)
@@ -259,7 +259,7 @@
 
 ## color-interpolation-filters: filter-interpolation-space, filter-edge-blend-turbulence (exists)
 
-- [x] filter-effects-1.md#propdef-color-interpolation-filters: color-interpolation-filters is auto, sRGB or linearRGB; initial linearRGB; inherited; applies to all filter primitives. [filter-interpolation-space#linear-default filter-interpolation-space#inherited filter-interpolation-space#auto filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-srgb filter-subpixel-shadow#diagram-translucent]
+- [x] filter-effects-1.md#propdef-color-interpolation-filters: color-interpolation-filters is auto, sRGB or linearRGB; initial linearRGB; inherited; applies to all filter primitives. [filter-interpolation-space#linear-default filter-interpolation-space#inherited filter-interpolation-space#auto filter-subpixel-shadow#diagram-linear filter-subpixel-shadow#diagram-srgb filter-subpixel-shadow#diagram-translucent filter-coloured-shadow#linear-default filter-coloured-shadow#srgb]
 - [x] filter-effects-1.md#valdef-color-interpolation-filters-auto: auto lets the user agent pick either sRGB or linearRGB. [filter-interpolation-space#auto]
 - [x] filter-effects-1.md#propdef-color-interpolation-filters: color-interpolation-filters has no effect on feOffset, feImage, feTile or feFlood, which do no color-space-dependent math. [filter-interpolation-space#offset-exact filter-interpolation-space#tile-exact filter-interpolation-space#image-exact filter-interpolation-space#flood-exact]
 

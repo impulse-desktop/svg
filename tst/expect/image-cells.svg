@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="40" height="88">
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="168">
 <!-- What tst/unit/image-cells.svg draws, drawn plainly; each cell's id
 is what the statement ledgers link to. -->
-<rect width="40" height="88" fill="white"/>
+<rect width="40" height="168" fill="white"/>
 <g id="css-position" data-box="1 1 10 10"><rect x="2" y="2" width="8" height="8" fill="lime"/></g>
 <g id="image-overflow" data-box="13 1 18 10"><rect x="20" y="2" width="8" height="8" fill="lime"/></g>
 <g id="natural-size" data-box="31 1 6 6"><rect x="32" y="2" width="1" height="1" fill="navy"/><rect x="33" y="2" width="1" height="1" fill="lime"/><rect x="34" y="2" width="1" height="1" fill="navy"/><rect x="35" y="2" width="1" height="1" fill="lime"/><rect x="32" y="3" width="1" height="1" fill="lime"/><rect x="33" y="3" width="1" height="1" fill="navy"/><rect x="34" y="3" width="1" height="1" fill="lime"/><rect x="35" y="3" width="1" height="1" fill="navy"/><rect x="32" y="4" width="1" height="1" fill="navy"/><rect x="33" y="4" width="1" height="1" fill="lime"/><rect x="34" y="4" width="1" height="1" fill="navy"/><rect x="35" y="4" width="1" height="1" fill="lime"/><rect x="32" y="5" width="1" height="1" fill="lime"/><rect x="33" y="5" width="1" height="1" fill="navy"/><rect x="34" y="5" width="1" height="1" fill="lime"/><rect x="35" y="5" width="1" height="1" fill="navy"/></g>
@@ -13,5 +13,12 @@ is what the statement ledgers link to. -->
 <g id="visible-transformed" data-box="21 53 18 14"><rect x="22" y="54" width="12" height="12" fill="lime"/></g>
 <g id="raster-slice-visible" data-box="1 73 18 14"><rect x="4" y="78" width="8" height="4" fill="lime"/></g>
 <g id="raster-slice-hidden" data-box="21 73 18 14"><rect x="26" y="78" width="4" height="4" fill="lime"/></g>
+<g id="svg-size-meet" data-box="1 89 18 18"><rect x="2" y="94" width="16" height="8" fill="lime"/><rect x="2" y="94" width="4" height="8" fill="navy"/></g>
+<g id="svg-size-min-meet" data-box="21 89 18 18"><rect x="22" y="90" width="16" height="8" fill="lime"/><rect x="22" y="90" width="4" height="8" fill="navy"/></g>
+<g id="svg-size-max-meet" data-box="1 109 18 18"><rect x="2" y="118" width="16" height="8" fill="lime"/><rect x="2" y="118" width="4" height="8" fill="navy"/></g>
+<g id="svg-size-none" data-box="21 109 18 18"><rect x="22" y="110" width="16" height="16" fill="lime"/><rect x="22" y="110" width="4" height="16" fill="navy"/></g>
+<g id="svg-size-slice" data-box="1 129 18 18"><rect x="2" y="130" width="16" height="16" fill="lime"/></g>
+<g id="svg-size-viewbox" data-box="21 129 18 18"><rect x="22" y="134" width="16" height="8" fill="lime"/><rect x="22" y="134" width="4" height="8" fill="navy"/></g>
+<g id="svg-size-root-ratio-ignored" data-box="1 149 18 18"><rect x="2" y="154" width="16" height="8" fill="lime"/><rect x="2" y="154" width="4" height="8" fill="navy"/></g>
 <g fill="none" stroke="black" stroke-width=".25"><rect x="2" y="2" width="8" height="8"/><rect x="20" y="2" width="8" height="8"/></g>
 </svg>
