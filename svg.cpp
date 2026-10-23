@@ -27644,8 +27644,7 @@ namespace {
         // The kernel unit: a pixel apart the slopes take neighbours; with
         // kernelUnitLength, in primitive units and above zero, they take
         // the alpha that far, between pixels, the nearest in the box past
-        // it, and a slope over that length is the normal's, as Firefox
-        // reads it.
+        // it. Sobel differences are divided by that sample distance.
         float kernelX = 1.f;
         float kernelY = 1.f;
         float spanX = 1.f;
@@ -27656,27 +27655,39 @@ namespace {
             kernelY = userY(f, kernelY);
             spanX = kernelX * run.scaleX;
             spanY = kernelY * run.scaleY;
-        } else {
-            kernelX = 1.f;
-            kernelY = 1.f;
         }
 
         bool spaced = spanX != 1.f || spanY != 1.f;
-        auto between = [&](float bx, float by) {
-            bx = minf(maxf(bx, 1.f), (float)columns);
-            by = minf(maxf(by, 1.f), (float)rows);
+        auto between = [&](double bx, double by) {
+            bx = bx < 1.0 ? 1.0 : (bx > (double)columns ? (double)columns : bx);
+            by = by < 1.0 ? 1.0 : (by > (double)rows ? (double)rows : by);
 
             int x0 = (int)bx;
             int y0 = (int)by;
             int x1 = x0 + (x0 < columns);
             int y1 = y0 + (y0 < rows);
-            float wx = bx - (float)x0;
-            float wy = by - (float)y0;
+            double wx = bx - (double)x0;
+            double wy = by - (double)y0;
             const u16* a = alpha.data();
-            float top = (float)a[(size_t)y0 * across + (size_t)x0] * (1.f - wx) + (float)a[(size_t)y0 * across + (size_t)x1] * wx;
-            float bottom = (float)a[(size_t)y1 * across + (size_t)x0] * (1.f - wx) + (float)a[(size_t)y1 * across + (size_t)x1] * wx;
+            double top = (double)a[(size_t)y0 * across + (size_t)x0] * (1.0 - wx) + (double)a[(size_t)y0 * across + (size_t)x1] * wx;
+            double bottom = (double)a[(size_t)y1 * across + (size_t)x0] * (1.0 - wx) + (double)a[(size_t)y1 * across + (size_t)x1] * wx;
 
-            return (i32)(top * (1.f - wy) + bottom * wy + 0.5f);
+            return top * (1.0 - wy) + bottom * wy;
+        };
+        auto difference = [&](double cx, double cy, bool horizontal) {
+            double span = horizontal ? spanX : spanY;
+
+            // A pixel centre is a knot of the bilinear surface. Within its
+            // two adjacent linear pieces, the symmetric difference divided
+            // by span is exactly the difference of the neighbouring knots.
+            // Cancel span algebraically: rounded taps or nearly equal
+            // coordinates would lose a sufficiently small positive step.
+            double distance = span <= 1.0 ? 1.0 : span;
+            double dx = horizontal ? distance : 0.0;
+            double dy = horizontal ? 0.0 : distance;
+            double delta = between(cx + dx, cy + dy) - between(cx - dx, cy - dy);
+
+            return span <= 1.0 ? delta : delta / span;
         };
 
         for (int y = box.y0; y < box.y1; y++) {
@@ -27692,27 +27703,32 @@ namespace {
                 bool top = y == box.y0 && !spaced;
                 bool bottom = y == box.y1 - 1 && !spaced;
                 int i = x - box.x0;
-                float cx = (float)(i + 1);
-                float cy = (float)(y - box.y0 + 1);
-                i32 nx;
-                i32 ny;
+                double cx = (double)(i + 1);
+                double cy = (double)(y - box.y0 + 1);
+                double nx;
+                double ny;
                 float factorX;
                 float factorY;
-                i32 a00 = spaced ? between(cx - spanX, cy - spanY) : above[i];
-                i32 a01 = spaced ? between(cx, cy - spanY) : above[i + 1];
-                i32 a02 = spaced ? between(cx + spanX, cy - spanY) : above[i + 2];
-                i32 a10 = spaced ? between(cx - spanX, cy) : middle[i];
+                i32 a00 = above[i];
+                i32 a01 = above[i + 1];
+                i32 a02 = above[i + 2];
+                i32 a10 = middle[i];
                 i32 a11 = middle[i + 1];
-                i32 a12 = spaced ? between(cx + spanX, cy) : middle[i + 2];
-                i32 a20 = spaced ? between(cx - spanX, cy + spanY) : below[i];
-                i32 a21 = spaced ? between(cx, cy + spanY) : below[i + 1];
-                i32 a22 = spaced ? between(cx + spanX, cy + spanY) : below[i + 2];
+                i32 a12 = middle[i + 2];
+                i32 a20 = below[i];
+                i32 a21 = below[i + 1];
+                i32 a22 = below[i + 2];
 
                 if (box.x1 - box.x0 == 1 || box.y1 - box.y0 == 1) {
                     nx = 0;
                     ny = 0;
                     factorX = 0.f;
                     factorY = 0.f;
+                } else if (spaced) {
+                    factorX = 1.f / 4.f;
+                    factorY = 1.f / 4.f;
+                    nx = difference(cx, cy - spanY, true) + 2.0 * difference(cx, cy, true) + difference(cx, cy + spanY, true);
+                    ny = difference(cx - spanX, cy, false) + 2.0 * difference(cx, cy, false) + difference(cx + spanX, cy, false);
                 } else if (top && left) {
                     factorX = 2.f / 3.f;
                     factorY = 2.f / 3.f;
@@ -27762,14 +27778,14 @@ namespace {
 
                 // The slopes in alpha units: a stored alpha is 65535 for 1.
                 constexpr float unit = 1.f / 65535.f;
-                float dx = factorX * (float)nx * unit / spanX;
-                float dy = factorY * (float)ny * unit / spanY;
-                // Keep the surface scale in primitive units. A distant
-                // light's azimuth stays in the output frame, so map its
-                // normal there after computing the user-space slope. Point
-                // and spot light positions stay in primitive user space.
-                float gx = kernelX * (f.ctm.a * dx + f.ctm.b * dy);
-                float gy = kernelY * (f.ctm.c * dx + f.ctm.d * dy);
+                float dx = factorX * (float)nx * unit;
+                float dy = factorY * (float)ny * unit;
+                // The sample distance has already been divided out. Map
+                // the slope to primitive units once, then take a distant
+                // light's normal to its output frame. Point and spot light
+                // positions remain in primitive user space.
+                float gx = f.ctm.a * dx + f.ctm.b * dy;
+                float gy = f.ctm.c * dx + f.ctm.d * dy;
 
                 if (light->name == AtomFeDistantLight) {
                     const Matrix& layer = f.deviceToLayer;
