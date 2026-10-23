@@ -2131,6 +2131,7 @@ namespace {
         u32 count;
         Filter* next;
         Box device;
+        Box user;
         DevicePaint* fillPaint;
         DevicePaint* strokePaint;
     };
@@ -19120,6 +19121,7 @@ namespace {
         filter->primitives = nullptr;
         filter->next = nullptr;
         filter->device = Box{0.f, 0.f, 0.f, 0.f};
+        filter->user = filter->device;
 
         bool hasBox = effectBox(l, element, parent, vp, bbox) && bbox.x1 > bbox.x0 && bbox.y1 > bbox.y0;
 
@@ -19154,6 +19156,7 @@ namespace {
             return filter;
         }
 
+        filter->user = region;
         filter->device = deviceBox(m, region);
         filter->region = pixelBox(filter->device, canvas);
 
@@ -19316,6 +19319,7 @@ namespace {
         filter->count = 1;
         filter->next = nullptr;
         filter->device = Box{0.f, 0.f, (float)l.width, (float)l.height};
+        filter->user = emptyBox();
 
         return filter;
     }
@@ -26782,33 +26786,77 @@ namespace {
 
     static void filterTile(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         Plane in = filterInputBuffer(run, p.in1, p.linear);
-        IntBox tile = inputBox(run, p.in1);
+        const Filter& f = *run.filter;
+        Box tile = p.in1 >= 0 ? f.primitives[p.in1].user : f.user;
+        Box clip = p.in1 >= 0 ? f.primitives[p.in1].clip : f.device;
+        double tw = tile.x1 - tile.x0;
+        double th = tile.y1 - tile.y0;
+        Matrix toUser;
 
-        if (p.in1 >= 0) {
-            Box exact = deviceBox(run.filter->ctm, run.filter->primitives[p.in1].user);
-            IntBox inner{(int)ceilf(exact.x0 - 1e-3f), (int)ceilf(exact.y0 - 1e-3f), (int)floorf(exact.x1 + 1e-3f), (int)floorf(exact.y1 + 1e-3f)};
-
-            if (inner.x0 >= tile.x0 && inner.y0 >= tile.y0 && inner.x1 <= tile.x1 && inner.y1 <= tile.y1 && inner.x1 > inner.x0 && inner.y1 > inner.y0) {
-                tile = inner;
-            }
-        }
-
-        int tw = tile.x1 - tile.x0;
-        int th = tile.y1 - tile.y0;
-        const IntBox& box = p.box;
-
-        // An empty tile is empty by its width, as boxInside leaves a box.
-        if (tw <= 0) {
+        if (!in.data || !(tw > 0.0) || !(th > 0.0) || !invert(f.ctm, toUser)) {
             return;
         }
 
+        // Repeat in the reference subregion's coordinates, before any
+        // rounding or clipping of its offscreen. A rounded pixel width
+        // would accumulate a different phase on every copy.
+        auto repeat = [&](Point at) {
+            Point user = apply(toUser, at);
+            double x = fmod(user.x - tile.x0, tw);
+            double y = fmod(user.y - tile.y0, th);
+
+            user.x = tile.x0 + (x < 0.0 ? x + tw : x);
+            user.y = tile.y0 + (y < 0.0 ? y + th : y);
+
+            return apply(f.ctm, user);
+        };
+
+        // Interpolation at a seam reads the next copy of the tile. The
+        // source's edge pixels store their coverage of the clipped
+        // subregion; within that region they represent its average colour,
+        // not a translucent border to be repeated between every pair.
+        auto read = [&](double x, double y, u16* pixel) {
+            Point at = repeat(Point{x, y});
+
+            if (!(at.x >= in.box.x0 && at.x < in.box.x1 && at.y >= in.box.y0 && at.y < in.box.y1)) {
+                memset(pixel, 0, sizeof(u16) * 4);
+                return;
+            }
+
+            int ix = (int)floor(at.x);
+            int iy = (int)floor(at.y);
+            double cx = maxf(0.0, minf((double)ix + 1.0, clip.x1) - maxf((double)ix, clip.x0));
+            double cy = maxf(0.0, minf((double)iy + 1.0, clip.y1) - maxf((double)iy, clip.y0));
+            double area = cx * cy;
+            const u16* source = planeRead(in, ix, iy);
+
+            for (int k = 0; k < 4; k++) {
+                pixel[k] = area > 0.0 ? (u16)minf(65535.0, floor((double)source[k] / area + 0.5)) : 0;
+            }
+        };
+
+        const IntBox& box = p.box;
+
         for (int y = box.y0; y < box.y1; y++) {
-            int sy = tile.y0 + (((y - tile.y0) % th) + th) % th;
-
             for (int x = box.x0; x < box.x1; x++) {
-                int sx = tile.x0 + (((x - tile.x0) % tw) + tw) % tw;
+                Point at = repeat(Point{(double)x + 0.5, (double)y + 0.5});
 
-                memcpy(planeAt(out, x, y), planeRead(in, sx, sy), sizeof(u16) * 4);
+                if (!isfinite(at.x) || !isfinite(at.y)) {
+                    continue;
+                }
+
+                double ix = floor(at.x - 0.5);
+                double iy = floor(at.y - 0.5);
+                u16 a[4];
+                u16 b[4];
+                u16 c[4];
+                u16 d[4];
+
+                read(ix + 0.5, iy + 0.5, a);
+                read(ix + 1.5, iy + 0.5, b);
+                read(ix + 0.5, iy + 1.5, c);
+                read(ix + 1.5, iy + 1.5, d);
+                bilinear(a, b, c, d, (float)(at.x - 0.5 - ix), (float)(at.y - 0.5 - iy), planeAt(out, x, y));
             }
         }
     }

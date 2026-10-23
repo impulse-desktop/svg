@@ -328,6 +328,15 @@ pixels a tile's edges blur and move within a pixel of their exact place. A
 tile of a whole period, an image tiled edge to edge and a single tile are
 drawn exactly.
 
+For feTile, the reference subregion retains its declared origin and period
+before clipping or rounding to the intermediate pixel buffer. Rounding the
+period itself accumulates a displacement on every copy and is not this
+approximation. The buffer's clipped edge pixels represent their average
+colour within the subregion; their fractional coverage must not become a
+translucent seam when a constant tile is repeated. `filter-tile-period`
+checks the period independently with rational interior probes, including
+transforms and opaque and translucent tiles smaller than one pixel.
+
 ## D29. A font's metrics are the fallbacks of a font without them
 
 `css-values-4.md#font-relative-lengths`: ex, cap, ch, ic and lh are metrics

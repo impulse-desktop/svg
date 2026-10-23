@@ -235,7 +235,10 @@
 
 ## feTile: fe-offset-tile-merge, filter-tile-clipped (exists)
 
-- [x] filter-effects-1.md#elementdef-fetile: feTile fills its own filter primitive subregion by replicating its input's filter primitive subregion as tiles at (x + i*width, y + j*height) for integer i, j. [fe-offset-tile-merge#tile]
+- [x] filter-effects-1.md#elementdef-fetile: feTile fills its own filter primitive subregion by replicating its input's filter primitive subregion as tiles at (x + i*width, y + j*height) for integer i, j. [fe-offset-tile-merge#tile filter-tile-period#integer filter-tile-period#fractional-period filter-tile-period#fractional-origin filter-tile-period#negative-origin filter-tile-period#scaled filter-tile-period#unequal-axes filter-tile-period#reflected filter-tile-period#quarter-turn filter-tile-period#rotated filter-tile-period#sheared filter-tile-period#offset-chain]
+- [x] filter-effects-1.md#feTileElement: clipping the input to the filter region does not shorten its declared reference subregion or change the repetition origin and period. [filter-tile-clipped#x-clipped-reference filter-tile-clipped#y-clipped-reference filter-tile-period#clipped-input]
+- [x] filter-effects-1.md#feTileElement: constructing the repeated image must avoid seams from the fractional coverage of adjacent tiles; an opaque constant reference stays opaque, including when its size is below a pixel. [filter-tile-period#subpixel-solid filter-tile-period#subpixel-translucent filter-tile-period#subpixel-colour filter-subregions-outside#constant-subpixel-tiles]
+- [x] filter-effects-1.md#FilterPrimitiveSubRegion: a reference with zero width has no pixels to repeat. [filter-tile-period#zero-width]
 
 ## feTurbulence: fe-turbulence-reference, filter-turbulence-displacement (exists)
 
