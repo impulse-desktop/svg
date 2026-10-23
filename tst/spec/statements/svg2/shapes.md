@@ -1,12 +1,13 @@
 # SVG 2, Chapter 10: Basic Shapes
 
-## rect, circle and ellipse sizing and error handling: shape-radii
+## rect, circle and ellipse sizing and error handling: shape-radii, shape-flat-rounded
 
 - [x] svg2/shapes.md#RectElement: rect's x,y are the left/top edges of the rectangle in the current user coordinate system. [shape-radii#rx-alone geometry-properties#position-percent]
 - [x] svg2/shapes.md#RectElement: a negative rect width or height is invalid and ignored; a computed zero for either disables rendering of the element. [shape-radii#zero-negative shape-tiny-positive#height-tenth shape-tiny-positive#height-small shape-tiny-positive#height-tiny shape-tiny-positive#width-tiny shape-tiny-positive#scaled shape-tiny-positive#height-zero shape-tiny-positive#width-zero shape-tiny-positive#negative]
 - [x] svg2/shapes.md#RectElement: a negative rx or ry on rect is invalid and ignored. [shape-radii#negative-rx]
 - [x] svg2/shapes.md#RectElement: if both rx and ry compute to auto, their used value is 0 (square corners); if exactly one is a length/percentage, the other's absolute value mirrors it, resolving rx against width and ry against height. [shape-radii#rx-alone shape-radii#ry-alone]
 - [x] svg2/shapes.md#RectElement: used rx/ry are clamped so a radius greater than half the rectangle's width or height is reduced to that half. [shape-radii#rx-alone]
+- [x] svg2/shapes.md#RectElement: a positive extent below float epsilon still permits a rounded rectangle's stroke; clamping its small radius to half that extent approaches a capsule, while an exactly zero extent disables rendering [shape-flat-rounded#height-0 shape-flat-rounded#width-0 shape-flat-rounded#height-1 shape-flat-rounded#width-1 shape-flat-rounded#height-2 shape-flat-rounded#width-2 shape-flat-rounded#height-3 shape-flat-rounded#width-3]
 - [x] svg2/shapes.md#RectElement: a computed rx or ry of zero for either dimension, or auto for both dimensions, yields a rectangle with no corner rounding. [shape-radii#negative-rx css-calc-math#negative-rx]
 - [x] svg2/shapes.md#CircleElement: circle's r is its radius; a negative value is invalid and ignored; a computed value of zero disables rendering. [shape-radii#percent-r shape-radii#zero-negative]
 - [x] svg2/shapes.md#EllipseElement: a negative ellipse rx or ry is invalid and ignored; a computed zero for either dimension, or auto for both, disables rendering. [shape-radii#zero-negative]

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="182">
+<!-- A nonzero closing segment retains its own direction, even when very
+short. SVG2 offset-line intersections give the miter joins; a limit
+below the miter ratio gives a bevel. A zero closing segment instead
+joins the two remaining directions. Reversing the closed path changes no
+stroke area. Exact rational unions of straight bands and join polygons
+supply the expected PNGs. -->
+<svg x="1" y="1" width="48" height="14" overflow="hidden"><path d="M20 8 L4 20 L4 32 L36 32 L36 20 L20 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="1" width="48" height="14" overflow="hidden"><path d="M20 8 L20 8 L36 20 L36 32 L4 32 L4 20 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="1" y="19" width="48" height="14" overflow="hidden"><path d="M20 8 L4 20 L4 32 L36 32 L35.999997999999998 20 L19.999998000000001 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="19" width="48" height="14" overflow="hidden"><path d="M20 8 L19.999998000000001 8 L35.999997999999998 20 L36 32 L4 32 L4 20 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="1" y="37" width="48" height="14" overflow="hidden"><path d="M20 8 L4 20 L4 32 L36 32 L36.000002000000002 20 L20.000001999999999 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="37" width="48" height="14" overflow="hidden"><path d="M20 8 L20.000001999999999 8 L36.000002000000002 20 L36 32 L4 32 L4 20 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="1" y="55" width="48" height="14" overflow="hidden"><path d="M20 8 L4 20 L4 32 L36 32 L35 20 L19 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="55" width="48" height="14" overflow="hidden"><path d="M20 8 L19 8 L35 20 L36 32 L4 32 L4 20 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="1" y="73" width="48" height="14" overflow="hidden"><path d="M20 8 L4 20 L4 32 L36 32 L35.999997999999998 20 L19.999998000000001 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="3"/></svg>
+<svg x="51" y="73" width="48" height="14" overflow="hidden"><path d="M20 8 L19.999998000000001 8 L35.999997999999998 20 L36 32 L4 32 L4 20 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="3"/></svg>
+<svg x="1" y="91" width="48" height="14" overflow="hidden"><path d="M20 8 L4 20 L4 32 L36 32 L36 20 L20 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="1"/></svg>
+<svg x="51" y="91" width="48" height="14" overflow="hidden"><path d="M20 8 L20 8 L36 20 L36 32 L4 32 L4 20 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="1"/></svg>
+<svg x="1" y="109" width="48" height="14" overflow="hidden"><path d="M12 8 L60 8 L60 32 L12 32 L12 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="109" width="48" height="14" overflow="hidden"><path d="M12 8 L12 8 L12 32 L60 32 L60 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="1" y="127" width="48" height="14" overflow="hidden"><path d="M12 8 L60 8 L60 32 L12.0000014 32 L12.0000014 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="127" width="48" height="14" overflow="hidden"><path d="M12 8 L12.0000014 8 L12.0000014 32 L60 32 L60 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="1" y="145" width="48" height="14" overflow="hidden"><path d="M12 8 L60 8 L60 32 L11.9999986 32 L11.9999986 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="145" width="48" height="14" overflow="hidden"><path d="M12 8 L11.9999986 8 L11.9999986 32 L60 32 L60 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="1" y="163" width="48" height="14" overflow="hidden"><path d="M12 8 L60 8 L60 32 L13 32 L13 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+<svg x="51" y="163" width="48" height="14" overflow="hidden"><path d="M12 8 L13 8 L13 32 L60 32 L60 8 Z" fill="none" stroke="lime" stroke-width="4" stroke-linejoin="miter" stroke-miterlimit="4"/></svg>
+</svg>

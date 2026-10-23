@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="200">
+<!-- Positive thin rounded rectangles retain their stroke. SVG2 clamps
+each radius independently to half the corresponding extent. The limiting
+stroke is a single filled capsule. Exact zero extents draw nothing.
+Translation from a large coordinate preserves the positive extent. All
+coordinates and extents are authored independently of rendered output.
+-->
+<g transform="translate(0 0)"><g transform="translate(-144 -128)"><rect x="148" y="136" width="36" height=".0000001" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+<g transform="translate(50 0)"><g transform="translate(-144 -128)"><rect x="152" y="132" width=".0000001" height="36" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+<g transform="translate(0 50)"><g transform="translate(-144 -128)"><rect x="148" y="136" width="36" height=".000001" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+<g transform="translate(50 50)"><g transform="translate(-144 -128)"><rect x="152" y="132" width=".000001" height="36" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+<g transform="translate(0 100)"><g transform="translate(-144 -128)"><rect x="148" y="136" width="36" height=".00001" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+<g transform="translate(50 100)"><g transform="translate(-144 -128)"><rect x="152" y="132" width=".00001" height="36" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+<g transform="translate(0 150)"><g transform="translate(-144 -128)"><rect x="148" y="136" width="36" height="0" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+<g transform="translate(50 150)"><g transform="translate(-144 -128)"><rect x="152" y="132" width="0" height="36" rx="8" ry="8" fill="none" stroke="lime" stroke-width="4"/></g></g>
+</svg>
