@@ -44,7 +44,7 @@ def rectangle_union_areas(rectangles, width, height):
 
 
 def main():
-    unit = Unit('stroke-dense-subpaths', 48, 64,
+    unit = Unit('stroke-dense-subpaths', 48, 80,
                 'One path paints the union of all stroked subpaths once. '
                 'Exact rational rectangle areas check overlapping, touching '
                 'and disjoint thin butt-capped segments, varying heights, '
@@ -106,6 +106,26 @@ def main():
         x, y = index % 3 * 16, index // 3 * 16
         unit.cell(name, (x, y, 16, 16),
                   f'<g transform="translate({x} {y})" opacity="{float(group_alpha)}">{"".join(test)}</g>',
+                  f'<image x="{x}" y="{y}" width="16" height="16" href="{expected}"/>')
+    for i, name in enumerate(['retraced', 'closed-line', 'repeated-loop']):
+        if name == 'repeated-loop':
+            d = 'M3 3' + 'H13V13H3V3' * 4 + 'Z'
+            rectangles = [(F('2.875'), F('2.875'), F('13.125'), F('3.125')),
+                          (F('2.875'), F('12.875'), F('13.125'), F('13.125')),
+                          (F('2.875'), F('3.125'), F('3.125'), F('12.875')),
+                          (F('12.875'), F('3.125'), F('13.125'), F('12.875'))]
+            opacity = F('.5')
+        else:
+            d = 'M2 8H14' + ('H2H14' if name == 'retraced' else 'Z')
+            rectangles = [(F(2), F('7.875'), F(14), F('8.125'))]
+            opacity = F(1)
+        areas = rectangle_union_areas(rectangles, 16, 16)
+        expected = png([[(0, 1, 0, value * opacity) for value in row] for row in areas])
+        x, y = i * 16, 64
+        unit.cell(name, (x, y, 16, 16),
+                  f'<g transform="translate({x} {y})"><path d="{d}" fill="none" '
+                  f'fill-rule="evenodd" stroke="lime" stroke-width=".25" '
+                  f'stroke-opacity="{float(opacity)}"/></g>',
                   f'<image x="{x}" y="{y}" width="16" height="16" href="{expected}"/>')
     unit.write()
 

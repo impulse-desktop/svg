@@ -23511,10 +23511,13 @@ namespace {
         return rule == WindingEvenOdd ? (winding & 1) != 0 : winding != 0;
     }
 
+    // Reuse these levels between bands; deeper intersection trees own scratch.
+    constexpr int bandCacheLevels = 8;
+
     struct BandSample {
         float x0;
         float x1;
-        float key;
+        double key;
         i64 dir;
         u32 order;
         u32 edge;
@@ -23538,7 +23541,6 @@ namespace {
     // the x where each enters, leaves and crosses the middle, and the place
     // of each in the active list; the edges not spanning it go to rest.
     static bool bandSamples(const BandEdge* edges, const Vector<u32>& order, const Vector<u32>& position, float a, float b, Vector<BandSample>& samples, Vector<u32>& rest) {
-        float mid = (a + b) * 0.5f;
         bool comparable = true;
 
         samples.clear();
@@ -23548,10 +23550,12 @@ namespace {
             const BandEdge& e = edges[index];
 
             if (e.y0 <= a && e.y1 >= b) {
-                float key = bandX(e, mid);
+                float x0 = bandX(e, a);
+                float x1 = bandX(e, b);
+                double key = ((double)x0 + x1) * 0.5;
 
                 comparable = comparable && key == key;
-                samples.pushBack(BandSample{bandX(e, a), bandX(e, b), key, e.dir, position[index], index});
+                samples.pushBack(BandSample{x0, x1, key, e.dir, position[index], index});
             } else {
                 rest.pushBack(index);
             }
@@ -23560,31 +23564,29 @@ namespace {
         return comparable;
     }
 
-    // The samples of a half of a band, in the order of the whole: the cuts
-    // leave no edge end inside a band, so the same edges span the half,
-    // entering or leaving it where they cross the middle of the whole band.
-    // Only samples that cross come here, and one whose x is not a number
-    // crosses none, so the keys are numbers.
-    static void halfBandSamples(const BandEdge* edges, const BandSample* whole, size_t count, float a, float b, bool top, Vector<BandSample>& samples) {
-        float mid = (a + b) * 0.5f;
+    // Evaluate one side of a split on the original edges. Endpoint means
+    // give consistent middle keys even when a crossing lies near a float cut.
+    static void splitBandSamples(const BandEdge* edges, const BandSample* whole, size_t count, float a, float b, bool top, Vector<BandSample>& samples) {
+        float cut = top ? b : a;
 
         samples.clear();
 
         for (size_t i = 0; i < count; i++) {
             const BandSample& s = whole[i];
 
-            samples.pushBack(BandSample{top ? s.x0 : s.key, top ? s.key : s.x1, bandX(edges[s.edge], mid), s.dir, s.order, s.edge});
+            float at = bandX(edges[s.edge], cut);
+            float x0 = top ? s.x0 : at;
+            float x1 = top ? at : s.x1;
+            samples.pushBack(BandSample{x0, x1, ((double)x0 + x1) * 0.5, s.dir, s.order, s.edge});
         }
     }
 
-    // The coverage of a band from a to b of what the rule fills, entered
-    // with the winding of the samples left of them. A sample that crosses
-    // none before it by more than a sixty-fourth of a pixel keeps its place
-    // through the band and is drawn whole; each run of samples that do
-    // cross is halved, up to six times or until the middle rounds onto an
-    // end, and its halves entered with the winding left of the run.
-    static void unionBand(u64* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding) {
-        Vector<BandSample>& band = samples[depth];
+    // Resolve winding on intervals bounded by crossings. A group is separate
+    // only when no later edge reaches into it at either endpoint. The crossing
+    // nearest the middle is between adjacent middle samples; split there until
+    // the order is fixed or no interior float cut can represent a crossing.
+    static void unionBand(u64* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding, Vector<BandSample>* extra = nullptr) {
+        Vector<BandSample>& band = depth < bandCacheLevels ? samples[depth] : *extra;
 
         if (band.empty()) {
             return;
@@ -23629,41 +23631,128 @@ namespace {
         }
 
         float mid = (a + b) * 0.5f;
-        bool halve = depth < 6 && a < mid && mid < b;
+        bool canSplit = a < mid && mid < b;
+        bool finite = comparable;
+
+        for (size_t i = 0; i < count; i++) {
+            finite = finite && isfinite(sorted[i].x0) && isfinite(sorted[i].x1);
+        }
+
+        struct EndpointMinimum {
+            float x0;
+            float x1;
+        };
+
+        Vector<EndpointMinimum> minima;
+        bool crossing = false;
+
+        if (finite && canSplit) {
+            for (size_t i = 1; i < count; i++) {
+                if (sorted[i - 1].x0 > sorted[i].x0 || sorted[i - 1].x1 > sorted[i].x1) {
+                    crossing = true;
+                    break;
+                }
+            }
+        }
+
+        // A later edge can cross past more than its immediate neighbour.
+        // Suffix minima close the whole interacting group before it is painted.
+        if (crossing) {
+            minima.zero(count);
+            float x0 = sorted[count - 1].x0;
+            float x1 = sorted[count - 1].x1;
+
+            for (size_t i = count; i > 0; i--) {
+                x0 = minf(x0, sorted[i - 1].x0);
+                x1 = minf(x1, sorted[i - 1].x1);
+                minima.mutData()[i - 1] = EndpointMinimum{x0, x1};
+            }
+        }
+
         float reach0 = sorted[0].x0;
         float reach1 = sorted[0].x1;
 
         for (size_t k = 0; k < count;) {
             size_t end = k + 1;
 
-            while (end < count && (reach0 > sorted[end].x0 + 1.f / 64.f || reach1 > sorted[end].x1 + 1.f / 64.f)) {
+            while (end < count && (finite ? (reach0 > (crossing ? minima[end].x0 : sorted[end].x0) || reach1 > (crossing ? minima[end].x1 : sorted[end].x1)) : (reach0 > sorted[end].x0 + 1.f / 64.f || reach1 > sorted[end].x1 + 1.f / 64.f))) {
                 reach0 = maxf(reach0, sorted[end].x0);
                 reach1 = maxf(reach1, sorted[end].x1);
                 end++;
             }
 
-            if (end - k > 1 && halve) {
-                Vector<BandSample>& half = samples[depth + 1];
+            bool interior = false;
+            i64 after = winding;
 
-                halfBandSamples(edges, sorted + k, end - k, a, mid, true, half);
-                unionBand(acc, stride, w, edges, samples, a, mid, rule, depth + 1, true, winding);
-                halfBandSamples(edges, sorted + k, end - k, mid, b, false, half);
-                unionBand(acc, stride, w, edges, samples, mid, b, rule, depth + 1, true, winding);
+            // If even an arbitrary reordering cannot reach zero winding,
+            // these internal edges cannot change the filled area.
+            if (finite && winding && rule == WindingNonZero && end - k > 1) {
+                i64 low = winding;
+                i64 high = winding;
 
                 for (size_t i = k; i < end; i++) {
-                    winding += sorted[i].dir;
+                    i64 dir = sorted[i].dir;
+                    low += dir < 0 ? dir : 0;
+                    high += dir > 0 ? dir : 0;
+                    after += dir;
                 }
+
+                interior = low > 0 || high < 0;
+            }
+
+            if (interior) {
+                winding = after;
             } else {
-                for (size_t i = k; i < end; i++) {
-                    const BandSample& sample = sorted[i];
-                    bool before = insideWinding(winding, rule);
+                float cut = mid;
+                // Preserve the established recovery of nonfinite lowerings.
+                bool divide = end - k > 1 && canSplit && !finite && depth < 6;
 
-                    winding += sample.dir;
+                if (end - k > 1 && canSplit && finite) {
+                    double middle = ((double)a + b) * 0.5;
+                    double closest = (double)b - a;
 
-                    bool after = insideWinding(winding, rule);
+                    for (size_t i = k + 1; i < end; i++) {
+                        double first = (double)sorted[i - 1].x0 - sorted[i].x0;
+                        double last = (double)sorted[i - 1].x1 - sorted[i].x1;
 
-                    if (before != after) {
-                        addEdge(acc, stride, w, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
+                        if ((first < 0.0 && last > 0.0) || (first > 0.0 && last < 0.0)) {
+                            double y = (double)a + ((double)b - a) * first / (first - last);
+                            float candidate = (float)y;
+                            double distance = fabs(y - middle);
+
+                            if (a < candidate && candidate < b && distance < closest) {
+                                closest = distance;
+                                cut = candidate;
+                                divide = true;
+                            }
+                        }
+                    }
+                }
+
+                if (divide) {
+                    Vector<BandSample> overflow;
+                    Vector<BandSample>& half = depth + 1 < bandCacheLevels ? samples[depth + 1] : overflow;
+
+                    splitBandSamples(edges, sorted + k, end - k, a, cut, true, half);
+                    unionBand(acc, stride, w, edges, samples, a, cut, rule, depth + 1, true, winding, &half);
+                    splitBandSamples(edges, sorted + k, end - k, cut, b, false, half);
+                    unionBand(acc, stride, w, edges, samples, cut, b, rule, depth + 1, true, winding, &half);
+
+                    for (size_t i = k; i < end; i++) {
+                        winding += sorted[i].dir;
+                    }
+                } else {
+                    for (size_t i = k; i < end; i++) {
+                        const BandSample& sample = sorted[i];
+                        bool before = insideWinding(winding, rule);
+
+                        winding += sample.dir;
+
+                        bool after = insideWinding(winding, rule);
+
+                        if (before != after) {
+                            addEdge(acc, stride, w, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
+                        }
                     }
                 }
             }
@@ -23876,7 +23965,7 @@ namespace {
         Vector<u32> order;
         Vector<u32> position;
         Vector<u32> rest;
-        Vector<BandSample> samples[8];
+        Vector<BandSample> samples[bandCacheLevels];
     };
 
     static bool bandWorkExceeds(const BandEdge* edges, const Vector<u32>& indices, const Vector<float>& cuts, size_t cutCount, float top, float bottom) {
@@ -24202,7 +24291,7 @@ namespace {
         Vector<u32> order;
         Vector<u32> position;
         Vector<u32> rest;
-        Vector<BandSample> samples[8];
+        Vector<BandSample> samples[bandCacheLevels];
         Vector<float> cuts;
         Vector<u32> incoming;
         Vector<Crossing> crossings;
