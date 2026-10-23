@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="80">
+<!-- What tst/unit/gradient-single-stop-box.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="linear-horizontal" data-box="0 0 20 20"><rect x="2" y="8" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="linear-vertical" data-box="20 0 20 20"><rect x="28" y="2" width="4" height="16" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="radial-horizontal" data-box="40 0 20 20"><rect x="42" y="8" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="radial-vertical" data-box="60 0 20 20"><rect x="68" y="2" width="4" height="16" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="linear-template" data-box="80 0 20 20"><rect x="82" y="8" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="radial-template" data-box="100 0 20 20"><rect x="108" y="2" width="4" height="16" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="linear-user-space" data-box="120 0 20 20"><rect x="122" y="8" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="radial-user-space" data-box="140 0 20 20"><rect x="148" y="2" width="4" height="16" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="stop-opacity" data-box="0 20 20 20"><rect x="2" y="28" width="16" height="4" fill="#26a8e0" fill-opacity="0.5"/></g>
+<g id="stroke-opacity" data-box="20 20 20 20"><rect x="28" y="22" width="4" height="16" fill="#26a8e0" fill-opacity="0.25"/></g>
+<g id="element-opacity" data-box="40 20 20 20"><rect x="42" y="28" width="16" height="4" fill="#26a8e0" fill-opacity="0.125"/></g>
+<g id="no-stops" data-box="60 20 20 20"></g>
+<g id="two-stop-horizontal" data-box="80 20 20 20"></g>
+<g id="two-stop-vertical" data-box="100 20 20 20"></g>
+<g id="two-stop-user-space" data-box="120 20 20 20"><rect x="122" y="28" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="user-space-clip" data-box="140 20 20 20"><rect x="146" y="28" width="8" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="scaled-horizontal" data-box="0 40 20 20"><rect x="6" y="48" width="8" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="scaled-vertical" data-box="20 40 20 20"><rect x="28" y="46" width="4" height="8" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="one-stop-fallback" data-box="40 40 20 20"><rect x="42" y="48" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="no-stop-fallback" data-box="60 40 20 20"></g>
+<g id="empty-user-fallback" data-box="80 40 20 20"></g>
+<g id="empty-box-singular-fallback" data-box="100 40 20 20"></g>
+<g id="empty-user-singular-fallback" data-box="120 40 20 20"></g>
+<g id="one-box-singular-fallback" data-box="140 40 20 20"><rect x="142" y="48" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="one-user-singular-fallback" data-box="0 60 20 20"><rect x="2" y="68" width="16" height="4" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="one-template-singular" data-box="20 60 20 20"><rect x="28" y="62" width="4" height="16" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="two-user-singular-fallback" data-box="40 60 20 20"><rect x="42" y="68" width="16" height="4" fill="red" fill-opacity="1"/></g>
+<g id="two-box-fallback" data-box="60 60 20 20"><rect x="68" y="62" width="4" height="16" fill="red" fill-opacity="1"/></g>
+<g id="radial-empty-singular-fallback" data-box="80 60 20 20"></g>
+<g id="radial-one-singular-fallback" data-box="100 60 20 20"><rect x="108" y="62" width="4" height="16" fill="#26a8e0" fill-opacity="1"/></g>
+<g id="radial-two-singular-fallback" data-box="120 60 20 20"><rect x="122" y="68" width="16" height="4" fill="red" fill-opacity="1"/></g>
+<g id="radial-two-box-fallback" data-box="140 60 20 20"><rect x="142" y="68" width="16" height="4" fill="red" fill-opacity="1"/></g>
+</svg>

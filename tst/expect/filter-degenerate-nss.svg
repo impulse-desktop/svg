@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="90">
+<!-- What tst/unit/filter-degenerate-nss.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="horizontal-group" data-box="0 0 30 30"><rect x="11" y="13" width="8" height="4" fill="#207fc0"/></g>
+<g id="vertical-group" data-box="30 0 30 30"><rect x="43" y="11" width="4" height="8" fill="#207fc0"/></g>
+<g id="horizontal-direct" data-box="60 0 30 30"><rect x="71" y="13" width="8" height="4" fill="#207fc0"/></g>
+<g id="vertical-direct" data-box="90 0 30 30"><rect x="103" y="11" width="4" height="8" fill="#207fc0"/></g>
+<g id="tiny-round-cap" data-box="120 0 30 30"><path d="M135 15L135 15.008" fill="none" stroke="#207fc0" stroke-width="4" stroke-linecap="round"/></g>
+<g id="zero-round-cap" data-box="150 0 30 30"><path d="M165 15L165 15" fill="none" stroke="#207fc0" stroke-width="4" stroke-linecap="round"/></g>
+<g id="quarter-scale" data-box="0 30 30 30"><rect x="14.0" y="43.0" width="2.0" height="4" fill="#207fc0"/></g>
+<g id="double-scale" data-box="30 30 30 30"><rect x="43" y="37" width="4" height="16" fill="#207fc0"/></g>
+<g id="unequal-scale" data-box="60 30 30 30"><rect x="67" y="43.0" width="16" height="4" fill="#207fc0"/></g>
+<g id="quarter-turn" data-box="90 30 30 30"><rect x="103" y="41" width="4" height="8" fill="#207fc0"/></g>
+<g id="primitive-box" data-box="120 30 30 30"><rect x="131" y="43" width="8" height="4" fill="#207fc0"/></g>
+<g id="user-space-active" data-box="150 30 30 30"><rect x="150" y="30" width="30" height="30" fill="#40bc30"/></g>
+<g id="positive-small-height" data-box="0 60 30 30"><rect x="11" y="75" width="8" height="9.999999999976694e-05" fill="#40bc30"/></g>
+<g id="positive-small-width" data-box="30 60 30 30"><rect x="45" y="71" width="9.999999999976694e-05" height="8" fill="#40bc30"/></g>
+<g id="positive-small-both" data-box="60 60 30 30"><rect x="75" y="75" width="9.999999999976694e-05" height="9.999999999976694e-05" fill="#40bc30"/></g>
+<g id="move-only" data-box="90 60 30 30"></g>
+<g id="no-stroke" data-box="120 60 30 30"></g>
+<g id="positive-subpaths-box" data-box="150 60 30 30"><rect x="161" y="71" width="8" height="8" fill="#40bc30"/></g>
+</svg>

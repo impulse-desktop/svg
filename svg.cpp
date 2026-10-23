@@ -16260,6 +16260,20 @@ namespace {
     static float srgbToLinear(float c);
     static float linearToSrgb(float c);
 
+    static bool singularTransform(const Document& doc, Node* server) {
+        u32 value = server->name == AtomPattern ? patternAttribute(doc, server, AtomPatternTransform, nullptr) : gradientAttribute(doc, server, AtomGradientTransform);
+        Matrix m = identity();
+        Matrix inverse;
+
+        if (value) {
+            Vector<Token> scratch;
+
+            m = flatTransform(readTokens(doc, value, scratch));
+        }
+
+        return !invert(m, inverse);
+    }
+
     // The paint of a gradient, none where it paints nothing; invalid where
     // it is in error, no paint server then.
     static DevicePaint* gradientPaint(Lowering& l, Node* gradient, float opacity, Box bbox, const Matrix& ctm, Viewport vp, bool& invalid) {
@@ -16314,6 +16328,15 @@ namespace {
             return solidPaint(l, Color{color.r, color.g, color.b, 1.f}, color.a);
         }
 
+        // Zero stops paint as none and one stop as a solid colour
+        // (pservers.md, StopNotes). Neither needs gradient coordinates.
+        // Only a gradient effect can fail for a singular coordinate map.
+        if (singularTransform(doc, gradient)) {
+            invalid = true;
+
+            return nullptr;
+        }
+
         Matrix space = ctm;
         Matrix gradientMatrix = identity();
         u32 transform = gradientAttribute(doc, gradient, AtomGradientTransform);
@@ -16329,6 +16352,8 @@ namespace {
             float bh = bbox.y1 - bbox.y0;
 
             if (!boxValid(bbox) || bw <= 0.f || bh <= 0.f) {
+                invalid = true;
+
                 return nullptr;
             }
 
@@ -16422,27 +16447,6 @@ namespace {
         }
 
         return paint;
-    }
-
-    static bool degenerateBox(const Document& doc, Node* gradient, const Box& bbox) {
-        u32 units = gradientAttribute(doc, gradient, AtomGradientUnits);
-        bool boxUnits = !units || textOf(doc, units) != SV("userSpaceOnUse");
-
-        return boxUnits && (!boxValid(bbox) || bbox.x1 - bbox.x0 <= 0.f || bbox.y1 - bbox.y0 <= 0.f);
-    }
-
-    static bool singularTransform(const Document& doc, Node* server) {
-        u32 value = server->name == AtomPattern ? patternAttribute(doc, server, AtomPatternTransform, nullptr) : gradientAttribute(doc, server, AtomGradientTransform);
-        Matrix m = identity();
-        Matrix inverse;
-
-        if (value) {
-            Vector<Token> scratch;
-
-            m = flatTransform(readTokens(doc, value, scratch));
-        }
-
-        return !invert(m, inverse);
     }
 
     static u32 meshAttribute(const Document& doc, Node* mesh, u32 name) {
@@ -17079,7 +17083,7 @@ namespace {
 
                 // A paint server is used whatever its display and its
                 // conditions, or its ancestors' (pservers.md, Introduction).
-                if ((gradient || pattern) && !singularTransform(*l.doc, server)) {
+                if (gradient || (pattern && !singularTransform(*l.doc, server))) {
                     bool invalid = false;
                     DevicePaint* paint = gradient ? gradientPaint(l, server, opacity, bbox, ctm, vp, invalid) : patternPaint(l, server, opacity, bbox, ctm, vp);
 
@@ -17087,7 +17091,7 @@ namespace {
                     // error, a pattern that cannot draw, or a box needed and
                     // missing, is no paint server: the fallback goes instead
                     // (tst/spec/decisions.md, D8).
-                    if (paint || (gradient && !invalid && !degenerateBox(*l.doc, server, bbox))) {
+                    if (paint || (gradient && !invalid)) {
                         return paint;
                     }
                 }

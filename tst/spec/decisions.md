@@ -101,6 +101,16 @@ The W3C test pservers-pattern-03-f and the browsers read it so. What the text
 says paints nothing does: a gradient without stops paints as none, a radial
 gradient whose start circle covers its end circle draws nothing.
 
+`svg2/pservers.md#StopNotes` resolves the stop count before gradient
+coordinates: zero stops paint as none and one stop paints its solid colour
+and opacity. Neither needs an object-box map or an invertible gradient
+transform. Only a genuine gradient effect, with two or more stops, can
+need a missing box or fail its coordinate map and take the fallback.
+`gradient-single-stop-box` checks these distinctions with plain rectangles,
+including explicit fallback colours. Real Inkscape solid-paint gradients
+use this one-stop form on stroked horizontal and vertical paths; resvg
+retains those strokes, while Chromium and librsvg discard them.
+
 ## D9. A template's content is cloned under the server that uses it
 
 `svg2/pservers.md#PaintServerTemplates`: the content taken from a template
