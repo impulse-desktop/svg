@@ -38,6 +38,12 @@ it covers; where it lies on the content's own edge (a filter whose region is
 the element's box) the edge's antialiasing is left as it is, as the pixel
 cannot tell the two apart.
 
+The content's edge is the painted edge, including stroke, nested filters,
+clips and masks; it is carried through a filter chain with its pixels. The
+geometric object box used for objectBoundingBox units still excludes stroke.
+`filter-source-paint-edges` checks this distinction with exact rectangular
+fill/stroke coverage and fractional subregions, including nested effects.
+
 ## D3. Vector effects are computed in output pixels at any size
 
 `svg2/painting.md#non-scaling-stroke`: the outline is computed in "the

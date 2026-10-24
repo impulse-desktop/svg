@@ -2358,6 +2358,9 @@ namespace {
         u32 height;
         Vector<Plane> layers;
         Vector<IntBox> dirty;
+        // The painted edges already antialiased in each layer. A group's
+        // allocation and its geometric object box need not have these edges.
+        Vector<Box> painted;
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
         // The coverage deltas of a fill's rows, 2^32 for a whole pixel,
@@ -24555,7 +24558,7 @@ namespace {
         return true;
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
+    static Box runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
     // The tile of a pattern is drawn once, where its fill samples it: over
     // the window of tile pixels under the fill's bounds, widened by the
@@ -24836,7 +24839,7 @@ namespace {
         }
     }
 
-    static void fillOp(Raster& r, const Lowering& l, const Op& op) {
+    static Box fillOp(Raster& r, const Lowering& l, const Op& op) {
         preparePaint(l, *op.paint);
 
         u32 ix0;
@@ -24848,7 +24851,7 @@ namespace {
         IntBox clip = r.layers.back().box;
 
         if (!rasterize(r, l, op.first, op.count, op.bounds, op.aliased, clip, ix0, iy0, w, h, op.rule, op.bandStart)) {
-            return;
+            return emptyBox();
         }
 
         const u64* acc = r.accumulation.data();
@@ -24933,6 +24936,8 @@ namespace {
                 draw(w);
             }
         }
+
+        return op.bounds;
     }
 
     // Adds the coverage of the shape to a map of one stored unit a pixel over the box.
@@ -24973,20 +24978,21 @@ namespace {
         }
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
+    static Box runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
     // The clip of a group, one stored unit a pixel over the box of its layer.
-    static u16* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
+    static u16* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box, Box& bounds) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
         u16* mask = (u16*)pool.allocate(sizeof(u16) * size);
 
         memset(mask, 0, sizeof(u16) * size);
+        bounds = emptyBox();
 
         if (op.clipProgram) {
             Plane content{(u16*)pool.allocate(sizeof(u16) * size * 4), box};
 
             memset(content.data, 0, sizeof(u16) * size * 4);
-            runProgram(r, l, l.programs.data() + op.clipFirst, op.clipCount, content);
+            bounds = runProgram(r, l, l.programs.data() + op.clipFirst, op.clipCount, content);
 
             for (size_t i = 0; i < size; i++) {
                 mask[i] = content.data[i * 4 + 3];
@@ -24997,6 +25003,7 @@ namespace {
 
         for (u32 s = op.clipFirst; s < op.clipFirst + op.clipCount; s++) {
             accumulateShape(r, l, l.clips[s], mask, box);
+            bounds = joinBoxes(bounds, l.clips[s].bounds);
         }
 
         return mask;
@@ -25040,11 +25047,13 @@ namespace {
     // The mask of an element: each layer's image in its painting area, as
     // alpha or luminance, from the bottom layer up, each composited over
     // the ones below: add, subtract, intersect or exclude.
-    static u16* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box) {
+    static u16* maskBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box, Box& bounds) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
         Plane content{(u16*)pool.allocate(sizeof(u16) * size * 4), box};
         u16* mask = (u16*)pool.allocate(sizeof(u16) * size);
         u16* above = op.maskLayerCount > 1 ? (u16*)pool.allocate(sizeof(u16) * size) : mask;
+
+        bounds = emptyBox();
 
         for (u32 k = op.maskLayerCount; k-- > 0;) {
             const MaskLayerOp& layer = op.maskLayers[k];
@@ -25052,7 +25061,14 @@ namespace {
 
             memset(content.data, 0, sizeof(u16) * size * 4);
             memset(out, 0, sizeof(u16) * size);
-            runProgram(r, l, l.programs.data() + layer.first, layer.count, content);
+            Box source = runProgram(r, l, l.programs.data() + layer.first, layer.count, content);
+
+            source = meetBoxes(source, l.clips[layer.region].bounds);
+
+            if (source.x1 <= source.x0 || source.y1 <= source.y0) {
+                source = emptyBox();
+            }
+
             accumulateShape(r, l, l.clips[layer.region], out, box);
 
             for (size_t i = 0; i < size; i++) {
@@ -25072,7 +25088,14 @@ namespace {
             }
 
             if (out == mask) {
+                bounds = source;
                 continue;
+            }
+
+            bounds = layer.composite == 1 ? source : layer.composite == 2 ? meetBoxes(source, bounds) : joinBoxes(source, bounds);
+
+            if (bounds.x1 <= bounds.x0 || bounds.y1 <= bounds.y0) {
+                bounds = emptyBox();
             }
 
             for (size_t i = 0; i < size; i++) {
@@ -25120,6 +25143,7 @@ namespace {
         ObjPool* pool;
         IntBox canvas;
         Plane source;
+        Box sourceEdges;
         Plane sourceLinear;
         Plane sourceAlpha;
         Plane background;
@@ -25394,14 +25418,12 @@ namespace {
         return index >= 0 ? run.results[index].support : run.filter->device;
     }
 
-    // An input's hard edges: the element's box for the source, as its
-    // antialiasing has them.
+    // An input's hard edges, including those of the painted source rather
+    // than its geometric box, which excludes stroke and filter results.
     static Box edgesOf(const FilterRun& run, int index) {
-        const Filter& f = *run.filter;
         bool source = index == InputSourceGraphic || index == InputSourceAlpha;
-        bool boxed = fminf(f.bbox.x1 - f.bbox.x0, f.bbox.y1 - f.bbox.y0) > 0.f;
 
-        return index >= 0 ? run.results[index].edges : (source && boxed ? deviceBox(f.ctm, f.bbox) : f.device);
+        return index >= 0 ? run.results[index].edges : (source ? run.sourceEdges : (index == InputFillPaint || index == InputStrokePaint ? allBox() : run.filter->device));
     }
 
     // What a composite keeps of its inputs: where both are, a, b, or with a
@@ -25415,6 +25437,17 @@ namespace {
 
     static Box movedBox(const Box& box, Point d) {
         return Box{box.x0 + d.x, box.y0 + d.y, box.x1 + d.x, box.y1 + d.y};
+    }
+
+    // A shift samples stored pixels, including a partly covered boundary
+    // pixel. Its fractional interpolation can reach a pixel beyond the
+    // shifted continuous support. Round out an axis only when interpolation
+    // reads adjacent samples; a whole shift keeps exact subregion bounds.
+    static Box movedSamples(const Box& box, Point d) {
+        bool fractionalX = d.x != floorf(d.x);
+        bool fractionalY = d.y != floorf(d.y);
+
+        return box.x1 > box.x0 && box.y1 > box.y0 ? movedBox(Box{fractionalX ? floorf(box.x0) : box.x0, fractionalY ? floorf(box.y0) : box.y0, fractionalX ? ceilf(box.x1) : box.x1, fractionalY ? ceilf(box.y1) : box.y1}, d) : emptyBox();
     }
 
     static Box keptBox(u8 keeps, const Box& a, const Box& b) {
@@ -25451,6 +25484,13 @@ namespace {
                 cover(edge, b.x1, y, cy);
             }
         }
+    }
+
+    // A side strictly inside painted content cuts its fractional pixels;
+    // one on a hard edge leaves that edge's antialiasing alone (D2). A
+    // hundredth of a pixel is the same edge.
+    static Box interiorCut(const Box& clip, const Box& hard) {
+        return Box{clip.x0 > hard.x0 + 1e-2f ? clip.x0 : -INFINITY, clip.y0 > hard.y0 + 1e-2f ? clip.y0 : -INFINITY, clip.x1 < hard.x1 - 1e-2f ? clip.x1 : INFINITY, clip.y1 < hard.y1 - 1e-2f ? clip.y1 : INFINITY};
     }
 
     // Clears a result past the pixels its support touches, all of it where
@@ -26023,7 +26063,7 @@ namespace {
         }
     }
 
-    static void filterBlur(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    static bool filterBlur(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         float sx = 0.f;
         float sy = 0.f;
@@ -26041,7 +26081,7 @@ namespace {
         if (!valid) {
             copyBox(in, out, p.box);
 
-            return;
+            return true;
         }
 
         // A negative deviation, or two of zero, pass the input through; one
@@ -26052,7 +26092,7 @@ namespace {
         if (sx < 0.f || sy < 0.f || (sx == 0.f && sy == 0.f)) {
             copyBox(in, out, p.box);
 
-            return;
+            return true;
         }
 
         if (p.in1 == InputFillPaint || p.in1 == InputStrokePaint) {
@@ -26061,7 +26101,7 @@ namespace {
             // cannot introduce transparent edges at the filter region.
             if (!paint || paint->type == PaintType::Solid) {
                 copyBox(in, out, p.box);
-                return;
+                return true;
             }
         }
 
@@ -26071,6 +26111,8 @@ namespace {
         EdgeMode edge = p.node && src.x1 > src.x0 ? edgeModeOf(*f.doc, p.node, EdgeMode::None) : EdgeMode::None;
 
         blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p.in1, in), edge, src, supportOf(run, p.in1));
+
+        return false;
     }
 
     static void filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -28313,7 +28355,7 @@ namespace {
         }
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
+    static Box runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
     static void filterImage(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         Plane content = makePlane(p.box);
@@ -28355,7 +28397,7 @@ namespace {
 
     // Runs the filter over the layer and writes its result back over it: the
     // final primitive's result inside its box, zero elsewhere.
-    static void applyFilter(Raster& r, const Lowering& l, const Filter& lowered, const Plane& layer, ObjPool& pool, const IntBox& visible) {
+    static Box applyFilter(Raster& r, const Lowering& l, const Filter& lowered, const Plane& layer, ObjPool& pool, const IntBox& visible, const Box& sourceEdges) {
         // The region and the primitive boxes were clipped to the canvas when
         // the filter was lowered, the raster of the pattern tile or layer it
         // is drawn on. The final result is read within the visible box alone.
@@ -28415,7 +28457,7 @@ namespace {
             // The callers filter only layers that have pixels.
             memset(layer.data, 0, sizeof(u16) * size * 4);
 
-            return;
+            return emptyBox();
         }
 
         FilterRun run;
@@ -28442,6 +28484,7 @@ namespace {
         // SourceGraphic is the layer, transparent outside the filter region;
         // the result overwrites the layer anyway.
         run.source = layer;
+        run.sourceEdges = meetBoxes(sourceEdges, filter.device);
 
         for (int y = layer.box.y0; y < layer.box.y1; y++) {
             if (y < region.y0 || y >= region.y1) {
@@ -28451,6 +28494,11 @@ namespace {
                 clearSpan(layer, y, region.x1, layer.box.x1);
             }
         }
+
+        // The filter region clips inputs too, before a primitive can move
+        // or blur their boundary pixels. Their new hard edges carry that
+        // coverage, so an unchanged result does not take it a second time.
+        coverEdges(run.source, interiorCut(filter.device, sourceEdges));
 
         // A source read in linear light alone is converted in place: the
         // result overwrites the layer anyway.
@@ -28552,11 +28600,15 @@ namespace {
                     break;
                 case AtomFeOffset:
                     shift = filterOffset(run, p, out);
-                    reach = movedBox(supportOf(run, p.in1), shift);
+                    reach = movedSamples(supportOf(run, p.in1), shift);
                     hard = movedBox(edgesOf(run, p.in1), shift);
                     break;
                 case AtomFeGaussianBlur:
-                    filterBlur(run, p, out);
+                    if (filterBlur(run, p, out)) {
+                        reach = supportOf(run, p.in1);
+                        hard = edgesOf(run, p.in1);
+                    }
+
                     break;
                 case AtomFeDropShadow:
                     filterDropShadow(run, p, out);
@@ -28621,11 +28673,8 @@ namespace {
             }
 
             Box support = meetBoxes(p.clip, reach);
-            // A side of the subregion inside the hard edges cuts what it
-            // holds there; a hundredth of a pixel is the same edge.
-            Box cut{p.clip.x0 > hard.x0 + 1e-2f ? p.clip.x0 : -INFINITY, p.clip.y0 > hard.y0 + 1e-2f ? p.clip.y0 : -INFINITY, p.clip.x1 < hard.x1 - 1e-2f ? p.clip.x1 : INFINITY, p.clip.y1 < hard.y1 - 1e-2f ? p.clip.y1 : INFINITY};
 
-            coverEdges(out, cut);
+            coverEdges(out, interiorCut(p.clip, hard));
             keepSupport(out, support);
             run.results.mut(k) = FilterResult{out, p.linear, support, meetBoxes(p.clip, hard)};
             done.mut(k) = 1;
@@ -28701,9 +28750,11 @@ namespace {
                 releasePlane(run.paint[kind][space]);
             }
         }
+
+        return last.edges;
     }
 
-    static void compositeLayer(Raster& r, const Lowering& l, const Op& op) {
+    static Box compositeLayer(Raster& r, const Lowering& l, const Op& op) {
         Raster sub;
         ObjPool pool;
         int lw = (int)op.layerWidth;
@@ -28770,7 +28821,7 @@ namespace {
         }
 
         memset(content.data, 0, sizeof(u16) * size * 4);
-        runProgram(sub, l, l.programs.data() + op.first, op.count, content);
+        Box painted = runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
         // The device canvas and the taps around it, in layer pixels: the
         // part of the last result that is drawn.
@@ -28779,9 +28830,13 @@ namespace {
         IntBox region{0, 0, lw, lh};
 
         for (const Filter* filter = op.filter; filter; filter = filter->next) {
-            applyFilter(sub, l, *filter, content, pool, filter->next ? content.box : visible);
+            painted = applyFilter(sub, l, *filter, content, pool, filter->next ? content.box : visible, painted);
             region = filter->region;
         }
+
+        // The same painted edges in the parent's pixels, not the larger
+        // allocation that the layer and its filter needed for sampling.
+        Box bounds = painted.x1 > painted.x0 && painted.y1 > painted.y0 ? mappedBox(1, painted) : emptyBox();
 
         // A filter's result is zero outside its region, so only the device
         // pixels whose bilinear taps reach the region of the last one can draw.
@@ -28816,7 +28871,7 @@ namespace {
                 overLayer(r, x0, y, content.data + ((size_t)iy * lw + (size_t)(x0 + shiftX)) * 4, x1 - x0);
             }
 
-            return;
+            return bounds;
         }
 
         sample.zero((size_t)count * 4);
@@ -28859,6 +28914,8 @@ namespace {
 
             overLayer(r, drawn.x0, y, sample.data(), count);
         }
+
+        return bounds;
     }
 
     // The factor of each pixel of a group's row: its opacity times its clip
@@ -28881,26 +28938,33 @@ namespace {
         }
     }
 
-    static void runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base) {
+    static Box runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base) {
         IntBox canvas{0, 0, (int)r.width, (int)r.height};
 
         r.layers.pushBack(base);
         r.dirty.pushBack(base.box);
+        r.painted.pushBack(emptyBox());
         r.begins.pushBack(nullptr);
 
         for (u32 k = 0; k < count; k++) {
             const Op& op = ops[k];
 
             switch (op.kind) {
-                case OpKind::Fill:
-                    fillOp(r, l, op);
+                case OpKind::Fill: {
+                    Box bounds = fillOp(r, l, op);
+
+                    r.painted.mut(r.painted.length() - 1) = joinBoxes(r.painted.back(), bounds);
                     finishPaint(*op.paint);
                     break;
-                case OpKind::Layer:
+                }
+                case OpKind::Layer: {
                     ensure(r.layers.back(), r.dirty.mut(r.dirty.length() - 1), layerBox(op.bounds, canvas));
 
-                    compositeLayer(r, l, op);
+                    Box bounds = compositeLayer(r, l, op);
+
+                    r.painted.mut(r.painted.length() - 1) = joinBoxes(r.painted.back(), bounds);
                     break;
+                }
                 case OpKind::Begin: {
                     // The layer holds the pixels its group was lowered to draw.
                     ObjPool* pool = new ObjPool();
@@ -28910,6 +28974,7 @@ namespace {
 
                     r.layers.pushBack(layer);
                     r.dirty.pushBack(IntBox{0, 0, 0, 0});
+                    r.painted.pushBack(emptyBox());
                     r.pools.pushBack(pool);
                     r.begins.pushBack(&op);
                 } break;
@@ -28919,6 +28984,7 @@ namespace {
                     ObjPool* pool = r.pools.popBack();
                     const Op* begin = r.begins.popBack();
                     IntBox box = r.dirty.popBack();
+                    Box painted = r.painted.popBack();
 
                     // A group of no pixels draws nothing.
                     if (!layer.data) {
@@ -28931,13 +28997,27 @@ namespace {
                     }
 
                     for (const Filter* filter = begin->filter; filter; filter = filter->next) {
-                        applyFilter(r, l, *filter, layer, *pool, canvas);
+                        painted = applyFilter(r, l, *filter, layer, *pool, canvas, painted);
                     }
 
-                    const u16* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box) : nullptr;
-                    const u16* mask = begin->masked ? maskBuffer(r, l, *begin, *pool, layer.box) : nullptr;
+                    Box clipBounds;
+                    Box maskBounds;
+                    const u16* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box, clipBounds) : nullptr;
+                    const u16* mask = begin->masked ? maskBuffer(r, l, *begin, *pool, layer.box, maskBounds) : nullptr;
                     int width = planeWidth(layer);
                     u32 opacity = toUnit16(begin->opacity);
+
+                    if (clip) {
+                        painted = meetBoxes(painted, clipBounds);
+                    }
+
+                    if (mask) {
+                        painted = meetBoxes(painted, maskBounds);
+                    }
+
+                    if (opacity && painted.x1 > painted.x0 && painted.y1 > painted.y0) {
+                        r.painted.mut(r.painted.length() - 1) = joinBoxes(r.painted.back(), painted);
+                    }
                     // The layer is scaled by its opacity, clip and mask, a factor a pixel.
                     bool scaled = opacity < 65535 || clip || mask;
                     Vector<u16> factor;
@@ -28985,6 +29065,8 @@ namespace {
         r.layers.popBack();
         r.dirty.popBack();
         r.begins.popBack();
+
+        return r.painted.popBack();
     }
 
     static bool usesBackground(const Document& doc, const Node* node, u32 depth) {
