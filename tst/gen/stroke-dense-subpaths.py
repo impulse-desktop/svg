@@ -44,14 +44,17 @@ def rectangle_union_areas(rectangles, width, height):
 
 
 def main():
-    unit = Unit('stroke-dense-subpaths', 48, 96,
+    unit = Unit('stroke-dense-subpaths', 48, 128,
                 'One path paints the union of all stroked subpaths once. '
                 'Exact rational rectangle areas check overlapping, touching '
                 'and disjoint thin butt-capped segments, varying heights, '
                 'reversal, both axes, opacity, move-only subpaths and zero '
                 'width. Collinear round-capped subpaths also paint once. '
                 'Separate path elements keep separate source-over '
-                'operations; group opacity applies after those operations.',
+                'operations; group opacity applies after those operations. '
+                'Dense short square-capped subpaths include both cap '
+                'extensions before their union, also under nonuniform '
+                'scale, reversal and stroke opacity.',
                 ground=False)
     cases = [
         ('overlap', F('.16'), F('.24'), False, False, False, False, F(1), F(1)),
@@ -148,6 +151,46 @@ def main():
         unit.cell(name, (x, y, 16, 16),
                   f'<svg x="{x}" y="{y}" width="16" height="16">{drawing}</svg>',
                   f'<g transform="translate({x} {y})">{expected}</g>')
+    for i, name in enumerate(['square-overlap', 'square-stroke-half',
+                              'square-separate-elements', 'square-short',
+                              'square-reversed', 'square-nonuniform']):
+        stroke = F('.6') if name == 'square-short' else F('.24')
+        step = F('.1') if name == 'square-short' else F('.16')
+        count = 100 if name == 'square-short' else 40
+        alpha = F('.5') if name == 'square-stroke-half' else F(1)
+        sx, sy, dx, dy = ((F('1.2'), F('.7'), F('.13'), F('2.1'))
+                          if name == 'square-nonuniform' else (F(1), F(1), F(0), F(0)))
+        data, rectangles = [], []
+        indices = range(count - 1, -1, -1) if name == 'square-reversed' else range(count)
+        for j in indices:
+            at = F(2) + j * step
+            top, bottom = F('10.97'), F('11.03')
+            if name == 'square-short':
+                top, bottom = F('8.02'), F('8.08')
+            a, b = (bottom, top) if name == 'square-reversed' else (top, bottom)
+            data.append(f'M{float(at):.17g} {float(a):.17g}V{float(b):.17g}')
+            rectangles.append(((at - stroke / 2) * sx + dx, (top - stroke / 2) * sy + dy,
+                               (at + stroke / 2) * sx + dx, (bottom + stroke / 2) * sy + dy))
+        split = name == 'square-separate-elements'
+        groups = [[j] for j in range(count)] if split else [list(range(count))]
+        drawing = []
+        opacity = [[F(0) for _ in range(16)] for _ in range(16)]
+        for group in groups:
+            drawing.append(f'<path d="{" ".join(data[j] for j in group)}" fill="none" '
+                           f'stroke="lime" stroke-width="{float(stroke)}" '
+                           f'stroke-linecap="square" stroke-opacity="{float(alpha)}"/>')
+            area = rectangle_union_areas([rectangles[j] for j in group], 16, 16)
+            for py in range(16):
+                for px in range(16):
+                    a = area[py][px] * alpha
+                    opacity[py][px] = a + opacity[py][px] * (1 - a)
+        expected = png([[(0, 1, 0, a) for a in row] for row in opacity])
+        x, y = i % 3 * 16, 96 + i // 3 * 16
+        unit.cell(name, (x, y, 16, 16),
+                  f'<g transform="translate({x} {y})"><g '
+                  f'transform="matrix({float(sx)} 0 0 {float(sy)} {float(dx)} {float(dy)})">'
+                  f'{"".join(drawing)}</g></g>',
+                  f'<image x="{x}" y="{y}" width="16" height="16" href="{expected}"/>')
     unit.write()
 
 

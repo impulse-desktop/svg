@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="96">
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="128">
 <!-- What tst/unit/stroke-dense-subpaths.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
 <g id="overlap" data-box="0 0 16 16"><image x="0" y="0" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAI0lEQVR42mNg+M/AQBEeNAbIAzEuGDNqwKgBxBowDPIC2RgAUSs5LZMQ1y4AAAAASUVORK5CYII="/></g>
@@ -19,4 +19,10 @@ cell's id is what the statement ledgers link to. -->
 <g id="round-overlap" data-box="0 80 16 16"><g transform="translate(0 80)"><rect y="7.75" width="16" height=".5" fill="lime" fill-opacity="1"/></g></g>
 <g id="round-stroke-half" data-box="16 80 16 16"><g transform="translate(16 80)"><rect y="7.75" width="16" height=".5" fill="lime" fill-opacity="0.5"/></g></g>
 <g id="round-separate-elements" data-box="32 80 16 16"><g transform="translate(32 80)"><rect y="7" width="16" height="2" fill="lime" fill-opacity=".4375"/></g></g>
+<g id="square-overlap" data-box="0 96 16 16"><image x="0" y="96" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIklEQVR42mNg+M/AQBEeNWDUAGoawArEajgwH10MGMmxAAAghAD+VD2GlAAAAABJRU5ErkJggg=="/></g>
+<g id="square-stroke-half" data-box="16 96 16 16"><image x="16" y="96" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIklEQVR42mNg+M/AQBEeNWDUAGoawATEwjgwO10MGMmxAADb0gAGjdUlrQAAAABJRU5ErkJggg=="/></g>
+<g id="square-separate-elements" data-box="32 96 16 16"><image x="32" y="96" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAJ0lEQVR42mNg+M/AQBEeNWDUAGoawArEJkBsCsUmSHwhuhgwkmMBAA6kAbTZ+ulaAAAAAElFTkSuQmCC"/></g>
+<g id="square-short" data-box="0 112 16 16"><image x="0" y="112" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAKElEQVR42mNg+M/AQBEeNWAQGSAKxO5EYj5sBsgCcSKRWHg0FoadAQCH2QXzWb0lZQAAAABJRU5ErkJggg=="/></g>
+<g id="square-reversed" data-box="16 112 16 16"><image x="16" y="112" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIklEQVR42mNg+M/AQBEeNWDUAGoawArEajgwH10MGMmxAAAghAD+VD2GlAAAAABJRU5ErkJggg=="/></g>
+<g id="square-nonuniform" data-box="32 112 16 16"><image x="32" y="112" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIUlEQVR42mNg+M/AQBEeNWDUADQDFIHYDA/mHA3EwWoAAFgjALTL6IEEAAAAAElFTkSuQmCC"/></g>
 </svg>
