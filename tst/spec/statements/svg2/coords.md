@@ -93,3 +93,7 @@
 
 - svg2/coords.md#issue31: values of vector-effect other than none and non-scaling-stroke are marked by the spec itself as at risk of being dropped for lack of implementations.
 - svg2/coords.md#TermDecoratedBoundingBox: an exact curve-enclosing bounding box needs each curve's true per-axis extrema, not just its control points' hull; costly to compute exactly for every stroked/filled curve.
+
+## Transformed group geometry: bbox-group-space (exists)
+
+- [x] svg2/coords.md#ContainerElementBoudingBoxComputation: all descendant geometry is bounded in the requested group coordinate space. Mapping each child local axis-aligned rectangle instead can enlarge the result and makes cancelling transforms depend on grouping. Exact affine circle/ellipse supports and a literal cubic polynomial independently determine flood-region references. Stroke boxes retain the separate CSS Masking algorithm (D21). [bbox-group-space#identity bbox-group-space#rotate-circle bbox-group-space#rotate-ellipse bbox-group-space#shear-circle bbox-group-space#shear-ellipse bbox-group-space#cancel-rotations bbox-group-space#cancel-shears bbox-group-space#reflection bbox-group-space#quarter-turn bbox-group-space#stroke-excluded bbox-group-space#opacity-zero bbox-group-space#visibility-hidden bbox-group-space#display-none bbox-group-space#rotated-cubic bbox-group-space#multiple-children bbox-group-space#group-scale]

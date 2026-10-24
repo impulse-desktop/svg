@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+<!-- What tst/unit/bbox-group-space.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="identity" data-box="0 0 16 16"><image x="0" y="0" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYC2BqDDkWjAaDqglwEA42IPAMSJzHMAAAAASUVORK5CYII="/></g>
+<g id="rotate-circle" data-box="16 0 16 16"><image x="16" y="0" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYC2BqDDkWjAaDqglwEA42IPAMSJzHMAAAAASUVORK5CYII="/></g>
+<g id="rotate-ellipse" data-box="32 0 16 16"><image x="32" y="0" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAK0lEQVR42mNg+M/AQBEeNYC2BoQB8RQoDiPHAJBGGJwyIAZQ7IXRdEAvAwDDyAkEgRzIyAAAAABJRU5ErkJggg=="/></g>
+<g id="shear-circle" data-box="48 0 16 16"><image x="48" y="0" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIUlEQVR42mNg+M/AQBEeNYB2BlwGYnR4eYQZMJoO6GkAAD8QFZi2kcssAAAAAElFTkSuQmCC"/></g>
+<g id="shear-ellipse" data-box="0 16 16 16"><image x="0" y="16" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIUlEQVR42mNg+M/AQBEeNWAQG2ADxOjQhq4GjMbCkDIAAKTcB/iXSWm3AAAAAElFTkSuQmCC"/></g>
+<g id="cancel-rotations" data-box="16 16 16 16"><image x="16" y="16" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYC2BqDDkWjAaDqglwEA42IPAMSJzHMAAAAASUVORK5CYII="/></g>
+<g id="cancel-shears" data-box="32 16 16 16"><image x="32" y="16" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYC2BqDDkWjAaDqglwEA42IPAMSJzHMAAAAASUVORK5CYII="/></g>
+<g id="reflection" data-box="48 16 16 16"><image x="48" y="16" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAH0lEQVR42mNg+M/AQBEeNWCQG7AfDdPfgNFYGDIGAACxagUISpoT9wAAAABJRU5ErkJggg=="/></g>
+<g id="quarter-turn" data-box="0 32 16 16"><image x="0" y="32" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYD2BsDgSDZgNB3QwwAAvqYHCPxbd1cAAAAASUVORK5CYII="/></g>
+<g id="stroke-excluded" data-box="16 32 16 16"><image x="16" y="32" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYC2BqDDkWjAaDqglwEA42IPAMSJzHMAAAAASUVORK5CYII="/></g>
+<g id="opacity-zero" data-box="32 32 16 16"><image x="32" y="32" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYC2BqDDkWjAaDqglwEA42IPAMSJzHMAAAAASUVORK5CYII="/></g>
+<g id="visibility-hidden" data-box="48 32 16 16"><image x="48" y="32" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNYC2BqDDkWjAaDqglwEA42IPAMSJzHMAAAAASUVORK5CYII="/></g>
+<g id="display-none" data-box="0 48 16 16"><image x="0" y="48" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHUlEQVR42mNg+M/AQBEeNWAIGACDA2fAaCwMCQMArEgDDIshz2UAAAAASUVORK5CYII="/></g>
+<g id="rotated-cubic" data-box="16 48 16 16"><image x="16" y="48" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHklEQVR42mNg+M/AQBEeNYA+BoBgwwg3YDQd0NoAAKWMBQwekh/uAAAAAElFTkSuQmCC"/></g>
+<g id="multiple-children" data-box="32 48 16 16"><image x="32" y="48" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAJ0lEQVR42mNg+M/AQBEeNQCnhA4QZ2HBRBsAUowNDiEDRtPBkDIAAFSGEX2bOq5ZAAAAAElFTkSuQmCC"/></g>
+<g id="group-scale" data-box="48 48 16 16"><image x="48" y="48" width="16" height="16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAK0lEQVR42mNg+M/AQBEeNYC2BjgAcQMUO5BjAEgjDDYMiAEUe2E0HdDLAADNXggMULrGewAAAABJRU5ErkJggg=="/></g>
+</svg>

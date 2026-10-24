@@ -17160,10 +17160,10 @@ namespace {
         return false;
     }
 
-    // How an extent counts. Tight, the geometry of children goes through
-    // their transforms, as a document's size has it; loose, their boxes do,
-    // as browsers have an object bounding box. Markers count only for a
-    // document's size.
+    // Tight extents map descendant geometry into the requested space, as
+    // object boxes and document measurement require. Stroke boxes map
+    // each child's box instead, following CSS Masking (D21). Markers
+    // count only for a document's size.
     struct Extent {
         bool tight;
         bool markers;
@@ -17446,7 +17446,7 @@ namespace {
     static bool elementBox(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp, Box& out, u32 depth) {
         Box box = emptyBox();
 
-        elementExtent(p, node, parent, identity(), vp, Extent{false, false, false}, depth, box);
+        elementExtent(p, node, parent, identity(), vp, Extent{true, false, false}, depth, box);
         out = box;
 
         return boxValid(box);
