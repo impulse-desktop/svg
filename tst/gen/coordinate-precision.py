@@ -76,6 +76,15 @@ for name, viewbox, center, expected_x in [
     cases.append((name, viewbox,
                   f'<ellipse cx="{center}" cy="16777216" rx="4194304" ry="2097152" fill="lime"/>',
                   f'<ellipse cx="{expected_x}" cy="16" rx="4" ry="2" fill="lime"/>'))
+# A positive width remains renderable even below a layout-unit quantum.
+# The rounded ends lie outside the viewport; the visible middle is an
+# exact straight band. A genuinely zero width disables the whole shape.
+for name, width, plain in [
+        ('rect-tiny-positive-width', '1e-8', '<rect x="18" width="4.00000001" height="64" fill="lime"/>'),
+        ('rect-zero-width', '0', '<g/>')]:
+    cases.append((name, '0 0 64 64',
+                  f'<rect x="20" y="-10" width="{width}" height="100" ry="1.5e-14" fill="none" stroke="lime" stroke-width="4"/>',
+                  plain))
 for i, (name, viewbox, content, plain) in enumerate(cases):
     x, y = i % 5 * 64, i // 5 * 64
     unit.cell(name, (x, y, 64, 64),
