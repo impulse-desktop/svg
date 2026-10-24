@@ -17640,6 +17640,86 @@ namespace {
         return true;
     }
 
+    // Two opposed vertical edges describe one axis-aligned filled rectangle.
+    // Holes, sloping sides and disconnected shapes do not have this form.
+    static bool rectangleEdges(const Lowering& l, u32 first, u32 count, const Box& box) {
+        if (count != 2) {
+            return false;
+        }
+
+        const Edge& a = l.edges[first];
+        const Edge& b = l.edges[first + 1];
+
+        if (a.x0 != a.x1 || b.x0 != b.x1 || a.x0 == b.x0 || a.y0 != b.y1 || a.y1 != b.y0) {
+            return false;
+        }
+
+        // Bounds retain the transformed geometry's doubles. Comparing the
+        // stored edges to their float images also rejects a horizontal
+        // retrace extending the bounds past the filled rectangle.
+        return minf(a.x0, b.x0) == (float)box.x0 && minf(a.y0, a.y1) == (float)box.y0 &&
+            maxf(a.x0, b.x0) == (float)box.x1 && maxf(a.y0, a.y1) == (float)box.y1;
+    }
+
+    static bool rectangleClip(const Lowering& l, const Op& op, Box& box) {
+        if (op.clipProgram || op.clipCount != 1) {
+            return false;
+        }
+
+        const ClipShape& shape = l.clips[op.clipFirst];
+
+        box = shape.bounds;
+        return rectangleEdges(l, shape.first, shape.count, box);
+    }
+
+    // A single rectangular child under rectangular resource/child clips
+    // is their geometric intersection. Keep it as one silhouette: rendering
+    // nested masks would multiply the same fractional coverage repeatedly.
+    static bool rectangularClipProgram(Lowering& l, const Vector<Op>& program, Op& op) {
+        Box cut = emptyBox();
+        Box box = emptyBox();
+        bool clipped = false;
+        bool filled = false;
+
+        for (const Op& item : program) {
+            if (item.kind == OpKind::Begin) {
+                Box rect;
+
+                if (filled || !item.clipped || !rectangleClip(l, item, rect)) {
+                    return false;
+                }
+
+                cut = clipped ? meetBoxes(cut, rect) : rect;
+                clipped = true;
+            } else if (item.kind == OpKind::Fill) {
+                box = item.bounds;
+
+                if (filled || !rectangleEdges(l, item.first, item.count, box)) {
+                    return false;
+                }
+
+                box = clipped ? meetBoxes(box, cut) : box;
+                filled = true;
+            } else if (item.kind != OpKind::End || !filled) {
+                return false;
+            }
+        }
+
+        if (!filled) {
+            return false;
+        }
+
+        op.clipFirst = (u32)l.clips.length();
+        op.clipCount = 0;
+
+        if (box.x1 > box.x0 && box.y1 > box.y0) {
+            addRectClip(l, identity(), box.x0, box.y0, box.x1 - box.x0, box.y1 - box.y0);
+            op.clipCount = 1;
+        }
+
+        return true;
+    }
+
     static bool resolveClip(Lowering& l, Node* element, const ComputedStyle& parent, const ComputedStyle& style, const Matrix& m, Viewport vp, Op& op) {
         const Document& doc = *l.doc;
         Node* clip = elementById(doc, style.clipPath);
@@ -17751,6 +17831,11 @@ namespace {
 
         l.out = saved;
         l.active.popBack();
+
+        if (rectangularClipProgram(l, program, op)) {
+            return true;
+        }
+
         op.clipProgram = true;
         op.clipFirst = (u32)l.programs.length();
         op.clipCount = (u32)program.length();
@@ -25067,16 +25152,10 @@ namespace {
         for (u32 s = op.clipFirst; s < op.clipFirst + op.clipCount; s++) {
             const ClipShape& shape = l.clips[s];
 
-            if (shape.count != 2) {
-                continue;
-            }
+            const Box& rect = shape.bounds;
 
-            const Edge& a = l.edges[shape.first];
-            const Edge& b = l.edges[shape.first + 1];
-
-            if (a.x0 == a.x1 && b.x0 == b.x1 && a.x0 != b.x0 && a.y0 == b.y1 && a.y1 == b.y0 &&
-                minf(a.x0, b.x0) <= box.x0 && maxf(a.x0, b.x0) >= box.x1 &&
-                minf(a.y0, a.y1) <= box.y0 && maxf(a.y0, a.y1) >= box.y1) {
+            if (rectangleEdges(l, shape.first, shape.count, rect) &&
+                rect.x0 <= box.x0 && rect.x1 >= box.x1 && rect.y0 <= box.y0 && rect.y1 >= box.y1) {
                 return true;
             }
         }
