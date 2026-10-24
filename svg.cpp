@@ -23849,11 +23849,19 @@ namespace {
         r = t;
     }
 
+    // Adjacent bands share an endpoint. Reuse its original interpolation,
+    // without changing bandX or the cuts used by recursive crossing splits.
+    struct BandEndpoint {
+        float y;
+        float x;
+        bool valid;
+    };
+
     // The samples of a band: the edges spanning it in the order given, with
     // the x where each enters, leaves and crosses the middle, and the place
     // of each in the active list. Both callers cut at every endpoint and
     // retain only active edges, so each supplied edge spans the whole band.
-    static bool bandSamples(const BandEdge* edges, const Vector<u32>& order, const Vector<u32>& position, float a, float b, Vector<BandSample>& samples) {
+    static bool bandSamples(const BandEdge* edges, const Vector<u32>& order, const Vector<u32>& position, float a, float b, Vector<BandSample>& samples, Vector<BandEndpoint>& endpoints) {
         bool comparable = true;
 
         samples.clear();
@@ -23861,8 +23869,10 @@ namespace {
         for (u32 index : order) {
             const BandEdge& e = edges[index];
 
-            float x0 = bandX(e, a);
+            BandEndpoint& previous = endpoints.mut(index);
+            float x0 = previous.valid && previous.y == a ? previous.x : bandX(e, a);
             float x1 = bandX(e, b);
+            previous = BandEndpoint{b, x1, true};
             double key = ((double)x0 + x1) * 0.5;
 
             comparable = comparable && key == key;
@@ -24277,6 +24287,7 @@ namespace {
         Vector<u32> order;
         Vector<u32> position;
         Vector<BandSample> samples[bandCacheLevels];
+        Vector<BandEndpoint> values;
     };
 
     static bool bandWorkExceeds(const BandEdge* edges, const Vector<u32>& indices, const Vector<float>& cuts, size_t cutCount, float top, float bottom) {
@@ -24406,6 +24417,8 @@ namespace {
         order.clear();
 
         position.zero(edges.length());
+        // Sorting a transposed pixel gives its edges new indices.
+        scratch.values.zero(edges.length());
 
         for (size_t i = 0; i < edges.length(); i++) {
             position.mut(i) = (u32)i;
@@ -24430,7 +24443,7 @@ namespace {
                 order.pushBack((u32)next++);
             }
 
-            bool comparable = bandSamples(edges.data(), order, position, a, b, samples[0]);
+            bool comparable = bandSamples(edges.data(), order, position, a, b, samples[0], scratch.values);
 
             unionBand(output, width + 2, width, edges.data(), samples, a, b, rule, 0, comparable, 0);
             order.clear();
@@ -24540,6 +24553,44 @@ namespace {
         output[width] -= previous;
     }
 
+    // Exact coincident boundaries contribute the sum of their signed winding.
+    // Directions already include the independent stroke-band weights below.
+    static void mergeBandEdges(Vector<BandEdge>& edges) {
+        // Preserve the existing unordered recovery path for nonfinite edges.
+        for (const BandEdge& e : edges) {
+            if (!isfinite(e.x0) || !isfinite(e.y0) || !isfinite(e.x1) || !isfinite(e.y1)) {
+                return;
+            }
+        }
+
+        Vector<BandEdge> scratch;
+        sortBandKeys<16>(edges, scratch, [](const BandEdge& e, int pass) {
+            float value = pass < 4 ? e.x1 : (pass < 8 ? e.y1 : (pass < 12 ? e.x0 : e.y0));
+            return bandKey(value, pass);
+        });
+
+        size_t kept = 0;
+        for (size_t first = 0; first < edges.length();) {
+            BandEdge edge = edges[first];
+            size_t next = first + 1;
+            while (next < edges.length()) {
+                const BandEdge& other = edges[next];
+                if (edge.x0 != other.x0 || edge.y0 != other.y0 || edge.x1 != other.x1 || edge.y1 != other.y1) {
+                    break;
+                }
+                edge.dir += other.dir;
+                next++;
+            }
+            if (edge.dir) {
+                edges.mutData()[kept++] = edge;
+            }
+            first = next;
+        }
+        while (edges.length() > kept) {
+            edges.popBack();
+        }
+    }
+
     static void rasterizeUnion(u64* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
         Vector<BandEdge> edges;
         // The band edges are built in place, counted into the rows they start
@@ -24593,6 +24644,8 @@ namespace {
 
         if (edges.length() < 1024) {
             quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
+        } else {
+            mergeBandEdges(edges);
         }
 
         Vector<u32> active;
@@ -24609,6 +24662,8 @@ namespace {
         size_t next = 0;
 
         position.zero(edges.length());
+        Vector<BandEndpoint> values;
+        values.zero(edges.length());
 
         for (u32 row = 0; row < h; row++) {
             float top = (float)row;
@@ -24777,7 +24832,7 @@ namespace {
                     order.pushBack(incoming[arriving++]);
                 }
 
-                bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0]);
+                bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], values);
 
                 unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0);
 
