@@ -36,6 +36,11 @@ tolerance. The cells cover unequal and zero axes, a deviation just below
 two, source alpha, group opacity, transparent or duplicated edges, and
 unequal device deviations and zero blur under nonuniform transforms.
 
+`filter-inner-shadow-arithmetic` follows the small blur through a complete
+inner-shadow chain. Literal PNG inputs independently check fractional and
+negative offsets, `max(0, SourceAlpha - blurredAlpha)`, a white colour matrix
+and the final merge in linearRGB, including input and group alpha.
+
 ## D2. A filter primitive's subregion is snapped out to whole pixels where it meets its content's edge
 
 `filter-effects-1.md#FilterPrimitiveSubRegion`: the subregion restricts the
@@ -50,6 +55,11 @@ clips and masks; it is carried through a filter chain with its pixels. The
 geometric object box used for objectBoundingBox units still excludes stroke.
 `filter-source-paint-edges` checks this distinction with exact rectangular
 fill/stroke coverage and fractional subregions, including nested effects.
+
+`fe-image-gradient-subregion` checks the same edge rule for an embedded SVG
+gradient rectangle. Exact fractional coverage and independent straight
+colour/alpha interpolation feed `in` and normal-over in both filter colour
+spaces; a containing frame does not apply coverage twice.
 
 ## D3. Vector effects are computed in output pixels at any size
 
