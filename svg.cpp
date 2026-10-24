@@ -27313,7 +27313,8 @@ namespace {
         }
     }
 
-    static void filterConvolve(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Whether the result keeps its input's hard alpha edges.
+    static bool filterConvolve(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Document& doc = *run.filter->doc;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
         float ox = 3.f;
@@ -27327,7 +27328,7 @@ namespace {
 
         // Bound the work before converting an order that may exceed int.
         if (!(ox < 33.f) || !(oy < 33.f)) {
-            return;
+            return false;
         }
 
         // An order not whole is truncated toward zero.
@@ -27340,7 +27341,7 @@ namespace {
         if (!numberList(doc, p.node, AtomKernelMatrix, kernel) || kernel.length() != (size_t)(orderX * orderY)) {
             copyBox(in, out, p.box);
 
-            return;
+            return true;
         }
 
         // A kernel sums to zero, and its divisor is then one, when its sum is
@@ -27366,7 +27367,7 @@ namespace {
         int targetY = (int)numberOf(doc, p.node, AtomTargetY, (float)(orderY / 2));
 
         if (targetX < 0 || targetX >= orderX || targetY < 0 || targetY >= orderY) {
-            return;
+            return false;
         }
 
         EdgeMode edge = edgeModeOf(doc, p.node, EdgeMode::Duplicate);
@@ -27414,9 +27415,14 @@ namespace {
         row.zero((size_t)n * 4);
         spacedTaps.zero((size_t)n * 4);
 
+        bool pointwise = true;
+
         for (int j = 0; j < orderY; j++) {
             for (int i = 0; i < orderX; i++) {
-                weights.mut((size_t)(j * orderX + i)) = kernel[(size_t)((orderY - 1 - j) * orderX + (orderX - 1 - i))] / divisor;
+                float k = kernel[(size_t)((orderY - 1 - j) * orderX + (orderX - 1 - i))];
+
+                pointwise = pointwise && (k == 0.f || (i == targetX && j == targetY));
+                weights.mut((size_t)(j * orderX + i)) = k / divisor;
             }
         }
 
@@ -27593,6 +27599,13 @@ namespace {
                 d[3] = (u16)alpha;
             }
         }
+
+        // A pointwise kernel with no positive bias cannot extend alpha
+        // unless edge sampling extends its input. Duplicate reads the
+        // uncovered edge colour (D48); wrap and mirror extend past src.
+        bool unextended = edge == EdgeMode::None || (edge != EdgeMode::Duplicate && box.x0 >= src.x0 && box.y0 >= src.y0 && box.x1 <= src.x1 && box.y1 <= src.y1);
+
+        return preserve || (pointwise && bias <= 0.f && unextended);
     }
 
     // The noise is computed in single precision, as Chromium's Skia does.
@@ -28584,7 +28597,11 @@ namespace {
                     filterTile(run, p, out);
                     break;
                 case AtomFeConvolveMatrix:
-                    filterConvolve(run, p, out);
+                    if (filterConvolve(run, p, out)) {
+                        reach = supportOf(run, p.in1);
+                        hard = edgesOf(run, p.in1);
+                    }
+
                     break;
                 case AtomFeTurbulence:
                     filterTurbulence(run, p, out);
