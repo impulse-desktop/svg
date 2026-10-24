@@ -25154,8 +25154,13 @@ namespace {
 
             const Box& rect = shape.bounds;
 
+            // The raster's edges are floats. Image fitting and clip
+            // placement can compute the same edge by different double
+            // operations; compare their stored raster coordinates so that
+            // roundoff alone does not apply its coverage a second time.
             if (rectangleEdges(l, shape.first, shape.count, rect) &&
-                rect.x0 <= box.x0 && rect.x1 >= box.x1 && rect.y0 <= box.y0 && rect.y1 >= box.y1) {
+                (float)rect.x0 <= (float)box.x0 && (float)rect.x1 >= (float)box.x1 &&
+                (float)rect.y0 <= (float)box.y0 && (float)rect.y1 >= (float)box.y1) {
                 return true;
             }
         }

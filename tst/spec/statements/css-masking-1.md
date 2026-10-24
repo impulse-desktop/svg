@@ -2,7 +2,7 @@
 
 ## Clipping region: clipping-region
 
-- [x] css-masking-1.md#clipping-paths: the clipping region restricts where paint can land; content outside it is not drawn, for the element and its descendants [clipping-region#group]
+- [x] css-masking-1.md#clipping-paths: the clipping region restricts where paint can land; content outside it is not drawn, for the element and its descendants [clipping-region#group clip-contained-raster-edges#clip-far clip-contained-raster-edges#clip-inside clip-contained-raster-edges#clip-far-inside]
 - [x] css-masking-1.md#clipping-paths: the rendered result is the cumulative intersection of an element's own clip with every ancestor's clip [clipping-region#nested clip-path-element#nested]
 - [x] css-masking-1.md#clipping-paths: a clipping path changes only rendering, never the element's geometry (bounding box, use of it, etc. stay as if unclipped) [clipping-region#geometry clipping-region#gradient-geometry]
 
