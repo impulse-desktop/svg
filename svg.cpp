@@ -25365,6 +25365,7 @@ namespace {
     }
 
     static bool readsResult(const FilterPrimitive& p, int index);
+    static void coverEdges(const Plane& plane, const Box& box);
 
     // The index of the last primitive reading the input, or -1.
     static bool readsInSrgb(const Filter& filter, int index) {
@@ -25443,6 +25444,11 @@ namespace {
             if (!run.background.data) {
                 const IntBox& box = run.filter->region;
                 run.background = backgroundBuffer(*run.raster, box);
+
+                // The stored backdrop is a pixel plane. Its integer copy
+                // bounds include partial boundary pixels; restrict those
+                // pixels to the filter region before an input reads them.
+                coverEdges(run.background, run.filter->device);
 
                 // A background read in linear light alone is converted in place.
                 if (!readsInSrgb(*run.filter, InputBackgroundImage)) {

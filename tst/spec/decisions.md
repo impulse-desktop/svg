@@ -61,6 +61,13 @@ gradient rectangle. Exact fractional coverage and independent straight
 colour/alpha interpolation feed `in` and normal-over in both filter colour
 spaces; a containing frame does not apply coverage twice.
 
+`BackgroundImage` is an already composited pixel plane. Its integer storage
+box also holds pixels partly inside the filter region, so those input pixels
+retain the region's fractional coverage before alpha extraction or colour
+conversion. `filter-background-fractional` checks this with literal PNGs,
+exact rectangle areas and independent copy, blend, XOR-related alpha,
+shift and Gaussian equations, including multiple readers and tiny regions.
+
 ## D3. Vector effects are computed in output pixels at any size
 
 `svg2/painting.md#non-scaling-stroke`: the outline is computed in "the
