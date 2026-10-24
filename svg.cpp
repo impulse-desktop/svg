@@ -25415,7 +25415,7 @@ namespace {
 
     // Where an input can be other than transparent, in pixels.
     static Box supportOf(const FilterRun& run, int index) {
-        return index >= 0 ? run.results[index].support : run.filter->device;
+        return index >= 0 ? run.results[index].support : (index == InputFillPaint || index == InputStrokePaint ? allBox() : run.filter->device);
     }
 
     // An input's hard edges, including those of the painted source rather
@@ -25437,6 +25437,14 @@ namespace {
 
     static Box movedBox(const Box& box, Point d) {
         return Box{box.x0 + d.x, box.y0 + d.y, box.x1 + d.x, box.y1 + d.y};
+    }
+
+    // The extreme of a neighbourhood moves each hard side by its radius:
+    // out for a maximum, in for a minimum. An absent axis keeps its edge.
+    static Box spreadBox(const Box& box, Point radius) {
+        Box out{box.x0 - radius.x, box.y0 - radius.y, box.x1 + radius.x, box.y1 + radius.y};
+
+        return out.x1 > out.x0 && out.y1 > out.y0 ? out : emptyBox();
     }
 
     // A shift samples stored pixels, including a partly covered boundary
@@ -26115,7 +26123,7 @@ namespace {
         return false;
     }
 
-    static void filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    static bool filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         float sx = 2.f;
         float sy = 2.f;
@@ -26127,11 +26135,18 @@ namespace {
             sx = p.params[2];
             sy = p.params[2];
         } else if (attribute(p.node, AtomStdDeviation) && !numberPair(*f.doc, p.node, AtomStdDeviation, sx, sy)) {
-            return;
+            return false;
         }
 
         // The deviation goes to a blur, which a negative one disables.
         Color c = toSpace(p.flood, p.linear);
+
+        if (c.a == 0.f) {
+            copyBox(in, out, p.box);
+
+            return true;
+        }
+
         IntBox all = run.filter->region;
         Plane shadow = makePlane(all);
 
@@ -26172,6 +26187,8 @@ namespace {
 
         releasePlane(moved);
         releasePlane(shadow);
+
+        return false;
     }
 
     static void storePremultiplied(float* d, const float* c) {
@@ -27217,7 +27234,7 @@ namespace {
     // Erodes or dilates the input over the box: the extremes are those of
     // the stored channels, groups of eight rows into a pass over the box's
     // columns, then groups of eight of its columns into the box.
-    static void filterMorphology(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    static Point filterMorphology(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
         u32 op = attribute(p.node, AtomOperator);
@@ -27227,10 +27244,23 @@ namespace {
 
         bool valid = !attribute(p.node, AtomRadius) || numberPair(*f.doc, p.node, AtomRadius, rx, ry);
 
-        if (!valid || rx < 0.f || ry < 0.f || (rx == 0.f && ry == 0.f)) {
+        // A nonpositive radius, in either axis, disables the primitive
+        // (filter-effects-1.md, feMorphology's radius).
+        if (!valid || rx <= 0.f || ry <= 0.f) {
             copyBox(in, out, p.box);
 
-            return;
+            return Point{0.f, 0.f};
+        }
+
+        // An infinite constant paint is unchanged by either extreme.
+        if (p.in1 == InputFillPaint || p.in1 == InputStrokePaint) {
+            const DevicePaint* paint = p.in1 == InputFillPaint ? f.fillPaint : f.strokePaint;
+
+            if (!paint || paint->type == PaintType::Solid) {
+                copyBox(in, out, p.box);
+
+                return Point{0.f, 0.f};
+            }
         }
 
         int height = (int)run.raster->height;
@@ -27239,13 +27269,14 @@ namespace {
         float uy = userY(f, ry) * run.scaleY + 0.5f;
         int ix = (int)floorf(minf(ux, (float)width));
         int iy = (int)floorf(minf(uy, (float)height));
+        Point radius{(float)(dilate ? ix : -ix), (float)(dilate ? iy : -iy)};
         const IntBox& box = p.box;
         MorphologyScratch scratch;
         Vector<u16> rows;
 
         // An empty box is empty by its x, as boxInside leaves it.
         if (box.x1 <= box.x0) {
-            return;
+            return radius;
         }
 
         int x0 = box.x0 - ix > 0 ? box.x0 - ix : 0;
@@ -27276,6 +27307,8 @@ namespace {
         }
 
         releasePlane(pass);
+
+        return radius;
     }
 
     static void filterTile(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -27966,14 +27999,21 @@ namespace {
         }
     }
 
-    static void filterDisplacement(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    static bool filterDisplacement(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
-        Plane map = filterInputBuffer(run, p.in2, p.linear);
         float scale = numberOf(doc, p.node, AtomScale, 0.f);
         float sx = userX(f, scale) * run.scaleX;
         float sy = userY(f, scale) * run.scaleY;
+
+        if (sx == 0.f && sy == 0.f) {
+            copyBox(in, out, p.box);
+
+            return true;
+        }
+
+        Plane map = filterInputBuffer(run, p.in2, p.linear);
         auto channel = [&](u32 name) {
             u32 value = attribute(p.node, name);
             StringView text = value ? trim(textOf(doc, value)) : SV("A");
@@ -28015,6 +28055,8 @@ namespace {
                 bilinear(tap(tx, ty), tap(tx + 1, ty), tap(tx, ty + 1), tap(tx + 1, ty + 1), fx - x0, fy - y0, planeAt(out, x, y));
             }
         }
+
+        return false;
     }
 
     struct Vector3 {
@@ -28611,7 +28653,11 @@ namespace {
 
                     break;
                 case AtomFeDropShadow:
-                    filterDropShadow(run, p, out);
+                    if (filterDropShadow(run, p, out)) {
+                        reach = supportOf(run, p.in1);
+                        hard = edgesOf(run, p.in1);
+                    }
+
                     break;
                 case AtomFeColorMatrix:
                 case AtomFeComponentTransfer:
@@ -28642,9 +28688,12 @@ namespace {
                     }
 
                     break;
-                case AtomFeMorphology:
-                    filterMorphology(run, p, out);
-                    break;
+                case AtomFeMorphology: {
+                    Point radius = filterMorphology(run, p, out);
+
+                    reach = spreadBox(supportOf(run, p.in1), radius);
+                    hard = spreadBox(edgesOf(run, p.in1), radius);
+                } break;
                 case AtomFeTile:
                     filterTile(run, p, out);
                     break;
@@ -28659,7 +28708,11 @@ namespace {
                     filterTurbulence(run, p, out);
                     break;
                 case AtomFeDisplacementMap:
-                    filterDisplacement(run, p, out);
+                    if (filterDisplacement(run, p, out)) {
+                        reach = supportOf(run, p.in1);
+                        hard = edgesOf(run, p.in1);
+                    }
+
                     break;
                 case AtomFeDiffuseLighting:
                 case AtomFeSpecularLighting:
@@ -28955,16 +29008,14 @@ namespace {
 
                     r.painted.mut(r.painted.length() - 1) = joinBoxes(r.painted.back(), bounds);
                     finishPaint(*op.paint);
-                    break;
-                }
+                } break;
                 case OpKind::Layer: {
                     ensure(r.layers.back(), r.dirty.mut(r.dirty.length() - 1), layerBox(op.bounds, canvas));
 
                     Box bounds = compositeLayer(r, l, op);
 
                     r.painted.mut(r.painted.length() - 1) = joinBoxes(r.painted.back(), bounds);
-                    break;
-                }
+                } break;
                 case OpKind::Begin: {
                     // The layer holds the pixels its group was lowered to draw.
                     ObjPool* pool = new ObjPool();
