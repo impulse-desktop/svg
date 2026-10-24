@@ -20202,7 +20202,7 @@ namespace {
             return viewBoxTransform(*l.doc, node, viewBox, cw, ch);
         }
 
-        return l.docWidth > 0.f && l.docHeight > 0.f ? scaling(cw / l.docWidth, ch / l.docHeight) : identity();
+        return l.docWidth > 0.f && l.docHeight > 0.f ? scaling((double)cw / l.docWidth, (double)ch / l.docHeight) : identity();
     }
 
     static void lowerSvg(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& m, Viewport vp) {
@@ -20224,7 +20224,7 @@ namespace {
                     return;
                 }
 
-                l.screen = multiply(m, scaling(w / iw, h / ih));
+                l.screen = multiply(m, scaling((double)w / iw, (double)h / ih));
 
                 // A root with no side of its own zooms its content.
                 if (style.zoom != 1.f && !explicitSide(*l.doc, node, AtomWidth) && !explicitSide(*l.doc, node, AtomHeight)) {
@@ -20881,6 +20881,81 @@ namespace {
 
     static bool usesBackground(const Document& doc, const Node* node, u32 depth = 0);
 
+    // One axis of an image on the device pixel grid. Its rounded unit
+    // direction and whole offset must give exactly the same float sample
+    // coordinates as its actual inverse at every pixel centre. Checking
+    // the two ends of the other axis covers it: an affine map and float
+    // rounding are monotone. No distance from an identity matrix is used.
+    static bool imageGridAxis(double along, double across, double origin, double first, u64 count, double otherFirst, u64 other) {
+        double direction = along < 0.0 ? -1.0 : 1.0;
+        double offset = floor(origin + 0.5);
+        double near = (float)otherFirst + 0.5f;
+        double far = (float)(otherFirst + (double)other - 1.0) + 0.5f;
+
+        for (u64 i = 0; i < count; i++) {
+            double position = first + (double)i + 0.5;
+            double expected = direction * position + offset;
+            double sample = (float)(first + (double)i) + 0.5f;
+
+            if (expected - floor(expected) != 0.5 || (float)(along * sample + across * near + origin) != expected || (float)(along * sample + across * far + origin) != expected) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Native pixels may exchange or reverse axes. Each source axis must
+    // follow a different device axis; a shear or non-unit scale is not a
+    // native pixel grid even when some of its samples land on texel knots.
+    static bool imageNativeGrid(const Matrix& inverse, const Matrix& place, const Box& part) {
+        bool xAlongY = fabs(inverse.c) > fabs(inverse.a);
+        bool yAlongY = fabs(inverse.d) > fabs(inverse.b);
+
+        if (xAlongY == yAlongY) {
+            return false;
+        }
+
+        double ax = xAlongY ? inverse.c : inverse.a;
+        double bx = xAlongY ? inverse.a : inverse.c;
+        double ay = yAlongY ? inverse.d : inverse.b;
+        double by = yAlongY ? inverse.b : inverse.d;
+        double dx = ax < 0.0 ? -1.0 : 1.0;
+        double dy = ay < 0.0 ? -1.0 : 1.0;
+
+        // A tiny canvas can have a lone sample at a texel knot even under
+        // a non-unit scale. The linear map itself must round to unit
+        // directions in the sampler's precision, before checking its grid.
+        if ((float)ax != dx || (float)ay != dy || (float)(dx + bx) != dx || (float)(dy + by) != dy) {
+            return false;
+        }
+
+        // Check the image's entire painted rectangle, including pixels
+        // outside the final viewport which a filter can still read. SVG
+        // images do not wrap; CSS images use an interpolating tent filter.
+        double w = part.x1 - part.x0;
+        double h = part.y1 - part.y0;
+        double xa = place.a * w;
+        double xb = place.c * h;
+        double ya = place.b * w;
+        double yb = place.d * h;
+        double spanX = ceil(fabs(xa) + fabs(xb)) + 3.0;
+        double spanY = ceil(fabs(ya) + fabs(yb)) + 3.0;
+
+        double x0 = floor(place.a * part.x0 + place.c * part.y0 + place.e + (xa < 0.0 ? xa : 0.0) + (xb < 0.0 ? xb : 0.0)) - 1.0;
+        double y0 = floor(place.b * part.x0 + place.d * part.y0 + place.f + (ya < 0.0 ? ya : 0.0) + (yb < 0.0 ? yb : 0.0)) - 1.0;
+        // Raster sides are u32. Their nearly unit device footprint fits
+        // in u64, including the extra boundary pixels, without truncation.
+        u64 nx = (u64)spanX;
+        u64 ny = (u64)spanY;
+
+        if (xAlongY) {
+            return imageGridAxis(ax, bx, inverse.e, y0, ny, x0, nx) && imageGridAxis(ay, by, inverse.f, x0, nx, y0, ny);
+        }
+
+        return imageGridAxis(ax, bx, inverse.e, x0, nx, y0, ny) && imageGridAxis(ay, by, inverse.f, y0, ny, x0, nx);
+    }
+
     // The paint of a raster under the matrix that takes its pixels to the
     // device: of a CSS image, sampled so and round the sides wraps names;
     // reading the part's pixels alone; null for a matrix of no inverse.
@@ -20905,7 +20980,7 @@ namespace {
         // which any filter is to give back as it is: the nearest does.
         int whole = (place.a == 1.f) + (place.b == 0.f) + (place.c == 0.f) + (place.d == 1.f) + (place.e == floorf(place.e)) + (place.f == floorf(place.f));
 
-        paint->smooth = whole < 6 && (rendering == 0 || (rendering == 2 && scale < 1.f));
+        paint->smooth = whole < 6 && (rendering == 0 || (rendering == 2 && scale < 1.f)) && (tent || !imageNativeGrid(inverse, place, part));
         levels = paint->smooth ? levels : 0;
 
         // pixelated takes each axis to its nearest whole multiple by nearest

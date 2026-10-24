@@ -24,6 +24,10 @@
 - [x] svg2/embedded.md#ImageElement: a 3-channel (RGB) source gets its alpha set uniformly to 1; a single-channel (grayscale) source becomes R=G=B from that channel with alpha 1. [image-placement#channels mask-values#single-channel]
 - [x] svg2/embedded.md#ImageElement: the referenced resource is a separate document, so properties do not inherit from the referencing document into the image. [image-placement#not-inherited]
 
+## Native raster sample mapping: image-native-grid (exists)
+
+- [x] svg2/embedded.md#ImageElement: the raster RGBA result retains its literal source samples on an integral native pixel grid, including composed scales, signed axis permutations and embedded SVG viewports. Real fractional phases and non-unit scales still use the renderer's default reconstruction. [image-native-grid#direct image-native-grid#factor-45 image-native-grid#factor-70 image-native-grid#factor-30 image-native-grid#factor-90 image-native-grid#factor-60 image-native-grid#factor-75 image-native-grid#reflect-x image-native-grid#reflect-y image-native-grid#reflect-both image-native-grid#quarter-turn image-native-grid#three-quarter-turn image-native-grid#swap-axes image-native-grid#quarter-phase image-native-grid#small-x-phase image-native-grid#small-y-phase image-native-grid#real-nonunit-scale image-native-grid#document-no-viewbox image-native-grid#document-with-viewbox image-native-grid#single-tile-nonunit image-native-grid-root.32x32#root-factored-camera]
+
 ## preserveAspectRatio and the image-rendering rectangle: image-cells, image-placement, image-fragments, image-svg (exists)
 
 - [x] svg2/embedded.md#ImageElement: preserveAspectRatio on image scales/positions the referenced image within the concrete object size, producing the image-rendering rectangle used to render it; for an embedded SVG this rectangle is also its SVG viewport. [image-placement#meet image-placement#svg-min-meet image-placement#channels image-cells#svg-size-meet image-cells#svg-size-min-meet image-cells#svg-size-max-meet image-cells#svg-size-slice]
