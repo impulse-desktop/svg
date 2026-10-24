@@ -13,9 +13,10 @@ expect("paint-context", [
     ("use-fill", (25, 1, 10, 10), lime(26, 2, 8, 8)), ("use-recursive", (37, 1, 10, 10), lime(38, 2, 8, 8)),
     ("no-context", (49, 1, 10, 10), lime(50, 2, 8, 8)),
     # The path's box runs from 4 to 57: its gradient turns lime past 46.4.
-    # The marker's viewport clip and its content share an edge at half a
-    # pixel, whose antialiasing the two take both.
-    ("marker-server-box", (53, 19, 8, 9), lime(54, 20.5, 6, 6), 64),
+    # The six-unit marker is centered on (57, 23.5). Its containing
+    # viewport clip is a geometric identity: the fractional edge has one
+    # rectangle's coverage. Host stroke-opacity does not hide the marker.
+    ("marker-server-box", (53, 19, 8, 9), lime(54, 20.5, 6, 6)),
     # The use's box runs from 2 to 26: lime to 6.8 and from 21.2.
     ("use-server-box", (1, 29, 26, 10), lime(2, 30, 4, 8) + lime(22, 30, 4, 8)),
     # The box of a nested svg and of an image of its own size, measured when

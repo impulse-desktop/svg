@@ -233,7 +233,10 @@ for i, (name, kind, primitive) in enumerate(cases):
                 alpha = fill * opacity + stroke * opacity * (1 - fill * opacity)
             if kind.startswith('nested-clip') or kind.startswith('nested-mask'):
                 cover = fill
-                if kind == 'nested-clip-program' or kind == 'nested-mask-intersect':
+                # The clip program's rectangle is clipped by the identical
+                # rectangle: a geometric identity, not another alpha mask.
+                # Intersecting real masks still multiplies their alpha.
+                if kind == 'nested-mask-intersect':
                     cover *= fill
                 elif kind == 'nested-mask-add':
                     cover = 2 * fill - fill * fill

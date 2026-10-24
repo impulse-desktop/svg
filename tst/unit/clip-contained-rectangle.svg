@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96">
+<!-- A rectangular clip containing all painted geometry is an identity,
+including a coincident fractional edge. Preserve its area once for
+groups, nested SVG images and feImage. Real cuts, holes, nonrectangular
+clips and group opacity retain their effects. -->
+<svg x="0" y="0" width="32" height="24"><defs><clipPath id="clip-same"><rect x="2" y="2" width="20.5" height="14.5"/></clipPath></defs><g clip-path="url(#clip-same)" ><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></svg>
+<svg x="32" y="0" width="32" height="24"><defs><clipPath id="clip-contains"><rect x="1" y="1" width="23" height="17"/></clipPath></defs><g clip-path="url(#clip-contains)" ><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></svg>
+<svg x="64" y="0" width="32" height="24"><defs><clipPath id="clip-touches-bottom"><rect x="1" y="1" width="23" height="15.5"/></clipPath></defs><g clip-path="url(#clip-touches-bottom)" ><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></svg>
+<svg x="0" y="24" width="32" height="24"><defs><clipPath id="clip-cuts"><rect x="2" y="2" width="20.5" height="14.5"/></clipPath></defs><g clip-path="url(#clip-cuts)" ><rect width="32" height="24" fill="lime"/></g></svg>
+<svg x="32" y="24" width="32" height="24"><defs><clipPath id="clip-hole"><path clip-rule="evenodd" d="M1 1H24V18H1Z M8 6H12V10H8Z"/></clipPath></defs><g clip-path="url(#clip-hole)" ><rect x="2" y="2" width="20" height="14" fill="lime"/></g></svg>
+<svg x="64" y="24" width="32" height="24"><defs><clipPath id="clip-triangle"><path d="M0 0H16L0 16Z"/></clipPath></defs><g clip-path="url(#clip-triangle)" ><rect x="8" y="8" width="4" height="4" fill="lime"/></g></svg>
+<svg x="0" y="48" width="32" height="24"><defs><clipPath id="clip-horizontal-retrace"><path d="M0 0H32H4V4H0Z"/></clipPath></defs><g clip-path="url(#clip-horizontal-retrace)" ><rect x="8" width="4" height="4" fill="lime"/></g></svg>
+<svg x="32" y="48" width="32" height="24"><defs><clipPath id="clip-opacity"><rect x="2" y="2" width="20.5" height="14.5"/></clipPath></defs><g clip-path="url(#clip-opacity)" opacity=".5"><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></svg>
+<svg x="64" y="48" width="32" height="24"><image x="2" y="2" width="20.5" height="14.5" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMC41IiBoZWlnaHQ9IjE0LjUiIHZpZXdCb3g9IjAgMCAyMC41IDE0LjUiPjxyZWN0IHdpZHRoPSIyMC41IiBoZWlnaHQ9IjE0LjUiIGZpbGw9ImxpbWUiLz48L3N2Zz4="/></svg>
+<svg x="0" y="72" width="32" height="24"><defs><filter id="image-filter" filterUnits="userSpaceOnUse" x="2" y="2" width="20.5" height="14.5"><feImage x="2" y="2" width="20.5" height="14.5" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMC41IiBoZWlnaHQ9IjE0LjUiIHZpZXdCb3g9IjAgMCAyMC41IDE0LjUiPjxyZWN0IHdpZHRoPSIyMC41IiBoZWlnaHQ9IjE0LjUiIGZpbGw9ImxpbWUiLz48L3N2Zz4="/></filter></defs><rect x="2" y="2" width="20.5" height="14.5" filter="url(#image-filter)"/></svg>
+</svg>

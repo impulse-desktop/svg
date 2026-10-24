@@ -25055,6 +25055,35 @@ namespace {
 
     static Box runProgram(Raster& r, const Lowering& l, const Op* ops, u32 count, const Plane& base);
 
+    // A rectangular clip containing the complete drawing changes no area.
+    // Do not multiply its fractional edge coverage into the same already
+    // covered edge. Two opposed vertical edges describe an axis-aligned
+    // rectangle; holes and sloping boundaries cannot pass this test.
+    static bool clipContainsBox(const Lowering& l, const Op& op, const Box& box) {
+        if (op.clipProgram || !(box.x1 > box.x0 && box.y1 > box.y0)) {
+            return false;
+        }
+
+        for (u32 s = op.clipFirst; s < op.clipFirst + op.clipCount; s++) {
+            const ClipShape& shape = l.clips[s];
+
+            if (shape.count != 2) {
+                continue;
+            }
+
+            const Edge& a = l.edges[shape.first];
+            const Edge& b = l.edges[shape.first + 1];
+
+            if (a.x0 == a.x1 && b.x0 == b.x1 && a.x0 != b.x0 && a.y0 == b.y1 && a.y1 == b.y0 &&
+                minf(a.x0, b.x0) <= box.x0 && maxf(a.x0, b.x0) >= box.x1 &&
+                minf(a.y0, a.y1) <= box.y0 && maxf(a.y0, a.y1) >= box.y1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     // The clip of a group, one stored unit a pixel over the box of its layer.
     static u16* clipBuffer(Raster& r, const Lowering& l, const Op& op, ObjPool& pool, const IntBox& box, Box& bounds) {
         size_t size = (size_t)(box.x1 - box.x0) * (size_t)(box.y1 - box.y0);
@@ -29128,7 +29157,7 @@ namespace {
 
                     Box clipBounds;
                     Box maskBounds;
-                    const u16* clip = begin->clipped ? clipBuffer(r, l, *begin, *pool, layer.box, clipBounds) : nullptr;
+                    const u16* clip = begin->clipped && !clipContainsBox(l, *begin, painted) ? clipBuffer(r, l, *begin, *pool, layer.box, clipBounds) : nullptr;
                     const u16* mask = begin->masked ? maskBuffer(r, l, *begin, *pool, layer.box, maskBounds) : nullptr;
                     int width = planeWidth(layer);
                     u32 opacity = toUnit16(begin->opacity);

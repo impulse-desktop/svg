@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96">
+<!-- What tst/unit/clip-contained-rectangle.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="same" data-box="0 0 32 24"><g transform="translate(0 0)"><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></g>
+<g id="contains" data-box="32 0 32 24"><g transform="translate(32 0)"><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></g>
+<g id="touches-bottom" data-box="64 0 32 24"><g transform="translate(64 0)"><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></g>
+<g id="cuts" data-box="0 24 32 24"><g transform="translate(0 24)"><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></g>
+<g id="hole" data-box="32 24 32 24"><g transform="translate(32 24)"><path fill="lime" d="M2 2H22V6H2Z M2 10H22V16H2Z M2 6H8V10H2Z M12 6H22V10H12Z"/></g></g>
+<g id="triangle" data-box="64 24 32 24"><g transform="translate(64 24)"></g></g>
+<g id="horizontal-retrace" data-box="0 48 32 24"><g transform="translate(0 48)"></g></g>
+<g id="opacity" data-box="32 48 32 24"><g transform="translate(32 48)"><rect x="2" y="2" width="20.5" height="14.5" fill="lime" opacity=".5"/></g></g>
+<g id="image" data-box="64 48 32 24"><g transform="translate(64 48)"><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></g>
+<g id="feImage" data-box="0 72 32 24"><g transform="translate(0 72)"><rect x="2" y="2" width="20.5" height="14.5" fill="lime"/></g></g>
+</svg>
