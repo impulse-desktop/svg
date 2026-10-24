@@ -26019,6 +26019,45 @@ namespace {
         Vector<u16> h;
     };
 
+    // The small Gaussian's normalized fixed-point taps. Its centre takes
+    // rounding's remainder; a centre of 65536 means no adjacent sample is
+    // read, even when the supplied deviation is positive.
+    static int gaussianWeights(float sigma, u32* weights) {
+        if (!(sigma > 0.f)) {
+            weights[0] = 65536;
+            return 0;
+        }
+
+        int radius = (int)ceilf(sigma * 3.f);
+        float kernel[13];
+        float total = 0.f;
+        u32 sum = 0;
+
+        for (int k = -radius; k <= radius; k++) {
+            // Avoid 0/0 at the centre if sigma squared underflows.
+            kernel[k + radius] = k ? expf(-(float)(k * k) / (2.f * sigma * sigma)) : 1.f;
+            total += kernel[k + radius];
+        }
+
+        for (int k = 0; k <= 2 * radius; k++) {
+            weights[k] = (u32)(kernel[k] / total * 65536.f + 0.5f);
+            sum += weights[k];
+        }
+
+        weights[radius] += 65536u - sum;
+        return radius;
+    }
+
+    static bool blurKeepsAxis(float sigma) {
+        if (!(sigma < 2.f)) {
+            return false;
+        }
+
+        u32 weights[13];
+        int radius = gaussianWeights(sigma, weights);
+        return weights[radius] == 65536;
+    }
+
     // Blurs a line of groups of four lanes read from src and written to dst.
     // Deviations below 2 take a Gaussian of weights summing to 65536; a
     // window as long as twice the line takes the quadratic the three boxes
@@ -26068,24 +26107,8 @@ namespace {
 
         if (sigma < 2.f) {
             // A sigma below 2 reaches 6 pixels at most.
-            int radius = (int)ceilf(sigma * 3.f);
-            float kernel[13];
             u32 weights[13];
-            float total = 0.f;
-            u32 sum = 0;
-
-            for (int k = -radius; k <= radius; k++) {
-                kernel[k + radius] = expf(-(float)(k * k) / (2.f * sigma * sigma));
-                total += kernel[k + radius];
-            }
-
-            for (int k = 0; k <= 2 * radius; k++) {
-                weights[k] = (u32)(kernel[k] / total * 65536.f + 0.5f);
-                sum += weights[k];
-            }
-
-            // The middle weight takes what rounding left, so the weights sum to 65536.
-            weights[radius] += 65536u - sum;
+            int radius = gaussianWeights(sigma, weights);
 
             for (int i = 0; i < count; i++) {
                 // The taps within the line.
@@ -26163,9 +26186,9 @@ namespace {
     // support cuts it, under the duplicate edge mode: the input holds its
     // colour across that edge, so the pixel is what is stored over the
     // part of it inside (D48).
-    static void readHeld(const Plane& in, int x, int y, const Box& support, u16* out) {
+    static void readHeld(const Plane& in, int x, int y, const Box& support, u16* out, u8 axes = 3) {
         const u16* s = planeRead(in, x, y);
-        float inside = maxf(minf(minf((float)x + 1.f, support.x1) - maxf((float)x, support.x0), 1.f), 0.f) * maxf(minf(minf((float)y + 1.f, support.y1) - maxf((float)y, support.y0), 1.f), 0.f);
+        float inside = (axes & 1 ? maxf(minf(minf((float)x + 1.f, support.x1) - maxf((float)x, support.x0), 1.f), 0.f) : 1.f) * (axes & 2 ? maxf(minf(minf((float)y + 1.f, support.y1) - maxf((float)y, support.y0), 1.f), 0.f) : 1.f);
 
         // A pixel past the support holds nothing, as it is cleared there.
         float scale = 1.f / maxf(inside, 1e-6f);
@@ -26234,7 +26257,9 @@ namespace {
                     int fx = edgeFold(x, src.x0, src.x1, edge);
 
                     if (edge == EdgeMode::Duplicate) {
-                        readHeld(in, fx, sy, support, t);
+                        // An identity axis keeps its stored fractional edge;
+                        // only axes which blur extend the held colour.
+                        readHeld(in, fx, sy, support, t, (sigmaX > 0.f ? 1 : 0) | (sigmaY > 0.f ? 2 : 0));
                     } else {
                         memcpy(t, planeRead(in, fx, sy), sizeof(u16) * 4);
                     }
@@ -26260,7 +26285,8 @@ namespace {
         }
     }
 
-    static bool filterBlur(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    // Bits 1 and 2 say the input's hard x and y edges survive.
+    static u8 filterBlur(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
         const Filter& f = *run.filter;
         float sx = 0.f;
         float sy = 0.f;
@@ -26278,7 +26304,7 @@ namespace {
         if (!valid) {
             copyBox(in, out, p.box);
 
-            return true;
+            return 3;
         }
 
         // A negative deviation, or two of zero, pass the input through; one
@@ -26286,11 +26312,22 @@ namespace {
         sx = userX(f, sx) * run.scaleX;
         sy = userY(f, sy) * run.scaleY;
 
-        if (sx < 0.f || sy < 0.f || (sx == 0.f && sy == 0.f)) {
+        if (sx < 0.f || sy < 0.f) {
             copyBox(in, out, p.box);
 
-            return true;
+            return 3;
         }
+
+        bool keepX = blurKeepsAxis(sx);
+        bool keepY = blurKeepsAxis(sy);
+
+        if (keepX && keepY) {
+            copyBox(in, out, p.box);
+            return 3;
+        }
+
+        sx = keepX ? 0.f : sx;
+        sy = keepY ? 0.f : sy;
 
         if (p.in1 == InputFillPaint || p.in1 == InputStrokePaint) {
             const DevicePaint* paint = p.in1 == InputFillPaint ? f.fillPaint : f.strokePaint;
@@ -26298,7 +26335,7 @@ namespace {
             // cannot introduce transparent edges at the filter region.
             if (!paint || paint->type == PaintType::Solid) {
                 copyBox(in, out, p.box);
-                return true;
+                return 3;
             }
         }
 
@@ -26309,7 +26346,7 @@ namespace {
 
         blurBuffer(run, in, out, p.box, sx, sy, consumesInput(run, p.in1, in), edge, src, supportOf(run, p.in1));
 
-        return false;
+        return (keepX ? 1 : 0) | (keepY ? 2 : 0);
     }
 
     static bool filterDropShadow(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
@@ -28834,13 +28871,25 @@ namespace {
                     reach = movedSamples(supportOf(run, p.in1), shift);
                     hard = movedBox(edgesOf(run, p.in1), shift);
                     break;
-                case AtomFeGaussianBlur:
-                    if (filterBlur(run, p, out)) {
-                        reach = supportOf(run, p.in1);
-                        hard = edgesOf(run, p.in1);
+                case AtomFeGaussianBlur: {
+                    u8 axes = filterBlur(run, p, out);
+                    Box inputSupport = supportOf(run, p.in1);
+                    Box inputEdges = edgesOf(run, p.in1);
+
+                    if (axes & 1) {
+                        reach.x0 = inputSupport.x0;
+                        reach.x1 = inputSupport.x1;
+                        hard.x0 = inputEdges.x0;
+                        hard.x1 = inputEdges.x1;
                     }
 
-                    break;
+                    if (axes & 2) {
+                        reach.y0 = inputSupport.y0;
+                        reach.y1 = inputSupport.y1;
+                        hard.y0 = inputEdges.y0;
+                        hard.y1 = inputEdges.y1;
+                    }
+                } break;
                 case AtomFeDropShadow:
                     if (filterDropShadow(run, p, out)) {
                         reach = supportOf(run, p.in1);

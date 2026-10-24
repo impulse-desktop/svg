@@ -36,6 +36,14 @@ tolerance. The cells cover unequal and zero axes, a deviation just below
 two, source alpha, group opacity, transparent or duplicated edges, and
 unequal device deviations and zero blur under nonuniform transforms.
 
+`filter-blur-hard-edges` checks fractional source boundaries when that
+kernel copies its input, or copies along one axis alone. A kernel which
+reads no adjacent samples keeps the input's existing hard edge in that
+axis; it does not clip the same coverage again. Exact rectangular stroke
+areas and independent exponential convolutions cover tiny positive
+deviations, a squared deviation which underflows, duplicate edges,
+transforms, SourceAlpha, opacity and primitive chains.
+
 `filter-inner-shadow-arithmetic` follows the small blur through a complete
 inner-shadow chain. Literal PNG inputs independently check fractional and
 negative offsets, `max(0, SourceAlpha - blurredAlpha)`, a white colour matrix
