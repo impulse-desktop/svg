@@ -2121,6 +2121,7 @@ namespace {
         Box clip;
         IntBox box;
         bool linear;
+        bool linearMap;
         Color flood;
         Color lighting;
         u32 programFirst;
@@ -19284,6 +19285,13 @@ namespace {
             primitive.in1 = filterInput(doc, child, AtomIn, primitives, previous);
             primitive.in2 = filterInput(doc, child, AtomIn2, primitives, previous);
 
+            if (child->name == AtomFeDisplacementMap) {
+                // Only the map follows color-interpolation-filters. The
+                // sampled image and the result keep the input's own space.
+                primitive.linearMap = primitive.linear;
+                primitive.linear = primitive.in1 >= 0 && primitives[primitive.in1].linear;
+            }
+
             Vector<int> inputs;
 
             if (child->name == AtomFeMerge) {
@@ -25456,6 +25464,14 @@ namespace {
         for (u32 k = 0; k < filter.count; k++) {
             const FilterPrimitive& p = filter.primitives[k];
 
+            if (p.kind == AtomFeDisplacementMap) {
+                if ((p.in1 == index && !p.linear) || (p.in2 == index && !p.linearMap)) {
+                    return true;
+                }
+
+                continue;
+            }
+
             if (!p.linear && readsResult(p, index)) {
                 return true;
             }
@@ -28230,7 +28246,7 @@ namespace {
         }
     }
 
-    static bool filterDisplacement(FilterRun& run, const FilterPrimitive& p, const Plane& out) {
+    static void filterDisplacement(FilterRun& run, const FilterPrimitive& p, const Plane& out, Box& reach, Box& hard) {
         const Filter& f = *run.filter;
         const Document& doc = *f.doc;
         Plane in = filterInputBuffer(run, p.in1, p.linear);
@@ -28241,10 +28257,13 @@ namespace {
         if (sx == 0.f && sy == 0.f) {
             copyBox(in, out, p.box);
 
-            return true;
+            reach = supportOf(run, p.in1);
+            hard = edgesOf(run, p.in1);
+
+            return;
         }
 
-        Plane map = filterInputBuffer(run, p.in2, p.linear);
+        Plane map = filterInputBuffer(run, p.in2, p.linearMap);
         auto channel = [&](u32 name) {
             u32 value = attribute(p.node, name);
             StringView text = value ? trim(textOf(doc, value)) : SV("A");
@@ -28256,6 +28275,9 @@ namespace {
         const IntBox& box = p.box;
         size_t n = (size_t)(box.x1 - box.x0);
         Vector<u16> row;
+        Box movement = emptyBox();
+        bool samplesX = false;
+        bool samplesY = false;
 
         row.zero(n * 4);
 
@@ -28283,11 +28305,45 @@ namespace {
                 int tx = (int)x0;
                 int ty = (int)y0;
 
+                extend(movement, Point{(float)x - fx, (float)y - fy});
+                samplesX = samplesX || fx != x0;
+                samplesY = samplesY || fy != y0;
+
                 bilinear(tap(tx, ty), tap(tx + 1, ty), tap(tx, ty + 1), tap(tx + 1, ty + 1), fx - x0, fy - y0, planeAt(out, x, y));
             }
         }
 
-        return false;
+        // Every result sample comes from within these displacements of the
+        // input. Carry its already covered hard sides through that range;
+        // an unchanged axis must not take fractional clip coverage again.
+        // Interpolation can read a boundary texel beyond its continuous
+        // support, as for feOffset, so round out sampled support axes alone.
+        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+            reach = hard = emptyBox();
+
+            return;
+        }
+
+        auto displaced = [&](Box b, bool samples) {
+            if (!(b.x1 > b.x0 && b.y1 > b.y0)) {
+                return emptyBox();
+            }
+
+            if (samples && samplesX) {
+                b.x0 = floorf(b.x0);
+                b.x1 = ceilf(b.x1);
+            }
+
+            if (samples && samplesY) {
+                b.y0 = floorf(b.y0);
+                b.y1 = ceilf(b.y1);
+            }
+
+            return Box{b.x0 + movement.x0, b.y0 + movement.y0, b.x1 + movement.x1, b.y1 + movement.y1};
+        };
+
+        reach = displaced(supportOf(run, p.in1), true);
+        hard = displaced(edgesOf(run, p.in1), false);
     }
 
     struct Vector3 {
@@ -28951,11 +29007,7 @@ namespace {
                     filterTurbulence(run, p, out);
                     break;
                 case AtomFeDisplacementMap:
-                    if (filterDisplacement(run, p, out)) {
-                        reach = supportOf(run, p.in1);
-                        hard = edgesOf(run, p.in1);
-                    }
-
+                    filterDisplacement(run, p, out, reach, hard);
                     break;
                 case AtomFeDiffuseLighting:
                 case AtomFeSpecularLighting:

@@ -126,7 +126,10 @@ for i, (name, primitive, radii, operator, options) in enumerate(cases):
                 hard = [F(-100), F(-100), F(100), F(100)]
             elif operator == 'displace':
                 alpha = sum(original(px + dx, py + dy) for dx in [0, 1] for dy in [0, 1]) / 4
-                hard = [F(-100), F(-100), F(100), F(100)]
+                # R=1 reads half a pixel ahead on both axes: the source's
+                # hard rectangle moves left/up by 1/2. Its right/bottom
+                # sides already carry coverage; only left/top are new cuts.
+                hard = [side - F(1, 2) for side in FRAME]
             else:
                 alpha = original(px, py)
             alpha = clip(alpha, hard, INNER if options.get('subregion') else FRAME, px, py)
