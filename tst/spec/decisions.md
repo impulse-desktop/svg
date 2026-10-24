@@ -22,12 +22,19 @@ level covers rounding. Their expected PNGs contain exact polynomial
 integrals and allow this derived bound of 14 byte levels. Straight bands
 and the flat cubic retain the ordinary two-level comparison tolerance.
 
+`stroke-semicircle-area` integrates an open circular stroke with butt caps
+as an annulus cut by a half plane. Its independent PNGs use exact disk/pixel
+areas. Eroding and dilating both radii and the cap plane by the same existing
+0.025px target gives the comparison bound, including the two endpoints.
+The cells cover both sweeps, two radii, and stroke opacity.
+
 `filter-small-gaussian` checks the existing kernel below a deviation of
 two pixels: normalized samples of the specification's exponential over
 `ceil(3 * sigma)` pixels on each side. Its independent PNG references
 convolve literal premultiplied input pixels, with the ordinary two-level
 tolerance. The cells cover unequal and zero axes, a deviation just below
-two, source alpha, group opacity, and transparent or duplicated edges.
+two, source alpha, group opacity, transparent or duplicated edges, and
+unequal device deviations and zero blur under nonuniform transforms.
 
 ## D2. A filter primitive's subregion is snapped out to whole pixels where it meets its content's edge
 

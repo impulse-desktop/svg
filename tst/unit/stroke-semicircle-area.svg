@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="16">
+<!-- Open circular arcs paint the area of their annular half bands with
+butt caps. Independent disk/pixel integrals check both sweeps, small and
+larger radii and stroke opacity. D1 .025px erosion/dilation includes
+both curved boundaries and cap edges. -->
+<svg x="0" width="16" height="16"><path d="M7.75 8.5A0.75 0.75 0 0 1 9.25 8.5" fill="none" stroke="black" stroke-width="0.25" stroke-linecap="butt" stroke-opacity="1"/></svg>
+<svg x="16" width="16" height="16"><path d="M7.75 8.5A0.75 0.75 0 0 0 9.25 8.5" fill="none" stroke="black" stroke-width="0.25" stroke-linecap="butt" stroke-opacity="1"/></svg>
+<svg x="32" width="16" height="16"><path d="M4.5 8.5A4 4 0 0 1 12.5 8.5" fill="none" stroke="black" stroke-width="1.0" stroke-linecap="butt" stroke-opacity="1"/></svg>
+<svg x="48" width="16" height="16"><path d="M7.75 8.5A0.75 0.75 0 0 1 9.25 8.5" fill="none" stroke="black" stroke-width="0.25" stroke-linecap="butt" stroke-opacity="0.5"/></svg>
+</svg>

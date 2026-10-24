@@ -19,13 +19,15 @@ def kernel(sigma):
     return [(i, value/total) for i, value in weights]
 
 
-unit = Unit('filter-small-gaussian', 80, 60,
+unit = Unit('filter-small-gaussian', 80, 80,
             'Below two device pixels the Gaussian kernel samples the '
             'specification exponential and normalizes its finite support. '
             'Independent premultiplied convolution of literal PNG inputs '
             'checks small and unequal deviations, zero axes, the limit '
             'below two, source alpha, post-filter group opacity and edge '
-            'extension. No curve approximation or special tolerance.', ground=False)
+            'extension. Nonuniform transforms scale each deviation in its '
+            'own axis and preserve the zero-blur identity. No curve '
+            'approximation or special tolerance.', ground=False)
 cases = [
     ('narrow', .125, .125, 'impulse', False, 1),
     ('half', .5, .5, 'impulse', False, 1),
@@ -39,6 +41,9 @@ cases = [
     ('group-half', .5, .75, 'pair', False, .5),
     ('constant-duplicate', .8, 1.6, 'constant', True, 1),
     ('constant-none', .5, .5, 'constant', False, 1),
+    ('scaled-x', .5, 1, 'pair', False, 1),
+    ('scaled-y', 1, .5, 'pair', False, 1),
+    ('scaled-zero', 0, 0, 'pair', False, 1),
 ]
 for i, (name, sx, sy, kind, duplicate, opacity) in enumerate(cases):
     pixels = [[(0., 0., 0., 0.) for x in range(16)] for y in range(16)]
@@ -71,13 +76,25 @@ for i, (name, sx, sy, kind, duplicate, opacity) in enumerate(cases):
         expected.append(row)
     x, y = i % 4 * 20 + 2, i // 4 * 20 + 2
     mode = 'duplicate' if duplicate else 'none'
+    width, height, transform = 16, 16, ''
+    local_sx, local_sy = sx, sy
+    if name in ['scaled-x', 'scaled-zero']:
+        width, transform = 32, 'scale(.5 1)'
+    elif name == 'scaled-y':
+        height, transform = 32, 'scale(1 .5)'
+    if name in ['scaled-x', 'scaled-y']:
+        local_sx = local_sy = 1
+    transform_attr = f' transform="{transform}"' if transform else ''
+    # Doubling the image's declared side cancels the parent's half scale,
+    # so the literal PNG still maps exactly onto its native pixel grid.
+    # The filter's one-unit deviations, however, become (.5, 1) or (1, .5).
     unit.cell(name, (x, y, 16, 16),
               f'<svg x="{x}" y="{y}" width="16" height="16">'
               f'<defs><filter id="f{i}" filterUnits="userSpaceOnUse" '
-              'x="0" y="0" width="16" height="16" color-interpolation-filters="sRGB">'
-              f'<feGaussianBlur stdDeviation="{sx} {sy}" edgeMode="{mode}"/>'
+              f'x="0" y="0" width="{width}" height="{height}" color-interpolation-filters="sRGB">'
+              f'<feGaussianBlur stdDeviation="{local_sx} {local_sy}" edgeMode="{mode}"/>'
               '</filter></defs>'
-              f'<g opacity="{opacity}"><image width="16" height="16" '
+              f'<g opacity="{opacity}"{transform_attr}><image width="{width}" height="{height}" preserveAspectRatio="none" '
               f'filter="url(#f{i})" href="{png(pixels)}"/></g></svg>',
               f'<image x="{x}" y="{y}" width="16" height="16" href="{png(expected)}"/>')
 
