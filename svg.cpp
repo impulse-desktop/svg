@@ -13230,6 +13230,7 @@ namespace {
         }
 
         bool keptInverted = false;
+        Vector<Point> folds;
 
         auto turn = [&](size_t k, size_t in, size_t next) {
             Point p = pts[k];
@@ -13321,6 +13322,11 @@ namespace {
             // the normals cover. Resolved tips keep the D49 opening.
             if (kind[k] == PointSmooth && (looped || (nearTip && lengths[in] + lengths[next] >= 2.f * s.tol * fabsf(atan2f(cross, dot))))) {
                 keptInverted = true;
+
+                if (closed) {
+                    folds.pushBack(p);
+                }
+
                 sides[inner].pushBack(offset(p, d1, -side));
 
                 return;
@@ -13341,25 +13347,114 @@ namespace {
 
         Vector<Point> outline;
 
-        // Keeping a folded inner offset (D49) must not subtract the band
-        // of a literal straight segment in a closed path. Those bands are
-        // a separate union operand: adding ordinary winding contours would
-        // let a folded loop cancel them again. Smooth curve samples are not
-        // straight commands; the D49 circle retains its original outline.
+        // A folded inner offset (D49) must not subtract the bands of regular
+        // portions elsewhere in the closed path. A curve's adjacent inner
+        // cuts must exist and leave length between them; a literal straight
+        // command has its band even where a join folds. Unite these bands
+        // separately, so an inverted contour cannot cancel them. A curve
+        // inverted all round, such as D49's tight circle, keeps its outline.
         if (closed && keptInverted) {
+            Vector<u8> regulars;
+            Box folded = emptyBox();
+
+            for (Point p : folds) {
+                extend(folded, p);
+            }
+
+            // Keeping the two inner offsets instead of their sector changes
+            // winding only within a half-width of that turn. Extra bands
+            // elsewhere are redundant. Include the curve tolerance in this
+            // conservative box test, before preparing their union edges.
+            auto affected = [&](Box box) {
+                float reach = s.half + s.tol;
+
+                box.x0 -= reach;
+                box.y0 -= reach;
+                box.x1 += reach;
+                box.y1 += reach;
+
+                if (box.x1 < folded.x0 || box.y1 < folded.y0 || box.x0 > folded.x1 || box.y0 > folded.y1) {
+                    return false;
+                }
+
+                for (Point p : folds) {
+                    if (p.x >= box.x0 && p.x <= box.x1 && p.y >= box.y0 && p.y <= box.y1) {
+                        return true;
+                    }
+                }
+
+                return false;
+            };
+
             for (size_t k = 0; k < segments; k++) {
                 size_t next = (k + 1) % n;
 
-                if (kind[k] == PointCorner && kind[next] == PointCorner && lengths[k] > 0.f) {
+                bool straight = kind[k] == PointCorner && kind[next] == PointCorner;
+                bool regular = cuts[k] >= 0.f && cuts[next] >= 0.f && (inners[k] != inners[next] || cuts[k] + cuts[next] <= lengths[k]);
+
+                regulars.pushBack(regular);
+
+                if ((straight || regular) && lengths[k] > 0.f) {
                     Point a = pts[k];
                     Point b = pts[next];
                     float nx = -dirs[k].y * s.half;
                     float ny = dirs[k].x * s.half;
 
+                    if (!straight) {
+                        Box box = emptyBox();
+
+                        extend(box, Point{a.x + nx, a.y + ny});
+                        extend(box, Point{b.x + nx, b.y + ny});
+                        extend(box, Point{b.x - nx, b.y - ny});
+                        extend(box, Point{a.x - nx, a.y - ny});
+
+                        if (!affected(box)) {
+                            continue;
+                        }
+                    }
+
                     out.bands.pushBack(Point{a.x + nx, a.y + ny});
                     out.bands.pushBack(Point{b.x + nx, b.y + ny});
                     out.bands.pushBack(Point{b.x - nx, b.y - ny});
                     out.bands.pushBack(Point{a.x - nx, a.y - ny});
+                }
+            }
+
+            // Adjacent quads overlap inside a regular bend, but leave a
+            // sector outside it. The rotating normal sweeps that sector;
+            // unite it too, with the same winding as the quads. A repeated
+            // last vertex represents each triangle in the quad stream.
+            for (size_t k = 0; k < n; k++) {
+                size_t in = k == 0 ? segments - 1 : k - 1;
+
+                if (kind[k] != PointSmooth || !regulars[in] || !regulars[k]) {
+                    continue;
+                }
+
+                Point p = pts[k];
+
+                if (!affected(Box{p.x - s.half, p.y - s.half, p.x + s.half, p.y + s.half})) {
+                    continue;
+                }
+
+                Point d0 = dirs[in];
+                Point d1 = dirs[k];
+                float cross = d0.x * d1.y - d0.y * d1.x;
+                float side = cross > 0.f ? -1.f : 1.f;
+                float from;
+                float sweep = normalSweep(Point{-d0.y * side, d0.x * side}, d0, d1, from);
+                int steps = s.half * (1.f - cosf(sweep / 2.f)) > s.tol ? arcSegments(sweep, s.half, s.tol) : 1;
+                Point a = offset(p, d0, side);
+
+                for (int j = 1; j <= steps; j++) {
+                    float angle = from + sweep * j / steps;
+                    Point b = j == steps ? offset(p, d1, side) : Point{p.x + s.half * cosf(angle), p.y + s.half * sinf(angle)};
+
+                    out.bands.pushBack(p);
+                    out.bands.pushBack(cross > 0.f ? b : a);
+                    out.bands.pushBack(cross > 0.f ? a : b);
+                    out.bands.pushBack(p);
+                    a = b;
                 }
             }
         }

@@ -762,6 +762,22 @@ rotations, reflection, non-scaling stroke, crisp edges and coincident
 transparent subpaths keep that coverage. The established closed circles
 and the open-loop and returning-tip controls above keep their D49 output.
 
+The same union protects regular curved portions of a closed subpath. Where
+the inner cuts exist and leave length between them, a retained inverted
+offset elsewhere cannot subtract their bands or the sectors swept between
+their normals. The hexagon also lost a complete interior pixel on a cubic,
+certified by its normal equation rather than a competitor's drawing.
+`stroke-closed-curve-bands` reduces this to a gently curved side and a small
+reversed bend, with independent full-rectangle certificates, subdivision,
+direction, transformation and paint controls. Portions inverted all round
+retain the established D49 outline and its holes: the unit includes both a
+fully inverted circle and ellipse, alongside a compact ellipse with mixed
+regular and inverted curvature.
+Preparing the extra union is limited to the support of retained folds:
+replacing the inner sector can change winding only within its half-width
+of that turn. The existing curve tolerance expands this conservative bound;
+no new geometric threshold changes which folds are retained.
+
 ## D50. A focal point within 1/4096 of the radius of the end circle is on it
 
 `svg2/pservers.md#RadialGradientNotes` draws a focal circle outside the end
