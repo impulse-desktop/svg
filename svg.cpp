@@ -19286,10 +19286,17 @@ namespace {
             primitive.in2 = filterInput(doc, child, AtomIn2, primitives, previous);
 
             if (child->name == AtomFeDisplacementMap) {
-                // Only the map follows color-interpolation-filters. The
-                // sampled image and the result keep the input's own space.
+                // Only the map follows color-interpolation-filters.
                 primitive.linearMap = primitive.linear;
+            }
+
+            if (child->name == AtomFeOffset || child->name == AtomFeTile || child->name == AtomFeDisplacementMap) {
+                // Spatial sampling keeps the input's own colour space.
                 primitive.linear = primitive.in1 >= 0 && primitives[primitive.in1].linear;
+            } else if (child->name == AtomFeImage || child->name == AtomFeFlood) {
+                // Drawn images and flood colours start in sRGB. This
+                // property cannot change their space for a later sampler.
+                primitive.linear = false;
             }
 
             Vector<int> inputs;
