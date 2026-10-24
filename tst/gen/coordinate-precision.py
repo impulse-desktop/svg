@@ -67,6 +67,15 @@ for name, slope in [('mask-nonzero-box', '1e-12'), ('mask-zero-box', '0')]:
                   f'<defs><mask id="{name}"><rect width="64" height="64" fill="white"/></mask></defs>'
                   f'<g mask="url(#{name})"><path d="M0 0H32" fill="none" stroke="lime" stroke-width="8" transform="matrix({slope} 1 -1 0 16 8)"/></g>',
                   '<g/>' if slope != '0' else '<rect x="12" y="8" width="8" height="32" fill="lime"/>'))
+# Real-world SVGs can express a whole flag in tens of millions of units.
+# Geometry properties must retain their values beyond a CSS layout-unit
+# coordinate range. These power-of-two viewBox maps give literal ellipses.
+for name, viewbox, center, expected_x in [
+        ('ellipse-large-positive', '0 0 67108864 67108864', '50331648', 48),
+        ('ellipse-large-negative', '-67108864 0 67108864 67108864', '-50331648', 16)]:
+    cases.append((name, viewbox,
+                  f'<ellipse cx="{center}" cy="16777216" rx="4194304" ry="2097152" fill="lime"/>',
+                  f'<ellipse cx="{expected_x}" cy="16" rx="4" ry="2" fill="lime"/>'))
 for i, (name, viewbox, content, plain) in enumerate(cases):
     x, y = i % 5 * 64, i // 5 * 64
     unit.cell(name, (x, y, 64, 64),

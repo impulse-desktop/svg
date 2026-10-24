@@ -32,4 +32,6 @@ cell's id is what the statement ledgers link to. -->
 <g id="rotation-turns" data-box="192 320 64 64"><g transform="translate(192 320)"><rect x="10000" y="10000" width="8" height="8" fill="lime" transform="translate(-9980 -9980) rotate(.01 -10000 -10000)"/></g></g>
 <g id="mask-nonzero-box" data-box="256 320 64 64"><g transform="translate(256 320)"><g/></g></g>
 <g id="mask-zero-box" data-box="0 384 64 64"><g transform="translate(0 384)"><rect x="12" y="8" width="8" height="32" fill="lime"/></g></g>
+<g id="ellipse-large-positive" data-box="64 384 64 64"><g transform="translate(64 384)"><ellipse cx="48" cy="16" rx="4" ry="2" fill="lime"/></g></g>
+<g id="ellipse-large-negative" data-box="128 384 64 64"><g transform="translate(128 384)"><ellipse cx="16" cy="16" rx="4" ry="2" fill="lime"/></g></g>
 </svg>
