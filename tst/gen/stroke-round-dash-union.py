@@ -40,11 +40,12 @@ def cumulative(x, radius, pitch, dash, cap):
     return cycles*total+part
 
 
-u = Unit('stroke-round-dash-union', 128, 80,
+u = Unit('stroke-round-dash-union', 128, 112,
          'A dashed stroke paints the union of its bands and caps once. '
          'Exact capsule-area integrals cover overlapping and separated '
          'round caps, zero-length dashes, both axes, reversal, phase, '
          'three forms of opacity, square/butt caps and zero width. '
+         'Dense circular dashes are bounded by exact concentric annuli. '
          'Round-cap tolerance follows from the existing D1 .025px '
          'geometric allowance; expected pixels remain exact integrals.', ground=False)
 # name, width, period, dash, cap, axis, phase, reverse, opacity, opacity property
@@ -100,4 +101,62 @@ for i, (name, width, pitch, dash, cap, axis, phase, reverse, opacity, prop) in e
     u.cell(name, (x,y,32,16), test,
            f'<image x="{x}" y="{y}" width="32" height="16" href="{png(pixels)}"/>',
            tolerance=tolerance)
+def disk_primitive(x, radius):
+    x = max(0, min(x, radius))
+    return .5 * (x * math.sqrt(max(0, radius * radius - x * x))
+                 + radius * radius * math.asin(x / radius))
+
+
+def disk_quadrant(x, y, radius):
+    x, y = min(abs(x), radius), min(abs(y), radius)
+    at = min(x, math.sqrt(max(0, radius * radius - y * y)))
+    return y * at + disk_primitive(x, radius) - disk_primitive(at, radius)
+
+
+def disk_area(left, top, right, bottom, radius):
+    def signed(x, y):
+        return math.copysign(1, x) * math.copysign(1, y) * disk_quadrant(x, y, radius)
+    return signed(right, bottom) - signed(left, bottom) - signed(right, top) + signed(left, top)
+
+
+assert abs(disk_area(-1, -1, 1, 1, 1) - math.pi) < 1e-12
+assert abs(disk_area(0, 0, 1, 1, 1) - math.pi / 4) < 1e-12
+assert abs(disk_area(-.25, -.25, .25, .25, 1) - .25) < 1e-12
+
+for i, (name, phase, opacity, solid) in enumerate([
+        ('circle', 0, 1, False), ('circle-phase', .02, 1, False),
+        ('circle-opacity', 0, .3, False), ('circle-solid', 0, 1, True)]):
+    radius, half, gap = 10.25, .2, .04
+    delta = gap / (2 * radius)
+    reach = math.sqrt(half * half - (radius * math.sin(delta)) ** 2)
+    middle = radius * math.cos(delta)
+    # The closest dash endpoint is at most half a gap away along the
+    # circle. Its round cap contains this inner annulus. The complete
+    # stroke stays in the solid annulus; D1 erodes/dilates both boundaries.
+    lower = ((radius - half, radius + half) if solid
+             else (middle - reach, middle + reach))
+    lower = lower[0] + .025, lower[1] - .025
+    upper = radius - half - .025, radius + half + .025
+    pixels = []
+    bound = 0
+    for y in range(32):
+        row = []
+        for x in range(32):
+            box = x - 16.5, y - 16.5, x + 1 - 16.5, y + 1 - 16.5
+            def annulus(inner, outer):
+                return max(0, disk_area(*box, outer) - disk_area(*box, inner))
+            exact = annulus(radius - half, radius + half)
+            lo, hi = annulus(*lower), annulus(*upper)
+            bound = max(bound, opacity * max(abs(exact - lo), abs(hi - exact)))
+            row.append((0, 0, 0, exact * opacity))
+        pixels.append(row)
+    dash = 'none' if solid else '.04 .04'
+    x, y = i * 32, 80
+    u.cell(name, (x, y, 32, 32),
+           f'<svg x="{x}" y="{y}" width="32" height="32">'
+           f'<circle cx="16.5" cy="16.5" r="{radius}" fill="none" stroke="black" '
+           f'stroke-width=".4" stroke-linecap="round" stroke-dasharray="{dash}" '
+           f'stroke-dashoffset="{phase}" stroke-opacity="{opacity}"/></svg>',
+           f'<image x="{x}" y="{y}" width="32" height="32" href="{png(pixels)}"/>',
+           tolerance=math.ceil(255 * bound) + 1)
 u.write()

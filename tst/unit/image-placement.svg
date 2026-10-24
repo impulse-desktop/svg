@@ -19,6 +19,10 @@ an image inherits nothing from the document using it: its rect is black. -->
 <!-- xMinYMin aligns an embedded SVG at the left of a wider image viewport.
      The referenced root's xMaxYMax slice must not override that alignment. -->
 <image x="2" y="50" width="16" height="8" preserveAspectRatio="xMinYMin meet" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%278%27%20height%3D%278%27%20viewBox%3D%270%200%208%208%27%20preserveAspectRatio%3D%27xMaxYMax%20slice%27%3E%3Crect%20width%3D%278%27%20height%3D%278%27%20fill%3D%27lime%27/%3E%3C/svg%3E"/>
+<!-- Default xMidYMid on the image also wins over an intrinsic SVG root's
+     alignment. A fractional viewport leaves 2.6 units on each side. -->
+<image x="22" y="50" width="13.2" height="8" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' preserveAspectRatio='xMinYMin'%3E%3Crect width='8' height='8' fill='lime'/%3E%3C/svg%3E"/>
+<image x="40" y="50" width="13.2" height="8" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' preserveAspectRatio='xMaxYMax slice'%3E%3Crect width='8' height='8' fill='lime'/%3E%3C/svg%3E"/>
 <g fill="none" stroke="black" stroke-width=".25">
 <rect x="2" y="2" width="8" height="4"/><rect x="14" y="2" width="16" height="8"/><rect x="34" y="2" width="24" height="12"/>
 <rect x="2" y="18" width="16" height="8"/><rect x="22" y="18" width="10" height="10"/>

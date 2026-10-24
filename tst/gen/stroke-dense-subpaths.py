@@ -44,12 +44,13 @@ def rectangle_union_areas(rectangles, width, height):
 
 
 def main():
-    unit = Unit('stroke-dense-subpaths', 48, 80,
+    unit = Unit('stroke-dense-subpaths', 48, 96,
                 'One path paints the union of all stroked subpaths once. '
                 'Exact rational rectangle areas check overlapping, touching '
                 'and disjoint thin butt-capped segments, varying heights, '
                 'reversal, both axes, opacity, move-only subpaths and zero '
-                'width. Separate path elements keep separate source-over '
+                'width. Collinear round-capped subpaths also paint once. '
+                'Separate path elements keep separate source-over '
                 'operations; group opacity applies after those operations.',
                 ground=False)
     cases = [
@@ -127,6 +128,26 @@ def main():
                   f'fill-rule="evenodd" stroke="lime" stroke-width=".25" '
                   f'stroke-opacity="{float(opacity)}"/></g>',
                   f'<image x="{x}" y="{y}" width="16" height="16" href="{expected}"/>')
+    # Short round-capped subpaths lie wholly inside the long one's band.
+    # Its ends are outside the cell, so the visible union is a literal
+    # fractional rectangle; no circular approximation enters the oracle.
+    for i, name in enumerate(['round-overlap', 'round-stroke-half', 'round-separate-elements']):
+        x, y = i * 16, 80
+        alpha = .5 if name == 'round-stroke-half' else 1
+        data = 'M-2 8H18 M2 8H14 M4 8H12 M18 8H-2'
+        style = (f'fill="none" stroke="lime" stroke-width=".5" '
+                 f'stroke-linecap="round" stroke-opacity="{alpha}"')
+        if name == 'round-separate-elements':
+            drawing = f'<path d="M-2 8H18" {style}/>' * 2
+            # Each separate stroke covers a quarter of each of these two
+            # rows: source-over gives .25 + .25 * (1 - .25).
+            expected = '<rect y="7" width="16" height="2" fill="lime" fill-opacity=".4375"/>'
+        else:
+            drawing = f'<path d="{data}" {style}/>'
+            expected = f'<rect y="7.75" width="16" height=".5" fill="lime" fill-opacity="{alpha}"/>'
+        unit.cell(name, (x, y, 16, 16),
+                  f'<svg x="{x}" y="{y}" width="16" height="16">{drawing}</svg>',
+                  f'<g transform="translate({x} {y})">{expected}</g>')
     unit.write()
 
 
