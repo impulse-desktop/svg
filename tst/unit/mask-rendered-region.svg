@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="8">
+<!-- The region clips the rendered mask content once, after its children
+compose. Exact rectangle coverages and source-over give the independent
+PNG expectations. Numeric objectBoundingBox widths multiply the object
+box; the mask inherits from its own ancestors. A dash ending at a corner
+retains that join (TermStrokeShape), as stroke-dash-corner already checks.
+Butt caps add no area. No curve allowance. -->
+<svg x="0" width="8" height="8"><defs><mask id="m0" maskUnits="userSpaceOnUse" x="0" y="0" width="8" height="8" fill="white"><rect x="1.25" y="1.25" width="2" height="2" fill="white"/></mask></defs><rect x="1.25" y="1.25" width="2" height="2" fill="none" stroke="lime" stroke-width=".5" mask="url(#m0)"/></svg>
+<svg x="8" width="8" height="8"><defs><mask id="m1" maskUnits="objectBoundingBox" x="0" y="0" width="2" height="2" fill="white"><rect x="1.25" y="1.25" width="2" height="2" fill="white"/></mask></defs><rect x="1.25" y="1.25" width="2" height="2" fill="none" stroke="lime" stroke-width=".5" mask="url(#m1)"/></svg>
+<svg x="16" width="8" height="8"><defs><mask id="m2" maskUnits="userSpaceOnUse" x="1.25" y="1.25" width="4" height="4" fill="white"><rect x="1.25" y="1.25" width="2" height="2" fill="white"/></mask></defs><rect x="1.25" y="1.25" width="2" height="2" fill="none" stroke="lime" stroke-width=".5" mask="url(#m2)"/></svg>
+<svg x="24" width="8" height="8"><defs><rect id="shape" x="1.25" y="1.25" width="2" height="2"/><mask id="m3" maskUnits="objectBoundingBox" x="0" y="0" width="2" height="2" fill="white"><use xlink:href="#shape"/></mask></defs><g fill="none" stroke="lime" stroke-width=".5"><use xlink:href="#shape" mask="url(#m3)"/></g></svg>
+<svg x="32" width="8" height="8"><defs><mask id="m4" maskUnits="objectBoundingBox" x="0" y="0" width="2" height="2" fill="white"><rect x="1.25" y="1.25" width="2" height="2" fill="white"/></mask></defs><rect x="1.25" y="1.25" width="2" height="2" fill="none" stroke="lime" stroke-width=".5" stroke-dasharray="2 2" mask="url(#m4)"/></svg>
+<svg x="40" width="8" height="8"><defs><mask id="m5" maskUnits="userSpaceOnUse" x="1.25" y="1.25" width="4" height="4" fill="white"><g fill="white" opacity=".5"><rect x="1.25" y="1.25" width="2" height="2"/></g><g fill="white" opacity=".5"><rect x="1.25" y="1.25" width="2" height="2"/></g></mask></defs><rect width="8" height="8" fill="lime" mask="url(#m5)"/></svg>
+<svg x="48" width="8" height="8"><defs><mask id="m6" maskUnits="objectBoundingBox" x="0" y="0" width="2" height="2" mask-type="alpha" fill="white"><rect x="1.25" y="1.25" width="2" height="2" fill="white"/></mask></defs><rect x="1.25" y="1.25" width="2" height="2" fill="none" stroke="lime" stroke-width=".5" mask="url(#m6)"/></svg>
+<svg x="56" width="8" height="8"><defs><mask id="m7" maskUnits="objectBoundingBox" x="0" y="0" width="2" height="2" fill="white"><rect x="1.25" y="1.25" width="2" height="2" fill="white"/></mask></defs><rect x="1.25" y="1.25" width="2" height="2" opacity=".5" fill="none" stroke="lime" stroke-width=".5" mask="url(#m7)"/></svg>
+</svg>

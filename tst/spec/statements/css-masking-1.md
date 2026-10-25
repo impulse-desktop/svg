@@ -106,7 +106,8 @@
 - [x] css-masking-1.md#MaskElement: if x is unspecified but one of y/width/height is, x defaults to -10%; same rule in turn for y [mask-properties#mask-defaults]
 - [x] css-masking-1.md#MaskElement: if width is unspecified but one of x/y/height is, width defaults to 120%; same rule in turn for height [mask-properties#mask-defaults]
 - [x] css-masking-1.md#MaskElement: a negative or zero width or height on the mask element disables rendering of the element that references it [mask-values#zero-width mask-values#negative-width]
-- [x] css-masking-1.md#MaskElement: if any of x/y/width/height are given, that rectangle becomes a clipping path that the mask's rendered content is clipped by [mask-values#region mask-properties#mask-units]
+- [x] css-masking-1.md#MaskElement: if any of x/y/width/height are given, that rectangle becomes a clipping path that the mask's rendered content is clipped by [mask-values#region mask-properties#mask-units mask-rendered-region#containing-region mask-rendered-region#bbox-region mask-rendered-region#user-region mask-rendered-region#dashed-stroke]
+- [x] css-masking-1.md#MaskElement: the region clips the mask's rendered content after its children compose; mask properties inherit from its own ancestors, including white fill inherited through use. Independent straight-area expectations check fractional region coverage, alpha masks and target opacity. [mask-rendered-region#composed-content mask-rendered-region#use-inheritance mask-rendered-region#alpha-mask mask-rendered-region#opacity]
 - [x] css-masking-1.md#MaskElement: CSS properties inherit into mask from its own ancestors, never from the element referencing it [mask-values#inherit]
 - [x] css-masking-1.md#MaskElement: mask elements are never rendered directly; opacity, filter and display do not apply to them, and they stay referenceable under display:none [mask-values#not-rendered]
 
