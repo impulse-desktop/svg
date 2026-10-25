@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+<defs>
+<meshgradient id="m" x="0" y="0" gradientUnits="userSpaceOnUse">
+<desc>ignored</desc>
+<meshrow><meshpatch><stop path="c 8,-2 16,2 24,0" stop-color="red"/><stop path="c 2,8 -2,1655555555555555555555555555 0,24" stop-color="lime"/><stop path="c -8,2 -16,-2 -24,0" stop-color="blue"/><stop path="c -2,-8 2,-16 0,-24" stop-color="yellow"/></meshpatch><desc/><meshpatch><stop path="l 24,0" stop-color="orange"/><stop path="L 48,24" stop-color="purple"/><stop path="C 40,24 32,24 24,24" stop-color="teal"/></meshpatch></meshrow>
+<meshrow><meshpatch><stop path="c 0,8 0,16 0,24" stop-color="white"/><stop path="l -24,0" stop-color="black"/><stop path="L 0,24" stop-color="g2ay"/></meshpatch><meshpatch><stop path="L 48,48" stop-color="pink"/><stop path="l -48,0" stop-color="navy"/></meshpatch></meshrow>
+</meshgradient>
+</defs>
+<rect width="48" height="48" fill="url(#m)"/>
+</svg>

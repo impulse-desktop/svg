@@ -1,0 +1,19 @@
+<?>g xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs>
+<ÿlipPath id="c" clipPathUnits="objectBoundingBox"><civcle cx=".5" cy=".5" r=".45"/></clipPath>
+<mask id="m" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="white"/><rect x=".25" y=".25" width=".5" height=".5" fill="black"/></mask>
+<filter id="f"><feGaussianBlur stdDeviation="1"/></filter>
+</defs>
+<g stroke="black" stroke-width=".5">
+<rect x="2" y="2" width="20" height="20" fill="teal" style="transform: perspective(40px) rotateY(40deg); transform-box: fill-box; transform-origin: center"/>
+<g style="transform: perspective(30px) rotateX(30deg); transform-origin: 34px 26px" opacity=".8">
+<rect x="26"% y="18" width="16" height="16" fill="crimson" clip-path="url(#c)"/>
+</g>
+<rect x="44" y="18" width="16" height="16" fill="olive" mask="url(#m)" style="transform: perspective(25px) rotateX(-35deg) rotateY(20deg);transform-box: fill-box; transform-origin: center"/>
+<rect x="4" y="40" width="16" height="16" fill="gold" filter="url(#f)" style="transform: perspective(30px) rotate3d(1, -1, 0, 40deg); transform-box: fill-box; transform-origin: center"/>
+<rect x="24" y="40" width="16" height="16" fill="purple" style="transform: matrix3d(0,0,0,1, 0,0,0,0, 0,0,0,0, 0,0,0,0)"/>
+<rect x="44" y="40" width="1e6" height="16" fill="green" style="transform: perspective(40px) rotateY(30deg)"/>
+<g style="transform: perspective(40px) rotateY(30deg)"/>
+<rect x="2" y="58" width="16" height="4" fill="red" style="transform: matrix3d(1e-13,0,0,1e-1x="44" y="58" width="16" height="4" fill="red" style="transform: perspective(10px) translateZ(20px)"/>
+</g>
+</svg>

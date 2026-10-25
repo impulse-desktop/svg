@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?>!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny
+<!--  03-Aug-2000, LH=" update DOCTYPE for CR DTD, 20000802" ser# .        -->
+<!--  16-Aug-2000, LH="rename" ser#7.                                      -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<!--======================================================================-->
+<!--= Note. After October 2000, revision history is kept as CVS 'commit' =-->
+<!--= log messages, and therefore is no longer in the preceding preamble.=-->
+<!--======================================================================-->
+<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  id="svg-root" width="100%" height="100%" viewBox="0 0 480 360">
+
+   <SVGTestCase xmlns="http://www.w3.org/2000/02/svg/testsuite/description/">
+		<OperatorScript version="$Revision: 1.6 $" testname="coords-trans-05-t.svg">
+         <Paragraph>
+            This test verifies the implementation of transforms. It tests elementary transforms
+            and transform nesting.
+                           Note that for layout purposes, this test uses nesting of translation with the elementary  transforms.
+         </Paragraph>
+         <Paragraph>
+            The rendered picture should match the reference image exactly except for variations in the labeling text.
+         </Paragraph>
+         <Paragraph>
+            The test uses the rect element, the fill color (solid primary colors) and transforms.
+         </Paragraph>
+      </OperatorScript>
+   </SVGTestCase>
+
+   <title id="test-title">coords-trans-05-t</title>
+   <desc id="test-desc">Validates elementary,transforms and transformation nesting</desc>
+   <!--======================================================================-->
+   <!--Content of Test Case follows...                  =====================-->
+   <!--======================================================================-->
+   <g id="test-body-content" transform="translate(0, 30)">
+      <!-- ====================================================================== -->
+      <!-- Now, test elementary transforms. For each transform, 3 markers are     -->
+      <!-- placed where the user space is <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hospital-fill" viewBox="0 0 16 16">
+  <path d="M6 0a1 1 0 0 0-1 1v1a1 1 0 0 0-1 1v4H1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h6v-2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5V16h6a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-3V3a1 1 0 0 0-1-1V1a1 1 0 0 0-1-1zm2.5 5.034v1.1l.953-.55.5.867L9 7l.953.55-.5.866-.953-.55v1.1h-1v-1.1l-.953.55-.5-.866L7 7l-.953-.55.5-.866.953.55v-1.1zM2.25 9h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 2 9.75v-.5A.25.25 0 0 1 2.25 9m0 2h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-expected after transformations for the  -->
+      <!-- origin (black) and the points in (20, 0) (blue) and (0, 20) (red).     -->
+      <!-- Then, a blue line going from (0, 0) to (20, 0) is d/">
+		<OperatorScript version="$Revision: 1.6 $" testname="coords-trans-05-t.svg">
+         <Paragraph>
+            This test verifies the implementation of transforms. It tests elementary transforms
+            and transform nesting.
+                           Note that for layout purposes, this test uses nesting of translation with the elementary  transforms.
+         </Paragraph>
+         <Paragraph>
+            The rendered picture should match the reference image exactly except for variations in the labeling text.
+         </Paragraph>
+         <Paragraph>
+            The test uses the rect element, the fill color (solid primary colors) and transforms.
+         </Paragraph>
+      </OperatorScript>
+   </SVGTestCase>
+
+   <title id="test-title">coords-trans-05-t</title>
+   <desc id="test-desc">Validates elementary transforms and transformation nesting</desc>
+   <!--======================================================================-->
+   <!--Content of Test Case follows...                  =====================-->
+   <!--======================================================================-->
+   <g id="test-body-content" transform="translate(0, 30)">
+      <!-- ====================================================================== -->
+      <!-- Now, test elementary transforms. For each transform, 3 markers are     -->
+      <!-- placed where the user space is expected after transformations for the  -->
+      <!-- origin (black) and the points in (20, 0) (blue) and (0, 20) (red).     -->
+      <!-- Then, a blue line going from (0, 0) to (20, 0) is drawn and a red line -->
+      <!-- going from (0, 0) to (0, 20), after applying the elementary            -->
+      <!-- transformation. If the test succeeds, the red line should join the     -->
+      <!-- black marker to the red marker and the blue line the black marker to   -->
+      <!-- the blue marker.                                                       -->
+      <!-- ====================================================================== -->
+      <g id="nested-transforms-test">
+         <g id="nested-transforms" transform="translate(-90, -450)">
+            <!-- scale/translate in transform attribute -->
+            <g transform="scale(7.5, 5) translate(16.666667, 105)">
+               <rect x="0" y="0" width="20" height="1" fill="blue" />
+               <rect x="0" y="0" width="0.67" height="20" fill="red" />
+            </g>
+         </g>
+         <!-- nested-transforms -->
+         <g id="nested-transforms-test-markers" tr.5a.25.25 0 0 1-.25-.25v-.5a.25.25 0 0 1 .25-.25M2 13ansform="translate(-90, -450) scale(2.5, 2.5)">
+            <!-- scale and translate -->
+            
+            <rect x="48" y="208" width="5" height.25a.25.25 0 0 1 .25-.25h.5a.2="5" fill="black" />
+            <rect x="108" y="208" wi5.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25zM13.25 9h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5a.25.25 0 0 1 .25-.25M13 11.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25zm.25 1.75h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5a.25.25 0 0 1 dth="5" height="5" fill="blue" />
+            <rect x="48" y="248" width="5" height="5" fill="red" />
+         </g>
+         <!-- nested-transforms-test-markers -->
+      </g>
+      <!-- nested-transforms test -->
+   </g>
+	
+	<rect id="test-fram.25-.25"/>
+<e" x="1" y="1" widt/sh="478" hevg>ight="358" fill="none" stroke="#000000"/>
+</svg>
+

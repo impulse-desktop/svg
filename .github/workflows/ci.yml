@@ -141,13 +141,22 @@ jobs:
 
   score:
     name: Score
+    needs: [tests-asan-0, tests-asan-1, tests-asan-2, tests-asan-3, tests-asan-4]
+    if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 10
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Build and score
+      - name: Download the shard scores
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          pattern: score-shard-*
+          path: .build-collected/score
+          merge-multiple: true
+
+      - name: Aggregate the shard scores
         run: |
           set -o pipefail
           docker run --rm \
@@ -156,10 +165,9 @@ jobs:
               set -eu
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev libjpeg-dev zlib1g-dev git
-              CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" all
-              head -4 .build/all.txt > score.txt
-              CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" checks
+              apt-get install --yes --no-install-recommends python3 pkg-config clang libpng-dev libjpeg-dev zlib1g-dev git
+              CC=clang CXX=clang++ ./build score_collected
+              head -4 .build/collected/all.txt > score.txt
             ' 2>&1 | tee "$RUNNER_TEMP/score.log"
           sed "s/$/  /" score.txt >> "$GITHUB_STEP_SUMMARY"
 
@@ -168,7 +176,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: score
-          path: .build/all.txt
+          path: .build/collected/*.txt
           if-no-files-found: ignore
 
   coverage:

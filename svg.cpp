@@ -2307,6 +2307,7 @@ namespace {
         Vector<Op> programs;
         Vector<Op>* out;
         Vector<Edge> edges;
+        size_t edgeBytes;
         Vector<ClipShape> clips;
         Matrix screen;
         Matrix host;
@@ -3582,6 +3583,7 @@ namespace {
                     c.p += 4;
                     skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
                 } else if (startsWith(c, SV("<?"))) {
+                    c.p += 2;
                     skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
                 } else if (startsWith(c, SV("<!"))) {
                     skipDeclaration(xml, c);
@@ -3711,6 +3713,7 @@ namespace {
                 }
 
                 if (startsWith(c, SV("<?"))) {
+                    c.p += 2;
                     skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
                     continue;
                 }
@@ -4216,7 +4219,8 @@ namespace {
                 c.p += 4;
                 skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
             } else if (startsWith(c, SV("<?"))) {
-                const u8* start = c.p + 2;
+                c.p += 2;
+                const u8* start = c.p;
 
                 skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
 
@@ -15675,6 +15679,21 @@ namespace {
 
     static bool passesConditions(const Document& doc, const Node* node);
 
+    static bool geometryWork(Lowering& l, size_t count) {
+        // Instancing visits few nodes but may duplicate a large flattened
+        // path. Bound the emitted storage separately: ordinary zoomed
+        // curves need many points without visiting many nodes.
+        if (count > l.edgeBytes / sizeof(Edge)) {
+            l.work = 0;
+
+            return false;
+        }
+
+        l.edgeBytes -= count * sizeof(Edge);
+
+        return true;
+    }
+
     static void emitEdges(Lowering& l, const Flat& flat, Box& bounds) {
         u32 begin = 0;
 
@@ -15697,6 +15716,10 @@ namespace {
     }
 
     static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint, bool aliased, bool linear = false) {
+        if (!geometryWork(l, flat.points.length() + flat.bands.length())) {
+            return;
+        }
+
         Op op;
 
         memset(&op, 0, sizeof(op));
@@ -16585,11 +16608,11 @@ namespace {
     // The side of (px, py) from the edge u v, taken from the edge's points in
     // one order whichever triangle holds it: two triangles sharing an edge
     // see exactly opposite numbers, so no pixel centre falls between them.
-    static float edgeSide(Point u, Point v, float px, float py) {
+    static double edgeSide(Point u, Point v, float px, float py) {
         bool swap = v.x < u.x || (v.x == u.x && v.y < u.y);
         Point s = swap ? v : u;
         Point t = swap ? u : v;
-        float side = (t.x - s.x) * (py - s.y) - (t.y - s.y) * (px - s.x);
+        double side = ((double)t.x - s.x) * ((double)py - s.y) - ((double)t.y - s.y) * ((double)px - s.x);
 
         return swap ? -side : side;
     }
@@ -16605,41 +16628,36 @@ namespace {
     }
 
     static void meshTriangle(u16* buffer, int width, int height, const MeshVertex& a, const MeshVertex& b, const MeshVertex& c) {
-        float area = (b.p.x - a.p.x) * (c.p.y - a.p.y) - (c.p.x - a.p.x) * (b.p.y - a.p.y);
+        double area = ((double)b.p.x - a.p.x) * ((double)c.p.y - a.p.y) - ((double)c.p.x - a.p.x) * ((double)b.p.y - a.p.y);
 
-        if (fabsf(area) < 1e-12f) {
+        if (!isfinite(area) || fabs(area) < 1e-12) {
             return;
         }
 
         float turn = area > 0.f ? 1.f : -1.f;
 
-        int x0 = (int)floorf(minf(a.p.x, minf(b.p.x, c.p.x)));
-        int y0 = (int)floorf(minf(a.p.y, minf(b.p.y, c.p.y)));
-        int x1 = (int)ceilf(maxf(a.p.x, maxf(b.p.x, c.p.x)));
-        int y1 = (int)ceilf(maxf(a.p.y, maxf(b.p.y, c.p.y)));
-
-        x0 = x0 < 0 ? 0 : x0;
-        y0 = y0 < 0 ? 0 : y0;
-        x1 = x1 > width ? width : x1;
-        y1 = y1 > height ? height : y1;
+        int x0 = (int)floorf(minf(maxf(minf(a.p.x, minf(b.p.x, c.p.x)), 0.f), (float)width));
+        int y0 = (int)floorf(minf(maxf(minf(a.p.y, minf(b.p.y, c.p.y)), 0.f), (float)height));
+        int x1 = (int)ceilf(minf(maxf(maxf(a.p.x, maxf(b.p.x, c.p.x)), 0.f), (float)width));
+        int y1 = (int)ceilf(minf(maxf(maxf(a.p.y, maxf(b.p.y, c.p.y)), 0.f), (float)height));
 
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
                 float px = (float)x + 0.5f;
                 float py = (float)y + 0.5f;
-                float ea = edgeSide(b.p, c.p, px, py) * turn;
-                float eb = edgeSide(c.p, a.p, px, py) * turn;
-                float ec = edgeSide(a.p, b.p, px, py) * turn;
+                double ea = edgeSide(b.p, c.p, px, py) * turn;
+                double eb = edgeSide(c.p, a.p, px, py) * turn;
+                double ec = edgeSide(a.p, b.p, px, py) * turn;
 
                 if (ea < 0.f || eb < 0.f || ec < 0.f || (ea == 0.f && !edgeOwns(b.p, c.p, turn)) || (eb == 0.f && !edgeOwns(c.p, a.p, turn)) || (ec == 0.f && !edgeOwns(a.p, b.p, turn))) {
                     continue;
                 }
 
-                float sum = ea + eb + ec;
+                double sum = ea + eb + ec;
                 float d[4];
 
                 for (int k = 0; k < 4; k++) {
-                    d[k] = (ea * a.c[k] + eb * b.c[k] + ec * c.c[k]) / sum;
+                    d[k] = (float)((ea * a.c[k] + eb * b.c[k] + ec * c.c[k]) / sum);
                 }
 
                 storePixel(buffer + ((size_t)y * width + x) * 4, d);
@@ -16821,10 +16839,10 @@ namespace {
             extend(device, apply(space, point));
         }
 
-        int x0 = (int)floorf(maxf(device.x0, 0.f));
-        int y0 = (int)floorf(maxf(device.y0, 0.f));
-        int x1 = (int)ceilf(minf(device.x1, (float)l.width));
-        int y1 = (int)ceilf(minf(device.y1, (float)l.height));
+        int x0 = (int)floorf(minf(maxf(device.x0, 0.f), (float)l.width));
+        int y0 = (int)floorf(minf(maxf(device.y0, 0.f), (float)l.height));
+        int x1 = (int)ceilf(minf(maxf(device.x1, 0.f), (float)l.width));
+        int y1 = (int)ceilf(minf(maxf(device.y1, 0.f), (float)l.height));
 
         if (x1 <= x0 || y1 <= y0) {
             return nullptr;
@@ -16860,9 +16878,7 @@ namespace {
                     }
                 }
 
-                int n = (int)ceilf(extent * 3.f / 2.f);
-
-                n = n < 1 ? 1 : (n > 128 ? 128 : n);
+                int n = (int)ceilf(minf(maxf(extent * 3.f / 2.f, 1.f), 128.f));
 
                 if (bicubic) {
                     n = (n + 7) / 8 * 8;
@@ -17466,7 +17482,11 @@ namespace {
 
         flatten(path, m, tolerance, flat);
         shape.first = (u32)l.edges.length();
-        emitEdges(l, flat, bounds);
+
+        if (geometryWork(l, flat.points.length())) {
+            emitEdges(l, flat, bounds);
+        }
+
         shape.count = (u32)l.edges.length() - shape.first;
         shape.rule = rule;
         shape.bounds = bounds;
@@ -23361,6 +23381,10 @@ namespace {
         }
 
         if (paint.type == PaintType::Pattern) {
+            if (!isfinite(p.x) || !isfinite(p.y)) {
+                return false;
+            }
+
             int tw = (int)paint.imageWidth;
             int th = (int)paint.imageHeight;
             float fx = p.x - 0.5f;
@@ -23546,6 +23570,24 @@ namespace {
         return true;
     }
 
+    // Interpolate from the nearer endpoint: a distant endpoint must not
+    // cancel the fractional coordinate of a visible crossing. The slope is
+    // computed once per edge, outside the band and scanline loops.
+    static float edgeX(float x0, float y0, float x1, float y1, double slope, float y) {
+        if (y == y0 || x0 == x1) {
+            return x0;
+        }
+
+        if (y == y1) {
+            return x1;
+        }
+
+        double from = (double)y - y0;
+        double to = (double)y1 - y;
+
+        return (float)(from <= to ? x0 + from * slope : x1 - to * slope);
+    }
+
     static void addAliasedEdge(u32* acc, u32 stride, u32 width, u32 height, Edge e) {
         u32 dir = 0x10000u;
 
@@ -23556,12 +23598,12 @@ namespace {
 
         // Rows and columns clamp to the raster; one that is not a number
         // takes its start.
-        float dxdy = (e.x1 - e.x0) / (e.y1 - e.y0);
+        double dxdy = ((double)e.x1 - e.x0) / ((double)e.y1 - e.y0);
         int y0 = (int)minf(maxf(floorf(e.y0 + 0.5f), 0.f), (float)height);
         int y1 = (int)minf(maxf(floorf(e.y1 + 0.5f), 0.f), (float)height);
 
         for (int y = y0; y < y1; y++) {
-            int column = (int)minf(maxf(floorf(e.x0 + ((float)y + 0.5f - e.y0) * dxdy + 0.5f), 0.f), (float)width);
+            int column = (int)minf(maxf(floorf(edgeX(e.x0, e.y0, e.x1, e.y1, dxdy, (float)y + .5f) + .5f), 0.f), (float)width);
 
             acc[(size_t)y * stride + column] += dir;
         }
@@ -23572,11 +23614,12 @@ namespace {
         float y0;
         float x1;
         float y1;
+        double slope;
         i64 dir;
     };
 
     static float bandX(const BandEdge& e, float y) {
-        return e.x0 + (e.x1 - e.x0) * ((y - e.y0) / (e.y1 - e.y0));
+        return edgeX(e.x0, e.y0, e.x1, e.y1, e.slope, y);
     }
 
     static bool insideWinding(i64 winding, u8 rule) {
@@ -23987,11 +24030,13 @@ namespace {
     // The band edge of an edge of the lowering, its ends in order of y and
     // its direction kept, in the raster's coordinates.
     static BandEdge bandEdge(Edge e, float ox, float oy) {
+        double slope = ((double)e.x1 - e.x0) / ((double)e.y1 - e.y0);
+
         if (e.y0 < e.y1) {
-            return BandEdge{e.x0 - ox, e.y0 - oy, e.x1 - ox, e.y1 - oy, 1};
+            return BandEdge{e.x0 - ox, e.y0 - oy, e.x1 - ox, e.y1 - oy, slope, 1};
         }
 
-        return BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1};
+        return BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, slope, -1};
     }
 
     static void rasterizeUnion(u32* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
@@ -29179,6 +29224,10 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         Lowering l;
 
         beginPass(l, doc, scratch, document->decode, document->decompress, document->fail, document->context);
+        // A fixed 64 MiB allowance plus the input-scaled work budget in
+        // bytes. Vector capacity may round up, but repeated use, clips and
+        // pattern programs cannot multiply edge storage without a bound.
+        l.edgeBytes = ((size_t)1 << 26) + doc.workBudget;
         l.width = width;
         l.height = height;
         l.docWidth = document->width;

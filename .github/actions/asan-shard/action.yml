@@ -23,7 +23,15 @@ runs:
           --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
           --env TEST_GROUP --env TEST_GROUP_COUNT \
           --entrypoint sh nixos/nix:2.31.2 -c \
-          'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c sh -c '\''svg-sanitizers -j "$(nproc)" -k -Dgroup="$TEST_GROUP" -Dgroup_count="$TEST_GROUP_COUNT" tests'\'''
+          'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c sh dev/asan_shard.sh'
+
+    - name: Upload the shard scores
+      if: always()
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: score-shard-${{ inputs.shard }}
+        path: .build/score/
+        if-no-files-found: ignore
 
     # A case that crashes under a sanitizer fails the shard with its report;
     # one that runs past the driver's two minutes scores as a crash without

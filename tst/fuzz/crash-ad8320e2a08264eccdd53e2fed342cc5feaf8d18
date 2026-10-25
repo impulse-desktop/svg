@@ -1,0 +1,94 @@
+<?>
+<g id="clust1" class="cluster">
+<title>cluster_0</title>
+<polygon fill="none" stroke="#000000" points="8,-8 8,-348 198,-348 198,-8 8,-8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_1</title>
+<polygon fill="none" stroke="#000000" points="206,-8 206,-348 528,-348 528,-8 206,-8"/>
+</g>
+
+<g id="node1" class="node">
+<title>b_rev0</title>
+<ellipse fill="none" stroke="#000000" cx="92" cy="-322" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>b_rev1</title>
+<ellipse fill="none" stroke="#000000" cx="44" cy="-250" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>b_rev0&#45;&gt;b_rev1</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M80.8672,-305.3008C74.8696,-296.3043 67.3498,-285.0247 60.6686,-275.0029"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="63.5317,-272.9877 55.0724,-266.6087 57.7073,-276.8706 63.5317,-272.9877"/>
+</g>
+
+<g id="node4" class="node">
+<title>b_client1</title>
+<ellipse fill="none" stroke="#000000" cx="140" cy="-250" rx="49.7706" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>b_rev0&#45;&gt;b_client1</title>
+<path fill="none" stroke="#000000" d="M103.1328,-305.3008C108.9002,-296.6496 116.0752,-285.8873 122.5585,-276.1623"/>
+<polygon fill="#000000" stroke="#000000" points="125.623,-277.8752 128.2579,-267.6132 119.7987,-273.9922 125.623,-277.8752"/>
+</g>
+
+<g id="node3" class="node">
+<title>b_rev2</title>
+<ellipse fill="none" stroke="#000000" cx="44" cy="-178" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="edgxml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<!-- This test shouldn't display anything because it refers to itself. If we have an
+     other element in defs e.g. <defs> <rect id="someOtherElement"/></defs> and we would 
+     use it that construction should work. -->
+    <use id="mySelf" x="25" y="25" xlink:href="use-referexle(1 1) rotate(0) translate(4 360)">
+<title>merge</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-360 540,-360 540,4 -4,4"/>
+<g id="clust1" class="cluster">
+<title>cluster_0</title>
+<polygon fill="none" stroke="#000000" points="8,-8 8,-348 198,-348 198,-8 8,-8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_1</title>
+<polygon fill="none" stroke="#000000" points="206,-8 206,-348 528,-348 528,-8 206,-8"/>
+</g>
+
+<g id="node1" class="node">
+<title>b_rev0</title>
+<ellipse fill="none" stroke="#000000" cx="92" cy="-322" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="node2" class="node">
+<title>b_rev1</title>
+<ellipse fill="none" stroke="#000000" cx="44" cy="-250" rx="28.0625" ry="18"/>
+
+</g>
+
+<g id="edge1" class="edge">
+<title>b_rev0&#45;&gt;b_rev1</title>
+<path fill="none" stroke="#000000" stroke-width="4" d="M80.8672,-305.3008C74.8696,-296.3043 67.3498,-285.0247 60.6686,-275.0029"/>
+<polygon fill="#000000" stroke="#000000" stroke-width="4" points="63.5317,-272.9877 55.0724,-266.6087 57.7073,-276.8706 63.5317,-272.9877"/>
+</g>
+
+<g id="node4" class="node">
+<title>b_client1</title>
+<ellipse fill="none" stroke="#000000" cx="140" cy="-250" rx="49.7706" ry="18"/>
+
+</g>
+
+<g id="edge3" class="edge">
+<title>b_rev0&#45;&gt;b_client1</title>
+<path fill="none" stroke="#000000" d="M103.1328,-305.3008C108.9002,-296.6496 116.0752,-285.8873 122.5585,-276.1623"/>
+<polygon fill="#000000" stroke="#000000" pointcing-itself.svg#mySelf" />
+
+</svg>

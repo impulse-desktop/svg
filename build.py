@@ -153,6 +153,54 @@ checks.append(command(
     color="light-green",
 ))
 
+parser_api = program(
+    name="parser_api",
+    output="$(B)/parser_api",
+    srcs=["$(S)/svg.cpp", "$(S)/tst/parser_api.cpp"],
+    cflags=warning_flags,
+    deps=[system],
+)
+checks.append(command(
+    name="check_parser_api",
+    outputs=["$(B)/checks/parser_api.txt"],
+    deps=[parser_api],
+    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/parser_api", "$(B)/checks/parser_api.txt"],
+    descr="CK",
+    color="light-green",
+))
+
+render_limits = program(
+    name="render_limits",
+    output="$(B)/render_limits",
+    srcs=["$(S)/svg.cpp", "$(S)/tst/render_limits.cpp"],
+    cflags=warning_flags,
+    deps=[system],
+)
+checks.append(command(
+    name="check_render_limits",
+    outputs=["$(B)/checks/render_limits.txt"],
+    deps=[render_limits],
+    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/render_limits", "$(B)/checks/render_limits.txt"],
+    descr="CK",
+    color="light-green",
+))
+
+finite_paints = program(
+    name="finite_paints",
+    output="$(B)/finite_paints",
+    srcs=["$(S)/tst/finite_paints.cpp"],
+    cflags=warning_flags,
+    deps=[system],
+)
+checks.append(command(
+    name="check_finite_paints",
+    outputs=["$(B)/checks/finite_paints.txt"],
+    deps=[finite_paints],
+    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/finite_paints", "$(B)/checks/finite_paints.txt"],
+    descr="CK",
+    color="light-green",
+))
+
 # The statement ledgers: anchors in dev/spec, units, and the test cells
 # every statement links to in the expected drawings.
 checks.append(command(
@@ -243,6 +291,24 @@ for path in sorted(paths, key=lambda path: -sizes[path]):
         color="cyan",
     ))
 
+# Sanitizer shards already compute every corpus comparison. Publish their
+# scores separately even when an unrelated unit made the tests group fail.
+group("score_shard", *partition_tests(cases))
+
+# CI downloads the five disjoint score artifacts here. Missing comparisons
+# fail in score.py; aggregation never schedules another renderer invocation.
+group("score_collected", command(
+    name="collect_scores",
+    inputs=[
+        "$(S)/tst/score.py", "$(S)/tst/corpus/EXCLUDED", "$(S)/tst/corpus/DESIGN",
+        *paths, *build.glob("$(S)/.build-collected/score/*/*.txt"),
+    ],
+    outputs=[f"$(B)/collected/{metric}.txt" for metric in ["all", "meanrms", "maxrms", "struct", "aa"]],
+    cmd=["python3", "$(S)/tst/score.py", "$(S)/tst/corpus", "$(S)/.build-collected/score", flags.filter or "*", "reports", "$(B)/collected"],
+    descr="OK",
+    color="light-green",
+))
+
 for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
     group(metric, command(
         name="score_" + metric,
@@ -316,7 +382,7 @@ for path in sorted(build.glob("$(S)/tst/expect/*.svg")):
 
 # API failure and root gzip stream tests are units too, including in the
 # coverage run, which invokes this group rather than the whole corpus.
-group("unit", *units, *oracles, *(check for check in checks if check.name in {"check_c_api", "check_decompress_api", "check_svgz_check"}))
+group("unit", *units, *oracles, *(check for check in checks if check.name in {"check_c_api", "check_decompress_api", "check_parser_api", "check_render_limits", "check_finite_paints", "check_svgz_check"}))
 
 # Every case, check and unit and the smoke drawing, or one partition of them
 # with -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.

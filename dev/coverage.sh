@@ -21,8 +21,12 @@ export LLVM_PROFILE_FILE="$out/profiles/%8m.profraw"
 export CXXFLAGS="${CXXFLAGS:-} -fprofile-instr-generate -fcoverage-mapping"
 export LDFLAGS="${LDFLAGS:-} -fprofile-instr-generate"
 
+# Publish the instrumented binary before running units: a failed build does
+# not restore its requested outputs from the cache, even successful ones.
+./build -B "$build" "$@" svg
+
 # The ASan jobs gate the units; what ran is exported all the same.
-./build -B "$build" -k "$@" unit svg || echo "coverage: failed units above"
+./build -B "$build" -k "$@" unit || echo "coverage: failed units above"
 
 ignore='(^|/)(tst|ext|\.build[^/]*)/|^/usr/'
 

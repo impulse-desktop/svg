@@ -10,6 +10,8 @@ runs:
   using: composite
   steps:
     - name: Build and run the fuzzer
+      # Leave time to upload inputs even when the fuzzing step times out.
+      timeout-minutes: 45
       shell: bash
       run: |
         docker run --rm \
@@ -18,7 +20,7 @@ runs:
           'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c svg-fuzz'
 
     - name: Upload the inputs that crashed the fuzzer
-      if: failure()
+      if: always()
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: fuzz-crashes-${{ inputs.shard }}

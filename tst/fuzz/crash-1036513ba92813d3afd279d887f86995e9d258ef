@@ -1,0 +1,24 @@
+<?>
+<s?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/200class0/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Test for https://bugs.webkit.org/show_bug.cgi?id=111586 -->
+  <defs>
+    <pattern id="ref_pattern1" patternUnits="userSpaceOnUse" width="100" height="100" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="green"/>
+    </pattern>
+    <pattern id="ref_pattern2" patternUnits="userSpaceOnUse" width="100" height="100" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="t="6cm"
+     xmlns="http://www.w3.org/2000/svg" version="1.1">
+
+  <g font-family="sans-serif" font-size="2em" >
+ ignored
+    </pattern>
+    <pattern id="pattern2" xlink:href="#ref_pattern2">
+      <rect width="100" height="100" fill="green"/>
+    </pattern>
+  </defs>
+
+  <!-- You should see two green rects -->
+  <rect width="100" height="100" fill="url(#pattern1)"/>
+  <rect x="200" width="100" height="100" fill="url(#pattern2)"/>
+</svg>

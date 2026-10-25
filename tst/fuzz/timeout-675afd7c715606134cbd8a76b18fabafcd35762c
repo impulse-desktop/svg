@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+viewBox="0 0 32 32" style="border-radius: 50%;">
+	<style>
+
+circle {
+	fill-opacity: 0;
+	stroke: #655;
+	stroke-width: 32;
+
+	-ms-transform-origin: 50% 50%; /* IE 9 */
+	-webkit-transform-origin: 50% 50%; /* Chrome, Safari, Opera */
+	 transform-origin: 50% 50%;
+}
+	circle:nth-of-type(1){
+		-webkit-transform: rotate(0deg);
+		-ms-transform: rotate(0deg);
+		transform: rotate(0deg);
+		stroke: #86AD00;
+	}
+	circle:nth-of-type(2){
+		-webkit-transform: rotate(30deg);
+		-ms-transform: rotate(30deg);
+		transform: rotate(30deg);
+		stroke: #0092B9;
+	}
+	circle:nth-of-type(3){
+		-webkit-transform: rotate(60deg);
+		-ms-transform: rotate(60deg);
+		transform: rotate(60deg);
+		stroke: #F2B705;
+	}
+	circle:nth-of-type(4){
+		-webkit-transform: rotate(90deg);
+		-ms-transform: rotate(90deg);
+		transform: rotate(90deg);
+		stroke: #D97904;
+	}
+	circle:nth-of-type(5){
+		-webkit-transform: rotate(120deg);
+		-ms-transform: rotate(120deg);
+		transform: rotate(120deg);
+		stroke: #b30;
+	}
+	circle:nth-of-type(6){
+		-webkit-transform: rotate(150deg);
+		-ms-transform: rotate(150deg);
+		transform: rotate(150deg);
+		stroke: #939;
+	}
+
+	circle:nth-of-type(7){
+		-webkit-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		transform: rotate(180deg);
+		stroke: #86AD00;
+	}
+
+	circle:nth-of-type(8){
+		-webkit-transform: rotate(210deg);
+		-ms-transform: rotate(210deg);
+		transform: rotate(210deg);
+		stroke: #0092B9;
+	}
+	circle:nth-of-type(9){
+		-webkit-transform: rotate(240deg);
+		-ms-transform: rotate(240deg);
+		transform: rotate(240deg);
+		stroke: #F2B705;
+	}
+	circle:nth-of-type(10){
+		-webkit-transform: rotate(270deg);
+		-ms-transform: rotate(270deg);
+		transform: rotate(270deg);
+		stroke: #D97904;
+	}
+	circle:nth-of-type(11){
+		-webkit-transform: rotate(300deg);
+		-ms-transform: rotate(300deg);
+		transform: rotate(300deg);
+		stroke: #b30;
+	}
+	circle:nth-of-type(12){
+		-webkit-transform: rotate(330deg);
+		-ms-transform: rotate(330deg);
+		transform: rotate(330deg);
+		stroke: #939;
+	}
+	</style>
+
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+	<circle r="16" cx="16" cy="16" stroke-dasharray="10 100"></circle>
+</svg>
