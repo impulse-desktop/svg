@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- Each monotone collinear cubic has geometric length12 despite its nonlinear parameter and stationary endpoint. Source arclength gives literal3-on/2-off intervals. Closed returns, subpath reset, reflection, unequal transform and alpha have exact rectangle unions; ordinary2, no curve allowance. -->
+<svg x="0" y="0" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2 8 C2 8 2 8 14 8" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+<svg x="16" y="0" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2 8 C14 8 14 8 14 8" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+<svg x="32" y="0" width="16" height="16"><g transform="matrix(-1 0 0 1 16 0)" opacity="1"><path d="M2 8 C2 8 2 8 14 8" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+<svg x="48" y="0" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2 5 C2 5 2 5 14 5 M2 11 C14 11 14 11 14 11" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+<svg x="0" y="16" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2 8 C2 8 2 8 14 8 Z" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+<svg x="16" y="16" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M14 8 C14 8 14 8 2 8 Z" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+<svg x="32" y="16" width="16" height="16"><g transform="matrix(0.5 0 0 1.5 0 0)" opacity="1"><path d="M2 8 C2 8 2 8 14 8" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+<svg x="48" y="16" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="0.5"><path d="M2 8 C2 8 2 8 14 8" fill="none" stroke="lime" stroke-width="2" stroke-dasharray="3 2"/></g></svg>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- A finite miter limit falls back to a bevel at a pi reversal. Exact normal bands union to one rectangle; retracing does not accumulate opacity. Closed two-point paths, reversed/reflected/nonuniform placement and square caps are checked by literal pixel areas; ordinary2, no curve allowance. -->
+<svg x="0" y="0" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2.25 8.25 L12.75 8.25 L2.25 8.25" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="butt"/></g></svg>
+<svg x="16" y="0" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2.25 8.25 L12.75 8.25 Z" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="butt"/></g></svg>
+<svg x="32" y="0" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M12.75 8.25 L2.25 8.25 Z" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="butt"/></g></svg>
+<svg x="48" y="0" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2.25 8.25 L12.75 8.25 L2.25 8.25" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="bevel" stroke-linecap="butt"/></g></svg>
+<svg x="0" y="16" width="16" height="16"><g transform="matrix(-1 0 0 1 16 0)" opacity="1"><path d="M2.25 8.25 L12.75 8.25 L2.25 8.25" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="butt"/></g></svg>
+<svg x="16" y="16" width="16" height="16"><g transform="matrix(0.7 0 0 1.2 1 0)" opacity="1"><path d="M2.25 8.25 L12.75 8.25 L2.25 8.25" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="butt"/></g></svg>
+<svg x="32" y="16" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="0.5"><path d="M2.25 8.25 L12.75 8.25 L2.25 8.25" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="butt"/></g></svg>
+<svg x="48" y="16" width="16" height="16"><g transform="matrix(1 0 0 1 0 0)" opacity="1"><path d="M2.25 8.25 L12.75 8.25 L2.25 8.25" fill="none" stroke="lime" stroke-width="2.5" stroke-linejoin="miter" stroke-linecap="square"/></g></svg>
+</svg>
