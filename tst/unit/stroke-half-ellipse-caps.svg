@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- This open upper half-ellipse has min curvature radius .2 > halfwidth
+.125, so its true normal band lies at y<=0. Entire positive-y probes are
+outside butt caps and inside the round/square endpoint caps. Reflection,
+unequal scale and opacity retain the independent inclusion proof. -->
+<svg x="0" y="0" width="16" height="16" viewBox="19.99 0.0525 .02 .02"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="butt" stroke-opacity="1"/></svg>
+<svg x="16" y="0" width="16" height="16" viewBox="-20.01 0.0525 .02 .02"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="butt" stroke-opacity="1"/></svg>
+<svg x="32" y="0" width="16" height="16" viewBox="19.99 0.0525 .02 .02"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="round" stroke-opacity="1"/></svg>
+<svg x="48" y="0" width="16" height="16" viewBox="-20.01 0.0525 .02 .02"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="round" stroke-opacity="1"/></svg>
+<svg x="0" y="16" width="16" height="16" viewBox="19.99 0.0525 .02 .02"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="square" stroke-opacity="1"/></svg>
+<svg x="16" y="16" width="16" height="16" viewBox="19.99 -0.0725 .02 .02"><g transform="scale(1 -1)"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="butt" stroke-opacity="1"/></g></svg>
+<svg x="32" y="16" width="16" height="16" viewBox="29.99 0.03375 .02 .02"><g transform="scale(1.5 .7)"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="butt" stroke-opacity="1"/></g></svg>
+<svg x="48" y="16" width="16" height="16" viewBox="19.99 0.0525 .02 .02"><path d="M20 0 A20 2 0 0 0 -20 0" fill="none" stroke="lime" stroke-width=".25" stroke-linecap="round" stroke-opacity=".5"/></svg>
+</svg>

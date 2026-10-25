@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="8">
+<!-- Constant colour planes compose before one fractional group clip. Exact
+rectangle coverage and source-over independently define the PNG pixels.
+The final opaque child covers earlier children before the group is clipped.
+This checks the existing area antialiasing convention, without a curve
+allowance or a claim that every renderer must choose the same edge pixels. -->
+<svg x="0" width="8" height="8"><defs><clipPath id="gc0" clipPathUnits="userSpaceOnUse"><rect x="1.25" y="1.25" width="4.5" height="4.5"/></clipPath></defs><g clip-path="url(#gc0)" opacity="1"><rect width="8" height="8" fill="#ff0000" fill-opacity="1"/><rect width="8" height="8" fill="#00ff00" fill-opacity="1"/></g></svg>
+<svg x="8" width="8" height="8"><defs><clipPath id="gc1" clipPathUnits="userSpaceOnUse"><rect x="1.25" y="1.25" width="4.5" height="4.5"/></clipPath></defs><g clip-path="url(#gc1)" opacity="1"><rect width="8" height="8" fill="#ff0000" fill-opacity="1"/><rect width="8" height="8" fill="#00ff00" fill-opacity="0.5"/></g></svg>
+<svg x="16" width="8" height="8"><defs><clipPath id="gc2" clipPathUnits="userSpaceOnUse"><rect x="1.25" y="1.25" width="4.5" height="4.5"/></clipPath></defs><g clip-path="url(#gc2)" opacity="1"><rect width="8" height="8" fill="#ff0000" fill-opacity="0.5"/><rect width="8" height="8" fill="#0000ff" fill-opacity="0.25"/></g></svg>
+<svg x="24" width="8" height="8"><defs><clipPath id="gc3" clipPathUnits="userSpaceOnUse"><rect x="1.25" y="1.25" width="4.5" height="4.5"/></clipPath></defs><g clip-path="url(#gc3)" opacity="1"><rect width="8" height="8" fill="#00ff00" fill-opacity="0.5"/><rect width="8" height="8" fill="#ff0000" fill-opacity="0.5"/></g></svg>
+<svg x="32" width="8" height="8"><defs><clipPath id="gc4" clipPathUnits="userSpaceOnUse"><rect x="1.25" y="1.25" width="4.5" height="4.5"/></clipPath></defs><g clip-path="url(#gc4)" opacity="0.5"><rect width="8" height="8" fill="#ff0000" fill-opacity="1"/><rect width="8" height="8" fill="#00ff00" fill-opacity="0.5"/></g></svg>
+<svg x="40" width="8" height="8"><defs><clipPath id="gc5" clipPathUnits="userSpaceOnUse"><rect x="1" y="1" width="4.5" height="4.5" transform="translate(.25 .25)"/></clipPath></defs><g clip-path="url(#gc5)" opacity="1"><rect width="8" height="8" fill="#ff0000" fill-opacity="1"/><rect width="8" height="8" fill="#00ff00" fill-opacity="1"/></g></svg>
+<svg x="48" width="8" height="8"><defs><clipPath id="gc6" clipPathUnits="userSpaceOnUse"><rect x="1.25" y="1.25" width="4.5" height="4.5"/></clipPath></defs><g clip-path="url(#gc6)" opacity="1" transform="matrix(-1 0 0 1 8 0)"><rect width="8" height="8" fill="#ff0000" fill-opacity="1"/><rect width="8" height="8" fill="#00ff00" fill-opacity="1"/></g></svg>
+<svg x="56" width="8" height="8"><defs><clipPath id="gc7" clipPathUnits="userSpaceOnUse"><rect x="1.25" y="1.25" width="4.5" height="4.5"/></clipPath></defs><rect width="8" height="8" fill="white"/><g clip-path="url(#gc7)" opacity="1"><rect width="8" height="8" fill="#000000" fill-opacity="1"/><rect width="8" height="8" fill="#ffd600" fill-opacity="1"/></g></svg>
+</svg>

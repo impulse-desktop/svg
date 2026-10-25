@@ -17,6 +17,8 @@
 - [x] css-masking-1.md#the-clip-path: for SVG elements without a CSS layout box, content-box and padding-box compute to fill-box, and border-box and margin-box compute to stroke-box [clip-geometry-boxes#padding-box clip-geometry-boxes#box-alone]
 - [x] css-masking-1.md#the-clip-path: for elements with a CSS layout box, as the outermost svg has, fill-box computes to content-box and stroke-box and view-box to border-box, each the outermost svg's viewport [root-effects-clip-shape#root]
 - [x] css-masking-1.md#the-clip-path: a computed value other than none creates a stacking context, as CSS opacity does for values other than 1 [clipping-region#stacking-context]
+- [x] css-masking-1.md#the-clip-path: a group clips its composed content before that group is composited with its backdrop; a final opaque child covers earlier children. Independent constant-colour planes and rectangle areas check the renderer's edge antialiasing convention, ordered alpha and group opacity. [clip-group-fractional#opaque-last clip-group-fractional#translucent-last clip-group-fractional#translucent-both clip-group-fractional#reversed clip-group-fractional#group-opacity clip-group-fractional#gold-over-white]
+- [x] css-masking-1.md#clipping-paths: transforms place the clip geometry and the clipped group in their user coordinate systems. [clip-group-fractional#translated-clip clip-group-fractional#reflected-group]
 - [x] css-masking-1.md#the-clip-path: clip-path is a presentation attribute on SVG elements [clip-path-element#union]
 
 ## clip-path invalid and missing references: clip-path-element, mask-values, clip-mask-missing (exists)

@@ -210,3 +210,8 @@
 
 - [x] svg2/painting.md#TermStrokeShape: an ellipse's stroke follows its normals, rather than ellipses made by adding/subtracting the half-width from both semiaxes. Complete probes are independently within the half-width of one fixed ellipse point; the half-width stays below the minimum radius of curvature. Reflection, rotation and nonuniform transforms preserve the source-space inclusion. [stroke-ellipse-normal-probes#outer-normal stroke-ellipse-normal-probes#inner-normal stroke-ellipse-normal-probes#reflected stroke-ellipse-normal-probes#rotated stroke-ellipse-normal-probes#nonuniform-transform stroke-ellipse-normal-probes#circle-control]
 - [x] svg2/painting.md#TermStrokeShape: the covered band paints over the ellipse fill and retains stroke-opacity. [stroke-ellipse-normal-probes#filled-inner stroke-ellipse-normal-probes#stroke-opacity]
+
+## Open ellipse cap probes: stroke-half-ellipse-caps
+
+- [x] svg2/painting.md#TermCapShape: butt caps add no area past either end of an open half-ellipse; round and square caps extend in the endpoint direction. Complete probes lie outside the normal band and inside the round/square cap, with half-width below the minimum curvature radius. [stroke-half-ellipse-caps#butt-start stroke-half-ellipse-caps#butt-end stroke-half-ellipse-caps#round-start stroke-half-ellipse-caps#round-end stroke-half-ellipse-caps#square-start]
+- [x] svg2/painting.md#TermCapShape: reflection and nonuniform transforms preserve the source-space cap inclusion; stroke-opacity applies to the covered cap. [stroke-half-ellipse-caps#reflected-butt stroke-half-ellipse-caps#unequal-butt stroke-half-ellipse-caps#round-opacity]
