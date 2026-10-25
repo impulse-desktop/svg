@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <algorithm>
 #include <stdexcept>
 
 extern "C" {
@@ -1632,6 +1633,10 @@ namespace {
         int repeat = atoi(argv[3]);
         char line[4096];
 
+        if (repeat < 1 || repeat > 31 || !(repeat & 1)) {
+            fail("repeat must be an odd integer from 1 to 31: ", argv[3]);
+        }
+
         if (!list) {
             fail("cannot read ", argv[2]);
         }
@@ -1642,36 +1647,45 @@ namespace {
             unsigned height;
 
             if (sscanf(line, "%3999s %u %u", path, &width, &height) != 3) {
-                continue;
+                fail("bad benchmark record: ", line);
             }
 
             std::string file;
-            uint64_t best = ~0ull;
+            std::vector<uint64_t> samples;
             bool ok = true;
 
             readFile(path, file);
 
-            for (int r = 0; r < repeat; r++) {
-                Library library;
-                Document document;
-                Image image;
-                uint64_t start = nanoseconds();
+            try {
+                // Each sample starts fresh: library creation, parsing,
+                // rendering and destruction all count. File I/O, PNG encoding
+                // and comparison with a reference do not.
+                for (int r = 0; r < repeat; r++) {
+                    uint64_t start = nanoseconds();
 
-                try {
-                    library.reset(svg_library_create(decodeRaster, failSvg, nullptr));
-                    document.reset(svg_library_parse(library.get(), file.data(), file.size()));
-                    image.reset(document ? svg_document_render(document.get(), width, height) : nullptr);
-                    ok = image != nullptr;
-                } catch (...) {
-                    ok = false;
+                    {
+                        Library library(svg_library_create(decodeRaster, failSvg, nullptr));
+                        Document document(svg_library_parse(library.get(), file.data(), file.size()));
+                        Image image(svg_document_render(document.get(), width, height));
+
+                        if (!image || svg_image_width(image.get()) != width || svg_image_height(image.get()) != height || svg_image_length(image.get()) != (size_t)width * height * 4) {
+                            ok = false;
+                            break;
+                        }
+                    }
+
+                    samples.push_back(nanoseconds() - start);
                 }
-
-                uint64_t spent = nanoseconds() - start;
-
-                best = spent < best ? spent : best;
+            } catch (const SvgFailure&) {
+                ok = false;
             }
 
-            printf("%s %llu %d\n", path, (unsigned long long)best, ok ? 1 : 0);
+            std::sort(samples.begin(), samples.end());
+
+            uint64_t median = ok && samples.size() == (size_t)repeat ? samples[samples.size() / 2] : 0;
+
+            printf("%s %llu %d\n", path, (unsigned long long)median, ok ? 1 : 0);
+            fflush(stdout);
         }
 
         fclose(list);

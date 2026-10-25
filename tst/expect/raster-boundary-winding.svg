@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="16">
+<!-- What tst/unit/raster-boundary-winding.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="positive" data-box="0 0 8 8"><svg x="0" y="0" width="8" height="8"><path d="M0 0L8 0L8 8L0 8Z" fill="#285fa7" fill-rule="nonzero" fill-opacity="1" transform=""/></svg></g>
+<g id="negative" data-box="8 0 8 8"><svg x="8" y="0" width="8" height="8"><path d="M0 0L8 0L8 8L0 8Z" fill="#285fa7" fill-rule="nonzero" fill-opacity="1" transform=""/></svg></g>
+<g id="evenodd" data-box="16 0 8 8"><svg x="16" y="0" width="8" height="8"><path d="M0 0L8 0L8 8L0 8Z" fill="#285fa7" fill-rule="evenodd" fill-opacity="1" transform=""/></svg></g>
+<g id="cancel" data-box="24 0 8 8"><svg x="24" y="0" width="8" height="8"><path d="M0 0L8 0L8 8L0 8Z" fill="#285fa7" fill-rule="nonzero" fill-opacity="1" transform=""/></svg></g>
+<g id="hole" data-box="0 8 8 8"><svg x="0" y="8" width="8" height="8"><path d="M0 0L8 0L8 8L0 8ZM3 2L3 6L6 6L6 2Z" fill="#285fa7" fill-rule="nonzero" fill-opacity="1" transform=""/></svg></g>
+<g id="reflected" data-box="8 8 8 8"><svg x="8" y="8" width="8" height="8"><path d="M0 0L8 0L8 8L0 8Z" fill="#285fa7" fill-rule="nonzero" fill-opacity="1" transform="translate(8 0) scale(-1 1)"/></svg></g>
+<g id="opacity" data-box="16 8 8 8"><svg x="16" y="8" width="8" height="8"><path d="M0 0L8 0L8 8L0 8Z" fill="#285fa7" fill-rule="nonzero" fill-opacity=".375" transform=""/></svg></g>
+<g id="fractional" data-box="24 8 8 8"><svg x="24" y="8" width="8" height="8"><path d="M0.125 0.125L7.875 0.125L7.875 7.875L0.125 7.875Z" fill="#285fa7" fill-rule="nonzero" fill-opacity="1" transform=""/></svg></g>
+</svg>

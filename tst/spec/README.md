@@ -82,4 +82,4 @@ cell of its expected drawing.
    A permitted approximation (the spec's "can be used", the stroke's
    "leeway") is conformance and is kept where it is faster.
 5. The changes the batch makes to the corpus are looked at, each explained
-   by a fix; then `tst/CANON` moves to the batch's commit.
+   by a fix; then the accepted `svg.cpp` is copied to `svg_canon.cpp`.

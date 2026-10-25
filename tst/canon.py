@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Draw a case's references with the canon's svg.
 
-The canon is a revision of this repository, tst/CANON: build.py builds svg
-there and draws with it every reference a case is scored against, at the
-sizes Chromium's references had, the longest side 256 and 512, at SIDE
-pixels a side unless the case is drawn straight.
+The canon is the frozen implementation in svg_canon.cpp. build.py builds it
+with the current test driver and draws every reference a case is scored
+against, at the sizes Chromium's references had, the longest side 256 and
+512, at SIDE pixels a side unless the case is drawn straight.
 
 usage: tst/canon.py SVG CASE.svg SIDE OUT_1X.png OUT_2X.png
 """

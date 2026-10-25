@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="24">
+<!-- What tst/unit/raster-edge-merge.svg draws, drawn plainly; each
+cell's id is what the statement ledgers link to. -->
+<g id="positive" data-box="0 0 8 8"><image x="0" y="0" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAIklEQVR42mNQjZ99GIjv48CHGaCM/zjw/SGjoBuI5+PA3QBqzYGhPbfeqQAAAABJRU5ErkJggg=="/></g>
+<g id="negative" data-box="8 0 8 8"><image x="8" y="0" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAIklEQVR42mNQjZ99GIjv48CHGaCM/zjw/SGjoBuI5+PA3QBqzYGhPbfeqQAAAABJRU5ErkJggg=="/></g>
+<g id="cancelled" data-box="16 0 8 8"><image x="16" y="0" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAEklEQVR42mNQjZ/NgA8zjAwFAAiTR8HtvTtMAAAAAElFTkSuQmCC"/></g>
+<g id="cancelled-then-positive" data-box="24 0 8 8"><image x="24" y="0" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAIklEQVR42mNQjZ99GIjv48CHGaCM/zjw/SGjoBuI5+PA3QBqzYGhPbfeqQAAAABJRU5ErkJggg=="/></g>
+<g id="even" data-box="0 8 8 8"><image x="0" y="8" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAEklEQVR42mNQjZ/NgA8zjAwFAAiTR8HtvTtMAAAAAElFTkSuQmCC"/></g>
+<g id="odd" data-box="8 8 8 8"><image x="8" y="8" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAIklEQVR42mNQjZ99GIjv48CHGaCM/zjw/SGjoBuI5+PA3QBqzYGhPbfeqQAAAABJRU5ErkJggg=="/></g>
+<g id="opacity-once" data-box="16 8 8 8"><image x="16" y="8" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAIklEQVR42mNQjZ+dBMQFOHASA5TRgAMXDBkFbkAcgAO7AQBKAGTRLcL6WAAAAABJRU5ErkJggg=="/></g>
+<g id="adjacent-tiles" data-box="24 8 8 8"><image x="24" y="8" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAIklEQVR42mNQjZ99GIjv48CHGaCM/zjw/SGjoBuI5+PA3QBqzYGhPbfeqQAAAABJRU5ErkJggg=="/></g>
+<g id="adjacent-evenodd" data-box="0 16 8 8"><image x="0" y="16" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAIklEQVR42mNQjZ99GIjv48CHGaCM/zjw/SGjoBuI5+PA3QBqzYGhPbfeqQAAAABJRU5ErkJggg=="/></g>
+<g id="hole" data-box="8 16 8 8"><image x="8" y="16" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAPklEQVR42mNQjZ99GIjv48CHGaCM/0C8GojnQ/FqqNh9ZAUKQMwAxQq0UVACxAlQXIJNATYMVtCN5Hp03A0AE11ysbSzbM0AAAAASUVORK5CYII="/></g>
+<g id="gap" data-box="16 16 8 8"><image x="16" y="16" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJ0lEQVR42mNQjZ99GIjvQ/FhdD4DlPEfiu+j84eMgm4gng/F3eh8AG7Wf8FvuShkAAAAAElFTkSuQmCC"/></g>
+<g id="different-extents" data-box="24 16 8 8"><image x="24" y="16" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAANUlEQVR42mNQjZ99GIjvQzGIzYCMGaAS/6H4N5JisAZ0Bej4/gAo+AzE85FwN0hBN7IAujcBdWV5qQ46uYQAAAAASUVORK5CYII="/></g>
+</svg>

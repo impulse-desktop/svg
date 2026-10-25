@@ -1,7 +1,9 @@
 import fnmatch
 import hashlib
 import os
+from pathlib import Path
 import platform
+import runpy
 
 import build
 import build.flags as flags
@@ -11,6 +13,11 @@ flags.allow({
     "filter": {"descr": "glob over the cases, as paths under tst/corpus (resvg/*, */*gradient*)", "default": ""},
     "group": {"descr": "zero-based partition of the tests to run", "default": ""},
     "group_count": {"descr": "total number of test partitions", "default": ""},
+    "perf_side": {"descr": "longest side for the corpus performance comparison", "default": "512"},
+    "perf_repeat": {"descr": "renders per file and binary, using their median", "default": "3"},
+    "perf_timeout": {"descr": "seconds allowed for one file and binary", "default": "120"},
+    "perf_jobs": {"descr": "parallel old/new file pairs in the performance comparison", "default": "24"},
+    "perf_run": {"descr": "change this label to repeat an otherwise cached performance run", "default": "default"},
 })
 
 
@@ -62,6 +69,16 @@ svg = program(
     deps=[png, jpeg, system],
 )
 
+# Frozen last-green renderer; only the implementation differs between these
+# binaries. The driver, decoders, compiler and optimization flags are shared.
+svg_old = program(
+    name="svg_old",
+    output="$(B)/svg_old",
+    srcs=["$(S)/svg_old.cpp", "$(S)/tst/main.cpp"],
+    cflags=warning_flags,
+    deps=[png, jpeg, system],
+)
+
 libfuzzer = os.environ.get("LIBFUZZER")
 fuzzer_ldflags = (
     ["-Wl,--export-dynamic", "-Wl,--whole-archive", libfuzzer, "-Wl,--no-whole-archive", "-pthread", "-ldl"]
@@ -84,7 +101,7 @@ install(svg)
 # A check imports canon, which imports the reference modules, so every
 # script under tst is an input of every check.
 checks = []
-for check in ["viewport_units", "canvas_scale", "cascade_priority", "curve_area", "straight_curves", "circle_coverage"]:
+for check in ["viewport_units", "canvas_scale", "cascade_priority", "curve_area", "straight_curves", "circle_coverage", "perf_check"]:
     checks.append(command(
         name="check_" + check,
         inputs=build.glob("$(S)/tst/*.py"),
@@ -153,28 +170,10 @@ smoke = command(
 )
 
 
-# The canon is a revision of this repository, tst/CANON: a workspace of the
-# tree there builds its own svg, plainly, without the sanitizers or the
-# coverage of this build, and that binary draws every reference the cases
-# and units are compared with. Recanonizing moves the revision.
+# The frozen implementation draws the references without instrumentation.
+# Recanonizing replaces svg_canon.cpp with the accepted svg.cpp.
 root = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(root, "tst", "CANON")) as handle:
-    revision = handle.read().strip()
-canon = command(
-    name="canon_svg",
-    inputs=["$(S)/tst/CANON"],
-    outputs=["$(B)/canon/svg"],
-    cmd=["sh", "-c", """set -eu
-work=$(mktemp -d)
-trap 'rm -rf "$work"' EXIT
-git -c safe.directory='*' -C "$0" archive "$1" -- . ':(exclude)*.png' | tar -x -C "$work"
-cd "$work"
-CXXFLAGS= LDFLAGS=$(printf '%s\n' ${LDFLAGS:-} | grep -v -e '^-fsanitize' -e '^-fprofile' | tr '\n' ' ') ./build -B "$work/.build" svg
-cp -L "$work/.build/svg" "$2"
-""", "$(S)", revision, "$(B)/canon/svg"],
-    descr="CN",
-    color="light-magenta",
-)
+canon = import_build("$(S)/tst/canon_build.py", "svg", namespace="canon")
 
 labels = ["1x", "2x"]
 corpus = os.path.join(root, "tst", "corpus")
@@ -271,3 +270,34 @@ group("unit", *units, *oracles)
 # Every case, check and unit and the smoke drawing, or one partition of them
 # with -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.
 group("tests", *partition_tests(cases + checks + units + oracles + [smoke]))
+
+# Keep timings separate from sanitizer shards and image-reference generation.
+# The measurement succeeds even when a renderer fails: the following gate
+# rejects incomplete measurements, and the report remains cached for inspection.
+# Quick diagnosis uses one sample on a fixed third of the eligible corpus:
+# nine times fewer timed renders than the default full comparison.
+perf_selection = runpy.run_path(os.path.join(root, "tst", "perf.py"))["selection"]
+for name, repeat, stride in [("perf", flags.perf_repeat, "1"), ("perf_quick", "1", "3")]:
+    report = f"$(B)/{name}/report.json"
+    perf_inputs = ["$(S)/tst/corpus/" + path.relative_to(corpus).as_posix()
+                   for path in perf_selection(Path(corpus), flags.filter or "*", int(stride))]
+    measured = command(
+        name=name + "_report",
+        inputs=["$(S)/tst/perf.py", *perf_inputs, "$(S)/tst/corpus/EXCLUDED", "$(S)/tst/corpus/DESIGN"],
+        outputs=[report],
+        deps=[svg_old, svg],
+        cmd=["python3", "$(S)/tst/perf.py", "measure", "$(B)/svg_old", "$(B)/svg", "$(S)/tst/corpus", report,
+             "--side", flags.perf_side, "--repeat", repeat, "--stride", stride, "--timeout", flags.perf_timeout,
+             "--jobs", flags.perf_jobs, "--filter", flags.filter or "*", "--run", flags.perf_run],
+        descr="PF",
+        color="light-green",
+    )
+    command(
+        name=name,
+        inputs=["$(S)/tst/perf.py", report],
+        outputs=[f"$(B)/{name}/check.txt"],
+        deps=[measured],
+        cmd=["python3", "$(S)/tst/perf.py", "check", report, f"$(B)/{name}/check.txt"],
+        descr="PF",
+        color="light-green",
+    )

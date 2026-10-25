@@ -11,6 +11,69 @@ SVG without text: no `<text>`, no SMIL or CSS animation, no script, no
 `foreignObject`. Raster images inside a document are decoded by the program
 that embeds the renderer.
 
+## Render canon
+
+`svg_canon.cpp` is the frozen implementation used to draw references for
+the corpus and units. It is built with the current `svg.h`, test driver and
+raster decoders, without sanitizers or coverage instrumentation. Building
+references does not require Git history. The initial snapshot is from
+`4ef64535522c0304f440b42df70b90a9b675f14f`.
+
+After reviewing the rendering changes, recanonize by copying the accepted
+implementation:
+
+```sh
+cp svg.cpp svg_canon.cpp
+```
+
+Or take it from a specific revision:
+
+```sh
+git show REVISION:svg.cpp > svg_canon.cpp
+```
+
+The build tracks the snapshot and redraws references when it changes.
+`svg_old.cpp` remains the separate performance baseline.
+
+## Performance regression check
+
+`./build -j24 perf` builds the current renderer and `svg_old`, then compares
+their total time on the corpus selected by `tests` (including its
+`EXCLUDED` and `DESIGN` lists), except
+`gecko/slow__layout__reftests__svg__explosive-use.svg`, which times out in both
+versions and remains in functional tests. `svg_old.cpp` is the unchanged implementation
+from the last green revision, `2799b420d0fb42f4154ecc2b66a6606a55fd64d1`;
+both binaries use the current driver, raster decoders and identical build flags.
+
+The default is a 512-pixel longest side, 24 parallel file pairs and three
+samples per file and binary. A sample includes library creation, SVG parsing,
+rendering, raster decoding and resource destruction. File reads, process
+startup, size discovery and PNG encoding are outside the timer. Each sample
+parses a fresh document. Both versions draw at the same dimensions; their
+order alternates between files. The test sums each file's median elapsed time
+and requires **new <= old × 1.05**. An error, timeout or missing result fails
+the check; incomplete totals cannot pass.
+
+The report records every file and both binary hashes. After a failing check,
+`./build perf_report` publishes the cached report to `.build/perf/report.json`
+without rendering again. Use the same `-B` and `-D` options for both commands.
+Like other build targets, measurements are cached: change `-Dperf_run=LABEL`
+to force a fresh measurement. `-Dperf_side`, `-Dperf_repeat`, `-Dperf_jobs`
+and `-Dperf_timeout` control the run; timeout is per file and binary, across
+all its samples. `-Dfilter='tabler/*'` measures only that subset and labels
+the result accordingly. Performance checks are separate from sanitizer tests;
+run them without sanitizers or competing benchmarks.
+
+For diagnosis, `./build -j24 perf_quick` takes one sample per binary on
+every third eligible file: zero-based index `% 3 == 0` in sorted path order,
+after exclusions and `-Dfilter`. It uses the same dimensions, timer and
+5% check, with nine times fewer renders than the default full test.
+The selection is identical across revisions with the same corpus and filter.
+Its result describes that sample; it does not establish full-corpus parity.
+The report is `.build/perf_quick/report.json`; publish it after a failing
+check with `./build perf_quick_report` and the same options. `-Dperf_repeat`
+affects only the full test; the quick test always takes one sample.
+
 ## Use
 
 `svg.h` is a C header.

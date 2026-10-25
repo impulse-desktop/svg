@@ -134,7 +134,6 @@
             exec "$root/.build/fuzz" -timeout=120 -runs=30000 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
           '';
 
-          # git: the build checks the canon's revision out of the history.
           commonNativeBuildInputs = [
             buildCommand
             llvm.llvm

@@ -13,8 +13,8 @@ permissions:
 jobs:
   # Every corpus case, check and the smoke drawing runs under ASan and
   # UBSan in five stable shards side by side (build.py -Dgroup=K
-  # -Dgroup_count=N, a hash of the test's name). The jobs that compare
-  # drawings fetch the whole history: the canon is a revision of it.
+  # -Dgroup_count=N, a hash of the test's name). Reference drawings are built
+  # from svg_canon.cpp in the checkout.
 
   tests-asan-0:
     name: Tests ASan 0/5
@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - uses: ./.github/actions/asan-shard
         with:
@@ -37,8 +35,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - uses: ./.github/actions/asan-shard
         with:
@@ -51,8 +47,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - uses: ./.github/actions/asan-shard
         with:
@@ -65,8 +59,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - uses: ./.github/actions/asan-shard
         with:
@@ -79,8 +71,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - uses: ./.github/actions/asan-shard
         with:
@@ -156,8 +146,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - name: Build and score
         run: |
@@ -193,8 +181,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - name: Run the tests with coverage
         run: |
