@@ -10,11 +10,15 @@ runs:
   using: composite
   steps:
     - name: Build and run the fuzzer
-      # Leave time to upload inputs even when the fuzzing step times out.
-      timeout-minutes: 45
       shell: bash
+      env:
+        FUZZ_SHARD: ${{ inputs.shard }}
       run: |
-        docker run --rm \
+        # Composite steps do not support timeout-minutes. Bound the process
+        # instead, leaving time for the following artifact upload.
+        container="svg-fuzz-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${FUZZ_SHARD}"
+        trap 'docker rm --force "$container" >/dev/null 2>&1 || true' EXIT
+        timeout --kill-after=30s 45m docker run --rm --name "$container" \
           --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
           --entrypoint sh nixos/nix:2.31.2 -c \
           'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c svg-fuzz'
