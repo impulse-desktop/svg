@@ -1712,7 +1712,10 @@ namespace {
         VerbLine,
         VerbCubic,
         VerbClose,
+        // Converted conics: an internal piece has no authored marker
+        // vertex; the last piece ends at the original arc's vertex.
         VerbArcCubic,
+        VerbConicCubic,
     };
 
     struct Path {
@@ -1730,9 +1733,10 @@ namespace {
         PointSmooth,
     };
 
-    // A cubic of a dashed stroke, its controls.
+    // A cubic of a dashed stroke, its controls and conversion budget.
     struct FlatCurve {
         Point p[4];
+        bool conic;
     };
 
     struct Flat {
@@ -11564,7 +11568,10 @@ namespace {
             return;
         }
 
-        int segments = (int)ceil(fabs(delta) / (piDouble / 2.0) - 1e-7);
+        // Quarter-circle cubics are close in position, but their excess
+        // length accumulates along a dash pattern. Half-quadrants keep that
+        // error below the stroke's flattening target at ordinary sizes.
+        int segments = (int)ceil(fabs(delta) / (piDouble / 4.0) - 1e-7);
 
         if (segments < 1) {
             segments = 1;
@@ -11592,9 +11599,7 @@ namespace {
             from = to;
             cubicTo(path, q1, q2, q3);
 
-            if (i + 1 < segments) {
-                path.verbs.mutData()[path.verbs.length() - 1] = VerbArcCubic;
-            }
+            path.verbs.mutData()[path.verbs.length() - 1] = i + 1 < segments ? VerbArcCubic : VerbConicCubic;
         }
     }
 
@@ -12026,14 +12031,29 @@ namespace {
         }
     }
 
+    // A quarter ellipse from center+u to center+v, by two half-quadrant
+    // cubics. The intermediate point is a conversion detail, not a new
+    // authored vertex at which a marker belongs.
+    static void ellipseQuarter(Path& path, DPoint center, DPoint u, DPoint v) {
+        const double diagonal = 0.7071067811865475244;
+        const double k = 0.2652164898395440093;
+        DPoint middle{center.x + (u.x + v.x) * diagonal, center.y + (u.y + v.y) * diagonal};
+        DPoint tangent{(v.x - u.x) * diagonal, (v.y - u.y) * diagonal};
+
+        cubicTo(path, Point{center.x + u.x + k * v.x, center.y + u.y + k * v.y}, Point{middle.x - k * tangent.x, middle.y - k * tangent.y}, Point{middle.x, middle.y});
+        path.verbs.mutData()[path.verbs.length() - 1] = VerbArcCubic;
+        cubicTo(path, Point{middle.x + k * tangent.x, middle.y + k * tangent.y}, Point{center.x + v.x + k * u.x, center.y + v.y + k * u.y}, Point{center.x + v.x, center.y + v.y});
+        path.verbs.mutData()[path.verbs.length() - 1] = VerbConicCubic;
+    }
+
     static void ellipsePath(Path& path, double cx, double cy, double rx, double ry) {
-        const double k = 0.5522847498f;
+        DPoint center{cx, cy};
 
         moveTo(path, Point{cx + rx, cy});
-        cubicTo(path, Point{cx + rx, cy + ry * k}, Point{cx + rx * k, cy + ry}, Point{cx, cy + ry});
-        cubicTo(path, Point{cx - rx * k, cy + ry}, Point{cx - rx, cy + ry * k}, Point{cx - rx, cy});
-        cubicTo(path, Point{cx - rx, cy - ry * k}, Point{cx - rx * k, cy - ry}, Point{cx, cy - ry});
-        cubicTo(path, Point{cx + rx * k, cy - ry}, Point{cx + rx, cy - ry * k}, Point{cx + rx, cy});
+        ellipseQuarter(path, center, DPoint{rx, 0.0}, DPoint{0.0, ry});
+        ellipseQuarter(path, center, DPoint{0.0, ry}, DPoint{-rx, 0.0});
+        ellipseQuarter(path, center, DPoint{-rx, 0.0}, DPoint{0.0, -ry});
+        ellipseQuarter(path, center, DPoint{0.0, -ry}, DPoint{rx, 0.0});
         closePath(path);
     }
 
@@ -12136,17 +12156,15 @@ namespace {
                 ry = minf(ry, h / 2.f);
 
                 if (rx > 0.f && ry > 0.f) {
-                    const double k = 0.5522847498f;
-
                     moveTo(path, Point{x + rx, y});
                     lineTo(path, Point{x + w - rx, y});
-                    cubicTo(path, Point{x + w - rx + rx * k, y}, Point{x + w, y + ry - ry * k}, Point{x + w, y + ry});
+                    ellipseQuarter(path, DPoint{x + w - rx, y + ry}, DPoint{0.0, -ry}, DPoint{rx, 0.0});
                     lineTo(path, Point{x + w, y + h - ry});
-                    cubicTo(path, Point{x + w, y + h - ry + ry * k}, Point{x + w - rx + rx * k, y + h}, Point{x + w - rx, y + h});
+                    ellipseQuarter(path, DPoint{x + w - rx, y + h - ry}, DPoint{rx, 0.0}, DPoint{0.0, ry});
                     lineTo(path, Point{x + rx, y + h});
-                    cubicTo(path, Point{x + rx - rx * k, y + h}, Point{x, y + h - ry + ry * k}, Point{x, y + h - ry});
+                    ellipseQuarter(path, DPoint{x + rx, y + h - ry}, DPoint{0.0, ry}, DPoint{-rx, 0.0});
                     lineTo(path, Point{x, y + ry});
-                    cubicTo(path, Point{x, y + ry - ry * k}, Point{x + rx - rx * k, y}, Point{x + rx, y});
+                    ellipseQuarter(path, DPoint{x + rx, y + ry}, DPoint{-rx, 0.0}, DPoint{0.0, -ry});
                     closePath(path);
                 } else {
                     moveTo(path, Point{x, y});
@@ -12587,7 +12605,11 @@ namespace {
     // chords at its ends, the range's own running along the tangents
     // there. A cubic along a line is straight between its cusps. capA and
     // capB tell whether the stroke ends at ta and at tb, in a cap.
-    static void strokeRange(Flat& out, const Point* p, double ta, double tb, float tol, float half, bool capA, bool capB) {
+    static void strokeRange(Flat& out, const Point* p, double ta, double tb, float tol, float half, bool capA, bool capB, bool conic) {
+        // Converted conics already use part of the approximation budget;
+        // reserve half for the cubic's flattening. An authored cubic has
+        // no conversion error and keeps the whole flattening tolerance.
+        tol *= conic ? 0.5f : 1.f;
         Powers q = powers(p[0], p[1], p[2], p[3]);
         double at[2];
         u8 kind;
@@ -12619,14 +12641,14 @@ namespace {
         }
     }
 
-    static void strokeCurve(Flat& out, Point p0, Point p1, Point p2, Point p3, float tol, float half, bool capA, bool capB) {
+    static void strokeCurve(Flat& out, Point p0, Point p1, Point p2, Point p3, float tol, float half, bool capA, bool capB, bool conic) {
         Point controls[4] = {p0, p1, p2, p3};
 
         if (out.measured) {
-            out.curves.pushBack(FlatCurve{{p0, p1, p2, p3}});
+            out.curves.pushBack(FlatCurve{{p0, p1, p2, p3}, conic});
         }
 
-        strokeRange(out, controls, 0.0, 1.0, tol, half, capA, capB);
+        strokeRange(out, controls, 0.0, 1.0, tol, half, capA, capB, conic);
     }
 
     // A path's points to the tolerance; for a stroke of the half width,
@@ -12692,7 +12714,8 @@ namespace {
                     out.points.pushBack(last);
                     break;
                 case VerbCubic:
-                case VerbArcCubic: {
+                case VerbArcCubic:
+                case VerbConicCubic: {
                     Point p0 = last;
                     Point p1 = apply(m, pts[pi]);
                     Point p2 = apply(m, pts[pi + 1]);
@@ -12708,9 +12731,9 @@ namespace {
                     }
 
                     if (half > 0.f) {
-                        strokeCurve(out, p0, p1, p2, p3, tol, half, capped && path.verbs[v - 1] == VerbMove, capped && (v + 1 == verbCount || path.verbs[v + 1] == VerbMove));
+                        strokeCurve(out, p0, p1, p2, p3, tol, half, capped && path.verbs[v - 1] == VerbMove, capped && (v + 1 == verbCount || path.verbs[v + 1] == VerbMove), verb != VerbCubic);
                     } else {
-                        flattenCubic(p0, p1, p2, p3, tol, out.points);
+                        flattenCubic(p0, p1, p2, p3, verb == VerbCubic ? tol : tol * 0.5f, out.points);
                     }
 
                     last = p3;
@@ -12809,7 +12832,8 @@ namespace {
                     extend(box, last);
                     break;
                 case VerbCubic:
-                case VerbArcCubic: {
+                case VerbArcCubic:
+                case VerbConicCubic: {
                     Point p1 = apply(m, pts[pi]);
                     Point p2 = apply(m, pts[pi + 1]);
                     Point p3 = apply(m, pts[pi + 2]);
@@ -12845,6 +12869,9 @@ namespace {
     }
 
     static int arcSegments(float angle, float radius, float tol) {
+        // Round caps and joins use the same circular-boundary budget as
+        // converted conic paths, including their filled references.
+        tol *= 0.5f;
         if (radius <= tol) {
             return 4;
         }
@@ -13647,7 +13674,7 @@ namespace {
             auto leave = [&](u32 cubic, double ta, double tb, u8 last, bool capA, bool capB) {
                 Flat span;
 
-                strokeRange(span, curves[cubic].p, ta, tb, s.tol, s.half, capA, capB);
+                strokeRange(span, curves[cubic].p, ta, tb, s.tol, s.half, capA, capB, curves[cubic].conic);
                 piece.append(span.points.data(), span.points.length());
                 flags.append(span.kinds.data(), span.kinds.length());
                 ways.append(span.dirs.data(), span.dirs.length());
@@ -17971,17 +17998,15 @@ namespace {
             ry[k] *= scale;
         }
 
-        const float c = 0.5522847498f;
-
         moveTo(path, Point{x0 + rx[0], y0});
         lineTo(path, Point{x1 - rx[1], y0});
-        cubicTo(path, Point{x1 - rx[1] + rx[1] * c, y0}, Point{x1, y0 + ry[1] - ry[1] * c}, Point{x1, y0 + ry[1]});
+        ellipseQuarter(path, DPoint{x1 - rx[1], y0 + ry[1]}, DPoint{0.0, -ry[1]}, DPoint{rx[1], 0.0});
         lineTo(path, Point{x1, y1 - ry[2]});
-        cubicTo(path, Point{x1, y1 - ry[2] + ry[2] * c}, Point{x1 - rx[2] + rx[2] * c, y1}, Point{x1 - rx[2], y1});
+        ellipseQuarter(path, DPoint{x1 - rx[2], y1 - ry[2]}, DPoint{rx[2], 0.0}, DPoint{0.0, ry[2]});
         lineTo(path, Point{x0 + rx[3], y1});
-        cubicTo(path, Point{x0 + rx[3] - rx[3] * c, y1}, Point{x0, y1 - ry[3] + ry[3] * c}, Point{x0, y1 - ry[3]});
+        ellipseQuarter(path, DPoint{x0 + rx[3], y1 - ry[3]}, DPoint{0.0, ry[3]}, DPoint{-rx[3], 0.0});
         lineTo(path, Point{x0, y0 + ry[0]});
-        cubicTo(path, Point{x0, y0 + ry[0] - ry[0] * c}, Point{x0 + rx[0] - rx[0] * c, y0}, Point{x0 + rx[0], y0});
+        ellipseQuarter(path, DPoint{x0 + rx[0], y0 + ry[0]}, DPoint{-rx[0], 0.0}, DPoint{0.0, -ry[0]});
         closePath(path);
     }
 
@@ -19736,7 +19761,8 @@ namespace {
                     arc = false;
                 } break;
                 case VerbCubic:
-                case VerbArcCubic: {
+                case VerbArcCubic:
+                case VerbConicCubic: {
                     Point c1 = pts[pi];
                     Point c2 = pts[pi + 1];
                     Point end = pts[pi + 2];
@@ -20114,7 +20140,8 @@ namespace {
                     last = pts[pi++];
                     break;
                 case VerbCubic:
-                case VerbArcCubic: {
+                case VerbArcCubic:
+                case VerbConicCubic: {
                     Point p[4] = {last, pts[pi], pts[pi + 1], pts[pi + 2]};
 
                     if (straightCubic(p[0], p[1], p[2], p[3])) {

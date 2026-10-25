@@ -73,7 +73,10 @@ def arc(x0, y0, rx, ry, phi, large, sweep, x1, y1):
     elif not sweep and turn > 0:
         turn -= 2 * math.pi
 
-    pieces = math.ceil(abs(turn) / (math.pi / 2) - 1e-9)
+    # A dense reference approximates the source circle independently of
+    # the renderer's arc segmentation. Quarter cubics and their flattening
+    # are too coarse to distinguish the arc flags within two byte levels.
+    pieces = math.ceil(abs(turn) / (math.pi / 8) - 1e-9)
     step = turn / pieces
     k = 4 / 3 * math.tan(step / 4)
     d = f"M {x0} {y0}"
@@ -84,7 +87,7 @@ def arc(x0, y0, rx, ry, phi, large, sweep, x1, y1):
         p3 = (cx + r * math.cos(b), cy + r * math.sin(b))
         p1 = (p0[0] - k * r * math.sin(a), p0[1] + k * r * math.cos(a))
         p2 = (p3[0] + k * r * math.sin(b), p3[1] - k * r * math.cos(b))
-        d += " C " + " ".join("%.4f %.4f" % p for p in (p1, p2, p3))
+        d += " C " + " ".join("%.8f %.8f" % p for p in (p1, p2, p3))
 
     return d
 
