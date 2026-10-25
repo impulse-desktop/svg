@@ -2,7 +2,7 @@
 
 ## Invalid and missing URL references: use-geometry, paint-fallback, gradient-templates, marker-vertices, pattern-templates, gradient-hrefs, mask-values
 
-- [x] svg2/linking.md#TermCircularReference: a URL reference that directly or indirectly references itself is an invalid circular reference. [use-geometry#circular use-geometry#indirect pattern-templates#self gradient-hrefs#linear-self gradient-hrefs#radial-self]
+- [x] svg2/linking.md#TermCircularReference: a URL reference that directly or indirectly references itself is an invalid circular reference. [use-geometry#circular use-geometry#indirect pattern-templates#self gradient-hrefs#linear-self gradient-hrefs#radial-self feimage-reference-cycles#distinct-client feimage-reference-cycles#same-client-self feimage-reference-cycles#active-use feimage-reference-cycles#distinct-filter-resources feimage-reference-cycles#pattern-cache-self-first feimage-reference-cycles#pattern-cache-other-first feimage-reference-cycles#positive-fragment feimage-reference-cycles#same-bbox-distinct-client]
 - [x] svg2/linking.md#TermInvalidReference: a reference is invalid if it is circular, errors while processing, cannot be resolved, or targets an element type inappropriate for where it is used. [use-geometry#circular paint-fallback#missing-fallback pattern-templates#not-pattern gradient-hrefs#linear-other marker-vertices#not-marker]
 - [x] svg2/linking.md#TermInvalidReference: an invalid reference is an error only if the referencing attribute or property defines no fallback behavior for it. [paint-fallback#missing-fallback paint-fallback#no-fallback]
 - [x] svg2/linking.md#processingURL-target: a URL with no fragment targets the root element of the referenced document. [image-fragment-views#no-fragment]

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="8">
+<!-- Plain expected paint for feimage-reference-cycles.svg. On a repeated
+filter URL the referenced shape draws without that filter; on a repeated
+image/use URL it draws nothing. Both pattern hosts therefore contribute
+their red drawing at opacity .5, making source-over alpha .75. -->
+<g id="distinct-client" data-box="0 0 8 8"><rect x="2" y="2" width="4" height="4" fill="#e23"/></g>
+<g id="same-client-self" data-box="8 0 8 8"><g transform="translate(8)"><rect x="2" y="2" width="4" height="4" fill="#e23"/></g></g>
+<g id="active-use" data-box="16 0 8 8"><g transform="translate(16)"></g></g>
+<g id="distinct-filter-resources" data-box="24 0 8 8"><g transform="translate(24)"></g></g>
+<g id="pattern-cache-self-first" data-box="32 0 8 8"><g transform="translate(32)"><rect width="8" height="8" fill="#e23" opacity=".75"/></g></g>
+<g id="pattern-cache-other-first" data-box="40 0 8 8"><g transform="translate(40)"><rect width="8" height="8" fill="#e23" opacity=".75"/></g></g>
+<g id="positive-fragment" data-box="48 0 8 8"><g transform="translate(48)"><rect x="2" y="2" width="4" height="4" fill="lime"/></g></g>
+<g id="same-bbox-distinct-client" data-box="56 0 8 8"><rect x="58" y="2" width="4" height="4" fill="#e23"/></g>
+</svg>
