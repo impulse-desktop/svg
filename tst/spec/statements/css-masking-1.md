@@ -151,6 +151,10 @@
 - [x] css-masking-1.md#compute-stroke-bounding-box: for a container element or a use element, the stroke bounding box is the union of each child's stroke bounding box mapped into the parent's coordinate space [stroke-bounding-box#group mask-properties#stroke-box-use]
 - [x] css-masking-1.md#compute-stroke-bounding-box: for an image element the stroke bounding box is just its object bounding box [mask-properties#stroke-box-image]
 
+## Mask source box before transforms: mask-source-box-transform-probes
+
+- [x] css-masking-1.md#MaskElement: objectBoundingBox mask coordinates use the referencing shape's source geometry box before its transform; a transform that makes a sloped line horizontal does not empty that source box. Whole probes independently check the transformed mask region, reflection, unequal scale, translation and opacity without edge sampling. [mask-source-box-transform-probes#inside mask-source-box-transform-probes#outside mask-source-box-transform-probes#reflected-inside mask-source-box-transform-probes#reflected-outside mask-source-box-transform-probes#unequal-outside mask-source-box-transform-probes#translated-outside mask-source-box-transform-probes#nearly-horizontal mask-source-box-transform-probes#inside-opacity]
+
 ## Notes
 
 - css-masking-1.md#the-clip-path: "no clipping is applied" for an invalid clip-source url reads as if the whole clip-path value were none, but it is unclear whether a co-specified <geometry-box> in the same value (e.g. `clip-path: url(#missing) fill-box`, which the grammar does not even allow since <clip-source> is a bare alternative) would matter; moot since the grammar keeps them exclusive.
