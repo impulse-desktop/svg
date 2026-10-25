@@ -6739,7 +6739,9 @@ namespace {
             }
         }
 
-        if (!counts[0] || (set && !counts[1])) {
+        // declare rejects an empty value; the first word either added a
+        // radius or returned an error above. Only a trailing slash is left.
+        if (set && !counts[1]) {
             return false;
         }
 
@@ -8797,7 +8799,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomOutlineOffset && !(name >= AtomBorderTopLeftRadius && name <= AtomBorderBottomLeftRadius) && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomOutlineOffset && name < AtomBorderTopLeftRadius && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
                 bool pending = valueSubstitutes(doc, value);
 
                 if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
@@ -14945,7 +14947,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomOutlineOffset && !(property >= AtomBorderTopLeftRadius && property <= AtomBorderBottomLeftRadius) && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomOutlineOffset && property < AtomBorderTopLeftRadius && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -15372,7 +15374,10 @@ namespace {
 
                     if (keyword) {
                         style.outlineOffset = source.outlineOffset;
-                    } else if (parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc))) {
+                    } else {
+                        // validDeclaration already accepted this length,
+                        // including after custom-property substitution.
+                        parseLength(value, length);
                         style.outlineOffset = resolveLength(length, Axis::Other, vp, style.fontSize);
                     }
 
@@ -15949,7 +15954,9 @@ namespace {
 
             // A cycle is decided in the active reference chain, not merely
             // by the pattern's ID. Different chains are separate programs.
-            if (entry.hash == hash && samePatternProgramKey(entry.key, key) && entry.activeCount == l.active.length() && (!entry.activeCount || memcmp(entry.active, l.active.data(), entry.activeCount * sizeof(Node*)) == 0)) {
+            // The bucket hash selects candidates; equality belongs to the
+            // complete key and chain, including when hashes collide.
+            if (samePatternProgramKey(entry.key, key) && entry.activeCount == l.active.length() && (!entry.activeCount || memcmp(entry.active, l.active.data(), entry.activeCount * sizeof(Node*)) == 0)) {
                 return &entry;
             }
 
@@ -16145,7 +16152,9 @@ namespace {
 
         // Never publish a partial program, or one that changed semantic
         // state such as the set of circular references or background inputs.
-        if (share && !l.context3d && l.work && doc.substitutionBudget && samePatternProgramKey(key, after)) {
+        // lowerContext restores its caller's context, so share still
+        // describes the current context after lowering the children.
+        if (share && l.work && doc.substitutionBudget && samePatternProgramKey(key, after)) {
             rememberPatternProgram(l, key, hash, paint->programFirst, paint->programCount);
         }
 
@@ -17589,10 +17598,13 @@ namespace {
         const Edge& a = l.edges[first];
         const Edge& b = l.edges[first + 1];
 
-        if (a.x0 != a.x1 || b.x0 != b.x1 || a.x0 == b.x0 || a.y0 != b.y1 || a.y1 != b.y0) {
+        if (a.x0 != a.x1 || b.x0 != b.x1 || a.x0 == b.x0) {
             return false;
         }
 
+        // emitEdges closes every contour and omits only horizontal edges.
+        // With just two vertical edges at distinct x, the intervening
+        // horizontal chains necessarily connect their opposite y ends.
         // Bounds retain the transformed geometry's doubles. Comparing the
         // stored edges to their float images also rejects a horizontal
         // retrace extending the bounds past the filled rectangle.
@@ -17623,7 +17635,8 @@ namespace {
             if (item.kind == OpKind::Begin) {
                 Box rect;
 
-                if (filled || !item.clipped || !rectangleClip(l, item, rect)) {
+                // resolveClip emits a Begin only for a clipped group.
+                if (filled || !rectangleClip(l, item, rect)) {
                     return false;
                 }
 
@@ -17638,7 +17651,8 @@ namespace {
 
                 box = clipped ? meetBoxes(box, cut) : box;
                 filled = true;
-            } else if (item.kind != OpKind::End || !filled) {
+            } else if (!filled) {
+                // resolveClip emits only Begin, Fill and matching End ops.
                 return false;
             }
         }
@@ -25042,13 +25056,16 @@ namespace {
     static bool readsResult(const FilterPrimitive& p, int index);
     static void coverEdges(const Plane& plane, const Box& box);
 
-    // The index of the last primitive reading the input, or -1.
+    // Whether SourceGraphic or BackgroundImage needs an sRGB copy.
     static bool readsInSrgb(const Filter& filter, int index) {
         for (u32 k = 0; k < filter.count; k++) {
             const FilterPrimitive& p = filter.primitives[k];
 
             if (p.kind == AtomFeDisplacementMap) {
-                if ((p.in1 == index && !p.linear) || (p.in2 == index && !p.linearMap)) {
+                // Both callers ask about a built-in input (negative index).
+                // lowerFilter always keeps such a displacement source in
+                // sRGB; only the displacement map chooses its colour space.
+                if (p.in1 == index || (p.in2 == index && !p.linearMap)) {
                     return true;
                 }
 
@@ -27150,7 +27167,10 @@ namespace {
         double th = tile.y1 - tile.y0;
         Matrix toUser;
 
-        if (!in.data || !(tw > 0.0) || !(th > 0.0) || !invert(f.ctm, toUser)) {
+        // A nonempty input plane has a positive user subregion:
+        // lowerFilter makes nonpositive primitive regions empty and
+        // rejects nonpositive filter regions before adding primitives.
+        if (!in.data || !invert(f.ctm, toUser)) {
             return;
         }
 
@@ -27901,7 +27921,9 @@ namespace {
         // an unchanged axis must not take fractional clip coverage again.
         // Interpolation can read a boundary texel beyond its continuous
         // support, as for feOffset, so round out sampled support axes alone.
-        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+        // applyFilter clips every primitive through boxInside, which
+        // represents an empty region as zero on both axes.
+        if (box.x1 <= box.x0) {
             reach = hard = emptyBox();
 
             return;
@@ -28274,13 +28296,9 @@ namespace {
 
         runProgram(*run.raster, *run.lowering, run.lowering->programs.data() + p.programFirst, p.programCount, content);
 
-        // The image drawn over the box is the result: as it is, or with its
-        // colours taken along the sRGB curve to linear light.
-        if (p.linear) {
-            convertRows(*run.raster, content, out, p.box, true);
-        } else {
-            copyBox(content, out, p.box);
-        }
+        // lowerFilter keeps feImage in sRGB. Readers convert its result
+        // when they need linear light, like any other sRGB input.
+        copyBox(content, out, p.box);
 
         releasePlane(content);
     }
@@ -29026,37 +29044,26 @@ namespace {
         return false;
     }
 
-    struct Decompressed {
-        Buffer bytes;
-        bool rejected = false;
-    };
-
     static int writeDecompressed(void* output, const void* bytes, size_t length) {
-        Decompressed& out = *(Decompressed*)output;
-        // Buffer rounds its allocation up to a power of two. Leave room for
-        // its header, and reject an overflowing size before touching bytes.
-        size_t limit = SIZE_MAX / 2 - sizeof(Buffer::Header);
-
-        if (out.rejected || length > limit - out.bytes.length() || (!bytes && length)) {
-            out.rejected = true;
-
-            return 0;
-        }
-
-        out.bytes.append(bytes, length);
+        Buffer& out = *(Buffer*)output;
+        // The decompressor supplies actual byte spans and owns the output
+        // limit. Allocation failure propagates like any other allocation.
+        out.append(bytes, length);
 
         return 1;
     }
 
     static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgDecompress decompress, SvgFail fail, void* context) {
         if (source.length() >= 2 && source[0] == 0x1f && source[1] == 0x8b) {
-            Decompressed output;
+            Buffer output;
 
-            if (!decompress || !decompress(context, source.data(), source.length(), writeDecompressed, &output) || output.rejected) {
+            // SvgDecompress supplies byte spans and propagates a rejected
+            // write by stopping and returning zero, as its contract requires.
+            if (!decompress || !decompress(context, source.data(), source.length(), writeDecompressed, &output)) {
                 ::fail(fail, SVG_DECOMPRESS);
             }
 
-            source = keep(pool, output.bytes.data(), output.bytes.length());
+            source = keep(pool, output.data(), output.length());
         }
 
         doc.pool = &pool;

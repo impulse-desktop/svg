@@ -93,7 +93,7 @@ def main():
         invalid = [bytes(bad_crc), bytes(bad_size), bytes(bad_header), bytes(bad_method), bytes(bad_flags),
                    packed + b'junk', packed + packed[:12], gzip.compress(b'', mtime=0),
                    gzip.compress(b'<html/>', mtime=0), gzip.compress(b'<svg>', mtime=0),
-                   gzip.compress(packed, mtime=0), zlib.compress(DRAWING)]
+                   gzip.compress(packed, mtime=0), zlib.compress(DRAWING), b'\x1f\x00', b'\x1f\x8a']
         invalid += [packed[:n] for n in range(len(packed))]
         paths = []
         for i, data in enumerate(invalid):

@@ -102,7 +102,7 @@ install(svg)
 # A check imports canon, which imports the reference modules, so every
 # script under tst is an input of every check.
 checks = []
-for check in ["viewport_units", "canvas_scale", "cascade_priority", "curve_area", "straight_curves", "circle_coverage", "perf_check", "scale_check", "svgz_check"]:
+for check in ["viewport_units", "canvas_scale", "cascade_priority", "curve_area", "straight_curves", "circle_coverage", "perf_check", "scale_check", "svgz_check", "render_boundaries"]:
     checks.append(command(
         name="check_" + check,
         inputs=build.glob("$(S)/tst/*.py"),
@@ -133,70 +133,6 @@ checks.append(command(
     outputs=["$(B)/checks/c_api.txt"],
     deps=[c_api],
     cmd=["sh", "-c", '"$0" > "$1"', "$(B)/c_api", "$(B)/checks/c_api.txt"],
-    descr="CK",
-    color="light-green",
-))
-
-decompress_api = program(
-    name="decompress_api",
-    output="$(B)/decompress_api",
-    srcs=["$(S)/svg.cpp", "$(S)/tst/decompress_api.cpp"],
-    cflags=warning_flags,
-    deps=[system],
-)
-checks.append(command(
-    name="check_decompress_api",
-    outputs=["$(B)/checks/decompress_api.txt"],
-    deps=[decompress_api],
-    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/decompress_api", "$(B)/checks/decompress_api.txt"],
-    descr="CK",
-    color="light-green",
-))
-
-parser_api = program(
-    name="parser_api",
-    output="$(B)/parser_api",
-    srcs=["$(S)/svg.cpp", "$(S)/tst/parser_api.cpp"],
-    cflags=warning_flags,
-    deps=[system],
-)
-checks.append(command(
-    name="check_parser_api",
-    outputs=["$(B)/checks/parser_api.txt"],
-    deps=[parser_api],
-    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/parser_api", "$(B)/checks/parser_api.txt"],
-    descr="CK",
-    color="light-green",
-))
-
-render_limits = program(
-    name="render_limits",
-    output="$(B)/render_limits",
-    srcs=["$(S)/svg.cpp", "$(S)/tst/render_limits.cpp"],
-    cflags=warning_flags,
-    deps=[system],
-)
-checks.append(command(
-    name="check_render_limits",
-    outputs=["$(B)/checks/render_limits.txt"],
-    deps=[render_limits],
-    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/render_limits", "$(B)/checks/render_limits.txt"],
-    descr="CK",
-    color="light-green",
-))
-
-finite_paints = program(
-    name="finite_paints",
-    output="$(B)/finite_paints",
-    srcs=["$(S)/tst/finite_paints.cpp"],
-    cflags=warning_flags,
-    deps=[system],
-)
-checks.append(command(
-    name="check_finite_paints",
-    outputs=["$(B)/checks/finite_paints.txt"],
-    deps=[finite_paints],
-    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/finite_paints", "$(B)/checks/finite_paints.txt"],
     descr="CK",
     color="light-green",
 ))
@@ -380,9 +316,9 @@ for path in sorted(build.glob("$(S)/tst/expect/*.svg")):
         color="light-green",
     ))
 
-# API failure and root gzip stream tests are units too, including in the
-# coverage run, which invokes this group rather than the whole corpus.
-group("unit", *units, *oracles, *(check for check in checks if check.name in {"check_c_api", "check_decompress_api", "check_parser_api", "check_render_limits", "check_finite_paints", "check_svgz_check"}))
+# The C compatibility check and CLI regression checks run with units,
+# including the coverage run, rather than only with the whole corpus.
+group("unit", *units, *oracles, *(check for check in checks if check.name in {"check_c_api", "check_svgz_check", "check_render_boundaries"}))
 
 # Every case, check and unit and the smoke drawing, or one partition of them
 # with -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.
