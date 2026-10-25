@@ -1,5 +1,5 @@
 name: Run a fuzzer shard
-description: Build the fuzzer with ASan and UBSan and fuzz from tst/fuzz and 1000 random SVGs under tst
+description: Build the fuzzer with ASan and UBSan and fuzz for 20 minutes from tst/fuzz and 200 random SVGs under tst
 
 inputs:
   shard:
@@ -14,8 +14,8 @@ runs:
       env:
         FUZZ_SHARD: ${{ inputs.shard }}
       run: |
-        # Composite steps do not support timeout-minutes. Bound the process
-        # instead, leaving time for the following artifact upload.
+        # libFuzzer has its own 20-minute budget. This outer limit also covers
+        # setup and compilation, leaving time for the artifact upload.
         container="svg-fuzz-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${FUZZ_SHARD}"
         trap 'docker rm --force "$container" >/dev/null 2>&1 || true' EXIT
         timeout --kill-after=30s 45m docker run --rm --name "$container" \

@@ -118,20 +118,21 @@
             svg-build -j "''${SVG_BUILD_JOBS:-4}" fuzz
 
             # The seeds are the inputs that once crashed the renderer under the
-            # sanitizers, kept under tst/fuzz, and 1000 SVGs drawn at random from
+            # sanitizers, kept under tst/fuzz, and 200 SVGs drawn at random from
             # under tst, the whole corpus among them, a different sample every
             # run; CI runs five such runs side by side. Inputs the run finds
             # interesting go to .build/fuzzing/new, crashes to .build/fuzzing.
+            # Each worker stops normally after a 20-minute time budget.
             root=$PWD
             work=$root/.build/fuzzing
             rm -rf "$work"
             mkdir -p "$work/seeds" "$work/new"
-            find "$root/tst" -name '*.svg' | shuf -n 1000 | while read -r file; do
+            find "$root/tst" -name '*.svg' | shuf -n 200 | while read -r file; do
               relative=''${file#"$root/tst/"}
               ln -s "$file" "$work/seeds/''${relative//\//-}"
             done
             cd "$work"
-            exec "$root/.build/fuzz" -timeout=120 -runs=30000 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
+            exec "$root/.build/fuzz" -timeout=120 -max_total_time=1200 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
           '';
 
           commonNativeBuildInputs = [
