@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- Every complete probe is within one source unit of a fixed point on
+the ellipse; the maximum corner distance below1certifies the whole square
+by convexity. Half-width1is below the minimum radius of curvature1.25,
+so the ordinary normal stroke covers it. The source probes distinguish
+normal offsets from ellipses with semiaxes increased/decreased by1.
+Reflections, rotation, nonuniform transforms, fill and alpha preserve the
+independent inclusion proof. No browser pixels define expectations. -->
+<svg x="0" y="0" width="16" height="16" viewBox="16.27460498941515 3.843814968245463 .02 .02"><ellipse cx="0" cy="0" rx="20" ry="5" fill="none" stroke="lime" stroke-width="2" stroke-opacity="1"/></svg>
+<svg x="16" y="0" width="16" height="16" viewBox="15.70539501058485 2.136185031754538 .02 .02"><ellipse cx="0" cy="0" rx="20" ry="5" fill="none" stroke="lime" stroke-width="2" stroke-opacity="1"/></svg>
+<svg x="32" y="0" width="16" height="16" viewBox="-16.29460498941516 3.843814968245463 .02 .02"><g transform="scale(-1 1)"><ellipse cx="0" cy="0" rx="20" ry="5" fill="none" stroke="lime" stroke-width="2" stroke-opacity="1"/></g></svg>
+<svg x="48" y="0" width="16" height="16" viewBox="-3.863814968245462 16.27460498941515 .02 .02"><g transform="rotate(90)"><ellipse cx="0" cy="0" rx="20" ry="5" fill="none" stroke="lime" stroke-width="2" stroke-opacity="1"/></g></svg>
+<svg x="0" y="16" width="16" height="16" viewBox="24.41690748412273 2.687670477771824 .02 .02"><g transform="scale(1.5 .7)"><ellipse cx="0" cy="0" rx="20" ry="5" fill="none" stroke="lime" stroke-width="2" stroke-opacity="1"/></g></svg>
+<svg x="16" y="16" width="16" height="16" viewBox="15.70539501058485 2.136185031754538 .02 .02"><ellipse cx="0" cy="0" rx="20" ry="5" fill="white" stroke="lime" stroke-width="2" stroke-opacity="1"/></svg>
+<svg x="32" y="16" width="16" height="16" viewBox="16.27460498941515 3.843814968245463 .02 .02"><ellipse cx="0" cy="0" rx="20" ry="5" fill="none" stroke="lime" stroke-width="2" stroke-opacity=".5"/></svg>
+<svg x="48" y="16" width="16" height="16" viewBox="7.11 5.33 .02 .02"><ellipse cx="0" cy="0" rx="8" ry="8" fill="none" stroke="lime" stroke-width="2" stroke-opacity="1"/></svg>
+</svg>

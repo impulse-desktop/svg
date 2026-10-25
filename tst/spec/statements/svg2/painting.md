@@ -205,3 +205,8 @@
 
 - [x] svg2/painting.md#TermStrokeShape: literal straight bands and bevel joins unite before painting, including densely spaced turns. Exact line subdivision and reversal preserve their pixel areas; the independent PNG expectations use exact polygon intersections without a curve allowance. [stroke-dense-bevel-areas#dense stroke-dense-bevel-areas#reversed stroke-dense-bevel-areas#split-half stroke-dense-bevel-areas#split-unequal stroke-dense-bevel-areas#reflected stroke-dense-bevel-areas#rotated]
 - [x] svg2/painting.md#TermStrokeShape: each element's fill and united stroke paint in source order, preserving per-paint alpha where neighbouring bevel strokes overlap. [stroke-dense-bevel-areas#paint-order stroke-dense-bevel-areas#translucent]
+
+## Ellipse normal stroke: stroke-ellipse-normal-probes
+
+- [x] svg2/painting.md#TermStrokeShape: an ellipse's stroke follows its normals, rather than ellipses made by adding/subtracting the half-width from both semiaxes. Complete probes are independently within the half-width of one fixed ellipse point; the half-width stays below the minimum radius of curvature. Reflection, rotation and nonuniform transforms preserve the source-space inclusion. [stroke-ellipse-normal-probes#outer-normal stroke-ellipse-normal-probes#inner-normal stroke-ellipse-normal-probes#reflected stroke-ellipse-normal-probes#rotated stroke-ellipse-normal-probes#nonuniform-transform stroke-ellipse-normal-probes#circle-control]
+- [x] svg2/painting.md#TermStrokeShape: the covered band paints over the ellipse fill and retains stroke-opacity. [stroke-ellipse-normal-probes#filled-inner stroke-ellipse-normal-probes#stroke-opacity]

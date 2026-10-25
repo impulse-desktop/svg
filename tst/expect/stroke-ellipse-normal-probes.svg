@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<!-- Complete lime squares independently certified inside the normal stroke. -->
+<g id="outer-normal" data-box="0 0 16 16"><rect x="0" y="0" width="16" height="16" fill="lime" fill-opacity="1"/></g>
+<g id="inner-normal" data-box="16 0 16 16"><rect x="16" y="0" width="16" height="16" fill="lime" fill-opacity="1"/></g>
+<g id="reflected" data-box="32 0 16 16"><rect x="32" y="0" width="16" height="16" fill="lime" fill-opacity="1"/></g>
+<g id="rotated" data-box="48 0 16 16"><rect x="48" y="0" width="16" height="16" fill="lime" fill-opacity="1"/></g>
+<g id="nonuniform-transform" data-box="0 16 16 16"><rect x="0" y="16" width="16" height="16" fill="lime" fill-opacity="1"/></g>
+<g id="filled-inner" data-box="16 16 16 16"><rect x="16" y="16" width="16" height="16" fill="lime" fill-opacity="1"/></g>
+<g id="stroke-opacity" data-box="32 16 16 16"><rect x="32" y="16" width="16" height="16" fill="lime" fill-opacity=".5"/></g>
+<g id="circle-control" data-box="48 16 16 16"><rect x="48" y="16" width="16" height="16" fill="lime" fill-opacity="1"/></g>
+</svg>
