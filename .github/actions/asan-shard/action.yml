@@ -19,11 +19,12 @@ runs:
         TEST_GROUP: ${{ inputs.shard }}
         TEST_GROUP_COUNT: ${{ inputs.shard_count }}
       run: |
+        # Build outputs link to absolute cache paths, also read by the host.
         docker run --rm \
-          --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+          --volume "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" --workdir "$GITHUB_WORKSPACE" \
           --env TEST_GROUP --env TEST_GROUP_COUNT \
           --entrypoint sh nixos/nix:2.31.2 -c \
-          'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c sh dev/asan_shard.sh'
+          'nix --extra-experimental-features "nix-command flakes" develop path:.#sanitized -c sh dev/asan_shard.sh'
 
     - name: Upload the shard scores
       if: always()

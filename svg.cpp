@@ -2375,6 +2375,7 @@ namespace {
         // The coverage deltas of a fill's rows, 65536 for a whole pixel,
         // summed modulo 2^32.
         Vector<u32> accumulation;
+        bool fullCoverage = false;
         // The backdrop a layer drawn apart inherits, which its own filters
         // read as their background.
         Plane backdrop{nullptr, IntBox{0, 0, 0, 0}};
@@ -24290,6 +24291,8 @@ namespace {
 
     // Rasterizes the edges within the clip, the pixels the fill can reach.
     static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, const IntBox& clip, u32& ix0, u32& iy0, u32& w, u32& h, u8 rule, u32 bands = 0) {
+        r.fullCoverage = false;
+
         float bx0 = floorf(maxf(bounds.x0, (float)clip.x0));
         float by0 = floorf(maxf(bounds.y0, (float)clip.y0));
         float bx1 = ceilf(minf(bounds.x1, (float)clip.x1));
@@ -24309,6 +24312,22 @@ namespace {
         r.accumulation.zero((size_t)stride * h);
 
         u32* acc = r.accumulation.mutData();
+
+        // Two opposed vertical edges enclose a rectangle. If it covers
+        // every pixel of this clipped raster wholly, no edge sampling or
+        // band integration is needed, for either antialiasing mode.
+        if (!bands && rectangleEdges(l, first, count, bounds) && (float)bounds.x0 <= bx0 && (float)bounds.y0 <= by0 && (float)bounds.x1 >= bx1 && (float)bounds.y1 >= by1) {
+            r.fullCoverage = true;
+
+            for (u32 y = 0; y < h; y++) {
+                u32* line = acc + (size_t)y * stride;
+
+                line[0] = 0x10000u;
+                line[w] = 0u - 0x10000u;
+            }
+
+            return true;
+        }
 
         if (!aliased || bands) {
             rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule, bands, aliased);
@@ -24633,9 +24652,24 @@ namespace {
 
         ensure(r.layers.back(), r.dirty.mut(r.dirty.length() - 1), fill);
 
+        source.zero((size_t)w * 4);
+
+        // With full coverage a solid paint has the same source row at
+        // every y. Keep the ordinary compositing for opacity and linear RGB.
+        if (r.fullCoverage && solid) {
+            for (u32 x = 0; x < w; x++) {
+                memcpy(source.mutData() + (size_t)x * 4, paint.color16, sizeof(paint.color16));
+            }
+
+            for (u32 y = 0; y < h; y++) {
+                overLayer(r, (int)ix0, (int)(iy0 + y), source.data(), (int)w, op.linear);
+            }
+
+            return op.bounds;
+        }
+
         cover.zero(w);
         colors.zero((size_t)w * 4);
-        source.zero((size_t)w * 4);
 
         // A row at a time: the coverage of each pixel stored, and for each
         // run of covered pixels the paint, its product with the coverage, and

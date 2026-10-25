@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="64">
+<!-- A rectangle covering whole raster pixels needs no edge sampling.
+Exact area controls retain fractional edges, clipping, winding, opacity,
+repeated uses, holes and horizontal retraces. -->
+<svg x="0" y="0" width="16" height="16"><rect x="2" y="3" width="11" height="9" fill="lime" /></svg>
+<svg x="16" y="0" width="16" height="16"><rect x="0" y="0" width="16" height="16" fill="lime" /></svg>
+<svg x="32" y="0" width="16" height="16"><rect x="-2" y="3" width="15" height="9" fill="lime" /></svg>
+<svg x="48" y="0" width="16" height="16"><rect x="2" y="-3" width="11" height="15" fill="lime" /></svg>
+<svg x="64" y="0" width="16" height="16"><rect x="2" y="3" width="18" height="9" fill="lime" /></svg>
+<svg x="80" y="0" width="16" height="16"><rect x="2" y="3" width="11" height="17" fill="lime" /></svg>
+<svg x="0" y="16" width="16" height="16"><rect x="2.25" y="3" width="10.75" height="9" fill="lime" /></svg>
+<svg x="16" y="16" width="16" height="16"><rect x="2" y="3.25" width="11" height="8.75" fill="lime" /></svg>
+<svg x="32" y="16" width="16" height="16"><rect x="2" y="3" width="10.75" height="9" fill="lime" /></svg>
+<svg x="48" y="16" width="16" height="16"><rect x="2" y="3" width="11" height="8.75" fill="lime" /></svg>
+<svg x="64" y="16" width="16" height="16"><rect x="-0.25" y="-0.5" width="17.0" height="16.75" fill="lime" /></svg>
+<svg x="80" y="16" width="16" height="16"><rect x="20" y="3" width="4" height="9" fill="lime" /></svg>
+<svg x="0" y="32" width="16" height="16"><rect x="2" y="3" width="11" height="9" fill="lime" shape-rendering="crispEdges"/></svg>
+<svg x="16" y="32" width="16" height="16"><rect x="2" y="3" width="11" height="9" fill="lime" fill-rule="evenodd"/></svg>
+<svg x="32" y="32" width="16" height="16"><rect x="2" y="3" width="11" height="9" fill="lime" fill-opacity=".5"/></svg>
+<svg x="48" y="32" width="16" height="16"><rect x="2" y="3" width="11" height="9" fill="lime" color-interpolation="linearRGB"/></svg>
+<svg x="64" y="32" width="16" height="16"><path d="M2 3V12H13V3Z" fill="lime"/></svg>
+<svg x="80" y="32" width="16" height="16"><g transform="translate(16) scale(-1 1)"><rect x="2" y="3" width="11" height="9" fill="lime" /></g></svg>
+<svg x="0" y="48" width="16" height="16"><path d="M2 3H15H13V12H2Z" fill="lime"/></svg>
+<svg x="16" y="48" width="16" height="16"><path d="M2 3H13V12H2Z M5 5V9H10V5Z" fill="lime"/></svg>
+<svg x="32" y="48" width="16" height="16"><defs><clipPath id="c"><rect x="2" y="3" width="11" height="9" fill="lime" /></clipPath></defs><rect width="16" height="16" fill="lime" clip-path="url(#c)"/></svg>
+<svg x="48" y="48" width="16" height="16"><defs><mask id="m" mask-type="alpha"><rect x="2" y="3" width="11" height="9" fill="lime" /></mask></defs><rect width="16" height="16" fill="lime" mask="url(#m)"/></svg>
+<svg x="64" y="48" width="16" height="16"><defs><rect id="r0" x="2" y="3" width="11" height="9" fill="lime"/><g id="r1"><use href="#r0"/><use href="#r0"/></g><g id="r2"><use href="#r1"/><use href="#r1"/></g><g id="r3"><use href="#r2"/><use href="#r2"/></g><g id="r4"><use href="#r3"/><use href="#r3"/></g><g id="r5"><use href="#r4"/><use href="#r4"/></g><g id="r6"><use href="#r5"/><use href="#r5"/></g><g id="r7"><use href="#r6"/><use href="#r6"/></g><g id="r8"><use href="#r7"/><use href="#r7"/></g><g id="r9"><use href="#r8"/><use href="#r8"/></g><g id="r10"><use href="#r9"/><use href="#r9"/></g><g id="r11"><use href="#r10"/><use href="#r10"/></g><g id="r12"><use href="#r11"/><use href="#r11"/></g><g id="r13"><use href="#r12"/><use href="#r12"/></g><g id="r14"><use href="#r13"/><use href="#r13"/></g></defs><use href="#r14"/></svg>
+<svg x="80" y="48" width="16" height="16"><rect x="2.25" y="3.25" width="10.5" height="8.5" fill="lime" /><rect x="2.25" y="3.25" width="10.5" height="8.5" fill="lime" /></svg>
+</svg>

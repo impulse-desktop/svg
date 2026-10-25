@@ -19,11 +19,11 @@ runs:
         container="svg-fuzz-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${FUZZ_SHARD}"
         trap 'docker rm --force "$container" >/dev/null 2>&1 || true' EXIT
         timeout --kill-after=30s 45m docker run --rm --name "$container" \
-          --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+          --volume "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" --workdir "$GITHUB_WORKSPACE" \
           --entrypoint sh nixos/nix:2.31.2 -c \
-          'nix --extra-experimental-features "nix-command flakes" develop path:/workspace#sanitized -c svg-fuzz'
+          'nix --extra-experimental-features "nix-command flakes" develop path:.#sanitized -c svg-fuzz'
 
-    - name: Upload the inputs that crashed the fuzzer
+    - name: Upload fuzzer crashes and worker logs
       if: always()
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
@@ -32,4 +32,5 @@ runs:
           .build/fuzzing/crash-*
           .build/fuzzing/timeout-*
           .build/fuzzing/oom-*
+          .build/fuzzing/fuzz-*.log
         if-no-files-found: ignore

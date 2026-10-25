@@ -160,7 +160,7 @@ jobs:
         run: |
           set -o pipefail
           docker run --rm \
-            --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+            --volume "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" --workdir "$GITHUB_WORKSPACE" \
             mirror.gcr.io/library/ubuntu:26.04 sh -c '
               set -eu
               export DEBIAN_FRONTEND=noninteractive
@@ -193,7 +193,7 @@ jobs:
       - name: Run the tests with coverage
         run: |
           docker run --rm \
-            --volume "$GITHUB_WORKSPACE:/workspace" --workdir /workspace \
+            --volume "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" --workdir "$GITHUB_WORKSPACE" \
             mirror.gcr.io/library/ubuntu:26.04 sh -c '
               set -eu
               export DEBIAN_FRONTEND=noninteractive
