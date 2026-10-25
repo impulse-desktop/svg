@@ -29328,9 +29328,12 @@ namespace {
         memset(content.data, 0, sizeof(u16) * size * 4);
         Box painted = runProgram(sub, l, l.programs.data() + op.first, op.count, content);
 
-        // The device canvas and the taps around it, in layer pixels: the
-        // part of the last result that is drawn.
-        Box footprint = mappedBox(0, canvasBox);
+        // Only the allocated destination and the taps around it, in layer
+        // pixels, can read the last result. Earlier primitives retain the
+        // input reach propagated by applyFilter.
+        const IntBox& destination = r.layers.back().box;
+        Box destinationBox{(float)destination.x0, (float)destination.y0, (float)destination.x1, (float)destination.y1};
+        Box footprint = mappedBox(0, destinationBox);
         IntBox visible = pixelBox(Box{footprint.x0 - 2.f, footprint.y0 - 2.f, footprint.x1 + 2.f, footprint.y1 + 2.f}, content.box);
         IntBox region{0, 0, lw, lh};
 

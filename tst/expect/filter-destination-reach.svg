@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="240">
+<!-- What tst/unit/filter-destination-reach.svg draws, drawn plainly;
+each cell's id is what the statement ledgers link to. -->
+<g id="offset-right" data-box="0 0 48 48"><g transform="translate(0 0)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="offset-left" data-box="48 0 48 48"><g transform="translate(48 0)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="offset-down" data-box="96 0 48 48"><g transform="translate(96 0)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="offset-up" data-box="144 0 48 48"><g transform="translate(144 0)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="offset-intermediate" data-box="0 48 48 48"><g transform="translate(0 48)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="convolve-remote-taps" data-box="48 48 48 48"><g transform="translate(48 48)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="convolve-wrap" data-box="96 48 48 48"><g transform="translate(96 48)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="tile-remote-input" data-box="144 48 48 48"><g transform="translate(144 48)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="erosion-input-margin" data-box="0 96 48 48"><g transform="translate(0 96)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="displacement-input-margin" data-box="48 96 48 48"><g transform="translate(48 96)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="lighting-input-margin" data-box="96 96 48 48"><g transform="translate(96 96)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="separate-filter-chain" data-box="144 96 48 48"><g transform="translate(144 96)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="group-and-source-opacity" data-box="0 144 48 48"><g transform="translate(0 144)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="0.25"/></g></g>
+<g id="fractional-destination" data-box="48 144 48 48"><g transform="translate(48 144)"><rect x="16.25" y="16.5" width="7.5" height="7.25" fill="#20bf40" opacity="1"/></g></g>
+<g id="nested-destination" data-box="96 144 48 48"><g transform="translate(96 144)"><rect x="20" y="16" width="4" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="quarter-turn-destination" data-box="144 144 48 48"><g transform="translate(144 144)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="reflected-destination" data-box="0 192 48 48"><g transform="translate(0 192)"><rect x="16" y="16" width="8" height="8" fill="#20bf40" opacity="1"/></g></g>
+<g id="blur-input-margin" data-box="48 192 48 48"><g transform="translate(48 192)"><image x="16" y="16" width="8" height="8" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAGklEQVR42mNQ2O/gC8T8QMwIxAzomGFkKAAAv/ZKqcVeEv8AAAAASUVORK5CYII="/></g></g>
+</svg>
