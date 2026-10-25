@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="6">
+<!-- The same five-pixel RGBA rows over opaque, partial and transparent
+backdrops. Include adjacent opaque pixels, both mixed alpha orders,
+two partial pixels, transparent pixels and odd opaque/partial tails.
+Expected pixels use independent rational premultiplied source-over. -->
+<rect x="0" width="7" height="5" fill="rgb(36, 68, 102)" fill-opacity="1"/>
+<image x="1" y="1" width="5" height="3" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAADCAYAAABbNsX4AAAASklEQVR42gE/AMD/APEfEf8r00f/ESnp/+ZbB4CrF1n/ABqx04D65yv/WRengDLJl4BaoAqAAMkPWgDp/yoADIQR/yBm1f/LeVEAyS0dkv9OZ9IAAAAASUVORK5CYII="/>
+<rect x="8" width="7" height="5" fill="rgb(221, 34, 68)" fill-opacity="0.375"/>
+<image x="9" y="1" width="5" height="3" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAADCAYAAABbNsX4AAAASklEQVR42gE/AMD/APEfEf8r00f/ESnp/+ZbB4CrF1n/ABqx04D65yv/WRengDLJl4BaoAqAAMkPWgDp/yoADIQR/yBm1f/LeVEAyS0dkv9OZ9IAAAAASUVORK5CYII="/>
+<image x="17" y="1" width="5" height="3" image-rendering="pixelated" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAADCAYAAABbNsX4AAAASklEQVR42gE/AMD/APEfEf8r00f/ESnp/+ZbB4CrF1n/ABqx04D65yv/WRengDLJl4BaoAqAAMkPWgDp/yoADIQR/yBm1f/LeVEAyS0dkv9OZ9IAAAAASUVORK5CYII="/>
+</svg>

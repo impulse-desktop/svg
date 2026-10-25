@@ -2687,6 +2687,11 @@ namespace {
             const u16* sp = s + p * 4;
             u16* dp = d + p * 4;
 
+            if (sp[3] == 65535 && sp[7] == 65535) {
+                memcpy(dp, sp, sizeof(u16) * 8);
+                continue;
+            }
+
             for (int i = 0; i < 8; i++) {
                 dp[i] = saturate(sp[i] + div65535((u32)dp[i] * (65535u - sp[(i & 4) | 3])));
             }
@@ -2695,6 +2700,11 @@ namespace {
         for (; p < count; p++) {
             const u16* sp = s + p * 4;
             u16* dp = d + p * 4;
+
+            if (sp[3] == 65535) {
+                memcpy(dp, sp, sizeof(u16) * 4);
+                continue;
+            }
 
             for (int i = 0; i < 4; i++) {
                 dp[i] = saturate(sp[i] + div65535((u32)dp[i] * (65535u - sp[3])));
