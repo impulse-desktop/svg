@@ -224,3 +224,7 @@
 ## Microscopic closing segment: stroke-microscopic-close-miter
 
 - [x] svg2/painting.md#StrokeLinejoinProperty: a genuinely nonzero closing segment supplies its own tangent to the miter, even when its length is tiny compared with the stroke width. A zero-length closing segment has no such direction. Independent normal offsets enclose or exclude each complete probe, including reversal, exact subdivision, reflection, opacity and bevel fallback. [stroke-microscopic-close-miter#nonzero-close stroke-microscopic-close-miter#zero-close stroke-microscopic-close-miter#reversed-nonzero stroke-microscopic-close-miter#reversed-zero stroke-microscopic-close-miter#split-cubic stroke-microscopic-close-miter#reflected stroke-microscopic-close-miter#opacity stroke-microscopic-close-miter#bevel-fallback]
+
+## Miter across zero cubic commands: stroke-zero-cubic-miter
+
+- [x] svg2/painting.md#StrokeLinejoinProperty: truly zero-length cubic commands between drawable segments do not replace the join's incoming or outgoing tangent. Independent miter triangles cover complete probes for repeated zero commands, reversal, reflection, nonuniform transforms and opacity; a smaller miter limit or bevel excludes them. [stroke-zero-cubic-miter#plain stroke-zero-cubic-miter#fourteen-zero-cubics stroke-zero-cubic-miter#reversed stroke-zero-cubic-miter#reflected stroke-zero-cubic-miter#unequal stroke-zero-cubic-miter#opacity stroke-zero-cubic-miter#miter-fallback stroke-zero-cubic-miter#bevel]
