@@ -6,7 +6,7 @@ Per-project settings that the shared [STYLE.md](STYLE.md) delegates here.
 - **Namespace.** None: the renderer is two files, `svg.h` and `svg.cpp`,
   copied into the programs that use it.
 - **Formatter.** `./dev/style.py` formats tracked C++ sources, excluding
-  the frozen snapshots `svg_old.cpp` and `svg_canon.cpp`.
+  the frozen snapshot `svg_canon.cpp`.
 
 ## Deviations
 

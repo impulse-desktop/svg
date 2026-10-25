@@ -4,7 +4,6 @@
 #include <math.h>
 #include <memory>
 #include <string>
-#include <time.h>
 #include <vector>
 #include <zlib.h>
 #include <stdio.h>
@@ -1766,85 +1765,6 @@ namespace {
 
         return 0;
     }
-
-    static uint64_t nanoseconds() {
-        timespec now;
-
-        clock_gettime(CLOCK_MONOTONIC, &now);
-
-        return (uint64_t)now.tv_sec * 1000000000ull + (uint64_t)now.tv_nsec;
-    }
-
-    static int bench(int argc, char** argv) {
-        if (argc != 4) {
-            fprintf(stderr, "usage: svg bench LIST REPEAT\n");
-
-            return 2;
-        }
-
-        FILE* list = fopen(argv[2], "rb");
-        int repeat = atoi(argv[3]);
-        char line[4096];
-
-        if (repeat < 1 || repeat > 31 || !(repeat & 1)) {
-            fail("repeat must be an odd integer from 1 to 31: ", argv[3]);
-        }
-
-        if (!list) {
-            fail("cannot read ", argv[2]);
-        }
-
-        while (fgets(line, sizeof(line), list)) {
-            char path[4000];
-            unsigned width;
-            unsigned height;
-
-            if (sscanf(line, "%3999s %u %u", path, &width, &height) != 3) {
-                fail("bad benchmark record: ", line);
-            }
-
-            std::string file;
-            std::vector<uint64_t> samples;
-            bool ok = true;
-
-            readFile(path, file);
-
-            try {
-                // Each sample starts fresh: library creation, parsing,
-                // rendering and destruction all count. File I/O, PNG encoding
-                // and comparison with a reference do not.
-                for (int r = 0; r < repeat; r++) {
-                    uint64_t start = nanoseconds();
-
-                    {
-                        Library library(svg_library_create(decodeRaster, decompressGzip, failSvg, nullptr));
-                        Document document(svg_library_parse(library.get(), file.data(), file.size()));
-                        Image image(svg_document_render(document.get(), width, height));
-
-                        if (!image || svg_image_width(image.get()) != width || svg_image_height(image.get()) != height || svg_image_length(image.get()) != (size_t)width * height * 4) {
-                            ok = false;
-                            break;
-                        }
-                    }
-
-                    samples.push_back(nanoseconds() - start);
-                }
-            } catch (const SvgFailure&) {
-                ok = false;
-            }
-
-            std::sort(samples.begin(), samples.end());
-
-            uint64_t median = ok && samples.size() == (size_t)repeat ? samples[samples.size() / 2] : 0;
-
-            printf("%s %llu %d\n", path, (unsigned long long)median, ok ? 1 : 0);
-            fflush(stdout);
-        }
-
-        fclose(list);
-
-        return 0;
-    }
 }
 
 int main(int argc, char** argv) {
@@ -1861,12 +1781,10 @@ int main(int argc, char** argv) {
             result = shrinkCommand(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "scale") == 0) {
             result = scaleTest(argc, argv);
-        } else if (argc >= 2 && strcmp(argv[1], "bench") == 0) {
-            result = bench(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "size") == 0) {
             result = size(argc, argv);
         } else {
-            fprintf(stderr, "usage: svg render|test|unit|shrink|scale|bench|size ...\n");
+            fprintf(stderr, "usage: svg render|test|unit|shrink|scale|size ...\n");
         }
     } catch (const std::exception& error) {
         fprintf(stderr, "svg: %s\n", error.what());

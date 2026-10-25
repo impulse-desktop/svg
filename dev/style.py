@@ -12,8 +12,8 @@ from pathlib import Path
 ROOT = Path.cwd()
 SOURCE_PATTERNS = ("*.cpp", "*.h", "*.hpp", "*.mm")
 EXCLUDED_DIRS = {"third_party", "ext"}
-# Frozen renderer snapshots remain byte-for-byte copies of their sources.
-VENDORED_ROOTS = (ROOT / "svg_old.cpp", ROOT / "svg_canon.cpp")
+# The frozen renderer snapshot remains a byte-for-byte copy of its source.
+VENDORED_ROOTS = (ROOT / "svg_canon.cpp",)
 INITIALIZER_LIST = re.compile(r"^(?P<indent> +):(?=\s)")
 INCLUDE = re.compile(r'^#include\s+(?P<open>["<])(?P<path>[^">]+)[">]\s*(?P<tail>//.*)?$')
 RAW_STRING = re.compile(r'(?:u8|u|U|L)?R"(?P<delimiter>[^ ()\\\t\r\n]{0,16})\(')
