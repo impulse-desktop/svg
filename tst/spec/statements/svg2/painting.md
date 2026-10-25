@@ -200,3 +200,8 @@
 
 - [x] svg2/painting.md#TermStrokeShape: a probe strictly inside the retained closed offset outline stays covered at a tight bend with a stationary Bezier endpoint. Exact subdivision, reversal, a changed starting point, rotation and reflection preserve the geometry; an exactly zero closing displacement adds no direction. Each entire probe is enclosed by nonzero offset winding and separated from the analytic offset boundary by an independently bounded margin. [stroke-closed-offset-winding#stationary-end stroke-closed-offset-winding#reversed stroke-closed-offset-winding#split-half stroke-closed-offset-winding#split-unequal stroke-closed-offset-winding#changed-start stroke-closed-offset-winding#rotated stroke-closed-offset-winding#reflected]
 - [x] svg2/painting.md#TermStrokeShape: coincident subpaths in opposite directions have their stroke united before transparent paint. [stroke-closed-offset-winding#opposite-subpaths]
+
+## Dense straight bevel bands: stroke-dense-bevel-areas
+
+- [x] svg2/painting.md#TermStrokeShape: literal straight bands and bevel joins unite before painting, including densely spaced turns. Exact line subdivision and reversal preserve their pixel areas; the independent PNG expectations use exact polygon intersections without a curve allowance. [stroke-dense-bevel-areas#dense stroke-dense-bevel-areas#reversed stroke-dense-bevel-areas#split-half stroke-dense-bevel-areas#split-unequal stroke-dense-bevel-areas#reflected stroke-dense-bevel-areas#rotated]
+- [x] svg2/painting.md#TermStrokeShape: each element's fill and united stroke paint in source order, preserving per-paint alpha where neighbouring bevel strokes overlap. [stroke-dense-bevel-areas#paint-order stroke-dense-bevel-areas#translucent]
