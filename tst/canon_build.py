@@ -24,5 +24,5 @@ canon_svg = program(
     output="$(B)/svg",
     srcs=["$(S)/../svg_canon.cpp", "$(S)/main.cpp"],
     cflags=["-Wall", "-Wextra", "-Werror"],
-    deps=[pkg_config("libpng"), pkg_config("libjpeg"), dependency(ldflags=["-lm"])],
+    deps=[pkg_config("libpng"), pkg_config("libjpeg"), pkg_config("zlib"), dependency(ldflags=["-lm"])],
 )

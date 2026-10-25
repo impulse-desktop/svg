@@ -29754,7 +29754,7 @@ uint32_t svg_image_height(const SvgImage* image) {
     return image->vtable->height(image);
 }
 
-SvgLibrary* svg_library_create(SvgDecode decode, SvgFail fail, void* context) {
+SvgLibrary* svg_library_create(SvgDecode decode, SvgDecompress, SvgFail fail, void* context) {
     ObjPool* pool = new ObjPool();
 
     return pool->make<SvgLibrary>(pool, decode, fail, context);

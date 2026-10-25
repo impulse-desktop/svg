@@ -25,11 +25,14 @@ def load(corpus, scores, pattern):
         if relative in excluded or not fnmatch.fnmatch(relative, pattern):
             continue
         fields = {"mae": [], "struct": [], "aa": [], "reference": [], "ours": []}
+        failure = ""
         with open(os.path.join(scores, relative[:-len(".svg")] + ".txt")) as handle:
             for line in handle:
                 words = line.split()
                 if words and words[0] in fields:
                     fields[words[0]] = [float(word) for word in words[1:]]
+                elif words and words[0] == "error":
+                    failure = " ".join(words[1:])
         cases.append({
             "case": relative,
             "mae": fields["mae"],
@@ -39,6 +42,7 @@ def load(corpus, scores, pattern):
             "ours": max(fields["ours"], default=0.0),
             "rms": rms(fields["mae"]),
             "share": max(fields["struct"]),
+            "error": failure,
         })
     if not cases:
         sys.exit("no cases")
@@ -70,7 +74,8 @@ def suspicious(case):
 def row(case):
     return (f"{case['rms']:.6f} " + " ".join(f"{value:.6f}" for value in case["mae"])
             + " | " + " ".join(f"{value:.6f}" for value in case["struct"])
-            + f" | {case['reference']:.6f} {case['ours']:.6f} {case['case']}")
+            + f" | {case['reference']:.6f} {case['ours']:.6f} {case['case']}"
+            + (f" [error: {case['error']}]" if case.get("error") else ""))
 
 
 def summary(cases):
@@ -86,14 +91,18 @@ def summary(cases):
 
 
 def candidates(cases):
+    errors = [case for case in cases if case.get("error")]
     suspect = sorted((case for case in cases if suspicious(case)), key=lambda case: -case["reference"])
     failing, _ = structural(cases)
-    failing = sorted((case for case in failing if not suspicious(case)), key=lambda case: -case["share"])
+    failing = sorted((case for case in failing if not suspicious(case) and not case.get("error")), key=lambda case: -case["share"])
     sources = {}
     for case in failing:
         source = case["case"].split("/")[0]
         sources[source] = sources.get(source, 0) + 1
     lines = ["", "failing cases by source: " + ", ".join(f"{source} {count}" for source, count in sorted(sources.items(), key=lambda item: -item[1]))]
+    if errors:
+        lines += ["", f"processing errors: {len(errors)}"]
+        lines += [f"  {case['case']}: {case['error']}" for case in errors]
     lines += ["", f"wrong drawings, the most wrong pixels first (wrong share at each size, error):"]
     lines += [f"  {' '.join(f'{value:.2%}' for value in case['struct'])}  {case['rms']:.4f}  {case['case']}" for case in failing[:CANDIDATES]]
     lines += ["", f"references drawn differently at 1x and 2x while ours agree, {len(suspect)} cases (wrong share between them, error):"]
@@ -101,19 +110,14 @@ def candidates(cases):
     return lines
 
 
-def main():
-    metrics = ("meanrms", "maxrms", "struct", "aa", "all")
-    if len(sys.argv) != 6 or sys.argv[4] not in metrics:
-        sys.exit("usage: tst/score.py CORPUS_DIR SCORE_DIR FILTER meanrms|maxrms|struct|aa|all REPORT")
-    corpus, scores, pattern, metric, report = sys.argv[1:]
-    cases = load(corpus, scores, pattern)
+def write_report(cases, metric, report):
     if metric == "struct":
-        cases.sort(key=lambda case: -case["share"])
+        cases = sorted(cases, key=lambda case: -case["share"])
         failing, tail = structural(cases)
         head = f"{len(failing)} {tail:.9f}"
         lines = summary(cases)[2:]
     else:
-        cases.sort(key=lambda case: -case["rms"])
+        cases = sorted(cases, key=lambda case: -case["rms"])
         if metric == "meanrms":
             head = f"{meanrms(cases):.9f}"
             lines = summary(cases)[:1]
@@ -137,6 +141,20 @@ def main():
         for case in cases[:10]:
             print(row(case))
     print("\n".join(lines))
+
+
+def main():
+    metrics = ("meanrms", "maxrms", "struct", "aa", "all")
+    if len(sys.argv) != 6 or sys.argv[4] not in (*metrics, "reports"):
+        sys.exit("usage: tst/score.py CORPUS_DIR SCORE_DIR FILTER meanrms|maxrms|struct|aa|all|reports REPORT_OR_DIR")
+    corpus, scores, pattern, metric, report = sys.argv[1:]
+    cases = load(corpus, scores, pattern)
+    if metric == "reports":
+        os.makedirs(report, exist_ok=True)
+        for name in metrics:
+            write_report(cases, name, os.path.join(report, name + ".txt"))
+    else:
+        write_report(cases, metric, report)
 
 
 if __name__ == "__main__":

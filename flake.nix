@@ -144,6 +144,7 @@
           commonBuildInputs = [
             pkgs.libjpeg
             pkgs.libpng
+            pkgs.zlib
           ];
         in
         {

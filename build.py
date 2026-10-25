@@ -60,13 +60,14 @@ png = pkg_config("libpng")
 system = dependency(ldflags=["-lm"])
 
 jpeg = pkg_config("libjpeg")
+zlib = pkg_config("zlib")
 
 svg = program(
     name="svg",
     output="$(B)/svg",
     srcs=["$(S)/svg.cpp", "$(S)/tst/main.cpp"],
     cflags=warning_flags,
-    deps=[png, jpeg, system],
+    deps=[png, jpeg, zlib, system],
 )
 
 # Frozen last-green renderer; only the implementation differs between these
@@ -76,7 +77,7 @@ svg_old = program(
     output="$(B)/svg_old",
     srcs=["$(S)/svg_old.cpp", "$(S)/tst/main.cpp"],
     cflags=warning_flags,
-    deps=[png, jpeg, system],
+    deps=[png, jpeg, zlib, system],
 )
 
 libfuzzer = os.environ.get("LIBFUZZER")
@@ -101,7 +102,7 @@ install(svg)
 # A check imports canon, which imports the reference modules, so every
 # script under tst is an input of every check.
 checks = []
-for check in ["viewport_units", "canvas_scale", "cascade_priority", "curve_area", "straight_curves", "circle_coverage", "perf_check"]:
+for check in ["viewport_units", "canvas_scale", "cascade_priority", "curve_area", "straight_curves", "circle_coverage", "perf_check", "scale_check", "svgz_check"]:
     checks.append(command(
         name="check_" + check,
         inputs=build.glob("$(S)/tst/*.py"),
@@ -136,6 +137,22 @@ checks.append(command(
     color="light-green",
 ))
 
+decompress_api = program(
+    name="decompress_api",
+    output="$(B)/decompress_api",
+    srcs=["$(S)/svg.cpp", "$(S)/tst/decompress_api.cpp"],
+    cflags=warning_flags,
+    deps=[system],
+)
+checks.append(command(
+    name="check_decompress_api",
+    outputs=["$(B)/checks/decompress_api.txt"],
+    deps=[decompress_api],
+    cmd=["sh", "-c", '"$0" > "$1"', "$(B)/decompress_api", "$(B)/checks/decompress_api.txt"],
+    descr="CK",
+    color="light-green",
+))
+
 # The statement ledgers: anchors in dev/spec, units, and the test cells
 # every statement links to in the expected drawings.
 checks.append(command(
@@ -146,6 +163,7 @@ checks.append(command(
         *build.glob("$(S)/dev/spec/*.md"),
         *build.glob("$(S)/dev/spec/*/*.md"),
         *build.glob("$(S)/tst/unit/*.svg"),
+        *build.glob("$(S)/tst/unit/*.svgz"),
         *build.glob("$(S)/tst/expect/*.svg"),
         "$(S)/tst/spec/ledger.py",
     ],
@@ -184,6 +202,7 @@ for listed in ["EXCLUDED", "DESIGN"]:
 with open(os.path.join(corpus, "SIDE")) as handle:
     side = handle.read().strip()
 cases = []
+scale_cases = []
 paths = sorted(build.glob("$(S)/tst/corpus/*/*.svg"))
 sizes = {path: os.path.getsize(os.path.join(corpus, path[len("$(S)/tst/corpus/"):])) for path in paths}
 for path in sorted(paths, key=lambda path: -sizes[path]):
@@ -193,6 +212,18 @@ for path in sorted(paths, key=lambda path: -sizes[path]):
     score = "$(B)/score/" + relative[:-len(".svg")] + ".txt"
     references = [f"$(B)/canon/corpus/{relative[:-len('.svg')]}.{label}.png" for label in labels]
     key = hashlib.sha256(relative.encode()).hexdigest()[:16]
+    # Each file is drawn exactly twice by the current renderer. Scores use
+    # the ordinary aggregator; failures remain visible at the top of it.
+    scale_cases.append(command(
+        name="scale_case_" + key,
+        inputs=[path],
+        outputs=[f"$(B)/scale/score/{relative[:-len('.svg')]}.txt"],
+        deps=[svg],
+        cmd=["sh", "-c", '"$0" scale "$1" "$2" || { status=$?; printf "mae 1\\nstruct 1\\naa 1\\nreference\\nours\\nerror exit %s\\n" "$status" > "$2"; }',
+             "$(B)/svg", path, f"$(B)/scale/score/{relative[:-len('.svg')]}.txt"],
+        descr="SC",
+        color="cyan",
+    ))
     drawn = command(
         name="reference_" + key,
         inputs=[path, "$(S)/tst/corpus/SIDE", "$(S)/tst/canon.py"],
@@ -223,19 +254,37 @@ for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
         color="light-green",
     ))
 
-# Every tst/unit/X.svg is drawn at its own size and compared with the
+
+# Prepare and read the per-file scores once for all rankings.
+scale_report = command(
+    name="scale_score",
+    inputs=["$(S)/tst/score.py", "$(S)/tst/corpus/EXCLUDED", "$(S)/tst/corpus/DESIGN"],
+    outputs=[f"$(B)/scale/{metric}.txt" for metric in ["all", "meanrms", "maxrms", "struct", "aa"]],
+    deps=scale_cases,
+    cmd=["python3", "$(S)/tst/score.py", "$(S)/tst/corpus", "$(B)/scale/score", flags.filter or "*", "reports", "$(B)/scale"],
+    descr="OK",
+    color="light-green",
+)
+group("scale", scale_report)
+for metric in ["meanrms", "maxrms", "struct", "aa", "all"]:
+    group("scale_" + metric, scale_report)
+
+# Every tst/unit/X.svg or X.svgz is drawn at its own size and compared with the
 # canon's drawing of it, $(B)/canon/unit/X.png, which the canon's svg makes
 # as the same command, against itself; ours is left in $(B)/unit/X.png.
 units = []
-for path in sorted(build.glob("$(S)/tst/unit/*.svg")):
-    name = os.path.basename(path[:-len(".svg")])
+unit_paths = {Path(path).stem: path for path in build.glob("$(S)/tst/unit/*.svg") + build.glob("$(S)/tst/unit/*.svgz")}
+for name, path in sorted(unit_paths.items()):
+    # Frozen CANON has no decompressor. For the new SVGZ units it draws
+    # the independent, plain-rectangle expectation instead of the input.
+    reference_source = f"$(S)/tst/expect/{name}.svg" if name.startswith(("svgz-", "svgz.")) else path
     reference = f"$(B)/canon/unit/{name}.png"
     drawn = command(
         name="unit_reference_" + name,
-        inputs=[path],
+        inputs=[reference_source],
         outputs=[reference],
         deps=[canon],
-        cmd=["$(B)/canon/svg", "unit", path, reference, reference],
+        cmd=["$(B)/canon/svg", "unit", reference_source, reference, reference],
         descr="RF",
         color="magenta",
     )
@@ -257,15 +306,17 @@ for path in sorted(build.glob("$(S)/tst/expect/*.svg")):
     name = os.path.basename(path[:-len(".svg")])
     oracles.append(command(
         name="oracle_" + name,
-        inputs=[path, f"$(S)/tst/unit/{name}.svg", "$(S)/tst/oracle.py", "$(S)/tst/canon.py"],
+        inputs=[path, unit_paths[name], "$(S)/tst/oracle.py", "$(S)/tst/canon.py"],
         outputs=[f"$(B)/oracle/{name}.txt"],
         deps=[svg],
-        cmd=["python3", "$(S)/tst/oracle.py", "$(B)/svg", f"$(S)/tst/unit/{name}.svg", path, f"$(B)/oracle/{name}.txt"],
+        cmd=["python3", "$(S)/tst/oracle.py", "$(B)/svg", unit_paths[name], path, f"$(B)/oracle/{name}.txt"],
         descr="OR",
         color="light-green",
     ))
 
-group("unit", *units, *oracles)
+# API failure and root gzip stream tests are units too, including in the
+# coverage run, which invokes this group rather than the whole corpus.
+group("unit", *units, *oracles, *(check for check in checks if check.name in {"check_c_api", "check_decompress_api", "check_svgz_check"}))
 
 # Every case, check and unit and the smoke drawing, or one partition of them
 # with -Dgroup and -Dgroup_count: the sanitizer runs of CI split them this way.

@@ -907,27 +907,30 @@ namespace {
 struct SvgDocument {
     ObjPool* pool;
     SvgDecode decode;
+    SvgDecompress decompress;
     SvgFail fail;
     void* context;
     Document* doc;
     float width;
     float height;
 
-    SvgDocument(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context, Document* doc, float width, float height);
+    SvgDocument(ObjPool* pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context, Document* doc, float width, float height);
 };
 
 struct SvgLibrary {
     ObjPool* pool;
     SvgDecode decode;
+    SvgDecompress decompress;
     SvgFail fail;
     void* context;
 
-    SvgLibrary(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context);
+    SvgLibrary(ObjPool* pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context);
 };
 
-SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_, Document* doc_, float width_, float height_)
+SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgDecompress decompress_, SvgFail fail_, void* context_, Document* doc_, float width_, float height_)
     : pool(pool_)
     , decode(decode_)
+    , decompress(decompress_)
     , fail(fail_)
     , context(context_)
     , doc(doc_)
@@ -936,9 +939,10 @@ SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void*
 {
 }
 
-SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_)
+SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgDecompress decompress_, SvgFail fail_, void* context_)
     : pool(pool_)
     , decode(decode_)
+    , decompress(decompress_)
     , fail(fail_)
     , context(context_)
 {
@@ -2245,6 +2249,7 @@ namespace {
         Vector<Node*> hosts;
         Vector<ComputedStyle*> documentStyles;
         SvgDecode decode;
+        SvgDecompress decompress;
         SvgFail fail;
         void* context;
         u32 imageDepth;
@@ -17096,7 +17101,7 @@ namespace {
     static Matrix boxTransform(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp);
     static Box deviceBox(const Matrix& m, const Box& box);
     static bool givenSide(const Document& doc, const Node* node, u32 name);
-    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgFail fail, void* context);
+    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context);
     static void measureRoot(Pass& p, float& width, float& height);
 
     // Adds a box, through a matrix, to another.
@@ -18047,7 +18052,7 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
-    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail);
+    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgDecompress decompress, SvgFail fail, void* context);
     static void cascade(Document& doc);
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
 
@@ -20728,7 +20733,7 @@ namespace {
                 // intact (SVG 2 error processing); an invalid root document
                 // still reaches the library's fail callback.
                 try {
-                    loadDocument(*nested, *l.pool, data, invalidImageXml);
+                    loadDocument(*nested, *l.pool, data, l.decompress, invalidImageXml, l.context);
                 } catch (const InvalidImageXml&) {
                     return false;
                 }
@@ -21238,7 +21243,7 @@ namespace {
         if (source.nested && (autoWidth || autoHeight) && (source.width <= 0.f || source.height <= 0.f)) {
             Pass inner;
 
-            beginPass(inner, *source.nested, *p.pool, p.decode, p.fail, p.context);
+            beginPass(inner, *source.nested, *p.pool, p.decode, p.decompress, p.fail, p.context);
             inner.imageDepth = p.imageDepth + 1;
             // The image is the pass's work too.
             inner.work = p.work;
@@ -28976,7 +28981,39 @@ namespace {
         return false;
     }
 
-    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail) {
+    struct Decompressed {
+        Buffer bytes;
+        bool rejected = false;
+    };
+
+    static int writeDecompressed(void* output, const void* bytes, size_t length) {
+        Decompressed& out = *(Decompressed*)output;
+        // Buffer rounds its allocation up to a power of two. Leave room for
+        // its header, and reject an overflowing size before touching bytes.
+        size_t limit = SIZE_MAX / 2 - sizeof(Buffer::Header);
+
+        if (out.rejected || length > limit - out.bytes.length() || (!bytes && length)) {
+            out.rejected = true;
+
+            return 0;
+        }
+
+        out.bytes.append(bytes, length);
+
+        return 1;
+    }
+
+    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgDecompress decompress, SvgFail fail, void* context) {
+        if (source.length() >= 2 && source[0] == 0x1f && source[1] == 0x8b) {
+            Decompressed output;
+
+            if (!decompress || !decompress(context, source.data(), source.length(), writeDecompressed, &output) || output.rejected) {
+                ::fail(fail, SVG_DECOMPRESS);
+            }
+
+            source = keep(pool, output.bytes.data(), output.bytes.length());
+        }
+
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
@@ -28986,10 +29023,11 @@ namespace {
     }
 
     // A pass over a cascaded document, out of a pool of its own.
-    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgFail fail, void* context) {
+    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context) {
         p.doc = &doc;
         p.pool = &pool;
         p.decode = decode;
+        p.decompress = decompress;
         p.fail = fail;
         p.context = context;
         p.imageDepth = 0;
@@ -29103,10 +29141,10 @@ uint32_t svg_image_height(const SvgImage* image) {
     return image->vtable->height(image);
 }
 
-SvgLibrary* svg_library_create(SvgDecode decode, SvgFail fail, void* context) {
+SvgLibrary* svg_library_create(SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context) {
     ObjPool* pool = new ObjPool();
 
-    return pool->make<SvgLibrary>(pool, decode, fail, context);
+    return pool->make<SvgLibrary>(pool, decode, decompress, fail, context);
 }
 
 void svg_library_destroy(SvgLibrary* library) {
@@ -29140,7 +29178,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     {
         Lowering l;
 
-        beginPass(l, doc, scratch, document->decode, document->fail, document->context);
+        beginPass(l, doc, scratch, document->decode, document->decompress, document->fail, document->context);
         l.width = width;
         l.height = height;
         l.docWidth = document->width;
@@ -29238,7 +29276,7 @@ SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t len
     Document* doc = pool.make<Document>();
 
     // The file, kept with the document that refers into it.
-    loadDocument(*doc, pool, keep(pool, file, length), library->fail);
+    loadDocument(*doc, pool, keep(pool, file, length), library->decompress, library->fail, library->context);
 
     if (!doc->root || doc->root->name != AtomSvg) {
         fail(library->fail, SVG_NOT_SVG);
@@ -29258,11 +29296,11 @@ SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t len
         ObjPool scratch;
         Pass pass;
 
-        beginPass(pass, *doc, scratch, library->decode, library->fail, library->context);
+        beginPass(pass, *doc, scratch, library->decode, library->decompress, library->fail, library->context);
         measureRoot(pass, width, height);
     }
 
-    SvgDocument* document = pool.make<SvgDocument>(&pool, library->decode, library->fail, library->context, doc, width, height);
+    SvgDocument* document = pool.make<SvgDocument>(&pool, library->decode, library->decompress, library->fail, library->context, doc, width, height);
 
     guard.pool = nullptr;
 

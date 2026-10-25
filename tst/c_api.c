@@ -12,6 +12,7 @@ typedef struct {
 } Solid;
 
 static int destroyed;
+static int decompressed;
 
 static void solidDestroy(SvgImage* image) {
     destroyed++;
@@ -48,6 +49,41 @@ static SvgImage* decode(void* context, const void* bytes, size_t length) {
     return &solid->image;
 }
 
+// A host decompressor supplies chunks from temporary storage. The renderer
+// must copy them and retain the decoded document after the library is gone.
+static int decompress(void* context, const void* bytes, size_t length, int (*write)(void*, const void*, size_t), void* output) {
+    static const char drawing[] = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"4\" height=\"4\"><rect width=\"4\" height=\"4\" fill=\"lime\"/></svg>";
+    static const uint8_t green[] = {0, 255, 0, 255};
+    const uint8_t* input = (const uint8_t*)bytes;
+    char chunk[7];
+    size_t offset;
+
+    if (memcmp(context, green, 4) || length != 2 || input[0] != 0x1f || input[1] != 0x8b) {
+        return 0;
+    }
+
+    for (offset = 0; offset < sizeof(drawing) - 1;) {
+        size_t count = sizeof(drawing) - 1 - offset;
+
+        if (count > sizeof(chunk)) {
+            count = sizeof(chunk);
+        }
+
+        memcpy(chunk, drawing + offset, count);
+
+        if (!write(output, chunk, count)) {
+            return 0;
+        }
+
+        memset(chunk, 0, sizeof(chunk));
+        offset += count;
+    }
+
+    decompressed++;
+
+    return 1;
+}
+
 static int pixel(const SvgImage* image, uint32_t x, uint32_t y, const uint8_t* expected) {
     const uint8_t* rgba = (const uint8_t*)svg_image_data(image) + ((size_t)y * svg_image_width(image) + x) * 4;
 
@@ -75,7 +111,7 @@ int main(void) {
     static const uint8_t green[4] = {0, 255, 0, 255};
     static const uint8_t clear[4] = {0, 0, 0, 0};
     uint8_t color[4] = {0, 255, 0, 255};
-    SvgLibrary* library = svg_library_create(decode, failed, color);
+    SvgLibrary* library = svg_library_create(decode, NULL, failed, color);
     SvgDocument* document = svg_library_parse(library, drawing, sizeof(drawing) - 1);
 
     if (svg_document_width(document) != 12.f || svg_document_height(document) != 4.f) {
@@ -107,7 +143,7 @@ int main(void) {
     static const char responsive[] = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"64\" height=\"16\" viewBox=\"0 0 16 16\" preserveAspectRatio=\"none\">"
                                      "<style>rect { fill: red } @media (width: 64px) and (height: 16px) { rect { fill: lime } }</style>"
                                      "<rect width=\"16\" height=\"16\"/></svg>";
-    SvgLibrary* mediaLibrary = svg_library_create(NULL, failed, NULL);
+    SvgLibrary* mediaLibrary = svg_library_create(NULL, NULL, failed, NULL);
     SvgDocument* mediaDocument = svg_library_parse(mediaLibrary, responsive, sizeof(responsive) - 1);
     SvgImage* reduced = svg_document_render(mediaDocument, 16, 16);
     SvgImage* enlarged = svg_document_render(mediaDocument, 256, 32);
@@ -122,9 +158,24 @@ int main(void) {
     svg_document_destroy(mediaDocument);
     svg_library_destroy(mediaLibrary);
 
+    static const uint8_t compressed[] = {0x1f, 0x8b};
+    SvgLibrary* compressedLibrary = svg_library_create(NULL, decompress, failed, color);
+    SvgDocument* compressedDocument = svg_library_parse(compressedLibrary, compressed, sizeof(compressed));
+
+    svg_library_destroy(compressedLibrary);
+
+    SvgImage* expanded = svg_document_render(compressedDocument, 4, 4);
+
+    if (decompressed != 1 || !pixel(expanded, 2, 2, green)) {
+        return fail("the decompressor's context, chunks or document lifetime");
+    }
+
+    svg_image_destroy(expanded);
+    svg_document_destroy(compressedDocument);
+
     svg_image_destroy(plain);
     svg_image_destroy(doubled);
-    puts("checked the C API from C99 against svg.cpp as C++17");
+    puts("checked the C API from C99 against svg.cpp as C++17, including the host decompressor");
 
     return 0;
 }

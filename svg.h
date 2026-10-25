@@ -40,8 +40,17 @@ extern "C" {
     // once it has drawn it. A library without a decoder draws no raster images.
     typedef SvgImage* (*SvgDecode)(void* context, const void* bytes, size_t length);
 
-    // Why a call cannot do what it is asked: the file it parses is no XML
-    // document, or no SVG one, or the image it draws is empty or too large.
+    // Decompresses gzip bytes, passing the uncompressed bytes to write in
+    // order, in any number of chunks. Returns nonzero only for a complete,
+    // valid stream. If write returns zero, stop and return zero too. The
+    // library copies each chunk; neither write nor output may be retained
+    // after the call. The decompressor chooses its own output size limit.
+    // NULL means no decompressor. Plain XML never calls it.
+    typedef int (*SvgDecompress)(void* context, const void* bytes, size_t length, int (*write)(void* output, const void* bytes, size_t length), void* output);
+
+    // Why a call cannot do what it is asked: its gzip input cannot be
+    // decompressed, its file is no XML document or no SVG one, or the
+    // image it draws is empty or too large.
     // Invalid SVG images embedded in a document leave only that image empty.
     typedef enum SvgError {
         SVG_XML_NO_ROOT,                  // no element begins the document
@@ -79,6 +88,7 @@ extern "C" {
         SVG_NOT_SVG,                      // the root element is no SVG element
         SVG_RENDER_SIZE,                  // an image of no pixel or over 2^26
         SVG_XML_INCLUDE_PARSE,            // an xi:include to parse neither as xml nor as text
+        SVG_DECOMPRESS,                   // gzip input without a decompressor, or decompression failed
     } SvgError;
 
     // Called with why a call of the library, or of a document or image it
@@ -88,12 +98,14 @@ extern "C" {
     // out. No call returns NULL.
     typedef void (*SvgFail)(SvgError error);
 
-    // The decoder may be NULL, the fail never is.
-    SvgLibrary* svg_library_create(SvgDecode decode, SvgFail fail, void* context);
+    // The decoder and decompressor may be NULL, the fail never is. Both
+    // callbacks receive context, including when a document outlives its library.
+    SvgLibrary* svg_library_create(SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context);
     void svg_library_destroy(SvgLibrary* library);
 
     // The document keeps the file parsed and outlives its library; an image
-    // outlives its document.
+    // outlives its document. Gzip input is recognized by its signature and
+    // decompressed before parsing, also for embedded SVG images.
     SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t length);
 
     void svg_document_destroy(SvgDocument* document);

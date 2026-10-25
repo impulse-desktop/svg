@@ -74,6 +74,34 @@ The report is `.build/perf_quick/report.json`; publish it after a failing
 check with `./build perf_quick_report` and the same options. `-Dperf_repeat`
 affects only the full test; the quick test always takes one sample.
 
+## Render scale comparison
+
+`./build -j24 scale` draws every selected corpus file with the current
+renderer at a 256-pixel longest side, then at four times those rounded
+dimensions (1024 on the longest side). It reduces the large image by four
+using the existing alpha-aware box average and compares the two small
+images. Each file has its own cached build node and is rendered only twice.
+The corpus exclusions and `-Dfilter` work as in the ordinary scores.
+
+Reports are `.build/scale/{all,meanrms,maxrms,struct,aa}.txt`; target aliases
+are `scale_all`, `scale_meanrms`, `scale_maxrms`, `scale_struct` and
+`scale_aa`. One aggregator reads the cached per-file scores once and writes
+all five reports. The metrics
+and ranking are those of `tst/score.py`: a normalized premultiplied RGBA
+mean absolute error per pair, aggregated as meanrms/maxrms, and the usual
+structural wrong-pixel share. With one pair per file, its reported RMS and
+AA error both equal that pair's error. Processing failures and the existing
+120-second per-file timeout are marked as errors and ranked at the top.
+
+This is a diagnostic group, separate from `tests`: differences do not fail
+the build. Both resolutions are rendered even for size-dependent SVGs,
+such as non-scaling strokes; their differences can be intentional.
+The group needs neither the canon nor Chromium. To save a pair for review:
+
+```sh
+./svg scale input.svg score.txt direct.png reduced.png
+```
+
 ## Use
 
 `svg.h` is a C header.
@@ -86,7 +114,7 @@ static void fail(SvgError error) {
     abort();
 }
 
-SvgLibrary* library = svg_library_create(NULL, fail, NULL);
+SvgLibrary* library = svg_library_create(NULL, NULL, fail, NULL);
 SvgDocument* document = svg_library_parse(library, bytes, length);
 SvgImage* image = svg_document_render(document, 512, 512);
 const uint8_t* rgba = svg_image_data(image);
@@ -119,6 +147,20 @@ bytes into an `SvgImage` of your own, a struct that starts with an `SvgImage`
 and answers through an `SvgImageVtable`; the renderer destroys it once drawn.
 Without one, raster images are left out. The library, the document and the
 image do not depend on one another and are released in any order.
+
+The second argument of `svg_library_create` is an optional `SvgDecompress`
+callback for SVGZ. The library recognizes gzip by its signature, including
+in embedded SVG images, and calls the decompressor with the same context
+as the image decoder. It copies the chunks the callback writes; a successful
+callback returns nonzero only after validating the complete gzip stream.
+With a NULL callback, gzip input fails with `SVG_DECOMPRESS`; an invalid
+compressed image leaves only that image empty. Plain SVG needs no callback.
+The test driver supplies a zlib implementation, with a 256 MiB limit on
+decompressed bytes per resource. The renderer itself has no zlib dependency.
+SVGZ fixtures in `tst/unit` have independent drawings in `tst/expect`;
+the frozen CANON renders those plain drawings because it ignores the new
+decompressor argument. `./build unit` also runs the C API and gzip stream
+unit checks, so the coverage run includes them.
 
 ## Build
 

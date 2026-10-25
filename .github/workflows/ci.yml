@@ -156,7 +156,7 @@ jobs:
               set -eu
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev libjpeg-dev git
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld libpng-dev libjpeg-dev zlib1g-dev git
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" all
               head -4 .build/all.txt > score.txt
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld ./build -j "$(nproc)" checks
@@ -190,7 +190,7 @@ jobs:
               set -eu
               export DEBIAN_FRONTEND=noninteractive
               apt-get update
-              apt-get install --yes --no-install-recommends python3 pkg-config clang lld llvm libclang-rt-dev libpng-dev libjpeg-dev git
+              apt-get install --yes --no-install-recommends python3 pkg-config clang lld llvm libclang-rt-dev libpng-dev libjpeg-dev zlib1g-dev git
               CC=clang CXX=clang++ LDFLAGS=-fuse-ld=lld dev/coverage.sh -j "$(nproc)"
             '
           {

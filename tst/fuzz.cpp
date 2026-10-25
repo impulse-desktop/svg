@@ -19,7 +19,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
         return 0;
     }
 
-    SvgLibrary* library = svg_library_create(nullptr, fail, nullptr);
+    SvgLibrary* library = svg_library_create(nullptr, nullptr, fail, nullptr);
 
     try {
         SvgDocument* document = svg_library_parse(library, data, size);

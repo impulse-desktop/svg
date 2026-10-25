@@ -6,7 +6,9 @@
 #include <string>
 #include <time.h>
 #include <vector>
+#include <zlib.h>
 #include <stdio.h>
+#include <limits.h>
 #include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
@@ -95,6 +97,12 @@ namespace {
     struct JpegError {
         jpeg_error_mgr manager;
         jmp_buf escape;
+    };
+
+    struct GzipStream {
+        z_stream stream{};
+
+        ~GzipStream();
     };
 
     static uint32_t pngNumber(const uint8_t* p) {
@@ -445,6 +453,61 @@ static SvgImage* decodeJpeg(const uint8_t* bytes, size_t length) {
     throw SvgFailure{error};
 }
 
+GzipStream::~GzipStream() {
+    inflateEnd(&stream);
+}
+
+// Gzip members form one byte stream. zlib checks each header, CRC and size;
+// restarting after a member also checks that the whole input is consumed.
+static int decompressGzip(void*, const void* bytes, size_t length, int (*write)(void*, const void*, size_t), void* output) {
+    GzipStream gzip;
+    z_stream& stream = gzip.stream;
+
+    if (inflateInit2(&stream, MAX_WBITS + 16) != Z_OK) {
+        return 0;
+    }
+
+    constexpr size_t maxDocumentBytes = 256u << 20;
+    const uint8_t* source = (const uint8_t*)bytes;
+    size_t position = 0;
+    size_t total = 0;
+    uint8_t buffer[32768];
+
+    for (;;) {
+        if (!stream.avail_in && position < length) {
+            size_t available = std::min(length - position, (size_t)UINT_MAX);
+
+            stream.next_in = (Bytef*)(source + position);
+            stream.avail_in = (uInt)available;
+            position += available;
+        }
+
+        stream.next_out = buffer;
+        stream.avail_out = sizeof(buffer);
+
+        int status = inflate(&stream, Z_NO_FLUSH);
+        size_t written = sizeof(buffer) - stream.avail_out;
+
+        if (written > maxDocumentBytes - total || (written && !write(output, buffer, written))) {
+            return 0;
+        }
+
+        total += written;
+
+        if (status == Z_STREAM_END) {
+            if (!stream.avail_in && position == length) {
+                return 1;
+            }
+
+            if (inflateReset2(&stream, MAX_WBITS + 16) != Z_OK) {
+                return 0;
+            }
+        } else if (status != Z_OK || (!written && !stream.avail_in && position == length)) {
+            return 0;
+        }
+    }
+}
+
 // The raster images of the corpus are PNG and JPEG; nothing else decodes.
 static SvgImage* decodeEager(const void* bytes, size_t length) {
     const uint8_t* p = (const uint8_t*)bytes;
@@ -643,11 +706,11 @@ namespace {
         }
     }
 
-    static Document load(const char* path, std::string& file, SvgDecode decode) {
+    static Document load(const char* path, std::string& file, SvgDecode decode, SvgDecompress decompress = decompressGzip) {
         readFile(path, file);
 
         try {
-            Library library(svg_library_create(decode, failSvg, nullptr));
+            Library library(svg_library_create(decode, decompress, failSvg, nullptr));
 
             return Document(svg_library_parse(library.get(), file.data(), file.size()));
         } catch (...) {
@@ -860,7 +923,23 @@ namespace {
     // drawing of more pixels is not the drawing scaled. Such a file is drawn
     // straight at the size of its reference, never supersampled, and its
     // sizes share no drawing.
-    static bool scalable(const std::string& text) {
+    static bool scalable(const std::string& file) {
+        std::string expanded;
+        bool compressed = file.size() >= 2 && (uint8_t)file[0] == 0x1f && (uint8_t)file[1] == 0x8b;
+
+        if (compressed) {
+            auto append = [](void* output, const void* bytes, size_t length) {
+                ((std::string*)output)->append((const char*)bytes, length);
+
+                return 1;
+            };
+
+            if (!decompressGzip(nullptr, file.data(), file.size(), append, &expanded)) {
+                return false;
+            }
+        }
+
+        const std::string& text = compressed ? expanded : file;
         const uint8_t* p = (const uint8_t*)text.data();
         const uint8_t* end = p + text.size();
 
@@ -1405,8 +1484,8 @@ namespace {
     // CANON.png: they match when no premultiplied channel of a pixel differs
     // by more than unitTolerance of 255. A file the renderer fails to parse
     // or to draw draws one transparent pixel. A name
-    // holding .nodecoder. draws with a library that has no decoder. With
-    // CANON.png as OUT.png too it canonizes.
+    // holding .nodecoder. or .nodecompress. draws with a library without
+    // that callback. With CANON.png as OUT.png too it canonizes.
     static int unit(int argc, char** argv) {
         if (argc != 5) {
             fprintf(stderr, "usage: svg unit IN.svg CANON.png OUT.png\n");
@@ -1415,7 +1494,7 @@ namespace {
         }
 
         std::string file;
-        Document document = load(argv[2], file, strstr(argv[2], ".nodecoder.") ? nullptr : decodeRaster);
+        Document document = load(argv[2], file, strstr(argv[2], ".nodecoder.") ? nullptr : decodeRaster, strstr(argv[2], ".nodecompress.") ? nullptr : decompressGzip);
         Pixels pixels;
 
         pixels.width = 1;
@@ -1506,6 +1585,80 @@ namespace {
 
         shrink(large, factor, small);
         writePng(argv[3], small);
+
+        return 0;
+    }
+
+    // Compare a direct drawing with an independently rasterized four-times
+    // larger drawing. Derive both dimensions from the rounded small size,
+    // so downsampling cannot introduce a different aspect ratio.
+    static int scaleTest(int argc, char** argv) {
+        if (argc != 4 && argc != 6) {
+            fprintf(stderr, "usage: svg scale IN.svg SCORE [DIRECT.png REDUCED.png]\n");
+
+            return 2;
+        }
+
+        alarm(caseSeconds);
+
+        std::string file;
+        readFile(argv[2], file);
+        Library library(svg_library_create(decodeRaster, decompressGzip, failSvg, nullptr));
+        Document document(svg_library_parse(library.get(), file.data(), file.size()));
+
+        if (!document) {
+            fail("cannot parse ", argv[2]);
+        }
+
+        double width = svg_document_width(document.get());
+        double height = svg_document_height(document.get());
+
+        if (!isfinite(width) || !isfinite(height) || !(width > 0.0) || !(height > 0.0)) {
+            fail("nonpositive or nonfinite document size in ", argv[2]);
+        }
+
+        double longest = fmax(width, height);
+        Pixels direct;
+        direct.width = (uint32_t)fmax(1.0, rint(256.0 * width / longest));
+        direct.height = (uint32_t)fmax(1.0, rint(256.0 * height / longest));
+        Pixels large;
+        large.width = direct.width * 4;
+        large.height = direct.height * 4;
+
+        // A failed render must not become two matching transparent images.
+        auto renderChecked = [&](Pixels& pixels) {
+            Image image(svg_document_render(document.get(), pixels.width, pixels.height));
+            size_t length = (size_t)pixels.width * pixels.height * 4;
+
+            if (!image || svg_image_width(image.get()) != pixels.width || svg_image_height(image.get()) != pixels.height || svg_image_length(image.get()) != length) {
+                fail("incomplete scale-test render of ", argv[2]);
+            }
+
+            const uint8_t* data = (const uint8_t*)svg_image_data(image.get());
+            pixels.rgba.assign(data, data + length);
+        };
+
+        renderChecked(direct);
+        renderChecked(large);
+        Pixels reduced;
+        shrink(large, 4, reduced);
+        std::vector<uint8_t> directPremultiplied;
+        std::vector<uint8_t> reducedPremultiplied;
+        premultiply(direct, directPremultiplied);
+        premultiply(reduced, reducedPremultiplied);
+        double difference = error(direct, reduced);
+        double share = structural(directPremultiplied.data(), reducedPremultiplied.data(), direct.width, direct.height);
+
+        if (argc == 6) {
+            writePng(argv[4], direct);
+            writePng(argv[5], reduced);
+        }
+
+        FILE* out = fopen(argv[3], "wb");
+
+        if (!out || fprintf(out, "mae %.9f\nstruct %.9f\naa %.9f\nreference\nours\n", difference, share, difference) < 0 || fclose(out) != 0) {
+            fail("cannot write ", argv[3]);
+        }
 
         return 0;
     }
@@ -1664,7 +1817,7 @@ namespace {
                     uint64_t start = nanoseconds();
 
                     {
-                        Library library(svg_library_create(decodeRaster, failSvg, nullptr));
+                        Library library(svg_library_create(decodeRaster, decompressGzip, failSvg, nullptr));
                         Document document(svg_library_parse(library.get(), file.data(), file.size()));
                         Image image(svg_document_render(document.get(), width, height));
 
@@ -1706,12 +1859,14 @@ int main(int argc, char** argv) {
             result = unit(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "shrink") == 0) {
             result = shrinkCommand(argc, argv);
+        } else if (argc >= 2 && strcmp(argv[1], "scale") == 0) {
+            result = scaleTest(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "bench") == 0) {
             result = bench(argc, argv);
         } else if (argc >= 2 && strcmp(argv[1], "size") == 0) {
             result = size(argc, argv);
         } else {
-            fprintf(stderr, "usage: svg render|test|unit|shrink|bench|size ...\n");
+            fprintf(stderr, "usage: svg render|test|unit|shrink|scale|bench|size ...\n");
         }
     } catch (const std::exception& error) {
         fprintf(stderr, "svg: %s\n", error.what());
