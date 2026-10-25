@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64">
+<!-- Complete rectangles certified inside the literal closed stroke. -->
+<g id="stationary-end" data-box="0 0 32 32"><rect x="0" y="0" width="32" height="32" fill="lime" fill-opacity="1"/></g>
+<g id="reversed" data-box="32 0 32 32"><rect x="32" y="0" width="32" height="32" fill="lime" fill-opacity="1"/></g>
+<g id="split-half" data-box="64 0 32 32"><rect x="64" y="0" width="32" height="32" fill="lime" fill-opacity="1"/></g>
+<g id="split-unequal" data-box="96 0 32 32"><rect x="96" y="0" width="32" height="32" fill="lime" fill-opacity="1"/></g>
+<g id="changed-start" data-box="0 32 32 32"><rect x="0" y="32" width="32" height="32" fill="lime" fill-opacity="1"/></g>
+<g id="rotated" data-box="32 32 32 32"><rect x="32" y="32" width="32" height="32" fill="lime" fill-opacity="1"/></g>
+<g id="reflected" data-box="64 32 32 32"><rect x="64" y="32" width="32" height="32" fill="lime" fill-opacity="1"/></g>
+<g id="opposite-subpaths" data-box="96 32 32 32"><rect x="96" y="32" width="32" height="32" fill="lime" fill-opacity=".5"/></g>
+</svg>
