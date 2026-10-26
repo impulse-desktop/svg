@@ -134,6 +134,7 @@
 
             # libFuzzer checks max_total_time only after executing the seed
             # corpus. Bound each worker from startup, including that phase.
+            # Allow five minutes beyond its 30-minute budget for completion.
             # SIGINT uses libFuzzer's interrupt handler; preserve-status keeps
             # real failures and forced kills distinct from a budget stop.
             workers=$(nproc)
@@ -142,8 +143,8 @@
             trap 'exit 130' INT
             trap 'exit 143' TERM
             for ((worker = 0; worker < workers; worker++)); do
-              LC_ALL=C timeout --verbose --preserve-status --signal=INT --kill-after=30s 20m \
-                "$root/.build/fuzz" -timeout=120 -max_total_time=1200 \
+              LC_ALL=C timeout --verbose --preserve-status --signal=INT --kill-after=30s 35m \
+                "$root/.build/fuzz" -timeout=120 -max_total_time=1800 \
                 -print_final_stats=1 "$work/new" "$root/tst/fuzz" "$work/seeds" "$@" \
                 > "$work/fuzz-$worker.log" 2>&1 &
               pids+=("$!")
@@ -156,7 +157,7 @@
               # 72 is libFuzzer's interrupt status, accepted only when our
               # timer sent SIGINT. Input timeouts (70) remain failures.
               if ((worker_status == 72)) && grep -Fq 'timeout: sending signal INT' "$work/fuzz-$worker.log"; then
-                echo "Fuzzer worker $worker reached its 20-minute budget"
+                echo "Fuzzer worker $worker reached its 35-minute process limit"
                 worker_status=0
               fi
               echo "Fuzzer worker $worker exited with status $worker_status"

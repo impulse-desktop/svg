@@ -76,7 +76,7 @@ jobs:
         with:
           shard: "4"
 
-  # The fuzzer runs in five jobs with a 20-minute budget, each from tst/fuzz
+  # The fuzzer runs in five jobs with a 30-minute budget, each from tst/fuzz
   # and its own 200 SVGs drawn at random from under tst.
 
   fuzz-0:
