@@ -122,7 +122,6 @@
             # under tst, the whole corpus among them, a different sample every
             # run; CI runs five such runs side by side. Inputs the run finds
             # interesting go to .build/fuzzing/new, crashes to .build/fuzzing.
-            # Each worker stops normally after a 20-minute time budget.
             root=$PWD
             work=$root/.build/fuzzing
             rm -rf "$work"
@@ -132,7 +131,40 @@
               ln -s "$file" "$work/seeds/''${relative//\//-}"
             done
             cd "$work"
-            exec "$root/.build/fuzz" -timeout=120 -max_total_time=1200 -jobs="$(nproc)" -workers="$(nproc)" "$work/new" "$root/tst/fuzz" "$work/seeds" "$@"
+
+            # libFuzzer checks max_total_time only after executing the seed
+            # corpus. Bound each worker from startup, including that phase.
+            # SIGINT uses libFuzzer's interrupt handler; preserve-status keeps
+            # real failures and forced kills distinct from a budget stop.
+            workers=$(nproc)
+            pids=()
+            trap 'jobs -pr | xargs -r kill' EXIT
+            trap 'exit 130' INT
+            trap 'exit 143' TERM
+            for ((worker = 0; worker < workers; worker++)); do
+              LC_ALL=C timeout --verbose --preserve-status --signal=INT --kill-after=30s 20m \
+                "$root/.build/fuzz" -timeout=120 -max_total_time=1200 \
+                -print_final_stats=1 "$work/new" "$root/tst/fuzz" "$work/seeds" "$@" \
+                > "$work/fuzz-$worker.log" 2>&1 &
+              pids+=("$!")
+            done
+            status=0
+            for worker in "''${!pids[@]}"; do
+              worker_status=0
+              wait "''${pids[$worker]}" || worker_status=$?
+              cat "$work/fuzz-$worker.log"
+              # 72 is libFuzzer's interrupt status, accepted only when our
+              # timer sent SIGINT. Input timeouts (70) remain failures.
+              if ((worker_status == 72)) && grep -Fq 'timeout: sending signal INT' "$work/fuzz-$worker.log"; then
+                echo "Fuzzer worker $worker reached its 20-minute budget"
+                worker_status=0
+              fi
+              echo "Fuzzer worker $worker exited with status $worker_status"
+              if ((worker_status != 0)); then
+                status=1
+              fi
+            done
+            exit "$status"
           '';
 
           commonNativeBuildInputs = [
