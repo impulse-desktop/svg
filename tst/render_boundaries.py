@@ -122,11 +122,12 @@ def cases():
     nested = '<clipPath id="a"><rect width="8" height="8"/><rect width="8" height="8"/></clipPath><clipPath id="b" clip-path="url(#a)"><rect width="8" height="8" clip-path="url(#base)"/></clipPath>'
     yield 'nested-clip-program', '<defs>' + clip + nested + '<clipPath id="c" clip-path="url(#b)"><rect width="8" height="8"/></clipPath></defs>' + RECT.replace('/>', ' clip-path="url(#c)"/>'), GREEN
 
-    # Finite input transforms can overflow their inverse or mapped vertices.
+    # Finite input transforms past a float's range: geometry kept in double
+    # keeps them, and the tiles, filled whole, still cover everything.
     for transform in ['scale(1e-40 1)', 'scale(1 1e-40)', 'translate(1e38 0) scale(1e-10 1)', 'translate(0 1e38) scale(1 1e-10)']:
-        yield 'pattern-' + transform, f'<defs><pattern id="p" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="{transform}">{RECT}</pattern></defs>' + RECT.replace('lime', 'url(#p)'), CLEAR
+        yield 'pattern-' + transform, f'<defs><pattern id="p" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="{transform}">{RECT}</pattern></defs>' + RECT.replace('lime', 'url(#p)'), GREEN
     stops = '<stop path="l 8 0" stop-color="lime"/><stop path="l 0 8" stop-color="lime"/><stop path="l -8 0" stop-color="lime"/><stop path="l 0 -8" stop-color="lime"/>'
-    for transform, visible in [('translate(1e20 0)', False), ('translate(-1e20 0)', False), ('translate(0 1e20)', False), ('translate(0 -1e20)', False), ('scale(1)', True), ('scale(1e20)', True), ('matrix(-1e20 0 0 1e20 8 0)', True), ('scale(1e38)', False)]:
+    for transform, visible in [('translate(1e20 0)', False), ('translate(-1e20 0)', False), ('translate(0 1e20)', False), ('translate(0 -1e20)', False), ('scale(1)', True), ('scale(1e20)', True), ('matrix(-1e20 0 0 1e20 8 0)', True), ('scale(1e38)', True)]:
         yield 'mesh-' + transform, f'<defs><meshgradient id="m" gradientUnits="userSpaceOnUse" gradientTransform="{transform}"><meshrow><meshpatch>{stops}</meshpatch></meshrow></meshgradient></defs>' + RECT.replace('lime', 'url(#m)'), GREEN if visible else CLEAR
 
     pattern = '<defs><pattern id="p" patternUnits="userSpaceOnUse" width="8" height="8">' + RECT + '</pattern></defs>'
@@ -154,10 +155,13 @@ def cases():
     yield 'tile-zero-area-tap', '<defs><filter id="f" filterUnits="userSpaceOnUse" x="3.1" y="3.000001" width="4" height=".000001"><feTile in="FillPaint"/></filter></defs><rect width="8" height="8" fill="none" transform="matrix(.3 .25 .1 .1 0 0)" filter="url(#f)"/>', CLEAR
     yield 'tile-wrapped-y-overflow', '<defs><filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="8" height="8"><feFlood y="-1.5e38" height="1" flood-opacity="0" result="far"/><feFlood y="0" height="8" flood-opacity="0" result="near"/><feMerge><feMergeNode in="far"/><feMergeNode in="near"/></feMerge><feTile/></filter></defs>' + RECT.replace('/>', ' transform="scale(1 3)" filter="url(#f)"/>'), CLEAR
     yield 'displacement-one-vanishing-axis', '<defs><filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="1e31" height="8"><feDisplacementMap scale="2"/></filter></defs><rect width="1e31" height="8" fill="lime" transform="scale(1e-30 1)" filter="url(#f)"/>', bytes((0, 255, 0, 255)) * 56 + bytes(32)
+    # 3e38 scaled by 1e-40 is .03 of a pixel: a sliver of lime, 8 of 255.
+    sliver = bytes((0, 255, 0, 8))
     for axis in ['x', 'y']:
         width, height = ('3e38', '8') if axis == 'x' else ('8', '3e38')
         scale = '1e-40 1' if axis == 'x' else '1 1e-40'
-        yield 'tile-inverse-overflow-' + axis, f'<defs><filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="{width}" height="{height}"><feFlood flood-color="lime"/><feTile/></filter></defs><rect width="{width}" height="{height}" transform="scale({scale})" filter="url(#f)"/>', CLEAR
+        drawn = b''.join(sliver if (x if axis == 'x' else y) == 0 else bytes(4) for y in range(SIDE) for x in range(SIDE))
+        yield 'tile-inverse-overflow-' + axis, f'<defs><filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="{width}" height="{height}"><feFlood flood-color="lime"/><feTile/></filter></defs><rect width="{width}" height="{height}" transform="scale({scale})" filter="url(#f)"/>', drawn
     for interpolation in ['sRGB', 'linearRGB']:
         yield 'displacement-map-' + interpolation, f'<defs><filter id="f" filterUnits="userSpaceOnUse" x="-8" y="-8" width="24" height="24"><feFlood flood-color="lime"/><feDisplacementMap in2="SourceGraphic" scale="0.01" color-interpolation-filters="{interpolation}"/></filter></defs>' + RECT.replace('/>', ' filter="url(#f)"/>'), GREEN
     for paint in ['FillPaint', 'StrokePaint']:
