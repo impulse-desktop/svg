@@ -2371,8 +2371,10 @@ namespace {
         Vector<ObjPool*> pools;
         Vector<const Op*> begins;
         // The coverage deltas of a fill's rows, 2^32 for a whole pixel,
-        // summed modulo 2^64.
+        // summed modulo 2^64, and for each row the cells written, from
+        // and to. Its reader leaves it zero for the next fill.
         Vector<u64> accumulation;
+        Vector<u32> reach;
         bool fullCoverage = false;
         // The backdrop a layer drawn apart inherits, which its own filters
         // read as their background.
@@ -2712,6 +2714,35 @@ namespace {
             for (int i = 0; i < 4; i++) {
                 dp[i] = saturate(sp[i] + div65535((u32)dp[i] * (65535u - sp[3])));
             }
+        }
+    }
+
+    // One colour over the destination at every pixel, as overSpan lays a
+    // span of it: copied where it is opaque, else each lane kept by the
+    // complement of its alpha.
+    static void colorSpan(u16* __restrict d, const u16* __restrict color, size_t count) {
+        if (color[3] == 65535) {
+            u16 pair[8];
+            size_t p = 0;
+
+            memcpy(pair, color, sizeof(u16) * 4);
+            memcpy(pair + 4, color, sizeof(u16) * 4);
+
+            for (; p + 2 <= count; p += 2) {
+                memcpy(d + p * 4, pair, sizeof(pair));
+            }
+
+            if (p < count) {
+                memcpy(d + p * 4, color, sizeof(u16) * 4);
+            }
+
+            return;
+        }
+
+        u32 keep = 65535u - color[3];
+
+        for (size_t i = 0; i < count * 4; i++) {
+            d[i] = saturate(color[i & 3] + div65535((u32)d[i] * keep));
         }
     }
 
@@ -24261,7 +24292,7 @@ namespace {
     // A row past rowWorkLimit, sampled on scanlines: sixteen where few
     // edges cross it, down to four for many. order holds the row's edges
     // and is left in the x order of its last scanline, then the rest.
-    static void sampleRow(u64* line, u32 w, const BandEdge* edges, Vector<u32>& order, float top, u8 rule, Vector<Crossing>& crossings, Vector<Crossing>& scratch, Vector<u32>& rest) {
+    static void sampleRow(u64* line, u32 w, const BandEdge* edges, Vector<u32>& order, float top, u8 rule, Vector<Crossing>& crossings, Vector<Crossing>& scratch, Vector<u32>& rest, float& low, float& high) {
         int subs = (int)minf(maxf(16384.f / (float)order.length(), 4.f), 16.f);
 
         for (int sub = 0; sub < subs; sub++) {
@@ -24279,6 +24310,8 @@ namespace {
                     start = c.x;
                 } else if (!insideWinding(winding, rule)) {
                     addSpan(line, w, start, c.x, ((i64)1 << 32) / subs);
+                    low = minf(low, start);
+                    high = maxf(high, c.x);
                 }
             }
 
@@ -24356,6 +24389,8 @@ namespace {
         Vector<SweepKey> keys;
         Vector<u32> group;
         Vector<u32> order;
+        float low;
+        float high;
     };
 
     // No edge: past either end of the order, or the block of an edge out
@@ -24550,6 +24585,8 @@ namespace {
     // where they meet there; they leave in the order at the bottom. False
     // past rowWorkLimit, the row part drawn.
     static bool sweepRow(u64* acc, u32 stride, u32 w, const BandEdge* edges, const Vector<u32>& carried, float top, float bottom, u8 rule, RowSweep& s) {
+        s.low = INFINITY;
+        s.high = -INFINITY;
         s.count.clear();
         s.chain.clear();
         s.rank.clear();
@@ -24640,6 +24677,8 @@ namespace {
                 float x1 = bandX(b, y);
 
                 addEdge(acc, stride, w, s.side[e] > 0 ? Edge{x0, s.from[e], x1, y} : Edge{x1, y, x0, s.from[e]});
+                s.low = minf(s.low, minf(x0, x1));
+                s.high = maxf(s.high, maxf(x0, x1));
             }
         };
 
@@ -25003,7 +25042,18 @@ namespace {
         return work <= rowWorkLimit;
     }
 
-    static void rasterizeUnion(u64* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
+    // The cells of a row that writes between x low and high reach, from
+    // and to: addLine and addSpan write the cell past the one an x is in.
+    static void rowReach(u32* reach, float low, float high, u32 w) {
+        if (!(low <= high)) {
+            return;
+        }
+
+        reach[0] = (u32)minf(maxf(floorf(low), 0.f), (float)w);
+        reach[1] = (u32)minf(maxf(floorf(high), 0.f), (float)w) + 2;
+    }
+
+    static void rasterizeUnion(u64* acc, u32* reach, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
         Vector<BandEdge> edges;
         // The band edges are built in place, counted into the rows they start
         // in, in the order they come within a row; an edge level in y is no
@@ -25149,6 +25199,8 @@ namespace {
                 scanCrossings(edges.data(), order, top + .5f, (float)w, crossings, scratch, rest);
                 i64 winding = 0;
                 u64* line = acc + (size_t)row * stride;
+                float low = INFINITY;
+                float high = -INFINITY;
 
                 for (const Crossing& c : crossings) {
                     bool before = insideWinding(winding, rule);
@@ -25158,11 +25210,15 @@ namespace {
                     bool after = insideWinding(winding, rule);
 
                     if (before != after) {
-                        u32 x = (u32)minf(maxf(floorf(c.x + .5f), 0.f), (float)w);
-                        line[x] += after ? 0x100000000ull : 0ull - 0x100000000ull;
+                        float x = minf(maxf(floorf(c.x + .5f), 0.f), (float)w);
+
+                        line[(u32)x] += after ? 0x100000000ull : 0ull - 0x100000000ull;
+                        low = minf(low, x);
+                        high = maxf(high, x);
                     }
                 }
 
+                rowReach(reach + (size_t)row * 2, low, high, w);
                 continue;
             }
 
@@ -25177,6 +25233,7 @@ namespace {
             order.append(sweep.order.data(), sweep.order.length());
 
             if (swept) {
+                rowReach(reach + (size_t)row * 2, sweep.low, sweep.high, w);
                 continue;
             }
 
@@ -25185,7 +25242,11 @@ namespace {
             memset(line, 0, ((size_t)w + 2) * sizeof(u64));
             order.clear();
             order.append(active.data(), active.length());
-            sampleRow(line, w, edges.data(), order, top, rule, crossings, scratch, rest);
+            float low = INFINITY;
+            float high = -INFINITY;
+
+            sampleRow(line, w, edges.data(), order, top, rule, crossings, scratch, rest, low, high);
+            rowReach(reach + (size_t)row * 2, low, high, w);
         }
     }
 
@@ -25209,9 +25270,15 @@ namespace {
 
         u32 stride = w + 2;
 
-        r.accumulation.zero((size_t)stride * h);
+        // Every reader leaves the accumulator zero, so it is only grown.
+        if (r.accumulation.length() < (size_t)stride * h) {
+            r.accumulation.zero((size_t)stride * h);
+        }
+
+        r.reach.zero((size_t)h * 2);
 
         u64* acc = r.accumulation.mutData();
+        u32* reach = r.reach.mutData();
 
         // Two opposed vertical edges enclose a rectangle. If it covers
         // every pixel of this clipped raster wholly, no edge sampling or
@@ -25224,13 +25291,14 @@ namespace {
 
                 line[0] = 0x100000000ull;
                 line[w] = 0ull - 0x100000000ull;
+                reach[y * 2 + 1] = w + 1;
             }
 
             return true;
         }
 
         if (!aliased || bands) {
-            rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule, bands, aliased);
+            rasterizeUnion(acc, reach, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule, bands, aliased);
 
             return true;
         }
@@ -25239,6 +25307,10 @@ namespace {
             Edge e = l.edges[i];
 
             addAliasedEdge(acc, stride, w, h, Edge{e.x0 - ix0, e.y0 - iy0, e.x1 - ix0, e.y1 - iy0});
+        }
+
+        for (u32 y = 0; y < h; y++) {
+            reach[y * 2 + 1] = w + 1;
         }
 
         return true;
@@ -25402,6 +25474,20 @@ namespace {
         }
     }
 
+    // One colour from x0 on row y over the current layer, within its box, as
+    // overLayer lays a span of it.
+    static void colorLayer(Raster& r, int x0, int y, const u16* color, int count) {
+        const Plane& plane = r.layers.back();
+        int a = x0 > plane.box.x0 ? x0 : plane.box.x0;
+        int b = x0 + count < plane.box.x1 ? x0 + count : plane.box.x1;
+
+        if (y < plane.box.y0 || y >= plane.box.y1 || b <= a) {
+            return;
+        }
+
+        colorSpan(planeAt(plane, a, y), color, (size_t)(b - a));
+    }
+
     // The rows a paint is sampled over: the two table entries around each
     // pixel's t and how far between them.
     struct PaintRows {
@@ -25540,11 +25626,13 @@ namespace {
             return emptyBox();
         }
 
-        const u64* acc = r.accumulation.data();
+        u64* acc = r.accumulation.mutData();
+        const u32* reach = r.reach.data();
         u32 stride = w + 2;
         const DevicePaint& paint = *op.paint;
         IntBox fill{(int)ix0, (int)iy0, (int)(ix0 + w), (int)(iy0 + h)};
         bool solid = paint.type == PaintType::Solid;
+        bool plain = solid && !op.linear;
         Vector<u16> cover;
         Vector<u16> colors;
         Vector<u16> source;
@@ -25562,7 +25650,16 @@ namespace {
             }
 
             for (u32 y = 0; y < h; y++) {
-                overLayer(r, (int)ix0, (int)(iy0 + y), source.data(), (int)w, op.linear);
+                u64* line = acc + (size_t)y * stride;
+
+                if (op.linear) {
+                    overLayer(r, (int)ix0, (int)(iy0 + y), source.data(), (int)w, true);
+                } else {
+                    colorLayer(r, (int)ix0, (int)(iy0 + y), paint.color16, (int)w);
+                }
+
+                line[0] = 0;
+                line[w] = 0;
             }
 
             return op.bounds;
@@ -25579,7 +25676,9 @@ namespace {
         for (u32 y = 0; y < h; y++) {
             u64 sum = 0;
             u16 c = 0;
-            const u64* line = acc + (size_t)y * stride;
+            u64* line = acc + (size_t)y * stride;
+            u32 lo = reach[y * 2];
+            u32 hi = reach[y * 2 + 1];
             u16* coverRow = cover.mutData();
             u32 count = 0;
             auto draw = [&](u32 end) {
@@ -25599,12 +25698,44 @@ namespace {
                 count = 0;
             };
 
-            for (u32 x = 0; x < w;) {
+            // Eight cells of full coverage of a solid paint in sRGB join a
+            // stretch that takes the colour as it is.
+            u32 whole = 0;
+            auto drawWhole = [&](u32 end) {
+                colorLayer(r, (int)(ix0 + end - whole), (int)(iy0 + y), paint.color16, (int)whole);
+                whole = 0;
+            };
+
+            // Only the cells written change the coverage; past them none
+            // ends the row. Each cell is left zero as it is read.
+            for (u32 x = lo; x < w;) {
+                if (x >= hi && c == 0) {
+                    break;
+                }
+
                 u32 end = x + 8 < w ? x + 8 : w;
+                u64 cells[8];
                 u64 change = 0;
+                const u64* block = cells - x;
 
                 for (u32 i = x; i < end; i++) {
+                    cells[i - x] = line[i];
                     change |= line[i];
+                    line[i] = 0;
+                }
+
+                if (change == 0 && c == 65535 && plain) {
+                    if (count) {
+                        draw(x);
+                    }
+
+                    whole += end - x;
+                    x = end;
+                    continue;
+                }
+
+                if (whole) {
+                    drawWhole(x);
                 }
 
                 if (change == 0) {
@@ -25621,7 +25752,7 @@ namespace {
                 }
 
                 for (; x < end; x++) {
-                    sum += line[x];
+                    sum += block[x];
                     c = (u16)coverStored(sum, op.rule);
                     coverRow[x] = c;
 
@@ -25633,9 +25764,17 @@ namespace {
                 }
             }
 
+            if (whole) {
+                drawWhole(w);
+            }
+
             if (count) {
                 draw(w);
             }
+
+            // The cells past the last pixel take what runs off the row.
+            line[w] = 0;
+            line[w + 1] = 0;
         }
 
         return op.bounds;
@@ -25659,23 +25798,31 @@ namespace {
             return;
         }
 
-        const u64* acc = r.accumulation.data();
+        u64* acc = r.accumulation.mutData();
+        const u32* reach = r.reach.data();
         u32 stride = w + 2;
         int width = box.x1 - box.x0;
 
-        // The raster's window lies within the box it was clipped to.
+        // The raster's window lies within the box it was clipped to. Only
+        // the cells written change the coverage; past them none ends the
+        // row.
         for (u32 y = 0; y < h; y++) {
             u64 sum = 0;
-            const u64* line = acc + (size_t)y * stride;
+            u16 cover = 0;
+            u64* line = acc + (size_t)y * stride;
+            u32 lo = reach[y * 2];
+            u32 hi = reach[y * 2 + 1];
             u16* values = target + (size_t)((int)(iy0 + y) - box.y0) * width + (size_t)((int)ix0 - box.x0);
 
-            for (u32 x = 0; x < w; x++) {
+            for (u32 x = lo; x < w && (x < hi || cover); x++) {
                 sum += line[x];
-
-                u16 cover = (u16)coverStored(sum, shape.rule);
-
+                line[x] = 0;
+                cover = (u16)coverStored(sum, shape.rule);
                 values[x] = values[x] > cover ? values[x] : cover;
             }
+
+            line[w] = 0;
+            line[w + 1] = 0;
         }
     }
 
