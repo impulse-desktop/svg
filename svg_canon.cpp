@@ -1494,10 +1494,9 @@ namespace {
         bool variables;
         size_t substitutionBudget;
         // How many elements a pass over the document may draw and measure,
-        // instances of a use, a marker or a pattern counted each time: each
-        // of its own nodes twice and 2^19 more, what a document instancing
-        // itself over and over runs out of, and no file drawn as written
-        // comes near.
+        // instances of a use, a marker or a pattern counted each time, by
+        // its source's length: what a document instancing itself over and
+        // over runs out of, and no file drawn as written comes near.
         size_t workBudget;
     };
 
@@ -12408,11 +12407,12 @@ namespace {
     // which on the inner side reaches back h times its turn past where the
     // curve's normals do. Near an end that would show behind the end's
     // normal, so there the span halves until h times its turn is within
-    // the room its distance from the end leaves, and the tolerance. Where
-    // the curve turns tighter than h its inner side runs through its
-    // points, and the normals turn round where they cross, which reaches
-    // back no further than the curve's own. No step need turn under the
-    // bound turn, where a stroke too wide for its tolerance stops.
+    // the room its distance from the end leaves, and the tolerance; where
+    // the curve turns tighter than h, its normals' inner ends run back
+    // themselves, and a point beside such a stretch turns its neighbour's
+    // chord too, so where it turns tighter than 2 h within 2 h of an end
+    // the room is none. No step need turn under the bound turn, where a
+    // stroke too wide for its tolerance stops.
     static void bendParameters(const Powers& q, double t0, double t1, double bend, const PieceEnds& ends, int depth, Vector<double>& out) {
         double angle = deviation(powerVelocity(q, t0), powerVelocity(q, t1));
         DPoint from = powerAt(q, t0);
@@ -12420,7 +12420,7 @@ namespace {
         double toA = ends.capA ? hypot(from.x - ends.a.x, from.y - ends.a.y) : INFINITY;
         double toB = ends.capB ? hypot(to.x - ends.b.x, to.y - ends.b.y) : INFINITY;
         bool tight = 2.0 * ends.half * angle > hypot(to.x - from.x, to.y - from.y);
-        double room = tight ? INFINITY : fmin(ends.openA * toA, ends.openB * toB);
+        double room = tight ? (fmin(toA, toB) < 2.0 * ends.half ? 0.0 : INFINITY) : fmin(ends.openA * toA, ends.openB * toB);
 
         // A bend past the numbers is no bend to halve.
         if (depth == 0 || !(angle > bend || (angle > ends.turn && ends.half * angle > room + ends.tol))) {
@@ -13018,6 +13018,21 @@ namespace {
         addPolygon(out, shape.data(), shape.length());
     }
 
+    // The sector the inner end of a stroke's normal sweeps at a smooth point
+    // p, as the outer end does from from through sweep, turned the way the
+    // outlines do; within the tolerance of its arc, a triangle.
+    static void addSector(Flat& out, const StrokeParams& s, Point p, float from, float sweep, bool arc) {
+        float start = sweep > 0.f ? from + pi : from + pi + sweep;
+
+        if (arc) {
+            addFan(out, p, s.half, start, fabsf(sweep), s.tol);
+        } else {
+            Point sector[3] = {p, Point{p.x + s.half * cosf(start), p.y + s.half * sinf(start)}, Point{p.x + s.half * cosf(start + fabsf(sweep)), p.y + s.half * sinf(start + fabsf(sweep))}};
+
+            addPolygon(out, sector, 3);
+        }
+    }
+
     // The points of the cap at the end p of a stroke going d, from its left
     // offset round to its right one.
     static void addCapPoints(Vector<Point>& out, const StrokeParams& s, Point p, Point d) {
@@ -13056,9 +13071,9 @@ namespace {
     // union and none outside: the nonzero rule fills exactly the union.
     // A cubic cusp that turns back sweeps a half-circle; a line corner
     // keeps its join. At a smooth point inside a curve, the stroke sweeps
-    // its normal round the turn: its outer end arcs whatever the join; where
-    // the inner offset edges do not cross, the inner side runs along the
-    // points and the normals' sweep there goes in polygons of its own.
+    // its normal round the turn: its outer end arcs whatever
+    // the join, and its inner end sweeps a sector of the same angle, a
+    // polygon of its own where the inner offset edges do not cross.
     static void strokePolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, size_t count, bool closed) {
         Vector<Point> pts;
         Vector<u8> kind;
@@ -13244,202 +13259,7 @@ namespace {
         bool keptInverted = false;
         Vector<Point> folds;
 
-        // A run of smooth points in a row whose inner side runs through
-        // each, all on one side. A segment's normal is the curve's at its
-        // anchor: its middle, or the end of a cubic whose tangent it takes
-        // there. From one anchor to the next the normal turns round where
-        // the two cross, not round the point between them as its sector
-        // does, which near an end would reach behind the end's normal: a
-        // triangle on the curve's side of the crossing and one beyond it,
-        // or a quad where they cross past the half width. The inner side
-        // runs along the points from the run's first anchor to its last,
-        // and the steps go in one polygon on the curve's side of their
-        // crossings and one beyond.
-        Vector<u32> run;
-        int runSide = 0;
-
-        auto addPositive = [&](Vector<Point>& shape) {
-            double area = 0.0;
-
-            for (size_t i = 0; i < shape.length(); i++) {
-                Point a = shape[i];
-                Point b = shape[(i + 1) % shape.length()];
-
-                area += (double)a.x * b.y - (double)a.y * b.x;
-            }
-
-            if (area < 0.0) {
-                for (size_t i = 0, j = shape.length() - 1; i < j; i++, j--) {
-                    Point t = shape[i];
-
-                    shape.mut(i) = shape[j];
-                    shape.mut(j) = t;
-                }
-            }
-
-            addPolygon(out, shape.data(), shape.length());
-        };
-
-        // The anchor of the segment from point i, clear of the cuts of its
-        // ends on the side. A closed polyline keeps its inner side on its
-        // offset (D49), so runs are of an open one's inner points; a segment
-        // of one is smooth at an end, and at the other a corner only where
-        // it is a cubic's first or last and takes the tangent there.
-        auto anchorOf = [&](size_t i, int inner) {
-            size_t next = i + 1;
-            float at = (kind[i] == PointCorner ? 0.f : (kind[next] == PointCorner ? 1.f : 0.5f)) * lengths[i];
-
-            if (inners[i] == inner && cuts[i] >= 0.f) {
-                at = fmaxf(at, cuts[i]);
-            }
-
-            if (inners[next] == inner && cuts[next] >= 0.f) {
-                at = fminf(at, lengths[i] - cuts[next]);
-            }
-
-            Point a = pts[i];
-            Point b = pts[next];
-            float t = fminf(fmaxf(at / lengths[i], 0.f), 1.f);
-
-            return t <= 0.f ? a : (t >= 1.f ? b : Point{a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t});
-        };
-
-        auto flushRun = [&]() {
-            size_t m = run.length();
-
-            if (m == 0) {
-                return;
-            }
-
-            float side = runSide == 0 ? -1.f : 1.f;
-            // The run's anchors, the segments' inward normals there and
-            // their far ends, one more than its points.
-            Vector<Point> anchors;
-            Vector<Point> normals;
-            Vector<Point> fars;
-
-            for (size_t i = 0; i <= m; i++) {
-                size_t segment = i < m ? run[i] - 1 : run[m - 1];
-                Point d = dirs[segment];
-                Point a = anchorOf(segment, runSide);
-
-                anchors.pushBack(a);
-                normals.pushBack(Point{d.y * side, -d.x * side});
-                fars.pushBack(offset(a, d, -side));
-            }
-
-            // Each step's normals cross where each has gone ta and tb from its
-            // anchor, past the half width where they do not; the point
-            // between turns them, never along a line.
-            Vector<float> tas;
-            Vector<float> tbs;
-            Vector<Point> crossings;
-            Vector<u8> crossed;
-
-            for (size_t i = 0; i < m; i++) {
-                Point a = anchors[i];
-                Point b = anchors[i + 1];
-                Point na = normals[i];
-                Point nb = normals[i + 1];
-                float denom = na.x * nb.y - na.y * nb.x;
-                float ex = b.x - a.x;
-                float ey = b.y - a.y;
-                float ta = (ex * nb.y - ey * nb.x) / denom;
-                float tb = (ex * na.y - ey * na.x) / denom;
-                bool cross = (fminf(ta, tb) > 0.f) & (fmaxf(ta, tb) < s.half);
-
-                tas.pushBack(ta);
-                tbs.pushBack(tb);
-                crossed.pushBack(cross);
-                crossings.pushBack(cross ? Point{a.x + na.x * ta, a.y + na.y * ta} : Point{0.f, 0.f});
-            }
-
-            Vector<Point> shape;
-
-            // The crossings on a normal of the steps either side lie about
-            // where it touches the curve of the centres, the normals'
-            // envelope, which keeps inside a step's crossing between the
-            // touching points, where its triangles leave out what the
-            // normals between sweep: a wedge of its own, the curve's middle
-            // halfway from the touching points' middle to the crossing, as
-            // a parabola's. A normal touches halfway between its crossings,
-            // within the half width; the run's first and last at their one.
-            // Crossings that degenerate floats put at no distance or none
-            // leave it at its anchor.
-            auto touching = [&](size_t j) {
-                float e = j == 0 ? tas[0] : (j == m ? tbs[m - 1] : fminf(fmaxf((tbs[j - 1] + tas[j]) / 2.f, 0.f), s.half));
-
-                return Point{anchors[j].x + normals[j].x * e, anchors[j].y + normals[j].y * e};
-            };
-
-            for (size_t i = 0; i < m; i++) {
-                if (!crossed[i]) {
-                    continue;
-                }
-
-                Point y = crossings[i];
-                Point a = touching(i);
-                Point b = touching(i + 1);
-
-                shape.clear();
-                shape.pushBack(a);
-                shape.pushBack(y);
-                shape.pushBack(b);
-                shape.pushBack(Point{(y.x + (a.x + b.x) / 2.f) / 2.f, (y.y + (a.y + b.y) / 2.f) / 2.f});
-                addPositive(shape);
-            }
-
-            for (size_t i = 0; i < m;) {
-                size_t e = i;
-
-                while (e + 1 < m && crossed[e + 1] == crossed[i]) {
-                    e++;
-                }
-
-                shape.clear();
-                shape.pushBack(anchors[i]);
-
-                for (size_t j = i; j <= e; j++) {
-                    shape.pushBack(pts[run[j]]);
-                    shape.pushBack(anchors[j + 1]);
-                }
-
-                if (crossed[i]) {
-                    for (size_t j = e + 1; j > i; j--) {
-                        shape.pushBack(crossings[j - 1]);
-                    }
-
-                    addPositive(shape);
-                    shape.clear();
-                    shape.pushBack(crossings[i]);
-
-                    for (size_t j = i; j <= e + 1; j++) {
-                        shape.pushBack(fars[j]);
-                    }
-
-                    for (size_t j = e + 1; j > i + 1; j--) {
-                        shape.pushBack(crossings[j - 1]);
-                    }
-                } else {
-                    for (size_t j = e + 2; j > i; j--) {
-                        shape.pushBack(fars[j - 1]);
-                    }
-                }
-
-                addPositive(shape);
-                i = e + 1;
-            }
-
-            run.clear();
-        };
-
         auto turn = [&](size_t k, size_t in, size_t next) {
-            bool adjacent = run.length() && run.back() + 1 == k;
-
-            if (!adjacent) {
-                flushRun();
-            }
-
             Point p = pts[k];
             Point d0 = dirs[in];
             Point d1 = dirs[next];
@@ -13539,42 +13359,18 @@ namespace {
                 return;
             }
 
-            if (kind[k] == PointSmooth) {
-                // The inner side goes in at the run's first anchor and along
-                // its points, out at the anchor after the last so far.
-                if (adjacent && runSide == inner) {
-                    sides[inner].popBack();
-                    sides[inner].popBack();
-                } else {
-                    Point a = anchorOf(in, inner);
-
-                    flushRun();
-                    runSide = inner;
-                    sides[inner].popBack();
-                    sides[inner].pushBack(offset(a, d0, -side));
-                    sides[inner].pushBack(a);
-                }
-
-                Point a = anchorOf(next, inner);
-
-                run.pushBack((u32)k);
-                sides[inner].pushBack(p);
-                sides[inner].pushBack(a);
-                sides[inner].pushBack(offset(a, d1, -side));
-
-                return;
-            }
-
             sides[inner].pushBack(p);
             sides[inner].pushBack(offset(p, d1, -side));
+
+            if (kind[k] == PointSmooth) {
+                addSector(out, s, p, from, sweep, arc);
+            }
         };
 
         // Turns at the inner points, and for a closed polyline at its first.
         for (size_t k = closed ? 0 : 1; k < (closed ? n : n - 1); k++) {
             turn(k, k == 0 ? segments - 1 : k - 1, k);
         }
-
-        flushRun();
 
         Vector<Point> outline;
 
@@ -29835,9 +29631,9 @@ namespace {
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
+        doc.workBudget = ((size_t)1 << 14) + 32 * source.length();
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
-        doc.workBudget = ((size_t)1 << 19) + 2 * (size_t)doc.nodeCount;
     }
 
     // A pass over a cascaded document, out of a pool of its own.
