@@ -25716,7 +25716,7 @@ namespace {
                 u32 end = x + 8 < w ? x + 8 : w;
                 u64 cells[8];
                 u64 change = 0;
-                const u64* block = cells - x;
+                u32 first = x;
 
                 for (u32 i = x; i < end; i++) {
                     cells[i - x] = line[i];
@@ -25752,7 +25752,7 @@ namespace {
                 }
 
                 for (; x < end; x++) {
-                    sum += block[x];
+                    sum += cells[x - first];
                     c = (u16)coverStored(sum, op.rule);
                     coverRow[x] = c;
 
