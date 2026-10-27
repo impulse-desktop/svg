@@ -79,13 +79,6 @@ namespace {
         r = t;
     }
 
-    static void xchg(float& l, float& r) noexcept {
-        float t = l;
-
-        l = r;
-        r = t;
-    }
-
     template <typename T>
     auto destruct(T* t) {
         return (t->~T(), t);
@@ -24084,321 +24077,13 @@ namespace {
         return rule == WindingEvenOdd ? (winding & 1) != 0 : winding != 0;
     }
 
-    // Reuse these levels between bands; deeper intersection trees own scratch.
-    constexpr int bandCacheLevels = 8;
-
-    // The samples a row's exact bands may visit, over twice what the most
-    // crowded row of the corpus takes at its smaller size, 872 349. Edges
-    // that keep crossing, tens of thousands of overlapping dots in one
-    // fill, would split bands without end in effect; past this a row is
-    // sampled.
-    constexpr size_t bandWorkLimit = (size_t)1 << 21;
-
-    struct BandSample {
-        float x0;
-        float x1;
-        double key;
-        i64 dir;
-        u32 order;
-        u32 edge;
-    };
-
-    // With a NaN key, insertion comparisons cannot cross that sample, and
-    // equal numeric keys keep their input order. Sort each numeric run by
-    // key and original index to preserve exactly that recovery in bounded
-    // time, including after a prefix has already been inserted into place.
-    static void sortBandRuns(BandSample* data, size_t count) {
-        Vector<u32> order;
-        Vector<BandSample> sorted;
-
-        order.zero(count);
-        sorted.zero(count);
-
-        for (size_t i = 0; i < count; i++) {
-            order.mutData()[i] = (u32)i;
-        }
-
-        for (size_t begin = 0; begin < count;) {
-            if (data[begin].key != data[begin].key) {
-                begin++;
-                continue;
-            }
-
-            size_t end = begin + 1;
-
-            while (end < count && data[end].key == data[end].key) {
-                end++;
-            }
-
-            quickSort(order.mutData() + begin, order.mutData() + end, [&](u32 a, u32 b) {
-                return data[a].key < data[b].key || (data[a].key == data[b].key && a < b);
-            });
-
-            begin = end;
-        }
-
-        for (size_t i = 0; i < count; i++) {
-            sorted.mutData()[i] = data[order[i]];
-        }
-
-        memcpy(data, sorted.data(), count * sizeof(BandSample));
-    }
-
-    static void xchg(BandEdge& l, BandEdge& r) noexcept {
-        BandEdge t = l;
-
-        l = r;
-        r = t;
-    }
-
-    static void xchg(BandSample& l, BandSample& r) noexcept {
-        BandSample t = l;
-
-        l = r;
-        r = t;
-    }
-
-    // Adjacent bands share an endpoint. Reuse its original interpolation,
-    // without changing bandX or the cuts used by recursive crossing splits.
-    struct BandEndpoint {
-        float y;
-        float x;
-        bool valid;
-    };
-
-    // The samples of a band: the edges spanning it in the order given, with
-    // the x where each enters, leaves and crosses the middle, and the place
-    // of each in the active list. Both callers cut at every endpoint and
-    // retain only active edges, so each supplied edge spans the whole band.
-    static bool bandSamples(const BandEdge* edges, const Vector<u32>& order, const Vector<u32>& position, float a, float b, Vector<BandSample>& samples, Vector<BandEndpoint>& endpoints) {
-        bool comparable = true;
-
-        samples.clear();
-
-        for (u32 index : order) {
-            const BandEdge& e = edges[index];
-
-            BandEndpoint& previous = endpoints.mut(index);
-            float x0 = previous.valid && previous.y == a ? previous.x : bandX(e, a);
-            float x1 = bandX(e, b);
-            previous = BandEndpoint{b, x1, true};
-            double key = ((double)x0 + x1) * 0.5;
-
-            comparable = comparable && key == key;
-            samples.pushBack(BandSample{x0, x1, key, e.dir, position[index], index});
-        }
-
-        return comparable;
-    }
-
-    // Evaluate one side of a split on the original edges. Endpoint means
-    // give consistent middle keys even when a crossing lies near a float cut.
-    static void splitBandSamples(const BandEdge* edges, const BandSample* whole, size_t count, float a, float b, bool top, Vector<BandSample>& samples) {
-        float cut = top ? b : a;
-
-        samples.clear();
-
-        for (size_t i = 0; i < count; i++) {
-            const BandSample& s = whole[i];
-
-            float at = bandX(edges[s.edge], cut);
-            float x0 = top ? s.x0 : at;
-            float x1 = top ? at : s.x1;
-            samples.pushBack(BandSample{x0, x1, ((double)x0 + x1) * 0.5, s.dir, s.order, s.edge});
-        }
-    }
-
-    // Resolve winding on intervals bounded by crossings. A group is separate
-    // only when no later edge reaches into it at either endpoint. The crossing
-    // nearest the middle is between adjacent middle samples; split there until
-    // the order is fixed or no interior float cut can represent a crossing.
-    static void unionBand(u64* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding, size_t& work, Vector<BandSample>* extra = nullptr) {
-        Vector<BandSample>& band = depth < bandCacheLevels ? samples[depth] : *extra;
-
-        work += band.length();
-
-        if (band.empty() || work > bandWorkLimit) {
-            return;
-        }
-
-        // Samples sort by their keys, equal keys by the order of their edges
-        // in the active list. A whole band comes in the order of the band
-        // before and a half band in the order of the whole, nearly sorted, so
-        // the insertion sort is about linear; a band that moves them far is
-        // sorted outright. A key that is not a number stops the insertion
-        // sort where it stands, so that sort runs over the order of the
-        // active list, which the samples take first.
-        BandSample* sorted = band.mutData();
-        size_t count = band.length();
-        size_t moves = 0;
-
-        if (!comparable) {
-            quickSort(sorted, sorted + count, [](const BandSample& p, const BandSample& q) {
-                return p.order < q.order;
-            });
-        }
-
-        for (size_t i = 1; i < count; i++) {
-            BandSample sample = sorted[i];
-            size_t k = i;
-
-            while (k > 0 && (sorted[k - 1].key > sample.key || (comparable && sorted[k - 1].key == sample.key && sorted[k - 1].order > sample.order))) {
-                sorted[k] = sorted[k - 1];
-                k--;
-            }
-
-            sorted[k] = sample;
-            moves += i - k;
-
-            if (moves > 8 * count + 64) {
-                if (comparable) {
-                    quickSort(sorted, sorted + count, [](const BandSample& p, const BandSample& q) {
-                        return p.key < q.key || (p.key == q.key && p.order < q.order);
-                    });
-                } else {
-                    sortBandRuns(sorted, count);
-                }
-
-                break;
-            }
-        }
-
-        float mid = (a + b) * 0.5f;
-        bool canSplit = a < mid && mid < b;
-        bool finite = comparable;
-
-        for (size_t i = 0; i < count; i++) {
-            finite = finite && isfinite(sorted[i].x0) && isfinite(sorted[i].x1);
-        }
-
-        struct EndpointMinimum {
-            float x0;
-            float x1;
-        };
-
-        Vector<EndpointMinimum> minima;
-        bool crossing = false;
-
-        if (finite && canSplit) {
-            for (size_t i = 1; i < count; i++) {
-                if (sorted[i - 1].x0 > sorted[i].x0 || sorted[i - 1].x1 > sorted[i].x1) {
-                    crossing = true;
-                    break;
-                }
-            }
-        }
-
-        // A later edge can cross past more than its immediate neighbour.
-        // Suffix minima close the whole interacting group before it is painted.
-        if (crossing) {
-            minima.zero(count);
-            float x0 = sorted[count - 1].x0;
-            float x1 = sorted[count - 1].x1;
-
-            for (size_t i = count; i > 0; i--) {
-                x0 = minf(x0, sorted[i - 1].x0);
-                x1 = minf(x1, sorted[i - 1].x1);
-                minima.mutData()[i - 1] = EndpointMinimum{x0, x1};
-            }
-        }
-
-        float reach0 = sorted[0].x0;
-        float reach1 = sorted[0].x1;
-
-        for (size_t k = 0; k < count;) {
-            size_t end = k + 1;
-
-            while (end < count && (finite ? (reach0 > (crossing ? minima[end].x0 : sorted[end].x0) || reach1 > (crossing ? minima[end].x1 : sorted[end].x1)) : (reach0 > sorted[end].x0 + 1.f / 64.f || reach1 > sorted[end].x1 + 1.f / 64.f))) {
-                reach0 = maxf(reach0, sorted[end].x0);
-                reach1 = maxf(reach1, sorted[end].x1);
-                end++;
-            }
-
-            bool interior = false;
-            i64 after = winding;
-
-            // If even an arbitrary reordering cannot reach zero winding,
-            // these internal edges cannot change the filled area.
-            if (finite && winding && rule == WindingNonZero && end - k > 1) {
-                i64 low = winding;
-                i64 high = winding;
-
-                for (size_t i = k; i < end; i++) {
-                    i64 dir = sorted[i].dir;
-                    low += dir < 0 ? dir : 0;
-                    high += dir > 0 ? dir : 0;
-                    after += dir;
-                }
-
-                interior = low > 0 || high < 0;
-            }
-
-            if (interior) {
-                winding = after;
-            } else {
-                float cut = mid;
-                // Preserve the established recovery of nonfinite lowerings.
-                bool divide = end - k > 1 && canSplit && !finite && depth < 6;
-
-                if (end - k > 1 && canSplit && finite) {
-                    double middle = ((double)a + b) * 0.5;
-                    double closest = (double)b - a;
-
-                    for (size_t i = k + 1; i < end; i++) {
-                        double first = (double)sorted[i - 1].x0 - sorted[i].x0;
-                        double last = (double)sorted[i - 1].x1 - sorted[i].x1;
-
-                        // Ends in opposite orders cross between.
-                        if (first * last < 0.0) {
-                            double y = (double)a + ((double)b - a) * first / (first - last);
-                            float candidate = (float)y;
-                            double distance = fabs(y - middle);
-
-                            if (a < candidate && candidate < b && distance < closest) {
-                                closest = distance;
-                                cut = candidate;
-                                divide = true;
-                            }
-                        }
-                    }
-                }
-
-                if (divide) {
-                    Vector<BandSample> overflow;
-                    Vector<BandSample>& half = depth + 1 < bandCacheLevels ? samples[depth + 1] : overflow;
-
-                    splitBandSamples(edges, sorted + k, end - k, a, cut, true, half);
-                    unionBand(acc, stride, w, edges, samples, a, cut, rule, depth + 1, true, winding, work, &half);
-                    splitBandSamples(edges, sorted + k, end - k, cut, b, false, half);
-                    unionBand(acc, stride, w, edges, samples, cut, b, rule, depth + 1, true, winding, work, &half);
-
-                    for (size_t i = k; i < end; i++) {
-                        winding += sorted[i].dir;
-                    }
-                } else {
-                    for (size_t i = k; i < end; i++) {
-                        const BandSample& sample = sorted[i];
-                        bool before = insideWinding(winding, rule);
-
-                        winding += sample.dir;
-
-                        bool after = insideWinding(winding, rule);
-
-                        if (before != after) {
-                            addEdge(acc, stride, w, after ? Edge{sample.x0, a, sample.x1, b} : Edge{sample.x1, b, sample.x0, a});
-                        }
-                    }
-                }
-            }
-
-            if (end < count) {
-                reach0 = maxf(reach0, sorted[end].x0);
-                reach1 = maxf(reach1, sorted[end].x1);
-            }
-
-            k = end;
-        }
-    }
+    // The steps a row's sweep may take, its events, the edges they move or
+    // pass and the sorts of them, over three times what the most crowded
+    // row of the corpus takes drawn at the size of its references,
+    // 571 533. Edges that keep crossing, tens of thousands of overlapping
+    // dots in one fill, would cross without end in effect; past this a row
+    // is sampled.
+    constexpr size_t rowWorkLimit = (size_t)1 << 21;
 
     struct Crossing {
         float x;
@@ -24512,395 +24197,34 @@ namespace {
         sortCrossings(crossings, width, scratch);
     }
 
-    static bool edgeBefore(const BandEdge& p, const BandEdge& q) {
-        if (p.y0 != q.y0) {
-            return p.y0 < q.y0;
-        }
-
-        if (p.x0 != q.x0) {
-            return p.x0 < q.x0;
-        }
-
-        if (p.y1 != q.y1) {
-            return p.y1 < q.y1;
-        }
-
-        return p.x1 < q.x1 || (p.x1 == q.x1 && p.dir < q.dir);
-    }
-
     // Whether an edge of the lowering spans rows, not level in y nor of a
     // y that is not a number.
     static bool spansRows(const Edge& e) {
         return e.y0 < e.y1 || e.y1 < e.y0;
     }
 
+    // A coordinate past the floats as the largest float of its sign: an
+    // edge to it runs as far within the raster, and the sweep can take it.
+    // One that is not a number goes far left.
+    static float bandCoordinate(float v) {
+        constexpr float limit = 3.40282347e38f;
+
+        return v > -limit ? minf(v, limit) : -limit;
+    }
+
     // The band edge of an edge of the lowering, its ends in order of y and
     // its direction kept, in the raster's coordinates.
     static BandEdge bandEdge(Edge e, float ox, float oy) {
+        float x0 = bandCoordinate(e.x0 - ox);
+        float y0 = bandCoordinate(e.y0 - oy);
+        float x1 = bandCoordinate(e.x1 - ox);
+        float y1 = bandCoordinate(e.y1 - oy);
+
         if (e.y0 < e.y1) {
-            return BandEdge{e.x0 - ox, e.y0 - oy, e.x1 - ox, e.y1 - oy, 1};
+            return BandEdge{x0, y0, x1, y1, 1};
         }
 
-        return BandEdge{e.x1 - ox, e.y1 - oy, e.x0 - ox, e.y0 - oy, -1};
-    }
-
-    struct BandEvent {
-        float y;
-        i64 change;
-    };
-
-    // Stable byte passes preserve equal keys; an even count leaves the result
-    // in items. Float keys also order finite negative coordinates and zeros.
-    template <int Passes, class T, class Key>
-    static void sortBandKeys(Vector<T>& items, Vector<T>& scratch, Key key) {
-        static_assert(Passes % 2 == 0);
-        size_t count = items.length();
-
-        if (count < 2) {
-            return;
-        }
-
-        scratch.zero(count);
-        T* data = items.mutData();
-        T* target = scratch.mutData();
-
-        for (int pass = 0; pass < Passes; pass++) {
-            size_t counts[256] = {};
-            for (size_t i = 0; i < count; i++) {
-                counts[key(data[i], pass)]++;
-            }
-            size_t start = 0;
-            for (size_t i = 0; i < 256; i++) {
-                size_t n = counts[i];
-                counts[i] = start;
-                start += n;
-            }
-            for (size_t i = 0; i < count; i++) {
-                target[counts[key(data[i], pass)]++] = data[i];
-            }
-            T* temporary = data;
-            data = target;
-            target = temporary;
-        }
-    }
-
-    static u32 bandKey(float value, int pass) {
-        u32 bits;
-        memcpy(&bits, &value, sizeof(bits));
-        bits = value == 0.f ? 0u : bits;
-        bits = bits & 0x80000000u ? ~bits : bits ^ 0x80000000u;
-        return (bits >> (8 * (pass & 3))) & 255u;
-    }
-
-    struct BandRowScratch {
-        Vector<float> cuts;
-        Vector<BandEvent> endpoints;
-        Vector<BandEvent> sorting;
-        Vector<u32> order;
-        Vector<u32> position;
-        Vector<BandSample> samples[bandCacheLevels];
-        Vector<BandEndpoint> values;
-    };
-
-    static bool bandWorkExceeds(const BandEdge* edges, const Vector<u32>& indices, const Vector<float>& cuts, size_t cutCount, float top, float bottom) {
-        constexpr size_t limit = 8192;
-        size_t work = 0;
-        auto cutIndex = [&](float y) {
-            size_t lo = 0;
-            size_t hi = cutCount - 1;
-
-            while (lo < hi) {
-                size_t mid = lo + (hi - lo) / 2;
-
-                if (cuts[mid] < y) {
-                    lo = mid + 1;
-                } else {
-                    hi = mid;
-                }
-            }
-
-            return lo;
-        };
-
-        for (u32 index : indices) {
-            const BandEdge& e = edges[index];
-            size_t n = cutIndex(minf(bottom, e.y1)) - cutIndex(maxf(top, e.y0));
-
-            if (n > limit - work) {
-                return true;
-            }
-
-            work += n;
-        }
-
-        return false;
-    }
-
-    static void prepareBandRow(const Vector<BandEdge>& edges, BandRowScratch& scratch) {
-        Vector<float>& cuts = scratch.cuts;
-        Vector<BandEvent>& endpoints = scratch.endpoints;
-        endpoints.clear();
-        cuts.clear();
-        endpoints.pushBack(BandEvent{0.f, 0});
-        endpoints.pushBack(BandEvent{1.f, 0});
-
-        for (const BandEdge& edge : edges) {
-            endpoints.pushBack(BandEvent{edge.y0, 1});
-            endpoints.pushBack(BandEvent{edge.y1, -1});
-        }
-
-        sortBandKeys<4>(endpoints, scratch.sorting, [](const BandEvent& e, int pass) {
-            return bandKey(e.y, pass);
-        });
-
-        for (const BandEvent& event : endpoints) {
-            if (cuts.empty() || event.y > cuts.back()) {
-                cuts.pushBack(event.y);
-            }
-        }
-    }
-
-    static bool boundaryBandWindow(const Vector<BandEdge>& edges, float left, float right) {
-        for (const BandEdge& edge : edges) {
-            if (edge.x0 != edge.x1 || (edge.x0 != left && edge.x0 != right)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    // Integrate one transposed pixel from all of its endpoint intervals.
-    // Keep raw coverage fractions until the complete pixel has been summed.
-    static void rasterizeBandRow(u64* output, u32 width, Vector<BandEdge>& edges, u8 rule, float left, float right, BandRowScratch& scratch, size_t& work) {
-        if (edges.empty()) {
-            return;
-        }
-
-        if (boundaryBandWindow(edges, left, right)) {
-            Vector<BandEvent>& changes = scratch.endpoints;
-            changes.clear();
-
-            for (const BandEdge& edge : edges) {
-                if (edge.x0 == left) {
-                    changes.pushBack(BandEvent{edge.y0, edge.dir});
-                    changes.pushBack(BandEvent{edge.y1, -edge.dir});
-                }
-            }
-
-            if (changes.empty()) {
-                return;
-            }
-
-            sortBandKeys<4>(changes, scratch.sorting, [](const BandEvent& e, int pass) {
-                return bandKey(e.y, pass);
-            });
-
-            i64 winding = 0;
-            float previous = changes[0].y;
-            double height = 0.0;
-
-            for (const BandEvent& event : changes) {
-                if (insideWinding(winding, rule)) {
-                    height += (double)event.y - previous;
-                }
-
-                winding += event.change;
-                previous = event.y;
-            }
-
-            addEdge(output, width + 2, width, Edge{left, 0.f, left, (float)height});
-            addEdge(output, width + 2, width, Edge{right, (float)height, right, 0.f});
-
-            return;
-        }
-
-        prepareBandRow(edges, scratch);
-        const Vector<float>& cuts = scratch.cuts;
-
-        size_t cutCount = cuts.length();
-
-        quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
-
-        Vector<u32>& order = scratch.order;
-        Vector<u32>& position = scratch.position;
-        Vector<BandSample>* samples = scratch.samples;
-        size_t next = 0;
-        order.clear();
-
-        position.zero(edges.length());
-        // Sorting a transposed pixel gives its edges new indices.
-        scratch.values.zero(edges.length());
-
-        for (size_t i = 0; i < edges.length(); i++) {
-            position.mut(i) = (u32)i;
-        }
-
-        for (size_t i = 0; i + 1 < cutCount && work <= bandWorkLimit; i++) {
-            float a = cuts[i];
-            float b = cuts[i + 1];
-            size_t kept = 0;
-
-            for (u32 index : order) {
-                if (edges[index].y1 > a) {
-                    order.mutData()[kept++] = index;
-                }
-            }
-
-            while (order.length() > kept) {
-                order.popBack();
-            }
-
-            while (next < edges.length() && edges[next].y0 <= a) {
-                order.pushBack((u32)next++);
-            }
-
-            bool comparable = bandSamples(edges.data(), order, position, a, b, samples[0], scratch.values);
-
-            unionBand(output, width + 2, width, edges.data(), samples, a, b, rule, 0, comparable, 0, work);
-            order.clear();
-
-            for (const BandSample& sample : samples[0]) {
-                order.pushBack(sample.edge);
-            }
-        }
-    }
-
-    struct RowVertex {
-        float x;
-        float y;
-        i64 change;
-    };
-
-    // The vertical edges also determine the omitted horizontal edges: at
-    // every height their endpoint flows close uniquely from left to right.
-    // Close them before transposing the row, including its clipping edges.
-    static void rasterizeTransposedRow(u64* output, u32 width, const Vector<BandEdge>& edges, u8 rule, size_t& work) {
-        Vector<BandEdge> transposed;
-        Vector<RowVertex> vertices;
-        auto transpose = [&](float x0, float y0, float x1, float y1, i64 dir) {
-            if (x0 < x1) {
-                transposed.pushBack(BandEdge{y0, x0, y1, x1, dir});
-            } else if (x1 < x0) {
-                transposed.pushBack(BandEdge{y1, x1, y0, x0, -dir});
-            }
-        };
-
-        for (const BandEdge& e : edges) {
-            transpose(e.x0, e.y0, e.x1, e.y1, e.dir);
-            vertices.pushBack(RowVertex{e.x0, e.y0, -e.dir});
-            vertices.pushBack(RowVertex{e.x1, e.y1, e.dir});
-        }
-
-        Vector<RowVertex> vertexScratch;
-        sortBandKeys<8>(vertices, vertexScratch, [](const RowVertex& v, int pass) {
-            return bandKey(pass < 4 ? v.x : v.y, pass);
-        });
-
-        float x = 0.f;
-        float y = -1.f;
-        i64 winding = 0;
-
-        for (const RowVertex& vertex : vertices) {
-            if (vertex.y != y) {
-                y = vertex.y;
-                winding = 0;
-            } else if (winding && x < vertex.x) {
-                transpose(x, y, vertex.x, y, winding);
-            }
-
-            x = vertex.x;
-            winding += vertex.change;
-        }
-
-        Vector<BandEdge> edgeScratch;
-        sortBandKeys<4>(transposed, edgeScratch, [](const BandEdge& e, int pass) {
-            return bandKey(e.y0, pass);
-        });
-
-        Vector<u32> active;
-        size_t next = 0;
-        u64 previous = 0;
-        Vector<BandEdge> pixel;
-        BandRowScratch scratch;
-
-        for (u32 column = 0; column < width && work <= bandWorkLimit; column++) {
-            float top = (float)column;
-            float bottom = (float)(column + 1);
-            size_t kept = 0;
-
-            for (u32 index : active) {
-                if (transposed[index].y1 > top) {
-                    active.mutData()[kept++] = index;
-                }
-            }
-
-            while (active.length() > kept) {
-                active.popBack();
-            }
-
-            while (next < transposed.length() && transposed[next].y0 < bottom) {
-                if (transposed[next].y1 > top) {
-                    active.pushBack((u32)next);
-                }
-
-                next++;
-            }
-
-            pixel.clear();
-
-            for (u32 index : active) {
-                const BandEdge& e = transposed[index];
-                float a = maxf(top, e.y0);
-                float b = minf(bottom, e.y1);
-                pixel.pushBack(BandEdge{bandX(e, a), a - top, bandX(e, b), b - top, e.dir});
-            }
-
-            u64 area[3] = {};
-            rasterizeBandRow(area, 1, pixel, rule, 0.f, 1.f, scratch, work);
-            output[column] += area[0] - previous;
-            previous = area[0];
-        }
-
-        output[width] -= previous;
-    }
-
-    // Exact coincident boundaries contribute the sum of their signed winding.
-    // Directions already include the independent stroke-band weights below.
-    static void mergeBandEdges(Vector<BandEdge>& edges) {
-        // Preserve the existing unordered recovery path for nonfinite edges.
-        for (const BandEdge& e : edges) {
-            if (!isfinite(e.x0) || !isfinite(e.y0) || !isfinite(e.x1) || !isfinite(e.y1)) {
-                return;
-            }
-        }
-
-        Vector<BandEdge> scratch;
-        sortBandKeys<16>(edges, scratch, [](const BandEdge& e, int pass) {
-            float value = pass < 4 ? e.x1 : (pass < 8 ? e.y1 : (pass < 12 ? e.x0 : e.y0));
-            return bandKey(value, pass);
-        });
-
-        size_t kept = 0;
-        for (size_t first = 0; first < edges.length();) {
-            BandEdge edge = edges[first];
-            size_t next = first + 1;
-            while (next < edges.length()) {
-                const BandEdge& other = edges[next];
-                if (edge.x0 != other.x0 || edge.y0 != other.y0 || edge.x1 != other.x1 || edge.y1 != other.y1) {
-                    break;
-                }
-                edge.dir += other.dir;
-                next++;
-            }
-            if (edge.dir) {
-                edges.mutData()[kept++] = edge;
-            }
-            first = next;
-        }
-        while (edges.length() > kept) {
-            edges.popBack();
-        }
+        return BandEdge{x1, y1, x0, y0, -1};
     }
 
     // A span of one scanline's coverage, weight its share of a pixel's
@@ -24926,7 +24250,7 @@ namespace {
         acc[i1 + 1] -= (u64)(weight - b);
     }
 
-    // A row past bandWorkLimit, sampled on scanlines: sixteen where few
+    // A row past rowWorkLimit, sampled on scanlines: sixteen where few
     // edges cross it, down to four for many. order holds the row's edges
     // and is left in the x order of its last scanline, then the rest.
     static void sampleRow(u64* line, u32 w, const BandEdge* edges, Vector<u32>& order, float top, u8 rule, Vector<Crossing>& crossings, Vector<Crossing>& scratch, Vector<u32>& rest) {
@@ -24960,13 +24284,722 @@ namespace {
         }
     }
 
+    // Two edges of a row crossing at y, a left of b before it.
+    struct SweepCrossing {
+        float y;
+        u32 a;
+        u32 b;
+    };
+
+    static void xchg(BandEdge& l, BandEdge& r) noexcept {
+        BandEdge t = l;
+
+        l = r;
+        r = t;
+    }
+
+    static void xchg(SweepCrossing& l, SweepCrossing& r) noexcept {
+        SweepCrossing t = l;
+
+        l = r;
+        r = t;
+    }
+
+    // A row's edges in x order along a line moving down it, kept in blocks
+    // of up to sweepBlock so that an edge starting or ending moves only the
+    // others in its block: the blocks in order, each block's place in that
+    // order, and for each edge, by its index, its block and its slot in it,
+    // the side of the fill it bounds, 1 or -1 or none, where along it it
+    // began to, and the winding left of it; the edges whose windings events
+    // changed, stamped with the settling they wait for; and the order the
+    // row leaves. Every edge's slope is there for the whole raster.
+    constexpr u32 sweepBlock = 64;
+
+    // An edge and where it is along the sweep.
+    struct SweepKey {
+        double x;
+        u32 edge;
+    };
+
+    static void xchg(SweepKey& l, SweepKey& r) noexcept {
+        SweepKey t = l;
+
+        l = r;
+        r = t;
+    }
+
+    struct RowSweep {
+        Vector<u32> slots;
+        Vector<u32> count;
+        Vector<u32> chain;
+        Vector<u32> rank;
+        Vector<u32> block;
+        Vector<u32> slot;
+        Vector<int> side;
+        Vector<float> from;
+        Vector<i64> winding;
+        Vector<double> slope;
+        Vector<u32> stamp;
+        u32 settling = 1;
+        Vector<u32> marked;
+        Vector<u32> starting;
+        Vector<u32> ending;
+        Vector<SweepCrossing> heap;
+        Vector<SweepKey> keys;
+        Vector<u32> group;
+        Vector<u32> order;
+    };
+
+    // No edge: past either end of the order, or the block of an edge out
+    // of it.
+    constexpr u32 noEdge = ~0u;
+
+    static u32 sweepAt(const RowSweep& s, u32 b, u32 i) {
+        return s.slots[(size_t)b * sweepBlock + i];
+    }
+
+    static void sweepPut(RowSweep& s, u32 b, u32 i, u32 e) {
+        s.slots.mut((size_t)b * sweepBlock + i) = e;
+        s.block.mut(e) = b;
+        s.slot.mut(e) = i;
+    }
+
+    static u32 sweepNext(const RowSweep& s, u32 e) {
+        u32 b = s.block[e];
+        u32 i = s.slot[e] + 1;
+
+        if (i < s.count[b]) {
+            return sweepAt(s, b, i);
+        }
+
+        size_t r = (size_t)s.rank[b] + 1;
+
+        return r < s.chain.length() ? sweepAt(s, s.chain[r], 0) : noEdge;
+    }
+
+    static u32 sweepPrevious(const RowSweep& s, u32 e) {
+        u32 b = s.block[e];
+        u32 i = s.slot[e];
+
+        if (i > 0) {
+            return sweepAt(s, b, i - 1);
+        }
+
+        u32 r = s.rank[b];
+
+        return r > 0 ? sweepAt(s, s.chain[r - 1], s.count[s.chain[r - 1]] - 1) : noEdge;
+    }
+
+    // A new empty block at place r of the chain, its slots those of an
+    // earlier row where there are; the blocks it moved.
+    static size_t sweepChain(RowSweep& s, size_t r, u32& b) {
+        static const u32 fresh[sweepBlock] = {};
+
+        b = (u32)s.count.length();
+        s.count.pushBack(0);
+        s.rank.pushBack(0);
+
+        if (s.slots.length() < (size_t)s.count.length() * sweepBlock) {
+            s.slots.append(fresh, sweepBlock);
+        }
+
+        s.chain.pushBack(b);
+
+        for (size_t k = s.chain.length() - 1; k > r; k--) {
+            s.chain.mut(k) = s.chain[k - 1];
+            s.rank.mut(s.chain[k]) = (u32)k;
+        }
+
+        s.chain.mut(r) = b;
+        s.rank.mut(b) = (u32)r;
+
+        return s.chain.length() - r;
+    }
+
+    // Puts e before slot i of block b, a full block split in halves first;
+    // the edges and blocks it moved.
+    static size_t sweepInsert(RowSweep& s, u32 b, u32 i, u32 e) {
+        size_t work = 0;
+
+        if (s.count[b] == sweepBlock) {
+            constexpr u32 half = sweepBlock / 2;
+            u32 next = 0;
+
+            work += sweepChain(s, (size_t)s.rank[b] + 1, next) + half;
+
+            for (u32 k = half; k < sweepBlock; k++) {
+                sweepPut(s, next, k - half, sweepAt(s, b, k));
+            }
+
+            s.count.mut(b) = half;
+            s.count.mut(next) = half;
+
+            if (i > half) {
+                b = next;
+                i -= half;
+            }
+        }
+
+        for (u32 k = s.count[b]; k > i; k--) {
+            sweepPut(s, b, k, sweepAt(s, b, k - 1));
+        }
+
+        sweepPut(s, b, i, e);
+        s.count.mut(b)++;
+
+        return work + s.count[b] - i;
+    }
+
+    // Takes e out of the order, and a block it empties out of the chain;
+    // the edges and blocks it moved.
+    static size_t sweepRemove(RowSweep& s, u32 e) {
+        u32 b = s.block[e];
+        u32 i = s.slot[e];
+        u32 n = s.count[b] - 1;
+        size_t work = n - i;
+
+        for (u32 k = i; k < n; k++) {
+            sweepPut(s, b, k, sweepAt(s, b, k + 1));
+        }
+
+        s.count.mut(b) = n;
+        s.block.mut(e) = noEdge;
+
+        if (n == 0) {
+            size_t r = s.rank[b];
+
+            for (size_t k = r; k + 1 < s.chain.length(); k++) {
+                s.chain.mut(k) = s.chain[k + 1];
+                s.rank.mut(s.chain[k]) = (u32)k;
+            }
+
+            s.chain.popBack();
+            work += s.chain.length() - r;
+        }
+
+        return work;
+    }
+
+    // Where e is at y to order the sweep by: along its slope, in doubles.
+    // Its coverage takes bandX.
+    static double sweepX(const RowSweep& s, const BandEdge* edges, u32 e, float y) {
+        return edges[e].x0 + ((double)y - edges[e].y0) * s.slope[e];
+    }
+
+    // Whether a is left of b where both are at one x: by slope, then index.
+    static bool sweepTie(const RowSweep& s, u32 a, u32 b) {
+        return s.slope[a] < s.slope[b] || (s.slope[a] == s.slope[b] && a < b);
+    }
+
+    // Whether a is left of b just below y: by x there, then by slope.
+    static bool sweepBefore(const RowSweep& s, const BandEdge* edges, u32 a, u32 b, float y) {
+        double xa = sweepX(s, edges, a, y);
+        double xb = sweepX(s, edges, b, y);
+
+        return xa != xb ? xa < xb : sweepTie(s, a, b);
+    }
+
+    // The block and slot before which e goes at y: the first block whose
+    // last edge is not left of e, then the first such edge in it.
+    static void sweepFind(const RowSweep& s, const BandEdge* edges, u32 e, float y, u32& b, u32& i) {
+        size_t lo = 0;
+        size_t hi = s.chain.length() - 1;
+
+        while (lo < hi) {
+            size_t mid = (lo + hi) / 2;
+            u32 c = s.chain[mid];
+
+            if (sweepBefore(s, edges, sweepAt(s, c, s.count[c] - 1), e, y)) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+
+        b = s.chain[lo];
+
+        u32 left = 0;
+        u32 right = s.count[b];
+
+        while (left < right) {
+            u32 mid = (left + right) / 2;
+
+            if (sweepBefore(s, edges, sweepAt(s, b, mid), e, y)) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        i = left;
+    }
+
+    // Integrates a row exactly, the line moving from event
+    // to event: an edge starting or ending, two crossing. Between events the
+    // order holds, and an edge bounding the fill adds its coverage once for
+    // the whole stretch it bounds, not a band at a time. The edges come in
+    // the order the row above left them, which is the order at the top but
+    // where they meet there; they leave in the order at the bottom. False
+    // past rowWorkLimit, the row part drawn.
+    static bool sweepRow(u64* acc, u32 stride, u32 w, const BandEdge* edges, const Vector<u32>& carried, float top, float bottom, u8 rule, RowSweep& s) {
+        s.count.clear();
+        s.chain.clear();
+        s.rank.clear();
+        s.starting.clear();
+        s.ending.clear();
+        s.heap.clear();
+        s.keys.clear();
+        s.marked.clear();
+
+        // A winding no edge has, so that the first settling goes through.
+        for (u32 e : carried) {
+            s.winding.mut(e) = (i64)((u64)1 << 63);
+
+            if (edges[e].y0 < top) {
+                s.keys.pushBack(SweepKey{sweepX(s, edges, e, top), e});
+            } else {
+                s.starting.pushBack(e);
+            }
+
+            s.side.mut(e) = 0;
+
+            if (edges[e].y1 < bottom) {
+                s.ending.pushBack(e);
+            }
+        }
+
+        // The sorts are work too, at most their length times its bits.
+        size_t sorted = carried.length();
+        size_t work = sorted * (size_t)(64 - __builtin_clzll((u64)sorted | 1));
+
+        if (work > rowWorkLimit) {
+            return false;
+        }
+
+        // Sorted in place while few move, else afresh.
+        auto keyBefore = [&](const SweepKey& p, const SweepKey& q) {
+            return p.x != q.x ? p.x < q.x : sweepTie(s, p.edge, q.edge);
+        };
+        size_t n = s.keys.length();
+        size_t moves = 0;
+
+        for (size_t i = 1; i < n && moves <= 4 * n; i++) {
+            SweepKey key = s.keys[i];
+            size_t j = i;
+
+            for (; j > 0 && keyBefore(key, s.keys[j - 1]); j--) {
+                s.keys.mut(j) = s.keys[j - 1];
+            }
+
+            s.keys.mut(j) = key;
+            moves += i - j;
+        }
+
+        if (moves > 4 * n) {
+            quickSort(s.keys.mutBegin(), s.keys.mutEnd(), keyBefore);
+        }
+
+        // The blocks start three quarters full.
+        u32 filling = 0;
+
+        for (size_t k = 0; k < n; k++) {
+            if (k % (sweepBlock * 3 / 4) == 0) {
+                sweepChain(s, s.chain.length(), filling);
+            }
+
+            sweepPut(s, filling, s.count[filling], s.keys[k].edge);
+            s.count.mut(filling)++;
+        }
+
+        // The sorts below break ties by index, so that every run goes the
+        // same way.
+        if (s.starting.length() > 1) {
+            quickSort(s.starting.mutBegin(), s.starting.mutEnd(), [&](u32 a, u32 b) {
+                return edges[a].y0 != edges[b].y0 ? edges[a].y0 < edges[b].y0 : a < b;
+            });
+        }
+
+        if (s.ending.length() > 1) {
+            quickSort(s.ending.mutBegin(), s.ending.mutEnd(), [&](u32 a, u32 b) {
+                return edges[a].y1 != edges[b].y1 ? edges[a].y1 < edges[b].y1 : a < b;
+            });
+        }
+
+        auto close = [&](u32 e, float y) {
+            if (s.side[e] && y > s.from[e]) {
+                const BandEdge& b = edges[e];
+                float x0 = bandX(b, s.from[e]);
+                float x1 = bandX(b, y);
+
+                addEdge(acc, stride, w, s.side[e] > 0 ? Edge{x0, s.from[e], x1, y} : Edge{x1, y, x0, s.from[e]});
+            }
+        };
+
+        // The winding left of e, its run closed and opened at y where the
+        // side of the fill it bounds changes.
+        auto wind = [&](u32 e, i64 winding, float y) {
+            bool before = insideWinding(winding, rule);
+            bool after = insideWinding(winding + edges[e].dir, rule);
+            int side = (int)after - (int)before;
+
+            s.winding.mut(e) = winding;
+
+            if (side != s.side[e]) {
+                close(e, y);
+                s.side.mut(e) = side;
+                s.from.mut(e) = y;
+            }
+        };
+
+        // An edge an event moved, once for each settling.
+        auto mark = [&](u32 e) {
+            if (s.stamp[e] != s.settling) {
+                s.stamp.mut(e) = s.settling;
+                s.marked.pushBack(e);
+            }
+        };
+
+        // The windings again from each edge an event moved, in order, each
+        // edge's run closed and opened where its side changes, until an
+        // edge past it finds the winding it had; between such edges nothing
+        // changed.
+        auto settle = [&](float y) {
+            s.keys.clear();
+
+            for (u32 e : s.marked) {
+                if (s.block[e] != noEdge) {
+                    s.keys.pushBack(SweepKey{(double)s.rank[s.block[e]] * sweepBlock + s.slot[e], e});
+                }
+            }
+
+            s.marked.clear();
+
+            // Sorting them is work too: thousands of like shapes side by
+            // side meet events at one y together.
+            size_t kept = s.keys.length();
+
+            work += kept * (size_t)(64 - __builtin_clzll((u64)kept | 1));
+
+            if (kept > 1) {
+                quickSort(s.keys.mutBegin(), s.keys.mutEnd(), [](const SweepKey& p, const SweepKey& q) {
+                    return p.x < q.x;
+                });
+            }
+
+            for (const SweepKey& key : s.keys) {
+                u32 e = key.edge;
+
+                if (s.stamp[e] != s.settling) {
+                    continue;
+                }
+
+                u32 p = sweepPrevious(s, e);
+                i64 winding = p != noEdge ? s.winding[p] + edges[p].dir : 0;
+
+                do {
+                    s.stamp.mut(e) = 0;
+                    wind(e, winding, y);
+                    winding += edges[e].dir;
+                    work++;
+                    e = sweepNext(s, e);
+                } while (e != noEdge && (s.stamp[e] == s.settling || s.winding[e] != winding));
+            }
+
+            s.settling++;
+        };
+
+        // The crossing below y of a and the edge after it, if any: where
+        // their lines meet, when a's slope is the greater, so that a is
+        // right of the other past it; already, when that is above y. A
+        // swapped pair has the lesser slope left and never swaps back, so
+        // lines that run together do not trade places on their roundings.
+        // Two that meet only as one ends at y change nothing.
+        auto predict = [&](u32 a, float y) {
+            u32 b = sweepNext(s, a);
+
+            if (b == noEdge) {
+                return;
+            }
+
+            float end = minf(bottom, minf(edges[a].y1, edges[b].y1));
+            double ka = s.slope[a];
+            double kb = s.slope[b];
+
+            if (ka > kb && end > y) {
+                double meet = ((double)edges[b].x0 - edges[a].x0 + edges[a].y0 * ka - edges[b].y0 * kb) / (ka - kb);
+
+                if (meet <= end) {
+                    SweepCrossing c{maxf((float)meet, y), a, b};
+                    size_t k = s.heap.length();
+
+                    s.heap.pushBack(c);
+
+                    while (k > 0 && s.heap[(k - 1) / 2].y > c.y) {
+                        xchg(s.heap.mut(k), s.heap.mut((k - 1) / 2));
+                        k = (k - 1) / 2;
+                    }
+                }
+            }
+        };
+
+        // The predictions about the edges either side of a new neighbour.
+        auto neighbours = [&](u32 e, float y) {
+            u32 p = sweepPrevious(s, e);
+
+            if (p != noEdge) {
+                predict(p, y);
+            }
+
+            predict(e, y);
+        };
+
+        auto pop = [&]() {
+            SweepCrossing top = s.heap[0];
+            SweepCrossing last = s.heap.popBack();
+            size_t n = s.heap.length();
+
+            if (n) {
+                size_t k = 0;
+
+                s.heap.mut(0) = last;
+
+                for (;;) {
+                    size_t c = 2 * k + 1;
+
+                    if (c >= n) {
+                        break;
+                    }
+
+                    c += c + 1 < n && s.heap[c + 1].y < s.heap[c].y;
+
+                    if (!(s.heap[c].y < s.heap[k].y)) {
+                        break;
+                    }
+
+                    xchg(s.heap.mut(c), s.heap.mut(k));
+                    k = c;
+                }
+            }
+
+            return top;
+        };
+
+        if (n) {
+            mark(sweepAt(s, s.chain[0], 0));
+        }
+
+        settle(top);
+
+        for (u32 c : s.chain) {
+            for (u32 k = 0; k < s.count[c]; k++) {
+                predict(sweepAt(s, c, k), top);
+            }
+        }
+
+        size_t nextStart = 0;
+        size_t nextEnd = 0;
+
+        for (;;) {
+            float y = bottom;
+
+            y = nextStart < s.starting.length() ? minf(y, edges[s.starting[nextStart]].y0) : y;
+            y = nextEnd < s.ending.length() ? minf(y, edges[s.ending[nextEnd]].y1) : y;
+            y = s.heap.length() ? minf(y, s.heap[0].y) : y;
+
+            if (!(y < bottom) || work > rowWorkLimit) {
+                break;
+            }
+
+            // Crossings first: one whose edges an event parted since is
+            // passed over. One is foreseen before the events at its y and
+            // is no later than either edge's end, so both are still in the
+            // order. The windings are settled here, and a crossing changes
+            // only those of the edges that cross. Where many meet in one
+            // point, as a fan's, they all cross there, and they are put in
+            // the order of their slopes at once rather than a pair at a time:
+            // the run of edges within a thousandth of a pixel of it, or the
+            // floats' roundings far out. Lines that miss the point by that
+            // swap early, a sliver of that width between them.
+            while (s.heap.length() && s.heap[0].y <= y) {
+                SweepCrossing c = pop();
+
+                work++;
+
+                if (sweepNext(s, c.a) != c.b) {
+                    continue;
+                }
+
+                // The point where the lines of the two meet, along the
+                // steeper; an edge's line passes through it when it does so
+                // across the line.
+                double ka = s.slope[c.a];
+                double kb = s.slope[c.b];
+                double py = ((double)edges[c.b].x0 - edges[c.a].x0 + edges[c.a].y0 * ka - edges[c.b].y0 * kb) / (ka - kb);
+                double px = sweepX(s, edges, fabs(ka) < fabs(kb) ? c.a : c.b, (float)py);
+                double near = 0x1p-10 + (fabs(px) + fabs(py)) * 0x1p-20;
+                auto through = [&](u32 e) {
+                    return fabs(edges[e].x0 + (py - edges[e].y0) * s.slope[e] - px) <= near * (1.0 + fabs(s.slope[e]));
+                };
+                u32 first = c.a;
+                u32 last = c.b;
+
+                for (u32 p = sweepPrevious(s, first); p != noEdge && through(p); p = sweepPrevious(s, p)) {
+                    first = p;
+                }
+
+                for (u32 q = sweepNext(s, last); q != noEdge && through(q); q = sweepNext(s, q)) {
+                    last = q;
+                }
+
+                s.group.clear();
+
+                for (u32 e = first;; e = sweepNext(s, e)) {
+                    s.group.pushBack(e);
+
+                    if (e == last) {
+                        break;
+                    }
+                }
+
+                u32 b = s.block[first];
+                u32 i = s.slot[first];
+                i64 winding = s.winding[first];
+
+                quickSort(s.group.mutBegin(), s.group.mutEnd(), [&](u32 p, u32 q) {
+                    return sweepTie(s, p, q);
+                });
+
+                for (u32 e : s.group) {
+                    sweepPut(s, b, i, e);
+                    wind(e, winding, y);
+                    winding += edges[e].dir;
+
+                    if (++i == s.count[b] && e != s.group.back()) {
+                        b = s.chain[s.rank[b] + 1];
+                        i = 0;
+                    }
+                }
+
+                work += s.group.length() * (size_t)(64 - __builtin_clzll((u64)s.group.length()));
+                neighbours(s.group[0], y);
+                predict(s.group.back(), y);
+            }
+
+            size_t endsTo = nextEnd;
+            size_t startsTo = nextStart;
+
+            while (endsTo < s.ending.length() && edges[s.ending[endsTo]].y1 <= y) {
+                endsTo++;
+            }
+
+            while (startsTo < s.starting.length() && edges[s.starting[startsTo]].y0 <= y) {
+                startsTo++;
+            }
+
+            // An edge ending where one starts, at a vertex of the outline,
+            // hands its place over to it: the ends and starts at y in x
+            // order, matched by x.
+            if (endsTo - nextEnd > 1) {
+                quickSort(s.ending.mutData() + nextEnd, s.ending.mutData() + endsTo, [&](u32 a, u32 b) {
+                    return edges[a].x1 != edges[b].x1 ? edges[a].x1 < edges[b].x1 : a < b;
+                });
+            }
+
+            if (startsTo - nextStart > 1) {
+                quickSort(s.starting.mutData() + nextStart, s.starting.mutData() + startsTo, [&](u32 a, u32 b) {
+                    return edges[a].x0 != edges[b].x0 ? edges[a].x0 < edges[b].x0 : a < b;
+                });
+            }
+
+            for (size_t a = nextEnd, b = nextStart; a < endsTo && b < startsTo;) {
+                u32 e = s.ending[a];
+                u32 f = s.starting[b];
+
+                if (edges[e].x1 < edges[f].x0) {
+                    a++;
+                } else if (edges[f].x0 < edges[e].x1) {
+                    b++;
+                } else {
+                    close(e, y);
+                    s.side.mut(e) = 0;
+                    sweepPut(s, s.block[e], s.slot[e], f);
+                    s.block.mut(e) = noEdge;
+                    s.from.mut(f) = y;
+                    mark(f);
+                    s.ending.mut(a++) = noEdge;
+                    s.starting.mut(b++) = noEdge;
+                    neighbours(f, y);
+                    work++;
+                }
+            }
+
+            for (; nextEnd < endsTo; nextEnd++) {
+                u32 e = s.ending[nextEnd];
+
+                if (e == noEdge) {
+                    continue;
+                }
+
+                u32 p = sweepPrevious(s, e);
+                u32 q = sweepNext(s, e);
+
+                close(e, y);
+                s.side.mut(e) = 0;
+                work += sweepRemove(s, e);
+
+                if (q != noEdge) {
+                    mark(q);
+                }
+
+                if (p != noEdge) {
+                    predict(p, y);
+                }
+            }
+
+            for (; nextStart < startsTo; nextStart++) {
+                u32 e = s.starting[nextStart];
+
+                if (e == noEdge) {
+                    continue;
+                }
+
+                u32 b = 0;
+                u32 i = 0;
+
+                if (s.chain.empty()) {
+                    sweepChain(s, 0, b);
+                } else {
+                    sweepFind(s, edges, e, y, b, i);
+                }
+
+                work += sweepInsert(s, b, i, e);
+                s.from.mut(e) = y;
+                mark(e);
+                neighbours(e, y);
+            }
+
+            settle(y);
+        }
+
+        s.order.clear();
+
+        for (u32 c : s.chain) {
+            for (u32 k = 0; k < s.count[c]; k++) {
+                u32 e = sweepAt(s, c, k);
+
+                close(e, bottom);
+                s.order.pushBack(e);
+            }
+        }
+
+        return work <= rowWorkLimit;
+    }
+
     static void rasterizeUnion(u64* acc, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
         Vector<BandEdge> edges;
         // The band edges are built in place, counted into the rows they start
-        // in; an edge level in y is no band edge. A few are then sorted whole,
-        // many are left in their order within a row, which only breaks ties
-        // between samples of one key. The rows above and below the raster are
-        // a bucket each.
+        // in, in the order they come within a row; an edge level in y is no
+        // band edge. The rows above and below the raster are a bucket each.
         auto bucket = [&](float y0) {
             return y0 < 0.f ? 0u : (y0 >= (float)h ? h + 1 : (u32)y0 + 1);
         };
@@ -25011,29 +25044,59 @@ namespace {
             }
         }
 
-        if (edges.length() < 1024) {
-            quickSort(edges.mutBegin(), edges.mutEnd(), edgeBefore);
-        } else {
-            mergeBandEdges(edges);
+        // Coincident edges add their windings into one, and go where those
+        // cancel. They start in one row, so each row is sorted on its own.
+        size_t kept = 0;
+
+        for (size_t b = 0, lo = 0; b < starts.length(); lo = starts[b++]) {
+            size_t hi = starts[b];
+
+            if (hi - lo > 1) {
+                quickSort(edges.mutData() + lo, edges.mutData() + hi, [](const BandEdge& p, const BandEdge& q) {
+                    return p.y0 != q.y0 ? p.y0 < q.y0 : (p.x0 != q.x0 ? p.x0 < q.x0 : (p.y1 != q.y1 ? p.y1 < q.y1 : p.x1 < q.x1));
+                });
+            }
+
+            for (size_t k = lo; k < hi;) {
+                BandEdge edge = edges[k++];
+
+                while (k < hi && edges[k].x0 == edge.x0 && edges[k].y0 == edge.y0 && edges[k].x1 == edge.x1 && edges[k].y1 == edge.y1) {
+                    edge.dir += edges[k++].dir;
+                }
+
+                if (edge.dir) {
+                    edges.mut(kept++) = edge;
+                }
+            }
+        }
+
+        while (edges.length() > kept) {
+            edges.popBack();
         }
 
         Vector<u32> active;
-        // The active edges again, in the x order of the last band or
-        // scanline, and the place of each in the active list.
+        // The active edges again, in the x order of the last row's bottom
+        // or scanline.
         Vector<u32> order;
-        Vector<u32> position;
         Vector<u32> rest;
-        Vector<BandSample> samples[bandCacheLevels];
-        Vector<float> cuts;
-        Vector<u32> incoming;
         Vector<Crossing> crossings;
         Vector<Crossing> scratch;
         Vector<u64> saved;
         size_t next = 0;
+        RowSweep sweep;
+        sweep.block.zero(edges.length());
+        sweep.slot.zero(edges.length());
+        sweep.side.zero(edges.length());
+        sweep.from.zero(edges.length());
+        sweep.winding.zero(edges.length());
+        sweep.stamp.zero(edges.length());
+        sweep.slope.zero(edges.length());
 
-        position.zero(edges.length());
-        Vector<BandEndpoint> values;
-        values.zero(edges.length());
+        for (size_t k = 0; k < edges.length(); k++) {
+            const BandEdge& e = edges[k];
+
+            sweep.slope.mut(k) = ((double)e.x1 - e.x0) / ((double)e.y1 - e.y0);
+        }
 
         for (u32 row = 0; row < h; row++) {
             float top = (float)row;
@@ -25098,141 +25161,27 @@ namespace {
 
             // Resolve winding before integrating each interval's coverage:
             // disjoint, opposed contours can occupy different parts of a pixel.
-            // A sampled row can miss thin fills, so every endpoint is a cut.
-            cuts.clear();
-            cuts.pushBack(top);
-            cuts.pushBack(bottom);
+            // A row is swept from event to event; past the work limit it is
+            // sampled (D58).
+            u64* line = acc + (size_t)row * stride;
 
-            for (u32 index : active) {
-                const BandEdge& e = edges[index];
-
-                if (e.y0 > top) {
-                    cuts.pushBack(e.y0);
-                }
-
-                if (e.y1 < bottom) {
-                    cuts.pushBack(e.y1);
-                }
-            }
-
-            quickSort(cuts.mutBegin(), cuts.mutEnd(), [](float p, float q) {
-                return p < q;
-            });
-
-            size_t cutCount = 0;
-
-            for (float cut : cuts) {
-                if (cutCount == 0 || cut > cuts[cutCount - 1]) {
-                    cuts.mutData()[cutCount++] = cut;
-                }
-            }
-
-            if (w > 1 && cutCount > 8192 / active.length() && bandWorkExceeds(edges.data(), active, cuts, cutCount, top, bottom)) {
-                Vector<BandEdge> rowEdges;
-                bool finite = true;
-
-                for (u32 index : active) {
-                    const BandEdge& e = edges[index];
-                    float a = maxf(top, e.y0);
-                    float b = minf(bottom, e.y1);
-                    float x0 = bandX(e, a);
-                    float x1 = bandX(e, b);
-
-                    finite = finite && isfinite(x0) && isfinite(x1);
-                    rowEdges.pushBack(BandEdge{x0, a - top, x1, b - top, e.dir});
-                }
-
-                if (finite) {
-                    Vector<u64> rowAccumulation;
-                    size_t work = 0;
-
-                    rowAccumulation.zero((size_t)w + 2);
-                    rasterizeTransposedRow(rowAccumulation.mutData(), w, rowEdges, rule, work);
-
-                    if (work > bandWorkLimit) {
-                        order.clear();
-                        order.append(active.data(), active.length());
-                        sampleRow(acc + (size_t)row * stride, w, edges.data(), order, top, rule, crossings, scratch, rest);
-
-                        continue;
-                    }
-
-                    for (u32 x = 0; x < w; x++) {
-                        acc[(size_t)row * stride + x] = rowAccumulation[x];
-                    }
-
-                    continue;
-                }
-            }
-
-            for (size_t k = 0; k < active.length(); k++) {
-                position.mut(active[k]) = (u32)k;
-            }
-
-            // Only edges spanning this band remain in its order. Later starts
-            // enter at their endpoint, rather than being scanned in every band.
-            incoming.clear();
-            kept = 0;
-
-            for (u32 index : order) {
-                if (edges[index].y0 > top) {
-                    incoming.pushBack(index);
-                } else {
-                    order.mutData()[kept++] = index;
-                }
-            }
-
-            while (order.length() > kept) {
-                order.popBack();
-            }
-
-            if (incoming.length() > 1) {
-                quickSort(incoming.mutBegin(), incoming.mutEnd(), [&](u32 a, u32 b) {
-                    return edges[a].y0 < edges[b].y0 || (edges[a].y0 == edges[b].y0 && position[a] < position[b]);
-                });
-            }
-
-            size_t arriving = 0;
-            size_t work = 0;
             // The row as it was, to sample it afresh past the work limit.
             saved.clear();
-            saved.append(acc + (size_t)row * stride, (size_t)w + 2);
+            saved.append(line, (size_t)w + 2);
 
-            for (size_t k = 0; k + 1 < cutCount && work <= bandWorkLimit; k++) {
-                size_t kept = 0;
+            bool swept = sweepRow(acc, stride, w, edges.data(), order, top, bottom, rule, sweep);
 
-                for (u32 index : order) {
-                    if (edges[index].y1 > cuts[k]) {
-                        order.mutData()[kept++] = index;
-                    }
-                }
+            order.clear();
+            order.append(sweep.order.data(), sweep.order.length());
 
-                while (order.length() > kept) {
-                    order.popBack();
-                }
-
-                while (arriving < incoming.length() && edges[incoming[arriving]].y0 <= cuts[k]) {
-                    order.pushBack(incoming[arriving++]);
-                }
-
-                bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], values);
-
-                unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0, work);
-
-                // The next band starts in this band's x order.
-                order.clear();
-
-                for (const BandSample& s : samples[0]) {
-                    order.pushBack(s.edge);
-                }
+            if (swept) {
+                continue;
             }
 
-            if (work > bandWorkLimit) {
-                memcpy(acc + (size_t)row * stride, saved.data(), ((size_t)w + 2) * sizeof(u64));
-                order.clear();
-                order.append(active.data(), active.length());
-                sampleRow(acc + (size_t)row * stride, w, edges.data(), order, top, rule, crossings, scratch, rest);
-            }
+            memcpy(line, saved.data(), ((size_t)w + 2) * sizeof(u64));
+            order.clear();
+            order.append(active.data(), active.length());
+            sampleRow(line, w, edges.data(), order, top, rule, crossings, scratch, rest);
         }
     }
 

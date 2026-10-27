@@ -9,10 +9,10 @@ unit = Unit("raster-work-limit", 64, 56, """Dashes of 0.0005 with round
 caps along a line are tens of thousands of dots, each overlapping the
 thousand beside it, whose edges keep crossing within every row: the union
 is the line with round caps, scalloped by less than a millionth of a
-pixel. Exact bands would split without end in effect; past the work limit
-a row is sampled on scanlines (D58). A row of dots across the canvas, its
-caps past both sides, goes through the rows transposed into pixel strips,
-a column of dots one pixel wide through the bands themselves.""")
+pixel. An exact sweep would cross without end in effect; past the work
+limit a row is sampled on scanlines (D58). A row of dots across the
+canvas, its caps past both sides, has too many edges to sort; a column of
+dots one pixel wide crosses past the limit in every row.""")
 unit.cell("row", (0, 0, 64, 8), f'<line x1="0" y1="4" x2="64" y2="4" {DOTS}/>', f'<line x1="0" y1="4" x2="64" y2="4" {PLAIN}/>')
 unit.cell("column", (56, 8, 8, 48), f'<line x1="56.5" y1="8" x2="56.5" y2="56" {DOTS}/>', f'<line x1="56.5" y1="8" x2="56.5" y2="56" {PLAIN}/>')
 unit.write()

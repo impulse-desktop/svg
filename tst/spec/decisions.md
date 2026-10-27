@@ -922,19 +922,20 @@ bounds triangular color interpolation independently: its mixed coefficient
 is 510 byte levels, and four subdivisions give a maximum error of
 510/(4*4^2), with one further level allowed for color quantization.
 
-## D58. A row whose exact bands cost too much is sampled
+## D58. A row whose exact sweep costs too much is sampled
 
-The rasterizer integrates each row exactly, splitting its bands where
-edges cross until their order is fixed. Edges that keep crossing within a
-row make that work grow with the crossings: a line dashed every 0.0005
-with round caps is 48 000 dots, each overlapping the thousand beside it,
-and the two rows it covers took twelve seconds. SVG 2 leaves leeway to
-deviate from the ideal stroke shape for performance
-(`svg2/painting.md#StrokeShape`, D1). A row whose bands would visit more
-than 2^21 samples, over twice the most crowded row of the corpus at its
-smaller size (872 349, inkscape/70eb5ff5fffa5a9a), is drawn again on
-scanlines, sixteen, or down to four where many edges cross them, each
-with its exact coverage along x. No corpus file reaches the limit; the
-dotted line takes a fifth of a second. `raster-work-limit` draws both
-paths, rows transposed into pixel strips and the bands themselves, against
-the plain lines the dots unite into.
+The rasterizer integrates each row exactly, sweeping a line down it from
+event to event: an edge starting or ending, two edges crossing. Edges
+that keep crossing within a row make that work grow with the crossings: a
+line dashed every 0.0005 with round caps is 48 000 dots, each overlapping
+the thousand beside it, and the two rows it covers took twelve seconds
+with the exact bands before. SVG 2 leaves leeway to deviate from the
+ideal stroke shape for performance (`svg2/painting.md#StrokeShape`, D1).
+A row whose sweep would take more than 2^21 steps, its events, the edges
+they move or pass and the sorts of them, over three times the most
+crowded row of the corpus drawn at the size of its references (571 533,
+inkscape/70eb5ff5fffa5a9a), is drawn again on scanlines, sixteen, or down
+to four where many edges cross them, each with its exact coverage along
+x. No corpus file reaches the limit. `raster-work-limit` draws a row of
+the dots, too many to sort, and a column of them, crossing past the limit
+in every row, against the plain lines the dots unite into.
