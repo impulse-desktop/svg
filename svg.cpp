@@ -8984,6 +8984,14 @@ namespace {
     }
 
     // A number's syntax, before the caller applies its numeric range.
+    // Ten to the power e: from a table where its double is the literal's,
+    // as pow would give it, else from pow.
+    static double tenTo(i64 e) {
+        static const double powers[] = {1e-22, 1e-21, 1e-20, 1e-19, 1e-18, 1e-17, 1e-16, 1e-15, 1e-14, 1e-13, 1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14, 1e15, 1e16, 1e17, 1e18, 1e19, 1e20, 1e21, 1e22};
+
+        return e >= -22 && e <= 22 ? powers[e + 22] : pow(10.0, (double)e);
+    }
+
     static bool readDoubleSyntax(const u8*& p, const u8* end, double& out) {
         const u8* s = p;
         double sign = 1.0;
@@ -9038,7 +9046,7 @@ namespace {
             }
 
             if (exponentDigits) {
-                value = value == 0.0 ? value : value * pow(10.0, exponentSign * exponent);
+                value = value == 0.0 ? value : value * tenTo(exponentSign * exponent);
                 s = e;
             }
         }
@@ -11695,7 +11703,7 @@ namespace {
         }
 
         double value() const {
-            return coefficient == 0 ? 0.0 : (double)coefficient * pow(10.0, exponent);
+            return coefficient == 0 ? 0.0 : (double)coefficient * tenTo(exponent);
         }
     };
 
