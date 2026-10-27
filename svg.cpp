@@ -25081,7 +25081,6 @@ namespace {
         Vector<u32> rest;
         Vector<Crossing> crossings;
         Vector<Crossing> scratch;
-        Vector<u64> saved;
         size_t next = 0;
         RowSweep sweep;
         sweep.block.zero(edges.length());
@@ -25164,11 +25163,6 @@ namespace {
             // A row is swept from event to event; past the work limit it is
             // sampled (D58).
             u64* line = acc + (size_t)row * stride;
-
-            // The row as it was, to sample it afresh past the work limit.
-            saved.clear();
-            saved.append(line, (size_t)w + 2);
-
             bool swept = sweepRow(acc, stride, w, edges.data(), order, top, bottom, rule, sweep);
 
             order.clear();
@@ -25178,7 +25172,9 @@ namespace {
                 continue;
             }
 
-            memcpy(line, saved.data(), ((size_t)w + 2) * sizeof(u64));
+            // Only the sweep wrote the row, its edges cut to it: the row is
+            // sampled afresh.
+            memset(line, 0, ((size_t)w + 2) * sizeof(u64));
             order.clear();
             order.append(active.data(), active.length());
             sampleRow(line, w, edges.data(), order, top, rule, crossings, scratch, rest);
