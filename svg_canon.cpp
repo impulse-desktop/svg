@@ -907,27 +907,30 @@ namespace {
 struct SvgDocument {
     ObjPool* pool;
     SvgDecode decode;
+    SvgDecompress decompress;
     SvgFail fail;
     void* context;
     Document* doc;
     float width;
     float height;
 
-    SvgDocument(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context, Document* doc, float width, float height);
+    SvgDocument(ObjPool* pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context, Document* doc, float width, float height);
 };
 
 struct SvgLibrary {
     ObjPool* pool;
     SvgDecode decode;
+    SvgDecompress decompress;
     SvgFail fail;
     void* context;
 
-    SvgLibrary(ObjPool* pool, SvgDecode decode, SvgFail fail, void* context);
+    SvgLibrary(ObjPool* pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context);
 };
 
-SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_, Document* doc_, float width_, float height_)
+SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgDecompress decompress_, SvgFail fail_, void* context_, Document* doc_, float width_, float height_)
     : pool(pool_)
     , decode(decode_)
+    , decompress(decompress_)
     , fail(fail_)
     , context(context_)
     , doc(doc_)
@@ -936,9 +939,10 @@ SvgDocument::SvgDocument(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void*
 {
 }
 
-SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgFail fail_, void* context_)
+SvgLibrary::SvgLibrary(ObjPool* pool_, SvgDecode decode_, SvgDecompress decompress_, SvgFail fail_, void* context_)
     : pool(pool_)
     , decode(decode_)
+    , decompress(decompress_)
     , fail(fail_)
     , context(context_)
 {
@@ -1494,10 +1498,13 @@ namespace {
         bool variables;
         size_t substitutionBudget;
         // How many elements a pass over the document may draw and measure,
-        // instances of a use, a marker or a pattern counted each time, by
-        // its source's length: what a document instancing itself over and
-        // over runs out of, and no file drawn as written comes near.
+        // instances of a use, a marker or a pattern counted each time: each
+        // of its own nodes twice and 2^19 more, what a document instancing
+        // itself over and over runs out of, and no file drawn as written
+        // comes near; and how many bytes of edges a drawing may emit, by its
+        // source's length and its size.
         size_t workBudget;
+        size_t edgeBudget;
     };
 
     struct Entity {
@@ -2247,6 +2254,7 @@ namespace {
         Vector<Node*> hosts;
         Vector<ComputedStyle*> documentStyles;
         SvgDecode decode;
+        SvgDecompress decompress;
         SvgFail fail;
         void* context;
         u32 imageDepth;
@@ -2304,6 +2312,7 @@ namespace {
         Vector<Op> programs;
         Vector<Op>* out;
         Vector<Edge> edges;
+        size_t edgeBytes;
         Vector<ClipShape> clips;
         Matrix screen;
         Matrix host;
@@ -2371,6 +2380,7 @@ namespace {
         // The coverage deltas of a fill's rows, 2^32 for a whole pixel,
         // summed modulo 2^64.
         Vector<u64> accumulation;
+        bool fullCoverage = false;
         // The backdrop a layer drawn apart inherits, which its own filters
         // read as their background.
         Plane backdrop{nullptr, IntBox{0, 0, 0, 0}};
@@ -2687,6 +2697,11 @@ namespace {
             const u16* sp = s + p * 4;
             u16* dp = d + p * 4;
 
+            if (sp[3] == 65535 && sp[7] == 65535) {
+                memcpy(dp, sp, sizeof(u16) * 8);
+                continue;
+            }
+
             for (int i = 0; i < 8; i++) {
                 dp[i] = saturate(sp[i] + div65535((u32)dp[i] * (65535u - sp[(i & 4) | 3])));
             }
@@ -2695,6 +2710,11 @@ namespace {
         for (; p < count; p++) {
             const u16* sp = s + p * 4;
             u16* dp = d + p * 4;
+
+            if (sp[3] == 65535) {
+                memcpy(dp, sp, sizeof(u16) * 4);
+                continue;
+            }
 
             for (int i = 0; i < 4; i++) {
                 dp[i] = saturate(sp[i] + div65535((u32)dp[i] * (65535u - sp[3])));
@@ -3571,6 +3591,7 @@ namespace {
                     c.p += 4;
                     skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
                 } else if (startsWith(c, SV("<?"))) {
+                    c.p += 2;
                     skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
                 } else if (startsWith(c, SV("<!"))) {
                     skipDeclaration(xml, c);
@@ -3700,6 +3721,7 @@ namespace {
                 }
 
                 if (startsWith(c, SV("<?"))) {
+                    c.p += 2;
                     skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
                     continue;
                 }
@@ -4205,7 +4227,8 @@ namespace {
                 c.p += 4;
                 skipPast(xml, c, SV("-->"), SVG_XML_UNTERMINATED_COMMENT);
             } else if (startsWith(c, SV("<?"))) {
-                const u8* start = c.p + 2;
+                c.p += 2;
+                const u8* start = c.p;
 
                 skipPast(xml, c, SV("?>"), SVG_XML_UNTERMINATED_PI);
 
@@ -6726,7 +6749,9 @@ namespace {
             }
         }
 
-        if (!counts[0] || (set && !counts[1])) {
+        // declare rejects an empty value; the first word either added a
+        // radius or returned an error above. Only a trailing slash is left.
+        if (set && !counts[1]) {
             return false;
         }
 
@@ -8784,7 +8809,7 @@ namespace {
                 }
             }
 
-            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomOutlineOffset && !(name >= AtomBorderTopLeftRadius && name <= AtomBorderBottomLeftRadius) && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
+            if (name >= firstProperty && name < firstProperty + propertyCount && name != AtomMixBlendMode && name != AtomIsolation && name != AtomBackfaceVisibility && name != AtomTransformStyle && name != AtomPerspective && name != AtomPerspectiveOrigin && name != AtomObjectFit && name != AtomObjectPosition && name != AtomOutline && name != AtomOutlineOffset && name < AtomBorderTopLeftRadius && name != AtomZoom && !(name >= AtomMaskImage && name <= AtomMaskBorderRepeat) && !(name >= AtomBackgroundColor && name <= AtomBackgroundSize)) {
                 bool pending = valueSubstitutes(doc, value);
 
                 if (pending ? validSubstitutions(valueTokens(doc, value, one)) : validDeclaration(doc, name, valueTokens(doc, value, one))) {
@@ -12407,12 +12432,11 @@ namespace {
     // which on the inner side reaches back h times its turn past where the
     // curve's normals do. Near an end that would show behind the end's
     // normal, so there the span halves until h times its turn is within
-    // the room its distance from the end leaves, and the tolerance; where
-    // the curve turns tighter than h, its normals' inner ends run back
-    // themselves, and a point beside such a stretch turns its neighbour's
-    // chord too, so where it turns tighter than 2 h within 2 h of an end
-    // the room is none. No step need turn under the bound turn, where a
-    // stroke too wide for its tolerance stops.
+    // the room its distance from the end leaves, and the tolerance. Where
+    // the curve turns tighter than h its inner side runs through its
+    // points, and the normals turn round where they cross, which reaches
+    // back no further than the curve's own. No step need turn under the
+    // bound turn, where a stroke too wide for its tolerance stops.
     static void bendParameters(const Powers& q, double t0, double t1, double bend, const PieceEnds& ends, int depth, Vector<double>& out) {
         double angle = deviation(powerVelocity(q, t0), powerVelocity(q, t1));
         DPoint from = powerAt(q, t0);
@@ -12420,7 +12444,7 @@ namespace {
         double toA = ends.capA ? hypot(from.x - ends.a.x, from.y - ends.a.y) : INFINITY;
         double toB = ends.capB ? hypot(to.x - ends.b.x, to.y - ends.b.y) : INFINITY;
         bool tight = 2.0 * ends.half * angle > hypot(to.x - from.x, to.y - from.y);
-        double room = tight ? (fmin(toA, toB) < 2.0 * ends.half ? 0.0 : INFINITY) : fmin(ends.openA * toA, ends.openB * toB);
+        double room = tight ? INFINITY : fmin(ends.openA * toA, ends.openB * toB);
 
         // A bend past the numbers is no bend to halve.
         if (depth == 0 || !(angle > bend || (angle > ends.turn && ends.half * angle > room + ends.tol))) {
@@ -13018,21 +13042,6 @@ namespace {
         addPolygon(out, shape.data(), shape.length());
     }
 
-    // The sector the inner end of a stroke's normal sweeps at a smooth point
-    // p, as the outer end does from from through sweep, turned the way the
-    // outlines do; within the tolerance of its arc, a triangle.
-    static void addSector(Flat& out, const StrokeParams& s, Point p, float from, float sweep, bool arc) {
-        float start = sweep > 0.f ? from + pi : from + pi + sweep;
-
-        if (arc) {
-            addFan(out, p, s.half, start, fabsf(sweep), s.tol);
-        } else {
-            Point sector[3] = {p, Point{p.x + s.half * cosf(start), p.y + s.half * sinf(start)}, Point{p.x + s.half * cosf(start + fabsf(sweep)), p.y + s.half * sinf(start + fabsf(sweep))}};
-
-            addPolygon(out, sector, 3);
-        }
-    }
-
     // The points of the cap at the end p of a stroke going d, from its left
     // offset round to its right one.
     static void addCapPoints(Vector<Point>& out, const StrokeParams& s, Point p, Point d) {
@@ -13071,9 +13080,9 @@ namespace {
     // union and none outside: the nonzero rule fills exactly the union.
     // A cubic cusp that turns back sweeps a half-circle; a line corner
     // keeps its join. At a smooth point inside a curve, the stroke sweeps
-    // its normal round the turn: its outer end arcs whatever
-    // the join, and its inner end sweeps a sector of the same angle, a
-    // polygon of its own where the inner offset edges do not cross.
+    // its normal round the turn: its outer end arcs whatever the join; where
+    // the inner offset edges do not cross, the inner side runs along the
+    // points and the normals' sweep there goes in polygons of its own.
     static void strokePolyline(Flat& out, const StrokeParams& s, const Point* points, const u8* kinds, const Point* into, size_t count, bool closed) {
         Vector<Point> pts;
         Vector<u8> kind;
@@ -13259,7 +13268,202 @@ namespace {
         bool keptInverted = false;
         Vector<Point> folds;
 
+        // A run of smooth points in a row whose inner side runs through
+        // each, all on one side. A segment's normal is the curve's at its
+        // anchor: its middle, or the end of a cubic whose tangent it takes
+        // there. From one anchor to the next the normal turns round where
+        // the two cross, not round the point between them as its sector
+        // does, which near an end would reach behind the end's normal: a
+        // triangle on the curve's side of the crossing and one beyond it,
+        // or a quad where they cross past the half width. The inner side
+        // runs along the points from the run's first anchor to its last,
+        // and the steps go in one polygon on the curve's side of their
+        // crossings and one beyond.
+        Vector<u32> run;
+        int runSide = 0;
+
+        auto addPositive = [&](Vector<Point>& shape) {
+            double area = 0.0;
+
+            for (size_t i = 0; i < shape.length(); i++) {
+                Point a = shape[i];
+                Point b = shape[(i + 1) % shape.length()];
+
+                area += (double)a.x * b.y - (double)a.y * b.x;
+            }
+
+            if (area < 0.0) {
+                for (size_t i = 0, j = shape.length() - 1; i < j; i++, j--) {
+                    Point t = shape[i];
+
+                    shape.mut(i) = shape[j];
+                    shape.mut(j) = t;
+                }
+            }
+
+            addPolygon(out, shape.data(), shape.length());
+        };
+
+        // The anchor of the segment from point i, clear of the cuts of its
+        // ends on the side. A closed polyline keeps its inner side on its
+        // offset (D49), so runs are of an open one's inner points; a segment
+        // of one is smooth at an end, and at the other a corner only where
+        // it is a cubic's first or last and takes the tangent there.
+        auto anchorOf = [&](size_t i, int inner) {
+            size_t next = i + 1;
+            float at = (kind[i] == PointCorner ? 0.f : (kind[next] == PointCorner ? 1.f : 0.5f)) * lengths[i];
+
+            if (inners[i] == inner && cuts[i] >= 0.f) {
+                at = fmaxf(at, cuts[i]);
+            }
+
+            if (inners[next] == inner && cuts[next] >= 0.f) {
+                at = fminf(at, lengths[i] - cuts[next]);
+            }
+
+            Point a = pts[i];
+            Point b = pts[next];
+            float t = fminf(fmaxf(at / lengths[i], 0.f), 1.f);
+
+            return t <= 0.f ? a : (t >= 1.f ? b : Point{a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t});
+        };
+
+        auto flushRun = [&]() {
+            size_t m = run.length();
+
+            if (m == 0) {
+                return;
+            }
+
+            float side = runSide == 0 ? -1.f : 1.f;
+            // The run's anchors, the segments' inward normals there and
+            // their far ends, one more than its points.
+            Vector<Point> anchors;
+            Vector<Point> normals;
+            Vector<Point> fars;
+
+            for (size_t i = 0; i <= m; i++) {
+                size_t segment = i < m ? run[i] - 1 : run[m - 1];
+                Point d = dirs[segment];
+                Point a = anchorOf(segment, runSide);
+
+                anchors.pushBack(a);
+                normals.pushBack(Point{d.y * side, -d.x * side});
+                fars.pushBack(offset(a, d, -side));
+            }
+
+            // Each step's normals cross where each has gone ta and tb from its
+            // anchor, past the half width where they do not; the point
+            // between turns them, never along a line.
+            Vector<float> tas;
+            Vector<float> tbs;
+            Vector<Point> crossings;
+            Vector<u8> crossed;
+
+            for (size_t i = 0; i < m; i++) {
+                Point a = anchors[i];
+                Point b = anchors[i + 1];
+                Point na = normals[i];
+                Point nb = normals[i + 1];
+                float denom = na.x * nb.y - na.y * nb.x;
+                float ex = b.x - a.x;
+                float ey = b.y - a.y;
+                float ta = (ex * nb.y - ey * nb.x) / denom;
+                float tb = (ex * na.y - ey * na.x) / denom;
+                bool cross = (fminf(ta, tb) > 0.f) & (fmaxf(ta, tb) < s.half);
+
+                tas.pushBack(ta);
+                tbs.pushBack(tb);
+                crossed.pushBack(cross);
+                crossings.pushBack(cross ? Point{a.x + na.x * ta, a.y + na.y * ta} : Point{0.f, 0.f});
+            }
+
+            Vector<Point> shape;
+
+            // The crossings on a normal of the steps either side lie about
+            // where it touches the curve of the centres, the normals'
+            // envelope, which keeps inside a step's crossing between the
+            // touching points, where its triangles leave out what the
+            // normals between sweep: a wedge of its own, the curve's middle
+            // halfway from the touching points' middle to the crossing, as
+            // a parabola's. A normal touches halfway between its crossings,
+            // within the half width; the run's first and last at their one.
+            // Crossings that degenerate floats put at no distance or none
+            // leave it at its anchor.
+            auto touching = [&](size_t j) {
+                float e = j == 0 ? tas[0] : (j == m ? tbs[m - 1] : fminf(fmaxf((tbs[j - 1] + tas[j]) / 2.f, 0.f), s.half));
+
+                return Point{anchors[j].x + normals[j].x * e, anchors[j].y + normals[j].y * e};
+            };
+
+            for (size_t i = 0; i < m; i++) {
+                if (!crossed[i]) {
+                    continue;
+                }
+
+                Point y = crossings[i];
+                Point a = touching(i);
+                Point b = touching(i + 1);
+
+                shape.clear();
+                shape.pushBack(a);
+                shape.pushBack(y);
+                shape.pushBack(b);
+                shape.pushBack(Point{(y.x + (a.x + b.x) / 2.f) / 2.f, (y.y + (a.y + b.y) / 2.f) / 2.f});
+                addPositive(shape);
+            }
+
+            for (size_t i = 0; i < m;) {
+                size_t e = i;
+
+                while (e + 1 < m && crossed[e + 1] == crossed[i]) {
+                    e++;
+                }
+
+                shape.clear();
+                shape.pushBack(anchors[i]);
+
+                for (size_t j = i; j <= e; j++) {
+                    shape.pushBack(pts[run[j]]);
+                    shape.pushBack(anchors[j + 1]);
+                }
+
+                if (crossed[i]) {
+                    for (size_t j = e + 1; j > i; j--) {
+                        shape.pushBack(crossings[j - 1]);
+                    }
+
+                    addPositive(shape);
+                    shape.clear();
+                    shape.pushBack(crossings[i]);
+
+                    for (size_t j = i; j <= e + 1; j++) {
+                        shape.pushBack(fars[j]);
+                    }
+
+                    for (size_t j = e + 1; j > i + 1; j--) {
+                        shape.pushBack(crossings[j - 1]);
+                    }
+                } else {
+                    for (size_t j = e + 2; j > i; j--) {
+                        shape.pushBack(fars[j - 1]);
+                    }
+                }
+
+                addPositive(shape);
+                i = e + 1;
+            }
+
+            run.clear();
+        };
+
         auto turn = [&](size_t k, size_t in, size_t next) {
+            bool adjacent = run.length() && run.back() + 1 == k;
+
+            if (!adjacent) {
+                flushRun();
+            }
+
             Point p = pts[k];
             Point d0 = dirs[in];
             Point d1 = dirs[next];
@@ -13359,18 +13563,42 @@ namespace {
                 return;
             }
 
+            if (kind[k] == PointSmooth) {
+                // The inner side goes in at the run's first anchor and along
+                // its points, out at the anchor after the last so far.
+                if (adjacent && runSide == inner) {
+                    sides[inner].popBack();
+                    sides[inner].popBack();
+                } else {
+                    Point a = anchorOf(in, inner);
+
+                    flushRun();
+                    runSide = inner;
+                    sides[inner].popBack();
+                    sides[inner].pushBack(offset(a, d0, -side));
+                    sides[inner].pushBack(a);
+                }
+
+                Point a = anchorOf(next, inner);
+
+                run.pushBack((u32)k);
+                sides[inner].pushBack(p);
+                sides[inner].pushBack(a);
+                sides[inner].pushBack(offset(a, d1, -side));
+
+                return;
+            }
+
             sides[inner].pushBack(p);
             sides[inner].pushBack(offset(p, d1, -side));
-
-            if (kind[k] == PointSmooth) {
-                addSector(out, s, p, from, sweep, arc);
-            }
         };
 
         // Turns at the inner points, and for a closed polyline at its first.
         for (size_t k = closed ? 0 : 1; k < (closed ? n : n - 1); k++) {
             turn(k, k == 0 ? segments - 1 : k - 1, k);
         }
+
+        flushRun();
 
         Vector<Point> outline;
 
@@ -15141,7 +15369,7 @@ namespace {
             bool reset = wide == CssInitial;
 
             if (wide == CssUnset) {
-                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomOutlineOffset && !(property >= AtomBorderTopLeftRadius && property <= AtomBorderBottomLeftRadius) && property != AtomZoom;
+                bool inherited = property != AtomOpacity && property != AtomDisplay && property != AtomStopColor && property != AtomStopOpacity && property != AtomClipPathProperty && property != AtomClip && !(property >= AtomMaskType && property <= AtomMaskBorderRepeat) && property != AtomFloodColor && property != AtomFloodOpacity && property != AtomLightingColor && property != AtomFilter && !(property >= AtomBackgroundColor && property <= AtomBackgroundSize) && property != AtomOverflow && property != AtomVectorEffect && property != AtomMixBlendMode && property != AtomIsolation && property != AtomBackfaceVisibility && property != AtomTransformStyle && property != AtomPerspective && property != AtomPerspectiveOrigin && property != AtomObjectFit && property != AtomObjectPosition && property != AtomOutline && property != AtomOutlineOffset && property < AtomBorderTopLeftRadius && property != AtomZoom;
 
                 inherit = inherited;
                 reset = !inherited;
@@ -15568,7 +15796,10 @@ namespace {
 
                     if (keyword) {
                         style.outlineOffset = source.outlineOffset;
-                    } else if (parseLength(value, length) && !percentLength(length) && !(length.unit == Unit::Number && (length.value != 0.f || length.calc))) {
+                    } else {
+                        // validDeclaration already accepted this length,
+                        // including after custom-property substitution.
+                        parseLength(value, length);
                         style.outlineOffset = resolveLength(length, Axis::Other, vp, style.fontSize);
                     }
 
@@ -15875,6 +16106,21 @@ namespace {
 
     static bool passesConditions(const Document& doc, const Node* node);
 
+    static bool geometryWork(Lowering& l, size_t count) {
+        // Instancing visits few nodes but may duplicate a large flattened
+        // path. Bound the emitted storage separately: ordinary zoomed
+        // curves need many points without visiting many nodes.
+        if (count > l.edgeBytes / sizeof(Edge)) {
+            l.work = 0;
+
+            return false;
+        }
+
+        l.edgeBytes -= count * sizeof(Edge);
+
+        return true;
+    }
+
     static void emitEdges(Lowering& l, const Flat& flat, Box& bounds) {
         u32 begin = 0;
 
@@ -15897,6 +16143,10 @@ namespace {
     }
 
     static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint, bool aliased, bool linear = false) {
+        if (!geometryWork(l, flat.points.length() + flat.bands.length())) {
+            return;
+        }
+
         Op op;
 
         memset(&op, 0, sizeof(op));
@@ -16126,7 +16376,9 @@ namespace {
 
             // A cycle is decided in the active reference chain, not merely
             // by the pattern's ID. Different chains are separate programs.
-            if (entry.hash == hash && samePatternProgramKey(entry.key, key) && entry.activeCount == l.active.length() && (!entry.activeCount || memcmp(entry.active, l.active.data(), entry.activeCount * sizeof(Node*)) == 0)) {
+            // The bucket hash selects candidates; equality belongs to the
+            // complete key and chain, including when hashes collide.
+            if (samePatternProgramKey(entry.key, key) && entry.activeCount == l.active.length() && (!entry.activeCount || memcmp(entry.active, l.active.data(), entry.activeCount * sizeof(Node*)) == 0)) {
                 return &entry;
             }
 
@@ -16322,7 +16574,9 @@ namespace {
 
         // Never publish a partial program, or one that changed semantic
         // state such as the set of circular references or background inputs.
-        if (share && !l.context3d && l.work && doc.substitutionBudget && samePatternProgramKey(key, after)) {
+        // lowerContext restores its caller's context, so share still
+        // describes the current context after lowering the children.
+        if (share && l.work && doc.substitutionBudget && samePatternProgramKey(key, after)) {
             rememberPatternProgram(l, key, hash, paint->programFirst, paint->programCount);
         }
 
@@ -16786,11 +17040,11 @@ namespace {
     // The side of (px, py) from the edge u v, taken from the edge's points in
     // one order whichever triangle holds it: two triangles sharing an edge
     // see exactly opposite numbers, so no pixel centre falls between them.
-    static float edgeSide(Point u, Point v, float px, float py) {
+    static double edgeSide(Point u, Point v, float px, float py) {
         bool swap = v.x < u.x || (v.x == u.x && v.y < u.y);
         Point s = swap ? v : u;
         Point t = swap ? u : v;
-        float side = (t.x - s.x) * (py - s.y) - (t.y - s.y) * (px - s.x);
+        double side = ((double)t.x - s.x) * ((double)py - s.y) - ((double)t.y - s.y) * ((double)px - s.x);
 
         return swap ? -side : side;
     }
@@ -16806,41 +17060,36 @@ namespace {
     }
 
     static void meshTriangle(u16* buffer, int width, int height, const MeshVertex& a, const MeshVertex& b, const MeshVertex& c) {
-        float area = (b.p.x - a.p.x) * (c.p.y - a.p.y) - (c.p.x - a.p.x) * (b.p.y - a.p.y);
+        double area = ((double)b.p.x - a.p.x) * ((double)c.p.y - a.p.y) - ((double)c.p.x - a.p.x) * ((double)b.p.y - a.p.y);
 
-        if (fabsf(area) < 1e-12f) {
+        if (!isfinite(area) || fabs(area) < 1e-12) {
             return;
         }
 
         float turn = area > 0.f ? 1.f : -1.f;
 
-        int x0 = (int)floorf(minf(a.p.x, minf(b.p.x, c.p.x)));
-        int y0 = (int)floorf(minf(a.p.y, minf(b.p.y, c.p.y)));
-        int x1 = (int)ceilf(maxf(a.p.x, maxf(b.p.x, c.p.x)));
-        int y1 = (int)ceilf(maxf(a.p.y, maxf(b.p.y, c.p.y)));
-
-        x0 = x0 < 0 ? 0 : x0;
-        y0 = y0 < 0 ? 0 : y0;
-        x1 = x1 > width ? width : x1;
-        y1 = y1 > height ? height : y1;
+        int x0 = (int)floorf(minf(maxf(minf(a.p.x, minf(b.p.x, c.p.x)), 0.f), (float)width));
+        int y0 = (int)floorf(minf(maxf(minf(a.p.y, minf(b.p.y, c.p.y)), 0.f), (float)height));
+        int x1 = (int)ceilf(minf(maxf(maxf(a.p.x, maxf(b.p.x, c.p.x)), 0.f), (float)width));
+        int y1 = (int)ceilf(minf(maxf(maxf(a.p.y, maxf(b.p.y, c.p.y)), 0.f), (float)height));
 
         for (int y = y0; y < y1; y++) {
             for (int x = x0; x < x1; x++) {
                 float px = (float)x + 0.5f;
                 float py = (float)y + 0.5f;
-                float ea = edgeSide(b.p, c.p, px, py) * turn;
-                float eb = edgeSide(c.p, a.p, px, py) * turn;
-                float ec = edgeSide(a.p, b.p, px, py) * turn;
+                double ea = edgeSide(b.p, c.p, px, py) * turn;
+                double eb = edgeSide(c.p, a.p, px, py) * turn;
+                double ec = edgeSide(a.p, b.p, px, py) * turn;
 
                 if (ea < 0.f || eb < 0.f || ec < 0.f || (ea == 0.f && !edgeOwns(b.p, c.p, turn)) || (eb == 0.f && !edgeOwns(c.p, a.p, turn)) || (ec == 0.f && !edgeOwns(a.p, b.p, turn))) {
                     continue;
                 }
 
-                float sum = ea + eb + ec;
+                double sum = ea + eb + ec;
                 float d[4];
 
                 for (int k = 0; k < 4; k++) {
-                    d[k] = (ea * a.c[k] + eb * b.c[k] + ec * c.c[k]) / sum;
+                    d[k] = (float)((ea * a.c[k] + eb * b.c[k] + ec * c.c[k]) / sum);
                 }
 
                 storePixel(buffer + ((size_t)y * width + x) * 4, d);
@@ -17022,10 +17271,10 @@ namespace {
             extend(device, apply(space, point));
         }
 
-        int x0 = (int)floorf(maxf(device.x0, 0.f));
-        int y0 = (int)floorf(maxf(device.y0, 0.f));
-        int x1 = (int)ceilf(minf(device.x1, (float)l.width));
-        int y1 = (int)ceilf(minf(device.y1, (float)l.height));
+        int x0 = (int)floorf(minf(maxf(device.x0, 0.f), (float)l.width));
+        int y0 = (int)floorf(minf(maxf(device.y0, 0.f), (float)l.height));
+        int x1 = (int)ceilf(minf(maxf(device.x1, 0.f), (float)l.width));
+        int y1 = (int)ceilf(minf(maxf(device.y1, 0.f), (float)l.height));
 
         if (x1 <= x0 || y1 <= y0) {
             return nullptr;
@@ -17061,9 +17310,7 @@ namespace {
                     }
                 }
 
-                int n = (int)ceilf(extent * 3.f / 2.f);
-
-                n = n < 1 ? 1 : (n > 128 ? 128 : n);
+                int n = (int)ceilf(minf(maxf(extent * 3.f / 2.f, 1.f), 128.f));
 
                 if (bicubic) {
                     n = (n + 7) / 8 * 8;
@@ -17305,7 +17552,7 @@ namespace {
     static Matrix boxTransform(Pass& p, Node* node, const ComputedStyle& parent, Viewport vp);
     static Box deviceBox(const Matrix& m, const Box& box);
     static bool givenSide(const Document& doc, const Node* node, u32 name);
-    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgFail fail, void* context);
+    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context);
     static void measureRoot(Pass& p, float& width, float& height);
 
     // Adds a box, through a matrix, to another.
@@ -17670,7 +17917,11 @@ namespace {
 
         flatten(path, m, tolerance, flat);
         shape.first = (u32)l.edges.length();
-        emitEdges(l, flat, bounds);
+
+        if (geometryWork(l, flat.points.length())) {
+            emitEdges(l, flat, bounds);
+        }
+
         shape.count = (u32)l.edges.length() - shape.first;
         shape.rule = rule;
         shape.bounds = bounds;
@@ -17773,15 +18024,17 @@ namespace {
         const Edge& a = l.edges[first];
         const Edge& b = l.edges[first + 1];
 
-        if (a.x0 != a.x1 || b.x0 != b.x1 || a.x0 == b.x0 || a.y0 != b.y1 || a.y1 != b.y0) {
+        if (a.x0 != a.x1 || b.x0 != b.x1 || a.x0 == b.x0) {
             return false;
         }
 
+        // emitEdges closes every contour and omits only horizontal edges.
+        // With just two vertical edges at distinct x, the intervening
+        // horizontal chains necessarily connect their opposite y ends.
         // Bounds retain the transformed geometry's doubles. Comparing the
         // stored edges to their float images also rejects a horizontal
         // retrace extending the bounds past the filled rectangle.
-        return minf(a.x0, b.x0) == (float)box.x0 && minf(a.y0, a.y1) == (float)box.y0 &&
-            maxf(a.x0, b.x0) == (float)box.x1 && maxf(a.y0, a.y1) == (float)box.y1;
+        return minf(a.x0, b.x0) == (float)box.x0 && minf(a.y0, a.y1) == (float)box.y0 && maxf(a.x0, b.x0) == (float)box.x1 && maxf(a.y0, a.y1) == (float)box.y1;
     }
 
     static bool rectangleClip(const Lowering& l, const Op& op, Box& box) {
@@ -17808,7 +18061,8 @@ namespace {
             if (item.kind == OpKind::Begin) {
                 Box rect;
 
-                if (filled || !item.clipped || !rectangleClip(l, item, rect)) {
+                // resolveClip emits a Begin only for a clipped group.
+                if (filled || !rectangleClip(l, item, rect)) {
                     return false;
                 }
 
@@ -17823,7 +18077,8 @@ namespace {
 
                 box = clipped ? meetBoxes(box, cut) : box;
                 filled = true;
-            } else if (item.kind != OpKind::End || !filled) {
+            } else if (!filled) {
+                // resolveClip emits only Begin, Fill and matching End ops.
                 return false;
             }
         }
@@ -18257,7 +18512,7 @@ namespace {
     }
 
     static void lowerElement(Lowering& l, Node* node, const ComputedStyle& parent, const Matrix& ctm, Viewport vp);
-    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail);
+    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgDecompress decompress, SvgFail fail, void* context);
     static void cascade(Document& doc);
     static void lowerChildren(Lowering& l, Node* node, const ComputedStyle& style, const Matrix& ctm, Viewport vp);
 
@@ -20938,7 +21193,7 @@ namespace {
                 // intact (SVG 2 error processing); an invalid root document
                 // still reaches the library's fail callback.
                 try {
-                    loadDocument(*nested, *l.pool, data, invalidImageXml);
+                    loadDocument(*nested, *l.pool, data, l.decompress, invalidImageXml, l.context);
                 } catch (const InvalidImageXml&) {
                     return false;
                 }
@@ -21448,7 +21703,7 @@ namespace {
         if (source.nested && (autoWidth || autoHeight) && (source.width <= 0.f || source.height <= 0.f)) {
             Pass inner;
 
-            beginPass(inner, *source.nested, *p.pool, p.decode, p.fail, p.context);
+            beginPass(inner, *source.nested, *p.pool, p.decode, p.decompress, p.fail, p.context);
             inner.imageDepth = p.imageDepth + 1;
             // The image is the pass's work too.
             inner.work = p.work;
@@ -23569,6 +23824,10 @@ namespace {
         }
 
         if (paint.type == PaintType::Pattern) {
+            if (!isfinite(p.x) || !isfinite(p.y)) {
+                return false;
+            }
+
             int tw = (int)paint.imageWidth;
             int th = (int)paint.imageHeight;
             float fx = p.x - 0.5f;
@@ -23757,8 +24016,10 @@ namespace {
     // An edge's x at y, its ends ordered by y. Compute each endpoint's
     // weight from the distance to the other end, without subtracting two
     // large x coordinates or rounding a near-end weight as 1 minus another.
+    // A vertical edge keeps its x, even where its other end is infinite and
+    // the weights are not numbers.
     static float edgeX(float x0, float y0, float x1, float y1, float y) {
-        if (y == y0) {
+        if (y == y0 || x0 == x1) {
             return x0;
         }
 
@@ -23811,6 +24072,13 @@ namespace {
 
     // Reuse these levels between bands; deeper intersection trees own scratch.
     constexpr int bandCacheLevels = 8;
+
+    // The samples a row's exact bands may visit, over twice what the most
+    // crowded row of the corpus takes at its smaller size, 872 349. Edges
+    // that keep crossing, tens of thousands of overlapping dots in one
+    // fill, would split bands without end in effect; past this a row is
+    // sampled.
+    constexpr size_t bandWorkLimit = (size_t)1 << 21;
 
     struct BandSample {
         float x0;
@@ -23930,10 +24198,12 @@ namespace {
     // only when no later edge reaches into it at either endpoint. The crossing
     // nearest the middle is between adjacent middle samples; split there until
     // the order is fixed or no interior float cut can represent a crossing.
-    static void unionBand(u64* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding, Vector<BandSample>* extra = nullptr) {
+    static void unionBand(u64* acc, u32 stride, u32 w, const BandEdge* edges, Vector<BandSample>* samples, float a, float b, u8 rule, int depth, bool comparable, i64 winding, size_t& work, Vector<BandSample>* extra = nullptr) {
         Vector<BandSample>& band = depth < bandCacheLevels ? samples[depth] : *extra;
 
-        if (band.empty()) {
+        work += band.length();
+
+        if (band.empty() || work > bandWorkLimit) {
             return;
         }
 
@@ -24083,9 +24353,9 @@ namespace {
                     Vector<BandSample>& half = depth + 1 < bandCacheLevels ? samples[depth + 1] : overflow;
 
                     splitBandSamples(edges, sorted + k, end - k, a, cut, true, half);
-                    unionBand(acc, stride, w, edges, samples, a, cut, rule, depth + 1, true, winding, &half);
+                    unionBand(acc, stride, w, edges, samples, a, cut, rule, depth + 1, true, winding, work, &half);
                     splitBandSamples(edges, sorted + k, end - k, cut, b, false, half);
-                    unionBand(acc, stride, w, edges, samples, cut, b, rule, depth + 1, true, winding, &half);
+                    unionBand(acc, stride, w, edges, samples, cut, b, rule, depth + 1, true, winding, work, &half);
 
                     for (size_t i = k; i < end; i++) {
                         winding += sorted[i].dir;
@@ -24387,7 +24657,7 @@ namespace {
 
     // Integrate one transposed pixel from all of its endpoint intervals.
     // Keep raw coverage fractions until the complete pixel has been summed.
-    static void rasterizeBandRow(u64* output, u32 width, Vector<BandEdge>& edges, u8 rule, float left, float right, BandRowScratch& scratch) {
+    static void rasterizeBandRow(u64* output, u32 width, Vector<BandEdge>& edges, u8 rule, float left, float right, BandRowScratch& scratch, size_t& work) {
         if (edges.empty()) {
             return;
         }
@@ -24451,7 +24721,7 @@ namespace {
             position.mut(i) = (u32)i;
         }
 
-        for (size_t i = 0; i + 1 < cutCount; i++) {
+        for (size_t i = 0; i + 1 < cutCount && work <= bandWorkLimit; i++) {
             float a = cuts[i];
             float b = cuts[i + 1];
             size_t kept = 0;
@@ -24472,7 +24742,7 @@ namespace {
 
             bool comparable = bandSamples(edges.data(), order, position, a, b, samples[0], scratch.values);
 
-            unionBand(output, width + 2, width, edges.data(), samples, a, b, rule, 0, comparable, 0);
+            unionBand(output, width + 2, width, edges.data(), samples, a, b, rule, 0, comparable, 0, work);
             order.clear();
 
             for (const BandSample& sample : samples[0]) {
@@ -24490,7 +24760,7 @@ namespace {
     // The vertical edges also determine the omitted horizontal edges: at
     // every height their endpoint flows close uniquely from left to right.
     // Close them before transposing the row, including its clipping edges.
-    static void rasterizeTransposedRow(u64* output, u32 width, const Vector<BandEdge>& edges, u8 rule) {
+    static void rasterizeTransposedRow(u64* output, u32 width, const Vector<BandEdge>& edges, u8 rule, size_t& work) {
         Vector<BandEdge> transposed;
         Vector<RowVertex> vertices;
         auto transpose = [&](float x0, float y0, float x1, float y1, i64 dir) {
@@ -24539,7 +24809,7 @@ namespace {
         Vector<BandEdge> pixel;
         BandRowScratch scratch;
 
-        for (u32 column = 0; column < width; column++) {
+        for (u32 column = 0; column < width && work <= bandWorkLimit; column++) {
             float top = (float)column;
             float bottom = (float)(column + 1);
             size_t kept = 0;
@@ -24572,7 +24842,7 @@ namespace {
             }
 
             u64 area[3] = {};
-            rasterizeBandRow(area, 1, pixel, rule, 0.f, 1.f, scratch);
+            rasterizeBandRow(area, 1, pixel, rule, 0.f, 1.f, scratch, work);
             output[column] += area[0] - previous;
             previous = area[0];
         }
@@ -24615,6 +24885,63 @@ namespace {
         }
         while (edges.length() > kept) {
             edges.popBack();
+        }
+    }
+
+    // A span of one scanline's coverage, weight its share of a pixel's
+    // 2^32: each end splits the weight between two cells, rounded. Its
+    // ends come in x order, and clamped to the raster one that closes on
+    // itself adds as much as it takes away.
+    static void addSpan(u64* acc, u32 w, float x0, float x1, i64 weight) {
+        float limit = (float)w;
+
+        x0 = minf(maxf(x0, 0.f), limit);
+        x1 = minf(maxf(x1, 0.f), limit);
+
+        float c0 = floorf(x0);
+        float c1 = floorf(x1);
+        u32 i0 = (u32)c0;
+        u32 i1 = (u32)c1;
+        i64 a = (i64)rint((1.0 - ((double)x0 - c0)) * (double)weight);
+        i64 b = (i64)rint((1.0 - ((double)x1 - c1)) * (double)weight);
+
+        acc[i0] += (u64)a;
+        acc[i0 + 1] += (u64)(weight - a);
+        acc[i1] -= (u64)b;
+        acc[i1 + 1] -= (u64)(weight - b);
+    }
+
+    // A row past bandWorkLimit, sampled on scanlines: sixteen where few
+    // edges cross it, down to four for many. order holds the row's edges
+    // and is left in the x order of its last scanline, then the rest.
+    static void sampleRow(u64* line, u32 w, const BandEdge* edges, Vector<u32>& order, float top, u8 rule, Vector<Crossing>& crossings, Vector<Crossing>& scratch, Vector<u32>& rest) {
+        int subs = (int)minf(maxf(16384.f / (float)order.length(), 4.f), 16.f);
+
+        for (int sub = 0; sub < subs; sub++) {
+            i64 winding = 0;
+            float start = 0.f;
+
+            scanCrossings(edges, order, top + (sub + .5f) / (float)subs, (float)w, crossings, scratch, rest);
+
+            for (const Crossing& c : crossings) {
+                bool before = insideWinding(winding, rule);
+
+                winding += c.dir;
+
+                if (!before) {
+                    start = c.x;
+                } else if (!insideWinding(winding, rule)) {
+                    addSpan(line, w, start, c.x, ((i64)1 << 32) / subs);
+                }
+            }
+
+            order.clear();
+
+            for (const Crossing& c : crossings) {
+                order.pushBack(c.edge);
+            }
+
+            order.append(rest.data(), rest.length());
         }
     }
 
@@ -24686,6 +25013,7 @@ namespace {
         Vector<u32> incoming;
         Vector<Crossing> crossings;
         Vector<Crossing> scratch;
+        Vector<u64> saved;
         size_t next = 0;
 
         position.zero(edges.length());
@@ -24801,9 +25129,18 @@ namespace {
 
                 if (finite) {
                     Vector<u64> rowAccumulation;
+                    size_t work = 0;
 
                     rowAccumulation.zero((size_t)w + 2);
-                    rasterizeTransposedRow(rowAccumulation.mutData(), w, rowEdges, rule);
+                    rasterizeTransposedRow(rowAccumulation.mutData(), w, rowEdges, rule, work);
+
+                    if (work > bandWorkLimit) {
+                        order.clear();
+                        order.append(active.data(), active.length());
+                        sampleRow(acc + (size_t)row * stride, w, edges.data(), order, top, rule, crossings, scratch, rest);
+
+                        continue;
+                    }
 
                     for (u32 x = 0; x < w; x++) {
                         acc[(size_t)row * stride + x] = rowAccumulation[x];
@@ -24841,8 +25178,12 @@ namespace {
             }
 
             size_t arriving = 0;
+            size_t work = 0;
+            // The row as it was, to sample it afresh past the work limit.
+            saved.clear();
+            saved.append(acc + (size_t)row * stride, (size_t)w + 2);
 
-            for (size_t k = 0; k + 1 < cutCount; k++) {
+            for (size_t k = 0; k + 1 < cutCount && work <= bandWorkLimit; k++) {
                 size_t kept = 0;
 
                 for (u32 index : order) {
@@ -24861,7 +25202,7 @@ namespace {
 
                 bool comparable = bandSamples(edges.data(), order, position, cuts[k], cuts[k + 1], samples[0], values);
 
-                unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0);
+                unionBand(acc, stride, w, edges.data(), samples, cuts[k], cuts[k + 1], rule, 0, comparable, 0, work);
 
                 // The next band starts in this band's x order.
                 order.clear();
@@ -24870,11 +25211,20 @@ namespace {
                     order.pushBack(s.edge);
                 }
             }
+
+            if (work > bandWorkLimit) {
+                memcpy(acc + (size_t)row * stride, saved.data(), ((size_t)w + 2) * sizeof(u64));
+                order.clear();
+                order.append(active.data(), active.length());
+                sampleRow(acc + (size_t)row * stride, w, edges.data(), order, top, rule, crossings, scratch, rest);
+            }
         }
     }
 
     // Rasterizes the edges within the clip, the pixels the fill can reach.
     static bool rasterize(Raster& r, const Lowering& l, u32 first, u32 count, Box bounds, bool aliased, const IntBox& clip, u32& ix0, u32& iy0, u32& w, u32& h, u8 rule, u32 bands = 0) {
+        r.fullCoverage = false;
+
         float bx0 = floorf(maxf(bounds.x0, (float)clip.x0));
         float by0 = floorf(maxf(bounds.y0, (float)clip.y0));
         float bx1 = ceilf(minf(bounds.x1, (float)clip.x1));
@@ -24894,6 +25244,22 @@ namespace {
         r.accumulation.zero((size_t)stride * h);
 
         u64* acc = r.accumulation.mutData();
+
+        // Two opposed vertical edges enclose a rectangle. If it covers
+        // every pixel of this clipped raster wholly, no edge sampling or
+        // band integration is needed, for either antialiasing mode.
+        if (!bands && rectangleEdges(l, first, count, bounds) && (float)bounds.x0 <= bx0 && (float)bounds.y0 <= by0 && (float)bounds.x1 >= bx1 && (float)bounds.y1 >= by1) {
+            r.fullCoverage = true;
+
+            for (u32 y = 0; y < h; y++) {
+                u64* line = acc + (size_t)y * stride;
+
+                line[0] = 0x100000000ull;
+                line[w] = 0ull - 0x100000000ull;
+            }
+
+            return true;
+        }
 
         if (!aliased || bands) {
             rasterizeUnion(acc, stride, w, h, l, first, count, (float)ix0, (float)iy0, rule, bands, aliased);
@@ -25218,9 +25584,24 @@ namespace {
 
         ensure(r.layers.back(), r.dirty.mut(r.dirty.length() - 1), fill);
 
+        source.zero((size_t)w * 4);
+
+        // With full coverage a solid paint has the same source row at
+        // every y. Keep the ordinary compositing for opacity and linear RGB.
+        if (r.fullCoverage && solid) {
+            for (u32 x = 0; x < w; x++) {
+                memcpy(source.mutData() + (size_t)x * 4, paint.color16, sizeof(paint.color16));
+            }
+
+            for (u32 y = 0; y < h; y++) {
+                overLayer(r, (int)ix0, (int)(iy0 + y), source.data(), (int)w, op.linear);
+            }
+
+            return op.bounds;
+        }
+
         cover.zero(w);
         colors.zero((size_t)w * 4);
-        source.zero((size_t)w * 4);
 
         // A row at a time: the coverage of each pixel stored, and for each
         // run of covered pixels the paint, its product with the coverage, and
@@ -25350,9 +25731,7 @@ namespace {
             // placement can compute the same edge by different double
             // operations; compare their stored raster coordinates so that
             // roundoff alone does not apply its coverage a second time.
-            if (rectangleEdges(l, shape.first, shape.count, rect) &&
-                (float)rect.x0 <= (float)box.x0 && (float)rect.x1 >= (float)box.x1 &&
-                (float)rect.y0 <= (float)box.y0 && (float)rect.y1 >= (float)box.y1) {
+            if (rectangleEdges(l, shape.first, shape.count, rect) && (float)rect.x0 <= (float)box.x0 && (float)rect.x1 >= (float)box.x1 && (float)rect.y0 <= (float)box.y0 && (float)rect.y1 >= (float)box.y1) {
                 return true;
             }
         }
@@ -25643,13 +26022,16 @@ namespace {
     static bool readsResult(const FilterPrimitive& p, int index);
     static void coverEdges(const Plane& plane, const Box& box);
 
-    // The index of the last primitive reading the input, or -1.
+    // Whether SourceGraphic or BackgroundImage needs an sRGB copy.
     static bool readsInSrgb(const Filter& filter, int index) {
         for (u32 k = 0; k < filter.count; k++) {
             const FilterPrimitive& p = filter.primitives[k];
 
             if (p.kind == AtomFeDisplacementMap) {
-                if ((p.in1 == index && !p.linear) || (p.in2 == index && !p.linearMap)) {
+                // Both callers ask about a built-in input (negative index).
+                // lowerFilter always keeps such a displacement source in
+                // sRGB; only the displacement map chooses its colour space.
+                if (p.in1 == index || (p.in2 == index && !p.linearMap)) {
                     return true;
                 }
 
@@ -27751,7 +28133,10 @@ namespace {
         double th = tile.y1 - tile.y0;
         Matrix toUser;
 
-        if (!in.data || !(tw > 0.0) || !(th > 0.0) || !invert(f.ctm, toUser)) {
+        // A nonempty input plane has a positive user subregion:
+        // lowerFilter makes nonpositive primitive regions empty and
+        // rejects nonpositive filter regions before adding primitives.
+        if (!in.data || !invert(f.ctm, toUser)) {
             return;
         }
 
@@ -28502,7 +28887,9 @@ namespace {
         // an unchanged axis must not take fractional clip coverage again.
         // Interpolation can read a boundary texel beyond its continuous
         // support, as for feOffset, so round out sampled support axes alone.
-        if (box.x1 <= box.x0 || box.y1 <= box.y0) {
+        // applyFilter clips every primitive through boxInside, which
+        // represents an empty region as zero on both axes.
+        if (box.x1 <= box.x0) {
             reach = hard = emptyBox();
 
             return;
@@ -28875,13 +29262,9 @@ namespace {
 
         runProgram(*run.raster, *run.lowering, run.lowering->programs.data() + p.programFirst, p.programCount, content);
 
-        // The image drawn over the box is the result: as it is, or with its
-        // colours taken along the sRGB curve to linear light.
-        if (p.linear) {
-            convertRows(*run.raster, content, out, p.box, true);
-        } else {
-            copyBox(content, out, p.box);
-        }
+        // lowerFilter keeps feImage in sRGB. Readers convert its result
+        // when they need linear light, like any other sRGB input.
+        copyBox(content, out, p.box);
 
         releasePlane(content);
     }
@@ -29627,20 +30010,43 @@ namespace {
         return false;
     }
 
-    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgFail fail) {
+    static int writeDecompressed(void* output, const void* bytes, size_t length) {
+        Buffer& out = *(Buffer*)output;
+        // The decompressor supplies actual byte spans and owns the output
+        // limit. Allocation failure propagates like any other allocation.
+        out.append(bytes, length);
+
+        return 1;
+    }
+
+    static void loadDocument(Document& doc, ObjPool& pool, StringView source, SvgDecompress decompress, SvgFail fail, void* context) {
+        if (source.length() >= 2 && source[0] == 0x1f && source[1] == 0x8b) {
+            Buffer output;
+
+            // SvgDecompress supplies byte spans and propagates a rejected
+            // write by stopping and returning zero, as its contract requires.
+            if (!decompress || !decompress(context, source.data(), source.length(), writeDecompressed, &output)) {
+                ::fail(fail, SVG_DECOMPRESS);
+            }
+
+            source = keep(pool, output.data(), output.length());
+        }
+
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
-        doc.workBudget = ((size_t)1 << 14) + 32 * source.length();
+        doc.edgeBudget = ((size_t)1 << 14) + 32 * source.length();
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
+        doc.workBudget = ((size_t)1 << 19) + 2 * (size_t)doc.nodeCount;
     }
 
     // A pass over a cascaded document, out of a pool of its own.
-    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgFail fail, void* context) {
+    static void beginPass(Pass& p, Document& doc, ObjPool& pool, SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context) {
         p.doc = &doc;
         p.pool = &pool;
         p.decode = decode;
+        p.decompress = decompress;
         p.fail = fail;
         p.context = context;
         p.imageDepth = 0;
@@ -29754,10 +30160,10 @@ uint32_t svg_image_height(const SvgImage* image) {
     return image->vtable->height(image);
 }
 
-SvgLibrary* svg_library_create(SvgDecode decode, SvgDecompress, SvgFail fail, void* context) {
+SvgLibrary* svg_library_create(SvgDecode decode, SvgDecompress decompress, SvgFail fail, void* context) {
     ObjPool* pool = new ObjPool();
 
-    return pool->make<SvgLibrary>(pool, decode, fail, context);
+    return pool->make<SvgLibrary>(pool, decode, decompress, fail, context);
 }
 
 void svg_library_destroy(SvgLibrary* library) {
@@ -29791,7 +30197,15 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
     {
         Lowering l;
 
-        beginPass(l, doc, scratch, document->decode, document->fail, document->context);
+        beginPass(l, doc, scratch, document->decode, document->decompress, document->fail, document->context);
+        // 64 MiB for a drawing 256 pixels across, more as the side grows,
+        // since a curve flattens into more steps the larger it is drawn,
+        // plus an input-scaled allowance, in bytes. Seven paths of an
+        // Inkscape drawing in 425 KB emit 83 MB of edges at 410 by 512,
+        // 110 MB at twice that. Vector capacity may round up, but repeated
+        // use, clips, pattern programs and dashes cannot multiply edge
+        // storage without a bound.
+        l.edgeBytes = doc.edgeBudget + (size_t)((double)((size_t)1 << 26) * fmax(sqrt((double)width * height) / 256.0, 1.0));
         l.width = width;
         l.height = height;
         l.docWidth = document->width;
@@ -29889,7 +30303,7 @@ SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t len
     Document* doc = pool.make<Document>();
 
     // The file, kept with the document that refers into it.
-    loadDocument(*doc, pool, keep(pool, file, length), library->fail);
+    loadDocument(*doc, pool, keep(pool, file, length), library->decompress, library->fail, library->context);
 
     if (!doc->root || doc->root->name != AtomSvg) {
         fail(library->fail, SVG_NOT_SVG);
@@ -29909,11 +30323,11 @@ SvgDocument* svg_library_parse(SvgLibrary* library, const void* file, size_t len
         ObjPool scratch;
         Pass pass;
 
-        beginPass(pass, *doc, scratch, library->decode, library->fail, library->context);
+        beginPass(pass, *doc, scratch, library->decode, library->decompress, library->fail, library->context);
         measureRoot(pass, width, height);
     }
 
-    SvgDocument* document = pool.make<SvgDocument>(&pool, library->decode, library->fail, library->context, doc, width, height);
+    SvgDocument* document = pool.make<SvgDocument>(&pool, library->decode, library->decompress, library->fail, library->context, doc, width, height);
 
     guard.pool = nullptr;
 
