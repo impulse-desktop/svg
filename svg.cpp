@@ -25548,18 +25548,10 @@ namespace {
         }
     }
 
-    // One colour from x0 on row y over the current layer, within its box, as
-    // overLayer lays a span of it.
+    // One colour from x0 on row y over the current layer, as overLayer lays
+    // a span of it: a fill's, whose window rasterize clipped to the layer.
     static void colorLayer(Raster& r, int x0, int y, const u16* color, int count) {
-        const Plane& plane = r.layers.back();
-        int a = x0 > plane.box.x0 ? x0 : plane.box.x0;
-        int b = x0 + count < plane.box.x1 ? x0 + count : plane.box.x1;
-
-        if (y < plane.box.y0 || y >= plane.box.y1 || b <= a) {
-            return;
-        }
-
-        colorSpan(planeAt(plane, a, y), color, (size_t)(b - a));
+        colorSpan(planeAt(r.layers.back(), x0, y), color, (size_t)count);
     }
 
     // The rows a paint is sampled over: the two table entries around each
@@ -25793,13 +25785,11 @@ namespace {
                 whole = 0;
             };
 
-            // Only the cells written change the coverage; past them none
-            // ends the row. Each cell is left zero as it is read.
-            for (u32 x = lo; x < w;) {
-                if (x >= hi && c == 0) {
-                    break;
-                }
-
+            // Only the cells written change the coverage; past them the sum
+            // is the row's whole, which is none: the runs of either side of
+            // the fill add the same heights. Each cell is left zero as it is
+            // read.
+            for (u32 x = lo; x < w && x < hi;) {
                 u32 end = x + 8 < w ? x + 8 : w;
                 u64 cells[8];
                 u64 change = 0;
@@ -25891,20 +25881,21 @@ namespace {
         int width = box.x1 - box.x0;
 
         // The raster's window lies within the box it was clipped to. Only
-        // the cells written change the coverage; past them none ends the
-        // row.
+        // the cells written change the coverage; past them the sum is the
+        // row's whole, which is none.
         for (u32 y = 0; y < h; y++) {
             u64 sum = 0;
-            u16 cover = 0;
             u64* line = acc + (size_t)y * stride;
             u32 lo = reach[y * 2];
             u32 hi = reach[y * 2 + 1];
             u16* values = target + (size_t)((int)(iy0 + y) - box.y0) * width + (size_t)((int)ix0 - box.x0);
 
-            for (u32 x = lo; x < w && (x < hi || cover); x++) {
+            for (u32 x = lo; x < w && x < hi; x++) {
                 sum += line[x];
                 line[x] = 0;
-                cover = (u16)coverStored(sum, shape.rule);
+
+                u16 cover = (u16)coverStored(sum, shape.rule);
+
                 values[x] = values[x] > cover ? values[x] : cover;
             }
 
