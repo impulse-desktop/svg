@@ -23327,8 +23327,9 @@ namespace {
 
     // A line's coverage of the rows it crosses, a cell at a time: each cell
     // takes the difference of the rounded running total of the row, so that
-    // the cells sum to the line's rounded height in the row exactly.
-    static void addLine(u64* acc, u32 stride, u32 width, float x0, float y0, float x1, float y1) {
+    // the cells sum to the line's rounded height in the row exactly. Each
+    // row's reach takes the cells written.
+    static void addLine(u64* acc, u32* reach, u32 stride, u32 width, float x0, float y0, float x1, float y1) {
         if (y0 == y1) {
             return;
         }
@@ -23355,8 +23356,10 @@ namespace {
 
         for (u32 y = ystart; y < yend; y++) {
             u64* line = acc + (size_t)y * stride;
-            float dy = minf((float)(y + 1), y1) - maxf((float)y, y0);
-            float xnext = x + dxdy * dy;
+            u32* cells = reach + (size_t)y * 2;
+            float below = minf((float)(y + 1), y1);
+            float dy = below - maxf((float)y, y0);
+            float xnext = x0 + dxdy * (below - y0);
             float d = dy * dir;
             float xa = minf(maxf(minf(x, xnext), 0.f), w);
             float xb = minf(maxf(maxf(x, xnext), 0.f), w);
@@ -23366,12 +23369,15 @@ namespace {
             int x1i = (int)x1ceil;
             i64 total = fixedCover(d);
 
+            cells[0] = minf(cells[0], (u32)x0i);
+
             if (x1i <= x0i + 1) {
                 float xmf = 0.5f * (xa + xb) - x0floor;
                 i64 first = fixedCover(d - d * xmf);
 
                 line[x0i] += (u64)first;
                 line[x0i + 1] += (u64)(total - first);
+                cells[1] = maxf(cells[1], (u32)x0i + 2);
             } else {
                 float s = 1.f / (xb - xa);
                 float x0f = xa - x0floor;
@@ -23397,13 +23403,14 @@ namespace {
                 next = fixedCover(d * (1.f - am));
                 line[x1i - 1] += (u64)(next - done);
                 line[x1i] += (u64)(total - next);
+                cells[1] = maxf(cells[1], (u32)x1i + 1);
             }
 
             x = xnext;
         }
     }
 
-    static void addEdge(u64* acc, u32 stride, u32 width, Edge e) {
+    static void addEdge(u64* acc, u32* reach, u32 stride, u32 width, Edge e) {
         float w = (float)width;
         float bounds[2] = {0.f, w};
         float ts[2];
@@ -23449,16 +23456,19 @@ namespace {
             float bx = px[i + 1];
             float mid = (ax + bx) * 0.5f;
 
-            if (mid >= w) {
-                continue;
-            }
-
+            // A piece left of the raster covers from its first cell; one
+            // right of it adds past the last, so that its rows reach there.
             if (mid <= 0.f) {
                 ax = 0.f;
                 bx = 0.f;
             }
 
-            addLine(acc, stride, width, ax, py[i], bx, py[i + 1]);
+            if (mid >= w) {
+                ax = w;
+                bx = w;
+            }
+
+            addLine(acc, reach, stride, width, ax, py[i], bx, py[i + 1]);
         }
     }
 
@@ -24124,9 +24134,9 @@ namespace {
     }
 
     // The steps a row's sweep may take, its events, the edges they move or
-    // pass and the sorts of them, over three times what the most crowded
-    // row of the corpus takes drawn at the size of its references,
-    // 571 533. Edges that keep crossing, tens of thousands of overlapping
+    // pass and the sorts of them, over two and a half times what the most
+    // crowded row of the corpus takes drawn at the size of its references,
+    // 791 979. Edges that keep crossing, tens of thousands of overlapping
     // dots in one fill, would cross without end in effect; past this a row
     // is sampled.
     constexpr size_t rowWorkLimit = (size_t)1 << 21;
@@ -24347,14 +24357,16 @@ namespace {
         r = t;
     }
 
-    // A row's edges in x order along a line moving down it, kept in blocks
-    // of up to sweepBlock so that an edge starting or ending moves only the
-    // others in its block: the blocks in order, each block's place in that
-    // order, and for each edge, by its index, its block and its slot in it,
-    // the side of the fill it bounds, 1 or -1 or none, where along it it
-    // began to, and the winding left of it; the edges whose windings events
-    // changed, stamped with the settling they wait for; and the order the
-    // row leaves. Every edge's slope is there for the whole raster.
+    // The edges in x order along a line moving down the raster, kept in
+    // blocks of up to sweepBlock so that an edge starting or ending moves
+    // only the others in its block: the blocks in order, each block's place
+    // in that order, and for each edge, by its index, its block and its
+    // slot in it, the side of the fill it bounds, 1 or -1 or none, where
+    // along it it began to, and the winding left of it; the edges whose
+    // windings events changed, stamped with the settling they wait for. The
+    // order goes on from row to row while it lives; else the next row
+    // builds it from the edges carried to it. Every edge's slope is there
+    // for the whole raster.
     constexpr u32 sweepBlock = 64;
 
     // An edge and where it is along the sweep.
@@ -24383,6 +24395,69 @@ namespace {
         r = t;
     }
 
+    static bool eventBefore(const SweepEvent& p, const SweepEvent& q) {
+        return p.y != q.y ? p.y < q.y : p.edge < q.edge;
+    }
+
+    // The events of a row, all between top and top + 1, in order of y and
+    // edge: a few by insertion, many first counted into as many slices of
+    // the row by y, each slice then sorted on its own.
+    static void sortEvents(Vector<SweepEvent>& events, Vector<SweepEvent>& scratch, Vector<u32>& counts, float top) {
+        size_t n = events.length();
+        SweepEvent* v = events.mutData();
+
+        if (n <= 32) {
+            for (size_t i = 1; i < n; i++) {
+                SweepEvent e = v[i];
+                size_t j = i;
+
+                for (; j > 0 && eventBefore(e, v[j - 1]); j--) {
+                    v[j] = v[j - 1];
+                }
+
+                v[j] = e;
+            }
+
+            return;
+        }
+
+        auto slice = [&](const SweepEvent& e) {
+            return (size_t)minf(maxf((e.y - top) * (float)n, 0.f), (float)(n - 1));
+        };
+
+        counts.zero(n + 1);
+        scratch.zero(n);
+
+        for (size_t i = 0; i < n; i++) {
+            counts.mut(slice(v[i]) + 1)++;
+        }
+
+        for (size_t k = 1; k <= n; k++) {
+            counts.mut(k) += counts[k - 1];
+        }
+
+        for (size_t i = 0; i < n; i++) {
+            scratch.mut(counts.mut(slice(v[i]))++) = v[i];
+        }
+
+        for (size_t a = 0; a < n;) {
+            size_t b = a + 1;
+            size_t at = slice(scratch[a]);
+
+            while (b < n && slice(scratch[b]) == at) {
+                b++;
+            }
+
+            if (b - a > 1) {
+                quickSort(scratch.mutData() + a, scratch.mutData() + b, eventBefore);
+            }
+
+            a = b;
+        }
+
+        memcpy(v, scratch.data(), n * sizeof(SweepEvent));
+    }
+
     struct RowSweep {
         Vector<u32> slots;
         Vector<u32> count;
@@ -24397,14 +24472,15 @@ namespace {
         Vector<u32> stamp;
         u32 settling = 1;
         Vector<u32> marked;
+        bool live = false;
+        Vector<u32> carried;
         Vector<SweepEvent> starting;
         Vector<SweepEvent> ending;
+        Vector<SweepEvent> sorting;
+        Vector<u32> slices;
         Vector<SweepCrossing> heap;
         Vector<SweepKey> keys;
         Vector<u32> group;
-        Vector<u32> order;
-        float low;
-        float high;
     };
 
     // No edge: past either end of the order, or the block of an edge out
@@ -24591,153 +24667,52 @@ namespace {
         i = left;
     }
 
-    // Integrates a row exactly, the line moving from event
-    // to event: an edge starting or ending, two crossing. Between events the
-    // order holds, and an edge bounding the fill adds its coverage once for
-    // the whole stretch it bounds, not a band at a time. The edges come in
-    // the order the row above left them, which is the order at the top but
-    // where they meet there; they leave in the order at the bottom. False
-    // past rowWorkLimit, the row part drawn.
-    static bool sweepRow(u64* acc, u32 stride, u32 w, const BandEdge* edges, const Vector<u32>& carried, float top, float bottom, u8 rule, RowSweep& s) {
-        s.low = INFINITY;
-        s.high = -INFINITY;
+    // The run of e, from where it began to bound the fill, added down to y.
+    static void sweepClose(u64* acc, u32* reach, u32 stride, u32 w, const BandEdge* edges, const RowSweep& s, u32 e, float y) {
+        if (s.side[e] && y > s.from[e]) {
+            const BandEdge& b = edges[e];
+            float x0 = bandX(b, s.from[e]);
+            float x1 = bandX(b, y);
+
+            addEdge(acc, reach, stride, w, s.side[e] > 0 ? Edge{x0, s.from[e], x1, y} : Edge{x1, y, x0, s.from[e]});
+        }
+    }
+
+    // Ends the order at y: each edge's run added down to there and the
+    // edge out of it, the crossings foreseen and marks dropped.
+    static void sweepStop(u64* acc, u32* reach, u32 stride, u32 w, const BandEdge* edges, RowSweep& s, float y) {
+        for (u32 c : s.chain) {
+            for (u32 k = 0; k < s.count[c]; k++) {
+                u32 e = sweepAt(s, c, k);
+
+                sweepClose(acc, reach, stride, w, edges, s, e, y);
+                s.side.mut(e) = 0;
+                s.block.mut(e) = noEdge;
+            }
+        }
+
         s.count.clear();
         s.chain.clear();
         s.rank.clear();
-        s.starting.clear();
-        s.ending.clear();
         s.heap.clear();
-        s.keys.clear();
         s.marked.clear();
+        s.carried.clear();
+        s.settling++;
+        s.live = false;
+    }
 
-        // A winding no edge has, so that the first settling goes through.
-        for (u32 e : carried) {
-            s.winding.mut(e) = (i64)((u64)1 << 63);
-
-            if (edges[e].y0 <= top) {
-                s.keys.pushBack(SweepKey{sweepX(s, edges, e, top), e});
-            } else {
-                s.starting.pushBack(SweepEvent{edges[e].y0, e});
-            }
-
-            s.side.mut(e) = 0;
-
-            if (edges[e].y1 < bottom) {
-                s.ending.pushBack(SweepEvent{edges[e].y1, e});
-            }
-        }
-
-        // The sorts are work too, at most their length times its bits.
-        size_t sorted = carried.length();
-        size_t work = sorted * (size_t)(64 - __builtin_clzll((u64)sorted | 1));
-
-        if (work > rowWorkLimit) {
-            return false;
-        }
-
-        // Sorted in place while few move, else afresh.
-        auto keyBefore = [&](const SweepKey& p, const SweepKey& q) {
-            return p.x != q.x ? p.x < q.x : sweepTie(s, p.edge, q.edge);
-        };
-        size_t n = s.keys.length();
-        size_t moves = 0;
-
-        for (size_t i = 1; i < n && moves <= 4 * n; i++) {
-            SweepKey key = s.keys[i];
-            size_t j = i;
-
-            for (; j > 0 && keyBefore(key, s.keys[j - 1]); j--) {
-                s.keys.mut(j) = s.keys[j - 1];
-            }
-
-            s.keys.mut(j) = key;
-            moves += i - j;
-        }
-
-        if (moves > 4 * n) {
-            quickSort(s.keys.mutBegin(), s.keys.mutEnd(), keyBefore);
-        }
-
-        // A row its edges all span, no two of them crossing in it, keeps
-        // its order throughout: each edge bounding the fill adds its whole
-        // stretch.
-        if (s.starting.empty() && s.ending.empty()) {
-            bool crossing = false;
-
-            for (size_t k = 0; k + 1 < n && !crossing; k++) {
-                u32 a = s.keys[k].edge;
-                u32 b = s.keys[k + 1].edge;
-                double ka = s.slope[a];
-                double kb = s.slope[b];
-
-                crossing = ka > kb && ((double)edges[b].x0 - edges[a].x0 + edges[a].y0 * ka - edges[b].y0 * kb) / (ka - kb) <= bottom;
-            }
-
-            if (!crossing) {
-                i64 winding = 0;
-
-                s.order.clear();
-
-                for (const SweepKey& key : s.keys) {
-                    u32 e = key.edge;
-                    bool before = insideWinding(winding, rule);
-
-                    winding += edges[e].dir;
-
-                    int side = (int)insideWinding(winding, rule) - (int)before;
-
-                    if (side) {
-                        float x0 = bandX(edges[e], top);
-                        float x1 = bandX(edges[e], bottom);
-
-                        addEdge(acc, stride, w, side > 0 ? Edge{x0, top, x1, bottom} : Edge{x1, bottom, x0, top});
-                        s.low = minf(s.low, minf(x0, x1));
-                        s.high = maxf(s.high, maxf(x0, x1));
-                    }
-
-                    s.order.pushBack(e);
-                }
-
-                return true;
-            }
-        }
-
-        // The blocks start three quarters full.
-        u32 filling = 0;
-
-        for (size_t k = 0; k < n; k++) {
-            if (k % (sweepBlock * 3 / 4) == 0) {
-                sweepChain(s, s.chain.length(), filling);
-            }
-
-            sweepPut(s, filling, s.count[filling], s.keys[k].edge);
-            s.count.mut(filling)++;
-        }
-
-        // The sorts below break ties by index, so that every run goes the
-        // same way.
-        auto eventBefore = [](const SweepEvent& p, const SweepEvent& q) {
-            return p.y != q.y ? p.y < q.y : p.edge < q.edge;
-        };
-
-        if (s.starting.length() > 1) {
-            quickSort(s.starting.mutBegin(), s.starting.mutEnd(), eventBefore);
-        }
-
-        if (s.ending.length() > 1) {
-            quickSort(s.ending.mutBegin(), s.ending.mutEnd(), eventBefore);
-        }
+    // Integrates a row exactly, the line moving from event to event: an
+    // edge starting or ending, two crossing, as starting, ending and the
+    // crossings foreseen hold them. Between events the order holds, and an
+    // edge bounding the fill adds its coverage once for the whole stretch
+    // it bounds, down the rows while the order lives. A row whose order is
+    // not live builds it at its top from the edges carried. False past
+    // rowWorkLimit, the row part drawn.
+    static bool sweepRow(u64* acc, u32* reach, u32 stride, u32 w, const BandEdge* edges, float top, float bottom, u8 rule, RowSweep& s) {
+        size_t work = 0;
 
         auto close = [&](u32 e, float y) {
-            if (s.side[e] && y > s.from[e]) {
-                const BandEdge& b = edges[e];
-                float x0 = bandX(b, s.from[e]);
-                float x1 = bandX(b, y);
-
-                addEdge(acc, stride, w, s.side[e] > 0 ? Edge{x0, s.from[e], x1, y} : Edge{x1, y, x0, s.from[e]});
-                s.low = minf(s.low, minf(x0, x1));
-                s.high = maxf(s.high, maxf(x0, x1));
-            }
+            sweepClose(acc, reach, stride, w, edges, s, e, y);
         };
 
         // The winding left of e, its run closed and opened at y where the
@@ -24826,7 +24801,7 @@ namespace {
                 return;
             }
 
-            float end = minf(bottom, minf(edges[a].y1, edges[b].y1));
+            float end = minf(edges[a].y1, edges[b].y1);
             double ka = s.slope[a];
             double kb = s.slope[b];
 
@@ -24889,17 +24864,85 @@ namespace {
             return top;
         };
 
-        if (n) {
-            mark(sweepAt(s, s.chain[0], 0));
+        // The sorts are work too, each at most its length times its bits:
+        // the row's events, and the edges carried, which only a row that
+        // builds the order has.
+        auto sortWork = [](size_t n) {
+            return n * (size_t)(64 - __builtin_clzll((u64)n | 1));
+        };
+
+        work = sortWork(s.starting.length()) + sortWork(s.ending.length()) + sortWork(s.carried.length());
+
+        if (work > rowWorkLimit) {
+            return false;
         }
 
-        settle(top);
+        // The order afresh: the edges carried, by x at the top and ties by
+        // slope, sorted in place while few move, else afresh.
+        if (!s.live) {
+            size_t n = s.carried.length();
+            auto keyBefore = [&](const SweepKey& p, const SweepKey& q) {
+                return p.x != q.x ? p.x < q.x : sweepTie(s, p.edge, q.edge);
+            };
+            size_t moves = 0;
 
-        for (u32 c : s.chain) {
-            for (u32 k = 0; k < s.count[c]; k++) {
-                predict(sweepAt(s, c, k), top);
+            s.keys.clear();
+
+            // A winding no edge has, so that the first settling goes
+            // through.
+            for (u32 e : s.carried) {
+                s.winding.mut(e) = (i64)((u64)1 << 63);
+                s.keys.pushBack(SweepKey{sweepX(s, edges, e, top), e});
+            }
+
+            for (size_t i = 1; i < n && moves <= 4 * n; i++) {
+                SweepKey key = s.keys[i];
+                size_t j = i;
+
+                for (; j > 0 && keyBefore(key, s.keys[j - 1]); j--) {
+                    s.keys.mut(j) = s.keys[j - 1];
+                }
+
+                s.keys.mut(j) = key;
+                moves += i - j;
+            }
+
+            if (moves > 4 * n) {
+                quickSort(s.keys.mutBegin(), s.keys.mutEnd(), keyBefore);
+            }
+
+            // The blocks start three quarters full.
+            u32 filling = 0;
+
+            for (size_t k = 0; k < n; k++) {
+                if (k % (sweepBlock * 3 / 4) == 0) {
+                    sweepChain(s, s.chain.length(), filling);
+                }
+
+                sweepPut(s, filling, s.count[filling], s.keys[k].edge);
+                s.count.mut(filling)++;
+            }
+
+            s.carried.clear();
+            s.live = true;
+
+            if (n) {
+                mark(sweepAt(s, s.chain[0], 0));
+            }
+
+            settle(top);
+
+            for (u32 c : s.chain) {
+                for (u32 k = 0; k < s.count[c]; k++) {
+                    predict(sweepAt(s, c, k), top);
+                }
             }
         }
+
+        // The sorts below break ties by index, so that every run goes the
+        // same way.
+        sortEvents(s.starting, s.sorting, s.slices, top);
+        sortEvents(s.ending, s.sorting, s.slices, top);
 
         size_t nextStart = 0;
         size_t nextEnd = 0;
@@ -25086,29 +25129,15 @@ namespace {
             settle(y);
         }
 
-        s.order.clear();
-
-        for (u32 c : s.chain) {
-            for (u32 k = 0; k < s.count[c]; k++) {
-                u32 e = sweepAt(s, c, k);
-
-                close(e, bottom);
-                s.order.pushBack(e);
-            }
-        }
-
         return work <= rowWorkLimit;
     }
 
-    // The cells of a row that writes between x low and high reach, from
-    // and to: addLine and addSpan write the cell past the one an x is in.
+    // The cells of a row that wrote between x low and high join its reach,
+    // from and to: addSpan writes the cell past the one an x is in. One that
+    // wrote none, low infinite and high its negative, reaches from w.
     static void rowReach(u32* reach, float low, float high, u32 w) {
-        if (!(low <= high)) {
-            return;
-        }
-
-        reach[0] = (u32)minf(maxf(floorf(low), 0.f), (float)w);
-        reach[1] = (u32)minf(maxf(floorf(high), 0.f), (float)w) + 2;
+        reach[0] = minf(reach[0], (u32)minf(maxf(floorf(low), 0.f), (float)w));
+        reach[1] = maxf(reach[1], (u32)minf(maxf(floorf(high), 0.f), (float)w) + 2);
     }
 
     static void rasterizeUnion(u64* acc, u32* reach, u32 stride, u32 w, u32 h, const Lowering& l, u32 first, u32 count, float ox, float oy, u8 rule, u32 bands, bool aliased) {
@@ -25205,75 +25234,44 @@ namespace {
             edges.popBack();
         }
 
-        Vector<u32> active;
-        // The active edges again, in the x order of the last row's bottom
-        // or scanline.
         Vector<u32> order;
         Vector<u32> rest;
         Vector<Crossing> crossings;
         Vector<Crossing> scratch;
         size_t next = 0;
-        RowSweep sweep;
-        sweep.block.zero(edges.length());
-        sweep.slot.zero(edges.length());
-        sweep.side.zero(edges.length());
-        sweep.from.zero(edges.length());
-        sweep.winding.zero(edges.length());
-        sweep.stamp.zero(edges.length());
-        sweep.slope.zero(edges.length());
 
-        for (size_t k = 0; k < edges.length(); k++) {
-            const BandEdge& e = edges[k];
-
-            sweep.slope.mut(k) = ((double)e.x1 - e.x0) / ((double)e.y1 - e.y0);
+        // No row has written a cell yet.
+        for (u32 y = 0; y < h; y++) {
+            reach[y * 2] = ~0u;
         }
 
-        for (u32 row = 0; row < h; row++) {
-            float top = (float)row;
-            float bottom = (float)(row + 1);
-            size_t kept = 0;
+        // Aliased, a row takes the windings at its middle.
+        if (aliased) {
+            for (u32 row = 0; row < h; row++) {
+                float top = (float)row;
+                float bottom = (float)(row + 1);
+                u64* line = acc + (size_t)row * stride;
+                i64 winding = 0;
+                float low = INFINITY;
+                float high = -INFINITY;
+                size_t kept = 0;
 
-            for (size_t k = 0; k < active.length(); k++) {
-                if (edges[active[k]].y1 > top) {
-                    active.mutData()[kept++] = active[k];
+                for (size_t k = 0; k < order.length(); k++) {
+                    if (edges[order[k]].y1 > top) {
+                        order.mutData()[kept++] = order[k];
+                    }
                 }
-            }
 
-            while (active.length() > kept) {
-                active.popBack();
-            }
-
-            kept = 0;
-
-            for (size_t k = 0; k < order.length(); k++) {
-                if (edges[order[k]].y1 > top) {
-                    order.mutData()[kept++] = order[k];
+                while (order.length() > kept) {
+                    order.popBack();
                 }
-            }
 
-            while (order.length() > kept) {
-                order.popBack();
-            }
-
-            while (next < edges.length() && edges[next].y0 < bottom) {
-                if (edges[next].y1 > top) {
-                    active.pushBack((u32)next);
+                // One that ends above the row passes it by.
+                for (; next < edges.length() && edges[next].y0 < bottom; next++) {
                     order.pushBack((u32)next);
                 }
 
-                next++;
-            }
-
-            if (active.empty()) {
-                continue;
-            }
-
-            if (aliased) {
                 scanCrossings(edges.data(), order, top + .5f, (float)w, crossings, scratch, rest);
-                i64 winding = 0;
-                u64* line = acc + (size_t)row * stride;
-                float low = INFINITY;
-                float high = -INFINITY;
 
                 for (const Crossing& c : crossings) {
                     bool before = insideWinding(winding, rule);
@@ -25292,35 +25290,139 @@ namespace {
                 }
 
                 rowReach(reach + (size_t)row * 2, low, high, w);
+            }
+
+            return;
+        }
+
+        // The edges that end in each row, by the row of their end: those of
+        // row r are ends[endAt[r]] up to ends[endAt[r + 1]].
+        Vector<u32> endAt;
+        Vector<u32> ends;
+
+        endAt.zero((size_t)h + 2);
+
+        for (const BandEdge& e : edges) {
+            if (e.y1 >= 0.f && e.y1 < (float)h) {
+                endAt.mut((u32)e.y1 + 2)++;
+            }
+        }
+
+        for (size_t k = 1; k < endAt.length(); k++) {
+            endAt.mut(k) += endAt[k - 1];
+        }
+
+        ends.zero(endAt.back());
+
+        for (size_t k = 0; k < edges.length(); k++) {
+            float y1 = edges[k].y1;
+
+            if (y1 >= 0.f && y1 < (float)h) {
+                ends.mut(endAt.mut((u32)y1 + 1)++) = (u32)k;
+            }
+        }
+
+        RowSweep sweep;
+        sweep.block.zero(edges.length());
+        sweep.slot.zero(edges.length());
+        sweep.side.zero(edges.length());
+        sweep.from.zero(edges.length());
+        sweep.winding.zero(edges.length());
+        sweep.stamp.zero(edges.length());
+        sweep.slope.zero(edges.length());
+
+        for (size_t k = 0; k < edges.length(); k++) {
+            const BandEdge& e = edges[k];
+
+            sweep.block.mut(k) = noEdge;
+            sweep.slope.mut(k) = ((double)e.x1 - e.x0) / ((double)e.y1 - e.y0);
+        }
+
+        // Edges from above the raster are carried to its top; the rest
+        // start in their rows.
+        for (; next < edges.length() && edges[next].y0 < 0.f; next++) {
+            if (edges[next].y1 > 0.f) {
+                sweep.carried.pushBack((u32)next);
+            }
+        }
+
+        // Resolve winding before integrating each interval's coverage:
+        // disjoint, opposed contours can occupy different parts of a pixel.
+        for (u32 row = 0; row < h; row++) {
+            float top = (float)row;
+            float bottom = (float)(row + 1);
+            size_t from = next;
+
+            sweep.starting.clear();
+            sweep.ending.clear();
+
+            for (; next < edges.length() && edges[next].y0 < bottom; next++) {
+                sweep.starting.pushBack(SweepEvent{edges[next].y0, (u32)next});
+            }
+
+            // One ending at the top ends there if the order holds it.
+            for (u32 k = endAt[row]; k < endAt[row + 1]; k++) {
+                u32 e = ends[k];
+
+                if (edges[e].y1 > top || sweep.block[e] != noEdge) {
+                    sweep.ending.pushBack(SweepEvent{edges[e].y1, e});
+                }
+            }
+
+            if (sweepRow(acc, reach, stride, w, edges.data(), top, bottom, rule, sweep)) {
                 continue;
             }
 
-            // Resolve winding before integrating each interval's coverage:
-            // disjoint, opposed contours can occupy different parts of a pixel.
-            // A row is swept from event to event; past the work limit it is
-            // sampled (D58).
+            // Past the work limit the row is sampled (D58). Its edges are
+            // those in the order or carried to it and those that end or
+            // start in it, each once. The runs end at its top, the row is
+            // drawn afresh, and the next row builds the order anew.
             u64* line = acc + (size_t)row * stride;
-            bool swept = sweepRow(acc, stride, w, edges.data(), order, top, bottom, rule, sweep);
-
-            order.clear();
-            order.append(sweep.order.data(), sweep.order.length());
-
-            if (swept) {
-                rowReach(reach + (size_t)row * 2, sweep.low, sweep.high, w);
-                continue;
-            }
-
-            // Only the sweep wrote the row, its edges cut to it: the row is
-            // sampled afresh.
-            memset(line, 0, ((size_t)w + 2) * sizeof(u64));
-            order.clear();
-            order.append(active.data(), active.length());
             float low = INFINITY;
             float high = -INFINITY;
+            u32 seen = ++sweep.settling;
+            auto add = [&](u32 e) {
+                if (sweep.stamp[e] != seen) {
+                    sweep.stamp.mut(e) = seen;
+                    order.pushBack(e);
+                }
+            };
 
+            order.clear();
+
+            for (u32 c : sweep.chain) {
+                for (u32 k = 0; k < sweep.count[c]; k++) {
+                    add(sweepAt(sweep, c, k));
+                }
+            }
+
+            for (u32 e : sweep.carried) {
+                add(e);
+            }
+
+            for (u32 k = endAt[row]; k < endAt[row + 1]; k++) {
+                if (edges[ends[k]].y1 > top) {
+                    add(ends[k]);
+                }
+            }
+
+            for (size_t k = from; k < next; k++) {
+                add((u32)k);
+            }
+
+            sweepStop(acc, reach, stride, w, edges.data(), sweep, top);
+            memset(line, 0, ((size_t)w + 2) * sizeof(u64));
             sampleRow(line, w, edges.data(), order, top, rule, crossings, scratch, rest, low, high);
             rowReach(reach + (size_t)row * 2, low, high, w);
+
+            for (u32 e : order) {
+                if (edges[e].y1 > bottom) {
+                    sweep.carried.pushBack(e);
+                }
+            }
         }
+
+        sweepStop(acc, reach, stride, w, edges.data(), sweep, (float)h);
     }
 
     // Rasterizes the edges within the clip, the pixels the fill can reach.
