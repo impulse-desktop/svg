@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="48">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="56">
 <!-- What tst/unit/raster-work-limit.svg draws, drawn plainly; each
 cell's id is what the statement ledgers link to. -->
-<rect width="64" height="48" fill="white"/>
-<g id="row" data-box="0 0 48 8"><line x1="0" y1="4" x2="48" y2="4" stroke="teal" stroke-opacity=".3" stroke-linecap="round"/></g>
-<g id="column" data-box="56 0 8 48"><line x1="56.5" y1="0" x2="56.5" y2="48" stroke="teal" stroke-opacity=".3" stroke-linecap="round"/></g>
+<rect width="64" height="56" fill="white"/>
+<g id="row" data-box="0 0 64 8"><line x1="0" y1="4" x2="64" y2="4" stroke="teal" stroke-opacity=".3" stroke-linecap="round"/></g>
+<g id="column" data-box="56 8 8 48"><line x1="56.5" y1="8" x2="56.5" y2="56" stroke="teal" stroke-opacity=".3" stroke-linecap="round"/></g>
 </svg>

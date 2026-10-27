@@ -130,6 +130,36 @@ def cases():
     for transform, visible in [('translate(1e20 0)', False), ('translate(-1e20 0)', False), ('translate(0 1e20)', False), ('translate(0 -1e20)', False), ('scale(1)', True), ('scale(1e20)', True), ('matrix(-1e20 0 0 1e20 8 0)', True), ('scale(1e38)', True)]:
         yield 'mesh-' + transform, f'<defs><meshgradient id="m" gradientUnits="userSpaceOnUse" gradientTransform="{transform}"><meshrow><meshpatch>{stops}</meshpatch></meshrow></meshgradient></defs>' + RECT.replace('lime', 'url(#m)'), GREEN if visible else CLEAR
 
+    # Past a double's range. A retrace to a point past a float leaves its x
+    # not a number in a band, sorted apart and integrated with the rest,
+    # one among many rows, past the edges merged or in a crowded row; a
+    # retrace has no area either way. Transforms whose product overflows
+    # invert to nothing: a square scaled 1e190 still covers the canvas,
+    # one scaled past the doubles, a group measured through it, a mesh
+    # whose triangles overflow and a projection whose determinant is
+    # denormal draw nothing.
+    def nested(count, transform, inner):
+        return f'<g transform="{transform}">' * count + inner + '</g>' * count
+    yield 'nan-retrace', '<path d="M0 0L1 3e38Z M2 0L5 3e38Z M7 8L3 3e38Z" transform="scale(2)" fill="lime"/>', CLEAR
+    yield 'nan-retrace-many', '<path d="' + ''.join(f'M{k} {-1 - k / 100}L{20 - k} 8Z ' for k in range(20)) + 'M0 0L1 3e38Z" transform="scale(2)" fill="lime"/>', CLEAR
+    yield 'nan-retrace-merged', '<path d="' + ''.join(f'M{k / 70} {-1 - k / 1000}L{8 - k / 70} 8Z ' for k in range(560)) + 'M0 -3e38L1 8Z" transform="scale(2)" fill="lime"/>', CLEAR
+    yield 'nan-retrace-crowded', '<path d="' + ''.join(f'M{k / 200:.4f} 3L{k / 200 + 0.004:.4f} {3.001 + k / 1600:.5f}L{8 - k / 200:.4f} 3.5L{k / 200 + 0.004:.4f} {3.001 + k / 1600:.5f}Z ' for k in range(1500)) + 'M0 3.2L1 1.9e38Z" transform="scale(1 2)" fill="lime"/>', CLEAR
+    yield 'overflow-stroke', nested(5, 'scale(1e38)', '<path d="M0 0H1V1Z" fill="lime" stroke="lime"/>'), GREEN
+    yield 'overflow-infinite', nested(9, 'scale(1e38)', '<path d="M0 0H1V1Z" fill="lime"/>'), CLEAR
+    yield 'overflow-box', '<defs><clipPath id="c" clipPathUnits="objectBoundingBox"><rect width="1" height="1"/></clipPath></defs><g clip-path="url(#c)">' + nested(9, 'scale(1e38)', '<path d="M1 1H2V2Z" fill="lime"/>') + '</g>', CLEAR
+    yield 'overflow-mesh', '<defs><meshgradient id="m" gradientUnits="userSpaceOnUse"><meshrow><meshpatch><stop path="l 8 0" stop-color="lime"/><stop path="l 0 8" stop-color="lime"/><stop path="l -8 0" stop-color="lime"/><stop path="l 0 -8" stop-color="lime"/></meshpatch></meshrow></meshgradient></defs>' + nested(5, 'scale(1e38)', '<rect width="8" height="8" fill="url(#m)"/>'), CLEAR
+    # The first column or row samples the denormal pattern within the
+    # doubles; past it the sample overflows and paints nothing.
+    for axis, scales in [('x', ['scale(1e-38 1)'] * 8 + ['scale(1e-5 1)']), ('y', ['scale(1 1e-38)'] * 8 + ['scale(1 1e-5)'])]:
+        drawn = b''.join(bytes((0, 255, 0, 255)) if (x if axis == 'x' else y) == 0 else bytes(4) for y in range(SIDE) for x in range(SIDE))
+        yield 'pattern-denormal-' + axis, f'<defs><pattern id="p" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="{" ".join(scales)}">{RECT}</pattern></defs>' + RECT.replace('lime', 'url(#p)'), drawn
+    # A raster tiled edge to edge finds its texel within one period in
+    # doubles: tiles a 1e-20 of a pixel wide still cover the canvas.
+    for size in ['1e-20px 1px', '1px 1e-20px']:
+        yield 'background-thin-tiles-' + size, document('', f'style="background: url(&quot;{green_png()}&quot;) 0 0 / {size}"'), GREEN
+    tiny = ' '.join(['scale3d(1e-38, 1e-38, 1)'] * 4) + ' scale3d(1e-3, 1e-3, 1)'
+    yield 'projective-denormal', f'<g style="transform-style: preserve-3d"><g style="transform: perspective(8px) rotateX(20deg) {tiny}"><rect width="3e38" height="3e38" fill="lime"/></g></g>', CLEAR
+
     pattern = '<defs><pattern id="p" patternUnits="userSpaceOnUse" width="8" height="8">' + RECT + '</pattern></defs>'
     yield 'pattern-3d-context', pattern + '<g style="transform-style:preserve-3d">' + RECT.replace('lime', 'url(#p)') + '</g>', GREEN
     yield 'pattern-3d-children', pattern + '<g style="transform-style:preserve-3d">' + RECT.replace('/>', ' style="transform:translateZ(1px)"/>').replace('lime', 'url(#p)') + '</g>', GREEN

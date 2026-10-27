@@ -11527,6 +11527,8 @@ namespace {
         path.verbs.pushBack(VerbClose);
     }
 
+    // Its ends and radii are finite: path data takes numbers within a
+    // float's range, and shape()'s lengths are clamped as they compute.
     static void arcTo(Path& path, Point p0, float rxIn, float ryIn, float angle, bool large, bool sweep, Point p1) {
         if (p0.x == p1.x && p0.y == p1.y) {
             // SVG 2 omits this arc entirely. A zero-length line would
@@ -11559,7 +11561,9 @@ namespace {
 
         double num = rx * rx * ry * ry - rx * rx * y1p * y1p - ry * ry * x1p * x1p;
         double den = rx * rx * y1p * y1p + ry * ry * x1p * x1p;
-        double coef = den > 0.0 ? sqrt(num / den > 0.0 ? num / den : 0.0) : 0.0;
+        // The ends differ, so x1p and y1p are not both zero, and of floats
+        // they square, as the radii do, to no underflow: den is positive.
+        double coef = sqrt(fmax(num / den, 0.0));
 
         if (large == sweep) {
             coef = -coef;
@@ -11584,13 +11588,6 @@ namespace {
             delta -= 2.0 * piDouble;
         } else if (sweep && delta < 0.0) {
             delta += 2.0 * piDouble;
-        }
-
-        // Ends that are not finite leave the arc no angle: it is a line.
-        if (delta != delta) {
-            lineTo(path, p1);
-
-            return;
         }
 
         // Quarter-circle cubics are close in position, but their excess
@@ -11709,11 +11706,13 @@ namespace {
         }
     };
 
+    // The span is a number readPathNumber took: it has a digit, and an e
+    // only with digits after it, a sign perhaps between.
     static PathDecimal pathDecimal(const u8* p, const u8* end) {
         PathDecimal out;
-        bool negative = p < end && *p == '-';
+        bool negative = *p == '-';
 
-        if (p < end && (*p == '-' || *p == '+')) {
+        if (*p == '-' || *p == '+') {
             p++;
         }
 
@@ -11746,7 +11745,7 @@ namespace {
         int sign = 1;
         if (p < end) {
             p++;
-            if (p < end && (*p == '+' || *p == '-')) {
+            if (*p == '+' || *p == '-') {
                 sign = *p == '-' ? -1 : 1;
                 p++;
             }
@@ -12952,7 +12951,7 @@ namespace {
         // cut and turn a half-circle into three halves. Only an exact
         // reversal needs a choice: sweep in front of the incoming segment.
         if (cross == 0.0 && dot < 0.0) {
-            return d0.x * n0.y - d0.y * n0.x > 0.0 ? -pi : pi;
+            return copysignf(pi, (float)(d0.y * n0.x - d0.x * n0.y));
         }
 
         return (float)atan2(cross, dot);
@@ -23789,6 +23788,17 @@ namespace {
         return wrap ? lo + floorMod(v - lo, hi - lo) : (v < lo ? lo : (v >= hi ? hi - 1 : v));
     }
 
+    // A raster's coordinate along an axis: one that wraps within a period
+    // of it, in doubles, exact however far below 2^53; one that does not
+    // where its texels clamp anyway. Within an int either way, and a point
+    // past the doubles too.
+    static double texelCoordinate(double v, int lo, int hi, bool wrap) {
+        double period = fmax((double)(hi - lo), 1.0);
+        double wrapped = v - period * floor((v - lo) / period);
+
+        return fmin(fmax(wrap ? wrapped : v, -1073741824.0), 1073741824.0);
+    }
+
     // The paint at x, y stored premultiplied; false where it has none.
     static bool paintAt(const DevicePaint& paint, float x, float y, u16* out) {
         if (paint.type == PaintType::Solid) {
@@ -23803,20 +23813,21 @@ namespace {
             const double* inverse = paint.imageInverse;
 
             p = Point{
-                (float)(inverse[0] * x + inverse[2] * y + inverse[4]),
-                (float)(inverse[1] * x + inverse[3] * y + inverse[5]),
+                (float)texelCoordinate(inverse[0] * x + inverse[2] * y + inverse[4], paint.texels.x0, paint.texels.x1, paint.wraps & 1),
+                (float)texelCoordinate(inverse[1] * x + inverse[3] * y + inverse[5], paint.texels.y0, paint.texels.y1, paint.wraps & 2),
             };
         } else {
             p = apply(paint.inverse, Point{x, y});
         }
 
         if (paint.type == PaintType::Mesh) {
-            int ix = (int)floorf(p.x);
-            int iy = (int)floorf(p.y);
-
-            if (ix < 0 || iy < 0 || ix >= (int)paint.imageWidth || iy >= (int)paint.imageHeight) {
+            // Within the raster, before the point becomes a texel's index.
+            if (!(p.x >= 0.f) || !(p.y >= 0.f) || !(p.x < (float)paint.imageWidth) || !(p.y < (float)paint.imageHeight)) {
                 return false;
             }
+
+            int ix = (int)p.x;
+            int iy = (int)p.y;
 
             memcpy(out, paint.tile + ((size_t)iy * paint.imageWidth + ix) * 4, sizeof(u16) * 4);
 
@@ -23824,20 +23835,23 @@ namespace {
         }
 
         if (paint.type == PaintType::Pattern) {
+            // A point past the doubles, where a denormal pattern space
+            // maps, samples nothing. One within them finds its place in
+            // the tile in doubles, which fmod keeps exact however far.
             if (!isfinite(p.x) || !isfinite(p.y)) {
                 return false;
             }
 
             int tw = (int)paint.imageWidth;
             int th = (int)paint.imageHeight;
-            float fx = p.x - 0.5f;
-            float fy = p.y - 0.5f;
-            float x0 = floorf(fx);
-            float y0 = floorf(fy);
-            float tx = fx - x0;
-            float ty = fy - y0;
-            int ix = (int)fmodf(x0, (float)tw);
-            int iy = (int)fmodf(y0, (float)th);
+            double fx = p.x - 0.5;
+            double fy = p.y - 0.5;
+            double x0 = floor(fx);
+            double y0 = floor(fy);
+            float tx = (float)(fx - x0);
+            float ty = (float)(fy - y0);
+            int ix = (int)fmod(x0, (double)tw);
+            int iy = (int)fmod(y0, (double)th);
 
             ix = ix < 0 ? ix + tw : ix;
             iy = iy < 0 ? iy + th : iy;
@@ -24334,7 +24348,8 @@ namespace {
                         double first = (double)sorted[i - 1].x0 - sorted[i].x0;
                         double last = (double)sorted[i - 1].x1 - sorted[i].x1;
 
-                        if ((first < 0.0 && last > 0.0) || (first > 0.0 && last < 0.0)) {
+                        // Ends in opposite orders cross between.
+                        if (first * last < 0.0) {
                             double y = (double)a + ((double)b - a) * first / (first - last);
                             float candidate = (float)y;
                             double distance = fabs(y - middle);
@@ -28173,8 +28188,9 @@ namespace {
             double area = cx * cy;
             const u16* source = planeRead(in, ix, iy);
 
+            // A tap whose pixel misses the clip has no area and reads nothing.
             for (int k = 0; k < 4; k++) {
-                pixel[k] = area > 0.0 ? (u16)minf(65535.0, floor((double)source[k] / area + 0.5)) : 0;
+                pixel[k] = (u16)((double)(area > 0.0) * minf(65535.0, floor((double)source[k] / fmax(area, 1e-300) + 0.5)));
             }
         };
 
@@ -28184,9 +28200,9 @@ namespace {
             for (int x = box.x0; x < box.x1; x++) {
                 Point at = repeat(Point{(double)x + 0.5, (double)y + 0.5});
 
-                if (!isfinite(at.x) || !isfinite(at.y)) {
-                    continue;
-                }
+                // Past the finite numbers a position reads outside the
+                // input, nothing, which the plane holds already.
+                at = Point{fmin(fmax(at.x, -1e9), 1e9), fmin(fmax(at.y, -1e9), 1e9)};
 
                 double ix = floor(at.x - 0.5);
                 double iy = floor(at.y - 0.5);
