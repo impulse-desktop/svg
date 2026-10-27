@@ -15,7 +15,8 @@ its argument ranges and line-width snapped to whole px, a zero multiple 0+
 below and 0- above; mod() and rem() at theirs, a zero result of mod()
 taking the step's sign; pow() and log() at theirs; tan() at its
 asymptotes; 32 levels of parentheses or functions and no more; a
-presentation attribute closed at its end, as CSS closes what is left open;
+presentation attribute or a points list closed at its end, as CSS closes
+what is left open;
 errors of syntax, arity and type; angles, times, frequencies and
 resolutions in their canonical units. Below, lime fills its outline or
 covers red, or the test runs on into the reference under it without a
@@ -150,6 +151,7 @@ for k, (name, f) in enumerate([("src-unquoted", 'style="filter: src(#f) invert(1
                                ("translate-z", 'style="translate: 0px 0px calc(1em - 16px)"'), ("url-escape-space", 'fill="url(#\\67x ) lime"')]):
     covered(name, at(k), y, f'<g fill="lime"><rect x="{at(k)}" y="{y}" width="7" height="4" {f}/></g>', 4)
 small("media-zero", at(5), y, f'<style>@media (min-width: calc(0)) {{ .mq0 {{ fill: red }} }}</style><rect class="mq0" x="{at(5)}" y="{y}" width="7" height="4" fill="lime"/>', plain(at(5), y, 4), h=4)
+small("points-close", at(6), y, f'<polygon points="{at(6)},{y} {at(6) + 7},{y} {at(6) + 7},{y + 4} {at(6)},calc({y + 4}" fill="lime"/>', plain(at(6), y, 4), h=4)
 unit.common('<path d="M0 0" pathLength="calc(5"/><path d="M0 0" pathLength="calc(5px"/><path d="M0 0" pathLength="calc(1 +"/>')
 unit.height = y0 + 32
 unit.write()
