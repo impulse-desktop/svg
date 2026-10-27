@@ -839,12 +839,15 @@ of two uses of the group before it, 40 deep, is 2^40 instances in 2 KB,
 and patterns and markers of patterns and markers multiply the same way.
 The renderer drew and measured them all, 22 levels taking 44 seconds.
 Each pass over a document, a drawing or a measure of its size, now visits
-at most 16 384 + 32 elements per byte of its source and draws or measures
-nothing past that; a use's box for context
-paints is measured only when a context paint asks for it. The most any
-file of the corpus or of 60 000 harvested ones visits is 5.2 per byte, a
-Wikimedia map of uses; the 40-deep chain draws its first square and stops
-in a few hundredths of a second.
+at most each of its own nodes twice and 2^19 elements more, and draws or
+measures nothing past that; a use's box for context paints is measured
+only when a context paint asks for it. The allowance is fixed rather than
+by the source's length: 32 elements a byte let the fuzzer splice a 277 KB
+map into the 40-deep chain and draw 9 million elements, 3.3 GB of
+operations, while a rotation fractal of the corpus, 13 824 instances of one
+polyline in 3.4 KB, needs 135 224 and lost the last of them. The fractal is
+the most any file of the corpus visits; the spliced chain stops in a fifth
+of a second.
 
 A complete standalone pattern program may be reused without visiting its
 nodes again. Its tile geometry, viewport, reference chain, and use, marker

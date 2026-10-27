@@ -1494,9 +1494,10 @@ namespace {
         bool variables;
         size_t substitutionBudget;
         // How many elements a pass over the document may draw and measure,
-        // instances of a use, a marker or a pattern counted each time, by
-        // its source's length: what a document instancing itself over and
-        // over runs out of, and no file drawn as written comes near.
+        // instances of a use, a marker or a pattern counted each time: each
+        // of its own nodes twice and 2^19 more, what a document instancing
+        // itself over and over runs out of, and no file drawn as written
+        // comes near.
         size_t workBudget;
     };
 
@@ -29631,9 +29632,9 @@ namespace {
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
-        doc.workBudget = ((size_t)1 << 14) + 32 * source.length();
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
+        doc.workBudget = ((size_t)1 << 19) + 2 * (size_t)doc.nodeCount;
     }
 
     // A pass over a cascaded document, out of a pool of its own.

@@ -1496,10 +1496,13 @@ namespace {
         bool variables;
         size_t substitutionBudget;
         // How many elements a pass over the document may draw and measure,
-        // instances of a use, a marker or a pattern counted each time, by
-        // its source's length: what a document instancing itself over and
-        // over runs out of, and no file drawn as written comes near.
+        // instances of a use, a marker or a pattern counted each time: each
+        // of its own nodes twice and 2^19 more, what a document instancing
+        // itself over and over runs out of, and no file drawn as written
+        // comes near; and how many bytes of edges a drawing may emit, by its
+        // source's length.
         size_t workBudget;
+        size_t edgeBudget;
     };
 
     struct Entity {
@@ -29103,9 +29106,10 @@ namespace {
         doc.pool = &pool;
         doc.root = nullptr;
         doc.nodeCount = 0;
-        doc.workBudget = ((size_t)1 << 14) + 32 * source.length();
+        doc.edgeBudget = ((size_t)1 << 26) + ((size_t)1 << 14) + 32 * source.length();
         initAtoms(doc.atoms);
         parseXml(doc, source, fail);
+        doc.workBudget = ((size_t)1 << 19) + 2 * (size_t)doc.nodeCount;
     }
 
     // A pass over a cascaded document, out of a pool of its own.
@@ -29265,10 +29269,10 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
         Lowering l;
 
         beginPass(l, doc, scratch, document->decode, document->decompress, document->fail, document->context);
-        // A fixed 64 MiB allowance plus the input-scaled work budget in
-        // bytes. Vector capacity may round up, but repeated use, clips and
+        // A fixed 64 MiB allowance plus an input-scaled one, in bytes.
+        // Vector capacity may round up, but repeated use, clips and
         // pattern programs cannot multiply edge storage without a bound.
-        l.edgeBytes = ((size_t)1 << 26) + doc.workBudget;
+        l.edgeBytes = doc.edgeBudget;
         l.width = width;
         l.height = height;
         l.docWidth = document->width;
