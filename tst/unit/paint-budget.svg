@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+<!-- White squares, 1024 over the whole canvas and then 4096 over its
+right half, each a use among a few dozen elements: fills paint at most
+2^11 canvases in all (D59), so a lime half drawn after the first 1024
+shows, and one drawn on the right after the 4096 does not, the drawing
+having stopped among them. -->
+<rect width="16" height="16" fill="white"/>
+<defs><rect id="w0" x="0" width="16" height="16" fill="white"/><g id="w1"><use href="#w0"/><use href="#w0"/></g><g id="w2"><use href="#w1"/><use href="#w1"/></g><g id="w3"><use href="#w2"/><use href="#w2"/></g><g id="w4"><use href="#w3"/><use href="#w3"/></g><g id="w5"><use href="#w4"/><use href="#w4"/></g><g id="w6"><use href="#w5"/><use href="#w5"/></g><g id="w7"><use href="#w6"/><use href="#w6"/></g><g id="w8"><use href="#w7"/><use href="#w7"/></g><g id="w9"><use href="#w8"/><use href="#w8"/></g><g id="w10"><use href="#w9"/><use href="#w9"/></g><rect id="r0" x="8" width="8" height="16" fill="white"/><g id="r1"><use href="#r0"/><use href="#r0"/></g><g id="r2"><use href="#r1"/><use href="#r1"/></g><g id="r3"><use href="#r2"/><use href="#r2"/></g><g id="r4"><use href="#r3"/><use href="#r3"/></g><g id="r5"><use href="#r4"/><use href="#r4"/></g><g id="r6"><use href="#r5"/><use href="#r5"/></g><g id="r7"><use href="#r6"/><use href="#r6"/></g><g id="r8"><use href="#r7"/><use href="#r7"/></g><g id="r9"><use href="#r8"/><use href="#r8"/></g><g id="r10"><use href="#r9"/><use href="#r9"/></g><g id="r11"><use href="#r10"/><use href="#r10"/></g><g id="r12"><use href="#r11"/><use href="#r11"/></g></defs>
+<use href="#w10"/><rect width="8" height="16" fill="lime"/>
+<use href="#r12"/><rect x="8" width="8" height="16" fill="lime"/>
+</svg>

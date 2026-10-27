@@ -2375,6 +2375,9 @@ namespace {
         // and to. Its reader leaves it zero for the next fill.
         Vector<u64> accumulation;
         Vector<u32> reach;
+        // The area its fills may still paint, in pixels: 2^11 times its
+        // own, over six times the most any file of the corpus paints (D59).
+        double paintLeft = 0.0;
         bool fullCoverage = false;
         // The backdrop a layer drawn apart inherits, which its own filters
         // read as their background.
@@ -2384,6 +2387,10 @@ namespace {
         Vector<u16> curves[2];
         Vector<u8> curvesKnown[2];
     };
+
+    static double paintBudget(const Raster& r) {
+        return (double)((size_t)1 << 11) * r.width * r.height;
+    }
 
     struct NamedColor {
         const char* name;
@@ -24244,11 +24251,12 @@ namespace {
 
     // A coordinate past the floats as the largest float of its sign: an
     // edge to it runs as far within the raster, and the sweep can take it.
-    // One that is not a number goes far left.
+    // One that is not a number goes far left, and -0 is 0, so that equal
+    // coordinates have equal bits.
     static float bandCoordinate(float v) {
         constexpr float limit = 3.40282347e38f;
 
-        return v > -limit ? minf(v, limit) : -limit;
+        return v > -limit ? minf(v, limit) + 0.f : -limit;
     }
 
     // The band edge of an edge of the lowering, its ends in order of y and
@@ -24332,13 +24340,6 @@ namespace {
         u32 b;
     };
 
-    static void xchg(BandEdge& l, BandEdge& r) noexcept {
-        BandEdge t = l;
-
-        l = r;
-        r = t;
-    }
-
     static void xchg(SweepCrossing& l, SweepCrossing& r) noexcept {
         SweepCrossing t = l;
 
@@ -24369,6 +24370,19 @@ namespace {
         r = t;
     }
 
+    // An edge's start or end in a row.
+    struct SweepEvent {
+        float y;
+        u32 edge;
+    };
+
+    static void xchg(SweepEvent& l, SweepEvent& r) noexcept {
+        SweepEvent t = l;
+
+        l = r;
+        r = t;
+    }
+
     struct RowSweep {
         Vector<u32> slots;
         Vector<u32> count;
@@ -24383,8 +24397,8 @@ namespace {
         Vector<u32> stamp;
         u32 settling = 1;
         Vector<u32> marked;
-        Vector<u32> starting;
-        Vector<u32> ending;
+        Vector<SweepEvent> starting;
+        Vector<SweepEvent> ending;
         Vector<SweepCrossing> heap;
         Vector<SweepKey> keys;
         Vector<u32> group;
@@ -24600,16 +24614,16 @@ namespace {
         for (u32 e : carried) {
             s.winding.mut(e) = (i64)((u64)1 << 63);
 
-            if (edges[e].y0 < top) {
+            if (edges[e].y0 <= top) {
                 s.keys.pushBack(SweepKey{sweepX(s, edges, e, top), e});
             } else {
-                s.starting.pushBack(e);
+                s.starting.pushBack(SweepEvent{edges[e].y0, e});
             }
 
             s.side.mut(e) = 0;
 
             if (edges[e].y1 < bottom) {
-                s.ending.pushBack(e);
+                s.ending.pushBack(SweepEvent{edges[e].y1, e});
             }
         }
 
@@ -24644,6 +24658,50 @@ namespace {
             quickSort(s.keys.mutBegin(), s.keys.mutEnd(), keyBefore);
         }
 
+        // A row its edges all span, no two of them crossing in it, keeps
+        // its order throughout: each edge bounding the fill adds its whole
+        // stretch.
+        if (s.starting.empty() && s.ending.empty()) {
+            bool crossing = false;
+
+            for (size_t k = 0; k + 1 < n && !crossing; k++) {
+                u32 a = s.keys[k].edge;
+                u32 b = s.keys[k + 1].edge;
+                double ka = s.slope[a];
+                double kb = s.slope[b];
+
+                crossing = ka > kb && ((double)edges[b].x0 - edges[a].x0 + edges[a].y0 * ka - edges[b].y0 * kb) / (ka - kb) <= bottom;
+            }
+
+            if (!crossing) {
+                i64 winding = 0;
+
+                s.order.clear();
+
+                for (const SweepKey& key : s.keys) {
+                    u32 e = key.edge;
+                    bool before = insideWinding(winding, rule);
+
+                    winding += edges[e].dir;
+
+                    int side = (int)insideWinding(winding, rule) - (int)before;
+
+                    if (side) {
+                        float x0 = bandX(edges[e], top);
+                        float x1 = bandX(edges[e], bottom);
+
+                        addEdge(acc, stride, w, side > 0 ? Edge{x0, top, x1, bottom} : Edge{x1, bottom, x0, top});
+                        s.low = minf(s.low, minf(x0, x1));
+                        s.high = maxf(s.high, maxf(x0, x1));
+                    }
+
+                    s.order.pushBack(e);
+                }
+
+                return true;
+            }
+        }
+
         // The blocks start three quarters full.
         u32 filling = 0;
 
@@ -24658,16 +24716,16 @@ namespace {
 
         // The sorts below break ties by index, so that every run goes the
         // same way.
+        auto eventBefore = [](const SweepEvent& p, const SweepEvent& q) {
+            return p.y != q.y ? p.y < q.y : p.edge < q.edge;
+        };
+
         if (s.starting.length() > 1) {
-            quickSort(s.starting.mutBegin(), s.starting.mutEnd(), [&](u32 a, u32 b) {
-                return edges[a].y0 != edges[b].y0 ? edges[a].y0 < edges[b].y0 : a < b;
-            });
+            quickSort(s.starting.mutBegin(), s.starting.mutEnd(), eventBefore);
         }
 
         if (s.ending.length() > 1) {
-            quickSort(s.ending.mutBegin(), s.ending.mutEnd(), [&](u32 a, u32 b) {
-                return edges[a].y1 != edges[b].y1 ? edges[a].y1 < edges[b].y1 : a < b;
-            });
+            quickSort(s.ending.mutBegin(), s.ending.mutEnd(), eventBefore);
         }
 
         auto close = [&](u32 e, float y) {
@@ -24849,8 +24907,8 @@ namespace {
         for (;;) {
             float y = bottom;
 
-            y = nextStart < s.starting.length() ? minf(y, edges[s.starting[nextStart]].y0) : y;
-            y = nextEnd < s.ending.length() ? minf(y, edges[s.ending[nextEnd]].y1) : y;
+            y = nextStart < s.starting.length() ? minf(y, s.starting[nextStart].y) : y;
+            y = nextEnd < s.ending.length() ? minf(y, s.ending[nextEnd].y) : y;
             y = s.heap.length() ? minf(y, s.heap[0].y) : y;
 
             if (!(y < bottom) || work > rowWorkLimit) {
@@ -24935,11 +24993,11 @@ namespace {
             size_t endsTo = nextEnd;
             size_t startsTo = nextStart;
 
-            while (endsTo < s.ending.length() && edges[s.ending[endsTo]].y1 <= y) {
+            while (endsTo < s.ending.length() && s.ending[endsTo].y <= y) {
                 endsTo++;
             }
 
-            while (startsTo < s.starting.length() && edges[s.starting[startsTo]].y0 <= y) {
+            while (startsTo < s.starting.length() && s.starting[startsTo].y <= y) {
                 startsTo++;
             }
 
@@ -24947,20 +25005,20 @@ namespace {
             // hands its place over to it: the ends and starts at y in x
             // order, matched by x.
             if (endsTo - nextEnd > 1) {
-                quickSort(s.ending.mutData() + nextEnd, s.ending.mutData() + endsTo, [&](u32 a, u32 b) {
-                    return edges[a].x1 != edges[b].x1 ? edges[a].x1 < edges[b].x1 : a < b;
+                quickSort(s.ending.mutData() + nextEnd, s.ending.mutData() + endsTo, [&](const SweepEvent& a, const SweepEvent& b) {
+                    return edges[a.edge].x1 != edges[b.edge].x1 ? edges[a.edge].x1 < edges[b.edge].x1 : a.edge < b.edge;
                 });
             }
 
             if (startsTo - nextStart > 1) {
-                quickSort(s.starting.mutData() + nextStart, s.starting.mutData() + startsTo, [&](u32 a, u32 b) {
-                    return edges[a].x0 != edges[b].x0 ? edges[a].x0 < edges[b].x0 : a < b;
+                quickSort(s.starting.mutData() + nextStart, s.starting.mutData() + startsTo, [&](const SweepEvent& a, const SweepEvent& b) {
+                    return edges[a.edge].x0 != edges[b.edge].x0 ? edges[a.edge].x0 < edges[b.edge].x0 : a.edge < b.edge;
                 });
             }
 
             for (size_t a = nextEnd, b = nextStart; a < endsTo && b < startsTo;) {
-                u32 e = s.ending[a];
-                u32 f = s.starting[b];
+                u32 e = s.ending[a].edge;
+                u32 f = s.starting[b].edge;
 
                 if (edges[e].x1 < edges[f].x0) {
                     a++;
@@ -24973,15 +25031,15 @@ namespace {
                     s.block.mut(e) = noEdge;
                     s.from.mut(f) = y;
                     mark(f);
-                    s.ending.mut(a++) = noEdge;
-                    s.starting.mut(b++) = noEdge;
+                    s.ending.mut(a++).edge = noEdge;
+                    s.starting.mut(b++).edge = noEdge;
                     neighbours(f, y);
                     work++;
                 }
             }
 
             for (; nextEnd < endsTo; nextEnd++) {
-                u32 e = s.ending[nextEnd];
+                u32 e = s.ending[nextEnd].edge;
 
                 if (e == noEdge) {
                     continue;
@@ -25004,7 +25062,7 @@ namespace {
             }
 
             for (; nextStart < startsTo; nextStart++) {
-                u32 e = s.starting[nextStart];
+                u32 e = s.starting[nextStart].edge;
 
                 if (e == noEdge) {
                     continue;
@@ -25102,29 +25160,44 @@ namespace {
             }
         }
 
-        // Coincident edges add their windings into one, and go where those
-        // cancel. They start in one row, so each row is sorted on its own.
+        // Coincident edges add their windings into the first of them, and
+        // go where those cancel: each is looked up by its coordinates' bits
+        // in a table twice their number, open from the slot of its hash.
+        Vector<u32> table;
+        size_t mask = clp2(edges.length() * 2) - 1;
         size_t kept = 0;
 
-        for (size_t b = 0, lo = 0; b < starts.length(); lo = starts[b++]) {
-            size_t hi = starts[b];
+        table.zero(mask + 1);
 
-            if (hi - lo > 1) {
-                quickSort(edges.mutData() + lo, edges.mutData() + hi, [](const BandEdge& p, const BandEdge& q) {
-                    return p.y0 != q.y0 ? p.y0 < q.y0 : (p.x0 != q.x0 ? p.x0 < q.x0 : (p.y1 != q.y1 ? p.y1 < q.y1 : p.x1 < q.x1));
-                });
+        for (size_t k = 0; k < edges.length(); k++) {
+            const BandEdge& e = edges[k];
+            u32 bits[4];
+
+            memcpy(bits, &e, sizeof(bits));
+
+            size_t slot = (bits[0] * 0x9e3779b1u ^ bits[1] * 0x85ebca77u ^ bits[2] * 0xc2b2ae3du ^ bits[3] * 0x27d4eb2fu) & mask;
+
+            for (;; slot = (slot + 1) & mask) {
+                u32 found = table[slot];
+
+                if (found == 0) {
+                    table.mut(slot) = (u32)k + 1;
+                    break;
+                }
+
+                BandEdge& f = edges.mut(found - 1);
+
+                if (f.x0 == e.x0 && f.y0 == e.y0 && f.x1 == e.x1 && f.y1 == e.y1) {
+                    f.dir += e.dir;
+                    edges.mut(k).dir = 0;
+                    break;
+                }
             }
+        }
 
-            for (size_t k = lo; k < hi;) {
-                BandEdge edge = edges[k++];
-
-                while (k < hi && edges[k].x0 == edge.x0 && edges[k].y0 == edge.y0 && edges[k].x1 == edge.x1 && edges[k].y1 == edge.y1) {
-                    edge.dir += edges[k++].dir;
-                }
-
-                if (edge.dir) {
-                    edges.mut(kept++) = edge;
-                }
+        for (size_t k = 0; k < edges.length(); k++) {
+            if (edges[k].dir) {
+                edges.mut(kept++) = edges[k];
             }
         }
 
@@ -25374,6 +25447,7 @@ namespace {
         l.held.paints.pushBack(&paint);
         tile.width = paint.imageWidth;
         tile.height = paint.imageHeight;
+        tile.paintLeft = paintBudget(tile);
 
         Plane whole{paint.tile, window};
 
@@ -25612,6 +25686,19 @@ namespace {
     }
 
     static Box fillOp(Raster& r, const Lowering& l, const Op& op) {
+        // A fill paints what of its box the layer holds, while the drawing
+        // has the area left; past that no fill is drawn (D59).
+        const IntBox& layer = r.layers.back().box;
+        double width = fmax(fmin(op.bounds.x1, (double)layer.x1) - fmax(op.bounds.x0, (double)layer.x0), 0.0);
+        double height = fmax(fmin(op.bounds.y1, (double)layer.y1) - fmax(op.bounds.y0, (double)layer.y0), 0.0);
+
+        if (width * height > r.paintLeft) {
+            r.paintLeft = 0.0;
+
+            return emptyBox();
+        }
+
+        r.paintLeft -= width * height;
         preparePaint(l, *op.paint);
 
         u32 ix0;
@@ -29815,6 +29902,7 @@ namespace {
         invert(op.layerMatrix, toDevice);
         sub.width = op.layerWidth;
         sub.height = op.layerHeight;
+        sub.paintLeft = paintBudget(sub);
 
         if (l.backgroundInputs) {
             // The layer inherits the background under its footprint, resampled
@@ -30352,6 +30440,7 @@ SvgImage* svg_document_render(SvgDocument* document, uint32_t width, uint32_t he
 
         raster.width = width;
         raster.height = height;
+        raster.paintLeft = paintBudget(raster);
         runProgram(raster, l, l.ops.data(), (u32)l.ops.length(), Plane{base, IntBox{0, 0, (int)width, (int)height}});
     }
 

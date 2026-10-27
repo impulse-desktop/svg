@@ -939,3 +939,18 @@ to four where many edges cross them, each with its exact coverage along
 x. No corpus file reaches the limit. `raster-work-limit` draws a row of
 the dots, too many to sort, and a column of them, crossing past the limit
 in every row, against the plain lines the dots unite into.
+
+## D59. A drawing paints a bounded area
+
+D54 bounds the elements a pass visits, not what they paint: gecko's
+explosive-use draws a full disk at every one of the 2^50 instances its
+uses make, and the visits D54 allows were some 30 000 disks over the whole
+canvas, 4.2 of the corpus's 87 seconds at 512 pixels. Fills now paint at
+most 2^11 times the area of the canvas, each counted by what of its box the
+layer it draws on holds; a fill past that, and every fill after it, is not
+drawn. The most any file of the corpus paints is 305 canvases
+(openclipart/173885); explosive-use draws some 2 600 disks in a tenth of
+its time, and only the rim pixels a disk barely covers come out lighter
+than after 30 000. `paint-budget` paints 1024 canvases and then 4096
+halves of one with a few dozen elements: a fill after the first shows, one
+after the second does not.
