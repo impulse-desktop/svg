@@ -2824,23 +2824,14 @@ namespace {
         }
     }
 
-    // Blends of two pixels at a factor each, 65535 for all of the second.
-    static void mixSpan(u16* __restrict d, const u16* __restrict a, const u16* __restrict b, const u16* __restrict factor, size_t count) {
-        size_t p = 0;
-
-        for (; p + 2 <= count; p += 2) {
-            for (int i = 0; i < 8; i++) {
-                u32 f = factor[p + (i >> 2)];
-
-                d[p * 4 + i] = (u16)div65535((u32)a[p * 4 + i] * (65535u - f) + (u32)b[p * 4 + i] * f);
-            }
-        }
-
-        for (; p < count; p++) {
+    // Blends of pairs of pixels side by side at a factor each, 65535 for
+    // all of the second.
+    static void mixSpan(u16* __restrict d, const u16* __restrict pairs, const u16* __restrict factor, size_t count) {
+        for (size_t p = 0; p < count; p++) {
             for (int i = 0; i < 4; i++) {
                 u32 f = factor[p];
 
-                d[p * 4 + i] = (u16)div65535((u32)a[p * 4 + i] * (65535u - f) + (u32)b[p * 4 + i] * f);
+                d[p * 4 + i] = (u16)div65535((u32)pairs[p * 8 + i] * (65535u - f) + (u32)pairs[p * 8 + 4 + i] * f);
             }
         }
     }
@@ -23794,6 +23785,62 @@ namespace {
         return ((a % m) + m) % m;
     }
 
+    // The t of a linear gradient from x1, y1 along dx, dy at a point of its
+    // space, not spread.
+    static float linearT(float x1, float y1, float dx, float dy, double x, double y) {
+        return (float)(((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy));
+    }
+
+    // A radial gradient's centre from its focus, its focal radius and how
+    // its radius grows from that, and the leading term of the quadratic of
+    // t at a point.
+    struct Radial {
+        float cdx;
+        float cdy;
+        float fr;
+        float dr;
+        float a;
+        bool beyond;
+    };
+
+    static Radial radialOf(const DevicePaint& paint) {
+        float cdx = paint.cx - paint.fx;
+        float cdy = paint.cy - paint.fy;
+        float dr = paint.r - paint.fr;
+
+        return Radial{cdx, cdy, paint.fr, dr, cdx * cdx + cdy * cdy - dr * dr, paint.beyond};
+    }
+
+    // The t of a radial gradient at pdx, pdy from its focus, not spread;
+    // false where it paints nothing. Its choices are selects, so that a row
+    // of points takes them in one pass.
+    static bool radialT(const Radial& g, float pdx, float pdy, float& t) {
+        float b = pdx * g.cdx + pdy * g.cdy + g.fr * g.dr;
+        float c = pdx * pdx + pdy * pdy - g.fr * g.fr;
+        bool kept;
+
+        // A focal circle that touches the end circle, within the tolerance
+        // paint.beyond took, is on it: its own geometry, a hair outside,
+        // would sweep its circles back over the whole end circle. a is
+        // zero there alone, a start circle over the end circle drawing
+        // nothing.
+        if (g.beyond) {
+            t = c / (2.f * b);
+            kept = b != 0.f;
+        } else {
+            float disc = b * b - g.a * c;
+            float root = sqrtf(disc);
+            float t1 = (b + root) / g.a;
+            float t2 = (b - root) / g.a;
+
+            t = maxf(t1, t2);
+            t = g.fr + t * g.dr < 0.f ? minf(t1, t2) : t;
+            kept = !(disc < 0.f);
+        }
+
+        return kept && !(g.fr + t * g.dr < 0.f);
+    }
+
     // The t of a gradient at a point of its space, spread; false where a
     // radial gradient paints nothing.
     static bool gradientT(const DevicePaint& paint, Point p, float& t) {
@@ -23808,53 +23855,12 @@ namespace {
         }
 
         if (paint.type == PaintType::Linear) {
-            float dx = paint.x2 - paint.x1;
-            float dy = paint.y2 - paint.y1;
-
-            t = spreadT(((p.x - paint.x1) * dx + (p.y - paint.y1) * dy) / (dx * dx + dy * dy), paint.spread);
+            t = spreadT(linearT(paint.x1, paint.y1, paint.x2 - paint.x1, paint.y2 - paint.y1, p.x, p.y), paint.spread);
 
             return true;
         }
 
-        float cdx = paint.cx - paint.fx;
-        float cdy = paint.cy - paint.fy;
-        float dr = paint.r - paint.fr;
-        float pdx = p.x - paint.fx;
-        float pdy = p.y - paint.fy;
-        float a = cdx * cdx + cdy * cdy - dr * dr;
-        float b = pdx * cdx + pdy * cdy + paint.fr * dr;
-        float c = pdx * pdx + pdy * pdy - paint.fr * paint.fr;
-
-        // A focal circle that touches the end circle, within the tolerance
-        // paint.beyond took, is on it: its own geometry, a hair outside,
-        // would sweep its circles back over the whole end circle. a is
-        // zero there alone, a start circle over the end circle drawing
-        // nothing.
-        if (paint.beyond) {
-            if (b == 0.f) {
-                return false;
-            }
-
-            t = c / (2.f * b);
-        } else {
-            float disc = b * b - a * c;
-
-            if (disc < 0.f) {
-                return false;
-            }
-
-            float root = sqrtf(disc);
-            float t1 = (b + root) / a;
-            float t2 = (b - root) / a;
-
-            t = maxf(t1, t2);
-
-            if (paint.fr + t * dr < 0.f) {
-                t = minf(t1, t2);
-            }
-        }
-
-        if (paint.fr + t * dr < 0.f) {
+        if (!radialT(radialOf(paint), p.x - paint.fx, p.y - paint.fy, t)) {
             return false;
         }
 
@@ -23938,35 +23944,48 @@ namespace {
                 return false;
             }
 
-            int tw = (int)paint.imageWidth;
-            int th = (int)paint.imageHeight;
             double fx = p.x - 0.5;
             double fy = p.y - 0.5;
             double x0 = floor(fx);
             double y0 = floor(fy);
             float tx = (float)(fx - x0);
             float ty = (float)(fy - y0);
-            int ix = (int)fmod(x0, (double)tw);
-            int iy = (int)fmod(y0, (double)th);
+            // A tile pixel is in the window once, at its unwrapped place:
+            // the column of the texel at or before v and of the one after
+            // it, from lo, along a period. Where both lie in the window they
+            // are there unwrapped; else the texels wrap into the period,
+            // within an int by its remainder, as fmod has it.
+            auto place = [](double v, int period, int lo, int hi, int& u, int& next) {
+                if (v >= lo && v + 1.0 < hi) {
+                    u = (int)v - lo;
+                    next = u + 1;
 
-            ix = ix < 0 ? ix + tw : ix;
-            iy = iy < 0 ? iy + th : iy;
+                    return;
+                }
 
-            int jx = ix + 1 == tw ? 0 : ix + 1;
-            int jy = iy + 1 == th ? 0 : iy + 1;
-            // A tile pixel is in the window once, at its unwrapped place.
+                int i = fabs(v) < 2147483648.0 ? (int)((i64)v % period) : (int)fmod(v, (double)period);
+
+                i = i < 0 ? i + period : i;
+
+                int j = i + 1 == period ? 0 : i + 1;
+
+                u = lo ? floorMod(i - lo, period) : i;
+                next = lo ? floorMod(j - lo, period) : j;
+            };
             const IntBox& window = paint.window;
             size_t ww = (size_t)(window.x1 - window.x0);
-            auto at = [&](int x, int y) {
-                int ux = floorMod(x - window.x0, tw);
-                int uy = floorMod(y - window.y0, th);
+            int ux;
+            int uy;
+            int vx;
+            int vy;
 
-                return paint.tile + ((size_t)uy * ww + (size_t)ux) * 4;
-            };
-            const u16* c00 = at(ix, iy);
-            const u16* c10 = at(jx, iy);
-            const u16* c01 = at(ix, jy);
-            const u16* c11 = at(jx, jy);
+            place(x0, (int)paint.imageWidth, window.x0, window.x1, ux, vx);
+            place(y0, (int)paint.imageHeight, window.y0, window.y1, uy, vy);
+
+            const u16* c00 = paint.tile + ((size_t)uy * ww + (size_t)ux) * 4;
+            const u16* c10 = paint.tile + ((size_t)uy * ww + (size_t)vx) * 4;
+            const u16* c01 = paint.tile + ((size_t)vy * ww + (size_t)ux) * 4;
+            const u16* c11 = paint.tile + ((size_t)vy * ww + (size_t)vx) * 4;
             bilinear(c00, c10, c01, c11, tx, ty, out);
 
             for (int k = 0; k < 4; k++) {
@@ -24444,8 +24463,8 @@ namespace {
 
     // Sorts events by y, those of equal y kept in their order: by insertion
     // when few, else a byte at a time from the lowest of y's bits turned to
-    // order as y does, the sign flipped and a negative's other bits too; a
-    // byte they all share is passed over.
+    // order as y does, the sign flipped and a negative's other bits too,
+    // every byte counted in one pass; a byte they all share is passed over.
     static void sortEvents(Vector<SweepEvent>& events, Vector<SweepEvent>& scratch) {
         size_t n = events.length();
         SweepEvent* v = events.mutData();
@@ -24469,20 +24488,29 @@ namespace {
 
         SweepEvent* from = v;
         SweepEvent* to = scratch.mutData();
+        auto key = [](const SweepEvent& e) {
+            u32 bits;
+
+            memcpy(&bits, &e.y, sizeof(bits));
+
+            return bits ^ ((u32)((i32)bits >> 31) | 0x80000000u);
+        };
+        size_t histogram[4][256] = {};
+
+        for (size_t i = 0; i < n; i++) {
+            u32 k = key(v[i]);
+
+            histogram[0][k & 0xff]++;
+            histogram[1][(k >> 8) & 0xff]++;
+            histogram[2][(k >> 16) & 0xff]++;
+            histogram[3][k >> 24]++;
+        }
 
         for (u32 shift = 0; shift < 32; shift += 8) {
-            size_t counts[256] = {};
+            size_t* counts = histogram[shift / 8];
             auto byte = [&](const SweepEvent& e) {
-                u32 bits;
-
-                memcpy(&bits, &e.y, sizeof(bits));
-
-                return ((bits ^ ((u32)((i32)bits >> 31) | 0x80000000u)) >> shift) & 0xff;
+                return (key(e) >> shift) & 0xff;
             };
-
-            for (size_t i = 0; i < n; i++) {
-                counts[byte(from[i])]++;
-            }
 
             if (counts[byte(from[0])] == n) {
                 continue;
@@ -24794,8 +24822,12 @@ namespace {
         // The windings again from each edge an event moved, in order, each
         // edge's run closed and opened where its side changes, until an
         // edge past it finds the winding it had; between such edges nothing
-        // changed.
+        // changed. With none moved there is nothing to settle.
         auto settle = [&](float y) {
+            if (s.marked.empty()) {
+                return;
+            }
+
             s.keys.clear();
 
             for (u32 e : s.marked) {
@@ -24840,37 +24872,47 @@ namespace {
             s.settling++;
         };
 
-        // The crossing below y of a and the edge after it, if any: where
-        // their lines meet, when a's slope is the greater, so that a is
-        // right of the other past it; already, when that is above y. A
-        // swapped pair has the lesser slope left and never swaps back, so
-        // lines that run together do not trade places on their roundings.
-        // Two that meet only as one ends at y change nothing.
-        auto predict = [&](u32 a, float y) {
-            u32 b = sweepNext(s, a);
+        // The crossing below y of a and b after it: where their lines meet,
+        // when a's slope is the greater, so that a is right of b past it;
+        // already, when that is above y. A swapped pair has the lesser
+        // slope left and never swaps back, so lines that run together do
+        // not trade places on their roundings. Two that meet only as one
+        // ends at y change nothing.
+        auto foresee = [&](u32 a, u32 b, float y) {
+            double ka = s.slope[a];
+            double kb = s.slope[b];
 
-            if (b == noEdge) {
+            if (!(ka > kb)) {
                 return;
             }
 
             float end = minf(edges[a].y1, edges[b].y1);
-            double ka = s.slope[a];
-            double kb = s.slope[b];
 
-            if (ka > kb && end > y) {
-                double meet = ((double)edges[b].x0 - edges[a].x0 + edges[a].y0 * ka - edges[b].y0 * kb) / (ka - kb);
+            if (!(end > y)) {
+                return;
+            }
 
-                if (meet <= end) {
-                    SweepCrossing c{maxf((float)meet, y), a, b};
-                    size_t k = s.heap.length();
+            double meet = ((double)edges[b].x0 - edges[a].x0 + edges[a].y0 * ka - edges[b].y0 * kb) / (ka - kb);
 
-                    s.heap.pushBack(c);
+            if (meet <= end) {
+                SweepCrossing c{maxf((float)meet, y), a, b};
+                size_t k = s.heap.length();
 
-                    while (k > 0 && s.heap[(k - 1) / 2].y > c.y) {
-                        xchg(s.heap.mut(k), s.heap.mut((k - 1) / 2));
-                        k = (k - 1) / 2;
-                    }
+                s.heap.pushBack(c);
+
+                while (k > 0 && s.heap[(k - 1) / 2].y > c.y) {
+                    xchg(s.heap.mut(k), s.heap.mut((k - 1) / 2));
+                    k = (k - 1) / 2;
                 }
+            }
+        };
+
+        // The crossing below y of a and the edge after it, if any.
+        auto predict = [&](u32 a, float y) {
+            u32 b = sweepNext(s, a);
+
+            if (b != noEdge) {
+                foresee(a, b, y);
             }
         };
 
@@ -24879,7 +24921,7 @@ namespace {
             u32 p = sweepPrevious(s, e);
 
             if (p != noEdge) {
-                predict(p, y);
+                foresee(p, e, y);
             }
 
             predict(e, y);
@@ -25162,8 +25204,8 @@ namespace {
                     mark(q);
                 }
 
-                if (p != noEdge) {
-                    predict(p, y);
+                if (p != noEdge && q != noEdge) {
+                    foresee(p, q, y);
                 }
             }
 
@@ -25714,17 +25756,21 @@ namespace {
         solidOverSpan(planeAt(r.layers.back(), x0, y), color, factor, (size_t)count);
     }
 
-    // The rows a paint is sampled over: the two table entries around each
-    // pixel's t and how far between them.
+    // The rows a gradient is sampled over: each pixel's t, whether the
+    // gradient paints it, the step of the table it falls in and how far
+    // into the step.
     struct PaintRows {
-        Vector<u16> below;
-        Vector<u16> above;
+        Vector<float> t;
+        Vector<u8> painted;
+        Vector<u32> step;
         Vector<u16> between;
+        Vector<u16> entries;
     };
 
     // The paint of count pixels from x on row y, stored premultiplied; a
     // pixel the paint leaves out gets no cover. A gradient takes the t of
-    // each pixel, the two entries around it, and blends them all at once.
+    // each pixel, a linear one's in a pass the compiler vectorizes, then
+    // the steps, then for each pixel the two entries around it blended.
     static void paintSpan(const DevicePaint& paint, int x, int y, u32 count, u16* cover, u16* out, PaintRows& rows) {
         if (paint.type != PaintType::Linear && paint.type != PaintType::Radial && paint.type != PaintType::Conic) {
             for (u32 i = 0; i < count; i++) {
@@ -25736,53 +25782,105 @@ namespace {
             return;
         }
 
-        rows.below.zero((size_t)count * 4);
-        rows.above.zero((size_t)count * 4);
+        rows.t.zero(count);
+        rows.painted.zero(count);
+        rows.step.zero(count);
         rows.between.zero(count);
+        rows.entries.zero((size_t)count * 8);
 
-        u16* below = rows.below.mutData();
-        u16* above = rows.above.mutData();
+        float* ts = rows.t.mutData();
+        u8* painted = rows.painted.mutData();
+        u32* steps = rows.step.mutData();
         u16* between = rows.between.mutData();
+        u16* entries = rows.entries.mutData();
 
         // The row's part of the map to the gradient's space, the products
         // apply forms, taken once.
-        const Matrix& m = paint.inverse;
+        Matrix m = paint.inverse;
         float py = (float)y + 0.5f;
         double rowX = m.c * py;
         double rowY = m.d * py;
 
-        for (u32 i = 0; i < count; i++) {
-            float t;
-            u32 f;
-            float px = (float)(x + (int)i) + 0.5f;
+        if (paint.type == PaintType::Linear) {
+            float x1 = paint.x1;
+            float y1 = paint.y1;
+            float dx = paint.x2 - paint.x1;
+            float dy = paint.y2 - paint.y1;
 
-            if (!gradientT(paint, Point{m.a * px + rowX + m.e, m.b * px + rowY + m.f}, t)) {
-                if (paint.beyond) {
-                    memcpy(below + (size_t)i * 4, paint.beyond16, sizeof(paint.beyond16));
-                    memcpy(above + (size_t)i * 4, paint.beyond16, sizeof(paint.beyond16));
-                    between[i] = 0;
-                } else {
-                    cover[i] = 0;
-                }
+            for (u32 i = 0; i < count; i++) {
+                float px = (float)(x + (int)i) + 0.5f;
 
-                continue;
+                ts[i] = linearT(x1, y1, dx, dy, m.a * px + rowX + m.e, m.b * px + rowY + m.f);
+                painted[i] = 1;
             }
+        } else if (paint.type == PaintType::Radial) {
+            Radial g = radialOf(paint);
+            double fx = paint.fx;
+            double fy = paint.fy;
 
-            u32 step = tableStep(paint, t, f);
+            for (u32 i = 0; i < count; i++) {
+                float px = (float)(x + (int)i) + 0.5f;
 
-            // A step holding a stop takes the stops themselves.
-            if (paint.kinks[step]) {
-                gradientColor(paint, minf(maxf(t, 0.f), 1.f), below + (size_t)i * 4);
-                memcpy(above + (size_t)i * 4, below + (size_t)i * 4, sizeof(u16) * 4);
-                continue;
+                painted[i] = radialT(g, m.a * px + rowX + m.e - fx, m.b * px + rowY + m.f - fy, ts[i]);
             }
+        } else {
+            for (u32 i = 0; i < count; i++) {
+                float px = (float)(x + (int)i) + 0.5f;
 
-            memcpy(below + (size_t)i * 4, paint.table + (size_t)step * 4, sizeof(u16) * 4);
-            memcpy(above + (size_t)i * 4, paint.table + (size_t)step * 4 + 4, sizeof(u16) * 4);
-            between[i] = (u16)f;
+                painted[i] = gradientT(paint, Point{m.a * px + rowX + m.e, m.b * px + rowY + m.f}, ts[i]);
+            }
         }
 
-        mixSpan(out, below, above, between, count);
+        // A linear or radial gradient's t spread; a conic one's is.
+        if (paint.type != PaintType::Conic) {
+            if (paint.spread == SpreadPad) {
+                for (u32 i = 0; i < count; i++) {
+                    ts[i] = clampUnit(ts[i]);
+                }
+            } else {
+                for (u32 i = 0; i < count; i++) {
+                    ts[i] = spreadT(ts[i], paint.spread);
+                }
+            }
+        }
+
+        float last = (float)(paint.tableSize - 1);
+        float top = (float)(paint.tableSize - 2);
+
+        for (u32 i = 0; i < count; i++) {
+            float at = minf(maxf(ts[i], 0.f), 1.f) * last;
+            float whole = minf(floorf(at), top);
+
+            between[i] = (u16)toUnit16(at - whole);
+            steps[i] = (u32)whole;
+        }
+
+        // Each pixel's two entries; one the gradient leaves out, or whose
+        // step holds a stop, takes one colour twice.
+        for (u32 i = 0; i < count; i++) {
+            u16* pair = entries + (size_t)i * 8;
+
+            if (!painted[i]) {
+                between[i] = 0;
+
+                if (paint.beyond) {
+                    memcpy(pair, paint.beyond16, sizeof(paint.beyond16));
+                } else {
+                    memset(pair, 0, sizeof(u16) * 4);
+                    cover[i] = 0;
+                }
+            } else if (paint.kinks[steps[i]]) {
+                between[i] = 0;
+                gradientColor(paint, minf(maxf(ts[i], 0.f), 1.f), pair);
+            } else {
+                memcpy(pair, paint.table + (size_t)steps[i] * 4, sizeof(u16) * 8);
+                continue;
+            }
+
+            memcpy(pair + 4, pair, sizeof(u16) * 4);
+        }
+
+        mixSpan(out, entries, between, count);
     }
 
     // The pixels a raster paint samples, read when a fill first draws it:
@@ -26832,6 +26930,21 @@ namespace {
         return Shift{(int)floorX, (int)floorY, dx - floorX, dy - floorY};
     }
 
+    // A row of pixels each the bilinear blend at tx, ty past the pixel of
+    // upper and lower one before it, the weights taken once.
+    static void shiftSpan(u16* __restrict d, const u16* __restrict upper, const u16* __restrict lower, float tx, float ty, size_t count) {
+        u32 wx = toUnit16(tx);
+        u32 wy = toUnit16(ty);
+        u32 w11 = div65535(wx * wy);
+        u32 w10 = wx - w11;
+        u32 w01 = wy - w11;
+        u32 w00 = 65535u - wx - wy + w11;
+
+        for (size_t i = 0; i < count * 4; i++) {
+            d[i] = (u16)div65535(upper[i + 4] * w00 + upper[i] * w10 + lower[i + 4] * w01 + lower[i] * w11);
+        }
+    }
+
     // Shifts the input over the box into a new plane, zero: a whole shift
     // copies rows; past a fraction, each pixel blends the four input pixels
     // around, from two input rows read at once.
@@ -26857,15 +26970,7 @@ namespace {
         for (int y = b.y0; y < b.y1; y++) {
             readStored(in, b.x0 - shift.ox - 1, b.x1 - shift.ox, y - shift.oy, upper.mutData());
             readStored(in, b.x0 - shift.ox - 1, b.x1 - shift.ox, y - shift.oy - 1, lower.mutData());
-
-            u16* o = planeAt(out, b.x0, y);
-
-            for (int x = 0; x < n; x++) {
-                const u16* a = upper.data() + (size_t)x * 4;
-                const u16* c = lower.data() + (size_t)x * 4;
-
-                bilinear(a + 4, a, c + 4, c, shift.fx, shift.fy, o + (size_t)x * 4);
-            }
+            shiftSpan(planeAt(out, b.x0, y), upper.data(), lower.data(), shift.fx, shift.fy, (size_t)n);
         }
     }
 
