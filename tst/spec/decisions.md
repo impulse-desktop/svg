@@ -958,3 +958,24 @@ its time, and only the rim pixels a disk barely covers come out lighter
 than after 30 000. `paint-budget` paints 1024 canvases and then 4096
 halves of one with a few dozen elements: a fill after the first shows, one
 after the second does not.
+
+## D60. A stroke's outline keeps to the chords of its hair-fine points
+
+The outline of a stroke of a flattened curve has two offset points at
+every smooth point, the end of one segment's offset and the start of the
+next's, a small step apart, and the chord between a point's neighbours
+lies within a sagitta of the arc they stand in for. SVG 2 leaves leeway to
+deviate from the ideal stroke shape for performance
+(`svg2/painting.md#StrokeShape`, D1). A point of a stroke's outline within
+2^-9 px of the chord from the last point kept to the one after it, and
+between them, is left out, as are those before it while each keeps as
+near; a run of them ends at sixteen. The outline moves by under 2^-9 px, a
+twelfth of the flattening tolerance of 0.025 px the curves already take.
+Fills keep every point: the rasterizer's units measure slivers finer than
+that, and an aliased shape takes its pixel centres, which a hair's move may
+carry across an edge. A fifth of the corpus's stroke outline points go, and
+with them the edges they made: 65.2 to 62.9 seconds at 512. Of the corpus,
+two thirds of the files come out the same, the rest within 2/255 but five
+within 4/255. `stroke-outline-chords` draws a wide stroke of a circle
+against its annulus, and a polyline that wiggles by a thousandth of a
+pixel against its band.

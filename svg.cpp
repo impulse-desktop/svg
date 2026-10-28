@@ -16197,20 +16197,65 @@ namespace {
         return true;
     }
 
-    static void emitEdges(Lowering& l, const Flat& flat, Box& bounds) {
+    // The edges of an outline's contours, none level. Simplified, a point
+    // within 2^-9 px of the line from the last point kept to the one after
+    // it, and between them, where the outline turns by under sixty degrees
+    // at it, is passed over, as are those passed over before it while each
+    // is as near that line: the outline moves by no more, a twelfth of the
+    // flattening tolerance (D60). A stroke's outline has many such points,
+    // two a small step apart where the offsets of two segments meet round
+    // a smooth point. A run ends at 16, so the checks stay few. A fill
+    // keeps every point, and an aliased stroke too: its pixels take their
+    // centres, which a hair's move may carry across an edge.
+    static void emitEdges(Lowering& l, const Flat& flat, Box& bounds, bool simplify = false) {
         u32 begin = 0;
 
         for (u32 end : flat.ends) {
             if (end - begin >= 2) {
-                for (u32 i = begin; i < end; i++) {
-                    Point a = flat.points[i];
-                    Point b = flat.points[i + 1 < end ? i + 1 : begin];
+                u32 a = begin;
+                u32 run = 0;
 
-                    extend(bounds, a);
+                for (u32 k = begin + 1; k <= end; k++) {
+                    extend(bounds, flat.points[k - 1]);
 
-                    if (a.y != b.y) {
-                        l.edges.pushBack(Edge{(float)a.x, (float)a.y, (float)b.x, (float)b.y});
+                    if (simplify && k < end && run < 16) {
+                        Point p = flat.points[a];
+                        Point b = flat.points[k];
+                        Point c = flat.points[k + 1 < end ? k + 1 : begin];
+                        double dx = c.x - p.x;
+                        double dy = c.y - p.y;
+                        double length = dx * dx + dy * dy;
+                        double ux = b.x - p.x;
+                        double uy = b.y - p.y;
+                        double vx = c.x - b.x;
+                        double vy = c.y - b.y;
+                        double turn = ux * vx + uy * vy;
+                        bool near = turn > 0.0 && turn * turn >= 0.25 * (ux * ux + uy * uy) * (vx * vx + vy * vy) && length > 0.0 && length < 0x1p256;
+
+                        for (u32 j = k; near && j > a; j--) {
+                            double qx = flat.points[j].x - p.x;
+                            double qy = flat.points[j].y - p.y;
+                            double cross = qx * dy - qy * dx;
+                            double along = qx * dx + qy * dy;
+
+                            near = cross * cross <= 0x1p-18 * length && along >= 0.0 && along <= length;
+                        }
+
+                        if (near) {
+                            run++;
+                            continue;
+                        }
                     }
+
+                    Point p = flat.points[a];
+                    Point q = flat.points[k < end ? k : begin];
+
+                    if (p.y != q.y) {
+                        l.edges.pushBack(Edge{(float)p.x, (float)p.y, (float)q.x, (float)q.y});
+                    }
+
+                    a = k;
+                    run = 0;
                 }
             }
 
@@ -16218,7 +16263,7 @@ namespace {
         }
     }
 
-    static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint, bool aliased, bool linear = false) {
+    static void emitFill(Lowering& l, const Flat& flat, u8 rule, DevicePaint* paint, bool aliased, bool linear = false, bool stroked = false) {
         if (!geometryWork(l, flat.points.length() + flat.bands.length())) {
             return;
         }
@@ -16233,7 +16278,7 @@ namespace {
         op.paint = paint;
         op.first = (u32)l.edges.length();
         op.bounds = emptyBox();
-        emitEdges(l, flat, op.bounds);
+        emitEdges(l, flat, op.bounds, stroked && !aliased);
 
         if (flat.bands.length()) {
             op.bandStart = (u32)l.edges.length() - op.first;
@@ -20606,7 +20651,7 @@ namespace {
                     const Matrix& strokeMatrix = style.nonScaling ? l.host : m;
                     bool aliased = style.aliased && (double)style.strokeWidth * minimumScale(strokeMatrix) >= 1.0;
 
-                    emitFill(l, device, WindingNonZero, stroke, aliased, style.linearColors);
+                    emitFill(l, device, WindingNonZero, stroke, aliased, style.linearColors, true);
                 }
             } else if (layer == 2) {
                 Matrix outerMatrix = l.contextMatrix;
