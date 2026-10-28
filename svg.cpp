@@ -16230,7 +16230,8 @@ namespace {
                         double vx = c.x - b.x;
                         double vy = c.y - b.y;
                         double turn = ux * vx + uy * vy;
-                        bool near = turn > 0.0 && turn * turn >= 0.25 * (ux * ux + uy * uy) * (vx * vx + vy * vy) && length > 0.0;
+                        // A turn forward leaves the chord some length.
+                        bool near = turn > 0.0 && turn * turn >= 0.25 * (ux * ux + uy * uy) * (vx * vx + vy * vy);
 
                         // Between the ends when its projection along the
                         // chord is within half the length of its middle.
