@@ -25011,14 +25011,20 @@ namespace {
 
                 // The point where the lines of the two meet, along the
                 // steeper; an edge's line passes through it when it does so
-                // across the line.
+                // across the line. An edge that ends before its line comes
+                // to the point's x does not: one nearly level that misses
+                // the point by a sliver may lie pixels from it, and in the
+                // order of the slopes it would stay on the wrong side, and
+                // the edge after it too.
                 double ka = s.slope[c.a];
                 double kb = s.slope[c.b];
                 double py = ((double)edges[c.b].x0 - edges[c.a].x0 + edges[c.a].y0 * ka - edges[c.b].y0 * kb) / (ka - kb);
                 double px = sweepX(s, edges, fabs(ka) < fabs(kb) ? c.a : c.b, (float)py);
                 double near = 0x1p-10 + (fabs(px) + fabs(py)) * 0x1p-20;
                 auto through = [&](u32 e) {
-                    return fabs(edges[e].x0 + (py - edges[e].y0) * s.slope[e] - px) <= near * (1.0 + fabs(s.slope[e]));
+                    double off = edges[e].x0 + (py - edges[e].y0) * s.slope[e] - px;
+
+                    return fabs(off) <= near * (1.0 + fabs(s.slope[e])) && (off * s.slope[e] >= 0.0 || py - off / s.slope[e] <= edges[e].y1);
                 };
                 u32 first = c.a;
                 u32 last = c.b;
