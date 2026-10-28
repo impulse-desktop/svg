@@ -2770,6 +2770,38 @@ namespace {
         }
     }
 
+    // A colour scaled by the factor of each pixel, over the pixels: as
+    // solidSpan and then overSpan do, in one pass.
+    static void solidOverSpan(u16* __restrict d, const u16* __restrict color, const u16* __restrict factor, size_t count) {
+        size_t p = 0;
+
+        for (; p + 2 <= count; p += 2) {
+            u16 s[8];
+            u16* dp = d + p * 4;
+
+            for (int i = 0; i < 8; i++) {
+                s[i] = (u16)div65535((u32)color[i & 3] * factor[p + (i >> 2)]);
+            }
+
+            for (int i = 0; i < 8; i++) {
+                dp[i] = saturate(s[i] + div65535((u32)dp[i] * (65535u - s[(i & 4) | 3])));
+            }
+        }
+
+        for (; p < count; p++) {
+            u16 s[4];
+            u16* dp = d + p * 4;
+
+            for (int i = 0; i < 4; i++) {
+                s[i] = (u16)div65535((u32)color[i] * factor[p]);
+            }
+
+            for (int i = 0; i < 4; i++) {
+                dp[i] = saturate(s[i] + div65535((u32)dp[i] * (65535u - s[3])));
+            }
+        }
+    }
+
     // The pixels scaled each by its factor, 65535 for 1.
     static void scaleSpan(u16* __restrict d, const u16* __restrict s, const u16* __restrict factor, size_t count) {
         size_t p = 0;
@@ -25070,11 +25102,20 @@ namespace {
                     b++;
                 } else {
                     close(e, y);
+
+                    // One of the same direction has the winding and side of
+                    // the edge it follows on; else its windings are settled.
+                    if (edges[f].dir == edges[e].dir) {
+                        s.winding.mut(f) = s.winding[e];
+                        s.side.mut(f) = s.side[e];
+                    } else {
+                        mark(f);
+                    }
+
                     s.side.mut(e) = 0;
                     sweepPut(s, s.block[e], s.slot[e], f);
                     s.block.mut(e) = noEdge;
                     s.from.mut(f) = y;
-                    mark(f);
                     s.ending.mut(a++).edge = noEdge;
                     s.starting.mut(b++).edge = noEdge;
                     neighbours(f, y);
@@ -25647,6 +25688,11 @@ namespace {
         colorSpan(planeAt(r.layers.back(), x0, y), color, (size_t)count);
     }
 
+    // One colour scaled by each pixel's factor, so laid.
+    static void solidLayer(Raster& r, int x0, int y, const u16* color, const u16* factor, int count) {
+        solidOverSpan(planeAt(r.layers.back(), x0, y), color, factor, (size_t)count);
+    }
+
     // The rows a paint is sampled over: the two table entries around each
     // pixel's t and how far between them.
     struct PaintRows {
@@ -25857,16 +25903,21 @@ namespace {
                 u32 start = end - count;
                 u16* out = source.mutData() + (size_t)start * 4;
 
-                if (solid) {
-                    solidSpan(out, paint.color16, coverRow + start, count);
+                if (plain) {
+                    solidLayer(r, (int)(ix0 + start), (int)(iy0 + y), paint.color16, coverRow + start, (int)count);
                 } else {
-                    u16* paints = colors.mutData() + (size_t)start * 4;
+                    if (solid) {
+                        solidSpan(out, paint.color16, coverRow + start, count);
+                    } else {
+                        u16* paints = colors.mutData() + (size_t)start * 4;
 
-                    paintSpan(paint, (int)(ix0 + start), (int)(iy0 + y), count, coverRow + start, paints, rows);
-                    scaleSpan(out, paints, coverRow + start, count);
+                        paintSpan(paint, (int)(ix0 + start), (int)(iy0 + y), count, coverRow + start, paints, rows);
+                        scaleSpan(out, paints, coverRow + start, count);
+                    }
+
+                    overLayer(r, (int)(ix0 + start), (int)(iy0 + y), out, (int)count, op.linear);
                 }
 
-                overLayer(r, (int)(ix0 + start), (int)(iy0 + y), out, (int)count, op.linear);
                 count = 0;
             };
 
