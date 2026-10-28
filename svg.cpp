@@ -1455,6 +1455,8 @@ namespace {
         bool alternate;
     };
 
+    struct Path;
+
     struct Document {
         ObjPool* pool;
         Interner atoms;
@@ -1498,6 +1500,9 @@ namespace {
         // source's length and its size.
         size_t workBudget;
         size_t edgeBudget;
+        // The path data of each atom a shape has read, parsed, by the atom:
+        // a document that instances its paths many times parses each once.
+        mutable Vector<Path*> paths;
     };
 
     struct Entity {
@@ -12222,7 +12227,17 @@ namespace {
                 }
 
                 if (d) {
-                    parsePathData(textOf(doc, d), path);
+                    while (doc.paths.length() <= d) {
+                        doc.paths.pushBack(nullptr);
+                    }
+
+                    if (!doc.paths[d]) {
+                        doc.paths.mut(d) = doc.pool->make<Path>();
+                        parsePathData(textOf(doc, d), *doc.paths[d]);
+                    }
+
+                    path.verbs.append(doc.paths[d]->verbs.data(), doc.paths[d]->verbs.length());
+                    path.points.append(doc.paths[d]->points.data(), doc.paths[d]->points.length());
                 }
             } break;
             case AtomRect: {
