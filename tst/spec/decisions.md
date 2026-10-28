@@ -977,5 +977,6 @@ carry across an edge. A fifth of the corpus's stroke outline points go, and
 with them the edges they made: 65.2 to 62.9 seconds at 512. Of the corpus,
 two thirds of the files come out the same, the rest within 2/255 but five
 within 4/255. `stroke-outline-chords` draws a wide stroke of a circle
-against its annulus, and a polyline that wiggles by a thousandth of a
-pixel against its band.
+against its annulus, a polyline that wiggles by a thousandth of a pixel
+against its band, and a cubic hooked back a hair at its start, whose tip's
+outline points lie thousandths of a pixel apart, some behind the chord.

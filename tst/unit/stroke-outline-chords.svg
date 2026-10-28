@@ -1,8 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
 <!-- A stroke outline leaves out the points within 2^-9 px of the chord
 between their neighbours (D60): a wide stroke of a circle is its
-annulus; a hair-wiggled polyline is its band. -->
-<rect width="64" height="32" fill="white"/>
+annulus; a hair-wiggled polyline is its band; a cubic hooked back a hair
+at its start keeps its tip. -->
+<rect width="64" height="64" fill="white"/>
 <circle cx="16" cy="16" r="10" fill="none" stroke="#3066b2" stroke-width="8"/>
 <polyline points="34,15.9990 36,16.0010 38,15.9990 40,16.0010 42,15.9990 44,16.0010 46,15.9990 48,16.0010 50,15.9990 52,16.0010 54,15.9990 56,16.0010 58,15.9990 60,16.0010" fill="none" stroke="#3066b2" stroke-width="8" stroke-linecap="square"/>
+<path d="M 4 52 C 3.85 51.94 20 46 24 60" fill="none" stroke="#3066b2" stroke-width="1"/>
 </svg>

@@ -16230,15 +16230,17 @@ namespace {
                         double vx = c.x - b.x;
                         double vy = c.y - b.y;
                         double turn = ux * vx + uy * vy;
-                        bool near = turn > 0.0 && turn * turn >= 0.25 * (ux * ux + uy * uy) * (vx * vx + vy * vy) && length > 0.0 && length < 0x1p256;
+                        bool near = turn > 0.0 && turn * turn >= 0.25 * (ux * ux + uy * uy) * (vx * vx + vy * vy) && length > 0.0;
 
+                        // Between the ends when its projection along the
+                        // chord is within half the length of its middle.
                         for (u32 j = k; near && j > a; j--) {
                             double qx = flat.points[j].x - p.x;
                             double qy = flat.points[j].y - p.y;
                             double cross = qx * dy - qy * dx;
                             double along = qx * dx + qy * dy;
 
-                            near = cross * cross <= 0x1p-18 * length && along >= 0.0 && along <= length;
+                            near = cross * cross <= 0x1p-18 * length && fabs(2.0 * along - length) <= length;
                         }
 
                         if (near) {
@@ -23997,12 +23999,13 @@ namespace {
             float ty = (float)(fy - y0);
             // A tile pixel is in the window once, at its unwrapped place:
             // the column of the texel at or before v and of the one after
-            // it, from lo, along a period. Where both lie in the window they
-            // are there unwrapped; else the texels wrap into the period,
-            // within an int by its remainder, as fmod has it.
+            // it, from lo, along a period. A windowed tile holds every
+            // sample, so both lie in it, one a rounding puts past its edge
+            // taking the edge; in the whole tile the texels wrap into the
+            // period, within an int by its remainder, as fmod has it.
             auto place = [](double v, int period, int lo, int hi, int& u, int& next) {
-                if (v >= lo && v + 1.0 < hi) {
-                    u = (int)v - lo;
+                if (hi - lo < period) {
+                    u = (int)fmin(fmax(v - lo, 0.0), (double)(hi - lo - 2));
                     next = u + 1;
 
                     return;
@@ -24010,12 +24013,8 @@ namespace {
 
                 int i = fabs(v) < 2147483648.0 ? (int)((i64)v % period) : (int)fmod(v, (double)period);
 
-                i = i < 0 ? i + period : i;
-
-                int j = i + 1 == period ? 0 : i + 1;
-
-                u = lo ? floorMod(i - lo, period) : i;
-                next = lo ? floorMod(j - lo, period) : j;
+                u = i < 0 ? i + period : i;
+                next = u + 1 == period ? 0 : u + 1;
             };
             const IntBox& window = paint.window;
             size_t ww = (size_t)(window.x1 - window.x0);
