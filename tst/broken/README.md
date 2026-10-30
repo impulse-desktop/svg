@@ -166,6 +166,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `root-filter-operating-frame.svg` | The uniform displacement shifts the source by (-8,-8) before the root's quarter turn, placing it at (48,0). | The square appears at (32,0), 512 wrong pixels. | `lowerElementIn` exempts the root from the complex filter transform path, so displacement runs along device axes. |
 | `use-instance-geometry-cascade.svg` | The cloned rectangle's width and fill both resolve variables inherited from its use host, making a 16px lime square. | Width retains the source's 8px fallback, 128 missing pixels. | `cascadeNode` skips geometry declarations at an instance boundary; the instance map contains only non-geometric properties. |
 | `conic-math-percent-basis.svg` | In a conic stop, calc(25% + 90deg) is 180deg, retaining exactly the rectangle's right half. | The stop becomes 115deg, 197 missing pixels. | `cssAngle` uses context-free `readMathQuantity`: type addition infers an angle but the percentage's numeric value is never converted against a full turn. |
+| `stroke-bbox-growth-overflow.svg` | The finite stroke box contains the straight line's whole 32x16 stroke, so a zero inset preserves it. | All 512 pixels disappear. | `strokeGrowth` overflows half-width times miter limit in float, making the stroke box infinite before clipping uses it. |
+| `dash-cubic-translated-cut.svg` | The sampled rectangle lies strictly inside the first 8px dash gap, including room for the thick curve's normals. | All 48 sample pixels paint lime. | `dashPolyline` narrows a cubic's absolute cut point to float before a later transform cancels its large origin, moving the next dash's start backward. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1374,6 +1376,32 @@ with calc(180deg) matches exactly. Replacing them with calc(50%) is
 another exact control. This tests a missing angle percentage basis in
 math evaluation, independently of relative-unit cancellation checks,
 whole-turn precision, stop fixup, hints and minification.
+
+The stroke box follows [the stroke-box inflation algorithm](../../dev/spec/css-masking-1.md#compute-stroke-bounding-box)
+and the existing D21 choice to use it for every stroke-box. The line and
+its width are authored at scale 2^100, canceled by the reciprocal CTM.
+Half-width 2^103 times miter limit 2^30 is the finite growth 2^133. Even
+this deliberately generous box contains the entire butt-capped stroke;
+the line has no join where the large miter limit could alter its paint.
+Reducing the limit to 4 matches exactly. Removing the zero-inset clip
+also matches exactly. There are only two path points and four clip
+vertices, and the painted rectangle is 32x16 pixels. This tests the
+stroke-box growth product independently of later basic-shape endpoint
+narrowing, square-cap culling and near-reversal miter construction.
+
+The dash follows [dash positioning](../../dev/spec/svg2/painting.md#TermDashPositions)
+and [stroke shape construction](../../dev/spec/svg2/painting.md#StrokeShape).
+Relative to its large origin, the cubic is x=48t, y=3t(1-t), so its
+absolute slope is at most 1/16. Arc length per unit x is between 1 and
+sqrt(257/256). Each stroke normal shifts x by less than .5px, so the
+sample's local x=10..14 can only meet centerline x=9.5..14.5. Those arc
+positions remain strictly between 8 and 16, wholly in the first gap,
+with more than the D1 curve allowance to spare. Normalizing the path's
+origin to zero and adjusting only its translation matches exactly.
+Making both control-point y coordinates zero is another exact control:
+the same large-origin cubic becomes straight and still has this gap.
+This tests the cubic dash-start cut independently of dash-period range,
+pathLength calibration, closed-dash joining and culling reach.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
