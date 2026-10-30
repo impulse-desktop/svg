@@ -44,6 +44,10 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `marker-root-rem-recomputation.svg` | Root `font-size:2rem` computes once to 32px; the marker inherits that computed size. | 2,112 extra opaque pixels from a 64px marker. | `documentStyle` recomputes the root against its already computed root font size. |
 | `transform-inherited-font-units.svg` | An inherited `1em` translation keeps its parent's computed 8px length. | Both squares move to x=40 instead of 16; 1,024 wrong pixels. | `inheritedGeometry` copies specified transform tokens rather than their absolute computed lengths. |
 | `transform-origin-length-context.svg` | Origin lengths use the element's font and logical document viewport. | 704 pixels differ across font and viewport unit cells. | `readOrigin` substitutes a 16px font and reference-box-sized screen instead of the element's `TransformBasis`. |
+| `embedded-svg-root-effects.svg` | An image's SVG root applies opacity, clipping and filtering; its canvas paints its background. | 896 pixels differ across four cells. | `drawImage` lowers the nested root's children directly, skipping root effects and canvas painting. |
+| `anisotropic-raster-minification.svg` | Shrinking identical rows preserves the red and blue interiors of magnified columns. | All 192 interior pixels become purple. | `rasterPaint` chooses both prefilter levels from the most minified axis, collapsing the 8px-wide source to one texel. |
+| `linear-blend-white-cache.svg` | White multiplied by white remains opaque white in linear light. | All 2,304 pixels become transparent. | `blendLinear`'s initial all-ones cache keys match valid white pixels and return the initial zero result. |
+| `data-base64-invalid-padding.svg` | Interior or excessive base64 padding makes an image resource invalid. | Both invalid resources draw, adding 512 pixels. | `decodeDataUri` skips every equals sign instead of validating its position and count. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -83,6 +87,24 @@ and the existing D31 viewport choice. Equivalent controls are, respectively,
 an explicit lime outline, removal of the invalid declarations, a literal
 32px root font, explicit 8px inherited translations, and literal 8px/16px
 origin lengths. Each was rendered and matches its expectation exactly.
+
+Embedded documents follow the [SVG image processing model](../../dev/spec/svg2/embedded.md#ImageElement),
+with the existing D52 canvas-background choice. Moving the root effects
+onto child groups and representing the background with a child rectangle
+produces exactly the independent expectation. The raster uses
+[pixelated scaling](../../dev/spec/css-images-3.md#valdef-image-rendering-pixelated),
+which treats each axis independently. The expectation samples only solid
+interiors, away from the red/blue transition. Replacing 64 identical source
+rows with eight, without changing the image's displayed size, matches it
+exactly with the same sampling mode.
+
+The blend follows the [multiply equation](../../dev/spec/compositing-1.md#blendingmultiply)
+and [linearRGB compositing](../../dev/spec/svg2/painting.md#ColorInterpolationProperty).
+Switching to sRGB matches the white expectation exactly. The data URLs
+follow [forgiving-base64 decoding](https://infra.spec.whatwg.org/#forgiving-base64-decode),
+which only removes one or two trailing padding characters before checking
+the alphabet. Both repaired URLs were also rendered and produce complete
+green squares; both invalid forms are rejected by resvg 0.49.0.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
