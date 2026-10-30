@@ -171,6 +171,7 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `three-d-plane-normal-range.svg` | Reciprocal xy scales cancel; the green plane remains in front of the red one. | All 256 pixels become red. | `polygonPlane` overflows the sum of squared Newell normal components in double, normalizing the finite plane to zero and treating both depths as coplanar. |
 | `resource-singularity-context.svg` | The gradient's own 32px font makes its scale calculation equal one, so the two lime stops fill the square. | All 256 pixels use the red fallback. | `singularTransform` calls `flatTransform` without the resource's length context, evaluating em at 16px and falsely rejecting an invertible transform. |
 | `marker-tangent-coordinate-range.svg` | The finite tangent has direction (4/5,3/5), and the auto-oriented marker completely covers the sample. | All 16 sample pixels disappear. | `angleOf` passes the double tangent components to atan2f, narrowing both finite coordinate differences to infinity and choosing 45 degrees. |
+| `raster-edge-rebase-precision.svg` | The sample lies strictly above the triangle's y=x/2 diagonal and remains fully opaque. | The diagonal shifts to y=x/2+12, leaving 52 pixels missing or partly transparent. | `bandEdge` subtracts the cropped raster's origin from large float endpoints in float, losing that translation before the edge equations are evaluated. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1447,6 +1448,22 @@ equivalent angle 36.86989764584402 also matches exactly. The path itself
 has neither fill nor stroke. This tests tangent-component narrowing
 independently of stroke segment lengths, angle-unit conversion, missing
 zero tangents and non-scaling marker orientation.
+
+The triangle follows [filling an interior](../../dev/spec/svg2/painting.md#FillProperties)
+and [the nonzero fill rule](../../dev/spec/svg2/painting.md#FillRuleProperty).
+Its coordinates are exact powers of two, all finite and representable
+in float. Its diagonal is y=x/2; throughout x=32..48, y=28..32 the
+sample lies at least 4px above it and far inside the other two sides.
+The cropped layer starts at (32,28), so the correct local edge equation
+is y=x/2-12. Subtracting that origin in float loses both offsets and
+leaves y=x/2 locally, equivalent to a 12px downward shift in the document.
+The resulting local triangle covers area 16 instead of the expected 64.
+Replacing the far y magnitude 2^30 by 2^20 and the x magnitude by twice
+that value matches exactly. Using 2^16 instead is another exact control;
+both retain the same visible half-plane and sample. Only straight edges
+are involved. This tests raster-origin rebasing independently of curve
+flattening, stroke construction, basic-shape coordinates, nonfinite edge
+clamping and raster work limits.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
