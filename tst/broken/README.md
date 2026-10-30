@@ -142,6 +142,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `stroke-segment-length-range.svg` | The two opposite segments and bevel joins cover the same 32x8 band as the open segment. | All 256 expected pixels disappear. | `strokePolyline` measures a finite 4e38 segment in float; infinite lengths then pass its inner-cut checks and corrupt the closed outline. |
 | `use-instance-measurement.svg` | The use's custom property makes the instanced rectangle 16px square; its half-width box clip keeps 8x16 pixels. | Only a 4x8 piece remains, 96 missing pixels. | `elementExtent` enters a use target without the instance style map that `lowerUse` establishes for drawing. |
 | `distant-light-angle-range.svg` | Elevation 2^127 degrees is equivalent to 128 degrees and illuminates the flat square with green 201. | All 256 pixels are opaque black. | `filterLighting` multiplies the finite float angle by pi before dividing by 180, overflowing its radian direction. |
+| `pattern-resolution-norm-underflow.svg` | A 2^104 tile under scale 2^-100 occupies 16px and retains its 8px green/blue stripes. | All 512 pixels become the same translucent mixed color. | `patternPaint` passes a double squared CTM norm of 2^-200 to sqrtf, losing it before choosing the tile's raster resolution. |
+| `xml-expanded-attribute-duplicate.svg` | Two attributes with the same namespace URI and local name invalidate the embedded SVG. | The invalid image draws a green square, 256 extra pixels. | `parseElement` checks raw attribute names for duplicates before resolving their namespace prefixes. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1037,6 +1039,31 @@ by pi exceeds the float range before division, although its final radian
 value is finite. This exercises degree conversion separately from point
 light normalization, specular exponents and CSS conic-gradient sampling.
 No transform or output-frame interpretation is involved.
+
+The pattern follows [pattern coordinates](../../dev/spec/svg2/pservers.md#PatternElement)
+and [transform rendering](../../dev/spec/css-transforms-1.md#transform-rendering).
+All large lengths are exact powers of two: the tile is 2^104 square and
+each stripe is 2^103 wide. The scale is 2^-100, leaving a 16px tile and
+8px stripes. The squared scale fits double but underflows float, so the
+chosen tile is 1x1 instead of 16x16. Normalizing the geometry to 16px tiles
+and 8px stripes with unit scale matches exactly. Reducing each length by
+2^40 while increasing the scale by 2^40 also matches exactly, retaining
+large coordinates and the same output. The correct tile is far below
+the 2048px cap. This tests resolution selection independently of pattern
+coordinate transforms, content selection and raster minification.
+
+The XML follows [uniqueness of expanded attribute names](https://www.w3.org/TR/xml-names/#uniqAttrs)
+and [well-formed image resources](../../dev/spec/svg2/conform.md#ConformingSVGViewers).
+Both a:tag and b:tag expand to (urn:meta,tag), which is forbidden even
+though their prefixes differ. Python ElementTree independently rejects
+the decoded image; resvg also leaves it empty. Renaming b:tag to a:tag
+matches the empty expectation exactly, exercising the existing raw-name
+check. Removing b's namespace declaration is another exact empty control,
+exercising the existing unbound-prefix check. Renaming only b:tag to
+b:other makes the resource valid and renders all 256 green pixels exactly.
+The error precedes the rectangle. The outer SVG remains well formed.
+This tests namespace-aware duplicate detection separately from character
+references, namespace-sensitive CSS selectors and DTD attribute defaults.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
