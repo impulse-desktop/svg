@@ -200,6 +200,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `transform-perspective-none.svg` | Identity perspective leaves the following 8px translation in effect. | The square stays at the origin, leaving 384 wrong pixels. | `transformFunction` accepts only numbers, dimensions, percentages or math arguments, rejecting the valid none keyword before handling perspective. |
 | `transform-origin-repeated-axis.svg` | The invalid pair of horizontal keywords is discarded, retaining the preceding center origin and the green square's position. | The square rotates about (24,8), leaving 320 wrong pixels. | `validGeometry` counts two readOrigin successes without checking their axes; transformOrigin treats the second horizontal keyword as the x coordinate. |
 | `dash-stationary-newton.svg` | The only painted dash is a 4x8 green rectangle. | It extends to about 32.71px instead of 4px, leaving 232 wrong pixels. | `lengthParameter` stops after four Newton iterations from a poor initial estimate near a stationary cubic endpoint, without checking the remaining length error. |
+| `pattern-bbox-translated-origin.svg` | The quarter-box offset places green 8px bands at x=16 and x=32 after translation cancellation. | Green and transparent bands swap, leaving 512 wrong pixels. | `patternPaint` stores bbox.x0 + x*bw in float, losing the 8px tile offset at 2^28 before composing its placement with the cancelling CTM. |
+| `fe-image-context-paint.svg` | An element rendered as a use by feImage resolves context-fill to the primitive's lime fill. | All 256 expected pixels disappear. | `lowerImageContent` passes the primitive's style to the target but omits the paint-context setup in lowerUse, leaving hasContext false. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1912,6 +1914,40 @@ This tests convergence of cubic length inversion independently of
 translated cut-coordinate narrowing, pathLength calibration and dash
 phase normalization. The error exceeds the 0.025px flattening target
 by more than 28px on a curve lying entirely on a straight line.
+
+The tile follows [pattern units](../../dev/spec/svg2/pservers.md#PatternElementPatternUnitsAttribute)
+and [object-box coordinates](../../dev/spec/svg2/coords.md#ObjectBoundingBoxUnits).
+Let A=2^28. The rectangle's box starts at A and is 32px wide, so x=.25
+places the 16px-wide tile at A+8. Its content is an 8px lime band.
+The outer translations put the target at device x=8..40 and the tile
+origin at x=16, giving lime x=16..24 and x=32..40. Every authored
+coordinate and fraction is exactly representable in float; only the
+derived tile origin requires keeping the precision until translation
+cancellation. Setting A to zero gives an exact control. A=2^12 and
+A=2^16 are two more exact controls with the same visible placement.
+The debugger records bbox.x0=268435456, width 32, tile width 16 and
+stored x=268435456, where x should be 268435464. Resvg matches the
+three controls but aborts on the original, so it is not the oracle.
+No patternTransform is present. This tests tile-origin narrowing
+independently of pattern-transform units, gradient endpoints and
+basic-shape coordinates.
+
+The context follows [feImage's use behavior](../../dev/spec/filter-effects-1.md#elementdef-feimage),
+[context paint](../../dev/spec/svg2/painting.md#context-paint) and D41's
+explicit interpretation of the primitive as a use of its subregion.
+The referenced rect has fill=context-fill, and the primitive has
+fill=lime, so its 16x16 image is lime. Replacing context-fill with
+literal lime gives an exact control. Removing the source's fill also
+matches exactly through ordinary inheritance from feImage. Replacing
+the filtered host with an ordinary use at (8,8), fill=lime, gives a third
+exact control while retaining context-fill on the source. The debugger
+records the source's parent paint as opaque lime and hasContext=false
+at the context-fill branch. There are no custom properties or structural
+selectors: the missing instanceStyles path in the existing feImage
+variable case cannot account for this result. Resvg also loses the
+original and does not implement the inheritance control, so it is not
+the oracle. This tests creation of the initial paint context independently
+of variable substitution and loss of a frame across recursive contexts.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

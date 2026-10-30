@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <defs>
+    <rect id="source" width="16" height="16" fill="context-fill"/>
+    <filter id="f" filterUnits="userSpaceOnUse"
+            x="0" y="0" width="32" height="32">
+      <feImage href="#source" x="8" y="8" width="16" height="16" fill="lime"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="red" filter="url(#f)"/>
+</svg>
