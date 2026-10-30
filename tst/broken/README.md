@@ -164,6 +164,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `use-paint-server-style-cache.svg` | Each use instance's local gradient inherits its own --paint value, lime then blue. | The lower 256 pixels reuse the first instance's lime color. | `documentStyle` caches by source node index alone, reusing a resource style across different instance maps. |
 | `mask-border-finite-middle-scale.svg` | The middle image inherits the finite side scale, preserving the source's opaque left half throughout the 16px mask. | The central 8x8 region becomes uniformly half opaque, 64 wrong pixels. | `borderMaskLayer`'s usable predicate treats every scale at or above 1e30 as infinity and substitutes an unscaled middle tile. |
 | `root-filter-operating-frame.svg` | The uniform displacement shifts the source by (-8,-8) before the root's quarter turn, placing it at (48,0). | The square appears at (32,0), 512 wrong pixels. | `lowerElementIn` exempts the root from the complex filter transform path, so displacement runs along device axes. |
+| `use-instance-geometry-cascade.svg` | The cloned rectangle's width and fill both resolve variables inherited from its use host, making a 16px lime square. | Width retains the source's 8px fallback, 128 missing pixels. | `cascadeNode` skips geometry declarations at an instance boundary; the instance map contains only non-geometric properties. |
+| `conic-math-percent-basis.svg` | In a conic stop, calc(25% + 90deg) is 180deg, retaining exactly the rectangle's right half. | The stop becomes 115deg, 197 missing pixels. | `cssAngle` uses context-free `readMathQuantity`: type addition infers an angle but the percentage's numeric value is never converted against a full turn. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1347,6 +1349,31 @@ The filter region is the same square under the turn and all samples
 and rectangles have integer pixel coordinates. This tests the omitted
 root operating-frame conversion independently of filter-scale range,
 reach pruning, root viewBox sizing and embedded-root effects.
+
+The geometry follows [cloned inline styles and instance inheritance](../../dev/spec/svg2/struct.md#UseStyleInheritance)
+and [custom-property inheritance and substitution](../../dev/spec/css-variables-1.md#defining-variables).
+The cloned style attribute is evaluated with the host's size and paint
+variables. Only the uninstanced source lacks those variables and uses
+8px/red. The actual clone already gets the inherited lime color but
+keeps that source width. Setting the size variable to 16px on the source
+as well matches exactly. Replacing the width declaration by literal
+16px is another exact control, retaining the host-inherited fill.
+No bounding-box effect or resource measurement is involved. This tests
+the missing instance geometry cascade independently of measurement
+without an instance map, selector-visible geometry mutation and escaped
+variable detection in presentation attributes.
+
+The stop follows [angular color-stop syntax and placement](https://drafts.csswg.org/css-images-4/#conic-gradients)
+and [the angle-percentage type](../../dev/spec/css-values-4.md#typedef-angle-percentage).
+Conic percentages resolve against a full 360deg turn, so the 25% term
+adds 90deg and the two middle stops coincide at 180deg. The constant
+opaque and transparent sectors therefore meet on the downward ray,
+leaving precisely the right half of the square. No sampled pixel center
+lies on either vertical boundary ray. Replacing both mixed expressions
+with calc(180deg) matches exactly. Replacing them with calc(50%) is
+another exact control. This tests a missing angle percentage basis in
+math evaluation, independently of relative-unit cancellation checks,
+whole-turn precision, stop fixup, hints and minification.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
