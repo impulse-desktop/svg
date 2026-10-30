@@ -135,6 +135,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `mesh-default-stop-color.svg` | Unstyled mesh stops use opaque black, retaining the square. | All 256 expected pixels disappear. | `meshPaint` zeroes its corner colors and reads a stop's computed color only when stop-color or stop-opacity has an explicit declaration. |
 | `mesh-linear-light-interpolation.svg` | Interpolating black and white in linearRGB gives an sRGB ramp of 49..251. | All 256 ramp pixels are too dark, by up to 73 levels. | `meshPaint` interpolates the stops' sRGB components without consulting the mesh's color-interpolation property. |
 | `css-gradient-hint-interpolation-resolution.svg` | The late hint keeps the sampled square opaque; the alpha transfer retains lime. | All 256 square pixels lose opacity, by up to 255 levels. | `cssStops` approximates the hint curve with 64 equal color steps, then linearly interpolates the almost full-length first interval, introducing opacity loss far before the transition. |
+| `path-comma-before-command.svg` | The comma before the next command is an error; the complete prefix is one unfilled horizontal line. | 256 extra opaque pixels from the following square. | `parsePathData` consumes a comma after the last numeric argument without checking that another argument follows. |
+| `xml-forbidden-character-reference.svg` | The embedded XML 1.0 resource is not well formed because it references U+0001, so the image is empty. | 256 extra opaque pixels from the invalid image. | `characterReference` rejects zero and surrogates but accepts other code points outside XML 1.0's Char production. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -946,6 +948,27 @@ then transparent white at 100%, also matches exactly. Both retain the
 mask layout and alpha transfer. All colors have identical white RGB,
 separating hint approximation from straight-versus-premultiplied color
 interpolation; the hint is strictly inside the stop interval.
+
+The path follows [the path grammar](../../dev/spec/svg2/paths.md#PathDataBNF)
+and [prefix error recovery](../../dev/spec/svg2/paths.md#PathDataErrorHandling).
+A comma can separate numeric argument groups, but cannot separate complete
+commands. The prefix M8 8 L24 8 has no filled area; subsequent commands
+must not contribute. Keeping only that prefix matches exactly. Adding a
+second comma at the same error also matches exactly, because the parser
+already stops at it. This tests separator validation independently of
+number ranges and implicit subpaths after close.
+
+The image follows [XML 1.0's legal character constraint](https://www.w3.org/TR/xml/#wf-Legalchar)
+and [character range](https://www.w3.org/TR/xml/#charsets).
+Its version is explicitly 1.0; U+0001 is forbidden even through a character
+reference. SVG data resources [must be well formed](../../dev/spec/svg2/conform.md#ConformingSVGViewers).
+Python ElementTree independently rejects the decoded resource.
+Replacing the reference by forbidden U+0000 matches the empty expectation
+exactly. Replacing it by a surrogate reference also matches exactly;
+both already take the invalid-image path. Resvg also leaves the original
+image empty. The error precedes the rectangle, and the outer SVG is valid.
+This exercises numeric-reference character validation independently of
+DTD default attributes and CSS input preprocessing.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
