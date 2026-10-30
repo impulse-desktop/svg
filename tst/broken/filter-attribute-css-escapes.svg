@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="matrix" x="0" y="0" width="1" height="1">
+      <feColorMatrix type="luminanceTo\41 lpha"/>
+    </filter>
+    <filter id="input" x="0" y="0" width="1" height="1">
+      <feFlood flood-color="red"/>
+      <feOffset in="Source\41 lpha"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="white" filter="url(#matrix)"/>
+  <rect x="40" y="8" width="16" height="16" fill="white" filter="url(#input)"/>
+</svg>

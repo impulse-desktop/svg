@@ -93,6 +93,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `outline-filter-transformed-layer.svg` | The outline is part of the filter input, so invert changes green to magenta. | All 320 outline pixels remain green. | `lowerFilteredLayer` records only `lowerContent` in the filtered layer; `lowerElementIn` emits the outline afterward, outside that filter. |
 | `pattern-viewbox-content-units.svg` | A pattern with a viewBox ignores patternContentUnits and paints the horizontal stroke green. | All 256 stroke pixels use the red fallback instead. | `patternPaint` rejects a zero-height object box for box content units before considering the viewBox that supersedes them. |
 | `drop-shadow-invalid-deviation.svg` | An invalid nonpresentation deviation takes its initial value; a fully transparent shadow leaves the green source intact. | All 256 source pixels disappear. | `filterDropShadow` returns an empty output on a number-pair parse failure instead of retaining its initial deviation. |
+| `symbol-outline-instance-bbox.svg` | The instanced symbol's 16px square has a 4px green outline. | All 320 outline pixels disappear. | `lowerSvg` clears `l.sized` before the outline's `elementBox` call, so `elementExtent` no longer recognizes the symbol as an active instance. |
+| `filter-attribute-css-escapes.svg` | Escaped luminanceToAlpha and SourceAlpha keywords both produce opaque black from white. | Both 256-pixel squares keep the wrong colors: white and red. | `filterColorMatrix` and `filterInput` compare raw attribute strings instead of decoded CSS identifier tokens. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -481,6 +483,27 @@ of blur, and the original green square remains. Removing stdDeviation,
 or replacing it with 2, makes both controls match exactly; resvg also
 renders the original exactly. This exercises primitive parse-failure
 handling, separately from CSS declaration cascade validation.
+
+The symbol follows [outline applicability](../../dev/spec/css-ui-4.md#outline)
+and [symbol instances](../../dev/spec/svg2/struct.md#SymbolNotes), including
+the project's D12 rule that the instanced symbol renders. Its viewBox and
+viewport are the same size, and visible overflow leaves room for the
+outline. Replacing the symbol with a group matches the literal ring exactly;
+retaining the symbol and moving its outline to a group around the same
+rectangle also matches exactly. This exercises loss of instance state
+during later geometry measurement, separately from outline visibility,
+color parsing and filter capture.
+
+The escaped filter attributes follow [CSS attribute parsing](../../dev/spec/svg2/types.md#attribute-css-value)
+and [identifier escapes](../../dev/spec/css-syntax-3.md#escaping), including
+the project's D32 rule for attributes written in CSS value syntax.
+The escape decodes to uppercase A, retaining the exact keyword spelling.
+LuminanceToAlpha maps opaque white to opaque black; SourceAlpha reads
+that same opaque black silhouette instead of the preceding red flood.
+Replacing only the escapes with literal A makes both cells match exactly.
+Resvg also compares the original type as raw text. These two manifestations
+share bypassing token decoding, independently of URL-fragment decoding
+and numeric attribute error handling.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
