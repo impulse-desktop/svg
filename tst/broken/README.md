@@ -186,6 +186,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-scaled-quarter-turn.svg` | The single convolution tap shifts the square 8px upward along the transformed user x axis. | It shifts 8px left instead, leaving 384 wrong pixels. | `lowerElement` compares absolute CTM off-diagonal coefficients against 1e-6; a quarter turn at scale 2^-20 misses the filter-frame path. |
 | `clip-ellipse-single-radius-at.svg` | The invalid single-percentage ellipse is ignored, leaving the green sample uncut. | All 128 expected pixels disappear. | `parseShapeFunction` returns at the position's `at` keyword before rejecting an ellipse with only one radius; its second radius remains closest-side. |
 | `transform-singular-z-scale.svg` | The non-invertible scaleZ(0) suppresses the transformed square. | 256 extra opaque green pixels. | `lowerElementIn` reduces the affine 3D matrix to its z=0 plane without checking full-matrix singularity; `affineOf4` yields the identity. |
+| `marker-root-conditions.svg` | Conditional processing on the never-rendered marker resource leaves its green contents available for referencing. | All 256 expected pixels disappear. | `lowerElementIn` applies passesConditions to the marker root before its special instance handling; the resource is treated like directly rendered content. |
+| `pixelated-magnification-norm-range.svg` | Pixelated scaling retains the green source column across the sampled square. | All 256 pixels turn red. | `rasterPaint` passes a finite squared axis norm 2^130 to sqrtf, producing an infinite sharpX; paintAt's infinite ratio selects texel zero instead of one. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1684,6 +1686,39 @@ in this CSS syntax and is not the oracle. The example uses exact zeros
 and ones, no perspective, no preserve-3d context and no range limits.
 This tests full-matrix singularity independently of resource transform
 contexts, vector-effect determinants and homogeneous-weight range.
+
+The marker follows [conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing),
+[never-rendered element types](../../dev/spec/svg2/render.md#TermNeverRenderedElement)
+and [marker rendering](../../dev/spec/svg2/painting.md#RenderingMarkers).
+Conditional processing has no effect on a never-rendered element itself;
+marker is explicitly one of those types. Its children still participate
+in the graphical effect. The fixed marker angle and user-space units
+place its 16x16 lime square at (8,8). Removing systemLanguage matches
+exactly. Changing fr to en is another exact green control, retaining
+the attribute. Moving the French condition to the child rectangle gives
+an exact empty control, as required for child content. Resvg matches
+the original green expectation and every control. This tests erroneous
+condition checking on the marker resource independently of missing
+checks on clip children, root display handling and instance languages.
+
+The magnification follows [pixelated scaling](../../dev/spec/css-images-3.md#valdef-image-rendering-pixelated).
+The embedded 2x16 RGBA PNG has sixteen identical rows: opaque red then
+opaque lime. Its horizontal scale is exactly 2^65, already an integer;
+pixelated therefore uses nearest-neighbor selection on that axis. The
+image starts at -3*2^64, placing each sampled center at source x=1.5
+plus less than 2^-60, wholly in the green column. Vertical scale is 1.5;
+the identical rows make vertical interpolation irrelevant. Reducing width
+to 2^62 and keeping x at minus three quarters of that width matches
+exactly. Using width 2^60 is another exact control. Changing only
+image-rendering to crisp-edges also matches exactly at the original
+width. Making height 32 matches exactly too: the all-integer shortcut
+avoids sharpening. The debugger records sharpX=Inf, sharpY=2, source
+x=1.5 and chosen texel x=0. Resvg uses a smooth horizontal sample and
+does not match the pixelated controls, so it is not the oracle. Only a
+32-pixel source and a 16x16 output sample are needed; no large intermediate
+image or work budget is involved. This tests range of the pixelated
+integer scale independently of minification, pattern resolution, filter
+frames and convolution indices.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
