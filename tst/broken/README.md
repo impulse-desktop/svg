@@ -117,6 +117,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `percent-length-diagonal-range.svg` | A 25% stroke in either square viewport maps to a 16px-wide horizontal band. | Both 1,024-pixel bands disappear. | `resolveLength` computes the normalized viewport diagonal by squaring its float sides, overflowing to infinity or underflowing to zero. |
 | `dash-math-range-clamp.svg` | The calculated negative dash length clamps to zero, leaving two 8px dashes. | 224 pixels differ, including extra backwards-traversed dashes. | `validDashes` clamps a temporary Length, but `computeStyle` rereads each entry without `nonNegative`, passing the negative value to `dashPolyline`. |
 | `css-nonlinear-gradient-minification.svg` | Periods far below a pixel average to a uniform 50%-opaque mask. | 1,987 pixels have wrong opacity, differing by up to 128 levels. | `prepareGradient` averages minified repeating linear gradients only; radial and conic gradients continue sampling individual phases. |
+| `css-gradient-stop-sentinel.svg` | The white stop's negative position clamps to the preceding 0px stop, making the entire mask opaque. | The left 256 pixels lose opacity, by up to 247 levels. | `cssStops` treats every offset below its finite unplaced-stop threshold as absent, even when the stop has an explicit position. |
+| `css-carriage-return-preprocessing.svg` | CSS converts CR to LF, then removes the escaped newline so the selector matches lime. | The 256-pixel square stays red. | `tokenizeInto` does not normalize the CSS input stream; `consumeString` and `unescaped` recognize LF continuations only. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -744,6 +746,26 @@ within the ordinary tolerance. A linear gradient with the same subpixel
 radial-length period already averages correctly. This tests missing
 minification handling for nonlinear gradients, independently of a large
 conic starting angle and fractional image-tile placement.
+
+The explicit stop follows [color-stop fixup](../../dev/spec/css-images-3.md#color-stop-fixup).
+Its finite negative position is less than the preceding 0px position, so
+it must move to 0px before interpolation. All positive sample coordinates
+therefore see opaque white. Replacing -1e32px with 0px matches exactly;
+replacing it with -1px, which requires the same fixup, also matches exactly.
+The renderer instead treats this positioned stop as unplaced and distributes
+it to 16px. This exercises the finite sentinel used for absent positions,
+independently of counting transition hints during unplaced-stop distribution
+and clamping an already-built radial gradient at its center.
+
+The selector follows [CSS input preprocessing](../../dev/spec/css-syntax-3.md#input-preprocessing)
+and [string-token consumption](../../dev/spec/css-syntax-3.md#consume-string-token).
+XML's character reference supplies U+000D to the style text. CSS changes
+that CR to LF before tokenization; a backslash followed by that newline
+continues the string without adding a character, yielding lime. Replacing
+the character reference with `&#10;` matches exactly, as does joining the
+string directly by removing its backslash and CR reference. Resvg shares
+the original failure. This tests normalization before CSS escapes are read,
+independently of decoding escapes in filter attribute keywords.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
