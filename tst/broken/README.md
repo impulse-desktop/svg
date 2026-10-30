@@ -51,6 +51,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `pattern-nonpainting-content.svg` | A pattern's own non-descriptive child prevents cloning template content, even if that child does not paint. | 2,304 extra opaque pixels from the template. | `patternContent` tests for renderable children instead of non-descriptive children. |
 | `lighting-normalize-overflow.svg` | A distant overhead point light illuminates a flat surface green. | All 256 pixels become opaque black. | `normalize3` squares the representable `1e20` coordinate in float, overflowing the length and returning a zero direction. |
 | `css-radial-negative-stop.svg` | A negative radial stop participates in interpolation at positive radii. | All 2,048 pixels are black instead of mid-gray. | `cssGradientPaint` clamps negative stop offsets to zero without interpolating a replacement color there. |
+| `dash-close-unmatched-join.svg` | A closing dash has no join to an initial gap. | A 4px by 4px miter appears outside the only dash, 16 extra pixels. | `dashPolyline` adds the closing join whenever the last dash is on, without checking the first dash. |
+| `fe-image-variable-instance.svg` | An element instanced by `feImage` inherits custom properties from that host. | The 256-pixel square is red instead of green. | `lowerImageContent` enters the referenced element without the `instanceStyles` setup used by `lowerUse`. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -124,6 +126,15 @@ At radius r the sRGB channel is `(r + 1000000) / 2000000`, which rounds
 to 128 everywhere on this canvas. The large ending radius keeps that
 expectation a literal rectangle. Replacing the negative black stop with
 `#808080 0%` also renders exactly as the expectation.
+
+The dash follows [stroke construction](../../dev/spec/svg2/painting.md#StrokeShape):
+the 128px perimeter has an initial 112px gap followed by a single 16px
+vertical dash with butt caps. Drawing that dash as `M16 32V16` matches the
+literal rectangle exactly, as does resvg's rendering of the original.
+The filter image follows [feImage's use behavior](../../dev/spec/filter-effects-1.md#elementdef-feimage)
+and the existing D41 inheritance choice. An ordinary `use` with the same
+custom property renders the expected green exactly; replacing the target's
+variable expression with literal lime also matches exactly.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

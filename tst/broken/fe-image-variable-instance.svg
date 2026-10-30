@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <g style="--paint:red">
+      <rect id="tile" width="16" height="16" style="fill:var(--paint)"/>
+    </g>
+    <filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="64">
+      <feImage href="#tile" x="8" y="8" width="16" height="16" style="--paint:lime"/>
+    </filter>
+  </defs>
+  <rect width="64" height="64" fill="none" filter="url(#f)"/>
+</svg>
