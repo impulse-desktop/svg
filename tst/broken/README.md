@@ -113,6 +113,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `vector-effect-determinant-range.svg` | Non-scaling-size removes either finite uniform scale, leaving two 16px squares at their translated origins. | All 512 expected pixels disappear. | `vectorEffectMatrix` narrows the double CTM determinant to float, turning it into infinity or zero before normalization. |
 | `turbulence-negative-seed-range.svg` | The negative seed normalizes to 5; thresholding its green channel produces a lime square. | All 64 square pixels turn black. | `filterTurbulence` saturates the seed to signed 32-bit range before `turbulenceInit` takes its remainder, changing the normalized seed to 3. |
 | `mesh-origin-length-context.svg` | The first mesh starts at its own 1em=32px; the second starts halfway across the referencing object's box. | Both 256-pixel patches disappear. | `meshPaint` resolves the starting point with a hardcoded 16px font and the outer viewport, without selecting the mesh's font or bounding-box percentage context. |
+| `marker-user-units-non-scaling-orient.svg` | The user-space marker follows the path's 45-degree user-space direction, covering the sampling rectangle. | All 256 expected pixels disappear. | `markerPlacement` chooses a device-space tangent whenever the stroke is non-scaling, even when userSpaceOnUse selects the user-space placement matrix. |
+| `percent-length-diagonal-range.svg` | A 25% stroke in either square viewport maps to a 16px-wide horizontal band. | Both 1,024-pixel bands disappear. | `resolveLength` computes the normalized viewport diagonal by squaring its float sides, overflowing to infinity or underflowing to zero. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -690,6 +692,32 @@ are lime, making both patches constant lime. Replacing the origins with
 to 16px and its x to 2em also matches when the second origin is .5.
 This tests the starting-point length context, independently of interpolation,
 curve subdivision and resource transform construction.
+
+The marker follows [marker units](../../dev/spec/svg2/painting.md#MarkerUnitsAttribute)
+and [automatic orientation](../../dev/spec/svg2/painting.md#RenderingMarkers).
+The non-scaling-stroke adjustment affects strokeWidth marker units;
+userSpaceOnUse keeps the path's user coordinate system. The path's end
+direction is 45 degrees there. Relative to the marker origin (40,16),
+inverse scaling maps the sampling rectangle to a=0..8, b=36..44. Inverse
+45-degree rotation gives u=(a+b)/sqrt(2), v=(b-a)/sqrt(2), wholly inside
+the 64-by-32 marker. The renderer instead rotates by atan(1/4) before
+applying scale(4,1) again, putting the whole sampling region outside the
+marker. Setting orient=45 matches exactly. Removing non-scaling-stroke
+also matches exactly, leaving the unstroked path and marker unchanged.
+This tests the coordinate system of automatic orientation, independently
+of choosing a direction across zero-length segments.
+
+The percentage follows [stroke-width](../../dev/spec/svg2/painting.md#StrokeWidthProperty)
+and [the normalized viewport diagonal](../../dev/spec/svg2/coords.md#Units_viewport_percentage).
+For each square viewBox of side s, sqrt((s*s+s*s)/2) equals s, and
+25% maps to 16 pixels in the 64px viewport. Both center lines therefore
+paint the literal bands y=32..48. Replacing their widths by 2.5e19 and
+2.5e-25 matches exactly. Normalizing both viewBoxes to 0 0 64 64 and
+both paths to M0 32H64 while retaining 25% also matches exactly. The
+dimensions and intended widths are finite and representable; the paths
+contain one straight segment each. This tests the shared percentage
+length basis, independently of gradient normalization, vector-effect
+determinants and finite stroke-coordinate rejection.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

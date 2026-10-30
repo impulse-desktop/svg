@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="72">
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="64" markerHeight="32"
+            orient="auto" overflow="visible">
+      <rect width="64" height="32" fill="lime"/>
+    </marker>
+    <clipPath id="sample">
+      <rect x="40" y="52" width="32" height="8"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#sample)">
+    <g transform="translate(8 8) scale(4 1)">
+      <path d="M0 0L8 8" fill="none" stroke="none"
+            vector-effect="non-scaling-stroke" marker-end="url(#arrow)"/>
+    </g>
+  </g>
+</svg>
