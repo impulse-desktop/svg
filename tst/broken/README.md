@@ -85,6 +85,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-media-mixed-operators.svg` | Mixing `and` and `or` without grouping parentheses makes the query invalid, leaving the square green. | The 256-pixel square turns red. | `mediaCondition` folds whichever operator comes next, without enforcing a single operator at each level. |
 | `css-media-feature-validation.svg` | Unknown keywords, fractional literal color depths and min-prefixed discrete features do not match, including under `not`. | All three 256-pixel squares turn red. | `mediaFeature` and `mediaValue` compare values without validating the individual feature's keywords, numeric type or range/discrete classification. |
 | `css-media-math-values.svg` | Calculated 96dpi resolution and aspect ratio 2 match the renderer's 1dppx and the 64-by-32 viewport. | Both 256-pixel squares stay red. | `mediaValue` requires raw dimension or number tokens for resolution and ratio instead of accepting math functions of those types. |
+| `image-multiple-fragment-separators.svg` | The PNG body ends at the first `#`; the complete `part#tail` fragment leaves its green pixels intact. | All 256 expected pixels disappear. | `loadImageFrom` searches backward for the last `#`, leaving `#part` in the data body and invalidating its decoding. |
+| `data-base64-header-whitespace.svg` | Spaces before the base64 keyword or at the end of the MIME header still select base64 decoding. | Both 256-pixel images disappear. | `decodeDataUri` checks the untrimmed header for the literal seven-character suffix `;base64`. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -404,6 +406,21 @@ with their literal values matches both expectations exactly. Resvg shares
 the original rejection, so the type rules provide the reference. This
 tests acceptance of valid math, independently of relative-unit cancellation
 and of validation of invalid literal features.
+
+The fragment follows [opaque-path URL parsing](https://url.spec.whatwg.org/#opaque-path-state)
+and the [data URL processor](https://fetch.spec.whatwg.org/#data-url-processor),
+which decodes the body without its fragment. Changing the fragment to
+`#part-tail`, or removing it entirely, makes both controls match the
+literal green rectangle exactly. Resvg renders the original exactly.
+This exercises the URL/body boundary, separately from percent-decoding
+SVG view fragments and from validation of base64 padding.
+
+The header follows that same data URL processor: trim its surrounding
+ASCII whitespace, then allow spaces between the semicolon and base64.
+Removing only these two header spaces makes both controls match their
+green rectangles exactly. Resvg also renders both originals exactly.
+The PNG payload is unchanged and valid; this exercises selection of the
+decoder from the header, independently of the decoder's body validation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
