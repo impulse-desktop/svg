@@ -79,6 +79,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `embedded-svg-root-viewport.svg` | The embedded root's `50vw` font is 16px, so its `1em` rectangle is 16px wide. | The rectangle is 32px wide, adding 256 pixels. | `drawImage` computes the nested root's style with the outer viewport before entering the nested document's length context. |
 | `convolve-kernel-reach.svg` | The 2-by-1 kernel samples the flood 64px to its right, producing a green square. | All 256 expected pixels disappear. | `primitiveReach` hardcodes 32px for convolution, so `applyFilter` prunes the required intermediate flood before the 64px-spaced tap reads it. |
 | `lighting-output-subregion.svg` | The surface normal at x=16 reads the transparent input at x=15, giving green 180 in the first column. | All 16 pixels of that column are green 255 instead. | `filterLighting` copies only its output box into the alpha buffer and duplicates its edges, discarding valid neighboring input pixels. |
+| `css-selector-geometry-mutation.svg` | The sibling selector matches the anchor's original `x="0"`, regardless of its CSS geometry. | The 256-pixel square stays red instead of green. | `cascadeNode` overwrites geometry attributes before later elements' selectors read them through `matchCondition`. |
+| `css-xlink-href-selector.svg` | `[href]` does not match the use's namespaced `xlink:href`, so its lime fill remains. | The 256-pixel square turns red. | `parseElement` aliases XLink href to the unqualified `AtomHref`, losing the namespace that attribute matching needs. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -346,6 +348,23 @@ explicit output subregion, while retaining the same final clip, matches the
 literal expectation exactly; resvg also matches the original exactly.
 This tests which input pixels form the normal, independently of light-vector
 normalization and object-box surface-height conversion.
+
+The geometry selector follows [attribute matching](../../dev/spec/selectors-4.md#attribute-selectors):
+the style changes the anchor's geometry, not its XML attribute. Removing
+only the invisible anchor's CSS x declaration renders the green expectation
+exactly. Keeping that declaration and selecting the anchor by ID instead of
+its x attribute is another exact control. Resvg renders the original exactly.
+This exercises mutation of selector inputs during the cascade, separately
+from omitted foreign siblings and invalid selector syntax.
+
+The XLink selector follows [attribute namespaces](../../dev/spec/selectors-4.md#attrnmsp):
+an attribute selector without a namespace component matches only attributes
+with no namespace. The use has only XLink href and must inherit its own lime
+fill into the referenced rectangle. Removing the nonmatching rule, or
+replacing its test with `[data-href]`, matches the expectation exactly while
+retaining the original XLink reference. Resvg shares the original namespace
+aliasing error. This exercises attribute identity, independently of CSS
+geometry overwriting an existing attribute's value.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <style>
+    #anchor { x:16px }
+    rect[x="0"] + rect { fill:lime }
+  </style>
+  <rect id="anchor" x="0" width="1" height="1" fill="none"/>
+  <rect x="8" y="8" width="16" height="16" fill="red"/>
+</svg>
