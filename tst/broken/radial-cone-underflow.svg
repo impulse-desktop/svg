@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: transparent. r=2^-40, fx=2*r, scale=2^40 are exactly
+       representable. The transformed cone has centre (0,0), focus (2,0),
+       radius 1. Its exterior satisfies 3*y*y > (x-2)*(x-2).
+       Every point of [0,1]x[10,11] is strictly outside that cone.
+       radialT forms the discriminant in floats: negative values underflow
+       to -0 and are incorrectly accepted as inside the cone. -->
+  <defs>
+    <radialGradient id="gradient" gradientUnits="userSpaceOnUse"
+                    cx="0" cy="0" r="9.0949470177292824e-13"
+                    fx="1.8189894035458565e-12" fy="0"
+                    gradientTransform="scale(1099511627776)">
+      <stop stop-color="lime"/>
+      <stop offset="1" stop-color="lime"/>
+    </radialGradient>
+  </defs>
+  <svg x="8" y="8" width="48" height="48" viewBox="0 10 1 1">
+    <rect y="10" width="1" height="1" fill="url(#gradient)"/>
+  </svg>
+</svg>

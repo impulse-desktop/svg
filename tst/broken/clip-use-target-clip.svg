@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: the referenced rectangle keeps its own clipping path,
+       leaving x=8..32. clipChild computes the target's style, but
+       clipNeedsProgram/resolveClip inspect only the use element's clip. -->
+  <defs>
+    <clipPath id="half">
+      <rect x="8" y="8" width="24" height="48"/>
+    </clipPath>
+    <rect id="shape" x="8" y="8" width="48" height="48" clip-path="url(#half)"/>
+    <clipPath id="clip">
+      <use href="#shape"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="48" height="48" fill="lime" clip-path="url(#clip)"/>
+</svg>

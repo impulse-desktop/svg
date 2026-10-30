@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: green x=32..40, y=8..24. x=1em is 32, so the use's
+       box is [32,8,48,24], and its left half is [32,8,40,24].
+       childExtent resolves x using the parent's 16px font instead of
+       the use's own 32px font, moving the group's object box to x=16. -->
+  <defs>
+    <rect id="shape" width="16" height="16"/>
+    <clipPath id="half" clipPathUnits="objectBoundingBox">
+      <rect width=".5" height="1"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#half)">
+    <use href="#shape" x="1em" y="8" font-size="32" fill="lime"/>
+  </g>
+</svg>

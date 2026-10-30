@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:f="urn:metadata" width="64" height="32">
+  <!-- Expected: two green squares. Foreign elements need not paint, but
+       they remain element siblings for nth-child and the + combinator.
+       parseElement discards them, changing both selectors' results. -->
+  <style>
+    #indexed > rect { fill: red }
+    #indexed > rect:nth-child(2) { fill: lime }
+    #adjacent > g + rect { fill: red }
+  </style>
+  <g id="indexed">
+    <f:metadata/>
+    <rect x="8" y="8" width="16" height="16"/>
+  </g>
+  <g id="adjacent">
+    <g/>
+    <f:metadata/>
+    <rect x="40" y="8" width="16" height="16" fill="lime"/>
+  </g>
+</svg>

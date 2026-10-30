@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: only the left half, x=8..32, is green.
+       clipNeedsProgram/resolveClip inspect clipPath, but omit clipShape.
+       CSS Masking 1, ClipPathElement: a child's clip-path cuts its silhouette. -->
+  <defs>
+    <clipPath id="clip">
+      <rect x="8" y="8" width="48" height="48" clip-path="inset(0 24px 0 0)"/>
+    </clipPath>
+  </defs>
+  <rect x="8" y="8" width="48" height="48" fill="lime" clip-path="url(#clip)"/>
+</svg>

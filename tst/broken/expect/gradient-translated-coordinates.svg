@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- At pixel centre x+.5: red=255*(1-(x+.5)/32), blue=255*(x+.5)/32.
+       Literal one-pixel strips avoid using the gradient implementation. -->
+  <g id="linear-ramp" data-box="0 0 64 64">
+    <rect x="0" y="8" width="1" height="48" fill="rgb(251 0 4)"/>
+    <rect x="1" y="8" width="1" height="48" fill="rgb(243 0 12)"/>
+    <rect x="2" y="8" width="1" height="48" fill="rgb(235 0 20)"/>
+    <rect x="3" y="8" width="1" height="48" fill="rgb(227 0 28)"/>
+    <rect x="4" y="8" width="1" height="48" fill="rgb(219 0 36)"/>
+    <rect x="5" y="8" width="1" height="48" fill="rgb(211 0 44)"/>
+    <rect x="6" y="8" width="1" height="48" fill="rgb(203 0 52)"/>
+    <rect x="7" y="8" width="1" height="48" fill="rgb(195 0 60)"/>
+    <rect x="8" y="8" width="1" height="48" fill="rgb(187 0 68)"/>
+    <rect x="9" y="8" width="1" height="48" fill="rgb(179 0 76)"/>
+    <rect x="10" y="8" width="1" height="48" fill="rgb(171 0 84)"/>
+    <rect x="11" y="8" width="1" height="48" fill="rgb(163 0 92)"/>
+    <rect x="12" y="8" width="1" height="48" fill="rgb(155 0 100)"/>
+    <rect x="13" y="8" width="1" height="48" fill="rgb(147 0 108)"/>
+    <rect x="14" y="8" width="1" height="48" fill="rgb(139 0 116)"/>
+    <rect x="15" y="8" width="1" height="48" fill="rgb(131 0 124)"/>
+    <rect x="16" y="8" width="1" height="48" fill="rgb(124 0 131)"/>
+    <rect x="17" y="8" width="1" height="48" fill="rgb(116 0 139)"/>
+    <rect x="18" y="8" width="1" height="48" fill="rgb(108 0 147)"/>
+    <rect x="19" y="8" width="1" height="48" fill="rgb(100 0 155)"/>
+    <rect x="20" y="8" width="1" height="48" fill="rgb(92 0 163)"/>
+    <rect x="21" y="8" width="1" height="48" fill="rgb(84 0 171)"/>
+    <rect x="22" y="8" width="1" height="48" fill="rgb(76 0 179)"/>
+    <rect x="23" y="8" width="1" height="48" fill="rgb(68 0 187)"/>
+    <rect x="24" y="8" width="1" height="48" fill="rgb(60 0 195)"/>
+    <rect x="25" y="8" width="1" height="48" fill="rgb(52 0 203)"/>
+    <rect x="26" y="8" width="1" height="48" fill="rgb(44 0 211)"/>
+    <rect x="27" y="8" width="1" height="48" fill="rgb(36 0 219)"/>
+    <rect x="28" y="8" width="1" height="48" fill="rgb(28 0 227)"/>
+    <rect x="29" y="8" width="1" height="48" fill="rgb(20 0 235)"/>
+    <rect x="30" y="8" width="1" height="48" fill="rgb(12 0 243)"/>
+    <rect x="31" y="8" width="1" height="48" fill="rgb(4 0 251)"/>
+  </g>
+</svg>
