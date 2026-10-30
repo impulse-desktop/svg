@@ -162,6 +162,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-transform-function-case.svg` | CSS TRANSLATE moves the square by (8,8), like lowercase translate. | The square stays at the origin, 384 wrong pixels. | `cssTransformArguments` and transform dispatch compare function names case-sensitively. |
 | `import-layer-after-invalid-at-rule.svg` | An unknown rule is ignored; the following import declares layer a before b, so b's lime fill wins. | All 256 pixels remain red. | `parseRules` ends the import prefix on an unknown at-rule, skipping the following import's layer registration. |
 | `use-paint-server-style-cache.svg` | Each use instance's local gradient inherits its own --paint value, lime then blue. | The lower 256 pixels reuse the first instance's lime color. | `documentStyle` caches by source node index alone, reusing a resource style across different instance maps. |
+| `mask-border-finite-middle-scale.svg` | The middle image inherits the finite side scale, preserving the source's opaque left half throughout the 16px mask. | The central 8x8 region becomes uniformly half opaque, 64 wrong pixels. | `borderMaskLayer`'s usable predicate treats every scale at or above 1e30 as infinity and substitutes an unscaled middle tile. |
+| `root-filter-operating-frame.svg` | The uniform displacement shifts the source by (-8,-8) before the root's quarter turn, placing it at (48,0). | The square appears at (32,0), 512 wrong pixels. | `lowerElementIn` exempts the root from the complex filter transform path, so displacement runs along device axes. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1317,6 +1319,34 @@ custom-property color is another exact control, retaining both uses and
 their different host values. This tests cache separation of computed
 resource styles, independently of omitted instance styles, instance
 measurement and paint-server href templating under D44.
+
+The mask follows [mask-border drawing](../../dev/spec/css-masking-1.md#masking-with-the-mask-border-image)
+and [scaling the middle border image](../../dev/spec/css-backgrounds-3.md#border-image-process).
+The source has intrinsic sides 2^-100 and a 16x16 viewBox. Each 25% slice
+is 2^-102, so a 4px border side has scale 2^104, finite even in float.
+The middle source side 2^-101 must take that same scale and become 8px;
+the fallback to an unscaled middle is only for zero or infinite scales.
+There is exactly one tile in each middle region and the opaque half
+ends at x=16 throughout the mask. Replacing the source's intrinsic sides
+by 16 matches exactly. Using 2^-80 instead also matches exactly, keeping
+a large finite scale below the predicate's cutoff. The border widths,
+destination bounds and work are ordinary pixel sizes. This tests the
+middle-scale predicate independently of opposite-width shrinking,
+intrinsic aspect-ratio range and fractional tile placement.
+
+The displacement follows [the displacement equation](../../dev/spec/filter-effects-1.md#elementdef-fedisplacementmap),
+[its scale in primitive units](../../dev/spec/filter-effects-1.md#element-attrdef-fedisplacementmap-scale)
+and [the operating coordinate space](../../dev/spec/filter-effects-1.md#operating-coordinate-space).
+Both selected map channels are exactly one, so sampling at (x+8,y+8)
+moves the source rectangle from (8,8) to (0,0) in local coordinates.
+The explicitly anchored quarter-turn matrix maps that square to
+(48,0)-(64,16). Moving the root's transform and filter onto a group
+around the source matches exactly. Replacing the flood and displacement
+with feOffset dx=-8 dy=-8 is another exact control on the root itself.
+The filter region is the same square under the turn and all samples
+and rectangles have integer pixel coordinates. This tests the omitted
+root operating-frame conversion independently of filter-scale range,
+reach pruning, root viewBox sizing and embedded-root effects.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

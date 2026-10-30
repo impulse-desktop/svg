@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+     transform-origin="0 0" transform="matrix(0 1 -1 0 64 0)" filter="url(#f)">
+  <defs>
+    <filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"
+            color-interpolation-filters="sRGB">
+      <feFlood flood-color="white" result="map"/>
+      <feDisplacementMap in="SourceGraphic" in2="map" scale="16"
+                         xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="lime"/>
+</svg>
