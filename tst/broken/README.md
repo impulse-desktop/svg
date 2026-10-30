@@ -59,6 +59,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-coefficient-cancellation.svg` | The color matrix's red result is `2^25 - 2^24`, clamped to 1. | All 2,304 pixels become black instead of red. | `fixedCoefficient` clamps each coefficient to `2^24` before the weighted sum, incorrectly cancelling both terms. |
 | `turbulence-bbox-coordinate-space.svg` | All sampled points fall on noise lattice knots, producing constant 50% gray at 50% alpha. | All 256 pixels contain colored noise, differing by up to 88 levels. | `filterTurbulence` uses local user coordinates without applying `boxPrimitives`. |
 | `lighting-bbox-surface-height.svg` | The point light and flat surface have the same z coordinate, so their diffuse dot product is zero. | All 256 pixels receive green light instead of black. | `filterLighting` converts the light's z from box units but leaves `surfaceScale` in unscaled user units. |
+| `fragment-atom-without-target.svg` | An unrelated attribute must not block a local href's percent-decoded ID lookup. | All 256 expected green pixels disappear. | `fragmentAtom` treats an interned string as an existing target and returns before checking the decoded ID. |
+| `stroke-finite-coordinate-sum.svg` | A finite line and stroke scale to a 10px by 8px rectangle. | All 80 expected pixels disappear. | `strokePath` tests the finiteness of the float sum `x+y`, which overflows even though each coordinate is finite. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -180,6 +182,23 @@ surface has zero dot product with its normal. Explicit user-space
 exactly. Resvg matches both original expectations exactly. Neither case
 depends on the turbulence-gradient choice in D25 or distant-light orientation
 in D56.
+
+The local link follows [escaped fragment identifiers](../../dev/spec/svg2/linking.md#SVGFragmentIdentifiersDefinitions)
+and [target lookup](../../dev/spec/svg2/linking.md#processingURL-target).
+The `%66` escape denotes `f`, so the use references `face`; metadata's
+unrelated data attribute is not an ID. Removing just that attribute, or
+spelling the href as `#face`, restores the exact expected square. This
+exercises `fragmentAtom`'s false target hit, separately from the embedded
+image view parser's missing decoding.
+
+The stroke follows [stroke construction](../../dev/spec/svg2/painting.md#StrokeShape)
+and the existing D18 numeric range. Each authored coordinate, width and
+scale is finite in single precision, and the device drawing is small.
+The expected line runs from `(20,20)` to `(30,20)` with an 8px butt stroke.
+Normalizing the coordinates renders it exactly. Negating the source y and
+its transform's y scale also renders it exactly while keeping the large
+source coordinates and stroke width; only the erroneous overflowing sum
+is avoided.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
