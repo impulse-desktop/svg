@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <linearGradient id="g" color="red" stop-color="currentColor">
+      <stop color="lime" stop-color="inherit"/>
+    </linearGradient>
+    <filter id="f" color="red" flood-color="currentColor"
+            x="0" y="0" width="1" height="1">
+      <feFlood color="lime" flood-color="inherit"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="url(#g)"/>
+  <rect x="40" y="8" width="16" height="16" filter="url(#f)"/>
+</svg>

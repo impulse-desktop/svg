@@ -81,6 +81,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `lighting-output-subregion.svg` | The surface normal at x=16 reads the transparent input at x=15, giving green 180 in the first column. | All 16 pixels of that column are green 255 instead. | `filterLighting` copies only its output box into the alpha buffer and duplicates its edges, discarding valid neighboring input pixels. |
 | `css-selector-geometry-mutation.svg` | The sibling selector matches the anchor's original `x="0"`, regardless of its CSS geometry. | The 256-pixel square stays red instead of green. | `cascadeNode` overwrites geometry attributes before later elements' selectors read them through `matchCondition`. |
 | `css-xlink-href-selector.svg` | `[href]` does not match the use's namespaced `xlink:href`, so its lime fill remains. | The 256-pixel square turns red. | `parseElement` aliases XLink href to the unqualified `AtomHref`, losing the namespace that attribute matching needs. |
+| `inherited-currentcolor-capture.svg` | An explicitly inherited `currentColor` resolves against the stop's or flood's own lime color. | Both 256-pixel squares are red instead of green. | `computeStyle` resolves these color keywords immediately, then copies the parent's resolved color when processing `inherit`. |
+| `css-media-mixed-operators.svg` | Mixing `and` and `or` without grouping parentheses makes the query invalid, leaving the square green. | The 256-pixel square turns red. | `mediaCondition` folds whichever operator comes next, without enforcing a single operator at each level. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -365,6 +367,23 @@ replacing its test with `[data-href]`, matches the expectation exactly while
 retaining the original XLink reference. Resvg shares the original namespace
 aliasing error. This exercises attribute identity, independently of CSS
 geometry overwriting an existing attribute's value.
+
+The inherited colors follow [currentcolor resolution](../../dev/spec/css-color-4.md#resolving-other-colors):
+the computed value remains the keyword, and an inheriting element uses
+its own color to resolve it. Both children explicitly inherit `stop-color`
+or `flood-color`, while their own `color` is lime.
+Replacing the two `inherit` values by `currentColor` makes the controls
+match exactly. Resvg matches the gradient cell but not the flood cell.
+This exercises inheritance of an unresolved keyword, separately from
+the outline parser rejecting an explicitly specified currentColor.
+
+The media query follows [combining media features](https://www.w3.org/TR/mediaqueries-4/#combining):
+`and` and `or` cannot be mixed at the same level without extra parentheses.
+The invalid query must not apply its red declaration. Changing only `or`
+to `and` gives a valid, false query at this 32px viewport and renders the
+same green expectation exactly. Resvg also renders the original green.
+This exercises condition grammar, independently of invalid selectors or
+declaration values.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
