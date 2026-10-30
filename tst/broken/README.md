@@ -182,6 +182,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-ignored-attribute-entity.svg` | The undeclared entity in a namespaced attribute invalidates the embedded image, even though SVG ignores that attribute. | The invalid resource draws all 256 green pixels. | `parseElement` skips unsupported namespaced attributes before internAttribute can decode and validate their entity references. |
 | `object-bbox-span-range.svg` | The finite object-box map composes with scale 2^-124 to fill a 16x8 green rectangle. | All 128 expected pixels disappear. | `gradientPaint` narrows the double box width 2^128 to float infinity before composing its map with the CTM. |
 | `filter-infinite-paint-input.svg` | A blur preserves the constant opaque green FillPaint supplied by two identical gradient stops. | All 256 pixels lose alpha, by up to 64 levels. | `filterInputBuffer` samples an infinite paint only over run.canvas; blurBuffer reads transparent pixels beyond that plane, while only PaintType::Solid gets the constant-input shortcut. |
+| `dash-negative-phase-cancellation.svg` | The negative offset leaves a 16px initial gap before the 16px green dash. | The gap is filled, adding 128 opaque pixels. | `dashPolyline` adds the finite period 2^30 to phase -2^-12 in float, losing the offset before locating the first dash. |
+| `filter-scaled-quarter-turn.svg` | The single convolution tap shifts the square 8px upward along the transformed user x axis. | It shifts 8px left instead, leaving 384 wrong pixels. | `lowerElement` compares absolute CTM off-diagonal coefficients against 1e-6; a quarter turn at scale 2^-20 misses the filter-frame path. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1615,6 +1617,40 @@ taps within the stored plane. No coefficients or accumulation approach
 their range limits. This tests finite storage of an infinite paint
 independently of SourceGraphic region clipping, deviation clamping,
 blur-sum overflow and interpolation color spaces.
+
+The phase follows [negative dash offsets](../../dev/spec/svg2/painting.md#StrokeDashoffsetProperty)
+and [dash positioning](../../dev/spec/svg2/painting.md#TermDashPositions).
+Each dash and gap is 2^29 user units, the period is 2^30, and the offset
+is -2^-12. All authored values are exactly representable in float. The
+normalized offset is 2^30-2^-12, inside the gap with 2^-12 remaining.
+The CTM maps that remaining gap to 16px and the complete path to 32px;
+the 8px butt-capped stroke therefore covers only [24,40]x[12,20].
+Replacing both dash entries with 0.015625 matches exactly. Replacing
+them with 0.00390625 is another exact control. Both keep the initial
+16px gap and leave the following dash longer than the path. Resvg shares
+the original failure and matches both controls. This tests cancellation
+in finite phase normalization independently of period overflow, pathLength
+calibration, curved dash cuts and closing joins. No dash budget is near
+exhaustion: the short path reaches only one painted dash.
+
+The frame follows [filtering in local coordinates](../../dev/spec/filter-effects-1.md#propdef-filter),
+[convolution sampling](../../dev/spec/filter-effects-1.md#feConvolveMatrixElement)
+and [kernel spacing](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-kernelunitlength).
+Let N=2^20. The CTM is (x,y) -> (64-y/N,x/N), mapping the source to
+[16,32]x[24,40]. After kernel reversal, the only nonzero tap reads
+(x+8*N,y); the result therefore moves by -8*N in user x, or (0,-8)
+in device coordinates. The expectation is [16,32]x[16,32]. Instead,
+the device-axis convolution produces [8,24]x[24,40]. Halving every
+geometry, filter-region and kernel-spacing length while doubling the
+CTM's linear coefficients matches exactly. Using one quarter of those
+lengths and four times the coefficients is another exact control.
+Setting N=1 also matches exactly. All retain the identical quarter turn,
+source, tap and filter region in device coordinates. Resvg does not honor
+the requested spacing in these controls and is not the oracle. The
+filter belongs to the rect, not the root; no intermediate input is
+pruned, and the squared CTM norms remain in float range. This tests an
+absolute threshold in frame classification independently of the root
+exception, norm overflow, kernel reach and integer sample conversion.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <filter id="f" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"
+            x="0" y="0" width="67108864" height="67108864"
+            color-interpolation-filters="sRGB">
+      <feConvolveMatrix order="2 1" kernelMatrix="1 0" targetX="0" targetY="0"
+                        kernelUnitLength="8388608 1048576" edgeMode="none"/>
+    </filter>
+  </defs>
+  <rect x="25165824" y="33554432" width="16777216" height="16777216"
+        fill="lime" filter="url(#f)"
+        transform="matrix(0 0.00000095367431640625 -0.00000095367431640625 0 64 0)"/>
+</svg>
