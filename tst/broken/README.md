@@ -158,6 +158,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-transform-scale-range.svg` | Both reciprocal coordinate scales preserve a one-pixel convolution tap and a 16px square shifted left by one. | The upper square does not move; the lower square disappears, 288 wrong pixels. | `applyFilter` computes CTM column lengths with sqrtf, losing finite squared norms to zero or infinity before kernel-unit conversion. |
 | `css-scope-stylesheet-root.svg` | Without an explicit scoping root, :scope matches the SVG document root and selects its child rectangle. | All 256 pixels remain red. | `simplePseudo` rejects scope; Test::Scope exists only as a synthetic anchor for relative selectors. |
 | `oklab-gamut-lightness-roundtrip.svg` | Gamut mapping preserves lightness .5 and hue 0, reducing chroma to the same #bb005e boundary color. | The first square becomes white and the second black, 512 wrong pixels. | `parseFunctionColor` converts to sRGB before `gamutMap` reconstructs Oklab, losing the source lightness through cancellation at large chroma. |
+| `xinclude-text-encoding.svg` | The UTF-16 stylesheet, or the identical fallback if that encoding is unavailable, makes the rectangle lime. | All 256 pixels remain red. | `include` ignores encoding, appends the fetched bytes as text and reports success, suppressing fallback. |
+| `css-transform-function-case.svg` | CSS TRANSLATE moves the square by (8,8), like lowercase translate. | The square stays at the origin, 384 wrong pixels. | `cssTransformArguments` and transform dispatch compare function names case-sensitively. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1266,6 +1268,28 @@ out of gamut and map to the same quantized boundary color. The supplied
 components and the double conversion intermediates are finite. This
 tests loss of source perceptual coordinates independently of the chosen
 gamut-mapping policy, missing color components and alpha interpolation.
+
+The inclusion follows [XInclude text processing and fallback](https://www.w3.org/TR/xinclude/),
+sections 4.3 and 4.4. Its binary resource has no external charset;
+encoding=UTF-16 determines character decoding, including removal of the
+BOM. The decoded stylesheet is rect{fill:lime}. If the encoding is not
+supported, that is a resource error and the identical fallback stylesheet
+applies instead. Thus the expected drawing does not require support for
+every encoding. Replacing the payload with UTF-8 and its encoding with
+UTF-8 matches exactly. Replacing only the href with an unavailable resource
+also matches exactly through fallback. Only a rectangle is rendered;
+included text supplies CSS. This tests resource character decoding before
+CSS parsing, separately from CSS input preprocessing and base64 validation.
+
+The translation follows [case-insensitive CSS function names](../../dev/spec/css-values-4.md#functional-notation)
+and [the translate function](../../dev/spec/css-transforms-1.md#funcdef-transform-translate).
+This is a CSS declaration, so TRANSLATE and translate are equivalent;
+the case-sensitive SVG attribute grammar is not used for the input.
+Replacing only the function name by lowercase translate matches exactly.
+Replacing the declaration by the canonical SVG attribute translate(8 8)
+is another exact control. The arguments, origin and size are ordinary
+finite values. This tests CSS function-name dispatch independently of
+escaped tokens, invalid declaration handling and transform length contexts.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
