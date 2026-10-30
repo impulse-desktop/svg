@@ -57,6 +57,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `marker-zero-direction.svg` | An initial zero-length segment takes the direction of the following vertical segment. | The marker points right instead of down, 256 wrong pixels. | `markerVertices` records a zero tangent as a known direction; `vertexAngle` uses it without searching neighboring segments. |
 | `arithmetic-reader-classification.svg` | Unused branches and input-free primitives do not change arithmetic data flowing to the final result. | Both cells lose their red channel, 512 wrong pixels. | `keepsInvalidColor` counts unreachable consumers and the unused `in1` field of `feFlood`. |
 | `filter-coefficient-cancellation.svg` | The color matrix's red result is `2^25 - 2^24`, clamped to 1. | All 2,304 pixels become black instead of red. | `fixedCoefficient` clamps each coefficient to `2^24` before the weighted sum, incorrectly cancelling both terms. |
+| `turbulence-bbox-coordinate-space.svg` | All sampled points fall on noise lattice knots, producing constant 50% gray at 50% alpha. | All 256 pixels contain colored noise, differing by up to 88 levels. | `filterTurbulence` uses local user coordinates without applying `boxPrimitives`. |
+| `lighting-bbox-surface-height.svg` | The point light and flat surface have the same z coordinate, so their diffuse dot product is zero. | All 256 pixels receive green light instead of black. | `filterLighting` converts the light's z from box units but leaves `surfaceScale` in unscaled user units. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -162,6 +164,22 @@ Both input channels equal 1, so their positive difference saturates to red;
 no large canvas or amount of work is involved. Halving both coefficients
 still saturates to the same red and renders exactly as the expectation.
 Resvg also renders the original as that red.
+
+The noise and surface height follow [primitive units](../../dev/spec/filter-effects-1.md#element-attrdef-filter-primitiveunits).
+For the [turbulence algorithm](../../dev/spec/filter-effects-1.md#elementdef-feturbulence),
+the 16.5px box makes frequency 33 equal to frequency 2 in user space.
+Every pixel center then has integral lattice coordinates, whose noise is
+zero independently of the random gradients; fractalNoise maps that to
+50% in all channels. The clip samples only whole interior pixels.
+User-space frequency 2 renders the constant expectation exactly.
+
+For the [surface height](../../dev/spec/filter-effects-1.md#element-attrdef-fediffuselighting-surfacescale),
+both z values are 1 box unit, or 16px. Light parallel to this constant-height
+surface has zero dot product with its normal. Explicit user-space
+`surfaceScale="16"` and light position `(8,8,16)` render the expected black
+exactly. Resvg matches both original expectations exactly. Neither case
+depends on the turbulence-gradient choice in D25 or distant-light orientation
+in D56.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <defs>
+    <clipPath id="sample"><rect width="16" height="16"/></clipPath>
+    <filter id="f" x="0" y="0" width="1" height="1" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="33" numOctaves="1" seed="7"/>
+    </filter>
+  </defs>
+  <g transform="translate(8 8)" clip-path="url(#sample)">
+    <rect width="16.5" height="16.5" filter="url(#f)"/>
+  </g>
+</svg>
