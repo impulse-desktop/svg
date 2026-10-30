@@ -77,6 +77,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-invalid-pseudo-element.svg` | An unknown pseudo-element or a repeated `::before` invalidates its complete selector list. | Both 256-pixel squares turn red. | `parseCompound` accepts any pseudo-element name and permits invalid combinations, keeping the other selector of the invalid rule. |
 | `css-radial-implicit-circle-at.svg` | A single 32px radius implies a circle; the whole 32px square lies before its first lime stop. | The renderer can crash in `resolveLength` instead of producing an image. | `gradientShape` returns at `at` before inferring the circle, leaving `cssGradientPaint` to read an uninitialized second radius. |
 | `embedded-svg-root-viewport.svg` | The embedded root's `50vw` font is 16px, so its `1em` rectangle is 16px wide. | The rectangle is 32px wide, adding 256 pixels. | `drawImage` computes the nested root's style with the outer viewport before entering the nested document's length context. |
+| `convolve-kernel-reach.svg` | The 2-by-1 kernel samples the flood 64px to its right, producing a green square. | All 256 expected pixels disappear. | `primitiveReach` hardcodes 32px for convolution, so `applyFilter` prunes the required intermediate flood before the 64px-spaced tap reads it. |
+| `lighting-output-subregion.svg` | The surface normal at x=16 reads the transparent input at x=15, giving green 180 in the first column. | All 16 pixels of that column are green 255 instead. | `filterLighting` copies only its output box into the alpha buffer and duplicates its edges, discarding valid neighboring input pixels. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -323,6 +325,27 @@ width is 32px, and the image is displayed at that same size, so 50vw is
 rendering the original embedded document on its own also gives the correct
 16px width. This tests the root's computed length context, separately from
 skipping root rendering effects and from natural-size calculation.
+
+The convolution follows [kernel tap spacing](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-kernelunitlength):
+with the reversed kernel and target zero, the nonzero tap reads x+64.
+The complete input and output are inside the canvas, and the kernel has
+only two entries. Replacing the convolution by an offset of -64 matches
+exactly; using SourceGraphic for the same square instead of an intermediate
+flood also matches exactly with the original convolution. Reducing the
+spacing to 16 and moving the input to x=32 is another exact control.
+Resvg does not reproduce the requested spacing, so it is not the reference.
+This exercises dependency pruning, separately from target rounding and
+coefficient arithmetic.
+
+The lighting follows [surface-normal calculation](../../dev/spec/filter-effects-1.md#SurfaceNormalCalculations)
+and [output subregions](../../dev/spec/filter-effects-1.md#FilterPrimitiveSubRegion).
+At x=16 the interior Sobel x slope is 1, so the normal is
+`(-1,0,1)/sqrt(2)` and the overhead light gives `round(255/sqrt(2)) = 180`.
+The rest of the sampled interval is flat. Removing the lighting primitive's
+explicit output subregion, while retaining the same final clip, matches the
+literal expectation exactly; resvg also matches the original exactly.
+This tests which input pixels form the normal, independently of light-vector
+normalization and object-box surface-height conversion.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

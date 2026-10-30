@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="32">
+  <defs>
+    <filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="128" height="32"
+            color-interpolation-filters="sRGB">
+      <feFlood x="80" y="8" width="16" height="16" flood-color="lime"/>
+      <feConvolveMatrix order="2 1" kernelMatrix="1 0" targetX="0" targetY="0"
+                        kernelUnitLength="64 1" edgeMode="none"
+                        x="16" y="8" width="16" height="16"/>
+    </filter>
+  </defs>
+  <rect width="128" height="32" filter="url(#f)"/>
+</svg>

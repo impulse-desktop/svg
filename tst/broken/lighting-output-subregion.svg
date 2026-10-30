@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="32"
+            color-interpolation-filters="sRGB">
+      <feDiffuseLighting x="16" y="8" width="16" height="16" surfaceScale="1"
+                         diffuseConstant="1" lighting-color="lime">
+        <feDistantLight elevation="90"/>
+      </feDiffuseLighting>
+    </filter>
+    <clipPath id="sample">
+      <rect x="16" y="8" width="16" height="16"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#sample)">
+    <rect x="16" width="32" height="32" filter="url(#f)"/>
+  </g>
+</svg>
