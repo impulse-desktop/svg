@@ -140,6 +140,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `image-invalid-size-auto.svg` | The invalid width presentation attribute is ignored; initial auto uses the image's 16px natural width. | All 256 expected pixels disappear. | `isAuto` tests the raw attribute's presence and literal keyword; `imageRect` then treats its invalid length as an explicit zero size. |
 | `projective-homogeneous-weight-range.svg` | Multiplying every homogeneous matrix coefficient by the same positive constant preserves the opaque projected interior. | All 64 sample pixels lose alpha, from 255 to 2. | `lowerOnLayer` narrows the finite double homogeneous weight 5e38 to float infinity, making its sampling scale 1/16 and its layer 1x1. |
 | `stroke-segment-length-range.svg` | The two opposite segments and bevel joins cover the same 32x8 band as the open segment. | All 256 expected pixels disappear. | `strokePolyline` measures a finite 4e38 segment in float; infinite lengths then pass its inner-cut checks and corrupt the closed outline. |
+| `use-instance-measurement.svg` | The use's custom property makes the instanced rectangle 16px square; its half-width box clip keeps 8x16 pixels. | Only a 4x8 piece remains, 96 missing pixels. | `elementExtent` enters a use target without the instance style map that `lowerUse` establishes for drawing. |
+| `distant-light-angle-range.svg` | Elevation 2^127 degrees is equivalent to 128 degrees and illuminates the flat square with green 201. | All 256 pixels are opaque black. | `filterLighting` multiplies the finite float angle by pi before dividing by 180, overflowing its radian direction. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1010,6 +1012,31 @@ the unsplit open segment passes the existing finite-coordinate check.
 This isolates segment-length arithmetic and closed-outline cuts from
 that check and from dash joins. The repeated endpoint supplies the closing
 direction explicitly, avoiding a separate normalization of the implicit edge.
+
+The use follows [shadow-tree style inheritance](../../dev/spec/svg2/struct.md#UseStyleInheritance)
+and [the use bounding-box algorithm](../../dev/spec/svg2/coords.md#ContainerElementBoudingBoxComputation).
+The target inherits --size from its host, so its font and both em lengths
+are 16px. Its object box is therefore 16px square, before the half-width
+clip. Replacing the variable expression by literal 16px matches the
+expectation exactly. Replacing the box clip by a user-space rectangle of
+width 8 and height 16 also matches exactly, retaining the variable and
+instance. The original box measurement instead uses the fallback 8px
+font. This tests measurement's missing instance map, separately from
+the use position's font, transform font lookup, selector boundaries and
+feImage's missing instance setup during painting.
+
+The light follows [elevation in degrees](../../dev/spec/filter-effects-1.md#element-attrdef-fedistantlight-elevation)
+and [the diffuse-lighting equations](../../dev/spec/filter-effects-1.md#elementdef-fediffuselighting).
+The input is the exact finite binary32 value 2^127. Its integer remainder
+modulo 360 is 128, so the flat surface receives sin(128 degrees) times
+255 = 200.942742, rounding to green 201. Replacing only the elevation by
+128 matches exactly. A point light at (-61566147.53256583,0,78801075.36067219)
+also matches exactly: its direction over this 16px square differs from
+the required unit vector by less than 3e-7. The original multiplication
+by pi exceeds the float range before division, although its final radian
+value is finite. This exercises degree conversion separately from point
+light normalization, specular exponents and CSS conic-gradient sampling.
+No transform or output-frame interpretation is involved.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

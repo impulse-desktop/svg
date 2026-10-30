@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <rect id="shape" width="1em" height="1em" style="font-size:var(--size,8px)"/>
+    <clipPath id="half" clipPathUnits="objectBoundingBox">
+      <rect width=".5" height="1"/>
+    </clipPath>
+  </defs>
+  <use href="#shape" x="8" y="8" style="--size:16px" fill="lime" clip-path="url(#half)"/>
+</svg>
