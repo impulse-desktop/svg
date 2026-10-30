@@ -111,6 +111,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `dash-period-overflow.svg` | The short path lies entirely in a dash gap and paints nothing. | The renderer hangs before producing an image. | `dashPolyline` sums two finite dash lengths into float infinity; normalizing a negative offset then loops forever subtracting finite lengths from infinity. |
 | `use-vector-effect-position.svg` | Non-scaling-size preserves the transformed origin at (16,16), while the square remains 16px wide. | The square moves to (8,8), changing 384 pixels. | `lowerElementIn` constrains the CTM with `vectorEffectMatrix` before appending the use's x/y translation. |
 | `vector-effect-determinant-range.svg` | Non-scaling-size removes either finite uniform scale, leaving two 16px squares at their translated origins. | All 512 expected pixels disappear. | `vectorEffectMatrix` narrows the double CTM determinant to float, turning it into infinity or zero before normalization. |
+| `turbulence-negative-seed-range.svg` | The negative seed normalizes to 5; thresholding its green channel produces a lime square. | All 64 square pixels turn black. | `filterTurbulence` saturates the seed to signed 32-bit range before `turbulenceInit` takes its remainder, changing the normalized seed to 3. |
+| `mesh-origin-length-context.svg` | The first mesh starts at its own 1em=32px; the second starts halfway across the referencing object's box. | Both 256-pixel patches disappear. | `meshPaint` resolves the starting point with a hardcoded 16px font and the outer viewport, without selecting the mesh's font or bounding-box percentage context. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -663,6 +665,31 @@ as does replacing both with 0.5 while keeping non-scaling-size. Neither
 case allocates a large raster or expands geometry: the constrained result
 is the same pair of small squares. This exercises the numeric range of
 the constrained matrix, independently of the use-position ordering.
+
+The seed follows [the published turbulence algorithm](../../dev/spec/filter-effects-1.md#elementdef-feturbulence)
+and [seed truncation](../../dev/spec/filter-effects-1.md#element-attrdef-feturbulence-seed).
+The exactly represented -2^32 is already integral. Its remainder modulo
+2^31-2 is -4, so setup_seed returns 5. An independent evaluation of the
+published lattice algorithm gives green values 0.5546..0.5739 at all 64
+pixel centers, safely above the discrete transfer's 0.5 threshold. The
+other channels are zero and alpha is one, giving the literal lime square.
+The power-of-two frequency also makes the sampled lattice coordinates
+exact. Replacing the seed with 5 matches exactly; replacing it with -4
+is another exact control. The renderer instead clamps the original to
+-2^31, normalizes that to 3, and obtains green 0.4501..0.4910, below the
+threshold. This uses the same uniform-gradient algorithm chosen in D25,
+independently of bounding-box coordinate conversion.
+
+The mesh origins follow [the retained mesh-gradient definition](https://www.w3.org/TR/2016/CR-SVG2-20160915/pservers.html#MeshGradients)
+selected in D57 and [font-relative lengths](../../dev/spec/css-values-4.md#font-relative-lengths).
+The first patch starts at x=32 and spans 16px. The second uses the default
+objectBoundingBox units: x=50% is .5 in box coordinates, so its .5-wide
+patch covers x=24..40 in the 32px-wide referencing rectangle. All corners
+are lime, making both patches constant lime. Replacing the origins with
+32 and .5 matches both cells exactly. Normalizing the first mesh's font
+to 16px and its x to 2em also matches when the second origin is .5.
+This tests the starting-point length context, independently of interpolation,
+curve subdivision and resource transform construction.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

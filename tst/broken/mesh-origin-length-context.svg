@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <meshgradient id="font" gradientUnits="userSpaceOnUse" x="1em" y="8" font-size="32">
+      <meshrow><meshpatch>
+        <stop path="l16 0" stop-color="lime"/>
+        <stop path="l0 16" stop-color="lime"/>
+        <stop path="l-16 0" stop-color="lime"/>
+        <stop path="l0 -16" stop-color="lime"/>
+      </meshpatch></meshrow>
+    </meshgradient>
+    <meshgradient id="box" x="50%">
+      <meshrow><meshpatch>
+        <stop path="l.5 0" stop-color="lime"/>
+        <stop path="l0 1" stop-color="lime"/>
+        <stop path="l-.5 0" stop-color="lime"/>
+        <stop path="l0 -1" stop-color="lime"/>
+      </meshpatch></meshrow>
+    </meshgradient>
+  </defs>
+  <rect x="32" y="8" width="16" height="16" fill="url(#font)"/>
+  <rect x="8" y="40" width="32" height="16" fill="url(#box)"/>
+</svg>
