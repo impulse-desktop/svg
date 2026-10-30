@@ -192,6 +192,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `system-language-space-separator.svg` | The single malformed tag fr en does not match the fixed English preference, so the rectangle is absent. | 256 extra opaque green pixels. | `passesConditions` splits systemLanguage on whitespace as well as commas, inventing an English list item. |
 | `linear-repeat-phase-precision.svg` | Translation by a whole number of periods preserves alternating 4px red and green bands. | All 256 green pixels turn red. | `linearT` narrows its double result to float before spreadT reduces it modulo one, losing the fractional phase at t near 2^25. |
 | `clip-empty-position.svg` | The incomplete at clause invalidates the clip, leaving the green square visible. | All 256 expected pixels disappear. | `parseShapeFunction` calls parsePosition on the empty tail after at; parsePosition accepts zero words as center, producing a zero-radius clip. |
+| `xml-multiple-doctypes.svg` | A second document type declaration invalidates the embedded image. | The invalid resource draws all 256 green pixels. | `parseDocument` loops over parseDoctype without remembering that a declaration has already occurred. |
+| `xml-comment-double-hyphen.svg` | A double hyphen within a comment invalidates the embedded image. | The invalid resource draws all 256 green pixels. | `parseContent` skips to the comment terminator without checking the comment body for forbidden double hyphens. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1785,6 +1787,31 @@ the oracle. The circle has its valid single radius; no ellipse arity
 check is involved. This tests acceptance of an empty position independently
 of ellipse radius counting, repeated geometry boxes and the cascade's
 generic invalid-declaration fallback.
+
+The declarations follow [XML's prolog grammar](https://www.w3.org/TR/xml/#NT-prolog).
+The optional document type declaration occurs at most once. Both declarations
+here are empty: there are no external subsets, entities, default attributes
+or validity constraints to interpret. The second declaration alone makes
+the embedded document malformed, so its image paints nothing. Keeping just
+one declaration matches a literal 16x16 lime square exactly. Removing both
+is another exact green control. Replacing the second declaration with the
+valid processing instruction `<?data harmless?>` also matches exactly.
+Python ElementTree rejects the decoded original, and resvg matches the
+empty expectation and all three green controls. This tests prolog state
+independently of DTD default attributes, character references, namespace
+bindings and attribute uniqueness.
+
+The comment follows [XML's comment grammar](https://www.w3.org/TR/xml/#sec-comments).
+A comment body cannot contain a double hyphen. The metadata comment
+`<!--a--b-->` therefore makes the embedded document malformed; the image
+must paint nothing even though metadata itself does not paint. Changing
+the body to `a-b` gives an exact green control. Removing the comment also
+matches the literal lime square exactly. Replacing it with the valid
+processing instruction `<?note a--b?>` is another exact green control:
+double hyphens are allowed in that context. Python ElementTree rejects
+the decoded original, and resvg matches the empty expectation and all
+three green controls. This tests comment-body scanning independently
+of the number of prolog declarations and character-code validation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
