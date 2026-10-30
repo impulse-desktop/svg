@@ -115,6 +115,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `mesh-origin-length-context.svg` | The first mesh starts at its own 1em=32px; the second starts halfway across the referencing object's box. | Both 256-pixel patches disappear. | `meshPaint` resolves the starting point with a hardcoded 16px font and the outer viewport, without selecting the mesh's font or bounding-box percentage context. |
 | `marker-user-units-non-scaling-orient.svg` | The user-space marker follows the path's 45-degree user-space direction, covering the sampling rectangle. | All 256 expected pixels disappear. | `markerPlacement` chooses a device-space tangent whenever the stroke is non-scaling, even when userSpaceOnUse selects the user-space placement matrix. |
 | `percent-length-diagonal-range.svg` | A 25% stroke in either square viewport maps to a 16px-wide horizontal band. | Both 1,024-pixel bands disappear. | `resolveLength` computes the normalized viewport diagonal by squaring its float sides, overflowing to infinity or underflowing to zero. |
+| `dash-math-range-clamp.svg` | The calculated negative dash length clamps to zero, leaving two 8px dashes. | 224 pixels differ, including extra backwards-traversed dashes. | `validDashes` clamps a temporary Length, but `computeStyle` rereads each entry without `nonNegative`, passing the negative value to `dashPolyline`. |
+| `css-nonlinear-gradient-minification.svg` | Periods far below a pixel average to a uniform 50%-opaque mask. | 1,987 pixels have wrong opacity, differing by up to 128 levels. | `prepareGradient` averages minified repeating linear gradients only; radial and conic gradients continue sampling individual phases. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -718,6 +720,30 @@ dimensions and intended widths are finite and representable; the paths
 contain one straight segment each. This tests the shared percentage
 length basis, independently of gradient normalization, vector-effect
 determinants and finite stroke-coordinate rejection.
+
+The dash follows [numeric-function range checking](../../dev/spec/css-values-4.md#functional-numeric),
+[nonnegative dash lengths](../../dev/spec/svg2/painting.md#StrokeDasharrayProperty)
+and the project's D30 rule. The valid calculation clamps to zero, making
+the pattern 0 8 8 8 with period 24. With butt caps the zero-length on
+entries paint nothing, leaving x=16..24 and x=40..48. Replacing the
+calculation by 0 matches exactly. Merging the gaps into pattern 8 16
+with offset 16 is another exact control. This exercises loss of the
+range clamp between validation and style construction, independently of
+rejecting a calculated filter argument, period overflow and closing joins.
+
+The minified masks follow [repeating-gradient averaging](../../dev/spec/css-images-3.md#repeating-gradients),
+[the average-color algorithm](../../dev/spec/css-images-3.md#gradient-average-color)
+and [repeating conic gradients](https://drafts.csswg.org/css-images-4/#repeating-gradients).
+The radial period is 1/1024px. The conic period is 1/2^20 of a turn,
+less than .00014px even at a square's farthest corner. Neither can be
+resolved in the declared raster. Each period interpolates from transparent
+to opaque white, whose premultiplied average is white with alpha .5.
+Collapsing both periods to zero matches the literal expectation exactly;
+replacing each mask by linear-gradient(#ffffff80,#ffffff80) also matches
+within the ordinary tolerance. A linear gradient with the same subpixel
+radial-length period already averages correctly. This tests missing
+minification handling for nonlinear gradients, independently of a large
+conic starting angle and fractional image-tile placement.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
