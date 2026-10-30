@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <g id="tile">
+      <defs>
+        <linearGradient id="paint">
+          <stop style="stop-color:var(--paint,red)"/>
+          <stop offset="1" style="stop-color:var(--paint,red)"/>
+        </linearGradient>
+      </defs>
+      <rect width="16" height="16" style="fill:url(#paint)"/>
+    </g>
+  </defs>
+  <use href="#tile" x="8" y="8" style="--paint:lime"/>
+  <use href="#tile" x="8" y="40" style="--paint:blue"/>
+</svg>

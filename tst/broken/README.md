@@ -160,6 +160,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `oklab-gamut-lightness-roundtrip.svg` | Gamut mapping preserves lightness .5 and hue 0, reducing chroma to the same #bb005e boundary color. | The first square becomes white and the second black, 512 wrong pixels. | `parseFunctionColor` converts to sRGB before `gamutMap` reconstructs Oklab, losing the source lightness through cancellation at large chroma. |
 | `xinclude-text-encoding.svg` | The UTF-16 stylesheet, or the identical fallback if that encoding is unavailable, makes the rectangle lime. | All 256 pixels remain red. | `include` ignores encoding, appends the fetched bytes as text and reports success, suppressing fallback. |
 | `css-transform-function-case.svg` | CSS TRANSLATE moves the square by (8,8), like lowercase translate. | The square stays at the origin, 384 wrong pixels. | `cssTransformArguments` and transform dispatch compare function names case-sensitively. |
+| `import-layer-after-invalid-at-rule.svg` | An unknown rule is ignored; the following import declares layer a before b, so b's lime fill wins. | All 256 pixels remain red. | `parseRules` ends the import prefix on an unknown at-rule, skipping the following import's layer registration. |
+| `use-paint-server-style-cache.svg` | Each use instance's local gradient inherits its own --paint value, lime then blue. | The lower 256 pixels reuse the first instance's lime color. | `documentStyle` caches by source node index alone, reusing a resource style across different instance maps. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1290,6 +1292,31 @@ Replacing the declaration by the canonical SVG attribute translate(8 8)
 is another exact control. The arguments, origin and size are ordinary
 finite values. This tests CSS function-name dispatch independently of
 escaped tokens, invalid declaration handling and transform length contexts.
+
+The import follows [the import position and layer assignment rules](../../dev/spec/css-cascade-5.md#at-ruledef-import)
+and [ignoring invalid CSS constructs](../../dev/spec/css-syntax-3.md#css-ignored).
+Only valid rules end the import prefix; an unknown at-rule is ignored.
+The import registers layer a before b even when its sheet never loads,
+which is covered independently of import loading under D15. Normal
+declarations in the later layer b therefore win. Removing only the
+unknown rule matches exactly. Declaring layer a explicitly before the
+unknown rule is another exact control. This tests invalid-rule handling
+of the layer-order side effect, independently of declaration validation
+and stylesheet eligibility.
+
+The resource instances follow [the use-element shadow tree](../../dev/spec/svg2/struct.md#UseShadowTree),
+[instance style inheritance](../../dev/spec/svg2/struct.md#UseStyleInheritance)
+and [tree-scoped fragment URLs](../../dev/spec/css-values-4.md#local-urls).
+The whole source subtree, including defs and gradient stops, is cloned;
+each clone inherits its host's custom property. The inline fill URL
+resolves to the gradient within that same shadow tree. Both stops have
+the same color, so the expected squares need no gradient sampling.
+Giving the two uses distinct but otherwise identical source subtrees
+and resource IDs matches exactly. Replacing the fill URL with the direct
+custom-property color is another exact control, retaining both uses and
+their different host values. This tests cache separation of computed
+resource styles, independently of omitted instance styles, instance
+measurement and paint-server href templating under D44.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

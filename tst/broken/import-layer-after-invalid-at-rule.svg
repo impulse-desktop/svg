@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <style>
+    @unknown;
+    @import url("unavailable.css") layer(a);
+    @layer b { rect { fill:lime } }
+    @layer a { rect { fill:red } }
+  </style>
+  <rect x="8" y="8" width="16" height="16" fill="red"/>
+</svg>
