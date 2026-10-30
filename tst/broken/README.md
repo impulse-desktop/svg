@@ -121,6 +121,7 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-carriage-return-preprocessing.svg` | CSS converts CR to LF, then removes the escaped newline so the selector matches lime. | The 256-pixel square stays red. | `tokenizeInto` does not normalize the CSS input stream; `consumeString` and `unescaped` recognize LF continuations only. |
 | `xml-internal-default-attribute.svg` | The internal attribute-list declaration supplies the rectangle's lime fill. | The 256-pixel square is black. | `parseDoctype` handles entity declarations but skips ATTLIST declarations, so `parseElement` never receives the default attribute. |
 | `number-mantissa-intermediate-overflow.svg` | The long number equals 16, giving a 16px-wide square. | The square expands to the canvas edge, adding 384 pixels. | `readDoubleSyntax` overflows while accumulating the mantissa before applying its compensating exponent; `readDouble` then saturates that infinity to 3e38. |
+| `specular-exponent-unrestricted.svg` | The unrestricted exponents give alpha 1 and cos(5deg)^256 on the two flat surfaces. | All 512 square pixels have wrong opacity, by up to 75 levels. | `filterLighting` retains the old 1..128 clamp for feSpecularLighting's exponent, although Filter Effects defines it as an unrestricted number. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -788,6 +789,20 @@ Replacing the width by 16 matches exactly, as does replacing it by 1.6e1.
 Python's decimal parser independently confirms the complete value is 16.
 This tests intermediate overflow while decoding one numeric spelling,
 independently of arithmetic on already-parsed coordinates and coefficients.
+
+The exponent follows [feSpecularLighting's numeric attribute](../../dev/spec/filter-effects-1.md#element-attrdef-fespecularlighting-specularexponent)
+and [its Phong model](../../dev/spec/filter-effects-1.md#elementdef-fespecularlighting).
+Filter Effects gives this exponent the number grammar without the old
+1..128 range. With surfaceScale=0 the normal is (0,0,1) everywhere.
+At light elevation 0, N.H=cos(45deg) and exponent 0 gives intensity 1.
+At elevation 80, N.H=cos(5deg) and exponent 256 gives intensity
+.37680951468734586. Lime light makes alpha equal to that intensity.
+The renderer instead uses exponents 1 and 128, giving alpha 180 and 157
+out of 255. Replacing the first exponent by 1 with constant sqrt(2),
+and the second by 128 with constant cos(5deg)^128, matches exactly.
+Using exponent 1 with constant cos(5deg)^255 for the second is another
+exact control. This tests the retained exponent restriction, independently
+of spot-light focus, vector normalization and lighting subregion sampling.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
