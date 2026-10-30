@@ -198,6 +198,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-linked-sheet-bom.svg` | Decoding the linked UTF-8 stylesheet removes its BOM, allowing rect to match and turn the square lime. | All 256 pixels remain red. | `linkedSheet` keeps decoded URL bytes without stylesheet character decoding; `cascade` sends those bytes to parseSheet, where the BOM becomes part of the first type selector. |
 | `clip-position-comma.svg` | A comma invalidates the position, so the clip attribute is ignored and the lime square remains. | All 256 expected pixels disappear. | `parsePosition` reads words through shapeWord, which discards commas; the invalid position becomes center center and applies a zero-radius clip. |
 | `transform-perspective-none.svg` | Identity perspective leaves the following 8px translation in effect. | The square stays at the origin, leaving 384 wrong pixels. | `transformFunction` accepts only numbers, dimensions, percentages or math arguments, rejecting the valid none keyword before handling perspective. |
+| `transform-origin-repeated-axis.svg` | The invalid pair of horizontal keywords is discarded, retaining the preceding center origin and the green square's position. | The square rotates about (24,8), leaving 320 wrong pixels. | `validGeometry` counts two readOrigin successes without checking their axes; transformOrigin treats the second horizontal keyword as the x coordinate. |
+| `dash-stationary-newton.svg` | The only painted dash is a 4x8 green rectangle. | It extends to about 32.71px instead of 4px, leaving 232 wrong pixels. | `lengthParameter` stops after four Newton iterations from a poor initial estimate near a stationary cubic endpoint, without checking the remaining length error. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1877,6 +1879,39 @@ CSS transform controls and is not the oracle. All names here have their
 canonical case, the matrix is invertible and no perspective resampling
 is needed. This tests the missing keyword argument independently of
 case-sensitive function dispatch, singular 3D scales and projective range.
+
+The axes follow [transform-origin's grammar](../../dev/spec/css-transforms-1.md#propdef-transform-origin).
+Two horizontal keywords cannot form a valid origin. Discarding left right
+retains the preceding center declaration. The square's fill box has center
+(16,16), and rotating it by 180 degrees about that point preserves its
+position. Removing the invalid declaration gives an exact green control.
+Replacing left right with the invalid word nowhere also matches exactly,
+retaining the duplicate declaration and testing the validation path.
+Replacing it with valid 50% 50% is a third exact control. Resvg matches
+the original expectation and all controls. This is the explicit
+validGeometry validator's missing axis check, independently of the
+generic validDeclaration fallback, origin length resolution and empty
+or comma-separated positions.
+
+The dash follows [dash lengths and positions](../../dev/spec/svg2/painting.md#StrokeDashing).
+Let P=65536. The cubic has y=16 and x=8+3P*t*t*(1-t). Its first leg
+increases monotonically to t=2/3 and has length 4P/9. The return leg
+has the same length, so total length 8P/9 is less than the 65536px gap.
+Only the first 4px dash paints. Its horizontal direction and butt caps
+therefore give the literal 4x8 rectangle at (8,12). Replacing the cubic
+by H40 gives an exact control. Using the monotonic straight cubic
+C8 16 8 16 40 16 also matches exactly, retaining a stationary start.
+Reducing the original control point's x to 72 gives a third exact
+control, retaining the reversal and cubic measurement path. The debugger
+records target length 4, interval [0,2/3], whole length 29127.111111111117
+and returned t=0.012983163800184966. Substituting that t in the cubic
+gives distance 32.710472597306982. There are only three flattened points
+and one dash cut; no subdivision or work budget is exhausted. Resvg
+also misses the exact length on the original and is not the oracle.
+This tests convergence of cubic length inversion independently of
+translated cut-coordinate narrowing, pathLength calibration and dash
+phase normalization. The error exceeds the 0.025px flattening target
+by more than 28px on a curve lying entirely on a straight line.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
