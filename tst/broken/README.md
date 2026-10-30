@@ -127,6 +127,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `luminance-to-alpha-coefficients.svg` | Green's luminance alpha is .7152; the following transfer makes the square opaque lime. | All 256 expected pixels disappear. | `filterColorMatrix` uses the obsolete .2125/.7154/.0721 luminanceToAlpha weights instead of Filter Effects' .2126/.7152/.0722. |
 | `image-uri-leading-space-view.svg` | URL parsing removes the surrounding spaces before selecting the embedded SVG view, retaining the green square. | All 256 expected pixels disappear. | `loadImageFrom` checks the untrimmed reference before splitting data-URI fragments; `decodeDataUri` trims later and leaves #square inside the XML body. |
 | `clip-repeated-geometry-box.svg` | The extra geometry box makes the clip value invalid, leaving the square unclipped. | All 256 expected pixels disappear. | `parseBasicShape` tracks whether it has read a shape function but accepts unlimited geometry boxes, with the last one replacing the previous box. |
+| `display-inherit-pattern.svg` | Explicitly inherited display none excludes the pattern's rectangle. | All 256 painted pixels are extra. | `computeStyle` sets `displayNone` false for every CSS-wide keyword instead of copying the inherited value. |
+| `presentation-escaped-variable-function.svg` | The escaped var function substitutes lime into the fill presentation attribute. | The 256-pixel square is black. | `valueSubstitutes`' raw-string precheck misses an escaped function name, so the variable substitution path is skipped. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -862,6 +864,26 @@ inset function, another invalid repeated component that the parser already
 rejects, also matches exactly. There is no earlier valid declaration to
 lose here: this exercises acceptance of repeated shape-grammar components,
 independently of validating a declaration before it enters the cascade.
+
+The pattern follows [display on graphical effects and their children](../../dev/spec/svg2/render.md#RenderingTree)
+and [explicit inheritance](../../dev/spec/css-cascade-5.md#inherit).
+The pattern itself remains usable with display none. Its rectangle explicitly
+inherits that computed value, so the rectangle contributes no pixels.
+Replacing only the child's inherit by none matches the empty expectation
+exactly. Keeping inherit and moving display none to a group directly around
+the rectangle also matches exactly: normal ancestor suppression conceals
+the incorrect inherited value. Resvg independently produces the empty drawing
+for the original. This exercises computing an explicit inherited display,
+separately from validating invalid declarations and suppressing a root subtree.
+
+The fill follows [variable substitution](../../dev/spec/css-variables-1.md#using-variables)
+and [CSS identifier escapes](../../dev/spec/css-syntax-3.md#escaping).
+The escaped function name tokenizes as var, and the ancestor supplies lime.
+Spelling var literally matches exactly. Moving the same escaped fill value
+to a style attribute also matches exactly. The latter control keeps both
+escape decoding and variable substitution, isolating the presentation
+attribute's raw-text precheck from CSS tokenization and from consumers
+that compare resource attribute keywords without decoding them.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
