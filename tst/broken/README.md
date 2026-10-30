@@ -144,6 +144,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `distant-light-angle-range.svg` | Elevation 2^127 degrees is equivalent to 128 degrees and illuminates the flat square with green 201. | All 256 pixels are opaque black. | `filterLighting` multiplies the finite float angle by pi before dividing by 180, overflowing its radian direction. |
 | `pattern-resolution-norm-underflow.svg` | A 2^104 tile under scale 2^-100 occupies 16px and retains its 8px green/blue stripes. | All 512 pixels become the same translucent mixed color. | `patternPaint` passes a double squared CTM norm of 2^-200 to sqrtf, losing it before choosing the tile's raster resolution. |
 | `xml-expanded-attribute-duplicate.svg` | Two attributes with the same namespace URI and local name invalidate the embedded SVG. | The invalid image draws a green square, 256 extra pixels. | `parseElement` checks raw attribute names for duplicates before resolving their namespace prefixes. |
+| `paint-server-empty-attribute.svg` | An invalid but present pattern width uses initial zero rather than the template's width. | The zero-width pattern draws, adding 256 pixels. | `patternAttribute` treats a blank attribute as absent and continues to the template. |
+| `object-fit-aspect-ratio-range.svg` | Containment preserves a 16px square in both finite image boxes, centered in the wider second box. | The first square disappears; the second fills 32px instead of 16px, 512 wrong pixels. | `lowerImage` divides finite natural dimensions in float; the ratio becomes infinity or zero before containment. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1064,6 +1066,35 @@ b:other makes the resource valid and renders all 256 green pixels exactly.
 The error precedes the rectangle. The outer SVG remains well formed.
 This tests namespace-aware duplicate detection separately from character
 references, namespace-sensitive CSS selectors and DTD attribute defaults.
+
+The pattern follows [template attribute presence](../../dev/spec/svg2/pservers.md#PaintServerTemplates),
+[initial values](../../dev/spec/svg2/types.md#TermInitialValue) and
+[pattern width](../../dev/spec/svg2/pservers.md#PatternElementWidthAttribute).
+Width is a non-presentation attribute on a pattern. Its blank value is
+invalid but present, so the initial width zero applies. Only an absent
+attribute is taken from the template. Replacing the blank by bad matches
+the empty expectation exactly; replacing it by 0 is another exact control.
+Replacing it by 16 makes the resource valid and paints the whole green
+square. Resvg leaves the original empty. This tests template attribute
+presence independently of the separate template child-content rule and
+CSS declaration validation.
+
+The images follow [contain sizing](../../dev/spec/css-images-3.md#contain-constraint)
+and [object fitting before preserveAspectRatio](../../dev/spec/svg2/embedded.md#ImageElement).
+The first source and box are 2^100 by 2^-40. Their ratio is 2^140, but
+containment changes neither finite dimension; the outer scale makes a
+16px square. The second source is 2^-60 by 2^100; its box is twice that
+width. Containment retains the source dimensions and centers them, giving
+x=16..32 after the outer scale. Its ratio 2^-160 instead rounds to zero,
+which skips object-fit and exposes the explicit preserveAspectRatio=none
+fallback. Both roots provide positive absolute dimensions; no natural
+size inference or active view is involved. Normalizing each source to
+16px square and its image box to 16x16 or 32x16 matches exactly. Bringing
+both ratios 2^40 closer to one, while compensating the corresponding
+outer scales, also matches exactly. All dimensions remain representable
+floats, the final geometry is small, and neither case exhausts a budget.
+This isolates the ratio division from raster minification and intrinsic
+size or fragment-view selection.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
