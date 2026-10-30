@@ -66,6 +66,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `use-transform-font-context.svg` | The rect's own `1em` transform uses its inherited 32px instance font. | The square moves to x=24 instead of 40, 512 wrong pixels. | `transformAnchor` takes its font from `documentStyle`, which follows original parents and caches the source's 16px font. |
 | `css-gradient-negative-hint.svg` | A negative transition hint still determines the interpolation curve. | 496 pixels differ, by up to 53 levels. | `cssStops` uses `hint >= 0` to distinguish a supplied hint from its no-hint sentinel. |
 | `css-gradient-hint-stop-fixup.svg` | The unplaced middle color stop is at 50%; the following sampled strip is fully opaque. | 112 pixels have too little opacity, by up to 37 levels. | `cssStops` counts transition hints as positioned color stops when distributing unplaced stops, putting white at 62.5%. |
+| `relative-math-number.svg` | Dividing `1em` by `1em` produces the number 1 in opacity and color calculations. | Both cells ignore the calculation, 512 wrong pixels. | `readMathQuantity` rejects any calculation that encountered relative units, even when they cancel to a number. |
+| `mask-no-clip-local-sentinel.svg` | An opaque mask with no clipping preserves a translated square. | All 256 expected pixels disappear. | `imageMaskLayer` substitutes a finite local box of ±30,000,000 for `no-clip`, cutting away visible content under a compensating translation. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -234,6 +236,20 @@ first interval linear. The clip samples only the fully opaque interval
 after 50%. Explicitly placing the middle white at 50% renders the expected
 solid green exactly. These exercise hint detection and color-stop placement,
 separately from clamping negative offsets in the radial paint builder.
+
+Unit cancellation follows [calculation type checking](../../dev/spec/css-values-4.md#calc-type-checking)
+and [computed math values](../../dev/spec/css-values-4.md#calc-computed-value),
+including the project's D30 math support. The same nonzero length divided
+by itself gives 1, so the expressions produce opacity .5 and green channel
+255, independently of the font size. Replacing `1em / 1em` with
+`16px / 16px` makes both controls match their expectations exactly.
+
+The mask follows [no-clip](../../dev/spec/css-masking-1.md#valdef-mask-clip-no-clip),
+which leaves the painted content unrestricted. The matrix maps the square
+to `(8,8)` at its original 16px size, with no large raster or amount of
+work. Keeping the same large coordinates but using fill-box for this
+fully opaque mask matches exactly; moving the square and its mask to the
+origin's coordinate range while retaining no-clip also matches exactly.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
