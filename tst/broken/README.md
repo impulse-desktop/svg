@@ -156,6 +156,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `gamma-zero-amplitude-overflow.svg` | With positive input and zero amplitude, the gamma function returns its offset 1. | All 256 green pixels become opaque black. | `transfer` overflows powf before multiplying by zero, turning a finite constant result into NaN. |
 | `filter-pixel-box-epsilon.svg` | The narrow flood contributes positive alpha to one pixel column; the following gamma makes it opaque. | All 16 expected pixels disappear. | `pixelBox` subtracts 1e-4 before rounding the upper side, making a positive region next to an integer edge empty. |
 | `filter-transform-scale-range.svg` | Both reciprocal coordinate scales preserve a one-pixel convolution tap and a 16px square shifted left by one. | The upper square does not move; the lower square disappears, 288 wrong pixels. | `applyFilter` computes CTM column lengths with sqrtf, losing finite squared norms to zero or infinity before kernel-unit conversion. |
+| `css-scope-stylesheet-root.svg` | Without an explicit scoping root, :scope matches the SVG document root and selects its child rectangle. | All 256 pixels remain red. | `simplePseudo` rejects scope; Test::Scope exists only as a synthetic anchor for relative selectors. |
+| `oklab-gamut-lightness-roundtrip.svg` | Gamut mapping preserves lightness .5 and hue 0, reducing chroma to the same #bb005e boundary color. | The first square becomes white and the second black, 512 wrong pixels. | `parseFunctionColor` converts to sRGB before `gamutMap` reconstructs Oklab, losing the source lightness through cancellation at large chroma. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1238,6 +1240,32 @@ The intended steps and filter regions are small, all supplied values are
 finite, and no work budget is reached. This tests the filter run's unit
 conversion independently of pattern raster resolution, percentage
 diagonals, vector effects and convolution reach pruning.
+
+The selector follows [the default scope pseudo-class](../../dev/spec/selectors-4.md#scope-pseudo):
+without a supplied scoping root it represents the root of the element's
+tree, equivalent to root in this ordinary document tree. This is a static
+stylesheet rule, with no DOM API, shadow tree or interaction. Replacing
+scope by root matches exactly; replacing it by the SVG type selector
+also matches exactly. The selector's declarations override the red
+presentation attribute. This tests a valid static pseudo-class separately
+from malformed pseudo-elements, dynamic pseudo-classes and instance
+sibling boundaries.
+
+The colors follow [binary-search gamut mapping with local MINDE](../../dev/spec/css-color-4.md#binary-search-gamut-map-with-local-minde)
+and the existing D27 choice to apply it during color parsing. The original
+Oklab/OkLCh coordinates already give lightness .5 and hue 0; step 2 must
+retain them before reducing chroma. Evaluating the published algorithm
+directly from these coordinates, without an intervening sRGB round trip,
+gives approximately (.7327203,0,.3687788) and (.7327420,0,.3687772).
+Both round to (187,0,94). The color distance calculation compares the
+current Oklab coordinates directly with the clipped color converted to
+Oklab, so it also retains the original lightness throughout the search.
+Replacing both large chroma values by 1 matches the literal expectation
+exactly. Replacing both by 10 is another exact control. Both remain
+out of gamut and map to the same quantized boundary color. The supplied
+components and the double conversion intermediates are finite. This
+tests loss of source perceptual coordinates independently of the chosen
+gamut-mapping policy, missing color components and alpha interpolation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
