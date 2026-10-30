@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="32">
+  <style>
+    @media not (orientation:sideways) { #keyword { fill:red } }
+    @media not (color:1.5) { #integer { fill:red } }
+    @media (min-grid:0) { #discrete { fill:red } }
+  </style>
+  <rect id="keyword" x="8" y="8" width="16" height="16" fill="lime"/>
+  <rect id="integer" x="40" y="8" width="16" height="16" fill="lime"/>
+  <rect id="discrete" x="72" y="8" width="16" height="16" fill="lime"/>
+</svg>

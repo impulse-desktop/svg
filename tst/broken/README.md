@@ -83,6 +83,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-xlink-href-selector.svg` | `[href]` does not match the use's namespaced `xlink:href`, so its lime fill remains. | The 256-pixel square turns red. | `parseElement` aliases XLink href to the unqualified `AtomHref`, losing the namespace that attribute matching needs. |
 | `inherited-currentcolor-capture.svg` | An explicitly inherited `currentColor` resolves against the stop's or flood's own lime color. | Both 256-pixel squares are red instead of green. | `computeStyle` resolves these color keywords immediately, then copies the parent's resolved color when processing `inherit`. |
 | `css-media-mixed-operators.svg` | Mixing `and` and `or` without grouping parentheses makes the query invalid, leaving the square green. | The 256-pixel square turns red. | `mediaCondition` folds whichever operator comes next, without enforcing a single operator at each level. |
+| `css-media-feature-validation.svg` | Unknown keywords, fractional literal color depths and min-prefixed discrete features do not match, including under `not`. | All three 256-pixel squares turn red. | `mediaFeature` and `mediaValue` compare values without validating the individual feature's keywords, numeric type or range/discrete classification. |
+| `css-media-math-values.svg` | Calculated 96dpi resolution and aspect ratio 2 match the renderer's 1dppx and the 64-by-32 viewport. | Both 256-pixel squares stay red. | `mediaValue` requires raw dimension or number tokens for resolution and ratio instead of accepting math functions of those types. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -377,13 +379,31 @@ match exactly. Resvg matches the gradient cell but not the flood cell.
 This exercises inheritance of an unresolved keyword, separately from
 the outline parser rejecting an explicitly specified currentColor.
 
-The media query follows [combining media features](https://www.w3.org/TR/mediaqueries-4/#combining):
+The media query follows [combining media features](https://www.w3.org/TR/mediaqueries-4/#media-conditions):
 `and` and `or` cannot be mixed at the same level without extra parentheses.
 The invalid query must not apply its red declaration. Changing only `or`
 to `and` gives a valid, false query at this 32px viewport and renders the
 same green expectation exactly. Resvg also renders the original green.
 This exercises condition grammar, independently of invalid selectors or
 declaration values.
+
+The feature checks follow [media-query error handling](https://www.w3.org/TR/mediaqueries-4/#error-handling):
+unrecognized or syntactically invalid feature values are unknown, and
+negation preserves unknown. The discrete grid feature also disallows
+[min/max prefixes](https://www.w3.org/TR/mediaqueries-4/#mq-min-max).
+Using the valid, false queries `not (orientation:landscape)`,
+`not (color:8)` and `(grid:1)` makes all three controls match exactly.
+Resvg also renders the original green. These share missing per-feature
+validation, separately from accepting mixed boolean operators.
+
+The calculated values follow [math-function types](../../dev/spec/css-values-4.md#calc-type-checking)
+and the existing D30 support for math in media queries. The first
+calculation is a resolution of 96dpi, equal to 1dppx; the second is the
+number 2, the aspect ratio of this viewport. Replacing the calculations
+with their literal values matches both expectations exactly. Resvg shares
+the original rejection, so the type rules provide the reference. This
+tests acceptance of valid math, independently of relative-unit cancellation
+and of validation of invalid literal features.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
