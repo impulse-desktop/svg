@@ -104,6 +104,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `image-view-natural-ratio.svg` | A selected 32-by-16 view supplies aspect ratio 2, so natural width 16 gives height 8. | Both 8px-high green images move down by 4px, 256 wrong pixels in total. | `loadImageFrom` calls `givenSize` before selecting the view, retaining the 16px height inferred from the root's square viewBox. |
 | `three-d-distant-plane-tolerance.svg` | The green plane at z=1 covers the later red plane at z=0, regardless of the distant blue corner. | All 256 square pixels turn red. | `emitContext` scales the sorting tolerance by the largest coordinate of any plane, merging distinct neighboring depths when another plane is distant. |
 | `projective-marker-layer-bounds.svg` | The marker's projected rectangle covers the complete 8px-by-8px sampling clip. | All 64 expected pixels disappear. | `lowerOnLayer` allocates a perspective layer from `elementBox` plus a fixed geometric margin, which omits marker paint extending beyond the path's geometry. |
+| `projective-centre-behind-eye.svg` | Clipping away the part behind the eye retains the front part covering the sampled square. | All 64 expected pixels disappear. | `lowerOnLayer` returns false when the box's middle projects behind the eye, even if a portion of the box is in front. |
+| `filter-negative-math-blur.svg` | Calculated negative blur deviations clamp to zero, leaving invert to turn both green squares magenta. | Both 256-pixel squares stay green. | `parseFilterList` and `parseDropShadow` reject negative resolved blur lengths without applying the math-function range clamp. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -600,6 +602,27 @@ the path and marker while adding an unpainted subpath that enlarges only
 the measured geometry is another exact control. This tests a layer's
 paint extent, independently of filter capture and of marker visibility
 or direction.
+
+The horizon follows [processing perspective-transformed boxes](../../dev/spec/css-transforms-2.md#processing-of-perspective-transformed-boxes):
+only the part with negative homogeneous w is removed when some corners
+remain in front. Here w=1-x/16, so the source's x=8 edge is in front and
+its x=40 edge is behind. Inverting the projection maps the sampling square
+to source coordinates strictly inside x=8..12, y=8..24. Shortening the
+source to width 4 therefore matches the green expectation exactly.
+Splitting the original rectangle into eight adjacent 4px-wide rectangles,
+each with the same transform, is another exact control retaining the
+complete source geometry. This exercises the midpoint rejection,
+independently of allocating enough room for marker paint.
+
+The calculated blur follows [numeric-function range checking](../../dev/spec/css-values-4.md#functional-numeric),
+[blur's nonnegative range](../../dev/spec/filter-effects-1.md#funcdef-filter-blur)
+and the project's D30 rule. The math result clamps to zero without
+invalidating the declaration. Both first functions then leave the source
+unchanged, including the shadow's transparent color, and invert remains
+active. Replacing the two calculations with 0px matches exactly, as does
+removing the identity blur and transparent shadow while retaining invert.
+This exercises valid math at a restricted length argument, separately from
+invalid literal CSS declarations and malformed SVG deviation attributes.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

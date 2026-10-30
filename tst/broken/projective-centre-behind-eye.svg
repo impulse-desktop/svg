@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="40">
+  <defs>
+    <clipPath id="c">
+      <rect x="20" y="24" width="8" height="8"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <rect x="8" y="8" width="32" height="16" fill="lime"
+          style="transform:matrix3d(1,0,0,-.0625,0,1,0,0,0,0,1,0,0,0,0,1)"/>
+  </g>
+</svg>
