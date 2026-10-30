@@ -148,6 +148,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `object-fit-aspect-ratio-range.svg` | Containment preserves a 16px square in both finite image boxes, centered in the wider second box. | The first square disappears; the second fills 32px instead of 16px, 512 wrong pixels. | `lowerImage` divides finite natural dimensions in float; the ratio becomes infinity or zero before containment. |
 | `css-radial-degenerate-percent-stops.svg` | Percentage stops of a zero-width ellipse resolve to 0px, leaving the final transparent color everywhere off its center line. | All 256 pixels of the square remain nearly opaque green. | `cssGradientPaint` uses its finite substitute radius for percentage stop positions instead of the mandated zero basis. |
 | `mask-border-small-width-shrink.svg` | Four 4px mask borders fit a 16px area and leave its 8px opaque center. | The borders shrink to about .012px, adding 192 pixels around the center. | `borderMaskLayer` floors both opposite-width sums at 1e-30 before deciding whether the widths overlap. |
+| `stroke-square-cap-cull-reach.svg` | The offscreen bevel join stays invisible; the real square dash cap covers the lower 8px square. | 76 pixels appear at the split join and all 64 cap pixels disappear. | `strokePath` and `strokeOutside` use half-width times the miter limit as culling reach, omitting square caps' diagonal reach. |
+| `basic-shape-translated-origin.svg` | A zero inset preserves the rectangle's complete fill box after its large origin cancels. | All 256 expected pixels disappear. | `shapeClip` narrows the box's absolute inset endpoints to float before the CTM translation cancels, collapsing their 16px separation. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1123,6 +1125,36 @@ while dividing the scale by 2^32 is another exact control. All original
 lengths are positive normal binary32 values. The denominator floor alone
 causes a false reduction, independently of no-clip mask bounds, image
 ratios, pattern resolution and raster minification.
+
+The strokes follow [square caps](../../dev/spec/svg2/painting.md#LineCaps)
+and [bevel joins and miter limits](../../dev/spec/svg2/painting.md#LineJoin).
+The upper centerline stays at x<=-50; its 40px half-width and bevel join
+stay left of x=-10, and both end caps are farther away. It paints nothing
+on the canvas. Splitting at that offscreen join instead creates square
+caps that reach into the canvas. The lower line's first dash exceeds its
+whole length, so its real end cap remains. Its half-width is 160; relative
+to the endpoint (-200,52), all four corners of the sampled 8px square
+have along components between 140 and 153 and perpendicular components
+between -159 and -147, strictly inside that square cap. The expected
+square is therefore opaque. The half-width-only rejection instead drops
+the dash. Changing only miterlimit to 4 matches both cells exactly; this
+property does not affect bevel joins. Closing the upper path and removing
+the lower line's noninterrupting dash pattern is another exact control.
+Resvg matches the original exactly. Both culling branches share the same
+underestimated cap reach, so they are grouped in one case, separately
+from closed-dash joins and segment-length overflow.
+
+The inset follows [inset geometry](../../dev/spec/css-shapes-1.md#funcdef-basic-shape-inset)
+and [SVG clip reference boxes](../../dev/spec/css-masking-1.md#the-clip-path).
+The fill box is a 16px square at the exact binary32 origin 2^30. Both
+origin translations are exact powers of two; their double CTM leaves
+the square at (8,8). A zero inset is the complete unchanged fill box.
+Removing only the clip matches exactly. Replacing inset(0) by
+path('M0 0H16V16H0Z') also matches exactly, retaining both the clipping
+operation and original geometry. Moving the source origin and its
+compensating translation to zero is another exact control. This isolates
+absolute-coordinate narrowing in the basic inset clip from gradient
+coordinates, transform-origin units and geometric bounding-box extrema.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
