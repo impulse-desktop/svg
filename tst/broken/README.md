@@ -97,6 +97,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-attribute-css-escapes.svg` | Escaped luminanceToAlpha and SourceAlpha keywords both produce opaque black from white. | Both 256-pixel squares keep the wrong colors: white and red. | `filterColorMatrix` and `filterInput` compare raw attribute strings instead of decoded CSS identifier tokens. |
 | `clip-use-positioned-clip.svg` | The use's x translation moves both its geometry and its own nested clip, retaining x=16..32. | All 256 expected pixels disappear. | `clipChild` adds x/y only to `space`; `resolveClip` reads the untranslated `own` matrix for the use's clip. |
 | `root-display-none.svg` | Display none on the root excludes its complete subtree from rendering. | The 256-pixel square remains visible. | `lowerElementIn` explicitly exempts the document root from its `style.displayNone` early return. |
+| `resource-individual-transforms.svg` | Individual translate moves the clip, pattern stripes and gradient stop by 16px. | 1,280 pixels differ across three cells. | Resource transform construction reads only the transform attribute/property, omitting the individual transform properties. |
+| `cubic-bbox-absolute-epsilon.svg` | The scaled curve has a nonzero object box, so its constant gradient fills the sampled interior rectangle. | All 128 expected pixels disappear. | `cubicExtremes` treats derivative coefficients below an absolute `1e-12` threshold as zero, missing the curve's interior height. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -524,6 +526,26 @@ replacing it on the root with opacity zero, makes both controls empty as
 expected. Resvg also leaves the original empty. This exercises an explicit
 root exemption, separately from hidden decorations and from skipping an
 embedded document root's rendering effects.
+
+The resource translations follow [transformable elements](../../dev/spec/css-transforms-1.md#transformable-element)
+and [individual transform composition](../../dev/spec/css-transforms-2.md#ctm).
+Paint servers and clipPath are transformable, and the one-value translate
+is a two-dimensional translation of 16px along x. Replacing the three
+translate declarations with transform:translate(16px) matches all cells
+exactly. Resvg also omits the individual resource translations. These share
+the resource transform entry path, independently of percentage transform
+bases and of the position of a use inside a clip.
+
+The curve follows [curved-shape bounding boxes](../../dev/spec/svg2/coords.md#BoundingBoxes):
+the box must include interior extrema, not just segment endpoints.
+For s=1e-20 the curve is x=s*(3*t*t-2*t*t*t), y=3*s*t*(1-t), so its
+height is 3*s/4. Scaling makes it 32px wide and 24px high; the clipped
+16px-by-8px rectangle lies wholly between the curve and its closing line.
+Replacing only the gradient with solid lime matches exactly, as does
+normalizing s to 1 and the scale to 32 while retaining the gradient.
+Resvg renders the original exactly. This exercises the scale-dependent
+extremum threshold, independently of gradient coordinate precision and
+gradient normalization underflow.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

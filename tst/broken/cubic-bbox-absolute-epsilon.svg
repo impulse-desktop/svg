@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="40">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="lime"/>
+      <stop offset="1" stop-color="lime"/>
+    </linearGradient>
+    <clipPath id="c">
+      <rect x="16" y="12" width="16" height="8"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <path d="M0 0C0 1e-20 1e-20 1e-20 1e-20 0Z"
+          transform="translate(8 8) scale(3.2e21)" fill="url(#g)"/>
+  </g>
+</svg>
