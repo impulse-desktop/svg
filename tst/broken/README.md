@@ -21,6 +21,8 @@ The checker uses `tst/oracle.py` and its usual two-level premultiplied RGBA
 tolerance. It exits 1 while differences remain, writes cell reports to
 `.build/broken/`, and reports a case as PASS once it matches. These known
 failures are separate from the passing `unit`/`tests` build groups.
+The implicit-circle radial case can crash before producing pixels; the
+checker then reports the failed renderer process instead of a cell report.
 
 ## Cases
 
@@ -73,6 +75,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `linear-gradient-normalization-underflow.svg` | Exact power-of-two scaling preserves a 32px red/blue ramp. | All 512 pixels become blue, differing by up to 251 levels. | `linearT` computes `dx*dx + dy*dy` in float, underflowing the denominator to zero while its double numerator stays positive. |
 | `css-gradient-hint-at-end.svg` | The gradient is opaque from its final white stop onward, retaining the right half of the square. | All 256 expected green pixels disappear. | `cssStops` gives every sampled stop weight zero when the hint coincides with the second stop, overwriting that stop's own color. |
 | `css-invalid-pseudo-element.svg` | An unknown pseudo-element or a repeated `::before` invalidates its complete selector list. | Both 256-pixel squares turn red. | `parseCompound` accepts any pseudo-element name and permits invalid combinations, keeping the other selector of the invalid rule. |
+| `css-radial-implicit-circle-at.svg` | A single 32px radius implies a circle; the whole 32px square lies before its first lime stop. | The renderer can crash in `resolveLength` instead of producing an image. | `gradientShape` returns at `at` before inferring the circle, leaving `cssGradientPaint` to read an uninitialized second radius. |
+| `embedded-svg-root-viewport.svg` | The embedded root's `50vw` font is 16px, so its `1em` rectangle is 16px wide. | The rectangle is 32px wide, adding 256 pixels. | `drawImage` computes the nested root's style with the outer viewport before entering the nested document's length context. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -301,6 +305,24 @@ pseudo-element selector with the invalid pseudo-class `rect:no-such-pseudo`
 makes both controls match exactly. Resvg shares the original list error.
 This tests rejection of invalid selectors, without rendering generated
 content, and is separate from acceptance of invalid declaration values.
+
+The implicit circle follows [radial shape inference](../../dev/spec/css-images-3.md#valdef-radial-gradient-radial-shape).
+Every point of the square is less than `sqrt(16*16 + 16*16)` from the
+center, below the 32px radius of its first lime stop. Adding only `circle`
+renders the solid green expectation exactly. The unchanged optimized
+renderer crashed with SIGSEGV on three consecutive renders of the original;
+gdb located the read in `resolveLength`, called through `shapeLength` and
+`cssGradientPaint`. Because the second radius is uninitialized, the precise
+symptom depends on stack contents. This is unrelated to negative stop
+offsets or transition hints.
+
+The embedded root follows [viewport-relative lengths](../../dev/spec/css-values-4.md#viewport-relative-lengths)
+and the existing D31 logical-document viewport choice. Its own explicit
+width is 32px, and the image is displayed at that same size, so 50vw is
+16px. Replacing only that font size by 16 renders exactly as the expectation;
+rendering the original embedded document on its own also gives the correct
+16px width. This tests the root's computed length context, separately from
+skipping root rendering effects and from natural-size calculation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
