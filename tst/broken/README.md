@@ -174,6 +174,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `raster-edge-rebase-precision.svg` | The sample lies strictly above the triangle's y=x/2 diagonal and remains fully opaque. | The diagonal shifts to y=x/2+12, leaving 52 pixels missing or partly transparent. | `bandEdge` subtracts the cropped raster's origin from large float endpoints in float, losing that translation before the edge equations are evaluated. |
 | `xml-reserved-prefix-binding.svg` | Rebinding the reserved xml prefix invalidates the embedded SVG, leaving the image empty. | The invalid resource draws all 256 green pixels. | `parseElement` records namespace declarations without validating reserved bindings; `resolvePrefix` silently supplies xml's built-in URI. |
 | `xinclude-language-fixup.svg` | The included document's untagged language survives inclusion, so :lang("") paints its square green. | The square inherits French from the include parent and stays red, 256 wrong pixels. | `include` attaches the parsed root to the outer parent without the xml:lang fixup that preserves its source language. |
+| `radial-start-circle-containment.svg` | The concentric start radius is strictly smaller than the end radius; pad paints the complete sample lime. | All 256 expected pixels disappear. | `gradientPaint` multiplies fr by 1+1e-6 before the containment check, falsely classifying two distinct growing circles as full overlap. |
+| `filter-non-scaling-host-frame.svg` | The zero offset preserves a 16px non-scaling stroke, including the sample at its top. | All 16 sampled stroke pixels disappear. | `lowerFilteredLayer` changes the content's coordinate frame without mapping l.host into the layer, so its non-scaling stroke is scaled and sheared when the layer returns to the output. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1491,6 +1493,33 @@ parent is another exact green control. All resources are well formed and
 UTF-8; no text is rendered. This tests language preservation while merging
 XML documents independently of text-resource decoding and language lookup
 through nested use instances.
+
+The circles follow [radial gradient geometry](../../dev/spec/svg2/pservers.md#RadialGradientNotes)
+and [pad spreading](../../dev/spec/svg2/pservers.md#RadialGradientElementSpreadMethodAttribute).
+The radii are exactly 8 and 8-2^-18, both representable in float, with a
+strictly positive growth. The start circle does not cover the end circle.
+Every point of the sample is at least sqrt(128) from their common center,
+past the end circle, where pad uses the final opaque lime stop. Setting
+fr to 4 matches exactly. Setting it to 8-2^-16 instead is another exact
+control, retaining the almost coincident circles. Resvg matches the
+original's green expectation exactly. The focal point is at the center,
+not near the end circle, so D50's on-circle focal-point rule is unrelated.
+This tests the preliminary overlap classification independently of the
+radial quadratic's range and negative-radius validation.
+
+The stroke follows [non-scaling stroke construction](../../dev/spec/svg2/painting.md#non-scaling-stroke),
+[zero offset](../../dev/spec/filter-effects-1.md#feOffsetElement)
+and D3's output-pixel host. The shear maps the horizontal centerline to
+(24,16)..(40,16), so its 16px butt-capped stroke is the rectangle
+[24,40]x[8,24]. The sample [28,36]x[8,10] is fully inside. The filter
+region does not cut it and the offset changes nothing. Removing the
+filter matches exactly. Replacing the shear by translate(16 0) also
+matches exactly, retaining the filter and identical device centerline.
+The debug driver shows l.host still identity when the filter layer's
+map is (x-y+64,sqrt(2)*y); its inverse later compresses the stroke to
+16/sqrt(2) pixels high. This tests transfer of the vector-effect host
+through an intermediate filter layer independently of use positioning,
+determinant range, marker orientation and filter operating coordinates.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

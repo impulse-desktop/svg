@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <clipPath id="sample"><rect x="28" y="8" width="8" height="2"/></clipPath>
+    <filter id="f" filterUnits="userSpaceOnUse"
+            x="0" y="0" width="64" height="64">
+      <feOffset dx="0" dy="0"/>
+    </filter>
+  </defs>
+  <g clip-path="url(#sample)">
+    <g transform="matrix(1 0 1 1 0 0)" filter="url(#f)">
+      <path d="M8 16H24" fill="none" stroke="lime" stroke-width="16"
+            vector-effect="non-scaling-stroke"/>
+    </g>
+  </g>
+</svg>
