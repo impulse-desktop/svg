@@ -176,6 +176,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xinclude-language-fixup.svg` | The included document's untagged language survives inclusion, so :lang("") paints its square green. | The square inherits French from the include parent and stays red, 256 wrong pixels. | `include` attaches the parsed root to the outer parent without the xml:lang fixup that preserves its source language. |
 | `radial-start-circle-containment.svg` | The concentric start radius is strictly smaller than the end radius; pad paints the complete sample lime. | All 256 expected pixels disappear. | `gradientPaint` multiplies fr by 1+1e-6 before the containment check, falsely classifying two distinct growing circles as full overlap. |
 | `filter-non-scaling-host-frame.svg` | The zero offset preserves a 16px non-scaling stroke, including the sample at its top. | All 16 sampled stroke pixels disappear. | `lowerFilteredLayer` changes the content's coordinate frame without mapping l.host into the layer, so its non-scaling stroke is scaled and sheared when the layer returns to the output. |
+| `blur-duplicate-deviation-cap.svg` | The duplicated black/white step uses the authored deviation 256, giving gray 115..121 in the sample under the permitted three-box approximation. | All 256 pixels are too dark, by up to 12 levels. | `blurBuffer` caps a non-none edge mode's deviations at twice the larger input dimension, changing sigma from 256 to 128. |
+| `blur-box-sum-overflow.svg` | Blurring a constant opaque green row with duplicated edges preserves that same constant. | All 65,540 pixels lose opacity, falling from 255 to 33. | `boxPass` accumulates 75,199 full stored channels into u32; their sum 4,928,166,465 wraps modulo 2^32 before normalization. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1520,6 +1522,38 @@ map is (x-y+64,sqrt(2)*y); its inverse later compresses the stroke to
 16/sqrt(2) pixels high. This tests transfer of the vector-effect host
 through an intermediate filter layer independently of use positioning,
 determinant range, marker orientation and filter operating coordinates.
+
+The step follows [Gaussian blur and its permitted three-box approximation](../../dev/spec/filter-effects-1.md#feGaussianBlurElement),
+[duplicate edge extension](../../dev/spec/filter-effects-1.md#attr-valuedef-fegaussianblur-edgemode-duplicate)
+and D1. The source is an infinite black/white step after duplication; its
+vertical deviation is zero. At sigma=256, the prescribed box width is
+floor(256*3*sqrt(2*pi)/4+0.5)=481. For output column x, let s=x-32+720.
+The white fraction is sum(j=0..3, (-1)^j*choose(3,j)*choose(s-481*j+3,3))
+divided by 481^3, omitting terms with s-481*j<0. This directly counts
+three uniform integer offsets and gives the expectation's 1px strips,
+without copying a renderer kernel. The exact Gaussian differs by under
+one byte level here as well. Extending the filter and both rectangles
+vertically from y=-48 through 80 matches exactly. Extending them from
+-64 through 96 is another exact control. Both leave the sampled rows and
+the infinite step unchanged; zero vertical blur makes that extra height
+irrelevant. Both allow the requested deviation. A literal
+128 deviation reproduces the original's wrong pixels exactly. This tests
+an incorrect deviation cap separately from D1's choice of convolution,
+filter-coordinate scales, kernel reach and actual work limits.
+
+The constant follows [Gaussian convolution](../../dev/spec/filter-effects-1.md#feGaussianBlurElement)
+and [duplicate extension](../../dev/spec/filter-effects-1.md#attr-valuedef-fegaussianblur-edgemode-duplicate).
+Every horizontal input sample, including every extended sample, is opaque
+lime. Any normalized Gaussian or box convolution preserves it exactly.
+The permitted approximation uses width 75,199: summing full 16-bit
+channels gives 4,928,166,465, beyond u32. Reducing sigma to 20,000 matches
+exactly, retaining the complete 65,540px row. Using in="FillPaint" matches
+exactly at the original sigma: the referenced rectangle's infinite
+constant paint equals its duplicated source, and uses the constant-paint
+shortcut. The source and output contain only 65,540 pixels, far below the
+2^26 raster-area limit; no node, outline or paint budget is exhausted.
+The deviation cap is inactive. This tests accumulation range independently
+of deviation clamping, fixed-coefficient filters and Gaussian accuracy.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
