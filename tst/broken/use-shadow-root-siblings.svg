@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <style>
+    #indexed { fill:red }
+    #indexed:only-child { fill:lime }
+    #relative { fill:lime }
+    #relative:has(+ metadata) { fill:red }
+  </style>
+  <defs>
+    <g><metadata/><rect id="indexed" width="16" height="16"/><metadata/></g>
+    <g><rect id="relative" width="16" height="16"/><metadata/></g>
+  </defs>
+  <use href="#indexed" x="8" y="8"/>
+  <use href="#relative" x="40" y="8"/>
+</svg>

@@ -61,6 +61,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `lighting-bbox-surface-height.svg` | The point light and flat surface have the same z coordinate, so their diffuse dot product is zero. | All 256 pixels receive green light instead of black. | `filterLighting` converts the light's z from box units but leaves `surfaceScale` in unscaled user units. |
 | `fragment-atom-without-target.svg` | An unrelated attribute must not block a local href's percent-decoded ID lookup. | All 256 expected green pixels disappear. | `fragmentAtom` treats an interned string as an existing target and returns before checking the decoded ID. |
 | `stroke-finite-coordinate-sum.svg` | A finite line and stroke scale to a 10px by 8px rectangle. | All 80 expected pixels disappear. | `strokePath` tests the finiteness of the float sum `x+y`, which overflows even though each coordinate is finite. |
+| `use-shadow-root-siblings.svg` | An instance root is its shadow tree's only child and has no following element sibling. | Both 256-pixel squares turn red. | Child indexing in `matchCondition` and sibling traversal in `matchHas` read original siblings past the instance boundary. |
+| `use-transform-font-context.svg` | The rect's own `1em` transform uses its inherited 32px instance font. | The square moves to x=24 instead of 40, 512 wrong pixels. | `transformAnchor` takes its font from `documentStyle`, which follows original parents and caches the source's 16px font. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -199,6 +201,21 @@ Normalizing the coordinates renders it exactly. Negating the source y and
 its transform's y scale also renders it exactly while keeping the large
 source coordinates and stroke width; only the erroneous overflowing sum
 is avoided.
+
+The shadow cases follow [SVG 2 style scoping and inheritance](../../dev/spec/svg2/struct.md#UseStyleInheritance)
+and [child indexing](../../dev/spec/selectors-4.md#child-index).
+Neither original metadata sibling is cloned into the use's shadow tree;
+the instance root matches `:only-child` and cannot match `:has(+ metadata)`.
+Removing those metadata siblings, leaving the instanced subtrees unchanged,
+renders both green expectations exactly.
+
+The transform follows that same inheritance rule and [font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths).
+The declaration is on the rectangle itself, with no `transform:inherit`
+or `transform-origin` involved. Its 32px inherited font makes its translation
+32px, after the use's x=8. Replacing `1em` with `32px`, or explicitly setting
+32px on the source group, renders exactly as the expectation. This exercises
+the instance font chosen for the transform basis, separately from copying
+specified inherited transform tokens or resolving origin lengths.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
