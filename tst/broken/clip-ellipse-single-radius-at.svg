@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="32">
+  <defs>
+    <clipPath id="sample" clipPathUnits="userSpaceOnUse">
+      <rect x="8" y="8" width="8" height="16"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#sample)">
+    <rect x="8" y="8" width="32" height="16" fill="lime"
+          clip-path="ellipse(25% at center) fill-box"/>
+  </g>
+</svg>

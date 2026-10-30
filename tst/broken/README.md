@@ -184,6 +184,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-infinite-paint-input.svg` | A blur preserves the constant opaque green FillPaint supplied by two identical gradient stops. | All 256 pixels lose alpha, by up to 64 levels. | `filterInputBuffer` samples an infinite paint only over run.canvas; blurBuffer reads transparent pixels beyond that plane, while only PaintType::Solid gets the constant-input shortcut. |
 | `dash-negative-phase-cancellation.svg` | The negative offset leaves a 16px initial gap before the 16px green dash. | The gap is filled, adding 128 opaque pixels. | `dashPolyline` adds the finite period 2^30 to phase -2^-12 in float, losing the offset before locating the first dash. |
 | `filter-scaled-quarter-turn.svg` | The single convolution tap shifts the square 8px upward along the transformed user x axis. | It shifts 8px left instead, leaving 384 wrong pixels. | `lowerElement` compares absolute CTM off-diagonal coefficients against 1e-6; a quarter turn at scale 2^-20 misses the filter-frame path. |
+| `clip-ellipse-single-radius-at.svg` | The invalid single-percentage ellipse is ignored, leaving the green sample uncut. | All 128 expected pixels disappear. | `parseShapeFunction` returns at the position's `at` keyword before rejecting an ellipse with only one radius; its second radius remains closest-side. |
+| `transform-singular-z-scale.svg` | The non-invertible scaleZ(0) suppresses the transformed square. | 256 extra opaque green pixels. | `lowerElementIn` reduces the affine 3D matrix to its z=0 plane without checking full-matrix singularity; `affineOf4` yields the identity. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1651,6 +1653,37 @@ filter belongs to the rect, not the root; no intermediate input is
 pruned, and the squared CTM norms remain in float range. This tests an
 absolute threshold in frame classification independently of the root
 exception, norm overflow, kernel reach and integer sample conversion.
+
+The ellipse follows [basic ellipse sizing](../../dev/spec/css-shapes-1.md#funcdef-basic-shape-ellipse)
+and [radial-size syntax](../../dev/spec/css-images-3.md#typedef-radial-size).
+A lone percentage is not a radial size: explicit elliptical radii require
+two values, and the single-length alternative does not admit percentages.
+The [primary invalid-syntax test](https://github.com/web-platform-tests/wpt/blob/master/css/css-shapes/shape-functions/ellipse-function-invalid.html)
+also rejects a lone percentage followed by at. The invalid presentation
+attribute must therefore leave initial clip-path: none. The outer URL
+clip samples only the rectangle's leftmost 8x16 band, well outside the
+incorrectly accepted ellipse. Removing at center matches exactly because
+the parser then reaches its arity check. Removing the rectangle's clip
+attribute is another exact control. Replacing the invalid size by
+32px 32px at center also matches exactly, using a valid ellipse containing
+the sample. Resvg matches the original expectation. This tests acceptance
+inside the shape grammar independently of invalid declarations discarded
+too late by the cascade and repeated geometry boxes.
+
+The scale follows [non-invertible transform suppression](../../dev/spec/css-transforms-1.md#transform-function-lists)
+and [the 3D scaleZ function](../../dev/spec/css-transforms-2.md#funcdef-scalez).
+Its complete matrix is diag(1,1,0,1), with determinant zero. Transform
+functions producing a non-invertible CTM suppress the object and its
+contents, even though restricting this matrix to z=0 gives an ordinary
+2D identity. The scale3d(1,1,0) and literal matrix3d spellings reproduce
+the failure. Replacing scaleZ(0) by scaleX(0) or scaleY(0) gives exact
+empty controls. Replacing it by scaleZ(1), scaleZ(-1) or scaleZ(0.5)
+gives exact green controls: these matrices are invertible and preserve
+the square's projected geometry. Resvg ignores even the scaleX control
+in this CSS syntax and is not the oracle. The example uses exact zeros
+and ones, no perspective, no preserve-3d context and no range limits.
+This tests full-matrix singularity independently of resource transform
+contexts, vector-effect determinants and homogeneous-weight range.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
