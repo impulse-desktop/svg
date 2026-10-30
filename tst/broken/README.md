@@ -131,6 +131,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `presentation-escaped-variable-function.svg` | The escaped var function substitutes lime into the fill presentation attribute. | The 256-pixel square is black. | `valueSubstitutes`' raw-string precheck misses an escaped function name, so the variable substitution path is skipped. |
 | `custom-property-substituted-defaulting.svg` | Substituted initial resets the custom property and activates lime's fallback; substituted unset inherits lime. | Both squares are black, 512 wrong pixels. | `substituteCustom` stores substituted CSS-wide keywords as token values without applying the custom property's defaulting rules. |
 | `convolve-default-divisor-tolerance.svg` | The nonzero kernel sum 2^-20 divides the same constant-color convolution sum, preserving 50%-opaque lime. | All 256 expected pixels disappear. | `filterConvolve` replaces a nonzero default divisor by 1 whenever the sum is within 2^-20 of the kernel's magnitude. |
+| `mesh-implied-closing-endpoint.svg` | The final cubic closes the mesh patch at its initial corner, retaining the lime square. | All 256 expected pixels disappear. | `meshEdge` always requires six cubic arguments; `meshPaint` does not supply the already known closing endpoint. |
+| `mesh-default-stop-color.svg` | Unstyled mesh stops use opaque black, retaining the square. | All 256 expected pixels disappear. | `meshPaint` zeroes its corner colors and reads a stop's computed color only when stop-color or stop-opacity has an explicit declaration. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -908,6 +910,19 @@ exactly: the sum is now 1, and even replacing that sum by 1 is harmless.
 Both controls exercise the same normalized weights (1048576, -1048576, 1),
 isolating default-divisor selection from fixed-coefficient cancellation
 and quantization. The sample stays eight pixels inside the flood's region.
+
+The closing edge follows the retained [2016 mesh structure](https://www.w3.org/TR/2016/CR-SVG2-20160915/pservers.html#MeshStructure),
+within D57. Its omitted endpoint is the initial corner (8,8); both controls
+lie on the straight left edge. Appending the explicit endpoint matches
+exactly, as does using the equivalent L8 8 edge. This tests closing-edge
+syntax independently of mesh origin units.
+
+The unstyled stops follow [stop-color and stop-opacity initial values](../../dev/spec/svg2/pservers.md#StopColorProperty).
+Their initial black and opacity 1 make every corner opaque black.
+Explicit stop-color black matches exactly. Setting only stop-opacity 1
+also matches exactly, retaining the omitted color and the same geometry.
+This tests initialization of fresh corner colors independently of parsing
+the closing edge; every endpoint here is explicit.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
