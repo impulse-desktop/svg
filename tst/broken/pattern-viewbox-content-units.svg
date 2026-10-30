@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="32">
+  <defs>
+    <pattern id="p" patternUnits="userSpaceOnUse" patternContentUnits="objectBoundingBox"
+             width="8" height="8" viewBox="0 0 8 8">
+      <rect width="8" height="8" fill="lime"/>
+    </pattern>
+  </defs>
+  <path d="M8 16H40" fill="none" stroke="url(#p) red" stroke-width="8"/>
+</svg>

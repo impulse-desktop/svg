@@ -91,6 +91,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `conic-gradient-whole-turn-loss.svg` | One million complete turns leave the mask's right half opaque. | 198 pixels differ, by up to 255 levels. | `gradientT` subtracts the large float turn count before reducing modulo one, rounding sample directions to sixteenths of a turn. |
 | `visibility-hidden-decorations.svg` | Hidden graphics paint neither their markers nor their outlines. | A 256-pixel marker and a 320-pixel outline remain visible. | `lowerShape` gates fill and stroke on `style.visible` but calls `lowerMarkers` without it; the outline block in `lowerElementIn` also omits that check. |
 | `outline-filter-transformed-layer.svg` | The outline is part of the filter input, so invert changes green to magenta. | All 320 outline pixels remain green. | `lowerFilteredLayer` records only `lowerContent` in the filtered layer; `lowerElementIn` emits the outline afterward, outside that filter. |
+| `pattern-viewbox-content-units.svg` | A pattern with a viewBox ignores patternContentUnits and paints the horizontal stroke green. | All 256 stroke pixels use the red fallback instead. | `patternPaint` rejects a zero-height object box for box content units before considering the viewBox that supersedes them. |
+| `drop-shadow-invalid-deviation.svg` | An invalid nonpresentation deviation takes its initial value; a fully transparent shadow leaves the green source intact. | All 256 source pixels disappear. | `filterDropShadow` returns an empty output on a number-pair parse failure instead of retaining its initial deviation. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -460,6 +462,25 @@ boundaries. Removing only that rotation matches the magenta expectation
 exactly; keeping it and moving the filter to a wrapping group also matches
 exactly. This exercises which paint is captured by a transformed filter's
 layer, separately from visibility and CSS filter color-space selection.
+
+The pattern follows [content coordinate units](../../dev/spec/svg2/pservers.md#PatternElementPatternContentUnitsAttribute):
+patternContentUnits has no effect when a viewBox is specified. Its tile
+uses user coordinates, so the line's zero-height object box is immaterial.
+Removing only patternContentUnits, or setting it to userSpaceOnUse,
+matches the literal green rectangle exactly. Resvg also rejects the
+original pattern, leaving a transparent stroke. This exercises a stale
+object-box precondition, independently of template selection and pattern
+transform coordinates.
+
+The drop shadow follows [attribute parse failures](../../dev/spec/svg2/types.md#syntax)
+and its [initial deviation](../../dev/spec/filter-effects-1.md#element-attrdef-fedropshadow-stddeviation),
+including the project's D16 rule for nonpresentation attributes. Three
+numbers do not match number-optional-number, so the deviation defaults
+to 2. With zero flood opacity the shadow contributes nothing regardless
+of blur, and the original green square remains. Removing stdDeviation,
+or replacing it with 2, makes both controls match exactly; resvg also
+renders the original exactly. This exercises primitive parse-failure
+handling, separately from CSS declaration cascade validation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
