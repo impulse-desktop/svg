@@ -102,6 +102,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-gradient-missing-components.svg` | Missing alpha or all missing color components borrow white's corresponding values, leaving both masks fully opaque. | All 512 square pixels lose opacity, by up to 247 levels. | `parseFunctionColor` replaces none by zero and returns a Color without missing-component metadata before `cssStops` interpolates. |
 | `css-preferred-invalid-sheet.svg` | The text/plain style creates no CSS sheet; the first actual CSS sheet selects the good set and paints green. | The 256-pixel square stays red. | `cascade` chooses a preferred title from any nonempty style element before checking its type. |
 | `image-view-natural-ratio.svg` | A selected 32-by-16 view supplies aspect ratio 2, so natural width 16 gives height 8. | Both 8px-high green images move down by 4px, 256 wrong pixels in total. | `loadImageFrom` calls `givenSize` before selecting the view, retaining the 16px height inferred from the root's square viewBox. |
+| `three-d-distant-plane-tolerance.svg` | The green plane at z=1 covers the later red plane at z=0, regardless of the distant blue corner. | All 256 square pixels turn red. | `emitContext` scales the sorting tolerance by the largest coordinate of any plane, merging distinct neighboring depths when another plane is distant. |
+| `projective-marker-layer-bounds.svg` | The marker's projected rectangle covers the complete 8px-by-8px sampling clip. | All 64 expected pixels disappear. | `lowerOnLayer` allocates a perspective layer from `elementBox` plus a fixed geometric margin, which omits marker paint extending beyond the path's geometry. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -578,6 +580,26 @@ with the selected 32-by-16 viewBox also matches exactly. Resvg does not
 match the original natural-size case. This exercises dimension inference
 before view selection, independently of discarding a view's aspect-ratio
 parameter while drawing an image of a fixed size.
+
+The depth order follows [3D rendering contexts](../../dev/spec/css-transforms-2.md#3d-rendering-contexts):
+planes are sorted by their transformed z positions, with painting order
+used only for coplanar elements. No perspective changes the rectangles'
+x/y positions here. Moving the unrelated blue corner from z=1e8 to z=2
+matches the literal drawing exactly; keeping it distant and raising the
+green square from z=1 to z=1024 also matches exactly. The original depths
+are distinct and exactly representable. This exercises a scene-wide
+tolerance affecting other planes, independently of curve-extremum bounds.
+
+The projective layer follows [marker rendering](../../dev/spec/svg2/painting.md#RenderingMarkers)
+and [transformed painting](../../dev/spec/css-transforms-1.md#transform-rendering).
+Before projection the marker occupies x=8..56, y=16..40. The matrix maps
+(x,y) to (x,y)/(1+x/100); the complete sampling clip x=24..32, y=16..24
+lies inside the projected rectangle, clear of its edges. Replacing the
+marker path with that literal source rectangle matches exactly. Retaining
+the path and marker while adding an unpainted subpath that enlarges only
+the measured geometry is another exact control. This tests a layer's
+paint extent, independently of filter capture and of marker visibility
+or direction.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

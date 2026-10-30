@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="40">
+  <defs>
+    <marker id="m" markerUnits="userSpaceOnUse" markerWidth="48" markerHeight="24" overflow="visible">
+      <rect width="48" height="24" fill="lime"/>
+    </marker>
+    <clipPath id="c">
+      <rect x="24" y="16" width="8" height="8"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#c)">
+    <path d="M8 16H16" fill="none" marker-start="url(#m)"
+          style="transform:matrix3d(1,0,0,.01,0,1,0,0,0,0,1,0,0,0,0,1)"/>
+  </g>
+</svg>
