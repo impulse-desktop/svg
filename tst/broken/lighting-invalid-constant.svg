@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="diffuse" filterUnits="userSpaceOnUse" x="8" y="8" width="16" height="16"
+            color-interpolation-filters="sRGB">
+      <feDiffuseLighting surfaceScale="0" diffuseConstant="-1" lighting-color="lime">
+        <feDistantLight elevation="90"/>
+      </feDiffuseLighting>
+    </filter>
+    <filter id="specular" filterUnits="userSpaceOnUse" x="40" y="8" width="16" height="16"
+            color-interpolation-filters="sRGB">
+      <feSpecularLighting surfaceScale="0" specularConstant="-1" lighting-color="lime">
+        <feDistantLight elevation="90"/>
+      </feSpecularLighting>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" filter="url(#diffuse)"/>
+  <rect x="40" y="8" width="16" height="16" filter="url(#specular)"/>
+</svg>

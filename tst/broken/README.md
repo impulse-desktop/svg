@@ -122,6 +122,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-internal-default-attribute.svg` | The internal attribute-list declaration supplies the rectangle's lime fill. | The 256-pixel square is black. | `parseDoctype` handles entity declarations but skips ATTLIST declarations, so `parseElement` never receives the default attribute. |
 | `number-mantissa-intermediate-overflow.svg` | The long number equals 16, giving a 16px-wide square. | The square expands to the canvas edge, adding 384 pixels. | `readDoubleSyntax` overflows while accumulating the mantissa before applying its compensating exponent; `readDouble` then saturates that infinity to 3e38. |
 | `specular-exponent-unrestricted.svg` | The unrestricted exponents give alpha 1 and cos(5deg)^256 on the two flat surfaces. | All 512 square pixels have wrong opacity, by up to 75 levels. | `filterLighting` retains the old 1..128 clamp for feSpecularLighting's exponent, although Filter Effects defines it as an unrestricted number. |
+| `lighting-invalid-constant.svg` | Invalid negative lighting constants take their initial value 1, giving two fully lit green squares. | The diffuse square turns black and the specular square disappears, 512 wrong pixels. | `filterLighting` clamps a negative constant to zero instead of rejecting the literal value and using its initial value. |
+| `css-gradient-premultiplied-alpha.svg` | Transparent red contributes no red; each blue strip has alpha (x+.5)/16 over white. | The first column's 16 pixels gain red and lose blue, by four levels. | `cssStops` samples premultiplied interpolation into straight colors, then `gradientColor` interpolates the first interval in straight RGBA again. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -803,6 +805,28 @@ and the second by 128 with constant cos(5deg)^128, matches exactly.
 Using exponent 1 with constant cos(5deg)^255 for the second is another
 exact control. This tests the retained exponent restriction, independently
 of spot-light focus, vector normalization and lighting subregion sampling.
+
+The constants follow [diffuseConstant's nonnegative range](../../dev/spec/filter-effects-1.md#element-attrdef-fediffuselighting-diffuseconstant),
+[specularConstant's nonnegative range](../../dev/spec/filter-effects-1.md#element-attrdef-fespecularlighting-specularconstant)
+and [invalid nonpresentation attribute handling](../../dev/spec/svg2/types.md#syntax),
+as recorded in D16. These literal negative values are invalid and take
+their initial value 1. With zero surface scale and a vertical distant
+light, both N.L and N.H are 1, making both outputs opaque lime.
+Replacing each negative constant by 1 matches exactly; removing both
+attributes also matches exactly. This exercises range-error recovery for
+lighting constants, independently of valid specular exponents and of a
+drop shadow's malformed deviation syntax.
+
+The alpha ramp follows [premultiplied gradient interpolation](../../dev/spec/css-images-3.md#premultiplied).
+For transparent red and opaque blue, the premultiplied interpolation is
+(0,0,t,t). At each pixel center t=(x+.5)/16, its color over white is
+(1-t,1-t,1), which the literal one-pixel blue strips independently draw.
+The first column should be (247,247,255); it is (251,247,251).
+Recoloring only the fully transparent stop to blue matches exactly.
+An SVG linear gradient with blue at both stops and alpha 0 to 1, drawn
+over a literal white rectangle, is another exact control. This exercises
+the extra straight-color interpolation between sampled alpha stops,
+independently of missing components, gamut mapping and minification.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
