@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" xml:lang="fr">
+  <!-- Expected: a green 16x16 square at (8,8). Per D40 an instance's
+       inherited language comes from its host. The outer use is English,
+       so its nested use instance and the rectangle are English too.
+       nodeLanguage/instanceStyles follow the original inner use's parent
+       in defs instead of its instantiated host chain, and find French. -->
+  <style>
+    rect { fill: red }
+    rect:lang(en) { fill: lime }
+  </style>
+  <defs>
+    <rect id="shape" width="16" height="16"/>
+    <use id="wrapper" href="#shape"/>
+  </defs>
+  <use href="#wrapper" x="8" y="8" xml:lang="en"/>
+</svg>

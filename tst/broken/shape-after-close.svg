@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: the 32x32 green square at (8,8).
+       close maps to SVG Z. A following line starts a new subpath at
+       (8,8); the two clockwise squares have a union of [8,40]x[8,40].
+       shapeCommandsPath emits no Move after Close, so flatten discards
+       the second contour. Only the first 8x8 square remains. -->
+  <rect width="64" height="64" fill="lime"
+        style="clip-path:shape(from 8px 8px,
+          hline to 16px, vline to 16px, hline to 8px, close,
+          hline to 40px, vline to 40px, hline to 8px, close)"/>
+</svg>

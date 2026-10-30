@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: the unchanged green square at (16,16).
+       targetX is an integer: calc(.75) rounds to 1 (CSS Values 4, D30).
+       filterConvolve instead reads a number and casts .75 to int 0,
+       so this identity kernel moves the drawing one pixel to the left. -->
+  <defs>
+    <filter id="filter" filterUnits="userSpaceOnUse"
+            x="0" y="0" width="64" height="64" color-interpolation-filters="sRGB">
+      <feConvolveMatrix order="3 1" kernelMatrix="0 1 0" divisor="1"
+                        targetX="calc(.75)" edgeMode="none"/>
+    </filter>
+  </defs>
+  <rect x="16" y="16" width="16" height="16" fill="lime" filter="url(#filter)"/>
+</svg>

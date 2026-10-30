@@ -36,6 +36,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `gradient-translated-coordinates.svg` | Translation cancellation preserves a 32px red/blue ramp. | 1,536 pixels differ, by up to 251 levels. | `gradientLength` narrows distinct endpoints to the same float before the world translation cancels. |
 | `root-zero-rem.svg` | A root font size of zero makes `1rem` zero in both geometry and transforms. | 896 pixels differ. | `resolveLength` replaces a zero root font size with 16. |
 | `css-foreign-siblings.svg` | Nonpainting foreign elements still count as element siblings. | Both 16px squares turn red, 512 wrong pixels. | `parseElement` removes foreign nodes before `nth-child` and adjacent-sibling matching. |
+| `convolve-target-rounding.svg` | An identity convolution with `targetX="calc(.75)"` rounds its integer target to 1. | The square moves left by one pixel, 32 wrong pixels. | `filterConvolve` casts `numberOf` to int instead of using integer rounding. |
+| `shape-after-close.svg` | A line after `close` starts another contour at the closed subpath's initial point. | Only the small first contour remains, 960 missing pixels. | `shapeCommandsPath` omits the implicit move that `parsePathData` already inserts after a close. |
+| `nested-use-language.svg` | The English outer host's language reaches the rectangle through both use instances. | The 256-pixel square is red instead of green. | `nodeLanguage` follows the original inner use's ancestors instead of the current instance's host chain. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -47,12 +50,21 @@ after the exact power-of-two transform, every sampled point satisfies
 follow [child indexing](../../dev/spec/selectors-4.md#child-index)
 and [next-sibling matching](../../dev/spec/selectors-4.md#adjacent-sibling-combinators).
 
-Each hypothesis also has a rendering control: replace the basic clip by
+Each hypothesis also has an equivalent rendering control: replace the basic clip by
 its literal half rectangle; inline the clipped use target; remove the
 conditionally excluded children; replace `1em` by 32; normalize the cone
 to radius 1 and focus 2; move the linear gradient to the origin; replace
 `1rem` by zero; or retain each foreign sibling as a nonpainting SVG
-`metadata` element. All eight controls match their expectations exactly.
+`metadata` element. For the remaining three cases, replace the target
+calculation by 1, insert `move to 8px 8px` after the first close, or directly
+instance the rectangle instead of the intermediate use. All eleven
+controls match their expectations exactly.
+
+Integer targets follow [integer math-function rounding](../../dev/spec/css-values-4.md#css-round-to-the-nearest-integer)
+in [targetX](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-targetx),
+shape commands follow the [shape close command](../../dev/spec/css-shapes-1.md#valdef-shape-close)
+and its [SVG subpath semantics](../../dev/spec/svg2/paths.md#PathDataClosePathCommand),
+and nested languages follow the existing D40 choice of host language for instances.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
