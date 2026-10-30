@@ -150,6 +150,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `mask-border-small-width-shrink.svg` | Four 4px mask borders fit a 16px area and leave its 8px opaque center. | The borders shrink to about .012px, adding 192 pixels around the center. | `borderMaskLayer` floors both opposite-width sums at 1e-30 before deciding whether the widths overlap. |
 | `stroke-square-cap-cull-reach.svg` | The offscreen bevel join stays invisible; the real square dash cap covers the lower 8px square. | 76 pixels appear at the split join and all 64 cap pixels disappear. | `strokePath` and `strokeOutside` use half-width times the miter limit as culling reach, omitting square caps' diagonal reach. |
 | `basic-shape-translated-origin.svg` | A zero inset preserves the rectangle's complete fill box after its large origin cancels. | All 256 expected pixels disappear. | `shapeClip` narrows the box's absolute inset endpoints to float before the CTM translation cancels, collapsing their 16px separation. |
+| `stroke-near-reversal-miter.svg` | The acute miter is below its limit and completely covers the sampled 8x16 rectangle. | All 128 expected pixels disappear. | `addJoin` rounds the incoming/outgoing dot product to -1 before computing the half-angle cosine, treating a finite miter as an exact reversal. |
+| `path-length-calibration-overflow.svg` | Each dash and gap is half the authored pathLength, so each spans 24px of the real 48px line. | The gap paints solid green, 192 extra pixels. | `authorDashes` overflows total/author in float before multiplying by the small dash lengths. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1155,6 +1157,33 @@ operation and original geometry. Moving the source origin and its
 compensating translation to zero is another exact control. This isolates
 absolute-coordinate narrowing in the basic inset clip from gradient
 coordinates, transform-origin units and geometric bounding-box extrema.
+
+The miter follows [miter length and its limit](../../dev/spec/svg2/painting.md#StrokeMiterlimitProperty).
+The angle between the legs is atan(.0001); its miter ratio is about
+20000, below the declared 1000000 limit. The outer miter lies between
+y=0 and the sloping edge y approximately 128-6.4*x. The complete sample
+x=8..16, y=8..24 is strictly inside, with at least 1.6px of vertical
+clearance from the sloping edge. Changing miter to miter-clip matches exactly; below the
+limit these join types have the same geometry. Increasing the leg's
+rise from .0001 to .01 while increasing the x scale from .001 to .1
+also matches exactly, retaining that interior sample. A literal triangle
+with vertices (0,0), (20,0), (0,128) is a further exact control over the
+sample. Only straight edges are involved. This tests half-angle
+cancellation independently of offscreen cap culling, closed-outline
+segment lengths and dash joins.
+
+The dashes follow [pathLength calibration](../../dev/spec/svg2/paths.md#PathLengthAttribute)
+and [stroke dashing](../../dev/spec/svg2/painting.md#StrokeDashing).
+The author length is 2^-124 and each dash/gap is 2^-125: all positive
+normal binary32 values. Calibrating against the real length 48 gives
+48*(2^-125/2^-124)=24px for each, with one dash followed by one gap.
+Replacing the author length by 2 and each dash/gap by 1 matches exactly.
+Replacing them by 2^-100 and 2^-101 also matches exactly, retaining tiny
+input values. The failed intermediate factor is 48*2^124, although both
+used lengths are ordinary finite numbers. The correct path has only two
+dash entries and one painted dash; no work or outline budget is reached.
+This tests calibration arithmetic independently of dash-period overflow,
+negative math ranges and closed-path segment-length overflow.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
