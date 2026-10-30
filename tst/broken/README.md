@@ -55,6 +55,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `fe-image-variable-instance.svg` | An element instanced by `feImage` inherits custom properties from that host. | The 256-pixel square is red instead of green. | `lowerImageContent` enters the referenced element without the `instanceStyles` setup used by `lowerUse`. |
 | `image-view-percent-escape.svg` | A `%3B` separator selects the same SVG view as a literal semicolon. | The whole red/green image is fitted instead, 192 wrong pixels. | `loadImageFrom` passes an undecoded fragment to `viewPart` and `fragmentView`. |
 | `marker-zero-direction.svg` | An initial zero-length segment takes the direction of the following vertical segment. | The marker points right instead of down, 256 wrong pixels. | `markerVertices` records a zero tangent as a known direction; `vertexAngle` uses it without searching neighboring segments. |
+| `arithmetic-reader-classification.svg` | Unused branches and input-free primitives do not change arithmetic data flowing to the final result. | Both cells lose their red channel, 512 wrong pixels. | `keepsInvalidColor` counts unreachable consumers and the unused `in1` field of `feFlood`. |
+| `filter-coefficient-cancellation.svg` | The color matrix's red result is `2^25 - 2^24`, clamped to 1. | All 2,304 pixels become black instead of red. | `fixedCoefficient` clamps each coefficient to `2^24` before the weighted sum, incorrectly cancelling both terms. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -146,6 +148,20 @@ and the [direction of a zero-length initial segment](../../dev/spec/svg2/paths.m
 Removing the redundant `V16` preserves this direction and renders the
 expected rectangle exactly. Resvg shares the original zero-tangent error;
 the expected direction is derived from the path rules above.
+
+The arithmetic case follows the [primary filter tree](../../dev/spec/filter-effects-1.md#FilterPrimitiveTree)
+and the [component-wise arithmetic equation](../../dev/spec/filter-effects-1.md#elementdef-fecomposite),
+with the renderer's existing choice to retain color above alpha between
+arithmetic consumers. Red minus green gives `(1,0,0,0)` after component
+clamping. Halving that and adding opaque green or black gives the two
+expected colors. Removing the unused matrix and moving the independent
+black flood before the first composite produce exactly those expectations.
+
+The coefficient case follows the [color matrix equation](../../dev/spec/filter-effects-1.md#elementdef-fecolormatrix).
+Both input channels equal 1, so their positive difference saturates to red;
+no large canvas or amount of work is involved. Halving both coefficients
+still saturates to the same red and renders exactly as the expectation.
+Resvg also renders the original as that red.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

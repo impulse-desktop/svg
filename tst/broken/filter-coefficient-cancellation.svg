@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <filter id="f" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">
+      <feColorMatrix values="33554432 -16777216 0 0 0
+                            0 0 0 0 0
+                            0 0 0 0 0
+                            0 0 0 1 0"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="48" height="48" fill="yellow" filter="url(#f)"/>
+</svg>

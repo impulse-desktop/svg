@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="dead-branch" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">
+      <feFlood flood-color="lime" result="green"/>
+      <feComposite in="SourceGraphic" in2="green" operator="arithmetic" k2="1" k3="-1" result="excess"/>
+      <feColorMatrix in="excess" result="unused"/>
+      <feComposite in="excess" in2="green" operator="arithmetic" k2=".5" k3="1"/>
+    </filter>
+    <filter id="non-reader" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">
+      <feFlood flood-color="lime" result="green"/>
+      <feComposite in="SourceGraphic" in2="green" operator="arithmetic" k2="1" k3="-1" result="excess"/>
+      <feFlood flood-color="black" result="black"/>
+      <feComposite in="excess" in2="black" operator="arithmetic" k2=".5" k3="1"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="red" filter="url(#dead-branch)"/>
+  <rect x="40" y="8" width="16" height="16" fill="red" filter="url(#non-reader)"/>
+</svg>
