@@ -119,6 +119,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-nonlinear-gradient-minification.svg` | Periods far below a pixel average to a uniform 50%-opaque mask. | 1,987 pixels have wrong opacity, differing by up to 128 levels. | `prepareGradient` averages minified repeating linear gradients only; radial and conic gradients continue sampling individual phases. |
 | `css-gradient-stop-sentinel.svg` | The white stop's negative position clamps to the preceding 0px stop, making the entire mask opaque. | The left 256 pixels lose opacity, by up to 247 levels. | `cssStops` treats every offset below its finite unplaced-stop threshold as absent, even when the stop has an explicit position. |
 | `css-carriage-return-preprocessing.svg` | CSS converts CR to LF, then removes the escaped newline so the selector matches lime. | The 256-pixel square stays red. | `tokenizeInto` does not normalize the CSS input stream; `consumeString` and `unescaped` recognize LF continuations only. |
+| `xml-internal-default-attribute.svg` | The internal attribute-list declaration supplies the rectangle's lime fill. | The 256-pixel square is black. | `parseDoctype` handles entity declarations but skips ATTLIST declarations, so `parseElement` never receives the default attribute. |
+| `number-mantissa-intermediate-overflow.svg` | The long number equals 16, giving a 16px-wide square. | The square expands to the canvas edge, adding 384 pixels. | `readDoubleSyntax` overflows while accumulating the mantissa before applying its compensating exponent; `readDouble` then saturates that infinity to 3e38. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -766,6 +768,26 @@ the character reference with `&#10;` matches exactly, as does joining the
 string directly by removing its backslash and CR reference. Resvg shares
 the original failure. This tests normalization before CSS escapes are read,
 independently of decoding escapes in filter attribute keywords.
+
+The default follows [XML attribute defaults](https://www.w3.org/TR/xml/#sec-attr-defaults)
+and [non-validating processor requirements](https://www.w3.org/TR/xml/#proc-types).
+The declaration is in the document's internal subset, without external or
+parameter entities. Even a non-validating processor must supply its default
+fill when the rectangle omits that attribute. An explicit lime fill on
+the rectangle matches exactly, as does an explicit lime fill on its SVG
+parent. Python's independent XML parser also reports the missing fill as
+lime. Resvg shares the original failure. This exercises internal attribute
+declarations, independently of entity expansion and CSS declaration defaults.
+
+The number follows [numeric token consumption](../../dev/spec/css-syntax-3.md#consume-number)
+and [SVG numbers](../../dev/spec/svg2/types.md#syntax).
+Its mantissa is 16 times 10^308 and its exponent is -308, so the complete
+value is exactly 16, comfortably within the supported numeric range.
+The few hundred spelling characters do not create additional geometry.
+Replacing the width by 16 matches exactly, as does replacing it by 1.6e1.
+Python's decimal parser independently confirms the complete value is 16.
+This tests intermediate overflow while decoding one numeric spelling,
+independently of arithmetic on already-parsed coordinates and coefficients.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
