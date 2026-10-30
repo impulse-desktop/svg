@@ -53,6 +53,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-radial-negative-stop.svg` | A negative radial stop participates in interpolation at positive radii. | All 2,048 pixels are black instead of mid-gray. | `cssGradientPaint` clamps negative stop offsets to zero without interpolating a replacement color there. |
 | `dash-close-unmatched-join.svg` | A closing dash has no join to an initial gap. | A 4px by 4px miter appears outside the only dash, 16 extra pixels. | `dashPolyline` adds the closing join whenever the last dash is on, without checking the first dash. |
 | `fe-image-variable-instance.svg` | An element instanced by `feImage` inherits custom properties from that host. | The 256-pixel square is red instead of green. | `lowerImageContent` enters the referenced element without the `instanceStyles` setup used by `lowerUse`. |
+| `image-view-percent-escape.svg` | A `%3B` separator selects the same SVG view as a literal semicolon. | The whole red/green image is fitted instead, 192 wrong pixels. | `loadImageFrom` passes an undecoded fragment to `viewPart` and `fragmentView`. |
+| `marker-zero-direction.svg` | An initial zero-length segment takes the direction of the following vertical segment. | The marker points right instead of down, 256 wrong pixels. | `markerVertices` records a zero tangent as a known direction; `vertexAngle` uses it without searching neighboring segments. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -135,6 +137,15 @@ The filter image follows [feImage's use behavior](../../dev/spec/filter-effects-
 and the existing D41 inheritance choice. An ordinary `use` with the same
 custom property renders the expected green exactly; replacing the target's
 variable expression with literal lime also matches exactly.
+
+The view follows [escaped SVG fragment identifiers](../../dev/spec/svg2/linking.md#SVGFragmentIdentifiersDefinitions),
+which explicitly allow a semicolon written as `%3B`. Replacing only that
+escape with a semicolon selects the intended view and matches exactly.
+The marker follows [automatic orientation](../../dev/spec/svg2/painting.md#RenderingMarkers)
+and the [direction of a zero-length initial segment](../../dev/spec/svg2/paths.md#TermPathSegmentStartDirection).
+Removing the redundant `V16` preserves this direction and renders the
+expected rectangle exactly. Resvg shares the original zero-tangent error;
+the expected direction is derived from the path rules above.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
