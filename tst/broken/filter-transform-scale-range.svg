@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <filter id="small" filterUnits="userSpaceOnUse" x="0" y="0"
+            width="81129638414606681695789005144064" height="40564819207303340847894502572032" color-interpolation-filters="sRGB">
+      <feFlood x="10141204801825835211973625643008" y="10141204801825835211973625643008" width="20282409603651670423947251286016" height="20282409603651670423947251286016" flood-color="lime"/>
+      <feConvolveMatrix x="0" y="0" width="81129638414606681695789005144064" height="40564819207303340847894502572032"
+                        order="2 1" kernelMatrix="1 0" targetX="0" targetY="0"
+                        kernelUnitLength="1267650600228229401496703205376 1267650600228229401496703205376" edgeMode="none"/>
+    </filter>
+  </defs>
+  <g transform="translate(0 0) scale(7.888609052210118e-31)">
+    <rect width="81129638414606681695789005144064" height="40564819207303340847894502572032" fill="none" filter="url(#small)"/>
+  </g>
+  <defs>
+    <filter id="large" filterUnits="userSpaceOnUse" x="0" y="0"
+            width="5.048709793414476e-29" height="2.524354896707238e-29" color-interpolation-filters="sRGB">
+      <feFlood x="6.310887241768095e-30" y="6.310887241768095e-30" width="1.262177448353619e-29" height="1.262177448353619e-29" flood-color="lime"/>
+      <feConvolveMatrix x="0" y="0" width="5.048709793414476e-29" height="2.524354896707238e-29"
+                        order="2 1" kernelMatrix="1 0" targetX="0" targetY="0"
+                        kernelUnitLength="7.888609052210118e-31 7.888609052210118e-31" edgeMode="none"/>
+    </filter>
+  </defs>
+  <g transform="translate(0 32) scale(1.2676506002282294e+30)">
+    <rect width="5.048709793414476e-29" height="2.524354896707238e-29" fill="none" filter="url(#large)"/>
+  </g>
+</svg>

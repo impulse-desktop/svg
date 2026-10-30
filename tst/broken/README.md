@@ -154,6 +154,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `path-length-calibration-overflow.svg` | Each dash and gap is half the authored pathLength, so each spans 24px of the real 48px line. | The gap paints solid green, 192 extra pixels. | `authorDashes` overflows total/author in float before multiplying by the small dash lengths. |
 | `nonviewport-overflow-clip-3d.svg` | Overflow clip on a non-viewport group preserves depth order, keeping the green front plane visible. | The farther red plane paints over all 256 pixels. | `preservesThreeD` treats every non-visible overflow as grouping, extending D38's viewport exception to an ordinary g. |
 | `gamma-zero-amplitude-overflow.svg` | With positive input and zero amplitude, the gamma function returns its offset 1. | All 256 green pixels become opaque black. | `transfer` overflows powf before multiplying by zero, turning a finite constant result into NaN. |
+| `filter-pixel-box-epsilon.svg` | The narrow flood contributes positive alpha to one pixel column; the following gamma makes it opaque. | All 16 expected pixels disappear. | `pixelBox` subtracts 1e-4 before rounding the upper side, making a positive region next to an integer edge empty. |
+| `filter-transform-scale-range.svg` | Both reciprocal coordinate scales preserve a one-pixel convolution tap and a 16px square shifted left by one. | The upper square does not move; the lower square disappears, 288 wrong pixels. | `applyFilter` computes CTM column lengths with sqrtf, losing finite squared norms to zero or infinity before kernel-unit conversion. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1209,6 +1211,33 @@ The original powf overflows and 0*infinity becomes NaN, which toUnit16
 turns into zero. Resvg shares this failure. This tests the gamma power
 intermediate independently of fixed filter-coefficient limits, CSS math
 evaluation and specular-light exponent restrictions.
+
+The narrow region follows [filter primitive subregions](../../dev/spec/filter-effects-1.md#FilterPrimitiveSubRegion)
+and [gamma transfer](../../dev/spec/filter-effects-1.md#attr-valuedef-type-gamma),
+using the existing D2 fractional-area behavior. The flood covers .00009
+of each pixel in column 16 for 16 rows. That is about six stored alpha
+units, and even one positive 16-bit unit makes 2*alpha^.01 exceed one.
+The following transfer therefore saturates this column to opaque green
+while transparent pixels remain transparent. Moving only the flood's
+x to 16.25 matches exactly, retaining the same pixel coverage. Increasing
+its width to .0002 is another exact control, retaining the saturated
+column. Resvg matches the original. This tests premature empty storage
+bounds rather than a subregion meeting its own hard edge, coefficient
+precision or gamma-power overflow.
+
+The scale follows [convolution sampling](../../dev/spec/filter-effects-1.md#elementdef-feconvolvematrix)
+and [kernel unit lengths](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-kernelunitlength).
+The top coordinates and kernel unit are multiplied by 2^100 under CTM
+2^-100; the lower ones are multiplied by 2^-100 under CTM 2^100.
+Both kernel steps are exactly one device pixel. Reversing the 1,0 kernel
+with target 0 reads the pixel to the right, moving the flood left by one.
+The output subregion is explicitly wide enough for that shift. Normalizing
+both coordinate systems to unit scale matches exactly. Using powers
+2^60 and 2^-60 instead, with reciprocal CTMs, also matches exactly.
+The intended steps and filter regions are small, all supplied values are
+finite, and no work budget is reached. This tests the filter run's unit
+conversion independently of pattern raster resolution, percentage
+diagonals, vector effects and convolution reach pruning.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <filter id="f" filterUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"
+            color-interpolation-filters="sRGB">
+      <feFlood x="16" y="8" width=".00009" height="16" flood-color="lime"/>
+      <feComponentTransfer x="0" y="0" width="64" height="64">
+        <feFuncA type="gamma" amplitude="2" exponent=".01"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="64" height="64" fill="none" filter="url(#f)"/>
+</svg>
