@@ -99,6 +99,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `root-display-none.svg` | Display none on the root excludes its complete subtree from rendering. | The 256-pixel square remains visible. | `lowerElementIn` explicitly exempts the document root from its `style.displayNone` early return. |
 | `resource-individual-transforms.svg` | Individual translate moves the clip, pattern stripes and gradient stop by 16px. | 1,280 pixels differ across three cells. | Resource transform construction reads only the transform attribute/property, omitting the individual transform properties. |
 | `cubic-bbox-absolute-epsilon.svg` | The scaled curve has a nonzero object box, so its constant gradient fills the sampled interior rectangle. | All 128 expected pixels disappear. | `cubicExtremes` treats derivative coefficients below an absolute `1e-12` threshold as zero, missing the curve's interior height. |
+| `css-gradient-missing-components.svg` | Missing alpha or all missing color components borrow white's corresponding values, leaving both masks fully opaque. | All 512 square pixels lose opacity, by up to 247 levels. | `parseFunctionColor` replaces none by zero and returns a Color without missing-component metadata before `cssStops` interpolates. |
+| `css-preferred-invalid-sheet.svg` | The text/plain style creates no CSS sheet; the first actual CSS sheet selects the good set and paints green. | The 256-pixel square stays red. | `cascade` chooses a preferred title from any nonempty style element before checking its type. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -546,6 +548,24 @@ normalizing s to 1 and the scale to 32 while retaining the gradient.
 Resvg renders the original exactly. This exercises the scale-dependent
 extremum threshold, independently of gradient coordinate precision and
 gradient normalization underflow.
+
+The missing components follow [interpolation with missing values](../../dev/spec/css-color-4.md#interpolation-missing).
+Alpha is analogous to itself in every interpolation space; all missing
+color components are also carried forward together as an analogous set.
+Each first stop therefore borrows its missing values from opaque white,
+making both gradients constant opaque white. Replacing none alpha by 1
+and the all-missing color by white matches both rectangles exactly.
+This tests preservation of missing-component metadata during interpolation,
+independently of gamut mapping and of an inherited currentColor keyword.
+
+The preferred set follows [SVG style processing](../../dev/spec/svg2/styling.md#StyleElementTitleAttribute),
+the HTML [style-block algorithm](https://html.spec.whatwg.org/multipage/semantics.html#update-a-style-block)
+and [adding a CSS sheet](https://drafts.csswg.org/cssom/#add-a-css-style-sheet).
+An unsupported type returns before creating a sheet and cannot select the
+preferred CSS set. Removing only the text/plain element's title, or giving
+the valid sheet that same title, makes both controls green exactly.
+Resvg also renders the original green. This exercises selection of which
+sheets participate, separately from parsing their rules and declarations.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
