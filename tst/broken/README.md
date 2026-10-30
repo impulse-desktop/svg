@@ -101,6 +101,7 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `cubic-bbox-absolute-epsilon.svg` | The scaled curve has a nonzero object box, so its constant gradient fills the sampled interior rectangle. | All 128 expected pixels disappear. | `cubicExtremes` treats derivative coefficients below an absolute `1e-12` threshold as zero, missing the curve's interior height. |
 | `css-gradient-missing-components.svg` | Missing alpha or all missing color components borrow white's corresponding values, leaving both masks fully opaque. | All 512 square pixels lose opacity, by up to 247 levels. | `parseFunctionColor` replaces none by zero and returns a Color without missing-component metadata before `cssStops` interpolates. |
 | `css-preferred-invalid-sheet.svg` | The text/plain style creates no CSS sheet; the first actual CSS sheet selects the good set and paints green. | The 256-pixel square stays red. | `cascade` chooses a preferred title from any nonempty style element before checking its type. |
+| `image-view-natural-ratio.svg` | A selected 32-by-16 view supplies aspect ratio 2, so natural width 16 gives height 8. | Both 8px-high green images move down by 4px, 256 wrong pixels in total. | `loadImageFrom` calls `givenSize` before selecting the view, retaining the 16px height inferred from the root's square viewBox. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -566,6 +567,17 @@ preferred CSS set. Removing only the text/plain element's title, or giving
 the valid sheet that same title, makes both controls green exactly.
 Resvg also renders the original green. This exercises selection of which
 sheets participate, separately from parsing their rules and declarations.
+
+The natural sizes follow [the intrinsic aspect-ratio algorithm](../../dev/spec/svg2/coords.md#SizingSVGInCSS)
+and [fragment view overrides](../../dev/spec/svg2/linking.md#SVGFragmentIdentifiersDefinitions).
+With only one absolute root dimension, an active SVG view supplies the
+ratio before the root viewBox does. Both fragment forms therefore give a
+16px-by-8px image at the requested x/y. Adding the implied height=8 to
+both source roots matches exactly; replacing their square root viewBox
+with the selected 32-by-16 viewBox also matches exactly. Resvg does not
+match the original natural-size case. This exercises dimension inference
+before view selection, independently of discarding a view's aspect-ratio
+parameter while drawing an image of a fixed size.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
