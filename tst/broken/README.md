@@ -138,6 +138,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `path-comma-before-command.svg` | The comma before the next command is an error; the complete prefix is one unfilled horizontal line. | 256 extra opaque pixels from the following square. | `parsePathData` consumes a comma after the last numeric argument without checking that another argument follows. |
 | `xml-forbidden-character-reference.svg` | The embedded XML 1.0 resource is not well formed because it references U+0001, so the image is empty. | 256 extra opaque pixels from the invalid image. | `characterReference` rejects zero and surrogates but accepts other code points outside XML 1.0's Char production. |
 | `image-invalid-size-auto.svg` | The invalid width presentation attribute is ignored; initial auto uses the image's 16px natural width. | All 256 expected pixels disappear. | `isAuto` tests the raw attribute's presence and literal keyword; `imageRect` then treats its invalid length as an explicit zero size. |
+| `projective-homogeneous-weight-range.svg` | Multiplying every homogeneous matrix coefficient by the same positive constant preserves the opaque projected interior. | All 64 sample pixels lose alpha, from 255 to 2. | `lowerOnLayer` narrows the finite double homogeneous weight 5e38 to float infinity, making its sampling scale 1/16 and its layer 1x1. |
+| `stroke-segment-length-range.svg` | The two opposite segments and bevel joins cover the same 32x8 band as the open segment. | All 256 expected pixels disappear. | `strokePolyline` measures a finite 4e38 segment in float; infinite lengths then pass its inner-cut checks and corrupt the closed outline. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -981,6 +983,33 @@ is already rejected correctly. Resvg also renders the original as expected.
 There is no earlier author declaration to lose. This tests recognizing
 auto sizing after an invalid image geometry attribute, independently of
 CSS declaration validation and relative math in an embedded root's natural size.
+
+The matrix follows [homogeneous projection](../../dev/spec/css-transforms-2.md#processing-of-perspective-transformed-boxes)
+and [matrix3d](../../dev/spec/css-transforms-2.md#funcdef-matrix3d).
+Its positive common coefficient cancels when dividing by w. The projected
+coordinates are X=256*x/(x+1)-192 and Y=32*y/(x+1). The clipped square
+X,Y=4..12 maps strictly inside the source rectangle x=3..5, y=0..2,
+so all 64 pixels are opaque. Replacing every 1e38 by 1 matches exactly;
+replacing every 1e38 by 1e37 also matches exactly. At the source center,
+w=5e38 overflows float although the matrix and projected coordinates
+remain finite in doubles. The correct layer is about 62x62, below the
+16384-pixel allowance, so no allocation budget is reached. This exercises
+the scale calculation independently of layer paint bounds, center rejection,
+plane ordering and vector-effect determinant normalization.
+
+The stroke follows [stroke shape](../../dev/spec/svg2/painting.md#StrokeShape)
+and [bevel joins](../../dev/spec/svg2/painting.md#LineJoin).
+After the complete affine map its centerline runs from (16,16) to (48,16)
+and back, with width 8. The two 180-degree bevel joins add no extension,
+so its union is the literal rectangle. Splitting both segments at zero
+matches exactly, retaining the large endpoints, width, transform and
+closed path. Removing the return segment and close also matches exactly.
+Normalizing the geometry to -16..16, width 8 and translation (32,16) is
+another exact control. Every source point and its x+y are finite; even
+the unsplit open segment passes the existing finite-coordinate check.
+This isolates segment-length arithmetic and closed-outline cuts from
+that check and from dash joins. The repeated endpoint supplies the closing
+direction explicitly, avoiding a separate normalization of the implicit edge.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
