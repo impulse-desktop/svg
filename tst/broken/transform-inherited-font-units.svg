@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: both green squares start at x=16. A transform's computed
+       lengths are absolute: the parent's 1em = 8px, and inherit copies
+       those 8px, not the tokens 1em. inheritedGeometry copies the tokens,
+       which the 32px child font resolves again, yielding x=8+32=40. -->
+  <g font-size="8" style="transform:translateX(1em)">
+    <rect y="8" width="16" height="16" font-size="32" fill="lime"
+          style="transform:inherit"/>
+  </g>
+  <g font-size="8" style="translate:1em 0">
+    <rect y="40" width="16" height="16" font-size="32" fill="lime"
+          style="translate:inherit"/>
+  </g>
+</svg>

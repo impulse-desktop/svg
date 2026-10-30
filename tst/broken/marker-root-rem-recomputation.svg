@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" font-size="2rem">
+  <!-- Expected: a 32x32 marker at (8,8). On the root's own font-size,
+       rem uses the initial 16px font: the computed root size is 32px.
+       documentStyle recomputes the root in a child viewport already
+       carrying 32px as its root size, incorrectly making the resource's
+       inherited font 64px. A root font-size of 32px fixes this drawing. -->
+  <defs>
+    <marker id="marker" markerUnits="userSpaceOnUse" markerWidth="1em" markerHeight="1em">
+      <rect width="1em" height="1em" fill="lime"/>
+    </marker>
+  </defs>
+  <path d="M8 8H16" fill="none" marker-start="url(#marker)"/>
+</svg>

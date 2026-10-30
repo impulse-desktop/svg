@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: the 4px green outline of [16,32]x[16,32].
+       An explicit currentColor is a valid outline color. computeStyle's
+       outline parser passes it to parseColor, which rejects it and then
+       disables the outline. Omitting the color or spelling lime works. -->
+  <rect x="16" y="16" width="16" height="16" fill="none" color="lime"
+        style="outline:4px solid currentColor"/>
+</svg>

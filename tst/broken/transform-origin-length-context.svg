@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <!-- Expected: green rectangles [8,24]x[16,32] and [8,24]x[40,56].
+       readOrigin resolves lengths with a made-up 16px font and reference
+       box dimensions as the screen viewport, ignoring TransformBasis.
+       The first pivot is 1em=8px. The second is x=24+25vw=24+16=40,
+       because viewport units refer to the logical document (D31), not
+       the fill box's 8px width. Scale 2 maps x to 2*x-pivot. -->
+  <rect x="8" y="8" width="8" height="8" fill="lime" font-size="8"
+        style="transform-origin:1em 0;transform:scale(2)"/>
+  <rect x="24" y="40" width="8" height="8" fill="lime"
+        style="transform-box:fill-box;transform-origin:25vw 0;transform:scale(2)"/>
+</svg>

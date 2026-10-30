@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="24">
+  <!-- Expected: green everywhere anything paints. Literal invalid CSS
+       values must be dropped before cascading, preserving each preceding
+       valid declaration. validDeclaration's default true instead lets
+       nonsense win. These properties share that one validation omission. -->
+  <rect x="4" y="4" width="16" height="16" fill="lime"/>
+  <rect x="4" y="4" width="16" height="16" fill="red"
+        style="opacity:0;opacity:nonsense"/>
+  <rect x="28" y="4" width="16" height="16" fill="lime"/>
+  <rect x="28" y="4" width="16" height="16" fill="red"
+        style="display:none;display:nonsense"/>
+  <rect x="52" y="4" width="16" height="16" fill="lime"/>
+  <rect x="52" y="4" width="16" height="16" fill="red"
+        style="visibility:hidden;visibility:nonsense"/>
+  <path d="M80 12H88" fill="none" stroke="lime" stroke-width="8"
+        style="stroke-linecap:square;stroke-linecap:nonsense"/>
+</svg>

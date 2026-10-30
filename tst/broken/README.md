@@ -39,6 +39,11 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `convolve-target-rounding.svg` | An identity convolution with `targetX="calc(.75)"` rounds its integer target to 1. | The square moves left by one pixel, 32 wrong pixels. | `filterConvolve` casts `numberOf` to int instead of using integer rounding. |
 | `shape-after-close.svg` | A line after `close` starts another contour at the closed subpath's initial point. | Only the small first contour remains, 960 missing pixels. | `shapeCommandsPath` omits the implicit move that `parsePathData` already inserts after a close. |
 | `nested-use-language.svg` | The English outer host's language reaches the rectangle through both use instances. | The 256-pixel square is red instead of green. | `nodeLanguage` follows the original inner use's ancestors instead of the current instance's host chain. |
+| `outline-currentcolor.svg` | Explicit `currentColor` draws the same green outline as the named color. | All 320 outline pixels disappear. | The outline parser sends `currentColor` to `parseColor`, then disables the outline on its rejection. |
+| `css-invalid-declaration-cascade.svg` | Invalid literal declarations leave earlier valid opacity, display, visibility and linecap values in effect. | 832 pixels differ across four cells. | `validDeclaration`'s default true lets these invalid values win before `computeStyle` rejects them. |
+| `marker-root-rem-recomputation.svg` | Root `font-size:2rem` computes once to 32px; the marker inherits that computed size. | 2,112 extra opaque pixels from a 64px marker. | `documentStyle` recomputes the root against its already computed root font size. |
+| `transform-inherited-font-units.svg` | An inherited `1em` translation keeps its parent's computed 8px length. | Both squares move to x=40 instead of 16; 1,024 wrong pixels. | `inheritedGeometry` copies specified transform tokens rather than their absolute computed lengths. |
+| `transform-origin-length-context.svg` | Origin lengths use the element's font and logical document viewport. | 704 pixels differ across font and viewport unit cells. | `readOrigin` substitutes a 16px font and reference-box-sized screen instead of the element's `TransformBasis`. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -57,14 +62,27 @@ to radius 1 and focus 2; move the linear gradient to the origin; replace
 `1rem` by zero; or retain each foreign sibling as a nonpainting SVG
 `metadata` element. For the remaining three cases, replace the target
 calculation by 1, insert `move to 8px 8px` after the first close, or directly
-instance the rectangle instead of the intermediate use. All eleven
-controls match their expectations exactly.
+instance the rectangle instead of the intermediate use. These controls
+match their expectations exactly.
 
 Integer targets follow [integer math-function rounding](../../dev/spec/css-values-4.md#css-round-to-the-nearest-integer)
 in [targetX](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-targetx),
 shape commands follow the [shape close command](../../dev/spec/css-shapes-1.md#valdef-shape-close)
 and its [SVG subpath semantics](../../dev/spec/svg2/paths.md#PathDataClosePathCommand),
 and nested languages follow the existing D40 choice of host language for instances.
+
+The outline case follows [outline colors](../../dev/spec/css-ui-4.md#outline-color).
+Invalid declarations follow [CSS error handling](../../dev/spec/css-syntax-3.md#css-invalid),
+not the separate rules for values invalidated by variable substitution.
+Root font calculations follow [font-affecting properties](../../dev/spec/css-values-4.md#font-affecting-property).
+Inherited transforms follow the absolute computed lengths of
+[transform](../../dev/spec/css-transforms-1.md#propdef-transform) and
+[translate](../../dev/spec/css-transforms-2.md#propdef-translate).
+Origin lengths follow [transform-origin](../../dev/spec/css-transforms-1.md#propdef-transform-origin)
+and the existing D31 viewport choice. Equivalent controls are, respectively,
+an explicit lime outline, removal of the invalid declarations, a literal
+32px root font, explicit 8px inherited translations, and literal 8px/16px
+origin lengths. Each was rendered and matches its expectation exactly.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
