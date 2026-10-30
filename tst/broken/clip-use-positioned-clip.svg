@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="32">
+  <defs>
+    <rect id="r" y="8" width="32" height="16"/>
+    <clipPath id="inner">
+      <rect y="8" width="16" height="16"/>
+    </clipPath>
+    <clipPath id="outer">
+      <use href="#r" x="16" clip-path="url(#inner)"/>
+    </clipPath>
+  </defs>
+  <rect width="48" height="32" fill="lime" clip-path="url(#outer)"/>
+</svg>

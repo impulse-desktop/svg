@@ -95,6 +95,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `drop-shadow-invalid-deviation.svg` | An invalid nonpresentation deviation takes its initial value; a fully transparent shadow leaves the green source intact. | All 256 source pixels disappear. | `filterDropShadow` returns an empty output on a number-pair parse failure instead of retaining its initial deviation. |
 | `symbol-outline-instance-bbox.svg` | The instanced symbol's 16px square has a 4px green outline. | All 320 outline pixels disappear. | `lowerSvg` clears `l.sized` before the outline's `elementBox` call, so `elementExtent` no longer recognizes the symbol as an active instance. |
 | `filter-attribute-css-escapes.svg` | Escaped luminanceToAlpha and SourceAlpha keywords both produce opaque black from white. | Both 256-pixel squares keep the wrong colors: white and red. | `filterColorMatrix` and `filterInput` compare raw attribute strings instead of decoded CSS identifier tokens. |
+| `clip-use-positioned-clip.svg` | The use's x translation moves both its geometry and its own nested clip, retaining x=16..32. | All 256 expected pixels disappear. | `clipChild` adds x/y only to `space`; `resolveClip` reads the untranslated `own` matrix for the use's clip. |
+| `root-display-none.svg` | Display none on the root excludes its complete subtree from rendering. | The 256-pixel square remains visible. | `lowerElementIn` explicitly exempts the document root from its `style.displayNone` early return. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -504,6 +506,24 @@ Replacing only the escapes with literal A makes both cells match exactly.
 Resvg also compares the original type as raw text. These two manifestations
 share bypassing token decoding, independently of URL-fragment decoding
 and numeric attribute error handling.
+
+The positioned clip follows [the use's additional translation](../../dev/spec/svg2/struct.md#UseLayout)
+and [nested clipping paths](../../dev/spec/css-masking-1.md#ClipPathElement).
+The clip belongs to the use, while the referenced rectangle has no clip.
+Replacing x=16 with transform="translate(16)" matches the green rectangle
+exactly. Replacing the use with its translated rectangle and retaining the
+same nested clip is another exact control. Resvg renders the original
+exactly. This exercises the transform supplied to a clip that is already
+recognized, independently of omitting the referenced shape's own clip.
+
+The hidden root follows [rendering-tree exclusion](../../dev/spec/svg2/render.md#VisibilityControl):
+display none removes a normally rendered container and all its descendants.
+This tests suppression of SVG content, independently of the outer CSS box
+excluded by D39. Moving display none to a group around the rectangle, or
+replacing it on the root with opacity zero, makes both controls empty as
+expected. Resvg also leaves the original empty. This exercises an explicit
+root exemption, separately from hidden decorations and from skipping an
+embedded document root's rendering effects.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
