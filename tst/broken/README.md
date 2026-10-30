@@ -129,6 +129,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `clip-repeated-geometry-box.svg` | The extra geometry box makes the clip value invalid, leaving the square unclipped. | All 256 expected pixels disappear. | `parseBasicShape` tracks whether it has read a shape function but accepts unlimited geometry boxes, with the last one replacing the previous box. |
 | `display-inherit-pattern.svg` | Explicitly inherited display none excludes the pattern's rectangle. | All 256 painted pixels are extra. | `computeStyle` sets `displayNone` false for every CSS-wide keyword instead of copying the inherited value. |
 | `presentation-escaped-variable-function.svg` | The escaped var function substitutes lime into the fill presentation attribute. | The 256-pixel square is black. | `valueSubstitutes`' raw-string precheck misses an escaped function name, so the variable substitution path is skipped. |
+| `custom-property-substituted-defaulting.svg` | Substituted initial resets the custom property and activates lime's fallback; substituted unset inherits lime. | Both squares are black, 512 wrong pixels. | `substituteCustom` stores substituted CSS-wide keywords as token values without applying the custom property's defaulting rules. |
+| `convolve-default-divisor-tolerance.svg` | The nonzero kernel sum 2^-20 divides the same constant-color convolution sum, preserving 50%-opaque lime. | All 256 expected pixels disappear. | `filterConvolve` replaces a nonzero default divisor by 1 whenever the sum is within 2^-20 of the kernel's magnitude. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -884,6 +886,28 @@ to a style attribute also matches exactly. The latter control keeps both
 escape decoding and variable substitution, isolating the presentation
 attribute's raw-text precheck from CSS tokenization and from consumers
 that compare resource attribute keywords without decoding them.
+
+The custom properties follow [CSS-wide keywords after property replacement](../../dev/spec/css-values-5.md#resolve-property)
+and [custom property initial values](../../dev/spec/css-variables-1.md#guaranteed-invalid-value).
+The first replacement produces initial, making --paint guaranteed-invalid;
+the fill therefore uses its lime fallback. The second produces unset,
+which inherits the ancestor's --paint:lime. Replacing both inner var
+expressions with their literal keyword matches exactly. Removing both
+custom-property overrides also matches exactly. The inherited branch follows
+[WPT's wide-keyword-fallback-002](https://github.com/web-platform-tests/wpt/blob/master/css/css-variables/wide-keyword-fallback-002.html).
+This tests defaulting the custom property itself after substitution,
+independently of reading escaped function names in presentation attributes.
+
+The convolution follows [the default divisor](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-divisor).
+All three coefficients are exactly representable in binary, and sum to
+2^-20 rather than zero. The flood is constant across every sampled neighbor,
+so dividing its convolution sum by that same 2^-20 retains its color and alpha.
+Writing the correct divisor explicitly matches exactly. Multiplying every
+kernel coefficient by 1048576, retaining the omitted divisor, also matches
+exactly: the sum is now 1, and even replacing that sum by 1 is harmless.
+Both controls exercise the same normalized weights (1048576, -1048576, 1),
+isolating default-divisor selection from fixed-coefficient cancellation
+and quantization. The sample stays eight pixels inside the flood's region.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
