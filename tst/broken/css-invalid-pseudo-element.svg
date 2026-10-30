@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <style>
+    #unknown, rect::no-such-pseudo { fill:red }
+    #repeated, rect::before::before { fill:red }
+  </style>
+  <rect id="unknown" x="8" y="8" width="16" height="16" fill="lime"/>
+  <rect id="repeated" x="40" y="8" width="16" height="16" fill="lime"/>
+</svg>

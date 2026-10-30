@@ -71,6 +71,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-function-inherited-color-space.svg` | CSS brightness operates in sRGB after an identity SVG filter. | All 2,304 pixels have red 188 instead of 128. | `lowerFilters` passes the previous SVG primitive's linear flag into `functionFilter`, which should always use sRGB. |
 | `pattern-bbox-transform-basis.svg` | A .25 translation in object-box tile coordinates shifts the stripes by 8px. | All 512 target pixels differ from the expected stripe phase. | `patternPaint` converts tile coordinates to user units before applying the unconverted transform, shifting by .25px. |
 | `linear-gradient-normalization-underflow.svg` | Exact power-of-two scaling preserves a 32px red/blue ramp. | All 512 pixels become blue, differing by up to 251 levels. | `linearT` computes `dx*dx + dy*dy` in float, underflowing the denominator to zero while its double numerator stays positive. |
+| `css-gradient-hint-at-end.svg` | The gradient is opaque from its final white stop onward, retaining the right half of the square. | All 256 expected green pixels disappear. | `cssStops` gives every sampled stop weight zero when the hint coincides with the second stop, overwriting that stop's own color. |
+| `css-invalid-pseudo-element.svg` | An unknown pseudo-element or a repeated `::before` invalidates its complete selector list. | Both 256-pixel squares turn red. | `parseCompound` accepts any pseudo-element name and permits invalid combinations, keeping the other selector of the invalid rule. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -283,6 +285,22 @@ later, when `linearT` squares their difference. Normalizing the endpoint to
 32 and removing the scale matches the analytic strips exactly. Resvg
 shares the original underflow. This is independent of endpoint narrowing
 before translation cancellation and of the radial cone's discriminant.
+
+The endpoint hint follows [gradient-line colors](../../dev/spec/css-images-3.md#coloring-gradient-line):
+at and after the final white stop, the color is white regardless of the
+interpolation curve before it. Replacing the hinted interval by coincident
+transparent/white stops at 50% matches the literal right-half rectangle
+exactly. This exercises preservation of the final color, separately from
+hint detection and positioning of unplaced stops.
+
+The selector lists follow [invalid-selector handling](../../dev/spec/selectors-4.md#invalid)
+and [pseudo-element combinations](../../dev/spec/selectors-4.md#pseudo-element):
+an unknown pseudo-element and `::before::before` are invalid, so neither
+rule applies to the ordinary rectangle in its list. Replacing each invalid
+pseudo-element selector with the invalid pseudo-class `rect:no-such-pseudo`
+makes both controls match exactly. Resvg shares the original list error.
+This tests rejection of invalid selectors, without rendering generated
+content, and is separate from acceptance of invalid declaration values.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
