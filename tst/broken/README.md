@@ -152,6 +152,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `basic-shape-translated-origin.svg` | A zero inset preserves the rectangle's complete fill box after its large origin cancels. | All 256 expected pixels disappear. | `shapeClip` narrows the box's absolute inset endpoints to float before the CTM translation cancels, collapsing their 16px separation. |
 | `stroke-near-reversal-miter.svg` | The acute miter is below its limit and completely covers the sampled 8x16 rectangle. | All 128 expected pixels disappear. | `addJoin` rounds the incoming/outgoing dot product to -1 before computing the half-angle cosine, treating a finite miter as an exact reversal. |
 | `path-length-calibration-overflow.svg` | Each dash and gap is half the authored pathLength, so each spans 24px of the real 48px line. | The gap paints solid green, 192 extra pixels. | `authorDashes` overflows total/author in float before multiplying by the small dash lengths. |
+| `nonviewport-overflow-clip-3d.svg` | Overflow clip on a non-viewport group preserves depth order, keeping the green front plane visible. | The farther red plane paints over all 256 pixels. | `preservesThreeD` treats every non-visible overflow as grouping, extending D38's viewport exception to an ordinary g. |
+| `gamma-zero-amplitude-overflow.svg` | With positive input and zero amplitude, the gamma function returns its offset 1. | All 256 green pixels become opaque black. | `transfer` overflows powf before multiplying by zero, turning a finite constant result into NaN. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1184,6 +1186,29 @@ used lengths are ordinary finite numbers. The correct path has only two
 dash entries and one painted dash; no work or outline budget is reached.
 This tests calibration arithmetic independently of dash-period overflow,
 negative math ranges and closed-path segment-length overflow.
+
+The group follows [3D depth ordering](../../dev/spec/css-transforms-2.md#3d-rendering-contexts)
+and [grouping property values](../../dev/spec/css-transforms-2.md#grouping-property-values),
+which explicitly exempt overflow clip. The SVG g establishes no viewport
+and adds no overflow clip; the existing D38 exception is specifically for
+an SVG viewport clipping in its own plane. The near green rectangle is
+at z=10, while red is at z=-10. Replacing clip by visible matches exactly;
+removing only the overflow declaration is another exact control. This
+tests the scope of overflow-driven flattening, independently of plane
+ordering tolerances, perspective clipping and viewport clipping itself.
+
+The transfer follows [the gamma equation](../../dev/spec/filter-effects-1.md#attr-valuedef-type-gamma)
+and [the unrestricted exponent attribute](../../dev/spec/filter-effects-1.md#element-attrdef-fecomponenttransfer-exponent).
+Every sampled green input is 128/255, strictly positive. Its -256 power
+is finite in double precision; multiplying that finite value by zero and
+adding one gives exactly one. There is no zero-input power singularity
+in the sampled square. Replacing exponent -256 by 0 matches exactly,
+retaining the gamma function and all its other attributes. Replacing the
+function by linear with slope 0 and intercept 1 is another exact control.
+The original powf overflows and 0*infinity becomes NaN, which toUnit16
+turns into zero. Resvg shares this failure. This tests the gamma power
+intermediate independently of fixed filter-coefficient limits, CSS math
+evaluation and specular-light exponent restrictions.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
