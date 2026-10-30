@@ -6,8 +6,9 @@ the frozen canon are unchanged. Text, animation, script, foreignObject,
 documented design departures and budget exhaustion are not test subjects.
 
 Each top-level SVG has a same-named drawing in `expect/`. The expectations
-use literal rectangles or an empty drawing; the translated gradient uses
-one-pixel strips calculated from its linear interpolation formula. Test
+use literal rectangles or an empty drawing; the translated gradient and
+negative-hint gradient use one-pixel strips calculated from their
+interpolation formulas. Test
 cells use the existing oracle's `id` and `data-box` convention.
 
 Run from the repository root, with a freshly built test driver:
@@ -63,6 +64,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `stroke-finite-coordinate-sum.svg` | A finite line and stroke scale to a 10px by 8px rectangle. | All 80 expected pixels disappear. | `strokePath` tests the finiteness of the float sum `x+y`, which overflows even though each coordinate is finite. |
 | `use-shadow-root-siblings.svg` | An instance root is its shadow tree's only child and has no following element sibling. | Both 256-pixel squares turn red. | Child indexing in `matchCondition` and sibling traversal in `matchHas` read original siblings past the instance boundary. |
 | `use-transform-font-context.svg` | The rect's own `1em` transform uses its inherited 32px instance font. | The square moves to x=24 instead of 40, 512 wrong pixels. | `transformAnchor` takes its font from `documentStyle`, which follows original parents and caches the source's 16px font. |
+| `css-gradient-negative-hint.svg` | A negative transition hint still determines the interpolation curve. | 496 pixels differ, by up to 53 levels. | `cssStops` uses `hint >= 0` to distinguish a supplied hint from its no-hint sentinel. |
+| `css-gradient-hint-stop-fixup.svg` | The unplaced middle color stop is at 50%; the following sampled strip is fully opaque. | 112 pixels have too little opacity, by up to 37 levels. | `cssStops` counts transition hints as positioned color stops when distributing unplaced stops, putting white at 62.5%. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -216,6 +219,21 @@ or `transform-origin` involved. Its 32px inherited font makes its translation
 32px on the source group, renders exactly as the expectation. This exercises
 the instance font chosen for the transform basis, separately from copying
 specified inherited transform tokens or resolving origin lengths.
+
+The gradient hints follow [transition-hint interpolation](../../dev/spec/css-images-3.md#coloring-gradient-line)
+and [stop-position fixup](../../dev/spec/css-images-3.md#color-stop-fixup).
+The negative hint is one quarter of the way from its black stop to its
+white stop, giving exponent `log(.5)/log(.25) = .5`. At column x the color
+is therefore `sqrt(((x+.5)/32+1)/2)`, represented by the literal gray strips.
+A 64px-wide gradient with stops at 0% and 100%, a hint at 25%, and position
+-32px renders that same visible interval and matches exactly.
+
+In the fixup case, the surrounding positioned color stops are at 0% and
+100%, so the unplaced white belongs at 50%. Its 25% hint then makes that
+first interval linear. The clip samples only the fully opaque interval
+after 50%. Explicitly placing the middle white at 50% renders the expected
+solid green exactly. These exercise hint detection and color-stop placement,
+separately from clamping negative offsets in the radial paint builder.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

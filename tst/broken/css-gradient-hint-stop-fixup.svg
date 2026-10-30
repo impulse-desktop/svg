@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <clipPath id="sample"><rect x="32" y="8" width="8" height="16"/></clipPath>
+  </defs>
+  <rect y="8" width="64" height="16" fill="lime" clip-path="url(#sample)"
+        style="mask-image:linear-gradient(to right,transparent,25%,white,white)"/>
+</svg>
