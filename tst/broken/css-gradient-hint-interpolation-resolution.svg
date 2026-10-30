@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="f" color-interpolation-filters="sRGB">
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="100" intercept="-99"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <g filter="url(#f)">
+    <rect x="40" y="8" width="16" height="16" fill="lime"
+          style="mask-image:linear-gradient(to right, white, 99.99%, rgb(255 255 255 / 0));mask-mode:alpha;mask-origin:view-box;mask-size:64px 32px;mask-repeat:no-repeat"/>
+  </g>
+</svg>

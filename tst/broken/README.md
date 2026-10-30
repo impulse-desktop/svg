@@ -133,6 +133,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `convolve-default-divisor-tolerance.svg` | The nonzero kernel sum 2^-20 divides the same constant-color convolution sum, preserving 50%-opaque lime. | All 256 expected pixels disappear. | `filterConvolve` replaces a nonzero default divisor by 1 whenever the sum is within 2^-20 of the kernel's magnitude. |
 | `mesh-implied-closing-endpoint.svg` | The final cubic closes the mesh patch at its initial corner, retaining the lime square. | All 256 expected pixels disappear. | `meshEdge` always requires six cubic arguments; `meshPaint` does not supply the already known closing endpoint. |
 | `mesh-default-stop-color.svg` | Unstyled mesh stops use opaque black, retaining the square. | All 256 expected pixels disappear. | `meshPaint` zeroes its corner colors and reads a stop's computed color only when stop-color or stop-opacity has an explicit declaration. |
+| `mesh-linear-light-interpolation.svg` | Interpolating black and white in linearRGB gives an sRGB ramp of 49..251. | All 256 ramp pixels are too dark, by up to 73 levels. | `meshPaint` interpolates the stops' sRGB components without consulting the mesh's color-interpolation property. |
+| `css-gradient-hint-interpolation-resolution.svg` | The late hint keeps the sampled square opaque; the alpha transfer retains lime. | All 256 square pixels lose opacity, by up to 255 levels. | `cssStops` approximates the hint curve with 64 equal color steps, then linearly interpolates the almost full-length first interval, introducing opacity loss far before the transition. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -923,6 +925,27 @@ Explicit stop-color black matches exactly. Setting only stop-opacity 1
 also matches exactly, retaining the omitted color and the same geometry.
 This tests initialization of fresh corner colors independently of parsing
 the closing edge; every endpoint here is explicit.
+
+The linear-light mesh follows [color-interpolation](../../dev/spec/svg2/painting.md#ColorInterpolationProperty),
+with mesh support retained under D57. For a black-to-white horizontal ramp,
+t=(x-8+.5)/16 is linear light; every sampled t exceeds .0031308, so the
+independent strips use sRGB=1.055*t^(1/2.4)-.055. An SVG linear gradient
+in linearRGB matches exactly. Keeping the mesh and converting its output
+with an sRGB-space gamma transfer (amplitude 1.055, exponent 1/2.4,
+offset -.055) also matches exactly. Both retain all original stop colors.
+
+The late transition follows [the hint weighting formula](../../dev/spec/css-images-3.md#coloring-gradient-line).
+For H=.9999, e=log(.5)/log(H) is about 6931.125. Every point of the
+sampled square has P<=56/64, so C=P^e is below 1e-400. Its alpha is
+therefore 1 to far better than stored-pixel precision, and the parent's
+clamp(100*alpha-99) retains it. The renderer instead synthesizes its first
+sample at C=1/64, P about .9994, then interpolates from the original stop
+across that whole interval. Replacing only the transparent last color by
+white matches exactly. Replacing the nonlinear ramp by white through 99%,
+then transparent white at 100%, also matches exactly. Both retain the
+mask layout and alpha transfer. All colors have identical white RGB,
+separating hint approximation from straight-versus-premultiplied color
+interpolation; the hint is strictly inside the stop interval.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
