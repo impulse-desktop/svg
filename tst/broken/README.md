@@ -172,6 +172,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `resource-singularity-context.svg` | The gradient's own 32px font makes its scale calculation equal one, so the two lime stops fill the square. | All 256 pixels use the red fallback. | `singularTransform` calls `flatTransform` without the resource's length context, evaluating em at 16px and falsely rejecting an invertible transform. |
 | `marker-tangent-coordinate-range.svg` | The finite tangent has direction (4/5,3/5), and the auto-oriented marker completely covers the sample. | All 16 sample pixels disappear. | `angleOf` passes the double tangent components to atan2f, narrowing both finite coordinate differences to infinity and choosing 45 degrees. |
 | `raster-edge-rebase-precision.svg` | The sample lies strictly above the triangle's y=x/2 diagonal and remains fully opaque. | The diagonal shifts to y=x/2+12, leaving 52 pixels missing or partly transparent. | `bandEdge` subtracts the cropped raster's origin from large float endpoints in float, losing that translation before the edge equations are evaluated. |
+| `xml-reserved-prefix-binding.svg` | Rebinding the reserved xml prefix invalidates the embedded SVG, leaving the image empty. | The invalid resource draws all 256 green pixels. | `parseElement` records namespace declarations without validating reserved bindings; `resolvePrefix` silently supplies xml's built-in URI. |
+| `xinclude-language-fixup.svg` | The included document's untagged language survives inclusion, so :lang("") paints its square green. | The square inherits French from the include parent and stays red, 256 wrong pixels. | `include` attaches the parsed root to the outer parent without the xml:lang fixup that preserves its source language. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1464,6 +1466,31 @@ both retain the same visible half-plane and sample. Only straight edges
 are involved. This tests raster-origin rebasing independently of curve
 flattening, stroke construction, basic-shape coordinates, nonfinite edge
 clamping and raster work limits.
+
+The declaration follows [reserved namespace bindings](https://www.w3.org/TR/xml-names/#xmlReserved)
+and [well-formed image resources](../../dev/spec/svg2/conform.md#ConformingSVGViewers).
+The xml prefix may be declared only with its predefined namespace URI;
+urn:wrong violates the namespace constraint even when the prefix is not
+used. The error precedes all painted content. Replacing urn:wrong with
+http://www.w3.org/XML/1998/namespace makes the resource valid and renders
+the 16x16 green square exactly. Removing the declaration is another exact
+green control. Python ElementTree independently rejects the original;
+resvg leaves it empty. The outer SVG is well formed. This tests validation
+of namespace declarations separately from duplicate expanded attribute
+names, forbidden character references and namespace-sensitive selectors.
+
+The inclusion follows [XInclude language fixup](https://www.w3.org/TR/xinclude/#language),
+[language inheritance](../../dev/spec/svg2/struct.md#LangSpaceAttrs)
+and [the empty language range](../../dev/spec/selectors-4.md#the-lang-pseudo).
+The included document has no language; its new parent has French. XInclude
+preserves that source language by adding xml:lang="" to the included root.
+The API exposes no option to suppress this fixup. The selector then matches
+the included group, making its 16x16 rectangle green. Authored xml:lang=""
+on the included root matches exactly. Removing French from the outer
+parent is another exact green control. All resources are well formed and
+UTF-8; no text is rendered. This tests language preservation while merging
+XML documents independently of text-resource decoding and language lookup
+through nested use instances.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
