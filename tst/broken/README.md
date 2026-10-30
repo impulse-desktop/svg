@@ -146,6 +146,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-expanded-attribute-duplicate.svg` | Two attributes with the same namespace URI and local name invalidate the embedded SVG. | The invalid image draws a green square, 256 extra pixels. | `parseElement` checks raw attribute names for duplicates before resolving their namespace prefixes. |
 | `paint-server-empty-attribute.svg` | An invalid but present pattern width uses initial zero rather than the template's width. | The zero-width pattern draws, adding 256 pixels. | `patternAttribute` treats a blank attribute as absent and continues to the template. |
 | `object-fit-aspect-ratio-range.svg` | Containment preserves a 16px square in both finite image boxes, centered in the wider second box. | The first square disappears; the second fills 32px instead of 16px, 512 wrong pixels. | `lowerImage` divides finite natural dimensions in float; the ratio becomes infinity or zero before containment. |
+| `css-radial-degenerate-percent-stops.svg` | Percentage stops of a zero-width ellipse resolve to 0px, leaving the final transparent color everywhere off its center line. | All 256 pixels of the square remain nearly opaque green. | `cssGradientPaint` uses its finite substitute radius for percentage stop positions instead of the mandated zero basis. |
+| `mask-border-small-width-shrink.svg` | Four 4px mask borders fit a 16px area and leave its 8px opaque center. | The borders shrink to about .012px, adding 192 pixels around the center. | `borderMaskLayer` floors both opposite-width sums at 1e-30 before deciding whether the widths overlap. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1095,6 +1097,32 @@ outer scales, also matches exactly. All dimensions remain representable
 floats, the final geometry is small, and neither case exhausts a budget.
 This isolates the ratio division from raster minification and intrinsic
 size or fragment-view selection.
+
+The radial follows [degenerate radial gradients](../../dev/spec/css-images-3.md#degenerate-radials).
+A zero-width ellipse makes every percentage stop position resolve to 0px.
+Thus the white and transparent stops coincide at zero; the non-repeating
+gradient takes its last transparent color away from the center line,
+which has no pixel area. Replacing 100% by 0px matches exactly, retaining
+the degenerate ellipse and magnification. Normalizing the rectangle to
+16px with unit scale is another exact control. The implementation's
+substitute radius 1/1024 becomes 1024px after this transform, and its
+incorrectly retained percentage interval keeps the square opaque.
+This tests the required zero percentage basis, independently of
+negative radial stops, implicit-circle grammar and hint interpolation.
+
+The border follows [mask-border widths](../../dev/spec/css-masking-1.md#the-mask-border-width),
+[proportional overlap reduction](../../dev/spec/css-backgrounds-3.md#border-image-width)
+and [the opaque unsliced center](../../dev/spec/css-masking-1.md#the-mask-border-slice).
+The image is a valid transparent 4px SVG sliced one unit from each edge;
+without fill its middle becomes opaque white. The geometry is a 2^-108
+square with 2^-110 border widths under scale 2^112. In device pixels,
+opposite widths total 8 inside an area of 16, so the reduction factor
+must remain 1. Normalizing to a 16px square with 4px widths and unit
+scale matches exactly. Multiplying local geometry and widths by 2^32
+while dividing the scale by 2^32 is another exact control. All original
+lengths are positive normal binary32 values. The denominator floor alone
+causes a false reduction, independently of no-clip mask bounds, image
+ratios, pattern resolution and raster minification.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
