@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="16">
+  <defs>
+    <!-- The endpoint is 2^-80; the x scale is 2^85, so its device endpoint is 32. -->
+    <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0"
+                    x2="8.271806125530277e-25" y2="0" gradientTransform="scale(3.8685626227668134e25 1)">
+      <stop stop-color="red"/>
+      <stop offset="1" stop-color="blue"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="16" fill="url(#g)"/>
+</svg>

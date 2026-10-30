@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <pattern id="p" width=".5" height="1" patternUnits="objectBoundingBox"
+             patternContentUnits="objectBoundingBox" patternTransform="translate(.25 0)">
+      <rect width=".25" height="1" fill="lime"/>
+    </pattern>
+  </defs>
+  <rect x="8" y="8" width="32" height="16" fill="url(#p)"/>
+</svg>

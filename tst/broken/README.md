@@ -6,9 +6,8 @@ the frozen canon are unchanged. Text, animation, script, foreignObject,
 documented design departures and budget exhaustion are not test subjects.
 
 Each top-level SVG has a same-named drawing in `expect/`. The expectations
-use literal rectangles or an empty drawing; the translated gradient and
-negative-hint gradient use one-pixel strips calculated from their
-interpolation formulas. Test
+use literal rectangles or an empty drawing; gradient ramps use one-pixel
+strips calculated from their interpolation formulas. Test
 cells use the existing oracle's `id` and `data-box` convention.
 
 Run from the repository root, with a freshly built test driver:
@@ -70,6 +69,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `mask-no-clip-local-sentinel.svg` | An opaque mask with no clipping preserves a translated square. | All 256 expected pixels disappear. | `imageMaskLayer` substitutes a finite local box of ±30,000,000 for `no-clip`, cutting away visible content under a compensating translation. |
 | `image-relative-calc-natural-size.svg` | The embedded root's `calc(2em)` width is 32px; the image's half-width clip retains all 8px of green content. | Half the green rectangle disappears, 64 missing pixels. | `givenSize` and `explicitSide` test the unresolved `Length.value`, zero for relative calculations, before resolving the positive size. |
 | `filter-function-inherited-color-space.svg` | CSS brightness operates in sRGB after an identity SVG filter. | All 2,304 pixels have red 188 instead of 128. | `lowerFilters` passes the previous SVG primitive's linear flag into `functionFilter`, which should always use sRGB. |
+| `pattern-bbox-transform-basis.svg` | A .25 translation in object-box tile coordinates shifts the stripes by 8px. | All 512 target pixels differ from the expected stripe phase. | `patternPaint` converts tile coordinates to user units before applying the unconverted transform, shifting by .25px. |
+| `linear-gradient-normalization-underflow.svg` | Exact power-of-two scaling preserves a 32px red/blue ramp. | All 512 pixels become blue, differing by up to 251 levels. | `linearT` computes `dx*dx + dy*dy` in float, underflowing the denominator to zero while its double numerator stays positive. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -266,6 +267,22 @@ brightness(.5) must then multiply its sRGB red by .5. Removing the identity
 reference or making that identity matrix use sRGB produces the expected
 128 red exactly. Resvg renders the original within one level of the
 expectation.
+
+The pattern follows [pattern-transform composition](../../dev/spec/svg2/pservers.md#PatternElementPatternTransformAttribute),
+including the object-box map before the extra transform. The 32px-wide
+box makes .25 units an 8px shift. Converting the complete pattern to user
+units (x/y 8, width/height 16, a child 8px wide and an 8px translation)
+matches the literal stripes exactly. The SVG working group affirmed this
+ordering in [issue 293](https://github.com/w3c/svgwg/issues/293); resvg shares
+the browser mismatch described there.
+
+The linear ramp follows [linear-gradient coordinates](../../dev/spec/svg2/pservers.md#LinearGradientElement),
+with endpoint `2^-80` and horizontal scale `2^85`, exactly 32px in device
+space. Its distinct endpoints are representable in float; the loss occurs
+later, when `linearT` squares their difference. Normalizing the endpoint to
+32 and removing the scale matches the analytic strips exactly. Resvg
+shares the original underflow. This is independent of endpoint narrowing
+before translation cancellation and of the radial cone's discriminant.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
