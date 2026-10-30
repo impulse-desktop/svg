@@ -137,6 +137,7 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-gradient-hint-interpolation-resolution.svg` | The late hint keeps the sampled square opaque; the alpha transfer retains lime. | All 256 square pixels lose opacity, by up to 255 levels. | `cssStops` approximates the hint curve with 64 equal color steps, then linearly interpolates the almost full-length first interval, introducing opacity loss far before the transition. |
 | `path-comma-before-command.svg` | The comma before the next command is an error; the complete prefix is one unfilled horizontal line. | 256 extra opaque pixels from the following square. | `parsePathData` consumes a comma after the last numeric argument without checking that another argument follows. |
 | `xml-forbidden-character-reference.svg` | The embedded XML 1.0 resource is not well formed because it references U+0001, so the image is empty. | 256 extra opaque pixels from the invalid image. | `characterReference` rejects zero and surrogates but accepts other code points outside XML 1.0's Char production. |
+| `image-invalid-size-auto.svg` | The invalid width presentation attribute is ignored; initial auto uses the image's 16px natural width. | All 256 expected pixels disappear. | `isAuto` tests the raw attribute's presence and literal keyword; `imageRect` then treats its invalid length as an explicit zero size. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -969,6 +970,17 @@ both already take the invalid-image path. Resvg also leaves the original
 image empty. The error precedes the rectangle, and the outer SVG is valid.
 This exercises numeric-reference character validation independently of
 DTD default attributes and CSS input preprocessing.
+
+The width follows [invalid presentation attributes](../../dev/spec/svg2/types.md#TermInvalidValue),
+D16, and [the image's auto size](../../dev/spec/svg2/geometry.md#Sizing).
+The resource has explicit 16px width and height; height 16 on the image
+retains that ratio when width is auto. Removing the bad attribute matches
+exactly, as does replacing its value by auto. Moving the identical bad
+width into a style attribute is another exact control: that declaration
+is already rejected correctly. Resvg also renders the original as expected.
+There is no earlier author declaration to lose. This tests recognizing
+auto sizing after an invalid image geometry attribute, independently of
+CSS declaration validation and relative math in an embedded root's natural size.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
