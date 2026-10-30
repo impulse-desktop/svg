@@ -196,6 +196,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-comment-double-hyphen.svg` | A double hyphen within a comment invalidates the embedded image. | The invalid resource draws all 256 green pixels. | `parseContent` skips to the comment terminator without checking the comment body for forbidden double hyphens. |
 | `context-paint-recursive-frame.svg` | Recursive context-fill retains the outer use's gradient frame, making the translated square entirely lime. | Its left half turns red, 128 wrong pixels. | `contextPaint` clears the inherited context flag, and `lowerUse` replaces the original context matrix with the inner use's translated matrix. |
 | `css-linked-sheet-bom.svg` | Decoding the linked UTF-8 stylesheet removes its BOM, allowing rect to match and turn the square lime. | All 256 pixels remain red. | `linkedSheet` keeps decoded URL bytes without stylesheet character decoding; `cascade` sends those bytes to parseSheet, where the BOM becomes part of the first type selector. |
+| `clip-position-comma.svg` | A comma invalidates the position, so the clip attribute is ignored and the lime square remains. | All 256 expected pixels disappear. | `parsePosition` reads words through shapeWord, which discards commas; the invalid position becomes center center and applies a zero-radius clip. |
+| `transform-perspective-none.svg` | Identity perspective leaves the following 8px translation in effect. | The square stays at the origin, leaving 384 wrong pixels. | `transformFunction` accepts only numbers, dimensions, percentages or math arguments, rejecting the valid none keyword before handling perspective. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1847,6 +1849,34 @@ the expected ASCII rule independently. Resvg does not apply the linked
 sheet even in the controls and is not the oracle. This tests byte decoding
 of a linked stylesheet independently of CSS code-point preprocessing,
 XInclude text decoding, preferred-sheet selection and data URL headers.
+
+The separator follows [the position grammar](../../dev/spec/css-values-4.md#position)
+and [circle syntax](../../dev/spec/css-shapes-1.md#funcdef-basic-shape-circle).
+The two center keywords are each valid, but their intervening comma is
+not part of a position. The presentation attribute must be ignored, so
+the square remains lime. Replacing the tail with center nowhere gives
+an exact green control, confirming rejection of a nonempty invalid
+position. Removing the clip is another exact green control. Removing
+only the comma gives an exact empty control: center center is valid,
+and a valid zero-radius circle clips everything. Resvg ignores even
+that valid clip and is not a semantic oracle. Both position words are
+present; this tests discarded punctuation independently of empty-position
+acceptance, ellipse radius counting and repeated geometry boxes.
+
+The identity follows [perspective() syntax](../../dev/spec/css-transforms-2.md#funcdef-perspective)
+and [the explicit none-to-infinity rule](../../dev/spec/css-transforms-2.md#valdef-perspective-func-none).
+perspective(none) is a valid identity matrix, so the complete list still
+translates the square by (8,8). Removing that identity function gives an
+exact control. Replacing it with perspective(64px) also matches exactly:
+the square and subsequent translation stay in the z=0 plane. Replacing
+it with an explicit identity matrix3d gives a third exact control.
+The existing transform-3d-functions unit includes perspective(none),
+but follows it only with translateZ; rejecting that entire list leaves
+the same visible z=0 square, concealing this failure. Resvg ignores the
+CSS transform controls and is not the oracle. All names here have their
+canonical case, the matrix is invertible and no perspective resampling
+is needed. This tests the missing keyword argument independently of
+case-sensitive function dispatch, singular 3D scales and projective range.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
