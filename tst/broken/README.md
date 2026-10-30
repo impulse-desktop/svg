@@ -87,6 +87,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-media-math-values.svg` | Calculated 96dpi resolution and aspect ratio 2 match the renderer's 1dppx and the 64-by-32 viewport. | Both 256-pixel squares stay red. | `mediaValue` requires raw dimension or number tokens for resolution and ratio instead of accepting math functions of those types. |
 | `image-multiple-fragment-separators.svg` | The PNG body ends at the first `#`; the complete `part#tail` fragment leaves its green pixels intact. | All 256 expected pixels disappear. | `loadImageFrom` searches backward for the last `#`, leaving `#part` in the data body and invalidating its decoding. |
 | `data-base64-header-whitespace.svg` | Spaces before the base64 keyword or at the end of the MIME header still select base64 decoding. | Both 256-pixel images disappear. | `decodeDataUri` checks the untrimmed header for the literal seven-character suffix `;base64`. |
+| `css-svg-view-aspect-ratio.svg` | Both fragment forms override preserveAspectRatio to none while retaining the root's viewBox, stretching each white half to 16px. | Each square loses its left 8px, 256 missing pixels in total. | `fragmentView` validates but discards preserveAspectRatio, and `loadImageFrom` retains a named view only when it supplies its own viewBox. |
+| `conic-gradient-whole-turn-loss.svg` | One million complete turns leave the mask's right half opaque. | 198 pixels differ, by up to 255 levels. | `gradientT` subtracts the large float turn count before reducing modulo one, rounding sample directions to sixteenths of a turn. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -421,6 +423,24 @@ Removing only these two header spaces makes both controls match their
 green rectangles exactly. Resvg also renders both originals exactly.
 The PNG payload is unchanged and valid; this exercises selection of the
 decoder from the header, independently of the decoder's body validation.
+
+The views follow [fragment view overrides](../../dev/spec/svg2/linking.md#SVGFragmentIdentifiersDefinitions):
+specified view parameters replace the root's, and omitted parameters retain
+their root values. These are CSS images, so an image element's own
+preserveAspectRatio does not override them. Setting none on both embedded
+roots matches exactly; alternatively, retaining the first control and
+adding the unchanged `viewBox="0 0 16 16"` to the second view also matches
+exactly. This tests preservation of the selected view's aspect parameter,
+separately from decoding its fragment or applying root rendering effects.
+
+The conic gradient follows [gradient rotation](https://www.w3.org/TR/css-images-4/#conic-gradients)
+and [angle units](../../dev/spec/css-values-4.md#angle-value). The authored
+360,000,000 degrees are exactly representable as a float and equal exactly
+one million turns. The opaque interval is therefore the clockwise half
+from straight up to straight down: the literal right-half rectangle.
+Replacing only the starting angle with 0deg matches it exactly. This
+exercises angle reduction before subtraction, independently of gradient
+coordinate narrowing and squared-length underflow.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
