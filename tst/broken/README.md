@@ -170,6 +170,7 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `dash-cubic-translated-cut.svg` | The sampled rectangle lies strictly inside the first 8px dash gap, including room for the thick curve's normals. | All 48 sample pixels paint lime. | `dashPolyline` narrows a cubic's absolute cut point to float before a later transform cancels its large origin, moving the next dash's start backward. |
 | `three-d-plane-normal-range.svg` | Reciprocal xy scales cancel; the green plane remains in front of the red one. | All 256 pixels become red. | `polygonPlane` overflows the sum of squared Newell normal components in double, normalizing the finite plane to zero and treating both depths as coplanar. |
 | `resource-singularity-context.svg` | The gradient's own 32px font makes its scale calculation equal one, so the two lime stops fill the square. | All 256 pixels use the red fallback. | `singularTransform` calls `flatTransform` without the resource's length context, evaluating em at 16px and falsely rejecting an invertible transform. |
+| `marker-tangent-coordinate-range.svg` | The finite tangent has direction (4/5,3/5), and the auto-oriented marker completely covers the sample. | All 16 sample pixels disappear. | `angleOf` passes the double tangent components to atan2f, narrowing both finite coordinate differences to infinity and choosing 45 degrees. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1431,6 +1432,21 @@ is another exact control, retaining the relative-unit quotient. No text
 is rendered. This tests the context used for preliminary singularity
 validation independently of transform-origin resolution, instance font
 inheritance, omitted individual transforms and relative math rejection.
+
+The direction follows [automatic marker orientation](../../dev/spec/svg2/painting.md#OrientAttribute)
+and [marker rendering](../../dev/spec/svg2/painting.md#RenderingMarkers).
+The endpoints are finite float-range numbers; their double difference
+is (5e38,3.75e38), whose unit direction is exactly (4/5,3/5). The start
+maps to (14,26.5), and the marker's painted rectangle is 60x24 before
+rotation. In that rectangle's own axes, the sample has longitudinal
+coordinates 50.5..56.1 and transverse coordinates 1.6..7.2, strictly
+inside its paint. At the erroneous 45deg angle its transverse coordinates
+are all negative. Halving every source coordinate and marker dimension
+while doubling the CTM scale matches exactly. Replacing auto by the
+equivalent angle 36.86989764584402 also matches exactly. The path itself
+has neither fill nor stroke. This tests tangent-component narrowing
+independently of stroke segment lengths, angle-unit conversion, missing
+zero tangents and non-scaling marker orientation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <clipPath id="sample"><rect x="52" y="60" width="4" height="4"/></clipPath>
+    <marker id="m" markerUnits="userSpaceOnUse" markerWidth="3e38" markerHeight="3e38"
+            viewBox="0 0 10 10" orient="auto">
+      <rect width="10" height="4" fill="lime"/>
+    </marker>
+  </defs>
+  <g clip-path="url(#sample)">
+    <g transform="translate(64 64) scale(2e-37)">
+      <path d="M-2.5e38 -1.875e38L2.5e38 1.875e38" fill="none" stroke="none"
+            marker-start="url(#m)"/>
+    </g>
+  </g>
+</svg>
