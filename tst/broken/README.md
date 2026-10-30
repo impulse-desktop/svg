@@ -180,6 +180,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `blur-box-sum-overflow.svg` | Blurring a constant opaque green row with duplicated edges preserves that same constant. | All 65,540 pixels lose opacity, falling from 255 to 33. | `boxPass` accumulates 75,199 full stored channels into u32; their sum 4,928,166,465 wraps modulo 2^32 before normalization. |
 | `convolve-spaced-tap-integer-range.svg` | The positive tap is far beyond the input and duplicates its green right edge. | All 256 expected green pixels disappear. | `filterConvolve`'s spacedRow casts a finite 2^31 coordinate to int before edge folding, producing an invalid index and interpolation fraction. |
 | `xml-ignored-attribute-entity.svg` | The undeclared entity in a namespaced attribute invalidates the embedded image, even though SVG ignores that attribute. | The invalid resource draws all 256 green pixels. | `parseElement` skips unsupported namespaced attributes before internAttribute can decode and validate their entity references. |
+| `object-bbox-span-range.svg` | The finite object-box map composes with scale 2^-124 to fill a 16x8 green rectangle. | All 128 expected pixels disappear. | `gradientPaint` narrows the double box width 2^128 to float infinity before composing its map with the CTM. |
+| `filter-infinite-paint-input.svg` | A blur preserves the constant opaque green FillPaint supplied by two identical gradient stops. | All 256 pixels lose alpha, by up to 64 levels. | `filterInputBuffer` samples an infinite paint only over run.canvas; blurBuffer reads transparent pixels beyond that plane, while only PaintType::Solid gets the constant-input shortcut. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1584,6 +1586,35 @@ the green square exactly. Replacing the reference with literal ok is
 another exact green control. The outer SVG remains well formed. This
 tests deferred validation of discarded attribute values independently of
 character-reference legality, namespace constraints and DTD defaults.
+
+The box follows [object bounding box units](../../dev/spec/svg2/coords.md#ObjectBoundingBoxUnits),
+[gradient coordinates](../../dev/spec/svg2/pservers.md#LinearGradientElementGradientUnitsAttribute)
+and D18's double CTMs. All path coordinates are exact powers of two
+within float's finite range: x is +/-2^127 and y is +/-2^126. Their
+box width is 2^128, finite in double; the full box map composed with
+translate(24 24) scale(2^-124) is matrix(16 0 0 8 16 20), invertible
+and ordinary. Both stops are opaque lime. Halving every path coordinate
+and doubling the CTM scale matches exactly. Changing gradientUnits to
+userSpaceOnUse also matches exactly, retaining both stops and the same
+path. Literal lime is another exact control. The debugger confirms a
+finite double width narrowed to float infinity before matrix composition.
+This tests range of a derived box span independently of authored gradient
+endpoints, aspect ratios, stroke bounds and basic-shape coordinates.
+
+The input follows [FillPaint's infinite extent](../../dev/spec/filter-effects-1.md#attr-valuedef-in-fillpaint)
+and [constant infinite input to a blur](../../dev/spec/filter-effects-1.md#feGaussianBlurElement).
+The two-stop pad gradient is opaque lime at every point of the plane,
+so any normalized convolution preserves it exactly, including D1's boxes.
+The filter clips only its 16x16 result. Its raster is 32x32; the debugger
+confirms that this is the complete stored paint input, and the sigma=8
+kernel can read beyond its edges. Replacing the fill with literal lime
+matches exactly via the constant-paint path. Removing the second identical
+stop is another exact control, retaining the URL paint. Reducing sigma to
+2 also matches exactly, retaining both stops and keeping all necessary
+taps within the stored plane. No coefficients or accumulation approach
+their range limits. This tests finite storage of an infinite paint
+independently of SourceGraphic region clipping, deviation clamping,
+blur-sum overflow and interpolation color spaces.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
