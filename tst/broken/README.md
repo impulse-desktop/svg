@@ -190,6 +190,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `pixelated-magnification-norm-range.svg` | Pixelated scaling retains the green source column across the sampled square. | All 256 pixels turn red. | `rasterPaint` passes a finite squared axis norm 2^130 to sqrtf, producing an infinite sharpX; paintAt's infinite ratio selects texel zero instead of one. |
 | `radial-negative-math-radius.svg` | The calculated negative focal radius clamps to zero, preserving the opaque green gradient. | All 256 pixels use the red fallback. | `gradientLength` resolves the radius without nonNegative; `gradientPaint` then applies the literal-negative error branch to the calculated result. |
 | `system-language-space-separator.svg` | The single malformed tag fr en does not match the fixed English preference, so the rectangle is absent. | 256 extra opaque green pixels. | `passesConditions` splits systemLanguage on whitespace as well as commas, inventing an English list item. |
+| `linear-repeat-phase-precision.svg` | Translation by a whole number of periods preserves alternating 4px red and green bands. | All 256 green pixels turn red. | `linearT` narrows its double result to float before spreadT reduces it modulo one, losing the fractional phase at t near 2^25. |
+| `clip-empty-position.svg` | The incomplete at clause invalidates the clip, leaving the green square visible. | All 256 expected pixels disappear. | `parseShapeFunction` calls parsePosition on the empty tail after at; parsePosition accepts zero words as center, producing a zero-radius clip. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1749,6 +1751,40 @@ The condition is directly on an ordinary rect, outside any clip, marker
 or use instance. This tests language-list parsing independently of missing
 clip-child conditions, condition applicability to marker resources and
 language inheritance through shadow trees.
+
+The phase follows [linear gradient coordinates](../../dev/spec/svg2/pservers.md#LinearGradientElementGradientUnitsAttribute)
+and [repeat spreading](../../dev/spec/svg2/pservers.md#LinearGradientElementSpreadMethodAttribute).
+Let A=2^28. In the visible rectangle, the gradient's user x coordinate
+is A plus the horizontal distance from device x=8. Its parameter is
+therefore A/8 plus that distance divided by 8. A/8 is the integer 2^25,
+so repeat must leave the same four red and four green pixels per period
+as at the origin. Both gradient endpoints, its period and every authored
+coordinate are finite and exactly representable in float. Setting the
+rectangle's x and its cancelling translation to zero matches exactly.
+Using A=2^16 is another exact control; A=2^12 also matches. Adding
+gradientTransform="translate(268435456 0)" matches exactly at the original
+rectangle position: shifting the paint by an integer number of periods
+preserves its phase. Resvg also misplaces the rectangle at the original
+large coordinate and is not the oracle. The gradient spans eight device
+pixels; its minification shortcut is inactive. This tests narrowing of
+the computed linear parameter independently of endpoint narrowing,
+normalization range and conic-angle reduction.
+
+The position follows [circle syntax](../../dev/spec/css-shapes-1.md#funcdef-basic-shape-circle)
+and [the position grammar](../../dev/spec/css-values-4.md#position).
+The complete at clause may be omitted, but when at is present it must
+be followed by a position. An empty position is invalid. The clip-path
+presentation attribute must therefore be ignored, leaving initial none.
+Replacing the empty position with nowhere matches the green expectation
+exactly: the nonempty invalid position is correctly rejected. Removing
+the clip attribute is another exact green control. Supplying center
+gives an exact empty control, since the valid circle has radius zero.
+Omitting the entire at clause also gives that exact empty result. Resvg
+ignores these basic-shape clips even in the valid controls, so it is not
+the oracle. The circle has its valid single radius; no ellipse arity
+check is involved. This tests acceptance of an empty position independently
+of ellipse radius counting, repeated geometry boxes and the cascade's
+generic invalid-declaration fallback.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
