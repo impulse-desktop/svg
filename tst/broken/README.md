@@ -124,6 +124,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `specular-exponent-unrestricted.svg` | The unrestricted exponents give alpha 1 and cos(5deg)^256 on the two flat surfaces. | All 512 square pixels have wrong opacity, by up to 75 levels. | `filterLighting` retains the old 1..128 clamp for feSpecularLighting's exponent, although Filter Effects defines it as an unrestricted number. |
 | `lighting-invalid-constant.svg` | Invalid negative lighting constants take their initial value 1, giving two fully lit green squares. | The diffuse square turns black and the specular square disappears, 512 wrong pixels. | `filterLighting` clamps a negative constant to zero instead of rejecting the literal value and using its initial value. |
 | `css-gradient-premultiplied-alpha.svg` | Transparent red contributes no red; each blue strip has alpha (x+.5)/16 over white. | The first column's 16 pixels gain red and lose blue, by four levels. | `cssStops` samples premultiplied interpolation into straight colors, then `gradientColor` interpolates the first interval in straight RGBA again. |
+| `luminance-to-alpha-coefficients.svg` | Green's luminance alpha is .7152; the following transfer makes the square opaque lime. | All 256 expected pixels disappear. | `filterColorMatrix` uses the obsolete .2125/.7154/.0721 luminanceToAlpha weights instead of Filter Effects' .2126/.7152/.0722. |
+| `image-uri-leading-space-view.svg` | URL parsing removes the surrounding spaces before selecting the embedded SVG view, retaining the green square. | All 256 expected pixels disappear. | `loadImageFrom` checks the untrimmed reference before splitting data-URI fragments; `decodeDataUri` trims later and leaves #square inside the XML body. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -827,6 +829,27 @@ An SVG linear gradient with blue at both stops and alpha 0 to 1, drawn
 over a literal white rectangle, is another exact control. This exercises
 the extra straight-color interpolation between sampled alpha stops,
 independently of missing components, gamut mapping and minification.
+
+The luminance follows [the luminanceToAlpha matrix](../../dev/spec/filter-effects-1.md#attr-valuedef-type-luminancetoalpha).
+Its current coefficients give alpha .7152 for opaque lime. The next
+function computes clamp(7153-10000*alpha,0,1), giving 1; the last matrix
+sets RGB to lime while retaining that alpha. The renderer's .7154 gives
+0 instead. Replacing the first primitive by its explicit normative matrix
+matches exactly. Replacing it by a black flood with opacity .7152 also
+matches exactly. Both controls retain the transfer and final matrix, so
+the differing luminance coefficients are isolated from arithmetic
+cancellation and from the transfer's quantization.
+
+The image URL follows [CSS URL values](../../dev/spec/css-values-4.md#urls)
+and [the basic URL parser](https://url.spec.whatwg.org/#concept-basic-url-parser),
+which removes leading and trailing spaces before parsing the scheme.
+The selected view and root both cover the same white 16px square.
+Removing only the surrounding URL spaces matches exactly. Removing only
+the identity #square fragment, retaining both spaces, also matches
+exactly: decoding already trims the address, but reference classification
+does not. This tests normalization before scheme and fragment handling,
+independently of choosing the fragment separator, decoding its escapes
+and whitespace inside a base64 MIME header.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
