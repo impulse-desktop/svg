@@ -188,6 +188,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `transform-singular-z-scale.svg` | The non-invertible scaleZ(0) suppresses the transformed square. | 256 extra opaque green pixels. | `lowerElementIn` reduces the affine 3D matrix to its z=0 plane without checking full-matrix singularity; `affineOf4` yields the identity. |
 | `marker-root-conditions.svg` | Conditional processing on the never-rendered marker resource leaves its green contents available for referencing. | All 256 expected pixels disappear. | `lowerElementIn` applies passesConditions to the marker root before its special instance handling; the resource is treated like directly rendered content. |
 | `pixelated-magnification-norm-range.svg` | Pixelated scaling retains the green source column across the sampled square. | All 256 pixels turn red. | `rasterPaint` passes a finite squared axis norm 2^130 to sqrtf, producing an infinite sharpX; paintAt's infinite ratio selects texel zero instead of one. |
+| `radial-negative-math-radius.svg` | The calculated negative focal radius clamps to zero, preserving the opaque green gradient. | All 256 pixels use the red fallback. | `gradientLength` resolves the radius without nonNegative; `gradientPaint` then applies the literal-negative error branch to the calculated result. |
+| `system-language-space-separator.svg` | The single malformed tag fr en does not match the fixed English preference, so the rectangle is absent. | 256 extra opaque green pixels. | `passesConditions` splits systemLanguage on whitespace as well as commas, inventing an English list item. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1719,6 +1721,34 @@ does not match the pixelated controls, so it is not the oracle. Only a
 image or work budget is involved. This tests range of the pixelated
 integer scale independently of minification, pattern resolution, filter
 frames and convolution indices.
+
+The radius follows [math range checking](../../dev/spec/css-values-4.md#calc-range),
+[the focal-radius restriction](../../dev/spec/svg2/pservers.md#RadialGradientElementFRAttribute)
+and D30's explicit rule for calculated negative attribute values. A plain
+negative fr is invalid, but calc(-4px) is valid and clamps to zero.
+The zero start circle and positive end radius define an ordinary radial
+gradient; its two identical stops make every sample opaque lime.
+Replacing the calculation by 0 matches exactly. Using calc(0px) is
+another exact control, retaining a math function. Removing fr also matches
+exactly via its initial zero radius. Replacing the calculation by literal
+-4 gives the exact red fallback required by D8. Resvg matches the original
+green expectation but also ignores the literal negative radius, so that
+comparison cannot establish the distinction. This tests the missing range
+check in gradient-coordinate resolution independently of filter-function
+range checks, dash-style clamping and radial containment tolerances.
+
+The language follows [systemLanguage's comma-separated tag set](../../dev/spec/svg2/struct.md#SystemLanguageAttribute)
+and D11's fixed en preference. Without a comma, fr en is one token,
+not two language tags; it cannot be an English tag or an English-prefixed
+BCP 47 tag. The rectangle therefore fails its condition. Replacing
+fr en by fr matches the empty expectation exactly. Replacing it by de
+is another exact empty control. Changing the separator to a comma gives
+an exact green control, because fr,en contains the English preference.
+Resvg matches the original empty expectation and all three controls.
+The condition is directly on an ordinary rect, outside any clip, marker
+or use instance. This tests language-list parsing independently of missing
+clip-child conditions, condition applicability to marker resources and
+language inheritance through shadow trees.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
