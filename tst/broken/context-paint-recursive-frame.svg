@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="32">
+  <defs>
+    <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" x2="16">
+      <stop offset=".5" stop-color="red"/>
+      <stop offset=".5" stop-color="lime"/>
+    </linearGradient>
+    <g id="tile">
+      <rect width="16" height="16" fill="context-fill"/>
+    </g>
+    <g id="middle">
+      <use href="#tile" x="16" fill="context-fill"/>
+    </g>
+  </defs>
+  <use href="#middle" x="8" y="8" fill="url(#g)"/>
+</svg>

@@ -194,6 +194,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `clip-empty-position.svg` | The incomplete at clause invalidates the clip, leaving the green square visible. | All 256 expected pixels disappear. | `parseShapeFunction` calls parsePosition on the empty tail after at; parsePosition accepts zero words as center, producing a zero-radius clip. |
 | `xml-multiple-doctypes.svg` | A second document type declaration invalidates the embedded image. | The invalid resource draws all 256 green pixels. | `parseDocument` loops over parseDoctype without remembering that a declaration has already occurred. |
 | `xml-comment-double-hyphen.svg` | A double hyphen within a comment invalidates the embedded image. | The invalid resource draws all 256 green pixels. | `parseContent` skips to the comment terminator without checking the comment body for forbidden double hyphens. |
+| `context-paint-recursive-frame.svg` | Recursive context-fill retains the outer use's gradient frame, making the translated square entirely lime. | Its left half turns red, 128 wrong pixels. | `contextPaint` clears the inherited context flag, and `lowerUse` replaces the original context matrix with the inner use's translated matrix. |
+| `css-linked-sheet-bom.svg` | Decoding the linked UTF-8 stylesheet removes its BOM, allowing rect to match and turn the square lime. | All 256 pixels remain red. | `linkedSheet` keeps decoded URL bytes without stylesheet character decoding; `cascade` sends those bytes to parseSheet, where the BOM becomes part of the first type selector. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1812,6 +1814,39 @@ double hyphens are allowed in that context. Python ElementTree rejects
 the decoded original, and resvg matches the empty expectation and all
 three green controls. This tests comment-body scanning independently
 of the number of prolog declarations and character-code validation.
+
+The context follows [recursive context paint and its coordinate space](../../dev/spec/svg2/painting.md#context-paint).
+The outer use starts at (8,8). Its user-space gradient ends at x=16,
+while the inner use translates the square to x=16..32 in that original
+frame. Every sample is therefore past the final lime stop. Recursive
+context-fill must retain that original paint frame. Replacing the inner
+use with a group translated by 16 and containing the same rectangle gives
+an exact green control, preserving the outer use and gradient. Giving
+the inner use a literal lime fill also matches exactly while keeping
+both use instances. Changing the outer use's fill to lime is another
+exact control. The debugger records the inner use's inherited context
+flag as true and the old context matrix translated by (8,8); lowerUse
+then replaces that matrix with translation (24,8). Resvg shares the
+original failure and matches the controls, so the reference is the
+independent literal square. This tests loss of the originating paint
+frame across recursive context references independently of instance
+style caching, geometry cascade and instance-box measurement.
+
+The stylesheet follows [CSS byte-stream decoding](../../dev/spec/css-syntax-3.md#css-decode-bytes)
+and [the Encoding Standard's decode algorithm](https://encoding.spec.whatwg.org/#decode).
+Its first three bytes are EF BB BF, followed by the ASCII rule
+rect{fill:lime}. Decoding consumes that UTF-8 BOM instead of returning
+it as a character to the CSS tokenizer. D15 explicitly applies stylesheets
+from xml-stylesheet data URLs; no external resource or import is required.
+Removing just the BOM gives an exact green control. Replacing it with
+an empty CSS comment also matches exactly. Inserting nothing{fill:blue}
+between the BOM and rect gives another exact green control while keeping
+the original BOM and loading path: only the harmless first type selector
+then absorbs the unwanted character. Python's utf-8-sig decoder returns
+the expected ASCII rule independently. Resvg does not apply the linked
+sheet even in the controls and is not the oracle. This tests byte decoding
+of a linked stylesheet independently of CSS code-point preprocessing,
+XInclude text decoding, preferred-sheet selection and data URL headers.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
