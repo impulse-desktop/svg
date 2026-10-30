@@ -68,6 +68,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-gradient-hint-stop-fixup.svg` | The unplaced middle color stop is at 50%; the following sampled strip is fully opaque. | 112 pixels have too little opacity, by up to 37 levels. | `cssStops` counts transition hints as positioned color stops when distributing unplaced stops, putting white at 62.5%. |
 | `relative-math-number.svg` | Dividing `1em` by `1em` produces the number 1 in opacity and color calculations. | Both cells ignore the calculation, 512 wrong pixels. | `readMathQuantity` rejects any calculation that encountered relative units, even when they cancel to a number. |
 | `mask-no-clip-local-sentinel.svg` | An opaque mask with no clipping preserves a translated square. | All 256 expected pixels disappear. | `imageMaskLayer` substitutes a finite local box of ±30,000,000 for `no-clip`, cutting away visible content under a compensating translation. |
+| `image-relative-calc-natural-size.svg` | The embedded root's `calc(2em)` width is 32px; the image's half-width clip retains all 8px of green content. | Half the green rectangle disappears, 64 missing pixels. | `givenSize` and `explicitSide` test the unresolved `Length.value`, zero for relative calculations, before resolving the positive size. |
+| `filter-function-inherited-color-space.svg` | CSS brightness operates in sRGB after an identity SVG filter. | All 2,304 pixels have red 188 instead of 128. | `lowerFilters` passes the previous SVG primitive's linear flag into `functionFilter`, which should always use sRGB. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -250,6 +252,20 @@ to `(8,8)` at its original 16px size, with no large raster or amount of
 work. Keeping the same large coordinates but using fill-box for this
 fully opaque mask matches exactly; moving the square and its mask to the
 origin's coordinate range while retaining no-clip also matches exactly.
+
+The natural image size follows [SVG image sizing](../../dev/spec/svg2/embedded.md#ImageElement)
+and the existing D10 document-size choice. The embedded SVG gives width
+`calc(2em)` and height 16; with its initial 16px font the width is 32px.
+Its positioning rectangle's left half is 16px wide, retaining the complete
+8px-wide drawing. Replacing the width expression with `2em` matches the
+expectation exactly, keeping both the font-relative unit and content.
+
+The filter list follows [filter-function color spaces](../../dev/spec/filter-effects-1.md#FilterProperty).
+The default linearRGB identity matrix leaves the input color unchanged;
+brightness(.5) must then multiply its sRGB red by .5. Removing the identity
+reference or making that identity matrix use sRGB produces the expected
+128 red exactly. Resvg renders the original within one level of the
+expectation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
