@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48">
+  <defs>
+    <rect id="square" width="16" height="16" fill="lime"/>
+  </defs>
+  <g transform="scale(2)">
+    <use href="#square" x="8" y="8" vector-effect="non-scaling-size"/>
+  </g>
+</svg>

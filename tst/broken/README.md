@@ -21,8 +21,10 @@ The checker uses `tst/oracle.py` and its usual two-level premultiplied RGBA
 tolerance. It exits 1 while differences remain, writes cell reports to
 `.build/broken/`, and reports a case as PASS once it matches. These known
 failures are separate from the passing `unit`/`tests` build groups.
-The implicit-circle radial case can crash before producing pixels; the
-checker then reports the failed renderer process instead of a cell report.
+The implicit-circle radial case can crash before producing pixels, and
+the dash-period overflow case hangs until the oracle's existing 60-second
+renderer timeout. The checker reports these process failures instead of
+cell reports and continues with the remaining cases.
 
 ## Cases
 
@@ -106,6 +108,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `projective-marker-layer-bounds.svg` | The marker's projected rectangle covers the complete 8px-by-8px sampling clip. | All 64 expected pixels disappear. | `lowerOnLayer` allocates a perspective layer from `elementBox` plus a fixed geometric margin, which omits marker paint extending beyond the path's geometry. |
 | `projective-centre-behind-eye.svg` | Clipping away the part behind the eye retains the front part covering the sampled square. | All 64 expected pixels disappear. | `lowerOnLayer` returns false when the box's middle projects behind the eye, even if a portion of the box is in front. |
 | `filter-negative-math-blur.svg` | Calculated negative blur deviations clamp to zero, leaving invert to turn both green squares magenta. | Both 256-pixel squares stay green. | `parseFilterList` and `parseDropShadow` reject negative resolved blur lengths without applying the math-function range clamp. |
+| `dash-period-overflow.svg` | The short path lies entirely in a dash gap and paints nothing. | The renderer hangs before producing an image. | `dashPolyline` sums two finite dash lengths into float infinity; normalizing a negative offset then loops forever subtracting finite lengths from infinity. |
+| `use-vector-effect-position.svg` | Non-scaling-size preserves the transformed origin at (16,16), while the square remains 16px wide. | The square moves to (8,8), changing 384 pixels. | `lowerElementIn` constrains the CTM with `vectorEffectMatrix` before appending the use's x/y translation. |
+| `vector-effect-determinant-range.svg` | Non-scaling-size removes either finite uniform scale, leaving two 16px squares at their translated origins. | All 512 expected pixels disappear. | `vectorEffectMatrix` narrows the double CTM determinant to float, turning it into infinity or zero before normalization. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -623,6 +628,41 @@ active. Replacing the two calculations with 0px matches exactly, as does
 removing the identity blur and transparent shadow while retaining invert.
 This exercises valid math at a restricted length argument, separately from
 invalid literal CSS declarations and malformed SVG deviation attributes.
+
+The dash follows [dash offset normalization](../../dev/spec/svg2/painting.md#StrokeDashoffsetProperty)
+and [dash positions](../../dev/spec/svg2/painting.md#TermDashPositions).
+In output coordinates the line is 16px long, each dash and gap is 32px,
+and the negative offset is -24px. Its normalized phase is 40px in a 64px
+period, leaving 24px of gap before any dash, so the drawing is empty.
+Replacing only the offset with the equivalent positive 2.5e38 completes
+and matches exactly. Normalizing the line, width, pattern and offset to
+16, 8, 32 32 and -24 at unit scale also matches exactly. The original
+uses one short segment and two finite dash entries, without exhausting
+any geometry budget. Two independently timed runs hung before the oracle
+also reached its existing renderer timeout. This exercises overflow of
+the period and nontermination during phase normalization, independently
+of finite point-coordinate sums and closing joins.
+
+The use follows [its supplemental x/y transformation](../../dev/spec/svg2/struct.md#UseLayout)
+and [vector-effect calculation](../../dev/spec/svg2/coords.md#VectorEffectsCalculation).
+The x/y translation belongs to the use's CTM, so scale(2) puts its origin
+at (16,16). Non-scaling-size removes scale from the linear part while
+preserving that origin. Replacing x/y by transform="translate(8 8)"
+matches the literal expectation exactly. Removing the parent scale and
+using x=y=16 is another exact control. At the declared raster size the
+project's D3 output-pixel convention gives the same result. This tests
+the order of constrained transforms and use positioning, separately from
+the matrix supplied to a nested clip on a clipPath child.
+
+The determinant uses the same [vector-effect formula](../../dev/spec/svg2/coords.md#VectorEffectsCalculation).
+For a positive uniform scale s, the linear part s*I divided by
+sqrt(s*s) is I; the translations remain (8,8) and (40,8). The two
+determinants, approximately 1e48 and 1e-48, are finite and nonzero in the
+CTM's double precision. Replacing both scales with 2 matches exactly,
+as does replacing both with 0.5 while keeping non-scaling-size. Neither
+case allocates a large raster or expands geometry: the constrained result
+is the same pair of small squares. This exercises the numeric range of
+the constrained matrix, independently of the use-position ordering.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
