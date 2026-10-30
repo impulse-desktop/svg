@@ -48,6 +48,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `anisotropic-raster-minification.svg` | Shrinking identical rows preserves the red and blue interiors of magnified columns. | All 192 interior pixels become purple. | `rasterPaint` chooses both prefilter levels from the most minified axis, collapsing the 8px-wide source to one texel. |
 | `linear-blend-white-cache.svg` | White multiplied by white remains opaque white in linear light. | All 2,304 pixels become transparent. | `blendLinear`'s initial all-ones cache keys match valid white pixels and return the initial zero result. |
 | `data-base64-invalid-padding.svg` | Interior or excessive base64 padding makes an image resource invalid. | Both invalid resources draw, adding 512 pixels. | `decodeDataUri` skips every equals sign instead of validating its position and count. |
+| `pattern-nonpainting-content.svg` | A pattern's own non-descriptive child prevents cloning template content, even if that child does not paint. | 2,304 extra opaque pixels from the template. | `patternContent` tests for renderable children instead of non-descriptive children. |
+| `lighting-normalize-overflow.svg` | A distant overhead point light illuminates a flat surface green. | All 256 pixels become opaque black. | `normalize3` squares the representable `1e20` coordinate in float, overflowing the length and returning a zero direction. |
+| `css-radial-negative-stop.svg` | A negative radial stop participates in interpolation at positive radii. | All 2,048 pixels are black instead of mid-gray. | `cssGradientPaint` clamps negative stop offsets to zero without interpolating a replacement color there. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -105,6 +108,22 @@ follow [forgiving-base64 decoding](https://infra.spec.whatwg.org/#forgiving-base
 which only removes one or two trailing padding characters before checking
 the alphabet. Both repaired URLs were also rendered and produce complete
 green squares; both invalid forms are rejected by resvg 0.49.0.
+
+The pattern follows the [paint-server template rule](../../dev/spec/svg2/pservers.md#PaintServerTemplates):
+`defs` is not descriptive content. Replacing it with an empty `g` matches
+the empty expectation exactly; resvg also leaves the original empty.
+The light follows the [diffuse-lighting equations](../../dev/spec/filter-effects-1.md#elementdef-fediffuselighting).
+With zero surface scale, its normal is `(0,0,1)`, and the light's normalized
+z component differs from 1 by less than `1e-38` over the complete square.
+Reducing its z coordinate to `1e18` produces the expected green exactly.
+Resvg shares the original overflow, so the expectation comes from the
+lighting equation rather than that renderer.
+
+The radial case follows [radial stop placement](../../dev/spec/css-images-3.md#radial-color-stops).
+At radius r the sRGB channel is `(r + 1000000) / 2000000`, which rounds
+to 128 everywhere on this canvas. The large ending radius keeps that
+expectation a literal rectangle. Replacing the negative black stop with
+`#808080 0%` also renders exactly as the expectation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

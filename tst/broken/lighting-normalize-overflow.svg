@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <filter id="f" x="0" y="0" width="1" height="1">
+      <feDiffuseLighting surfaceScale="0" lighting-color="lime">
+        <fePointLight x="16" y="16" z="1e20"/>
+      </feDiffuseLighting>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="red" filter="url(#f)"/>
+</svg>
