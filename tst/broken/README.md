@@ -126,6 +126,7 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-gradient-premultiplied-alpha.svg` | Transparent red contributes no red; each blue strip has alpha (x+.5)/16 over white. | The first column's 16 pixels gain red and lose blue, by four levels. | `cssStops` samples premultiplied interpolation into straight colors, then `gradientColor` interpolates the first interval in straight RGBA again. |
 | `luminance-to-alpha-coefficients.svg` | Green's luminance alpha is .7152; the following transfer makes the square opaque lime. | All 256 expected pixels disappear. | `filterColorMatrix` uses the obsolete .2125/.7154/.0721 luminanceToAlpha weights instead of Filter Effects' .2126/.7152/.0722. |
 | `image-uri-leading-space-view.svg` | URL parsing removes the surrounding spaces before selecting the embedded SVG view, retaining the green square. | All 256 expected pixels disappear. | `loadImageFrom` checks the untrimmed reference before splitting data-URI fragments; `decodeDataUri` trims later and leaves #square inside the XML body. |
+| `clip-repeated-geometry-box.svg` | The extra geometry box makes the clip value invalid, leaving the square unclipped. | All 256 expected pixels disappear. | `parseBasicShape` tracks whether it has read a shape function but accepts unlimited geometry boxes, with the last one replacing the previous box. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -850,6 +851,17 @@ exactly: decoding already trims the address, but reference classification
 does not. This tests normalization before scheme and fragment handling,
 independently of choosing the fragment separator, decoding its escapes
 and whitespace inside a base64 MIME header.
+
+The clip follows [the clip-path grammar](../../dev/spec/css-masking-1.md#the-clip-path)
+and [unordered component combinations](../../dev/spec/css-values-4.md#comb-any).
+The shape and geometry box may occur in either order, but this value
+supplies the geometry-box component twice. The invalid declaration is
+ignored, retaining the initial none and the whole green square. Removing
+the declaration matches exactly. Replacing its second box with a second
+inset function, another invalid repeated component that the parser already
+rejects, also matches exactly. There is no earlier valid declaration to
+lose here: this exercises acceptance of repeated shape-grammar components,
+independently of validating a declaration before it enters the cascade.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
