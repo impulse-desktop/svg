@@ -178,6 +178,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-non-scaling-host-frame.svg` | The zero offset preserves a 16px non-scaling stroke, including the sample at its top. | All 16 sampled stroke pixels disappear. | `lowerFilteredLayer` changes the content's coordinate frame without mapping l.host into the layer, so its non-scaling stroke is scaled and sheared when the layer returns to the output. |
 | `blur-duplicate-deviation-cap.svg` | The duplicated black/white step uses the authored deviation 256, giving gray 115..121 in the sample under the permitted three-box approximation. | All 256 pixels are too dark, by up to 12 levels. | `blurBuffer` caps a non-none edge mode's deviations at twice the larger input dimension, changing sigma from 256 to 128. |
 | `blur-box-sum-overflow.svg` | Blurring a constant opaque green row with duplicated edges preserves that same constant. | All 65,540 pixels lose opacity, falling from 255 to 33. | `boxPass` accumulates 75,199 full stored channels into u32; their sum 4,928,166,465 wraps modulo 2^32 before normalization. |
+| `convolve-spaced-tap-integer-range.svg` | The positive tap is far beyond the input and duplicates its green right edge. | All 256 expected green pixels disappear. | `filterConvolve`'s spacedRow casts a finite 2^31 coordinate to int before edge folding, producing an invalid index and interpolation fraction. |
+| `xml-ignored-attribute-entity.svg` | The undeclared entity in a namespaced attribute invalidates the embedded image, even though SVG ignores that attribute. | The invalid resource draws all 256 green pixels. | `parseElement` skips unsupported namespaced attributes before internAttribute can decode and validate their entity references. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1554,6 +1556,34 @@ shortcut. The source and output contain only 65,540 pixels, far below the
 2^26 raster-area limit; no node, outline or paint budget is exhausted.
 The deviation cap is inactive. This tests accumulation range independently
 of deviation clamping, fixed-coefficient filters and Gaussian accuracy.
+
+The tap follows [convolution sampling](../../dev/spec/filter-effects-1.md#feConvolveMatrixElement),
+[kernel spacing](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-kernelunitlength)
+and [duplicate edges](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-edgemode).
+After kernel reversal the sole nonzero weight samples x+2^31, y. All
+such samples are beyond the input's green right edge at x=40; duplicate
+therefore yields the same opaque green everywhere in the output subregion.
+Using spacing 2^30 matches exactly. Using 2^20 is another exact green
+control. The debug driver records x0=-2147483648 and wx=4294967296 for
+the first tap, although its finite positive coordinate is 2147483648.
+The input is SourceGraphic, with both halves inside the filter region,
+so intermediate-result pruning cannot discard its edge. The CTM is the
+identity and the kernel has only two entries. This tests sample-index
+conversion independently of integer attribute rounding, kernel reach,
+filter-scale range and coefficient arithmetic.
+
+The attribute follows [XML's Entity Declared constraint](https://www.w3.org/TR/xml/#wf-entdecl)
+and [well-formed image resources](../../dev/spec/svg2/conform.md#ConformingSVGViewers).
+The resource has no DTD, so missing must be declared before its reference
+can appear in any attribute value. Ignoring the SVG meaning of m:tag does
+not remove that XML requirement. Python ElementTree rejects the decoded
+resource; resvg leaves it empty. Removing the attribute's m: prefix is an
+exact empty control, exercising the existing declaration check. Adding
+an internal declaration for missing makes the resource valid and draws
+the green square exactly. Replacing the reference with literal ok is
+another exact green control. The outer SVG remains well formed. This
+tests deferred validation of discarded attribute values independently of
+character-reference legality, namespace constraints and DTD defaults.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
