@@ -216,6 +216,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `filter-offscreen-tile-input.svg` | The finite flood tile at x=128 repeats into the visible 16px square. | All 256 expected pixels disappear. | `filterOverflow` caps the intermediate frame at three canvas widths even when filterReach reports unbounded dependence for feTile; the source tile is discarded before repetition. |
 | `individual-transform-computed-flatness.svg` | Computed Z values 0px and 1 make both individual transforms two dimensional; difference against lime gives magenta. | Both 256-pixel squares turn white. | `individualTransform` classifies the unresolved Length unit/value before resolving Z; a relative zero translation and calculated percentage unit scale incorrectly set the 3D flag and isolate the groups. |
 | `rounded-rect-radius-scale-underflow.svg` | Proportional radius reduction makes a 64px circle, leaving the 8px corner sample empty. | All 64 corner pixels become opaque lime. | `roundedRectPath` narrows the common radius-reduction factor 2^-161 to float zero before multiplying the finite radius, removing all rounding. |
+| `filter-disabled-shapes.svg` | Zero width, zero radius and empty path data disable each shape, including its own filter output. | Three flood squares appear, 768 extra green pixels. | `lowerElementIn` installs the user-space filter before lowerShape rejects disabled geometry, so the empty SourceGraphic is still replaced by feFlood. |
+| `affine-inverse-determinant-cancellation.svg` | The composed paint matrix has determinant exactly 1, so its constant gradient remains lime. | All 256 pixels use the red fallback. | `invert` subtracts two separately rounded products near 2^60; their exact difference 1 becomes zero and singularTransform falsely rejects the matrix. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2201,6 +2203,43 @@ Only the intermediate factor falls outside float range. The raster is
 80x80, and the visible circle has no extreme subdivision or work demand.
 This tests radius reduction independently of box-span range, normalized
 diagonal computation and mask-border width shrinking.
+
+The disabled shapes follow [zero rectangle dimensions](../../dev/spec/svg2/shapes.md#RectElement),
+[zero circle radius](../../dev/spec/svg2/shapes.md#CircleElement)
+and [empty path data](../../dev/spec/svg2/paths.md#TheDProperty).
+Their explicit user-space filter regions do not re-enable rendering.
+The independent [WPT for filters on empty SVG shapes](https://github.com/web-platform-tests/wpt/blob/master/css/filter-effects/svg-empty-element-with-filter-001.html)
+also expects a blank image for these cases. Adding display:none to
+the three shapes matches the empty expectation exactly. Removing their
+filter attributes also matches exactly. Giving the rectangle width 16,
+the circle radius 8 and the path a square gives an exact green control:
+all three flood squares are now allowed. Moving each filter to a group
+around its original disabled shape gives another exact green control.
+An empty container may have filter output; disabling the shape itself
+is different from providing a transparent SourceGraphic. Resvg shares
+the original failure but passes all four controls. This tests the order
+of geometry suppression and effect application independently of zero-size
+geometry's contribution to an ancestor box and object-box filter units.
+
+The determinant follows [gradient transforms](../../dev/spec/svg2/pservers.md#LinearGradientElementGradientTransformAttribute)
+and [the non-invertible-transform rule](../../dev/spec/css-transforms-1.md#transform-function-lists),
+with D18's double-precision CTMs. Write P=2^30. In row form, the three
+authored matrices are [[1,0],[1,1]], [[P,-1],[1,0]] and [[1,1],[0,1]].
+Their product is [[P,P-1],[P+1,P]], with determinant
+P^2-(P-1)(P+1)=1. The inverse is [[P,1-P],[-P-1,P]].
+Each composed coefficient and each inverse coefficient is exactly
+representable in double. Every nonzero authored coefficient is exactly
+representable as a normal float. The two products are 2^60 and 2^60-1,
+both within double's exponent range, but rounding each before subtracting
+makes them identical. Exact integer arithmetic confirms determinant 1;
+the debugger records the correct composed coefficients and det=0.
+Reducing P to 2^24 matches exactly, as does reducing it to 2^20.
+Removing only the first outer matrix gives a third exact control.
+Removing only the last gives a fourth. The gradient has two identical
+opaque lime stops, so every parameter produces lime. No large geometry
+or raster is needed. This tests determinant cancellation independently
+of determinant overflow/underflow, vector-effect narrowing and resource
+length-context checks.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

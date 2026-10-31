@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <defs>
+    <linearGradient id="gradient" gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(1 1 0 1 0 0)
+                                       matrix(1073741824 1 -1 0 0 0)
+                                       matrix(1 0 1 1 0 0)">
+      <stop stop-color="lime"/>
+      <stop offset="1" stop-color="lime"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="url(#gradient) red"/>
+</svg>
