@@ -214,6 +214,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `bbox-degenerate-basic-shapes.svg` | Each zero-size basic shape still contributes its position to the group's box, so the half-box clip keeps all three green squares. | The right half of each square disappears, 384 missing pixels. | `elementExtent` uses `buildShape`'s paintability check for measurement; its early returns for zero rectangle sides and circle/ellipse radii discard their geometric boxes. |
 | `clip-union-subpixel-coverage.svg` | The two complementary stripe paths unite into one complete square silhouette. | All 256 pixels retain alpha 128 instead of 255. | `accumulateShape` combines separately rasterized clip children with maximum per-pixel coverage, losing the disjoint halves' union inside every pixel. |
 | `filter-offscreen-tile-input.svg` | The finite flood tile at x=128 repeats into the visible 16px square. | All 256 expected pixels disappear. | `filterOverflow` caps the intermediate frame at three canvas widths even when filterReach reports unbounded dependence for feTile; the source tile is discarded before repetition. |
+| `individual-transform-computed-flatness.svg` | Computed Z values 0px and 1 make both individual transforms two dimensional; difference against lime gives magenta. | Both 256-pixel squares turn white. | `individualTransform` classifies the unresolved Length unit/value before resolving Z; a relative zero translation and calculated percentage unit scale incorrectly set the 3D flag and isolate the groups. |
+| `rounded-rect-radius-scale-underflow.svg` | Proportional radius reduction makes a 64px circle, leaving the 8px corner sample empty. | All 64 corner pixels become opaque lime. | `roundedRectPath` narrows the common radius-reduction factor 2^-161 to float zero before multiplying the finite radius, removing all rounding. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2163,6 +2165,42 @@ of edge allowance and over 524,000 node visits still available. The full
 pixels need painting. This tests loss of a finite input needed by feTile
 at the outer frame crop independently of per-primitive convolution reach,
 infinite paint storage and fractional-period interpolation.
+
+The classification follows [individual transform properties](../../dev/spec/css-transforms-2.md#individual-transforms)
+and [SVG's isolation rules](../../dev/spec/compositing-1.md#csscompositingrules_SVG).
+A computed third translation value of zero is two dimensional, as is
+a third scale value of one or 100%. Here 1em-1em is exactly 0px and
+50%+50% is exactly 100%. Two-dimensional transforms must not isolate
+an SVG group. Its white child therefore blends with the lime backdrop;
+[difference](../../dev/spec/compositing-1.md#blendingdifference) gives
+abs((1,1,1)-(0,1,0))=(1,0,1), magenta. Replacing the Z values by
+literal 0px and 100% matches exactly. Omitting Z in both properties
+also matches exactly. Using calc(0px) and calc(1) gives a third exact
+control with math functions retained. The debugger records the identity
+4x4 matrix in both original groups, but solid=1 and perspective.solid=1,
+despite opacity=1, isolate=false and the groups' blend mode being normal.
+This tests premature 2D/3D classification independently of function-name
+validation, singular transforms, resource property omission and natural
+image sizes.
+
+The corners follow [inset's border-radius syntax](../../dev/spec/css-shapes-1.md#funcdef-basic-shape-inset)
+and [proportional reduction of overlapping radii](../../dev/spec/css-backgrounds-3.md#corner-overlap).
+Both box sides are W=2^-80 and every authored radius is R=2^80.
+The common factor is W/(2R)=2^-161; each used radius is W/2.
+Scaling by 2^86 gives a circle of radius 32 at (40,40).
+The corner sample (8,8)-(16,16) stays wholly outside it: even its
+nearest point is 24*sqrt(2)>33.94px from the center. Reducing R to W
+matches the empty expectation exactly. Using R=1px is another exact
+control at the original geometry and transform. Normalizing the box to
+1x1 and the scale to 64, retaining R=2^80, is a third exact control.
+Removing only the inset clip matches an independent lime 8x8 drawing
+exactly. The debugger records finite width 8.27181e-25 and radius
+1.20893e24, followed by commonScale=0. All authored dimensions are
+finite normal floats; the used radius and transform remain finite.
+Only the intermediate factor falls outside float range. The raster is
+80x80, and the visible circle has no extreme subdivision or work demand.
+This tests radius reduction independently of box-span range, normalized
+diagonal computation and mask-border width shrinking.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

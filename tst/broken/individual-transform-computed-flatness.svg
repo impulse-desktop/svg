@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <rect x="8" y="8" width="16" height="16" fill="lime"/>
+  <g style="translate:0px 0px calc(1em - 1em)">
+    <rect x="8" y="8" width="16" height="16" fill="white"
+          style="mix-blend-mode:difference"/>
+  </g>
+  <rect x="40" y="8" width="16" height="16" fill="lime"/>
+  <g style="scale:1 1 calc(50% + 50%)">
+    <rect x="40" y="8" width="16" height="16" fill="white"
+          style="mix-blend-mode:difference"/>
+  </g>
+</svg>
