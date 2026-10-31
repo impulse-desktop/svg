@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <rect x="8" y="8" width="16" height="16" fill="lime"
+        opacity="calc(round(up, pow(2, -600), pow(2, 600)) / pow(2, 600))"/>
+  <rect x="40" y="8" width="16" height="16" fill="lime"
+        opacity="calc(-1 * round(down, -1 * pow(2, -600), pow(2, 600)) / pow(2, 600))"/>
+</svg>

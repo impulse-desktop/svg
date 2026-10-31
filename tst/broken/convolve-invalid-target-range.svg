@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="negative-target" filterUnits="userSpaceOnUse"
+            x="0" y="0" width="32" height="32"
+            color-interpolation-filters="sRGB">
+      <feConvolveMatrix order="3" kernelMatrix="0 0 0 0 1 0 0 0 0"
+                        targetX="-1"/>
+    </filter>
+    <filter id="target-past-order" filterUnits="userSpaceOnUse"
+            x="32" y="0" width="32" height="32"
+            color-interpolation-filters="sRGB">
+      <feConvolveMatrix order="3" kernelMatrix="0 0 0 0 1 0 0 0 0"
+                        targetY="3"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="lime"
+        filter="url(#negative-target)"/>
+  <rect x="40" y="8" width="16" height="16" fill="lime"
+        filter="url(#target-past-order)"/>
+</svg>

@@ -221,6 +221,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-utf16-document.svg` | Both UTF-16 documents are decoded using their byte-order marks and paint green squares. | Both images disappear, 512 missing pixels. | `loadDocument` passes the encoded bytes straight to parseDocument, which only recognizes a UTF-8 BOM and rejects either UTF-16 signature before reading the root. |
 | `xml-qualified-name-grammar.svg` | A qualified name with two colons or a digit starting its local part makes each image invalid. | Both invalid resources draw green squares, 512 extra pixels. | `readName` accepts XML Name characters across the colon, then splitName separates only the first colon without validating the prefix and local part as NCNames. |
 
+| `convolve-invalid-target-range.svg` | Invalid convolution targets take their central initial value, so both identity kernels retain their green squares. | Both squares disappear, 512 missing pixels. | `filterConvolve` returns without drawing for an out-of-range target instead of using floor(order/2). |
+| `css-round-quotient-underflow.svg` | Rounding a positive tiny number up, or a negative tiny number down, to a finite large step gives opacity exactly 1 after normalization. | Both squares disappear, 512 missing pixels. | `mathRound` divides before floor/ceil; a finite nonzero quotient underflows to zero, and the equal-multiples branch returns the original argument. |
+
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
 Font-relative geometry follows [CSS font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths),
@@ -2276,3 +2279,38 @@ uniqueness and character-code legality.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
+
+The convolution-target range case follows
+[Filter Effects targetX](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-targetx),
+[targetY](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-targety)
+and [SVG attribute error handling](../../dev/spec/svg2/types.md#syntax).
+The targets must lie in [0, order); an invalid attribute takes its initial
+value, floor(order/2). Both 3x3 matrices have only their central coefficient
+set, so the correct initial targets (1,1) produce identity filters.
+Replacing the invalid targets by 1, removing those attributes, or replacing
+them by invalid nonnumeric tokens all reproduces the literal green reference
+exactly in both renderers. The original loses all 512 pixels in both ours
+and resvg; that shared result is not used as an oracle. All targets are
+small integers, so this does not exercise integer rounding or integer
+conversion range. A debug render reaches the rejection with order (3,3)
+and targets (-1,1) and (1,3). It is separate from invalid lighting constants, primitive
+subregion sizes and CSS escape handling.
+
+The CSS rounding case follows
+[round() and its directed strategies](../../dev/spec/css-values-4.md#funcdef-round)
+and [range checking at the top-level calculation](../../dev/spec/css-values-4.md#calc-range).
+Let A=2^-600 and B=2^600. Both are finite positive doubles and 0<A<B;
+therefore round(up,A,B)=B and round(down,-A,B)=-B. Dividing each result by
+its signed B gives exactly 1. Nested math functions are not individually
+range-clamped. The source only contains the small exact numbers 2 and 600,
+and neither the arguments, correct rounding results nor final opacities
+require infinity. Only the implementation's incidental quotient 2^-1200
+underflows: floor and ceil both receive zero, and their equality is
+mistaken for an exact multiple. A debug render confirms lower=upper=0 for
+the positive case and lower=upper=-0 for the negative case, while A and B
+remain nonzero and finite. Reducing both exponents from 600 to 500,
+replacing the small arguments by +1/-1 while retaining the original large
+step, or replacing the directed rounding by its exact signed step all gives
+the opaque reference exactly. The same root cause covers positive/up and
+negative/down; neither rendering work limits nor filter coefficient
+quantization are involved.
