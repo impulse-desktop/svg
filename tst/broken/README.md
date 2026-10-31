@@ -204,6 +204,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `fe-image-context-paint.svg` | An element rendered as a use by feImage resolves context-fill to the primitive's lime fill. | All 256 expected pixels disappear. | `lowerImageContent` passes the primitive's style to the target but omits the paint-context setup in lowerUse, leaving hasContext false. |
 | `clip-child-vector-effect.svg` | The clip child's non-scaling-size cancels its uniform scale, retaining the 16px square at (8,8). | A 32px square clips at (16,16), leaving 1,152 wrong pixels. | `clipChild` composes boxTransform but omits the vectorEffectMatrix adjustment used for ordinary shapes; resolveClip passes that unadjusted matrix to addClipShape. |
 | `lighting-box-depth-scale-range.svg` | The finite box-relative depth maps the overhead light to z=1; tiling its single green sample fills the 16px square. | All 256 pixels turn opaque black. | `filterLighting` squares the box sides in float when scaling light z; 2^200 overflows before the reciprocal authored depth can cancel it. |
+| `css-transform-svg-separators.svg` | Both invalid CSS transform values are discarded, leaving the two green squares at their authored positions. | The first square moves by (8,8), the second by (8,0), leaving 640 wrong pixels. | `transformFunctions` uses SVG's optional argument commas and comma-separated functions even with TransformGrammar::Declaration. |
+| `xml-empty-processing-target.svg` | An instruction without its required XML target makes the embedded image invalid. | The invalid resource draws all 256 green pixels. | `parseContent` advances past the processing-instruction terminator without reading or validating a PITarget. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1984,6 +1986,34 @@ the box-to-user depth conversion independently of normalization of a
 finite large light vector, surface-height units, viewport percentage
 lengths and filter operating-axis norms. Only one lighting sample and
 a 16x16 output plane are needed; no allocation or work limit is reached.
+
+The separators follow [CSS transform-list syntax](../../dev/spec/css-transforms-1.md#typedef-transform-list)
+and [translate() arguments](../../dev/spec/css-transforms-1.md#funcdef-transform-translate).
+CSS requires a comma between translate's two arguments and does not allow
+a comma between transform functions. Both declarations are therefore
+invalid. Removing them gives an exact control. Replacing both with
+translate(nowhere) also matches exactly, preserving invalid declarations
+but using a correctly rejected argument. Replacing each with valid
+translate(0px,0px) scale(1) gives a third exact control. Expressing the
+two transforms as SVG attributes translate(8 8) and translate(8 0), scale(1)
+matches an independent drawing of the shifted squares exactly: these
+separator choices belong to SVG's attribute grammar. Resvg matches
+the original expectation and all controls. The case groups both leaks
+of SVG separator handling into CSS, independently of function-name case,
+missing perspective keywords and generic declaration validation.
+
+The instruction follows [XML processing-instruction syntax](https://www.w3.org/TR/xml/#sec-pi).
+A PITarget is mandatory between the opening delimiter and optional data;
+`<??>` has none and is malformed. The embedded image must therefore paint
+nothing. Changing it to `<?data?>` gives an exact green control. Removing
+it also matches a literal 16x16 lime square exactly. Enclosing the same
+characters in the valid comment `<!--<??>-->` gives a third exact green
+control: the delimiters are ordinary data inside that comment. Python
+ElementTree rejects the decoded original, and resvg matches the empty
+expectation and all three green controls. The instruction sits inside
+metadata, with no declarations or entities. This tests the required
+instruction target independently of prolog declaration count, comment-body
+restrictions and character-code validation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
