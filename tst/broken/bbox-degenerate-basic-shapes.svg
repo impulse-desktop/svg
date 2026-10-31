@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="112" height="32">
+  <defs>
+    <clipPath id="clip" clipPathUnits="objectBoundingBox">
+      <rect width=".5" height="1"/>
+    </clipPath>
+  </defs>
+  <g transform="translate(8 8)" clip-path="url(#clip)">
+    <rect width="16" height="16" fill="lime"/>
+    <rect x="32" width="0" height="16" fill="none"/>
+  </g>
+  <g transform="translate(40 8)" clip-path="url(#clip)">
+    <rect width="16" height="16" fill="lime"/>
+    <circle cx="32" cy="8" r="0" fill="none"/>
+  </g>
+  <g transform="translate(72 8)" clip-path="url(#clip)">
+    <rect width="16" height="16" fill="lime"/>
+    <ellipse cx="32" cy="8" rx="0" ry="8" fill="none"/>
+  </g>
+</svg>

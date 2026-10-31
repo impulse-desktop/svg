@@ -210,6 +210,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `embedded-svg-context-paint-leak.svg` | The image's separate document has no context element, so its context-fill rectangle paints nothing. | All 256 green pixels appear. | `drawImage` switches documents without clearing hasContext and the outer context paints; computeStyle resolves the inner rectangle against the surrounding use. |
 | `filter-invalid-subregion-size.svg` | An invalid primitive width or height takes its initial 100%; both clipped flood regions remain lime. | Both squares disappear, 512 missing pixels. | `lowerFilter` detects attribute presence, then replaces its parse failure by zero rather than the initial subregion size. |
 | `xml-chardata-cdata-close.svg` | The raw CDATA close delimiter in ordinary character data makes the image invalid. | The invalid resource draws all 256 green pixels. | The ordinary-data loop in `parseContent` stops at less-than or ampersand, without rejecting a raw CDATA close delimiter. |
+| `cubic-bbox-root-cancellation.svg` | The cubic's negative minimum puts the clip's right edge before x=28, leaving an empty drawing. | A 4x16 green rectangle appears, 64 extra pixels. | `cubicExtremes` evaluates the small derivative root with a subtractive quadratic formula; subtracting equal rounded terms gives negative zero and drops the curve's minimum. |
+| `bbox-degenerate-basic-shapes.svg` | Each zero-size basic shape still contributes its position to the group's box, so the half-box clip keeps all three green squares. | The right half of each square disappears, 384 missing pixels. | `elementExtent` uses `buildShape`'s paintability check for measurement; its early returns for zero rectangle sides and circle/ellipse radii discard their geometric boxes. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2084,6 +2086,45 @@ controls; resvg matches the empty expectation and every control exactly.
 This tests ordinary character data's reserved sequence independently of
 individual forbidden code points, comment-body grammar and instruction
 targets. No declaration, entity definition or namespace error is present.
+
+The minimum follows [curve bounds and visibility-independent geometry](../../dev/spec/svg2/coords.md#BoundingBoxes)
+and [object-box clipping](../../dev/spec/css-masking-1.md#element-attrdef-clippath-clippathunits).
+Write C=2^20, Q=2^80 and S=2^44. The cubic's x coordinate is
+3t(1-t)(-C(1-t)+Qt). At t=C/(2Q)=2^-61, its device x before
+the translation is -12(1-t)(1-2t), so its minimum is at most that.
+Its maximum is no more than 4Q/9, since the negative first-control term
+can only reduce 3Qt^2(1-t). For clip width delta=2^-119,
+24+S*((1-delta)*xmin+delta*xmax) is therefore below 26.223,
+strictly before the green rectangle's x=28..32. Exact rational
+arithmetic independently confirms this upper bound. The debugger records
+derivative coefficients a=-3.62678e24, b=2.41785e24, c=-1048576,
+and roots 2/3 and negative zero. None meets the small-coefficient branch.
+Adding a hidden line endpoint at -16/S gives an exact empty control.
+Using C=2^4, Q=2^48 and delta=2^-87 keeps C^2/Q and delta*Q
+unchanged but separates the roots numerically; that also matches exactly.
+Removing the clip gives an exact literal green 4x16 control. All authored
+values are finite normal floats, and the transforms remain finite doubles.
+The hidden curve contributes only to measurement; it is never flattened,
+painted or used to allocate a layer. This tests quadratic-root cancellation
+independently of the absolute coefficient threshold and box-span overflow.
+
+The degenerate shapes follow [zero-size bounding boxes](../../dev/spec/svg2/coords.md#BoundingBoxes),
+[the container's union of child boxes](../../dev/spec/svg2/coords.md#ContainerElementBoudingBoxComputation)
+and [the rendering-tree exclusions](../../dev/spec/svg2/render.md#Rendered-vs-NonRendered).
+Zero size suppresses paint without removing these basic shapes from the
+rendering tree. The rectangle and ellipse contribute a line at x=32,
+and the circle a point there; each group's object box is (0,0)-(32,16).
+Its left half includes the whole green rectangle. Replacing each
+degenerate shape by a path with the same box matches exactly. Giving
+the missing dimension or radius the positive value 1 also matches exactly,
+as does removing the clip. Setting display:none on the three extra
+shapes instead matches an independent drawing of three half-width green
+rectangles exactly, confirming the rendering-tree distinction. Resvg
+shares the original failure but passes all four controls; it is not an
+oracle for this case. The existing bbox-geometry unit's zero-size children
+are paths, which already retain their boxes. No resource is unresolved,
+so D37's use-reference choice is unrelated. This tests zero-size basic
+shape measurement independently of curve extrema and use-instance boxes.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
