@@ -227,6 +227,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `rounded-polygon-edge-length-range.svg` | Half-side corner radii turn both scaled squares into 64px circles; both 8px corner samples are empty. | Both samples fill with lime, 128 extra opaque pixels. | `shapeClip` computes polygon edge lengths with sqrtf of squared coordinates, making finite lengths zero or infinity and losing the corner tangencies. |
 | `xinclude-discarded-fallback-style.svg` | A successful inclusion discards its fallback, so the square keeps its lime fill. | All 256 pixels turn red. | `parseElement` promotes XHTML style elements even while parsing a successfully replaced include subtree with foreign=true. |
 
+| `xml-entity-value-percent.svg` | A raw percent sign that is not a parameter-entity reference makes the embedded document malformed, so the image is empty. | The invalid image draws all 256 green pixels. | `parseEntity` sends its quoted value to expandCharacterReferences without validating EntityValue syntax. |
+| `convolve-default-divisor-range.svg` | Both finite kernels normalize to weights (1/2,1/2), retaining the two constant green squares. | Both squares disappear, 512 missing pixels. | `filterConvolve` narrows the double kernel sum +/-2^128 to float infinity before dividing the finite coefficients by it. |
+
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
 Font-relative geometry follows [CSS font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths),
@@ -2357,3 +2360,44 @@ red control. D47 permits a connected XHTML style in a retained foreign
 subtree; it does not retain content discarded by XInclude. This is
 separate from foreign sibling selection, XInclude text decoding/language
 fixup and preferred-sheet eligibility.
+
+The entity-value percent case follows
+[XML EntityValue production 9](https://www.w3.org/TR/xml/#NT-EntityValue)
+and [non-validating processor requirements](https://www.w3.org/TR/xml/#proc-types).
+Within the entity declaration's quoted value, a literal percent sign must
+form a parameter-entity reference. The value 100% has no such reference
+and is not well formed. Even an unused internal declaration belongs to the
+document entity whose syntax must be checked; this does not require a
+validating processor, external resources or expansion of parameter
+entities. Python's independent XML parser rejects the original resource. A debug
+render confirms parseEntity retaining the raw value 100% as a normal
+internal entity without reporting an XML error. Encoding the percent as a character reference, removing the percent, or
+commenting out the entity declaration makes a valid XML document and
+restores the literal green rectangle exactly in ours and resvg. Resvg also
+accepts the original malformed resource, so it supplies no oracle here.
+The percent character itself is legal XML; the error is its syntactic use
+in EntityValue. Other missing EntityValue grammar checks belong to this
+case, separate from character-code validity, QName rules, ignored foreign
+attributes and DTD default attributes.
+
+The convolution divisor range case follows
+[the default divisor definition](../../dev/spec/filter-effects-1.md#element-attrdef-feconvolvematrix-divisor)
+and [late range checking](../../dev/spec/svg2/types.md#RangeClamping).
+Each authored coefficient is exactly +/-2^127, a normal finite float.
+The exact nonzero sum is +/-2^128, so either matrix normalizes to the two
+small positive weights 1/2 and 1/2. A constant opaque green input, extended
+by the default duplicate edge mode, must therefore remain constant green.
+The double accumulator contains the exact sum, but the subsequent float
+conversion produces infinity; division by it gives zero weights and
+transparent output. A debug render confirms total=+/-3.4028236692093846e38
+with sum and divisor both +/-infinity. Scaling both coefficients down to +/-2^126, replacing
+them by +/-1, or replacing the second coefficient by zero while retaining
+the original first coefficient all gives the literal reference exactly.
+Resvg shares the failure and also loses the squares in some
+large-coefficient controls, so
+its output is not used to establish the expected result. The sum's
+magnitude equals the sum of magnitudes; no cancellation or near-zero
+threshold is involved. This differs from the default divisor tolerance
+case and from fixedCoefficient/fixSum errors: the correct weights are
+small and exactly representable, and are lost before fixed-point lowering.
+Both signs exercise the same premature narrowing and share one fixture.

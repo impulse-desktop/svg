@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="positive-sum" filterUnits="userSpaceOnUse"
+            x="8" y="8" width="16" height="16"
+            color-interpolation-filters="sRGB">
+      <feConvolveMatrix order="2 1"
+                        kernelMatrix="170141183460469231731687303715884105728 170141183460469231731687303715884105728"/>
+    </filter>
+    <filter id="negative-sum" filterUnits="userSpaceOnUse"
+            x="40" y="8" width="16" height="16"
+            color-interpolation-filters="sRGB">
+      <feConvolveMatrix order="2 1"
+                        kernelMatrix="-170141183460469231731687303715884105728 -170141183460469231731687303715884105728"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" fill="lime"
+        filter="url(#positive-sum)"/>
+  <rect x="40" y="8" width="16" height="16" fill="lime"
+        filter="url(#negative-sum)"/>
+</svg>
