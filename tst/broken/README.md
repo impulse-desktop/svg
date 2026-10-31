@@ -218,6 +218,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `rounded-rect-radius-scale-underflow.svg` | Proportional radius reduction makes a 64px circle, leaving the 8px corner sample empty. | All 64 corner pixels become opaque lime. | `roundedRectPath` narrows the common radius-reduction factor 2^-161 to float zero before multiplying the finite radius, removing all rounding. |
 | `filter-disabled-shapes.svg` | Zero width, zero radius and empty path data disable each shape, including its own filter output. | Three flood squares appear, 768 extra green pixels. | `lowerElementIn` installs the user-space filter before lowerShape rejects disabled geometry, so the empty SourceGraphic is still replaced by feFlood. |
 | `affine-inverse-determinant-cancellation.svg` | The composed paint matrix has determinant exactly 1, so its constant gradient remains lime. | All 256 pixels use the red fallback. | `invert` subtracts two separately rounded products near 2^60; their exact difference 1 becomes zero and singularTransform falsely rejects the matrix. |
+| `xml-utf16-document.svg` | Both UTF-16 documents are decoded using their byte-order marks and paint green squares. | Both images disappear, 512 missing pixels. | `loadDocument` passes the encoded bytes straight to parseDocument, which only recognizes a UTF-8 BOM and rejects either UTF-16 signature before reading the root. |
+| `xml-qualified-name-grammar.svg` | A qualified name with two colons or a digit starting its local part makes each image invalid. | Both invalid resources draw green squares, 512 extra pixels. | `readName` accepts XML Name characters across the colon, then splitName separates only the first colon without validating the prefix and local part as NCNames. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2240,6 +2242,37 @@ opaque lime stops, so every parameter produces lime. No large geometry
 or raster is needed. This tests determinant cancellation independently
 of determinant overflow/underflow, vector-effect narrowing and resource
 length-context checks.
+
+The encoding follows [XML 1.0's required UTF-16 support and byte-order marks](https://www.w3.org/TR/xml/#charencoding)
+and [SVG viewer conformance](../../dev/spec/svg2/conform.md#ConformingSVGViewers).
+The resources contain identical XML character sequences. One has the
+FF FE signature and little-endian code units; the other has FE FF and
+big-endian code units. Their declarations specify XML 1.0, without an
+encoding name; the mandatory UTF-16 BOM determines decoding. No MIME
+charset parameter conflicts with it. Python's UTF-16 decoder returns
+the identical source for both, and ElementTree accepts both byte streams.
+Encoding that source as UTF-8 gives an exact green control. UTF-8 with
+its BOM also matches exactly. UTF-8 without the optional XML declaration
+is a third exact control. Resvg shares the original failure but passes
+all three controls. This tests decoding a valid XML document's bytes
+independently of forbidden character references, CSS stylesheet decoding
+and XInclude's separately specified text-resource encoding.
+
+The names follow [QName's prefix and local-part grammar](https://www.w3.org/TR/xml-names/#ns-qualnames)
+and [namespace well-formedness](https://www.w3.org/TR/xml-names/#Conformance).
+A QName contains at most one colon, and each part must be an NCName:
+the local part cannot contain another colon or start with a digit.
+Both resources correctly bind p to the SVG namespace. Their malformed
+empty element appears before the ordinary green rectangle. Python
+ElementTree rejects each decoded resource, and resvg matches the empty
+expectation exactly. Replacing the names with p:metadata-extra and
+p:metadata1 gives an exact green control. Replacing both by unprefixed
+metadata gives another. Keeping the malformed tags inside XML comments
+gives a third exact green control. ElementTree accepts all controls,
+and resvg matches every control exactly. Every character is legal XML;
+the failure is its position within the qualified name. This tests name
+grammar independently of reserved prefix bindings, expanded-attribute
+uniqueness and character-code legality.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
